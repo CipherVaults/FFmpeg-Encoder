@@ -1,0 +1,10 @@
+node_modules/
+ffmpeg/
+out/
+artifacts/
+.tools/
+.cache/
+output/
+encoding-work in progress/
+Context Files for ChatGPT/
+*.log

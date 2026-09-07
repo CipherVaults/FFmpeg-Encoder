@@ -60,7 +60,7 @@ Initial toolchain candidates are Electron 44.2.0, matching FFmpeg/ffprobe 9.0.1,
 - [x] Active project docs, exact historical archive, manifest version, and local Git checkpoint synchronized through 14c874f/53ce087 and the parent runtime synchronization pass.
 - [x] Independent Electron 44.2.0 upgrade and native baseline regression evidence checkpointed at `0dd8542`, with original FFmpeg retained; see Runtime Upgrades execution report.
 - [x] Independent matching FFmpeg/ffprobe upgrade, exact provenance/hashes/notices, and regression evidence checkpointed at 9c25694; runtime execution report records evidence and limits.
-- [ ] Narrow API, sender/payload validation, renderer isolation/sandbox, and main-owned architecture are implemented and tested.
+- [x] Narrow API, sender/payload validation, renderer isolation/sandbox, and main-owned architecture are implemented and tested; Process Architecture report records 87 checks and real app/lifecycle evidence.
 - [ ] Custom local protocol, CSP, navigation/permission restrictions, asset allowlist, and traversal tests pass after architecture validation.
 - [ ] All six profile capabilities and actual supported combinations are tested by short real encodes; adopted defaults and hardware limitations are documented.
 - [ ] Multiple-track, attachment, chapter, metadata/disposition, video-selection, and unsupported-case tests prove the preservation policy.

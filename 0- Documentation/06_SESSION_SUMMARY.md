@@ -2,6 +2,10 @@
 
 New entries appear above the preserved historical section. This cumulative record explains decisions and re-entry context; the execution index links literal actions and verification evidence.
 
+## September 7, 2026 — Main-owned architecture verified
+
+Milestone F now replaces the prototype boundary with a main-owned service, narrow validated preload, sandboxed renderer, guarded output publication and explicit lifecycle. Eighty-seven automated checks and real app/lifecycle tests pass, including cancellation, new batch, renderer crash and exact owned-process disappearance. The execution report records the Matroska undefined-language precision fix and test-harness corrections. The parent synchronized current documents against the evidence; protocol G and remaining product/packaging acceptance follow. Runtime checkpoints and original preservation remain intact.
+
 ## September 7, 2026 — Runtime checkpoints and unattended continuation
 
 The parent verified and checkpointed Electron 44.2.0 independently (`0dd8542`), then matching FFmpeg/ffprobe 9.0.1 (`9c25694`). Both retained and passed the old native successful-flow test. Twelve standalone short encoder combinations passed at eight/ten-bit SDR. The runtime report records two diagnosed setup failures and their corrections. These results do not yet accept the new architecture or packaged product.

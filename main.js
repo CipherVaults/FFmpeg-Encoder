@@ -1,195 +1,94 @@
-// =======================================================
-// main.js
-// Main Electron process for the FFmpeg Encoder application
-//
-// Responsibilities of this file:
-// 1. Create the Electron application window
-// 2. Launch the bundled FFmpeg binary for testing
-// 3. Handle OS-level operations (like folder selection)
-// 4. Communicate with the renderer process via IPC
-// =======================================================
+const { app, BrowserWindow, dialog, ipcMain, session } = require('electron');
+const fs = require('node:fs');
+const path = require('node:path');
+const { pathToFileURL } = require('node:url');
+const { EncoderService } = require('./src/encoder-service.cjs');
+const { registerIpc } = require('./src/ipc.cjs');
 
-// Import required Electron modules
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+let window;
+let service;
+let exitAllowed = false;
+let closePrompt = false;
 
-// Import Node.js module used to launch external programs
-const { spawn } = require('child_process');
+// Exactly one app instance owns the queue and its child-process lifecycle.
+if (!app.requestSingleInstanceLock()) app.quit();
+else {
+  app.on('second-instance', () => { if (window && !window.isDestroyed()) { window.restore(); window.focus(); } });
+  app.whenReady().then(createWindow).catch(error => {
+    dialog.showErrorBox('FFmpeg Encoder could not start', error.message);
+    app.exit(1);
+  });
+}
 
-// Reference to the currently running FFmpeg process (used for cancellation)
-let currentFFmpegProcess = null;
-
-
-// =======================================================
-// Function: createWindow()
-// Creates the main application window and loads the UI
-// =======================================================
-function createWindow() {
-
-  const win = new BrowserWindow({
-    width: 1000,
-    height: 700,
-
-    // These settings allow the renderer process (UI)
-    // to access Node.js APIs such as child_process.
-    // For production apps this is usually restricted,
-    // but for a local tool like this encoder it is acceptable.
+async function createWindow() {
+  const root = app.getAppPath();
+  const binaryRoot = app.isPackaged ? path.join(process.resourcesPath, 'ffmpeg') : path.join(root, 'ffmpeg');
+  const stateDir = app.commandLine.hasSwitch('user-data-dir')
+    ? app.commandLine.getSwitchValue('user-data-dir')
+    : path.join(app.isPackaged ? path.dirname(app.getPath('exe')) : root, 'data');
+  fs.mkdirSync(stateDir, { recursive: true });
+  app.setPath('userData', stateDir);
+  service = new EncoderService({ ffmpeg: path.join(binaryRoot, 'ffmpeg.exe'), ffprobe: path.join(binaryRoot, 'ffprobe.exe'), stateDir });
+  const uiRoot = path.join(root, 'ui');
+  const entryUrl = pathToFileURL(path.join(uiRoot, 'index.html')).href;
+  const allowedResources = new Set(['index.html', 'styles.css', 'renderer.js'].map(name => pathToFileURL(path.join(uiRoot, name)).href));
+  const appSession = session.fromPartition('encoder-local');
+  appSession.setPermissionRequestHandler((_contents, _permission, callback) => callback(false));
+  appSession.setPermissionCheckHandler(() => false);
+  appSession.on('will-download', event => event.preventDefault());
+  // The initial isolated architecture loads just these local assets. A custom
+  // app protocol follows as a separate, independently tested hardening milestone.
+  appSession.webRequest.onBeforeRequest((details, callback) => callback({ cancel: !allowedResources.has(details.url) }));
+  window = new BrowserWindow({
+    width: 1100, height: 800, minWidth: 640, minHeight: 480,
+    backgroundColor: '#0f1115', title: 'FFmpeg Encoder', autoHideMenuBar: true,
     webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false
-    }
+      preload: path.join(root, 'preload.js'), session: appSession,
+      nodeIntegration: false, contextIsolation: true, sandbox: true,
+      webSecurity: true, allowRunningInsecureContent: false, webviewTag: false,
+    },
   });
-
-  // Load the HTML interface
-  win.loadFile('index.html');
+  window.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
+  window.webContents.on('will-navigate', event => event.preventDefault());
+  window.webContents.on('will-frame-navigate', event => event.preventDefault());
+  window.webContents.on('will-attach-webview', event => event.preventDefault());
+  const removeHandlers = registerIpc({ ipcMain, window, service, dialog, entryUrl });
+  service.on('update', snapshot => {
+    if (window && !window.isDestroyed() && !window.webContents.isDestroyed()) window.webContents.send('encoder:update', snapshot);
+  });
+  window.on('close', async event => {
+    if (exitAllowed || !service.busy) return;
+    event.preventDefault();
+    if (closePrompt) return;
+    closePrompt = true;
+    try {
+      const choice = await dialog.showMessageBox(window, {
+        type: 'question', title: 'Encoding is active',
+        message: 'Keep the application open, or cancel the current work and exit?',
+        buttons: ['Keep application open', 'Cancel encoding and exit'], defaultId: 0, cancelId: 0, noLink: true,
+      });
+      if (choice.response === 1) {
+        await service.cancelCurrent();
+        exitAllowed = true;
+        window.close();
+      }
+    } finally { closePrompt = false; }
+  });
+  window.webContents.on('render-process-gone', async () => {
+    // Loss of the only UI cancels work; it never enables invisible encoding.
+    await service.cancelCurrent();
+    exitAllowed = true;
+    if (!window.isDestroyed()) window.destroy();
+    app.quit();
+  });
+  window.on('closed', () => {
+    removeHandlers();
+    service.cancelCurrent().finally(() => { exitAllowed = true; app.quit(); });
+  });
+  await window.loadFile(path.join(uiRoot, 'index.html'));
 }
 
-
-// =======================================================
-// Function: testFFmpeg()
-// Runs a quick FFmpeg command to verify that the bundled
-// FFmpeg executable works correctly.
-//
-// This is only a development sanity check.
-// Later this function may be removed.
-// =======================================================
-function testFFmpeg() {
-
-  // Launch FFmpeg with "-version" argument
-  const ffmpeg = spawn('./ffmpeg/ffmpeg.exe', ['-version']);
-
-  // Capture normal output
-  ffmpeg.stdout.on('data', (data) => {
-    console.log(`FFmpeg Output: ${data}`);
-  });
-
-  // Capture error output
-  ffmpeg.stderr.on('data', (data) => {
-    console.error(`FFmpeg Error: ${data}`);
-  });
-
-  // Detect when the process exits
-  ffmpeg.on('close', (code) => {
-    console.log(`FFmpeg process exited with code ${code}`);
-  });
-}
-
-
-// =======================================================
-// IPC Handler: Folder Selection
-//
-// The renderer process (UI) cannot directly access
-// OS dialogs. Instead it asks the main process to do it.
-//
-// Renderer → IPC request → main process opens dialog
-// → selected folder path returned to renderer.
-// =======================================================
-ipcMain.handle('select-folder', async () => {
-
-  // Open the native operating system folder picker
-  const result = await dialog.showOpenDialog({
-    properties: ['openDirectory']
-  });
-
-  // If user cancels the dialog, return null
-  if (result.canceled) {
-    return null;
-  }
-
-  // Otherwise return the selected folder path
-  return result.filePaths[0];
+app.on('before-quit', event => {
+  if (!exitAllowed && service?.busy) { event.preventDefault(); if (window && !window.isDestroyed()) window.close(); }
 });
-
-
-// =======================================================
-// Application Startup
-//
-// This runs when Electron finishes initialization.
-// We create the window and perform the FFmpeg test.
-// =======================================================
-app.whenReady().then(() => {
-
-  createWindow();
-
-  // Development check to ensure FFmpeg works
-  testFFmpeg();
-
-});
-
-// =======================================================
-// IPC: Run FFmpeg encode job
-// This receives encoding instructions from renderer.js
-// and runs FFmpeg in the Electron main process.
-// =======================================================
-
-
-ipcMain.handle("encode-video", async (event, inputFile, outputFile) => {
-
-    return new Promise((resolve, reject) => {
-
-        const ffmpegArgs = [
-
-            "-i", inputFile,
-
-            "-c:v", "libx265",
-            "-preset", "slow",
-            "-crf", "25",
-
-            "-tag:v", "hvc1",
-            "-x265-params", "aq-mode=3:psy-rd=2",
-
-            "-c:a", "copy",
-
-            outputFile
-
-        ];
-
-        // Start FFmpeg process and store reference globally
-        currentFFmpegProcess = spawn("./ffmpeg/ffmpeg.exe", ffmpegArgs);
-
-        currentFFmpegProcess.stderr.on("data", data => {
-
-    const message = data.toString();
-
-    console.log(`FFmpeg: ${message}`);
-
-    // Send raw FFmpeg output to renderer
-    event.sender.send("ffmpeg-output", message);
-
-});
-
-        // When FFmpeg finishes (or is cancelled)
-        currentFFmpegProcess.on("close", code => {
-
-            // Clear stored process reference so next encode works
-            currentFFmpegProcess = null;
-
-            if (code === 0) {
-                resolve();
-            } else {
-                reject(new Error("FFmpeg exited with code " + code));
-            }
-
-        });
-
-    });
-
-});
-
-// =======================================================
-// IPC: Cancel current encoding
-// This allows the renderer (UI) to stop FFmpeg
-// =======================================================
-
-ipcMain.handle("cancel-encoding", async () => {
-
-    if (currentFFmpegProcess) {
-
-        console.log("Cancelling FFmpeg process...");
-
-        currentFFmpegProcess.kill();
-
-        currentFFmpegProcess = null;
-
-    }
-
-});
+app.on('window-all-closed', () => { if (!service?.busy) app.quit(); });

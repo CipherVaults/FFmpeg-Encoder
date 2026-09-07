@@ -11,7 +11,7 @@ The March roadmap is preserved in the legacy archive. This active roadmap implem
 | C — Context and versioning | Project-specific AGENTS, preserved history, current docs, 0.5.0-dev.1 metadata | Complete: 787bf94, 14c874f and archive byte preservation 53ce087 |
 | D — Electron | Upgrade Electron alone and compare baseline behavior | Complete: 44.2.0 with original FFmpeg, native successful-flow smoke passed, checkpoint 0dd8542; see runtime report |
 | E — Media runtime | Upgrade matching FFmpeg/ffprobe pair, record versions/hashes/capabilities | Complete: 9c25694; unchanged native smoke and twelve standalone encoder cases pass |
-| F — Process architecture | Narrow preload, isolated renderer, validated IPC, main-owned plans/queue/lifecycle/output/progress | In progress: modules/UI partially written; integration and acceptance pending |
+| F — Process architecture | Narrow preload, isolated renderer, validated IPC, main-owned plans/queue/lifecycle/output/progress | Complete: 87 checks plus real app/lifecycle smoke; see Process Architecture report and its commit |
 | G — Local protocol | Custom app protocol, asset allowlist, CSP/navigation/traversal verification | Pending after F is proven |
 | H — Complete workflow | Validated CPU/NVIDIA SDR profiles, stream preservation, preview/results, responsive UI | Pending |
 | I — Local acceptance | Portable Windows ZIP, real-encode and offline extracted-app verification, synchronized docs, 0.5.0 checkpoint | Pending |

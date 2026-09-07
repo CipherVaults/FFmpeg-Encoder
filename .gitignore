@@ -4,6 +4,7 @@ out/
 artifacts/
 .tools/
 .cache/
+data/
 output/
 encoding-work in progress/
 Context Files for ChatGPT/

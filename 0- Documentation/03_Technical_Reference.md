@@ -2,6 +2,10 @@
 
 Status at creation: these are approved target contracts, except the explicitly described legacy command. Implementations and verified commands must be added as their milestones pass.
 
+## Current process boundary
+
+Milestone F implements the named preload API and main-owned service in src/. The renderer under ui/ has no Node access. Main validates sender/top-level frame, settings and opaque folder/plan/file identities, then runs fixed binaries with shell disabled and a local demuxer/protocol allowlist. It validates outputs before exclusive publication and awaits child close/cleanup before restart. The Process Architecture report links tests and limits. Custom app protocol is the next checkpoint.
+
 ## Legacy command and migration
 
 The old main process hardcodes `libx265`, preset `slow`, CRF `25`, tag `hvc1`, x265 parameters `aq-mode=3:psy-rd=2`, and audio copy. It accepts input/output paths from the renderer and uses a working-directory-relative FFmpeg path. The UI constructs settings that do not reach this command. Preserve that behavior for baseline testing, then replace it with validated main-owned profile construction.

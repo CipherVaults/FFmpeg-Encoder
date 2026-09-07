@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
+  <title>FFmpeg Encoder</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="renderer.js" defer></script>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="app-header">
+      <div><p class="eyebrow">LOCAL VIDEO WORKSPACE</p><h1><span aria-hidden="true">&gt;_</span> FFmpeg Encoder</h1></div>
+      <span id="phase-badge" class="phase-badge" role="status">Starting</span>
+    </header>
+    <p class="intro">Choose a profile. Review your files. Encode one at a time.</p>
+    <div id="error-banner" class="error-banner" role="alert" hidden></div>
+    <p id="activity-message" class="activity" role="status" aria-live="polite">Checking available encoders…</p>
+
+    <section id="setup-panel" class="panel" aria-labelledby="setup-heading">
+      <div class="section-heading"><h2 id="setup-heading">01 / Setup</h2><span class="muted">SDR video · Matroska output</span></div>
+      <div class="folder-grid">
+        <div class="folder-field"><h3>Input folder</h3><p id="input-path" class="path-box">No folder selected</p><button id="choose-input" type="button">Choose input folder</button></div>
+        <div class="folder-field"><h3>Output folder</h3><p id="output-path" class="path-box">No folder selected</p><button id="choose-output" type="button">Choose output folder</button></div>
+      </div>
+      <p class="hint">Choose separate folders. Existing output files are skipped; your original videos stay unchanged.</p>
+      <div class="settings-grid">
+        <div class="field"><label for="profile">Encoding profile</label><select id="profile" aria-describedby="profile-description" disabled><option>Checking encoders…</option></select></div>
+        <div class="field"><label for="preset">Preset</label><select id="preset" disabled></select></div>
+        <div class="field"><label id="quality-label" for="quality">Quality</label><input id="quality" type="number" step="1" inputmode="numeric" aria-describedby="quality-hint" disabled></div>
+      </div>
+      <p id="profile-description" class="hint"></p>
+      <div class="quality-row"><label for="quality-slider" id="slider-label">Adjust quality</label><input id="quality-slider" type="range" step="1" disabled><output id="quality-value" for="quality quality-slider">—</output></div>
+      <p id="quality-hint" class="hint">CRF and CQ are specific to each encoder. Equal numbers across profiles do not mean equal quality.</p>
+      <p id="default-note" class="hint" hidden>These defaults are provisional engineering choices. Adjust them for your footage.</p>
+      <details id="capability-details"><summary>Encoder availability and runtime</summary><ul id="capability-list" class="capability-list"></ul><p id="runtime-versions" class="hint"></p></details>
+      <div class="action-row"><button id="prepare-batch" type="button" class="primary" disabled>Review batch</button><p class="hint">Top-level MP4, MKV, MOV, AVI and WebM files.</p></div>
+    </section>
+
+    <section id="batch-panel" class="panel" aria-labelledby="batch-heading" hidden>
+      <div class="section-heading"><h2 id="batch-heading">02 / Batch preview</h2><span id="selected-count" class="muted"></span></div>
+      <p id="effective-settings" class="effective-settings"></p>
+      <p id="preview-message" class="hint">Select the files to encode. When output names conflict, select one input for that destination.</p>
+      <div class="table-scroll"><table><caption class="sr-only">Batch files, destinations and current status</caption><thead><tr><th scope="col" class="selection-cell">Use</th><th scope="col">Input → output</th><th scope="col" class="status-cell">Status</th></tr></thead><tbody id="batch-items"></tbody></table></div>
+      <p id="empty-message" class="hint" hidden>No supported files were found in this folder.</p>
+      <div id="preview-actions" class="action-row"><button id="start-batch" class="primary" type="button" disabled>Start selected files</button><button id="select-ready" type="button">Select ready files</button><button id="clear-selection" type="button">Clear selection</button></div>
+    </section>
+
+    <section id="monitor-panel" class="panel" aria-labelledby="monitor-heading" hidden>
+      <div class="section-heading"><h2 id="monitor-heading">03 / Encoding monitor</h2><span id="monitor-count" class="muted"></span></div>
+      <p id="monitor-settings" class="effective-settings"></p>
+      <p id="current-file" class="current-file">Preparing the batch…</p>
+      <div class="progress-heading"><label for="encode-progress" id="progress-label">Encoding progress</label><span id="percent">—</span></div>
+      <progress id="encode-progress" max="100" aria-describedby="progress-note"></progress>
+      <p id="progress-note" class="hint">A file is complete after the encoded output has been verified and saved.</p>
+      <dl class="telemetry"><div><dt>Encoded</dt><dd id="encoded-time">—</dd></div><div><dt>Speed</dt><dd id="speed">—</dd></div><div><dt>FPS</dt><dd id="fps">—</dd></div><div><dt>Output size</dt><dd id="output-size">—</dd></div><div><dt>Time remaining</dt><dd id="eta">—</dd></div><div><dt>Batch elapsed</dt><dd id="elapsed">00:00</dd></div></dl>
+    </section>
+
+    <section id="results-panel" class="panel" aria-labelledby="results-heading" hidden>
+      <div class="section-heading"><h2 id="results-heading">Batch results</h2><span id="result-phase" class="muted"></span></div>
+      <dl class="result-counts"><div><dt>Succeeded</dt><dd id="count-success">0</dd></div><div><dt>Failed</dt><dd id="count-failed">0</dd></div><div><dt>Skipped</dt><dd id="count-skipped">0</dd></div><div><dt>Cancelled</dt><dd id="count-cancelled">0</dd></div><div><dt>Unprocessed</dt><dd id="count-unprocessed">0</dd></div></dl>
+      <p id="result-message" class="hint"></p>
+      <button id="new-batch" class="primary" type="button">Set up a new batch</button>
+    </section>
+
+    <div id="cancel-bar" class="cancel-bar" hidden><p id="cancel-explanation">Cancellation stops this operation and the remaining queue.</p><button id="cancel-batch" class="danger" type="button">Cancel batch</button></div>
+    <footer><span>FFmpeg Encoder</span><span>Local processing · Originals preserved</span></footer>
+  </main>
+</body>
+</html>

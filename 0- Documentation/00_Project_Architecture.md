@@ -1,6 +1,6 @@
 # Project architecture
 
-Created September 6–7, 2026. State at creation: preserved legacy baseline; modernization approved and pending.
+Updated through milestone F, September 7, 2026. Main-owned service, preload boundary and sandboxed UI are implemented and verified. Custom protocol and portable packaging remain pending.
 
 ## Identity and purpose
 
@@ -16,7 +16,7 @@ At baseline `c30d335`, `main.js` creates an Electron window with Node integratio
 
 This is a functional prototype, not a proven security boundary. Historical documents describe safe cancellation and exclusive main-process OS access, but the current source has renderer filesystem access, premature child-handle clearing, and incomplete rejection/error handling. Keep those historical assertions in their archive; do not carry them forward as present facts.
 
-## Target ownership
+## Implemented ownership at milestone F
 
 ```mermaid
 flowchart TD

@@ -1,0 +1,276 @@
+'use strict';
+
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const { inspectInput, validateOutput } = require('../src/inspection.cjs');
+const { classifyColor } = require('../src/media.cjs');
+const { ToolError } = require('../src/process-runner.cjs');
+
+const file = 'D:\\selected media\\input.mkv';
+const ffprobe = 'D:\\encoder\\ffmpeg\\ffprobe.exe';
+const settings = { profileId: 'h265-cpu', preset: 'slow', quality: 25 };
+const copy = (value) => structuredClone(value);
+
+function sourceProbe({ seconds = 2, bits = 8 } = {}) {
+  return {
+    streams: [{
+      index: 4, codec_type: 'video', codec_name: 'h264', width: 320, height: 180,
+      pix_fmt: bits === 8 ? 'yuv420p' : 'yuv420p10le',
+      color_transfer: 'bt709', color_primaries: 'bt709', color_space: 'bt709', color_range: 'tv',
+      avg_frame_rate: '30/1', r_frame_rate: '30/1', disposition: { default: 1 }, tags: { title: 'Main video', ENCODER: 'old encoder' },
+    }],
+    format: { duration: String(seconds), tags: { title: 'Preserve this title', artist: 'Fixture author', ENCODER: 'Old muxer' } },
+    chapters: [],
+  };
+}
+
+function sample(index = 4, transfer = 'bt709', time = 0) {
+  return { frames: [{ media_type: 'video', stream_index: index, best_effort_timestamp_time: String(time), color_transfer: transfer }] };
+}
+
+function mockRun(responses) {
+  const calls = [];
+  const run = async (executable, args, options) => {
+    calls.push({ executable, args, options });
+    const response = responses.shift();
+    if (response instanceof Error) throw response;
+    return { stdout: typeof response === 'string' ? response : JSON.stringify(response), stderr: '', exitCode: 0 };
+  };
+  return { run, calls };
+}
+
+function inspection(probe = sourceProbe()) {
+  return { probe, color: classifyColor(probe, [sample()]), duration: Number(probe.format.duration), summary: {} };
+}
+
+function outputProbe(input = sourceProbe()) {
+  const output = copy(input);
+  output.streams.forEach((stream, index) => { stream.index = index; });
+  output.streams[0].codec_name = 'hevc';
+  output.streams[0].tags.ENCODER = 'new encoder';
+  output.format.tags.ENCODER = 'New muxer';
+  return output;
+}
+
+test('inspection bounds metadata and frames and selects the default non-attached video by absolute index', async () => {
+  const input = sourceProbe();
+  input.streams.unshift({ index: 0, codec_type: 'video', disposition: { attached_pic: 1 } });
+  const mock = mockRun([input, sample()]);
+  const result = await inspectInput(file, { ffprobe, run: mock.run });
+  assert.equal(result.color.classification, 'sdr');
+  assert.equal(result.summary.selectedVideoIndex, 4);
+  assert.equal(result.duration, 2);
+  assert.equal(mock.calls.length, 2);
+  assert.equal(mock.calls[0].options.timeoutMs, 30_000);
+  assert.equal(mock.calls[0].options.stdoutLimit, 16 * 1024 * 1024);
+  assert.equal(mock.calls[1].options.timeoutMs, 20_000);
+  assert.equal(mock.calls[1].options.stdoutLimit, 8 * 1024 * 1024);
+  assert.equal(mock.calls[1].args[mock.calls[1].args.indexOf('-select_streams') + 1], '4');
+  assert.equal(mock.calls[1].args[mock.calls[1].args.indexOf('-read_intervals') + 1], '0.000000%2.000000');
+  for (const call of mock.calls) {
+    assert.equal(call.executable, ffprobe);
+    assert.equal(call.args[call.args.indexOf('-protocol_whitelist') + 1], 'file,pipe');
+    assert.equal(call.args.at(-1), file);
+  }
+  assert.ok(mock.calls[0].args.includes('-show_chapters'));
+  assert.ok(mock.calls[0].args.includes('-show_data_hash'));
+});
+
+test('long input receives middle and end windows and decoded-frame HDR overrides SDR stream tags', async () => {
+  const mock = mockRun([sourceProbe({ seconds: 20 }), sample(), sample(4, 'smpte2084', 10), sample(4, 'bt709', 18)]);
+  const result = await inspectInput(file, { ffprobe, run: mock.run });
+  assert.equal(result.color.classification, 'hdr');
+  assert.deepEqual(result.summary.sampling.map(({ interval }) => interval), ['0.000000%2.000000', '10.000000%11.000000', '18.000000%20.000000']);
+  assert.equal(mock.calls.length, 4);
+});
+
+test('nonzero media timestamps shift sample windows and earlier keyframe frames cannot impersonate midpoint coverage', async () => {
+  const offset = sourceProbe();
+  offset.streams[0].start_time = '4';
+  const first = await inspectInput(file, { ffprobe, run: mockRun([offset, sample(4, 'bt709', 4)]).run });
+  assert.equal(first.summary.sampling[0].interval, '4.000000%6.000000');
+  const missed = await inspectInput(file, { ffprobe, run: mockRun([sourceProbe({ seconds: 20 }), sample(), sample(), sample()]).run });
+  assert.equal(missed.color.classification, 'ambiguous');
+  assert.equal(missed.summary.sampling[1].code, 'FRAME_SAMPLE_COVERAGE');
+  const reached = await inspectInput(file, { ffprobe, run: mockRun([
+    sourceProbe({ seconds: 20 }), sample(),
+    { frames: [...sample().frames, ...sample(4, 'bt709', 10).frames] }, sample(4, 'bt709', 18),
+  ]).run });
+  assert.equal(reached.color.classification, 'sdr');
+  assert.equal(reached.summary.sampling[1].framesInWindow, 1);
+});
+
+test('ffprobe error diagnostics remain failures even if its process exits zero', async () => {
+  const run = async (_, args) => ({ stdout: JSON.stringify(args.includes('-show_frames') ? sample() : sourceProbe()), stderr: args.includes('-show_frames') ? 'Error while decoding frame' : '', exitCode: 0 });
+  const result = await inspectInput(file, { ffprobe, run });
+  assert.equal(result.color.classification, 'ambiguous');
+  assert.equal(result.summary.sampling[0].code, 'FRAME_DECODE_ERROR');
+  await assert.rejects(inspectInput(file, { ffprobe, run: async () => ({ stdout: JSON.stringify(sourceProbe()), stderr: 'Invalid input data', exitCode: 0 }) }), { code: 'INVALID_PROBE' });
+});
+
+test('missing duration still requires a beginning sample and stays indeterminate', async () => {
+  const input = sourceProbe();
+  input.format.duration = 'N/A';
+  const mock = mockRun([input, sample()]);
+  const result = await inspectInput(file, { ffprobe, run: mock.run });
+  assert.equal(result.duration, null);
+  assert.equal(result.color.classification, 'sdr');
+  assert.equal(mock.calls.length, 2);
+});
+
+for (const [label, response] of [
+  ['empty decoded frames', { frames: [] }],
+  ['frames from a different stream', sample(0)],
+  ['malformed frame JSON', '{broken'],
+  ['timed out decoded inspection', new ToolError('TIMEOUT', 'Frame timeout')],
+]) {
+  test(`${label} cannot silently become SDR`, async () => {
+    const mock = mockRun([sourceProbe(), response]);
+    const result = await inspectInput(file, { ffprobe, run: mock.run });
+    assert.equal(result.color.classification, 'ambiguous');
+    assert.equal(result.color.supported, false);
+    assert.equal(result.summary.sampling[0].succeeded, false);
+  });
+}
+
+test('a failed required sample does not erase positive stream HDR', async () => {
+  const input = sourceProbe();
+  input.streams[0].color_transfer = 'arib-std-b67';
+  const mock = mockRun([input, new ToolError('TIMEOUT', 'Frame timeout')]);
+  const result = await inspectInput(file, { ffprobe, run: mock.run });
+  assert.equal(result.color.classification, 'hdr');
+});
+
+test('ten-bit BT.2020 primaries with coherent SDR transfer remain SDR', async () => {
+  const input = sourceProbe({ bits: 10 });
+  input.streams[0].color_primaries = 'bt2020';
+  const mock = mockRun([input, sample()]);
+  const result = await inspectInput(file, { ffprobe, run: mock.run });
+  assert.equal(result.summary.bitDepth, 10);
+  assert.equal(result.color.classification, 'sdr');
+});
+
+test('invalid metadata rejects, and cancellation stops before later frame windows', async () => {
+  await assert.rejects(inspectInput(file, { ffprobe, run: mockRun(['null']).run }), { code: 'INVALID_PROBE' });
+  const mock = mockRun([sourceProbe({ seconds: 20 }), new ToolError('CANCELLED', 'Cancelled')]);
+  await assert.rejects(inspectInput(file, { ffprobe, run: mock.run }), { code: 'CANCELLED' });
+  assert.equal(mock.calls.length, 2);
+  const abort = new AbortController();
+  abort.abort();
+  await assert.rejects(inspectInput(file, { ffprobe, signal: abort.signal, run: () => assert.fail('must not spawn') }), { code: 'CANCELLED' });
+});
+
+test('valid output tolerates generated encoder tags but preserves actual video and user metadata', () => {
+  assert.deepEqual(validateOutput(inspection(), outputProbe(), settings), { valid: true, errors: [] });
+});
+
+test('Matroska omitted track language equals und only, never a named language or container tag', () => {
+  const input = sourceProbe();
+  input.streams[0].tags.language = 'und';
+  const output = outputProbe(input);
+  output.format.format_name = 'matroska,webm';
+  delete output.streams[0].tags.language;
+  assert.equal(validateOutput(inspection(input), output, settings).valid, true);
+  for (const language of ['eng', 'ara']) {
+    input.streams[0].tags.language = language;
+    assert.equal(validateOutput(inspection(input), output, settings).valid, false);
+  }
+  input.streams[0].tags.language = 'und';
+  input.format.tags.language = 'und';
+  assert.equal(validateOutput(inspection(input), output, settings).valid, false);
+  delete input.format.tags.language;
+  output.format.format_name = 'mov,mp4';
+  assert.equal(validateOutput(inspection(input), output, settings).valid, false);
+});
+
+for (const [label, mutate, expected] of [
+  ['wrong codec', (out) => { out.streams[0].codec_name = 'vp9'; }, /codec differs/],
+  ['resolution reduction', (out) => { out.streams[0].width = 160; }, /resolution/],
+  ['wrong bit depth', (out) => { out.streams[0].pix_fmt = 'yuv420p10le'; }, /bit depth/],
+  ['lost transfer', (out) => { delete out.streams[0].color_transfer; }, /transfer/],
+  ['new HDR transfer', (out) => { out.streams[0].color_transfer = 'smpte2084'; }, /color metadata/],
+  ['changed limited range', (out) => { out.streams[0].color_range = 'pc'; }, /color_range/],
+  ['changed cadence', (out) => { out.streams[0].avg_frame_rate = '15/1'; }, /cadence/],
+  ['truncated duration', (out) => { out.format.duration = '1'; }, /duration/],
+  ['lost global title', (out) => { delete out.format.tags.title; }, /Container: metadata 'title'/],
+  ['lost disposition', (out) => { out.streams[0].disposition.default = 0; }, /dispositions/],
+]) {
+  test(`validation rejects ${label}`, () => {
+    const output = outputProbe();
+    mutate(output);
+    const result = validateOutput(inspection(), output, settings);
+    assert.equal(result.valid, false);
+    assert.match(result.errors.join('\n'), expected);
+  });
+}
+
+test('NVIDIA ten-bit planar/packed equivalence does not permit down-conversion', () => {
+  const input = sourceProbe({ bits: 10 });
+  input.streams[0].pix_fmt = 'p010le';
+  const output = outputProbe(input);
+  output.streams[0].pix_fmt = 'yuv420p10le';
+  const chosen = { profileId: 'h265-nvidia', preset: 'p5', quality: 25 };
+  assert.equal(validateOutput(inspection(input), output, chosen).valid, true);
+  output.streams[0].pix_fmt = 'yuv420p';
+  assert.equal(validateOutput(inspection(input), output, chosen).valid, false);
+});
+
+function richSource() {
+  const input = sourceProbe();
+  input.streams.push(
+    { index: 6, codec_type: 'audio', codec_name: 'aac', sample_rate: '48000', channels: 2, channel_layout: 'stereo', tags: { title: 'English audio', language: 'eng' }, disposition: { default: 1 } },
+    { index: 7, codec_type: 'audio', codec_name: 'flac', sample_rate: '48000', channels: 1, channel_layout: 'mono', tags: { title: 'Commentary' }, disposition: { comment: 1, default: 0 } },
+    { index: 8, codec_type: 'subtitle', codec_name: 'subrip', tags: { language: 'eng' }, disposition: { forced: 1 } },
+    { index: 9, codec_type: 'attachment', codec_name: 'ttf', extradata_size: 80, extradata_hash: 'SHA256:fixture-hash', tags: { filename: 'caption.ttf', mimetype: 'application/x-truetype-font' }, disposition: {} },
+  );
+  input.chapters = [{ id: 3, time_base: '1/1000', start: 0, end: 1000, start_time: '0', end_time: '1', tags: { title: 'Chapter one' } }];
+  return input;
+}
+
+test('preservation validates all tracks, attachment bytes, tags, dispositions and chapters', () => {
+  const input = richSource();
+  const output = outputProbe(input);
+  output.streams[1].tags = { TITLE: 'English audio', LANGUAGE: 'eng' };
+  output.chapters[0].time_base = '1/1000000000';
+  output.chapters[0].end = 1000000000;
+  assert.deepEqual(validateOutput(inspection(input), output, settings), { valid: true, errors: [] });
+  const changed = outputProbe(input);
+  changed.streams[1].codec_name = 'opus';
+  changed.streams[1].sample_rate = '44100';
+  changed.streams[2].tags.title = 'Lost commentary';
+  changed.streams[3].disposition.forced = 0;
+  changed.streams[4].extradata_hash = 'SHA256:changed';
+  changed.chapters[0].end_time = '1.5';
+  changed.chapters[0].tags.title = 'Changed chapter';
+  const result = validateOutput(inspection(input), changed, settings);
+  assert.equal(result.valid, false);
+  for (const expected of [/copied codec/, /sample_rate/, /metadata 'title'/, /dispositions/, /attachment content hash/, /end timing/, /Chapter 0: metadata/]) assert.match(result.errors.join('\n'), expected);
+});
+
+test('missing copied streams and chapters, unexpected streams, and malformed probe never validate', () => {
+  const input = richSource();
+  const missing = outputProbe(input);
+  missing.streams.pop();
+  missing.chapters = [];
+  assert.equal(validateOutput(inspection(input), missing, settings).valid, false);
+  const extra = outputProbe(input);
+  extra.streams.push({ index: 99, codec_type: 'audio', codec_name: 'aac' });
+  assert.match(validateOutput(inspection(input), extra, settings).errors.join('\n'), /Stream count/);
+  assert.equal(validateOutput(inspection(input), {}, settings).valid, false);
+  assert.equal(validateOutput({}, extra, settings).valid, false);
+});
+
+test('input color ambiguity cannot be accepted by a plausible-looking SDR output', () => {
+  const input = inspection();
+  input.color = { classification: 'ambiguous', supported: false, transfer: 'bt709' };
+  assert.match(validateOutput(input, outputProbe(), settings).errors.join('\n'), /accepted SDR/);
+});
+
+test('color evidence must belong to the selected stream and cannot override stream HDR', () => {
+  const wrongStream = inspection();
+  wrongStream.color.videoIndex = 0;
+  assert.equal(validateOutput(wrongStream, outputProbe(), settings).valid, false);
+  const contradictory = inspection();
+  contradictory.probe.streams[0].color_transfer = 'smpte2084';
+  assert.equal(validateOutput(contradictory, outputProbe(), settings).valid, false);
+});

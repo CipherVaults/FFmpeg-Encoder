@@ -10,7 +10,9 @@ Package metadata now follows `0.5.0-dev.1`; the original `1.0.0` was scaffold me
 
 ## Electron upgrade
 
-Pending. Target Electron 44.2.0, verified against official Electron releases and the npm registry. Repeat the same native smoke with the old FFmpeg executable before changing FFmpeg.
+Electron 44.2.0 is installed and the unchanged app passes the same two-file native smoke using the original FFmpeg executable. Evidence: `artifacts/electron-upgrade/1788750886490/report.json`, September 7 at 06:14:49 Cairo. Runtime reports Chromium 152.0.7977.76 and Node 24.20.0. The original FFmpeg hash still matches `7D4B7BE4498D2677DAF2888CB15A62ED14DD8779FEE2410EDE9B6885A58D578B`. npm audit reports zero vulnerabilities after this upgrade.
+
+Recovery: the first launch failed because the Electron 44 npm package no longer contained the historical automatic postinstall hook and its runtime `dist` directory was absent. Inspection of the installed package's `install.js` established the supported checksum-verified installer. Running `node node_modules/electron/install.js` corrected the local dependency. The project now invokes that installer in its postinstall script so fresh `npm ci` also provisions the pinned executable. No application security settings were weakened to fix startup.
 
 ## FFmpeg and ffprobe upgrade
 

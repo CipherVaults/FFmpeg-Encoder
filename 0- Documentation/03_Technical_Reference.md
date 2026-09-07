@@ -1,6 +1,6 @@
 # Technical reference
 
-Status at creation: these are approved target contracts, except the explicitly described legacy command. Implementations and verified commands must be added as their milestones pass.
+Current through milestone H. The process/media/UI contracts below are implemented and verified within the linked execution evidence; legacy commands are historical. Portable packaging is the next milestone.
 
 ## Current process boundary
 
@@ -12,9 +12,9 @@ The old main process hardcodes `libx265`, preset `slow`, CRF `25`, tag `hvc1`, x
 
 The old manifest specified Electron `^41.0.2`. Electron `44.2.0`, Playwright `1.63.0`, and matching FFmpeg/ffprobe `9.0.1` are now installed and verified independently; see the runtime execution report and binary manifest. Electron's executable is provisioned by the project's postinstall hook. Forge `7.11.2` remains a packaging candidate, not yet installed. Use project-local tools; no machine-global installation is authorized by this requirement.
 
-## Encoder profiles and provisional defaults
+## Encoder profiles and adopted defaults
 
-| Product profile | Encoder | Candidate preset | Candidate quality control | Output suffix |
+| Product profile | Encoder | Default preset | Default quality control | Output suffix |
 |---|---|---|---|---|
 | H.264 CPU | `libx264` | `slower` | CRF 24 | `_H264-CPU.mkv` |
 | H.265 CPU | `libx265` | `slow` | CRF 25 | `_H265-CPU.mkv` |
@@ -23,7 +23,7 @@ The old manifest specified Electron `^41.0.2`. Electron `44.2.0`, Playwright `1.
 | H.265 NVIDIA | `hevc_nvenc` | `p5` | CQ 25 | `_H265-Nvidia-GPU.mkv` |
 | AV1 NVIDIA | `av1_nvenc` | `p5` | CQ 30 | `_AV1-Nvidia-GPU.mkv` |
 
-These defaults are provisional engineering starting points. Encoder help from the exact shipped executable and short controlled real encodes must establish each supported argument combination, quality range, preset range, pixel format, and hardware initialization. Listing an NVENC encoder in FFmpeg does not establish that it works on the installed GPU/driver. Unavailable profiles are disabled with a reason; there is no silent switch to another encoder. Equal CRF/CQ numbers across encoders do not indicate equivalent quality. Historical x265 tuning may remain only in the x265 profile after validation; do not reuse those options across encoders.
+These defaults are adopted engineering starting points after the pinned encoder help, twelve default cases and 110 accepted preset/quality-boundary cases passed. Actual UI changes and real commands also match in the H product suite. CPU H264/H265 expose CRF0–51 and ultrafast through veryslow; AV1 CPU exposes CRF1–63/presets0–9; NVIDIA exposes p1–p7 and CQ1–51 (H264/H265) or1–63 (AV1). SVT CRF0 silently resolves to35; presets12/13 alias11 and presets10+ warn of automation-only artifacts, so those choices are excluded. Product bit depths are8/10 only; runtime checks can narrow availability. These tests do not establish every cross-product, format, speed or perceptual-quality result. Listing an NVENC encoder in FFmpeg does not establish that it works on the installed GPU/driver. Unavailable profiles are disabled with a reason; there is no silent switch to another encoder. Equal CRF/CQ numbers across encoders do not indicate equivalent quality. Historical x265 tuning may remain only in the x265 profile after validation; do not reuse those options across encoders.
 
 Expose only choices that map to validated profile settings. Preview and monitor must show the effective settings actually used by main. Settings changes invalidate or regenerate the prepared plan so the preview cannot silently describe an older command.
 
@@ -31,9 +31,9 @@ Expose only choices that map to validated profile settings. Preview and monitor 
 
 Scan top-level regular files only, with case-insensitive extensions `.mp4`, `.mkv`, `.mov`, `.avi`, and `.webm`, in deterministic alphabetical order. Reject identical canonical input/output directories. Main creates opaque selection and plan identities, validates the sender and settings, and rechecks relevant file/destination state before execution.
 
-Encode the selected non-attached primary video stream. Explicitly map supported audio and subtitle streams, attachments, chapters, metadata, and dispositions into Matroska. Preserve supported resolution, cadence, color information, and bit depth. Profile limitations and unsupported stream/container combinations must be visible; do not silently drop content or silently convert audio/subtitles. Additional non-primary video handling must follow the explicit supported preservation policy and must not be lost through accidental automatic stream selection.
+Encode the selected non-attached primary video stream. Explicitly map supported audio and subtitle streams, attachments, chapters, metadata, and dispositions into Matroska. Preserve supported resolution, cadence, color information, and bit depth. Profile limitations and unsupported stream/container combinations must be visible; do not silently drop content or silently convert audio/subtitles. Additional non-primary video is deliberately omitted under the primary-video policy. Attached-picture video, data streams and unrepresentable preservation cases are rejected rather than silently discarded.
 
-An existing destination is a skip, including when quality settings changed but the encoder-based filename did not. Use a different output folder to make another encode. If distinct input names share the same stem and destination, require selection to resolve the conflict in preview. Do not create numbered copies automatically.
+An existing destination is a skip, including when quality settings changed but the encoder-based filename did not. Use a different output folder to make another encode. If distinct input names share the same stem and destination, require selection to resolve the conflict in preview. Do not create numbered copies automatically. A preview containing only skips/unsupported files stays reviewable with Start disabled and a Nothing to encode explanation; change folders/settings to prepare again.
 
 ## Precise SDR/HDR classification
 

@@ -19,28 +19,34 @@ const CPU_PRESETS = ['ultrafast', 'superfast', 'veryfast', 'faster', 'fast', 'me
 const NVIDIA_PRESETS = ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7'];
 const YUV8 = ['yuv420p', 'yuvj420p', 'yuv422p', 'yuvj422p', 'yuv444p', 'yuvj444p', 'gray'];
 const YUV10 = ['yuv420p10le', 'yuv422p10le', 'yuv444p10le', 'gray10le'];
-const YUV12 = ['yuv420p12le', 'yuv422p12le', 'yuv444p12le', 'gray12le'];
 
-// These values are engineering candidates, not quality-equivalent presets.
-// The exact shipped binary and actual device must pass real encode checks before
-// a profile is advertised as available. In particular an encoder listing alone
-// does not prove that NVENC can initialize on the current driver/GPU.
+// These are adopted engineering defaults, not quality-equivalent presets or a
+// perceptual benchmark. Pinned 9.0.1 help and short real 8/10-bit encodes establish
+// the exposed choices; scripts/validate-profile-options.cjs checks the production
+// builder's presets and quality boundaries. Each actual device must still pass
+// runtime capability checks: a compiled NVENC name does not prove GPU support.
 const PROFILES = deepFreeze([
   {
     id: 'h264-cpu', label: 'H264 · CPU', codec: 'H264', hardware: 'CPU', encoder: 'libx264',
     presets: CPU_PRESETS, defaultPreset: 'slower', quality: { mode: 'CRF', min: 0, max: 51, default: 24 },
-    suffix: 'H264-CPU', pixelFormats: [...YUV8, ...YUV10], bitDepths: [8, 10], provisional: true,
+    suffix: 'H264-CPU', pixelFormats: [...YUV8, ...YUV10], bitDepths: [8, 10], provisional: false,
   },
   {
     id: 'h265-cpu', label: 'H265 · CPU', codec: 'H265', hardware: 'CPU', encoder: 'libx265',
     presets: CPU_PRESETS, defaultPreset: 'slow', quality: { mode: 'CRF', min: 0, max: 51, default: 25 },
-    suffix: 'H265-CPU', pixelFormats: [...YUV8, ...YUV10, ...YUV12], bitDepths: [8, 10, 12], provisional: true,
+    // Runtime capabilities and this milestone cover 8/10-bit SDR. The library
+    // also lists 12-bit formats, but those are not an accepted product feature.
+    suffix: 'H265-CPU', pixelFormats: [...YUV8, ...YUV10], bitDepths: [8, 10], provisional: false,
   },
   {
     id: 'av1-cpu', label: 'AV1 · CPU', codec: 'AV1', hardware: 'CPU', encoder: 'libsvtav1',
-    presets: Array.from({ length: 14 }, (_, index) => String(index)), defaultPreset: '6',
-    quality: { mode: 'CRF', min: 0, max: 63, default: 32 }, suffix: 'AV1-CPU',
-    pixelFormats: ['yuv420p', 'yuv420p10le'], bitDepths: [8, 10], provisional: true,
+    // SVT maps 12/13 to 11 and warns that non-RTC presets 10+ are for automation
+    // tooling with possible visual artifacts. Offer its ordinary video range.
+    presets: Array.from({ length: 10 }, (_, index) => String(index)), defaultPreset: '6',
+    // In the pinned wrapper, CRF zero leaves SVT's default (35) in effect. Keep
+    // the control honest by exposing only explicit rate-factor values 1..63.
+    quality: { mode: 'CRF', min: 1, max: 63, default: 32 }, suffix: 'AV1-CPU',
+    pixelFormats: ['yuv420p', 'yuv420p10le'], bitDepths: [8, 10], provisional: false,
   },
   ...[
     ['h264-nvidia', 'H264', 'h264_nvenc', 28, 51],
@@ -53,7 +59,7 @@ const PROFILES = deepFreeze([
     // fixed quality level. This differs deliberately from CPU CRF ranges.
     quality: { mode: 'CQ', min: 1, max: maximum, default: quality },
     suffix: `${codec}-Nvidia-GPU`, pixelFormats: ['yuv420p', 'nv12', 'yuv420p10le', 'p010le'],
-    bitDepths: [8, 10], provisional: true,
+    bitDepths: [8, 10], provisional: false,
   })),
 ]);
 

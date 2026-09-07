@@ -38,14 +38,15 @@ function errorCode(code) {
   return (error) => error.code === code;
 }
 
-test('profiles expose the six independent provisional defaults and are deeply immutable', () => {
+test('profiles expose the six independently validated defaults and are deeply immutable', () => {
   assert.deepEqual(PROFILES.map((profile) => [profile.id, profile.encoder, profile.defaultPreset, profile.quality.default]), [
     ['h264-cpu', 'libx264', 'slower', 24], ['h265-cpu', 'libx265', 'slow', 25],
     ['av1-cpu', 'libsvtav1', '6', 32], ['h264-nvidia', 'h264_nvenc', 'p5', 28],
     ['h265-nvidia', 'hevc_nvenc', 'p5', 25], ['av1-nvidia', 'av1_nvenc', 'p5', 30],
   ]);
   for (const profile of PROFILES) {
-    assert.equal(profile.provisional, true);
+    assert.equal(profile.provisional, false);
+    assert.deepEqual(profile.bitDepths, [8, 10]);
     assert.equal(Object.isFrozen(profile), true);
     assert.equal(Object.isFrozen(profile.presets), true);
     assert.equal(Object.isFrozen(profile.quality), true);
@@ -78,6 +79,12 @@ test('settings use encoder-specific quality ranges and presets', () => {
   }
   assert.throws(() => validateSettings({ ...settings('h265-cpu'), preset: 'p5' }), errorCode('INVALID_SETTINGS'));
   assert.throws(() => validateSettings({ ...settings('av1-cpu'), preset: 6 }), errorCode('INVALID_SETTINGS'));
+  // Shipped libsvtav1 resolves CRF zero to its own default (35), so zero is not
+  // an explicit quality level even though FFmpeg's option parser accepts it.
+  assert.throws(() => validateSettings({ ...settings('av1-cpu'), quality: 0 }), errorCode('INVALID_SETTINGS'));
+  for (const preset of ['10', '11', '12', '13']) {
+    assert.throws(() => validateSettings({ ...settings('av1-cpu'), preset }), errorCode('INVALID_SETTINGS'));
+  }
   assert.throws(() => validateSettings({ ...settings('av1-nvidia'), quality: 0 }), errorCode('INVALID_SETTINGS'));
 });
 
@@ -270,7 +277,7 @@ test('SDR bit depth and color signaling are preserved rather than forced to eigh
   assert.throws(() => argsFor(probe(video({ pix_fmt: 'yuva420p' }))), errorCode('UNSUPPORTED_PIXEL_FORMAT'));
   assert.throws(() => argsFor(probe(video({ pix_fmt: 'yuv444p' })), { settings: settings('av1-cpu') }), errorCode('UNSUPPORTED_PIXEL_FORMAT'));
   assert.throws(() => argsFor(probe(video({ pix_fmt: 'yuv420p12le' })), { settings: settings('h264-cpu') }), errorCode('UNSUPPORTED_PIXEL_FORMAT'));
-  assert.deepEqual(values(argsFor(probe(video({ pix_fmt: 'yuv420p12le' }))), '-pix_fmt:v:0'), ['+yuv420p12le']);
+  assert.throws(() => argsFor(probe(video({ pix_fmt: 'yuv420p12le' }))), errorCode('UNSUPPORTED_PIXEL_FORMAT'));
 });
 
 test('sample-derived SDR evidence permits a missing stream transfer but cannot override HDR or another stream', () => {

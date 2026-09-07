@@ -158,7 +158,7 @@
       const row = document.createElement('li');
       const depths = profile.supportedBitDepths || [];
       row.textContent = profile.available
-        ? `${profile.label}: available${depths.length ? ` · ${depths.join(' / ')}-bit` : ''}`
+        ? `${profile.label}: available${depths.length ? ` · ${depths.join(' / ')}-bit` : ''}${profile.reason ? ` · ${profile.reason}` : ''}`
         : `${profile.label}: ${profile.reason || 'Encoder cannot initialize on this computer.'}`;
       if (!profile.available) row.className = 'unavailable';
       byId('capability-list').append(row);
@@ -334,7 +334,11 @@
     put('output-path', outputFolder?.path || 'No folder selected');
     put('effective-settings', snapshot.settings ? `Effective settings: ${describeSettings(snapshot.settings)}` : '');
     put('monitor-settings', describeSettings(snapshot.settings));
-    put('preview-message', 'Select files to encode. Existing outputs stay unchanged. For conflicting output names, select one input per destination.');
+    const hasEligible = (snapshot.items || []).some(item => selectableStatuses.has(item.status));
+    put('preview-message', ready && !hasEligible
+      ? 'Nothing to encode in this batch. Review the skipped or unsupported reasons below, or change your folders and settings.'
+      : showResults ? 'Completed batch. Each file result and any skipped or unsupported reason is shown below.'
+        : 'Select files to encode. Existing outputs stay unchanged. For conflicting output names, select one input per destination.');
     renderItems(); renderTelemetry();
     if (showResults) {
       for (const key of ['success', 'failed', 'skipped', 'cancelled', 'unprocessed']) put(`count-${key}`, snapshot.counts?.[key] || 0);

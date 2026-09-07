@@ -1,6 +1,6 @@
 # Project architecture
 
-Updated through milestone G, September 7, 2026. Main-owned service, preload boundary, sandboxed UI and allowlisted local protocol are implemented and verified. Product acceptance and portable packaging remain pending.
+Updated through milestone H, September 8, 2026. Main-owned service, preload boundary, sandboxed UI and allowlisted local protocol are implemented and verified. Product behavior is verified by the H requirement map. Portable packaging remains pending.
 
 ## Identity and purpose
 

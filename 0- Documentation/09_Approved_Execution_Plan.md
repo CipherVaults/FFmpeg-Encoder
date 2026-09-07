@@ -62,13 +62,13 @@ Initial toolchain candidates are Electron 44.2.0, matching FFmpeg/ffprobe 9.0.1,
 - [x] Independent matching FFmpeg/ffprobe upgrade, exact provenance/hashes/notices, and regression evidence checkpointed at 9c25694; runtime execution report records evidence and limits.
 - [x] Narrow API, sender/payload validation, renderer isolation/sandbox, and main-owned architecture are implemented and tested; Process Architecture report records 87 checks and real app/lifecycle evidence.
 - [x] Custom local protocol, CSP, navigation/permission restrictions, asset allowlist, and traversal tests pass after architecture validation; see Local Protocol report (89 checks and native boundary evidence).
-- [ ] All six profile capabilities and actual supported combinations are tested by short real encodes; adopted defaults and hardware limitations are documented.
-- [ ] Multiple-track, attachment, chapter, metadata/disposition, video-selection, and unsupported-case tests prove the preservation policy.
-- [ ] SDR/HDR classifier tests cover eight/ten-bit SDR, BT.2020 SDR, PQ, HLG, Dolby Vision, HDR10+, static-only/conflicting/missing metadata, attached pictures, and bounded-probe errors/sampling limits.
-- [ ] Existing output hashes remain unchanged, duplicate stems are resolved, publication races do not overwrite, and only owned incomplete files are cleaned.
-- [ ] Cancel/restart/close/lost-renderer/spawn-error/stale-callback cases prove no queued restart or orphan child; file-specific/shared errors produce correct counts and recovery.
-- [ ] Structured telemetry handles chunk splits and unknown duration; preview/monitor effective settings match commands; new-batch flow works after terminal outcomes.
-- [ ] Real UI interaction and responsive layouts cover supported window/DPI scenarios, long filenames, and readable error/disabled-profile reasons.
+- [x] All six profile capabilities and actual supported combinations are tested by short real encodes; adopted defaults and hardware limitations are documented. See the Product Acceptance requirement map and its explicit evidence limits.
+- [x] Multiple-track, attachment, chapter, metadata/disposition, video-selection, and unsupported-case tests prove the preservation policy. See the Product Acceptance requirement map and its explicit evidence limits.
+- [x] SDR/HDR classifier tests cover eight/ten-bit SDR, BT.2020 SDR, PQ, HLG, Dolby Vision, HDR10+, static-only/conflicting/missing metadata, attached pictures, and bounded-probe errors/sampling limits. See the Product Acceptance requirement map and its explicit evidence limits.
+- [x] Existing output hashes remain unchanged, duplicate stems are resolved, publication races do not overwrite, and only owned incomplete files are cleaned. See the Product Acceptance requirement map and its explicit evidence limits.
+- [x] Cancel/restart/close/lost-renderer/spawn-error/stale-callback cases prove no queued restart or orphan child; file-specific/shared errors produce correct counts and recovery. See the Product Acceptance requirement map and its explicit evidence limits.
+- [x] Structured telemetry handles chunk splits and unknown duration; preview/monitor effective settings match commands; new-batch flow works after terminal outcomes. See the Product Acceptance requirement map and its explicit evidence limits.
+- [x] Real UI interaction and responsive layouts cover supported window/DPI scenarios, long filenames, and readable error/disabled-profile reasons. See the Product Acceptance requirement map and its explicit evidence limits.
 - [ ] Portable Windows ZIP built, hashed, extracted, and tested offline without global Node/FFmpeg dependencies; real encode/cancel/skip paths and resources/notices verified.
 - [ ] Final docs match implementation, execution reports link code/evidence, limitations and future work are explicit, and the local 0.5.0 branch is committed and clean.
 

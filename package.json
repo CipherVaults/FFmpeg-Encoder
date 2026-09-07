@@ -9,7 +9,10 @@
     "test": "node --test tests/*.test.cjs",
     "test:app": "node scripts/app-smoke.cjs",
     "test:lifecycle": "node scripts/lifecycle-smoke.cjs",
-    "test:protocol": "node scripts/protocol-smoke.cjs"
+    "test:protocol": "node scripts/protocol-smoke.cjs",
+    "test:product": "node scripts/product-smoke.cjs",
+    "test:layout": "node scripts/layout-smoke.cjs",
+    "test:profiles": "node scripts/validate-profile-options.cjs"
   },
   "keywords": [],
   "author": "",

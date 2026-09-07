@@ -1,6 +1,6 @@
 # How this project works
 
-This guide explains the project for a reader who did not participate in its development. At the documentation bootstrap, the old application is preserved and tested on its successful path; the new architecture described below is the approved destination, not a claim that all parts are finished. Current State tells you which stage has actually passed.
+This guide explains the project for a reader who did not participate in its development. The architecture and product workflow below are implemented and verified through milestone H. The portable package remains the next step; Current State and the execution reports distinguish completed checks from remaining acceptance.
 
 ## The application and its engine
 

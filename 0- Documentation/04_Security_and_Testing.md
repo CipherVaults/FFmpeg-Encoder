@@ -1,6 +1,6 @@
 # Security and testing
 
-This document defines the approved properties and acceptance evidence. Milestones F/G implement and verify the process/renderer/protocol boundaries. A requirement in this file is not automatically a passing test result; link actual outcomes from the execution index.
+This document defines the approved properties and acceptance evidence. Milestones F/G implement and verify the process/renderer/protocol boundaries. H closes product requirements through89 automated checks,110 accepted option cases, real application encodes/preservation/native folder selection and25 layout scenarios; its Product Acceptance report maps each requirement to evidence and limits. A requirement in this file is not automatically a passing test result; link actual outcomes from the execution index.
 
 ## Trust boundaries
 

@@ -2,6 +2,10 @@
 
 New entries appear above the preserved historical section. This cumulative record explains decisions and re-entry context; the execution index links literal actions and verification evidence.
 
+## September 8, 2026 — Product acceptance recovered and verified
+
+After a quota interruption and Ahmed's manual reset, the parent recovered uncommitted H changes and actual test artifacts rather than restarting completed work. All six profiles pass through the real UI and main argv boundary with eight/ten-bit media. Rich streams/chapters/attachments, BT2020 SDR, HDR/unsupported rejection, duplicate selection, mixed counts, subsequent skips and source/output hashes pass. Real native folder selection is verified;25 layout captures cover setup/preview/monitor/results with explicit emulation and synthetic-monitor limits. The110 accepted option cases revealed SVT CRF0 means35 and presets12/13 alias11; presets10+ warn of automation artifacts. The accepted AV1 CPU range is now1–63/presets0–9, default6/32 unchanged. Parent synchronization and the H requirement map anchor the completed work; I portable packaging follows. The same recurring automation was realigned to the new live reset (next07:35 Cairo), without redeeming credits automatically.
+
 ## September 7, 2026 — Local protocol verified
 
 Milestone G follows the independently committed architecture b7d56df. The app now loads from an exact three-asset app://encoder allowlist with response CSP, denied remote/file requests, navigation, popups and permissions. Native Chromium/session checks and all 89 automated cases pass; the real two-file encode/new-batch smoke also passes. One test expected the later navigation event, but the earlier frame-navigation handler had already cancelled it; the assertion now checks the actual event boundary. The parent synchronized milestone documents and acceptance gates. H product verification and I packaging remain unfinished.

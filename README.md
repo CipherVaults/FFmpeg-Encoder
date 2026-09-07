@@ -2,7 +2,7 @@
 
 A Windows desktop interface for sequential FFmpeg video encoding. Ahmed originally built this project with ChatGPT through manually transferred code. The September 2026 re-entry preserves that work and develops it into a locally verified portable application.
 
-**Current status:** preservation, independent runtime upgrades, main-owned encoding architecture and local protocol hardening are verified. The approved 0.5.0 modernization remains in progress: product acceptance and portable packaging are unfinished. See [Current State](0-%20Documentation/01_Current_State.md) for the authoritative milestone status and evidence.
+**Current status:** preservation, independent runtime upgrades, main-owned encoding architecture and local protocol hardening are verified. The approved 0.5.0 modernization remains in progress: product behavior is verified through milestone H; portable packaging remains unfinished. See [Current State](0-%20Documentation/01_Current_State.md) for the authoritative milestone status and evidence.
 
 ## Target 0.5.0 workflow
 

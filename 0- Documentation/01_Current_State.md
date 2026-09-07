@@ -1,10 +1,10 @@
 # Current state
 
-Updated for the documentation bootstrap on September 6–7, 2026. This is a checkpoint record, not a claim that later work has completed. Inspect Git and newer execution reports when re-entering.
+Updated through milestone G, September 7, 2026. Inspect live Git and the continuation note for unfinished work.
 
 ## Current milestone
 
-Milestones A–E are verified: preservation, baseline, context/versioning, Electron 44.2.0 (`0dd8542`), and matching FFmpeg/ffprobe 9.0.1 (`9c25694`). Documentation/history are checkpointed in `14c874f` and exact archive checkout behavior in `53ce087`. Both independent runtime upgrades passed the unchanged native successful-flow smoke. Twelve short encoder cases passed (six profiles, each eight/ten-bit SDR), including probing and full decoding. See [runtime evidence](Execution%20Summaries/2026-09-07_Runtime_Upgrades.md). Milestone F is implemented and verified through restricted loadFile: 87 unit/integration tests plus real app and lifecycle smoke checks pass. See the Process Architecture execution report. Next is custom protocol G, followed by the remaining H/I acceptance in [Continuation State](10_Continuation_State.md). Portable packaging and final acceptance remain pending.
+Milestones A–E are verified: preservation, baseline, context/versioning, Electron 44.2.0 (`0dd8542`), and matching FFmpeg/ffprobe 9.0.1 (`9c25694`). Documentation/history are checkpointed in `14c874f` and exact archive checkout behavior in `53ce087`. Both independent runtime upgrades passed the unchanged native successful-flow smoke. Twelve short encoder cases passed (six profiles, each eight/ten-bit SDR), including probing and full decoding. See [runtime evidence](Execution%20Summaries/2026-09-07_Runtime_Upgrades.md). Milestone F is implemented and verified through restricted loadFile: 87 unit/integration tests plus real app and lifecycle smoke checks pass. See the Process Architecture execution report. Milestone G now passes 89 automated tests, native session/CSP/navigation checks and the real app flow; see the Local Protocol execution report. Next is the remaining H/I acceptance in [Continuation State](10_Continuation_State.md). Portable packaging and final acceptance remain pending.
 
 ## Verified locations and checkpoint
 
@@ -29,7 +29,7 @@ Those findings invalidate historical claims of a fully stable or hardened pipeli
 
 ## Approved direction and next action
 
-Continue milestone G of the [amended plan](09_Approved_Execution_Plan.md): replace restricted loadFile with an allowlisted custom protocol and verify its boundary independently. Do not repeat completed baseline/runtime audits unless new evidence requires it.
+Continue milestone H of the [amended plan](09_Approved_Execution_Plan.md): close the real product/UI acceptance gaps, then package and verify the local portable application. Do not repeat completed baseline/runtime audits unless new evidence requires it.
 
 `1.0.0` in the old manifest is scaffold metadata. The approved sequence is `0.5.0-dev.1` during development and `0.5.0` after local milestone acceptance; changing the version alone does not prove a release.
 

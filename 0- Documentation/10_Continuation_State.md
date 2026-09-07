@@ -1,12 +1,13 @@
 # Continuation state
 
-Updated September 7, 2026 after the parent A–E synchronization pass. Inspect live Git before using this note.
+Updated September 7, 2026 after protocol G verification and parent synchronization. Inspect live Git before using this note.
 
-- Working root: `D:\Codex Projects\FFmpeg Encoder`, branch `codex/reentry-completion`. A–E complete; last runtime commit `9c25694`. Original and verified backup remain preserved.
-- Exact next action: finish `src/capabilities.cjs`, inspection tests, and `ui/renderer.js`; integrate existing `src/encoder-service.cjs` with a new narrow preload and main entry point. The current root entry point is still the legacy app intentionally preserved through runtime checks.
-- Uncommitted new modules: media/profile/HDR builder (19 unit tests passed), process runner (5), output protection (4), inspection and encoder service (not yet integrated). UI HTML/CSS exist. Do not mistake file existence for acceptance.
-- Main/preload API agreed with UI: `getCapabilities`, `chooseInputFolder`, `chooseOutputFolder`, `prepareBatch({inputFolderId,outputFolderId,settings})`, `startBatch({planId,fileIds})`, `cancelBatch({batchId})`, `getSnapshot`, `onUpdate` returning unsubscribe. See service for snapshot shape. Main alone receives real paths from native dialogs.
-- Test/integrate architecture F first using restricted `loadFile`; checkpoint after real boundary/queue/cancel/output tests. Add custom protocol G afterward as its own checkpoint. Then finish preservation/UI tests and packaging I. No repeated baseline/provisioning research needed.
-- Runtime evidence: `artifacts/electron-upgrade/1788750886490/report.json`, `artifacts/ffmpeg-upgrade/1788750954779/report.json`, and `artifacts/encoder-validation-2026-09-07T03-16-28-554Z-685a17/report.json` (all twelve passed). Pin/license evidence in `resources/binary-manifest.json`.
-- Automation attached to this same task: `resume-ffmpeg-encoder-after-reset`; five-hour recurring wake with next/reset realignment. Check live automation/usage before relying on its prior time. Disable only once goal is actually complete, or wait at explicit approval boundaries. No reset credits authorized.
-- Parent owns milestone completion: reconcile Current State, Roadmap, acceptance gates, Execution Index, Session Summary and affected technical docs against real Git/test evidence. Keep unfinished work visible, updates proportional, and the full local 0.5.0 goal active.
+- Active milestone: H, product acceptance. A–G are complete. Latest preceding architecture checkpoint: b7d56df; the commit adding the Local Protocol execution report is the G checkpoint (resolve it with Git).
+- Working root: D:\Codex Projects\FFmpeg Encoder, branch codex/reentry-completion. Original and verified backup remain preserved.
+- Completed sub-work: G exact asset/session/CSP boundary; 89 tests pass; native protocol report artifacts/protocol-smoke-1788789338099/report.json and actual app flow artifacts/app-smoke-1788788966445/report.json pass. F lifecycle evidence remains valid. No known failing check.
+- Working-tree state at this note: G source/tests/report and proportional parent documentation synchronization ready for commit. No H source changes yet.
+- Exact next action: checkpoint G, then add H real UI profile/settings/collision/mixed-result/preservation and responsive/DPI verification, reusing the already-passed component fixtures. Reconcile engineering defaults and eight/ten-bit availability. Then implement and verify local portable ZIP I.
+- H gaps: all six profiles through app queue; changed settings match preview and commands; rich fixture round trip; real SDR/PQ/HLG policy examples; long names and 720p–4K/scaling layouts; unsupported/all-skipped flow. Native OS picker/dialog interaction is not proved by substituted native-dialog returns.
+- Existing rich-media evidence: artifacts/inspection-validation-2026-09-07T08-44-31-810Z/report.json. Existing twelve encoder cases: artifacts/encoder-validation-2026-09-07T03-16-28-554Z-685a17/report.json. Do not repeat completed baseline/runtime audits.
+- Automation resume-ffmpeg-encoder-after-reset remains recurring every five hours in this task. Each wake checks current usage/reset and adjusts the same schedule. Never redeem reset credits. Approval boundaries remain unchanged.
+- Parent synchronizes milestone docs, acceptance gates and actual Git/test evidence before declaring completion. Keep this unfinished-work note short; formal reports own completed milestones.

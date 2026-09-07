@@ -2,6 +2,10 @@
 
 New entries appear above the preserved historical section. This cumulative record explains decisions and re-entry context; the execution index links literal actions and verification evidence.
 
+## September 7, 2026 — Local protocol verified
+
+Milestone G follows the independently committed architecture b7d56df. The app now loads from an exact three-asset app://encoder allowlist with response CSP, denied remote/file requests, navigation, popups and permissions. Native Chromium/session checks and all 89 automated cases pass; the real two-file encode/new-batch smoke also passes. One test expected the later navigation event, but the earlier frame-navigation handler had already cancelled it; the assertion now checks the actual event boundary. The parent synchronized milestone documents and acceptance gates. H product verification and I packaging remain unfinished.
+
 ## September 7, 2026 — Main-owned architecture verified
 
 Milestone F now replaces the prototype boundary with a main-owned service, narrow validated preload, sandboxed renderer, guarded output publication and explicit lifecycle. Eighty-seven automated checks and real app/lifecycle tests pass, including cancellation, new batch, renderer crash and exact owned-process disappearance. The execution report records the Matroska undefined-language precision fix and test-harness corrections. The parent synchronized current documents against the evidence; protocol G and remaining product/packaging acceptance follow. Runtime checkpoints and original preservation remain intact.

@@ -8,7 +8,8 @@
     "start": "electron .",
     "test": "node --test tests/*.test.cjs",
     "test:app": "node scripts/app-smoke.cjs",
-    "test:lifecycle": "node scripts/lifecycle-smoke.cjs"
+    "test:lifecycle": "node scripts/lifecycle-smoke.cjs",
+    "test:protocol": "node scripts/protocol-smoke.cjs"
   },
   "keywords": [],
   "author": "",

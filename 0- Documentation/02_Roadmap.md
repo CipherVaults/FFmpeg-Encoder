@@ -4,7 +4,7 @@ The March roadmap is preserved in the legacy archive. This active roadmap implem
 
 ## Re-entry milestone 0.5.0
 
-| Stage | Outcome | State at documentation bootstrap |
+| Stage | Outcome | Verified state |
 |---|---|---|
 | A — Preservation | Full verified backup, D: working copy | Complete; see baseline execution report |
 | B — Existing baseline | Unchanged source Git checkpoint and controlled old-runtime behavior evidence | Complete: source c30d335, harness 7b7b5c8, 12 characterization tests and real successful-flow smoke; native picker not covered |
@@ -12,7 +12,7 @@ The March roadmap is preserved in the legacy archive. This active roadmap implem
 | D — Electron | Upgrade Electron alone and compare baseline behavior | Complete: 44.2.0 with original FFmpeg, native successful-flow smoke passed, checkpoint 0dd8542; see runtime report |
 | E — Media runtime | Upgrade matching FFmpeg/ffprobe pair, record versions/hashes/capabilities | Complete: 9c25694; unchanged native smoke and twelve standalone encoder cases pass |
 | F — Process architecture | Narrow preload, isolated renderer, validated IPC, main-owned plans/queue/lifecycle/output/progress | Complete: 87 checks plus real app/lifecycle smoke; see Process Architecture report and its commit |
-| G — Local protocol | Custom app protocol, asset allowlist, CSP/navigation/traversal verification | Pending after F is proven |
+| G — Local protocol | Custom app protocol, asset allowlist, CSP/navigation/traversal verification | Complete: 89 automated checks, native protocol/security checks and real app flow; see Local Protocol report |
 | H — Complete workflow | Validated CPU/NVIDIA SDR profiles, stream preservation, preview/results, responsive UI | Pending |
 | I — Local acceptance | Portable Windows ZIP, real-encode and offline extracted-app verification, synchronized docs, 0.5.0 checkpoint | Pending |
 

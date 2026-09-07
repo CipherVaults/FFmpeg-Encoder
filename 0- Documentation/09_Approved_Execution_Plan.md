@@ -61,7 +61,7 @@ Initial toolchain candidates are Electron 44.2.0, matching FFmpeg/ffprobe 9.0.1,
 - [x] Independent Electron 44.2.0 upgrade and native baseline regression evidence checkpointed at `0dd8542`, with original FFmpeg retained; see Runtime Upgrades execution report.
 - [x] Independent matching FFmpeg/ffprobe upgrade, exact provenance/hashes/notices, and regression evidence checkpointed at 9c25694; runtime execution report records evidence and limits.
 - [x] Narrow API, sender/payload validation, renderer isolation/sandbox, and main-owned architecture are implemented and tested; Process Architecture report records 87 checks and real app/lifecycle evidence.
-- [ ] Custom local protocol, CSP, navigation/permission restrictions, asset allowlist, and traversal tests pass after architecture validation.
+- [x] Custom local protocol, CSP, navigation/permission restrictions, asset allowlist, and traversal tests pass after architecture validation; see Local Protocol report (89 checks and native boundary evidence).
 - [ ] All six profile capabilities and actual supported combinations are tested by short real encodes; adopted defaults and hardware limitations are documented.
 - [ ] Multiple-track, attachment, chapter, metadata/disposition, video-selection, and unsupported-case tests prove the preservation policy.
 - [ ] SDR/HDR classifier tests cover eight/ten-bit SDR, BT.2020 SDR, PQ, HLG, Dolby Vision, HDR10+, static-only/conflicting/missing metadata, attached pictures, and bounded-probe errors/sampling limits.

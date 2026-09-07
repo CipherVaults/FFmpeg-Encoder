@@ -1,6 +1,6 @@
 # Project architecture
 
-Updated through milestone F, September 7, 2026. Main-owned service, preload boundary and sandboxed UI are implemented and verified. Custom protocol and portable packaging remain pending.
+Updated through milestone G, September 7, 2026. Main-owned service, preload boundary, sandboxed UI and allowlisted local protocol are implemented and verified. Product acceptance and portable packaging remain pending.
 
 ## Identity and purpose
 
@@ -14,7 +14,7 @@ At baseline `c30d335`, `main.js` creates an Electron window with Node integratio
 
 `renderer.js` directly imports filesystem/path modules, scans the input folder synchronously, filters extensions, sorts the files, controls the sequential loop, parses raw stderr, and updates the UI. The visible settings are not wired into the main encode arguments. CSS is embedded in `index.html`.
 
-This is a functional prototype, not a proven security boundary. Historical documents describe safe cancellation and exclusive main-process OS access, but the current source has renderer filesystem access, premature child-handle clearing, and incomplete rejection/error handling. Keep those historical assertions in their archive; do not carry them forward as present facts.
+This is a functional prototype, not a proven security boundary. Historical documents describe safe cancellation and exclusive main-process OS access, but the baseline source has renderer filesystem access, premature child-handle clearing, and incomplete rejection/error handling. Keep those historical assertions in their archive; do not carry them forward as present facts.
 
 ## Implemented ownership at milestone F
 
@@ -48,7 +48,7 @@ Each job encodes into its own temporary destination, validates completion using 
 
 ## Security and module sequencing
 
-First establish a narrow preload, context isolation, renderer sandboxing, validated sender/payload IPC, fixed binary paths, and shell-free child execution. Prove this architecture while using a restricted local file entry point. Introduce the custom `app://` protocol later as its own checkpoint with an asset allowlist, CSP, and navigation/traversal tests. This sequencing preserves regression attribution.
+First establish a narrow preload, context isolation, renderer sandboxing, validated sender/payload IPC, fixed binary paths, and shell-free child execution. Prove this architecture while using a restricted local file entry point. Milestone F proved that boundary at checkpoint b7d56df. Milestone G now serves only three exact GET URLs under `app://encoder/` (index.html, styles.css, renderer.js). The dedicated session rejects every other request; response CSP prevents inline scripts, frames, connections and base/form changes. Native tests verify these controls, denied permission/popups, and renderer navigation cancellation. The independent sequence preserves regression attribution.
 
 Keep pure media/profile validation and telemetry parsing separate from Electron bindings. Keep HTML for structure, CSS for layout, renderer code for interaction, and main services for system work. Comments should explain ownership and the reason for constraints so future programmers can extend the app safely.
 

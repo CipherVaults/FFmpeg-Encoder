@@ -2,7 +2,7 @@
 
 A Windows desktop interface for sequential FFmpeg video encoding. Ahmed originally built this project with ChatGPT through manually transferred code. The September 2026 re-entry preserves that work and develops it into a locally verified portable application.
 
-**Current status:** the unchanged legacy source has a verified backup and local Git baseline. The approved 0.5.0 modernization is in progress; the target features below are not yet release claims. See [Current State](0-%20Documentation/01_Current_State.md) for the authoritative milestone status and evidence.
+**Current status:** preservation, independent runtime upgrades, main-owned encoding architecture and local protocol hardening are verified. The approved 0.5.0 modernization remains in progress: product acceptance and portable packaging are unfinished. See [Current State](0-%20Documentation/01_Current_State.md) for the authoritative milestone status and evidence.
 
 ## Target 0.5.0 workflow
 
@@ -12,7 +12,7 @@ The intended distributable is an extracted Windows ZIP folder with the applicati
 
 ## Development starting point
 
-The existing source entry points are `main.js`, `renderer.js`, and `index.html`. `package.json` currently describes the legacy Electron development launch (`npm start`). Its original `1.0.0` value was scaffold metadata; the historical development sequence is 0.1–0.4, followed by the planned 0.5.x re-entry milestone. Do not interpret an installed dependency, existing media file, or old documentation claim as proof that the new acceptance checks passed.
+The source entry points are `main.js`, `preload.js`, services under `src/`, and separate HTML/CSS/renderer files under `ui/`. Run development with `npm start`, contract tests with `npm test`, and native app/lifecycle/protocol checks with the corresponding `test:*` scripts. Its original `1.0.0` value was scaffold metadata; the historical development sequence is 0.1–0.4, followed by the planned 0.5.x re-entry milestone. Do not interpret an installed dependency, existing media file, or old documentation claim as proof that the new acceptance checks passed.
 
 The preserved baseline is commit `c30d335a62f6296d0c61ef25ad5fba10eb3c8438`, tagged `baseline-2026-09-06`. Development continues on `codex/reentry-completion`. There is no approved GitHub upload or public release at this checkpoint.
 

@@ -1,9 +1,13 @@
-const { app, BrowserWindow, dialog, ipcMain, session } = require('electron');
+const { app, BrowserWindow, dialog, ipcMain, session, protocol } = require('electron');
 const fs = require('node:fs');
 const path = require('node:path');
-const { pathToFileURL } = require('node:url');
 const { EncoderService } = require('./src/encoder-service.cjs');
 const { registerIpc } = require('./src/ipc.cjs');
+const { ENTRY_URL, resolveAsset, registerLocalProtocol } = require('./src/local-protocol.cjs');
+
+// Register before readiness. CSP and CORS remain enabled; no service workers or
+// arbitrary file loading are granted to this origin.
+protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { standard: true, secure: true, supportFetchAPI: true, corsEnabled: true } }]);
 
 let window;
 let service;
@@ -30,15 +34,13 @@ async function createWindow() {
   app.setPath('userData', stateDir);
   service = new EncoderService({ ffmpeg: path.join(binaryRoot, 'ffmpeg.exe'), ffprobe: path.join(binaryRoot, 'ffprobe.exe'), stateDir });
   const uiRoot = path.join(root, 'ui');
-  const entryUrl = pathToFileURL(path.join(uiRoot, 'index.html')).href;
-  const allowedResources = new Set(['index.html', 'styles.css', 'renderer.js'].map(name => pathToFileURL(path.join(uiRoot, name)).href));
+  const entryUrl = ENTRY_URL;
   const appSession = session.fromPartition('encoder-local');
   appSession.setPermissionRequestHandler((_contents, _permission, callback) => callback(false));
   appSession.setPermissionCheckHandler(() => false);
   appSession.on('will-download', event => event.preventDefault());
-  // The initial isolated architecture loads just these local assets. A custom
-  // app protocol follows as a separate, independently tested hardening milestone.
-  appSession.webRequest.onBeforeRequest((details, callback) => callback({ cancel: !allowedResources.has(details.url) }));
+  registerLocalProtocol(appSession.protocol, uiRoot);
+  appSession.webRequest.onBeforeRequest((details, callback) => callback({ cancel: !resolveAsset(details.url, details.method) }));
   window = new BrowserWindow({
     width: 1100, height: 800, minWidth: 640, minHeight: 480,
     backgroundColor: '#0f1115', title: 'FFmpeg Encoder', autoHideMenuBar: true,
@@ -85,7 +87,7 @@ async function createWindow() {
     removeHandlers();
     service.cancelCurrent().finally(() => { exitAllowed = true; app.quit(); });
   });
-  await window.loadFile(path.join(uiRoot, 'index.html'));
+  await window.loadURL(entryUrl);
 }
 
 app.on('before-quit', event => {

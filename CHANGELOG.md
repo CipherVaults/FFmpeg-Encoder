@@ -12,11 +12,15 @@ The manifest now uses development version `0.5.0-dev.1`; the local acceptance mi
 - Unchanged application source checkpointed as `c30d335`, tag `baseline-2026-09-06`.
 - Historical documentation archived without rewriting its original wording; new current-state and execution records distinguish verified implementation from plans.
 
-### Approved, pending implementation and verification
+### Implemented and verified through milestone G
 
 - Independently checkpointed Electron and matching FFmpeg/ffprobe upgrades.
 - Isolated renderer, narrow preload API, validated IPC, main-owned queue/lifecycle, and custom local application protocol hardening.
-- Validated CPU/NVIDIA SDR profiles, stream preservation, protected outputs, structured telemetry, batch preview/results, and responsive UI separation.
+- Main-owned output protection and structured telemetry, with real lifecycle/cancellation and security regression evidence.
+
+### Remaining acceptance
+
+- Complete the CPU/NVIDIA SDR, preservation, settings, preview/results and responsive UI evidence matrix.
 - Portable Windows ZIP, controlled real encodes, security/lifecycle regression tests, and synchronized documentation.
 
 ## 0.4 — Real Telemetry Integration (historical)

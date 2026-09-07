@@ -1,12 +1,12 @@
 # Security and testing
 
-This document defines the approved properties and acceptance evidence. At documentation bootstrap the implementation is still the legacy source. A requirement in this file is not a passing test result; link actual outcomes from the execution index.
+This document defines the approved properties and acceptance evidence. Milestones F/G implement and verify the process/renderer/protocol boundaries. A requirement in this file is not automatically a passing test result; link actual outcomes from the execution index.
 
 ## Trust boundaries
 
 Local media filenames and media metadata are untrusted input. The renderer has less authority than main even though the UI is local. Main validates both the requesting frame and each payload; preload offers only named application methods. Paths, encoder parameters, plan identities, and process state remain under main control. Native folder selection is the authority for folder access, not an arbitrary string sent by the renderer.
 
-Remove renderer Node integration, enable context isolation and sandboxing, prevent unexpected navigation/popups/permission access, constrain the loaded content, and avoid remote content. The custom app protocol is a separate hardening milestone after basic IPC/process architecture is proven. Its allowlist must prevent arbitrary file reads, encoded traversal, and unexpected resource schemes. Use a CSP appropriate to the actual local assets.
+Remove renderer Node integration, enable context isolation and sandboxing, prevent unexpected navigation/popups/permission access, constrain the loaded content, and avoid remote content. The custom app protocol was verified as separate milestone G after basic IPC/process architecture checkpoint b7d56df. Native evidence is `artifacts/protocol-smoke-1788789338099/report.json`; the full 89-test suite and app flow also pass. Its allowlist must prevent arbitrary file reads, encoded traversal, and unexpected resource schemes. Use a CSP appropriate to the actual local assets.
 
 Fixed executables and shell-free argv prevent renderer-controlled command construction. Validate paths and local input protocol behavior before invoking FFmpeg/ffprobe. Bound probe output/time and telemetry buffers so malformed input cannot grow unbounded memory. Do not expose raw arbitrary process execution as an API. Dependencies and binaries need version, source URL, hash, and license provenance. Security claims must match actual verification.
 

@@ -4,7 +4,7 @@ Status at creation: these are approved target contracts, except the explicitly d
 
 ## Current process boundary
 
-Milestone F implements the named preload API and main-owned service in src/. The renderer under ui/ has no Node access. Main validates sender/top-level frame, settings and opaque folder/plan/file identities, then runs fixed binaries with shell disabled and a local demuxer/protocol allowlist. It validates outputs before exclusive publication and awaits child close/cleanup before restart. The Process Architecture report links tests and limits. Custom app protocol is the next checkpoint.
+Milestone F implements the named preload API and main-owned service in src/. The renderer under ui/ has no Node access. Main validates sender/top-level frame, settings and opaque folder/plan/file identities, then runs fixed binaries with shell disabled and a local demuxer/protocol allowlist. It validates outputs before exclusive publication and awaits child close/cleanup before restart. The Process Architecture report links tests and limits. Milestone G now serves exactly index.html, styles.css and renderer.js under app://encoder with a dedicated session allowlist and restrictive response CSP. Native traversal/resource/navigation/permission checks pass; see the Local Protocol execution report.
 
 ## Legacy command and migration
 

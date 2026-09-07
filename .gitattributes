@@ -1,0 +1,3 @@
+# Historical evidence and publisher notices must survive checkout byte-for-byte.
+"0- Documentation/Archive/**" -text
+resources/third-party/** -text

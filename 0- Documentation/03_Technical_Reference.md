@@ -6,7 +6,7 @@ Status at creation: these are approved target contracts, except the explicitly d
 
 The old main process hardcodes `libx265`, preset `slow`, CRF `25`, tag `hvc1`, x265 parameters `aq-mode=3:psy-rd=2`, and audio copy. It accepts input/output paths from the renderer and uses a working-directory-relative FFmpeg path. The UI constructs settings that do not reach this command. Preserve that behavior for baseline testing, then replace it with validated main-owned profile construction.
 
-The old manifest specifies Electron `^41.0.2`. Initial planning candidates were Electron `44.2.0`, Electron Forge `7.11.2`, Playwright `1.63.0`, and a matching FFmpeg/ffprobe `9.0.1` pair. These are planning selections, not installed or verified facts in this document. Recheck exact availability, provenance, compatibility, and packaged binary versions before adopting them. Use portable/project-local tools; do not make a machine-global installation merely for this project.
+The old manifest specified Electron `^41.0.2`. Electron `44.2.0`, Playwright `1.63.0`, and matching FFmpeg/ffprobe `9.0.1` are now installed and verified independently; see the runtime execution report and binary manifest. Electron's executable is provisioned by the project's postinstall hook. Forge `7.11.2` remains a packaging candidate, not yet installed. Use project-local tools; no machine-global installation is authorized by this requirement.
 
 ## Encoder profiles and provisional defaults
 

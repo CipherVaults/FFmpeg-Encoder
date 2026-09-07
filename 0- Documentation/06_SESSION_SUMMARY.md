@@ -2,6 +2,14 @@
 
 New entries appear above the preserved historical section. This cumulative record explains decisions and re-entry context; the execution index links literal actions and verification evidence.
 
+## September 7, 2026 — Runtime checkpoints and unattended continuation
+
+The parent verified and checkpointed Electron 44.2.0 independently (`0dd8542`), then matching FFmpeg/ffprobe 9.0.1 (`9c25694`). Both retained and passed the old native successful-flow test. Twelve standalone short encoder combinations passed at eight/ten-bit SDR. The runtime report records two diagnosed setup failures and their corrections. These results do not yet accept the new architecture or packaged product.
+
+Usage interruptions left partially written architecture modules and UI files. They are retained for completion, not treated as completed features. Ahmed requested recurring continuation in this same task and a parent synchronization pass at every completed milestone. Automation `resume-ffmpeg-encoder-after-reset` now recurs every five hours, initially anchored September 7 at 16:42 Cairo, after the observed 16:38:55 reset. Each wake checks live usage/goal state, adjusts cadence if needed, reads only sufficient current context, respects approval gates, and resumes the exact unfinished action. It disables itself on verified completion and never spends reset credits.
+
+The parent reconciled runtime status across Current State, Roadmap, acceptance gates, Execution Index and Technical Reference. `10_Continuation_State.md` owns the immediate pause point. Future updates must remain proportional rather than repeatedly rewriting sound history.
+
 ## September 6–7, 2026 — Grand re-entry, amended autonomy grant, preservation, and baseline
 
 ### Purpose and continuity

@@ -28,6 +28,8 @@ Read `0- Documentation/01_Current_State.md`, the newest entry in `06_SESSION_SUM
 
 ## Evidence and documentation
 
+At every completed milestone, the parent performs a synchronization pass across Current State, Roadmap, acceptance gates, Execution Index, Session Summary, and relevant technical documentation against actual Git and test evidence. Parallel-agent output is not a completed milestone until this reconciliation passes. Keep changes proportional; do not rewrite already-correct documentation. Resume the exact unfinished action from `0- Documentation/10_Continuation_State.md` when present, verifying live state first.
+
 Record what was tested, the command/tool, result, artifact/checkpoint, and limits of the evidence. A mock is not proof of a native dialog or a real encode. A same-machine portable run is not a clean-machine test.
 
 Update Current State, Architecture, Roadmap, Technical Reference, README, and CHANGELOG when behavior changes. Prepend meaningful sessions to the cumulative Session Summary; preserve earlier entries. Create one dated Execution Summary per milestone under `0- Documentation/Execution Summaries`, with an index link, concrete evidence, failures/recovery, and next step. Group routine retries into that report. Add corrections to a completed report transparently.

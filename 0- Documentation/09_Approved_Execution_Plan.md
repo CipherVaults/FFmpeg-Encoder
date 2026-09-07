@@ -56,10 +56,10 @@ Initial toolchain candidates are Electron 44.2.0, matching FFmpeg/ffprobe 9.0.1,
 - [x] Original preserved; all 974 files and 690,310,811 bytes matched source → backup → working copy by SHA-256 at the preservation checkpoint.
 - [x] Unchanged-source baseline commit/tag exists and is recoverable.
 - [x] Real legacy Electron 41.0.2 successful flow completed two controlled H.265 CPU encodes and full output decode; native OS picker was substituted and remains outside that evidence.
-- [x] Twelve legacy characterization cases passed: seven known defects and five positive behaviors. TAP is preserved at `artifacts/legacy-baseline/1788732750752/unit-results.txt`; harness checkpoint7b7b5c8. A passing defect characterization proves the defect is present, not fixed.
-- [ ] Active project docs, exact historical archive, manifest version, and local Git checkpoint synchronized.
-- [ ] Independent Electron upgrade and regression evidence checkpointed.
-- [ ] Independent matching FFmpeg/ffprobe upgrade, exact provenance/hashes/notices, and regression evidence checkpointed.
+- [x] Twelve legacy characterization cases passed: seven known defects and five positive behaviors. TAP is preserved at `artifacts/legacy-baseline/1788732750752/unit-results.txt`; harness checkpoint 7b7b5c8. A passing defect characterization proves the defect is present, not fixed.
+- [x] Active project docs, exact historical archive, manifest version, and local Git checkpoint synchronized through 14c874f/53ce087 and the parent runtime synchronization pass.
+- [x] Independent Electron 44.2.0 upgrade and native baseline regression evidence checkpointed at `0dd8542`, with original FFmpeg retained; see Runtime Upgrades execution report.
+- [x] Independent matching FFmpeg/ffprobe upgrade, exact provenance/hashes/notices, and regression evidence checkpointed at 9c25694; runtime execution report records evidence and limits.
 - [ ] Narrow API, sender/payload validation, renderer isolation/sandbox, and main-owned architecture are implemented and tested.
 - [ ] Custom local protocol, CSP, navigation/permission restrictions, asset allowlist, and traversal tests pass after architecture validation.
 - [ ] All six profile capabilities and actual supported combinations are tested by short real encodes; adopted defaults and hardware limitations are documented.

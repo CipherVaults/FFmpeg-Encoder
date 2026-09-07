@@ -4,7 +4,7 @@ Updated for the documentation bootstrap on September 6–7, 2026. This is a chec
 
 ## Current milestone
 
-Preservation, unchanged-source Git baseline, legacy behavior characterization, and the native successful-flow smoke are complete. Documentation bootstrap is prepared. Independent runtime upgrades are the next active engineering work; architecture changes, encoder validation, portable packaging, and final acceptance remain pending. Consult the runtime execution report for in-flight upgrade state.
+Milestones A–E are verified: preservation, baseline, context/versioning, Electron 44.2.0 (`0dd8542`), and matching FFmpeg/ffprobe 9.0.1 (`9c25694`). Documentation/history are checkpointed in `14c874f` and exact archive checkout behavior in `53ce087`. Both independent runtime upgrades passed the unchanged native successful-flow smoke. Twelve short encoder cases passed (six profiles, each eight/ten-bit SDR), including probing and full decoding. See [runtime evidence](Execution%20Summaries/2026-09-07_Runtime_Upgrades.md). The active architecture refactor is partially written and not integrated or accepted; the runnable root entry point remains the legacy app. Next action is integration/testing, detailed in [Continuation State](10_Continuation_State.md). Portable packaging and final acceptance remain pending.
 
 ## Verified locations and checkpoint
 
@@ -29,7 +29,7 @@ Those findings invalidate historical claims of a fully stable or hardened pipeli
 
 ## Approved direction and next action
 
-Continue the [amended plan](09_Approved_Execution_Plan.md). Checkpoint documentation/version normalization, then verify the Electron upgrade independently, upgrade the matching FFmpeg/ffprobe pair independently, and refactor the process architecture. Keep evidence and docs current at each boundary.
+Continue milestone F of the [amended plan](09_Approved_Execution_Plan.md): complete and integrate the main-owned service and isolated preload/UI, then test its lifecycle and boundary before adding the custom protocol. Do not repeat completed baseline/runtime audits unless new evidence requires it.
 
 `1.0.0` in the old manifest is scaffold metadata. The approved sequence is `0.5.0-dev.1` during development and `0.5.0` after local milestone acceptance; changing the version alone does not prove a release.
 
@@ -37,4 +37,4 @@ Continue the [amended plan](09_Approved_Execution_Plan.md). Checkpoint documenta
 
 Local execution is authorized. GitHub creation/upload awaits exact account, repository, and upload inventory review. Public release, credentials, machine-global changes, destructive history operations, unrelated files, and major direction changes remain separate boundaries. These gates do not block ordinary project-local engineering progress.
 
-The successful old-runtime native smoke is verified within its stated coverage. No newer-runtime acceptance, clean-machine test, offline portable ZIP run, or new-profile capability acceptance is claimed by this checkpoint. Record real outcomes in the execution index as they become available.
+The old-runtime and both independent upgrade smoke checks are verified within their stated coverage. The twelve standalone encoder cases prove local argument/format/device operation, not the unfinished application's preservation/lifecycle contract or perceptual quality. Native picker interaction, clean-machine testing, and the offline portable ZIP remain unverified.

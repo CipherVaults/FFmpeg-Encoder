@@ -16,7 +16,11 @@ Recovery: the first launch failed because the Electron 44 npm package no longer 
 
 ## FFmpeg and ffprobe upgrade
 
-Pending activation. Gyan's matching 9.0.1 full build is staged and publisher SHA-256 verified. The original FFmpeg remains active until Electron validation completes. The provisioning manifest records source/license provenance; full source redistribution compliance remains a separate public-release requirement.
+Gyan's matching 9.0.1 full build is now activated after Electron checkpoint `0dd8542`. Publisher SHA-256, GitHub asset digest, archive integrity, binary hashes and version commands match. `resources/binary-manifest.json` and `scripts/provision-ffmpeg.ps1` make the installation reproducible, with unchanged license/readme notices. Full source redistribution compliance remains a separate external-release requirement.
+
+The unchanged app passes the same native smoke with the new pair: `artifacts/ffmpeg-upgrade/1788750954779/report.json`. All twelve candidate encoder combinations (six CPU/NVIDIA profiles, each eight- and ten-bit SDR) pass real short encoding, probing and decoding: `artifacts/encoder-validation-2026-09-07T03-16-28-554Z-685a17/report.json`. This includes NVIDIA H.264 High10 on the current machine. These results establish working arguments and local capability, not quality-number equivalence, universal driver support, or preservation through the new application architecture.
+
+The first synthetic encoder matrix failed before encoder initialization because strict pixel-format negotiation exposed missing BT.709 metadata on the generated input. The fixture was explicitly tagged; strict format checks were retained and all cases rerun. This was test-fixture correction, not a reason to weaken production color/pixel preservation.
 
 ## Next checkpoint
 

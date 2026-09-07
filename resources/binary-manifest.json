@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "release": "9.0.1",
+  "platform": "win32-x64",
+  "variant": "Gyan release full static",
+  "version": "9.0.1-full_build-www.gyan.dev",
+  "publisherPage": "https://www.gyan.dev/ffmpeg/builds/",
+  "releasePage": "https://github.com/GyanD/codexffmpeg/releases/tag/9.0.1",
+  "releasePublishedAtUtc": "2026-08-12T11:06:14Z",
+  "provenanceVerifiedAtUtc": "2026-09-06T22:14:55.1133726Z",
+  "archive": {
+    "fileName": "ffmpeg-9.0.1-full_build.7z",
+    "rootDirectory": "ffmpeg-9.0.1-full_build",
+    "url": "https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-9.0.1-full_build.7z",
+    "mirrorUrl": "https://github.com/GyanD/codexffmpeg/releases/download/9.0.1/ffmpeg-9.0.1-full_build.7z",
+    "checksumUrl": "https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-9.0.1-full_build.7z.sha256",
+    "sha256": "4b9c814cb07a1f90d05b768ef4eb2abbf89af94bbb924df5b7dbd6e64e1e2b96",
+    "sizeBytes": 165742351
+  },
+  "binaries": [
+    {
+      "name": "ffmpeg.exe",
+      "archivePath": "bin/ffmpeg.exe",
+      "runtimePath": "ffmpeg/ffmpeg.exe",
+      "sizeBytes": 222229504,
+      "sha256": "57c56e369d5b4873b4d93fc1a1d833cb7cd8bc9325c14b05c34ce60b22842d8a",
+      "version": "9.0.1-full_build-www.gyan.dev",
+      "knownPreviousSha256": [
+        "7d4b7be4498d2677daf2888cb15a62ed14dd8779fee2410ede9b6885a58d578b"
+      ]
+    },
+    {
+      "name": "ffprobe.exe",
+      "archivePath": "bin/ffprobe.exe",
+      "runtimePath": "ffmpeg/ffprobe.exe",
+      "sizeBytes": 222026240,
+      "sha256": "afe05347caaabe479b3c4eae71992b6ec1e11c57266a1d665deb0f9fe9847208",
+      "version": "9.0.1-full_build-www.gyan.dev",
+      "knownPreviousSha256": []
+    }
+  ],
+  "notices": [
+    {
+      "archivePath": "LICENSE",
+      "repositoryPath": "resources/third-party/FFmpeg-LICENSE.txt",
+      "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+    },
+    {
+      "archivePath": "README.txt",
+      "repositoryPath": "resources/third-party/FFmpeg-README.txt",
+      "sha256": "9d734beeeafa8b187693880ceb2cd5f0cf436151da72cce31fb1afa1d3726b25"
+    }
+  ],
+  "externalEncoderLibraryVersions": {
+    "libx264": "v0.165.3223",
+    "libx265": "4.3-6-g9ddc216",
+    "libsvtav1": "v4.2.0-72-gae2658e53",
+    "ffnvcodec": "n13.1.15.0-1-geddcea9"
+  },
+  "license": {
+    "identifier": "GPL-3.0-or-later",
+    "evidence": "Bundled ffmpeg -L states GNU GPL version 3 or later; configuration enables gpl and version3. The unchanged publisher README labels the build GPL v3.",
+    "upstreamLegalPage": "https://ffmpeg.org/legal.html",
+    "sourceCommit": "bf1b838f2ab88b4f8fd83443325c782ea0e0f7fa",
+    "sourceUrl": "https://github.com/FFmpeg/FFmpeg/commit/bf1b838f2ab88b4f8fd83443325c782ea0e0f7fa",
+    "upstreamSourceArchiveUrl": "https://github.com/FFmpeg/FFmpeg/archive/bf1b838f2ab88b4f8fd83443325c782ea0e0f7fa.tar.gz",
+    "sourceArchiveScope": "Upstream FFmpeg source only; does not contain every external library, build recipe or complete corresponding source of this full static binary.",
+    "publisherDependencyVersionsPath": "resources/third-party/FFmpeg-README.txt",
+    "distributionStatus": "Local development and local portable milestone only. This provenance record is not a complete corresponding-source distribution or a written source offer. External distribution and public release retain their separate review gate."
+  },
+  "validation": {
+    "publisherChecksumMatched": true,
+    "githubAssetDigestMatched": true,
+    "sevenZipIntegrityPassed": true,
+    "ffmpegVersionCommandPassed": true,
+    "ffprobeVersionCommandPassed": true,
+    "compiledEncoders": [
+      "libx264",
+      "libx265",
+      "libsvtav1",
+      "h264_nvenc",
+      "hevc_nvenc",
+      "av1_nvenc"
+    ],
+    "compiledSupportLimit": "Compiled encoder/help availability does not establish local GPU/driver initialization, bit-depth support, working real encodes or accepted quality defaults."
+  }
+}

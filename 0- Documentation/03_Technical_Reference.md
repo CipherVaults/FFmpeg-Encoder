@@ -1,6 +1,6 @@
 # Technical reference
 
-Current through milestone H. The process/media/UI contracts below are implemented and verified within the linked execution evidence; legacy commands are historical. Portable packaging is the next milestone.
+Current through local milestone I / 0.5.0. The process/media/UI and portable contracts are implemented and verified within the execution evidence; legacy commands are historical.
 
 ## Current process boundary
 
@@ -10,7 +10,7 @@ Milestone F implements the named preload API and main-owned service in src/. The
 
 The old main process hardcodes `libx265`, preset `slow`, CRF `25`, tag `hvc1`, x265 parameters `aq-mode=3:psy-rd=2`, and audio copy. It accepts input/output paths from the renderer and uses a working-directory-relative FFmpeg path. The UI constructs settings that do not reach this command. Preserve that behavior for baseline testing, then replace it with validated main-owned profile construction.
 
-The old manifest specified Electron `^41.0.2`. Electron `44.2.0`, Playwright `1.63.0`, and matching FFmpeg/ffprobe `9.0.1` are now installed and verified independently; see the runtime execution report and binary manifest. Electron's executable is provisioned by the project's postinstall hook. Forge `7.11.2` remains a packaging candidate, not yet installed. Use project-local tools; no machine-global installation is authorized by this requirement.
+The old manifest specified Electron `^41.0.2`. Electron `44.2.0`, Playwright `1.63.0`, and matching FFmpeg/ffprobe `9.0.1` are now installed and verified independently; see the runtime execution report and binary manifest. Electron's executable is provisioned by the project's postinstall hook. Packaging uses direct `@electron/packager` 20.3.0 and the existing 7-Zip installation. Forge 7.11.2 was rejected after dependency advisories and incompatible modern Packager hooks; the replacement reports zero npm audit vulnerabilities at the I checkpoint. Use project-local tools; no machine-global installation is authorized by this requirement.
 
 ## Encoder profiles and adopted defaults
 
@@ -64,3 +64,13 @@ File-specific problems produce a failed/skipped result and allow the next eligib
 Use FFmpeg `-progress pipe:1` for machine-readable progress. Buffer partial chunks until complete lines/records; normalize progress in main. Use probed duration for determinate percentage/ETA when meaningful. Unknown duration remains indeterminate. Display elapsed time, encoded time, FPS, speed, and readable byte units; avoid stale numbers crossing job boundaries. Neither `progress=end` nor a 100% display is proof of success: process completion, output validation, and publication decide the final result.
 
 The renderer subscribes through preload and receives an unsubscribe function. Snapshot/update events carry job/batch identity so rendering cannot mix old and current state. User controls remain responsive during probing and encoding. Results allow a new batch after the lifecycle settles.
+
+## Portable build and operation
+
+Use the verified Node 24 development environment, npm ci, and the pinned FFmpeg provisioning manifest. On a fresh checkout, scripts/provision-ffmpeg.ps1 requires PowerShell 7 and existing 7-Zip; its default verifies/stages the pinned pair, and -Activate places the verified pair under ffmpeg/. npm run make:portable builds into a fresh out/portable-* directory using packaging.config.cjs. npm run test:portable -- "<build-report.json>" verifies that exact artifact. Only a passing native report accepts the build; build success alone is insufficient.
+
+The packaged executable needs no global Node or FFmpeg. Extract the entire ZIP into a writable folder. Both Electron userData and sessionData point to adjacent data before readiness, including GPU/network/renderer children. Packaged binaries are under process.resourcesPath/ffmpeg. Terminal batch snapshots are written under data/logs with unique batch IDs; logs may include local filenames and have no automatic retention policy. Keep them local unless deliberately reviewed for sharing.
+
+The I test uses an isolated Unicode/spaced extraction, alternate cwd, PATH limited to Windows System32, and verified unreachable-proxy network isolation. A separate control session proves online success followed by ERR_PROXY_CONNECTION_FAILED, while the production session resolves the same proxy and retains its request allowlist. Nominal offline-emulation flags and navigator.onLine were not reliable evidence in this runtime; the report preserves those failed checks. This does not claim physical disconnection, arbitrary main-process socket confinement, or clean-machine compatibility.
+
+Normal cancellation/close cleans owned incomplete work. An abrupt OS crash or power loss can leave owned temporary directories; no broad automatic sweep deletes unknown files. Exclusive-copy publication on filesystems without hard links prevents overwrite but can expose a partially copied destination to other readers before copying finishes. Do not remove the drive while work or cleanup is active. These limits do not affect the tested NTFS local workflow.

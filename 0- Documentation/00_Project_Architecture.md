@@ -1,6 +1,6 @@
 # Project architecture
 
-Updated through milestone H, September 8, 2026. Main-owned service, preload boundary, sandboxed UI and allowlisted local protocol are implemented and verified. Product behavior is verified by the H requirement map. Portable packaging remains pending.
+Updated through milestone I, September 8, 2026. Main-owned service, preload boundary, sandboxed UI, allowlisted protocol and product behavior are verified. The local 0.5.0 portable artifact passes the I requirement map.
 
 ## Identity and purpose
 
@@ -55,3 +55,9 @@ Keep pure media/profile validation and telemetry parsing separate from Electron 
 ## Project memory
 
 Current State records what exists now. Roadmap records milestone progress. Technical Reference owns media/IPC behavior. Security and Testing records required properties and evidence. Session Summary records decisions and continuity. Dated Execution Summaries record actual actions, checks, and checkpoints. The Archive preserves the historical record; canonical PBS remains external.
+
+## Portable runtime layout
+
+The Windows x64 ZIP contains a branded Electron executable, its runtime assets, an exact application ASAR and resources/ffmpeg/ffmpeg.exe plus ffprobe.exe. Binary provenance, portable instructions and third-party notices accompany it. No development packages or prior data are included. Main configures both userData and sessionData before readiness and the single-instance lock: packaged data lives beside the executable, while development defaults to the repository data directory. An explicit --user-data-dir remains supported. Paths never depend on the working directory or a global FFmpeg installation.
+
+The direct pinned Packager builder and existing 7-Zip produce fresh, independently verified artifacts. The portable test launches the actual extracted executable and records hashes, runtime/process paths, network restrictions and workflow results; see the I report for its same-machine scope.

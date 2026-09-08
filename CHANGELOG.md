@@ -2,9 +2,9 @@
 
 This project continues its historical development sequence. Versions 0.1–0.4 below are historical milestone labels, not newly verified releases. The old `package.json` value `1.0.0` was npm scaffold metadata and does not establish a prior 1.0 release. The first genuinely accepted standalone release may become 1.0.0 later.
 
-## 0.5.x re-entry — in progress
+## 0.5.0 — Local portable acceptance, September 8, 2026
 
-The manifest now uses development version `0.5.0-dev.1`; the local acceptance milestone is `0.5.0`. Neither is marked released by this documentation checkpoint.
+The manifest is `0.5.0`, accepted as the approved local Windows x64 milestone. The package is unsigned; public release and clean-machine compatibility remain separate work.
 
 ### Preserved
 
@@ -12,7 +12,7 @@ The manifest now uses development version `0.5.0-dev.1`; the local acceptance mi
 - Unchanged application source checkpointed as `c30d335`, tag `baseline-2026-09-06`.
 - Historical documentation archived without rewriting its original wording; new current-state and execution records distinguish verified implementation from plans.
 
-### Implemented and verified through milestone H
+### Implemented and verified
 
 - Independently checkpointed Electron and matching FFmpeg/ffprobe upgrades.
 - Isolated renderer, narrow preload API, validated IPC, main-owned queue/lifecycle, and custom local application protocol hardening.
@@ -21,9 +21,12 @@ The manifest now uses development version `0.5.0-dev.1`; the local acceptance mi
 - Six CPU/NVIDIA profiles with real 8/10-bit application outputs, preservation/color/mixed-batch evidence, actual settings/argv verification and 25 layout checks. Native Windows folder selection verified.
 - Exact runtime evidence corrected AV1 CPU to CRF1–63/presets0–9 and restricted advertised depths to 8/10. Defaults adopted without claiming cross-encoder quality equivalence.
 
-### Remaining acceptance
+### Portable milestone I
 
-- Portable Windows ZIP, controlled real encodes, security/lifecycle regression tests, and synchronized documentation.
+- Added a pinned direct Packager build, exact application/resource/notice inventories, fresh portable ZIP and hash reports. Removed the unsuitable Forge candidate and its vulnerable dependency chain.
+- Configure application and session data before Electron readiness so portable GPU/network/renderer processes use adjacent data.
+- Verified the extracted 0.5.0 executable under a Unicode/spaced path, alternate working directory, restricted PATH and confirmed proxy transport denial; real encode, skip, cancel, subsequent batch, output protection and shutdown pass.
+- Final 89/89 contract checks, independent acceptance review, synchronized project documentation and local-v0.5.0 checkpoint. See the Portable Acceptance report for exact artifact hashes and limits.
 
 ## 0.4 — Real Telemetry Integration (historical)
 

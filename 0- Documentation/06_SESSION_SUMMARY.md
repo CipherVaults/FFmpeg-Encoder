@@ -2,6 +2,14 @@
 
 New entries appear above the preserved historical section. This cumulative record explains decisions and re-entry context; the execution index links literal actions and verification evidence.
 
+## September 8, 2026 — Local portable 0.5.0 endpoint verified
+
+The recurring heartbeat resumed the same unfinished I work after another usage window without restarting H. Direct Packager 20.3.0 replaced the unsuitable Forge candidate, leaving zero reported npm dependency vulnerabilities. The extracted package exposed a real early-data-path issue: main now selects userData and sessionData before Electron readiness. Exact bundled resources and every observed Electron child now use the portable location.
+
+The actual 0.5.0 ZIP passed isolated Unicode-path extraction, alternate cwd, restricted PATH, verified unreachable-proxy network isolation, real encode/skip/cancel/subsequent-batch, protected hashes and exact process shutdown. Nominal offline APIs did not establish the intended condition in this runtime, so acceptance uses an online-success/transport-denial control and documents that limit. All 89 unit checks pass; the independent reviewer matched all 14 current source hashes and accepted the I runtime evidence. The parent synchronized affected documents and acceptance gates for local-v0.5.0. The formal Portable Acceptance report and compact artifact record replace the temporary continuation note.
+
+The accepted ZIP is 321,189,914 bytes, SHA256 a984e102f1cf404239690e709f585d33028f851bc3e66d914e41f43d334a517f. Local 0.5.0 is complete; recurring continuation ends at goal closure. No reset credit was redeemed. The original/backup remain intact; GitHub, public release, clean-machine acceptance and later 1.0.0 remain separate work.
+
 ## September 8, 2026 — Product acceptance recovered and verified
 
 After a quota interruption and Ahmed's manual reset, the parent recovered uncommitted H changes and actual test artifacts rather than restarting completed work. All six profiles pass through the real UI and main argv boundary with eight/ten-bit media. Rich streams/chapters/attachments, BT2020 SDR, HDR/unsupported rejection, duplicate selection, mixed counts, subsequent skips and source/output hashes pass. Real native folder selection is verified;25 layout captures cover setup/preview/monitor/results with explicit emulation and synthetic-monitor limits. The110 accepted option cases revealed SVT CRF0 means35 and presets12/13 alias11; presets10+ warn of automation artifacts. The accepted AV1 CPU range is now1–63/presets0–9, default6/32 unchanged. Parent synchronization and the H requirement map anchor the completed work; I portable packaging follows. The same recurring automation was realigned to the new live reset (next07:35 Cairo), without redeeming credits automatically.

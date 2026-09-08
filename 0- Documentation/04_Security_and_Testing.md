@@ -1,6 +1,6 @@
 # Security and testing
 
-This document defines the approved properties and acceptance evidence. Milestones F/G implement and verify the process/renderer/protocol boundaries. H closes product requirements through89 automated checks,110 accepted option cases, real application encodes/preservation/native folder selection and25 layout scenarios; its Product Acceptance report maps each requirement to evidence and limits. A requirement in this file is not automatically a passing test result; link actual outcomes from the execution index.
+This document defines the approved properties and acceptance evidence. Milestones F/G implement and verify the process/renderer/protocol boundaries. H closes product requirements through 89 automated checks, 110 accepted option cases, real application encodes/preservation/native folder selection and 25 layout scenarios; its Product Acceptance report maps each requirement to evidence and limits. A requirement in this file is not automatically a passing test result; link actual outcomes from the execution index.
 
 ## Trust boundaries
 
@@ -40,3 +40,9 @@ At each milestone, record command, relevant fixture, result, limit, and code che
 ## Release boundary
 
 Local packaging does not authorize public release. Resolve exact bundled third-party notices and source/provenance requirements locally; review licensing/signing/distribution requirements before any later public upload. GitHub creation/upload requires the separately approved account, repository, and content inventory. Do not expose raw chat exports, personal media, machine logs, or secrets through an upload.
+
+## Local 0.5.0 acceptance
+
+The I Portable Acceptance report links the exact ZIP/build/native reports and compact tracked hash record. All 89 contract checks pass after the early data-path fix. Exact ASAR/resource inventory, isolated extraction, restricted PATH, verified Chromium proxy transport denial, real encodes/decodes, output skips, cancellation, subsequent batch, protected hashes and exact process exit pass. An independent requirement-to-evidence review passed before the parent synchronized current documents and committed local-v0.5.0.
+
+This accepts local Windows x64 operation on the tested machine. It does not establish a clean-machine run, physical network disconnection, public-distribution readiness or broader device support. Existing H/F/G evidence retains its stated native-dialog, media-sampling and hardware limits; completed suites were not repeated without a relevant implementation change.

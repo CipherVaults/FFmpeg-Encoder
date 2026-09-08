@@ -1,29 +1,51 @@
 # FFmpeg Encoder Desktop App
 
-A Windows desktop interface for sequential FFmpeg video encoding. Ahmed originally built this project with ChatGPT through manually transferred code. The September 2026 re-entry preserves that work and develops it into a locally verified portable application.
+A local Windows desktop batch encoder with H.264, H.265 and AV1 profiles for CPU and supported NVIDIA hardware.
 
-**Current status:** preservation, independent runtime upgrades, main-owned encoding architecture and local protocol hardening are verified. The approved 0.5.0 modernization remains in progress: product behavior is verified through milestone H; portable packaging remains unfinished. See [Current State](0-%20Documentation/01_Current_State.md) for the authoritative milestone status and evidence.
+**0.5.0 is verified as a local Windows x64 portable milestone.** It is an unsigned local package. Independent clean-machine compatibility and public distribution have not been accepted. See the [acceptance report](0-%20Documentation/Execution%20Summaries/2026-09-08_Portable_Acceptance.md) for the exact artifact, checks and limits.
 
-## Target 0.5.0 workflow
+## Run the portable application
 
-Choose input and output folders, select a CPU or NVIDIA H.264/H.265/AV1 profile, review the batch, encode sequentially, and inspect per-file results. Supported SDR video is re-encoded while supported audio, subtitle, attachment, chapter, and metadata content is preserved. Existing outputs are skipped. HDR and ambiguous color cases receive an explicit unsupported reason. Encoding does not continue after the application exits.
+Extract every file from the ZIP into a new writable folder, then open **FFmpeg Encoder.exe**. Keep the extracted executable and resources together. The package includes Electron, FFmpeg and ffprobe; no separate Node.js or FFmpeg installation is required. Compatible hardware and its installed driver are required for NVIDIA profiles. Available encoders and bit depths are checked on startup.
 
-The intended distributable is an extracted Windows ZIP folder with the application and matching FFmpeg/ffprobe binaries. It will not require a separate Node.js or FFmpeg installation. Packaging and offline verification are pending.
+1. Choose separate input and output folders.
+2. Select a profile and quality/preset settings, then review the batch.
+3. Resolve any duplicate output names by selecting one input. Existing destinations are skipped.
+4. Start encoding and review per-file results. Cancel stops active work and the remaining queue; a new batch is available after cleanup finishes.
 
-## Development starting point
+The app scans supported top-level MP4, MKV, MOV, AVI and WebM files. Supported SDR video is re-encoded while supported audio, subtitles, attachments, chapters and metadata are preserved. Additional non-primary video is intentionally omitted. Unsupported preservation cases, detected HDR and ambiguous color evidence receive explicit reasons. Ten-bit video alone is not HDR. Bounded metadata/frame inspection cannot certify untagged or unsampled content.
 
-The source entry points are `main.js`, `preload.js`, services under `src/`, and separate HTML/CSS/renderer files under `ui/`. Run development with `npm start`, contract tests with `npm test`, and native app/lifecycle/protocol checks with the corresponding `test:*` scripts. Its original `1.0.0` value was scaffold metadata; the historical development sequence is 0.1–0.4, followed by the planned 0.5.x re-entry milestone. Do not interpret an installed dependency, existing media file, or old documentation claim as proof that the new acceptance checks passed.
+Output names identify the encoder, such as clip_H265-CPU.mkv. Choose another output folder for a different quality variant; existing files are never replaced or automatically numbered. Equal quality numbers across encoders do not mean equal visual quality.
 
-The preserved baseline is commit `c30d335a62f6296d0c61ef25ad5fba10eb3c8438`, tagged `baseline-2026-09-06`. Development continues on `codex/reentry-completion`. There is no approved GitHub upload or public release at this checkpoint.
+Application/session data and batch logs stay in the adjacent **data** folder. Closing during work offers **Keep application open** or **Cancel encoding and exit**. Encoding does not continue after exit. Keep the drive connected until work and cleanup finish.
 
-## Documentation
+## Development and verification
 
-- [Architecture](0-%20Documentation/00_Project_Architecture.md): verified starting implementation and target responsibilities.
-- [Approved execution plan](0-%20Documentation/09_Approved_Execution_Plan.md): milestone sequence, amendments, and acceptance checklist.
-- [Technical reference](0-%20Documentation/03_Technical_Reference.md): encoding, output, telemetry, and HDR contracts.
-- [Security and testing](0-%20Documentation/04_Security_and_Testing.md): properties, test scenarios, and evidence limits.
-- [Beginner guide](0-%20Documentation/05_How_This_Project_Works.md): how the pieces fit together.
-- [Session history](0-%20Documentation/06_SESSION_SUMMARY.md) and [Execution index](0-%20Documentation/07_Execution_Index.md): decisions and actual work.
-- [PBS context and migration](0-%20Documentation/08_PBS_Context_and_Migration.md): provenance and preserved historical material.
+The verified development environment uses Node 24, Electron 44.2.0, FFmpeg/ffprobe 9.0.1, Playwright 1.63.0 and direct Electron Packager 20.3.0. Install pinned development dependencies with npm ci. On a fresh checkout, use scripts/provision-ffmpeg.ps1 to verify/stage the manifest-pinned media runtime, then its -Activate switch to activate it locally. That script requires PowerShell 7 and an existing 7-Zip installation; nothing is installed globally.
 
-The application manifest historically declares ISC. FFmpeg and bundled third-party components have their own license obligations; that metadata is not a license grant for those binaries. Exact bundled notices and provenance are required before the portable milestone; public distribution receives a separate review.
+| Command | Purpose |
+|---|---|
+| npm start | Run the development app |
+| npm test | Run contract and regression checks |
+| npm run test:product | Real application settings/profile/preservation acceptance |
+| npm run test:lifecycle / test:protocol / test:layout | Focused native lifecycle, security and layout evidence |
+| npm run make:portable | Build and verify a fresh local ZIP under out/portable-* |
+| npm run test:portable -- "<build-report.json>" | Extract and exercise that exact portable artifact |
+
+Native application tests should run serially because the app enforces a single instance per data location. The portable harness controls generated media, uses a restricted PATH and verifies network transport denial through an unreachable proxy. Its same-machine checks do not substitute for clean-machine testing. Build reports preserve file hashes; a successful build alone is not application acceptance.
+
+Source responsibilities are separated into main.js, preload.js, services under src/, and HTML/CSS/renderer code under ui/. The sandboxed renderer uses a narrow validated API; main owns plans, paths, queue, processes and protected output publication.
+
+## Built With Codex
+
+Ahmed originally built this project with ChatGPT by transferring code into Visual Studio Code. The September 2026 re-entry was human-directed AI collaboration: Ahmed defined the product, documentation method, approval boundaries and amended execution plan; ChatGPT's Mother/Development Thread supplied context and reviewed direction; Codex implemented, debugged, tested and documented the approved local work. Historical source and documentation remain preserved.
+
+Versions 0.1–0.4 describe the historical development sequence. The old npm 1.0.0 value was scaffold metadata. The re-entry reaches local 0.5.0; a later accepted standalone release may become 1.0.0. The unchanged-source baseline is tagged baseline-2026-09-06, and the local completion checkpoint is tagged local-v0.5.0.
+
+## Documentation and licenses
+
+- [Current State](0-%20Documentation/01_Current_State.md), [Roadmap](0-%20Documentation/02_Roadmap.md) and [approved plan](0-%20Documentation/09_Approved_Execution_Plan.md).
+- [Architecture](0-%20Documentation/00_Project_Architecture.md), [Technical Reference](0-%20Documentation/03_Technical_Reference.md), [Security and Testing](0-%20Documentation/04_Security_and_Testing.md) and [beginner guide](0-%20Documentation/05_How_This_Project_Works.md).
+- [Execution Index](0-%20Documentation/07_Execution_Index.md), [Session Summary](0-%20Documentation/06_SESSION_SUMMARY.md) and [PBS provenance](0-%20Documentation/08_PBS_Context_and_Migration.md).
+
+The application manifest declares ISC; bundled components have their own licenses. The package includes Electron/Chromium notices, FFmpeg notices and resources/binary-manifest.json. The included FFmpeg full static build is identified as GPL-3.0-or-later. Its notices/provenance are not a complete corresponding-source distribution or written source offer. GitHub upload, external licensing/distribution review, signing and public release remain separate approval boundaries.

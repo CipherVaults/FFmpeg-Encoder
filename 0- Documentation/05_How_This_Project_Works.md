@@ -1,6 +1,6 @@
 # How this project works
 
-This guide explains the project for a reader who did not participate in its development. The architecture and product workflow below are implemented and verified through milestone H. The portable package remains the next step; Current State and the execution reports distinguish completed checks from remaining acceptance.
+This guide explains the project for a reader who did not participate in its development. The architecture, product workflow and portable package are implemented and verified through the local 0.5.0 milestone. Current State and execution reports record the tested scope and remaining future work.
 
 ## The application and its engine
 
@@ -41,3 +41,9 @@ Cancel stops the active operation and prevents the next file from starting. Clos
 ## How to return after a long pause
 
 Read Current State first, then the newest Session Summary. The execution index points to the literal work and test evidence. Architecture explains responsibilities; Technical Reference explains important media/process rules; the approved plan preserves acceptance criteria. Git records the exact file changes at recoverable checkpoints. None of these replaces the others: a green test needs relevant coverage, and a thoughtful document still needs a working implementation.
+
+## Running the portable application
+
+Extract the entire Windows ZIP into a writable folder and open FFmpeg Encoder.exe. Keep all extracted files together. Electron supplies the desktop runtime and the package supplies FFmpeg/ffprobe; a separate Node or FFmpeg installation is unnecessary. Compatible NVIDIA hardware and drivers are still needed for NVIDIA profiles. The application checks availability on startup.
+
+The adjacent data folder holds application/session data and batch logs. Completed videos go to the output folder you choose. Wait for cancellation or encoding to finish before moving the application or removing its drive. The local package was tested on the development computer; that is different from acceptance on an independent clean computer.

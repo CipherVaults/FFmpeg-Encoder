@@ -14,7 +14,7 @@ The March roadmap is preserved in the legacy archive. This active roadmap implem
 | F — Process architecture | Narrow preload, isolated renderer, validated IPC, main-owned plans/queue/lifecycle/output/progress | Complete: 87 checks plus real app/lifecycle smoke; see Process Architecture report and its commit |
 | G — Local protocol | Custom app protocol, asset allowlist, CSP/navigation/traversal verification | Complete: 89 automated checks, native protocol/security checks and real app flow; see Local Protocol report |
 | H — Complete workflow | Validated CPU/NVIDIA SDR profiles, stream preservation, preview/results, responsive UI | Complete: Product Acceptance report maps actual endpoint, profile, preservation, native picker and 25 layout checks |
-| I — Local acceptance | Portable Windows ZIP, real-encode and offline extracted-app verification, synchronized docs, 0.5.0 checkpoint | Pending |
+| I — Local acceptance | Portable Windows ZIP, real-encode and offline extracted-app verification, synchronized docs, 0.5.0 checkpoint | Complete: Portable Acceptance report, exact artifact hashes, independent review and parent synchronization; local-v0.5.0 |
 
 Maintain an independent recoverable commit at every meaningful boundary. Keep runtime changes separable from architecture changes so a failure can be attributed and a checkpoint reverted without losing unrelated work.
 

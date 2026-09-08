@@ -1,6 +1,6 @@
 {
   "name": "ffmpeg-ui",
-  "version": "0.5.0-dev.1",
+  "version": "0.5.0",
   "description": "A local Windows desktop batch encoder with CPU and NVIDIA SDR profiles.",
   "main": "main.js",
   "scripts": {
@@ -12,14 +12,18 @@
     "test:protocol": "node scripts/protocol-smoke.cjs",
     "test:product": "node scripts/product-smoke.cjs",
     "test:layout": "node scripts/layout-smoke.cjs",
-    "test:profiles": "node scripts/validate-profile-options.cjs"
+    "test:profiles": "node scripts/validate-profile-options.cjs",
+    "make:portable": "node scripts/build-portable.cjs",
+    "test:portable": "node scripts/portable-smoke.cjs"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@electron/packager": "20.3.0",
     "electron": "44.2.0",
     "playwright": "1.63.0"
-  }
+  },
+  "productName": "FFmpeg Encoder"
 }

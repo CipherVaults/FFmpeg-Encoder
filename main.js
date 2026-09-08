@@ -13,25 +13,38 @@ let window;
 let service;
 let exitAllowed = false;
 let closePrompt = false;
+let root;
+let stateDir;
 
-// Exactly one app instance owns the queue and its child-process lifecycle.
-if (!app.requestSingleInstanceLock()) app.quit();
-else {
-  app.on('second-instance', () => { if (window && !window.isDestroyed()) { window.restore(); window.focus(); } });
-  app.whenReady().then(createWindow).catch(error => {
-    dialog.showErrorBox('FFmpeg Encoder could not start', error.message);
-    app.exit(1);
-  });
+function startupFailed(error) {
+  dialog.showErrorBox('FFmpeg Encoder could not start', error.message);
+  app.exit(1);
 }
 
-async function createWindow() {
-  const root = app.getAppPath();
-  const binaryRoot = app.isPackaged ? path.join(process.resourcesPath, 'ffmpeg') : path.join(root, 'ffmpeg');
-  const stateDir = app.commandLine.hasSwitch('user-data-dir')
+try {
+  root = app.getAppPath();
+  stateDir = app.commandLine.hasSwitch('user-data-dir')
     ? app.commandLine.getSwitchValue('user-data-dir')
     : path.join(app.isPackaged ? path.dirname(app.getPath('exe')) : root, 'data');
   fs.mkdirSync(stateDir, { recursive: true });
+  // Electron/Chromium can initialize GPU/network state before createWindow.
+  // Configure both paths synchronously before readiness and the instance lock,
+  // so portable copies keep process/session data beside their executable too.
   app.setPath('userData', stateDir);
+  app.setPath('sessionData', stateDir);
+
+  // Exactly one app instance owns the queue and its child-process lifecycle.
+  if (!app.requestSingleInstanceLock()) app.quit();
+  else {
+    app.on('second-instance', () => { if (window && !window.isDestroyed()) { window.restore(); window.focus(); } });
+    app.whenReady().then(createWindow).catch(startupFailed);
+  }
+} catch (error) {
+  startupFailed(error);
+}
+
+async function createWindow() {
+  const binaryRoot = app.isPackaged ? path.join(process.resourcesPath, 'ffmpeg') : path.join(root, 'ffmpeg');
   service = new EncoderService({ ffmpeg: path.join(binaryRoot, 'ffmpeg.exe'), ffprobe: path.join(binaryRoot, 'ffprobe.exe'), stateDir });
   const uiRoot = path.join(root, 'ui');
   const entryUrl = ENTRY_URL;

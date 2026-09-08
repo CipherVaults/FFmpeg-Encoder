@@ -69,8 +69,8 @@ Initial toolchain candidates are Electron 44.2.0, matching FFmpeg/ffprobe 9.0.1,
 - [x] Cancel/restart/close/lost-renderer/spawn-error/stale-callback cases prove no queued restart or orphan child; file-specific/shared errors produce correct counts and recovery. See the Product Acceptance requirement map and its explicit evidence limits.
 - [x] Structured telemetry handles chunk splits and unknown duration; preview/monitor effective settings match commands; new-batch flow works after terminal outcomes. See the Product Acceptance requirement map and its explicit evidence limits.
 - [x] Real UI interaction and responsive layouts cover supported window/DPI scenarios, long filenames, and readable error/disabled-profile reasons. See the Product Acceptance requirement map and its explicit evidence limits.
-- [ ] Portable Windows ZIP built, hashed, extracted, and tested offline without global Node/FFmpeg dependencies; real encode/cancel/skip paths and resources/notices verified.
-- [ ] Final docs match implementation, execution reports link code/evidence, limitations and future work are explicit, and the local 0.5.0 branch is committed and clean.
+- [x] Portable Windows ZIP built, hashed, extracted, and tested with verified network unavailability and no global Node/FFmpeg dependency; real encode/cancel/skip/subsequent-batch paths and resources/notices verified. See I report for explicit same-machine/proxy-isolation limits.
+- [x] Final docs match implementation, execution reports link code/evidence, limitations and future work are explicit, and the local 0.5.0 branch is committed and clean at the commit adding the I report / local-v0.5.0 tag.
 
 Final acceptance must inspect each requirement against current code, relevant tests, and the packaged artifact. An unchecked or weakly evidenced item stays incomplete. Do not use a mock, generated report, successful launch, or unit-test count as proof of a broader requirement it does not exercise.
 

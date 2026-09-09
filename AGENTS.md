@@ -1,10 +1,10 @@
 # FFmpeg Encoder: agent operating context
 
-This is Ahmed's long-paused existing Electron application, resumed through the September 6, 2026 Mother Thread handoff and amended execution approval. Preserve its history and explain changes for a future programmer. The locally verified 0.5.0 milestone is the approved objective; the old npm `1.0.0` value was scaffold metadata.
+This is Ahmed's long-paused existing Electron application, resumed through the September 6, 2026 Mother Thread handoff and amended execution approval. Preserve its history and explain changes for a future programmer. The accepted local-v0.5.0 baseline is immutable; the active approved objective is local 0.6.0 through J–M in `0- Documentation/11_Approved_0.6_Goal.md` and `12_Approved_0.6_Plan.md`; the old npm `1.0.0` value was scaffold metadata.
 
 ## Re-entry
 
-Read `0- Documentation/01_Current_State.md`, the newest entry in `06_SESSION_SUMMARY.md`, and the relevant sections of `00_Project_Architecture.md` and `09_Approved_Execution_Plan.md`. Use `07_Execution_Index.md` to find evidence for the milestone you are continuing. Inspect live files and Git status before trusting recorded state. Read historical archives or external PBS documents only when the task needs them.
+Read `0- Documentation/01_Current_State.md`, the newest entry in `06_SESSION_SUMMARY.md`, and the relevant sections of `00_Project_Architecture.md` and the active `12_Approved_0.6_Plan.md` (09 is the completed A–I history). Use `07_Execution_Index.md` to find evidence for the milestone you are continuing. Inspect live files and Git status before trusting recorded state. Read historical archives or external PBS documents only when the task needs them.
 
 ## Authorized work and boundaries
 
@@ -39,3 +39,7 @@ Keep canonical PBS external. This file and the short provenance/context document
 ## Windows practice
 
 Prefer portable tools already available and project-local dependencies. Use PowerShell-safe quoting and literal paths; inspect resolved paths before any recursive move/delete. Do not compose destructive filesystem operations across shells. Launch background helpers hidden. Keep media, binaries, node_modules, raw chat exports, backups, and generated outputs out of Git; track reproducible provisioning manifests and relevant small evidence instead.
+
+## Active 0.6 scope
+
+Execute J inspection reuse, K same-folder provenance/publication, L preferences/compact preview/Tested Default and M separate portable acceptance. Advanced controls remain primary. Keep FFmpeg/Electron pinned. Two bounded inspection workers may run; encoding stays sequential. Reuse completed planning and hardware research. D: development is explicitly authorized despite its acknowledged longstanding warning: do not diagnose/repair/relocate it; report only concrete new project I/O failures. Personal OBS media at `F:\shadow play\OBS` is read-only for development. The known active `2026-09-08 19-02-39.mkv` is excluded from representative planning/performance fixtures regardless of size. Never reset usage credits. Keep the same recurring heartbeat aligned and retire it at verified 0.6 closure or a genuine approval/unsafe boundary.

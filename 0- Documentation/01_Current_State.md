@@ -1,6 +1,10 @@
 # Current state
 
-Updated through milestone I, September 8, 2026. The approved local 0.5.0 endpoint is verified; the commit adding the Portable Acceptance report and tag local-v0.5.0 are its durable checkpoint.
+Updated September 9, 2026: approved0.6 execution has begun; J is in progress and K–M remain unimplemented. The sections below preserve accepted0.5 evidence.
+
+Active scope: [0.6 Goal](11_Approved_0.6_Goal.md) and [0.6 Plan](12_Approved_0.6_Plan.md). Branch codex/archive-workflow; 0.6.0-dev.1. Accepted local-v0.5.0 remains f3efdeb and its ZIP hash was rechecked unchanged. D: development is explicitly authorized; the longstanding storage warning is parked outside this Goal.
+
+Historical state through milestone I, September 8, 2026. The approved local 0.5.0 endpoint is verified; the commit adding the Portable Acceptance report and tag local-v0.5.0 are its durable checkpoint.
 
 ## Current milestone
 
@@ -29,7 +33,7 @@ Those findings invalidate historical claims of a fully stable or hardened pipeli
 
 ## Approved direction and next action
 
-The [amended plan](09_Approved_Execution_Plan.md) is complete through its local 0.5.0 endpoint. The accepted ZIP is out/FFmpeg-Encoder-0.5.0-win32-x64.zip (321,189,914 bytes; SHA256 a984e102f1cf404239690e709f585d33028f851bc3e66d914e41f43d334a517f). Extract all files into a writable folder and run FFmpeg Encoder.exe. There is no unfinished approved engineering action; later work requires a new scope. Recurring continuation is no longer needed and is disabled at goal closure.
+The [amended plan](09_Approved_Execution_Plan.md) is complete through its local 0.5.0 endpoint. The accepted ZIP is out/FFmpeg-Encoder-0.5.0-win32-x64.zip (321,189,914 bytes; SHA256 a984e102f1cf404239690e709f585d33028f851bc3e66d914e41f43d334a517f). Extract all files into a writable folder and run FFmpeg Encoder.exe. The historical0.5 endpoint is complete. Approved0.6 J–M now supply the unfinished work; recurring continuation is active for that Goal.
 
 `1.0.0` in the old manifest is scaffold metadata. The approved sequence is `0.5.0-dev.1` during development and `0.5.0` after local milestone acceptance; changing the version alone does not prove a release.
 

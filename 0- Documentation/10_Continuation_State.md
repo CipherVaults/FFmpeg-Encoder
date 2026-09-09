@@ -1,9 +1,11 @@
-# Continuation state — local endpoint complete
+# Continuation — approved0.6 / J in progress
 
-The approved local 0.5.0 work is complete through milestone I on September 8, 2026. The commit adding the Portable Acceptance report and tag local-v0.5.0 are the final durable checkpoint; H is cbd548a. Inspect live Git before any later work.
+September9,2026. Execution approved; not waiting for plan review. Start with11_Approved_0.6_Goal,12_Approved_0.6_Plan and live Git/diff, not the completed A–I plan. Branch codex/archive-workflow. Latest verified baseline f3efdeb / local-v0.5.0; accepted ZIP rehashed unchanged. New bootstrap checkpoint will contain this file. No J–M milestone accepted yet.
 
-There is no unfinished approved engineering action. Use 01_Current_State.md, 07_Execution_Index.md and Execution Summaries/2026-09-08_Portable_Acceptance.md plus its companion artifact JSON for re-entry. Do not restart completed milestones. Recurring continuation is no longer needed and is disabled at goal closure. Never redeem usage credits automatically.
+Completed: recovered planning/specialist evidence; confirmed clean baseline; created development branch; preserved verbatim userGoal and compact approvedplan; recurring heartbeat updated for approved execution, anchored06:19Cairo thenevery5h. Usage reset unchanged, no credits consumed. D: diagnostics explicitly parked by Ahmed; proceed project-local, stop only concrete new I/O trouble.
 
-Accepted artifact: out/FFmpeg-Encoder-0.5.0-win32-x64.zip; 321,189,914 bytes; SHA256 a984e102f1cf404239690e709f585d33028f851bc3e66d914e41f43d334a517f. Source build: out/portable-2026-09-08T09-43-19-255Z-vyav20/build-report.json. Native acceptance: artifacts/portable-acceptance-CImXm7/report.json, passed. Final contract checks: artifacts/i-final-unit-results.txt,89/89 passed. Earlier failed/superseded builds and reports remain evidence, not accepted packages.
+Current parallel work: inspection_planning owns source-identity/storage-eligibility/process-runner stdin and tests. profile_acceptance owns inspection metadata/evidence refactor/cache and tests. Parent owns service integration/UI progress/docs. Inspect their actual files and task results before repeating. No completed0.6 checks yet.
 
-The parent synchronized current documents and acceptance gates after independent requirement-to-evidence review. No GitHub remote/upload, public release, clean-machine run, or physical network-disconnection claim is implied. Those require separate work/approval as documented.
+Next exact action: integrate identity/cache into service while keeping equal-directory guard. Initially single-worker cache checkpoint, then separate bounded two-worker integration/ownership evidence. Real archive stays read-only; exclude knownactive2026-09-08 19-02-39.mkv. Warm target8s aftercapabilities remains unproven. Preserve complete stable cache entries on cancellation; no stale callbacks or restart before ownedchild close.
+
+K–M remain pending. On interruption reconcile newest test/artifact outputs and working changes before trusting this note. Formal dated reports replace temporary reliance at milestone completion. Never reset usage credits or restart A–I. Keep recurring automation until full0.6closure/actualboundary.

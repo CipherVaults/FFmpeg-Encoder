@@ -34,3 +34,7 @@ Maintain an independent recoverable commit at every meaningful boundary. Keep ru
 HDR preservation/tone mapping, Intel/AMD encoders, background/headless encoding, window restoration, persistent jobs/history, arbitrary FFmpeg arguments, recursive folder processing, advanced queue reordering, public distribution/signing/update services, and broader platform support are not incidental additions to this milestone. Record evidence-backed needs; seek approval for a major direction change.
 
 Private GitHub is intended but separately gated. A later genuinely accepted standalone release may become 1.0.0. Neither repository upload nor public release is necessary to truthfully finish the authorized local 0.5.0 milestone.
+
+## Approved local0.6 archive workflow (September9,2026)
+
+See11_Approved_0.6_Goal and12_Approved_0.6_Plan. J inspection reuse: in progress, no acceptance yet. K same-folder provenance/publication: pending. L remembered workflow/compact preview/helpers: pending. M integrated separate portable0.6 acceptance: pending. No0.6 endpoint tag exists. Historical A–I remain accepted.

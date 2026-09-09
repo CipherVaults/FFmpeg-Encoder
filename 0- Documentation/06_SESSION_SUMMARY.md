@@ -1,3 +1,7 @@
+# September9,2026 —0.6 approved execution bootstrap
+
+Ahmed approved J–M and explicitly disposed of the D: warning as parked diagnostics with development authorized. Parent recovered completed planning, preserved Goal/Plan, verified baselineZIP, created codex/archive-workflow and resumed same heartbeat for execution. J starts with identity/cache implementation; no0.6 acceptance claimed. Formal provenance and contracts are in11/12.
+
 # Session Summary
 
 New entries appear above the preserved historical section. This cumulative record explains decisions and re-entry context; the execution index links literal actions and verification evidence.

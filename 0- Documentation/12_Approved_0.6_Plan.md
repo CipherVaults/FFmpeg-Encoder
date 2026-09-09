@@ -51,3 +51,7 @@ Primary references: https://ffmpeg.org/ffprobe.html ; https://nodejs.org/api/fs.
 Full requirements/definition of done are in11. High risk: provenance/publication, invalidation and concurrency. Medium: persistence/storage/UI selection. Low: helper explanations. D: warning is explicitly acknowledged/parked; development authorized, no repeat diagnostics. Use originals read-only and isolated fixtures for writes. Record real/injected/native limits. Portable0.6 verifies actual extracted app, restrictedPATH/offline process evidence, runtime hashes, cold/warm/restart/prefs/encode/skip/cancel/shutdown. Same-machine is not clean-machine compatibility.
 
 At interrupted wakes inspect live Git/diff/recent artifacts then continuation; preserve undocumented progress and resume exact next action. Maintain same recurring5h heartbeat, no credits; disable only full0.6 verifiedclosure or genuine approval/unsafe boundary. Do not invent backlog work. Finalhuman/product authority remains Ahmed.
+
+## Acceptance progress
+
+J accepted September 9, 2026 after independent requirement-to-evidence review and parent synchronization; see the dated Inspection Reuse report and compact evidence record. K is next; L/M remain pending. Approved requirements above are unchanged.

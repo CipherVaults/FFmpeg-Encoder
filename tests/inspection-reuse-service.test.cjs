@@ -28,11 +28,14 @@ async function harness(t, { names = ['a.mp4', 'b.mp4'], onProbe } = {}) {
   });
   const calls = [];
   let capabilityCalls = 0;
-  async function open({ eligible = true, hash = 'a'.repeat(64) } = {}) {
+  async function open({ eligible = true, hash = 'a'.repeat(64), onEligibility } = {}) {
     const cache = new InspectionCache({ directory: path.join(stateDir, 'cache'), ffprobeHash: hash });
     const service = new EncoderService({
       ffmpeg: 'injected-ffmpeg', ffprobe: 'injected-ffprobe', stateDir, inspectionCache: cache, inspectionWorkers: 1,
-      storageEligibility: { check: async () => ({ eligible, reason: eligible ? null : 'Injected unsupported storage.' }) },
+      storageEligibility: { check: async (file, stamp, options) => {
+        await onEligibility?.({ file, stamp, options });
+        return { eligible, reason: eligible ? null : 'Injected unsupported storage.' };
+      } },
       capabilities: async () => {
         capabilityCalls++;
         return { profiles: PROFILES.map(p => ({ ...p, available: true, supportedBitDepths: [8, 10] })), versions: {} };
@@ -107,6 +110,32 @@ test('unsupported storage uses fresh inspection despite a populated valid cache'
   assert.equal(result.preparation.reused, 0);
   assert.equal(h.calls.length, 4);
   assert.match(result.preparation.notice, /unsupported storage/);
+});
+
+test('an input changed by the eligibility check cannot use its earlier storage approval or reach the cache', async t => {
+  const h = await harness(t, { names: ['a.mp4'] });
+  assert.equal((await (await h.open()).prepare()).items[0].status, 'ready');
+  let mutations = 0;
+  const changed = await h.open({ onEligibility: async ({ file, stamp }) => {
+    assert.equal(String((await fs.stat(file, { bigint: true })).size), stamp.size);
+    await fs.appendFile(file, ' changed after the eligibility stamp');
+    mutations++;
+  } });
+  const lookup = t.mock.method(changed.cache, 'lookup');
+  const store = t.mock.method(changed.cache, 'store');
+  await assert.rejects(changed.service.identifyForInspection(path.join(h.input, 'a.mp4'), new AbortController().signal), {
+    code: 'INPUT_CHANGED', message: 'Input changed after storage eligibility was checked.',
+  });
+  const result = await changed.prepare();
+  assert.equal(mutations, 2, 'both direct identification and the actual preparation cross the changed-stamp boundary');
+  assert.equal(result.items[0].status, 'unsupported');
+  assert.match(result.items[0].reason, /changed after storage eligibility/);
+  assert.equal(changed.service.plan.entries.size, 0);
+  assert.equal(result.preparation.reused, 0);
+  assert.equal(result.preparation.inspected, 0);
+  assert.equal(lookup.mock.callCount(), 0);
+  assert.equal(store.mock.callCount(), 0);
+  assert.equal(h.calls.length, 2, 'only the initial stable fixture launched metadata/frame probes');
 });
 
 test('corrupt persisted evidence misses on restart and never approves a source', async t => {

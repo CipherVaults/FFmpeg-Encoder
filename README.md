@@ -21,6 +21,8 @@ Application/session data and batch logs stay in the adjacent **data** folder. Cl
 
 ## Development and verification
 
+The active 0.6 development branch adds persistent inspection reuse and explicit preparation stages. Unchanged completed files on verified local fixed NTFS storage can reuse metadata/frame evidence across restarts; unsupported storage remains usable with fresh inspection. Expert controls remain visible while inspection runs. This development work does not replace the accepted 0.5.0 ZIP. See the [0.6 plan](0-%20Documentation/12_Approved_0.6_Plan.md) and [J evidence](0-%20Documentation/Execution%20Summaries/2026-09-09_Inspection_Reuse.md) for current acceptance status.
+
 The verified development environment uses Node 24, Electron 44.2.0, FFmpeg/ffprobe 9.0.1, Playwright 1.63.0 and direct Electron Packager 20.3.0. Install pinned development dependencies with npm ci. On a fresh checkout, use scripts/provision-ffmpeg.ps1 to verify/stage the manifest-pinned media runtime, then its -Activate switch to activate it locally. That script requires PowerShell 7 and an existing 7-Zip installation; nothing is installed globally.
 
 | Command | Purpose |

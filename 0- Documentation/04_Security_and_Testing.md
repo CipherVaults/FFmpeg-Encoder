@@ -37,6 +37,14 @@ Native picker interaction must be described accurately: a stubbed dialog can ver
 
 At each milestone, record command, relevant fixture, result, limit, and code checkpoint in its dated execution report. Preserve useful small assertions/manifests in Git, keeping raw logs, generated media, screenshots, binary bundles, and build products in ignored artifact areas as appropriate. Never announce 0.5.0 complete based only on green unit tests: audit each approved requirement against the actual implementation and portable artifact.
 
+## J inspection reuse boundary
+
+Persistent evidence is a performance input, never renderer/path/plan authority. Reconstruct classification from bounded normalized facts with exact runtime/policy/identity keys; recompute destination, settings and device eligibility. Corruption or optional helper failure falls back to fresh inspection. Do not certify full-byte equality from a sparse digest or certify every frame from bounded sampling. The fixed Windows helper accepts only bounded drive-root data and retains owned-child cancellation.
+
+Relevant J regression groups cover source mutation/replacement and restored timestamps; runtime/policy/schema/corruption/size invalidation; hot/disk LRU bounds and scoped cleanup; incomplete-frame/cancelled-result exclusion; unsupported-storage/helper failure; fresh plan/profile/capability/destination checks; and two-worker ownership, peer abort, restart admission and stale callbacks. The dated J report maps independent review findings and real endpoint evidence. Native junction fixture creation failed with UNKNOWN/-4094 and was stopped: injected link rejection is explicitly narrower evidence. Do not infer hardware/storage diagnoses from that fixture failure or repeat parked diagnostics.
+
+For native performance acceptance retain the measured completed-source allowlist and read-only source identity checks. The original 60-file report contains valid numeric cold/warm/restart evidence plus a failed event/DOM observation assertion. Preserve it; a separate reuse-only UI run must establish correctly associated rendered phase/revision without rerunning expensive cold media. A passing targeted harness supplements that report rather than erasing its failure history.
+
 ## Release boundary
 
 Local packaging does not authorize public release. Resolve exact bundled third-party notices and source/provenance requirements locally; review licensing/signing/distribution requirements before any later public upload. GitHub creation/upload requires the separately approved account, repository, and content inventory. Do not expose raw chat exports, personal media, machine logs, or secrets through an upload.

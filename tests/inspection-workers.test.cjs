@@ -6,7 +6,8 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const { EncoderService } = require('../src/encoder-service.cjs');
 const { PROFILES } = require('../src/media.cjs');
-const { runTool } = require('../src/process-runner.cjs');
+const { runTool, ToolError } = require('../src/process-runner.cjs');
+const { inspectInput } = require('../src/inspection.cjs');
 
 const parent = path.resolve(__dirname, '../artifacts/worker-tests');
 const deferred = () => { let resolve; const promise = new Promise(r => { resolve = r; }); return { promise, resolve }; };
@@ -15,14 +16,14 @@ function inspected() {
   return { probe: { streams: [{ index: 0, codec_type: 'video', codec_name: 'h264', pix_fmt: 'yuv420p', color_transfer: 'bt709', width: 320, height: 180 }] }, color: { supported: true, classification: 'sdr', transfer: 'bt709', videoIndex: 0, reasons: [] }, duration: 2, summary: {} };
 }
 
-async function harness(t, inspect) {
+async function harness(t, inspect, { run } = {}) {
   await fs.mkdir(parent, { recursive: true });
   const root = await fs.mkdtemp(path.join(parent, 'run-'));
   const input = path.join(root, 'input'); const output = path.join(root, 'output');
   await fs.mkdir(input); await fs.mkdir(output);
   for (const name of ['a.mp4', 'b.mp4', 'c.mp4']) await fs.writeFile(path.join(input, name), `Original ${name}`);
   const service = new EncoderService({ ffmpeg: 'injected', ffprobe: 'injected', stateDir: path.join(root, 'state'), inspectionCache: null,
-    capabilities: async () => ({ profiles: PROFILES.map(p => ({ ...p, available: true, supportedBitDepths: [8, 10] })) }), inspect,
+    capabilities: async () => ({ profiles: PROFILES.map(p => ({ ...p, available: true, supportedBitDepths: [8, 10] })) }), inspect, run,
   });
   const a = await service.registerFolder(input, 'input'); const b = await service.registerFolder(output, 'output');
   const prepare = () => service.prepareBatch({ inputFolderId: a.id, outputFolderId: b.id, settings });
@@ -111,3 +112,77 @@ test('a shared worker failure aborts its real peer, stops admission, and remains
   assert.equal(result.counts.unprocessed, 3);
   assert.equal(h.service.busy, false);
 });
+
+for (const code of ['SPAWN_FAILED', 'PIPE_FAILED', 'EACCES']) {
+  test(`real inspectInput propagates frame ${code} through two workers and awaits its peer's actual close`, { timeout: 10_000 }, async t => {
+    const peerStarted = deferred();
+    const killRequested = deferred();
+    const calls = []; const events = [];
+    let child; let actualKill; let peerSignal; let peerClosed = false; let settled = false;
+    // A bounded delay in native termination lets the test observe ownership
+    // before close, even on Windows where SIGTERM normally exits immediately.
+    let fallbackKill;
+    const h = await harness(t, undefined, { run: async (executable, args, options) => {
+      const name = path.basename(args.at(-1));
+      const stage = args.includes('-show_frames') ? 'frames' : 'metadata';
+      calls.push({ name, stage });
+      if (stage === 'metadata') return {
+        stdout: JSON.stringify({ ...inspected().probe, format: { duration: '30' }, chapters: [] }), stderr: '', exitCode: 0,
+      };
+      if (name === 'a.mp4') {
+        await peerStarted.promise;
+        throw new ToolError(code, `Injected frame infrastructure failure: ${code}`);
+      }
+      assert.equal(name, 'b.mp4', 'the third source must never reach a probe');
+      peerSignal = options.signal;
+      return runTool(process.execPath, ['-e', 'setInterval(()=>{},1000)'], {
+        ...options,
+        onChild: owned => {
+          child = owned;
+          actualKill = owned.kill.bind(owned);
+          t.mock.method(owned, 'kill', () => {
+            events.push('abort-request');
+            killRequested.resolve();
+            fallbackKill ||= setTimeout(() => actualKill('SIGKILL'), 1500);
+            fallbackKill.unref();
+            return true;
+          });
+          owned.once('close', () => { peerClosed = true; events.push('peer-close'); });
+          peerStarted.resolve();
+        },
+      });
+    } });
+    assert.equal(h.service.inspect, inspectInput, 'only the runner is injected; the production inspector and service stay connected');
+    assert.equal(h.service.inspectionWorkers, 2);
+    const preparing = h.prepare().then(result => { settled = true; events.push('prepare-settled'); return result; });
+    await killRequested.promise;
+    try {
+      assert.equal(peerSignal.aborted, true, 'the frame infrastructure error aborted the peer signal');
+      assert.equal(peerClosed, false);
+      assert.equal(settled, false);
+      assert.equal(h.service.busy, true);
+      await assert.rejects(h.prepare(), { code: 'BUSY' });
+      assert.deepEqual([...new Set(calls.map(call => call.name))], ['a.mp4', 'b.mp4']);
+    } finally {
+      clearTimeout(fallbackKill);
+      actualKill('SIGKILL');
+    }
+    const result = await preparing;
+    assert.deepEqual(events, ['abort-request', 'peer-close', 'prepare-settled']);
+    assert.ok(child.exitCode !== null || child.signalCode !== null);
+    assert.equal(result.phase, 'failed');
+    assert.equal(result.error, `Injected frame infrastructure failure: ${code}`);
+    assert.equal(h.service.preparationFailure.code, code);
+    assert.equal(result.planId, null);
+    assert.equal(h.service.plan, null);
+    assert.equal(result.preparation.active, 0);
+    assert.deepEqual(result.preparation.workers, []);
+    assert.equal(result.counts.unprocessed, 3);
+    assert.equal(result.counts.failed, 0, 'shared failure did not become a per-file unsupported-color result');
+    assert.equal(h.service.busy, false);
+    for (const name of ['a.mp4', 'b.mp4']) {
+      assert.deepEqual(calls.filter(call => call.name === name).map(call => call.stage), ['metadata', 'frames'], 'no later frame windows launch');
+    }
+    assert.equal(calls.some(call => call.name === 'c.mp4'), false);
+  });
+}

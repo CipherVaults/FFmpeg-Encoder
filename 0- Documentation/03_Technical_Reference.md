@@ -1,6 +1,6 @@
 # Technical reference
 
-Current through local milestone I / 0.5.0. The process/media/UI and portable contracts are implemented and verified within the execution evidence; legacy commands are historical.
+Updated September 9, 2026 for J implementation; milestone acceptance is recorded separately in the Inspection Reuse report. Local 0.5.0 and its portable contract remain accepted historical evidence; legacy commands are historical.
 
 ## Current process boundary
 
@@ -48,6 +48,18 @@ The classification examines structured ffprobe stream data and bounded decoded-f
 Ten-bit pixels alone are not HDR. HEVC Main 10 and BT.2020 primaries alone are not HDR. BT.2020 transfer values in the SDR allowlist are distinct from PQ/HLG. Do not use a guessed mastering-luminance threshold to resolve ambiguity.
 
 Sampling target: first two seconds; for seekable media longer than ten seconds, also one second around the midpoint and two seconds near the end. Bound process time and output size, support cancellation, and record missing/failed coverage. Sampling cannot prove there is no HDR metadata elsewhere or that incorrectly tagged pixels truly match their tags. Document this limit in results and tests without claiming complete content certification.
+
+## Persistent inspection evidence (J)
+
+Fresh inspection first runs ffprobe metadata discovery (30 seconds, 16 MiB output bound): format/duration, streams, primary video, dimensions/cadence/depth, preservation fields, chapters and color evidence. JavaScript selection/normalization/mapping is inexpensive relative to media decoding. Definitive metadata HDR can finish unsupported without decoding. Potential SDR retains the established decoded start/middle/end checks (20 seconds and 8 MiB per window), with timestamp coverage and conservative missing/error handling. Positive HDR evidence is never overwritten by later ambiguity.
+
+Cache identity includes canonical path; decimal-string bigint dev/ino/size/mtimeNs/ctimeNs/birthtimeNs; SHA256 over first/middle/last up to 256 KiB with offsets/lengths; actual ffprobe SHA256; and explicit normalization/color/sampling/selection/preservation versions. Source reads use a single read-only handle with before/after handle/path checks. The storage-checked stamp must match the sampled identity. Revalidate again before and after encoding. Sparse sampling is not whole-file hashing; stopped recordings and cooperative local-file change detection remain the operating contract.
+
+Fast reuse requires verified Fixed/NTFS storage and reliable root/file identity. An optional absolute system Windows PowerShell helper uses fixed .NET DriveInfo code, bounded JSON root data on stdin, shell:false, no profile/elevation/PATH/ExecutionPolicy bypass, a five-second timeout and 8 KiB output bound. Unknown/network/removable storage or helper failure uses fresh inspection; failure is session-memoized by root/device to avoid repeated launches. No helper output grants filesystem or IPC authority.
+
+The state directory's cache/inspection-v1 contains normalized metadata/frame evidence and checksums. Limits: 2,000 records/128 MiB disk, 4 MiB each, 128 records/16 MiB hot memory. A stale, incompatible, malformed, truncated, corrupt or oversized record misses. Oversized otherwise usable fresh evidence still works uncached. Cancelled, timed-out or incomplete frame evidence is not stored as reusable success. Hits reconstruct color/summary under current policy; plans/settings/hardware/destinations remain fresh. Writes use owned temporary files and atomic rename; LRU timestamp updates use checked single-link handles. Clear/eviction is restricted to cache-owned names and does not remove media or provenance.
+
+Preparation has at most two workers; identity/cache operations are bounded and serialized where required. Cancellation/shared failure stops new admission and waits for all owned children and pending finalization. Completed stable records can survive a cancelled batch. The UI reports resolved files, reused/new counts, active workers, metadata/frame stage and elapsed time. Percentage means resolved files / total files, not guessed progress within a decode window. Startup capability checks have a separate state; expert controls stay visible and locked during work. No Skip Inspection switch exists.
 
 ## Child lifecycle and protected outputs
 

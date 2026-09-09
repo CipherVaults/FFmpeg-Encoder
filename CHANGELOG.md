@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.0-dev.1 — Archive workflow development
+
+- Implemented J: persistent bounded inspection evidence, conservative identity/runtime/policy invalidation, optional fixed-NTFS eligibility helper, two bounded inspection workers and transparent preparation progress. Encoding stays sequential and expert controls remain visible.
+- Development data uses data-next-0.6. The accepted local-v0.5.0 tag and ZIP remain recoverable. J is accepted with153 tests and independent native/evidence review in its dated report; K same-folder safety, L workflow UI/preferences and M portable acceptance remain pending.
+
 This project continues its historical development sequence. Versions 0.1–0.4 below are historical milestone labels, not newly verified releases. The old `package.json` value `1.0.0` was npm scaffold metadata and does not establish a prior 1.0 release. The first genuinely accepted standalone release may become 1.0.0 later.
 
 ## 0.5.0 — Local portable acceptance, September 8, 2026

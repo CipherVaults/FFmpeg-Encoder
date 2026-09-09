@@ -1,3 +1,7 @@
+# September 9, 2026 — J inspection reuse accepted
+
+Recovery reused completed agent work and the saved60-file90.813/0.460/1.140s cold/warm/restart report. It did not repeat the cold run. New direct boundary regressions passed70/70; final suite153/153. Supplemental native UI inspection passed on59unchanged sources, explicitly excluding one changed-ctime file without probing or relabeling its cache. The original failed observer report remains intact; current phase/revision observation closes its UI gap. Independent review found no J blocker. Parent synchronized Current State, Roadmap, acceptance progress, Execution Index, this summary, Architecture, Technical Reference, Security/Testing, README/CHANGELOG and evidence records. J closure commit is the next durable anchor; K follows. The same heartbeat is aligned for September10 04:43 Cairo and five-hour recurrence; no credits redeemed.
+
 # September9,2026 —0.6 approved execution bootstrap
 
 Ahmed approved J–M and explicitly disposed of the D: warning as parked diagnostics with development authorized. Parent recovered completed planning, preserved Goal/Plan, verified baselineZIP, created codex/archive-workflow and resumed same heartbeat for execution. J starts with identity/cache implementation; no0.6 acceptance claimed. Formal provenance and contracts are in11/12.

@@ -1,6 +1,6 @@
 # Project architecture
 
-Updated through milestone I, September 8, 2026. Main-owned service, preload boundary, sandboxed UI, allowlisted protocol and product behavior are verified. The local 0.5.0 portable artifact passes the I requirement map.
+Updated September 9, 2026 for the implemented J inspection architecture. J acceptance status/evidence is in the dated Inspection Reuse report. The immutable local 0.5.0 portable artifact retains its I acceptance; K–M remain separate work.
 
 ## Identity and purpose
 
@@ -36,7 +36,13 @@ flowchart TD
 
 Main is the authority for job state. The renderer cannot select arbitrary executables or pass arbitrary arguments, perform direct filesystem operations, or invoke arbitrary IPC channels. Preload exposes capabilities, choose-input/output, prepare-batch, start-plan, cancel-batch, get-snapshot, and subscribe-to-updates methods. Folder/plan/job identifiers originate in main. Exact implementation names can be documented as they are introduced; these are the approved behavioral contracts.
 
-A single queue owns a single active child. Each child remains associated with its job and batch until the close event and cleanup settle. Event handlers must not clear newer state. Cancelling prevents the next job from starting and prevents restart until the old process is gone. An active-window close offers “Cancel encoding and exit” or “Keep application open.” Renderer loss cancels work; no invisible encoding session remains.
+Encoding uses one sequential queue. Preparation may use two independent inspection workers, each with at most one media child and sequential frame windows; archive identity reads remain serialized. Each child remains associated with its job and batch until close and finalization settle. Shared infrastructure errors abort peers and stop admission while preserving a failed result. Cancellation awaits every worker and cache finalization before restart. Event handlers cannot change newer batches. An active-window close offers “Cancel encoding and exit” or “Keep application open.” Renderer loss cancels work; no invisible encoding session remains.
+
+## Inspection evidence reuse (J)
+
+Main derives a current source identity in source-identity.cjs, asks the bounded optional storage-eligibility.cjs helper whether persistent reuse is supported, and consults inspection-cache.cjs. The cache contains normalized metadata and bounded decoded-frame evidence, not permissions, paths supplied by the renderer, plans, settings, destination absence or hardware availability. inspection.cjs reconstructs policy decisions from that evidence on each hit. Missing or unusable cache/helper state falls back to fresh inspection.
+
+The evidence namespace binds the actual ffprobe binary hash, policy/schema versions, canonical file identity and a versioned sparse digest. Entries are independently bounded, atomically stored and evicted only inside the cache namespace. Preferences and output provenance will have separate lifetimes in K/L. Current before/after source, mapping, settings, hardware and destination checks still apply. A cooperative local-file identity is not a claim of cryptographic whole-file equality against deliberately concealed changes.
 
 ## Media and output boundary
 
@@ -58,6 +64,6 @@ Current State records what exists now. Roadmap records milestone progress. Techn
 
 ## Portable runtime layout
 
-The Windows x64 ZIP contains a branded Electron executable, its runtime assets, an exact application ASAR and resources/ffmpeg/ffmpeg.exe plus ffprobe.exe. Binary provenance, portable instructions and third-party notices accompany it. No development packages or prior data are included. Main configures both userData and sessionData before readiness and the single-instance lock: packaged data lives beside the executable, while development defaults to the repository data directory. An explicit --user-data-dir remains supported. Paths never depend on the working directory or a global FFmpeg installation.
+The Windows x64 ZIP contains a branded Electron executable, its runtime assets, an exact application ASAR and resources/ffmpeg/ffmpeg.exe plus ffprobe.exe. Binary provenance, portable instructions and third-party notices accompany it. No development packages or prior data are included. Main configures both userData and sessionData before readiness and the single-instance lock: packaged data lives beside the executable, while active 0.6 development defaults to data-next-0.6 to isolate accepted 0.5 state. An explicit --user-data-dir remains supported. Paths never depend on the working directory or a global FFmpeg installation.
 
 The direct pinned Packager builder and existing 7-Zip produce fresh, independently verified artifacts. The portable test launches the actual extracted executable and records hashes, runtime/process paths, network restrictions and workflow results; see the I report for its same-machine scope.

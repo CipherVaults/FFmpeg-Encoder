@@ -1,12 +1,12 @@
 # Current state
 
-Updated September 9, 2026: approved0.6 execution has begun; J single-worker inspection reuse is implemented and verified at its engineering checkpoint (131 tests,48 final reuse checks and real2-file app flow); two-worker implementation and real-child tests now pass. Native60-file measurement is90.813s cold/0.460s warm/1.140s restart with60cachehits; UI-observation harness correction and independent final J review remain pending. See the updated J report. K–M remain unimplemented. The sections below preserve accepted0.5 evidence.
+Updated September 9, 2026: J inspection reuse is accepted after independent requirement-to-evidence review and parent synchronization. Final suite153/153 and70 focused regression checks pass; original60-file cold/warm/restart90.813/0.460/1.140s and supplemental59-file real UI evidence are preserved separately. The commit completing the J report is the accepted J checkpoint. K same-folder provenance/publication is next; L/M remain pending. Accepted local-v0.5.0 remains immutable.
 
 Active scope: [0.6 Goal](11_Approved_0.6_Goal.md) and [0.6 Plan](12_Approved_0.6_Plan.md). Branch codex/archive-workflow; 0.6.0-dev.1. Accepted local-v0.5.0 remains f3efdeb and its ZIP hash was rechecked unchanged. D: development is explicitly authorized; the longstanding storage warning is parked outside this Goal.
 
 Historical state through milestone I, September 8, 2026. The approved local 0.5.0 endpoint is verified; the commit adding the Portable Acceptance report and tag local-v0.5.0 are its durable checkpoint.
 
-## Current milestone
+## Accepted A–I history
 
 Milestones A–E are verified: preservation, baseline, context/versioning, Electron 44.2.0 (`0dd8542`), and matching FFmpeg/ffprobe 9.0.1 (`9c25694`). Documentation/history are checkpointed in `14c874f` and exact archive checkout behavior in `53ce087`. Both independent runtime upgrades passed the unchanged native successful-flow smoke. Twelve short encoder cases passed (six profiles, each eight/ten-bit SDR), including probing and full decoding. See [runtime evidence](Execution%20Summaries/2026-09-07_Runtime_Upgrades.md). Milestone F is implemented and verified through restricted loadFile: 87 unit/integration tests plus real app and lifecycle smoke checks pass. See the Process Architecture execution report. Milestone G now passes 89 automated tests, native session/CSP/navigation checks and the real app flow; see the Local Protocol execution report. Milestone H product checks now pass: all six UI profiles/actual arguments, rich preservation and mixed outcomes, native Windows folder selection, 110 accepted profile-option cases and 25 layout captures. See [Product Acceptance](Execution%20Summaries/2026-09-08_Product_Acceptance.md) for the requirement map and limits. Milestone I is now verified: the actual extracted Windows ZIP passes restricted-PATH/network-isolation encode, skip, cancel, subsequent-batch and shutdown checks. The [Portable Acceptance report](Execution%20Summaries/2026-09-08_Portable_Acceptance.md) and tracked artifact record identify the exact ZIP, source hashes and evidence limits.
 
@@ -35,7 +35,7 @@ Those findings invalidate historical claims of a fully stable or hardened pipeli
 
 The [amended plan](09_Approved_Execution_Plan.md) is complete through its local 0.5.0 endpoint. The accepted ZIP is out/FFmpeg-Encoder-0.5.0-win32-x64.zip (321,189,914 bytes; SHA256 a984e102f1cf404239690e709f585d33028f851bc3e66d914e41f43d334a517f). Extract all files into a writable folder and run FFmpeg Encoder.exe. The historical0.5 endpoint is complete. Approved0.6 J–M now supply the unfinished work; recurring continuation is active for that Goal.
 
-`1.0.0` in the old manifest is scaffold metadata. The approved sequence is `0.5.0-dev.1` during development and `0.5.0` after local milestone acceptance; changing the version alone does not prove a release.
+`1.0.0` in the old manifest is scaffold metadata. The current development version is `0.6.0-dev.1`; `local-v0.6.0` requires J–M acceptance. Changing the version alone does not prove a release.
 
 ## Approval boundaries and honest limitations
 

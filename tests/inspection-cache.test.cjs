@@ -255,3 +255,148 @@ test('invalid identities never become filesystem paths and clear is serialized a
   assert.equal(await cleared, true);
   assert.equal(await cache.lookup(identity()), null);
 });
+
+// Observe the public lookup boundary while retaining real file handles. In
+// particular, swallowing optional LRU errors must not hide a pathname write.
+function watchTouches(t, target, { beforeOpen, openedStat } = {}) {
+  const originalOpen = fs.open;
+  const originalUtimes = fs.utimes;
+  const calls = { pathname: 0, opened: 0, touched: 0, closed: 0 };
+  t.mock.method(fs, 'utimes', async (file, ...args) => {
+    if (file === target) calls.pathname++;
+    return originalUtimes(file, ...args);
+  });
+  t.mock.method(fs, 'open', async (file, flags, ...args) => {
+    if (file !== target || flags !== 'r+') return originalOpen(file, flags, ...args);
+    calls.opened++;
+    await beforeOpen?.();
+    const handle = await originalOpen(file, flags, ...args);
+    const originalStat = handle.stat.bind(handle);
+    const originalTouch = handle.utimes.bind(handle);
+    const originalClose = handle.close.bind(handle);
+    if (openedStat) t.mock.method(handle, 'stat', async (...options) => openedStat(await originalStat(...options)));
+    t.mock.method(handle, 'utimes', async (...times) => { calls.touched++; return originalTouch(...times); });
+    t.mock.method(handle, 'close', async () => { calls.closed++; return originalClose(); });
+    return handle;
+  });
+  return calls;
+}
+
+async function timestamp(file) {
+  const stat = await fs.stat(file, { bigint: true });
+  return { atimeNs: stat.atimeNs, mtimeNs: stat.mtimeNs };
+}
+
+async function oldTimestamp(file) {
+  await fs.utimes(file, new Date('2001-01-01T00:00:00Z'), new Date('2001-01-01T00:00:00Z'));
+  return timestamp(file);
+}
+
+for (const mode of ['hot', 'disk']) {
+  async function populated(t) {
+    const { root, cache } = await fixture(t);
+    const fresh = await inspection();
+    assert.equal(await cache.store(identity(), fresh), true);
+    const reader = mode === 'hot' ? cache : new InspectionCache({ directory: root, ffprobeHash: runtimeHash });
+    return { root, reader, fresh, target: filename(cache) };
+  }
+
+  test(`${mode} hit updates a regular owned record only through its checked handle`, async t => {
+    const { reader, fresh, target } = await populated(t);
+    const before = await oldTimestamp(target);
+    const calls = watchTouches(t, target);
+    assert.deepEqual(await reader.lookup(identity()), fresh);
+    assert.deepEqual(calls, { pathname: 0, opened: 1, touched: 1, closed: 1 });
+    assert.ok((await timestamp(target)).mtimeNs > before.mtimeNs);
+  });
+
+  test(`${mode} hit refuses an injected replaced-link result before opening for a timestamp write`, async t => {
+    const { root, reader, fresh, target } = await populated(t);
+    const unrelated = path.join(root, 'unrelated-media.mkv');
+    await fs.writeFile(unrelated, 'Original unrelated fixture');
+    const before = await oldTimestamp(unrelated);
+    const originalLstat = fs.lstat;
+    let linkChecks = 0;
+    t.mock.method(fs, 'lstat', async (file, options) => {
+      if (file === target && options?.bigint) {
+        linkChecks++;
+        // Inject the final-link observation at the touch boundary. The disk
+        // read remains real; this is not a native Windows symlink fixture.
+        const stat = await originalLstat(unrelated, options);
+        stat.isSymbolicLink = () => true;
+        return stat;
+      }
+      return originalLstat(file, options);
+    });
+    const calls = watchTouches(t, target);
+    assert.deepEqual(await reader.lookup(identity()), fresh);
+    assert.equal(linkChecks, 1);
+    assert.deepEqual(calls, { pathname: 0, opened: 0, touched: 0, closed: 0 });
+    assert.deepEqual(await timestamp(unrelated), before);
+    assert.equal(await fs.readFile(unrelated, 'utf8'), 'Original unrelated fixture');
+  });
+
+  test(`${mode} hit leaves a real hardlinked record and its unrelated alias timestamps unchanged`, async t => {
+    const { root, reader, fresh, target } = await populated(t);
+    const alias = path.join(root, 'unrelated-alias.mkv');
+    try { await fs.link(target, alias); }
+    catch (error) {
+      if (!['EPERM', 'EACCES', 'ENOSYS', 'ENOTSUP', 'EOPNOTSUPP'].includes(error.code)) throw error;
+      t.skip(`Native hardlink fixture unavailable: ${error.code}`); return;
+    }
+    const contents = await fs.readFile(alias, 'utf8');
+    const before = await oldTimestamp(alias);
+    assert.equal((await fs.lstat(target, { bigint: true })).nlink, 2n);
+    const calls = watchTouches(t, target);
+    assert.deepEqual(await reader.lookup(identity()), fresh);
+    assert.deepEqual(calls, { pathname: 0, opened: 0, touched: 0, closed: 0 });
+    // A disk hit reads the record and can update access time normally; neither
+    // path may explicitly change modification time on the shared object.
+    assert.equal((await timestamp(alias)).mtimeNs, before.mtimeNs);
+    assert.equal(await fs.readFile(alias, 'utf8'), contents);
+  });
+
+  test(`${mode} hit closes a real replacement opened after lstat without changing its timestamps`, async t => {
+    const { root, reader, fresh, target } = await populated(t);
+    const unrelated = path.join(root, 'unrelated-media.mkv');
+    const saved = path.join(root, 'checked-record.json');
+    await fs.writeFile(unrelated, 'Original unrelated fixture');
+    const before = await oldTimestamp(unrelated);
+    const oldInode = (await fs.lstat(target, { bigint: true })).ino;
+    const calls = watchTouches(t, target, { beforeOpen: async () => {
+      await fs.rename(target, saved);
+      await fs.rename(unrelated, target);
+      assert.notEqual((await fs.lstat(target, { bigint: true })).ino, oldInode);
+    } });
+    assert.deepEqual(await reader.lookup(identity()), fresh);
+    assert.deepEqual(calls, { pathname: 0, opened: 1, touched: 0, closed: 1 });
+    assert.deepEqual(await timestamp(target), before);
+    assert.equal(await fs.readFile(target, 'utf8'), 'Original unrelated fixture');
+  });
+
+  test(`${mode} hit detects a real hardlink introduced between lstat and open`, async t => {
+    const { root, reader, fresh, target } = await populated(t);
+    const alias = path.join(root, 'late-alias.mkv');
+    // Establish native support before installing the precise race callback.
+    try { await fs.link(target, alias); await fs.unlink(alias); }
+    catch (error) {
+      if (!['EPERM', 'EACCES', 'ENOSYS', 'ENOTSUP', 'EOPNOTSUPP'].includes(error.code)) throw error;
+      t.skip(`Native hardlink fixture unavailable: ${error.code}`); return;
+    }
+    const before = await oldTimestamp(target);
+    const calls = watchTouches(t, target, { beforeOpen: () => fs.link(target, alias) });
+    assert.deepEqual(await reader.lookup(identity()), fresh);
+    assert.deepEqual(calls, { pathname: 0, opened: 1, touched: 0, closed: 1 });
+    assert.equal((await fs.lstat(alias, { bigint: true })).nlink, 2n);
+    assert.equal((await timestamp(alias)).mtimeNs, before.mtimeNs);
+  });
+
+  test(`${mode} hit rejects an injected opened-device mismatch and closes the handle`, async t => {
+    const { reader, fresh, target } = await populated(t);
+    const before = await oldTimestamp(target);
+    const calls = watchTouches(t, target, { openedStat: stat => { stat.dev += 1n; return stat; } });
+    assert.deepEqual(await reader.lookup(identity()), fresh);
+    assert.deepEqual(calls, { pathname: 0, opened: 1, touched: 0, closed: 1 });
+    assert.equal((await timestamp(target)).mtimeNs, before.mtimeNs);
+  });
+}

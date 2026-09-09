@@ -1,6 +1,6 @@
 # Current state
 
-Updated September 9, 2026: approved0.6 execution has begun; J single-worker inspection reuse is implemented and verified at its engineering checkpoint (131 tests,48 final reuse checks and real2-file app flow); two-worker and archive endpoint acceptance remain pending. K–M remain unimplemented. The sections below preserve accepted0.5 evidence.
+Updated September 9, 2026: approved0.6 execution has begun; J single-worker inspection reuse is implemented and verified at its engineering checkpoint (131 tests,48 final reuse checks and real2-file app flow); two-worker implementation and real-child tests now pass. Native60-file measurement is90.813s cold/0.460s warm/1.140s restart with60cachehits; UI-observation harness correction and independent final J review remain pending. See the updated J report. K–M remain unimplemented. The sections below preserve accepted0.5 evidence.
 
 Active scope: [0.6 Goal](11_Approved_0.6_Goal.md) and [0.6 Plan](12_Approved_0.6_Plan.md). Branch codex/archive-workflow; 0.6.0-dev.1. Accepted local-v0.5.0 remains f3efdeb and its ZIP hash was rechecked unchanged. D: development is explicitly authorized; the longstanding storage warning is parked outside this Goal.
 

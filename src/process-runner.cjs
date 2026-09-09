@@ -141,4 +141,10 @@ function runTool(executable, args, options = {}) {
   });
 }
 
-module.exports = { ToolError, ProgressParser, runTool };
+// Infrastructure failures stop every inspection worker; malformed media and
+// bounded decode timeouts remain per-file evidence failures.
+function isSharedToolFailure(error) {
+  return ['SPAWN_FAILED', 'PIPE_FAILED', 'ENOSPC', 'EACCES', 'EPERM', 'EROFS', 'OUTPUT_FOLDER_CHANGED'].includes(error.code)
+    || /no space left|disk full|cannot load.*nv|driver does not support|no capable devices/i.test(error.stderr || '');
+}
+module.exports = { ToolError, ProgressParser, runTool, isSharedToolFailure };

@@ -156,6 +156,22 @@ class InspectionCache {
     } finally { await handle.close(); }
   }
 
+  async #touchOwned(filename) {
+    let handle;
+    try {
+      await this.#ensureDirectory();
+      const before = await fs.lstat(filename, { bigint: true });
+      if (!before.isFile() || before.isSymbolicLink() || before.nlink !== 1n) return;
+      handle = await fs.open(filename, 'r+');
+      const opened = await handle.stat({ bigint: true });
+      if (!opened.isFile() || opened.ino !== before.ino || opened.dev !== before.dev || opened.nlink !== 1n) return;
+      // Touch only the checked object. A pathname utimes could follow a record
+      // replaced by a symlink and mutate timestamps on unrelated media.
+      await handle.utimes(new Date(), new Date());
+    } catch { /* Read-only or changed cache records need no LRU timestamp write. */ }
+    finally { await handle?.close().catch(() => {}); }
+  }
+
   lookup(identityValue) {
     return this.#sequence(async () => {
       const identity = identityOf(identityValue);
@@ -168,7 +184,7 @@ class InspectionCache {
         // cannot invalidate already verified in-memory evidence.
         try {
           await this.#ensureDirectory();
-          await fs.utimes(path.join(this.directory, `${key}.json`), new Date(), new Date());
+          await this.#touchOwned(path.join(this.directory, `${key}.json`));
         } catch {}
         return result;
       }
@@ -180,7 +196,7 @@ class InspectionCache {
         this.#remember(key, serialized);
         // A read-only cache can still supply valid evidence. LRU timestamp updates
         // are optional and never turn that successful read into an inspection error.
-        await fs.utimes(filename, new Date(), new Date()).catch(() => {});
+        await this.#touchOwned(filename);
         return result;
       } catch (error) {
         if (error.code === 'ENOENT') return null;

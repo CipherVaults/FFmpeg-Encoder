@@ -1,6 +1,6 @@
 'use strict';
 
-const { runTool, ToolError } = require('./process-runner.cjs');
+const { runTool, ToolError, isSharedToolFailure } = require('./process-runner.cjs');
 const { PROFILES, validateSettings, selectVideo, classifyColor, mappedStreams, outputPixelFormat } = require('./media.cjs');
 
 const UNKNOWN_COLOR = new Set(['', 'unknown', 'unspecified', 'reserved', 'n/a']);
@@ -275,6 +275,7 @@ async function finishInspection(file, probeValue, { ffprobe, signal, run = runTo
       // A timeout, broken decode or empty window cannot be interpreted as evidence
       // of SDR. Cancellation is different: it stops the queue instead of becoming a file result.
       if (error.code === 'CANCELLED' || signal?.aborted) throw new ToolError('CANCELLED', 'Operation cancelled.', { cause: error });
+      if (isSharedToolFailure(error)) throw error;
       evidence.windows.push({ frames: decodedFrames, error: { code: String(error.code || 'FRAME_SAMPLE_FAILED').slice(0, 100), reason: String(error.message).slice(0, 4000) } });
     }
   }

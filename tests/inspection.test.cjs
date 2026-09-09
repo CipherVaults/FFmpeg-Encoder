@@ -323,3 +323,11 @@ test('color evidence must belong to the selected stream and cannot override stre
   contradictory.probe.streams[0].color_transfer = 'smpte2084';
   assert.equal(validateOutput(contradictory, outputProbe(), settings).valid, false);
 });
+
+for (const code of ['SPAWN_FAILED', 'PIPE_FAILED', 'EACCES']) {
+  test('decoded-frame infrastructure failure propagates immediately: ' + code, async () => {
+    const mock = mockRun([sourceProbe({ seconds: 30 }), new ToolError(code, 'Injected infrastructure failure')]);
+    await assert.rejects(inspectInput(file, { ffprobe, run: mock.run }), { code });
+    assert.equal(mock.calls.length, 2, 'no later frame windows launch');
+  });
+}

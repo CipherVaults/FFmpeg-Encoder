@@ -4,7 +4,7 @@ const { createReadStream } = require('node:fs');
 const path = require('node:path');
 const { randomUUID, createHash } = require('node:crypto');
 const { PROFILES, validateSettings, selectVideo, buildEncodeArgs } = require('./media.cjs');
-const { runTool } = require('./process-runner.cjs');
+const { runTool, isSharedToolFailure } = require('./process-runner.cjs');
 const { inspectInput, validateOutput } = require('./inspection.cjs');
 const { checkCapabilities } = require('./capabilities.cjs');
 const { exists, createStage, cleanupStage, publishOutput } = require('./outputs.cjs');
@@ -29,16 +29,15 @@ function id(value) {
   return value;
 }
 function notCancelled(signal) { if (signal?.aborted) throw fail('CANCELLED', 'Preparation cancelled.'); }
-function sharedFailure(error) {
-  return ['SPAWN_FAILED', 'ENOSPC', 'EACCES', 'EPERM', 'EROFS', 'OUTPUT_FOLDER_CHANGED'].includes(error.code)
-    || /no space left|disk full|cannot load.*nv|driver does not support|no capable devices/i.test(error.stderr || '');
-}
+const sharedFailure = isSharedToolFailure;
 
 class EncoderService extends EventEmitter {
   constructor({ ffmpeg, ffprobe, stateDir, run = runTool, inspect = inspectInput, verify = validateOutput, capabilities = checkCapabilities,
-    inspectionCache, storageEligibility }) {
+    inspectionCache, storageEligibility, inspectionWorkers = 2 }) {
     super();
+    if (![1, 2].includes(inspectionWorkers)) throw new TypeError('Inspection workers must be one or two.');
     Object.assign(this, { ffmpeg, ffprobe, stateDir, run, inspect, verify, capabilities });
+    this.inspectionWorkers = inspectionWorkers;
     this.folders = new Map();
     this.plan = null;
     this.capabilityResult = null;
@@ -46,6 +45,7 @@ class EncoderService extends EventEmitter {
     this.taskPromise = Promise.resolve();
     this.startedAt = 0;
     this.finishedAt = 0;
+    this.preparationFailure = null;
     this.inspectionCache = inspectionCache;
     this.cacheInjected = inspectionCache !== undefined;
     this.cacheWarning = null;
@@ -69,6 +69,7 @@ class EncoderService extends EventEmitter {
   requireIdle() { if (this.busy) throw fail('BUSY', 'Wait for the current operation and cleanup to finish.'); }
   begin(phase) {
     this.controller = new AbortController();
+    this.preparationFailure = null;
     this.startedAt = Date.now();
     this.finishedAt = 0;
     this.state = { ...this.state, phase, batchId: randomUUID(), progress: null, preparation: null, error: null };
@@ -147,7 +148,9 @@ class EncoderService extends EventEmitter {
       const storage = await this.storageEligibility.check(file, stamp, { signal });
       notCancelled(signal);
       if (!storage.eligible) return { identity: stamp, reusable: false, reason: storage.reason };
-      return { identity: await readSourceIdentity(file, { signal }), reusable: true, reason: null };
+      const identity = await readSourceIdentity(file, { signal });
+      if (!sameStamp(stamp, identity)) throw fail('INPUT_CHANGED', 'Input changed after storage eligibility was checked.');
+      return { identity, reusable: true, reason: null };
     });
     this.identityTail = pending.catch(() => {});
     return pending;
@@ -166,6 +169,9 @@ class EncoderService extends EventEmitter {
     progress.active++;
     progress.fileId = item.id;
     progress.stage = 'identity';
+    progress.window = null;
+    const worker = { fileId: item.id, stage: 'identity', window: null };
+    progress.workers.push(worker);
     this.emitState();
     const file = path.join(input.path, item.name);
     const destination = path.join(output.path, item.outputName);
@@ -179,6 +185,7 @@ class EncoderService extends EventEmitter {
       if (inspection) {
         item.inspectionMethod = 'reused';
         progress.stage = 'reused';
+        progress.window = null;
       } else {
         progress.inspected++;
         item.inspectionMethod = 'fresh';
@@ -187,6 +194,8 @@ class EncoderService extends EventEmitter {
           progress.fileId = item.id;
           progress.stage = detail.stage;
           progress.window = detail.window || null;
+          worker.stage = detail.stage;
+          worker.window = detail.window || null;
           this.emitState();
         } });
       }
@@ -214,9 +223,34 @@ class EncoderService extends EventEmitter {
       item.reason = error.message;
     } finally {
       progress.active--;
+      progress.workers = progress.workers.filter(entry => entry.fileId !== item.id);
       if (item.status !== 'pending') progress.resolved++;
       if (owner === this.state.batchId) this.emitState();
     }
+  }
+
+  async prepareWithWorkers(context) {
+    let cursor = 0;
+    const worker = async () => {
+      while (!context.signal.aborted && !this.preparationFailure) {
+        const item = this.state.items[cursor++];
+        if (!item) return;
+        try { await this.prepareItem(item, context); }
+        catch (error) {
+          // Internal shared failure aborts peers, but remains a failure rather
+          // than masquerading as a user cancellation. The first observed cause
+          // wins. Neither path releases admission before every child closes.
+          if (!context.signal.aborted && error.code !== 'CANCELLED') this.preparationFailure ||= error;
+          this.controller.abort();
+          return;
+        }
+      }
+    };
+    const outcomes = await Promise.allSettled(Array.from({ length: Math.min(this.inspectionWorkers, this.state.items.length) }, worker));
+    const rejected = outcomes.find(outcome => outcome.status === 'rejected');
+    if (rejected) this.preparationFailure ||= rejected.reason;
+    if (this.preparationFailure) throw this.preparationFailure;
+    notCancelled(context.signal);
   }
 
   async prepareBatch(request) {
@@ -245,11 +279,9 @@ class EncoderService extends EventEmitter {
         if (!files.length) throw fail('NO_INPUTS', 'No supported top-level video files were found.');
         const profile = PROFILES.find(entry => entry.id === settings.profileId);
         this.state.items = files.map(entry => ({ id: randomUUID(), name: entry.name, outputName: `${path.parse(entry.name).name}_${profile.suffix}.mkv`, status: 'pending', reason: '' }));
-        this.state.preparation = { total: files.length, resolved: 0, reused: 0, inspected: 0, active: 0, stage: 'identity', fileId: null, notice: this.cacheWarning };
+        this.state.preparation = { total: files.length, resolved: 0, reused: 0, inspected: 0, active: 0, workers: [], stage: 'identity', fileId: null, notice: this.cacheWarning };
         const context = { input, output, settings, profile, caps, signal, owner: this.state.batchId };
-        for (const item of this.state.items) {
-          await this.prepareItem(item, context);
-        }
+        await this.prepareWithWorkers(context);
         const names = new Map();
         for (const item of this.state.items.filter(entry => entry.status === 'ready')) {
           const key = item.outputName.toLowerCase();
@@ -261,7 +293,7 @@ class EncoderService extends EventEmitter {
         }
         this.state.phase = 'ready';
       } catch (error) {
-        this.state.phase = signal.aborted || error.code === 'CANCELLED' ? 'cancelled' : 'failed';
+        this.state.phase = this.preparationFailure ? 'failed' : signal.aborted || error.code === 'CANCELLED' ? 'cancelled' : 'failed';
         this.state.error = error.message;
         for (const item of this.state.items) if (item.status === 'pending') item.status = 'unprocessed';
         this.plan = null;

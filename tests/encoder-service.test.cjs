@@ -58,7 +58,7 @@ async function harness(t, { names = ['a.mp4', 'b.mp4'], onEncode, onInspect, ver
   let active = 0;
   let maximumActive = 0;
   const service = new EncoderService({
-    ffmpeg: 'injected-ffmpeg', ffprobe: 'injected-ffprobe', stateDir,
+    ffmpeg: 'injected-ffmpeg', ffprobe: 'injected-ffprobe', stateDir, inspectionWorkers: 1,
     capabilities: async () => ({
       profiles: PROFILES.map((profile) => ({ ...profile, available: true, supportedBitDepths: [8, 10] })),
       versions: { ffmpeg: 'test', ffprobe: 'test' },

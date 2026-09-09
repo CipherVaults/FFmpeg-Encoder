@@ -31,7 +31,7 @@ async function harness(t, { names = ['a.mp4', 'b.mp4'], onProbe } = {}) {
   async function open({ eligible = true, hash = 'a'.repeat(64) } = {}) {
     const cache = new InspectionCache({ directory: path.join(stateDir, 'cache'), ffprobeHash: hash });
     const service = new EncoderService({
-      ffmpeg: 'injected-ffmpeg', ffprobe: 'injected-ffprobe', stateDir, inspectionCache: cache,
+      ffmpeg: 'injected-ffmpeg', ffprobe: 'injected-ffprobe', stateDir, inspectionCache: cache, inspectionWorkers: 1,
       storageEligibility: { check: async () => ({ eligible, reason: eligible ? null : 'Injected unsupported storage.' }) },
       capabilities: async () => {
         capabilityCalls++;

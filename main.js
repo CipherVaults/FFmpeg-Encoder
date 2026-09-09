@@ -25,7 +25,7 @@ try {
   root = app.getAppPath();
   stateDir = app.commandLine.hasSwitch('user-data-dir')
     ? app.commandLine.getSwitchValue('user-data-dir')
-    : path.join(app.isPackaged ? path.dirname(app.getPath('exe')) : root, 'data');
+    : path.join(app.isPackaged ? path.dirname(app.getPath('exe')) : root, app.isPackaged ? 'data' : 'data-next-0.6');
   fs.mkdirSync(stateDir, { recursive: true });
   // Electron/Chromium can initialize GPU/network state before createWindow.
   // Configure both paths synchronously before readiness and the instance lock,

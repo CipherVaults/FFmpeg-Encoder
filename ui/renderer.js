@@ -271,7 +271,9 @@
   }
 
   function renderTelemetry() {
-    const progress = snapshot.progress || {};
+    const preparing = snapshot.phase === 'preparing' || (snapshot.phase === 'cancelling' && snapshot.preparation);
+    const preparation = snapshot.preparation || {};
+    const progress = preparing ? { fileId: preparation.fileId, percent: preparation.total > 0 ? preparation.resolved / preparation.total * 100 : null } : snapshot.progress || {};
     const items = snapshot.items || [];
     const item = items.find(entry => entry.id === progress.fileId)
       || items.find(entry => entry.status === 'running')
@@ -283,6 +285,14 @@
     else byId('encode-progress').removeAttribute('value');
     put('percent', hasPercent ? `${Math.min(100, Math.max(0, progress.percent)).toFixed(1)}%` : 'In progress');
     put('progress-label', snapshot.phase === 'preparing' ? 'Inspecting media' : snapshot.phase === 'checking' ? 'Checking encoders' : 'Encoding progress');
+    put('monitor-heading', preparing ? '03 / Inspecting recordings' : '03 / Encoding monitor');
+    visible('inspection-details', preparing);
+    visible('encoding-telemetry', !preparing);
+    put('progress-note', preparing ? 'Progress counts resolved files. Individual inspection times vary with the recording.' : 'A file is complete after the encoded output has been verified and saved.');
+    const stages = { identity: 'Checking file identity', metadata: 'Reading duration, video properties and streams', frames: 'Checking sampled SDR/HDR metadata', reused: 'Reusing validated inspection' };
+    put('inspection-stage', `${stages[preparation.stage] || 'Preparing inspection'}${preparation.window ? ` · ${preparation.window}` : ''}`);
+    visible('inspection-notice', Boolean(preparation.notice));
+    put('inspection-notice', preparation.notice || '');
     put('encoded-time', duration(progress.seconds));
     put('speed', finite(progress.speed) ? `${progress.speed.toFixed(2)}×` : '—');
     put('fps', finite(progress.fps) ? progress.fps.toFixed(1) : '—');
@@ -296,6 +306,7 @@
     // active phase. This is presentation, never a queue/lifecycle timer.
     const base = finite(snapshot.elapsedSeconds) ? snapshot.elapsedSeconds : 0;
     put('elapsed', duration(base + (isBusy() ? (performance.now() - snapshotReceivedAt) / 1000 : 0)));
+    put('inspection-elapsed', duration(base + (isBusy() ? (performance.now() - snapshotReceivedAt) / 1000 : 0)));
   }
 
   function render() {
@@ -309,14 +320,17 @@
     put('phase-badge', phaseLabels[phase] || 'Ready');
     let activity = '';
     if (phase === 'checking') activity = 'Checking the bundled encoders on this computer. This can take a moment.';
-    else if (phase === 'preparing') activity = 'Inspecting files and checking output names before encoding.';
+    else if (phase === 'preparing') {
+      const p = snapshot.preparation;
+      activity = p ? `Checking ${p.total} recordings · ${p.resolved} resolved · ${p.reused} reused · ${p.active} inspecting` : 'Preparing inspection and checking output names…';
+    }
     else if (phase === 'cancelling') activity = 'Waiting for the active process to exit and temporary files to be cleaned up.';
     else if (phase === 'running') activity = 'Encoding locally. Each completed output is verified before it is saved.';
     else if (pendingCommands) activity = 'Working…';
     else if (ready) activity = 'Review the effective settings and select the files to encode.';
     else if (dirty && editing && capabilities) activity = 'Choose your settings, then review the batch.';
     put('activity-message', activity);
-    visible('setup-panel', !busy && !showResults);
+    visible('setup-panel', true);
     visible('batch-panel', (ready || busy || showResults) && (snapshot.items || []).length > 0);
     visible('monitor-panel', busy && phase !== 'checking');
     visible('results-panel', showResults);

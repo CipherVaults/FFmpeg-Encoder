@@ -55,9 +55,15 @@ class ProgressParser {
 function runTool(executable, args, options = {}) {
   const {
     signal, timeoutMs = 30000, stdoutLimit = 16 * 1024 * 1024,
-    stderrLimit = 256 * 1024, onProgress, spawnImpl = spawn, onChild,
+    stderrLimit = 256 * 1024, onProgress, spawnImpl = spawn, onChild, input,
   } = options;
   if (signal?.aborted) return Promise.reject(new ToolError('CANCELLED', 'Operation cancelled.'));
+  if (input !== undefined && typeof input !== 'string' && !Buffer.isBuffer(input)) {
+    return Promise.reject(new ToolError('INVALID_INPUT', 'Tool input must be text or bytes.'));
+  }
+  if (input !== undefined && Buffer.byteLength(input) > 65536) {
+    return Promise.reject(new ToolError('INPUT_LIMIT', 'Tool input exceeded its 64 KiB limit.'));
+  }
   return new Promise((resolve, reject) => {
     let child;
     let failure;
@@ -81,7 +87,7 @@ function runTool(executable, args, options = {}) {
     };
     const abort = () => stop(new ToolError('CANCELLED', 'Operation cancelled.'));
     try {
-      child = spawnImpl(executable, args, { windowsHide: true, shell: false, stdio: ['ignore', 'pipe', 'pipe'] });
+      child = spawnImpl(executable, args, { windowsHide: true, shell: false, stdio: [input === undefined ? 'ignore' : 'pipe', 'pipe', 'pipe'] });
       onChild?.(child);
     } catch (error) {
       reject(new ToolError('SPAWN_FAILED', `Could not launch the bundled media tool: ${error.message}`, { cause: error }));
@@ -90,6 +96,11 @@ function runTool(executable, args, options = {}) {
     child.on('error', error => {
       failure ||= new ToolError('SPAWN_FAILED', `Media tool process error: ${error.message}`, { cause: error });
     });
+    // A helper may close stdin early or a captured pipe may fail. These are
+    // owned-process failures: terminate, then retain ownership through close.
+    for (const stream of [child.stdin, child.stdout, child.stderr]) {
+      stream?.on('error', error => stop(new ToolError('PIPE_FAILED', 'Media tool pipe failed.', { cause: error })));
+    }
     child.stdout.on('data', chunk => {
       try {
         if (parser) parser.push(chunk);
@@ -122,6 +133,10 @@ function runTool(executable, args, options = {}) {
     if (timeoutMs > 0) {
       timeout = setTimeout(() => stop(new ToolError('TIMEOUT', 'Media operation exceeded its time limit.')), timeoutMs);
       timeout.unref();
+    }
+    if (input !== undefined && !signal?.aborted) {
+      try { child.stdin.end(input); }
+      catch (error) { stop(new ToolError('PIPE_FAILED', 'Could not send bounded tool input.', { cause: error })); }
     }
   });
 }

@@ -2,7 +2,7 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { inspectInput, validateOutput } = require('../src/inspection.cjs');
+const { inspectInput, inspectMetadata, finishInspection, reconstructInspection, cacheableInspection, validateOutput } = require('../src/inspection.cjs');
 const { classifyColor } = require('../src/media.cjs');
 const { ToolError } = require('../src/process-runner.cjs');
 
@@ -133,12 +133,61 @@ for (const [label, response] of [
   });
 }
 
-test('a failed required sample does not erase positive stream HDR', async () => {
+test('definite stream HDR stops after metadata and remains cacheable as unsupported', async () => {
   const input = sourceProbe();
   input.streams[0].color_transfer = 'arib-std-b67';
   const mock = mockRun([input, new ToolError('TIMEOUT', 'Frame timeout')]);
   const result = await inspectInput(file, { ffprobe, run: mock.run });
   assert.equal(result.color.classification, 'hdr');
+  assert.equal(mock.calls.length, 1);
+  assert.equal(result.evidence.mode, 'metadata-hdr');
+  assert.equal(cacheableInspection(result), true);
+});
+
+test('metadata and frame stages compose without probing metadata twice, with normalized preservation evidence', async () => {
+  const probe = richSource();
+  probe.format.filename = 'D:\\private\\input.mkv';
+  probe.programs = [{ unused: true }];
+  probe.streams[0].unused_decoder_field = 'unused';
+  const stages = [];
+  const mock = mockRun([probe, sample()]);
+  const options = { ffprobe, run: mock.run, onStage: stage => stages.push(stage) };
+  const metadata = await inspectMetadata(file, options);
+  assert.equal(mock.calls.length, 1);
+  assert.equal(metadata.format.filename, undefined);
+  assert.equal(metadata.programs, undefined);
+  assert.equal(metadata.streams[0].unused_decoder_field, undefined);
+  assert.deepEqual(metadata.chapters, probe.chapters);
+  assert.deepEqual(metadata.streams[4], probe.streams[4]);
+  const result = await finishInspection(file, metadata, options);
+  assert.deepEqual(stages, [{ stage: 'metadata' }, { stage: 'frames', window: 'start' }]);
+  assert.deepEqual(reconstructInspection(result.probe, result.evidence), result);
+  assert.equal(mock.calls.length, 2);
+});
+
+test('reconstructed long-window decisions include preroll HDR and reject missing or fabricated coverage', async () => {
+  const probe = sourceProbe({ seconds: 20 });
+  const result = await inspectInput(file, { ffprobe, run: mockRun([
+    probe, sample(), { frames: [...sample(4, 'smpte2084', 0).frames, ...sample(4, 'bt709', 10).frames] }, sample(4, 'bt709', 18),
+  ]).run });
+  assert.deepEqual(reconstructInspection(result.probe, result.evidence), result);
+  assert.equal(result.color.classification, 'hdr');
+  assert.equal(cacheableInspection(result), true);
+  const missing = copy(result);
+  missing.evidence.windows.pop();
+  assert.throws(() => reconstructInspection(missing.probe, missing.evidence), /missing/);
+  const falseCoverage = copy(result);
+  falseCoverage.evidence.windows[1].frames = sample().frames;
+  assert.equal(cacheableInspection(falseCoverage), false);
+});
+
+test('failed frame sampling retains observed HDR but is never cacheable', async () => {
+  const run = async (_, args) => ({ stdout: JSON.stringify(args.includes('-show_frames') ? sample(4, 'smpte2084') : sourceProbe()), stderr: args.includes('-show_frames') ? 'decoder error' : '' });
+  const result = await inspectInput(file, { ffprobe, run });
+  assert.equal(result.color.classification, 'hdr');
+  assert.equal(result.summary.sampling[0].succeeded, false);
+  assert.equal(cacheableInspection(result), false);
+  assert.deepEqual(reconstructInspection(result.probe, result.evidence), result);
 });
 
 test('ten-bit BT.2020 primaries with coherent SDR transfer remain SDR', async () => {

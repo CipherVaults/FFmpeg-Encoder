@@ -13,3 +13,5 @@ Execution reports describe what Codex actually did, which checks passed or faile
 | [2026-09-08 — Portable acceptance](Execution%20Summaries/2026-09-08_Portable_Acceptance.md) | I complete: pinned portable ZIP, independent native acceptance, final synchronized docs and local-v0.5.0 checkpoint. Companion JSON preserves exact artifact/source hashes. |
 
 The latest [Current State](01_Current_State.md) owns the overall status. A future report should identify its source commit or the commit that adds the report; avoid inventing a self-referential commit hash before a commit exists.
+
+- [September9 — Inspection reuse](Execution%20Summaries/2026-09-09_Inspection_Reuse.md): J in progress; verified single-worker checkpoint, concurrency/performance/independent acceptance pending.

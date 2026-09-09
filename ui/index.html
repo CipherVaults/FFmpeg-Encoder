@@ -54,7 +54,8 @@
       <div class="progress-heading"><label for="encode-progress" id="progress-label">Encoding progress</label><span id="percent">—</span></div>
       <progress id="encode-progress" max="100" aria-describedby="progress-note"></progress>
       <p id="progress-note" class="hint">A file is complete after the encoded output has been verified and saved.</p>
-      <dl class="telemetry"><div><dt>Encoded</dt><dd id="encoded-time">—</dd></div><div><dt>Speed</dt><dd id="speed">—</dd></div><div><dt>FPS</dt><dd id="fps">—</dd></div><div><dt>Output size</dt><dd id="output-size">—</dd></div><div><dt>Time remaining</dt><dd id="eta">—</dd></div><div><dt>Batch elapsed</dt><dd id="elapsed">00:00</dd></div></dl>
+      <div id="inspection-details" hidden><p id="inspection-stage" class="hint"></p><p class="hint">Inspection elapsed: <span id="inspection-elapsed">00:00</span></p><p id="inspection-notice" class="hint" hidden></p><details><summary>Why inspect recordings?</summary><p class="hint">Inspection checks duration, video properties, streams to preserve, encoder compatibility and sampled SDR/HDR metadata. Unchanged completed recordings can reuse validated inspection. Finish recording before preparing a batch.</p></details></div>
+      <dl id="encoding-telemetry" class="telemetry"><div><dt>Encoded</dt><dd id="encoded-time">—</dd></div><div><dt>Speed</dt><dd id="speed">—</dd></div><div><dt>FPS</dt><dd id="fps">—</dd></div><div><dt>Output size</dt><dd id="output-size">—</dd></div><div><dt>Time remaining</dt><dd id="eta">—</dd></div><div><dt>Batch elapsed</dt><dd id="elapsed">00:00</dd></div></dl>
     </section>
 
     <section id="results-panel" class="panel" aria-labelledby="results-heading" hidden>

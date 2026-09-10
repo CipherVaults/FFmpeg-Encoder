@@ -5,9 +5,10 @@ const path = require('node:path');
 const { randomUUID, createHash } = require('node:crypto');
 const { PROFILES, validateSettings, selectVideo, buildEncodeArgs } = require('./media.cjs');
 const { runTool, isSharedToolFailure } = require('./process-runner.cjs');
-const { inspectInput, validateOutput } = require('./inspection.cjs');
+const { inspectInput, inspectMetadata, finishInspection, parseProbeJson, validateOutput } = require('./inspection.cjs');
 const { checkCapabilities } = require('./capabilities.cjs');
-const { exists, createStage, cleanupStage, publishOutput } = require('./outputs.cjs');
+const { exists, createStage, sealStage, cleanupStage, publishOutput } = require('./outputs.cjs');
+const { createOutputId, classifyMarker, historicalSuffix, ProvenanceJournal } = require('./provenance.cjs');
 const { readFileStamp, readSourceIdentity, sameStamp, sameIdentity } = require('./source-identity.cjs');
 const { StorageEligibility } = require('./storage-eligibility.cjs');
 const { InspectionCache } = require('./inspection-cache.cjs');
@@ -33,7 +34,7 @@ const sharedFailure = isSharedToolFailure;
 
 class EncoderService extends EventEmitter {
   constructor({ ffmpeg, ffprobe, stateDir, run = runTool, inspect = inspectInput, verify = validateOutput, capabilities = checkCapabilities,
-    inspectionCache, storageEligibility, inspectionWorkers = 2 }) {
+    inspectionCache, storageEligibility, inspectionWorkers = 2, provenanceJournal }) {
     super();
     if (![1, 2].includes(inspectionWorkers)) throw new TypeError('Inspection workers must be one or two.');
     Object.assign(this, { ffmpeg, ffprobe, stateDir, run, inspect, verify, capabilities });
@@ -51,13 +52,15 @@ class EncoderService extends EventEmitter {
     this.cacheWarning = null;
     this.storageEligibility = storageEligibility || new StorageEligibility({ run });
     this.identityTail = Promise.resolve();
+    this.provenanceJournal = provenanceJournal || new ProvenanceJournal({ directory: stateDir });
+    this.recoveredProvenance = false;
   }
 
   get busy() { return BUSY.has(this.state.phase); }
   snapshot() {
     const counts = { success: 0, failed: 0, skipped: 0, cancelled: 0, unprocessed: 0 };
     for (const item of this.state.items) {
-      if (item.status === 'unsupported') counts.failed++;
+      if (['unsupported', 'provenance-issue'].includes(item.status)) counts.failed++;
       else if (Object.hasOwn(counts, item.status)) counts[item.status]++;
     }
     return clone({ ...this.state, counts, elapsedSeconds: this.startedAt ? ((this.finishedAt || Date.now()) - this.startedAt) / 1000 : 0 });
@@ -90,6 +93,7 @@ class EncoderService extends EventEmitter {
       try {
         await fs.mkdir(this.stateDir, { recursive: true });
         this.capabilityResult = await this.capabilities({ ffmpeg: this.ffmpeg, ffprobe: this.ffprobe, stateDir: this.stateDir, signal, run: this.run });
+        await this.recoverProvenance(signal);
         this.state.phase = 'idle';
       } catch (error) {
         this.state.phase = error.code === 'CANCELLED' ? 'cancelled' : 'failed';
@@ -144,13 +148,14 @@ class EncoderService extends EventEmitter {
     const pending = this.identityTail.then(async () => {
       notCancelled(signal);
       const stamp = await readFileStamp(file);
-      if (!this.inspectionCache) return { identity: stamp, reusable: false, reason: this.cacheWarning };
-      const storage = await this.storageEligibility.check(file, stamp, { signal });
+      const storage = this.inspectionCache ? await this.storageEligibility.check(file, stamp, { signal })
+        : { eligible: false, reason: this.cacheWarning };
       notCancelled(signal);
-      if (!storage.eligible) return { identity: stamp, reusable: false, reason: storage.reason };
+      // Provenance recognition and explicit legacy overrides need content-bound
+      // identity even when persistent inspection caching is unavailable.
       const identity = await readSourceIdentity(file, { signal });
       if (!sameStamp(stamp, identity)) throw fail('INPUT_CHANGED', 'Input changed after storage eligibility was checked.');
-      return { identity, reusable: true, reason: null };
+      return { identity, reusable: storage.eligible, reason: storage.reason };
     });
     this.identityTail = pending.catch(() => {});
     return pending;
@@ -167,60 +172,80 @@ class EncoderService extends EventEmitter {
     const progress = this.state.preparation;
     notCancelled(signal);
     progress.active++;
-    progress.fileId = item.id;
-    progress.stage = 'identity';
-    progress.window = null;
+    Object.assign(progress, { fileId: item.id, stage: 'identity', window: null });
     const worker = { fileId: item.id, stage: 'identity', window: null };
     progress.workers.push(worker);
     this.emitState();
     const file = path.join(input.path, item.name);
     const destination = path.join(output.path, item.outputName);
+    const onStage = detail => {
+      if (signal.aborted || owner !== this.state.batchId || this.state.phase !== 'preparing') return;
+      Object.assign(progress, { fileId: item.id, stage: detail.stage, window: detail.window || null });
+      Object.assign(worker, { stage: detail.stage, window: detail.window || null });
+      this.emitState();
+    };
     try {
-      if (await exists(destination)) { item.status = 'skipped'; item.reason = 'Output already exists.'; return; }
+      const baseline = this.plan.baseline.get(item.name);
+      if (baseline.error) throw fail('UNSAFE_SOURCE', baseline.error);
       const { identity, reusable, reason } = await this.identifyForInspection(file, signal);
+      if (!sameStamp(baseline.identity, identity)) throw fail('INPUT_CHANGED', 'Input changed after the directory snapshot. Prepare again.');
       notCancelled(signal);
       if (reason) progress.notice ||= reason;
       let inspection = reusable ? await this.inspectionCache.lookup(identity) : null;
+      let probe = inspection?.probe;
+      item.inspectionMethod = inspection ? 'reused' : 'fresh';
+      if (inspection) { onStage({ stage: 'reused' }); progress.reused++; }
+      else if (this.inspect === inspectInput) probe = await inspectMetadata(file, { ffprobe: this.ffprobe, signal, run: this.run, onStage });
+      else { inspection = await this.inspect(file, { ffprobe: this.ffprobe, signal, run: this.run, onStage }); probe = inspection.probe; }
       notCancelled(signal);
-      if (inspection) {
-        item.inspectionMethod = 'reused';
-        progress.stage = 'reused';
-        progress.window = null;
-      } else {
-        progress.inspected++;
-        item.inspectionMethod = 'fresh';
-        inspection = await this.inspect(file, { ffprobe: this.ffprobe, signal, run: this.run, onStage: detail => {
-          if (signal.aborted || owner !== this.state.batchId || this.state.phase !== 'preparing') return;
-          progress.fileId = item.id;
-          progress.stage = detail.stage;
-          progress.window = detail.window || null;
-          worker.stage = detail.stage;
-          worker.window = detail.window || null;
-          this.emitState();
-        } });
+      if (!sameStamp(identity, await readFileStamp(file))) throw fail('INPUT_CHANGED', 'Input changed during metadata inspection.');
+      const marker = classifyMarker(probe);
+      const indexed = marker.kind === 'unmarked' ? await this.provenanceJournal.lookupIdentity(identity) : null;
+      if (marker.kind !== 'unmarked' || indexed) {
+        item.status = marker.kind === 'suspicious' ? 'provenance-issue' : 'generated';
+        item.reason = indexed ? 'Recognized application output from local provenance.' : marker.reason || 'Application-generated output; excluded from source selection.';
+        return;
       }
+      if (historicalSuffix(item.name)) {
+        const override = this.plan.overrides.get(item.id);
+        if (!override || !sameIdentity(override, identity)) {
+          item.status = 'ambiguous';
+          item.reason = 'Possible previous output. Excluded unless you explicitly treat this unchanged, unmarked file as an original.';
+          this.plan.ambiguities.set(item.id, { file, fingerprint: identity });
+          return;
+        }
+      }
+      // Origin is established before checking destinations. Generated outputs
+      // never become a silently skipped/ordinary source just because a name exists.
+      const destinationExists = await exists(destination);
+      if (this.plan.reservedPaths.has(destination.toLowerCase())) {
+        item.status = destinationExists ? 'skipped' : 'unsupported';
+        item.reason = 'Destination is protected by the original directory snapshot; prepare another destination.';
+        return;
+      }
+      if (destinationExists) { item.status = 'skipped'; item.reason = 'Output already exists.'; return; }
+      if (!inspection) {
+        progress.inspected++;
+        inspection = await finishInspection(file, probe, { ffprobe: this.ffprobe, signal, run: this.run, onStage });
+      } else if (item.inspectionMethod === 'fresh') progress.inspected++;
       notCancelled(signal);
-      // Hits are facts about this still-unchanged source, not persistent plans.
-      // Current settings/hardware/mapping/destination checks always run anew.
       if (!sameStamp(identity, await readFileStamp(file))) throw fail('INPUT_CHANGED', 'Input changed during inspection.');
-      if (item.inspectionMethod === 'reused') progress.reused++;
       if (reusable && item.inspectionMethod === 'fresh') {
         await this.inspectionCache.store(identity, inspection);
         if (this.inspectionCache.warning) progress.notice ||= this.inspectionCache.warning;
       }
-      notCancelled(signal);
       if (!inspection.color.supported) throw fail('UNSUPPORTED_COLOR', inspection.color.reasons.join(' '));
       buildEncodeArgs({ input: file, output: destination, settings, probe: inspection.probe, colorEvidence: inspection.color });
       const video = selectVideo(inspection.probe);
       const depth = /(?:10|12)/.exec(video.pix_fmt)?.[0] || '8';
       const capability = caps.profiles.find(entry => entry.id === profile.id);
-      if (!capability.supportedBitDepths.includes(Number(depth))) throw fail('UNSUPPORTED_DEPTH', `${profile.label} cannot encode this bit depth on the current device.`);
-      this.plan.entries.set(item.id, { file, destination, inspection, fingerprint: identity });
-      Object.assign(item, { status: 'ready', summary: inspection.summary, reason: '' });
+      if (!capability.supportedBitDepths.includes(Number(depth))) throw fail('UNSUPPORTED_DEPTH', profile.label + ' cannot encode this bit depth on the current device.');
+      this.plan.entries.set(item.id, { file, destination, inspection, fingerprint: identity, overridden: this.plan.overrides.has(item.id), outputId: createOutputId() });
+      this.plan.ambiguities.delete(item.id);
+      Object.assign(item, { status: 'ready', summary: inspection.summary, reason: this.plan.overrides.has(item.id) ? 'Explicitly treated as original for this plan only.' : '' });
     } catch (error) {
       if (error.code === 'CANCELLED' || signal.aborted || sharedFailure(error)) throw error;
-      item.status = 'unsupported';
-      item.reason = error.message;
+      item.status = 'unsupported'; item.reason = error.message;
     } finally {
       progress.active--;
       progress.workers = progress.workers.filter(entry => entry.fileId !== item.id);
@@ -259,7 +284,7 @@ class EncoderService extends EventEmitter {
     const input = this.folders.get(id(request.inputFolderId));
     const output = this.folders.get(id(request.outputFolderId));
     if (input?.role !== 'input' || output?.role !== 'output') throw fail('INVALID_FOLDER', 'Select both folders again.');
-    if (input.path.toLowerCase() === output.path.toLowerCase()) throw fail('SAME_FOLDER', 'Input and output folders must be different.');
+    const sameFolder = input.path.toLowerCase() === output.path.toLowerCase();
     this.requireIdle();
     const caps = await this.getCapabilities();
     this.requireIdle();
@@ -267,30 +292,30 @@ class EncoderService extends EventEmitter {
     const signal = this.begin('preparing');
     this.state.items = [];
     this.state.settings = settings;
-    this.plan = { id: randomUUID(), input: input.path, output: output.path, settings, entries: new Map() };
+    this.plan = { id: randomUUID(), input: input.path, output: output.path, settings, sameFolder, entries: new Map(),
+      baseline: new Map(), reservedPaths: new Set(), reservedIdentities: new Set(), overrides: new Map(), ambiguities: new Map() };
     this.state.planId = this.plan.id;
     this.taskPromise = (async () => {
       try {
+        await this.captureFolders();
         await this.verifyFolders();
         await this.initializeInspectionCache(signal);
         const files = (await fs.readdir(input.path, { withFileTypes: true }))
-          .filter(entry => entry.isFile() && EXTENSIONS.has(path.extname(entry.name).toLowerCase()))
+          .filter(entry => (entry.isFile() || entry.isSymbolicLink()) && EXTENSIONS.has(path.extname(entry.name).toLowerCase()))
           .sort((a, b) => a.name.localeCompare(b.name, 'en', { numeric: false }) || a.name.localeCompare(b.name));
         if (!files.length) throw fail('NO_INPUTS', 'No supported top-level video files were found.');
+        await this.captureBaseline(files, signal);
+        if (sameFolder) {
+          const candidate = [...this.plan.baseline.values()].find(entry => entry.identity);
+          const storage = candidate && await this.storageEligibility.check(candidate.identity.canonicalPath, candidate.identity, { signal });
+          if (!storage?.eligible) throw fail('SAME_FOLDER_STORAGE', 'Output beside originals requires verified local fixed NTFS storage. Choose a distinct output folder for this storage.');
+        }
         const profile = PROFILES.find(entry => entry.id === settings.profileId);
         this.state.items = files.map(entry => ({ id: randomUUID(), name: entry.name, outputName: `${path.parse(entry.name).name}_${profile.suffix}.mkv`, status: 'pending', reason: '' }));
         this.state.preparation = { total: files.length, resolved: 0, reused: 0, inspected: 0, active: 0, workers: [], stage: 'identity', fileId: null, notice: this.cacheWarning };
         const context = { input, output, settings, profile, caps, signal, owner: this.state.batchId };
         await this.prepareWithWorkers(context);
-        const names = new Map();
-        for (const item of this.state.items.filter(entry => entry.status === 'ready')) {
-          const key = item.outputName.toLowerCase();
-          const group = names.get(key) || [];
-          group.push(item); names.set(key, group);
-        }
-        for (const group of names.values()) if (group.length > 1) for (const item of group) {
-          item.status = 'conflict'; item.reason = 'Another input has the same output name. Select only one.';
-        }
+        this.markConflicts();
         this.state.phase = 'ready';
       } catch (error) {
         this.state.phase = this.preparationFailure ? 'failed' : signal.aborted || error.code === 'CANCELLED' ? 'cancelled' : 'failed';
@@ -309,9 +334,116 @@ class EncoderService extends EventEmitter {
       if (await fs.realpath(this.plan.input) !== this.plan.input || await fs.realpath(this.plan.output) !== this.plan.output) {
         throw fail('OUTPUT_FOLDER_CHANGED', 'A selected folder changed. Select the folders again.');
       }
+      for (const role of ['input', 'output']) {
+        const current = await fs.lstat(this.plan[role], { bigint: true });
+        const original = this.plan.folderIdentities[role];
+        if (!current.isDirectory() || current.isSymbolicLink() || String(current.dev) !== original.dev
+            || String(current.ino) !== original.ino || String(current.birthtimeNs) !== original.birthtimeNs) {
+          throw fail('OUTPUT_FOLDER_CHANGED', 'A selected directory was replaced. Select the folders again.');
+        }
+      }
       await fs.access(this.plan.output, require('node:fs').constants.W_OK);
     } catch (error) {
       throw fail('OUTPUT_FOLDER_CHANGED', `A selected folder is unavailable or changed: ${error.message}`);
+    }
+  }
+
+  async captureFolders() {
+    this.plan.folderIdentities = {};
+    for (const role of ['input', 'output']) {
+      const stat = await fs.lstat(this.plan[role], { bigint: true });
+      if (!stat.isDirectory() || stat.isSymbolicLink()) throw fail('OUTPUT_FOLDER_CHANGED', 'Selected folders must be ordinary directories.');
+      this.plan.folderIdentities[role] = { dev: String(stat.dev), ino: String(stat.ino), birthtimeNs: String(stat.birthtimeNs) };
+    }
+  }
+
+  async captureBaseline(files, signal) {
+    const aliases = new Map();
+    // Reserve the complete discovery snapshot before workers can inspect or
+    // skip anything. A disappeared original's name must never become writable.
+    for (const file of files) {
+      notCancelled(signal);
+      const pathname = path.join(this.plan.input, file.name);
+      this.plan.reservedPaths.add(pathname.toLowerCase());
+      let entry;
+      try {
+        const identity = await readFileStamp(pathname);
+        entry = { identity };
+        const key = `${identity.dev}:${identity.ino}`;
+        if (identity.ino !== '0' && identity.dev !== '0') {
+          this.plan.reservedIdentities.add(key);
+          const group = aliases.get(key) || [];
+          group.push(entry); aliases.set(key, group);
+        }
+      } catch (error) { entry = { error: error.message }; }
+      this.plan.baseline.set(file.name, entry);
+    }
+    for (const group of aliases.values()) if (group.length > 1) {
+      for (const entry of group) entry.error = 'Multiple discovered names refer to the same file. Hard-linked source aliases are excluded.';
+    }
+  }
+
+  markConflicts() {
+    const groups = new Map();
+    for (const item of this.state.items.filter(entry => ['ready', 'conflict'].includes(entry.status))) {
+      item.status = 'ready';
+      const key = item.outputName.toLowerCase();
+      const group = groups.get(key) || [];
+      group.push(item); groups.set(key, group);
+    }
+    for (const group of groups.values()) if (group.length > 1) for (const item of group) {
+      item.status = 'conflict'; item.reason = 'Another input has the same output name. Select only one.';
+    }
+  }
+
+  async treatAsOriginal(request) {
+    objectKeys(request, ['planId', 'fileId']);
+    this.requireIdle();
+    if (!this.plan || this.state.phase !== 'ready' || id(request.planId) !== this.plan.id) throw fail('STALE_PLAN', 'Prepare the current batch again.');
+    const item = this.state.items.find(entry => entry.id === id(request.fileId));
+    const ambiguous = this.plan.ambiguities.get(request.fileId);
+    if (!item || item.status !== 'ambiguous' || !ambiguous) throw fail('INVALID_OVERRIDE', 'Only an ambiguous unmarked file can be treated as original.');
+    const signal = this.begin('preparing');
+    const priorResolved = this.state.items.filter(entry => entry.status !== 'pending').length;
+    item.status = 'pending';
+    this.state.preparation = { total: this.state.items.length, resolved: priorResolved - 1, reused: 0, inspected: 0, active: 0, workers: [], stage: 'identity', notice: null };
+    this.taskPromise = (async () => {
+      try {
+        const current = await readSourceIdentity(ambiguous.file, { signal });
+        if (!sameIdentity(current, ambiguous.fingerprint)) throw fail('INPUT_CHANGED', 'The possible previous output changed. Prepare the batch again.');
+        this.plan.overrides.set(item.id, current);
+        await this.prepareItem(item, { input: { path: this.plan.input }, output: { path: this.plan.output }, settings: this.plan.settings,
+          profile: PROFILES.find(profile => profile.id === this.plan.settings.profileId), caps: this.capabilityResult, signal, owner: this.state.batchId });
+        notCancelled(signal);
+        this.markConflicts(); this.state.phase = 'ready';
+      } catch (error) {
+        item.status = signal.aborted ? 'unprocessed' : 'unsupported'; item.reason = error.message;
+        this.state.phase = signal.aborted ? 'cancelled' : 'failed'; this.state.error = error.message;
+        this.plan = null; this.state.planId = null;
+      } finally { this.finishedAt = Date.now(); this.emitState(); }
+    })();
+    await this.taskPromise;
+    return this.snapshot();
+  }
+
+  async recoverProvenance(signal) {
+    if (this.recoveredProvenance) return;
+    try {
+      const result = await this.provenanceJournal.recover({ maxPending: 128, inspectDestination: async destination => {
+        notCancelled(signal);
+        if (!await exists(destination)) return null;
+        const identity = await readSourceIdentity(destination, { signal });
+        const probe = await inspectMetadata(destination, { ffprobe: this.ffprobe, signal, run: this.run });
+        if (!sameStamp(identity, await readFileStamp(destination))) throw fail('INPUT_CHANGED', 'Output changed during provenance recovery.');
+        return { identity, marker: classifyMarker(probe) };
+      } });
+      notCancelled(signal);
+      this.state.provenanceRecovery = { ...Object.fromEntries(['matching', 'absent', 'unrelated', 'uncertain'].map(key => [key, result[key].length])),
+        pendingRemaining: result.pendingRemaining || 0, warnings: result.warnings || [] };
+      this.recoveredProvenance = true;
+    } catch (error) {
+      notCancelled(signal);
+      this.state.provenanceRecovery = { matching: 0, absent: 0, unrelated: 0, uncertain: 0, warnings: ['Provenance recovery unavailable: ' + error.message] };
     }
   }
 
@@ -346,14 +478,27 @@ class EncoderService extends EventEmitter {
         try {
           await this.verifyFolders();
           if (await exists(entry.destination)) { item.status = 'skipped'; item.reason = 'Output appeared since preview.'; continue; }
+          if (this.plan.reservedPaths.has(entry.destination.toLowerCase())) throw fail('PROTECTED_SOURCE', 'The destination belonged to the baseline input snapshot. It remains protected after disappearance.');
           if (!await this.sourceStillMatches(entry, signal)) throw fail('INPUT_CHANGED', 'Input changed since preview. Prepare it again.');
+          const currentProbe = this.inspect === inspectInput
+            ? await inspectMetadata(entry.file, { ffprobe: this.ffprobe, signal, run: this.run })
+            : (await this.inspect(entry.file, { ffprobe: this.ffprobe, signal, run: this.run })).probe;
+          if (classifyMarker(currentProbe).kind !== 'unmarked' || await this.provenanceJournal.lookupIdentity(entry.fingerprint)) {
+            throw fail('GENERATED_SOURCE', 'This source is now recognized as a generated output; prepare again.');
+          }
+          if (entry.overridden && !sameIdentity(this.plan.overrides.get(item.id), await readSourceIdentity(entry.file, { signal }))) {
+            throw fail('INPUT_CHANGED', 'The explicit original override no longer matches this file.');
+          }
+          if (!await this.sourceStillMatches(entry, signal)) throw fail('INPUT_CHANGED', 'Input changed during the final provenance check.');
+          await this.provenanceJournal.recordIntent({ outputId: entry.outputId, sourceIdentity: entry.fingerprint,
+            destination: entry.destination, profileId: this.plan.settings.profileId });
           stage = await createStage(this.plan.output);
           item.status = 'running';
           const owner = this.state.batchId;
           let lastProgress = 0;
           this.state.progress = { fileId: item.id, duration: entry.inspection.duration, percent: null };
           this.emitState();
-          const args = buildEncodeArgs({ input: entry.file, output: stage.file, settings: this.plan.settings, probe: entry.inspection.probe, colorEvidence: entry.inspection.color });
+          const args = buildEncodeArgs({ input: entry.file, output: stage.file, settings: this.plan.settings, probe: entry.inspection.probe, colorEvidence: entry.inspection.color, outputId: entry.outputId });
           await this.run(this.ffmpeg, args, { signal, timeoutMs: 0, onProgress: record => {
             if (owner !== this.state.batchId || item.status !== 'running') return;
             const duration = entry.inspection.duration;
@@ -361,16 +506,26 @@ class EncoderService extends EventEmitter {
             this.state.progress = { ...record, fileId: item.id, duration, percent, etaSeconds: record.speed > 0 && duration > 0 ? Math.max(0, (duration - (record.seconds || 0)) / record.speed) : null };
             if (Date.now() - lastProgress > 150) { lastProgress = Date.now(); this.emitState(); }
           } });
+          await sealStage(stage);
+          const stagedIdentity = await readFileStamp(stage.file);
+          if (this.plan.reservedIdentities.has(`${stagedIdentity.dev}:${stagedIdentity.ino}`)) throw fail('PROTECTED_SOURCE', 'A temporary output aliases a protected source.');
           if (signal.aborted) throw fail('CANCELLED', 'Encoding cancelled.');
           const result = await this.run(this.ffprobe, ['-v', 'error', '-protocol_whitelist', 'file', '-show_format', '-show_streams', '-show_chapters', '-show_data_hash', 'sha256', '-of', 'json', stage.file], { signal });
-          const validation = this.verify(entry.inspection, JSON.parse(result.stdout), this.plan.settings);
+          const outputProbe = parseProbeJson(result.stdout, 'Output validation');
+          const marker = classifyMarker(outputProbe);
+          if (marker.kind !== 'generated' || marker.outputId !== entry.outputId) throw fail('INVALID_PROVENANCE', 'The completed output does not contain its expected application marker and output ID.');
+          const validation = this.verify(entry.inspection, outputProbe, this.plan.settings);
           if (!validation.valid) throw fail('INVALID_OUTPUT', validation.errors.join(' '));
           if (!await this.sourceStillMatches(entry, signal)) throw fail('INPUT_CHANGED', 'Input changed while it was being encoded.');
           await this.verifyFolders();
-          const published = await publishOutput(stage, entry.destination, { signal });
+          const published = await publishOutput(stage, entry.destination, { signal, atomicOnly: this.plan.sameFolder });
           item.status = published ? 'success' : 'skipped';
           item.reason = published ? '' : 'Another output won the publication race.';
-          if (published) this.state.progress = { ...this.state.progress, percent: 100 };
+          if (published) {
+            this.state.progress = { ...this.state.progress, percent: 100 };
+            try { await this.provenanceJournal.recordPublished(entry.outputId, await readSourceIdentity(entry.destination)); }
+            catch (error) { item.reason = 'Output saved; provenance bookkeeping remains pending. ' + error.message; }
+          }
         } catch (error) {
           item.status = signal.aborted || error.code === 'CANCELLED' ? 'cancelled' : 'failed';
           item.reason = error.message;
@@ -378,7 +533,13 @@ class EncoderService extends EventEmitter {
           if (item.status === 'cancelled') break;
           if (sharedFailure(error)) { stoppedByFailure = true; this.state.error = error.message; break; }
         } finally {
-          try { await cleanupStage(stage); }
+          try {
+            const cleanup = await cleanupStage(stage, { protectedIdentities: this.plan.reservedIdentities });
+            if (cleanup?.retained) {
+              item.cleanup = cleanup;
+              item.reason = [item.reason, 'Temporary files retained for safety: ' + cleanup.reason].filter(Boolean).join(' ');
+            }
+          }
           catch (error) { stoppedByFailure = true; this.state.error = `Could not clean owned temporary output: ${error.message}`; }
           this.emitState();
         }

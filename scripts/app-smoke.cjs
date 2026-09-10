@@ -36,8 +36,8 @@ async function main() {
     assert.equal(boundary.requireType, 'undefined');
     assert.equal(boundary.processType, 'undefined');
     assert.equal(boundary.bridge.includes('send'), false);
-    assert.equal(boundary.bridge.length, 8);
-    checks.push('renderer has no Node globals and exposes only eight named bridge methods');
+    assert.deepEqual([...boundary.bridge].sort(), ['getCapabilities', 'chooseInputFolder', 'chooseOutputFolder', 'prepareBatch', 'treatAsOriginal', 'startBatch', 'cancelBatch', 'getSnapshot', 'onUpdate'].sort());
+    checks.push('renderer has no Node globals and exposes only the named bridge methods');
     const prefs = await app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].webContents.getLastWebPreferences());
     assert.equal(prefs.sandbox, true); assert.equal(prefs.contextIsolation, true); assert.equal(prefs.nodeIntegration, false);
     checks.push('Electron confirms sandbox, isolation and disabled Node integration');

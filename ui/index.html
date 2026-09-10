@@ -17,6 +17,7 @@
     <p class="intro">Choose a profile. Review your files. Encode one at a time.</p>
     <div id="error-banner" class="error-banner" role="alert" hidden></div>
     <p id="activity-message" class="activity" role="status" aria-live="polite">Checking available encoders…</p>
+    <p id="provenance-notice" class="hint" role="status" hidden></p>
 
     <section id="setup-panel" class="panel" aria-labelledby="setup-heading">
       <div class="section-heading"><h2 id="setup-heading">01 / Setup</h2><span class="muted">SDR video · Matroska output</span></div>
@@ -24,7 +25,7 @@
         <div class="folder-field"><h3>Input folder</h3><p id="input-path" class="path-box">No folder selected</p><button id="choose-input" type="button">Choose input folder</button></div>
         <div class="folder-field"><h3>Output folder</h3><p id="output-path" class="path-box">No folder selected</p><button id="choose-output" type="button">Choose output folder</button></div>
       </div>
-      <p class="hint">Choose separate folders. Existing output files are skipped; your original videos stay unchanged.</p>
+      <p class="hint">Choose input and output folders. On verified local NTFS storage, outputs can appear beside originals. Existing outputs stay unchanged; recognized generated files are excluded.</p>
       <div class="settings-grid">
         <div class="field"><label for="profile">Encoding profile</label><select id="profile" aria-describedby="profile-description" disabled><option>Checking encoders…</option></select></div>
         <div class="field"><label for="preset">Preset</label><select id="preset" disabled></select></div>

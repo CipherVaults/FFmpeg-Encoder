@@ -37,4 +37,4 @@ Private GitHub is intended but separately gated. A later genuinely accepted stan
 
 ## Approved local0.6 archive workflow (September9,2026)
 
-See11_Approved_0.6_Goal and12_Approved_0.6_Plan. J inspection reuse: accepted September 9 after153 passing tests, preserved60-file performance, supplemental59-file UI evidence, independent review and parent synchronization. K same-folder provenance/publication: pending. L remembered workflow/compact preview/helpers: pending. M integrated separate portable0.6 acceptance: pending. No0.6 endpoint tag exists. Historical A–I remain accepted.
+See11_Approved_0.6_Goal and12_Approved_0.6_Plan. J inspection reuse: accepted September 9 after153 passing tests, preserved60-file performance, supplemental59-file UI evidence, independent review and parent synchronization. K same-folder provenance/publication: accepted September10,209 tests, native CPU/NVIDIA endpoint, independent review and parent synchronization. L remembered workflow/compact preview/helpers: pending. M integrated separate portable0.6 acceptance: pending. No0.6 endpoint tag exists. Historical A–I remain accepted.

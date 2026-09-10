@@ -264,7 +264,7 @@ function outputPixelFormat(profile, video) {
   return video.pix_fmt;
 }
 
-function buildEncodeArgs({ input, output, settings, probe, colorEvidence }) {
+function buildEncodeArgs({ input, output, settings, probe, colorEvidence, outputId }) {
   const validated = validateSettings(settings);
   validateLocalPath(input, 'Input');
   validateLocalPath(output, 'Output');
@@ -325,6 +325,7 @@ function buildEncodeArgs({ input, output, settings, probe, colorEvidence }) {
       args.push(option, value);
     }
   }
+  if (outputId !== undefined) args.push(...require('./provenance.cjs').provenanceArgs(outputId));
   args.push('-default_mode', 'passthrough', '-f', 'matroska', output);
   return args;
 }

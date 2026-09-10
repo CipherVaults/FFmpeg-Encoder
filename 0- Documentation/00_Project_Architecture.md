@@ -1,6 +1,6 @@
 # Project architecture
 
-Updated September 9, 2026 for the implemented J inspection architecture. J acceptance status/evidence is in the dated Inspection Reuse report. The immutable local 0.5.0 portable artifact retains its I acceptance; K–M remain separate work.
+Updated September10,2026 through accepted J/K. Inspection Reuse and Same Folder reports hold requirement/evidence maps. Immutable local0.5 retains I acceptance; L/M remain unfinished.
 
 ## Identity and purpose
 
@@ -34,7 +34,7 @@ flowchart TD
     Bridge --> UI
 ```
 
-Main is the authority for job state. The renderer cannot select arbitrary executables or pass arbitrary arguments, perform direct filesystem operations, or invoke arbitrary IPC channels. Preload exposes capabilities, choose-input/output, prepare-batch, start-plan, cancel-batch, get-snapshot, and subscribe-to-updates methods. Folder/plan/job identifiers originate in main. Exact implementation names can be documented as they are introduced; these are the approved behavioral contracts.
+Main is the authority for job state. The renderer cannot select arbitrary executables or pass arbitrary arguments, perform direct filesystem operations, or invoke arbitrary IPC channels. Preload exposes capabilities, choose-input/output, prepare-batch, treat-as-original, start-plan, cancel-batch, get-snapshot, and subscribe-to-updates methods. Folder/plan/job identifiers originate in main. Exact implementation names can be documented as they are introduced; these are the approved behavioral contracts.
 
 Encoding uses one sequential queue. Preparation may use two independent inspection workers, each with at most one media child and sequential frame windows; archive identity reads remain serialized. Each child remains associated with its job and batch until close and finalization settle. Shared infrastructure errors abort peers and stop admission while preserving a failed result. Cancellation awaits every worker and cache finalization before restart. Event handlers cannot change newer batches. An active-window close offers “Cancel encoding and exit” or “Keep application open.” Renderer loss cancels work; no invisible encoding session remains.
 
@@ -42,15 +42,15 @@ Encoding uses one sequential queue. Preparation may use two independent inspecti
 
 Main derives a current source identity in source-identity.cjs, asks the bounded optional storage-eligibility.cjs helper whether persistent reuse is supported, and consults inspection-cache.cjs. The cache contains normalized metadata and bounded decoded-frame evidence, not permissions, paths supplied by the renderer, plans, settings, destination absence or hardware availability. inspection.cjs reconstructs policy decisions from that evidence on each hit. Missing or unusable cache/helper state falls back to fresh inspection.
 
-The evidence namespace binds the actual ffprobe binary hash, policy/schema versions, canonical file identity and a versioned sparse digest. Entries are independently bounded, atomically stored and evicted only inside the cache namespace. Preferences and output provenance will have separate lifetimes in K/L. Current before/after source, mapping, settings, hardware and destination checks still apply. A cooperative local-file identity is not a claim of cryptographic whole-file equality against deliberately concealed changes.
+The evidence namespace binds the actual ffprobe binary hash, policy/schema versions, canonical file identity and a versioned sparse digest. Entries are independently bounded, atomically stored and evicted only inside the cache namespace. Output provenance has its separate provenance-v1 lifetime; preferences remain the upcoming L namespace. Current before/after source, mapping, settings, hardware and destination checks still apply. A cooperative local-file identity is not a claim of cryptographic whole-file equality against deliberately concealed changes.
 
 ## Media and output boundary
 
-Main inspects top-level regular files with supported extensions, resolves selected folders, prepares effective settings, and calculates destination names before starting. Input and output folders must be distinct. Duplicate input stems that would share a destination require an explicit preview selection; output files already present are skipped.
+Main inspects top-level regular files with supported extensions, resolves selected folders, prepares effective settings, and calculates destination names before starting. Input and output may coincide on verified ordinary local fixed NTFS. All baseline input names/identities remain protected destinations; generated and ambiguous legacy outputs are classified before admission. Duplicate input stems that would share a destination require an explicit preview selection; output files already present are skipped.
 
 The chosen non-attached primary video stream is encoded. Supported audio/subtitle streams, attachments, chapters, metadata, and dispositions are preserved. Unsupported preservation cases are explicit failures rather than implicit content loss. Color classification is metadata-based and conservative: supported SDR proceeds, detected HDR is unsupported, and unresolved color evidence is reported as ambiguous/unsupported. See the Technical Reference for exact criteria.
 
-Each job encodes into its own temporary destination, validates completion using the process result and ffprobe, and publishes without overwriting a file that appeared during the encode. Cleanup may remove only that job's incomplete owned files. A completed or pre-existing file is never a cleanup target.
+Each job encodes into its own temporary destination, validates completion using the process result and ffprobe, and publishes without overwriting a file that appeared during the encode. Cleanup may remove only that job's bound owned files; uncertain unbound/replaced partial objects are retained with notice. A completed or pre-existing file is never a cleanup target.
 
 ## Security and module sequencing
 
@@ -67,3 +67,7 @@ Current State records what exists now. Roadmap records milestone progress. Techn
 The Windows x64 ZIP contains a branded Electron executable, its runtime assets, an exact application ASAR and resources/ffmpeg/ffmpeg.exe plus ffprobe.exe. Binary provenance, portable instructions and third-party notices accompany it. No development packages or prior data are included. Main configures both userData and sessionData before readiness and the single-instance lock: packaged data lives beside the executable, while active 0.6 development defaults to data-next-0.6 to isolate accepted 0.5 state. An explicit --user-data-dir remains supported. Paths never depend on the working directory or a global FFmpeg installation.
 
 The direct pinned Packager builder and existing 7-Zip produce fresh, independently verified artifacts. The portable test launches the actual extracted executable and records hashes, runtime/process paths, network restrictions and workflow results; see the I report for its same-machine scope.
+
+## Provenance and publication (K)
+
+provenance.cjs classifies reserved metadata and all historical suffixes independently of hardware. Main issues identity/plan-bound legacy overrides, creates output UUIDs and persists intent before encoding. Immutable bounded checksummed intent/published records identify outputs and support read-only pending recovery; they never authorize cleanup. outputs.cjs owns exact stage objects privately, seals successful outputs before ffprobe, checks source/directory identity and publishes atomically/exclusively for same-folder mode. Distinct folders retain explicit exclusive-copy fallback. Final-bookkeeping failure preserves completed output; cleanup retains anything whose ownership cannot be established. The Same Folder report records cooperative filesystem and marker-erasure limits.

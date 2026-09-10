@@ -1,7 +1,9 @@
-# Continuation — K next after accepted J
+# Continuation — L next after accepted K
 
-September 9, 2026. Branch codex/archive-workflow. The commit adding accepted J closure is the latest verified checkpoint; inspect live Git for its ID. J is complete:153tests,70directchecks, original60-file performance,59-file supplemental realUI, independent review and parent synchronization. Re-entry uses Execution Summaries/2026-09-09_Inspection_Reuse.md and Inspection_Evidence.json rather than the superseded partial J note. Do not repeat J/planning/A–I or the cold archive run.
+September10,2026. Branch codex/archive-workflow. Jaccepted d05e17a; the commit adding dated Same_Folder report is the accepted K checkpoint. LiveGit resolves its ID.209 currenttests pass, native8sessionK endpoint and currentparserapp pass, independentreview+parentdocs synchronized. Reuse J/K reports, do notredoarchive/planning/research.
 
-Next: K provenance/publication. Read K in11/12; implement markers/journal before same-folder allowance, preserve full baseline snapshot and no-overwrite/owned-staging guarantees, add same-folder endpoint/recovery tests and independent acceptance before L. K/L/M not yet implemented. Development data-next-0.6; accepted local-v0.5.0 tag/ZIP unchanged. F archive read-only; use owned fixtures for writes. D warning parked, no diagnostics.
+Next L: localversioned preferences with revalidated fresh folderIDs; per-profilevalues; separate resetprefs/cache/provenance boundaries; visible Tested Default and contextual help; compact preview/filters/counts preservingselection/focus. Then M separateactualportable0.6 acceptance. Read L/M11/12, notwholehistory. Version0.6.0-dev.1, no0.6tag. Baseline0.5 tag/ZIP preserved; developmentdata-next-0.6.
 
-Heartbeat ACTIVE same ID, next September10 01:43UTC/04:43Cairo then5h after observed reset01:38:20UTC. Never redeem credits. Latest quota recovery reused completed subagent outputs rather than restarting them.
+K adjustments: normalizationpolicy2 deliberatelymissesoldercache; noall60personalarchivecoldrerunneeded. Unboundfailed/cancelstaging retained withvisible reason (nofileadoption), successsealedbeforeffprobe. Nativepathrace/symlink limitations in report. Fmediareadonly,Dwarningparked.
+
+Heartbeat ACTIVE same ID, next September10 11:55UTC/14:55Cairo then5h, live reset11:50:31UTC. Nevercredits.

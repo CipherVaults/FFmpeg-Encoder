@@ -14,6 +14,7 @@ contextBridge.exposeInMainWorld('encoder', Object.freeze({
   chooseInputFolder: () => invoke('encoder:input-folder'),
   chooseOutputFolder: () => invoke('encoder:output-folder'),
   prepareBatch: request => invoke('encoder:prepare', request),
+  treatAsOriginal: request => invoke('encoder:treat-original', request),
   startBatch: request => invoke('encoder:start', request),
   cancelBatch: request => invoke('encoder:cancel', request),
   getSnapshot: () => invoke('encoder:snapshot'),

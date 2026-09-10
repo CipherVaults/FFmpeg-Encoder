@@ -54,4 +54,4 @@ At interrupted wakes inspect live Git/diff/recent artifacts then continuation; p
 
 ## Acceptance progress
 
-J accepted September 9, 2026 after independent requirement-to-evidence review and parent synchronization; see the dated Inspection Reuse report and compact evidence record. K is next; L/M remain pending. Approved requirements above are unchanged.
+J accepted September 9, 2026 after independent requirement-to-evidence review and parent synchronization; see the dated Inspection Reuse report and compact evidence record. K accepted September10; see Same Folder report for evidence and conservative retained-unbound-stage/parser-policy2 adjustments. L is next; M remains pending. Approved requirements above are unchanged.

@@ -33,14 +33,14 @@ function inspection() {
   };
 }
 
-async function harness(t, { names = ['a.mp4', 'b.mp4'], onEncode, onInspect, verify } = {}) {
+async function harness(t, { names = ['a.mp4', 'b.mp4'], onEncode, onInspect, verify, sameFolder = false, eligible = true, inspectResult, outputTags } = {}) {
   await fs.mkdir(artifactParent, { recursive: true });
   const root = await fs.mkdtemp(path.join(artifactParent, 'run-'));
   const input = path.join(root, 'input');
-  const output = path.join(root, 'output');
+  const output = sameFolder ? input : path.join(root, 'output');
   const stateDir = path.join(root, 'state');
   await fs.mkdir(input);
-  await fs.mkdir(output);
+  if (!sameFolder) await fs.mkdir(output);
   for (const name of names) await fs.writeFile(path.join(input, name), `Original input ${name}`);
   t.after(async () => {
     // This unique tree contains only this test's fixtures and service outputs.
@@ -59,6 +59,7 @@ async function harness(t, { names = ['a.mp4', 'b.mp4'], onEncode, onInspect, ver
   let maximumActive = 0;
   const service = new EncoderService({
     ffmpeg: 'injected-ffmpeg', ffprobe: 'injected-ffprobe', stateDir, inspectionWorkers: 1,
+    storageEligibility: { check: async () => ({ eligible, reason: eligible ? null : 'Injected unsupported storage.' }) },
     capabilities: async () => ({
       profiles: PROFILES.map((profile) => ({ ...profile, available: true, supportedBitDepths: [8, 10] })),
       versions: { ffmpeg: 'test', ffprobe: 'test' },
@@ -66,11 +67,19 @@ async function harness(t, { names = ['a.mp4', 'b.mp4'], onEncode, onInspect, ver
     inspect: async (file, options) => {
       inspections.push(file);
       if (onInspect) await onInspect({ file, options, input, output, service });
-      return inspection();
+      return inspectResult ? inspectResult(file) : inspection();
     },
     verify: verify || (() => ({ valid: true, errors: [] })),
     run: async (executable, args, options) => {
-      if (executable === 'injected-ffprobe') return { stdout: '{}', stderr: '', exitCode: 0 };
+      if (executable === 'injected-ffprobe') {
+        const encode = calls.find(call => call.temporary === args.at(-1));
+        const tags = {};
+        for (let index = 0; index < (encode?.args.length || 0); index++) if (encode.args[index] === '-metadata') {
+          const value = encode.args[index + 1]; const split = value.indexOf('=');
+          tags[value.slice(0, split)] = value.slice(split + 1);
+        }
+        return { stdout: JSON.stringify({ format: { tags: outputTags ? outputTags(tags) : tags } }), stderr: '', exitCode: 0 };
+      }
       const file = args[args.indexOf('-i') + 1];
       const temporary = args.at(-1);
       const call = { file, temporary, args, options };
@@ -271,4 +280,98 @@ test('a disappeared output folder is a shared failure and stops the remaining qu
   assert.equal(result.phase, 'failed');
   assert.deepEqual(result.counts, { success: 0, failed: 1, skipped: 0, cancelled: 0, unprocessed: 1 });
   assert.equal(h.calls.length, 0);
+});
+
+
+test('same-folder requires verified storage and refuses unsupported helper results', async t => {
+  const h = await harness(t, { sameFolder: true, eligible: false });
+  const plan = await h.prepare();
+  assert.equal(plan.phase, 'failed'); assert.match(plan.error, /verified local fixed NTFS/);
+  assert.equal(h.calls.length, 0);
+});
+
+test('all baseline paths stay forbidden after a colliding source disappears during preparation', async t => {
+  let moved = false;
+  const h = await harness(t, { sameFolder: true, names: ['a.mp4', 'a_H265-CPU.mkv'], onInspect: async ({ file, input }) => {
+    if (!moved && path.basename(file) === 'a.mp4') {
+      moved = true;
+      await fs.rename(path.join(input, 'a_H265-CPU.mkv'), path.join(input, 'preserved-original.bin'));
+    }
+  } });
+  const plan = await h.prepare();
+  assert.equal(plan.items.find(i => i.name === 'a.mp4').status, 'unsupported');
+  assert.match(plan.items.find(i => i.name === 'a.mp4').reason, /protected/);
+  assert.equal(h.service.plan.reservedPaths.has(path.join(h.input, 'a_H265-CPU.mkv').toLowerCase()), true);
+  assert.match(await fs.readFile(path.join(h.input, 'preserved-original.bin'), 'utf8'), /Original input/);
+  assert.equal(h.calls.length, 0);
+});
+
+test('hardlinked aliases are excluded before probing and their filesystem identities stay reserved', async t => {
+  const h = await harness(t, { sameFolder: true, names: ['a.mp4'] });
+  await fs.link(path.join(h.input, 'a.mp4'), path.join(h.input, 'alias.mkv'));
+  const plan = await h.prepare();
+  assert.ok(plan.items.every(i => i.status === 'unsupported' && /Hard-linked/.test(i.reason)));
+  assert.equal(h.inspections.length, 0); assert.equal(h.service.plan.reservedIdentities.size, 1);
+});
+
+test('reserved marker classification precedes a pre-existing destination skip', async t => {
+  const h = await harness(t, { names: ['a.mp4'], inspectResult: () => ({ ...inspection(), probe: { ...inspection().probe,
+    format: { tags: { FFMPEG_ENCODER_PROVENANCE: '99', FFMPEG_ENCODER_OUTPUT_ID: randomUUID() } } } }) });
+  await fs.writeFile(path.join(h.output, 'a_H265-CPU.mkv'), 'unrelated protected winner');
+  const plan = await h.prepare();
+  assert.equal(plan.items[0].status, 'provenance-issue');
+  await assert.rejects(h.service.treatAsOriginal({ planId: plan.planId, fileId: plan.items[0].id }), { code: 'INVALID_OVERRIDE' });
+});
+
+test('legacy override is explicit, expires with a new plan, and rejects a changed file', async t => {
+  const h = await harness(t, { names: ['legacy_AV1-Nvidia-GPU.mkv'] });
+  const first = await h.prepare(); assert.equal(first.items[0].status, 'ambiguous');
+  const request = { planId: first.planId, fileId: first.items[0].id };
+  const overridden = await h.service.treatAsOriginal(request);
+  assert.equal(overridden.items[0].status, 'ready'); assert.equal(h.service.plan.overrides.size, 1);
+  const second = await h.prepare(); assert.equal(second.items[0].status, 'ambiguous');
+  await assert.rejects(h.service.treatAsOriginal(request), { code: 'STALE_PLAN' });
+  await fs.appendFile(path.join(h.input, second.items[0].name), 'changed');
+  const changed = await h.service.treatAsOriginal({ planId: second.planId, fileId: second.items[0].id });
+  assert.equal(changed.phase, 'failed'); assert.match(changed.error, /changed/); assert.equal(h.calls.length, 0);
+});
+
+test('required intent failure prevents encoder launch and any media publication', async t => {
+  const h = await harness(t, { sameFolder: true, names: ['a.mp4'] });
+  const plan = await h.prepare();
+  h.service.provenanceJournal.recordIntent = async () => { throw failure('PROVENANCE_UNAVAILABLE', 'Intent disk failure'); };
+  const result = await h.finish(plan);
+  assert.equal(result.counts.failed, 1); assert.equal(h.calls.length, 0);
+  assert.deepEqual(await fs.readdir(h.input), ['a.mp4']);
+});
+
+test('a mismatched output UUID never publishes even if the injected media validator accepts', async t => {
+  const h = await harness(t, { names: ['a.mp4'], outputTags: tags => ({ ...tags, FFMPEG_ENCODER_OUTPUT_ID: randomUUID() }) });
+  const result = await h.finish(await h.prepare());
+  assert.equal(result.counts.failed, 1); assert.match(result.items[0].reason, /expected application marker/);
+  assert.deepEqual(await fs.readdir(h.output), []);
+});
+
+test('final bookkeeping failure preserves completed output and durable intent', async t => {
+  const h = await harness(t, { sameFolder: true, names: ['a.mp4'] });
+  const plan = await h.prepare(); const outputId = [...h.service.plan.entries.values()][0].outputId;
+  h.service.provenanceJournal.recordPublished = async () => { throw failure('PROVENANCE_UNAVAILABLE', 'Final index failure'); };
+  const result = await h.finish(plan);
+  assert.equal(result.counts.success, 1); assert.match(result.items[0].reason, /bookkeeping remains pending/);
+  assert.match(await fs.readFile(path.join(h.input, 'a_H265-CPU.mkv'), 'utf8'), /Encoded output/);
+  assert.equal((await fs.readdir(path.join(h.stateDir, 'provenance-v1'))).includes(outputId + '.intent.json'), true);
+});
+
+test('unbound cancelled output is retained with notice while restart and source protection remain safe', async t => {
+  const started = deferred(); const closed = deferred();
+  const h = await harness(t, { sameFolder: true, names: ['a.mp4'], onEncode: async ({ temporary }) => {
+    await fs.writeFile(temporary, 'owned child incomplete bytes'); started.resolve(); await closed.promise;
+  } });
+  const plan = await h.prepare(); h.service.startBatch({ planId: plan.planId, fileIds: [plan.items[0].id] });
+  await started.promise; const cancelling = h.service.cancelCurrent(); closed.resolve(); const result = await cancelling;
+  assert.equal(result.phase, 'cancelled'); assert.equal(result.items[0].cleanup.retained, true);
+  assert.equal(await fs.readFile(result.items[0].cleanup.file, 'utf8'), 'owned child incomplete bytes');
+  assert.equal(h.service.busy, false);
+  const next = await h.prepare(); assert.deepEqual(next.items.map(i => i.name), ['a.mp4']);
+  assert.equal(next.items[0].status, 'ready'); assert.match(await fs.readFile(path.join(h.input, 'a.mp4'), 'utf8'), /Original input/);
 });

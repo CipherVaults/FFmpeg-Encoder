@@ -1,6 +1,6 @@
 # Current state
 
-Updated September 9, 2026: J inspection reuse is accepted after independent requirement-to-evidence review and parent synchronization. Final suite153/153 and70 focused regression checks pass; original60-file cold/warm/restart90.813/0.460/1.140s and supplemental59-file real UI evidence are preserved separately. The commit completing the J report is the accepted J checkpoint. K same-folder provenance/publication is next; L/M remain pending. Accepted local-v0.5.0 remains immutable.
+Updated September 10, 2026: J is accepted at d05e17a; K safe same-folder provenance/publication is now accepted after209 passing tests, eight-session native endpoint evidence, current-code app smoke and independent review. See dated reports/evidence. L remembered workflow/compact UI/helpers is next; M portable0.6 remains pending. Accepted local-v0.5.0 remains immutable.
 
 Active scope: [0.6 Goal](11_Approved_0.6_Goal.md) and [0.6 Plan](12_Approved_0.6_Plan.md). Branch codex/archive-workflow; 0.6.0-dev.1. Accepted local-v0.5.0 remains f3efdeb and its ZIP hash was rechecked unchanged. D: development is explicitly authorized; the longstanding storage warning is parked outside this Goal.
 

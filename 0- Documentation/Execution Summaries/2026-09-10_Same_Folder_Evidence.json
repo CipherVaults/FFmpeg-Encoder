@@ -1,0 +1,51 @@
+{
+  "milestone": "K",
+  "status": "accepted",
+  "sourceBase": "d05e17a",
+  "native": {
+    "path": "artifacts/same-folder-smoke-1789004931221-7a10b8e1/report.json",
+    "sha256": "597be83522eacce801477d41193891a050828d7a9600fff79d04535d1d27d764",
+    "checks": [
+      "Real same-folder CPU/NVENC outputs validate/decode with distinct main UUIDs; outputs and marker-retaining copies are excluded after restart, without suffix chains; late file does not join prepared plan.",
+      "Malformed/partial/unknown reserved tags stay non-ready; legacy CPU and NVIDIA suffixes are excluded; explicit UI override enables only the chosen file and old-plan authorization is rejected.",
+      "A destination created after prepare is skipped without encode; cancellation waits for the real child close, cleans owned staging only, stops queued work, and a fresh process can encode again.",
+      "Startup recovery distinguishes matching/absent/unrelated/uncertain pending targets without republishing/deleting/relabeling files; durable matching index evidence excludes an unmarked file.",
+      "Injected final index write failure preserves a real validated output and pending intent; a fresh process reports matching recovery and excludes the marked output.",
+      "Full SHA256 matches for every generated original and preserved completed/pre-existing output."
+    ],
+    "limitations": [
+      "Folder picker returns are substituted; UI buttons, preload, validated IPC and main planning/encoding are real.",
+      "Media fixtures are generated beneath this run directory. No personal archive media or external output is used.",
+      "Recovery and identity-index fixtures deliberately seed local bookkeeping; race timing is injected where stated. These cases do not simulate power loss.",
+      "Child spawn/close are observed at the real process-runner callback. This is not an independent Windows process census.",
+      "Native local NTFS on this machine is covered. Junction/reparse storage fixtures and clean-machine/portable acceptance are not covered here.",
+      "No broad profile option or perceptual-quality matrix is repeated."
+    ]
+  },
+  "currentCodeApp": {
+    "path": "artifacts/app-smoke-1789005131063/report.json",
+    "sha256": "5d8374bcbf3422a3f473f29a517dad475f160bc0b54d8094f06d5aa33d8cb98b"
+  },
+  "finalUnit": {
+    "path": "artifacts/k-final-unit-results.txt",
+    "sha256": "fdbfffb28bdc28070709d93e1d4679662cb740591c4aea04a95216e20cf7fbda",
+    "passed": 209,
+    "failed": 0,
+    "skipped": 0
+  },
+  "currentSourceHashes": {
+    "src/provenance.cjs": "7c44d7631bfeb128f4896319ec63b449455e76a864841c48b957e27a6c870eee",
+    "src/outputs.cjs": "357ec640a8a6f89bfe5aeb50ace2bb4741df8da35c8c3b0d7fc73623d375a86b",
+    "src/encoder-service.cjs": "790be4cd76f4e897ad7de8152eda114969be0288caa2f561700fd9ba88651088",
+    "src/inspection.cjs": "779005e728942babe6433d7c2a7cdcfd84345e54d0d2d57ea944f87e78693df0",
+    "src/media.cjs": "fd00946eac6d864049755386144482ee9780c181b434bdfc5b63c141ecddd248",
+    "src/ipc.cjs": "a0002a353007660fe17dfddc22b3cdddd794888f3f8b1e74389e609f074f2363",
+    "preload.js": "aaadde06747fb0aa1f117b89bba3510ef54fdda678c2d8d283165401c6b9e038",
+    "ui/index.html": "19fbbf7430761914c8f6c248017833551abf54b9dcb1cf24fc420059bd9064f4",
+    "ui/renderer.js": "252aa1983a3ab25d1dfd0d3de9e0c303219625987dcc9e61198dd1454560c6a1"
+  },
+  "review": {
+    "reviewer": "k_review",
+    "outcome": "No remaining concrete K safety blocker; current parser smoke and full suite required before closure, both passed."
+  }
+}

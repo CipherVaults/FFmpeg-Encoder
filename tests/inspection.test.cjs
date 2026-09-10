@@ -331,3 +331,21 @@ for (const code of ['SPAWN_FAILED', 'PIPE_FAILED', 'EACCES']) {
     assert.equal(mock.calls.length, 2, 'no later frame windows launch');
   });
 }
+
+
+test('raw JSON duplicate reserved provenance keys are rejected before JSON.parse can discard them', () => {
+  const { parseProbeJson } = require('../src/inspection.cjs');
+  for (const key of ['FFMPEG_ENCODER_PROVENANCE', 'ffmpeg_encoder_provenance']) {
+    assert.throws(() => parseProbeJson('{"format":{"tags":{"FFMPEG_ENCODER_PROVENANCE":"99","' + key + '":"1"}}}', 'fixture'), { code: 'INVALID_PROBE' });
+  }
+  assert.deepEqual(parseProbeJson('{"streams":[],"format":{"tags":{"title":"FFMPEG_ENCODER_PROVENANCE"}}}', 'fixture').streams, []);
+});
+
+
+test('duplicate parent containers cannot erase reserved provenance before classification', () => {
+  const { parseProbeJson } = require('../src/inspection.cjs');
+  for (const text of [
+    '{"format":{"tags":{"FFMPEG_ENCODER_PROVENANCE":"1"}},"format":{}}',
+    '{"format":{"tags":{"FFMPEG_ENCODER_PROVENANCE":"1"},"tags":{}}}'
+  ]) assert.throws(() => parseProbeJson(text, 'fixture'), { code: 'INVALID_PROBE' });
+});

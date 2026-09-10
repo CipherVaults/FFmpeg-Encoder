@@ -13,6 +13,7 @@
     ready: 'Ready', conflict: 'Choose one', skipped: 'Skipped', unsupported: 'Unsupported',
     pending: 'Waiting', running: 'Encoding', success: 'Succeeded', failed: 'Failed',
     cancelled: 'Cancelled', unprocessed: 'Unprocessed',
+    generated: 'Generated output', ambiguous: 'Possible previous output', 'provenance-issue': 'Provenance issue',
   };
   const phaseLabels = {
     idle: 'Ready', checking: 'Checking encoders', preparing: 'Inspecting files',
@@ -251,6 +252,18 @@
           const reason = document.createElement('p');
           reason.className = 'item-reason'; reason.textContent = item.reason; fileCell.append(reason);
         }
+        if (item.status === 'ambiguous') {
+          const action = document.createElement('button');
+          action.type = 'button'; action.dataset.testid = 'treat-as-original';
+          action.textContent = 'Treat as original'; action.dataset.fileId = item.id;
+          action.title = 'Allow this unchanged, unmarked file for this prepared plan only. Recognized generated outputs cannot be overridden.';
+          action.addEventListener('click', () => command(async () => {
+            const next = await api.treatAsOriginal({ planId: snapshot.planId, fileId: item.id });
+            applySnapshot(next);
+            if (next.items.find(entry => entry.id === item.id)?.status === 'ready') selectedIds.add(item.id);
+          }));
+          fileCell.append(action);
+        }
         if (item.summary?.samplingLimit) {
           const details = document.createElement('details');
           const title = document.createElement('summary'); title.textContent = 'Color inspection limits';
@@ -354,6 +367,13 @@
       : showResults ? 'Completed batch. Each file result and any skipped or unsupported reason is shown below.'
         : 'Select files to encode. Existing outputs stay unchanged. For conflicting output names, select one input per destination.');
     renderItems(); renderTelemetry();
+    for (const action of byId('batch-items').querySelectorAll('[data-testid="treat-as-original"]')) action.disabled = locked || !ready;
+    const recovery = snapshot.provenanceRecovery;
+    if (byId('provenance-notice')) {
+      const show = recovery && (recovery.matching || recovery.absent || recovery.unrelated || recovery.uncertain || recovery.warnings?.length);
+      visible('provenance-notice', Boolean(show));
+      put('provenance-notice', show ? `Previous output bookkeeping: ${recovery.matching} matching · ${recovery.absent} absent · ${recovery.unrelated} unrelated · ${recovery.uncertain} uncertain. No files were changed.${recovery.warnings?.length ? ' ' + recovery.warnings[0] : ''}` : '');
+    }
     if (showResults) {
       for (const key of ['success', 'failed', 'skipped', 'cancelled', 'unprocessed']) put(`count-${key}`, snapshot.counts?.[key] || 0);
       put('result-phase', phaseLabels[phase]);

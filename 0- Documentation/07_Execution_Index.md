@@ -15,3 +15,5 @@ Execution reports describe what Codex actually did, which checks passed or faile
 The latest [Current State](01_Current_State.md) owns the overall status. A future report should identify its source commit or the commit that adds the report; avoid inventing a self-referential commit hash before a commit exists.
 
 - [September9 — Inspection reuse](Execution%20Summaries/2026-09-09_Inspection_Reuse.md): J accepted: single-worker7ff4cce, two-worker4d4a81b,153 final tests, original60-file performance and59-file supplemental native UI; independent review and synchronized closure in this report.
+
+- [September10 — Safe output beside originals](Execution%20Summaries/2026-09-10_Same_Folder.md): K accepted; provenance, atomic publication, guarded cleanup,209 tests and native endpoint/recovery evidence.

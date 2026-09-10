@@ -98,7 +98,8 @@ test('one changed input alone misses; destination existence and runtime identity
   assert.equal(h.calls.length, 6);
   const newRuntime = await h.open({ hash: 'b'.repeat(64) });
   await newRuntime.prepare();
-  assert.equal(h.calls.length, 8, 'new inspector hash invalidates a; b remains safely skipped');
+  assert.equal(h.calls.length, 9, 'new inspector hash invalidates a; b needs fresh origin metadata before its destination skip, but no frames');
+  assert.equal(h.calls.at(-1).args.includes('-show_frames'), false);
 });
 
 test('unsupported storage uses fresh inspection despite a populated valid cache', async t => {

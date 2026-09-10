@@ -16,6 +16,7 @@ function registerIpc({ ipcMain, window, service, dialog, entryUrl }) {
     'encoder:input-folder': [0, choose('input')],
     'encoder:output-folder': [0, choose('output')],
     'encoder:prepare': [1, payload => service.prepareBatch(payload)],
+    'encoder:treat-original': [1, payload => service.treatAsOriginal(payload)],
     'encoder:start': [1, payload => service.startBatch(payload)],
     'encoder:cancel': [1, payload => service.cancelBatch(payload)],
     'encoder:snapshot': [0, () => service.snapshot()],

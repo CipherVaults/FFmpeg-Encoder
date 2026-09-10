@@ -7,7 +7,7 @@ const UNKNOWN_COLOR = new Set(['', 'unknown', 'unspecified', 'reserved', 'n/a'])
 const GENERATED_TAGS = new Set(['encoder', 'duration', 'number_of_frames', 'number_of_bytes']);
 // Bump these when normalization, stream selection, color policy or sample coverage
 // changes. A cache entry is evidence for these exact rules, not a lasting approval.
-const INSPECTION_POLICY = Object.freeze({ normalization: 1, color: 1, sampling: 1, selection: 1, preservation: 1 });
+const INSPECTION_POLICY = Object.freeze({ normalization: 2, color: 1, sampling: 1, selection: 1, preservation: 1 });
 const SAMPLING_LIMIT = 'Bounded metadata samples cannot prove the absence of untagged HDR or HDR outside inspected frames. Demuxer seeking may begin at an earlier keyframe.';
 const STREAM_FIELDS = ['index', 'codec_type', 'codec_name', 'width', 'height', 'pix_fmt', 'color_transfer', 'color_primaries', 'color_space', 'color_range', 'avg_frame_rate', 'r_frame_rate', 'start_time', 'duration', 'sample_rate', 'channels', 'channel_layout', 'extradata_size', 'extradata_hash'];
 const FRAME_FIELDS = ['media_type', 'stream_index', 'best_effort_timestamp_time', 'pts_time', 'color_transfer', 'color_primaries', 'color_space', 'color_range'];
@@ -96,6 +96,33 @@ function ensureNotCancelled(signal) {
 
 function parseJson(stdout, label) {
   try {
+    // JSON.parse discards repeated keys. Reserved provenance must not become
+    // apparently valid merely because a conflicting earlier tag was discarded.
+    const objects = [];
+    for (let offset = 0; offset < stdout.length; offset++) {
+      const character = stdout[offset];
+      if (character === '{') objects.push(new Set());
+      else if (character === '}') objects.pop();
+      else if (character === '"') {
+        const start = offset++;
+        while (offset < stdout.length) {
+          if (stdout[offset] === '\\') offset += 2;
+          else if (stdout[offset] === '"') break;
+          else offset++;
+        }
+        let next = offset + 1;
+        while (/\s/.test(stdout[next] || '') && next < stdout.length) next++;
+        if (stdout[next] === ':' && objects.length) {
+          const originalKey = JSON.parse(stdout.slice(start, offset + 1));
+          const key = originalKey.toUpperCase().startsWith('FFMPEG_ENCODER_') ? originalKey.toUpperCase() : originalKey;
+          const seen = objects.at(-1);
+          // Also reject duplicate containers (format/tags/streams): overwriting
+          // an entire object can hide a marker without repeating its tag key.
+          if (seen.has(key)) throw new Error('Conflicting duplicate media metadata keys.');
+          seen.add(key);
+        }
+      }
+    }
     const value = JSON.parse(stdout);
     if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('Not an object');
     return value;
@@ -426,4 +453,4 @@ function validateOutput(inputInspection, outputProbe, settings) {
   return { valid: errors.length === 0, errors };
 }
 
-module.exports = { inspectInput, inspectMetadata, finishInspection, validateOutput, normalizeProbe, reconstructInspection, cacheableInspection, INSPECTION_POLICY };
+module.exports = { inspectInput, inspectMetadata, finishInspection, parseProbeJson: parseJson, validateOutput, normalizeProbe, reconstructInspection, cacheableInspection, INSPECTION_POLICY };

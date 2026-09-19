@@ -13,10 +13,18 @@ function registerIpc({ ipcMain, window, service, dialog, entryUrl }) {
   };
   const methods = {
     'encoder:capabilities': [0, () => service.getCapabilities()],
+    'encoder:preferences': [0, () => service.getPreferences()],
+    'encoder:save-settings': [1, payload => service.saveSettings(payload)],
+    'encoder:reset-profile': [1, payload => service.resetProfile(payload)],
+    'encoder:forget-preferences': [0, () => service.forgetPreferences()],
+    'encoder:clear-inspection-cache': [0, () => service.clearInspectionCache()],
+    'encoder:recipe': [1, payload => service.getRecipe(payload)],
+    'encoder:encoding-details': [1, payload => service.getEncodingDetails(payload)],
     'encoder:input-folder': [0, choose('input')],
     'encoder:output-folder': [0, choose('output')],
     'encoder:prepare': [1, payload => service.prepareBatch(payload)],
     'encoder:treat-original': [1, payload => service.treatAsOriginal(payload)],
+    'encoder:reencode-outputs': [1, payload => service.reencodeOutputs(payload)],
     'encoder:start': [1, payload => service.startBatch(payload)],
     'encoder:cancel': [1, payload => service.cancelBatch(payload)],
     'encoder:snapshot': [0, () => service.snapshot()],

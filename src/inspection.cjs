@@ -5,6 +5,7 @@ const { PROFILES, validateSettings, selectVideo, classifyColor, mappedStreams, o
 
 const UNKNOWN_COLOR = new Set(['', 'unknown', 'unspecified', 'reserved', 'n/a']);
 const GENERATED_TAGS = new Set(['encoder', 'duration', 'number_of_frames', 'number_of_bytes']);
+const APPLICATION_GENERATION_TAGS = new Set(['ffmpeg_encoder_provenance', 'ffmpeg_encoder_output_id', 'ffmpeg_encoder_generation']);
 // Bump these when normalization, stream selection, color policy or sample coverage
 // changes. A cache entry is evidence for these exact rules, not a lasting approval.
 const INSPECTION_POLICY = Object.freeze({ normalization: 2, color: 1, sampling: 1, selection: 1, preservation: 1 });
@@ -334,10 +335,15 @@ function equalTag(key, left, right) {
   return false;
 }
 
-function compareTags(inputTags, outputTags, label, errors, matroskaTrack = false) {
+function compareTags(inputTags, outputTags, label, errors, matroskaTrack = false, container = false) {
   const actual = normalizedTags(outputTags);
   for (const [key, expected] of normalizedTags(inputTags)) {
     if (GENERATED_TAGS.has(key) || key.startsWith('_statistics_')) continue;
+    // Intentional re-encoding assigns a fresh global output ID and description.
+    // The service validates those values against its prepared generation before
+    // publication. Only these exact app-owned container keys are replaceable;
+    // similarly named user, stream and chapter metadata remains preservation data.
+    if (container && APPLICATION_GENERATION_TAGS.has(key)) continue;
     // Matroska stores TrackLanguage='und', but FFmpeg omits that value from its
     // stream tags. Absence is equivalent only to this undefined-language value.
     if (matroskaTrack && key === 'language' && expected === 'und' && !actual.has(key)) continue;
@@ -430,7 +436,7 @@ function validateOutput(inputInspection, outputProbe, settings) {
         if (stream.extradata_size !== undefined && Number(stream.extradata_size) !== Number(output.extradata_size)) errors.push(`${label}: attachment size changed.`);
       }
     });
-    compareTags(inputProbe.format?.tags, outputProbe.format?.tags, 'Container', errors);
+    compareTags(inputProbe.format?.tags, outputProbe.format?.tags, 'Container', errors, false, true);
     const beforeChapters = inputProbe.chapters || [];
     const afterChapters = outputProbe.chapters || [];
     if (!Array.isArray(beforeChapters) || !Array.isArray(afterChapters)) errors.push('Invalid chapter inspection data.');

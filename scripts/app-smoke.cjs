@@ -36,7 +36,7 @@ async function main() {
     assert.equal(boundary.requireType, 'undefined');
     assert.equal(boundary.processType, 'undefined');
     assert.equal(boundary.bridge.includes('send'), false);
-    assert.deepEqual([...boundary.bridge].sort(), ['getCapabilities', 'chooseInputFolder', 'chooseOutputFolder', 'prepareBatch', 'treatAsOriginal', 'startBatch', 'cancelBatch', 'getSnapshot', 'onUpdate'].sort());
+    assert.deepEqual([...boundary.bridge].sort(), ['getCapabilities', 'getPreferences', 'saveSettings', 'resetProfile', 'forgetPreferences', 'clearInspectionCache', 'getRecipe', 'getEncodingDetails', 'chooseInputFolder', 'chooseOutputFolder', 'prepareBatch', 'treatAsOriginal', 'reencodeOutputs', 'startBatch', 'cancelBatch', 'getSnapshot', 'onUpdate'].sort());
     checks.push('renderer has no Node globals and exposes only the named bridge methods');
     const prefs = await app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].webContents.getLastWebPreferences());
     assert.equal(prefs.sandbox, true); assert.equal(prefs.contextIsolation, true); assert.equal(prefs.nodeIntegration, false);

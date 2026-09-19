@@ -7,11 +7,14 @@ const path = require('node:path');
 const { randomUUID } = require('node:crypto');
 const { EncoderService } = require('../src/encoder-service.cjs');
 const { PROFILES } = require('../src/media.cjs');
+const { classifyMarker, createOutputId } = require('../src/provenance.cjs');
 
 const artifactParent = path.resolve(__dirname, '..', 'artifacts', 'service-tests');
 const defaultSettings = { profileId: 'h265-cpu', preset: 'slow', quality: 25 };
 const tick = () => new Promise((resolve) => setImmediate(resolve));
 const failure = (code, message) => Object.assign(new Error(message), { code });
+const generatedInspection = outputId => ({ ...inspection(), probe: { ...inspection().probe,
+  format: { tags: { FFMPEG_ENCODER_PROVENANCE: '1', FFMPEG_ENCODER_OUTPUT_ID: outputId } } } });
 
 function deferred() {
   let resolve;
@@ -374,4 +377,133 @@ test('unbound cancelled output is retained with notice while restart and source 
   assert.equal(h.service.busy, false);
   const next = await h.prepare(); assert.deepEqual(next.items.map(i => i.name), ['a.mp4']);
   assert.equal(next.items[0].status, 'ready'); assert.match(await fs.readFile(path.join(h.input, 'a.mp4'), 'utf8'), /Original input/);
+});
+
+test('generated sources require explicit per-plan subset intent and preserve separate legacy/original states', async t => {
+  const generated = new Map(['generated-a.mkv', 'generated-b.mkv', 'generated-c.mkv'].map(name => [name, createOutputId()]));
+  const h = await harness(t, { sameFolder: true, names: [...generated.keys(), 'normal.mkv', 'old_H265-CPU.mkv'],
+    inspectResult: file => generated.has(path.basename(file)) ? generatedInspection(generated.get(path.basename(file))) : inspection() });
+  const before = new Map(await Promise.all([...generated.keys()].map(async name => [name, await fs.readFile(path.join(h.input, name))])));
+  const first = await h.prepare();
+  const targets = first.items.filter(item => generated.has(item.name));
+  assert.ok(targets.every(item => item.status === 'generated' && item.origin.kind === 'generated' && !item.reencodeAuthorized));
+  assert.ok(targets.every(item => item.origin.previousGeneration === undefined));
+  assert.equal(first.items.find(item => item.name === 'normal.mkv').origin.kind, 'original');
+  assert.equal(first.items.find(item => item.name.startsWith('old_')).origin.kind, 'legacy');
+  await assert.rejects(h.service.treatAsOriginal({ planId: first.planId, fileId: targets[0].id }), { code: 'INVALID_OVERRIDE' });
+  const picked = targets.slice(0, 2).map(item => item.id);
+  const authorized = await h.service.reencodeOutputs({ planId: first.planId, fileIds: picked });
+  assert.ok(authorized.items.filter(item => picked.includes(item.id)).every(item => item.status === 'ready' && item.reencodeAuthorized && item.origin.kind === 'generated'));
+  assert.equal(authorized.items.find(item => item.id === targets[2].id).status, 'generated');
+  assert.equal(authorized.items.find(item => item.id === targets[2].id).reencodeAuthorized, false);
+  const details = h.service.getEncodingDetails({ planId: first.planId, fileId: picked[0] });
+  assert.equal(details.kind, 'resolved-argument-template');
+  assert.equal(details.args.at(-1), details.outputPlaceholder);
+  assert.equal(details.args[details.args.indexOf('-i') + 1], path.join(h.input, targets[0].name));
+  h.service.startBatch({ planId: first.planId, fileIds: picked });
+  await h.service.taskPromise;
+  assert.equal(h.service.snapshot().counts.success, 2);
+  const actual = h.service.getEncodingDetails({ planId: first.planId, fileId: picked[0] });
+  assert.equal(actual.kind, 'actual-invocation');
+  assert.deepEqual(actual.args, h.calls[0].args);
+  assert.deepEqual(actual.args.slice(0, -1), details.args.slice(0, -1));
+  assert.notEqual(actual.args.at(-1), details.outputPlaceholder);
+  for (const [name, bytes] of before) assert.deepEqual(await fs.readFile(path.join(h.input, name)), bytes);
+  const newPlan = await h.prepare();
+  assert.ok(newPlan.items.filter(item => item.origin.kind === 'generated').every(item => item.status === 'generated' && !item.reencodeAuthorized));
+  const generatedAgain = newPlan.items.find(item => item.name === targets[0].outputName);
+  assert.equal(generatedAgain.origin.previousGeneration.preset, defaultSettings.preset);
+  assert.equal(generatedAgain.origin.previousGeneration.quality, defaultSettings.quality);
+  await assert.rejects(h.service.reencodeOutputs({ planId: first.planId, fileIds: picked }), { code: 'STALE_PLAN' });
+  assert.equal(h.calls.length, 2);
+});
+
+test('mixed, duplicate and forged re-encode requests never grant a partial subset', async t => {
+  const outputId = createOutputId();
+  const h = await harness(t, { names: ['generated.mkv', 'normal.mkv'], inspectResult: file => path.basename(file).startsWith('generated') ? generatedInspection(outputId) : inspection() });
+  const plan = await h.prepare();
+  const generated = plan.items.find(item => item.status === 'generated');
+  const normal = plan.items.find(item => item.status === 'ready');
+  for (const fileIds of [[generated.id, normal.id], [generated.id, generated.id], [randomUUID()], [], [generated.id, randomUUID()]]) {
+    await assert.rejects(h.service.reencodeOutputs({ planId: plan.planId, fileIds }));
+    assert.equal(h.service.plan.reencodeAuthorizations.size, 0);
+    assert.equal(h.service.snapshot().items.find(item => item.id === generated.id).status, 'generated');
+  }
+  await assert.rejects(h.service.reencodeOutputs({ planId: plan.planId, fileIds: [generated.id], allowAll: true }), { code: 'INVALID_REQUEST' });
+  assert.throws(() => h.service.getEncodingDetails({ planId: plan.planId, fileId: generated.id }), { code: 'UNPREPARED_FILE' });
+  assert.throws(() => h.service.getEncodingDetails({ planId: plan.planId, fileId: normal.id, args: [] }), { code: 'INVALID_REQUEST' });
+  assert.equal(h.calls.length, 0);
+});
+
+test('replaced generated input invalidates whole requested authorization subset before inspection or execution', async t => {
+  const outputId = createOutputId();
+  const h = await harness(t, { names: ['a.mkv', 'b.mkv'], inspectResult: () => generatedInspection(outputId) });
+  const plan = await h.prepare();
+  await fs.appendFile(path.join(h.input, 'b.mkv'), ' changed');
+  const changed = await h.service.reencodeOutputs({ planId: plan.planId, fileIds: plan.items.map(item => item.id) });
+  assert.equal(changed.phase, 'failed');
+  assert.equal(changed.planId, null);
+  assert.ok(changed.items.every(item => !item.reencodeAuthorized));
+  assert.match(changed.error, /changed/);
+  assert.equal(h.calls.length, 0);
+  assert.equal(h.service.plan, null);
+});
+
+test('generated input changed after authorization cannot encode or retain visible temporary authorization', async t => {
+  const outputId = createOutputId();
+  const h = await harness(t, { names: ['a.mkv'], inspectResult: () => generatedInspection(outputId) });
+  const first = await h.prepare();
+  const ready = await h.service.reencodeOutputs({ planId: first.planId, fileIds: [first.items[0].id] });
+  await fs.appendFile(path.join(h.input, 'a.mkv'), ' changed');
+  const result = await h.finish(ready);
+  assert.equal(result.counts.failed, 1);
+  assert.equal(result.items[0].reencodeAuthorized, false);
+  assert.match(result.items[0].reason, /changed/);
+  assert.equal(h.calls.length, 0);
+  assert.equal(h.service.plan.reencodeAuthorizations.size, 0);
+});
+
+test('a generated re-encode remains skipped when its protected destination already exists', async t => {
+  const outputId = createOutputId();
+  const h = await harness(t, { sameFolder: true, names: ['a.mkv', 'a_H265-CPU.mkv'], inspectResult: () => generatedInspection(outputId) });
+  const plan = await h.prepare();
+  const item = plan.items.find(entry => entry.name === 'a.mkv');
+  const before = await fs.readFile(path.join(h.input, item.outputName));
+  const result = await h.service.reencodeOutputs({ planId: plan.planId, fileIds: [item.id] });
+  const blocked = result.items.find(entry => entry.id === item.id);
+  assert.equal(blocked.status, 'skipped');
+  assert.equal(blocked.origin.kind, 'generated');
+  assert.match(blocked.reason, /protected/);
+  assert.deepEqual(await fs.readFile(path.join(h.input, item.outputName)), before);
+  assert.equal(h.calls.length, 0);
+});
+
+test('resolved recipe details follow production settings and reject renderer argument injection', async t => {
+  const h = await harness(t, { names: ['a.mkv'] });
+  const first = await h.prepare();
+  const one = h.service.getEncodingDetails({ planId: first.planId, fileId: first.items[0].id });
+  assert.equal(one.args[one.args.indexOf('-crf:v:0') + 1], '25');
+  assert.equal(one.args[one.args.indexOf('-preset:v:0') + 1], 'slow');
+  h.request.settings = { profileId: 'h265-nvidia', preset: 'p7', quality: 30 };
+  const second = await h.prepare();
+  const two = h.service.getEncodingDetails({ planId: second.planId, fileId: second.items[0].id });
+  assert.equal(two.args[two.args.indexOf('-cq:v:0') + 1], '30');
+  assert.equal(two.args[two.args.indexOf('-preset:v:0') + 1], 'p7');
+  assert.equal(two.args[two.args.indexOf('-c:v:0') + 1], 'hevc_nvenc');
+  assert.throws(() => h.service.getEncodingDetails({ planId: first.planId, fileId: first.items[0].id }), { code: 'STALE_PLAN' });
+  assert.throws(() => h.service.getRecipe({ ...h.request.settings, args: ['-y'] }), { code: 'INVALID_SETTINGS' });
+  const pristine = [...two.args]; two.args[0] = '-y';
+  assert.deepEqual(h.service.getEncodingDetails({ planId: second.planId, fileId: second.items[0].id }).args, pristine);
+  const recipe = h.service.getRecipe(h.request.settings);
+  assert.equal(recipe.qualityMode, 'CQ');
+  await h.finish(second);
+  assert.deepEqual(h.calls[0].args.slice(0, -1), pristine.slice(0, -1));
+});
+
+test('missing or corrupted output description is rejected before publication despite a valid identity marker', async t => {
+  const h = await harness(t, { names: ['a.mkv'], outputTags: tags => ({ ...tags, FFMPEG_ENCODER_GENERATION: '{}' }) });
+  const result = await h.finish(await h.prepare());
+  assert.equal(result.counts.failed, 1);
+  assert.match(result.items[0].reason, /generation description/);
+  assert.deepEqual(await fs.readdir(h.output), []);
 });

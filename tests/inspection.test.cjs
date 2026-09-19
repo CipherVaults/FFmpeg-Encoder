@@ -213,6 +213,23 @@ test('valid output tolerates generated encoder tags but preserves actual video a
   assert.deepEqual(validateOutput(inspection(), outputProbe(), settings), { valid: true, errors: [] });
 });
 
+test('re-encoding replaces only exact application container tags, never other user/track/chapter tags', () => {
+  const input = sourceProbe();
+  Object.assign(input.format.tags, { FFMPEG_ENCODER_PROVENANCE: '1', FFMPEG_ENCODER_OUTPUT_ID: 'previous-id', FFMPEG_ENCODER_GENERATION: 'previous-description', FFMPEG_ENCODER_NOTES: 'user notes' });
+  const output = outputProbe(input);
+  output.format.tags.FFMPEG_ENCODER_OUTPUT_ID = 'new-id';
+  output.format.tags.FFMPEG_ENCODER_GENERATION = 'new-description';
+  assert.equal(validateOutput(inspection(input), output, settings).valid, true);
+  const changedNotes = copy(output); changedNotes.format.tags.FFMPEG_ENCODER_NOTES = 'different';
+  assert.match(validateOutput(inspection(input), changedNotes, settings).errors.join('\n'), /ffmpeg_encoder_notes/);
+  input.streams[0].tags.FFMPEG_ENCODER_GENERATION = 'track-owned-description';
+  assert.match(validateOutput(inspection(input), output, settings).errors.join('\n'), /Stream.*ffmpeg_encoder_generation/);
+  output.streams[0].tags.FFMPEG_ENCODER_GENERATION = 'track-owned-description';
+  input.chapters = [{ start_time: '0', end_time: '1', tags: { FFMPEG_ENCODER_OUTPUT_ID: 'chapter-owned-id' } }];
+  output.chapters = [{ start_time: '0', end_time: '1', tags: { FFMPEG_ENCODER_OUTPUT_ID: 'different' } }];
+  assert.match(validateOutput(inspection(input), output, settings).errors.join('\n'), /Chapter.*ffmpeg_encoder_output_id/);
+});
+
 test('Matroska omitted track language equals und only, never a named language or container tag', () => {
   const input = sourceProbe();
   input.streams[0].tags.language = 'und';

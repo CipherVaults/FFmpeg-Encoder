@@ -8,6 +8,7 @@ const PROVENANCE_NAMESPACE = 'provenance-v1';
 const PROVENANCE_LIMITS = Object.freeze({ records: 10000, bytes: 32 * 1024 * 1024, recordBytes: 16 * 1024 });
 const MARKER_KEY = 'FFMPEG_ENCODER_PROVENANCE';
 const OUTPUT_ID_KEY = 'FFMPEG_ENCODER_OUTPUT_ID';
+const GENERATION_KEY = 'FFMPEG_ENCODER_GENERATION';
 const UUID = /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i;
 const RECORD_NAME = /^([a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12})\.(intent|published)\.json$/;
 // Historical recognition must survive hardware/profile availability changes.
@@ -27,8 +28,31 @@ function outputIdOf(value) {
   if (typeof value !== 'string' || !UUID.test(value)) throw error('Invalid provenance output ID.');
   return value.toLowerCase();
 }
-function provenanceArgs(outputId) {
-  return ['-metadata', `${MARKER_KEY}=1`, '-metadata', `${OUTPUT_ID_KEY}=${outputIdOf(outputId)}`];
+// This bounded extension describes an encode. It never grants source admission,
+// publication, cleanup or filesystem authority; the original marker/ID stay v1.
+function generationDescriptionOf(value) {
+  const required = ['version', 'profileId', 'codec', 'backend', 'encoder', 'preset', 'qualityMode', 'quality', 'bitDepth', 'encoderArgs', 'appVersion', 'createdAt'];
+  const keys = value && Object.hasOwn(value, 'runtimeVersion') ? [...required, 'runtimeVersion'] : required;
+  if (!exactKeys(value, keys) || value.version !== 1 || Buffer.byteLength(JSON.stringify(value)) > 4096) return null;
+  const token = entry => typeof entry === 'string' && /^[a-zA-Z0-9.+_-]{1,80}$/.test(entry);
+  if (![value.profileId, value.encoder, value.preset, value.appVersion].every(token)
+      || !['H264', 'H265', 'AV1'].includes(value.codec) || !['CPU', 'NVIDIA'].includes(value.backend)
+      || !['CRF', 'CQ'].includes(value.qualityMode) || !Number.isInteger(value.quality) || value.quality < 0 || value.quality > 63
+      || ![8, 10, 12].includes(value.bitDepth) || typeof value.createdAt !== 'string'
+      || !/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$/.test(value.createdAt)
+      || !Array.isArray(value.encoderArgs) || value.encoderArgs.length > 64
+      || value.encoderArgs.some(entry => typeof entry !== 'string' || entry.length > 128 || /[\x00-\x1f\x7f]/.test(entry))
+      || (value.runtimeVersion !== undefined && (typeof value.runtimeVersion !== 'string' || value.runtimeVersion.length > 256 || /[\x00-\x1f\x7f]/.test(value.runtimeVersion)))) return null;
+  return structuredClone(value);
+}
+function provenanceArgs(outputId, generationDescription) {
+  const args = ['-metadata', `${MARKER_KEY}=1`, '-metadata', `${OUTPUT_ID_KEY}=${outputIdOf(outputId)}`];
+  if (generationDescription !== undefined) {
+    const description = generationDescriptionOf(generationDescription);
+    if (!description) throw error('Invalid descriptive generation metadata.');
+    args.push('-metadata', `${GENERATION_KEY}=${JSON.stringify(description)}`);
+  }
+  return args;
 }
 
 function classifyMarker(probe) {
@@ -56,13 +80,28 @@ function classifyMarker(probe) {
   if (malformed) return suspicious('Malformed media tags prevent reliable provenance classification.');
   if (!reserved.length) return { kind: 'unmarked', reason: 'No reserved application marker is present.' };
   if (reserved.some(tag => tag.location !== 'format')) return suspicious('Reserved application tags are misplaced on a stream or chapter.');
-  if (reserved.some(tag => ![MARKER_KEY, OUTPUT_ID_KEY].includes(tag.key))) return suspicious('Unknown reserved application tag.');
-  if (reserved.length !== 2 || new Set(reserved.map(tag => tag.key)).size !== 2) return suspicious('Partial, duplicate or conflicting application marker.');
+  if (reserved.some(tag => ![MARKER_KEY, OUTPUT_ID_KEY, GENERATION_KEY].includes(tag.key))) return suspicious('Unknown reserved application tag.');
+  const identityTags = reserved.filter(tag => tag.key !== GENERATION_KEY);
+  if (identityTags.length !== 2 || new Set(identityTags.map(tag => tag.key)).size !== 2) return suspicious('Partial, duplicate or conflicting application marker.');
   const version = reserved.find(tag => tag.key === MARKER_KEY).value;
   const outputId = reserved.find(tag => tag.key === OUTPUT_ID_KEY).value;
   if (version !== '1') return suspicious('Malformed or unsupported application marker version.');
   if (typeof outputId !== 'string' || !UUID.test(outputId)) return suspicious('Malformed application output ID.');
-  return { kind: 'generated', outputId: outputId.toLowerCase(), reason: 'Recognized application-generated output.' };
+  const result = { kind: 'generated', outputId: outputId.toLowerCase(), reason: 'Recognized application-generated output.' };
+  const descriptions = reserved.filter(tag => tag.key === GENERATION_KEY);
+  if (descriptions.length) {
+    try {
+      if (descriptions.length !== 1 || typeof descriptions[0].value !== 'string' || Buffer.byteLength(descriptions[0].value) > 4096) throw new Error('Invalid description');
+      const parsed = JSON.parse(descriptions[0].value);
+      // Reject duplicate JSON keys/noncanonical encodings, but retain the valid
+      // identity marker. Descriptive corruption must not admit an output.
+      if (JSON.stringify(parsed) !== descriptions[0].value) throw new Error('Noncanonical description');
+      const description = generationDescriptionOf(parsed);
+      if (!description) throw new Error('Unsupported description');
+      result.previousGeneration = description;
+    } catch { result.descriptionNotice = 'Previous settings unavailable: descriptive metadata is malformed or unsupported.'; }
+  }
+  return result;
 }
 
 function historicalSuffix(name) {
@@ -149,6 +188,7 @@ class ProvenanceJournal {
     const fields = record?.kind === 'intent'
       ? ['namespace', 'version', 'kind', 'outputId', 'sourceIdentity', 'destination', 'profileId', 'createdAt', 'checksum']
       : ['namespace', 'version', 'kind', 'outputId', 'outputIdentity', 'createdAt', 'checksum'];
+    if (record?.kind === 'intent' && Object.hasOwn(record, 'generationDescription')) fields.push('generationDescription');
     if (!match || !exactKeys(record, fields) || record.namespace !== PROVENANCE_NAMESPACE || record.version !== 1
         || record.outputId !== match[1] || record.kind !== match[2] || typeof record.createdAt !== 'string'
         || !/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$/.test(record.createdAt)
@@ -158,6 +198,11 @@ class ProvenanceJournal {
     if (record.kind === 'intent') {
       identityOf(record.sourceIdentity);
       if (!absolute(record.destination) || typeof record.profileId !== 'string' || !/^[a-z0-9-]{1,64}$/.test(record.profileId)) throw error('Invalid publication intent.');
+      if (record.generationDescription !== undefined && !generationDescriptionOf(record.generationDescription)) {
+        // A description is not identity evidence. Preserve the valid record and
+        // marker recognition when a future/invalid description is unavailable.
+        delete record.generationDescription;
+      }
     } else identityOf(record.outputIdentity);
     return record;
   }
@@ -245,15 +290,17 @@ class ProvenanceJournal {
     }
     return this.#records.get(name);
   }
-  recordIntent({ outputId, sourceIdentity, destination, profileId }) {
+  recordIntent({ outputId, sourceIdentity, destination, profileId, generationDescription }) {
     return this.#sequence(async () => {
       try {
         outputId = outputIdOf(outputId);
         sourceIdentity = identityOf(sourceIdentity);
         if (!absolute(destination) || typeof profileId !== 'string' || !/^[a-z0-9-]{1,64}$/.test(profileId)) throw error('Invalid publication intent.');
+        if (generationDescription !== undefined && !generationDescriptionOf(generationDescription)) throw error('Invalid descriptive generation metadata.');
         await this.#load(true);
         if (this.#records.has(`${outputId}.intent.json`) || this.#records.has(`${outputId}.published.json`)) throw error('Output ID already has provenance history.');
-        return structuredClone(await this.#write({ namespace: PROVENANCE_NAMESPACE, version: 1, kind: 'intent', outputId, sourceIdentity, destination, profileId, createdAt: new Date().toISOString() }));
+        return structuredClone(await this.#write({ namespace: PROVENANCE_NAMESPACE, version: 1, kind: 'intent', outputId, sourceIdentity, destination, profileId, createdAt: new Date().toISOString(),
+          ...(generationDescription === undefined ? {} : { generationDescription: generationDescriptionOf(generationDescription) }) }));
       } catch (cause) { this.#warn(`Required publication intent was not recorded. ${cause.message}`); throw cause; }
     });
   }
@@ -283,7 +330,10 @@ class ProvenanceJournal {
         const matches = [...this.#records.values()].filter(record => record.kind === 'published'
           && this.#records.has(`${record.outputId}.intent.json`) && samePublishedIdentity(record.outputIdentity, identity));
         if (matches.length > 1) this.#warn('Multiple output records match this identity; conservatively recognize it as generated.');
-        return matches.length ? structuredClone(matches[0]) : null;
+        if (!matches.length) return null;
+        const match = matches[0];
+        const intent = this.#records.get(`${match.outputId}.intent.json`);
+        return structuredClone({ ...match, ...(matches.length === 1 && intent.generationDescription ? { previousGeneration: intent.generationDescription } : {}) });
       } catch (cause) { this.#warn(`Identity lookup unavailable. ${cause.message}`); return null; }
     });
   }
@@ -327,5 +377,5 @@ class ProvenanceJournal {
   }
 }
 
-module.exports = { createOutputId, provenanceArgs, classifyMarker, historicalSuffix, samePublishedIdentity,
-  ProvenanceJournal, PROVENANCE_NAMESPACE, PROVENANCE_LIMITS, HISTORICAL_SUFFIXES, MARKER_KEY, OUTPUT_ID_KEY };
+module.exports = { createOutputId, provenanceArgs, classifyMarker, historicalSuffix, samePublishedIdentity, generationDescriptionOf,
+  ProvenanceJournal, PROVENANCE_NAMESPACE, PROVENANCE_LIMITS, HISTORICAL_SUFFIXES, MARKER_KEY, OUTPUT_ID_KEY, GENERATION_KEY };

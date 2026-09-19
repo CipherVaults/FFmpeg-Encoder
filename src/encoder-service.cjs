@@ -3,25 +3,28 @@ const fs = require('node:fs/promises');
 const { createReadStream } = require('node:fs');
 const path = require('node:path');
 const { randomUUID, createHash } = require('node:crypto');
-const { PROFILES, validateSettings, selectVideo, buildEncodeArgs } = require('./media.cjs');
+const { PROFILES, validateSettings, selectVideo, buildEncodeArgs, describeRecipe, outputPixelFormat } = require('./media.cjs');
 const { runTool, isSharedToolFailure } = require('./process-runner.cjs');
 const { inspectInput, inspectMetadata, finishInspection, parseProbeJson, validateOutput } = require('./inspection.cjs');
 const { checkCapabilities } = require('./capabilities.cjs');
 const { exists, createStage, sealStage, cleanupStage, publishOutput } = require('./outputs.cjs');
-const { createOutputId, classifyMarker, historicalSuffix, ProvenanceJournal } = require('./provenance.cjs');
+const { createOutputId, classifyMarker, historicalSuffix, ProvenanceJournal, generationDescriptionOf } = require('./provenance.cjs');
 const { readFileStamp, readSourceIdentity, sameStamp, sameIdentity } = require('./source-identity.cjs');
 const { StorageEligibility } = require('./storage-eligibility.cjs');
 const { InspectionCache } = require('./inspection-cache.cjs');
+const { Preferences } = require('./preferences.cjs');
 
 const BUSY = new Set(['checking', 'preparing', 'running', 'cancelling']);
 const EXTENSIONS = new Set(['.mp4', '.mkv', '.mov', '.avi', '.webm']);
 const fail = (code, message) => Object.assign(new Error(message), { code });
 const clone = value => structuredClone(value);
+const OUTPUT_PLACEHOLDER = '<temporary output assigned at start>';
+const APP_VERSION = require('../package.json').version;
 
 function objectKeys(value, keys) {
   if (!value || typeof value !== 'object' || Array.isArray(value)
       || ![Object.prototype, null].includes(Object.getPrototypeOf(value))
-      || Object.keys(value).length !== keys.length || keys.some(key => !Object.hasOwn(value, key))) {
+      || Reflect.ownKeys(value).length !== keys.length || keys.some(key => !Object.hasOwn(value, key))) {
     throw fail('INVALID_REQUEST', `Expected only: ${keys.join(', ')}.`);
   }
 }
@@ -34,7 +37,7 @@ const sharedFailure = isSharedToolFailure;
 
 class EncoderService extends EventEmitter {
   constructor({ ffmpeg, ffprobe, stateDir, run = runTool, inspect = inspectInput, verify = validateOutput, capabilities = checkCapabilities,
-    inspectionCache, storageEligibility, inspectionWorkers = 2, provenanceJournal }) {
+    inspectionCache, storageEligibility, inspectionWorkers = 2, provenanceJournal, preferences }) {
     super();
     if (![1, 2].includes(inspectionWorkers)) throw new TypeError('Inspection workers must be one or two.');
     Object.assign(this, { ffmpeg, ffprobe, stateDir, run, inspect, verify, capabilities });
@@ -54,6 +57,11 @@ class EncoderService extends EventEmitter {
     this.identityTail = Promise.resolve();
     this.provenanceJournal = provenanceJournal || new ProvenanceJournal({ directory: stateDir });
     this.recoveredProvenance = false;
+    this.preferences = preferences || new Preferences({ directory: stateDir });
+    this.rememberedFolders = { input: null, output: null };
+    this.preferencesInitialization = null;
+    this.preferenceMutation = null;
+    this.cacheInitialization = null;
   }
 
   get busy() { return BUSY.has(this.state.phase); }
@@ -69,7 +77,7 @@ class EncoderService extends EventEmitter {
     this.state.revision++;
     this.emit('update', this.snapshot());
   }
-  requireIdle() { if (this.busy) throw fail('BUSY', 'Wait for the current operation and cleanup to finish.'); }
+  requireIdle() { if (this.busy || this.preferenceMutation) throw fail('BUSY', 'Wait for the current operation and cleanup to finish.'); }
   begin(phase) {
     this.controller = new AbortController();
     this.preparationFailure = null;
@@ -88,13 +96,18 @@ class EncoderService extends EventEmitter {
       return clone(this.capabilityResult);
     }
     this.requireIdle();
+    const previousState = this.state;
+    const previousTimes = { startedAt: this.startedAt, finishedAt: this.finishedAt };
     const signal = this.begin('checking');
     this.taskPromise = (async () => {
       try {
         await fs.mkdir(this.stateDir, { recursive: true });
         this.capabilityResult = await this.capabilities({ ffmpeg: this.ffmpeg, ffprobe: this.ffprobe, stateDir: this.stateDir, signal, run: this.run });
         await this.recoverProvenance(signal);
-        this.state.phase = 'idle';
+        // Capability initialization is a separate operation. Returning from it
+        // must not erase a completed/failed/cancelled workflow or its timings.
+        this.state = { ...previousState, revision: this.state.revision, provenanceRecovery: this.state.provenanceRecovery };
+        Object.assign(this, previousTimes);
       } catch (error) {
         this.state.phase = error.code === 'CANCELLED' ? 'cancelled' : 'failed';
         this.state.error = error.message;
@@ -106,22 +119,143 @@ class EncoderService extends EventEmitter {
   }
 
   async registerFolder(folder, role) {
-    this.requireIdle();
     if (!['input', 'output'].includes(role)) throw fail('INVALID_FOLDER', 'Invalid folder role.');
-    const canonical = await fs.realpath(folder);
-    if (!(await fs.stat(canonical)).isDirectory()) throw fail('INVALID_FOLDER', 'Select a directory.');
-    this.requireIdle();
-    for (const [key, entry] of this.folders) if (entry.role === role) this.folders.delete(key);
-    const token = randomUUID();
-    this.folders.set(token, { path: canonical, role });
+    return this.mutatePreferences(async () => {
+      await this.initializePreferences();
+      const canonical = await fs.realpath(folder);
+      if (!(await fs.stat(canonical)).isDirectory()) throw fail('INVALID_FOLDER', 'Select a directory.');
+      for (const [key, entry] of this.folders) if (entry.role === role) this.folders.delete(key);
+      const token = randomUUID();
+      this.folders.set(token, { path: canonical, role });
+      this.rememberedFolders[role] = { id: token, path: canonical, available: true };
+      await this.preferences.rememberFolder(role, canonical);
+      this.invalidatePlan();
+      return { id: token, path: canonical };
+    });
+  }
+
+  invalidatePlan() {
     this.plan = null;
     this.state.planId = null;
-    return { id: token, path: canonical };
+    if (this.state.phase === 'ready') {
+      Object.assign(this.state, { phase: 'idle', items: [], progress: null, preparation: null, settings: null });
+    }
+    this.emitState();
+  }
+
+  mutatePreferences(operation) {
+    this.requireIdle();
+    // Close admission synchronously, before any disk await. This prevents a
+    // renderer from racing a reset/save/folder change against batch startup.
+    const pending = Promise.resolve().then(operation);
+    this.preferenceMutation = pending;
+    return pending.finally(() => { this.preferenceMutation = null; });
+  }
+
+  initializePreferences() {
+    this.preferencesInitialization ||= (async () => {
+      const saved = await this.preferences.load();
+      for (const role of ['input', 'output']) {
+        const folder = saved[`${role}Path`];
+        if (!folder) continue;
+        try {
+          const canonical = await fs.realpath(folder);
+          if (!(await fs.stat(canonical)).isDirectory()) throw fail('INVALID_FOLDER', 'The remembered location is not a directory.');
+          const token = randomUUID();
+          this.folders.set(token, { path: canonical, role });
+          this.rememberedFolders[role] = { id: token, path: canonical, available: true };
+        } catch (error) {
+          // Keep the display path, but issue no authority for unavailable data.
+          this.rememberedFolders[role] = { id: null, path: folder, available: false,
+            reason: error.code === 'ENOENT' ? 'This remembered folder is missing or disconnected. Choose a folder to continue.'
+              : 'This remembered folder is unavailable. Choose a folder to continue.' };
+        }
+      }
+    })();
+    return this.preferencesInitialization;
+  }
+
+  preferencesSnapshot() {
+    const { profileId, settingsByProfile, notices } = this.preferences.snapshot();
+    const capability = this.capabilityResult?.profiles.find(profile => profile.id === profileId);
+    if (capability && !capability.available) notices.push(`${capability.label} remains selected but is unavailable: ${capability.reason || 'The encoder could not initialize on this computer.'}`);
+    return clone({ inputFolder: this.rememberedFolders.input, outputFolder: this.rememberedFolders.output,
+      profileId, settingsByProfile, notices });
+  }
+
+  async getPreferences() {
+    await this.initializePreferences();
+    if (this.preferenceMutation) await this.preferenceMutation;
+    return this.preferencesSnapshot();
+  }
+
+  async saveSettings(request) {
+    const settings = validateSettings(request);
+    return this.mutatePreferences(async () => {
+      await this.initializePreferences();
+      await this.preferences.saveSettings(settings);
+      this.invalidatePlan();
+      return this.preferencesSnapshot();
+    });
+  }
+
+  getRecipe(request) {
+    return clone(describeRecipe(validateSettings(request)));
+  }
+
+  getEncodingDetails(request) {
+    objectKeys(request, ['planId', 'fileId']);
+    if (!this.plan || id(request.planId) !== this.plan.id) throw fail('STALE_PLAN', 'Prepare the current batch again.');
+    const entry = this.plan.entries.get(id(request.fileId));
+    if (!entry) throw fail('UNPREPARED_FILE', 'Resolved encoding details are available after this file is admitted and prepared.');
+    // This is display data, not a shell command or an argument submission API.
+    // Execution consumes this exact stored array, substituting only its final
+    // staging filename. The eventual publication destination is separate.
+    return clone({ kind: entry.actualArgs ? 'actual-invocation' : 'resolved-argument-template', executable: this.ffmpeg,
+      args: entry.actualArgs || entry.preparedArgs, destination: entry.destination,
+      ...(entry.actualArgs ? {} : { outputPlaceholder: OUTPUT_PLACEHOLDER }),
+      notice: entry.actualArgs ? 'Exact arguments passed to FFmpeg. This temporary output is validated before publication.'
+        : 'Complete prepared arguments; only the final temporary output path is assigned when encoding starts. This is an argument array, not a shell command.' });
+  }
+
+  async resetProfile(request) {
+    objectKeys(request, ['profileId']);
+    if (!PROFILES.some(profile => profile.id === request.profileId)) throw fail('INVALID_SETTINGS', 'Choose a supported encoding profile.');
+    return this.mutatePreferences(async () => {
+      await this.initializePreferences();
+      await this.preferences.resetProfile(request.profileId);
+      this.invalidatePlan();
+      return this.preferencesSnapshot();
+    });
+  }
+
+  async forgetPreferences() {
+    return this.mutatePreferences(async () => {
+      await this.initializePreferences();
+      await this.preferences.forget();
+      this.folders.clear();
+      this.rememberedFolders = { input: null, output: null };
+      this.invalidatePlan();
+      return this.preferencesSnapshot();
+    });
+  }
+
+  async clearInspectionCache() {
+    return this.mutatePreferences(async () => {
+      // Await any initialization already in flight. Clearing does not require
+      // a successful eligibility helper, capabilities or a usable ffprobe.
+      if (this.cacheInitialization) await this.cacheInitialization;
+      if (!this.inspectionCache) await this.initializeInspectionCache();
+      const cache = this.inspectionCache || new InspectionCache({ directory: path.join(this.stateDir, 'cache'), ffprobeHash: '0'.repeat(64) });
+      const cleared = await cache.clear();
+      return cleared ? { cleared: true } : { cleared: false, notice: cache.warning || 'The inspection cache could not be cleared.' };
+    });
   }
 
   async initializeInspectionCache(signal) {
     if (this.cacheInjected) return;
-    try {
+    if (this.cacheInitialization) return this.cacheInitialization;
+    this.cacheInitialization = (async () => { try {
       // Bind evidence to bytes actually shipped, not just a version label. Hash
       // once per unchanged runtime in this service; capability availability is
       // still established independently by real device encodes.
@@ -138,7 +272,9 @@ class EncoderService extends EventEmitter {
       notCancelled(signal);
       this.inspectionCache = null;
       this.cacheWarning = 'Persistent inspection reuse is unavailable; using fresh inspection.';
-    }
+    } })();
+    try { await this.cacheInitialization; }
+    finally { this.cacheInitialization = null; }
   }
 
   async identifyForInspection(file, signal) {
@@ -200,13 +336,28 @@ class EncoderService extends EventEmitter {
       notCancelled(signal);
       if (!sameStamp(identity, await readFileStamp(file))) throw fail('INPUT_CHANGED', 'Input changed during metadata inspection.');
       const marker = classifyMarker(probe);
-      const indexed = marker.kind === 'unmarked' ? await this.provenanceJournal.lookupIdentity(identity) : null;
+      const indexed = marker.kind !== 'suspicious' ? await this.provenanceJournal.lookupIdentity(identity) : null;
       if (marker.kind !== 'unmarked' || indexed) {
-        item.status = marker.kind === 'suspicious' ? 'provenance-issue' : 'generated';
-        item.reason = indexed ? 'Recognized application output from local provenance.' : marker.reason || 'Application-generated output; excluded from source selection.';
-        return;
+        const kind = marker.kind === 'suspicious' ? 'suspicious' : 'generated';
+        const previousGeneration = marker.previousGeneration
+          || (marker.kind === 'unmarked' || marker.outputId === indexed?.outputId ? indexed?.previousGeneration : null);
+        item.origin = { kind, reason: indexed ? 'Recognized application output from local provenance.' : marker.reason,
+          ...(previousGeneration ? { previousGeneration } : {}),
+          ...(marker.descriptionNotice ? { descriptionNotice: marker.descriptionNotice } : {}) };
+        const authorized = this.plan.reencodeAuthorizations.get(item.id);
+        item.reencodeAuthorized = kind === 'generated' && Boolean(authorized && sameIdentity(authorized, identity));
+        if (!item.reencodeAuthorized) {
+          item.status = kind === 'suspicious' ? 'provenance-issue' : 'generated';
+          item.reason = item.origin.reason;
+          if (kind === 'generated') this.plan.generated.set(item.id, { file, fingerprint: identity, outputId: marker.outputId || indexed.outputId });
+          return;
+        }
+      } else {
+        item.origin = { kind: historicalSuffix(item.name) ? 'legacy' : 'original', reason: historicalSuffix(item.name)
+          ? 'Historical filename evidence only; exact generation details are unknown.' : 'No application-generated provenance was detected.' };
+        item.reencodeAuthorized = false;
       }
-      if (historicalSuffix(item.name)) {
+      if (item.origin.kind === 'legacy') {
         const override = this.plan.overrides.get(item.id);
         if (!override || !sameIdentity(override, identity)) {
           item.status = 'ambiguous';
@@ -235,16 +386,35 @@ class EncoderService extends EventEmitter {
         if (this.inspectionCache.warning) progress.notice ||= this.inspectionCache.warning;
       }
       if (!inspection.color.supported) throw fail('UNSUPPORTED_COLOR', inspection.color.reasons.join(' '));
-      buildEncodeArgs({ input: file, output: destination, settings, probe: inspection.probe, colorEvidence: inspection.color });
       const video = selectVideo(inspection.probe);
       const depth = /(?:10|12)/.exec(video.pix_fmt)?.[0] || '8';
       const capability = caps.profiles.find(entry => entry.id === profile.id);
       if (!capability.supportedBitDepths.includes(Number(depth))) throw fail('UNSUPPORTED_DEPTH', profile.label + ' cannot encode this bit depth on the current device.');
-      this.plan.entries.set(item.id, { file, destination, inspection, fingerprint: identity, overridden: this.plan.overrides.has(item.id), outputId: createOutputId() });
+      const outputId = createOutputId();
+      const recipe = describeRecipe(settings);
+      const pixelFormat = outputPixelFormat(profile, video);
+      const generationDescription = generationDescriptionOf({ version: 1, profileId: settings.profileId, codec: profile.codec,
+        backend: profile.hardware, encoder: profile.encoder, preset: settings.preset, qualityMode: recipe.qualityMode, quality: settings.quality,
+        bitDepth: /(?:10|12)/.test(pixelFormat) ? Number(/(?:10|12)/.exec(pixelFormat)[0]) : 8,
+        encoderArgs: recipe.args, appVersion: APP_VERSION, createdAt: new Date().toISOString(),
+        ...(typeof caps.versions?.ffmpeg === 'string' ? { runtimeVersion: caps.versions.ffmpeg.slice(0, 256) } : {}) });
+      if (!generationDescription) throw fail('INVALID_RECIPE', 'The resolved generation description is invalid.');
+      const preparedArgs = buildEncodeArgs({ input: file, output: destination, settings, probe: inspection.probe,
+        colorEvidence: inspection.color, outputId, generationDescription });
+      preparedArgs[preparedArgs.length - 1] = OUTPUT_PLACEHOLDER;
+      this.plan.entries.set(item.id, { file, destination, inspection, fingerprint: identity, overridden: this.plan.overrides.has(item.id),
+        reencodeAuthorized: item.reencodeAuthorized, sourceOutputId: marker.outputId || indexed?.outputId,
+        outputId, generationDescription, preparedArgs: Object.freeze(preparedArgs) });
       this.plan.ambiguities.delete(item.id);
-      Object.assign(item, { status: 'ready', summary: inspection.summary, reason: this.plan.overrides.has(item.id) ? 'Explicitly treated as original for this plan only.' : '' });
+      Object.assign(item, { status: 'ready', summary: inspection.summary, reason: item.reencodeAuthorized
+        ? 'Explicit re-encoding authorized for this file and prepared batch only.'
+        : this.plan.overrides.has(item.id) ? 'Explicitly treated as original for this plan only.' : '' });
     } catch (error) {
       if (error.code === 'CANCELLED' || signal.aborted || sharedFailure(error)) throw error;
+      if (['INPUT_CHANGED', 'UNSAFE_SOURCE'].includes(error.code)) {
+        item.reencodeAuthorized = false;
+        this.plan.reencodeAuthorizations.delete(item.id);
+      }
       item.status = 'unsupported'; item.reason = error.message;
     } finally {
       progress.active--;
@@ -288,12 +458,16 @@ class EncoderService extends EventEmitter {
     this.requireIdle();
     const caps = await this.getCapabilities();
     this.requireIdle();
+    if (this.folders.get(request.inputFolderId) !== input || this.folders.get(request.outputFolderId) !== output) {
+      throw fail('INVALID_FOLDER', 'The folder selections changed. Select both folders again.');
+    }
     if (!caps.profiles.find(profile => profile.id === settings.profileId)?.available) throw fail('UNAVAILABLE_PROFILE', 'The selected encoder cannot initialize on this computer.');
     const signal = this.begin('preparing');
     this.state.items = [];
     this.state.settings = settings;
     this.plan = { id: randomUUID(), input: input.path, output: output.path, settings, sameFolder, entries: new Map(),
-      baseline: new Map(), reservedPaths: new Set(), reservedIdentities: new Set(), overrides: new Map(), ambiguities: new Map() };
+      baseline: new Map(), reservedPaths: new Set(), reservedIdentities: new Set(), overrides: new Map(), ambiguities: new Map(),
+      generated: new Map(), reencodeAuthorizations: new Map() };
     this.state.planId = this.plan.id;
     this.taskPromise = (async () => {
       try {
@@ -311,7 +485,7 @@ class EncoderService extends EventEmitter {
           if (!storage?.eligible) throw fail('SAME_FOLDER_STORAGE', 'Output beside originals requires verified local fixed NTFS storage. Choose a distinct output folder for this storage.');
         }
         const profile = PROFILES.find(entry => entry.id === settings.profileId);
-        this.state.items = files.map(entry => ({ id: randomUUID(), name: entry.name, outputName: `${path.parse(entry.name).name}_${profile.suffix}.mkv`, status: 'pending', reason: '' }));
+        this.state.items = files.map(entry => ({ id: randomUUID(), name: entry.name, outputName: `${path.parse(entry.name).name}_${profile.suffix}.mkv`, status: 'pending', reason: '', reencodeAuthorized: false }));
         this.state.preparation = { total: files.length, resolved: 0, reused: 0, inspected: 0, active: 0, workers: [], stage: 'identity', fileId: null, notice: this.cacheWarning };
         const context = { input, output, settings, profile, caps, signal, owner: this.state.batchId };
         await this.prepareWithWorkers(context);
@@ -419,6 +593,56 @@ class EncoderService extends EventEmitter {
       } catch (error) {
         item.status = signal.aborted ? 'unprocessed' : 'unsupported'; item.reason = error.message;
         this.state.phase = signal.aborted ? 'cancelled' : 'failed'; this.state.error = error.message;
+        for (const entry of this.state.items) entry.reencodeAuthorized = false;
+        this.plan = null; this.state.planId = null;
+      } finally { this.finishedAt = Date.now(); this.emitState(); }
+    })();
+    await this.taskPromise;
+    return this.snapshot();
+  }
+
+  async reencodeOutputs(request) {
+    objectKeys(request, ['planId', 'fileIds']);
+    this.requireIdle();
+    if (!this.plan || this.state.phase !== 'ready' || id(request.planId) !== this.plan.id) throw fail('STALE_PLAN', 'Prepare the current batch again.');
+    if (!Array.isArray(request.fileIds) || !request.fileIds.length || request.fileIds.length > this.state.items.length) throw fail('INVALID_SELECTION', 'Choose the generated outputs to re-encode.');
+    const selected = new Set(request.fileIds.map(id));
+    if (selected.size !== request.fileIds.length) throw fail('INVALID_SELECTION', 'Duplicate generated-output identifiers are not allowed.');
+    const items = [...selected].map(fileId => this.state.items.find(item => item.id === fileId));
+    if (items.some(item => !item || item.status !== 'generated' || item.origin?.kind !== 'generated' || !this.plan.generated.has(item.id))) {
+      throw fail('INVALID_OVERRIDE', 'Only explicitly selected, recognized generated outputs can be authorized for re-encoding.');
+    }
+    const signal = this.begin('preparing');
+    this.state.preparation = { total: this.state.items.length, resolved: this.state.items.length - items.length,
+      reused: 0, inspected: 0, active: 0, workers: [], stage: 'identity', notice: null };
+    this.taskPromise = (async () => {
+      try {
+        // Validate the whole requested subset before granting any authority.
+        // Filtering/queue selection never enters this map. It exists only in
+        // this prepared plan and is discarded on every new preparation/restart.
+        const verified = [];
+        for (const item of items) {
+          const candidate = this.plan.generated.get(item.id);
+          const current = await readSourceIdentity(candidate.file, { signal });
+          if (!sameIdentity(current, candidate.fingerprint)) throw fail('INPUT_CHANGED', 'A selected generated output changed. Prepare the batch again.');
+          verified.push([item.id, current]);
+        }
+        notCancelled(signal);
+        for (const [fileId, identity] of verified) this.plan.reencodeAuthorizations.set(fileId, identity);
+        for (const item of items) {
+          item.status = 'pending';
+          await this.prepareItem(item, { input: { path: this.plan.input }, output: { path: this.plan.output }, settings: this.plan.settings,
+            profile: PROFILES.find(profile => profile.id === this.plan.settings.profileId), caps: this.capabilityResult, signal, owner: this.state.batchId });
+        }
+        notCancelled(signal);
+        this.markConflicts(); this.state.phase = 'ready';
+      } catch (error) {
+        for (const item of items) {
+          item.reencodeAuthorized = false;
+          item.status = signal.aborted ? 'unprocessed' : 'unsupported'; item.reason = error.message;
+        }
+        this.state.phase = signal.aborted ? 'cancelled' : 'failed'; this.state.error = error.message;
+        for (const entry of this.state.items) entry.reencodeAuthorized = false;
         this.plan = null; this.state.planId = null;
       } finally { this.finishedAt = Date.now(); this.emitState(); }
     })();
@@ -483,7 +707,15 @@ class EncoderService extends EventEmitter {
           const currentProbe = this.inspect === inspectInput
             ? await inspectMetadata(entry.file, { ffprobe: this.ffprobe, signal, run: this.run })
             : (await this.inspect(entry.file, { ffprobe: this.ffprobe, signal, run: this.run })).probe;
-          if (classifyMarker(currentProbe).kind !== 'unmarked' || await this.provenanceJournal.lookupIdentity(entry.fingerprint)) {
+          const currentMarker = classifyMarker(currentProbe);
+          const currentIndexed = await this.provenanceJournal.lookupIdentity(entry.fingerprint);
+          const generated = currentMarker.kind === 'generated' || Boolean(currentIndexed);
+          if (entry.reencodeAuthorized) {
+            if (currentMarker.kind === 'suspicious' || !generated || (currentMarker.outputId || currentIndexed?.outputId) !== entry.sourceOutputId
+                || !sameIdentity(this.plan.reencodeAuthorizations.get(item.id), entry.fingerprint)) {
+              throw fail('GENERATED_SOURCE', 'The explicit re-encode authorization no longer matches this generated output. Prepare again.');
+            }
+          } else if (currentMarker.kind !== 'unmarked' || currentIndexed) {
             throw fail('GENERATED_SOURCE', 'This source is now recognized as a generated output; prepare again.');
           }
           if (entry.overridden && !sameIdentity(this.plan.overrides.get(item.id), await readSourceIdentity(entry.file, { signal }))) {
@@ -491,14 +723,17 @@ class EncoderService extends EventEmitter {
           }
           if (!await this.sourceStillMatches(entry, signal)) throw fail('INPUT_CHANGED', 'Input changed during the final provenance check.');
           await this.provenanceJournal.recordIntent({ outputId: entry.outputId, sourceIdentity: entry.fingerprint,
-            destination: entry.destination, profileId: this.plan.settings.profileId });
+            destination: entry.destination, profileId: this.plan.settings.profileId, generationDescription: entry.generationDescription });
           stage = await createStage(this.plan.output);
           item.status = 'running';
           const owner = this.state.batchId;
           let lastProgress = 0;
           this.state.progress = { fileId: item.id, duration: entry.inspection.duration, percent: null };
           this.emitState();
-          const args = buildEncodeArgs({ input: entry.file, output: stage.file, settings: this.plan.settings, probe: entry.inspection.probe, colorEvidence: entry.inspection.color, outputId: entry.outputId });
+          const args = [...entry.preparedArgs];
+          if (args.at(-1) !== OUTPUT_PLACEHOLDER) throw fail('INVALID_PLAN', 'The prepared output placeholder changed. Prepare again.');
+          args[args.length - 1] = stage.file;
+          entry.actualArgs = Object.freeze([...args]);
           await this.run(this.ffmpeg, args, { signal, timeoutMs: 0, onProgress: record => {
             if (owner !== this.state.batchId || item.status !== 'running') return;
             const duration = entry.inspection.duration;
@@ -514,6 +749,9 @@ class EncoderService extends EventEmitter {
           const outputProbe = parseProbeJson(result.stdout, 'Output validation');
           const marker = classifyMarker(outputProbe);
           if (marker.kind !== 'generated' || marker.outputId !== entry.outputId) throw fail('INVALID_PROVENANCE', 'The completed output does not contain its expected application marker and output ID.');
+          if (JSON.stringify(marker.previousGeneration) !== JSON.stringify(entry.generationDescription)) {
+            throw fail('INVALID_PROVENANCE', 'The completed output does not contain its expected resolved generation description.');
+          }
           const validation = this.verify(entry.inspection, outputProbe, this.plan.settings);
           if (!validation.valid) throw fail('INVALID_OUTPUT', validation.errors.join(' '));
           if (!await this.sourceStillMatches(entry, signal)) throw fail('INPUT_CHANGED', 'Input changed while it was being encoded.');
@@ -527,6 +765,10 @@ class EncoderService extends EventEmitter {
             catch (error) { item.reason = 'Output saved; provenance bookkeeping remains pending. ' + error.message; }
           }
         } catch (error) {
+          if (['INPUT_CHANGED', 'GENERATED_SOURCE'].includes(error.code)) {
+            item.reencodeAuthorized = false;
+            this.plan.reencodeAuthorizations.delete(item.id);
+          }
           item.status = signal.aborted || error.code === 'CANCELLED' ? 'cancelled' : 'failed';
           item.reason = error.message;
           item.details = error.stderr?.slice(-4000);
@@ -577,6 +819,9 @@ class EncoderService extends EventEmitter {
       this.emitState();
       await this.taskPromise;
     }
+    // A close or renderer loss can arrive during a bounded preference write.
+    // Let the exact owned write finish before application shutdown.
+    if (this.preferenceMutation) await this.preferenceMutation.catch(() => {});
     return this.snapshot();
   }
 }

@@ -1,3 +1,7 @@
+> Superseding scope clarification: [September 19 binding Archive Quality amendment](14_Approved_0.6_Archive_Quality_Amendment.md) promotes only the HEVC Archive Quality Ada/Blackwell recipe into amended L/M. All new option, benchmark, native and portable acceptance gates apply; original Tested Defaults remain unchanged.
+
+> September 13, 2026 binding amendment: [Intentional re-encoding and encoder transparency](13_Approved_0.6_Product_Amendment.md) supplements this record and supersedes the old prohibition on explicit re-encoding of confidently recognized generated outputs. Default exclusion and accepted K safety remain. All added L/M acceptance gates must pass before final 0.6 closure.
+
 # Approved 0.6 plan — Archive Workflow and Inspection Reuse
 
 Status: execution approved September 9, 2026, by the complete user Goal in [11_Approved_0.6_Goal.md](11_Approved_0.6_Goal.md). That verbatim Goal and the formal plan in the current Codex task are authoritative; this compact decision record preserves implementation contracts and recovered evidence. No A–I work is unfinished.

@@ -85,6 +85,62 @@ function validateSettings(settings) {
   return { profileId: profile.id, preset: settings.preset, quality: settings.quality };
 }
 
+// The encoder contribution has one source of truth for execution, settings
+// help and descriptive provenance. Its fragments preserve production ordering:
+// stream metadata/dispositions are inserted between codec and encoder options.
+// Source-dependent pixel/profile/color decisions remain in the prepared plan.
+function encoderContribution(profile, settings) {
+  const codec = ['-c:v:0', profile.encoder];
+  const preset = ['-preset:v:0', settings.preset];
+  const options = profile.hardware === 'NVIDIA'
+    ? ['-rc:v:0', 'vbr', '-cq:v:0', String(settings.quality), '-b:v:0', '0', '-tune:v:0', 'hq']
+    : ['-crf:v:0', String(settings.quality)];
+  if (profile.encoder === 'libx265') options.push('-x265-params', 'aq-mode=3:psy-rd=2');
+  return { codec, preset, options };
+}
+
+function recipeDescription(settings) {
+  const validated = validateSettings(settings);
+  const profile = PROFILES.find((item) => item.id === validated.profileId);
+  const contribution = encoderContribution(profile, validated);
+  let presetHelp;
+  if (profile.hardware === 'NVIDIA') {
+    presetHelp = 'P1 prioritizes speed; P7 permits more encoding effort. This selects the native NVENC preset only. The current rate-control and tune options are listed separately in the encoder arguments.';
+  } else if (profile.encoder === 'libsvtav1') {
+    presetHelp = 'Lower SVT-AV1 preset numbers use more encoding effort; higher numbers prioritize speed. These numbers are native SVT presets, not NVIDIA P1–P7 equivalents.';
+  } else {
+    presetHelp = 'Slower CPU presets allow more encoding effort for compression efficiency; faster presets prioritize speed. A preset is separate from CRF and does not promise a particular file size or equal quality across encoders.';
+  }
+  return {
+    settings: validated,
+    label: profile.label,
+    codec: profile.codec,
+    encoder: profile.encoder,
+    backend: profile.hardware,
+    qualityMode: profile.quality.mode,
+    args: [...contribution.codec, ...contribution.preset, ...contribution.options],
+    presetContribution: [...contribution.preset],
+    presetHelp,
+    qualityHelp: profile.quality.mode === 'CQ'
+      ? 'CQ is the NVENC target quality in the current VBR mode with no target bitrate. Lower values generally request higher quality and larger files. CQ and CPU CRF numbers are not quality-equivalent, nor are equal values across codecs.'
+      : 'CRF is this encoder\'s quality-based rate control. Lower values generally request higher quality and larger files. CRF values are not quality-equivalent across encoders or interchangeable with NVIDIA CQ.',
+    mediaNote: 'These are the deterministic video-encoder options, not a complete command. Preparation resolves stream mapping, preserved metadata, pixel format/bit depth, hardware codec profile, color, provenance and input/output paths from each inspected file.',
+  };
+}
+
+function describeRecipe(settings) {
+  const recipe = recipeDescription(settings);
+  const profile = PROFILES.find((item) => item.id === recipe.settings.profileId);
+  return {
+    ...recipe,
+    // A default is an ordinary editable settings tuple, never a hidden mode.
+    // Resolve it through exactly the same contribution builder as manual edits.
+    testedDefault: recipeDescription({
+      profileId: profile.id, preset: profile.defaultPreset, quality: profile.quality.default,
+    }),
+  };
+}
+
 function streamsOf(probe) {
   if (!probe || !Array.isArray(probe.streams)) {
     throw mediaError('INVALID_PROBE', 'The media probe did not return a stream list.');
@@ -264,7 +320,7 @@ function outputPixelFormat(profile, video) {
   return video.pix_fmt;
 }
 
-function buildEncodeArgs({ input, output, settings, probe, colorEvidence, outputId }) {
+function buildEncodeArgs({ input, output, settings, probe, colorEvidence, outputId, generationDescription }) {
   const validated = validateSettings(settings);
   validateLocalPath(input, 'Input');
   validateLocalPath(output, 'Output');
@@ -290,27 +346,24 @@ function buildEncodeArgs({ input, output, settings, probe, colorEvidence, output
   }
   const mapped = mappedStreams(probe, video);
   const pixelFormat = outputPixelFormat(profile, video);
+  const contribution = encoderContribution(profile, validated);
   const args = [
     '-hide_banner', '-nostdin', '-loglevel', 'warning', '-nostats',
     '-progress', 'pipe:1', '-n', '-protocol_whitelist', 'file,pipe',
     '-format_whitelist', 'mov,matroska,webm,avi', '-i', input,
   ];
   for (const stream of mapped) args.push('-map', `0:${stream.index}`);
-  args.push('-map_metadata', '0', '-map_chapters', '0', '-c', 'copy', '-c:v:0', profile.encoder);
+  args.push('-map_metadata', '0', '-map_chapters', '0', '-c', 'copy', ...contribution.codec);
   mapped.forEach((stream, index) => {
     args.push(`-map_metadata:s:${index}`, `0:s:${stream.index}`);
     // Explicit zero suppresses FFmpeg's automatic default-stream assignment.
     args.push(`-disposition:${index}`, dispositionValue(stream));
   });
-  args.push('-preset:v:0', validated.preset);
+  args.push(...contribution.preset, ...contribution.options);
   if (profile.hardware === 'NVIDIA') {
-    args.push('-rc:v:0', 'vbr', '-cq:v:0', String(validated.quality), '-b:v:0', '0', '-tune:v:0', 'hq');
     const tenBit = pixelFormat === 'p010le';
     if (profile.codec === 'H264') args.push('-profile:v:0', tenBit ? 'high10' : 'high');
     if (profile.codec === 'H265') args.push('-profile:v:0', tenBit ? 'main10' : 'main');
-  } else {
-    args.push('-crf:v:0', String(validated.quality));
-    if (profile.encoder === 'libx265') args.push('-x265-params', 'aq-mode=3:psy-rd=2');
   }
   // A '+' requests failure rather than FFmpeg silently choosing another format.
   // The sole explicit conversion is the equivalent NVIDIA packing above.
@@ -325,13 +378,13 @@ function buildEncodeArgs({ input, output, settings, probe, colorEvidence, output
       args.push(option, value);
     }
   }
-  if (outputId !== undefined) args.push(...require('./provenance.cjs').provenanceArgs(outputId));
+  if (outputId !== undefined) args.push(...require('./provenance.cjs').provenanceArgs(outputId, generationDescription));
   args.push('-default_mode', 'passthrough', '-f', 'matroska', output);
   return args;
 }
 
 module.exports = {
-  PROFILES, validateSettings, selectVideo, classifyColor, buildEncodeArgs,
+  PROFILES, validateSettings, describeRecipe, selectVideo, classifyColor, buildEncodeArgs,
   // Inspection uses the same preservation/pixel policies as execution, so a
   // preview cannot approve a combination that the argument builder rejects.
   mappedStreams, outputPixelFormat,

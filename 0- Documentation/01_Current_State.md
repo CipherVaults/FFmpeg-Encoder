@@ -1,5 +1,13 @@
 # Current state
 
+September 19 resumed after quota pause: complete Notion amendment mirrored in14. L now additionally requires benchmark-backed HEVC Archive Quality Ada/Blackwell, with real Blackwell/native/portable evidence and honest Ada limitations; no changed Tested Default. HEAD still acceptedK3654c36. Existing unaccepted L work,231-test evidence, failed native reports and partial shared-help-display correction were recovered. No J/K restart. M remains gated on amendedL.
+
+September 14 recovery: amended L implementation exists but remains unaccepted. The current direct suite passes231tests; native acceptance exposed help-panel overlap after fixing an early-observation harness failure. UI correction and complete original/amended L endpoints, independent review and parent synchronization are still required. M has not begun. See Continuation State for exact artifacts and next action.
+
+September 13, 2026 resumed execution: Ahmed supplied the binding [product amendment](13_Approved_0.6_Product_Amendment.md), lifting the control pause recorded below. L now includes explicit generated-output re-encoding and production-derived encoder/command transparency. Existing L work is preserved; amended implementation and acceptance remain unfinished. J/K checkpoints and local-v0.5.0 remain accepted/recoverable.
+
+September 13, 2026 control update: autonomous L/M execution and acceptance are paused by Ahmed pending a substantive product-owner amendment. HEAD remains accepted K `3654c36`; unfinished L source/UI/preferences/test-harness changes are preserved uncommitted and unaccepted. J/K are not being repeated. The active recurring heartbeat waits at this boundary and must reconcile the newest approved amendments before resuming; final M acceptance and `local-v0.6.0` are blocked until the upcoming clarification and its additional acceptance requirements are incorporated and satisfied. See [Continuation State](10_Continuation_State.md) for the exact pause point and schedule. Accepted `local-v0.5.0` remains unchanged.
+
 Updated September 10, 2026: J is accepted at d05e17a; K safe same-folder provenance/publication is now accepted after209 passing tests, eight-session native endpoint evidence, current-code app smoke and independent review. See dated reports/evidence. L remembered workflow/compact UI/helpers is next; M portable0.6 remains pending. Accepted local-v0.5.0 remains immutable.
 
 Active scope: [0.6 Goal](11_Approved_0.6_Goal.md) and [0.6 Plan](12_Approved_0.6_Plan.md). Branch codex/archive-workflow; 0.6.0-dev.1. Accepted local-v0.5.0 remains f3efdeb and its ZIP hash was rechecked unchanged. D: development is explicitly authorized; the longstanding storage warning is parked outside this Goal.

@@ -1,3 +1,7 @@
+# M build prepared — September20,2026
+
+Accepted L checkpoint:2f9d765. First0.6 ZIP is built and verified, runtime acceptance still pending. Build report: out/portable-2026-09-20T13-45-32-392Z-mtZ8xU/build-report.json. ZIP321,229,721bytes; SHA256041a96338614cc19aeed69629e827d53329aed771413cd4c44df14e34c76fabf. Actual0.5 ZIP SHA256 rechecked unchanged. Source version0.6.0 is packaging metadata, not final acceptance. Parent owns version/build/resources; portable_acceptance agent owns scripts/portable-smoke.cjs and has clearance to run this exact artifact. Recover its latest partial report/work before another run. No accepted0.6 tag.
+
 # Continuation — M next after accepted amended L
 
 September20,2026. Live branch codex/archive-workflow. The commit adding Execution Summaries/2026-09-20_Amended_L_Workflow.md is the accepted L checkpoint (look up live Git). Earlier WIPs d81cda9/1c6b288 are preserved. J d05e17a, K3654c36 and local-v0.5.0 remain recoverable. Do not repeat L, J/K or the cold personal archive campaign.

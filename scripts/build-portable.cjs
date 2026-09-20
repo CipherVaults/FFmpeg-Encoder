@@ -76,7 +76,7 @@ async function main() {
   assert.equal(process.platform, 'win32', 'The local portable build targets Windows x64.');
   const root = path.resolve(__dirname, '..');
   const packageJson = JSON.parse(await fsp.readFile(path.join(root, 'package.json'), 'utf8'));
-  assert.match(packageJson.version, /^0\.5\.\d+(?:-[0-9A-Za-z.-]+)?$/, 'Expected the approved 0.5.x version sequence.');
+  assert.match(packageJson.version, /^0\.6\.\d+(?:-[0-9A-Za-z.-]+)?$/, 'Expected the approved 0.6.x version sequence.');
   assert.equal(packageJson.main, 'main.js');
   const versions = {};
   for (const [name, required] of Object.entries({ electron: '44.2.0', '@electron/packager': '20.3.0' })) {

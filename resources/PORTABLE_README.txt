@@ -10,11 +10,39 @@ a global Node.js or FFmpeg installation. Encoding operates on local files.
 NVIDIA profiles require compatible NVIDIA hardware and its installed driver;
 the application tests the bundled encoders and reports available profiles.
 
-Choose distinct input and output folders, select a profile and settings, then
+Choose input and output folders, select a profile and settings, then
 review the batch before starting. Only supported top-level video files are
 considered. Existing destinations are skipped. When two input names would
 produce the same output, select one. Use a different output folder to retain
 multiple quality variants of the same encoder-based name.
+
+On verified local fixed NTFS storage, input and output may be the same folder.
+Recognized generated outputs stay excluded by default. "Re-encode this output"
+explicitly admits only the chosen unchanged file for the current preparation;
+another lossy generation can reduce quality. "Treat as original" instead
+corrects ambiguous legacy filename classification. Existing outputs/originals
+remain protected. Do not open a mixed collection in the older 0.5 application,
+which cannot recognize the new generated-output provenance.
+
+Folders and per-profile settings are remembered locally after validation.
+Missing locations or unavailable hardware remain visible; there is no automatic
+encoding or silent encoder fallback. Unchanged files on eligible storage reuse
+inspection evidence. Forget preferences and Clear cache are independent and do
+not erase media or provenance. Use a separate extraction/state folder for rollback.
+
+Expert preset and CRF/CQ controls remain editable. Hover or keyboard-focus help
+to inspect what a control contributes, and expand prepared-file details for
+the actual main-owned FFmpeg argument array. Before launch, only its protected
+temporary output path is a clearly labelled placeholder; this is not a shell
+command for copying into a terminal.
+
+Tested Default remains separate from Archive Quality - Ada/Blackwell NVENC.
+The HEVC Archive helper applies P7, UHQ, full-resolution multipass, VBR-CQ32,
+four B frames and B-reference mode each, preserving supported source depth.
+It is capability-gated and fully inspectable. Manual preset/CQ edits remain
+visible; Use standard options clears the compound options. Quality and size
+vary by scene. CQ and CRF are not equivalent. Local Blackwell benchmark evidence
+does not establish Ada quality/speed or a universal filesize/quality guarantee.
 
 This version supports the documented SDR workflow. Detected HDR and ambiguous
 color evidence are reported as unsupported. Extra media that cannot be

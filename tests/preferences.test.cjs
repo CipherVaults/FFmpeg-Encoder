@@ -5,7 +5,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const { Preferences, defaultPreferences, PREFERENCES_NAMESPACE, PREFERENCES_FILE, MAX_PREFERENCES_BYTES } = require('../src/preferences.cjs');
-const { PROFILES } = require('../src/media.cjs');
+const { PROFILES, ARCHIVE_RECIPE } = require('../src/media.cjs');
 const parent = path.resolve(__dirname, '../artifacts/preferences-tests');
 const settings = { profileId: 'h265-cpu', preset: 'veryslow', quality: 23 };
 
@@ -149,4 +149,82 @@ test('failed preference writes preserve the valid session settings and give a bo
   assert.equal(value.settingsByProfile['h265-cpu'].quality, 23);
   assert.ok(value.notices.length);
   assert.equal(await fs.readFile(h.directory, 'utf8'), 'not a directory');
+});
+
+test('reading v1 preferences never enables Archive Quality or rewrites the saved file', async t => {
+  const h = await fixture(t);
+  const record = h.record();
+  record.profileId = 'h265-nvidia';
+  record.settingsByProfile['h265-nvidia'] = { preset: 'p7', quality: 24 };
+  await h.write(record);
+  const before = await fs.readFile(h.filename);
+  const restored = await h.open().load();
+  assert.deepEqual(restored.settingsByProfile['h265-nvidia'], { preset: 'p7', quality: 24 });
+  assert.equal(restored.notices.length, 0);
+  assert.deepEqual(await fs.readFile(h.filename), before);
+});
+
+test('Archive Quality v2 settings retain manual edits across restart and profile switching', async t => {
+  const h = await fixture(t);
+  const prefs = h.open();
+  await prefs.rememberFolder('input', h.root);
+  const archive = { profileId: 'h265-nvidia', preset: 'p6', quality: 23, recipeId: ARCHIVE_RECIPE.id };
+  await prefs.saveSettings(archive);
+  await prefs.saveSettings(settings);
+  const disk = JSON.parse(await fs.readFile(h.filename));
+  assert.equal(disk.version, 2);
+  assert.deepEqual(disk.settingsByProfile['h265-nvidia'], { preset: 'p6', quality: 23, recipeId: ARCHIVE_RECIPE.id });
+  assert.equal(Object.hasOwn(disk.settingsByProfile['h265-cpu'], 'recipeId'), false);
+  const restored = await h.open().load();
+  assert.equal(restored.profileId, settings.profileId);
+  assert.equal(restored.inputPath, h.root);
+  assert.deepEqual(restored.settingsByProfile['h265-nvidia'], disk.settingsByProfile['h265-nvidia']);
+  assert.deepEqual(restored.settingsByProfile['h265-cpu'], { preset: 'veryslow', quality: 23 });
+  assert.equal(restored.notices.length, 0);
+});
+
+test('Tested Default explicitly removes only that profile recipe and restores ordinary v1 persistence', async t => {
+  const h = await fixture(t);
+  const prefs = h.open();
+  await prefs.saveSettings(settings);
+  await prefs.saveSettings({ profileId: ARCHIVE_RECIPE.profileId, preset: ARCHIVE_RECIPE.preset,
+    quality: ARCHIVE_RECIPE.quality, recipeId: ARCHIVE_RECIPE.id });
+  const otherReset = await prefs.resetProfile('h264-cpu');
+  assert.equal(otherReset.settingsByProfile['h265-nvidia'].recipeId, ARCHIVE_RECIPE.id);
+  assert.equal(JSON.parse(await fs.readFile(h.filename)).version, 2);
+  const reset = await prefs.resetProfile('h265-nvidia');
+  assert.deepEqual(reset.settingsByProfile['h265-nvidia'], { preset: 'p5', quality: 25 });
+  assert.deepEqual(reset.settingsByProfile['h265-cpu'], { preset: 'veryslow', quality: 23 });
+  assert.equal(JSON.parse(await fs.readFile(h.filename)).version, 1);
+  assert.deepEqual((await h.open().load()).settingsByProfile['h265-nvidia'], { preset: 'p5', quality: 25 });
+});
+
+test('unknown, wrong-profile and arbitrary recipe requests are rejected without changing persisted settings', async t => {
+  const h = await fixture(t);
+  const prefs = h.open();
+  const archive = { profileId: 'h265-nvidia', preset: 'p7', quality: 24, recipeId: ARCHIVE_RECIPE.id };
+  await prefs.saveSettings(archive);
+  const before = await fs.readFile(h.filename);
+  for (const invalid of [{ ...archive, recipeId: 'unknown-future' }, { ...archive, recipeId: null },
+    { ...settings, recipeId: ARCHIVE_RECIPE.id }, { ...archive, profileId: 'av1-nvidia' },
+    { ...archive, extraOptions: ['-y'] }, { ...archive, recipeId: { args: ['-y'] } }]) {
+    assert.throws(() => prefs.saveSettings(invalid), { code: 'INVALID_SETTINGS' });
+  }
+  assert.deepEqual(await fs.readFile(h.filename), before);
+  assert.equal(prefs.snapshot().settingsByProfile['h265-nvidia'].recipeId, ARCHIVE_RECIPE.id);
+});
+
+test('unknown recipe data from disk degrades with notice and grants no recipe state or write on read', async t => {
+  const h = await fixture(t);
+  for (const version of [1, 2]) {
+    const record = { ...h.record(), version, profileId: 'h265-nvidia' };
+    record.settingsByProfile['h265-nvidia'] = { preset: 'p7', quality: 24,
+      recipeId: version === 1 ? ARCHIVE_RECIPE.id : 'unknown-future' };
+    await h.write(record);
+    const before = await fs.readFile(h.filename);
+    const restored = await h.open().load();
+    assert.deepEqual(restored.settingsByProfile['h265-nvidia'], { preset: 'p5', quality: 25 });
+    assert.ok(restored.notices.some(notice => /H265.*NVIDIA.*invalid.*using Tested Default/.test(notice)));
+    assert.deepEqual(await fs.readFile(h.filename), before);
+  }
 });

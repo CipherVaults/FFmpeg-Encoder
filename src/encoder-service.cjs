@@ -390,6 +390,9 @@ class EncoderService extends EventEmitter {
       const depth = /(?:10|12)/.exec(video.pix_fmt)?.[0] || '8';
       const capability = caps.profiles.find(entry => entry.id === profile.id);
       if (!capability.supportedBitDepths.includes(Number(depth))) throw fail('UNSUPPORTED_DEPTH', profile.label + ' cannot encode this bit depth on the current device.');
+      if (settings.recipeId && !caps.recipes?.find(recipe => recipe.id === settings.recipeId)?.supportedBitDepths.includes(Number(depth))) {
+        throw fail('UNSUPPORTED_RECIPE_DEPTH', 'The named recipe has not passed a real encode/decode check for this input bit depth on the current device.');
+      }
       const outputId = createOutputId();
       const recipe = describeRecipe(settings);
       const pixelFormat = outputPixelFormat(profile, video);
@@ -397,6 +400,7 @@ class EncoderService extends EventEmitter {
         backend: profile.hardware, encoder: profile.encoder, preset: settings.preset, qualityMode: recipe.qualityMode, quality: settings.quality,
         bitDepth: /(?:10|12)/.test(pixelFormat) ? Number(/(?:10|12)/.exec(pixelFormat)[0]) : 8,
         encoderArgs: recipe.args, appVersion: APP_VERSION, createdAt: new Date().toISOString(),
+        ...(settings.recipeId ? { recipeId: settings.recipeId } : {}),
         ...(typeof caps.versions?.ffmpeg === 'string' ? { runtimeVersion: caps.versions.ffmpeg.slice(0, 256) } : {}) });
       if (!generationDescription) throw fail('INVALID_RECIPE', 'The resolved generation description is invalid.');
       const preparedArgs = buildEncodeArgs({ input: file, output: destination, settings, probe: inspection.probe,
@@ -462,6 +466,9 @@ class EncoderService extends EventEmitter {
       throw fail('INVALID_FOLDER', 'The folder selections changed. Select both folders again.');
     }
     if (!caps.profiles.find(profile => profile.id === settings.profileId)?.available) throw fail('UNAVAILABLE_PROFILE', 'The selected encoder cannot initialize on this computer.');
+    if (settings.recipeId && !caps.recipes?.find(recipe => recipe.id === settings.recipeId)?.available) {
+      throw fail('UNAVAILABLE_RECIPE', 'The named recipe cannot initialize with its complete settings on this computer. Choose standard options explicitly to continue.');
+    }
     const signal = this.begin('preparing');
     this.state.items = [];
     this.state.settings = settings;
@@ -699,10 +706,12 @@ class EncoderService extends EventEmitter {
         if (signal.aborted) break;
         const entry = this.plan.entries.get(item.id);
         let stage;
+        let validatingSource = false;
         try {
           await this.verifyFolders();
           if (await exists(entry.destination)) { item.status = 'skipped'; item.reason = 'Output appeared since preview.'; continue; }
           if (this.plan.reservedPaths.has(entry.destination.toLowerCase())) throw fail('PROTECTED_SOURCE', 'The destination belonged to the baseline input snapshot. It remains protected after disappearance.');
+          validatingSource = true;
           if (!await this.sourceStillMatches(entry, signal)) throw fail('INPUT_CHANGED', 'Input changed since preview. Prepare it again.');
           const currentProbe = this.inspect === inspectInput
             ? await inspectMetadata(entry.file, { ffprobe: this.ffprobe, signal, run: this.run })
@@ -722,6 +731,7 @@ class EncoderService extends EventEmitter {
             throw fail('INPUT_CHANGED', 'The explicit original override no longer matches this file.');
           }
           if (!await this.sourceStillMatches(entry, signal)) throw fail('INPUT_CHANGED', 'Input changed during the final provenance check.');
+          validatingSource = false;
           await this.provenanceJournal.recordIntent({ outputId: entry.outputId, sourceIdentity: entry.fingerprint,
             destination: entry.destination, profileId: this.plan.settings.profileId, generationDescription: entry.generationDescription });
           stage = await createStage(this.plan.output);
@@ -754,7 +764,9 @@ class EncoderService extends EventEmitter {
           }
           const validation = this.verify(entry.inspection, outputProbe, this.plan.settings);
           if (!validation.valid) throw fail('INVALID_OUTPUT', validation.errors.join(' '));
+          validatingSource = true;
           if (!await this.sourceStillMatches(entry, signal)) throw fail('INPUT_CHANGED', 'Input changed while it was being encoded.');
+          validatingSource = false;
           await this.verifyFolders();
           const published = await publishOutput(stage, entry.destination, { signal, atomicOnly: this.plan.sameFolder });
           item.status = published ? 'success' : 'skipped';
@@ -765,8 +777,11 @@ class EncoderService extends EventEmitter {
             catch (error) { item.reason = 'Output saved; provenance bookkeeping remains pending. ' + error.message; }
           }
         } catch (error) {
-          if (['INPUT_CHANGED', 'GENERATED_SOURCE'].includes(error.code)) {
+          // Deletion, empty files and failed identity reads are invalidation
+          // too; an errno must not leave a misleading authorized UI state.
+          if (validatingSource || ['INPUT_CHANGED', 'GENERATED_SOURCE'].includes(error.code)) {
             item.reencodeAuthorized = false;
+            entry.reencodeAuthorized = false;
             this.plan.reencodeAuthorizations.delete(item.id);
           }
           item.status = signal.aborted || error.code === 'CANCELLED' ? 'cancelled' : 'failed';

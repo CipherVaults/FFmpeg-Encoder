@@ -58,6 +58,7 @@ h3, .field label { color: var(--muted); font-size: .9rem; font-weight: 400; }
 .help-mark { cursor: help; border-radius: 2px; }
 .default-row { display: flex; align-items: center; flex-wrap: wrap; gap: .5rem .8rem; margin-top: .75rem; position: relative; }
 .default-row .hint { margin: 0; }
+.recipe-state { color: #adc9ec; }
 button.subtle { min-height: 2.2rem; padding: .3rem .6rem; font-size: .8rem; font-weight: 400; }
 details { margin-top: 1rem; border-top: 1px solid var(--border); padding-top: .8rem; }
 summary { cursor: pointer; color: var(--muted); font-size: .85rem; }

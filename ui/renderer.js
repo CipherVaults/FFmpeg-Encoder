@@ -40,6 +40,7 @@
   let previewCollapsed = false;
   let previousAttention = new Set();
   let rememberedSettings = {};
+  let selectedRecipeId = null;
   let preferencesNotice = '';
   let saveTimer = null;
   let pendingSave = null;
@@ -51,7 +52,10 @@
   let recipeTimer = null;
 
   const profiles = () => capabilities?.profiles || [];
+  const recipes = () => capabilities?.recipes || [];
   const selectedProfile = () => profiles().find(profile => profile.id === byId('profile').value);
+  const profileRecipe = () => recipes().find(recipe => recipe.profileId === byId('profile').value);
+  const selectedRecipe = () => recipes().find(recipe => recipe.id === selectedRecipeId && recipe.profileId === byId('profile').value);
   const isBusy = () => busyPhases.has(snapshot.phase);
   const finite = value => typeof value === 'number' && Number.isFinite(value);
   const put = (id, value) => { byId(id).textContent = String(value ?? ''); };
@@ -81,7 +85,8 @@
   }
 
   function currentSettings() {
-    return { profileId: byId('profile').value, preset: byId('preset').value, quality: byId('quality').valueAsNumber };
+    return { profileId: byId('profile').value, preset: byId('preset').value, quality: byId('quality').valueAsNumber,
+      ...(selectedRecipeId ? { recipeId: selectedRecipeId } : {}) };
   }
 
   function settingsValid(requireAvailable = true) {
@@ -89,13 +94,15 @@
     const settings = currentSettings();
     return Boolean(profile && (!requireAvailable || profile.available) && profile.presets.includes(settings.preset)
       && Number.isInteger(settings.quality) && settings.quality >= profile.quality.min
-      && settings.quality <= profile.quality.max);
+      && settings.quality <= profile.quality.max
+      && (!requireAvailable || !selectedRecipeId || selectedRecipe()?.available));
   }
 
   function describeSettings(settings) {
     if (!settings) return '';
     const profile = profiles().find(item => item.id === settings.profileId);
-    return `${profile?.label || settings.profileId} · preset ${settings.preset} · ${profile?.quality.mode || 'Quality'} ${settings.quality}`;
+    const recipe = recipes().find(item => item.id === settings.recipeId);
+    return `${profile?.label || settings.profileId}${settings.recipeId ? ` · ${recipe?.label || settings.recipeId}` : ''} · preset ${settings.preset} · ${profile?.quality.mode || 'Quality'} ${settings.quality}`;
   }
 
   // Snapshot revisions prevent a delayed invoke response from repainting an
@@ -162,18 +169,26 @@
     put('preset-contribution', '');
     put('default-args', '');
     put('default-recipe-label', '');
+    put('archive-args', '');
+    put('archive-recipe-label', 'Resolving the recipe’s production options…');
+    put('archive-evidence-note', '');
     put('preset-help-text', 'Resolving this preset’s production contribution…');
     put('quality-help-text', 'Resolving this profile’s quality and rate-control explanation…');
     put('profile-help-text', 'Resolving the selected encoder profile…');
     byId('preset').removeAttribute('title');
     byId('tested-default').removeAttribute('title');
+    byId('archive-quality').removeAttribute('title');
     if (!settingsValid(false)) return;
     const settings = currentSettings();
+    const candidate = profileRecipe();
     recipeTimer = setTimeout(async () => {
       try {
-        const recipe = await api.getRecipe(settings);
+        const [recipe, candidateRecipe] = await Promise.all([
+          api.getRecipe(settings),
+          candidate ? api.getRecipe({ profileId: candidate.profileId, preset: candidate.preset, quality: candidate.quality, recipeId: candidate.id }) : null,
+        ]);
         if (request !== recipeRequest) return;
-        put('recipe-description', `${recipe.label} · ${recipe.encoder} · preset ${recipe.settings.preset} · ${recipe.qualityMode} ${recipe.settings.quality}`);
+        put('recipe-description', `${recipe.label} · ${recipe.encoder}${recipe.recipe ? ` · ${recipe.recipe.label}` : ' · standard options'} · preset ${recipe.settings.preset} · ${recipe.qualityMode} ${recipe.settings.quality}`);
         put('recipe-args', formatArguments(recipe.args));
         put('recipe-note', `${recipe.mediaNote} Arguments below are JSON strings, not a shell command. Expand a prepared file for its resolved media-specific arguments.`);
         put('preset-help-text', recipe.presetHelp);
@@ -188,11 +203,18 @@
         put('default-args', formatArguments(defaults.args));
         put('tested-default-values', `Preset ${defaults.settings.preset} · ${defaults.qualityMode} ${defaults.settings.quality}`);
         byId('tested-default').title = `Applies preset ${defaults.settings.preset} and ${defaults.qualityMode} ${defaults.settings.quality}. Inspect the adjacent help for all production encoder options.`;
+        if (candidateRecipe) {
+          put('archive-recipe-label', `${candidateRecipe.recipe?.label || candidate.label} · preset ${candidateRecipe.settings.preset} · ${candidateRecipe.qualityMode} ${candidateRecipe.settings.quality}`);
+          put('archive-args', formatArguments(candidateRecipe.args));
+          put('archive-evidence-note', candidateRecipe.recipe?.evidenceNote || candidate.evidenceNote || 'See the reported capability and benchmark limitations.');
+          byId('archive-quality').title = `Applies preset ${candidateRecipe.settings.preset} and ${candidateRecipe.qualityMode} ${candidateRecipe.settings.quality}, plus the production options shown in the adjacent recipe help.`;
+        }
       } catch (error) {
         if (request !== recipeRequest) return;
         put('recipe-note', `Encoder details could not be loaded: ${error?.message || error}`);
         put('preset-help-text', 'Current preset details are unavailable.');
         put('quality-help-text', 'Current quality details are unavailable.');
+        put('archive-recipe-label', `Recipe details unavailable: ${error?.message || error}`);
       }
     }, 80);
   }
@@ -227,7 +249,8 @@
   function rememberCurrentSettings(debounce = false) {
     if (!settingsValid(false)) return;
     const settings = currentSettings();
-    rememberedSettings[settings.profileId] = { preset: settings.preset, quality: settings.quality };
+    rememberedSettings[settings.profileId] = { preset: settings.preset, quality: settings.quality,
+      ...(settings.recipeId ? { recipeId: settings.recipeId } : {}) };
     // Do not drop another profile's pending values when switching quickly.
     if (pendingSave && pendingSave.profileId !== settings.profileId) drainPendingSave();
     pendingSave = settings;
@@ -273,6 +296,7 @@
     const profile = selectedProfile();
     byId('preset').replaceChildren();
     if (!profile) {
+      selectedRecipeId = rememberedSettings[byId('profile').value]?.recipeId || null;
       for (const id of ['quality', 'quality-slider']) byId(id).value = '';
       put('quality-value', '—');
       put('tested-default-values', 'Unavailable profile');
@@ -290,6 +314,9 @@
     const settings = stored && profile.presets.includes(stored.preset)
       && Number.isInteger(stored.quality) && stored.quality >= profile.quality.min && stored.quality <= profile.quality.max
       ? stored : { preset: profile.defaultPreset, quality: profile.quality.default };
+    // A stored recipe remains explicit even when unavailable on this machine.
+    // Availability gates preparation; it never silently changes encoder options.
+    selectedRecipeId = stored?.recipeId || null;
     byId('preset').value = settings.preset;
     for (const id of ['quality', 'quality-slider']) {
       byId(id).min = profile.quality.min;
@@ -323,6 +350,12 @@
         ? `${profile.label}: available${depths.length ? ` · ${depths.join(' / ')}-bit` : ''}${profile.reason ? ` · ${profile.reason}` : ''}`
         : `${profile.label}: ${profile.reason || 'Encoder cannot initialize on this computer.'}`;
       if (!profile.available) row.className = 'unavailable';
+      byId('capability-list').append(row);
+    }
+    for (const recipe of recipes()) {
+      const row = document.createElement('li');
+      row.textContent = `${recipe.label}: ${recipe.available ? `available · ${(recipe.supportedBitDepths || []).join(' / ')}-bit` : 'unavailable'}${recipe.reason ? ` · ${recipe.reason}` : ''}${recipe.evidenceNote ? ` ${recipe.evidenceNote}` : ''}`;
+      if (!recipe.available) row.className = 'unavailable';
       byId('capability-list').append(row);
     }
     const preferred = profiles().find(profile => profile.id === 'h265-cpu') || profiles()[0];
@@ -416,7 +449,8 @@
         ? 'Historical filename evidence · exact generation details unknown' : '';
     // Never infer previous settings from suffixes, current controls or codecs
     // found in the stream. Only main's validated descriptive provenance is used.
-    return `${previous.codec} · ${previous.backend} · ${previous.encoder} · preset ${previous.preset} · ${previous.qualityMode} ${previous.quality} · ${previous.bitDepth}-bit`;
+    const previousRecipe = recipes().find(recipe => recipe.id === previous.recipeId);
+    return `${previous.codec} · ${previous.backend} · ${previous.encoder}${previousRecipe ? ` · ${previousRecipe.label}` : ''} · preset ${previous.preset} · ${previous.qualityMode} ${previous.quality} · ${previous.bitDepth}-bit`;
   }
 
   function originLabel(item) {
@@ -716,6 +750,19 @@
     for (const id of ['choose-input', 'choose-output']) byId(id).disabled = locked || !capabilities;
     byId('profile').disabled = locked || !capabilities;
     for (const id of ['preset', 'quality', 'quality-slider', 'tested-default']) byId(id).disabled = locked || !selectedProfile();
+    const candidate = profileRecipe();
+    const activeRecipe = selectedRecipe();
+    visible('archive-quality-row', Boolean(candidate || selectedRecipeId));
+    put('archive-quality', candidate ? `Apply ${candidate.label}` : 'Archive Quality unavailable');
+    byId('archive-quality').disabled = locked || !selectedProfile()?.available || !candidate?.available;
+    byId('clear-recipe').disabled = locked;
+    visible('clear-recipe', Boolean(selectedRecipeId));
+    visible('active-recipe', Boolean(selectedRecipeId));
+    const modifiedRecipe = activeRecipe && (byId('preset').value !== activeRecipe.preset || byId('quality').valueAsNumber !== activeRecipe.quality);
+    put('active-recipe', selectedRecipeId ? `${activeRecipe?.label || selectedRecipeId} active${modifiedRecipe ? ' · modified preset/quality' : ''}. Compound encoder options remain active; inspect Current encoding recipe for every option.` : '');
+    const unavailableRecipe = Boolean((selectedRecipeId && !activeRecipe?.available) || (candidate && !candidate.available));
+    visible('recipe-unavailable', unavailableRecipe);
+    put('recipe-unavailable', unavailableRecipe ? `${activeRecipe?.label || candidate?.label || selectedRecipeId}: ${activeRecipe?.reason || candidate?.reason || 'Recipe unavailable on this computer.'}${selectedRecipeId ? ' Select Use standard options or Tested Default to review a batch without this recipe.' : ' Standard settings and Tested Default remain available.'}` : '');
     for (const id of ['forget-preferences', 'clear-inspection-cache']) byId(id).disabled = locked || !capabilities;
     byId('prepare-batch').disabled = locked || !inputFolder?.id || !outputFolder?.id || inputFolder.available === false || outputFolder.available === false || !settingsValid();
     byId('new-batch').disabled = locked || !terminal;
@@ -771,6 +818,26 @@
     const result = await api.resetProfile({ profileId: byId('profile').value });
     applyPreferences(result, 'Tested Default applied to the current profile. You can edit these values.');
     invalidatePreview();
+  }));
+  byId('archive-quality').addEventListener('click', () => command(async () => {
+    const recipe = profileRecipe();
+    if (!recipe?.available || !selectedProfile()?.available) throw new Error(recipe?.reason || 'Archive Quality is unavailable on this computer.');
+    await flushSettings();
+    selectedRecipeId = recipe.id;
+    byId('preset').value = recipe.preset;
+    for (const id of ['quality', 'quality-slider']) byId(id).value = recipe.quality;
+    put('quality-value', recipe.quality);
+    invalidatePreview(); rememberCurrentSettings(); refreshRecipe();
+    // The helper exposes its complete production contribution immediately;
+    // native preset/quality controls remain available for deliberate changes.
+    byId('current-recipe').open = true;
+    await flushSettings();
+  }));
+  byId('clear-recipe').addEventListener('click', () => command(async () => {
+    await flushSettings();
+    selectedRecipeId = null;
+    invalidatePreview(); rememberCurrentSettings(); refreshRecipe();
+    await flushSettings();
   }));
   byId('forget-preferences').addEventListener('click', () => command(async () => {
     // Drain pending writes before forgetting, so an older debounce cannot
@@ -849,6 +916,9 @@
   function closeHelp() {
     clearTimeout(helpCloseTimer);
     if (!activeHelp) return;
+    // Closing by outside interaction or another help trigger must clear the
+    // old pin too, so the next deliberate click pins instead of toggling stale state.
+    activeHelp.pinned = false;
     activeHelp.help.open = false;
     activeHelp.summary.setAttribute('aria-expanded', 'false');
     activeHelp.panel.hidden = true;

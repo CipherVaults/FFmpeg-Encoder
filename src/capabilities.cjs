@@ -2,11 +2,21 @@
 
 const fs = require('node:fs/promises');
 const path = require('node:path');
-const { PROFILES, selectVideo, classifyColor, buildEncodeArgs } = require('./media.cjs');
+const { PROFILES, ARCHIVE_RECIPE, selectVideo, classifyColor, buildEncodeArgs } = require('./media.cjs');
 const { runTool, ToolError } = require('./process-runner.cjs');
 
 const EXPECTED_CODEC = { H264: 'h264', H265: 'hevc', AV1: 'av1' };
 const TEST_BITS = [8, 10];
+
+function unexpectedRecipeWarnings(stderr) {
+  // The preservation builder deliberately sets global stream copy before the
+  // selected video encoder. FFmpeg reports that exact override even though the
+  // intended encoder wins. Exempt only this known diagnostic; an ignored recipe
+  // option, a different encoder, or any additional warning still rejects it.
+  const expectedOverride = /^\[vost#0:0 @ [0-9a-f]+\] Multiple -codec\/-c\/-acodec\/-vcodec\/-scodec\/-dcodec options specified for stream 0, only the last option '-codec:v:0 hevc_nvenc' will be used\.$/i;
+  return (stderr || '').split(/\r?\n/).map(line => line.trim())
+    .filter(line => line && !expectedOverride.test(line)).join('\n');
+}
 
 function parseProbe(stdout) {
   try {
@@ -106,14 +116,25 @@ async function checkCapabilities({ ffmpeg, ffprobe, stateDir, signal, run = runT
     }
 
     const profiles = [];
-    for (const profile of PROFILES) {
+    const recipes = [];
+    const recipeBase = PROFILES.find(profile => profile.id === ARCHIVE_RECIPE.profileId);
+    // Recipe presence is not availability. Exercise its complete canonical
+    // settings on this device at each supported source depth, without fallback.
+    const candidates = [...PROFILES, { ...recipeBase, id: ARCHIVE_RECIPE.id, profileId: recipeBase.id,
+      recipeId: ARCHIVE_RECIPE.id, defaultPreset: ARCHIVE_RECIPE.preset,
+      quality: { ...recipeBase.quality, default: ARCHIVE_RECIPE.quality } }];
+    for (const profile of candidates) {
       const checks = [];
       for (const bitDepth of TEST_BITS) {
         const { input, probe } = fixtures.get(bitDepth);
         const output = own(`${profile.id}-${bitDepth}.mkv`);
-        const settings = { profileId: profile.id, preset: profile.defaultPreset, quality: profile.quality.default };
+        const settings = { profileId: profile.profileId || profile.id, preset: profile.defaultPreset, quality: profile.quality.default,
+          ...(profile.recipeId ? { recipeId: profile.recipeId } : {}) };
         try {
-          await execute(ffmpeg, buildEncodeArgs({ input, output, settings, probe }));
+          const encoded = await execute(ffmpeg, buildEncodeArgs({ input, output, settings, probe }));
+          if (profile.recipeId && unexpectedRecipeWarnings(encoded.stderr)) {
+            throw new ToolError('RECIPE_OPTIONS_UNVERIFIED', 'The recipe emitted a warning; its settings are not accepted silently.', { stderr: encoded.stderr });
+          }
           const inspected = await execute(ffprobe, [
             '-v', 'error', '-protocol_whitelist', 'file,pipe', '-count_frames',
             '-show_streams', '-show_format', '-of', 'json', output,
@@ -141,15 +162,16 @@ async function checkCapabilities({ ffmpeg, ffprobe, stateDir, signal, run = runT
       }
       const supportedBitDepths = checks.filter((check) => check.available).map((check) => check.bitDepth);
       const failed = checks.filter((check) => !check.available);
-      profiles.push({
-        ...profile,
+      const availability = {
         available: supportedBitDepths.length > 0,
         supportedBitDepths,
         reason: failed.length ? failed.map((check) => `${check.bitDepth}-bit SDR: ${check.reason}`).join('\n') : null,
         checks,
-      });
+      };
+      if (profile.recipeId) recipes.push({ ...ARCHIVE_RECIPE, ...availability });
+      else profiles.push({ ...profile, ...availability });
     }
-    result = { profiles, versions };
+    result = { profiles, recipes, versions };
   } catch (error) {
     primaryFailure = error;
   } finally {

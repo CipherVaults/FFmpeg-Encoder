@@ -32,7 +32,7 @@ function outputIdOf(value) {
 // publication, cleanup or filesystem authority; the original marker/ID stay v1.
 function generationDescriptionOf(value) {
   const required = ['version', 'profileId', 'codec', 'backend', 'encoder', 'preset', 'qualityMode', 'quality', 'bitDepth', 'encoderArgs', 'appVersion', 'createdAt'];
-  const keys = value && Object.hasOwn(value, 'runtimeVersion') ? [...required, 'runtimeVersion'] : required;
+  const keys = [...required, ...['runtimeVersion', 'recipeId'].filter(key => value && Object.hasOwn(value, key))];
   if (!exactKeys(value, keys) || value.version !== 1 || Buffer.byteLength(JSON.stringify(value)) > 4096) return null;
   const token = entry => typeof entry === 'string' && /^[a-zA-Z0-9.+_-]{1,80}$/.test(entry);
   if (![value.profileId, value.encoder, value.preset, value.appVersion].every(token)
@@ -43,6 +43,19 @@ function generationDescriptionOf(value) {
       || !Array.isArray(value.encoderArgs) || value.encoderArgs.length > 64
       || value.encoderArgs.some(entry => typeof entry !== 'string' || entry.length > 128 || /[\x00-\x1f\x7f]/.test(entry))
       || (value.runtimeVersion !== undefined && (typeof value.runtimeVersion !== 'string' || value.runtimeVersion.length > 256 || /[\x00-\x1f\x7f]/.test(value.runtimeVersion)))) return null;
+  try {
+    // Shape is insufficient for a human-facing description: contradictory
+    // codec/backend/quality labels must not be presented as known history.
+    // Version 1 describes the canonical recipes supported by this application;
+    // unknown future options degrade to unavailable, never to source authority.
+    const { describeRecipe, PROFILES } = require('./media.cjs');
+    const recipe = describeRecipe({ profileId: value.profileId, preset: value.preset, quality: value.quality,
+      ...(Object.hasOwn(value, 'recipeId') ? { recipeId: value.recipeId } : {}) });
+    if (['codec', 'backend', 'encoder', 'qualityMode'].some(key => recipe[key] !== value[key])
+        || JSON.stringify(recipe.args) !== JSON.stringify(value.encoderArgs)
+        || !PROFILES.find(profile => profile.id === value.profileId).bitDepths.includes(value.bitDepth)
+        || new Date(value.createdAt).toISOString() !== value.createdAt) return null;
+  } catch { return null; }
   return structuredClone(value);
 }
 function provenanceArgs(outputId, generationDescription) {

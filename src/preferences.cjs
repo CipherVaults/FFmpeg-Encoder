@@ -32,7 +32,7 @@ function validPath(value) {
 
 function decodePreferences(record) {
   const keys = ['namespace', 'version', 'inputPath', 'outputPath', 'profileId', 'settingsByProfile'];
-  if (!exactKeys(record, keys) || record.namespace !== PREFERENCES_NAMESPACE || record.version !== 1
+  if (!exactKeys(record, keys) || record.namespace !== PREFERENCES_NAMESPACE || ![1, 2].includes(record.version)
       || !object(record.settingsByProfile)
       || Object.keys(record.settingsByProfile).some(key => !PROFILES.some(profile => profile.id === key))) {
     throw new Error('Unrecognized preference schema.');
@@ -49,9 +49,11 @@ function decodePreferences(record) {
   for (const profile of PROFILES) {
     const value = record.settingsByProfile[profile.id];
     try {
-      if (!exactKeys(value, ['preset', 'quality'])) throw new Error('Invalid profile settings.');
-      const settings = validateSettings({ profileId: profile.id, preset: value.preset, quality: value.quality });
-      data.settingsByProfile[profile.id] = { preset: settings.preset, quality: settings.quality };
+      const recipe = record.version === 2 && value && Object.hasOwn(value, 'recipeId') ? { recipeId: value.recipeId } : {};
+      if (!exactKeys(value, ['preset', 'quality', ...Object.keys(recipe)])) throw new Error('Invalid profile settings.');
+      const settings = validateSettings({ profileId: profile.id, preset: value.preset, quality: value.quality, ...recipe });
+      const { profileId, ...saved } = settings;
+      data.settingsByProfile[profile.id] = saved;
     } catch {
       notices.push(`${profile.label}: invalid or missing remembered settings; using Tested Default (${profile.defaultPreset} / ${profile.quality.mode} ${profile.quality.default}).`);
     }
@@ -132,7 +134,10 @@ class Preferences {
 
   async #write() {
     if (this.#readOnly) return;
-    const record = { namespace: PREFERENCES_NAMESPACE, version: 1, ...this.#data };
+    // Version 2 prevents older builds from silently dropping compound settings.
+    // They preserve an unknown schema; this reader still accepts ordinary v1.
+    const version = Object.values(this.#data.settingsByProfile).some(settings => settings.recipeId) ? 2 : 1;
+    const record = { namespace: PREFERENCES_NAMESPACE, version, ...this.#data };
     const serialized = JSON.stringify(record);
     if (Buffer.byteLength(serialized) > MAX_PREFERENCES_BYTES) throw new Error('Preferences exceed the bounded storage limit.');
     await this.#ensureDirectory(true);
@@ -183,7 +188,8 @@ class Preferences {
     const settings = validateSettings(request);
     return this.#change(data => {
       data.profileId = settings.profileId;
-      data.settingsByProfile[settings.profileId] = { preset: settings.preset, quality: settings.quality };
+      const { profileId, ...saved } = settings;
+      data.settingsByProfile[settings.profileId] = saved;
     });
   }
 

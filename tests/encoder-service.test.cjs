@@ -6,7 +6,7 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const { randomUUID } = require('node:crypto');
 const { EncoderService } = require('../src/encoder-service.cjs');
-const { PROFILES } = require('../src/media.cjs');
+const { PROFILES, ARCHIVE_RECIPE } = require('../src/media.cjs');
 const { classifyMarker, createOutputId } = require('../src/provenance.cjs');
 
 const artifactParent = path.resolve(__dirname, '..', 'artifacts', 'service-tests');
@@ -463,6 +463,19 @@ test('generated input changed after authorization cannot encode or retain visibl
   assert.equal(h.service.plan.reencodeAuthorizations.size, 0);
 });
 
+for (const change of ['empty', 'deleted']) test(`generated source ${change} invalidates authority even when identity reading throws`, async t => {
+  const h = await harness(t, { names: ['a.mkv'], inspectResult: () => generatedInspection(createOutputId()) });
+  // Use one stable provenance ID throughout preparation and final inspection.
+  const stableId = createOutputId(); h.service.inspect = async () => generatedInspection(stableId);
+  const first = await h.prepare();
+  const ready = await h.service.reencodeOutputs({ planId: first.planId, fileIds: [first.items[0].id] });
+  const file = path.join(h.input, 'a.mkv');
+  if (change === 'empty') await fs.truncate(file, 0); else await fs.unlink(file);
+  const result = await h.finish(ready);
+  assert.equal(result.counts.failed, 1); assert.equal(result.items[0].reencodeAuthorized, false);
+  assert.equal(h.service.plan.reencodeAuthorizations.size, 0); assert.equal(h.calls.length, 0);
+});
+
 test('a generated re-encode remains skipped when its protected destination already exists', async t => {
   const outputId = createOutputId();
   const h = await harness(t, { sameFolder: true, names: ['a.mkv', 'a_H265-CPU.mkv'], inspectResult: () => generatedInspection(outputId) });
@@ -505,5 +518,87 @@ test('missing or corrupted output description is rejected before publication des
   const result = await h.finish(await h.prepare());
   assert.equal(result.counts.failed, 1);
   assert.match(result.items[0].reason, /generation description/);
+  assert.deepEqual(await fs.readdir(h.output), []);
+});
+
+const archiveSettings = { profileId: ARCHIVE_RECIPE.profileId, preset: ARCHIVE_RECIPE.preset,
+  quality: ARCHIVE_RECIPE.quality, recipeId: ARCHIVE_RECIPE.id };
+
+for (const [label, recipes] of [
+  ['missing capability result', undefined],
+  ['unavailable recipe', [{ id: ARCHIVE_RECIPE.id, available: false, supportedBitDepths: [] }]],
+  ['unrelated recipe ID', [{ id: 'unknown-future', available: true, supportedBitDepths: [8, 10] }]],
+]) test(`preparation rejects ${label} before inspection even when ordinary HEVC is available`, async t => {
+  let inspected = 0;
+  const h = await harness(t, { names: ['source.mkv'], onInspect: () => { inspected++; } });
+  await h.service.getCapabilities();
+  h.service.capabilityResult.recipes = recipes;
+  h.request.settings = { ...archiveSettings };
+  await h.service.saveSettings(h.request.settings);
+  await assert.rejects(h.prepare(), { code: 'UNAVAILABLE_RECIPE' });
+  assert.equal(h.service.plan, null);
+  assert.equal(inspected, 0);
+  assert.equal(h.calls.length, 0);
+  assert.deepEqual(await fs.readdir(h.output), []);
+  assert.equal((await h.service.getPreferences()).settingsByProfile['h265-nvidia'].recipeId, ARCHIVE_RECIPE.id);
+});
+
+test('a recipe capability cannot bypass an unavailable base encoder profile', async t => {
+  const h = await harness(t, { names: ['source.mkv'] });
+  await h.service.getCapabilities();
+  h.service.capabilityResult.profiles.find(profile => profile.id === 'h265-nvidia').available = false;
+  h.service.capabilityResult.recipes = [{ id: ARCHIVE_RECIPE.id, available: true, supportedBitDepths: [8, 10] }];
+  h.request.settings = { ...archiveSettings };
+  await assert.rejects(h.prepare(), { code: 'UNAVAILABLE_PROFILE' });
+  assert.equal(h.service.plan, null);
+  assert.equal(h.calls.length, 0);
+});
+
+for (const supportedDepth of [8, 10]) test(`recipe preparation admits only the explicitly supported ${supportedDepth}-bit inputs`, async t => {
+  const h = await harness(t, { names: ['eight.mkv', 'ten.mkv'], inspectResult: file => {
+    const value = inspection();
+    if (path.basename(file) === 'ten.mkv') { value.probe.streams[0].pix_fmt = 'yuv420p10le'; value.summary.bitDepth = 10; }
+    return value;
+  } });
+  await h.service.getCapabilities();
+  h.service.capabilityResult.recipes = [{ id: ARCHIVE_RECIPE.id, available: true, supportedBitDepths: [supportedDepth] }];
+  h.request.settings = { ...archiveSettings };
+  const plan = await h.prepare();
+  const accepted = plan.items.find(item => item.name === (supportedDepth === 8 ? 'eight.mkv' : 'ten.mkv'));
+  const rejected = plan.items.find(item => item.id !== accepted.id);
+  assert.equal(accepted.status, 'ready');
+  assert.equal(rejected.status, 'unsupported');
+  assert.match(rejected.reason, /recipe has not passed a real encode\/decode check for this input bit depth/);
+  assert.equal(h.service.plan.entries.has(rejected.id), false);
+  assert.throws(() => h.service.getEncodingDetails({ planId: plan.planId, fileId: rejected.id }), { code: 'UNPREPARED_FILE' });
+  assert.throws(() => h.service.startBatch({ planId: plan.planId, fileIds: [rejected.id] }), { code: 'INVALID_SELECTION' });
+  const details = h.service.getEncodingDetails({ planId: plan.planId, fileId: accepted.id });
+  assert.equal(details.args[details.args.indexOf('-tune:v:0') + 1], 'uhq');
+  assert.equal(details.args[details.args.indexOf('-pix_fmt:v:0') + 1], supportedDepth === 8 ? '+yuv420p' : 'p010le');
+  const result = await h.finish(plan);
+  assert.equal(result.counts.success, 1);
+  assert.equal(h.calls.length, 1);
+  assert.deepEqual(h.calls[0].args.slice(0, -1), details.args.slice(0, -1));
+  const description = h.service.plan.entries.get(accepted.id).generationDescription;
+  assert.equal(description.recipeId, ARCHIVE_RECIPE.id);
+  assert.equal(description.bitDepth, supportedDepth);
+});
+
+test('a remembered recipe survives restart but cannot gain availability or silently fall back', async t => {
+  const h = await harness(t, { names: ['source.mkv'] });
+  await h.service.saveSettings(archiveSettings);
+  const restarted = new EncoderService({ ffmpeg: 'injected-ffmpeg', ffprobe: 'injected-ffprobe', stateDir: h.stateDir,
+    capabilities: async () => ({ profiles: PROFILES.map(profile => ({ ...profile, available: true, supportedBitDepths: [8, 10] })),
+      recipes: [{ id: ARCHIVE_RECIPE.id, available: false, supportedBitDepths: [], reason: 'Injected unsupported device.' }] }) });
+  const remembered = await restarted.getPreferences();
+  assert.equal(remembered.profileId, 'h265-nvidia');
+  assert.equal(remembered.settingsByProfile['h265-nvidia'].recipeId, ARCHIVE_RECIPE.id);
+  assert.notEqual(remembered.inputFolder.id, h.request.inputFolderId);
+  assert.notEqual(remembered.outputFolder.id, h.request.outputFolderId);
+  await assert.rejects(restarted.prepareBatch({ inputFolderId: remembered.inputFolder.id, outputFolderId: remembered.outputFolder.id,
+    settings: { profileId: remembered.profileId, ...remembered.settingsByProfile[remembered.profileId] } }), { code: 'UNAVAILABLE_RECIPE' });
+  assert.equal(restarted.plan, null);
+  const after = await restarted.getPreferences();
+  assert.deepEqual(after.settingsByProfile['h265-nvidia'], remembered.settingsByProfile['h265-nvidia']);
   assert.deepEqual(await fs.readdir(h.output), []);
 });

@@ -30,6 +30,28 @@ function intent(root, outputId = createOutputId(), number = 1) {
   return { outputId, sourceIdentity: identity(number), destination: path.join(root, `output-${number}.mkv`), profileId: 'h265-cpu' };
 }
 const recordFile = (journal, outputId, kind) => path.join(journal.directory, `${outputId}.${kind}.json`);
+
+test('descriptive provenance rejects semantic contradictions without weakening generated recognition', () => {
+  const { describeRecipe, ARCHIVE_RECIPE } = require('../src/media.cjs');
+  const { generationDescriptionOf, GENERATION_KEY } = require('../src/provenance.cjs');
+  const settings = { profileId: 'h265-nvidia', preset: 'p7', quality: 24, recipeId: ARCHIVE_RECIPE.id };
+  const recipe = describeRecipe(settings);
+  const description = { version: 1, ...settings, codec: recipe.codec, backend: recipe.backend, encoder: recipe.encoder,
+    qualityMode: recipe.qualityMode, bitDepth: 8, encoderArgs: recipe.args, appVersion: '0.6.0-dev.1', createdAt: '2026-09-19T12:00:00.000Z' };
+  assert.deepEqual(generationDescriptionOf(description), description);
+  const outputId = createOutputId();
+  const valid = marked(outputId); valid.format.tags[GENERATION_KEY] = JSON.stringify(description);
+  assert.deepEqual(classifyMarker(valid).previousGeneration, description);
+  for (const mutate of [d => { d.backend = 'CPU'; }, d => { d.codec = 'H264'; }, d => { d.qualityMode = 'CRF'; },
+    d => { d.encoderArgs = [...d.encoderArgs, '-y']; }, d => { d.preset = 'p1'; }, d => { d.createdAt = '2026-99-19T12:00:00.000Z'; },
+    d => { d.recipeId = 'unknown-future'; }, d => { d.version = 2; }]) {
+    const changed = structuredClone(description); mutate(changed);
+    assert.equal(generationDescriptionOf(changed), null);
+    const probe = marked(outputId); probe.format.tags[GENERATION_KEY] = JSON.stringify(changed);
+    const result = classifyMarker(probe); assert.equal(result.kind, 'generated'); assert.equal(result.outputId, outputId);
+    assert.equal(result.previousGeneration, undefined); assert.match(result.descriptionNotice, /unavailable/);
+  }
+});
 async function rewrite(filename, mutate) {
   const record = JSON.parse(await fs.readFile(filename, 'utf8'));
   mutate(record);

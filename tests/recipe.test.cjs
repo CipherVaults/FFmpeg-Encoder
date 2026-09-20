@@ -17,6 +17,22 @@ function argsFor(settings, pix_fmt = 'yuv420p') {
 
 function valueOf(args, flag) { return args[args.indexOf(flag) + 1]; }
 
+test('Archive Quality is a bounded compound recipe distinct from native preset and Tested Default', () => {
+  const { ARCHIVE_RECIPE, validateSettings } = require('../src/media.cjs');
+  const settings = { profileId: ARCHIVE_RECIPE.profileId, preset: 'p7', quality: 24, recipeId: ARCHIVE_RECIPE.id };
+  const recipe = describeRecipe(settings); const args = argsFor(settings);
+  for (const [flag, value] of [['-preset:v:0', 'p7'], ['-cq:v:0', '24'], ['-tune:v:0', 'uhq'], ['-multipass:v:0', 'fullres'], ['-bf:v:0', '4'], ['-b_ref_mode:v:0', 'each']]) {
+    assert.equal(valueOf(recipe.args, flag), value); assert.equal(valueOf(args, flag), value);
+  }
+  assert.equal(recipe.recipe.id, ARCHIVE_RECIPE.id);
+  assert.deepEqual(recipe.testedDefault.settings, { profileId: 'h265-nvidia', preset: 'p5', quality: 25 });
+  assert.equal(valueOf(recipe.testedDefault.args, '-tune:v:0'), 'hq');
+  const edited = describeRecipe({ ...settings, preset: 'p6', quality: 23 });
+  assert.equal(edited.recipe.id, ARCHIVE_RECIPE.id); assert.equal(valueOf(edited.args, '-preset:v:0'), 'p6');
+  assert.equal(valueOf(edited.args, '-cq:v:0'), '23');
+  for (const bad of [{ ...settings, recipeId: 'arbitrary' }, { ...settings, recipeId: null }, { ...settings, profileId: 'h264-nvidia' }, { ...settings, args: ['-y'] }]) assert.throws(() => validateSettings(bad), { code: 'INVALID_SETTINGS' });
+});
+
 test('six Tested Defaults expose the accepted preset, quality and every fixed encoder option', () => {
   const expected = [
     ['h264-cpu', 'slower', 24, ['-c:v:0', 'libx264', '-preset:v:0', 'slower', '-crf:v:0', '24']],

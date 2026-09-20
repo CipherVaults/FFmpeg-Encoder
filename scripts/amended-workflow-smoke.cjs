@@ -216,6 +216,87 @@ async function apiError(method, request) {
     try { await window.encoder[method](request); return null; } catch (error) { return error.code || error.message; }
   }, { method, request });
 }
+
+async function verifyLongArguments(entry) {
+  const args = rowFor(entry).locator('[data-testid="resolved-args"]');
+  report.commandGeometry = [];
+  for (const size of [{ width: 1100, height: 800 }, { width: 640, height: 480 }]) {
+    await current.app.evaluate(({ BrowserWindow }, value) => BrowserWindow.getAllWindows()[0].setContentSize(value.width, value.height), size);
+    await args.focus();
+    await current.page.keyboard.press('Control+End');
+    await current.page.waitForFunction(id => {
+      const el = document.querySelector(`tr[data-file-id="${id}"] [data-testid="resolved-args"]`);
+      return el && (el.scrollHeight <= el.clientHeight || el.scrollTop > 0);
+    }, entry.id);
+    const geometry = await args.evaluate(el => {
+      const rect = el.getBoundingClientRect();
+      return { left: rect.left, right: rect.right, width: innerWidth, client: el.clientWidth,
+        scroll: el.scrollWidth, scrollTop: el.scrollTop, focused: document.activeElement === el };
+    });
+    assert.ok(geometry.focused && geometry.left >= 0 && geometry.right <= geometry.width && geometry.scroll <= geometry.client + 1, JSON.stringify(geometry));
+    await current.page.screenshot({ path: path.join(artifacts, `resolved-arguments-${size.width}.png`), fullPage: true });
+    report.commandGeometry.push({ size, geometry });
+  }
+  await current.app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].setContentSize(1100, 800));
+}
+
+async function generatedCancellation() {
+  const directory = await folder('generated cancellation');
+  const active = path.join(directory, 'A generated active.mkv');
+  const queued = path.join(directory, 'B generated queued.mkv');
+  for (const [file, duration, size] of [[active, 6, '640x360'], [queued, 1, '320x180']]) {
+    await fixture(file, { duration, size, tags: ['FFMPEG_ENCODER_PROVENANCE=1', `FFMPEG_ENCODER_OUTPUT_ID=${randomUUID()}`] });
+  }
+  // These marker-only fixtures represent recognized older outputs. Admission is
+  // through the actual visible subset action, not a backend provenance bypass.
+  await configure(directory, directory, 'h265-cpu', 'veryslow');
+  let state = await prepare('generated cancellation preparation');
+  await current.page.selectOption('#batch-filter', 'generated');
+  for (const entry of state.items) {
+    assert.equal(entry.status, 'generated');
+    await rowFor(entry).locator('[data-testid="choose-reencode"]').check();
+  }
+  await current.page.click('#reencode-selected');
+  state = await until(s => s.phase === 'ready' && s.items.every(i => i.reencodeAuthorized));
+  const commandCount = await current.app.evaluate(() => globalThis.__sameFolderSmoke.commands.length);
+  await current.page.click('#start-batch');
+  await until(s => s.phase === 'running' && s.items.some(i => i.status === 'running'));
+  await current.page.waitForFunction(async () => {
+    const s = await window.encoder.getSnapshot();
+    return s.items.some(i => i.status === 'running');
+  });
+  let child;
+  const deadline = Date.now() + 10000;
+  while (Date.now() < deadline) {
+    child = await current.app.evaluate(() => globalThis.__sameFolderSmoke.commands.findLast(c => c.pid && !c.closedAt));
+    if (child) break;
+    await pause(20);
+  }
+  assert.ok(child?.pid, 'Cancellation must interrupt a real owned encode child.');
+  await current.page.click('#cancel-batch');
+  const cancelled = await until(s => s.phase === 'cancelled');
+  const commands = await current.app.evaluate(() => globalThis.__sameFolderSmoke.commands);
+  assert.equal(commands.length, commandCount + 1); assert.ok(commands.at(-1).closedAt);
+  assert.equal(cancelled.counts.success, 0); assert.equal(cancelled.counts.cancelled, 1); assert.equal(cancelled.counts.unprocessed, 1);
+  const retainedStages = (await fs.readdir(directory)).filter(n => n.startsWith('.ffmpeg-encoder-')).sort();
+  assert.deepEqual((await fs.readdir(directory)).filter(n => !n.startsWith('.ffmpeg-encoder-')).sort(), [path.basename(active), path.basename(queued)]);
+  const userData = current.session.userData;
+  await close(); await launch('generated cancel restart', userData); await readyUI();
+  state = await prepare('generated cancellation restart');
+  assert.ok(state.items.every(i => i.status === 'generated' && !i.reencodeAuthorized));
+  const next = item(state, path.basename(queued));
+  await rowFor(next).locator('[data-testid="reencode-output"]').click();
+  state = await until(s => s.phase === 'ready' && item(s, next.name).reencodeAuthorized);
+  await selectOnly(item(state, next.name));
+  state = await start('subsequent intentional encode after cancellation');
+  assert.equal(state.counts.success, 1);
+  const output = path.join(directory, item(state, next.name).outputName);
+  assert.equal(classifyMarker(await probe(output)).kind, 'generated'); await protect(output);
+  await runTool(ffmpeg, ['-v', 'error', '-xerror', '-i', output, '-f', 'null', '-']);
+  assert.deepEqual((await fs.readdir(directory)).filter(n => n.startsWith('.ffmpeg-encoder-')).sort(), retainedStages);
+  report.cases.push({ label: 'generated cancellation and restart', child, commands, cancelled, retainedStages, subsequent: state });
+  report.checks.push('Explicit generated-source cancellation awaits the real child close, stops queued work, preserves source hashes and safely restarts without authority; a newly authorized subsequent job succeeds.');
+}
 async function transparentGeneratedWorkflow() {
   const input = await folder('Same folder العربية & apostrophe\'s');
   const userData = await folder('amended state');
@@ -250,6 +331,7 @@ async function transparentGeneratedWorkflow() {
   await current.page.selectOption('#batch-filter', 'all');
   assert.match(await rowFor(item(state, path.basename(old))).locator('[data-testid="previous-generation"]').textContent(), /unavailable|unknown/i);
   const preparedCPU = await detailsFor(state, original);
+  await verifyLongArguments(original);
   await selectOnly(original); state = await start('CPU first generation');
   const commandCPU = await current.app.evaluate(() => globalThis.__sameFolderSmoke.commands.at(-1));
   assertExecutedTemplate(preparedCPU, commandCPU);
@@ -339,7 +421,7 @@ async function main() {
   try {
     report.sourceHashes = {};
     for (const f of ['src/media.cjs', 'src/preferences.cjs', 'src/encoder-service.cjs', 'src/inspection.cjs', 'src/provenance.cjs', 'preload.js', 'src/ipc.cjs', 'ui/index.html', 'ui/renderer.js', 'ui/styles.css']) report.sourceHashes[f] = await hash(path.join(root, f));
-    await transparentGeneratedWorkflow(); await close(); report.protectedHashes = [];
+    await transparentGeneratedWorkflow(); await generatedCancellation(); await close(); report.protectedHashes = [];
     for (const [file, before] of protectedFiles) { const after = await hash(file); assert.equal(after, before); report.protectedHashes.push({ file, sha256: after }); }
     assert.deepEqual(report.errors, []); report.status = 'passed';
   } catch (error) {

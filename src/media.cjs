@@ -63,18 +63,29 @@ const PROFILES = deepFreeze([
   })),
 ]);
 
+// Compound recipes supplement native preset/quality controls; they never
+// replace Tested Default. Runtime probes and benchmark acceptance gate use.
+const ARCHIVE_RECIPE = deepFreeze({
+  id: 'archive-quality-hevc-v1', profileId: 'h265-nvidia',
+  label: 'Archive Quality — Ada/Blackwell NVENC', preset: 'p7', quality: 24,
+  evidenceNote: 'Ada support is documented and capability-gated; local benchmark evidence applies to Blackwell only. CRF and CQ numbers are not equivalent.',
+});
+
 function validateSettings(settings) {
   if (!settings || typeof settings !== 'object' || Array.isArray(settings)
       || ![Object.prototype, null].includes(Object.getPrototypeOf(settings))) {
     throw mediaError('INVALID_SETTINGS', 'Encoding settings must be a plain object.');
   }
-  const expectedKeys = ['profileId', 'preset', 'quality'];
+  const expectedKeys = ['profileId', 'preset', 'quality', ...(Object.hasOwn(settings, 'recipeId') ? ['recipeId'] : [])];
   if (Reflect.ownKeys(settings).length !== expectedKeys.length
       || expectedKeys.some((key) => !Object.hasOwn(settings, key))) {
-    throw mediaError('INVALID_SETTINGS', 'Only profileId, preset, and quality are accepted.');
+    throw mediaError('INVALID_SETTINGS', 'Only profileId, preset, quality, and a known recipeId are accepted.');
   }
   const profile = PROFILES.find((item) => item.id === settings.profileId);
   if (!profile) throw mediaError('INVALID_SETTINGS', 'Choose a supported encoding profile.');
+  if (Object.hasOwn(settings, 'recipeId') && (settings.recipeId !== ARCHIVE_RECIPE.id || profile.id !== ARCHIVE_RECIPE.profileId)) {
+    throw mediaError('INVALID_SETTINGS', 'This named recipe is not supported by the selected profile.');
+  }
   if (typeof settings.preset !== 'string' || !profile.presets.includes(settings.preset)) {
     throw mediaError('INVALID_SETTINGS', `The preset is not supported by ${profile.label}.`);
   }
@@ -82,7 +93,8 @@ function validateSettings(settings) {
       || settings.quality < profile.quality.min || settings.quality > profile.quality.max) {
     throw mediaError('INVALID_SETTINGS', `${profile.quality.mode} must be an integer from ${profile.quality.min} to ${profile.quality.max}.`);
   }
-  return { profileId: profile.id, preset: settings.preset, quality: settings.quality };
+  return { profileId: profile.id, preset: settings.preset, quality: settings.quality,
+    ...(settings.recipeId ? { recipeId: settings.recipeId } : {}) };
 }
 
 // The encoder contribution has one source of truth for execution, settings
@@ -92,9 +104,11 @@ function validateSettings(settings) {
 function encoderContribution(profile, settings) {
   const codec = ['-c:v:0', profile.encoder];
   const preset = ['-preset:v:0', settings.preset];
+  const archive = settings.recipeId === ARCHIVE_RECIPE.id;
   const options = profile.hardware === 'NVIDIA'
-    ? ['-rc:v:0', 'vbr', '-cq:v:0', String(settings.quality), '-b:v:0', '0', '-tune:v:0', 'hq']
+    ? ['-rc:v:0', 'vbr', '-cq:v:0', String(settings.quality), '-b:v:0', '0', '-tune:v:0', archive ? 'uhq' : 'hq']
     : ['-crf:v:0', String(settings.quality)];
+  if (archive) options.push('-multipass:v:0', 'fullres', '-bf:v:0', '4', '-b_ref_mode:v:0', 'each');
   if (profile.encoder === 'libx265') options.push('-x265-params', 'aq-mode=3:psy-rd=2');
   return { codec, preset, options };
 }
@@ -118,6 +132,7 @@ function recipeDescription(settings) {
     encoder: profile.encoder,
     backend: profile.hardware,
     qualityMode: profile.quality.mode,
+    recipe: validated.recipeId ? ARCHIVE_RECIPE : null,
     args: [...contribution.codec, ...contribution.preset, ...contribution.options],
     presetContribution: [...contribution.preset],
     presetHelp,
@@ -384,7 +399,7 @@ function buildEncodeArgs({ input, output, settings, probe, colorEvidence, output
 }
 
 module.exports = {
-  PROFILES, validateSettings, describeRecipe, selectVideo, classifyColor, buildEncodeArgs,
+  PROFILES, ARCHIVE_RECIPE, validateSettings, describeRecipe, selectVideo, classifyColor, buildEncodeArgs,
   // Inspection uses the same preservation/pixel policies as execution, so a
   // preview cannot approve a combination that the argument builder rejects.
   mappedStreams, outputPixelFormat,

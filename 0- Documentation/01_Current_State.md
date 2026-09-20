@@ -1,5 +1,9 @@
 # Current state
 
+September 20 live recovery: J/K and local-v0.5.0 remain accepted. Amended L is implemented in part and **not accepted**; M has not started. WIP checkpoint d81cda9 preserves the earlier work. The updated direct suite passes 258/258 (`artifacts/l-sept20-full-unit-results.txt`). Original L native workflow and the separate Archive Quality helper/persistence/keyboard flow now pass; generated re-encoding/cancellation/resolved-command endpoint work and independent amended acceptance review remain. Initial CQ24/23 benchmark results exceed the desired filesize neighborhood, so Archive Quality CQ24 is provisional while a bounded search reuses existing lossless references. See [Continuation State](10_Continuation_State.md) for exact reports, unfinished actions and the active reset-aligned heartbeat.
+
+The dated entries below are recovery history, not instructions to repeat already completed work.
+
 September 19 resumed after quota pause: complete Notion amendment mirrored in14. L now additionally requires benchmark-backed HEVC Archive Quality Ada/Blackwell, with real Blackwell/native/portable evidence and honest Ada limitations; no changed Tested Default. HEAD still acceptedK3654c36. Existing unaccepted L work,231-test evidence, failed native reports and partial shared-help-display correction were recovered. No J/K restart. M remains gated on amendedL.
 
 September 14 recovery: amended L implementation exists but remains unaccepted. The current direct suite passes231tests; native acceptance exposed help-panel overlap after fixing an early-observation harness failure. UI correction and complete original/amended L endpoints, independent review and parent synchronization are still required. M has not begun. See Continuation State for exact artifacts and next action.

@@ -2,8 +2,8 @@
 
 // L workflow endpoint acceptance. Only generated fixtures beneath this run's artifact
 // directory are changed. Electron/main/preload/UI, tools and NTFS publication
-// are real; picker substitution and deliberately seeded journal/race cases are
-// identified individually in the report. This is not portable acceptance.
+// are real; picker substitution is identified in the report. This is not
+// portable acceptance or an inspection-performance benchmark.
 const assert = require('node:assert/strict');
 const fs = require('node:fs/promises');
 const path = require('node:path');
@@ -23,7 +23,7 @@ const report = {
   limitations: [
     'Folder picker returns are substituted; UI buttons, preload, validated IPC and main planning/encoding are real.',
     'Media fixtures are generated beneath this run directory. No personal archive media or external output is used.',
-    'Recovery and identity-index fixtures deliberately seed local bookkeeping; race timing is injected where stated. These cases do not simulate power loss.',
+    'Settings persistence and preview interaction use real application state. No power-loss or hostile concurrent state-writer case is simulated.',
     'Child spawn/close are observed at the real process-runner callback. This is not an independent Windows process census.',
     'Native local NTFS on this machine is covered. Junction/reparse storage fixtures and clean-machine/portable acceptance are not covered here.',
     'No broad profile option or perceptual-quality matrix is repeated.',
@@ -183,6 +183,53 @@ async function namespaceHashes(userData, namespace) {
   for(const entry of entries) if(entry.isFile()) result[entry.name]=await hash(path.join(directory,entry.name));
   return result;
 }
+async function verifyControlHelp() {
+  const page=current.page;
+  await page.waitForFunction(()=>document.querySelector('#preset-contribution').textContent.includes('p6'));
+  await page.hover('#preset-help');
+  await page.waitForFunction(()=>document.querySelector('#preset-help').getAttribute('aria-expanded')==='true');
+  assert.equal(await page.isVisible('#preset-contribution'),true);
+  await page.hover('#default-help');
+  await page.waitForFunction(()=>document.querySelector('#default-help').getAttribute('aria-expanded')==='true');
+  assert.equal(await page.getAttribute('#preset-help','aria-expanded'),'false');
+  assert.equal(await page.isVisible('#default-args'),true);
+  // This is the exact next-control interaction which the interrupted overlay
+  // implementation blocked. The shared in-flow panel cannot cover either trigger.
+  await page.click('#default-help');
+  await page.hover('#quality-hint');await pause(500);
+  assert.equal(await page.getAttribute('#default-help','aria-expanded'),'true');
+  await page.click('#quality');
+  assert.equal(await page.getAttribute('#default-help','aria-expanded'),'false');
+  await page.click('#default-help');await page.hover('#quality-hint');await pause(500);
+  assert.equal(await page.getAttribute('#default-help','aria-expanded'),'true','outside close must not leave a stale pin');
+  await page.keyboard.press('Escape');
+  assert.equal(await page.getAttribute('#default-help','aria-expanded'),'false');
+  assert.equal(await page.evaluate(()=>document.activeElement.id),'default-help');
+  await page.focus('#preset-help');await page.keyboard.press('ArrowDown');
+  assert.equal(await page.evaluate(()=>document.activeElement.id),'preset-help-details-content');
+  assert.equal(await page.isVisible('#preset-contribution'),true);
+  await page.keyboard.press('Escape');
+  assert.equal(await page.evaluate(()=>document.activeElement.id),'preset-help');
+  assert.equal(await page.getAttribute('#preset-help','aria-expanded'),'false');
+  report.help=[];
+  for(const bounds of [{width:1100,height:800},{width:640,height:480}]) {
+    await current.app.evaluate(({BrowserWindow},size)=>BrowserWindow.getAllWindows()[0].setContentSize(size.width,size.height),bounds);
+    await page.click('#default-help');
+    await page.locator('#default-help-details-content').scrollIntoViewIfNeeded();
+    const dimensions=await page.locator('#default-help-details-content').evaluate(el=>{
+      const r=el.getBoundingClientRect();return {left:r.left,right:r.right,windowWidth:innerWidth,clientWidth:el.clientWidth,scrollWidth:el.scrollWidth,maxHeight:getComputedStyle(el).maxHeight};
+    });
+    assert.ok(dimensions.left>=0&&dimensions.right<=dimensions.windowWidth);
+    assert.ok(dimensions.scrollWidth<=dimensions.clientWidth+1);
+    assert.equal(await page.isVisible('#default-args'),true);
+    await page.screenshot({path:path.join(artifacts,`control-help-${bounds.width}.png`),fullPage:true});
+    await page.keyboard.press('Escape');
+    await page.click('#quality');assert.equal(await page.isEditable('#quality'),true);
+    report.help.push({bounds,dimensions});
+  }
+  await current.app.evaluate(({BrowserWindow})=>BrowserWindow.getAllWindows()[0].setContentSize(1100,800));
+  report.checks.push('Native help supports hover, focus/ArrowDown, click pinning, outside dismissal and Escape with focus return; in-flow content remains bounded and controls reachable at 1100x800 and 640x480 content sizes.');
+}
 async function workflow() {
   const input=await folder('sixty originals');const output=await folder('outputs');const userData=await folder('workflow-state');
   const source=path.join(input,'Recording 00.mkv');await fixture(source,{duration:0.5});
@@ -198,8 +245,12 @@ async function workflow() {
   assert.equal(restored.inputFolder.path,input);assert.equal(restored.outputFolder.path,output);
   assert.notEqual(restored.inputFolder.id,before.inputFolder.id);assert.notEqual(restored.outputFolder.id,before.outputFolder.id);
   assert.deepEqual(await values(),{profileId:'h265-nvidia',preset:'p6',quality:23,slider:23});
-  const stale=await current.page.evaluate(async p=>{try{await window.encoder.prepareBatch({inputFolderId:p.inputFolder.id,outputFolderId:p.outputFolder.id,settings:{profileId:'h264-cpu',preset:'slower',quality:24}});return false;}catch(e){return e.code;}},before);
-  assert.equal(stale,'INVALID_FOLDER');
+  await verifyControlHelp();
+  const stale=await current.page.evaluate(async p=>{try{await window.encoder.prepareBatch({inputFolderId:p.inputFolder.id,outputFolderId:p.outputFolder.id,settings:{profileId:'h264-cpu',preset:'slower',quality:24}});return {rejected:false};}catch(e){return {rejected:true,message:e.message};}},before);
+  // Electron's context bridge preserves the Error message, but custom Error
+  // properties are not part of the renderer rejection contract.
+  assert.equal(stale.rejected,true);assert.match(stale.message,/folder/i);
+  report.staleAuthority=stale;
   const defaults=[['h264-cpu','slower',24],['h265-cpu','slow',25],['av1-cpu','6',32],['h264-nvidia','p5',28],['h265-nvidia','p5',25],['av1-nvidia','p5',30]];
   report.defaults=[];
   for(const [profileId,preset,quality] of defaults){
@@ -214,9 +265,9 @@ async function workflow() {
   assert.equal(await current.page.isVisible('#preview-list'),false);assert.match(await current.page.textContent('#selected-count'),/60/);
   assert.match(await current.page.textContent('#hidden-selected-count'),/60/);assert.equal(await current.page.isEnabled('#start-batch'),true);
   await current.page.click('#preview-collapse');
-  const layout=await current.page.locator('#preview-list').evaluate(el=>({height:el.clientHeight,scrollHeight:el.scrollHeight,overflow:getComputedStyle(el).overflowY}));
+  const layout=await current.page.locator('#batch-viewport').evaluate(el=>({height:el.clientHeight,scrollHeight:el.scrollHeight,overflow:getComputedStyle(el).overflowY}));
   assert.ok(layout.height>0&&layout.height<900&&layout.scrollHeight>layout.height);assert.ok(['auto','scroll'].includes(layout.overflow));
-  const detail=current.page.locator('[data-testid="file-details"]').first();await detail.locator('summary').click();assert.equal(await detail.getAttribute('open'),'');
+  const detail=current.page.locator('[data-testid="file-details"]').first();await detail.locator(':scope > summary').click();assert.equal(await detail.getAttribute('open'),'');
   const selectedBefore=await current.page.locator('#batch-items input:checked:visible').count();assert.equal(selectedBefore,60);
   await current.page.selectOption('#batch-filter','attention');assert.match(await current.page.textContent('#hidden-selected-count'),/60/);
   assert.equal(await current.page.isEnabled('#start-batch'),true);await current.page.selectOption('#batch-filter','all');
@@ -241,8 +292,9 @@ async function workflow() {
   await current.page.screenshot({path:path.join(artifacts,'mixed-preview.png'),fullPage:true});
   const provenanceBefore=await namespaceHashes(userData,'provenance-v1');assert.ok(Object.keys(provenanceBefore).length>=2);
   const cacheDir=path.join(userData,'cache','inspection-v1');assert.ok((await fs.readdir(cacheDir)).length>=60);
+  await current.page.locator('#remembered-workflow > summary').click();
   await current.page.click('#clear-inspection-cache');
-  await current.page.waitForFunction(async()=>!document.querySelector('#clear-inspection-cache').disabled);
+  await current.page.waitForFunction(()=>document.querySelector('#preferences-notice').textContent.includes('Inspection cache cleared.'));
   assert.deepEqual(await fs.readdir(cacheDir),[]);assert.deepEqual(await namespaceHashes(userData,'provenance-v1'),provenanceBefore);
   const afterCache=await current.page.evaluate(()=>window.encoder.getPreferences());assert.equal(afterCache.inputFolder.path,input);assert.equal(afterCache.profileId,'h264-cpu');
   await current.page.click('#forget-preferences');

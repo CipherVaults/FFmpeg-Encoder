@@ -17,3 +17,5 @@ The latest [Current State](01_Current_State.md) owns the overall status. A futur
 - [September9 — Inspection reuse](Execution%20Summaries/2026-09-09_Inspection_Reuse.md): J accepted: single-worker7ff4cce, two-worker4d4a81b,153 final tests, original60-file performance and59-file supplemental native UI; independent review and synchronized closure in this report.
 
 - [September10 — Safe output beside originals](Execution%20Summaries/2026-09-10_Same_Folder.md): K accepted; provenance, atomic publication, guarded cleanup,209 tests and native endpoint/recovery evidence.
+
+- [September20 — Amended L workflow](Execution Summaries/2026-09-20_Amended_L_Workflow.md): accepted preferences/compact preview, intentional generations, canonical argv/help and benchmark-selected Archive Quality;269 direct tests, native endpoints, independent closure and parent synchronization. M next.

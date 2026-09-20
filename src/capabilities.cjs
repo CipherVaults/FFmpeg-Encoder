@@ -7,6 +7,7 @@ const { runTool, ToolError } = require('./process-runner.cjs');
 
 const EXPECTED_CODEC = { H264: 'h264', H265: 'hevc', AV1: 'av1' };
 const TEST_BITS = [8, 10];
+const RECIPE_TEST_FRAMES = 96;
 
 function unexpectedRecipeWarnings(stderr) {
   // The preservation builder deliberately sets global stream copy before the
@@ -32,7 +33,7 @@ function failureReason(error) {
   return detail || error.message || 'Encoder validation failed.';
 }
 
-function verifyVideo(data, { bitDepth, codec, countFrames = false }) {
+function verifyVideo(data, { bitDepth, codec, countFrames = false, expectedFrames = 2 }) {
   const stream = selectVideo(data);
   const expectedPixels = bitDepth === 10 ? 'yuv420p10le' : 'yuv420p';
   const frameCount = Number(stream.nb_read_frames);
@@ -42,8 +43,8 @@ function verifyVideo(data, { bitDepth, codec, countFrames = false }) {
       || stream.color_transfer !== 'bt709' || stream.color_primaries !== 'bt709'
       || stream.color_space !== 'bt709' || stream.color_range !== 'tv'
       || color.classification !== 'sdr'
-      || (countFrames && frameCount !== 2)) {
-    throw new ToolError('CAPABILITY_OUTPUT_MISMATCH', 'The encoded sample did not preserve the requested codec, SDR color, dimensions, bit depth, or two frames.');
+      || (countFrames && frameCount !== expectedFrames)) {
+    throw new ToolError('CAPABILITY_OUTPUT_MISMATCH', `The encoded sample did not preserve the requested codec, SDR color, dimensions, bit depth, or ${expectedFrames} frames.`);
   }
   return stream;
 }
@@ -95,15 +96,15 @@ async function checkCapabilities({ ffmpeg, ffprobe, stateDir, signal, run = runT
   let result;
   try {
     const fixtures = new Map();
-    for (const bitDepth of TEST_BITS) {
-      const input = own(`input-${bitDepth}.mkv`);
+    for (const frameCount of [2, RECIPE_TEST_FRAMES]) for (const bitDepth of TEST_BITS) {
+      const input = own(`${frameCount === 2 ? '' : 'recipe-'}input-${bitDepth}.mkv`);
       const pixelFormat = bitDepth === 10 ? 'yuv420p10le' : 'yuv420p';
       // Color is defined before negotiation, so strict pixel preservation does
       // not trigger an implicit conversion from unspecified to BT.709 signaling.
       const source = `testsrc2=size=320x180:rate=30,format=${pixelFormat},setparams=range=limited:color_primaries=bt709:color_trc=bt709:colorspace=bt709`;
       await execute(ffmpeg, [
         '-hide_banner', '-nostdin', '-loglevel', 'error', '-n',
-        '-f', 'lavfi', '-i', source, '-frames:v', '2', '-an', '-c:v', 'ffv1', '-level', '3',
+        '-f', 'lavfi', '-i', source, '-frames:v', String(frameCount), '-an', '-c:v', 'ffv1', '-level', '3',
         '-pix_fmt', `+${pixelFormat}`, '-color_primaries', 'bt709', '-color_trc', 'bt709',
         '-colorspace', 'bt709', '-color_range', 'tv', '-f', 'matroska', input,
       ]);
@@ -112,7 +113,7 @@ async function checkCapabilities({ ffmpeg, ffprobe, stateDir, signal, run = runT
       ]);
       const probe = parseProbe(inspected.stdout);
       verifyVideo(probe, { bitDepth, codec: 'ffv1' });
-      fixtures.set(bitDepth, { input, probe });
+      fixtures.set(`${bitDepth}-${frameCount}`, { input, probe });
     }
 
     const profiles = [];
@@ -126,7 +127,8 @@ async function checkCapabilities({ ffmpeg, ffprobe, stateDir, signal, run = runT
     for (const profile of candidates) {
       const checks = [];
       for (const bitDepth of TEST_BITS) {
-        const { input, probe } = fixtures.get(bitDepth);
+        const expectedFrames = profile.recipeId ? RECIPE_TEST_FRAMES : 2;
+        const { input, probe } = fixtures.get(`${bitDepth}-${expectedFrames}`);
         const output = own(`${profile.id}-${bitDepth}.mkv`);
         const settings = { profileId: profile.profileId || profile.id, preset: profile.defaultPreset, quality: profile.quality.default,
           ...(profile.recipeId ? { recipeId: profile.recipeId } : {}) };
@@ -137,13 +139,33 @@ async function checkCapabilities({ ffmpeg, ffprobe, stateDir, signal, run = runT
           }
           const inspected = await execute(ffprobe, [
             '-v', 'error', '-protocol_whitelist', 'file,pipe', '-count_frames',
+            ...(profile.recipeId ? ['-show_frames', '-show_entries', 'frame=pict_type'] : []),
             '-show_streams', '-show_format', '-of', 'json', output,
           ]);
-          const stream = verifyVideo(parseProbe(inspected.stdout), {
-            bitDepth, codec: EXPECTED_CODEC[profile.codec], countFrames: true,
+          const decodedProbe = parseProbe(inspected.stdout);
+          const stream = verifyVideo(decodedProbe, {
+            bitDepth, codec: EXPECTED_CODEC[profile.codec], countFrames: true, expectedFrames,
           });
+          let longestBRun = 0;
+          if (profile.recipeId) {
+            // A two-frame sample cannot demonstrate four consecutive B frames.
+            // This observable check is separate from option acceptance; it does
+            // not claim to verify the complete reference-picture graph.
+            if (!Array.isArray(decodedProbe.frames) || decodedProbe.frames.length !== expectedFrames) {
+              throw new ToolError('RECIPE_STRUCTURE_UNVERIFIED', 'The recipe frame structure could not be inspected completely.');
+            }
+            let run = 0;
+            for (const frame of decodedProbe.frames) {
+              if (!frame || typeof frame !== 'object' || !['I', 'P', 'B'].includes(frame.pict_type)) {
+                throw new ToolError('RECIPE_STRUCTURE_UNVERIFIED', 'The recipe contains missing or unknown picture-type evidence.');
+              }
+              run = frame.pict_type === 'B' ? run + 1 : 0;
+              longestBRun = Math.max(longestBRun, run);
+            }
+            if (longestBRun !== 4) throw new ToolError('RECIPE_STRUCTURE_UNVERIFIED', 'The recipe did not produce the requested four-B-frame structure.');
+          }
           // Probe metadata alone cannot prove that coded packets actually decode.
-          // Decode all two frames with strict errors and independently verify the
+          // Decode the entire sample with strict errors and independently verify the
           // final frame count emitted by FFmpeg's machine-readable progress.
           const decoded = await execute(ffmpeg, [
             '-hide_banner', '-nostdin', '-v', 'error', '-xerror', '-nostats',
@@ -151,10 +173,11 @@ async function checkCapabilities({ ffmpeg, ffprobe, stateDir, signal, run = runT
             '-progress', 'pipe:1', '-f', 'null', '-',
           ]);
           const counts = [...decoded.stdout.matchAll(/^frame=(\d+)\s*$/gm)].map((match) => Number(match[1]));
-          if (counts.at(-1) !== 2 || !/^progress=end\s*$/m.test(decoded.stdout)) {
-            throw new ToolError('CAPABILITY_DECODE_FAILED', 'The sample did not decode exactly two complete frames.');
+          if (counts.at(-1) !== expectedFrames || !/^progress=end\s*$/m.test(decoded.stdout)) {
+            throw new ToolError('CAPABILITY_DECODE_FAILED', `The sample did not decode exactly ${expectedFrames} complete frames.`);
           }
-          checks.push({ bitDepth, available: true, reason: null, codec: stream.codec_name, pixelFormat: stream.pix_fmt, frames: 2 });
+          checks.push({ bitDepth, available: true, reason: null, codec: stream.codec_name, pixelFormat: stream.pix_fmt, frames: expectedFrames,
+            ...(profile.recipeId ? { longestBRun } : {}) });
         } catch (error) {
           if (signal?.aborted || ['CANCELLED', 'SPAWN_FAILED', 'MISSING_BINARY'].includes(error.code)) throw error;
           checks.push({ bitDepth, available: false, reason: failureReason(error), code: error.code || 'CAPABILITY_FAILED' });

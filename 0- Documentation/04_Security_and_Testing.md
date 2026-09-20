@@ -1,5 +1,14 @@
 # Security and testing
 
+## Amended L evidence and invariants — September 20, 2026
+
+The L report maps269 direct checks plus original workflow, intentional re-encoding, helper UI and actual Archive endpoints. Generated authorization is exact-plan/file/identity scoped and ephemeral; no global bypass. Invalid/changed/empty/deleted source invalidates authority, existing destinations skip, child close precedes cleanup/restart, and completed outputs/originals remain protected. Native generated cancellation/restart preserves ten source/output hashes in its full campaign.
+
+Canonical display APIs return validated main-owned argument data only. Renderer cannot run/edit arbitrary commands; native reports confirm no Node globals and the named bridge. Descriptive metadata is not authenticated and never grants cleanup/IPC/path authority. Unknown or internally inconsistent descriptions do not become guessed settings.
+
+The independent reviewer required a longer recipe gate;96-frame complete picture-type and four-B-run evidence now supplements warning/probe/decode validation. Missing, malformed, truncated or incorrect structure fails closed. It does not prove every reference relationship. Recipe option warnings remain errors except the one exact intentional codec-override diagnostic. See15 for quality evidence; benchmark video-only cases do not substitute for the rich-stream actual-app endpoint, and neither substitutes for M packaged acceptance.
+
+
 This document defines the approved properties and acceptance evidence. Milestones F/G implement and verify the process/renderer/protocol boundaries. H closes product requirements through 89 automated checks, 110 accepted option cases, real application encodes/preservation/native folder selection and 25 layout scenarios; its Product Acceptance report maps each requirement to evidence and limits. A requirement in this file is not automatically a passing test result; link actual outcomes from the execution index.
 
 ## Trust boundaries

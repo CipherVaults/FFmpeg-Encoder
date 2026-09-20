@@ -1,9 +1,17 @@
 # Changelog
 
+## Amended0.6 L — September20,2026
+
+- Added validated local folder/per-profile preference restoration, independent resets, compact preview/filter/selection and keyboard-accessible canonical preset/default explanations.
+- Added explicit temporary generated-output re-encoding, trustworthy available/unknown previous-generation descriptions and actual main-owned prepared/executed argv display. Existing K protections remain.
+- Added separate capability-gated HEVC Archive Quality helper: P7/UHQ/fullres/VBR-CQ32/bf4/B-ref each, visible editable controls and additional options. All six Tested Defaults stay unchanged. CQ32 follows bounded Blackwell benchmark convergence; results vary by scene and do not prove equivalence or local Ada quality.
+-269 direct checks and original/amended/Archive native flows pass; M portable0.6 acceptance remains pending. See the L execution report and decision15 for exact evidence and limits.
+
+
 ## 0.6.0-dev.1 — Archive workflow development
 
 - Implemented J: persistent bounded inspection evidence, conservative identity/runtime/policy invalidation, optional fixed-NTFS eligibility helper, two bounded inspection workers and transparent preparation progress. Encoding stays sequential and expert controls remain visible.
-- Development data uses data-next-0.6. The accepted local-v0.5.0 tag and ZIP remain recoverable. J is accepted with153 tests and independent native/evidence review in its dated report; K same-folder safety is accepted with reserved output provenance, intent/recovery, protected snapshots, explicit legacy overrides and sealed atomic publication.209 tests and native endpoint checks pass. Unbound partial outputs are retained safely; parser normalization2 invalidates older cache evidence. L workflow UI/preferences and M portable acceptance remain pending.
+- Development data uses data-next-0.6. The accepted local-v0.5.0 tag and ZIP remain recoverable. J is accepted with153 tests and independent native/evidence review in its dated report; K same-folder safety is accepted with reserved output provenance, intent/recovery, protected snapshots, explicit legacy overrides and sealed atomic publication.209 tests and native endpoint checks pass. Unbound partial outputs are retained safely; parser normalization2 invalidates older cache evidence. This earlier J/K entry is historical; amended L is now accepted by the September20 report. M portable acceptance remains pending.
 
 This project continues its historical development sequence. Versions 0.1–0.4 below are historical milestone labels, not newly verified releases. The old `package.json` value `1.0.0` was npm scaffold metadata and does not establish a prior 1.0 release. The first genuinely accepted standalone release may become 1.0.0 later.
 

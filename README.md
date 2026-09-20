@@ -1,5 +1,14 @@
 # FFmpeg Encoder Desktop App
 
+## Current0.6 development workflow
+
+The development app adds fast inspection reuse, same-folder output on verified local fixed NTFS, remembered folders/settings, compact filtered preview, and deliberate generated-output re-encoding. Generated files remain excluded until explicitly authorized for the current prepared batch. Treat as original is reserved for ambiguous legacy cases.
+
+Expert controls stay visible. Hover/focus help and expandable per-file details show canonical settings and the actual prepared FFmpeg argument array. Tested Default remains separate from **Archive Quality — Ada/Blackwell NVENC**, an editable HEVC P7/UHQ/fullres/CQ32 recipe selected from bounded Blackwell measurements. Size and quality vary by scene; Ada quality/speed has not been locally verified. See the [recipe decision](0-%20Documentation/15_Archive_Quality_Decision.md).
+
+These source changes do not replace the accepted0.5 ZIP. Final0.6 portable acceptance is still pending. The portable instructions below describe the accepted0.5 package.
+
+
 A local Windows desktop batch encoder with H.264, H.265 and AV1 profiles for CPU and supported NVIDIA hardware.
 
 **0.5.0 is verified as a local Windows x64 portable milestone.** It is an unsigned local package. Independent clean-machine compatibility and public distribution have not been accepted. See the [acceptance report](0-%20Documentation/Execution%20Summaries/2026-09-08_Portable_Acceptance.md) for the exact artifact, checks and limits.
@@ -21,7 +30,7 @@ Application/session data and batch logs stay in the adjacent **data** folder. Cl
 
 ## Development and verification
 
-The active 0.6 development branch has accepted J inspection reuse and K same-folder output safety. Unchanged completed files on verified local fixed NTFS storage can reuse metadata/frame evidence across restarts; unsupported storage remains usable with fresh inspection. Expert controls remain visible while inspection runs. Same-folder output requires verified local fixed NTFS, uses validated markers and atomic no-overwrite publication, and excludes generated/possible prior outputs. Explicit Treat as original is available only for ambiguous unmarked files. Uncertain incomplete temporary files are retained with a notice. The0.6 changes do not replace the accepted0.5 ZIP; L/M remain in development. See the [0.6 plan](0-%20Documentation/12_Approved_0.6_Plan.md) and [J evidence](0-%20Documentation/Execution%20Summaries/2026-09-09_Inspection_Reuse.md) for current acceptance status.
+The active 0.6 development branch has accepted J inspection reuse and K same-folder output safety. Unchanged completed files on verified local fixed NTFS storage can reuse metadata/frame evidence across restarts; unsupported storage remains usable with fresh inspection. Expert controls remain visible while inspection runs. Same-folder output requires verified local fixed NTFS, uses validated markers and atomic no-overwrite publication, and excludes generated/possible prior outputs. Explicit Treat as original is available only for ambiguous unmarked files. Uncertain incomplete temporary files are retained with a notice. The0.6 changes do not replace the accepted0.5 ZIP; amended L is accepted and M portable verification remains pending. See the [0.6 plan](0-%20Documentation/12_Approved_0.6_Plan.md) and [J evidence](0-%20Documentation/Execution%20Summaries/2026-09-09_Inspection_Reuse.md) for current acceptance status.
 
 The verified development environment uses Node 24, Electron 44.2.0, FFmpeg/ffprobe 9.0.1, Playwright 1.63.0 and direct Electron Packager 20.3.0. Install pinned development dependencies with npm ci. On a fresh checkout, use scripts/provision-ffmpeg.ps1 to verify/stage the manifest-pinned media runtime, then its -Activate switch to activate it locally. That script requires PowerShell 7 and an existing 7-Zip installation; nothing is installed globally.
 

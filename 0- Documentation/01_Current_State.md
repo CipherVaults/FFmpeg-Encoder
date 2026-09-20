@@ -1,3 +1,7 @@
+# September20,2026 — L accepted; M next
+
+Amended L now passes269 direct tests, original/intentional-generation/Archive helper and actual rich8/10-bit endpoints, independent closure review and parent documentation synchronization. The commit containing [the L report](Execution Summaries/2026-09-20_Amended_L_Workflow.md) is its accepted checkpoint. HEVC Archive Quality uses measured CQ32; decision15 states scene variation and Ada limits. Accepted J/K and local-v0.5.0 remain unchanged. M separate portable0.6 acceptance is the exact next work; no local-v0.6.0 tag yet. Earlier dated entries below are historical recovery notes.
+
 # Current state
 
 September 20 live recovery: J/K and local-v0.5.0 remain accepted. Amended L is implemented in part and **not accepted**; M has not started. WIP checkpoint d81cda9 preserves the earlier work. The updated direct suite passes 258/258 (`artifacts/l-sept20-full-unit-results.txt`). Original L native workflow and the separate Archive Quality helper/persistence/keyboard flow now pass; generated re-encoding/cancellation/resolved-command endpoint work and independent amended acceptance review remain. Initial CQ24/23 benchmark results exceed the desired filesize neighborhood, so Archive Quality CQ24 is provisional while a bounded search reuses existing lossless references. See [Continuation State](10_Continuation_State.md) for exact reports, unfinished actions and the active reset-aligned heartbeat.

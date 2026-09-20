@@ -67,8 +67,8 @@ const PROFILES = deepFreeze([
 // replace Tested Default. Runtime probes and benchmark acceptance gate use.
 const ARCHIVE_RECIPE = deepFreeze({
   id: 'archive-quality-hevc-v1', profileId: 'h265-nvidia',
-  label: 'Archive Quality — Ada/Blackwell NVENC', preset: 'p7', quality: 24,
-  evidenceNote: 'Ada support is documented and capability-gated; local benchmark evidence applies to Blackwell only. CRF and CQ numbers are not equivalent.',
+  label: 'Archive Quality — Ada/Blackwell NVENC', preset: 'p7', quality: 32,
+  evidenceNote: 'A measured starting point; quality and size vary by scene. Ada support is documented and capability-gated; local benchmark evidence applies to Blackwell only. CRF and CQ numbers are not equivalent.',
 });
 
 function validateSettings(settings) {

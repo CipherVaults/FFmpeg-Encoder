@@ -1,5 +1,12 @@
 # How this project works
 
+## Current0.6 workflow additions
+
+Expert profile/preset/CRF or CQ controls remain directly visible. Tested Default resets those ordinary controls; Archive Quality is a separate inspectable HEVC recipe. Hover or keyboard-focus the information controls, or expand Current encoding recipe. Prepared files expose the main-owned resolved argument array in their details. Before encoding, only the eventual protected temporary output path remains a clearly labelled placeholder.
+
+Remembered folders/settings restore locally after validation. A compact filtered preview keeps selection independent of which rows are shown. Generated outputs are excluded by default; explicitly choose Re-encode this output when another lossy generation is intentional. Treat as original instead corrects an ambiguous legacy filename classification. Neither permission persists into a new preparation. This short project explanation supplements the0.5 guide below; it is not a new final end-user manual.
+
+
 This guide explains the project for a reader who did not participate in its development. The architecture, product workflow and portable package are implemented and verified through the local 0.5.0 milestone. Current State and execution reports record the tested scope and remaining future work.
 
 ## The application and its engine

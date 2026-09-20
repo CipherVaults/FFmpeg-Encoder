@@ -30,15 +30,19 @@ async function harness(t, fault = () => {}) {
     const last = args.at(-1);
     if (args.includes('-show_streams')) {
       const stream = { ...media.get(last) };
-      return { stdout: JSON.stringify({ streams: [stream] }), stderr: '', exitCode: 0 };
+      const frames = args.includes('-show_frames') ? Array.from({ length: Number(stream.nb_read_frames) }, (_, index) => ({
+        pict_type: index === 0 ? 'I' : index % 5 === 0 ? 'P' : 'B',
+      })) : undefined;
+      return { stdout: JSON.stringify({ streams: [stream], ...(frames ? { frames } : {}) }), stderr: '', exitCode: 0 };
     }
     if (args.includes('lavfi')) {
       const bitDepth = last.endsWith('input-10.mkv') ? 10 : 8;
+      const frameCount = args[args.indexOf('-frames:v') + 1];
       media.set(last, {
         index: 0, codec_type: 'video', codec_name: 'ffv1',
         pix_fmt: bitDepth === 10 ? 'yuv420p10le' : 'yuv420p', width: 320, height: 180,
         color_transfer: 'bt709', color_primaries: 'bt709', color_space: 'bt709', color_range: 'tv',
-        disposition: { default: 0 }, nb_read_frames: '2',
+        disposition: { default: 0 }, nb_read_frames: frameCount,
       });
       await fs.writeFile(last, 'fixture');
       return { stdout: '', stderr: '', exitCode: 0 };
@@ -49,7 +53,11 @@ async function harness(t, fault = () => {}) {
       const codec = encoder.includes('264') ? 'h264' : encoder.includes('265') || encoder.includes('hevc') ? 'hevc' : 'av1';
       media.set(last, { ...source, codec_name: codec });
       await fs.writeFile(last, 'encoded');
-      return { stdout: 'frame=2\nprogress=end\n', stderr: '', exitCode: 0 };
+      return { stdout: `frame=${source.nb_read_frames}\nprogress=end\n`, stderr: '', exitCode: 0 };
+    }
+    if (args.includes('null')) {
+      const source = media.get(args[args.indexOf('-i') + 1]);
+      return { stdout: `frame=${source.nb_read_frames}\nprogress=end\n`, stderr: '', exitCode: 0 };
     }
     return { stdout: 'frame=2\nprogress=end\n', stderr: '', exitCode: 0 };
   };
@@ -93,8 +101,8 @@ test('Archive Quality probes its complete options at both depths and separately 
   assert.equal(recipe.id, ARCHIVE_RECIPE.id);
   assert.equal(recipe.available, true);
   assert.deepEqual(recipe.supportedBitDepths, [8, 10]);
-  assert.deepEqual(recipe.checks.map(check => [check.codec, check.pixelFormat, check.frames]), [
-    ['hevc', 'yuv420p', 2], ['hevc', 'yuv420p10le', 2],
+  assert.deepEqual(recipe.checks.map(check => [check.codec, check.pixelFormat, check.frames, check.longestBRun]), [
+    ['hevc', 'yuv420p', 96, 4], ['hevc', 'yuv420p10le', 96, 4],
   ]);
   const encodes = h.commands.filter(args => args.includes('-c:v:0') && path.basename(args.at(-1)).startsWith(ARCHIVE_RECIPE.id));
   assert.equal(encodes.length, 2);
@@ -113,6 +121,75 @@ test('Archive Quality probes its complete options at both depths and separately 
   const normal = h.commands.find(args => args.includes('-c:v:0') && args.at(-1).endsWith('h265-nvidia-8.mkv'));
   assert.equal(normal[normal.indexOf('-tune:v:0') + 1], 'hq');
   assert.equal(normal.includes('-multipass:v:0'), false);
+  assert.deepEqual(await fs.readdir(h.stateDir), ['fake-tool.exe']);
+});
+
+test('only the recipe uses the longer fixture and complete picture-type evidence', async t => {
+  const h = await harness(t);
+  const result = await checkCapabilities({ ffmpeg: h.binary, ffprobe: h.binary, stateDir: h.stateDir, run: h.run });
+  const fixtures = h.commands.filter(args => args.includes('lavfi'));
+  assert.deepEqual(fixtures.map(args => Number(args[args.indexOf('-frames:v') + 1])), [2, 2, 96, 96]);
+  const encodes = h.commands.filter(args => args.includes('-c:v:0'));
+  const ordinary = encodes.filter(args => !args.at(-1).includes(ARCHIVE_RECIPE.id));
+  const recipe = encodes.filter(args => args.at(-1).includes(ARCHIVE_RECIPE.id));
+  assert.equal(ordinary.length, 12);
+  assert.equal(recipe.length, 2);
+  for (const [commands, count] of [[ordinary, 2], [recipe, 96]]) {
+    for (const command of commands) {
+      assert.equal(Number(h.media.get(command[command.indexOf('-i') + 1]).nb_read_frames), count);
+      const outputProbe = h.commands.find(args => args.includes('-count_frames') && args.at(-1) === command.at(-1));
+      assert.equal(outputProbe.includes('-show_frames'), count === 96);
+      if (count === 96) assert.equal(outputProbe[outputProbe.indexOf('-show_entries') + 1], 'frame=pict_type');
+    }
+  }
+  assert.ok(result.profiles.every(profile => profile.checks.every(check => check.frames === 2 && !Object.hasOwn(check, 'longestBRun'))));
+  assert.ok(result.recipes[0].checks.every(check => check.frames === 96 && check.longestBRun === 4));
+  assert.deepEqual(await fs.readdir(h.stateDir), ['fake-tool.exe']);
+});
+
+for (const [label, change] of [
+  ['missing frame array', probe => { delete probe.frames; }],
+  ['truncated frame array', probe => { probe.frames.pop(); }],
+  ['only the old two-frame evidence', probe => { probe.frames = probe.frames.slice(0, 2); }],
+  ['extra frame record', probe => { probe.frames.push({ pict_type: 'P' }); }],
+  ['three consecutive B frames', probe => { probe.frames = probe.frames.map((_, index) => ({ pict_type: index % 4 === 0 ? 'P' : 'B' })); }],
+  ['five consecutive B frames', probe => { probe.frames = probe.frames.map((_, index) => ({ pict_type: index % 6 === 0 ? 'P' : 'B' })); }],
+  ['no B frames', probe => { probe.frames = probe.frames.map(() => ({ pict_type: 'P' })); }],
+  ['a missing picture type among otherwise valid runs', probe => { probe.frames[50] = {}; }],
+  ['an unknown picture type among otherwise valid runs', probe => { probe.frames[50] = { pict_type: '?' }; }],
+]) test(`recipe structure rejects ${label}`, async t => {
+  const h = await harness(t);
+  const run = async (binary, args, options) => {
+    const result = await h.run(binary, args, options);
+    if (args.includes('-show_frames') && args.at(-1).includes(ARCHIVE_RECIPE.id)) {
+      const probe = JSON.parse(result.stdout);
+      change(probe);
+      return { ...result, stdout: JSON.stringify(probe) };
+    }
+    return result;
+  };
+  const result = await checkCapabilities({ ffmpeg: h.binary, ffprobe: h.binary, stateDir: h.stateDir, run });
+  assert.ok(result.profiles.every(profile => profile.available));
+  assert.equal(result.recipes[0].available, false);
+  assert.deepEqual(result.recipes[0].supportedBitDepths, []);
+  assert.ok(result.recipes[0].checks.every(check => check.code === 'RECIPE_STRUCTURE_UNVERIFIED'));
+  assert.equal(h.commands.some(args => args.includes('null') && args[args.indexOf('-i') + 1].includes(ARCHIVE_RECIPE.id)), false);
+  assert.deepEqual(await fs.readdir(h.stateDir), ['fake-tool.exe']);
+});
+
+test('complete picture-type evidence cannot substitute for all 96 decoded frames', async t => {
+  const h = await harness(t);
+  const run = async (binary, args, options) => {
+    const result = await h.run(binary, args, options);
+    if (args.includes('null') && args[args.indexOf('-i') + 1].includes(ARCHIVE_RECIPE.id)) {
+      return { ...result, stdout: 'frame=95\nprogress=end\n' };
+    }
+    return result;
+  };
+  const result = await checkCapabilities({ ffmpeg: h.binary, ffprobe: h.binary, stateDir: h.stateDir, run });
+  assert.ok(result.profiles.every(profile => profile.available));
+  assert.equal(result.recipes[0].available, false);
+  assert.ok(result.recipes[0].checks.every(check => check.code === 'CAPABILITY_DECODE_FAILED'));
   assert.deepEqual(await fs.readdir(h.stateDir), ['fake-tool.exe']);
 });
 

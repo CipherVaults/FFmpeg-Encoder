@@ -1,5 +1,16 @@
 # Project architecture
 
+## Amended L architecture — September 20, 2026
+
+The existing main-owned plan/queue remains authoritative. Preferences store local folder strings and per-profile settings, never folder/plan tokens. Main revalidates restored folders and issues fresh identities on each process start. Version1 records remain readable; version2 adds optional strict recipeId and is preserved as unknown by older readers. Missing paths or unavailable profiles/recipes stay visible; no automatic create, inspect, encode or fallback occurs.
+
+Generated files remain excluded by default. Separate explicit actions distinguish ambiguous legacy classification overrides from deliberate generated-output re-encoding. Re-encode authority binds only chosen file IDs, the current plan and complete inspected identity; source revalidation invalidates changed/empty/deleted input. It is not persisted. New results receive normal K provenance/publication protections. The optional bounded FFMPEG_ENCODER_GENERATION description is validated descriptive data, not cleanup authority or authenticated history; absent/contradictory data degrades to unknown without losing generated recognition.
+
+media.cjs now supplies canonical encoderContribution/describeRecipe and the actual prepared production argv. Main exposes narrow read-only recipe/details APIs; renderer cannot submit argv. Preparation freezes arguments with one labelled temporary-output placeholder; execution substitutes only its final staging path and exposes the resulting actual invocation. JSON argument arrays avoid pretending to be a Windows shell command. Three exact global application provenance tags may be replaced on re-encoding; ordinary, stream and chapter metadata remain subject to preservation checks.
+
+Archive Quality is a separate HEVC helper (P7/UHQ/fullres/VBR-CQ32/bf4/B-ref each), with editable ordinary preset/CQ and visible additional options. Tested Defaults remain unchanged. The recipe gets96-frame8/10-bit encode/probe/decode checks plus complete picture types/four-B structure; ordinary profiles retain two-frame checks. Device checks are not a perceptual benchmark. See15 for selection evidence and reference-graph/Ada limits.
+
+
 Updated September10,2026 through accepted J/K. Inspection Reuse and Same Folder reports hold requirement/evidence maps. Immutable local0.5 retains I acceptance; L/M remain unfinished.
 
 ## Identity and purpose

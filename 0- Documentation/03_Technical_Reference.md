@@ -1,5 +1,16 @@
 # Technical reference
 
+## Amended L additions — September 20, 2026
+
+Current named bridge has17 methods: capabilities; preferences get/save/reset/forget; inspection-cache clear; canonical recipe read; resolved encoding-details read; two folder pickers; prepare; Treat as original; Re-encode chosen outputs; start; cancel; snapshot; update subscription. Each is explicitly registered/validated; no generic process/FS/IPC capability is exposed.
+
+Run node scripts/workflow-smoke.cjs for the original L endpoint, node scripts/amended-workflow-smoke.cjs for intentional generations/argv/cancellation, node scripts/archive-quality-ui-smoke.cjs for recipe helper/reset/persistence/help, and node scripts/archive-quality-endpoint-smoke.cjs for actual rich8/10-bit Archive production encoding. Reuse passing reports at re-entry; do not repeat the cold personal archive campaign. Current direct suite:269 passing tests.
+
+Archive Quality applies profile h265-nvidia, recipeId archive-quality-hevc-v1, preset p7 and CQ32. The production fragment adds UHQ, fullres multipass, VBR-CQ with zero average bitrate, bf4 and b_ref_mode each; output pixel format/profile/color/streams are resolved per file. Use standard options removes the recipe while retaining current editable preset/CQ; Tested Default restores the original ordinary profile values. Manual recipe edits remain explicit and saved per profile. The benchmark decision15 records scene-dependent size/quality/speed and unverified Ada limitations.
+
+Preferences and inspection cache are independent from provenance. Clear cache never deletes provenance/media. Forget preferences preserves both. Rollback to an older build must use a separate state folder/extraction; older schemas are not silently rewritten. local-v0.5.0 cannot recognize0.6 provenance and must not be fed mixed original/generated folders. Generation descriptions are versioned bounded JSON and may become unavailable under an incompatible future builder; recognition remains based on stronger existing markers/index/identity, not descriptions.
+
+
 Updated September10,2026 through J/K acceptance; dated Inspection Reuse and Same Folder reports record evidence. Local 0.5.0 and its portable contract remain accepted historical evidence; legacy commands are historical.
 
 ## Current process boundary

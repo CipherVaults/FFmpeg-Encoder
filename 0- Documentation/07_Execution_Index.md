@@ -19,3 +19,5 @@ The latest [Current State](01_Current_State.md) owns the overall status. A futur
 - [September10 — Safe output beside originals](Execution%20Summaries/2026-09-10_Same_Folder.md): K accepted; provenance, atomic publication, guarded cleanup,209 tests and native endpoint/recovery evidence.
 
 - [September20 — Amended L workflow](Execution Summaries/2026-09-20_Amended_L_Workflow.md): accepted preferences/compact preview, intentional generations, canonical argv/help and benchmark-selected Archive Quality;269 direct tests, native endpoints, independent closure and parent synchronization. M next.
+
+- [September23 — M Field QA (in progress)](Execution Summaries/2026-09-23_M_Field_QA.md): later packaged evidence recovered; Samsung compatibility, source identity and CQ field acceptance are open. No final0.6 tag.

@@ -1,3 +1,9 @@
+# September 23, 2026 — M field QA in progress
+
+Live recovery: HEAD `4168dc3`, accepted L `2f9d765`; J/K and `local-v0.5.0` remain unchanged. The [new binding field-QA amendment](16_Approved_0.6_Field_QA_Amendment.md) was read in full and mirrored locally. Samsung MP4 preservation, long OBS source-identity refusal and Archive CQ preference are final M blockers. No accepted `local-v0.6.0` tag exists. The first 321,229,721-byte ZIP is historical candidate evidence and must be rebuilt after production changes.
+
+Recovered M evidence is newer than the previous written continuation: `artifacts/portable-acceptance-blhxyK/report.json` completed real packaged CPU/Archive8/10-bit encodes, skip/cancel/subsequent-batch, same-folder generation and intentional re-encode, persistence/restart and shutdown checks before failing a harness-only `counts.ready` assertion (ready rows live in `items`). The assertion is corrected; this partial report is not full M acceptance. The remaining cache/reset cases and all changed-runtime cases still need a complete fresh-artifact pass. See [Continuation State](10_Continuation_State.md) for exact next work; older dated sections below remain history.
+
 # September20,2026 — L accepted; M next
 
 Amended L now passes269 direct tests, original/intentional-generation/Archive helper and actual rich8/10-bit endpoints, independent closure review and parent documentation synchronization. The commit containing [the L report](Execution Summaries/2026-09-20_Amended_L_Workflow.md) is its accepted checkpoint. HEVC Archive Quality uses measured CQ32; decision15 states scene variation and Ada limits. Accepted J/K and local-v0.5.0 remain unchanged. M separate portable0.6 acceptance is the exact next work; no local-v0.6.0 tag yet. Earlier dated entries below are historical recovery notes.

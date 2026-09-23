@@ -1,3 +1,5 @@
+> September 23 field-QA amendment: [binding note16](16_Approved_0.6_Field_QA_Amendment.md) adds Samsung preservation, source-identity diagnostics and real-field Archive CQ acceptance gates. Historical L/Decision15 remain intact; final M requires corrections, fresh ZIP and independent evidence.
+
 > Superseding scope clarification: [September 19 binding Archive Quality amendment](14_Approved_0.6_Archive_Quality_Amendment.md) promotes only the HEVC Archive Quality Ada/Blackwell recipe into amended L/M. All new option, benchmark, native and portable acceptance gates apply; original Tested Defaults remain unchanged.
 
 > September 13, 2026 binding amendment: [Intentional re-encoding and encoder transparency](13_Approved_0.6_Product_Amendment.md) supplements this record and supersedes the old prohibition on explicit re-encoding of confidently recognized generated outputs. Default exclusion and accepted K safety remain. All added L/M acceptance gates must pass before final 0.6 closure.

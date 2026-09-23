@@ -38,6 +38,35 @@ function errorCode(code) {
   return (error) => error.code === code;
 }
 
+test('phone timestamps use exact stream aliases after reordered metadata mapping, without changing global metadata', () => {
+  const input = probe(video({ index: 1, tags: { creation_time: '2026-05-01T22:45:38.000000Z' } }), [
+    { index: 0, codec_type: 'audio', codec_name: 'aac', tags: { creation_time: '2026-05-01T22:45:39.000000Z' } },
+  ]);
+  input.streams.reverse();
+  const args = argsFor(input);
+  assert.deepEqual(values(args, '-map'), ['0:1', '0:0']);
+  assert.deepEqual(values(args, '-metadata:s:0'), ['SOURCE_CREATION_TIME=2026-05-01T22:45:38.000000Z']);
+  assert.deepEqual(values(args, '-metadata:s:1'), ['SOURCE_CREATION_TIME=2026-05-01T22:45:39.000000Z']);
+  assert.ok(args.indexOf('-metadata:s:0') > args.indexOf('-map_metadata:s:0'));
+  assert.deepEqual(values(args, '-map_metadata'), ['0']);
+  assert.deepEqual(values(args, '-metadata'), []);
+});
+
+test('creation timestamp aliases refuse case-insensitive collisions and preserve existing alias-only inputs', () => {
+  const input = probe(video({ tags: { creation_time: 'exact source text', source_creation_time: 'different user value' } }));
+  assert.throws(() => argsFor(input), errorCode('UNSUPPORTED_METADATA'));
+  input.streams[0].tags.source_creation_time = 'exact source text';
+  assert.deepEqual(values(argsFor(input), '-metadata:s:0'), ['SOURCE_CREATION_TIME=exact source text']);
+  input.streams[0].tags.SOURCE_CREATION_TIME = 'conflicting duplicate alias';
+  assert.throws(() => argsFor(input), errorCode('UNSUPPORTED_METADATA'));
+  delete input.streams[0].tags.SOURCE_CREATION_TIME;
+  input.streams[0].tags.CREATION_TIME = 'conflicting duplicate timestamp';
+  assert.throws(() => argsFor(input), errorCode('UNSUPPORTED_METADATA'));
+  input.streams[0].tags = { SOURCE_CREATION_TIME: 'already represented; copy unchanged' };
+  assert.deepEqual(values(argsFor(input), '-metadata:s:0'), []);
+  assert.deepEqual(values(argsFor(input), '-map_metadata:s:0'), ['0:s:0']);
+});
+
 test('profiles expose the six independently validated defaults and are deeply immutable', () => {
   assert.deepEqual(PROFILES.map((profile) => [profile.id, profile.encoder, profile.defaultPreset, profile.quality.default]), [
     ['h264-cpu', 'libx264', 'slower', 24], ['h265-cpu', 'libx265', 'slow', 25],

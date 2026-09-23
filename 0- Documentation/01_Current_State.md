@@ -1,3 +1,5 @@
+> September23 update: Samsung timestamp preservation and exact source-identity diagnostics now pass280direct tests and native UI/real encoder checks. Strict identity policy remains; historical ctime-only evidence cannot establish the exact failure-time cause. Broader field CQ benchmark is running; no CQ/default decision yet. The first0.6ZIP is obsolete as final artifact after these source corrections. FinalM remains open.
+
 # September 23, 2026 — M field QA in progress
 
 Live recovery: HEAD `4168dc3`, accepted L `2f9d765`; J/K and `local-v0.5.0` remain unchanged. The [new binding field-QA amendment](16_Approved_0.6_Field_QA_Amendment.md) was read in full and mirrored locally. Samsung MP4 preservation, long OBS source-identity refusal and Archive CQ preference are final M blockers. No accepted `local-v0.6.0` tag exists. The first 321,229,721-byte ZIP is historical candidate evidence and must be rebuilt after production changes.

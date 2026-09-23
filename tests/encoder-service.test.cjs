@@ -252,6 +252,63 @@ test('an input changed during encoding prevents publication and cleans the owned
   const result = await h.finish(await h.prepare());
   assert.equal(result.counts.failed, 1);
   assert.match(result.items[0].reason, /changed while/i);
+  assert.equal(result.items[0].sourceIdentityDiagnostic.stage, 'after-encode');
+  assert.ok(result.items[0].sourceIdentityDiagnostic.changedFields.includes('size'));
+  assert.ok(result.items[0].sourceIdentityDiagnostic.changedFields.includes('sparseDigest'));
+  assert.deepEqual(await fs.readdir(h.output), []);
+});
+
+test('ctime-only attribute change logs exact identity evidence, revokes re-encode authority and protects same-folder sources', async t => {
+  const sourceId = createOutputId();
+  const h = await harness(t, { sameFolder: true, names: ['a.mkv'], inspectResult: () => generatedInspection(sourceId),
+    onEncode: async ({ file }) => {
+      try { await fs.chmod(file, 0o444); }
+      finally { await fs.chmod(file, 0o666); }
+    } });
+  const source = path.join(h.input, 'a.mkv');
+  const beforeBytes = await fs.readFile(source);
+  const first = await h.prepare();
+  const ready = await h.service.reencodeOutputs({ planId: first.planId, fileIds: [first.items[0].id] });
+  const expected = structuredClone(h.service.plan.entries.get(first.items[0].id).fingerprint);
+  const result = await h.finish(ready);
+  const item = result.items[0];
+  assert.equal(item.status, 'failed');
+  assert.equal(item.reencodeAuthorized, false);
+  assert.equal(h.service.plan.reencodeAuthorizations.size, 0);
+  assert.match(item.reason, /Source identity changed while/);
+  assert.match(item.reason, /ctimeNs/);
+  assert.match(item.reason, /unchanged full content cannot be established/);
+  assert.deepEqual(item.sourceIdentityDiagnostic.changedFields, ['ctimeNs']);
+  assert.equal(item.sourceIdentityDiagnostic.stage, 'after-encode');
+  assert.equal(item.sourceIdentityDiagnostic.checkpoint, 'after-encode');
+  assert.deepEqual(item.sourceIdentityDiagnostic.expected, expected);
+  assert.equal(item.sourceIdentityDiagnostic.actual.sparseDigest, expected.sparseDigest);
+  assert.notEqual(item.sourceIdentityDiagnostic.actual.ctimeNs, expected.ctimeNs);
+  const log = JSON.parse(await fs.readFile(path.join(h.stateDir, 'logs', `${result.batchId}.json`), 'utf8'));
+  assert.deepEqual(log.items[0].sourceIdentityDiagnostic, item.sourceIdentityDiagnostic);
+  assert.ok(JSON.stringify(item.sourceIdentityDiagnostic).length < 4000);
+  assert.deepEqual(await fs.readFile(source), beforeBytes);
+  assert.deepEqual(await fs.readdir(h.input), ['a.mkv']);
+});
+
+test('ctime-only unsampled content change with restored mtime still refuses publication', async t => {
+  const fixedTime = 1_700_000_000;
+  const h = await harness(t, { names: ['a.mkv'], onEncode: async ({ file }) => {
+    const handle = await fs.open(file, 'r+');
+    try { await handle.write(Buffer.from([99]), 0, 1, 500_000); }
+    finally { await handle.close(); }
+    await fs.utimes(file, fixedTime, fixedTime);
+  } });
+  const source = path.join(h.input, 'a.mkv');
+  await fs.writeFile(source, Buffer.alloc(4 * 1024 * 1024, 37));
+  await fs.utimes(source, fixedTime, fixedTime);
+  const result = await h.finish(await h.prepare());
+  assert.equal(result.items[0].status, 'failed');
+  const diagnostic = result.items[0].sourceIdentityDiagnostic;
+  assert.deepEqual(diagnostic.changedFields, ['ctimeNs']);
+  assert.equal(diagnostic.expected.sparseDigest, diagnostic.actual.sparseDigest);
+  assert.equal(diagnostic.expected.mtimeNs, diagnostic.actual.mtimeNs);
+  assert.equal((await fs.readFile(source))[500_000], 99);
   assert.deepEqual(await fs.readdir(h.output), []);
 });
 
@@ -473,6 +530,9 @@ for (const change of ['empty', 'deleted']) test(`generated source ${change} inva
   if (change === 'empty') await fs.truncate(file, 0); else await fs.unlink(file);
   const result = await h.finish(ready);
   assert.equal(result.counts.failed, 1); assert.equal(result.items[0].reencodeAuthorized, false);
+  assert.equal(result.items[0].sourceIdentityDiagnostic.stage, 'before-encode');
+  assert.equal(result.items[0].sourceIdentityDiagnostic.readFailure, change === 'empty' ? 'EMPTY_INPUT' : 'ENOENT');
+  assert.equal(result.items[0].sourceIdentityDiagnostic.actual, null);
   assert.equal(h.service.plan.reencodeAuthorizations.size, 0); assert.equal(h.calls.length, 0);
 });
 

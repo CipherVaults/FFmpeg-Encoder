@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6 field QA — September 23, 2026 (unreleased)
+
+- Preserve exact MP4 stream timestamps as SOURCE_CREATION_TIME on the corresponding Matroska tracks. Preview explains the representation; conflicting aliases and other preservation failures remain errors. Inspection preservation policy2 invalidates older policy cache evidence.
+- Source-identity refusals identify differing fields and retain exact comparison snapshots in local logs. Strict checks remain because matching sparse samples cannot establish unchanged full content.
+-280 direct checks and native phone/identity regressions pass. Archive CQ field convergence and fresh portable M acceptance remain open; the original candidate is not the final release.
+
 ## Amended0.6 L — September20,2026
 
 - Added validated local folder/per-profile preference restoration, independent resets, compact preview/filter/selection and keyboard-accessible canonical preset/default explanations.

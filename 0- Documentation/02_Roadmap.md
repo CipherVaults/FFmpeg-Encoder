@@ -1,3 +1,5 @@
+> September23 M delta: phone metadata representation correction and source-identity diagnostics verified in source app (280direct checks/nativefield). Broader CQ preference convergence, affected regression/independentreview and fresh portable M remain open under amendment16. Preserve historicalL/Decision15 and accepted0.5.
+
 # Roadmap
 
 The March roadmap is preserved in the legacy archive. This active roadmap implements the September 6, 2026 handoff and Ahmed's eight amendments. It records reality as work progresses; an approved row is not a completed row.

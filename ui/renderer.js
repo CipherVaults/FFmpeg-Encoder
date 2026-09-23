@@ -515,6 +515,9 @@
     reason.className = 'item-reason';
     const sampling = document.createElement('p');
     sampling.className = 'file-detail';
+    const metadata = document.createElement('p');
+    metadata.className = 'file-detail';
+    metadata.dataset.testid = 'metadata-notices';
     const origin = document.createElement('p');
     origin.className = 'origin-label';
     origin.dataset.testid = 'origin-label';
@@ -593,7 +596,7 @@
       const entry = itemRows.get(item.id);
       if (entry) loadEncodingDetails(entry);
     });
-    body.append(output, summary, reason, sampling, previousDetails, action, commandDetails);
+    body.append(output, summary, reason, metadata, sampling, previousDetails, action, commandDetails);
     details.append(name, body);
     // Classification and its deliberate action stay visible in compact rows.
     // Heavy provenance/argument details expand only when requested.
@@ -602,7 +605,7 @@
     const status = document.createElement('span');
     statusCell.append(status);
     row.append(useCell, fileCell, statusCell);
-    return { row, checkbox, details, name, output, summary, reason, sampling, action, status, item, key: '', origin, previous,
+    return { row, checkbox, details, name, output, summary, reason, metadata, sampling, action, status, item, key: '', origin, previous,
       previousDetails, previousInfo, previousArgs, reencodeBox, reencodeChoice, reencode,
       commandDetails, commandHeading, commandNotice, commandExecutable, commandDestination, commandArgs, commandKey: null };
   }
@@ -631,6 +634,10 @@
         entry.summary.hidden = !entry.summary.textContent;
         entry.reason.textContent = item.reason || '';
         entry.reason.hidden = !item.reason;
+        // Main's inspection describes container representation changes. Render
+        // plain text only; media metadata never becomes HTML or IPC authority.
+        entry.metadata.textContent = (item.summary?.metadataNotices || []).join(' ');
+        entry.metadata.hidden = !entry.metadata.textContent;
         entry.sampling.textContent = item.summary?.samplingLimit ? `Color inspection limits: ${item.summary.samplingLimit}` : '';
         entry.sampling.hidden = !entry.sampling.textContent;
         entry.action.hidden = item.status !== 'ambiguous';

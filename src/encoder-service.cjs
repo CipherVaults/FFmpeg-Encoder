@@ -9,7 +9,7 @@ const { inspectInput, inspectMetadata, finishInspection, parseProbeJson, validat
 const { checkCapabilities } = require('./capabilities.cjs');
 const { exists, createStage, sealStage, cleanupStage, publishOutput } = require('./outputs.cjs');
 const { createOutputId, classifyMarker, historicalSuffix, ProvenanceJournal, generationDescriptionOf } = require('./provenance.cjs');
-const { readFileStamp, readSourceIdentity, sameStamp, sameIdentity } = require('./source-identity.cjs');
+const { readFileStamp, readSourceIdentity, sameStamp, sameIdentity, assertIdentityMatches } = require('./source-identity.cjs');
 const { StorageEligibility } = require('./storage-eligibility.cjs');
 const { InspectionCache } = require('./inspection-cache.cjs');
 const { Preferences } = require('./preferences.cjs');
@@ -290,18 +290,30 @@ class EncoderService extends EventEmitter {
       // Provenance recognition and explicit legacy overrides need content-bound
       // identity even when persistent inspection caching is unavailable.
       const identity = await readSourceIdentity(file, { signal });
-      if (!sameStamp(stamp, identity)) throw fail('INPUT_CHANGED', 'Input changed after storage eligibility was checked.');
+      assertIdentityMatches(stamp, identity, { stage: 'after-storage-eligibility', message: 'Source identity changed after storage eligibility was checked.' });
       return { identity, reusable: storage.eligible, reason: storage.reason };
     });
     this.identityTail = pending.catch(() => {});
     return pending;
   }
 
-  async sourceStillMatches(entry, signal) {
+  async assertSourceMatches(entry, signal, stage, message) {
     notCancelled(signal);
-    return entry.fingerprint.sparseDigest
-      ? sameIdentity(entry.fingerprint, await readSourceIdentity(entry.file, { signal }))
-      : sameStamp(entry.fingerprint, await readFileStamp(entry.file));
+    try {
+      const digest = Boolean(entry.fingerprint.sparseDigest);
+      const actual = digest ? await readSourceIdentity(entry.file, { signal }) : await readFileStamp(entry.file);
+      assertIdentityMatches(entry.fingerprint, actual, { stage, message, digest });
+    } catch (error) {
+      if (error.code !== 'CANCELLED' && !signal?.aborted) {
+        // Preserve sampling's more precise path/handle stage when it failed;
+        // the outer checkpoint still identifies which encode check requested it.
+        error.sourceIdentityDiagnostic = error.sourceIdentityDiagnostic
+          ? { ...error.sourceIdentityDiagnostic, checkpoint: stage }
+          : { version: 1, stage, changedFields: [], readFailure: error.code || 'IDENTITY_READ_FAILED',
+            expected: clone(entry.fingerprint), actual: null };
+      }
+      throw error;
+    }
   }
 
   async prepareItem(item, { input, output, settings, profile, caps, signal, owner }) {
@@ -324,7 +336,7 @@ class EncoderService extends EventEmitter {
       const baseline = this.plan.baseline.get(item.name);
       if (baseline.error) throw fail('UNSAFE_SOURCE', baseline.error);
       const { identity, reusable, reason } = await this.identifyForInspection(file, signal);
-      if (!sameStamp(baseline.identity, identity)) throw fail('INPUT_CHANGED', 'Input changed after the directory snapshot. Prepare again.');
+      assertIdentityMatches(baseline.identity, identity, { stage: 'after-directory-snapshot', message: 'Source identity changed after the directory snapshot.' });
       notCancelled(signal);
       if (reason) progress.notice ||= reason;
       let inspection = reusable ? await this.inspectionCache.lookup(identity) : null;
@@ -334,7 +346,7 @@ class EncoderService extends EventEmitter {
       else if (this.inspect === inspectInput) probe = await inspectMetadata(file, { ffprobe: this.ffprobe, signal, run: this.run, onStage });
       else { inspection = await this.inspect(file, { ffprobe: this.ffprobe, signal, run: this.run, onStage }); probe = inspection.probe; }
       notCancelled(signal);
-      if (!sameStamp(identity, await readFileStamp(file))) throw fail('INPUT_CHANGED', 'Input changed during metadata inspection.');
+      assertIdentityMatches(identity, await readFileStamp(file), { stage: 'after-metadata-inspection', message: 'Source identity changed during metadata inspection.' });
       const marker = classifyMarker(probe);
       const indexed = marker.kind !== 'suspicious' ? await this.provenanceJournal.lookupIdentity(identity) : null;
       if (marker.kind !== 'unmarked' || indexed) {
@@ -380,7 +392,7 @@ class EncoderService extends EventEmitter {
         inspection = await finishInspection(file, probe, { ffprobe: this.ffprobe, signal, run: this.run, onStage });
       } else if (item.inspectionMethod === 'fresh') progress.inspected++;
       notCancelled(signal);
-      if (!sameStamp(identity, await readFileStamp(file))) throw fail('INPUT_CHANGED', 'Input changed during inspection.');
+      assertIdentityMatches(identity, await readFileStamp(file), { stage: 'after-inspection', message: 'Source identity changed during inspection.' });
       if (reusable && item.inspectionMethod === 'fresh') {
         await this.inspectionCache.store(identity, inspection);
         if (this.inspectionCache.warning) progress.notice ||= this.inspectionCache.warning;
@@ -420,6 +432,7 @@ class EncoderService extends EventEmitter {
         this.plan.reencodeAuthorizations.delete(item.id);
       }
       item.status = 'unsupported'; item.reason = error.message;
+      if (error.sourceIdentityDiagnostic) item.sourceIdentityDiagnostic = error.sourceIdentityDiagnostic;
     } finally {
       progress.active--;
       progress.workers = progress.workers.filter(entry => entry.fileId !== item.id);
@@ -712,7 +725,7 @@ class EncoderService extends EventEmitter {
           if (await exists(entry.destination)) { item.status = 'skipped'; item.reason = 'Output appeared since preview.'; continue; }
           if (this.plan.reservedPaths.has(entry.destination.toLowerCase())) throw fail('PROTECTED_SOURCE', 'The destination belonged to the baseline input snapshot. It remains protected after disappearance.');
           validatingSource = true;
-          if (!await this.sourceStillMatches(entry, signal)) throw fail('INPUT_CHANGED', 'Input changed since preview. Prepare it again.');
+          await this.assertSourceMatches(entry, signal, 'before-encode', 'Source identity changed since preview.');
           const currentProbe = this.inspect === inspectInput
             ? await inspectMetadata(entry.file, { ffprobe: this.ffprobe, signal, run: this.run })
             : (await this.inspect(entry.file, { ffprobe: this.ffprobe, signal, run: this.run })).probe;
@@ -730,7 +743,7 @@ class EncoderService extends EventEmitter {
           if (entry.overridden && !sameIdentity(this.plan.overrides.get(item.id), await readSourceIdentity(entry.file, { signal }))) {
             throw fail('INPUT_CHANGED', 'The explicit original override no longer matches this file.');
           }
-          if (!await this.sourceStillMatches(entry, signal)) throw fail('INPUT_CHANGED', 'Input changed during the final provenance check.');
+          await this.assertSourceMatches(entry, signal, 'after-provenance-check', 'Source identity changed during the final provenance check.');
           validatingSource = false;
           await this.provenanceJournal.recordIntent({ outputId: entry.outputId, sourceIdentity: entry.fingerprint,
             destination: entry.destination, profileId: this.plan.settings.profileId, generationDescription: entry.generationDescription });
@@ -765,7 +778,7 @@ class EncoderService extends EventEmitter {
           const validation = this.verify(entry.inspection, outputProbe, this.plan.settings);
           if (!validation.valid) throw fail('INVALID_OUTPUT', validation.errors.join(' '));
           validatingSource = true;
-          if (!await this.sourceStillMatches(entry, signal)) throw fail('INPUT_CHANGED', 'Input changed while it was being encoded.');
+          await this.assertSourceMatches(entry, signal, 'after-encode', 'Source identity changed while it was being encoded.');
           validatingSource = false;
           await this.verifyFolders();
           const published = await publishOutput(stage, entry.destination, { signal, atomicOnly: this.plan.sameFolder });
@@ -787,6 +800,7 @@ class EncoderService extends EventEmitter {
           item.status = signal.aborted || error.code === 'CANCELLED' ? 'cancelled' : 'failed';
           item.reason = error.message;
           item.details = error.stderr?.slice(-4000);
+          if (error.sourceIdentityDiagnostic) item.sourceIdentityDiagnostic = error.sourceIdentityDiagnostic;
           if (item.status === 'cancelled') break;
           if (sharedFailure(error)) { stoppedByFailure = true; this.state.error = error.message; break; }
         } finally {

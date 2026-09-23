@@ -1,3 +1,5 @@
+> Current field-QA development adds explicit preservation of MP4 track timestamps as SOURCE_CREATION_TIME in Matroska, with a notice in file details. Source-change failures identify the differing filesystem/content identity fields; conservative refusal remains when unchanged content cannot be established. Archive CQ32 is under renewed field evaluation; no new preferred CQ or final0.6release is accepted yet.
+
 # FFmpeg Encoder Desktop App
 
 ## Current0.6 development workflow

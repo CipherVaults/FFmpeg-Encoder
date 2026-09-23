@@ -1,3 +1,5 @@
+> September23 field correction: canonical builder aliases mapped track creation_time to SOURCE_CREATION_TIME; inspection validates exact per-track value, refuses conflict and exposes a descriptive notice. Preservation policy2 invalidates prior cache evidence. Main retains strict source identity; mismatch diagnostics now carry field/checkpoint/expected/actual values to local results, without new IPC authority.
+
 # Project architecture
 
 ## Amended L architecture — September 20, 2026

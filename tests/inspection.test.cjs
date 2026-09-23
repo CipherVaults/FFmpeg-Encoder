@@ -249,6 +249,73 @@ test('Matroska omitted track language equals und only, never a named language or
   assert.equal(validateOutput(inspection(input), output, settings).valid, false);
 });
 
+function phoneTimestampProbes() {
+  const input = richSource();
+  input.streams[0].tags.creation_time = '2026-05-01T22:45:38.000000Z';
+  input.streams[1].tags.creation_time = '2026-05-01T22:45:39.000000Z';
+  input.streams[3].tags.creation_time = '2026-05-01T22:45:40.000000Z';
+  input.format.tags.creation_time = '2026-05-01T22:45:37.000000Z';
+  const output = outputProbe(input); output.format.format_name = 'matroska,webm';
+  for (const stream of output.streams) if (stream.tags?.creation_time) {
+    stream.tags.SOURCE_CREATION_TIME = stream.tags.creation_time; delete stream.tags.creation_time;
+  }
+  return { input, output };
+}
+
+test('Matroska track creation timestamps accept only their own exact explicit representation', () => {
+  const { input, output } = phoneTimestampProbes();
+  assert.deepEqual(validateOutput(inspection(input), output, settings), { valid: true, errors: [] });
+  // Input array ordering is independent of stream indexes and output map order.
+  input.streams = [input.streams[1], input.streams[0], ...input.streams.slice(2)];
+  assert.equal(validateOutput(inspection(input), output, settings).valid, true);
+  for (const mutate of [
+    out => { delete out.streams[0].tags.SOURCE_CREATION_TIME; },
+    out => { out.streams[0].tags.SOURCE_CREATION_TIME = out.streams[1].tags.SOURCE_CREATION_TIME; },
+    out => { out.streams[0].tags.SOURCE_CREATION_TIME = '2026-05-01T22:45:38Z'; },
+    out => { out.streams[0].tags.source_creation_time = 'conflicting duplicate'; },
+    out => { out.streams[0].tags.creation_time = '2026-05-01T22:45:41.000000Z'; },
+    out => { out.format.format_name = 'mov,mp4'; },
+  ]) {
+    const changed = copy(output); mutate(changed);
+    assert.match(validateOutput(inspection(input), changed, settings).errors.join('\n'), /Stream 4.*creation_time/);
+  }
+});
+
+test('alias representation never excuses missing container, chapter, attachment or ordinary metadata', () => {
+  for (const scope of ['container', 'chapter', 'attachment']) {
+    const { input, output } = phoneTimestampProbes();
+    const before = scope === 'container' ? input.format : scope === 'chapter' ? input.chapters[0] : input.streams[4];
+    const after = scope === 'container' ? output.format : scope === 'chapter' ? output.chapters[0] : output.streams[4];
+    before.tags.creation_time = 'exact date'; after.tags.SOURCE_CREATION_TIME = 'exact date'; delete after.tags.creation_time;
+    assert.match(validateOutput(inspection(input), output, settings).errors.join('\n'), /metadata 'creation_time'/);
+  }
+  const { input, output } = phoneTimestampProbes();
+  delete output.streams[0].tags.title;
+  assert.match(validateOutput(inspection(input), output, settings).errors.join('\n'), /metadata 'title'/);
+  input.streams[1].tags.source_creation_time = 'unrelated user value';
+  assert.match(validateOutput(inspection(input), output, settings).errors.join('\n'), /conflicts/);
+});
+
+test('aliased Matroska re-encode retains exact alias as ordinary metadata without inventing creation_time', () => {
+  const { output: input } = phoneTimestampProbes();
+  const output = outputProbe(input);
+  assert.equal(validateOutput(inspection(input), output, settings).valid, true);
+  delete output.streams[0].tags.SOURCE_CREATION_TIME;
+  assert.match(validateOutput(inspection(input), output, settings).errors.join('\n'), /metadata 'source_creation_time'/);
+});
+
+test('fresh and cached inspection explain only planned timestamp aliases and refuse collisions', async () => {
+  const input = sourceProbe(); input.streams[0].tags.creation_time = 'exact original timestamp';
+  const result = await inspectInput(file, { ffprobe, run: mockRun([input, sample()]).run });
+  assert.deepEqual(result.summary.metadataNotices, ['Stream 4: creation_time is preserved as SOURCE_CREATION_TIME on the same mapped Matroska track.']);
+  assert.deepEqual(reconstructInspection(result.probe, result.evidence).summary.metadataNotices, result.summary.metadataNotices);
+  input.streams[0].tags.SOURCE_CREATION_TIME = 'different';
+  await assert.rejects(inspectInput(file, { ffprobe, run: mockRun([input, sample()]).run }), { code: 'UNSUPPORTED_METADATA' });
+  delete input.streams[0].tags.creation_time;
+  const reencode = await inspectInput(file, { ffprobe, run: mockRun([input, sample()]).run });
+  assert.deepEqual(reencode.summary.metadataNotices, []);
+});
+
 for (const [label, mutate, expected] of [
   ['wrong codec', (out) => { out.streams[0].codec_name = 'vp9'; }, /codec differs/],
   ['resolution reduction', (out) => { out.streams[0].width = 160; }, /resolution/],

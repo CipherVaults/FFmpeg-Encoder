@@ -1,3 +1,5 @@
+> September23: Matroska track creation_time is represented explicitly as SOURCE_CREATION_TIME, exact source text and mapped track preserved; conflicting aliases refuse. This is not a metadata ignore. Global/chapter/attachment handling stays strict. Inspection preservation policy2. Source mismatches expose sourceIdentityDiagnostic (stage/checkpoint/changedFields/expected/actual, or readFailure); all identity fields includingctime remain required.
+
 # Technical reference
 
 ## Amended L additions — September 20, 2026

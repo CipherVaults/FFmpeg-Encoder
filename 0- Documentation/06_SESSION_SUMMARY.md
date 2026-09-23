@@ -1,3 +1,5 @@
+September23 field correction update:280direct tests and nativephone/ctime diagnostics pass. Exact stream timestamps retained with explicit alias/UI notice; source policy remains strict after harmlessctime and trueunsampled-edit counterexamples. Formal diagnosis companions and evidence hashes saved. Broader CQ benchmark now running from eight prepared references; no preferredCQchange or finalMacceptance yet.
+
 # September 23, 2026 — M recovered; field QA reopened final acceptance
 
 Read the full new Notion amendment and mirrored16. Recovered later portable harness/report instead of rebuilding or replaying accepted L. The candidate passed several real packaged paths before a stale ready-count assertion; corrected the harness and retained partial evidence honestly. Samsung stream creation_time, long OBS identity diagnostics and broader CQ convergence now block final M. Accepted J/K/L, historical Decision15 and local0.5 remain intact. Same heartbeat reused/reset-aligned; personal media read-only. See the in-progress September23 M Field QA report and Continuation State.

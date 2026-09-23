@@ -1,14 +1,14 @@
 'use strict';
 
 const { runTool, ToolError, isSharedToolFailure } = require('./process-runner.cjs');
-const { PROFILES, validateSettings, selectVideo, classifyColor, mappedStreams, outputPixelFormat } = require('./media.cjs');
+const { PROFILES, validateSettings, selectVideo, classifyColor, mappedStreams, outputPixelFormat, streamCreationTimeAlias, STREAM_CREATION_TIME_ALIAS } = require('./media.cjs');
 
 const UNKNOWN_COLOR = new Set(['', 'unknown', 'unspecified', 'reserved', 'n/a']);
 const GENERATED_TAGS = new Set(['encoder', 'duration', 'number_of_frames', 'number_of_bytes']);
 const APPLICATION_GENERATION_TAGS = new Set(['ffmpeg_encoder_provenance', 'ffmpeg_encoder_output_id', 'ffmpeg_encoder_generation']);
 // Bump these when normalization, stream selection, color policy or sample coverage
 // changes. A cache entry is evidence for these exact rules, not a lasting approval.
-const INSPECTION_POLICY = Object.freeze({ normalization: 2, color: 1, sampling: 1, selection: 1, preservation: 1 });
+const INSPECTION_POLICY = Object.freeze({ normalization: 2, color: 1, sampling: 1, selection: 1, preservation: 2 });
 const SAMPLING_LIMIT = 'Bounded metadata samples cannot prove the absence of untagged HDR or HDR outside inspected frames. Demuxer seeking may begin at an earlier keyframe.';
 const STREAM_FIELDS = ['index', 'codec_type', 'codec_name', 'width', 'height', 'pix_fmt', 'color_transfer', 'color_primaries', 'color_space', 'color_range', 'avg_frame_rate', 'r_frame_rate', 'start_time', 'duration', 'sample_rate', 'channels', 'channel_layout', 'extradata_size', 'extradata_hash'];
 const FRAME_FIELDS = ['media_type', 'stream_index', 'best_effort_timestamp_time', 'pts_time', 'color_transfer', 'color_primaries', 'color_space', 'color_range'];
@@ -241,6 +241,14 @@ function reconstructInspection(probeValue, evidenceValue) {
     evidence.windows.push({ frames, error: error && { code: error.code, reason: error.reason } });
   }
   const color = classifyColor(probe, samples);
+  const metadataNotices = [];
+  // Only the selected video and copied audio/subtitle tracks receive this alias.
+  // Rebuild notices on cache hits too; cache text is never accepted as policy.
+  for (const stream of probe.streams) {
+    if (stream.codec_type === 'video' && stream.index !== video.index) continue;
+    const creationTime = streamCreationTimeAlias(stream);
+    if (creationTime !== null) metadataNotices.push(`Stream ${stream.index}: creation_time is preserved as ${STREAM_CREATION_TIME_ALIAS} on the same mapped Matroska track.`);
+  }
   const streamCounts = {};
   for (const stream of probe.streams) {
     const type = stream.codec_type || 'unknown';
@@ -252,7 +260,7 @@ function reconstructInspection(probeValue, evidenceValue) {
       selectedVideoIndex: video.index, codec: video.codec_name || 'unknown', width: video.width, height: video.height,
       pixelFormat: video.pix_fmt || 'unknown', bitDepth: pixelLayout(video.pix_fmt)?.depth || null,
       frameRate: fraction(video.avg_frame_rate) || fraction(video.r_frame_rate), streamCounts, durationSeconds: duration,
-      sampling, samplingLimit: SAMPLING_LIMIT,
+      sampling, samplingLimit: SAMPLING_LIMIT, metadataNotices,
     },
   };
 }
@@ -347,6 +355,13 @@ function compareTags(inputTags, outputTags, label, errors, matroskaTrack = false
     // Matroska stores TrackLanguage='und', but FFmpeg omits that value from its
     // stream tags. Absence is equivalent only to this undefined-language value.
     if (matroskaTrack && key === 'language' && expected === 'und' && !actual.has(key)) continue;
+    // This is representation preservation, not an ignored tag: the same mapped
+    // Matroska track must contain the exact source text. Never substitute a global
+    // timestamp, another track's timestamp, or a normalized/guessed date.
+    if (matroskaTrack && key === 'creation_time' && !actual.has(key)) {
+      const aliases = Object.entries(outputTags || {}).filter(([name]) => name.toUpperCase() === STREAM_CREATION_TIME_ALIAS);
+      if (aliases.length && aliases.every(([, value]) => String(value) === expected)) continue;
+    }
     if (!actual.has(key) || !equalTag(key, expected, actual.get(key))) errors.push(`${label}: metadata '${key}' was not preserved.`);
   }
 }
@@ -422,6 +437,9 @@ function validateOutput(inputInspection, outputProbe, settings) {
       if (index > 0 && stream.codec_name !== output.codec_name) errors.push(`${label}: copied codec changed.`);
       const matroskaTrack = String(outputProbe.format?.format_name || '').split(',').includes('matroska')
         && ['video', 'audio', 'subtitle'].includes(stream.codec_type);
+      // Admission and validation agree: alias collisions cannot be approved by
+      // presenting one of the two source values in an otherwise plausible output.
+      streamCreationTimeAlias(stream);
       compareTags(stream.tags, output.tags, label, errors, matroskaTrack);
       if (JSON.stringify(enabledDispositions(stream)) !== JSON.stringify(enabledDispositions(output))) errors.push(`${label}: dispositions changed.`);
       if (stream.codec_type === 'audio') {

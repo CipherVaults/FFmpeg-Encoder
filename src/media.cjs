@@ -335,6 +335,23 @@ function outputPixelFormat(profile, video) {
   return video.pix_fmt;
 }
 
+// FFmpeg's Matroska muxer filters creation_time from track SimpleTags; only
+// the container timestamp has a native DateUTC representation. Retain each
+// track's exact source text under an explicit alias instead of losing it. A
+// pre-existing different alias is user metadata and must never be overwritten.
+const STREAM_CREATION_TIME_ALIAS = 'SOURCE_CREATION_TIME';
+function streamCreationTimeAlias(stream) {
+  if (!['video', 'audio', 'subtitle'].includes(stream.codec_type)) return null;
+  const entries = Object.entries(stream.tags || {});
+  const times = entries.filter(([key]) => key.toLowerCase() === 'creation_time').map(([, value]) => String(value));
+  if (!times.length) return null;
+  const aliases = entries.filter(([key]) => key.toUpperCase() === STREAM_CREATION_TIME_ALIAS).map(([, value]) => String(value));
+  if (times.some(value => value !== times[0]) || aliases.some(value => value !== times[0])) {
+    throw mediaError('UNSUPPORTED_METADATA', `Stream ${stream.index}: creation_time conflicts with ${STREAM_CREATION_TIME_ALIAS} or another creation_time tag; preserving both values requires a different representation.`);
+  }
+  return times[0];
+}
+
 function buildEncodeArgs({ input, output, settings, probe, colorEvidence, outputId, generationDescription }) {
   const validated = validateSettings(settings);
   validateLocalPath(input, 'Input');
@@ -371,6 +388,8 @@ function buildEncodeArgs({ input, output, settings, probe, colorEvidence, output
   args.push('-map_metadata', '0', '-map_chapters', '0', '-c', 'copy', ...contribution.codec);
   mapped.forEach((stream, index) => {
     args.push(`-map_metadata:s:${index}`, `0:s:${stream.index}`);
+    const creationTime = streamCreationTimeAlias(stream);
+    if (creationTime !== null) args.push(`-metadata:s:${index}`, `${STREAM_CREATION_TIME_ALIAS}=${creationTime}`);
     // Explicit zero suppresses FFmpeg's automatic default-stream assignment.
     args.push(`-disposition:${index}`, dispositionValue(stream));
   });
@@ -403,4 +422,5 @@ module.exports = {
   // Inspection uses the same preservation/pixel policies as execution, so a
   // preview cannot approve a combination that the argument builder rejects.
   mappedStreams, outputPixelFormat,
+  streamCreationTimeAlias, STREAM_CREATION_TIME_ALIAS,
 };

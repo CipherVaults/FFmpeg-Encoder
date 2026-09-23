@@ -21,3 +21,5 @@ The latest [Current State](01_Current_State.md) owns the overall status. A futur
 - [September20 — Amended L workflow](Execution Summaries/2026-09-20_Amended_L_Workflow.md): accepted preferences/compact preview, intentional generations, canonical argv/help and benchmark-selected Archive Quality;269 direct tests, native endpoints, independent closure and parent synchronization. M next.
 
 - [September23 — M Field QA (in progress)](Execution Summaries/2026-09-23_M_Field_QA.md): later packaged evidence recovered; Samsung compatibility, source identity and CQ field acceptance are open. No final0.6 tag.
+
+- September23 field diagnosis companions: [Phone metadata](Execution Summaries/2026-09-23_Phone_Metadata_Field_Diagnosis.md), [Source identity](Execution Summaries/2026-09-23_Source_Identity_Field_Diagnosis.md), and [compact evidence](Execution Summaries/2026-09-23_Field_Fix_Evidence.json). Source fixes pass280direct/nativefield checks; finalM andCQ remain open.

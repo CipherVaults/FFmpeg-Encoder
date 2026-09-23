@@ -124,13 +124,22 @@ test('an input changed by the eligibility check cannot use its earlier storage a
   } });
   const lookup = t.mock.method(changed.cache, 'lookup');
   const store = t.mock.method(changed.cache, 'store');
-  await assert.rejects(changed.service.identifyForInspection(path.join(h.input, 'a.mp4'), new AbortController().signal), {
-    code: 'INPUT_CHANGED', message: 'Input changed after storage eligibility was checked.',
+  await assert.rejects(changed.service.identifyForInspection(path.join(h.input, 'a.mp4'), new AbortController().signal), error => {
+    assert.equal(error.code, 'INPUT_CHANGED');
+    const diagnostic = error.sourceIdentityDiagnostic;
+    assert.equal(diagnostic.stage, 'after-storage-eligibility');
+    assert.equal(diagnostic.comparison, 'filesystem-stamp');
+    assert.ok(diagnostic.changedFields.includes('size'));
+    assert.ok(diagnostic.changedFields.every(field => ['size', 'mtimeNs', 'ctimeNs'].includes(field)));
+    assert.equal(BigInt(diagnostic.actual.size) - BigInt(diagnostic.expected.size), BigInt(Buffer.byteLength(' changed after the eligibility stamp')));
+    return true;
   });
   const result = await changed.prepare();
   assert.equal(mutations, 2, 'both direct identification and the actual preparation cross the changed-stamp boundary');
   assert.equal(result.items[0].status, 'unsupported');
   assert.match(result.items[0].reason, /changed after storage eligibility/);
+  assert.equal(result.items[0].sourceIdentityDiagnostic.stage, 'after-storage-eligibility');
+  assert.ok(result.items[0].sourceIdentityDiagnostic.changedFields.includes('size'));
   assert.equal(changed.service.plan.entries.size, 0);
   assert.equal(result.preparation.reused, 0);
   assert.equal(result.preparation.inspected, 0);

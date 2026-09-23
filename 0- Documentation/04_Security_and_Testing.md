@@ -1,3 +1,5 @@
+> September23:280direct checks plus native field phone/identity evidence pass. Strictctime comparison remains because unsampled content edits with restoredmtime can share a sparse digest; do not treat matching sparse samples as a full-file proof. Exact before/after field diagnostics remain local. Timestamp alias fallback requires the same Matroska track and exact text; conflicts/missing/wrong values still fail. Full fresh packagedM and finalindependentreview are pending.
+
 # Security and testing
 
 ## Amended L evidence and invariants — September 20, 2026

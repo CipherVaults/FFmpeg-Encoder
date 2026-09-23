@@ -1,3 +1,11 @@
+## September23 latest recovery position
+
+Verified current field fixes:280/280 direct tests and native field-qa-smoke passed (artifacts/field-native-Sti4mC/report.json). Phone creation_time is preserved with exact mapped SOURCE_CREATION_TIME, collision refusal and visible notice. Strict source identity is unchanged but now diagnoses exact fields/checkpoints and logs snapshots; historic long OBS onlyctime evidence does not prove failure-time cause. Full explanation/report links in September23 M Field QA execution report. Independent field review pending under artifacts/field-fix-independent-review.md; do not call finalMaccepted.
+
+Exact active work: benchmark launched in shell session58221 with node scripts/field-quality-benchmark.cjs --phase=benchmark --run=artifacts/field-quality-20260923; output artifacts/field-quality-latest.txt. Eight references prepared; recover report.json successful commands/cases before rerun. Never overwrite interrupted output blindly. Next review per-scene CQ32/31/30 originalsize/texture evidence, only try29 ifjustified, append decision and changehelperonlyifwarranted. Then affectednative reencode/cancel/argvregressions, freshZIP/fullM, independentMreview and parentdocs beforetag.
+
+Sameheartbeat ACTIVE; observedreset2026-09-23T21:07:32Z, nextwake21:12:32Z (September24 00:12:32Cairo), every5h. No credits. Earlier entries below document recovered history; don'trepeatcompleted corrections.
+
 # Continuation — September 23 field QA during M
 
 Read binding amendment16 with13/14, then live Git/evidence. Accepted J d05e17a, K3654c36, L2f9d765 remain valid; latest build checkpoint4168dc3. No local-v0.6.0. Personal media and existing outputs read-only. Do not repeat J/K/L or the cold OBS campaign.

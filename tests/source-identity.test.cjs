@@ -4,7 +4,8 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs/promises');
 const path = require('node:path');
-const { readFileStamp, readSourceIdentity, sameStamp, sameIdentity } = require('../src/source-identity.cjs');
+const { createHash } = require('node:crypto');
+const { readFileStamp, readSourceIdentity, sameStamp, sameIdentity, assertIdentityMatches } = require('../src/source-identity.cjs');
 
 async function fixture(t, bytes = 1024 * 1024) {
   const base = path.resolve(__dirname, '..', 'artifacts');
@@ -45,6 +46,51 @@ test('content changes invalidate the digest even if a caller compares identical 
   assert.equal(sameIdentity(first, second), false);
   assert.equal(sameStamp(first, { ...first, sparseDigest: second.sparseDigest }), true);
   assert.equal(sameIdentity(first, { ...first, sparseDigest: second.sparseDigest }), false);
+});
+
+test('every compared field is identified with exact before/after values without relaxing rejection', async t => {
+  const { file } = await fixture(t);
+  const expected = await readSourceIdentity(file);
+  const fields = ['canonicalPath', 'dev', 'ino', 'size', 'mtimeNs', 'ctimeNs', 'birthtimeNs', 'sparseDigest'];
+  for (const field of fields) {
+    const actual = { ...expected, [field]: field === 'sparseDigest' ? `sha256-sparse-v1:${'a'.repeat(64)}` : `${expected[field]}1` };
+    assert.throws(() => assertIdentityMatches(expected, actual, { message: 'Source identity changed.', stage: 'test', digest: true }), error => {
+      assert.equal(error.code, 'INPUT_CHANGED');
+      assert.match(error.message, new RegExp(field));
+      assert.deepEqual(error.sourceIdentityDiagnostic.changedFields, [field]);
+      assert.deepEqual(error.sourceIdentityDiagnostic.expected, expected);
+      assert.deepEqual(error.sourceIdentityDiagnostic.actual, actual);
+      assert.equal(error.sourceIdentityDiagnostic.stage, 'test');
+      return true;
+    });
+  }
+  assert.doesNotThrow(() => assertIdentityMatches(expected, expected, { message: '', stage: 'test', digest: true }));
+  assert.throws(() => assertIdentityMatches({}, {}, { message: 'Invalid.', stage: 'test' }), { code: 'INPUT_CHANGED' });
+  const malformed = { ...expected, sparseDigest: 'invalid' };
+  assert.throws(() => assertIdentityMatches(malformed, malformed, { message: 'Invalid.', stage: 'test', digest: true }), error => {
+    assert.equal(error.code, 'INPUT_CHANGED');
+    assert.doesNotMatch(error.message, /Sparse samples match/);
+    return true;
+  });
+});
+
+test('incidental attribute changes retain full content but ctime alone cannot authorize reuse', async t => {
+  const { file } = await fixture(t, 4 * 1024 * 1024);
+  const before = await readSourceIdentity(file);
+  const hash = bytes => createHash('sha256').update(bytes).digest('hex');
+  const beforeHash = hash(await fs.readFile(file));
+  try {
+    await fs.chmod(file, 0o444);
+    const after = await readSourceIdentity(file);
+    assert.deepEqual(Object.keys(before).filter(field => before[field] !== after[field]), ['ctimeNs']);
+    assert.equal(hash(await fs.readFile(file)), beforeHash);
+    assert.equal(sameIdentity(before, after), false);
+    assert.throws(() => assertIdentityMatches(before, after, { message: 'Source identity changed.', stage: 'after-encode', digest: true }), error => {
+      assert.match(error.message, /Sparse samples match; unchanged full content cannot be established/);
+      assert.deepEqual(error.sourceIdentityDiagnostic.changedFields, ['ctimeNs']);
+      return true;
+    });
+  } finally { await fs.chmod(file, 0o666); }
 });
 
 test('ctime invalidates an unsampled same-size edit even when mtime is restored', async t => {
@@ -129,9 +175,34 @@ test('mutation during a real sampling read rejects instead of caching mixed gene
     handle.close = async () => { closed = true; return close(); };
     return handle;
   });
-  await assert.rejects(readSourceIdentity(file), { code: 'INPUT_CHANGED' });
+  await assert.rejects(readSourceIdentity(file), error => {
+    assert.equal(error.code, 'INPUT_CHANGED');
+    assert.equal(error.sourceIdentityDiagnostic.stage, 'handle-before-after-sampling');
+    assert.ok(error.sourceIdentityDiagnostic.changedFields.includes('size'));
+    return true;
+  });
   assert.equal(changed, true);
   assert.equal(closed, true);
+});
+
+test('a path/file-handle mismatch reports its precise comparison stage and file ID delta', async t => {
+  const { file } = await fixture(t);
+  const lstat = fs.lstat.bind(fs);
+  let count = 0;
+  t.mock.method(fs, 'lstat', async (...args) => {
+    const stat = await lstat(...args);
+    // Two initial path stats agree; the final two path stats represent a
+    // replacement while the sampled handle still refers to the original.
+    if (++count > 2) stat.ino += 1n;
+    return stat;
+  });
+  await assert.rejects(readSourceIdentity(file), error => {
+    assert.equal(error.code, 'INPUT_CHANGED');
+    assert.equal(error.sourceIdentityDiagnostic.stage, 'handle-to-path-after-sampling');
+    assert.deepEqual(error.sourceIdentityDiagnostic.changedFields, ['ino']);
+    assert.notEqual(error.sourceIdentityDiagnostic.expected.ino, error.sourceIdentityDiagnostic.actual.ino);
+    return true;
+  });
 });
 
 test('cancellation before and during sampling closes ownership without reading later windows', async t => {

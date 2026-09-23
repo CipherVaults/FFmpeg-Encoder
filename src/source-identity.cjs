@@ -38,6 +38,23 @@ function sameIdentity(left, right) {
     && /^sha256-sparse-v1:[a-f0-9]{64}$/.test(left.sparseDigest) && left.sparseDigest === right.sparseDigest;
 }
 
+function assertIdentityMatches(expected, actual, { message, stage, digest = false }) {
+  if (digest ? sameIdentity(expected, actual) : sameStamp(expected, actual)) return;
+  const fields = ['canonicalPath', ...STAT_FIELDS, ...(digest ? ['sparseDigest'] : [])];
+  const changedFields = fields.filter(field => expected?.[field] !== actual?.[field]);
+  // Keep the exact evidence in the local results log. Diagnostics never replace
+  // the strict identity comparison or turn a matching sparse digest into proof
+  // that unsampled bytes are unchanged (including when mtime was restored).
+  const snapshot = value => Object.fromEntries(fields.map(field => [field, typeof value?.[field] === 'string' ? value[field] : null]));
+  const diagnostic = { version: 1, stage, changedFields, expected: snapshot(expected), actual: snapshot(actual),
+    comparison: digest ? 'sparse-identity' : 'filesystem-stamp' };
+  const detail = changedFields.length ? `Changed identity fields: ${changedFields.join(', ')}.` : 'The source identity is incomplete or invalid.';
+  const sparseMatch = digest && /^sha256-sparse-v1:[a-f0-9]{64}$/.test(expected?.sparseDigest)
+    && expected.sparseDigest === actual?.sparseDigest;
+  const limit = sparseMatch ? ' Sparse samples match; unchanged full content cannot be established.' : '';
+  throw new ToolError('INPUT_CHANGED', `${message} ${detail}${limit} Prepare the source again.`, { sourceIdentityDiagnostic: diagnostic });
+}
+
 async function readFileStamp(file) {
   if (typeof file !== 'string' || !path.isAbsolute(file) || /[\0\r\n]/.test(file)) {
     throw new ToolError('INVALID_PATH', 'Source identity requires an absolute filesystem path.');
@@ -49,7 +66,7 @@ async function readFileStamp(file) {
   const canonicalPath = await fs.realpath(file);
   const expected = stampOf(before, canonicalPath);
   const after = stampOf(await fs.lstat(canonicalPath, { bigint: true }), canonicalPath);
-  if (!sameStamp(expected, after)) throw new ToolError('INPUT_CHANGED', 'Input changed while identifying it.');
+  assertIdentityMatches(expected, after, { stage: 'path-resolution', message: 'Source identity changed while resolving its path.' });
   return after;
 }
 
@@ -61,7 +78,7 @@ async function readSourceIdentity(file, { signal } = {}) {
   try {
     cancelled(signal);
     const opened = stampOf(await handle.stat({ bigint: true }), before.canonicalPath);
-    if (!sameStamp(before, opened)) throw new ToolError('INPUT_CHANGED', 'Input changed before identity sampling.');
+    assertIdentityMatches(before, opened, { stage: 'path-to-open-handle', message: 'Source identity changed before sampling.' });
     const size = Number(before.size);
     if (!Number.isSafeInteger(size)) throw new ToolError('INPUT_TOO_LARGE', 'Input size exceeds safe sampling offsets.');
     const length = Math.min(SAMPLE_BYTES, size);
@@ -82,9 +99,8 @@ async function readSourceIdentity(file, { signal } = {}) {
     const after = stampOf(await handle.stat({ bigint: true }), before.canonicalPath);
     const named = await readFileStamp(file);
     cancelled(signal);
-    if (!sameStamp(before, after) || !sameStamp(after, named)) {
-      throw new ToolError('INPUT_CHANGED', 'Input changed during identity sampling.');
-    }
+    assertIdentityMatches(before, after, { stage: 'handle-before-after-sampling', message: 'Source identity changed during sampling.' });
+    assertIdentityMatches(after, named, { stage: 'handle-to-path-after-sampling', message: 'The source path no longer matches its sampled file handle.' });
     // This digest strengthens ordinary change detection without reading an
     // entire archive. It is not a full-file hash or a lock against active writers.
     return { ...after, sparseDigest: DIGEST_PREFIX + digest.digest('hex') };
@@ -93,4 +109,4 @@ async function readSourceIdentity(file, { signal } = {}) {
   }
 }
 
-module.exports = { readFileStamp, readSourceIdentity, sameStamp, sameIdentity };
+module.exports = { readFileStamp, readSourceIdentity, sameStamp, sameIdentity, assertIdentityMatches };

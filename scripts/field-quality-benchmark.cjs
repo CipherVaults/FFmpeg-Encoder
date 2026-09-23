@@ -115,10 +115,15 @@ if (phase === 'discover') {
     }
     checkSource(s); report.sources.push(s); save();
   }
-} else if (phase === 'prepare' || phase === 'benchmark') {
+} else if (['prepare', 'benchmark', 'converge29'].includes(phase)) {
+  if (phase === 'converge29') {
+    assert.ok(report.benchmarkCompletedUtc, 'Finish the initial CQ32/31/30 comparison before another CQ step.');
+    report.cq29Justification = 'Track foliage CQ30 VMAF90.53 remains below x26594.25; CQ32 is87.29. Test only three difficult texture scenes (track foliage, grass/crates, flowers/foliage) to assess another bounded step. Metrics support visual review; no universal ratio or quality equivalence is assumed.';
+  }
   const selections = JSON.parse(fs.readFileSync(path.join(run, 'selection.json')));
   assert.ok(selections.length >= 6 && selections.length <= 8);
   for (const selection of selections) {
+    if (phase === 'converge29' && !['track-foliage', 'grass-crates', 'flowers-foliage'].includes(selection.id)) continue;
     assert.match(selection.id, /^[a-z0-9-]+$/); assert.ok(selection.durationSeconds <= 10);
     const s = report.sources.find(x => x.id === selection.sourceId); assert.ok(s); checkSource(s);
     let prepared = report.selections.find(x => x.id === selection.id);
@@ -142,7 +147,7 @@ if (phase === 'discover') {
       checkSource(s); report.selections.push(prepared); save();
     }
     if (phase === 'prepare') continue;
-    for (const variant of ['x265-product-crf25', 'archive-cq32', 'archive-cq31', 'archive-cq30']) {
+    for (const variant of phase === 'converge29' ? ['archive-cq29'] : ['x265-product-crf25', 'archive-cq32', 'archive-cq31', 'archive-cq30']) {
       const id = `${selection.id}-${variant}`; if (report.cases.some(x => x.id === id && x.complete)) continue;
       const historical = [...originalReport.cases, ...convergence.cases].find(x => x.id === id && x.complete);
       let out; let result;
@@ -176,5 +181,5 @@ if (phase === 'discover') {
     checkSource(s);
   }
   report[`${phase}CompletedUtc`] = new Date().toISOString(); save();
-} else throw new Error('Use discover, prepare or benchmark.');
+} else throw new Error('Use discover, prepare, benchmark or converge29.');
 save(); console.log(`Evidence: ${run}`);

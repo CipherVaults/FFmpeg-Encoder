@@ -653,3 +653,5 @@ Example:
 
 \---
 
+
+September24 continuation: recovered completed35-case comparison withoutrepeatingencodes; choseeditableCQ29 with unchangedcompound/defaults and explicitlimits underDecision17.281direct tests and updatedamended/Archive8/10native endpoints pass. Newportablecandidate next; no finalMtag.

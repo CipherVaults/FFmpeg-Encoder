@@ -1,3 +1,5 @@
+> September24: Archive Quality helper now starts at CQ29 under [Decision17](17_Archive_Quality_Field_Decision.md), superseding only the preferred CQ in historical15. Old remembered values/provenance stay intact; ordinary defaults unchanged.35 field cases and independent review support the bounded choice, with scene/quality limits.281direct checks plus updated amended/Archive native endpoints pass. Fresh packaged M remains pending.
+
 > September23 update: Samsung timestamp preservation and exact source-identity diagnostics now pass280direct tests and native UI/real encoder checks. Strict identity policy remains; historical ctime-only evidence cannot establish the exact failure-time cause. Broader field CQ benchmark is running; no CQ/default decision yet. The first0.6ZIP is obsolete as final artifact after these source corrections. FinalM remains open.
 
 # September 23, 2026 — M field QA in progress

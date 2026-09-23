@@ -1,3 +1,5 @@
+> September24: Archive Quality helper now starts at CQ29 under [Decision17](17_Archive_Quality_Field_Decision.md), superseding only the preferred CQ in historical15. Old remembered values/provenance stay intact; ordinary defaults unchanged.35 field cases and independent review support the bounded choice, with scene/quality limits.281direct checks plus updated amended/Archive native endpoints pass. Fresh packaged M remains pending.
+
 > September23 M delta: phone metadata representation correction and source-identity diagnostics verified in source app (280direct checks/nativefield). Broader CQ preference convergence, affected regression/independentreview and fresh portable M remain open under amendment16. Preserve historicalL/Decision15 and accepted0.5.
 
 # Roadmap

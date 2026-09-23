@@ -8,6 +8,19 @@ function defaultSettings(profile) {
   return { profileId: profile.id, preset: profile.defaultPreset, quality: profile.quality.default };
 }
 
+test('field Archive helper adopts CQ29 without changing ordinary Tested Defaults or edited recipes', () => {
+  const { ARCHIVE_RECIPE } = require('../src/media.cjs');
+  assert.equal(ARCHIVE_RECIPE.quality, 29);
+  const recipe = describeRecipe({ profileId: ARCHIVE_RECIPE.profileId, preset: ARCHIVE_RECIPE.preset, quality: ARCHIVE_RECIPE.quality, recipeId: ARCHIVE_RECIPE.id });
+  assert.equal(recipe.args[recipe.args.indexOf('-cq:v:0') + 1], '29');
+  const previous = describeRecipe({ ...recipe.settings, quality: 32 });
+  assert.equal(previous.args[previous.args.indexOf('-cq:v:0') + 1], '32');
+  assert.deepEqual(PROFILES.map(p => [p.id, p.defaultPreset, p.quality.default]), [
+    ['h264-cpu', 'slower', 24], ['h265-cpu', 'slow', 25], ['av1-cpu', '6', 32],
+    ['h264-nvidia', 'p5', 28], ['h265-nvidia', 'p5', 25], ['av1-nvidia', 'p5', 30],
+  ]);
+});
+
 function argsFor(settings, pix_fmt = 'yuv420p') {
   return buildEncodeArgs({
     input: 'C:\\source media\\original.mkv', output: 'D:\\output media\\owned.partial', settings,

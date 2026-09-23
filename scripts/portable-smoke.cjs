@@ -12,11 +12,15 @@ const { promisify } = require('node:util');
 const { _electron } = require('playwright');
 const { runTool } = require('../src/process-runner.cjs');
 const { inspectInput, inspectMetadata, validateOutput } = require('../src/inspection.cjs');
+const { mappedStreams, selectVideo } = require('../src/media.cjs');
 const { classifyMarker } = require('../src/provenance.cjs');
 const { createRichFixture } = require('./test-fixtures.cjs');
 const { hashFile } = require('./build-portable.cjs');
 const execute = promisify(execFile);
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+// The reviewed field selection explicitly uses CQ29; do not let a stale packaged
+// capability declaration silently redefine the acceptance expectation.
+const EXPECTED_ARCHIVE_QUALITY = 29;
 
 async function main() {
   const root = path.resolve(__dirname, '..');
@@ -31,6 +35,7 @@ async function main() {
   const cancelOutput = path.join(artifacts, 'cancel output');
   const restartOutput = path.join(artifacts, 'restart output');
   const archiveFolder = path.join(artifacts, "Archive العربية & apostrophe's");
+  const phoneFolder = path.join(artifacts, 'phone metadata same folder');
   const sevenZip = 'C:\\Program Files\\7-Zip\\7z.exe';
   const executable = path.join(extracted, 'FFmpeg Encoder.exe');
   const ffmpeg = path.join(extracted, 'resources', 'ffmpeg', 'ffmpeg.exe');
@@ -42,6 +47,7 @@ async function main() {
     'Playwright debugging attaches only for verification. The distributed application has no automation workflow or background encoding feature.',
     'Tool argv and cache calls are observed through the packaged service runner without replacing execution. Windows independently identifies the real main processes and the cancellation child; short completed jobs can escape OS sampling.',
     'Generated owned fixtures cover the amended packaged path. Accepted L/H profile, layout, race and preservation evidence is reused; no broad profile or personal-media benchmark is repeated.',
+    'Phone field coverage uses two existing owned three-second excerpts retaining Samsung stream tags; personal recordings are never opened by this harness. Decode stderr is retained, including any source timing warnings.',
   ] };
   let app;
   let page;
@@ -257,7 +263,7 @@ async function main() {
     report.harnessHash = await hashFile(__filename);
     report.zip = build.zip;
     assert.deepEqual(await hashFile(build.zip.path), { sizeBytes: build.zip.sizeBytes, sha256: build.zip.sha256 });
-    for (const dir of [extracted, alternateCwd, input, output, cancelInput, cancelOutput, restartOutput, archiveFolder]) await fs.mkdir(dir);
+    for (const dir of [extracted, alternateCwd, input, output, cancelInput, cancelOutput, restartOutput, archiveFolder, phoneFolder]) await fs.mkdir(dir);
     await execute(sevenZip, ['t', build.zip.path], { windowsHide: true, timeout: 120000, maxBuffer: 1024 * 1024 });
     await execute(sevenZip, ['x', build.zip.path, `-o${extracted}`, '-y'], { windowsHide: true, timeout: 120000, maxBuffer: 1024 * 1024 });
     assert.equal((await fs.readdir(extracted)).includes('data'), false);
@@ -297,7 +303,22 @@ async function main() {
       assert.equal(source.inspection.color.classification, 'sdr'); assert.equal(source.inspection.color.supported, true);
     }
     report.archiveSources = archiveSources.map(({ file, depth, frames }) => ({ file, depth, frames }));
-    for (const folder of [input, cancelInput, archiveFolder]) {
+    const phoneSources = [];
+    for (const index of [0, 1]) {
+      const existingFixture = path.join(root, 'artifacts', 'phone-metadata-field-1790143524642-5847db51', `phone-${index}-three-seconds.mp4`);
+      const file = path.join(phoneFolder, `Samsung ${index + 1}.mp4`);
+      await protect(existingFixture, 'existing owned phone excerpt');
+      await fs.copyFile(existingFixture, file);
+      assert.deepEqual(await hashFile(file), await hashFile(existingFixture));
+      const inspection = await inspectInput(file, { ffprobe });
+      assert.equal(inspection.color.supported, true);
+      const streamMap = mappedStreams(inspection.probe, selectVideo(inspection.probe)).map((stream, outputIndex) => ({ inputIndex: stream.index, outputIndex, type: stream.codec_type, creationTime: stream.tags?.creation_time }));
+      assert.equal(streamMap.length, 2); assert(streamMap.every(stream => typeof stream.creationTime === 'string'));
+      assert.equal(inspection.summary.metadataNotices.length, 2);
+      phoneSources.push({ existingFixture, file, inspection, streamMap });
+    }
+    report.phoneSources = phoneSources;
+    for (const folder of [input, cancelInput, archiveFolder, phoneFolder]) {
       for (const name of await fs.readdir(folder)) await protect(path.join(folder, name), 'source');
     }
     const gpuQuery = '[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false); $rows=@(Get-CimInstance Win32_VideoController | Select-Object Name,DriverVersion,PNPDeviceID); ConvertTo-Json -InputObject $rows -Compress';
@@ -403,7 +424,7 @@ async function main() {
     await page.selectOption('#profile', 'h265-nvidia'); await page.click('#archive-quality');
     const recipe = session.capabilities.recipes.find(entry => entry.profileId === 'h265-nvidia');
     assert.ok(recipe); assert.equal(recipe.available, true, JSON.stringify(recipe));
-    assert.equal(recipe.preset, 'p7'); assert.equal(recipe.quality, 32);
+    assert.equal(recipe.preset, 'p7'); assert.equal(recipe.quality, EXPECTED_ARCHIVE_QUALITY);
     for (const source of archiveSources) assert(recipe.supportedBitDepths.includes(source.depth));
     const archiveSettings = { profileId: recipe.profileId, preset: recipe.preset, quality: recipe.quality, recipeId: recipe.id };
     await page.waitForFunction(async expected => {
@@ -414,7 +435,7 @@ async function main() {
     await page.waitForFunction(expected => {
       try { return JSON.stringify(JSON.parse(document.querySelector('#recipe-args').textContent)) === JSON.stringify(expected); } catch { return false; }
     }, recipeDescription.args);
-    for (const [flag, value] of [['-preset', 'p7'], ['-tune', 'uhq'], ['-multipass', 'fullres'], ['-rc', 'vbr'], ['-cq', '32'], ['-bf', '4'], ['-b_ref_mode', 'each']]) {
+    for (const [flag, value] of [['-preset', recipe.preset], ['-tune', 'uhq'], ['-multipass', 'fullres'], ['-rc', 'vbr'], ['-cq', String(recipe.quality)], ['-bf', '4'], ['-b_ref_mode', 'each']]) {
       const scopedFlag = `${flag}:v:0`;
       const index = recipeDescription.args.indexOf(scopedFlag);
       assert.ok(index >= 0, `Archive must contain ${scopedFlag}`);
@@ -442,7 +463,7 @@ async function main() {
       const file = path.join(archiveFolder, item.outputName); const outputProbe = await inspectMetadata(file, { ffprobe });
       const validation = validateOutput(source.inspection, outputProbe, archiveSettings); assert.equal(validation.valid, true, JSON.stringify(validation));
       const marker = classifyMarker(outputProbe); assert.equal(marker.kind, 'generated');
-      assert.equal(marker.previousGeneration.recipeId, recipe.id); assert.equal(marker.previousGeneration.preset, 'p7'); assert.equal(marker.previousGeneration.quality, 32);
+      assert.equal(marker.previousGeneration.recipeId, recipe.id); assert.equal(marker.previousGeneration.preset, recipe.preset); assert.equal(marker.previousGeneration.quality, recipe.quality);
       assert.equal(marker.previousGeneration.bitDepth, source.depth); assert.deepEqual(marker.previousGeneration.encoderArgs, recipeDescription.args);
       const decoded = await runTool(ffmpeg, ['-hide_banner', '-nostdin', '-v', 'error', '-xerror', '-nostats', '-i', file, '-map', '0:v:0', '-map', '0:a?', '-progress', 'pipe:1', '-f', 'null', '-'], { timeoutMs: 120000 });
       assert.equal(decoded.stderr.trim(), ''); assert.match(decoded.stdout, /progress=end/);
@@ -479,14 +500,14 @@ async function main() {
     assert.equal(archiveRestored.inputFolder.path, archiveFolder); assert.equal(archiveRestored.outputFolder.path, archiveFolder);
     assert.notEqual(archiveRestored.inputFolder.id, archivePreferences.inputFolder.id); assert.notEqual(archiveRestored.outputFolder.id, archivePreferences.outputFolder.id);
     assert.equal(archiveRestored.profileId, 'h265-nvidia'); assert.deepEqual(archiveRestored.settingsByProfile, archivePreferences.settingsByProfile);
-    assert.equal(await page.inputValue('#preset'), 'p7'); assert.equal(await page.inputValue('#quality'), '32');
+    assert.equal(await page.inputValue('#preset'), recipe.preset); assert.equal(await page.inputValue('#quality'), String(recipe.quality));
     assert.match(await page.textContent('#active-recipe'), /Archive Quality/);
     const archiveRestartRescan = (await prepare('Archive exclusion after actual process restart')).state;
     assert.equal(archiveRestartRescan.items.length, 4); assert(archiveRestartRescan.items.every(item => !item.reencodeAuthorized));
     assert.equal(archiveRestartRescan.items.filter(item => item.status === 'generated').length, 2); assert.equal(await page.isEnabled('#start-batch'), false);
     assert.notEqual(archiveRestartRescan.planId, admittedBeforeRestart.planId);
     report.archivePersistence = { rescan: archiveRescan, admittedBeforeRestart, preferencesBefore: archivePreferences, restored: archiveRestored, restartRescan: archiveRestartRescan };
-    report.checks.push('Packaged RTX5060 Archive Quality P7/UHQ/fullres/VBR-CQ32/bf4/B-ref each follows UI to main to displayed prepared argv to two sequential real spawns; rich8/10-bit outputs fully decode and validate preservation.',
+    report.checks.push(`Packaged RTX5060 Archive Quality P7/UHQ/fullres/VBR-CQ${recipe.quality}/bf4/B-ref each follows UI to main to displayed prepared argv to two sequential real spawns; rich8/10-bit outputs fully decode and validate preservation.`,
       'Same-folder publication marks/describes generated outputs and excludes them on rescan; Archive preferences survive an actual process restart while re-encode grants expire.');
     await save('Archive endpoint and actual process restart verified');
 
@@ -523,6 +544,62 @@ async function main() {
     await verifyProtected();
     report.checks.push('One explicitly chosen unchanged generated Archive output re-encodes with CPU H264/veryfast/CRF24 through displayed and spawned argv; unrelated generated output remains excluded, the next generation validates/fully decodes, and fresh preparation excludes all generated outputs again.');
 
+    // Reuse short owned field excerpts; the extracted app must surface the
+    // timestamp representation and preserve the exact values on mapped tracks.
+    await folders(phoneFolder, phoneFolder);
+    await page.selectOption('#profile', archiveSettings.profileId); await page.click('#archive-quality');
+    await page.waitForFunction(async expected => {
+      const p = await window.encoder.getPreferences(); const value = p.settingsByProfile[expected.profileId];
+      return p.profileId === expected.profileId && value?.preset === expected.preset && value?.quality === expected.quality && value?.recipeId === expected.recipeId;
+    }, archiveSettings);
+    const phonePrepared = (await prepare('Samsung phone metadata aliases and notices preparation')).state;
+    assert.equal(phonePrepared.items.length, 2); assert(phonePrepared.items.every(item => item.status === 'ready'));
+    assert.deepEqual(phonePrepared.settings, archiveSettings);
+    const phoneDetails = {};
+    for (const item of phonePrepared.items) {
+      const source = phoneSources.find(entry => path.basename(entry.file) === item.name); assert.ok(source);
+      phoneDetails[item.id] = await displayDetails(phonePrepared, item);
+      const notice = page.locator(`tr[data-file-id="${item.id}"] [data-testid="metadata-notices"]`);
+      assert.equal(await notice.isVisible(), true);
+      const visibleNotice = await notice.textContent();
+      for (const expected of source.inspection.summary.metadataNotices) assert(visibleNotice.includes(expected));
+      for (const stream of source.streamMap) {
+        const args = phoneDetails[item.id].args;
+        const index = args.indexOf(`-metadata:s:${stream.outputIndex}`);
+        assert.ok(index >= 0); assert.equal(args[index + 1], `SOURCE_CREATION_TIME=${stream.creationTime}`);
+      }
+    }
+    await page.screenshot({ path: path.join(artifacts, 'phone-metadata-prepared.png'), fullPage: true });
+    const phoneCallStart = (await encodeCalls()).length;
+    await page.click('#start-batch');
+    const phoneFinished = await stateUntil(state => ['completed', 'failed', 'cancelled'].includes(state.phase));
+    assert.equal(phoneFinished.phase, 'completed', JSON.stringify(phoneFinished)); assert.equal(phoneFinished.counts.success, 2);
+    const phoneCommands = (await encodeCalls()).slice(phoneCallStart); assert.equal(phoneCommands.length, 2);
+    assert(phoneCommands[1].spawnedAt >= phoneCommands[0].closedAt);
+    const phoneOutputs = [];
+    for (const item of phoneFinished.items) {
+      assert.equal(item.status, 'success');
+      const source = phoneSources.find(entry => path.basename(entry.file) === item.name); assert.ok(source);
+      const command = phoneCommands.find(entry => entry.argv[entry.argv.indexOf('-i') + 1] === source.file); assert.ok(command);
+      assertInvocation(phoneDetails[item.id], command);
+      const executed = await displayDetails(phoneFinished, item); assert.equal(executed.kind, 'actual-invocation'); assert.deepEqual(executed.args, command.argv);
+      const file = path.join(phoneFolder, item.outputName); const probe = await inspectMetadata(file, { ffprobe });
+      const validation = validateOutput(source.inspection, probe, archiveSettings); assert.equal(validation.valid, true, JSON.stringify(validation));
+      for (const stream of source.streamMap) assert.equal(probe.streams[stream.outputIndex].tags.SOURCE_CREATION_TIME, stream.creationTime);
+      const marker = classifyMarker(probe); assert.equal(marker.kind, 'generated');
+      assert.equal(marker.previousGeneration.recipeId, recipe.id); assert.equal(marker.previousGeneration.quality, recipe.quality);
+      const decode = await runTool(ffmpeg, ['-v', 'error', '-xerror', '-i', file, '-map', '0:v:0', '-map', '0:a?', '-f', 'null', '-']);
+      await protect(file, 'completed packaged phone metadata output');
+      phoneOutputs.push({ file, source: source.file, streamMap: source.streamMap, validation, marker, probe, command, executed, decode });
+    }
+    await page.screenshot({ path: path.join(artifacts, 'phone-metadata-results.png'), fullPage: true });
+    await page.click('#new-batch'); const phoneRescan = (await prepare('Samsung phone same-folder generated exclusion')).state;
+    assert.equal(phoneRescan.items.filter(item => item.status === 'generated').length, 2);
+    assert.equal(phoneRescan.items.filter(item => item.status === 'skipped').length, 2);
+    report.phoneMetadata = { prepared: phonePrepared, details: phoneDetails, finished: phoneFinished, outputs: phoneOutputs, rescan: phoneRescan };
+    report.checks.push('Two owned Samsung excerpts complete in the extracted app with visible metadata notices, exact per-track SOURCE_CREATION_TIME aliases, displayed/spawned argv equality, successful full decode and same-folder generated exclusion; decode warnings are retained.');
+    await verifyProtected(); await save('packaged phone metadata endpoint verified');
+
     // Small prepare-only cases exercise the shipped cache and reset boundaries.
     // Only this deliberately mutable fixture is replaced; retain its old bytes.
     const diagnosticInput = path.join(artifacts, 'prepare-only fixtures'); const diagnosticOutput = path.join(artifacts, 'prepare-only output');
@@ -530,6 +607,7 @@ async function main() {
     const stableFile = path.join(diagnosticInput, 'Stable.mp4'); const changedFile = path.join(diagnosticInput, 'Changed.mp4'); const newFile = path.join(diagnosticInput, 'New.mp4');
     await fs.copyFile(path.join(input, 'A portable.mp4'), stableFile); await fs.copyFile(path.join(input, 'B portable.mp4'), changedFile);
     await protect(stableFile, 'unchanged diagnostic source');
+    await settings('h264-cpu', 'veryfast', 24);
     await folders(diagnosticInput, diagnosticOutput);
     const diagnosticCold = (await prepare('prepare-only cache baseline')).state;
     assert.equal(diagnosticCold.items.filter(item => item.status === 'ready').length, 2);

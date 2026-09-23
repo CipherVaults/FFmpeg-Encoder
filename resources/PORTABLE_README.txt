@@ -37,7 +37,7 @@ temporary output path is a clearly labelled placeholder; this is not a shell
 command for copying into a terminal.
 
 Tested Default remains separate from Archive Quality - Ada/Blackwell NVENC.
-The HEVC Archive helper applies P7, UHQ, full-resolution multipass, VBR-CQ32,
+The HEVC Archive helper applies P7, UHQ, full-resolution multipass, VBR-CQ29,
 four B frames and B-reference mode each, preserving supported source depth.
 It is capability-gated and fully inspectable. Manual preset/CQ edits remain
 visible; Use standard options clears the compound options. Quality and size
@@ -48,6 +48,13 @@ This version supports the documented SDR workflow. Detected HDR and ambiguous
 color evidence are reported as unsupported. Extra media that cannot be
 preserved is rejected with a reason. Bounded inspection cannot certify color
 metadata that is missing, incorrect or outside the sampled frames.
+
+MP4 track creation timestamps are preserved as SOURCE_CREATION_TIME on the
+corresponding Matroska tracks; file details explain this representation.
+Conflicting metadata is refused. Source-identity errors name changed fields
+and retain comparison details in local logs. Matching sparse samples cannot
+prove unchanged full content, so even a metadata-only change can require
+fresh preparation. Original files and existing completed outputs stay protected.
 
 Cancel stops the active operation and remaining queue. Wait for cancellation
 and cleanup to finish before starting another batch or removing the drive.

@@ -1,3 +1,5 @@
+> September24: Archive Quality helper now starts at CQ29 under [Decision17](17_Archive_Quality_Field_Decision.md), superseding only the preferred CQ in historical15. Old remembered values/provenance stay intact; ordinary defaults unchanged.35 field cases and independent review support the bounded choice, with scene/quality limits.281direct checks plus updated amended/Archive native endpoints pass. Fresh packaged M remains pending.
+
 > September23 field correction: canonical builder aliases mapped track creation_time to SOURCE_CREATION_TIME; inspection validates exact per-track value, refuses conflict and exposes a descriptive notice. Preservation policy2 invalidates prior cache evidence. Main retains strict source identity; mismatch diagnostics now carry field/checkpoint/expected/actual values to local results, without new IPC authority.
 
 # Project architecture

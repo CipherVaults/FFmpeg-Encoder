@@ -1,3 +1,5 @@
+> September24: the Archive Quality helper now starts at **CQ29** after wider field testing. It preserves the compound options and visible editable controls; existing saved values remain. See [field decision](0-%20Documentation/17_Archive_Quality_Field_Decision.md) for ratios, quality limits and historical CQ32 evidence. Fresh portable0.6 acceptance remains pending.
+
 > Current field-QA development adds explicit preservation of MP4 track timestamps as SOURCE_CREATION_TIME in Matroska, with a notice in file details. Source-change failures identify the differing filesystem/content identity fields; conservative refusal remains when unchanged content cannot be established. Archive CQ32 is under renewed field evaluation; no new preferred CQ or final0.6release is accepted yet.
 
 # FFmpeg Encoder Desktop App
@@ -6,7 +8,7 @@
 
 The development app adds fast inspection reuse, same-folder output on verified local fixed NTFS, remembered folders/settings, compact filtered preview, and deliberate generated-output re-encoding. Generated files remain excluded until explicitly authorized for the current prepared batch. Treat as original is reserved for ambiguous legacy cases.
 
-Expert controls stay visible. Hover/focus help and expandable per-file details show canonical settings and the actual prepared FFmpeg argument array. Tested Default remains separate from **Archive Quality — Ada/Blackwell NVENC**, an editable HEVC P7/UHQ/fullres/CQ32 recipe selected from bounded Blackwell measurements. Size and quality vary by scene; Ada quality/speed has not been locally verified. See the [recipe decision](0-%20Documentation/15_Archive_Quality_Decision.md).
+Expert controls stay visible. Hover/focus help and expandable per-file details show canonical settings and the actual prepared FFmpeg argument array. Tested Default remains separate from **Archive Quality — Ada/Blackwell NVENC**, an editable HEVC P7/UHQ/fullres/CQ29 recipe selected from bounded Blackwell measurements. Size and quality vary by scene; Ada quality/speed has not been locally verified. See the [recipe decision](0-%20Documentation/15_Archive_Quality_Decision.md).
 
 These source changes do not replace the accepted0.5 ZIP. Final0.6 portable acceptance is still pending. The portable instructions below describe the accepted0.5 package.
 

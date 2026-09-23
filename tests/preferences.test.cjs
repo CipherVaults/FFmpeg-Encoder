@@ -164,16 +164,16 @@ test('reading v1 preferences never enables Archive Quality or rewrites the saved
   assert.deepEqual(await fs.readFile(h.filename), before);
 });
 
-test('Archive Quality v2 settings retain manual edits across restart and profile switching', async t => {
+test('Archive Quality v2 settings retain prior CQ32 values across helper updates, restart and profile switching', async t => {
   const h = await fixture(t);
   const prefs = h.open();
   await prefs.rememberFolder('input', h.root);
-  const archive = { profileId: 'h265-nvidia', preset: 'p6', quality: 23, recipeId: ARCHIVE_RECIPE.id };
+  const archive = { profileId: 'h265-nvidia', preset: 'p6', quality: 32, recipeId: ARCHIVE_RECIPE.id };
   await prefs.saveSettings(archive);
   await prefs.saveSettings(settings);
   const disk = JSON.parse(await fs.readFile(h.filename));
   assert.equal(disk.version, 2);
-  assert.deepEqual(disk.settingsByProfile['h265-nvidia'], { preset: 'p6', quality: 23, recipeId: ARCHIVE_RECIPE.id });
+  assert.deepEqual(disk.settingsByProfile['h265-nvidia'], { preset: 'p6', quality: 32, recipeId: ARCHIVE_RECIPE.id });
   assert.equal(Object.hasOwn(disk.settingsByProfile['h265-cpu'], 'recipeId'), false);
   const restored = await h.open().load();
   assert.equal(restored.profileId, settings.profileId);

@@ -64,3 +64,7 @@ Introduced the monitor view, file counters, progress/telemetry display, cancella
 Introduced Electron main/renderer structure, folder selection, settings UI, and the initial IPC interface.
 
 The complete original changelog is preserved in [the legacy archive](0-%20Documentation/Archive/Legacy%20March%202026/6-%20Changelog.md). Its original informal wording and proposed future features remain historical context.
+
+## Archive field follow-up — September24,2026 (unreleased)
+
+- Archive helper startingCQ changes32→29 after bounded35-case field comparison; compound options and ordinary defaults unchanged. Prior savedCQ32 and descriptive provenance remainvalid. Decision17 transparently supersedes thehistorical preferredCQ.281direct checks and current amended/Archive nativeendpoints pass; freshM pending.

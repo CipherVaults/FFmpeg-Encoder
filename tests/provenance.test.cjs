@@ -31,10 +31,10 @@ function intent(root, outputId = createOutputId(), number = 1) {
 }
 const recordFile = (journal, outputId, kind) => path.join(journal.directory, `${outputId}.${kind}.json`);
 
-test('descriptive provenance rejects semantic contradictions without weakening generated recognition', () => {
+test('descriptive provenance preserves earlier CQ32 generations after the helper change and rejects contradictions', () => {
   const { describeRecipe, ARCHIVE_RECIPE } = require('../src/media.cjs');
   const { generationDescriptionOf, GENERATION_KEY } = require('../src/provenance.cjs');
-  const settings = { profileId: 'h265-nvidia', preset: 'p7', quality: 24, recipeId: ARCHIVE_RECIPE.id };
+  const settings = { profileId: 'h265-nvidia', preset: 'p7', quality: 32, recipeId: ARCHIVE_RECIPE.id };
   const recipe = describeRecipe(settings);
   const description = { version: 1, ...settings, codec: recipe.codec, backend: recipe.backend, encoder: recipe.encoder,
     qualityMode: recipe.qualityMode, bitDepth: 8, encoderArgs: recipe.args, appVersion: '0.6.0-dev.1', createdAt: '2026-09-19T12:00:00.000Z' };

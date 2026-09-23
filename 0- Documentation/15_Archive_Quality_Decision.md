@@ -1,3 +1,5 @@
+> September24: [Decision17](17_Archive_Quality_Field_Decision.md) supersedes this document's preferred CQ32 starting point with CQ29 after Ahmed's field feedback. The measurements and historical decision below remain unchanged and valid for their original scope.
+
 # Decision — HEVC Archive Quality starting recipe
 
 Date: September20,2026. Human product authority: Ahmed. Mother Thread / strategic review: ChatGPT — GPT-5.6 Sol / Jerry. Engineering executor: Codex — GPT-6 Astra — Ultra effort, autonomous execution. Authority: binding September19 amendment14. This engineering selection does not itself accept L/M or establish subjective equivalence.

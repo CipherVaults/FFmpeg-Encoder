@@ -17,7 +17,7 @@ media.cjs now supplies canonical encoderContribution/describeRecipe and the actu
 Archive Quality is a separate HEVC helper (P7/UHQ/fullres/VBR-CQ29/bf4/B-ref each), with editable ordinary preset/CQ and visible additional options. Tested Defaults remain unchanged. The recipe gets96-frame8/10-bit encode/probe/decode checks plus complete picture types/four-B structure; ordinary profiles retain two-frame checks. Device checks are not a perceptual benchmark. See Decision17 for the current CQ choice, Decision15 for historical selection and reference-graph/Ada limits.
 
 
-Current through September24: J/K/L are accepted; fresh M runtime passes and final independent acceptance is being reconciled. Immutable local0.5 retains I acceptance. Dated reports hold the requirement/evidence maps.
+Current through September24: J/K/L are accepted; M is accepted after independent review and parent synchronization. Immutable local0.5 retains I acceptance. Dated reports hold the requirement/evidence maps.
 
 ## Identity and purpose
 

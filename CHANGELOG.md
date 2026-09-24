@@ -1,12 +1,12 @@
 # Changelog
 
-## 0.6.0 — September 24, 2026 local acceptance reconciliation
+## 0.6.0 — Local portable acceptance, September 24, 2026
 
 - Fast persistent inspection reuse, safe same-folder workflow, remembered folders/per-profile settings and compact preview; accepted J/K preserved.
 - Intentional per-file generated-output re-encoding, descriptive provenance and canonical encoder/help/resolved-argv transparency; expert controls stay directly editable.
 - Phone MP4 stream timestamps retained as exact Matroska SOURCE_CREATION_TIME aliases with visible notices. Source refusals name identity fields and log comparisons; strict source protection remains.
 - Archive Quality helper now starts at CQ29 after35 field cases and independent review; P7/UHQ/fullres/VBR-CQ/bf4/B-ref each unchanged. Six ordinary defaults and previously savedCQ32 values remain intact. Decision17 supersedes only historical Decision15's preferredCQ.
--281 direct checks and affected native endpoints pass. Fresh portableZIP passes20cases/four process sessions including CPU/Blackwell/phone encodes, same-folder re-encoding, persistence, skip/cancel/restart and shutdown; final independent review and documentation checkpoint are being reconciled. Accepted0.5 artifact/tag unchanged.
+-281 direct checks and affected native endpoints pass. Fresh portableZIP passes20cases/four process sessions including CPU/Blackwell/phone encodes, same-folder re-encoding, persistence, skip/cancel/restart and shutdown; independent final M review and parent documentation synchronization pass; local-v0.6.0 records the accepted checkpoint. Accepted0.5 artifact/tag unchanged.
 
 Earlier entries retain the state at their dates; their then-open gates are superseded by the final September24 M report.
 

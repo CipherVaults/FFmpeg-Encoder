@@ -1,4 +1,4 @@
-> September24 acceptance progress: J/K/L remain accepted; field16 corrections/Decision17 and the fresh M runtime pass. Final independent review, parent synchronization and local-v0.6.0 checkpoint are being reconciled in the [M report](Execution%20Summaries/2026-09-24_Portable_0.6_Acceptance.md). The approved requirements below retain their historical wording.
+> September24 acceptance progress: J/K/L remain accepted; field16 corrections/Decision17 and the fresh M runtime pass. J–M including amendments13/14/16 are accepted after independent review and parent synchronization; local-v0.6.0 anchors the closure documented in the [M report](Execution%20Summaries/2026-09-24_Portable_0.6_Acceptance.md). The approved requirements below retain their historical wording.
 
 > September 23 field-QA amendment: [binding note16](16_Approved_0.6_Field_QA_Amendment.md) adds Samsung preservation, source-identity diagnostics and real-field Archive CQ acceptance gates. Historical L/Decision15 remain intact; final M requires corrections, fresh ZIP and independent evidence.
 

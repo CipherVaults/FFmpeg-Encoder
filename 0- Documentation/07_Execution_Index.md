@@ -29,3 +29,5 @@ The latest [Current State](01_Current_State.md) owns the overall status. A futur
 - [September24 — Field quality independent review](Execution%20Summaries/2026-09-24_Field_Quality_Independent_Review.md): audits35cases,51packetlists,26new metric records and9historical outputs; no blocking defect in the boundedCQ29 decision.
 
 - [September24 — Portable0.6 acceptance](Execution%20Summaries/2026-09-24_Portable_0.6_Acceptance.md) and [compact evidence](Execution%20Summaries/2026-09-24_Portable_0.6_Evidence.json): source7b41c0f, freshZIP,20 packaged cases/four sessions,281direct/currentnative checks, accepted0.5 hash protection; final independent disposition and parent checkpoint are recorded there.
+
+- [September24 — Independent final M review](Execution%20Summaries/2026-09-24_M_Independent_Review.md): no unresolved approved blocker. Parent synchronized all affected source-of-truth documents and closes local-v0.6.0 at the documentation acceptance commit.

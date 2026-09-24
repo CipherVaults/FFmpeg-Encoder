@@ -42,7 +42,7 @@ Prefer portable tools already available and project-local dependencies. Use Powe
 
 ## Current closure state
 
-September24: source7b41c0f and the fresh portable0.6 runtime pass all current direct/native/packaged checks. Field issues are corrected or honestly narrowed under Decision17 and the dated field reports. Final independent M review and parent acceptance checkpoint remain; see Current State/Continuation and the September24 Portable0.6 Acceptance report. Do not restart J/K/L, repeat the cold archive run or completed35-case benchmark. No production drift is allowed against the tested ZIP without a new build/affected verification.
+September24: source7b41c0f and the fresh portable0.6 runtime pass all current direct/native/packaged checks. Field issues are corrected or honestly narrowed under Decision17 and the dated field reports. Independent final M review and parent synchronization now pass; J–M are accepted and the documentation closure is tagged local-v0.6.0. The approved Goal is complete; do not resume engineering or invent backlog work. Future scope needs Ahmed's direction. See Current State/Continuation and the September24 Portable0.6 Acceptance report. Do not restart J/K/L, repeat the cold archive run or completed35-case benchmark. No production drift is allowed against the tested ZIP without a new build/affected verification.
 
 ## Approved 0.6 scope and historical amendments
 

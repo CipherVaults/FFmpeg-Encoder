@@ -2,7 +2,7 @@
 
 A local Windows desktop encoder for large gameplay/OBS archives, with directly editable H.264, H.265 and AV1 controls for CPU and supported NVIDIA hardware.
 
-The fresh **0.6.0 portable runtime is verified**; final independent M acceptance is being reconciled in the [acceptance report](0-%20Documentation/Execution%20Summaries/2026-09-24_Portable_0.6_Acceptance.md). The accepted 0.5 tag and ZIP remain unchanged. This is an unsigned local package; independent clean-machine compatibility and public distribution are separate work.
+**0.6.0 is locally accepted** after independent review, with a recoverable local-v0.6.0 checkpoint. The [acceptance report](0-%20Documentation/Execution%20Summaries/2026-09-24_Portable_0.6_Acceptance.md) identifies the exact artifact and evidence limits. The accepted 0.5 tag and ZIP remain unchanged. This is an unsigned local package; independent clean-machine compatibility and public distribution are separate work.
 
 ## Run the portable application
 

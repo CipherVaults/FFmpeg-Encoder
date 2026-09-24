@@ -1,6 +1,6 @@
 # Current state — September 24, 2026
 
-The amended local 0.6 implementation and fresh portable runtime are verified. **Final independent M review and acceptance checkpoint are being reconciled; no local-v0.6.0 tag yet.** J/K/L remain accepted. Production source is checkpoint 7b41c0f on codex/archive-workflow; subsequent closure work changes documentation only.
+**The amended local 0.6 Goal is accepted through J–M.** Independent final M review found no unresolved approved blocker, and parent documentation synchronization is complete. The commit containing this disposition is the recoverable local-v0.6.0 checkpoint. J/K/L remain accepted. Production source is checkpoint 7b41c0f on codex/archive-workflow; subsequent closure work changes documentation only.
 
 ## Product and field-QA outcome
 
@@ -23,4 +23,4 @@ local-v0.5.0 remains f3efdeb47531106a740efb55299c5251b9a7a505. Its original ZIP 
 
 Same-machine portability is verified; independent clean-machine and Ada hardware acceptance are not. Phone2 null-mux decode exits0 with four retained non-monotonic DTS warnings; no warning-free claim is made. CQ29 is an engineering starting point, not Ahmed's subjective continuous-motion approval. No public/GitHub release, global changes, credits, storage repairs or unrelated scope was performed. New product work still needs Ahmed's direction.
 
-Read [Continuation State](10_Continuation_State.md) for the exact closing action. The dated execution reports and cumulative Session Summary preserve recovery history; do not restart accepted J/K/L or completed field research.
+Read [Continuation State](10_Continuation_State.md) for terminal anchors and the completion control sequence. The dated execution reports and cumulative Session Summary preserve recovery history; do not restart accepted J/K/L or completed field research.

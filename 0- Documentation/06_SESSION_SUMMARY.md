@@ -1,3 +1,11 @@
+# September 24, 2026 — Field corrections and fresh M runtime verified
+
+Recovered completed field research and later packaged evidence across quota windows without restarting accepted J/K/L or the cold OBS campaign. Phone MP4 track timestamps now survive in exact Matroska aliases with visible notices; source errors identify fields while retaining strict checks because sparse equality cannot prove unchanged full content. Historical long-OBS refusal remains honestly narrowed to retained ctime-only evidence, not a fabricated failure-time diagnosis.
+
+Decision17 selects editableCQ29 after35cases and independent metric/argv/ratio/full-size-still review; ordinary defaults and rememberedCQ32 remain.281direct checks and affected native re-encoding/Archive/field endpoints pass. Fresh source7b41c0f ZIP (321231543bytes;SHA2563b7c72ea3252dd9c3fff2d83227e3b5b04badf642b748c606063e339ead6f5bb) passed20 actual extracted cases/four sessions with25 protected files and complete owned-process shutdown. Parent verified live packaged hashes and unchanged0.5 tag/ZIP. Independent final M review and documentation/acceptance checkpoint remain at this entry's creation; see the dated M report for final disposition.
+
+No claim of human motion acceptance, universal size ratio, x265 equivalence, Ada/clean-machine verification or warning-free phone2 decode. Same heartbeat was aligned to the live reset; no credit/global/public/unrelated action occurred. Earlier entries below preserve their historical state and do not instruct repeated work.
+
 September23 field correction update:280direct tests and nativephone/ctime diagnostics pass. Exact stream timestamps retained with explicit alias/UI notice; source policy remains strict after harmlessctime and trueunsampled-edit counterexamples. Formal diagnosis companions and evidence hashes saved. Broader CQ benchmark now running from eight prepared references; no preferredCQchange or finalMacceptance yet.
 
 # September 23, 2026 — M recovered; field QA reopened final acceptance
@@ -652,6 +660,3 @@ Example:
 
 
 \---
-
-
-September24 continuation: recovered completed35-case comparison withoutrepeatingencodes; choseeditableCQ29 with unchangedcompound/defaults and explicitlimits underDecision17.281direct tests and updatedamended/Archive8/10native endpoints pass. Newportablecandidate next; no finalMtag.

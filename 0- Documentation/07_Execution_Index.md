@@ -18,10 +18,14 @@ The latest [Current State](01_Current_State.md) owns the overall status. A futur
 
 - [September10 — Safe output beside originals](Execution%20Summaries/2026-09-10_Same_Folder.md): K accepted; provenance, atomic publication, guarded cleanup,209 tests and native endpoint/recovery evidence.
 
-- [September20 — Amended L workflow](Execution Summaries/2026-09-20_Amended_L_Workflow.md): accepted preferences/compact preview, intentional generations, canonical argv/help and benchmark-selected Archive Quality;269 direct tests, native endpoints, independent closure and parent synchronization. M next.
+- [September20 — Amended L workflow](Execution%20Summaries/2026-09-20_Amended_L_Workflow.md): accepted preferences/compact preview, intentional generations, canonical argv/help and benchmark-selected Archive Quality;269 direct tests, native endpoints, independent closure and parent synchronization. M is covered by the September24 report.
 
-- [September23 — M Field QA (in progress)](Execution Summaries/2026-09-23_M_Field_QA.md): later packaged evidence recovered; Samsung compatibility, source identity and CQ field acceptance are open. No final0.6 tag.
+- [September23 — M Field QA recovery history](Execution%20Summaries/2026-09-23_M_Field_QA.md): later packaged evidence recovered; field issues subsequently corrected/narrowed under the September24 acceptance map.
 
-- September23 field diagnosis companions: [Phone metadata](Execution Summaries/2026-09-23_Phone_Metadata_Field_Diagnosis.md), [Source identity](Execution Summaries/2026-09-23_Source_Identity_Field_Diagnosis.md), and [compact evidence](Execution Summaries/2026-09-23_Field_Fix_Evidence.json). Source fixes pass280direct/nativefield checks; finalM andCQ remain open.
+- September23 field diagnosis companions: [Phone metadata](Execution%20Summaries/2026-09-23_Phone_Metadata_Field_Diagnosis.md), [Source identity](Execution%20Summaries/2026-09-23_Source_Identity_Field_Diagnosis.md), and [compact evidence](Execution%20Summaries/2026-09-23_Field_Fix_Evidence.json). Source fixes pass280direct/nativefield checks; final disposition and281-current-tests are recorded in the September24 report.
 
-- September24: [Field CQ decision17](17_Archive_Quality_Field_Decision.md) and [35-case evidence](Execution Summaries/2026-09-24_Field_Quality_Evidence.json); helperCQ29, broaderfield/nativeverified, portableM pending.
+- September24: [Field CQ decision17](17_Archive_Quality_Field_Decision.md) and [35-case evidence](Execution%20Summaries/2026-09-24_Field_Quality_Evidence.json); helperCQ29, field/nativeverified; portable closure is in the September24 report.
+
+- [September24 — Field quality independent review](Execution%20Summaries/2026-09-24_Field_Quality_Independent_Review.md): audits35cases,51packetlists,26new metric records and9historical outputs; no blocking defect in the boundedCQ29 decision.
+
+- [September24 — Portable0.6 acceptance](Execution%20Summaries/2026-09-24_Portable_0.6_Acceptance.md) and [compact evidence](Execution%20Summaries/2026-09-24_Portable_0.6_Evidence.json): source7b41c0f, freshZIP,20 packaged cases/four sessions,281direct/currentnative checks, accepted0.5 hash protection; final independent disposition and parent checkpoint are recorded there.

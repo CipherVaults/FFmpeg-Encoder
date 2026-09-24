@@ -1,0 +1,216 @@
+{
+  "schemaVersion": 1,
+  "verifiedAtUtc": "2026-09-24T02:29:54.268Z",
+  "acceptance": "Runtime verified; final independent review and parent acceptance disposition in companion Markdown.",
+  "sourceCommit": "7b41c0f62151f9e6c2a8fa6da5e623fc645abe97",
+  "buildReport": {
+    "path": "out/portable-2026-09-23T21-19-15-055Z-196Mpn/build-report.json",
+    "sha256": "0c3ab9e9b3aa385d5a87626a7253c9b64263cdc970b6030f3ff1378d45c992e7"
+  },
+  "zip": {
+    "path": "D:\\Codex Projects\\FFmpeg Encoder\\out\\portable-2026-09-23T21-19-15-055Z-196Mpn\\zip\\FFmpeg-Encoder-0.6.0-win32-x64.zip",
+    "sizeBytes": 321231543,
+    "sha256": "3b7c72ea3252dd9c3fff2d83227e3b5b04badf642b748c606063e339ead6f5bb"
+  },
+  "runtimeReport": {
+    "path": "artifacts/portable-acceptance-Kz7PEX/report.json",
+    "sha256": "b555ab676d9fe4cfd47ff3f4e6cdeb30a90c2ff27c7521e8d4ee1d407488a83c",
+    "startedAtUtc": "2026-09-23T21:24:31.911Z",
+    "finishedAtUtc": "2026-09-23T21:26:04.980Z",
+    "status": "passed",
+    "cases": 20,
+    "sessions": 4,
+    "protectedFiles": 25,
+    "runtimeChecksPassed": true,
+    "closed": true,
+    "protectedFilesVerifiedAfterShutdown": true,
+    "errors": [],
+    "cleanupErrors": [],
+    "remainingProcesses": []
+  },
+  "harness": {
+    "path": "scripts/portable-smoke.cjs",
+    "sha256": "1265fba4753d78fd5617a8e6f9b05e80661bb8af9c1b812c42b26fad31a8d39d"
+  },
+  "checks": [
+    "ZIP integrity and exact extracted inventory match the verified build; executable, ASAR, resources and notices match recorded hashes",
+    "Actual extracted version0.6.0 uses its ASAR, adjacent data, bundled resources, exact 17-method isolated bridge, alternate cwd and restricted PATH.",
+    "Every actual process session verifies a working control fetch, proxy failure, matching application proxy and local-origin reload.",
+    "Two new sources inspect cold, then reuse with zero media-inspection ffprobe calls in warm and actual-process-restart preparations; remembered values/folders restore with fresh folder/plan/file IDs and stale prior-process authority fails.",
+    "Offline extracted app completes two real encodes/full decodes and skips existing outputs without changing hashes",
+    "Cancellation stops the exact bundled child and queued work, cleans bound owned output or explicitly retains unbound stages safely; a distinct subsequent batch completes two real outputs",
+    "Packaged RTX5060 Archive Quality P7/UHQ/fullres/VBR-CQ29/bf4/B-ref each follows UI to main to displayed prepared argv to two sequential real spawns; rich8/10-bit outputs fully decode and validate preservation.",
+    "Same-folder publication marks/describes generated outputs and excludes them on rescan; Archive preferences survive an actual process restart while re-encode grants expire.",
+    "One explicitly chosen unchanged generated Archive output re-encodes with CPU H264/veryfast/CRF24 through displayed and spawned argv; unrelated generated output remains excluded, the next generation validates/fully decodes, and fresh preparation excludes all generated outputs again.",
+    "Two owned Samsung excerpts complete in the extracted app with visible metadata notices, exact per-track SOURCE_CREATION_TIME aliases, displayed/spawned argv equality, successful full decode and same-folder generated exclusion; decode warnings are retained.",
+    "Prepare-only changed/new files alone launch fresh inspection; one deliberately corrupted disk record falls back to fresh inspection after actual restart while unaffected files reuse.",
+    "Packaged preview keeps legacy and invalid-marker fixtures non-ready; Tested Default resets only the current profile, cache clear preserves settings/provenance, and forgetting preferences removes folder authority while preserving provenance and all media hashes.",
+    "Actual extracted main PID and all observed/remaining bundled media children are absent after close; every source and completed-output hash remains unchanged through shutdown"
+  ],
+  "limitations": [
+    "Same-machine portable extraction; no claim of independent clean-machine or other GPU compatibility.",
+    "Native dialog returns are substituted in this harness. Real Windows folder selection has separate H evidence.",
+    "Offline acceptance uses verified unreachable-proxy/resolver restrictions in Electron sessions/processes, not physical disconnection or a machine firewall change; it does not sandbox hypothetical main-process Node sockets.",
+    "Playwright debugging attaches only for verification. The distributed application has no automation workflow or background encoding feature.",
+    "Tool argv and cache calls are observed through the packaged service runner without replacing execution. Windows independently identifies the real main processes and the cancellation child; short completed jobs can escape OS sampling.",
+    "Generated owned fixtures cover the amended packaged path. Accepted L/H profile, layout, race and preservation evidence is reused; no broad profile or personal-media benchmark is repeated.",
+    "Phone field coverage uses two existing owned three-second excerpts retaining Samsung stream tags; personal recordings are never opened by this harness. Decode stderr is retained, including any source timing warnings."
+  ],
+  "reusedEvidence": [
+    "Accepted J/K/L fixed-NTFS helper-failure fallback, destination-race/no-overwrite and large60-row preview evidence applies to unchanged packaged modules verified by the build hashes; these full injected/race/large-batch cases are not repeated here.",
+    "Accepted L/H broad six-profile options, unavailable devices, accessibility/layout matrices and remaining source/stream edge cases are not expanded in this portable delta run."
+  ],
+  "livePackagedSourceAndResourceHashes": [
+    {
+      "path": "main.js",
+      "sha256": "03bff10fbd1db22d94051523f9f2a56318944a0df470bdf7716ad159fffeec36",
+      "verified": true
+    },
+    {
+      "path": "package.json",
+      "sha256": "031d7f703ba428c3a3f211cbeb62ddd4597c9847ab26d624ba91ead30edc7509",
+      "verified": true
+    },
+    {
+      "path": "preload.js",
+      "sha256": "5b5646554a4b401d5bd249bbd674afa2162eac18757822da9d4ef11ca694df08",
+      "verified": true
+    },
+    {
+      "path": "src/capabilities.cjs",
+      "sha256": "6ab330df965fa28af495c8064d0535806b1119730bd28d2c74b7867f5292326f",
+      "verified": true
+    },
+    {
+      "path": "src/encoder-service.cjs",
+      "sha256": "1a274a8e040a36d6285f6bcb0307195de7322db4ea92dcc3d97130c949810d6e",
+      "verified": true
+    },
+    {
+      "path": "src/inspection-cache.cjs",
+      "sha256": "a8df2a0b65a4c4117e1efb903710ff159335424d4f3645adb53b99b278e55de1",
+      "verified": true
+    },
+    {
+      "path": "src/inspection.cjs",
+      "sha256": "605228feaad04f77e916088ab4d7dcebad300851e7f7f748733e9a6eee977363",
+      "verified": true
+    },
+    {
+      "path": "src/ipc.cjs",
+      "sha256": "c0fe15b8ac989934811c318725b5cd59d4be295cd36a52fe7a965882ac5b9b7a",
+      "verified": true
+    },
+    {
+      "path": "src/local-protocol.cjs",
+      "sha256": "4bfd2c041224594d3f67e766e73bb692fc4345bc449193fdecc6b40dca1fc08b",
+      "verified": true
+    },
+    {
+      "path": "src/media.cjs",
+      "sha256": "1b876cdc84299fe5c2c6209769a8afcf48fdba968be681bf61d8d9cf768f1dd0",
+      "verified": true
+    },
+    {
+      "path": "src/outputs.cjs",
+      "sha256": "357ec640a8a6f89bfe5aeb50ace2bb4741df8da35c8c3b0d7fc73623d375a86b",
+      "verified": true
+    },
+    {
+      "path": "src/preferences.cjs",
+      "sha256": "5e4cec59653e60d047efe5cb8505a8860d24aefcf164da9a1887e9a8e898cc59",
+      "verified": true
+    },
+    {
+      "path": "src/process-runner.cjs",
+      "sha256": "5cd5a2812821f492fad6c7aaead9ea78a9f38c9dcbf930d907c998a4d06505f5",
+      "verified": true
+    },
+    {
+      "path": "src/provenance.cjs",
+      "sha256": "7ab92ac9171359daa525cc1579d3fd6baaac4008e389af757216d73e2e78f3e4",
+      "verified": true
+    },
+    {
+      "path": "src/source-identity.cjs",
+      "sha256": "0a3191e4bc10a9cdd25e60141693cb5902cf286de0592bf6f8caaeb782cf632e",
+      "verified": true
+    },
+    {
+      "path": "src/storage-eligibility.cjs",
+      "sha256": "a03a88ed0820beb807719d0e92ddbd761932efa8a11e9891cc6893902f930196",
+      "verified": true
+    },
+    {
+      "path": "ui/index.html",
+      "sha256": "a0746bb53fd30fcd21872d693776dfe01683bf7fade96f2fcfbdb315d24fec89",
+      "verified": true
+    },
+    {
+      "path": "ui/renderer.js",
+      "sha256": "cb860812bb56a0f85af14756c05292cfe36e7b348e3169d90402f9dc3097b497",
+      "verified": true
+    },
+    {
+      "path": "ui/styles.css",
+      "sha256": "7593b7673ad3871cf3a826e8380e7e4acf2e7ba6c1cf4455bfb07d620c9001cf",
+      "verified": true
+    },
+    {
+      "path": "ffmpeg/ffmpeg.exe",
+      "sha256": "57c56e369d5b4873b4d93fc1a1d833cb7cd8bc9325c14b05c34ce60b22842d8a",
+      "verified": true
+    },
+    {
+      "path": "ffmpeg/ffprobe.exe",
+      "sha256": "afe05347caaabe479b3c4eae71992b6ec1e11c57266a1d665deb0f9fe9847208",
+      "verified": true
+    },
+    {
+      "path": "resources/third-party/FFmpeg-LICENSE.txt",
+      "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
+      "verified": true
+    },
+    {
+      "path": "resources/third-party/FFmpeg-README.txt",
+      "sha256": "9d734beeeafa8b187693880ceb2cd5f0cf436151da72cce31fb1afa1d3726b25",
+      "verified": true
+    },
+    {
+      "path": "resources/binary-manifest.json",
+      "sha256": "0d4c1d550fa4743643a765c1e6f812dfd23f4ced2718f971dda1eac5f3a9f226",
+      "verified": true
+    },
+    {
+      "path": "resources/PORTABLE_README.txt",
+      "sha256": "3de03bf22c7603ec10831ff0554c899f0a7d7ca87c8114e1daad6369d4e1e707",
+      "verified": true
+    }
+  ],
+  "preservedBaseline": {
+    "tag": "local-v0.5.0",
+    "commit": "f3efdeb47531106a740efb55299c5251b9a7a505",
+    "zip": "out/FFmpeg-Encoder-0.5.0-win32-x64.zip",
+    "sizeBytes": 321189914,
+    "sha256": "a984e102f1cf404239690e709f585d33028f851bc3e66d914e41f43d334a517f"
+  },
+  "directTests": {
+    "path": "artifacts/field-cq29-direct-results.txt",
+    "sha256": "3034a41c40e6a7534c749b8fa3608d2ba743895305dc44bb372ae936f303373c",
+    "passed": 281
+  },
+  "nativeReports": [
+    {
+      "path": "artifacts/field-native-Sti4mC/report.json",
+      "sha256": "02e9fc208603b0e9114be01f139e40b37cac8db303af9d1fb1b44c618151dbbb"
+    },
+    {
+      "path": "artifacts/amended-workflow-smoke-1790198190950-9bcf0841/report.json",
+      "sha256": "50ea101ba4bd8cf26ea9b431060b396a7094be3dce844cad7ff0fd5653d2cce3"
+    },
+    {
+      "path": "artifacts/archive-quality-endpoint-smoke-1790198226673-4947b837/report.json",
+      "sha256": "75a76075557387f891cc75371617204d9c9072d09367d5b353c2e9fecf0f354a"
+    }
+  ]
+}

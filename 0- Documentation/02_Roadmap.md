@@ -1,7 +1,3 @@
-> September24: Archive Quality helper now starts at CQ29 under [Decision17](17_Archive_Quality_Field_Decision.md), superseding only the preferred CQ in historical15. Old remembered values/provenance stay intact; ordinary defaults unchanged.35 field cases and independent review support the bounded choice, with scene/quality limits.281direct checks plus updated amended/Archive native endpoints pass. Fresh packaged M remains pending.
-
-> September23 M delta: phone metadata representation correction and source-identity diagnostics verified in source app (280direct checks/nativefield). Broader CQ preference convergence, affected regression/independentreview and fresh portable M remain open under amendment16. Preserve historicalL/Decision15 and accepted0.5.
-
 # Roadmap
 
 The March roadmap is preserved in the legacy archive. This active roadmap implements the September 6, 2026 handoff and Ahmed's eight amendments. It records reality as work progresses; an approved row is not a completed row.
@@ -41,4 +37,9 @@ Private GitHub is intended but separately gated. A later genuinely accepted stan
 
 ## Approved local0.6 archive workflow (September9,2026)
 
-See11_Approved_0.6_Goal and12_Approved_0.6_Plan. J inspection reuse: accepted September 9 after153 passing tests, preserved60-file performance, supplemental59-file UI evidence, independent review and parent synchronization. K same-folder provenance/publication: accepted September10,209 tests, native CPU/NVIDIA endpoint, independent review and parent synchronization. L amended remembered workflow/compact preview/intentional re-encoding/command transparency/Archive Quality: accepted September20 with269 tests, native evidence, independent review and parent synchronization; see the Amended L Workflow report. M integrated separate portable0.6 acceptance: next, not accepted. No0.6 endpoint tag exists. Historical A–I remain accepted.
+See11_Approved_0.6_Goal and12_Approved_0.6_Plan. J inspection reuse: accepted September 9 after153 passing tests, preserved60-file performance, supplemental59-file UI evidence, independent review and parent synchronization. K same-folder provenance/publication: accepted September10,209 tests, native CPU/NVIDIA endpoint, independent review and parent synchronization. L amended remembered workflow/compact preview/intentional re-encoding/command transparency/Archive Quality: accepted September20 with269 tests, native evidence, independent review and parent synchronization; see the Amended L Workflow report. M fresh portable0.6 runtime passes20 cases/four sessions at source7b41c0f; final independent review and parent acceptance checkpoint are being reconciled. Historical A–I remain accepted.
+
+
+## September24 field-QA disposition
+
+Samsung stream timestamps are retained with an exact Matroska alias and visible notice; source identity remains strict with field diagnostics and an honest historical-cause limit. Decision17 adopts editable CQ29 after35 field cases while preserving ordinary defaults and historical Decision15.281 current direct checks and affected native/packaged flows pass. The September24 M report owns final acceptance, the separate ZIP, rollback and evidence limits. No future backlog item is promoted by this closure.

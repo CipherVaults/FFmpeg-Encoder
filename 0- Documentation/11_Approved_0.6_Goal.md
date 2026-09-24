@@ -1,3 +1,5 @@
+> September24 acceptance progress: J/K/L remain accepted; field16 corrections/Decision17 and the fresh M runtime pass. Final independent review, parent synchronization and local-v0.6.0 checkpoint are being reconciled in the [M report](Execution%20Summaries/2026-09-24_Portable_0.6_Acceptance.md). The approved requirements below retain their historical wording.
+
 > September 23 field-QA amendment: [binding note16](16_Approved_0.6_Field_QA_Amendment.md) adds Samsung preservation, source-identity diagnostics and real-field Archive CQ acceptance gates. Historical L/Decision15 remain intact; final M requires corrections, fresh ZIP and independent evidence.
 
 > Superseding scope clarification: [September 19 binding Archive Quality amendment](14_Approved_0.6_Archive_Quality_Amendment.md) promotes only the HEVC Archive Quality Ada/Blackwell recipe into amended L/M. All new option, benchmark, native and portable acceptance gates apply; original Tested Defaults remain unchanged.

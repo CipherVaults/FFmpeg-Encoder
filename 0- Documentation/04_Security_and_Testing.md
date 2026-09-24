@@ -1,8 +1,12 @@
-> September24: Archive Quality helper now starts at CQ29 under [Decision17](17_Archive_Quality_Field_Decision.md), superseding only the preferred CQ in historical15. Old remembered values/provenance stay intact; ordinary defaults unchanged.35 field cases and independent review support the bounded choice, with scene/quality limits.281direct checks plus updated amended/Archive native endpoints pass. Fresh packaged M remains pending.
-
-> September23:280direct checks plus native field phone/identity evidence pass. Strictctime comparison remains because unsampled content edits with restoredmtime can share a sparse digest; do not treat matching sparse samples as a full-file proof. Exact before/after field diagnostics remain local. Timestamp alias fallback requires the same Matroska track and exact text; conflicts/missing/wrong values still fail. Full fresh packagedM and finalindependentreview are pending.
-
 # Security and testing
+
+## September24 field and packaged verification
+
+281 direct checks and current native phone/identity/re-encoding/Archive endpoints pass. The fresh actual portable run passes20 cases/four process sessions and preserves25 protected files through shutdown. All19 application sources and six resources match the build; exact ZIP and accepted0.5 hashes were rechecked. Final independent M disposition is in the September24 report.
+
+The metadata correction preserves exact track timestamps through a named alias, never ignores them. Conflicts/missing/wrong values remain errors. Strict ctime comparison is retained because an unsampled content edit with restored mtime can share a sparse digest. New diagnostic snapshots remain local. Null-mux decode warnings are retained and qualified, not silently called warning-free.
+
+Proportional reuse of accepted J/K/L race, helper-fallback, profile and layout evidence is explicit in the M map; the cold personal archive test was not repeated. Same-machine portability, verified Chromium transport restrictions and bounded quality evidence are kept distinct from clean-machine, general socket isolation, Ada hardware or human motion acceptance.
 
 ## Amended L evidence and invariants — September 20, 2026
 
@@ -10,7 +14,7 @@ The L report maps269 direct checks plus original workflow, intentional re-encodi
 
 Canonical display APIs return validated main-owned argument data only. Renderer cannot run/edit arbitrary commands; native reports confirm no Node globals and the named bridge. Descriptive metadata is not authenticated and never grants cleanup/IPC/path authority. Unknown or internally inconsistent descriptions do not become guessed settings.
 
-The independent reviewer required a longer recipe gate;96-frame complete picture-type and four-B-run evidence now supplements warning/probe/decode validation. Missing, malformed, truncated or incorrect structure fails closed. It does not prove every reference relationship. Recipe option warnings remain errors except the one exact intentional codec-override diagnostic. See15 for quality evidence; benchmark video-only cases do not substitute for the rich-stream actual-app endpoint, and neither substitutes for M packaged acceptance.
+The independent reviewer required a longer recipe gate;96-frame complete picture-type and four-B-run evidence now supplements warning/probe/decode validation. Missing, malformed, truncated or incorrect structure fails closed. It does not prove every reference relationship. Recipe option warnings remain errors except the one exact intentional codec-override diagnostic. See Decision17 for current quality selection and Decision15 for history; benchmark video-only cases do not substitute for the rich-stream actual-app endpoint, and neither substitutes for M packaged acceptance.
 
 
 This document defines the approved properties and acceptance evidence. Milestones F/G implement and verify the process/renderer/protocol boundaries. H closes product requirements through 89 automated checks, 110 accepted option cases, real application encodes/preservation/native folder selection and 25 layout scenarios; its Product Acceptance report maps each requirement to evidence and limits. A requirement in this file is not automatically a passing test result; link actual outcomes from the execution index.

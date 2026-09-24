@@ -1,12 +1,22 @@
 # Changelog
 
-## 0.6 field QA — September 23, 2026 (unreleased)
+## 0.6.0 — September 24, 2026 local acceptance reconciliation
+
+- Fast persistent inspection reuse, safe same-folder workflow, remembered folders/per-profile settings and compact preview; accepted J/K preserved.
+- Intentional per-file generated-output re-encoding, descriptive provenance and canonical encoder/help/resolved-argv transparency; expert controls stay directly editable.
+- Phone MP4 stream timestamps retained as exact Matroska SOURCE_CREATION_TIME aliases with visible notices. Source refusals name identity fields and log comparisons; strict source protection remains.
+- Archive Quality helper now starts at CQ29 after35 field cases and independent review; P7/UHQ/fullres/VBR-CQ/bf4/B-ref each unchanged. Six ordinary defaults and previously savedCQ32 values remain intact. Decision17 supersedes only historical Decision15's preferredCQ.
+-281 direct checks and affected native endpoints pass. Fresh portableZIP passes20cases/four process sessions including CPU/Blackwell/phone encodes, same-folder re-encoding, persistence, skip/cancel/restart and shutdown; final independent review and documentation checkpoint are being reconciled. Accepted0.5 artifact/tag unchanged.
+
+Earlier entries retain the state at their dates; their then-open gates are superseded by the final September24 M report.
+
+## 0.6 field QA — September 23, 2026 (historical progress)
 
 - Preserve exact MP4 stream timestamps as SOURCE_CREATION_TIME on the corresponding Matroska tracks. Preview explains the representation; conflicting aliases and other preservation failures remain errors. Inspection preservation policy2 invalidates older policy cache evidence.
 - Source-identity refusals identify differing fields and retain exact comparison snapshots in local logs. Strict checks remain because matching sparse samples cannot establish unchanged full content.
 -280 direct checks and native phone/identity regressions pass. Archive CQ field convergence and fresh portable M acceptance remain open; the original candidate is not the final release.
 
-## Amended0.6 L — September20,2026
+## Amended0.6 L — September20,2026 (historical acceptance)
 
 - Added validated local folder/per-profile preference restoration, independent resets, compact preview/filter/selection and keyboard-accessible canonical preset/default explanations.
 - Added explicit temporary generated-output re-encoding, trustworthy available/unknown previous-generation descriptions and actual main-owned prepared/executed argv display. Existing K protections remain.
@@ -64,7 +74,3 @@ Introduced the monitor view, file counters, progress/telemetry display, cancella
 Introduced Electron main/renderer structure, folder selection, settings UI, and the initial IPC interface.
 
 The complete original changelog is preserved in [the legacy archive](0-%20Documentation/Archive/Legacy%20March%202026/6-%20Changelog.md). Its original informal wording and proposed future features remain historical context.
-
-## Archive field follow-up — September24,2026 (unreleased)
-
-- Archive helper startingCQ changes32→29 after bounded35-case field comparison; compound options and ordinary defaults unchanged. Prior savedCQ32 and descriptive provenance remainvalid. Decision17 transparently supersedes thehistorical preferredCQ.281direct checks and current amended/Archive nativeendpoints pass; freshM pending.

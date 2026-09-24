@@ -4,10 +4,10 @@
 
 Expert profile/preset/CRF or CQ controls remain directly visible. Tested Default resets those ordinary controls; Archive Quality is a separate inspectable HEVC recipe. Hover or keyboard-focus the information controls, or expand Current encoding recipe. Prepared files expose the main-owned resolved argument array in their details. Before encoding, only the eventual protected temporary output path remains a clearly labelled placeholder.
 
-Remembered folders/settings restore locally after validation. A compact filtered preview keeps selection independent of which rows are shown. Generated outputs are excluded by default; explicitly choose Re-encode this output when another lossy generation is intentional. Treat as original instead corrects an ambiguous legacy filename classification. Neither permission persists into a new preparation. This short project explanation supplements the0.5 guide below; it is not a new final end-user manual.
+Remembered folders/settings restore locally after validation. A compact filtered preview keeps selection independent of which rows are shown. Generated outputs are excluded by default; explicitly choose Re-encode this output when another lossy generation is intentional. Treat as original instead corrects an ambiguous legacy filename classification. Neither permission persists into a new preparation. This short project explanation covers the local0.6 workflow; it is not a new final end-user manual.
 
 
-This guide explains the project for a reader who did not participate in its development. The architecture, product workflow and portable package are implemented and verified through the local 0.5.0 milestone. Current State and execution reports record the tested scope and remaining future work.
+This guide explains the project for a reader who did not participate in its development. The architecture, product workflow and portable package are implemented and verified through the local 0.6 runtime; the September24 M report records acceptance disposition. Current State and execution reports record the tested scope and remaining future work.
 
 ## The application and its engine
 
@@ -29,12 +29,12 @@ The app checks the actual shipped encoder and a short real encode before adverti
 
 ## A batch from beginning to end
 
-1. Choose separate input and output folders. The app scans supported top-level video files and presents a deterministic preview.
+1. Choose input and output folders; they may coincide on verified local fixed NTFS. The app scans supported top-level video files and presents a deterministic preview.
 2. Review the effective profile, output names, and any exclusions or conflicts. Existing outputs will be skipped. Two input stems that produce the same destination need an explicit selection.
 3. Main probes a selected video and checks whether its media/color information is supported. This milestone accepts supported SDR; it does not tone-map or preserve HDR video as a product feature.
 4. FFmpeg encodes one video at a time. Supported audio/subtitle streams, attachments, chapters, and metadata are preserved according to the explicit mapping policy.
 5. Progress records update the display. If duration is unknown, the app reports activity without inventing a precise percentage or finish time.
-6. The app verifies the completed temporary output and publishes it without replacing another file. The final result comes from process completion and validation, not simply a full progress bar.
+6. MP4 stream timestamps are represented as exact SOURCE_CREATION_TIME track tags with a preview notice. The app verifies the completed temporary output and publishes it without replacing another file. The final result comes from process completion and validation, not simply a full progress bar.
 7. Results show successful, failed, skipped, cancelled, and unprocessed files. A subsequent batch becomes available when all child activity and cleanup have settled.
 
 An output such as `clip_H265-CPU.mkv` describes the selected encoder family. Changing quality does not change that suffix, so choose another output folder when intentionally making a second variant. Original files are preserved.

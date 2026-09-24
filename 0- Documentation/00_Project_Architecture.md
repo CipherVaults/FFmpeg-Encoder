@@ -1,8 +1,10 @@
-> September24: Archive Quality helper now starts at CQ29 under [Decision17](17_Archive_Quality_Field_Decision.md), superseding only the preferred CQ in historical15. Old remembered values/provenance stay intact; ordinary defaults unchanged.35 field cases and independent review support the bounded choice, with scene/quality limits.281direct checks plus updated amended/Archive native endpoints pass. Fresh packaged M remains pending.
-
-> September23 field correction: canonical builder aliases mapped track creation_time to SOURCE_CREATION_TIME; inspection validates exact per-track value, refuses conflict and exposes a descriptive notice. Preservation policy2 invalidates prior cache evidence. Main retains strict source identity; mismatch diagnostics now carry field/checkpoint/expected/actual values to local results, without new IPC authority.
-
 # Project architecture
+
+## Field corrections and current verification
+
+The canonical builder preserves exact MP4 stream creation_time as SOURCE_CREATION_TIME on the same mapped Matroska track; validation requires the exact value and refuses conflicting aliases. Inspection derives the visible notice, including on cache hits, and preservation policy2 invalidates prior policy evidence. Other metadata/content checks remain strict. Source identity remains conservative; failures add bounded field/checkpoint/expected/actual diagnostics to local results without new IPC authority.
+
+The current helper is CQ29 under Decision17; six ordinary defaults and saved values are unchanged. The fresh packaged source/resources match checkpoint7b41c0f and pass actual extracted runtime checks. Final disposition is in the September24 M report.
 
 ## Amended L architecture — September 20, 2026
 
@@ -12,10 +14,10 @@ Generated files remain excluded by default. Separate explicit actions distinguis
 
 media.cjs now supplies canonical encoderContribution/describeRecipe and the actual prepared production argv. Main exposes narrow read-only recipe/details APIs; renderer cannot submit argv. Preparation freezes arguments with one labelled temporary-output placeholder; execution substitutes only its final staging path and exposes the resulting actual invocation. JSON argument arrays avoid pretending to be a Windows shell command. Three exact global application provenance tags may be replaced on re-encoding; ordinary, stream and chapter metadata remain subject to preservation checks.
 
-Archive Quality is a separate HEVC helper (P7/UHQ/fullres/VBR-CQ32/bf4/B-ref each), with editable ordinary preset/CQ and visible additional options. Tested Defaults remain unchanged. The recipe gets96-frame8/10-bit encode/probe/decode checks plus complete picture types/four-B structure; ordinary profiles retain two-frame checks. Device checks are not a perceptual benchmark. See15 for selection evidence and reference-graph/Ada limits.
+Archive Quality is a separate HEVC helper (P7/UHQ/fullres/VBR-CQ29/bf4/B-ref each), with editable ordinary preset/CQ and visible additional options. Tested Defaults remain unchanged. The recipe gets96-frame8/10-bit encode/probe/decode checks plus complete picture types/four-B structure; ordinary profiles retain two-frame checks. Device checks are not a perceptual benchmark. See Decision17 for the current CQ choice, Decision15 for historical selection and reference-graph/Ada limits.
 
 
-Updated September10,2026 through accepted J/K. Inspection Reuse and Same Folder reports hold requirement/evidence maps. Immutable local0.5 retains I acceptance; L/M remain unfinished.
+Current through September24: J/K/L are accepted; fresh M runtime passes and final independent acceptance is being reconciled. Immutable local0.5 retains I acceptance. Dated reports hold the requirement/evidence maps.
 
 ## Identity and purpose
 
@@ -57,7 +59,7 @@ Encoding uses one sequential queue. Preparation may use two independent inspecti
 
 Main derives a current source identity in source-identity.cjs, asks the bounded optional storage-eligibility.cjs helper whether persistent reuse is supported, and consults inspection-cache.cjs. The cache contains normalized metadata and bounded decoded-frame evidence, not permissions, paths supplied by the renderer, plans, settings, destination absence or hardware availability. inspection.cjs reconstructs policy decisions from that evidence on each hit. Missing or unusable cache/helper state falls back to fresh inspection.
 
-The evidence namespace binds the actual ffprobe binary hash, policy/schema versions, canonical file identity and a versioned sparse digest. Entries are independently bounded, atomically stored and evicted only inside the cache namespace. Output provenance has its separate provenance-v1 lifetime; preferences remain the upcoming L namespace. Current before/after source, mapping, settings, hardware and destination checks still apply. A cooperative local-file identity is not a claim of cryptographic whole-file equality against deliberately concealed changes.
+The evidence namespace binds the actual ffprobe binary hash, policy/schema versions, canonical file identity and a versioned sparse digest. Entries are independently bounded, atomically stored and evicted only inside the cache namespace. Output provenance has its separate provenance-v1 lifetime; preferences have their own independent namespace. Current before/after source, mapping, settings, hardware and destination checks still apply. A cooperative local-file identity is not a claim of cryptographic whole-file equality against deliberately concealed changes.
 
 ## Media and output boundary
 
@@ -81,7 +83,7 @@ Current State records what exists now. Roadmap records milestone progress. Techn
 
 The Windows x64 ZIP contains a branded Electron executable, its runtime assets, an exact application ASAR and resources/ffmpeg/ffmpeg.exe plus ffprobe.exe. Binary provenance, portable instructions and third-party notices accompany it. No development packages or prior data are included. Main configures both userData and sessionData before readiness and the single-instance lock: packaged data lives beside the executable, while active 0.6 development defaults to data-next-0.6 to isolate accepted 0.5 state. An explicit --user-data-dir remains supported. Paths never depend on the working directory or a global FFmpeg installation.
 
-The direct pinned Packager builder and existing 7-Zip produce fresh, independently verified artifacts. The portable test launches the actual extracted executable and records hashes, runtime/process paths, network restrictions and workflow results; see the I report for its same-machine scope.
+The direct pinned Packager builder and existing 7-Zip produce fresh, independently verified artifacts. The portable test launches the actual extracted executable and records hashes, runtime/process paths, network restrictions and workflow results; see the I and September24 M reports for their same-machine scope.
 
 ## Provenance and publication (K)
 

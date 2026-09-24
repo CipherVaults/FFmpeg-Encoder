@@ -13,7 +13,7 @@ This decision supersedes **the preferred CQ choice only** in [Decision 15](15_Ar
 
 ## Evidence and bounded method
 
-The [field evidence record](Execution Summaries/2026-09-24_Field_Quality_Evidence.json) preserves all35 cases and report/script hashes. Raw report, full-resolution stills, lossless reference/field clips, candidate clips, exact commands, FFprobe JSON, decode logs and per-frame VMAF are in `artifacts/field-quality-20260923`.
+The [field evidence record](Execution%20Summaries/2026-09-24_Field_Quality_Evidence.json) preserves all35 cases and report/script hashes. Raw report, full-resolution stills, lossless reference/field clips, candidate clips, exact commands, FFprobe JSON, decode logs and per-frame VMAF are in `artifacts/field-quality-20260923`.
 
 Eight8-second,480-frame,1920×1080/60fps/8-bit BT709 segments span four completed real recordings. They cover town detail, dark interior, combat smoke, rocky/scanner detail, fast track foliage, cockpit motion, grass/crates and flowers/foliage. Three original references and nine completed historical cases were reused by hash; no original campaign was repeated. Additional CQ29 was tested only on the three difficult texture scenes after CQ30 still trailed the x265 reference. All personal original/generated files stayed read-only, with bounded before/after identities checked.
 
@@ -54,3 +54,5 @@ These are selected stills and supporting temporal metrics, not a blinded human c
 ## Integration / rollback
 
 Same recipe ID and extra options remain valid; the recommendation's scalar changes to29. Preferences/provenance are not migrated or relabelled. Regression tests cover oldCQ32 descriptions and remembered values, currentCQ29 argv, and unchanged ordinary defaults. Reverting this decision changes the helper starting point without deleting media or state. Any production change requires a fresh portable candidate. Accepted local0.5 and the historical0.6candidate remain unchanged; neither is overwritten.
+
+Independent closure of this bounded choice: [September24 field-quality review](Execution%20Summaries/2026-09-24_Field_Quality_Independent_Review.md) recomputed51packetlists,35ratios/options,26new480-frame metric records and9historicaloutput hashes; inspected9full-resolution reference/CQ32/CQ29 stills. No blocking evidence defect found; the stated subjective, whole-file and hardware limits remain. Native/currentpackaged gates remain separate.

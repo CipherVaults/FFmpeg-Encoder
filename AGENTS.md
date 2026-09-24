@@ -1,6 +1,6 @@
 # FFmpeg Encoder: agent operating context
 
-This is Ahmed's long-paused existing Electron application, resumed through the September 6, 2026 Mother Thread handoff and amended execution approval. Preserve its history and explain changes for a future programmer. The accepted local-v0.5.0 baseline is immutable; the active approved objective is local 0.6.0 through J–M in `0- Documentation/11_Approved_0.6_Goal.md` and `12_Approved_0.6_Plan.md`; the old npm `1.0.0` value was scaffold metadata.
+This is Ahmed's long-paused existing Electron application, resumed through the September 6, 2026 Mother Thread handoff and amended execution approval. Preserve its history and explain changes for a future programmer. The accepted local-v0.5.0 baseline is immutable; the approved objective is local 0.6.0 through J–M in `0- Documentation/11_Approved_0.6_Goal.md` and `12_Approved_0.6_Plan.md`; the old npm `1.0.0` value was scaffold metadata.
 
 ## Re-entry
 
@@ -40,9 +40,13 @@ Keep canonical PBS external. This file and the short provenance/context document
 
 Prefer portable tools already available and project-local dependencies. Use PowerShell-safe quoting and literal paths; inspect resolved paths before any recursive move/delete. Do not compose destructive filesystem operations across shells. Launch background helpers hidden. Keep media, binaries, node_modules, raw chat exports, backups, and generated outputs out of Git; track reproducible provisioning manifests and relevant small evidence instead.
 
-## Active 0.6 scope
+## Current closure state
 
-September 23 binding field QA: read `0- Documentation/16_Approved_0.6_Field_QA_Amendment.md` first. J/K/L remain accepted; final M is blocked on Samsung MP4 metadata compatibility diagnosis, exact source-identity diagnostics/policy evidence, and broader CQ31/30 field convergence versus CQ32/x265. Decision15 remains historical. The first ZIP is only a candidate; any production change requires a fresh packaged M acceptance. Personal sources and existing generated outputs stay read-only; use known inputs/logs and isolated owned experiments. Never infer an unavailable historical identity delta.
+September24: source7b41c0f and the fresh portable0.6 runtime pass all current direct/native/packaged checks. Field issues are corrected or honestly narrowed under Decision17 and the dated field reports. Final independent M review and parent acceptance checkpoint remain; see Current State/Continuation and the September24 Portable0.6 Acceptance report. Do not restart J/K/L, repeat the cold archive run or completed35-case benchmark. No production drift is allowed against the tested ZIP without a new build/affected verification.
+
+## Approved 0.6 scope and historical amendments
+
+September 23 binding field QA: read `0- Documentation/16_Approved_0.6_Field_QA_Amendment.md` first. J/K/L remain accepted. This amendment originally blocked M on Samsung MP4 metadata compatibility, source-identity diagnostics and broader CQ field evidence; their September24 disposition is in Current State and the final M report. Decision15 remains historical. The first ZIP is only a candidate; any production change requires a fresh packaged M acceptance. Personal sources and existing generated outputs stay read-only; use known inputs/logs and isolated owned experiments. Never infer an unavailable historical identity delta.
 
 September 19 binding amendment: `0- Documentation/14_Approved_0.6_Archive_Quality_Amendment.md` is the complete local mirror of Ahmed's Notion direction. It promotes HEVC Archive Quality Ada/Blackwell into L/M; verify exact pinned runtime options, benchmark CQ24 and23 against x265 slow CRF25 using representative safe footage, and require actual Blackwell plus packaged evidence. Preserve Tested Default separately; do not assert CQ/CRF equivalence or locally verified Ada. The September13 future-only recipe exclusion is superseded only for this specific HEVC feature.
 

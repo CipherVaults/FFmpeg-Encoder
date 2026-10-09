@@ -11,6 +11,8 @@ const { spawn } = require('node:child_process');
 const { performance } = require('node:perf_hooks');
 const core = require('./benchmark-lab-core.cjs');
 const lab = require('./benchmark-lab-config.cjs');
+const data = require('./benchmark-lab-data.cjs');
+const { estimate } = require('./benchmark-lab-forecast.cjs');
 const ROOT = path.resolve(__dirname, '..');
 const CAMPAIGN = path.join(ROOT, 'artifacts', 'phase1-2026-10-10');
 const INPUTS = 'F:\\FFmpeg Station 1\\Records for FFmpeg Benchmark';
@@ -18,7 +20,7 @@ const FFMPEG = path.join(ROOT, 'ffmpeg', 'ffmpeg.exe');
 const FFPROBE = path.join(ROOT, 'ffmpeg', 'ffprobe.exe');
 const value = name => process.argv.find(a => a.startsWith(`--${name}=`))?.slice(name.length + 3);
 const phase = value('phase') || 'status';
-const allowed = ['status', 'bootstrap', 'prepare-pilot', 'pilot', 'forecast', 'coarse', 'generalize', 'review'];
+const allowed = ['status', 'bootstrap', 'prepare-pilot', 'pilot', 'checks', 'forecast', 'coarse', 'generalize', 'refine', 'review'];
 assert.ok(allowed.includes(phase), `Phase must be one of ${allowed.join(', ')}`);
 fs.mkdirSync(CAMPAIGN, { recursive: true });
 const stateFile = path.join(CAMPAIGN, 'state.json');
@@ -35,6 +37,8 @@ let heartbeatChain = Promise.resolve();
 let activeCommand;
 let activeCopy;
 let fatalAccountingError;
+let protectedReserveMs = 0;
+const phaseWarmed = new Set();
 
 function save() {
   const temporary = `${stateFile}.${process.pid}.pending`;
@@ -48,16 +52,17 @@ function stamp(file) {
 }
 async function guard(additionalBytes = 0) {
   if (fatalAccountingError) throw fatalAccountingError;
-  await core.assertResourceEnvelope({ campaignRoot: CAMPAIGN, workspacePath: ROOT,
+  const resource = await core.assertResourceEnvelope({ campaignRoot: CAMPAIGN, workspacePath: ROOT,
     maxGrowthBytes: lab.LIMITS.growthBytes, minFreeBytes: lab.LIMITS.minFreeBytes, additionalBytes });
   assert.ok((await ledger.snapshot()).accumulatedMs < lab.LIMITS.activeMs, 'Active campaign time is exhausted.');
+  return resource;
 }
 function checkSource(source) { assert.deepEqual(stamp(source.stagedPath), source.stagedIdentity, 'Staged source changed.'); }
 function checkRuntime() {
   for (const b of state.runtime.binaries) assert.deepEqual(stamp(path.join(ROOT, b.runtimePath)), b.identity, 'Runtime changed.');
 }
-async function command(exe, argv, label, { timeoutMs = 300000, role = 'analysis', allowFailure = false } = {}) {
-  await guard(); if (state.runtime) checkRuntime();
+async function command(exe, argv, label, { timeoutMs = 300000, role = 'analysis', allowFailure = false, trackedOutput } = {}) {
+  const resource = await guard(); if (state.runtime) checkRuntime();
   assert.match(label, /^[a-z0-9-]+$/);
   if (role === 'encode') {
     assert.ok(state.encodeInvocations < lab.LIMITS.encodeInvocations, 'Encode invocation ceiling reached.');
@@ -69,20 +74,42 @@ async function command(exe, argv, label, { timeoutMs = 300000, role = 'analysis'
   const stdoutFd = fs.openSync(`${prefix}.stdout.txt`, 'wx');
   const stderrFd = fs.openSync(`${prefix}.stderr.txt`, 'wx');
   const record = { sequence, label, role, executable: exe, argv, startedUtc: new Date().toISOString(),
-    status: 'running', stdoutPath: `${prefix}.stdout.txt`, stderrPath: `${prefix}.stderr.txt` };
+    status: 'running', stdoutPath: `${prefix}.stdout.txt`, stderrPath: `${prefix}.stderr.txt`, leasePath: `${prefix}.child.json` };
   state.commands.push(record); save(); console.log(`${sequence} ${role}: ${label}`);
   const remainingMs = (await ledger.snapshot()).remainingMs;
   const started = performance.now();
   const child = spawn(exe, argv, { cwd: CAMPAIGN, shell: false, windowsHide: true, stdio: ['ignore', stdoutFd, stderrFd] });
-  activeCommand = child; record.pid = child.pid; save();
-  const timer = setTimeout(() => child.kill(), Math.min(timeoutMs, remainingMs));
   let error;
   child.once('error', e => { error = e.message; });
-  const result = await new Promise(resolve => child.once('close', (code, signal) => resolve({ code, signal })));
-  clearTimeout(timer); activeCommand = undefined; fs.closeSync(stdoutFd); fs.closeSync(stderrFd);
+  const closed = new Promise(resolve => child.once('close', (code, signal) => resolve({ code, signal })));
+  activeCommand = child; record.pid = child.pid;
+  // The small durable lease replaces rewriting the growing campaign manifest
+  // during timing. Recovery rehydrates the child PID before claiming ownership.
+  try {
+    if (child.pid) fs.writeFileSync(record.leasePath, JSON.stringify({ sequence, pid: child.pid, executable: exe,
+      argvSha256: sha(core.canonicalJson(argv)), startedUtc: record.startedUtc }), { flag: 'wx' });
+  } catch (failure) {
+    child.kill(); await closed; activeCommand = undefined; fs.closeSync(stdoutFd); fs.closeSync(stderrFd);
+    Object.assign(record, { status: 'failed', error: `Child lease could not be preserved: ${failure.message}`,
+      endedUtc: new Date().toISOString() }); save(); throw failure;
+  }
+  let fenceError;
+  const fence = setInterval(() => {
+    try {
+      const volume = fs.statfsSync(ROOT, { bigint: true });
+      assert.ok(volume.bavail * volume.bsize >= BigInt(lab.LIMITS.minFreeBytes), 'Live free-space floor reached.');
+      const growth = [record.stdoutPath, record.stderrPath, trackedOutput].filter(Boolean)
+        .reduce((n, file) => n + (fs.existsSync(file) ? fs.statSync(file).size : 0), 0);
+      assert.ok(resource.growthBytes + growth < lab.LIMITS.growthBytes, 'Live campaign growth ceiling reached.');
+    } catch (error) { fenceError = error; child.kill(); }
+  }, 2000);
+  const timer = setTimeout(() => child.kill(), Math.max(1, Math.min(timeoutMs, remainingMs - protectedReserveMs)));
+  const result = await closed;
+  clearTimeout(timer); clearInterval(fence); activeCommand = undefined; fs.closeSync(stdoutFd); fs.closeSync(stderrFd);
   Object.assign(record, { ...result, elapsedSeconds: (performance.now() - started) / 1000,
-    endedUtc: new Date().toISOString(), status: result.code === 0 ? 'success' : 'failed', error: error || null });
+    endedUtc: new Date().toISOString(), status: result.code === 0 && !fenceError ? 'success' : 'failed', error: fenceError?.message || error || null });
   save();
+  if (fenceError) throw fenceError;
   const stdout = fs.readFileSync(record.stdoutPath, 'utf8');
   const stderr = fs.readFileSync(record.stderrPath, 'utf8');
   if (!allowFailure) assert.equal(result.code, 0, `${label}: ${stderr.slice(-3000)}`);
@@ -212,12 +239,15 @@ function runtimeIdentity() {
     gpu: state.environment.gpu.split(/\r?\n/).at(-1).split(',').slice(0, 4).map(v => v.trim()), os: state.environment.os }));
 }
 async function outputValidation(output, s, window, label) {
-  const packetsProbe = JSON.parse((await command(FFPROBE, ['-v', 'warning', '-show_streams', '-show_format', '-show_packets',
-    '-show_entries', 'packet=pts_time,duration_time,size:stream:format', '-of', 'json', output], `${label}-output-packets`)).stdout);
+  const packetCommand = await command(FFPROBE, ['-v', 'warning', '-show_streams', '-show_format', '-show_packets',
+    '-show_entries', 'packet=pts_time,duration_time,size:stream:format', '-of', 'json', output], `${label}-output-packets`);
+  const packetsProbe = JSON.parse(packetCommand.stdout);
   const v = packetsProbe.streams.find(x => x.codec_type === 'video'); assert.ok(v);
+  assert.equal(v.profile, 'Main', 'Current8-bit production anchor profile changed.');
   for (const field of ['width', 'height', 'pix_fmt', 'color_transfer', 'color_primaries', 'color_space', 'color_range']) assert.equal(v[field], s.video[field], `${field} changed`);
   const framesResult = await command(FFPROBE, ['-v', 'warning', '-select_streams', 'v:0', '-show_frames',
     '-show_entries', 'frame=best_effort_timestamp_time,pkt_duration_time', '-of', 'json', output], `${label}-decoded-frames`);
+  assert.equal(framesResult.stderr.trim(), '', 'Output decode emitted a warning/error; diagnose before accepting.');
   const frames = JSON.parse(framesResult.stdout).frames;
   assert.equal(frames.length, window.frameCount); assert.equal(packetsProbe.packets.length, window.frameCount);
   assert.ok(!/error|invalid|corrupt/i.test(framesResult.stderr), 'Decoder reported invalid output.');
@@ -227,6 +257,7 @@ async function outputValidation(output, s, window, label) {
   const deltas = frames.map((f, index) => Number(f.best_effort_timestamp_time) - (expected.frames[index].pts - first) * quantum);
   assert.ok(deltas.every(d => Number.isFinite(d) && Math.abs(d) <= 0.00102), 'Output presentation timing differs by more than Matroska quantization.');
   return { valid: true, frameCount: frames.length, maxPtsErrorSeconds: Math.max(...deltas.map(Math.abs)),
+    commandSequences: { packets: packetCommand.record.sequence, decodedFrames: framesResult.record.sequence },
     packetPayloadBytes: packetsProbe.packets.reduce((n, p) => n + Number(p.size), 0),
     probe: packetsProbe, decoderWarnings: framesResult.stderr.trim() || null };
 }
@@ -260,7 +291,8 @@ async function measureQuality(output, s, window, directory, label, withNeg) {
       sum -= values[start];
     }
     return { available: true, model, libraryVersion: data.version, ...summary, worstOneSecond: worst,
-      rawPath: path.join(directory, filename), commandSequence: result.record.sequence, elapsedSeconds: result.record.elapsedSeconds };
+      rawPath: path.join(directory, filename), rawSha256: await core.sha256File(path.join(directory, filename)),
+      commandSequence: result.record.sequence, elapsedSeconds: result.record.elapsedSeconds };
   }
   const regular = await vmaf('vmaf_v0.6.1', 'vmaf.json', 'vmaf');
   const neg = withNeg ? await vmaf('vmaf_v0.6.1neg', 'vmaf-neg.json', 'neg', true) : { available: null, reason: 'Outside protected crosscheck subset.' };
@@ -273,7 +305,58 @@ async function measureQuality(output, s, window, directory, label, withNeg) {
   const ssimValues = rows.map(line => Number(line.match(/All:([0-9.]+)/)?.[1]));
   return { regular, neg, ssim: { ...metricSummary(ssimValues),
     planes: Object.fromEntries(['Y', 'U', 'V', 'All'].map(k => [k, Number(ssim.stderr.match(new RegExp(`${k}:([0-9.]+)`))?.[1])])),
-    rawPath: path.join(directory, 'ssim.txt'), elapsedSeconds: ssim.record.elapsedSeconds } };
+    rawPath: path.join(directory, 'ssim.txt'), rawSha256: await core.sha256File(path.join(directory, 'ssim.txt')),
+    commandSequence: ssim.record.sequence, elapsedSeconds: ssim.record.elapsedSeconds } };
+}
+
+function harnessIdentity() {
+  return Object.fromEntries(['benchmark-lab.cjs', 'benchmark-lab-core.cjs', 'benchmark-lab-config.cjs',
+    'benchmark-lab-data.cjs', 'benchmark-lab-forecast.cjs', 'benchmark-lab-monitor.cjs', 'benchmark-lab-quiet.ps1']
+    .map(name => [name, sha(fs.readFileSync(path.join(__dirname, name)))]));
+}
+async function quietPreflight(label) {
+  const cpu = await command('powershell.exe', ['-NoProfile', '-NonInteractive', '-File',
+    path.join(__dirname, 'benchmark-lab-quiet.ps1')], `${label}-quiet-cpu`);
+  const gpu = await command('nvidia-smi.exe', ['--query-gpu=utilization.gpu,utilization.encoder,utilization.decoder,temperature.gpu,power.draw',
+    '--format=csv,noheader,nounits'], `${label}-quiet-gpu`);
+  const observation = { cpu: JSON.parse(cpu.stdout), gpu: gpu.stdout.trim(), observedUtc: new Date().toISOString() };
+  state.workloadObservations ||= []; state.workloadObservations.push(observation); save();
+  const utilization = observation.gpu.split(',').slice(0, 3).map(v => Number(v.trim()));
+  assert.ok(utilization.every(Number.isFinite), 'GPU workload observation unavailable.');
+  assert.ok(utilization[0] <= 20 && utilization[1] === 0 && utilization[2] <= 5,
+    'Background GPU/video work would contaminate timing; no foreign process was stopped.');
+  assert.ok((observation.cpu.totalCpuSeconds || 0) <= 1.5,
+    'Background CPU work exceeds quiet baseline; no foreign process was stopped.');
+  return observation;
+}
+async function recoverQuality(previous, s, window, withNeg) {
+  const revisions = previous.analysisRevisions ||= [];
+  try {
+    data.verifyMetricEvidence(previous.quality, window.frameCount, { allowUnsealed: true, withNeg });
+    // Legacy pilot evidence predates file seals. Check the complete raw trace
+    // against retained summaries, then record a present-time seal honestly.
+    if (['regular', 'neg', 'ssim'].some(k => previous.quality[k]?.rawPath && !previous.quality[k].rawSha256)) {
+      const sealed = structuredClone(previous.quality);
+      for (const entry of Object.values(sealed)) if (entry?.rawPath) entry.rawSha256 = await core.sha256File(entry.rawPath);
+      const seal = { reason: 'Post-pilot raw-evidence seal; origin hashes were not recorded by first harness.',
+        observedUtc: new Date().toISOString(), quality: sealed };
+      const file = path.join(previous.directory, `analysis-seal-${crypto.randomUUID()}.json`);
+      await core.writeJsonExclusive(file, seal); revisions.push({ path: file, sha256: await core.sha256File(file), ...seal });
+      previous.quality = sealed; save();
+    }
+    return;
+  } catch (error) {
+    const directory = path.join(previous.directory, `analysis-revision-${crypto.randomUUID()}`);
+    fs.mkdirSync(directory);
+    const quality = await measureQuality(previous.output.path, s, window, directory,
+      `${window.id}-${previous.config.familyId}-repair-${revisions.length + 1}`, withNeg);
+    data.verifyMetricEvidence(quality, window.frameCount, { withNeg });
+    const revision = { reason: error.message, observedUtc: new Date().toISOString(), priorQuality: previous.quality,
+      outputSha256: previous.output.sha256, quality };
+    const file = path.join(directory, 'result.json'); await core.writeJsonExclusive(file, revision);
+    revisions.push({ path: file, sha256: await core.sha256File(file), ...revision });
+    previous.quality = quality; save();
+  }
 }
 async function runCase(definition, config, stage, { repeat = 0, withNeg = false, metrics = true } = {}) {
   const s = source(definition.sourceId); const window = await prepareWindow(definition); checkSource(s); checkRuntime();
@@ -284,7 +367,52 @@ async function runCase(definition, config, stage, { repeat = 0, withNeg = false,
   const previous = state.cases.find(c => c.runId === id && c.status === 'complete');
   if (previous) {
     const checked = await core.inspectResume(previous, expected); assert.ok(checked.accepted, checked.reasons.join(', '));
-    if (!withNeg || previous.quality.neg.available !== null) { console.log(`Reusing ${definition.id} ${config.familyId} Q${config.settings.quality}`); return previous; }
+    assert.deepEqual(previous.argv, lab.encodeArgs(s, window, config, previous.output.path), 'Saved executable plan differs from the current builder.');
+    if (metrics) await recoverQuality(previous, s, window, withNeg);
+    console.log(`Reusing ${definition.id} ${config.familyId} Q${config.settings.quality}`); return previous;
+  }
+  const unfinished = [...state.cases].reverse().find(c => c.runId === id && c.status !== 'complete');
+  if (unfinished) {
+    const output = path.join(unfinished.directory, 'video.mkv');
+    const closedEncode = state.commands.find(c => c.role === 'encode' && c.status === 'success'
+      && c.code === 0 && c.argv.at(-1) === output && c.endedUtc);
+    // A completed child with durable close evidence can survive interrupted
+    // metrics/reporting. A playable file with unknown child exit cannot.
+    if (closedEncode && fs.existsSync(output)) {
+      for (const [key, expectedValue] of Object.entries(expected)) assert.equal(unfinished[key], expectedValue);
+      assert.deepEqual(closedEncode.argv, lab.encodeArgs(s, window, config, output));
+      const recovery = structuredClone(unfinished);
+      recovery.priorAttemptStatus = unfinished.status;
+      recovery.priorFailure = unfinished.failure || null;
+      recovery.encode = closedEncode; recovery.argv = closedEncode.argv;
+      recovery.effectiveEvidence = data.effectiveEvidence(config, fs.readFileSync(closedEncode.stderrPath, 'utf8'));
+      recovery.validity = await outputValidation(output, s, window, `${definition.id}-recovery-${state.commands.length}`);
+      recovery.output = { path: output, bytes: fs.statSync(output).size, sha256: await core.sha256File(output) };
+      recovery.elapsedSeconds = closedEncode.elapsedSeconds;
+      recovery.averageFps = window.frameCount / recovery.elapsedSeconds;
+      recovery.realtimeFactor = window.durationSeconds / recovery.elapsedSeconds;
+      recovery.videoPayloadBytes = recovery.validity.packetPayloadBytes;
+      recovery.videoPayloadRatioToCapture = recovery.videoPayloadBytes / window.sourceVideoPayloadBytes;
+      recovery.videoBitrate = 8 * recovery.videoPayloadBytes / window.durationSeconds;
+      recovery.containerBitrate = 8 * recovery.output.bytes / window.durationSeconds;
+      if (metrics) await recoverQuality(recovery, s, window, withNeg);
+      recovery.status = 'complete'; recovery.recoveredUtc = new Date().toISOString();
+      const file = path.join(unfinished.directory, `recovery-result-${crypto.randomUUID()}.json`);
+      await core.writeJsonExclusive(file, recovery);
+      recovery.recoveryEvidence = { path: file, sha256: await core.sha256File(file) };
+      state.cases[state.cases.indexOf(unfinished)] = recovery; save();
+      console.log(`Recovered completed encode without re-encoding: ${definition.id} ${config.familyId}`);
+      return recovery;
+    }
+  }
+  if (stage !== 'warmup' && !phaseWarmed.has(config.familyId)) {
+    const last = [...state.cases].reverse().find(c => c.status === 'complete' && c.config.familyId === config.familyId && c.encode?.endedUtc);
+    if (!last || Date.now() - Date.parse(last.encode.endedUtc) > 30 * 60 * 1000) {
+      const supportCount = state.cases.filter(c => c.stage === 'warmup').length + (state.supportInvocations || 0);
+      assert.ok(supportCount < lab.MATRIX.warmupSupportMaximum, 'Warmup/support allowance reached; do not silently expand it.');
+      await runCase(definition, config, 'warmup', { repeat: -(state.encodeInvocations + 1), metrics: false });
+    }
+    phaseWarmed.add(config.familyId);
   }
   await guard(window.sourceVideoPayloadBytes * 2);
   const attempt = await core.createAttempt(path.join(CAMPAIGN, 'runs'), id);
@@ -292,11 +420,12 @@ async function runCase(definition, config, stage, { repeat = 0, withNeg = false,
   const label = `${definition.id}-${config.familyId}-q${config.settings.quality}-${attempt.attemptId.slice(-8)}`;
   const record = { runId: id, ...expected, window: window.id, source: s.id, cohort: s.cohort, stage, repeat, config,
     attemptId: attempt.attemptId, directory: attempt.directory, status: 'running',
-    startedUtc: new Date().toISOString() };
+    startedUtc: new Date().toISOString(), harnessIdentity: harnessIdentity() };
   state.cases.push(record); save();
   let telemetry;
   let stopTelemetry;
   try {
+    record.preflight = await quietPreflight(label);
     const telemetryPath = path.join(attempt.directory, 'gpu.csv');
     const stopPath = path.join(attempt.directory, 'telemetry.stop');
     const monitor = spawn(process.execPath, [path.join(__dirname, 'benchmark-lab-monitor.cjs'), String(process.pid), telemetryPath,
@@ -318,27 +447,14 @@ async function runCase(definition, config, stage, { repeat = 0, withNeg = false,
       status: 'running', pid: monitor.pid, executable: 'nvidia-smi.exe', startedUtc: new Date().toISOString(), stdoutPath: telemetryPath }); save();
     let result;
     try {
-      result = await command(FFMPEG, lab.encodeArgs(s, window, config, output), `${label}-encode`, { role: 'encode', allowFailure: true, timeoutMs: 900000 });
+      result = await command(FFMPEG, lab.encodeArgs(s, window, config, output), `${label}-encode`,
+        { role: 'encode', allowFailure: true, timeoutMs: 3600000, trackedOutput: output });
     } finally {
       await stopTelemetry();
     }
     record.encode = result.record; record.telemetry = telemetry; record.argv = result.record.argv;
     if (result.record.code !== 0) throw new Error(`Encoder failed: ${result.stderr.slice(-2500)}`);
-    record.effectiveEvidence = {
-      initializationLines: result.stderr.split(/\r?\n/).filter(line => /CQ\(|lookahead|multipass|temporal|b.?frame|b.?ref|Main|preset|rate control|CRF|AQ:|psy/i.test(line)),
-      warnings: result.stderr.split(/\r?\n/).filter(line => /warning|unsupported|not supported|ignoring|has not been used|not enough B|Temporal filtering needs/i.test(line)),
-      qualification: 'Reported effective fields only; unreported inherited internals remain unknown.',
-    };
-    if (config.encoder.endsWith('_nvenc')) {
-      const observed = result.stderr.match(/CQ\((\d+)\)/); assert.ok(observed, 'NVENC did not report effective CQ mode.');
-      assert.equal(Number(observed[1]), config.settings.quality * 256, 'Effective NVENC CQ differs from requested.');
-    }
-    const tfFlag = config.args.indexOf('-tf_level:v:0');
-    const benignExplicitTfDisable = tfFlag >= 0 && config.args[tfFlag + 1] === '0';
-    const invalidOptions = record.effectiveEvidence.warnings.filter(line =>
-      /unsupported|not supported|ignoring|has not been used/i.test(line)
-      || /Temporal filtering needs|not enough B/i.test(line) && !benignExplicitTfDisable);
-    if (invalidOptions.length) throw new Error(`Unsupported or ignored requested recipe: ${invalidOptions.join('\n')}`);
+    record.effectiveEvidence = data.effectiveEvidence(config, result.stderr);
     record.validity = await outputValidation(output, s, window, label);
     record.output = { path: output, bytes: fs.statSync(output).size, sha256: await core.sha256File(output) };
     record.elapsedSeconds = result.record.elapsedSeconds;
@@ -351,6 +467,7 @@ async function runCase(definition, config, stage, { repeat = 0, withNeg = false,
     checkSource(s);
     record.quality = metrics ? await measureQuality(output, s, window, attempt.directory, label, withNeg)
       : { regular: { available: null, reason: 'Warmup only' }, neg: { available: null, reason: 'Warmup only' } };
+    if (metrics) data.verifyMetricEvidence(record.quality, window.frameCount, { withNeg });
     record.status = 'complete'; record.endedUtc = new Date().toISOString();
     await core.completeAttempt(attempt.directory, record); save(); return record;
   } catch (error) {
@@ -358,7 +475,11 @@ async function runCase(definition, config, stage, { repeat = 0, withNeg = false,
     state.exclusions.push({ runId: id, attemptId: attempt.attemptId, reason: error.message });
     await core.completeAttempt(attempt.directory, record); save();
     if (config.experimental && /Encoder failed:.*(not supported|unsupported|invalid|cannot|failed)|Unsupported or ignored requested recipe/is.test(error.message)) {
-      state.unsupportedFamilies ||= {}; state.unsupportedFamilies[config.familyId] = record.failure; save(); return record;
+      state.unsupportedConfigurations ||= {}; state.unsupportedConfigurations[configurationHash] = record.failure;
+      if (!Object.keys(config.overrides || {}).length) {
+        state.unsupportedFamilies ||= {}; state.unsupportedFamilies[config.familyId] = record.failure;
+      }
+      save(); return record;
     }
     throw error;
   } finally {
@@ -396,12 +517,103 @@ async function pilot() {
   state.stage = 'pilot-complete-await-forecast'; save();
 }
 
+async function forecast() {
+  for (const item of lab.pilotCases().filter(c => !state.unsupportedFamilies?.[c.config.familyId])) {
+    assert.ok(state.cases.some(c => c.status === 'complete' && c.stage !== 'warmup' && c.window === item.window.id
+      && c.configurationHash === core.configurationId(item.config)), `Pilot case is unfinished: ${item.window.id} ${item.config.familyId}`);
+  }
+  for (const c of state.cases.filter(c => c.status === 'complete' && c.stage !== 'warmup')) {
+    await recoverQuality(c, source(c.source), state.windows.find(w => w.id === c.window),
+      ['cd-b', 'desk-b'].includes(c.window) && c.config.familyId !== 'svt');
+  }
+  const resource = await guard();
+  const report = estimate(state, await ledger.snapshot(), resource);
+  const file = path.join(CAMPAIGN, `forecast-${crypto.randomUUID()}.json`);
+  await core.writeJsonExclusive(file, report);
+  state.forecasts ||= []; state.forecasts.push({ path: file, sha256: await core.sha256File(file), ...report });
+  state.stage = report.fitsMinimumCampaign ? 'pilot-accepted-ready-coarse' : 'pilot-budget-review-required'; save();
+  data.exportData(state, path.join(CAMPAIGN, 'data', 'pilot'));
+  console.log(JSON.stringify(report, null, 2));
+}
+
+function crosscheck(item) {
+  return ['cd-b', 'desk-b'].includes(item.window.id) && item.config.familyId !== 'svt';
+}
+function orderedCases(items, stage) {
+  state.schedules ||= {};
+  const ordered = [...items].sort((a, b) => sha(`${stage}:${a.window.id}:${core.configurationId(a.config)}`)
+    .localeCompare(sha(`${stage}:${b.window.id}:${core.configurationId(b.config)}`)));
+  const descriptors = ordered.map(c => ({ window: c.window.id, configuration: c.config, configurationHash: core.configurationId(c.config) }));
+  if (state.schedules[stage]) assert.deepEqual(state.schedules[stage], descriptors, 'A saved schedule cannot silently change.');
+  else { state.schedules[stage] = descriptors; save(); }
+  return ordered;
+}
+async function coarse() {
+  const block = value('block') || 'anchors';
+  assert.ok(['anchors', 'remainder'].includes(block));
+  const forecast = state.forecasts?.at(-1); assert.ok(forecast, 'A pilot forecast is required before search.');
+  // The nominal matrix is a maximum. A bounded first block is permitted only
+  // after reserving original held-outs, all protected pairs, refinement and
+  // reporting. No supposed future overlap is spent before it is known.
+  const reservedSeconds = forecast.contingencyFactor * (forecast.capacityScenarios[0].heldoutSecondsBeforeContingency
+    + forecast.stagesSecondsBeforeContingency.refinement + forecast.stagesSecondsBeforeContingency.selectorReserve
+    + forecast.stagesSecondsBeforeContingency.supportReserve) + forecast.stagesSecondsBeforeContingency.reportingReserve;
+  assert.ok((await ledger.snapshot()).remainingMs / 1000 > reservedSeconds, 'Protected validation/reporting reserve leaves no safe search budget.');
+  protectedReserveMs = reservedSeconds * 1000;
+  if (!state.environment.powerPlan) {
+    state.environment.powerPlan = (await command('powercfg.exe', ['/getactivescheme'], 'power-plan')).stdout.trim(); save();
+  }
+  const cases = lab.SOURCES.flatMap(s => lab.FAMILIES.filter(f => !state.unsupportedFamilies?.[f.id])
+    .flatMap(f => f.values.map(q => ({ window: lab.windowDefinitions(s.id, 'a'), config: lab.configuration(f.id, q) }))));
+  const selected = orderedCases(cases, 'coarse').filter(item => block === 'remainder'
+    || item.config.settings.quality === lab.FAMILIES.find(f => f.id === item.config.familyId).values
+      [Math.floor(lab.FAMILIES.find(f => f.id === item.config.familyId).values.length / 2)]);
+  state.matrixChanges ||= [];
+  if (!state.matrixChanges.some(c => c.id === 'pilot-bounded-search')) {
+    state.matrixChanges.push({ id: 'pilot-bounded-search', observedUtc: new Date().toISOString(),
+      reason: 'Conservative nominal96point/threefinalist maximum does not fit12h. Matrix ceilings are not obligations.',
+      firstBlock: '36 middle-point/reference A cases before8 exact pilot reuses;28 new cases.',
+      priority: 'AllA/BArchive29;protectedrecipepairs;measuredreferencebrackets;humanvisualfreeze;originalheldouts/repeats.',
+      deferred: 'FullBpointbreadth, optionalablations, extrafinalists and low-valuecoarsepoints depend on measured remaining capacity.' }); save();
+  }
+  for (const item of selected) {
+    const remaining = (await ledger.snapshot()).remainingMs / 1000;
+    assert.ok(remaining > reservedSeconds + 180, 'Search stopped before consuming protected validation/reporting reserve.');
+    await runCase(item.window, item.config, 'coarse');
+  }
+  state.stage = block === 'anchors' ? 'coarse-anchor-block-complete-await-forecast' : 'coarse-complete'; save();
+  data.exportData(state, path.join(CAMPAIGN, 'data', 'coarse'));
+}
+async function generalize() {
+  assert.ok(state.stage === 'coarse-complete' || state.schedules?.generalization, 'Coarse search must finish first.');
+  if (!state.selections) {
+    state.selections = lab.FAMILIES.filter(f => f.id !== 'x265' && !state.unsupportedFamilies?.[f.id])
+      .map(f => data.chooseMeasuredPoints(state, f.id)); save();
+  }
+  const cases = [];
+  for (const s of lab.SOURCES) {
+    const window = lab.windowDefinitions(s.id, 'b');
+    cases.push({ window, config: lab.configuration('x265', 25) }, { window, config: lab.configuration('hevc-archive', 29) });
+    for (const selection of state.selections) cases.push({ window, config: lab.configuration(selection.familyId, selection.selectedQuality) });
+  }
+  const unique = [...new Map(cases.map(c => [`${c.window.id}:${core.configurationId(c.config)}`, c])).values()];
+  for (const item of orderedCases(unique, 'generalization')) await runCase(item.window, item.config, 'generalization', { withNeg: crosscheck(item) });
+  state.stage = 'generalization-complete'; save();
+  data.exportData(state, path.join(CAMPAIGN, 'data', 'generalization'));
+  console.log(JSON.stringify(state.selections, null, 2));
+}
+
 async function main() {
   if (phase === 'status') { console.log(JSON.stringify({ stage: state.stage, sources: state.sources.length,
     windows: state.windows.length, cases: state.cases.length, invocations: state.encodeInvocations, ledger: await ledger.snapshot() }, null, 2)); return; }
   lock = await core.acquireOwnershipLock(path.join(CAMPAIGN, 'ownership.lock'));
   let accountingStarted = false;
   try {
+    for (const command of state.commands.filter(c => c.status === 'running' && c.leasePath && fs.existsSync(c.leasePath))) {
+      const lease = JSON.parse(fs.readFileSync(command.leasePath));
+      assert.equal(lease.sequence, command.sequence); assert.equal(lease.executable, command.executable);
+      assert.equal(lease.argvSha256, sha(core.canonicalJson(command.argv))); command.pid = lease.pid;
+    }
     const interrupted = await core.assertNoLiveRecordedChildren(state.commands);
     for (const item of interrupted) {
       const saved = state.commands.find(c => c.sequence === item.sequence);
@@ -415,6 +627,8 @@ async function main() {
       heartbeatChain = heartbeatChain.then(async () => {
         const snapshot = await ledger.heartbeat();
         if (snapshot.budgetExceeded) throw new Error('Cumulative active campaign budget reached.');
+        if (protectedReserveMs && snapshot.remainingMs <= protectedReserveMs)
+          throw new Error('Protected validation/reporting reserve reached; further search is not authorized by the budget.');
       }).catch(error => {
         fatalAccountingError = error;
         state.accountingFailure = { message: error.message, observedUtc: new Date().toISOString() }; save();
@@ -425,6 +639,11 @@ async function main() {
     if (phase === 'bootstrap') await bootstrap();
     else if (phase === 'prepare-pilot') await preparePilot();
     else if (phase === 'pilot') await pilot();
+    else if (phase === 'checks') await command(process.execPath, ['--test',
+      ...['core', 'config', 'data'].map(name => path.join(ROOT, 'tests', `benchmark-lab-${name}.test.cjs`))], 'focused-harness-checks');
+    else if (phase === 'forecast') await forecast();
+    else if (phase === 'coarse') await coarse();
+    else if (phase === 'generalize') await generalize();
     else throw new Error(`${phase} implementation is not yet enabled. No measurement has been launched.`);
   } finally {
     clearInterval(heartbeat); await heartbeatChain;

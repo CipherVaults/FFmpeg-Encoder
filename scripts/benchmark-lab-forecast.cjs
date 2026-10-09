@@ -1,0 +1,111 @@
+'use strict';
+
+// Resource planning uses observed process costs, not historical advertised FPS.
+// This is a conservative planning estimate, not a confidence interval.
+const lab = require('./benchmark-lab-config.cjs');
+
+function estimate(state, snapshot, resources) {
+  const measured = state.cases.filter(c => c.status === 'complete' && c.stage !== 'warmup' && c.validity?.valid);
+  const supported = lab.FAMILIES.filter(f => !state.unsupportedFamilies?.[f.id]);
+  function costs(family, cohort, duration, metrics = true, neg = false) {
+    let cases = measured.filter(c => c.config.familyId === family && c.cohort === cohort);
+    let resolutionMultiplier = 1;
+    if (!cases.length) {
+      cases = measured.filter(c => c.config.familyId === family && c.cohort === '1080p-gameplay');
+      resolutionMultiplier = cohort === '1440p-gameplay' ? 2.1 : 1;
+    }
+    if (!cases.length) return null;
+    const scale = c => duration / state.windows.find(w => w.id === c.window).durationSeconds * resolutionMultiplier;
+    const encode = Math.max(...cases.map(c => c.elapsedSeconds * scale(c)));
+    const validation = Math.max(...cases.map(c => {
+      // Exact identities avoid charging unrelated later commands if a metric
+      // repair changes its sequence. Legacy pilot entries have matching argv.
+      const sequences = Object.values(c.validity.commandSequences || {});
+      const commands = sequences.length ? sequences.map(seq => state.commands.find(x => x.sequence === seq))
+        : ['-output-packets', '-decoded-frames'].map(suffix => state.commands.find(x =>
+          x.label.endsWith(suffix) && x.argv?.at(-1) === c.output?.path));
+      return commands.filter(Boolean).reduce((sum, x) => sum + x.elapsedSeconds, 0) * scale(c);
+    }));
+    const regular = metrics ? Math.max(...cases.map(c => (c.quality?.regular?.elapsedSeconds || 0) * scale(c))) : 0;
+    const ssim = metrics ? Math.max(...cases.map(c => (c.quality?.ssim?.elapsedSeconds || 0) * scale(c))) : 0;
+    // A missing NEG observation uses the regular metric cost as an explicit
+    // fallback. A failed/unavailable bundled model costs no future NEG runs.
+    const negative = metrics && neg ? Math.max(...cases.map(c =>
+      (c.quality?.neg?.elapsedSeconds ?? c.quality?.regular?.elapsedSeconds ?? 0) * scale(c))) : 0;
+    return encode + validation + regular + ssim + negative + 3;
+  }
+  const exists = (window, family, quality) => measured.some(c => c.window === window && c.config.familyId === family
+    && c.config.settings.quality === quality && c.repeat === 0 && !Object.keys(c.config.overrides || {}).length);
+  let coarse = 0, coarseCount = 0;
+  for (const source of lab.SOURCES) for (const family of supported) for (const quality of family.values) {
+    if (!exists(`${source.id}-a`, family.id, quality)) {
+      coarse += costs(family.id, source.cohort, 12, true, false); coarseCount++;
+    }
+  }
+  let generalization = 0;
+  for (const source of lab.SOURCES) for (const family of supported) {
+    generalization += costs(family.id, source.cohort, 12, true, ['cd', 'desk'].includes(source.id) && family.id !== 'svt');
+  }
+  // An additional retuned Archive arm can be separate from the protected CQ29.
+  for (const source of lab.SOURCES) generalization += costs('hevc-archive', source.cohort, 12, true, ['cd', 'desk'].includes(source.id));
+  const worstCalibration = Math.max(...supported.filter(f => f.id !== 'x265').map(f => costs(f.id, '1080p-gameplay', 12, true, true)));
+  const refinement = lab.MATRIX.refinement * worstCalibration;
+  const ablation = lab.MATRIX.optionalAblation * worstCalibration;
+  let referenceHeldout = 0, protectedHeldout = 0, finalistHeldout = [0, 0, 0];
+  let heldoutCount = 0;
+  // Reserve x265 plus the three slowest potential finalist families at each
+  // cohort, and all four protected recipe arms separately. Overlap is not
+  // spent in advance. Three completed timing repetitions; metrics only once.
+  function triple(family, source) {
+    const duration = source.holdout[1] - source.holdout[0];
+    return costs(family, source.cohort, duration, true, lab.PAIRED_HELDOUT.includes(source.id) && family !== 'svt')
+      + 2 * costs(family, source.cohort, duration, false);
+  }
+  for (const source of lab.SOURCES) {
+    referenceHeldout += triple('x265', source); heldoutCount += 3;
+    const possible = supported.filter(f => f.id !== 'x265').map(f => triple(f.id, source)).sort((a, b) => b - a);
+    for (let i = 0; i < 3; i++) finalistHeldout[i] += possible[i] || 0;
+    heldoutCount += Math.min(3, possible.length) * 3;
+    if (lab.PAIRED_HELDOUT.includes(source.id)) for (const id of ['hevc-ordinary', 'hevc-archive', 'av1-ordinary', 'av1-quality']) {
+      if (supported.some(f => f.id === id)) { protectedHeldout += triple(id, source); heldoutCount += 3; }
+    }
+  }
+  const selectorReserve = 1800, reportReserve = 1800, supportReserve = 900;
+  const contingencyFactor = 1.25;
+  const heldout = referenceHeldout + protectedHeldout + finalistHeldout.reduce((n, v) => n + v, 0);
+  const searchAndPreparation = coarse + generalization + refinement + selectorReserve + supportReserve;
+  const capacityScenarios = [1, 2, 3].map(finalistSlots => {
+    const heldoutSeconds = referenceHeldout + protectedHeldout + finalistHeldout.slice(0, finalistSlots).reduce((n, v) => n + v, 0);
+    const remainingSeconds = contingencyFactor * (searchAndPreparation + heldoutSeconds) + reportReserve;
+    return { finalistSlots, heldoutSecondsBeforeContingency: heldoutSeconds, remainingSeconds,
+      fits: remainingSeconds <= snapshot.remainingMs / 1000,
+      qualification: 'Worst observed cost by cohort; no overlap savings assumed. All protected recipe arms and three timing repeats remain.' };
+  });
+  const mandatoryRemainingSeconds = contingencyFactor * (coarse + generalization + refinement + heldout + selectorReserve + supportReserve) + reportReserve;
+  const maximumRemainingSeconds = mandatoryRemainingSeconds + contingencyFactor * ablation;
+  const remainingSeconds = snapshot.remainingMs / 1000;
+  return { observedUtc: new Date().toISOString(), measuredCases: measured.length, encodeInvocations: state.encodeInvocations,
+    usedActiveSeconds: snapshot.accumulatedMs / 1000, remainingSeconds,
+    stagesSecondsBeforeContingency: { coarse, generalization, refinement, optionalAblation: ablation,
+      heldoutIncludingRepeats: heldout, selectorReserve, supportReserve, reportingReserve: reportReserve },
+    counts: { remainingCoarse: coarseCount, heldoutInvocationsBeforeOverlap: heldoutCount },
+    contingencyFactor, mandatoryRemainingSeconds, maximumRemainingSeconds,
+    fullHeldoutPlusCoarseRemainingSeconds: contingencyFactor * (coarse + heldout + selectorReserve + supportReserve) + reportReserve,
+    capacityScenarios,
+    fitsMinimumCampaign: capacityScenarios[0].fits,
+    provisionalFinalistCapacity: Math.max(0, ...capacityScenarios.filter(s => s.fits).map(s => s.finalistSlots)),
+    fitsFullMatrix: maximumRemainingSeconds <= remainingSeconds,
+    fitsRequiredWithoutAblation: mandatoryRemainingSeconds <= remainingSeconds,
+    resources, storageForecast: { stagedBytes: state.stagingPlannedBytes,
+      remainingOutputAndReviewReserveBytes: 25 * 1024 ** 3,
+      rationale: 'Video-only outputs plus selected lossless review material; reserve checked dynamically, no overwrite.' },
+    assumptions: ['Worst observed same-family/cohort cost, linear duration scaling with startup conservatively included.',
+      'Unmeasured1440 families use2.1 times the worst1080 gameplay cost; replace with measured costs during coarse.',
+      'Three heldout timing runs; quality metrics computed once per unique configuration/window.',
+      'Protected paired arms counted separately before overlap savings.',
+      'Up to3finalists is a ceiling;1finalist capacity is tested separately from the conservative3slot maximum.',
+      'Long-GOP softwareAV1 seek/decode can limit whole-pipeline GPU throughput.',
+      '25percent contingency is a planning margin, not a statistical interval.'] };
+}
+
+module.exports = { estimate };

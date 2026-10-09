@@ -1,3 +1,9 @@
+# October 10, 2026 — Approved Phase1 pilot accepted; bounded calibration next
+
+Recovered the accepted0.6 baseline and original Astra planning; mirrored the new Phase1 Goal and four amendments. Isolated branch codex/pre-0.7-benchmark and six SHA256-verified source copies preserve production/releases/originals. Twenty measured pilot cases plus sixwarm-ups pass native frame/color/timestamp validation, regularVMAF/SSIM and protectedNEG. Twenty-four focused core/config/data checks and independent recomputation/argv review pass. ACC-A is719frames; the earlier720note is explicitly corrected. Canonical x265/Archive29 quality contributions are unchanged.
+
+Measured costs invalidate blindly exhausting the maximum matrix within12h. Parent and independent reviewer preserve protected recipe pairs/originalheld-outs/refinement/reporting and choose a bounded middle/reference A block before further resource decisions. Extra finalists, broadB points and optional experiments remain conditional. No held-out result is opened or implicit visual approval granted. Recovery uses live children/immutable attempts/metric seals/active ledger, with child leases and quiet-workload/storage/time fences. See the dated pilot report and Current/Continuation State. Application0.7/ctime/Phase2/Notion publishing remain outside this Goal.
+
 # September 24, 2026 — Amended local0.6 accepted through M
 
 Recovered completed field research and later packaged evidence across quota windows without restarting accepted J/K/L or the cold OBS campaign. Phone MP4 track timestamps now survive in exact Matroska aliases with visible notices; source errors identify fields while retaining strict checks because sparse equality cannot prove unchanged full content. Historical long-OBS refusal remains honestly narrowed to retained ctime-only evidence, not a fabricated failure-time diagnosis.

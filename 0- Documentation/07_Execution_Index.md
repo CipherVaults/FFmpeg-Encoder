@@ -1,5 +1,7 @@
 # Execution summary index
 
+[October10 Phase1 pilot](Execution%20Summaries/2026-10-10_Phase1_Pilot.md):20measured cases/6warm-ups,24focused checks, independent raw-data/frame/argv review and measured resource forecast. Bounded calibration next; visual freeze/held-out/final Goal acceptance pending. Harness checkpoint82c0260; the report-adding commit preserves subsequent hardening.
+
 Execution reports describe what Codex actually did, which checks passed or failed, and where work can resume. Keep one dated report per meaningful milestone, with routine retries in the same report. Completed reports retain their history; append a dated correction when needed rather than silently rewriting the record.
 
 | Report | Outcome and checkpoint |

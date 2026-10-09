@@ -1,4 +1,14 @@
-# Current state — September 24, 2026
+# Current state — October 10, 2026
+
+## Active research: approved pre-0.7 Phase 1 benchmark
+
+Ahmed's [Phase1 Goal](18_Phase1_Benchmark_Goal.md) authorizes the amended [protocol](19_Phase1_Benchmark_Protocol.md). Execution is isolated on codex/pre-0.7-benchmark; accepted production remains local-v0.6.0 at peeled commit be92b12205d299b6d3bdcc2fd4b2e3a02f928862. The application, presets, package version and accepted release files are unchanged. No ctime/0.7/Phase2 work is authorized.
+
+Six unchanged source copies are SHA256-verified under artifacts/phase1-2026-10-10/inputs. Pilot selector traces preserve absolute nativePTS and match unseeked source hashes/order. CD-B contains719frames, not an assumed720; the other prepared pilot windows have720. Harness core/config checks pass19tests, including parent-death/live-child protection, restart accounting and no-overwrite evidence. Independent reviews corrected selector/child/accounting/configuration-warning gates before timing.
+
+Current next step: run the20-case pilot and bundled VMAF/NEG crosscheck, forecast measured cost, then proceed within12active hours/55GiB/20GiB free/340encodes. Durable live state is artifacts/phase1-2026-10-10/state.json and active-time.json; read them before trusting this prose. Ahmed's compact blind calibration review is a required later gate before frozen finalists/heldouts. [Continuation](10_Continuation_State.md) records recovery.
+
+## Accepted application state — September 24, 2026
 
 **The amended local 0.6 Goal is accepted through J–M.** Independent final M review found no unresolved approved blocker, and parent documentation synchronization is complete. The commit containing this disposition is the recoverable local-v0.6.0 checkpoint. J/K/L remain accepted. Production source is checkpoint 7b41c0f on codex/archive-workflow; subsequent closure work changes documentation only.
 

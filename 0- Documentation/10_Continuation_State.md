@@ -1,4 +1,16 @@
-# Terminal state — local0.6 accepted, September 24, 2026
+# Continuation — approved Phase1 benchmark, October 10, 2026
+
+Active Goal is [18_Phase1_Benchmark_Goal.md](18_Phase1_Benchmark_Goal.md), amended [protocol19](19_Phase1_Benchmark_Protocol.md). Branch codex/pre-0.7-benchmark, accepted local-v0.6.0 peeled commit be92b12205d299b6d3bdcc2fd4b2e3a02f928862. New laboratory scripts/tests/documentation only; no production/version/acceptedZIP changes.
+
+Recovery first: inspect Git/status and artifacts/phase1-2026-10-10/state.json, active-time.json, commands and immutable runs/attempts. Inspect recorded parent AND child PIDs before recovery; a live child must never be duplicated. A missing progress observation alone is not terminal. Reuse hashes and existing valid outputs/metrics. Never reset the12h allowance or340invocation count. Unknown crash tails require conservative time charge or actual terminal evidence; no invented endtime.
+
+Completed bootstrap: six SHA256-verified staged source copies, pinned runtime hashes/driver617.14, source metadata; four absolutePTS pilot windows verified against unseeked decoded hashes. Pilot source frames: CD-B719, DESK-B720, SF-A720, ACC-A720.19focused core/config tests pass. Independent parent-death, fatal-accounting, absolutePTS and sidecar-reuse findings are corrected. Run source/runtime and metric evidence reuse validation; live artifacts outrank this note.
+
+Exact next intended action: node scripts/benchmark-lab.cjs --phase=pilot; then measured pilot forecast before coarse search. The runner's remaining phases may still be under implementation; inspect live code. Archive29 mandatory all A/B plus protected CD/SF/DESK heldouts; recipe pairs independent of finalist slots. NEG protected on consequential pairs. At human calibration-review gate stop dependent work and preserve state; no implicit approval/finalist tuning from heldout results.
+
+The previous accepted-app terminal record follows as history. Its instruction to wait was superseded only by the new benchmark Goal; accepted app behavior and release checkpoints remain protected.
+
+## Accepted application terminal state — September 24, 2026
 
 The approved amended J–M engineering and acceptance work is complete. **Do not restart J/K/L/M or the field campaigns.** Independent final M review found no unresolved approved blocker; parent synchronization is complete. The commit containing this terminal record is the documentation acceptance checkpoint for local-v0.6.0. Production remains7b41c0f; d658065 preserves the preceding recovery/documentation reconciliation.
 

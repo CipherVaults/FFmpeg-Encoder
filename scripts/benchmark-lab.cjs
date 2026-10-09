@@ -681,9 +681,16 @@ async function main() {
           throw new Error('Protected validation/reporting reserve reached; further search is not authorized by the budget.');
       }).catch(error => {
         fatalAccountingError = error;
-        state.accountingFailure = { message: error.message, observedUtc: new Date().toISOString() }; save();
-        console.error(`Accounting failure: ${error.message}`);
-        activeCommand?.kill(); activeCopy?.input.destroy(error); activeCopy?.output.destroy(error); process.exitCode = 1;
+        core.failClosedAccounting(error, {
+          stopOwnedWork: failure => {
+            activeCommand?.kill(); activeCopy?.input.destroy(failure); activeCopy?.output.destroy(failure);
+          },
+          persistFailure: failure => {
+            state.accountingFailure = { message: failure.message, observedUtc: new Date().toISOString() }; save();
+          },
+          reportFailure: failure => console.error(`Failure-state persistence also failed: ${failure.message}`),
+        });
+        console.error(`Accounting failure: ${error.message}`); process.exitCode = 1;
       });
     }, 1000);
     if (phase === 'bootstrap') await bootstrap();
@@ -697,9 +704,10 @@ async function main() {
     else if (phase === 'generalize') await generalize();
     else throw new Error(`${phase} implementation is not yet enabled. No measurement has been launched.`);
   } finally {
-    clearInterval(heartbeat); await heartbeatChain;
-    try { if (accountingStarted) await ledger.end('command-ended'); }
-    finally { await lock.release(); }
+    clearInterval(heartbeat);
+    await core.finalizeAccounting({ pendingHeartbeat: heartbeatChain,
+      endInterval: () => accountingStarted ? ledger.end('command-ended') : undefined,
+      releaseLock: () => lock.release() });
   }
 }
 main().catch(error => { console.error(error.stack); process.exitCode = 1; });

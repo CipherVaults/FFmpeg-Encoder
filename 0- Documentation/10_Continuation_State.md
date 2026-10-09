@@ -14,6 +14,8 @@ October10 environment reconciliation: OBS PID28084 encoded concurrently during p
 
 ## Accepted application terminal state — September 24, 2026
 
+Latest research recovery: the bounded anchor block safely stopped after10quiet A cases/41encode invocations on a transient ledger EPERM. Its interval is already truthfully closed; no conservative crash-tail charge is necessary. Same-temp atomic retry and stop-before-failure-save/nested finalizers pass31/31 checks, sequence320. Independent recovery review passes. Resume `node scripts/benchmark-lab.cjs --phase=coarse --block=anchors`; completed cases must be reused. Reforecast after the full36-case block before enabling extra search. Read live counts/ledger, preserve the historical accountingFailure record, and never erase original pilot timing exclusions.
+
 The approved amended J–M engineering and acceptance work is complete. **Do not restart J/K/L/M or the field campaigns.** Independent final M review found no unresolved approved blocker; parent synchronization is complete. The commit containing this terminal record is the documentation acceptance checkpoint for local-v0.6.0. Production remains7b41c0f; d658065 preserves the preceding recovery/documentation reconciliation.
 
 ## Durable anchors

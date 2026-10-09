@@ -12,6 +12,8 @@ Benchmark timing correction, October10: the first coarse preflight stopped befor
 
 The expanded focused checks now pass26/26, including real native-observer cleanup on persistence failure and parent death. Unknown timing is quality-only evidence; only timingValidity=true supports speed comparisons. New monitoring records foreign encoder PIDs without stopping them.
 
+Recovery update:10/36 quiet A anchors are complete. A transient Windows EPERM on atomic ledger replacement stopped the block; ledger.end succeeded at2026-10-09T23:03:48.928Z, preserving2,790,209.1385ms cumulative active time before checks. No tail/reset or source recovery is needed. Bounded same-temp retries and cleanup ordering now pass31/31 focused tests, including actual owned-child termination and exhausted-publication catch-up; independent review found no recovery blocker. Resume only the remaining anchors, reusing completed outputs. Production remains unchanged.
+
 ## Accepted application state — September 24, 2026
 
 **The amended local 0.6 Goal is accepted through J–M.** Independent final M review found no unresolved approved blocker, and parent documentation synchronization is complete. The commit containing this disposition is the recoverable local-v0.6.0 checkpoint. J/K/L remain accepted. Production source is checkpoint 7b41c0f on codex/archive-workflow; subsequent closure work changes documentation only.

@@ -54,6 +54,95 @@ test('concurrent immutable publication has exactly one winner and whole JSON', a
   assert.deepEqual(await fs.readdir(directory), ['result.json']);
 });
 
+test('atomic ledger replacement survives transient Windows denial without deleting valid state', async t => {
+  const directory = await fixture(t);
+  const file = path.join(directory, 'ledger.json');
+  await core.writeJsonExclusive(file, { accumulatedMs: 123 });
+  const delays = []; let attempts = 0;
+  await core.replaceJsonAtomic(file, { accumulatedMs: 456 }, {
+    wait: async ms => delays.push(ms),
+    rename: async (temporary, destination) => {
+      assert.deepEqual(await core.readJson(destination), { accumulatedMs: 123 });
+      assert.deepEqual(await core.readJson(temporary), { accumulatedMs: 456 });
+      if (attempts++ < 2) throw Object.assign(new Error('sharing denial'), { code: 'EPERM' });
+      await fs.rename(temporary, destination);
+    },
+  });
+  assert.equal(attempts, 3); assert.deepEqual(delays, [20, 40]);
+  assert.deepEqual(await core.readJson(file), { accumulatedMs: 456 });
+  assert.deepEqual(await fs.readdir(directory), ['ledger.json']);
+});
+
+test('persistent or unrelated rename failures preserve the last valid ledger and fail boundedly', async t => {
+  const directory = await fixture(t);
+  const file = path.join(directory, 'ledger.json');
+  await core.writeJsonExclusive(file, { accumulatedMs: 123 });
+  for (const code of ['EACCES', 'EINVAL']) {
+    let attempts = 0; const delays = [];
+    await assert.rejects(core.replaceJsonAtomic(file, { accumulatedMs: 456 }, {
+      wait: async ms => delays.push(ms),
+      rename: async () => { attempts++; throw Object.assign(new Error('denied'), { code }); },
+    }), { code });
+    assert.equal(attempts, code === 'EACCES' ? 7 : 1);
+    assert.equal(delays.reduce((sum, n) => sum + n, 0), code === 'EACCES' ? 1260 : 0);
+    assert.deepEqual(await core.readJson(file), { accumulatedMs: 123 });
+    assert.deepEqual(await fs.readdir(directory), ['ledger.json']);
+  }
+});
+
+test('transient ledger publication retries accrue once; exhausted publication catches up at end', async t => {
+  const directory = await fixture(t);
+  let sample = { wallMs: 10000, monotonicMs: 100 };
+  let mode = 'success', attempts = 0;
+  const ledger = core.createActiveTimeLedger(path.join(directory, 'ledger.json'), {
+    limitMs: 10000, now: () => sample,
+    atomicReplaceOptions: { wait: async () => {}, rename: async (from, to) => {
+      attempts++;
+      if (mode === 'exhausted' || mode === 'transient' && attempts < 3)
+        throw Object.assign(new Error('sharing denial'), { code: 'EPERM' });
+      await fs.rename(from, to);
+    } },
+  });
+  await ledger.begin(); attempts = 0; mode = 'transient';
+  sample = { wallMs: 11000, monotonicMs: 1100 };
+  assert.equal((await ledger.heartbeat()).accumulatedMs, 1000);
+  assert.equal(attempts, 3);
+  sample = { wallMs: 12000, monotonicMs: 2100 }; mode = 'exhausted'; attempts = 0;
+  await assert.rejects(ledger.heartbeat(), { code: 'EPERM' });
+  assert.equal(attempts, 7);
+  assert.equal((await ledger.snapshot()).accumulatedMs, 1000);
+  mode = 'success'; sample = { wallMs: 13000, monotonicMs: 3100 };
+  assert.equal((await ledger.end()).accumulatedMs, 3000);
+  assert.deepEqual(await fs.readdir(directory), ['ledger.json']);
+});
+
+test('failure-state persistence cannot prevent stopping and awaiting an actual owned child', async t => {
+  const child = spawn(process.execPath, ['-e', 'setInterval(() => {}, 1000)'], { windowsHide: true, stdio: 'ignore' });
+  t.after(() => { if (child.exitCode === null && child.signalCode === null) child.kill(); });
+  const closed = once(child, 'close'); const events = [];
+  const original = new Error('ledger heartbeat denied');
+  core.failClosedAccounting(original, {
+    stopOwnedWork: error => { assert.equal(error, original); events.push('stop'); child.kill(); },
+    persistFailure: () => { events.push('persist'); throw new Error('state rename denied'); },
+    reportFailure: error => events.push(error.message),
+  });
+  await closed;
+  assert.equal(core.defaultPidAlive(child.pid), false);
+  assert.deepEqual(events, ['stop', 'persist', 'state rename denied']);
+});
+
+test('final accounting and lock release run even when heartbeat or ledger closure rejects', async () => {
+  for (const endFails of [false, true]) {
+    const events = [];
+    await assert.rejects(core.finalizeAccounting({
+      pendingHeartbeat: Promise.reject(new Error('heartbeat failed')),
+      endInterval: async () => { events.push('end'); if (endFails) throw new Error('end failed'); },
+      releaseLock: async () => { events.push('release'); },
+    }), { message: endFails ? 'end failed' : 'heartbeat failed' });
+    assert.deepEqual(events, ['end', 'release']);
+  }
+});
+
 test('interrupted attempts stay incomplete; attempt and result paths cannot be reused', async t => {
   const directory = await fixture(t);
   const run = core.runId({ windowId: 'w', configurationId: 'c', runtimeHash: 'r' });

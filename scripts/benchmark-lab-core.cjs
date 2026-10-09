@@ -79,9 +79,23 @@ async function writeJsonExclusive(file, value) {
   } finally { await fs.unlink(temporary).catch(() => {}); }
 }
 
-async function replaceJsonAtomic(file, value) {
+async function replaceJsonAtomic(file, value, options = {}) {
   const temporary = await writeTemporaryJson(file, value);
-  try { await fs.rename(temporary, file); }
+  const rename = options.rename || fs.rename;
+  const wait = options.wait || (ms => new Promise(resolve => setTimeout(resolve, ms)));
+  // Windows scanners/readers can briefly deny replacement of a closed file.
+  // Retry the SAME complete temporary JSON; never unlink the valid ledger or
+  // replace atomic publication with an in-place/truncated write. A persistent
+  // denial still fails closed after a bounded 1.26-second backoff.
+  try {
+    for (let attempt = 0; ; attempt++) {
+      try { await rename(temporary, file); break; }
+      catch (error) {
+        if (!['EPERM', 'EACCES', 'EBUSY'].includes(error.code) || attempt >= 6) throw error;
+        await wait(20 * 2 ** attempt);
+      }
+    }
+  }
   finally { await fs.unlink(temporary).catch(() => {}); }
 }
 
@@ -245,7 +259,7 @@ function createActiveTimeLedger(file, options = {}) {
     try {
       const state = await initialize();
       await change(state, validSample(now()));
-      await replaceJsonAtomic(file, state);
+      await replaceJsonAtomic(file, state, options.atomicReplaceOptions);
       return view(state);
     } finally { await lock.release(); }
   }
@@ -313,6 +327,24 @@ function createActiveTimeLedger(file, options = {}) {
   };
 }
 
+function failClosedAccounting(error, { stopOwnedWork, persistFailure, reportFailure }) {
+  // A second filesystem error must never prevent stopping this controller's
+  // children. Foreign processes are deliberately outside this interface.
+  stopOwnedWork(error);
+  try { persistFailure(error); }
+  catch (persistenceError) { reportFailure(persistenceError); }
+}
+
+async function finalizeAccounting({ pendingHeartbeat, endInterval, releaseLock }) {
+  // Nested finalizers still run if the heartbeat chain or ledger closure
+  // rejects. An unclosed persisted interval remains available for recovery.
+  try { await pendingHeartbeat; }
+  finally {
+    try { await endInterval(); }
+    finally { await releaseLock(); }
+  }
+}
+
 async function directoryBytes(directory) {
   let bytes = 0;
   for (const entry of await fs.readdir(directory, { withFileTypes: true })) {
@@ -370,7 +402,8 @@ async function inspectResume(record, expected) {
 
 module.exports = {
   canonicalJson, stableId, sourceId, windowId, configurationId, runId, sha256File,
-  readJson, writeJsonExclusive, createAttempt, completeAttempt,
+  readJson, writeJsonExclusive, replaceJsonAtomic, createAttempt, completeAttempt,
   defaultPidAlive, assertNoLiveRecordedChildren, acquireOwnershipLock, createActiveTimeLedger,
+  failClosedAccounting, finalizeAccounting,
   directoryBytes, assertResourceEnvelope, inspectResume,
 };

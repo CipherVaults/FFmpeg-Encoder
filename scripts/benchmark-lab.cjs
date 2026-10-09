@@ -20,7 +20,7 @@ const FFMPEG = path.join(ROOT, 'ffmpeg', 'ffmpeg.exe');
 const FFPROBE = path.join(ROOT, 'ffmpeg', 'ffprobe.exe');
 const value = name => process.argv.find(a => a.startsWith(`--${name}=`))?.slice(name.length + 3);
 const phase = value('phase') || 'status';
-const allowed = ['status', 'bootstrap', 'prepare-pilot', 'pilot', 'checks', 'forecast', 'coarse', 'generalize', 'refine', 'review'];
+const allowed = ['status', 'bootstrap', 'prepare-pilot', 'pilot', 'checks', 'reconcile-environment', 'forecast', 'coarse', 'generalize', 'refine', 'review'];
 assert.ok(allowed.includes(phase), `Phase must be one of ${allowed.join(', ')}`);
 fs.mkdirSync(CAMPAIGN, { recursive: true });
 const stateFile = path.join(CAMPAIGN, 'state.json');
@@ -61,7 +61,7 @@ function checkSource(source) { assert.deepEqual(stamp(source.stagedPath), source
 function checkRuntime() {
   for (const b of state.runtime.binaries) assert.deepEqual(stamp(path.join(ROOT, b.runtimePath)), b.identity, 'Runtime changed.');
 }
-async function command(exe, argv, label, { timeoutMs = 300000, role = 'analysis', allowFailure = false, trackedOutput } = {}) {
+async function command(exe, argv, label, { timeoutMs = 300000, role = 'analysis', allowFailure = false, trackedOutput, allowedPidFile } = {}) {
   const resource = await guard(); if (state.runtime) checkRuntime();
   assert.match(label, /^[a-z0-9-]+$/);
   if (role === 'encode') {
@@ -88,6 +88,11 @@ async function command(exe, argv, label, { timeoutMs = 300000, role = 'analysis'
   try {
     if (child.pid) fs.writeFileSync(record.leasePath, JSON.stringify({ sequence, pid: child.pid, executable: exe,
       argvSha256: sha(core.canonicalJson(argv)), startedUtc: record.startedUtc }), { flag: 'wx' });
+    if (child.pid && allowedPidFile) {
+      const pending = `${allowedPidFile}.pending`;
+      fs.writeFileSync(pending, JSON.stringify({ pid: child.pid }), { flag: 'wx' });
+      fs.linkSync(pending, allowedPidFile); fs.unlinkSync(pending);
+    }
   } catch (failure) {
     child.kill(); await closed; activeCommand = undefined; fs.closeSync(stdoutFd); fs.closeSync(stderrFd);
     Object.assign(record, { status: 'failed', error: `Child lease could not be preserved: ${failure.message}`,
@@ -358,7 +363,7 @@ async function recoverQuality(previous, s, window, withNeg) {
     previous.quality = quality; save();
   }
 }
-async function runCase(definition, config, stage, { repeat = 0, withNeg = false, metrics = true } = {}) {
+async function runCase(definition, config, stage, { repeat = 0, withNeg = false, metrics = true, retimingOf } = {}) {
   const s = source(definition.sourceId); const window = await prepareWindow(definition); checkSource(s); checkRuntime();
   const configurationHash = core.configurationId(config);
   const runtimeHash = runtimeIdentity();
@@ -368,6 +373,11 @@ async function runCase(definition, config, stage, { repeat = 0, withNeg = false,
   if (previous) {
     const checked = await core.inspectResume(previous, expected); assert.ok(checked.accepted, checked.reasons.join(', '));
     assert.deepEqual(previous.argv, lab.encodeArgs(s, window, config, previous.output.path), 'Saved executable plan differs from the current builder.');
+    if (previous.timingValidity?.valid !== true && stage !== 'warmup') {
+      assert.ok(state.cases.filter(c => c.retimingOf).length < lab.MATRIX.diagnosticRetryMaximum,
+        'Quiet retiming has consumed the diagnostic allowance.');
+      return runCase(definition, config, stage, { repeat: repeat + 1, withNeg, metrics, retimingOf: previous.runId });
+    }
     if (metrics) await recoverQuality(previous, s, window, withNeg);
     console.log(`Reusing ${definition.id} ${config.familyId} Q${config.settings.quality}`); return previous;
   }
@@ -378,7 +388,7 @@ async function runCase(definition, config, stage, { repeat = 0, withNeg = false,
       && c.code === 0 && c.argv.at(-1) === output && c.endedUtc);
     // A completed child with durable close evidence can survive interrupted
     // metrics/reporting. A playable file with unknown child exit cannot.
-    if (closedEncode && fs.existsSync(output)) {
+    if (closedEncode && fs.existsSync(output) && unfinished.timingValidity?.valid === true) {
       for (const [key, expectedValue] of Object.entries(expected)) assert.equal(unfinished[key], expectedValue);
       assert.deepEqual(closedEncode.argv, lab.encodeArgs(s, window, config, output));
       const recovery = structuredClone(unfinished);
@@ -406,7 +416,8 @@ async function runCase(definition, config, stage, { repeat = 0, withNeg = false,
     }
   }
   if (stage !== 'warmup' && !phaseWarmed.has(config.familyId)) {
-    const last = [...state.cases].reverse().find(c => c.status === 'complete' && c.config.familyId === config.familyId && c.encode?.endedUtc);
+    const last = [...state.cases].reverse().find(c => c.status === 'complete' && c.timingValidity?.valid === true
+      && c.config.familyId === config.familyId && c.encode?.endedUtc);
     if (!last || Date.now() - Date.parse(last.encode.endedUtc) > 30 * 60 * 1000) {
       const supportCount = state.cases.filter(c => c.stage === 'warmup').length + (state.supportInvocations || 0);
       assert.ok(supportCount < lab.MATRIX.warmupSupportMaximum, 'Warmup/support allowance reached; do not silently expand it.');
@@ -420,7 +431,7 @@ async function runCase(definition, config, stage, { repeat = 0, withNeg = false,
   const label = `${definition.id}-${config.familyId}-q${config.settings.quality}-${attempt.attemptId.slice(-8)}`;
   const record = { runId: id, ...expected, window: window.id, source: s.id, cohort: s.cohort, stage, repeat, config,
     attemptId: attempt.attemptId, directory: attempt.directory, status: 'running',
-    startedUtc: new Date().toISOString(), harnessIdentity: harnessIdentity() };
+    startedUtc: new Date().toISOString(), harnessIdentity: harnessIdentity(), ...(retimingOf ? { retimingOf } : {}) };
   state.cases.push(record); save();
   let telemetry;
   let stopTelemetry;
@@ -428,8 +439,10 @@ async function runCase(definition, config, stage, { repeat = 0, withNeg = false,
     record.preflight = await quietPreflight(label);
     const telemetryPath = path.join(attempt.directory, 'gpu.csv');
     const stopPath = path.join(attempt.directory, 'telemetry.stop');
+    const allowedPidFile = path.join(attempt.directory, 'timed-child.json');
+    const contaminationFile = path.join(attempt.directory, 'foreign-encoder.json');
     const monitor = spawn(process.execPath, [path.join(__dirname, 'benchmark-lab-monitor.cjs'), String(process.pid), telemetryPath,
-      path.join(attempt.directory, 'gpu-errors.txt'), stopPath], { windowsHide: true, shell: false, stdio: 'ignore' });
+      path.join(attempt.directory, 'gpu-errors.txt'), stopPath, allowedPidFile, contaminationFile], { windowsHide: true, shell: false, stdio: 'ignore' });
     const monitorClose = new Promise(resolve => monitor.once('close', (code, signal) => resolve({ code, signal })));
     monitor.on('error', () => {});
     let monitorStopped = false;
@@ -448,11 +461,19 @@ async function runCase(definition, config, stage, { repeat = 0, withNeg = false,
     let result;
     try {
       result = await command(FFMPEG, lab.encodeArgs(s, window, config, output), `${label}-encode`,
-        { role: 'encode', allowFailure: true, timeoutMs: 3600000, trackedOutput: output });
+        { role: 'encode', allowFailure: true, timeoutMs: 3600000, trackedOutput: output, allowedPidFile });
     } finally {
       await stopTelemetry();
     }
     record.encode = result.record; record.telemetry = telemetry; record.argv = result.record.argv;
+    record.timingValidity = { valid: telemetry.available && Boolean(record.preflight),
+      method: 'Quiet CPU/GPU preflight plus owned telemetry and foreign-NVENC-session observation.' };
+    if (!telemetry.available) throw new Error('GPU/session observers failed; clean timing remains unverified.');
+    if (fs.existsSync(contaminationFile)) {
+      record.timingValidity = { valid: false, reason: 'Foreign NVENCsession appeared during timing.',
+        evidence: JSON.parse(fs.readFileSync(contaminationFile)) };
+      throw new Error('Foreign hardware encoding appeared during timing; no foreign process was stopped.');
+    }
     if (result.record.code !== 0) throw new Error(`Encoder failed: ${result.stderr.slice(-2500)}`);
     record.effectiveEvidence = data.effectiveEvidence(config, result.stderr);
     record.validity = await outputValidation(output, s, window, label);
@@ -535,6 +556,26 @@ async function forecast() {
   data.exportData(state, path.join(CAMPAIGN, 'data', 'pilot'));
   console.log(JSON.stringify(report, null, 2));
 }
+async function reconcileEnvironment() {
+  if (!state.timingContamination) {
+    const evidence = { observedUtc: new Date().toISOString(), foreignPid: 28084, process: 'obs64.exe',
+      liveEncoder: 'HEVC1920x1080, approximately100fps, observed NVENCsession161',
+      evidence: ['CPU x265pilot telemetry shows18–21percent hardware encoder utilization.',
+        'WindowsVideoEncode engine counter attributes19percent toPID28084.',
+        'nvidia-smi encodersessions identifiesPID28084 asactiveHEVCsession.',
+        'Ahmed replied that he would stopOBS; PID subsequently exited and twoidleGPU observations reportencoder0/decoder0.'],
+      disposition: 'Preserve valid frames/content/quality/payload evidence. Exclude originalpilot timing from clean comparisons; retime only reused consequential settings under quiet conditions.' };
+    const file = path.join(CAMPAIGN, 'pilot-timing-contamination.json');
+    await core.writeJsonExclusive(file, evidence); state.timingContamination = { ...evidence, path: file };
+    for (const c of state.cases.filter(c => c.encode && c.status === 'complete')) {
+      c.timingValidity = { valid: false, reason: 'ConcurrentOBS hardware encoding during initialpilot.', evidence: file };
+    }
+    save();
+  }
+  await quietPreflight('environment-restored');
+  state.stage = 'quiet-environment-ready-bounded-coarse'; save();
+  data.exportData(state, path.join(CAMPAIGN, 'data', 'pilot'));
+}
 
 function crosscheck(item) {
   return ['cd-b', 'desk-b'].includes(item.window.id) && item.config.familyId !== 'svt';
@@ -614,9 +655,18 @@ async function main() {
       assert.equal(lease.sequence, command.sequence); assert.equal(lease.executable, command.executable);
       assert.equal(lease.argvSha256, sha(core.canonicalJson(command.argv))); command.pid = lease.pid;
     }
-    const interrupted = await core.assertNoLiveRecordedChildren(state.commands);
+    const nativeObservers = [];
+    for (const c of state.commands.filter(c => c.role === 'lightweight-telemetry' && c.status === 'running')) {
+      const file = `${c.stdoutPath}.process.json`;
+      if (!fs.existsSync(file)) continue;
+      const process = JSON.parse(fs.readFileSync(file));
+      for (const key of ['childPid', 'sessionPid']) if (process[key]) nativeObservers.push({
+        pid: process[key], status: 'running', sequence: `observer-${c.sequence}-${key}`, role: 'lightweight-telemetry' });
+    }
+    const interrupted = await core.assertNoLiveRecordedChildren([...state.commands, ...nativeObservers]);
     for (const item of interrupted) {
       const saved = state.commands.find(c => c.sequence === item.sequence);
+      if (!saved) continue;
       Object.assign(saved, item); saved.recoveryNote = 'Recorded child PID is no longer live; exit status remains unknown.';
     }
     save();
@@ -640,8 +690,9 @@ async function main() {
     else if (phase === 'prepare-pilot') await preparePilot();
     else if (phase === 'pilot') await pilot();
     else if (phase === 'checks') await command(process.execPath, ['--test',
-      ...['core', 'config', 'data'].map(name => path.join(ROOT, 'tests', `benchmark-lab-${name}.test.cjs`))], 'focused-harness-checks');
+      ...['core', 'config', 'data', 'monitor'].map(name => path.join(ROOT, 'tests', `benchmark-lab-${name}.test.cjs`))], 'focused-harness-checks');
     else if (phase === 'forecast') await forecast();
+    else if (phase === 'reconcile-environment') await reconcileEnvironment();
     else if (phase === 'coarse') await coarse();
     else if (phase === 'generalize') await generalize();
     else throw new Error(`${phase} implementation is not yet enabled. No measurement has been launched.`);

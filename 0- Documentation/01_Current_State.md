@@ -8,6 +8,10 @@ Six unchanged source copies are SHA256-verified under artifacts/phase1-2026-10-1
 
 Current next step: bounded middle-point/reference coarse A block, then reforecast. The conservative full nominal matrix does not fit12hours, so lower-value breadth and extra finalist capacity remain conditional; all protected pairs, Archive29 coverage, original held-outs and reporting reserves remain. Durable live state is artifacts/phase1-2026-10-10/state.json and active-time.json; read them before trusting this prose. Ahmed's compact blind calibration review is a required later gate before frozen finalists/heldouts. [Continuation](10_Continuation_State.md) records recovery. Resource ceilings remain12active hours/55GiB/20GiB free/340encodes.
 
+Benchmark timing correction, October10: the first coarse preflight stopped before encoding because OBS was using the GPU encoder. Earlier CPUpilot telemetry proves it was also active during the initial pilot. Pixel/content/size/metric evidence remains valid; initial speed comparisons are provisional and flagged invalid in campaign data. Ahmed stopped OBS; live idle queries and quiet preflight now show encoder0/decoder0. Continue the bounded block with fresh quiet retiming where required, preserving original results. See the correction in the pilot report; no production work is reopened.
+
+The expanded focused checks now pass26/26, including real native-observer cleanup on persistence failure and parent death. Unknown timing is quality-only evidence; only timingValidity=true supports speed comparisons. New monitoring records foreign encoder PIDs without stopping them.
+
 ## Accepted application state — September 24, 2026
 
 **The amended local 0.6 Goal is accepted through J–M.** Independent final M review found no unresolved approved blocker, and parent documentation synchronization is complete. The commit containing this disposition is the recoverable local-v0.6.0 checkpoint. J/K/L remain accepted. Production source is checkpoint 7b41c0f on codex/archive-workflow; subsequent closure work changes documentation only.

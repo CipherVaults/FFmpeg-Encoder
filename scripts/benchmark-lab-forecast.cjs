@@ -4,17 +4,21 @@
 // This is a conservative planning estimate, not a confidence interval.
 const lab = require('./benchmark-lab-config.cjs');
 
-function estimate(state, snapshot, resources) {
+function estimate(state, snapshot, resources, options = {}) {
   const measured = state.cases.filter(c => c.status === 'complete' && c.stage !== 'warmup' && c.validity?.valid);
   const supported = lab.FAMILIES.filter(f => !state.unsupportedFamilies?.[f.id]);
-  function costs(family, cohort, duration, metrics = true, neg = false) {
-    let cases = measured.filter(c => c.config.familyId === family && c.cohort === cohort);
+  function costs(family, cohort, duration, metrics = true, neg = false, sourceId) {
+    let cases = options.sourceSpecific && sourceId
+      ? measured.filter(c => c.config.familyId === family && c.source === sourceId) : [];
+    if (!cases.length) cases = measured.filter(c => c.config.familyId === family && c.cohort === cohort);
     let resolutionMultiplier = 1;
     if (!cases.length) {
       cases = measured.filter(c => c.config.familyId === family && c.cohort === '1080p-gameplay');
       resolutionMultiplier = cohort === '1440p-gameplay' ? 2.1 : 1;
     }
     if (!cases.length) return null;
+    const quiet = cases.filter(c => c.timingValidity?.valid === true);
+    if (quiet.length) cases = quiet;
     const scale = c => duration / state.windows.find(w => w.id === c.window).durationSeconds * resolutionMultiplier;
     const encode = Math.max(...cases.map(c => c.elapsedSeconds * scale(c)));
     const validation = Math.max(...cases.map(c => {
@@ -35,19 +39,31 @@ function estimate(state, snapshot, resources) {
     return encode + validation + regular + ssim + negative + 3;
   }
   const exists = (window, family, quality) => measured.some(c => c.window === window && c.config.familyId === family
-    && c.config.settings.quality === quality && c.repeat === 0 && !Object.keys(c.config.overrides || {}).length);
+    && c.config.settings.quality === quality && c.timingValidity?.valid !== false
+    && (c.repeat === 0 || c.retimingOf) && !Object.keys(c.config.overrides || {}).length);
   let coarse = 0, coarseCount = 0;
   for (const source of lab.SOURCES) for (const family of supported) for (const quality of family.values) {
     if (!exists(`${source.id}-a`, family.id, quality)) {
-      coarse += costs(family.id, source.cohort, 12, true, false); coarseCount++;
+      if (options.omitSvt22 && family.id === 'svt' && quality === 22) continue;
+      coarse += costs(family.id, source.cohort, 12, true, false, source.id); coarseCount++;
     }
   }
   let generalization = 0;
   for (const source of lab.SOURCES) for (const family of supported) {
-    generalization += costs(family.id, source.cohort, 12, true, ['cd', 'desk'].includes(source.id) && family.id !== 'svt');
+    if (options.reducedB && !['x265', 'hevc-archive'].includes(family.id)
+      && !(family.id === 'svt' ? ['cd', 'desk'] : ['cd', 'sf', 'desk']).includes(source.id)) continue;
+    // Fixed anchors can be deducted exactly. Other chosen points are not
+    // presumed to match a pilot run before their configurations are selected.
+    if (family.id === 'x265' && exists(`${source.id}-b`, family.id, 25)) continue;
+    if (family.id === 'hevc-archive' && options.reducedB && exists(`${source.id}-b`, family.id, 29)) continue;
+    generalization += costs(family.id, source.cohort, 12, true,
+      ['cd', 'desk'].includes(source.id) && family.id !== 'svt', source.id);
   }
   // An additional retuned Archive arm can be separate from the protected CQ29.
-  for (const source of lab.SOURCES) generalization += costs('hevc-archive', source.cohort, 12, true, ['cd', 'desk'].includes(source.id));
+  if (!options.reducedB) for (const source of lab.SOURCES) {
+    if (!exists(`${source.id}-b`, 'hevc-archive', 29))
+      generalization += costs('hevc-archive', source.cohort, 12, true, ['cd', 'desk'].includes(source.id), source.id);
+  }
   const worstCalibration = Math.max(...supported.filter(f => f.id !== 'x265').map(f => costs(f.id, '1080p-gameplay', 12, true, true)));
   const refinement = lab.MATRIX.refinement * worstCalibration;
   const ablation = lab.MATRIX.optionalAblation * worstCalibration;
@@ -58,8 +74,8 @@ function estimate(state, snapshot, resources) {
   // spent in advance. Three completed timing repetitions; metrics only once.
   function triple(family, source) {
     const duration = source.holdout[1] - source.holdout[0];
-    return costs(family, source.cohort, duration, true, lab.PAIRED_HELDOUT.includes(source.id) && family !== 'svt')
-      + 2 * costs(family, source.cohort, duration, false);
+    return costs(family, source.cohort, duration, true, lab.PAIRED_HELDOUT.includes(source.id) && family !== 'svt', source.id)
+      + 2 * costs(family, source.cohort, duration, false, false, source.id);
   }
   for (const source of lab.SOURCES) {
     referenceHeldout += triple('x265', source); heldoutCount += 3;
@@ -85,6 +101,8 @@ function estimate(state, snapshot, resources) {
   const maximumRemainingSeconds = mandatoryRemainingSeconds + contingencyFactor * ablation;
   const remainingSeconds = snapshot.remainingMs / 1000;
   return { observedUtc: new Date().toISOString(), measuredCases: measured.length, encodeInvocations: state.encodeInvocations,
+    forecastOptions: options,
+    provisionalTimingCases: measured.filter(c => c.timingValidity?.valid === false).length,
     usedActiveSeconds: snapshot.accumulatedMs / 1000, remainingSeconds,
     stagesSecondsBeforeContingency: { coarse, generalization, refinement, optionalAblation: ablation,
       heldoutIncludingRepeats: heldout, selectorReserve, supportReserve, reportingReserve: reportReserve },
@@ -100,11 +118,14 @@ function estimate(state, snapshot, resources) {
       remainingOutputAndReviewReserveBytes: 25 * 1024 ** 3,
       rationale: 'Video-only outputs plus selected lossless review material; reserve checked dynamically, no overwrite.' },
     assumptions: ['Worst observed same-family/cohort cost, linear duration scaling with startup conservatively included.',
+      options.sourceSpecific ? 'Use worst observed same-source/family cost where available; unseen content variation remains uncertain.'
+        : 'Every unmeasured source uses worst observed family/cohort cost, intentionally conservative.',
       'Unmeasured1440 families use2.1 times the worst1080 gameplay cost; replace with measured costs during coarse.',
       'Three heldout timing runs; quality metrics computed once per unique configuration/window.',
       'Protected paired arms counted separately before overlap savings.',
       'Up to3finalists is a ceiling;1finalist capacity is tested separately from the conservative3slot maximum.',
       'Long-GOP softwareAV1 seek/decode can limit whole-pipeline GPU throughput.',
+      'Pre-quiet pilot costs are provisional workload observations, not valid comparative speed evidence; use quiet observations when available.',
       '25percent contingency is a planning margin, not a statistical interval.'] };
 }
 

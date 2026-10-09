@@ -10,6 +10,8 @@ Pilot is accepted:20measured cases plus6warm-ups,24focused tests, independent ra
 
 The previous accepted-app terminal record follows as history. Its instruction to wait was superseded only by the new benchmark Goal; accepted app behavior and release checkpoints remain protected.
 
+October10 environment reconciliation: OBS PID28084 encoded concurrently during pilot. Initial content/metrics are valid but timingValidity=false excludes those runs from clean speed comparisons. The first coarse preflight failed before encoding, preserving CD-A selector evidence; no need to repeat its unseeked decode. Ahmed stopped OBS; recorded quiet preflight now passes. Resume coarse --block=anchors from live state. New warm-ups and narrow quiet retiming replace necessary reused timings; original immutable results remain. Monitor foreignNVENC PIDs, keep the diagnostic count/time ledger, and reforecast after the block. Current newest checkpoint will contain this correction;9c15738 is preceding pilot acceptance.
+
 ## Accepted application terminal state — September 24, 2026
 
 The approved amended J–M engineering and acceptance work is complete. **Do not restart J/K/L/M or the field campaigns.** Independent final M review found no unresolved approved blocker; parent synchronization is complete. The commit containing this terminal record is the documentation acceptance checkpoint for local-v0.6.0. Production remains7b41c0f; d658065 preserves the preceding recovery/documentation reconciliation.

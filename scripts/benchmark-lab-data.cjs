@@ -74,11 +74,14 @@ function csv(rows) {
 function caseRows(state) {
   return state.cases.map(c => {
     const s = state.sources.find(s => s.id === c.source), w = state.windows.find(w => w.id === c.window);
-    const reference = state.cases.find(x => x.window === c.window && x.config.familyId === 'x265'
-      && x.repeat === 0 && x.status === 'complete' && x.stage !== 'warmup');
+    const references = state.cases.filter(x => x.window === c.window && x.config.familyId === 'x265'
+      && x.status === 'complete' && x.stage !== 'warmup');
+    const reference = references.find(x => x.timingValidity?.valid === true) || references.find(x => x.repeat === 0);
     return { run_id: c.runId, attempt_id: c.attemptId, source_id: s.sourceId, source_label: c.source,
       window_id: w.windowId, window_label: c.window, cohort: c.cohort, stage: c.stage,
       status: c.status, valid: c.validity?.valid ?? false, family: c.config.familyId, encoder: c.config.encoder,
+      timing_valid: c.timingValidity?.valid ?? null, timing_reason: c.timingValidity?.reason ?? null,
+      retiming_of: c.retimingOf ?? null,
       preset: c.config.settings.preset, quality_mode: c.config.qualityMode, quality_value: c.config.settings.quality,
       recipe_id: c.config.settings.recipeId ?? null, overrides: c.config.overrides, repeat: c.repeat,
       width: s.video.width, height: s.video.height, pixel_format: c.validity?.probe?.streams?.[0]?.pix_fmt ?? null,
@@ -89,7 +92,8 @@ function caseRows(state) {
       capture_window_video_bytes: w.sourceVideoPayloadBytes, ratio_to_capture: c.videoPayloadRatioToCapture ?? null,
       x265_video_bytes: reference?.videoPayloadBytes ?? null,
       ratio_to_x265_video: reference && c.videoPayloadBytes ? c.videoPayloadBytes / reference.videoPayloadBytes : null,
-      speedup_vs_x265: reference && c.elapsedSeconds ? reference.elapsedSeconds / c.elapsedSeconds : null,
+      speedup_vs_x265: reference && c.elapsedSeconds && c.timingValidity?.valid === true && reference.timingValidity?.valid === true
+        ? reference.elapsedSeconds / c.elapsedSeconds : null,
       vmaf_mean: c.quality?.regular?.mean ?? null, vmaf_p5: c.quality?.regular?.p5 ?? null,
       vmaf_minimum: c.quality?.regular?.minimum ?? null, vmaf_worst_second: c.quality?.regular?.worstOneSecond?.mean ?? null,
       neg_available: c.quality?.neg?.available ?? null, neg_mean: c.quality?.neg?.mean ?? null,
@@ -126,9 +130,11 @@ function geometricMean(values) {
   return Math.exp(values.reduce((n, v) => n + Math.log(v), 0) / values.length);
 }
 function chooseMeasuredPoints(state, familyId) {
-  const valid = caseRows(state).filter(r => r.status === 'complete' && r.valid && r.stage !== 'warmup'
-    && r.repeat === 0 && r.family === familyId && r.window_label.endsWith('-a') && r.cohort === '1080p-gameplay'
+  const candidates = caseRows(state).filter(r => r.status === 'complete' && r.valid && r.stage !== 'warmup'
+    && (r.repeat === 0 || r.retiming_of) && r.family === familyId && r.window_label.endsWith('-a') && r.cohort === '1080p-gameplay'
     && Number.isFinite(r.ratio_to_x265_video) && r.ratio_to_x265_video > 0);
+  const valid = [...new Map(candidates.sort((a, b) => Number(a.timing_valid === true) - Number(b.timing_valid === true))
+    .map(r => [`${r.window_label}:${r.quality_value}`, r])).values()];
   const groups = new Map();
   for (const row of valid) {
     if (!groups.has(row.quality_value)) groups.set(row.quality_value, []);
@@ -138,7 +144,8 @@ function chooseMeasuredPoints(state, familyId) {
     .map(([quality, rows]) => ({ quality, scenes: rows.map(r => r.source_label),
     sceneCount: rows.length, sizeRatio: geometricMean(rows.map(r => r.ratio_to_x265_video)),
     vmafMean: rows.reduce((n, r) => n + r.vmaf_mean, 0) / rows.length,
-    speedup: geometricMean(rows.map(r => r.speedup_vs_x265)) }));
+    speedup: rows.every(r => Number.isFinite(r.speedup_vs_x265) && r.speedup_vs_x265 > 0)
+      ? geometricMean(rows.map(r => r.speedup_vs_x265)) : null }));
   assert.ok(points.length > 0, `No measured points for ${familyId}`);
   const selected = [...points].sort((a, b) => Math.abs(Math.log(a.sizeRatio)) - Math.abs(Math.log(b.sizeRatio)))[0];
   return { familyId, selectedQuality: selected.quality, points,

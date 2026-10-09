@@ -17,8 +17,20 @@ function estimate(state, snapshot, resources, options = {}) {
       resolutionMultiplier = cohort === '1440p-gameplay' ? 2.1 : 1;
     }
     if (!cases.length) return null;
-    const quiet = cases.filter(c => c.timingValidity?.valid === true);
-    if (quiet.length) cases = quiet;
+    // Replace a contaminated timing only with a clean observation of THAT
+    // window/configuration. An easier clean A scene must not erase a costly B
+    // workload observation from the planning ceiling. Dirty observations are
+    // provisional costs only and never support comparative speed claims.
+    const grouped = new Map();
+    for (const c of cases) {
+      const key = `${c.window}:${JSON.stringify(c.config)}`;
+      if (!grouped.has(key)) grouped.set(key, []);
+      grouped.get(key).push(c);
+    }
+    cases = [...grouped.values()].flatMap(group => {
+      const quiet = group.filter(c => c.timingValidity?.valid === true);
+      return quiet.length ? quiet : group;
+    });
     const scale = c => duration / state.windows.find(w => w.id === c.window).durationSeconds * resolutionMultiplier;
     const encode = Math.max(...cases.map(c => c.elapsedSeconds * scale(c)));
     const validation = Math.max(...cases.map(c => {
@@ -39,10 +51,15 @@ function estimate(state, snapshot, resources, options = {}) {
     return encode + validation + regular + ssim + negative + 3;
   }
   const exists = (window, family, quality) => measured.some(c => c.window === window && c.config.familyId === family
-    && c.config.settings.quality === quality && c.timingValidity?.valid !== false
+    && c.config.settings.quality === quality && c.timingValidity?.valid === true
     && (c.repeat === 0 || c.retimingOf) && !Object.keys(c.config.overrides || {}).length);
   let coarse = 0, coarseCount = 0;
-  for (const source of lab.SOURCES) for (const family of supported) for (const quality of family.values) {
+  const coarseSelection = options.coarseSelection || lab.SOURCES.flatMap(source => supported.flatMap(family =>
+    family.values.map(quality => ({ source: source.id, family: family.id, quality }))));
+  for (const selected of coarseSelection) {
+    const source = lab.SOURCES.find(s => s.id === selected.source);
+    const family = supported.find(f => f.id === selected.family); const quality = selected.quality;
+    if (!source || !family || !Number.isFinite(quality)) throw new Error('Invalid forecast search descriptor.');
     if (!exists(`${source.id}-a`, family.id, quality)) {
       if (options.omitSvt22 && family.id === 'svt' && quality === 22) continue;
       coarse += costs(family.id, source.cohort, 12, true, false, source.id); coarseCount++;
@@ -65,7 +82,7 @@ function estimate(state, snapshot, resources, options = {}) {
       generalization += costs('hevc-archive', source.cohort, 12, true, ['cd', 'desk'].includes(source.id), source.id);
   }
   const worstCalibration = Math.max(...supported.filter(f => f.id !== 'x265').map(f => costs(f.id, '1080p-gameplay', 12, true, true)));
-  const refinement = lab.MATRIX.refinement * worstCalibration;
+  const refinement = (options.refinementCases ?? lab.MATRIX.refinement) * worstCalibration;
   const ablation = lab.MATRIX.optionalAblation * worstCalibration;
   let referenceHeldout = 0, protectedHeldout = 0, finalistHeldout = [0, 0, 0];
   let heldoutCount = 0;
@@ -95,12 +112,12 @@ function estimate(state, snapshot, resources, options = {}) {
     const remainingSeconds = contingencyFactor * (searchAndPreparation + heldoutSeconds) + reportReserve;
     return { finalistSlots, heldoutSecondsBeforeContingency: heldoutSeconds, remainingSeconds,
       fits: remainingSeconds <= snapshot.remainingMs / 1000,
-      qualification: 'Worst observed cost by cohort; no overlap savings assumed. All protected recipe arms and three timing repeats remain.' };
+      qualification: `${options.sourceSpecific ? 'Worst observed same-source/family when available, cohort fallback otherwise' : 'Worst observed cost by cohort'}; no overlap savings assumed. All protected recipe arms and three timing repeats remain. The per-source slowest potential family is a conservative capacity ceiling, not one selected global finalist.` };
   });
   const mandatoryRemainingSeconds = contingencyFactor * (coarse + generalization + refinement + heldout + selectorReserve + supportReserve) + reportReserve;
   const maximumRemainingSeconds = mandatoryRemainingSeconds + contingencyFactor * ablation;
   const remainingSeconds = snapshot.remainingMs / 1000;
-  return { observedUtc: new Date().toISOString(), measuredCases: measured.length, encodeInvocations: state.encodeInvocations,
+  return { schemaVersion: 2, observedUtc: new Date().toISOString(), measuredCases: measured.length, encodeInvocations: state.encodeInvocations,
     forecastOptions: options,
     provisionalTimingCases: measured.filter(c => c.timingValidity?.valid === false).length,
     usedActiveSeconds: snapshot.accumulatedMs / 1000, remainingSeconds,
@@ -110,7 +127,7 @@ function estimate(state, snapshot, resources, options = {}) {
     contingencyFactor, mandatoryRemainingSeconds, maximumRemainingSeconds,
     fullHeldoutPlusCoarseRemainingSeconds: contingencyFactor * (coarse + heldout + selectorReserve + supportReserve) + reportReserve,
     capacityScenarios,
-    fitsMinimumCampaign: capacityScenarios[0].fits,
+    fullSearchFitsWithOneFinalist: capacityScenarios[0].fits,
     provisionalFinalistCapacity: Math.max(0, ...capacityScenarios.filter(s => s.fits).map(s => s.finalistSlots)),
     fitsFullMatrix: maximumRemainingSeconds <= remainingSeconds,
     fitsRequiredWithoutAblation: mandatoryRemainingSeconds <= remainingSeconds,
@@ -126,6 +143,7 @@ function estimate(state, snapshot, resources, options = {}) {
       'Up to3finalists is a ceiling;1finalist capacity is tested separately from the conservative3slot maximum.',
       'Long-GOP softwareAV1 seek/decode can limit whole-pipeline GPU throughput.',
       'Pre-quiet pilot costs are provisional workload observations, not valid comparative speed evidence; use quiet observations when available.',
+      'Quiet replacement is window/configuration-specific; difficult B observations remain in the cost ceiling until equivalent clean timings exist.',
       '25percent contingency is a planning margin, not a statistical interval.'] };
 }
 

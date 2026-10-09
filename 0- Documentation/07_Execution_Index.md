@@ -1,5 +1,7 @@
 # Execution summary index
 
+[October10 Phase1 quiet anchors](Execution%20Summaries/2026-10-10_Phase1_Anchors.md):36/36cases,69actual encodes/13warm-ups,33focused checks, independent arithmetic/metric-seal/telemetry review; targeted20/reducedB budget fits provisionally one/two finalists. The commit adding this report is the anchor checkpoint. Visual freeze and held-out/report acceptance remain pending.
+
 October10 timing qualification: the pilot report includes an explicit OBS-contamination correction. Content/metrics pass; initial speed results are provisional. OBS is now stopped, quiet retiming is isolated, and expanded recovery checks pass26/26.
 
 [October10 Phase1 pilot](Execution%20Summaries/2026-10-10_Phase1_Pilot.md):20measured cases/6warm-ups,24focused checks, independent raw-data/frame/argv review and measured resource forecast. Bounded calibration next; visual freeze/held-out/final Goal acceptance pending. Harness checkpoint82c0260; the report-adding commit preserves subsequent hardening.

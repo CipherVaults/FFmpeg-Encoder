@@ -73,3 +73,35 @@ test('forecast reserves independent protected pairs and three held-out repetitio
   assert.ok(forecast.capacityScenarios[0].remainingSeconds < forecast.capacityScenarios[2].remainingSeconds);
   assert.equal(forecast.fullHeldoutPlusCoarseRemainingSeconds > 0, true);
 });
+
+test('forecast retains difficult B cost while replacing only equivalent contaminated timings', () => {
+  const families = ['x265', 'svt', 'hevc-ordinary', 'hevc-archive', 'av1-ordinary', 'av1-quality'];
+  const state = { commands: [], encodeInvocations: 26,
+    windows: ['cd-a', 'cd-b'].map(id => ({ id, durationSeconds: 12 })), cases: [] };
+  for (const family of families) for (const [window, clean, elapsed] of [['cd-a', true, 10], ['cd-b', false, 100]]) {
+    state.cases.push({ source: 'cd', status: 'complete', stage: 'coarse', repeat: 0, validity: { valid: true },
+      timingValidity: { valid: clean }, window, cohort: '1080p-gameplay', elapsedSeconds: elapsed,
+      config: { familyId: family, settings: { quality: 29 } }, quality: { regular: { elapsedSeconds: 1 }, ssim: { elapsedSeconds: 1 } } });
+  }
+  const snapshot = { accumulatedMs: 1000, remainingMs: 43199000 };
+  const options = { sourceSpecific: true, reducedB: true, coarseSelection: [{ source: 'cd', family: 'hevc-archive', quality: 25 }] };
+  const difficult = estimate(state, snapshot, {}, options);
+  assert.equal(difficult.counts.remainingCoarse, 1);
+  assert.equal(difficult.stagesSecondsBeforeContingency.coarse, 105);
+  assert.match(difficult.capacityScenarios[0].qualification, /same-source/);
+  for (const family of families) state.cases.push({ ...state.cases.find(c => c.config.familyId === family && c.window === 'cd-b'),
+    timingValidity: { valid: true }, repeat: 1, retimingOf: 'old', elapsedSeconds: 20 });
+  const replaced = estimate(state, snapshot, {}, options);
+  assert.equal(replaced.stagesSecondsBeforeContingency.coarse, 25);
+  assert.ok(replaced.capacityScenarios[0].remainingSeconds < difficult.capacityScenarios[0].remainingSeconds);
+});
+
+test('targeted search stays within original measured points and preserves all primary scenes', () => {
+  const lab = require('../scripts/benchmark-lab-config.cjs');
+  const cases = lab.targetedCases(); assert.equal(cases.length, 20);
+  assert.equal(new Set(cases.map(c => `${c.window.id}:${c.config.familyId}`)).size, 20);
+  for (const c of cases) {
+    assert.equal(c.window.cohort, '1080p-gameplay');
+    assert.ok(lab.FAMILIES.find(f => f.id === c.config.familyId).values.includes(c.config.settings.quality));
+  }
+});

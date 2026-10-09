@@ -40,6 +40,11 @@ let fatalAccountingError;
 let protectedReserveMs = 0;
 const phaseWarmed = new Set();
 
+function warmupInvocations() {
+  return state.cases.filter(c => c.stage === 'warmup' && state.commands.some(command => command.role === 'encode'
+    && command.argv?.at(-1) === path.join(c.directory, 'video.mkv'))).length;
+}
+
 function save() {
   const temporary = `${stateFile}.${process.pid}.pending`;
   fs.writeFileSync(temporary, JSON.stringify(state, null, 2), { flag: 'wx' });
@@ -419,7 +424,7 @@ async function runCase(definition, config, stage, { repeat = 0, withNeg = false,
     const last = [...state.cases].reverse().find(c => c.status === 'complete' && c.timingValidity?.valid === true
       && c.config.familyId === config.familyId && c.encode?.endedUtc);
     if (!last || Date.now() - Date.parse(last.encode.endedUtc) > 30 * 60 * 1000) {
-      const supportCount = state.cases.filter(c => c.stage === 'warmup').length + (state.supportInvocations || 0);
+      const supportCount = warmupInvocations() + (state.supportInvocations || 0);
       assert.ok(supportCount < lab.MATRIX.warmupSupportMaximum, 'Warmup/support allowance reached; do not silently expand it.');
       await runCase(definition, config, 'warmup', { repeat: -(state.encodeInvocations + 1), metrics: false });
     }
@@ -526,7 +531,7 @@ async function pilot() {
     if (!warmed.has(item.config.familyId)) {
       const existing = state.cases.find(c => c.stage === 'pilot' && c.status === 'complete' && c.window === item.window.id && c.config.familyId === item.config.familyId);
       if (!existing) {
-        assert.ok(state.cases.filter(c => c.stage === 'warmup').length < lab.MATRIX.warmupSupportMaximum);
+        assert.ok(warmupInvocations() < lab.MATRIX.warmupSupportMaximum);
         await runCase(item.window, item.config, 'warmup', { repeat: -(state.encodeInvocations + 1), metrics: false });
       }
       warmed.add(item.config.familyId);
@@ -548,11 +553,19 @@ async function forecast() {
       ['cd-b', 'desk-b'].includes(c.window) && c.config.familyId !== 'svt');
   }
   const resource = await guard();
-  const report = estimate(state, await ledger.snapshot(), resource);
+  const targeted = lab.targetedCases().map(item => ({ source: item.window.sourceId,
+    family: item.config.familyId, quality: item.config.settings.quality }));
+  const snapshot = await ledger.snapshot();
+  const report = estimate(state, snapshot, resource);
+  report.adaptiveScenarios = [
+    { name: 'source-specific-reduced-b-full-coarse', options: { sourceSpecific: true, reducedB: true } },
+    { name: 'source-specific-reduced-b-targeted20', options: { sourceSpecific: true, reducedB: true, coarseSelection: targeted } },
+  ].map(({ name, options }) => ({ name, ...estimate(state, snapshot, resource, options) }));
   const file = path.join(CAMPAIGN, `forecast-${crypto.randomUUID()}.json`);
   await core.writeJsonExclusive(file, report);
   state.forecasts ||= []; state.forecasts.push({ path: file, sha256: await core.sha256File(file), ...report });
-  state.stage = report.fitsMinimumCampaign ? 'pilot-accepted-ready-coarse' : 'pilot-budget-review-required'; save();
+  if (state.stage.startsWith('pilot-')) state.stage = report.fullSearchFitsWithOneFinalist ? 'pilot-accepted-ready-coarse' : 'pilot-budget-review-required';
+  save();
   data.exportData(state, path.join(CAMPAIGN, 'data', 'pilot'));
   console.log(JSON.stringify(report, null, 2));
 }
@@ -591,8 +604,12 @@ function orderedCases(items, stage) {
 }
 async function coarse() {
   const block = value('block') || 'anchors';
-  assert.ok(['anchors', 'remainder'].includes(block));
-  const forecast = state.forecasts?.at(-1); assert.ok(forecast, 'A pilot forecast is required before search.');
+  assert.ok(['anchors', 'remainder', 'targeted20'].includes(block));
+  const latest = state.forecasts?.at(-1); assert.ok(latest, 'A pilot forecast is required before search.');
+  const forecast = block === 'targeted20'
+    ? latest.adaptiveScenarios.find(s => s.name === 'source-specific-reduced-b-targeted20') : latest;
+  assert.ok(forecast, 'The exact bounded allocation needs a measured forecast.');
+  if (block === 'targeted20') assert.ok(forecast.capacityScenarios[0].fits, 'The bounded allocation cannot fit its protected reserve.');
   // The nominal matrix is a maximum. A bounded first block is permitted only
   // after reserving original held-outs, all protected pairs, refinement and
   // reporting. No supposed future overlap is spent before it is known.
@@ -606,7 +623,8 @@ async function coarse() {
   }
   const cases = lab.SOURCES.flatMap(s => lab.FAMILIES.filter(f => !state.unsupportedFamilies?.[f.id])
     .flatMap(f => f.values.map(q => ({ window: lab.windowDefinitions(s.id, 'a'), config: lab.configuration(f.id, q) }))));
-  const selected = orderedCases(cases, 'coarse').filter(item => block === 'remainder'
+  const selected = block === 'targeted20' ? orderedCases(lab.targetedCases(), 'coarse-targeted20')
+    : orderedCases(cases, 'coarse').filter(item => block === 'remainder'
     || item.config.settings.quality === lab.FAMILIES.find(f => f.id === item.config.familyId).values
       [Math.floor(lab.FAMILIES.find(f => f.id === item.config.familyId).values.length / 2)]);
   state.matrixChanges ||= [];
@@ -622,7 +640,8 @@ async function coarse() {
     assert.ok(remaining > reservedSeconds + 180, 'Search stopped before consuming protected validation/reporting reserve.');
     await runCase(item.window, item.config, 'coarse');
   }
-  state.stage = block === 'anchors' ? 'coarse-anchor-block-complete-await-forecast' : 'coarse-complete'; save();
+  state.stage = block === 'anchors' ? 'coarse-anchor-block-complete-await-forecast'
+    : block === 'targeted20' ? 'targeted-a-complete-await-forecast' : 'coarse-complete'; save();
   data.exportData(state, path.join(CAMPAIGN, 'data', 'coarse'));
 }
 async function generalize() {

@@ -95,6 +95,8 @@ function caseRows(state) {
       speedup_vs_x265: reference && c.elapsedSeconds && c.timingValidity?.valid === true && reference.timingValidity?.valid === true
         ? reference.elapsedSeconds / c.elapsedSeconds : null,
       vmaf_mean: c.quality?.regular?.mean ?? null, vmaf_p5: c.quality?.regular?.p5 ?? null,
+      vmaf_delta_vs_x265: Number.isFinite(c.quality?.regular?.mean) && Number.isFinite(reference?.quality?.regular?.mean)
+        ? c.quality.regular.mean - reference.quality.regular.mean : null,
       vmaf_minimum: c.quality?.regular?.minimum ?? null, vmaf_worst_second: c.quality?.regular?.worstOneSecond?.mean ?? null,
       neg_available: c.quality?.neg?.available ?? null, neg_mean: c.quality?.neg?.mean ?? null,
       ssim_mean: c.quality?.ssim?.mean ?? null, ssim_p5: c.quality?.ssim?.p5 ?? null,
@@ -144,6 +146,8 @@ function chooseMeasuredPoints(state, familyId) {
     .map(([quality, rows]) => ({ quality, scenes: rows.map(r => r.source_label),
     sceneCount: rows.length, sizeRatio: geometricMean(rows.map(r => r.ratio_to_x265_video)),
     vmafMean: rows.reduce((n, r) => n + r.vmaf_mean, 0) / rows.length,
+    perScene: rows.map(r => ({ source: r.source_label, sizeRatio: r.ratio_to_x265_video,
+      vmaf: r.vmaf_mean, p5: r.vmaf_p5, vmafDeltaVsX265: r.vmaf_delta_vs_x265, speedup: r.speedup_vs_x265 })),
     speedup: rows.every(r => Number.isFinite(r.speedup_vs_x265) && r.speedup_vs_x265 > 0)
       ? geometricMean(rows.map(r => r.speedup_vs_x265)) : null }));
   assert.ok(points.length > 0, `No measured points for ${familyId}`);

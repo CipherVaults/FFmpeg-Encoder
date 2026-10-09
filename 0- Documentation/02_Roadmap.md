@@ -6,6 +6,8 @@ The [Phase1 benchmark Goal](18_Phase1_Benchmark_Goal.md) is separate from applic
 
 The March roadmap is preserved in the legacy archive. This active roadmap implements the September 6, 2026 handoff and Ahmed's eight amendments. It records reality as work progresses; an approved row is not a completed row.
 
+Quiet A anchors accepted36/36 with independent integrity review;33focused checks pass. [Anchor report](Execution%20Summaries/2026-10-10_Phase1_Anchors.md) narrows next search to20empirically justified points, then measured gap/refinement and reducedB. All protected original held-outs remain. Human visual freeze and final campaign acceptance are still pending; this is no production acceptance.
+
 Phase1 timing qualification: initial pilot content/metrics pass, but concurrentOBS invalidated clean speed comparisons. OBS is now stopped after Ahmed's response. The bounded A block supplies necessary quiet replacements; preserve original data and protected validation budget. This affects benchmark evidence only.
 
 ## Re-entry milestone 0.5.0

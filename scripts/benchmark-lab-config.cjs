@@ -96,5 +96,14 @@ function pilotCases() {
   return cases;
 }
 
+function targetedCases() {
+  // Approved initial points, narrowed after independent A-scene review. The
+  // two HEVC arms explore fidelity deficits; AV1/SVT explore the size bracket.
+  const points = [['svt', 34], ['hevc-ordinary', 25], ['hevc-archive', 25],
+    ['av1-ordinary', 36], ['av1-quality', 36]];
+  return SOURCES.filter(s => s.cohort === '1080p-gameplay').flatMap(s => points.map(([family, quality]) =>
+    ({ window: windowDefinitions(s.id, 'a'), config: configuration(family, quality) })));
+}
+
 module.exports = { SOURCES, FAMILIES, LIMITS, MATRIX, PAIRED_HELDOUT,
-  configuration, selector, encodeArgs, windowDefinitions, pilotCases };
+  configuration, selector, encodeArgs, windowDefinitions, pilotCases, targetedCases };

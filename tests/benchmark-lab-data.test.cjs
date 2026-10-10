@@ -7,6 +7,16 @@ const crypto = require('node:crypto');
 const data = require('../scripts/benchmark-lab-data.cjs');
 const { estimate } = require('../scripts/benchmark-lab-forecast.cjs');
 
+test('observer close selects its exact command when Windows reuses a PID', () => {
+  const old = { sequence: 152, pid: 50616, role: 'lightweight-telemetry', status: 'stopped', endedUtc: 'old' };
+  const current = { sequence: 682, pid: 50616, role: 'lightweight-telemetry', status: 'running' };
+  data.closeTelemetryRecord([old, current], 682, { code: 0, signal: null }, 'new');
+  assert.equal(old.endedUtc, 'old'); assert.equal(current.endedUtc, 'new');
+  assert.equal(current.status, 'stopped');
+  assert.throws(() => data.closeTelemetryRecord([old, current], 999, { code: 0 }, 'missing'), /unique/);
+  assert.throws(() => data.closeTelemetryRecord([old, current], 682, { code: 0 }, 'duplicate'), /running/);
+});
+
 test('raw metric reuse rejects altered observations and retained summaries', t => {
   const root = path.resolve(__dirname, '../artifacts'); fs.mkdirSync(root, { recursive: true });
   const directory = fs.mkdtempSync(path.join(root, 'benchmark-data-test-'));

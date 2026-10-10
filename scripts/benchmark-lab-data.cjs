@@ -7,6 +7,17 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 const crypto = require('node:crypto');
 
+function closeTelemetryRecord(commands, sequence, terminal, endedUtc) {
+  // Windows may reuse a PID within a long campaign. A PID is an observation,
+  // whereas the monotonically assigned command sequence identifies ownership.
+  const matches = commands.filter(c => c.sequence === sequence && c.role === 'lightweight-telemetry');
+  assert.equal(matches.length, 1, 'Observer close has no unique owned command record.');
+  const record = matches[0];
+  assert.equal(record.status, 'running');
+  Object.assign(record, terminal, { status: terminal.code === 0 ? 'stopped' : 'failed', endedUtc });
+  return record;
+}
+
 function metricValues(file, kind, frameCount) {
   let values;
   if (kind === 'ssim') {
@@ -156,4 +167,4 @@ function chooseMeasuredPoints(state, familyId) {
     bracketedBySize: points.some(p => p.sizeRatio <= 1) && points.some(p => p.sizeRatio >= 1),
     basis: 'Closest measured geometric video-payload ratio to x265 across primary1080 gameplay A scenes; not perceptual equivalence.' };
 }
-module.exports = { csv, caseRows, exportData, geometricMean, chooseMeasuredPoints, metricValues, verifyMetricEvidence, effectiveEvidence };
+module.exports = { csv, caseRows, exportData, geometricMean, chooseMeasuredPoints, metricValues, verifyMetricEvidence, effectiveEvidence, closeTelemetryRecord };

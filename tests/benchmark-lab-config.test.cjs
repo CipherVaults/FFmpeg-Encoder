@@ -29,3 +29,17 @@ test('configuration identity distinguishes deliberate disable from omitted prese
   assert.equal(c.args[c.args.indexOf('-tf_level:v:0') + 1], '0');
   assert.throws(() => lab.configuration('hevc-archive', 29, { options: { '-arbitrary': 'anything' } }));
 });
+
+test('reduced B allocation retains every mandatory anchor and protects recipe challenges', () => {
+  const selections = [{ familyId: 'svt', selectedQuality: 34 }, { familyId: 'hevc-ordinary', selectedQuality: 29 },
+    { familyId: 'av1-ordinary', selectedQuality: 36 }, { familyId: 'av1-quality', selectedQuality: 36 }];
+  const cases = lab.reducedGeneralization(selections); assert.equal(cases.length, 23);
+  for (const source of lab.SOURCES) for (const [family, quality] of [['x265', 25], ['hevc-archive', 29]])
+    assert.ok(cases.some(c => c.window.id === `${source.id}-b` && c.config.familyId === family && c.config.settings.quality === quality));
+  for (const source of lab.PAIRED_HELDOUT) for (const family of ['hevc-ordinary', 'av1-ordinary', 'av1-quality'])
+    assert.ok(cases.some(c => c.window.id === `${source}-b` && c.config.familyId === family));
+  assert.equal(lab.refinementCases('cd-challenges').length, 4);
+  assert.ok(lab.refinementCases('cd-challenges').every(c => c.window.id === 'cd-b'));
+  assert.equal(lab.refinementCases('av1-fh').length + lab.refinementCases('av1-rest').length, 8);
+  assert.ok(lab.refinementCases('av1-rest').every(c => c.config.settings.quality === 32 && c.window.role === 'a'));
+});

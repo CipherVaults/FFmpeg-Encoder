@@ -2,6 +2,8 @@
 
 ## Approved pre-0.7 research — October 10, 2026
 
+Targeted20 is independently accepted; [report](Execution%20Summaries/2026-10-10_Phase1_Targeted_Search.md) records per-scene deficits and truthful accounting. Next reducedB23/fourCD-B challenges retain mandatoryArchive29 and recipe/NEG coverage. Within-bracket AV132 refinement is prioritized before optional breadth. Human visualfreeze/held-out timing/playback/report/independent final closure remain pending. Accepted application behavior stays unchanged.
+
 The [Phase1 benchmark Goal](18_Phase1_Benchmark_Goal.md) is separate from application0.7. Accepted0.6 remains unchanged. [Pilot acceptance](Execution%20Summaries/2026-10-10_Phase1_Pilot.md) covers20measured cases/6warm-ups,24focused checks and independent calculation/frame/argv review. Next is bounded A calibration followed by measured resource reallocation; full nominal breadth is conditional on12h capacity. Mandatory Archive29/protected recipe pairs remain. Human visual freeze, held-outs/repeated timing/playback and final report/charts/independent closure are pending. No0.7code/ctime/Phase2 or production preset change is authorized.
 
 The March roadmap is preserved in the legacy archive. This active roadmap implements the September 6, 2026 handoff and Ahmed's eight amendments. It records reality as work progresses; an approved row is not a completed row.

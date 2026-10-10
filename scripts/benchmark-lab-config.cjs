@@ -105,5 +105,27 @@ function targetedCases() {
     ({ window: windowDefinitions(s.id, 'a'), config: configuration(family, quality) })));
 }
 
+function reducedGeneralization(selections) {
+  const quality = id => { const found = selections.find(s => s.familyId === id); assert.ok(found); return found.selectedQuality; };
+  const cases = [];
+  for (const source of SOURCES) {
+    const window = windowDefinitions(source.id, 'b');
+    cases.push({ window, config: configuration('x265', 25) }, { window, config: configuration('hevc-archive', 29) });
+    if (PAIRED_HELDOUT.includes(source.id)) for (const family of ['hevc-ordinary', 'av1-ordinary', 'av1-quality'])
+      cases.push({ window, config: configuration(family, quality(family)) });
+    if (['cd', 'desk'].includes(source.id)) cases.push({ window, config: configuration('svt', quality('svt')) });
+  }
+  return cases;
+}
+
+function refinementCases(block) {
+  if (block === 'cd-challenges') return [['hevc-ordinary', 25], ['hevc-archive', 25], ['av1-ordinary', 24], ['av1-quality', 24]]
+    .map(([family, quality]) => ({ window: windowDefinitions('cd', 'b'), config: configuration(family, quality) }));
+  if (['av1-fh', 'av1-rest'].includes(block)) return (block === 'av1-fh' ? ['fh5'] : ['cd', 'e33', 'sf'])
+    .flatMap(source => ['av1-ordinary', 'av1-quality'].map(family =>
+      ({ window: windowDefinitions(source, 'a'), config: configuration(family, 32) })));
+  throw new Error('Unknown bounded refinement block.');
+}
+
 module.exports = { SOURCES, FAMILIES, LIMITS, MATRIX, PAIRED_HELDOUT,
-  configuration, selector, encodeArgs, windowDefinitions, pilotCases, targetedCases };
+  configuration, selector, encodeArgs, windowDefinitions, pilotCases, targetedCases, reducedGeneralization, refinementCases };

@@ -12,6 +12,7 @@ const { performance } = require('node:perf_hooks');
 const core = require('./benchmark-lab-core.cjs');
 const lab = require('./benchmark-lab-config.cjs');
 const data = require('./benchmark-lab-data.cjs');
+const review = require('./benchmark-lab-review.cjs');
 const { estimate } = require('./benchmark-lab-forecast.cjs');
 const ROOT = path.resolve(__dirname, '..');
 const CAMPAIGN = path.join(ROOT, 'artifacts', 'phase1-2026-10-10');
@@ -20,7 +21,7 @@ const FFMPEG = path.join(ROOT, 'ffmpeg', 'ffmpeg.exe');
 const FFPROBE = path.join(ROOT, 'ffmpeg', 'ffprobe.exe');
 const value = name => process.argv.find(a => a.startsWith(`--${name}=`))?.slice(name.length + 3);
 const phase = value('phase') || 'status';
-const allowed = ['status', 'bootstrap', 'prepare-pilot', 'pilot', 'checks', 'reconcile-environment', 'forecast', 'coarse', 'generalize', 'refine', 'review'];
+const allowed = ['status', 'bootstrap', 'prepare-pilot', 'pilot', 'checks', 'reconcile-environment', 'reconcile-observers', 'forecast', 'coarse', 'generalize', 'refine', 'review'];
 assert.ok(allowed.includes(phase), `Phase must be one of ${allowed.join(', ')}`);
 fs.mkdirSync(CAMPAIGN, { recursive: true });
 const stateFile = path.join(CAMPAIGN, 'state.json');
@@ -321,7 +322,7 @@ async function measureQuality(output, s, window, directory, label, withNeg) {
 
 function harnessIdentity() {
   return Object.fromEntries(['benchmark-lab.cjs', 'benchmark-lab-core.cjs', 'benchmark-lab-config.cjs',
-    'benchmark-lab-data.cjs', 'benchmark-lab-forecast.cjs', 'benchmark-lab-monitor.cjs', 'benchmark-lab-quiet.ps1']
+    'benchmark-lab-data.cjs', 'benchmark-lab-forecast.cjs', 'benchmark-lab-monitor.cjs', 'benchmark-lab-quiet.ps1', 'benchmark-lab-review.cjs']
     .map(name => [name, sha(fs.readFileSync(path.join(__dirname, name)))]));
 }
 async function quietPreflight(label) {
@@ -451,17 +452,17 @@ async function runCase(definition, config, stage, { repeat = 0, withNeg = false,
     const monitorClose = new Promise(resolve => monitor.once('close', (code, signal) => resolve({ code, signal })));
     monitor.on('error', () => {});
     let monitorStopped = false;
+    const telemetrySequence = state.commands.length + 1;
     stopTelemetry = async () => {
       if (monitorStopped) return;
       if (!fs.existsSync(stopPath)) fs.writeFileSync(stopPath, 'stop\n', { flag: 'wx' });
       const terminal = await monitorClose; monitorStopped = true;
-      const saved = state.commands.find(c => c.pid === monitor.pid && c.role === 'lightweight-telemetry');
-      if (saved) Object.assign(saved, terminal, { status: terminal.code === 0 ? 'stopped' : 'failed', endedUtc: new Date().toISOString() });
+      data.closeTelemetryRecord(state.commands, telemetrySequence, terminal, new Date().toISOString());
       telemetry.available = terminal.code === 0 && fs.existsSync(telemetryPath) && fs.statSync(telemetryPath).size > 0;
       save();
     };
     telemetry = { path: telemetryPath, pid: monitor.pid };
-    state.commands.push({ sequence: state.commands.length + 1, label: `${label}-telemetry`, role: 'lightweight-telemetry',
+    state.commands.push({ sequence: telemetrySequence, label: `${label}-telemetry`, role: 'lightweight-telemetry',
       status: 'running', pid: monitor.pid, executable: 'nvidia-smi.exe', startedUtc: new Date().toISOString(), stdoutPath: telemetryPath }); save();
     let result;
     try {
@@ -590,6 +591,48 @@ async function reconcileEnvironment() {
   data.exportData(state, path.join(CAMPAIGN, 'data', 'pilot'));
 }
 
+async function reconcileObservers() {
+  const changes = [];
+  for (const record of state.commands.filter(c => c.role === 'lightweight-telemetry')) {
+    const terminalPath = `${record.stdoutPath}.terminal.json`;
+    const processPath = `${record.stdoutPath}.process.json`;
+    if (!fs.existsSync(terminalPath) || !fs.existsSync(processPath)) continue;
+    const terminal = JSON.parse(fs.readFileSync(terminalPath));
+    const owned = JSON.parse(fs.readFileSync(processPath));
+    assert.equal(owned.wrapperPid, record.pid);
+    assert.ok(Number.isFinite(Date.parse(terminal.endedUtc)), 'Observer terminal time is invalid.');
+    const mismatch = !['stopped', 'failed'].includes(record.status)
+      || Math.abs(Date.parse(record.endedUtc) - Date.parse(terminal.endedUtc)) > 1000;
+    if (!mismatch) continue;
+    assert.equal(core.defaultPidAlive(record.pid), false, 'A currently live observer cannot be reconciled from old evidence.');
+    const before = structuredClone(record);
+    if (!Array.isArray(terminal.results)) {
+      // Restore only a corrupted historical time from the original observer's
+      // terminal evidence. Its weaker single-observer/timing validity stays as
+      // recorded; this does not promote the contaminated pilot to clean data.
+      assert.equal(record.status, 'stopped');
+      assert.ok(terminal.terminating && terminal.signal === 'SIGTERM');
+      Object.assign(record, { endedUtc: terminal.endedUtc,
+        closeRecovery: 'Historical observer time restored from its own single-child terminal sidecar after PID-reuse bookkeeping; original evidence limitations unchanged.' });
+    } else {
+      assert.equal(terminal.results.length, 2);
+      assert.equal(new Set(terminal.results.map(r => r.pid)).size, 2);
+      assert.ok(terminal.results.every(r => [owned.childPid, owned.sessionPid].includes(r.pid)));
+      assert.ok(terminal.errorsSeen.length === 0 && terminal.results.every(r => r.code === 0 || r.terminatedByUs));
+      Object.assign(record, { code: 0, signal: null, status: 'stopped', endedUtc: terminal.endedUtc,
+        closeRecovery: 'Terminal time and successful owned-child closure reconstructed from this observer’s own sidecars after a PID-reuse bookkeeping defect.' });
+    }
+    changes.push({ before, after: structuredClone(record), terminalPath, processPath,
+      terminalSha256: await core.sha256File(terminalPath), processSha256: await core.sha256File(processPath) });
+  }
+  if (changes.length) {
+    const file = path.join(CAMPAIGN, `observer-reconciliation-${crypto.randomUUID()}.json`);
+    await core.writeJsonExclusive(file, { observedUtc: new Date().toISOString(), changes });
+    state.observerReconciliations ||= []; state.observerReconciliations.push({ path: file, sha256: await core.sha256File(file) }); save();
+  }
+  console.log(JSON.stringify({ reconciled: changes.map(c => c.after.sequence) }));
+}
+
 function crosscheck(item) {
   return ['cd-b', 'desk-b'].includes(item.window.id) && item.config.familyId !== 'svt';
 }
@@ -645,22 +688,56 @@ async function coarse() {
   data.exportData(state, path.join(CAMPAIGN, 'data', 'coarse'));
 }
 async function generalize() {
-  assert.ok(state.stage === 'coarse-complete' || state.schedules?.generalization, 'Coarse search must finish first.');
+  assert.ok(['coarse-complete', 'targeted-a-complete-await-forecast'].includes(state.stage)
+    || state.schedules?.['generalization-reduced23'], 'Accepted bounded A search must finish first.');
   if (!state.selections) {
     state.selections = lab.FAMILIES.filter(f => f.id !== 'x265' && !state.unsupportedFamilies?.[f.id])
       .map(f => data.chooseMeasuredPoints(state, f.id)); save();
   }
-  const cases = [];
-  for (const s of lab.SOURCES) {
-    const window = lab.windowDefinitions(s.id, 'b');
-    cases.push({ window, config: lab.configuration('x265', 25) }, { window, config: lab.configuration('hevc-archive', 29) });
-    for (const selection of state.selections) cases.push({ window, config: lab.configuration(selection.familyId, selection.selectedQuality) });
-  }
-  const unique = [...new Map(cases.map(c => [`${c.window.id}:${core.configurationId(c.config)}`, c])).values()];
-  for (const item of orderedCases(unique, 'generalization')) await runCase(item.window, item.config, 'generalization', { withNeg: crosscheck(item) });
+  await reserveSearch(18);
+  state.matrixChanges ||= [];
+  if (!state.matrixChanges.some(c => c.id === 'reduced-b23')) state.matrixChanges.push({ id: 'reduced-b23',
+    observedUtc: new Date().toISOString(), reason: 'Source-specific measured forecast and independent bounded review protect original held-outs/recipe pairs while reducing generalization breadth.',
+    requirements: 'x265+Archive29 all sixB; threeotherNVENC arms CD/SF/Desktop; SVT CD/Desktop.',
+    interpretation: 'Closest measured A size points challenge B generalization; these are not perceived-equivalence finalists.' });
+  save();
+  for (const item of orderedCases(lab.reducedGeneralization(state.selections), 'generalization-reduced23'))
+    await runCase(item.window, item.config, 'generalization', { withNeg: crosscheck(item) });
+  state.generalizationEvidence = lab.reducedGeneralization(state.selections).map(item => {
+    const record = [...state.cases].reverse().find(c => c.status === 'complete' && c.validity?.valid
+      && c.timingValidity?.valid && c.window === item.window.id && c.configurationHash === core.configurationId(item.config));
+    assert.ok(record, 'A reduced B requirement lacks a valid clean result.'); return record.runId;
+  });
   state.stage = 'generalization-complete'; save();
   data.exportData(state, path.join(CAMPAIGN, 'data', 'generalization'));
   console.log(JSON.stringify(state.selections, null, 2));
+}
+
+async function reserveSearch(refinementRemaining) {
+  const latest = state.forecasts?.at(-1)?.adaptiveScenarios.find(s => s.name === 'source-specific-reduced-b-targeted20');
+  assert.ok(latest && latest.capacityScenarios[0].fits, 'A measured source-specific budget is required.');
+  const perRefinement = latest.stagesSecondsBeforeContingency.refinement / (latest.forecastOptions.refinementCases ?? lab.MATRIX.refinement);
+  const seconds = latest.contingencyFactor * (latest.capacityScenarios[0].heldoutSecondsBeforeContingency
+    + refinementRemaining * perRefinement + latest.stagesSecondsBeforeContingency.selectorReserve
+    + latest.stagesSecondsBeforeContingency.supportReserve) + latest.stagesSecondsBeforeContingency.reportingReserve;
+  assert.ok((await ledger.snapshot()).remainingMs > seconds * 1000 + 180000, 'Search would consume the protected validation/reporting reserve.');
+  protectedReserveMs = seconds * 1000;
+}
+
+async function refine() {
+  assert.equal(state.generalizationEvidence?.length, 23, 'Verified generalization must precede the protected challenges.');
+  const block = value('block') || 'cd-challenges';
+  const items = lab.refinementCases(block);
+  const completed = new Set(state.cases.filter(c => c.stage === 'refinement' && c.status === 'complete')
+    .map(c => `${c.window}:${c.configurationHash}`)).size;
+  const pending = items.filter(item => !state.cases.some(c => c.stage === 'refinement' && c.status === 'complete'
+    && c.window === item.window.id && c.configurationHash === core.configurationId(item.config))).length;
+  assert.ok(completed + pending <= lab.MATRIX.refinement);
+  await reserveSearch(Math.max(0, lab.MATRIX.refinement - completed - pending));
+  for (const item of orderedCases(items, `refinement-${block}`))
+    await runCase(item.window, item.config, 'refinement', { withNeg: crosscheck(item) });
+  state.stage = `refinement-${block}-complete-await-review`; save();
+  data.exportData(state, path.join(CAMPAIGN, 'data', 'refinement'));
 }
 
 async function main() {
@@ -716,11 +793,13 @@ async function main() {
     else if (phase === 'prepare-pilot') await preparePilot();
     else if (phase === 'pilot') await pilot();
     else if (phase === 'checks') await command(process.execPath, ['--test',
-      ...['core', 'config', 'data', 'monitor'].map(name => path.join(ROOT, 'tests', `benchmark-lab-${name}.test.cjs`))], 'focused-harness-checks');
+      ...['core', 'config', 'data', 'monitor', 'review'].map(name => path.join(ROOT, 'tests', `benchmark-lab-${name}.test.cjs`))], 'focused-harness-checks');
     else if (phase === 'forecast') await forecast();
     else if (phase === 'reconcile-environment') await reconcileEnvironment();
+    else if (phase === 'reconcile-observers') await reconcileObservers();
     else if (phase === 'coarse') await coarse();
     else if (phase === 'generalize') await generalize();
+    else if (phase === 'refine') await refine();
     else throw new Error(`${phase} implementation is not yet enabled. No measurement has been launched.`);
   } finally {
     clearInterval(heartbeat);

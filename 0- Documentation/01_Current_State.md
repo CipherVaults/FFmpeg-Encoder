@@ -2,6 +2,8 @@
 
 ## Active research: approved pre-0.7 Phase 1 benchmark
 
+Latest verified research: [targeted20 A search accepted](Execution%20Summaries/2026-10-10_Phase1_Targeted_Search.md),89actual invocations/5,747.543active seconds at closure,38focused harness checks. AV136 brackets aggregate size but weakFH5 quality prevents equivalence claims; SVT/HEVC size brackets remain unresolved. PID-reuse closure bookkeeping was transparently reconciled from own terminal evidence and fixed by unique command sequence. Next is the boundedB23 plus fourCD-B challenges, then measured refinement/reforecast and human visual freeze. One/twofinalists provisionally fit; protectedpairs/NEG/original held-outs/repeats/report remain reserved. Older dated recovery notes below are history.
+
 Ahmed's [Phase1 Goal](18_Phase1_Benchmark_Goal.md) authorizes the amended [protocol](19_Phase1_Benchmark_Protocol.md). Execution is isolated on codex/pre-0.7-benchmark; accepted production remains local-v0.6.0 at peeled commit be92b12205d299b6d3bdcc2fd4b2e3a02f928862. The application, presets, package version and accepted release files are unchanged. No ctime/0.7/Phase2 work is authorized.
 
 Six unchanged source copies are SHA256-verified under artifacts/phase1-2026-10-10/inputs. Pilot selector traces preserve absolute nativePTS and match unseeked source hashes/order. CD-B and ACC-A contain719frames; Desktop-B and SF-A contain720. All20 pilot cases plus6warm-ups pass, with protected regular/NEG evidence. Focused harness checks pass24tests; independent calculation/frame/argv review passes. See the [pilot report](Execution%20Summaries/2026-10-10_Phase1_Pilot.md).

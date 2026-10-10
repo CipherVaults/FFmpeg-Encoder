@@ -78,10 +78,17 @@ test('forecast reserves independent protected pairs and three held-out repetitio
   assert.equal(forecast.counts.remainingCoarse, 96);
   assert.ok(forecast.stagesSecondsBeforeContingency.heldoutIncludingRepeats > 0);
   assert.equal(forecast.contingencyFactor, 1.25);
-  assert.ok(forecast.maximumRemainingSeconds > forecast.mandatoryRemainingSeconds);
+  assert.equal(forecast.maximumRemainingSeconds - forecast.mandatoryRemainingSeconds,
+    forecast.contingencyFactor * forecast.stagesSecondsBeforeContingency.optionalAblation);
   assert.equal(forecast.capacityScenarios.length, 3);
   assert.ok(forecast.capacityScenarios[0].remainingSeconds < forecast.capacityScenarios[2].remainingSeconds);
   assert.equal(forecast.fullHeldoutPlusCoarseRemainingSeconds > 0, true);
+  const completed = { ...state.cases.at(-1), stage: 'refinement', timingValidity: { valid: true } };
+  state.cases.push(completed, { ...completed, repeat: 1 });
+  const after = estimate(state, { accumulatedMs: 2000000, remainingMs: 41200000 }, {});
+  assert.equal(after.counts.completedRefinement, 1);
+  assert.equal(after.counts.remainingRefinement, 17);
+  assert.equal(after.stagesSecondsBeforeContingency.refinement, 17 * after.unitCosts.refinement);
 });
 
 test('forecast retains difficult B cost while replacing only equivalent contaminated timings', () => {

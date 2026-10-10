@@ -73,6 +73,10 @@ function estimate(state, snapshot, resources, options = {}) {
     // presumed to match a pilot run before their configurations are selected.
     if (family.id === 'x265' && exists(`${source.id}-b`, family.id, 25)) continue;
     if (family.id === 'hevc-archive' && options.reducedB && exists(`${source.id}-b`, family.id, 29)) continue;
+    // Once the bounded B choice is recorded, its actual clean result can be
+    // deducted. Before that choice no pilot overlap is presumed.
+    const chosen = options.reducedB && state.selections?.find(s => s.familyId === family.id);
+    if (chosen && family.id !== 'hevc-archive' && exists(`${source.id}-b`, family.id, chosen.selectedQuality)) continue;
     generalization += costs(family.id, source.cohort, 12, true,
       ['cd', 'desk'].includes(source.id) && family.id !== 'svt', source.id);
   }
@@ -82,7 +86,12 @@ function estimate(state, snapshot, resources, options = {}) {
       generalization += costs('hevc-archive', source.cohort, 12, true, ['cd', 'desk'].includes(source.id), source.id);
   }
   const worstCalibration = Math.max(...supported.filter(f => f.id !== 'x265').map(f => costs(f.id, '1080p-gameplay', 12, true, true)));
-  const refinement = (options.refinementCases ?? lab.MATRIX.refinement) * worstCalibration;
+  // A completed configuration/window is charged once, even if a later timing
+  // repeat exists. This deducts actual work, never presumed future overlap.
+  const completedRefinement = new Set(measured.filter(c => c.stage === 'refinement' && c.timingValidity?.valid === true)
+    .map(c => `${c.window}:${JSON.stringify(c.config)}`)).size;
+  const remainingRefinement = options.refinementCases ?? Math.max(0, lab.MATRIX.refinement - completedRefinement);
+  const refinement = remainingRefinement * worstCalibration;
   const ablation = lab.MATRIX.optionalAblation * worstCalibration;
   let referenceHeldout = 0, protectedHeldout = 0, finalistHeldout = [0, 0, 0];
   let heldoutCount = 0;
@@ -123,7 +132,8 @@ function estimate(state, snapshot, resources, options = {}) {
     usedActiveSeconds: snapshot.accumulatedMs / 1000, remainingSeconds,
     stagesSecondsBeforeContingency: { coarse, generalization, refinement, optionalAblation: ablation,
       heldoutIncludingRepeats: heldout, selectorReserve, supportReserve, reportingReserve: reportReserve },
-    counts: { remainingCoarse: coarseCount, heldoutInvocationsBeforeOverlap: heldoutCount },
+    counts: { remainingCoarse: coarseCount, completedRefinement, remainingRefinement, heldoutInvocationsBeforeOverlap: heldoutCount },
+    unitCosts: { refinement: worstCalibration },
     contingencyFactor, mandatoryRemainingSeconds, maximumRemainingSeconds,
     fullHeldoutPlusCoarseRemainingSeconds: contingencyFactor * (coarse + heldout + selectorReserve + supportReserve) + reportReserve,
     capacityScenarios,

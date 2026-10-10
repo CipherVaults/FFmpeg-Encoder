@@ -27,9 +27,11 @@ const FAMILIES = [
 const LIMITS = Object.freeze({ activeMs: 12 * 60 * 60 * 1000,
   growthBytes: 55 * 1024 ** 3, minFreeBytes: 20 * 1024 ** 3, encodeInvocations: 340 });
 const MATRIX = Object.freeze({ pilot: 20, coarse: 96, generalization: 42,
-  refinement: 18, optionalAblation: 8, finalistHeldout: 24, protectedRecipeHeldout: 12,
-  uniqueMaximumBeforeReuse: 220, extraHeldoutTimingRepeats: 72,
-  candidateInvocationMaximum: 292, warmupSupportMaximum: 24, diagnosticRetryMaximum: 24 });
+  refinement: 18, optionalAblation: 0, finalistHeldout: 24, protectedRecipeHeldout: 12,
+  uniqueMaximumBeforeReuse: 212, extraHeldoutTimingRepeats: 72,
+  // Eight optional ablation invocations are reassigned to native lossless
+  // review/warm-up support. The approved total340 and decisive pairs remain.
+  candidateInvocationMaximum: 284, warmupSupportMaximum: 32, diagnosticRetryMaximum: 24 });
 const PAIRED_HELDOUT = ['cd', 'sf', 'desk'];
 
 function configuration(familyId, quality, overrides = {}) {
@@ -124,6 +126,9 @@ function refinementCases(block) {
   if (['av1-fh', 'av1-rest'].includes(block)) return (block === 'av1-fh' ? ['fh5'] : ['cd', 'e33', 'sf'])
     .flatMap(source => ['av1-ordinary', 'av1-quality'].map(family =>
       ({ window: windowDefinitions(source, 'a'), config: configuration(family, 32) })));
+  if (block === 'av1-b') return ['cd', 'sf', 'desk'].flatMap(source =>
+    ['av1-ordinary', 'av1-quality'].map(family =>
+      ({ window: windowDefinitions(source, 'b'), config: configuration(family, 32) })));
   throw new Error('Unknown bounded refinement block.');
 }
 

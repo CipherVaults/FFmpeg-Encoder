@@ -42,4 +42,6 @@ test('reduced B allocation retains every mandatory anchor and protects recipe ch
   assert.ok(lab.refinementCases('cd-challenges').every(c => c.window.id === 'cd-b'));
   assert.equal(lab.refinementCases('av1-fh').length + lab.refinementCases('av1-rest').length, 8);
   assert.ok(lab.refinementCases('av1-rest').every(c => c.config.settings.quality === 32 && c.window.role === 'a'));
+  assert.equal(lab.refinementCases('av1-b').length, 6);
+  assert.ok(lab.refinementCases('av1-b').every(c => c.config.settings.quality === 32 && c.window.role === 'b'));
 });

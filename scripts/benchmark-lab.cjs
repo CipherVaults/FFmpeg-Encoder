@@ -12,7 +12,7 @@ const { performance } = require('node:perf_hooks');
 const core = require('./benchmark-lab-core.cjs');
 const lab = require('./benchmark-lab-config.cjs');
 const data = require('./benchmark-lab-data.cjs');
-const review = require('./benchmark-lab-review.cjs');
+const { generateReview } = require('./benchmark-lab-pack.cjs');
 const { estimate } = require('./benchmark-lab-forecast.cjs');
 const ROOT = path.resolve(__dirname, '..');
 const CAMPAIGN = path.join(ROOT, 'artifacts', 'phase1-2026-10-10');
@@ -249,12 +249,13 @@ function runtimeIdentity() {
   return sha(core.canonicalJson({ binaries: state.runtime.binaries.map(b => ({ name: b.name, sha256: b.sha256 })),
     gpu: state.environment.gpu.split(/\r?\n/).at(-1).split(',').slice(0, 4).map(v => v.trim()), os: state.environment.os }));
 }
-async function outputValidation(output, s, window, label) {
+async function outputValidation(output, s, window, label, { losslessReview = false } = {}) {
   const packetCommand = await command(FFPROBE, ['-v', 'warning', '-show_streams', '-show_format', '-show_packets',
     '-show_entries', 'packet=pts_time,duration_time,size:stream:format', '-of', 'json', output], `${label}-output-packets`);
   const packetsProbe = JSON.parse(packetCommand.stdout);
   const v = packetsProbe.streams.find(x => x.codec_type === 'video'); assert.ok(v);
-  assert.equal(v.profile, 'Main', 'Current8-bit production anchor profile changed.');
+  if (losslessReview) assert.equal(v.codec_name, 'ffv1', 'Only the explicit lossless review source may use this validation path.');
+  else assert.equal(v.profile, 'Main', 'Current8-bit production anchor profile changed.');
   for (const field of ['width', 'height', 'pix_fmt', 'color_transfer', 'color_primaries', 'color_space', 'color_range']) assert.equal(v[field], s.video[field], `${field} changed`);
   const framesResult = await command(FFPROBE, ['-v', 'warning', '-select_streams', 'v:0', '-show_frames',
     '-show_entries', 'frame=best_effort_timestamp_time,pkt_duration_time', '-of', 'json', output], `${label}-decoded-frames`);
@@ -322,7 +323,8 @@ async function measureQuality(output, s, window, directory, label, withNeg) {
 
 function harnessIdentity() {
   return Object.fromEntries(['benchmark-lab.cjs', 'benchmark-lab-core.cjs', 'benchmark-lab-config.cjs',
-    'benchmark-lab-data.cjs', 'benchmark-lab-forecast.cjs', 'benchmark-lab-monitor.cjs', 'benchmark-lab-quiet.ps1', 'benchmark-lab-review.cjs']
+    'benchmark-lab-data.cjs', 'benchmark-lab-forecast.cjs', 'benchmark-lab-monitor.cjs', 'benchmark-lab-quiet.ps1',
+    'benchmark-lab-review.cjs', 'benchmark-lab-review-assets.cjs', 'benchmark-lab-pack.cjs']
     .map(name => [name, sha(fs.readFileSync(path.join(__dirname, name)))]));
 }
 async function quietPreflight(label) {
@@ -716,7 +718,8 @@ async function generalize() {
 async function reserveSearch(refinementRemaining) {
   const latest = state.forecasts?.at(-1)?.adaptiveScenarios.find(s => s.name === 'source-specific-reduced-b-targeted20');
   assert.ok(latest && latest.capacityScenarios[0].fits, 'A measured source-specific budget is required.');
-  const perRefinement = latest.stagesSecondsBeforeContingency.refinement / (latest.forecastOptions.refinementCases ?? lab.MATRIX.refinement);
+  const perRefinement = latest.unitCosts?.refinement ?? latest.stagesSecondsBeforeContingency.refinement
+    / (latest.forecastOptions.refinementCases ?? lab.MATRIX.refinement);
   const seconds = latest.contingencyFactor * (latest.capacityScenarios[0].heldoutSecondsBeforeContingency
     + refinementRemaining * perRefinement + latest.stagesSecondsBeforeContingency.selectorReserve
     + latest.stagesSecondsBeforeContingency.supportReserve) + latest.stagesSecondsBeforeContingency.reportingReserve;
@@ -738,6 +741,17 @@ async function refine() {
     await runCase(item.window, item.config, 'refinement', { withNeg: crosscheck(item) });
   state.stage = `refinement-${block}-complete-await-review`; save();
   data.exportData(state, path.join(CAMPAIGN, 'data', 'refinement'));
+}
+
+async function prepareReview() {
+  assert.ok(state.reviewAllocation, 'Review assets require an explicitly recorded, measured calibration allocation.');
+  assert.notEqual(state.humanReview.status, 'finalists-frozen', 'Frozen finalists must not regenerate calibration.');
+  await generateReview({ state, campaign: CAMPAIGN, ffmpeg: FFMPEG, command, source, guard, checkSource, save,
+    outputValidation, parseFrameHash, supportCount: () => warmupInvocations() + (state.supportInvocations || 0),
+    supportMaximum: () => lab.MATRIX.warmupSupportMaximum }, state.reviewAllocation);
+  state.stage = 'awaiting-calibration-judgment'; save();
+  data.exportData(state, path.join(CAMPAIGN, 'data', 'calibration'));
+  console.log(JSON.stringify({ reviewPath: state.reviewBundle.directory, status: state.humanReview.status }));
 }
 
 async function main() {
@@ -769,6 +783,13 @@ async function main() {
     const prior = await ledger.snapshot();
     if (prior.open) await ledger.recoverDeadOwner();
     await ledger.begin(phase); accountingStarted = true;
+    if (state.matrix.warmupSupportMaximum !== lab.MATRIX.warmupSupportMaximum) {
+      state.matrixChanges ||= [];
+      state.matrixChanges.push({ id: 'support-from-optional-ablation', observedUtc: new Date().toISOString(),
+        before: state.matrix, after: lab.MATRIX,
+        reason: 'Prioritize measured comparability and native lossless visual review; move eight optional ablation invocations to warm-up/support. Total340 stays unchanged; protected pairs/NEG/refinement/heldouts/repeats remain.' });
+      state.matrix = lab.MATRIX; save();
+    }
     heartbeat = setInterval(() => {
       heartbeatChain = heartbeatChain.then(async () => {
         const snapshot = await ledger.heartbeat();
@@ -793,13 +814,14 @@ async function main() {
     else if (phase === 'prepare-pilot') await preparePilot();
     else if (phase === 'pilot') await pilot();
     else if (phase === 'checks') await command(process.execPath, ['--test',
-      ...['core', 'config', 'data', 'monitor', 'review'].map(name => path.join(ROOT, 'tests', `benchmark-lab-${name}.test.cjs`))], 'focused-harness-checks');
+      ...['core', 'config', 'data', 'monitor', 'review', 'review-assets', 'pack'].map(name => path.join(ROOT, 'tests', `benchmark-lab-${name}.test.cjs`))], 'focused-harness-checks');
     else if (phase === 'forecast') await forecast();
     else if (phase === 'reconcile-environment') await reconcileEnvironment();
     else if (phase === 'reconcile-observers') await reconcileObservers();
     else if (phase === 'coarse') await coarse();
     else if (phase === 'generalize') await generalize();
     else if (phase === 'refine') await refine();
+    else if (phase === 'review') await prepareReview();
     else throw new Error(`${phase} implementation is not yet enabled. No measurement has been launched.`);
   } finally {
     clearInterval(heartbeat);

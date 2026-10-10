@@ -28,6 +28,8 @@ Source names and metadata are preserved in the campaign manifest. Sampled frames
 
 ## Revised bounded matrix
 
+October10 evidence-based allocation amendment: reduced B23 is complete. Reserve all18 refinement slots for comparability: four CD-B challenges (HEVC25 ordinary/Archive, AV124 ordinary/quality), eight AV132 A cases across CD/E33/FH5/SF, and six AV132 B cases across CD/SF/Desktop. Begin AV132 with FH5, then continue only if informative. Defer the four SVT4/6 diagnostics. Optional ablation8 becomes0 and those eight invocations move to native-review/warm-up support: unique maximum212, candidate284, support32, diagnostic24, unchanged total340. The original table below preserves the initial maximum; this amendment governs the narrowed execution. Mandatory Archive29, all protected recipe pairs, NEG, original held-out lengths and three timing repetitions remain. One/two conservative finalist slots currently fit; three needs actual frozen overlap/cost evidence. A measured point remains unresolved if it misses a scene's reference region; no blind extension is implied.
+
 | Stage | Maximum distinct outputs | Conditions |
 |---|---:|---|
 |Pilot|20|Six families on CD-B/Desktop-B/SF-A plus x265/AV1quality ACC-A; reuse matching valid cases|

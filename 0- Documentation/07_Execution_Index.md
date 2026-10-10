@@ -1,5 +1,7 @@
 # Execution summary index
 
+[October10 Phase1 B generalization](Execution%20Summaries/2026-10-10_Phase1_Generalization.md):23 required B cases, all A/B Archive29 anchors, 115 cumulative encodes/16 warm-ups/8,037.789 active seconds at latest forecast; 41 checks and independent raw-evidence review. B-scene deficits guide the protected18-case comparability allocation. Human review/held-outs/final closure are pending.
+
 [October10 Phase1 targeted A search](Execution%20Summaries/2026-10-10_Phase1_Targeted_Search.md):20new verified cases,89cumulative encodes/5,747.543active seconds;38focused checks and independent evidence/budget review. Unique-sequence observer closure fixes WindowsPID reuse; boundedB23/challenges/refinement next. No final campaign/production acceptance.
 
 [October10 Phase1 quiet anchors](Execution%20Summaries/2026-10-10_Phase1_Anchors.md):36/36cases,69actual encodes/13warm-ups,33focused checks, independent arithmetic/metric-seal/telemetry review; targeted20/reducedB budget fits provisionally one/two finalists. The commit adding this report is the anchor checkpoint. Visual freeze and held-out/report acceptance remain pending.

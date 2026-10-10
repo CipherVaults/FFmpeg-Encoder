@@ -1,6 +1,6 @@
 # Execution summary index
 
-[October10 Visual Review Access](Execution%20Summaries/2026-10-10_Visual_Review_Access.md): working Desktop shortcut, existing six-scene interface,129 browser stills, selected candidate playback, actual MPC-HC fallback with pending picture confirmation;5 focused checks and independent blind/access review. Sealed evidence/mapping preserved;139 encodes unchanged; human visual gate remains.
+[October10 Visual Review Access](Execution%20Summaries/2026-10-10_Visual_Review_Access.md): existing Desktop entry now opens Chrome; six scenes/129 browser stills, selected browser playback and bounded native source/reference/A/B motion verified. Earlier black/error cause remains unproven; persisted statistics preference hidden. Five focused checks and independent reviews; timeout/accounting limits preserved. Sealed evidence/mapping and139 encodes unchanged; human visual gate remains.
 
 [October10 Phase1 calibration/human review](Execution%20Summaries/2026-10-10_Phase1_Calibration_Review.md):18 refinements, independent raw evidence,45 checks,139 cumulative encodes and43 native clipsets/129PNGs. Known-exit recovery avoids duplicated encoding/metrics; browser rendering limit explicit. Awaiting Ahmed before finalist freeze/held-outs; no final Goal acceptance.
 

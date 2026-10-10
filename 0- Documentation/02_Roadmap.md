@@ -2,6 +2,8 @@
 
 ## Approved pre-0.7 research — October 10, 2026
 
+Latest access-only update: Chrome entry retained and existing source/reference/A/B motion visibly verified in MPC-HC without decoder/renderer changes. Historical black/error cause remains unproven; all43 playback not claimed. Statistics preference hidden reversibly. Five focused checks and independent scripts review pass; [playback addendum](Execution%20Summaries/2026-10-10_Visual_Review_Access.md). Native-picture pending text below is historical. **Human judgment still blocks campaign continuation**; no new encodes, mapping/media/production changes.
+
 Visual access complete: working **FFmpeg Visual Review** Desktop shortcut, existing six-scene interface, all129 stills browser-verified, selected candidate playback and explicit MPC-HC alternative, copyable response, five focused checks and independent review. Native-player picture confirmation remains pending. [Access report](Execution%20Summaries/2026-10-10_Visual_Review_Access.md). **Human preference gate remains unchanged**; no new encodes/finalists/held-outs or application changes. Prior browser limitation below is historical.
 
 Calibration18 and native review assets complete. **Waiting for Ahmed's visual judgment**, with a runner guard preventing further encoding. See [gate report](Execution%20Summaries/2026-10-10_Phase1_Calibration_Review.md):139 actual encodes/45 checks, independent refinement review,43 clips/129 native stills; browser rendering limitation explicit. Frozen finalists/protected recipe settings, original held-outs/three timing repeats/NEG, playback and final data/report/charts/independent closure remain pending. The next paragraphs preserve earlier stage history.

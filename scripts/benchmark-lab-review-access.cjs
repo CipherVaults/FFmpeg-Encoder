@@ -8,7 +8,7 @@ const path = require('node:path');
 const http = require('node:http');
 const crypto = require('node:crypto');
 const assert = require('node:assert/strict');
-const { spawn, execFile } = require('node:child_process');
+const { spawn } = require('node:child_process');
 const { reviewHtml, assetPath } = require('./benchmark-lab-review.cjs');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -17,6 +17,7 @@ const BUNDLE = path.join(CAMPAIGN, 'calibration-review-0d206bb1-df49-4ce4-9961-6
 const SEAL = '5bd8934b4dc7366b2787d5cfd8571133c047969fc4579bd1c95232167622f406';
 const PORT = 48186;
 const PLAYER = 'C:\\Program Files (x86)\\K-Lite Codec Pack\\MPC-HC64\\mpc-hc64.exe';
+const CHROME = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 const SCENES = ['cd-b', 'e33-a', 'fh5-a', 'acc-a', 'desk-b', 'sf-b'];
 const APP = 'ffmpeg-visual-review';
 const sha = value => crypto.createHash('sha256').update(value).digest('hex');
@@ -147,8 +148,14 @@ function createServer(review, options = {}) {
 
 function openBrowser(url) {
   assert.match(url, /^http:\/\/127\.0\.0\.1:\d+\/$/);
-  return new Promise((resolve, reject) => execFile('powershell.exe', ['-NoProfile', '-WindowStyle', 'Hidden', '-Command',
-    `Start-Process -FilePath '${url}'`], { windowsHide: true }, error => error ? reject(error) : resolve()));
+  assert.ok(fs.existsSync(CHROME), 'Chrome is missing. Open the review URL in installed Chrome.');
+  // Ahmed selected Chrome for this review. Keep the same shortcut and URL;
+  // opening this fixed executable never changes Windows browser associations.
+  return new Promise((resolve, reject) => {
+    const child = spawn(CHROME, [url], { detached: true, stdio: 'ignore', windowsHide: false });
+    child.once('error', reject);
+    child.once('spawn', () => { child.unref(); resolve(); });
+  });
 }
 
 async function main() {

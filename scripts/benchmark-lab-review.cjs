@@ -41,6 +41,7 @@ button[aria-pressed=true]{background:#e8f3ff;border-color:#147ac1}button:focus-v
 img{display:block;width:auto;max-width:none;height:auto}.fit img{max-width:100%;height:auto}.note{background:#eef5fb;padding:12px;border-radius:6px}a{color:#006bb3}
 </style><main><h1>Native calibration review</h1>
 <p class="note">Compare captured source, the accepted x265 reference and blinded candidates. These sources were already compressed; source-relative fidelity is not lossless game-render fidelity. Judge texture in motion, foliage, particles, darkness and text. Scores are deliberately absent from this page.</p>
+<p><a href="review-guide.html">Review instructions and motion playlists</a> · <a href="feedback.csv">Blank feedback CSV</a></p>
 <div class="controls"><label>Scene <select id="scene"></select></label><label>Matched frame <select id="frame"></select></label><button id="scale" aria-pressed="false">Fit view</button></div>
 <p id="context" class="muted"></p><div id="choices" class="controls" aria-label="Comparison images"></div>
 <p id="selected" aria-live="polite"></p><div class="viewport" id="viewport"><img id="image" alt=""></div>

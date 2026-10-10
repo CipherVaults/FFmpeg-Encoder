@@ -345,13 +345,25 @@ async function finalizeAccounting({ pendingHeartbeat, endInterval, releaseLock }
   }
 }
 
-async function directoryBytes(directory) {
+async function directoryBytes(directory, options = {}) {
+  const root = options.root || path.resolve(directory);
+  const lstat = options.lstat || fs.lstat;
   let bytes = 0;
   for (const entry of await fs.readdir(directory, { withFileTypes: true })) {
     const file = path.join(directory, entry.name);
-    const stat = await fs.lstat(file);
+    let stat;
+    try { stat = await lstat(file); }
+    catch (error) {
+      // A concurrent heartbeat atomically renames its owned temporary ledger.
+      // That now-absent file consumes no storage. Only this exact root-level
+      // temporary name may disappear; media, evidence and other I/O errors
+      // remain fail-closed rather than being silently omitted from accounting.
+      if (error.code === 'ENOENT' && path.resolve(directory) === root
+        && /^\.active-time\.json\.[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\.tmp$/.test(entry.name)) continue;
+      throw error;
+    }
     if (stat.isSymbolicLink()) throw fault('RESOURCE_SYMLINK', 'Campaign growth counting does not follow links.', { file });
-    if (stat.isDirectory()) bytes += await directoryBytes(file);
+    if (stat.isDirectory()) bytes += await directoryBytes(file, { ...options, root });
     else if (stat.isFile()) bytes += stat.size;
     else throw fault('RESOURCE_SPECIAL_FILE', 'Unexpected special file in campaign workspace.', { file });
   }

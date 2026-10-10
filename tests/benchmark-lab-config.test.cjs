@@ -45,3 +45,22 @@ test('reduced B allocation retains every mandatory anchor and protects recipe ch
   assert.equal(lab.refinementCases('av1-b').length, 6);
   assert.ok(lab.refinementCases('av1-b').every(c => c.config.settings.quality === 32 && c.window.role === 'b'));
 });
+
+test('calibration review uses only six A/B scenes and retains anchors and both recipe arms', () => {
+  const groups = lab.calibrationReview(); assert.equal(groups.length, 6);
+  for (const group of groups) {
+    assert.ok(['a', 'b'].includes(group.role));
+    assert.ok(group.configurations.some(c => c.familyId === 'x265' && c.settings.quality === 25));
+    assert.ok(group.configurations.some(c => c.familyId === 'hevc-archive' && c.settings.quality === 29));
+    assert.ok(group.configurations.length + 1 <= 9, 'Keep one scene within nine accessible choices.');
+  }
+  assert.ok(!groups.find(g => g.sourceId === 'sf').configurations.some(c => c.familyId === 'svt'));
+});
+
+test('pending human judgment blocks all encode/search phases before ownership or accounting starts', () => {
+  for (const phase of ['pilot', 'coarse', 'generalize', 'refine', 'bootstrap', 'prepare-pilot'])
+    assert.throws(() => lab.assertHumanGate(phase, 'awaiting-calibration-judgment'), /judgment is pending/);
+  for (const phase of ['status', 'checks', 'forecast', 'allocate-review', 'review'])
+    assert.doesNotThrow(() => lab.assertHumanGate(phase, 'awaiting-calibration-judgment'));
+  assert.doesNotThrow(() => lab.assertHumanGate('refine', 'not-ready'));
+});

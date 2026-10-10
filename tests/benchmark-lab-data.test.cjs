@@ -7,6 +7,22 @@ const crypto = require('node:crypto');
 const data = require('../scripts/benchmark-lab-data.cjs');
 const { estimate } = require('../scripts/benchmark-lab-forecast.cjs');
 
+test('raw metric recovery requires a known zero exit and exactly the same executable and argv', t => {
+  const root = path.resolve(__dirname, '../artifacts');
+  const dir = fs.mkdtempSync(path.join(root, 'benchmark-metric-recovery-'));
+  t.after(() => { assert.equal(path.dirname(dir), root); fs.rmSync(dir, { recursive: true }); });
+  const raw = path.join(dir, 'vmaf.json'), stdoutPath = path.join(dir, 'stdout.txt'), stderrPath = path.join(dir, 'stderr.txt');
+  for (const file of [raw, stdoutPath, stderrPath]) fs.writeFileSync(file, 'retained');
+  const command = { sequence: 7, executable: 'pinned.exe', argv: ['-i', 'owned-output', '-filter_complex', 'exact'],
+    status: 'success', code: 0, endedUtc: '2026-10-10T00:00:00Z', stdoutPath, stderrPath };
+  assert.equal(data.closedMetricCommand([command], 'pinned.exe', command.argv, raw), command);
+  assert.equal(data.closedMetricCommand([command], 'other.exe', command.argv, raw), null);
+  assert.equal(data.closedMetricCommand([command], 'pinned.exe', [...command.argv, 'changed'], raw), null);
+  assert.equal(data.closedMetricCommand([{ ...command, status: 'running' }], 'pinned.exe', command.argv, raw), null);
+  assert.equal(data.closedMetricCommand([{ ...command, code: 1 }], 'pinned.exe', command.argv, raw), null);
+  assert.equal(data.closedMetricCommand([{ ...command, endedUtc: undefined }], 'pinned.exe', command.argv, raw), null);
+});
+
 test('observer close selects its exact command when Windows reuses a PID', () => {
   const old = { sequence: 152, pid: 50616, role: 'lightweight-telemetry', status: 'stopped', endedUtc: 'old' };
   const current = { sequence: 682, pid: 50616, role: 'lightweight-telemetry', status: 'running' };
@@ -48,6 +64,11 @@ test('global setting choice excludes partial scene coverage and does not imply q
   const chosen = data.chooseMeasuredPoints(state, 'av1-ordinary');
   assert.equal(chosen.selectedQuality, 30); assert.equal(chosen.points.length, 2);
   assert.equal(chosen.bracketedBySize, true); assert.match(chosen.basis, /not perceptual equivalence/);
+  Object.assign(state.cases.at(-1), { failure: { message: 'old interruption' }, priorFailure: { message: 'old interruption' },
+    recoveredUtc: '2026-10-10T01:00:00Z' });
+  const recovered = data.caseRows(state).at(-1);
+  assert.equal(recovered.failure_reason, null); assert.equal(recovered.prior_failure_reason, 'old interruption');
+  assert.equal(recovered.recovered_utc, '2026-10-10T01:00:00Z');
 });
 
 test('CSV preserves embedded newlines, quotes, exact argv arrays and missing values', () => {

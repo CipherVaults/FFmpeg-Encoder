@@ -1,5 +1,7 @@
 # Execution summary index
 
+[October10 Phase1 calibration/human review](Execution%20Summaries/2026-10-10_Phase1_Calibration_Review.md):18 refinements, independent raw evidence,45 checks,139 cumulative encodes and43 native clipsets/129PNGs. Known-exit recovery avoids duplicated encoding/metrics; browser rendering limit explicit. Awaiting Ahmed before finalist freeze/held-outs; no final Goal acceptance.
+
 [October10 Phase1 B generalization](Execution%20Summaries/2026-10-10_Phase1_Generalization.md):23 required B cases, all A/B Archive29 anchors, 115 cumulative encodes/16 warm-ups/8,037.789 active seconds at latest forecast; 41 checks and independent raw-evidence review. B-scene deficits guide the protected18-case comparability allocation. Human review/held-outs/final closure are pending.
 
 [October10 Phase1 targeted A search](Execution%20Summaries/2026-10-10_Phase1_Targeted_Search.md):20new verified cases,89cumulative encodes/5,747.543active seconds;38focused checks and independent evidence/budget review. Unique-sequence observer closure fixes WindowsPID reuse; boundedB23/challenges/refinement next. No final campaign/production acceptance.

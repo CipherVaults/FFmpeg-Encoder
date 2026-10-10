@@ -21,7 +21,7 @@ const FFMPEG = path.join(ROOT, 'ffmpeg', 'ffmpeg.exe');
 const FFPROBE = path.join(ROOT, 'ffmpeg', 'ffprobe.exe');
 const value = name => process.argv.find(a => a.startsWith(`--${name}=`))?.slice(name.length + 3);
 const phase = value('phase') || 'status';
-const allowed = ['status', 'bootstrap', 'prepare-pilot', 'pilot', 'checks', 'reconcile-environment', 'reconcile-observers', 'forecast', 'coarse', 'generalize', 'refine', 'review'];
+const allowed = ['status', 'bootstrap', 'prepare-pilot', 'pilot', 'checks', 'reconcile-environment', 'reconcile-observers', 'forecast', 'coarse', 'generalize', 'refine', 'allocate-review', 'review'];
 assert.ok(allowed.includes(phase), `Phase must be one of ${allowed.join(', ')}`);
 fs.mkdirSync(CAMPAIGN, { recursive: true });
 const stateFile = path.join(CAMPAIGN, 'state.json');
@@ -280,10 +280,19 @@ async function measureQuality(output, s, window, directory, label, withNeg) {
   // actual encoded/native timestamps passed validation. No frames are changed,
   // duplicated or discarded to improve a metric.
   const before = `[0:v]settb=1/60,setpts=N[d];[1:v]${lab.selector(s, window).filterAbsolute},settb=1/60,setpts=N[r]`;
+  async function metricCommand(argv, commandLabel, rawPath, options) {
+    const previous = data.closedMetricCommand(state.commands, FFMPEG, argv, rawPath);
+    if (previous) {
+      console.log(`Reusing closed metric command ${previous.sequence}`);
+      return { record: previous, stdout: fs.readFileSync(previous.stdoutPath, 'utf8'), stderr: fs.readFileSync(previous.stderrPath, 'utf8') };
+    }
+    assert.ok(!fs.existsSync(rawPath), 'Unverified raw metric file cannot be overwritten or promoted.');
+    return command(FFMPEG, argv, commandLabel, options);
+  }
   async function vmaf(model, filename, suffix, allowFailure = false) {
     const graph = `${before};[d][r]libvmaf=model=version=${model}:log_fmt=json:log_path=${relative(filename)}:n_threads=6:n_subsample=1:eof_action=endall:shortest=1:repeatlast=0`;
-    const result = await command(FFMPEG, ['-hide_banner', '-v', 'warning', '-nostdin', '-xerror', '-i', output,
-      ...lab.selector(s, window).input, '-filter_complex', graph, '-an', '-fps_mode', 'passthrough', '-f', 'null', '-'], `${label}-${suffix}`, { timeoutMs: 600000, allowFailure });
+    const result = await metricCommand(['-hide_banner', '-v', 'warning', '-nostdin', '-xerror', '-i', output,
+      ...lab.selector(s, window).input, '-filter_complex', graph, '-an', '-fps_mode', 'passthrough', '-f', 'null', '-'], `${label}-${suffix}`, path.join(directory, filename), { timeoutMs: 600000, allowFailure });
     if (result.record.code !== 0) {
       if (allowFailure && /(?:could not|cannot|failed to) load.*(?:model|version)|model.*(?:not found|unavailable|unsupported)/i.test(result.stderr)) {
         return { available: false, stderr: result.stderr.trim(), commandSequence: result.record.sequence };
@@ -309,9 +318,9 @@ async function measureQuality(output, s, window, directory, label, withNeg) {
   const regular = await vmaf('vmaf_v0.6.1', 'vmaf.json', 'vmaf');
   const neg = withNeg ? await vmaf('vmaf_v0.6.1neg', 'vmaf-neg.json', 'neg', true) : { available: null, reason: 'Outside protected crosscheck subset.' };
   const ssimPath = relative('ssim.txt');
-  const ssim = await command(FFMPEG, ['-hide_banner', '-v', 'info', '-nostdin', '-xerror', '-i', output,
+  const ssim = await metricCommand(['-hide_banner', '-v', 'info', '-nostdin', '-xerror', '-i', output,
     ...lab.selector(s, window).input, '-filter_complex', `${before};[d][r]ssim=stats_file=${ssimPath}:eof_action=endall:shortest=1:repeatlast=0`,
-    '-an', '-fps_mode', 'passthrough', '-f', 'null', '-'], `${label}-ssim`, { timeoutMs: 600000 });
+    '-an', '-fps_mode', 'passthrough', '-f', 'null', '-'], `${label}-ssim`, path.join(directory, 'ssim.txt'), { timeoutMs: 600000 });
   const rows = fs.readFileSync(path.join(directory, 'ssim.txt'), 'utf8').trim().split(/\r?\n/);
   assert.equal(rows.length, window.frameCount);
   const ssimValues = rows.map(line => Number(line.match(/All:([0-9.]+)/)?.[1]));
@@ -324,7 +333,7 @@ async function measureQuality(output, s, window, directory, label, withNeg) {
 function harnessIdentity() {
   return Object.fromEntries(['benchmark-lab.cjs', 'benchmark-lab-core.cjs', 'benchmark-lab-config.cjs',
     'benchmark-lab-data.cjs', 'benchmark-lab-forecast.cjs', 'benchmark-lab-monitor.cjs', 'benchmark-lab-quiet.ps1',
-    'benchmark-lab-review.cjs', 'benchmark-lab-review-assets.cjs', 'benchmark-lab-pack.cjs']
+    'benchmark-lab-review.cjs', 'benchmark-lab-review-assets.cjs', 'benchmark-lab-review-guide.cjs', 'benchmark-lab-pack.cjs']
     .map(name => [name, sha(fs.readFileSync(path.join(__dirname, name)))]));
 }
 async function quietPreflight(label) {
@@ -359,12 +368,19 @@ async function recoverQuality(previous, s, window, withNeg) {
     }
     return;
   } catch (error) {
-    const directory = path.join(previous.directory, `analysis-revision-${crypto.randomUUID()}`);
-    fs.mkdirSync(directory);
+    // A save failure can leave complete raw metrics and known successful
+    // command exits. Only this attempt's owned revision directories qualify;
+    // measureQuality still requires exact executable/argv/zero-exit matches.
+    const reusable = fs.readdirSync(previous.directory, { withFileTypes: true }).filter(e => e.isDirectory()
+      && /^analysis-revision-[a-f0-9-]+$/.test(e.name)).map(e => path.join(previous.directory, e.name)).find(dir =>
+      !fs.existsSync(path.join(dir, 'result.json')) && ['vmaf.json', 'ssim.txt', ...(withNeg ? ['vmaf-neg.json'] : [])]
+        .every(name => fs.existsSync(path.join(dir, name))));
+    const directory = reusable || path.join(previous.directory, `analysis-revision-${crypto.randomUUID()}`);
+    if (!reusable) fs.mkdirSync(directory);
     const quality = await measureQuality(previous.output.path, s, window, directory,
       `${window.id}-${previous.config.familyId}-repair-${revisions.length + 1}`, withNeg);
     data.verifyMetricEvidence(quality, window.frameCount, { withNeg });
-    const revision = { reason: error.message, observedUtc: new Date().toISOString(), priorQuality: previous.quality,
+    const revision = { reason: error.message, observedUtc: new Date().toISOString(), priorQuality: previous.quality ?? null,
       outputSha256: previous.output.sha256, quality };
     const file = path.join(directory, 'result.json'); await core.writeJsonExclusive(file, revision);
     revisions.push({ path: file, sha256: await core.sha256File(file), ...revision });
@@ -731,6 +747,11 @@ async function refine() {
   assert.equal(state.generalizationEvidence?.length, 23, 'Verified generalization must precede the protected challenges.');
   const block = value('block') || 'cd-challenges';
   const items = lab.refinementCases(block);
+  if (!state.matrixChanges.some(change => change.id === 'comparability18-after-b')) {
+    state.matrixChanges.push({ id: 'comparability18-after-b', observedUtc: new Date().toISOString(),
+      reason: 'Independent B review prioritizes four CD challenges, eight AV132 A and six AV132 B comparisons within18slots; defer SVT4/6 diagnostics.',
+      blocks: ['cd-challenges', 'av1-fh', 'av1-rest', 'av1-b'], protected: 'Archive29/pairs/NEG/originalheldouts/repeats/humanfreeze unchanged.' }); save();
+  }
   const completed = new Set(state.cases.filter(c => c.stage === 'refinement' && c.status === 'complete')
     .map(c => `${c.window}:${c.configurationHash}`)).size;
   const pending = items.filter(item => !state.cases.some(c => c.stage === 'refinement' && c.status === 'complete'
@@ -746,6 +767,7 @@ async function refine() {
 async function prepareReview() {
   assert.ok(state.reviewAllocation, 'Review assets require an explicitly recorded, measured calibration allocation.');
   assert.notEqual(state.humanReview.status, 'finalists-frozen', 'Frozen finalists must not regenerate calibration.');
+  await reserveSearch(0);
   await generateReview({ state, campaign: CAMPAIGN, ffmpeg: FFMPEG, command, source, guard, checkSource, save,
     outputValidation, parseFrameHash, supportCount: () => warmupInvocations() + (state.supportInvocations || 0),
     supportMaximum: () => lab.MATRIX.warmupSupportMaximum }, state.reviewAllocation);
@@ -754,9 +776,33 @@ async function prepareReview() {
   console.log(JSON.stringify({ reviewPath: state.reviewBundle.directory, status: state.humanReview.status }));
 }
 
+async function allocateReview() {
+  assert.notEqual(state.humanReview.status, 'finalists-frozen');
+  const complete = new Set(state.cases.filter(c => c.stage === 'refinement' && c.status === 'complete'
+    && c.validity?.valid && c.timingValidity?.valid).map(c => `${c.window}:${c.configurationHash}`));
+  assert.equal(complete.size, 18, 'Measured comparability must finish before preparing the judgment pack.');
+  const allocation = lab.calibrationReview();
+  for (const group of allocation) for (const config of group.configurations) {
+    assert.ok(state.cases.some(c => c.window === `${group.sourceId}-${group.role}`
+      && c.configurationHash === core.configurationId(config) && c.status === 'complete'
+      && c.validity?.valid && c.timingValidity?.valid), 'A calibration allocation point is not actually measured.');
+  }
+  if (state.reviewAllocation && core.canonicalJson(state.reviewAllocation) !== core.canonicalJson(allocation)) {
+    assert.equal(value('amend-review'), 'reduce-near-duplicates', 'A retained allocation cannot silently change.');
+    assert.ok(!state.reviewBundle, 'A randomized bundle must retain its allocation.');
+    state.reviewAllocationRevisions ||= [];
+    state.reviewAllocationRevisions.push({ observedUtc: new Date().toISOString(), previous: state.reviewAllocation,
+      next: allocation, reason: 'Independent evidence found near-equal CD lower-CQ points. Reduce visual burden; all challenge data remains retained.' });
+    state.reviewAllocation = allocation; save();
+  }
+  else { state.reviewAllocation = allocation; save(); }
+  console.log(JSON.stringify(allocation.map(g => ({ scene: g.sourceId, role: g.role, candidates: g.configurations.length - 1 }))));
+}
+
 async function main() {
   if (phase === 'status') { console.log(JSON.stringify({ stage: state.stage, sources: state.sources.length,
     windows: state.windows.length, cases: state.cases.length, invocations: state.encodeInvocations, ledger: await ledger.snapshot() }, null, 2)); return; }
+  lab.assertHumanGate(phase, state.humanReview.status);
   lock = await core.acquireOwnershipLock(path.join(CAMPAIGN, 'ownership.lock'));
   let accountingStarted = false;
   try {
@@ -821,6 +867,7 @@ async function main() {
     else if (phase === 'coarse') await coarse();
     else if (phase === 'generalize') await generalize();
     else if (phase === 'refine') await refine();
+    else if (phase === 'allocate-review') await allocateReview();
     else if (phase === 'review') await prepareReview();
     else throw new Error(`${phase} implementation is not yet enabled. No measurement has been launched.`);
   } finally {

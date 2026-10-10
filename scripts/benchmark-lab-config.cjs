@@ -132,5 +132,28 @@ function refinementCases(block) {
   throw new Error('Unknown bounded refinement block.');
 }
 
+function calibrationReview() {
+  const points = (svt, hevc, av1) => [['svt', svt], ['hevc-ordinary', hevc], ['hevc-archive', 29],
+    ['av1-ordinary', av1], ['av1-quality', av1]];
+  const groups = [
+    ['acc', 'a', 'Assetto Corsa Competizione — native 1440p', 'Inspect cars, road/fence detail and HUD; separate native1440 cohort.', points(28, 29, 30)],
+    ['e33', 'a', 'Expedition 33', 'Inspect effects, movement and fine surfaces.', points(34, 29, 32)],
+    ['fh5', 'a', 'Forza Horizon 5', 'Inspect foliage and motion, including the lower-size alternatives.',
+      [...points(34, 29, 32), ['av1-ordinary', 36], ['av1-quality', 36]]],
+    ['cd', 'b', 'Crimson Desert — difficult window', 'Inspect foliage, fine texture and motion carefully.', points(34, 29, 32)],
+    ['desk', 'b', 'Desktop', 'Inspect text, edges, gradients and scrolling; separate desktop cohort.', points(34, 29, 32)],
+    ['sf', 'b', 'Starfield', 'Inspect dark surfaces, fine detail and HUD.', points(34, 29, 32).filter(([family]) => family !== 'svt')],
+  ];
+  // Only actual A/B points; no held-out admission or setting selection occurs.
+  // Starfield-B SVT was not measured and is deliberately absent.
+  return groups.map(([sourceId, role, title, context, configurations]) => ({ sourceId, role, title, context,
+    configurations: [['x265', 25], ...configurations].map(([family, quality]) => configuration(family, quality)) }));
+}
+
+function assertHumanGate(phase, humanStatus) {
+  if (humanStatus === 'awaiting-calibration-judgment') assert.ok(['status', 'checks', 'forecast', 'allocate-review', 'review'].includes(phase),
+    'Ahmed calibration judgment is pending. Do not start further benchmark execution.');
+}
+
 module.exports = { SOURCES, FAMILIES, LIMITS, MATRIX, PAIRED_HELDOUT,
-  configuration, selector, encodeArgs, windowDefinitions, pilotCases, targetedCases, reducedGeneralization, refinementCases };
+  configuration, selector, encodeArgs, windowDefinitions, pilotCases, targetedCases, reducedGeneralization, refinementCases, calibrationReview, assertHumanGate };

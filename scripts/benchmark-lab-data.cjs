@@ -7,6 +7,13 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 const crypto = require('node:crypto');
 
+function closedMetricCommand(commands, executable, argv, rawPath) {
+  if (!fs.existsSync(rawPath)) return null;
+  return [...commands].reverse().find(c => c.executable === executable && c.status === 'success' && c.code === 0
+    && Number.isFinite(Date.parse(c.endedUtc)) && JSON.stringify(c.argv) === JSON.stringify(argv)
+    && fs.existsSync(c.stdoutPath) && fs.existsSync(c.stderrPath)) || null;
+}
+
 function closeTelemetryRecord(commands, sequence, terminal, endedUtc) {
   // Windows may reuse a PID within a long campaign. A PID is an observation,
   // whereas the monotonically assigned command sequence identifies ownership.
@@ -117,7 +124,9 @@ function caseRows(state) {
       raw_neg: c.quality?.neg?.rawPath ?? null, raw_ssim: c.quality?.ssim?.rawPath ?? null,
       harness_identity: c.harnessIdentity ?? null,
       resolved_argv: c.argv ?? null, effective_warnings: c.effectiveEvidence?.warnings ?? null,
-      failure_reason: c.failure?.message ?? null };
+      failure_reason: c.status === 'complete' ? null : c.failure?.message ?? null,
+      prior_failure_reason: c.priorFailure?.message ?? (c.status === 'complete' ? c.failure?.message ?? null : null),
+      recovered_utc: c.recoveredUtc ?? null };
   });
 }
 function exportData(state, directory) {
@@ -167,4 +176,4 @@ function chooseMeasuredPoints(state, familyId) {
     bracketedBySize: points.some(p => p.sizeRatio <= 1) && points.some(p => p.sizeRatio >= 1),
     basis: 'Closest measured geometric video-payload ratio to x265 across primary1080 gameplay A scenes; not perceptual equivalence.' };
 }
-module.exports = { csv, caseRows, exportData, geometricMean, chooseMeasuredPoints, metricValues, verifyMetricEvidence, effectiveEvidence, closeTelemetryRecord };
+module.exports = { csv, caseRows, exportData, geometricMean, chooseMeasuredPoints, metricValues, verifyMetricEvidence, effectiveEvidence, closeTelemetryRecord, closedMetricCommand };

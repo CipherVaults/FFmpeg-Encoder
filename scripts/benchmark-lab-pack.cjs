@@ -10,6 +10,7 @@ const assert = require('node:assert/strict');
 const core = require('./benchmark-lab-core.cjs');
 const presentation = require('./benchmark-lab-review.cjs');
 const assets = require('./benchmark-lab-review-assets.cjs');
+const guide = require('./benchmark-lab-review-guide.cjs');
 
 async function generateReview(api, allocation) {
   const { state, campaign, ffmpeg, command, source, guard, checkSource, save, outputValidation, parseFrameHash } = api;
@@ -136,6 +137,7 @@ async function generateReview(api, allocation) {
   };
   // A new finalized directory is append-only; failures retain all partials.
   await write('index.html', presentation.reviewHtml(page));
+  for (const file of guide.companions(bundle.groups)) await write(file.name, file.text);
   await write('reveal-key.json', JSON.stringify({ seed: bundle.seed, allocationHash, entries: reveal }, null, 2));
   await write('review-manifest.json', JSON.stringify({ baseline: state.baseline, sourceWindows: allocation,
     runtime: state.runtime, files, sourceSupportEvidence: bundle.supports,

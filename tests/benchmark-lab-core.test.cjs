@@ -361,3 +361,22 @@ test('growth and free-space reservations fail before planned work', async t => {
   await assert.rejects(core.assertResourceEnvelope({ ...options, additionalBytes: 33 }), { code: 'CAMPAIGN_GROWTH_EXCEEDED' });
   await assert.rejects(core.assertResourceEnvelope({ ...options, minFreeBytes: Number.MAX_SAFE_INTEGER }), { code: 'FREE_SPACE_FLOOR' });
 });
+
+test('growth scan tolerates only the root heartbeat temporary being atomically renamed', async t => {
+  const directory = await fixture(t);
+  const name = '.active-time.json.16055ef4-c4ea-4002-b75c-09ac4c36d800.tmp';
+  const temporary = path.join(directory, name), ledger = path.join(directory, 'active-time.json');
+  await fs.writeFile(ledger, Buffer.alloc(32)); await fs.writeFile(temporary, Buffer.alloc(32));
+  let renamed = false;
+  const bytes = await core.directoryBytes(directory, { lstat: async file => {
+    if (file === temporary) { await fs.rename(temporary, ledger); renamed = true; }
+    return fs.lstat(file);
+  } });
+  assert.equal(renamed, true); assert.equal(bytes, 32);
+  const lost = path.join(directory, 'video.mkv'); await fs.writeFile(lost, 'media');
+  const missing = Object.assign(new Error('lost'), { code: 'ENOENT' });
+  await assert.rejects(core.directoryBytes(directory, { lstat: file => file === lost ? Promise.reject(missing) : fs.lstat(file) }), { code: 'ENOENT' });
+  await fs.mkdir(path.join(directory, 'nested'));
+  const nested = path.join(directory, 'nested', name); await fs.writeFile(nested, 'not-ledger');
+  await assert.rejects(core.directoryBytes(directory, { lstat: file => file === nested ? Promise.reject(missing) : fs.lstat(file) }), { code: 'ENOENT' });
+});

@@ -2,6 +2,8 @@
 
 # Execution summary index
 
+Latest October11 incremental recovery: [media follow-up](Execution%20Summaries/2026-10-11_0.7_Media_Qualification_Followup.md), checkpoints2994932/c196cdd, retained AV1 duration diagnosis and ten passing CPU/NVIDIA trimmed cells. Exact raw report index: artifacts/v0.7/operation-profiles/recovery-2026-10-11.json. No new milestone or candidate acceptance.
+
 October11 07:37UTC [compact recovery checkpoint](Execution%20Summaries/2026-10-11_0.7_Media_Qualification_Followup.md#recovery-checkpoint--october-11-0737-utc): active authorized execution, current refs/worktree, released code,152+343 overlapping direct evidence, four passing CPU profile cells and retained SVT duration failure, worker ownership, resource measurements and exact next action. Local-only synchronization; no milestone/candidate/benchmark acceptance.
 
 October11 latest partial work: [media qualification follow-up](Execution%20Summaries/2026-10-11_0.7_Media_Qualification_Followup.md), real trim-timestamp correction, native telemetry/range controls, safe backend discovery, bounded HDR observations and targeted MOV retention. Failures and remaining qualification gaps are preserved; no O–S closure.

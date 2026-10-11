@@ -2,7 +2,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs/promises');
 const path = require('node:path');
-const { createStage, sealStage, markStageValidated, cleanupStage, publishOutput } = require('../src/outputs.cjs');
+const { createStage, sealStage, markStageValidated, cleanupStage, publishOutput, readPublishedOutputIdentity } = require('../src/outputs.cjs');
 
 async function fixture(t, { seal = true, write = true } = {}) {
   const base = path.resolve(__dirname, '../artifacts/output-tests');
@@ -30,6 +30,97 @@ test('native atomic publication is a hard link and stage cleanup retains the com
   assert.equal(await fs.readFile(destination, 'utf8'), 'validated new media');
   await assert.rejects(fs.stat(stage.directory), { code: 'ENOENT' });
 });
+
+test('publication observations require private validated ownership and the correct cleanup order', async t => {
+  const { stage, destination } = await fixture(t);
+  await assert.rejects(readPublishedOutputIdentity({ ...stage }), { code: 'INVALID_STAGE' });
+  await assert.rejects(readPublishedOutputIdentity(stage), { code: 'INVALID_PUBLICATION_RECEIPT' });
+  assert.equal(await publishOutput(stage, destination), true);
+  await assert.rejects(readPublishedOutputIdentity(stage), { code: 'INVALID_PUBLICATION_RECEIPT' });
+});
+
+for (const method of ['hard-link', 'verified-copy']) {
+  test(`${method} observation binds its actual validated destination before and after cleanup`, async t => {
+    const { stage, destination } = await fixture(t);
+    await markStageValidated(stage);
+    assert.equal(await publishOutput(stage, destination, method === 'verified-copy' ? { link: unsupported() } : {}), true);
+    await assert.rejects(readPublishedOutputIdentity(stage, { afterCleanup: true }), { code: 'PUBLICATION_OBSERVATION_ORDER' });
+    const before = await readPublishedOutputIdentity(stage);
+    assert.equal(Object.isFrozen(before), true);
+    const staged = await fs.stat(stage.file, { bigint: true });
+    assert.equal(before.canonicalPath, await fs.realpath(destination));
+    assert.equal(before.ino === String(staged.ino), method === 'hard-link');
+    assert.deepEqual(await cleanupStage(stage), { retained: false });
+    const after = await readPublishedOutputIdentity(stage, { afterCleanup: true });
+    assert.deepEqual({ ...after, ctimeNs: before.ctimeNs }, before);
+    assert.deepEqual(await readPublishedOutputIdentity(stage, { afterCleanup: true }), after);
+    assert.equal((await fs.stat(destination)).nlink, 1);
+    await assert.rejects(readPublishedOutputIdentity(stage), { code: 'PUBLICATION_OBSERVATION_ORDER' });
+  });
+
+  for (const mutation of ['replacement', 'same-object-content']) {
+    test(`${method} ${mutation} before its first observation cannot be adopted as a published identity`, async t => {
+      const { stage, destination } = await fixture(t);
+      await markStageValidated(stage);
+      assert.equal(await publishOutput(stage, destination, method === 'verified-copy' ? { link: unsupported() } : {}), true);
+      const before = await fs.stat(destination, { bigint: true });
+      if (mutation === 'replacement') await fs.rename(destination, `${destination}.validated`);
+      await fs.writeFile(destination, Buffer.alloc(Number(before.size), 90));
+      await fs.utimes(destination, new Date(), new Date(Number(before.mtimeNs / 1000000n) + 1000));
+      const after = await fs.stat(destination, { bigint: true });
+      assert.equal(before.ino === after.ino, mutation === 'same-object-content');
+      await assert.rejects(readPublishedOutputIdentity(stage), { code: 'PUBLISHED_OUTPUT_CHANGED' });
+      await assert.rejects(readPublishedOutputIdentity(stage), { code: 'PUBLISHED_OUTPUT_CHANGED' });
+      const cleanup = await cleanupStage(stage);
+      assert.equal(cleanup.retained, method === 'verified-copy');
+      assert.deepEqual(await fs.readFile(destination), Buffer.alloc(Number(before.size), 90));
+    });
+  }
+}
+
+function shiftObservedCtime(t, destination) {
+  // Simulate consistent handle/path observations differing ONLY in ctime. This
+  // tests the transition policy without relying on Windows attribute timing.
+  const lstat = fs.lstat.bind(fs), open = fs.open.bind(fs);
+  const shifted = stat => { stat.ctimeNs += 1n; return stat; };
+  t.mock.method(fs, 'lstat', async (file, ...args) => {
+    const stat = await lstat(file, ...args);
+    return file === destination && args[0]?.bigint ? shifted(stat) : stat;
+  });
+  t.mock.method(fs, 'open', async (file, ...args) => {
+    const handle = await open(file, ...args);
+    if (file === destination) {
+      const stat = handle.stat.bind(handle);
+      handle.stat = async (...statArgs) => {
+        const result = await stat(...statArgs);
+        return statArgs[0]?.bigint ? shifted(result) : result;
+      };
+    }
+    return handle;
+  });
+}
+
+test('the owned-hard-link cleanup ctime exception is consumed and future observations remain strict', async t => {
+  const { stage, destination } = await fixture(t);
+  await markStageValidated(stage); await publishOutput(stage, destination);
+  await readPublishedOutputIdentity(stage); await cleanupStage(stage);
+  await readPublishedOutputIdentity(stage, { afterCleanup: true });
+  shiftObservedCtime(t, destination);
+  await assert.rejects(readPublishedOutputIdentity(stage, { afterCleanup: true }), { code: 'PUBLISHED_OUTPUT_CHANGED' });
+});
+
+for (const method of ['verified-copy', 'externally-removed-stage-link']) {
+  test(`${method} cannot borrow an owned cleanup ctime exception`, async t => {
+    const { stage, destination } = await fixture(t);
+    await markStageValidated(stage);
+    await publishOutput(stage, destination, method === 'verified-copy' ? { link: unsupported() } : {});
+    await readPublishedOutputIdentity(stage);
+    if (method === 'externally-removed-stage-link') await fs.unlink(stage.file);
+    assert.deepEqual(await cleanupStage(stage), { retained: false });
+    shiftObservedCtime(t, destination);
+    await assert.rejects(readPublishedOutputIdentity(stage, { afterCleanup: true }), { code: 'PUBLISHED_OUTPUT_CHANGED' });
+  });
+}
 
 test('existing output wins a publication race and is byte-for-byte preserved', async t => {
   const { stage, destination } = await fixture(t);

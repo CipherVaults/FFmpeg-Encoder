@@ -42,6 +42,7 @@ async function harness() {
     if (id === 'node:fs') return { mkdirSync() {} };
     if (id === 'node:path') return path;
     if (id === './src/encoder-service.cjs') return { EncoderService: Service };
+    if (id === './src/output-access.cjs') return require('../src/output-access.cjs');
     if (id === './src/ipc.cjs') return { registerIpc: () => () => calls.push('remove-ipc') };
     if (id === './src/local-protocol.cjs') return { ENTRY_URL: 'app://encoder/index.html', resolveAsset() {}, registerLocalProtocol() {} };
     throw new Error('Unexpected dependency: ' + id);

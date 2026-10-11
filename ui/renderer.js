@@ -50,6 +50,29 @@
   let unsubscribe = null;
   let recipeRequest = 0;
   let recipeTimer = null;
+  const workspaceNames = ['encode', 'jobs', 'history', 'settings', 'help'];
+  let activeWorkspace = 'encode';
+  let appDefaults = null;
+  let defaultsLoading = false;
+  let defaultsDirty = false;
+  let defaultsNeedsReload = false;
+  let runtimeRequest = 0;
+  let historyLoaded = false;
+  let historyLoading = false;
+  let historyRequest = 0;
+  let historyRecordRequest = 0;
+  let historyExportRequest = 0;
+  let historyExportLoading = false;
+  let historyEvents = [];
+  let historyNextCursor = null;
+  let historyCursors = [undefined];
+  let historyPage = 0;
+  const historySelection = new Set();
+  const defaultFields = {
+    fullAudioPolicy: 'default-full-audio', rangeAudioPolicy: 'default-range-audio',
+    resolution: 'default-resolution', hdrPolicy: 'default-hdr', remuxTarget: 'default-remux-target',
+    previewExpanded: 'default-preview-expanded',
+  };
 
   const profiles = () => capabilities?.profiles || [];
   const recipes = () => capabilities?.recipes || [];
@@ -63,6 +86,216 @@
   const isGenerated = item => item.origin?.kind === 'generated' || item.status === 'generated';
   const canAuthorize = item => isGenerated(item) && !item.reencodeAuthorized && item.status === 'generated';
   const formatArguments = args => JSON.stringify(args || [], null, 2);
+
+  // Workspace navigation changes presentation only. It never prepares, cancels
+  // or changes main-owned plans. Manual keyboard activation avoids starting a
+  // disk-backed History read merely while arrowing through the tab labels.
+  function activateWorkspace(name, focusPanel = false) {
+    if (!workspaceNames.includes(name)) return;
+    activeWorkspace = name;
+    closeHelp();
+    for (const candidate of workspaceNames) {
+      const selected = candidate === name;
+      byId(`tab-${candidate}`).setAttribute('aria-selected', String(selected));
+      byId(`tab-${candidate}`).tabIndex = selected ? 0 : -1;
+      visible(`workspace-${candidate}`, selected);
+    }
+    if (focusPanel) byId(`workspace-${name}`).focus();
+    if (name === 'settings' && !appDefaults && !defaultsLoading) void loadAppDefaults();
+    if (name === 'history' && !historyLoaded && !historyLoading) void loadHistoryPage();
+    if (name === 'help') void loadRuntimeInformation();
+  }
+
+  function localError(id, error) {
+    const message = error?.message || (error ? String(error) : '');
+    put(id, message); visible(id, Boolean(message));
+  }
+
+  function renderDefaultActions() {
+    byId('app-settings-fields').disabled = !appDefaults || defaultsLoading || Boolean(appDefaults.persistence?.resetRequired);
+    byId('app-settings-save').disabled = !appDefaults || defaultsLoading || !defaultsDirty || defaultsNeedsReload || Boolean(appDefaults.persistence?.resetRequired);
+    byId('app-settings-reset').disabled = !appDefaults || defaultsLoading || defaultsNeedsReload;
+    byId('app-settings-reload').disabled = defaultsLoading;
+  }
+
+  function showAppDefaults(result, message = '') {
+    if (!result || result.schema !== 1 || !Number.isSafeInteger(result.revision) || !result.defaults) throw new Error('App Settings could not be read.');
+    appDefaults = result;
+    for (const [field, id] of Object.entries(defaultFields)) {
+      if (field === 'previewExpanded') byId(id).checked = result.defaults[field] === true;
+      else byId(id).value = result.defaults[field];
+    }
+    defaultsDirty = false; defaultsNeedsReload = false;
+    const state = result.persistence || {};
+    put('app-settings-status', [message, `Revision ${result.revision}.`, state.persisted ? 'Confirmed saved locally.' : state.resetRequired ? 'Stored settings need explicit recovery.' : 'Current defaults are not yet confirmed saved.', ...(result.notices || [])].filter(Boolean).join(' '));
+  }
+
+  async function loadAppDefaults() {
+    if (defaultsLoading) return;
+    defaultsLoading = true; renderDefaultActions(); localError('app-settings-error', null);
+    put('app-settings-status', 'Reading stored defaults…');
+    try { showAppDefaults(await api.getAppSettings()); }
+    catch (error) { localError('app-settings-error', error); put('app-settings-status', 'Stored defaults could not be loaded. Current jobs were not changed.'); }
+    finally { defaultsLoading = false; renderDefaultActions(); }
+  }
+
+  async function saveAppDefaults(reset = false) {
+    if (!appDefaults || defaultsLoading || defaultsNeedsReload || (!reset && !defaultsDirty)) return;
+    const request = { revision: appDefaults.revision };
+    if (!reset) request.defaults = Object.fromEntries(Object.entries(defaultFields).map(([field, id]) =>
+      [field, field === 'previewExpanded' ? byId(id).checked : byId(id).value]));
+    defaultsLoading = true; renderDefaultActions(); localError('app-settings-error', null);
+    try {
+      showAppDefaults(await (reset ? api.resetAppSettings(request) : api.saveAppSettings(request)),
+        reset ? 'Factory defaults restored.' : 'Defaults saved for new batches.');
+    } catch (error) {
+      defaultsNeedsReload = true;
+      localError('app-settings-error', error);
+      put('app-settings-status', 'Save was not confirmed. Your form values are still visible. Reload stored defaults to review their current revision before retrying.');
+    } finally { defaultsLoading = false; renderDefaultActions(); }
+  }
+
+  async function loadRuntimeInformation() {
+    const request = ++runtimeRequest;
+    byId('runtime-refresh').disabled = true;
+    localError('runtime-error', null); put('runtime-status', 'Reading reported runtime versions…');
+    try {
+      const information = await api.getRuntimeInformation();
+      if (request !== runtimeRequest) return;
+      const rows = [['Application', information.appVersion], ['Electron', information.electron], ['Chromium', information.chromium],
+        ['Node.js', information.node], ['Platform / architecture', [information.platform, information.architecture].filter(Boolean).join(' / ')]];
+      for (const name of ['ffmpeg', 'ffprobe']) {
+        const media = information.media?.[name];
+        rows.push([name, media?.status === 'observed' && media.version ? media.version : 'Not yet observed in this session']);
+      }
+      const list = byId('runtime-information'); list.replaceChildren();
+      for (const [label, value] of rows) {
+        const term = document.createElement('dt'); term.textContent = label;
+        const detail = document.createElement('dd'); detail.textContent = value || 'Not reported by this runtime';
+        list.append(term, detail);
+      }
+      put('runtime-locations', ['ffmpeg', 'ffprobe'].map(name => `${name}: ${information.media?.[name]?.executable || 'Not reported'}`).join('\n'));
+      put('runtime-status', 'Reported by the running application. A version observation does not establish encoder or device availability.');
+    } catch (error) { if (request === runtimeRequest) { localError('runtime-error', error); put('runtime-status', 'Current runtime information is unavailable. Any previous display below has not been refreshed.'); } }
+    finally { if (request === runtimeRequest) byId('runtime-refresh').disabled = false; }
+  }
+
+  function historyStatus(status) {
+    return [status?.available === false ? 'History is currently unavailable.' : '', status?.incomplete ? 'Known gaps: diagnostic history is incomplete.' : '',
+      ...(status?.notices || [])].filter(Boolean).join(' ');
+  }
+
+  function syncHistorySelection() {
+    put('history-selection-count', `${historySelection.size} selected across pages (maximum 50)`);
+    byId('history-export').disabled = !historySelection.size || historyLoading || historyExportLoading;
+    byId('history-clear-selection').disabled = !historySelection.size || historyExportLoading;
+    for (const checkbox of byId('history-items').querySelectorAll('input[type="checkbox"]')) {
+      checkbox.checked = historySelection.has(checkbox.dataset.eventId);
+      checkbox.disabled = historyExportLoading || (!checkbox.checked && historySelection.size >= 50);
+    }
+  }
+
+  function invalidateHistoryExport() {
+    historyExportRequest++;
+    visible('history-export-panel', false); byId('history-export-text').value = '';
+  }
+
+  function renderHistoryRows() {
+    const list = byId('history-items'); list.replaceChildren();
+    for (const event of historyEvents) {
+      const row = document.createElement('tr');
+      const use = document.createElement('td'); use.className = 'selection-cell';
+      const checkbox = document.createElement('input'); checkbox.type = 'checkbox'; checkbox.dataset.eventId = event.id;
+      checkbox.setAttribute('aria-label', `Select ${event.reason} for redacted export`);
+      checkbox.addEventListener('change', () => {
+        if (checkbox.checked && historySelection.size < 50) historySelection.add(event.id);
+        else historySelection.delete(event.id);
+        invalidateHistoryExport(); syncHistorySelection();
+      });
+      use.append(checkbox);
+      const description = document.createElement('td');
+      const title = document.createElement('p'); title.className = 'history-event-title'; title.textContent = `${event.stage} · ${event.reason}`;
+      const at = new Date(event.at);
+      const time = document.createElement('p'); time.className = 'history-event-time'; time.textContent = Number.isFinite(at.getTime()) ? at.toLocaleString() : 'Time unavailable';
+      description.append(title, time);
+      const action = document.createElement('td');
+      const severity = document.createElement('span'); severity.className = 'history-event-severity'; severity.textContent = [event.severity, event.outcome].filter(Boolean).join(' · ');
+      const details = document.createElement('button'); details.type = 'button'; details.className = 'subtle'; details.textContent = 'Inspect record';
+      details.setAttribute('aria-label', `Inspect ${event.reason}`);
+      details.addEventListener('click', () => { void loadHistoryRecord(event.id); });
+      action.append(severity, details); row.append(use, description, action); list.append(row);
+    }
+    visible('history-empty', historyEvents.length === 0);
+    syncHistorySelection();
+  }
+
+  async function loadHistoryPage(reset = false, nextPage = historyPage) {
+    if (historyLoading) return;
+    if (reset) {
+      historyCursors = [undefined]; nextPage = 0; historySelection.clear();
+      invalidateHistoryExport(); historyRecordRequest++; visible('history-record', false);
+    }
+    const request = ++historyRequest;
+    historyLoading = true; localError('history-error', null);
+    for (const id of ['history-refresh', 'history-newer', 'history-more']) byId(id).disabled = true;
+    syncHistorySelection(); put('history-status', 'Reading saved events…');
+    try {
+      const cursor = historyCursors[nextPage];
+      const result = await api.getDiagnosticHistory({ limit: 50, ...(cursor === undefined ? {} : { cursor }) });
+      if (request !== historyRequest) return;
+      if (!Array.isArray(result.events) || result.persisted === false) throw new Error(historyStatus(result.status) || 'Saved history could not be read.');
+      historyEvents = result.events; historyNextCursor = result.nextCursor; historyPage = nextPage; historyLoaded = true;
+      put('history-status', [`Page ${historyPage + 1} · ${historyEvents.length} saved events.`, historyStatus(result.status)].filter(Boolean).join(' '));
+      renderHistoryRows();
+    } catch (error) { localError('history-error', error); put('history-status', 'History could not be refreshed. Any previously shown records remain unchanged.'); }
+    finally {
+      historyLoading = false; byId('history-refresh').disabled = false;
+      byId('history-newer').disabled = historyPage === 0;
+      byId('history-more').disabled = !historyNextCursor;
+      syncHistorySelection();
+    }
+  }
+
+  async function loadHistoryRecord(eventId) {
+    const request = ++historyRecordRequest;
+    localError('history-error', null); visible('history-record', true);
+    put('history-record-json', 'Loading the selected local record…');
+    visible('history-stderr', false); visible('history-record-notice', false);
+    try {
+      // Only the ID returned by History crosses this bridge. No displayed path
+      // or record field becomes a read, export or filesystem capability.
+      const result = await api.getDiagnosticRecord({ eventId });
+      if (request !== historyRecordRequest) return;
+      if (!result.event) throw new Error(historyStatus(result.status) || 'This record is missing, changed or expired.');
+      const { stderr, ...event } = result.event;
+      put('history-record-heading', `Local record · ${event.reason}`);
+      put('history-record-json', JSON.stringify(event, null, 2));
+      const warnings = [historyStatus(result.status), event.messageTruncated ? 'Message was truncated.' : '', event.contextTruncated ? 'Context was truncated.' : '',
+        stderr?.truncated ? 'Only a tail of process diagnostics was captured.' : '', stderr && !Object.hasOwn(stderr, 'totalBytes') ? 'Upstream diagnostic capture completeness is unknown.' : '',
+        stderr?.unavailable ? 'Captured process diagnostics are missing or changed.' : ''].filter(Boolean).join(' ');
+      visible('history-record-notice', Boolean(warnings)); put('history-record-notice', warnings);
+      visible('history-stderr', Boolean(stderr)); put('history-stderr-text', stderr?.unavailable ? 'Captured text is unavailable.' : stderr?.text || 'No diagnostic text was captured.');
+    } catch (error) {
+      if (request === historyRecordRequest) { put('history-record-json', 'The selected record could not be read.'); localError('history-error', error); }
+    }
+  }
+
+  async function previewHistoryExport() {
+    if (!historySelection.size || historyExportLoading) return;
+    const request = ++historyExportRequest;
+    const eventIds = [...historySelection];
+    historyExportLoading = true; syncHistorySelection(); localError('history-error', null);
+    visible('history-export-panel', false);
+    try {
+      const result = await api.getDiagnosticExportPreview({ eventIds });
+      if (request !== historyExportRequest) return;
+      if (!result.data || typeof result.json !== 'string') throw new Error(historyStatus(result.status) || 'Redacted preview could not be created.');
+      byId('history-export-text').value = result.json;
+      put('history-export-notice', [result.data.notice, historyStatus(result.status)].filter(Boolean).join(' '));
+      visible('history-export-panel', true);
+    } catch (error) { if (request === historyExportRequest) localError('history-error', error); }
+    finally { historyExportLoading = false; syncHistorySelection(); }
+  }
 
   function duration(value) {
     if (!finite(value) || value < 0) return '—';
@@ -484,6 +717,74 @@
     }
   }
 
+  function completedOutputId(item) {
+    const receipt = item.outputAccess;
+    // Only main's successful publication receipt enables a local action. A
+    // destination path, diagnostic record or earlier generated-file provenance
+    // is descriptive data and can never substitute for this ephemeral token.
+    return item.status === 'success' && item.outputDisposition?.published === true
+      && receipt && Object.keys(receipt).length === 1 && typeof receipt.outputId === 'string'
+      && /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/.test(receipt.outputId)
+      ? receipt.outputId : null;
+  }
+
+  function renderOutputAccess(entry) {
+    const outputId = completedOutputId(entry.item);
+    if (entry.outputAccessId !== outputId) {
+      entry.outputAccessId = outputId;
+      entry.outputRequest++;
+      entry.outputPending = false;
+      entry.outputResult = '';
+      entry.outputFailed = false;
+      entry.outputControls.replaceChildren();
+      if (outputId) {
+        for (const [action, label] of [['open', 'Open output'], ['reveal', 'Show in folder']]) {
+          const button = document.createElement('button');
+          button.type = 'button'; button.className = 'subtle'; button.textContent = label;
+          button.dataset.testid = `completed-output-${action}`;
+          button.setAttribute('aria-label', `${label}: ${entry.item.outputName || entry.item.name}`);
+          button.addEventListener('click', () => { void dispatchOutputAction(entry, action); });
+          entry.outputControls.append(button);
+        }
+      }
+    }
+    entry.outputControls.hidden = !outputId;
+    entry.outputControls.setAttribute('aria-busy', String(entry.outputPending));
+    for (const button of entry.outputControls.children) button.disabled = entry.outputPending;
+    const warning = entry.item.status === 'success' ? entry.item.outputAccessWarning : '';
+    entry.outputNotice.textContent = entry.outputResult || warning || '';
+    entry.outputNotice.hidden = !entry.outputNotice.textContent;
+    entry.outputNotice.className = `file-detail output-access-notice${entry.outputFailed || warning ? ' output-access-error' : ''}`;
+  }
+
+  async function dispatchOutputAction(entry, action) {
+    const outputId = completedOutputId(entry.item);
+    if (!outputId || entry.outputPending || itemRows.get(entry.item.id) !== entry) return;
+    const request = ++entry.outputRequest;
+    const current = () => itemRows.get(entry.item.id) === entry && entry.outputRequest === request
+      && completedOutputId(entry.item) === outputId;
+    entry.outputPending = true;
+    entry.outputFailed = false;
+    entry.outputResult = action === 'open' ? 'Requesting the default player…' : 'Requesting the output folder…';
+    renderOutputAccess(entry);
+    try {
+      // Submit only the main-issued token and fixed action. In particular, do
+      // not send the displayed output name, destination or any command text.
+      const result = await api.openCompletedOutput({ outputId, action });
+      if (!current()) return;
+      if (result?.dispatched !== true) throw new Error('The system did not confirm the output action.');
+      entry.outputResult = action === 'open'
+        ? 'Open request sent to your default player. Playback has not been verified.'
+        : 'Show-in-folder request sent to Windows.';
+    } catch (error) {
+      if (!current()) return;
+      entry.outputFailed = true;
+      entry.outputResult = `Could not ${action === 'open' ? 'open the output' : 'show the output folder'}: ${error?.message || error}`;
+    } finally {
+      if (current()) { entry.outputPending = false; renderOutputAccess(entry); }
+    }
+  }
+
   function createItemRow(item) {
     const row = document.createElement('tr');
     row.dataset.fileId = item.id;
@@ -509,6 +810,12 @@
     body.className = 'file-detail-body';
     const output = document.createElement('p');
     output.className = 'output-name';
+    const outputControls = document.createElement('div');
+    outputControls.className = 'output-access-actions';
+    const outputNotice = document.createElement('p');
+    outputNotice.dataset.testid = 'completed-output-notice';
+    outputNotice.setAttribute('role', 'status');
+    outputNotice.setAttribute('aria-live', 'polite');
     const summary = document.createElement('p');
     summary.className = 'file-detail';
     const reason = document.createElement('p');
@@ -596,7 +903,7 @@
       const entry = itemRows.get(item.id);
       if (entry) loadEncodingDetails(entry);
     });
-    body.append(output, summary, reason, metadata, sampling, previousDetails, action, commandDetails);
+    body.append(output, outputControls, outputNotice, summary, reason, metadata, sampling, previousDetails, action, commandDetails);
     details.append(name, body);
     // Classification and its deliberate action stay visible in compact rows.
     // Heavy provenance/argument details expand only when requested.
@@ -606,6 +913,7 @@
     statusCell.append(status);
     row.append(useCell, fileCell, statusCell);
     return { row, checkbox, details, name, output, summary, reason, metadata, sampling, action, status, item, key: '', origin, previous,
+      outputControls, outputNotice, outputAccessId: undefined, outputRequest: 0, outputPending: false, outputResult: '', outputFailed: false,
       previousDetails, previousInfo, previousArgs, reencodeBox, reencodeChoice, reencode,
       commandDetails, commandHeading, commandNotice, commandExecutable, commandDestination, commandArgs, commandKey: null };
   }
@@ -623,7 +931,8 @@
       let entry = itemRows.get(item.id);
       if (!entry) { entry = createItemRow(item); itemRows.set(item.id, entry); }
       entry.item = item;
-      const key = JSON.stringify([item.name, item.outputName, item.status, item.reason, item.summary, item.origin, item.reencodeAuthorized]);
+      renderOutputAccess(entry);
+      const key = JSON.stringify([item.name, item.outputName, item.status, item.reason, item.summary, item.origin, item.reencodeAuthorized, item.outcome, item.outputDisposition]);
       if (key !== entry.key) {
         entry.key = key;
         entry.checkbox.setAttribute('aria-label', `Encode ${item.name}`);
@@ -656,9 +965,11 @@
         entry.commandDetails.hidden = !['ready', 'conflict', 'pending', 'running', 'success', 'failed', 'cancelled', 'unprocessed'].includes(item.status);
         if (entry.commandDetails.open && !entry.commandDetails.hidden) loadEncodingDetails(entry);
         const knownStatus = Object.hasOwn(statusLabels, item.status) ? item.status : 'pending';
-        entry.status.className = `status status-${knownStatus}`;
-        entry.status.textContent = statusLabels[knownStatus];
-        entry.status.title = item.reason || statusLabels[knownStatus];
+        const savedWarning = item.outcome === 'saved-with-warning';
+        const retained = ['retained-completed', 'publication-uncertain'].includes(item.outputDisposition?.kind);
+        entry.status.className = `status status-${savedWarning || retained ? 'conflict' : knownStatus}`;
+        entry.status.textContent = savedWarning ? 'Saved with warning' : retained ? 'Completed stage retained' : statusLabels[knownStatus];
+        entry.status.title = item.reason || entry.status.textContent;
       }
       entry.row.hidden = !matchesFilter(item);
       if (tbody.children[index] !== entry.row) tbody.insertBefore(entry.row, tbody.children[index] || null);
@@ -697,6 +1008,11 @@
     const hasPercent = finite(progress.percent);
     if (hasPercent) byId('encode-progress').value = Math.min(100, Math.max(0, progress.percent));
     else byId('encode-progress').removeAttribute('value');
+    if (hasPercent) byId('active-job-progress').value = Math.min(100, Math.max(0, progress.percent));
+    else byId('active-job-progress').removeAttribute('value');
+    const activeStage = snapshot.phase === 'running' && progress.ended ? 'Finishing / awaiting validated publication' : phaseLabels[snapshot.phase] || 'Current operation';
+    put('active-job-summary', [activeStage, item?.name, hasPercent ? `${Math.min(100, Math.max(0, progress.percent)).toFixed(1)}%` : '',
+      preparing && preparation.total ? `${preparation.resolved} of ${preparation.total} files inspected · ${preparation.reused || 0} reused` : ''].filter(Boolean).join(' · '));
     put('percent', hasPercent ? `${Math.min(100, Math.max(0, progress.percent)).toFixed(1)}%` : 'In progress');
     put('progress-label', snapshot.phase === 'preparing' ? 'Inspecting media' : snapshot.phase === 'checking' ? 'Checking encoders' : 'Encoding progress');
     put('monitor-heading', preparing ? '03 / Inspecting recordings' : '03 / Encoding monitor');
@@ -728,7 +1044,7 @@
     const busy = isBusy();
     const terminal = terminalPhases.has(phase);
     const ready = phase === 'ready' && !dirty;
-    const showResults = terminal && !editing;
+    const showResults = terminal;
     const error = uiError || (!editing ? snapshot.error : '') || '';
     visible('error-banner', Boolean(error)); put('error-banner', error);
     put('phase-badge', phaseLabels[phase] || 'Ready');
@@ -744,14 +1060,29 @@
     else if (ready) activity = 'Review the effective settings and select the files to encode.';
     else if (dirty && editing && capabilities) activity = 'Choose your settings, then review the batch.';
     put('activity-message', activity);
+    visible('diagnostic-warning', Boolean(snapshot.diagnosticWarning)); put('diagnostic-warning', snapshot.diagnosticWarning || '');
     visible('setup-panel', true);
+    // Move the existing rows instead of rendering a second queue. Expanded
+    // details, ID-bound actions and focus stay attached to the same DOM nodes.
+    const batchWorkspace = busy || terminal ? 'jobs' : 'encode';
+    const batchSlot = byId(`${batchWorkspace}-batch-slot`);
+    if (byId('batch-panel').parentElement !== batchSlot) {
+      const movingFocus = byId('batch-panel').contains(document.activeElement);
+      batchSlot.append(byId('batch-panel'));
+      // An event can arrive before the originating invoke returns. Do not leave
+      // keyboard focus inside a newly hidden workspace while that call settles.
+      if (movingFocus && activeWorkspace !== batchWorkspace) byId(`tab-${batchWorkspace}`).focus();
+    }
     visible('batch-panel', (ready || busy || showResults) && (snapshot.items || []).length > 0);
     visible('monitor-panel', busy && phase !== 'checking');
     visible('results-panel', showResults);
+    visible('jobs-empty', (!busy && !terminal) || phase === 'checking');
+    put('jobs-empty-message', phase === 'checking' ? 'The bundled encoders are being checked. The current operation remains visible below.'
+      : ready ? 'This batch is prepared but has not started. Review its files and start the selected items in Encode.' : 'No batch is running. Choose folders and review a batch in Encode.');
     visible('preview-actions', ready);
-    visible('cancel-bar', busy && Boolean(snapshot.batchId));
+    visible('cancel-bar', busy);
     put('cancel-explanation', phase === 'checking' ? 'Cancel this capability check.' : 'Cancellation stops this operation and the remaining queue.');
-    byId('cancel-batch').disabled = cancelPending || phase === 'cancelling';
+    byId('cancel-batch').disabled = !snapshot.batchId || cancelPending || phase === 'cancelling';
     put('cancel-batch', phase === 'cancelling' || cancelPending ? 'Cancelling…' : phase === 'preparing' ? 'Cancel inspection' : phase === 'checking' ? 'Cancel check' : 'Cancel batch');
     const locked = busy || pendingCommands > 0;
     for (const id of ['choose-input', 'choose-output']) byId(id).disabled = locked || !capabilities;
@@ -805,6 +1136,39 @@
       put('result-message', phase === 'completed' ? 'The batch has finished. Review individual results above; skipped and unsupported files are listed with their reasons.' : phase === 'cancelled' ? 'The operation was cancelled. Completed outputs are preserved. Remaining files were not encoded.' : snapshot.error || 'The batch stopped. Review the file results before preparing a new batch.');
     }
   }
+
+  for (const [index, name] of workspaceNames.entries()) {
+    const tab = byId(`tab-${name}`);
+    tab.addEventListener('click', () => activateWorkspace(name));
+    tab.addEventListener('keydown', event => {
+      const positions = { ArrowRight: (index + 1) % workspaceNames.length, ArrowLeft: (index + workspaceNames.length - 1) % workspaceNames.length,
+        Home: 0, End: workspaceNames.length - 1 };
+      if (Object.hasOwn(positions, event.key)) {
+        event.preventDefault();
+        for (const candidate of workspaceNames) byId(`tab-${candidate}`).tabIndex = -1;
+        const next = byId(`tab-${workspaceNames[positions[event.key]]}`); next.tabIndex = 0; next.focus();
+      } else if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); activateWorkspace(name); }
+    });
+  }
+  byId('view-jobs').addEventListener('click', () => activateWorkspace('jobs', true));
+  byId('jobs-open-encode').addEventListener('click', () => activateWorkspace('encode', true));
+  byId('app-settings-reload').addEventListener('click', () => { void loadAppDefaults(); });
+  byId('app-settings-form').addEventListener('submit', event => { event.preventDefault(); void saveAppDefaults(); });
+  byId('app-settings-reset').addEventListener('click', () => { void saveAppDefaults(true); });
+  for (const id of Object.values(defaultFields)) byId(id).addEventListener('change', () => { defaultsDirty = true; renderDefaultActions(); });
+  byId('runtime-refresh').addEventListener('click', () => { void loadRuntimeInformation(); });
+  byId('history-refresh').addEventListener('click', () => { void loadHistoryPage(true); });
+  byId('history-more').addEventListener('click', () => {
+    if (!historyNextCursor || historyLoading) return;
+    historyCursors[historyPage + 1] = historyNextCursor;
+    void loadHistoryPage(false, historyPage + 1);
+  });
+  byId('history-newer').addEventListener('click', () => { if (historyPage > 0) void loadHistoryPage(false, historyPage - 1); });
+  byId('history-clear-selection').addEventListener('click', () => {
+    historySelection.clear(); invalidateHistoryExport(); syncHistorySelection();
+  });
+  byId('history-export').addEventListener('click', () => { void previewHistoryExport(); });
+  byId('history-select-export').addEventListener('click', () => { byId('history-export-text').focus(); byId('history-export-text').select(); });
 
   byId('profile').addEventListener('change', () => {
     drainPendingSave(); populateProfileSettings(); invalidatePreview(); rememberCurrentSettings();
@@ -892,6 +1256,7 @@
   byId('start-batch').addEventListener('click', () => command(async () => {
     if (dirty || !selectedIds.size) throw new Error('Review the batch and select at least one ready file.');
     applySnapshot(await api.startBatch({ planId: snapshot.planId, fileIds: [...selectedIds] }));
+    activateWorkspace('jobs');
     byId('monitor-heading').scrollIntoView({ block: 'start' });
   }));
   byId('select-ready').addEventListener('click', () => {
@@ -908,6 +1273,7 @@
   byId('new-batch').addEventListener('click', () => {
     if (isBusy()) return;
     editing = true; dirty = true; selectedIds.clear(); reencodeChoices.clear(); uiError = ''; render();
+    activateWorkspace('encode');
     if (!capabilities) command(loadCapabilities);
     byId('setup-heading').scrollIntoView({ block: 'start' });
   });

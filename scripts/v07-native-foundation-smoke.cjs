@@ -19,10 +19,11 @@ const expectedBridge = ['getCapabilities', 'getPreferences', 'saveSettings', 're
   'clearInspectionCache', 'getRecipe', 'getEncodingDetails', 'chooseInputFolder', 'chooseOutputFolder',
   'prepareBatch', 'treatAsOriginal', 'reencodeOutputs', 'startBatch', 'cancelBatch', 'getSnapshot',
   'getDiagnosticHistory', 'getDiagnosticRecord', 'getDiagnosticExportPreview', 'onUpdate',
-  'getAppSettings', 'saveAppSettings', 'resetAppSettings', 'getRuntimeInformation'];
+  'getAppSettings', 'saveAppSettings', 'resetAppSettings', 'getRuntimeInformation', 'openCompletedOutput'];
 const electronTrial = process.argv.includes('--electron-maintenance-trial');
 const lifecycleOnly = process.argv.includes('--lifecycle-only');
-const expectedElectron = electronTrial ? '44.7.0' : '44.2.0';
+const workbenchOnly = process.argv.includes('--workbench-only');
+const expectedElectron = '44.7.0';
 const executablePath = electronTrial
   ? path.join(owned, 'staging/runtime-trials/electron-44.7.0/electron.exe')
   : path.join(root, 'node_modules/electron/dist/electron.exe');
@@ -151,6 +152,7 @@ async function nativePreparation() {
   const result = { name: 'real-ui-preload-preparation-clean-shutdown', stateDir: context.stateDir, output: context.output, checks: [] };
   report.cases.push(result); await save();
   const page = await context.app.firstWindow();
+  page.setDefaultTimeout(30000);
   const pageErrors = []; page.on('pageerror', error => pageErrors.push(error.message));
   result.identity = await observedIdentity(context);
   await page.waitForFunction(() => document.querySelector('#profile') && !document.querySelector('#profile').disabled, undefined, { timeout: 180000 });
@@ -198,6 +200,7 @@ async function nativePreparation() {
   assert.deepEqual(result.prepared.items.map(item => item.name).sort(), [...expectedSources].sort());
   assert.ok(result.prepared.items.every(item => item.status === 'unsupported'), 'Foundation baseline must report current refused media honestly; a changed policy needs a deliberate new expectation.');
   assert.ok(result.prepared.items.every(item => item.reason && item.reasonCode), 'Every refused input needs an actual reason and stable diagnostic code.');
+  await page.click('#tab-encode');
   const visible = await page.locator('#batch-items').innerText();
   for (const name of expectedSources) assert.ok(visible.includes(name), 'Actual native table includes ' + name);
   result.ui = { activity: await page.locator('#activity-message').innerText(), preview: visible,
@@ -221,6 +224,52 @@ async function nativePreparation() {
   assert.equal(result.invalidDiagnosticRequest.rejected, true);
   assert.deepEqual(await fs.readdir(context.output), [], 'No personal output was created.');
   result.checks.push('four supplied cases prepared through UI/preload; actionable refused states and durable bounded diagnostics; no Start/no output');
+  if (workbenchOnly) {
+    const initial = await page.evaluate(() => window.encoder.getAppSettings());
+    await page.click('#tab-settings');
+    await page.waitForFunction(() => !document.querySelector('#app-settings-fields').disabled);
+    await page.selectOption('#default-range-audio', 'precision-flac');
+    await page.click('#app-settings-save');
+    await page.waitForFunction(revision => document.querySelector('#app-settings-status').textContent.includes(`Revision ${revision}.`), initial.revision + 1);
+    result.savedSettings = await page.evaluate(() => window.encoder.getAppSettings());
+    assert.equal(result.savedSettings.defaults.rangeAudioPolicy, 'precision-flac');
+    assert.equal(result.savedSettings.revision, initial.revision + 1);
+    assert.equal((await page.evaluate(() => window.encoder.getSnapshot())).planId, result.prepared.planId);
+    await page.screenshot({ path: path.join(reportRoot, '03-native-settings.png'), fullPage: true });
+    await page.click('#tab-history');
+    await page.waitForFunction(() => document.querySelectorAll('#history-items tr').length > 0);
+    assert.match(await page.locator('#history-items').innerText(), /APP_DEFAULTS_SAVED/);
+    await page.locator('#history-items input[type=checkbox]').first().check();
+    await page.click('#history-export');
+    await page.waitForFunction(() => document.querySelector('#history-export-text').value.length > 0);
+    result.historyExportUi = await page.locator('#history-export-text').inputValue();
+    assert.doesNotThrow(() => JSON.parse(result.historyExportUi));
+    await page.screenshot({ path: path.join(reportRoot, '04-native-history.png'), fullPage: true });
+    await page.click('#tab-help');
+    await page.waitForFunction(() => document.querySelector('#runtime-information').textContent.includes('44.'));
+    result.runtimeHelp = await page.locator('#runtime-information').innerText();
+    assert.ok(result.runtimeHelp.includes(expectedElectron));
+    assert.match(result.runtimeHelp, /9\.0\.1/);
+    await page.screenshot({ path: path.join(reportRoot, '05-native-help.png'), fullPage: true });
+    // Native Chromium layout at the supported minimum, plus focus navigation.
+    await context.app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].setContentSize(640, 480));
+    result.narrow = {};
+    for (const name of ['encode', 'jobs', 'history', 'settings', 'help']) {
+      await page.click('#tab-' + name);
+      result.narrow[name] = await page.evaluate(() => ({ viewport: innerWidth, scroll: document.documentElement.scrollWidth,
+        active: document.querySelector('[role=tab][aria-selected=true]')?.id }));
+      assert.ok(result.narrow[name].scroll <= result.narrow[name].viewport + 1, `${name} causes page-level horizontal overflow`);
+      await page.screenshot({ path: path.join(reportRoot, `06-narrow-${name}.png`), fullPage: true });
+    }
+    await page.focus('#tab-help'); await page.keyboard.press('Home');
+    assert.equal(await page.evaluate(() => document.activeElement.id), 'tab-encode');
+    await page.keyboard.press('Enter');
+    assert.equal(await page.locator('#tab-encode').getAttribute('aria-selected'), 'true');
+    await page.keyboard.press('ArrowRight'); await page.keyboard.press('Space');
+    assert.equal(await page.locator('#tab-jobs').getAttribute('aria-selected'), 'true');
+    assert.equal((await page.evaluate(() => window.encoder.getSnapshot())).planId, result.prepared.planId);
+    result.checks.push('native Settings save without plan mutation; real History/redacted preview; observed Help versions; five tabs at640x480 without page overflow; keyboard tab focus/activation');
+  }
   assert.deepEqual(pageErrors, []); result.pageErrors = pageErrors;
   result.exit = await normalClose(context);
   result.events = await journal(context.stateDir);
@@ -351,7 +400,7 @@ require(${JSON.stringify(path.join(root, 'main.js'))});
 }
 async function main() {
   if (!process.argv.includes('--parent-granted-media-slot')) throw new Error('Refusing launch: the parent must explicitly grant the media slot, then pass --parent-granted-media-slot.');
-  assert.equal(require('../package.json').devDependencies.electron, '44.2.0', 'Pre-maintenance baseline only.');
+  assert.equal(require('../package.json').devDependencies.electron, expectedElectron, 'Pinned candidate runtime only.');
   const actualSources = (await fs.readdir(supplied, { withFileTypes: true })).filter(entry => entry.isFile()).map(entry => entry.name).sort();
   assert.deepEqual(actualSources, [...expectedSources].sort(), 'Refuse unexpectedly expanded personal-media scope.');
   await acquireLease();
@@ -361,7 +410,7 @@ async function main() {
     await fs.mkdir(reportRoot, { recursive: true }); await fs.mkdir(runRoot, { recursive: false });
     Object.assign(report, { reportRoot, runRoot, supplied, sourceIdentitiesBefore: await identities() }); await save();
     if (!lifecycleOnly) await nativePreparation();
-    await rendererCrash(); await rendererCrashDuringLoad(); await startupQuit();
+    if (!workbenchOnly) { await rendererCrash(); await rendererCrashDuringLoad(); await startupQuit(); }
     report.status = 'passed';
   } catch (error) {
     report.status = 'failed'; report.failure = { message: error.message, stack: error.stack }; process.exitCode = 1;

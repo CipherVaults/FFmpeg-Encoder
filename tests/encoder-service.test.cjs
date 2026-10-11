@@ -36,7 +36,7 @@ function inspection() {
   };
 }
 
-async function harness(t, { names = ['a.mp4', 'b.mp4'], onEncode, onInspect, verify, sameFolder = false, eligible = true, inspectResult, outputTags } = {}) {
+async function harness(t, { names = ['a.mp4', 'b.mp4'], onEncode, onInspect, verify, sameFolder = false, eligible = true, inspectResult, outputTags, runtimeIdentity } = {}) {
   await fs.mkdir(artifactParent, { recursive: true });
   const root = await fs.mkdtemp(path.join(artifactParent, 'run-'));
   const input = path.join(root, 'input');
@@ -61,7 +61,7 @@ async function harness(t, { names = ['a.mp4', 'b.mp4'], onEncode, onInspect, ver
   let active = 0;
   let maximumActive = 0;
   const service = new EncoderService({
-    ffmpeg: 'injected-ffmpeg', ffprobe: 'injected-ffprobe', stateDir, inspectionWorkers: 1,
+    ffmpeg: 'injected-ffmpeg', ffprobe: 'injected-ffprobe', stateDir, inspectionWorkers: 1, runtimeIdentity,
     storageEligibility: { check: async () => ({ eligible, reason: eligible ? null : 'Injected unsupported storage.' }) },
     capabilities: async () => ({
       profiles: PROFILES.map((profile) => ({ ...profile, available: true, supportedBitDepths: [8, 10] })),
@@ -123,6 +123,155 @@ async function diagnosticRecord(service, reason, fileId) {
   }
   assert.fail(`Expected persisted diagnostic ${reason}`);
 }
+
+test('new batches snapshot persisted operation defaults; saving later does not mutate the prepared request', async t => {
+  const h = await harness(t);
+  const app = await h.service.getAppSettings();
+  const plan = await h.prepare();
+  assert.equal(plan.operationDraft.files[0].request.range, null);
+  assert.equal(plan.operationDraft.files[0].request.audioPolicy, 'copy');
+  await h.service.saveAppSettings({ revision: app.revision, defaults: { ...app.defaults, resolution: '720' } });
+  assert.equal(h.service.snapshot().operationDraft.files[0].request.resolution, 'source');
+  const next = await h.prepare();
+  assert.equal(next.operationDraft.files[0].request.resolution, '720');
+  assert.ok(next.items.every(item => item.reasonCode === 'OPERATION_QUALIFICATION_REQUIRED'));
+  assert.equal(h.calls.length, 0, 'unqualified choices cannot silently run the old argv');
+});
+
+test('per-file operation edits reprepare with a new plan, preserve source reservations and refuse stale start', async t => {
+  const h = await harness(t); const plan = await h.prepare();
+  const reserved = h.service.plan.reservedPaths;
+  const next = await h.service.updateFileOperations({ planId: plan.planId, draftId: plan.operationDraft.id, revision: plan.operationDraft.revision,
+    fileIds: [plan.items[0].id], overrides: { range: { startUs: 0, endUs: 1000000 } } });
+  assert.notEqual(next.planId, plan.planId); assert.equal(h.service.plan.reservedPaths, reserved);
+  assert.equal(next.items[0].operationRequest.audioPolicy, 'precision-aac');
+  assert.equal(next.items[0].status, 'unsupported');
+  assert.equal(next.items[1].operationRequest.range, null); assert.equal(next.items[1].status, 'ready');
+  assert.throws(() => h.service.startBatch({ planId: plan.planId, fileIds: [plan.items[1].id] }), { code: 'STALE_PLAN' });
+  assert.equal(h.calls.length, 0);
+});
+
+for (const overrides of [{ target: 'mp4' }, { target: 'mov' }, { hdrPolicy: 'hlg-base' },
+  { hdrPolicy: 'dolby-pq' }, { omissionRequestIds: ['requested-stream-omission'] }]) {
+  test(`unqualified operation ${JSON.stringify(overrides)} never silently reaches the old builder`, async t => {
+    const h = await harness(t, { names: ['a.mp4'] }), plan = await h.prepare();
+    const next = await h.service.updateFileOperations({ planId: plan.planId, draftId: plan.operationDraft.id,
+      revision: plan.operationDraft.revision, fileIds: [plan.items[0].id], overrides });
+    assert.notEqual(next.planId, plan.planId);
+    assert.equal(next.items[0].reasonCode, 'OPERATION_QUALIFICATION_REQUIRED');
+    assert.equal(next.items[0].status, 'unsupported');
+    assert.equal(h.service.plan.entries.size, 0);
+    assert.throws(() => h.service.startBatch({ planId: next.planId, fileIds: [plan.items[0].id] }), { code: 'INVALID_SELECTION' });
+    assert.equal(h.calls.length, 0);
+  });
+}
+
+test('runtime identity is a main-supplied constructor field and existing mocks default to null', async t => {
+  const legacy = await harness(t, { names: ['a.mp4'] });
+  assert.equal(legacy.service.runtimeIdentity, null);
+  const runtimeIdentity = 'a'.repeat(64);
+  const candidate = await harness(t, { names: ['a.mp4'], runtimeIdentity });
+  assert.equal(candidate.service.runtimeIdentity, runtimeIdentity);
+  assert.equal((await candidate.prepare()).items[0].status, 'ready');
+});
+
+test('meaningful operation edits expire generated-source grants and never make filtering into authority', async t => {
+  const outputId = createOutputId();
+  const h = await harness(t, { names: ['original.mp4', 'generated.mkv'], inspectResult: file => path.basename(file) === 'generated.mkv' ? generatedInspection(outputId) : inspection() });
+  const plan = await h.prepare(); const generated = plan.items.find(item => item.status === 'generated');
+  const allowed = await h.service.reencodeOutputs({ planId: plan.planId, fileIds: [generated.id] });
+  assert.equal(allowed.items.find(item => item.id === generated.id).reencodeAuthorized, true);
+  const changed = await h.service.updateBatchOperationDefaults({ planId: allowed.planId, draftId: allowed.operationDraft.id,
+    revision: allowed.operationDraft.revision, overrides: { hdrPolicy: 'sdr' } });
+  assert.equal(changed.items.find(item => item.id === generated.id).status, 'generated');
+  assert.equal(changed.items.find(item => item.id === generated.id).reencodeAuthorized, false);
+  assert.equal(h.service.plan.reencodeAuthorizations.size, 0);
+});
+
+test('queued operation snapshots survive App Settings edits while draft mutation is denied', async t => {
+  const entered = deferred(), release = deferred();
+  const h = await harness(t, { onEncode: async () => { entered.resolve(); await release.promise; } });
+  const plan = await h.prepare();
+  h.service.startBatch({ planId: plan.planId, fileIds: [plan.items[0].id] }); await entered.promise;
+  const queued = h.service.plan.queueOperationSnapshot;
+  assert.equal(Object.isFrozen(queued), true);
+  const app = await h.service.getAppSettings();
+  await h.service.saveAppSettings({ revision: app.revision, defaults: { ...app.defaults, fullAudioPolicy: 'precision-aac' } });
+  assert.equal(queued.requests[0].audioPolicy, 'copy');
+  assert.throws(() => h.service.updateFileOperations({ planId: plan.planId, draftId: plan.operationDraft.id, revision: plan.operationDraft.revision,
+    fileIds: [plan.items[0].id], overrides: {} }), { code: 'BUSY' });
+  release.resolve(); await h.service.taskPromise;
+  assert.equal(h.service.snapshot().items[0].status, 'success');
+});
+
+test('only saved outputs obtain post-cleanup action tokens; stale contents cannot open', async t => {
+  const { OutputAccess } = require('../src/output-access.cjs');
+  const h = await harness(t, { names: ['a.mp4'] }); const opened = [];
+  h.service.outputAccess = new OutputAccess({ openPath: async file => { opened.push(file); return ''; }, showItemInFolder() {} });
+  const result = await h.finish(await h.prepare()); const item = result.items[0];
+  assert.ok(item.outputAccess?.outputId); assert.equal(item.outputAccessWarning, undefined);
+  assert.equal((await fs.stat(path.join(h.output, item.outputName))).nlink, 1);
+  assert.equal((await h.service.openCompletedOutput({ outputId: item.outputAccess.outputId, action: 'open' })).dispatched, true);
+  assert.deepEqual(opened, [await fs.realpath(path.join(h.output, item.outputName))]);
+  await fs.appendFile(path.join(h.output, item.outputName), 'changed');
+  await assert.rejects(h.service.openCompletedOutput({ outputId: item.outputAccess.outputId, action: 'open' }), { code: 'OUTPUT_ACCESS_CHANGED' });
+  assert.equal(opened.length, 1);
+});
+
+test('output action issuance failure does not relabel a safely published encode as failure', async t => {
+  const h = await harness(t, { names: ['a.mp4'] });
+  h.service.outputAccess = { issue: async () => { throw new Error('link changed'); } };
+  const result = await h.finish(await h.prepare()); const item = result.items[0];
+  assert.equal(item.status, 'success'); assert.equal(item.outputDisposition.published, true);
+  assert.match(item.outputAccessWarning, /could not be bound safely/);
+  assert.equal(item.outputAccess, undefined);
+  await assert.rejects(h.service.openCompletedOutput({ outputId: randomUUID(), action: 'open', path: h.input }), { code: 'INVALID_REQUEST' });
+});
+
+for (const mutation of ['replacement', 'same-object-content']) {
+  test(`a ${mutation} before the first publication observation obtains neither provenance nor output access`, async t => {
+    const h = await harness(t, { names: ['a.mp4'] });
+    const recordIncident = h.service.recordIncident.bind(h.service), recordPublished = h.service.provenanceJournal.recordPublished.bind(h.service.provenanceJournal);
+    let publishedRecords = 0, outputIssues = 0, before, destination;
+    h.service.outputAccess = { issue: async () => { outputIssues++; return { outputId: randomUUID() }; } };
+    h.service.provenanceJournal.recordPublished = async (...args) => { publishedRecords++; return recordPublished(...args); };
+    h.service.recordIncident = async request => {
+      const result = await recordIncident(request);
+      if (request.reason === 'OUTPUT_PUBLISHED') {
+        destination = request.context.destination; before = await fs.stat(destination, { bigint: true });
+        if (mutation === 'replacement') await fs.rename(destination, `${destination}.validated`);
+        await fs.writeFile(destination, Buffer.alloc(Number(before.size), 81));
+        await fs.utimes(destination, new Date(), new Date(Number(before.mtimeNs / 1000000n) + 1000));
+        assert.equal((await fs.stat(destination, { bigint: true })).ino === before.ino, mutation === 'same-object-content');
+      }
+      return result;
+    };
+    const result = await h.finish(await h.prepare()), item = result.items[0];
+    assert.equal(item.status, 'success', 'an already completed publication is not undone by later identity refusal');
+    assert.equal(item.outputDisposition.published, true);
+    assert.equal(publishedRecords, 0); assert.equal(outputIssues, 0);
+    assert.equal(item.outputAccess, undefined);
+    assert.match(item.outputAccessWarning, /could not be bound safely/);
+    assert.match(item.reason, /provenance bookkeeping remains pending/);
+    assert.deepEqual(await fs.readFile(destination), Buffer.alloc(Number(before.size), 81));
+  });
+}
+
+test('a verified exclusive-copy fallback binds provenance and output actions to the copied inode', async t => {
+  const { OutputAccess } = require('../src/output-access.cjs');
+  const h = await harness(t, { names: ['a.mp4'] });
+  const link = fs.link.bind(fs), opened = [];
+  t.mock.method(fs, 'link', async (source, destination) => {
+    if (path.basename(source) === 'encoded.mkv') throw failure('ENOTSUP', 'Force the existing distinct-folder copy fallback.');
+    return link(source, destination);
+  });
+  h.service.outputAccess = new OutputAccess({ openPath: async file => { opened.push(file); return ''; }, showItemInFolder() {} });
+  const result = await h.finish(await h.prepare()), item = result.items[0];
+  assert.equal(item.status, 'success'); assert.equal(item.outputDisposition.published, true);
+  assert.ok(item.outputAccess?.outputId); assert.equal(item.outputAccessWarning, undefined);
+  await h.service.openCompletedOutput({ outputId: item.outputAccess.outputId, action: 'open' });
+  assert.deepEqual(opened, [await fs.realpath(path.join(h.output, item.outputName))]);
+});
 
 test('two selected jobs run sequentially, publish validated outputs, and leave an accurate recoverable result', async (t) => {
   const h = await harness(t);

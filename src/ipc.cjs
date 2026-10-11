@@ -18,6 +18,7 @@ function registerIpc({ ipcMain, window, service, dialog, entryUrl }) {
     'encoder:save-app-settings': [1, payload => service.saveAppSettings(payload)],
     'encoder:reset-app-settings': [1, payload => service.resetAppSettings(payload)],
     'encoder:runtime-information': [0, () => service.getRuntimeInformation()],
+    'encoder:open-completed-output': [1, payload => service.openCompletedOutput(payload)],
     'encoder:save-settings': [1, payload => service.saveSettings(payload)],
     'encoder:reset-profile': [1, payload => service.resetProfile(payload)],
     'encoder:forget-preferences': [0, () => service.forgetPreferences()],

@@ -14,12 +14,23 @@
       <div><p class="eyebrow">LOCAL VIDEO WORKSPACE</p><h1><span aria-hidden="true">&gt;_</span> FFmpeg Encoder</h1></div>
       <span id="phase-badge" class="phase-badge" role="status">Starting</span>
     </header>
-    <p class="intro">Choose a profile. Review your files. Encode one at a time.</p>
+    <p class="intro">Your local media workbench. Configure deliberately, inspect the plan, then process one file at a time.</p>
+    <nav class="workspace-navigation" aria-label="Workspaces">
+      <div id="workspace-tabs" class="workspace-tabs" role="tablist" aria-label="FFmpeg workspaces">
+        <button id="tab-encode" type="button" role="tab" aria-selected="true" aria-controls="workspace-encode" tabindex="0">Encode</button>
+        <button id="tab-jobs" type="button" role="tab" aria-selected="false" aria-controls="workspace-jobs" tabindex="-1">Jobs</button>
+        <button id="tab-history" type="button" role="tab" aria-selected="false" aria-controls="workspace-history" tabindex="-1">History</button>
+        <button id="tab-settings" type="button" role="tab" aria-selected="false" aria-controls="workspace-settings" tabindex="-1">App Settings</button>
+        <button id="tab-help" type="button" role="tab" aria-selected="false" aria-controls="workspace-help" tabindex="-1">Help</button>
+      </div>
+    </nav>
     <div id="error-banner" class="error-banner" role="alert" hidden></div>
     <p id="activity-message" class="activity" role="status" aria-live="polite">Checking available encoders…</p>
     <p id="provenance-notice" class="hint" role="status" hidden></p>
     <p id="preferences-notice" class="hint" role="status" hidden></p>
+    <p id="diagnostic-warning" class="attention-warning" role="status" hidden></p>
 
+    <div id="workspace-encode" class="workspace" role="tabpanel" aria-labelledby="tab-encode" tabindex="0">
     <section id="setup-panel" class="panel" aria-labelledby="setup-heading">
       <div class="section-heading"><h2 id="setup-heading">01 / Setup</h2><span class="muted">SDR video · Matroska output</span></div>
       <div class="folder-grid">
@@ -43,10 +54,10 @@
       <div id="control-help-display" role="region" aria-label="Encoder control explanation" hidden></div>
       <details id="current-recipe"><summary>Current encoding recipe / FFmpeg options</summary><p id="recipe-description" class="hint"></p><p id="recipe-note" class="hint">Choose valid settings to inspect the encoder contribution. Prepare a file for its media-specific resolved arguments.</p><pre id="recipe-args" class="argument-list" tabindex="0" aria-label="Current encoder arguments, one JSON string per argument"></pre></details>
       <details id="capability-details"><summary>Encoder availability and runtime</summary><ul id="capability-list" class="capability-list"></ul><p id="runtime-versions" class="hint"></p></details>
-      <details id="remembered-workflow"><summary>Remembered workflow</summary><p class="hint">Locations and each profile's last valid settings are remembered locally. Tested Default resets only the current profile. These actions preserve output provenance, media and completed outputs.</p><div class="action-row"><button id="forget-preferences" data-testid="forget-preferences" type="button">Forget remembered locations/settings</button><button id="clear-inspection-cache" data-testid="clear-inspection-cache" type="button">Clear inspection cache</button></div></details>
       <div class="action-row"><button id="prepare-batch" type="button" class="primary" disabled>Review batch</button><p class="hint">Top-level MP4, MKV, MOV, AVI and WebM files.</p></div>
     </section>
 
+    <div id="encode-batch-slot">
     <section id="batch-panel" class="panel" aria-labelledby="batch-heading" hidden>
       <div class="section-heading"><h2 id="batch-heading">02 / Batch preview</h2><div class="selection-summary" role="status"><span id="selected-count" class="muted"></span><span id="hidden-selected-count" class="muted"></span></div></div>
       <p id="effective-settings" class="effective-settings"></p>
@@ -58,7 +69,11 @@
       <p id="empty-message" class="hint" hidden>No supported files were found in this folder.</p>
       <div id="preview-actions" class="action-row"><button id="start-batch" class="primary" type="button" disabled>Start selected files</button><button id="select-ready" type="button">Select ready files</button><button id="clear-selection" type="button">Clear selection</button></div>
     </section>
+    </div>
+    </div>
 
+    <div id="workspace-jobs" class="workspace" role="tabpanel" aria-labelledby="tab-jobs" tabindex="0" hidden>
+    <section id="jobs-empty" class="panel" aria-labelledby="jobs-heading"><h2 id="jobs-heading">Current jobs</h2><p id="jobs-empty-message" class="hint">No batch is running. Choose folders and review a batch in Encode.</p><button id="jobs-open-encode" class="subtle" type="button">Go to Encode</button><p class="hint">This workspace follows the current batch. Saved session records are available in History.</p></section>
     <section id="monitor-panel" class="panel" aria-labelledby="monitor-heading" hidden>
       <div class="section-heading"><h2 id="monitor-heading">03 / Encoding monitor</h2><span id="monitor-count" class="muted"></span></div>
       <p id="monitor-settings" class="effective-settings"></p>
@@ -69,6 +84,7 @@
       <div id="inspection-details" hidden><p id="inspection-stage" class="hint"></p><p class="hint">Inspection elapsed: <span id="inspection-elapsed">00:00</span></p><p id="inspection-notice" class="hint" hidden></p><details><summary>Why inspect recordings?</summary><p class="hint">Inspection checks duration, video properties, streams to preserve, encoder compatibility and sampled SDR/HDR metadata. Unchanged completed recordings can reuse validated inspection. Finish recording before preparing a batch.</p></details></div>
       <dl id="encoding-telemetry" class="telemetry"><div><dt>Encoded</dt><dd id="encoded-time">—</dd></div><div><dt>Speed</dt><dd id="speed">—</dd></div><div><dt>FPS</dt><dd id="fps">—</dd></div><div><dt>Output size</dt><dd id="output-size">—</dd></div><div><dt>Time remaining</dt><dd id="eta">—</dd></div><div><dt>Batch elapsed</dt><dd id="elapsed">00:00</dd></div></dl>
     </section>
+    <div id="jobs-batch-slot"></div>
 
     <section id="results-panel" class="panel" aria-labelledby="results-heading" hidden>
       <div class="section-heading"><h2 id="results-heading">Batch results</h2><span id="result-phase" class="muted"></span></div>
@@ -76,8 +92,65 @@
       <p id="result-message" class="hint"></p>
       <button id="new-batch" class="primary" type="button">Set up a new batch</button>
     </section>
+    </div>
 
-    <div id="cancel-bar" class="cancel-bar" hidden><p id="cancel-explanation">Cancellation stops this operation and the remaining queue.</p><button id="cancel-batch" class="danger" type="button">Cancel batch</button></div>
+    <div id="workspace-history" class="workspace" role="tabpanel" aria-labelledby="tab-history" tabindex="0" hidden>
+      <section class="panel" aria-labelledby="history-heading">
+        <div class="section-heading"><h2 id="history-heading">Saved activity</h2><button id="history-refresh" class="subtle" type="button">Refresh history</button></div>
+        <p class="hint">Durable session events, including saved events from this session. Live progress and the current queue are in Jobs. History does not resume interrupted work.</p>
+        <p class="hint">Records normally retain up to 30 days within a 200 MiB budget; active sessions are protected. Local details can contain private filenames and media metadata.</p>
+        <p id="history-status" class="hint" role="status">Open History to load saved records.</p>
+        <p id="history-error" class="attention-warning" role="alert" hidden></p>
+        <p id="history-empty" class="hint" hidden>No saved events are available.</p>
+        <div class="table-scroll history-scroll" tabindex="0" role="region" aria-label="Saved diagnostic events"><table><caption class="sr-only">Select up to 50 records to preview a redacted export, or inspect one local record.</caption><thead><tr><th scope="col" class="selection-cell">Use</th><th scope="col">Event / time</th><th scope="col" class="status-cell">Details</th></tr></thead><tbody id="history-items"></tbody></table></div>
+        <div class="action-row"><button id="history-newer" class="subtle" type="button" disabled>Newer events</button><button id="history-more" class="subtle" type="button" disabled>Older events</button><button id="history-export" type="button" disabled>Preview redacted export</button><button id="history-clear-selection" class="subtle" type="button" disabled>Clear selection</button><span id="history-selection-count" class="muted">0 selected</span></div>
+      </section>
+      <section id="history-record" class="panel" aria-labelledby="history-record-heading" hidden>
+        <h2 id="history-record-heading">Local incident details</h2><p class="hint">Private local evidence. For sharing, select records above and review the redacted export instead.</p>
+        <p id="history-record-notice" class="attention-warning" role="status" hidden></p>
+        <pre id="history-record-json" class="argument-list" tabindex="0" aria-label="Local diagnostic record"></pre>
+        <details id="history-stderr" hidden><summary>Captured process diagnostics</summary><pre id="history-stderr-text" class="argument-list" tabindex="0" aria-label="Captured stderr tail"></pre></details>
+      </section>
+      <section id="history-export-panel" class="panel" aria-labelledby="history-export-heading" hidden>
+        <h2 id="history-export-heading">Review redacted export</h2><p id="history-export-notice" class="hint"></p>
+        <p class="hint">Nothing has been uploaded or saved elsewhere. Review the selected-record coverage and redactions before copying; this is not a complete history export.</p>
+        <label class="sr-only" for="history-export-text">Redacted JSON for the selected records</label><textarea id="history-export-text" class="export-text" rows="14" readonly spellcheck="false"></textarea>
+        <button id="history-select-export" class="subtle" type="button">Select export text</button><span class="hint">Then press Ctrl+C to copy.</span>
+      </section>
+    </div>
+
+    <div id="workspace-settings" class="workspace" role="tabpanel" aria-labelledby="tab-settings" tabindex="0" hidden>
+      <section class="panel" aria-labelledby="app-settings-heading">
+        <div class="section-heading"><h2 id="app-settings-heading">Defaults for new batches</h2><button id="app-settings-reload" class="subtle" type="button">Reload stored defaults</button></div>
+        <p class="hint">Factory defaults → saved app defaults → batch choices → file overrides → compatibility validation. Saving never changes prepared, queued or running jobs.</p>
+        <p id="app-settings-integration-note" class="attention-warning">These defaults can be saved locally, but this Encode workflow does not yet apply saved processing or preview defaults. The visible Encode controls and resolved file arguments remain authoritative. Existing drafts are not changed.</p>
+        <p id="app-settings-status" class="hint" role="status">Open App Settings to load stored defaults.</p><p id="app-settings-error" class="attention-warning" role="alert" hidden></p>
+        <form id="app-settings-form">
+          <fieldset id="app-settings-fields" disabled><legend>Processing defaults</legend><div class="defaults-grid">
+            <div class="field"><label for="default-full-audio">Full-video audio</label><select id="default-full-audio"><option value="copy">Copy compatible audio</option><option value="precision-aac">Re-encode to qualified AAC</option><option value="precision-flac">Re-encode to qualified FLAC</option></select></div>
+            <div class="field"><label for="default-range-audio">Trimmed Encode audio</label><select id="default-range-audio"><option value="precision-aac">Precision AAC</option><option value="precision-flac">Precision FLAC</option><option value="copy">Packet-aligned copy, where qualified</option></select></div>
+            <div class="field"><label for="default-resolution">Output resolution</label><select id="default-resolution"><option value="source">Keep source resolution</option><option value="2160">2160p</option><option value="1440">1440p</option><option value="1080">1080p</option><option value="720">720p</option></select></div>
+            <div class="field"><label for="default-hdr">HDR handling</label><select id="default-hdr"><option value="preserve">Preserve qualified HDR</option><option value="sdr">Convert to SDR, where qualified</option></select></div>
+            <div class="field"><label for="default-remux-target">Remux container</label><select id="default-remux-target"><option value="matroska">Matroska (.mkv)</option><option value="mp4">MP4 (.mp4)</option><option value="mov">QuickTime (.mov)</option></select></div>
+            <div class="field checkbox-field"><label for="default-preview-expanded"><input id="default-preview-expanded" type="checkbox"> Expand the prepared file list</label></div>
+          </div><p class="hint">AAC re-encoding is lossy. Copy and precision modes have different boundary guarantees; unsupported combinations must be resolved explicitly.</p></fieldset>
+          <div class="action-row"><button id="app-settings-save" class="primary" type="submit" disabled>Save defaults</button><button id="app-settings-reset" type="button" disabled>Restore factory defaults</button></div>
+        </form>
+        <p class="hint">Restoring defaults preserves media, outputs, provenance and diagnostic history. Previous stored App Settings are archived when present.</p>
+      </section>
+      <section class="panel" aria-labelledby="workflow-heading"><h2 id="workflow-heading">Remembered workflow</h2><details id="remembered-workflow" open><summary>Locations, profile settings and inspection cache</summary><p class="hint">Locations and each profile's last valid encoder settings are remembered separately. Tested Default in Encode resets only the selected profile.</p><div class="action-row"><button id="forget-preferences" data-testid="forget-preferences" type="button">Forget remembered locations/settings</button><button id="clear-inspection-cache" data-testid="clear-inspection-cache" type="button">Clear inspection cache</button></div><p class="hint">These actions preserve media, completed outputs and output provenance. Clearing inspection cache does not reset App Settings.</p></details></section>
+    </div>
+
+    <div id="workspace-help" class="workspace" role="tabpanel" aria-labelledby="tab-help" tabindex="0" hidden>
+      <section class="panel" aria-labelledby="help-heading"><div class="section-heading"><h2 id="help-heading">Runtime and local workflow</h2><button id="runtime-refresh" class="subtle" type="button">Refresh runtime information</button></div>
+        <p class="hint">Versions below are reported by this running application. Refreshing this page reads recorded runtime information; it does not launch encoder tests.</p>
+        <p id="runtime-status" class="hint" role="status">Open Help to read runtime information.</p><p id="runtime-error" class="attention-warning" role="alert" hidden></p><dl id="runtime-information" class="runtime-information"></dl>
+        <details><summary>Media executable locations</summary><p id="runtime-locations" class="path-box"></p></details>
+      </section>
+      <section class="panel" aria-labelledby="workflow-help-heading"><h2 id="workflow-help-heading">Using the workbench</h2><ol class="workflow-steps"><li>In Encode, choose input and output folders. Your codec/backend profile, preset and CRF/CQ controls remain directly editable.</li><li>Review the batch. Expand a file for preservation notices, generated-output identity and the resolved FFmpeg arguments.</li><li>Start selected files. Jobs shows the current batch; progress and cancellation stay available across workspaces.</li><li>Inspect past events in History. Local details can contain private paths; preview selected redacted records before sharing.</li></ol><p class="hint">Generated outputs remain excluded unless you deliberately authorize specific files for re-encoding. Candidate quality numbers are encoder-specific; matching CRF/CQ values do not imply matching perceptual quality.</p><p class="hint">App Settings stores defaults for future batches separately from remembered encoder controls. No settings reset deletes original media or completed outputs.</p></section>
+    </div>
+
+    <div id="cancel-bar" class="cancel-bar active-job-bar" role="region" aria-label="Current operation" hidden><div class="active-job-information"><p id="active-job-summary">Waiting for main-owned operation state…</p><progress id="active-job-progress" max="100" aria-label="Current operation progress"></progress><p id="cancel-explanation">Cancellation stops this operation and the remaining queue.</p></div><div class="active-job-actions"><button id="view-jobs" class="subtle" type="button">View Jobs</button><button id="cancel-batch" class="danger" type="button">Cancel batch</button></div></div>
     <footer><span>FFmpeg Encoder</span><span>Local processing · Originals preserved</span></footer>
   </main>
 </body>

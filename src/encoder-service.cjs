@@ -7,7 +7,7 @@ const { PROFILES, validateSettings, selectVideo, buildEncodeArgs, describeRecipe
 const { runTool, isSharedToolFailure } = require('./process-runner.cjs');
 const { inspectInput, inspectMetadata, finishInspection, parseProbeJson, validateOutput } = require('./inspection.cjs');
 const { checkCapabilities } = require('./capabilities.cjs');
-const { exists, createStage, sealStage, markStageValidated, cleanupStage, publishOutput } = require('./outputs.cjs');
+const { exists, createStage, sealStage, markStageValidated, cleanupStage, publishOutput, readPublishedOutputIdentity } = require('./outputs.cjs');
 const { createOutputId, classifyMarker, historicalSuffix, ProvenanceJournal, generationDescriptionOf } = require('./provenance.cjs');
 const { readFileStamp, readSourceIdentity, sameStamp, sameIdentity, assertIdentityMatches, assessCompletedSource } = require('./source-identity.cjs');
 const { StorageEligibility } = require('./storage-eligibility.cjs');
@@ -15,6 +15,7 @@ const { InspectionCache } = require('./inspection-cache.cjs');
 const { Preferences } = require('./preferences.cjs');
 const { DiagnosticJournal } = require('./diagnostics.cjs');
 const { AppSettings } = require('./app-settings.cjs');
+const { OperationDraft } = require('./operation-draft.cjs');
 
 const BUSY = new Set(['checking', 'preparing', 'running', 'cancelling']);
 const EXTENSIONS = new Set(['.mp4', '.mkv', '.mov', '.avi', '.webm']);
@@ -43,7 +44,7 @@ const sharedFailure = isSharedToolFailure;
 
 class EncoderService extends EventEmitter {
   constructor({ ffmpeg, ffprobe, stateDir, run = runTool, inspect = inspectInput, verify = validateOutput, capabilities = checkCapabilities,
-    inspectionCache, storageEligibility, inspectionWorkers = 2, provenanceJournal, preferences, diagnostics, appSettings }) {
+    inspectionCache, storageEligibility, inspectionWorkers = 2, provenanceJournal, preferences, diagnostics, appSettings, outputAccess, runtimeIdentity = null }) {
     super();
     if (![1, 2].includes(inspectionWorkers)) throw new TypeError('Inspection workers must be one or two.');
     Object.assign(this, { ffmpeg, ffprobe, stateDir, run, inspect, verify, capabilities });
@@ -75,6 +76,10 @@ class EncoderService extends EventEmitter {
     this.appSettings = appSettings || new AppSettings({ directory: stateDir });
     this.appSettingsMutations = new Set();
     this.runtimeVersions = {};
+    this.outputAccess = outputAccess || null;
+    // Main supplies this only after checking the pinned runtime pair. Existing
+    // direct mocks remain null; this field does not itself qualify a new path.
+    this.runtimeIdentity = runtimeIdentity;
   }
 
   // Saving application defaults never mutates a draft, prepared plan or active
@@ -166,6 +171,13 @@ class EncoderService extends EventEmitter {
     objectKeys(request, ['eventId']); await this.initializeDiagnostics(); return this.diagnostics.read(request.eventId);
   }
   async getDiagnosticExport(request) { await this.initializeDiagnostics(); return this.diagnostics.buildRedactedExport(request); }
+  async openCompletedOutput(request) {
+    objectKeys(request, ['outputId', 'action']);
+    if (!this.outputAccess) throw fail('OUTPUT_ACCESS_UNAVAILABLE', 'Completed-output actions are unavailable in this host.');
+    const result = await this.outputAccess.action(request);
+    await this.recordIncident({ stage: 'publication', reason: 'OUTPUT_ACTION_DISPATCHED', context: { action: result.action } });
+    return result;
+  }
 
   get busy() { return BUSY.has(this.state.phase); }
   snapshot() {
@@ -451,6 +463,7 @@ class EncoderService extends EventEmitter {
     this.emitState();
     const file = path.join(input.path, item.name);
     const destination = path.join(output.path, item.outputName);
+    if (this.plan.draft) item.operationRequest = this.plan.draft.fileRequest(item.id);
     let inspectionDiagnostic;
     const onStage = detail => {
       if (signal.aborted || owner !== this.state.batchId || this.state.phase !== 'preparing') return;
@@ -524,6 +537,11 @@ class EncoderService extends EventEmitter {
         if (this.inspectionCache.warning) progress.notice ||= this.inspectionCache.warning;
       }
       if (!inspection.color.supported) throw fail('UNSUPPORTED_COLOR', inspection.color.reasons.join(' '));
+      if (item.operationRequest && (item.operationRequest.range !== null || item.operationRequest.resolution !== 'source'
+          || item.operationRequest.audioPolicy !== 'copy' || item.operationRequest.target !== 'matroska'
+          || !['preserve', 'sdr'].includes(item.operationRequest.hdrPolicy) || item.operationRequest.omissionRequestIds.length)) {
+        throw fail('OPERATION_QUALIFICATION_REQUIRED', 'These file processing options require a qualified operation path. No encode plan was created and no options were silently ignored.');
+      }
       const video = selectVideo(inspection.probe);
       const depth = /(?:10|12)/.exec(video.pix_fmt)?.[0] || '8';
       const capability = caps.profiles.find(entry => entry.id === profile.id);
@@ -598,13 +616,16 @@ class EncoderService extends EventEmitter {
   }
 
   async prepareBatch(request) {
-    objectKeys(request, ['inputFolderId', 'outputFolderId', 'settings']);
+    objectKeys(request, ['inputFolderId', 'outputFolderId', 'settings', ...(Object.hasOwn(request || {}, 'batchOverrides') ? ['batchOverrides'] : [])]);
     const settings = validateSettings(request.settings);
     const input = this.folders.get(id(request.inputFolderId));
     const output = this.folders.get(id(request.outputFolderId));
     if (input?.role !== 'input' || output?.role !== 'output') throw fail('INVALID_FOLDER', 'Select both folders again.');
     const sameFolder = input.path.toLowerCase() === output.path.toLowerCase();
     this.requireIdle();
+    const appDefaults = await this.getAppSettings();
+    const draft = new OperationDraft({ operation: 'encode', appDefaults: appDefaults.defaults, appDefaultsRevision: appDefaults.revision });
+    if (Object.hasOwn(request, 'batchOverrides')) draft.setBatchOverrides({ draftId: draft.id, revision: 0, overrides: request.batchOverrides });
     const caps = await this.getCapabilities();
     this.requireIdle();
     if (this.folders.get(request.inputFolderId) !== input || this.folders.get(request.outputFolderId) !== output) {
@@ -617,7 +638,7 @@ class EncoderService extends EventEmitter {
     const signal = this.begin('preparing');
     this.state.items = [];
     this.state.settings = settings;
-    this.plan = { id: randomUUID(), input: input.path, output: output.path, settings, sameFolder, entries: new Map(),
+    this.plan = { id: randomUUID(), input: input.path, output: output.path, settings, sameFolder, draft, entries: new Map(),
       baseline: new Map(), reservedPaths: new Set(), reservedIdentities: new Set(), overrides: new Map(), ambiguities: new Map(),
       generated: new Map(), reencodeAuthorizations: new Map() };
     this.state.planId = this.plan.id;
@@ -639,6 +660,8 @@ class EncoderService extends EventEmitter {
         }
         const profile = PROFILES.find(entry => entry.id === settings.profileId);
         this.state.items = files.map(entry => ({ id: randomUUID(), name: entry.name, outputName: `${path.parse(entry.name).name}_${profile.suffix}.mkv`, status: 'pending', reason: '', reencodeAuthorized: false }));
+        draft.addSources(this.state.items.map(item => ({ fileId: item.id, identityRevision: 0 })));
+        this.state.operationDraft = draft.snapshot();
         this.state.preparation = { total: files.length, resolved: 0, reused: 0, inspected: 0, active: 0, workers: [], stage: 'identity', fileId: null, notice: this.cacheWarning };
         const context = { input, output, settings, profile, caps, signal, owner: this.state.batchId };
         await this.prepareWithWorkers(context);
@@ -679,6 +702,70 @@ class EncoderService extends EventEmitter {
     } catch (error) {
       throw fail('OUTPUT_FOLDER_CHANGED', `A selected folder is unavailable or changed: ${error.message}`);
     }
+  }
+
+  requireEditableDraft(planId) {
+    this.requireIdle();
+    if (!this.plan?.draft || this.state.phase !== 'ready' || id(planId) !== this.plan.id) {
+      throw fail('STALE_PLAN', 'Review a current batch before changing its file options.');
+    }
+    return this.plan;
+  }
+  updateFileOperations(request) {
+    objectKeys(request, ['planId', 'draftId', 'revision', 'fileIds', 'overrides']);
+    const plan = this.requireEditableDraft(request.planId);
+    plan.draft.patchFiles({ draftId: request.draftId, revision: request.revision, fileIds: request.fileIds, overrides: request.overrides });
+    return this.reprepareDraft();
+  }
+  updateBatchOperationDefaults(request) {
+    objectKeys(request, ['planId', 'draftId', 'revision', 'overrides']);
+    const plan = this.requireEditableDraft(request.planId);
+    plan.draft.setBatchOverrides({ draftId: request.draftId, revision: request.revision, overrides: request.overrides });
+    return this.reprepareDraft();
+  }
+  async applyAppDefaultsToBatch(request) {
+    objectKeys(request, ['planId', 'draftId', 'revision', 'resetFileOverrides']);
+    const plan = this.requireEditableDraft(request.planId);
+    const app = await this.getAppSettings();
+    if (this.requireEditableDraft(request.planId) !== plan) throw fail('STALE_PLAN', 'The batch changed while reading app defaults.');
+    plan.draft.applyAppDefaults({ draftId: request.draftId, revision: request.revision, resetFileOverrides: request.resetFileOverrides },
+      { defaults: app.defaults, revision: app.revision });
+    return this.reprepareDraft();
+  }
+  async reprepareDraft() {
+    // Meaningful edits start a new prepared authority. Reuse evidence through
+    // the ordinary cache, but never reuse a generated-source/omission grant.
+    // The original source reservation remains protected throughout this draft.
+    this.plan.id = randomUUID(); this.state.planId = this.plan.id;
+    this.plan.entries.clear(); this.plan.overrides.clear(); this.plan.ambiguities.clear();
+    this.plan.generated.clear(); this.plan.reencodeAuthorizations.clear();
+    this.state.operationDraft = this.plan.draft.snapshot();
+    for (const item of this.state.items) {
+      Object.assign(item, { status: 'pending', reason: '', reencodeAuthorized: false });
+      for (const field of ['reasonCode', 'details', 'sourceIdentityDiagnostic', 'summary']) delete item[field];
+    }
+    const signal = this.begin('preparing');
+    this.state.preparation = { total: this.state.items.length, resolved: 0, reused: 0, inspected: 0,
+      active: 0, workers: [], stage: 'identity', fileId: null, notice: this.cacheWarning };
+    const context = { input: { path: this.plan.input }, output: { path: this.plan.output }, settings: this.plan.settings,
+      profile: PROFILES.find(profile => profile.id === this.plan.settings.profileId), caps: this.capabilityResult,
+      signal, owner: this.state.batchId };
+    this.taskPromise = (async () => {
+      try {
+        await this.recordIncident({ stage: 'preparation', reason: 'DRAFT_REPREPARATION_STARTED', context: { draftRevision: this.state.operationDraft.revision } });
+        await this.verifyFolders(); await this.prepareWithWorkers(context);
+        this.markConflicts(); this.state.phase = 'ready';
+      } catch (error) {
+        this.state.phase = this.preparationFailure ? 'failed' : signal.aborted || error.code === 'CANCELLED' ? 'cancelled' : 'failed';
+        this.state.error = error.message;
+        for (const item of this.state.items) { item.reencodeAuthorized = false; if (item.status === 'pending') item.status = 'unprocessed'; }
+        this.plan = null; this.state.planId = null;
+        await this.recordIncident({ stage: 'preparation', reason: 'DRAFT_REPREPARATION_FAILED', severity: 'error', message: error.message,
+          ...diagnosticStderr(error), context: { code: error.code || 'PREPARATION_FAILED' } });
+      } finally { this.finishedAt = Date.now(); this.emitState(); }
+    })();
+    await this.taskPromise;
+    return this.snapshot();
   }
 
   async captureFolders() {
@@ -846,6 +933,11 @@ class EncoderService extends EventEmitter {
       names.add(key);
     }
     for (const item of this.state.items) if (['ready', 'conflict'].includes(item.status)) item.status = selected.has(item.id) ? 'pending' : 'unprocessed';
+    if (this.plan.draft) {
+      const draft = this.plan.draft.snapshot();
+      this.plan.queueOperationSnapshot = this.plan.draft.freezeForQueue({ draftId: draft.id, revision: draft.revision, fileIds: [...selected] });
+      this.state.operationDraft = this.plan.draft.snapshot();
+    }
     const signal = this.begin('running');
     this.taskPromise = this.execute(selected, signal);
     return this.snapshot();
@@ -859,6 +951,7 @@ class EncoderService extends EventEmitter {
         const entry = this.plan.entries.get(item.id);
         let stage;
         let invocationId;
+        let publishedIdentity;
         let validatingSource = false;
         try {
           await this.verifyFolders();
@@ -957,8 +1050,16 @@ class EncoderService extends EventEmitter {
           item.reason = published ? item.warnings?.length ? 'Output saved. ' + item.warnings.map(warning => warning.message).join(' ') : '' : 'Another output won the publication race.';
           if (published) {
             this.state.progress = { ...this.state.progress, percent: 100 };
-            try { await this.provenanceJournal.recordPublished(entry.outputId, await readSourceIdentity(entry.destination)); }
-            catch (error) { item.reason = [item.reason, 'Output saved; provenance bookkeeping remains pending. ' + error.message].filter(Boolean).join(' '); }
+            try {
+              publishedIdentity = await readPublishedOutputIdentity(stage);
+              await this.provenanceJournal.recordPublished(entry.outputId, publishedIdentity);
+            }
+            catch (error) {
+              item.reason = [item.reason, 'Output saved; provenance bookkeeping remains pending. ' + error.message].filter(Boolean).join(' ');
+              if (this.outputAccess && !publishedIdentity) {
+                item.outputAccessWarning = 'Output saved, but its open/reveal action could not be bound safely: ' + error.message;
+              }
+            }
           }
         } catch (error) {
           // Deletion, empty files and failed identity reads are invalidation
@@ -1002,6 +1103,14 @@ class EncoderService extends EventEmitter {
             item.outputDisposition = item.reasonCode === 'PUBLICATION_UNCERTAIN'
               ? { kind: 'publication-uncertain', published: null, validationCurrent: false, file: entry.destination, stage: staged }
               : staged;
+          }
+          if (this.outputAccess && item.outputDisposition?.published === true && publishedIdentity && cleanup?.retained === false) {
+            try {
+              const current = await readPublishedOutputIdentity(stage, { afterCleanup: true });
+              item.outputAccess = await this.outputAccess.issue({ file: current.canonicalPath, identity: current });
+            } catch (error) {
+              item.outputAccessWarning = 'Output saved, but its open/reveal action could not be bound safely: ' + error.message;
+            }
           }
           await this.recordIncident({ stage: 'publication', reason: 'JOB_DISPOSITION', fileId: item.id, context: {
             name: item.name, outputName: item.outputName, settings: this.plan.settings,

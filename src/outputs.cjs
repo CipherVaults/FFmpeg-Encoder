@@ -2,6 +2,7 @@ const fs = require('node:fs/promises');
 const { constants } = require('node:fs');
 const { createHash } = require('node:crypto');
 const path = require('node:path');
+const { readSourceIdentity, sameStamp, sameIdentity } = require('./source-identity.cjs');
 
 // Cleanup authority lives only in this process. A journal entry, copied path
 // object, or a familiar temporary filename cannot grant that authority.
@@ -9,6 +10,7 @@ const stages = new WeakMap();
 const CONTENT_FIELDS = ['size', 'mtimeNs', 'ctimeNs'];
 const LINK_UNAVAILABLE = new Set(['EXDEV', 'EPERM', 'ENOTSUP', 'EOPNOTSUPP', 'ENOSYS']);
 const COPY_VERIFY_BYTES = 1024 * 1024;
+const PUBLICATION_STAMP_FIELDS = ['dev', 'ino', 'size', 'mtimeNs', 'ctimeNs', 'birthtimeNs'];
 
 function failure(code, message, cause) {
   return Object.assign(new Error(message), { code, ...(cause ? { cause } : {}) });
@@ -168,6 +170,56 @@ async function sameCopiedDestination(record) {
     && copied.canonical === await fs.realpath(copied.file);
 }
 
+function publicationStamp(file, stat) {
+  return Object.freeze({ canonicalPath: file,
+    ...Object.fromEntries(PUBLICATION_STAMP_FIELDS.map(field => [field, String(stat[field])])) });
+}
+
+// A fresh destination pathname is not publication authority. First bind it to
+// the private receipt created by the checked hard-link/full-copy publication,
+// then preserve that first observation's sparse identity through owned cleanup.
+// This receipt cannot be recreated from a journal, a stage pathname or IPC.
+async function readPublishedOutputIdentity(stage, { afterCleanup = false } = {}) {
+  const record = recordOf(stage), receipt = record.publication;
+  if (!record.validated || !record.published || !receipt) {
+    throw failure('INVALID_PUBLICATION_RECEIPT', 'Only a validated, checked publication can provide an output identity.');
+  }
+  if (typeof afterCleanup !== 'boolean' || (afterCleanup ? !record.cleaned || !record.publishedObservation : record.cleaned)) {
+    throw failure('PUBLICATION_OBSERVATION_ORDER', 'Observe the checked publication before cleanup and its final identity only after owned cleanup.');
+  }
+  if (record.publicationInvalid) throw failure('PUBLISHED_OUTPUT_CHANGED', 'The checked publication identity was invalidated; it cannot be adopted again.');
+  try {
+    const identity = await readSourceIdentity(receipt.identity.canonicalPath);
+    if (!afterCleanup) {
+      if (!sameStamp(receipt.identity, identity)
+          || (record.publishedObservation && !sameIdentity(record.publishedObservation, identity))) {
+        throw failure('PUBLISHED_OUTPUT_CHANGED', 'The saved name or contents changed before the checked publication could be observed.');
+      }
+      record.publishedObservation ||= Object.freeze({ ...identity });
+    } else {
+      // Removing OUR confirmed staging hard link explains one ctime transition,
+      // not a new general output/source policy. A missing stage, verified copy,
+      // failed cleanup or unrelated unlink cannot supply this exception.
+      const expected = record.cleanedPublicationObservation || record.publishedObservation;
+      const allowOwnedCleanupCtime = !record.cleanedPublicationObservation
+        && receipt.method === 'hard-link' && record.ownedPublicationLinkRemoved === true;
+      const comparable = allowOwnedCleanupCtime ? { ...identity, ctimeNs: expected.ctimeNs } : identity;
+      if (!sameIdentity(expected, comparable)) {
+        throw failure('PUBLISHED_OUTPUT_CHANGED', 'The checked publication changed during or after cleanup.');
+      }
+      record.cleanedPublicationObservation ||= Object.freeze({ ...identity });
+    }
+    // This remains bounded sparse observation plus filesystem identity, not a
+    // claim of full-file immutability. Copy publication's full hash is separately
+    // bound to its receipt; every future OutputAccess action checks strict stamps.
+    return Object.freeze({ ...identity });
+  } catch (cause) {
+    record.publicationInvalid = true;
+    if (cause.code === 'PUBLISHED_OUTPUT_CHANGED') throw cause;
+    throw failure('PUBLISHED_OUTPUT_CHANGED', 'The checked publication could not be observed safely; no new identity was adopted.', cause);
+  }
+}
+
 async function cleanupStage(stage, { protectedIdentities = new Set() } = {}) {
   if (!stage) return { retained: false };
   const record = recordOf(stage);
@@ -198,7 +250,10 @@ async function cleanupStage(stage, { protectedIdentities = new Set() } = {}) {
       return { ...retained(stage, reason), completed: true, validationCurrent };
     }
     if (!await sameDirectory(stage, record)) return retained(stage, 'The staging directory changed before cleanup; no pathname was removed.');
-    await fs.unlink(stage.file).catch(error => { if (error.code !== 'ENOENT') throw error; });
+    try {
+      await fs.unlink(stage.file);
+      if (record.publication?.method === 'hard-link') record.ownedPublicationLinkRemoved = true;
+    } catch (error) { if (error.code !== 'ENOENT') throw error; }
   }
   if (!await sameDirectory(stage, record)) return retained(stage, 'The staging directory changed before removal; it was retained.');
   try { await fs.rmdir(stage.directory); }
@@ -244,6 +299,7 @@ async function publishOutput(stage, destination, { signal, link = fs.link, atomi
       || record.sealed.size !== published.size || record.sealed.mtimeNs !== published.mtimeNs) {
       throw failure('PUBLICATION_UNCERTAIN', 'The published name changed during publication; it was retained for review.');
     }
+    record.publication = Object.freeze({ method: 'hard-link', identity: publicationStamp(destination, published) });
     record.published = true;
     return true;
   }
@@ -277,6 +333,8 @@ async function publishOutput(stage, destination, { signal, link = fs.link, atomi
     if (!await sameCopiedDestination({ copied: binding })) throw failure('COPY_VERIFICATION_CHANGED', 'The copied destination changed before verification completed.');
     checkCopyCancellation(signal);
     record.copied = binding;
+    record.publication = Object.freeze({ method: 'verified-copy', identity: publicationStamp(copied.canonical, copied.stat),
+      sha256: copied.hash, sizeBytes: String(copied.stat.size) });
   } catch (error) {
     throw failure('PUBLICATION_UNCERTAIN', 'The destination may already contain the completed output, but the exclusive copy could not be checked. Both names were retained for review.', error);
   }
@@ -284,4 +342,4 @@ async function publishOutput(stage, destination, { signal, link = fs.link, atomi
   return true;
 }
 
-module.exports = { exists, createStage, sealStage, markStageValidated, cleanupStage, publishOutput };
+module.exports = { exists, createStage, sealStage, markStageValidated, cleanupStage, publishOutput, readPublishedOutputIdentity };

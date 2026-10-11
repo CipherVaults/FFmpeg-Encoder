@@ -38,6 +38,31 @@ h3, .field label { color: var(--muted); font-size: .9rem; font-weight: 400; }
 .eyebrow { color: var(--muted); font-size: .72rem; letter-spacing: .12em; margin-bottom: .4rem; }
 .phase-badge { color: var(--green); border: 1px solid #496755; padding: .35rem .65rem; border-radius: 4px; font-size: .85rem; white-space: nowrap; }
 .intro { margin-top: 1rem; color: var(--muted); }
+.workspace-navigation { margin-top: 1.1rem; border-bottom: 1px solid var(--border); }
+.workspace-tabs { display: flex; flex-wrap: wrap; gap: .3rem; padding-bottom: .45rem; }
+.workspace-tabs button { border-color: transparent; background: transparent; color: var(--muted); font-weight: 400; padding: .55rem .95rem; }
+.workspace-tabs button[aria-selected="true"] { color: var(--orange); background: var(--surface); border-color: var(--border); box-shadow: inset 0 -2px var(--orange); }
+.workspace { min-width: 0; }
+.workspace > .panel { border-left-width: 3px; }
+.workspace > .panel:hover, .workspace > .panel:focus-within { border-left-color: #719e8b; }
+.defaults-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+fieldset { margin: 1.2rem 0 0; padding: 1rem; border: 1px solid var(--border); border-radius: 5px; min-width: 0; }
+legend { color: var(--green); padding: 0 .45rem; font-size: .88rem; }
+.checkbox-field { justify-content: center; }
+.checkbox-field label { display: flex; gap: .65rem; align-items: center; }
+.checkbox-field input { flex: 0 0 auto; }
+.history-scroll { max-height: 27rem; }
+.history-event-title { color: var(--text); }
+.history-event-time { color: var(--muted); font-size: .77rem; }
+.history-event-severity { display: block; font-size: .76rem; margin-bottom: .4rem; }
+.export-text { display: block; width: 100%; max-width: 100%; resize: vertical; min-height: 12rem; max-height: 45rem; padding: .8rem; margin: .8rem 0; color: var(--text); background: var(--background); border: 1px solid var(--border); border-radius: 4px; font: .8rem/1.5 "Cascadia Code", "Consolas", monospace; overflow-wrap: anywhere; }
+.export-text:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
+.runtime-information { display: grid; grid-template-columns: minmax(8rem, .5fr) minmax(0, 1.5fr); gap: .65rem 1rem; margin: 1rem 0; }
+.runtime-information dt, .runtime-information dd { margin: 0; font-size: .88rem; }
+.runtime-information dd { overflow-wrap: anywhere; }
+.workflow-steps { color: var(--muted); padding-left: 1.5rem; }
+.workflow-steps li + li { margin-top: .6rem; }
+#jobs-open-encode { margin-top: .8rem; }
 .activity { min-height: 1.6rem; margin: .55rem 0; color: var(--green); font-size: .9rem; overflow-wrap: anywhere; }
 .panel { border: 1px solid var(--border); background: var(--surface); border-radius: 7px; padding: 1.4rem; margin: 1rem 0; }
 .section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: .6rem 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
@@ -107,6 +132,10 @@ input[type="checkbox"] { accent-color: var(--orange); width: 1.2rem; height: 1.2
 .file-details[open] > summary { white-space: normal; overflow-wrap: anywhere; }
 .file-detail-body { margin-top: .5rem; padding-bottom: .25rem; }
 .file-detail-body button { margin-top: .6rem; }
+.output-access-actions { display: flex; flex-wrap: wrap; gap: .4rem; margin: .35rem 0; }
+.output-access-actions button { margin-top: 0; }
+.output-access-notice { overflow-wrap: anywhere; }
+.output-access-error { color: var(--red); }
 .output-name, .file-detail { color: var(--muted); font-size: .8rem; margin-top: .2rem; }
 .status { display: inline-block; font-size: .82rem; }
 .status-success, .status-ready { color: var(--green); }
@@ -131,8 +160,16 @@ dd { margin: .3rem 0 0; font-size: 1.08rem; overflow-wrap: anywhere; }
 .error-banner { padding: .9rem 1rem; border: 1px solid #b76e64; border-radius: 4px; color: var(--red); background: #2c1e23; margin: 1rem 0; overflow-wrap: anywhere; }
 .cancel-bar { position: sticky; bottom: .75rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; background: #1d2029; border: 1px solid #b76e64; border-radius: 5px; padding: .8rem 1rem; box-shadow: 0 3px 15px #0008; }
 .cancel-bar p { color: var(--muted); font-size: .85rem; }
+.active-job-bar { border-color: #64715f; }
+.active-job-information { min-width: 0; flex: 1; }
+.active-job-information #active-job-summary { color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.active-job-information progress { height: .4rem; margin: .4rem 0; }
+.active-job-information #cancel-explanation { font-size: .72rem; }
+.active-job-actions { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; }
 footer { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; color: var(--muted); font-size: .75rem; margin: 1.5rem 0; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 @media (min-width: 1800px) { .app-shell { width: min(90%, 100rem); } .panel { padding: 1.7rem; } }
 @media (max-width: 850px) { .telemetry { grid-template-columns: repeat(3, minmax(0, 1fr)); } .settings-grid { grid-template-columns: 1.7fr 1fr 1fr; } }
 @media (max-width: 580px) { .app-shell { width: calc(100% - 1.25rem); margin: 1rem auto; } .panel { padding: 1rem; } .app-header { align-items: flex-start; } h1 { font-size: 1.35rem; } .eyebrow { font-size: .62rem; } .phase-badge { font-size: .72rem; } .folder-grid, .settings-grid { grid-template-columns: 1fr; gap: .8rem; } .quality-row { flex-wrap: wrap; gap: .5rem; } .quality-row label { width: 100%; } .status-cell { width: 7.5rem; } .selection-cell { width: 2.6rem; } td, th { padding: .55rem .4rem; } .result-counts { grid-template-columns: repeat(3, minmax(0, 1fr)); } .cancel-bar { flex-direction: column; align-items: stretch; } }
+@media (max-width: 700px) { .workspace-tabs button { padding: .45rem .6rem; font-size: .84rem; } .defaults-grid { grid-template-columns: 1fr; } .active-job-bar { bottom: .4rem; padding: .55rem .7rem; } .active-job-actions { justify-content: flex-end; } }
+@media (max-height: 560px) { .active-job-bar { padding: .4rem .6rem; gap: .4rem; } .active-job-information #cancel-explanation { display: none; } }

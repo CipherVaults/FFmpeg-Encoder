@@ -16,6 +16,7 @@ contextBridge.exposeInMainWorld('encoder', Object.freeze({
   saveAppSettings: request => invoke('encoder:save-app-settings', request),
   resetAppSettings: request => invoke('encoder:reset-app-settings', request),
   getRuntimeInformation: () => invoke('encoder:runtime-information'),
+  openCompletedOutput: request => invoke('encoder:open-completed-output', request),
   saveSettings: request => invoke('encoder:save-settings', request),
   resetProfile: request => invoke('encoder:reset-profile', request),
   forgetPreferences: () => invoke('encoder:forget-preferences'),

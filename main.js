@@ -1,7 +1,8 @@
-const { app, BrowserWindow, dialog, ipcMain, session, protocol } = require('electron');
+const { app, BrowserWindow, dialog, ipcMain, session, protocol, shell } = require('electron');
 const fs = require('node:fs');
 const path = require('node:path');
 const { EncoderService } = require('./src/encoder-service.cjs');
+const { OutputAccess } = require('./src/output-access.cjs');
 const { registerIpc } = require('./src/ipc.cjs');
 const { ENTRY_URL, resolveAsset, registerLocalProtocol } = require('./src/local-protocol.cjs');
 
@@ -86,7 +87,8 @@ try {
 
 async function createWindow() {
   const binaryRoot = app.isPackaged ? path.join(process.resourcesPath, 'ffmpeg') : path.join(root, 'ffmpeg');
-  service = new EncoderService({ ffmpeg: path.join(binaryRoot, 'ffmpeg.exe'), ffprobe: path.join(binaryRoot, 'ffprobe.exe'), stateDir });
+  service = new EncoderService({ ffmpeg: path.join(binaryRoot, 'ffmpeg.exe'), ffprobe: path.join(binaryRoot, 'ffprobe.exe'), stateDir,
+    outputAccess: new OutputAccess({ openPath: file => shell.openPath(file), showItemInFolder: file => shell.showItemInFolder(file) }) });
   await service.initializeDiagnostics();
   if (quitDuringStartup) { await finishShutdown(); return; }
   const uiRoot = path.join(root, 'ui');

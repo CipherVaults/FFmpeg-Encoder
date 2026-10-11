@@ -33,7 +33,7 @@ test('settings and runtime information keep exact argument counts and trusted-fr
     assert.equal((await handlers.get(channel)(event, { path: 'injected' })).error.code, 'INVALID_REQUEST');
     assert.equal((await handlers.get(channel)({ ...event, senderFrame: { url: event.senderFrame.url } })).error.code, 'UNTRUSTED_SENDER');
   }
-  for (const channel of ['encoder:save-app-settings', 'encoder:reset-app-settings']) {
+  for (const channel of ['encoder:save-app-settings', 'encoder:reset-app-settings', 'encoder:open-completed-output']) {
     assert.equal((await handlers.get(channel)(event)).error.code, 'INVALID_REQUEST');
     assert.equal((await handlers.get(channel)(event, {}, {})).error.code, 'INVALID_REQUEST');
     assert.equal((await handlers.get(channel)({ ...event, sender: {} }, {})).error.code, 'UNTRUSTED_SENDER');

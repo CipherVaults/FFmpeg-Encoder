@@ -6,6 +6,8 @@ Recovery verified branch `codex/v0.7-candidate` at8bac91f, surviving alpha.1 wor
 
 The preceding planning-only pass and interrupted code distinctions remain in [the pause/change record](Planning/0.7/2026-10-11/Planning_Pause_and_Change_Record.md). A documentation-write encoding error during renewed-authority synchronization was recovered immediately from the committed continuation plus this current header; historical entries below are preserved. This is not a source-code rollback.
 
+Latest verified foundation:377directpass; native foundation3/3 reportc66a632e; real completion3/3 reportf200c02c. Separate pure backend/operation/AppSettings agents are active; recover their work before editing. Two runtime archives verified/extracted on ownedF, not activated. Next: isolatedElectron44.7trial (sameFFmpeg9.0.1), then pairedFFmpeg9.0.2trial independently; integrate new contracts afterward. No O or later milestone accepted yet.
+
 ## Historical continuation entries — newest header above controls
 
 # Continuation — 0.7 candidate execution, October 11, 2026

@@ -26,6 +26,9 @@ contextBridge.exposeInMainWorld('encoder', Object.freeze({
   startBatch: request => invoke('encoder:start', request),
   cancelBatch: request => invoke('encoder:cancel', request),
   getSnapshot: () => invoke('encoder:snapshot'),
+  getDiagnosticHistory: request => invoke('encoder:diagnostic-history', request),
+  getDiagnosticRecord: request => invoke('encoder:diagnostic-record', request),
+  getDiagnosticExportPreview: request => invoke('encoder:diagnostic-export-preview', request),
   onUpdate: callback => {
     if (typeof callback !== 'function') throw new TypeError('An update callback is required.');
     const listener = (_event, snapshot) => callback(snapshot);

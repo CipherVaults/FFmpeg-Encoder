@@ -155,7 +155,8 @@ test('metadata and frame stages compose without probing metadata twice, with nor
   const metadata = await inspectMetadata(file, options);
   assert.equal(mock.calls.length, 1);
   assert.equal(metadata.format.filename, undefined);
-  assert.equal(metadata.programs, undefined);
+  assert.deepEqual(metadata.programs, [{}]);
+  assert.equal(metadata.mediaEvidence.container.programs.state, 'malformed');
   assert.equal(metadata.streams[0].unused_decoder_field, undefined);
   assert.deepEqual(metadata.chapters, probe.chapters);
   assert.deepEqual(metadata.streams[4], probe.streams[4]);
@@ -432,4 +433,47 @@ test('duplicate parent containers cannot erase reserved provenance before classi
     '{"format":{"tags":{"FFMPEG_ENCODER_PROVENANCE":"1"}},"format":{}}',
     '{"format":{"tags":{"FFMPEG_ENCODER_PROVENANCE":"1"},"tags":{}}}'
   ]) assert.throws(() => parseProbeJson(text, 'fixture'), { code: 'INVALID_PROBE' });
+});
+
+test('metadata failures retain the exact bounded child stderr including parse-failure whitespace', async () => {
+  const stderr = '[mov] unknown data codec\r\noriginal diagnostic\n';
+  await assert.rejects(inspectMetadata(file, { ffprobe, run: async () => ({ stdout: '{}', stderr }) }), error => {
+    assert.equal(error.code, 'INVALID_PROBE'); assert.equal(error.stderr, stderr); return true;
+  });
+  await assert.rejects(inspectMetadata(file, { ffprobe, run: async () => ({ stdout: 'broken JSON', stderr: '\r\n' }) }), error => {
+    assert.equal(error.code, 'INVALID_PROBE'); assert.equal(error.stderr, '\r\n'); return true;
+  });
+});
+
+test('decoded-frame failures retain raw stderr through evidence reconstruction without becoming cacheable', async () => {
+  const stderr = '[decoder] damaged data at offset 42\r\nnext line\n';
+  for (const response of [
+    { stdout: JSON.stringify(sample()), stderr },
+    { stdout: 'broken JSON', stderr },
+    new ToolError('TOOL_FAILED', 'Probe exited', { stderr, exitCode: 1 }),
+  ]) {
+    const result = await finishInspection(file, sourceProbe(), { ffprobe, run: async () => {
+      if (response instanceof Error) throw response;
+      return response;
+    } });
+    assert.equal(result.evidence.windows[0].error.stderr, stderr);
+    assert.equal(result.evidence.windows[0].error.stderrTruncated, false);
+    assert.equal(cacheableInspection(result), false);
+    assert.deepEqual(reconstructInspection(result.probe, result.evidence), result);
+  }
+});
+
+test('sampling diagnostic bounds are explicit and malformed reconstructed diagnostic fields fail closed', async () => {
+  const stderr = 'x'.repeat(256 * 1024) + 'tail';
+  const result = await finishInspection(file, sourceProbe(), { ffprobe, run: async () => ({ stdout: JSON.stringify(sample()), stderr }) });
+  assert.equal(result.evidence.windows[0].error.stderr, stderr.slice(-256 * 1024));
+  assert.equal(result.evidence.windows[0].error.stderrTruncated, true);
+  for (const change of [
+    error => { error.stderr = 'x'.repeat(256 * 1024 + 1); },
+    error => { error.stderr = {}; },
+    error => { error.stderrTruncated = 'false'; },
+  ]) {
+    const invalid = copy(result); change(invalid.evidence.windows[0].error);
+    assert.throws(() => reconstructInspection(invalid.probe, invalid.evidence), { code: 'INVALID_PROBE' });
+  }
 });

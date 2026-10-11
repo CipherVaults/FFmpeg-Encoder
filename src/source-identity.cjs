@@ -38,6 +38,45 @@ function sameIdentity(left, right) {
     && /^sha256-sparse-v1:[a-f0-9]{64}$/.test(left.sparseDigest) && left.sparseDigest === right.sparseDigest;
 }
 
+// Completion is a disposition decision, not renewed source/cache authority.
+// A bounded observation cannot distinguish an attribute-only change from an
+// unsampled edit with restored timestamps. Keep that uncertainty explicit.
+function assessCompletedSource(expected, actual, { stage = 'after-encode', contentEvidence } = {}) {
+  const fields = ['canonicalPath', ...STAT_FIELDS, 'sparseDigest'];
+  const snapshot = value => Object.fromEntries(fields.map(field => [field, typeof value?.[field] === 'string' ? value[field] : null]));
+  const complete = value => validStamp(value) && /^[1-9]\d*$/.test(value.dev) && /^[1-9]\d*$/.test(value.ino)
+    && typeof value.sparseDigest === 'string' && /^sha256-sparse-v1:[a-f0-9]{64}$/.test(value.sparseDigest);
+  const changedFields = fields.filter(field => expected?.[field] !== actual?.[field]);
+  const diagnostic = { version: 1, stage, checkpoint: stage, changedFields,
+    expected: snapshot(expected), actual: snapshot(actual), comparison: 'sparse-identity' };
+  if (!complete(expected) || !complete(actual)) return { kind: 'incomplete', diagnostic };
+  // An independently observed replacement/content-significant stamp change
+  // remains a change even if optional stronger verification was interrupted.
+  // Incomplete extra evidence must not obscure a mismatch already established
+  // by the complete bounded observations used by the ordinary path.
+  const boundedChange = changedFields.some(field => field !== 'ctimeNs');
+  if (boundedChange) return { kind: 'changed', reason: 'observed-source-change', diagnostic };
+  // Optional stronger evidence is main-owned and must contain complete before
+  // and after SHA-256 observations. No full-file reading is performed here or
+  // required by the default completion path. Invalid evidence never grants a pass.
+  if (contentEvidence !== undefined) {
+    const validHash = value => value && value.complete === true && value.algorithm === 'sha256'
+      && value.bytes === expected.size && typeof value.digest === 'string' && /^[a-f0-9]{64}$/.test(value.digest);
+    if (!validHash(contentEvidence?.before) || !validHash(contentEvidence?.after)) return { kind: 'incomplete', diagnostic };
+    if (contentEvidence.before.digest !== contentEvidence.after.digest) {
+      return { kind: 'changed', reason: 'complete-content-mismatch', diagnostic: { ...diagnostic, contentMismatch: true } };
+    }
+  }
+  if (!changedFields.length) return { kind: 'unchanged', diagnostic };
+  if (changedFields.length === 1 && changedFields[0] === 'ctimeNs') {
+    return { kind: 'ctime-only', diagnostic,
+      warning: { code: 'SOURCE_CTIME_ONLY', message: 'The source\u2019s filesystem change time changed. Bounded checks did not demonstrate another change, but cannot rule out changes outside the sampled regions.' } };
+  }
+  // All complete differing observations must have been classified above.
+  // This fallback stays closed if another comparison field is added later.
+  return { kind: 'incomplete', diagnostic };
+}
+
 function assertIdentityMatches(expected, actual, { message, stage, digest = false }) {
   if (digest ? sameIdentity(expected, actual) : sameStamp(expected, actual)) return;
   const fields = ['canonicalPath', ...STAT_FIELDS, ...(digest ? ['sparseDigest'] : [])];
@@ -109,4 +148,4 @@ async function readSourceIdentity(file, { signal } = {}) {
   }
 }
 
-module.exports = { readFileStamp, readSourceIdentity, sameStamp, sameIdentity, assertIdentityMatches };
+module.exports = { readFileStamp, readSourceIdentity, sameStamp, sameIdentity, assertIdentityMatches, assessCompletedSource };

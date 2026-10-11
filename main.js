@@ -15,6 +15,22 @@ let exitAllowed = false;
 let closePrompt = false;
 let root;
 let stateDir;
+let shutdownComplete = false;
+let shutdownPromise;
+let shutdownOutcome = 'completed';
+let quitDuringStartup = false;
+
+function finishShutdown() {
+  shutdownPromise ||= (async () => {
+    await service?.cancelCurrent();
+    await service?.closeDiagnostics(shutdownOutcome);
+  })().catch(error => {
+    // Shutdown cannot manufacture persistence when the state disk is broken.
+    // The last durable record remains the honest recovery boundary.
+    console.error('Shutdown diagnostics incomplete:', error.message);
+  }).finally(() => { exitAllowed = true; shutdownComplete = true; app.quit(); });
+  return shutdownPromise;
+}
 
 function startupFailed(error) {
   dialog.showErrorBox('FFmpeg Encoder could not start', error.message);
@@ -25,7 +41,7 @@ try {
   root = app.getAppPath();
   stateDir = app.commandLine.hasSwitch('user-data-dir')
     ? app.commandLine.getSwitchValue('user-data-dir')
-    : path.join(app.isPackaged ? path.dirname(app.getPath('exe')) : root, app.isPackaged ? 'data' : 'data-next-0.6');
+    : path.join(app.isPackaged ? path.dirname(app.getPath('exe')) : root, app.isPackaged ? 'data' : 'data-next-0.7');
   fs.mkdirSync(stateDir, { recursive: true });
   // Electron/Chromium can initialize GPU/network state before createWindow.
   // Configure both paths synchronously before readiness and the instance lock,
@@ -46,6 +62,8 @@ try {
 async function createWindow() {
   const binaryRoot = app.isPackaged ? path.join(process.resourcesPath, 'ffmpeg') : path.join(root, 'ffmpeg');
   service = new EncoderService({ ffmpeg: path.join(binaryRoot, 'ffmpeg.exe'), ffprobe: path.join(binaryRoot, 'ffprobe.exe'), stateDir });
+  await service.initializeDiagnostics();
+  if (quitDuringStartup) { await finishShutdown(); return; }
   const uiRoot = path.join(root, 'ui');
   const entryUrl = ENTRY_URL;
   const appSession = session.fromPartition('encoder-local');
@@ -89,21 +107,34 @@ async function createWindow() {
       }
     } finally { closePrompt = false; }
   });
-  window.webContents.on('render-process-gone', async () => {
+  window.webContents.on('render-process-gone', async (_event, details) => {
     // Loss of the only UI cancels work; it never enables invisible encoding.
-    await service.cancelCurrent();
+    shutdownOutcome = 'failed';
+    // Abort ownership synchronously before waiting on disk-backed diagnostics.
+    // An unavailable/slow log directory must never prolong invisible encoding.
+    const cancellation = service.cancelCurrent();
+    const recording = service.recordIncident({ stage: 'global', reason: 'RENDERER_GONE', severity: 'error',
+      message: 'The renderer process exited; active work is being cancelled.', context: {
+        reason: String(details?.reason || 'unknown').slice(0, 80), exitCode: Number.isInteger(details?.exitCode) ? details.exitCode : null,
+      } });
+    await Promise.allSettled([cancellation, recording]);
     exitAllowed = true;
     if (!window.isDestroyed()) window.destroy();
-    app.quit();
   });
   window.on('closed', () => {
     removeHandlers();
-    service.cancelCurrent().finally(() => { exitAllowed = true; app.quit(); });
+    void finishShutdown();
   });
   await window.loadURL(entryUrl);
 }
 
 app.on('before-quit', event => {
-  if (!exitAllowed && service?.busy) { event.preventDefault(); if (window && !window.isDestroyed()) window.close(); }
+  if (service && !shutdownComplete) {
+    event.preventDefault();
+    if (window && !window.isDestroyed()) window.close();
+    else { quitDuringStartup = true; void finishShutdown(); }
+  }
 });
-app.on('window-all-closed', () => { if (!service?.busy) app.quit(); });
+// The window's close handler drains the owned child and durable session tail.
+// Quitting here first can truncate the final diagnostic event.
+app.on('window-all-closed', () => { if (!service) app.quit(); });

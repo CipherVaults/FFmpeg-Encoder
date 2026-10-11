@@ -28,6 +28,9 @@ function registerIpc({ ipcMain, window, service, dialog, entryUrl }) {
     'encoder:start': [1, payload => service.startBatch(payload)],
     'encoder:cancel': [1, payload => service.cancelBatch(payload)],
     'encoder:snapshot': [0, () => service.snapshot()],
+    'encoder:diagnostic-history': [1, request => service.getDiagnosticHistory(request)],
+    'encoder:diagnostic-record': [1, request => service.getDiagnosticRecord(request)],
+    'encoder:diagnostic-export-preview': [1, request => service.getDiagnosticExport(request)],
   };
   for (const [channel, [argumentCount, method]] of Object.entries(methods)) {
     ipcMain.handle(channel, async (event, ...args) => {
@@ -39,6 +42,12 @@ function registerIpc({ ipcMain, window, service, dialog, entryUrl }) {
         if (args.length !== argumentCount) throw Object.assign(new Error('Unexpected request arguments.'), { code: 'INVALID_REQUEST' });
         return { ok: true, value: await method(...args) };
       } catch (error) {
+        // Only trusted-window requests may produce admission diagnostics. Never
+        // persist an attacker's raw IPC payload or give it filesystem authority.
+        if (error.code !== 'UNTRUSTED_SENDER' && typeof service.recordIncident === 'function') {
+          await service.recordIncident({ stage: 'admission', reason: 'REQUEST_REJECTED', severity: 'warning', message: error.message,
+            context: { channel, code: error.code || 'OPERATION_FAILED' } });
+        }
         // Explicit envelopes retain error codes without exposing native objects.
         return { ok: false, error: { code: error.code || 'OPERATION_FAILED', message: error.message || 'Operation failed.' } };
       }

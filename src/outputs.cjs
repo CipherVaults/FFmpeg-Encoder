@@ -101,6 +101,15 @@ async function requireSealed(stage, record) {
   }
 }
 
+async function markStageValidated(stage) {
+  const record = recordOf(stage);
+  await requireSealed(stage, record);
+  // Only main calls this after all media/provenance checks pass. Persisted paths
+  // cannot reconstruct this ownership. Later source failure, cancellation or a
+  // destination race must not delete a completed, validated result.
+  record.validated = true;
+}
+
 function retained(stage, reason) {
   return { retained: true, directory: stage.directory, file: stage.file, reason };
 }
@@ -118,6 +127,13 @@ async function cleanupStage(stage, { protectedIdentities = new Set() } = {}) {
     if (!record.sealed) return retained(stage, 'The incomplete output was never identity-bound; the temporary directory was retained.');
     if (!named.isFile() || named.isSymbolicLink() || !sameObject(record.sealed, named)) {
       return retained(stage, 'The temporary output was replaced; the current file and directory were retained.');
+    }
+    if (record.validated && !record.published) {
+      const validationCurrent = named.nlink === 1n && sameContent(record.sealed, named);
+      const reason = validationCurrent
+        ? 'Completed output retained without normal publication; review its recorded result before using it.'
+        : 'A previously validated output changed before publication. It was retained for review; its current bytes are not approved.';
+      return { ...retained(stage, reason), completed: true, validationCurrent };
     }
     if (!await sameDirectory(stage, record)) return retained(stage, 'The staging directory changed before cleanup; no pathname was removed.');
     await fs.unlink(stage.file).catch(error => { if (error.code !== 'ENOENT') throw error; });
@@ -151,7 +167,14 @@ async function publishOutput(stage, destination, { signal, link = fs.link, atomi
     }
   }
   if (linked) {
-    const published = await statOrAbsent(destination);
+    let published;
+    try { published = await statOrAbsent(destination); }
+    catch (error) {
+      // The exclusive link already succeeded. An observation failure cannot be
+      // reported as a definite pre-publication failure or authorize deletion of
+      // a destination that may contain the completed output. Preserve its cause.
+      throw failure('PUBLICATION_UNCERTAIN', 'The destination may already contain the completed output, but its publication identity could not be checked. It was retained for review.', error);
+    }
     // Linking changes ctime/link count. Object identity, size and mtime should
     // still match. Native path-based link has no identity-conditional variant:
     // detect a last-instant race and preserve the destination for review.
@@ -159,6 +182,7 @@ async function publishOutput(stage, destination, { signal, link = fs.link, atomi
       || record.sealed.size !== published.size || record.sealed.mtimeNs !== published.mtimeNs) {
       throw failure('PUBLICATION_UNCERTAIN', 'The published name changed during publication; it was retained for review.');
     }
+    record.published = true;
     return true;
   }
   // Only distinct-folder callers permit this documented non-atomic fallback.
@@ -169,11 +193,26 @@ async function publishOutput(stage, destination, { signal, link = fs.link, atomi
   if (signal?.aborted) throw failure('CANCELLED', 'Encoding cancelled before publication.');
   try {
     await fs.copyFile(stage.file, destination, constants.COPYFILE_EXCL);
-    return true;
   } catch (error) {
     if (error.code === 'EEXIST') return false;
     throw error;
   }
+  // The distinct-folder fallback also consumes a pathname, not an immutable
+  // file handle. A successful copy alone cannot bless a replacement that won
+  // the final path race. Keep both names if either observation is uncertain;
+  // cancellation after the copy does not grant permission to remove the result.
+  try {
+    await requireSealed(stage, record);
+    const copied = await statOrAbsent(destination);
+    if (!copied?.isFile() || copied.isSymbolicLink() || !reliable(copied)
+      || copied.size !== record.sealed.size) {
+      throw failure('STAGE_CHANGED', 'The copied destination does not match the completed output size or file type.');
+    }
+  } catch (error) {
+    throw failure('PUBLICATION_UNCERTAIN', 'The destination may already contain the completed output, but the exclusive copy could not be checked. Both names were retained for review.', error);
+  }
+  record.published = true;
+  return true;
 }
 
-module.exports = { exists, createStage, sealStage, cleanupStage, publishOutput };
+module.exports = { exists, createStage, sealStage, markStageValidated, cleanupStage, publishOutput };

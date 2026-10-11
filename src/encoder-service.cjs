@@ -7,12 +7,13 @@ const { PROFILES, validateSettings, selectVideo, buildEncodeArgs, describeRecipe
 const { runTool, isSharedToolFailure } = require('./process-runner.cjs');
 const { inspectInput, inspectMetadata, finishInspection, parseProbeJson, validateOutput } = require('./inspection.cjs');
 const { checkCapabilities } = require('./capabilities.cjs');
-const { exists, createStage, sealStage, cleanupStage, publishOutput } = require('./outputs.cjs');
+const { exists, createStage, sealStage, markStageValidated, cleanupStage, publishOutput } = require('./outputs.cjs');
 const { createOutputId, classifyMarker, historicalSuffix, ProvenanceJournal, generationDescriptionOf } = require('./provenance.cjs');
-const { readFileStamp, readSourceIdentity, sameStamp, sameIdentity, assertIdentityMatches } = require('./source-identity.cjs');
+const { readFileStamp, readSourceIdentity, sameStamp, sameIdentity, assertIdentityMatches, assessCompletedSource } = require('./source-identity.cjs');
 const { StorageEligibility } = require('./storage-eligibility.cjs');
 const { InspectionCache } = require('./inspection-cache.cjs');
 const { Preferences } = require('./preferences.cjs');
+const { DiagnosticJournal } = require('./diagnostics.cjs');
 
 const BUSY = new Set(['checking', 'preparing', 'running', 'cancelling']);
 const EXTENSIONS = new Set(['.mp4', '.mkv', '.mov', '.avi', '.webm']);
@@ -37,7 +38,7 @@ const sharedFailure = isSharedToolFailure;
 
 class EncoderService extends EventEmitter {
   constructor({ ffmpeg, ffprobe, stateDir, run = runTool, inspect = inspectInput, verify = validateOutput, capabilities = checkCapabilities,
-    inspectionCache, storageEligibility, inspectionWorkers = 2, provenanceJournal, preferences }) {
+    inspectionCache, storageEligibility, inspectionWorkers = 2, provenanceJournal, preferences, diagnostics }) {
     super();
     if (![1, 2].includes(inspectionWorkers)) throw new TypeError('Inspection workers must be one or two.');
     Object.assign(this, { ffmpeg, ffprobe, stateDir, run, inspect, verify, capabilities });
@@ -62,7 +63,60 @@ class EncoderService extends EventEmitter {
     this.preferencesInitialization = null;
     this.preferenceMutation = null;
     this.cacheInitialization = null;
+    this.diagnostics = diagnostics || new DiagnosticJournal({ directory: stateDir, versions: {
+      app: APP_VERSION, ...(process.versions.electron ? { electron: process.versions.electron } : {}),
+    } });
+    this.diagnosticInitialization = null;
   }
+
+  async initializeDiagnostics() {
+    const pending = this.diagnosticInitialization ||= (async () => {
+      await fs.mkdir(this.stateDir, { recursive: true });
+      return this.diagnostics.startSession();
+    })();
+    let result;
+    try { result = await pending; }
+    catch (error) {
+      // Rejected initialization (including mkdir) is just as retryable as an
+      // explicit persisted:false result. Do not retain a rejected promise.
+      if (this.diagnosticInitialization === pending) this.diagnosticInitialization = null;
+      this.state.diagnosticWarning = 'Diagnostic history is incomplete. ' + error.message;
+      throw error;
+    }
+    // A failed durable start is retryable; caching its false result forever
+    // would hide recovery after a transient storage failure.
+    if (!result.persisted) this.diagnosticInitialization = null;
+    this.state.diagnostics = this.diagnostics.snapshot();
+    if (!result.persisted) this.state.diagnosticWarning = 'Diagnostic history is incomplete. The session start could not be saved.';
+    if (result.recovered?.length) this.state.interruptedSessions = result.recovered;
+    return result;
+  }
+
+  // Persistence is observed, never assumed. A diagnostics failure must not
+  // transform a valid media result into a false failure or conceal lost history.
+  async recordIncident(event) {
+    try {
+      await this.initializeDiagnostics();
+      const contextIds = Object.fromEntries(['batchId', 'planId'].filter(key => this.state[key]).map(key => [key, this.state[key]]));
+      const result = await this.diagnostics.append({ ...contextIds, ...event });
+      this.state.diagnostics = this.diagnostics.snapshot();
+      if (!result.persisted) this.state.diagnosticWarning = 'Diagnostic history is incomplete. ' + (result.status?.lastError?.message || 'A record could not be saved.');
+      return result;
+    } catch (error) {
+      this.state.diagnosticWarning = 'Diagnostic history is incomplete. ' + error.message;
+      return { persisted: false };
+    }
+  }
+
+  async closeDiagnostics(outcome = 'completed') {
+    await this.initializeDiagnostics();
+    return this.diagnostics.closeSession({ outcome });
+  }
+  async getDiagnosticHistory(request) { await this.initializeDiagnostics(); return this.diagnostics.list(request); }
+  async getDiagnosticRecord(request) {
+    objectKeys(request, ['eventId']); await this.initializeDiagnostics(); return this.diagnostics.read(request.eventId);
+  }
+  async getDiagnosticExport(request) { await this.initializeDiagnostics(); return this.diagnostics.buildRedactedExport(request); }
 
   get busy() { return BUSY.has(this.state.phase); }
   snapshot() {
@@ -101,16 +155,20 @@ class EncoderService extends EventEmitter {
     const signal = this.begin('checking');
     this.taskPromise = (async () => {
       try {
+        await this.recordIncident({ stage: 'capability', reason: 'CAPABILITY_STARTED' });
         await fs.mkdir(this.stateDir, { recursive: true });
         this.capabilityResult = await this.capabilities({ ffmpeg: this.ffmpeg, ffprobe: this.ffprobe, stateDir: this.stateDir, signal, run: this.run });
+        await this.recordIncident({ stage: 'capability', reason: 'CAPABILITY_FINISHED', context: this.capabilityResult });
         await this.recoverProvenance(signal);
         // Capability initialization is a separate operation. Returning from it
         // must not erase a completed/failed/cancelled workflow or its timings.
-        this.state = { ...previousState, revision: this.state.revision, provenanceRecovery: this.state.provenanceRecovery };
+        this.state = { ...previousState, revision: this.state.revision, provenanceRecovery: this.state.provenanceRecovery,
+          diagnostics: this.state.diagnostics, diagnosticWarning: this.state.diagnosticWarning, interruptedSessions: this.state.interruptedSessions };
         Object.assign(this, previousTimes);
       } catch (error) {
         this.state.phase = error.code === 'CANCELLED' ? 'cancelled' : 'failed';
         this.state.error = error.message;
+        await this.recordIncident({ stage: 'capability', reason: 'CAPABILITY_FAILED', severity: 'error', message: error.message, stderr: error.stderr || '', context: { code: error.code } });
       } finally { this.emitState(); }
     })();
     await this.taskPromise;
@@ -316,6 +374,22 @@ class EncoderService extends EventEmitter {
     }
   }
 
+  async assessCompletedSource(entry, signal) {
+    notCancelled(signal);
+    try {
+      // readSourceIdentity still rejects internally inconsistent path/handle
+      // samples. Only a complete stable observation reaches the ctime policy.
+      const actual = await readSourceIdentity(entry.file, { signal });
+      return assessCompletedSource(entry.fingerprint, actual);
+    } catch (error) {
+      if (error.code === 'CANCELLED' || signal?.aborted) throw error;
+      return { kind: 'incomplete', diagnostic: error.sourceIdentityDiagnostic
+        ? { ...error.sourceIdentityDiagnostic, checkpoint: 'after-encode', readFailure: error.code || 'IDENTITY_READ_FAILED' }
+        : { version: 1, stage: 'after-encode', checkpoint: 'after-encode', changedFields: [],
+          expected: clone(entry.fingerprint), actual: null, readFailure: error.code || 'IDENTITY_READ_FAILED' } };
+    }
+  }
+
   async prepareItem(item, { input, output, settings, profile, caps, signal, owner }) {
     const progress = this.state.preparation;
     notCancelled(signal);
@@ -432,11 +506,16 @@ class EncoderService extends EventEmitter {
         this.plan.reencodeAuthorizations.delete(item.id);
       }
       item.status = 'unsupported'; item.reason = error.message;
+      item.reasonCode = error.code || 'INSPECTION_FAILED';
+      item.details = typeof error.stderr === 'string' ? error.stderr.slice(-4000) : undefined;
       if (error.sourceIdentityDiagnostic) item.sourceIdentityDiagnostic = error.sourceIdentityDiagnostic;
     } finally {
       progress.active--;
       progress.workers = progress.workers.filter(entry => entry.fileId !== item.id);
       if (item.status !== 'pending') progress.resolved++;
+      await this.recordIncident({ stage: 'inspection', reason: 'FILE_INSPECTED', severity: item.status === 'unsupported' ? 'warning' : 'info',
+        fileId: item.id, message: item.reason, stderr: item.details || '',
+        context: { file: file, status: item.status, summary: item.summary, code: item.reasonCode, sourceIdentityDiagnostic: item.sourceIdentityDiagnostic } });
       if (owner === this.state.batchId) this.emitState();
     }
   }
@@ -491,6 +570,7 @@ class EncoderService extends EventEmitter {
     this.state.planId = this.plan.id;
     this.taskPromise = (async () => {
       try {
+        await this.recordIncident({ stage: 'preparation', reason: 'PREPARATION_STARTED', context: { settings, input: input.path, output: output.path } });
         await this.captureFolders();
         await this.verifyFolders();
         await this.initializeInspectionCache(signal);
@@ -514,10 +594,16 @@ class EncoderService extends EventEmitter {
       } catch (error) {
         this.state.phase = this.preparationFailure ? 'failed' : signal.aborted || error.code === 'CANCELLED' ? 'cancelled' : 'failed';
         this.state.error = error.message;
+        await this.recordIncident({ stage: 'preparation', reason: 'PREPARATION_FAILED', severity: 'error', message: error.message,
+          stderr: error.stderr || '', context: { code: error.code || 'PREPARATION_FAILED' } });
         for (const item of this.state.items) if (item.status === 'pending') item.status = 'unprocessed';
         this.plan = null;
         this.state.planId = null;
-      } finally { this.finishedAt = Date.now(); this.emitState(); }
+      } finally {
+        await this.recordIncident({ stage: 'preparation', reason: 'PREPARATION_FINISHED', severity: this.state.phase === 'failed' ? 'error' : 'info',
+          message: this.state.error || '', context: { phase: this.state.phase, items: this.state.items.map(item => ({ id: item.id, status: item.status, reason: item.reason })) } });
+        this.finishedAt = Date.now(); this.emitState();
+      }
     })();
     await this.taskPromise;
     return this.snapshot();
@@ -719,6 +805,7 @@ class EncoderService extends EventEmitter {
         if (signal.aborted) break;
         const entry = this.plan.entries.get(item.id);
         let stage;
+        let invocationId;
         let validatingSource = false;
         try {
           await this.verifyFolders();
@@ -757,13 +844,16 @@ class EncoderService extends EventEmitter {
           if (args.at(-1) !== OUTPUT_PLACEHOLDER) throw fail('INVALID_PLAN', 'The prepared output placeholder changed. Prepare again.');
           args[args.length - 1] = stage.file;
           entry.actualArgs = Object.freeze([...args]);
-          await this.run(this.ffmpeg, args, { signal, timeoutMs: 0, onProgress: record => {
+          invocationId = randomUUID();
+          await this.recordIncident({ stage: 'invocation', reason: 'ENCODE_STARTED', fileId: item.id, invocationId, context: { executable: this.ffmpeg, argv: args, settings: this.plan.settings } });
+          const encodeResult = await this.run(this.ffmpeg, args, { signal, timeoutMs: 0, onProgress: record => {
             if (owner !== this.state.batchId || item.status !== 'running') return;
             const duration = entry.inspection.duration;
             const percent = duration > 0 && record.seconds !== null ? Math.min(99, Math.max(0, record.seconds / duration * 100)) : null;
             this.state.progress = { ...record, fileId: item.id, duration, percent, etaSeconds: record.speed > 0 && duration > 0 ? Math.max(0, (duration - (record.seconds || 0)) / record.speed) : null };
             if (Date.now() - lastProgress > 150) { lastProgress = Date.now(); this.emitState(); }
           } });
+          await this.recordIncident({ stage: 'invocation', reason: 'ENCODE_CLOSED', fileId: item.id, invocationId, stderr: encodeResult?.stderr || '', context: { exitCode: 0 } });
           await sealStage(stage);
           const stagedIdentity = await readFileStamp(stage.file);
           if (this.plan.reservedIdentities.has(`${stagedIdentity.dev}:${stagedIdentity.ino}`)) throw fail('PROTECTED_SOURCE', 'A temporary output aliases a protected source.');
@@ -776,18 +866,46 @@ class EncoderService extends EventEmitter {
             throw fail('INVALID_PROVENANCE', 'The completed output does not contain its expected resolved generation description.');
           }
           const validation = this.verify(entry.inspection, outputProbe, this.plan.settings);
+          await this.recordIncident({ stage: 'validation', reason: 'OUTPUT_CHECKED', fileId: item.id, severity: validation.valid ? 'info' : 'error', context: { validation } });
           if (!validation.valid) throw fail('INVALID_OUTPUT', validation.errors.join(' '));
+          await markStageValidated(stage);
+          item.outputDisposition = { kind: 'validated-staged', published: false };
           validatingSource = true;
-          await this.assertSourceMatches(entry, signal, 'after-encode', 'Source identity changed while it was being encoded.');
+          const assessment = await this.assessCompletedSource(entry, signal);
+          item.sourceAssessment = assessment;
+          await this.recordIncident({ stage: 'validation', reason: 'SOURCE_ASSESSED', fileId: item.id,
+            severity: assessment.kind === 'unchanged' ? 'info' : 'warning', context: { assessment } });
+          if (assessment.kind !== 'unchanged') {
+            item.sourceIdentityDiagnostic = assessment.diagnostic;
+            // Retaining this completed output cannot authorize a later job or
+            // manufacture a fresh generated-source grant/cache identity.
+            item.reencodeAuthorized = false;
+            entry.reencodeAuthorized = false;
+            this.plan.reencodeAuthorizations.delete(item.id);
+            this.plan.overrides.delete(item.id);
+          }
+          if (assessment.kind === 'changed' || assessment.kind === 'incomplete') {
+            const fields = assessment.diagnostic.changedFields.join(', ');
+            throw Object.assign(fail(assessment.kind === 'changed' ? 'INPUT_CHANGED' : 'SOURCE_CHECK_INCOMPLETE',
+              assessment.kind === 'changed'
+                ? `Source identity changed while it was being encoded. Changed identity fields: ${fields || 'stronger content evidence'}. The completed output was retained without publication.`
+                : 'The completed source check was incomplete. The completed output was retained without publication.'),
+            { sourceIdentityDiagnostic: assessment.diagnostic });
+          }
+          if (assessment.kind === 'ctime-only') item.warnings = [assessment.warning];
           validatingSource = false;
           await this.verifyFolders();
           const published = await publishOutput(stage, entry.destination, { signal, atomicOnly: this.plan.sameFolder });
+          await this.recordIncident({ stage: 'publication', reason: published ? 'OUTPUT_PUBLISHED' : 'OUTPUT_COLLISION', fileId: item.id,
+            severity: !published || assessment.kind === 'ctime-only' ? 'warning' : 'info', context: { destination: entry.destination, published, sourceAssessment: assessment } });
           item.status = published ? 'success' : 'skipped';
-          item.reason = published ? '' : 'Another output won the publication race.';
+          item.outcome = published ? assessment.kind === 'ctime-only' ? 'saved-with-warning' : 'saved' : 'destination-collision';
+          item.outputDisposition = { kind: published ? 'published' : 'retained-completed', published, ...(published ? { file: entry.destination } : {}) };
+          item.reason = published ? item.warnings?.length ? 'Output saved. ' + item.warnings.map(warning => warning.message).join(' ') : '' : 'Another output won the publication race.';
           if (published) {
             this.state.progress = { ...this.state.progress, percent: 100 };
             try { await this.provenanceJournal.recordPublished(entry.outputId, await readSourceIdentity(entry.destination)); }
-            catch (error) { item.reason = 'Output saved; provenance bookkeeping remains pending. ' + error.message; }
+            catch (error) { item.reason = [item.reason, 'Output saved; provenance bookkeeping remains pending. ' + error.message].filter(Boolean).join(' '); }
           }
         } catch (error) {
           // Deletion, empty files and failed identity reads are invalidation
@@ -799,19 +917,43 @@ class EncoderService extends EventEmitter {
           }
           item.status = signal.aborted || error.code === 'CANCELLED' ? 'cancelled' : 'failed';
           item.reason = error.message;
+          item.reasonCode = error.code || 'OPERATION_FAILED';
           item.details = error.stderr?.slice(-4000);
           if (error.sourceIdentityDiagnostic) item.sourceIdentityDiagnostic = error.sourceIdentityDiagnostic;
+          await this.recordIncident({ stage: item.status === 'cancelled' ? 'cancellation' : 'encoding', reason: item.status === 'cancelled' ? 'JOB_CANCELLED' : 'JOB_FAILED',
+            severity: item.status === 'cancelled' ? 'info' : 'error', fileId: item.id, message: error.message, stderr: error.stderr || '',
+            ...(invocationId ? { invocationId } : {}), context: { code: item.reasonCode, sourceIdentityDiagnostic: item.sourceIdentityDiagnostic,
+              exitCode: error.exitCode, signal: error.signal } });
           if (item.status === 'cancelled') break;
           if (sharedFailure(error)) { stoppedByFailure = true; this.state.error = error.message; break; }
         } finally {
+          let cleanup;
           try {
-            const cleanup = await cleanupStage(stage, { protectedIdentities: this.plan.reservedIdentities });
+            cleanup = await cleanupStage(stage, { protectedIdentities: this.plan.reservedIdentities });
             if (cleanup?.retained) {
               item.cleanup = cleanup;
               item.reason = [item.reason, 'Temporary files retained for safety: ' + cleanup.reason].filter(Boolean).join(' ');
             }
           }
           catch (error) { stoppedByFailure = true; this.state.error = `Could not clean owned temporary output: ${error.message}`; }
+          if (item.outputDisposition && item.outputDisposition.published !== true) {
+            // Validation describes the earlier bound bytes, not whichever file
+            // now occupies a pathname. Reconcile even when cleanup found no file
+            // or could not complete its checks. A committed publication remains
+            // published independently of temporary-directory cleanup failures.
+            const staged = cleanup?.completed
+              ? { kind: cleanup.validationCurrent ? 'retained-completed' : 'retained-changed-stage', published: false,
+                validationCurrent: cleanup.validationCurrent, file: cleanup.file, directory: cleanup.directory }
+              : { kind: cleanup?.retained ? 'retained-unverified' : cleanup?.retained === false ? 'stage-unavailable' : 'stage-unverified',
+                published: false, validationCurrent: false, file: stage?.file, directory: stage?.directory };
+            item.outputDisposition = item.reasonCode === 'PUBLICATION_UNCERTAIN'
+              ? { kind: 'publication-uncertain', published: null, validationCurrent: false, file: entry.destination, stage: staged }
+              : staged;
+          }
+          await this.recordIncident({ stage: 'publication', reason: 'JOB_DISPOSITION', fileId: item.id, context: {
+            name: item.name, outputName: item.outputName, settings: this.plan.settings,
+            status: item.status, outcome: item.outcome, outputDisposition: item.outputDisposition, cleanup: item.cleanup,
+            warnings: item.warnings, sourceIdentityDiagnostic: item.sourceIdentityDiagnostic } });
           this.emitState();
         }
         if (stoppedByFailure) break;
@@ -822,12 +964,14 @@ class EncoderService extends EventEmitter {
     } finally {
       for (const item of this.state.items) if (item.status === 'pending') item.status = 'unprocessed';
       const terminalPhase = signal.aborted ? 'cancelled' : stoppedByFailure ? 'failed' : 'completed';
-      // Bounded per-batch diagnostics are local. They are never sent to a server.
-      try {
-        const logs = path.join(this.stateDir, 'logs');
-        await fs.mkdir(logs, { recursive: true });
-        await fs.writeFile(path.join(logs, `${this.state.batchId}.json`), JSON.stringify({ ...this.snapshot(), phase: terminalPhase }, null, 2), { flag: 'wx' });
-      } catch (error) { this.state.error ||= `Results could not be logged: ${error.message}`; }
+      await this.recordIncident({ stage: 'session', reason: 'BATCH_FINISHED', context: {
+        phase: terminalPhase, counts: this.snapshot().counts, settings: this.plan.settings,
+        elapsedSeconds: (Date.now() - this.startedAt) / 1000, totalItems: this.state.items.length,
+        jobDetails: 'Correlate JOB_DISPOSITION records by batchId and fileId. Retention/truncation status applies.',
+      } });
+      // Per-file dispositions and this terminal record replace the unbounded
+      // duplicate batch JSON writer. Existing historical logs stay untouched;
+      // all newly generated diagnostic content shares the bounded journal.
       // Keep admission closed through all asynchronous finalization. Otherwise a
       // new batch could replace state while the old batch is still logging it.
       this.state.phase = terminalPhase;
@@ -846,6 +990,7 @@ class EncoderService extends EventEmitter {
       this.state.phase = 'cancelling';
       this.controller.abort();
       this.emitState();
+      await this.recordIncident({ stage: 'cancellation', reason: 'CANCELLATION_REQUESTED' });
       await this.taskPromise;
     }
     // A close or renderer loss can arrive during a bounded preference write.

@@ -1,6 +1,6 @@
 {
   "name": "ffmpeg-ui",
-  "version": "0.6.0",
+  "version": "0.7.0-alpha.1",
   "description": "A local Windows desktop batch encoder with CPU and NVIDIA SDR profiles.",
   "main": "main.js",
   "scripts": {

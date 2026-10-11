@@ -2,7 +2,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs/promises');
 const path = require('node:path');
-const { createStage, sealStage, cleanupStage, publishOutput } = require('../src/outputs.cjs');
+const { createStage, sealStage, markStageValidated, cleanupStage, publishOutput } = require('../src/outputs.cjs');
 
 async function fixture(t, { seal = true, write = true } = {}) {
   const base = path.resolve(__dirname, '../artifacts/output-tests');
@@ -246,3 +246,27 @@ test('cleanup never removes a sealed object whose identity belongs to the protec
   assert.equal(result.retained, true); assert.match(result.reason, /protected input/);
   assert.equal(await fs.readFile(stage.file, 'utf8'), 'validated new media');
 });
+
+for (const code of ['EACCES', 'EIO']) {
+  test(`post-link ${code} remains uncertain publication with its cause and both names preserved`, async t => {
+    const { stage, destination } = await fixture(t);
+    await markStageValidated(stage);
+    const lstat = fs.lstat;
+    const cause = Object.assign(new Error('Injected destination observation failure'), { code });
+    t.mock.method(fs, 'lstat', async (file, ...options) => {
+      if (file === destination) throw cause;
+      return lstat(file, ...options);
+    });
+    await assert.rejects(publishOutput(stage, destination, { atomicOnly: true }), error => {
+      assert.equal(error.code, 'PUBLICATION_UNCERTAIN');
+      assert.equal(error.cause, cause);
+      assert.match(error.message, /may already contain/);
+      return true;
+    });
+    const cleanup = await cleanupStage(stage);
+    assert.equal(cleanup.retained, true);
+    assert.equal(cleanup.validationCurrent, false);
+    assert.equal(await fs.readFile(destination, 'utf8'), 'validated new media');
+    assert.equal(await fs.readFile(stage.file, 'utf8'), 'validated new media');
+  });
+}

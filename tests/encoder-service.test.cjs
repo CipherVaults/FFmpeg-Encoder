@@ -115,6 +115,15 @@ async function harness(t, { names = ['a.mp4', 'b.mp4'], onEncode, onInspect, ver
   };
 }
 
+async function diagnosticRecord(service, reason, fileId) {
+  const page = await service.getDiagnosticHistory({ limit: 200 });
+  for (const summary of page.events.filter(entry => entry.reason === reason)) {
+    const { event } = await service.getDiagnosticRecord({ eventId: summary.id });
+    if (!fileId || event.fileId === fileId) return event;
+  }
+  assert.fail(`Expected persisted diagnostic ${reason}`);
+}
+
 test('two selected jobs run sequentially, publish validated outputs, and leave an accurate recoverable result', async (t) => {
   const h = await harness(t);
   const plan = await h.prepare();
@@ -126,7 +135,7 @@ test('two selected jobs run sequentially, publish validated outputs, and leave a
   assert.deepEqual(h.calls.map((call) => path.basename(call.file)), ['a.mp4', 'b.mp4']);
   assert.deepEqual((await fs.readdir(h.output)).sort(), ['a_H265-CPU.mkv', 'b_H265-CPU.mkv']);
   assert.equal(await fs.readFile(path.join(h.input, 'a.mp4'), 'utf8'), 'Original input a.mp4');
-  const log = JSON.parse(await fs.readFile(path.join(h.stateDir, 'logs', `${result.batchId}.json`), 'utf8'));
+  const log = (await diagnosticRecord(h.service, 'BATCH_FINISHED')).context;
   assert.deepEqual(log.counts, result.counts);
   assert.equal(log.phase, 'completed');
 });
@@ -247,7 +256,7 @@ test('an input changed after preview is rejected before encoding while other inp
   assert.deepEqual(h.calls.map((call) => path.basename(call.file)), ['b.mp4']);
 });
 
-test('an input changed during encoding prevents publication and cleans the owned partial output', async (t) => {
+test('an input changed during encoding prevents publication and retains the validated completed output', async (t) => {
   const h = await harness(t, { names: ['a.mp4'], onEncode: ({ file }) => fs.appendFile(file, 'Changed during encode') });
   const result = await h.finish(await h.prepare());
   assert.equal(result.counts.failed, 1);
@@ -255,10 +264,13 @@ test('an input changed during encoding prevents publication and cleans the owned
   assert.equal(result.items[0].sourceIdentityDiagnostic.stage, 'after-encode');
   assert.ok(result.items[0].sourceIdentityDiagnostic.changedFields.includes('size'));
   assert.ok(result.items[0].sourceIdentityDiagnostic.changedFields.includes('sparseDigest'));
-  assert.deepEqual(await fs.readdir(h.output), []);
+  assert.equal(result.items[0].outputDisposition.kind, 'retained-completed');
+  assert.equal(result.items[0].cleanup.completed, true);
+  assert.equal(await fs.readFile(result.items[0].cleanup.file, 'utf8'), 'Encoded output a.mp4');
+  await assert.rejects(fs.stat(path.join(h.output, 'a_H265-CPU.mkv')), { code: 'ENOENT' });
 });
 
-test('ctime-only attribute change logs exact identity evidence, revokes re-encode authority and protects same-folder sources', async t => {
+test('ctime-only completion publishes with exact warning evidence while revoking future grants and protecting sources', async t => {
   const sourceId = createOutputId();
   const h = await harness(t, { sameFolder: true, names: ['a.mkv'], inspectResult: () => generatedInspection(sourceId),
     onEncode: async ({ file }) => {
@@ -272,26 +284,29 @@ test('ctime-only attribute change logs exact identity evidence, revokes re-encod
   const expected = structuredClone(h.service.plan.entries.get(first.items[0].id).fingerprint);
   const result = await h.finish(ready);
   const item = result.items[0];
-  assert.equal(item.status, 'failed');
+  assert.equal(item.status, 'success');
+  assert.equal(item.outcome, 'saved-with-warning');
   assert.equal(item.reencodeAuthorized, false);
   assert.equal(h.service.plan.reencodeAuthorizations.size, 0);
-  assert.match(item.reason, /Source identity changed while/);
-  assert.match(item.reason, /ctimeNs/);
-  assert.match(item.reason, /unchanged full content cannot be established/);
+  assert.match(item.reason, /Output saved/);
+  assert.match(item.reason, /filesystem change time changed/);
+  assert.match(item.reason, /cannot rule out changes outside/);
+  assert.equal(item.warnings[0].code, 'SOURCE_CTIME_ONLY');
   assert.deepEqual(item.sourceIdentityDiagnostic.changedFields, ['ctimeNs']);
   assert.equal(item.sourceIdentityDiagnostic.stage, 'after-encode');
   assert.equal(item.sourceIdentityDiagnostic.checkpoint, 'after-encode');
   assert.deepEqual(item.sourceIdentityDiagnostic.expected, expected);
   assert.equal(item.sourceIdentityDiagnostic.actual.sparseDigest, expected.sparseDigest);
   assert.notEqual(item.sourceIdentityDiagnostic.actual.ctimeNs, expected.ctimeNs);
-  const log = JSON.parse(await fs.readFile(path.join(h.stateDir, 'logs', `${result.batchId}.json`), 'utf8'));
-  assert.deepEqual(log.items[0].sourceIdentityDiagnostic, item.sourceIdentityDiagnostic);
+  const log = (await diagnosticRecord(h.service, 'JOB_DISPOSITION', item.id)).context;
+  assert.deepEqual(log.sourceIdentityDiagnostic, item.sourceIdentityDiagnostic);
+  assert.deepEqual(log.warnings, item.warnings);
   assert.ok(JSON.stringify(item.sourceIdentityDiagnostic).length < 4000);
   assert.deepEqual(await fs.readFile(source), beforeBytes);
-  assert.deepEqual(await fs.readdir(h.input), ['a.mkv']);
+  assert.deepEqual((await fs.readdir(h.input)).sort(), ['a.mkv', 'a_H265-CPU.mkv']);
 });
 
-test('ctime-only unsampled content change with restored mtime still refuses publication', async t => {
+test('unsampled change with restored mtime honestly saves with uncertainty under bounded completion policy', async t => {
   const fixedTime = 1_700_000_000;
   const h = await harness(t, { names: ['a.mkv'], onEncode: async ({ file }) => {
     const handle = await fs.open(file, 'r+');
@@ -303,13 +318,16 @@ test('ctime-only unsampled content change with restored mtime still refuses publ
   await fs.writeFile(source, Buffer.alloc(4 * 1024 * 1024, 37));
   await fs.utimes(source, fixedTime, fixedTime);
   const result = await h.finish(await h.prepare());
-  assert.equal(result.items[0].status, 'failed');
+  assert.equal(result.items[0].status, 'success');
+  assert.equal(result.items[0].sourceAssessment.kind, 'ctime-only');
+  assert.equal(result.items[0].outcome, 'saved-with-warning');
+  assert.match(result.items[0].reason, /cannot rule out changes outside the sampled regions/);
   const diagnostic = result.items[0].sourceIdentityDiagnostic;
   assert.deepEqual(diagnostic.changedFields, ['ctimeNs']);
   assert.equal(diagnostic.expected.sparseDigest, diagnostic.actual.sparseDigest);
   assert.equal(diagnostic.expected.mtimeNs, diagnostic.actual.mtimeNs);
   assert.equal((await fs.readFile(source))[500_000], 99);
-  assert.deepEqual(await fs.readdir(h.output), []);
+  assert.deepEqual(await fs.readdir(h.output), ['a_H265-CPU.mkv']);
 });
 
 test('an output that appears after preview is skipped without encoding or changing its bytes', async (t) => {
@@ -323,13 +341,70 @@ test('an output that appears after preview is skipped without encoding or changi
   assert.equal(await fs.readFile(destination, 'utf8'), 'Existing protected bytes');
 });
 
-test('an output publication race preserves the competitor and removes only the app-owned temporary file', async (t) => {
+test('an output publication race preserves the competitor and the validated completed stage', async (t) => {
   const h = await harness(t, { names: ['a.mp4'], onEncode: ({ output }) => fs.writeFile(path.join(output, 'a_H265-CPU.mkv'), 'Publication race winner') });
   const result = await h.finish(await h.prepare());
   assert.equal(result.counts.skipped, 1);
   assert.match(result.items[0].reason, /publication race/i);
   assert.equal(await fs.readFile(path.join(h.output, 'a_H265-CPU.mkv'), 'utf8'), 'Publication race winner');
-  assert.deepEqual(await fs.readdir(h.output), ['a_H265-CPU.mkv']);
+  assert.equal(result.items[0].outputDisposition.kind, 'retained-completed');
+  assert.equal(await fs.readFile(result.items[0].outputDisposition.file, 'utf8'), 'Encoded output a.mp4');
+});
+
+test('a missing source after valid completion is incomplete evidence, not a ctime warning or publication', async t => {
+  const h = await harness(t, { names: ['a.mp4'], onEncode: ({ file }) => fs.unlink(file) });
+  const result = await h.finish(await h.prepare());
+  const item = result.items[0];
+  assert.equal(item.status, 'failed');
+  assert.equal(item.reasonCode, 'SOURCE_CHECK_INCOMPLETE');
+  assert.equal(item.sourceAssessment.kind, 'incomplete');
+  assert.equal(item.sourceIdentityDiagnostic.actual, null);
+  assert.equal(item.sourceIdentityDiagnostic.readFailure, 'ENOENT');
+  assert.equal(item.outputDisposition.kind, 'retained-completed');
+  assert.equal(await fs.readFile(item.outputDisposition.file, 'utf8'), 'Encoded output a.mp4');
+  assert.equal(item.warnings, undefined);
+  await assert.rejects(fs.stat(path.join(h.output, 'a_H265-CPU.mkv')), { code: 'ENOENT' });
+});
+
+test('cancellation after valid output checks retains the completed result and stops queued jobs', async t => {
+  let service;
+  const h = await harness(t, { verify: () => { service.controller.abort(); return { valid: true, errors: [] }; } });
+  service = h.service;
+  const result = await h.finish(await h.prepare());
+  assert.equal(result.phase, 'cancelled');
+  assert.equal(result.items[0].status, 'cancelled');
+  assert.equal(result.items[0].outputDisposition.kind, 'retained-completed');
+  assert.equal(result.items[1].status, 'unprocessed');
+  assert.equal(h.calls.length, 1);
+  assert.equal(await fs.readFile(result.items[0].outputDisposition.file, 'utf8'), 'Encoded output a.mp4');
+  await assert.rejects(fs.stat(path.join(h.output, 'a_H265-CPU.mkv')), { code: 'ENOENT' });
+});
+
+test('invalid output remains a validation failure even when source change is only ctime', async t => {
+  const h = await harness(t, { names: ['a.mp4'], onEncode: async ({ file }) => {
+    try { await fs.chmod(file, 0o444); } finally { await fs.chmod(file, 0o666); }
+  }, verify: () => ({ valid: false, errors: ['Injected invalid media'] }) });
+  const result = await h.finish(await h.prepare());
+  assert.equal(result.items[0].status, 'failed');
+  assert.equal(result.items[0].reasonCode, 'INVALID_OUTPUT');
+  assert.equal(result.items[0].sourceAssessment, undefined);
+  assert.equal(result.items[0].warnings, undefined);
+  assert.deepEqual(await fs.readdir(h.output), []);
+  assert.match(await fs.readFile(path.join(h.input, 'a.mp4'), 'utf8'), /Original input/);
+});
+
+test('ctime-only change before job start still expires preparation and never launches the encoder', async t => {
+  const h = await harness(t, { names: ['a.mp4'] });
+  const plan = await h.prepare();
+  const file = path.join(h.input, 'a.mp4');
+  try { await fs.chmod(file, 0o444); } finally { await fs.chmod(file, 0o666); }
+  const result = await h.finish(plan);
+  assert.equal(result.items[0].status, 'failed');
+  assert.deepEqual(result.items[0].sourceIdentityDiagnostic.changedFields, ['ctimeNs']);
+  assert.equal(result.items[0].sourceIdentityDiagnostic.stage, 'before-encode');
+  assert.equal(result.items[0].warnings, undefined);
+  assert.equal(h.calls.length, 0);
+  assert.deepEqual(await fs.readdir(h.output), []);
 });
 
 test('a disappeared output folder is a shared failure and stops the remaining queue', async (t) => {
@@ -661,4 +736,115 @@ test('a remembered recipe survives restart but cannot gain availability or silen
   const after = await restarted.getPreferences();
   assert.deepEqual(after.settingsByProfile['h265-nvidia'], remembered.settingsByProfile['h265-nvidia']);
   assert.deepEqual(await fs.readdir(h.output), []);
+});
+
+for (const change of ['replace-file', 'delete-file', 'replace-directory']) {
+  test(`post-validation ${change} never leaves a stale validated-staged disposition`, async t => {
+    const h = await harness(t, { names: ['a.mp4'] });
+    const assess = h.service.assessCompletedSource.bind(h.service);
+    let priorValidated, temporary;
+    h.service.assessCompletedSource = async (...args) => {
+      const assessment = await assess(...args);
+      temporary = h.calls.at(-1).temporary;
+      if (change === 'delete-file') await fs.unlink(temporary);
+      else if (change === 'replace-file') {
+        priorValidated = path.join(path.dirname(temporary), 'previously-validated.mkv');
+        await fs.rename(temporary, priorValidated);
+        await fs.writeFile(temporary, 'Unvalidated replacement');
+      } else {
+        const moved = path.dirname(temporary) + '-moved';
+        await fs.rename(path.dirname(temporary), moved);
+        priorValidated = path.join(moved, path.basename(temporary));
+        await fs.mkdir(path.dirname(temporary));
+        await fs.writeFile(temporary, 'Unvalidated replacement');
+      }
+      return assessment;
+    };
+    const result = await h.finish(await h.prepare());
+    const item = result.items[0];
+    assert.equal(item.status, 'failed');
+    assert.equal(item.reasonCode, 'STAGE_CHANGED');
+    assert.equal(item.outputDisposition.kind, change === 'delete-file' ? 'stage-unavailable' : 'retained-unverified');
+    assert.equal(item.outputDisposition.published, false);
+    assert.equal(item.outputDisposition.validationCurrent, false);
+    await assert.rejects(fs.stat(path.join(h.output, 'a_H265-CPU.mkv')), { code: 'ENOENT' });
+    assert.equal(await fs.readFile(path.join(h.input, 'a.mp4'), 'utf8'), 'Original input a.mp4');
+    if (priorValidated) {
+      assert.equal(await fs.readFile(priorValidated, 'utf8'), 'Encoded output a.mp4');
+      assert.equal(await fs.readFile(temporary, 'utf8'), 'Unvalidated replacement');
+    } else await assert.rejects(fs.stat(path.dirname(temporary)), { code: 'ENOENT' });
+  });
+}
+
+test('uncertain publication remains distinct from retained staging and never claims validated destination bytes', async t => {
+  const h = await harness(t, { names: ['a.mp4'], sameFolder: true });
+  const destination = path.join(h.output, 'a_H265-CPU.mkv');
+  const link = fs.link;
+  let priorValidated;
+  t.mock.method(fs, 'link', async (source, target) => {
+    if (source === h.calls.at(-1)?.temporary && target === destination) {
+      priorValidated = path.join(path.dirname(source), 'previously-validated.mkv');
+      await fs.rename(source, priorValidated);
+      await fs.writeFile(source, 'Unvalidated publication replacement');
+    }
+    return link(source, target);
+  });
+  const result = await h.finish(await h.prepare());
+  const item = result.items[0];
+  assert.equal(item.status, 'failed');
+  assert.equal(item.reasonCode, 'PUBLICATION_UNCERTAIN');
+  assert.equal(item.outputDisposition.kind, 'publication-uncertain');
+  assert.equal(item.outputDisposition.published, null);
+  assert.equal(item.outputDisposition.file, destination);
+  assert.equal(item.outputDisposition.validationCurrent, false);
+  assert.equal(item.outputDisposition.stage.kind, 'retained-unverified');
+  assert.equal(await fs.readFile(destination, 'utf8'), 'Unvalidated publication replacement');
+  assert.equal(await fs.readFile(priorValidated, 'utf8'), 'Encoded output a.mp4');
+  assert.equal(await fs.readFile(path.join(h.input, 'a.mp4'), 'utf8'), 'Original input a.mp4');
+});
+
+test('successful publication is never demoted when unrelated staging contents prevent directory cleanup', async t => {
+  const h = await harness(t, { names: ['a.mp4'] });
+  const recordPublished = h.service.provenanceJournal.recordPublished.bind(h.service.provenanceJournal);
+  let retainedFile;
+  h.service.provenanceJournal.recordPublished = async (...args) => {
+    const recorded = await recordPublished(...args);
+    retainedFile = path.join(path.dirname(h.calls.at(-1).temporary), 'keep-unrelated.txt');
+    await fs.writeFile(retainedFile, 'Do not remove unrelated staging contents');
+    return recorded;
+  };
+  const result = await h.finish(await h.prepare());
+  const item = result.items[0];
+  assert.equal(item.status, 'success');
+  assert.equal(item.outputDisposition.kind, 'published');
+  assert.equal(item.outputDisposition.published, true);
+  assert.equal(item.cleanup.retained, true);
+  assert.equal(await fs.readFile(item.outputDisposition.file, 'utf8'), 'Encoded output a.mp4');
+  assert.equal(await fs.readFile(retainedFile, 'utf8'), 'Do not remove unrelated staging contents');
+});
+
+test('incomplete cleanup after failed publication cannot retain a current-validation claim', async t => {
+  const h = await harness(t, { names: ['a.mp4'] });
+  const assess = h.service.assessCompletedSource.bind(h.service);
+  let temporary, cleanupStatFailed = false;
+  const lstat = fs.lstat;
+  h.service.assessCompletedSource = async (...args) => {
+    const assessment = await assess(...args);
+    temporary = h.calls.at(-1).temporary;
+    await fs.unlink(temporary);
+    t.mock.method(fs, 'lstat', async (file, options) => {
+      // Publication inspects the missing file first; cleanup then cannot inspect
+      // its owned directory. Both are real main-owned paths, no media process.
+      if (cleanupStatFailed && file === path.dirname(temporary)) throw failure('EIO', 'Injected cleanup stat failure');
+      if (file === temporary) cleanupStatFailed = true;
+      return lstat(file, options);
+    });
+    return assessment;
+  };
+  const result = await h.finish(await h.prepare());
+  assert.equal(result.items[0].status, 'failed');
+  assert.equal(result.items[0].outputDisposition.kind, 'stage-unverified');
+  assert.equal(result.items[0].outputDisposition.validationCurrent, false);
+  assert.equal(result.phase, 'failed');
+  assert.match(result.error, /Could not clean owned temporary output/);
 });

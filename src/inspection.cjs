@@ -2,16 +2,18 @@
 
 const { runTool, ToolError, isSharedToolFailure } = require('./process-runner.cjs');
 const { PROFILES, validateSettings, selectVideo, classifyColor, mappedStreams, outputPixelFormat, streamCreationTimeAlias, STREAM_CREATION_TIME_ALIAS } = require('./media.cjs');
+const { EVIDENCE_LIMITS, normalizeSideData, normalizeRelationships, buildMediaEvidence } = require('./media-evidence.cjs');
 
 const UNKNOWN_COLOR = new Set(['', 'unknown', 'unspecified', 'reserved', 'n/a']);
 const GENERATED_TAGS = new Set(['encoder', 'duration', 'number_of_frames', 'number_of_bytes']);
 const APPLICATION_GENERATION_TAGS = new Set(['ffmpeg_encoder_provenance', 'ffmpeg_encoder_output_id', 'ffmpeg_encoder_generation']);
 // Bump these when normalization, stream selection, color policy or sample coverage
 // changes. A cache entry is evidence for these exact rules, not a lasting approval.
-const INSPECTION_POLICY = Object.freeze({ normalization: 2, color: 1, sampling: 1, selection: 1, preservation: 2 });
+const INSPECTION_POLICY = Object.freeze({ normalization: 4, color: 1, sampling: 1, selection: 1, preservation: 2 });
+const INSPECTION_STDERR_LIMIT = 256 * 1024;
 const SAMPLING_LIMIT = 'Bounded metadata samples cannot prove the absence of untagged HDR or HDR outside inspected frames. Demuxer seeking may begin at an earlier keyframe.';
-const STREAM_FIELDS = ['index', 'codec_type', 'codec_name', 'width', 'height', 'pix_fmt', 'color_transfer', 'color_primaries', 'color_space', 'color_range', 'avg_frame_rate', 'r_frame_rate', 'start_time', 'duration', 'sample_rate', 'channels', 'channel_layout', 'extradata_size', 'extradata_hash'];
-const FRAME_FIELDS = ['media_type', 'stream_index', 'best_effort_timestamp_time', 'pts_time', 'color_transfer', 'color_primaries', 'color_space', 'color_range'];
+const STREAM_FIELDS = ['index', 'id', 'codec_type', 'codec_name', 'profile', 'codec_tag_string', 'codec_tag', 'level', 'width', 'height', 'coded_width', 'coded_height', 'sample_aspect_ratio', 'display_aspect_ratio', 'field_order', 'pix_fmt', 'color_transfer', 'color_primaries', 'color_space', 'color_range', 'chroma_location', 'avg_frame_rate', 'r_frame_rate', 'time_base', 'start_pts', 'start_time', 'duration_ts', 'duration', 'nb_frames', 'bit_rate', 'sample_fmt', 'sample_rate', 'channels', 'channel_layout', 'bits_per_sample', 'bits_per_raw_sample', 'initial_padding', 'trailing_padding', 'extradata_size', 'extradata_hash'];
+const FRAME_FIELDS = ['media_type', 'stream_index', 'best_effort_timestamp', 'best_effort_timestamp_time', 'pts', 'pts_time', 'duration', 'duration_time', 'width', 'height', 'pix_fmt', 'sample_aspect_ratio', 'color_transfer', 'color_primaries', 'color_space', 'color_range', 'chroma_location'];
 
 function invalidEvidence(message) { throw new ToolError('INVALID_PROBE', message); }
 function plainObject(value) {
@@ -41,11 +43,10 @@ function dictionary(value) {
   return result;
 }
 function sideData(value) {
-  if (!Array.isArray(value)) invalidEvidence('Invalid side-data evidence.');
-  return value.map(entry => fields(entry, ['side_data_type']));
+  return normalizeSideData(value);
 }
 function normalizeProbe(probe) {
-  if (!plainObject(probe) || !Array.isArray(probe.streams)) invalidEvidence('Invalid stream evidence.');
+  if (!plainObject(probe) || !Array.isArray(probe.streams) || probe.streams.length > EVIDENCE_LIMITS.streams) invalidEvidence('Invalid or excessive stream evidence.');
   const normalized = { streams: probe.streams.map(stream => {
     const result = fields(stream, STREAM_FIELDS);
     if (Object.hasOwn(stream, 'tags')) result.tags = dictionary(stream.tags);
@@ -54,16 +55,22 @@ function normalizeProbe(probe) {
     return result;
   }) };
   const format = probe.format || {};
-  normalized.format = fields(format, ['format_name', 'duration', 'start_time']);
+  normalized.format = fields(format, ['format_name', 'duration', 'start_time', 'bit_rate', 'size', 'nb_streams', 'nb_programs', 'nb_stream_groups', 'probe_score']);
   if (Object.hasOwn(format, 'tags')) normalized.format.tags = dictionary(format.tags);
   const chapters = probe.chapters || [];
-  if (!Array.isArray(chapters)) invalidEvidence('Invalid chapter evidence.');
+  if (!Array.isArray(chapters) || chapters.length > EVIDENCE_LIMITS.chapters) invalidEvidence('Invalid or excessive chapter evidence.');
   normalized.chapters = chapters.map(chapter => {
     const result = fields(chapter, ['id', 'time_base', 'start', 'end', 'start_time', 'end_time']);
     if (Object.hasOwn(chapter, 'tags')) result.tags = dictionary(chapter.tags);
     return result;
   });
   selectVideo(normalized);
+  for (const kind of ['programs', 'stream_groups']) {
+    if (Object.hasOwn(probe, kind)) normalized[kind] = normalizeRelationships(probe[kind], kind);
+  }
+  // Rebuild typed observations from allowlisted raw evidence on every cache read.
+  // Never accept serialized summaries as an authority to transform/drop content.
+  normalized.mediaEvidence = buildMediaEvidence(normalized);
   return normalized;
 }
 function normalizeFrames(frames) {
@@ -164,12 +171,18 @@ async function inspectMetadata(file, { ffprobe, signal, run = runTool, onStage }
   onStage?.({ stage: 'metadata' });
   ensureNotCancelled(signal);
   const result = await run(ffprobe, [
-    '-v', 'error', '-protocol_whitelist', 'file,pipe', '-format_whitelist', 'mov,matroska,webm,avi', '-show_streams', '-show_format', '-show_chapters',
+    '-v', 'error', '-protocol_whitelist', 'file,pipe', '-format_whitelist', 'mov,matroska,webm,avi,mpegts', '-show_streams', '-show_format', '-show_chapters', '-show_programs', '-show_stream_groups',
     '-show_data_hash', 'sha256', '-of', 'json', '-i', file,
   ], { signal, timeoutMs: 30_000, stdoutLimit: 16 * 1024 * 1024 });
   ensureNotCancelled(signal);
   if (result.stderr?.trim()) throw new ToolError('INVALID_PROBE', 'Media metadata inspection reported an error.', { stderr: result.stderr });
-  return normalizeProbe(parseJson(result.stdout, 'Media inspection'));
+  try { return normalizeProbe(parseJson(result.stdout, 'Media inspection')); }
+  catch (error) {
+    // JSON/normalization failures belong to this child invocation too. Keep its
+    // already bounded diagnostic stream rather than replacing it with our label.
+    error.stderr ??= result.stderr || '';
+    throw error;
+  }
 }
 
 function sampleWindows(probe) {
@@ -223,6 +236,8 @@ function reconstructInspection(probeValue, evidenceValue) {
     let error = entry.error;
     if (error !== null && (!plainObject(error) || typeof error.code !== 'string' || error.code.length > 100
         || typeof error.reason !== 'string' || error.reason.length > 4000)) invalidEvidence('Invalid frame-window failure.');
+    if (error && ((Object.hasOwn(error, 'stderr') && (typeof error.stderr !== 'string' || error.stderr.length > INSPECTION_STDERR_LIMIT))
+        || (Object.hasOwn(error, 'stderrTruncated') && typeof error.stderrTruncated !== 'boolean'))) invalidEvidence('Invalid frame-window diagnostics.');
     let located;
     if (!error) {
       try { located = sampleCoverage(frames, window, video); }
@@ -238,7 +253,8 @@ function reconstructInspection(probeValue, evidenceValue) {
         observedStart: located.reduce((min, time) => Math.min(min, time), Infinity),
         observedEnd: located.reduce((max, time) => Math.max(max, time), -Infinity) });
     }
-    evidence.windows.push({ frames, error: error && { code: error.code, reason: error.reason } });
+    evidence.windows.push({ frames, error: error && { code: error.code, reason: error.reason,
+      ...(Object.hasOwn(error, 'stderr') ? { stderr: error.stderr, stderrTruncated: error.stderrTruncated || false } : {}) } });
   }
   const color = classifyColor(probe, samples);
   const metadataNotices = [];
@@ -290,19 +306,21 @@ async function finishInspection(file, probeValue, { ffprobe, signal, run = runTo
     // below prevents that false assurance while the process/output limits stay fixed.
     const { interval } = window;
     let decodedFrames = [];
+    let sampleStderr = '';
     try {
       onStage?.({ stage: 'frames', window: window.label });
       ensureNotCancelled(signal);
       const sampleResult = await run(ffprobe, [
-        '-v', 'error', '-protocol_whitelist', 'file,pipe', '-format_whitelist', 'mov,matroska,webm,avi', '-select_streams', String(video.index),
+        '-v', 'error', '-protocol_whitelist', 'file,pipe', '-format_whitelist', 'mov,matroska,webm,avi,mpegts', '-select_streams', String(video.index),
         '-read_intervals', interval, '-show_frames',
-        '-show_entries', 'frame=media_type,stream_index,best_effort_timestamp_time,pts_time,color_transfer,color_primaries,color_space,color_range:frame_side_data',
+        '-show_entries', `frame=${FRAME_FIELDS.join(',')}:frame_side_data`,
         '-of', 'json', '-i', file,
       ], { signal, timeoutMs: 20_000, stdoutLimit: 8 * 1024 * 1024 });
+      sampleStderr = typeof sampleResult.stderr === 'string' ? sampleResult.stderr : '';
       ensureNotCancelled(signal);
       const sample = parseJson(sampleResult.stdout, 'Decoded-frame inspection');
       decodedFrames = normalizeFrames(Array.isArray(sample.frames) ? sample.frames : []);
-      if (sampleResult.stderr?.trim()) throw new ToolError('FRAME_DECODE_ERROR', `The ${window.label} decoded-frame inspection reported an error.`);
+      if (sampleStderr.trim()) throw new ToolError('FRAME_DECODE_ERROR', `The ${window.label} decoded-frame inspection reported an error.`, { stderr: sampleStderr });
       sampleCoverage(decodedFrames, window, video);
       // Include any decoded preroll in HDR classification: observing positive HDR
       // before the requested window is still evidence, never a reason to hide it.
@@ -310,9 +328,11 @@ async function finishInspection(file, probeValue, { ffprobe, signal, run = runTo
     } catch (error) {
       // A timeout, broken decode or empty window cannot be interpreted as evidence
       // of SDR. Cancellation is different: it stops the queue instead of becoming a file result.
-      if (error.code === 'CANCELLED' || signal?.aborted) throw new ToolError('CANCELLED', 'Operation cancelled.', { cause: error });
+      if (error.code === 'CANCELLED' || signal?.aborted) throw new ToolError('CANCELLED', 'Operation cancelled.', { cause: error, stderr: error.stderr || sampleStderr });
       if (isSharedToolFailure(error)) throw error;
-      evidence.windows.push({ frames: decodedFrames, error: { code: String(error.code || 'FRAME_SAMPLE_FAILED').slice(0, 100), reason: String(error.message).slice(0, 4000) } });
+      const stderr = typeof error.stderr === 'string' ? error.stderr : sampleStderr;
+      evidence.windows.push({ frames: decodedFrames, error: { code: String(error.code || 'FRAME_SAMPLE_FAILED').slice(0, 100), reason: String(error.message).slice(0, 4000),
+        stderr: stderr.slice(-INSPECTION_STDERR_LIMIT), stderrTruncated: stderr.length > INSPECTION_STDERR_LIMIT } });
     }
   }
   return reconstructInspection(probe, evidence);

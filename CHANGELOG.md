@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.0-alpha.1 — Candidate development, not accepted
+
+- Durable bounded diagnostics and expanded typed inspection evidence; source/refusal context survives restart.
+- Valid completed outputs with complete comparable ctime-only differences save with an explicit bounded-evidence warning. Other changes, incomplete checks and cancellation remain distinct; validated stages are retained safely when publication cannot proceed. Strict preparation/cache/re-encode authority remains unchanged.
+- Foundation evidence:377 direct checks,3 native lifecycle/preparation cases and3 real owned completion cases. Full0.7 scope, runtime trials and candidate qualification remain in progress; see the October11 N/O report. Accepted0.6 and paused benchmark are unchanged.
+
 ## 0.6.0 — Local portable acceptance, September 24, 2026
 
 - Fast persistent inspection reuse, safe same-folder workflow, remembered folders/per-profile settings and compact preview; accepted J/K preserved.

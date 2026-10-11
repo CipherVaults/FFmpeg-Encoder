@@ -11,6 +11,16 @@ const { createHash } = require('node:crypto');
 const { execFile, execFileSync } = require('node:child_process');
 const { createRequire } = require('node:module');
 const { pathToFileURL } = require('node:url');
+const { loadCandidateManifest, resolveCandidateRuntime, verifyCandidateRuntime,
+  validateCandidateManifest, readBoundedJson, verifyPinnedFile } = require('../src/candidate-runtime.cjs');
+
+function selectPortableRuntime(packageJson) {
+  if (/^0\.6\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(packageJson.version)) {
+    return { mode: 'legacy-0.6', electronVersion: '44.2.0', manifestName: 'binary-manifest.json' };
+  }
+  assert.equal(packageJson.version, '0.7.0-alpha.1', 'Expected approved legacy 0.6.x or isolated 0.7.0-alpha.1 candidate.');
+  return { mode: 'candidate-0.7', electronVersion: '44.7.0', manifestName: 'candidate-binary-manifest.json' };
+}
 
 function appFiles(root) {
   const modules = fs.readdirSync(path.join(root, 'src'), { withFileTypes: true })
@@ -54,9 +64,15 @@ async function stageFile(root, staged, source, destination, expected = {}) {
   return { source, path: destination, ...before };
 }
 
-async function runPackaging(root, buildRoot, packageJson) {
+async function runPackaging(root, buildRoot, packageJson, electronZipDir = null) {
   const { packager } = await import('@electron/packager');
   const options = require('../packaging.config.cjs')(root, buildRoot, packageJson);
+  if (electronZipDir) {
+    // Packager's supported local-archive option refuses a missing ZIP instead
+    // of downloading. Candidate activation/provisioning remains separate.
+    options.electronZipDir = electronZipDir;
+    delete options.download;
+  }
   const packages = await packager(options);
   assert.deepEqual(packages, [path.join(buildRoot, 'package', 'FFmpeg Encoder-win32-x64')]);
   const zipDirectory = path.join(buildRoot, 'zip');
@@ -69,27 +85,36 @@ async function runPackaging(root, buildRoot, packageJson) {
     catch (writeError) { reject(writeError); return; }
     if(error) reject(error); else resolve();
   }));
-  return { packager: '@electron/packager', executable, args };
+  return { packager: '@electron/packager', executable, args, ...(electronZipDir ? { electronZipDir } : {}) };
 }
 
 async function main() {
   assert.equal(process.platform, 'win32', 'The local portable build targets Windows x64.');
   const root = path.resolve(__dirname, '..');
   const packageJson = JSON.parse(await fsp.readFile(path.join(root, 'package.json'), 'utf8'));
-  assert.match(packageJson.version, /^0\.6\.\d+(?:-[0-9A-Za-z.-]+)?$/, 'Expected the approved 0.6.x version sequence.');
+  const selection = selectPortableRuntime(packageJson);
   assert.equal(packageJson.main, 'main.js');
   const versions = {};
-  for (const [name, required] of Object.entries({ electron: '44.2.0', '@electron/packager': '20.3.0' })) {
+  for (const [name, required] of Object.entries({ electron: selection.electronVersion, '@electron/packager': '20.3.0' })) {
     assert.equal(packageJson.devDependencies?.[name], required, `${name} must be exactly pinned before building.`);
     versions[name] = JSON.parse(await fsp.readFile(path.join(root, 'node_modules', name, 'package.json'), 'utf8')).version;
     assert.equal(versions[name], required, `Installed ${name} differs from its pin.`);
   }
-  const manifest = JSON.parse(await fsp.readFile(path.join(root, 'resources', 'binary-manifest.json'), 'utf8'));
+  const candidate = selection.mode === 'candidate-0.7';
+  const manifest = candidate ? await loadCandidateManifest({ root })
+    : JSON.parse(await fsp.readFile(path.join(root, 'resources', 'binary-manifest.json'), 'utf8'));
   assert.equal(manifest.platform, 'win32-x64');
   assert.deepEqual(manifest.binaries.map(entry => entry.name).sort(), ['ffmpeg.exe', 'ffprobe.exe']);
-  assert.deepEqual(manifest.notices.map(entry => entry.repositoryPath).sort(), [
-    'resources/third-party/FFmpeg-LICENSE.txt', 'resources/third-party/FFmpeg-README.txt',
-  ]);
+  let candidateProof = null;
+  let electronArchive = null;
+  if (candidate) {
+    candidateProof = await verifyCandidateRuntime({ root });
+    electronArchive = await verifyPinnedFile(resolveCandidateRuntime({ root }).electronArchive, manifest.electron.archive);
+  } else {
+    assert.deepEqual(manifest.notices.map(entry => entry.repositoryPath).sort(), [
+      'resources/third-party/FFmpeg-LICENSE.txt', 'resources/third-party/FFmpeg-README.txt',
+    ]);
+  }
   const sources = [];
   for (const name of appFiles(root)) sources.push({ path: name, ...await hashFile(path.join(root, name)) });
   const out = path.join(root, 'out');
@@ -102,10 +127,12 @@ async function main() {
     schemaVersion: 1, startedAtUtc: new Date().toISOString(), status: 'building', buildRoot,
     product: 'FFmpeg Encoder', version: packageJson.version, platform: 'win32', arch: 'x64',
     tools: versions, sources, resources: [],
+    runtimeSelection: { mode: selection.mode, release: manifest.release, sourceManifest: `resources/${selection.manifestName}` },
     acceptance: { extractedApp: 'not-run', offline: 'not-run', realEncodeCancelSkip: 'not-run', cleanMachine: 'not-run' },
     distribution: 'Unsigned local ZIP only; no publication or complete corresponding-source claim.',
   };
   try {
+    if (candidate) { report.candidateRuntime = candidateProof.verified; report.electronArchive = electronArchive; }
     report.git = {
       commit: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8', windowsHide: true }).trim(),
       status: execFileSync('git', ['status', '--porcelain'], { cwd: root, encoding: 'utf8', windowsHide: true }).trim(),
@@ -114,20 +141,24 @@ async function main() {
     for (const entry of manifest.binaries) {
       assert.equal(entry.runtimePath, `ffmpeg/${entry.name}`);
       assert.match(entry.sha256, /^[a-f0-9]{64}$/i);
-      report.resources.push(await stageFile(root, staged, entry.runtimePath, entry.runtimePath, entry));
+      report.resources.push(await stageFile(root, staged, candidate ? entry.developmentPath : entry.runtimePath, entry.runtimePath, entry));
     }
     for (const entry of manifest.notices) {
       assert.match(entry.sha256, /^[a-f0-9]{64}$/i);
-      report.resources.push(await stageFile(root, staged, entry.repositoryPath, entry.repositoryPath.slice('resources/'.length), entry));
+      report.resources.push(await stageFile(root, staged, entry.repositoryPath, candidate ? entry.packagedPath : entry.repositoryPath.slice('resources/'.length), entry));
     }
-    for (const name of ['binary-manifest.json', 'PORTABLE_README.txt']) {
-      report.resources.push(await stageFile(root, staged, `resources/${name}`, name));
-    }
+    // Only the fresh package receives the candidate manifest under the normal
+    // runtime filename. The repository/benchmark legacy manifest is untouched.
+    report.resources.push(await stageFile(root, staged, `resources/${selection.manifestName}`, 'binary-manifest.json'));
+    if (candidate) validateCandidateManifest(await readBoundedJson(path.join(staged, 'binary-manifest.json')));
+    report.resources.push(await stageFile(root, staged, 'resources/PORTABLE_README.txt', 'PORTABLE_README.txt'));
     report.electronNotices = [];
     for (const name of ['LICENSE', 'LICENSES.chromium.html']) {
       report.electronNotices.push({ path: name, ...await hashFile(path.join(root, 'node_modules', 'electron', 'dist', name)) });
     }
-    report.command = await runPackaging(root, buildRoot, packageJson);
+    if (candidate) await verifyPinnedFile(electronArchive.path, manifest.electron.archive);
+    report.command = await runPackaging(root, buildRoot, packageJson, candidate ? path.dirname(electronArchive.path) : null);
+    if (candidate) await verifyPinnedFile(electronArchive.path, manifest.electron.archive);
     report.electronExtraction = JSON.parse(await fsp.readFile(path.join(buildRoot, 'electron-extraction.json'), 'utf8'));
     assert.equal(report.electronExtraction.electronVersion, versions.electron);
 
@@ -196,5 +227,5 @@ async function main() {
   }
 }
 
-module.exports = { appFiles, hashFile };
+module.exports = { appFiles, hashFile, selectPortableRuntime };
 if (require.main === module) main().catch(error => { console.error(error); process.exitCode = 1; });

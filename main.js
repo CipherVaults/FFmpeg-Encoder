@@ -1,8 +1,10 @@
 const { app, BrowserWindow, dialog, ipcMain, session, protocol, shell } = require('electron');
 const fs = require('node:fs');
 const path = require('node:path');
+const { createHash } = require('node:crypto');
 const { EncoderService } = require('./src/encoder-service.cjs');
 const { OutputAccess } = require('./src/output-access.cjs');
+const { verifyCandidateRuntime } = require('./src/candidate-runtime.cjs');
 const { registerIpc } = require('./src/ipc.cjs');
 const { ENTRY_URL, resolveAsset, registerLocalProtocol } = require('./src/local-protocol.cjs');
 
@@ -86,8 +88,14 @@ try {
 }
 
 async function createWindow() {
-  const binaryRoot = app.isPackaged ? path.join(process.resourcesPath, 'ffmpeg') : path.join(root, 'ffmpeg');
-  service = new EncoderService({ ffmpeg: path.join(binaryRoot, 'ffmpeg.exe'), ffprobe: path.join(binaryRoot, 'ffprobe.exe'), stateDir,
+  // A separate verified namespace preserves the paused benchmark's9.0.1 pair.
+  // No renderer, IPC handler or capability child exists before verification;
+  // a missing or altered candidate runtime is an explicit startup failure.
+  const runtime = await verifyCandidateRuntime({ root, isPackaged: app.isPackaged, resourcesPath: process.resourcesPath });
+  if (quitDuringStartup || shutdownComplete) return;
+  const runtimeIdentity = createHash('sha256').update(JSON.stringify(runtime.verified.slice(0, 2)
+    .map(({ sizeBytes, sha256 }) => ({ sizeBytes, sha256 })))).digest('hex');
+  service = new EncoderService({ ffmpeg: runtime.ffmpeg, ffprobe: runtime.ffprobe, runtimeIdentity, stateDir,
     outputAccess: new OutputAccess({ openPath: file => shell.openPath(file), showItemInFolder: file => shell.showItemInFolder(file) }) });
   await service.initializeDiagnostics();
   if (quitDuringStartup) { await finishShutdown(); return; }
@@ -157,6 +165,9 @@ async function createWindow() {
 }
 
 app.on('before-quit', event => {
+  // Verification can still be awaiting file IO before service construction.
+  // Quitting then must never create a late invisible app or startup dialog.
+  if (!service) quitDuringStartup = true;
   if (service && !shutdownComplete) {
     event.preventDefault();
     if (window && !window.isDestroyed()) window.close();

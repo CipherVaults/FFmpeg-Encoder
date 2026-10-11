@@ -249,7 +249,7 @@ async function nativePreparation() {
     await page.waitForFunction(() => document.querySelector('#runtime-information').textContent.includes('44.'));
     result.runtimeHelp = await page.locator('#runtime-information').innerText();
     assert.ok(result.runtimeHelp.includes(expectedElectron));
-    assert.match(result.runtimeHelp, /9\.0\.1/);
+    assert.match(result.runtimeHelp, /9\.0\.2/);
     await page.screenshot({ path: path.join(reportRoot, '05-native-help.png'), fullPage: true });
     // Native Chromium layout at the supported minimum, plus focus navigation.
     await context.app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].setContentSize(640, 480));

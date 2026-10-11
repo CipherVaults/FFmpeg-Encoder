@@ -13,16 +13,21 @@ const source = fs.readFileSync(path.join(__dirname, '../main.js'), 'utf8');
 const tick = () => new Promise(resolve => setImmediate(resolve));
 const deferred = () => { let resolve, reject; const promise = new Promise((yes, no) => { resolve = yes; reject = no; }); return { promise, resolve, reject }; };
 
-async function harness() {
+async function harness({ runtimePending = false, diagnosticsPending = false } = {}) {
   const load = deferred(), drained = deferred(), dialogClosed = deferred();
+  const initialized = deferred(); if (!diagnosticsPending) initialized.resolve();
+  const runtime = deferred();
+  const verified = { ffmpeg: 'verified/ffmpeg.exe', ffprobe: 'verified/ffprobe.exe',
+    verified: [{ sizeBytes: 1, sha256: 'a'.repeat(64) }, { sizeBytes: 2, sha256: 'b'.repeat(64) }] };
+  if (!runtimePending) runtime.resolve(verified);
   const calls = []; let window, service;
   const app = new EventEmitter();
   Object.assign(app, { isReady: () => true, getAppPath: () => 'test-root', setPath() {}, requestSingleInstanceLock: () => true,
     commandLine: { hasSwitch: () => false }, whenReady: () => Promise.resolve(),
     quit: () => calls.push('quit'), exit: code => calls.push(['exit', code]) });
   class Service extends EventEmitter {
-    constructor() { super(); service = this; this.busy = false; }
-    async initializeDiagnostics() {}
+    constructor(options) { super(); service = this; this.busy = false; this.options = options; }
+    initializeDiagnostics() { return initialized.promise; }
     cancelCurrent() { calls.push('cancel'); return drained.promise; }
     async recordIncident(event) { calls.push(event.reason); }
     async closeDiagnostics(outcome) { calls.push(['closed', outcome]); }
@@ -36,11 +41,13 @@ async function harness() {
     close() { this.destroy(); }
   }
   const appSession = { setPermissionRequestHandler() {}, setPermissionCheckHandler() {}, on() {}, protocol: {}, webRequest: { onBeforeRequest() {} } };
-  vm.runInNewContext(source, { console, require(id) {
+  vm.runInNewContext(source, { console, process: { resourcesPath: 'resources' }, require(id) {
     if (id === 'electron') return { app, BrowserWindow: Window, ipcMain: {}, session: { fromPartition: () => appSession }, protocol: { registerSchemesAsPrivileged() {} },
       dialog: { showErrorBox() { calls.push('blocking-dialog'); }, showMessageBox() { calls.push('async-dialog'); return dialogClosed.promise; } } };
     if (id === 'node:fs') return { mkdirSync() {} };
     if (id === 'node:path') return path;
+    if (id === 'node:crypto') return require('node:crypto');
+    if (id === './src/candidate-runtime.cjs') return { verifyCandidateRuntime: () => runtime.promise };
     if (id === './src/encoder-service.cjs') return { EncoderService: Service };
     if (id === './src/output-access.cjs') return require('../src/output-access.cjs');
     if (id === './src/ipc.cjs') return { registerIpc: () => () => calls.push('remove-ipc') };
@@ -48,8 +55,45 @@ async function harness() {
     throw new Error('Unexpected dependency: ' + id);
   } }, { filename: 'main.js' });
   await tick();
-  return { app, load, drained, dialogClosed, calls, window, service };
+  return { app, load, drained, dialogClosed, calls, window, service, runtime, verified, initialized,
+    getWindow: () => window, getService: () => service };
 }
+
+test('candidate runtime verification precedes any window, service or process authority', async () => {
+  const h = await harness({ runtimePending: true });
+  assert.equal(h.getWindow(), undefined); assert.equal(h.getService(), undefined);
+  h.runtime.resolve(h.verified); await tick();
+  assert.equal(h.getService().options.ffmpeg, h.verified.ffmpeg);
+  assert.equal(h.getService().options.ffprobe, h.verified.ffprobe);
+  assert.match(h.getService().options.runtimeIdentity, /^[a-f0-9]{64}$/);
+  assert.ok(h.getWindow());
+});
+
+test('quit while runtime verification is pending never creates a late window or service', async () => {
+  const h = await harness({ runtimePending: true }); h.app.emit('before-quit', {});
+  h.runtime.resolve(h.verified); await tick();
+  assert.equal(h.getWindow(), undefined); assert.equal(h.getService(), undefined);
+  assert.ok(!h.calls.includes('async-dialog'));
+});
+
+test('runtime verification failure cannot reach IPC or children and remains an explicit startup error', async () => {
+  const h = await harness({ runtimePending: true }); h.runtime.reject(new Error('Runtime SHA-256 mismatch'));
+  await tick(); assert.equal(h.getWindow(), undefined); assert.equal(h.getService(), undefined);
+  assert.ok(h.calls.includes('async-dialog'));
+  h.dialogClosed.resolve(); await tick(); await tick();
+  assert.deepEqual(h.calls.at(-1), ['exit', 1]);
+});
+
+test('quit after service construction but before diagnostics readiness drains without creating a late window', async () => {
+  const h = await harness({ diagnosticsPending: true });
+  assert.ok(h.getService()); assert.equal(h.getWindow(), undefined);
+  let prevented = false; h.app.emit('before-quit', { preventDefault() { prevented = true; } }); await tick();
+  assert.equal(prevented, true); assert.ok(h.calls.includes('cancel'));
+  h.initialized.resolve(); await tick(); assert.equal(h.getWindow(), undefined);
+  h.drained.resolve(); await tick(); await tick();
+  assert.equal(h.calls.at(-1), 'quit');
+  assert.equal(h.calls.filter(x => Array.isArray(x) && x[0] === 'closed').length, 1);
+});
 
 test('load rejection followed by renderer loss drains before failed exit without a blocking dialog', async () => {
   const h = await harness();

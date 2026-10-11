@@ -111,5 +111,77 @@ test('inspection failure keeps its bounded child diagnostic in the file incident
   assert.equal(state.items[0].details.length, 4000);
   const event = (await h.records()).find(event => event.reason === 'FILE_INSPECTED');
   assert.match(event.stderr.text, /precise child failure/);
+  assert.equal(event.stderr.text.length, 8022);
+  assert.equal(event.stderr.truncated, false);
   assert.equal(event.context.code, 'INVALID_PROBE');
+});
+
+test('upstream capture accounting survives inspection and capability journaling', async t => {
+  const stderr = 'end of a much longer diagnostic';
+  const stderrCapture = { totalBytes: 900000, truncated: true };
+  const h = await fixture(t, { inspect: async () => { throw Object.assign(new Error('Inspection failed'),
+    { code: 'INVALID_PROBE', stderr, stderrCapture }); } });
+  await fs.writeFile(path.join(h.input, 'a.mp4'), 'owned source'); await h.prepare();
+  const event = (await h.records()).find(event => event.reason === 'FILE_INSPECTED');
+  assert.equal(event.stderr.truncated, true); assert.equal(event.stderr.totalBytes, 900000);
+  const other = await fixture(t, { capabilities: async () => { throw Object.assign(new Error('Capability failed'),
+    { code: 'TOOL_FAILED', stderr, stderrCapture }); } });
+  await assert.rejects(other.service.getCapabilities());
+  const cap = (await other.records()).find(event => event.reason === 'CAPABILITY_FAILED');
+  assert.equal(cap.stderr.truncated, true); assert.equal(cap.stderr.totalBytes, 900000);
+});
+
+test('Help and exported incidents use only actually observed runtime versions, including partial failure', async t => {
+  const h = await fixture(t, { capabilities: async () => { throw Object.assign(new Error('ffprobe could not launch'),
+    { code: 'SPAWN_FAILED', runtimeVersions: { ffmpeg: 'ffmpeg version 9.0.2-full_build-www.gyan.dev Copyright test' } }); } });
+  assert.equal(h.service.getRuntimeInformation().media.ffmpeg.status, 'not-yet-observed');
+  await assert.rejects(h.service.getCapabilities());
+  const info = h.service.getRuntimeInformation();
+  assert.equal(info.appVersion, require('../package.json').version);
+  assert.equal(info.media.ffmpeg.version, '9.0.2-full_build-www.gyan.dev');
+  assert.equal(info.media.ffprobe.status, 'not-yet-observed');
+  const event = (await h.records()).find(event => event.reason === 'RUNTIME_IDENTIFIED');
+  const exported = await h.service.getDiagnosticExport({ eventIds: [event.id] });
+  assert.equal(exported.data.events[0].context.runtimeVersions.ffmpeg, info.media.ffmpeg.version);
+  assert.equal(Object.hasOwn(exported.data.events[0].context.runtimeVersions, 'ffprobe'), false);
+});
+
+test('main-owned App Settings persist without mutating a frozen prepared or running plan', async t => {
+  const h = await fixture(t);
+  const before = await h.service.getAppSettings();
+  const plan = Object.freeze({ id: 'test-frozen-plan', settings: Object.freeze({ profileId: 'h265-cpu', quality: 25 }) });
+  h.service.plan = plan; h.service.state.phase = 'running';
+  const after = await h.service.saveAppSettings({ revision: before.revision,
+    defaults: { ...before.defaults, rangeAudioPolicy: 'precision-flac', previewExpanded: true } });
+  assert.equal(after.revision, before.revision + 1); assert.equal(h.service.plan, plan);
+  assert.equal(h.service.snapshot().phase, 'running');
+  const { AppSettings } = require('../src/app-settings.cjs');
+  assert.deepEqual((await new AppSettings({ directory: h.service.stateDir }).load()).defaults, after.defaults);
+  await assert.rejects(h.service.saveAppSettings({ revision: before.revision, defaults: before.defaults }), { code: 'APP_SETTINGS_REVISION_CONFLICT' });
+  assert.equal((await h.service.resetAppSettings({ revision: after.revision })).defaults.rangeAudioPolicy, 'precision-aac');
+  assert.equal(h.service.plan, plan);
+});
+
+test('shutdown waits for an owned settings write and its incident; a failed reset also drains', async t => {
+  let finishSave, finishReceipt, failReset;
+  const saveWait = new Promise(resolve => { finishSave = resolve; });
+  const receiptWait = new Promise(resolve => { finishReceipt = resolve; });
+  const resetWait = new Promise((resolve, reject) => { failReset = reject; });
+  const h = await fixture(t, { appSettings: { save: () => saveWait, reset: () => resetWait } });
+  h.service.recordIncident = () => receiptWait;
+  const saving = h.service.saveAppSettings({});
+  let closed = false;
+  const closing = h.service.cancelCurrent().then(() => { closed = true; });
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(closed, false);
+  finishSave({ revision: 1 });
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(closed, false, 'the diagnostic receipt is part of the owned operation');
+  finishReceipt({ persisted: true }); await saving; await closing;
+  assert.equal(h.service.appSettingsMutations.size, 0);
+  const resetting = assert.rejects(h.service.resetAppSettings({}), /owned write failure/);
+  const closingAgain = h.service.cancelCurrent();
+  failReset(new Error('owned write failure'));
+  await resetting; await closingAgain;
+  assert.equal(h.service.appSettingsMutations.size, 0);
 });

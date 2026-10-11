@@ -1,6 +1,6 @@
 'use strict';
 
-const { runTool, ToolError, isSharedToolFailure } = require('./process-runner.cjs');
+const { runTool, ToolError, isSharedToolFailure, boundedToolStderr } = require('./process-runner.cjs');
 const { PROFILES, validateSettings, selectVideo, classifyColor, mappedStreams, outputPixelFormat, streamCreationTimeAlias, STREAM_CREATION_TIME_ALIAS } = require('./media.cjs');
 const { EVIDENCE_LIMITS, normalizeSideData, normalizeRelationships, buildMediaEvidence } = require('./media-evidence.cjs');
 
@@ -173,14 +173,16 @@ async function inspectMetadata(file, { ffprobe, signal, run = runTool, onStage }
   const result = await run(ffprobe, [
     '-v', 'error', '-protocol_whitelist', 'file,pipe', '-format_whitelist', 'mov,matroska,webm,avi,mpegts', '-show_streams', '-show_format', '-show_chapters', '-show_programs', '-show_stream_groups',
     '-show_data_hash', 'sha256', '-of', 'json', '-i', file,
-  ], { signal, timeoutMs: 30_000, stdoutLimit: 16 * 1024 * 1024 });
-  ensureNotCancelled(signal);
-  if (result.stderr?.trim()) throw new ToolError('INVALID_PROBE', 'Media metadata inspection reported an error.', { stderr: result.stderr });
-  try { return normalizeProbe(parseJson(result.stdout, 'Media inspection')); }
+  ], { signal, timeoutMs: 30_000, stdoutLimit: 16 * 1024 * 1024, stderrLimit: INSPECTION_STDERR_LIMIT });
+  try {
+    ensureNotCancelled(signal);
+    if (result.stderr?.trim() || result.stderrCapture?.truncated) throw new ToolError('INVALID_PROBE', 'Media metadata inspection reported an error or incomplete diagnostics.');
+    return normalizeProbe(parseJson(result.stdout, 'Media inspection'));
+  }
   catch (error) {
     // JSON/normalization failures belong to this child invocation too. Keep its
     // already bounded diagnostic stream rather than replacing it with our label.
-    error.stderr ??= result.stderr || '';
+    Object.assign(error, boundedToolStderr(result, INSPECTION_STDERR_LIMIT));
     throw error;
   }
 }
@@ -236,8 +238,16 @@ function reconstructInspection(probeValue, evidenceValue) {
     let error = entry.error;
     if (error !== null && (!plainObject(error) || typeof error.code !== 'string' || error.code.length > 100
         || typeof error.reason !== 'string' || error.reason.length > 4000)) invalidEvidence('Invalid frame-window failure.');
-    if (error && ((Object.hasOwn(error, 'stderr') && (typeof error.stderr !== 'string' || error.stderr.length > INSPECTION_STDERR_LIMIT))
+    if (error && ((Object.hasOwn(error, 'stderr') && (typeof error.stderr !== 'string' || Buffer.byteLength(error.stderr, 'utf8') > INSPECTION_STDERR_LIMIT))
         || (Object.hasOwn(error, 'stderrTruncated') && typeof error.stderrTruncated !== 'boolean'))) invalidEvidence('Invalid frame-window diagnostics.');
+    if (error && Object.hasOwn(error, 'stderrCapture')) {
+      const capture = error.stderrCapture;
+      if (typeof error.stderr !== 'string' || !plainObject(capture) || Object.keys(capture).length !== 2
+          || !Number.isSafeInteger(capture.totalBytes) || capture.totalBytes < 0 || typeof capture.truncated !== 'boolean'
+          || (Object.hasOwn(error, 'stderrTruncated') && error.stderrTruncated !== capture.truncated)) {
+        invalidEvidence('Invalid frame-window capture metadata.');
+      }
+    }
     let located;
     if (!error) {
       try { located = sampleCoverage(frames, window, video); }
@@ -254,7 +264,8 @@ function reconstructInspection(probeValue, evidenceValue) {
         observedEnd: located.reduce((max, time) => Math.max(max, time), -Infinity) });
     }
     evidence.windows.push({ frames, error: error && { code: error.code, reason: error.reason,
-      ...(Object.hasOwn(error, 'stderr') ? { stderr: error.stderr, stderrTruncated: error.stderrTruncated || false } : {}) } });
+      ...(Object.hasOwn(error, 'stderr') ? { stderr: error.stderr, stderrTruncated: error.stderrTruncated || error.stderrCapture?.truncated || false } : {}),
+      ...(error.stderrCapture ? { stderrCapture: { ...error.stderrCapture } } : {}) } });
   }
   const color = classifyColor(probe, samples);
   const metadataNotices = [];
@@ -306,21 +317,20 @@ async function finishInspection(file, probeValue, { ffprobe, signal, run = runTo
     // below prevents that false assurance while the process/output limits stay fixed.
     const { interval } = window;
     let decodedFrames = [];
-    let sampleStderr = '';
+    let sampleResult;
     try {
       onStage?.({ stage: 'frames', window: window.label });
       ensureNotCancelled(signal);
-      const sampleResult = await run(ffprobe, [
+      sampleResult = await run(ffprobe, [
         '-v', 'error', '-protocol_whitelist', 'file,pipe', '-format_whitelist', 'mov,matroska,webm,avi,mpegts', '-select_streams', String(video.index),
         '-read_intervals', interval, '-show_frames',
         '-show_entries', `frame=${FRAME_FIELDS.join(',')}:frame_side_data`,
         '-of', 'json', '-i', file,
-      ], { signal, timeoutMs: 20_000, stdoutLimit: 8 * 1024 * 1024 });
-      sampleStderr = typeof sampleResult.stderr === 'string' ? sampleResult.stderr : '';
+      ], { signal, timeoutMs: 20_000, stdoutLimit: 8 * 1024 * 1024, stderrLimit: INSPECTION_STDERR_LIMIT });
       ensureNotCancelled(signal);
       const sample = parseJson(sampleResult.stdout, 'Decoded-frame inspection');
       decodedFrames = normalizeFrames(Array.isArray(sample.frames) ? sample.frames : []);
-      if (sampleStderr.trim()) throw new ToolError('FRAME_DECODE_ERROR', `The ${window.label} decoded-frame inspection reported an error.`, { stderr: sampleStderr });
+      if (sampleResult.stderr?.trim() || sampleResult.stderrCapture?.truncated) throw new ToolError('FRAME_DECODE_ERROR', `The ${window.label} decoded-frame inspection reported an error or incomplete diagnostics.`);
       sampleCoverage(decodedFrames, window, video);
       // Include any decoded preroll in HDR classification: observing positive HDR
       // before the requested window is still evidence, never a reason to hide it.
@@ -328,11 +338,11 @@ async function finishInspection(file, probeValue, { ffprobe, signal, run = runTo
     } catch (error) {
       // A timeout, broken decode or empty window cannot be interpreted as evidence
       // of SDR. Cancellation is different: it stops the queue instead of becoming a file result.
-      if (error.code === 'CANCELLED' || signal?.aborted) throw new ToolError('CANCELLED', 'Operation cancelled.', { cause: error, stderr: error.stderr || sampleStderr });
-      if (isSharedToolFailure(error)) throw error;
-      const stderr = typeof error.stderr === 'string' ? error.stderr : sampleStderr;
+      const diagnostics = boundedToolStderr(typeof error.stderr === 'string' ? error : sampleResult, INSPECTION_STDERR_LIMIT);
+      if (error.code === 'CANCELLED' || signal?.aborted) throw new ToolError('CANCELLED', 'Operation cancelled.', { cause: error, ...diagnostics });
+      if (isSharedToolFailure(error)) { Object.assign(error, diagnostics); throw error; }
       evidence.windows.push({ frames: decodedFrames, error: { code: String(error.code || 'FRAME_SAMPLE_FAILED').slice(0, 100), reason: String(error.message).slice(0, 4000),
-        stderr: stderr.slice(-INSPECTION_STDERR_LIMIT), stderrTruncated: stderr.length > INSPECTION_STDERR_LIMIT } });
+        ...diagnostics } });
     }
   }
   return reconstructInspection(probe, evidence);

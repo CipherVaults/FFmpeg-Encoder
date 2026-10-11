@@ -10,6 +10,43 @@ class ToolError extends Error {
   }
 }
 
+// Bound the UTF-8 representation by bytes, not JavaScript UTF-16 code units.
+// When the beginning was discarded, drop continuation bytes rather than
+// inventing a replacement character for a code point cut by our own limit.
+function utf8Tail(value, limit, previouslyTruncated = false) {
+  let bytes = Buffer.isBuffer(value) ? value : Buffer.from(value, 'utf8');
+  let truncated = previouslyTruncated || bytes.length > limit;
+  if (bytes.length > limit) bytes = bytes.subarray(bytes.length - limit);
+  if (truncated) {
+    let start = 0;
+    while (start < bytes.length && (bytes[start] & 0xc0) === 0x80) start++;
+    bytes = bytes.subarray(start);
+  }
+  let text = bytes.toString('utf8');
+  // Invalid input bytes become U+FFFD during decoding and can expand. The
+  // retained display text must still obey the byte limit in that case.
+  if (Buffer.byteLength(text, 'utf8') > limit) {
+    bytes = Buffer.from(text, 'utf8').subarray(-limit);
+    let start = 0;
+    while (start < bytes.length && (bytes[start] & 0xc0) === 0x80) start++;
+    text = bytes.subarray(start).toString('utf8');
+    truncated = true;
+  }
+  return { text, truncated };
+}
+
+// Wrappers may impose a smaller local bound. Preserve the upstream byte count
+// and lost-prefix flag; a legacy error without capture metadata stays unknown.
+function boundedToolStderr(source, limit = 256 * 1024) {
+  const tail = utf8Tail(typeof source?.stderr === 'string' ? source.stderr : '', limit);
+  const upstream = source?.stderrCapture;
+  const known = upstream && Number.isSafeInteger(upstream.totalBytes) && upstream.totalBytes >= 0
+    && typeof upstream.truncated === 'boolean';
+  const truncated = tail.truncated || source?.stderrTruncated === true || (known && upstream.truncated);
+  return { stderr: tail.text, stderrTruncated: Boolean(truncated),
+    ...(known ? { stderrCapture: { totalBytes: upstream.totalBytes, truncated: Boolean(truncated) } } : {}) };
+}
+
 // FFmpeg's progress channel is a record protocol, independent of stderr logs.
 // A read can end anywhere, including halfway through a key or numeric value.
 class ProgressParser {
@@ -57,19 +94,26 @@ function runTool(executable, args, options = {}) {
     signal, timeoutMs = 30000, stdoutLimit = 16 * 1024 * 1024,
     stderrLimit = 256 * 1024, onProgress, spawnImpl = spawn, onChild, input,
   } = options;
-  if (signal?.aborted) return Promise.reject(new ToolError('CANCELLED', 'Operation cancelled.'));
+  const beforeSpawnError = (code, message) => Promise.reject(new ToolError(code, message, {
+    stderr: '', stderrCapture: { totalBytes: 0, truncated: false },
+  }));
+  if (signal?.aborted) return beforeSpawnError('CANCELLED', 'Operation cancelled.');
+  if (!Number.isSafeInteger(stderrLimit) || stderrLimit < 0) {
+    return beforeSpawnError('INVALID_LIMIT', 'Tool stderr limit must be a non-negative integer.');
+  }
   if (input !== undefined && typeof input !== 'string' && !Buffer.isBuffer(input)) {
-    return Promise.reject(new ToolError('INVALID_INPUT', 'Tool input must be text or bytes.'));
+    return beforeSpawnError('INVALID_INPUT', 'Tool input must be text or bytes.');
   }
   if (input !== undefined && Buffer.byteLength(input) > 65536) {
-    return Promise.reject(new ToolError('INPUT_LIMIT', 'Tool input exceeded its 64 KiB limit.'));
+    return beforeSpawnError('INPUT_LIMIT', 'Tool input exceeded its 64 KiB limit.');
   }
   return new Promise((resolve, reject) => {
     let child;
     let failure;
     let closed = false;
     let stdout = '';
-    let stderr = '';
+    let stderrTail = Buffer.alloc(0);
+    let stderrBytes = 0;
     let outputBytes = 0;
     let timeout;
     let retryKill;
@@ -90,7 +134,9 @@ function runTool(executable, args, options = {}) {
       child = spawnImpl(executable, args, { windowsHide: true, shell: false, stdio: [input === undefined ? 'ignore' : 'pipe', 'pipe', 'pipe'] });
       onChild?.(child);
     } catch (error) {
-      reject(new ToolError('SPAWN_FAILED', `Could not launch the bundled media tool: ${error.message}`, { cause: error }));
+      reject(new ToolError('SPAWN_FAILED', `Could not launch the bundled media tool: ${error.message}`, {
+        cause: error, stderr: '', stderrCapture: { totalBytes: 0, truncated: false },
+      }));
       return;
     }
     child.on('error', error => {
@@ -112,7 +158,16 @@ function runTool(executable, args, options = {}) {
       } catch (error) { stop(error); }
     });
     child.stderr.on('data', chunk => {
-      stderr = (stderr + chunk.toString()).slice(-stderrLimit);
+      const bytes = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+      stderrBytes += bytes.length;
+      // Keep raw bytes until close so arbitrary pipe chunk boundaries never
+      // split a multi-byte character. Copy the retained tail to avoid keeping a
+      // reference to a discarded, potentially much larger backing allocation.
+      if (bytes.length >= stderrLimit) stderrTail = Buffer.from(bytes.subarray(bytes.length - stderrLimit));
+      else {
+        const keep = Math.min(stderrTail.length, stderrLimit - bytes.length);
+        stderrTail = Buffer.concat([stderrTail.subarray(stderrTail.length - keep), bytes], keep + bytes.length);
+      }
     });
     child.once('close', (exitCode, exitSignal) => {
       closed = true;
@@ -120,13 +175,17 @@ function runTool(executable, args, options = {}) {
       clearTimeout(retryKill);
       signal?.removeEventListener('abort', abort);
       if (!parser) stdout += decoder.end();
+      const tail = utf8Tail(stderrTail, stderrLimit, stderrBytes > stderrLimit);
+      const stderr = tail.text;
+      const stderrCapture = { totalBytes: stderrBytes, truncated: tail.truncated };
       if (failure) {
         failure.stderr = stderr;
+        failure.stderrCapture = stderrCapture;
         failure.exitCode = exitCode;
         reject(failure);
       } else if (exitCode !== 0) {
-        reject(new ToolError('TOOL_FAILED', `Media tool exited with code ${exitCode}.`, { exitCode, exitSignal, stderr }));
-      } else resolve({ stdout, stderr, exitCode });
+        reject(new ToolError('TOOL_FAILED', `Media tool exited with code ${exitCode}.`, { exitCode, exitSignal, stderr, stderrCapture }));
+      } else resolve({ stdout, stderr, stderrCapture, exitCode });
     });
     signal?.addEventListener('abort', abort, { once: true });
     if (signal?.aborted) abort();
@@ -147,4 +206,4 @@ function isSharedToolFailure(error) {
   return ['SPAWN_FAILED', 'PIPE_FAILED', 'ENOSPC', 'EACCES', 'EPERM', 'EROFS', 'OUTPUT_FOLDER_CHANGED'].includes(error.code)
     || /no space left|disk full|cannot load.*nv|driver does not support|no capable devices/i.test(error.stderr || '');
 }
-module.exports = { ToolError, ProgressParser, runTool, isSharedToolFailure };
+module.exports = { ToolError, ProgressParser, runTool, isSharedToolFailure, boundedToolStderr };

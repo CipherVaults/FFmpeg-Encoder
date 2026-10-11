@@ -1,7 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { EventEmitter } = require('node:events');
-const { ProgressParser, runTool } = require('../src/process-runner.cjs');
+const { ProgressParser, runTool, boundedToolStderr } = require('../src/process-runner.cjs');
 
 function fakeChild() {
   const child = new EventEmitter();
@@ -122,4 +122,88 @@ test('cancelling a real stdin-fed child awaits its process exit', async () => {
   await assert.rejects(promise, { code: 'CANCELLED' });
   assert.ok(owned);
   assert.throws(() => process.kill(owned.pid, 0), { code: 'ESRCH' });
+});
+
+test('successful stderr capture preserves UTF-8 split across arbitrary pipe chunks', async () => {
+  const child = fakeChild();
+  const text = 'alpha العربية 😀 終\n';
+  const bytes = Buffer.from(text);
+  const promise = runTool('fixed.exe', [], { stderrLimit: bytes.length, spawnImpl: () => child });
+  for (const byte of bytes) child.stderr.emit('data', Buffer.from([byte]));
+  child.emit('close', 0);
+  const result = await promise;
+  assert.equal(result.stderr, text);
+  assert.deepEqual(result.stderrCapture, { totalBytes: bytes.length, truncated: false });
+});
+
+test('stderr retains a byte-bounded complete-code-point tail rather than a character-count suffix', async () => {
+  for (const chunks of [[Buffer.from('prefix-ع😀終')], [...Buffer.from('prefix-ع😀終')].map(byte => Buffer.from([byte]))]) {
+    const child = fakeChild();
+    const promise = runTool('fixed.exe', [], { stderrLimit: 8, spawnImpl: () => child });
+    for (const chunk of chunks) child.stderr.emit('data', chunk);
+    child.emit('close', 0);
+    const result = await promise;
+    assert.equal(result.stderr, '😀終');
+    assert.ok(Buffer.byteLength(result.stderr) <= 8);
+    assert.deepEqual(result.stderrCapture, { totalBytes: Buffer.byteLength('prefix-ع😀終'), truncated: true });
+  }
+});
+
+test('zero-byte capture and malformed UTF-8 remain bounded and truthfully truncated', async () => {
+  for (const [stderrLimit, bytes, expected] of [[0, Buffer.from('anything'), ''], [4, Buffer.from([255, 255, 255]), '�']]) {
+    const child = fakeChild();
+    const promise = runTool('fixed.exe', [], { stderrLimit, spawnImpl: () => child });
+    child.stderr.emit('data', bytes);
+    child.emit('close', 0);
+    const result = await promise;
+    assert.equal(result.stderr, expected);
+    assert.ok(Buffer.byteLength(result.stderr) <= stderrLimit);
+    assert.deepEqual(result.stderrCapture, { totalBytes: bytes.length, truncated: true });
+  }
+});
+
+for (const outcome of ['nonzero', 'abort', 'output-limit', 'pipe-error']) {
+  test(`stderr capture survives ${outcome}, including bytes received before close`, async () => {
+    const child = fakeChild();
+    const abort = new AbortController();
+    const promise = runTool('fixed.exe', [], { stderrLimit: 8, stdoutLimit: 1, signal: abort.signal, spawnImpl: () => child });
+    const code = { nonzero: 'TOOL_FAILED', abort: 'CANCELLED', 'output-limit': 'OUTPUT_LIMIT', 'pipe-error': 'PIPE_FAILED' }[outcome];
+    const rejection = assert.rejects(promise, error => {
+      assert.equal(error.code, code);
+      assert.equal(error.stderr, '😀終');
+      assert.deepEqual(error.stderrCapture, { totalBytes: Buffer.byteLength('prefix-ع😀終'), truncated: true });
+      return true;
+    });
+    child.stderr.emit('data', Buffer.from('prefix-ع'));
+    if (outcome === 'abort') abort.abort();
+    if (outcome === 'output-limit') child.stdout.emit('data', Buffer.from('too much'));
+    if (outcome === 'pipe-error') child.stdout.emit('error', new Error('pipe broke'));
+    child.stderr.emit('data', Buffer.from('😀終'));
+    child.emit('close', outcome === 'nonzero' ? 1 : 0);
+    await rejection;
+  });
+}
+
+test('pre-spawn failures have an explicitly empty capture, and invalid bounds never spawn', async () => {
+  const spawnImpl = () => assert.fail('must not spawn');
+  const abort = new AbortController(); abort.abort();
+  for (const options of [{ signal: abort.signal }, { input: {} }, { stderrLimit: -1 }, { stderrLimit: NaN }, { stderrLimit: 0.5 }]) {
+    await assert.rejects(runTool('fixed.exe', [], { ...options, spawnImpl }), error => {
+      assert.equal(error.stderr, '');
+      assert.deepEqual(error.stderrCapture, { totalBytes: 0, truncated: false });
+      return true;
+    });
+  }
+  await assert.rejects(runTool('fixed.exe', [], { spawnImpl: () => { throw new Error('launch failed'); } }), error => {
+    assert.equal(error.code, 'SPAWN_FAILED');
+    assert.deepEqual(error.stderrCapture, { totalBytes: 0, truncated: false });
+    return true;
+  });
+});
+
+test('wrapper bounds preserve upstream byte counts and never invent complete capture for legacy errors', () => {
+  const source = { stderr: 'ع😀終', stderrCapture: { totalBytes: 10000, truncated: true } };
+  assert.deepEqual(boundedToolStderr(source, 8), { stderr: '😀終', stderrTruncated: true, stderrCapture: { totalBytes: 10000, truncated: true } });
+  assert.deepEqual(boundedToolStderr({ stderr: 'legacy tail' }, 6), { stderr: 'y tail', stderrTruncated: true });
+  assert.equal(source.stderr, 'ع😀終');
 });

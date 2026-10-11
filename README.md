@@ -4,6 +4,8 @@
 
 A local Windows desktop encoder for large gameplay/OBS archives, with directly editable H.264, H.265 and AV1 controls for CPU and supported NVIDIA hardware.
 
+**0.7 candidate development is active, not accepted.** N contracts are verified; diagnostics/output foundations and isolated runtime trials have evidence, while the new workbench and expanded media operations remain unfinished. Follow [Current State](0-%20Documentation/01_Current_State.md) and the [N/O execution report](0-%20Documentation/Execution%20Summaries/2026-10-11_0.7_N_O_Bootstrap.md). The portable instructions below describe the separately preserved accepted0.6 release.
+
 **0.6.0 is locally accepted** after independent review, with a recoverable local-v0.6.0 checkpoint. The [acceptance report](0-%20Documentation/Execution%20Summaries/2026-09-24_Portable_0.6_Acceptance.md) identifies the exact artifact and evidence limits. The accepted 0.5 tag and ZIP remain unchanged. This is an unsigned local package; independent clean-machine compatibility and public distribution are separate work.
 
 **Phase1 benchmark: Paused — awaiting user visual review.** Calibration assets are preserved; no winners/finalists/held-out acceptance. Start with the **FFmpeg Visual Review** Desktop shortcut. The [pause/resume handoff and v0.7 planning inventory](0-%20Documentation/21_Phase1_Pause_Resume.md) records the live checkpoint, exact evidence/resources, playback limits and next boundary. No production0.7 scope or encoder-default change is approved by that inventory.

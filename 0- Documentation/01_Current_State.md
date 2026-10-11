@@ -4,7 +4,7 @@
 
 ## Live resumed execution — latest owner instruction
 
-Execution resumed under [amendment28](28_0.7_Execution_Resumption_and_Workbench_Amendment.md). Verified branch codex/v0.7-candidate at8bac91f with unfinished application changes, alpha.1 metadata and planning artifacts; nothing reset. O integration corrections and focused direct checks are underway. No candidate/new runtime/media qualification or N–S acceptance claimed. Goal23 controls selected scope; plan27 is design guidance, with the new source-selection/lifecycle/current-jobs/history/editable-settings/runtime-help requirements. Folder admission exists; direct-file admission is not implemented or implied.
+Execution resumed under [amendment28](28_0.7_Execution_Resumption_and_Workbench_Amendment.md). Branch codex/v0.7-candidate preserves alpha.1 work and all planning artifacts. N is verified after independent review and parent synchronization in the [N/O report](Execution%20Summaries/2026-10-11_0.7_N_O_Bootstrap.md#n-closure-and-reviewed-foundation). Foundation59b6b5b and startup-race fix2369cf4 are recoverable; reviewed diagnostic/output corrections pass479 integrated checks plus the later11-check Settings drainage suite. O remains in progress; P/Q pure contracts and R shell are partial, not implemented-feature acceptance. Separate Electron44.7 and FFmpeg9.0.2 trials passed their bounded foundation checks; neither is activated. Root9.0.1, installed44.2, accepted0.6 and the paused benchmark are preserved. Folder admission exists; direct-file admission is not implemented or implied. No candidate package or owner acceptance yet.
 
 ## Interrupted development record: 0.7 candidate N–S
 

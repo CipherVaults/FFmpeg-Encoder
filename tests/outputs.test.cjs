@@ -270,3 +270,146 @@ for (const code of ['EACCES', 'EIO']) {
     assert.equal(await fs.readFile(stage.file, 'utf8'), 'validated new media');
   });
 }
+
+for (const mutation of ['same-size edit', 'same-size replacement']) {
+  test(`exclusive-copy ${mutation} is not published as validated and cannot delete its good stage`, async t => {
+    const { stage, destination } = await fixture(t);
+    await markStageValidated(stage);
+    const original = await fs.readFile(stage.file);
+    const copy = fs.copyFile.bind(fs);
+    t.mock.method(fs, 'copyFile', async (...args) => {
+      await copy(...args);
+      if (mutation === 'same-size replacement') await fs.rename(destination, `${destination}.first-copy`);
+      await fs.writeFile(destination, Buffer.alloc(original.length, 88));
+    });
+    await assert.rejects(publishOutput(stage, destination, { link: unsupported() }), error => {
+      assert.equal(error.code, 'PUBLICATION_UNCERTAIN');
+      assert.equal(error.cause.code, 'COPY_CONTENT_MISMATCH');
+      return true;
+    });
+    const cleanup = await cleanupStage(stage);
+    assert.equal(cleanup.retained, true);
+    assert.equal(cleanup.validationCurrent, true);
+    assert.deepEqual(await fs.readFile(stage.file), original);
+    assert.deepEqual(await fs.readFile(destination), Buffer.alloc(original.length, 88));
+  });
+}
+
+test('an ordinary verified exclusive copy reads each full file once with bounded buffers then permits staging cleanup', async t => {
+  const { stage, destination } = await fixture(t, { seal: false });
+  const bytes = Buffer.alloc(2 * 1024 * 1024 + 7, 37);
+  await fs.writeFile(stage.file, bytes);
+  await sealStage(stage); await markStageValidated(stage);
+  const open = fs.open.bind(fs), readTotals = new Map(), closed = new Set();
+  t.mock.method(fs, 'open', async (file, mode, ...args) => {
+    const handle = await open(file, mode, ...args);
+    if ([stage.file, destination].includes(file)) {
+      assert.equal(mode, 'r');
+      const read = handle.read.bind(handle), close = handle.close.bind(handle);
+      handle.read = async (buffer, offset, length, position) => {
+        assert.ok(buffer.length <= 1024 * 1024);
+        const result = await read(buffer, offset, length, position);
+        readTotals.set(file, (readTotals.get(file) || 0) + result.bytesRead);
+        return result;
+      };
+      handle.close = async () => { closed.add(file); return close(); };
+    }
+    return handle;
+  });
+  assert.equal(await publishOutput(stage, destination, { link: unsupported() }), true);
+  assert.equal(readTotals.get(stage.file), bytes.length);
+  assert.equal(readTotals.get(destination), bytes.length);
+  assert.deepEqual(closed, new Set([stage.file, destination]));
+  assert.deepEqual(await cleanupStage(stage), { retained: false });
+  assert.deepEqual(await fs.readFile(destination), bytes);
+});
+
+test('a same-size destination mutation during verification is uncertain even if the bytes were already read', async t => {
+  const { stage, destination } = await fixture(t);
+  await markStageValidated(stage);
+  const original = await fs.readFile(stage.file), open = fs.open.bind(fs);
+  let changed = false, closed = false;
+  t.mock.method(fs, 'open', async (file, ...args) => {
+    const handle = await open(file, ...args);
+    if (file === destination && args[0] === 'r') {
+      const read = handle.read.bind(handle), close = handle.close.bind(handle);
+      handle.read = async (...readArgs) => {
+        const result = await read(...readArgs);
+        if (!changed) { changed = true; await fs.writeFile(destination, Buffer.alloc(original.length, 89)); }
+        return result;
+      };
+      handle.close = async () => { closed = true; return close(); };
+    }
+    return handle;
+  });
+  await assert.rejects(publishOutput(stage, destination, { link: unsupported() }), error => {
+    assert.equal(error.code, 'PUBLICATION_UNCERTAIN');
+    assert.equal(error.cause.code, 'COPY_VERIFICATION_CHANGED');
+    return true;
+  });
+  assert.equal(closed, true);
+  assert.equal((await cleanupStage(stage)).validationCurrent, true);
+  assert.deepEqual(await fs.readFile(stage.file), original);
+});
+
+test('a destination replacement between lstat and open cannot borrow the prior pathname identity', async t => {
+  const { stage, destination } = await fixture(t);
+  await markStageValidated(stage);
+  const original = await fs.readFile(stage.file), open = fs.open.bind(fs);
+  let replaced = false;
+  t.mock.method(fs, 'open', async (file, ...args) => {
+    if (file === destination && args[0] === 'r' && !replaced) {
+      replaced = true;
+      await fs.rename(destination, `${destination}.old`);
+      await fs.writeFile(destination, original);
+    }
+    return open(file, ...args);
+  });
+  await assert.rejects(publishOutput(stage, destination, { link: unsupported() }), error => {
+    assert.equal(error.code, 'PUBLICATION_UNCERTAIN');
+    assert.equal(error.cause.code, 'COPY_VERIFICATION_CHANGED');
+    return true;
+  });
+  assert.equal((await cleanupStage(stage)).retained, true);
+  assert.deepEqual(await fs.readFile(stage.file), original);
+  assert.deepEqual(await fs.readFile(destination), original);
+});
+
+test('a copied destination replaced after verification prevents removal of the validated stage', async t => {
+  const { stage, destination } = await fixture(t);
+  await markStageValidated(stage);
+  const original = await fs.readFile(stage.file);
+  assert.equal(await publishOutput(stage, destination, { link: unsupported() }), true);
+  await fs.rename(destination, `${destination}.verified`);
+  await fs.writeFile(destination, Buffer.alloc(original.length, 90));
+  const cleanup = await cleanupStage(stage);
+  assert.equal(cleanup.retained, true);
+  assert.equal(cleanup.validationCurrent, true);
+  assert.match(cleanup.reason, /copied destination changed/);
+  assert.deepEqual(await fs.readFile(stage.file), original);
+});
+
+test('cancellation during copy verification closes the read handle and retains both names', async t => {
+  const { stage, destination } = await fixture(t);
+  await markStageValidated(stage);
+  const controller = new AbortController(), open = fs.open.bind(fs);
+  let reads = 0, closed = false;
+  t.mock.method(fs, 'open', async (file, ...args) => {
+    const handle = await open(file, ...args);
+    if (file === stage.file && args[0] === 'r') {
+      const read = handle.read.bind(handle), close = handle.close.bind(handle);
+      handle.read = async (...readArgs) => { reads++; const result = await read(...readArgs); controller.abort(); return result; };
+      handle.close = async () => { closed = true; return close(); };
+    }
+    return handle;
+  });
+  await assert.rejects(publishOutput(stage, destination, { link: unsupported(), signal: controller.signal }), error => {
+    assert.equal(error.code, 'PUBLICATION_UNCERTAIN');
+    assert.equal(error.cause.code, 'CANCELLED');
+    return true;
+  });
+  assert.equal(reads, 1); assert.equal(closed, true);
+  assert.equal((await cleanupStage(stage)).validationCurrent, true);
+  assert.equal(await fs.readFile(destination, 'utf8'), 'validated new media');
+  assert.equal(await fs.readFile(stage.file, 'utf8'), 'validated new media');
+});

@@ -18,7 +18,8 @@ const expectedSources = ['107_new.mp4', '108_new.mp4', '109_new.mp4', 'Freelanzw
 const expectedBridge = ['getCapabilities', 'getPreferences', 'saveSettings', 'resetProfile', 'forgetPreferences',
   'clearInspectionCache', 'getRecipe', 'getEncodingDetails', 'chooseInputFolder', 'chooseOutputFolder',
   'prepareBatch', 'treatAsOriginal', 'reencodeOutputs', 'startBatch', 'cancelBatch', 'getSnapshot',
-  'getDiagnosticHistory', 'getDiagnosticRecord', 'getDiagnosticExportPreview', 'onUpdate'];
+  'getDiagnosticHistory', 'getDiagnosticRecord', 'getDiagnosticExportPreview', 'onUpdate',
+  'getAppSettings', 'saveAppSettings', 'resetAppSettings', 'getRuntimeInformation'];
 const electronTrial = process.argv.includes('--electron-maintenance-trial');
 const lifecycleOnly = process.argv.includes('--lifecycle-only');
 const expectedElectron = electronTrial ? '44.7.0' : '44.2.0';

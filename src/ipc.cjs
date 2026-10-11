@@ -14,6 +14,10 @@ function registerIpc({ ipcMain, window, service, dialog, entryUrl }) {
   const methods = {
     'encoder:capabilities': [0, () => service.getCapabilities()],
     'encoder:preferences': [0, () => service.getPreferences()],
+    'encoder:app-settings': [0, () => service.getAppSettings()],
+    'encoder:save-app-settings': [1, payload => service.saveAppSettings(payload)],
+    'encoder:reset-app-settings': [1, payload => service.resetAppSettings(payload)],
+    'encoder:runtime-information': [0, () => service.getRuntimeInformation()],
     'encoder:save-settings': [1, payload => service.saveSettings(payload)],
     'encoder:reset-profile': [1, payload => service.resetProfile(payload)],
     'encoder:forget-preferences': [0, () => service.forgetPreferences()],

@@ -26,3 +26,16 @@ test('snapshot rejects extra arguments and returns only explicit envelope', asyn
   assert.deepEqual(await handlers.get('encoder:snapshot')(event), { ok: true, value: { phase: 'idle' } });
   assert.equal(handlers.has('encode-video'), false);
 });
+
+test('settings and runtime information keep exact argument counts and trusted-frame admission', async () => {
+  const { handlers, event } = harness();
+  for (const channel of ['encoder:app-settings', 'encoder:runtime-information']) {
+    assert.equal((await handlers.get(channel)(event, { path: 'injected' })).error.code, 'INVALID_REQUEST');
+    assert.equal((await handlers.get(channel)({ ...event, senderFrame: { url: event.senderFrame.url } })).error.code, 'UNTRUSTED_SENDER');
+  }
+  for (const channel of ['encoder:save-app-settings', 'encoder:reset-app-settings']) {
+    assert.equal((await handlers.get(channel)(event)).error.code, 'INVALID_REQUEST');
+    assert.equal((await handlers.get(channel)(event, {}, {})).error.code, 'INVALID_REQUEST');
+    assert.equal((await handlers.get(channel)({ ...event, sender: {} }, {})).error.code, 'UNTRUSTED_SENDER');
+  }
+});

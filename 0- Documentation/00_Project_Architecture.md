@@ -1,5 +1,9 @@
 # Project architecture
 
+## Candidate 0.7 foundation — active, not accepted
+
+Goal23/contract24 and shared contract26 control candidate differences. N's ownership/evidence architecture is verified; O–S remain unfinished. Main now owns bounded durable incident history, independent atomic application defaults, runtime observations and completed-source assessment. The renderer receives narrow typed views; settings never grant path/process authority or mutate frozen jobs. Startup-error and renderer-loss races drain owned work before termination. Publication preserves validated stages on uncertainty and content-verifies the exclusive-copy fallback before cleanup. Pure backend, HDR, range/audio/geometry and remux contracts require runtime/main integration before they represent supported features. See the October11 N/O report for actual evidence and limitations; historical accepted0.6 architecture below remains the rollback baseline.
+
 ## Field corrections and current verification
 
 The canonical builder preserves exact MP4 stream creation_time as SOURCE_CREATION_TIME on the same mapped Matroska track; validation requires the exact value and refuses conflicting aliases. Inspection derives the visible notice, including on cache hits, and preservation policy2 invalidates prior policy evidence. Other metadata/content checks remain strict. Source identity remains conservative; failures add bounded field/checkpoint/expected/actual diagnostics to local results without new IPC authority.

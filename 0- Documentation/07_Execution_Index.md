@@ -2,7 +2,7 @@
 
 # Execution summary index
 
-[October11 0.7 execution bootstrap](Execution%20Summaries/2026-10-11_0.7_N_O_Bootstrap.md): recovery, preserved full plan/controlling Goal, branch isolation, baseline and O work. In progress; not candidate acceptance. Contract24/tracker25 are current; earlier research reports remain historical evidence.
+[October11 0.7 N closure / O foundation](Execution%20Summaries/2026-10-11_0.7_N_O_Bootstrap.md): N independently reviewed and parent-synchronized; O–S incomplete. Foundation479 direct checks, Settings drainage follow-up11, fixed native startup crash at2369cf4, isolated44.7/9.0.2 trials. New runtimes not activated; candidate and hardware/display qualification remain pending. Contract24/tracker25 are current; earlier research reports remain historical evidence.
 
 [October11 Phase1 Pause/Resume](21_Phase1_Pause_Resume.md): single current preservation/re-entry record and sourced v0.7 planning inventory. Verified bfd67f9 plus4010db7/accepted0.6;139 encodes, no judgments/finalists/held-outs. Live budgets/accounting limits and existing access evidence preserved; documentation checkpoint only. **Paused — awaiting user visual review**, campaign incomplete.
 

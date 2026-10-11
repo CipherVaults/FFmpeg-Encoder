@@ -165,6 +165,98 @@ test('storage pressure removes oldest closed sessions but cannot evict an active
   assert.ok(bytes <= 6000);
 });
 
+async function fillJournal(journal, request = event()) {
+  const saved = [];
+  for (let n = 0; n < 40; n++) {
+    const result = await journal.append(request);
+    if (!result.persisted) {
+      assert.equal(result.status.lastFailure.code, 'DIAGNOSTIC_STORAGE_LIMIT');
+      assert.ok(saved.length > 0, 'The fixture must exercise a useful active journal before capacity is refused.');
+      return saved;
+    }
+    saved.push(result);
+  }
+  assert.fail('The bounded fixture should reach ordinary incident capacity.');
+}
+
+async function journalUsage(h) {
+  let bytes = 0, entries = 0;
+  for (const directory of [h.events, h.stderr]) {
+    for (const name of await fs.readdir(directory)) {
+      bytes += (await fs.stat(path.join(directory, name))).size; entries++;
+    }
+  }
+  return { bytes, entries };
+}
+
+for (const pressure of ['bytes', 'entries']) {
+  test(`${pressure} exhaustion reserves durable close capacity and permits restart without clearing active records`, async t => {
+    const limits = pressure === 'bytes' ? { bytes: 6000, eventBytes: 4096, stderrBytes: 1000 }
+      : { bytes: 100000, eventBytes: 4096, entries: 7 };
+    const h = await fixture(t, { limits }), first = h.open();
+    const opened = await first.startSession(); assert.equal(opened.persisted, true);
+    const saved = await fillJournal(first, pressure === 'bytes' ? { ...event(), stderr: 'x'.repeat(750) } : event());
+    // The ordinary append fails, but no active record is rotated to make room.
+    for (const result of saved) assert.equal((await first.read(result.eventId)).event.reason, 'OUTPUT_VALIDATED');
+    assert.equal((await first.closeSession()).persisted, true);
+    const completed = (await first.readSession(opened.sessionId)).session;
+    assert.equal(completed.outcome, 'completed');
+    assert.ok(completed.events.at(-1).loggingGap.failures >= 1, 'A durable close must retain evidence of the refused incident.');
+    const next = h.open(), restarted = await next.startSession();
+    assert.equal(restarted.persisted, true);
+    assert.equal((await next.append(event('AFTER_RESTART'))).persisted, true);
+    assert.equal((await next.closeSession()).persisted, true);
+    const usage = await journalUsage(h);
+    assert.ok(usage.bytes <= limits.bytes); assert.ok(usage.entries <= (limits.entries || LIMITS.entries));
+  });
+}
+
+test('quota-filled abandoned owner receives a durable interruption before bounded rotation and new startup', async t => {
+  const h = await fixture(t, { limits: { bytes: 100000, eventBytes: 4096, entries: 7 } });
+  const first = h.open(), opened = await first.startSession();
+  const saved = await fillJournal(first);
+  const last = saved.at(-1);
+  let interruption;
+  const io = { ...fs, link: async (temporary, final) => {
+    await fs.link(temporary, final);
+    // Observe the actual published closure before startup may rotate this now
+    // closed session. This is real journal I/O, not a mocked durable success.
+    if (path.dirname(final) === h.events) {
+      const envelope = JSON.parse(await fs.readFile(final, 'utf8'));
+      if (envelope.event.type === 'session-interrupted') interruption = envelope.event;
+    }
+  } };
+  const next = h.open({ isOwnerAlive: () => false, io }), resumed = await next.startSession();
+  assert.equal(resumed.persisted, true);
+  assert.deepEqual(resumed.recovered, [{ sessionId: opened.sessionId, lastEventId: last.eventId }]);
+  assert.equal(interruption.sessionId, opened.sessionId);
+  assert.equal(interruption.outcome, 'interrupted'); assert.equal(interruption.context.lastEventId, last.eventId);
+  assert.match(interruption.message, /unknown; no files or jobs were resumed/);
+  assert.equal((await next.append(event('AFTER_RECOVERY'))).persisted, true);
+  assert.equal((await next.closeSession()).persisted, true);
+  assert.ok((await journalUsage(h)).entries <= 7);
+});
+
+for (const alive of [true, null]) {
+  test(`quota recovery preserves unknown files and ${alive === true ? 'live' : 'uncertain'} owners`, async t => {
+    const h = await fixture(t, { limits: { bytes: 100000, eventBytes: 4096, entries: 8 } });
+    const active = h.open(), initial = await active.startSession();
+    const prior = await fs.readFile(h.eventPath(initial.eventId));
+    const unknown = path.join(h.events, 'preserve-unknown.tmp'); await fs.writeFile(unknown, 'private foreign evidence');
+    const next = h.open({ isOwnerAlive: () => alive }), opened = await next.startSession();
+    assert.equal(opened.persisted, true); assert.deepEqual(opened.recovered, []);
+    await fillJournal(next);
+    assert.equal((await next.closeSession()).persisted, true);
+    const restart = h.open({ isOwnerAlive: () => alive }), resumed = await restart.startSession();
+    assert.equal(resumed.persisted, true); assert.deepEqual(resumed.recovered, []);
+    assert.equal((await restart.readSession(initial.sessionId)).session.outcome, 'open');
+    assert.deepEqual(await fs.readFile(h.eventPath(initial.eventId)), prior);
+    assert.equal(await fs.readFile(unknown, 'utf8'), 'private foreign evidence');
+    assert.equal((await restart.closeSession()).persisted, true);
+    assert.ok((await journalUsage(h)).entries <= 8);
+  });
+}
+
 test('unknown files count against the budget and never become cleanup authority', async t => {
   const h = await fixture(t, { limits: { bytes: 5000, eventBytes: 4096 } });
   const journal = h.open(); await journal.startSession();
@@ -417,7 +509,7 @@ test('exports distinguish truncation, missing stderr, intentional redaction and 
     context: { reason: 'r'.repeat(10000) }, stderr: 's'.repeat(LIMITS.stderrBytes + 1) });
   const exported = await journal.buildRedactedExport({ eventIds: [truncated.eventId] });
   assert.deepEqual(exported.data.events[0].capture, { messageTruncated: true, contextTruncated: true,
-    stderrTruncated: true, stderrUnavailable: false, loggingGap: false, complete: false });
+    stderrTruncated: true, stderrUnavailable: false, stderrUpstreamUnknown: true, loggingGap: false, complete: false });
   assert.equal(exported.data.coverage.scope, 'selected-events-only');
   assert.equal(exported.data.coverage.selectedCaptureComplete, false);
   assert.equal(exported.data.coverage.intentionalPrivacyRedaction, true);
@@ -476,6 +568,72 @@ test('queued append snapshots stderr and malformed persisted completeness descri
     const restored = h.open(), all = await restored.list();
     assert.equal(all.status.incomplete, true); assert.ok(!all.events.some(e => e.id === id));
     assert.equal((await restored.buildRedactedExport({ eventIds: [id] })).data, null);
+    assert.ok((await fs.stat(h.eventPath(id))).isFile());
+  }
+});
+
+test('upstream stderr truncation and total byte counts survive reopening and privacy-safe export', async t => {
+  const h = await fixture(t, { limits: { stderrBytes: 1000 } }), journal = h.open(); await journal.startSession();
+  const privateTail = 'last private child detail';
+  const capture = { totalBytes: 8000, truncated: true };
+  const pending = journal.append({ ...event('UPSTREAM_TAIL'), stderr: privateTail, stderrCapture: capture });
+  capture.totalBytes = 1; capture.truncated = false;
+  const saved = await pending;
+  const reopened = h.open(), read = (await reopened.read(saved.eventId)).event;
+  assert.equal(read.stderr.text, privateTail); assert.equal(read.stderr.bytes, Buffer.byteLength(privateTail));
+  assert.equal(read.stderr.truncated, true); assert.equal(read.stderr.totalBytes, 8000);
+  const exported = await reopened.buildRedactedExport({ eventIds: [saved.eventId] });
+  assert.equal(exported.data.coverage.selectedCaptureComplete, false);
+  assert.equal(exported.data.events[0].capture.stderrTruncated, true);
+  assert.equal(exported.data.events[0].stderr.totalBytes, 8000);
+  assert.equal(exported.data.events[0].stderr.omitted, true); assert.ok(!exported.json.includes(privateTail));
+  const full = 'y'.repeat(1100);
+  const ownTail = await journal.append({ ...event('JOURNAL_TAIL'), stderr: full,
+    stderrCapture: { totalBytes: Buffer.byteLength(full), truncated: false } });
+  const ownRead = (await h.open().read(ownTail.eventId)).event;
+  assert.equal(ownRead.stderr.bytes, 1000); assert.equal(ownRead.stderr.totalBytes, 1100); assert.equal(ownRead.stderr.truncated, true);
+  const legacy = await journal.append({ ...event('LEGACY_DESCRIPTOR'), stderr: 'old schema remains readable' });
+  const legacyRead = (await h.open().read(legacy.eventId)).event;
+  assert.equal(Object.hasOwn(legacyRead.stderr, 'totalBytes'), false); assert.equal(legacyRead.stderr.truncated, false);
+  const legacyExport = await journal.buildRedactedExport({ eventIds: [legacy.eventId] });
+  assert.equal(legacyExport.data.events[0].capture.stderrUpstreamUnknown, true);
+  assert.equal(legacyExport.data.coverage.selectedCaptureComplete, false);
+});
+
+test('stderr capture accepts exact complete evidence and rejects malformed or inconsistent upstream claims', async t => {
+  const h = await fixture(t), journal = h.open(); await journal.startSession();
+  const stderr = 'é';
+  const complete = await journal.append({ ...event(), stderr, stderrCapture: { totalBytes: 2, truncated: false } });
+  const exported = await journal.buildRedactedExport({ eventIds: [complete.eventId] });
+  assert.equal(exported.data.coverage.selectedCaptureComplete, true);
+  assert.equal(exported.data.events[0].stderr.totalBytes, 2);
+  const replacement = await journal.append({ ...event('INVALID_UTF8_CAPTURE'), stderr: '\uFFFD', stderrCapture: { totalBytes: 1, truncated: false } });
+  const replacementRead = (await h.open().read(replacement.eventId)).event;
+  assert.equal(replacementRead.stderr.bytes, 3); assert.equal(replacementRead.stderr.totalBytes, 1);
+  assert.equal(replacementRead.stderr.truncated, false);
+  for (const descriptor of [null, [], {}, { totalBytes: -1, truncated: true }, { totalBytes: 1, truncated: true },
+    { totalBytes: 3, truncated: false }, { totalBytes: 2, truncated: 'false' },
+    { totalBytes: Number.MAX_SAFE_INTEGER + 1, truncated: true }, { totalBytes: 2, truncated: false, path: 'private' }]) {
+    assert.throws(() => journal.append({ ...event(), stderr, stderrCapture: descriptor }), { code: 'INVALID_DIAGNOSTIC_REQUEST' });
+  }
+  assert.throws(() => journal.append({ ...event(), stderrCapture: { totalBytes: 0, truncated: false } }), { code: 'INVALID_DIAGNOSTIC_REQUEST' });
+  let executed = false;
+  assert.throws(() => journal.append({ ...event(), stderr, stderrCapture: { truncated: false,
+    get totalBytes() { executed = true; return 2; } } }), { code: 'INVALID_DIAGNOSTIC_REQUEST' });
+  assert.equal(executed, false);
+});
+
+test('corrupt persisted stderr totals are preserved but cannot claim complete capture', async t => {
+  const h = await fixture(t), journal = h.open(); await journal.startSession();
+  const saved = await journal.append({ ...event(), stderr: 'original detail', stderrCapture: { totalBytes: 15, truncated: false } });
+  for (const totalBytes of [0, 16, '15', Number.MAX_SAFE_INTEGER + 1]) {
+    const id = randomUUID(), envelope = JSON.parse(await fs.readFile(h.eventPath(saved.eventId), 'utf8'));
+    envelope.event.id = id; envelope.event.stderr.totalBytes = totalBytes;
+    envelope.digest = digest(JSON.stringify(envelope.event));
+    await fs.writeFile(h.eventPath(id), JSON.stringify(envelope));
+    const reopened = h.open(), records = await reopened.list();
+    assert.ok(!records.events.some(entry => entry.id === id)); assert.equal(records.status.incomplete, true);
+    assert.equal((await reopened.buildRedactedExport({ eventIds: [id] })).data, null);
     assert.ok((await fs.stat(h.eventPath(id))).isFile());
   }
 });

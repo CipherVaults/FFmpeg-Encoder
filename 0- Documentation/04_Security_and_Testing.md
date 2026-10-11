@@ -1,5 +1,9 @@
 # Security and testing
 
+## Active 0.7 foundation — October11
+
+The [N/O report](Execution%20Summaries/2026-10-11_0.7_N_O_Bootstrap.md) records independent N closure and unfinished O–S. Current focused safeguards cover truthful stderr/truncation, protected journal closure capacity, retryable persistence, corrupt-settings reset ownership, failed-publication retention and same-size destination replacement. The integrated479-check transcript and later11-check service suite overlap; they are not590 distinct tests. Native44.7 startup/crash checks prove bounded lifecycle recovery, not a crash during a long active encode. Atomic App Settings operations and diagnostic receipts drain before exit. Narrow main-frame IPC remains enforced; settings are data, never restored source/omission/reencode authority. Runtime Help distinguishes observed and unknown versions. Pure backend/HDR/remux/operation contracts require actual native and output qualification before enablement. Supplied originals, accepted0.6 and benchmark runtime/evidence remain protected.
+
 ## September24 field and packaged verification
 
 281 direct checks and current native phone/identity/re-encoding/Archive endpoints pass. The fresh actual portable run passes20 cases/four process sessions and preserves25 protected files through shutdown. All19 application sources and six resources match the build; exact ZIP and accepted0.5 hashes were rechecked. Final independent M disposition is in the September24 report.

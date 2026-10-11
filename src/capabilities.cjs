@@ -3,11 +3,12 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const { PROFILES, ARCHIVE_RECIPE, selectVideo, classifyColor, buildEncodeArgs } = require('./media.cjs');
-const { runTool, ToolError } = require('./process-runner.cjs');
+const { runTool, ToolError, boundedToolStderr } = require('./process-runner.cjs');
 
 const EXPECTED_CODEC = { H264: 'h264', H265: 'hevc', AV1: 'av1' };
 const TEST_BITS = [8, 10];
 const RECIPE_TEST_FRAMES = 96;
+const CAPABILITY_STDERR_LIMIT = 64 * 1024;
 
 function unexpectedRecipeWarnings(stderr) {
   // The preservation builder deliberately sets global stream copy before the
@@ -19,11 +20,13 @@ function unexpectedRecipeWarnings(stderr) {
     .filter(line => line && !expectedOverride.test(line)).join('\n');
 }
 
-function parseProbe(stdout) {
+function parseProbe(result) {
   try {
-    return JSON.parse(stdout);
+    return JSON.parse(result.stdout);
   } catch (cause) {
-    throw new ToolError('INVALID_PROBE', 'Capability inspection returned invalid JSON.', { cause });
+    throw new ToolError('INVALID_PROBE', 'Capability inspection returned invalid JSON.', {
+      cause, ...boundedToolStderr(result, CAPABILITY_STDERR_LIMIT),
+    });
   }
 }
 
@@ -33,20 +36,25 @@ function failureReason(error) {
   return detail || error.message || 'Encoder validation failed.';
 }
 
-function verifyVideo(data, { bitDepth, codec, countFrames = false, expectedFrames = 2 }) {
-  const stream = selectVideo(data);
-  const expectedPixels = bitDepth === 10 ? 'yuv420p10le' : 'yuv420p';
-  const frameCount = Number(stream.nb_read_frames);
-  const color = classifyColor(data);
-  if (stream.codec_name !== codec || stream.pix_fmt !== expectedPixels
-      || stream.width !== 320 || stream.height !== 180
-      || stream.color_transfer !== 'bt709' || stream.color_primaries !== 'bt709'
-      || stream.color_space !== 'bt709' || stream.color_range !== 'tv'
-      || color.classification !== 'sdr'
-      || (countFrames && frameCount !== expectedFrames)) {
-    throw new ToolError('CAPABILITY_OUTPUT_MISMATCH', `The encoded sample did not preserve the requested codec, SDR color, dimensions, bit depth, or ${expectedFrames} frames.`);
+function verifyVideo(data, { bitDepth, codec, countFrames = false, expectedFrames = 2 }, toolResult) {
+  try {
+    const stream = selectVideo(data);
+    const expectedPixels = bitDepth === 10 ? 'yuv420p10le' : 'yuv420p';
+    const frameCount = Number(stream.nb_read_frames);
+    const color = classifyColor(data);
+    if (stream.codec_name !== codec || stream.pix_fmt !== expectedPixels
+        || stream.width !== 320 || stream.height !== 180
+        || stream.color_transfer !== 'bt709' || stream.color_primaries !== 'bt709'
+        || stream.color_space !== 'bt709' || stream.color_range !== 'tv'
+        || color.classification !== 'sdr'
+        || (countFrames && frameCount !== expectedFrames)) {
+      throw new ToolError('CAPABILITY_OUTPUT_MISMATCH', `The encoded sample did not preserve the requested codec, SDR color, dimensions, bit depth, or ${expectedFrames} frames.`);
+    }
+    return stream;
+  } catch (error) {
+    Object.assign(error, boundedToolStderr(toolResult, CAPABILITY_STDERR_LIMIT));
+    throw error;
   }
-  return stream;
 }
 
 /**
@@ -57,7 +65,7 @@ function verifyVideo(data, { bitDepth, codec, countFrames = false, expectedFrame
  * All temporary media lives in a unique owned directory. Cleanup names only the
  * files this invocation reserved; it never recursively removes a directory.
  */
-async function checkCapabilities({ ffmpeg, ffprobe, stateDir, signal, run = runTool }) {
+async function checkCapabilitiesRun({ ffmpeg, ffprobe, stateDir, signal, run = runTool }, versions) {
   if (signal?.aborted) throw new ToolError('CANCELLED', 'Capability inspection cancelled.');
   for (const [name, executable] of Object.entries({ ffmpeg, ffprobe })) {
     try {
@@ -71,17 +79,17 @@ async function checkCapabilities({ ffmpeg, ffprobe, stateDir, signal, run = runT
   }
 
   const execute = (binary, args) => run(binary, args, {
-    signal, timeoutMs: 20_000, stdoutLimit: 1024 * 1024, stderrLimit: 64 * 1024,
+    signal, timeoutMs: 20_000, stdoutLimit: 1024 * 1024, stderrLimit: CAPABILITY_STDERR_LIMIT,
   });
-  const versions = {};
   // A missing runtime or broken binary is shared infrastructure failure, not an
   // unsupported individual encoder. Complete these checks before per-profile work.
   for (const [name, binary] of Object.entries({ ffmpeg, ffprobe })) {
     const result = await execute(binary, ['-version']);
-    versions[name] = result.stdout.split(/\r?\n/)[0];
-    if (!versions[name].startsWith(`${name} version `)) {
-      throw new ToolError('INVALID_BINARY', `The bundled ${name} did not identify itself correctly.`);
+    const versionLine = result.stdout.split(/\r?\n/)[0];
+    if (!new RegExp(`^${name} version [^\\x00-\\x1f\\x7f]{1,512}$`).test(versionLine)) {
+      throw new ToolError('INVALID_BINARY', `The bundled ${name} did not identify itself correctly.`, boundedToolStderr(result, CAPABILITY_STDERR_LIMIT));
     }
+    versions[name] = versionLine;
   }
 
   await fs.mkdir(stateDir, { recursive: true });
@@ -111,8 +119,8 @@ async function checkCapabilities({ ffmpeg, ffprobe, stateDir, signal, run = runT
       const inspected = await execute(ffprobe, [
         '-v', 'error', '-protocol_whitelist', 'file,pipe', '-show_streams', '-show_format', '-of', 'json', input,
       ]);
-      const probe = parseProbe(inspected.stdout);
-      verifyVideo(probe, { bitDepth, codec: 'ffv1' });
+      const probe = parseProbe(inspected);
+      verifyVideo(probe, { bitDepth, codec: 'ffv1' }, inspected);
       fixtures.set(`${bitDepth}-${frameCount}`, { input, probe });
     }
 
@@ -134,35 +142,37 @@ async function checkCapabilities({ ffmpeg, ffprobe, stateDir, signal, run = runT
           ...(profile.recipeId ? { recipeId: profile.recipeId } : {}) };
         try {
           const encoded = await execute(ffmpeg, buildEncodeArgs({ input, output, settings, probe }));
-          if (profile.recipeId && unexpectedRecipeWarnings(encoded.stderr)) {
-            throw new ToolError('RECIPE_OPTIONS_UNVERIFIED', 'The recipe emitted a warning; its settings are not accepted silently.', { stderr: encoded.stderr });
+          if (profile.recipeId && (encoded.stderrCapture?.truncated || unexpectedRecipeWarnings(encoded.stderr))) {
+            // A retained tail containing only the known override cannot prove
+            // an earlier ignored-option warning was absent.
+            throw new ToolError('RECIPE_OPTIONS_UNVERIFIED', 'The recipe warning check was not complete and clean; its settings are not accepted silently.', boundedToolStderr(encoded, CAPABILITY_STDERR_LIMIT));
           }
           const inspected = await execute(ffprobe, [
             '-v', 'error', '-protocol_whitelist', 'file,pipe', '-count_frames',
             ...(profile.recipeId ? ['-show_frames', '-show_entries', 'frame=pict_type'] : []),
             '-show_streams', '-show_format', '-of', 'json', output,
           ]);
-          const decodedProbe = parseProbe(inspected.stdout);
+          const decodedProbe = parseProbe(inspected);
           const stream = verifyVideo(decodedProbe, {
             bitDepth, codec: EXPECTED_CODEC[profile.codec], countFrames: true, expectedFrames,
-          });
+          }, inspected);
           let longestBRun = 0;
           if (profile.recipeId) {
             // A two-frame sample cannot demonstrate four consecutive B frames.
             // This observable check is separate from option acceptance; it does
             // not claim to verify the complete reference-picture graph.
             if (!Array.isArray(decodedProbe.frames) || decodedProbe.frames.length !== expectedFrames) {
-              throw new ToolError('RECIPE_STRUCTURE_UNVERIFIED', 'The recipe frame structure could not be inspected completely.');
+              throw new ToolError('RECIPE_STRUCTURE_UNVERIFIED', 'The recipe frame structure could not be inspected completely.', boundedToolStderr(inspected, CAPABILITY_STDERR_LIMIT));
             }
             let run = 0;
             for (const frame of decodedProbe.frames) {
               if (!frame || typeof frame !== 'object' || !['I', 'P', 'B'].includes(frame.pict_type)) {
-                throw new ToolError('RECIPE_STRUCTURE_UNVERIFIED', 'The recipe contains missing or unknown picture-type evidence.');
+                throw new ToolError('RECIPE_STRUCTURE_UNVERIFIED', 'The recipe contains missing or unknown picture-type evidence.', boundedToolStderr(inspected, CAPABILITY_STDERR_LIMIT));
               }
               run = frame.pict_type === 'B' ? run + 1 : 0;
               longestBRun = Math.max(longestBRun, run);
             }
-            if (longestBRun !== 4) throw new ToolError('RECIPE_STRUCTURE_UNVERIFIED', 'The recipe did not produce the requested four-B-frame structure.');
+            if (longestBRun !== 4) throw new ToolError('RECIPE_STRUCTURE_UNVERIFIED', 'The recipe did not produce the requested four-B-frame structure.', boundedToolStderr(inspected, CAPABILITY_STDERR_LIMIT));
           }
           // Probe metadata alone cannot prove that coded packets actually decode.
           // Decode the entire sample with strict errors and independently verify the
@@ -174,13 +184,14 @@ async function checkCapabilities({ ffmpeg, ffprobe, stateDir, signal, run = runT
           ]);
           const counts = [...decoded.stdout.matchAll(/^frame=(\d+)\s*$/gm)].map((match) => Number(match[1]));
           if (counts.at(-1) !== expectedFrames || !/^progress=end\s*$/m.test(decoded.stdout)) {
-            throw new ToolError('CAPABILITY_DECODE_FAILED', `The sample did not decode exactly ${expectedFrames} complete frames.`);
+            throw new ToolError('CAPABILITY_DECODE_FAILED', `The sample did not decode exactly ${expectedFrames} complete frames.`, boundedToolStderr(decoded, CAPABILITY_STDERR_LIMIT));
           }
           checks.push({ bitDepth, available: true, reason: null, codec: stream.codec_name, pixelFormat: stream.pix_fmt, frames: expectedFrames,
             ...(profile.recipeId ? { longestBRun } : {}) });
         } catch (error) {
           if (signal?.aborted || ['CANCELLED', 'SPAWN_FAILED', 'MISSING_BINARY'].includes(error.code)) throw error;
-          checks.push({ bitDepth, available: false, reason: failureReason(error), code: error.code || 'CAPABILITY_FAILED' });
+          checks.push({ bitDepth, available: false, reason: failureReason(error), code: error.code || 'CAPABILITY_FAILED',
+            ...boundedToolStderr(error, CAPABILITY_STDERR_LIMIT) });
         }
       }
       const supportedBitDepths = checks.filter((check) => check.available).map((check) => check.bitDepth);
@@ -220,6 +231,17 @@ async function checkCapabilities({ ffmpeg, ffprobe, stateDir, signal, run = runT
   }
   if (primaryFailure) throw primaryFailure;
   return result;
+}
+
+async function checkCapabilities(options) {
+  const versions = {};
+  try { return await checkCapabilitiesRun(options, versions); }
+  catch (error) {
+    // A later failure does not erase versions actually observed earlier. This
+    // is identification evidence, not a claim that capability checks passed.
+    if (Object.keys(versions).length) error.runtimeVersions = { ...versions };
+    throw error;
+  }
 }
 
 module.exports = { checkCapabilities };

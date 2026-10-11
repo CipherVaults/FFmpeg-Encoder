@@ -14,6 +14,7 @@ const { StorageEligibility } = require('./storage-eligibility.cjs');
 const { InspectionCache } = require('./inspection-cache.cjs');
 const { Preferences } = require('./preferences.cjs');
 const { DiagnosticJournal } = require('./diagnostics.cjs');
+const { AppSettings } = require('./app-settings.cjs');
 
 const BUSY = new Set(['checking', 'preparing', 'running', 'cancelling']);
 const EXTENSIONS = new Set(['.mp4', '.mkv', '.mov', '.avi', '.webm']);
@@ -21,6 +22,10 @@ const fail = (code, message) => Object.assign(new Error(message), { code });
 const clone = value => structuredClone(value);
 const OUTPUT_PLACEHOLDER = '<temporary output assigned at start>';
 const APP_VERSION = require('../package.json').version;
+// Keep the owned child's capture accounting separate from the small UI excerpt.
+// Journals must not relabel an upstream-truncated tail as a complete capture.
+const diagnosticStderr = result => ({ stderr: typeof result?.stderr === 'string' ? result.stderr : '',
+  ...(result?.stderrCapture ? { stderrCapture: result.stderrCapture } : {}) });
 
 function objectKeys(value, keys) {
   if (!value || typeof value !== 'object' || Array.isArray(value)
@@ -38,7 +43,7 @@ const sharedFailure = isSharedToolFailure;
 
 class EncoderService extends EventEmitter {
   constructor({ ffmpeg, ffprobe, stateDir, run = runTool, inspect = inspectInput, verify = validateOutput, capabilities = checkCapabilities,
-    inspectionCache, storageEligibility, inspectionWorkers = 2, provenanceJournal, preferences, diagnostics }) {
+    inspectionCache, storageEligibility, inspectionWorkers = 2, provenanceJournal, preferences, diagnostics, appSettings }) {
     super();
     if (![1, 2].includes(inspectionWorkers)) throw new TypeError('Inspection workers must be one or two.');
     Object.assign(this, { ffmpeg, ffprobe, stateDir, run, inspect, verify, capabilities });
@@ -67,6 +72,50 @@ class EncoderService extends EventEmitter {
       app: APP_VERSION, ...(process.versions.electron ? { electron: process.versions.electron } : {}),
     } });
     this.diagnosticInitialization = null;
+    this.appSettings = appSettings || new AppSettings({ directory: stateDir });
+    this.appSettingsMutations = new Set();
+    this.runtimeVersions = {};
+  }
+
+  // Saving application defaults never mutates a draft, prepared plan or active
+  // queue. A new workspace snapshots them; applying them to an existing draft
+  // is a separate explicit operation owned by that draft.
+  async getAppSettings() { return this.appSettings.load(); }
+  saveAppSettings(request) {
+    return this.mutateAppSettings('save', request, 'APP_DEFAULTS_SAVED');
+  }
+  resetAppSettings(request) {
+    return this.mutateAppSettings('reset', request, 'APP_DEFAULTS_RESET');
+  }
+  mutateAppSettings(method, request, reason) {
+    // Register ownership synchronously, before the store can yield. Shutdown
+    // drains the atomic write AND its diagnostic receipt, including failures.
+    const pending = (async () => {
+      const result = await this.appSettings[method](request);
+      await this.recordIncident({ stage: 'admission', reason, context: { revision: result.revision } });
+      return result;
+    })();
+    this.appSettingsMutations.add(pending);
+    return pending.finally(() => this.appSettingsMutations.delete(pending));
+  }
+  getRuntimeInformation() {
+    // No hardcoded mockup versions and no extra capability/encode work merely
+    // to open Help. Missing observations remain visibly uninspected.
+    return { appVersion: APP_VERSION, electron: process.versions.electron || null,
+      chromium: process.versions.chrome || null, node: process.versions.node,
+      platform: process.platform, architecture: process.arch,
+      media: Object.fromEntries(['ffmpeg', 'ffprobe'].map(name => [name, this.runtimeVersions[name]
+        ? { status: 'observed', version: this.runtimeVersions[name], executable: this[name] }
+        : { status: 'not-yet-observed', version: null, executable: this[name] }])) };
+  }
+  async recordRuntimeVersions(versions) {
+    const safe = {};
+    for (const name of ['ffmpeg', 'ffprobe']) {
+      const match = typeof versions?.[name] === 'string'
+        && versions[name].match(new RegExp(`^${name} version ([A-Za-z0-9._+~\\-]{1,120})(?:\\s|$)`));
+      if (match) { safe[name] = match[1]; this.runtimeVersions[name] = match[1]; }
+    }
+    if (Object.keys(safe).length) await this.recordIncident({ stage: 'capability', reason: 'RUNTIME_IDENTIFIED', context: { runtimeVersions: safe } });
   }
 
   async initializeDiagnostics() {
@@ -158,6 +207,7 @@ class EncoderService extends EventEmitter {
         await this.recordIncident({ stage: 'capability', reason: 'CAPABILITY_STARTED' });
         await fs.mkdir(this.stateDir, { recursive: true });
         this.capabilityResult = await this.capabilities({ ffmpeg: this.ffmpeg, ffprobe: this.ffprobe, stateDir: this.stateDir, signal, run: this.run });
+        await this.recordRuntimeVersions(this.capabilityResult.versions);
         await this.recordIncident({ stage: 'capability', reason: 'CAPABILITY_FINISHED', context: this.capabilityResult });
         await this.recoverProvenance(signal);
         // Capability initialization is a separate operation. Returning from it
@@ -166,9 +216,10 @@ class EncoderService extends EventEmitter {
           diagnostics: this.state.diagnostics, diagnosticWarning: this.state.diagnosticWarning, interruptedSessions: this.state.interruptedSessions };
         Object.assign(this, previousTimes);
       } catch (error) {
+        await this.recordRuntimeVersions(error.runtimeVersions);
         this.state.phase = error.code === 'CANCELLED' ? 'cancelled' : 'failed';
         this.state.error = error.message;
-        await this.recordIncident({ stage: 'capability', reason: 'CAPABILITY_FAILED', severity: 'error', message: error.message, stderr: error.stderr || '', context: { code: error.code } });
+        await this.recordIncident({ stage: 'capability', reason: 'CAPABILITY_FAILED', severity: 'error', message: error.message, ...diagnosticStderr(error), context: { code: error.code } });
       } finally { this.emitState(); }
     })();
     await this.taskPromise;
@@ -400,6 +451,7 @@ class EncoderService extends EventEmitter {
     this.emitState();
     const file = path.join(input.path, item.name);
     const destination = path.join(output.path, item.outputName);
+    let inspectionDiagnostic;
     const onStage = detail => {
       if (signal.aborted || owner !== this.state.batchId || this.state.phase !== 'preparing') return;
       Object.assign(progress, { fileId: item.id, stage: detail.stage, window: detail.window || null });
@@ -508,13 +560,14 @@ class EncoderService extends EventEmitter {
       item.status = 'unsupported'; item.reason = error.message;
       item.reasonCode = error.code || 'INSPECTION_FAILED';
       item.details = typeof error.stderr === 'string' ? error.stderr.slice(-4000) : undefined;
+      inspectionDiagnostic = diagnosticStderr(error);
       if (error.sourceIdentityDiagnostic) item.sourceIdentityDiagnostic = error.sourceIdentityDiagnostic;
     } finally {
       progress.active--;
       progress.workers = progress.workers.filter(entry => entry.fileId !== item.id);
       if (item.status !== 'pending') progress.resolved++;
       await this.recordIncident({ stage: 'inspection', reason: 'FILE_INSPECTED', severity: item.status === 'unsupported' ? 'warning' : 'info',
-        fileId: item.id, message: item.reason, stderr: item.details || '',
+        fileId: item.id, message: item.reason, ...(inspectionDiagnostic || {}),
         context: { file: file, status: item.status, summary: item.summary, code: item.reasonCode, sourceIdentityDiagnostic: item.sourceIdentityDiagnostic } });
       if (owner === this.state.batchId) this.emitState();
     }
@@ -595,7 +648,7 @@ class EncoderService extends EventEmitter {
         this.state.phase = this.preparationFailure ? 'failed' : signal.aborted || error.code === 'CANCELLED' ? 'cancelled' : 'failed';
         this.state.error = error.message;
         await this.recordIncident({ stage: 'preparation', reason: 'PREPARATION_FAILED', severity: 'error', message: error.message,
-          stderr: error.stderr || '', context: { code: error.code || 'PREPARATION_FAILED' } });
+          ...diagnosticStderr(error), context: { code: error.code || 'PREPARATION_FAILED' } });
         for (const item of this.state.items) if (item.status === 'pending') item.status = 'unprocessed';
         this.plan = null;
         this.state.planId = null;
@@ -853,7 +906,7 @@ class EncoderService extends EventEmitter {
             this.state.progress = { ...record, fileId: item.id, duration, percent, etaSeconds: record.speed > 0 && duration > 0 ? Math.max(0, (duration - (record.seconds || 0)) / record.speed) : null };
             if (Date.now() - lastProgress > 150) { lastProgress = Date.now(); this.emitState(); }
           } });
-          await this.recordIncident({ stage: 'invocation', reason: 'ENCODE_CLOSED', fileId: item.id, invocationId, stderr: encodeResult?.stderr || '', context: { exitCode: 0 } });
+          await this.recordIncident({ stage: 'invocation', reason: 'ENCODE_CLOSED', fileId: item.id, invocationId, ...diagnosticStderr(encodeResult), context: { exitCode: 0 } });
           await sealStage(stage);
           const stagedIdentity = await readFileStamp(stage.file);
           if (this.plan.reservedIdentities.has(`${stagedIdentity.dev}:${stagedIdentity.ino}`)) throw fail('PROTECTED_SOURCE', 'A temporary output aliases a protected source.');
@@ -921,7 +974,7 @@ class EncoderService extends EventEmitter {
           item.details = error.stderr?.slice(-4000);
           if (error.sourceIdentityDiagnostic) item.sourceIdentityDiagnostic = error.sourceIdentityDiagnostic;
           await this.recordIncident({ stage: item.status === 'cancelled' ? 'cancellation' : 'encoding', reason: item.status === 'cancelled' ? 'JOB_CANCELLED' : 'JOB_FAILED',
-            severity: item.status === 'cancelled' ? 'info' : 'error', fileId: item.id, message: error.message, stderr: error.stderr || '',
+            severity: item.status === 'cancelled' ? 'info' : 'error', fileId: item.id, message: error.message, ...diagnosticStderr(error),
             ...(invocationId ? { invocationId } : {}), context: { code: item.reasonCode, sourceIdentityDiagnostic: item.sourceIdentityDiagnostic,
               exitCode: error.exitCode, signal: error.signal } });
           if (item.status === 'cancelled') break;
@@ -996,6 +1049,7 @@ class EncoderService extends EventEmitter {
     // A close or renderer loss can arrive during a bounded preference write.
     // Let the exact owned write finish before application shutdown.
     if (this.preferenceMutation) await this.preferenceMutation.catch(() => {});
+    await Promise.allSettled([...this.appSettingsMutations]);
     return this.snapshot();
   }
 }

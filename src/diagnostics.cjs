@@ -12,6 +12,10 @@ const STAGES = Object.freeze(['startup', 'session', 'admission', 'inspection', '
 const OUTCOMES = ['completed', 'cancelled', 'failed', 'interrupted'];
 const UUID = /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/;
 const PROCESS_TOKEN = randomUUID();
+// Every recognized open session keeps one compact lifecycle record in reserve.
+// Appending ordinary incidents cannot consume the space needed to close it or
+// mark its dead owner interrupted on restart. The write path enforces this bound.
+const TERMINAL_RESERVE_BYTES = 1536;
 const sha = value => createHash('sha256').update(value).digest('hex');
 const plain = value => Boolean(value && typeof value === 'object' && !Array.isArray(value)
   && [Object.prototype, null].includes(Object.getPrototypeOf(value)));
@@ -204,6 +208,11 @@ class DiagnosticJournal {
     if (event.stderr && (!plain(event.stderr) || !Number.isSafeInteger(event.stderr.bytes) || event.stderr.bytes < 0
       || event.stderr.bytes > this.limits.stderrBytes || typeof event.stderr.truncated !== 'boolean'
       || !/^[a-f0-9]{64}$/.test(event.stderr.sha256))) throw fail('INVALID_DIAGNOSTIC_RECORD', 'Invalid stderr descriptor.');
+    if (event.stderr && Object.hasOwn(event.stderr, 'totalBytes') && (!Number.isSafeInteger(event.stderr.totalBytes)
+      || event.stderr.totalBytes < Math.ceil(event.stderr.bytes / 3)
+      || (!event.stderr.truncated && event.stderr.totalBytes > event.stderr.bytes))) {
+      throw fail('INVALID_DIAGNOSTIC_RECORD', 'Invalid upstream stderr byte count.');
+    }
     for (const field of ['messageTruncated', 'contextTruncated']) if (Object.hasOwn(event, field) && typeof event[field] !== 'boolean') {
       throw fail('INVALID_DIAGNOSTIC_RECORD', 'Invalid diagnostic truncation descriptor.');
     }
@@ -328,26 +337,36 @@ class DiagnosticJournal {
     if (!sameObject(checked.stat, current) || current.isSymbolicLink() || current.nlink !== 1) throw fail('DIAGNOSTIC_FILE_CHANGED', 'Retention file changed.');
     await this.io.unlink(filename); this.#records.delete(event.id);
   }
-  async #prune(extra = 0, extraEntries = 0) {
+  #terminalReserve(nextEvent) {
+    const terminal = nextEvent && ['session-end', 'session-interrupted'].includes(nextEvent.type);
+    const open = this.#sessions().filter(session => session.start && !session.terminal
+      && !(terminal && session.id === nextEvent.sessionId));
+    const starting = nextEvent?.type === 'session-start' && !open.some(session => session.id === nextEvent.sessionId);
+    const count = open.length + (starting ? 1 : 0);
+    return { bytes: count * TERMINAL_RESERVE_BYTES, entries: count };
+  }
+  async #prune(extra = 0, extraEntries = 0, nextEvent) {
     let usage = await this.#usage();
+    const reserve = this.#terminalReserve(nextEvent);
+    const fits = () => usage.bytes + extra + reserve.bytes <= this.limits.bytes
+      && usage.entries + extraEntries + reserve.entries <= this.limits.entries;
     const cutoff = this.#time() - this.limits.retentionMs;
     const closed = this.#sessions().filter(s => s.start && s.terminal && s.id !== this.#session)
       .sort((a, b) => a.terminal.at - b.terminal.at);
     for (const session of closed) {
-      if (session.terminal.at >= cutoff && usage.bytes + extra <= this.limits.bytes
-        && usage.entries + extraEntries <= this.limits.entries) break;
+      if (session.terminal.at >= cutoff && fits()) break;
       // Keep the terminal marker until the final deletion, so an interrupted
       // rotation cannot manufacture a newly interrupted session on startup.
       const ordered = session.events.filter(e => e.id !== session.terminal.id).concat(session.terminal);
       for (const event of ordered) await this.#removeRecord(event);
       usage = await this.#usage();
     }
-    if (usage.bytes + extra > this.limits.bytes || usage.entries + extraEntries > this.limits.entries) {
-      throw fail('DIAGNOSTIC_STORAGE_LIMIT', 'Active or unrecognized diagnostic files exhaust the retention allowance.');
+    if (!fits()) {
+      throw fail('DIAGNOSTIC_STORAGE_LIMIT', 'Active or unrecognized diagnostic files exhaust the retention allowance, including protected terminal capacity.');
     }
     return usage;
   }
-  async #write(event, stderr) {
+  async #write(event, stderr, stderrCapture) {
     // If storage becomes usable again, retain evidence of the gap. A later
     // restart must not turn a previously disclosed logging failure into a
     // misleadingly complete history merely because all surviving JSON parses.
@@ -355,11 +374,16 @@ class DiagnosticJournal {
     let tail;
     if (stderr !== undefined) {
       tail = boundedText(stderr, this.limits.stderrBytes, true);
-      event.stderr = { bytes: Buffer.byteLength(tail.text), sha256: sha(tail.text), truncated: tail.truncated };
+      event.stderr = { bytes: Buffer.byteLength(tail.text), sha256: sha(tail.text),
+        truncated: tail.truncated || Boolean(stderrCapture?.truncated),
+        ...(stderrCapture ? { totalBytes: stderrCapture.totalBytes } : {}) };
     }
     const bytes = Buffer.from(JSON.stringify({ namespace: NAMESPACE, version: 1, event, digest: sha(JSON.stringify(event)) }));
     if (bytes.length > this.limits.eventBytes) throw fail('DIAGNOSTIC_EVENT_LIMIT', 'Structured diagnostic event exceeds its bounded limit.');
-    await this.#prune(bytes.length + (event.stderr?.bytes || 0), tail ? 2 : 1);
+    if (['session-end', 'session-interrupted'].includes(event.type) && (tail || bytes.length > TERMINAL_RESERVE_BYTES)) {
+      throw fail('DIAGNOSTIC_EVENT_LIMIT', 'Terminal diagnostic record exceeds its reserved compact limit.');
+    }
+    await this.#prune(bytes.length + (event.stderr?.bytes || 0), tail ? 2 : 1, event);
     if (tail) await this.#publish(this.stderrDirectory, event.id + '.txt', Buffer.from(tail.text));
     // If this publication fails, a bounded orphan stderr may remain. Preserve
     // it and disclose incomplete logging; it is not a successful transition.
@@ -394,7 +418,7 @@ class DiagnosticJournal {
     });
   }
   append(request) {
-    requestObject(request, ['stage', 'reason', 'severity', 'message', 'context', 'stderr', 'batchId', 'planId', 'fileId', 'jobId', 'invocationId']);
+    requestObject(request, ['stage', 'reason', 'severity', 'message', 'context', 'stderr', 'stderrCapture', 'batchId', 'planId', 'fileId', 'jobId', 'invocationId']);
     if (!STAGES.includes(request.stage) || typeof request.reason !== 'string' || !/^[A-Z][A-Z0-9_]{0,79}$/.test(request.reason)
       || request.severity !== undefined && !['info', 'warning', 'error', 'critical'].includes(request.severity)) throw fail('INVALID_DIAGNOSTIC_REQUEST', 'Invalid diagnostic stage, reason or severity.');
     const fields = { stage: request.stage, reason: request.reason, severity: request.severity || 'info' };
@@ -410,13 +434,31 @@ class DiagnosticJournal {
     }
     const stderr = request.stderr;
     if (stderr !== undefined && typeof stderr !== 'string') throw fail('INVALID_DIAGNOSTIC_REQUEST', 'Stderr must be text.');
+    let stderrCapture;
+    if (request.stderrCapture !== undefined) {
+      requestObject(request.stderrCapture, ['totalBytes', 'truncated']);
+      const { totalBytes, truncated } = request.stderrCapture;
+      // The original byte count is descriptive evidence from the owned child,
+      // never process authority. A tail already shortened upstream cannot become
+      // a complete capture merely because it fits this journal's own limit.
+      // totalBytes counts raw pipe bytes. UTF-8 replacement decoding may expand
+      // each invalid byte into a three-byte U+FFFD; it is not lost capture.
+      const textBytes = typeof stderr === 'string' ? Buffer.byteLength(stderr) : 0;
+      const minimumRawBytes = typeof stderr === 'string' ? textBytes - 2 * (stderr.match(/\uFFFD/g)?.length || 0) : 0;
+      if (typeof stderr !== 'string' || !Number.isSafeInteger(totalBytes) || totalBytes < 0
+        || typeof truncated !== 'boolean' || totalBytes < minimumRawBytes
+        || (!truncated && totalBytes > textBytes)) {
+        throw fail('INVALID_DIAGNOSTIC_REQUEST', 'Inconsistent upstream stderr capture descriptor.');
+      }
+      stderrCapture = { totalBytes, truncated };
+    }
     return this.#enqueue(async () => {
       if (!this.#session || this.#closed) throw fail('INVALID_DIAGNOSTIC_REQUEST', 'Start an open diagnostic session first.');
       if (!this.#started) return this.#failure(fail('DIAGNOSTIC_SESSION_NOT_PERSISTED', 'The session start was not persisted.'));
       try {
         await this.#initialize();
         return await this.#write({ id: randomUUID(), sessionId: this.#session, sequence: ++this.#sequence,
-          at: this.#time(), type: 'event', ...fields }, stderr);
+          at: this.#time(), type: 'event', ...fields }, stderr, stderrCapture);
       } catch (error) { return this.#failure(error); }
     });
   }
@@ -601,13 +643,17 @@ function redactEvents(events) {
       else if (key === 'changedFields') result[key] = Array.isArray(item)
         ? item.slice(0, 32).map(field => IDENTITY_FIELDS.has(field) ? field : '[unknown field]') : '[omitted]';
       else if (key === 'argv' || key === 'args') result[key] = args(item);
+      else if (key === 'runtimeVersions' && plain(item)) result[key] = Object.fromEntries(
+        Object.entries(item).filter(([name]) => ['ffmpeg', 'ffprobe'].includes(name))
+          .map(([name, version]) => [name, typeof version === 'string' && /^\d+(?:\.\d+){1,3}(?:[-+][a-zA-Z0-9._-]+)?$/.test(version) ? version : '[omitted]']));
       else if (EXPORT_GROUPS.has(key)) result[key] = context(item);
       else if (EXPORT_SCALARS.has(key)) result[key] = safeValue(item);
     }
     return result;
   };
   const capture = event => ({ messageTruncated: Boolean(event.messageTruncated), contextTruncated: Boolean(event.contextTruncated),
-    stderrTruncated: Boolean(event.stderr?.truncated), stderrUnavailable: Boolean(event.stderr?.unavailable), loggingGap: Boolean(event.loggingGap) });
+    stderrTruncated: Boolean(event.stderr?.truncated), stderrUnavailable: Boolean(event.stderr?.unavailable),
+    stderrUpstreamUnknown: Boolean(event.stderr && !Object.hasOwn(event.stderr, 'totalBytes')), loggingGap: Boolean(event.loggingGap) });
   const complete = event => !Object.values(capture(event)).some(Boolean);
   return { namespace: 'ffmpeg-encoder-redacted-diagnostics', version: 1,
     notice: 'Review before sharing. Free-form messages, stderr, all metadata/tags and unknown fields are omitted. Paths, device/file identifiers and content fingerprints are aliased without an included reverse mapping. No upload is performed.',
@@ -624,7 +670,8 @@ function redactEvents(events) {
       ...(event.message ? { message: '[Free-form message omitted]' } : {}),
       ...(event.loggingGap ? { loggingGap: context(event.loggingGap) } : {}),
       ...(event.context ? { context: context(event.context) } : {}),
-      ...(event.stderr ? { stderr: { omitted: true, bytes: event.stderr.bytes, truncated: event.stderr.truncated, unavailable: Boolean(event.stderr.unavailable) } } : {}) })) };
+      ...(event.stderr ? { stderr: { omitted: true, bytes: event.stderr.bytes, truncated: event.stderr.truncated,
+        ...(Object.hasOwn(event.stderr, 'totalBytes') ? { totalBytes: event.stderr.totalBytes } : {}), unavailable: Boolean(event.stderr.unavailable) } } : {}) })) };
 }
 
 module.exports = { DiagnosticJournal, NAMESPACE, LIMITS, STAGES, redactEvents };

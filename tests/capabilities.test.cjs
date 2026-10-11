@@ -311,3 +311,102 @@ test('missing bundled binary fails before profiles or temporary files are create
   assert.equal(h.commands.length, 0);
   assert.deepEqual(await fs.readdir(h.stateDir), ['fake-tool.exe']);
 });
+
+test('capability failures retain full bounded stderr and capture metadata separately from the UI excerpt', async t => {
+  const stderr = 'full diagnostic: ' + '😀'.repeat(20000) + ' useful end';
+  const capture = { totalBytes: 900000, truncated: true };
+  const h = await harness(t, args => args.includes('-c:v:0') && args.at(-1).endsWith('h264-nvidia-10.mkv')
+    ? Object.assign(new Error('Encoder rejected'), { code: 'TOOL_FAILED', stderr, stderrCapture: capture }) : null);
+  const result = await checkCapabilities({ ffmpeg: h.binary, ffprobe: h.binary, stateDir: h.stateDir, run: h.run });
+  const check = result.profiles.find(profile => profile.id === 'h264-nvidia').checks.find(entry => entry.bitDepth === 10);
+  assert.equal(check.available, false);
+  assert.ok(Buffer.byteLength(check.stderr) <= 64 * 1024);
+  assert.ok(check.stderr.length > 1400);
+  assert.equal(check.stderr.includes('�'), false);
+  assert.deepEqual(check.stderrCapture, capture);
+  assert.equal(check.stderrTruncated, true);
+  assert.ok(check.reason.length <= 1400);
+  assert.ok(check.reason.endsWith('useful end'));
+});
+
+test('recipe known-warning exception cannot conceal an upstream truncated stderr prefix', async t => {
+  const h = await harness(t);
+  const capture = { totalBytes: 100000, truncated: true };
+  const run = async (binary, args, options) => {
+    const result = await h.run(binary, args, options);
+    return args.includes('-c:v:0') && args.at(-1).includes(ARCHIVE_RECIPE.id)
+      ? { ...result, stderr: expectedCopyOverride, stderrCapture: capture } : result;
+  };
+  const result = await checkCapabilities({ ffmpeg: h.binary, ffprobe: h.binary, stateDir: h.stateDir, run });
+  assert.equal(result.recipes[0].available, false);
+  for (const check of result.recipes[0].checks) {
+    assert.equal(check.code, 'RECIPE_OPTIONS_UNVERIFIED');
+    assert.deepEqual(check.stderrCapture, capture);
+    assert.equal(check.stderr, expectedCopyOverride);
+  }
+});
+
+for (const failure of ['parse', 'validation', 'structure', 'decode']) {
+  test(`capability ${failure} wrapper keeps the failing child's diagnostic capture`, async t => {
+    const h = await harness(t);
+    const capture = { totalBytes: 4567, truncated: true };
+    const run = async (binary, args, options) => {
+      const result = await h.run(binary, args, options);
+      const expectedOutput = `${ARCHIVE_RECIPE.id}-8.mkv`;
+      if (failure === 'decode' && args.includes('null') && args[args.indexOf('-i') + 1].endsWith(expectedOutput)) {
+        return { ...result, stdout: 'frame=1\nprogress=end\n', stderr: 'decode tail', stderrCapture: capture };
+      }
+      if (failure !== 'decode' && args.includes('-count_frames') && args.at(-1).endsWith(expectedOutput)) {
+        const probe = JSON.parse(result.stdout);
+        if (failure === 'validation') probe.streams[0].width = 999;
+        if (failure === 'structure') delete probe.frames;
+        return { ...result, stdout: failure === 'parse' ? '{broken' : JSON.stringify(probe), stderr: `${failure} tail`, stderrCapture: capture };
+      }
+      return result;
+    };
+    const result = await checkCapabilities({ ffmpeg: h.binary, ffprobe: h.binary, stateDir: h.stateDir, run });
+    const check = result.recipes[0].checks[0];
+    assert.equal(check.code, { parse: 'INVALID_PROBE', validation: 'CAPABILITY_OUTPUT_MISMATCH', structure: 'RECIPE_STRUCTURE_UNVERIFIED', decode: 'CAPABILITY_DECODE_FAILED' }[failure]);
+    assert.equal(check.stderr, `${failure} tail`);
+    assert.deepEqual(check.stderrCapture, capture);
+  });
+}
+
+test('runtime version failure reports only validated observed versions and the failing child capture', async t => {
+  const h = await harness(t);
+  let calls = 0;
+  const capture = { totalBytes: 1000, truncated: true };
+  await assert.rejects(checkCapabilities({ ffmpeg: h.binary, ffprobe: h.binary, stateDir: h.stateDir, run: async () => {
+    calls++;
+    return { stdout: calls === 1 ? 'ffmpeg version confirmed\n' : 'unexpected identity\n', stderr: 'version tail', stderrCapture: capture };
+  } }), error => {
+    assert.equal(error.code, 'INVALID_BINARY');
+    assert.deepEqual(error.runtimeVersions, { ffmpeg: 'ffmpeg version confirmed' });
+    assert.deepEqual(error.stderrCapture, capture);
+    assert.equal(error.stderr, 'version tail');
+    return true;
+  });
+  for (const stdout of ['ffmpeg version \u0000bad\n', 'ffmpeg version ' + 'x'.repeat(513) + '\n']) {
+    await assert.rejects(checkCapabilities({ ffmpeg: h.binary, ffprobe: h.binary, stateDir: h.stateDir, run: async () => ({ stdout, stderr: '' }) }), error => {
+      assert.equal(error.code, 'INVALID_BINARY');
+      assert.equal(error.runtimeVersions, undefined);
+      return true;
+    });
+  }
+});
+
+test('post-identification setup and cancellation failures preserve both observed runtime versions', async t => {
+  const h = await harness(t);
+  await assert.rejects(checkCapabilities({ ffmpeg: h.binary, ffprobe: h.binary, stateDir: h.binary, run: h.run }), error => {
+    assert.deepEqual(error.runtimeVersions, { ffmpeg: 'ffmpeg version test', ffprobe: 'ffprobe version test' });
+    return true;
+  });
+  const cancelled = await harness(t, args => args.includes('-c:v:0')
+    ? Object.assign(new Error('Stopped'), { code: 'CANCELLED', stderr: 'cancel tail', stderrCapture: { totalBytes: 11, truncated: false } }) : null);
+  await assert.rejects(checkCapabilities({ ffmpeg: cancelled.binary, ffprobe: cancelled.binary, stateDir: cancelled.stateDir, run: cancelled.run }), error => {
+    assert.equal(error.code, 'CANCELLED');
+    assert.deepEqual(error.runtimeVersions, { ffmpeg: 'ffmpeg version test', ffprobe: 'ffprobe version test' });
+    assert.deepEqual(error.stderrCapture, { totalBytes: 11, truncated: false });
+    return true;
+  });
+});

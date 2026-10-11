@@ -477,3 +477,90 @@ test('sampling diagnostic bounds are explicit and malformed reconstructed diagno
     assert.throws(() => reconstructInspection(invalid.probe, invalid.evidence), { code: 'INVALID_PROBE' });
   }
 });
+
+test('metadata errors and post-child cancellation preserve upstream truncation rather than asserting a complete tail', async () => {
+  const capture = { totalBytes: 400000, truncated: true };
+  for (const response of [
+    { stdout: JSON.stringify(sourceProbe()), stderr: 'tail diagnostic', stderrCapture: capture },
+    { stdout: 'broken JSON', stderr: '\r\n', stderrCapture: { totalBytes: 2, truncated: false } },
+    { stdout: JSON.stringify(sourceProbe()), stderr: '   ', stderrCapture: capture },
+  ]) {
+    await assert.rejects(inspectMetadata(file, { ffprobe, run: async () => response }), error => {
+      assert.equal(error.code, 'INVALID_PROBE');
+      assert.deepEqual(error.stderrCapture, response.stderrCapture);
+      assert.equal(error.stderr, response.stderr);
+      return true;
+    });
+  }
+  const abort = new AbortController();
+  await assert.rejects(inspectMetadata(file, { ffprobe, signal: abort.signal, run: async () => {
+    abort.abort();
+    return { stdout: JSON.stringify(sourceProbe()), stderr: 'cancel tail', stderrCapture: capture };
+  } }), error => {
+    assert.equal(error.code, 'CANCELLED');
+    assert.deepEqual(error.stderrCapture, capture);
+    return true;
+  });
+});
+
+test('frame wrappers retain upstream capture for zero-exit errors, parse failures, tool errors and cancellation', async () => {
+  const capture = { totalBytes: 600000, truncated: true };
+  for (const response of [
+    { stdout: JSON.stringify(sample()), stderr: 'tail diagnostic', stderrCapture: capture },
+    { stdout: 'broken JSON', stderr: 'tail diagnostic', stderrCapture: capture },
+    { stdout: JSON.stringify(sample()), stderr: '    ', stderrCapture: capture },
+    new ToolError('TOOL_FAILED', 'Probe exited', { stderr: 'tail diagnostic', stderrCapture: capture }),
+  ]) {
+    const result = await finishInspection(file, sourceProbe(), { ffprobe, run: async () => {
+      if (response instanceof Error) throw response;
+      return response;
+    } });
+    const error = result.evidence.windows[0].error;
+    assert.deepEqual(error.stderrCapture, capture);
+    assert.equal(error.stderr, response.stderr);
+    assert.equal(error.stderrTruncated, true);
+    assert.equal(cacheableInspection(result), false);
+    assert.deepEqual(reconstructInspection(result.probe, result.evidence), result);
+  }
+  for (const code of ['CANCELLED', 'PIPE_FAILED']) {
+    await assert.rejects(finishInspection(file, sourceProbe(), { ffprobe, run: async () => {
+      throw new ToolError(code, 'Interrupted child', { stderr: 'tail', stderrCapture: capture });
+    } }), error => {
+      assert.equal(error.code, code);
+      assert.deepEqual(error.stderrCapture, capture);
+      return true;
+    });
+  }
+  const abort = new AbortController();
+  await assert.rejects(finishInspection(file, sourceProbe(), { ffprobe, signal: abort.signal, run: async () => {
+    abort.abort();
+    return { stdout: JSON.stringify(sample()), stderr: 'tail', stderrCapture: capture };
+  } }), error => {
+    assert.equal(error.code, 'CANCELLED');
+    assert.deepEqual(error.stderrCapture, capture);
+    return true;
+  });
+});
+
+test('frame evidence byte bounds and capture schema reject malformed or contradictory persisted diagnostics', async () => {
+  const stderr = '😀'.repeat(70000);
+  const result = await finishInspection(file, sourceProbe(), { ffprobe, run: async () => ({
+    stdout: JSON.stringify(sample()), stderr, stderrCapture: { totalBytes: Buffer.byteLength(stderr), truncated: false },
+  }) });
+  const diagnostic = result.evidence.windows[0].error;
+  assert.equal(Buffer.byteLength(diagnostic.stderr), 256 * 1024);
+  assert.equal(diagnostic.stderr.includes('�'), false);
+  assert.deepEqual(diagnostic.stderrCapture, { totalBytes: Buffer.byteLength(stderr), truncated: true });
+  for (const change of [
+    error => { error.stderr = '😀'.repeat(65537); },
+    error => { error.stderrCapture.totalBytes = -1; },
+    error => { error.stderrCapture.totalBytes = 4.5; },
+    error => { error.stderrCapture.truncated = 'true'; },
+    error => { error.stderrCapture.truncated = false; },
+    error => { error.stderrCapture.unknown = true; },
+    error => { delete error.stderr; },
+  ]) {
+    const invalid = copy(result); change(invalid.evidence.windows[0].error);
+    assert.throws(() => reconstructInspection(invalid.probe, invalid.evidence), { code: 'INVALID_PROBE' });
+  }
+});

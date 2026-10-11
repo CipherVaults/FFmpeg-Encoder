@@ -1,5 +1,6 @@
 const fs = require('node:fs/promises');
 const { constants } = require('node:fs');
+const { createHash } = require('node:crypto');
 const path = require('node:path');
 
 // Cleanup authority lives only in this process. A journal entry, copied path
@@ -7,6 +8,7 @@ const path = require('node:path');
 const stages = new WeakMap();
 const CONTENT_FIELDS = ['size', 'mtimeNs', 'ctimeNs'];
 const LINK_UNAVAILABLE = new Set(['EXDEV', 'EPERM', 'ENOTSUP', 'EOPNOTSUPP', 'ENOSYS']);
+const COPY_VERIFY_BYTES = 1024 * 1024;
 
 function failure(code, message, cause) {
   return Object.assign(new Error(message), { code, ...(cause ? { cause } : {}) });
@@ -114,6 +116,58 @@ function retained(stage, reason) {
   return { retained: true, directory: stage.directory, file: stage.file, reason };
 }
 
+function checkCopyCancellation(signal) {
+  if (signal?.aborted) throw failure('CANCELLED', 'Copy verification cancelled; the copied file has not been approved.');
+}
+
+function regularSingleFile(stat) {
+  return stat?.isFile() && !stat.isSymbolicLink() && reliable(stat) && stat.nlink === 1n;
+}
+
+async function hashBoundFile(file, { expected, signal } = {}) {
+  checkCopyCancellation(signal);
+  const before = await statOrAbsent(file);
+  if (!regularSingleFile(before) || (expected && !sameContent(expected, before))) {
+    throw failure('COPY_VERIFICATION_CHANGED', 'A file used for copy verification is missing, linked, replaced or changed.');
+  }
+  const canonical = await fs.realpath(file);
+  const handle = await fs.open(file, 'r');
+  try {
+    const opened = await handle.stat({ bigint: true });
+    if (!regularSingleFile(opened) || !sameContent(before, opened)) {
+      throw failure('COPY_VERIFICATION_CHANGED', 'A copy-verification pathname no longer matches its opened handle.');
+    }
+    const size = Number(opened.size);
+    if (!Number.isSafeInteger(size)) throw failure('COPY_VERIFICATION_LIMIT', 'The completed file is too large for safe verification offsets.');
+    const buffer = Buffer.alloc(COPY_VERIFY_BYTES);
+    const digest = createHash('sha256');
+    let position = 0;
+    while (position < size) {
+      checkCopyCancellation(signal);
+      const { bytesRead } = await handle.read(buffer, 0, Math.min(buffer.length, size - position), position);
+      if (!bytesRead) throw failure('COPY_VERIFICATION_CHANGED', 'A completed file became shorter during copy verification.');
+      digest.update(buffer.subarray(0, bytesRead));
+      position += bytesRead;
+    }
+    checkCopyCancellation(signal);
+    const after = await handle.stat({ bigint: true });
+    const named = await statOrAbsent(file);
+    if (!regularSingleFile(after) || !regularSingleFile(named)
+      || !sameContent(opened, after) || !sameContent(after, named) || canonical !== await fs.realpath(file)) {
+      throw failure('COPY_VERIFICATION_CHANGED', 'A completed file changed while verifying its complete contents.');
+    }
+    return { hash: digest.digest('hex'), stat: named, canonical };
+  } finally { await handle.close(); }
+}
+
+async function sameCopiedDestination(record) {
+  const copied = record.copied;
+  if (!copied) return true;
+  const named = await statOrAbsent(copied.file);
+  return regularSingleFile(named) && sameContent(copied.stat, named)
+    && copied.canonical === await fs.realpath(copied.file);
+}
+
 async function cleanupStage(stage, { protectedIdentities = new Set() } = {}) {
   if (!stage) return { retained: false };
   const record = recordOf(stage);
@@ -127,6 +181,14 @@ async function cleanupStage(stage, { protectedIdentities = new Set() } = {}) {
     if (!record.sealed) return retained(stage, 'The incomplete output was never identity-bound; the temporary directory was retained.');
     if (!named.isFile() || named.isSymbolicLink() || !sameObject(record.sealed, named)) {
       return retained(stage, 'The temporary output was replaced; the current file and directory were retained.');
+    }
+    if (record.copied) {
+      let current = false;
+      try { current = await sameCopiedDestination(record); } catch { /* Retain on an unreadable destination too. */ }
+      if (!current) {
+        return { ...retained(stage, 'The copied destination changed or became unreadable after verification; the completed staging file was retained.'),
+          completed: Boolean(record.validated), validationCurrent: named.nlink === 1n && sameContent(record.sealed, named) };
+      }
     }
     if (record.validated && !record.published) {
       const validationCurrent = named.nlink === 1n && sameContent(record.sealed, named);
@@ -197,17 +259,24 @@ async function publishOutput(stage, destination, { signal, link = fs.link, atomi
     if (error.code === 'EEXIST') return false;
     throw error;
   }
-  // The distinct-folder fallback also consumes a pathname, not an immutable
-  // file handle. A successful copy alone cannot bless a replacement that won
-  // the final path race. Keep both names if either observation is uncertain;
-  // cancellation after the copy does not grant permission to remove the result.
+  // Size/type checks cannot distinguish a same-sized damaged/replaced copy.
+  // Only this non-atomic fallback reads both completed outputs in full. Stable
+  // handle/path observations bind those SHA-256 values to the validated stage
+  // and copied destination. Source admission remains bounded and unchanged.
+  // Cancelling this additional I/O retains both names, rather than approving an
+  // unchecked copy or discarding the sole validated staging file.
   try {
     await requireSealed(stage, record);
-    const copied = await statOrAbsent(destination);
-    if (!copied?.isFile() || copied.isSymbolicLink() || !reliable(copied)
-      || copied.size !== record.sealed.size) {
-      throw failure('STAGE_CHANGED', 'The copied destination does not match the completed output size or file type.');
+    const staged = await hashBoundFile(stage.file, { expected: record.sealed, signal });
+    const copied = await hashBoundFile(destination, { signal });
+    await requireSealed(stage, record);
+    if (copied.stat.size !== record.sealed.size || staged.hash !== copied.hash) {
+      throw failure('COPY_CONTENT_MISMATCH', 'The copied destination does not contain the validated output bytes.');
     }
+    const binding = { file: destination, stat: copied.stat, canonical: copied.canonical };
+    if (!await sameCopiedDestination({ copied: binding })) throw failure('COPY_VERIFICATION_CHANGED', 'The copied destination changed before verification completed.');
+    checkCopyCancellation(signal);
+    record.copied = binding;
   } catch (error) {
     throw failure('PUBLICATION_UNCERTAIN', 'The destination may already contain the completed output, but the exclusive copy could not be checked. Both names were retained for review.', error);
   }

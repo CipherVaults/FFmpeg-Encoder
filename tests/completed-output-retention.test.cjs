@@ -133,14 +133,19 @@ test('a link added after validation preserves the completed stage and unrelated 
 
 const unsupportedLink = async () => { throw Object.assign(new Error('Use distinct-folder copy'), { code: 'ENOTSUP' }); };
 
-test('cancellation during a completed exclusive copy never deletes the committed result', async t => {
+test('cancellation during exclusive copy retains both names without blessing an unverified copy', async t => {
   const { stage, destination } = await fixture(t);
   await markStageValidated(stage);
   const abort = new AbortController();
   const copy = fs.copyFile.bind(fs);
   t.mock.method(fs, 'copyFile', async (...args) => { await copy(...args); abort.abort(); });
-  assert.equal(await publishOutput(stage, destination, { signal: abort.signal, link: unsupportedLink }), true);
-  assert.deepEqual(await cleanupStage(stage), { retained: false });
+  await assert.rejects(publishOutput(stage, destination, { signal: abort.signal, link: unsupportedLink }), error => {
+    assert.equal(error.code, 'PUBLICATION_UNCERTAIN');
+    assert.equal(error.cause.code, 'CANCELLED');
+    return true;
+  });
+  assert.equal((await cleanupStage(stage)).validationCurrent, true);
+  assert.equal(await fs.readFile(stage.file, 'utf8'), 'completed dummy fixture');
   assert.equal(await fs.readFile(destination, 'utf8'), 'completed dummy fixture');
 });
 

@@ -4,7 +4,7 @@
 
 ## Approved0.7 candidate — October11
 
-Goal23 supersedes historical deferrals for selected N–S scope; contract24/tracker25 own detailed gates. N(shared contract/evidence) in progress; O(diagnostics/sourcepolicy/refusedinputs/evidence/runtime) in progress; P(AMF/QSV/HDR), Q(scale/amendedTimeRange/remux), R(tabbedworkbench/AppSettings/icon/help), S(portablecandidate/integration/independentreview) pending. Completion means locally qualified candidate only; hardware/display/independentmachine/owner acceptance distinct. Benchmark remains separately paused and no new recipes are inferred. Parent synchronizes all affected documents before each milestone closure.
+Goal23 supersedes historical deferrals for selected N–S scope; contract24/tracker25 own detailed gates. N(shared contract/evidence) verified October11 after independent review and parent synchronization; O(diagnostics/sourcepolicy/refusedinputs/evidence/runtime) in progress. P(AMF/QSV/HDR), Q(scale/amendedTimeRange/remux) and R(workbench/AppSettings/icon/help) have partial contracts or shell work only; their functional/media acceptance remains pending. S(portablecandidate/integration/independentreview) pending. Completion means locally qualified candidate only; hardware/display/independentmachine/owner acceptance distinct. Benchmark remains separately paused and no new recipes are inferred. Parent synchronizes all affected documents before each milestone closure.
 
 ## Approved pre-0.7 research — October 10, 2026
 

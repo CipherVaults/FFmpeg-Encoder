@@ -1,5 +1,13 @@
 # Technical reference
 
+## Active 0.7 foundation — October11
+
+This section controls candidate-only differences from the historical accepted0.6 notes below. The main-owned diagnostic journal uses bounded records/bytes, reserves terminal/recovery headroom and only prunes verified closed sessions. Child stderr carries raw-byte/truncation accounting through inspection/capabilities/encoding; old records without upstream accounting are explicitly incomplete in exports. Runtime versions come from actually observed tool responses. Durable atomic App Settings use independent versioned state, optimistic revision checks, corruption-preserving reset and no persisted path/IPC authority. Writes and their journal receipts drain before shutdown. Default consumption in new operation drafts is still unfinished.
+
+Post-validation source assessment distinguishes unchanged, complete comparable ctime-only warning, meaningful change and incomplete evidence. Strict preflight/cache/reencode identities remain unchanged; sparse evidence is not whole-file equality. Completed stages are retained if publication cannot safely proceed. Exclusive-copy fallback hashes bound stage/destination bytes and rechecks file identity before cleanup; this costs two output reads only on the fallback path, not a mandatory full-source hash. Hard-link publication is unchanged.
+
+Typed backend/operation/HDR contracts are partial building blocks, not qualified production support. New settings/runtime bridge methods retain exact trusted-frame/shape checks and no raw argv/filesystem/process authority. Startup load failure uses asynchronous window-owned error reporting after cancellation/incident drainage; renderer loss can finish shutdown. Root9.0.1 and installedElectron44.2 are still selected; isolated9.0.2/44.7 trial evidence is in the N/O report and does not imply activation or final portable acceptance.
+
 ## September24 field correction and packaged verification
 
 MP4 track creation_time is preserved as exact SOURCE_CREATION_TIME on the corresponding Matroska video/audio/subtitle track. A missing original tag validates only against that exact alias on that track; wrong/missing/conflicting aliases fail. Global/chapter/attachment policies remain strict. Inspection preservation policy2 invalidates older cache policy evidence; metadata notices are derived again on hits.

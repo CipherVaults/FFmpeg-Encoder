@@ -22,7 +22,7 @@
   "type": "commonjs",
   "devDependencies": {
     "@electron/packager": "20.3.0",
-    "electron": "44.2.0",
+    "electron": "44.7.0",
     "playwright": "1.63.0"
   },
   "productName": "FFmpeg Encoder"

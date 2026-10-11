@@ -1,5 +1,7 @@
 # Phase 1 — Ahmed's visual review
 
+October11: **Paused — awaiting user visual review**. The [pause/resume handoff](21_Phase1_Pause_Resume.md) preserves current evidence and remaining decisions. No preferences or judgments were supplied by the preservation request; finalist freezing and benchmark continuation wait for your explicit response.
+
 Double-click **FFmpeg Visual Review** on your Desktop. The same shortcut now opens the six-scene page in **Chrome**, as Ahmed requested. Start with **1. Crimson Desert**, then **2. Expedition 33** and **3. Forza Horizon 5**. Calibration is complete and the next benchmark stage waits for your judgment. Application0.6 remains unchanged. There are six12-second scenes,43 motion clips and129 matched native stills; candidates are randomized separately per scene. The captured source and actual x265 Slow/CRF25 reference are named.
 
 The starting page is [FFmpeg Visual Review](http://127.0.0.1:48186/). If it is unavailable, double-click the Desktop shortcut again. It starts or reuses the same read-only helper, which stops after two hours without requests. There is no installation or startup service.

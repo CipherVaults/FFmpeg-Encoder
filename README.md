@@ -4,6 +4,8 @@ A local Windows desktop encoder for large gameplay/OBS archives, with directly e
 
 **0.6.0 is locally accepted** after independent review, with a recoverable local-v0.6.0 checkpoint. The [acceptance report](0-%20Documentation/Execution%20Summaries/2026-09-24_Portable_0.6_Acceptance.md) identifies the exact artifact and evidence limits. The accepted 0.5 tag and ZIP remain unchanged. This is an unsigned local package; independent clean-machine compatibility and public distribution are separate work.
 
+**Phase1 benchmark: Paused — awaiting user visual review.** Calibration assets are preserved; no winners/finalists/held-out acceptance. Start with the **FFmpeg Visual Review** Desktop shortcut. The [pause/resume handoff and v0.7 planning inventory](0-%20Documentation/21_Phase1_Pause_Resume.md) records the live checkpoint, exact evidence/resources, playback limits and next boundary. No production0.7 scope or encoder-default change is approved by that inventory.
+
 ## Run the portable application
 
 Extract every file from the ZIP into a new writable folder, then open **FFmpeg Encoder.exe**. Keep the executable and resources together. Electron, FFmpeg and ffprobe are included; no separate Node.js or FFmpeg installation is required. NVIDIA profiles need compatible hardware and its installed driver. The application tests available encoders and bit depths on startup without silently substituting another encoder.

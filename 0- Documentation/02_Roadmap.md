@@ -2,6 +2,8 @@
 
 ## Approved pre-0.7 research — October 10, 2026
 
+October11: **Paused — awaiting user visual review**. [Durable handoff and sourced v0.7 inventory](21_Phase1_Pause_Resume.md) preserve completed calibration/assets/access evidence and pending judgments/finalists/held-outs/recommendations. Planning can define diagnostics, compatibility/preservation/ctime, CPU-only presentation, HDR design and later UI polish independently of benchmark winners; a bounded approved development Goal is still required. No new presets/defaults, Phase2 or application implementation. Current linked pause record outranks historical next-action notes below.
+
 Latest access-only update: Chrome entry retained and existing source/reference/A/B motion visibly verified in MPC-HC without decoder/renderer changes. Historical black/error cause remains unproven; all43 playback not claimed. Statistics preference hidden reversibly. Five focused checks and independent scripts review pass; [playback addendum](Execution%20Summaries/2026-10-10_Visual_Review_Access.md). Native-picture pending text below is historical. **Human judgment still blocks campaign continuation**; no new encodes, mapping/media/production changes.
 
 Visual access complete: working **FFmpeg Visual Review** Desktop shortcut, existing six-scene interface, all129 stills browser-verified, selected candidate playback and explicit MPC-HC alternative, copyable response, five focused checks and independent review. Native-player picture confirmation remains pending. [Access report](Execution%20Summaries/2026-10-10_Visual_Review_Access.md). **Human preference gate remains unchanged**; no new encodes/finalists/held-outs or application changes. Prior browser limitation below is historical.

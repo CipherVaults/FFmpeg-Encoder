@@ -16,7 +16,7 @@
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--background); color: var(--text); }
 button, input, select { font: inherit; }
-button, select, input[type="number"] { min-height: 2.8rem; border: 1px solid var(--border); border-radius: 4px; color: var(--text); background: var(--inset); padding: .6rem .85rem; }
+button, select, input[type="number"], input[type="text"] { min-height: 2.8rem; border: 1px solid var(--border); border-radius: 4px; color: var(--text); background: var(--inset); padding: .6rem .85rem; }
 button { cursor: pointer; font-weight: 600; }
 button:hover:not(:disabled) { border-color: var(--orange); background: #2a313e; }
 button:focus-visible, select:focus-visible, input:focus-visible, summary:focus-visible, [tabindex]:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
@@ -136,6 +136,16 @@ input[type="checkbox"] { accent-color: var(--orange); width: 1.2rem; height: 1.2
 .output-access-actions button { margin-top: 0; }
 .output-access-notice { overflow-wrap: anywhere; }
 .output-access-error { color: var(--red); }
+.operation-editor { margin-top: .65rem; padding-top: .5rem; }
+.operation-editor > summary { color: #abc8dc; }
+.operation-editor .hint { margin-top: .35rem; }
+.operation-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .65rem; }
+.operation-fields input { width: 100%; }
+.operation-fields .field label { font-size: .78rem; }
+.operation-notice { color: #ffca75; font-size: .8rem; margin-top: .4rem; overflow-wrap: anywhere; }
+.app-default-adoption { margin-top: 1rem; padding-top: .65rem; border-top: 1px solid var(--border); }
+.app-default-adoption label { color: var(--muted); font-size: .85rem; }
+.app-default-adoption select { margin: .4rem 0; }
 .output-name, .file-detail { color: var(--muted); font-size: .8rem; margin-top: .2rem; }
 .status { display: inline-block; font-size: .82rem; }
 .status-success, .status-ready { color: var(--green); }

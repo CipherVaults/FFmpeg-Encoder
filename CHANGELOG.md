@@ -1,12 +1,14 @@
 # Changelog
 
+Candidate0.7 follow-up: per-file range/resolution/audio controls and encoder changes preserve the main-owned draft; stale execution authority is revoked. Native controls and narrow transform evidence are in [Operation Qualification](0-%20Documentation/Execution%20Summaries/2026-10-11_0.7_Operation_Qualification.md). Broader processing and final candidate verification remain in progress.
+
 ## 0.7.0-alpha.1 — Candidate development, not accepted
 
 - Durable bounded diagnostics and expanded typed inspection evidence; source/refusal context survives restart.
 - Valid completed outputs with complete comparable ctime-only differences save with an explicit bounded-evidence warning. Other changes, incomplete checks and cancellation remain distinct; validated stages are retained safely when publication cannot proceed. Strict preparation/cache/re-encode authority remains unchanged.
 - Startup errors drain cancellation and diagnostics without blocking renderer-loss recovery. Diagnostic stderr accounting, terminal quota headroom and same-size copy-publication checks corrected after independent review.
-- Main-owned atomic App Settings and runtime-observed version APIs added; unfinished operation/UI consumers are not feature acceptance. Pure backend/HDR/operation contracts remain separately gated.
-- Foundation evidence:479 integrated direct checks, later11 Settings/service checks, native lifecycle/preparation and3 real owned completion cases. Isolated44.7/9.0.2 runtime trials pass their bounded checks; neither is activated. N verified; O–S and candidate qualification remain in progress. Accepted0.6 and paused benchmark are unchanged.
+- Real Encode/Jobs/History/Settings/Help shell, editable persistent defaults, main-owned draft/queue snapshots and narrow completed-output actions. New operation controls/media support remain under qualification; pure contracts are not acceptance.
+- Foundation evidence:479 integrated direct checks, later11 Settings/service checks, native lifecycle/preparation and3 real owned completion cases. Separate44.7/9.0.2 runtime activation and native workbench checks pass; the benchmark/accepted runtimes remain untouched. N verified; O–S and candidate qualification remain in progress. Accepted0.6 and paused benchmark are unchanged.
 
 ## 0.6.0 — Local portable acceptance, September 24, 2026
 

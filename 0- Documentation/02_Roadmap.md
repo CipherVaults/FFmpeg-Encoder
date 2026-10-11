@@ -2,9 +2,12 @@
 
 # Roadmap
 
+October11 follow-up: [operation qualification and draft controls](Execution%20Summaries/2026-10-11_0.7_Operation_Qualification.md) records native37f79554, six narrow owned operation cases and zero-child rational collector rechecks. Per-file controls and preserved-draft encoder changes are implemented; qualified transform/Remux/HDR/vendor execution remains unfinished. No milestone or candidate acceptance is implied.
+
+
 ## Approved0.7 candidate — October11
 
-Goal23 supersedes historical deferrals for selected N–S scope; contract24/tracker25 own detailed gates. N(shared contract/evidence) verified October11 after independent review and parent synchronization; O(diagnostics/sourcepolicy/refusedinputs/evidence/runtime) in progress. P(AMF/QSV/HDR), Q(scale/amendedTimeRange/remux) and R(workbench/AppSettings/icon/help) have partial contracts or shell work only; their functional/media acceptance remains pending. S(portablecandidate/integration/independentreview) pending. Completion means locally qualified candidate only; hardware/display/independentmachine/owner acceptance distinct. Benchmark remains separately paused and no new recipes are inferred. Parent synchronizes all affected documents before each milestone closure.
+Goal23 supersedes historical deferrals for selected N–S scope; contract24/tracker25 own detailed gates. N(shared contract/evidence) verified October11 after independent review and parent synchronization; O(diagnostics/sourcepolicy/refusedinputs/evidence/runtime) in progress. P(AMF/QSV/HDR), Q(scale/amendedTimeRange/remux) and R(workbench/AppSettings/icon/help) have reviewed contracts and a functional partial workbench; new processing/media acceptance remains pending. Separate44.7/9.0.2 candidate activation and current workbench have native endpoint evidence, without closing O or R. S(portablecandidate/integration/independentreview) pending. Completion means locally qualified candidate only; hardware/display/independentmachine/owner acceptance distinct. Benchmark remains separately paused and no new recipes are inferred. Parent synchronizes all affected documents before each milestone closure.
 
 ## Approved pre-0.7 research — October 10, 2026
 

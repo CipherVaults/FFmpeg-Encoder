@@ -258,8 +258,27 @@ class EncoderService extends EventEmitter {
   invalidatePlan() {
     this.plan = null;
     this.state.planId = null;
+    this.state.encodingSettingsStale = false;
+    this.state.operationDraft = null;
     if (this.state.phase === 'ready') {
       Object.assign(this.state, { phase: 'idle', items: [], progress: null, preparation: null, settings: null });
+    }
+    this.emitState();
+  }
+
+  invalidatePreparedEncoding() {
+    if (!this.plan?.draft || this.state.phase !== 'ready') return this.invalidatePlan();
+    // Remembering expert-control edits must revoke prepared execution without
+    // deleting the user's per-file draft. Keep the draft revision unchanged so
+    // an unsent range edit in the renderer is not overwritten by autosave.
+    // Only explicit reprepare validates new settings and advances that revision.
+    this.plan.id = randomUUID(); this.state.planId = this.plan.id;
+    this.plan.encodingSettingsStale = true; this.state.encodingSettingsStale = true;
+    this.plan.entries.clear(); this.plan.overrides.clear(); this.plan.ambiguities.clear();
+    this.plan.generated.clear(); this.plan.reencodeAuthorizations.clear();
+    for (const item of this.state.items) {
+      Object.assign(item, { status: 'unprocessed', reencodeAuthorized: false,
+        reasonCode: 'ENCODING_SETTINGS_CHANGED', reason: 'Encoding settings changed. Prepare this draft again before starting.' });
     }
     this.emitState();
   }
@@ -315,7 +334,7 @@ class EncoderService extends EventEmitter {
     return this.mutatePreferences(async () => {
       await this.initializePreferences();
       await this.preferences.saveSettings(settings);
-      this.invalidatePlan();
+      this.invalidatePreparedEncoding();
       return this.preferencesSnapshot();
     });
   }
@@ -345,7 +364,7 @@ class EncoderService extends EventEmitter {
     return this.mutatePreferences(async () => {
       await this.initializePreferences();
       await this.preferences.resetProfile(request.profileId);
-      this.invalidatePlan();
+      this.invalidatePreparedEncoding();
       return this.preferencesSnapshot();
     });
   }
@@ -638,6 +657,7 @@ class EncoderService extends EventEmitter {
     const signal = this.begin('preparing');
     this.state.items = [];
     this.state.settings = settings;
+    this.state.encodingSettingsStale = false;
     this.plan = { id: randomUUID(), input: input.path, output: output.path, settings, sameFolder, draft, entries: new Map(),
       baseline: new Map(), reservedPaths: new Set(), reservedIdentities: new Set(), overrides: new Map(), ambiguities: new Map(),
       generated: new Map(), reencodeAuthorizations: new Map() };
@@ -704,10 +724,13 @@ class EncoderService extends EventEmitter {
     }
   }
 
-  requireEditableDraft(planId) {
+  requireEditableDraft(planId, { allowStaleEncoding = false } = {}) {
     this.requireIdle();
     if (!this.plan?.draft || this.state.phase !== 'ready' || id(planId) !== this.plan.id) {
       throw fail('STALE_PLAN', 'Review a current batch before changing its file options.');
+    }
+    if (this.plan.encodingSettingsStale && !allowStaleEncoding) {
+      throw fail('ENCODING_SETTINGS_CHANGED', 'Prepare the current encoder settings before applying file or batch processing changes.');
     }
     return this.plan;
   }
@@ -730,6 +753,23 @@ class EncoderService extends EventEmitter {
     if (this.requireEditableDraft(request.planId) !== plan) throw fail('STALE_PLAN', 'The batch changed while reading app defaults.');
     plan.draft.applyAppDefaults({ draftId: request.draftId, revision: request.revision, resetFileOverrides: request.resetFileOverrides },
       { defaults: app.defaults, revision: app.revision });
+    return this.reprepareDraft();
+  }
+  async reprepareEncodingSettings(request) {
+    objectKeys(request, ['planId', 'draftId', 'revision', 'settings']);
+    const plan = this.requireEditableDraft(request.planId, { allowStaleEncoding: true });
+    const settings = validateSettings(request.settings);
+    const caps = await this.getCapabilities();
+    if (this.requireEditableDraft(request.planId, { allowStaleEncoding: true }) !== plan) throw fail('STALE_PLAN', 'The batch changed while checking encoder settings.');
+    if (!caps.profiles.find(profile => profile.id === settings.profileId)?.available) throw fail('UNAVAILABLE_PROFILE', 'The selected encoder cannot initialize on this computer.');
+    if (settings.recipeId && !caps.recipes?.find(recipe => recipe.id === settings.recipeId)?.available) {
+      throw fail('UNAVAILABLE_RECIPE', 'The complete named recipe is unavailable; choose ordinary settings explicitly.');
+    }
+    plan.draft.invalidateEncodingSettings({ draftId: request.draftId, revision: request.revision });
+    plan.settings = settings; this.state.settings = settings;
+    plan.encodingSettingsStale = false; this.state.encodingSettingsStale = false;
+    const profile = PROFILES.find(entry => entry.id === settings.profileId);
+    for (const item of this.state.items) item.outputName = `${path.parse(item.name).name}_${profile.suffix}.mkv`;
     return this.reprepareDraft();
   }
   async reprepareDraft() {

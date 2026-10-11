@@ -2,7 +2,11 @@
 
 # Execution summary index
 
-[October11 0.7 N closure / O foundation](Execution%20Summaries/2026-10-11_0.7_N_O_Bootstrap.md): N independently reviewed and parent-synchronized; O–S incomplete. Foundation479 direct checks, Settings drainage follow-up11, fixed native startup crash at2369cf4, isolated44.7/9.0.2 trials. New runtimes not activated; candidate and hardware/display qualification remain pending. Contract24/tracker25 are current; earlier research reports remain historical evidence.
+October11 latest: [operation qualification and draft controls](Execution%20Summaries/2026-10-11_0.7_Operation_Qualification.md), six narrow native cases with retained rational collector corrections, native37f79554 controls pass and independent stale-plan fixes. No Q/R closure.
+
+October11 current progress: [workbench integration](Execution%20Summaries/2026-10-11_0.7_Workbench_Integration.md) and [runtime maintenance](Execution%20Summaries/2026-10-11_0.7_Runtime_Maintenance.md); workbench e88ee64, separate Electron9257af1/FFmpeg9abdf1c activation, native b421aa49 pass. O–S unfinished; transform qualification in progress.
+
+[October11 0.7 N closure / O foundation](Execution%20Summaries/2026-10-11_0.7_N_O_Bootstrap.md): N independently reviewed and parent-synchronized; O–S incomplete. Foundation479 direct checks, Settings drainage follow-up11, fixed native startup crash at2369cf4, isolated44.7/9.0.2 trials. The initial trial status is historical; subsequent activation is in the runtime report above. Candidate and hardware/display qualification remain pending. Contract24/tracker25 are current; earlier research reports remain historical evidence.
 
 [October11 Phase1 Pause/Resume](21_Phase1_Pause_Resume.md): single current preservation/re-entry record and sourced v0.7 planning inventory. Verified bfd67f9 plus4010db7/accepted0.6;139 encodes, no judgments/finalists/held-outs. Live budgets/accounting limits and existing access evidence preserved; documentation checkpoint only. **Paused — awaiting user visual review**, campaign incomplete.
 

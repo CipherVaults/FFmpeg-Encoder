@@ -19,7 +19,8 @@ const expectedBridge = ['getCapabilities', 'getPreferences', 'saveSettings', 're
   'clearInspectionCache', 'getRecipe', 'getEncodingDetails', 'chooseInputFolder', 'chooseOutputFolder',
   'prepareBatch', 'treatAsOriginal', 'reencodeOutputs', 'startBatch', 'cancelBatch', 'getSnapshot',
   'getDiagnosticHistory', 'getDiagnosticRecord', 'getDiagnosticExportPreview', 'onUpdate',
-  'getAppSettings', 'saveAppSettings', 'resetAppSettings', 'getRuntimeInformation', 'openCompletedOutput'];
+  'getAppSettings', 'saveAppSettings', 'resetAppSettings', 'getRuntimeInformation', 'openCompletedOutput',
+  'updateFileOperations', 'updateBatchOperationDefaults', 'applyAppDefaultsToBatch', 'reprepareEncodingSettings'];
 const electronTrial = process.argv.includes('--electron-maintenance-trial');
 const lifecycleOnly = process.argv.includes('--lifecycle-only');
 const workbenchOnly = process.argv.includes('--workbench-only');
@@ -236,6 +237,34 @@ async function nativePreparation() {
     assert.equal(result.savedSettings.revision, initial.revision + 1);
     assert.equal((await page.evaluate(() => window.encoder.getSnapshot())).planId, result.prepared.planId);
     await page.screenshot({ path: path.join(reportRoot, '03-native-settings.png'), fullPage: true });
+    await page.click('#tab-encode');
+    const firstRow = page.locator('#batch-items tr').first();
+    await firstRow.locator('details.file-details > summary').click();
+    await firstRow.locator('[data-testid=file-operation-editor] > summary').click();
+    await firstRow.locator('[data-testid=file-operation-mode]').selectOption('range');
+    await firstRow.locator('[data-testid=file-operation-start]').fill('0.100001');
+    await firstRow.locator('[data-testid=file-operation-end]').fill('1.200002');
+    await firstRow.locator('[data-testid=file-operation-resolution]').selectOption('720');
+    await firstRow.locator('[data-testid=file-operation-apply]').click();
+    const edited = await snapshotUntil(page, state => state.phase === 'ready' && state.planId !== result.prepared.planId);
+    assert.deepEqual(edited.items[0].operationRequest.range, { startUs: 100001, endUs: 1200002 });
+    assert.equal(edited.items[0].operationRequest.resolution, '720');
+    assert.equal(edited.items[0].operationRequest.audioPolicy, 'precision-aac', 'Saved app change cannot silently replace existing batch defaults.');
+    assert.equal(edited.items[1].operationRequest.range, null);
+    await page.selectOption('#profile', 'h264-cpu');
+    await page.selectOption('#preset', 'slow'); await page.fill('#quality', '21');
+    await page.click('#prepare-batch');
+    const reprepared = await snapshotUntil(page, state => state.phase === 'ready' && !state.encodingSettingsStale
+      && state.operationDraft?.revision > edited.operationDraft.revision && state.settings?.profileId === 'h264-cpu');
+    assert.equal(reprepared.operationDraft.id, edited.operationDraft.id);
+    assert.deepEqual(reprepared.items[0].operationRequest.range, edited.items[0].operationRequest.range);
+    assert.equal(reprepared.items[0].operationRequest.resolution, '720');
+    assert.equal(reprepared.settings.profileId, 'h264-cpu');
+    assert.equal(reprepared.settings.quality, 21);
+    assert.ok(reprepared.items.every(item => item.status === 'unsupported'));
+    assert.equal(await page.locator('#start-batch').isDisabled(), true);
+    result.draftEdits = { edited, reprepared };
+    await page.screenshot({ path: path.join(reportRoot, '03b-native-file-processing.png'), fullPage: true });
     await page.click('#tab-history');
     await page.waitForFunction(() => document.querySelectorAll('#history-items tr').length > 0);
     assert.match(await page.locator('#history-items').innerText(), /APP_DEFAULTS_SAVED/);
@@ -267,7 +296,7 @@ async function nativePreparation() {
     assert.equal(await page.locator('#tab-encode').getAttribute('aria-selected'), 'true');
     await page.keyboard.press('ArrowRight'); await page.keyboard.press('Space');
     assert.equal(await page.locator('#tab-jobs').getAttribute('aria-selected'), 'true');
-    assert.equal((await page.evaluate(() => window.encoder.getSnapshot())).planId, result.prepared.planId);
+    assert.equal((await page.evaluate(() => window.encoder.getSnapshot())).planId, result.draftEdits.reprepared.planId);
     result.checks.push('native Settings save without plan mutation; real History/redacted preview; observed Help versions; five tabs at640x480 without page overflow; keyboard tab focus/activation');
   }
   assert.deepEqual(pageErrors, []); result.pageErrors = pageErrors;

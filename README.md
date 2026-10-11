@@ -1,10 +1,12 @@
 > **Current authority — execution resumed October 11, 2026.** Ahmed explicitly reauthorized the full 0.7 candidate Goal with [workbench amendments](0-%20Documentation/28_0.7_Execution_Resumption_and_Workbench_Amendment.md). The earlier planning pause is historical and superseded. Preserve unfinished work, accepted0.6 and the independently paused benchmark. Implement and verify N–S; final owner acceptance remains separate.
 
+Candidate0.7 follow-up: per-file range/resolution/audio controls and encoder changes preserve the main-owned draft; stale execution authority is revoked. Native controls and narrow transform evidence are in [Operation Qualification](0-%20Documentation/Execution%20Summaries/2026-10-11_0.7_Operation_Qualification.md). Broader processing and final candidate verification remain in progress.
+
 # FFmpeg Encoder Desktop App
 
 A local Windows desktop encoder for large gameplay/OBS archives, with directly editable H.264, H.265 and AV1 controls for CPU and supported NVIDIA hardware.
 
-**0.7 candidate development is active, not accepted.** N contracts are verified; diagnostics/output foundations and isolated runtime trials have evidence, while the new workbench and expanded media operations remain unfinished. Follow [Current State](0-%20Documentation/01_Current_State.md) and the [N/O execution report](0-%20Documentation/Execution%20Summaries/2026-10-11_0.7_N_O_Bootstrap.md). The portable instructions below describe the separately preserved accepted0.6 release.
+**0.7 candidate development is active, not accepted.** N contracts are verified. The partial workbench now has Jobs, History, editable Settings and runtime Help; the separate44.7/9.0.2 candidate runtime is active. Expanded media operations and portable candidate acceptance remain unfinished. Follow [Current State](0-%20Documentation/01_Current_State.md) and the [N/O execution report](0-%20Documentation/Execution%20Summaries/2026-10-11_0.7_N_O_Bootstrap.md). The portable instructions below describe the separately preserved accepted0.6 release.
 
 **0.6.0 is locally accepted** after independent review, with a recoverable local-v0.6.0 checkpoint. The [acceptance report](0-%20Documentation/Execution%20Summaries/2026-09-24_Portable_0.6_Acceptance.md) identifies the exact artifact and evidence limits. The accepted 0.5 tag and ZIP remain unchanged. This is an unsigned local package; independent clean-machine compatibility and public distribution are separate work.
 

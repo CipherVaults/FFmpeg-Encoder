@@ -30,6 +30,10 @@
   // filtering or checking an excluded file never grants main-owned authority.
   let reencodeChoices = new Set();
   let selectionPlanId = null;
+  let selectionDraftId = null;
+  // This records which folder capabilities created the current draft; it never
+  // restores paths or grants. Main alone keeps the file requests and authority.
+  let preparedFolderPair = null;
   let dirty = true;
   let editing = true;
   let pendingCommands = 0;
@@ -73,6 +77,13 @@
     resolution: 'default-resolution', hdrPolicy: 'default-hdr', remuxTarget: 'default-remux-target',
     previewExpanded: 'default-preview-expanded',
   };
+  const batchOperationFields = { resolution: 'batch-operation-resolution', fullAudioPolicy: 'batch-operation-full-audio',
+    rangeAudioPolicy: 'batch-operation-range-audio', hdrPolicy: 'batch-operation-hdr' };
+  const batchOperationEdits = new Set();
+  const operationAudioLabels = { copy: 'Copy compatible audio', 'precision-aac': 'Precision AAC', 'precision-flac': 'Precision FLAC' };
+  let batchOperationKey = null;
+  let operationControlId = 0;
+  let draftFiles = new Map();
 
   const profiles = () => capabilities?.profiles || [];
   const recipes = () => capabilities?.recipes || [];
@@ -351,8 +362,11 @@
     if (next.phase === 'ready' && next.planId && selectionPlanId !== next.planId) {
       selectionPlanId = next.planId;
       reencodeChoices.clear();
-      selectedIds = new Set((next.items || []).filter(item => item.status === 'ready').map(item => item.id));
-      dirty = false;
+      const sameDraft = next.operationDraft?.id && selectionDraftId === next.operationDraft.id;
+      selectedIds = new Set((next.items || []).filter(item => sameDraft
+        ? selectedIds.has(item.id) && selectableStatuses.has(item.status) : item.status === 'ready').map(item => item.id));
+      selectionDraftId = next.operationDraft?.id || null;
+      dirty = Boolean(next.encodingSettingsStale);
       batchFilter = next.items.some(item => attentionStatuses.has(item.status)) ? 'attention' : 'all';
       previewCollapsed = batchFilter === 'all' && next.items.length > 20;
       previousAttention = new Set(next.items.filter(item => attentionStatuses.has(item.status)).map(item => `${item.id}:${item.status}`));
@@ -643,7 +657,7 @@
     put('selected-count', `${selectedIds.size} selected · ${(snapshot.items || []).length} found`);
     const hiddenSelected = (snapshot.items || []).filter(item => selectedIds.has(item.id) && (previewCollapsed || !matchesFilter(item))).length;
     put('hidden-selected-count', `${hiddenSelected} selected hidden`);
-    byId('start-batch').disabled = !canSelect || !selectedIds.size || !snapshot.planId;
+    byId('start-batch').disabled = !canSelect || !selectedIds.size || !snapshot.planId || hasOperationEdits();
     byId('select-ready').disabled = !canSelect || !eligible.some(item => item.status === 'ready');
     byId('clear-selection').disabled = !canSelect || !selectedIds.size;
     const authorizable = new Set((snapshot.items || []).filter(canAuthorize).map(item => item.id));
@@ -655,6 +669,189 @@
     byId('reencode-selected').disabled = !canSelect || !reencodeChoices.size;
     const hiddenChoices = (snapshot.items || []).filter(item => reencodeChoices.has(item.id) && (previewCollapsed || !matchesFilter(item))).length;
     put('reencode-selected-count', `${reencodeChoices.size} chosen for authorization${hiddenChoices ? ` · ${hiddenChoices} hidden` : ''}`);
+    renderOperationActions();
+  }
+
+  function hasOperationEdits() {
+    return batchOperationEdits.size > 0 || [...itemRows.values()].some(entry => entry.operationEdits.size > 0);
+  }
+
+  function editableOperationDraft() {
+    return discardableOperationDraft() && !dirty && !snapshot.encodingSettingsStale;
+  }
+
+  function discardableOperationDraft() {
+    return snapshot.phase === 'ready' && !pendingCommands && snapshot.planId
+      && snapshot.operationDraft?.operation === 'encode' && !snapshot.operationDraft.frozen;
+  }
+
+  function operationRequest() {
+    if (!editableOperationDraft()) throw new Error('Review an editable batch before changing processing choices.');
+    return { planId: snapshot.planId, draftId: snapshot.operationDraft.id, revision: snapshot.operationDraft.revision };
+  }
+
+  function exactSeconds(value, label) {
+    const text = value.trim();
+    if (!text) return undefined;
+    if (!/^\d{1,10}(?:\.\d{1,6})?$/.test(text)) throw new Error(`${label}: use nonnegative seconds with up to six decimal places.`);
+    const [whole, part = ''] = text.split('.');
+    const us = BigInt(whole) * 1000000n + BigInt(part.padEnd(6, '0'));
+    if (us > BigInt(Number.MAX_SAFE_INTEGER)) throw new Error(`${label} exceeds the exact supported time range.`);
+    return Number(us);
+  }
+
+  function secondsText(value) {
+    if (!Number.isSafeInteger(value) || value < 0) return '';
+    const us = BigInt(value), fraction = String(us % 1000000n).padStart(6, '0').replace(/0+$/, '');
+    return `${us / 1000000n}${fraction ? `.${fraction}` : ''}`;
+  }
+
+  function readOperationEdits(entry) {
+    const controls = entry.operationControls, overrides = {};
+    if (entry.operationEdits.has('range')) {
+      if (controls.mode.value === 'full') overrides.range = null;
+      else if (controls.mode.value === 'range') {
+        const startUs = exactSeconds(controls.start.value, 'Start'), endUs = exactSeconds(controls.end.value, 'End');
+        if (startUs === undefined && endUs === undefined) throw new Error('Enter at least one range boundary, or choose Full.');
+        if (startUs !== undefined && endUs !== undefined && endUs <= startUs) throw new Error('Range end must be later than its start.');
+        overrides.range = { ...(startUs === undefined ? {} : { startUs }), ...(endUs === undefined ? {} : { endUs }) };
+      } else throw new Error('Choose Full or one time range.');
+    }
+    for (const key of ['resolution', 'audioPolicy']) if (entry.operationEdits.has(key)) overrides[key] = controls[key].value;
+    if (entry.operationEdits.has('aacBitrateKbps')) {
+      const text = controls.aacBitrateKbps.value.trim();
+      if (text && (!/^\d{1,4}$/.test(text) || Number(text) < 32 || Number(text) > 1536)) throw new Error('AAC bitrate must be a whole number from 32 to 1536 kb/s, or blank for the layout default.');
+      overrides.aacBitrateKbps = text ? Number(text) : null;
+    }
+    if (overrides.audioPolicy && overrides.audioPolicy !== 'precision-aac') overrides.aacBitrateKbps = null;
+    return overrides;
+  }
+
+  function processingLabel(request) {
+    const range = request.range === null ? 'Full' : `${secondsText(request.range?.startUs) || 'beginning'} → ${secondsText(request.range?.endUs) || 'end'} seconds`;
+    const origins = request.origins || {};
+    return `Current request: ${range} (${origins.range || 'unknown origin'}) · ${request.resolution === 'source' ? 'Keep source' : `${request.resolution}p`} (${origins.resolution || 'unknown origin'}) · ${operationAudioLabels[request.audioPolicy] || request.audioPolicy} (${origins.audioPolicy || 'unknown origin'})${request.aacBitrateKbps ? ` · AAC ${request.aacBitrateKbps} kb/s` : ''}`;
+  }
+
+  function renderOperationActions() {
+    const editable = Boolean(editableOperationDraft()), ids = [...selectedIds].filter(id => draftFiles.has(id));
+    visible('operation-unsaved-notice', hasOperationEdits());
+    byId('batch-operation-fields').disabled = !editable;
+    byId('batch-operation-apply').disabled = !editable || !batchOperationEdits.size;
+    byId('batch-operation-discard').disabled = !discardableOperationDraft() || !batchOperationEdits.size;
+    byId('batch-app-defaults-choice').disabled = !editable || hasOperationEdits();
+    byId('batch-app-defaults-apply').disabled = !editable || hasOperationEdits();
+    for (const entry of itemRows.values()) {
+      const controls = entry.operationControls, available = editable && draftFiles.has(entry.item.id);
+      entry.operationFields.disabled = !available;
+      controls.start.disabled = controls.end.disabled = !available || controls.mode.value !== 'range';
+      controls.aacBitrateKbps.disabled = !available || controls.audioPolicy.value !== 'precision-aac';
+      entry.operationApply.disabled = !available || !entry.operationEdits.size;
+      entry.operationApplySelected.disabled = !available || !entry.operationEdits.size || !ids.length;
+      entry.operationApplySelected.textContent = `Apply changed fields to selected (${ids.length})`;
+      entry.operationDiscard.disabled = !discardableOperationDraft() || !draftFiles.has(entry.item.id) || !entry.operationEdits.size;
+    }
+  }
+
+  function renderBatchOperations() {
+    const draft = snapshot.operationDraft;
+    const show = draft?.operation === 'encode' && draft.batchDefaults?.values;
+    visible('batch-operation-editor', Boolean(show));
+    if (!show) { batchOperationKey = null; batchOperationEdits.clear(); return; }
+    const key = `${draft.id}:${draft.revision}`;
+    if (key !== batchOperationKey) {
+      batchOperationKey = key; batchOperationEdits.clear();
+      for (const [field, id] of Object.entries(batchOperationFields)) byId(id).value = draft.batchDefaults.values[field];
+      byId('batch-app-defaults-choice').value = 'keep';
+    }
+    const labels = { resolution: 'Resolution', fullAudioPolicy: 'Full audio', rangeAudioPolicy: 'Trimmed audio', hdrPolicy: 'HDR' };
+    put('batch-operation-summary', `Draft revision ${draft.revision} · saved app revision ${draft.batchDefaults.appDefaultsRevision} · `
+      + Object.keys(batchOperationFields).map(field => `${labels[field]}: ${operationAudioLabels[draft.batchDefaults.values[field]] || draft.batchDefaults.values[field]} (${draft.batchDefaults.origins[field]})`).join(' · '));
+  }
+
+  function renderFileOperation(entry) {
+    const file = draftFiles.get(entry.item.id), draft = snapshot.operationDraft;
+    entry.operationEditor.hidden = !file || draft?.operation !== 'encode';
+    if (!file || draft?.operation !== 'encode') { entry.operationEdits.clear(); return; }
+    const key = `${draft.id}:${draft.revision}`;
+    if (entry.operationKey !== key) {
+      entry.operationKey = key; entry.operationEdits.clear();
+      const request = file.request, controls = entry.operationControls;
+      controls.mode.value = request.range === null ? 'full' : 'range';
+      controls.start.value = secondsText(request.range?.startUs); controls.end.value = secondsText(request.range?.endUs);
+      controls.resolution.value = request.resolution; controls.audioPolicy.value = request.audioPolicy;
+      controls.aacBitrateKbps.value = request.aacBitrateKbps === null ? '' : String(request.aacBitrateKbps ?? '');
+      entry.operationNotice.textContent = '';
+    }
+    entry.operationSummary.textContent = processingLabel(file.request);
+    entry.operationDuration.textContent = finite(entry.item.summary?.durationSeconds) && entry.item.summary.durationSeconds > 0
+      ? `Inspected duration: ${duration(entry.item.summary.durationSeconds)}. Main checks exact bounds separately for every file; nothing is silently clamped.`
+      : 'Duration is not available in this preview. You may enter exact seconds; main must establish valid bounds before it can prepare a range.';
+  }
+
+  async function applyFileOperation(entry, selected) {
+    if (!editableOperationDraft() || !entry.operationEdits.size) return;
+    try {
+      if (batchOperationEdits.size || [...itemRows.values()].some(other => other !== entry && other.operationEdits.size)) {
+        throw new Error('Apply or discard edits in the other file or batch editor first. This action will not silently discard those edits.');
+      }
+      const fileIds = selected ? [...selectedIds].filter(id => draftFiles.has(id)) : [entry.item.id];
+      if (!fileIds.length || !draftFiles.has(entry.item.id)) throw new Error('Select files from this current draft.');
+      const request = { ...operationRequest(), fileIds, overrides: readOperationEdits(entry) };
+      entry.operationNotice.textContent = '';
+      await command(async () => {
+        const next = await api.updateFileOperations(request); applySnapshot(next);
+        entry.operationNotice.textContent = next.phase === 'ready'
+          ? 'Changed fields applied. Review each resulting file status; unsupported requests have not been approved for encoding.'
+          : 'Repreparation did not finish ready. Review the current batch error before proceeding.';
+      });
+    } catch (error) { entry.operationNotice.textContent = error?.message || String(error); }
+  }
+
+  function createOperationEditor(item) {
+    const editor = document.createElement('details'); editor.className = 'operation-editor'; editor.dataset.testid = 'file-operation-editor';
+    const heading = document.createElement('summary'); heading.textContent = 'File processing / Full or Time Range';
+    const summary = document.createElement('p'); summary.className = 'hint'; summary.dataset.testid = 'file-operation-summary';
+    const info = document.createElement('p'); info.className = 'hint'; info.textContent = 'Only fields you edit are applied. Range changes inherit the corresponding batch audio default unless audio was explicitly overridden. Changes require preparation and may be refused until qualified.';
+    const durationInfo = document.createElement('p'); durationInfo.className = 'hint';
+    const form = document.createElement('form');
+    const fields = document.createElement('fieldset'); const legend = document.createElement('legend'); legend.textContent = 'Requested processing'; fields.append(legend);
+    const grid = document.createElement('div'); grid.className = 'operation-fields';
+    const controls = {}, prefix = `operation-${++operationControlId}`;
+    const options = {
+      mode: [['full', 'Full video'], ['range', 'Single time range']],
+      resolution: [['source', 'Keep source resolution'], ['2160', '2160p'], ['1440', '1440p'], ['1080', '1080p'], ['720', '720p']],
+      audioPolicy: [['copy', 'Copy, where qualified'], ['precision-aac', 'Precision AAC'], ['precision-flac', 'Precision FLAC']],
+    };
+    for (const [key, label] of [['mode', 'Interval'], ['start', 'Start seconds (included)'], ['end', 'End seconds (excluded)'],
+      ['resolution', 'Resolution'], ['audioPolicy', 'Audio policy'], ['aacBitrateKbps', 'AAC kb/s (blank = layout default)']]) {
+      const field = document.createElement('div'); field.className = 'field';
+      const caption = document.createElement('label'); caption.textContent = label; caption.setAttribute('for', `${prefix}-${key}`);
+      const control = document.createElement(options[key] ? 'select' : 'input'); control.id = `${prefix}-${key}`; control.dataset.testid = `file-operation-${key}`;
+      if (options[key]) for (const [value, text] of options[key]) { const option = document.createElement('option'); option.value = value; option.textContent = text; control.append(option); }
+      else { control.type = 'text'; control.inputMode = key === 'aacBitrateKbps' ? 'numeric' : 'decimal'; control.maxLength = 24; control.spellcheck = false; control.placeholder = key === 'start' ? 'Blank = beginning' : key === 'end' ? 'Blank = source end' : ''; }
+      const edited = () => {
+        const entry = itemRows.get(item.id); if (!entry || !editableOperationDraft()) return;
+        entry.operationEdits.add(['mode', 'start', 'end'].includes(key) ? 'range' : key);
+        entry.operationNotice.textContent = ''; syncSelection();
+      };
+      control.addEventListener('change', edited); if (!options[key]) control.addEventListener('input', edited);
+      controls[key] = control; field.append(caption, control); grid.append(field);
+    }
+    fields.append(grid);
+    const buttons = document.createElement('div'); buttons.className = 'action-row';
+    const apply = document.createElement('button'); apply.type = 'submit'; apply.className = 'subtle'; apply.textContent = 'Apply changes to this file'; apply.dataset.testid = 'file-operation-apply';
+    const selected = document.createElement('button'); selected.type = 'button'; selected.className = 'subtle'; selected.dataset.testid = 'file-operation-selected';
+    const discard = document.createElement('button'); discard.type = 'button'; discard.className = 'subtle'; discard.textContent = 'Discard file edits'; discard.dataset.testid = 'file-operation-discard';
+    form.addEventListener('submit', event => { event.preventDefault(); const entry = itemRows.get(item.id); if (entry) void applyFileOperation(entry, false); });
+    selected.addEventListener('click', () => { const entry = itemRows.get(item.id); if (entry) void applyFileOperation(entry, true); });
+    discard.addEventListener('click', () => { const entry = itemRows.get(item.id); if (entry && discardableOperationDraft()) { entry.operationKey = null; renderFileOperation(entry); syncSelection(); } });
+    buttons.append(apply, selected, discard); form.append(fields, buttons);
+    const notice = document.createElement('p'); notice.className = 'operation-notice'; notice.setAttribute('role', 'status'); notice.setAttribute('aria-live', 'polite'); notice.dataset.testid = 'file-operation-notice';
+    editor.append(heading, summary, info, durationInfo, form, notice);
+    return { operationEditor: editor, operationSummary: summary, operationDuration: durationInfo, operationFields: fields,
+      operationControls: controls, operationApply: apply, operationApplySelected: selected, operationDiscard: discard,
+      operationNotice: notice, operationKey: null, operationEdits: new Set() };
   }
 
   function matchesFilter(item) {
@@ -808,6 +1005,7 @@
     name.className = 'file-name';
     const body = document.createElement('div');
     body.className = 'file-detail-body';
+    const operation = createOperationEditor(item);
     const output = document.createElement('p');
     output.className = 'output-name';
     const outputControls = document.createElement('div');
@@ -903,7 +1101,7 @@
       const entry = itemRows.get(item.id);
       if (entry) loadEncodingDetails(entry);
     });
-    body.append(output, outputControls, outputNotice, summary, reason, metadata, sampling, previousDetails, action, commandDetails);
+    body.append(output, outputControls, outputNotice, summary, reason, metadata, sampling, operation.operationEditor, previousDetails, action, commandDetails);
     details.append(name, body);
     // Classification and its deliberate action stay visible in compact rows.
     // Heavy provenance/argument details expand only when requested.
@@ -912,7 +1110,7 @@
     const status = document.createElement('span');
     statusCell.append(status);
     row.append(useCell, fileCell, statusCell);
-    return { row, checkbox, details, name, output, summary, reason, metadata, sampling, action, status, item, key: '', origin, previous,
+    return { row, checkbox, details, name, output, summary, reason, metadata, sampling, action, status, item, key: '', origin, previous, ...operation,
       outputControls, outputNotice, outputAccessId: undefined, outputRequest: 0, outputPending: false, outputResult: '', outputFailed: false,
       previousDetails, previousInfo, previousArgs, reencodeBox, reencodeChoice, reencode,
       commandDetails, commandHeading, commandNotice, commandExecutable, commandDestination, commandArgs, commandKey: null };
@@ -920,6 +1118,8 @@
 
   function renderItems() {
     const items = snapshot.items || [];
+    draftFiles = new Map((snapshot.operationDraft?.files || []).map(file => [file.fileId, file]));
+    renderBatchOperations();
     const tbody = byId('batch-items');
     const ids = new Set(items.map(item => item.id));
     for (const [id, entry] of itemRows) {
@@ -931,6 +1131,7 @@
       let entry = itemRows.get(item.id);
       if (!entry) { entry = createItemRow(item); itemRows.set(item.id, entry); }
       entry.item = item;
+      renderFileOperation(entry);
       renderOutputAccess(entry);
       const key = JSON.stringify([item.name, item.outputName, item.status, item.reason, item.summary, item.origin, item.reencodeAuthorized, item.outcome, item.outputDisposition]);
       if (key !== entry.key) {
@@ -1155,6 +1356,43 @@
   byId('app-settings-reload').addEventListener('click', () => { void loadAppDefaults(); });
   byId('app-settings-form').addEventListener('submit', event => { event.preventDefault(); void saveAppDefaults(); });
   byId('app-settings-reset').addEventListener('click', () => { void saveAppDefaults(true); });
+  for (const [field, id] of Object.entries(batchOperationFields)) byId(id).addEventListener('change', () => {
+    if (!editableOperationDraft()) return;
+    batchOperationEdits.add(field); put('batch-operation-notice', ''); syncSelection();
+  });
+  byId('batch-operation-discard').addEventListener('click', () => {
+    if (!discardableOperationDraft()) return;
+    batchOperationKey = null; renderBatchOperations(); put('batch-operation-notice', ''); syncSelection();
+  });
+  byId('batch-operation-form').addEventListener('submit', event => {
+    event.preventDefault();
+    if (!editableOperationDraft() || !batchOperationEdits.size) return;
+    if ([...itemRows.values()].some(entry => entry.operationEdits.size)) {
+      put('batch-operation-notice', 'Apply or discard file edits before changing batch defaults. The unsubmitted file edits remain intact.'); return;
+    }
+    const request = operationRequest(), defaults = snapshot.operationDraft.batchDefaults;
+    // Main's batch setter replaces the complete override snapshot. Reconstruct
+    // only existing batch-origin values, then patch changed visible fields; do
+    // not accidentally convert inherited app defaults into permanent overrides.
+    const overrides = Object.fromEntries(Object.keys(defaults.values).filter(key => defaults.origins[key] === 'batch').map(key => [key, defaults.values[key]]));
+    for (const field of batchOperationEdits) overrides[field] = byId(batchOperationFields[field]).value;
+    void command(async () => {
+      const next = await api.updateBatchOperationDefaults({ ...request, overrides }); applySnapshot(next);
+      put('batch-operation-notice', next.phase === 'ready' ? 'Batch defaults applied. Review the newly prepared statuses; qualification refusals remain blocked.'
+        : 'Repreparation did not finish ready. Review the current batch error before proceeding.');
+    });
+  });
+  byId('batch-app-defaults-apply').addEventListener('click', () => {
+    if (!editableOperationDraft() || hasOperationEdits()) return;
+    const choice = byId('batch-app-defaults-choice').value;
+    if (!['keep', 'reset'].includes(choice)) { setError(new Error('Choose whether to keep or reset file overrides.')); return; }
+    const request = { ...operationRequest(), resetFileOverrides: choice === 'reset' };
+    void command(async () => {
+      const next = await api.applyAppDefaultsToBatch(request); applySnapshot(next);
+      put('batch-operation-notice', next.phase !== 'ready' ? 'Repreparation did not finish ready. Review the current batch error before proceeding.'
+        : choice === 'reset' ? 'Saved App Settings applied; file overrides and ranges were reset. Review all statuses.' : 'Saved App Settings applied; existing file overrides and ranges were kept. Review all statuses.');
+    });
+  });
   for (const id of Object.values(defaultFields)) byId(id).addEventListener('change', () => { defaultsDirty = true; renderDefaultActions(); });
   byId('runtime-refresh').addEventListener('click', () => { void loadRuntimeInformation(); });
   byId('history-refresh').addEventListener('click', () => { void loadHistoryPage(true); });
@@ -1236,25 +1474,36 @@
   byId('preview-collapse').addEventListener('click', () => { previewCollapsed = !previewCollapsed; renderItems(); });
   byId('reencode-selected').addEventListener('click', () => command(() => authorizeReencode([...reencodeChoices])));
   byId('choose-input').addEventListener('click', () => command(async () => {
+    if (hasOperationEdits()) throw new Error('Apply or discard processing edits before choosing another source folder.');
     await flushSettings();
     const selected = await api.chooseInputFolder();
     if (selected) { inputFolder = selected; invalidatePreview(); }
   }));
   byId('choose-output').addEventListener('click', () => command(async () => {
+    if (hasOperationEdits()) throw new Error('Apply or discard processing edits before choosing another output folder.');
     await flushSettings();
     const selected = await api.chooseOutputFolder();
     if (selected) { outputFolder = selected; invalidatePreview(); }
   }));
   byId('prepare-batch').addEventListener('click', () => command(async () => {
     if (!settingsValid() || !inputFolder?.id || !outputFolder?.id || inputFolder.available === false || outputFolder.available === false) throw new Error('Choose both folders and valid encoding settings.');
+    if (hasOperationEdits()) throw new Error('Apply or discard pending processing edits before preparing encoder settings.');
     rememberCurrentSettings();
     await flushSettings();
-    const next = await api.prepareBatch({ inputFolderId: inputFolder.id, outputFolderId: outputFolder.id, settings: currentSettings() });
+    const draft = snapshot.operationDraft;
+    const keepDraft = snapshot.phase === 'ready' && draft?.operation === 'encode' && !draft.frozen
+      && preparedFolderPair?.draftId === draft.id && preparedFolderPair.inputFolderId === inputFolder.id
+      && preparedFolderPair.outputFolderId === outputFolder.id;
+    const next = keepDraft
+      ? await api.reprepareEncodingSettings({ planId: snapshot.planId, draftId: draft.id, revision: draft.revision, settings: currentSettings() })
+      : await api.prepareBatch({ inputFolderId: inputFolder.id, outputFolderId: outputFolder.id, settings: currentSettings() });
+    if (!keepDraft) preparedFolderPair = next?.phase === 'ready' && next.operationDraft?.id
+      ? { inputFolderId: inputFolder.id, outputFolderId: outputFolder.id, draftId: next.operationDraft.id } : null;
     applySnapshot(next);
     if (snapshot.phase === 'ready') byId('batch-heading').scrollIntoView({ block: 'start' });
   }));
   byId('start-batch').addEventListener('click', () => command(async () => {
-    if (dirty || !selectedIds.size) throw new Error('Review the batch and select at least one ready file.');
+    if (dirty || !selectedIds.size || hasOperationEdits()) throw new Error('Review the batch, apply or discard processing edits, and select at least one ready file.');
     applySnapshot(await api.startBatch({ planId: snapshot.planId, fileIds: [...selectedIds] }));
     activateWorkspace('jobs');
     byId('monitor-heading').scrollIntoView({ block: 'start' });
@@ -1272,6 +1521,7 @@
   });
   byId('new-batch').addEventListener('click', () => {
     if (isBusy()) return;
+    preparedFolderPair = null;
     editing = true; dirty = true; selectedIds.clear(); reencodeChoices.clear(); uiError = ''; render();
     activateWorkspace('encode');
     if (!capabilities) command(loadCapabilities);

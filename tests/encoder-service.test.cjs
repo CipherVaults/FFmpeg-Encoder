@@ -151,6 +151,103 @@ test('per-file operation edits reprepare with a new plan, preserve source reserv
   assert.equal(h.calls.length, 0);
 });
 
+test('changing encoder settings preserves each file operation and invalidates the prepared argv', async t => {
+  const h = await harness(t); const initial = await h.prepare();
+  const firstId = initial.items[0].id;
+  const plan = await h.service.updateFileOperations({ planId: initial.planId, draftId: initial.operationDraft.id,
+    revision: initial.operationDraft.revision, fileIds: [firstId], overrides: { range: { startUs: 0, endUs: 1000000 }, resolution: '720' } });
+  const reserved = h.service.plan.reservedPaths;
+  const settings = { profileId: 'h264-cpu', preset: 'slow', quality: 21 };
+  const next = await h.service.reprepareEncodingSettings({ planId: plan.planId, draftId: plan.operationDraft.id,
+    revision: plan.operationDraft.revision, settings });
+  assert.notEqual(next.planId, plan.planId);
+  assert.equal(next.operationDraft.id, plan.operationDraft.id);
+  assert.equal(next.operationDraft.revision, plan.operationDraft.revision + 1);
+  assert.equal(h.service.plan.reservedPaths, reserved);
+  assert.deepEqual(next.items.map(item => item.id), plan.items.map(item => item.id));
+  assert.deepEqual(next.items[0].operationRequest.range, { startUs: 0, endUs: 1000000 });
+  assert.equal(next.items[0].operationRequest.resolution, '720');
+  assert.equal(next.items[1].operationRequest.range, null);
+  assert.equal(next.items[1].operationRequest.resolution, 'source');
+  assert.equal(next.items[1].status, 'ready');
+  assert.match(next.items[1].outputName, /_H264-CPU\.mkv$/);
+  assert.deepEqual(next.settings, settings);
+  await h.finish(next);
+  assert.equal(h.calls.length, 1);
+  assert.equal(h.calls[0].args[h.calls[0].args.indexOf('-c:v:0') + 1], 'libx264');
+  assert.equal(h.calls[0].args[h.calls[0].args.indexOf('-crf:v:0') + 1], '21');
+});
+
+test('invalid or stale encoder edits leave the current draft and settings unchanged', async t => {
+  const h = await harness(t); const plan = await h.prepare();
+  const request = { planId: plan.planId, draftId: plan.operationDraft.id, revision: plan.operationDraft.revision,
+    settings: { profileId: 'h264-cpu', preset: 'slow', quality: 21 } };
+  for (const invalid of [{ ...request, path: h.input }, { ...request, revision: request.revision - 1 },
+    { ...request, draftId: randomUUID() }, { ...request, settings: { ...request.settings, quality: NaN } }]) {
+    await assert.rejects(h.service.reprepareEncodingSettings(invalid));
+    assert.equal(h.service.snapshot().planId, plan.planId);
+    assert.deepEqual(h.service.snapshot().operationDraft, plan.operationDraft);
+    assert.deepEqual(h.service.snapshot().settings, defaultSettings);
+  }
+  h.service.capabilityResult.profiles.find(profile => profile.id === 'h264-cpu').available = false;
+  await assert.rejects(h.service.reprepareEncodingSettings(request), { code: 'UNAVAILABLE_PROFILE' });
+  assert.deepEqual(h.service.snapshot().operationDraft, plan.operationDraft);
+  assert.deepEqual(h.service.snapshot().settings, defaultSettings);
+});
+
+test('settings autosave revokes execution but retains the editable draft before encoder reprepare', async t => {
+  const h = await harness(t); const initial = await h.prepare();
+  const edited = await h.service.updateFileOperations({ planId: initial.planId, draftId: initial.operationDraft.id,
+    revision: initial.operationDraft.revision, fileIds: [initial.items[0].id], overrides: { range: { startUs: 100001, endUs: 1200002 } } });
+  const settings = { profileId: 'h264-cpu', preset: 'slow', quality: 21 };
+  await h.service.saveSettings(settings);
+  const stale = h.service.snapshot();
+  assert.notEqual(stale.planId, edited.planId);
+  assert.deepEqual(stale.operationDraft, edited.operationDraft);
+  assert.equal(h.service.plan.entries.size, 0);
+  assert.ok(stale.items.every(item => item.status === 'unprocessed' && item.reasonCode === 'ENCODING_SETTINGS_CHANGED'));
+  assert.equal(stale.encodingSettingsStale, true);
+  assert.throws(() => h.service.updateFileOperations({ planId: stale.planId, draftId: stale.operationDraft.id,
+    revision: stale.operationDraft.revision, fileIds: [edited.items[1].id], overrides: { resolution: '720' } }), { code: 'ENCODING_SETTINGS_CHANGED' });
+  assert.throws(() => h.service.updateBatchOperationDefaults({ planId: stale.planId, draftId: stale.operationDraft.id,
+    revision: stale.operationDraft.revision, overrides: { resolution: '720' } }), { code: 'ENCODING_SETTINGS_CHANGED' });
+  await assert.rejects(h.service.applyAppDefaultsToBatch({ planId: stale.planId, draftId: stale.operationDraft.id,
+    revision: stale.operationDraft.revision, resetFileOverrides: false }), { code: 'ENCODING_SETTINGS_CHANGED' });
+  assert.throws(() => h.service.startBatch({ planId: edited.planId, fileIds: [edited.items[1].id] }), { code: 'STALE_PLAN' });
+  assert.throws(() => h.service.startBatch({ planId: stale.planId, fileIds: [edited.items[1].id] }), { code: 'INVALID_SELECTION' });
+  assert.throws(() => h.service.getEncodingDetails({ planId: stale.planId, fileId: edited.items[1].id }), { code: 'UNPREPARED_FILE' });
+  const next = await h.service.reprepareEncodingSettings({ planId: stale.planId, draftId: stale.operationDraft.id,
+    revision: stale.operationDraft.revision, settings });
+  assert.deepEqual(next.items[0].operationRequest.range, { startUs: 100001, endUs: 1200002 });
+  assert.equal(next.items[1].status, 'ready');
+  assert.equal(next.encodingSettingsStale, false);
+  await h.service.resetProfile({ profileId: 'h264-cpu' });
+  assert.equal(h.service.snapshot().operationDraft.id, edited.operationDraft.id);
+  assert.equal(h.service.plan.entries.size, 0);
+});
+
+test('encoder edits cannot restore temporary generated-source authority or race a newer preparation', async t => {
+  const h = await harness(t, { names: ['original.mp4', 'generated.mkv'],
+    inspectResult: file => path.basename(file) === 'generated.mkv' ? generatedInspection(createOutputId()) : inspection() });
+  const initial = await h.prepare(); const generated = initial.items.find(item => item.status === 'generated');
+  const plan = await h.service.reencodeOutputs({ planId: initial.planId, fileIds: [generated.id] });
+  const request = { planId: plan.planId, draftId: plan.operationDraft.id, revision: plan.operationDraft.revision,
+    settings: { profileId: 'h264-cpu', preset: 'slow', quality: 21 } };
+  const next = await h.service.reprepareEncodingSettings(request);
+  assert.equal(next.items.find(item => item.id === generated.id).status, 'generated');
+  assert.equal(h.service.plan.reencodeAuthorizations.size, 0);
+  const release = deferred(); const originalGet = h.service.getCapabilities.bind(h.service);
+  h.service.getCapabilities = async () => { await release.promise; return originalGet(); };
+  const pending = h.service.reprepareEncodingSettings({ ...request, planId: next.planId,
+    revision: next.operationDraft.revision, settings: defaultSettings });
+  const newer = await h.service.updateBatchOperationDefaults({ planId: next.planId, draftId: next.operationDraft.id,
+    revision: next.operationDraft.revision, overrides: { resolution: '720' } });
+  release.resolve();
+  await assert.rejects(pending, { code: 'STALE_PLAN' });
+  assert.equal(h.service.snapshot().planId, newer.planId);
+  assert.deepEqual(h.service.snapshot().settings, request.settings);
+});
+
 for (const overrides of [{ target: 'mp4' }, { target: 'mov' }, { hdrPolicy: 'hlg-base' },
   { hdrPolicy: 'dolby-pq' }, { omissionRequestIds: ['requested-stream-omission'] }]) {
   test(`unqualified operation ${JSON.stringify(overrides)} never silently reaches the old builder`, async t => {

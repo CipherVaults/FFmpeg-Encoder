@@ -76,6 +76,13 @@ class OperationDraft {
         overrides: structuredClone(this.#overrides.get(fileId) || {}) })) });
   }
   fileRequest(fileId) { return this.#request(fileId); }
+  invalidateEncodingSettings(request) {
+    exact(request, ['draftId', 'revision']); this.#editable(request);
+    // Encoder changes invalidate prepared authority without moving a range or
+    // processing override to another file or resetting it to Full.
+    this.#revision++;
+    return this.snapshot();
+  }
   patchFiles(request) {
     exact(request, ['draftId', 'revision', 'fileIds', 'overrides']); this.#editable(request);
     const selected = this.#selected(request.fileIds);

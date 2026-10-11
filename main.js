@@ -19,6 +19,9 @@ let shutdownComplete = false;
 let shutdownPromise;
 let shutdownOutcome = 'completed';
 let quitDuringStartup = false;
+let rendererLost = false;
+let startupFailurePromise;
+let shutdownExitCode = 0;
 
 function finishShutdown() {
   shutdownPromise ||= (async () => {
@@ -28,13 +31,35 @@ function finishShutdown() {
     // Shutdown cannot manufacture persistence when the state disk is broken.
     // The last durable record remains the honest recovery boundary.
     console.error('Shutdown diagnostics incomplete:', error.message);
-  }).finally(() => { exitAllowed = true; shutdownComplete = true; app.quit(); });
+  }).finally(() => {
+    exitAllowed = true; shutdownComplete = true;
+    if (shutdownExitCode) app.exit(shutdownExitCode);
+    else app.quit();
+  });
   return shutdownPromise;
 }
 
 function startupFailed(error) {
-  dialog.showErrorBox('FFmpeg Encoder could not start', error.message);
-  app.exit(1);
+  // A renderer can fail while loadURL is still pending. A synchronous error
+  // box blocks render-process-gone and therefore the cancellation/close path.
+  // Drain owned work first and use an asynchronous, window-owned error dialog.
+  // Renderer loss may take ownership while that dialog is pending; destroying
+  // its parent then closes it. Genuine startup errors remain visible.
+  startupFailurePromise ||= (async () => {
+    shutdownOutcome = 'failed'; shutdownExitCode = 1;
+    await service?.cancelCurrent();
+    await service?.recordIncident({ stage: 'startup', reason: 'STARTUP_FAILED', severity: 'error',
+      message: error.message, context: { code: error.code || null } });
+    if (!rendererLost && !quitDuringStartup && !shutdownComplete) {
+      const options = { type: 'error', title: 'FFmpeg Encoder could not start',
+        message: 'FFmpeg Encoder could not start', detail: error.message, buttons: ['Close'], noLink: true };
+      if (window && !window.isDestroyed()) await dialog.showMessageBox(window, options);
+      else if (app.isReady()) await dialog.showMessageBox(options);
+      else dialog.showErrorBox(options.title, options.detail);
+    }
+  })().catch(failure => console.error('Startup failure reporting incomplete:', failure.message))
+    .finally(() => finishShutdown());
+  return startupFailurePromise;
 }
 
 try {
@@ -110,6 +135,7 @@ async function createWindow() {
   window.webContents.on('render-process-gone', async (_event, details) => {
     // Loss of the only UI cancels work; it never enables invisible encoding.
     shutdownOutcome = 'failed';
+    rendererLost = true;
     // Abort ownership synchronously before waiting on disk-backed diagnostics.
     // An unavailable/slow log directory must never prolong invisible encoding.
     const cancellation = service.cancelCurrent();

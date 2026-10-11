@@ -20,6 +20,7 @@ const expectedBridge = ['getCapabilities', 'getPreferences', 'saveSettings', 're
   'prepareBatch', 'treatAsOriginal', 'reencodeOutputs', 'startBatch', 'cancelBatch', 'getSnapshot',
   'getDiagnosticHistory', 'getDiagnosticRecord', 'getDiagnosticExportPreview', 'onUpdate'];
 const electronTrial = process.argv.includes('--electron-maintenance-trial');
+const lifecycleOnly = process.argv.includes('--lifecycle-only');
 const expectedElectron = electronTrial ? '44.7.0' : '44.2.0';
 const executablePath = electronTrial
   ? path.join(owned, 'staging/runtime-trials/electron-44.7.0/electron.exe')
@@ -27,7 +28,7 @@ const executablePath = electronTrial
 const serviceModule = path.join(root, 'src/encoder-service.cjs');
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
-const report = { schema: 1, id: randomUUID(), startedAt: new Date().toISOString(), status: 'running', cases: [], electronTrial, expectedElectron, executablePath,
+const report = { schema: 1, id: randomUUID(), startedAt: new Date().toISOString(), status: 'running', cases: [], electronTrial, lifecycleOnly, expectedElectron, executablePath,
   limitations: [
     'Folder-picker return values are substituted at Electron dialog.showOpenDialog; actual UI buttons and preload/IPC preparation execute normally.',
     'Capability probes use real bundled tools on short owned synthetic samples. No personal-media encode, remux or benchmark run is started.',
@@ -109,13 +110,13 @@ async function launch(label, entry = root) {
   });
   return context;
 }
-async function exited(context, timeoutMs = 20000) {
+async function exited(context, timeoutMs = 20000, allowedCodes = [0]) {
   let timer;
   try {
     const outcome = await Promise.race([context.exit, new Promise((_, reject) => {
       timer = setTimeout(() => reject(new Error(`${context.label}: native application did not exit within ${timeoutMs}ms.`)), timeoutMs);
     })]);
-    assert.equal(outcome.code, 0, JSON.stringify(outcome));
+    assert.ok(allowedCodes.includes(outcome.code), JSON.stringify(outcome));
     return outcome;
   } finally { clearTimeout(timer); }
 }
@@ -265,7 +266,10 @@ async function rendererCrash() {
   await context.app.evaluate(({ BrowserWindow }) => {
     setTimeout(() => BrowserWindow.getAllWindows()[0].webContents.forcefullyCrashRenderer(), 30);
   });
-  result.exit = await exited(context, 30000);
+  await save();
+  // If the renderer dies before loadURL settles, startup also fails. Both paths
+  // must drain and persist a failed session without a blocking native modal.
+  result.exit = await exited(context, 30000, [0, 1]);
   result.order = JSON.parse(await fs.readFile(result.orderPath, 'utf8'));
   assert.ok(result.order.cancelCalledAt <= result.order.crashRecordStartedAt);
   assert.ok(result.order.crashRecordDelayEndedAt - result.order.cancelCalledAt >= 1400);
@@ -274,6 +278,7 @@ async function rendererCrash() {
   const crash = result.events.find(event => event.reason === 'RENDERER_GONE');
   assert.ok(crash, 'Renderer loss must be durably distinguished from intentional close.');
   assert.equal(crash.severity, 'error');
+  if (result.exit.code === 1) assert.ok(result.events.some(event => event.reason === 'STARTUP_FAILED'));
   assert.equal(result.events.at(-1).type, 'session-end'); assert.equal(result.events.at(-1).outcome, 'failed');
   assert.ok(!result.events.some(event => event.reason === 'ENCODE_STARTED'));
   result.status = 'passed'; await save();
@@ -297,6 +302,52 @@ async function startupQuit() {
   assert.ok(!result.events.some(event => event.stage === 'capability'), 'No window/startup capability work should begin after early quit.');
   result.status = 'passed'; await save();
 }
+async function rendererCrashDuringLoad() {
+  const directory = path.join(runRoot, 'renderer-crash-during-load'); inOwnedRoot(directory);
+  await fs.mkdir(directory, { recursive: true });
+  const hookPath = path.join(directory, 'early-renderer-crash-hook.cjs');
+  const markerPath = path.join(directory, 'early-renderer-crash.json');
+  // Force the actual renderer to die at DOM readiness while native loadURL is
+  // still pending. Unlike the normal crash case, this deterministically covers
+  // the startup-rejection race reported by Ahmed's screenshot.
+  const hook = `'use strict';
+const fs=require('node:fs');
+const {app,BrowserWindow}=require('electron');
+app.getAppPath=()=>${JSON.stringify(root)};
+const state={}; const save=()=>fs.writeFileSync(${JSON.stringify(markerPath)},JSON.stringify(state));
+const load=BrowserWindow.prototype.loadURL;
+BrowserWindow.prototype.loadURL=function(...args){
+ let settled=false;
+ this.webContents.once('dom-ready',()=>{
+  state.injection={loadSettled:settled,url:args[0],at:Date.now()}; save();
+  this.webContents.forcefullyCrashRenderer();
+ });
+ this.webContents.on('did-fail-load',(_event,code,description,url,isMain)=>{
+  state.failure={code,description,url,isMain}; save();
+ });
+ return load.apply(this,args).then(value=>{settled=true;return value;},error=>{
+  settled=true;state.loadRejected={message:error.message,code:error.code};save();throw error;
+ });
+};
+require(${JSON.stringify(path.join(root, 'main.js'))});
+`;
+  await fs.writeFile(hookPath, hook, { flag: 'wx' });
+  const result = { name: 'renderer-crash-during-initial-load', hookPath, markerPath };
+  report.cases.push(result); await save();
+  const context = await launch('renderer-crash-during-load', hookPath); result.stateDir = context.stateDir;
+  result.exit = await exited(context, 30000, [0, 1]);
+  result.injection = JSON.parse(await fs.readFile(markerPath, 'utf8'));
+  assert.equal(result.injection.injection.loadSettled, false);
+  // Native event order varies: the renderer-loss owner can close the window
+  // before navigation rejects. Both orders must end durably, with no hang.
+  if (result.injection.loadRejected) assert.match(result.injection.loadRejected.message, /ERR_FAILED|ERR_ABORTED/);
+  result.events = await journal(context.stateDir);
+  if (result.exit.code === 1) assert.ok(result.events.some(event => event.reason === 'STARTUP_FAILED'));
+  assert.ok(result.events.some(event => event.reason === 'RENDERER_GONE'));
+  assert.equal(result.events.at(-1).type, 'session-end');
+  assert.equal(result.events.at(-1).outcome, 'failed');
+  result.status = 'passed'; await save();
+}
 async function main() {
   if (!process.argv.includes('--parent-granted-media-slot')) throw new Error('Refusing launch: the parent must explicitly grant the media slot, then pass --parent-granted-media-slot.');
   assert.equal(require('../package.json').devDependencies.electron, '44.2.0', 'Pre-maintenance baseline only.');
@@ -308,7 +359,8 @@ async function main() {
     runRoot = path.join(owned, 'staging', 'native-foundation-' + report.id); inOwnedRoot(runRoot);
     await fs.mkdir(reportRoot, { recursive: true }); await fs.mkdir(runRoot, { recursive: false });
     Object.assign(report, { reportRoot, runRoot, supplied, sourceIdentitiesBefore: await identities() }); await save();
-    await nativePreparation(); await rendererCrash(); await startupQuit();
+    if (!lifecycleOnly) await nativePreparation();
+    await rendererCrash(); await rendererCrashDuringLoad(); await startupQuit();
     report.status = 'passed';
   } catch (error) {
     report.status = 'failed'; report.failure = { message: error.message, stack: error.stack }; process.exitCode = 1;

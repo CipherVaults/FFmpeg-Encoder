@@ -1,5 +1,9 @@
 # Roadmap
 
+## Approved0.7 candidate — October11
+
+Goal23 supersedes historical deferrals for selected N–S scope; contract24/tracker25 own detailed gates. N(shared contract/evidence) in progress; O(diagnostics/sourcepolicy/refusedinputs/evidence/runtime) in progress; P(AMF/QSV/HDR), Q(scale/amendedTimeRange/remux), R(tabbedworkbench/AppSettings/icon/help), S(portablecandidate/integration/independentreview) pending. Completion means locally qualified candidate only; hardware/display/independentmachine/owner acceptance distinct. Benchmark remains separately paused and no new recipes are inferred. Parent synchronizes all affected documents before each milestone closure.
+
 ## Approved pre-0.7 research — October 10, 2026
 
 October11: **Paused — awaiting user visual review**. [Durable handoff and sourced v0.7 inventory](21_Phase1_Pause_Resume.md) preserve completed calibration/assets/access evidence and pending judgments/finalists/held-outs/recommendations. Planning can define diagnostics, compatibility/preservation/ctime, CPU-only presentation, HDR design and later UI polish independently of benchmark winners; a bounded approved development Goal is still required. No new presets/defaults, Phase2 or application implementation. Current linked pause record outranks historical next-action notes below.

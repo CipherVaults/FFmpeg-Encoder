@@ -1,5 +1,13 @@
 # FFmpeg Encoder: agent operating context
 
+## Active authority — October 11, 2026: 0.7 candidate execution
+
+Ahmed has authorized [23_Approved_0.7_Candidate_Goal.md](0-%20Documentation/23_Approved_0.7_Candidate_Goal.md), controlling the full preserved plan22 and implementation contract24. Read those plus requirement tracker25 and Current/Continuation State. Execute N–S toward a locally qualified candidate on `codex/v0.7-candidate`; do not grant accepted0.7 status. The Goal supersedes the historical0.6-only/SDR-first/deferred statements below only for its selected scope. Full-video copy compatibility remains; trimmed Encode defaults to precision audio re-encoding. Dedicated App Settings is required. No mandatory whole-file prehash; valid complete ctime-only output is saved with warning under the narrow post-validation contract.
+
+Preserve accepted0.5/0.6 tags/artifacts/settings and benchmark branch/checkpoint c08e117. The benchmark is independently **Paused — awaiting user visual review** (139 used/201 remaining of340), with no feedback/finalists; never charge its ledger or modify its pinned runtime. Parent coordinates one real media job; delegated edits require disjoint ownership. Use isolated0.7 state and separately owned F: downloads/fixtures/outputs/staging. D:≥25GiB free remains; the former24GiB growth ceiling/F:25GiB reserve are superseded. Fixture downloads≤6GiB; runtime transfer separately recorded. No machine-global changes, public/remote upload, credit reset, storage repair or unrelated cleanup. Parent synchronization and independent evidence review are required at completed milestones; ordinary recoverable failures are not stopping conditions.
+
+The following0.6 sections are historical context; active0.7 contract controls conflicts.
+
 This is Ahmed's long-paused existing Electron application, resumed through the September 6, 2026 Mother Thread handoff and amended execution approval. Preserve its history and explain changes for a future programmer. The accepted local-v0.5.0 baseline is immutable; the approved objective is local 0.6.0 through J–M in `0- Documentation/11_Approved_0.6_Goal.md` and `12_Approved_0.6_Plan.md`; the old npm `1.0.0` value was scaffold metadata.
 
 ## Re-entry

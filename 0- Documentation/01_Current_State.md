@@ -1,4 +1,10 @@
-# Current state — October 10, 2026
+# Current state — October 11, 2026
+
+## Active development: approved 0.7 candidate N–S
+
+[Goal23](23_Approved_0.7_Candidate_Goal.md) authorizes the [full reviewed plan22](22_Reviewed_0.7_Technical_Plan_2026-10-11.md) with binding trimmed-audio, dedicated App Settings and resource amendments. [Contract24](24_0.7_Implementation_Contract.md) and [tracker25](25_0.7_Requirements_and_Evidence.md) are the current implementation authority. Branch `codex/v0.7-candidate` starts at protected c08e117; recovery found no tracked application changes and preserved15 private planning evidence files. N contracts are saved; O foundation implementation is in progress, not accepted. Isolated accepted0.6 direct baseline passes269 current-contract tests (historical legacy tests excluded); log `artifacts/v0.7/baseline/direct-tests.txt`. No candidate package exists yet.
+
+Accepted0.5/0.6 remain recoverable and immutable. Benchmark remains separately **Paused — awaiting user visual review**,139 used/201 remaining of340, finalists null. It is not resumed by this Goal. The dated paragraphs below retain previous research/application history; their planning-only0.7 restrictions are superseded solely by Goal23.
 
 ## Active research: approved pre-0.7 Phase 1 benchmark
 

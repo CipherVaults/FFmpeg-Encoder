@@ -1,5 +1,7 @@
 # Execution summary index
 
+[October11 0.7 execution bootstrap](Execution%20Summaries/2026-10-11_0.7_N_O_Bootstrap.md): recovery, preserved full plan/controlling Goal, branch isolation, baseline and O work. In progress; not candidate acceptance. Contract24/tracker25 are current; earlier research reports remain historical evidence.
+
 [October11 Phase1 Pause/Resume](21_Phase1_Pause_Resume.md): single current preservation/re-entry record and sourced v0.7 planning inventory. Verified bfd67f9 plus4010db7/accepted0.6;139 encodes, no judgments/finalists/held-outs. Live budgets/accounting limits and existing access evidence preserved; documentation checkpoint only. **Paused — awaiting user visual review**, campaign incomplete.
 
 [October10 Visual Review Access](Execution%20Summaries/2026-10-10_Visual_Review_Access.md): existing Desktop entry now opens Chrome; six scenes/129 browser stills, selected browser playback and bounded native source/reference/A/B motion verified. Earlier black/error cause remains unproven; persisted statistics preference hidden. Five focused checks and independent reviews; timeout/accounting limits preserved. Sealed evidence/mapping and139 encodes unchanged; human visual gate remains.

@@ -1,3 +1,5 @@
+> **Current authority — execution resumed October 11, 2026.** Ahmed explicitly reauthorized the full 0.7 candidate Goal with [workbench amendments](28_0.7_Execution_Resumption_and_Workbench_Amendment.md). The earlier planning pause is historical and superseded. Preserve unfinished work, accepted0.6 and the independently paused benchmark. Implement and verify N–S; final owner acceptance remains separate.
+
 # Roadmap
 
 ## Approved0.7 candidate — October11

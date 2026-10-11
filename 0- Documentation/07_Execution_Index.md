@@ -1,3 +1,5 @@
+> **Current authority — execution resumed October 11, 2026.** Ahmed explicitly reauthorized the full 0.7 candidate Goal with [workbench amendments](28_0.7_Execution_Resumption_and_Workbench_Amendment.md). The earlier planning pause is historical and superseded. Preserve unfinished work, accepted0.6 and the independently paused benchmark. Implement and verify N–S; final owner acceptance remains separate.
+
 # Execution summary index
 
 [October11 0.7 execution bootstrap](Execution%20Summaries/2026-10-11_0.7_N_O_Bootstrap.md): recovery, preserved full plan/controlling Goal, branch isolation, baseline and O work. In progress; not candidate acceptance. Contract24/tracker25 are current; earlier research reports remain historical evidence.

@@ -1,6 +1,12 @@
+> **Current authority — execution resumed October 11, 2026.** Ahmed explicitly reauthorized the full 0.7 candidate Goal with [workbench amendments](28_0.7_Execution_Resumption_and_Workbench_Amendment.md). The earlier planning pause is historical and superseded. Preserve unfinished work, accepted0.6 and the independently paused benchmark. Implement and verify N–S; final owner acceptance remains separate.
+
 # Current state — October 11, 2026
 
-## Active development: approved 0.7 candidate N–S
+## Live resumed execution — latest owner instruction
+
+Execution resumed under [amendment28](28_0.7_Execution_Resumption_and_Workbench_Amendment.md). Verified branch codex/v0.7-candidate at8bac91f with unfinished application changes, alpha.1 metadata and planning artifacts; nothing reset. O integration corrections and focused direct checks are underway. No candidate/new runtime/media qualification or N–S acceptance claimed. Goal23 controls selected scope; plan27 is design guidance, with the new source-selection/lifecycle/current-jobs/history/editable-settings/runtime-help requirements. Folder admission exists; direct-file admission is not implemented or implied.
+
+## Interrupted development record: 0.7 candidate N–S
 
 [Goal23](23_Approved_0.7_Candidate_Goal.md) authorizes the [full reviewed plan22](22_Reviewed_0.7_Technical_Plan_2026-10-11.md) with binding trimmed-audio, dedicated App Settings and resource amendments. [Contract24](24_0.7_Implementation_Contract.md) and [tracker25](25_0.7_Requirements_and_Evidence.md) are the current implementation authority. Branch `codex/v0.7-candidate` starts at protected c08e117; recovery found no tracked application changes and preserved15 private planning evidence files. N contracts are saved; O foundation implementation is in progress, not accepted. Isolated accepted0.6 direct baseline passes269 current-contract tests (historical legacy tests excluded); log `artifacts/v0.7/baseline/direct-tests.txt`. No candidate package exists yet.
 

@@ -1,3 +1,13 @@
+> **Current authority — execution resumed October 11, 2026.** Ahmed explicitly reauthorized Goal23 with [workbench amendments](28_0.7_Execution_Resumption_and_Workbench_Amendment.md). Earlier planning-only instructions are historical and superseded. Preserve unfinished work, accepted0.6 and the independently paused benchmark. Implement and verify N–S; owner acceptance remains separate.
+
+# Current continuation — 0.7 candidate execution resumed
+
+Recovery verified branch `codex/v0.7-candidate` at8bac91f, surviving alpha.1 work intact and protected tags unchanged. Parent integrates main/service/lifecycle; delegates separately own diagnostics, inspection/evidence and source/output modules. Exact next: resolve known O findings, proportional direct checks and native foundation endpoint, then checkpoint and continue P/Q/R. Reuse prior accepted-runtime probes/tests; no benchmark runs. D about57.6GiB and F about706GiB free at recovery. No milestone newly accepted.
+
+The preceding planning-only pass and interrupted code distinctions remain in [the pause/change record](Planning/0.7/2026-10-11/Planning_Pause_and_Change_Record.md). A documentation-write encoding error during renewed-authority synchronization was recovered immediately from the committed continuation plus this current header; historical entries below are preserved. This is not a source-code rollback.
+
+## Historical continuation entries — newest header above controls
+
 # Continuation — 0.7 candidate execution, October 11, 2026
 
 Active Goal: [23](23_Approved_0.7_Candidate_Goal.md), full plan[22](22_Reviewed_0.7_Technical_Plan_2026-10-11.md), contract[24](24_0.7_Implementation_Contract.md), tracker[25](25_0.7_Requirements_and_Evidence.md). Branch `codex/v0.7-candidate`; initial checkpoint c08e117 preserved on benchmark branch. Recovery verified accepted tags and clean production baseline,15 untracked private planning evidence files. N contract saved; O implementation running in disjoint delegate files: trust_media(source identity/outputs/service ctime), backends(diagnostics module/tests), transforms(inspection/media evidence/tests). Inspect live agents/files before redoing anything. Parent owns integration, media jobs and commits.

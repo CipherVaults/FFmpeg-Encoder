@@ -1,6 +1,8 @@
+> **Current authority — execution resumed October 11, 2026.** Ahmed explicitly reauthorized the full 0.7 candidate Goal with [workbench amendments](0-%20Documentation/28_0.7_Execution_Resumption_and_Workbench_Amendment.md). The earlier planning pause is historical and superseded. Preserve unfinished work, accepted0.6 and the independently paused benchmark. Implement and verify N–S; final owner acceptance remains separate.
+
 # FFmpeg Encoder: agent operating context
 
-## Active authority — October 11, 2026: 0.7 candidate execution
+## Execution authority — resumed and amended above
 
 Ahmed has authorized [23_Approved_0.7_Candidate_Goal.md](0-%20Documentation/23_Approved_0.7_Candidate_Goal.md), controlling the full preserved plan22 and implementation contract24. Read those plus requirement tracker25 and Current/Continuation State. Execute N–S toward a locally qualified candidate on `codex/v0.7-candidate`; do not grant accepted0.7 status. The Goal supersedes the historical0.6-only/SDR-first/deferred statements below only for its selected scope. Full-video copy compatibility remains; trimmed Encode defaults to precision audio re-encoding. Dedicated App Settings is required. No mandatory whole-file prehash; valid complete ctime-only output is saved with warning under the narrow post-validation contract.
 

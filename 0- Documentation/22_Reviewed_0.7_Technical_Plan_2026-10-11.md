@@ -1,3 +1,5 @@
+> **Current authority — execution resumed October 11, 2026.** Ahmed explicitly reauthorized the full 0.7 candidate Goal with [workbench amendments](28_0.7_Execution_Resumption_and_Workbench_Amendment.md). The earlier planning pause is historical and superseded. Preserve unfinished work, accepted0.6 and the independently paused benchmark. Implement and verify N–S; final owner acceptance remains separate.
+
 > Historical reviewed plan, preserved verbatim from the October 11 conversation. Implementation is now authorized by [23_Approved_0.7_Candidate_Goal.md](23_Approved_0.7_Candidate_Goal.md). That amendment supersedes this document's planning-only status, trimmed-audio default, App Settings placement, and fixed F: storage ceiling. Do not reinterpret the old draft Goal as the complete execution scope.
 
 

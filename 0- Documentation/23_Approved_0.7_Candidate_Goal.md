@@ -1,3 +1,5 @@
+> **Current authority — execution resumed October 11, 2026.** Ahmed explicitly reauthorized the full 0.7 candidate Goal with [workbench amendments](28_0.7_Execution_Resumption_and_Workbench_Amendment.md). The earlier planning pause is historical and superseded. Preserve unfinished work, accepted0.6 and the independently paused benchmark. Implement and verify N–S; final owner acceptance remains separate.
+
 Execute the reviewed FFmpeg Encoder 0.7 plan through a locally qualified candidate.
 
 This is the execution Goal for the existing FFmpeg Encoder project. Implement the October 11, 2026 document titled “FFmpeg Encoder 0.7 — Technical Plan for Review,” incorporating the amendments below. This Goal authorizes the selected development work. It does not authorize accepted-release status, publication, or continuation of the paused benchmark.

@@ -244,6 +244,19 @@ async function nativePreparation() {
     await firstRow.locator('[data-testid=file-operation-mode]').selectOption('range');
     await firstRow.locator('[data-testid=file-operation-start]').fill('0.100001');
     await firstRow.locator('[data-testid=file-operation-end]').fill('1.200002');
+    const startSlider = firstRow.locator('[data-testid=file-operation-start-slider]');
+    assert.equal(await startSlider.isEnabled(), true);
+    assert.ok(Number(await startSlider.getAttribute('max')) > 1.2);
+    assert.match(await startSlider.getAttribute('aria-label'), /start/i);
+    // Native keyboard movement is a deliberate edit at slider precision. A
+    // render alone must not quantize the separate six-decimal exact field.
+    assert.equal(await firstRow.locator('[data-testid=file-operation-start]').inputValue(), '0.100001');
+    await startSlider.focus(); await page.keyboard.press('ArrowRight');
+    assert.equal(Number(await firstRow.locator('[data-testid=file-operation-start]').inputValue()), 0.101);
+    assert.equal((await page.evaluate(() => window.encoder.getSnapshot())).planId, result.prepared.planId);
+    result.rangeSlider = { max: await startSlider.getAttribute('max'), step: await startSlider.getAttribute('step'),
+      keyboardValue: await firstRow.locator('[data-testid=file-operation-start]').inputValue(), mainPlanUnchangedBeforeApply: true };
+    await firstRow.locator('[data-testid=file-operation-start]').fill('0.100001');
     await firstRow.locator('[data-testid=file-operation-resolution]').selectOption('720');
     await firstRow.locator('[data-testid=file-operation-apply]').click();
     const edited = await snapshotUntil(page, state => state.phase === 'ready' && state.planId !== result.prepared.planId);
@@ -279,6 +292,11 @@ async function nativePreparation() {
     result.runtimeHelp = await page.locator('#runtime-information').innerText();
     assert.ok(result.runtimeHelp.includes(expectedElectron));
     assert.match(result.runtimeHelp, /9\.0\.2/);
+    const observedCapabilities = await page.evaluate(() => window.encoder.getCapabilities());
+    result.nativeDiscovery = observedCapabilities.backendDiscovery;
+    assert.equal(result.nativeDiscovery.profiles.length, 6);
+    assert.ok(result.nativeDiscovery.profiles.every(profile => profile.available === false));
+    assert.ok(result.nativeDiscovery.profiles.every(profile => profile.reason === 'MISSING_DEVICE'));
     await page.screenshot({ path: path.join(reportRoot, '05-native-help.png'), fullPage: true });
     // Native Chromium layout at the supported minimum, plus focus navigation.
     await context.app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].setContentSize(640, 480));
@@ -289,6 +307,19 @@ async function nativePreparation() {
         active: document.querySelector('[role=tab][aria-selected=true]')?.id }));
       assert.ok(result.narrow[name].scroll <= result.narrow[name].viewport + 1, `${name} causes page-level horizontal overflow`);
       await page.screenshot({ path: path.join(reportRoot, `06-narrow-${name}.png`), fullPage: true });
+    }
+    await page.click('#tab-encode');
+    const narrowEditor = page.locator('#batch-items tr').first();
+    result.narrowControls = [];
+    for (const key of ['start', 'start-slider', 'end', 'end-slider', 'apply']) {
+      const control = narrowEditor.locator(`[data-testid=file-operation-${key}]`);
+      await control.scrollIntoViewIfNeeded();
+      if (key !== 'apply') { await control.focus(); assert.equal(await control.evaluate(node => node === document.activeElement), true); }
+      const observed = await control.evaluate(node => { const r = node.getBoundingClientRect(); return { left: r.left, right: r.right, top: r.top, bottom: r.bottom, width: innerWidth, height: innerHeight }; });
+      assert.ok(observed.left >= 0 && observed.right <= observed.width && observed.top >= 0 && observed.bottom <= observed.height,
+        `${key} must be reachable within the native minimum-size viewport`);
+      result.narrowControls.push({ key, ...observed });
+      await page.screenshot({ path: path.join(reportRoot, `07-narrow-range-${key}.png`) });
     }
     await page.focus('#tab-help'); await page.keyboard.press('Home');
     assert.equal(await page.evaluate(() => document.activeElement.id), 'tab-encode');

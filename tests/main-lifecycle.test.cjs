@@ -48,6 +48,7 @@ async function harness({ runtimePending = false, diagnosticsPending = false } = 
     if (id === 'node:path') return path;
     if (id === 'node:crypto') return require('node:crypto');
     if (id === './src/candidate-runtime.cjs') return { verifyCandidateRuntime: () => runtime.promise };
+    if (id === './src/backend-discovery.cjs') return { discoverNativeBackends: async options => options };
     if (id === './src/encoder-service.cjs') return { EncoderService: Service };
     if (id === './src/output-access.cjs') return require('../src/output-access.cjs');
     if (id === './src/ipc.cjs') return { registerIpc: () => () => calls.push('remove-ipc') };
@@ -66,6 +67,10 @@ test('candidate runtime verification precedes any window, service or process aut
   assert.equal(h.getService().options.ffmpeg, h.verified.ffmpeg);
   assert.equal(h.getService().options.ffprobe, h.verified.ffprobe);
   assert.match(h.getService().options.runtimeIdentity, /^[a-f0-9]{64}$/);
+  const discovery = await h.getService().options.discoverBackends({ versions: { ffmpeg: 'ffmpeg version test', ffprobe: 'ffprobe version test' } });
+  assert.equal(discovery.ffmpeg, h.verified.ffmpeg);
+  assert.equal(discovery.runtime.ffmpeg.sha256, h.verified.verified[0].sha256);
+  assert.equal(discovery.runtime.ffprobe.version, 'ffprobe version test');
   assert.ok(h.getWindow());
 });
 

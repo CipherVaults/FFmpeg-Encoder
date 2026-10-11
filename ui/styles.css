@@ -141,6 +141,8 @@ input[type="checkbox"] { accent-color: var(--orange); width: 1.2rem; height: 1.2
 .operation-editor .hint { margin-top: .35rem; }
 .operation-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .65rem; }
 .operation-fields input { width: 100%; }
+.operation-fields .range-boundary { accent-color: #73b7e1; padding: .35rem 0; min-height: 2rem; cursor: ew-resize; }
+.operation-fields .range-boundary:disabled { cursor: default; opacity: .45; }
 .operation-fields .field label { font-size: .78rem; }
 .operation-notice { color: #ffca75; font-size: .8rem; margin-top: .4rem; overflow-wrap: anywhere; }
 .app-default-adoption { margin-top: 1rem; padding-top: .65rem; border-top: 1px solid var(--border); }
@@ -150,7 +152,7 @@ input[type="checkbox"] { accent-color: var(--orange); width: 1.2rem; height: 1.2
 .status { display: inline-block; font-size: .82rem; }
 .status-success, .status-ready { color: var(--green); }
 .status-failed, .status-unsupported, .status-provenance-issue { color: var(--red); }
-.status-conflict, .status-running, .status-cancelled, .status-ambiguous { color: #ffca75; }
+.status-conflict, .status-running, .status-validating, .status-cancelled, .status-ambiguous { color: #ffca75; }
 .status-generated { color: #9dbbdc; }
 .item-reason { color: var(--muted); margin-top: .3rem; font-size: .8rem; }
 .current-file { padding: .8rem; background: var(--inset); border: 1px dashed var(--border); margin: 1rem 0; overflow-wrap: anywhere; }

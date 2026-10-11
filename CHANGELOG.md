@@ -4,6 +4,11 @@ Candidate0.7 follow-up: per-file range/resolution/audio controls and encoder cha
 
 ## 0.7.0-alpha.1 — Candidate development, not accepted
 
+- Current Jobs progress distinguishes encoding, output validation, completed-source checking and publication, with no stale post-encode speed/ETA. Canonical ordinary prepared plans preserve actual builder arguments and path validation. Complete decoded timing/FLAC and bounded HDR checks have native evidence; four CPU trimmed-profile cells pass and an SVT duration failure is retained for diagnosis. These partial changes do not enable all new processing paths or close O–S.
+
+- Keyboard range sliders supplement exact microsecond fields without silently changing them. Candidate discovery explains absent/untested native backends without fallback or enabling unverified hardware.
+- Corrected fractional-origin sample discontinuity in the new range builder; owned AAC/FLAC native telemetry passes. Narrow MOV track-name/language representation checks added, while actual audio presentation/layout loss remains refused. Expanded HDR and operation validation are still being qualified, not accepted support.
+
 - Durable bounded diagnostics and expanded typed inspection evidence; source/refusal context survives restart.
 - Valid completed outputs with complete comparable ctime-only differences save with an explicit bounded-evidence warning. Other changes, incomplete checks and cancellation remain distinct; validated stages are retained safely when publication cannot proceed. Strict preparation/cache/re-encode authority remains unchanged.
 - Startup errors drain cancellation and diagnostics without blocking renderer-loss recovery. Diagnostic stderr accounting, terminal quota headroom and same-size copy-publication checks corrected after independent review.

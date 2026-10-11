@@ -1,12 +1,13 @@
 'use strict';
 
 const { ToolError } = require('./process-runner.cjs');
+const { integerEvidence: normalizeInteger, rationalEvidence: normalizeRational } = require('./media-evidence.cjs');
 
 // This is a pure planning boundary, not a capability grant. Main must match the
 // returned requirements to native evidence and bind any decision to the current
 // source/draft. Neither a display label nor serialized metadata can authorize a
 // filter, drop an ancillary stream, or establish HDR-display acceptance.
-const HDR_CONTRACT_VERSION = 1;
+const HDR_CONTRACT_VERSION = 2;
 const HDR_TRANSFORM_VERSION = 'software-hable-100nit-v1';
 const HELP_BASIS = 'FFmpeg 9.0.1: transform-runtime-help.txt (2026-10-11)';
 const SDR_TRANSFERS = ['bt709', 'gamma22', 'gamma28', 'smpte170m', 'smpte240m', 'iec61966-2-1', 'bt2020-10', 'bt2020-12'];
@@ -90,12 +91,10 @@ function rationalEvidence(value, label, maximum) {
 }
 const greater = (a, b) => BigInt(a.numerator) * BigInt(b.denominator) > BigInt(b.numerator) * BigInt(a.denominator);
 
-function metadataOf(video) {
-  if (!plain(video.hdr) || video.hdr.coverage !== 'stream-metadata-only' || !Array.isArray(video.hdr.entries)
-      || video.hdr.entries.length > 64) fail('INVALID_HDR_EVIDENCE', 'A bounded typed HDR evidence record is required.');
+function parseMetadataEntries(entries) {
   const metadata = { mastering: null, contentLight: null, ambient: null, dolby: null };
   const seen = new Set();
-  for (const entry of video.hdr.entries) {
+  for (const entry of entries) {
     const type = textEvidence(entry.type, 'HDR side-data type');
     if (seen.has(type)) fail('HDR_METADATA_AMBIGUOUS', `Repeated ${type} needs reconciliation before preparation.`);
     seen.add(type);
@@ -132,7 +131,96 @@ function metadataOf(video) {
   return metadata;
 }
 
-function sourceOf(video, decision) {
+function metadataOf(video) {
+  if (!plain(video.hdr) || video.hdr.coverage !== 'stream-metadata-only' || !Array.isArray(video.hdr.entries)
+      || video.hdr.entries.length > 64) fail('INVALID_HDR_EVIDENCE', 'A bounded typed HDR evidence record is required.');
+  return parseMetadataEntries(video.hdr.entries);
+}
+function metadataEqual(left, right) {
+  if (left === right) return true;
+  if (!plain(left) || !plain(right)) return false;
+  if (own(left, 'numerator') && own(right, 'numerator')) {
+    return BigInt(left.numerator) * BigInt(right.denominator) === BigInt(right.numerator) * BigInt(left.denominator);
+  }
+  const keys = Object.keys(left);
+  return keys.length === Object.keys(right).length && keys.every(key => own(right, key) && metadataEqual(left[key], right[key]));
+}
+
+function decodedMetadataEntries(frame) {
+  const entries = frame.side_data_list === undefined ? [] : frame.side_data_list;
+  if (!Array.isArray(entries) || entries.length > 64) fail('INVALID_HDR_FRAME_EVIDENCE', 'Decoded side-data exceeds its bound.');
+  const normalized = [];
+  for (const entry of entries) {
+    if (!plain(entry) || typeof entry.side_data_type !== 'string') fail('INVALID_HDR_FRAME_EVIDENCE', 'Decoded side-data type is invalid.');
+    const type = entry.side_data_type, fields = {};
+    // This well-known unrelated SEI carries encoder/user prose, not HDR
+    // authority. Unknown payload types are not treated as permission to drop.
+    if (type === 'H.26[45] User Data Unregistered SEI message') continue;
+    if (type === 'Mastering display metadata' || type === 'Ambient viewing environment') {
+      const keys = type === 'Mastering display metadata' ? MASTER_FIELDS : ['ambient_illuminance', 'ambient_light_x', 'ambient_light_y'];
+      for (const key of keys) fields[key] = normalizeRational(entry[key], { nonnegative: true });
+    } else if (type === 'Content light level metadata') {
+      for (const key of ['max_content', 'max_average']) {
+        const value = normalizeInteger(entry[key], { maximum: 65535 });
+        fields[key] = value.state === 'known' && value.value === '0' ? { state: 'unknown', reason: 'unspecified-zero-light-level' } : value;
+      }
+    } else fail('HDR_DYNAMIC_METADATA_UNSUPPORTED', `Decoded ${type} requires an explicit qualified interpretation; it cannot be silently omitted.`);
+    normalized.push({ type: { state: 'known', value: type }, fields });
+  }
+  return normalized;
+}
+
+function reconcileFrameEvidence(video, signal, metadata, frameEvidence) {
+  const origins = Object.fromEntries(Object.keys(metadata).map(key => [key, { streamObserved: metadata[key] !== null, decodedFrameObservations: 0 }]));
+  const result = { streamCoverage: video.hdr.coverage, frames: null, origins,
+    absenceMeaning: 'not-observed-in-provided-evidence; never proof of absent metadata outside that coverage' };
+  if (frameEvidence === undefined) return result;
+  record(frameEvidence, ['videoIndex', 'coverage', 'decodedFrameCount', 'decodeExitCode', 'frames'], 'Decoded source evidence');
+  const { frames, coverage, decodedFrameCount } = frameEvidence;
+  if (frameEvidence.videoIndex !== video.index || !['full', 'sampled'].includes(coverage) || frameEvidence.decodeExitCode !== 0
+      || !Array.isArray(frames) || !frames.length || frames.length > 256 || !Number.isSafeInteger(decodedFrameCount)
+      || decodedFrameCount < frames.length || (coverage === 'full' && decodedFrameCount !== frames.length)) {
+    fail('INVALID_HDR_FRAME_EVIDENCE', 'Decoded source evidence is incomplete or identifies a different video.');
+  }
+  const width = integerEvidence(video.geometry.width, 'Source width', 65536), height = integerEvidence(video.geometry.height, 'Source height', 65536);
+  if (width < 1 || height < 1) fail('INVALID_HDR_FRAME_EVIDENCE', 'Decoded source dimensions must be positive.');
+  if (video.geometry.issues?.length) fail('HDR_FRAME_GEOMETRY_OR_SCAN_CONFLICT', 'The source has contradictory geometry evidence.');
+  let observedSar = video.geometry.sampleAspectRatio?.state === 'known' ? video.geometry.sampleAspectRatio.value : null;
+  let sarFrames = 0;
+  for (const frame of frames) {
+    if (!plain(frame) || frame.media_type !== 'video' || frame.stream_index !== video.index || frame.width !== width || frame.height !== height
+        || (frame.interlaced_frame !== 0 && frame.interlaced_frame !== '0')) fail('HDR_FRAME_GEOMETRY_OR_SCAN_CONFLICT', 'Decoded geometry, identity or progressive scan does not match the source.');
+    const sar = normalizeRational(frame.sample_aspect_ratio, { positive: true, separator: ':' });
+    if (sar.state === 'malformed' || (video.geometry.sampleAspectRatio?.state === 'known' && sar.state !== 'known')) {
+      fail('HDR_FRAME_GEOMETRY_OR_SCAN_CONFLICT', 'Decoded sample aspect ratio is malformed or fails to establish the declared source geometry.');
+    }
+    if (sar.state === 'known') {
+      if (observedSar && !metadataEqual(observedSar, sar.value)) fail('HDR_FRAME_GEOMETRY_OR_SCAN_CONFLICT', 'Decoded sample aspect ratio changes or contradicts source geometry.');
+      observedSar = sar.value; sarFrames++;
+    }
+    for (const field of ['crop_top', 'crop_bottom', 'crop_left', 'crop_right', 'repeat_pict']) {
+      if (own(frame, field) && frame[field] !== 0 && frame[field] !== '0') fail('HDR_FRAME_GEOMETRY_OR_SCAN_CONFLICT', `Decoded ${field} requires a separate qualified geometry/cadence contract.`);
+    }
+    for (const [field, expected] of [['pix_fmt', signal.pixelFormat], ['color_transfer', signal.transfer], ['color_primaries', signal.primaries],
+      ['color_space', signal.matrix], ['color_range', signal.range], ['chroma_location', signal.chromaLocation]]) {
+      if (expected !== null && frame[field] !== expected) fail('HDR_FRAME_SIGNAL_CONFLICT', `Decoded ${field} conflicts with or does not establish the source signal.`);
+    }
+    const observed = parseMetadataEntries(decodedMetadataEntries(frame));
+    for (const key of Object.keys(observed)) if (observed[key] !== null) {
+      if (metadata[key] !== null && !metadataEqual(metadata[key], observed[key])) fail('HDR_METADATA_CONFLICT', `Observed ${key} differs between stream/decoded frames.`);
+      if (metadata[key] === null) metadata[key] = observed[key];
+      origins[key].decodedFrameObservations++;
+    }
+  }
+  result.frames = { coverage, observedFrames: frames.length, decodedFrameCount, progressiveObserved: true,
+    sampleAspectRatio: { value: observedSar, decodedFrameObservations: sarFrames, inheritedAsStreamEvidence: false },
+    completeProvidedDecode: coverage === 'full', fullSourceGuarantee: false, limitation: coverage === 'sampled'
+      ? 'Values agree only in bounded inspected frames; unobserved changes/dynamic payloads remain possible.'
+      : 'Complete supplied decode evidence; source identity and capture completeness must be bound by main.' };
+  return result;
+}
+
+function sourceOf(video, decision, frameEvidence) {
   if (!plain(video) || !Number.isSafeInteger(video.index) || video.index < 0 || video.index > 100000
       || !plain(video.color) || !plain(video.geometry)) fail('INVALID_HDR_EVIDENCE', 'A typed selected-video evidence record is required.');
   if (textEvidence(video.codec?.type, 'Stream type') !== 'video') fail('INVALID_HDR_EVIDENCE', 'HDR evidence must describe the selected video stream.');
@@ -148,16 +236,18 @@ function sourceOf(video, decision) {
   const classification = transfer === 'smpte2084' ? 'pq' : transfer === 'arib-std-b67' ? 'hlg' : SDR_TRANSFERS.includes(transfer) ? 'sdr' : null;
   if (!classification) fail('HDR_TRANSFER_UNSUPPORTED', 'The transfer characteristic has no implemented interpretation.');
   if (decision && ((classification === 'sdr') !== (decision.classification === 'sdr') || (classification === 'sdr' && decision.supported !== true))) fail('HDR_EVIDENCE_CONFLICT', 'The source signal conflicts with its inspected classification.');
-  if (classification === 'sdr' && Object.values(metadata).some(Boolean)) fail('HDR_EVIDENCE_CONFLICT', 'HDR metadata conflicts with the reported SDR transfer.');
   const signal = { transfer, primaries: textEvidence(video.color.primaries, 'Primaries', true),
     matrix: textEvidence(video.color.matrix, 'Matrix', true), range: textEvidence(video.color.range, 'Range', true),
     pixelFormat: textEvidence(video.color.pixelFormat, 'Pixel format', true), chromaLocation: textEvidence(video.color.chromaLocation, 'Chroma location', true) };
+  const metadataEvidence = reconcileFrameEvidence(video, signal, metadata, frameEvidence);
+  if (classification === 'sdr' && Object.values(metadata).some(Boolean)) fail('HDR_EVIDENCE_CONFLICT', 'HDR metadata conflicts with the reported SDR transfer.');
   let scanMode = null;
   if (classification !== 'sdr') {
     if (signal.primaries !== 'bt2020' || signal.matrix !== 'bt2020nc' || signal.range !== 'tv'
         || !['yuv420p10le', 'p010le'].includes(signal.pixelFormat)) fail('HDR_SIGNAL_UNSUPPORTED', 'The initial HDR contract requires coherent limited-range BT.2020 non-constant-luminance 10-bit 4:2:0 evidence.');
     scanMode = textEvidence(video.geometry.fieldOrder, 'Field order', true);
     if (scanMode !== null && scanMode !== 'progressive') fail('HDR_SCAN_UNSUPPORTED', 'This HDR path requires progressive input; it does not deinterlace.');
+    if (scanMode === null && metadataEvidence.frames?.coverage === 'full') scanMode = 'progressive';
   }
   if (metadata.dolby) {
     const d = metadata.dolby;
@@ -165,7 +255,9 @@ function sourceOf(video, decision) {
         || d.bl_present_flag !== 1 || d.el_present_flag !== 0 || d.rpu_present_flag !== 1
         || d.dv_version_major !== 1 || d.dv_version_minor !== 0) fail('HDR_DOLBY_UNSUPPORTED', 'Only the explicitly qualified Dolby profile 8 HLG-compatible base-layer shape is planned here.');
   }
-  return { videoIndex: video.index, classification, signal, metadata, scanMode, coverage: video.hdr.coverage };
+  return { videoIndex: video.index, classification, signal, metadata, metadataEvidence, scanMode,
+    scanOrigin: video.geometry.fieldOrder.state === 'known' ? 'stream' : scanMode === 'progressive' ? 'complete-decoded-frames' : 'unresolved',
+    coverage: frameEvidence === undefined ? video.hdr.coverage : 'stream-and-decoded-frame-evidence' };
 }
 
 const removeFrameMetadata = types => types.map(type => `sidedata=mode=delete:type=${type}`);
@@ -216,11 +308,12 @@ function dolbyPqFilter() {
 }
 
 function resolveHdrContract(options) {
-  record(options, ['policy', 'videoEvidence', 'colorDecision', 'outputCodec', 'outputBitDepth', 'target'], 'HDR request');
+  record(options, ['policy', 'videoEvidence', 'frameEvidence', 'colorDecision', 'outputCodec', 'outputBitDepth', 'target'], 'HDR request');
   const { policy, outputCodec, outputBitDepth, target = 'matroska' } = options;
   if (!['preserve', 'sdr', 'hlg-base', 'dolby-pq'].includes(policy) || !['h264', 'h265', 'av1'].includes(outputCodec)
       || ![undefined, 8, 10].includes(outputBitDepth) || !['matroska', 'mp4', 'mov'].includes(target)) fail('INVALID_HDR_REQUEST', 'Unsupported HDR operation, codec, depth or container.');
-  const source = sourceOf(evidenceSnapshot(options.videoEvidence), options.colorDecision === undefined ? undefined : evidenceSnapshot(options.colorDecision));
+  const source = sourceOf(evidenceSnapshot(options.videoEvidence), options.colorDecision === undefined ? undefined : evidenceSnapshot(options.colorDecision),
+    options.frameEvidence === undefined ? undefined : evidenceSnapshot(options.frameEvidence));
   const result = { version: HDR_CONTRACT_VERSION, policy, source, outputCodec, target,
     status: 'descriptive-unqualified-contract', executable: false, filterContribution: null,
     decisionRequirements: [], qualificationRequirements: [], warnings: [], ancillaryStreamAuthority: 'none' };
@@ -241,6 +334,7 @@ function resolveHdrContract(options) {
   result.qualificationRequirements.push('matching-runtime-backend-container-cell', 'decoded-signal-and-frame-consistency',
     'output-bitstream-and-container-signal', 'preservation-validation-and-ancillary-decisions', 'native-playback', 'hdr-display-judgment-not-yet-verified');
   if (source.scanMode === null) result.qualificationRequirements.push('source-progressive-scan-evidence-required');
+  if (source.metadataEvidence.frames?.coverage !== 'full') result.qualificationRequirements.push('source-hdr-metadata-outside-inspected-evidence-unproven');
   const retained = retainedMetadata(source);
   if (policy === 'sdr') {
     result.route = isDolby ? 'dolby84-hlg-base-to-sdr' : `${source.classification}-to-sdr`;

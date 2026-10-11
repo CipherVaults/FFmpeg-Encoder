@@ -2,6 +2,8 @@
 
 # Current state — October 11, 2026
 
+Latest partial checkpoint after294e1fa: [07:37UTC recovery record](Execution%20Summaries/2026-10-11_0.7_Media_Qualification_Followup.md#recovery-checkpoint--october-11-0737-utc). Execution continues under Goal23/amendment28; Ahmed's quota/documentation reminder is not a pause.152 affected integration tests and343 overlapping media checks pass. Actual Jobs lifecycle, bounded HDR numeric/signaling and complete retained AAC/FLAC validation pass. Four ordinary x264/x265 trimmed-profile cells pass; SVT-AV1 duration validation failed and retained its evidence before the remaining cells ran. Main transformed/HDR/Remux/vendor admission remains unfinished. N alone is closed; no candidate ZIP/accepted0.7. See Continuation for exact worker ownership and the next no-encode investigation.
+
 ## Live resumed execution — latest owner instruction
 
 Execution is active under amendment28 on codex/v0.7-candidate, version0.7.0-alpha.1. N is independently verified; O–S remain incomplete. Checkpoints bd0c632(foundation),7336039(runtime provisioning),9257af1(Electron44.7),e88ee64(workbench/draft/output actions) and9abdf1c(candidateFFmpeg9.0.2 selection) are recoverable. Startup error2369cf4 remains fixed. See [workbench integration](Execution%20Summaries/2026-10-11_0.7_Workbench_Integration.md) and [runtime maintenance](Execution%20Summaries/2026-10-11_0.7_Runtime_Maintenance.md) for the overlapping direct/native evidence and limits. Installed44.7 and separately verified9.0.2 now run the candidate; root9.0.1, accepted0.6 and benchmark remain unchanged.

@@ -1,5 +1,9 @@
 # Technical reference
 
+October11 07:37UTC: canonical ordinary prepared plans retain validated absolute paths and substitute only the final owned staging slot. Streaming operation validation compares complete interior video/audio timing and FLAC PCM; four x264/x265 trimmed cells pass, SVT duration failure remains refused. Backend probe orchestration30 injected tests is not hardware evidence. Native HDR numerical/signaling and Jobs lifecycle evidence is bounded; main changed-operation/HDR/Remux/vendor integration remains incomplete. See [current recovery checkpoint](Execution%20Summaries/2026-10-11_0.7_Media_Qualification_Followup.md#recovery-checkpoint--october-11-0737-utc).
+
+Candidate follow-up: normalization5 carries descriptive bounded frame evidence; HDR output checks require independent container/elementary observations. Range timestamps use explicit stream time bases and exact integer origin ticks, preserving gaps. Main-only DXGI discovery uses in-memory delegates without a compiler child; MOV metadata equivalence binds native track IDs and file receipts. Detailed contracts, native evidence and remaining integration gaps are in [Media Qualification Follow-up](Execution%20Summaries/2026-10-11_0.7_Media_Qualification_Followup.md).
+
 October11 follow-up: [operation qualification and draft controls](Execution%20Summaries/2026-10-11_0.7_Operation_Qualification.md) records native37f79554, six narrow owned operation cases and zero-child rational collector rechecks. Per-file controls and preserved-draft encoder changes are implemented; qualified transform/Remux/HDR/vendor execution remains unfinished. No milestone or candidate acceptance is implied.
 
 

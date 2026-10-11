@@ -64,6 +64,36 @@ test('capability failure remains diagnosable with stderr and code', async t => {
   assert.equal(event.stderr.text, 'owned diagnostic tail');
 });
 
+test('concurrent capability requests await device discovery and receive detached descriptions only', async t => {
+  let entered, release;
+  const entering = new Promise(resolve => { entered = resolve; });
+  const held = new Promise(resolve => { release = resolve; });
+  const registry = { privateAuthority: true };
+  const h = await fixture(t, { discoverBackends: async () => { entered(); await held; return { registry,
+    display: { profiles: [{ state: 'unavailable', reason: 'MISSING_DEVICE' }] } }; } });
+  const first = h.service.getCapabilities(); await entering;
+  let finished = false; const second = h.service.getCapabilities().then(value => { finished = true; return value; });
+  await new Promise(resolve => setImmediate(resolve)); assert.equal(finished, false);
+  release(); const [a, b] = await Promise.all([first, second]);
+  assert.deepEqual(a, b); assert.equal(h.service.nativeCapabilities, registry);
+  a.backendDiscovery.profiles[0].state = 'invented';
+  assert.equal(h.service.getRuntimeInformation().backendDiscovery.profiles[0].state, 'unavailable');
+  assert.equal(JSON.stringify(b).includes('privateAuthority'), false);
+});
+
+test('cancellation during native discovery drains the task and cannot cache partial availability', async t => {
+  let entered; const entering = new Promise(resolve => { entered = resolve; });
+  const h = await fixture(t, { discoverBackends: async ({ signal }) => { entered();
+    await new Promise(resolve => signal.addEventListener('abort', resolve, { once: true }));
+    throw Object.assign(new Error('Discovery cancelled'), { code: 'CANCELLED' }); } });
+  const request = h.service.getCapabilities(); const rejected = assert.rejects(request, { code: 'CAPABILITIES_FAILED' });
+  await entering; await h.service.cancelCurrent(); await rejected;
+  assert.equal(h.service.capabilityResult, null); assert.equal(h.service.nativeCapabilities, null);
+  assert.equal(h.service.snapshot().phase, 'cancelled');
+  h.service.discoverBackends = async () => ({ registry: {}, display: { profiles: [] } });
+  assert.ok((await h.service.getCapabilities()).backendDiscovery);
+});
+
 test('failed durable startup retries and remains visibly incomplete rather than inventing persistence', async t => {
   let starts = 0;
   const diagnostics = { startSession: async () => ({ persisted: ++starts > 1, recovered: [] }), snapshot: () => ({ available: starts > 1 }),

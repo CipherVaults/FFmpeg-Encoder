@@ -52,6 +52,36 @@ function outputProbe(input = sourceProbe()) {
   return output;
 }
 
+test('explicit main-owned HDR sampling retains scan/geometry evidence without inventing stream facts or SDR acceptance', async () => {
+  const probe = sourceProbe({ bits: 10 }); Object.assign(probe.streams[0], { color_transfer: 'arib-std-b67', color_primaries: 'bt2020', color_space: 'bt2020nc' });
+  const frame = { ...sample(4, 'arib-std-b67').frames[0], interlaced_frame: 0, top_field_first: 0, repeat_pict: 0,
+    width: 320, height: 180, pix_fmt: 'yuv420p10le', sample_aspect_ratio: '1:1', color_primaries: 'bt2020', color_space: 'bt2020nc', color_range: 'tv' };
+  const mocked = mockRun([{ frames: [frame] }]);
+  const result = await finishInspection(file, probe, { ffprobe, run: mocked.run, inspectHdrFrames: true });
+  assert.equal(mocked.calls.length, 1); assert.match(mocked.calls[0].args.join(' '), /interlaced_frame/);
+  assert.equal(result.color.classification, 'hdr'); assert.equal(result.color.supported, false);
+  assert.equal(result.probe.streams[0].field_order, undefined);
+  const properties = result.summary.boundedFrameProperties;
+  assert.equal(properties.scope, 'bounded-decoded-windows-only'); assert.equal(properties.complete, true);
+  assert.equal(properties.scan, 'progressive-observed'); assert.deepEqual(properties.geometry.sample_aspect_ratio.values, ['1:1']);
+  assert.deepEqual(reconstructInspection(result.probe, result.evidence).summary.boundedFrameProperties, properties);
+  result.evidence.windows[0].frames[0].interlaced_frame = 1;
+  assert.equal(reconstructInspection(result.probe, result.evidence).summary.boundedFrameProperties.scan, 'interlaced-observed');
+  delete result.evidence.windows[0].frames[0].interlaced_frame;
+  assert.equal(reconstructInspection(result.probe, result.evidence).summary.boundedFrameProperties.scan, 'unknown');
+});
+
+test('HDR deep sampling is opt-in and failed coverage never becomes a complete transform observation', async () => {
+  const probe = sourceProbe({ bits: 10 }); probe.streams[0].color_transfer = 'smpte2084';
+  const run = mockRun([]);
+  const shallow = await finishInspection(file, probe, { ffprobe, run: run.run });
+  assert.equal(run.calls.length, 0); assert.equal(shallow.summary.boundedFrameProperties.complete, false);
+  const failed = await finishInspection(file, probe, { ffprobe, run: mockRun([{ frames: [] }]).run, inspectHdrFrames: true });
+  assert.equal(failed.summary.boundedFrameProperties.complete, false); assert.equal(failed.summary.boundedFrameProperties.scan, 'unknown');
+  assert.equal(failed.color.supported, false);
+  await assert.rejects(finishInspection(file, probe, { ffprobe, run: run.run, inspectHdrFrames: 'true' }), { code: 'INVALID_INSPECTION' });
+});
+
 test('inspection bounds metadata and frames and selects the default non-attached video by absolute index', async () => {
   const input = sourceProbe();
   input.streams.unshift({ index: 0, codec_type: 'video', disposition: { attached_pic: 1 } });

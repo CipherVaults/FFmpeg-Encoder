@@ -129,7 +129,22 @@ function tagContract(tags = {}, { target, stream, container = false } = {}) {
       if (lower === 'creation_time') representations.push({ key, equivalence: matroskaTrack ? 'exact-source-text-track-alias' : 'same-UTC-instant-or-exact-source-text',
         ...(matroskaTrack ? { outputKey: STREAM_CREATION_TIME_ALIAS } : {}) });
       if (matroskaTrack && lower === 'language' && value === 'und') representations.push({ key, equivalence: 'undefined-track-language-may-be-omitted-by-ffprobe' });
+      if (target === 'mov' && stream && lower === 'language' && value === 'und') representations.push({ key,
+        equivalence: 'owned-mov-mdhd-unspecified-language', nativeLanguageCode: 32767,
+        evidence: 'Owned output hash, exact native track ID and observed mdhd are required; tag absence alone is insufficient.' });
     }
+  }
+  if (target !== 'matroska' && stream && ['video', 'audio', 'subtitle'].includes(stream.codec_type)) {
+    const nameKey = Object.keys(preserved).find(key => key.toLowerCase() === 'name');
+    const titleKey = Object.keys(preserved).find(key => key.toLowerCase() === 'title');
+    if (nameKey && titleKey && preserved[nameKey] !== preserved[titleKey]) {
+      fail('REMUX_METADATA_AMBIGUOUS', 'Distinct track name and title cannot both occupy the native MOV/MP4 track-name atom.');
+    }
+    // FFmpeg's MOV writer consumes "title" for udta/name; the MOV demuxer
+    // exposes that native track name as "name". Copying a source "name" alone
+    // does not invoke the writer. Declare and emit this representation once.
+    for (const key of [nameKey, titleKey].filter(Boolean)) representations.push({ key,
+      equivalence: 'native-isobmff-track-name', outputKey: 'name', writeKey: 'title' });
   }
   let creationAlias = null;
   if (target === 'matroska' && stream) creationAlias = streamCreationTimeAlias(stream);
@@ -321,6 +336,9 @@ function buildRemuxQualificationArgs(options) {
   for (const stream of assessment.expectedOutput.streams) {
     args.push(`-map_metadata:s:${stream.outputIndex}`, `0:s:${stream.inputIndex}`, `-disposition:${stream.outputIndex}`, stream.disposition.join('+') || '0');
     if (stream.metadata.creationAlias !== null) args.push(`-metadata:s:${stream.outputIndex}`, `${STREAM_CREATION_TIME_ALIAS}=${stream.metadata.creationAlias}`);
+    const writes = new Map(stream.metadata.representations.filter(item => item.writeKey)
+      .map(item => [item.writeKey, stream.metadata.preserved[item.key]]));
+    for (const [key, value] of writes) args.push(`-metadata:s:${stream.outputIndex}`, `${key}=${value}`);
   }
   for (const change of assessment.expectedOutput.bitstream) args.push(`-bsf:${change.outputIndex}`, change.filter);
   // A copied old encode description must not be advertised as a new remux's
@@ -333,4 +351,12 @@ function buildRemuxQualificationArgs(options) {
   return args;
 }
 
-module.exports = { REMUX_CONTRACT_VERSION, REMUX_TARGETS: TARGETS, validateRemuxRequest, assessRemux, buildRemuxQualificationArgs };
+// Trusted validator access only. Serialized UI assessments cannot recover the
+// original evidence or manufacture a prepared validation plan.
+function getRemuxAssessmentSource(assessment) {
+  const state = assessments.get(assessment);
+  if (!state || assessment.status !== 'qualification-required') fail('REMUX_NOT_PLANNABLE', 'A genuine unblocked main assessment is required.');
+  return freeze(structuredClone(state.probe));
+}
+
+module.exports = { REMUX_CONTRACT_VERSION, REMUX_TARGETS: TARGETS, validateRemuxRequest, assessRemux, buildRemuxQualificationArgs, getRemuxAssessmentSource };

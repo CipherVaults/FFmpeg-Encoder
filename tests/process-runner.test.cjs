@@ -1,6 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { EventEmitter } = require('node:events');
+const { PassThrough } = require('node:stream');
 const { ProgressParser, runTool, boundedToolStderr } = require('../src/process-runner.cjs');
 
 function fakeChild() {
@@ -206,4 +207,189 @@ test('wrapper bounds preserve upstream byte counts and never invent complete cap
   assert.deepEqual(boundedToolStderr(source, 8), { stderr: '😀終', stderrTruncated: true, stderrCapture: { totalBytes: 10000, truncated: true } });
   assert.deepEqual(boundedToolStderr({ stderr: 'legacy tail' }, 6), { stderr: 'y tail', stderrTruncated: true });
   assert.equal(source.stderr, 'ع😀終');
+});
+
+// A real Readable with an injected child exercises pause/resume without
+// launching a helper process or media executable.
+function streamingChild() {
+  const child = fakeChild();
+  child.stdout = new PassThrough();
+  return child;
+}
+function deferred() {
+  let resolve, reject;
+  const promise = new Promise((yes, no) => { resolve = yes; reject = no; });
+  return { promise, resolve, reject };
+}
+const tick = () => new Promise(resolve => setImmediate(resolve));
+
+test('binary streaming preserves arbitrary bytes and reports complete byte accounting without text capture', async () => {
+  const child = streamingChild();
+  const observed = [];
+  const promise = runTool('fixed.exe', [], { spawnImpl: () => child, stdoutLimit: 8,
+    onStdoutChunk: chunk => { assert.ok(Buffer.isBuffer(chunk)); observed.push(Buffer.from(chunk)); } });
+  child.stdout.write(Buffer.from([0, 255, 128, 0xc3]));
+  child.stdout.write(Buffer.from([0xa9, 0, 13, 10]));
+  await tick();
+  child.emit('close', 0);
+  const result = await promise;
+  assert.deepEqual(Buffer.concat(observed), Buffer.from([0, 255, 128, 0xc3, 0xa9, 0, 13, 10]));
+  assert.equal(result.stdout, '');
+  assert.deepEqual(result.stdoutCapture, { totalBytes: 8, truncated: false, streamed: true });
+});
+
+test('binary streaming applies actual backpressure until the async sink drains', async () => {
+  const child = streamingChild();
+  const first = deferred(), second = deferred();
+  const observed = [];
+  let concurrent = 0, maximum = 0;
+  const promise = runTool('fixed.exe', [], { spawnImpl: () => child, onStdoutChunk: async bytes => {
+    observed.push(bytes.toString()); maximum = Math.max(maximum, ++concurrent);
+    await (observed.length === 1 ? first.promise : second.promise); concurrent--;
+  } });
+  child.stdout.write(Buffer.from('one'));
+  await tick();
+  assert.equal(child.stdout.isPaused(), true);
+  child.stdout.write(Buffer.from('two'));
+  await tick();
+  assert.deepEqual(observed, ['one']);
+  first.resolve(); await tick();
+  assert.deepEqual(observed, ['one', 'two']);
+  assert.equal(child.stdout.isPaused(), true);
+  assert.equal(maximum, 1);
+  second.resolve(); await tick();
+  assert.equal(child.stdout.isPaused(), false);
+  child.emit('close', 0);
+  assert.equal((await promise).stdoutCapture.totalBytes, 6);
+});
+
+test('binary streaming requires both child close and pending sink completion', async () => {
+  const child = streamingChild(); const gate = deferred(); let settled = false;
+  const promise = runTool('fixed.exe', [], { spawnImpl: () => child, onStdoutChunk: () => gate.promise })
+    .finally(() => { settled = true; });
+  child.stdout.write(Buffer.from([1, 2])); await tick();
+  child.emit('close', 0); await tick();
+  assert.equal(settled, false);
+  gate.resolve();
+  assert.deepEqual((await promise).stdoutCapture, { totalBytes: 2, truncated: false, streamed: true });
+});
+
+test('binary streaming finishes a synchronous sink but still waits for child close', async () => {
+  const child = streamingChild(); let settled = false;
+  const promise = runTool('fixed.exe', [], { spawnImpl: () => child, onStdoutChunk: () => {} })
+    .finally(() => { settled = true; });
+  child.stdout.write(Buffer.from('data')); await tick();
+  assert.equal(settled, false);
+  child.emit('close', 0); await promise;
+});
+
+for (const afterClose of [false, true]) {
+  test(`binary streaming rejects sink failure ${afterClose ? 'after' : 'before'} child close`, async () => {
+    const child = streamingChild(); const gate = deferred(); let settled = false;
+    const promise = runTool('fixed.exe', [], { spawnImpl: () => child, onStdoutChunk: () => gate.promise })
+      .finally(() => { settled = true; });
+    const rejection = assert.rejects(promise, error => {
+      assert.equal(error.code, 'STDOUT_SINK_FAILED');
+      assert.equal(error.cause.message, 'sink failed');
+      assert.deepEqual(error.stdoutCapture, { totalBytes: 3, truncated: true, streamed: true });
+      return true;
+    });
+    child.stdout.write(Buffer.from([0, 255, 0])); await tick();
+    if (afterClose) child.emit('close', 0);
+    gate.reject(new Error('sink failed')); await tick();
+    if (!afterClose) {
+      assert.equal(settled, false); assert.equal(child.kills, 1); child.emit('close', 0);
+    } else assert.equal(child.kills, 0);
+    await rejection;
+  });
+}
+
+test('binary streaming catches synchronous consumer throws and drains discarded pipe data', async () => {
+  const child = streamingChild(); let calls = 0;
+  const promise = runTool('fixed.exe', [], { spawnImpl: () => child, onStdoutChunk: () => {
+    calls++; throw new Error('sync failure');
+  } });
+  const rejection = assert.rejects(promise, { code: 'STDOUT_SINK_FAILED' });
+  child.stdout.write(Buffer.from('first')); child.stdout.write(Buffer.from('second')); await tick();
+  assert.equal(calls, 1); assert.equal(child.kills, 1); assert.equal(child.stdout.isPaused(), false);
+  child.emit('close', 0); await rejection;
+});
+
+test('binary streaming refuses the chunk crossing the total limit and preserves lost-byte evidence', async () => {
+  const child = streamingChild(); const observed = [];
+  const promise = runTool('fixed.exe', [], { stdoutLimit: 4, spawnImpl: () => child,
+    onStdoutChunk: bytes => observed.push(Buffer.from(bytes)) });
+  const rejection = assert.rejects(promise, error => {
+    assert.equal(error.code, 'OUTPUT_LIMIT');
+    assert.deepEqual(error.stdoutCapture, { totalBytes: 6, truncated: true, streamed: true }); return true;
+  });
+  child.stdout.write(Buffer.from([1, 2, 3])); await tick();
+  child.stdout.write(Buffer.from([4, 5, 6])); await tick();
+  assert.deepEqual(Buffer.concat(observed), Buffer.from([1, 2, 3])); assert.equal(child.kills, 1);
+  child.emit('close', 0); await rejection;
+});
+
+for (const afterClose of [false, true]) {
+  test(`binary streaming cancellation ${afterClose ? 'after' : 'before'} close waits for pending sink`, async () => {
+    const child = streamingChild(); const gate = deferred(); const abort = new AbortController(); let settled = false;
+    const promise = runTool('fixed.exe', [], { signal: abort.signal, spawnImpl: () => child, onStdoutChunk: () => gate.promise })
+      .finally(() => { settled = true; });
+    const rejection = assert.rejects(promise, { code: 'CANCELLED' });
+    child.stdout.write(Buffer.from([1])); await tick();
+    if (afterClose) child.emit('close', 0);
+    abort.abort(); await tick(); assert.equal(settled, false);
+    if (!afterClose) { assert.equal(child.kills, 1); child.emit('close', 0); }
+    gate.resolve(); await rejection;
+  });
+}
+
+test('binary streaming timeout while sink is pending retains ownership until close and drain', async () => {
+  const child = streamingChild(); const gate = deferred(); let settled = false;
+  const promise = runTool('fixed.exe', [], { timeoutMs: 5, spawnImpl: () => child, onStdoutChunk: () => gate.promise })
+    .finally(() => { settled = true; });
+  const rejection = assert.rejects(promise, { code: 'TIMEOUT' });
+  child.stdout.write(Buffer.from('pending'));
+  await new Promise(resolve => setTimeout(resolve, 20));
+  assert.equal(child.kills, 1); assert.equal(settled, false);
+  child.emit('close', 0); gate.resolve(); await rejection;
+});
+
+for (const pipe of ['stdout', 'stderr']) {
+  test(`binary streaming ${pipe} failure terminates and waits for drain`, async () => {
+    const child = streamingChild(); const gate = deferred(); let settled = false;
+    const promise = runTool('fixed.exe', [], { spawnImpl: () => child, onStdoutChunk: () => gate.promise })
+      .finally(() => { settled = true; });
+    const rejection = assert.rejects(promise, { code: 'PIPE_FAILED' });
+    child.stdout.write(Buffer.from('pending')); await tick();
+    child[pipe].emit('error', new Error('broken')); child.emit('close', 0); await tick();
+    assert.equal(settled, false); assert.equal(child.kills, 1);
+    gate.resolve(); await rejection;
+  });
+}
+
+test('binary streaming rejects invalid mode/bounds before spawn and records actual spawn failures', async () => {
+  const spawnImpl = () => assert.fail('must not spawn');
+  for (const options of [
+    { onStdoutChunk: true }, { onStdoutChunk: () => {}, onProgress: () => {} },
+    { onStdoutChunk: () => {}, stdoutLimit: -1 }, { onStdoutChunk: () => {}, stdoutLimit: Infinity },
+  ]) await assert.rejects(runTool('fixed.exe', [], { ...options, spawnImpl }));
+  await assert.rejects(runTool('fixed.exe', [], { onStdoutChunk: () => {}, spawnImpl: () => { throw new Error('missing'); } }), error => {
+    assert.equal(error.code, 'SPAWN_FAILED');
+    assert.deepEqual(error.stdoutCapture, { totalBytes: 0, truncated: false, streamed: true }); return true;
+  });
+  const child = streamingChild();
+  const promise = runTool('fixed.exe', [], { onStdoutChunk: () => {}, spawnImpl: () => child });
+  const rejection = assert.rejects(promise, { code: 'SPAWN_FAILED' });
+  child.emit('error', new Error('missing')); assert.equal(child.kills, 1);
+  child.emit('close', -1); await rejection;
+});
+
+test('binary streaming nonzero exits preserve complete stdout capture but never count as validation success', async () => {
+  const child = streamingChild(); const gate = deferred();
+  const promise = runTool('fixed.exe', [], { onStdoutChunk: () => gate.promise, spawnImpl: () => child });
+  const rejection = assert.rejects(promise, error => {
+    assert.equal(error.code, 'TOOL_FAILED'); assert.equal(error.exitCode, 2);
+    assert.deepEqual(error.stdoutCapture, { totalBytes: 2, truncated: false, streamed: true }); return true;
+  });
+  child.stdout.write(Buffer.from([1, 2])); await tick(); child.emit('close', 2); gate.resolve(); await rejection;
 });

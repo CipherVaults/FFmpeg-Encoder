@@ -86,18 +86,26 @@ class ProgressParser {
   }
 }
 
-// Resolves only after 'close', which means the child and its streams are gone.
+// Resolves only after 'close' and any asynchronous binary consumer has drained.
 // Abort/error/timeout request termination but never release ownership early.
 // The queue can therefore safely await this promise before starting a new job.
 function runTool(executable, args, options = {}) {
   const {
     signal, timeoutMs = 30000, stdoutLimit = 16 * 1024 * 1024,
-    stderrLimit = 256 * 1024, onProgress, spawnImpl = spawn, onChild, input,
+    stderrLimit = 256 * 1024, onProgress, onStdoutChunk, spawnImpl = spawn, onChild, input,
   } = options;
+  const streaming = typeof onStdoutChunk === 'function';
   const beforeSpawnError = (code, message) => Promise.reject(new ToolError(code, message, {
     stderr: '', stderrCapture: { totalBytes: 0, truncated: false },
+    ...(streaming ? { stdoutCapture: { totalBytes: 0, truncated: false, streamed: true } } : {}),
   }));
   if (signal?.aborted) return beforeSpawnError('CANCELLED', 'Operation cancelled.');
+  if ((onStdoutChunk !== undefined && !streaming) || (streaming && onProgress !== undefined)) {
+    return beforeSpawnError('INVALID_OUTPUT_MODE', 'Binary stdout streaming requires a function and cannot also parse progress.');
+  }
+  if (!Number.isSafeInteger(stdoutLimit) || stdoutLimit < 0) {
+    return beforeSpawnError('INVALID_LIMIT', 'Tool stdout limit must be a non-negative integer.');
+  }
   if (!Number.isSafeInteger(stderrLimit) || stderrLimit < 0) {
     return beforeSpawnError('INVALID_LIMIT', 'Tool stderr limit must be a non-negative integer.');
   }
@@ -111,36 +119,77 @@ function runTool(executable, args, options = {}) {
     let child;
     let failure;
     let closed = false;
+    let settled = false;
+    let closeCode;
+    let closeSignal;
     let stdout = '';
     let stderrTail = Buffer.alloc(0);
     let stderrBytes = 0;
     let outputBytes = 0;
+    let deliveredBytes = 0;
+    let pendingSinks = 0;
+    let sinkTail = Promise.resolve();
     let timeout;
     let retryKill;
-    const decoder = new StringDecoder('utf8');
+    const decoder = streaming ? null : new StringDecoder('utf8');
     const parser = onProgress ? new ProgressParser(onProgress) : null;
 
+    const settle = () => {
+      if (settled || !closed || pendingSinks !== 0) return;
+      settled = true;
+      clearTimeout(timeout);
+      clearTimeout(retryKill);
+      signal?.removeEventListener('abort', abort);
+      if (!parser && !streaming) stdout += decoder.end();
+      const tail = utf8Tail(stderrTail, stderrLimit, stderrBytes > stderrLimit);
+      const stderr = tail.text;
+      const stderrCapture = { totalBytes: stderrBytes, truncated: tail.truncated };
+      // This count describes pipe bytes, not merely successful callback bytes.
+      // A failing/limited sink must never look like complete evidence capture.
+      const capture = streaming ? { stdoutCapture: {
+        totalBytes: outputBytes, truncated: outputBytes !== deliveredBytes, streamed: true,
+      } } : {};
+      if (failure) {
+        Object.assign(failure, { stderr, stderrCapture, exitCode: closeCode, ...capture });
+        reject(failure);
+      } else if (closeCode !== 0) {
+        reject(new ToolError('TOOL_FAILED', `Media tool exited with code ${closeCode}.`, {
+          exitCode: closeCode, exitSignal: closeSignal, stderr, stderrCapture, ...capture,
+        }));
+      } else resolve({ stdout, stderr, stderrCapture, exitCode: closeCode, ...capture });
+    };
+
     const stop = (error) => {
-      if (closed) return;
+      if (settled) return;
       failure ||= error;
+      // A sink can reject after process close. Retain its failure while still
+      // waiting for other pending callbacks; do not misreport a zero exit as success.
+      if (closed) return;
       // Windows kill() terminates only this owned process, never a process name
       // or a machine-wide process tree. Incomplete media stays in our temp path.
-      child?.kill();
-      if (!retryKill) retryKill = setTimeout(() => { if (!closed) child?.kill('SIGKILL'); }, 2000);
+      try { child?.kill(); } catch { /* close remains the ownership boundary */ }
+      if (!retryKill) retryKill = setTimeout(() => {
+        if (!closed) { try { child?.kill('SIGKILL'); } catch { /* await close */ } }
+      }, 2000);
       retryKill.unref();
+      // Once the consumer has drained, discard further output while draining
+      // the terminated child's pipe. Leaving a real Readable paused can prevent close.
+      if (streaming && pendingSinks === 0) {
+        try { child?.stdout?.resume?.(); } catch { /* owned child is already stopping */ }
+      }
     };
     const abort = () => stop(new ToolError('CANCELLED', 'Operation cancelled.'));
     try {
       child = spawnImpl(executable, args, { windowsHide: true, shell: false, stdio: [input === undefined ? 'ignore' : 'pipe', 'pipe', 'pipe'] });
-      onChild?.(child);
     } catch (error) {
       reject(new ToolError('SPAWN_FAILED', `Could not launch the bundled media tool: ${error.message}`, {
         cause: error, stderr: '', stderrCapture: { totalBytes: 0, truncated: false },
+        ...(streaming ? { stdoutCapture: { totalBytes: 0, truncated: false, streamed: true } } : {}),
       }));
       return;
     }
     child.on('error', error => {
-      failure ||= new ToolError('SPAWN_FAILED', `Media tool process error: ${error.message}`, { cause: error });
+      stop(new ToolError('SPAWN_FAILED', `Media tool process error: ${error.message}`, { cause: error }));
     });
     // A helper may close stdin early or a captured pipe may fail. These are
     // owned-process failures: terminate, then retain ownership through close.
@@ -152,7 +201,30 @@ function runTool(executable, args, options = {}) {
         if (parser) parser.push(chunk);
         else {
           outputBytes += Buffer.byteLength(chunk);
+          if (failure) return;
           if (outputBytes > stdoutLimit) stop(new ToolError('OUTPUT_LIMIT', 'Media inspection exceeded its output limit.'));
+          else if (streaming) {
+            // Pause normal readable flow, not just a Promise queue. Node's exit
+            // drainage can still deliver a buffered pipe chunk; byte limits and
+            // serialized sink completion continue to cover that final delivery.
+            child.stdout.pause();
+            const bytes = Buffer.from(chunk);
+            pendingSinks++;
+            sinkTail = sinkTail.then(async () => {
+              try {
+                if (!failure) { await onStdoutChunk(bytes); deliveredBytes += bytes.length; }
+              } catch (error) {
+                stop(new ToolError('STDOUT_SINK_FAILED', 'Binary output consumer failed.', { cause: error }));
+              } finally {
+                pendingSinks--;
+                if (pendingSinks === 0 && !closed) {
+                  try { child.stdout.resume(); }
+                  catch (error) { stop(new ToolError('PIPE_FAILED', 'Could not resume binary output.', { cause: error })); }
+                }
+                settle();
+              }
+            });
+          }
           else stdout += decoder.write(chunk);
         }
       } catch (error) { stop(error); }
@@ -171,29 +243,23 @@ function runTool(executable, args, options = {}) {
     });
     child.once('close', (exitCode, exitSignal) => {
       closed = true;
-      clearTimeout(timeout);
+      closeCode = exitCode;
+      closeSignal = exitSignal;
       clearTimeout(retryKill);
-      signal?.removeEventListener('abort', abort);
-      if (!parser) stdout += decoder.end();
-      const tail = utf8Tail(stderrTail, stderrLimit, stderrBytes > stderrLimit);
-      const stderr = tail.text;
-      const stderrCapture = { totalBytes: stderrBytes, truncated: tail.truncated };
-      if (failure) {
-        failure.stderr = stderr;
-        failure.stderrCapture = stderrCapture;
-        failure.exitCode = exitCode;
-        reject(failure);
-      } else if (exitCode !== 0) {
-        reject(new ToolError('TOOL_FAILED', `Media tool exited with code ${exitCode}.`, { exitCode, exitSignal, stderr, stderrCapture }));
-      } else resolve({ stdout, stderr, stderrCapture, exitCode });
+      settle();
     });
+    if (streaming && (typeof child.stdout.pause !== 'function' || typeof child.stdout.resume !== 'function')) {
+      stop(new ToolError('PIPE_FAILED', 'Binary output requires a backpressure-capable pipe.'));
+    }
     signal?.addEventListener('abort', abort, { once: true });
     if (signal?.aborted) abort();
     if (timeoutMs > 0) {
       timeout = setTimeout(() => stop(new ToolError('TIMEOUT', 'Media operation exceeded its time limit.')), timeoutMs);
       timeout.unref();
     }
-    if (input !== undefined && !signal?.aborted) {
+    try { onChild?.(child); }
+    catch (error) { stop(new ToolError('SPAWN_FAILED', 'Media tool ownership callback failed.', { cause: error })); }
+    if (input !== undefined && !signal?.aborted && !failure && !closed) {
       try { child.stdin.end(input); }
       catch (error) { stop(new ToolError('PIPE_FAILED', 'Could not send bounded tool input.', { cause: error })); }
     }

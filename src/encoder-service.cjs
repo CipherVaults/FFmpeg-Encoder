@@ -3,7 +3,8 @@ const fs = require('node:fs/promises');
 const { createReadStream } = require('node:fs');
 const path = require('node:path');
 const { randomUUID, createHash } = require('node:crypto');
-const { PROFILES, validateSettings, selectVideo, buildEncodeArgs, describeRecipe, outputPixelFormat } = require('./media.cjs');
+const { PROFILES, validateSettings, selectVideo, describeRecipe, outputPixelFormat } = require('./media.cjs');
+const { buildEncodeOperation } = require('./encode-operation.cjs');
 const { runTool, isSharedToolFailure } = require('./process-runner.cjs');
 const { inspectInput, inspectMetadata, finishInspection, parseProbeJson, validateOutput } = require('./inspection.cjs');
 const { checkCapabilities } = require('./capabilities.cjs');
@@ -44,7 +45,7 @@ const sharedFailure = isSharedToolFailure;
 
 class EncoderService extends EventEmitter {
   constructor({ ffmpeg, ffprobe, stateDir, run = runTool, inspect = inspectInput, verify = validateOutput, capabilities = checkCapabilities,
-    inspectionCache, storageEligibility, inspectionWorkers = 2, provenanceJournal, preferences, diagnostics, appSettings, outputAccess, runtimeIdentity = null }) {
+    inspectionCache, storageEligibility, inspectionWorkers = 2, provenanceJournal, preferences, diagnostics, appSettings, outputAccess, runtimeIdentity = null, discoverBackends = null }) {
     super();
     if (![1, 2].includes(inspectionWorkers)) throw new TypeError('Inspection workers must be one or two.');
     Object.assign(this, { ffmpeg, ffprobe, stateDir, run, inspect, verify, capabilities });
@@ -80,6 +81,8 @@ class EncoderService extends EventEmitter {
     // Main supplies this only after checking the pinned runtime pair. Existing
     // direct mocks remain null; this field does not itself qualify a new path.
     this.runtimeIdentity = runtimeIdentity;
+    this.discoverBackends = discoverBackends;
+    this.nativeCapabilities = null;
   }
 
   // Saving application defaults never mutates a draft, prepared plan or active
@@ -111,7 +114,8 @@ class EncoderService extends EventEmitter {
       platform: process.platform, architecture: process.arch,
       media: Object.fromEntries(['ffmpeg', 'ffprobe'].map(name => [name, this.runtimeVersions[name]
         ? { status: 'observed', version: this.runtimeVersions[name], executable: this[name] }
-        : { status: 'not-yet-observed', version: null, executable: this[name] }])) };
+        : { status: 'not-yet-observed', version: null, executable: this[name] }])),
+      backendDiscovery: this.capabilityResult?.backendDiscovery ? clone(this.capabilityResult.backendDiscovery) : null };
   }
   async recordRuntimeVersions(versions) {
     const safe = {};
@@ -218,16 +222,30 @@ class EncoderService extends EventEmitter {
       try {
         await this.recordIncident({ stage: 'capability', reason: 'CAPABILITY_STARTED' });
         await fs.mkdir(this.stateDir, { recursive: true });
-        this.capabilityResult = await this.capabilities({ ffmpeg: this.ffmpeg, ffprobe: this.ffprobe, stateDir: this.stateDir, signal, run: this.run });
-        await this.recordRuntimeVersions(this.capabilityResult.versions);
-        await this.recordIncident({ stage: 'capability', reason: 'CAPABILITY_FINISHED', context: this.capabilityResult });
+        const capabilityResult = await this.capabilities({ ffmpeg: this.ffmpeg, ffprobe: this.ffprobe, stateDir: this.stateDir, signal, run: this.run });
+        await this.recordRuntimeVersions(capabilityResult.versions);
+        let nativeCapabilities = null;
+        if (this.discoverBackends) {
+          const discovered = await this.discoverBackends({ signal, run: this.run, versions: capabilityResult.versions });
+          notCancelled(signal);
+          nativeCapabilities = discovered.registry;
+          capabilityResult.backendDiscovery = discovered.display;
+        }
+        await this.recordIncident({ stage: 'capability', reason: 'CAPABILITY_FINISHED', context: capabilityResult });
         await this.recoverProvenance(signal);
+        notCancelled(signal);
+        this.capabilityResult = capabilityResult;
+        this.nativeCapabilities = nativeCapabilities;
         // Capability initialization is a separate operation. Returning from it
         // must not erase a completed/failed/cancelled workflow or its timings.
         this.state = { ...previousState, revision: this.state.revision, provenanceRecovery: this.state.provenanceRecovery,
           diagnostics: this.state.diagnostics, diagnosticWarning: this.state.diagnosticWarning, interruptedSessions: this.state.interruptedSessions };
         Object.assign(this, previousTimes);
       } catch (error) {
+        // Partially completed capability/discovery work is not a reusable ready
+        // result after cancellation or failure. A retry re-observes ownership.
+        this.capabilityResult = null;
+        this.nativeCapabilities = null;
         await this.recordRuntimeVersions(error.runtimeVersions);
         this.state.phase = error.code === 'CANCELLED' ? 'cancelled' : 'failed';
         this.state.error = error.message;
@@ -353,6 +371,8 @@ class EncoderService extends EventEmitter {
     // staging filename. The eventual publication destination is separate.
     return clone({ kind: entry.actualArgs ? 'actual-invocation' : 'resolved-argument-template', executable: this.ffmpeg,
       args: entry.actualArgs || entry.preparedArgs, destination: entry.destination,
+      operation: entry.operationPlan ? { contract: entry.operationPlan.contract, expectedOutput: entry.operationPlan.expectedOutput,
+        compatibilityPath: entry.operationPlan.compatibilityPath } : null,
       ...(entry.actualArgs ? {} : { outputPlaceholder: OUTPUT_PLACEHOLDER }),
       notice: entry.actualArgs ? 'Exact arguments passed to FFmpeg. This temporary output is validated before publication.'
         : 'Complete prepared arguments; only the final temporary output path is assigned when encoding starts. This is an argument array, not a shell command.' });
@@ -555,6 +575,9 @@ class EncoderService extends EventEmitter {
         await this.inspectionCache.store(identity, inspection);
         if (this.inspectionCache.warning) progress.notice ||= this.inspectionCache.warning;
       }
+      // Inspection facts remain useful when a later operation policy refuses
+      // the file. Duration in the preview is descriptive, never admission.
+      item.summary = inspection.summary;
       if (!inspection.color.supported) throw fail('UNSUPPORTED_COLOR', inspection.color.reasons.join(' '));
       if (item.operationRequest && (item.operationRequest.range !== null || item.operationRequest.resolution !== 'source'
           || item.operationRequest.audioPolicy !== 'copy' || item.operationRequest.target !== 'matroska'
@@ -578,12 +601,19 @@ class EncoderService extends EventEmitter {
         ...(settings.recipeId ? { recipeId: settings.recipeId } : {}),
         ...(typeof caps.versions?.ffmpeg === 'string' ? { runtimeVersion: caps.versions.ffmpeg.slice(0, 256) } : {}) });
       if (!generationDescription) throw fail('INVALID_RECIPE', 'The resolved generation description is invalid.');
-      const preparedArgs = buildEncodeArgs({ input: file, output: destination, settings, probe: inspection.probe,
-        colorEvidence: inspection.color, outputId, generationDescription });
-      preparedArgs[preparedArgs.length - 1] = OUTPUT_PLACEHOLDER;
+      // The same immutable main-built operation owns both the prepared argv and
+      // its descriptive contract. The compatibility branch delegates to the
+      // accepted ordinary builder byte-for-byte; new paths still require the
+      // qualification gate above, not merely a syntactically valid command.
+      const operationPlan = buildEncodeOperation({ input: file, output: destination, settings, inspection,
+        request: item.operationRequest, runtimeIdentity: this.runtimeIdentity, outputId, generationDescription });
+      // The canonical builder validates real local paths. Only the final output
+      // slot is a template in the prepared presentation; main substitutes its
+      // exclusively owned staging path at start, never the public destination.
+      const preparedArgs = Object.freeze([...operationPlan.args.slice(0, -1), OUTPUT_PLACEHOLDER]);
       this.plan.entries.set(item.id, { file, destination, inspection, fingerprint: identity, overridden: this.plan.overrides.has(item.id),
         reencodeAuthorized: item.reencodeAuthorized, sourceOutputId: marker.outputId || indexed?.outputId,
-        outputId, generationDescription, preparedArgs: Object.freeze(preparedArgs) });
+        outputId, generationDescription, operationPlan, preparedArgs });
       this.plan.ambiguities.delete(item.id);
       Object.assign(item, { status: 'ready', summary: inspection.summary, reason: item.reencodeAuthorized
         ? 'Explicit re-encoding authorized for this file and prepared batch only.'
@@ -1024,8 +1054,15 @@ class EncoderService extends EventEmitter {
           item.status = 'running';
           const owner = this.state.batchId;
           let lastProgress = 0;
-          this.state.progress = { fileId: item.id, duration: entry.inspection.duration, percent: null };
-          this.emitState();
+          // The owned job continues after FFmpeg closes. These descriptive
+          // stages change presentation only; queue/cancel ownership stays held
+          // through validation, publication and the existing cleanup pipeline.
+          const setJobStage = stageName => {
+            item.status = stageName === 'encoding' ? 'running' : 'validating';
+            this.state.progress = { fileId: item.id, stage: stageName, duration: entry.inspection.duration, percent: null };
+            this.emitState();
+          };
+          setJobStage('encoding');
           const args = [...entry.preparedArgs];
           if (args.at(-1) !== OUTPUT_PLACEHOLDER) throw fail('INVALID_PLAN', 'The prepared output placeholder changed. Prepare again.');
           args[args.length - 1] = stage.file;
@@ -1033,12 +1070,13 @@ class EncoderService extends EventEmitter {
           invocationId = randomUUID();
           await this.recordIncident({ stage: 'invocation', reason: 'ENCODE_STARTED', fileId: item.id, invocationId, context: { executable: this.ffmpeg, argv: args, settings: this.plan.settings } });
           const encodeResult = await this.run(this.ffmpeg, args, { signal, timeoutMs: 0, onProgress: record => {
-            if (owner !== this.state.batchId || item.status !== 'running') return;
+            if (owner !== this.state.batchId || item.status !== 'running' || this.state.progress?.stage !== 'encoding') return;
             const duration = entry.inspection.duration;
             const percent = duration > 0 && record.seconds !== null ? Math.min(99, Math.max(0, record.seconds / duration * 100)) : null;
-            this.state.progress = { ...record, fileId: item.id, duration, percent, etaSeconds: record.speed > 0 && duration > 0 ? Math.max(0, (duration - (record.seconds || 0)) / record.speed) : null };
+            this.state.progress = { ...record, fileId: item.id, stage: 'encoding', duration, percent, etaSeconds: record.speed > 0 && duration > 0 ? Math.max(0, (duration - (record.seconds || 0)) / record.speed) : null };
             if (Date.now() - lastProgress > 150) { lastProgress = Date.now(); this.emitState(); }
           } });
+          setJobStage('output-validation');
           await this.recordIncident({ stage: 'invocation', reason: 'ENCODE_CLOSED', fileId: item.id, invocationId, ...diagnosticStderr(encodeResult), context: { exitCode: 0 } });
           await sealStage(stage);
           const stagedIdentity = await readFileStamp(stage.file);
@@ -1057,6 +1095,7 @@ class EncoderService extends EventEmitter {
           await markStageValidated(stage);
           item.outputDisposition = { kind: 'validated-staged', published: false };
           validatingSource = true;
+          setJobStage('source-check');
           const assessment = await this.assessCompletedSource(entry, signal);
           item.sourceAssessment = assessment;
           await this.recordIncident({ stage: 'validation', reason: 'SOURCE_ASSESSED', fileId: item.id,
@@ -1080,6 +1119,7 @@ class EncoderService extends EventEmitter {
           }
           if (assessment.kind === 'ctime-only') item.warnings = [assessment.warning];
           validatingSource = false;
+          setJobStage('publication');
           await this.verifyFolders();
           const published = await publishOutput(stage, entry.destination, { signal, atomicOnly: this.plan.sameFolder });
           await this.recordIncident({ stage: 'publication', reason: published ? 'OUTPUT_PUBLISHED' : 'OUTPUT_COLLISION', fileId: item.id,
@@ -1089,7 +1129,6 @@ class EncoderService extends EventEmitter {
           item.outputDisposition = { kind: published ? 'published' : 'retained-completed', published, ...(published ? { file: entry.destination } : {}) };
           item.reason = published ? item.warnings?.length ? 'Output saved. ' + item.warnings.map(warning => warning.message).join(' ') : '' : 'Another output won the publication race.';
           if (published) {
-            this.state.progress = { ...this.state.progress, percent: 100 };
             try {
               publishedIdentity = await readPublishedOutputIdentity(stage);
               await this.provenanceJournal.recordPublished(entry.outputId, publishedIdentity);

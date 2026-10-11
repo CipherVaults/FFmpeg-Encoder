@@ -184,7 +184,7 @@ test('normalization ignores forged derived claims and old policy cannot share th
   const normalized = normalizeProbe(probe);
   assert.equal(normalized.mediaEvidence.streams[0].geometry.sampleAspectRatio.state, 'unknown');
   assert.equal(normalized.mediaEvidence.streams[0].hdr.supported, undefined);
-  assert.equal(INSPECTION_POLICY.normalization, 4);
+  assert.equal(INSPECTION_POLICY.normalization, 5);
 });
 
 test('source and output objects never share side-data mutation or relationship references', () => {

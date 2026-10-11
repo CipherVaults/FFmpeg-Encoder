@@ -2,6 +2,8 @@
 
 # Roadmap
 
+October11 current partial delta: [media qualification follow-up](Execution%20Summaries/2026-10-11_0.7_Media_Qualification_Followup.md). Q has exact-origin correction and native AAC/FLAC evidence; R has keyboard range sliders; P has observed device inventory and canonical HDR contracts. Changed-operation/vendor/HDR/Remux support and candidate acceptance remain gated by integration evidence.
+
 October11 follow-up: [operation qualification and draft controls](Execution%20Summaries/2026-10-11_0.7_Operation_Qualification.md) records native37f79554, six narrow owned operation cases and zero-child rational collector rechecks. Per-file controls and preserved-draft encoder changes are implemented; qualified transform/Remux/HDR/vendor execution remains unfinished. No milestone or candidate acceptance is implied.
 
 
@@ -9,7 +11,11 @@ October11 follow-up: [operation qualification and draft controls](Execution%20Su
 
 Goal23 supersedes historical deferrals for selected N–S scope; contract24/tracker25 own detailed gates. N(shared contract/evidence) verified October11 after independent review and parent synchronization; O(diagnostics/sourcepolicy/refusedinputs/evidence/runtime) in progress. P(AMF/QSV/HDR), Q(scale/amendedTimeRange/remux) and R(workbench/AppSettings/icon/help) have reviewed contracts and a functional partial workbench; new processing/media acceptance remains pending. Separate44.7/9.0.2 candidate activation and current workbench have native endpoint evidence, without closing O or R. S(portablecandidate/integration/independentreview) pending. Completion means locally qualified candidate only; hardware/display/independentmachine/owner acceptance distinct. Benchmark remains separately paused and no new recipes are inferred. Parent synchronizes all affected documents before each milestone closure.
 
-## Approved pre-0.7 research — October 10, 2026
+October11 07:37UTC continuity checkpoint: four x264/x265 trimmed AAC/FLAC qualification cells pass; SVT-AV1 duration mismatch under retained-output diagnosis. Jobs lifecycle and bounded HDR numerical/signaling checks pass, but application admission/remaining hardware/media/portable work stays incomplete.152 integration and343 overlapping media direct checks pass. See [current recovery record](Execution%20Summaries/2026-10-11_0.7_Media_Qualification_Followup.md#recovery-checkpoint--october-11-0737-utc). No new milestone closed, and the quota reminder does not pause development.
+
+## Historical pre-0.7 research — October 10, 2026
+
+The research-era application restrictions below are superseded for the separately approved Goal23. Its benchmark human-review gate remains active.
 
 October11: **Paused — awaiting user visual review**. [Durable handoff and sourced v0.7 inventory](21_Phase1_Pause_Resume.md) preserve completed calibration/assets/access evidence and pending judgments/finalists/held-outs/recommendations. Planning can define diagnostics, compatibility/preservation/ctime, CPU-only presentation, HDR design and later UI polish independently of benchmark winners; a bounded approved development Goal is still required. No new presets/defaults, Phase2 or application implementation. Current linked pause record outranks historical next-action notes below.
 

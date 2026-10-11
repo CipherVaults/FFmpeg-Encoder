@@ -9,11 +9,11 @@ const GENERATED_TAGS = new Set(['encoder', 'duration', 'number_of_frames', 'numb
 const APPLICATION_GENERATION_TAGS = new Set(['ffmpeg_encoder_provenance', 'ffmpeg_encoder_output_id', 'ffmpeg_encoder_generation']);
 // Bump these when normalization, stream selection, color policy or sample coverage
 // changes. A cache entry is evidence for these exact rules, not a lasting approval.
-const INSPECTION_POLICY = Object.freeze({ normalization: 4, color: 1, sampling: 1, selection: 1, preservation: 2 });
+const INSPECTION_POLICY = Object.freeze({ normalization: 5, color: 1, sampling: 1, selection: 1, preservation: 2 });
 const INSPECTION_STDERR_LIMIT = 256 * 1024;
 const SAMPLING_LIMIT = 'Bounded metadata samples cannot prove the absence of untagged HDR or HDR outside inspected frames. Demuxer seeking may begin at an earlier keyframe.';
 const STREAM_FIELDS = ['index', 'id', 'codec_type', 'codec_name', 'profile', 'codec_tag_string', 'codec_tag', 'level', 'width', 'height', 'coded_width', 'coded_height', 'sample_aspect_ratio', 'display_aspect_ratio', 'field_order', 'pix_fmt', 'color_transfer', 'color_primaries', 'color_space', 'color_range', 'chroma_location', 'avg_frame_rate', 'r_frame_rate', 'time_base', 'start_pts', 'start_time', 'duration_ts', 'duration', 'nb_frames', 'bit_rate', 'sample_fmt', 'sample_rate', 'channels', 'channel_layout', 'bits_per_sample', 'bits_per_raw_sample', 'initial_padding', 'trailing_padding', 'extradata_size', 'extradata_hash'];
-const FRAME_FIELDS = ['media_type', 'stream_index', 'best_effort_timestamp', 'best_effort_timestamp_time', 'pts', 'pts_time', 'duration', 'duration_time', 'width', 'height', 'pix_fmt', 'sample_aspect_ratio', 'color_transfer', 'color_primaries', 'color_space', 'color_range', 'chroma_location'];
+const FRAME_FIELDS = ['media_type', 'stream_index', 'best_effort_timestamp', 'best_effort_timestamp_time', 'pts', 'pts_time', 'duration', 'duration_time', 'width', 'height', 'pix_fmt', 'sample_aspect_ratio', 'interlaced_frame', 'top_field_first', 'repeat_pict', 'color_transfer', 'color_primaries', 'color_space', 'color_range', 'chroma_location'];
 
 function invalidEvidence(message) { throw new ToolError('INVALID_PROBE', message); }
 function plainObject(value) {
@@ -213,6 +213,22 @@ function sampleCoverage(frames, window, video) {
   return located;
 }
 
+function boundedFrameProperties(evidence, sampling) {
+  // This describes only decoded observations, including preroll. It cannot turn
+  // absent stream field_order/SAR into whole-file facts or authorize a transform.
+  // Rebuild from allowlisted frames on cache reads; never trust saved summaries.
+  const frames = evidence.windows.flatMap(window => window.frames).filter(Boolean);
+  const complete = evidence.mode === 'frames' && sampling.length > 0 && sampling.every(window => window.succeeded);
+  const known = field => frames.length > 0 && frames.every(frame => Object.hasOwn(frame, field));
+  const values = field => [...new Set(frames.map(frame => frame[field]).filter(value => value !== undefined))];
+  const scan = known('interlaced_frame') && frames.every(frame => [0, 1, '0', '1'].includes(frame.interlaced_frame))
+    ? frames.some(frame => Number(frame.interlaced_frame) === 1) ? 'interlaced-observed' : 'progressive-observed' : 'unknown';
+  return { scope: 'bounded-decoded-windows-only', complete, decodedFrames: frames.length, scan,
+    geometry: Object.fromEntries(['width', 'height', 'pix_fmt', 'sample_aspect_ratio'].map(field => [field, { complete: known(field), values: values(field) }])),
+    color: Object.fromEntries(['color_transfer', 'color_primaries', 'color_space', 'color_range'].map(field => [field, { complete: known(field), values: values(field) }])),
+    limitation: 'Observed frames do not prove unchanged scan, geometry, color or metadata outside the inspected windows.' };
+}
+
 // Rebuild policy decisions and display summaries from observations. This same path
 // handles cold inspection and persisted evidence; supported/summary fields are not
 // accepted from a cache record. Window locations always come from current policy.
@@ -287,7 +303,7 @@ function reconstructInspection(probeValue, evidenceValue) {
       selectedVideoIndex: video.index, codec: video.codec_name || 'unknown', width: video.width, height: video.height,
       pixelFormat: video.pix_fmt || 'unknown', bitDepth: pixelLayout(video.pix_fmt)?.depth || null,
       frameRate: fraction(video.avg_frame_rate) || fraction(video.r_frame_rate), streamCounts, durationSeconds: duration,
-      sampling, samplingLimit: SAMPLING_LIMIT, metadataNotices,
+      sampling, samplingLimit: SAMPLING_LIMIT, metadataNotices, boundedFrameProperties: boundedFrameProperties(evidence, sampling),
     },
   };
 }
@@ -298,15 +314,16 @@ function cacheableInspection(inspection) {
     && (result.evidence.mode === 'metadata-hdr' || result.summary.sampling.every(window => window.succeeded));
 }
 
-async function finishInspection(file, probeValue, { ffprobe, signal, run = runTool, onStage } = {}) {
+async function finishInspection(file, probeValue, { ffprobe, signal, run = runTool, onStage, inspectHdrFrames = false } = {}) {
   ensureNotCancelled(signal);
-  if (typeof file !== 'string' || !file || typeof ffprobe !== 'string' || !ffprobe) {
+  if (typeof file !== 'string' || !file || typeof ffprobe !== 'string' || !ffprobe || typeof inspectHdrFrames !== 'boolean') {
     throw new ToolError('INVALID_INSPECTION', 'Inspection requires an input file and the bundled ffprobe.');
   }
   const probe = normalizeProbe(probeValue);
-  // Positive metadata HDR already determines rejection; frame decoding cannot
-  // make it supported. Do not spend three subprocesses reconfirming that result.
-  if (classifyColor(probe).classification === 'hdr') return reconstructInspection(probe, { version: 1, mode: 'metadata-hdr', windows: [] });
+  // The ordinary SDR path can reject positive HDR without decoding it again.
+  // A main-owned HDR qualification explicitly requests bounded decoded evidence;
+  // it remains classified HDR and this observation alone never enables a route.
+  if (!inspectHdrFrames && classifyColor(probe).classification === 'hdr') return reconstructInspection(probe, { version: 1, mode: 'metadata-hdr', windows: [] });
   const video = selectVideo(probe);
   const evidence = { version: 1, mode: 'frames', windows: [] };
   for (const window of sampleWindows(probe)) {

@@ -1,5 +1,9 @@
 # Security and testing
 
+October11 07:37UTC: canonical ordinary prepared plans retain validated absolute paths and substitute only the final owned staging slot. Streaming operation validation compares complete interior video/audio timing and FLAC PCM; four x264/x265 trimmed cells pass, SVT duration failure remains refused. Backend probe orchestration30 injected tests is not hardware evidence. Native HDR numerical/signaling and Jobs lifecycle evidence is bounded; main changed-operation/HDR/Remux/vendor integration remains incomplete. See [current recovery checkpoint](Execution%20Summaries/2026-10-11_0.7_Media_Qualification_Followup.md#recovery-checkpoint--october-11-0737-utc).
+
+Candidate follow-up: wrapper/device observations cannot enable an encoder; cancelled discovery cannot leave a partial cached result. Telemetry and native MOV receipts are main-only and grant no cleanup/publication authority. Missing HDR stream scan declarations require full successful decoded-frame evidence, never sampled observations alone. Specific AAC/PCM preservation failures stay refused. See [Media Qualification Follow-up](Execution%20Summaries/2026-10-11_0.7_Media_Qualification_Followup.md) for tests and explicit coverage limits.
+
 October11 follow-up: [operation qualification and draft controls](Execution%20Summaries/2026-10-11_0.7_Operation_Qualification.md) records native37f79554, six narrow owned operation cases and zero-child rational collector rechecks. Per-file controls and preserved-draft encoder changes are implemented; qualified transform/Remux/HDR/vendor execution remains unfinished. No milestone or candidate acceptance is implied.
 
 

@@ -2,13 +2,23 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { assessRemux, validateRemuxRequest, buildRemuxQualificationArgs, REMUX_TARGETS } = require('../src/remux-contract.cjs');
+const { assessRemux, validateRemuxRequest, buildRemuxQualificationArgs, REMUX_TARGETS, getRemuxAssessmentSource } = require('../src/remux-contract.cjs');
 const { MARKER_KEY, OUTPUT_ID_KEY, GENERATION_KEY } = require('../src/provenance.cjs');
 
 const SOURCE = 'a'.repeat(64);
 const OUTPUT_ID = '715e278f-1b7e-4d19-948d-a952b68c328e';
 const PRIOR_ID = '9690cc4c-fd65-4b75-a0a2-c4b81e4f24e3';
 const clone = value => structuredClone(value);
+
+test('validation source access requires the live unblocked assessment and returns detached immutable evidence', () => {
+  const assessment = assess(); const first = getRemuxAssessmentSource(assessment), second = getRemuxAssessmentSource(assessment);
+  assert.notEqual(first, second); assert.deepEqual(first, second); assert.ok(Object.isFrozen(first.streams[0]));
+  assert.throws(() => { first.streams[0].codec_name = 'changed'; }, TypeError);
+  assert.throws(() => getRemuxAssessmentSource(clone(assessment)), { code: 'REMUX_NOT_PLANNABLE' });
+  const blocked = assess(add(source(), { index: 4, codec_type: 'data', codec_name: 'bin_data' }));
+  assert.equal(blocked.status, 'blocked');
+  assert.throws(() => getRemuxAssessmentSource(blocked), { code: 'REMUX_NOT_PLANNABLE' });
+});
 const request = (target = 'matroska', overrides = {}) => ({ fileId: 'file-1', identityRevision: 3, draftRevision: 8,
   operation: 'remux', target, range: null, omissionRequestIds: [], ...overrides });
 function source() {
@@ -38,6 +48,34 @@ function grant(result, streamIndex, changes = {}) {
   return { id: 'omit-one', fileId: 'file-1', identityRevision: 3, draftRevision: 8, sourceFingerprint: SOURCE,
     target: result.target, operation: 'remux', streamIndex, streamFingerprint: stream.streamFingerprint, action: 'omit-stream', ...changes };
 }
+
+test('MOV and MP4 track names declare a canonical title write; conflicting name/title blocks before muxing', () => {
+  for (const target of ['mov', 'mp4']) {
+    const probe = source(); probe.streams[1].tags = { name: 'Measured track name' };
+    const result = assess(probe, target), track = result.expectedOutput.streams[1];
+    assert.equal(result.status, 'qualification-required');
+    assert.deepEqual(track.metadata.representations, [{ key: 'name', equivalence: 'native-isobmff-track-name', outputKey: 'name', writeKey: 'title' }]);
+    assert.ok(allOptions(argv(result), '-metadata:s:1').includes('title=Measured track name'));
+    for (const tags of [{ name: 'A', title: 'B' }, { NAME: 'A', Title: 'B' }]) {
+      probe.streams[1].tags = tags; const blocked = assess(probe, target);
+      assert.equal(blocked.status, 'blocked'); assert.equal(issue(blocked, 'REMUX_METADATA_AMBIGUOUS'), true);
+      assert.throws(() => argv(blocked), { code: 'REMUX_NOT_PLANNABLE' });
+    }
+    probe.streams[1].tags = { name: 'Same', title: 'Same' };
+    assert.equal(allOptions(argv(assess(probe, target)), '-metadata:s:1').filter(value => value === 'title=Same').length, 1);
+  }
+  const probe = source(); probe.streams[1].tags = { name: 'A', title: 'B' };
+  assert.equal(assess(probe).status, 'qualification-required', 'Matroska has independent track tags; no MOV naming restriction is inherited');
+});
+
+test('only explicit source und and MOV target declare the observed unspecified-mdhd representation', () => {
+  const probe = source(); probe.streams[0].tags.language = 'und';
+  const expected = assess(probe, 'mov').expectedOutput.streams[0].metadata;
+  assert.equal(expected.representations.find(item => item.key === 'language').equivalence, 'owned-mov-mdhd-unspecified-language');
+  for (const target of ['matroska', 'mp4']) assert.equal(assess(probe, target).expectedOutput.streams[0].metadata.representations.some(item => item.equivalence === 'owned-mov-mdhd-unspecified-language'), false);
+  probe.streams[0].tags.language = 'eng';
+  assert.equal(assess(probe, 'mov').expectedOutput.streams[0].metadata.representations.some(item => item.equivalence === 'owned-mov-mdhd-unspecified-language'), false);
+});
 
 test('strict typed Full request excludes TS output, transforms, raw argv, paths and authority claims', () => {
   assert.deepEqual(REMUX_TARGETS, ['matroska', 'mp4', 'mov']);

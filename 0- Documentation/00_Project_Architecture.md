@@ -1,5 +1,9 @@
 # Project architecture
 
+October11 recovery: ordinary Full preparation now stores the genuine immutable encode-operation plan, derives its display/staging template from that same argv and preserves the accepted validator. Changed-operation admission is still gated. Streaming decoded evidence, backend probes and HDR/remux validators are component foundations until their qualified service/lifecycle paths are integrated; see the current media follow-up checkpoint.
+
+Candidate follow-up: [media qualification](Execution%20Summaries/2026-10-11_0.7_Media_Qualification_Followup.md) adds main-only native backend discovery, private telemetry receipts, exact integer timestamp origins and bounded descriptive HDR frames. MOV language equivalence needs an actual stable native-atom receipt. Discovery and fixture evidence never grant execution/publication authority. Complete decoded operation collection/integration remains unfinished.
+
 October11 follow-up: [operation qualification and draft controls](Execution%20Summaries/2026-10-11_0.7_Operation_Qualification.md) records native37f79554, six narrow owned operation cases and zero-child rational collector rechecks. Per-file controls and preserved-draft encoder changes are implemented; qualified transform/Remux/HDR/vendor execution remains unfinished. No milestone or candidate acceptance is implied.
 
 

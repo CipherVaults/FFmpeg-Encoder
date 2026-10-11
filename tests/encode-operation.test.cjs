@@ -90,8 +90,8 @@ test('precision AAC range encodes every selected audio segment and shares one cl
   const probe = source({ origin: 10 });
   const plan = build(probe, { range: { startUs: 1000000, endUs: 2000000 } });
   assert.equal(plan.compatibilityPath, false);
-  assert.equal(option(plan.args, '-filter:v:0'), 'trim=start_pts=11000:end_pts=12000,setpts=PTS-(11/1)/TB');
-  assert.equal(option(plan.args, '-filter:a:0'), 'atrim=start_pts=528000:end_pts=576000,asetpts=PTS-(11/1)/TB');
+  assert.equal(option(plan.args, '-filter:v:0'), 'settb=expr=1/1000,trim=start_pts=11000:end_pts=12000,setpts=PTS-(11000)');
+  assert.equal(option(plan.args, '-filter:a:0'), 'asettb=expr=1/48000,atrim=start_pts=528000:end_pts=576000,asetpts=PTS-(528000)');
   assert.equal(option(plan.args, '-c:a:0'), 'aac'); assert.equal(option(plan.args, '-profile:a:0'), 'aac_low');
   assert.equal(option(plan.args, '-b:a:0'), '320k'); assert.equal(option(plan.args, '-ar:a:0'), '48000');
   assert.equal(option(plan.args, '-channel_layout:a:0'), 'stereo');
@@ -104,9 +104,9 @@ test('precision AAC range encodes every selected audio segment and shares one cl
 test('start-only/end-only/VFR/negative-origin requests use exact PTS bounds instead of guessed frame numbers', () => {
   const probe = source({ origin: -1 }); probe.streams[0].avg_frame_rate = '23987/1000';
   const start = build(probe, { range: { startUs: 1000000 } });
-  assert.equal(option(start.args, '-filter:v:0'), 'trim=start_pts=0:end_pts=3000,setpts=PTS-(0/1)/TB');
+  assert.equal(option(start.args, '-filter:v:0'), 'settb=expr=1/1000,trim=start_pts=0:end_pts=3000,setpts=PTS-(0)');
   const end = build(probe, { range: { endUs: 1500000 } });
-  assert.equal(option(end.args, '-filter:v:0'), 'trim=start_pts=-1000:end_pts=500,setpts=PTS-(-1/1)/TB');
+  assert.equal(option(end.args, '-filter:v:0'), 'settb=expr=1/1000,trim=start_pts=-1000:end_pts=500,setpts=PTS-(-1000)');
   assert.equal(option(end.args, '-ss'), undefined);
 });
 
@@ -115,7 +115,7 @@ test('late seeking retains source PTS and preroll; filters still select the exac
   const plan = build(probe, { range: { startUs: 500000000, endUs: 501000000 } });
   assert.equal(option(plan.args, '-ss'), '505.000000'); assert.equal(option(plan.args, '-seek_timestamp'), '1');
   assert.ok(plan.args.indexOf('-ss') < plan.args.indexOf('-i')); assert.ok(plan.args.includes('-noaccurate_seek'));
-  assert.equal(option(plan.args, '-filter:v:0'), 'trim=start_pts=510000:end_pts=511000,setpts=PTS-(510/1)/TB');
+  assert.equal(option(plan.args, '-filter:v:0'), 'settb=expr=1/1000,trim=start_pts=510000:end_pts=511000,setpts=PTS-(510000)');
   assert.equal(plan.expectedOutput.inputSeek.verifiedBound, false);
 });
 
@@ -143,8 +143,45 @@ test('multiple audio tracks retain independent rate/layout and receive entire-se
   const plan = build(probe, { range: { startUs: 1000000, endUs: 2000000 } });
   assert.equal(option(plan.args, '-b:a:0'), '320k'); assert.equal(option(plan.args, '-b:a:1'), '128k');
   assert.equal(option(plan.args, '-ar:a:1'), '44100'); assert.equal(option(plan.args, '-channel_layout:a:1'), 'mono');
-  assert.equal(option(plan.args, '-filter:a:1'), 'atrim=start_pts=44100:end_pts=88200,asetpts=PTS-(1/1)/TB');
+  assert.equal(option(plan.args, '-filter:a:1'), 'asettb=expr=1/44100,atrim=start_pts=44100:end_pts=88200,asetpts=PTS-(44100)');
   assert.deepEqual(plan.expectedOutput.streams.map(item => [item.inputIndex, item.outputIndex]), [[0, 0], [2, 1], [7, 2]]);
+});
+
+test('integer audio origin removes binary64 one-sample discontinuity and declares each track quantization', () => {
+  const probe = source({ origin: 10, duration: 22 });
+  probe.streams[0].time_base = '1/12800'; probe.streams[0].start_pts = 128000; probe.streams[0].duration_ts = 281600;
+  probe.streams.push({ ...clone(probe.streams[1]), index: 7, sample_rate: '44100', time_base: '1/44100', start_pts: 441000, duration_ts: 970200, channels: 1, channel_layout: 'mono' }); probe.format.nb_streams = 3;
+  const plan = build(probe, { range: { startUs: 15013000, endUs: 17087000 } }), origins = plan.expectedOutput.timestampOrigins;
+  assert.equal(origins.video.originTicks, '320166'); assert.deepEqual(origins.video.originMinusRequestedStart, { numerator: '-1', denominator: '32000' });
+  assert.equal(origins.audio[0].originTicks, '1200624'); assert.deepEqual(origins.audio[0].originMinusRequestedStart, { numerator: '0', denominator: '1' });
+  assert.equal(origins.audio[1].originTicks, '1103073'); assert.deepEqual(origins.audio[1].originMinusRequestedStart, { numerator: '-1', denominator: '147000' });
+  assert.equal(option(plan.args, '-filter:a:0'), 'asettb=expr=1/48000,atrim=start_pts=1200624:end_pts=1300176,asetpts=PTS-(1200624)');
+  const offset = Number(origins.audio[0].originTicks);
+  assert.equal(1200624 - offset, 0); assert.equal(1200896 - offset, 272);
+  assert.equal(Math.trunc(1200896 - (25013 / 1000) / (1 / 48000)), 271, 'The formerly used double expression causes the observed defect');
+  assert.ok(plan.qualificationRequirements.includes('integer-origin-quantization-and-filter-timebase'));
+});
+
+test('nearest-tick origin ties round away from zero and remain independently visible', () => {
+  const positive = build(source(), { range: { startUs: 500, endUs: 1500000 } }).expectedOutput.timestampOrigins.video;
+  const negative = build(source({ origin: -1 }), { range: { startUs: 999500, endUs: 1500000 } }).expectedOutput.timestampOrigins.video;
+  assert.equal(positive.originTicks, '1'); assert.deepEqual(positive.originMinusRequestedStart, { numerator: '1', denominator: '2000' });
+  assert.equal(negative.originTicks, '-1'); assert.deepEqual(negative.originMinusRequestedStart, { numerator: '-1', denominator: '2000' });
+  assert.equal(positive.rounding, 'nearest-tick-ties-away-from-zero');
+});
+
+test('constant origin subtraction preserves source gaps and delayed first samples without flattening clocks', () => {
+  const plan = build(source(), { range: { startUs: 1000000, endUs: 2000000 } });
+  const origin = Number(plan.expectedOutput.timestampOrigins.audio[0].originTicks);
+  const inputPts = [48096, 49120, 50644], outputPts = inputPts.map(pts => pts - origin);
+  assert.deepEqual(outputPts, [96, 1120, 2644]); assert.equal(outputPts[2] - outputPts[1], 1524);
+  assert.ok(!option(plan.args, '-filter:a:0').includes('STARTPTS') && !option(plan.args, '-filter:a:0').includes('N/'));
+});
+
+test('timestamp evaluator rejects an origin outside exact binary64 integer bounds', () => {
+  const probe = source({ duration: 4 });
+  Object.assign(probe.streams[0], { time_base: '1/1000000', start_pts: '9007199254740992', start_time: '9007199254.740992', duration_ts: '4000000' });
+  assert.throws(() => build(probe, { range: { startUs: 0, endUs: 1000000 } }), { code: 'ENCODE_FILTER_INTEGER_UNSAFE' });
 });
 
 test('FLAC remains an explicit whole-selected-segment integer PCM path with no lossy-original identity claim', () => {

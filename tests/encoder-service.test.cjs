@@ -465,6 +465,76 @@ test('cancelling preparation waits for inspection settlement and invalidates the
   assert.equal(h.inspections.length, 1);
 });
 
+test('owned jobs emit post-encode stages with indeterminate progress and ignore late encoder callbacks', async t => {
+  const h = await harness(t, { names: ['a.mp4'] });
+  const outputStarted = deferred(), outputClosed = deferred(), sourceStarted = deferred(), sourceFinished = deferred();
+  const run = h.service.run, assess = h.service.assessCompletedSource.bind(h.service), stages = [];
+  h.service.run = async (executable, args, options) => {
+    if (executable === 'injected-ffprobe') { outputStarted.resolve(); await outputClosed.promise; }
+    return run(executable, args, options);
+  };
+  h.service.assessCompletedSource = async (...args) => { sourceStarted.resolve(); await sourceFinished.promise; return assess(...args); };
+  const plan = await h.prepare();
+  h.service.on('update', state => { if (state.progress?.stage) stages.push(state.progress.stage); });
+  const finished = h.finish(plan);
+  await outputStarted.promise;
+  for (const [stageName, release, started] of [['output-validation', outputClosed, sourceStarted], ['source-check', sourceFinished, null]]) {
+    const state = h.service.snapshot();
+    assert.equal(state.phase, 'running'); assert.equal(h.service.busy, true);
+    assert.equal(state.items[0].status, 'validating'); assert.equal(state.progress.stage, stageName);
+    assert.equal(state.progress.percent, null);
+    for (const field of ['seconds', 'fps', 'speed', 'etaSeconds', 'ended']) assert.equal(state.progress[field], undefined);
+    h.calls[0].options.onProgress({ seconds: 999, speed: 9, fps: 999, ended: true });
+    assert.deepEqual(h.service.snapshot(), state, 'A stale encoder callback cannot replace the main-owned processing stage');
+    release.resolve(); if (started) await started.promise;
+  }
+  const result = await finished;
+  assert.equal(result.phase, 'completed'); assert.equal(result.items[0].status, 'success');
+  assert.deepEqual([...new Set(stages)], ['encoding', 'output-validation', 'source-check', 'publication']);
+  assert.equal(await fs.readFile(path.join(h.output, 'a_H265-CPU.mkv'), 'utf8'), 'Encoded output a.mp4');
+});
+
+for (const activeStage of ['output-validation', 'source-check', 'publication']) {
+  test(`cancellation during ${activeStage} awaits the protected job and never starts another input`, async t => {
+    const h = await harness(t);
+    const entered = deferred(), drained = deferred();
+    const run = h.service.run, assess = h.service.assessCompletedSource.bind(h.service), verifyFolders = h.service.verifyFolders.bind(h.service);
+    if (activeStage === 'output-validation') h.service.run = async (executable, args, options) => {
+      if (executable === 'injected-ffprobe') {
+        entered.resolve(); await drained.promise;
+        if (options.signal.aborted) throw failure('CANCELLED', 'Output probe closed after cancellation.');
+      }
+      return run(executable, args, options);
+    };
+    if (activeStage === 'source-check') h.service.assessCompletedSource = async (...args) => {
+      entered.resolve(); await drained.promise; return assess(...args);
+    };
+    if (activeStage === 'publication') h.service.verifyFolders = async (...args) => {
+      if (h.service.snapshot().progress?.stage === 'publication') { entered.resolve(); await drained.promise; }
+      return verifyFolders(...args);
+    };
+    const plan = await h.prepare();
+    h.service.startBatch({ planId: plan.planId, fileIds: plan.items.map(item => item.id) });
+    await entered.promise;
+    assert.equal(h.service.snapshot().progress.stage, activeStage);
+    assert.equal(h.service.snapshot().items[0].status, 'validating');
+    let settled = false;
+    const cancelling = h.service.cancelCurrent().then(result => { settled = true; return result; });
+    await tick(); assert.equal(settled, false); assert.equal(h.service.busy, true);
+    assert.equal(h.service.snapshot().phase, 'cancelling');
+    await assert.rejects(h.prepare(), { code: 'BUSY' }); assert.equal(h.calls.length, 1);
+    drained.resolve(); const result = await cancelling;
+    assert.equal(result.phase, 'cancelled'); assert.equal(h.service.busy, false);
+    assert.equal(result.items[0].status, 'cancelled'); assert.equal(result.items[1].status, 'unprocessed');
+    assert.equal(h.calls.length, 1);
+    await assert.rejects(fs.stat(path.join(h.output, 'a_H265-CPU.mkv')), { code: 'ENOENT' });
+    if (activeStage !== 'output-validation') {
+      assert.equal(result.items[0].outputDisposition.kind, 'retained-completed');
+      assert.equal(await fs.readFile(result.items[0].outputDisposition.file, 'utf8'), 'Encoded output a.mp4');
+    } else assert.deepEqual(await fs.readdir(h.output), []);
+  });
+}
+
 test('malicious payloads and stale identities cannot start an unprepared or replacement plan', async (t) => {
   const h = await harness(t);
   await assert.rejects(h.service.prepareBatch({ ...h.request, args: ['-y'] }), { code: 'INVALID_REQUEST' });
@@ -878,6 +948,15 @@ test('resolved recipe details follow production settings and reject renderer arg
   const one = h.service.getEncodingDetails({ planId: first.planId, fileId: first.items[0].id });
   assert.equal(one.args[one.args.indexOf('-crf:v:0') + 1], '25');
   assert.equal(one.args[one.args.indexOf('-preset:v:0') + 1], 'slow');
+  assert.equal(one.operation.compatibilityPath, true);
+  assert.equal(one.operation.contract.range.kind, 'full');
+  assert.equal(one.operation.expectedOutput.decodedEvidenceRequired, false);
+  assert.equal(one.args.at(-1), one.outputPlaceholder);
+  const entry = h.service.plan.entries.get(first.items[0].id);
+  assert.equal(entry.operationPlan.args.at(-1), entry.destination);
+  assert.deepEqual(one.args.slice(0, -1), entry.operationPlan.args.slice(0, -1));
+  one.operation.contract.range.kind = 'forged';
+  assert.equal(h.service.getEncodingDetails({ planId: first.planId, fileId: first.items[0].id }).operation.contract.range.kind, 'full');
   h.request.settings = { profileId: 'h265-nvidia', preset: 'p7', quality: 30 };
   const second = await h.prepare();
   const two = h.service.getEncodingDetails({ planId: second.planId, fileId: second.items[0].id });

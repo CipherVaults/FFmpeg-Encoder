@@ -2,6 +2,10 @@
 
 # Execution summary index
 
+October11 07:37UTC [compact recovery checkpoint](Execution%20Summaries/2026-10-11_0.7_Media_Qualification_Followup.md#recovery-checkpoint--october-11-0737-utc): active authorized execution, current refs/worktree, released code,152+343 overlapping direct evidence, four passing CPU profile cells and retained SVT duration failure, worker ownership, resource measurements and exact next action. Local-only synchronization; no milestone/candidate/benchmark acceptance.
+
+October11 latest partial work: [media qualification follow-up](Execution%20Summaries/2026-10-11_0.7_Media_Qualification_Followup.md), real trim-timestamp correction, native telemetry/range controls, safe backend discovery, bounded HDR observations and targeted MOV retention. Failures and remaining qualification gaps are preserved; no O–S closure.
+
 October11 latest: [operation qualification and draft controls](Execution%20Summaries/2026-10-11_0.7_Operation_Qualification.md), six narrow native cases with retained rational collector corrections, native37f79554 controls pass and independent stale-plan fixes. No Q/R closure.
 
 October11 current progress: [workbench integration](Execution%20Summaries/2026-10-11_0.7_Workbench_Integration.md) and [runtime maintenance](Execution%20Summaries/2026-10-11_0.7_Runtime_Maintenance.md); workbench e88ee64, separate Electron9257af1/FFmpeg9abdf1c activation, native b421aa49 pass. O–S unfinished; transform qualification in progress.

@@ -90,6 +90,16 @@ function dom() {
 const defaults = () => ({ schema: 1, revision: 4, defaults: { fullAudioPolicy: 'copy', rangeAudioPolicy: 'precision-aac', resolution: 'source', hdrPolicy: 'preserve', remuxTarget: 'matroska', previewExpanded: false }, persistence: { state: 'ready', persisted: true, resetRequired: false }, notices: [] });
 const profile = { id: 'h265-cpu', label: 'H.265 CPU', available: true, presets: ['slow', 'medium'], defaultPreset: 'slow', quality: { mode: 'CRF', min: 0, max: 51, default: 25 }, suffix: 'H265-CPU', supportedBitDepths: [8, 10] };
 
+test('native backend discovery is explanatory and cannot silently populate an enabled profile', async () => {
+  const h = await harness({ getCapabilities: async () => ({ profiles: [profile], versions: {}, backendDiscovery: {
+    profiles: [{ encoder: 'hevc_amf', state: 'unavailable', reason: 'MISSING_DEVICE' },
+      { encoder: 'av1_qsv', state: 'discovered', reason: 'CHOOSE_AND_QUALIFY_CELL' }], notices: ['Inventory warning'] } }) });
+  assert.match(h.byId('capability-list').textContent, /hevc_amf: unavailable.*No matching hardware/);
+  assert.match(h.byId('capability-list').textContent, /av1_qsv: discovered.*exact settings still need qualification/);
+  assert.equal(h.byId('profile').options.length, 1);
+  assert.match(h.byId('capability-list').textContent, /Inventory warning/);
+});
+
 async function harness(overrides = {}) {
   const view = dom();
   const calls = [];
@@ -163,6 +173,44 @@ test('running jobs reuse preview nodes, retain live progress across tabs, and ke
   assert.match(h.byId('active-job-summary').textContent, /Source\.mkv.*17\.5%/);
   assert.equal(h.byId('active-job-progress').value, '17.5');
   assert.equal(h.byId('tab-encode').disabled, false);
+  await h.byId('cancel-batch').click();
+  assert.deepEqual(h.calls.find(call => call.name === 'cancelBatch').args, [{ batchId: 'batch-1' }]);
+});
+
+test('post-encode stages have accessible indeterminate labels, retained details and working Jobs/cancel navigation', async () => {
+  const h = await harness();
+  const item = { id: 'file-1', name: 'Source.mkv', outputName: 'Source_H265-CPU.mkv', status: 'running', reason: '', summary: {} };
+  const base = { phase: 'running', batchId: 'batch-1', planId: 'plan-1', settings: { profileId: 'h265-cpu', preset: 'slow', quality: 25 }, items: [item], counts: {} };
+  h.update({ ...base, revision: 2, progress: { fileId: item.id, stage: 'encoding', percent: 99, seconds: 2, fps: 30, speed: 1, etaSeconds: 0 } });
+  const row = h.byId('batch-items').children[0];
+  await h.byId('tab-help').click();
+  let revision = 2;
+  for (const [stage, label] of [['output-validation', 'Validating output'], ['source-check', 'Checking source'], ['publication', 'Publishing output']]) {
+    // Even stale telemetry in a main snapshot cannot fabricate a percentage or
+    // ETA for a processing stage. Normal service snapshots omit these values.
+    h.update({ ...base, revision: ++revision, items: [{ ...item, status: 'validating' }], progress: { fileId: item.id, stage, percent: 99, seconds: 2, fps: 30, speed: 1, etaSeconds: 0 } });
+    assert.equal(h.byId('batch-items').children[0], row);
+    assert.match(row.textContent, new RegExp(label));
+    assert.equal(row.querySelector('[data-testid="encoding-details"]').hidden, false);
+    assert.equal(h.byId('phase-badge').textContent, label);
+    assert.match(h.byId('active-job-summary').textContent, new RegExp(`${label}.*Source\\.mkv`));
+    assert.doesNotMatch(h.byId('active-job-summary').textContent, /%/);
+    assert.equal(h.byId('active-job-summary').getAttribute('role'), 'status');
+    assert.equal(h.byId('active-job-summary').getAttribute('aria-live'), 'polite');
+    for (const progress of ['encode-progress', 'active-job-progress']) {
+      assert.equal(h.byId(progress).getAttribute('value'), null); assert.equal(h.byId(progress).value, '');
+      assert.match(h.byId(progress).getAttribute('aria-label'), new RegExp(label));
+      assert.match(h.byId(progress).getAttribute('aria-valuetext'), /indeterminate/);
+    }
+    assert.equal(h.byId('progress-label').textContent, label);
+    assert.equal(h.byId('percent').textContent, 'Processing');
+    assert.equal(h.byId('encoding-telemetry').hidden, true);
+    for (const id of ['encoded-time', 'speed', 'fps', 'output-size', 'eta']) assert.equal(h.byId(id).textContent, '—');
+    assert.equal(h.byId('cancel-bar').hidden, false); assert.equal(h.byId('cancel-batch').disabled, false);
+    assert.equal(h.byId('profile').disabled, true); assert.equal(h.byId('tab-jobs').disabled, false);
+  }
+  await h.byId('view-jobs').click();
+  assert.equal(h.byId('workspace-jobs').hidden, false); assert.equal(h.byId('batch-panel').parentElement, h.byId('jobs-batch-slot'));
   await h.byId('cancel-batch').click();
   assert.deepEqual(h.calls.find(call => call.name === 'cancelBatch').args, [{ batchId: 'batch-1' }]);
 });
@@ -376,7 +424,7 @@ test('a stale output response cannot replace the state of a new receipt or remov
   assert.equal(h.byId('error-banner').textContent, '');
 });
 
-async function processingHarness({ fileOverrides = [], batchOverrides = {}, refuse = false, failUpdate = false, withFolders = false, invalidateOnSave = false } = {}) {
+async function processingHarness({ fileOverrides = [], batchOverrides = {}, refuse = false, failUpdate = false, withFolders = false, invalidateOnSave = false, durationSeconds } = {}) {
   const { OperationDraft } = require('../src/operation-draft.cjs');
   const ids = ['11345678-1234-4234-8234-123456789abc', '22345678-1234-4234-8234-123456789abc'];
   const draft = new OperationDraft({ operation: 'encode', appDefaults: defaults().defaults, appDefaultsRevision: 4 });
@@ -387,7 +435,7 @@ async function processingHarness({ fileOverrides = [], batchOverrides = {}, refu
   let settings = { profileId: 'h265-cpu', preset: 'slow', quality: 25 };
   const snapshot = (phase = 'ready') => ({ revision: ++stateRevision, phase, batchId: 'processing-batch', planId: plan,
     settings, encodingSettingsStale, operationDraft: draft.snapshot(), counts: {},
-    items: ids.map((id, index) => ({ id, name: `Source ${index + 1}.mkv`, outputName: `Source ${index + 1}_H265-CPU.mkv`, summary: {},
+    items: ids.map((id, index) => ({ id, name: `Source ${index + 1}.mkv`, outputName: `Source ${index + 1}_H265-CPU.mkv`, summary: { durationSeconds },
       status: encodingSettingsStale ? 'unprocessed' : refused && index === 0 ? 'unsupported' : 'ready',
       reason: encodingSettingsStale ? 'Encoding settings changed. Prepare this draft again before starting.' : refused && index === 0 ? 'This range/audio cell is not yet qualified.' : '' })) });
   const check = request => assert.equal(request.planId, plan);
@@ -421,6 +469,38 @@ async function processingHarness({ fileOverrides = [], batchOverrides = {}, refu
   return { ...h, draft, ids, snapshot, row: index => h.byId('batch-items').children[index],
     control: (index, name) => h.byId('batch-items').children[index].querySelector(`[data-testid="file-operation-${name}"]`) };
 }
+
+test('range sliders reflect known duration and preserve exact text until the user moves a boundary', async () => {
+  const h = await processingHarness({ durationSeconds: 12.123456,
+    fileOverrides: [{ range: { startUs: 1234567, endUs: 9123456 } }] });
+  assert.equal(h.control(0, 'start-slider').disabled, false);
+  assert.equal(h.control(0, 'start-slider').step, '0.001');
+  assert.equal(h.control(0, 'end-slider').max, '12.123456');
+  assert.equal(h.control(0, 'start').value, '1.234567');
+  assert.match(h.control(0, 'start-slider').getAttribute('aria-valuetext'), /Slider approximation .*exact field 1\.234567/);
+  h.control(0, 'start-slider').value = '2.345'; await h.control(0, 'start-slider').emit('input');
+  assert.equal(h.control(0, 'start').value, '2.345'); assert.equal(h.control(0, 'end').value, '9.123456');
+  assert.equal(h.calls.some(call => call.name === 'updateFileOperations'), false);
+  await h.row(0).querySelector('form').emit('submit');
+  assert.deepEqual(h.calls.find(call => call.name === 'updateFileOperations').args[0].overrides.range,
+    { startUs: 2345000, endUs: 9123456 });
+});
+
+test('range sliders never clamp exact fields, authorize a crossed interval, or invent a missing duration', async () => {
+  const h = await processingHarness({ durationSeconds: 10, fileOverrides: [{ range: { startUs: 1000000, endUs: 2000000 } }] });
+  h.control(0, 'end').value = '12.987654'; await h.control(0, 'end').emit('input');
+  assert.equal(h.control(0, 'end-slider').value, '10'); assert.equal(h.control(0, 'end').value, '12.987654');
+  h.control(0, 'start-slider').value = '5'; await h.control(0, 'start-slider').emit('input');
+  h.control(0, 'end-slider').value = '4'; await h.control(0, 'end-slider').emit('input');
+  await h.row(0).querySelector('form').emit('submit');
+  assert.equal(h.calls.some(call => call.name === 'updateFileOperations'), false);
+  assert.match(h.control(0, 'notice').textContent, /later than its start/);
+  const unknown = await processingHarness({ fileOverrides: [{ range: { endUs: 2000000 } }] });
+  assert.equal(unknown.control(0, 'start-slider').disabled, true); assert.equal(unknown.control(0, 'start').disabled, false);
+  const full = await processingHarness({ durationSeconds: 10 });
+  assert.equal(full.control(0, 'start-slider').disabled, true);
+  h.update(h.snapshot('running')); assert.equal(h.control(0, 'start-slider').disabled, true);
+});
 
 test('file range edits use exact integer microseconds, preserve unrelated choices, and surface qualification refusal', async () => {
   const h = await processingHarness({ fileOverrides: [{ resolution: '720' }], refuse: true });

@@ -12,7 +12,7 @@
   const attentionStatuses = new Set(['conflict', 'unsupported', 'ambiguous', 'provenance-issue', 'failed']);
   const statusLabels = {
     ready: 'Ready', conflict: 'Choose one', skipped: 'Skipped', unsupported: 'Unsupported',
-    pending: 'Waiting', running: 'Encoding', success: 'Succeeded', failed: 'Failed',
+    pending: 'Waiting', running: 'Encoding', validating: 'Processing', success: 'Succeeded', failed: 'Failed',
     cancelled: 'Cancelled', unprocessed: 'Unprocessed',
     generated: 'Generated output', ambiguous: 'Possible previous output', 'provenance-issue': 'Provenance issue',
   };
@@ -21,6 +21,10 @@
     ready: 'Review batch', running: 'Encoding', cancelling: 'Cancelling',
     completed: 'Completed', cancelled: 'Cancelled', failed: 'Stopped',
   };
+  const jobStageLabels = { encoding: 'Encoding', 'output-validation': 'Validating output', 'source-check': 'Checking source', publication: 'Publishing output' };
+  const processingStages = new Set(['output-validation', 'source-check', 'publication']);
+  const currentJobLabel = () => snapshot.phase === 'running'
+    ? jobStageLabels[snapshot.progress?.stage] || phaseLabels.running : phaseLabels[snapshot.phase] || 'Current operation';
   let capabilities = null;
   let inputFolder = null;
   let outputFolder = null;
@@ -605,6 +609,20 @@
       if (!recipe.available) row.className = 'unavailable';
       byId('capability-list').append(row);
     }
+    for (const backend of result.backendDiscovery?.profiles || []) {
+      const row = document.createElement('li');
+      const explanation = backend.reason === 'MISSING_DEVICE' ? 'No matching hardware was discovered.'
+        : backend.reason === 'UNSUPPORTED_CODEC' ? 'This runtime does not contain the encoder wrapper.'
+        : backend.reason === 'CHOOSE_AND_QUALIFY_CELL' ? 'Hardware discovered; native runtime and exact settings still need qualification.'
+        : 'Discovery or qualification is incomplete.';
+      row.textContent = `${backend.encoder}: ${backend.state} · ${explanation} No automatic fallback.`;
+      row.className = 'unavailable';
+      byId('capability-list').append(row);
+    }
+    for (const notice of result.backendDiscovery?.notices || []) {
+      const row = document.createElement('li'); row.textContent = notice;
+      byId('capability-list').append(row);
+    }
     const preferred = profiles().find(profile => profile.id === 'h265-cpu') || profiles()[0];
     byId('profile').value = preferred?.id || '';
     if (!profiles().some(profile => profile.available)) {
@@ -745,11 +763,32 @@
       const controls = entry.operationControls, available = editable && draftFiles.has(entry.item.id);
       entry.operationFields.disabled = !available;
       controls.start.disabled = controls.end.disabled = !available || controls.mode.value !== 'range';
+      renderRangeSliders(entry, available);
       controls.aacBitrateKbps.disabled = !available || controls.audioPolicy.value !== 'precision-aac';
       entry.operationApply.disabled = !available || !entry.operationEdits.size;
       entry.operationApplySelected.disabled = !available || !entry.operationEdits.size || !ids.length;
       entry.operationApplySelected.textContent = `Apply changed fields to selected (${ids.length})`;
       entry.operationDiscard.disabled = !discardableOperationDraft() || !draftFiles.has(entry.item.id) || !entry.operationEdits.size;
+    }
+  }
+
+  function renderRangeSliders(entry, editable) {
+    const controls = entry.operationControls, seconds = entry.item.summary?.durationSeconds;
+    const limit = finite(seconds) && seconds > 0 && Number.isSafeInteger(Math.floor(seconds * 1000000))
+      ? Math.floor(seconds * 1000000) : null;
+    for (const key of ['start', 'end']) {
+      const slider = controls[`${key}Slider`];
+      slider.disabled = !editable || controls.mode.value !== 'range' || limit === null;
+      slider.max = limit === null ? '1' : secondsText(limit);
+      let requested;
+      try { requested = exactSeconds(controls[key].value, key); } catch { requested = undefined; }
+      const displayed = requested ?? (key === 'start' ? 0 : limit ?? 0);
+      // A slider visual is bounded; the exact field is NEVER silently clamped or
+      // rounded when rendering. Main still validates the submitted interval.
+      slider.value = secondsText(Math.min(limit ?? 0, Math.max(0, displayed)));
+      slider.setAttribute('aria-valuetext', `Slider approximation ${slider.value} seconds; exact field ${controls[key].value.trim() || (key === 'start' ? 'beginning' : 'source end')}. Apply changes to use the exact field.`);
+      slider.title = limit === null ? 'A known inspected duration is required for this slider.'
+        : 'Move this boundary in millisecond steps, or enter exact seconds in the field above. Apply changes to prepare it.';
     }
   }
 
@@ -812,12 +851,13 @@
     const editor = document.createElement('details'); editor.className = 'operation-editor'; editor.dataset.testid = 'file-operation-editor';
     const heading = document.createElement('summary'); heading.textContent = 'File processing / Full or Time Range';
     const summary = document.createElement('p'); summary.className = 'hint'; summary.dataset.testid = 'file-operation-summary';
-    const info = document.createElement('p'); info.className = 'hint'; info.textContent = 'Only fields you edit are applied. Range changes inherit the corresponding batch audio default unless audio was explicitly overridden. Changes require preparation and may be refused until qualified.';
+    const info = document.createElement('p'); info.className = 'hint'; info.textContent = 'Only fields you edit are applied. Range sliders use millisecond steps; exact fields accept up to six decimal places. Range changes inherit the batch audio default unless audio was explicitly overridden. Apply changes to prepare; unsupported operations remain refused.';
     const durationInfo = document.createElement('p'); durationInfo.className = 'hint';
     const form = document.createElement('form');
     const fields = document.createElement('fieldset'); const legend = document.createElement('legend'); legend.textContent = 'Requested processing'; fields.append(legend);
     const grid = document.createElement('div'); grid.className = 'operation-fields';
     const controls = {}, prefix = `operation-${++operationControlId}`;
+    info.id = `${prefix}-help`;
     const options = {
       mode: [['full', 'Full video'], ['range', 'Single time range']],
       resolution: [['source', 'Keep source resolution'], ['2160', '2160p'], ['1440', '1440p'], ['1080', '1080p'], ['720', '720p']],
@@ -836,7 +876,20 @@
         entry.operationNotice.textContent = ''; syncSelection();
       };
       control.addEventListener('change', edited); if (!options[key]) control.addEventListener('input', edited);
-      controls[key] = control; field.append(caption, control); grid.append(field);
+      controls[key] = control; field.append(caption, control);
+      if (['start', 'end'].includes(key)) {
+        const slider = document.createElement('input'); slider.type = 'range'; slider.min = '0'; slider.max = '1'; slider.step = '0.001';
+        slider.dataset.testid = `file-operation-${key}-slider`; slider.className = 'range-boundary';
+        slider.setAttribute('aria-label', `${key === 'start' ? 'Start' : 'End'} boundary for ${item.name}`);
+        slider.setAttribute('aria-describedby', `${prefix}-help`);
+        slider.addEventListener('input', () => {
+          const entry = itemRows.get(item.id);
+          if (!entry || !editableOperationDraft() || slider.disabled) return;
+          controls[key].value = slider.value; edited();
+        });
+        controls[`${key}Slider`] = slider; field.append(slider);
+      }
+      grid.append(field);
     }
     fields.append(grid);
     const buttons = document.createElement('div'); buttons.className = 'action-row';
@@ -1133,7 +1186,8 @@
       entry.item = item;
       renderFileOperation(entry);
       renderOutputAccess(entry);
-      const key = JSON.stringify([item.name, item.outputName, item.status, item.reason, item.summary, item.origin, item.reencodeAuthorized, item.outcome, item.outputDisposition]);
+      const jobStage = snapshot.progress?.fileId === item.id ? snapshot.progress.stage : null;
+      const key = JSON.stringify([item.name, item.outputName, item.status, item.reason, item.summary, item.origin, item.reencodeAuthorized, item.outcome, item.outputDisposition, jobStage]);
       if (key !== entry.key) {
         entry.key = key;
         entry.checkbox.setAttribute('aria-label', `Encode ${item.name}`);
@@ -1163,13 +1217,14 @@
         entry.previousArgs.textContent = previous ? formatArguments(previous.encoderArgs) : '';
         entry.reencodeBox.hidden = !canAuthorize(item);
         entry.reencodeChoice.setAttribute('aria-label', `Choose ${item.name} for re-encoding authorization`);
-        entry.commandDetails.hidden = !['ready', 'conflict', 'pending', 'running', 'success', 'failed', 'cancelled', 'unprocessed'].includes(item.status);
+        entry.commandDetails.hidden = !['ready', 'conflict', 'pending', 'running', 'validating', 'success', 'failed', 'cancelled', 'unprocessed'].includes(item.status);
         if (entry.commandDetails.open && !entry.commandDetails.hidden) loadEncodingDetails(entry);
         const knownStatus = Object.hasOwn(statusLabels, item.status) ? item.status : 'pending';
         const savedWarning = item.outcome === 'saved-with-warning';
         const retained = ['retained-completed', 'publication-uncertain'].includes(item.outputDisposition?.kind);
         entry.status.className = `status status-${savedWarning || retained ? 'conflict' : knownStatus}`;
-        entry.status.textContent = savedWarning ? 'Saved with warning' : retained ? 'Completed stage retained' : statusLabels[knownStatus];
+        entry.status.textContent = savedWarning ? 'Saved with warning' : retained ? 'Completed stage retained'
+          : knownStatus === 'validating' ? jobStageLabels[jobStage] || statusLabels.validating : statusLabels[knownStatus];
         entry.status.title = item.reason || entry.status.textContent;
       }
       entry.row.hidden = !matchesFilter(item);
@@ -1202,33 +1257,44 @@
     const progress = preparing ? { fileId: preparation.fileId, percent: preparation.total > 0 ? preparation.resolved / preparation.total * 100 : null } : snapshot.progress || {};
     const items = snapshot.items || [];
     const item = items.find(entry => entry.id === progress.fileId)
-      || items.find(entry => entry.status === 'running')
+      || items.find(entry => ['running', 'validating'].includes(entry.status))
       || (snapshot.phase === 'preparing' ? items.find(entry => entry.status === 'pending') : null);
     put('current-file', item?.name || (snapshot.phase === 'checking' ? 'Testing available encoders…' : snapshot.phase === 'preparing' ? 'Inspecting input media…' : 'Waiting for the current operation to settle…'));
     put('monitor-count', item ? `File ${items.indexOf(item) + 1} of ${items.length}` : '');
-    const hasPercent = finite(progress.percent);
+    // Post-encode work is indeterminate. Never keep a stale encoding percent,
+    // speed or ETA visible as though probing/publication were still an encode.
+    const processing = !preparing && processingStages.has(progress.stage);
+    const hasPercent = !processing && finite(progress.percent);
     if (hasPercent) byId('encode-progress').value = Math.min(100, Math.max(0, progress.percent));
     else byId('encode-progress').removeAttribute('value');
     if (hasPercent) byId('active-job-progress').value = Math.min(100, Math.max(0, progress.percent));
     else byId('active-job-progress').removeAttribute('value');
-    const activeStage = snapshot.phase === 'running' && progress.ended ? 'Finishing / awaiting validated publication' : phaseLabels[snapshot.phase] || 'Current operation';
+    const activeStage = currentJobLabel();
+    byId('active-job-summary').setAttribute('role', 'status');
+    byId('active-job-summary').setAttribute('aria-live', 'polite');
+    for (const progressId of ['encode-progress', 'active-job-progress']) {
+      byId(progressId).setAttribute('aria-label', `${activeStage} progress`);
+      byId(progressId).setAttribute('aria-valuetext', hasPercent ? `${Math.min(100, Math.max(0, progress.percent)).toFixed(1)}%` : `${activeStage}; progress is indeterminate`);
+    }
     put('active-job-summary', [activeStage, item?.name, hasPercent ? `${Math.min(100, Math.max(0, progress.percent)).toFixed(1)}%` : '',
       preparing && preparation.total ? `${preparation.resolved} of ${preparation.total} files inspected · ${preparation.reused || 0} reused` : ''].filter(Boolean).join(' · '));
-    put('percent', hasPercent ? `${Math.min(100, Math.max(0, progress.percent)).toFixed(1)}%` : 'In progress');
-    put('progress-label', snapshot.phase === 'preparing' ? 'Inspecting media' : snapshot.phase === 'checking' ? 'Checking encoders' : 'Encoding progress');
+    put('percent', hasPercent ? `${Math.min(100, Math.max(0, progress.percent)).toFixed(1)}%` : processing ? 'Processing' : 'In progress');
+    put('progress-label', snapshot.phase === 'preparing' ? 'Inspecting media' : snapshot.phase === 'checking' ? 'Checking encoders' : processing ? activeStage : 'Encoding progress');
     put('monitor-heading', preparing ? '03 / Inspecting recordings' : '03 / Encoding monitor');
     visible('inspection-details', preparing);
-    visible('encoding-telemetry', !preparing);
-    put('progress-note', preparing ? 'Progress counts resolved files. Individual inspection times vary with the recording.' : 'A file is complete after the encoded output has been verified and saved.');
+    visible('encoding-telemetry', !preparing && !processing);
+    put('progress-note', preparing ? 'Progress counts resolved files. Individual inspection times vary with the recording.'
+      : processing ? `${jobStageLabels[progress.stage]}. The job remains active until protected checks, publication and cleanup settle. There is no reliable percentage or ETA for this stage.`
+        : 'A file is complete after the encoded output has been verified and saved.');
     const stages = { identity: 'Checking file identity', metadata: 'Reading duration, video properties and streams', frames: 'Checking sampled SDR/HDR metadata', reused: 'Reusing validated inspection' };
     put('inspection-stage', `${stages[preparation.stage] || 'Preparing inspection'}${preparation.window ? ` · ${preparation.window}` : ''}`);
     visible('inspection-notice', Boolean(preparation.notice));
     put('inspection-notice', preparation.notice || '');
-    put('encoded-time', duration(progress.seconds));
-    put('speed', finite(progress.speed) ? `${progress.speed.toFixed(2)}×` : '—');
-    put('fps', finite(progress.fps) ? progress.fps.toFixed(1) : '—');
-    put('output-size', bytes(progress.bytes));
-    put('eta', duration(progress.etaSeconds));
+    put('encoded-time', processing ? '—' : duration(progress.seconds));
+    put('speed', !processing && finite(progress.speed) ? `${progress.speed.toFixed(2)}×` : '—');
+    put('fps', !processing && finite(progress.fps) ? progress.fps.toFixed(1) : '—');
+    put('output-size', processing ? '—' : bytes(progress.bytes));
+    put('eta', processing ? '—' : duration(progress.etaSeconds));
     renderElapsed();
   }
 
@@ -1248,7 +1314,7 @@
     const showResults = terminal;
     const error = uiError || (!editing ? snapshot.error : '') || '';
     visible('error-banner', Boolean(error)); put('error-banner', error);
-    put('phase-badge', phaseLabels[phase] || 'Ready');
+    put('phase-badge', currentJobLabel());
     let activity = '';
     if (phase === 'checking') activity = 'Checking the bundled encoders on this computer. This can take a moment.';
     else if (phase === 'preparing') {
@@ -1256,7 +1322,9 @@
       activity = p ? `Checking ${p.total} recordings · ${p.resolved} resolved · ${p.reused} reused · ${p.active} inspecting` : 'Preparing inspection and checking output names…';
     }
     else if (phase === 'cancelling') activity = 'Waiting for the active process to exit and temporary files to be cleaned up.';
-    else if (phase === 'running') activity = 'Encoding locally. Each completed output is verified before it is saved.';
+    else if (phase === 'running') activity = processingStages.has(snapshot.progress?.stage)
+      ? `${currentJobLabel()}. The job is still active; cancellation and Jobs remain available.`
+      : 'Encoding locally. Each completed output is verified before it is saved.';
     else if (pendingCommands) activity = 'Working…';
     else if (ready) activity = 'Review the effective settings and select the files to encode.';
     else if (dirty && editing && capabilities) activity = 'Choose your settings, then review the batch.';

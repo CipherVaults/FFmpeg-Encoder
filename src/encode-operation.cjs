@@ -44,6 +44,32 @@ function ticks(boundary, timeBase) {
   if (value < -9223372036854775808n || value > 9223372036854775807n) fail('ENCODE_TIMELINE_OVERFLOW', 'A filter boundary exceeds signed 64-bit ticks.');
   return value.toString();
 }
+function packedRational(n, d) {
+  let a = n < 0n ? -n : n, b = d;
+  while (b) [a, b] = [b, a % b];
+  return { numerator: String(n / (a || 1n)), denominator: String(d / (a || 1n)) };
+}
+function integerOrigin(range, timeBase, inputIndex) {
+  const start = rat(range.absoluteStart), base = rat(timeBase);
+  if (base.n <= 0n || base.n > 2147483647n || base.d > 2147483647n) fail('ENCODE_TIME_BASE_UNKNOWN', 'An exact supported filter time base is required.');
+  const numerator = start.n * base.d, denominator = start.d * base.n;
+  let origin = numerator / denominator;
+  const remainder = numerator % denominator, magnitude = remainder < 0n ? -remainder : remainder;
+  if (magnitude * 2n >= denominator) origin += numerator < 0n ? -1n : 1n;
+  const begin = BigInt(ticks(range.absoluteStart, timeBase)), end = BigInt(ticks(range.absoluteEnd, timeBase));
+  const limit = BigInt(Number.MAX_SAFE_INTEGER);
+  // FFmpeg's setpts evaluator stores doubles. Integer literals, selected PTS,
+  // and their differences must all be exactly representable. Reject rather
+  // than rounding an extreme timeline into an apparently valid interval.
+  for (const value of [origin, begin, end, begin - origin, end - origin]) {
+    if (value < -limit || value > limit) fail('ENCODE_FILTER_INTEGER_UNSAFE', 'This timeline exceeds the exact integer range of the FFmpeg timestamp expression evaluator.');
+  }
+  return { inputIndex, filterTimeBase: structuredClone(timeBase), originTicks: String(origin),
+    effectiveOrigin: packedRational(origin * base.n, base.d),
+    originMinusRequestedStart: packedRational(origin * base.n * start.d - start.n * base.d, base.d * start.d),
+    rounding: 'nearest-tick-ties-away-from-zero', exactIntegerLimit: String(limit) };
+}
+const subtractOrigin = origin => `PTS-(${origin.originTicks})`;
 function fraction(value) { const item = rat(value); return `(${item.n}/${item.d})`; }
 function micros(value) { const item = rat(value); return Number(item.n) * 1000000 / Number(item.d); }
 function rationalNumber(value) {
@@ -163,6 +189,8 @@ function buildEncodeOperation(options) {
   const requirements = [], videoFilters = [], audioFilters = [];
   const audioPrecision = [], preservedOrientation = !compatibilityPath && !resize ? sourceOrientation(videoEvidence.geometry) : null;
   let seek = null;
+  const timestampOrigins = isRange ? { requestedCommonStart: structuredClone(contract.range.absoluteStart),
+    policy: 'nearest-tick-ties-away-from-zero', video: null, audio: [] } : null;
 
   if (!compatibilityPath) {
     if (typeof runtimeIdentity !== 'string' || !/^[A-Za-z0-9._:+-]{1,256}$/.test(runtimeIdentity)) fail('ENCODE_RUNTIME_UNBOUND', 'A changed operation must bind its qualified paired runtime identity.');
@@ -191,11 +219,16 @@ function buildEncodeOperation(options) {
     }
     if (isRange) {
       const range = contract.range;
-      // Keep source timestamps through demux/decode. Unlike independent
-      // STARTPTS resets, this common A retains each track's meaningful delay.
+      // Retain one common requested A, quantized explicitly per filter time
+      // base. Subtracting A/TB as a double can turn an exact integer origin into
+      // 1200624.0000000002 and shift every later audio frame by one sample.
+      // Integer subtraction preserves actual track delays/gaps; STARTPTS or
+      // N/SR would erase them. Quantization remains visible in ExpectedOutput.
       const videoBase = videoEvidence.timeline.timeBase.value;
-      videoFilters.unshift(`trim=start_pts=${ticks(range.absoluteStart, videoBase)}:end_pts=${ticks(range.absoluteEnd, videoBase)}`,
-        `setpts=PTS-${fraction(range.absoluteStart)}/TB`);
+      timestampOrigins.video = integerOrigin(range, videoBase, video.index);
+      videoFilters.unshift(`settb=expr=${videoBase.numerator}/${videoBase.denominator}`,
+        `trim=start_pts=${ticks(range.absoluteStart, videoBase)}:end_pts=${ticks(range.absoluteEnd, videoBase)}`,
+        `setpts=${subtractOrigin(timestampOrigins.video)}`);
       // Late input seek is only an efficiency hint. No accurate-seek discard or
       // guessed frame count replaces exact decoded PTS selection in the graph.
       if (range.resolved.startUs > 10000000) {
@@ -207,6 +240,7 @@ function buildEncodeOperation(options) {
         }
       }
       requirements.push('decoded-range-membership-vfr-late-seek-and-common-timestamp-origin');
+      requirements.push('integer-origin-quantization-and-filter-timebase');
     }
     if (videoFilters.length) outputOptions(args, ['-filter:v:0', videoFilters.join(',')]);
     outputOptions(args, ['-enc_time_base:v:0', 'filter']);
@@ -215,8 +249,12 @@ function buildEncodeOperation(options) {
       const filters = [];
       if (isRange) {
         const timeBase = { numerator: '1', denominator: String(audio.sampleRate) };
-        filters.push(`atrim=start_pts=${ticks(contract.range.absoluteStart, timeBase)}:end_pts=${ticks(contract.range.absoluteEnd, timeBase)}`,
-          `asetpts=PTS-${fraction(contract.range.absoluteStart)}/TB`);
+        const origin = integerOrigin(contract.range, timeBase, audio.index); timestampOrigins.audio.push(origin);
+        // asettb changes timestamp units only, not PCM or sample rate. atrim's
+        // sample ticks and the subsequent integer subtraction now share units.
+        filters.push(`asettb=expr=1/${audio.sampleRate}`,
+          `atrim=start_pts=${ticks(contract.range.absoluteStart, timeBase)}:end_pts=${ticks(contract.range.absoluteEnd, timeBase)}`,
+          `asetpts=${subtractOrigin(origin)}`);
       }
       // Explicit same-rate/layout constraints cannot authorize a downmix or a
       // resample. Decoder/encoder/output evidence must establish these values.
@@ -239,14 +277,15 @@ function buildEncodeOperation(options) {
       codecName: outputIndex === 0 ? { H264: 'h264', H265: 'hevc', AV1: 'av1' }[PROFILES.find(profile => profile.id === settings.profileId).codec]
         : contract.audio.streams.find(audio => audio.index === stream.index)?.codec || stream.codec_name })),
     copiedAttachments: mapped.filter(stream => stream.codec_type === 'attachment').map(stream => stream.index),
-    filters: { video: videoFilters, audio: audioFilters }, inputSeek: seek, orientationQualification,
+    filters: { video: videoFilters, audio: audioFilters }, inputSeek: seek, orientationQualification, timestampOrigins,
     outputId: outputId ?? null, descriptiveProvenanceScope: 'existing-video-recipe; operation contract retained separately',
     decodedEvidenceRequired: !compatibilityPath, measuredTolerancesRequired: !compatibilityPath,
-    timestampPolicy: compatibilityPath ? 'accepted-full-compatibility-path' : isRange ? 'subtract-one-common-absolute-start' : 'copy-source-timestamps',
+    timestampPolicy: compatibilityPath ? 'accepted-full-compatibility-path' : isRange ? 'subtract-common-start-quantized-per-stream' : 'copy-source-timestamps',
     cadence: 'preserve-presentation-frame-sequence; never synthesize-frame-rate',
   };
   const result = freeze({ version: ENCODE_OPERATION_VERSION, args, contract, expectedOutput: expected, compatibilityPath,
-    runtimeIdentity, planFingerprint: hash({ settings, probe, color, request: contract.request, runtimeIdentity, outputId: outputId ?? null }),
+    runtimeIdentity, planFingerprint: hash({ settings, probe, color, request: contract.request, runtimeIdentity, outputId: outputId ?? null,
+      ...(isRange ? { timestampOrigins } : {}) }),
     qualificationRequirements: requirements, executionAuthority: 'main-owned-prepared-plan-required' });
   plans.set(result, { probe, color, settings, duration: options.inspection.duration });
   return result;

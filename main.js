@@ -5,6 +5,7 @@ const { createHash } = require('node:crypto');
 const { EncoderService } = require('./src/encoder-service.cjs');
 const { OutputAccess } = require('./src/output-access.cjs');
 const { verifyCandidateRuntime } = require('./src/candidate-runtime.cjs');
+const { discoverNativeBackends } = require('./src/backend-discovery.cjs');
 const { registerIpc } = require('./src/ipc.cjs');
 const { ENTRY_URL, resolveAsset, registerLocalProtocol } = require('./src/local-protocol.cjs');
 
@@ -96,6 +97,9 @@ async function createWindow() {
   const runtimeIdentity = createHash('sha256').update(JSON.stringify(runtime.verified.slice(0, 2)
     .map(({ sizeBytes, sha256 }) => ({ sizeBytes, sha256 })))).digest('hex');
   service = new EncoderService({ ffmpeg: runtime.ffmpeg, ffprobe: runtime.ffprobe, runtimeIdentity, stateDir,
+    discoverBackends: ({ signal, run, versions }) => discoverNativeBackends({ ffmpeg: runtime.ffmpeg, signal, run,
+      runtime: Object.fromEntries(['ffmpeg', 'ffprobe'].map((name, index) => [name,
+        { sha256: runtime.verified[index].sha256, version: versions[name] }])) }),
     outputAccess: new OutputAccess({ openPath: file => shell.openPath(file), showItemInFolder: file => shell.showItemInFolder(file) }) });
   await service.initializeDiagnostics();
   if (quitDuringStartup) { await finishShutdown(); return; }

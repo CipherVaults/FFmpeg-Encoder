@@ -4,6 +4,10 @@ Candidate0.7 follow-up: per-file range/resolution/audio controls and encoder cha
 
 # FFmpeg Encoder Desktop App
 
+Current execution/recovery entry: [October11 compact checkpoint](0-%20Documentation/Execution%20Summaries/2026-10-11_0.7_Media_Qualification_Followup.md#recovery-checkpoint--october-11-0737-utc). Development remains active; Jobs lifecycle and bounded media checks pass, while trimmed-profile qualification has an unresolved SVT-AV1 duration case. This is not a completed0.7 candidate. Accepted0.6 and the separate benchmark visual-review gate remain unchanged.
+
+Latest0.7 development: keyboard range sliders complement exact time fields; native device descriptions distinguish missing hardware from untested support. [Media qualification follow-up](0-%20Documentation/Execution%20Summaries/2026-10-11_0.7_Media_Qualification_Followup.md) records trim-timestamp and MOV preservation corrections. These are partial candidate changes; expanded processing support is still being verified.
+
 A local Windows desktop encoder for large gameplay/OBS archives, with directly editable H.264, H.265 and AV1 controls for CPU and supported NVIDIA hardware.
 
 **0.7 candidate development is active, not accepted.** N contracts are verified. The partial workbench now has Jobs, History, editable Settings and runtime Help; the separate44.7/9.0.2 candidate runtime is active. Expanded media operations and portable candidate acceptance remain unfinished. Follow [Current State](0-%20Documentation/01_Current_State.md) and the [N/O execution report](0-%20Documentation/Execution%20Summaries/2026-10-11_0.7_N_O_Bootstrap.md). The portable instructions below describe the separately preserved accepted0.6 release.

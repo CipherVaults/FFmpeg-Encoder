@@ -34,6 +34,8 @@ const RETAINED_PROFILE_REPORT = path.join(ROOT, 'artifacts/v0.7/operation-profil
 const RETAINED_PROFILE_SHA = 'd72ed2a80b928e1903a55411dd3d67ab0cf36e2775512ba835c334c59befd169';
 const RETAINED_OUTPUT = path.join(OWNED, 'outputs', `operation-profiles-${RETAINED_PROFILE_ID}`, '.ffmpeg-encoder-C6538F/encoded.mkv');
 const RETAINED_VIDEO_SPOOL = path.join(OWNED, 'staging', `operation-profiles-${RETAINED_PROFILE_ID}`, 'operation-evidence-gc3O4o/selected-video.jsonl');
+const RETAINED_DIAGNOSTIC = path.join(ROOT, 'artifacts/v0.7/operation-profiles/diagnostics/829cdb63-23f2-46f9-981a-f7434d2f4107/report.json');
+const RETAINED_DIAGNOSTIC_SHA = 'cbf2ec2fabf1d32d504e1cc551b39f7d9d0dafb158eb010da65fa2e3fa6584b1';
 const MODULES = ['scripts/v07-operation-profile-smoke.cjs', 'src/encode-operation.cjs', 'src/operation-evidence.cjs',
   'src/operation-contract.cjs', 'src/inspection.cjs', 'src/media.cjs', 'src/provenance.cjs', 'src/outputs.cjs', 'src/process-runner.cjs', 'package.json'];
 const REPORTS = [ORIGINAL, CALIBRATION, AAC, FLAC];
@@ -158,8 +160,230 @@ function makePlan(cell, output, id, ctx, time) {
   assert.ok(plan.expectedOutput.timestampOrigins && plan.args.includes('-copyts'));
   return { plan, description };
 }
+// This diagnostic is intentionally pinned to one failed owned output. It never
+// re-encodes or reruns the source decode, and does not reinterpret a timing
+// discrepancy as accepted capability. All original receipts remain immutable.
+async function retainedVideoContext() {
+  for (const file of [RETAINED_PROFILE_REPORT, RETAINED_OUTPUT, RETAINED_VIDEO_SPOOL]) allowed.add(file);
+  const originalReceipt = await receipt(RETAINED_PROFILE_REPORT);
+  assert.equal(originalReceipt.sha256, RETAINED_PROFILE_SHA);
+  assert.ok(originalReceipt.bytes < 16 * 1024 * 1024);
+  const originalBytes = await fs.readFile(RETAINED_PROFILE_REPORT);
+  assert.equal(sha(originalBytes), RETAINED_PROFILE_SHA);
+  assert.deepEqual(await receipt(RETAINED_PROFILE_REPORT), originalReceipt);
+  const original = JSON.parse(originalBytes);
+  assert.equal(original.id, RETAINED_PROFILE_ID); assert.equal(original.status, 'failed');
+  assert.equal(original.runtimeIdentity, RUNTIME); assert.equal(original.leaseReleased, true);
+  const item = original.cases.find(value => value.id === 'av1-cpu:precision-aac');
+  assert.ok(item); assert.equal(item.status, 'failed');
+  assert.equal(item.failure.code, 'STDOUT_SINK_FAILED');
+  assert.equal(item.failure.cause.code, 'OPERATION_EVIDENCE_VIDEO_DURATION');
+  assert.equal(item.stage.file, RETAINED_OUTPUT); assert.equal(item.collection.outputPath, RETAINED_OUTPUT);
+  assert.equal(item.collection.sourcePath, SOURCE); assert.equal(item.plan.args.at(-1), RETAINED_OUTPUT);
+  assert.equal(item.plan.args[item.plan.args.indexOf('-i') + 1], SOURCE);
+  assert.equal(item.plan.args[item.plan.args.indexOf('-c:v:0') + 1], 'libsvtav1');
+  assert.deepEqual(item.settings, { profileId: 'av1-cpu', preset: '6', quality: 32 });
+  const encode = original.invocations.filter(value => value.purpose === 'encode' && value.argv.at(-1) === RETAINED_OUTPUT);
+  assert.equal(encode.length, 1); assert.equal(encode[0].status, 'completed'); assert.equal(encode[0].exitCode, 0);
+  assert.deepEqual(encode[0].argv, item.plan.args);
+  assert.equal(classifyMarker(item.probe).outputId, item.outputId);
+  const sourceDecode = item.collection.invocations.find(value => value.label === 'source-video-frames');
+  assert.equal(sourceDecode.status, 'completed'); assert.equal(sourceDecode.capture.records, 440);
+  assert.equal(sourceDecode.stderrCapture.truncated, false); assert.equal(sourceDecode.stderrCapture.totalBytes, 0);
+  const spool = item.collection.spools.find(value => value.path === RETAINED_VIDEO_SPOOL);
+  assert.equal(spool.status, 'sealed'); assert.equal(spool.bytes, 2922);
+  const spoolReceipt = await receipt(RETAINED_VIDEO_SPOOL);
+  assert.deepEqual(spoolReceipt, { path: spool.path, sha256: spool.sha256, bytes: spool.bytes, identity: spool.identity });
+  const spoolBytes = await fs.readFile(RETAINED_VIDEO_SPOOL); assert.equal(sha(spoolBytes), spool.sha256);
+  const lines = spoolBytes.toString('utf8').split('\n'); assert.equal(lines.pop(), ''); assert.equal(lines.length, 41);
+  const selected = lines.map(line => {
+    const row = JSON.parse(line); assert.deepEqual(Object.keys(row).sort(), ['duration', 'time']);
+    for (const value of [row.time, row.duration]) {
+      assert.deepEqual(Object.keys(value).sort(), ['d', 'n']); assert.match(value.n, /^-?\d{1,18}$/); assert.match(value.d, /^[1-9]\d{0,18}$/);
+    }
+    assert.ok(BigInt(row.duration.n) > 0n); return row;
+  });
+  assert.deepEqual(await receipt(RETAINED_VIDEO_SPOOL), spoolReceipt);
+  const sourceReceipt = await receipt(SOURCE); assert.equal(sourceReceipt.sha256, SOURCE_SHA);
+  assert.deepEqual(sourceReceipt, original.sourceBefore);
+  const outputReceipt = await receipt(RETAINED_OUTPUT); assert.deepEqual(outputReceipt, item.outputBefore);
+  return { originalReceipt, original, item, selected, spoolReceipt, sourceReceipt, outputReceipt, sourceDecode };
+}
+function retainedVideoComparison(probe, selected, item) {
+  assert.ok(Array.isArray(probe.streams) && probe.streams.length === 1);
+  const stream = probe.streams[0]; assert.equal(stream.index, 0); assert.equal(stream.codec_type, 'video'); assert.equal(stream.codec_name, 'av1');
+  assert.match(stream.time_base, /^[1-9]\d{0,12}\/[1-9]\d{0,12}$/);
+  const [tn, td] = stream.time_base.split('/').map(BigInt);
+  const sub = (a, b) => ({ n: a.n * b.d - b.n * a.d, d: a.d * b.d });
+  const add = (a, b) => ({ n: a.n * b.d + b.n * a.d, d: a.d * b.d });
+  const read = a => ({ n: BigInt(a.n), d: BigInt(a.d) });
+  const pack = a => a === null ? null : ({ numerator: String(a.n), denominator: String(a.d), microseconds: Number(a.n) / Number(a.d) * 1e6 });
+  const ticks = value => { assert.ok(Number.isSafeInteger(value)); return { n: BigInt(value) * tn, d: td }; };
+  const absoluteStart = item.plan.contract.range.absoluteStart;
+  const origin = { n: BigInt(absoluteStart.numerator), d: BigInt(absoluteStart.denominator) };
+  assert.ok(Array.isArray(probe.frames) && probe.frames.length > 0 && probe.frames.length <= 128);
+  const frames = probe.frames.map(frame => {
+    assert.equal(frame.media_type, 'video'); assert.equal(frame.stream_index, 0);
+    const time = ticks(frame.pts);
+    const duration = frame.duration === undefined ? null : ticks(frame.duration);
+    const packetDuration = frame.pkt_duration === undefined ? null : ticks(frame.pkt_duration);
+    return { raw: frame, time, duration, packetDuration };
+  });
+  const rows = frames.map((frame, index) => {
+    const source = selected[index], next = frames[index + 1], sourceNext = selected[index + 1];
+    const sourceDuration = source ? read(source.duration) : null;
+    const outputGap = next ? sub(next.time, frame.time) : null;
+    const sourceGap = sourceNext && source ? sub(read(sourceNext.time), read(source.time)) : null;
+    return { index, source: source || null, output: frame.raw,
+      rebasedPtsError: source ? pack(sub(frame.time, sub(read(source.time), origin))) : null,
+      reportedDurationError: sourceDuration && frame.duration ? pack(sub(frame.duration, sourceDuration)) : null,
+      packetDurationError: sourceDuration && frame.packetDuration ? pack(sub(frame.packetDuration, sourceDuration)) : null,
+      outputPresentationGap: pack(outputGap), sourcePresentationGap: pack(sourceGap),
+      presentationGapError: sourceGap && outputGap ? pack(sub(outputGap, sourceGap)) : null,
+      reportedDurationMinusNextPtsGap: outputGap && frame.duration ? pack(sub(frame.duration, outputGap)) : null };
+  });
+  const errors = key => rows.map(row => row[key]?.microseconds).filter(value => value !== undefined).map(Math.abs);
+  const durationErrors = errors('reportedDurationError'), ptsErrors = errors('rebasedPtsError'), gapErrors = errors('presentationGapError');
+  const finalSource = selected.at(-1), finalOutput = frames.at(-1);
+  const sourceEnd = sub(add(read(finalSource.time), read(finalSource.duration)), origin);
+  const outputEnd = finalOutput.duration ? add(finalOutput.time, finalOutput.duration) : null;
+  return { status: 'observations-only-no-qualification', expectedFrameCount: selected.length, outputFrameCount: frames.length,
+    frameCountMatches: selected.length === frames.length,
+    outputPtsStrictlyIncreasing: frames.every((frame, index) => index === 0 || sub(frame.time, frames[index - 1].time).n > 0n),
+    frozenVideoDurationToleranceUs: item.collection.timingQualification.videoDurationUs,
+    frozenVideoTimestampToleranceUs: item.qualification.tolerances.videoTimestampUs,
+    maximumAbsolutePtsErrorUs: ptsErrors.length ? Math.max(...ptsErrors) : null,
+    maximumAbsoluteReportedDurationErrorUs: durationErrors.length ? Math.max(...durationErrors) : null,
+    maximumAbsolutePresentationGapErrorUs: gapErrors.length ? Math.max(...gapErrors) : null,
+    reportedDurationMismatchIndices: rows.filter(row => row.reportedDurationError && Math.abs(row.reportedDurationError.microseconds) > item.collection.timingQualification.videoDurationUs).map(row => row.index),
+    sourceRebasedEnd: pack(sourceEnd), outputReportedEnd: pack(outputEnd), finalReportedEndError: outputEnd ? pack(sub(outputEnd, sourceEnd)) : null,
+    missingOutputDurationIndices: frames.flatMap((frame, index) => frame.duration === null ? [index] : []),
+    stream, rows,
+    interpretationBoundary: 'PTS spacing and decoded duration are separately observed. Matching PTS does not alone establish the last-frame presentation end or authorize ignoring duration mismatches. This report changes no validator, qualification, or tolerance.' };
+}
+function retainedVideoArgv() {
+  return ['-v', 'error', '-protocol_whitelist', 'file,pipe', '-format_whitelist', 'matroska,webm',
+    '-select_streams', '0', '-show_frames', '-show_streams', '-show_entries',
+    'frame=media_type,stream_index,pts,duration,pkt_duration,repeat_pict,pict_type:frame_tags=:frame_side_data=:stream=index,codec_type,codec_name,time_base,start_pts,avg_frame_rate,r_frame_rate,duration_ts,nb_frames:stream_tags=:stream_disposition=',
+    '-of', 'json', '-i', RETAINED_OUTPUT];
+}
+function completeTextProbe(result) {
+  // runTool's bounded text mode rejects OUTPUT_LIMIT rather than returning a
+  // truncated string. stdoutCapture belongs to its streaming API only.
+  assert.equal(result.exitCode, 0); assert.equal(typeof result.stdout, 'string');
+  assert.ok(Buffer.byteLength(result.stdout) > 0 && Buffer.byteLength(result.stdout) <= 1024 * 1024);
+  if (result.stdoutCapture !== undefined) {
+    assert.equal(result.stdoutCapture.truncated, false); assert.equal(result.stdoutCapture.totalBytes, Buffer.byteLength(result.stdout));
+  }
+  assert.equal(result.stderrCapture.truncated, false); assert.equal(result.stderrCapture.totalBytes, 0); assert.equal(result.stderr, '');
+  return { bytes: Buffer.byteLength(result.stdout), sha256: sha(result.stdout), json: JSON.parse(result.stdout),
+    captureMode: 'bounded-text; runner rejects OUTPUT_LIMIT, no streaming receipt required' };
+}
+async function recheckRetainedVideo() {
+  const ctx = await retainedVideoContext(); allowed.add(RETAINED_DIAGNOSTIC);
+  const priorReceipt = await receipt(RETAINED_DIAGNOSTIC); assert.equal(priorReceipt.sha256, RETAINED_DIAGNOSTIC_SHA);
+  assert.ok(priorReceipt.bytes < 2 * 1024 * 1024);
+  const priorBytes = await fs.readFile(RETAINED_DIAGNOSTIC); assert.equal(sha(priorBytes), RETAINED_DIAGNOSTIC_SHA);
+  assert.deepEqual(await receipt(RETAINED_DIAGNOSTIC), priorReceipt);
+  const prior = JSON.parse(priorBytes);
+  assert.equal(prior.id, '829cdb63-23f2-46f9-981a-f7434d2f4107'); assert.equal(prior.status, 'failed');
+  assert.equal(prior.failure.message, "Cannot read properties of undefined (reading 'truncated')");
+  assert.equal(prior.leaseReleased, true); assert.equal(prior.runtimeIdentity, RUNTIME); assert.equal(prior.completedEncodes, 0);
+  assert.equal(prior.invocations.length, 1); assert.deepEqual(prior.originalReport, ctx.originalReceipt);
+  assert.deepEqual(prior.retainedOutputBefore, ctx.outputReceipt); assert.deepEqual(prior.retainedSourceBefore, ctx.sourceReceipt);
+  assert.deepEqual(prior.selectedSourceSpoolBefore, ctx.spoolReceipt); assert.deepEqual(prior.selectedSourceFrames, ctx.selected);
+  assert.deepEqual(prior.originalResolvedArgv, ctx.item.plan.args); assert.equal(prior.originalPlanFingerprint, ctx.item.plan.planFingerprint);
+  const invocation = prior.invocations[0]; assert.equal(invocation.status, 'completed'); assert.equal(invocation.executable, TOOLS.ffprobe);
+  assert.deepEqual(invocation.argv, retainedVideoArgv()); assert.deepEqual(invocation.closed, { code: 0, signal: null });
+  const capture = completeTextProbe(invocation); assert.equal(capture.bytes, 8842); assert.equal(capture.json.frames.length, 41);
+  for (const name of ['ffmpeg', 'ffprobe']) assert.equal(prior.runtime[name].sha256, PINS[name]);
+  assert.equal(sha(JSON.stringify(['ffmpeg', 'ffprobe'].map(name => ({ sizeBytes: prior.runtime[name].bytes, sha256: prior.runtime[name].sha256 })))), RUNTIME);
+  const id = randomUUID(), directory = path.join(ROOT, 'artifacts/v0.7/operation-profiles/diagnostics', id);
+  report = { schema: 1, id, status: 'retained-video-recheck-running', startedAt: new Date().toISOString(),
+    purpose: 'Zero-child correction of a text-mode capture receipt assumption; existing AV1 frames only',
+    priorDiagnostic: priorReceipt, originalReport: ctx.originalReceipt, originalFailure: ctx.item.failure,
+    originalCase: ctx.item.id, runtimeIdentity: RUNTIME, retainedRuntimeReceipts: prior.runtime,
+    sourceBefore: ctx.sourceReceipt, outputBefore: ctx.outputReceipt, selectedSourceSpoolBefore: ctx.spoolReceipt,
+    originalResolvedArgv: ctx.item.plan.args, originalPlanFingerprint: ctx.item.plan.planFingerprint,
+    retainedInvocation: invocation, decodedCapture: capture,
+    comparison: retainedVideoComparison(capture.json, ctx.selected, ctx.item),
+    invocations: [], children: 0, completedEncodes: 0, maxConcurrentChildren: 0,
+    limitations: ['No child was launched. The source video spool and complete existing output capture are reused with exact receipts.',
+      'Paired runtime hashes are the retained native-run receipts; no new executable capability is claimed.',
+      'The failed profile remains unqualified. This recheck changes no validator, tolerance, or original report.'] };
+  const disk = await fs.statfs(ROOT, { bigint: true }); assert.ok(disk.bavail * disk.bsize >= 25n * 1024n ** 3n);
+  await fs.mkdir(directory, { recursive: true }); reportFile = path.join(directory, 'report.json'); await save();
+  try {
+    report.modules = [];
+    for (const name of ['scripts/v07-operation-profile-smoke.cjs', 'src/operation-evidence.cjs', 'src/process-runner.cjs']) report.modules.push(await receipt(path.join(ROOT, name)));
+    report.outputAfter = await receipt(RETAINED_OUTPUT); assert.deepEqual(report.outputAfter, ctx.outputReceipt);
+    report.sourceAfter = await receipt(SOURCE); assert.deepEqual(report.sourceAfter, ctx.sourceReceipt);
+    report.selectedSourceSpoolAfter = await receipt(RETAINED_VIDEO_SPOOL); assert.deepEqual(report.selectedSourceSpoolAfter, ctx.spoolReceipt);
+    report.priorDiagnosticAfter = await receipt(RETAINED_DIAGNOSTIC); assert.deepEqual(report.priorDiagnosticAfter, priorReceipt);
+    report.originalReportAfter = await receipt(RETAINED_PROFILE_REPORT); assert.deepEqual(report.originalReportAfter, ctx.originalReceipt);
+    report.status = 'retained-video-timing-rechecked-no-qualification';
+  } catch (error) { report.status = 'failed'; report.failure = evidenceFailure(error); process.exitCode = 1; }
+  finally { report.finishedAt = new Date().toISOString(); await save(); console.log(JSON.stringify({ report: reportFile, status: report.status,
+    children: 0, encodes: 0, frames: report.comparison.outputFrameCount, ptsErrorUs: report.comparison.maximumAbsolutePtsErrorUs,
+    durationErrorUs: report.comparison.maximumAbsoluteReportedDurationErrorUs, durationMismatchFrames: report.comparison.reportedDurationMismatchIndices,
+    finalReportedEndError: report.comparison.finalReportedEndError })); }
+}
+async function inspectRetainedVideo(planOnly) {
+  const ctx = await retainedVideoContext(), argv = retainedVideoArgv();
+  if (planOnly) {
+    console.log(JSON.stringify({ status: 'retained-video-inspection-planned', writes: 0, children: 0, encodes: 0,
+      original: ctx.originalReceipt, output: ctx.outputReceipt, selectedSourceSpool: ctx.spoolReceipt, selectedFrames: ctx.selected.length,
+      intendedChild: { executable: TOOLS.ffprobe, argv, timeoutMs: 15000, stdoutLimit: 1024 * 1024 } })); return;
+  }
+  const id = randomUUID(), directory = path.join(ROOT, 'artifacts/v0.7/operation-profiles/diagnostics', id);
+  report = { schema: 1, id, status: 'running', startedAt: new Date().toISOString(), purpose: 'One retained AV1 output decoded-video timing diagnostic; no encoding or qualification',
+    runtimeIdentity: RUNTIME, originalReport: ctx.originalReceipt, originalFailure: ctx.item.failure, originalCase: ctx.item.id,
+    retainedSourceBefore: ctx.sourceReceipt, retainedOutputBefore: ctx.outputReceipt, selectedSourceSpoolBefore: ctx.spoolReceipt,
+    sourceDecodeReceipt: ctx.sourceDecode, selectedSourceFrames: ctx.selected, originalResolvedArgv: ctx.item.plan.args,
+    originalPlanFingerprint: ctx.item.plan.planFingerprint, originalOutputId: ctx.item.outputId,
+    bounds: { maxChildren: 1, maxConcurrentChildren: 1, maxWallSeconds: 90, stdoutBytes: 1024 * 1024, decodedOutputFrames: 128,
+      sourceDecodeChildren: 0, encodes: 0, forecastNewDBytes: 2 * 1024 * 1024, forecastNewFBytes: 0 },
+    completedEncodes: 0, maxConcurrentChildren: 0, invocations: [], cases: [],
+    limitations: ['The original failure report is preserved; this separate diagnostic never accepts the failed profile.',
+      'Only this 179935-byte existing owned output is decoded. Existing 41-row source timing spool is reused after receipt verification.',
+      'No source decode, encode, audio decode, media publication, tolerance widening, or app/service capability change.'] };
+  await fs.mkdir(directory, { recursive: true }); reportFile = path.join(directory, 'report.json'); await save();
+  const deadline = setTimeout(() => controller.abort(), 90000); deadline.unref(); const stop = () => controller.abort();
+  process.once('SIGINT', stop); process.once('SIGTERM', stop);
+  try {
+    await acquire();
+    const disk = await fs.statfs(ROOT, { bigint: true }); assert.ok(disk.bavail * disk.bsize >= 25n * 1024n ** 3n);
+    report.runtime = {};
+    for (const name of ['ffmpeg', 'ffprobe']) {
+      const binary = await receipt(TOOLS[name]); assert.equal(binary.sha256, PINS[name]);
+      assert.equal(ctx.original.runtime[name].sha256, PINS[name]);
+      report.runtime[name] = { ...binary, retainedVersionReceipt: ctx.original.runtime[name].version };
+    }
+    assert.equal(sha(JSON.stringify(['ffmpeg', 'ffprobe'].map(name => ({ sizeBytes: report.runtime[name].bytes, sha256: report.runtime[name].sha256 })))), RUNTIME);
+    report.modules = [];
+    for (const name of ['scripts/v07-operation-profile-smoke.cjs', 'src/operation-evidence.cjs', 'src/process-runner.cjs']) report.modules.push(await receipt(path.join(ROOT, name)));
+    assert.deepEqual(await receipt(RETAINED_OUTPUT), ctx.outputReceipt); mediaInputs.add(RETAINED_OUTPUT);
+    const result = await run(TOOLS.ffprobe, argv, { timeoutMs: 15000, stdoutLimit: 1024 * 1024 });
+    report.decodedCapture = completeTextProbe(result);
+    report.comparison = retainedVideoComparison(report.decodedCapture.json, ctx.selected, ctx.item);
+    report.retainedOutputAfter = await receipt(RETAINED_OUTPUT); assert.deepEqual(report.retainedOutputAfter, ctx.outputReceipt);
+    report.retainedSourceAfter = await receipt(SOURCE); assert.deepEqual(report.retainedSourceAfter, ctx.sourceReceipt);
+    report.selectedSourceSpoolAfter = await receipt(RETAINED_VIDEO_SPOOL); assert.deepEqual(report.selectedSourceSpoolAfter, ctx.spoolReceipt);
+    report.originalReportAfter = await receipt(RETAINED_PROFILE_REPORT); assert.deepEqual(report.originalReportAfter, ctx.originalReceipt);
+    report.status = 'retained-video-timing-captured-no-qualification';
+  } catch (error) { report.status = controller.signal.aborted ? 'cancelled' : 'failed'; report.failure = evidenceFailure(error); process.exitCode = 1; }
+  finally {
+    clearTimeout(deadline); process.removeListener('SIGINT', stop); process.removeListener('SIGTERM', stop);
+    report.finishedAt = new Date().toISOString(); await release(); await save();
+    console.log(JSON.stringify({ report: reportFile, status: report.status, encodes: report.completedEncodes, children: report.invocations.length,
+      comparison: report.comparison ? { frames: report.comparison.outputFrameCount, maximumPtsErrorUs: report.comparison.maximumAbsolutePtsErrorUs,
+        maximumDurationErrorUs: report.comparison.maximumAbsoluteReportedDurationErrorUs, durationMismatchFrames: report.comparison.reportedDurationMismatchIndices,
+        finalReportedEndError: report.comparison.finalReportedEndError } : null, failure: report.failure }));
+  }
+}
 async function main() {
   const args = process.argv.slice(2), planOnly = args.length === 1 && args[0] === '--plan-only';
+  if (args.length === 1 && args[0] === '--recheck-retained-video') return recheckRetainedVideo();
   if (args.length === 1 && args[0] === '--retained-video-plan-only') return inspectRetainedVideo(true);
   if (args.length === 2 && args[0] === '--parent-granted-media-slot' && args[1] === '--inspect-retained-video') return inspectRetainedVideo(false);
   const single = args.length === 3 && args[1] === '--case' ? args[2] : null;

@@ -114,6 +114,18 @@ async function markStageValidated(stage) {
   record.validated = true;
 }
 
+// Retention is deliberately weaker than validation/publication authority.
+// A closed encoder's sealed output may still be useful after a bounded evidence
+// collector fails. Preserve that exact owned object without approving its media.
+async function retainSealedStage(stage, reason) {
+  const record = recordOf(stage);
+  if (typeof reason !== 'string' || !reason.length || reason.length > 512) {
+    throw failure('INVALID_RETENTION_REASON', 'A bounded retention reason is required.');
+  }
+  await requireSealed(stage, record);
+  record.retentionReason = reason;
+}
+
 function retained(stage, reason) {
   return { retained: true, directory: stage.directory, file: stage.file, reason };
 }
@@ -249,6 +261,9 @@ async function cleanupStage(stage, { protectedIdentities = new Set() } = {}) {
         : 'A previously validated output changed before publication. It was retained for review; its current bytes are not approved.';
       return { ...retained(stage, reason), completed: true, validationCurrent };
     }
+    if (record.retentionReason && !record.published) {
+      return { ...retained(stage, record.retentionReason), completed: false, sealed: true, validationCurrent: false };
+    }
     if (!await sameDirectory(stage, record)) return retained(stage, 'The staging directory changed before cleanup; no pathname was removed.');
     try {
       await fs.unlink(stage.file);
@@ -267,6 +282,9 @@ async function cleanupStage(stage, { protectedIdentities = new Set() } = {}) {
 
 async function publishOutput(stage, destination, { signal, link = fs.link, atomicOnly = false } = {}) {
   const record = recordOf(stage);
+  if (record.retentionReason && !record.validated) {
+    throw failure('STAGE_NOT_VALIDATED', 'A retained evidence-incomplete output cannot be published before successful validation.');
+  }
   if (signal?.aborted) throw failure('CANCELLED', 'Encoding cancelled before publication.');
   await requireSealed(stage, record);
   if (signal?.aborted) throw failure('CANCELLED', 'Encoding cancelled before publication.');
@@ -342,4 +360,4 @@ async function publishOutput(stage, destination, { signal, link = fs.link, atomi
   return true;
 }
 
-module.exports = { exists, createStage, sealStage, markStageValidated, cleanupStage, publishOutput, readPublishedOutputIdentity };
+module.exports = { exists, createStage, sealStage, markStageValidated, retainSealedStage, cleanupStage, publishOutput, readPublishedOutputIdentity };

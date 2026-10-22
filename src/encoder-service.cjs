@@ -4,11 +4,12 @@ const { createReadStream } = require('node:fs');
 const path = require('node:path');
 const { randomUUID, createHash } = require('node:crypto');
 const { PROFILES, validateSettings, selectVideo, describeRecipe, outputPixelFormat } = require('./media.cjs');
-const { buildEncodeOperation } = require('./encode-operation.cjs');
+const { buildEncodeOperation, validateEncodeOperationOutput, fingerprintEncodeSource } = require('./encode-operation.cjs');
+const { collectOperationEvidence } = require('./operation-evidence.cjs');
 const { runTool, isSharedToolFailure } = require('./process-runner.cjs');
 const { inspectInput, inspectMetadata, finishInspection, parseProbeJson, validateOutput } = require('./inspection.cjs');
 const { checkCapabilities } = require('./capabilities.cjs');
-const { exists, createStage, sealStage, markStageValidated, cleanupStage, publishOutput, readPublishedOutputIdentity } = require('./outputs.cjs');
+const { exists, createStage, sealStage, markStageValidated, retainSealedStage, cleanupStage, publishOutput, readPublishedOutputIdentity } = require('./outputs.cjs');
 const { createOutputId, classifyMarker, historicalSuffix, ProvenanceJournal, generationDescriptionOf } = require('./provenance.cjs');
 const { readFileStamp, readSourceIdentity, sameStamp, sameIdentity, assertIdentityMatches, assessCompletedSource } = require('./source-identity.cjs');
 const { StorageEligibility } = require('./storage-eligibility.cjs');
@@ -28,6 +29,13 @@ const APP_VERSION = require('../package.json').version;
 // Journals must not relabel an upstream-truncated tail as a complete capture.
 const diagnosticStderr = result => ({ stderr: typeof result?.stderr === 'string' ? result.stderr : '',
   ...(result?.stderrCapture ? { stderrCapture: result.stderrCapture } : {}) });
+const operationDuration = entry => entry.operationPlan?.contract.range.kind === 'range'
+  ? (entry.operationPlan.contract.range.resolved.endUs - entry.operationPlan.contract.range.resolved.startUs) / 1000000
+  : entry.inspection.duration;
+const mergeWarnings = (...sets) => [...new Map(sets.flat().filter(Boolean).map(value => {
+  const warning = typeof value === 'string' ? { code: 'OPERATION_VALIDATION_WARNING', message: value } : value;
+  return [JSON.stringify(warning), warning];
+})).values()];
 
 function objectKeys(value, keys) {
   if (!value || typeof value !== 'object' || Array.isArray(value)
@@ -45,7 +53,8 @@ const sharedFailure = isSharedToolFailure;
 
 class EncoderService extends EventEmitter {
   constructor({ ffmpeg, ffprobe, stateDir, run = runTool, inspect = inspectInput, verify = validateOutput, capabilities = checkCapabilities,
-    inspectionCache, storageEligibility, inspectionWorkers = 2, provenanceJournal, preferences, diagnostics, appSettings, outputAccess, runtimeIdentity = null, discoverBackends = null }) {
+    inspectionCache, storageEligibility, inspectionWorkers = 2, provenanceJournal, preferences, diagnostics, appSettings, outputAccess, runtimeIdentity = null, discoverBackends = null,
+    operationQualifications = null, operationEvidenceBudget = null, operationEnvironment = null, operationDeadlineMs = 120000 }) {
     super();
     if (![1, 2].includes(inspectionWorkers)) throw new TypeError('Inspection workers must be one or two.');
     Object.assign(this, { ffmpeg, ffprobe, stateDir, run, inspect, verify, capabilities });
@@ -83,6 +92,16 @@ class EncoderService extends EventEmitter {
     this.runtimeIdentity = runtimeIdentity;
     this.discoverBackends = discoverBackends;
     this.nativeCapabilities = null;
+    // Main-private dependency injection, never an IPC registration surface.
+    // Without a trusted catalog and complete cost envelope, changed operations
+    // retain their existing refusal. Ordinary Full never consumes this gate.
+    this.operationQualifications = operationQualifications;
+    this.operationEvidenceBudget = operationEvidenceBudget;
+    this.operationEnvironment = operationEnvironment;
+    if (!Number.isSafeInteger(operationDeadlineMs) || operationDeadlineMs < 1 || operationDeadlineMs > 1800000) {
+      throw new TypeError('Changed-operation deadline must be bounded to thirty minutes.');
+    }
+    this.operationDeadlineMs = operationDeadlineMs;
   }
 
   // Saving application defaults never mutates a draft, prepared plan or active
@@ -579,7 +598,7 @@ class EncoderService extends EventEmitter {
       // the file. Duration in the preview is descriptive, never admission.
       item.summary = inspection.summary;
       if (!inspection.color.supported) throw fail('UNSUPPORTED_COLOR', inspection.color.reasons.join(' '));
-      if (item.operationRequest && (item.operationRequest.range !== null || item.operationRequest.resolution !== 'source'
+      if (!this.operationQualifications && item.operationRequest && (item.operationRequest.range !== null || item.operationRequest.resolution !== 'source'
           || item.operationRequest.audioPolicy !== 'copy' || item.operationRequest.target !== 'matroska'
           || !['preserve', 'sdr'].includes(item.operationRequest.hdrPolicy) || item.operationRequest.omissionRequestIds.length)) {
         throw fail('OPERATION_QUALIFICATION_REQUIRED', 'These file processing options require a qualified operation path. No encode plan was created and no options were silently ignored.');
@@ -607,13 +626,22 @@ class EncoderService extends EventEmitter {
       // qualification gate above, not merely a syntactically valid command.
       const operationPlan = buildEncodeOperation({ input: file, output: destination, settings, inspection,
         request: item.operationRequest, runtimeIdentity: this.runtimeIdentity, outputId, generationDescription });
+      const qualificationBindings = operationPlan.compatibilityPath ? null : {
+        plan: operationPlan, settings, sourceIdentity: identity,
+        sourceProbeFingerprint: fingerprintEncodeSource(inspection.probe), runtimeIdentity: this.runtimeIdentity,
+        environment: this.operationEnvironment ? clone(this.operationEnvironment()) : null,
+        budget: this.operationEvidenceBudget, executionBudgetMs: this.operationDeadlineMs,
+      };
+      const qualificationSelection = qualificationBindings
+        ? this.operationQualifications.select(qualificationBindings) : null;
+      if (qualificationBindings && !qualificationSelection) throw fail('OPERATION_QUALIFICATION_REQUIRED', 'No exact current operation qualification is available.');
       // The canonical builder validates real local paths. Only the final output
       // slot is a template in the prepared presentation; main substitutes its
       // exclusively owned staging path at start, never the public destination.
       const preparedArgs = Object.freeze([...operationPlan.args.slice(0, -1), OUTPUT_PLACEHOLDER]);
       this.plan.entries.set(item.id, { file, destination, inspection, fingerprint: identity, overridden: this.plan.overrides.has(item.id),
         reencodeAuthorized: item.reencodeAuthorized, sourceOutputId: marker.outputId || indexed?.outputId,
-        outputId, generationDescription, operationPlan, preparedArgs });
+        outputId, generationDescription, operationPlan, preparedArgs, qualificationBindings, qualificationSelection });
       this.plan.ambiguities.delete(item.id);
       Object.assign(item, { status: 'ready', summary: inspection.summary, reason: item.reencodeAuthorized
         ? 'Explicit re-encoding authorized for this file and prepared batch only.'
@@ -1023,15 +1051,58 @@ class EncoderService extends EventEmitter {
         let invocationId;
         let publishedIdentity;
         let validatingSource = false;
+        let operationTimer;
+        let operationController;
         try {
+          const qualificationBindings = () => ({ ...entry.qualificationBindings, settings: this.plan.settings,
+            sourceIdentity: entry.fingerprint, sourceProbeFingerprint: fingerprintEncodeSource(entry.inspection.probe),
+            runtimeIdentity: this.runtimeIdentity, budget: this.operationEvidenceBudget, executionBudgetMs: this.operationDeadlineMs,
+            environment: this.operationEnvironment ? clone(this.operationEnvironment()) : null });
+          const requireQualification = () => entry.qualificationSelection
+            ? this.operationQualifications.requireCurrent(entry.qualificationSelection, qualificationBindings()) : null;
+          const qualified = requireQualification();
+          operationController = qualified ? new AbortController() : null;
+          const jobSignal = operationController ? AbortSignal.any([signal, operationController.signal]) : signal;
+          // Review/queued time does not consume an active job's cost envelope.
+          // Policy/source/runtime freshness is checked independently above.
+          const activeDeadline = qualified ? Date.now() + qualified.executionBudgetMs : null;
+          if (qualified) operationTimer = setTimeout(() => operationController.abort(), qualified.executionBudgetMs);
+          let operationChildren = 0, evidenceBytes = 0;
+          // The runner does not release ownership until child close and stdout
+          // sink drainage. The aggregate deadline is independent of per-child
+          // collector limits; an exhausted job never falls back to legacy proof.
+          const run = qualified ? async (executable, args, options = {}) => {
+            requireQualification();
+            if (++operationChildren > 64) throw fail('OPERATION_CHILD_LIMIT', 'The changed operation exceeded its child-process budget.');
+            const remaining = activeDeadline - Date.now();
+            if (remaining <= 0 || operationController.signal.aborted) throw fail('OPERATION_DEADLINE', 'The changed operation exceeded its total deadline.');
+            const chunk = options.onStdoutChunk;
+            try {
+              return await this.run(executable, args, { ...options, signal: jobSignal,
+                timeoutMs: Math.min(options.timeoutMs || remaining, remaining),
+                ...(chunk ? { onStdoutChunk: async bytes => {
+                  evidenceBytes += bytes.length;
+                  if (evidenceBytes > 256 * 1024 * 1024) throw fail('OPERATION_EVIDENCE_LIMIT', 'The total evidence stdout budget was exceeded.');
+                  return chunk(bytes);
+                } } : {}) });
+            } catch (error) {
+              if (!signal.aborted && (operationController.signal.aborted || Date.now() >= activeDeadline)) {
+                throw Object.assign(fail('OPERATION_DEADLINE', 'The changed operation exceeded its total deadline; its child and sinks have settled.'), { cause: error });
+              }
+              throw error;
+            }
+          } : (executable, args, options) => this.run(executable, args, options);
           await this.verifyFolders();
           if (await exists(entry.destination)) { item.status = 'skipped'; item.reason = 'Output appeared since preview.'; continue; }
           if (this.plan.reservedPaths.has(entry.destination.toLowerCase())) throw fail('PROTECTED_SOURCE', 'The destination belonged to the baseline input snapshot. It remains protected after disappearance.');
           validatingSource = true;
-          await this.assertSourceMatches(entry, signal, 'before-encode', 'Source identity changed since preview.');
+          await this.assertSourceMatches(entry, jobSignal, 'before-encode', 'Source identity changed since preview.');
           const currentProbe = this.inspect === inspectInput
-            ? await inspectMetadata(entry.file, { ffprobe: this.ffprobe, signal, run: this.run })
-            : (await this.inspect(entry.file, { ffprobe: this.ffprobe, signal, run: this.run })).probe;
+            ? await inspectMetadata(entry.file, { ffprobe: this.ffprobe, signal: jobSignal, run })
+            : (await this.inspect(entry.file, { ffprobe: this.ffprobe, signal: jobSignal, run })).probe;
+          if (qualified && fingerprintEncodeSource(currentProbe) !== entry.qualificationBindings.sourceProbeFingerprint) {
+            throw fail('OPERATION_QUALIFICATION_STALE', 'The current media evidence no longer matches the prepared qualification.');
+          }
           const currentMarker = classifyMarker(currentProbe);
           const currentIndexed = await this.provenanceJournal.lookupIdentity(entry.fingerprint);
           const generated = currentMarker.kind === 'generated' || Boolean(currentIndexed);
@@ -1043,10 +1114,10 @@ class EncoderService extends EventEmitter {
           } else if (currentMarker.kind !== 'unmarked' || currentIndexed) {
             throw fail('GENERATED_SOURCE', 'This source is now recognized as a generated output; prepare again.');
           }
-          if (entry.overridden && !sameIdentity(this.plan.overrides.get(item.id), await readSourceIdentity(entry.file, { signal }))) {
+          if (entry.overridden && !sameIdentity(this.plan.overrides.get(item.id), await readSourceIdentity(entry.file, { signal: jobSignal }))) {
             throw fail('INPUT_CHANGED', 'The explicit original override no longer matches this file.');
           }
-          await this.assertSourceMatches(entry, signal, 'after-provenance-check', 'Source identity changed during the final provenance check.');
+          await this.assertSourceMatches(entry, jobSignal, 'after-provenance-check', 'Source identity changed during the final provenance check.');
           validatingSource = false;
           await this.provenanceJournal.recordIntent({ outputId: entry.outputId, sourceIdentity: entry.fingerprint,
             destination: entry.destination, profileId: this.plan.settings.profileId, generationDescription: entry.generationDescription });
@@ -1059,7 +1130,7 @@ class EncoderService extends EventEmitter {
           // through validation, publication and the existing cleanup pipeline.
           const setJobStage = stageName => {
             item.status = stageName === 'encoding' ? 'running' : 'validating';
-            this.state.progress = { fileId: item.id, stage: stageName, duration: entry.inspection.duration, percent: null };
+            this.state.progress = { fileId: item.id, stage: stageName, duration: operationDuration(entry), percent: null };
             this.emitState();
           };
           setJobStage('encoding');
@@ -1068,10 +1139,13 @@ class EncoderService extends EventEmitter {
           args[args.length - 1] = stage.file;
           entry.actualArgs = Object.freeze([...args]);
           invocationId = randomUUID();
-          await this.recordIncident({ stage: 'invocation', reason: 'ENCODE_STARTED', fileId: item.id, invocationId, context: { executable: this.ffmpeg, argv: args, settings: this.plan.settings } });
-          const encodeResult = await this.run(this.ffmpeg, args, { signal, timeoutMs: 0, onProgress: record => {
+          const invocationRecord = await this.recordIncident({ stage: 'invocation', reason: 'ENCODE_STARTED', fileId: item.id, invocationId,
+            context: { executable: this.ffmpeg, argv: args, settings: this.plan.settings,
+              ...(qualified ? { planFingerprint: entry.operationPlan.planFingerprint, evidenceIds: qualified.evidenceIds, policyIdentity: qualified.policyIdentity } : {}) } });
+          if (qualified && !invocationRecord.persisted) throw fail('OPERATION_DIAGNOSTICS_INCOMPLETE', 'The qualified invocation could not be recorded; encoding did not start.');
+          const encodeResult = await run(this.ffmpeg, args, { signal: jobSignal, timeoutMs: 0, onProgress: record => {
             if (owner !== this.state.batchId || item.status !== 'running' || this.state.progress?.stage !== 'encoding') return;
-            const duration = entry.inspection.duration;
+            const duration = operationDuration(entry);
             const percent = duration > 0 && record.seconds !== null ? Math.min(99, Math.max(0, record.seconds / duration * 100)) : null;
             this.state.progress = { ...record, fileId: item.id, stage: 'encoding', duration, percent, etaSeconds: record.speed > 0 && duration > 0 ? Math.max(0, (duration - (record.seconds || 0)) / record.speed) : null };
             if (Date.now() - lastProgress > 150) { lastProgress = Date.now(); this.emitState(); }
@@ -1079,27 +1153,56 @@ class EncoderService extends EventEmitter {
           setJobStage('output-validation');
           await this.recordIncident({ stage: 'invocation', reason: 'ENCODE_CLOSED', fileId: item.id, invocationId, ...diagnosticStderr(encodeResult), context: { exitCode: 0 } });
           await sealStage(stage);
+          if (qualified) {
+            await retainSealedStage(stage, 'The encoder closed successfully, but changed-operation evidence or publication is incomplete. These bytes are retained without validation authority.');
+            item.outputDisposition = { kind: 'sealed-unverified', published: false, validationCurrent: false };
+          }
           const stagedIdentity = await readFileStamp(stage.file);
           if (this.plan.reservedIdentities.has(`${stagedIdentity.dev}:${stagedIdentity.ino}`)) throw fail('PROTECTED_SOURCE', 'A temporary output aliases a protected source.');
           if (signal.aborted) throw fail('CANCELLED', 'Encoding cancelled.');
-          const result = await this.run(this.ffprobe, ['-v', 'error', '-protocol_whitelist', 'file', '-show_format', '-show_streams', '-show_chapters', '-show_data_hash', 'sha256', '-of', 'json', stage.file], { signal });
+          const result = await run(this.ffprobe, ['-v', 'error', '-protocol_whitelist', 'file', '-show_format', '-show_streams', '-show_chapters', '-show_data_hash', 'sha256', '-of', 'json', stage.file], { signal: jobSignal });
           const outputProbe = parseProbeJson(result.stdout, 'Output validation');
           const marker = classifyMarker(outputProbe);
           if (marker.kind !== 'generated' || marker.outputId !== entry.outputId) throw fail('INVALID_PROVENANCE', 'The completed output does not contain its expected application marker and output ID.');
           if (JSON.stringify(marker.previousGeneration) !== JSON.stringify(entry.generationDescription)) {
             throw fail('INVALID_PROVENANCE', 'The completed output does not contain its expected resolved generation description.');
           }
-          const validation = this.verify(entry.inspection, outputProbe, this.plan.settings);
-          await this.recordIncident({ stage: 'validation', reason: 'OUTPUT_CHECKED', fileId: item.id, severity: validation.valid ? 'info' : 'error', context: { validation } });
+          let validation;
+          if (qualified) {
+            requireQualification(); setJobStage('evidence-collection');
+            // Evidence has independent retention; it must not keep the media
+            // staging directory nonempty and suppress safe result actions.
+            const evidenceDirectory = path.join(this.stateDir, 'operation-evidence');
+            await fs.mkdir(evidenceDirectory, { recursive: true });
+            const evidence = await collectOperationEvidence({ plan: entry.operationPlan, sourceProbe: entry.inspection.probe,
+              outputProbe, sourcePath: entry.file, outputPath: stage.file, stageDirectory: evidenceDirectory,
+              ffmpeg: this.ffmpeg, ffprobe: this.ffprobe, run, signal: jobSignal,
+              budget: qualified.budget, timingQualification: qualified.timingQualification });
+            entry.operationEvidence = evidence;
+            const receiptRecord = await this.recordIncident({ stage: 'validation', reason: 'OPERATION_EVIDENCE_COLLECTED', fileId: item.id, invocationId,
+              context: { directory: evidence.directory, planFingerprint: evidence.planFingerprint, evidenceIds: qualified.evidenceIds,
+                status: evidence.status, scope: evidence.scope, children: operationChildren, streamedBytes: evidenceBytes,
+                sourceIdentityDisposition: evidence.sourceIdentityDisposition } });
+            if (!receiptRecord.persisted) throw fail('OPERATION_DIAGNOSTICS_INCOMPLETE', 'Complete evidence was collected but its correlated record could not be saved. Output retained without publication.');
+            requireQualification(); setJobStage('output-validation');
+            validation = validateEncodeOperationOutput(entry.operationPlan, outputProbe,
+              { qualification: qualified.qualification, decodedEvidence: evidence.decodedEvidence });
+          } else validation = this.verify(entry.inspection, outputProbe, this.plan.settings);
+          const validationRecord = await this.recordIncident({ stage: 'validation', reason: 'OUTPUT_CHECKED', fileId: item.id, invocationId,
+            severity: validation.valid ? 'info' : 'error', context: { validation } });
+          if (qualified && !validationRecord.persisted) throw fail('OPERATION_DIAGNOSTICS_INCOMPLETE', 'The qualified output-validation record could not be saved. Output retained without publication.');
           if (!validation.valid) throw fail('INVALID_OUTPUT', validation.errors.join(' '));
+          const validationWarnings = mergeWarnings(item.warnings || [], validation.warnings || []);
+          if (validationWarnings.length) item.warnings = validationWarnings;
           await markStageValidated(stage);
           item.outputDisposition = { kind: 'validated-staged', published: false };
           validatingSource = true;
           setJobStage('source-check');
-          const assessment = await this.assessCompletedSource(entry, signal);
+          const assessment = await this.assessCompletedSource(entry, jobSignal);
           item.sourceAssessment = assessment;
-          await this.recordIncident({ stage: 'validation', reason: 'SOURCE_ASSESSED', fileId: item.id,
+          const sourceRecord = await this.recordIncident({ stage: 'validation', reason: 'SOURCE_ASSESSED', fileId: item.id,
             severity: assessment.kind === 'unchanged' ? 'info' : 'warning', context: { assessment } });
+          if (qualified && !sourceRecord.persisted) throw fail('OPERATION_DIAGNOSTICS_INCOMPLETE', 'The qualified source assessment could not be recorded. Output retained without publication.');
           if (assessment.kind !== 'unchanged') {
             item.sourceIdentityDiagnostic = assessment.diagnostic;
             // Retaining this completed output cannot authorize a later job or
@@ -1117,15 +1220,19 @@ class EncoderService extends EventEmitter {
                 : 'The completed source check was incomplete. The completed output was retained without publication.'),
             { sourceIdentityDiagnostic: assessment.diagnostic });
           }
-          if (assessment.kind === 'ctime-only') item.warnings = [assessment.warning];
+          if (assessment.kind === 'ctime-only') item.warnings = mergeWarnings(item.warnings || [], [assessment.warning]);
           validatingSource = false;
           setJobStage('publication');
           await this.verifyFolders();
-          const published = await publishOutput(stage, entry.destination, { signal, atomicOnly: this.plan.sameFolder });
+          // Completion's ctime-only warning does not renew the original source
+          // grant/catalog. Recheck the same frozen qualification, then publish
+          // only through the existing no-overwrite owned stage.
+          requireQualification(); notCancelled(jobSignal);
+          const published = await publishOutput(stage, entry.destination, { signal: jobSignal, atomicOnly: this.plan.sameFolder });
           await this.recordIncident({ stage: 'publication', reason: published ? 'OUTPUT_PUBLISHED' : 'OUTPUT_COLLISION', fileId: item.id,
             severity: !published || assessment.kind === 'ctime-only' ? 'warning' : 'info', context: { destination: entry.destination, published, sourceAssessment: assessment } });
           item.status = published ? 'success' : 'skipped';
-          item.outcome = published ? assessment.kind === 'ctime-only' ? 'saved-with-warning' : 'saved' : 'destination-collision';
+          item.outcome = published ? item.warnings?.length ? 'saved-with-warning' : 'saved' : 'destination-collision';
           item.outputDisposition = { kind: published ? 'published' : 'retained-completed', published, ...(published ? { file: entry.destination } : {}) };
           item.reason = published ? item.warnings?.length ? 'Output saved. ' + item.warnings.map(warning => warning.message).join(' ') : '' : 'Another output won the publication race.';
           if (published) {
@@ -1141,6 +1248,11 @@ class EncoderService extends EventEmitter {
             }
           }
         } catch (error) {
+          if (operationController?.signal.aborted && !signal.aborted && error.code !== 'PUBLICATION_UNCERTAIN') {
+            error = Object.assign(fail('OPERATION_DEADLINE', 'The changed operation exceeded its total deadline. No unvalidated output was published.'),
+              { cause: error, evidenceDirectory: error.evidenceDirectory, evidenceReceipt: error.evidenceReceipt,
+                ...diagnosticStderr(error), sourceIdentityDiagnostic: error.sourceIdentityDiagnostic });
+          }
           // Deletion, empty files and failed identity reads are invalidation
           // too; an errno must not leave a misleading authorized UI state.
           if (validatingSource || ['INPUT_CHANGED', 'GENERATED_SOURCE'].includes(error.code)) {
@@ -1156,10 +1268,12 @@ class EncoderService extends EventEmitter {
           await this.recordIncident({ stage: item.status === 'cancelled' ? 'cancellation' : 'encoding', reason: item.status === 'cancelled' ? 'JOB_CANCELLED' : 'JOB_FAILED',
             severity: item.status === 'cancelled' ? 'info' : 'error', fileId: item.id, message: error.message, ...diagnosticStderr(error),
             ...(invocationId ? { invocationId } : {}), context: { code: item.reasonCode, sourceIdentityDiagnostic: item.sourceIdentityDiagnostic,
-              exitCode: error.exitCode, signal: error.signal } });
+              exitCode: error.exitCode, signal: error.signal, evidenceDirectory: error.evidenceDirectory,
+              evidenceFailure: error.evidenceReceipt?.failure } });
           if (item.status === 'cancelled') break;
           if (sharedFailure(error)) { stoppedByFailure = true; this.state.error = error.message; break; }
         } finally {
+          if (operationTimer) clearTimeout(operationTimer);
           let cleanup;
           try {
             cleanup = await cleanupStage(stage, { protectedIdentities: this.plan.reservedIdentities });

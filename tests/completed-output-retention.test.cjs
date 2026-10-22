@@ -4,7 +4,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs/promises');
 const path = require('node:path');
-const { createStage, sealStage, markStageValidated, cleanupStage, publishOutput } = require('../src/outputs.cjs');
+const { createStage, sealStage, markStageValidated, retainSealedStage, cleanupStage, publishOutput } = require('../src/outputs.cjs');
 
 async function fixture(t) {
   const parent = path.resolve(__dirname, '../artifacts/completed-output-unit-tests');
@@ -32,6 +32,29 @@ test('completed validated staging survives cleanup until publication and cannot 
   assert.equal(result.validationCurrent, true);
   assert.equal(await fs.readFile(stage.file, 'utf8'), 'completed dummy fixture');
   assert.equal((await cleanupStage(stage)).completed, true);
+});
+
+test('sealed evidence-failed output can be retained without becoming validated or publishable', async t => {
+  const { stage, destination } = await fixture(t);
+  await assert.rejects(retainSealedStage({ ...stage }, 'Evidence incomplete.'), { code: 'INVALID_STAGE' });
+  await retainSealedStage(stage, 'Evidence incomplete; retained for diagnosis only.');
+  const result = await cleanupStage(stage);
+  assert.equal(result.retained, true); assert.equal(result.completed, false);
+  assert.equal(result.sealed, true); assert.equal(result.validationCurrent, false);
+  assert.equal(await fs.readFile(stage.file, 'utf8'), 'completed dummy fixture');
+  await assert.rejects(publishOutput(stage, destination), { code: 'STAGE_NOT_VALIDATED' });
+  await assert.rejects(fs.stat(destination), { code: 'ENOENT' });
+});
+
+test('retention never confers authority after stage replacement or over an unrelated output', async t => {
+  const { stage, destination } = await fixture(t);
+  await retainSealedStage(stage, 'Collector deadline.');
+  await fs.rename(stage.file, stage.file + '.preserved');
+  await fs.writeFile(stage.file, 'Unrelated replacement');
+  assert.equal((await cleanupStage(stage)).retained, true);
+  assert.equal(await fs.readFile(stage.file, 'utf8'), 'Unrelated replacement');
+  await assert.rejects(markStageValidated(stage), { code: 'STAGE_CHANGED' });
+  await assert.rejects(publishOutput(stage, destination));
 });
 
 test('successfully published validated output remains while owned staging can be cleaned', async t => {

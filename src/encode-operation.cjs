@@ -1,6 +1,7 @@
 'use strict';
 
 const { createHash } = require('node:crypto');
+const path = require('node:path');
 const { ToolError } = require('./process-runner.cjs');
 const { PROFILES, validateSettings, selectVideo, mappedStreams, buildEncodeArgs } = require('./media.cjs');
 const { normalizeProbe, validateOutput } = require('./inspection.cjs');
@@ -142,7 +143,7 @@ function buildCompatibility(options) {
         ? { H264: 'h264', H265: 'hevc', AV1: 'av1' }[PROFILES.find(profile => profile.id === settings.profileId).codec] : stream.codec_name })),
       decodedEvidenceRequired: false, measuredTolerancesRequired: false, timestampPolicy: 'accepted-full-compatibility-path' },
     qualificationRequirements: [], executionAuthority: 'main-owned-prepared-plan-required' });
-  plans.set(result, { probe, color, settings, duration: options.inspection.duration });
+  plans.set(result, { input, probe, color, settings, duration: options.inspection.duration });
   return result;
 }
 
@@ -287,7 +288,7 @@ function buildEncodeOperation(options) {
     runtimeIdentity, planFingerprint: hash({ settings, probe, color, request: contract.request, runtimeIdentity, outputId: outputId ?? null,
       ...(isRange ? { timestampOrigins } : {}) }),
     qualificationRequirements: requirements, executionAuthority: 'main-owned-prepared-plan-required' });
-  plans.set(result, { probe, color, settings, duration: options.inspection.duration });
+  plans.set(result, { input, probe, color, settings, duration: options.inspection.duration });
   return result;
 }
 
@@ -440,4 +441,24 @@ function validateEncodeOperationOutput(plan, rawOutputProbe, options = {}) {
   }
 }
 
-module.exports = { ENCODE_OPERATION_VERSION, fingerprintEncodeSource, buildEncodeOperation, validateEncodeOperationOutput };
+// A read-only main-side assertion shares the builder's private identity brand.
+// Serialized/copy-shaped plans can describe a job but cannot acquire execution
+// qualification through a matching fingerprint supplied by another caller.
+function assertEncodeOperationPlan(plan, bindings) {
+  const state = plans.get(plan);
+  if (!state) fail('INVALID_ENCODE_OPERATION', 'Only an original main-built Encode operation plan may be qualified.');
+  if (bindings !== undefined) {
+    record(bindings, ['settings', 'sourceProbeFingerprint', 'sourcePath'], ['settings', 'sourceProbeFingerprint'], 'Operation bindings');
+    if (JSON.stringify(validateSettings(bindings.settings)) !== JSON.stringify(state.settings)
+        || bindings.sourceProbeFingerprint !== fingerprintEncodeSource(state.probe)) {
+      fail('INVALID_ENCODE_OPERATION', 'Qualification settings or source evidence do not describe this original operation plan.');
+    }
+    if (bindings.sourcePath !== undefined && (typeof bindings.sourcePath !== 'string' || !path.isAbsolute(bindings.sourcePath)
+        || path.resolve(bindings.sourcePath) !== path.resolve(state.input))) {
+      fail('INVALID_ENCODE_OPERATION', 'The qualified source path does not describe this original operation plan.');
+    }
+  }
+  return plan;
+}
+
+module.exports = { ENCODE_OPERATION_VERSION, fingerprintEncodeSource, buildEncodeOperation, validateEncodeOperationOutput, assertEncodeOperationPlan };

@@ -11,19 +11,26 @@
 <body>
   <main class="app-shell">
     <header class="app-header">
-      <div><p class="eyebrow">LOCAL VIDEO WORKSPACE</p><h1><span aria-hidden="true">&gt;_</span> FFmpeg Encoder</h1></div>
-      <span id="phase-badge" class="phase-badge" role="status">Starting</span>
+      <div class="app-brand"><span class="brand-mark" aria-hidden="true">&gt;_</span><h1>FFmpeg Encoder</h1><span class="local-label">Local media workbench</span></div>
+      <span id="phase-badge" class="phase-badge">Starting</span>
     </header>
-    <p class="intro">Your local media workbench. Configure deliberately, inspect the plan, then process one file at a time.</p>
     <nav class="workspace-navigation" aria-label="Workspaces">
       <div id="workspace-tabs" class="workspace-tabs" role="tablist" aria-label="FFmpeg workspaces">
         <button id="tab-encode" type="button" role="tab" aria-selected="true" aria-controls="workspace-encode" tabindex="0">Encode</button>
-        <button id="tab-jobs" type="button" role="tab" aria-selected="false" aria-controls="workspace-jobs" tabindex="-1">Jobs</button>
+        <button id="tab-remux" type="button" role="tab" aria-selected="false" aria-controls="workspace-remux" tabindex="-1">Remux</button>
+        <button id="tab-jobs" type="button" role="tab" aria-selected="false" aria-controls="workspace-jobs" tabindex="-1">Current Jobs</button>
         <button id="tab-history" type="button" role="tab" aria-selected="false" aria-controls="workspace-history" tabindex="-1">History</button>
-        <button id="tab-settings" type="button" role="tab" aria-selected="false" aria-controls="workspace-settings" tabindex="-1">App Settings</button>
+        <button id="tab-settings" type="button" role="tab" aria-selected="false" aria-controls="workspace-settings" tabindex="-1">Settings</button>
         <button id="tab-help" type="button" role="tab" aria-selected="false" aria-controls="workspace-help" tabindex="-1">Help</button>
       </div>
     </nav>
+    <section id="location-panel" class="location-panel" aria-label="Media folders">
+      <div class="folder-grid">
+        <div class="folder-field"><div class="folder-label"><h2>Input folder</h2><button id="choose-input" class="subtle" type="button">Choose input folder</button></div><p id="input-path" class="path-box">No folder selected</p><p id="input-unavailable" class="hint unavailable" hidden></p></div>
+        <div class="folder-field"><div class="folder-label"><h2>Output folder</h2><button id="choose-output" class="subtle" type="button">Choose output folder</button></div><p id="output-path" class="path-box">No folder selected</p><p id="output-unavailable" class="hint unavailable" hidden></p></div>
+      </div>
+      <p class="location-note">Folder-based input · Originals and existing outputs are preserved. On verified local NTFS storage, outputs can appear beside originals. Recognized generated outputs need deliberate re-encoding permission.</p>
+    </section>
     <div id="error-banner" class="error-banner" role="alert" hidden></div>
     <p id="activity-message" class="activity" role="status" aria-live="polite">Checking available encoders…</p>
     <p id="provenance-notice" class="hint" role="status" hidden></p>
@@ -31,13 +38,9 @@
     <p id="diagnostic-warning" class="attention-warning" role="status" hidden></p>
 
     <div id="workspace-encode" class="workspace" role="tabpanel" aria-labelledby="tab-encode" tabindex="0">
+    <div id="workbench-context" class="workbench-context"><p id="editing-scope-caption" class="scope-caption">Batch encoder settings · File processing overrides are edited in the inspector.</p><button id="files-toggle" class="subtle" type="button" aria-expanded="false" aria-controls="preview-list">Files and selection</button></div>
     <section id="setup-panel" class="panel" aria-labelledby="setup-heading">
-      <div class="section-heading"><h2 id="setup-heading">01 / Setup</h2><span class="muted">SDR video · Matroska output</span></div>
-      <div class="folder-grid">
-        <div class="folder-field"><h3>Input folder</h3><p id="input-path" class="path-box">No folder selected</p><p id="input-unavailable" class="hint unavailable" hidden></p><button id="choose-input" type="button">Choose input folder</button></div>
-        <div class="folder-field"><h3>Output folder</h3><p id="output-path" class="path-box">No folder selected</p><p id="output-unavailable" class="hint unavailable" hidden></p><button id="choose-output" type="button">Choose output folder</button></div>
-      </div>
-      <p class="hint">Choose input and output folders. On verified local NTFS storage, outputs can appear beside originals. Existing outputs stay unchanged; recognized generated files are excluded.</p>
+      <div class="section-heading"><div><p class="eyebrow">ENCODE</p><h2 id="setup-heading">Encoder controls</h2></div><span class="scope-label">Batch settings</span></div>
       <div class="settings-grid">
         <div class="field"><div class="label-line"><label for="profile">Encoding profile</label><details id="profile-help-details" class="control-help"><summary id="profile-help" aria-label="Profile and bit-depth help">ⓘ</summary><div class="help-panel"><p id="profile-help-text">Choose a profile to inspect its encoder settings.</p><p>Bit depth follows the inspected source and the supported profile. No silent software or hardware fallback is applied.</p></div></details></div><select id="profile" aria-describedby="profile-description" disabled><option>Checking encoders…</option></select></div>
         <div class="field"><div class="label-line"><label for="preset">Preset</label><details id="preset-help-details" class="control-help"><summary id="preset-help" aria-label="Preset help">ⓘ</summary><div class="help-panel"><p id="preset-help-text">Choose a preset to inspect its encoder contribution.</p><p>This preset contributes:</p><code id="preset-contribution"></code><p>A native preset is one encoder control. Additional rate-control options are shown in Current encoding recipe.</p></div></details></div><select id="preset" aria-describedby="preset-help-text" disabled></select></div>
@@ -54,12 +57,13 @@
       <div id="control-help-display" role="region" aria-label="Encoder control explanation" hidden></div>
       <details id="current-recipe"><summary>Current encoding recipe / FFmpeg options</summary><p id="recipe-description" class="hint"></p><p id="recipe-note" class="hint">Choose valid settings to inspect the encoder contribution. Prepare a file for its media-specific resolved arguments.</p><pre id="recipe-args" class="argument-list" tabindex="0" aria-label="Current encoder arguments, one JSON string per argument"></pre></details>
       <details id="capability-details"><summary>Encoder availability and runtime</summary><ul id="capability-list" class="capability-list"></ul><p id="runtime-versions" class="hint"></p></details>
-      <div class="action-row"><button id="prepare-batch" type="button" class="primary" disabled>Review batch</button><p class="hint">Top-level MP4, MKV, MOV, AVI and WebM files.</p></div>
+      <div id="vendor-beta-note" class="vendor-beta-note"><div class="beta-labels"><span>AMD AMF <strong>Beta</strong></span><span>Intel Quick Sync <strong>Beta</strong></span></div><p class="hint">Local AMD/Intel hardware qualification is unavailable. These backends are not selectable here; discovery alone does not verify an encoder or enable Start.</p></div>
+      <div class="action-row prepare-actions"><button id="prepare-batch" type="button" class="primary" disabled>Prepare batch</button><p class="hint">Top-level MP4, MKV, MOV, AVI and WebM files.</p></div>
     </section>
 
     <div id="encode-batch-slot">
     <section id="batch-panel" class="panel" aria-labelledby="batch-heading" hidden>
-      <div class="section-heading"><h2 id="batch-heading">02 / Batch preview</h2><div class="selection-summary" role="status"><span id="selected-count" class="muted"></span><span id="hidden-selected-count" class="muted"></span></div></div>
+      <div class="section-heading"><div><p class="eyebrow">SOURCES</p><h2 id="batch-heading">Files and selection</h2></div><div class="selection-summary" role="status"><span id="selected-count" class="muted"></span><span id="hidden-selected-count" class="muted"></span></div></div>
       <p id="effective-settings" class="effective-settings"></p>
       <p id="preview-message" class="hint">Select the files to encode. When output names conflict, select one input for that destination.</p>
       <details id="batch-operation-editor" class="operation-editor" hidden><summary>Processing defaults for this batch</summary>
@@ -79,17 +83,37 @@
       <p id="attention-warning" class="attention-warning" role="status" hidden></p>
       <div class="preview-toolbar"><button id="preview-collapse" data-testid="preview-collapse" class="subtle" type="button" aria-expanded="true" aria-controls="preview-list">Collapse file list</button><div class="filter-field"><label for="batch-filter">Show</label><select id="batch-filter" data-testid="batch-filter"><option value="all">All</option><option value="attention">Needs attention</option><option value="skipped">Skipped</option><option value="generated">Generated outputs</option></select></div><span id="filter-count" class="muted"></span></div>
       <div id="reencode-toolbar" class="reencode-toolbar" hidden><p id="reencode-warning" class="hint">Re-encoding an already compressed video can introduce additional quality loss. Choose individual generated outputs below, then explicitly authorize them for this prepared batch.</p><div class="action-row"><button id="reencode-selected" type="button" class="subtle" disabled>Re-encode chosen outputs</button><span id="reencode-selected-count" class="muted">0 chosen for authorization</span></div><p class="hint">Filtering does not authorize files. Re-encoding permission applies only to unchanged files in this preparation.</p></div>
-      <div id="preview-list"><div id="batch-viewport" class="table-scroll" tabindex="0" role="region" aria-label="Batch files"><table><caption class="sr-only">Batch files and current status. Expand a filename for its destination and inspection details.</caption><thead><tr><th scope="col" class="selection-cell">Use</th><th scope="col">Input / details</th><th scope="col" class="status-cell">Status</th></tr></thead><tbody id="batch-items"></tbody></table></div><p id="filter-empty" class="hint" hidden>No files match this filter.</p></div>
+      <div id="preview-list"><div id="batch-viewport" class="table-scroll" tabindex="0" role="region" aria-label="Batch files"><table><caption class="sr-only">Batch membership and status. Focus a filename to inspect its details separately from queue selection.</caption><thead><tr><th scope="col" class="selection-cell">Use</th><th scope="col">File / inspection</th><th scope="col" class="status-cell">Status</th></tr></thead><tbody id="batch-items"></tbody></table></div><p id="filter-empty" class="hint" hidden>No files match this filter.</p></div>
       <p id="empty-message" class="hint" hidden>No supported files were found in this folder.</p>
-      <div id="preview-actions" class="action-row"><button id="start-batch" class="primary" type="button" disabled>Start selected files</button><button id="select-ready" type="button">Select ready files</button><button id="clear-selection" type="button">Clear selection</button></div>
+      <div id="preview-actions" class="preview-action-area"><p id="prepared-readiness" class="readiness-caption">Preparation resolves requested settings into an effective plan. Only eligible selected files can start.</p><div class="action-row"><button id="start-batch" class="primary" type="button" disabled>Start selected files</button><button id="review-selected" class="subtle" type="button" aria-controls="selected-review" aria-expanded="false">Review selected files</button></div><details id="selected-review"><summary>Selected files, including hidden selections</summary><p class="hint">This is batch membership. Focusing a file or changing a filter does not change selection or authorize generated outputs.</p><ul id="selected-review-list" class="selected-review-list"></ul></details><div class="action-row selection-actions"><button id="select-ready" class="subtle" type="button">Select ready files</button><button id="clear-selection" class="subtle" type="button">Clear selection</button></div></div>
+    </section>
+    <section id="file-inspector" class="panel file-inspector" aria-labelledby="inspector-heading">
+      <div class="section-heading"><div><p class="eyebrow">INSPECTOR</p><h2 id="inspector-heading" tabindex="-1">Focused file</h2></div><button id="focused-file-clear" class="subtle" type="button" disabled>Clear focus</button></div>
+      <h3 id="focused-file-name" class="focused-file-name" tabindex="-1">No file in focus</h3>
+      <p class="inspector-guidance">Inspecting a file is separate from selecting it for the batch.</p>
+      <dl class="focused-file-facts"><div><dt>Origin</dt><dd id="focused-file-origin">No source inspected</dd></div><div><dt>Preparation</dt><dd id="focused-file-state">Prepare a batch to inspect a file.</dd></div></dl>
+      <p id="focused-file-summary" class="hint">Choose folders and prepare the batch, then focus a filename to review its source, output and processing decisions.</p>
+      <div class="focused-settings"><p class="eyebrow">REQUESTED / EFFECTIVE SETTINGS</p><p id="focused-file-settings" class="hint">Effective output and resolved arguments become available after preparation.</p></div>
+      <div id="focused-file-details-slot" class="focused-file-details-slot"></div>
     </section>
     </div>
+    </div>
+
+    <div id="workspace-remux" class="workspace" role="tabpanel" aria-labelledby="tab-remux" tabindex="0" hidden>
+      <section class="panel remux-panel" aria-labelledby="remux-heading">
+        <div class="section-heading"><div><p class="eyebrow">REMUX</p><h2 id="remux-heading">Change container, preserve media</h2></div><span class="scope-label">Full video only</span></div>
+        <div class="route-unavailable"><span class="route-status">Execution unavailable</span><p>The Remux route is not yet qualified for application execution. No Remux preparation or Start action is available.</p></div>
+        <dl class="remux-facts"><div><dt>Range</dt><dd>Full · The complete file</dd></div><div><dt>Saved target preference</dt><dd id="remux-target-summary">Open Settings to read the stored Remux container preference.</dd></div><div><dt>Media handling</dt><dd>Copy streams into a compatible container. No encoder, quality control or transcoding is applied by this workspace.</dd></div></dl>
+        <p class="hint">Switching to Remux only changes the presentation. Your existing Encode draft, settings, selection and generated-source permissions are retained. There is no independent Remux draft.</p>
+        <p class="hint">The input and output folder controls above are shared with Encode. Explicitly changing a shared folder also changes Encode preparation and can invalidate its draft and permissions.</p>
+        <p class="hint">Frozen jobs keep their original operation and settings. Saved container preferences do not establish compatibility or execution readiness.</p>
+      </section>
     </div>
 
     <div id="workspace-jobs" class="workspace" role="tabpanel" aria-labelledby="tab-jobs" tabindex="0" hidden>
     <section id="jobs-empty" class="panel" aria-labelledby="jobs-heading"><h2 id="jobs-heading">Current jobs</h2><p id="jobs-empty-message" class="hint">No batch is running. Choose folders and review a batch in Encode.</p><button id="jobs-open-encode" class="subtle" type="button">Go to Encode</button><p class="hint">This workspace follows the current batch. Saved session records are available in History.</p></section>
     <section id="monitor-panel" class="panel" aria-labelledby="monitor-heading" hidden>
-      <div class="section-heading"><h2 id="monitor-heading">03 / Encoding monitor</h2><span id="monitor-count" class="muted"></span></div>
+      <div class="section-heading"><h2 id="monitor-heading">Current operation</h2><span id="monitor-count" class="muted"></span></div>
       <p id="monitor-settings" class="effective-settings"></p>
       <p id="current-file" class="current-file">Preparing the batch…</p>
       <div class="progress-heading"><label for="encode-progress" id="progress-label">Encoding progress</label><span id="percent">—</span></div>
@@ -156,15 +180,15 @@
     </div>
 
     <div id="workspace-help" class="workspace" role="tabpanel" aria-labelledby="tab-help" tabindex="0" hidden>
+      <section class="panel" aria-labelledby="workflow-help-heading"><h2 id="workflow-help-heading">Using the workbench</h2><ol class="workflow-steps"><li>Choose input and output folders in Encode. Codec/backend, native preset and exact quality remain directly editable.</li><li>Prepare the batch to inspect effective settings and file eligibility. Use Inspect for a file's preservation notices, generated-output identity, processing overrides and resolved FFmpeg arguments.</li><li>Review selected files beside Start, including files hidden by filtering or collapse. File focus is independent of batch membership.</li><li>Start eligible selected files. Current Jobs follows the queue, measured progress and cancellation. History keeps past records without resuming work.</li></ol><details><summary>Settings scope and preparation</summary><p class="hint">Encoder controls apply to the Encode batch. Batch processing defaults affect inheriting files; the inspector contains this file's overrides. App Settings saves defaults for future batches. Existing drafts adopt saved defaults explicitly, and prepared, queued or running snapshots never change through navigation.</p><p class="hint">Range, resolution, audio and HDR choices are requests subject to main validation. Read the resulting file status and effective output; an available field does not prove an executable route.</p></details><details><summary>Generated sources and quality</summary><p class="hint">Generated outputs remain excluded unless you deliberately authorize specific files for re-encoding. Each further lossy generation can reduce quality. Filtering or selecting a file does not grant that permission.</p><p class="hint">Quality numbers are encoder-specific. Matching CRF/CQ values do not imply matching perceptual quality. Tested Default and Archive Quality populate the ordinary editable controls; inspect their additional options.</p></details><details><summary>Saved output, retained work and private history</summary><p class="hint">A file is saved only after validation, source checks and protected publication. Retained temporary work is a separate outcome. Use only the output actions offered for that exact result.</p><p class="hint">History can contain private paths and metadata. Preview selected redacted records before sharing. Settings resets preserve original media and completed outputs.</p></details></section>
       <section class="panel" aria-labelledby="help-heading"><div class="section-heading"><h2 id="help-heading">Runtime and local workflow</h2><button id="runtime-refresh" class="subtle" type="button">Refresh runtime information</button></div>
         <p class="hint">Versions below are reported by this running application. Refreshing this page reads recorded runtime information; it does not launch encoder tests.</p>
         <p id="runtime-status" class="hint" role="status">Open Help to read runtime information.</p><p id="runtime-error" class="attention-warning" role="alert" hidden></p><dl id="runtime-information" class="runtime-information"></dl>
         <details><summary>Media executable locations</summary><p id="runtime-locations" class="path-box"></p></details>
       </section>
-      <section class="panel" aria-labelledby="workflow-help-heading"><h2 id="workflow-help-heading">Using the workbench</h2><ol class="workflow-steps"><li>In Encode, choose input and output folders. Your codec/backend profile, preset and CRF/CQ controls remain directly editable.</li><li>Review the batch. Expand a file for preservation notices, generated-output identity and the resolved FFmpeg arguments.</li><li>Start selected files. Jobs shows the current batch; progress and cancellation stay available across workspaces.</li><li>Inspect past events in History. Local details can contain private paths; preview selected redacted records before sharing.</li></ol><p class="hint">Generated outputs remain excluded unless you deliberately authorize specific files for re-encoding. Candidate quality numbers are encoder-specific; matching CRF/CQ values do not imply matching perceptual quality.</p><p class="hint">App Settings stores defaults for future batches separately from remembered encoder controls. No settings reset deletes original media or completed outputs.</p></section>
     </div>
 
-    <div id="cancel-bar" class="cancel-bar active-job-bar" role="region" aria-label="Current operation" hidden><div class="active-job-information"><p id="active-job-summary">Waiting for main-owned operation state…</p><progress id="active-job-progress" max="100" aria-label="Current operation progress"></progress><p id="cancel-explanation">Cancellation stops this operation and the remaining queue.</p></div><div class="active-job-actions"><button id="view-jobs" class="subtle" type="button">View Jobs</button><button id="cancel-batch" class="danger" type="button">Cancel batch</button></div></div>
+    <div id="cancel-bar" class="cancel-bar active-job-bar" role="region" aria-label="Current operation" hidden><div class="active-job-information"><p id="active-job-summary">Waiting for main-owned operation state…</p><progress id="active-job-progress" max="100" aria-label="Current operation progress"></progress><p id="cancel-explanation">Cancellation stops this operation and the remaining queue.</p></div><div class="active-job-actions"><button id="view-jobs" class="subtle" type="button">Current Jobs</button><button id="cancel-batch" class="danger" type="button">Cancel batch</button></div></div>
     <footer><span>FFmpeg Encoder</span><span>Local processing · Originals preserved</span></footer>
   </main>
 </body>

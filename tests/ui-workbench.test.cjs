@@ -100,7 +100,7 @@ test('native backend discovery is explanatory and cannot silently populate an en
   assert.match(h.byId('capability-list').textContent, /Inventory warning/);
 });
 
-async function harness(overrides = {}) {
+async function harness(overrides = {}, { narrow = false } = {}) {
   const view = dom();
   const calls = [];
   let update;
@@ -119,18 +119,20 @@ async function harness(overrides = {}) {
   };
   const api = { onUpdate: callback => { update = callback; return () => {}; } };
   for (const [name, method] of Object.entries(methods)) api[name] = async (...args) => { calls.push({ name, args: plain(args) }); return method(...args); };
-  const window = { encoder: api, addEventListener() {} };
+  let layoutListener;
+  const mediaQuery = { matches: narrow, addEventListener: (_name, listener) => { layoutListener = listener; } };
+  const window = { encoder: api, addEventListener() {}, matchMedia: () => mediaQuery };
   vm.runInNewContext(renderer, { window, document: view.document, performance: { now: () => 100 }, setTimeout: () => 1, clearTimeout() {}, setInterval: () => 1, clearInterval() {} }, { filename: 'ui/renderer.js' });
   await settle();
   assert.equal(view.byId('error-banner').textContent, '');
-  return { ...view, calls, update: value => update(value) };
+  return { ...view, calls, update: value => update(value), setNarrow: value => { mediaQuery.matches = value; layoutListener?.(); } };
 }
 
 test('workbench has unique IDs, matched tab/panel semantics, and no invented Remux API', () => {
   const allIds = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
   assert.equal(new Set(allIds).size, allIds.length);
   const view = dom();
-  for (const name of ['encode', 'jobs', 'history', 'settings', 'help']) {
+  for (const name of ['encode', 'remux', 'jobs', 'history', 'settings', 'help']) {
     assert.equal(view.byId(`tab-${name}`).getAttribute('role'), 'tab');
     assert.equal(view.byId(`tab-${name}`).getAttribute('aria-controls'), `workspace-${name}`);
     assert.equal(view.byId(`workspace-${name}`).getAttribute('aria-labelledby'), `tab-${name}`);
@@ -424,7 +426,7 @@ test('a stale output response cannot replace the state of a new receipt or remov
   assert.equal(h.byId('error-banner').textContent, '');
 });
 
-async function processingHarness({ fileOverrides = [], batchOverrides = {}, refuse = false, failUpdate = false, withFolders = false, invalidateOnSave = false, durationSeconds } = {}) {
+async function processingHarness({ fileOverrides = [], batchOverrides = {}, refuse = false, failUpdate = false, withFolders = false, invalidateOnSave = false, durationSeconds, narrow = false } = {}) {
   const { OperationDraft } = require('../src/operation-draft.cjs');
   const ids = ['11345678-1234-4234-8234-123456789abc', '22345678-1234-4234-8234-123456789abc'];
   const draft = new OperationDraft({ operation: 'encode', appDefaults: defaults().defaults, appDefaultsRevision: 4 });
@@ -465,6 +467,7 @@ async function processingHarness({ fileOverrides = [], batchOverrides = {}, refu
     applyAppDefaultsToBatch: async request => { request = plain(request); check(request); const { planId, ...change } = request;
       draft.applyAppDefaults(change, { defaults: { ...defaults().defaults, resolution: '1440' }, revision: 8 }); return after(); },
   });
+  h.setNarrow(narrow);
   h.update(snapshot());
   return { ...h, draft, ids, snapshot, row: index => h.byId('batch-items').children[index],
     control: (index, name) => h.byId('batch-items').children[index].querySelector(`[data-testid="file-operation-${name}"]`) };
@@ -759,4 +762,146 @@ test('audio policy changes clear incompatible AAC bitrate explicitly and preserv
   assert.deepEqual(h.calls.find(call => call.name === 'updateFileOperations').args[0].overrides, { audioPolicy: 'copy', aacBitrateKbps: null });
   assert.equal(h.draft.snapshot().files[0].request.resolution, '720');
   assert.equal(h.draft.snapshot().files[0].request.aacBitrateKbps, null);
+});
+
+
+test('Slice1 Remux navigation retains Encode requests, pending edits and authority without an operation API', async () => {
+  const h = await processingHarness({ withFolders: true, fileOverrides: [{ resolution: '720' }] });
+  h.control(0, 'mode').value = 'range'; await h.control(0, 'mode').emit('change');
+  h.control(0, 'start').value = '0.125001';
+  const before = JSON.stringify(h.draft.snapshot());
+  const calls = h.calls.length;
+  await h.byId('tab-remux').click();
+  assert.equal(h.byId('workspace-remux').hidden, false);
+  assert.equal(h.byId('location-panel').hidden, false);
+  assert.match(h.byId('workspace-remux').textContent, /Full/);
+  assert.match(h.byId('workspace-remux').textContent, /unavailable|qualification/i);
+  assert.equal(h.byId('profile').value, 'h265-cpu');
+  await h.byId('tab-encode').click();
+  assert.equal(JSON.stringify(h.draft.snapshot()), before);
+  assert.equal(h.control(0, 'mode').value, 'range');
+  assert.equal(h.control(0, 'start').value, '0.125001');
+  assert.equal(h.calls.length, calls, 'operation switching calls no authority-changing API');
+  assert.equal(h.byId('start-batch').disabled, true, 'unsubmitted edits still block Start');
+});
+
+test('Slice1 file inspection is independent of selection and preserves the real editor node and unsaved values', async () => {
+  const h = await processingHarness({ withFolders: true });
+  const row = h.byId('batch-items').children[0];
+  const originalEditor = row.querySelector('[data-testid="file-operation-editor"]');
+  h.control(0, 'resolution').value = '720'; await h.control(0, 'resolution').emit('change');
+  await h.byId('clear-selection').click();
+  const callCount = h.calls.length;
+  await row.querySelector('[data-testid="inspect-file"]').click();
+  assert.match(h.byId('focused-file-name').textContent, /Source 1/);
+  assert.match(h.byId('focused-file-state').textContent, /Not selected/);
+  assert.equal(h.byId('focused-file-details-slot').contains(originalEditor), true);
+  assert.equal(originalEditor.querySelector('[data-testid="file-operation-resolution"]').value, '720');
+  assert.match(h.byId('selected-count').textContent, /^0 selected/);
+  assert.equal(h.calls.length, callCount, 'Inspect invokes no permission or preparation API');
+  await h.byId('focused-file-clear').click();
+  assert.equal(row.contains(originalEditor), true);
+  assert.equal(h.document.activeElement, row.querySelector('[data-testid="inspect-file"]'));
+  assert.equal(h.byId('start-batch').disabled, true);
+});
+
+test('Slice1 hidden-selected review lists exact selected files without selecting filtered or focused items', async () => {
+  const h = await processingHarness();
+  h.byId('batch-filter').value = 'generated'; await h.byId('batch-filter').emit('change');
+  assert.match(h.byId('hidden-selected-count').textContent, /2 selected hidden/);
+  const before = h.calls.length;
+  await h.byId('review-selected').click();
+  assert.equal(h.byId('selected-review').open, true);
+  const list = h.byId('selected-review-list');
+  assert.match(list.textContent, /Source 1.*Hidden/);
+  assert.match(list.textContent, /Source 2.*Hidden/);
+  assert.equal(list.children.length, 2);
+  await list.querySelector('button').click();
+  assert.match(h.byId('focused-file-name').textContent, /Source 1/);
+  assert.match(h.byId('selected-count').textContent, /^2 selected/);
+  assert.equal(h.calls.length, before);
+  const firstNode = list.children[0];
+  h.update(h.snapshot());
+  assert.equal(h.byId('selected-review-list').children[0], firstNode, 'unrelated snapshot preserves review nodes');
+});
+
+test('Slice1 Files drawer Escape restores its trigger without changing processing or selected membership', async () => {
+  const h = await processingHarness();
+  const before = JSON.stringify(h.draft.snapshot()); const calls = h.calls.length;
+  await h.byId('files-toggle').click();
+  assert.equal(h.byId('files-toggle').getAttribute('aria-expanded'), 'true');
+  await h.byId('workspace-encode').emit('keydown', { key: 'Escape' });
+  assert.equal(h.byId('files-toggle').getAttribute('aria-expanded'), 'false');
+  assert.equal(h.document.activeElement, h.byId('files-toggle'));
+  assert.equal(JSON.stringify(h.draft.snapshot()), before);
+  assert.equal(h.calls.length, calls);
+  assert.match(h.byId('selected-count').textContent, /^2 selected/);
+});
+
+
+test('focused legacy classification actions lock outside the table on dirty and busy transitions', async () => {
+  const h = await processingHarness();
+  const ready = h.snapshot(); ready.items[0].status = 'ambiguous';
+  ready.items[0].origin = { kind: 'legacy-ambiguous' }; h.update(ready);
+  await h.row(0).querySelector('[data-testid="inspect-file"]').click();
+  const action = h.byId('focused-file-details-slot').querySelector('[data-testid="treat-as-original"]');
+  assert.equal(action.hidden, false); assert.equal(action.disabled, false);
+  h.byId('quality').value = '26'; await h.byId('quality').emit('input');
+  assert.equal(action.disabled, true, 'dirty encoder settings revoke the focused action');
+  h.update({ ...h.snapshot('running'), progress: { stage: 'output-validation' } });
+  assert.equal(action.disabled, true);
+  assert.equal(h.calls.some(call => call.name === 'treatAsOriginal'), false);
+});
+
+test('moving a focused inspector into Current Jobs gives visible navigation focus without auto-switch or draft mutation', async () => {
+  const h = await processingHarness();
+  await h.row(0).querySelector('[data-testid="inspect-file"]').click();
+  const heading = h.byId('focused-file-name'); heading.focus();
+  h.update({ ...h.snapshot('preparing'), progress: { stage: 'metadata' } });
+  assert.equal(h.byId('file-inspector').parentElement, h.byId('jobs-batch-slot'));
+  assert.equal(h.document.activeElement, h.byId('tab-jobs'));
+  assert.equal(h.byId('workspace-encode').hidden, false, 'move does not auto-navigate');
+});
+
+
+test('narrow drawer and breakpoint changes disclose hidden selections without changing queue membership', async () => {
+  const h = await processingHarness({ narrow: true });
+  const calls = h.calls.length;
+  assert.match(h.byId('hidden-selected-count').textContent, /2 selected hidden/);
+  assert.match(h.byId('selected-review-list').textContent, /Hidden in file-list view/);
+  await h.byId('files-toggle').click();
+  assert.match(h.byId('hidden-selected-count').textContent, /0 selected hidden/);
+  await h.row(0).querySelector('[data-testid="inspect-file"]').click();
+  assert.equal(h.byId('files-toggle').getAttribute('aria-expanded'), 'false');
+  assert.match(h.byId('hidden-selected-count').textContent, /2 selected hidden/);
+  h.setNarrow(false);
+  assert.match(h.byId('hidden-selected-count').textContent, /0 selected hidden/);
+  assert.doesNotMatch(h.byId('selected-review-list').textContent, /Hidden in file-list view/);
+  h.setNarrow(true);
+  assert.match(h.byId('hidden-selected-count').textContent, /2 selected hidden/);
+  assert.match(h.byId('selected-count').textContent, /^2 selected/);
+  assert.equal(h.calls.length, calls);
+});
+
+test('selected-review disclosure reports expansion for its button and native summary toggles', async () => {
+  const h = await processingHarness();
+  await h.byId('review-selected').click();
+  assert.equal(h.byId('review-selected').getAttribute('aria-expanded'), 'true');
+  h.byId('selected-review').open = false; await h.byId('selected-review').emit('toggle');
+  assert.equal(h.byId('review-selected').getAttribute('aria-expanded'), 'false');
+  h.byId('selected-review').open = true; await h.byId('selected-review').emit('toggle');
+  assert.equal(h.byId('review-selected').getAttribute('aria-expanded'), 'true');
+});
+
+test('Remux saved-target summary follows App Settings load/save without altering a prepared draft', async () => {
+  const h = await processingHarness();
+  const draft = JSON.stringify(h.draft.snapshot());
+  await h.byId('tab-settings').click();
+  assert.match(h.byId('remux-target-summary').textContent, /^matroska/);
+  h.byId('default-remux-target').value = 'mp4'; await h.byId('default-remux-target').emit('change');
+  await h.byId('app-settings-form').emit('submit');
+  await h.byId('tab-remux').click();
+  assert.match(h.byId('remux-target-summary').textContent, /^mp4.*execution unavailable/);
+  assert.equal(JSON.stringify(h.draft.snapshot()), draft);
+  assert.equal(h.calls.some(call => ['prepareBatch', 'updateFileOperations', 'updateBatchOperationDefaults', 'startBatch'].includes(call.name)), false);
 });

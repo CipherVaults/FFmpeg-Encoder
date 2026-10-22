@@ -58,8 +58,16 @@
   let unsubscribe = null;
   let recipeRequest = 0;
   let recipeTimer = null;
-  const workspaceNames = ['encode', 'jobs', 'history', 'settings', 'help'];
+  const workspaceNames = ['encode', 'remux', 'jobs', 'history', 'settings', 'help'];
   let activeWorkspace = 'encode';
+  // Focus is a presentation cursor, deliberately independent of queue selection
+  // and main-owned source/re-encode/omission authority. No draft is cloned here.
+  let focusedFileId = null;
+  let displayedFileId = null;
+  let filesDrawerOpen = false;
+  const narrowFilesLayout = typeof window.matchMedia === 'function' ? window.matchMedia('(max-width: 900px)') : null;
+  narrowFilesLayout?.addEventListener('change', () => syncSelection());
+  let selectedReviewKey = null;
   let appDefaults = null;
   let defaultsLoading = false;
   let defaultsDirty = false;
@@ -115,6 +123,10 @@
       byId(`tab-${candidate}`).tabIndex = selected ? 0 : -1;
       visible(`workspace-${candidate}`, selected);
     }
+    // Remux is an unavailable editor in Slice1. Switching only changes the
+    // visible surface: it cannot reinterpret or submit the existing Encode draft.
+    visible('location-panel', name === 'encode' || name === 'remux');
+    if (name === 'remux') renderRemuxSummary();
     if (focusPanel) byId(`workspace-${name}`).focus();
     if (name === 'settings' && !appDefaults && !defaultsLoading) void loadAppDefaults();
     if (name === 'history' && !historyLoaded && !historyLoading) void loadHistoryPage();
@@ -143,6 +155,7 @@
     defaultsDirty = false; defaultsNeedsReload = false;
     const state = result.persistence || {};
     put('app-settings-status', [message, `Revision ${result.revision}.`, state.persisted ? 'Confirmed saved locally.' : state.resetRequired ? 'Stored settings need explicit recovery.' : 'Current defaults are not yet confirmed saved.', ...(result.notices || [])].filter(Boolean).join(' '));
+    renderRemuxSummary();
   }
 
   async function loadAppDefaults() {
@@ -615,7 +628,8 @@
         : backend.reason === 'UNSUPPORTED_CODEC' ? 'This runtime does not contain the encoder wrapper.'
         : backend.reason === 'CHOOSE_AND_QUALIFY_CELL' ? 'Hardware discovered; native runtime and exact settings still need qualification.'
         : 'Discovery or qualification is incomplete.';
-      row.textContent = `${backend.encoder}: ${backend.state} · ${explanation} No automatic fallback.`;
+      const family = /_amf$/.test(backend.encoder) ? 'AMD AMF — Beta' : /_qsv$/.test(backend.encoder) ? 'Intel Quick Sync — Beta' : 'Backend discovery';
+      row.textContent = `${family} · ${backend.encoder}: ${backend.state} · ${explanation} Local hardware execution is not established by discovery. Exact device/runtime/driver/rate-control/depth/transform qualification is required. No automatic fallback.`;
       row.className = 'unavailable';
       byId('capability-list').append(row);
     }
@@ -673,7 +687,7 @@
       checkbox.disabled = !canSelect || !eligibleIds.has(checkbox.dataset.fileId);
     }
     put('selected-count', `${selectedIds.size} selected · ${(snapshot.items || []).length} found`);
-    const hiddenSelected = (snapshot.items || []).filter(item => selectedIds.has(item.id) && (previewCollapsed || !matchesFilter(item))).length;
+    const hiddenSelected = (snapshot.items || []).filter(item => selectedIds.has(item.id) && outsideFileListView(item)).length;
     put('hidden-selected-count', `${hiddenSelected} selected hidden`);
     byId('start-batch').disabled = !canSelect || !selectedIds.size || !snapshot.planId || hasOperationEdits();
     byId('select-ready').disabled = !canSelect || !eligible.some(item => item.status === 'ready');
@@ -685,9 +699,109 @@
       checkbox.disabled = !canSelect || !authorizable.has(checkbox.dataset.fileId);
     }
     byId('reencode-selected').disabled = !canSelect || !reencodeChoices.size;
-    const hiddenChoices = (snapshot.items || []).filter(item => reencodeChoices.has(item.id) && (previewCollapsed || !matchesFilter(item))).length;
+    const hiddenChoices = (snapshot.items || []).filter(item => reencodeChoices.has(item.id) && outsideFileListView(item)).length;
     put('reencode-selected-count', `${reencodeChoices.size} chosen for authorization${hiddenChoices ? ` · ${hiddenChoices} hidden` : ''}`);
     renderOperationActions();
+    renderSelectedReview(); renderFocusedFile();
+  }
+
+  function outsideFileListView(item) {
+    // The narrow drawer hides only the Encode list. It does not hide a list
+    // moved into Current Jobs and never changes membership or main grants.
+    const closedDrawer = narrowFilesLayout?.matches && !filesDrawerOpen
+      && byId('workspace-encode').contains(byId('batch-panel'));
+    return previewCollapsed || closedDrawer || !matchesFilter(item);
+  }
+
+  function setFilesDrawer(open, returnFocus = false) {
+    filesDrawerOpen = Boolean(open);
+    const panel = byId('workspace-encode');
+    panel.className = `${(panel.className || '').replace(/\bfiles-drawer-open\b/g, '').trim()}${filesDrawerOpen ? ' files-drawer-open' : ''}`;
+    byId('files-toggle').setAttribute('aria-expanded', String(filesDrawerOpen));
+    if (filesDrawerOpen && previewCollapsed) {
+      // Opening the narrow file drawer is an explicit view action; expand the
+      // same list, not a second selection model or a second collapsed state.
+      previewCollapsed = false; renderItems();
+    } else syncSelection();
+    if (returnFocus) {
+      const trigger = byId('files-toggle');
+      const shown = typeof trigger.getClientRects !== 'function' || trigger.getClientRects().length > 0;
+      (shown ? trigger : byId('focused-file-name')).focus();
+    }
+  }
+
+  function focusFile(id, focusHeading = false) {
+    if (!itemRows.has(id)) return;
+    focusedFileId = id;
+    renderFocusedFile();
+    setFilesDrawer(false);
+    if (focusHeading) {
+      byId('focused-file-name').focus();
+      byId('file-inspector').scrollIntoView({ block: 'nearest' });
+    }
+  }
+
+  function renderFocusedFile() {
+    const previous = itemRows.get(displayedFileId);
+    const entry = itemRows.get(focusedFileId);
+    if (previous && previous !== entry && previous.body.parentElement !== previous.details) previous.details.append(previous.body);
+    if (!entry) {
+      focusedFileId = null; displayedFileId = null;
+      byId('focused-file-details-slot').replaceChildren();
+      put('focused-file-name', 'Inspect a file');
+      put('focused-file-origin', 'Focus is separate from batch selection.');
+      put('focused-file-state', 'Choose Inspect beside any file.');
+      put('focused-file-summary', 'Review preservation, processing requests and resolved arguments without changing selection.');
+      put('focused-file-settings', 'Encoder controls apply to the Encode batch; processing overrides below belong to this file.');
+    } else {
+      displayedFileId = focusedFileId;
+      if (entry.body.parentElement !== byId('focused-file-details-slot')) byId('focused-file-details-slot').append(entry.body);
+      const item = entry.item, request = draftFiles.get(item.id)?.request;
+      put('focused-file-name', item.name);
+      put('focused-file-origin', [originLabel(item), generationSummary(item)].filter(Boolean).join(' · '));
+      put('focused-file-state', `${entry.status.textContent}${selectedIds.has(item.id) ? ' · Selected for this batch' : ' · Not selected'}${outsideFileListView(item) ? ' · Outside current file-list view' : ''}`);
+      put('focused-file-summary', item.reason || mediaSummary(item.summary) || 'Inspection details are unavailable.');
+      put('focused-file-settings', request ? `This file · ${processingLabel(request)}. Exact requests remain subject to main validation; see origin and effective details below.` : 'Read-only file details. No processing authority is granted by Inspect.');
+    }
+    byId('focused-file-clear').disabled = !entry;
+    for (const [id, row] of itemRows) {
+      row.inspect.setAttribute('aria-pressed', String(id === focusedFileId));
+      row.row.setAttribute('data-focused', String(id === focusedFileId));
+    }
+  }
+
+  function renderSelectedReview() {
+    const list = byId('selected-review-list');
+    const chosen = (snapshot.items || []).filter(item => selectedIds.has(item.id));
+    const key = JSON.stringify(chosen.map(item => [item.id, item.name, item.status, Boolean(outsideFileListView(item))]));
+    // Keep the selected-set controls alive across unrelated progress/default
+    // updates, so a keyboard user does not lose focus during inspection.
+    if (key !== selectedReviewKey) {
+    selectedReviewKey = key;
+    list.replaceChildren();
+    for (const item of chosen) {
+      const row = document.createElement('li');
+      const label = document.createElement('span');
+      label.textContent = `${item.name} · ${statusLabels[item.status] || item.status}${outsideFileListView(item) ? ' · Hidden in file-list view' : ''}`;
+      const inspect = document.createElement('button'); inspect.type = 'button'; inspect.className = 'subtle';
+      inspect.textContent = 'Inspect'; inspect.setAttribute('aria-label', `Inspect selected file ${item.name}`);
+      inspect.addEventListener('click', () => focusFile(item.id, true));
+      row.append(label, inspect); list.append(row);
+    }
+    if (!chosen.length) { const row = document.createElement('li'); row.textContent = 'No files selected for this batch.'; list.append(row); }
+    }
+    put('review-selected', `Review selected files (${chosen.length})`);
+    const state = isBusy() ? 'Frozen current job — settings cannot change queued work.'
+      : dirty || hasOperationEdits() ? 'Draft changed — prepare again before starting.'
+        : snapshot.planId && snapshot.phase === 'ready' ? 'Prepared snapshot — main revalidates selected files at Start.'
+          : 'Not prepared — choose folders and review the batch.';
+    put('prepared-readiness', state);
+    put('editing-scope-caption', 'Encoding controls: batch · Processing overrides: this file · App Settings: future batches');
+    renderRemuxSummary();
+  }
+
+  function renderRemuxSummary() {
+    put('remux-target-summary', `${appDefaults?.defaults?.remuxTarget || 'Target chosen in App Settings'} · Full video only · execution unavailable until qualification`);
   }
 
   function hasOperationEdits() {
@@ -1158,12 +1272,18 @@
     details.append(name, body);
     // Classification and its deliberate action stay visible in compact rows.
     // Heavy provenance/argument details expand only when requested.
-    fileCell.append(details, origin, previous, reencodeBox);
+    const inspect = document.createElement('button'); inspect.type = 'button'; inspect.className = 'subtle inspect-file';
+    inspect.dataset.testid = 'inspect-file'; inspect.textContent = 'Inspect';
+    inspect.addEventListener('click', () => focusFile(item.id, true));
+    name.addEventListener('click', event => {
+      if (body.parentElement !== details) { event.preventDefault(); focusFile(item.id, true); }
+    });
+    fileCell.append(details, origin, previous, reencodeBox, inspect);
     const statusCell = document.createElement('td');
     const status = document.createElement('span');
     statusCell.append(status);
     row.append(useCell, fileCell, statusCell);
-    return { row, checkbox, details, name, output, summary, reason, metadata, sampling, action, status, item, key: '', origin, previous, ...operation,
+    return { row, checkbox, details, body, inspect, name, output, summary, reason, metadata, sampling, action, status, item, key: '', origin, previous, ...operation,
       outputControls, outputNotice, outputAccessId: undefined, outputRequest: 0, outputPending: false, outputResult: '', outputFailed: false,
       previousDetails, previousInfo, previousArgs, reencodeBox, reencodeChoice, reencode,
       commandDetails, commandHeading, commandNotice, commandExecutable, commandDestination, commandArgs, commandKey: null };
@@ -1193,6 +1313,7 @@
         entry.checkbox.setAttribute('aria-label', `Encode ${item.name}`);
         entry.name.textContent = item.name;
         entry.name.title = item.name;
+        entry.inspect.setAttribute('aria-label', `Inspect ${item.name} without changing selection`);
         entry.output.textContent = `Output: ${item.outputName || 'No output destination'}`;
         entry.summary.textContent = mediaSummary(item.summary);
         entry.summary.hidden = !entry.summary.textContent;
@@ -1331,6 +1452,7 @@
     put('activity-message', activity);
     visible('diagnostic-warning', Boolean(snapshot.diagnosticWarning)); put('diagnostic-warning', snapshot.diagnosticWarning || '');
     visible('setup-panel', true);
+    visible('location-panel', activeWorkspace === 'encode' || activeWorkspace === 'remux');
     // Move the existing rows instead of rendering a second queue. Expanded
     // details, ID-bound actions and focus stay attached to the same DOM nodes.
     const batchWorkspace = busy || terminal ? 'jobs' : 'encode';
@@ -1340,6 +1462,14 @@
       batchSlot.append(byId('batch-panel'));
       // An event can arrive before the originating invoke returns. Do not leave
       // keyboard focus inside a newly hidden workspace while that call settles.
+      if (movingFocus && activeWorkspace !== batchWorkspace) byId(`tab-${batchWorkspace}`).focus();
+    }
+    // The same inspector follows the existing queue panel into Current Jobs;
+    // no cloned controls or second execution snapshot is introduced.
+    const inspector = byId('file-inspector');
+    if (inspector.parentElement !== batchSlot) {
+      const movingFocus = inspector.contains(document.activeElement);
+      batchSlot.append(inspector);
       if (movingFocus && activeWorkspace !== batchWorkspace) byId(`tab-${batchWorkspace}`).focus();
     }
     visible('batch-panel', (ready || busy || showResults) && (snapshot.items || []).length > 0);
@@ -1374,6 +1504,8 @@
     byId('prepare-batch').disabled = locked || !inputFolder?.id || !outputFolder?.id || inputFolder.available === false || outputFolder.available === false || !settingsValid();
     byId('new-batch').disabled = locked || !terminal;
     put('input-path', inputFolder?.path || 'No folder selected');
+    put('choose-input', inputFolder ? 'Change input folder' : 'Choose input folder');
+    put('choose-output', outputFolder ? 'Change output folder' : 'Choose output folder');
     put('output-path', outputFolder?.path || 'No folder selected');
     for (const [role, folder] of [['input', inputFolder], ['output', outputFolder]]) {
       const unavailable = Boolean(folder && (!folder.id || folder.available === false));
@@ -1392,7 +1524,12 @@
       : showResults ? 'Completed batch. Each file result and any skipped or unsupported reason is shown below.'
         : 'Select files to encode. Existing outputs stay unchanged. For conflicting output names, select one input per destination.');
     renderItems(); renderTelemetry();
-    for (const action of byId('batch-items').querySelectorAll('[data-testid="treat-as-original"], [data-testid="reencode-output"]')) action.disabled = locked || !ready;
+    // A focused details body may live in the inspector, outside the table.
+    // Lock identity-bound actions by their retained references, never subtree.
+    for (const entry of itemRows.values()) {
+      entry.action.disabled = locked || !ready;
+      entry.reencode.disabled = locked || !ready;
+    }
     const recovery = snapshot.provenanceRecovery;
     if (byId('provenance-notice')) {
       const show = recovery && (recovery.matching || recovery.absent || recovery.unrelated || recovery.uncertain || recovery.warnings?.length);
@@ -1419,6 +1556,26 @@
       } else if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); activateWorkspace(name); }
     });
   }
+  byId('files-toggle').addEventListener('click', () => setFilesDrawer(!filesDrawerOpen));
+  byId('focused-file-clear').addEventListener('click', () => {
+    const previous = itemRows.get(focusedFileId); focusedFileId = null; renderFocusedFile();
+    const rowVisible = previous && !previous.row.hidden && !previewCollapsed
+      && (typeof previous.inspect.getClientRects !== 'function' || previous.inspect.getClientRects().length > 0);
+    if (rowVisible) previous.inspect.focus();
+    else byId('focused-file-name').focus();
+  });
+  byId('review-selected').addEventListener('click', () => {
+    const review = byId('selected-review'); review.open = !review.open;
+    syncReviewDisclosure();
+    if (review.open) review.querySelector('summary').focus();
+  });
+  function syncReviewDisclosure() {
+    byId('review-selected').setAttribute('aria-expanded', String(byId('selected-review').open));
+  }
+  byId('selected-review').addEventListener('toggle', syncReviewDisclosure);
+  byId('workspace-encode').addEventListener('keydown', event => {
+    if (event.key === 'Escape' && filesDrawerOpen && !activeHelp) { event.preventDefault(); setFilesDrawer(false, true); }
+  });
   byId('view-jobs').addEventListener('click', () => activateWorkspace('jobs', true));
   byId('jobs-open-encode').addEventListener('click', () => activateWorkspace('encode', true));
   byId('app-settings-reload').addEventListener('click', () => { void loadAppDefaults(); });

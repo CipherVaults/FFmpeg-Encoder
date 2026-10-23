@@ -11,6 +11,8 @@ const { OperationFamilySelector } = require('./operation-family.cjs');
 const { openEvidenceStorage } = require('./operation-storage.cjs');
 const { RemuxOperations } = require('./remux-operation.cjs');
 const { REMUX_POLICIES, REMUX_POLICY_ID } = require('./remux-catalog.cjs');
+const { HdrOperations } = require('./hdr-operation.cjs');
+const { HDR_POLICIES, HDR_POLICY_ID } = require('./hdr-catalog.cjs');
 
 const EVIDENCE_BUDGET = Object.freeze({ sourceDecode: 'complete', timeoutMs: 120000,
   maxFrameBytes: 8 * 1024 * 1024, maxPcmBytes: 128 * 1024 * 1024,
@@ -24,7 +26,8 @@ async function observeNvidia({ signal } = {}) {
   return parseNvidiaObservation(stdout);
 }
 function createOperationControls({ runtime, stateDir, families, policyIdentity,
-  remuxPolicies = REMUX_POLICIES, remuxPolicyIdentity = REMUX_POLICY_ID }) {
+  remuxPolicies = REMUX_POLICIES, remuxPolicyIdentity = REMUX_POLICY_ID,
+  hdrPolicies = HDR_POLICIES, hdrPolicyIdentity = HDR_POLICY_ID }) {
   const observer = new OperationRuntimeObserver({ runtime: { ffmpeg: runtime.ffmpeg, ffprobe: runtime.ffprobe },
     pins: Object.fromEntries(['ffmpeg', 'ffprobe'].map((name, index) => [name,
       { sizeBytes: runtime.verified[index].sizeBytes, sha256: runtime.verified[index].sha256 }])), observeNvidia });
@@ -32,6 +35,7 @@ function createOperationControls({ runtime, stateDir, families, policyIdentity,
     .map(({ sizeBytes, sha256 }) => ({ sizeBytes, sha256 })))).digest('hex');
   return { operationQualifications: new OperationFamilySelector({ families, policyIdentity }),
     remuxOperations: new RemuxOperations({ runtimeIdentity, policies: remuxPolicies, policyIdentity: remuxPolicyIdentity }),
+    hdrOperations: new HdrOperations({ runtimeIdentity, policies: hdrPolicies, policyIdentity: hdrPolicyIdentity }),
     operationRuntime: observer, operationTelemetry: true, operationEvidenceBudget: EVIDENCE_BUDGET,
     operationDeadlineMs: EXECUTION_BUDGET_MS,
     // Lazy admission: unavailable retained-evidence storage refuses a changed

@@ -41,6 +41,7 @@ function integer(value, minimum, maximum, label) {
   return value;
 }
 const digest = value => createHash('sha256').update(JSON.stringify(value)).digest('hex');
+const discoveryIdentity = value => digest({ runtime: value.runtime, wrappers: value.wrappers, inventory: value.inventory });
 function binary(value, name) {
   if (value === null) return null;
   record(value, ['sha256', 'version'], `${name} identity`);
@@ -101,6 +102,7 @@ function bind(request, observation) {
     bitDepth: policy.bitDepth, transformId: policy.transformId, signal: policy.signal, container: policy.container }) };
 }
 function staleReason(row, observed) {
+  if (observed.inventory.status !== 'complete') return 'IDENTITY_CHANGED';
   if (!observed.runtime.ffmpeg || !observed.runtime.ffprobe) return 'RUNTIME_CHANGED';
   if (row.policy.ffmpegSha256 !== observed.runtime.ffmpeg.sha256 || row.policy.ffprobeSha256 !== observed.runtime.ffprobe.sha256) return 'BINARY_CHANGED';
   const current = observed.inventory.devices.find(device => device.id === row.settings.deviceId);
@@ -149,7 +151,11 @@ class NativeCapabilityRegistry {
       if (digest(observed) !== digest(this.#observed)) fail('DISCOVERY_ID_REUSED', 'One discovery ID cannot describe different observations.');
       return this.snapshot();
     }
-    this.#observed = observed; this.#epoch++;
+    // A fresh observation of the same exact environment does not change its
+    // identity epoch. Production discovery may publish the final observation
+    // before handing that same evidence to the probe collector.
+    if (!this.#observed || discoveryIdentity(this.#observed) !== discoveryIdentity(observed)) this.#epoch++;
+    this.#observed = observed;
     for (const row of this.#cells.values()) {
       const reason = staleReason(row, observed);
       if (reason) this.#change(row, 'stale', reason);
@@ -170,7 +176,8 @@ class NativeCapabilityRegistry {
     }
     if (this.#cells.size >= this.#maxCells) fail('CAPABILITY_REGISTRY_FULL', 'The bounded capability registry is full; no cell was evicted or implicitly authorized.');
     const wrapper = this.#observed.wrappers[getNativeProfile(bound.policy.profileId).encoder];
-    const state = wrapper === 'present' && identityKnown(bound.policy.device) ? 'discovered' : wrapper === 'absent' ? 'unavailable' : 'untested';
+    const state = wrapper === 'present' && identityKnown(bound.policy.device) && this.#observed.inventory.status === 'complete'
+      ? 'discovered' : wrapper === 'absent' ? 'unavailable' : 'untested';
     const row = { ...bound, cellId: randomUUID(), revision: 1, state,
       reason: state === 'discovered' ? 'DISCOVERED' : state === 'unavailable' ? 'UNSUPPORTED_CODEC' : 'NOT_TESTED',
       checkedAt: this.#observed.observedAt, evidence: null };
@@ -186,6 +193,7 @@ class NativeCapabilityRegistry {
         else if (observed.wrappers[profile.encoder] === 'absent') { state = 'unavailable'; reason = 'UNSUPPORTED_CODEC'; }
         else if (!devices.length && observed.inventory.status === 'complete') { state = 'unavailable'; reason = 'MISSING_DEVICE'; }
         else if (!devices.length) reason = 'DEVICE_DISCOVERY_INCOMPLETE';
+        else if (observed.inventory.status !== 'complete') reason = 'DEVICE_DISCOVERY_INCOMPLETE';
         else if (observed.wrappers[profile.encoder] !== 'present') reason = 'WRAPPER_UNOBSERVED';
         else { state = 'discovered'; reason = 'CHOOSE_AND_QUALIFY_CELL'; }
       }
@@ -200,6 +208,7 @@ class NativeCapabilityRegistry {
     record(request, ['cellId'], 'probe request');
     if (this.#active) fail('PROBE_BUSY', 'One native capability probe is already owned; wait for its children to close.');
     const row = this.#row(request.cellId), wrapper = this.#observed.wrappers[getNativeProfile(row.policy.profileId).encoder];
+    if (this.#observed.inventory.status !== 'complete') fail('NATIVE_DISCOVERY_INCOMPLETE', 'Complete current device discovery is required before qualification; no partial identity grants support.');
     if (wrapper !== 'present') fail('NATIVE_WRAPPER_UNAVAILABLE', wrapper === 'absent'
       ? 'The selected encoder wrapper is absent from this exact runtime.' : 'The selected encoder wrapper has not been observed in this exact runtime.');
     const reason = staleReason(row, this.#observed);
@@ -224,7 +233,8 @@ class NativeCapabilityRegistry {
       execution: 'Plan only. Main must reserve isolated owned paths, run fixed binaries sequentially without shell/fallback, enforce bounds, fully validate, and await close.',
       scope: 'Functional exact-settings SDR encode/decode only; not perceptual quality, stream-preservation, HDR, transformed-media or packaged acceptance.' });
     this.#change(row, 'untested', 'NOT_TESTED');
-    const ticket = { probeId, invocationId, cellId: row.cellId, epoch: this.#epoch, startedAt, contributionHash, plan };
+    const ticket = { probeId, invocationId, cellId: row.cellId, epoch: this.#epoch, startedAt,
+      discoveryEvidenceId: this.#observed.evidenceId, contributionHash, plan };
     this.#active = ticket;
     // Give this closure ONLY to main's native evidence collector, never preload.
     // A JSON object copied from disk/renderer cannot reproduce its WeakMap brand.
@@ -282,7 +292,10 @@ class NativeCapabilityRegistry {
     this.#receipts.delete(request.receipt); this.#active = null;
     try {
       if (ticket.epoch !== this.#epoch || data.environment.observedAt < ticket.startedAt
-        || data.environment.evidenceId === this.#observed.evidenceId) fail('CAPABILITY_STALE', 'Qualification needs a fresh post-probe runtime/device observation from the same current discovery epoch.');
+        || data.environment.evidenceId === ticket.discoveryEvidenceId
+        || (this.#observed.evidenceId !== ticket.discoveryEvidenceId && data.environment.evidenceId !== this.#observed.evidenceId)) {
+        fail('CAPABILITY_STALE', 'Qualification needs the exact fresh post-probe observation of the same environment, either unpublished or already current.');
+      }
       const changed = staleReason(row, data.environment);
       if (changed) { this.#change(row, 'stale', changed); fail('CAPABILITY_STALE', 'The binary/device/driver/runtime changed while the probe was running.'); }
       if (data.outcome !== 'verified') {

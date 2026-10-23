@@ -8,6 +8,7 @@ const { verifyCandidateRuntime } = require('./src/candidate-runtime.cjs');
 const { createOperationControls } = require('./src/operation-controls.cjs');
 const { FAMILIES, POLICY_ID } = require('./src/operation-catalog.cjs');
 const { discoverNativeBackends } = require('./src/backend-discovery.cjs');
+const { NativeCapabilityRegistry } = require('./src/backend-capabilities.cjs');
 const { registerIpc } = require('./src/ipc.cjs');
 const { ENTRY_URL, resolveAsset, registerLocalProtocol } = require('./src/local-protocol.cjs');
 
@@ -112,9 +113,10 @@ async function createWindow() {
   if (quitDuringStartup || shutdownComplete) return;
   const runtimeIdentity = createHash('sha256').update(JSON.stringify(runtime.verified.slice(0, 2)
     .map(({ sizeBytes, sha256 }) => ({ sizeBytes, sha256 })))).digest('hex');
+  const nativeRegistry = new NativeCapabilityRegistry();
   service = new EncoderService({ ffmpeg: runtime.ffmpeg, ffprobe: runtime.ffprobe, runtimeIdentity, stateDir,
     ...createOperationControls({ runtime, stateDir, families: FAMILIES, policyIdentity: POLICY_ID }),
-    discoverBackends: ({ signal, run, versions }) => discoverNativeBackends({ ffmpeg: runtime.ffmpeg, signal, run,
+    discoverBackends: ({ signal, run, versions }) => discoverNativeBackends({ ffmpeg: runtime.ffmpeg, signal, run, registry: nativeRegistry,
       runtime: Object.fromEntries(['ffmpeg', 'ffprobe'].map((name, index) => [name,
         { sha256: runtime.verified[index].sha256, version: versions[name] }])) }),
     outputAccess: new OutputAccess({ openPath: file => shell.openPath(file), showItemInFolder: file => shell.showItemInFolder(file) }) });

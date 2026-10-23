@@ -485,7 +485,10 @@ test('owned jobs emit post-encode stages with indeterminate progress and ignore 
     assert.equal(state.progress.percent, null);
     for (const field of ['seconds', 'fps', 'speed', 'etaSeconds', 'ended']) assert.equal(state.progress[field], undefined);
     h.calls[0].options.onProgress({ seconds: 999, speed: 9, fps: 999, ended: true });
-    assert.deepEqual(h.service.snapshot(), state, 'A stale encoder callback cannot replace the main-owned processing stage');
+    const afterCallback = h.service.snapshot();
+    assert.ok(afterCallback.elapsedSeconds >= state.elapsedSeconds, 'Wall-clock elapsed time may advance while the job is owned');
+    assert.deepEqual({ ...afterCallback, elapsedSeconds: state.elapsedSeconds }, state,
+      'A stale encoder callback cannot change revision, stage, progress or any other owned job state');
     release.resolve(); if (started) await started.promise;
   }
   const result = await finished;

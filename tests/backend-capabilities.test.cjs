@@ -116,6 +116,13 @@ test('successful current main-owned receipt qualifies only that exact settings c
   assert.ok(h.registry.snapshot().profiles.every(p => p.available === false), 'one cell is not a whole-profile acceptance claim');
 });
 
+test('an exact fresh observation already published by production discovery can complete the owned probe', () => {
+  const h = harness(), cell = h.registry.ensureCell(request()), ticket = h.registry.beginProbe({ cellId: cell.cellId });
+  const after = h.later(); h.registry.observeDiscovery(after);
+  const receipt = ticket.issueReceipt(success(ticket.plan, after));
+  assert.equal(h.registry.completeProbe({ probeId: ticket.plan.probeId, receipt }).state, 'verified');
+});
+
 test('plain JSON, foreign-registry and replayed receipts never become qualification authority', () => {
   const h = harness(), cell = h.registry.ensureCell(request()), ticket = h.registry.beginProbe({ cellId: cell.cellId });
   const receipt = ticket.issueReceipt(success(ticket.plan, h.later()));
@@ -166,6 +173,22 @@ test('post-probe discovery must be fresh and bind the exact binary pair, device,
     rejects(() => h.registry.completeProbe({ probeId: ticket.plan.probeId, receipt }), 'CAPABILITY_STALE');
     assert.equal(h.registry.getCell({ cellId: cell.cellId }).state, 'stale'); assert.equal(h.registry.snapshot().activeProbeId, null);
   }
+});
+
+test('partial inventory cannot begin, retain or complete verified native qualification', () => {
+  const partial = observation(); partial.inventory.status = 'partial';
+  const limited = harness({ observed: partial }), candidate = limited.registry.ensureCell(request());
+  assert.equal(candidate.state, 'untested');
+  rejects(() => limited.registry.beginProbe({ cellId: candidate.cellId }), 'NATIVE_DISCOVERY_INCOMPLETE');
+  const h = harness(), cell = h.registry.ensureCell(request()), ticket = h.registry.beginProbe({ cellId: cell.cellId });
+  const after = h.later(); after.inventory.status = 'partial';
+  const receipt = ticket.issueReceipt(success(ticket.plan, after));
+  rejects(() => h.registry.completeProbe({ probeId: ticket.plan.probeId, receipt }), 'CAPABILITY_STALE');
+  assert.equal(h.registry.getCell({ cellId: cell.cellId }).available, false);
+  const active = harness(), verified = qualify(active), changed = active.later(); changed.inventory.status = 'partial';
+  active.registry.observeDiscovery(changed);
+  rejects(() => active.registry.requireVerified({ cellId: verified.cellId, revision: verified.revision }), 'NATIVE_CAPABILITY_UNVERIFIED');
+  assert.equal(active.registry.getCell({ cellId: verified.cellId }).state, 'stale');
 });
 
 test('changed discovery revokes verified cells and in-flight epochs, without declaring child closure', () => {

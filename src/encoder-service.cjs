@@ -23,6 +23,9 @@ const { OperationDraft } = require('./operation-draft.cjs');
 const { prepareRemuxItem, setRemuxOmissions, requireRemuxGrants, installRemuxDecisions, remuxOutputName } = require('./remux-workspace.cjs');
 const { remuxProbeFingerprint } = require('./remux-validation.cjs');
 const { collectRemuxEvidence } = require('./remux-evidence.cjs');
+const { prepareHdrItem } = require('./hdr-workspace.cjs');
+const { fingerprintHdrProbe } = require('./hdr-operation.cjs');
+const { collectHdrEvidence } = require('./hdr-evidence.cjs');
 
 const BUSY = new Set(['checking', 'preparing', 'running', 'cancelling']);
 const EXTENSIONS = new Set(['.mp4', '.mkv', '.mov', '.avi', '.webm']);
@@ -71,7 +74,7 @@ class EncoderService extends EventEmitter {
   constructor({ ffmpeg, ffprobe, stateDir, run = runTool, inspect = inspectInput, verify = validateOutput, capabilities = checkCapabilities,
     inspectionCache, storageEligibility, inspectionWorkers = 2, provenanceJournal, preferences, diagnostics, appSettings, outputAccess, runtimeIdentity = null, discoverBackends = null,
     operationQualifications = null, operationEvidenceBudget = null, operationEnvironment = null, operationDeadlineMs = 120000,
-    operationRuntime = null, operationStorage = null, operationTelemetry = false, remuxOperations = null }) {
+    operationRuntime = null, operationStorage = null, operationTelemetry = false, remuxOperations = null, hdrOperations = null }) {
     super();
     if (![1, 2].includes(inspectionWorkers)) throw new TypeError('Inspection workers must be one or two.');
     Object.assign(this, { ffmpeg, ffprobe, stateDir, run, inspect, verify, capabilities });
@@ -125,6 +128,7 @@ class EncoderService extends EventEmitter {
     this.operationStoragePromise = null;
     this.operationTelemetry = operationTelemetry;
     this.remuxOperations = remuxOperations;
+    this.hdrOperations = hdrOperations;
     this.state.operation = 'encode';
     this.state.remuxSupport = { targets: ['matroska', 'mp4', 'mov'], notice: 'Full stream copy only. Each source/target and every retained stream needs a qualified preservation path; unsupported cases are explained per file.' };
   }
@@ -138,6 +142,7 @@ class EncoderService extends EventEmitter {
     // The caller drains queue children and sink callbacks first. Closing these
     // handles/leases never removes media or accumulated evidence.
     await this.taskPromise.catch(() => {});
+    this.hdrOperations?.invalidate();
     const closed = await Promise.allSettled([this.operationRuntime?.close(),
       this.operationStoragePromise ? this.operationStoragePromise.then(store => store.close()) : undefined]);
     const failures = closed.filter(result => result.status === 'rejected').map(result => result.reason);
@@ -334,6 +339,7 @@ class EncoderService extends EventEmitter {
 
   invalidatePlan() {
     this.remuxOperations?.invalidate();
+    this.hdrOperations?.invalidate();
     this.plan = null;
     this.state.planId = null;
     this.state.encodingSettingsStale = false;
@@ -346,6 +352,7 @@ class EncoderService extends EventEmitter {
 
   invalidatePreparedEncoding() {
     if (this.plan?.operation === 'remux') return;
+    this.hdrOperations?.invalidate();
     if (!this.plan?.draft || this.state.phase !== 'ready') return this.invalidatePlan();
     // Remembering expert-control edits must revoke prepared execution without
     // deleting the user's per-file draft. Keep the draft revision unchanged so
@@ -648,6 +655,10 @@ class EncoderService extends EventEmitter {
       // Inspection facts remain useful when a later operation policy refuses
       // the file. Duration in the preview is descriptive, never admission.
       item.summary = inspection.summary;
+      if (!inspection.color.supported && inspection.color.classification === 'hdr' && this.hdrOperations) {
+        await prepareHdrItem.call(this, item, { file, destination, inspection, identity, marker, indexed, settings, caps, signal, onStage });
+        return;
+      }
       if (!inspection.color.supported) throw fail('UNSUPPORTED_COLOR', inspection.color.reasons.join(' '));
       if (!this.operationQualifications && item.operationRequest && (item.operationRequest.range !== null || item.operationRequest.resolution !== 'source'
           || item.operationRequest.audioPolicy !== 'copy' || item.operationRequest.target !== 'matroska'
@@ -796,6 +807,7 @@ class EncoderService extends EventEmitter {
     this.state.settings = settings;
     this.state.operation = operation;
     this.remuxOperations?.invalidate();
+    this.hdrOperations?.invalidate();
     this.state.encodingSettingsStale = false;
     this.plan = { operation, remuxGrants: new Map(), remuxCandidates: new Map(), remuxFacts: new Map(), id: randomUUID(), input: input.path, output: output.path, settings, sameFolder, draft, entries: new Map(),
       baseline: new Map(), reservedPaths: new Set(), reservedIdentities: new Set(), overrides: new Map(), ambiguities: new Map(),
@@ -920,6 +932,7 @@ class EncoderService extends EventEmitter {
     // source subset. Revalidate its existing generated-source grants; ordinary
     // reprepare/target changes still discard them without renewal.
     const relatedSources = remux && remuxDecisions !== null ? new Map(this.plan.reencodeAuthorizations) : null;
+    this.hdrOperations?.invalidate();
     this.plan.id = randomUUID(); this.state.planId = this.plan.id;
     this.plan.entries.clear(); this.plan.overrides.clear(); this.plan.ambiguities.clear();
     this.plan.generated.clear(); this.plan.reencodeAuthorizations.clear();
@@ -930,7 +943,7 @@ class EncoderService extends EventEmitter {
     this.state.operationDraft = this.plan.draft.snapshot();
     for (const item of this.state.items) {
       Object.assign(item, { status: 'pending', reason: '', reencodeAuthorized: false });
-      for (const field of ['reasonCode', 'details', 'sourceIdentityDiagnostic', 'summary']) delete item[field];
+      for (const field of ['reasonCode', 'details', 'sourceIdentityDiagnostic', 'summary', 'hdr']) delete item[field];
     }
     const signal = this.begin('preparing');
     this.state.preparation = { total: this.state.items.length, resolved: 0, reused: 0, inspected: 0,
@@ -1155,8 +1168,8 @@ class EncoderService extends EventEmitter {
         let storage, storageReservation, storageMonitor, storageFailure, telemetry;
         let storageWatch = Promise.resolve();
         try {
-          const qualificationOwner = entry.remux ? this.remuxOperations : this.operationQualifications;
-          const sourceFingerprint = entry.remux ? remuxProbeFingerprint : fingerprintEncodeSource;
+          const qualificationOwner = entry.remux ? this.remuxOperations : entry.hdr ? this.hdrOperations : this.operationQualifications;
+          const sourceFingerprint = entry.remux ? remuxProbeFingerprint : entry.hdr ? fingerprintHdrProbe : fingerprintEncodeSource;
           const qualificationBindings = () => ({ ...entry.qualificationBindings, settings: this.plan.settings,
             sourceIdentity: entry.fingerprint, sourceProbeFingerprint: sourceFingerprint(entry.inspection.probe),
             runtimeIdentity: this.runtimeIdentity, budget: this.operationEvidenceBudget, executionBudgetMs: this.operationDeadlineMs,
@@ -1290,7 +1303,9 @@ class EncoderService extends EventEmitter {
               planFingerprint: entry.operationPlan.planFingerprint, streams: entry.operationPlan.instrumentation.streams,
               maxBytes: 4 * 1024 * 1024, maxRecords: 20000 });
             await assertTelemetryReady(telemetry);
-            args.splice(0, args.length, ...resolveEncodeOperationInvocation(entry.operationPlan, { output: stage.file, telemetry }));
+            args.splice(0, args.length, ...(entry.hdr
+              ? this.hdrOperations.resolveInvocation(entry.operationPlan, { output: stage.file, telemetry })
+              : resolveEncodeOperationInvocation(entry.operationPlan, { output: stage.file, telemetry })));
           }
           entry.actualArgs = Object.freeze([...args]);
           invocationId = randomUUID();
@@ -1324,7 +1339,7 @@ class EncoderService extends EventEmitter {
           if (this.plan.reservedIdentities.has(`${stagedIdentity.dev}:${stagedIdentity.ino}`)) throw fail('PROTECTED_SOURCE', 'A temporary output aliases a protected source.');
           if (signal.aborted) throw fail('CANCELLED', 'Encoding cancelled.');
           const result = await run(this.ffprobe, ['-v', 'error', '-protocol_whitelist', 'file', '-show_format', '-show_streams', '-show_chapters',
-            ...(entry.remux ? ['-show_programs', '-show_stream_groups'] : []),
+            ...(entry.remux || entry.hdr ? ['-show_programs', '-show_stream_groups'] : []),
             '-show_data_hash', 'sha256', '-of', 'json', stage.file], { signal: jobSignal });
           const outputProbe = parseProbeJson(result.stdout, 'Output validation');
           const marker = classifyMarker(outputProbe);
@@ -1343,6 +1358,10 @@ class EncoderService extends EventEmitter {
               runtimeIdentity: this.runtimeIdentity, outputId: entry.outputId, sourceProbe: entry.inspection.probe,
               outputProbe, sourcePath: entry.file, outputPath: stage.file, stageDirectory: evidenceDirectory,
               ffmpeg: this.ffmpeg, ffprobe: this.ffprobe, run, signal: jobSignal, budget: qualified.budget })
+              : entry.hdr ? await collectHdrEvidence({ plan: entry.operationPlan,
+                runtimeIdentity: this.runtimeIdentity, outputId: entry.outputId, sourceProbe: entry.inspection.probe,
+                outputProbe, sourcePath: entry.file, outputPath: stage.file, stageDirectory: evidenceDirectory,
+                ffmpeg: this.ffmpeg, ffprobe: this.ffprobe, run, signal: jobSignal, budget: qualified.budget })
               : await collectOperationEvidence({ plan: entry.operationPlan, sourceProbe: entry.inspection.probe,
               outputProbe, sourcePath: entry.file, outputPath: stage.file, stageDirectory: evidenceDirectory,
               ffmpeg: this.ffmpeg, ffprobe: this.ffprobe, run, signal: jobSignal,
@@ -1352,23 +1371,27 @@ class EncoderService extends EventEmitter {
                 ? { containerClockPolicy: qualified.qualification.containerDuration } : {}) });
             entry.operationEvidence = evidence;
             qualificationOwner.verifyCollectedSource?.(entry.qualificationSelection, evidence);
-            if (entry.operationPlan.instrumentation) {
-              entry.telemetryValidation = validateEncodeOperationTelemetry(entry.operationPlan, entry.operationTelemetryReceipt, evidence);
+            if (entry.operationPlan.instrumentation && (!entry.hdr || evidence.status === 'completed')) {
+              entry.telemetryValidation = entry.hdr
+                ? this.hdrOperations.validateTelemetry(entry.operationPlan, entry.operationTelemetryReceipt, evidence)
+                : validateEncodeOperationTelemetry(entry.operationPlan, entry.operationTelemetryReceipt, evidence);
             }
             const receiptRecord = await this.recordIncident({ stage: 'validation', reason: 'OPERATION_EVIDENCE_COLLECTED', fileId: item.id, invocationId,
               context: { directory: evidence.directory, planFingerprint: evidence.planFingerprint, evidenceIds: qualified.evidenceIds,
-                status: evidence.status, scope: evidence.scope, children: operationChildren, streamedBytes: evidenceBytes, pipeBytes,
+                status: evidence.status, scope: evidence.scope, failure: evidence.failure, children: operationChildren, streamedBytes: evidenceBytes, pipeBytes,
                 telemetryValidation: entry.telemetryValidation,
                 sourceIdentityDisposition: evidence.sourceIdentityDisposition } });
             if (!receiptRecord.persisted) throw fail('OPERATION_DIAGNOSTICS_INCOMPLETE', 'Complete evidence was collected but its correlated record could not be saved. Output retained without publication.');
             // A failed collector deliberately has no validation authority. Keep
             // its actual acquisition reason, rather than hiding it behind the
             // genuine-receipt guard in the independent validator.
-            if (entry.remux && evidence.status !== 'completed') throw fail(
-              evidence.failure?.code || 'REMUX_EVIDENCE_INCOMPLETE',
-              evidence.failure?.message || 'Complete native Remux evidence could not be collected. Output retained without publication.');
+            if ((entry.remux || entry.hdr) && evidence.status !== 'completed') throw Object.assign(fail(
+              evidence.failure?.code || (entry.hdr ? 'HDR_EVIDENCE_INCOMPLETE' : 'REMUX_EVIDENCE_INCOMPLETE'),
+              evidence.failure?.message || 'Complete native preservation evidence could not be collected. Output retained without publication.'),
+            { evidenceDirectory: evidence.directory, evidenceReceipt: evidence });
             requireQualification(); setJobStage('output-validation');
             validation = entry.remux ? this.remuxOperations.validate(entry.operationPlan, outputProbe, evidence)
+              : entry.hdr ? this.hdrOperations.validate(entry.operationPlan, outputProbe, evidence)
               : validateEncodeOperationOutput(entry.operationPlan, outputProbe,
                 { qualification: qualified.qualification, decodedEvidence: evidence.decodedEvidence });
           } else validation = this.verify(entry.inspection, outputProbe, this.plan.settings);
@@ -1533,6 +1556,7 @@ class EncoderService extends EventEmitter {
       // Keep admission closed through all asynchronous finalization. Otherwise a
       // new batch could replace state while the old batch is still logging it.
       if (this.plan?.operation === 'remux') { this.remuxOperations.invalidate(); this.plan.remuxGrants.clear(); this.plan.remuxCandidates.clear(); }
+      this.hdrOperations?.invalidate();
       this.state.phase = terminalPhase;
       this.finishedAt = Date.now();
       this.emitState();
@@ -1553,19 +1577,21 @@ class EncoderService extends EventEmitter {
     // Cancelling a prepared Remux batch must revoke its temporary stream
     // decisions even when no child has started. A successful no-op cancel may
     // not leave the old Start capability live.
-    if (!this.busy && this.plan?.operation === 'remux' && this.state.phase === 'ready') {
-      this.remuxOperations.invalidate();
-      this.plan.remuxGrants.clear(); this.plan.remuxCandidates.clear(); this.plan.entries.clear();
+    const preparedHdr = this.plan?.entries && [...this.plan.entries.values()].some(entry => entry.hdr);
+    if (!this.busy && (this.plan?.operation === 'remux' || preparedHdr) && this.state.phase === 'ready') {
+      const remux = this.plan.operation === 'remux';
+      if (remux) { this.remuxOperations.invalidate(); this.plan.remuxGrants.clear(); this.plan.remuxCandidates.clear(); }
+      this.hdrOperations?.invalidate(); this.plan.entries.clear();
       this.plan = null; this.state.planId = null; this.state.operationDraft = null;
       for (const item of this.state.items) if (['ready', 'conflict'].includes(item.status)) {
-        item.status = 'cancelled'; item.reason = 'Prepared Remux cancelled. Prepare again to create new authority.';
+        item.status = 'cancelled'; item.reason = `Prepared ${remux ? 'Remux' : 'HDR'} cancelled. Prepare again to create new authority.`;
       }
       // Keep admission closed across asynchronous diagnostics and saved writes.
       // This cancellation must never fall through and abort a later batch.
       this.state.phase = 'cancelling';
       this.preparedCancellation = (async () => {
         try {
-          await this.recordIncident({ stage: 'cancellation', reason: 'PREPARED_REMUX_CANCELLED' });
+          await this.recordIncident({ stage: 'cancellation', reason: remux ? 'PREPARED_REMUX_CANCELLED' : 'PREPARED_HDR_CANCELLED' });
         } finally {
           await drainWrites();
           this.state.phase = 'cancelled'; this.finishedAt = Date.now(); this.emitState();

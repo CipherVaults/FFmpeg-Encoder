@@ -5,13 +5,15 @@ const path = require('node:path');
 const { createHash, randomUUID } = require('node:crypto');
 const { runTool, boundedToolStderr } = require('./process-runner.cjs');
 const { assertOrdinaryPath } = require('./candidate-runtime.cjs');
-const { getNativeProfile, validateNativeSettings } = require('./backend-adapters.cjs');
+const { getNativeProfile } = require('./backend-adapters.cjs');
 const { NativeCapabilityRegistry } = require('./backend-capabilities.cjs');
+const { NativeObservationCollector, qsvRuntimeSettings, nativeInitializationArgs,
+  captureNativeInitialization, ASSURANCE } = require('./backend-observation.cjs');
 
 // Main-only orchestration, never an IPC endpoint. The caller supplies the
 // existing global media slot and actual discovery/vendor collectors. The
-// default vendor collector grants nothing: a successful encode and requested
-// argv are not evidence that hardware honored native rate control or device.
+// default collector consumes this probe's captured-child receipt. Successful
+// output, requested argv, or a fabricated runtime-query summary grant nothing.
 const WIDTH = 320, HEIGHT = 180, FRAMES = 96, FPS = 30;
 const UUID = /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/;
 const MAX_ROOT_BYTES = 256 * 1024 * 1024, MAX_DIRECTORY_ENTRIES = 256;
@@ -115,65 +117,120 @@ function validateMetadata(stdout, plan) {
     decodedFrames: FRAMES, chroma: '4:2:0', signal: 'sdr', primaries: 'bt709', transfer: 'bt709', matrix: 'bt709', range: 'tv', valid: true };
 }
 
-// Pinned qsvenc.c prints these values AFTER GetVideoParam, unlike the input
-// options. Parse only encoder-scoped lines; arbitrary echoed argv cannot prove
-// a mode. Device/runtime binding still needs the main-owned vendor observer.
-// https://raw.githubusercontent.com/FFmpeg/FFmpeg/n9.0.2/libavcodec/qsvenc.c
-function qsvRuntimeSettings(stderr, encoder) {
-  if (!['h264_qsv', 'hevc_qsv', 'av1_qsv'].includes(encoder) || typeof stderr !== 'string' || Buffer.byteLength(stderr) > 256 * 1024) return null;
-  const rows = stderr.split(/\r?\n/).flatMap(line => {
-    const match = line.match(new RegExp(`^\\[${encoder} @ ([a-fA-F0-9]+)\\] (?:\\[verbose\\] )?(.*)$`));
-    return match ? [{ context: match[1], text: match[2] }] : [];
-  });
-  const modes = rows.filter(row => /^TargetUsage: \d+; RateControlMethod: [A-Z_]+$/.test(row.text));
-  if (!modes.length || new Set(modes.map(row => row.context + row.text)).size !== 1) return null;
-  const match = modes[0].text.match(/^TargetUsage: (\d+); RateControlMethod: ([A-Z_]+)$/);
-  const preset = ['veryslow', 'slower', 'slow', 'medium', 'fast', 'faster', 'veryfast'][Number(match[1]) - 1];
-  const mode = match[2].toLowerCase(), sameContext = rows.filter(row => row.context === modes[0].context);
-  const qualityPattern = mode === 'cqp' ? /^QPI: (\d+); QPP: (\d+); QPB: (\d+)$/ : mode === 'icq' ? /^ICQQuality: (\d+)$/ : null;
-  if (!qualityPattern || !preset) return { mode, preset: preset || null, quality: null };
-  const qualityRows = sameContext.map(row => row.text.match(qualityPattern)).filter(Boolean);
-  if (!qualityRows.length || new Set(qualityRows.map(row => row[0])).size !== 1) return null;
-  const q = qualityRows[0]; return { mode, preset, quality: mode === 'cqp' ? { i: Number(q[1]), p: Number(q[2]), b: Number(q[3]) } : Number(q[1]) };
-}
-function validateNativeObservation(value, plan, stderr) {
-  if (value === null) return null;
-  exact(value, ['invocationId', 'contributionHash', 'stderrSha256', 'modeSource', 'actualMode', 'actualQuality', 'actualPreset',
-    'actualEncoder', 'actualAdapterIdentity', 'runtimeVersion', 'scope'], 'vendor observation');
-  if (value.invocationId !== plan.invocationId || value.contributionHash !== plan.contributionHash || value.stderrSha256 !== sha(stderr)
-      || value.scope !== 'same-encoder-session' || !['runtime-log', 'runtime-query'].includes(value.modeSource)) fail('PROBE_EVIDENCE_UNOBSERVED', 'Vendor evidence is not bound to this completed encoder session.');
-  if (value.actualEncoder !== plan.contribution.encoder || value.actualAdapterIdentity !== plan.policy.device.adapterIdentity
-      || value.runtimeVersion !== plan.policy.device.runtimeVersion) fail('PROBE_DEVICE_MISMATCH', 'The actual encoder/device/runtime differs from the selected cell.');
-  let normalized;
-  try { normalized = validateNativeSettings(plan.policy.profileId, { mode: value.actualMode, preset: value.actualPreset,
-    quality: value.actualQuality, deviceId: plan.settings.deviceId }); }
-  catch { fail('PROBE_MODE_MISMATCH', 'The runtime reports unsupported or substituted native settings.'); }
-  if (JSON.stringify(normalized) !== JSON.stringify(plan.settings)) fail('PROBE_MODE_MISMATCH', 'The runtime changed the selected mode, native quality values or preset.');
-  if (value.modeSource === 'runtime-log') {
-    // AMF has no qualified effective-property log parser here. A reliable AMF
-    // collector must query the SAME initialized encoder session, not create an
-    // unrelated session and pretend its properties describe this invocation.
-    const observed = qsvRuntimeSettings(stderr, plan.contribution.encoder);
-    if (!observed) return null;
-    if (observed.mode !== normalized.mode || observed.preset !== normalized.preset || JSON.stringify(observed.quality) !== JSON.stringify(normalized.quality)) fail('PROBE_EVIDENCE_UNOBSERVED', 'Vendor summary disagrees with the captured effective-setting log.');
-  }
-  return { modeSource: value.modeSource, actualMode: normalized.mode, actualEncoder: value.actualEncoder, actualAdapterIdentity: value.actualAdapterIdentity };
+function validateNativeObservation(receipt, context) {
+  if (!(context?.collector instanceof NativeObservationCollector)) fail('PROBE_EVIDENCE_UNOBSERVED', 'Only the owning captured-child collector can validate native observation.');
+  const { collector, ...bindings } = context; return collector.complete(receipt, bindings);
 }
 
 class NativeBackendProbe {
   #registry; #root; #runtime; #observe; #native; #slot; #run; #active = null; #maximum;
-  constructor({ registry, ownedRoot, runtime, observeEnvironment, acquireMediaSlot, observeNative = async () => null, run = runTool, maxOwnedBytes = MAX_ROOT_BYTES }) {
+  #collector = new NativeObservationCollector();
+  constructor({ registry, ownedRoot, runtime, observeEnvironment, acquireMediaSlot, observeNative = async ({ receipt }) => receipt, run = runTool, maxOwnedBytes = MAX_ROOT_BYTES }) {
     if (!(registry instanceof NativeCapabilityRegistry) || [observeEnvironment, acquireMediaSlot, observeNative, run].some(value => typeof value !== 'function')
         || !Number.isSafeInteger(maxOwnedBytes) || maxOwnedBytes < PROBE_FORECAST || maxOwnedBytes > 1024 * 1024 * 1024) throw new TypeError('Native probe needs main-owned registry, collectors, media admission and bounded storage.');
     exact(runtime, ['ffmpeg', 'ffprobe'], 'fixed runtime');
     this.#registry = registry; this.#root = localPath(ownedRoot); this.#runtime = { ffmpeg: localPath(runtime.ffmpeg), ffprobe: localPath(runtime.ffprobe) };
     this.#observe = observeEnvironment; this.#slot = acquireMediaSlot; this.#native = observeNative; this.#run = run; this.#maximum = maxOwnedBytes;
   }
+  // Explicit main-only bootstrap, never called by construction/discovery/startup
+  // or an IPC endpoint. The zero-frame generated/null child initializes only the
+  // selected device/API; it neither encodes vendor media nor qualifies a cell.
+  async initialize(request, { signal } = {}) {
+    exact(request, ['cellId'], 'initialization request');
+    if (typeof request.cellId !== 'string' || !UUID.test(request.cellId)
+        || signal !== undefined && !(signal instanceof AbortSignal)) fail('INVALID_NATIVE_PROBE', 'Choose a current main-owned cell and native cancellation signal.');
+    if (this.#active) fail('PROBE_BUSY', 'A native initialization or capability probe is already owned.');
+    const selected = this.#registry.getCell(request);
+    if (getNativeProfile(selected.policy.profileId).backend === 'amf') return { status: 'untested', reason: 'AMF_EFFECTIVE_PROPERTIES_UNOBSERVED', initialization: null,
+      invocations: [], limitation: 'The pinned AMF CLI has no complete same-component effective-property/runtime readback producer.' };
+    interrupted(signal);
+    const active = {}; this.#active = active;
+    const controller = new AbortController(), abort = () => controller.abort();
+    signal?.addEventListener('abort', abort, { once: true }); if (signal?.aborted) controller.abort();
+    const deadline = setTimeout(abort, 60000); deadline.unref();
+    const report = { schema: 1, cellId: request.cellId, status: 'preparing', reason: null, initialization: null, invocations: [],
+      assurance: ASSURANCE, scope: 'Explicit zero-frame generated/null device/API initialization only. No codec, RC, media, hardware qualification or execution grant.',
+      storage: 'No media or filesystem output. Complete bounded capture is returned to main for owned evidence retention; JSON cannot restore the bootstrap receipt.' };
+    let slot;
+    try {
+      const admitted = await this.#slot({ signal: controller.signal, purpose: 'native-backend-initialization' });
+      if (!admitted || typeof admitted.release !== 'function') fail('INVALID_NATIVE_PROBE', 'Main media admission did not return an owned release handle.');
+      slot = admitted;
+      interrupted(controller.signal);
+      const before = await this.#observe({ signal: controller.signal }); this.#registry.observeDiscovery(before);
+      const cell = this.#registry.getCell(request);
+      if (cell.state === 'stale') fail('CAPABILITY_STALE', 'Select the newly current device/runtime cell before initializing.');
+      if (this.#registry.snapshot().profiles.find(profile => profile.profileId === cell.policy.profileId)?.reason !== 'CHOOSE_AND_QUALIFY_CELL') {
+        fail('NATIVE_DEVICE_UNAVAILABLE', 'Complete current wrapper/device discovery is required before a native initializer child.');
+      }
+      const argv = nativeInitializationArgs(before, cell.settings.deviceId).slice(), pins = {};
+      await assertOrdinaryPath(this.#root, 'directory');
+      const available = await fs.statfs(this.#root, { bigint: true });
+      if (available.bavail * available.bsize < BigInt(MIN_FREE_MARGIN)) fail('PROBE_RESOURCE_LIMIT', 'Insufficient owned-volume operational margin for bounded initialization.');
+      for (const name of ['ffmpeg', 'ffprobe']) {
+        pins[name] = await seal(this.#runtime[name], 512 * 1024 * 1024);
+        if (pins[name].sha256 !== cell.policy[`${name}Sha256`]) fail('CAPABILITY_STALE', 'Initializer fixed binary bytes differ from current discovery.');
+      }
+      const entry = { kind: 'initialization', invocationId: randomUUID(), executable: this.#runtime.ffmpeg,
+        executableSha256: pins.ffmpeg.sha256, argv, argvSha256: sha(JSON.stringify(argv)), status: 'running', startedAt: Date.now() };
+      report.invocations.push(entry);
+      let child, closed, closePromise, result;
+      const stop = () => { try { child?.kill(); } catch { /* keep ownership until actual close */ } };
+      try {
+        interrupted(controller.signal);
+        result = await this.#run(this.#runtime.ffmpeg, argv, { signal: controller.signal, timeoutMs: 15000,
+          stdoutLimit: 8192, stderrLimit: 256 * 1024, onChild: owned => {
+            if (child || !owned || typeof owned.once !== 'function' || typeof owned.kill !== 'function') fail('PROBE_CHILD_INVALID', 'Initializer runner supplied an invalid or duplicate child handle.');
+            child = owned; closePromise = new Promise(resolve => { owned.once('close', (code, exitSignal) => { closed = { code, signal: exitSignal }; entry.close = closed; resolve(); }); });
+            controller.signal.addEventListener('abort', stop, { once: true }); if (controller.signal.aborted) stop();
+          } });
+        if (!child) fail('PROBE_CHILD_UNOBSERVED', 'A result without an owned initializer child cannot establish actual closure.');
+      } catch (error) {
+        const captured = boundedToolStderr(error, 256 * 1024);
+        entry.stderr = captured.stderr; entry.stderrCapture = captured.stderrCapture || null; throw error;
+      } finally {
+        if (child) { if (!closed) stop(); await closePromise; controller.signal.removeEventListener('abort', stop); }
+        entry.finishedAt = Date.now();
+      }
+      entry.stderr = result.stderr; entry.stderrCapture = result.stderrCapture;
+      if (result.exitCode !== 0 || closed.code !== 0 || closed.signal !== null) fail('INITIALIZATION_FAILED', 'The selected initializer child did not close successfully.');
+      if (result.stdout !== '' || result.stdoutCapture !== undefined && (result.stdoutCapture.truncated !== false
+          || result.stdoutCapture.totalBytes !== 0 || result.stdoutCapture.streamed === true)) fail('PROBE_CAPTURE_INCOMPLETE', 'The null initializer must have no stdout output or unexplained capture accounting.');
+      exact(result.stderrCapture, ['totalBytes', 'truncated'], 'initializer stderr capture');
+      if (typeof result.stderr !== 'string' || result.stderrCapture.truncated !== false
+          || result.stderrCapture.totalBytes !== Buffer.byteLength(result.stderr) || result.stderrCapture.totalBytes > 256 * 1024) fail('PROBE_CAPTURE_INCOMPLETE', 'Complete bounded initialization stderr is required.');
+      interrupted(controller.signal);
+      const after = await this.#observe({ signal: controller.signal }); this.#registry.observeDiscovery(after);
+      for (const name of ['ffmpeg', 'ffprobe']) {
+        const current = await seal(this.#runtime[name], 512 * 1024 * 1024);
+        if (current.sha256 !== after.runtime[name]?.sha256 || JSON.stringify(current) !== JSON.stringify(pins[name])) fail('CAPABILITY_STALE', 'Initializer binaries changed before completed evidence.');
+      }
+      interrupted(controller.signal);
+      report.initialization = captureNativeInitialization({ before, after, deviceId: cell.settings.deviceId,
+        invocation: this.#nativeInvocation(entry), stderr: result.stderr, stderrCapture: result.stderrCapture });
+      entry.status = 'closed'; report.status = 'observed'; report.reason = 'API_VERSION_OBSERVED';
+    } catch (error) {
+      report.status = 'untested'; report.reason = controller.signal.aborted ? 'CANCELLED' : error.code || 'INITIALIZATION_FAILED';
+      report.failure = { code: error.code || 'INITIALIZATION_FAILED', message: String(error.message).slice(0, 1024) };
+      if (report.invocations.length) report.invocations[0].status = 'failed';
+    } finally {
+      clearTimeout(deadline);
+      try { await slot?.release(); } catch (error) {
+        report.initialization = null; report.status = 'untested'; report.reason = 'INITIALIZATION_SLOT_UNRELEASED'; report.slotReleaseFailure = String(error.message).slice(0, 1024);
+      }
+      if (controller.signal.aborted || signal?.aborted) { report.initialization = null; report.status = 'untested'; report.reason = 'CANCELLED'; }
+      signal?.removeEventListener('abort', abort);
+      report.finishedAt = Date.now(); if (this.#active === active) this.#active = null;
+    }
+    return report;
+  }
   async probe(request, { signal } = {}) {
     exact(request, ['cellId'], 'probe request');
     if (typeof request.cellId !== 'string' || !UUID.test(request.cellId)) fail('INVALID_NATIVE_PROBE', 'Choose a current main-owned capability cell.');
     if (this.#active) fail('PROBE_BUSY', 'A native capability probe is already active.');
     const cell = this.#registry.getCell(request);
+    if (getNativeProfile(cell.policy.profileId).backend === 'amf') return { cell, status: 'untested', reason: 'AMF_EFFECTIVE_PROPERTIES_UNOBSERVED', invocations: [],
+      limitation: 'The pinned AMF CLI has no complete same-component effective RC/quality/preset/runtime readback. No helper session or requested values can supply this encoder invocation\'s missing proof.' };
     if (/^(unknown|unavailable|unresolved|not-detected)$/i.test(cell.policy.device.runtimeVersion)) return { cell, status: 'untested', reason: 'VENDOR_RUNTIME_UNOBSERVED', invocations: [],
       limitation: 'DXGI driver identity is not a vendor runtime version. A reliable bounded initializer observation is required before probing.' };
     interrupted(signal);
@@ -182,7 +239,7 @@ class NativeBackendProbe {
     const lifecycle = { encode: 'not-started', decode: 'not-started' }, report = { schema: 1, evidenceId: randomUUID(), cellId: request.cellId,
       status: 'preparing', invocations: [], artifacts: [], lifecycle, cleanup: 'Retain owned diagnostic evidence; no files outside this unique run are modified or removed.',
       scope: 'Exact-setting 96-frame SDR functional encode/decode only. No HDR, benchmark, ancillary preservation, packaged or real-vendor acceptance is inferred from injected tests.' };
-    let outputValidation, nativeValidation, failure;
+    let outputValidation, nativeValidation, nativeReceipt, beforeEnvironment, failure;
     const controller = new AbortController(), abort = () => controller.abort();
     signal?.addEventListener('abort', abort, { once: true });
     if (signal?.aborted) controller.abort();
@@ -237,7 +294,8 @@ class NativeBackendProbe {
       const input = argv[argv.indexOf('-i') + 1], inputReceipt = report.artifacts.find(item => item.file === input);
       if (!inputReceipt) fail('INVALID_NATIVE_PROBE', 'A probe input was not created and sealed by this invocation.');
       await stable(inputReceipt);
-      const entry = { kind, executable, argv, argvSha256: sha(JSON.stringify(argv)), status: 'running', startedAt: Date.now() };
+      const entry = { kind, invocationId: kind === 'encode' ? ticket.plan.invocationId : randomUUID(), executable,
+        executableSha256: before.sha256, argv, argvSha256: sha(JSON.stringify(argv)), status: 'running', startedAt: Date.now() };
       report.invocations.push(entry); await save();
       let started = false, childClosed, child, closePromise;
       const stage = kind === 'encode' ? 'encode' : 'decode';
@@ -285,7 +343,7 @@ class NativeBackendProbe {
       slot = await this.#slot({ signal: controller.signal, purpose: 'native-backend-capability' });
       if (!slot || typeof slot.release !== 'function') fail('INVALID_NATIVE_PROBE', 'Main media admission did not return an owned release handle.');
       interrupted(controller.signal);
-      const before = await this.#observe({ signal: controller.signal }); this.#registry.observeDiscovery(before);
+      const before = await this.#observe({ signal: controller.signal }); beforeEnvironment = before; this.#registry.observeDiscovery(before);
       const current = this.#registry.getCell(request);
       if (current.state === 'stale') fail('CAPABILITY_STALE', 'Device/runtime changed; choose its newly bound capability cell.');
       // Retesting revokes this cell's old verification before checking actual
@@ -332,10 +390,14 @@ class NativeBackendProbe {
       if (count !== FRAMES || pending.length || decoded.stdout !== '' || decoded.stdoutCapture?.streamed !== true || decoded.stdoutCapture.truncated !== false
           || decoded.stdoutCapture.totalBytes !== totalBytes) fail('PROBE_CAPTURE_INCOMPLETE', 'Complete binary decode and exact callback accounting are required.');
       report.decoded = { frames: count, bytes: totalBytes, everyFrameIdentityMatched: true };
-      const native = await this.#native({ plan: ticket.plan, invocation: report.invocations[0], stderr: encoded.stderr, signal: controller.signal });
-      nativeValidation = validateNativeObservation(native, ticket.plan, encoded.stderr);
-      if (!nativeValidation) fail('PROBE_EVIDENCE_UNOBSERVED', 'Effective native quality/mode and same-session device/runtime evidence are unavailable; successful encode alone cannot qualify this cell.');
       if (report.invocations.some(entry => entry.warningCount > 0)) fail('PROBE_WARNINGS_UNREVIEWED', 'Probe warnings require scoped review before qualification.');
+      const entry = report.invocations[0];
+      const receipt = this.#collector.captureClosed({ plan: ticket.plan, before: beforeEnvironment,
+        invocation: this.#nativeInvocation(entry), source: { file: report.fixture.file, sha256: report.fixture.sha256 },
+        stderr: encoded.stderr, stderrCapture: encoded.stderrCapture });
+      // Custom main observers may withhold this receipt, but cannot replace its
+      // captured evidence with a plain summary or query a destroyed component.
+      nativeReceipt = await this.#native({ receipt, plan: ticket.plan, invocation: entry, stderr: encoded.stderr, signal: controller.signal });
       interrupted(controller.signal);
       for (const receipt of report.artifacts) if (JSON.stringify(await seal(receipt.file, 32 * 1024 * 1024)) !== JSON.stringify(receipt)) fail('PROBE_FILE_CHANGED', 'Owned evidence changed after observation.');
     } catch (error) { failure = error; }
@@ -355,6 +417,12 @@ class NativeBackendProbe {
             if (binary.sha256 !== environment.runtime[name]?.sha256) fail('CAPABILITY_STALE', 'Fresh discovery does not identify the actual executable.');
           }
         } catch (error) { failure ||= error; report.failure ||= { code: error.code || 'PROBE_INTERRUPTED', message: String(error.message).slice(0, 1024) }; }
+        if (!failure && environment && !controller.signal.aborted) try {
+          const { observation, ...validation } = validateNativeObservation(nativeReceipt, { collector: this.#collector,
+            plan: ticket.plan, invocation: this.#nativeInvocation(report.invocations[0]),
+            source: { file: report.fixture.file, sha256: report.fixture.sha256 }, after: environment });
+          report.nativeObservation = observation; nativeValidation = validation;
+        } catch (error) { failure = error; report.failure = { code: error.code || 'PROBE_EVIDENCE_UNOBSERVED', message: String(error.message).slice(0, 1024) }; }
         const reason = controller.signal.aborted ? 'CANCELLED' : failure?.code === 'PROBE_RESOURCE_LIMIT' ? 'RESOURCE_LIMIT' : 'PROBE_INTERRUPTED';
         const unavailable = { PROBE_OUTPUT_MISMATCH: 'OUTPUT_MISMATCH', PROBE_MODE_MISMATCH: 'MODE_MISMATCH', PROBE_DEVICE_MISMATCH: 'DEVICE_MISMATCH' }[failure?.code];
         if (!environment || controller.signal.aborted) report.cell = ticket.abandon({ reason, lifecycle });
@@ -385,6 +453,10 @@ class NativeBackendProbe {
     }
     if (failure && !report.failure) report.failure = { code: failure.code || 'PROBE_INTERRUPTED', message: String(failure.message).slice(0, 1024) };
     return report;
+  }
+  #nativeInvocation(entry) {
+    return { kind: entry.kind, invocationId: entry.invocationId, executableSha256: entry.executableSha256,
+      argv: entry.argv, argvSha256: entry.argvSha256, close: entry.close };
   }
 }
 

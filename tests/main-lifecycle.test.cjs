@@ -56,6 +56,7 @@ async function harness({ runtimePending = false, diagnosticsPending = false, res
       controlOptions = options; return { operationQualifications: qualification, operationTelemetry: true };
     } };
     if (id === './src/backend-discovery.cjs') return { discoverNativeBackends: async options => options };
+    if (id === './src/backend-capabilities.cjs') return require('../src/backend-capabilities.cjs');
     if (id === './src/encoder-service.cjs') return { EncoderService: Service };
     if (id === './src/output-access.cjs') return require('../src/output-access.cjs');
     if (id === './src/ipc.cjs') return { registerIpc: () => () => calls.push('remove-ipc') };
@@ -66,6 +67,14 @@ async function harness({ runtimePending = false, diagnosticsPending = false, res
   return { app, load, drained, dialogClosed, calls, window, service, runtime, verified, initialized, resources,
     getWindow: () => window, getService: () => service, getControlOptions: () => controlOptions, families, qualification };
 }
+
+test('main reuses one private native registry across discovery observations', async () => {
+  const h = await harness(), options = { signal: new AbortController().signal, run() {}, versions: { ffmpeg: 'fixture', ffprobe: 'fixture' } };
+  const first = await h.service.options.discoverBackends(options), second = await h.service.options.discoverBackends(options);
+  assert.ok(first.registry instanceof require('../src/backend-capabilities.cjs').NativeCapabilityRegistry);
+  assert.equal(first.registry, second.registry);
+  assert.equal(first.ffmpeg, h.verified.ffmpeg);
+});
 
 test('shutdown drains children then operation handles/lease before diagnostic closure and exit', async () => {
   const h = await harness({ resourcesPending: true }); h.window.destroy(); await tick();

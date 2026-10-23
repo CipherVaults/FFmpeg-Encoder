@@ -1432,7 +1432,7 @@
         entry.reason.hidden = !item.reason;
         // Main's inspection describes container representation changes. Render
         // plain text only; media metadata never becomes HTML or IPC authority.
-        entry.metadata.textContent = (item.summary?.metadataNotices || []).join(' ');
+        entry.metadata.textContent = [...(item.summary?.metadataNotices || []), ...(item.hdr?.notice ? [item.hdr.notice] : [])].join(' ');
         entry.metadata.hidden = !entry.metadata.textContent;
         entry.sampling.textContent = item.summary?.samplingLimit ? `Color inspection limits: ${item.summary.samplingLimit}` : '';
         entry.sampling.hidden = !entry.sampling.textContent;

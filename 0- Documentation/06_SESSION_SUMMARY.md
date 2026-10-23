@@ -1,4 +1,657 @@
-> **Current authority — execution resumed October 11, 2026.** Ahmed explicitly reauthorized the full 0.7 candidate Goal with [workbench amendments](28_0.7_Execution_Resumption_and_Workbench_Amendment.md). The earlier planning pause is historical and superseded. Preserve unfinished work, accepted0.6 and the independently paused benchmark. Implement and verify N–S; final owner acceptance remains separate.
+# 📘 Session: October23,2026 — FFmpeg Encoder — Thread2 context anchoring, authority repair and readiness
+
+## 🤖 Models, Effort, Roles and Provenance
+
+Ahmed remains product authority. Blue coordinates the existing FFmpeg scope and this staged handover. Development Thread2 `01a1654e-4116-70c3-bf5a-91849579bd37` now owns local integration in the same checkout; the original development thread remains idle. Three new focused reviewers were explicitly created as GPT-6.1 Sol/Ultra/forknone: history, requirements/scope, and execution evidence. Root alone edited continuity documents. Those are supported requested settings; root/backend identity is not independently confirmed by local metadata. Completed historical workers were not resumed or relabelled.
+
+The adopted AI PBS recovery, environment, maintenance and reporting guidance was used. This entry records the current onboarding session, with earlier Slice1–3 work reconstructed from its actual source/receipts rather than claimed as work performed by this executor. Exact owner excerpts, supplied message IDs, coverage/revisions and checks are in the [migration/readiness execution receipt](Execution%20Summaries/2026-10-23_Thread2_Migration_and_Authority_Reconciliation.md). No external PBS/Notion records were changed.
+
+## 🕒 Time
+
+October23, Africa/Cairo. Blue supplied Ahmed's06:14UTC transfer/continuation authority; this thread directly received the instruction to follow Blue around06:31UTC, and Blue supplied the06:36UTC confirmation that context anchoring/correction comes first. Read-only observations and final closeout have exact UTC timestamps in the local verification artifacts. Wall-clock gaps, reading and review are not measured engineering or encode time; no active-time or remaining-quota total is invented.
+
+## 🎯 Session Goal
+
+Move the development home safely to this existing Thread2, carry the approved work and authority forward, and correct repeated stale pause/ownership assertions before implementation. The owner wanted the plans/goals preserved and the documentation aligned with actual completed work, so a returning executor would not repeatedly ask to resume already-approved development or restart from an old checkpoint.
+
+The immediate stopping condition was a concrete, grounded documentation/readiness report for Blue review. It did not authorize application implementation during onboarding. Security was reaffirmed as critical from design onward, with AI PBS retained and Security Cloud excluded. Accepted releases and the independent benchmark visual-review gate remained protected.
+
+## 🛠️ Actions Taken
+
+### 1. Recovered the actual authority and surviving checkout
+
+Thread2 honored the request to wait for Blue; Blue then explicitly ordered the admitted onboarding assignment to continue, clarifying that reading, snapshots, safe documentation repair and reporting precede its review gate. Ahmed directly confirmed following Blue and separately reconfirmed development continuation with context anchoring/correction first. These actual instructions supersede pre-transfer current-pause wording without erasing the historical October11–13 pause or dated Slice1–3 approvals/stops.
+
+Live Git showed the same candidate branch, source45ddfb7 and documentation HEAD005327a,27modified tracked Markdown files and22untracked files, with an empty index. The latest source was newer than the old290369b snapshot. Nothing was reset, cleaned, staged or replayed. Original development ownership was preserved as history while current ownership moved to Thread2; no second executor, new task, branch or worktree was created.
+
+### 2. Preserved exact bytes before correcting the records
+
+The existing ignored artifacts namespace was verified before writing a local recovery snapshot. It captured115documentation/evidence files byte-for-byte and a300-file tracked/untracked hash inventory, plus status and refs. This retained private planning and unfinished Markdown rather than forcing a clean tree or publishing private files. The snapshot is local evidence; it does not imply a remote backup of current documents.
+
+Read-only process/lease and free-space checks found no project media/Electron/Node process or media-job lock in the saved snapshot. D had about128.74GiB and F about653.25GiB free at that observation. These figures are not a future reservation. Later actual media work still needs fresh process/store/runtime/space checks and the existing sequential lease and resource rules.
+
+### 3. Read the full project-authored history and challenge evidence applicability
+
+Root and three disjoint reviewers read numbered00–31, the cumulative Session archive, all44entry Execution Summary Markdown/JSON files, every Archive record/template and all authored Planning Markdown/HTML. Exact path/hash/bytes/lines/read ranges/revision/reader/gaps are consolidated in the local coverage ledger. Generated runtime help and probe material were separately marked full, selected or metadata-only; dependencies, raw sessions and media were not counted as authored full reads. Truncated output was reread in smaller chunks instead of silently counted as complete.
+
+The evidence reviewer matched all28Slice3 source seals, normal-service and successful-UI producer hashes, historical receipt/transcript seals, the Slice2 catalog and linked reports, final capture hashes and accepted ZIP hashes. Saved captures were inspected as historical views. None of this reran tests or launched the application. The failed UI73d6ec36 report remained failed; its explicit recovery and the successful267d86e3 report remained separate.371Slice3 affected checks and408Slice2 checks overlap and were not added into a fictional unique total.
+
+### 4. Repaired current owners while preserving dated bodies
+
+Current authority, development home and immediate continuation were corrected together across AGENTS, Current/Continuation/29 and their dependent Architecture/Roadmap/Technical/Security/guide/Goal/Plan/contracts/tracker/README/CHANGELOG pointers. October13 blanket integration/refusal descriptions were explicitly dated so that they no longer compete with later finite Slice2/3 support. Original planning authorship and historical pauses/review boundaries were preserved rather than rewritten as though the transfer had already happened then.
+
+Two references to a nonexistent October23 documentation-only receipt were replaced with the actual new migration/readiness receipt. No missing historical report was invented. The earlier incident body stayed intact under a transparent dated preamble. Study30 received a current ownership notice with its complete study/native-follow-up body preserved. Plan31's historical N01 original-home wording was explicitly superseded for present ownership while all43map rows and six slice rows stayed unchanged.
+
+The metadata amendment's future tense was reconciled with the implemented code45ddfb7 policy and actual amended endpoint. Its earlier producer-label report remains failed under the then-current rule. Known descriptive metadata differences can warn under the owner amendment; functional/unknown fields, decoded content, timing, orientation/color/HDR and publication/source safety remain strict.
+
+### 5. Integrated review and prepared the real next boundary
+
+Independent delta reviews checked preserved history, authority consistency and the original43requirement rows/six slices. They found no essential blocker in the repaired subset and identified residual24/26 notices and the historical Plan31 home wording for clarification; these were corrected. Root saved the full Session entry, actual execution receipt and current navigation, then completed local link/diff/integrity readback. Exact outcomes and any remaining limitations belong to the verification artifact, not a claim based merely on writing this paragraph.
+
+The read-only GitHub GraphQL metadata request initially timed out. A later ordinary REST metadata read succeeded under existing credentials and confirmed private visibility/default branch; `git ls-remote` independently matched HEAD. Blue also supplied a separate private-visibility connector observation. There was no commit, push, scan, external documentation write or credential expansion.
+
+## 🧠 Key Insights
+
+Authority, implementation, evidence and acceptance need their own owners. A saved current-pause banner is not a new owner instruction, and moving executors does not invalidate actual continuation approval. Conversely, renewed development authority does not erase Blue's documentation-first review gate or the separate benchmark's human visual decision. A single current continuation route plus dated historical bodies makes those boundaries recoverable.
+
+The surviving source is substantially ahead of the October13 snapshot. The useful finite SDR-range and Full Remux routes are actual integrated subsets; their existence neither completes broad preservation/HDR/vendor work nor makes old failed AAC/PCM/SVT cases pass. Source/producer/assertion review is valuable recovery evidence, but it cannot substitute for later affected runtime/native/portable verification.
+
+## 📌 Decisions Made
+
+Ahmed's transfer and direct coordination instruction are controlling for the current development home. Blue reviews this completed readiness package before selecting the next implementation step; another original-plan or owner-resume request is unnecessary for the transfer. A genuinely later owner stop would still control.
+
+Root remains the sole integrator; future workers keep explicit Sol/Ultra/forknone settings and disjoint ownership. Main-owned plans/source/runtime/grants, narrow IPC, bounded diagnostics/parsers/storage, actual child close/drain and no-overwrite publication stay core design constraints. Security checks belong in each slice, while Security Cloud stays excluded. No new defaults, recipe winners, hardware/display acceptance or accepted0.7release is declared.
+
+The proposed next step is a small first Slice4 tranche within Plan31: genuine runtime/device/effective-mode observation and one finite CPU PQ/HLG preservation route through the existing normal service/evidence/validator/publication lifecycle. The rest of HDR/vendor/tone-map/iPhone/Dolby software and all later UI/portable gates remain planned work. Blue can prioritize a specific retained Slice3 dependency first; no new work starts merely because it is proposed.
+
+## ⚠️ Difficulties / Friction
+
+The repeated unnecessary pause issue was the owner's reason for the transfer. Old pause text, stale ownership and new banners had accumulated across multiple entry documents, leaving contradictory next actions despite preserved source/evidence. Repairing only the top paragraph would leave that friction unresolved; current owners and lower current-facing pointers needed reconciliation while chronology remained intact.
+
+Large reads exposed output truncation; exact ledgers and bounded rereads prevented false full-read claims. An overly broad process listing and a Windows wildcard search produced noisy/failed read-only output, then were narrowed. Git's existing LF/CRLF warnings did not warrant unrelated configuration or formatting cleanup. GitHub's timeout was kept distinct from the later successful metadata/tip observations.
+
+## 🔧 Adjustments Made
+
+The executor shifted from treating the visible pause banners as authority to binding current permission to the actual owner transfer and Blue's staged instructions. The project retained its established records and formats; no generic replacement architecture, duplicate tracker or new Goal was introduced. Historical source snapshots gained explicit dates rather than silently receiving later implementation claims.
+
+Review was partitioned into history, scope and producer/evidence, then integrated through one writer and exact before/after checks. Root added Study30's minimal ownership notice because its old support-home statement could still misdirect continuation. Current metadata-policy wording was corrected without changing the historical failed evidence or functional validation requirements.
+
+## ❌ Mistakes / Risks Noted
+
+Do not infer a fresh owner stop from compaction, old documentation or a quoted historical instruction. Do not let a review gate stop the very preparation it is supposed to review. Also do not convert a transfer/continuation instruction into unlimited scope or bypass an actual later owner stop, privacy rule or security boundary.
+
+A full-read ledger proves what text was read, not that every behavior or every raw generated byte was validated. A matching source/ZIP hash proves identity, not clean-machine execution or owner acceptance. A hidden renderer capture does not prove native OS pickers, output opening,640px behavior or a portable workflow. No data loss, source change or new media operation occurred during this repair.
+
+## 📍 Current Position
+
+The same candidate checkout remains at source45ddfb7/documentation HEAD005327a, with all existing dirty/private records preserved and index empty. Current support remains the bounded Slice2 SDR family plus three finite Full Remux routes and documented service/hidden UI evidence. N is historically verified; O–R partial; S pending;0.7.0-alpha.1 is unaccepted.
+
+The actual migration/readiness receipt, full coverage ledger, independent reviews and final verification provide a re-entry route. Thread2 is the current development home under Blue; original development stays idle. Accepted0.5/0.6refs/artifacts and the separate benchmark state remain preserved. Current documentation is saved locally without commit/push or external consolidation.
+
+## 🔜 Next Steps
+
+1. Blue reviews the migration/readiness receipt and final coverage/integrity/delta results before implementation.
+2. On Blue's selected bounded continuation, inspect live Git/source/runtime/process/lease/store/space and the relevant retained reports. Reuse valid Slice1–3 results; do not replay accepted work for context recovery.
+3. Continue the actual unfinished Plan31/all43 work with proportional direct/negative/normal-service evidence, independent serious-area review and parent synchronization. Keep absent hardware/display, software incompleteness, native/portable qualification and owner acceptance distinct.
+
+No new owner-resume loop, original-thread restart, benchmark run, Cloud scan or automatic implementation follows from this documentation session.
+
+## ❓ Open Questions
+
+Blue's next sequencing decision remains: address a particular preserved Slice3 dependency first or admit the proposed small Slice4 software tranche. Known technical questions remain VFR-derived-average semantics, actual AAC-tail/offset/PCM-layout/SVT losses, MOV/TS/program and Encode ancillary alternatives, transformed subtitles/chapters/range-copy, and usable HDR/tone-map/iPhone/Dolby behavior. These are engineering obligations, not missing migration permission.
+
+Genuine AMD/Intel execution, HDR-display judgment, independent-machine behavior and final portable/owner acceptance remain external or later evidence gaps. Automation remote/UI state and root backend identity were not established; no unsupported claim or schedule change was made.
+
+## 🧾 Session Outcome
+
+The development home and current authority are anchored to the owner's actual instructions, with the plans/goals, completed bounded slices and historical evidence preserved. The repaired records provide one current route through Blue's readiness review instead of repeatedly demanding already-granted permission. The project can continue from its surviving checkpoint after that review, with security and all original requirements intact. No application behavior or release status changed in this session.
+
+## 🔍 Confidence Level
+
+High for saved document/source/private-file identities, current Git/remote metadata, exact authored reading coverage, retained historical producer/hash applicability and the explicit owner/Blue authority supplied. Independent read reviews support the repaired scope/chronology. This is documentation readiness, not new runtime/native/portable/hardware/display verification or product acceptance. Final saved checks and their limits remain inspectable in the execution receipt and verification artifact.
+
+# 📘 Session: October 23, 2026 — FFmpeg Encoder — bounded Full Remux checkpoint
+
+## 🤖 Models, Effort, Roles and Provenance
+
+Ahmed is product authority; parent Blue coordinates reviewed slices in the original development home. Direct owner approval at00:51UTC authorized Slice3, with later continuation, private-checkpoint, UI-focus, metadata-consequence and stability amendments. Root owned integration and every actual media/app job. Focused workers explicitly requested GPT-6.1 Sol/Ultra/forknone; actual backend identity is not independently exposed. PBS recovery, truthful evidence and parent synchronization were applied. Blue owns external Notion; no canonical PBS or competing Notion edits here.
+
+## 🕒 Time
+
+October23, Africa/Cairo; exact UTC timestamps are in immutable reports. Twelve service attempts total572.677s of completed runner intervals/254tool invocations; two hidden UI attempts add44invocations and seven extra read-only probe queries. This is not full-session, child CPU/GPU or benchmark time. Final17-suite371-check run took32.190s. Manual recovery and review overhead are not disguised as encoding time.
+
+## 🎯 Session Goal
+
+Integrate useful Full-only stream-copy Remux and deliberate per-file stream decisions through the actual queue, complete evidence, validator, source and publisher. Qualify a finite subset with real service and UI behavior, then stop for parent review beforeSlice4. Preserve all43requirements, accepted releases, ordinary/ArchiveCQ29 defaults and the independent benchmark visual-review gate.
+
+## 🛠️ Actions Taken
+
+### 1. Recovered and bound the scope
+
+Reused Slice2 code717d967/docs e669d970 and retained AAC/PCM/MOV failures. Saved entry hashes and preserved dirty Markdown/private planning. Supported live thread chronology corrected another compaction misreading of the historical October13 documentation-only request before it caused file loss or a new pause. Later owner directions were appended durably rather than restarting planning.
+
+### 2. Integrated plans, preservation and UI
+
+Added main-private runtime-pinned Remux plans, one-use outputs, exact stream grants, complete source/output video/PCM/subtitle/attachment collection, strict validation and shared publication/lifecycle. Real controls reuse folder selection, shared Jobs, canonical argv and generated-source authorization with correct copy wording. Reprepare focus restoration and truthful indeterminate preservation progress keep keyboard users and long checks understandable.
+
+### 3. Diagnosed failures without erasing evidence
+
+Early attempts exposed live storage-walk churn, native FFprobe companion wrappers and missing output relationship observation. Narrow fixes retain caps and refusals. A120s AAC clock quantization failed resource admission despite equal decoded units; resource accounting now uses exact decoded units/rate for output audio while all content and2ms timing checks remain. FreshD independently passes.
+
+MOV→MP4 initially failed missing vendor labels under the old strict contract. Ahmed clarified that metadata must serve function or quality. Canonical descriptive-copy warnings now coexist with strict functional/unknown tags and exact neutral output additions; actual amended E→MP4 passes. Independent review found an output-only tag hole before activation and closed it with negatives.
+
+Rich input exposed a known TTF decoder-discovery warning on selected FFprobe queries. Seven bounded read-only observations established exact command/header behavior; only measured, mapped/probe-bound diagnostics are classified, rawstderr preserved and full payload proof retained. Omitted/multiple attachments refuse beforeReady. Rich subtitles/chapters/TTF and delayed multitrack Matroska copies pass. VFR→MP4 has identical41frames and timestamps but fails a derived-average guard: it remains disabled, not reclassified as content loss or silently waived.
+
+### 4. Proved useful endpoints and preserved test honesty
+
+B video-only copy proves an exact audio omission, invalid-output refusal, actual collection cancellation, temporary generated-source admission/revocation and unchanged existing-output skip. Three pinned routes are enabled; a fresh normal-factory MP4 endpoint passes. Independent privacy review also caught an async Playwright poller flaw before UI execution; awaited actual IPC/batch/plan correlation replaced it.
+
+The first real UI passed its actions but failed shutdown because Electron.evaluate injects a module argument. Root retained the failed report, triggered that exact owned window's normal close/drain and verified actual process/lease identities before explicit recovery. The one-callback fix and fresh UI267d86e3 prove clean integrated closure. No test was relabelled passed merely because its screen looked correct. Root and independent reviewer inspected narrow/running captures; final371direct checks pass.
+
+## 🧠 Key Insights
+
+Metadata consequence, actual decoded timing, reported averages, resource accounting and publication authority answer different questions. avg==nominal does not establish CFR; packet hashes do not prove decoded AAC tails. A capability name, visible control or unrun harness is not product evidence. The tests themselves need adversarial review: asynchronous predicates and wrong callback conventions can invalidate a convincing-looking result.
+
+## 📌 Decisions Made
+
+Enable only ISOBMFF→MKV/MP4 and MKV→MKV within measured H264/AAC/SDR/size/duration/geometry limits. Pin route evidence to the exact runtime and validate each output completely. Keep VFR-MP4, mapped AAC-tail loss, PCM layout, MOV/TS/HDR and wider routes pending. No default/recipe change. Treat known descriptive metadata differences as warnings under the explicit owner amendment; preserve unknown/functional/content/timing authority. Later icon/theme/stability requirements remain in Goal/Plan/Roadmap, not executed here.
+
+## ⚠️ Difficulties / Friction
+
+Several real failures were integration assumptions rather than broken media. A diagnostic helper compared atime-bearing whole Stats objects and correctly retained an overall failed status; a readback documents the narrower usable query evidence. Manual lease recovery first used the wrong marker nesting and safely refused before mutation. Native UI shutdown required explicit owned recovery; no dead-PID automatic reclamation or user-app termination was used.
+
+## 🔧 Adjustments Made
+
+Added bounded stable storage retries, exact FFprobe wrapper/query handling, truthful underlying collector diagnostics, strict output-only metadata and runtime-proof negatives, cancellation admission drainage, focus restoration, awaited correlated UI polling and correct Electron callback arguments. Every change has scoped verification and retained before/failure evidence; no tolerance fitting or silent fallback.
+
+## ❌ Mistakes / Risks Noted
+
+Do not treat a historical pause as newly issued after compaction, a successful case as an all-pass campaign, a parsed header as decoded/rendered proof, a raw warning exception as unrestricted suppression, or an apparently passed UI as closed before actual child/diagnostic/lease settlement. Native parsers still run with ordinary-user privileges; local hardening and tests do not establish absolute safety. Cloud scanning remains prohibited now.
+
+## 📍 Current Position
+
+Code45ddfb7 on codex/v0.7-candidate preserves exactly28 scoped source/test/harness paths. Version0.7.0-alpha.1 is unaccepted.371/371 final direct checks, actual normalfactory/hiddenUI and independent bounded reviews support the useful subset. N verified; O–R partial; S pending. Current/Continuation/receipt hold exact checkpoints, resources, failures and dirty/private state. No owned job or lease remains at final verification. Documentation receipt checkpoint and private remote readback are recorded after completion.
+
+## 🔜 Next Steps
+
+Stop for parent checkpoint review beforeSlice4. Parent sequences the next authorized tranche against all43requirements. A later continuation inspects live Git/processes/leases/reports first and reuses valid evidence rather than restarting accepted work. Remaining software/native/portable support must be implemented and qualified proportionately before any complete candidate claim. Benchmark feedback/finalists/held-outs remain entirely separate.
+
+## ❓ Open Questions
+
+Precise VFR derived-average semantics; actual MOV/TS/program and Encode ancillary alternatives; range subtitle/chapter/audio-copy handling; unresolved SVT duration; wider media and samefolder lifecycle. Future HDR/vendor software and genuine AMD/Intel/HDR-display/independent-machine checks remain distinct. Full native640/OS pickers/outputopening, polish/icon/themes and portable/all43/owner acceptance are unfinished. No new owner product decision is invented for ordinary engineering.
+
+## 🧾 Session Outcome
+
+The bounded Remux subset is implemented and evidenced, with honest failed/unqualified cases. Parent documentation owners are synchronized locally; source45ddfb7 is recoverable and the single dated receipt preserves exact tool-level chronology. Accepted0.5/0.6/defaults/benchmark evidence remain unchanged. Scoped private backup does not imply all dirty/private current documents or Notion were synchronized. No public release, tag, scan or automatic successor.
+
+## 🔍 Confidence Level
+
+High for the specific direct/service/hidden-renderer/hash/closure observations and finite runtime-pinned routes. Limited for general media, native OS interaction, hostile filesystem races, portable/clean-machine, absent hardware/display and subjective owner acceptance. No broad milestone or zero-bugs claim.
+
+> **Historical Slice2 checkpoint — October23 continuation2: stopped for parent review before Slice3.** Bounded CPU/NVIDIA SDR range admission is main-wired and has normal-service success/cancel evidence, runtime/storage controls and canonical telemetry/full validation. Version0.7.0-alpha.1 remains unaccepted; N verified, O–R partial, S pending. [Slice2 receipt](Execution%20Summaries/2026-10-23_0.7_Slice2_Qualified_Lifecycle.md). Earlier pauses/plans/checkpoints below retain their dated scope. No automatic successor or benchmark continuation.
+
+# 📘 Session: October23,2026 — FFmpeg Encoder — bounded Slice2 continuation2 checkpoint
+
+## 🤖 Models, Effort, Roles and Provenance
+
+Ahmed remains product authority; Blue coordinates bounded review in the original development home. Parent forwarded approval/current GPU availability and accepted the earlier partial checkpoint before this continuation. Every new focused worker explicitly requested GPT-6.1 Sol/Ultra/forknone; actual backend execution is not independently exposed. Root owned shared contracts/integration and all real child scheduling. PBS recovery/maintain-without-drift applied; no Notion/PBS external edits.
+
+## 🕒 Time
+
+October23, Africa/Cairo. Source/report UTC timestamps are authoritative. Final normal endpoint00:30:35.618–00:31:12.323UTC (36.705s); final408check transcript23.484s. Full session/machine time was not independently metered and is not benchmark allowance.
+
+## 🎯 Session Goal
+
+Close four bounded Slice2 gaps: current executable/device observation, cumulative evidence admission/accounting, canonical encoder-input telemetry plus complete collector, and useful representative-qualified main admission. Stop at substantive checkpoint for parent review before Slice3, preserving all43requirements and accepted/benchmark boundaries.
+
+## 🛠️ Actions Taken
+
+### 1. Recovered and froze the bounded scope
+
+Preserved entry4e21110,271-file fingerprint and26dirty/22untracked records including15private planning files. Reused exact endpoint/SVT evidence instead of broad restart. Supported current-turn chronology resolved another historical October13 documentation-only excerpt before any incorrect authority edit; a commentary was corrected. Parent asked for a bounded endpoint rather than a storage-adapter detour.
+
+### 2. Integrated observed runtime, storage and telemetry
+
+Immutable verified pair pins/held observations, fresh NVIDIA UUID-driver checks, actual observed-child/drain ownership; retained namespace admission/reservations/final and restart truth; canonical typed statistics slots and branded receipts with mandatory complete decoded evidence. Independent review closed source all-frame properties/absolute CFR phase, crashed-lease reclamation and failure-diagnostic holes. Windows/polling/telemetry limits stay explicit.
+
+### 3. Qualified a small useful family without fitting checks
+
+Generated five owned SDR fixtures, then six tuples per backend including1080p60 KeepSource. A/B CPU output encodes were reused transparently after a source-bound Matroska packet-clock representation correction; every numerical tolerance remains unchanged. Genuine production compact collector→canonical validator rejects compensated AAC truncation and wrong clocks. Other media/settings remain default-denied; SVT stored timing failure remains. Catalog is wired through the same main factory as the real normal service.
+
+### 4. Completed bounded endpoint and review
+
+Fresh real normal inspection/capabilities/factory/service CPU+NVIDIA range/720/AAC outputs publish; actual cancellation publishes none and reprepare is Ready.100sequential tool invocations/max1/live0, released lease/frozen source manifests. Separate output folders; existing same-folder storage guard unchanged and that native gap stays open. Final408/408 direct checks and independent final delta closure. Diagnostic terminal event verified read-only after reviewer found a missing harness receipt assertion; no encode replay. Store reopen preserves36payloads118808bytes. Code717d967 saves exactly27owned source/test/script files; no push/tag or private/evidence staging.
+
+## 🧠 Key Insights
+
+Family applicability needs measured representative geometry/cadence/cost plus complete per-job checks; exact fixture identities alone are not a useful product envelope. Input telemetry, complete decoded evidence, stored container clock and successful publication prove different things. Retained bytes and namespace ledger metadata can change totals without losing evidence. Service success is not native UI/portable or owner acceptance.
+
+## 📌 Decisions Made
+
+Enable only the finite short-sdr-range-v1 CPU/NV family with current runtime/environment and original bounds. Count retained evidence across jobs/restarts and refuse unknown/stale lease; no automatic cleanup or dead-PID recovery. Represent Matroska packet-end plus delay explicitly while preserving decoded source/end/count/shortage checks. Keep ordinary Full/defaults/ArchiveCQ29 unchanged. Use distinct output folders for bounded endpoint rather than broaden storage implementation.
+
+## ⚠️ Difficulties / Friction
+
+First observer harness dropped onChild; callback chaining fixed it without weakening runtime rules. One worker edited calibration during a run; module freeze refused subsequent cases and valid outputs were reused. Brief decoder activity deferred only unrun GPU cells. Two fresh service attempts stopped at existing same-folder guard. Root helper read a journal wrapper incorrectly, assumed invariant ledger byte totals, then encountered nested collector directories; corrected readback/traversal, explicit own-helper lease recovery and unchanged payloads are recorded. Documentation/source commands had bounded parse/encoding errors; failed commands did not justify broad retry or source loss.
+
+## 🔧 Adjustments Made
+
+Added all-frame SAR/chroma/side-data and absolute CFR phase checks; immutable runtime pin renewal/current UUID-driver; explicit unavailable final storage truth with bounded child diagnostics; failed-drain independent closure attempts. Future harness requires persisted diagnostic receipt; immutable completed report supplemented by actual terminal journal evidence. No new media to repair missing assertion.
+
+## ❌ Mistakes / Risks Noted
+
+Do not interpret historical pause text as newly issued after compaction; supported live chronology governs. Never treat dead parentPID as orphan-writer closure, telemetry as output validation, elapsed quota percentage as time budget or isolated source suite counts as additive. Polling may overshoot; held handles do not pin Windows image launch. Preserve recorded failed attempts and distinguish readback repair from rerun.
+
+## 📍 Current Position
+
+Substantive Slice2 continuation2 checkpoint code717d967 on codex/v0.7-candidate,0.7.0-alpha.1 unaccepted; documentation/current HEAD recorded in Current/Continuation after receipt commit. N verified; O–Rpartial; Spending. Main private finite family is implemented and service-verified; broader/native/portable/hardware/display obligations remain. Earlier dirty/private work remains saved/uncommitted. Stop for parent review before Slice3; no active child/lease/worker at verified closeout.
+
+## 🔜 Next Steps
+
+Parent reviews bounded support/evidence/remaining native gaps and selects next separately bounded tranche. Later authorized work first inspects live Git/processes/leases/reports and reuses valid408checks/12cells/normal endpoint. Broader ancillary/HDR/vendor/Remux/native/portable completion does not follow automatically. Owner candidate acceptance remains later. Benchmark visual feedback remains pending; no winners or held-out runs.
+
+## ❓ Open Questions
+
+Parent next-slice scope and timing; native new-family UI and same-folder eligibility; wider source/layout/depth/profile compatibility; unresolved SVT stored duration; genuine AMD/Intel and HDR-display/independent-machine evidence. These are explicit remaining work or external validation, not claims that ordinary recoverable implementation bugs require owner decisions. No new product/default recommendation.
+
+## 🧾 Session Outcome
+
+Four bounded integration gaps have implementation, representative and fresh normal-service evidence plus independent targeted closure. Source717d967 is recoverable; receipt, current owners and final-verification preserve exact hashes/resources/failures and parent-review stop. Accepted0.6/0.5 and benchmark records remain unchanged. No external synchronization, release, scan, new defaults or automatic successor claimed.
+
+## 🔍 Confidence Level
+
+High in the scoped direct/service/payload observations and exact supported family. Limited for general media, native interactions, portability, hostile filesystem races and absent hardware/display. No broad Slice2/milestone/owner acceptance is inferred.
+
+
+# 📘 Session: Earlier October23,2026 — FFmpeg Encoder — initial Slice2 exact qualification checkpoint
+
+## 🤖 Models, Effort, Roles and Provenance
+
+Original development chat executed bounded Plan31 Slice2 after parent accepted Slice1 and forwarded Ahmed's approval. Focused diagnosis/selector/independent-review workers explicitly requested GPT-6.1 Sol/Ultra/forknone; tool arguments are observable, actual backend configuration is not independently exposed. Parent owned shared source and every real media child. PBS recovery methodology applied; no new desktop control.
+
+## 🕒 Time
+
+October23, Africa/Cairo; detailed UTC timestamps are in receipts. Development time was not independently metered. Four new real encodes/64sequential children across two endpoint runs are development resources, not the separately paused benchmark ledger.
+
+## 🎯 Session Goal
+
+Replace blanket changed-operation refusal only for exact main-private qualification and integrate canonical plans, complete decoded evidence, validation, source assessment and protected publication. Preserve ordinary Full/defaults and all43 requirements. Reach a substantive local Slice2 checkpoint for parent review before Slice3, without disguising incomplete general activation as product completion.
+
+## 🛠️ Actions Taken
+
+### 1. Recovered evidence and protected authority
+
+Reused accepted Slice1 and ten historical cells; saved214-file entry baseline/dirty Markdown copies. A second compaction chronology trap briefly caused a mistaken documentation-only commentary; supported current-turn readback corrected it before authority/source loss or media work. Historical October13 pause is not a newly issued instruction. Parent later forwarded Ahmed's stopped-recording/GPU authorization; observed encoder/decoder0% before the targeted NVIDIA run. OBS was not changed.
+
+### 2. Investigated retained SVT without another decode
+
+A zero-child raw EBML inspection confirms41stored PTS,40ms DefaultDuration/no overrides and2.067s video extent against2.107s required. The discrepancy is stored container signaling, not merely collector arithmetic. Wrapper/CLI/mux attribution remains incomplete. Failed SVT stays refused across audio modes with unchanged bounds.
+
+### 3. Integrated and verified the private seam
+
+Added genuine builder/input/source/settings bindings, immutable exact cells, active execution budgets, collector/canonical validator, selected-range progress, warning normalization, correlated diagnostics and weaker sealed-unvalidated retention. Independent review exposed pre-encode runner bypass, warning-shape, stale-budget, cleanup/action and deadline/publication uncertainty problems; corrected them with focused tests. CPU then NVIDIA HEVC AAC/FLAC service endpoints passed through actual tools, with no renderer qualification interface or legacy fallback. Current main startup still has no general transformed-operation catalog.
+
+### 4. Preserved evidence and partial scope
+
+Reports preserve41matching video starts/frames, visible AAC+800/+697 sample warnings and full selected FLAC PCM identity. Real endpoint proofs apply to recorded source bytes; later failure-disposition refinement has independent/direct evidence rather than an unperformed final native rerun. Direct suite counts overlap, and initial failures remain retained. The Execution Summary owns final results, checkpoint identities and next action.
+
+## 🧠 Key Insights
+
+An exact fixture pass is useful integration evidence, not arbitrary-media support. Main-owned injected catalog authority, descriptive renderer records, complete output evidence and owner acceptance remain different layers. Review/queue time is not active execution cost. A deadline cannot convert uncertain native publication into a definite unpublished failure.
+
+## 📌 Decisions Made
+
+Bind qualification to actual builder input plus existing bounded source identity; do not add whole-source prehash to ordinary preparation. Start the bounded execution budget only when the job becomes active. Keep failed/incomplete sealed output for diagnosis without validation/publication authority. Keep evidence separate from media staging. Preserve SVT refusal and ordinary/ArchiveCQ29 defaults.
+
+## ⚠️ Difficulties / Friction
+
+Initial GPU contention deferred GPU jobs until new owner steering plus idle observation. First direct tests exposed two regressions before correction. One documentation-update command had an indentation parse error and made no writes; corrected bounded commands saved the intended updates. Progress stdout has a pending-record bound rather than a total byte bound; lifetime evidence admission and current executable/device observations remain explicit activation gaps.
+
+## 🔧 Adjustments Made
+
+Strengthened private source-path binding and replaced preview-expiring deadlines with immutable executionBudgetMs. Preserved PUBLICATION_UNCERTAIN even after timer expiry, along with diagnostics. Added real native hard-link/observation-failure regression using dummy bytes, distinct from actual media endpoints.
+
+## ❌ Mistakes / Risks Noted
+
+Do not restart broad recovery after compaction based on historical user excerpts or memory. Do not call an injected-catalog service endpoint normal-app/native UI acceptance. Do not widen SVT tolerances, silently enable stale runtime/device cells, auto-delete evidence, count overlapping suites twice, or spend benchmark allowance.
+
+## 📍 Current Position
+
+Substantive partial Slice2 checkpoint for parent review. N verified/O–Rpartial/Spending; version0.7.0-alpha.1 remains unaccepted. Main activation, current executable/device observation, lifetime evidence admission, telemetry, representative geometry/rate/layout/depth and wider native failure stories are unfinished. Accepted releases and benchmark visual-review gate remain preserved.
+
+## 🔜 Next Steps
+
+Inspect live Git and the [Slice2 execution receipt](Execution%20Summaries/2026-10-23_0.7_Slice2_Qualified_Lifecycle.md), then obtain/obey parent review of this bounded checkpoint. Reuse successful exact service reports and retained diagnosis. Continue only approved unfinished Slice2 work after that review; no Slice3 or benchmark automatically follows.
+
+## ❓ Open Questions
+
+Implementation choices for trusted production catalog/current-runtime observations and sustainable evidence admission remain for the next bounded integration. Broader media/hardware/display/native/portable qualification is not resolved by this checkpoint. No new owner product/default decision was inferred or requested.
+
+## 🧾 Session Outcome
+
+Exact private lifecycle is implemented and independently reviewed with positive and failure-path evidence; saved as a partial checkpoint, not full Slice2/0.7 acceptance. Dirty/private history remains preserved outside scoped commits. Detailed artifacts, final checks and resource limits are in the dated receipt.
+
+## 🔍 Confidence Level
+
+High for measured exact fixture cells and deterministic trust/lifecycle boundaries within their stated scope. General media activation, runtime/device freshness, telemetry, wider native UX, hardware/display and portable acceptance remain explicitly unverified or unfinished.
+
+
+# 📘 Session: October23,2026 — FFmpeg Encoder — Slice1 workbench implementation
+
+## 🤖 Models, Effort, Roles and Provenance
+
+Original development chat implements Plan31 Slice1 under parent review and forwarded Ahmed approval, including “approved, continue leading the project then.” All newly created workers explicitly requested GPT-6.1 Sol/Ultra/forknone; supported creation arguments are recorded, not an independent backend identity claim. Disjoint HTML/CSS, isolated harness and read-only boundary roles released work to parent integration; parent alone controlled native input. One later read-only evidence reviewer was used during a continuity detour. PBS and Computer Use guidance applied.
+
+## 🕒 Time
+
+October23, Africa/Cairo; raw report UTC times are retained. Active development time was not metered; no benchmark budget or media jobs consumed. No runtime/install/scan stage opened.
+
+## 🎯 Session Goal
+
+Implement only the shared workbench/display slice, render real production UI with isolated labelled fixtures, verify fit/focus/help/state boundaries, preserve a reviewed local checkpoint and stop before Slice2. This is neither full R/S closure nor owner acceptance.
+
+## 🛠️ Actions Taken
+
+### 1. Preserved the baseline and constrained execution
+
+Recovered290369b with26modified Markdown/22untracked/nothing staged; saved entry hashes/copies. Normal startup performs capability encodes, so reused actual preload/IPC/service/protocol/UI in a separate isolated host instead. All child/run/Start/output paths are denied before production imports;71owned text files provide synthetic descriptions, not media. Accepted0.6 already ran separately and was never controlled.
+
+### 2. Implemented and reviewed the adaptive shell
+
+Kept explicit folder controls/expert settings; added unavailable Remux, focus independent of selection/grants, one inspector moving existing editor DOM, exact selected-set review, narrow Files drawer, visible Beta and accessible canonical help. Independent findings corrected action locks outside the table, visible focus return and job-move handoff. Later narrow-hidden labels now match actual drawer/breakpoint visibility. Two final P3 findings corrected Review selected ARIA and stale Remux saved-target text with no new authority/API.
+
+### 3. Verified and retained failures
+
+Media-free six-suite checks progressed83→85→86passes; final two display fixes then passed42UI checks. Counts overlap. Seven hidden failures were retained (capture/background/DPI/error transport/binding/readiness); an async Playwright predicate was the premature mixed assertion cause. Awaited driver polling preserves>=60coverage. Passing actual-rendered fixture campaigns compare canonical argv and test71mixed rows, unchanged range refusal, selection/focus/filter/nav/help and synthetic busy state with zero media/process attempts. Final receipt binds exact reports/source versions. Native fixture review separately observed ordinary/narrow folders, preset help/ArrowDown/Escape and drawer disclosure; it is not native picker, media or hardware qualification.
+
+### 4. Repaired compaction authority drift transparently
+
+Root briefly treated the historical October13 documentation request as a new pause and wrote banners. Supported read_thread identified exact original message/date and later Slice1 approval. Banners were corrected; [incident receipt](Execution%20Summaries/2026-10-23_Documentation_Reconciliation.md) retains the mistake, resolution and useful read-only audit. No newer owner pause was found; no new approval or broad recovery was needed.
+
+## 🧠 Key Insights
+
+A list's CSS visibility is separate from batch membership and main authority. Moving existing editor nodes preserves unsent values but requires action locks/focus to follow those nodes. Display-only evidence can test the real main plan and still prove no media execution occurred. Compaction does not change instruction chronology; exact supported message timestamps resolved the false pause.
+
+## 📌 Decisions Made
+
+Retain the shared shell and focused narrow presentation; Remux remains explicitly unavailable. Keep main admission, runtime/defaults, protocol and grants unchanged. Use an isolated no-media host rather than production startup. Stop for parent review before Slice2; all43 requirements remain.
+
+## ⚠️ Difficulties / Friction
+
+Initial capture clipped fallback pixels/timeouts; hidden Electron capture plus measured DPI/content/raster dimensions separated genuine CSS overflow from capture artifacts. Async readiness polling returned before preparation; bounded awaited IPC polling fixed the harness only. Native UIA often reports RootWebArea rather than exact child focus and can precede settled rendering. One off-window indexed click was rejected; fresh observation/scroll then allowed the visible action.
+
+## 🔧 Adjustments Made
+
+Added only targeted regression checks for observed findings; reused existing source/media evidence instead of reauditing J/K or rerunning encodes. Native original JPEG bytes and UIA observations are preserved separately from hidden PNG captures. No accepted application settings or geometry were changed.
+
+## ❌ Mistakes / Risks Noted
+
+The false new-pause attribution was a coordinator mistake, corrected with exact message evidence. Early successful empty captures were never a complete mixed/native pass. Synthetic busy/capability descriptions and unavailable beta labels must not be promoted into real lifecycle or hardware acceptance. Final display-only changes have their own test/source applicability in the receipt.
+
+## 📍 Current Position
+
+Slice1 is implemented with bounded evidence at local code checkpointa1b833e; final receipt preserves the separate documentation checkpoint. Parent review is next. Nverified/O–Rpartial/Spending remain. No qualified0.7ZIP, accepted release, new encoder settings or benchmark result. Prior dirty/private documentation remains preserved rather than forced clean.
+
+## 🔜 Next Steps
+
+Parent reviews the scoped Slice1 checkpoint and remaining evidence limits. Only after that instruction continue Slice2's main-private qualification seam, reusing saved SVT/profile/collector evidence and maintaining refusals. No automatic successor or media job follows this session.
+
+## ❓ Open Questions
+
+Real AMD/Intel hardware, HDR-display and independent-machine validation remain unavailable; existing SVT timing/ancillary/Remux integration remains unfinished. Benchmark subjective judgments remain Ahmed's separate gate. No new product-default decision was made here.
+
+## 🧾 Session Outcome
+
+A concrete shared workbench slice with real renderer/native fixture evidence, targeted regressions, preserved failures and transparent continuity repair; stop at local review, not candidate completion. The [Slice1 execution receipt](Execution%20Summaries/2026-10-23_0.7_Slice1_Workbench.md) owns exact source/report/checkpoint data.
+
+## 🔍 Confidence Level
+
+High for the tested display/state/authority boundaries; bounded for native input due UIA limits. No media, new hardware, HDR-display, portable or owner acceptance inferred.
+
+## October 23 model-policy addendum — after completed planning
+
+Ahmed requires explicit GPT-6.1 Sol/Ultra for every future FFmpeg subagent/continuation. [Operating policy](../AGENTS.md#october-23--owner-model-policy-for-future-ffmpeg-work) and [receipt](Execution%20Summaries/2026-10-23_0.7_Completion_Planning.md#model-policy-receipt--october-23-2026) distinguish the request from observable metadata: both recent planning reviewers are completed, inventory exposes no model/effort, actual prior settings remain unconfirmed. No active Astra worker was identified, stopped or replaced; no completed review was rerun. Future explicit workers use fork_turns=none and a focused handoff. Five Markdown records amended only; proposed plan remains awaiting review and implementation/benchmark/scan pauses remain. No model switch is claimed from the message alone.
+
+# 📘 Session: October 23, 2026 — FFmpeg Encoder — Completion and design planning
+
+## 🤖 Models, Effort, Roles and Provenance
+
+Codex planned in original development chat01a077a7-2a94-7f53-a50e-b39c304b3aa4. Blue forwarded owner design authority and the bounded planning assignment; this is no implementation resumption. Requested setting GPT-6.1 Sol/Ultra was not independently runtime-confirmed. Two read-only specialists reviewed requirements/dependencies and lifecycle/design; root owns plan/continuity integration. PBS recovery/environment/Plan-review guidance applied. This is a contemporaneous planning record, not reconstruction of a new engineering run.
+
+## 🕒 Time
+
+October23,2026, Africa/Cairo. Start/active duration not metered. Work followed completed Study30/native support and reused its chronology. No benchmark/development resource allowance was consumed through media jobs.
+
+## 🎯 Session Goal
+
+Create the actual proposed staged0.7 completion/design plan, preserving all43 requirements and mid-development amendments, comparing all three Study30 directions over a common lifecycle. Stop for parent/owner review and separate implementation instructions.
+
+## 🛠️ Actions Taken
+
+### 1. Recovered current authority and surviving evidence
+
+Read current instructions/continuation/session/index, Study30 including later native follow-up, study receipt and completed investigation/coverage. Live branchcandidate/HEAD290369b,26modified Markdown/20untracked at entry,nothing staged. Captured hashes for164tracked non-Markdown and20existing untracked files before edits. Preserved accepted refs/source work and benchmark pause. No repeated broad audit or native observations.
+
+### 2. Compared the full workflow and dependencies
+
+Two specialists preserved all43 tracker IDs and separated source implementation, component evidence, service integration and owner/hardware/display gaps. Compared compact workbench, focused-file canvas and shared operation shell across empty/inspection/mixed/refused/edited/prepared/queued/running/validation/source/publication/terminal/retained/History. Chose a proposed synthesis, not a final accepted visual design.
+
+### 3. Saved a concrete staged plan and continuity
+
+[Plan31](31_0.7_Completion_and_Workbench_Plan_2026-10-23.md) contains structural wireframes, exact folder/expert/scope/grant/help/Beta interactions, six owned completion slices, all43 map, qualification/state design, planned evidence receipts, rollback/resources/security/finished-candidate scan gates. Added proportional current/continuation/roadmap/index/AGENTS pointers and the dated planning receipt. Actual execution status is unchanged.
+
+## 🧠 Key Insights
+
+The three directions solve different sizes/layers and can combine. Existing main-owned authority and real controls should survive a bigger visual overhaul. The central missing work is the qualified processing seam, not another static dashboard. Tiny-fixture passes do not qualify advertised arbitrary geometry/media; unavailable hardware cannot excuse missing software conversion. Beta and exact capability state are separate dimensions.
+
+## 📌 Decisions Made
+
+Proposed shared Encode/Remux shell, compact wide workbench/focused narrow editor. Preserve expert values, direct folders, scope/origin, selected-set review and one Current Jobs source. Retain gates and historical failed evidence. Scan only after finished candidate under applicable later authority. No product scope/default/recipe/acceptance decision was made for Ahmed.
+
+## ⚠️ Difficulties / Friction
+
+One read-only Python output hit Windows console Unicode encoding; explicit UTF-8 output resolved the read without repeated research. One oversized documentation command was rejected by Windows command-length limit before execution; plan was saved in bounded sections. No application failure or changed operation occurred. Existing SVG/image/prototype generation was unnecessary for the requested technical plan.
+
+## 🔧 Adjustments Made
+
+Reused completed investigation/study instead of demanding new native states prohibited here. Used prose/state tables/static wireframes to make the proposed design concrete. Wrote an early planning checkpoint before the detailed artifact, then expanded it. Scope and execution permission remain distinct.
+
+## ❌ Mistakes / Risks Noted
+
+A proposed screen can imply unsupported capability; the plan requires actual qualified routes and explicit unavailability. Remote290369b omits current uncommitted authority; a future scan must bind finished source. A compound recipe/help display must not drift from canonical argv. Passing frame-start timestamps do not waive the retained SVT duration failure.
+
+## 📍 Current Position
+
+Proposed plan saved for review; N verified, O–R partial, S pending remain unchanged. Dirty/private files preserved, no new code checkpoint or acceptance. Final read-back/file-preservation results belong to [planning receipt](Execution%20Summaries/2026-10-23_0.7_Completion_Planning.md). No desktop restoration, running media operation or development worker was created by this task.
+
+## 🔜 Next Steps
+
+Parent/owner reviews the actual staged plan and necessary amendments. Only after explicit implementation instructions recover live Git/new authority/lease/report state and start the shared display/qualification seam. Do not restart N, repeated native support or benchmark. No automatic successor or heartbeat was created.
+
+## ❓ Open Questions
+
+Owner approval of proposed direction/sequence and later implementation authority remain. Genuine mandatory-route impossibility needs a narrow product decision only after investigation. Actual AMD/Intel hardware, HDR display and independent-machine evidence remain external; benchmark visual judgments remain separate. Finished-source upload/scan authority is assessed at that concrete future gate.
+
+## 🧾 Session Outcome
+
+Concrete proposed plan delivered with all43IDs, same-state design comparison and evidence-gated implementation/verification/rollback sequence. Planning/documentation only. Development and benchmark remain paused pending their distinct decisions; original development ownership remains here.
+
+## 🔍 Confidence Level
+
+High for source-bound requirement preservation, current Git snapshot and documented evidence limits. Proposed layout benefits need later actual native/keyboard/media validation; no fresh runtime/design acceptance is claimed.
+
+# 📘 Session: October 23, 2026 — FFmpeg Encoder — UX evidence and broader design direction
+
+## 🤖 Models, Effort, Roles and Provenance
+
+Codex performed the local study, integration and documentation. `reconcile_evidence` reviewed historical images; `upload_history_review` mapped current source and requirements. Both workers were read-only; root alone owned possible desktop input. Blue forwarded Ahmed's current scope and owner quotes. Backend/effort were not independently established. This is a contemporaneous support-session record, not a reconstruction of the original development chat.
+
+## 🕒 Time
+
+October 23, 2026, Africa/Cairo. Start and active duration were not measured. This study followed completed GitHub/native support; it did not restart that task. It ends with saved findings and explicit native gaps. Application development and the independent benchmark remain paused.
+
+## 🎯 Session Goal
+
+Study the already-running accepted 0.6 app where safely reachable, assess resize/keyboard/help, compare historical 0.7 screenshots with current implementation, and produce design opportunities without losing any agreed feature or amendment. The new owner direction permits substantially broader creative exploration and defers Security Cloud scanning until the finished 0.7 candidate. This assignment authorizes evidence/design study only.
+
+## 🛠️ Actions Taken
+
+### 1. Recovered context and checked actual activity
+
+Read the saved support return/current continuity and reused the four relevant investigation reports. Live Git stayed on candidate/290369b; saved 44 starting file hashes, refs and preference evidence. Supported native inventory found the existing F:0.6 window. Two read-only observations showed Ready/Setup accessibility, but foreground Firefox pixels and changing URL/pointer established human activity. Rejected those images and stopped before any activation/input.
+
+### 2. Reviewed explicitly historical and source evidence
+
+No current batch existed; Review batch/prepare would exceed this scope. The historical reviewer opened 20 exact images: three accepted 0.6, fifteen unfinished 0.7 and two static concepts; parent inspected four representative files. Current-source review accounted for all 43 tracker IDs and retained 119 accepted UI IDs inside 199 current IDs. Element retention is narrower than behavior or design acceptance. Existing draft controls remain distinct from qualification-gated execution.
+
+### 3. Preserved the design envelope and current authority
+
+Saved [study30](30_0.7_UX_Study_and_Owner_Design_Direction.md) with exact evidence coverage, workflow gaps, prioritized opportunities, three unselected study directions and the complete feature map. Recorded visible AMF/Quick Sync Beta plus missing-local-hardware qualification. Added dated notices to old scan-next support records and updated current continuity. No app, test, job, benchmark, scan, GitHub mutation, commit or original-thread message.
+
+## 🧠 Key Insights
+
+The same supported local route can be capable yet inappropriate for input during human activity. The later stop instruction mattered more than repeating last session's activation recovery. Historical images show hierarchy/scrolling problems worth exploring, while current source prevents treating the old Settings warning as a present defect. Broad creative permission does not remove the full selected scope, safe operation contracts or final qualification.
+
+## 📌 Decisions Made
+
+- Confirmed: stop native input on observed concurrent human browsing; use clearly labelled historical evidence rather than manufacture states.
+- Owner direction recorded: broader creative exploration supplements Goal23/amendment28; this task implements nothing.
+- Owner timing recorded: Security Cloud waits until the finished 0.7 candidate; security-by-design and milestone review continue to apply to later authorized development.
+- Preserve all 43 IDs; label AMD AMF / Intel Quick Sync Beta without enabling unqualified cells or replacing precise unavailable/untested reasons.
+
+## ⚠️ Difficulties / Friction
+
+Native screenshots contained the foreground browser rather than the requested app. Unlike October22, no activation recovery was attempted because browsing visibly changed between observations. Resize/keyboard/help are blocked for this session; Preview/Monitor/Results cannot be entered without prohibited preparation/jobs. No formal denial or current input guard occurred because no input was tried. Combined read truncation was handled with targeted/source-attributed coverage, not a claim of complete new rereading.
+
+## 🔧 Adjustments Made
+
+Shifted from planned safe native interaction to a bounded historical/source study after activity preflight. Kept original app/window state untouched and saved only accessibility/metadata for current observations. Narrowed the result to evidence-backed opportunities and exact untested states, while completing the independent source/map work.
+
+## ❌ Mistakes / Risks Noted
+
+No native action or app-setting error occurred. Wrong-window pixels could have been mistaken for valid FFmpeg evidence; both were rejected and unsaved. Old scan-next text could have prompted an unwanted unfinished-phase scan; transparent dated amendments now supersede its timing. A polished future screen could conceal unsupported operation paths, so the study preserves main admission gates and evidence distinctions explicitly.
+
+## 📍 Current Position
+
+Before: published existing history, paused local work, prior Setup/picker evidence but no new resize/deeper-flow evidence. After: saved broader design/scan direction, 20-image historical coverage, all 43 requirements mapped and current source limits documented. Both preference hashes match; no window restoration action is pending because no input occurred. No fresh native screenshot or deeper workflow acceptance is claimed.
+
+Current standing: bounded study complete with native gaps, development/benchmark paused, formal scan deferred. [Current](01_Current_State.md), [Continuation](10_Continuation_State.md) and [execution report](Execution%20Summaries/2026-10-23_Readonly_UX_Study.md) own re-entry.
+
+## 🔜 Next Steps
+
+1. Blue reads study30 and the local study receipt; treat all layout directions as unselected proposals.
+2. Stop this support study. No repeat upload, scan, desktop retry or development follows automatically.
+3. A later nonconflicting native opportunity and applicable task scope are needed for resize/keyboard/help and real workflow observation. Original development ownership and all qualification gates remain.
+
+## ❓ Open Questions
+
+Native reflow/focus/help behavior, automatic geometry/disclosure persistence and deeper current workflow behavior remain untested. A design direction is not selected. Missing AMF/QSV hardware, HDR/display/media and candidate integration evidence remain existing qualification gaps. Security scanning is deliberately deferred, not an access failure.
+
+## 🧾 Session Outcome
+
+The study preserved Ahmed's expanded creative intent without compressing the project into a cosmetic reskin or bypassing unfinished operation contracts. It also protected active human work: no desktop input occurred, and blocked states were stated honestly. Current source and historical pixels now support a concrete, complete retention map for later design work. The original development chat remains the home, and both development and benchmark pauses remain intact.
+
+## 🔍 Confidence Level
+
+High for exact historical image/source coverage, requirement accounting and selected preference hashes. Limited for current native visual behavior, resizing, keyboard/accessibility and runtime paths because they were not exercised. Design opportunities are proposals grounded in those bounded observations, not owner acceptance or implementation proof.
+
+## Native follow-up — October 23, after explicit owner handover
+
+This same study continued after Ahmed said, “you can use the PC now, I'm gonna leave it to you.” That resolved the prior human-activity stop for the bounded safe observations; it did not resume development or authorize preparation. Ahmed also reported pausing OBS recording. We neither controlled OBS nor inferred released GPU/encoder resources.
+
+Reselected and activated the already-running accepted 0.6 app, then saved real Setup/help/geometry/runtime evidence. The profile card opened, ArrowDown visibly focused it, and Escape closed it with visible focus return to the information icon. UIA only exposes document-level focus, so the result is bounded. Native maximize changed1088×794 to1536×816; Restore returned exactly to x281/y10,1088×794. Runtime text shows paired9.0.1; ASAR matches the accepted hash and Electron's adjacent version is44.2.0.
+
+Two interaction complications remained visible: Alt+Space summoned PowerToys and was dismissed without typing/program selection, and an outside-window growth endpoint was rejected before movement. We did not retry that boundary; observed caption controls supplied a safe maximize/restore check. Transition frames and occluded/wrong-window captures were excluded. The evidence reviewer caught JPEG data under initial `.png` names; only the eight newly owned captures were renamed `.jpg`, byte-for-byte unchanged. Earlier evidence is untouched.
+
+The final Setup/top/closed disclosures and complete accessibility document match the initial app state; geometry is exact and both selected preference hashes match. FFmpeg remains open/foreground, rather than restoring the initial Codex foreground; precise child focus and pixel equality are not claimed. No setting was edited. Preview/Monitor/Results still require a real batch/job and remain untested; narrow640×480/full tab order/screen reader behavior remain gaps. No preparation, tests, jobs, source/dependency change, OBS input, benchmark, scan, GitHub action or commit/push.
+
+Eight local JPEG/state pairs and restoration receipts are under `C:\Users\Ahmed\Documents\Codex\2026-10-23\ffmpeg-ux-study\native-follow-up`. [Study30](30_0.7_UX_Study_and_Owner_Design_Direction.md#native-follow-up--october-23-after-explicit-desktop-handover) and the [existing execution report](Execution%20Summaries/2026-10-23_Readonly_UX_Study.md) retain the exact sequence and limits. The original historical/source findings and all43requirements are unchanged. This follow-up is complete and stopped; development/benchmark stay paused, with Security Cloud deferred until the finished0.7candidate.
+
+# 📘 Session: October 22, 2026 — FFmpeg Encoder — Private GitHub and bounded native support
+
+## 🤖 Models, Effort, Roles and Provenance
+
+Codex performed local execution/documentation; `reconcile_evidence` reviewed prior reports and `upload_history_review` independently reviewed the exact committed upload. Blue supplied the bounded assignment with owner transcript evidence. Backend/effort were not independently verified. This is a contemporaneous record of this support session, not a reconstruction of the unavailable original development conversation.
+
+## 🕒 Time
+
+October22,2026, Africa/Cairo. Start and active duration were not measured. The session began after waiting for Blue's orders and ends at verified support delivery. Project stage remains owner-paused0.7 development plus a separately paused benchmark. The support assignment is an external-state/native-inspection milestone, not engineering resumption.
+
+## 🎯 Session Goal
+
+Ahmed created this local route to initiate GitHub using the existing history, while retaining the original development thread. Blue authorized only accepted0.6 safe native navigation/help/pickers, private repository setup/upload and faithful PBS continuity. The intended endpoint was a verified private existing-history repository and a concrete native return, with protected work intact.
+
+## 🛠️ Actions Taken
+
+### 1. Recovered authority and tested this executor's actual route
+
+Read AGENTS, pause/current/continuation, newest session/index, Goal23/amendment28 and PBS environment guidance. Reused the investigation and its coverage ledger instead of repeating every prior read. Live Git worked here: codex/v0.7-candidate/290369b,52commits/240files,26modified Markdown and17individual untracked files, no remote/index changes. Saved hashes and original refs. Prior permission/network failures were kept attributable to their earlier executor.
+
+### 2. Inspected the already-running accepted application
+
+Supported Computer Use discovered the F:0.6 executable. Its290,603-byte ASAR matches the accepted build SHA256; Electron44.2 and native FFmpeg/ffprobe9.0.1 agree with that identity. Inspected Setup, actual input/output dialogs cancelled with Escape, runtime support caveats and JSON recipe. Restored collapsed disclosures and top Setup. Saved eight local screenshots/states; two preference files match before/after. No batch review, preparation, settings change or encode occurred.
+
+### 3. Published existing history and verified the destination
+
+Both connector and CLI identify AE0101. Independent bounded review covered773blobs/all52commit trees, finding no confirmed credential or size blocker; existing owner paths/docs/planning/author context remain explicit. Verified the proposed name was absent, created empty PRIVATE AE0101/FFmpeg-Encoder and pushed only the existing candidate branch. Readback confirms private visibility, exact290369b tip, all52commit IDs and240paths/tree hash. No new commit, all-tags push or dirty/private upload.
+
+### 4. Saved the support checkpoint
+
+Created the [execution report](Execution%20Summaries/2026-10-22_Private_GitHub_and_Native_0.6_Support.md), dated Current/Continuation/index notes and local evidence under `C:\Users\Ahmed\Documents\Codex\2026-10-22\task\ffmpeg-support`. Original bodies remain preserved. Application behavior, roadmap and acceptance status did not change.
+
+## 🧠 Key Insights
+
+Executor capability must be checked per operation: this route has live work-tree, authenticated GitHub CLI and supported native control, although the earlier investigator did not. Private upload preserves useful history but also historical owner context. It does not publish the later uncommitted pause; Blue must carry that authority separately into remote work.
+
+## 📌 Decisions Made
+
+- Confirmed within the forwarded owner scope: preserve the existing commit graph and push one explicit branch into the empty private repository.
+- Rejected bulk staging, history replacement, public release and all-tags/mirror/force push. Existing accepted refs/private planning were preserved.
+- Deferred Preview/Monitor/Results traversal because reaching those states requires preparation/media work beyond the authorized safe inspection. No new product acceptance or development-resume decision.
+
+## ⚠️ Difficulties / Friction
+
+Native capture initially showed the foreground Codex surface while selected accessibility belonged to FFmpeg; those captures were excluded from saved evidence. Explicit activation corrected it. A user-input guard, stale modal element and off-screen disclosure click required fresh observations; Escape and visible scrolling completed the intended bounded actions. The assumed unpacked package.json path was absent because this build uses ASAR. The execution report retains exact errors; none was a permission denial or automatic approval rejection here.
+
+## 🔧 Adjustments Made
+
+Changed from the earlier route's unverified capability assumptions to current supported receipts. For native input, switched from a stale accessibility Cancel target to freshly observed keyboard cancellation, and scrolled the help control into view before clicking. Scope did not expand.
+
+## ❌ Mistakes / Risks Noted
+
+Attempting an off-screen disclosure without scrolling caused an avoidable bounds error; no setting changed, and visible reobservation corrected it. Combined documentary reads sometimes truncated; targeted reads and attributed prior complete coverage replaced unsupported full-read claims. The material remaining risk is remote readers treating old Goal imperatives as current authority; Current/Continuation/report explicitly preserve the owner pause. No separate incident record is warranted for these recovered input/read failures.
+
+## 📍 Current Position
+
+Before: no remote, paused dirty local documentation and untracked private evidence, native inspection unperformed in the prior route. After: private repository1430261407/default branch codex/v0.7-candidate at290369b, exact52commit/240file verification, origin/upstream configured, bounded native inspection saved. All43starting changed/untracked files matched before documentation edits, original branch/tag refs remain unchanged, and app preferences match.
+
+Current standing: bounded support complete; application development and benchmark remain paused. [Current State](01_Current_State.md) and [Continuation](10_Continuation_State.md) own the present support/re-entry context. The latest local pause/support records remain unpublished.
+
+## 🔜 Next Steps
+
+1. Blue reads the support report and exact repository/branch/commit for its separately owned cloud step; verify any needed cloud-app access there.
+2. Stop this support route. No repeat creation/upload, scan, app development or benchmark continuation follows automatically.
+3. Any documentation commit or further product work waits for applicable owner authority. The original development chat remains the development owner.
+
+## ❓ Open Questions
+
+Security Cloud access/scan outcome is not checked here and belongs to Blue. Deeper native preview/work states and0.7candidate qualification remain unverified under their existing gates. No unresolved blocker remains for the completed private upload.
+
+## 🧾 Session Outcome
+
+The local support route fulfilled its narrow purpose without replacing the development thread or disturbing its unfinished work. The repository now preserves the reviewed history privately and can be identified exactly for Blue's next bounded action. Native evidence establishes the observed0.6Setup/help/picker behavior; it supplies no new media or release acceptance. No public publication, scan, collaborator grant, install, cleanup, original-thread message or benchmark work occurred.
+
+## 🔍 Confidence Level
+
+Private destination/history: high, supported by authenticated API/Git readback and complete ID/path comparison. Native bounded observations/settings preservation: high for the saved flows and hashes. Secret absence and broader product behavior: limited to the review patterns/observations stated in the execution report; no exhaustive security or native acceptance claim.
+
+# October 13, 2026 — Documentation reconciliation completed; owner pause preserved
+
+Recovered the October11 quota interruption: only three tracked pause banners and untracked29 had been saved, while current records still directed execution. Verified branch/HEAD290369b, application2994932, diagnosticc196cdd and15 private untracked planning files. Read-only independent authority/evidence reviews reconciled N verified, O–R partial and S final qualification pending against real source admission gates and saved reports. Corrected tracker omissions without granting new support or closing a milestone. Existing suite counts are overlapping historical evidence; no new tests, apps, encodes or benchmark work occurred.
+
+Reconciled current operating instructions, state/continuation, roadmap/tracker, architecture/technical/security, navigation/changelog and dated report notices. The [single operational pause record29](29_0.7_Owner_Pause_and_Documentation_Reconciliation.md) contains evidence paths, resource limits, preserved failures, control uncertainties and exact conditional next steps. [Execution report](Execution%20Summaries/2026-10-13_0.7_Documentation_Reconciliation.md) records the documentation work and read-back checks. No commit, external synchronization, release or development resumption. Accepted0.6 and benchmark await-review state are preserved.
+
+All entries below are dated history, including earlier instructions that said execution should continue. Those instructions were superseded by Ahmed's later explicit pause; resumption now requires a separate new instruction.
 
 # October 11, 2026 — Latest incremental results saved before quota exhaustion
 

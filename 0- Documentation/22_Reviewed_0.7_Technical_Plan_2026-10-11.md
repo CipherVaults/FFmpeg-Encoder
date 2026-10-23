@@ -1,6 +1,8 @@
-> **Current authority — execution resumed October 11, 2026.** Ahmed explicitly reauthorized the full 0.7 candidate Goal with [workbench amendments](28_0.7_Execution_Resumption_and_Workbench_Amendment.md). The earlier planning pause is historical and superseded. Preserve unfinished work, accepted0.6 and the independently paused benchmark. Implement and verify N–S; final owner acceptance remains separate.
+> **Current authority — October23 bounded Slice4a under Blue.** Blue accepted Thread2 readiness and authorized a reviewed documentation checkpoint/private existing-branch push, then genuine device/effective-mode observation plumbing and one small CPU PQ/HLG preservation family through the normal service lifecycle. Stop at the Slice4a checkpoint for Blue review before broader work. [Slice4a receipt](Execution%20Summaries/2026-10-23_0.7_Slice4a_CPU_HDR_and_Observation.md) and [Continuation](10_Continuation_State.md) own exact scope. All43 requirements, accepted releases/defaults and the independent benchmark gate remain; Security Cloud is excluded.
 
-> Historical reviewed plan, preserved verbatim from the October 11 conversation. Implementation is now authorized by [23_Approved_0.7_Candidate_Goal.md](23_Approved_0.7_Candidate_Goal.md). That amendment supersedes this document's planning-only status, trimmed-audio default, App Settings placement, and fixed F: storage ceiling. Do not reinterpret the old draft Goal as the complete execution scope.
+> The approved Goal23/amendment28 scope is retained. October11–13 pause and later Slice1–3 approvals remain dated history. Ahmed renewed continuation and moved the development home to Thread2 on October23 at06:14UTC, with Blue coordinating. This dated body preserves original scope; the current bounded Slice4a authority is in Continuation and does not require repeating original approval.
+
+> Historical reviewed plan, preserved verbatim from the October 11 conversation. Implementation was subsequently authorized by [23_Approved_0.7_Candidate_Goal.md](23_Approved_0.7_Candidate_Goal.md). That approval superseded this document's planning-only status, trimmed-audio default, App Settings placement, and fixed F: storage ceiling. Do not reinterpret the old draft Goal as the complete execution scope.
 
 
 # FFmpeg Encoder 0.7 — Technical Plan for Review
@@ -586,5 +588,3 @@ The plan does **not** authorize benchmark continuation, new benchmark recommenda
 > Maintain recoverable checkpoints and synchronized project memory. Continue through ordinary recoverable engineering failures; escalate genuine scope, safety or resource shortfalls with concrete evidence.
 >
 > Deliver a fresh portable candidate, support/validation matrix, evidence index, known limitations and owner-review interface. Do not label missing vendor hardware or HDR-display evidence as passed. Do not declare accepted0.7, adopt benchmark winners or publish anything without the separate required decisions.
-
-

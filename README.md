@@ -1,16 +1,16 @@
-> **Current authority — execution resumed October 11, 2026.** Ahmed explicitly reauthorized the full 0.7 candidate Goal with [workbench amendments](0-%20Documentation/28_0.7_Execution_Resumption_and_Workbench_Amendment.md). The earlier planning pause is historical and superseded. Preserve unfinished work, accepted0.6 and the independently paused benchmark. Implement and verify N–S; final owner acceptance remains separate.
-
-Candidate0.7 follow-up: per-file range/resolution/audio controls and encoder changes preserve the main-owned draft; stale execution authority is revoked. Native controls and narrow transform evidence are in [Operation Qualification](0-%20Documentation/Execution%20Summaries/2026-10-11_0.7_Operation_Qualification.md). Broader processing and final candidate verification remain in progress.
-
 # FFmpeg Encoder Desktop App
-
-Current execution/recovery entry: [October11 compact checkpoint](0-%20Documentation/Execution%20Summaries/2026-10-11_0.7_Media_Qualification_Followup.md#recovery-checkpoint--october-11-0737-utc). Development remains active; Jobs lifecycle and bounded media checks pass, while trimmed-profile qualification has an unresolved SVT-AV1 duration case. This is not a completed0.7 candidate. Accepted0.6 and the separate benchmark visual-review gate remain unchanged.
-
-Latest0.7 development: keyboard range sliders complement exact time fields; native device descriptions distinguish missing hardware from untested support. [Media qualification follow-up](0-%20Documentation/Execution%20Summaries/2026-10-11_0.7_Media_Qualification_Followup.md) records trim-timestamp and MOV preservation corrections. These are partial candidate changes; expanded processing support is still being verified.
 
 A local Windows desktop encoder for large gameplay/OBS archives, with directly editable H.264, H.265 and AV1 controls for CPU and supported NVIDIA hardware.
 
-**0.7 candidate development is active, not accepted.** N contracts are verified. The partial workbench now has Jobs, History, editable Settings and runtime Help; the separate44.7/9.0.2 candidate runtime is active. Expanded media operations and portable candidate acceptance remain unfinished. Follow [Current State](0-%20Documentation/01_Current_State.md) and the [N/O execution report](0-%20Documentation/Execution%20Summaries/2026-10-11_0.7_N_O_Bootstrap.md). The portable instructions below describe the separately preserved accepted0.6 release.
+## Development checkpoint: 0.7.0-alpha.1 (unaccepted)
+
+The current workbench adds bounded Full Remux with exact per-file stream decisions, inspectable production arguments and the shared job/validation/publication lifecycle. Three measured runtime-pinned routes cover a small H.264/AAC SDR envelope; wider media, MOV/TS, HDR/vendor integration and portable qualification remain unfinished. Historical371direct checks, actual normal-service and hidden-renderer evidence support this subset; these were not rerun during reconciliation. **Ahmed authorized continuation under Blue, who accepted readiness and assigned bounded Slice4a after reviewed private documentation checkpointing.** No accepted0.7 release or benchmark winner is implied.
+
+[Current support/status](0-%20Documentation/01_Current_State.md) · [Continuation](0-%20Documentation/10_Continuation_State.md) · [Slice3 evidence and limits](0-%20Documentation/Execution%20Summaries/2026-10-23_0.7_Slice3_Remux_Preservation.md)
+
+[Current onboarding/authority receipt](0-%20Documentation/Execution%20Summaries/2026-10-23_Thread2_Migration_and_Authority_Reconciliation.md) records the safe continuation and supersession of stale pause wording. Quota renewal adds no scope. The benchmark remains a separate workstream.
+
+The portable workflow below describes **accepted0.6**, not the unfinished alpha. Its behavior, presets and artifacts remain unchanged. Benchmark visual judgment is separately pending and does not authorize development or establish recommended winners.
 
 **0.6.0 is locally accepted** after independent review, with a recoverable local-v0.6.0 checkpoint. The [acceptance report](0-%20Documentation/Execution%20Summaries/2026-09-24_Portable_0.6_Acceptance.md) identifies the exact artifact and evidence limits. The accepted 0.5 tag and ZIP remain unchanged. This is an unsigned local package; independent clean-machine compatibility and public distribution are separate work.
 
@@ -48,9 +48,11 @@ MP4 track creation timestamps are preserved as exact `SOURCE_CREATION_TIME` valu
 
 For rollback, use a separate extraction/state folder. The older 0.5 app cannot recognize 0.6 provenance and must not process mixed original/generated collections. The original source, backup, baseline and accepted 0.5 artifact remain recoverable.
 
-## Development and verification
+## Accepted 0.6 development and verification reference
 
-Pinned environment: Node 24, Electron 44.2.0, FFmpeg/ffprobe 9.0.1, Playwright 1.63.0 and Electron Packager 20.3.0. Install local dependencies with `npm ci`. On a fresh checkout, `scripts/provision-ffmpeg.ps1` verifies/stages the manifest-pinned runtime; `-Activate` activates it locally. Provisioning requires PowerShell 7 and an existing 7-Zip installation; nothing is installed globally.
+The commands and evidence in this section describe the accepted0.6 checkpoint. They are reference material, not instructions to run them during the earlier completed documentation/readiness stage. The unfinished current checkout instead uses candidate Electron44.7 and isolated FFmpeg/ffprobe9.0.2; see [Technical Reference](0-%20Documentation/03_Technical_Reference.md) and [Continuation](0-%20Documentation/10_Continuation_State.md) for its incomplete qualification.
+
+Accepted0.6 pinned environment: Node 24, Electron 44.2.0, FFmpeg/ffprobe 9.0.1, Playwright 1.63.0 and Electron Packager 20.3.0. Install local dependencies with `npm ci`. On a fresh checkout, `scripts/provision-ffmpeg.ps1` verifies/stages the manifest-pinned runtime; `-Activate` activates it locally. Provisioning requires PowerShell 7 and an existing 7-Zip installation; nothing is installed globally.
 
 | Command | Purpose |
 |---|---|
@@ -64,7 +66,7 @@ Pinned environment: Node 24, Electron 44.2.0, FFmpeg/ffprobe 9.0.1, Playwright 1
 | `npm run make:portable` | Build and verify a fresh ZIP under out/portable-* |
 | `npm run test:portable -- "<build-report.json>"` | Extract and exercise that exact artifact |
 
-The field harness requires an existing completed two-phone fixture report, such as artifacts/phone-metadata-field-1790143524642-5847db51/report.json; it copies owned excerpts, not personal originals. Native tests run serially per data location. Current evidence includes 281 direct checks, affected native endpoints and 20 actual packaged cases across four process sessions. Build/source/resource hashes tie the runtime report to the artifact. The portable harness uses restricted PATH and verifies process/session network denial through an unavailable proxy/resolver; this does not claim physical disconnection, general Node socket isolation or clean-machine acceptance. Reuse relevant completed evidence rather than repeating expensive personal-media campaigns.
+The field harness requires an existing completed two-phone fixture report, such as artifacts/phone-metadata-field-1790143524642-5847db51/report.json; it copies owned excerpts, not personal originals. Native tests run serially per data location. Historical accepted0.6 evidence includes 281 direct checks, affected native endpoints and 20 actual packaged cases across four process sessions. Build/source/resource hashes tie the runtime report to the artifact. The portable harness uses restricted PATH and verifies process/session network denial through an unavailable proxy/resolver; this does not claim physical disconnection, general Node socket isolation or clean-machine acceptance. Reuse relevant completed evidence rather than repeating expensive personal-media campaigns.
 
 Main owns paths, plans, queue, processes and protected publication. The isolated renderer calls a narrow validated preload API; it cannot submit arbitrary argv, execute processes or access the filesystem directly. Source responsibilities remain separated across main.js, preload.js, src/ and ui/.
 

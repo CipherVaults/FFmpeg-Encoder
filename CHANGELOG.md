@@ -1,19 +1,62 @@
+## Slice4a admitted after readiness review — October23,2026
+
+Blue accepted Thread2 readiness and authorized reviewed scoped documentation/private candidate-branch checkpointing followed by one finite CPU PQ/HLG preservation family and genuine observation plumbing. No new HDR support is claimed at admission. Other Slice4/software/native/portable/all43 obligations remain; stop at Slice4a checkpoint for Blue review. Security Cloud and the independent benchmark remain excluded.
+
+## Thread2 onboarding and authority reconciliation — October23,2026
+
+- Carried Ahmed's development approval into the existing Thread2 under Blue, repaired stale current-pause/ownership wording and nonexistent-report links, and preserved the historical records and all43 requirements.
+- Saved a byte-exact documentation snapshot and source/private-file inventory, grounded authored documentation and saved Slice1–3 evidence, and updated Current/Continuation/Session/Index. The migration/readiness receipt records coverage, live Git/private remote, integrity checks and proposed next work.
+- Documentation only: no source, tests, media/app jobs, benchmark, commit/push or Security Cloud. Stop for Blue's readiness review before implementation; accepted0.5/0.6 and unaccepted0.7 status remain distinct.
+## Superseded pause assertions — October23 pre-transfer reconciliation
+
+- Recovered newer Slice1–3 checkpoints and existing dirty/private work after the reported interruption; reconciled current permission, milestone/support limits, evidence links and operational continuation.
+- The pre-transfer current-pause assertions are superseded by Ahmed's06:14UTC Thread2 transfer/continuation approval and direct instruction to follow Blue. The unfinished reconciliation is completed in the new onboarding receipt; no application/dependency/settings change or fresh runtime test is implied. Historical counts remain historical and overlapping.
+- Version0.7.0-alpha.1 remains unaccepted; N verified, O–R partial, S pending. Accepted0.6 and the separate benchmark visual-review gate remain preserved. See pause/recovery29 and the dated documentation-only receipt.
+
+## Unreleased 0.7 alpha — bounded Slice3 checkpoint, October23
+
+- Added main-owned Full Remux preparation, exact stream preservation/omission decisions, complete native evidence and shared validation/source/provenance/no-overwrite lifecycle for three runtime-pinned bounded routes.
+- Added canonical functional/descriptive metadata consequence rules with visible warnings, strict output-only functional checks, exact TTF probe diagnostic classification and attachment preflight limits. Fixed prepared-cancel admission/drain race and bounded storage scan churn.
+- Added actual Remux controls, keyboard focus restoration, operation-specific wording and truthful preservation progress; matched prepared/actual argv and real hidden renderer/service lifecycle verified.371/371 final affected direct checks; earlier failed cases remain recorded.
+- Still unaccepted0.7.0-alpha.1: MOV/TS/HDR/vendor/general compatibility, VFR-to-MP4 average guard, known AAC/PCM/SVT issues, native/portable and owner acceptance remain. Accepted0.6/defaults/benchmark unchanged.
+
 # Changelog
 
-Candidate0.7 follow-up: per-file range/resolution/audio controls and encoder changes preserve the main-owned draft; stale execution authority is revoked. Native controls and narrow transform evidence are in [Operation Qualification](0-%20Documentation/Execution%20Summaries/2026-10-11_0.7_Operation_Qualification.md). Broader processing and final candidate verification remain in progress.
+## 0.7 Slice2 continuation2 checkpoint — October23,2026 (unaccepted)
+
+- Main wires the fixed small qualified SDR range family through current executable/device observations, cumulative retained-evidence admission, canonical input telemetry and mandatory complete decoded validation. Ordinary Full/defaults and ArchiveCQ29 unchanged.
+- Six representative tuples per CPU/NVIDIA backend, real normal inspection/factory/service success/cancel/reprepare and408/408 final relevant direct checks. Scoped independent reviews close observed clock/source/storage/runtime/shutdown/harness gaps; original timing tolerances unchanged.
+- Preserve incomplete evidence, publication uncertainty, source/provenance/no-overwrite guards. Matroska stored packet extent is represented explicitly; decoded AAC tail warnings remain. Retained SVT timing failure stays refused.
+- Stop for parent review before Slice3. Wider media/native/portable/vendor/HDR/Remux and O–S acceptance remain unfinished. Accepted releases and benchmark visual-review gate unchanged. Detailed failures/source identities and exact evidence limits are in the Slice2 receipt.
+
+## 0.7 Slice1 workbench checkpoint — October23,2026 (unaccepted)
+
+- Shared Encode/Remux/Current Jobs/History/Settings/Help navigation, compact wide layout and focused narrow file inspection. Folder selection remains explicit; direct file selection is not added. Remux surface honestly remains unavailable pending qualification.
+- Separate focus from queue selection and temporary grants; retain actual editor nodes/unsaved values, selected-set review and canonical argv. Hidden-selection counts include the narrow drawer. AMD/Intel are visibly Beta without enabling hardware.
+-86/86 media-free direct checks and separate fail-closed display/native fixture evidence; all media/job/hardware/display/portable qualification limits remain. See the dated Slice1 receipt. No main/runtime/default/accepted0.6 or benchmark change; stop for parent review before Slice2.
+
+## Documentation reconciliation and owner pause — October 13, 2026
+
+- Finished the interrupted October11 documentation reconciliation against saved source and evidence; no application/dependency changes, tests, encodes, packaging or release performed.
+- Current authority is **Paused by owner — documentation reconciled; awaiting explicit authorization to resume development**. Retained approved0.7 scope does not bypass this later pause.
+- Corrected partial feature/evidence claims, preserved failures and hardware/display limitations, and indexed exact recovery in [handoff29](0-%20Documentation/29_0.7_Owner_Pause_and_Documentation_Reconciliation.md). Existing test counts are historical and overlapping.
+- Accepted0.6 and the separately paused benchmark remain unchanged. This pass is saved as uncommitted documentation, with private planning evidence preserved.
+
+
+Candidate0.7 follow-up: per-file range/resolution/audio controls and encoder changes preserve the main-owned draft; stale execution authority is revoked. Native controls and narrow transform evidence are in [Operation Qualification](0-%20Documentation/Execution%20Summaries/2026-10-11_0.7_Operation_Qualification.md). Broader processing and final candidate verification remain unfinished and owner-paused.
 
 ## 0.7.0-alpha.1 — Candidate development, not accepted
 
-- Current Jobs progress distinguishes encoding, output validation, completed-source checking and publication, with no stale post-encode speed/ETA. Canonical ordinary prepared plans preserve actual builder arguments and path validation. Complete decoded timing/FLAC and bounded HDR checks have native evidence; four CPU trimmed-profile cells pass and an SVT duration failure is retained for diagnosis. These partial changes do not enable all new processing paths or close O–S.
+- Current Jobs progress distinguishes encoding, output validation, completed-source checking and publication, with no stale post-encode speed/ETA. Canonical ordinary prepared plans preserve actual builder arguments and path validation. Complete decoded timing/FLAC and bounded HDR checks have native evidence; ten CPU/NVIDIA trimmed-profile cells pass and an SVT-AV1 AAC duration failure is retained; SVT FLAC remains unrun. These partial changes do not enable all new processing paths or close O–S.
 
 - Keyboard range sliders supplement exact microsecond fields without silently changing them. Candidate discovery explains absent/untested native backends without fallback or enabling unverified hardware.
-- Corrected fractional-origin sample discontinuity in the new range builder; owned AAC/FLAC native telemetry passes. Narrow MOV track-name/language representation checks added, while actual audio presentation/layout loss remains refused. Expanded HDR and operation validation are still being qualified, not accepted support.
+- Corrected fractional-origin sample discontinuity in the new range builder; owned AAC/FLAC native telemetry passes. Narrow MOV track-name/language representation checks added, while actual audio presentation/layout loss remains refused. Expanded HDR and operation validation remain partially qualified components, not accepted application support.
 
 - Durable bounded diagnostics and expanded typed inspection evidence; source/refusal context survives restart.
 - Valid completed outputs with complete comparable ctime-only differences save with an explicit bounded-evidence warning. Other changes, incomplete checks and cancellation remain distinct; validated stages are retained safely when publication cannot proceed. Strict preparation/cache/re-encode authority remains unchanged.
 - Startup errors drain cancellation and diagnostics without blocking renderer-loss recovery. Diagnostic stderr accounting, terminal quota headroom and same-size copy-publication checks corrected after independent review.
 - Real Encode/Jobs/History/Settings/Help shell, editable persistent defaults, main-owned draft/queue snapshots and narrow completed-output actions. New operation controls/media support remain under qualification; pure contracts are not acceptance.
-- Foundation evidence:479 integrated direct checks, later11 Settings/service checks, native lifecycle/preparation and3 real owned completion cases. Separate44.7/9.0.2 runtime activation and native workbench checks pass; the benchmark/accepted runtimes remain untouched. N verified; O–S and candidate qualification remain in progress. Accepted0.6 and paused benchmark are unchanged.
+- Foundation evidence:479 integrated direct checks, later11 Settings/service checks, native lifecycle/preparation and3 real owned completion cases. Separate44.7/9.0.2 runtime activation and native workbench checks pass; the benchmark/accepted runtimes remain untouched. N verified; O–S and candidate qualification remain incomplete and owner-paused. Accepted0.6 and paused benchmark are unchanged.
 
 ## 0.6.0 — Local portable acceptance, September 24, 2026
 

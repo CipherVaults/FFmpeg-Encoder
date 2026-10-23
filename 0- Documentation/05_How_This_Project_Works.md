@@ -1,4 +1,12 @@
+> **Current authority — October23 bounded Slice4a under Blue.** Blue accepted Thread2 readiness and authorized a reviewed documentation checkpoint/private existing-branch push, then genuine device/effective-mode observation plumbing and one small CPU PQ/HLG preservation family through the normal service lifecycle. Stop at the Slice4a checkpoint for Blue review before broader work. [Slice4a receipt](Execution%20Summaries/2026-10-23_0.7_Slice4a_CPU_HDR_and_Observation.md) and [Continuation](10_Continuation_State.md) own exact scope. All43 requirements, accepted releases/defaults and the independent benchmark gate remain; Security Cloud is excluded.
+
+## Unaccepted0.7 development Remux workflow
+
+The current development alpha has three qualified bounded Full-copy routes; use the exact support limits in [Current](01_Current_State.md), not this accepted0.6 guide as a general Remux promise. In Remux, use the shared Choose/Change input and output folder buttons, choose target, prepare, inspect per-file preservation/omission decisions and canonical arguments, select Ready files and Start. Current Jobs shows actual copy and indeterminate preservation checks until validation/publication settle; History/diagnostics retain failures. Exact audio omission is deliberate; target/reprepare/cancel/restart cannot preserve stale permission. This remains folder scanning, not a newly added direct file picker. New-path samefolder/nativepickers/outputopening/portable acceptance remain pending. [Slice3 receipt](Execution%20Summaries/2026-10-23_0.7_Slice3_Remux_Preservation.md) records hiddenUI/realservice evidence and limits.
+
 # How this project works
+
+The portable guide below describes accepted 0.6. The unfinished 0.7 alpha adds the shared workbench, bounded SDR range family and three qualified Full Remux routes with real service and hidden-renderer evidence. Full native, portable, vendor, HDR and broader media acceptance remain unfinished. Current State, Continuation and the [Slice3 receipt](Execution%20Summaries/2026-10-23_0.7_Slice3_Remux_Preservation.md) own exact implementation scope. The owner's October23 transfer carries development approval into Thread2; Blue accepted the repaired documentation/readiness and assigned bounded Slice4a. Earlier dated pauses/stops remain history; quota renewal grants no new scope. The benchmark remains at its separate visual gate.
 
 ## Current0.6 workflow additions
 

@@ -1,17 +1,41 @@
-> **Current authority — execution resumed October 11, 2026.** Ahmed explicitly reauthorized the full 0.7 candidate Goal with [workbench amendments](28_0.7_Execution_Resumption_and_Workbench_Amendment.md). The earlier planning pause is historical and superseded. Preserve unfinished work, accepted0.6 and the independently paused benchmark. Implement and verify N–S; final owner acceptance remains separate.
+> **Current authority — October23 bounded Slice4a under Blue.** Blue accepted Thread2 readiness and authorized a reviewed documentation checkpoint/private existing-branch push, then genuine device/effective-mode observation plumbing and one small CPU PQ/HLG preservation family through the normal service lifecycle. Stop at the Slice4a checkpoint for Blue review before broader work. [Slice4a receipt](Execution%20Summaries/2026-10-23_0.7_Slice4a_CPU_HDR_and_Observation.md) and [Continuation](10_Continuation_State.md) own exact scope. All43 requirements, accepted releases/defaults and the independent benchmark gate remain; Security Cloud is excluded.
+
+## Current completion slices and original milestones
+
+Slice1/2 foundations and Slice3's three-route Full Remux subset are preserved with scoped service/normalfactory/hiddenUI/lifecycle evidence. Ahmed has authorized Thread2 continuation under Blue; Blue accepted that review and authorized bounded Slice4a after the reviewed documentation checkpoint. This does not close the original preservation/MOV/TS/native requirements. N remains verified, O–R partial, S pending. Current defines exact route/feature status; tracker keeps all43IDs. Later theme/icon direction and genuine hardware/display/software gaps below remain. No benchmark/default change; no new tests during this reconciliation.
+
+
+
+## October 23 owner direction — later UI polish and release gates
+
+After Slice3 was authorized, Ahmed requested a distinctive original application icon replacing stock Chromium identity and exploration of a clean white/light, plain, retro-inspired option alongside dark mode. This is direction for the later UI-polish stage, not an accepted final visual design or authority to divert the current Slice3. Any offered theme must actually change the interface and persist through restart/migration/reset; verify workspaces, cards, application dialogs, focus, warnings/errors and charts where present, with readable contrast. State native OS dialog-theme limits honestly. Every offered setting needs demonstrated effects, not no-op controls. Before a later portable release verify executable/taskbar/package icon sizes/identity and source/license provenance; no unknown-source assets or copied protected logos. No image generation or theme implementation occurred in Slice3.
+
+Owner also reaffirmed functionality, stability, security and polish: inspect how tests are conducted and what assertions prove, distinguish mocks/fixtures/laboratory catalogs from production/native behavior, bind receipts to exact bytes, retain failures and independently challenge missing assertions/negatives. Never loosen tolerances or suppress failures solely to pass. Fresh integrated workflows, failure/recovery/cancel/no-overwrite, native responsive/keyboard UI and portable validation remain release gates; no zero-bugs/absolute-safety claim. Security Cloud remains prohibited. Readiness review is accepted; the next review boundary is the bounded Slice4a checkpoint. Slice3 remains the preserved engineering baseline. Parent Blue owns external Notion consolidation.
+
+> **Historical Slice2 checkpoint — October23 continuation2: stopped for parent review before Slice3.** Bounded CPU/NVIDIA SDR range admission is main-wired and has normal-service success/cancel evidence, runtime/storage controls and canonical telemetry/full validation. Version0.7.0-alpha.1 remains unaccepted; N verified, O–R partial, S pending. [Slice2 receipt](Execution%20Summaries/2026-10-23_0.7_Slice2_Qualified_Lifecycle.md). Earlier pauses/plans/checkpoints below retain their dated scope. No automatic successor or benchmark continuation.
+
+## Historical October23 completion slices — Slice1 checkpoint
+
+[Plan31](31_0.7_Completion_and_Workbench_Plan_2026-10-23.md) was reviewed and accepted as the direction; owner approval was forwarded in the original development thread. Slice1 alone is authorized and is being checkpointed for parent review. Shared workbench/display is implemented with isolated checks; this does not close R or authorize Slice2's qualification seam. All43 requirements, N verified/O–Rpartial/Spending and the separate benchmark visual gate remain. Parent review of Slice1 is the next boundary, not another original planning approval.
 
 # Roadmap
 
-October11 current partial delta: [media qualification follow-up](Execution%20Summaries/2026-10-11_0.7_Media_Qualification_Followup.md). Q has exact-origin correction and native AAC/FLAC evidence; R has keyboard range sliders; P has observed device inventory and canonical HDR contracts. Changed-operation/vendor/HDR/Remux support and candidate acceptance remain gated by integration evidence.
+Current development combines the preserved Slice2 SDR range/720p family with the bounded Slice3 Full Remux routes and real normal-service/hidden-renderer evidence. N remains verified; O–R partial; S pending. Current State and tracker25 separate exact support from unfinished software, genuine external hardware/display gaps and native/portable acceptance. Blue accepted Thread2 onboarding/readiness and assigned Slice4a against Plan31/all43, after the reviewed private documentation checkpoint; stop at its bounded checkpoint before broader Slice4.
 
-October11 follow-up: [operation qualification and draft controls](Execution%20Summaries/2026-10-11_0.7_Operation_Qualification.md) records native37f79554, six narrow owned operation cases and zero-child rational collector rechecks. Per-file controls and preserved-draft encoder changes are implemented; qualified transform/Remux/HDR/vendor execution remains unfinished. No milestone or candidate acceptance is implied.
+## Historical 0.7 snapshot — reconciled October13, then paused
 
+[Goal23](23_Approved_0.7_Candidate_Goal.md) and [amendment28](28_0.7_Execution_Resumption_and_Workbench_Amendment.md) retain approved scope; [owner pause29](29_0.7_Owner_Pause_and_Documentation_Reconciliation.md) controls permission. The initial planning approval was given; new explicit resumption is now required. Earlier quota reminders that said to continue are superseded.
 
-## Approved0.7 candidate — October11
+| Milestone | Saved status | Remaining closure requirement |
+|---|---|---|
+| N — shared contracts/evidence/ownership | Verified October 11 | Reuse existing closure; no repeat or new acceptance this pass. |
+| O — diagnostics/source/inspection/runtime | Partial, paused | Resolve known input/ancillary paths and integrated diagnostics/source/lifecycle evidence. |
+| P — AMF/QSV/HDR | Partial, paused | Integrate genuinely qualified routes; preserve external hardware/display and unsupported DV limits. |
+| Q — scale/range/audio/remux | Partial, paused | Integrate collectors and scoped qualification; resolve SVT duration case and remux content/timing failures; widen evidence only as needed. |
+| R — workbench/App Settings/help | Partial, paused | Complete Remux/new operation workflows and icon/credits; prove full lifecycle, accessibility and authority. |
+| S — portable candidate/independent review | Pending closure; partial prerequisite evidence | Fresh candidate build/extracted-runtime contract, support matrix, independent review and owner handoff. No accepted0.7. |
 
-Goal23 supersedes historical deferrals for selected N–S scope; contract24/tracker25 own detailed gates. N(shared contract/evidence) verified October11 after independent review and parent synchronization; O(diagnostics/sourcepolicy/refusedinputs/evidence/runtime) in progress. P(AMF/QSV/HDR), Q(scale/amendedTimeRange/remux) and R(workbench/AppSettings/icon/help) have reviewed contracts and a functional partial workbench; new processing/media acceptance remains pending. Separate44.7/9.0.2 candidate activation and current workbench have native endpoint evidence, without closing O or R. S(portablecandidate/integration/independentreview) pending. Completion means locally qualified candidate only; hardware/display/independentmachine/owner acceptance distinct. Benchmark remains separately paused and no new recipes are inferred. Parent synchronizes all affected documents before each milestone closure.
-
-October11 07:37UTC continuity checkpoint: ten x264/x265/NVIDIA trimmed AAC/FLAC qualification cells pass; SVT-AV1 retained-output diagnosis confirms11 duration mismatches/final extent40ms short; the changed VFR cell remains unqualified. Jobs lifecycle and bounded HDR numerical/signaling checks pass, but application admission/remaining hardware/media/portable work stays incomplete.152 integration and343 overlapping media direct checks pass. See [current recovery record](Execution%20Summaries/2026-10-11_0.7_Media_Qualification_Followup.md#recovery-checkpoint--october-11-0737-utc). No new milestone closed, and the quota reminder does not pause development.
+Tracker25 has row-level implementation/evidence distinctions. Ten narrow CPU/NVIDIA trimmed AAC/FLAC cells pass, SVT-AV1 AAC fails duration and SVT FLAC is unrun. Bounded HDR numeric checks and native ordinary Jobs/UI evidence do not close P/Q/R/S. No checks were run during this reconciliation; saved suite counts overlap. Use [latest pause/evidence index29](29_0.7_Owner_Pause_and_Documentation_Reconciliation.md), not an earlier incremental checkpoint, to resume documentation or later authorized development.
 
 ## Historical pre-0.7 research — October 10, 2026
 

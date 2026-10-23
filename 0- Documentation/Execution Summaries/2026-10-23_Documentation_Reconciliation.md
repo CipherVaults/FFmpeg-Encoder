@@ -1,3 +1,5 @@
+> **Historical incident receipt; October23 Thread2 correction.** The body below records the earlier Slice1 continuity incident and its inspected chronology, not current execution instructions. Pre-transfer wording linked a nonexistent documentation-only receipt; that link is corrected to the actual [Thread2 migration/authority receipt](2026-10-23_Thread2_Migration_and_Authority_Reconciliation.md). Ahmed's06:14UTC transfer and renewed authority under Blue now govern; [Continuation](../10_Continuation_State.md) owns the documentation/readiness review boundary. Original incident prose and evidence below are preserved.
+
 # Continuity correction after compaction — October 23, 2026
 
 **Current authority: approved Plan31 Slice1 only, unchanged. This is an incident/correction receipt, not a new pause registry or development resumption.**

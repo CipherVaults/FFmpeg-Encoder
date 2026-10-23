@@ -1,4 +1,11 @@
-## Slice4a admitted after readiness review — October23,2026
+## Validated finite HDR preservation and native device observations — October23,2026
+
+- Integrated two exact generated PQ/HLG source hashes with the normal CPU HEVC service, complete independent evidence, exact timing/static metadata, source checks and no-overwrite publication. General HDR, tone mapping, Dolby, display and portable support remain open.
+- Added main-private closed-child QSV observations and an explicit bounded initializer; retained discovery registry, stale-receipt checks and cancellation-through-release. AMF effective-property proof and actual AMD/Intel hardware qualification remain unavailable; no vendor UI execution was activated.
+- Final regression1328passed/0failed/1Windows linked-directory fixture skipped; reviewed107-call laboratory and86-call default-factory confirmation closed all processes/leases. Sourcec316805; stop for Blue review before broader work (Plan31 internalSlice4a).
+- Recorded Ahmed's outcome-based communication/commit convention in AGENTS. Existing pushed history is preserved.
+
+## Historical admission after readiness review — October23,2026
 
 Blue accepted Thread2 readiness and authorized reviewed scoped documentation/private candidate-branch checkpointing followed by one finite CPU PQ/HLG preservation family and genuine observation plumbing. No new HDR support is claimed at admission. Other Slice4/software/native/portable/all43 obligations remain; stop at Slice4a checkpoint for Blue review. Security Cloud and the independent benchmark remain excluded.
 

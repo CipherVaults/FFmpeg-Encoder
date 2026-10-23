@@ -1,3 +1,37 @@
+# Session — October23,2026: validated finite HDR preservation and native device observations
+
+## Authority, roles and purpose
+
+Ahmed directed following Blue; Blue accepted Thread2 readiness and authorized the reviewed private documentation checkpoint, then this CPU HDR/device-observation implementation (internal Plan31 Slice4a). Existing Thread2 and D: checkout remained the development home, with the original thread idle. This session completes that bounded checkpoint for Blue review, not the whole0.7 plan. All43requirements, accepted releases/defaults and independent benchmark visual gate remain.
+
+Focused workers explicitly requested GPT-6.1 Sol/Ultra/forknone for design/implementation, independent source/assertion/artifact review and technical documentation. Root owned shared integration, all actual media scheduling, final reconciliation and Git. Requested worker configuration is supported; root/backend model identity is not independently observable. No historical workers were relabelled. Canonical PBS stayed external; adopted local project guidance remained the execution record.
+
+## Implemented behavior and why
+
+The normal service can preserve PQ/HLG for only two reviewed generated source-byte hashes under the pinned runtime. Separate main-private HDR preparation/selection/collection avoids widening ordinary SDR rules. Actual bounded preparation, immutable plan, runtime/storage/telemetry, complete source/container/elementary observations, strict validator, unchanged-source assessment and protected publisher all participate. Source SHA256 independently rechecked during complete collection prevents an arbitrary matching header or unknown SEI payload from inheriting fixture authority. Reprepare/cancel/replacement/shutdown revoke prior authority. Effective HDR notice is inert text; no display or transform claim.
+
+Native backend plumbing now captures genuine same-process closed-child QSV observations with exact device/runtime/settings bindings, stable discovery registry and an explicit zero-frame generated/null initializer. Copies/stale discovery/device removal and cancellation during slot release refuse authority. This is source/injected software coverage, with no actual AMD/Intel initialization/qualification or UI activation. AMF's pinned CLI lacks required same-component effective-property readback and remains specifically unavailable; requested values/helper sessions are not substitutes.
+
+## Evidence, friction and recovery
+
+The first actual campaign02e7c9ac failed safely after real encodes: native source/container clocks matched but raw HEVC's average25/1 violated a container-style assertion. Independent retained-byte review and pinned FFmpeg raw-demux source established its default25 average; the raw plane now requires exact25/30/1/1200000,96duration40000 records and no PTS. Source/container96PTS/durations retain zero mismatch. Seven negative checks added; failed report and staged bytes remain.
+
+Reviewed laboratory e7daea52 passed both PQ/HLG complete validation/publication plus actual collection cancellation, corruption, collision, source change, ready cancellation/stale Start and same-state service recreation:107tool calls/max1/live0, complete diagnostics/lease closure. Only after independent live artifact review were the exact two cells activated. Fresh default-factory b18c017f used no HDR policy override and passed both cells with86calls/max1/live0. Independent review rehashed live sources/outputs,20collector artifacts and telemetry for each passing campaign, checked publication ordering and exact final producer freeze. Numeric96-frame IDs show presentation membership/order; they are not perceptual quality or lossless source/output proof.
+
+Final full regression:1328passed,0failed,1skipped of1329 in38.993s. Windows could not create one directory-link fixture (`UNKNOWN`); that native linked-path check stays unproven. The first full run's ten restrictive main VM dependency failures and one1ms dynamic-elapsed assertion failure are retained; test harness corrections preserve every relevant state/assertion and83affected checks plus fresh full suite pass. Earlier5-case mock size failure also remains. Focused125HDR/service and60vendor results overlap final counts. No validator/tolerance was loosened to hide a media failure.
+
+## Checkpoints and documentation
+
+First reviewed documentation/private push b3e7f27 included34exact staged documents and preserved all omitted Planning. Source checkpoint c3168053182e7df6e82fc945935aa3e5f3792faa contains23reviewed files with raw/filtered-blob verification. Final docs/private branch readback belongs to ignored final-verification.json and final response after action. Source commit subject describes the actual outcome; Ahmed's correction on plain commit/progress language is recorded once in AGENTS. Existing pushed history was not rewritten.
+
+Current/Continuation/Roadmap/tracker, architecture/reference/security/contracts, README/CHANGELOG, Index and the detailed [execution receipt](Execution%20Summaries/2026-10-23_0.7_Slice4a_CPU_HDR_and_Observation.md) synchronize actual support and limits. All24entry Planning hashes remain, including2dirty tracked and15untracked private files; no cleanup/staging of private records. Retained failed stages and successful outputs remain owned and preserved. No download/runtime upgrade, accepted release/default change, benchmark trial/ledger spend, app launch/OBS control, Security Cloud/public release, personal-media writes or credit reset occurred.
+
+## Result and re-entry
+
+CPU HDR/device-observation checkpoint is complete for Blue review. N remains verified/O–R partial/S pending;0.7.0-alpha.1 remains unaccepted. Tone-map/iPhone/mebx/Dolby/general-media/vendor-service/native/icon/theme/portable software and hardware/display/owner gates remain distinct. After final reviewed private checkpoint/readback, stop without automatic successor. Blue's later bounded assignment carries existing owner approval; recover exact source/evidence/live tree before further work and keep the original thread idle.
+
+---
+
 # 📘 Session: October23,2026 — FFmpeg Encoder — Thread2 context anchoring, authority repair and readiness
 
 ## 🤖 Models, Effort, Roles and Provenance

@@ -1,3 +1,11 @@
+## Verify bounded Windows Encode and Full Remux journeys — October 23, 2026 (unaccepted alpha)
+
+- Completed five authorized actual native jobs: four CPU Encode attempts and one Full MP4 Remux. Actual OS pickers, prepared/executed arguments, specific MOV refusal, stale-draft reprepare, existing-output skip, Jobs/History and receipt-bound Open were observed.
+- Two range encodes saved with disclosed AAC decoded sample-count differences 864/368 and contentIdentity false. Full MP4 copy retained 300 video frames / 480000 decoded audio samples with zero timing deltas; no new media-route or sample-identical audio claim.
+- Exercised real Keep application open followed by active Cancel, then active Cancel encoding and exit plus restart. Ordinary folders/H265 / CPU / slow / 25 and History persisted; temporary generated-source permission and old plans did not. Two unbound cancelled stages remain retained without publication or cleanup.
+- Initial outer/content geometry 1102×800/1087×763 at DPR 1.25; requested 640×480 clamped to 642×480 outer/627×443 content. Limited native keyboard/scrolled reachability and saved-frame visual review do not establish exact 640, full keyboard/accessibility or whole-R/S acceptance.
+- Source 3839249 and application defaults are unchanged; no new tests ran. All three app launches closed and the lease was released. The [native receipt](0-%20Documentation/Execution%20Summaries/2026-10-23_Native_Workflow_Acceptance.md) owns final evidence/scoped private-checkpoint readback; stop for Blue afterward. All43/N verified/O–R partial/S pending,0.7.0-alpha.1 unaccepted, accepted releases/defaults/ArchiveCQ29/private records and benchmark visual judgment remain protected; no broader successor.
+
 ## Preserve HDR within reviewed input configurations — October 23, 2026 (unaccepted alpha)
 
 - Replaced source-file membership with complete content classification within five reviewed CPU Main10 PQ/HLG configurations. Every file retains full SHA/current identity/runtime/plan binding and complete validation/source/no-overwrite publication checks.

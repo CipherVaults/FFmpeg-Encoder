@@ -1,3 +1,65 @@
+## Native workflow checkpoint ready for Blue review — October 23, 2026
+
+The SAME native assignment, turn01a16868-2e2a-7143-9f3d-4c280bdc0e45, has finished its desktop/media work. Blue's original four-attempt allowance was explicitly amended to five solely for active Cancel-and-exit/restart. Exactly five starts occurred: two bounded CPU Encode publications with +864/+368 decoded AAC sample warnings; Full CPU Keep application open followed by active Cancel; Full MP4 Remux success; Full CPU Cancel encoding and exit followed by native restart. No sixth attempt. [Native execution receipt](Execution%20Summaries/2026-10-23_Native_Workflow_Acceptance.md) owns the detailed outcomes and final checkpoint/readback.
+
+At12:10:50.477 UTC the host finished with three closed app launches, no live media/Electron processes, no observer failures, unchanged original/copy fixtures and released exclusive lease. Temp3 and temp5 were never identity-bound and remain retained for safety; do not delete them. Final restart retained folders and H265 CPU/slow/CRF25, cleared the old prepared plan/Start authority, and retained actual History cancellation. Separately, a generated Remux output was excluded, explicitly authorized Ready, then excluded again after idle exit/restart and reprepare. Omission-grant restart was not exercised. Saved App Settings defaults were not changed.
+
+Normal outer/content geometry was1102×800/1087×763 at DPR1.25. Requested640×480 reached642×480 outer/627×443 content; exact640 is unproved. Bounded keyboard Help, file list, inspector/long-path/error access and real receipt-bound Open were observed. Full accessibility/60-plus mixed-file storyboard/portable/owner acceptance remain open. Source38392493973422eaf2c075a9af6e1e1656f7594c is unchanged; no new direct tests or qualification resealing occurred.
+
+Exact remaining action is documentation review, scoped documentation commit/private existing-branch push and live readback under Blue's existing authority, then stop for Blue review. Recover the final receipt and live Git before any later assignment; do not replay five exhausted jobs or treat the preceding planning-only review stop as a newer owner pause. All43 requirements/N verified O–R partial S pending, accepted releases/defaults/CQ29, private Planning and benchmark visual judgment remain protected. Broader work needs Blue's later bounded direction; genuinely later owner stops control.
+
+### Dated in-progress authority entry and earlier proposal
+
+The following active-work entry and earlier planning proposal are preserved as dated history. Their pending actions have the later outcomes above; no earlier bytes were removed.
+
+## Active native workflow authority and pending next action — October 23, 2026
+
+The **same active native workflow turn `01a16868-2e2a-7143-9f3d-4c280bdc0e45` continues**. Blue expressly authorized real native Encode/Full Remux QA, fixes limited to demonstrated blockers, and reviewed scoped checkpointing with a push to the existing private branch. The owner replied that the PC was free. The earlier planning-review stop is satisfied for this bounded assignment; it is not a new owner pause or reason to restart onboarding. Existing Thread2 remains the development home and the original thread stays idle.
+
+Baseline source is `38392493973422eaf2c075a9af6e1e1656f7594c`; HEAD/private branch checkpoint is `2241af8f85625747bd2987e905cfbd295de219ed` on `codex/v0.7-candidate`. The [native workflow receipt](Execution%20Summaries/2026-10-23_Native_Workflow_Acceptance.md) owns the developing evidence and final readback; do not infer closure from this authority update.
+
+Four actual jobs have run so far:
+
+1. Short bounded CPU Encode published with an explicit AAC decoded sample-count warning of 864.
+2. Longer bounded CPU Encode published with an explicit AAC warning of 368, completing before the intended close action; this supplies no cancellation or active-close proof.
+3. Full CPU Encode demonstrated the actual **Keep application open** choice, continued work and native **Cancel batch**. Its unbound temporary directory remains retained; no cleanup is inferred.
+4. Full MP4 Remux succeeded, followed by the actual receipt-bound **Open** action.
+
+The original four-job allowance remains preserved in the original records. Trusted Blue explicitly added **ONE** extra job: **five total maximum**, with the fifth solely for actual active **Cancel encoding and exit** plus restart using the existing qualified Full SDR CPU route and unchanged controls. **Attempt 5 is pending; no sixth attempt or retry loop is authorized.** Preparation-only generated-source grant and restart checks are ongoing/pending and add no job authority. Root retains all desktop/media/process scheduling and must recover current state, diagnostics, the budget guard and lease before the pending Start.
+
+No application source changes or new tests have occurred in this native turn so far. No broader route, theme/icon, benchmark/default/recipe, vendor/display, portable/clean-machine, Security Cloud, install/upgrade, OBS, personal-media write, cleanup, public release or credit-reset scope is added. All 43 requirements remain; N verified/O–R partial/S pending and version `0.7.0-alpha.1` unaccepted. Accepted releases/defaults/ArchiveCQ29, private Planning/dirty records and the independent benchmark visual-review gate remain protected.
+
+**Exact forward action remains pending:** complete and reconcile the preparation-only checks and the single fifth active close/exit/restart attempt within the amended cap; retain a missed interaction as a gap. Then finish independent evidence review, source/runtime/private preservation, process/lease/desktop closure and proportional documentation, followed by the reviewed scoped checkpoint/private-branch push and live readback. **Stop for Blue after that checkpoint; no automatic successor or closure claim.** Earlier proposal and checkpoint bytes below retain their dated historical meaning in full.
+
+---
+
+## Blue-accepted checkpoint: planning-only next-action review — October 23, 2026
+
+Blue accepted the finite CPU HDR checkpoint within its limits and assigned this priority review only. Implementation awaits Blue's review of this proposal; this is not an owner pause. Existing Thread2 remains the home; the original thread stays idle.
+
+**Live entry,13:45:40 Cairo/10:45:40UTC:** `codex/v0.7-candidate`; source `38392493973422eaf2c075a9af6e1e1656f7594c` is an ancestor of HEAD/private remote `2241af8f85625747bd2987e905cfbd295de219ed`; repository private, index empty, exactly2dirty tracked/15untracked private paths and24Planning hashes preserved. This turn adds only this unstaged Continuation section. Windows file/Git/gh access is established; native desktop capability is not. The new focused worker was explicitly GPT-6.1Sol/Ultra/fork-none; local tools do not independently expose this continuation's effective backend, so no switch is claimed.
+
+| Candidate | Existing versus missing work; priority |
+| --- | --- |
+| Timing/audio repairs (Q03–Q05/Q07–Q08) | VFR case7d838f1d preserves41frames/PTS/durations but fails a derived-average-rate guard. AAC-to-MP4/MOV actually loses samples/offset fidelity (stereo97280→96656; mono125→100.998ms). PCM-to-MKV loses named layout despite matching samples. SVT has41matching starts,11duration mismatches and40ms-short final extent; FLAC remains unrun. All stay refused. Next engine priority: one useful MKV-to-MP4 H264/AAC preservation outcome, correcting the average-rate decision and actual AAC boundaries; PCM/SVT remain distinct repairs. No newly incorrect admission was established. |
+| HDR tone mapping/iPhone/mebx/Dolby (P06–P09) | Preservation foundation exists; SDR conversion and bounded Dolby contracts remain nonexecutable. Supplied iPhone4K60 HLG/DV8.4/RPU/AAC/three mebx is materially outside current support. A later usable phone-video route needs ancillary dispositions, numerical/signaling evidence and resource/UX integration. More generated parameter-set enumeration does not establish typical phone-video coverage. |
+| Native workflows, icon and real themes (R01–R08/S01–S02) | Workbench/main-owned plans/preferences and hidden renderer/preload/IPC/service evidence exist; actual OS pickers, output opening,640×480 and native restart remain unproved. **First prove real native Encode and Full Remux journeys, fixing observed blockers only.** This turns existing processing into demonstrated usability. Original icon and persisted light/dark themes remain a subsequent focused visual deliverable, including actual effects, restart/migration/reset and package/taskbar identity. |
+
+**HDR usability gap:** current video-only Main10 Full/source/Matroska CPUslow/CRF25 admits five exact parameter-set classes: PQ720p30,HLG720p25,PQ1080p24,HLG1080p30/SAR1 and legacyHLG320×180p30/absentSAR. Caps are conjunctive:16MiB,1800frames,60s,829440000pixel-frames (720p≤900;1080p≤400). These are not typical camera/phone-video coverage; audio/ancillary HDR, tone mapping, iPhone/Dolby and display acceptance remain missing.
+
+### Recommended next bounded deliverable and acceptance
+
+1. **Dependency:** later Blue implementation assignment plus a verified safe native PC/control handover. Reuse qualified owned fixtures/isolated0.7 state from normal Encode11e4e39f and Full Remux4d6f342e; verify identities/runtime/leases,D≥25GiB and actual F forecast/margin. No media replay for context, installs/upgrades, personal-media writes or OBS changes.
+2. **Real journeys:** actual OS folder dialogs → one qualified CPU SDR Encode and one enabled Full Remux → independently validated protected output → real receipt-bound Open. Verify effective settings/canonical argv, truthful Jobs/History/results, specific unsupported reason, existing-output skip, draft/reprepare invalidation and immutable active settings. Substituted picker returns or hidden-only evidence cannot satisfy this check.
+3. **Native interaction/recovery:** normal width and640×480 with actual DPI/client geometry recorded; keyboard access, long paths/errors and help/drawer focus. Exercise active cancellation and both close choices, then restart: ordinary preferences persist; temporary reencode/omission grants and stale Start authority do not. Initially propose≤4actual encode/copy attempts (successes plus cancel/close); separately budget helper calls. If fixtures finish too quickly, report missing coverage rather than simulate success.
+4. **Exit:** retain main scheduling, context isolation/narrow validated IPC, immutable prepared plans, source/runtime freshness, bounded process/storage ownership, cancellation through close and no-overwrite publication. Independently review native captures, exact source/artifact hashes, diagnostics and retained failures; no unresolved blocker in these journeys. Unavailable native control stops dependent work. No broad redesign/theme/icon/codec expansion, whole-R/S, portable/clean-machine, vendor, HDR-display or owner acceptance is bundled into this pass.
+
+Sources: [Plan31](31_0.7_Completion_and_Workbench_Plan_2026-10-23.md), [all43 tracker](25_0.7_Requirements_and_Evidence.md), [Slice3 receipt](Execution%20Summaries/2026-10-23_0.7_Slice3_Remux_Preservation.md), [HDR receipt](Execution%20Summaries/2026-10-23_CPU_HDR_Content_Eligibility.md). Small retained numeric inspections of `slice3/service/7d838f1d`, `remux/65fc26e0` and zero-child `operation-profiles/diagnostics/6f6dcbfb` distinguish guard semantics from actual loss; no media tool was rerun.
+
+**Stop for Blue's plan review before implementation.** Source unchanged; no tests/media/app launch, SecurityCloud, dependency/runtime changes, staging/commit/push or cleanup. All43scope and Nverified/O–Rpartial/Spending, unaccepted0.7, private records, accepted releases/defaults/ArchiveCQ29 and benchmark visual judgment remain. Existing owner authority supports a later bounded Blue assignment without another owner-resume loop; genuine later owner stops control. Prior Continuation bytes below are preserved.
+
+---
+
 > **Reviewed content-derived CPU HDR checkpoint — October 23.** Source 38392493973422eaf2c075a9af6e1e1656f7594c passed independent fitting, first unoverridden default H1/H2b holdout and nine actual refusal reviews. The enabled default catalog admits the finite content-derived classes while preserving per-input full SHA/current identity/runtime and complete independent final checks. Final documentation/private-branch/live readback belongs to the [receipt](Execution%20Summaries/2026-10-23_CPU_HDR_Content_Eligibility.md). Stop for Blue before broader work. Version0.7.0-alpha.1 remains unaccepted; N verified/O–R partial/S pending, all 43 retained. Accepted/default/ArchiveCQ29/private records/benchmark visual gate remain protected.
 
 ## Exact continuation and recovery

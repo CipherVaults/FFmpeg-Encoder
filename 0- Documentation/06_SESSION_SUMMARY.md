@@ -1,3 +1,81 @@
+# 📘 Session: October 23, 2026 — FFmpeg Encoder — real native workflows, cancellation and restart
+
+## 🤖 Models, Effort, Roles and Provenance
+
+Ahmed delegated leadership to Blue and confirmed the PC was free for this assignment. Blue authorized real native Encode/Full Remux QA with fixes confined to demonstrated blockers, and later amended the actual-job cap from four to five solely for Cancel-and-exit/restart. Root in existing Development Thread2 owned all desktop/app/media scheduling, integration and checkpoint actions. Focused readiness, lifecycle, evidence and documentation reviewers were explicitly configured GPT-6.1 Sol/Ultra/fork-none. Requested configuration is known; local tools do not independently expose root's effective backend. Canonical PBS remained external. This entry records this work and preserves the prior Session archive byte-for-byte.
+
+## 🕒 Time
+
+October23, Africa/Cairo. Entry observation was11:00:03.240UTC; the isolated native host ran11:07:01.097–12:10:50.477 UTC. Documentation/review followed. This is elapsed session time, not active engineering or CPU time. Exact job and cancellation timings belong to the [execution receipt](Execution%20Summaries/2026-10-23_Native_Workflow_Acceptance.md); tool/model waits are not invented compute totals.
+
+## 🎯 Session Goal
+
+Turn previously hidden/service-supported processing into demonstrated native journeys: real folder dialogs, one usable CPU SDR Encode and Full Remux, truthful results/History, prepared argv, receipt-bound Open, protected output behavior, small-window access and actual cancellation/close/restart. The stopping point was a reviewed, recoverable checkpoint for Blue, with broader media/theme/icon/portable work kept separate.
+
+## 🛠️ Actions Taken
+
+### 1. Bound the current authority and environment
+
+Blue accepted the preceding finite HDR checkpoint and the proposed native priority. The older planning-review stop was satisfied by that later bounded assignment; it was not a fresh owner pause. The same checkout/source/private branch was recovered with an empty index, two dirty tracked/private Planning records, fifteen untracked private files and the unstaged Continuation proposal. An entry inventory retained332 file hashes and24 Planning hashes. Existing qualified A/E SDR fixtures were verified and copied into a new owned state/output root. Root admitted work only after process, runtime, free-space and lease checks and the owner's PC-free reply.
+
+### 2. Run actual Encode and access the result
+
+Native folder dialogs selected the owned source/output folders. The first H265 CPU slow/CRF25 request used1.013–2.787s,720p and Precision AAC. It published after independent validation with a visible +864 decoded-sample warning. Prepared/executed argv, protected staging, Jobs/History and a real Open action were inspected. The new QA player opened the correct file and was closed; the pre-existing personal player was preserved. Playback quality was not assessed from the black video region in captured player frames.
+
+Existing-output reprepare skipped the saved destination without a job. Per-file draft edits disabled Start until Apply/reprepare; changing output folder cleared the old plan/list. Native sizing reached642×480 outer/627×443 content at125% scale. Inspector/path/warning, file list, specific skip reason and Tab/Enter-expanded Help were readable within captured states. Blue's independent visual review found no concrete blocker in four frames, without claiming complete accessibility.
+
+### 3. Preserve the missed interaction and obtain actual cancellation
+
+Attempt2 used the longer1.013–31s720p route and published with +368 AAC samples before root reached the busy-close action. Its22.147 s encode/30.410 s batch remains a success-with-warning, not cancellation. The misleading capture filename was explicitly corrected. Attempt3 used the existing Full 31 s1080p route and opened the real busy-close dialog during encoding. Keep application open allowed continued work, then native Cancel batch settled one cancelled item with no publication. The app conservatively retained an incomplete file that had never been identity-bound; root preserved it.
+
+### 4. Complete Remux and the amended final close/restart check
+
+The original MOV target produced a specific unsupported-route reason. Target change to MP4 required a new preparation before Ready. Attempt4 copied A's complete H264 video and AAC audio to MP4, validated300 video units and480000 samples with zero timing differences, and published successfully. Actual Open launched a second QA player, later closed.
+
+The original four jobs no longer covered the other busy-close choice because attempt2 had finished early. Blue explicitly permitted only one extra CPU attempt, five total, for Cancel-and-exit/restart. The first prospective guard failed closed on an incorrect diagnostic-envelope assumption; its code/failure were preserved and the corrected digest-validating guard confirmed actual counts before attempts4/5. No hidden retry or sixth job occurred.
+
+A preparation-only generated-source check established Excluded→explicit grant→Ready. Native idle exit/restart retained folders and CPU controls, cleared old Start authority, and reprepare excluded the generated source again. The unsaved MP4 draft returned to the saved Matroska preference as expected; defaults were never changed. Attempt5 used unchanged Full SDR controls. The real Cancel encoding and exit choice during encoding caused cancellation and app closure. The last restart was idle with remembered folders/CPU slow/25, no old plan and durable History cancellation. Root then exited natively and finished the host/lease after no remaining media/Electron process was found.
+
+## 🧠 Key Insights
+
+Actual native operation adds evidence that hidden rendering cannot supply: OS pickers, window geometry, output-handler dispatch and real close choices. The two successful range outputs also made their audio limitation visible; a published warning must not be relabelled sample identity. Temporary authority and ordinary persistence behaved differently as designed: remembered controls survived while a prepared plan/generated-source grant did not. Conservative retained temporary material is evidence of bounded cleanup, not proof of complete cleanup.
+
+## 📌 Decisions Made
+
+Blue's five-total amendment was applied only to its named close/restart purpose. Root retained all failures and unbound files, used existing routes unchanged, and made no application fix because no concrete blocker was demonstrated. Full R/S/native/portable acceptance remains separate. Scoped reviewed documentation checkpoint/private existing-branch push was already authorized; source and historical Git remain preserved.
+
+## ⚠️ Difficulties / Friction
+
+The short timing window in attempt2 was missed. Native HTML-select set_value and cached/offscreen accessibility coordinates did not reliably enact the desired action; fresh screenshots and actual native dropdown/keyboard input resolved them. Scroll screenshots could be mid-animation. Direct edge dragging scrolled content instead of resizing; the native system Size command established the actual minimum. A later folder dialog returned stale focus metadata, so the visibly focused address bar was used and the destination was read back. These tool interactions did not establish product defects.
+
+## 🔧 Adjustments Made
+
+The close checks shifted to Full 1080p on the same qualified source to give a usable native interaction interval. Blue then amended only the total-job budget after the missed attempt; Remux and preparation-only grant checks preceded the single final job. The guard shifted from an assumed event layout to the actual namespace/version/event/digest envelope. Current authority was prepended to Continuation during work so compaction could not revive the superseded planning stop.
+
+## ❌ Mistakes / Risks Noted
+
+The attempt2 capture label was wrong and remains transparently corrected. The first budget guard's schema assumption failed closed before Start; no extra job resulted. After compaction an attempted cua context-restoration call in the Sky REPL returned cua-is-not-defined without app input; root returned to the documented Sky API. No source, personal-media or accepted-release loss occurred. The lack of direct cancelled PID/exit telemetry and complete helper-process accounting remains a limit; diagnostic settlement, production close semantics and live zero-process checks support only the documented closure claim.
+
+## 📍 Current Position
+
+Before: service/hidden evidence with real native journeys unfinished. After: five fixture-specific jobs, three validated publications, two actual cancellations, both native close choices, real output opening and restart/grant checks. Three app launches closed, host finished12:10:50.477 UTC, lease released and both unbound incomplete outputs retained. Source38392493973422eaf2c075a9af6e1e1656f7594c and runtime remain unchanged. Current/Continuation/receipt own final reviewed documentation/private-branch readback. N verified/O–R partial/S pending/all 43 and unaccepted0.7 remain.
+
+## 🔜 Next Steps
+
+Read the native receipt and final live checkpoint. Finish the scoped documentation review/private existing-branch checkpoint and readback, then stop for Blue's bounded review. Do not replay completed jobs, spend a sixth attempt or start themes/icon/codec/HDR/vendor/portable work automatically. A later Blue assignment carries the owner's existing authority only within its new bounded scope; genuinely later owner stops control.
+
+## ❓ Open Questions
+
+Blue still decides the disposition of this bounded native checkpoint. Exact640, omission-grant restart, complete keyboard/screen-reader coverage, larger mixed-file workflows, all cancellation stages, portable/clean-machine and owner acceptance remain unproved. There is no required source fix established by this run.
+
+## 🧾 Session Outcome
+
+Existing processing became demonstrable through real desktop journeys without broadening qualification or changing defaults. Failures, warnings and incomplete cleanup material remain inspectable. The project now has a concrete native checkpoint for Blue, with current authority separated from dated review stops and broad acceptance still open.
+
+## 🔍 Confidence Level
+
+High for exact fixture publications, warning disclosure, observed native actions, restart revocation and retained hashes. Bounded for broader UX/security/process telemetry because the host was instrumented, captures are point-in-time, cancelled exit telemetry is incomplete and wider acceptance was not run. Owner acceptance is pending.
+
 # Session — October 23, 2026: preserve HDR from complete reviewed input content
 
 ## Authority, people and objective

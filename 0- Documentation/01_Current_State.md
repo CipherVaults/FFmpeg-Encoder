@@ -1,3 +1,5 @@
+> **Private native checkpoint read back:** 1925ceb53ea837d9bb397ee7ba9150733e3a07a3 was committed and pushed to the existing private candidate branch; final closeout identity/readback belongs to the native receipt. Stop for Blue review after final readback; no new job or broader successor.
+
 > **Bounded native Encode/Full Remux checkpoint — October 23.** The current candidate completed five authorized actual jobs (four Encode, one Full Remux) through real OS dialogs and native controls. Source remains `38392493973422eaf2c075a9af6e1e1656f7594c`; entry documentation HEAD is `2241af8f85625747bd2987e905cfbd295de219ed`. No application source change or new test run was needed. The [native receipt](Execution%20Summaries/2026-10-23_Native_Workflow_Acceptance.md) owns exact evidence and final scoped documentation/private-branch readback. Stop for Blue after that reviewed checkpoint; no broader successor.
 
 ## Native workflow evidence and remaining limits

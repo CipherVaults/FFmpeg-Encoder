@@ -58,11 +58,11 @@ The attempt2 capture label was wrong and remains transparently corrected. The fi
 
 ## 📍 Current Position
 
-Before: service/hidden evidence with real native journeys unfinished. After: five fixture-specific jobs, three validated publications, two actual cancellations, both native close choices, real output opening and restart/grant checks. Three app launches closed, host finished12:10:50.477 UTC, lease released and both unbound incomplete outputs retained. Source38392493973422eaf2c075a9af6e1e1656f7594c and runtime remain unchanged. Current/Continuation/receipt own final reviewed documentation/private-branch readback. N verified/O–R partial/S pending/all 43 and unaccepted0.7 remain.
+Before: service/hidden evidence with real native journeys unfinished. After: five fixture-specific jobs, three validated publications, two actual cancellations, both native close choices, real output opening and restart/grant checks. Three app launches closed, host finished12:10:50.477 UTC, lease released and both unbound incomplete outputs retained. Source38392493973422eaf2c075a9af6e1e1656f7594c and runtime remain unchanged. Independent documentation/privacy review passed. Reviewed native documentation checkpoint 1925ceb53ea837d9bb397ee7ba9150733e3a07a3 was pushed privately and read back; the receipt and final-git-readback identify the final closeout. N verified/O–R partial/S pending/all 43 and unaccepted0.7 remain.
 
 ## 🔜 Next Steps
 
-Read the native receipt and final live checkpoint. Finish the scoped documentation review/private existing-branch checkpoint and readback, then stop for Blue's bounded review. Do not replay completed jobs, spend a sixth attempt or start themes/icon/codec/HDR/vendor/portable work automatically. A later Blue assignment carries the owner's existing authority only within its new bounded scope; genuinely later owner stops control.
+Read the native receipt and final live checkpoint. The scoped content checkpoint is published privately; finish final closeout readback, then stop for Blue's bounded review. Do not replay completed jobs, spend a sixth attempt or start themes/icon/codec/HDR/vendor/portable work automatically. A later Blue assignment carries the owner's existing authority only within its new bounded scope; genuinely later owner stops control.
 
 ## ❓ Open Questions
 

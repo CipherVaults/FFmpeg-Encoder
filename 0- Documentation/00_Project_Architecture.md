@@ -1,3 +1,13 @@
+## Current finite HDR-to-SDR owner and qualification — October24 Cairo / October23 UTC
+
+The existing main-owned HDR workspace now prepares explicit SDR operations for two reviewed CPU HEVC Main10 source configurations. Source acquisition/complete content identity, strict HDR interpretation, operation-token execution, encoder telemetry, independent output/source validation and no-overwrite publication remain separate authorities. The renderer selects existing typed operation choices and displays the interpretation; it receives no new filesystem/process/argv privilege. Provisional SDR names resolve from the final transform descriptor; stale discard cannot erase a newer plan. Ordinary CPU/NVIDIA names, defaults and ArchiveCQ29 stay unchanged.
+
+The v2 graph declares full-range linear float properties, BT709 Hable desaturation coefficients and nominal100nit BT709 limited10bit output. Admission requires reported4000nit PQ, or declared1000nit/gamma1.2 HLG reference interpretation; the application has not measured either peak. Complete output observation checks obsolete HDR metadata absence. Dolby/audio/ancillary and arbitrary source support are outside this finite route.
+
+Explicit reviewed raw-byte qualification maintenance currently activates Full1 under32producers and HDR4 under69producers (two preservation/two SDR). Earlier31/57-producer and suspended paragraphs below retain dated history. Fresh loading and the stateless HDR reader reject drift; already-created HDR factories retain immutable load snapshots, so live cached-factory expiry is unclaimed. Independent saved numerical and actual cancellation reviews qualify the documented finite evidence only. [P receipt](Execution%20Summaries/2026-10-23_P_HDR_Vendor_and_Conversion.md).
+
+## Earlier architecture checkpoints
+
 ## Main-owned Full Encode preservation decisions — October23
 
 The O07 owner/workspace introduces a separate `full-preservation-selection` validation mode with `compatibilityPath:false` and no decoded-evidence prerequisite. It composes with the existing ordinary Full Encode lifecycle rather than the short-range aggregate deadline, input telemetry or range qualification. The fixed source class is MOV-demuxer/ISO-BMFF AV1 Main8 1080p60 BT709, AAC-LC48k stereo and exactly one linked tmcd data track/Track Reference. Unknown or malformed functional observations refuse; filename, native track ID and literal media hash do not grant membership.

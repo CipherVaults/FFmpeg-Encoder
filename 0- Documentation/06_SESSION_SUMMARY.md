@@ -1,3 +1,153 @@
+## Local P06 source checkpoint and exact continuation
+
+**P06 checkpoint identity:** reviewed source `621576f72e85c278107a88b89302426ba16c5632`; scope/privacy review `b3dcd89c`. The subsequent ignored `artifacts/v0.7/p-completion-2026-10-23/p06-final-git-readback.json` owns final documentation HEAD/private-branch equality and tree state. Recover that record before continuing the remaining P criteria; this is not a whole-P or owner-acceptance checkpoint. The P06 call/Start/job allowance is exhausted.
+
+Root committed exactly the reviewed 25 source/resource/test paths as621576f, parent074926c; receipt p06-source-commit.json5882B SHA72b83fcfa911e265a265306103f2369dab307b662f28825c8992926d5a9b74bf. All250producer working-tree raw hashes and24private hashes remained unchanged after Git staging/commit; index is empty. Git stores normalized logical text, so this is not a new raw-byte cold-clone or portable qualification. No hooks/signing configuration or runtime/source behavior changed.
+
+The reviewed14-document allowlist is the only subsequent documentation checkpoint scope; private Planning/media/runtime/artifacts remain excluded. Final private equality/tree verification is recorded separately after that checkpoint. Existing Blue authority continues through unfinished P, before Q/R/S; no routine owner-resume boundary is added.
+
+Saved P07 re-entry facts were checked without a new media job:385 is a bounded decoded-window count; the same source probe reports1299frames,21.658333seconds,3840x2160,nominal60/1 versus average155880/2599,AAC44100stereo and three mebx tracks. Source size145719990B and SAR remains unreported. These old saved observations are not current full identity/decoded-content/RPU proof; reported profile8/compatibility4/RPU flags are configuration only. A separate whole-source/ancillary/timing/metadata design and prospectively bounded admission remain necessary. Do not trim the authentic clip to385frames, assume CFR/SAR or spend exhausted P06 calls. No P07 implementation, copy, encode, decode, fixture, download or test occurred.
+
+# Session checkpoint: October24 Cairo / October23 UTC — finite P06 conversion and active cancellation independently verified
+
+The finite P06 CPU PQ/HLG conversion has two normal-service publications, independent frozen-method audit c5bf8185 over 1,100 frame pairs, and independently reviewed active cancellation 29dffab9 (audit b465bfaf). The cancellation run observed frame 17 progress before cancelling the same live owned child. Node exited 0; all 62 calls and 278 read handles closed, with no child, open owned handle, lease or new publication. The unsealed 0-byte stage and incomplete 2,148-byte statistics prefix remain safely retained. Failed run 2b368088 remains FAILED, and frozen numerical criteria are unchanged. Current cells: Full 1 / HDR 4 (two preservation, two SDR). The 524 affected source checks and 44 pure harness checks are separate runs. Cumulative P: 352 calls, three Starts, five attempted/four published jobs and 1,608,705 ms charged. This call/Start/job allowance is exhausted; residual time of 1,521,000 ms grants no replay. Whole P remains partial; vendor integration, phone HLG/mebx, Dolby/corpus and broader qualifications precede Q/R/S. Packaging remains final. No Security Cloud, default/ArchiveCQ29/benchmark change or owner acceptance.
+
+The first cancellation source reviewb72974e1 required SC1 accepted-stale-Start accounting, SC2 originating empty statistics identity and SC3 closure/storage/diagnostic correlation. A separate guarded sibling preserved the original. Root caught an unreviewed stats/output namespace confusion before execution. Readback7cb19b34 then identified SC4: genuine pre-seal cancellation may have no product outputDisposition. The final source2ed5dea6 preserves null and separately observes actual cleanup, without manufacturing a descriptor or deletion authority. Final44pure checks pass137.2312ms/Node0; source54aa4882 and packetf49e301a reviews pass. All earlier failed pure-test/builder drafts and reviews remain preserved. No production processing or numerical method changed during these harness revisions.
+
+Root explicitly admitted one62call/900000ms/4GiB attempt at22:56:47.289UTC, admissionf5ee5fbb/rootreceipteda01004, under the prospective49additional-call amendmentc76ebf53. Actual207250ms candidate and217000ms conservative admission-through-return charge are distinct. Native Node returned0 at23:00:23.4262205UTC observation, and a CreateNew/synced exit receipt7ab6c830 persisted successfully. This does not repeat the earlier unsupported Set-Content parameter failure. Reportc3c81e99/completion041970bc/console2d30b86a/rootreadbackc6a3b7ab remain immutable. Independent saved auditb465bfaf (b465bfaf1a5e4ec67defa6470b3c94e86d612412ca3939571649a165ae0ad269) passed without media replay.
+
+Selected call61/pid14060 forwarded actual frame17/nonended progress before the later live-child check at23:00:17.021UTC; exitCode/signalCode null,killedfalse,ownedtrue/closefalse. Actual cancel closed SIGTERM at23:00:17.084UTC; call62 final census was empty. The cancelled-runner witness retained no raw progress stdout string (334 bytes observed/two callback observations). Its scalar progress/live-child evidence is saved source instrumentation joined to the owned child and source order, not independent raw stdout reparsing. The originating empty stats object was captured before execution; its2148B/53-line prefix is explicitly incomplete, not branded completed telemetry or53 completed output frames. The output stage contains an unsealed0B file; actual cleanup truthfully retained it. No product outputDisposition was supplied, and no validation/deletion authority was fabricated. Complete cancelled storage has no violations/evidenceWarning; same file/batch/plan JOB_CANCELLED10 precedes JOB_DISPOSITION11. Destination absent, ordinary sentinel/source unchanged, stale Start refused. All62witnesses,250producer hashes,278read handles and process/pipe/sink/lease closure read back.
+
+New owned-F inventory87files/423752B; retained old+new8573562681B within the original16GiB envelope. Cumulative and exhausted call/job accounting above is not reset. Original43 IDs/text/order,24private hashes,HEAD074926c,accepted tags and benchmark are preserved; no staging/commit/push/app/desktop input/network/scan/packaging occurred in this actual attempt. Complete proportional docs/source/privacy review and a scoped private checkpoint, then continue surviving P under existing Blue authority with separately prospective admission for any new media work. This is not wholeP acceptance or a new owner-resume boundary.
+
+---
+
+# Session checkpoint: October24 Cairo / October23 UTC — saved normal-default holdout numerical recovery closed; audit active
+
+Run5908a169 completed the SAME frozen method on all1100saved normal-default frame pairs/56100regions/168300plane scores; observedNode0,6/6children closed/max1,4rawdecodes/0Starts/0encodes,266/266pins closed,0live/owned/pinhandles/lease,finalcensus[] and no closure errors. Independent saved-result auditc5bf8185 PASSES all1100records/56100regions/168300planes,raw/native/ROI/interval/control joins and closure; no whole-P/display/owner acceptance is inferred. Failed2b368088 remains FAILED with its two published jobs/collision facts separate. CumulativeP290children/lab151/2Starts/4publishedjobs; conservative624000ms recovery charge includes exit-receipt recovery time, leaving13calls/1Start/1job/1738000ms. Cancellation next requires explicit62call prospective amendment (13remaining+49additional), fresh normal capabilities and no positive/collision/numeric replay. CurrentFull1/HDR4/524source checks unchanged; packagingfinal/noSecurityCloud.
+
+The independently reviewed c0e5425c adapter reconstructed local rows from all six sealed native captures, retaining public/private collector boundaries. Source review9d795b0f and final packet review229f5f7a passed226pins/3757476B/zero cycles; source/math/criteria/processing stayed unchanged. Root admission18218905 reserved exactly four read-only decodes/two censuses/1200000ms/12GiB. New12files total8568054974B; old165files5083955B remain charged; retained plus a future4GiB cancellation forecast=12868106225B within original16GiB. No job/generation/collision replay or source edit.
+
+Actual console candidate elapsed561793ms. Supported root shell session88073 printed actual LASTEXITCODE0, but its following Set-Content -NoClobber receipt command failed because that parameter does not exist. The failure/output are retained; EXCL recovery receipt recorded22:26:53.057UTC, exact native exit instant UNKNOWN. Conservative624000ms charge uses admission through receipt-recovery time, so no fabricated timestamp or uncharged recovery interval. Raw report/completion/console bytes remain intact. Root closed readback6a00e58b preserves266closedpins/6closedchildren/finalcensus,226producer/24private hashes,43ID-text-order/accepted tags/HEAD/staging. No commit/push/scan/packaging/desktop input.
+
+Next remains same active P: finish independent saved-result audit, then root-owned fresh normal-service cancellation under a separately reviewed62call/900000ms/4GiB proposal. The selected-encode frontier must prohibit further media calls if completion wins; actual progress and a later still-live same child must establish intended cancellation. This is unfinished work under existing Blue authority, not a routine owner-resume gate. WholeP/Q/R/S and owner acceptance remain open.
+
+---
+
+# Session checkpoint: October24 Cairo / October23 UTC — P06 actual default publication and harness-contract failure
+
+The one reviewed normal-default campaign2b368088 ran90sequentialmedia/helper children,1Start/2successfully published holdout jobs (HLG500/PQ600frames), and the6call read-only old-output collision phase passed. Overall result remainsFAILED/observedNodeexit1 at21:56:10.931UTC. The harness read public receipt.hdrEvidence as private facts and accessed absentnativeHashes.rows before numericAttempts/cases push. Public manifests always expose sealed artifact/record/digest summaries; this is not a size-dependent collector behavior. No numerical decode/attempt or cancellation occurred.
+
+All90children/pipes/sinks drained;235/235readpins closed,0owned/pin/livehandles,closureFailures[],lease released/unknownlockfalse. FinalOS census/fullfreeze were correctly skipped after failure; root separately rehashed all201current producers afterward and preserved their raw3MB execution snapshot. CumulativeactualP284children/lab151/2Starts/4publishedappjobs; conservative338000ms newcharge plus429705ms oldlab charge=767705ms. The failed campaign is not renamed a pass.
+
+Independent saved-data audit confirms all6native captures and3300source/container/bitstream rows/digests, both published compressed-byte seals and witness identities. Next is separately reviewed no-Start/no-encode saved-output numeric recovery with exactly the frozen4fa0/5966method;4decodes+atmost2census fit19remaining calls. No successful workflow or collision replay. Active cancellation remains unfinished; any fresh normal-service capability calls require a new explicit prospective ledger amendment, not serialized grants or a budget reset. CurrentFull1/HDR4/524source checks stand; wholePpartial. [P execution receipt](Execution%20Summaries/2026-10-23_P_HDR_Vendor_and_Conversion.md) retains exact failures, artifacts, next action and acceptance limits.
+
+---
+
+# Session checkpoint: October24 Cairo / October23 UTC — P06 reviewed catalog maintenance and guarded default preparation
+
+The bounded qualification maintenance is integrated on final reviewed bytes. Independent review verified all32Full/69HDR pins, exact3Full/5HDR producer deltas and an acyclic8artifact receipt chain. Final19affected suites pass524/0/0/0 in40196.4616ms, observedNodeexit0; separate16activation checks and19harness guard checks pass. The live catalog shape is Full1/HDR4=2preserve+2SDR. Failed-overall service4273, zero-child numeric6f47 and independent paired audit992 retain distinct meanings; old protocols and historical173snapshot remain unchanged. No media was replayed.
+
+Two permanent gaps are closed: exact emitted evidence IDs/digests and syntheticFull32 valid/missing/extra membership checks. The new harness successor fixes exact fitting-review binding, partial pin-handle ownership, originating raw/evidence object identity and bounded cancelled telemetry reads. Independent guard readbacka1a3b6ba passes; old412416draft is preserved. HDR exports remain immutable module-load snapshots; only cached stateless-reader/freshcatalog refusal is claimed. New24private-hash/43criterion/accepted-tag-target readback passes; HEAD074926/stagedempty remain.
+
+Next: final prospective producer/projection/resource/active-time review, then one fresh normal-default untouched H-PQ600/H-HLG500 campaign with cancellation and read-only old-output collision. It is not yet admitted or executed. P194children/lab145/1Start/2publishedjobs unchanged. WholeP, vendors/phone/DV/authenticHDR/display and Q/R/S remain unfinished; packaging final, no SecurityCloud. The [P execution receipt](Execution%20Summaries/2026-10-23_P_HDR_Vendor_and_Conversion.md) owns exact paths, hashes, friction and continuation.
+
+---
+
+# 📘 Session checkpoint: October24 Cairo / October23 UTC — P06 frozen spatial fitting result
+
+**Follow-up at21:13UTC:** Independent actual audit992da505 now passes every9792plane score,3264source-derived vectors/1,253,376pixel intervals and280wrong-model predictions, with final173pin readback at21:11:43 before source edits. A separate catalog-scope review then found that the same HEVC parameter sets can carry a different MaxCLL and select an untested PQ peak. Root added only an SDR admission predicate for reported4000nitPQ or declared1000nit/gamma1.2HLG, preserving all old version/source/naming/currentness guards. Pre-edit bytes remain in before-peak-scope-fix. Synthetic positive cases now use the tested4000nit interpretation; explicit same-PS1000/2000 and missingCLL refusals were added. Fresh307/0/0/0 checks pass in33338.9223ms,Nodeexit0; independent code/test readback passes. The actual numerical report remains its earlier pinned checkpoint, with this narrowing separately reviewed; no media replay or catalog activation. after-peak-scope-checkpoint.json owns exact current12file hashes. Next finite catalog maintenance must name the retained overall-failed service report and separate successful numerical report truthfully, then fresh default/holdout/cancel/collision proof.
+
+The two complete retained fitting pairs now pass a new, prospectively frozen numerical test: PQ and HLG each32frames/1632regions, with all four wrong-transform controls separated by at least32codes. This is a declared full-frame mathematical reference from actual source pixels, not emulation of the linked zimg binary. Independent primary-source review derived exact LEFT420 phases, bilinear weights and nonlinear ordering; it also found internal zscale slice-edge reflection and possible WORD interpolation. All implementation, transfer, dither and codec differences consume the SAME unchanged mean6Y/8UV,p9512/16,max24/32 totals. The original constant-neighborhood failure and later conservative interval HLG46mean failures remain preserved with their original verdicts. No joint-box v2, grid selection, moved ROI or tolerance tuning occurred.
+
+Root integrated the pure reference and reviewed offline runner. Independent guard review found six issues before actual evaluation: partial lease lifetime, lock coverage, failure-time rehash gates, final console delivery, review-byte binding and admission allocation bounds. Those were corrected; one final real Writable error-ordering case led to a retained sink-listener correction. Initial20focused checks passed; final21 passed with Nodeexit0/330.2617ms. Math source4fa0c430, final runnercf3c2528 and helper7bf12757 were independently reviewed before admissionb3dd1f2a. All149older producers remained exact inside173pins.
+
+Actual offline run76cb79f2-18d0-4c19-9769-672d4b6553b8 exited0 at2026-10-23T21:05:31.175UTC, candidate elapsed13067ms. Native console/stderr and shell-observed process exit are retained directly, correcting the earlier recovery run's post-hoc console-transcription limitation. It wrote144887436bytes of new test evidence, read both existing raw pairs without another decoder, and ended with195/195readhandles closed, all report/lease handles closed, released lock, no signals/closure failures. On-disk report/receipt honestly precede lease release; final captured candidate requires observed Nodeexit0 after awaited sink and post-drain deadline/signal checks.
+
+This turn changed no production source or its303passing check result, spent0media/helper children/Starts, and did not qualify any catalog, native UI, portable build, vendor, display or whole P. P194children and one Start/two real appjobs remain unchanged. Independent result readback is active. Next is the same frozen method on untouched20sH-PQ/H-HLG through actual default/service lifecycle plus cancel/collision evidence and explicit qualification maintenance. Other P criteria still remain; Q/R/S and packaging do not follow from fitting success alone. No commit/push/desktop input occurred.
+
+[P execution receipt](Execution%20Summaries/2026-10-23_P_HDR_Vendor_and_Conversion.md) retains exact paths, hashes, failures, resources and remaining gates.
+
+# 📘 Session checkpoint: October23,2026 — P06 saved-byte interval result
+
+Root reviewed the new real-ideal interval reference and separate original-preserving checker, passed15pure arithmetic/counter checks plus1late-handle fault check, and received independent static module/wrapper/runner reviews. The final runner closes late receipt handles even when the first identity stat fails; its originalbytes remain archived. No production source changed or old test/media job was replayed.
+
+Actual recoveryd216 completed20:38:06.891UTC/24789ms/Nodeexit1:4children allclosed0/max1, before/aftercensuses empty,178readhandlesclosed and exactlease released. PQpassesall1632region checks across32frames; HLGfails46conservative meanbounds, with p95/max and4robust countermodel witnesses passing forbothpairs. Allnewrawframehashes match genuine service collector records. Bothoriginalexactconstancy and intervalv1 failures remain distinct/unaccepted. Fullrawpairs/NDJSONs are retained. A preentry root mixed-separator CLI mismatch refused0children; the same unchanged packet then ran with its exactliteralpath.
+
+CumulativeP194admitted media/helper children,1Start/2published appjobs. Default/holdout/cancel/collision remainunrun and bothcatalogs0;303productionchecks unchanged. Independent result audit and a mathematically justified correlation-preserving reference are next; no deepergrid/threshold/ROI tuning, re-encode or decoderreplay. P staysactive/partial underBlue; packagingfinal. [P receipt](Execution%20Summaries/2026-10-23_P_HDR_Vendor_and_Conversion.md) owns exacthashes, commands, failures and limits.
+
+# 📘 Session: October23,2026 — P06 fitting jobs published, numerical precondition failure retained
+
+Root continued the same Blue-authorized P in existing Thread2. It remains the sole source writer/media scheduler, with explicit SolUltra/fork-none workers; root backend is not independently exposed. PC-free messages establish availability only; no P native input occurred. O remains accepted within its receipt; P is partial, Q/R/S wait and packaging is final.
+
+Corrected service lab b82ffc65 ended20:08:51.784UTC/243849ms with actual Nodeexit1. Both genuine CPU PQ/HLG→BT709 jobs completed/published successfully through main-owned source/runtime/storage/collector/validation/publication;86children closed0/max1,1Start/2jobs. Independent HLGnumerics then failed the frozen exact-source-constancy precondition:259of1632regions unevaluated,1373constant regions pass;32marker/order/parity and32semantic checks pass. Failed record/report and published outputs/raw pair remain. No product defect or numeric pass is inferred from this result.
+
+Cumulative P190admitted media/helper children;4engineering sources/2references,1Start/2jobs. Known owned handles/sinks/children closed and exact lease absent; final OS census did not run after abort. PQpixel analysis, collision reprepare, fresh default holdouts and active cancel remain unrun. Current303/0/0 source checks unchanged, HDR/Full catalogs0. Independent saved-data audit and rigorous prospectively reviewed replacement numerical method are next; no Start replay, mean shortcut, moved ROI, widened tolerance or default activation. Exact report/readback/provenance/limits are in the [P receipt](Execution%20Summaries/2026-10-23_P_HDR_Vendor_and_Conversion.md).
+
+Cosmos intake is complete with729587898payload bytes charged once; authentic publisher HDR claim remains unresolved because reported color signaling is absent. Maintenance/vendor service proposals are saved and unapplied. Original43texts/private2/15/24/accepted releases/defaults/ArchiveCQ29/benchmark gate remain preserved. No commit/push/package/cloud scan or personal-media write occurred at this boundary.
+
+# 📘 Session: October23,2026 — FFmpeg Encoder — P06 raw numerical checkpoint, P continues
+
+## 🤖 Models, Effort, Roles and Provenance
+
+Blue's supported continuation carries Ahmed's O→P→Q→R→S authority. Root in existing Thread2 remains sole source writer and actual scheduler; original development thread idle. Workers are explicitly GPT-6.1 Sol/Ultra/fork-none; root effective backend is not independently exposed. PBS remains external. PC-free replies establish availability only; no native input occurred in this P work.
+
+## 🕒 Time
+
+October23, Africa/Cairo. Corrected raw campaign completed18:58:19.462UTC in13601ms. Root actual exit0 is captured separately from the final console/readback. Prior failed intervals remain in their reports; model/review waits are not media-processing time. P09 network-only intake was admitted19:08:05.682UTC and remains running at this written checkpoint.
+
+## 🎯 Session Goal
+
+Advance the full P criteria: native vendor controls/evidence, current HDR preservation, deliberate actual HDR-to-SDR, usable phone HLG/mebx, bounded DV alternative/limitations and a legitimate varied corpus. This checkpoint completes raw mathematical proof, not normal encoding, whole P or release acceptance. Packaging remains final/deferred.
+
+## 🛠️ Actions Taken
+
+Integrated a finite explicit CPU SDR operation through the existing HDR owner/workspace/collector and split source HDR from BT709 output expectations. Added deterministic SDR-semantic filenames without changing ordinary names; complete frame-only peaks resolve in the same preparation through unselected provisional-plan disposal and a fresh output UUID. Discard is idempotent and cannot clear a newer same-file plan. Final303/0/0 focused checks cover these boundaries.
+
+Built an independent arithmetic reference and frozen raw patch campaign. Corrected explicit BT709 desaturation coefficients/GBR restoration and, after actual observation, full-range float tags. Complete PQ/HLG raw/float/tag and wrong-peak/retag controls now pass independent actual byte/arithmetic review. Prepared separate ignored native coordinator and service fixtures/harness proposals. Admitted one licensed Cosmos download with exact payload/accounting; no decoded source claim yet.
+
+## 🧠 Key Insights
+
+A changed hash alone cannot prove tone mapping; actual pixels must match transfer, primary, Hable and output-transfer math. HLG needs coupled luminance OOTF. Output label and intermediate interpretation are distinct: the first PQ pixels passed while its float range tag was unknown. HLG retag markers can pass even when32substantive patches fail.
+
+## 📌 Decisions Made
+
+Preserve exact old HDR/Full pins and acknowledge both catalogs currently activate0. No silent reseal or historical-pass promotion. Keep source/codec/service/default/display proof separate. Actual service holdouts will use20seconds within existing product bounds; mathematical one-frame fixtures remain small. Ahmed's storage clarification permits meaningful test growth with live D/F checks, without weakening parser/pixel/memory/time/security or network bounds.
+
+## ⚠️ Difficulties / Friction
+
+The first raw attempt stopped before children because the fixed Windows helper has two managed hardlinks. A narrow exact-path read-only size/hash/identity exception fixed that without relaxing project evidence/output/lease rules. The next attempt completed5children and two raw frames, then correctly failed unknown intermediate range. Failed reports/outputs/admissions remain intact.
+
+## 🔧 Adjustments Made
+
+Independent review added graceful signal drainage, no new child after signal, actual post-readback deadline completion and explicit raw-versus-compressed counters. Root added full-range frame properties after the actual finding and reran affected303checks. The final raw12-child campaign passed, without changing oracle or tolerances. Prospective extensions explicitly account for cumulative17children/4raw rather than resetting a budget.
+
+## ❌ Mistakes / Risks Noted
+
+The first failure console masked its original cause; the saved report retained it and reporting was corrected. A checkpoint used the wrong export name for the Full catalog and recordednull; separate actual readback confirms0. Early old-graph RGB-sum inference remains hypothetical, not a measured defect. Linked zimg version is unestablished. Corpus transfer accounting records documented workflow usage and explicit historical unknowns, not global wire truth.
+
+## 📍 Current Position
+
+Source remains recoverable/uncommitted after HEAD074926c. Current contract3086db24 and final303/0/0 plus actual raw math are independently reviewed. Reportb5d78a2c, readback0d181c91 and reviewece7b9e2 retain exact full hashes in the active P receipt. No compressed P generation or workflow Start has run. The network-only P09 intake holds the exact lease until closed. All43criteria/private24hashes/defaultCQ29/accepted/benchmark boundaries remain protected.
+
+## 🔜 Next Steps
+
+Finish/reconcile the admitted one-object intake, then its bounded local probe. Complete reviewed720p source-generation/template and normal-service harnesses, actual sourcePS/kernel-support evidence and prospective counters before real service qualification. Restore/extend current catalogs only after reviewed final-byte evidence; continue all remaining P criteria before Q/R/S.
+
+## ❓ Open Questions
+
+Actual source profile compatibility, real SDR output configurations, ordinary/default service publication/cancellation and numerical codec evidence remain. Native coordinator host/service/UI/job integration and missing AMD/Intel assurance, phone/mebx/DV and authentic corpus closure are unfinished. These are work items; no new routine owner gate is created.
+
+## 🧾 Session Outcome
+
+Finite raw software tone-map arithmetic/tag/negative proof is complete with independent readback and truthful failed-attempt recovery. P remains active and partial. No accepted alpha, normal-service SDR, hardware, display, native or portable support is claimed. No commit/push happened in this checkpoint.
+
+## 🔍 Confidence Level
+
+High for exact current direct boundaries and retained raw numerical behavior/closure. Explicitly limited for codec/service/default, representative natural footage, vendor hardware, phone/DV, display and final owner acceptance. The active P receipt and ignored executed artifacts own exact re-entry evidence.
+
+---
+
 # 📘 Session: October23,2026 — FFmpeg Encoder — complete O and named Full Encode preservation
 
 ## 🤖 Models, Effort, Roles and Provenance

@@ -1,3 +1,11 @@
+## Add finite explicit CPU HDR-to-SDR conversion — October24 Cairo / October23 UTC (unaccepted alpha)
+
+- Implement main-owned PQ/HLG Hable100nit SDR preparation/execution with explicit peak/gamma interpretation, final transform-derived names and strict content/signaling/source/output protection. Preserve ordinary CPU/NVIDIA controls/defaults and ArchiveCQ29.
+- Keep source HDR and SDR output expectations distinct; validate complete timing/native frame identity, BT709 output and removal of obsolete HDR metadata. Limit activation to the reviewed finite source/configuration classes; Dolby, audio/ancillary and arbitrary-source acceptance remain open.
+- Renew separate Full32/HDR69 byte policies through explicit reviewed maintenance. Current cells: one Full, two HDR preservation and two SDR conversion. Earlier reports/pins remain historical.
+- Final affected source checks524pass/0fail/0cancel/0skip. Independent saved holdout audit passes1,100pairs/56,100regions/168,300plane scores under frozen criteria. One fresh-service active cancellation passes62closedcalls/1cancelledjob/no new publication/Node0; unsealed stage/incomplete statistics are retained truthfully. Separate44pure harness checks and retained earlier failures are not added to the source count.
+- WholeP remains partial; final packaging, SecurityCloud, display/native/portable and owner acceptance are separate. [Evidence and limits](0-%20Documentation/Execution%20Summaries/2026-10-23_P_HDR_Vendor_and_Conversion.md).
+
 ## Add a named Full Encode timed-track preservation choice — October23,2026 (unaccepted alpha)
 
 - Add a separate main-private Full/KeepSource/Matroska CPUslowCRF25 route for the finite AV1 Main8 BT709 1080p60/AAC-LC48k-stereo source class with one linked tmcd track. An exact per-file choice names timed-track/link loss; intact source probes, strict grants and selected-output validation prevent silent global omission. Existing defaults/recipes are unchanged.

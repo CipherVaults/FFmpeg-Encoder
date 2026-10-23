@@ -1,3 +1,15 @@
+## Current finite CPU HDR-to-SDR path — October24 Cairo / October23 UTC
+
+Explicit hdrPolicy=sdr uses software-hable-100nit-v2, Full/source dimensions/Matroska, h265-cpu slowCRF25/Main10, one video and no ancillary streams. Reviewed configurations are1280x720 progressive square-pixel PQ30fps and HLG25fps with strict parameter-set/content membership. The conjunctive16MiB/1800frame/60second/829440000pixel-frame limits remain. Source hashes alone,10bit pixels or BT2020 tags grant no eligibility.
+
+PQ requires reportedMaxCLL4000/peak40; HLG uses declared1000nit/peak10/systemgamma1.2. Both target nominal100nit, explicit BT709 desaturation coefficients and display-referred BT709/inverseBT1886 gamma2.4 interpretation. Limited scaling retains storage headroom; universal nominal clamping is not promised. Obsolete HDR metadata must be absent. SDR names include the deterministic transform digest; unrelated ordinary outputs do not hide the SDR target and existing SDR targets skip without overwrite.
+
+Independent reference4fa0c430/checker5966fa86 uses full-frame real bilinear neighborhoods, fixed51ROIs/every frame and128fraction-bit interval arithmetic. Fixed total bounds are mean6Y/8UV,p9512Y/16UV,max24Y/32UV; four predeclared wrong-model controls require guaranteed mean gap32. This is a normative numerical model, not exact linked-zimg/SIMD emulation or display/visual acceptance. Fitting64pairs and independent saved normal-service holdout1100pairs passed separately; failed historical protocols remain failed.
+
+Current Full32/HDR69 raw-byte policies activate1/4 cells. Normal-service active cancellation independently passed after real frame17 progress, with incomplete statistics and unsealed stage retained; completed numerical evidence was not replayed. Current source subset524pass/0fail/0cancel/0skip and44pure harness checks are separate runs, not a whole-source or portable regression. [P receipt](Execution%20Summaries/2026-10-23_P_HDR_Vendor_and_Conversion.md) owns exact reports, hashes, budgets and remaining criteria.
+
+## Earlier technical-reference checkpoints
+
 ## O07 finite Full Encode preservation route — October23
 
 Source `37a46ef97be6bb452de79ec27d0243c78f35ad7a` provides one main-private policy `full-encode-linked-tmcd-v1`, source class `mov-av1-main8-1080p60-bt709-aac48-stereo-linked-tmcd-v1`. Required operation is Full/KeepSource/Matroska, preserve-or-SDR, copied audio, h265-cpu/slow/CRF25 and no recipe. This is a fixed qualified option, not a new recommended default or cross-encoder quality equivalence. Unsupported settings remain precise refusals.

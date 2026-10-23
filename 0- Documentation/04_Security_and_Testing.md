@@ -1,3 +1,13 @@
+## Current P06 finite evidence and remaining qualification — October24 Cairo / October23 UTC
+
+The final19affected source suites pass524/0fail/0cancel/0skip; final cancellation-harness branches pass44/0/0/0 separately. Pure/injected checks establish owner/schema/race/refusal behavior, while genuine normal-service publications, independent saved1100pair audit and one fresh-service active cancellation supply distinct runtime evidence. Earlier full1619 results bind earlier bytes and are not a current full-suite claim.
+
+The cancellation run binds250raw producer files and independently reviewed acyclic evidence; fresh pinned runtime/Node/helper verification precedes work. One child remains owned through close, pipe EOF/sink drain and witness settlement. Real nonended progress plus a later same-child live check precedes cancellation. After selected encode admission only the exact final census is allowed, preventing successful completion from entering output collectors/publication if cancellation loses. A missed race fails once without replay. For this cancelled child the witness retains scalar progress observations but no raw progress stdout string; the live callback/source-order evidence is not independent stdout reparsing.
+
+Origin-bound incomplete statistics, complete cancelled storage and correlated durable outcomes are required. An absent pre-seal output descriptor remains absent; unsealed output retention is an observation and grants no deletion/validation authority. Root observed Node0 and all278read handles closed with no child/open owned handle/lease; independent saved auditb465bfaf agrees. Storage receipts remain bounded point observations, with unsupported directory sync and no hard concurrent-write cap; complete cancelled records do not establish crash-proof storage. Current call/job allowance is exhausted. No SecurityCloud, display/native/portable/clean-machine/owner or wholeP acceptance follows. [P receipt](Execution%20Summaries/2026-10-23_P_HDR_Vendor_and_Conversion.md).
+
+## Earlier testing checkpoints
+
 ## Reviewed O07 boundaries and bounded actual evidence — October23
 
 Final current-byte direct boundary run:181 passed/0 failed/0 skipped in5681.2868ms. Separate disjoint affected lifecycle run:116/0/0 in12073.8611ms. Separate six catalog/seal checks overlap the181 and are not added. Node exit0 was captured immediately; earlier masked failure remains documented. These are pure/injected-media checks, distinct from actual runtime/media below. No current whole-suite pass is claimed while HDR pins suspend changed producers; packaging tests remain deferred.

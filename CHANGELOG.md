@@ -1,3 +1,10 @@
+## Preserve diagnostic outcomes and interrupted history — October23,2026 (unaccepted alpha)
+
+- Record completed and failed re-preparation, temporary source-permission decisions and provenance recovery. Keep new work blocked while final receipts persist; distinguish cancellation from infrastructure failure.
+- Retain requested/effective processing details and actual child exit signals. Reviewable exports include source-assessment and safe audio/color/HDR decisions while excluding private metadata and fingerprints.
+- Fix unreadable bounded journal contexts after depth/node/key-byte truncation. Interrupted startup points to History without restoring jobs or cleanup authority; failed final persistence is disclosed after resource drainage.
+- Reviewed source b5d727b7c3287ad52a56280af5f1458e96a20bef;216 focused and110 separate affected checks pass. These are direct/injected-media checks plus one controlled Node-process recovery, with native reparse limits retained. Existing exact-byte HDR activation is suspended pending reviewed qualification maintenance. O07 remains unfinished; packaging is final/deferred. [Evidence and continuation](0-%20Documentation/Execution%20Summaries/2026-10-23_O_Diagnostics_and_Source_Acceptance.md).
+
 ## Add an original icon and persistent light/dark themes — October 23, 2026 (unaccepted alpha)
 
 - Added graphite dark and paper-white light appearance across all six workspaces, with themed controls, information panels, status/error states and visible focus. Processing controls, exact numeric values, paths and expert disclosures remain available.

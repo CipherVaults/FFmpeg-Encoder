@@ -1,3 +1,7 @@
+## Active O diagnostic changes — October23
+
+The bounded journal now retains correlated reprepare/source-permission/recovery outcomes, compact typed requested/effective operation descriptions, canonical and historical source-assessment exports, actual child close signals and truthful terminal-write failure status. Prepared admission stays closed during terminal persistence; late cancellation records revocation and shared infrastructure failures remain failed. Depth/null/node/key-byte truncation round-trips safely with explicit flags. A controlled injected-runner service/process restart describes a retained completed disposition without restoring authority. [O receipt](Execution%20Summaries/2026-10-23_O_Diagnostics_and_Source_Acceptance.md) owns checks and limits. The old HDR57-producer qualification is suspended by the four changed producers until reviewed qualification maintenance; no pins were changed.
+
 ## Candidate appearance storage and artwork — October 23
 
 `src/appearance.cjs` owns `appearance-v1/settings.json` beneath the existing application state directory. Its exact disk schema is `{ namespace: 'appearance-v1', schema: 1, theme: 'dark' | 'light' }`. Missing state selects dark without writing. This is an additive namespace: processing App Settings and remembered profile preferences retain their existing schemas and bytes. No browser storage or persisted folder/plan authority is involved.

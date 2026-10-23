@@ -1,3 +1,9 @@
+## Diagnostic lifecycle and descriptive recovery — October23
+
+Main retains journal outcomes across draft re-preparation, temporary source permissions and provenance recovery. Admission remains closed while the terminal write settles; later cancellation records separate revocation, while an infrastructure abort preserves failure precedence. A compact allowlisted projection records requested/effective processing choices rather than duplicating private frame/source trees. The journal bounds key bytes, depth and node work, and its null truncation representation round-trips through immutable readback.
+
+A recovered session references only its last durable event/stage/reason. Neither persisted diagnostics nor the startup History notice reconstructs a source grant, prepared plan, stage WeakMap handle, cleanup or publication authority. Terminal write failure updates service status; main still drains owned resources and reports exit1 for unconfirmed or rejected diagnostic closure. [O receipt](Execution%20Summaries/2026-10-23_O_Diagnostics_and_Source_Acceptance.md) owns bounded evidence. Existing media/default/recipe policies are unchanged; the old HDR exact-byte catalog currently refuses changed diagnostic producers until explicit qualification maintenance. Its preceding activation paragraphs are historical checkpoint evidence.
+
 ## Original icon and persistent appearance — October 23
 
 Main now owns a separate `AppearanceSettings` instance and the fixed `dark`/`light` choice. It loads before window construction and selects `nativeTheme` plus the initial background; the renderer receives inert snapshots through named, trusted-frame preload/IPC methods. Immediate saves are limited to eight active/queued writes, and synchronous admission closure precedes shutdown drainage. This store never reads or changes processing defaults, profile recipes, drafts, grants or media paths.

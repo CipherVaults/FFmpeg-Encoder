@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" role="img" aria-label="FFmpeg Encoder Folded Frame 16 pixel optical source">
+  <rect x="1" y="1" width="14" height="14" rx="3" fill="#172A33"/>
+  <path d="M5 4H8V6H6V10H8V12H5Q4 12 4 11V5Q4 4 5 4Z" fill="#F9F6EC"/>
+  <path d="M8 4H11Q12 4 12 5V7L10 5V6H8Z" fill="#F4B54C"/>
+  <path d="M10 5L12 7H10Z" fill="#D88D28"/>
+  <path d="M10 8H12V11Q12 12 11 12H8V10H10Z" fill="#50C7BC"/>
+</svg>

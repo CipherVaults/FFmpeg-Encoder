@@ -156,6 +156,56 @@
     put(id, message); visible(id, Boolean(message));
   }
 
+  let appearance = null;
+  let appearanceSaving = false;
+  function showAppearance(result, message = '') {
+    if (!result || result.schema !== 1 || !['dark', 'light'].includes(result.theme)
+      || typeof result.persistence?.persisted !== 'boolean') throw new Error('The appearance preference could not be read.');
+    appearance = result;
+    // Only the two inert, main-validated names reach CSS. Appearance never
+    // adopts processing defaults, changes a draft, or grants media authority.
+    document.querySelector('html').dataset.theme = result.theme;
+    byId('appearance-theme').value = result.theme;
+    const label = result.theme === 'light' ? 'Light' : 'Dark';
+    put('appearance-status', [message || (result.persistence.persisted
+      ? `${label} theme saved on this device.` : `${label} theme is in use; no saved preference was confirmed.`),
+      ...(Array.isArray(result.notices) ? result.notices : [])].join(' '));
+  }
+
+  async function loadAppearance() {
+    byId('appearance-theme').disabled = true;
+    try {
+      if (typeof api?.getAppearance !== 'function') throw new Error('Appearance controls are unavailable. Reopen the application.');
+      showAppearance(await api.getAppearance());
+    } catch (error) {
+      localError('appearance-error', error);
+      put('appearance-status', 'Using the current application appearance. A saved choice was not confirmed.');
+    } finally { byId('appearance-theme').disabled = !appearance; }
+  }
+
+  async function saveAppearance() {
+    if (!appearance || appearanceSaving) return;
+    const theme = byId('appearance-theme').value;
+    if (!['dark', 'light'].includes(theme)) {
+      byId('appearance-theme').value = appearance.theme;
+      localError('appearance-error', new Error('Choose Light or Dark.'));
+      return;
+    }
+    appearanceSaving = true; byId('appearance-theme').disabled = true;
+    localError('appearance-error', null); put('appearance-status', 'Saving your theme…');
+    try {
+      // Dispatch immediately from change, without a timer or beforeunload
+      // promise. Main owns the accepted write and drains it before exit.
+      showAppearance(await api.saveAppearance({ theme }));
+    } catch (error) {
+      byId('appearance-theme').value = appearance.theme;
+      localError('appearance-error', error);
+      put('appearance-status', 'The theme was not saved. Your previous appearance remains in use. Reopen the application before trying again.');
+    } finally { appearanceSaving = false; byId('appearance-theme').disabled = false; }
+  }
+
+  byId('appearance-theme').addEventListener('change', saveAppearance);
+
   function renderDefaultActions() {
     byId('app-settings-fields').disabled = !appDefaults || defaultsLoading || Boolean(appDefaults.persistence?.resetRequired);
     byId('app-settings-save').disabled = !appDefaults || defaultsLoading || !defaultsDirty || defaultsNeedsReload || Boolean(appDefaults.persistence?.resetRequired);
@@ -1975,6 +2025,7 @@
     return;
   }
   unsubscribe = api.onUpdate(applySnapshot);
+  void loadAppearance();
   command(async () => {
     applySnapshot(await api.getSnapshot());
     await loadCapabilities();

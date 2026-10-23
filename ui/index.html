@@ -11,7 +11,13 @@
 <body>
   <main class="app-shell">
     <header class="app-header">
-      <div class="app-brand"><span class="brand-mark" aria-hidden="true">&gt;_</span><h1>FFmpeg Encoder</h1><span class="local-label">Local media workbench</span></div>
+      <div class="app-brand"><svg class="brand-mark" viewBox="0 0 256 256" aria-hidden="true" focusable="false">
+  <rect x="8" y="8" width="240" height="240" rx="52" fill="#172A33"></rect>
+  <path d="M76 54H136V78H80V178H136V202H76C64.954 202 56 193.046 56 182V74C56 62.954 64.954 54 76 54Z" fill="#F9F6EC"></path>
+  <path d="M136 54H180C191.046 54 200 62.954 200 74V118L176 94V78H136Z" fill="#F4B54C"></path>
+  <path d="M176 94L200 118H176Z" fill="#D88D28"></path>
+  <path d="M176 134H200V182C200 193.046 191.046 202 180 202H136V178H176Z" fill="#50C7BC"></path>
+</svg><h1>FFmpeg Encoder</h1><span class="local-label">Local media workbench</span></div>
       <span id="phase-badge" class="phase-badge">Starting</span>
     </header>
     <nav class="workspace-navigation" aria-label="Workspaces">
@@ -161,6 +167,11 @@
     </div>
 
     <div id="workspace-settings" class="workspace" role="tabpanel" aria-labelledby="tab-settings" tabindex="0" hidden>
+      <section class="panel appearance-panel" aria-labelledby="appearance-heading">
+        <div class="section-heading"><div><p class="eyebrow">PERSONALIZE</p><h2 id="appearance-heading">Appearance</h2></div><span class="scope-label">This application</span></div>
+        <div class="appearance-layout"><div class="field"><label for="appearance-theme">Color theme</label><select id="appearance-theme" aria-describedby="appearance-description appearance-status" disabled><option value="dark">Dark · graphite</option><option value="light">Light · paper</option></select></div><div><p id="appearance-description" class="appearance-description">Choose a familiar dark workbench or a clean, paper-white view. Your choice applies across the application and leaves encoding settings unchanged.</p><div class="appearance-preview" aria-hidden="true"><span></span><span></span><span></span></div></div></div>
+        <p id="appearance-status" class="appearance-status" role="status">Reading your appearance preference…</p><p id="appearance-error" class="attention-warning" role="alert" hidden></p>
+      </section>
       <section class="panel" aria-labelledby="app-settings-heading">
         <div class="section-heading"><h2 id="app-settings-heading">Defaults for new batches</h2><button id="app-settings-reload" class="subtle" type="button">Reload stored defaults</button></div>
         <p class="hint">Factory defaults → saved app defaults → batch choices → file overrides → compatibility validation. Saving never changes prepared, queued or running jobs.</p>
@@ -183,6 +194,7 @@
     </div>
 
     <div id="workspace-help" class="workspace" role="tabpanel" aria-labelledby="tab-help" tabindex="0" hidden>
+      <section class="panel artwork-credit" aria-labelledby="artwork-heading"><h2 id="artwork-heading">Folded Frame · original app artwork</h2><p class="hint">An ivory source frame, an amber fold and a teal output bracket give this workbench its own mark. Original artwork created for FFmpeg Encoder; licensed under ISC. The editable vector, Windows sizes and artwork license are included with the project.</p><p class="hint">Light and dark appearance choices are saved on this device. Windows controls some native dialog surfaces separately.</p></section>
       <section class="panel" aria-labelledby="workflow-help-heading"><h2 id="workflow-help-heading">Using the workbench</h2><ol class="workflow-steps"><li>Choose input and output folders in Encode. Codec/backend, native preset and exact quality remain directly editable.</li><li>Prepare the batch to inspect effective settings and file eligibility. Use Inspect for a file's preservation notices, generated-output identity, processing overrides and resolved FFmpeg arguments.</li><li>Review selected files beside Start, including files hidden by filtering or collapse. File focus is independent of batch membership.</li><li>Start eligible selected files. Current Jobs follows the queue, measured progress and cancellation. History keeps past records without resuming work.</li></ol><details><summary>Settings scope and preparation</summary><p class="hint">Encoder controls apply to the Encode batch. Batch processing defaults affect inheriting files; the inspector contains this file's overrides. App Settings saves defaults for future batches. Existing drafts adopt saved defaults explicitly, and prepared, queued or running snapshots never change through navigation.</p><p class="hint">Range, resolution, audio and HDR choices are requests subject to main validation. Read the resulting file status and effective output; an available field does not prove an executable route.</p></details><details><summary>Generated sources and quality</summary><p class="hint">Generated outputs remain excluded unless you deliberately authorize specific files for re-encoding. Each further lossy generation can reduce quality. Filtering or selecting a file does not grant that permission.</p><p class="hint">Quality numbers are encoder-specific. Matching CRF/CQ values do not imply matching perceptual quality. Tested Default and Archive Quality populate the ordinary editable controls; inspect their additional options.</p></details><details><summary>Saved output, retained work and private history</summary><p class="hint">A file is saved only after validation, source checks and protected publication. Retained temporary work is a separate outcome. Use only the output actions offered for that exact result.</p><p class="hint">History can contain private paths and metadata. Preview selected redacted records before sharing. Settings resets preserve original media and completed outputs.</p></details></section>
       <section class="panel" aria-labelledby="help-heading"><div class="section-heading"><h2 id="help-heading">Runtime and local workflow</h2><button id="runtime-refresh" class="subtle" type="button">Refresh runtime information</button></div>
         <p class="hint">Versions below are reported by this running application. Refreshing this page reads recorded runtime information; it does not launch encoder tests.</p>

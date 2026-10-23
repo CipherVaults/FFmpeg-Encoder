@@ -2,19 +2,21 @@
 
 const fs = require('node:fs/promises');
 const path = require('node:path');
-const { appFiles, hashFile } = require('./scripts/build-portable.cjs');
+const { appFiles, appDirectories, hashFile, selectPortableRuntime } = require('./scripts/build-portable.cjs');
 
 module.exports = function packageOptions(root, buildRoot, manifest) {
   if (path.dirname(buildRoot) !== path.join(root, 'out') || !path.basename(buildRoot).startsWith('portable-')) {
     throw new Error('Build through scripts/build-portable.cjs to reserve a fresh local directory.');
   }
   const staged = path.join(buildRoot, 'staged-resources');
-  const allowed = new Set(['', 'src', 'ui', ...appFiles(root)]);
+  const candidate = selectPortableRuntime(manifest).mode === 'candidate-0.7';
+  const allowed = new Set(['', ...appDirectories(manifest), ...appFiles(root, manifest)]);
   return {
     dir: root, out: path.join(buildRoot, 'package'), platform: 'win32', arch: 'x64',
     electronVersion: manifest.devDependencies.electron,
     name: 'FFmpeg Encoder', executableName: 'FFmpeg Encoder',
     appVersion: manifest.version, buildVersion: manifest.version.split('-')[0],
+    ...(candidate ? { icon: path.join(root, 'assets', 'app-icon', 'app-icon.ico') } : {}),
     asar: true, prune: false, derefSymlinks: false, overwrite: false,
     tmpdir: path.join(buildRoot, 'packager-temp'),
     download: { cacheRoot: path.join(root, '.cache', 'electron') },

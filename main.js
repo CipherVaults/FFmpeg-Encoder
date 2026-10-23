@@ -1,4 +1,4 @@
-const { app, BrowserWindow, dialog, ipcMain, session, protocol, shell } = require('electron');
+const { app, BrowserWindow, dialog, ipcMain, session, protocol, shell, nativeTheme } = require('electron');
 const fs = require('node:fs');
 const path = require('node:path');
 const { createHash } = require('node:crypto');
@@ -11,6 +11,7 @@ const { discoverNativeBackends } = require('./src/backend-discovery.cjs');
 const { NativeCapabilityRegistry } = require('./src/backend-capabilities.cjs');
 const { registerIpc } = require('./src/ipc.cjs');
 const { ENTRY_URL, resolveAsset, registerLocalProtocol } = require('./src/local-protocol.cjs');
+const { AppearanceSettings } = require('./src/appearance.cjs');
 
 // Register before readiness. CSP and CORS remain enabled; no service workers or
 // arbitrary file loading are granted to this origin.
@@ -18,6 +19,8 @@ protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { standard: t
 
 let window;
 let service;
+let appearance;
+let appearanceSaveFailed = false;
 let exitAllowed = false;
 let closePrompt = false;
 let root;
@@ -31,13 +34,20 @@ let startupFailurePromise;
 let shutdownExitCode = 0;
 
 function finishShutdown() {
+  // Close admission synchronously, before draining media can yield to another
+  // IPC request. Previously accepted appearance writes still finish durably.
+  appearance?.closeAdmission();
   shutdownPromise ||= (async () => {
     // A failed drain must not skip attempts to close owned handles/leases or
     // flush diagnostics. Each closure retains its own failure identity.
     const failures = [];
     for (const [reason, close] of [
       ['OPERATION_DRAIN_FAILED', () => service?.cancelCurrent()],
-      ['OPERATION_RESOURCES_CLOSE_FAILED', () => service?.closeOperationResources?.()]
+      ['OPERATION_RESOURCES_CLOSE_FAILED', () => service?.closeOperationResources?.()],
+      ['APPEARANCE_FLUSH_FAILED', async () => {
+        await appearance?.flush();
+        if (appearanceSaveFailed) throw new Error('The last requested appearance change was not confirmed saved.');
+      }]
     ]) {
       try { await close(); }
       catch (error) { shutdownOutcome = 'failed'; failures.push({ reason, error }); }
@@ -60,6 +70,33 @@ function finishShutdown() {
   return shutdownPromise;
 }
 
+const appearanceBackground = theme => theme === 'light' ? '#f7f7f4' : '#101318';
+function applyNativeAppearance(theme) {
+  // Electron's app-local theme source controls native dialogs/chrome only; no
+  // operating-system setting or media/processing state is changed here.
+  nativeTheme.themeSource = theme;
+  if (window && !window.isDestroyed()) window.setBackgroundColor(appearanceBackground(theme));
+}
+
+const appearanceFacade = {
+  load: () => appearance.load(),
+  async set(request) {
+    // The store accepts/tracks this write before the first await, so an
+    // immediate close cannot outrun it. Invalid DTOs grant no write to drain.
+    const pending = appearance.set(request);
+    let snapshot;
+    try { snapshot = await pending; }
+    catch (error) { appearanceSaveFailed = true; throw error; }
+    if (snapshot.persistence?.persisted !== true) {
+      appearanceSaveFailed = true;
+      throw Object.assign(new Error('The appearance change was not confirmed saved.'), { code: 'APPEARANCE_SAVE_UNCONFIRMED' });
+    }
+    appearanceSaveFailed = false;
+    applyNativeAppearance(snapshot.theme);
+    return snapshot;
+  },
+};
+
 function startupFailed(error) {
   // A renderer can fail while loadURL is still pending. A synchronous error
   // box blocks render-process-gone and therefore the cancellation/close path.
@@ -68,6 +105,7 @@ function startupFailed(error) {
   // its parent then closes it. Genuine startup errors remain visible.
   startupFailurePromise ||= (async () => {
     shutdownOutcome = 'failed'; shutdownExitCode = 1;
+    appearance?.closeAdmission();
     await service?.cancelCurrent();
     await service?.recordIncident({ stage: 'startup', reason: 'STARTUP_FAILED', severity: 'error',
       message: error.message, context: { code: error.code || null } });
@@ -122,6 +160,12 @@ async function createWindow() {
     outputAccess: new OutputAccess({ openPath: file => shell.openPath(file), showItemInFolder: file => shell.showItemInFolder(file) }) });
   await service.initializeDiagnostics();
   if (quitDuringStartup) { await finishShutdown(); return; }
+  appearance = new AppearanceSettings({ directory: stateDir });
+  const initialAppearance = await appearance.load();
+  // Quitting while the app-owned preference is loading must not create a late
+  // window, change native appearance or establish new renderer authority.
+  if (quitDuringStartup || shutdownComplete) { await finishShutdown(); return; }
+  applyNativeAppearance(initialAppearance.theme);
   const uiRoot = path.join(root, 'ui');
   const entryUrl = ENTRY_URL;
   const appSession = session.fromPartition('encoder-local');
@@ -132,7 +176,8 @@ async function createWindow() {
   appSession.webRequest.onBeforeRequest((details, callback) => callback({ cancel: !resolveAsset(details.url, details.method) }));
   window = new BrowserWindow({
     width: 1100, height: 800, minWidth: 640, minHeight: 480,
-    backgroundColor: '#0f1115', title: 'FFmpeg Encoder', autoHideMenuBar: true,
+    backgroundColor: appearanceBackground(initialAppearance.theme), title: 'FFmpeg Encoder', autoHideMenuBar: true,
+    icon: path.join(root, 'assets', 'app-icon', 'app-icon.ico'),
     webPreferences: {
       preload: path.join(root, 'preload.js'), session: appSession,
       nodeIntegration: false, contextIsolation: true, sandbox: true,
@@ -143,12 +188,12 @@ async function createWindow() {
   window.webContents.on('will-navigate', event => event.preventDefault());
   window.webContents.on('will-frame-navigate', event => event.preventDefault());
   window.webContents.on('will-attach-webview', event => event.preventDefault());
-  const removeHandlers = registerIpc({ ipcMain, window, service, dialog, entryUrl });
+  const removeHandlers = registerIpc({ ipcMain, window, service, appearance: appearanceFacade, dialog, entryUrl });
   service.on('update', snapshot => {
     if (window && !window.isDestroyed() && !window.webContents.isDestroyed()) window.webContents.send('encoder:update', snapshot);
   });
   window.on('close', async event => {
-    if (exitAllowed || !service.busy) return;
+    if (exitAllowed || !service.busy) { appearance.closeAdmission(); return; }
     event.preventDefault();
     if (closePrompt) return;
     closePrompt = true;
@@ -159,6 +204,7 @@ async function createWindow() {
         buttons: ['Keep application open', 'Cancel encoding and exit'], defaultId: 0, cancelId: 0, noLink: true,
       });
       if (choice.response === 1) {
+        appearance.closeAdmission();
         await service.cancelCurrent();
         exitAllowed = true;
         window.close();
@@ -169,6 +215,7 @@ async function createWindow() {
     // Loss of the only UI cancels work; it never enables invisible encoding.
     shutdownOutcome = 'failed';
     rendererLost = true;
+    appearance.closeAdmission();
     // Abort ownership synchronously before waiting on disk-backed diagnostics.
     // An unavailable/slow log directory must never prolong invisible encoding.
     const cancellation = service.cancelCurrent();

@@ -112,6 +112,8 @@ async function harness(overrides = {}, { narrow = false } = {}) {
     getCapabilities: async () => ({ profiles: [profile], recipes: [], versions: {} }),
     getPreferences: async () => ({ settingsByProfile: {}, inputFolder: null, outputFolder: null, profileId: 'h265-cpu', notices: [] }),
     getAppSettings: async () => defaults(),
+    getAppearance: async () => ({ schema: 1, theme: 'dark', persistence: { state: 'default', persisted: false }, notices: [] }),
+    saveAppearance: async request => ({ schema: 1, theme: request.theme, persistence: { state: 'saved', persisted: true }, notices: [] }),
     saveAppSettings: async request => ({ ...defaults(), revision: request.revision + 1, defaults: request.defaults }),
     resetAppSettings: async request => ({ ...defaults(), revision: request.revision + 1 }),
     getRuntimeInformation: async () => ({ appVersion: '0.7.0-alpha.1', electron: null, chromium: null, node: 'test-node', platform: 'win32', architecture: 'x64', media: { ffmpeg: { status: 'not-yet-observed', version: null, executable: 'D:\\owned\\ffmpeg.exe' }, ffprobe: { status: 'observed', version: '9.0.1', executable: 'D:\\owned\\ffprobe.exe' } } }),
@@ -129,6 +131,42 @@ async function harness(overrides = {}, { narrow = false } = {}) {
   assert.equal(view.byId('error-banner').textContent, '');
   return { ...view, calls, update: value => update(value), setNarrow: value => { mediaQuery.matches = value; layoutListener?.(); } };
 }
+
+test('appearance changes real presentation without adopting or altering unsaved processing settings', async () => {
+  const h = await harness();
+  assert.equal(h.document.querySelector('html').dataset.theme, 'dark');
+  await h.byId('tab-settings').click();
+  h.byId('default-resolution').value = '720';
+  await h.byId('default-resolution').emit('change');
+  const before = h.calls.filter(call => !['getAppearance', 'getAppSettings'].includes(call.name)).length;
+  h.byId('appearance-theme').value = 'light';
+  await h.byId('appearance-theme').emit('change');
+  assert.equal(h.document.querySelector('html').dataset.theme, 'light');
+  assert.equal(h.byId('default-resolution').value, '720');
+  assert.match(h.byId('appearance-status').textContent, /Light theme saved/);
+  assert.deepEqual(h.calls.at(-1), { name: 'saveAppearance', args: [{ theme: 'light' }] });
+  assert.equal(h.calls.filter(call => !['getAppearance', 'getAppSettings'].includes(call.name)).length, before + 1);
+  assert.equal(h.calls.some(call => ['saveAppSettings', 'prepareBatch', 'startBatch'].includes(call.name)), false);
+});
+
+test('unconfirmed appearance save preserves the current theme and gives an honest local failure', async () => {
+  const h = await harness({ saveAppearance: async () => { throw Object.assign(new Error('Appearance changed on disk.'), { code: 'APPEARANCE_CHANGED' }); } });
+  h.byId('appearance-theme').value = 'light'; await h.byId('appearance-theme').emit('change');
+  assert.equal(h.document.querySelector('html').dataset.theme, 'dark');
+  assert.equal(h.byId('appearance-theme').value, 'dark');
+  assert.match(h.byId('appearance-error').textContent, /changed on disk/);
+  assert.match(h.byId('appearance-status').textContent, /not saved/);
+  assert.equal(h.calls.filter(call => call.name === 'saveAppearance').length, 1);
+});
+
+test('appearance rejects an unknown UI value before IPC and applies saved light at startup', async () => {
+  const h = await harness({ getAppearance: async () => ({ schema: 1, theme: 'light', persistence: { state: 'saved', persisted: true }, notices: [] }) });
+  assert.equal(h.document.querySelector('html').dataset.theme, 'light');
+  h.byId('appearance-theme').value = 'system'; await h.byId('appearance-theme').emit('change');
+  assert.equal(h.byId('appearance-theme').value, 'light');
+  assert.equal(h.calls.some(call => call.name === 'saveAppearance'), false);
+  assert.match(h.byId('appearance-error').textContent, /Light or Dark/);
+});
 
 test('workbench has unique IDs, matched tab/panel semantics, and no executable renderer content', () => {
   const allIds = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);

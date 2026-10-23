@@ -12,6 +12,8 @@ async function invoke(channel, ...args) {
 contextBridge.exposeInMainWorld('encoder', Object.freeze({
   getCapabilities: () => invoke('encoder:capabilities'),
   getPreferences: () => invoke('encoder:preferences'),
+  getAppearance: () => invoke('encoder:appearance'),
+  saveAppearance: request => invoke('encoder:save-appearance', request),
   getAppSettings: () => invoke('encoder:app-settings'),
   saveAppSettings: request => invoke('encoder:save-app-settings', request),
   resetAppSettings: request => invoke('encoder:reset-app-settings', request),

@@ -22,14 +22,40 @@ function selectPortableRuntime(packageJson) {
   return { mode: 'candidate-0.7', electronVersion: '44.7.0', manifestName: 'candidate-binary-manifest.json' };
 }
 
-function appFiles(root) {
+const CANDIDATE_ICON_FILES = Object.freeze([
+  'assets/app-icon/app-icon.ico',
+  'assets/app-icon/app-icon-256.png',
+  'assets/app-icon/app-icon.svg',
+  'assets/app-icon/LICENSE.txt',
+  'assets/app-icon/PROVENANCE.md',
+]);
+
+function appDirectories(packageJson) {
+  return selectPortableRuntime(packageJson).mode === 'candidate-0.7'
+    ? ['assets', 'assets/app-icon', 'src', 'ui'] : ['src', 'ui'];
+}
+
+function appFiles(root, packageJson = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'))) {
   const modules = fs.readdirSync(path.join(root, 'src'), { withFileTypes: true })
     .filter(entry => entry.name.endsWith('.cjs'))
     .map(entry => {
       assert(entry.isFile(), `Source module must be a regular file: ${entry.name}`);
       return `src/${entry.name}`;
     });
-  return ['main.js', 'preload.js', 'package.json', 'ui/index.html', 'ui/renderer.js', 'ui/styles.css', ...modules].sort();
+  const assets = selectPortableRuntime(packageJson).mode === 'candidate-0.7' ? CANDIDATE_ICON_FILES : [];
+  if (assets.length) {
+    // Missing/linked artwork must fail closed rather than let Packager silently
+    // keep Electron's executable icon. Ancestors are explicit, never a glob.
+    for (const name of ['assets', 'assets/app-icon']) {
+      const stat = fs.lstatSync(path.join(root, name));
+      assert(stat.isDirectory() && !stat.isSymbolicLink(), `Icon parent must be an ordinary directory: ${name}`);
+    }
+    for (const name of assets) {
+      const stat = fs.lstatSync(path.join(root, name));
+      assert(stat.isFile() && !stat.isSymbolicLink(), `Icon asset must be a regular file: ${name}`);
+    }
+  }
+  return ['main.js', 'preload.js', 'package.json', 'ui/index.html', 'ui/renderer.js', 'ui/styles.css', ...modules, ...assets].sort();
 }
 
 async function hashFile(file) {
@@ -38,6 +64,21 @@ async function hashFile(file) {
   const hash = createHash('sha256');
   for await (const chunk of fs.createReadStream(file)) hash.update(chunk);
   return { sizeBytes: stat.size, sha256: hash.digest('hex') };
+}
+
+async function appSources(root, packageJson) {
+  const sources = [];
+  for (const name of appFiles(root, packageJson)) sources.push({ path: name, ...await hashFile(path.join(root, name)) });
+  return sources;
+}
+
+function readAsarSource(asar, archive, sourcePath) {
+  // ASAR splits lookup paths on the host separator. Keep receipt paths in
+  // canonical slash form and normalize only at this shared readback boundary.
+  const archivedPath = path.normalize(sourcePath);
+  const info = asar.statFile(archive, archivedPath, false);
+  assert(!info.link && !info.unpacked, `ASAR contains a link or unpacked file: ${sourcePath}`);
+  return asar.extractFile(archive, archivedPath, false);
 }
 
 async function walkFiles(directory, relative = '') {
@@ -115,8 +156,7 @@ async function main() {
       'resources/third-party/FFmpeg-LICENSE.txt', 'resources/third-party/FFmpeg-README.txt',
     ]);
   }
-  const sources = [];
-  for (const name of appFiles(root)) sources.push({ path: name, ...await hashFile(path.join(root, name)) });
+  const sources = await appSources(root, packageJson);
   const out = path.join(root, 'out');
   await fsp.mkdir(out, { recursive: true });
   assert(!(await fsp.lstat(out)).isSymbolicLink(), 'The project output directory must not be a link.');
@@ -170,12 +210,10 @@ async function main() {
     const importedAsar = await import(pathToFileURL(packagerRequire.resolve('@electron/asar')).href);
     const asar = importedAsar.default || importedAsar;
     const entries = asar.listPackage(archive).map(name => name.replaceAll('\\', '/').replace(/^\//, '')).sort();
-    assert.deepEqual(entries, [...sources.map(entry => entry.path), 'src', 'ui'].sort(), 'ASAR inventory differs from the exact application allowlist.');
+    assert.deepEqual(entries, [...sources.map(entry => entry.path), ...appDirectories(packageJson)].sort(), 'ASAR inventory differs from the exact application allowlist.');
     report.asar = { ...await hashFile(archive), entries, files: [] };
     for (const source of sources) {
-      const info = asar.statFile(archive, source.path, false);
-      assert(!info.link && !info.unpacked, `ASAR contains a link or unpacked file: ${source.path}`);
-      const content = asar.extractFile(archive, source.path, false);
+      const content = readAsarSource(asar, archive, source.path);
       const sha256 = createHash('sha256').update(content).digest('hex');
       if (source.path === 'package.json') {
         // Packager removes development dependencies and scripts from the
@@ -227,5 +265,5 @@ async function main() {
   }
 }
 
-module.exports = { appFiles, hashFile, selectPortableRuntime };
+module.exports = { appFiles, appDirectories, appSources, readAsarSource, hashFile, selectPortableRuntime };
 if (require.main === module) main().catch(error => { console.error(error); process.exitCode = 1; });

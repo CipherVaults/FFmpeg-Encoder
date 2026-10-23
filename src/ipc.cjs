@@ -1,6 +1,6 @@
 // Each channel has one purpose. Both WebContents and its top-level frame must
 // match; a compromised subframe must not inherit the application's privileges.
-function registerIpc({ ipcMain, window, service, dialog, entryUrl }) {
+function registerIpc({ ipcMain, window, service, appearance, dialog, entryUrl }) {
   let pickingFolder = false;
   const choose = role => async () => {
     service.requireIdle();
@@ -14,6 +14,8 @@ function registerIpc({ ipcMain, window, service, dialog, entryUrl }) {
   const methods = {
     'encoder:capabilities': [0, () => service.getCapabilities()],
     'encoder:preferences': [0, () => service.getPreferences()],
+    'encoder:appearance': [0, () => appearance.load()],
+    'encoder:save-appearance': [1, payload => appearance.set(payload)],
     'encoder:app-settings': [0, () => service.getAppSettings()],
     'encoder:save-app-settings': [1, payload => service.saveAppSettings(payload)],
     'encoder:reset-app-settings': [1, payload => service.resetAppSettings(payload)],

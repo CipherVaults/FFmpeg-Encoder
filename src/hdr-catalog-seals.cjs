@@ -27,7 +27,7 @@ function verifyHdrCatalogSeals(expected, root = path.resolve(__dirname, '..')) {
       const candidate = path.join(root, entry.path);
       if (fs.statSync(candidate).size > 2 * 1024 * 1024 || sha(fs.readFileSync(candidate)) !== entry.sha256) return false;
     }
-    return ['main.js','preload.js','src/hdr-catalog-seals.cjs','src/hdr-operation.cjs','src/hdr-input.cjs','src/hevc-content.cjs','src/hdr-workspace.cjs',
+    return ['main.js','preload.js','src/appearance.cjs','src/ipc.cjs','src/hdr-catalog-seals.cjs','src/hdr-operation.cjs','src/hdr-input.cjs','src/hevc-content.cjs','src/hdr-workspace.cjs',
       'src/hdr-evidence.cjs','src/hdr-encoding.cjs','src/hdr-contract.cjs','src/hdr-container.cjs','src/operation-controls.cjs','src/encoder-service.cjs',
       'src/inspection.cjs','src/media.cjs','src/process-runner.cjs','src/source-identity.cjs','src/operation-contract.cjs',
       'src/media-evidence.cjs','src/provenance.cjs','src/operation-runtime.cjs','src/operation-storage.cjs','src/operation-telemetry.cjs',

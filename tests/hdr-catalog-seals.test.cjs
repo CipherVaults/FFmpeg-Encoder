@@ -2,7 +2,7 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs/promises'),os=require('node:os'),path=require('node:path'),{createHash}=require('node:crypto');
 const {verifyHdrCatalogSeals}=require('../src/hdr-catalog-seals.cjs');
 const sha=b=>createHash('sha256').update(b).digest('hex');
-const names=['hdr-catalog-seals','hdr-operation','hdr-input','hevc-content','hdr-workspace','hdr-evidence','hdr-encoding','hdr-contract','hdr-container',
+const names=['hdr-catalog-seals','appearance','ipc','hdr-operation','hdr-input','hevc-content','hdr-workspace','hdr-evidence','hdr-encoding','hdr-contract','hdr-container',
   'operation-controls','encoder-service','inspection','media','process-runner','source-identity','operation-contract',
   'media-evidence','provenance','operation-runtime','operation-storage','operation-telemetry','candidate-runtime','outputs','output-access','storage-eligibility','diagnostics'].map(n=>'src/'+n+'.cjs').concat('resources/hdr-content-configurations.json','main.js','preload.js');
 async function fixture(t){const root=await fs.mkdtemp(path.join(os.tmpdir(),'hdr-catalog-seals-'));await fs.mkdir(path.join(root,'src'));await fs.mkdir(path.join(root,'resources'));
@@ -21,6 +21,10 @@ for(const [label,change] of [
  ['unsupported schema',m=>{m.schema=2;}],
 ])test('seal contract refuses '+label,async t=>{const h=await fixture(t);change(h.manifest);const expected=await h.save(h.manifest);assert.equal(verifyHdrCatalogSeals(expected,h.root),false);});
 test('missing manifests and malformed identities never activate the catalog',async t=>{const h=await fixture(t);assert.equal(verifyHdrCatalogSeals(null,h.root),false);await fs.unlink(path.join(h.root,'resources/hdr-content-producers.json'));assert.equal(verifyHdrCatalogSeals(h.expected,h.root),false);});
-for(const name of ['hdr-container','media-evidence','provenance','operation-runtime','operation-storage','operation-telemetry','candidate-runtime','outputs','output-access','storage-eligibility','diagnostics'])
+for(const name of ['appearance','ipc','hdr-container','media-evidence','provenance','operation-runtime','operation-storage','operation-telemetry','candidate-runtime','outputs','output-access','storage-eligibility','diagnostics'])
  test('qualification cannot omit transitive authority producer '+name,async t=>{const h=await fixture(t);h.manifest.files=h.manifest.files.filter(file=>file.path!=='src/'+name+'.cjs');assert.equal(verifyHdrCatalogSeals(await h.save(h.manifest),h.root),false);});
+for(const file of ['main.js','preload.js'])
+ test('qualification cannot omit presentation entry producer '+file,async t=>{const h=await fixture(t);assert.equal(verifyHdrCatalogSeals(h.expected,h.root),true);h.manifest.files=h.manifest.files.filter(entry=>entry.path!==file);assert.equal(verifyHdrCatalogSeals(await h.save(h.manifest),h.root),false);});
+for(const file of ['main.js','preload.js','src/ipc.cjs','src/appearance.cjs'])
+ test('a byte change to '+file+' expires existing qualification',async t=>{const h=await fixture(t);assert.equal(verifyHdrCatalogSeals(h.expected,h.root),true);await fs.appendFile(path.join(h.root,file),'changed presentation producer');assert.equal(verifyHdrCatalogSeals(h.expected,h.root),false);});
 test('a raw-container preservation guard edit expires existing qualification',async t=>{const h=await fixture(t);assert.equal(verifyHdrCatalogSeals(h.expected,h.root),true);await fs.appendFile(path.join(h.root,'src/hdr-container.cjs'),'changed raw scalar guard');assert.equal(verifyHdrCatalogSeals(h.expected,h.root),false);});

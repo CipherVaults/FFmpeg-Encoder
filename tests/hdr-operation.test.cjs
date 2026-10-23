@@ -23,7 +23,8 @@ test('production catalog pins reviewed content configurations and producers with
     assert.ok(Object.isFrozen(cell) && Object.isFrozen(cell.evidenceIds));
     assert.equal(cell.runtimeIdentity, '56006c748ed2ee641597cd57e0874c11a86e52e6f634879afc503adb943f99d6');
     assert.equal(cell.sourceSha256, undefined);
-    assert.equal(cell.evidenceIds.length, 1); assert.match(cell.evidenceIds[0], /^content-hdr-service:e2585ab6-1bc0-422a-ab2c-3209f194920e:/);
+    assert.equal(cell.evidenceIds.length, 2); assert.match(cell.evidenceIds[0], /^content-hdr-service:e2585ab6-1bc0-422a-ab2c-3209f194920e:/);
+    assert.match(cell.evidenceIds[1], /^appearance-only-reviewed-delta:[a-f0-9-]{36}:sha256:[a-f0-9]{64}$/);
     for (const list of [cell.profiles,cell.outputProfiles]) { assert.ok(Object.isFrozen(list)); for(const profile of list) {
       assert.ok(Object.isFrozen(profile)&&Object.isFrozen(profile.parameterSets));
       assert.equal(profile.transfer,cell.transfer); assert.equal(profile.role,undefined);

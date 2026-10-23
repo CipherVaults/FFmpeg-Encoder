@@ -3,11 +3,11 @@
   "files": [
     {
       "path": "main.js",
-      "sha256": "ef252d287b9cd5e992f5768f606c54e4bb78830eaa83b25574c8856978ff2183"
+      "sha256": "038369f50655264b8331fbfd163087a7e782e03c2d3f139eefc5dc75d0a13223"
     },
     {
       "path": "preload.js",
-      "sha256": "62261105c627f83d66c2638360855007e193fd84bf246170f8f8aafddaf76af7"
+      "sha256": "bb565d1380ab489dd1c069b17cd9c4704755a55a47d6e9fdc6c26f35d12f27f1"
     },
     {
       "path": "resources/hdr-content-configurations.json",
@@ -16,6 +16,10 @@
     {
       "path": "src/app-settings.cjs",
       "sha256": "b0e9a2c7da8a21ccc4f5a7223fb6176777aa14e4d02875c3d324bcb318aae970"
+    },
+    {
+      "path": "src/appearance.cjs",
+      "sha256": "ecf43ede703586f1f479ffd8193bedfcd1a4230b508a57a870a844202cbaa047"
     },
     {
       "path": "src/backend-adapters.cjs",
@@ -63,7 +67,7 @@
     },
     {
       "path": "src/hdr-catalog-seals.cjs",
-      "sha256": "4b03231f4be2a96fd70199a517681d715329fed3e1562f5973f81ead42a6ebef"
+      "sha256": "0a222fd54d55b5ac8069e47c31009d1e1f064d49ebc96d7d966255f9ed1f80be"
     },
     {
       "path": "src/hdr-container.cjs",
@@ -107,7 +111,7 @@
     },
     {
       "path": "src/ipc.cjs",
-      "sha256": "ee58b9d5e61852689bb0d15729d686f4d30217c4551e08d1d4993c099bcde8ff"
+      "sha256": "c873634bbb756b4fbb70ba1dd20390dd052773b8ac2e6aa4a017808c193a055e"
     },
     {
       "path": "src/local-protocol.cjs",

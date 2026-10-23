@@ -116,7 +116,9 @@ function checkPlane(video, frames, writerPlan, nativeClock, expected) {
       'The independent raw HEVC demux observation differs from its pinned exact signature.');
   }
   need(!Object.keys(video.tags || {}).some(key => /^(rotate|rotation|orientation)$/i.test(key)), 'Reported rotation is outside the admitted absence-preserving route.');
-  sideData(video, writerPlan.expectedOutput.metadata, false);
+  const metadata = writerPlan ? writerPlan.expectedOutput.metadata : expected.sourceMetadata;
+  need(metadata && typeof metadata === 'object', 'The complete observed source or selected output metadata expectation is required.');
+  sideData(video, metadata, false);
   need(Array.isArray(frames) && frames.length === expected.frameCount && frames.length > 0 && frames.length <= MAX_FRAMES,
     'Every complete decoded HDR frame must match the observed source EOF count.');
   const rawDuration = String(1200000 / Number(rate.slice(0, -2)));
@@ -130,9 +132,18 @@ function checkPlane(video, frames, writerPlan, nativeClock, expected) {
       && (sar === undefined ? absence(frame.display_aspect_ratio) : frame.display_aspect_ratio === undefined || frame.display_aspect_ratio === expected.video.display_aspect_ratio)
       && [0, '0'].includes(frame.interlaced_frame), 'Every HDR frame needs exact native visible geometry, SAR and progressive scan.');
     for (const field of ['top_field_first', 'repeat_pict', 'crop_top', 'crop_bottom', 'crop_left', 'crop_right']) if (own(frame, field)) need([0, '0'].includes(frame[field]), `Nonzero ${field} is outside the admitted geometry.`);
-    sideData(frame, writerPlan.expectedOutput.metadata, true);
+    sideData(frame, metadata, true);
   }
   const plane = { video, frames, coverage: 'full', decodedFrameCount: frames.length, decodeExitCode: 0 };
+  if (!writerPlan) {
+    // Only the content-derived SDR branch reaches this path, after reacquiring
+    // and reading a genuine complete HDR-input receipt. Its source contract is
+    // independent of the transformed output; no preserve grant/writer is faked.
+    for (const item of [video, ...frames]) for (const key of ['color_transfer', 'color_primaries', 'color_space', 'color_range', 'chroma_location'])
+      need(item[key] === expected.video[key], 'Complete source HDR signal differs from its genuine input observation.', 'HDR_EVIDENCE_SIGNAL');
+    return { ...plane, nativeTimeline: timeline(frames, video, nativeClock),
+      validation: { complete: true, comparedUnits: frames.length, scope: 'genuine-complete-hdr-input-observation', chunks: [] } };
+  }
   // The writer is a genuine owner-built HDR plan; its strict signal/static
   // checker is applied to every source/output frame as well as stream fields.
   // The pure signal checker remains bounded to 256 samples. Full EOF above is
@@ -194,7 +205,14 @@ async function collectHdrEvidence(options) {
   need(typeof run === 'function' && [ffmpeg, ffprobe].every(file => typeof file === 'string' && path.isAbsolute(file) && !/[\0\r\n]/.test(file)), 'Main supplies fixed bundled tools and the queue-owned runner.');
   need(admitted && HASH.test(admitted.planFingerprint) && admitted.writerPlan && typeof admitted.sourceFileSha256 === 'string'
     && HASH.test(admitted.sourceFileSha256), 'A genuine admitted HDR operation and reviewed full source hash are required.');
-  const contentDerived = admitted.eligibilityMode === 'content';
+  const contentDerived = admitted.eligibilityMode === 'content', sdr = admitted.hdrPolicy === 'sdr';
+  need(!sdr || contentDerived && admitted.writerPlan.contract.policy === 'sdr'
+    && admitted.transform && admitted.transform.version === admitted.writerPlan.contract.filterContribution?.version
+    && admitted.transform.filterGraphSha256 === sha(JSON.stringify(admitted.writerPlan.filterGraph))
+    && admitted.transform.interpretationSha256 === sha(JSON.stringify(admitted.writerPlan.contract.filterContribution.interpretation))
+    && admitted.transform.sourceProfilesSha256 === sha(JSON.stringify(admitted.sourceProfiles))
+    && admitted.transform.outputProfilesSha256 === sha(JSON.stringify(admitted.outputProfiles)),
+    'SDR collection requires the genuine complete-source and exact transform/profile bindings.');
   need(contentDerived || admitted.eligibilityMode === 'exact-seed', 'An explicit genuine content-derived or exact-seed eligibility mode is required.');
   need(!contentDerived || admitted.inputObservation?.complete === true && Array.isArray(admitted.sourceProfiles) && admitted.sourceProfiles.length > 0
     && Array.isArray(admitted.outputProfiles) && admitted.outputProfiles.length > 0,
@@ -339,11 +357,12 @@ async function collectHdrEvidence(options) {
         && JSON.stringify(observed.configurationMetadata) === JSON.stringify(prepared.configurationMetadata)
         && observed.profilesFingerprint === prepared.profilesFingerprint,
       'Fresh complete source configuration, compressed classification, clock or EOF differs from preparation.', 'HDR_EVIDENCE_CHANGED');
-      expected = { video: sourceProbe.streams[0], frameCount: observed.frameCount };
+      expected = { video: sourceProbe.streams[0], frameCount: observed.frameCount,
+        ...(sdr ? { sourceMetadata: observed.configurationMetadata.metadata } : {}) };
       need(Number.isSafeInteger(expected.frameCount) && expected.frameCount > 0 && expected.frameCount <= MAX_FRAMES && expected.frameCount <= budget.maxRecords
         && expected.video.width * expected.video.height * expected.frameCount <= MAX_PIXEL_FRAMES,
       'Complete source exceeds its frame or pixel-frame envelope.', 'HDR_EVIDENCE_LIMIT');
-      source = checkPlane(expected.video, observed.frames, admitted.writerPlan, true, expected);
+      source = checkPlane(expected.video, observed.frames, sdr ? null : admitted.writerPlan, true, expected);
       source.containerTiming = observed.containerTiming;
       source.compressedFingerprint = observed.compressedFingerprint;
       need(observed.timeline?.timeBase === source.nativeTimeline.timeBase && observed.timeline.records === expected.frameCount
@@ -377,11 +396,19 @@ async function collectHdrEvidence(options) {
     const elementary = await persist('output.hevc', extraction.bytesData), elementaryBefore = await binding(elementary.file);
     let compressedOutput;
     if (contentDerived) {
-      compressedOutput = classifyAnnexB(extraction.bytesData, { profiles: admitted.outputProfiles, transfer: expected.video.color_transfer });
-      need(compressedOutput.pictureCount === expected.frameCount && ['width', 'height', 'frameRate', 'transfer', 'sampleAspectRatio'].every(key =>
-        compressedOutput.configuration[key] === observed.configurationMetadata.configuration[key])
+      compressedOutput = classifyAnnexB(extraction.bytesData, { profiles: admitted.outputProfiles,
+        transfer: sdr ? 'bt709' : expected.video.color_transfer, ...(sdr ? { outputMode: 'sdr-bt709-main10' } : {}) });
+      need(compressedOutput.pictureCount === expected.frameCount && ['width', 'height', 'frameRate', 'sampleAspectRatio'].every(key =>
+        compressedOutput.configuration[key] === observed.configurationMetadata.configuration[key]),
+      'Independent complete output configuration, count or geometry differs from the current source.', 'HDR_EVIDENCE_BITSTREAM');
+      if (sdr) need(compressedOutput.outputMode === 'sdr-bt709-main10'
+        && compressedOutput.configuration.transfer === 'bt709' && compressedOutput.configuration.primaries === 'bt709'
+        && compressedOutput.configuration.matrix === 'bt709' && compressedOutput.metadata.mastering === null
+        && compressedOutput.metadata.contentLight === null && compressedOutput.alternativeTransfer === null,
+        'SDR compressed output must establish BT.709 and complete obsolete-HDR-metadata absence.', 'HDR_EVIDENCE_BITSTREAM');
+      else need(compressedOutput.configuration.transfer === observed.configurationMetadata.configuration.transfer
         && JSON.stringify(compressedOutput.metadata) === JSON.stringify(observed.configurationMetadata.metadata),
-      'Independent complete output NAL configuration, count or static metadata differs from the current source.', 'HDR_EVIDENCE_BITSTREAM');
+        'Independent complete output transfer/static metadata differs from the current HDR source.', 'HDR_EVIDENCE_BITSTREAM');
     } else need(extraction.bytes <= 4194304, 'Exact-seed elementary output exceeds its historical byte envelope.', 'HDR_EVIDENCE_LIMIT');
     const bitstream = await frames('bitstream', elementary.file, { index: 0 }, expected, true); bitstream.nativeHashes = await nativeHashes('bitstream', elementary.file, bitstream.video, true);
     if (compressedOutput) bitstream.compressed = compressedOutput;
@@ -404,6 +431,7 @@ async function collectHdrEvidence(options) {
     if (admitted.sourceIdentity.ctimeNs !== receipt.sourceAfter.ctimeNs) receipt.sourceIdentityDisposition = 'ctime-only';
     if (receipt.sourceIdentityDisposition === 'ctime-only') receipt.sourceIdentityWarning = 'Observed ctime-only difference is descriptive; main must still perform its completed-source policy. It renews no cache, grant or publication authority.';
     const hdrEvidence = { version: 2, complete: true, eligibilityMode: admitted.eligibilityMode, planFingerprint: admitted.planFingerprint, runtimeIdentity, outputId,
+      hdrPolicy: admitted.hdrPolicy ?? 'preserve', ...(sdr ? { transform: admitted.transform } : {}),
       sourceFingerprint: admitted.sourceFingerprint, sourceEvidenceFingerprint: admitted.sourceEvidenceFingerprint, outputEvidenceFingerprint: admitted.outputEvidenceFingerprint,
       source, container, bitstream, timestamps, expectedSourceFileSha256: admitted.sourceFileSha256,
       sourceFileSha256: sourceSeal.sha256, outputFileSha256: outputSeal.sha256,

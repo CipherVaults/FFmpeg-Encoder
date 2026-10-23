@@ -11,6 +11,7 @@ const { buildHdrEncoding, validateHdrEncodingOutput } = require('./hdr-encoding.
 const { provenanceArgs, generationDescriptionOf, classifyMarker } = require('./provenance.cjs');
 const { FORMATS, assertTelemetryBinding, assertCollectedTelemetry } = require('./operation-telemetry.cjs');
 const { getObservedHdrInput } = require('./hdr-input.cjs');
+const { HDR_TRANSFORM_VERSION } = require('./hdr-contract.cjs');
 
 // This is an operation owner, not a relaxation of SDR inspection or its plan
 // brand. Every selection is in-process, revision-bound and backed by a reviewed
@@ -85,15 +86,36 @@ function sourceIdentity(v) {
 }
 function fingerprintHdrProbe(probe) { return hash(normalizeProbe(snapshot(probe))); }
 function policy(v) {
-  const content = own(v, 'profiles');
-  record(v, content ? ['id', 'transfer', 'evidenceIds', 'runtimeIdentity', 'profiles', 'outputProfiles']
-    : ['id', 'transfer', 'evidenceIds', 'runtimeIdentity', 'sourceSha256']);
+  const content = own(v, 'profiles'), hdrPolicy = v.hdrPolicy ?? 'preserve';
+  need(['preserve', 'sdr'].includes(hdrPolicy), 'Only an explicit preserve or SDR policy is supported.');
+  const fields = content ? ['id', 'transfer', 'evidenceIds', 'runtimeIdentity', 'profiles', 'outputProfiles']
+    : ['id', 'transfer', 'evidenceIds', 'runtimeIdentity', 'sourceSha256'];
+  const extra = hdrPolicy === 'sdr' ? ['hdrPolicy', 'transformVersion'] : ['hdrPolicy'];
+  record(v, [...fields, ...extra], [...fields, ...(hdrPolicy === 'sdr' ? extra : [])]);
+  // A conversion cell is independent of preservation. Its input still uses the
+  // genuine complete HDR observer; its output has separate reviewed BT.709 PS.
+  if (hdrPolicy === 'sdr') {
+    need(content && v.transformVersion === HDR_TRANSFORM_VERSION,
+      'SDR conversion requires complete input profiles and the exact versioned software transform.');
+    const rate = v.transfer === 'smpte2084' ? '30/1' : '25/1';
+    need(Array.isArray(v.profiles) && v.profiles.length === 1
+      && v.profiles.every(p => p.width === 1280 && p.height === 720 && p.frameRate === rate
+        && p.transfer === v.transfer && p.sampleAspectRatio === '1:1'),
+      'The first SDR conversion cells cover PQ720p30 and HLG720p25 only.');
+    need(Array.isArray(v.outputProfiles) && v.outputProfiles.length === 1
+      && v.outputProfiles.every(p => p.width === 1280 && p.height === 720 && p.frameRate === rate
+        && p.transfer === 'bt709' && p.primaries === 'bt709' && p.matrix === 'bt709'
+        && p.sampleAspectRatio === '1:1' && p.outputMode === 'sdr-bt709-main10'),
+      'SDR conversion requires its explicitly declared finite BT.709 Main10 output profile.');
+  }
   need(['smpte2084', 'arib-std-b67'].includes(v.transfer) && Array.isArray(v.evidenceIds) && v.evidenceIds.length >= 1 && v.evidenceIds.length <= 32, 'Only the two reviewed tiny HDR signal cells are available.');
   const evidenceIds = snapshot(v.evidenceIds).map(x => id(x, 'Retained evidence')); need(new Set(evidenceIds).size === evidenceIds.length, 'HDR evidence identities must be unique.');
   if (content) need(Array.isArray(v.profiles) && v.profiles.length > 0 && v.profiles.length <= 16
     && Array.isArray(v.outputProfiles) && v.outputProfiles.length > 0 && v.outputProfiles.length <= 16,
   'Content-derived HDR qualification requires reviewed source and output configurations.');
-  return freeze({ id: id(v.id, 'HDR cell'), transfer: v.transfer, evidenceIds, runtimeIdentity: digest(v.runtimeIdentity, 'Paired runtime'),
+  return freeze({ id: id(v.id, 'HDR cell'), transfer: v.transfer, hdrPolicy,
+    ...(hdrPolicy === 'sdr' ? { transformVersion: v.transformVersion } : {}),
+    evidenceIds, runtimeIdentity: digest(v.runtimeIdentity, 'Paired runtime'),
     ...(content ? { profiles: snapshot(v.profiles), outputProfiles: snapshot(v.outputProfiles) }
       : { sourceSha256: digest(v.sourceSha256, 'Reviewed full source bytes') }) });
 }
@@ -112,18 +134,20 @@ function absentGeometry(video, content = false) {
   need(!['rotate', 'rotation', 'orientation'].some(k => tags.has(k)), 'Reported rotation requires a separately qualified HDR route.', REQUIRED);
   need(!own(video, 'side_data_list') || video.side_data_list.every(e => SIDE.has(e.side_data_type)), 'Unqualified functional stream side data cannot be omitted.', REQUIRED);
 }
-function probeFacts(raw, { output = false, content = false } = {}) {
+function probeFacts(raw, { output = false, content = false, hdrPolicy = 'preserve' } = {}) {
   const probe = normalizeProbe(snapshot(raw)), video = selectVideo(probe);
   need(probe.streams.length === 1 && video.index === 0 && probe.format.format_name === 'matroska,webm'
     && probe.chapters.length === 0 && Array.isArray(probe.programs) && probe.programs.length === 0
     && Array.isArray(probe.stream_groups) && probe.stream_groups.length === 0
     && probe.mediaEvidence.container.relationships.state === 'known', 'HDR requires exactly one video and complete empty native relationships.', REQUIRED);
+  const sdrOutput = output && hdrPolicy === 'sdr';
   need(video.codec_name === 'hevc' && video.profile === 'Main 10' && (content
     ? [[1280,720],[1920,1080],[320,180]].some(([w,h]) => video.width === w && video.height === h)
     : video.width === 320 && video.height === 180)
     && video.pix_fmt === 'yuv420p10le' && video.field_order === 'progressive' && video.chroma_location === 'left'
-    && video.color_primaries === 'bt2020' && video.color_space === 'bt2020nc' && video.color_range === 'tv'
-    && ['smpte2084', 'arib-std-b67'].includes(video.color_transfer), 'Only the measured tiny progressive planar10 PQ/HLG signal is available.', REQUIRED);
+    && video.color_primaries === (sdrOutput ? 'bt709' : 'bt2020') && video.color_space === (sdrOutput ? 'bt709' : 'bt2020nc') && video.color_range === 'tv'
+    && (sdrOutput ? video.color_transfer === 'bt709' : ['smpte2084', 'arib-std-b67'].includes(video.color_transfer)),
+  'The native source/output signal differs from its explicitly selected finite HDR route.', REQUIRED);
   if (!content) {
   need(video.time_base === '1/1000' && video.avg_frame_rate === '30/1' && video.r_frame_rate === '30/1'
     && String(video.start_pts) === '0' && Number(video.start_time) === 0
@@ -162,12 +186,19 @@ function metadataSignature(writer, content = false) {
 }
 // Small writer contracts stay bounded. A single complete input receipt owns the
 // global count/EOF; contiguous sampled chunks check every signal/static value.
-function completeWriter(videoEvidence, frames) {
+function completeWriter(videoEvidence, frames, hdrPolicy = 'preserve') {
   let writer;
   for (let start=0; start<frames.length; start+=256) {
-    const next = buildHdrEncoding({ settings: SETTINGS, policy: 'preserve', videoEvidence,
+    const next = buildHdrEncoding({ settings: SETTINGS, policy: hdrPolicy, videoEvidence,
       frameEvidence: { videoIndex: 0, coverage: 'sampled', decodedFrameCount: frames.length, decodeExitCode: 0, frames: frames.slice(start,start+256) } });
-    metadataSignature(next, true); need(!writer || same(writer.expectedOutput,next.expectedOutput), 'Complete source metadata changes across a chunk boundary.', REQUIRED); writer ||= next;
+    if (hdrPolicy === 'preserve') metadataSignature(next, true);
+    else need(next.contract.source.metadata.ambient === null && next.contract.source.metadata.dolby === null
+      && Object.values(next.expectedOutput.metadata).every(value => value === null),
+      'The finite SDR route requires ordinary PQ/HLG input and complete obsolete-HDR-metadata removal.', REQUIRED);
+    need(!writer || same(writer.expectedOutput,next.expectedOutput)
+      && same(writer.contract.source.metadata,next.contract.source.metadata)
+      && writer.filterGraph === next.filterGraph,
+      'Complete source metadata or transform changes across a chunk boundary.', REQUIRED); writer ||= next;
   }
   need(writer, 'A complete nonempty source observation is required.', REQUIRED); return writer;
 }
@@ -221,6 +252,7 @@ function getHdrOperationCollectionBinding(plan, bindings) {
   return freeze({ planFingerprint: plan.planFingerprint, sourceEvidenceFingerprint: state.sourceProbeFingerprint,
     outputEvidenceFingerprint: fingerprintHdrProbe(bindings.outputProbe), sourceFingerprint: hash(state.identity), sourceIdentity: state.identity,
     sourceFileSha256: state.sourceFileSha256, writerPlan: state.writer, expectedOutput: plan.expectedOutput, policyIdentity: state.policyIdentity,
+    hdrPolicy: state.route.hdrPolicy, ...(state.transform ? { transform: state.transform } : {}),
     eligibilityMode: state.inputObservation ? 'content' : 'exact-seed',
     ...(state.inputObservation ? { inputObservation: state.inputObservation, sourceProfiles: state.route.profiles, outputProfiles: state.route.outputProfiles } : {}) });
 }
@@ -230,13 +262,13 @@ class HdrOperations {
   constructor(options) {
     record(options, ['runtimeIdentity', 'policies', 'policyIdentity'], ['runtimeIdentity', 'policyIdentity']);
     this.#runtime = digest(options.runtimeIdentity, 'Paired runtime'); this.#policy = id(options.policyIdentity, 'HDR policy');
-    const entries = own(options, 'policies') ? snapshot(options.policies) : []; need(Array.isArray(entries) && entries.length <= 2, 'HDR catalog contains at most the two finite cells.');
-    this.#policies = entries.map(policy); need(new Set(this.#policies.map(x => x.transfer)).size === this.#policies.length
-      && new Set(this.#policies.map(x => x.id)).size === this.#policies.length, 'HDR cells require unique identities and transfers.'); freeze(this.#policies);
+    const entries = own(options, 'policies') ? snapshot(options.policies) : []; need(Array.isArray(entries) && entries.length <= 4, 'HDR catalog contains at most two preservation and two SDR conversion cells.');
+    this.#policies = entries.map(policy); need(new Set(this.#policies.map(x => `${x.hdrPolicy}:${x.transfer}`)).size === this.#policies.length
+      && new Set(this.#policies.map(x => x.id)).size === this.#policies.length, 'HDR cells require unique identities and policy/transfer pairs.'); freeze(this.#policies);
   }
   #current(plan) { const s = this.#plans.get(plan); need(s && s.epoch === this.#epoch && this.#latest.get(s.request.fileId) === plan, 'Only this owner\'s current original HDR plan is usable.', PLAN_REQUIRED); return s; }
-  inputProfiles(probe) { const transfer = selectVideo(probe)?.color_transfer;
-    return this.#policies.find(p => p.runtimeIdentity === this.#runtime && p.transfer === transfer)?.profiles || null; }
+  inputProfiles(probe, hdrPolicy = 'preserve') { const transfer = selectVideo(probe)?.color_transfer;
+    return this.#policies.find(p => p.runtimeIdentity === this.#runtime && p.transfer === transfer && p.hdrPolicy === hdrPolicy)?.profiles || null; }
   prepare(options) {
     const fields = ['input', 'output', 'outputId', 'sourceIdentity', 'sourceFileSha256', 'request', 'settings', 'inspection', 'frameEvidence', 'generationDescription', 'inputReceipt'];
     // A missing source hash still fails after revoking the named old plan.
@@ -249,14 +281,14 @@ class HdrOperations {
     const config = snapshot(options.settings); need(same(config, SETTINGS), 'Only the reviewed CPU slow CRF25 tuple is qualified.', REQUIRED);
     const sourceFileSha256 = digest(options.sourceFileSha256, 'Observed full source bytes');
     need(request.operation === 'encode' && request.range === null && request.resolution === 'source' && request.target === 'matroska'
-      && request.hdrPolicy === 'preserve' && request.audioPolicy === 'copy' && request.aacBitrateKbps === null
-      && Array.isArray(request.omissionRequestIds) && request.omissionRequestIds.length === 0, 'Only unchanged Full preserve/source/copy HDR is qualified.', REQUIRED);
+      && ['preserve', 'sdr'].includes(request.hdrPolicy) && request.audioPolicy === 'copy' && request.aacBitrateKbps === null
+      && Array.isArray(request.omissionRequestIds) && request.omissionRequestIds.length === 0, 'Only explicit Full preserve-or-SDR/source/copy HDR requests can use these finite cells.', REQUIRED);
     const identity = sourceIdentity(options.sourceIdentity), input = local(options.input), destination = local(options.output);
     need(input === identity.canonicalPath && !samePath(input, destination), 'Prepared HDR source identity and distinct destination must agree.');
     record(options.inspection, ['probe', 'color', 'duration', 'evidence', 'summary', 'warnings', 'sampling', 'cache'], ['probe']);
     const transfer = selectVideo(options.inspection.probe)?.color_transfer;
-    const route = this.#policies.find(p => p.runtimeIdentity === this.#runtime && p.transfer === transfer);
-    need(route, 'No reviewed HDR cell applies to this exact runtime and transfer.', REQUIRED);
+    const route = this.#policies.find(p => p.runtimeIdentity === this.#runtime && p.transfer === transfer && p.hdrPolicy === request.hdrPolicy);
+    need(route, 'No reviewed HDR cell applies to this exact runtime, transfer and requested HDR policy.', REQUIRED);
     const { probe, video } = probeFacts(options.inspection.probe, { content: Boolean(route.profiles) });
     need(!own(probe.format, 'size') || BigInt(probe.format.size) === BigInt(identity.size), 'Observed source size differs from prepared filesystem identity.');
     need(classifyColor(probe).classification === 'hdr', 'Positive source HDR evidence is required.', REQUIRED);
@@ -267,7 +299,7 @@ class HdrOperations {
         probe: options.inspection.probe, runtimeIdentity: this.#runtime, profiles: route.profiles });
       need(inputObservation.sourceFileSha256 === sourceFileSha256, 'Full input receipt and prepared source hash differ.', REQUIRED);
       frames = { frames: inputObservation.frames };
-      writer = completeWriter(typedVideo, frames.frames);
+      writer = completeWriter(typedVideo, frames.frames, route.hdrPolicy);
     } else {
     // The type of an unregistered SEI cannot prove that its payload is only
     // encoder prose. This first family therefore admits only reviewed seed
@@ -285,8 +317,34 @@ class HdrOperations {
     }
     writer = buildHdrEncoding({ settings: config, policy: 'preserve', videoEvidence: typedVideo, frameEvidence: frames }); metadataSignature(writer);
     }
-    need(writer.status === 'native-qualification-required' && writer.route === (video.color_transfer === 'smpte2084' ? 'pq-preserve' : 'hlg-preserve')
-      && writer.filterGraph === 'format=yuv420p10le' && writer.missingWriters.length === 0, 'Only the exact qualified identity HDR writer is available.', REQUIRED);
+    const sdr = route.hdrPolicy === 'sdr';
+    need(writer.status === 'native-qualification-required' && writer.missingWriters.length === 0
+      && writer.route === `${video.color_transfer === 'smpte2084' ? 'pq' : 'hlg'}-${sdr ? 'to-sdr' : 'preserve'}`,
+      'The exact qualified source/policy writer is required.', REQUIRED);
+    if (!sdr) need(writer.filterGraph === 'format=yuv420p10le', 'Preservation requires the qualified identity HDR writer.', REQUIRED);
+    const contribution = writer.contract.filterContribution;
+    if (sdr) need(inputObservation && contribution?.engine === 'software'
+      && contribution.version === route.transformVersion && writer.expectedOutput.signal.transfer === 'bt709'
+      && writer.expectedOutput.signal.primaries === 'bt709' && writer.expectedOutput.signal.matrix === 'bt709'
+      && writer.expectedOutput.signal.range === 'tv' && writer.expectedOutput.signal.bitDepth === 10,
+      'The genuine complete source and exact software BT.709 Main10 conversion are required.', REQUIRED);
+    // Parameter-set identity does not bind MaxCLL. These finite conversion
+    // cells have actual numerical evidence only for the reported4000nit PQ
+    // interpretation and declared1000nit/gamma1.2 HLG reference. A different
+    // peak can change Hable while retaining the same source PS and version.
+    if (sdr) {
+      const interpretation = contribution.interpretation, pq = route.transfer === 'smpte2084';
+      need(interpretation?.nominalSdrNits === 100
+        && interpretation.sourcePeakNits === (pq ? 4000 : 1000)
+        && interpretation.sourcePeakBasis === (pq ? 'reported-maxcll' : 'assumed-1000nit-hlg-reference-display')
+        && interpretation.hlgSystemGamma === (pq ? null : 1.2)
+        && interpretation.sourcePeakMeasuredByApplication === false,
+      'This finite PQ conversion requires reported MaxCLL4000nits; HLG requires the declared1000nit/gamma1.2reference. Other peak interpretations need separate qualification.', REQUIRED);
+    }
+    const transform = sdr ? freeze({ version: route.transformVersion,
+      filterGraphSha256: hash(writer.filterGraph), interpretation: contribution.interpretation,
+      interpretationSha256: hash(contribution.interpretation), sourceProfilesSha256: hash(route.profiles),
+      outputProfilesSha256: hash(route.outputProfiles) }) : null;
     const description = generationDescriptionOf(snapshot(options.generationDescription));
     need(description && description.profileId === SETTINGS.profileId && description.preset === SETTINGS.preset && description.quality === SETTINGS.quality
       && description.bitDepth === 10 && same(description.encoderArgs, describeRecipe(config).args), 'HDR provenance must retain the exact canonical v1 ordinary recipe.');
@@ -319,14 +377,15 @@ class HdrOperations {
         configuration: inputObservation.configurationMetadata.configuration, inputPixelFrames: inputObservation.pixelFrames,
         sourceContainerTiming: inputObservation.containerTiming, containerDurationWriter } : {}), timestampPolicy: 'exact-source-native-1ms-clock-zero-mismatch',
       descriptiveProvenanceScope: 'ordinary-video-recipe; exact-hdr-operation-retained-in-prepared-plan-and-correlated-invocation',
-      hdrDisplayAcceptance: 'not-assessed', dolbyVision: false, hdr10Claim: false });
+      hdrDisplayAcceptance: 'not-assessed', dolbyVision: false, hdr10Claim: false,
+      ...(transform ? { hdrTransform: transform } : {}) });
     const instrumentation = freeze({ version: 1, kind: 'encoder-input-statistics', streams: STREAMS, placeholders: [PLACEHOLDER] });
     const sourceProbeFingerprint = fingerprintHdrProbe(probe), epoch = this.#epoch;
     const plan = freeze({ operation: 'encode', hdr: true, compatibilityPath: false, args, contract, expectedOutput, runtimeIdentity: this.#runtime,
       sourceProbeFingerprint, instrumentation, planFingerprint: hash({ args, contract, expectedOutput, sourceIdentity: identity, sourceProbeFingerprint,
         runtimeIdentity: this.#runtime, policyIdentity: this.#policy, route, description, epoch }) });
     const state = { epoch, request: contract.request, identity, sourceProbeFingerprint, probe: freeze(probe), writer, route,
-      input, destination, outputId, sourceFileSha256, inputObservation, description: freeze(description), alias, runtimeIdentity: this.#runtime, policyIdentity: this.#policy,
+      input, destination, outputId, sourceFileSha256, inputObservation, transform, description: freeze(description), alias, runtimeIdentity: this.#runtime, policyIdentity: this.#policy,
       selected: false, invocationOutput: null, telemetry: null, telemetryValidation: null };
     this.#plans.set(plan, state); this.#latest.set(request.fileId, plan); this.#outputIds.add(outputId);
     registry.set(plan, { state, current: () => state.epoch === this.#epoch && this.#latest.get(state.request.fileId) === plan }); return plan;
@@ -341,7 +400,8 @@ class HdrOperations {
   select(options) {
     try { const state = this.#bindings(options), token = Object.freeze({}); state.selected = true;
       const result = freeze({ controlsRequired: true, hdr: true, budget: { ...BUDGET }, executionBudgetMs: EXECUTION_MS,
-        evidenceIds: state.route.evidenceIds, policyIdentity: this.#policy, qualification: { operation: 'encode-hdr', cellId: state.route.id,
+        evidenceIds: state.route.evidenceIds, policyIdentity: this.#policy, hdrPolicy: state.route.hdrPolicy,
+        ...(state.transform ? { transform: state.transform } : {}), qualification: { operation: 'encode-hdr', cellId: state.route.id,
           evidenceId: state.route.evidenceIds[0], runtimeIdentity: this.#runtime, timestampToleranceTicks: 0, durationToleranceTicks: 0 } });
       this.#selections.set(token, { epoch: this.#epoch, plan: options.plan, result }); return token;
     } catch (e) { throw new ToolError(REQUIRED, e.message); }
@@ -378,7 +438,7 @@ class HdrOperations {
   validate(plan, outputProbe, collectorReceipt) {
     const errors = [], warnings = [];
     try {
-      const state = this.#current(plan), { probe: output, video } = probeFacts(outputProbe, { output: true, content: Boolean(state.inputObservation) });
+      const state = this.#current(plan), { probe: output, video } = probeFacts(outputProbe, { output: true, content: Boolean(state.inputObservation), hdrPolicy: state.route.hdrPolicy });
       need(state.selected && state.invocationOutput !== null && state.telemetryValidation?.evidence === collectorReceipt,
         'The genuine completed collection and its independently matched telemetry are required.');
       const complete = require('./hdr-evidence.cjs').getCollectedHdrEvidence(collectorReceipt, { plan, runtimeIdentity: this.#runtime, outputId: state.outputId,
@@ -399,13 +459,14 @@ class HdrOperations {
           need(String(original.pts) === String(actual.pts) && String(original.duration ?? original.pkt_duration) === String(actual.duration ?? actual.pkt_duration),
             'Every collected native PTS/duration must equal the prepared complete source.');
         }
-        fullWriter = completeWriter(state.probe.mediaEvidence.streams[0],complete.source.frames);
+        fullWriter = completeWriter(state.probe.mediaEvidence.streams[0],complete.source.frames,state.route.hdrPolicy);
       } else {
         frameGeometry(complete.source, true); frameGeometry(complete.container, true); frameGeometry(complete.bitstream, false);
         fullWriter = buildHdrEncoding({ settings: SETTINGS, policy: 'preserve', videoEvidence: state.probe.mediaEvidence.streams[0],
           frameEvidence: { videoIndex: 0, coverage: 'full', decodedFrameCount: 96, decodeExitCode: 0, frames: complete.source.frames } }); metadataSignature(fullWriter);
       }
-      need(same(fullWriter.expectedOutput, state.writer.expectedOutput), 'Complete source HDR metadata differs from the prepared writer.');
+      need(same(fullWriter.expectedOutput, state.writer.expectedOutput) && fullWriter.filterGraph === state.writer.filterGraph
+        && same(fullWriter.contract.source.metadata,state.writer.contract.source.metadata), 'Complete source HDR metadata or transform differs from the prepared writer.');
       const signalPlane = plane => Object.fromEntries(['video', 'frames', 'coverage', 'decodedFrameCount', 'decodeExitCode'].map(k => [k, plane[k]]));
       if (state.inputObservation) {
         for (let start=0;start<state.inputObservation.frameCount;start+=256) {
@@ -422,7 +483,7 @@ class HdrOperations {
           const hdr = validateHdrEncodingOutput(state.writer,{ container: chunk(complete.container), bitstream: chunk(complete.bitstream) }); errors.push(...hdr.errors);
         }
       } else { const hdr = validateHdrEncodingOutput(state.writer, { container: signalPlane(complete.container), bitstream: signalPlane(complete.bitstream) }); errors.push(...hdr.errors); }
-      need(video.color_transfer === state.route.transfer, 'The effective output transfer differs from the selected preservation cell.');
+      need(video.color_transfer === state.writer.expectedOutput.signal.transfer, 'The effective output transfer differs from the explicitly selected HDR policy.');
       const marker = classifyMarker(output); need(marker.kind === 'generated' && marker.outputId === state.outputId && same(marker.previousGeneration, state.description), 'Actual staged output provenance differs from the immutable prepared recipe/UUID.');
       for (const [before, after, options] of [[state.probe.streams[0].tags, video.tags, { alias: state.alias }], [state.probe.format.tags, output.format.tags, { container: true }]]) {
         const result = compareMetadata(before, after, options); errors.push(...result.errors); warnings.push(...result.warnings);
@@ -430,6 +491,16 @@ class HdrOperations {
       digest(complete.outputFileSha256, 'Complete owned output seal');
       return { valid: errors.length === 0, errors, warnings, validation: 'complete-tiny-cpu-hdr-operation', publicationAuthorized: false, hdrDisplayAcceptance: 'not-assessed' };
     } catch (e) { errors.push(e.message); return { valid: false, errors, warnings, code: e.code || INVALID, publicationAuthorized: false }; }
+  }
+  discard(plan) {
+    const state = this.#plans.get(plan);
+    if (!state) return false;
+    // Cancellation or another preparation can expire this provisional plan
+    // during an awaited destination check. Remove only this named plan, never
+    // a newer plan for the same file, and never mask the original cancellation.
+    if (this.#latest.get(state.request.fileId) === plan) this.#latest.delete(state.request.fileId);
+    this.#plans.delete(plan); registry.delete(plan);
+    return true;
   }
   invalidate() { this.#epoch++; this.#latest.clear(); }
 }

@@ -6,7 +6,7 @@ const path = require('node:path');
 const { randomUUID } = require('node:crypto');
 const { ENCODE_PRESERVATION_PRODUCER_PATHS } = require('../src/encode-preservation-producers.cjs');
 const ROOT = path.resolve(__dirname, '..');
-const parent = path.join(ROOT, 'artifacts/v0.7/o-acceptance-2026-10-23/catalog-activation');
+const parent = path.join(ROOT, 'artifacts/v0.7/p-completion-2026-10-23/qualification-maintenance-fixtures/full-activation');
 function fixture() {
   fs.mkdirSync(parent, { recursive: true }); const root = path.join(parent, randomUUID()); fs.mkdirSync(root);
   for (const file of [...ENCODE_PRESERVATION_PRODUCER_PATHS, 'src/encode-preservation-catalog.cjs']) {
@@ -26,7 +26,7 @@ test('fresh exact source staging activates only the reviewed fixed runtime/sourc
   assert.ok(Object.isFrozen(policy) && Object.isFrozen(catalog.ENCODE_PRESERVATION_POLICIES));
 });
 test('fresh and cached factory loads fail closed after changed/mixed/omitted producer or hidden consent styling', () => {
-  for (const file of ['src/encode-preservation.cjs', 'src/media.cjs', 'ui/renderer.js', 'ui/styles.css']) {
+  for (const file of ['src/encode-preservation.cjs', 'src/media.cjs', 'src/operation-names.cjs', 'ui/renderer.js', 'ui/styles.css']) {
     const h = fixture(), catalog = h.load(); assert.equal(catalog.loadEncodePreservationPolicies().length, 1);
     fs.appendFileSync(path.join(h.root, file), '\n/* changed producer or hidden warning styling */\n');
     assert.equal(catalog.loadEncodePreservationPolicies().length, 0); assert.equal(h.load().ENCODE_PRESERVATION_POLICIES.length, 0);

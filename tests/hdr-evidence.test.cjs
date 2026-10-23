@@ -62,8 +62,9 @@ async function setup(t, changes = {}) {
   const containerTiming = { ...inspectHdrContainer(sourceBytes, { frameRate: v.avg_frame_rate }), nativeEndTicks: String(nativeEndTicks),
     headerRepresentation: declaredDurationTicks === String(nativeEndTicks) ? 'native-end' : 'ceil-period-header', sourceOutputToleranceTicks: '0' };
   const sourceProbe = { streams: [v], format: { format_name: 'matroska,webm', duration: String(Number(declaredDurationTicks) / 1000) }, chapters: [], programs: [], stream_groups: [] };
-  const outputProbe = clone(sourceProbe);
-  const writerPlan = buildHdrEncoding({ settings: { profileId: 'h265-cpu', preset: 'slow', quality: 25 }, policy: 'preserve',
+  const outputProbe = clone(sourceProbe), sdr = changes.hdrPolicy === 'sdr';
+  if(sdr) Object.assign(outputProbe.streams[0],{color_transfer:'bt709',color_primaries:'bt709',color_space:'bt709',side_data_list:[]});
+  const writerPlan = buildHdrEncoding({ settings: { profileId: 'h265-cpu', preset: 'slow', quality: 25 }, policy: sdr ? 'sdr' : 'preserve',
     videoEvidence: buildMediaEvidence(sourceProbe).streams[0], frameEvidence: { videoIndex: 0, coverage: sourceFrames.length <= 256 ? 'full' : 'sampled', decodedFrameCount: sourceFrames.length, decodeExitCode: 0, frames: sourceFrames.slice(0, 256) } });
   const plan = Object.freeze({ version: 1, opaqueFixture: true }), state = { revoked: false };
   const expected = { plan, runtimeIdentity: RUNTIME, outputId: OUTPUT_ID, sourcePath, outputPath, sourceProbe, outputProbe };
@@ -87,7 +88,12 @@ async function setup(t, changes = {}) {
     sourceEvidenceFingerprint: fingerprint(sourceProbe), outputEvidenceFingerprint: fingerprint(outputProbe), writerPlan,
     sourceIdentity: changes.preparedIdentity?.(observedIdentity) ?? observedIdentity,
     sourceFileSha256: Object.hasOwn(changes, 'sourceFileSha256') ? changes.sourceFileSha256 : fullSha,
-    eligibilityMode: 'content', inputObservation, sourceProfiles: [{ id: 'reviewed-source' }], outputProfiles: [{ id: 'reviewed-output' }], ...changes.admitted });
+    eligibilityMode: 'content', inputObservation, sourceProfiles: [{ id: 'reviewed-source' }], outputProfiles: [{ id: 'reviewed-output' }],
+    ...(sdr ? {hdrPolicy:'sdr',transform:{version:writerPlan.contract.filterContribution.version,
+      filterGraphSha256:sha(JSON.stringify(writerPlan.filterGraph)),interpretation:writerPlan.contract.filterContribution.interpretation,
+      interpretationSha256:sha(JSON.stringify(writerPlan.contract.filterContribution.interpretation)),
+      sourceProfilesSha256:sha(JSON.stringify([{id:'reviewed-source'}])),outputProfilesSha256:sha(JSON.stringify([{id:'reviewed-output'}])),...changes.transform}} : {}),
+    ...changes.admitted });
   const inputReceipts = new WeakMap();
   const observer = { async observeHdrInput(options) {
     assert.deepEqual(options.profiles, admitted.sourceProfiles); assert.deepEqual(options.sourceIdentity, observedIdentity);
@@ -102,6 +108,9 @@ async function setup(t, changes = {}) {
     return Object.freeze({ ...admitted, outputEvidenceFingerprint: fingerprint(bindings.outputProbe) });
   }, observer, (bytes, options) => { assert.deepEqual(options.profiles, admitted.outputProfiles); assert.ok(Buffer.isBuffer(bytes));
     const facts = { ...clone(compressed), framing: 'annex-b', packetCount: 0, packetInventory: [], configuration: { ...configuration, id: 'reviewed-output', digest: '2'.repeat(64) } };
+    if(sdr) { assert.equal(options.transfer,'bt709');assert.equal(options.outputMode,'sdr-bt709-main10');
+      Object.assign(facts,{outputMode:'sdr-bt709-main10',metadata:{mastering:null,contentLight:null},alternativeTransfer:null});
+      Object.assign(facts.configuration,{transfer:'bt709',primaries:'bt709',matrix:'bt709'}); }
     changes.classification?.(facts); return facts; });
   const calls = []; let running = false;
   const ffmpeg = path.join(root, 'fixed-ffmpeg.exe'), ffprobe = path.join(root, 'fixed-ffprobe.exe');
@@ -119,9 +128,11 @@ async function setup(t, changes = {}) {
       if (!changes.noChild) options.onChild?.(child);
       let bytes;
       if (call.kind === 'frames') {
-        let observed = clone(sourceFrames); if (side === 'bitstream') observed = observed.map(frame => { delete frame.pts; delete frame.best_effort_timestamp; return { ...frame, duration: 1200000 / Number(v.avg_frame_rate.slice(0, -2)) }; });
+        let observed = clone(sourceFrames);
+        if(sdr && side !== 'source') observed=observed.map(frame=>({...frame,color_transfer:'bt709',color_primaries:'bt709',color_space:'bt709',side_data_list:[]}));
+        if (side === 'bitstream') observed = observed.map(frame => { delete frame.pts; delete frame.best_effort_timestamp; return { ...frame, duration: 1200000 / Number(v.avg_frame_rate.slice(0, -2)) }; });
         observed = changes.frames?.(observed, call) ?? observed;
-        const elementaryVideo = { ...clone(v), time_base: '1/1200000', avg_frame_rate: '25/1' };
+        const elementaryVideo = { ...clone(sdr ? outputProbe.streams[0] : v), time_base: '1/1200000', avg_frame_rate: '25/1' };
         const payload = side === 'bitstream' ? { frames: observed, streams: [elementaryVideo], programs: [], stream_groups: [] } : { frames: observed };
         changes.json?.(payload, call); bytes = Buffer.from(JSON.stringify(payload));
       } else if (call.kind === 'hashes') {
@@ -472,4 +483,35 @@ test('independently sealed actual source bytes must match the reviewed hash befo
   assert.equal(receipt.expectedSourceFileSha256, 'c'.repeat(64));
   const names = await fs.readdir(receipt.directory); assert.ok(names.includes('failure.json'));
   assert.ok(!names.includes('hdr-evidence.json'), 'No complete evidence file is created for a source hash mismatch.');
+});
+
+
+for(const transfer of ['smpte2084','arib-std-b67']) test(`complete ${transfer} SDR collection validates source HDR separately from BT.709 output`,async t=>{
+  const s=await setup(t,{transfer,hdrPolicy:'sdr',video:{width:1280,height:720,coded_width:1280,coded_height:720,sample_aspect_ratio:'1:1'}});
+  const receipt=await s.collect();assert.equal(receipt.status,'completed',JSON.stringify(receipt.failure));
+  const facts=s.get(receipt);assert.equal(facts.source.video.color_transfer,transfer);
+  assert.equal(facts.container.video.color_transfer,'bt709');assert.equal(facts.bitstream.video.color_transfer,'bt709');
+  assert.equal(facts.source.validation.scope,'genuine-complete-hdr-input-observation');
+  assert.equal(facts.container.nativeHashes.sha256,facts.bitstream.nativeHashes.sha256);
+  assert.equal(facts.hdrPolicy,'sdr');assert.equal(facts.timestamps.tolerance,'zero-native-ticks');
+  assert.ok(facts.source.frames[0].side_data_list.some(entry=>entry.side_data_type==='Mastering display metadata'));
+  assert.deepEqual(facts.container.frames[0].side_data_list,[]);
+});
+for(const field of ['filterGraphSha256','interpretationSha256','sourceProfilesSha256','outputProfilesSha256'])
+  test(`SDR collector refuses stale ${field}`,async t=>{
+    const s=await setup(t,{hdrPolicy:'sdr',transform:{[field]:'0'.repeat(64)}});
+    await assert.rejects(s.collect(),/exact transform\/profile bindings/);assert.equal(s.calls.length,0);
+  });
+for(const kind of ['retained-hdr-metadata','source-transfer','wrong-primaries','missing-output-mode'])
+  test(`SDR output cannot pass with ${kind}`,async t=>{
+    const s=await setup(t,{hdrPolicy:'sdr',classification(facts){
+      if(kind==='retained-hdr-metadata') facts.metadata.contentLight={max_content:1000,max_average:400};
+      if(kind==='source-transfer') facts.configuration.transfer='smpte2084';
+      if(kind==='wrong-primaries') facts.configuration.primaries='bt2020';
+      if(kind==='missing-output-mode') delete facts.outputMode;
+    }});failed(await s.collect(),/HDR_EVIDENCE_BITSTREAM/);
+  });
+test('SDR decoded output retaining mastering metadata refuses before compressed extraction',async t=>{
+  const s=await setup(t,{hdrPolicy:'sdr',frames(rows,call){if(call.side==='container')rows[0].side_data_list=[mastering()];return rows;}});
+  failed(await s.collect(),/static HDR metadata presence|HDR_EVIDENCE_SIGNAL/);
 });

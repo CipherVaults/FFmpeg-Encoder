@@ -8,8 +8,8 @@ const { integerEvidence: normalizeInteger, rationalEvidence: normalizeRational }
 // source/draft. Neither a display label nor serialized metadata can authorize a
 // filter, drop an ancillary stream, or establish HDR-display acceptance.
 const HDR_CONTRACT_VERSION = 2;
-const HDR_TRANSFORM_VERSION = 'software-hable-100nit-v1';
-const HELP_BASIS = 'FFmpeg 9.0.1: transform-runtime-help.txt (2026-10-11)';
+const HDR_TRANSFORM_VERSION = 'software-hable-100nit-v2';
+const HELP_BASIS = 'FFmpeg 9.0.2 pinned filter sources; actual runtime qualification required';
 const SDR_TRANSFERS = ['bt709', 'gamma22', 'gamma28', 'smpte170m', 'smpte240m', 'iec61966-2-1', 'bt2020-10', 'bt2020-12'];
 const MASTER_FIELDS = ['red_x', 'red_y', 'green_x', 'green_y', 'blue_x', 'blue_y', 'white_point_x', 'white_point_y', 'min_luminance', 'max_luminance'];
 const DOVI_FIELDS = ['dv_version_major', 'dv_version_minor', 'dv_profile', 'dv_level', 'rpu_present_flag', 'el_present_flag', 'bl_present_flag', 'dv_bl_signal_compatibility_id'];
@@ -282,14 +282,24 @@ function softwareSdr(source, depth) {
     engine: 'software', version: HDR_TRANSFORM_VERSION, helpBasis: HELP_BASIS,
     beforeScale: [`zscale=pin=bt2020:tin=${source.signal.transfer}:min=bt2020nc:rin=limited:p=bt2020:t=linear:m=gbr:r=full:npl=100:agamma=0`,
       'format=gbrpf32le', 'zscale=pin=bt2020:tin=linear:min=gbr:rin=full:p=bt709:t=linear:m=gbr:r=full:agamma=0',
-      `tonemap=tonemap=hable:desat=2:peak=${peakNits / 100}`],
+      // tonemap selects desaturation luma coefficients from the frame property,
+      // even for float RGB. Set the intended BT.709 weights explicitly, then
+      // restore the RGB property; neither setparams changes pixel values.
+      // https://raw.githubusercontent.com/FFmpeg/FFmpeg/n9.0.2/libavfilter/vf_tonemap.c
+      // https://raw.githubusercontent.com/FFmpeg/FFmpeg/n9.0.2/libavutil/csp.c
+      'setparams=range=full:colorspace=bt709', `tonemap=tonemap=hable:desat=2:peak=${peakNits / 100}`,
+      'setparams=range=full:colorspace=gbr'],
     scaleInsertion: 'optional-qualified-downscale-in-linear-float-bt709',
     afterScale: ['zscale=pin=bt709:tin=linear:min=gbr:rin=full:p=bt709:t=bt709:m=bt709:r=limited:dither=error_diffusion:agamma=0',
       `format=${depth === 10 ? 'yuv420p10le' : 'yuv420p'}`, ...removeFrameMetadata(HDR_FRAME_TYPES)],
     interpretation: { nominalSdrNits: 100, sourcePeakNits: peakNits,
       sourcePeakBasis: hlg ? 'assumed-1000nit-hlg-reference-display' : reportedPeak === undefined || reportedPeak === null ? 'assumed-1000nit-pq-source-peak' : 'reported-maxcll',
       hlgSystemGamma: hlg ? 1.2 : null, sourcePeakMeasuredByApplication: false,
-      gamutHandling: 'linear-primaries-conversion-highlight-desaturation-and-output-clipping',
+      desaturationLuma: 'explicit-bt709-0.2126-0.7152-0.0722',
+      linearFloatRange: 'explicit-full-range-frame-property',
+      outputTransferInterpretation: 'zimg-display-referred-bt709-inverse-bt1886-gamma-2.4',
+      outputRangeInterpretation: 'limited-range-scaling-with-storage-headroom-not-universal-nominal-clamping',
+      gamutHandling: 'linear-primaries-conversion-highlight-desaturation-and-quantizer-storage-clipping',
       clippingQualificationRequired: true },
   };
 }

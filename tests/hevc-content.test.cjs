@@ -191,3 +191,31 @@ test('reported stream interpretation, views, relationships and side data cannot 
   const square = observation(); Object.assign(square.streams[0], { sample_aspect_ratio: '1:1', display_aspect_ratio: '16:9' });
   assert.equal(classifyHevcPackets(square, opts()).configuration.sampleAspectRatio, '1:1');
 });
+
+
+function sdrOptions() {
+  return {transfer:'bt709',outputMode:'sdr-bt709-main10',profiles:[{
+    ...profile('bt709','synthetic-sdr-output-only'),outputMode:'sdr-bt709-main10',primaries:'bt709',matrix:'bt709'
+  }]};
+}
+test('synthetic BT.709 output profiles require explicit output purpose; HDR source parsing is unchanged',()=>{
+  const options=sdrOptions(), facts=classifyAnnexB(annex(),options);
+  assert.equal(facts.outputMode,'sdr-bt709-main10');assert.equal(facts.configuration.transfer,'bt709');
+  assert.equal(facts.configuration.primaries,'bt709');assert.equal(facts.configuration.matrix,'bt709');
+  assert.deepEqual(facts.metadata,{mastering:null,contentLight:null});assert.equal(facts.alternativeTransfer,null);
+  const missingMode={...options};delete missingMode.outputMode;
+  refused(()=>classifyAnnexB(annex(),missingMode),'TRANSFER');
+  for(const [change,code] of [[p=>{p.primaries='bt2020';},'PROFILE'],[p=>{p.matrix='bt2020nc';},'PROFILE'],[p=>{delete p.outputMode;},'SHAPE']]) {
+    const altered=structuredClone(options);change(altered.profiles[0]);refused(()=>classifyAnnexB(annex(),altered),code);
+  }
+});
+for(const messages of [[[137,mastering()]],[[144,light()]],[[147,Buffer.from([1])]]])
+  test('explicit SDR compressed output refuses obsolete HDR/static/alternative SEI',()=>{
+    refused(()=>classifyAnnexB(annex([...ps(),sei(messages),nal(20,[160,128])]),sdrOptions()),'SDR_METADATA');
+  });
+test('SDR x265 description must independently declare BT.709 primaries, matrix and transfer',()=>{
+  const sdrDesc=Buffer.from(desc().toString('latin1').replace('colorprim=9 transfer=16 colormatrix=9','colorprim=1 transfer=1 colormatrix=1'),'latin1');
+  const facts=classifyAnnexB(annex([...ps(),sei([[5,sdrDesc]]),nal(20,[160,128])]),sdrOptions());
+  assert.equal(facts.configuration.transfer,'bt709');
+  refused(()=>classifyAnnexB(annex([...ps(),sei([[5,desc()]]),nal(20,[160,128])]),sdrOptions()),'USER_DATA');
+});

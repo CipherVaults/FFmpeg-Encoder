@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "purpose": "Two exact independently certified fitting SDR output configurations only; original HDR source families remain unchanged.",
+  "profiles": [
+    {
+      "id": "p06-sdr-720p30-slow25-v2-fitting",
+      "width": 1280,
+      "height": 720,
+      "frameRate": "30/1",
+      "transfer": "bt709",
+      "sampleAspectRatio": "1:1",
+      "hvccHeader": "AQIgAAAAkAAAAAAAXfAA/P36+gAADw==",
+      "parameterSets": {
+        "vps": "QAEMAf//AiAAAACQAAAAAABdlZgJ",
+        "sps": "QgEBAiAAAACQAAAAAABdoAKAgC0TZZWaSTK8BagICA8IAAAACAAAAPBA",
+        "pps": "RAHBcrRiQA=="
+      },
+      "outputMode": "sdr-bt709-main10",
+      "primaries": "bt709",
+      "matrix": "bt709",
+      "role": "output"
+    },
+    {
+      "id": "p06-sdr-720p25-slow25-v2-fitting",
+      "width": 1280,
+      "height": 720,
+      "frameRate": "25/1",
+      "transfer": "bt709",
+      "sampleAspectRatio": "1:1",
+      "hvccHeader": "AQIgAAAAkAAAAAAAXfAA/P36+gAADw==",
+      "parameterSets": {
+        "vps": "QAEMAf//AiAAAACQAAAAAABdlZgJ",
+        "sps": "QgEBAiAAAACQAAAAAABdoAKAgC0TZZWaSTK8BagICA8IAAAACAAAAMhA",
+        "pps": "RAHBcrRiQA=="
+      },
+      "outputMode": "sdr-bt709-main10",
+      "primaries": "bt709",
+      "matrix": "bt709",
+      "role": "output"
+    }
+  ]
+}

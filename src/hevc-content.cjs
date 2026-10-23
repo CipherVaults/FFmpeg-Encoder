@@ -9,6 +9,9 @@ const LIMITS = Object.freeze({ maxCompressedBytes: 16 * 1024 * 1024, maxJsonByte
   maxPackets: 1800, maxNals: 16384, maxNalsPerPacket: 64, maxSeiMessages: 8192,
   maxSeiPayloadBytes: 8192, maxProfiles: 64, maxParameterSetBytes: 4096 });
 const TRANSFERS = Object.freeze({ smpte2084: 16, 'arib-std-b67': 18 });
+// BT.709 is available only with an explicitly declared output purpose/profile.
+// The default source parser remains the strict PQ/HLG classifier.
+const SDR_OUTPUT = 'sdr-bt709-main10';
 const PS = Object.freeze({ 32: 'vps', 33: 'sps', 34: 'pps' });
 const VCL = new Set([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 16, 17, 18, 19, 20, 21]);
 const X265_UUID = '2ca2de09b51747dbbb55a4fe7fc2fc4e';
@@ -101,16 +104,21 @@ function unsignedGolomb(bytes, bitOffset, maximum, label) {
   let value = 1; for (let index = 0; index < leading; index++) value = value * 2 + bit(); value--;
   need(value <= maximum, 'PICTURE', label + ' is outside its HEVC identifier bound.'); return value;
 }
-function profilesOf(values, transfer, limits) {
-  need(own(TRANSFERS, transfer), 'TRANSFER', 'A positively established PQ or HLG transfer is required.');
+function profilesOf(values, transfer, limits, outputMode = null) {
+  const sdr = outputMode === SDR_OUTPUT;
+  need(sdr ? transfer === 'bt709' : own(TRANSFERS, transfer), 'TRANSFER', 'The requested transfer requires its explicit source/output interpretation.');
   need(Array.isArray(values) && values.length > 0 && values.length <= limits.maxProfiles, 'PROFILE', 'A bounded reviewed parameter-set profile catalog is required.');
   inert(values, 1024 * 1024); const ids = new Set();
   const profiles = values.map(value => {
-    const fields = ['id', 'width', 'height', 'frameRate', 'transfer', 'sampleAspectRatio', 'hvccHeader', 'parameterSets'];
+    const fields = ['id', 'width', 'height', 'frameRate', 'transfer', 'sampleAspectRatio', 'hvccHeader', 'parameterSets',
+      ...(sdr ? ['outputMode', 'primaries', 'matrix'] : [])];
     keys(value, fields, fields, 'HEVC profile');
     need(typeof value.id === 'string' && /^[A-Za-z0-9._:+-]{1,160}$/.test(value.id) && !ids.has(value.id), 'PROFILE', 'HEVC configuration IDs must be unique bounded identities.'); ids.add(value.id);
     need([[1280, 720], [1920, 1080], [320, 180]].some(([w, h]) => value.width === w && value.height === h)
-      && ['24/1', '25/1', '30/1'].includes(value.frameRate) && own(TRANSFERS, value.transfer)
+      && ['24/1', '25/1', '30/1'].includes(value.frameRate) && (sdr
+        ? value.width === 1280 && value.height === 720 && ['25/1','30/1'].includes(value.frameRate)
+          && value.transfer === 'bt709' && value.primaries === 'bt709' && value.matrix === 'bt709' && value.outputMode === SDR_OUTPUT
+        : own(TRANSFERS, value.transfer))
       && value.sampleAspectRatio === (value.width === 320 ? null : '1:1'), 'PROFILE', 'HEVC profile geometry/rate/transfer/SAR is outside this reviewed configuration envelope.');
     const hvc = base64(value.hvccHeader, 22, 'hvcC header');
     need(hvc.length === 22 && hvc[0] === 1 && (hvc[1] & 31) === 2 && (hvc[1] >> 6) === 0
@@ -128,6 +136,7 @@ function profilesOf(values, transfer, limits) {
     // semantic review belongs to catalog admission, never to this pure parser.
     const canonical = { id: value.id, width: value.width, height: value.height, frameRate: value.frameRate,
       transfer: value.transfer, sampleAspectRatio: value.sampleAspectRatio, hvccHeader: value.hvccHeader,
+      ...(sdr ? { outputMode, primaries: value.primaries, matrix: value.matrix } : {}),
       parameterSets: Object.fromEntries(['vps', 'sps', 'pps'].map(name => [name, value.parameterSets[name]])) };
     return { ...canonical, digest: sha(JSON.stringify(canonical)), hvc, bytes: parameterSets,
       ppsId: unsignedGolomb(parameterSets.pps, 16, 63, 'Reviewed PPS identifier') };
@@ -137,7 +146,7 @@ function profilesOf(values, transfer, limits) {
 }
 const FLAGS = new Set(('wpp pmode pme psnr ssim allow-non-conformance repeat-headers annexb aud eob eos hrd info open-gop b-pyramid hist-scenecut splice intra-refresh rect amp ssim-rd signhide tskip constrained-intra strong-intra-smoothing limit-modes temporal-mvp frame-dup hme weightp weightb analyze-src-pics sao sao-non-deblock early-skip rskip fast-intra tskip-fast cu-lossless b-intra splitrd-skip rd-refine lossless cutree strict-cbr rc-grain const-vbv vui-timing-info vui-hrd-info opt-qp-pps opt-ref-list-length-pps multi-pass-opt-rps opt-cu-delta-qp aq-motion hdr10 hdr10-opt dhdr10-opt idr-recovery-sei limit-sao lowpass-dct dynamic-refine single-sei hevc-aq svt field vbv-live-multi-pass mcstf sbrc frame-rc conformance-window-offsets').split(' '));
 const NUMBERS = new Set(('cpuid frame-threads log-level bitdepth input-csp interlace total-frames level-idc high-tier uhd-bd ref hash temporal-layers min-keyint keyint gop-lookahead bframes b-adapt bframe-bias rc-lookahead lookahead-slices scenecut radl ctu min-cu-size max-tu-size tu-inter-depth tu-intra-depth limit-tu rdoq-level dynamic-rd nr-intra nr-inter max-merge limit-refs me subme merange deblock rd selective-sao rdpenalty psy-rd psy-rdoq cbqpoffs crqpoffs crf qp bitrate qcomp qpstep stats-write stats-read ipratio pbratio aq-mode aq-strength zone-count qg-size qpmax qpmin sar overscan videoformat range colorprim transfer colormatrix chromaloc chromaloc-top chromaloc-bottom display-window min-luma max-luma log2-max-poc-lsb slices scenecut-bias analysis-reuse-level analysis-save-reuse-level analysis-load-reuse-level scale-factor refine-intra refine-inter refine-mv refine-ctu-distortion ctu-info refine-analysis-type copy-pic max-ausize-factor qp-adaptation-range scenecut-aware-qp right bottom decoder-max-rate').split(' '));
-function description(payload, limit) {
+function description(payload, limit, outputMode = null) {
   need(payload.length >= 17 && payload.length <= limit && payload.subarray(0, 16).toString('hex') === X265_UUID,
     'USER_DATA', 'Unregistered SEI is not a qualified x265 encoder description.');
   const bytes = payload.subarray(16);
@@ -169,11 +178,11 @@ function description(payload, limit) {
   }
   for (const key of ['bitdepth', 'input-csp', 'fps', 'input-res', 'interlace', 'sar', 'overscan', 'range', 'colorprim', 'transfer', 'colormatrix', 'chromaloc', 'chromaloc-top', 'chromaloc-bottom', 'display-window', 'right', 'bottom'])
     need(own(values, key), 'USER_DATA', 'x265 description omits a required interpretation field.');
-  for (const [key, expected] of Object.entries({ bitdepth: '10', 'input-csp': '1', interlace: '0', overscan: '0', range: '0', colorprim: '9', colormatrix: '9', chromaloc: '1', 'chromaloc-top': '0', 'chromaloc-bottom': '0', 'display-window': '0', right: '0', bottom: '0' }))
+  for (const [key, expected] of Object.entries({ bitdepth: '10', 'input-csp': '1', interlace: '0', overscan: '0', range: '0', colorprim: outputMode === SDR_OUTPUT ? '1' : '9', colormatrix: outputMode === SDR_OUTPUT ? '1' : '9', chromaloc: '1', 'chromaloc-top': '0', 'chromaloc-bottom': '0', 'display-window': '0', right: '0', bottom: '0' }))
     need(values[key] === expected, 'USER_DATA', 'x265 description contains an unqualified interpretation value.');
   return { sha256: sha(payload), values };
 }
-function stateOf(profiles, transfer, limits, framing) {
+function stateOf(profiles, transfer, limits, framing, outputMode = null) {
   let candidates = profiles, vclCount = 0, seiCount = 0, totalBytes = 0, mastering = null, contentLight = null, alternative = null;
   const seen = new Set(), nals = [], descriptions = [], packets = [], arrays = [];
   function metadata(previous, next, label) {
@@ -192,6 +201,7 @@ function stateOf(profiles, transfer, limits, framing) {
         need(size <= limits.maxSeiPayloadBytes, 'LIMIT', 'SEI payload exceeds the finite byte bound.'); } while (value === 255);
       need(size > 0 && cursor + size <= body.length - 1 && ++seiCount <= limits.maxSeiMessages, 'SEI', 'SEI payload is empty, truncated or excessive.');
       const payload = body.subarray(cursor, cursor + size); cursor += size;
+      need(outputMode !== SDR_OUTPUT || type === 5, 'SDR_METADATA', 'SDR output must not retain obsolete HDR/static/alternative-transfer SEI.');
       if (type === 137) {
         need(size === 24, 'STATIC_METADATA', 'Mastering-display SEI must contain exactly24 bytes.');
         const c = offset => payload.readUInt16BE(offset), l = offset => payload.readUInt32BE(offset);
@@ -206,7 +216,7 @@ function stateOf(profiles, transfer, limits, framing) {
       } else if (type === 147) {
         need(size === 1 && payload[0] === TRANSFERS[transfer], 'TRANSFER', 'Alternative transfer must exactly repeat the qualified SPS transfer.');
         alternative = metadata(alternative, payload[0], 'Alternative transfer');
-      } else if (type === 5) descriptions.push(description(payload, limits.maxSeiPayloadBytes));
+      } else if (type === 5) descriptions.push(description(payload, limits.maxSeiPayloadBytes, outputMode));
       else fail('SEI_UNSUPPORTED', 'Unassessed prefix SEI payload type ' + type + ' cannot be dropped.');
       inventory.push({ type, bytes: size, sha256: sha(payload) });
     }
@@ -238,7 +248,7 @@ function stateOf(profiles, transfer, limits, framing) {
     const profile = candidates[0];
     for (const item of descriptions) {
       const values = item.values;
-      need(values.fps === profile.frameRate && values['input-res'] === profile.width + 'x' + profile.height && values.transfer === String(TRANSFERS[transfer]), 'USER_DATA', 'The x265 description contradicts its reviewed parameter-set configuration.');
+      need(values.fps === profile.frameRate && values['input-res'] === profile.width + 'x' + profile.height && values.transfer === String(outputMode === SDR_OUTPUT ? 1 : TRANSFERS[transfer]), 'USER_DATA', 'The x265 description contradicts its reviewed parameter-set configuration.');
       need(values.sar === (profile.sampleAspectRatio === null ? '0' : '1'), 'USER_DATA', 'The x265 description contradicts its reviewed SAR interpretation.');
       if (own(values, 'master-display')) {
         need(mastering !== null, 'USER_DATA', 'The x265 mastering description has no matching static metadata payload.');
@@ -248,8 +258,10 @@ function stateOf(profiles, transfer, limits, framing) {
       }
       if (own(values, 'cll')) need(values.cll === (contentLight ? contentLight.max_content + ',' + contentLight.max_average : '0,0'), 'USER_DATA', 'The x265 content-light description contradicts the complete SEI values.');
     }
-    const configuration = { id: profile.id, digest: profile.digest, width: profile.width, height: profile.height, frameRate: profile.frameRate, transfer, sampleAspectRatio: profile.sampleAspectRatio };
-    const facts = { version: VERSION, framing, configuration, transfer, metadata: { mastering, contentLight }, alternativeTransfer: alternative,
+    const configuration = { id: profile.id, digest: profile.digest, width: profile.width, height: profile.height, frameRate: profile.frameRate, transfer, sampleAspectRatio: profile.sampleAspectRatio,
+      ...(outputMode === SDR_OUTPUT ? { primaries: profile.primaries, matrix: profile.matrix } : {}) };
+    const facts = { version: VERSION, framing, configuration, transfer,
+      ...(outputMode === SDR_OUTPUT ? { outputMode } : {}), metadata: { mastering, contentLight }, alternativeTransfer: alternative,
       compressedBytes: totalBytes, pictureCount: vclCount, packetCount: packets.length, nalCount: nals.length, seiCount,
       arrays, packetInventory: packets, nalInventory: nals,
       warnings: [...(descriptions.length ? [{ code: 'HEVC_ENCODER_DESCRIPTION_REPLACED', count: descriptions.length,
@@ -262,16 +274,19 @@ function stateOf(profiles, transfer, limits, framing) {
 }
 function optionsOf(options) {
   inert(options, 2 * 1024 * 1024);
-  keys(options, ['profiles', 'transfer', 'limits'], ['profiles', 'transfer'], 'HEVC classifier options');
-  const limits = limitsOf(options.limits); return { limits, profiles: profilesOf(options.profiles, options.transfer, limits), transfer: options.transfer };
+  keys(options, ['profiles', 'transfer', 'limits', 'outputMode'], ['profiles', 'transfer'], 'HEVC classifier options');
+  need(!own(options, 'outputMode') || options.outputMode === SDR_OUTPUT, 'PROFILE', 'Only the explicit BT.709 Main10 output mode is supported.');
+  const outputMode = options.outputMode ?? null, limits = limitsOf(options.limits);
+  return { limits, profiles: profilesOf(options.profiles, options.transfer, limits, outputMode), transfer: options.transfer, outputMode };
 }
 function equalRational(actual, expected) {
   if (typeof actual !== 'string' || !/^\d{1,12}\/[1-9]\d{0,12}$/.test(actual)) return false;
   const [an, ad] = actual.split('/').map(BigInt), [en, ed] = expected.split('/').map(BigInt); return an * ed === en * ad;
 }
 function checkStreamDeclarations(stream, summary) {
+  const sdr = summary.outputMode === SDR_OUTPUT;
   const expected = { codec_name: 'hevc', codec_type: 'video', profile: 'Main 10', width: summary.configuration.width, height: summary.configuration.height,
-    pix_fmt: 'yuv420p10le', color_range: 'tv', color_space: 'bt2020nc', color_transfer: summary.transfer, color_primaries: 'bt2020',
+    pix_fmt: 'yuv420p10le', color_range: 'tv', color_space: sdr ? 'bt709' : 'bt2020nc', color_transfer: summary.transfer, color_primaries: sdr ? 'bt709' : 'bt2020',
     chroma_location: 'left', field_order: 'progressive', time_base: '1/1000' };
   for (const [key, value] of Object.entries(expected)) need(!own(stream, key) || stream[key] === value, 'STREAM', 'Stream ' + key + ' contradicts the reviewed compressed configuration.');
   for (const key of ['view_ids_available', 'view_pos_available']) need(!own(stream, key) || stream[key] === '', 'STREAM', 'Nonempty view declarations require a separately qualified multilayer route.');
@@ -309,7 +324,7 @@ function checkStreamDeclarations(stream, summary) {
   }
 }
 function classifyHevcPackets(payload, options) {
-  const { limits, profiles, transfer } = optionsOf(options); inert(payload, limits.maxJsonBytes);
+  const { limits, profiles, transfer, outputMode } = optionsOf(options); inert(payload, limits.maxJsonBytes);
   need(Buffer.byteLength(JSON.stringify(payload)) <= limits.maxJsonBytes, 'LIMIT', 'Compressed packet JSON exceeds its explicit byte ceiling.');
   need(plain(payload) && Object.keys(payload).every(key => ['streams', 'packets'].includes(key))
     && Array.isArray(payload.streams) && payload.streams.length === 1 && Array.isArray(payload.packets)
@@ -319,7 +334,7 @@ function classifyHevcPackets(payload, options) {
   const extra = captureBase64(stream.extradata, limits.maxCompressedBytes, 'Codec extradata');
   need(extra.length === integer(stream.extradata_size, limits.maxCompressedBytes, 'Extradata size', 1), 'SIZE', 'Codec extradata size does not match captured bytes.'); dataHash(stream.extradata_hash, extra, 'Extradata');
   need(extra.length >= 23 && extra[0] === 1, 'HVCC', 'Complete version1 hvcC extradata is required.');
-  const state = stateOf(profiles, transfer, limits, 'hvcC-and-four-byte-length-packets'); state.headerMatches(extra.subarray(0, 22));
+  const state = stateOf(profiles, transfer, limits, 'hvcC-and-four-byte-length-packets', outputMode); state.headerMatches(extra.subarray(0, 22));
   const arrayCount = extra[22]; need(arrayCount >= 3 && arrayCount <= 8, 'HVCC', 'hvcC array count is outside the finite configuration envelope.');
   let cursor = 23; const arrayTypes = new Set();
   for (let array = 0; array < arrayCount; array++) {
@@ -352,7 +367,7 @@ function classifyHevcPackets(payload, options) {
   const summary = state.finish(); checkStreamDeclarations(stream, summary); return summary;
 }
 function classifyAnnexB(bytes, options) {
-  const { limits, profiles, transfer } = optionsOf(options);
+  const { limits, profiles, transfer, outputMode } = optionsOf(options);
   need(Buffer.isBuffer(bytes) && bytes.length > 0 && bytes.length <= limits.maxCompressedBytes, 'LIMIT', 'A complete bounded Annex-B buffer is required.');
   const starts = [];
   for (let index = 0; index < bytes.length - 2; index++) {
@@ -364,7 +379,7 @@ function classifyAnnexB(bytes, options) {
     if (length) { starts.push({ offset: index, length }); need(starts.length <= limits.maxNals, 'LIMIT', 'Annex-B NAL count exceeds its bound.'); index += length - 1; }
   }
   need(starts.length > 0 && starts[0].offset === 0, 'ANNEX_B', 'Annex-B framing must begin at the first observed byte.');
-  const state = stateOf(profiles, transfer, limits, 'annex-b');
+  const state = stateOf(profiles, transfer, limits, 'annex-b', outputMode);
   for (const [index, start] of starts.entries()) {
     const from = start.offset + start.length; let end = starts[index + 1]?.offset ?? bytes.length;
     // Annex-B trailing_zero_8bits are outside the NAL. Count them explicitly;

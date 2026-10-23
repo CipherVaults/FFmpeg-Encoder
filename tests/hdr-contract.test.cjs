@@ -148,6 +148,22 @@ test('PQ without CLL declares an assumed peak and does not substitute the master
   assert.throws(() => result('sdr', video('smpte2084', [light(10001, 400)])), { code: 'HDR_PEAK_UNSUPPORTED' });
 });
 
+test('SDR v2 fixes tonemap luma weights without treating the RGB property as a pixel conversion', () => {
+  const output = result('sdr', video('smpte2084'));
+  const contribution = output.filterContribution;
+  assert.equal(contribution.version, 'software-hable-100nit-v2');
+  const at = contribution.beforeScale.findIndex(value => value.startsWith('tonemap='));
+  assert.equal(contribution.beforeScale[at - 1], 'setparams=range=full:colorspace=bt709');
+  assert.equal(contribution.beforeScale[at + 1], 'setparams=range=full:colorspace=gbr');
+  assert.match(contribution.afterScale[0], /pin=bt709:tin=linear:min=gbr:rin=full/);
+  assert.equal(contribution.interpretation.desaturationLuma, 'explicit-bt709-0.2126-0.7152-0.0722');
+  assert.equal(contribution.interpretation.linearFloatRange, 'explicit-full-range-frame-property');
+  assert.equal(contribution.interpretation.outputTransferInterpretation,
+    'zimg-display-referred-bt709-inverse-bt1886-gamma-2.4');
+  assert.match(contribution.interpretation.outputRangeInterpretation, /storage-headroom-not-universal-nominal-clamping/);
+  assert.equal(output.executable, false, 'A corrected descriptive graph is still not qualification authority');
+});
+
 test('HLG SDR explicitly declares its reference-display interpretation, gamma and normalized peak', () => {
   const output = result('sdr', video('arib-std-b67'));
   assert.equal(output.route, 'hlg-to-sdr'); assert.match(graph(output), /tin=arib-std-b67/);

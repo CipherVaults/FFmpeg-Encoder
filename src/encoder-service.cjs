@@ -3,7 +3,8 @@ const fs = require('node:fs/promises');
 const { createReadStream } = require('node:fs');
 const path = require('node:path');
 const { randomUUID, createHash } = require('node:crypto');
-const { PROFILES, validateSettings, selectVideo, describeRecipe, outputPixelFormat } = require('./media.cjs');
+const { PROFILES, validateSettings, selectVideo, describeRecipe, outputPixelFormat, classifyColor } = require('./media.cjs');
+const { encodeOutputName } = require('./operation-names.cjs');
 const { buildEncodeOperation, validateEncodeOperationOutput, fingerprintEncodeSource, withEncodeOperationTelemetry,
   resolveEncodeOperationInvocation, validateEncodeOperationTelemetry } = require('./encode-operation.cjs');
 const { collectOperationEvidence } = require('./operation-evidence.cjs');
@@ -612,7 +613,8 @@ class EncoderService extends EventEmitter {
     progress.workers.push(worker);
     this.emitState();
     const file = path.join(input.path, item.name);
-    const destination = path.join(output.path, item.outputName);
+    let destination = path.join(output.path, item.outputName);
+    const preparedPlan = this.plan;
     if (this.plan.draft) item.operationRequest = this.plan.draft.fileRequest(item.id);
     let inspectionDiagnostic;
     const onStage = detail => {
@@ -669,13 +671,30 @@ class EncoderService extends EventEmitter {
       }
       // Origin is established before checking destinations. Generated outputs
       // never become a silently skipped/ordinary source just because a name exists.
-      const destinationExists = await exists(destination);
-      if (this.plan.reservedPaths.has(destination.toLowerCase())) {
-        item.status = destinationExists ? 'skipped' : 'unsupported';
-        item.reason = 'Destination is protected by the original directory snapshot; prepare another destination.';
-        return;
-      }
-      if (destinationExists) { item.status = 'skipped'; item.reason = 'Output already exists.'; return; }
+      const checkDestination = async candidate => {
+        notCancelled(signal);
+        if (this.plan !== preparedPlan || this.state.batchId !== owner || this.state.phase !== 'preparing') {
+          throw fail('STALE_PLAN', 'The prepared batch changed before its destination was checked.');
+        }
+        const destinationExists = await exists(candidate);
+        notCancelled(signal);
+        if (this.plan !== preparedPlan || this.state.batchId !== owner || this.state.phase !== 'preparing') {
+          throw fail('STALE_PLAN', 'The prepared batch changed while its destination was checked.');
+        }
+        if (preparedPlan.reservedPaths.has(candidate.toLowerCase())) {
+          item.status = destinationExists ? 'skipped' : 'unsupported';
+          item.reason = 'Destination is protected by the original directory snapshot; prepare another destination.';
+          return false;
+        }
+        if (destinationExists) { item.status = 'skipped'; item.reason = 'Output already exists.'; return false; }
+        return true;
+      };
+      // A real HDR-to-SDR destination depends on complete source peak evidence.
+      // Do not let an ordinary preservation output suppress that distinct job.
+      // The main-only resolver below checks its final name before any selection.
+      const deferredSdrDestination = this.plan.operation !== 'remux' && item.operationRequest?.hdrPolicy === 'sdr'
+        && classifyColor(probe).classification === 'hdr';
+      if (!deferredSdrDestination && !await checkDestination(destination)) return;
       if (this.plan.operation === 'remux') {
         // Copy-only admission needs complete metadata and a qualified full
         // preservation collector, not Encode's color/encoder capability path.
@@ -698,7 +717,17 @@ class EncoderService extends EventEmitter {
       // the file. Duration in the preview is descriptive, never admission.
       item.summary = inspection.summary;
       if (!inspection.color.supported && inspection.color.classification === 'hdr' && this.hdrOperations) {
-        await prepareHdrItem.call(this, item, { file, destination, inspection, identity, marker, indexed, settings, caps, signal, onStage });
+        const resolveTransformDestination = deferredSdrDestination ? async descriptor => {
+          notCancelled(signal);
+          item.outputName = encodeOutputName(item.name, profile.suffix, descriptor);
+          const candidate = path.join(output.path, item.outputName);
+          if (path.dirname(candidate) !== path.resolve(output.path)) throw fail('INVALID_OUTPUT_NAME', 'The derived output must stay directly inside the selected output folder.');
+          if (!await checkDestination(candidate)) return null;
+          destination = candidate;
+          return candidate;
+        } : null;
+        await prepareHdrItem.call(this, item, { file, destination, inspection, identity, marker, indexed, settings, caps, signal, onStage,
+          resolveTransformDestination });
         return;
       }
       if (!inspection.color.supported) throw fail('UNSUPPORTED_COLOR', inspection.color.reasons.join(' '));
@@ -885,7 +914,7 @@ class EncoderService extends EventEmitter {
           if (!storage?.eligible) throw fail('SAME_FOLDER_STORAGE', 'Output beside originals requires verified local fixed NTFS storage. Choose a distinct output folder for this storage.');
         }
         const profile = remux ? null : PROFILES.find(entry => entry.id === settings.profileId);
-        this.state.items = files.map(entry => ({ id: randomUUID(), name: entry.name, outputName: remux ? remuxOutputName(entry.name, request.target) : `${path.parse(entry.name).name}_${profile.suffix}.mkv`, status: 'pending', reason: '', reencodeAuthorized: false }));
+        this.state.items = files.map(entry => ({ id: randomUUID(), name: entry.name, outputName: remux ? remuxOutputName(entry.name, request.target) : encodeOutputName(entry.name, profile.suffix), status: 'pending', reason: '', reencodeAuthorized: false }));
         draft.addSources(this.state.items.map(item => ({ fileId: item.id, identityRevision: 0 })));
         this.state.operationDraft = draft.snapshot();
         this.state.preparation = { total: files.length, resolved: 0, reused: 0, inspected: 0, active: 0, workers: [], stage: 'identity', fileId: null, notice: this.cacheWarning };
@@ -975,7 +1004,7 @@ class EncoderService extends EventEmitter {
     plan.settings = settings; this.state.settings = settings;
     plan.encodingSettingsStale = false; this.state.encodingSettingsStale = false;
     const profile = PROFILES.find(entry => entry.id === settings.profileId);
-    for (const item of this.state.items) item.outputName = `${path.parse(item.name).name}_${profile.suffix}.mkv`;
+    for (const item of this.state.items) item.outputName = encodeOutputName(item.name, profile.suffix);
     return this.reprepareDraft();
   }
   async reprepareDraft({ remuxDecisions = null, encodePreservationDecisions = null } = {}) {
@@ -998,6 +1027,9 @@ class EncoderService extends EventEmitter {
     if (remux) {
       this.remuxOperations.invalidate(); this.plan.remuxGrants.clear(); this.plan.remuxCandidates.clear(); this.plan.remuxFacts.clear();
       for (const item of this.state.items) item.outputName = remuxOutputName(item.name, this.plan.draft.fileRequest(item.id).target);
+    } else {
+      const profile = PROFILES.find(entry => entry.id === this.plan.settings.profileId);
+      for (const item of this.state.items) item.outputName = encodeOutputName(item.name, profile.suffix);
     }
     this.state.operationDraft = this.plan.draft.snapshot();
     for (const item of this.state.items) {

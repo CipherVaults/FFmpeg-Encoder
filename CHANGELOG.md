@@ -1,3 +1,15 @@
+## Preserve HDR within reviewed input configurations — October 23, 2026 (unaccepted alpha)
+
+- Replaced source-file membership with complete content classification within five reviewed CPU Main10 PQ/HLG configurations. Every file retains full SHA/current identity/runtime/plan binding and complete validation/source/no-overwrite publication checks.
+- Added complete before-Ready compressed/full-frame acquisition, raw Matroska timing/enabled guards and exact final duration serialization. Unknown functional data, changed configurations, disabled tracks and explicit CLL 0/0 refuse.
+- Reviewed fitting passed 134 calls; first unoverridden H1/H2b default holdouts passed 86. Independent review covered all 6567 frame observations/20 artifacts. Original overbyte H2 remains failed; fresh low-motion H2b passed separately.
+- Actual default negative campaign passed nine before-Ready refusals in 69 calls, including ordinary generated/null capability work, with no fixture encode, Ready or publication. Independent reconstruction/CRC/VCL/diagnostic review passed. Every campaign closed maximum 1/live 0 with released leases and empty closure failures.
+- Full regression: 1542 passed/0 failed/1 known Windows directory-link fixture skipped of 1543; 137 focused checks overlap. Source checkpoint 38392493973422eaf2c075a9af6e1e1656f7594c is reviewed; final documentation/private-branch readback belongs to the content-eligibility receipt. Stop for Blue before broader work.
+- Version 0.7.0-alpha.1/all-43, vendor hardware/display/native/portable and owner acceptance remain open. Accepted releases/defaults/CQ29/benchmark are unchanged. Raw local producer seals do not qualify a cold clone or portable tree.
+
+## Historical previous CPU HDR/device-observation checkpoint — October 23
+
+
 ## Validated finite HDR preservation and native device observations — October23,2026
 
 - Integrated two exact generated PQ/HLG source hashes with the normal CPU HEVC service, complete independent evidence, exact timing/static metadata, source checks and no-overwrite publication. General HDR, tone mapping, Dolby, display and portable support remain open.

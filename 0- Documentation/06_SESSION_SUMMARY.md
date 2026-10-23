@@ -1,3 +1,72 @@
+# Session — October 23, 2026: preserve HDR from complete reviewed input content
+
+## Authority, people and objective
+
+Ahmed directed following Blue. Blue accepted the prior CPU HDR/device-observation checkpoint and authorized this bounded content-derived eligibility, representative variation, independent holdout and adversarial normal-service assignment. That satisfies the prior review stop for this work only. Existing Thread2 and checkout remained the development home; the original thread stayed idle. The objective was a useful finite family whose input membership comes from complete content, with each file's full integrity/current identity/runtime and independent final checks preserved. All 43 requirements, accepted/default state and the benchmark visual gate remain.
+
+Focused workers were explicitly requested GPT-6.1 Sol/Ultra/forknone for parser, coverage, acquisition, raw-container, collector, independent source/artifact review and disjoint documentation. Root integrated shared contracts/source, scheduled every actual media child and retained lease/process ownership; it owns source/Git/checkpoint actions and the twelve-section receipt. Requested settings are supported; unobservable backend identity is not relabelled. Canonical PBS stayed external. This entry is additive and preserves the earlier Session archive.
+
+## Entry, time and protected boundaries
+
+Entry HEAD/private remote was a7abb8eadea9e51ec9454299bd1ca2a5adac5605, prior source c316805. The immutable entry receipt records 313 tracked/private hashes, 59 prior producers, an empty index, two dirty tracked Planning records and 15 untracked private files. Entry free space/UTC observations are snapshots, not future reservations. Actual UTC command/campaign intervals, child counts, forecasts and retained use belong to the execution receipt; reading/waiting/review wall time is not invented CPU/GPU or engineering time.
+
+Accepted 0.5/0.6, ordinary defaults/saved manual values/ArchiveCQ29, all originals and failed/successful owned media, private Planning and independent benchmark mapping/resources/visual judgment were preserved. No benchmark allowance, cleanup or accepted-release change occurred. The finite route remains CPU HEVC slow/CRF 25, Full/source geometry/Matroska/preserve, one progressive Main10 video with no audio/ancillary streams. Five source classes cover PQ720p30/PQ1080p24, HLG720p25/HLG1080p30 and legacy HLG320×180p30 with absent SAR; HD is square SAR. Source ≤16 MiB, ≤1800 frames, ≤60 seconds and ≤829440000 luma pixel-frames apply together, giving at most 900 frames at 720p, 400 at 1080p and 1800/60 seconds legacy. This is not every geometry/rate/producer combination.
+
+## What changed and why
+
+Private acquisition now completes every compressed packet/configuration/NAL/SEI and decoded frame before Ready, with real close/both-pipe EOF/capture completeness and cancellation through close. Compressed picture counts and predicted work refuse excessive decode before its child; decoded EOF independently confirms count. Pure classification matches complete reviewed canonical VPS/SPS/PPS and hvcC without masks, fully consumes supported x265 descriptions and refuses unknown functional data. A type 5 label or matching UUID cannot substitute for content classification. Constant source-derived static presence/values and same-SPS HLG147 are retained; explicit CLL 0/0 refuses rather than becoming absent metadata.
+
+The small raw Matroska reader establishes actual nanosecond DefaultDuration/TimestampScale, declared header, neutral track scale/delay/offset and enabled state. Exposed average FPS/dispositions did not prove these raw fields. It observes named scalars only, with no generic container-preservation grant. Complete native frame vectors and the header are independent exact facts. Main's immutable setts contribution retains native-rescaled PTS/DTS/codec payload and serializes only the packet at the unique final presentation PTS to preserve the frozen header low/high state. All final source/output native rows, headers, raw scalars, metadata and configurations remain exact; no tolerance widening, file-header patch or decoded-frame adjustment hides a failure.
+
+The catalog qualifies reviewed producer/runtime/configuration behavior. Each user input independently proves complete content membership; its full SHA remains an integrity binding rather than an allowlist key. Main owns immutable plan/UUID/selection, telemetry, complete collection/validation, completed-source assessment, current runtime/storage and protected no-overwrite publication. Renderer/cache/serialized receipts grant nothing. Reprepare, cancel, replacement, recreation and closure revoke old authority; a ctime-only completed-source warning renews none.
+
+## Configuration discoveries and preserved failed attempts
+
+Early generation failed strict 8-to-10-bit packing and source-byte limits. Only the owned generator gained explicit conversion/compression adjustments; over-limit attempts stayed retained. Campaign8139122f executed but independent review found SPS primaries/transfer2 despite requested output options, so none of its templates were certified. Fresh58d2432b used explicit frame/x265 signal. Ten source/output configurations from valid HD and read-only legacy e6e5c2a2 were reconstructed bit-for-bit against native traces, including reserved/extension/trailing bits.
+
+V4's requested CLL 0/0 emitted no type 144 and proved absence only. Only V4/reference were regenerated as bf2c3e26 with actual 1200/300; parameter-set bytes stayed identical. Explicit zero-bearing sources retain a named before-Ready refusal, and a dropped observed static record still fails final validation. Whole parsed configuration-object and raw file hashes are separate identity recipes recorded in the Technical Reference/receipt. Neither identifies allowed picture content or source files.
+
+## Clock failure, withheld stage and writer recovery
+
+First service 252b805f refused before Ready/encoding on header/native-tail equality: 64 calls, maximum 1/live 0, released lease and empty closure failures. Literal complete clocks showed V3 header 16667/native 16666 for 400 frames at 24 fps, while V4 header/native 5566 differed from nominal rounded count 5567. Pinned mux/demux source plus raw scalar observations justified exact low/high serialization states without relaxing any source/output comparison.
+
+Second service bbc9016d published V1/V2/V4 but withheld V3 as retained-unverified because raw output header 16666 differed from prepared16667. Its108 calls closed maximum 1/live 0/released lease. A later harness query correctly refused the stale completed-plan getter; that reporting failure remains separate from per-item service results. The harness was corrected to use compact retained completed facts. A source-reviewed main-owned duration contribution was then verified through fresh service; the failed stage was not patched or reused as qualified output.
+
+Fitting e2585ab6-1bc0-422a-ab2c-3209f194920e passed all four generated cases and complete source/container/elementary metadata/configuration/timing evidence plus actual collection-cancel, invalid-stage, collision, source-change and recreated-service negatives: 134 calls, maximum 1/live 0, released lease/closure complete. Independent fitting review passed. Only then was the default catalog wired to content-derived membership under the unchanged exact producer/runtime/configuration pins.
+
+## First default-factory holdouts and the H2 caveat
+
+First unoverridden default-factory fcde4d43-cc2e-40b9-9dec-4ee1b34ac714 passed independently fixed H1/H2b with 86 calls, maximum 1/live 0, released lease and empty closure failures. No picture/template/application fitting followed those results. H1 is a new 389-frame 24 fps PQ source with neither static record; native end 16208/header16209 are independently exact. Original H2 generation was 17746110 bytes and failed the16 MiB envelope; it remains retained and unqualified. Fresh low-motion H2b is 1293458 bytes,1800 frames/60 seconds, absent SAR, mastering peak 1800 and CLL 1800/650, using the unchanged legacy configuration. This is H2b acceptance, not a retroactive original-H2 pass or arbitrary motion/producer coverage.
+
+Independent actual review rechecked all 6567 source/container/elementary frame observations,20 artifacts, live source/output full hashes, telemetry, source assessments and diagnostic/publication/recreation order. The report SHA is c10bd8c726b1daf76d18b23122d22059e630143823228eb59b4b4aae7b3aeb40. Output/extracted-HEVC pixel equality proves extraction consistency; generated content/clock checks do not prove perceptual quality, lossless source/output equality or HDR-display acceptance. Exact input/output hashes and sizes belong to the receipt and Technical Reference.
+
+## Actual adversarial refusals and independent review
+
+Builderd7bf744e-adb1-48be-a03a-b2bb0e0576e4 used three complete capture children, maximum 1/live 0/released lease/closure[], constructing eight same-length mutations while preserving every original VCL byte/order and valid repaired CRCs. A1/A2/A3/A5 targeted packet748 after748VCL; A4 targeted packet250 after250VCL. They isolate functional/unknown metadata/configuration changes from damaged pictures or checksums. The helper grants no producer authenticity or eligibility authority.
+
+Default-service60a78182-bec1-4270-99c0-7a8a12cc4865 passed nine before-Ready refusals: unknown UUID and known-UUID binary control (HEVC_CONTENT_USER_DATA), suffixSEI(HEVC_CONTENT_NAL_UNSUPPORTED), HLG147 contradiction(HEVC_CONTENT_TRANSFER), late SPS standard-level/all-SPS non-square SAR(HEVC_CONTENT_CONFIGURATION), actual explicitCLL 0/0(HDR_ZERO_CLL_WRITER_UNQUALIFIED), raw FlagEnabled 0(HDR_CONTAINER_TRACK_DISABLED), and retained overbyte H2(HDR_QUALIFICATION_REQUIRED at the earlier workspace gate). No fixture encode, Ready or publication occurred; outputs stayed empty and invalid-selection Start added no child. Its69 calls include ordinary generated/null capability children, not only probes or zero total processes. All children/leases closed with maximum 1/live 0/closure[] and producer freeze unchanged.
+
+Final independent review reconstructed all eight fixtures/proofs bytewise from the three actual captures. A separate CRC walker verified picture bytes/order and repaired checksums; review checked32 diagnostic digests,9 stderr hashes, specific refusal ordering/no Ready/no authority/no fixture encoding/empty outputs and current builder/service/56-pin producer bytes. Both fitting/holdout and negative-artifact gates passed with no remaining code blocker. Complete builder/service report hashes and review artifacts are in the twelve-section receipt.
+
+## Regression, raw-byte provenance and acceptance limits
+
+Full direct regression reports 1542 passed/0 failed/1 known Windows directory-link fixture skip of 1543 in 45679.8591 ms;137 focused checks overlap. Pure/mock/private-receipt checks, actual generated normal-service evidence and independent source/artifact review remain distinct. The unavailable linked-path fixture is not live reparse proof. Actual vendor hardware/display/native/portable and independent-machine acceptance remain absent; no Security Cloud scan occurred.
+
+Qualification pins exact raw local working-tree producers, paired runtime and complete native templates. Git normalized blobs/autocrlf/private remote equality do not prove that a cold clone or packaged portable tree has those raw bytes. Cold-clone/portable qualification stays open; seals must not be refreshed merely to bypass changed bytes. Current per-input/runtime/source/store/epoch checks remain required even when saved producer seals match. No universal source/output pixel, conformance or safety claim follows.
+
+## Source checkpoint, documentation and exact next action
+
+Reviewed source is committed as 38392493973422eaf2c075a9af6e1e1656f7594c,25 reviewed files, tree 79b5b83ec40774622c2d29913639d8ed8a362a5c. Parent staging/privacy review passed; all 24 private Planning hashes remain preserved and excluded. Application working bytes stayed frozen through final actual evidence/reviews. Exact final documentation commit/private push/remote/tree/process readback remains parent-owned and must be taken from the receipt/final audit; no unobserved documentation/remote SHA is invented here.
+
+Current/Continuation/AGENTS, Architecture/Technical/Security/Roadmap/tracker, public README/CHANGELOG/Index and this additive Session entry synchronize the bounded outcome. The parent completed minimal current-pointer/historical-banner reconciliation in 05 and 22/23/24/26/27/28/31; the controlling Goal/Plan, all 43 mapping and six-slice structure remain unchanged. All43 IDs remain:N verified/O–R partial/S pending; 0.7.0-alpha.1 remains unaccepted. Parent exclusively owns the twelve-section receipt and source/Git actions. Prior Session/Execution bodies, failed reports and pushed history remain preserved; private Planning/media/raw artifacts are not published.
+
+Complete reviewed documentation/private-branch/live readback, then stop for Blue before broader work. Carry existing owner approval into Blue's later bounded assignment without another owner-resume loop. Tone-map/iPhone/mebx/Dolby, broader preservation/transforms, usable vendor routes, UI/theme/original-icon/credits/native/portable/all-43/owner acceptance remain; missing vendor hardware/HDR display is a separate external gap. Accepted 0.5/0.6, ordinary defaults/CQ29 and benchmark visual judgment remain protected. No automatic successor, benchmark run, install/upgrade, OBS control, personal-media write, cleanup, public release, Security Cloud or credit reset.
+
+---
+
+
+Documentation-only friction: the first bulk write exceeded Windows command-line length before process creation, changing no files. Smaller bounded writes succeeded. Final readback verified the entire earlier Session body byte-for-byte unchanged; no test/media/Git action was performed by this documentation worker. Final documentation commit/private push/remote and live tree/process readback remain parent-owned in the receipt.
+
 # Session — October23,2026: validated finite HDR preservation and native device observations
 
 ## Authority, roles and purpose

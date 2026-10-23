@@ -1,4 +1,19 @@
-> **Current checkpoint — CPU HDR preservation and device observations, October23.** Reviewed code `c3168053182e7df6e82fc945935aa3e5f3792faa` completes only the two-seed CPU PQ/HLG normal-service family and main-private observation plumbing (Plan31 Slice4a). Final regression:1328 passed,0failed,1Windows fixture skipped. STOP here for Blue review before broader work; no automatic successor. [Evidence receipt](Execution%20Summaries/2026-10-23_0.7_Slice4a_CPU_HDR_and_Observation.md) and [Continuation](10_Continuation_State.md) own exact support, final checkpoint readback, remaining work and limits. All43 requirements and protected accepted/default/benchmark state remain; Security Cloud is excluded.
+> **Reviewed content-derived CPU HDR checkpoint — October 23.** Source 38392493973422eaf2c075a9af6e1e1656f7594c completes the finite content-derived eligibility assignment: reviewed fitting, first default-factory H1/H2b and nine actual refusal cases passed independent review. Final documentation/private-branch/live readback belongs to the [receipt](Execution%20Summaries/2026-10-23_CPU_HDR_Content_Eligibility.md). Stop for Blue before broader work; no automatic successor.
+
+## Current outcome and unchanged roadmap
+
+The enabled finite CPU Main10 PQ/HLG Full/source/Matroska family advances P05 and the generated-corpus part of P09, with bounded complete-content/source/lifecycle evidence in O/S. Five exact source classes and conjunctive16 MiB/1800 frame/60 s/829440000 pixel-frame bounds define support. Fitting e2585ab6 used134 calls; first unoverridden default fcde4d43 used86; actual negative60a78182 used69 including generated/null capability work. All closed maximum 1/live 0 with released leases. Original overbyte H2 remains failed; fresh low-motion H2b matched the unchanged legacy template. Full regression 1542 pass/0 fail/1 known Windows fixture skip;137 focused overlap.
+
+N remains verified, O–R partial, S pending, all 43 IDs retained and 0.7.0-alpha.1 unaccepted. Preserve existing SDR and three Full Remux subsets and main-private device observations. Tone mapping/iPhone/mebx/Dolby, broader preservation/geometry/range/ancillary handling, AAC/PCM/SVT/VFR gaps, usable vendor routes, UI/native/portable and owner acceptance remain. AMD AMF/Intel Quick Sync labels stay Beta with missing local hardware explicit. Missing hardware/HDR-display evidence is separate from unfinished software.
+
+Owner design direction remains: a distinctive original application icon replacing stock Chromium identity and a real persistent light/plain/retro-inspired option alongside dark mode. Verify focus/error/readability, restart/migration/reset and native OS dialog limits; offered settings need observable effects. Native/package/portable icon identity and source/license provenance remain future gates. No theme/icon/credits work is completed by this HDR assignment. Security Cloud remains prohibited; accepted 0.5/0.6, ordinary defaults/ArchiveCQ29 and benchmark visual judgment are unchanged. Carry existing approval into Blue's later bounded assignment without another owner-resume loop. No automatic release/benchmark/install/OBS/cleanup successor.
+
+## Historical two-seed CPU HDR/device-observation roadmap — October 23
+
+Earlier outcome paragraphs retain dated support and stop boundaries.
+
+
+> **Historical checkpoint — CPU HDR preservation and device observations, October23.** Reviewed code `c3168053182e7df6e82fc945935aa3e5f3792faa` completes only the two-seed CPU PQ/HLG normal-service family and main-private observation plumbing (Plan31 Slice4a). Final regression:1328 passed,0failed,1Windows fixture skipped. STOP here for Blue review before broader work; no automatic successor. [Evidence receipt](Execution%20Summaries/2026-10-23_0.7_Slice4a_CPU_HDR_and_Observation.md) and [Continuation](10_Continuation_State.md) own exact support, final checkpoint readback, remaining work and limits. All43 requirements and protected accepted/default/benchmark state remain; Security Cloud is excluded.
 
 ## CPU HDR preservation and device observation checkpoint
 

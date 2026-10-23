@@ -47,6 +47,12 @@ test('unavailable filtered input correspondence is explicit including FFmpeg uns
   const result = await parse(video(0, 0, { 5: '18446744073709551615', 8: '0/1', 9: '9223372036854775807' }));
   assert.equal(result.unknownInputRecords, '1'); assert.equal(result.first.inputFrame, null); assert.equal(result.first.inputTime, null);
 });
+
+test('missing input frame lineage remains disclosed when input timestamps are available', async () => {
+  const result = await parse(video(0, 0, { 5: '18446744073709551615' }));
+  assert.equal(result.unknownInputRecords, '1'); assert.equal(result.first.inputFrame, null);
+  assert.notEqual(result.first.inputTime, null);
+});
 test('CRLF hashes retain original bytes but canonical hashes match LF evidence', async () => {
   const input = video(0, 0), lf = await parse(input), crlf = await parse(input.replace(/\n/g, '\r\n'));
   assert.equal(lf.hashes.canonicalRecords, crlf.hashes.canonicalRecords); assert.notEqual(lf.hashes.raw, crlf.hashes.raw);

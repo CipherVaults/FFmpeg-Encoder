@@ -13,6 +13,31 @@ function fakeChild() {
   return child;
 }
 
+test('explicit pipe accounting observes progress and truncated stderr bytes independently of text retention', async () => {
+  const child = fakeChild(), observed = [];
+  const promise = runTool('fixed.exe', [], { spawnImpl: () => child, onProgress() {},
+    stdoutLimit: 1024, stderrLimit: 4, onOutputBytes: record => observed.push(record) });
+  const progress = Buffer.from('out_time_us=1234\nprogress=end\n');
+  const stderr = Buffer.from('diagnostic tail');
+  child.stdout.emit('data', progress); child.stderr.emit('data', stderr); child.emit('close', 0);
+  const result = await promise;
+  assert.deepEqual(observed, [{ stream: 'stdout', bytes: progress.length }, { stream: 'stderr', bytes: stderr.length }]);
+  assert.equal(result.stderrCapture.totalBytes, stderr.length); assert.equal(result.stderrCapture.truncated, true);
+});
+
+test('qualified progress limit waits for close; ordinary progress retains its prior long-running behavior', async () => {
+  const counted = fakeChild(); let settled = false;
+  const work = runTool('fixed.exe', [], { spawnImpl: () => counted, onProgress() {}, stdoutLimit: 4,
+    onOutputBytes() {} }).finally(() => { settled = true; });
+  const rejected = assert.rejects(work, { code: 'OUTPUT_LIMIT' });
+  counted.stdout.emit('data', Buffer.from('progress=end\n')); await Promise.resolve();
+  assert.equal(settled, false); assert.equal(counted.kills, 1); counted.emit('close', 0); await rejected;
+  const ordinary = fakeChild();
+  const ordinaryWork = runTool('fixed.exe', [], { spawnImpl: () => ordinary, onProgress() {}, stdoutLimit: 4 });
+  ordinary.stdout.emit('data', Buffer.from('progress=end\n')); ordinary.emit('close', 0);
+  assert.equal((await ordinaryWork).exitCode, 0); assert.equal(ordinary.kills, 0);
+});
+
 test('progress retains split records, accepts unknown values, and separates blocks', () => {
   const records = [];
   const parser = new ProgressParser(record => records.push(record));

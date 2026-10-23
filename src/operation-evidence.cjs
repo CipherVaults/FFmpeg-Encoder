@@ -43,6 +43,11 @@ const sub = (a, b) => ({ n: a.n * b.d - b.n * a.d, d: a.d * b.d });
 const add = (a, b) => ({ n: a.n * b.d + b.n * a.d, d: a.d * b.d });
 const cmp = (a, b) => a.n * b.d - b.n * a.d;
 const ceil = (n, d) => n / d + (n % d > 0n ? 1n : 0n);
+function reducedKey(value) {
+  let a = value.n < 0n ? -value.n : value.n, b = value.d;
+  while (b) [a, b] = [b, a % b];
+  return `${value.n / (a || 1n)}/${value.d / (a || 1n)}`;
+}
 function round(r) {
   const sign = r.n < 0n ? -1n : 1n, n = r.n < 0n ? -r.n : r.n;
   return sign * (n / r.d + (n % r.d * 2n >= r.d ? 1n : 0n));
@@ -88,7 +93,8 @@ function compactRow(line, section, allowed) {
       if (cell === '' || cell === 'side_data') continue;
       const separator = cell.indexOf('='); need(separator > 0, 'Malformed compact evidence field.');
       const rawKey = cell.slice(0, separator), value = cell.slice(separator + 1);
-      const key = section === 'packet' && own(PACKET_COMPACT_KEYS, rawKey) ? PACKET_COMPACT_KEYS[rawKey] : rawKey;
+      const key = section === 'packet' && own(PACKET_COMPACT_KEYS, rawKey) ? PACKET_COMPACT_KEYS[rawKey]
+        : section === 'frame' && rawKey === BENIGN_SEI_KEY ? 'side_data_type' : rawKey;
       need(allowed.includes(key) && !own(row, key) && !value.includes('\\'), 'Unknown, escaped or repeated evidence field.'); row[key] = value;
     }
     return row;
@@ -142,17 +148,26 @@ function sourceChange(before, after) {
 }
 
 const FRAME_FIELDS = ['media_type', 'stream_index', 'pts', 'duration', 'pkt_duration', 'nb_samples', 'sample_fmt', 'channels', 'channel_layout', 'width', 'height', 'pix_fmt', 'interlaced_frame', 'color_range', 'color_space', 'color_primaries', 'color_transfer'];
-const PACKET_FIELDS = ['stream_index', 'side_data_type', 'skip_samples', 'discard_padding'];
+const PACKET_FIELDS = ['stream_index', 'side_data_type', 'skip_samples', 'discard_padding', 'pts', 'duration'];
+const CONTAINER_CLOCK = 'matroska-packet-end-plus-codec-delay';
 const INPUT_GUARDS = ['-protocol_whitelist', 'file,pipe', '-format_whitelist', 'mov,matroska,webm,avi,mpegts'];
-function frameArgs(file, index) {
+const PROPERTY_FIELDS = ['sample_aspect_ratio', 'chroma_location', 'side_data_type'];
+const BENIGN_SEI_KEY = 'side_datum/h_26_45__user_data_unregistered_sei_message:side_data_type';
+function frameArgs(file, index, sourceProperties = false) {
   return ['-v', 'error', ...INPUT_GUARDS, '-select_streams', String(index), '-show_frames', '-show_entries',
-    `frame=${FRAME_FIELDS.join(',')}:frame_tags=:frame_side_data=`, '-of', 'compact=p=1:nk=0:escape=c', '-i', file];
+    `frame=${[...FRAME_FIELDS, ...(sourceProperties ? PROPERTY_FIELDS.slice(0, 2) : [])].join(',')}:frame_tags=:frame_side_data=${sourceProperties ? 'side_data_type' : ''}`, '-of', 'compact=p=1:nk=0:escape=c', '-i', file];
 }
-function checkFrame(line, stream) {
-  const row = compactRow(line, 'frame', FRAME_FIELDS);
+function checkFrame(line, stream, sourceProperties = false) {
+  const row = compactRow(line, 'frame', [...FRAME_FIELDS, ...(sourceProperties ? PROPERTY_FIELDS : [])]);
   need(row.media_type === stream.codec_type && int(row.stream_index, 'Stream index', 0n) === BigInt(stream.index), 'Decoded frame belongs to another stream.');
   const time = mul(base(stream.time_base), int(row.pts, 'Decoded PTS'));
   if (stream.codec_type === 'video') {
+    if (sourceProperties) {
+      need(row.sample_aspect_ratio === '1:1' && row.chroma_location === 'left',
+        'A decoded source frame has unqualified SAR/chroma location or lacks those observations.', 'OPERATION_SOURCE_FAMILY_MISMATCH');
+      need(row.side_data_type === undefined || row.side_data_type === 'H.26[45] User Data Unregistered SEI message',
+        'A decoded source frame contains unqualified display/HDR/ancillary side data.', 'OPERATION_SOURCE_FAMILY_MISMATCH');
+    }
     for (const key of ['width', 'height', 'pix_fmt', 'color_range', 'color_space', 'color_primaries', 'color_transfer']) {
       need(stream[key] !== undefined && row[key] === String(stream[key]), `Decoded video ${key} disagrees with the observed stream or is unavailable.`);
     }
@@ -201,8 +216,18 @@ async function compareAudioTimelines({ sourceRows, outputRows, sampleRate, sourc
 }
 
 async function collectOperationEvidence(options) {
-  exact(options, ['plan', 'sourceProbe', 'outputProbe', 'sourcePath', 'outputPath', 'stageDirectory', 'ffmpeg', 'ffprobe', 'run', 'signal', 'budget', 'timingQualification'], 'Main collector request');
+  exact(options, ['plan', 'sourceProbe', 'outputProbe', 'sourcePath', 'outputPath', 'stageDirectory', 'ffmpeg', 'ffprobe', 'run', 'signal', 'budget', 'timingQualification', ...(own(options, 'sourcePolicy') ? ['sourcePolicy'] : []),
+    ...(own(options, 'containerClockPolicy') ? ['containerClockPolicy'] : [])], 'Main collector request');
   const { plan, sourcePath, outputPath, stageDirectory, ffmpeg, ffprobe, run, signal, budget, timingQualification } = options;
+  const sourceProperties = own(options, 'sourcePolicy');
+  if (sourceProperties) {
+    exact(options.sourcePolicy, ['id', 'rate', 'maximumExtentUs'], 'Decoded source policy');
+    need(options.sourcePolicy.id === 'short-sdr-range-v1' && [30, 60].includes(options.sourcePolicy.rate)
+      && options.sourcePolicy.maximumExtentUs === 120000000, 'Only the bounded short SDR source policy is implemented.');
+  }
+  const packetClock = own(options, 'containerClockPolicy');
+  if (packetClock) need(sourceProperties && options.containerClockPolicy === CONTAINER_CLOCK,
+    'The packet/codec-delay clock requires the qualified short SDR source policy.');
   exact(budget, ['sourceDecode', 'timeoutMs', 'maxFrameBytes', 'maxPcmBytes', 'maxRecords', 'maxSpoolBytes'], 'Evidence budget');
   need(budget.sourceDecode === 'complete', 'Main must explicitly budget complete source decoding; telemetry alone does not satisfy this validator.', 'OPERATION_EVIDENCE_COST_APPROVAL');
   for (const key of ['timeoutMs', 'maxFrameBytes', 'maxPcmBytes', 'maxRecords', 'maxSpoolBytes']) safe(budget[key], key, 1);
@@ -220,6 +245,9 @@ async function collectOperationEvidence(options) {
     for (const key of ['encoderDelaySamples', 'discardPaddingSamples']) need(safe(timingQualification.aac[key], key) <= 1048576, 'Unsupported AAC padding qualification.');
   }
   const source = normalizeProbe(options.sourceProbe), output = normalizeProbe(options.outputProbe);
+  if (packetClock) need(output.format.format_name === 'matroska,webm' && output.streams.length === 2
+    && output.streams.every(stream => stream.time_base === '1/1000'),
+  'The qualified stored-clock representation requires the exact observed1/1000 Matroska output clock.');
   const mappings = plan.expectedOutput.streams;
   need(Array.isArray(mappings) && mappings.length <= 32 && mappings[0]?.codecType === 'video', 'Bounded expected stream mapping required.');
   const videos = mappings.filter(entry => entry.codecType === 'video'), audio = mappings.filter(entry => entry.codecType === 'audio');
@@ -243,7 +271,8 @@ async function collectOperationEvidence(options) {
     scope: 'complete-decoded-timing-and-selected-flac-pcm', publicationAuthorized: false, qualificationGranted: false,
     cost: 'Sequential complete source/output timing decode; extra complete audio PCM decoding for FLAC. No original video prehash. timeoutMs and stream byte/row budgets apply per child; main owns the total operation deadline.',
     budget: { ...budget }, timingQualification: { ...timingQualification }, timelineComparisons: { video: null, audio: [] },
-    sourcePath, outputPath, sourceBefore: stamps(sourceBefore), outputBefore: stamps(outputBefore), spools, invocations };
+    sourcePath, outputPath, sourceBefore: stamps(sourceBefore), outputBefore: stamps(outputBefore), spools, invocations,
+    completeSource: { video: null, audio: [] }, encoderInputs: { video: null, audio: [] } };
   async function directories() { await assertBound(stageDirectory, stageBefore, true); await assertBound(directory, directoryBefore, true); }
   async function persist(name, value) {
     await directories(); const encoded = Buffer.from(JSON.stringify(value, null, 2)); need(encoded.length <= 2 * 1024 * 1024, 'Receipt exceeds its bound.');
@@ -305,12 +334,34 @@ async function collectOperationEvidence(options) {
     await persist('start.json', receipt);
     const mapping = videos[0], sv = source.streams.find(s => s.index === mapping.inputIndex), ov = output.streams.find(s => s.index === mapping.outputIndex);
     const timeline = await spool('selected-video.jsonl'); let sourceCount = 0, sourceFirst, sourceLast, priorSource;
-    await invoke('source-video-frames', ffprobe, frameArgs(sourcePath, sv.index), lineSink(async line => {
-      const frame = checkFrame(line, sv); need(!priorSource || cmp(frame.time, priorSource) > 0n, 'Source video PTS are not strictly increasing.'); priorSource = frame.time;
+    const encoderPtsHash = createHash('sha256');
+    const encoderVideoOrigin = plan.expectedOutput.timestampOrigins?.video?.effectiveOrigin
+      ? rational(plan.expectedOutput.timestampOrigins.video.effectiveOrigin) : { n: 0n, d: 1n };
+    let completeVideoCount = 0, completeFirst, completeLast, cadenceErrorUs = 0, durationErrorUs = 0, phaseErrorUs = 0;
+    const rate = typeof sv.avg_frame_rate === 'string' && /^[1-9]\d*\/[1-9]\d*$/.test(sv.avg_frame_rate) ? base(sv.avg_frame_rate) : null;
+    const period = rate ? { n: rate.d, d: rate.n } : null;
+    await invoke('source-video-frames', ffprobe, frameArgs(sourcePath, sv.index, sourceProperties), lineSink(async line => {
+      const frame = checkFrame(line, sv, sourceProperties); need(!priorSource || cmp(frame.time, priorSource) > 0n, 'Source video PTS are not strictly increasing.');
+      if (period) {
+        if (priorSource) cadenceErrorUs = Math.max(cadenceErrorUs, errorUs(sub(sub(frame.time, priorSource), period)));
+        durationErrorUs = Math.max(durationErrorUs, errorUs(sub(frame.duration, period)));
+        // Local jitter can accumulate and return to the nominal final extent.
+        // Every ordinal must also remain on the zero-origin nominal clock.
+        phaseErrorUs = Math.max(phaseErrorUs, errorUs(sub(frame.time, mul(period, BigInt(completeVideoCount)))));
+      }
+      priorSource = frame.time; completeFirst ||= frame; completeLast = frame; completeVideoCount++;
       if (range && (cmp(frame.time, range.start) < 0n || cmp(frame.time, range.end) >= 0n)) return;
+      encoderPtsHash.update(reducedKey(sub(frame.time, encoderVideoOrigin)) + '\n');
       sourceCount++; sourceFirst ||= frame; sourceLast = frame; await timeline.append({ time: pack(frame.time), duration: pack(frame.duration) });
     }, sinkOptions), budget.maxFrameBytes);
     need(sourceCount > 0, 'No source frames belong to this selected interval.'); await timeline.seal();
+    receipt.completeSource.video = { frames: completeVideoCount, firstTime: pack(completeFirst.time), endTime: pack(add(completeLast.time, completeLast.duration)),
+      maximumNominalCadenceErrorUs: period ? cadenceErrorUs : null, maximumNominalDurationErrorUs: period ? durationErrorUs : null,
+      maximumNominalPhaseErrorUs: period ? phaseErrorUs : null,
+      ...(sourceProperties ? { properties: { policy: 'short-sdr-range-v1', sampleAspectRatio: '1:1', chromaLocation: 'left',
+        sideDataPolicy: 'h26x-unregistered-sei-only', framesChecked: completeVideoCount } } : {}) };
+    receipt.encoderInputs.video = { outputIndex: mapping.outputIndex, records: String(sourceCount), orderedPts: encoderPtsHash.digest('hex'),
+      scope: 'independent-selected-source-timestamps-minus-canonical-filter-origin' };
     const iterator = timeline.rows(); let outputCount = 0, outputFirst, outputLast, priorOutput, maxError = 0, maxDurationError = 0;
     await invoke('output-video-frames', ffprobe, frameArgs(outputPath, ov.index), lineSink(async line => {
       const frame = checkFrame(line, ov); need(!priorOutput || cmp(frame.time, priorOutput) > 0n, 'Output video PTS are not strictly increasing.'); priorOutput = frame.time;
@@ -325,14 +376,30 @@ async function collectOperationEvidence(options) {
     const decodedEvidence = { video: { sourceFrameCount: sourceCount, outputFrameCount: outputCount, comparedFrames: outputCount,
       firstSourcePtsUs: us(sourceFirst.time), lastSourcePtsUs: us(sourceLast.time), lastSourceDurationUs: us(sourceLast.duration),
       firstOutputPtsUs: us(outputFirst.time), lastOutputPtsUs: us(outputLast.time), lastOutputDurationUs: us(outputLast.duration), maxRebasedTimestampErrorUs: maxError }, audio: [] };
+    const clockStreams = [];
+    if (packetClock) {
+      let packets = 0, end;
+      await invoke('output-video-packets', ffprobe, ['-v', 'error', ...INPUT_GUARDS, '-select_streams', String(ov.index), '-show_packets',
+        '-show_entries', 'packet=stream_index,pts,duration:packet_tags=:packet_side_data=', '-of', 'compact=p=1:nk=0:escape=c', '-i', outputPath], lineSink(async line => {
+        const row = compactRow(line, 'packet', ['stream_index', 'pts', 'duration']);
+        need(int(row.stream_index, 'Video packet stream', 0n) === BigInt(ov.index), 'Wrong video packet stream.');
+        const value = mul(base(ov.time_base), int(row.pts, 'Video packet PTS') + int(row.duration, 'Video packet duration', 1n));
+        if (!end || cmp(value, end) > 0n) end = value; packets++;
+      }, sinkOptions), budget.maxFrameBytes);
+      need(ov.initial_padding === undefined || String(ov.initial_padding) === '0', 'Unexpected video codec delay.');
+      clockStreams.push({ outputIndex: ov.index, packetCount: packets, packetEnd: pack(end), codecDelaySamples: 0, sampleRate: null });
+    }
     for (const mapping of audio) {
       const sa = source.streams.find(s => s.index === mapping.inputIndex), oa = output.streams.find(s => s.index === mapping.outputIndex);
       need(String(sa.sample_rate) === String(oa.sample_rate) && sa.channels === oa.channels && sa.channel_layout === oa.channel_layout, 'Audio rate/layout cannot change during validation.');
       const ranges = await spool(`selected-audio-${mapping.inputIndex}.jsonl`); let totalSamples = 0n, selectedSamples = 0n, selectedFirst, selectedEnd, priorEnd, selectedGaps = 0;
+      let completeAudioFirst, completeAudioGaps = 0;
       const mode = plan.contract.audio.streams.find(s => s.index === mapping.inputIndex).mode;
       await invoke(`source-audio-${mapping.inputIndex}-frames`, ffprobe, frameArgs(sourcePath, sa.index), lineSink(async line => {
         const frame = checkFrame(line, sa), end = add(frame.time, { n: frame.samples, d: frame.rate });
-        need(!priorEnd || cmp(sub(frame.time, priorEnd), mul(base(sa.time_base), -1n)) >= 0n, 'Source audio decoded frames overlap beyond their observed timestamp tick.'); priorEnd = end;
+        need(!priorEnd || cmp(sub(frame.time, priorEnd), mul(base(sa.time_base), -1n)) >= 0n, 'Source audio decoded frames overlap beyond their observed timestamp tick.');
+        if (priorEnd && cmp(sub(frame.time, priorEnd), base(sa.time_base)) > 0n) completeAudioGaps++;
+        completeAudioFirst ||= frame.time; priorEnd = end;
         const clamp = n => n < 0n ? 0n : n > frame.samples ? frame.samples : n;
         const begin = range ? clamp(ceil(sub(range.start, frame.time).n * frame.rate, sub(range.start, frame.time).d)) : 0n;
         const finish = range ? clamp(ceil(sub(range.end, frame.time).n * frame.rate, sub(range.end, frame.time).d)) : frame.samples;
@@ -347,6 +414,11 @@ async function collectOperationEvidence(options) {
         totalSamples += frame.samples;
       }, sinkOptions), budget.maxFrameBytes);
       need(selectedSamples > 0n, 'No selected source audio samples.'); await ranges.seal();
+      receipt.completeSource.audio.push({ inputIndex: mapping.inputIndex, sampleCount: String(totalSamples), firstTime: pack(completeAudioFirst), endTime: pack(priorEnd), gaps: completeAudioGaps });
+      const audioOrigin = plan.expectedOutput.timestampOrigins?.audio?.find(item => item.inputIndex === mapping.inputIndex)?.effectiveOrigin;
+      const effectiveAudioOrigin = audioOrigin ? rational(audioOrigin) : { n: 0n, d: 1n };
+      receipt.encoderInputs.audio.push({ inputIndex: mapping.inputIndex, outputIndex: mapping.outputIndex, sampleCount: String(selectedSamples),
+        firstTime: pack(sub(selectedFirst, effectiveAudioOrigin)), endTime: pack(sub(selectedEnd, effectiveAudioOrigin)), selectedGaps });
       // Lossy codec delay can move a discontinuity's sample-ordinal location.
       // Do not infer that alignment from endpoint similarity or PCM length.
       if (mode === 'precision-aac') {
@@ -368,11 +440,15 @@ async function collectOperationEvidence(options) {
       receipt.timelineComparisons.audio.push({ inputIndex: mapping.inputIndex, mode, selectedSourceGaps: selectedGaps,
         unmatchedSourceTailSamples: numeric(selectedSamples > decodedSamples ? selectedSamples - decodedSamples : 0n),
         unmatchedOutputTailSamples: numeric(decodedSamples > selectedSamples ? decodedSamples - selectedSamples : 0n), ...timelineCheck });
-      let skip = 0n, discard = 0n;
+      let skip = 0n, discard = 0n, packets = 0, packetEnd;
       const packetArgs = ['-v', 'error', ...INPUT_GUARDS, '-select_streams', String(oa.index), '-show_packets', '-show_entries',
-        'packet=stream_index:packet_tags=:packet_side_data=side_data_type,skip_samples,discard_padding', '-of', 'compact=p=1:nk=0:escape=c', '-i', outputPath];
+        `packet=stream_index${packetClock ? ',pts,duration' : ''}:packet_tags=:packet_side_data=side_data_type,skip_samples,discard_padding`, '-of', 'compact=p=1:nk=0:escape=c', '-i', outputPath];
       await invoke(`output-audio-${mapping.outputIndex}-padding`, ffprobe, packetArgs, lineSink(async line => {
         const row = compactRow(line, 'packet', PACKET_FIELDS); need(int(row.stream_index, 'Packet stream', 0n) === BigInt(oa.index), 'Wrong packet stream.');
+        if (packetClock) {
+          const value = mul(base(oa.time_base), int(row.pts, 'Audio packet PTS') + int(row.duration, 'Audio packet duration', 1n));
+          if (!packetEnd || cmp(value, packetEnd) > 0n) packetEnd = value; packets++;
+        }
         if (own(row, 'side_data_type') || own(row, 'skip_samples') || own(row, 'discard_padding')) {
           need(row.side_data_type === 'Skip Samples' && own(row, 'skip_samples') && own(row, 'discard_padding'), 'Incomplete/unknown packet padding evidence.');
           skip += int(row.skip_samples, 'Skip samples', 0n); discard += int(row.discard_padding, 'Discard padding', 0n);
@@ -393,6 +469,11 @@ async function collectOperationEvidence(options) {
         need(evidence.encoderDelaySamples === timingQualification.aac.encoderDelaySamples
           && evidence.discardPaddingSamples === timingQualification.aac.discardPaddingSamples,
         'Observed AAC skip/padding does not match the independently qualified decoder alignment.', 'OPERATION_EVIDENCE_AAC_ALIGNMENT');
+      }
+      if (packetClock) {
+        need(mode === 'precision-aac' && String(oa.initial_padding) === '1024' && evidence.encoderDelaySamples === 1024
+          && evidence.discardPaddingSamples === 0 && sa.sample_rate === '48000', 'The packet clock requires the explicitly observed AAC48k codec delay.');
+        clockStreams.push({ outputIndex: oa.index, packetCount: packets, packetEnd: pack(packetEnd), codecDelaySamples: 1024, sampleRate: 48000 });
       }
       if (mode === 'precision-flac') {
         const precision = plan.expectedOutput.audioPrecision.find(s => s.inputIndex === mapping.inputIndex);
@@ -431,6 +512,7 @@ async function collectOperationEvidence(options) {
       }
       decodedEvidence.audio.push(evidence);
     }
+    if (packetClock) decodedEvidence.containerClock = { representation: CONTAINER_CLOCK, streams: clockStreams };
     const sourceAfter = await binding(sourcePath), sourceDisposition = sourceChange(sourceBefore, sourceAfter);
     need(sourceDisposition !== 'changed', 'Source content-related identity changed during evidence collection.', 'OPERATION_EVIDENCE_CHANGED');
     receipt.sourceAfter = stamps(sourceAfter); receipt.sourceIdentityDisposition = sourceDisposition;

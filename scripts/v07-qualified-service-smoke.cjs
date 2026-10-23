@@ -11,6 +11,8 @@ const { promisify } = require('node:util');
 const { runTool } = require('../src/process-runner.cjs');
 const { EncoderService } = require('../src/encoder-service.cjs');
 const { OperationQualificationSelector } = require('../src/operation-qualification.cjs');
+const { OperationRuntimeObserver } = require('../src/operation-runtime.cjs');
+const { openEvidenceStorage } = require('../src/operation-storage.cjs');
 const { readSourceIdentity } = require('../src/source-identity.cjs');
 const { inspectMetadata } = require('../src/inspection.cjs');
 const { fingerprintEncodeSource } = require('../src/encode-operation.cjs');
@@ -74,7 +76,12 @@ async function run(executable, args, options = {}) {
   let child;
   try {
     const result = await runTool(executable, args, { ...options,
-      onChild(value) { child = value; children.add(value); report.maximumConcurrentChildren = Math.max(report.maximumConcurrentChildren, children.size); } });
+      onChild(value) {
+        child = value; children.add(value); report.maximumConcurrentChildren = Math.max(report.maximumConcurrentChildren, children.size);
+        // Counting a child must not hide its actual handle from the production
+        // runtime observer, which independently requires observed close.
+        options.onChild?.(value);
+      } });
     Object.assign(entry, { status: 'completed', exitCode: result.exitCode, stderr: result.stderr,
       stderrCapture: result.stderrCapture, stdoutCapture: result.stdoutCapture });
     return result;
@@ -146,9 +153,15 @@ async function main() {
     const selector = new OperationQualificationSelector({ policyIdentity, cells: [cell] });
     const output = path.join(ownedRun, mode); await fs.mkdir(output);
     const endpoint = { mode, output, status: 'running', events: [] }; report.cases.push(endpoint); await save();
-    const service = new EncoderService({ ...report.tools, stateDir: path.join(ownedRun, 'state-' + mode), runtimeIdentity: RUNTIME, run,
+    const stateDir = path.join(ownedRun, 'state-' + mode); await fs.mkdir(stateDir);
+    const observer = new OperationRuntimeObserver({ runtime: report.tools,
+      pins: Object.fromEntries(['ffmpeg', 'ffprobe'].map(name => [name, { sha256: TOOL_SHA[name], sizeBytes: historical.runtime[name].bytes }])),
+      observeNvidia: environment ? async () => { const current = (await gpu()).environment;
+        return { adapterIdentity: current.adapterIdentity, driverVersion: current.driverVersion }; } : undefined, run });
+    const service = new EncoderService({ ...report.tools, stateDir, runtimeIdentity: RUNTIME, run,
       inspectionWorkers: 1, inspectionCache: null, storageEligibility: { check: async () => ({ eligible: false, reason: 'Development endpoint uses attested fixture facts only.' }) },
       operationQualifications: selector, operationEvidenceBudget: budget,
+      operationRuntime: observer, operationStorage: () => openEvidenceStorage({ root: path.join(stateDir, 'operation-evidence') }), operationTelemetry: true,
       operationEnvironment: environment ? () => environment : null,
       capabilities: async () => ({ profiles: PROFILES.map(profile => ({ ...profile, available: profile.id === PROFILE, supportedBitDepths: profile.id === PROFILE ? [8] : [] })), versions: { ffmpeg: report.runtime.ffmpeg.version } }),
       inspect: async (file, options) => {
@@ -175,13 +188,21 @@ async function main() {
       service.startBatch({ planId: prepared.planId, fileIds: [fileId] }); await service.taskPromise;
       endpoint.result = service.snapshot(); endpoint.detailsAfter = service.getEncodingDetails({ planId: prepared.planId, fileId });
       assert.equal(endpoint.result.items[0].status, 'success', endpoint.result.items[0].reason);
-      assert.deepEqual(endpoint.detailsBefore.args.slice(0, -1), endpoint.detailsAfter.args.slice(0, -1));
+      const slots = endpoint.detailsBefore.operation.instrumentation.placeholders;
+      assert.equal(endpoint.detailsBefore.args.length, endpoint.detailsAfter.args.length);
+      endpoint.detailsBefore.args.slice(0, -1).forEach((arg, index) => {
+        if (!slots.includes(arg)) assert.equal(endpoint.detailsAfter.args[index], arg);
+        else assert.ok(endpoint.detailsAfter.args[index].startsWith(stateDir + path.sep));
+      });
       assert.equal(endpoint.detailsAfter.kind, 'actual-invocation'); assert.equal(endpoint.detailsAfter.operation.compatibilityPath, false);
       assert.ok(endpoint.events.some(event => event.stage === 'evidence-collection' && event.duration === 2.074 && event.percent === null));
       const entry = service.plan.entries.get(fileId); endpoint.evidence = entry.operationEvidence; assert.equal(endpoint.evidence.status, 'completed');
+      endpoint.telemetry = entry.operationTelemetryReceipt; endpoint.telemetryValidation = entry.telemetryValidation;
+      assert.equal(endpoint.telemetryValidation.valid, true); endpoint.storage = endpoint.result.items[0].evidenceStorage;
+      assert.equal(endpoint.storage.final.violations.length, 0);
       endpoint.output = { path: entry.destination, sha256: sha(await fs.readFile(entry.destination)) };
       assert.equal(sha(await fs.readFile(input)), FIXTURE_SHA); endpoint.status = 'passed';
-    } finally { await service.cancelCurrent(); await service.closeDiagnostics(); await save(); }
+    } finally { await service.cancelCurrent(); await service.closeOperationResources(); await service.closeDiagnostics(); await save(); }
   }
   await pinned(source, FIXTURE_SHA, 16 * 1024 * 1024);
   await pinned(HISTORICAL, REPORT_SHA, 16 * 1024 * 1024);

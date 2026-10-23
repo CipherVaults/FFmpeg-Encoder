@@ -31,6 +31,49 @@ function frames(stream, pts, audio = false) {
     : { media_type: 'video', stream_index: stream.index, pts: value, duration: 100, width: stream.width, height: stream.height,
       pix_fmt: stream.pix_fmt, interlaced_frame: 0, ...color });
 }
+
+test('family source-property checks cover late frames outside the selected interval', async t => {
+  for (const [field, value] of [['sample_aspect_ratio', '4:3'], ['chroma_location', 'center'],
+    ['side_data_type', 'Mastering display metadata'], ['side_data_type', 'Stereo 3D']]) {
+    const { options, data } = await fixture(t);
+    options.sourcePolicy = { id: 'short-sdr-range-v1', rate: 30, maximumExtentUs: 120000000 };
+    for (const frame of data.sourceFrames[0]) Object.assign(frame, { sample_aspect_ratio: '1:1', chroma_location: 'left' });
+    data.sourceFrames[0].at(-1)[field] = value;
+    await assert.rejects(collectOperationEvidence(options), error => error.code === 'OPERATION_SOURCE_FAMILY_MISMATCH');
+  }
+});
+
+test('family property coverage is complete and unknown or repeated nested side data fails closed', async t => {
+  const { options, data } = await fixture(t);
+  options.sourcePolicy = { id: 'short-sdr-range-v1', rate: 30, maximumExtentUs: 120000000 };
+  for (const frame of data.sourceFrames[0]) Object.assign(frame, { sample_aspect_ratio: '1:1', chroma_location: 'left' });
+  data.sourceFrames[0][0]['side_datum/h_26_45__user_data_unregistered_sei_message:side_data_type'] = 'H.26[45] User Data Unregistered SEI message';
+  const result = await collectOperationEvidence(options);
+  assert.deepEqual(result.completeSource.video.properties, { policy: 'short-sdr-range-v1', sampleAspectRatio: '1:1', chromaLocation: 'left',
+    sideDataPolicy: 'h26x-unregistered-sei-only', framesChecked: 4 });
+  for (const suffix of ['|side_datum/unknown:side_data_type=Unknown', '|side_data_type=H.26[45] User Data Unregistered SEI message']) {
+    data.transform = ({ bytes, args, source }) => source && args.includes('-show_frames') && args[args.indexOf('-select_streams') + 1] === '0'
+      ? Buffer.from(bytes.toString().replace(/\n/, suffix + '\n')) : bytes;
+    await assert.rejects(collectOperationEvidence(options), { code: 'OPERATION_EVIDENCE_INVALID' });
+  }
+});
+
+test('complete source records accumulated CFR phase drift even when local jitter and final extent look valid', async t => {
+  const { options, data } = await fixture(t, { mutateProbe(probe) {
+    Object.assign(probe.streams[0], { avg_frame_rate: '30/1', r_frame_rate: '30/1', duration: '6', duration_ts: 6000 });
+  } });
+  let pts = 0;
+  data.sourceFrames[0] = Array.from({ length: 180 }, (_, index) => {
+    const row = frames(options.sourceProbe.streams[0], [pts])[0];
+    row.duration = index < 60 ? 34 : 33; pts += row.duration; return row;
+  });
+  data.outputFrames[0] = data.sourceFrames[0].filter(row => row.pts >= 100 && row.pts < 300)
+    .map(row => ({ ...row, pts: row.pts - 100 }));
+  const result = await collectOperationEvidence(options), video = result.completeSource.video;
+  assert.equal(pts, 6000); assert.equal(video.frames, 180);
+  assert.ok(video.maximumNominalCadenceErrorUs <= 1000); assert.ok(video.maximumNominalDurationErrorUs <= 1000);
+  assert.equal(video.maximumNominalPhaseErrorUs, 40000);
+});
 async function fixture(t, { mode = 'precision-flac', overrides = {}, mutateProbe } = {}) {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'ffet-operation-evidence-'));
   t.after(() => fs.rm(root, { recursive: true, force: true }));
@@ -39,7 +82,7 @@ async function fixture(t, { mode = 'precision-flac', overrides = {}, mutateProbe
   const sourceProbe = probe(); mutateProbe?.(sourceProbe);
   const settings = { profileId: 'h265-cpu', preset: 'slow', quality: 25 };
   const plan = buildEncodeOperation({ input: sourcePath, output: outputPath, settings,
-    inspection: { probe: sourceProbe, color: classifyColor(sourceProbe), duration: .4, evidence: {}, summary: {} },
+    inspection: { probe: sourceProbe, color: classifyColor(sourceProbe), duration: Number(sourceProbe.format.duration), evidence: {}, summary: {} },
     request: resolveFileRequest({ fileId: 'fixture', identityRevision: 1, draftRevision: 1, operation: 'encode',
       overrides: { range: { startUs: 100000, endUs: 300000 }, audioPolicy: mode, ...overrides } }), runtimeIdentity: 'a'.repeat(64) });
   const outputProbe = structuredClone(sourceProbe); outputProbe.format.format_name = 'matroska,webm'; outputProbe.format.duration = '.2';
@@ -56,7 +99,10 @@ async function fixture(t, { mode = 'precision-flac', overrides = {}, mutateProbe
     const source = args[args.indexOf('-i') + 1] === sourcePath;
     if (args.includes('-show_frames')) {
       const index = args[args.indexOf('-select_streams') + 1]; bytes = Buffer.from((source ? data.sourceFrames : data.outputFrames)[index].map(row => line('frame', row)).join(''));
-    } else if (args.includes('-show_packets')) bytes = Buffer.from(data.packetRows.join(''));
+    } else if (args.includes('-show_packets')) {
+      const index = args[args.indexOf('-select_streams') + 1];
+      bytes = Buffer.from((data.packetRowsByIndex?.[index] || data.packetRows).join(''));
+    }
     else bytes = source ? data.sourcePcm : data.outputPcm;
     if (data.transform) bytes = await data.transform({ bytes, args, source, options });
     for (let n = 0; n < bytes.length; n += 313) await options.onStdoutChunk(bytes.subarray(n, n + 313));
@@ -71,6 +117,58 @@ async function fixture(t, { mode = 'precision-flac', overrides = {}, mutateProbe
 }
 const qualification = { evidenceId: 'pure-fixture-only', runtimeIdentity: 'a'.repeat(64), containerDuration: 'end-timestamp',
   tolerances: { videoTimestampUs: 0, audioTimestampUs: 0, avSyncUs: 0, durationUs: 0, sampleCount: 0 } };
+
+test('production compact packet collector and validator reject AAC truncation with a compensating final packet duration', async t => {
+  for (const truncated of [false, true]) {
+    const { options, data } = await fixture(t, { mode: 'precision-aac', overrides: { range: { startUs: 0, endUs: 500000 } }, mutateProbe(probe) {
+      Object.assign(probe.streams[0], { profile: 'High', chroma_location: 'left', avg_frame_rate: '30/1', r_frame_rate: '30/1',
+        time_base: '1/30000', duration: '1', duration_ts: 30000 });
+      Object.assign(probe.streams[1], { codec_name: 'aac', profile: 'LC', sample_fmt: 'fltp', duration: '1', duration_ts: 48000 });
+      probe.format.duration = '1';
+    } });
+    Object.assign(options.outputProbe.streams[0], { time_base: '1/1000', duration: '.5', duration_ts: 500 });
+    Object.assign(options.outputProbe.streams[1], { initial_padding: 1024, duration: '.521', duration_ts: 521 });
+    options.outputProbe.format.duration = '.521';
+    options.sourcePolicy = { id: 'short-sdr-range-v1', rate: 30, maximumExtentUs: 120000000 };
+    options.containerClockPolicy = 'matroska-packet-end-plus-codec-delay';
+    options.timingQualification = { evidenceId: 'mock-aac-fixed-clock', runtimeIdentity: 'a'.repeat(64), videoDurationUs: 1067, audioTimelineUs: 1042,
+      aac: { alignment: 'decoded-after-signalled-skip', encoderDelaySamples: 1024, discardPaddingSamples: 0 } };
+    data.sourceFrames[0] = Array.from({ length: 30 }, (_, n) => ({ ...frames(options.sourceProbe.streams[0], [n * 1000])[0],
+      duration: 1000, sample_aspect_ratio: '1:1', chroma_location: 'left' }));
+    data.outputFrames[0] = Array.from({ length: 15 }, (_, n) => ({ ...frames(options.outputProbe.streams[0], [Math.round(n * 1000 / 30)])[0], duration: 33 }));
+    const audioFrame = (stream, pts) => ({ media_type: 'audio', stream_index: stream.index, pts, nb_samples: 1024,
+      sample_fmt: 'fltp', channels: 2, channel_layout: 'stereo' });
+    data.sourceFrames[2] = Array.from({ length: 47 }, (_, n) => audioFrame(options.sourceProbe.streams[1], n * 1024));
+    data.outputFrames[1] = Array.from({ length: truncated ? 23 : 24 }, (_, n) => audioFrame(options.outputProbe.streams[1], Math.round(n * 1024 / 48)));
+    const audioPackets = Array.from({ length: truncated ? 24 : 25 }, (_, n) => {
+      const pts = n === 0 ? -21 : Math.round((n - 1) * 1024 / 48);
+      const last = n === (truncated ? 23 : 24);
+      // In the negative control, the final packet is gone. Extending the
+      // preceding packet to31ms still fabricates the expected500ms packet end.
+      return line('packet', { stream_index: 1, pts, duration: last ? 500 - pts : 21,
+        ...(n === 0 ? { 'side_datum/skip_samples:side_data_type': 'Skip Samples',
+          'side_datum/skip_samples:skip_samples': 1024, 'side_datum/skip_samples:discard_padding': 0 } : {}) });
+    });
+    data.packetRowsByIndex = { 0: data.outputFrames[0].map(row => line('packet', { stream_index: 0, pts: row.pts, duration: 33 })), 1: audioPackets };
+    const result = await collectOperationEvidence(options), clock = result.decodedEvidence.containerClock;
+    assert.equal(result.status, 'completed'); assert.ok(data.calls.some(call => call.args.includes('packet=stream_index,pts,duration:packet_tags=:packet_side_data=')));
+    assert.ok(data.calls.some(call => call.args.includes('packet=stream_index,pts,duration:packet_tags=:packet_side_data=side_data_type,skip_samples,discard_padding')));
+    assert.equal(clock.streams[1].packetCount, truncated ? 24 : 25); assert.deepEqual(clock.streams[1].packetEnd, { n: '500', d: '1000' });
+    const decoded = result.decodedEvidence.audio[0]; assert.equal(decoded.sourceSampleCount, 24000); assert.equal(decoded.outputSampleCount, truncated ? 23552 : 24576);
+    assert.equal(decoded.lastOutputEndUs, truncated ? 490333 : 512333);
+    const measured = { evidenceId: 'mock-aac-fixed-clock', runtimeIdentity: 'a'.repeat(64), containerDuration: options.containerClockPolicy,
+      tolerances: { videoTimestampUs: 1067, audioTimestampUs: 22355, avSyncUs: 23422, durationUs: 1088, sampleCount: 1023 } };
+    const validation = validateEncodeOperationOutput(options.plan, options.outputProbe, { qualification: measured, decodedEvidence: result.decodedEvidence });
+    assert.equal(validation.valid, !truncated, validation.errors.join('; '));
+    if (truncated) assert.ok(validation.errors.some(error => /terminal|shortage|sample/i.test(error)));
+    for (const base of [undefined, '1/48000']) {
+      const changed = structuredClone(options.outputProbe);
+      if (base === undefined) delete changed.streams[1].time_base; else changed.streams[1].time_base = base;
+      await assert.rejects(collectOperationEvidence({ ...options, outputProbe: changed }), { code: 'OPERATION_EVIDENCE_INVALID' });
+      assert.equal(validateEncodeOperationOutput(options.plan, changed, { qualification: measured, decodedEvidence: result.decodedEvidence }).valid, false);
+    }
+  }
+});
 
 test('complete streaming collection feeds the real validator with exact selected FLAC PCM equality', async t => {
   const { options, data } = await fixture(t); const result = await collectOperationEvidence(options);

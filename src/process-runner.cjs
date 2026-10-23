@@ -92,7 +92,7 @@ class ProgressParser {
 function runTool(executable, args, options = {}) {
   const {
     signal, timeoutMs = 30000, stdoutLimit = 16 * 1024 * 1024,
-    stderrLimit = 256 * 1024, onProgress, onStdoutChunk, spawnImpl = spawn, onChild, input,
+    stderrLimit = 256 * 1024, onProgress, onStdoutChunk, onOutputBytes, spawnImpl = spawn, onChild, input,
   } = options;
   const streaming = typeof onStdoutChunk === 'function';
   const beforeSpawnError = (code, message) => Promise.reject(new ToolError(code, message, {
@@ -198,9 +198,16 @@ function runTool(executable, args, options = {}) {
     }
     child.stdout.on('data', chunk => {
       try {
-        if (parser) parser.push(chunk);
+        const bytes = Buffer.byteLength(chunk);
+        outputBytes += bytes;
+        onOutputBytes?.({ stream: 'stdout', bytes });
+        if (parser) {
+          // Preserve ordinary long-running progress behavior. Qualified jobs
+          // explicitly opt into total pipe accounting and its per-child bound.
+          if (onOutputBytes && outputBytes > stdoutLimit) stop(new ToolError('OUTPUT_LIMIT', 'Encoder progress exceeded its explicit byte limit.'));
+          else if (!failure) parser.push(chunk);
+        }
         else {
-          outputBytes += Buffer.byteLength(chunk);
           if (failure) return;
           if (outputBytes > stdoutLimit) stop(new ToolError('OUTPUT_LIMIT', 'Media inspection exceeded its output limit.'));
           else if (streaming) {
@@ -232,6 +239,8 @@ function runTool(executable, args, options = {}) {
     child.stderr.on('data', chunk => {
       const bytes = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
       stderrBytes += bytes.length;
+      try { onOutputBytes?.({ stream: 'stderr', bytes: bytes.length }); }
+      catch (error) { stop(error); }
       // Keep raw bytes until close so arbitrary pipe chunk boundaries never
       // split a multi-byte character. Copy the retained tail to avoid keeping a
       // reference to a discarded, potentially much larger backing allocation.

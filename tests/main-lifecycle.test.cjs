@@ -13,14 +13,16 @@ const source = fs.readFileSync(path.join(__dirname, '../main.js'), 'utf8');
 const tick = () => new Promise(resolve => setImmediate(resolve));
 const deferred = () => { let resolve, reject; const promise = new Promise((yes, no) => { resolve = yes; reject = no; }); return { promise, resolve, reject }; };
 
-async function harness({ runtimePending = false, diagnosticsPending = false } = {}) {
+async function harness({ runtimePending = false, diagnosticsPending = false, resourcesPending = false } = {}) {
   const load = deferred(), drained = deferred(), dialogClosed = deferred();
   const initialized = deferred(); if (!diagnosticsPending) initialized.resolve();
+  const resources = deferred(); if (!resourcesPending) resources.resolve();
   const runtime = deferred();
   const verified = { ffmpeg: 'verified/ffmpeg.exe', ffprobe: 'verified/ffprobe.exe',
     verified: [{ sizeBytes: 1, sha256: 'a'.repeat(64) }, { sizeBytes: 2, sha256: 'b'.repeat(64) }] };
   if (!runtimePending) runtime.resolve(verified);
-  const calls = []; let window, service;
+  const calls = []; let window, service, controlOptions;
+  const families = [{ id: 'main-private-family-fixture' }], qualification = Object.freeze({});
   const app = new EventEmitter();
   Object.assign(app, { isReady: () => true, getAppPath: () => 'test-root', setPath() {}, requestSingleInstanceLock: () => true,
     commandLine: { hasSwitch: () => false }, whenReady: () => Promise.resolve(),
@@ -29,6 +31,7 @@ async function harness({ runtimePending = false, diagnosticsPending = false } = 
     constructor(options) { super(); service = this; this.busy = false; this.options = options; }
     initializeDiagnostics() { return initialized.promise; }
     cancelCurrent() { calls.push('cancel'); return drained.promise; }
+    closeOperationResources() { calls.push('close-operation-resources'); return resources.promise; }
     async recordIncident(event) { calls.push(event.reason); }
     async closeDiagnostics(outcome) { calls.push(['closed', outcome]); }
   }
@@ -48,6 +51,10 @@ async function harness({ runtimePending = false, diagnosticsPending = false } = 
     if (id === 'node:path') return path;
     if (id === 'node:crypto') return require('node:crypto');
     if (id === './src/candidate-runtime.cjs') return { verifyCandidateRuntime: () => runtime.promise };
+    if (id === './src/operation-catalog.cjs') return { FAMILIES: families, POLICY_ID: 'fixed-main-policy' };
+    if (id === './src/operation-controls.cjs') return { createOperationControls: options => {
+      controlOptions = options; return { operationQualifications: qualification, operationTelemetry: true };
+    } };
     if (id === './src/backend-discovery.cjs') return { discoverNativeBackends: async options => options };
     if (id === './src/encoder-service.cjs') return { EncoderService: Service };
     if (id === './src/output-access.cjs') return require('../src/output-access.cjs');
@@ -56,9 +63,38 @@ async function harness({ runtimePending = false, diagnosticsPending = false } = 
     throw new Error('Unexpected dependency: ' + id);
   } }, { filename: 'main.js' });
   await tick();
-  return { app, load, drained, dialogClosed, calls, window, service, runtime, verified, initialized,
-    getWindow: () => window, getService: () => service };
+  return { app, load, drained, dialogClosed, calls, window, service, runtime, verified, initialized, resources,
+    getWindow: () => window, getService: () => service, getControlOptions: () => controlOptions, families, qualification };
 }
+
+test('shutdown drains children then operation handles/lease before diagnostic closure and exit', async () => {
+  const h = await harness({ resourcesPending: true }); h.window.destroy(); await tick();
+  assert.ok(h.calls.includes('cancel')); assert.ok(!h.calls.includes('close-operation-resources'));
+  h.drained.resolve(); await tick(); assert.ok(h.calls.includes('close-operation-resources'));
+  assert.ok(!h.calls.some(value => Array.isArray(value) && value[0] === 'closed')); assert.ok(!h.calls.includes('quit'));
+  h.resources.resolve(); await tick(); await tick();
+  assert.ok(h.calls.some(value => Array.isArray(value) && value[0] === 'closed')); assert.equal(h.calls.at(-1), 'quit');
+});
+
+test('resource closure failure still flushes failed diagnostics before shutdown completes', async () => {
+  const h = await harness({ resourcesPending: true }); h.window.destroy(); h.drained.resolve(); await tick();
+  h.resources.reject(new Error('Owned evidence lease close failed')); await tick(); await tick();
+  assert.ok(h.calls.includes('OPERATION_RESOURCES_CLOSE_FAILED'));
+  assert.ok(h.calls.some(value => Array.isArray(value) && value[0] === 'closed' && value[1] === 'failed'));
+  assert.equal(h.calls.at(-1), 'quit');
+});
+
+test('rejected drainage still attempts operation closure and failed diagnostic flush', async () => {
+  const h = await harness({ resourcesPending: true }); h.window.destroy(); await tick();
+  h.drained.reject(new Error('Queue drainage failed')); await tick();
+  assert.ok(h.calls.includes('close-operation-resources'));
+  assert.ok(!h.calls.some(value => Array.isArray(value) && value[0] === 'closed'));
+  h.resources.reject(new Error('Lease closure also failed')); await tick(); await tick();
+  assert.ok(h.calls.includes('OPERATION_DRAIN_FAILED'));
+  assert.ok(h.calls.includes('OPERATION_RESOURCES_CLOSE_FAILED'));
+  assert.ok(h.calls.some(value => Array.isArray(value) && value[0] === 'closed' && value[1] === 'failed'));
+  assert.equal(h.calls.at(-1), 'quit');
+});
 
 test('candidate runtime verification precedes any window, service or process authority', async () => {
   const h = await harness({ runtimePending: true });
@@ -67,6 +103,9 @@ test('candidate runtime verification precedes any window, service or process aut
   assert.equal(h.getService().options.ffmpeg, h.verified.ffmpeg);
   assert.equal(h.getService().options.ffprobe, h.verified.ffprobe);
   assert.match(h.getService().options.runtimeIdentity, /^[a-f0-9]{64}$/);
+  assert.equal(h.getControlOptions().runtime, h.verified); assert.equal(h.getControlOptions().families, h.families);
+  assert.equal(h.getControlOptions().policyIdentity, 'fixed-main-policy');
+  assert.equal(h.getService().options.operationQualifications, h.qualification); assert.equal(h.getService().options.operationTelemetry, true);
   const discovery = await h.getService().options.discoverBackends({ versions: { ffmpeg: 'ffmpeg version test', ffprobe: 'ffprobe version test' } });
   assert.equal(discovery.ffmpeg, h.verified.ffmpeg);
   assert.equal(discovery.runtime.ffmpeg.sha256, h.verified.verified[0].sha256);

@@ -5,6 +5,8 @@ const { createHash } = require('node:crypto');
 const { EncoderService } = require('./src/encoder-service.cjs');
 const { OutputAccess } = require('./src/output-access.cjs');
 const { verifyCandidateRuntime } = require('./src/candidate-runtime.cjs');
+const { createOperationControls } = require('./src/operation-controls.cjs');
+const { FAMILIES, POLICY_ID } = require('./src/operation-catalog.cjs');
 const { discoverNativeBackends } = require('./src/backend-discovery.cjs');
 const { registerIpc } = require('./src/ipc.cjs');
 const { ENTRY_URL, resolveAsset, registerLocalProtocol } = require('./src/local-protocol.cjs');
@@ -29,8 +31,22 @@ let shutdownExitCode = 0;
 
 function finishShutdown() {
   shutdownPromise ||= (async () => {
-    await service?.cancelCurrent();
-    await service?.closeDiagnostics(shutdownOutcome);
+    // A failed drain must not skip attempts to close owned handles/leases or
+    // flush diagnostics. Each closure retains its own failure identity.
+    const failures = [];
+    for (const [reason, close] of [
+      ['OPERATION_DRAIN_FAILED', () => service?.cancelCurrent()],
+      ['OPERATION_RESOURCES_CLOSE_FAILED', () => service?.closeOperationResources?.()]
+    ]) {
+      try { await close(); }
+      catch (error) { shutdownOutcome = 'failed'; failures.push({ reason, error }); }
+    }
+    try {
+      for (const { reason, error } of failures) {
+        await service?.recordIncident({ stage: 'shutdown', reason, severity: 'error', message: error.message });
+      }
+    } finally { await service?.closeDiagnostics(shutdownOutcome); }
+    if (failures.length) throw new AggregateError(failures.map(item => item.error), 'Owned shutdown was incomplete.');
   })().catch(error => {
     // Shutdown cannot manufacture persistence when the state disk is broken.
     // The last durable record remains the honest recovery boundary.
@@ -97,6 +113,7 @@ async function createWindow() {
   const runtimeIdentity = createHash('sha256').update(JSON.stringify(runtime.verified.slice(0, 2)
     .map(({ sizeBytes, sha256 }) => ({ sizeBytes, sha256 })))).digest('hex');
   service = new EncoderService({ ffmpeg: runtime.ffmpeg, ffprobe: runtime.ffprobe, runtimeIdentity, stateDir,
+    ...createOperationControls({ runtime, stateDir, families: FAMILIES, policyIdentity: POLICY_ID }),
     discoverBackends: ({ signal, run, versions }) => discoverNativeBackends({ ffmpeg: runtime.ffmpeg, signal, run,
       runtime: Object.fromEntries(['ffmpeg', 'ffprobe'].map((name, index) => [name,
         { sha256: runtime.verified[index].sha256, version: versions[name] }])) }),

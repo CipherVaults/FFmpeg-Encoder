@@ -7,6 +7,9 @@ const { PROFILES, validateSettings, selectVideo, mappedStreams, buildEncodeArgs 
 const { normalizeProbe, validateOutput } = require('./inspection.cjs');
 const { buildOperationContract, resolveFileRequest } = require('./operation-contract.cjs');
 const { classifyMarker } = require('./provenance.cjs');
+const { FORMATS, assertTelemetryBinding, assertCollectedTelemetry } = require('./operation-telemetry.cjs');
+const { validateContainerClock } = require('./container-clock.cjs');
+const PACKET_CLOCK = 'matroska-packet-end-plus-codec-delay';
 
 // Canonical main-side SDR operation builder. It never launches a child or accepts
 // renderer filter strings. Native qualification owns runtime support and measured
@@ -299,7 +302,7 @@ function finite(value, label, { integer = false, minimum = -Number.MAX_SAFE_INTE
 function qualifier(value, plan) {
   record(value, ['evidenceId', 'runtimeIdentity', 'containerDuration', 'tolerances'], ['evidenceId', 'runtimeIdentity', 'containerDuration', 'tolerances'], 'Measured qualification');
   if (typeof value.evidenceId !== 'string' || !/^[A-Za-z0-9._:+-]{1,256}$/.test(value.evidenceId)
-      || value.runtimeIdentity !== plan.runtimeIdentity || !['span', 'end-timestamp'].includes(value.containerDuration)) fail('INVALID_OPERATION_VALIDATION', 'Measured qualification must identify matching runtime evidence and duration representation.');
+      || value.runtimeIdentity !== plan.runtimeIdentity || !['span', 'end-timestamp', PACKET_CLOCK].includes(value.containerDuration)) fail('INVALID_OPERATION_VALIDATION', 'Measured qualification must identify matching runtime evidence and duration representation.');
   const keys = ['videoTimestampUs', 'audioTimestampUs', 'avSyncUs', 'durationUs', 'sampleCount'];
   record(value.tolerances, keys, keys, 'Measured tolerances');
   for (const key of keys) finite(value.tolerances[key], key, { minimum: 0, maximum: key === 'sampleCount' ? 1048576 : 1000000, integer: true });
@@ -307,7 +310,9 @@ function qualifier(value, plan) {
 }
 
 function decodedEvidence(value, plan, qualification, errors, warnings) {
-  record(value, ['video', 'audio'], ['video', 'audio'], 'Decoded evidence');
+  const packetClock = qualification.containerDuration === PACKET_CLOCK;
+  const fields = ['video', 'audio', ...(packetClock ? ['containerClock'] : [])];
+  record(value, fields, fields, 'Decoded evidence');
   const videoKeys = ['sourceFrameCount', 'outputFrameCount', 'firstSourcePtsUs', 'lastSourcePtsUs', 'lastSourceDurationUs',
     'firstOutputPtsUs', 'lastOutputPtsUs', 'lastOutputDurationUs', 'comparedFrames', 'maxRebasedTimestampErrorUs'];
   record(value.video, videoKeys, videoKeys, 'Decoded video evidence');
@@ -362,7 +367,16 @@ function decodedEvidence(value, plan, qualification, errors, warnings) {
     if (Math.abs(firstSync) > tolerance.avSyncUs || Math.abs(endSync) > tolerance.avSyncUs) errors.push(`Audio ${item.inputIndex}: relative A/V timing changed beyond measured tolerance.`);
     outputEnds.push(item.lastOutputEndUs); outputStarts.push(item.firstOutputPtsUs);
   }
-  return { maximumEndUs: Math.max(...outputEnds), minimumStartUs: Math.min(...outputStarts) };
+  const audioOrigin = packetClock ? plan.expectedOutput.timestampOrigins?.audio?.[0]?.effectiveOrigin : null;
+  if (packetClock && !audioOrigin) fail('INVALID_OPERATION_VALIDATION', 'The qualified packet clock needs the canonical selected-audio origin.');
+  const clock = packetClock ? validateContainerClock(value.containerClock, { mappings: plan.expectedOutput.streams,
+    video, audio: value.audio, audioPolicies: expectedAudio, videoToleranceUs: tolerance.videoTimestampUs,
+    audioOrigin: { n: audioOrigin.numerator, d: audioOrigin.denominator },
+    // Fixed48k family: one source tick + one sample + the measured1ms MKV tick.
+    // This is clock quantization, not an added AAC frame/padding allowance.
+    audioToleranceUs: Math.ceil(2000000 / 48000 + 1000) }) : null;
+  return { maximumEndUs: Math.max(...outputEnds), minimumStartUs: Math.min(...outputStarts),
+    ...(clock ? { containerEndUs: clock.maximumStoredEndUs } : {}) };
 }
 
 function validateEncodeOperationOutput(plan, rawOutputProbe, options = {}) {
@@ -376,6 +390,10 @@ function validateEncodeOperationOutput(plan, rawOutputProbe, options = {}) {
     let qualified = null, decoded = null;
     if (!plan.compatibilityPath) {
       qualified = qualifier(options.qualification, plan);
+      if (qualified.containerDuration === PACKET_CLOCK && (output.format.format_name !== 'matroska,webm'
+          || output.streams.length !== 2 || output.streams.some(stream => stream.time_base !== '1/1000'))) {
+        fail('INVALID_OPERATION_VALIDATION', 'The qualified packet clock requires the measured1/1000 Matroska output time bases.');
+      }
       decoded = decodedEvidence(options.decodedEvidence, plan, qualified, errors, warnings);
       // Reuse the established metadata/stream/color validator against the
       // explicitly transformed expectation. Its old blanket duration/FPS check
@@ -389,7 +407,8 @@ function validateEncodeOperationOutput(plan, rawOutputProbe, options = {}) {
         const stream = input.streams.find(item => item.index === audio.index);
         stream.codec_name = audio.codec; stream.sample_rate = String(audio.sampleRate); stream.channels = audio.channels; stream.channel_layout = audio.channelLayout;
       }
-      const expectedDurationUs = qualified.containerDuration === 'span' ? decoded.maximumEndUs - decoded.minimumStartUs : decoded.maximumEndUs;
+      const expectedDurationUs = qualified.containerDuration === PACKET_CLOCK ? decoded.containerEndUs
+        : qualified.containerDuration === 'span' ? decoded.maximumEndUs - decoded.minimumStartUs : decoded.maximumEndUs;
       const containerDuration = Number(output.format.duration);
       if (!Number.isFinite(containerDuration) || containerDuration <= 0 || Math.abs(containerDuration * 1000000 - expectedDurationUs) > qualified.tolerances.durationUs) errors.push('Container duration differs from decoded full output extent beyond the measured tolerance.');
       const expectedSar = plan.contract.geometry.output.sampleAspectRatio;
@@ -461,4 +480,86 @@ function assertEncodeOperationPlan(plan, bindings) {
   return plan;
 }
 
-module.exports = { ENCODE_OPERATION_VERSION, fingerprintEncodeSource, buildEncodeOperation, validateEncodeOperationOutput, assertEncodeOperationPlan };
+function describeEncodeOperationSource(plan) {
+  assertEncodeOperationPlan(plan);
+  return freeze(structuredClone(plans.get(plan).probe));
+}
+
+// Instrumentation is part of the same canonical main-owned plan. Its typed
+// diagnostic slots are visibly unresolved until fresh exclusive reservations
+// exist at job start; neither renderer strings nor serialized handles bind them.
+function withEncodeOperationTelemetry(plan) {
+  assertEncodeOperationPlan(plan);
+  if (plan.compatibilityPath) return plan;
+  const state = plans.get(plan);
+  if (state.instrumentation) return plan;
+  const streams = plan.expectedOutput.streams.flatMap(mapping => {
+    if (mapping.codecType === 'video') return [{ outputIndex: mapping.outputIndex, kind: 'video' }];
+    const audio = plan.contract.audio.streams.find(item => item.index === mapping.inputIndex);
+    return mapping.codecType === 'audio' && audio?.mode !== 'copy'
+      ? [{ outputIndex: mapping.outputIndex, kind: 'audio', sampleRate: audio.sampleRate }] : [];
+  });
+  const placeholders = streams.map(stream => `<main-owned telemetry stream ${stream.outputIndex} assigned at start>`);
+  const additions = streams.flatMap((stream, index) => [`-stats_enc_pre:${stream.outputIndex}`, placeholders[index],
+    `-stats_enc_pre_fmt:${stream.outputIndex}`, FORMATS[stream.kind]]);
+  const args = [...plan.args]; args.splice(args.length - 5, 0, ...additions);
+  const instrumentation = freeze({ version: 1, kind: 'encoder-input-statistics', streams, placeholders });
+  const result = freeze({ ...plan, args, instrumentation, planFingerprint: hash({ operation: plan.planFingerprint, instrumentation }) });
+  plans.set(result, { ...state, instrumentation }); return result;
+}
+
+function resolveEncodeOperationInvocation(plan, { output, telemetry }) {
+  assertEncodeOperationPlan(plan);
+  const state = plans.get(plan);
+  if (!state.instrumentation || typeof output !== 'string' || !path.isAbsolute(output) || /[\0\r\n]/.test(output)) {
+    fail('INVALID_ENCODE_OPERATION', 'An instrumented genuine plan and owned absolute staging output are required.');
+  }
+  const actual = assertTelemetryBinding(telemetry, { runtimeIdentity: plan.runtimeIdentity,
+    planFingerprint: plan.planFingerprint, streams: state.instrumentation.streams });
+  const paths = state.instrumentation.streams.map((_, index) => actual[index * 4 + 1]);
+  const args = plan.args.map(value => {
+    const index = state.instrumentation.placeholders.indexOf(value); return index < 0 ? value : paths[index];
+  });
+  args[args.length - 1] = output; return freeze(args);
+}
+
+function validateEncodeOperationTelemetry(plan, telemetry, evidence) {
+  assertEncodeOperationPlan(plan); assertCollectedTelemetry(telemetry);
+  if (!plans.get(plan).instrumentation || telemetry.runtimeIdentity !== plan.runtimeIdentity || telemetry.planFingerprint !== plan.planFingerprint
+      || evidence?.status !== 'completed' || evidence.runtimeIdentity !== plan.runtimeIdentity || evidence.planFingerprint !== plan.planFingerprint) {
+    fail('OPERATION_TELEMETRY_MISMATCH', 'Telemetry and complete decoded evidence must belong to this exact operation.');
+  }
+  const matchesTime = (actual, expected) => actual && expected
+    && typeof expected.n === 'string' && /^-?\d{1,40}$/.test(expected.n)
+    && typeof expected.d === 'string' && /^[1-9]\d{0,39}$/.test(expected.d)
+    && BigInt(actual.numerator) * BigInt(expected.d) === BigInt(expected.n) * BigInt(actual.denominator);
+  const expectedStreams = plan.instrumentation.streams, verified = [];
+  if (telemetry.streams.length !== expectedStreams.length) fail('OPERATION_TELEMETRY_MISMATCH', 'Every encoded stream needs its own telemetry receipt.');
+  for (const spec of expectedStreams) {
+    const matching = telemetry.streams.filter(item => item.summary.stream.outputIndex === spec.outputIndex);
+    const summary = matching[0]?.summary;
+    if (matching.length !== 1 || summary.stream.kind !== spec.kind || summary.backwardsPts !== '0' || summary.repeatedPts !== '0') {
+      fail('OPERATION_TELEMETRY_MISMATCH', 'Encoded-stream telemetry is missing, duplicated or has invalid timestamp ordering.');
+    }
+    if (spec.kind === 'video') {
+      const original = evidence.encoderInputs?.video;
+      if (!original || original.outputIndex !== spec.outputIndex || summary.records !== original.records || summary.hashes.orderedPts !== original.orderedPts) {
+        fail('OPERATION_TELEMETRY_MISMATCH', 'Encoder input video frames/ordered rational timestamps differ from independent source selection.');
+      }
+    } else {
+      const original = Array.isArray(evidence.encoderInputs?.audio) ? evidence.encoderInputs.audio.find(item => item.outputIndex === spec.outputIndex) : null;
+      const mapping = plan.expectedOutput.streams.find(item => item.outputIndex === spec.outputIndex);
+      if (!original || original.inputIndex !== mapping.inputIndex || original.selectedGaps !== 0 || summary.audioDiscontinuities !== '0' || summary.sampleCount !== original.sampleCount
+          || !matchesTime(summary.first.time, original.firstTime) || !matchesTime(summary.last.endTime, original.endTime)) {
+        fail('OPERATION_TELEMETRY_MISMATCH', 'Encoder input audio samples/continuous clock differ from independent source selection.');
+      }
+    }
+    verified.push({ outputIndex: spec.outputIndex, kind: spec.kind, unknownInputRecords: summary.unknownInputRecords,
+      correspondence: summary.unknownInputRecords === '0' ? 'reported-input-and-independent-selected-source' : 'upstream-input-lineage-unavailable; independently-matched-selected-source-clock-and-count' });
+  }
+  return freeze({ valid: true, scope: 'encoder-input-count-and-timeline-only', streams: verified,
+    doesNotEstablish: ['video-pixel-identity', 'lossless-audio-identity', 'last-video-frame-duration', 'output-or-publication-validity'] });
+}
+
+module.exports = { ENCODE_OPERATION_VERSION, fingerprintEncodeSource, buildEncodeOperation, validateEncodeOperationOutput, assertEncodeOperationPlan,
+  withEncodeOperationTelemetry, resolveEncodeOperationInvocation, validateEncodeOperationTelemetry, describeEncodeOperationSource };

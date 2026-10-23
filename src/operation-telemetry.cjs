@@ -13,6 +13,7 @@ const FORMATS = Object.freeze({
   audio: 'ffet1\ta\t{fidx}\t{sidx}\t{n}\t{ni}\t{tb}\t{pts}\t{tbi}\t{ptsi}\t{sn}\t{samp}',
 });
 const sessions = new WeakMap();
+const receipts = new WeakSet();
 const MAX_BYTES = 256 * 1024 * 1024, MAX_RECORDS = 10000000, MAX_LINE = 1024;
 const fault = (code, message) => Object.assign(new Error(message), { code });
 function need(condition, message, code = 'TELEMETRY_INVALID') { if (!condition) throw fault(code, message); }
@@ -76,7 +77,7 @@ async function summarizeTelemetry(chunks, specification, options = {}) {
     const inputKnown = tbi.numerator !== '0' && ptsi !== 9223372036854775807n && ptsi !== -9223372036854775808n;
     const row = { n: String(count), inputFrame: inputFrame === null ? null : String(inputFrame), timeBase: tb, pts: String(pts), time: multiply(tb, pts),
       inputTimeBase: tbi, inputPts: inputKnown ? String(ptsi) : null, inputTime: inputKnown ? multiply(tbi, ptsi) : null };
-    if (!inputKnown) unknownInput++;
+    if (!inputKnown || inputFrame === null) unknownInput++;
     if (spec.kind === 'audio') {
       const sn = integer(cells[10]), samp = integer(cells[11]);
       need(sn === samples && samp > 0n && samp <= 2147483647n, 'Missing/overlapping sample receipt or invalid audio frame size.');
@@ -165,6 +166,14 @@ async function assertTelemetryReady(handle) {
   }
   state.armed = true; return true;
 }
+function assertTelemetryBinding(handle, { runtimeIdentity, planFingerprint, streams }) {
+  const state = sessions.get(handle);
+  need(state && !state.collected && !state.closed && handle.runtimeIdentity === runtimeIdentity
+    && handle.planFingerprint === planFingerprint
+    && JSON.stringify(state.files.map(({ outputIndex, kind, sampleRate }) => ({ outputIndex, kind, ...(sampleRate ? { sampleRate } : {}) }))) === JSON.stringify(streams),
+  'Only the original main-owned telemetry reservation for this exact plan and encoded streams may bind an invocation.');
+  return handle.ffmpegArgs;
+}
 async function collectOperationTelemetry(handle, { completion, signal } = {}) {
   const state = sessions.get(handle); need(state && state.armed && !state.collected && !state.closed, 'An armed trusted telemetry handle is required.');
   // This receipt comes from main's retained child, never from renderer input.
@@ -186,9 +195,15 @@ async function collectOperationTelemetry(handle, { completion, signal } = {}) {
     }
   }
   await boundDirectories(state); cancelled(signal); state.collected = true;
-  return freeze({ schema: 1, runtimeIdentity: handle.runtimeIdentity, planFingerprint: handle.planFingerprint, completion: { childClosed: true, exitCode: 0, cancelled: false }, streams: collected,
+  const receipt = freeze({ schema: 1, runtimeIdentity: handle.runtimeIdentity, planFingerprint: handle.planFingerprint, completion: { childClosed: true, exitCode: 0, cancelled: false }, streams: collected,
     scope: 'encoder-input-statistics-only', publicationAuthorized: false,
     limitations: ['Not a decoded-content hash or output validity proof.', 'Input correspondence can be unknown after filtering.', 'No video last-frame duration in stats_enc_pre.', 'Read budgets bound memory and accepted evidence; the caller must separately budget disk growth while encoding.'] });
+  receipts.add(receipt); return receipt;
+}
+
+function assertCollectedTelemetry(receipt) {
+  need(receipt && receipts.has(receipt), 'Only an original completed main-owned telemetry receipt may be validated.');
+  return receipt;
 }
 
 async function closeOperationTelemetry(handle, { childClosed } = {}) {
@@ -199,4 +214,5 @@ async function closeOperationTelemetry(handle, { childClosed } = {}) {
   // No deletion: these receipts convey no cleanup or output publication right.
 }
 
-module.exports = { FORMATS, createOperationTelemetry, assertTelemetryReady, collectOperationTelemetry, closeOperationTelemetry, summarizeTelemetry };
+module.exports = { FORMATS, createOperationTelemetry, assertTelemetryReady, assertTelemetryBinding, assertCollectedTelemetry,
+  collectOperationTelemetry, closeOperationTelemetry, summarizeTelemetry };

@@ -215,3 +215,79 @@ test('shutdown waits for an owned settings write and its incident; a failed rese
   await resetting; await closingAgain;
   assert.equal(h.service.appSettingsMutations.size, 0);
 });
+
+test('failed terminal journal write is reflected in the service snapshot', async t => {
+  const diagnostics = { startSession: async () => ({ persisted: true }), snapshot: () => ({ available: false, incomplete: true }),
+    closeSession: async () => ({ persisted: false, status: { available: false } }) };
+  const h = await fixture(t, { diagnostics });
+  assert.equal((await h.service.closeDiagnostics()).persisted, false);
+  assert.equal(h.service.snapshot().diagnostics.incomplete, true);
+  assert.match(h.service.snapshot().diagnosticWarning, /final session record could not be saved/);
+});
+
+for (const kind of ['completed', 'failed', 'cancelled']) test(`provenance recovery ${kind} has a durable non-authoritative outcome`, async t => {
+  const controller = new AbortController();
+  const provenanceJournal = { recover: async () => {
+    if (kind !== 'completed') { if (kind === 'cancelled') controller.abort(); throw Object.assign(new Error('private location and recovery details'), { code: kind === 'cancelled' ? 'CANCELLED' : 'CORRUPT_PROVENANCE' }); }
+    return { matching: [{}], absent: [], unrelated: [], uncertain: [{}], pendingRemaining: 2, warnings: ['private warning'] };
+  } };
+  const h = await fixture(t, { provenanceJournal });
+  if (kind === 'cancelled') await assert.rejects(h.service.recoverProvenance(controller.signal), { code: 'CANCELLED' });
+  else await h.service.recoverProvenance(controller.signal);
+  const reason = { completed: 'PROVENANCE_RECOVERY_FINISHED', failed: 'PROVENANCE_RECOVERY_FAILED', cancelled: 'PROVENANCE_RECOVERY_CANCELLED' }[kind];
+  const event = (await h.records()).find(value => value.reason === reason); assert.ok(event);
+  const exported = await h.service.getDiagnosticExport({ eventIds: [event.id] });
+  assert.equal(exported.json.includes('private'), false);
+  if (kind === 'completed') { assert.equal(exported.data.events[0].context.recovery.matching, 1); assert.equal(event.context.recovery.pendingRemaining, 2); }
+  else assert.equal(h.service.recoveredProvenance, false);
+  assert.equal(h.service.plan, null);
+});
+
+test('a process ending after a durable stage observation recovers descriptions without grants or cleanup', async t => {
+  const { spawn } = require('node:child_process');
+  const { createHash } = require('node:crypto');
+  const h = await fixture(t);
+  const child = spawn(process.execPath, [path.join(__dirname, 'fixtures/diagnostic-interruption-child.cjs'), h.root],
+    { windowsHide: true, stdio: ['ignore', 'ignore', 'pipe'] });
+  let stderr = ''; child.stderr.on('data', chunk => { stderr += chunk; });
+  const code = await new Promise((resolve, reject) => { child.once('error', reject); child.once('close', resolve); });
+  assert.equal(code, 23, stderr);
+  const { retained, planId: priorPlanId, fileId: priorFileId } = JSON.parse(await fs.readFile(path.join(h.root, 'interrupted-child.json'), 'utf8'));
+  const actual = await fs.realpath(retained); assert.ok(actual.startsWith(await fs.realpath(h.root) + path.sep));
+  const before = createHash('sha256').update(await fs.readFile(retained)).digest('hex');
+  const started = await h.service.initializeDiagnostics(); assert.equal(started.recovered.length, 1);
+  assert.match(h.service.snapshot().diagnosticWarning, /previous session was interrupted/);
+  const event = (await h.records()).find(value => value.reason === 'SESSION_INTERRUPTED');
+  assert.equal(event.context.lastStage, 'publication'); assert.equal(event.context.lastReason, 'JOB_DISPOSITION');
+  const last = (await h.service.getDiagnosticRecord({ eventId: event.context.lastEventId })).event;
+  assert.equal(last.planId, priorPlanId); assert.equal(last.context.outputDisposition.file, retained);
+  assert.equal(h.service.plan, null);
+  assert.throws(() => h.service.startBatch({ planId: priorPlanId, fileIds: [priorFileId] }), { code: 'STALE_PLAN' });
+  assert.equal(createHash('sha256').update(await fs.readFile(retained)).digest('hex'), before);
+  assert.deepEqual(await fs.readdir(path.dirname(retained)), ['encoded.mkv']);
+});
+
+test('a prepared HDR contract exports its safe signal and disposition while omitting metadata and source fingerprints', async t => {
+  const h = await fixture(t), prepared = require('./hdr-owner-fixture.cjs').fixture();
+  const { describeDiagnosticOperation } = require('../src/encoder-service.cjs');
+  const saved = await h.service.recordIncident({ stage: 'invocation', reason: 'ENCODE_STARTED',
+    context: { operation: describeDiagnosticOperation(prepared.plan, prepared.request) } });
+  const exported = await h.service.getDiagnosticExport({ eventIds: [saved.eventId] });
+  const resolved = exported.data.events[0].context.operation.resolved;
+  assert.equal(resolved.hdr.signal.transfer, 'smpte2084'); assert.equal(resolved.hdr.signal.primaries, 'bt2020');
+  assert.equal(resolved.hdr.hdr10Claim, false); assert.equal(resolved.dolbyVision, false);
+  assert.equal(Object.hasOwn(resolved.hdr, 'metadata'), false);
+  assert.equal(exported.json.includes(prepared.plan.expectedOutput.sourceFileSha256), false);
+  assert.equal(exported.json.includes('34000/50000'), false);
+  assert.equal(exported.data.coverage.selectedCaptureComplete, true);
+});
+
+test('rejected final journal write is visible without replacing the service', async t => {
+  let closing = 0;
+  const diagnostics = { startSession: async () => ({ persisted: true }), snapshot: () => ({ available: false, incomplete: true }),
+    closeSession: async () => { if (++closing === 1) throw new Error('Owned injected write rejection'); return { persisted: true }; } };
+  const h = await fixture(t, { diagnostics });
+  await assert.rejects(h.service.closeDiagnostics(), /Owned injected write rejection/);
+  assert.match(h.service.snapshot().diagnosticWarning, /final session record could not be confirmed/);
+  assert.equal(h.service.snapshot().diagnostics.incomplete, true);
+});

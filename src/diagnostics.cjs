@@ -64,9 +64,12 @@ function boundedContext(value, maximum) {
   let remaining = maximum, truncated = false, nodes = 0;
   const seen = new Set();
   const visit = (item, depth) => {
-    if (++nodes > 2048 || depth > 7 || remaining < 32) { truncated = true; return null; }
+    if (++nodes > 2048 || remaining < 32) { truncated = true; return null; }
     remaining -= 16;
     if (item === null || typeof item === 'boolean') return item;
+    // A depth-truncated subtree is stored as null. Accept that inert sentinel
+    // on readback; otherwise the journal would reject its own bounded record.
+    if (depth > 7) { truncated = true; return null; }
     if (typeof item === 'number') { if (Number.isFinite(item)) return item; truncated = true; return null; }
     if (typeof item === 'string') {
       const result = boundedText(item, Math.min(4096, Math.max(0, remaining)));
@@ -79,13 +82,15 @@ function boundedContext(value, maximum) {
     const keys = Object.keys(descriptors).filter(key => key !== 'length');
     if (keys.length > 128) truncated = true;
     for (const key of keys.slice(0, 128)) {
-      if (remaining < 64) { truncated = true; break; }
+      if (remaining < 64 || nodes >= 2048) { truncated = true; break; }
       const descriptor = descriptors[key];
       // Never execute metadata accessors, retain prototype-mutation keys, or
       // invoke arbitrary toJSON methods supplied by an untrusted object.
       if (!Object.hasOwn(descriptor, 'value') || ['__proto__', 'constructor', 'prototype', 'toJSON'].includes(key)
         || key.length > 128 || /[\x00-\x1f]/.test(key)) { truncated = true; continue; }
-      remaining -= Buffer.byteLength(key) + 4;
+      const keyBytes = Buffer.byteLength(key) + 4;
+      if (remaining < keyBytes + 32) { truncated = true; break; }
+      remaining -= keyBytes;
       if (Array.isArray(result)) result.push(visit(descriptor.value, depth + 1));
       else result[key] = visit(descriptor.value, depth + 1);
     }
@@ -404,10 +409,13 @@ class DiagnosticJournal {
           if (!session.start || session.terminal) continue;
           const alive = await this.isOwnerAlive(session.start.owner);
           if (alive !== false) { this.#notice('An active or uncertain previous session was protected from retention.'); continue; }
+          const last = session.events.at(-1);
           const event = { id: randomUUID(), sessionId: session.id, sequence: Math.max(...session.events.map(e => e.sequence)) + 1,
             at: this.#time(), type: 'session-interrupted', stage: 'recovery', reason: 'SESSION_INTERRUPTED', severity: 'warning', outcome: 'interrupted',
             message: 'The previous owner no longer exists. Work after its last durable event is unknown; no files or jobs were resumed.',
-            context: { lastEventId: session.events.at(-1).id, recoveredBySessionId: this.#session } };
+            // These references describe the last durable observation only. They
+            // never reconstruct a stage handle, grant, prepared plan or job.
+            context: { lastEventId: last.id, lastStage: last.stage, lastReason: last.reason, recoveredBySessionId: this.#session } };
           await this.#write(event); recovered.push({ sessionId: session.id, lastEventId: event.context.lastEventId });
         }
         const result = await this.#write({ id: randomUUID(), sessionId: this.#session, sequence: 0, at: this.#time(), type: 'session-start',
@@ -579,10 +587,18 @@ const EXPORT_SCALARS = new Set(['codec', 'codec_name', 'profile', 'profileId', '
   'width', 'height', 'bitDepth', 'quality', 'channels', 'sample_rate', 'duration', 'durationSeconds', 'frames', 'frameCount', 'rate',
   'start', 'end', 'startUs', 'endUs', 'size', 'bytes', 'cancelled', 'valid', 'mode', 'code', 'phase', 'outcome', 'retained', 'published',
   'mtimeNs', 'ctimeNs', 'birthtimeNs', 'version', 'kind', 'status', 'stage', 'checkpoint', 'comparison', 'contentMismatch',
-  'readFailure', 'validationCurrent', 'completed', 'reason', 'complete', 'algorithm', 'failures', 'lastCode']);
+  'readFailure', 'validationCurrent', 'completed', 'reason', 'complete', 'algorithm', 'failures', 'lastCode',
+  'target', 'resolution', 'hdrPolicy', 'audioPolicy', 'aacBitrateKbps', 'operation', 'timestampPolicy', 'timestampMapping', 'lastStage', 'lastReason',
+  'inputIndex', 'outputIndex', 'sourceVideoIndex', 'codecType', 'codecName', 'policy', 'count', 'matching', 'absent', 'unrelated', 'uncertain', 'pendingRemaining',
+  'index', 'sampleRate', 'channelLayout', 'bitrateKbps', 'bitrateOrigin', 'noResampling', 'noDownmix', 'noIndependentTimestampZeroing',
+  'sampleRepresentation', 'classification', 'transfer', 'sourceTransfer', 'outputTransfer', 'inputDepth', 'outputDepth',
+  'disposition', 'numerator', 'denominator', 'filterRequired', 'orientation', 'rotationDegrees', 'noUpscaling',
+  'primaries', 'matrix', 'range', 'chromaLocation', 'hdr10Claim', 'dolbyVision', 'route', 'action', 'dolby']);
 const EXPORT_GROUPS = new Set(['settings', 'requestedSettings', 'resolvedSettings', 'probe', 'streams', 'format', 'video', 'audio',
   'source', 'expected', 'actual', 'before', 'after', 'validation', 'identity', 'operation', 'output', 'exit',
-  'sourceIdentityDiagnostic', 'sourceAssessment', 'diagnostic', 'outputDisposition', 'cleanup', 'warnings', 'warning', 'contentEvidence']);
+  'sourceIdentityDiagnostic', 'sourceAssessment', 'assessment', 'diagnostic', 'outputDisposition', 'cleanup', 'warnings', 'warning', 'contentEvidence',
+  'requested', 'resolved', 'geometry', 'range', 'recovery', 'color', 'hdr', 'hdrContract', 'signal', 'metadataDisposition', 'display',
+  'sampleAspectRatio', 'sourceOrigin', 'sourceDuration', 'absoluteStart', 'absoluteEnd']);
 const PATH_KEYS = new Set(['path', 'inputPath', 'outputPath', 'canonicalPath', 'sourcePath', 'destinationPath', 'executablePath', 'file', 'directory', 'destination']);
 const IDENTITY_FIELDS = new Set(['canonicalPath', 'dev', 'ino', 'size', 'mtimeNs', 'ctimeNs', 'birthtimeNs', 'sparseDigest']);
 const PRIVATE_IDENTITY = new Map([['dev', 'DEVICE'], ['ino', 'FILE'], ['sparseDigest', 'DIGEST'], ['sha256', 'DIGEST'], ['digest', 'DIGEST']]);
@@ -646,7 +662,7 @@ function redactEvents(events) {
       else if (key === 'runtimeVersions' && plain(item)) result[key] = Object.fromEntries(
         Object.entries(item).filter(([name]) => ['ffmpeg', 'ffprobe'].includes(name))
           .map(([name, version]) => [name, typeof version === 'string' && /^\d+(?:\.\d+){1,3}(?:[-+][a-zA-Z0-9._-]+)?$/.test(version) ? version : '[omitted]']));
-      else if (EXPORT_GROUPS.has(key)) result[key] = context(item);
+      else if (EXPORT_GROUPS.has(key) && (plain(item) || Array.isArray(item))) result[key] = context(item);
       else if (EXPORT_SCALARS.has(key)) result[key] = safeValue(item);
     }
     return result;

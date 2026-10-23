@@ -150,7 +150,7 @@ function runTool(executable, args, options = {}) {
         totalBytes: outputBytes, truncated: outputBytes !== deliveredBytes, streamed: true,
       } } : {};
       if (failure) {
-        Object.assign(failure, { stderr, stderrCapture, exitCode: closeCode, ...capture });
+        Object.assign(failure, { stderr, stderrCapture, exitCode: closeCode, exitSignal: closeSignal, ...capture });
         reject(failure);
       } else if (closeCode !== 0) {
         reject(new ToolError('TOOL_FAILED', `Media tool exited with code ${closeCode}.`, {

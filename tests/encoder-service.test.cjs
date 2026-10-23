@@ -620,6 +620,15 @@ test('ctime-only completion publishes with exact warning evidence while revoking
   const log = (await diagnosticRecord(h.service, 'JOB_DISPOSITION', item.id)).context;
   assert.deepEqual(log.sourceIdentityDiagnostic, item.sourceIdentityDiagnostic);
   assert.deepEqual(log.warnings, item.warnings);
+  const sourceEvent = await diagnosticRecord(h.service, 'SOURCE_ASSESSED', item.id);
+  assert.equal(sourceEvent.context.sourceAssessment.kind, 'ctime-only');
+  const exported = await h.service.getDiagnosticExport({ eventIds: [sourceEvent.id] });
+  const shared = exported.data.events[0].context.sourceAssessment;
+  assert.equal(shared.kind, 'ctime-only'); assert.deepEqual(shared.diagnostic.changedFields, ['ctimeNs']);
+  assert.equal(shared.diagnostic.expected.sparseDigest, shared.diagnostic.actual.sparseDigest);
+  assert.notEqual(shared.diagnostic.expected.ctimeNs, shared.diagnostic.actual.ctimeNs);
+  assert.equal(exported.json.includes(source), false);
+  assert.equal(exported.json.includes(expected.sparseDigest), false);
   assert.ok(JSON.stringify(item.sourceIdentityDiagnostic).length < 4000);
   assert.deepEqual(await fs.readFile(source), beforeBytes);
   assert.deepEqual((await fs.readdir(h.input)).sort(), ['a.mkv', 'a_H265-CPU.mkv']);
@@ -788,6 +797,9 @@ test('legacy override is explicit, expires with a new plan, and rejects a change
   await fs.appendFile(path.join(h.input, second.items[0].name), 'changed');
   const changed = await h.service.treatAsOriginal({ planId: second.planId, fileId: second.items[0].id });
   assert.equal(changed.phase, 'failed'); assert.match(changed.error, /changed/); assert.equal(h.calls.length, 0);
+  const decision = await diagnosticRecord(h.service, 'SOURCE_PERMISSION_FINISHED', second.items[0].id);
+  assert.equal(decision.planId, second.planId); assert.equal(decision.context.phase, 'failed');
+  assert.equal(decision.context.code, 'INPUT_CHANGED'); assert.equal(decision.context.mode, 'treat-as-original');
 });
 
 test('required intent failure prevents encoder launch and any media publication', async t => {
@@ -898,6 +910,9 @@ test('replaced generated input invalidates whole requested authorization subset 
   assert.match(changed.error, /changed/);
   assert.equal(h.calls.length, 0);
   assert.equal(h.service.plan, null);
+  const decision = await diagnosticRecord(h.service, 'SOURCE_PERMISSION_FINISHED');
+  assert.equal(decision.planId, plan.planId); assert.equal(decision.context.phase, 'failed');
+  assert.equal(decision.context.code, 'INPUT_CHANGED'); assert.equal(decision.context.count, 2);
 });
 
 test('generated input changed after authorization cannot encode or retain visible temporary authorization', async t => {
@@ -1175,4 +1190,87 @@ test('incomplete cleanup after failed publication cannot retain a current-valida
   assert.equal(result.items[0].outputDisposition.validationCurrent, false);
   assert.equal(result.phase, 'failed');
   assert.match(result.error, /Could not clean owned temporary output/);
+});
+
+test('repreparation terminal receipt is durable and keeps admission closed while the write is pending', async t => {
+  const h = await harness(t, { names: ['a.mp4'] }), first = await h.prepare();
+  const gate = deferred(), entering = deferred(), original = h.service.recordIncident.bind(h.service);
+  h.service.recordIncident = async event => {
+    if (event.reason === 'DRAFT_REPREPARATION_FINISHED') { entering.resolve(event); await gate.promise; }
+    return original(event);
+  };
+  const editing = h.service.updateFileOperations({ planId: first.planId, draftId: first.operationDraft.id,
+    revision: first.operationDraft.revision, fileIds: [first.items[0].id], overrides: { resolution: 'source' } });
+  const pending = await entering.promise;
+  assert.equal(h.service.busy, true);
+  assert.throws(() => h.service.startBatch({ planId: h.service.plan.id, fileIds: [first.items[0].id] }), { code: 'BUSY' });
+  await assert.rejects(h.prepare(), { code: 'BUSY' });
+  gate.resolve(); const ready = await editing; assert.equal(ready.phase, 'ready');
+  const { DiagnosticJournal } = require('../src/diagnostics.cjs');
+  const reopened = new DiagnosticJournal({ directory: h.stateDir });
+  const page = await reopened.list({ limit: 200 });
+  const summaries = page.events.filter(event => event.reason === 'DRAFT_REPREPARATION_FINISHED');
+  assert.equal(summaries.length, 1);
+  const { event } = await reopened.read(summaries[0].id);
+  assert.equal(event.planId, ready.planId); assert.equal(event.batchId, pending.batchId);
+  assert.equal(event.context.phase, 'ready'); assert.equal(event.context.counts.failed, 0);
+  assert.equal(h.calls.length, 0);
+});
+
+test('cancel during final reprepare receipt cannot return reusable prepared authority', async t => {
+  const h = await harness(t, { names: ['a.mp4'] }), first = await h.prepare();
+  const gate = deferred(), entering = deferred(), original = h.service.recordIncident.bind(h.service);
+  h.service.recordIncident = async event => {
+    if (event.reason === 'DRAFT_REPREPARATION_FINISHED') { entering.resolve(); await gate.promise; }
+    return original(event);
+  };
+  const editing = h.service.updateFileOperations({ planId: first.planId, draftId: first.operationDraft.id,
+    revision: first.operationDraft.revision, fileIds: [first.items[0].id], overrides: { resolution: 'source' } });
+  await entering.promise; const cancelling = h.service.cancelCurrent();
+  gate.resolve(); const result = await editing; await cancelling;
+  assert.equal(result.phase, 'cancelled'); assert.equal(result.planId, null); assert.equal(h.service.plan, null);
+  assert.ok(result.items.every(item => !item.reencodeAuthorized && item.status === 'cancelled'));
+  const revoked = await diagnosticRecord(h.service, 'PREPARED_AUTHORITY_REVOKED');
+  const finished = await diagnosticRecord(h.service, 'DRAFT_REPREPARATION_FINISHED');
+  assert.equal(revoked.planId, finished.planId); assert.equal(revoked.batchId, finished.batchId);
+  assert.equal(revoked.context.phase, 'cancelled'); assert.ok(revoked.sequence > finished.sequence);
+  assert.equal(h.calls.length, 0);
+});
+
+test('invocation and disposition retain per-file requested/resolved decisions and abnormal child signals', async t => {
+  const good = await harness(t, { names: ['a.mp4'] }), plan = await good.prepare(); await good.finish(plan);
+  for (const reason of ['ENCODE_STARTED', 'JOB_DISPOSITION']) {
+    const event = await diagnosticRecord(good.service, reason, plan.items[0].id);
+    assert.equal(event.context.operation.requested.operation, 'encode');
+    assert.equal(event.context.operation.requested.resolution, 'source');
+    assert.equal(event.context.operation.resolved.range.kind, 'full');
+    const exported = await good.service.getDiagnosticExport({ eventIds: [event.id] });
+    assert.equal(exported.data.events[0].context.operation.requested.audioPolicy, 'copy');
+    assert.equal(exported.data.events[0].context.operation.resolved.range.kind, 'full');
+    assert.equal(exported.json.includes(good.input), false);
+  }
+  const bad = await harness(t, { names: ['a.mp4'], onEncode: async () => {
+    throw Object.assign(failure('TOOL_FAILED', 'Owned injected abnormal close'), { exitCode: null, exitSignal: 'SIGTERM' });
+  } });
+  const failurePlan = await bad.prepare(); const result = await bad.finish(failurePlan);
+  assert.equal(result.items[0].status, 'failed');
+  const event = await diagnosticRecord(bad.service, 'JOB_FAILED', failurePlan.items[0].id);
+  assert.equal(event.context.signal, 'SIGTERM'); assert.equal(event.context.exitCode, null);
+  assert.deepEqual(await fs.readdir(bad.output), []);
+});
+
+test('shared reprepare inspection failure stays failed when peer cancellation drains the operation', async t => {
+  let failInspection = false;
+  const h = await harness(t, { names: ['a.mp4'], eligible: false, onInspect: async () => {
+    if (failInspection) throw failure('SPAWN_FAILED', 'Owned injected inspection launch failure');
+  } });
+  const first = await h.prepare(); failInspection = true;
+  const result = await h.service.updateFileOperations({ planId: first.planId, draftId: first.operationDraft.id,
+    revision: first.operationDraft.revision, fileIds: [first.items[0].id], overrides: { resolution: 'source' } });
+  assert.equal(result.phase, 'failed'); assert.equal(result.planId, null); assert.equal(h.service.busy, false);
+  const terminal = await diagnosticRecord(h.service, 'DRAFT_REPREPARATION_FINISHED');
+  assert.equal(terminal.context.phase, 'failed');
+  const revoked = await diagnosticRecord(h.service, 'PREPARED_AUTHORITY_REVOKED');
+  assert.equal(revoked.context.phase, 'failed'); assert.notEqual(revoked.stage, 'cancellation');
+  assert.equal(h.calls.length, 0);
 });

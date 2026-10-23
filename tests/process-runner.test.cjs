@@ -65,6 +65,15 @@ test('abort retains ownership until child closes, even with success exit', async
   await rejection;
 });
 
+for (const cancelled of [false, true]) test(`closed child retains its actual signal after ${cancelled ? 'cancellation' : 'abnormal exit'}`, async () => {
+  const child = fakeChild(), abort = new AbortController();
+  const pending = runTool('fixed.exe', [], { signal: abort.signal, spawnImpl: () => child });
+  const rejected = assert.rejects(pending, { code: cancelled ? 'CANCELLED' : 'TOOL_FAILED', exitCode: null, exitSignal: 'SIGTERM' });
+  if (cancelled) abort.abort();
+  child.emit('close', null, 'SIGTERM');
+  await rejected;
+});
+
 test('spawn failure is caught and settles after close', async () => {
   const child = fakeChild();
   const promise = runTool('missing.exe', [], { spawnImpl: () => child });

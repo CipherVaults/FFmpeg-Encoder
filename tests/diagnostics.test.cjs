@@ -637,3 +637,42 @@ test('corrupt persisted stderr totals are preserved but cannot claim complete ca
     assert.ok((await fs.stat(h.eventPath(id))).isFile());
   }
 });
+
+test('historical production assessment keys remain reviewable through redacted export', async t => {
+  const h = await fixture(t), journal = h.open(); await journal.startSession();
+  const assessment = { kind: 'changed', diagnostic: { changedFields: ['ino'], expected: { ino: 'private-old-id', canonicalPath: 'C:\\private\\before.mp4' }, actual: { ino: 'private-new-id', canonicalPath: 'C:\\private\\after.mp4' } } };
+  const saved = await journal.append(event('SOURCE_ASSESSED', { assessment }));
+  const exported = await journal.buildRedactedExport({ eventIds: [saved.eventId] });
+  const shared = exported.data.events[0].context.assessment;
+  assert.equal(shared.kind, 'changed'); assert.deepEqual(shared.diagnostic.changedFields, ['ino']);
+  assert.notEqual(shared.diagnostic.expected.ino, shared.diagnostic.actual.ino);
+  assert.equal(exported.json.includes('private'), false); await journal.closeSession();
+});
+
+test('deep and node-bounded context remains readable and exportable with truthful truncation', async t => {
+  const h = await fixture(t), journal = h.open(); await journal.startSession();
+  let deep = { source: { kind: 'unchanged' } }; for (let n = 0; n < 15; n++) deep = { source: deep };
+  const broad = Object.fromEntries(Array.from({ length: 100 }, (_, i) => [String(i), Array.from({ length: 100 }, () => null)]));
+  for (const context of [deep, broad]) {
+    const saved = await journal.append(event('BOUNDED_CONTEXT', context)); assert.equal(saved.persisted, true);
+    const reopened = h.open(); const read = await reopened.read(saved.eventId);
+    assert.ok(read.event); assert.equal(read.event.contextTruncated, true);
+    const exported = await reopened.buildRedactedExport({ eventIds: [saved.eventId] });
+    assert.ok(exported.data); assert.equal(exported.data.coverage.selectedCaptureComplete, false);
+  }
+  await journal.closeSession();
+});
+
+test('key byte reservation keeps near-budget ASCII and multibyte contexts readable after truncation', async t => {
+  const h = await fixture(t, { limits: { eventBytes: 4096 } }), journal = h.open(); await journal.startSession();
+  for (const key of ['k'.repeat(128), '😀'.repeat(64)]) {
+    const saved = await journal.append(event('KEY_BUDGET', { source: 'x'.repeat(1898), [key]: 'v' }));
+    assert.equal(saved.persisted, true);
+    const reopened = h.open(), read = await reopened.read(saved.eventId);
+    assert.ok(read.event); assert.equal(read.event.contextTruncated, true);
+    assert.equal(Object.hasOwn(read.event.context, key), false);
+    const exported = await reopened.buildRedactedExport({ eventIds: [saved.eventId] });
+    assert.ok(exported.data); assert.equal(exported.data.coverage.selectedCaptureComplete, false);
+  }
+  await journal.closeSession();
+});

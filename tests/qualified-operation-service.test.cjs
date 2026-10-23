@@ -266,6 +266,18 @@ test('AAC padding warning and ctime-only source warning merge as readable publis
   assert.deepEqual(await fs.readFile(h.source), h.sourceBytes);
   const disposition = (await h.events()).find(event => event.reason === 'JOB_DISPOSITION');
   assert.deepEqual(disposition.context.warnings, item.warnings);
+  const exported = await h.service.getDiagnosticExport({ eventIds: [disposition.id] });
+  const described = exported.data.events[0].context.operation;
+  assert.equal(described.requested.audioPolicy, 'precision-aac');
+  assert.deepEqual(described.requested.range, RANGE);
+  assert.deepEqual(described.resolved.range.resolved, RANGE);
+  assert.equal(described.resolved.audio.streams[0].index, 2);
+  assert.equal(described.resolved.audio.streams[0].sampleRate, 48000);
+  assert.equal(described.resolved.audio.streams[0].channelLayout, 'stereo');
+  assert.equal(described.resolved.audio.streams[0].bitrateKbps, 320);
+  assert.equal(described.resolved.geometry.output.width, 320);
+  assert.equal(described.resolved.color.transfer, 'bt709');
+  assert.equal(exported.json.includes(h.source), false);
 });
 
 test('no-overwrite publication retains validated staging when a destination appears during collection', async t => {

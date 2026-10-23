@@ -37,6 +37,25 @@ const APP_VERSION = require('../package.json').version;
 // Journals must not relabel an upstream-truncated tail as a complete capture.
 const diagnosticStderr = result => ({ stderr: typeof result?.stderr === 'string' ? result.stderr : '',
   ...(result?.stderrCapture ? { stderrCapture: result.stderrCapture } : {}) });
+const diagnosticFields = (value, keys) => Object.fromEntries(keys.filter(key => value && Object.hasOwn(value, key))
+  .map(key => [key, clone(value[key])]));
+function describeDiagnosticOperation(plan, request) {
+  // Describe processing choices rather than duplicating private source/frame
+  // evidence or an arbitrarily deep expected-output tree in every incident.
+  // This inert projection carries no plan, grant or execution authority.
+  const expected = plan?.expectedOutput || {};
+  const resolved = diagnosticFields(expected, ['operation', 'target', 'timestampPolicy', 'dolbyVision', 'hdr10Claim']);
+  if (expected.geometry) resolved.geometry = { ...diagnosticFields(expected.geometry, ['requested', 'mode', 'filterRequired']),
+    output: diagnosticFields(expected.geometry.output, ['width', 'height', 'sampleAspectRatio', 'orientation']) };
+  if (expected.range) resolved.range = diagnosticFields(expected.range, ['kind', 'requested', 'resolved', 'sourceOrigin', 'sourceDuration', 'absoluteStart', 'absoluteEnd', 'timestampMapping']);
+  if (expected.audio) resolved.audio = { ...diagnosticFields(expected.audio, ['policy', 'noResampling', 'noDownmix', 'noIndependentTimestampZeroing']),
+    streams: (expected.audio.streams || []).map(stream => diagnosticFields(stream, ['index', 'inputIndex', 'mode', 'codec', 'profile', 'sampleRate', 'channels', 'channelLayout', 'bitrateKbps', 'bitrateOrigin', 'timestampMapping', 'sampleRepresentation'])) };
+  if (expected.color) resolved.color = diagnosticFields(expected.color, ['classification', 'supported', 'transfer', 'videoIndex']);
+  if (expected.hdr) resolved.hdr = { ...diagnosticFields(expected.hdr, ['hdr10Claim', 'dolbyVision']), signal: clone(expected.hdr.signal) };
+  if (expected.hdrContract) resolved.hdrContract = { ...diagnosticFields(expected.hdrContract, ['route']),
+    metadataDisposition: diagnosticFields(expected.hdrContract.metadataDisposition, ['action', 'dolby']) };
+  return { requested: diagnosticFields(request, ['operation', 'target', 'resolution', 'hdrPolicy', 'range', 'audioPolicy', 'aacBitrateKbps']), resolved };
+}
 // A policy disposition must retain the owned child's bounded close diagnostics.
 // In particular a storage monitor abort is not evidence that stderr was empty.
 function operationFailure(disposition, upstream) {
@@ -210,7 +229,10 @@ class EncoderService extends EventEmitter {
     if (!result.persisted) this.diagnosticInitialization = null;
     this.state.diagnostics = this.diagnostics.snapshot();
     if (!result.persisted) this.state.diagnosticWarning = 'Diagnostic history is incomplete. The session start could not be saved.';
-    if (result.recovered?.length) this.state.interruptedSessions = result.recovered;
+    if (result.recovered?.length) {
+      this.state.interruptedSessions = result.recovered;
+      this.state.diagnosticWarning ||= 'A previous session was interrupted. Work after its last durable record is unknown. Review History; no jobs or files were resumed or deleted.';
+    }
     return result;
   }
 
@@ -231,8 +253,17 @@ class EncoderService extends EventEmitter {
   }
 
   async closeDiagnostics(outcome = 'completed') {
-    await this.initializeDiagnostics();
-    return this.diagnostics.closeSession({ outcome });
+    try {
+      await this.initializeDiagnostics();
+      const result = await this.diagnostics.closeSession({ outcome });
+      this.state.diagnostics = this.diagnostics.snapshot();
+      if (!result.persisted) this.state.diagnosticWarning = 'Diagnostic history is incomplete. The final session record could not be saved.';
+      return result;
+    } catch (error) {
+      this.state.diagnostics = this.diagnostics.snapshot();
+      this.state.diagnosticWarning = 'Diagnostic history is incomplete. The final session record could not be confirmed saved.';
+      throw error;
+    }
   }
   async getDiagnosticHistory(request) { await this.initializeDiagnostics(); return this.diagnostics.list(request); }
   async getDiagnosticRecord(request) {
@@ -948,12 +979,13 @@ class EncoderService extends EventEmitter {
     const signal = this.begin('preparing');
     this.state.preparation = { total: this.state.items.length, resolved: 0, reused: 0, inspected: 0,
       active: 0, workers: [], stage: 'identity', fileId: null, notice: this.cacheWarning };
+    const receiptIds = { batchId: this.state.batchId, planId: this.plan.id };
     const context = { input: { path: this.plan.input }, output: { path: this.plan.output }, settings: this.plan.settings,
       profile: this.plan.operation === 'remux' ? null : PROFILES.find(profile => profile.id === this.plan.settings.profileId), caps: this.capabilityResult,
       signal, owner: this.state.batchId };
     this.taskPromise = (async () => {
       try {
-        await this.recordIncident({ stage: 'preparation', reason: 'DRAFT_REPREPARATION_STARTED', context: { draftRevision: this.state.operationDraft.revision } });
+        await this.recordIncident({ ...receiptIds, stage: 'preparation', reason: 'DRAFT_REPREPARATION_STARTED', context: { draftRevision: this.state.operationDraft.revision } });
         if (remux) {
           if (relatedSources) for (const [fileId, identity] of relatedSources) {
             const current = await readSourceIdentity(identity.canonicalPath, { signal });
@@ -963,18 +995,48 @@ class EncoderService extends EventEmitter {
           await installRemuxDecisions.call(this, remuxDecisions || [], signal);
         }
         await this.verifyFolders(); await this.prepareWithWorkers(context);
+        notCancelled(signal);
         this.markConflicts(); this.state.phase = 'ready';
       } catch (error) {
         this.state.phase = this.preparationFailure ? 'failed' : signal.aborted || error.code === 'CANCELLED' ? 'cancelled' : 'failed';
         this.state.error = error.message;
         for (const item of this.state.items) { item.reencodeAuthorized = false; if (item.status === 'pending') item.status = 'unprocessed'; }
         this.plan = null; this.state.planId = null;
-        await this.recordIncident({ stage: 'preparation', reason: 'DRAFT_REPREPARATION_FAILED', severity: 'error', message: error.message,
+        await this.recordIncident({ ...receiptIds, stage: 'preparation', reason: 'DRAFT_REPREPARATION_FAILED', severity: 'error', message: error.message,
           ...diagnosticStderr(error), context: { code: error.code || 'PREPARATION_FAILED' } });
-      } finally { this.finishedAt = Date.now(); this.emitState(); }
+      } finally {
+        await this.finishPreparationReceipt({ receiptIds, signal, stage: 'preparation', reason: 'DRAFT_REPREPARATION_FINISHED' });
+      }
     })();
     await this.taskPromise;
     return this.snapshot();
+  }
+
+  async finishPreparationReceipt({ receiptIds, signal, stage, reason, context = {} }) {
+    const phase = this.state.phase;
+    // Keep admission closed through the receipt and any late cancellation.
+    // Never let a slow journal replace this operation's state/correlation.
+    this.state.phase = 'preparing';
+    try {
+      await this.recordIncident({ ...receiptIds, stage, reason, severity: phase === 'failed' ? 'error' : 'info',
+        context: { ...context, phase, counts: this.snapshot().counts } });
+      if (signal.aborted) {
+        this.hdrOperations?.invalidate();
+        if (this.plan?.operation === 'remux') this.remuxOperations?.invalidate();
+        this.plan = null; this.state.planId = null; this.state.operationDraft = null;
+        for (const item of this.state.items) {
+          item.reencodeAuthorized = false;
+          if (['ready', 'conflict', 'pending'].includes(item.status)) { item.status = 'cancelled'; item.reason = 'Preparation cancelled. Prepare again.'; }
+        }
+        // The first receipt may already say Ready when abort arrives during its
+        // disk write. Record revocation afterwards rather than rewriting history.
+        if (phase !== 'cancelled') await this.recordIncident({ ...receiptIds, stage: phase === 'failed' || this.preparationFailure ? stage : 'cancellation', reason: 'PREPARED_AUTHORITY_REVOKED',
+          context: { phase: phase === 'failed' || this.preparationFailure ? 'failed' : 'cancelled', counts: this.snapshot().counts } });
+      }
+    } finally {
+      this.state.phase = phase === 'failed' || this.preparationFailure ? 'failed' : signal.aborted ? 'cancelled' : phase;
+      this.finishedAt = Date.now(); this.emitState();
+    }
   }
 
   async captureFolders() {
@@ -1036,8 +1098,11 @@ class EncoderService extends EventEmitter {
     const priorResolved = this.state.items.filter(entry => entry.status !== 'pending').length;
     item.status = 'pending';
     this.state.preparation = { total: this.state.items.length, resolved: priorResolved - 1, reused: 0, inspected: 0, active: 0, workers: [], stage: 'identity', notice: null };
+    const receiptIds = { batchId: this.state.batchId, planId: this.plan.id, fileId: item.id };
+    let permissionCode = null;
     this.taskPromise = (async () => {
       try {
+        await this.recordIncident({ ...receiptIds, stage: 'admission', reason: 'SOURCE_PERMISSION_STARTED', context: { mode: 'treat-as-original' } });
         const current = await readSourceIdentity(ambiguous.file, { signal });
         if (!sameIdentity(current, ambiguous.fingerprint)) throw fail('INPUT_CHANGED', 'The possible previous output changed. Prepare the batch again.');
         this.plan.overrides.set(item.id, current);
@@ -1046,11 +1111,15 @@ class EncoderService extends EventEmitter {
         notCancelled(signal);
         this.markConflicts(); this.state.phase = 'ready';
       } catch (error) {
+        permissionCode = error.code || 'SOURCE_PERMISSION_FAILED';
         item.status = signal.aborted ? 'unprocessed' : 'unsupported'; item.reason = error.message;
         this.state.phase = signal.aborted ? 'cancelled' : 'failed'; this.state.error = error.message;
         for (const entry of this.state.items) entry.reencodeAuthorized = false;
         this.plan = null; this.state.planId = null;
-      } finally { this.finishedAt = Date.now(); this.emitState(); }
+      } finally {
+        await this.finishPreparationReceipt({ receiptIds, signal, stage: 'admission', reason: 'SOURCE_PERMISSION_FINISHED',
+          context: { mode: 'treat-as-original', code: permissionCode } });
+      }
     })();
     await this.taskPromise;
     return this.snapshot();
@@ -1070,8 +1139,11 @@ class EncoderService extends EventEmitter {
     const signal = this.begin('preparing');
     this.state.preparation = { total: this.state.items.length, resolved: this.state.items.length - items.length,
       reused: 0, inspected: 0, active: 0, workers: [], stage: 'identity', notice: null };
+    const receiptIds = { batchId: this.state.batchId, planId: this.plan.id };
+    let permissionCode = null;
     this.taskPromise = (async () => {
       try {
+        await this.recordIncident({ ...receiptIds, stage: 'admission', reason: 'SOURCE_PERMISSION_STARTED', context: { mode: 'reencode-outputs', count: items.length } });
         // Validate the whole requested subset before granting any authority.
         // Filtering/queue selection never enters this map. It exists only in
         // this prepared plan and is discarded on every new preparation/restart.
@@ -1092,6 +1164,7 @@ class EncoderService extends EventEmitter {
         notCancelled(signal);
         this.markConflicts(); this.state.phase = 'ready';
       } catch (error) {
+        permissionCode = error.code || 'SOURCE_PERMISSION_FAILED';
         for (const item of items) {
           item.reencodeAuthorized = false;
           item.status = signal.aborted ? 'unprocessed' : 'unsupported'; item.reason = error.message;
@@ -1099,7 +1172,10 @@ class EncoderService extends EventEmitter {
         this.state.phase = signal.aborted ? 'cancelled' : 'failed'; this.state.error = error.message;
         for (const entry of this.state.items) entry.reencodeAuthorized = false;
         this.plan = null; this.state.planId = null;
-      } finally { this.finishedAt = Date.now(); this.emitState(); }
+      } finally {
+        await this.finishPreparationReceipt({ receiptIds, signal, stage: 'admission', reason: 'SOURCE_PERMISSION_FINISHED',
+          context: { mode: 'reencode-outputs', code: permissionCode, count: items.length } });
+      }
     })();
     await this.taskPromise;
     return this.snapshot();
@@ -1120,7 +1196,10 @@ class EncoderService extends EventEmitter {
       this.state.provenanceRecovery = { ...Object.fromEntries(['matching', 'absent', 'unrelated', 'uncertain'].map(key => [key, result[key].length])),
         pendingRemaining: result.pendingRemaining || 0, warnings: result.warnings || [] };
       this.recoveredProvenance = true;
+      await this.recordIncident({ stage: 'recovery', reason: 'PROVENANCE_RECOVERY_FINISHED', context: { recovery: this.state.provenanceRecovery } });
     } catch (error) {
+      await this.recordIncident({ stage: 'recovery', reason: signal?.aborted || error.code === 'CANCELLED' ? 'PROVENANCE_RECOVERY_CANCELLED' : 'PROVENANCE_RECOVERY_FAILED',
+        severity: signal?.aborted || error.code === 'CANCELLED' ? 'info' : 'warning', message: error.message, context: { code: error.code || 'PROVENANCE_UNAVAILABLE' } });
       notCancelled(signal);
       this.state.provenanceRecovery = { matching: 0, absent: 0, unrelated: 0, uncertain: 0, warnings: ['Provenance recovery unavailable: ' + error.message] };
     }
@@ -1311,6 +1390,7 @@ class EncoderService extends EventEmitter {
           invocationId = randomUUID();
           const invocationRecord = await this.recordIncident({ stage: 'invocation', reason: entry.remux ? 'REMUX_STARTED' : 'ENCODE_STARTED', fileId: item.id, invocationId,
             context: { executable: this.ffmpeg, argv: args, settings: this.plan.settings,
+              operation: describeDiagnosticOperation(entry.operationPlan, item.operationRequest),
               ...(qualified ? { planFingerprint: entry.operationPlan.planFingerprint, evidenceIds: qualified.evidenceIds, policyIdentity: qualified.policyIdentity } : {}) } });
           if (qualified && !invocationRecord.persisted) throw fail('OPERATION_DIAGNOSTICS_INCOMPLETE', 'The qualified invocation could not be recorded; encoding did not start.');
           const encodeResult = await run(this.ffmpeg, args, { signal: jobSignal, timeoutMs: 0, onProgress: record => {
@@ -1408,7 +1488,7 @@ class EncoderService extends EventEmitter {
           const assessment = await this.assessCompletedSource(entry, jobSignal);
           item.sourceAssessment = assessment;
           const sourceRecord = await this.recordIncident({ stage: 'validation', reason: 'SOURCE_ASSESSED', fileId: item.id,
-            severity: assessment.kind === 'unchanged' ? 'info' : 'warning', context: { assessment } });
+            severity: assessment.kind === 'unchanged' ? 'info' : 'warning', context: { sourceAssessment: assessment } });
           if (qualified && !sourceRecord.persisted) throw fail('OPERATION_DIAGNOSTICS_INCOMPLETE', 'The qualified source assessment could not be recorded. Output retained without publication.');
           if (assessment.kind !== 'unchanged') {
             item.sourceIdentityDiagnostic = assessment.diagnostic;
@@ -1479,7 +1559,7 @@ class EncoderService extends EventEmitter {
           await this.recordIncident({ stage: item.status === 'cancelled' ? 'cancellation' : 'encoding', reason: item.status === 'cancelled' ? 'JOB_CANCELLED' : 'JOB_FAILED',
             severity: item.status === 'cancelled' ? 'info' : 'error', fileId: item.id, message: error.message, ...diagnosticStderr(error),
             ...(invocationId ? { invocationId } : {}), context: { code: item.reasonCode, sourceIdentityDiagnostic: item.sourceIdentityDiagnostic,
-              exitCode: error.exitCode, signal: error.signal, evidenceDirectory: error.evidenceDirectory,
+              exitCode: error.exitCode, signal: error.exitSignal ?? error.signal, evidenceDirectory: error.evidenceDirectory,
               evidenceFailure: error.evidenceReceipt?.failure } });
           if (item.status === 'cancelled') break;
           if (sharedFailure(error)) { stoppedByFailure = true; this.state.error = error.message; break; }
@@ -1532,6 +1612,7 @@ class EncoderService extends EventEmitter {
           }
           await this.recordIncident({ stage: 'publication', reason: 'JOB_DISPOSITION', fileId: item.id, context: {
             name: item.name, outputName: item.outputName, settings: this.plan.settings,
+            operation: describeDiagnosticOperation(entry.operationPlan, item.operationRequest),
             status: item.status, outcome: item.outcome, outputDisposition: item.outputDisposition, cleanup: item.cleanup,
             warnings: item.warnings, sourceIdentityDiagnostic: item.sourceIdentityDiagnostic,
             evidenceStorage: item.evidenceStorage, evidenceWarning: item.evidenceWarning } });
@@ -1616,4 +1697,4 @@ class EncoderService extends EventEmitter {
   }
 }
 
-module.exports = { EncoderService, objectKeys, sharedFailure };
+module.exports = { EncoderService, objectKeys, sharedFailure, describeDiagnosticOperation };

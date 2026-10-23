@@ -56,7 +56,15 @@ function finishShutdown() {
       for (const { reason, error } of failures) {
         await service?.recordIncident({ stage: 'shutdown', reason, severity: 'error', message: error.message });
       }
-    } finally { await service?.closeDiagnostics(shutdownOutcome); }
+    } finally {
+      try {
+        const receipt = await service?.closeDiagnostics(shutdownOutcome);
+        if (service && receipt?.persisted !== true) throw new Error('Final diagnostic history was not saved. Work after the last durable record is unknown.');
+      } catch (error) {
+        shutdownExitCode ||= 1;
+        throw error;
+      }
+    }
     if (failures.length) throw new AggregateError(failures.map(item => item.error), 'Owned shutdown was incomplete.');
   })().catch(error => {
     // Shutdown cannot manufacture persistence when the state disk is broken.

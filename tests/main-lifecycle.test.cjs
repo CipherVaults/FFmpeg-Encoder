@@ -14,7 +14,7 @@ const tick = () => new Promise(resolve => setImmediate(resolve));
 const deferred = () => { let resolve, reject; const promise = new Promise((yes, no) => { resolve = yes; reject = no; }); return { promise, resolve, reject }; };
 
 async function harness({ runtimePending = false, diagnosticsPending = false, resourcesPending = false,
-  appearancePending = false, appearanceFlushPending = false, initialTheme = 'dark', initialPersistence = 'saved' } = {}) {
+  appearancePending = false, appearanceFlushPending = false, initialTheme = 'dark', initialPersistence = 'saved', diagnosticCloseResult = { persisted: true }, diagnosticCloseError = null } = {}) {
   const load = deferred(), drained = deferred(), dialogClosed = deferred();
   const closeChoice = deferred();
   const initialized = deferred(); if (!diagnosticsPending) initialized.resolve();
@@ -39,7 +39,7 @@ async function harness({ runtimePending = false, diagnosticsPending = false, res
     cancelCurrent() { calls.push('cancel'); return drained.promise; }
     closeOperationResources() { calls.push('close-operation-resources'); return resources.promise; }
     async recordIncident(event) { calls.push(event.reason); }
-    async closeDiagnostics(outcome) { calls.push(['closed', outcome]); }
+    async closeDiagnostics(outcome) { calls.push(['closed', outcome]); if (diagnosticCloseError) throw diagnosticCloseError; return diagnosticCloseResult; }
   }
   class Window extends EventEmitter {
     constructor(options) { super(); appearanceOrder.push('window'); window = this; this.options = options; this.destroyed = false; this.webContents = new EventEmitter();
@@ -111,6 +111,22 @@ test('shutdown drains children then operation handles/lease before diagnostic cl
   assert.ok(!h.calls.some(value => Array.isArray(value) && value[0] === 'closed')); assert.ok(!h.calls.includes('quit'));
   h.resources.resolve(); await tick(); await tick();
   assert.ok(h.calls.some(value => Array.isArray(value) && value[0] === 'closed')); assert.equal(h.calls.at(-1), 'quit');
+});
+
+test('unconfirmed terminal journal write drains resources and exits with an incomplete-history status', async () => {
+  const h = await harness({ diagnosticCloseResult: { persisted: false } });
+  h.window.destroy(); h.drained.resolve(); await tick(); await tick();
+  assert.ok(h.calls.indexOf('close-operation-resources') < h.calls.findIndex(value => Array.isArray(value) && value[0] === 'closed'));
+  assert.deepEqual(h.calls.at(-1), ['exit', 1]);
+  assert.equal(h.calls.includes('quit'), false);
+  assert.equal(h.calls.filter(value => Array.isArray(value) && value[0] === 'closed').length, 1);
+});
+
+test('rejected terminal journal initialization or write also signals incomplete shutdown after drainage', async () => {
+  const h = await harness({ diagnosticCloseError: new Error('Owned journal storage unavailable') });
+  h.window.destroy(); h.drained.resolve(); await tick(); await tick();
+  assert.ok(h.calls.includes('close-operation-resources'));
+  assert.deepEqual(h.calls.at(-1), ['exit', 1]); assert.equal(h.calls.includes('quit'), false);
 });
 
 test('resource closure failure still flushes failed diagnostics before shutdown completes', async () => {

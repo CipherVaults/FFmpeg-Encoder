@@ -1,3 +1,10 @@
+## Add a named Full Encode timed-track preservation choice — October23,2026 (unaccepted alpha)
+
+- Add a separate main-private Full/KeepSource/Matroska CPUslowCRF25 route for the finite AV1 Main8 BT709 1080p60/AAC-LC48k-stereo source class with one linked tmcd track. An exact per-file choice names timed-track/link loss; intact source probes, strict grants and selected-output validation prevent silent global omission. Existing defaults/recipes are unchanged.
+- Compose related explicit source decisions with fresh identity revalidation; revoke ordinary edits/cancel/completion/restart, retain sequential child ownership, source checks, durable warning and protected publication. No short-range deadline or whole-source prehash is imposed on this Full route.
+- Qualify one31-producer raw-byte checkout policy with actual owned lab/default success and active cancellation.240 frames,189 AAC payloads and complete192000 stereo PCM samples agree; known long original reaches Ready/cancel with no personal encode. First generated metadata refusal and every retained incomplete output remain recorded.
+- Final boundaries181/0/0 plus disjointaffected116/0/0; catalog6 overlap. File-only redacted journal readback preserves the loss code and37 journal hashes. Independent source/privacy and O01–O08 reviews pass; scoped source`37a46ef97be6bb452de79ec27d0243c78f35ad7a`. Old HDR57pins remain unchanged/suspended. Native junction UNKNOWN, long-original output, broad HDR/vendor/native/portable/owner acceptance remain separate; packaging final, no Security Cloud. [Evidence](0-%20Documentation/Execution%20Summaries/2026-10-23_O_Diagnostics_and_Source_Acceptance.md).
+
 ## Preserve diagnostic outcomes and interrupted history — October23,2026 (unaccepted alpha)
 
 - Record completed and failed re-preparation, temporary source-permission decisions and provenance recovery. Keep new work blocked while final receipts persist; distinguish cancellation from infrastructure failure.

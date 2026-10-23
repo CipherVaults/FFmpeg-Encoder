@@ -5,6 +5,7 @@
 const fs = require('node:fs/promises');
 const os = require('node:os');
 const path = require('node:path');
+const { EventEmitter } = require('node:events');
 const { randomUUID, createHash } = require('node:crypto');
 const { HdrOperations, fingerprintHdrProbe } = require('../src/hdr-operation.cjs');
 const { resolveFileRequest } = require('../src/operation-contract.cjs');
@@ -64,7 +65,10 @@ async function acquired(t, changes = {}) {
   let active = false, calls = [];
   async function run(executable, args, options) {
     if (active) throw new Error('Overlapping mocked collector invocation.'); active = true;
+    const child = new EventEmitter(); child.stdout = new EventEmitter(); child.stderr = new EventEmitter(); let closed = false;
+    child.once('close', () => { closed = true; });
     try {
+      options.onChild?.(child);
       const file = args[args.indexOf('-i') + 1], side = file === input ? 'source' : file === output ? 'container' : 'bitstream';
       const call = { executable, args, side, ordinal: calls.length }; calls.push(call);
       let bytes;
@@ -78,8 +82,9 @@ async function acquired(t, changes = {}) {
       } else if (args.includes('framehash')) bytes = Buffer.from('#format: frame checksums\n#hash: SHA256\n' + h.sourceFrames.map((_, i) => `0, ${i}, ${i}, 1, 172800, ${sha(`${side === 'source' ? 'source' : 'encoded'}-${i}`)}\n`).join(''));
       else bytes = Buffer.from('mock-distinct-elementary-payload');
       await options.onStdoutChunk(bytes);
+      child.stdout.emit('end'); child.stderr.emit('end'); child.emit('close', 0, null);
       return { exitCode: 0, stdout: '', stderr: '', stdoutCapture: { streamed: true, truncated: false, totalBytes: bytes.length }, stderrCapture: { truncated: false, totalBytes: 0 } };
-    } finally { active = false; }
+    } finally { if (!closed) { child.stdout.emit('end'); child.stderr.emit('end'); child.emit('close', 1, null); } active = false; }
   }
   const options = { plan: h.plan, runtimeIdentity: RUNTIME, outputId: h.outputId, sourceProbe: h.probe, outputProbe: h.outputProbe,
     sourcePath: input, outputPath: output, stageDirectory, ffmpeg: path.join(root, 'ffmpeg.exe'), ffprobe: path.join(root, 'ffprobe.exe'), run, budget: clone(BUDGET) };

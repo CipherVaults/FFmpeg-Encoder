@@ -10,6 +10,7 @@ const { buildOperationContract } = require('./operation-contract.cjs');
 const { buildHdrEncoding, validateHdrEncodingOutput } = require('./hdr-encoding.cjs');
 const { provenanceArgs, generationDescriptionOf, classifyMarker } = require('./provenance.cjs');
 const { FORMATS, assertTelemetryBinding, assertCollectedTelemetry } = require('./operation-telemetry.cjs');
+const { getObservedHdrInput } = require('./hdr-input.cjs');
 
 // This is an operation owner, not a relaxation of SDR inspection or its plan
 // brand. Every selection is in-process, revision-bound and backed by a reviewed
@@ -78,39 +79,52 @@ function sourceIdentity(v) {
   snapshot(v); const result = { canonicalPath: local(v.canonicalPath) };
   for (const k of SOURCE_FIELDS.slice(1, -1)) { need(typeof v[k] === 'string' && /^(0|-?[1-9]\d{0,19})$/.test(v[k]), 'Source identity needs exact integers.');
     const n = BigInt(v[k]); need(n >= (['dev', 'ino', 'size'].includes(k) ? 1n : -9223372036854775808n) && n <= 18446744073709551615n, 'Source identity integer exceeds its bound.'); result[k] = v[k]; }
-  need(BigInt(result.size) <= 1024n * 1024n, 'HDR source exceeds the reviewed tiny1MiB envelope.', REQUIRED);
+  need(BigInt(result.size) <= 16n * 1024n * 1024n, 'HDR source exceeds the reviewed16MiB envelope.', REQUIRED);
   need(typeof v.sparseDigest === 'string' && /^sha256-sparse-v1:[a-f0-9]{64}$/.test(v.sparseDigest), 'A complete bounded source digest is required.');
   result.sparseDigest = v.sparseDigest; return freeze(result);
 }
 function fingerprintHdrProbe(probe) { return hash(normalizeProbe(snapshot(probe))); }
 function policy(v) {
-  record(v, ['id', 'transfer', 'evidenceIds', 'runtimeIdentity', 'sourceSha256']);
+  const content = own(v, 'profiles');
+  record(v, content ? ['id', 'transfer', 'evidenceIds', 'runtimeIdentity', 'profiles', 'outputProfiles']
+    : ['id', 'transfer', 'evidenceIds', 'runtimeIdentity', 'sourceSha256']);
   need(['smpte2084', 'arib-std-b67'].includes(v.transfer) && Array.isArray(v.evidenceIds) && v.evidenceIds.length >= 1 && v.evidenceIds.length <= 32, 'Only the two reviewed tiny HDR signal cells are available.');
   const evidenceIds = snapshot(v.evidenceIds).map(x => id(x, 'Retained evidence')); need(new Set(evidenceIds).size === evidenceIds.length, 'HDR evidence identities must be unique.');
+  if (content) need(Array.isArray(v.profiles) && v.profiles.length > 0 && v.profiles.length <= 16
+    && Array.isArray(v.outputProfiles) && v.outputProfiles.length > 0 && v.outputProfiles.length <= 16,
+  'Content-derived HDR qualification requires reviewed source and output configurations.');
   return freeze({ id: id(v.id, 'HDR cell'), transfer: v.transfer, evidenceIds, runtimeIdentity: digest(v.runtimeIdentity, 'Paired runtime'),
-    sourceSha256: digest(v.sourceSha256, 'Reviewed full source bytes') });
+    ...(content ? { profiles: snapshot(v.profiles), outputProfiles: snapshot(v.outputProfiles) }
+      : { sourceSha256: digest(v.sourceSha256, 'Reviewed full source bytes') }) });
 }
 function dispositions(video) {
   const result = snapshot(video.disposition || {});
   for (const [key, value] of Object.entries(result)) need(/^[a-z_]{1,64}$/.test(key) && (value === 0 || value === '0'), 'This tiny family requires the retained all-zero disposition shape.', REQUIRED);
   return [];
 }
-function absentGeometry(video) {
-  need(!own(video, 'sample_aspect_ratio') && !own(video, 'display_aspect_ratio'), 'This finite family preserves genuinely unreported SAR/DAR only.', REQUIRED);
+function absentGeometry(video, content = false) {
+  if (content && own(video, 'sample_aspect_ratio')) {
+    need(video.sample_aspect_ratio === '1:1', 'This content family requires square SAR or the reviewed absent-SAR legacy configuration.', REQUIRED);
+    if (own(video, 'display_aspect_ratio')) { const g = (a,b) => b ? g(b,a%b) : a, d = g(video.width,video.height);
+      need(video.display_aspect_ratio === `${video.width/d}:${video.height/d}`, 'Display aspect ratio contradicts the reviewed square geometry.', REQUIRED); }
+  } else need(!own(video, 'sample_aspect_ratio') && !own(video, 'display_aspect_ratio'), 'This finite family preserves genuinely unreported SAR/DAR only.', REQUIRED);
   const tags = tagsOf(video.tags || {});
   need(!['rotate', 'rotation', 'orientation'].some(k => tags.has(k)), 'Reported rotation requires a separately qualified HDR route.', REQUIRED);
   need(!own(video, 'side_data_list') || video.side_data_list.every(e => SIDE.has(e.side_data_type)), 'Unqualified functional stream side data cannot be omitted.', REQUIRED);
 }
-function probeFacts(raw, { output = false } = {}) {
+function probeFacts(raw, { output = false, content = false } = {}) {
   const probe = normalizeProbe(snapshot(raw)), video = selectVideo(probe);
   need(probe.streams.length === 1 && video.index === 0 && probe.format.format_name === 'matroska,webm'
     && probe.chapters.length === 0 && Array.isArray(probe.programs) && probe.programs.length === 0
     && Array.isArray(probe.stream_groups) && probe.stream_groups.length === 0
     && probe.mediaEvidence.container.relationships.state === 'known', 'HDR requires exactly one video and complete empty native relationships.', REQUIRED);
-  need(video.codec_name === 'hevc' && video.profile === 'Main 10' && video.width === 320 && video.height === 180
+  need(video.codec_name === 'hevc' && video.profile === 'Main 10' && (content
+    ? [[1280,720],[1920,1080],[320,180]].some(([w,h]) => video.width === w && video.height === h)
+    : video.width === 320 && video.height === 180)
     && video.pix_fmt === 'yuv420p10le' && video.field_order === 'progressive' && video.chroma_location === 'left'
     && video.color_primaries === 'bt2020' && video.color_space === 'bt2020nc' && video.color_range === 'tv'
     && ['smpte2084', 'arib-std-b67'].includes(video.color_transfer), 'Only the measured tiny progressive planar10 PQ/HLG signal is available.', REQUIRED);
+  if (!content) {
   need(video.time_base === '1/1000' && video.avg_frame_rate === '30/1' && video.r_frame_rate === '30/1'
     && String(video.start_pts) === '0' && Number(video.start_time) === 0
     && Number(probe.format.duration) === 3.2 && Number(probe.format.start_time) === 0,
@@ -122,16 +136,40 @@ function probeFacts(raw, { output = false } = {}) {
   if (!output) need(video.coded_width === 320 && video.coded_height === 192
     && (!own(video, 'side_data_list') || video.side_data_list.length === 0),
   'The reviewed source has exact coded320x192 geometry and frame-only static HDR metadata origins.', REQUIRED);
-  absentGeometry(video); dispositions(video); return { probe, video };
+  } else {
+    need(video.time_base === '1/1000' && ['24/1','25/1','30/1'].includes(video.avg_frame_rate) && video.r_frame_rate === video.avg_frame_rate
+      && String(video.start_pts) === '0' && Number(video.start_time) === 0 && Number(probe.format.start_time) === 0
+      && Number(probe.format.duration) > 0 && Number(probe.format.duration) <= 60,
+    'Content-derived HDR requires its reviewed zero-origin integer-rate native clock.', REQUIRED);
+    need(output || !own(probe.format, 'size') || /^\d+$/.test(String(probe.format.size)) && BigInt(probe.format.size) <= 16n*1024n*1024n,
+      'Observed source exceeds the16MiB content envelope.', REQUIRED);
+  }
+  absentGeometry(video, content); dispositions(video); return { probe, video };
 }
-function metadataSignature(writer) {
+function metadataSignature(writer, content = false) {
   const metadata = writer.expectedOutput.metadata;
+  if (content) { need(metadata.ambient === null && writer.contract.source.metadata.dolby === null,
+    'Ambient/Dolby content has no preservation qualification.', REQUIRED);
+    need(!(metadata.contentLight?.max_content.signalValue === 0 && metadata.contentLight?.max_average.signalValue === 0),
+      'The pinned x265 writer does not emit an explicitly observed zero/zero content-light SEI. This signal needs a separately qualified writer.',
+      'HDR_ZERO_CLL_WRITER_UNQUALIFIED'); return; }
   need(metadata.ambient === null && writer.contract.source.metadata.dolby === null && metadata.mastering && metadata.contentLight,
     'This family requires the measured static mastering/CLL and no ambient/Dolby metadata.', REQUIRED);
   for (const [key, value] of Object.entries(MASTER)) { const [n, d] = value.split('/').map(BigInt), actual = metadata.mastering[key];
     need(actual && BigInt(actual.numerator) * d === n * BigInt(actual.denominator), 'Static mastering values differ from the frozen cell.', REQUIRED); }
   need(metadata.contentLight.max_content.value === 1000 && metadata.contentLight.max_average.value === 400,
     'Static content-light values differ from the frozen cell.', REQUIRED);
+}
+// Small writer contracts stay bounded. A single complete input receipt owns the
+// global count/EOF; contiguous sampled chunks check every signal/static value.
+function completeWriter(videoEvidence, frames) {
+  let writer;
+  for (let start=0; start<frames.length; start+=256) {
+    const next = buildHdrEncoding({ settings: SETTINGS, policy: 'preserve', videoEvidence,
+      frameEvidence: { videoIndex: 0, coverage: 'sampled', decodedFrameCount: frames.length, decodeExitCode: 0, frames: frames.slice(start,start+256) } });
+    metadataSignature(next, true); need(!writer || same(writer.expectedOutput,next.expectedOutput), 'Complete source metadata changes across a chunk boundary.', REQUIRED); writer ||= next;
+  }
+  need(writer, 'A complete nonempty source observation is required.', REQUIRED); return writer;
 }
 function frameGeometry(plane, timestamps) {
   need(plain(plane) && Array.isArray(plane.frames) && plane.frames.length === 96 && plane.coverage === 'full'
@@ -182,7 +220,9 @@ function getHdrOperationCollectionBinding(plan, bindings) {
   const state = collectionState(plan, bindings);
   return freeze({ planFingerprint: plan.planFingerprint, sourceEvidenceFingerprint: state.sourceProbeFingerprint,
     outputEvidenceFingerprint: fingerprintHdrProbe(bindings.outputProbe), sourceFingerprint: hash(state.identity), sourceIdentity: state.identity,
-    sourceFileSha256: state.sourceFileSha256, writerPlan: state.writer, expectedOutput: plan.expectedOutput, policyIdentity: state.policyIdentity });
+    sourceFileSha256: state.sourceFileSha256, writerPlan: state.writer, expectedOutput: plan.expectedOutput, policyIdentity: state.policyIdentity,
+    eligibilityMode: state.inputObservation ? 'content' : 'exact-seed',
+    ...(state.inputObservation ? { inputObservation: state.inputObservation, sourceProfiles: state.route.profiles, outputProfiles: state.route.outputProfiles } : {}) });
 }
 
 class HdrOperations {
@@ -195,11 +235,13 @@ class HdrOperations {
       && new Set(this.#policies.map(x => x.id)).size === this.#policies.length, 'HDR cells require unique identities and transfers.'); freeze(this.#policies);
   }
   #current(plan) { const s = this.#plans.get(plan); need(s && s.epoch === this.#epoch && this.#latest.get(s.request.fileId) === plan, 'Only this owner\'s current original HDR plan is usable.', PLAN_REQUIRED); return s; }
+  inputProfiles(probe) { const transfer = selectVideo(probe)?.color_transfer;
+    return this.#policies.find(p => p.runtimeIdentity === this.#runtime && p.transfer === transfer)?.profiles || null; }
   prepare(options) {
-    const fields = ['input', 'output', 'outputId', 'sourceIdentity', 'sourceFileSha256', 'request', 'settings', 'inspection', 'frameEvidence', 'generationDescription'];
+    const fields = ['input', 'output', 'outputId', 'sourceIdentity', 'sourceFileSha256', 'request', 'settings', 'inspection', 'frameEvidence', 'generationDescription', 'inputReceipt'];
     // A missing source hash still fails after revoking the named old plan.
     // The trusted request identifies the affected file; no hash is inferred.
-    record(options, fields, fields.filter(key => key !== 'sourceFileSha256'));
+    record(options, fields, fields.filter(key => !['sourceFileSha256','inputReceipt'].includes(key)));
     const request = snapshot(options.request); id(request.fileId, 'Prepared file');
     // A failed new preparation must not leave an older Start authority live.
     // Application-default edits do not call this operation-specific boundary.
@@ -212,16 +254,26 @@ class HdrOperations {
     const identity = sourceIdentity(options.sourceIdentity), input = local(options.input), destination = local(options.output);
     need(input === identity.canonicalPath && !samePath(input, destination), 'Prepared HDR source identity and distinct destination must agree.');
     record(options.inspection, ['probe', 'color', 'duration', 'evidence', 'summary', 'warnings', 'sampling', 'cache'], ['probe']);
-    const { probe, video } = probeFacts(options.inspection.probe);
+    const transfer = selectVideo(options.inspection.probe)?.color_transfer;
+    const route = this.#policies.find(p => p.runtimeIdentity === this.#runtime && p.transfer === transfer);
+    need(route, 'No reviewed HDR cell applies to this exact runtime and transfer.', REQUIRED);
+    const { probe, video } = probeFacts(options.inspection.probe, { content: Boolean(route.profiles) });
     need(!own(probe.format, 'size') || BigInt(probe.format.size) === BigInt(identity.size), 'Observed source size differs from prepared filesystem identity.');
     need(classifyColor(probe).classification === 'hdr', 'Positive source HDR evidence is required.', REQUIRED);
-    const route = this.#policies.find(p => p.runtimeIdentity === this.#runtime && p.transfer === video.color_transfer);
-    need(route, 'No reviewed HDR cell applies to this exact runtime and transfer.', REQUIRED);
+    let inputObservation = null, frames, writer;
+    const typedVideo = probe.mediaEvidence.streams.find(s => s.index === video.index);
+    if (route.profiles) {
+      inputObservation = getObservedHdrInput(options.inputReceipt, { sourcePath: input, sourceIdentity: identity,
+        probe: options.inspection.probe, runtimeIdentity: this.#runtime, profiles: route.profiles });
+      need(inputObservation.sourceFileSha256 === sourceFileSha256, 'Full input receipt and prepared source hash differ.', REQUIRED);
+      frames = { frames: inputObservation.frames };
+      writer = completeWriter(typedVideo, frames.frames);
+    } else {
     // The type of an unregistered SEI cannot prove that its payload is only
     // encoder prose. This first family therefore admits only reviewed seed
     // bytes, observed independently by main and again by the complete collector.
     need(sourceFileSha256 === route.sourceSha256, 'The full source bytes are not the exact reviewed HDR seed for this transfer.', REQUIRED);
-    const frames = snapshot(options.frameEvidence);
+    frames = snapshot(options.frameEvidence);
     need(frames.coverage === 'sampled' || frames.coverage === 'full' && frames.frames?.length === 96, 'Preparation must declare actual bounded sampled or complete source coverage.');
     need(Array.isArray(frames.frames) && frames.frames.length > 0 && frames.frames.length <= 96, 'Bounded native preparation frames are required.');
     let previous = -1;
@@ -231,8 +283,8 @@ class HdrOperations {
         && (!own(frame, 'best_effort_timestamp') || String(frame.best_effort_timestamp) === String(frame.pts)),
       'Preparation frames must have complete, strictly ordered native source timestamps/durations.'); previous = pts;
     }
-    const typedVideo = probe.mediaEvidence.streams.find(s => s.index === video.index);
-    const writer = buildHdrEncoding({ settings: config, policy: 'preserve', videoEvidence: typedVideo, frameEvidence: frames }); metadataSignature(writer);
+    writer = buildHdrEncoding({ settings: config, policy: 'preserve', videoEvidence: typedVideo, frameEvidence: frames }); metadataSignature(writer);
+    }
     need(writer.status === 'native-qualification-required' && writer.route === (video.color_transfer === 'smpte2084' ? 'pq-preserve' : 'hlg-preserve')
       && writer.filterGraph === 'format=yuv420p10le' && writer.missingWriters.length === 0, 'Only the exact qualified identity HDR writer is available.', REQUIRED);
     const description = generationDescriptionOf(snapshot(options.generationDescription));
@@ -245,12 +297,27 @@ class HdrOperations {
       '-protocol_whitelist', 'file,pipe', '-format_whitelist', 'matroska,webm', '-noautorotate', '-copyts', '-i', input,
       '-map', '0:0', '-map_metadata', '0', '-map_chapters', '0', '-c', 'copy', '-map_metadata:s:0', '0:s:0', '-disposition:0', '0',
       ...writer.videoEncoderArgs, '-filter:v:0', writer.filterGraph, '-enc_time_base:v:0', 'filter', '-avoid_negative_ts', 'disabled'];
+    let containerDurationWriter = null;
+    if (inputObservation) {
+      const last = inputObservation.frames.at(-1), pts = BigInt(last.pts), declared = BigInt(inputObservation.containerTiming.declaredDurationTicks);
+      const duration = declared - pts, rate = BigInt(video.avg_frame_rate.slice(0,-2));
+      need(duration === 1000n/rate || duration === (1000n+rate-1n)/rate, 'The frozen header has no qualified final-packet duration serialization.', REQUIRED);
+      // Matroska omits BlockDuration for its exact low/high period states.
+      // Preserve the source header state through the final presentation packet;
+      // every demuxed native row remains independently exact. Explicit PTS/DTS
+      // expressions are essential: setts otherwise assigns DTS to both fields.
+      containerDurationWriter = `setts=pts=PTS:dts=DTS:duration=DURATION+not(PTS-${pts})*(${duration}-DURATION):time_base=1/1000:prescale=1`;
+      args.push('-bsf:v:0',containerDurationWriter);
+    }
     if (alias !== null) args.push('-metadata:s:0', `${STREAM_CREATION_TIME_ALIAS}=${alias}`);
     args.push(...provenanceArgs(outputId, description), '-stats_enc_pre:0', PLACEHOLDER, '-stats_enc_pre_fmt:0', FORMATS.video,
       '-default_mode', 'passthrough', '-f', 'matroska', destination);
     const expectedOutput = freeze({ operation: 'encode', target: 'matroska', hdr: writer.expectedOutput, hdrContract: writer.contract,
       geometry: contract.geometry, range: contract.range, audio: contract.audio, streams: [{ inputIndex: 0, outputIndex: 0, codecType: 'video', codecName: 'hevc' }],
-      outputId, sourceFileSha256, decodedEvidenceRequired: true, measuredTolerancesRequired: true, frameCount: 96, timestampPolicy: 'exact-source-native-1ms-clock-zero-mismatch',
+      outputId, sourceFileSha256, decodedEvidenceRequired: true, measuredTolerancesRequired: true, frameCount: inputObservation?.frameCount || 96,
+      ...(inputObservation ? { inputContentFingerprint: inputObservation.compressedFingerprint, inputTimelineHash: inputObservation.timelineHash,
+        configuration: inputObservation.configurationMetadata.configuration, inputPixelFrames: inputObservation.pixelFrames,
+        sourceContainerTiming: inputObservation.containerTiming, containerDurationWriter } : {}), timestampPolicy: 'exact-source-native-1ms-clock-zero-mismatch',
       descriptiveProvenanceScope: 'ordinary-video-recipe; exact-hdr-operation-retained-in-prepared-plan-and-correlated-invocation',
       hdrDisplayAcceptance: 'not-assessed', dolbyVision: false, hdr10Claim: false });
     const instrumentation = freeze({ version: 1, kind: 'encoder-input-statistics', streams: STREAMS, placeholders: [PLACEHOLDER] });
@@ -259,7 +326,7 @@ class HdrOperations {
       sourceProbeFingerprint, instrumentation, planFingerprint: hash({ args, contract, expectedOutput, sourceIdentity: identity, sourceProbeFingerprint,
         runtimeIdentity: this.#runtime, policyIdentity: this.#policy, route, description, epoch }) });
     const state = { epoch, request: contract.request, identity, sourceProbeFingerprint, probe: freeze(probe), writer, route,
-      input, destination, outputId, sourceFileSha256, description: freeze(description), alias, runtimeIdentity: this.#runtime, policyIdentity: this.#policy,
+      input, destination, outputId, sourceFileSha256, inputObservation, description: freeze(description), alias, runtimeIdentity: this.#runtime, policyIdentity: this.#policy,
       selected: false, invocationOutput: null, telemetry: null, telemetryValidation: null };
     this.#plans.set(plan, state); this.#latest.set(request.fileId, plan); this.#outputIds.add(outputId);
     registry.set(plan, { state, current: () => state.epoch === this.#epoch && this.#latest.get(state.request.fileId) === plan }); return plan;
@@ -300,29 +367,61 @@ class HdrOperations {
     for (const frame of complete.source.frames) { let n = BigInt(frame.pts), d = 1000n; const gcd = (a, b) => { while (b) [a, b] = [b, a % b]; return a; }; const g = gcd(n, d); n /= g; d /= g; pts.update(`${n}/${d}\n`); }
     need(state.telemetry && telemetry.runtimeIdentity === this.#runtime && telemetry.planFingerprint === plan.planFingerprint && telemetry.streams.length === 1
       && telemetry.streams[0].path === state.telemetry.streams[0].path
-      && actual.stream.kind === 'video' && actual.stream.outputIndex === 0 && actual.records === '96'
+      && actual.stream.kind === 'video' && actual.stream.outputIndex === 0 && actual.records === String(plan.expectedOutput.frameCount)
       && actual.repeatedPts === '0' && actual.backwardsPts === '0' && actual.hashes.orderedPts === pts.digest('hex'),
     'Complete encoder-input telemetry does not match this exact source/plan/runtime clock.');
     state.telemetryValidation = { telemetry, evidence };
-    return freeze({ valid: true, scope: 'encoder-input-count-and-timeline-only', records: '96', videoPixels: 'not-compared', lastFrameDuration: 'independent-complete-collector',
+    return freeze({ valid: true, scope: 'encoder-input-count-and-timeline-only', records: String(plan.expectedOutput.frameCount), videoPixels: 'not-compared', lastFrameDuration: 'independent-complete-collector',
       unknownInputRecords: actual.unknownInputRecords, inputCorrespondence: actual.unknownInputRecords === '0'
         ? 'reported-input-and-independent-complete-source-clock' : 'upstream-input-lineage-unavailable; independently-matched-complete-source-clock-and-count' });
   }
   validate(plan, outputProbe, collectorReceipt) {
     const errors = [], warnings = [];
     try {
-      const state = this.#current(plan), { probe: output, video } = probeFacts(outputProbe, { output: true });
+      const state = this.#current(plan), { probe: output, video } = probeFacts(outputProbe, { output: true, content: Boolean(state.inputObservation) });
       need(state.selected && state.invocationOutput !== null && state.telemetryValidation?.evidence === collectorReceipt,
         'The genuine completed collection and its independently matched telemetry are required.');
       const complete = require('./hdr-evidence.cjs').getCollectedHdrEvidence(collectorReceipt, { plan, runtimeIdentity: this.#runtime, outputId: state.outputId,
         sourcePath: state.input, outputPath: state.invocationOutput, sourceProbe: state.probe, outputProbe: output });
       need(complete.sourceFileSha256 === state.sourceFileSha256, 'Collected full source bytes differ from the reviewed prepared seed.');
-      frameGeometry(complete.source, true); frameGeometry(complete.container, true); frameGeometry(complete.bitstream, false);
-      const fullWriter = buildHdrEncoding({ settings: SETTINGS, policy: 'preserve', videoEvidence: state.probe.mediaEvidence.streams[0],
-        frameEvidence: { videoIndex: 0, coverage: 'full', decodedFrameCount: 96, decodeExitCode: 0, frames: complete.source.frames } }); metadataSignature(fullWriter);
+      let fullWriter;
+      if (state.inputObservation) {
+        need(String(output.format.duration) === String(state.probe.format.duration), 'The declared output container duration differs from the frozen source header.');
+        need(same(complete.source.containerTiming,state.inputObservation.containerTiming), 'Recollected raw source container timing differs from preparation.');
+        for (const field of ['timestampScaleNs','defaultDurationNs','declaredDurationTicks','trackTimeScale','codecDelayNs','trackOffsetNs','trackEnabled'])
+          need(complete.outputSeal.containerTiming?.[field] === state.inputObservation.containerTiming[field], 'Raw output container timing differs from the frozen source header.');
+        need(complete.source.frames.length === state.inputObservation.frameCount && complete.container.frames.length === state.inputObservation.frameCount
+          && complete.bitstream.frames.length === state.inputObservation.frameCount
+          && complete.source.compressedFingerprint === state.inputObservation.compressedFingerprint,
+        'The complete collection differs from the prepared input membership/configuration.');
+        for (let index=0; index<state.inputObservation.frameCount; index++) for (const plane of [complete.source,complete.container]) {
+          const original = state.inputObservation.frames[index], actual = plane.frames[index];
+          need(String(original.pts) === String(actual.pts) && String(original.duration ?? original.pkt_duration) === String(actual.duration ?? actual.pkt_duration),
+            'Every collected native PTS/duration must equal the prepared complete source.');
+        }
+        fullWriter = completeWriter(state.probe.mediaEvidence.streams[0],complete.source.frames);
+      } else {
+        frameGeometry(complete.source, true); frameGeometry(complete.container, true); frameGeometry(complete.bitstream, false);
+        fullWriter = buildHdrEncoding({ settings: SETTINGS, policy: 'preserve', videoEvidence: state.probe.mediaEvidence.streams[0],
+          frameEvidence: { videoIndex: 0, coverage: 'full', decodedFrameCount: 96, decodeExitCode: 0, frames: complete.source.frames } }); metadataSignature(fullWriter);
+      }
       need(same(fullWriter.expectedOutput, state.writer.expectedOutput), 'Complete source HDR metadata differs from the prepared writer.');
       const signalPlane = plane => Object.fromEntries(['video', 'frames', 'coverage', 'decodedFrameCount', 'decodeExitCode'].map(k => [k, plane[k]]));
-      const hdr = validateHdrEncodingOutput(state.writer, { container: signalPlane(complete.container), bitstream: signalPlane(complete.bitstream) }); errors.push(...hdr.errors);
+      if (state.inputObservation) {
+        for (let start=0;start<state.inputObservation.frameCount;start+=256) {
+          const chunk = plane => {
+            const observed = signalPlane(plane);
+            // The genuine complete collector checked every progressive frame.
+            // Derive a validation declaration for this internal subset while
+            // preserving the original raw-demux observation in retained facts.
+            const video = !['progressive'].includes(observed.video.field_order)
+              && complete.bitstream === plane && plane.frames.every(frame => frame.interlaced_frame === 0 || frame.interlaced_frame === '0')
+              ? { ...observed.video, field_order: 'progressive' } : observed.video;
+            return { ...observed, video, coverage: 'sampled', frames: plane.frames.slice(start,start+256) };
+          };
+          const hdr = validateHdrEncodingOutput(state.writer,{ container: chunk(complete.container), bitstream: chunk(complete.bitstream) }); errors.push(...hdr.errors);
+        }
+      } else { const hdr = validateHdrEncodingOutput(state.writer, { container: signalPlane(complete.container), bitstream: signalPlane(complete.bitstream) }); errors.push(...hdr.errors); }
       need(video.color_transfer === state.route.transfer, 'The effective output transfer differs from the selected preservation cell.');
       const marker = classifyMarker(output); need(marker.kind === 'generated' && marker.outputId === state.outputId && same(marker.previousGeneration, state.description), 'Actual staged output provenance differs from the immutable prepared recipe/UUID.');
       for (const [before, after, options] of [[state.probe.streams[0].tags, video.tags, { alias: state.alias }], [state.probe.format.tags, output.format.tags, { container: true }]]) {

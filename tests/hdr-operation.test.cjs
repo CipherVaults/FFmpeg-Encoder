@@ -14,16 +14,20 @@ test('an empty catalog and a standalone writer cannot enable either HDR cell', (
   const h = fixture({ empty: true, noPrepare: true });
   assert.throws(() => h.owner.prepare(h.prepare), e => e.code === 'HDR_QUALIFICATION_REQUIRED');
 });
-test('production catalog admits only the two reviewed full-byte generated seeds under the measured runtime', () => {
+test('production catalog pins reviewed content configurations and producers without seed-file membership', () => {
   assert.equal(HDR_POLICIES.length, 2); assert.ok(Object.isFrozen(HDR_POLICIES));
-  assert.deepEqual(HDR_POLICIES.map(value => [value.transfer, value.sourceSha256]), [
-    ['smpte2084', '15cc2f166e4f8a3f61ac741129ce5a5243b44351849c09f6a494fb7abcbba095'],
-    ['arib-std-b67', 'f7e48e0fd2eee885d1167b544fd4f1aca5cc64f47a471801ce9c6fdc2ffa28b7'],
-  ]);
+  assert.deepEqual(HDR_POLICIES.map(value => value.transfer), ['smpte2084','arib-std-b67']);
+  assert.equal(HDR_POLICIES.reduce((n,p)=>n+p.profiles.length,0),5);
+  assert.equal(HDR_POLICIES.reduce((n,p)=>n+p.outputProfiles.length,0),5);
   for (const cell of HDR_POLICIES) {
     assert.ok(Object.isFrozen(cell) && Object.isFrozen(cell.evidenceIds));
     assert.equal(cell.runtimeIdentity, '56006c748ed2ee641597cd57e0874c11a86e52e6f634879afc503adb943f99d6');
-    assert.equal(cell.evidenceIds.length, 1); assert.match(cell.evidenceIds[0], /^slice4a-service:e7daea52-aa68-4395-a099-adf258fa769f:/);
+    assert.equal(cell.sourceSha256, undefined);
+    assert.equal(cell.evidenceIds.length, 1); assert.match(cell.evidenceIds[0], /^content-hdr-service:e2585ab6-1bc0-422a-ab2c-3209f194920e:/);
+    for (const list of [cell.profiles,cell.outputProfiles]) { assert.ok(Object.isFrozen(list)); for(const profile of list) {
+      assert.ok(Object.isFrozen(profile)&&Object.isFrozen(profile.parameterSets));
+      assert.equal(profile.transfer,cell.transfer); assert.equal(profile.role,undefined);
+    } }
   }
 });
 for (const transfer of ['smpte2084', 'arib-std-b67']) test(`the finite ${transfer} owner binds the canonical recipe and full HDR writer separately`, () => {

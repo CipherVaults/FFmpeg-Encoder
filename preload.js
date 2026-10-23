@@ -30,6 +30,7 @@ contextBridge.exposeInMainWorld('encoder', Object.freeze({
   prepareBatch: request => invoke('encoder:prepare', request),
   prepareRemuxBatch: request => invoke('encoder:prepare-remux', request),
   setRemuxOmissions: request => invoke('encoder:remux-omissions', request),
+  setEncodePreservationDecisions: request => invoke('encoder:encode-preservation-decisions', request),
   updateFileOperations: request => invoke('encoder:update-file-operations', request),
   updateBatchOperationDefaults: request => invoke('encoder:update-batch-operation-defaults', request),
   applyAppDefaultsToBatch: request => invoke('encoder:apply-app-defaults-to-batch', request),

@@ -986,6 +986,45 @@ async function remuxHarness({ unavailableEncoder = false, generated = false, nar
   return { ...h, initial, snapshot };
 }
 
+test('Encode timecode loss uses named exact-set IPC, clear functional warning and focus restoration', async () => {
+  const { OperationDraft } = require('../src/operation-draft.cjs');
+  const ids = ['11345678-1234-4234-8234-123456789abc', '22345678-1234-4234-8234-123456789abc'];
+  const draft = new OperationDraft({ operation: 'encode', appDefaults: defaults().defaults, appDefaultsRevision: 4 });
+  draft.addSources(ids.map(fileId => ({ fileId, identityRevision: 0 })));
+  let decisions = ['decision-other'], revision = 1, planId = 'encode-preservation-plan-1';
+  const snapshot = (phase = 'ready') => ({ revision: ++revision, phase, operation: 'encode', batchId: 'preservation-batch', planId,
+    settings: { profileId: 'h265-cpu', preset: 'slow', quality: 25 }, operationDraft: draft.snapshot(), counts: {},
+    items: ids.map((id, index) => { const decisionId = index ? 'decision-other' : 'decision-a', chosen = decisions.includes(decisionId);
+      return { id, name: `Source ${index}.mov`, outputName: `Source ${index}_H265-CPU.mkv`, status: chosen ? 'ready' : 'unsupported',
+        reason: chosen ? '' : 'Explicitly review this timed track and its link.', operationRequest: draft.fileRequest(id),
+        encodePreservation: { target: 'matroska', status: chosen ? 'qualified' : 'blocked', notice: 'Full source; no settings change.',
+          streams: [{ streamIndex: 0, action: 'encode-video', label: 'Video' }, { streamIndex: 1, action: 'preserve-copy', label: 'Audio' },
+            { streamIndex: 2, action: chosen ? 'explicitly-omitted' : 'blocked', label: '<timed tmcd track>', reasons: ['Timed track and linked editing/synchronization relationship are lost. Starting text is not equivalent.'] }],
+          omissionCandidates: [{ id: decisionId, streamIndex: 2, label: '<timed tmcd track> and link', target: 'matroska', reasons: ['Functional timing relationship loss; original preserved.'] }],
+          omissionDecisionIds: chosen ? [decisionId] : [] } }; }) });
+  const h = await harness({
+    setEncodePreservationDecisions: async request => { request = plain(request);
+      assert.deepEqual(Object.keys(request).sort(), ['decisionIds', 'draftId', 'planId', 'revision']);
+      assert.equal(request.planId, planId); decisions = request.decisionIds;
+      draft.invalidatePreparedChoices({ draftId: request.draftId, revision: request.revision });
+      planId = `encode-preservation-plan-${revision}`; h.update(snapshot('preparing')); return snapshot(); },
+    getEncodingDetails: async () => ({ kind: 'resolved-argument-template', args: [], notice: 'Main-selected mapping.' }),
+  });
+  h.update(snapshot());
+  await h.byId('batch-items').children[0].querySelector('[data-testid="inspect-file"]').click();
+  const slot = h.byId('focused-file-details-slot'), details = slot.querySelector('[data-testid="remux-preservation"]');
+  assert.equal(details.hidden, false); assert.match(details.textContent, /Encode video.*Preserve by stream copy.*editing\/synchronization.*not equivalent/);
+  let button = details.querySelector('[data-testid="encode-preservation-decision"]');
+  assert.match(button.textContent, /Omit this timed track and link/); button.focus(); await button.click();
+  assert.deepEqual(h.calls.find(call => call.name === 'setEncodePreservationDecisions').args[0].decisionIds, ['decision-other', 'decision-a']);
+  assert.equal(h.calls.some(call => call.name === 'setRemuxOmissions'), false);
+  button = slot.querySelector('[data-testid="encode-preservation-decision"]');
+  assert.match(button.textContent, /Require preservation/); assert.equal(h.document.activeElement, button);
+  await button.click();
+  assert.deepEqual(h.calls.filter(call => call.name === 'setEncodePreservationDecisions').at(-1).args[0].decisionIds, ['decision-other']);
+  h.update(snapshot('running')); assert.equal(slot.querySelector('[data-testid="encode-preservation-decision"]')?.disabled ?? true, true);
+});
+
 test('Remux preparation uses only folder capabilities and Full target while all encoders are unavailable', async () => {
   const h = await remuxHarness({ unavailableEncoder: true });
   await h.byId('tab-remux').click();

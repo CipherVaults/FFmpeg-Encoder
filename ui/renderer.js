@@ -1168,9 +1168,10 @@
   }
 
   function renderRemuxDecisions(entry) {
-    const details = entry.item.remux;
-    entry.remuxDetails.hidden = !details || !isRemux();
-    if (!details || !isRemux()) { entry.remuxButtons = []; return; }
+    const remux = isRemux(), field = remux ? 'remux' : 'encodePreservation';
+    const details = entry.item[field];
+    entry.remuxDetails.hidden = !details;
+    if (!details) { entry.remuxButtons = []; return; }
     const key = JSON.stringify([snapshot.planId, snapshot.operationDraft?.id, snapshot.operationDraft?.revision, details]);
     if (key !== entry.remuxKey) {
       entry.remuxKey = key; entry.remuxBody.replaceChildren(); entry.remuxButtons = [];
@@ -1178,7 +1179,7 @@
       const addText = value => { const p = document.createElement('p'); p.className = 'hint'; p.textContent = value; entry.remuxBody.append(p); };
       addText(`Full · ${details.target} · ${details.status}. ${details.notice || ''}`);
       const streams = document.createElement('ul'); streams.className = 'remux-streams';
-      const actions = { 'preserve-copy': 'Preserve by stream copy', 'explicitly-omitted': 'Explicitly omitted from this output', blocked: 'Blocked; preservation is not qualified' };
+      const actions = { 'preserve-copy': 'Preserve by stream copy', 'encode-video': 'Encode video with the displayed settings', 'explicitly-omitted': 'Explicitly omitted from this output', blocked: 'Blocked; preservation is not qualified' };
       for (const stream of details.streams || []) {
         const li = document.createElement('li');
         li.textContent = `${stream.label || `Stream ${stream.streamIndex}: ${stream.codecType} / ${stream.codecName}`} · ${actions[stream.action] || stream.action}`;
@@ -1194,28 +1195,30 @@
         const description = document.createElement('p'); description.className = 'hint';
         description.textContent = `${candidate.label} · Target: ${candidate.target}. ${(candidate.reasons || []).map(text).filter(Boolean).join(' ')} ${approved ? 'This stream is deliberately omitted from the prepared output.' : 'Omitting removes this stream from the output. The source is preserved. Other qualification blockers may remain.'}`;
         const button = document.createElement('button'); button.type = 'button'; button.className = 'subtle';
-        button.dataset.testid = 'remux-omission'; button.dataset.decisionId = candidate.id;
-        button.textContent = approved ? 'Restore preservation of this stream' : 'Omit this stream and prepare again';
+        button.dataset.testid = remux ? 'remux-omission' : 'encode-preservation-decision'; button.dataset.decisionId = candidate.id;
+        button.textContent = remux ? approved ? 'Restore preservation of this stream' : 'Omit this stream and prepare again'
+          : approved ? 'Require preservation of the timed track and link' : 'Omit this timed track and link; prepare again';
         button.setAttribute('aria-label', `${button.textContent}: ${candidate.label} for ${candidate.target}`);
         button.addEventListener('click', async () => {
           const focusReturn = document.activeElement === button ? { fileId: entry.item.id, decisionId: candidate.id,
             target: candidate.target, draftId: snapshot.operationDraft?.id, workspace: activeWorkspace,
             navigationRevision: workspaceNavigationRevision, inInspector: focusedFileId === entry.item.id } : null;
           await command(async () => {
-            if (!isRemux() || snapshot.phase !== 'ready' || dirty || remuxTargetChanged() || snapshot.operationDraft?.frozen) throw new Error('Review the current prepared Remux target before changing a stream decision.');
-            const current = snapshot.items?.find(item => item.id === entry.item.id)?.remux;
+            if (isRemux() !== remux || snapshot.phase !== 'ready' || dirty || remux && remuxTargetChanged() || snapshot.operationDraft?.frozen) throw new Error('Review the current prepared file before changing a preservation decision.');
+            const current = snapshot.items?.find(item => item.id === entry.item.id)?.[field];
             if (!current?.omissionCandidates?.some(value => value.id === candidate.id)) throw new Error('That stream decision is no longer current. Review the file again.');
             // Submit the exact desired set of opaque main-issued IDs. No stream
             // index, source path, fingerprint, FFmpeg option or approval is minted here.
-            const decisionIds = new Set((snapshot.items || []).flatMap(item => item.remux?.omissionDecisionIds || []));
+            const decisionIds = new Set((snapshot.items || []).flatMap(item => item[field]?.omissionDecisionIds || []));
             if (decisionIds.has(candidate.id)) decisionIds.delete(candidate.id); else decisionIds.add(candidate.id);
             const draft = snapshot.operationDraft;
-            applySnapshot(await api.setRemuxOmissions({ planId: snapshot.planId, draftId: draft.id, revision: draft.revision, decisionIds: [...decisionIds] }));
+            const request = { planId: snapshot.planId, draftId: draft.id, revision: draft.revision, decisionIds: [...decisionIds] };
+            applySnapshot(await (remux ? api.setRemuxOmissions(request) : api.setEncodePreservationDecisions(request)));
           });
           // Repreparation replaces decision controls and can temporarily move
           // their inspector into Jobs. Restore only this exact action's focus,
           // after command() has enabled the final controls; never renew a grant.
-          if (!focusReturn || snapshot.phase !== 'ready' || !isRemux()
+          if (!focusReturn || snapshot.phase !== 'ready' || isRemux() !== remux
               || snapshot.operationDraft?.id !== focusReturn.draftId || activeWorkspace !== focusReturn.workspace
               || workspaceNavigationRevision !== focusReturn.navigationRevision
               || (focusReturn.inInspector && focusedFileId !== focusReturn.fileId)) return;
@@ -1223,7 +1226,7 @@
           if (active && active !== document.body && active !== button && active !== byId('tab-jobs')) return;
           const currentEntry = itemRows.get(focusReturn.fileId);
           if (!currentEntry) return;
-          const replacement = currentEntry.item.remux?.target === focusReturn.target
+          const replacement = currentEntry.item[field]?.target === focusReturn.target
             ? currentEntry.remuxButtons.find(value => value.dataset.decisionId === focusReturn.decisionId) : null;
           const shown = replacement && (typeof replacement.getClientRects !== 'function' || replacement.getClientRects().length > 0);
           if (shown && !replacement.disabled) replacement.focus();
@@ -1233,7 +1236,7 @@
       }
     }
     const editable = snapshot.phase === 'ready' && snapshot.operationDraft && !snapshot.operationDraft.frozen
-      && !dirty && !pendingCommands && !remuxTargetChanged();
+      && !dirty && !pendingCommands && (!remux || !remuxTargetChanged());
     for (const button of entry.remuxButtons) button.disabled = !editable;
   }
 

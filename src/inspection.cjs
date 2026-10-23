@@ -425,14 +425,15 @@ function chapterTime(chapter, field) {
   return timeBase && Number.isFinite(ticks) ? ticks * timeBase : null;
 }
 
-function validateOutput(inputInspection, outputProbe, settings) {
+function validateOutput(inputInspection, outputProbe, settings, { preservationSelection } = {}) {
   const errors = [];
   try {
     const validated = validateSettings(settings);
+    if (preservationSelection !== undefined) require('./encode-preservation.cjs').getEncodePreservationSelection(preservationSelection, inputInspection.probe, { settings: validated });
     const profile = PROFILES.find((item) => item.id === validated.profileId);
     const inputProbe = inputInspection.probe;
     const sourceVideo = selectVideo(inputProbe);
-    const expected = mappedStreams(inputProbe, sourceVideo);
+    const expected = mappedStreams(inputProbe, sourceVideo, preservationSelection);
     // This shares the builder's compatibility policy, so validation cannot approve
     // a format the selected profile would have silently reduced or repacked differently.
     outputPixelFormat(profile, sourceVideo);

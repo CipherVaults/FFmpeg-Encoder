@@ -127,8 +127,11 @@ function ordinaryRequest(request) {
 function buildCompatibility(options) {
   const { input, output, outputId, generationDescription, runtimeIdentity = null } = options;
   const settings = validateSettings(options.settings), probe = structuredClone(options.inspection.probe), color = structuredClone(options.inspection.color);
-  const video = selectVideo(probe), mapped = mappedStreams(probe, video);
+  const preservation = options.preservationSelection === undefined ? null
+    : require('./encode-preservation.cjs').getEncodePreservationSelection(options.preservationSelection, probe);
+  const video = selectVideo(probe), mapped = mappedStreams(probe, video, options.preservationSelection);
   const args = buildEncodeArgs({ input, output, settings, probe, colorEvidence: color,
+    ...(preservation ? { preservationSelection: options.preservationSelection } : {}),
     ...(outputId === undefined ? {} : { outputId }), ...(generationDescription === undefined ? {} : { generationDescription }) });
   // Do not make old Full admission depend on newly added relationship/geometry
   // fields. This exact path retains the established builder and validator.
@@ -137,24 +140,36 @@ function buildCompatibility(options) {
     output: { width: video.width ?? null, height: video.height ?? null, sampleAspectRatio: null, orientation: 'preserve-source' } },
   range: { kind: 'full', requested: null, timestampMapping: 'preserve-source' },
   audio: { policy: 'copy', streams: mapped.filter(stream => stream.codec_type === 'audio').map(stream => ({ index: stream.index, mode: 'copy', codec: stream.codec_name })) },
-  omissionRequests: { ids: [], authority: 'none' } };
-  const result = freeze({ version: ENCODE_OPERATION_VERSION, args, contract, compatibilityPath: true, runtimeIdentity,
-    planFingerprint: hash({ settings, probe, color, request, runtimeIdentity, outputId: outputId ?? null }),
+  omissionRequests: preservation ? { ids: [...preservation.decisionIds], authority: 'main-owned-full-preservation-selection' } : { ids: [], authority: 'none' },
+  ...(preservation ? { preservation } : {}) };
+  const result = freeze({ version: ENCODE_OPERATION_VERSION, args, contract, compatibilityPath: !preservation, runtimeIdentity,
+    ...(preservation ? { validationMode: 'full-preservation-selection' } : {}),
+    planFingerprint: hash({ settings, probe, color, request, runtimeIdentity, outputId: outputId ?? null,
+      ...(preservation ? { preservation } : {}) }),
     expectedOutput: { version: ENCODE_OPERATION_VERSION, operation: 'encode', target: 'matroska', sourceVideoIndex: video.index,
       geometry: contract.geometry, range: contract.range, audio: contract.audio, color, outputId: outputId ?? null,
       streams: mapped.map((stream, outputIndex) => ({ inputIndex: stream.index, outputIndex, codecType: stream.codec_type, codecName: outputIndex === 0
         ? { H264: 'h264', H265: 'hevc', AV1: 'av1' }[PROFILES.find(profile => profile.id === settings.profileId).codec] : stream.codec_name })),
-      decodedEvidenceRequired: false, measuredTolerancesRequired: false, timestampPolicy: 'accepted-full-compatibility-path' },
-    qualificationRequirements: [], executionAuthority: 'main-owned-prepared-plan-required' });
-  plans.set(result, { input, probe, color, settings, duration: options.inspection.duration });
+      ...(preservation ? { omittedStreams: preservation.omittedStreams, removedRelationships: preservation.removedRelationships } : {}),
+      decodedEvidenceRequired: false, measuredTolerancesRequired: false,
+      timestampPolicy: preservation ? 'full-source-retained-streams-with-acknowledged-timed-track-loss' : 'accepted-full-compatibility-path' },
+    qualificationRequirements: preservation ? ['main-owned-full-preservation-selection', 'explicit-timed-track-and-relationship-loss'] : [], executionAuthority: 'main-owned-prepared-plan-required' });
+  plans.set(result, { input, probe, color, settings, duration: options.inspection.duration,
+    ...(preservation ? { preservationSelection: options.preservationSelection } : {}) });
   return result;
 }
 
 function buildEncodeOperation(options) {
-  const allowed = ['input', 'output', 'settings', 'inspection', 'request', 'outputId', 'generationDescription', 'runtimeIdentity', 'identityOrientationQualification'];
+  const allowed = ['input', 'output', 'settings', 'inspection', 'request', 'outputId', 'generationDescription', 'runtimeIdentity', 'identityOrientationQualification', 'preservationSelection'];
   record(options, allowed, ['input', 'output', 'settings', 'inspection', 'request'], 'Encode operation');
   const { input, output, outputId, generationDescription, runtimeIdentity = null } = options;
   record(options.inspection, ['probe', 'color', 'duration', 'evidence', 'summary', 'warnings', 'sampling', 'cache'], ['probe', 'color'], 'Inspection');
+  if (own(options, 'preservationSelection')) {
+    if (!ordinaryRequest(options.request) || options.identityOrientationQualification !== undefined) fail('ENCODE_PRESERVATION_SETTINGS', 'An acknowledged timed-track loss applies only to the unchanged Full/Keep Source media operation.');
+    require('./encode-preservation.cjs').assertEncodePreservationBuilder(options.preservationSelection,
+      { probe: options.inspection.probe, input: options.input, settings: options.settings, request: options.request, runtimeIdentity: options.runtimeIdentity });
+    return buildCompatibility(options);
+  }
   if (ordinaryRequest(options.request)) {
     if (options.identityOrientationQualification !== undefined) fail('INVALID_ENCODE_OPERATION', 'Keep Source does not consume an orientation override.');
     return buildCompatibility(options);
@@ -387,6 +402,31 @@ function validateEncodeOperationOutput(plan, rawOutputProbe, options = {}) {
     if (!state) fail('INVALID_OPERATION_VALIDATION', 'Output validation requires the genuine immutable main-built plan.');
     const output = normalizeProbe(rawOutputProbe);
     const input = structuredClone(state.probe), inputVideo = selectVideo(input), actualVideo = selectVideo(output);
+    if (plan.validationMode === 'full-preservation-selection') {
+      const selection = require('./encode-preservation.cjs').getEncodePreservationSelection(state.preservationSelection, input);
+      const result = validateOutput({ probe: input, color: state.color, duration: state.duration }, output, state.settings,
+        { preservationSelection: state.preservationSelection });
+      const relationships = output.mediaEvidence.container;
+      if (relationships.relationships.state !== 'known' || output.programs.length || output.stream_groups.length
+          || output.streams.some(stream => stream.codec_type === 'data')) result.errors.push('The output contains residual or unresolved timed-data relationships.');
+      const geometry = output.mediaEvidence.streams.find(stream => stream.index === actualVideo.index).geometry;
+      if (output.format.format_name !== 'matroska,webm') result.errors.push('The output must use the prepared Matroska container.');
+      if (actualVideo.field_order !== 'progressive' || !['1:1', '1/1'].includes(actualVideo.sample_aspect_ratio)
+          || geometry.issues?.length || Object.values(geometry).some(value => value?.state === 'malformed')
+          || geometry.rotationSource === 'display-matrix'
+          || Object.hasOwn(actualVideo.tags || {}, 'rotate') && (geometry.legacyRotationDegrees.state !== 'known' || geometry.legacyRotationDegrees.value.numerator !== '0')) {
+        result.errors.push('The retained video must remain progressive, square-pixel and unrotated with consistent display geometry.');
+      }
+      if (inputVideo.chroma_location !== undefined && inputVideo.chroma_location !== actualVideo.chroma_location) result.errors.push('The retained video chroma location changed.');
+      const sourceAudio = input.streams.find(stream => stream.codec_type === 'audio'), outputAudio = output.streams[1];
+      if (outputAudio?.profile !== sourceAudio.profile || outputAudio?.sample_fmt !== sourceAudio.sample_fmt) result.errors.push('The copied audio profile or sample representation changed.');
+      if (plan.expectedOutput.outputId) {
+        const marker = classifyMarker(output);
+        if (marker.kind !== 'generated' || marker.outputId !== plan.expectedOutput.outputId.toLowerCase()) result.errors.push('Prepared output provenance did not round-trip.');
+      }
+      return { valid: result.errors.length === 0, errors: result.errors, warnings: [selection.warning],
+        validation: 'full-preservation-selection', decodedEvidenceRequired: false };
+    }
     let qualified = null, decoded = null;
     if (!plan.compatibilityPath) {
       qualified = qualifier(options.qualification, plan);
@@ -490,7 +530,7 @@ function describeEncodeOperationSource(plan) {
 // exist at job start; neither renderer strings nor serialized handles bind them.
 function withEncodeOperationTelemetry(plan) {
   assertEncodeOperationPlan(plan);
-  if (plan.compatibilityPath) return plan;
+  if (plan.compatibilityPath || plan.validationMode === 'full-preservation-selection') return plan;
   const state = plans.get(plan);
   if (state.instrumentation) return plan;
   const streams = plan.expectedOutput.streams.flatMap(mapping => {

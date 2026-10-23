@@ -288,11 +288,18 @@ function dispositionValue(stream) {
   return enabled.join('+') || '0';
 }
 
-function mappedStreams(probe, video) {
+function mappedStreams(probe, video, preservationSelection) {
   const streams = streamsOf(probe);
+  const selection = preservationSelection === undefined ? null
+    : require('./encode-preservation.cjs').getEncodePreservationSelection(preservationSelection, probe);
+  if (selection && selection.videoIndex !== video.index) throw mediaError('ENCODE_PRESERVATION_STALE', 'The selected primary video changed.');
+  const omitted = new Set(selection?.omittedStreams.map(stream => stream.inputIndex) || []);
   const preserved = [];
   for (const stream of streams) {
     if (stream.index === video.index) continue;
+    // Only the exact genuine main-owned selection can remove this timed track.
+    // Keep the original probe/relationships intact for planning and validation.
+    if (omitted.has(stream.index)) continue;
     if (stream.codec_type === 'video') {
       if (Number(stream.disposition?.attached_pic || 0) === 1) {
         throw mediaError('UNSUPPORTED_STREAM', `Attached picture stream ${stream.index} cannot yet be preserved safely in Matroska.`);
@@ -352,8 +359,9 @@ function streamCreationTimeAlias(stream) {
   return times[0];
 }
 
-function buildEncodeArgs({ input, output, settings, probe, colorEvidence, outputId, generationDescription }) {
+function buildEncodeArgs({ input, output, settings, probe, colorEvidence, outputId, generationDescription, preservationSelection }) {
   const validated = validateSettings(settings);
+  if (preservationSelection !== undefined) require('./encode-preservation.cjs').getEncodePreservationSelection(preservationSelection, probe, { input, settings: validated });
   validateLocalPath(input, 'Input');
   validateLocalPath(output, 'Output');
   if (path.win32.normalize(input).toLowerCase() === path.win32.normalize(output).toLowerCase()) {
@@ -376,7 +384,7 @@ function buildEncodeArgs({ input, output, settings, probe, colorEvidence, output
       || (video.side_data_list || []).some((entry) => STATIC_HDR_TYPES.has(normalizeSignal(entry.side_data_type)))) {
     throw mediaError('AMBIGUOUS_COLOR', 'Sampled SDR evidence conflicts with the stream color metadata.');
   }
-  const mapped = mappedStreams(probe, video);
+  const mapped = mappedStreams(probe, video, preservationSelection);
   const pixelFormat = outputPixelFormat(profile, video);
   const contribution = encoderContribution(profile, validated);
   const args = [

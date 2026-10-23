@@ -26,6 +26,8 @@ const { collectRemuxEvidence } = require('./remux-evidence.cjs');
 const { prepareHdrItem } = require('./hdr-workspace.cjs');
 const { fingerprintHdrProbe } = require('./hdr-operation.cjs');
 const { collectHdrEvidence } = require('./hdr-evidence.cjs');
+const { prepareEncodePreservation, requireEncodePreservation, setEncodePreservationDecisions,
+  installEncodePreservationDecisions } = require('./encode-preservation-workspace.cjs');
 
 const BUSY = new Set(['checking', 'preparing', 'running', 'cancelling']);
 const EXTENSIONS = new Set(['.mp4', '.mkv', '.mov', '.avi', '.webm']);
@@ -51,6 +53,9 @@ function describeDiagnosticOperation(plan, request) {
   if (expected.audio) resolved.audio = { ...diagnosticFields(expected.audio, ['policy', 'noResampling', 'noDownmix', 'noIndependentTimestampZeroing']),
     streams: (expected.audio.streams || []).map(stream => diagnosticFields(stream, ['index', 'inputIndex', 'mode', 'codec', 'profile', 'sampleRate', 'channels', 'channelLayout', 'bitrateKbps', 'bitrateOrigin', 'timestampMapping', 'sampleRepresentation'])) };
   if (expected.color) resolved.color = diagnosticFields(expected.color, ['classification', 'supported', 'transfer', 'videoIndex']);
+  if (plan?.validationMode === 'full-preservation-selection') resolved.preservation = {
+    omittedStreams: clone(expected.omittedStreams), removedRelationships: clone(expected.removedRelationships),
+    warning: clone(plan.contract.preservation.warning) };
   if (expected.hdr) resolved.hdr = { ...diagnosticFields(expected.hdr, ['hdr10Claim', 'dolbyVision']), signal: clone(expected.hdr.signal) };
   if (expected.hdrContract) resolved.hdrContract = { ...diagnosticFields(expected.hdrContract, ['route']),
     metadataDisposition: diagnosticFields(expected.hdrContract.metadataDisposition, ['action', 'dolby']) };
@@ -93,7 +98,7 @@ class EncoderService extends EventEmitter {
   constructor({ ffmpeg, ffprobe, stateDir, run = runTool, inspect = inspectInput, verify = validateOutput, capabilities = checkCapabilities,
     inspectionCache, storageEligibility, inspectionWorkers = 2, provenanceJournal, preferences, diagnostics, appSettings, outputAccess, runtimeIdentity = null, discoverBackends = null,
     operationQualifications = null, operationEvidenceBudget = null, operationEnvironment = null, operationDeadlineMs = 120000,
-    operationRuntime = null, operationStorage = null, operationTelemetry = false, remuxOperations = null, hdrOperations = null }) {
+    operationRuntime = null, operationStorage = null, operationTelemetry = false, remuxOperations = null, hdrOperations = null, encodePreservationOperations = null }) {
     super();
     if (![1, 2].includes(inspectionWorkers)) throw new TypeError('Inspection workers must be one or two.');
     Object.assign(this, { ffmpeg, ffprobe, stateDir, run, inspect, verify, capabilities });
@@ -148,6 +153,7 @@ class EncoderService extends EventEmitter {
     this.operationTelemetry = operationTelemetry;
     this.remuxOperations = remuxOperations;
     this.hdrOperations = hdrOperations;
+    this.encodePreservationOperations = encodePreservationOperations;
     this.state.operation = 'encode';
     this.state.remuxSupport = { targets: ['matroska', 'mp4', 'mov'], notice: 'Full stream copy only. Each source/target and every retained stream needs a qualified preservation path; unsupported cases are explained per file.' };
   }
@@ -162,6 +168,7 @@ class EncoderService extends EventEmitter {
     // handles/leases never removes media or accumulated evidence.
     await this.taskPromise.catch(() => {});
     this.hdrOperations?.invalidate();
+    this.encodePreservationOperations?.invalidate();
     const closed = await Promise.allSettled([this.operationRuntime?.close(),
       this.operationStoragePromise ? this.operationStoragePromise.then(store => store.close()) : undefined]);
     const failures = closed.filter(result => result.status === 'rejected').map(result => result.reason);
@@ -371,6 +378,7 @@ class EncoderService extends EventEmitter {
   invalidatePlan() {
     this.remuxOperations?.invalidate();
     this.hdrOperations?.invalidate();
+    this.encodePreservationOperations?.invalidate();
     this.plan = null;
     this.state.planId = null;
     this.state.encodingSettingsStale = false;
@@ -384,6 +392,7 @@ class EncoderService extends EventEmitter {
   invalidatePreparedEncoding() {
     if (this.plan?.operation === 'remux') return;
     this.hdrOperations?.invalidate();
+    this.encodePreservationOperations?.invalidate();
     if (!this.plan?.draft || this.state.phase !== 'ready') return this.invalidatePlan();
     // Remembering expert-control edits must revoke prepared execution without
     // deleting the user's per-file draft. Keep the draft revision unchanged so
@@ -393,7 +402,9 @@ class EncoderService extends EventEmitter {
     this.plan.encodingSettingsStale = true; this.state.encodingSettingsStale = true;
     this.plan.entries.clear(); this.plan.overrides.clear(); this.plan.ambiguities.clear();
     this.plan.generated.clear(); this.plan.reencodeAuthorizations.clear();
+    this.plan.encodePreservationGrants?.clear(); this.plan.encodePreservationCandidates?.clear();
     for (const item of this.state.items) {
+      delete item.encodePreservation; delete item.warnings;
       Object.assign(item, { status: 'unprocessed', reencodeAuthorized: false,
         reasonCode: 'ENCODING_SETTINGS_CHANGED', reason: 'Encoding settings changed. Prepare this draft again before starting.' });
     }
@@ -471,7 +482,7 @@ class EncoderService extends EventEmitter {
     return clone({ kind: entry.actualArgs ? 'actual-invocation' : 'resolved-argument-template', executable: this.ffmpeg,
       args: entry.actualArgs || entry.preparedArgs, destination: entry.destination,
       operation: entry.operationPlan ? { contract: entry.operationPlan.contract, expectedOutput: entry.operationPlan.expectedOutput,
-        compatibilityPath: entry.operationPlan.compatibilityPath, instrumentation: entry.operationPlan.instrumentation || null } : null,
+        compatibilityPath: entry.operationPlan.compatibilityPath, ...(entry.operationPlan.validationMode ? { validationMode: entry.operationPlan.validationMode } : {}), instrumentation: entry.operationPlan.instrumentation || null } : null,
       ...(entry.actualArgs ? {} : { outputPlaceholder: OUTPUT_PLACEHOLDER }),
       notice: entry.actualArgs ? 'Exact arguments passed to FFmpeg. This temporary output is validated before publication.'
         : entry.operationPlan.instrumentation ? 'Canonical prepared arguments with labelled owned telemetry and staging slots. Exclusive paths are bound by main at start; actual invocation details replace these slots. This is not a shell command.'
@@ -717,15 +728,18 @@ class EncoderService extends EventEmitter {
       // its descriptive contract. The compatibility branch delegates to the
       // accepted ordinary builder byte-for-byte; new paths still require the
       // qualification gate above, not merely a syntactically valid command.
+      const encodePreservationSelection = prepareEncodePreservation.call(this, item, { probe: inspection.probe, identity, settings });
+      if (encodePreservationSelection && !this.operationRuntime) throw fail('OPERATION_CONTROLS_UNAVAILABLE', 'Full preservation needs the current pinned runtime observer.');
       let operationPlan = buildEncodeOperation({ input: file, output: destination, settings, inspection,
         request: item.operationRequest, runtimeIdentity: this.runtimeIdentity, outputId, generationDescription,
+        ...(encodePreservationSelection ? { preservationSelection: encodePreservationSelection } : {}),
         ...(this.operationQualifications?.orientationQualification?.({ inspection, request: item.operationRequest, runtimeIdentity: this.runtimeIdentity, settings }) || {}) });
       if (this.operationTelemetry) operationPlan = withEncodeOperationTelemetry(operationPlan);
       const operationRuntimeToken = !operationPlan.compatibilityPath && this.operationRuntime
         ? await this.operationRuntime.observe({ hardware: profile.hardware, signal }) : null;
       const runtimeObservation = operationRuntimeToken ? this.operationRuntime.snapshot(operationRuntimeToken) : null;
       if (runtimeObservation && runtimeObservation.runtimeIdentity !== this.runtimeIdentity) throw fail('OPERATION_RUNTIME_STALE', 'The current executable pair differs from the prepared runtime.');
-      const qualificationBindings = operationPlan.compatibilityPath ? null : {
+      const qualificationBindings = operationPlan.compatibilityPath || encodePreservationSelection ? null : {
         plan: operationPlan, settings, sourceIdentity: identity,
         sourceProbeFingerprint: fingerprintEncodeSource(inspection.probe), runtimeIdentity: this.runtimeIdentity,
         environment: runtimeObservation ? runtimeObservation.environment : this.operationEnvironment ? clone(this.operationEnvironment()) : null,
@@ -744,7 +758,10 @@ class EncoderService extends EventEmitter {
       const preparedArgs = Object.freeze([...operationPlan.args.slice(0, -1), OUTPUT_PLACEHOLDER]);
       this.plan.entries.set(item.id, { file, destination, inspection, fingerprint: identity, overridden: this.plan.overrides.has(item.id),
         reencodeAuthorized: item.reencodeAuthorized, sourceOutputId: marker.outputId || indexed?.outputId,
-        outputId, generationDescription, operationPlan, preparedArgs, qualificationBindings, qualificationSelection, operationRuntimeToken });
+        outputId, generationDescription, operationPlan, preparedArgs, qualificationBindings, qualificationSelection, operationRuntimeToken,
+        ...(encodePreservationSelection ? { encodePreservation: true, encodePreservationSelection, encodePreservationOwner: this.plan,
+          preparedPlanId: this.plan.id, encodePreservationRequest: item.operationRequest } : {}) });
+      if (encodePreservationSelection) requireEncodePreservation.call(this, this.plan.entries.get(item.id));
       this.plan.ambiguities.delete(item.id);
       Object.assign(item, { status: 'ready', summary: inspection.summary, reason: item.reencodeAuthorized
         ? 'Explicit re-encoding authorized for this file and prepared batch only.'
@@ -766,7 +783,8 @@ class EncoderService extends EventEmitter {
       if (item.status !== 'pending') progress.resolved++;
       await this.recordIncident({ stage: 'inspection', reason: 'FILE_INSPECTED', severity: item.status === 'unsupported' ? 'warning' : 'info',
         fileId: item.id, message: item.reason, ...(inspectionDiagnostic || {}),
-        context: { file: file, status: item.status, summary: item.summary, code: item.reasonCode, sourceIdentityDiagnostic: item.sourceIdentityDiagnostic } });
+        context: { file: file, status: item.status, summary: item.summary, code: item.reasonCode,
+          ...(item.encodePreservation ? { preservation: item.encodePreservation, warnings: item.warnings || [] } : {}), sourceIdentityDiagnostic: item.sourceIdentityDiagnostic } });
       if (owner === this.state.batchId) this.emitState();
     }
   }
@@ -812,6 +830,11 @@ class EncoderService extends EventEmitter {
     return setRemuxOmissions.call(this, request);
   }
 
+  setEncodePreservationDecisions(request) {
+    objectKeys(request, ['planId', 'draftId', 'revision', 'decisionIds']);
+    return setEncodePreservationDecisions.call(this, request);
+  }
+
   async prepareSourceBatch(request, operation) {
     const remux = operation === 'remux';
     const settings = remux ? null : validateSettings(request.settings);
@@ -840,7 +863,8 @@ class EncoderService extends EventEmitter {
     this.remuxOperations?.invalidate();
     this.hdrOperations?.invalidate();
     this.state.encodingSettingsStale = false;
-    this.plan = { operation, remuxGrants: new Map(), remuxCandidates: new Map(), remuxFacts: new Map(), id: randomUUID(), input: input.path, output: output.path, settings, sameFolder, draft, entries: new Map(),
+    this.encodePreservationOperations?.invalidate();
+    this.plan = { operation, encodePreservationGrants: new Map(), encodePreservationCandidates: new Map(), remuxGrants: new Map(), remuxCandidates: new Map(), remuxFacts: new Map(), id: randomUUID(), input: input.path, output: output.path, settings, sameFolder, draft, entries: new Map(),
       baseline: new Map(), reservedPaths: new Set(), reservedIdentities: new Set(), overrides: new Map(), ambiguities: new Map(),
       generated: new Map(), reencodeAuthorizations: new Map() };
     this.state.planId = this.plan.id;
@@ -954,7 +978,7 @@ class EncoderService extends EventEmitter {
     for (const item of this.state.items) item.outputName = `${path.parse(item.name).name}_${profile.suffix}.mkv`;
     return this.reprepareDraft();
   }
-  async reprepareDraft({ remuxDecisions = null } = {}) {
+  async reprepareDraft({ remuxDecisions = null, encodePreservationDecisions = null } = {}) {
     // Meaningful edits start a new prepared authority. Reuse evidence through
     // the ordinary cache, but never reuse a generated-source/omission grant.
     // The original source reservation remains protected throughout this draft.
@@ -962,8 +986,12 @@ class EncoderService extends EventEmitter {
     // An explicit exact-set omission edit is related to this same prepared
     // source subset. Revalidate its existing generated-source grants; ordinary
     // reprepare/target changes still discard them without renewal.
-    const relatedSources = remux && remuxDecisions !== null ? new Map(this.plan.reencodeAuthorizations) : null;
+    const relatedSources = remux && remuxDecisions !== null || !remux && encodePreservationDecisions !== null
+      ? new Map(this.plan.reencodeAuthorizations) : null;
+    const relatedOriginals = !remux && encodePreservationDecisions !== null ? new Map(this.plan.overrides) : null;
     this.hdrOperations?.invalidate();
+    this.encodePreservationOperations?.invalidate();
+    this.plan.encodePreservationGrants.clear(); this.plan.encodePreservationCandidates.clear();
     this.plan.id = randomUUID(); this.state.planId = this.plan.id;
     this.plan.entries.clear(); this.plan.overrides.clear(); this.plan.ambiguities.clear();
     this.plan.generated.clear(); this.plan.reencodeAuthorizations.clear();
@@ -974,7 +1002,7 @@ class EncoderService extends EventEmitter {
     this.state.operationDraft = this.plan.draft.snapshot();
     for (const item of this.state.items) {
       Object.assign(item, { status: 'pending', reason: '', reencodeAuthorized: false });
-      for (const field of ['reasonCode', 'details', 'sourceIdentityDiagnostic', 'summary', 'hdr']) delete item[field];
+      for (const field of ['reasonCode', 'details', 'sourceIdentityDiagnostic', 'summary', 'hdr', 'encodePreservation', 'warnings']) delete item[field];
     }
     const signal = this.begin('preparing');
     this.state.preparation = { total: this.state.items.length, resolved: 0, reused: 0, inspected: 0,
@@ -986,14 +1014,19 @@ class EncoderService extends EventEmitter {
     this.taskPromise = (async () => {
       try {
         await this.recordIncident({ ...receiptIds, stage: 'preparation', reason: 'DRAFT_REPREPARATION_STARTED', context: { draftRevision: this.state.operationDraft.revision } });
-        if (remux) {
-          if (relatedSources) for (const [fileId, identity] of relatedSources) {
+        if (relatedSources) for (const [fileId, identity] of relatedSources) {
             const current = await readSourceIdentity(identity.canonicalPath, { signal });
-            if (!sameIdentity(current, identity)) throw fail('INPUT_CHANGED', 'An explicitly admitted Remux source changed during the stream decision edit.');
+            if (!sameIdentity(current, identity)) throw fail('INPUT_CHANGED', 'An explicitly admitted source changed during the preservation decision edit.');
             this.plan.reencodeAuthorizations.set(fileId, current);
-          }
-          await installRemuxDecisions.call(this, remuxDecisions || [], signal);
         }
+        if (relatedOriginals) for (const [fileId, identity] of relatedOriginals) {
+          const current = await readSourceIdentity(identity.canonicalPath, { signal });
+          if (!sameIdentity(current, identity)) throw fail('INPUT_CHANGED', 'An explicitly treated original changed during the preservation decision edit.');
+          this.plan.overrides.set(fileId, current);
+        }
+        if (remux) {
+          await installRemuxDecisions.call(this, remuxDecisions || [], signal);
+        } else await installEncodePreservationDecisions.call(this, encodePreservationDecisions || [], signal);
         await this.verifyFolders(); await this.prepareWithWorkers(context);
         notCancelled(signal);
         this.markConflicts(); this.state.phase = 'ready';
@@ -1022,6 +1055,7 @@ class EncoderService extends EventEmitter {
         context: { ...context, phase, counts: this.snapshot().counts } });
       if (signal.aborted) {
         this.hdrOperations?.invalidate();
+        this.encodePreservationOperations?.invalidate();
         if (this.plan?.operation === 'remux') this.remuxOperations?.invalidate();
         this.plan = null; this.state.planId = null; this.state.operationDraft = null;
         for (const item of this.state.items) {
@@ -1216,6 +1250,7 @@ class EncoderService extends EventEmitter {
     for (const fileId of selected) {
       const item = this.state.items.find(entry => entry.id === fileId);
       if (!item || !['ready', 'conflict'].includes(item.status)) throw fail('INVALID_SELECTION', 'A selected input is not ready.');
+      requireEncodePreservation.call(this, this.plan.entries.get(fileId));
       const key = item.outputName.toLowerCase();
       if (names.has(key)) throw fail('OUTPUT_CONFLICT', 'Select only one input for each output name.');
       names.add(key);
@@ -1256,9 +1291,11 @@ class EncoderService extends EventEmitter {
               : this.operationEnvironment ? clone(this.operationEnvironment()) : null });
           const requireQualification = () => {
             if (entry.remux) requireRemuxGrants.call(this, entry);
+            requireEncodePreservation.call(this, entry);
             return entry.qualificationSelection ? qualificationOwner.requireCurrent(entry.qualificationSelection, qualificationBindings()) : null;
           };
           const qualified = requireQualification();
+          const protectedReceipt = qualified || requireEncodePreservation.call(this, entry);
           operationController = qualified ? new AbortController() : null;
           const jobSignal = operationController ? AbortSignal.any([signal, operationController.signal]) : signal;
           // Review/queued time does not consume an active job's cost envelope.
@@ -1328,6 +1365,15 @@ class EncoderService extends EventEmitter {
               }
               throw error;
             }
+          } : entry.encodePreservation ? async (executable, args, options = {}) => {
+            // This Full route changes only an acknowledged mapping. Its runtime
+            // and decisions stay current without borrowing range deadlines or
+            // a complete per-input decode/read budget from another policy.
+            requireEncodePreservation.call(this, entry);
+            const tool = executable === this.ffmpeg ? 'ffmpeg' : executable === this.ffprobe ? 'ffprobe' : null;
+            if (!tool || !entry.operationRuntimeToken) throw fail('OPERATION_RUNTIME_UNBOUND', 'Full preservation requires the observed fixed tool pair.');
+            if (++operationChildren > 8) throw fail('OPERATION_CHILD_LIMIT', 'The Full preservation workflow exceeded its bounded helper count.');
+            return this.operationRuntime.invoke(entry.operationRuntimeToken, tool, args, { ...options, signal: jobSignal });
           } : (executable, args, options) => this.run(executable, args, options);
           await this.verifyFolders();
           if (await exists(entry.destination)) { item.status = 'skipped'; item.reason = 'Output appeared since preview.'; continue; }
@@ -1340,6 +1386,7 @@ class EncoderService extends EventEmitter {
           if (qualified && sourceFingerprint(currentProbe) !== entry.qualificationBindings.sourceProbeFingerprint) {
             throw fail('OPERATION_QUALIFICATION_STALE', 'The current media evidence no longer matches the prepared qualification.');
           }
+          requireEncodePreservation.call(this, entry, currentProbe);
           const currentMarker = classifyMarker(currentProbe);
           const currentIndexed = await this.provenanceJournal.lookupIdentity(entry.fingerprint);
           const generated = currentMarker.kind === 'generated' || Boolean(currentIndexed);
@@ -1391,8 +1438,8 @@ class EncoderService extends EventEmitter {
           const invocationRecord = await this.recordIncident({ stage: 'invocation', reason: entry.remux ? 'REMUX_STARTED' : 'ENCODE_STARTED', fileId: item.id, invocationId,
             context: { executable: this.ffmpeg, argv: args, settings: this.plan.settings,
               operation: describeDiagnosticOperation(entry.operationPlan, item.operationRequest),
-              ...(qualified ? { planFingerprint: entry.operationPlan.planFingerprint, evidenceIds: qualified.evidenceIds, policyIdentity: qualified.policyIdentity } : {}) } });
-          if (qualified && !invocationRecord.persisted) throw fail('OPERATION_DIAGNOSTICS_INCOMPLETE', 'The qualified invocation could not be recorded; encoding did not start.');
+              ...(protectedReceipt ? { planFingerprint: entry.operationPlan.planFingerprint, evidenceIds: protectedReceipt.evidenceIds, policyIdentity: protectedReceipt.policyIdentity } : {}) } });
+          if (protectedReceipt && !invocationRecord.persisted) throw fail('OPERATION_DIAGNOSTICS_INCOMPLETE', 'The prepared invocation and preservation choices could not be recorded; encoding did not start.');
           const encodeResult = await run(this.ffmpeg, args, { signal: jobSignal, timeoutMs: 0, onProgress: record => {
             if (owner !== this.state.batchId || item.status !== 'running' || this.state.progress?.stage !== processingStage) return;
             const duration = operationDuration(entry);
@@ -1403,7 +1450,7 @@ class EncoderService extends EventEmitter {
           setJobStage('output-validation');
           await this.recordIncident({ stage: 'invocation', reason: entry.remux ? 'REMUX_CLOSED' : 'ENCODE_CLOSED', fileId: item.id, invocationId, ...diagnosticStderr(encodeResult), context: { exitCode: 0 } });
           await sealStage(stage);
-          if (qualified) {
+          if (protectedReceipt) {
             await retainSealedStage(stage, 'The encoder closed successfully, but changed-operation evidence or publication is incomplete. These bytes are retained without validation authority.');
             item.outputDisposition = { kind: 'sealed-unverified', published: false, validationCurrent: false };
           }
@@ -1419,7 +1466,7 @@ class EncoderService extends EventEmitter {
           if (this.plan.reservedIdentities.has(`${stagedIdentity.dev}:${stagedIdentity.ino}`)) throw fail('PROTECTED_SOURCE', 'A temporary output aliases a protected source.');
           if (signal.aborted) throw fail('CANCELLED', 'Encoding cancelled.');
           const result = await run(this.ffprobe, ['-v', 'error', '-protocol_whitelist', 'file', '-show_format', '-show_streams', '-show_chapters',
-            ...(entry.remux || entry.hdr ? ['-show_programs', '-show_stream_groups'] : []),
+            ...(entry.remux || entry.hdr || entry.encodePreservation ? ['-show_programs', '-show_stream_groups'] : []),
             '-show_data_hash', 'sha256', '-of', 'json', stage.file], { signal: jobSignal });
           const outputProbe = parseProbeJson(result.stdout, 'Output validation');
           const marker = classifyMarker(outputProbe);
@@ -1474,10 +1521,13 @@ class EncoderService extends EventEmitter {
               : entry.hdr ? this.hdrOperations.validate(entry.operationPlan, outputProbe, evidence)
               : validateEncodeOperationOutput(entry.operationPlan, outputProbe,
                 { qualification: qualified.qualification, decodedEvidence: evidence.decodedEvidence });
+          } else if (entry.encodePreservation) {
+            requireEncodePreservation.call(this, entry);
+            validation = validateEncodeOperationOutput(entry.operationPlan, outputProbe);
           } else validation = this.verify(entry.inspection, outputProbe, this.plan.settings);
           const validationRecord = await this.recordIncident({ stage: 'validation', reason: 'OUTPUT_CHECKED', fileId: item.id, invocationId,
             severity: validation.valid ? 'info' : 'error', context: { validation } });
-          if (qualified && !validationRecord.persisted) throw fail('OPERATION_DIAGNOSTICS_INCOMPLETE', 'The qualified output-validation record could not be saved. Output retained without publication.');
+          if (protectedReceipt && !validationRecord.persisted) throw fail('OPERATION_DIAGNOSTICS_INCOMPLETE', 'The output-validation record could not be saved. Output retained without publication.');
           if (!validation.valid) throw fail('INVALID_OUTPUT', validation.errors.join(' '));
           const validationWarnings = mergeWarnings(item.warnings || [], validation.warnings || []);
           if (validationWarnings.length) item.warnings = validationWarnings;
@@ -1489,7 +1539,7 @@ class EncoderService extends EventEmitter {
           item.sourceAssessment = assessment;
           const sourceRecord = await this.recordIncident({ stage: 'validation', reason: 'SOURCE_ASSESSED', fileId: item.id,
             severity: assessment.kind === 'unchanged' ? 'info' : 'warning', context: { sourceAssessment: assessment } });
-          if (qualified && !sourceRecord.persisted) throw fail('OPERATION_DIAGNOSTICS_INCOMPLETE', 'The qualified source assessment could not be recorded. Output retained without publication.');
+          if (protectedReceipt && !sourceRecord.persisted) throw fail('OPERATION_DIAGNOSTICS_INCOMPLETE', 'The source assessment could not be recorded. Output retained without publication.');
           if (assessment.kind !== 'unchanged') {
             item.sourceIdentityDiagnostic = assessment.diagnostic;
             // Retaining this completed output cannot authorize a later job or
@@ -1638,6 +1688,8 @@ class EncoderService extends EventEmitter {
       // new batch could replace state while the old batch is still logging it.
       if (this.plan?.operation === 'remux') { this.remuxOperations.invalidate(); this.plan.remuxGrants.clear(); this.plan.remuxCandidates.clear(); }
       this.hdrOperations?.invalidate();
+      this.encodePreservationOperations?.invalidate();
+      this.plan?.encodePreservationGrants.clear(); this.plan?.encodePreservationCandidates.clear();
       this.state.phase = terminalPhase;
       this.finishedAt = Date.now();
       this.emitState();
@@ -1659,20 +1711,22 @@ class EncoderService extends EventEmitter {
     // decisions even when no child has started. A successful no-op cancel may
     // not leave the old Start capability live.
     const preparedHdr = this.plan?.entries && [...this.plan.entries.values()].some(entry => entry.hdr);
-    if (!this.busy && (this.plan?.operation === 'remux' || preparedHdr) && this.state.phase === 'ready') {
+    const preparedPreservation = this.state.items.some(item => item.encodePreservation);
+    if (!this.busy && (this.plan?.operation === 'remux' || preparedHdr || preparedPreservation) && this.state.phase === 'ready') {
       const remux = this.plan.operation === 'remux';
       if (remux) { this.remuxOperations.invalidate(); this.plan.remuxGrants.clear(); this.plan.remuxCandidates.clear(); }
       this.hdrOperations?.invalidate(); this.plan.entries.clear();
+      this.encodePreservationOperations?.invalidate(); this.plan.encodePreservationGrants.clear(); this.plan.encodePreservationCandidates.clear();
       this.plan = null; this.state.planId = null; this.state.operationDraft = null;
       for (const item of this.state.items) if (['ready', 'conflict'].includes(item.status)) {
-        item.status = 'cancelled'; item.reason = `Prepared ${remux ? 'Remux' : 'HDR'} cancelled. Prepare again to create new authority.`;
+        item.status = 'cancelled'; item.reason = `Prepared ${remux ? 'Remux' : preparedPreservation ? 'Encode preservation' : 'HDR'} cancelled. Prepare again to create new authority.`;
       }
       // Keep admission closed across asynchronous diagnostics and saved writes.
       // This cancellation must never fall through and abort a later batch.
       this.state.phase = 'cancelling';
       this.preparedCancellation = (async () => {
         try {
-          await this.recordIncident({ stage: 'cancellation', reason: remux ? 'PREPARED_REMUX_CANCELLED' : 'PREPARED_HDR_CANCELLED' });
+          await this.recordIncident({ stage: 'cancellation', reason: remux ? 'PREPARED_REMUX_CANCELLED' : preparedPreservation ? 'PREPARED_ENCODE_PRESERVATION_CANCELLED' : 'PREPARED_HDR_CANCELLED' });
         } finally {
           await drainWrites();
           this.state.phase = 'cancelled'; this.finishedAt = Date.now(); this.emitState();

@@ -25,7 +25,7 @@ test('draft processing methods retain sender and arity guards and forward only t
   for (const [channel, method] of [['encoder:update-file-operations', 'updateFileOperations'],
     ['encoder:update-batch-operation-defaults', 'updateBatchOperationDefaults'], ['encoder:apply-app-defaults-to-batch', 'applyAppDefaultsToBatch'],
     ['encoder:reprepare-encoding-settings', 'reprepareEncodingSettings'], ['encoder:prepare-remux', 'prepareRemuxBatch'],
-    ['encoder:remux-omissions', 'setRemuxOmissions']]) {
+    ['encoder:remux-omissions', 'setRemuxOmissions'], ['encoder:encode-preservation-decisions', 'setEncodePreservationDecisions']]) {
     const calls = [];
     const { handlers, event } = harness({ [method]: async request => { calls.push(request); return { phase: 'ready', revision: 12 }; } });
     const handler = handlers.get(channel), request = { planId: 'main-plan', draftId: 'main-draft', revision: 2,
@@ -55,7 +55,7 @@ test('preload exposes named draft methods without generic IPC and preserves reje
   assert.equal(Object.isFrozen(api), true); assert.equal(api.invoke, undefined); assert.equal(api.send, undefined);
   for (const [method, channel] of [['updateFileOperations', 'encoder:update-file-operations'],
     ['updateBatchOperationDefaults', 'encoder:update-batch-operation-defaults'], ['applyAppDefaultsToBatch', 'encoder:apply-app-defaults-to-batch'],
-    ['reprepareEncodingSettings', 'encoder:reprepare-encoding-settings']]) {
+    ['reprepareEncodingSettings', 'encoder:reprepare-encoding-settings'], ['setEncodePreservationDecisions', 'encoder:encode-preservation-decisions']]) {
     const request = { revision: 3 };
     assert.deepEqual(await api[method](request), { revision: 4 });
     assert.deepEqual(calls.at(-1), { channel, request });

@@ -13,6 +13,8 @@ const { RemuxOperations } = require('./remux-operation.cjs');
 const { REMUX_POLICIES, REMUX_POLICY_ID } = require('./remux-catalog.cjs');
 const { HdrOperations } = require('./hdr-operation.cjs');
 const { HDR_POLICIES, HDR_POLICY_ID } = require('./hdr-catalog.cjs');
+const { EncodePreservationOperations } = require('./encode-preservation.cjs');
+const { loadEncodePreservationPolicies, ENCODE_PRESERVATION_POLICY_ID } = require('./encode-preservation-catalog.cjs');
 
 const EVIDENCE_BUDGET = Object.freeze({ sourceDecode: 'complete', timeoutMs: 120000,
   maxFrameBytes: 8 * 1024 * 1024, maxPcmBytes: 128 * 1024 * 1024,
@@ -27,7 +29,8 @@ async function observeNvidia({ signal } = {}) {
 }
 function createOperationControls({ runtime, stateDir, families, policyIdentity,
   remuxPolicies = REMUX_POLICIES, remuxPolicyIdentity = REMUX_POLICY_ID,
-  hdrPolicies = HDR_POLICIES, hdrPolicyIdentity = HDR_POLICY_ID }) {
+  hdrPolicies = HDR_POLICIES, hdrPolicyIdentity = HDR_POLICY_ID,
+  encodePreservationPolicies = loadEncodePreservationPolicies(), encodePreservationPolicyIdentity = ENCODE_PRESERVATION_POLICY_ID }) {
   const observer = new OperationRuntimeObserver({ runtime: { ffmpeg: runtime.ffmpeg, ffprobe: runtime.ffprobe },
     pins: Object.fromEntries(['ffmpeg', 'ffprobe'].map((name, index) => [name,
       { sizeBytes: runtime.verified[index].sizeBytes, sha256: runtime.verified[index].sha256 }])), observeNvidia });
@@ -36,6 +39,7 @@ function createOperationControls({ runtime, stateDir, families, policyIdentity,
   return { operationQualifications: new OperationFamilySelector({ families, policyIdentity }),
     remuxOperations: new RemuxOperations({ runtimeIdentity, policies: remuxPolicies, policyIdentity: remuxPolicyIdentity }),
     hdrOperations: new HdrOperations({ runtimeIdentity, policies: hdrPolicies, policyIdentity: hdrPolicyIdentity }),
+    encodePreservationOperations: new EncodePreservationOperations({ runtimeIdentity, policies: encodePreservationPolicies, policyIdentity: encodePreservationPolicyIdentity }),
     operationRuntime: observer, operationTelemetry: true, operationEvidenceBudget: EVIDENCE_BUDGET,
     operationDeadlineMs: EXECUTION_BUDGET_MS,
     // Lazy admission: unavailable retained-evidence storage refuses a changed

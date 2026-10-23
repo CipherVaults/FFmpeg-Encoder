@@ -233,7 +233,7 @@ async function collectOperationEvidence(options) {
   for (const key of ['timeoutMs', 'maxFrameBytes', 'maxPcmBytes', 'maxRecords', 'maxSpoolBytes']) safe(budget[key], key, 1);
   need(budget.timeoutMs <= 2147483647, 'Timeout exceeds the owned runner timer range.');
   need(typeof run === 'function' && typeof ffmpeg === 'string' && path.isAbsolute(ffmpeg) && typeof ffprobe === 'string' && path.isAbsolute(ffprobe), 'Main supplies exact bundled tool paths and its owned runner.');
-  need(plan?.expectedOutput?.operation === 'encode' && plan.compatibilityPath === false && typeof plan.runtimeIdentity === 'string'
+  need(plan?.expectedOutput?.operation === 'encode' && plan.compatibilityPath === false && plan.validationMode !== 'full-preservation-selection' && typeof plan.runtimeIdentity === 'string'
     && /^[a-f0-9]{64}$/.test(plan.planFingerprint), 'A changed-path main-built Encode plan is required.');
   exact(timingQualification, ['evidenceId', 'runtimeIdentity', 'videoDurationUs', 'audioTimelineUs', 'aac'], 'Measured interior timing qualification');
   need(typeof timingQualification.evidenceId === 'string' && /^[A-Za-z0-9._:+-]{1,256}$/.test(timingQualification.evidenceId)

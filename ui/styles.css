@@ -308,7 +308,9 @@
 body { margin: 0; background: var(--background); color: var(--text); }
 button, input, select, textarea { font: inherit; }
 button, select, input[type="number"], input[type="text"] { min-height: 2.55rem; border: 1px solid var(--control-border); border-radius: 6px; color: var(--text); background: var(--inset); padding: .45rem .7rem; }
-button { cursor: pointer; font-weight: 600; transition: background-color 120ms, border-color 120ms; }
+/* Text and fill switch together when the theme changes. Fading only the fill
+ * briefly pairs the new text with the old theme's fill and loses contrast. */
+button { cursor: pointer; font-weight: 600; transition: border-color 120ms; }
 button:hover:not(:disabled) { border-color: var(--orange); background: var(--control-hover); }
 button:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible, summary:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
 button:disabled, select:disabled, input:disabled { opacity: .5; cursor: not-allowed; }

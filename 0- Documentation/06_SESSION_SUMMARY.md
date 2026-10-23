@@ -1,3 +1,67 @@
+# 📘 Session: October23,2026 — FFmpeg Encoder — original icon and persistent themes
+
+## 🤖 Models, Effort, Roles and Provenance
+
+Ahmed delegated leadership to Blue and directly confirmed the PC was free. Blue accepted the prior native checkpoint and authorized this focused implementation plus the conditional presentation-only qualification amendment. Ahmed explicitly approved continuing this bounded closeout at15:34UTC, forwarded by trusted Blue in active turn01a16963-7fe4-7d72-9761-39511849fd34. Historical pause/rejected separate recovery remains history; no new approval loop. Existing completed current-byte tests are reused. Root in existing Thread2 owned integration, native scheduling and checkpointing. Workers explicitly requested GPT-6.1 Sol/Ultra/fork-none; capacity failure was retained. Root's effective backend is not independently exposed; no fallback model switch was claimed. Canonical PBS stayed external. Original thread remained idle.
+
+## 🕒 Time
+
+Entry inventory12:44:45.610UTC, October23/Africa-Cairo. Exact capture/host/native timestamps belong to local reports; no active-engineering or compute duration is inferred from elapsed tool/model waits.
+
+## 🎯 Session Goal
+
+Give the existing dense workbench its own original icon and genuine dark plus clean paper-light appearance. Keep folder paths, expert/numeric/help controls, all operations and processing authority intact. Finish a bounded reviewed private checkpoint, then stop for Blue.
+
+## 🛠️ Actions Taken
+
+Created original Folded Frame SVG, optical small-size variants,9PNG sizes/ICO, provenance/license/generator and candidate-only asset packaging. Implemented separate strict appearance-v1 store, validated narrow IPC, pre-window nativeTheme/background/icon and immediate durable saves drained during shutdown. Converted existing colors to96 semantic pairs and added the actual Settings choice/Help credits without redesigning routes or processing behavior. Original Folded Frame artwork and persistent light/dark presentation are implemented at source `6bff1c27c2bd352eab206c4238205cd36962038e`. Separate bounded main-owned appearance-v1 storage, exact enum IPC, eight pending saves and synchronous close admission preserve processing authority. Final direct regression: **1619 passed / 0 failed / 4 Windows-link skips**; focused235/0/3 overlaps. Review-based HDR amendment retains all56 prior producers plus appearance (57), with52 unchanged/four reviewed deltas, fresh two-policy activation and13 isolated actual-code refusal checks. Historical media campaigns were not rerun.
+
+Actual no-media evidence includes12 normal six-route/theme PNGs,4 narrow Encode/Settings PNGs and both accepted-save-before-durability immediate-close/restart checks. Matrix normal outer1103x832/content1088x795; narrow642x480/628x443; DPR1.25. Root alone used Sky for actual dark/light selector changes, titlebar icon/chrome, keyboard continuation, Help credits/disclosure, native close and same-profile Light restart. Final-source native bounds1102x800/content1087x763. The final native switch after removing the fill fade shows coherent application text/fill; OS titlebar transition remains separate. Final current-CSS computed known-state controls pass: dark minimum7.97:1,light minimum6.01:1, including actually disabled Clear focus at opacity1; selected Light tab was hovered in that measurement. These are seven observed controls per theme, not a whole-app contrast/accessibility result; absent/hidden Start was excluded. Native final owned-child15692 exited0 at15:38:17.076UTC, separately from BrowserWindowPID50848; driver exited0 and fresh Sky/process checks found no host/Electron/ffmpeg/ffprobe. First native external-close exit7352 remains unknown. A root non-TTY observer lost stdin and required identity-guarded termination of only hidden owned main50964 (owned child47468 exit4294967295); its incomplete proof/failure is retained, followed by the final successful TTY-host cycle. Every display proof records zero media/process/run attempts. Earlier matrix screenshots predate only the independently reviewed final fill-transition removal; palette/layout/controls are unchanged and final native captures/metrics bind the final CSS. Rendered provenance and independent review are inartifacts/v0.7/icon-themes/display-d9fd4e09-4bfc-448e-b314-e37060c464b6/hidden-matrix-handoff.json andartifacts/v0.7/icon-themes/independent-visual-review.json; native evidence is local under icon-themes/native-observations. No media execution occurred.
+
+## 🧠 Key Insights
+
+Renderer localStorage could not deliver persistence in the existing in-memory partition. A distinct main-owned namespace meets the outcome without changing browser storage or processing defaults. Exact-byte HDR qualification also covers main/preload/IPC; an explicit reviewed delta was necessary even for presentation work. Old campaigns remain exact prior evidence.
+
+## 📌 Decisions Made
+
+Use two inert theme names, fixed paths and an8-write queue. Accept visual/theme success only from actual rendered/persisted evidence. Keep native Windows surfaces and portable qualification separate. Preserve expert controls and all43 requirements rather than claiming broad usability closure.
+
+## ⚠️ Difficulties / Friction
+
+Independent review found an unbounded save queue, weak control-border contrast and an ASAR test that repeated normalization rather than calling production readback. All were corrected. This Windows host refused native symbolic/junction fixtures with UNKNOWN/-4094;3new tests are honestly skipped and separate simulated refusals pass. First hidden frames captured pale controls during a light-emulated transition/compositor state; those frames remain, while the driver now honors nativeTheme and captures settled actual pixels. A later actual native switch also exposed the120ms app-owned button-fill fade; the follow-up source checkpoint removes only that fill fade so text/fill change together. The no-media host needed bounded argument-forwarding/warmup/controller-exit corrections; no image or availability manipulation was used.
+
+## 🔧 Adjustments Made
+
+Close admission synchronously before shutdown awaits; drain only already accepted writes. Strengthen assessed control/help outline pairs to at least4.12:1 dark/3.74:1 light; actual resolved-control measurements have the separate receipt-owned bounds. Switch button text/fill together after the actual native transient; preserve border animation and palette/layout. Share ASAR readback between production and meaningful tests. Explicitly retain57 sealed producers and appearance review identity;13 copied actual-code negatives guard expiry and omissions.
+
+## ❌ Mistakes / Risks Noted
+
+The first render was not a settled acceptance image. Offline PE stamping reserialized VERSIONINFO codepage0→1200, with parsed fixed fields/translations/strings unchanged; original runtime stayed exact and the copy was never executed. Store check-before-rename is not atomic CAS against a same-user external writer, and OS I/O has no wall-clock guarantee. Packaged HDR resource inclusion/activation and cold-clone raw-byte reproducibility remain open; this pass did not build a portable release.
+
+## 📍 Current Position
+
+Actual no-media evidence includes12 normal six-route/theme PNGs,4 narrow Encode/Settings PNGs and both accepted-save-before-durability immediate-close/restart checks. Matrix normal outer1103x832/content1088x795; narrow642x480/628x443; DPR1.25. Root alone used Sky for actual dark/light selector changes, titlebar icon/chrome, keyboard continuation, Help credits/disclosure, native close and same-profile Light restart. Final-source native bounds1102x800/content1087x763. The final native switch after removing the fill fade shows coherent application text/fill; OS titlebar transition remains separate. Final current-CSS computed known-state controls pass: dark minimum7.97:1,light minimum6.01:1, including actually disabled Clear focus at opacity1; selected Light tab was hovered in that measurement. These are seven observed controls per theme, not a whole-app contrast/accessibility result; absent/hidden Start was excluded. Native final owned-child15692 exited0 at15:38:17.076UTC, separately from BrowserWindowPID50848; driver exited0 and fresh Sky/process checks found no host/Electron/ffmpeg/ffprobe. First native external-close exit7352 remains unknown. A root non-TTY observer lost stdin and required identity-guarded termination of only hidden owned main50964 (owned child47468 exit4294967295); its incomplete proof/failure is retained, followed by the final successful TTY-host cycle. Every display proof records zero media/process/run attempts. Earlier matrix screenshots predate only the independently reviewed final fill-transition removal; palette/layout/controls are unchanged and final native captures/metrics bind the final CSS. This used a separate explicitly labelled no-media display host with real current preload/IPC/protocol/UI/appearance store, not production main, native workflow encoding, portable/clean-machine or owner acceptance. Actual PE stamping and ASAR readback prove the bounded icon paths only. Pre-existing packaged HDR resource/activation, cold-clone raw-byte and taskbar/Windows OS surface qualification remain open. All43 requirement texts/IDs remain; N verified/O–R partial/S pending and0.7.0-alpha.1 unaccepted. Accepted0.5/0.6/defaults/ArchiveCQ29/private records/benchmark visual judgment remain protected. Source6bff1c27c2bd352eab206c4238205cd36962038e is the recoverable local checkpoint. Privacy scope excludes all Planning/artifacts/media/runtime bytes. Original24 private hashes and2dirty/15untracked private paths remain protected.
+
+## 🔜 Next Steps
+
+**STOP for Blue review; no automatic successor.** Existing Thread2 remains the home and the original thread stays idle. No new workflow job ran in this icon/theme assignment. No Security Cloud, dependency/runtime upgrade, OBS/system security change, cleanup, public release or broader engine/HDR/vendor work follows. Reviewed source checkpoint is local; exact subsequent private publication/equality and process closure are recorded in artifacts/v0.7/icon-themes/final-git-readback.json and the terminal handoff.
+
+## ❓ Open Questions
+
+Blue/owner visual judgment, remaining native/taskbar/OS surface/accessibility, broader media/HDR/vendor, packaged/clean-machine and final release qualification remain. No new approval question is invented for completed authorized work.
+
+## 🧾 Session Outcome
+
+Original icon and real durable theme choice implemented and bounded checks passed; no processing/default/media expansion or owner release acceptance. Detailed machine actions/results/failures are in the [execution receipt](Execution%20Summaries/2026-10-23_Icon_and_Persistent_Themes.md). Prior Session bytes remain exact below.
+
+## 🔍 Confidence Level
+
+High for reviewed source boundaries/direct tests/actual local appearance persistence; bounded for rendered/native display-host evidence; no broad production/portable/owner acceptance claim.
+
+---
+
+
+
 # 📘 Session: October 23, 2026 — FFmpeg Encoder — real native workflows, cancellation and restart
 
 ## 🤖 Models, Effort, Roles and Provenance

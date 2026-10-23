@@ -1,3 +1,7 @@
+**October23 icon/themes checkpoint:** [Original icon and persistent light/dark appearance](Execution%20Summaries/2026-10-23_Icon_and_Persistent_Themes.md) — source6bff1c27c2bd352eab206c4238205cd36962038e; separate main-owned store/IPC/shutdown, original licensed9-size ICO and candidate-only packaging,1619/0/4 direct plus235/0/3 focused overlap, explicit presentation-only qualification amendment, actual rendered no-media/persistence evidence and native observation limits. Stop for Blue after scoped private readback; no workflow/media successor.
+
+## Historical preceding execution checkpoints
+
 **October23 native workflow checkpoint:** [Real Encode/Full Remux workflows, close choices and restart](Execution%20Summaries/2026-10-23_Native_Workflow_Acceptance.md) — five actual jobs under Blue's explicit four-to-five amendment: two CPU range outputs with AAC sample warnings, Keep-open+Cancel, Full MP4 Remux success and Cancel-and-exit+restart. Three app sessions closed; lease released; two unbound incomplete files retained. Source unchanged; actual dialogs/Open/History/draft protection and measured642×480 minimum are bounded evidence, not full native/portable/all 43 or owner acceptance. Scoped documentation/private-branch readback belongs to the receipt; stop for Blue review.
 
 ## Historical preceding checkpoint entries

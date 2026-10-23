@@ -42,12 +42,12 @@ function dom() {
     removeAttribute(name) { delete this.attributes[name]; if (name === 'value') this._value = undefined; }
     append(...children) { for (const child of children) { child.remove(); child.parentElement = this; this.children.push(child); } }
     insertBefore(child, before) { child.remove(); child.parentElement = this; const index = this.children.indexOf(before); if (index < 0) this.children.push(child); else this.children.splice(index, 0, child); }
-    replaceChildren(...children) { for (const child of this.children) child.parentElement = null; this.children = []; this.append(...children); }
-    remove() { if (this.parentElement) { const siblings = this.parentElement.children; siblings.splice(siblings.indexOf(this), 1); this.parentElement = null; } }
+    replaceChildren(...children) { for (const child of [...this.children]) child.remove(); this.append(...children); }
+    remove() { if (this.parentElement) { if (this.contains(document.activeElement)) document.activeElement = document.body; const siblings = this.parentElement.children; siblings.splice(siblings.indexOf(this), 1); this.parentElement = null; } }
     addEventListener(name, listener) { if (!this.events.has(name)) this.events.set(name, []); this.events.get(name).push(listener); }
     async emit(name, values = {}) { const event = { target: this, defaultPrevented: false, preventDefault() { this.defaultPrevented = true; }, ...values }; for (const listener of this.events.get(name) || []) await listener(event); await settle(); return event; }
     async click() { if (!this.disabled) return this.emit('click'); }
-    focus() { document.activeElement = this; }
+    focus() { if (!this.disabled && document.contains(this)) document.activeElement = this; }
     select() { this.selected = true; }
     scrollIntoView() { this.scrolled = true; }
     contains(element) { return element === this || this.children.some(child => child.contains(element)); }
@@ -84,6 +84,8 @@ function dom() {
     } else stack.at(-1)._text += token;
   }
   assert.equal(stack.length, 1);
+  document.body = document.querySelector('body');
+  document.activeElement = document.body;
   return { document, byId: id => ids.get(id) };
 }
 
@@ -128,7 +130,7 @@ async function harness(overrides = {}, { narrow = false } = {}) {
   return { ...view, calls, update: value => update(value), setNarrow: value => { mediaQuery.matches = value; layoutListener?.(); } };
 }
 
-test('workbench has unique IDs, matched tab/panel semantics, and no invented Remux API', () => {
+test('workbench has unique IDs, matched tab/panel semantics, and no executable renderer content', () => {
   const allIds = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
   assert.equal(new Set(allIds).size, allIds.length);
   const view = dom();
@@ -138,7 +140,7 @@ test('workbench has unique IDs, matched tab/panel semantics, and no invented Rem
     assert.equal(view.byId(`workspace-${name}`).getAttribute('aria-labelledby'), `tab-${name}`);
     assert.equal(view.byId(`workspace-${name}`).hidden, name !== 'encode');
   }
-  assert.doesNotMatch(renderer, /innerHTML|insertAdjacentHTML|eval\(|api\.\w*[Rr]emux/);
+  assert.doesNotMatch(renderer, /innerHTML|insertAdjacentHTML|eval\(/);
 });
 
 test('keyboard tab navigation is manual, preserves controls, and never submits a queue action', async () => {
@@ -187,7 +189,8 @@ test('post-encode stages have accessible indeterminate labels, retained details 
   const row = h.byId('batch-items').children[0];
   await h.byId('tab-help').click();
   let revision = 2;
-  for (const [stage, label] of [['output-validation', 'Validating output'], ['source-check', 'Checking source'], ['publication', 'Publishing output']]) {
+  for (const [stage, label] of [['encoder-input-check', 'Checking encoder input'], ['evidence-collection', 'Checking preservation'],
+    ['output-validation', 'Validating output'], ['source-check', 'Checking source'], ['publication', 'Publishing output']]) {
     // Even stale telemetry in a main snapshot cannot fabricate a percentage or
     // ETA for a processing stage. Normal service snapshots omit these values.
     h.update({ ...base, revision: ++revision, items: [{ ...item, status: 'validating' }], progress: { fileId: item.id, stage, percent: 99, seconds: 2, fps: 30, speed: 1, etaSeconds: 0 } });
@@ -765,7 +768,7 @@ test('audio policy changes clear incompatible AAC bitrate explicitly and preserv
 });
 
 
-test('Slice1 Remux navigation retains Encode requests, pending edits and authority without an operation API', async () => {
+test('Remux navigation retains Encode requests, pending edits and authority without preparing an operation', async () => {
   const h = await processingHarness({ withFolders: true, fileOverrides: [{ resolution: '720' }] });
   h.control(0, 'mode').value = 'range'; await h.control(0, 'mode').emit('change');
   h.control(0, 'start').value = '0.125001';
@@ -781,7 +784,7 @@ test('Slice1 Remux navigation retains Encode requests, pending edits and authori
   assert.equal(JSON.stringify(h.draft.snapshot()), before);
   assert.equal(h.control(0, 'mode').value, 'range');
   assert.equal(h.control(0, 'start').value, '0.125001');
-  assert.equal(h.calls.length, calls, 'operation switching calls no authority-changing API');
+  assert.equal(h.calls.slice(calls).some(call => !['getAppSettings'].includes(call.name)), false, 'operation switching calls no authority-changing API');
   assert.equal(h.byId('start-batch').disabled, true, 'unsubmitted edits still block Start');
 });
 
@@ -897,11 +900,235 @@ test('Remux saved-target summary follows App Settings load/save without altering
   const h = await processingHarness();
   const draft = JSON.stringify(h.draft.snapshot());
   await h.byId('tab-settings').click();
-  assert.match(h.byId('remux-target-summary').textContent, /^matroska/);
+  assert.match(h.byId('remux-target-summary').textContent, /Selected: matroska.*Saved preference: matroska/);
   h.byId('default-remux-target').value = 'mp4'; await h.byId('default-remux-target').emit('change');
   await h.byId('app-settings-form').emit('submit');
   await h.byId('tab-remux').click();
-  assert.match(h.byId('remux-target-summary').textContent, /^mp4.*execution unavailable/);
+  assert.match(h.byId('remux-target-summary').textContent, /Selected: mp4.*Saved preference: mp4/);
   assert.equal(JSON.stringify(h.draft.snapshot()), draft);
   assert.equal(h.calls.some(call => ['prepareBatch', 'updateFileOperations', 'updateBatchOperationDefaults', 'startBatch'].includes(call.name)), false);
+});
+
+async function remuxHarness({ unavailableEncoder = false, generated = false, narrow = false, onOmission } = {}) {
+  let revision = 1, draftRevision = 0, planId = 'remux-plan-1', draftId = 'remux-draft-1', target = 'matroska';
+  let phase = 'ready', decisions = ['decision-other'], sourceAuthorized = false;
+  const snapshot = (changes = {}) => ({ revision: ++revision, phase, operation: 'remux', batchId: 'remux-batch', planId,
+    counts: {}, settings: null, remuxSupport: { notice: 'Exact family qualification only; other inputs remain refused.', targets: ['matroska'] },
+    operationDraft: { id: draftId, revision: draftRevision, operation: 'remux', frozen: phase === 'running',
+      batchDefaults: { values: { remuxTarget: target } }, files: ['remux-a', 'remux-b'].map(fileId => ({ fileId,
+        request: { operation: 'remux', target, range: null, resolution: 'source', audioPolicy: 'copy' } })) },
+    items: ['remux-a', 'remux-b'].map((id, index) => {
+      const decisionId = index ? 'decision-other' : 'decision-a';
+      const omitted = decisions.includes(decisionId);
+      return { id, name: `Remux ${index + 1}.mkv`, outputName: `Remux ${index + 1}_Remux.mkv`,
+        status: phase === 'running' ? index ? 'running' : 'unprocessed' : index ? generated && !sourceAuthorized ? 'generated' : 'ready' : 'unsupported',
+        reason: index ? '' : 'Unknown relationships remain blocked.', origin: { kind: generated && index ? 'generated' : 'original' }, reencodeAuthorized: sourceAuthorized && index === 1,
+        remux: { target, status: index ? 'qualified' : 'blocked', notice: 'Only main can qualify this file.',
+          streams: [{ streamIndex: index + 5, codecType: 'subtitle', codecName: 'example', action: omitted ? 'explicitly-omitted' : index ? 'preserve-copy' : 'blocked',
+            label: `<stream ${index + 5}>`, reasons: ['Representation needs review.'], representations: ['Declared equivalent representation.'] }],
+          blockers: index ? [] : [{ code: 'RELATIONSHIPS_UNKNOWN', message: 'Unknown relationships remain blocked.', streamIndex: null }],
+          omissionCandidates: [{ id: decisionId, streamIndex: index + 5, label: `<stream ${index + 5}>`, reasons: ['Exact unsupported stream.'], target }],
+          omissionDecisionIds: omitted ? [decisionId] : [] } };
+    }), ...changes });
+  const h = await harness({
+    getCapabilities: async () => ({ profiles: unavailableEncoder ? [] : [profile], recipes: [], versions: {} }),
+    getPreferences: async () => ({ settingsByProfile: {}, inputFolder: { id: 'input-token', path: 'D:\\owned-input' }, outputFolder: { id: 'output-token', path: 'D:\\owned-output' }, notices: [] }),
+    saveSettings: async () => ({ notices: [] }),
+    prepareRemuxBatch: async request => { target = request.target; planId = `remux-plan-${revision}`; draftId = `remux-draft-${revision}`; draftRevision = 0; decisions = []; return snapshot(); },
+    setRemuxOmissions: async request => {
+      decisions = [...request.decisionIds]; draftRevision++; planId = `remux-plan-${revision}`;
+      const changes = await onOmission?.({ request, snapshot, update: changes => h.update(snapshot(changes)) });
+      return snapshot(changes);
+    },
+    reencodeOutputs: async () => { sourceAuthorized = true; return snapshot(); },
+    startBatch: async () => { phase = 'running'; return snapshot({ progress: { stage: 'encoding', fileId: 'remux-b', seconds: 1, percent: 12 } }); },
+    getEncodingDetails: async () => ({ kind: 'resolved-argument-template', args: ['-c', 'copy', '<owned-stage>'], executable: 'D:\\owned\\ffmpeg.exe', destination: 'D:\\owned-output\\result.mkv', notice: 'Canonical main plan.', outputPlaceholder: '<owned-stage>' }),
+  }, { narrow });
+  const initial = snapshot(); h.update(initial);
+  return { ...h, initial, snapshot };
+}
+
+test('Remux preparation uses only folder capabilities and Full target while all encoders are unavailable', async () => {
+  const h = await remuxHarness({ unavailableEncoder: true });
+  await h.byId('tab-remux').click();
+  assert.equal(h.byId('prepare-batch').disabled, true);
+  assert.equal(h.byId('prepare-remux').disabled, false);
+  assert.equal(h.byId('choose-input').disabled, false); assert.equal(h.byId('choose-output').disabled, false);
+  h.byId('remux-target').value = 'mov'; await h.byId('remux-target').emit('change');
+  await h.byId('prepare-remux').click();
+  assert.deepEqual(h.calls.find(call => call.name === 'prepareRemuxBatch').args,
+    [{ inputFolderId: 'input-token', outputFolderId: 'output-token', target: 'mov' }]);
+  assert.equal(h.calls.some(call => ['prepareBatch', 'reprepareEncodingSettings'].includes(call.name)), false);
+  assert.equal(h.byId('batch-panel').parentElement, h.byId('remux-batch-slot'));
+  assert.match(h.byId('effective-settings').textContent, /Full stream copy.*mov.*No transcoding/);
+  assert.match(h.byId('remux-support-notice').textContent, /Exact family qualification only/);
+});
+
+test('Remux target changes disable old Start and omission authority until new preparation or exact restoration', async () => {
+  const h = await remuxHarness();
+  assert.equal(h.byId('start-batch').disabled, false);
+  const calls = h.calls.length;
+  h.byId('remux-target').value = 'mp4'; await h.byId('remux-target').emit('change');
+  assert.equal(h.byId('start-batch').disabled, true);
+  assert.equal(h.byId('remux-target-notice').hidden, false);
+  assert.equal(h.byId('batch-items').children[0].querySelector('[data-testid="remux-omission"]').disabled, true);
+  h.update(h.snapshot());
+  assert.equal(h.byId('remux-target').value, 'mp4', 'unrelated snapshots retain the unprepared target choice');
+  assert.equal(h.byId('start-batch').disabled, true);
+  h.byId('remux-target').value = 'matroska'; await h.byId('remux-target').emit('change');
+  assert.equal(h.byId('start-batch').disabled, false);
+  assert.equal(h.byId('remux-target-notice').hidden, true);
+  assert.equal(h.calls.length, calls, 'target editing does not call preparation or grant APIs');
+});
+
+test('Remux omission actions submit the exact main-issued decision set and retain unrelated file decisions', async () => {
+  const h = await remuxHarness();
+  const row = h.byId('batch-items').children[0];
+  await row.querySelector('[data-testid="inspect-file"]').click();
+  const details = h.byId('focused-file-details-slot').querySelector('[data-testid="remux-preservation"]');
+  assert.equal(details.hidden, false);
+  assert.match(details.textContent, /<stream 5>.*Blocked.*Unknown relationships remain blocked/);
+  const button = details.querySelector('[data-testid="remux-omission"]');
+  assert.match(button.getAttribute('aria-label'), /<stream 5> for matroska/);
+  await button.click();
+  assert.deepEqual(h.calls.find(call => call.name === 'setRemuxOmissions').args,
+    [{ planId: 'remux-plan-1', draftId: 'remux-draft-1', revision: 0, decisionIds: ['decision-other', 'decision-a'] }]);
+  assert.equal(row.querySelector('[data-testid="encode-file"]').disabled, true, 'unresolved blockers cannot become selectable');
+  assert.match(details.textContent, /Explicitly omitted.*Unknown relationships remain blocked/);
+  await details.querySelector('[data-testid="remux-omission"]').click();
+  const requests = h.calls.filter(call => call.name === 'setRemuxOmissions');
+  assert.deepEqual(requests[1].args[0].decisionIds, ['decision-other']);
+  assert.deepEqual(Object.keys(requests[1].args[0]).sort(), ['decisionIds', 'draftId', 'planId', 'revision']);
+});
+
+test('DOM focus fixture clears removed descendants and refuses detached or disabled focus', () => {
+  const h = dom(), container = h.document.createElement('div'), button = h.document.createElement('button');
+  h.document.body.append(container); container.append(button); button.focus();
+  assert.equal(h.document.activeElement, button);
+  container.replaceChildren();
+  assert.equal(h.document.activeElement, h.document.body);
+  button.focus();
+  assert.equal(h.document.activeElement, h.document.body);
+  container.append(button); button.disabled = true; button.focus();
+  assert.equal(h.document.activeElement, h.document.body);
+});
+
+for (const changedDecision of [false, true]) {
+  test(`Remux decision reprepare restores ${changedDecision ? 'the same file heading when its decision changes' : 'the exact replacement control'} after inspector movement`, async () => {
+    let finish;
+    const response = new Promise(resolve => { finish = resolve; });
+    const h = await remuxHarness({ onOmission: async ({ update, snapshot }) => {
+      update({ phase: 'preparing' });
+      await response;
+      return changedDecision ? { items: snapshot().items.map(item => item.id === 'remux-a'
+        ? { ...item, remux: { ...item.remux, omissionCandidates: [{ ...item.remux.omissionCandidates[0], id: 'replacement-authority' }] } } : item) } : {};
+    } });
+    await h.byId('tab-remux').click();
+    const row = h.byId('batch-items').children[0], selectedRow = h.byId('batch-items').children[1];
+    await row.querySelector('[data-testid="inspect-file"]').click();
+    const details = h.byId('focused-file-details-slot').querySelector('[data-testid="remux-preservation"]'); details.open = true;
+    const original = details.querySelector('[data-testid="remux-omission"]'); original.focus();
+    const pending = original.click(); await settle();
+    assert.equal(h.byId('file-inspector').parentElement, h.byId('jobs-batch-slot'));
+    assert.equal(h.document.activeElement, h.byId('tab-jobs'));
+    assert.equal(h.byId('workspace-remux').hidden, false);
+    assert.equal(h.document.contains(original), false, 'the preparing snapshot actually removed the activated control');
+    finish(); await pending;
+    const replacement = details.querySelector('[data-testid="remux-omission"]');
+    assert.notEqual(replacement, original);
+    assert.equal(h.document.activeElement, changedDecision ? h.byId('focused-file-name') : replacement);
+    assert.equal(replacement.disabled, false, 'focus is restored after the final command render enables controls');
+    assert.match(h.byId('focused-file-name').textContent, /Remux 1/);
+    assert.equal(details.open, true);
+    assert.equal(h.byId('file-inspector').parentElement, h.byId('remux-batch-slot'));
+    assert.equal(row.querySelector('[data-testid="encode-file"]').checked, false);
+    assert.equal(selectedRow.querySelector('[data-testid="encode-file"]').checked, true);
+    assert.deepEqual(h.calls.filter(call => call.name === 'setRemuxOmissions').map(call => call.args[0].decisionIds), [['decision-other', 'decision-a']]);
+    assert.equal(h.calls.some(call => ['reencodeOutputs', 'prepareRemuxBatch', 'prepareBatch', 'startBatch'].includes(call.name)), false);
+  });
+}
+
+test('a pending Remux decision never takes focus back from a deliberate workspace change', async () => {
+  let finish;
+  const response = new Promise(resolve => { finish = resolve; });
+  const h = await remuxHarness({ onOmission: async ({ update }) => { update({ phase: 'preparing' }); await response; } });
+  await h.byId('tab-remux').click();
+  await h.byId('batch-items').children[0].querySelector('[data-testid="inspect-file"]').click();
+  const button = h.byId('focused-file-details-slot').querySelector('[data-testid="remux-omission"]'); button.focus();
+  const pending = button.click(); await settle();
+  await h.byId('tab-help').click();
+  const deliberateFocus = h.document.activeElement;
+  finish(); await pending;
+  assert.equal(h.byId('workspace-help').hidden, false);
+  assert.equal(h.document.activeElement, deliberateFocus);
+  assert.equal(h.calls.filter(call => call.name === 'setRemuxOmissions').length, 1);
+});
+
+for (const returnToJobs of [false, true]) {
+  test(`pending Remux decision preserves manual tab focus ${returnToJobs ? 'back on Jobs' : 'on Remux'} without tab activation`, async () => {
+    let finish;
+    const response = new Promise(resolve => { finish = resolve; });
+    const h = await remuxHarness({ onOmission: async ({ update }) => { update({ phase: 'preparing' }); await response; } });
+    await h.byId('tab-remux').click();
+    await h.byId('batch-items').children[0].querySelector('[data-testid="inspect-file"]').click();
+    const button = h.byId('focused-file-details-slot').querySelector('[data-testid="remux-omission"]'); button.focus();
+    const pending = button.click(); await settle();
+    assert.equal(h.document.activeElement, h.byId('tab-jobs'));
+    await h.byId('tab-jobs').emit('keydown', { key: 'ArrowLeft' });
+    if (returnToJobs) await h.byId('tab-remux').emit('keydown', { key: 'ArrowRight' });
+    const deliberateFocus = h.document.activeElement;
+    assert.equal(deliberateFocus, h.byId(returnToJobs ? 'tab-jobs' : 'tab-remux'));
+    finish(); await pending;
+    assert.equal(h.document.activeElement, deliberateFocus);
+    assert.equal(h.byId('workspace-remux').hidden, false, 'manual tab focus never activated another workspace');
+    assert.equal(h.calls.filter(call => call.name === 'setRemuxOmissions').length, 1);
+  });
+}
+
+test('Remux uses generated-source authorization with copy wording and shares the actual Jobs and argument view', async () => {
+  const h = await remuxHarness({ generated: true });
+  await h.byId('tab-remux').click();
+  const row = h.byId('batch-items').children[1];
+  assert.match(row.querySelector('[data-testid="reencode-output"]').textContent, /Use this generated output as a Remux source/);
+  assert.doesNotMatch(h.byId('reencode-warning').textContent, /additional quality loss/);
+  assert.match(h.byId('location-source-permission').textContent, /permission as sources for this Remux batch/);
+  assert.match(h.byId('generated-source-permission').textContent, /Remux source permission applies only to unchanged files in this preparation/);
+  assert.doesNotMatch(h.byId('reencode-toolbar').textContent, /re-encoding/i);
+  await h.byId('tab-encode').click();
+  assert.match(h.byId('location-source-permission').textContent, /re-encoding permission/);
+  await h.byId('tab-remux').click();
+  await row.querySelector('[data-testid="reencode-output"]').click();
+  assert.deepEqual(h.calls.find(call => call.name === 'reencodeOutputs').args, [{ planId: 'remux-plan-1', fileIds: ['remux-b'] }]);
+  assert.match(row.querySelector('[data-testid="origin-label"]').textContent, /Remux source authorized/);
+  const command = row.querySelector('[data-testid="encoding-details"]'); command.open = true; await command.emit('toggle');
+  assert.deepEqual(h.calls.find(call => call.name === 'getEncodingDetails').args, [{ planId: 'remux-plan-1', fileId: 'remux-b' }]);
+  assert.match(row.querySelector('[data-testid="resolved-args"]').textContent, /"copy"/);
+  await h.byId('start-batch').click();
+  assert.deepEqual(h.calls.find(call => call.name === 'startBatch').args, [{ planId: 'remux-plan-1', fileIds: ['remux-b'] }]);
+  assert.equal(h.byId('workspace-jobs').hidden, false);
+  assert.equal(h.byId('batch-items').children[1], row);
+  assert.equal(h.byId('batch-panel').parentElement, h.byId('jobs-batch-slot'));
+  assert.match(h.byId('phase-badge').textContent, /Remuxing/);
+  assert.match(h.byId('progress-label').textContent, /Remux progress/);
+  assert.equal(h.byId('cancel-batch').disabled, false);
+});
+
+test('Remux narrow drawer and Encode-only settings retain source selection without changing operation authority', async () => {
+  const h = await remuxHarness({ narrow: true });
+  await h.byId('tab-remux').click();
+  const row = h.byId('batch-items').children[1];
+  assert.match(h.byId('hidden-selected-count').textContent, /1 selected hidden/);
+  await h.byId('remux-files-toggle').click();
+  assert.equal(h.byId('remux-files-toggle').getAttribute('aria-expanded'), 'true');
+  assert.equal(h.byId('workspace-remux').className.includes('files-drawer-open'), true);
+  assert.match(h.byId('hidden-selected-count').textContent, /1 selected hidden/, 'attention filter still hides the selected qualified file');
+  await h.byId('workspace-remux').emit('keydown', { key: 'Escape' });
+  assert.equal(h.document.activeElement, h.byId('remux-files-toggle'));
+  assert.match(h.byId('hidden-selected-count').textContent, /1 selected hidden/);
+  await h.byId('tab-encode').click();
+  h.byId('preset').value = 'medium'; await h.byId('preset').emit('change');
+  assert.equal(h.byId('start-batch').disabled, false);
+  assert.equal(row.querySelector('[data-testid="encode-file"]').checked, true);
+  assert.equal(h.byId('batch-panel').parentElement, h.byId('remux-batch-slot'));
+  assert.equal(h.calls.some(call => ['prepareRemuxBatch', 'prepareBatch', 'setRemuxOmissions', 'startBatch'].includes(call.name)), false);
 });

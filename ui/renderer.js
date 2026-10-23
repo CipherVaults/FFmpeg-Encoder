@@ -21,10 +21,16 @@
     ready: 'Review batch', running: 'Encoding', cancelling: 'Cancelling',
     completed: 'Completed', cancelled: 'Cancelled', failed: 'Stopped',
   };
-  const jobStageLabels = { encoding: 'Encoding', 'output-validation': 'Validating output', 'source-check': 'Checking source', publication: 'Publishing output' };
-  const processingStages = new Set(['output-validation', 'source-check', 'publication']);
+  const jobStageLabels = { encoding: 'Encoding', remuxing: 'Remuxing', 'encoder-input-check': 'Checking encoder input',
+    'evidence-collection': 'Checking preservation', 'output-validation': 'Validating output', 'source-check': 'Checking source', publication: 'Publishing output' };
+  const processingStages = new Set(['encoder-input-check', 'evidence-collection', 'output-validation', 'source-check', 'publication']);
+  const currentOperation = () => snapshot.operation || snapshot.operationDraft?.operation || 'encode';
+  const isRemux = () => currentOperation() === 'remux';
+  const operationName = () => isRemux() ? 'Remux' : 'Encode';
   const currentJobLabel = () => snapshot.phase === 'running'
-    ? jobStageLabels[snapshot.progress?.stage] || phaseLabels.running : phaseLabels[snapshot.phase] || 'Current operation';
+    ? snapshot.progress?.stage === 'encoding' && isRemux() ? 'Remuxing'
+      : jobStageLabels[snapshot.progress?.stage] || (isRemux() ? 'Remuxing' : phaseLabels.running)
+    : phaseLabels[snapshot.phase] || 'Current operation';
   let capabilities = null;
   let inputFolder = null;
   let outputFolder = null;
@@ -60,6 +66,7 @@
   let recipeTimer = null;
   const workspaceNames = ['encode', 'remux', 'jobs', 'history', 'settings', 'help'];
   let activeWorkspace = 'encode';
+  let workspaceNavigationRevision = 0;
   // Focus is a presentation cursor, deliberately independent of queue selection
   // and main-owned source/re-encode/omission authority. No draft is cloned here.
   let focusedFileId = null;
@@ -96,6 +103,11 @@
   let batchOperationKey = null;
   let operationControlId = 0;
   let draftFiles = new Map();
+  let remuxTargetChosen = false;
+  const preparedRemuxTarget = () => snapshot.operationDraft?.batchDefaults?.values?.remuxTarget
+    || snapshot.items?.find(item => item.remux?.target)?.remux.target;
+  const remuxTargetChanged = () => isRemux() && snapshot.phase === 'ready'
+    && byId('remux-target').value !== preparedRemuxTarget();
 
   const profiles = () => capabilities?.profiles || [];
   const recipes = () => capabilities?.recipes || [];
@@ -115,6 +127,7 @@
   // disk-backed History read merely while arrowing through the tab labels.
   function activateWorkspace(name, focusPanel = false) {
     if (!workspaceNames.includes(name)) return;
+    workspaceNavigationRevision++;
     activeWorkspace = name;
     closeHelp();
     for (const candidate of workspaceNames) {
@@ -123,10 +136,15 @@
       byId(`tab-${candidate}`).tabIndex = selected ? 0 : -1;
       visible(`workspace-${candidate}`, selected);
     }
-    // Remux is an unavailable editor in Slice1. Switching only changes the
-    // visible surface: it cannot reinterpret or submit the existing Encode draft.
+    // Navigation never reinterprets or prepares the main-owned operation.
     visible('location-panel', name === 'encode' || name === 'remux');
-    if (name === 'remux') renderRemuxSummary();
+    put('location-source-permission', name === 'remux'
+      ? 'Recognized generated outputs need deliberate permission as sources for this Remux batch.'
+      : 'Recognized generated outputs need deliberate re-encoding permission.');
+    if (name === 'remux') {
+      renderRemuxSummary();
+      if (!appDefaults && !defaultsLoading) void loadAppDefaults();
+    }
     if (focusPanel) byId(`workspace-${name}`).focus();
     if (name === 'settings' && !appDefaults && !defaultsLoading) void loadAppDefaults();
     if (name === 'history' && !historyLoaded && !historyLoading) void loadHistoryPage();
@@ -148,6 +166,7 @@
   function showAppDefaults(result, message = '') {
     if (!result || result.schema !== 1 || !Number.isSafeInteger(result.revision) || !result.defaults) throw new Error('App Settings could not be read.');
     appDefaults = result;
+    if (!remuxTargetChosen && !isRemux()) byId('remux-target').value = result.defaults.remuxTarget;
     for (const [field, id] of Object.entries(defaultFields)) {
       if (field === 'previewExpanded') byId(id).checked = result.defaults[field] === true;
       else byId(id).value = result.defaults[field];
@@ -380,6 +399,7 @@
       selectionPlanId = next.planId;
       reencodeChoices.clear();
       const sameDraft = next.operationDraft?.id && selectionDraftId === next.operationDraft.id;
+      if (!sameDraft && isRemux() && preparedRemuxTarget()) byId('remux-target').value = preparedRemuxTarget();
       selectedIds = new Set((next.items || []).filter(item => sameDraft
         ? selectedIds.has(item.id) && selectableStatuses.has(item.status) : item.status === 'ready').map(item => item.id));
       selectionDraftId = next.operationDraft?.id || null;
@@ -412,7 +432,10 @@
     finally { pendingCommands--; render(); }
   }
 
-  function invalidatePreview() {
+  function invalidatePreview(encodingOnly = false) {
+    // Editing the retained Encode controls cannot revoke a Remux preview.
+    // Main independently enforces the same operation boundary on autosave.
+    if (encodingOnly && isRemux()) { render(); return; }
     dirty = true;
     selectedIds.clear();
     reencodeChoices.clear();
@@ -529,6 +552,13 @@
     if (saveFailure) throw new Error(`Settings could not be remembered: ${saveFailure.message || saveFailure}`);
   }
 
+  async function settleWorkspaceSettings() {
+    if (activeWorkspace !== 'remux') return flushSettings();
+    // Retain pending Encode preference writes without making their success a
+    // prerequisite for the independent stream-copy preparation route.
+    drainPendingSave(); await saveChain;
+  }
+
   function renderPreferencesNotice() {
     visible('preferences-notice', Boolean(preferencesNotice));
     put('preferences-notice', preferencesNotice);
@@ -641,7 +671,6 @@
     byId('profile').value = preferred?.id || '';
     if (!profiles().some(profile => profile.available)) {
       byId('capability-details').open = true;
-      uiError = 'No encoding profile is available. See encoder availability for the reported reasons.';
     }
     const versions = result.versions || {};
     put('runtime-versions', Object.entries(versions).filter(([, value]) => ['string', 'number'].includes(typeof value))
@@ -689,16 +718,16 @@
     put('selected-count', `${selectedIds.size} selected · ${(snapshot.items || []).length} found`);
     const hiddenSelected = (snapshot.items || []).filter(item => selectedIds.has(item.id) && outsideFileListView(item)).length;
     put('hidden-selected-count', `${hiddenSelected} selected hidden`);
-    byId('start-batch').disabled = !canSelect || !selectedIds.size || !snapshot.planId || hasOperationEdits();
+    byId('start-batch').disabled = !canSelect || !selectedIds.size || !snapshot.planId || hasOperationEdits() || remuxTargetChanged();
     byId('select-ready').disabled = !canSelect || !eligible.some(item => item.status === 'ready');
     byId('clear-selection').disabled = !canSelect || !selectedIds.size;
     const authorizable = new Set((snapshot.items || []).filter(canAuthorize).map(item => item.id));
     reencodeChoices = new Set([...reencodeChoices].filter(id => authorizable.has(id)));
     for (const checkbox of byId('batch-items').querySelectorAll('[data-testid="choose-reencode"]')) {
       checkbox.checked = reencodeChoices.has(checkbox.dataset.fileId);
-      checkbox.disabled = !canSelect || !authorizable.has(checkbox.dataset.fileId);
+      checkbox.disabled = !canSelect || remuxTargetChanged() || !authorizable.has(checkbox.dataset.fileId);
     }
-    byId('reencode-selected').disabled = !canSelect || !reencodeChoices.size;
+    byId('reencode-selected').disabled = !canSelect || remuxTargetChanged() || !reencodeChoices.size;
     const hiddenChoices = (snapshot.items || []).filter(item => reencodeChoices.has(item.id) && outsideFileListView(item)).length;
     put('reencode-selected-count', `${reencodeChoices.size} chosen for authorization${hiddenChoices ? ` · ${hiddenChoices} hidden` : ''}`);
     renderOperationActions();
@@ -706,25 +735,27 @@
   }
 
   function outsideFileListView(item) {
-    // The narrow drawer hides only the Encode list. It does not hide a list
+    // The narrow drawer hides only an editor list. It does not hide a list
     // moved into Current Jobs and never changes membership or main grants.
     const closedDrawer = narrowFilesLayout?.matches && !filesDrawerOpen
-      && byId('workspace-encode').contains(byId('batch-panel'));
+      && ['encode', 'remux'].some(name => byId(`workspace-${name}`).contains(byId('batch-panel')));
     return previewCollapsed || closedDrawer || !matchesFilter(item);
   }
 
   function setFilesDrawer(open, returnFocus = false) {
     filesDrawerOpen = Boolean(open);
-    const panel = byId('workspace-encode');
-    panel.className = `${(panel.className || '').replace(/\bfiles-drawer-open\b/g, '').trim()}${filesDrawerOpen ? ' files-drawer-open' : ''}`;
-    byId('files-toggle').setAttribute('aria-expanded', String(filesDrawerOpen));
+    for (const name of ['encode', 'remux']) {
+      const panel = byId(`workspace-${name}`);
+      panel.className = `${(panel.className || '').replace(/\bfiles-drawer-open\b/g, '').trim()}${filesDrawerOpen ? ' files-drawer-open' : ''}`;
+    }
+    for (const id of ['files-toggle', 'remux-files-toggle']) byId(id).setAttribute('aria-expanded', String(filesDrawerOpen));
     if (filesDrawerOpen && previewCollapsed) {
       // Opening the narrow file drawer is an explicit view action; expand the
       // same list, not a second selection model or a second collapsed state.
       previewCollapsed = false; renderItems();
     } else syncSelection();
     if (returnFocus) {
-      const trigger = byId('files-toggle');
+      const trigger = byId(isRemux() ? 'remux-files-toggle' : 'files-toggle');
       const shown = typeof trigger.getClientRects !== 'function' || trigger.getClientRects().length > 0;
       (shown ? trigger : byId('focused-file-name')).focus();
     }
@@ -752,7 +783,7 @@
       put('focused-file-origin', 'Focus is separate from batch selection.');
       put('focused-file-state', 'Choose Inspect beside any file.');
       put('focused-file-summary', 'Review preservation, processing requests and resolved arguments without changing selection.');
-      put('focused-file-settings', 'Encoder controls apply to the Encode batch; processing overrides below belong to this file.');
+      put('focused-file-settings', isRemux() ? 'Full stream copy. Focus a file to inspect its target, preservation and omission decisions.' : 'Encoder controls apply to the Encode batch; processing overrides below belong to this file.');
     } else {
       displayedFileId = focusedFileId;
       if (entry.body.parentElement !== byId('focused-file-details-slot')) byId('focused-file-details-slot').append(entry.body);
@@ -792,7 +823,7 @@
     }
     put('review-selected', `Review selected files (${chosen.length})`);
     const state = isBusy() ? 'Frozen current job — settings cannot change queued work.'
-      : dirty || hasOperationEdits() ? 'Draft changed — prepare again before starting.'
+      : dirty || hasOperationEdits() || remuxTargetChanged() ? 'Draft changed — prepare again before starting.'
         : snapshot.planId && snapshot.phase === 'ready' ? 'Prepared snapshot — main revalidates selected files at Start.'
           : 'Not prepared — choose folders and review the batch.';
     put('prepared-readiness', state);
@@ -801,7 +832,11 @@
   }
 
   function renderRemuxSummary() {
-    put('remux-target-summary', `${appDefaults?.defaults?.remuxTarget || 'Target chosen in App Settings'} · Full video only · execution unavailable until qualification`);
+    put('remux-target-summary', `Selected: ${byId('remux-target').value} · Saved preference: ${appDefaults?.defaults?.remuxTarget || 'not yet read'} · Full stream copy`);
+    put('remux-support-notice', snapshot.remuxSupport?.notice || 'Each file requires exact current qualification. Unsupported streams, relationships and targets remain blocked; an omission decision may not resolve every refusal.');
+    const changed = remuxTargetChanged();
+    visible('remux-target-notice', changed);
+    put('remux-target-notice', changed ? `Target changed from prepared ${preparedRemuxTarget()}. Prepare a new Remux batch before Start, or restore the prepared target.` : '');
   }
 
   function hasOperationEdits() {
@@ -860,6 +895,7 @@
   }
 
   function processingLabel(request) {
+    if (request.operation === 'remux') return `Current request: Full · ${request.target} · Preserve compatible streams by copy · No transcoding`;
     const range = request.range === null ? 'Full' : `${secondsText(request.range?.startUs) || 'beginning'} → ${secondsText(request.range?.endUs) || 'end'} seconds`;
     const origins = request.origins || {};
     return `Current request: ${range} (${origins.range || 'unknown origin'}) · ${request.resolution === 'source' ? 'Keep source' : `${request.resolution}p`} (${origins.resolution || 'unknown origin'}) · ${operationAudioLabels[request.audioPolicy] || request.audioPolicy} (${origins.audioPolicy || 'unknown origin'})${request.aacBitrateKbps ? ` · AAC ${request.aacBitrateKbps} kb/s` : ''}`;
@@ -1051,7 +1087,7 @@
   }
 
   function originLabel(item) {
-    if (isGenerated(item)) return item.reencodeAuthorized ? 'Generated output · Re-encoding authorized' : 'Generated output · Excluded';
+    if (isGenerated(item)) return item.reencodeAuthorized ? isRemux() ? 'Generated output · Remux source authorized' : 'Generated output · Re-encoding authorized' : 'Generated output · Excluded';
     if (item.origin?.kind === 'legacy' || item.status === 'ambiguous') return 'Possible previous output';
     if (item.origin?.kind === 'suspicious') return 'Uncertain provenance';
     return 'Original';
@@ -1079,6 +1115,76 @@
       entry.commandDestination.textContent = '';
       entry.commandKey = null;
     }
+  }
+
+  function renderRemuxDecisions(entry) {
+    const details = entry.item.remux;
+    entry.remuxDetails.hidden = !details || !isRemux();
+    if (!details || !isRemux()) { entry.remuxButtons = []; return; }
+    const key = JSON.stringify([snapshot.planId, snapshot.operationDraft?.id, snapshot.operationDraft?.revision, details]);
+    if (key !== entry.remuxKey) {
+      entry.remuxKey = key; entry.remuxBody.replaceChildren(); entry.remuxButtons = [];
+      const text = value => typeof value === 'string' ? value : value?.message || value?.reason || value?.label || '';
+      const addText = value => { const p = document.createElement('p'); p.className = 'hint'; p.textContent = value; entry.remuxBody.append(p); };
+      addText(`Full · ${details.target} · ${details.status}. ${details.notice || ''}`);
+      const streams = document.createElement('ul'); streams.className = 'remux-streams';
+      const actions = { 'preserve-copy': 'Preserve by stream copy', 'explicitly-omitted': 'Explicitly omitted from this output', blocked: 'Blocked; preservation is not qualified' };
+      for (const stream of details.streams || []) {
+        const li = document.createElement('li');
+        li.textContent = `${stream.label || `Stream ${stream.streamIndex}: ${stream.codecType} / ${stream.codecName}`} · ${actions[stream.action] || stream.action}`;
+        const notes = [...(stream.reasons || []), ...(stream.representations || [])].map(text).filter(Boolean);
+        if (notes.length) { const p = document.createElement('p'); p.className = 'hint'; p.textContent = notes.join(' '); li.append(p); }
+        streams.append(li);
+      }
+      entry.remuxBody.append(streams);
+      for (const blocker of details.blockers || []) addText(`${blocker.code}: ${blocker.message}`);
+      for (const candidate of details.omissionCandidates || []) {
+        const approved = (details.omissionDecisionIds || []).includes(candidate.id);
+        const row = document.createElement('div'); row.className = 'remux-decision';
+        const description = document.createElement('p'); description.className = 'hint';
+        description.textContent = `${candidate.label} · Target: ${candidate.target}. ${(candidate.reasons || []).map(text).filter(Boolean).join(' ')} ${approved ? 'This stream is deliberately omitted from the prepared output.' : 'Omitting removes this stream from the output. The source is preserved. Other qualification blockers may remain.'}`;
+        const button = document.createElement('button'); button.type = 'button'; button.className = 'subtle';
+        button.dataset.testid = 'remux-omission'; button.dataset.decisionId = candidate.id;
+        button.textContent = approved ? 'Restore preservation of this stream' : 'Omit this stream and prepare again';
+        button.setAttribute('aria-label', `${button.textContent}: ${candidate.label} for ${candidate.target}`);
+        button.addEventListener('click', async () => {
+          const focusReturn = document.activeElement === button ? { fileId: entry.item.id, decisionId: candidate.id,
+            target: candidate.target, draftId: snapshot.operationDraft?.id, workspace: activeWorkspace,
+            navigationRevision: workspaceNavigationRevision, inInspector: focusedFileId === entry.item.id } : null;
+          await command(async () => {
+            if (!isRemux() || snapshot.phase !== 'ready' || dirty || remuxTargetChanged() || snapshot.operationDraft?.frozen) throw new Error('Review the current prepared Remux target before changing a stream decision.');
+            const current = snapshot.items?.find(item => item.id === entry.item.id)?.remux;
+            if (!current?.omissionCandidates?.some(value => value.id === candidate.id)) throw new Error('That stream decision is no longer current. Review the file again.');
+            // Submit the exact desired set of opaque main-issued IDs. No stream
+            // index, source path, fingerprint, FFmpeg option or approval is minted here.
+            const decisionIds = new Set((snapshot.items || []).flatMap(item => item.remux?.omissionDecisionIds || []));
+            if (decisionIds.has(candidate.id)) decisionIds.delete(candidate.id); else decisionIds.add(candidate.id);
+            const draft = snapshot.operationDraft;
+            applySnapshot(await api.setRemuxOmissions({ planId: snapshot.planId, draftId: draft.id, revision: draft.revision, decisionIds: [...decisionIds] }));
+          });
+          // Repreparation replaces decision controls and can temporarily move
+          // their inspector into Jobs. Restore only this exact action's focus,
+          // after command() has enabled the final controls; never renew a grant.
+          if (!focusReturn || snapshot.phase !== 'ready' || !isRemux()
+              || snapshot.operationDraft?.id !== focusReturn.draftId || activeWorkspace !== focusReturn.workspace
+              || workspaceNavigationRevision !== focusReturn.navigationRevision
+              || (focusReturn.inInspector && focusedFileId !== focusReturn.fileId)) return;
+          const active = document.activeElement;
+          if (active && active !== document.body && active !== button && active !== byId('tab-jobs')) return;
+          const currentEntry = itemRows.get(focusReturn.fileId);
+          if (!currentEntry) return;
+          const replacement = currentEntry.item.remux?.target === focusReturn.target
+            ? currentEntry.remuxButtons.find(value => value.dataset.decisionId === focusReturn.decisionId) : null;
+          const shown = replacement && (typeof replacement.getClientRects !== 'function' || replacement.getClientRects().length > 0);
+          if (shown && !replacement.disabled) replacement.focus();
+          else focusFile(focusReturn.fileId, true);
+        });
+        row.append(description, button); entry.remuxBody.append(row); entry.remuxButtons.push(button);
+      }
+    }
+    const editable = snapshot.phase === 'ready' && snapshot.operationDraft && !snapshot.operationDraft.frozen
+      && !dirty && !pendingCommands && !remuxTargetChanged();
+    for (const button of entry.remuxButtons) button.disabled = !editable;
   }
 
   function completedOutputId(item) {
@@ -1173,6 +1279,10 @@
     const body = document.createElement('div');
     body.className = 'file-detail-body';
     const operation = createOperationEditor(item);
+    const remuxDetails = document.createElement('details'); remuxDetails.className = 'remux-preservation';
+    remuxDetails.dataset.testid = 'remux-preservation';
+    const remuxHeading = document.createElement('summary'); remuxHeading.textContent = 'Stream preservation and omission decisions';
+    const remuxBody = document.createElement('div'); remuxDetails.append(remuxHeading, remuxBody);
     const output = document.createElement('p');
     output.className = 'output-name';
     const outputControls = document.createElement('div');
@@ -1268,7 +1378,7 @@
       const entry = itemRows.get(item.id);
       if (entry) loadEncodingDetails(entry);
     });
-    body.append(output, outputControls, outputNotice, summary, reason, metadata, sampling, operation.operationEditor, previousDetails, action, commandDetails);
+    body.append(output, outputControls, outputNotice, summary, reason, metadata, sampling, operation.operationEditor, remuxDetails, previousDetails, action, commandDetails);
     details.append(name, body);
     // Classification and its deliberate action stay visible in compact rows.
     // Heavy provenance/argument details expand only when requested.
@@ -1285,7 +1395,7 @@
     row.append(useCell, fileCell, statusCell);
     return { row, checkbox, details, body, inspect, name, output, summary, reason, metadata, sampling, action, status, item, key: '', origin, previous, ...operation,
       outputControls, outputNotice, outputAccessId: undefined, outputRequest: 0, outputPending: false, outputResult: '', outputFailed: false,
-      previousDetails, previousInfo, previousArgs, reencodeBox, reencodeChoice, reencode,
+      previousDetails, previousInfo, previousArgs, reencodeBox, reencodeChoice, reencode, remuxDetails, remuxBody, remuxKey: null, remuxButtons: [],
       commandDetails, commandHeading, commandNotice, commandExecutable, commandDestination, commandArgs, commandKey: null };
   }
 
@@ -1305,12 +1415,13 @@
       if (!entry) { entry = createItemRow(item); itemRows.set(item.id, entry); }
       entry.item = item;
       renderFileOperation(entry);
+      renderRemuxDecisions(entry);
       renderOutputAccess(entry);
       const jobStage = snapshot.progress?.fileId === item.id ? snapshot.progress.stage : null;
-      const key = JSON.stringify([item.name, item.outputName, item.status, item.reason, item.summary, item.origin, item.reencodeAuthorized, item.outcome, item.outputDisposition, jobStage]);
+      const key = JSON.stringify([currentOperation(), item.name, item.outputName, item.status, item.reason, item.summary, item.origin, item.reencodeAuthorized, item.outcome, item.outputDisposition, jobStage]);
       if (key !== entry.key) {
         entry.key = key;
-        entry.checkbox.setAttribute('aria-label', `Encode ${item.name}`);
+        entry.checkbox.setAttribute('aria-label', `${operationName()} ${item.name}`);
         entry.name.textContent = item.name;
         entry.name.title = item.name;
         entry.inspect.setAttribute('aria-label', `Inspect ${item.name} without changing selection`);
@@ -1337,7 +1448,9 @@
           ? `${generationSummary(item)} · FFmpeg Encoder ${previous.appVersion}${previous.runtimeVersion ? ` · ${previous.runtimeVersion}` : ''} · ${previous.createdAt}. Recorded encoder arguments are descriptive provenance, not a complete previous invocation.` : '';
         entry.previousArgs.textContent = previous ? formatArguments(previous.encoderArgs) : '';
         entry.reencodeBox.hidden = !canAuthorize(item);
-        entry.reencodeChoice.setAttribute('aria-label', `Choose ${item.name} for re-encoding authorization`);
+        entry.reencodeChoice.setAttribute('aria-label', `Choose ${item.name} for ${isRemux() ? 'Remux source' : 're-encoding'} authorization`);
+        entry.reencodeChoice.parentElement.querySelector('span').textContent = isRemux() ? 'Choose as a Remux source' : 'Choose for re-encoding';
+        entry.reencode.textContent = isRemux() ? 'Use this generated output as a Remux source' : 'Re-encode this output';
         entry.commandDetails.hidden = !['ready', 'conflict', 'pending', 'running', 'validating', 'success', 'failed', 'cancelled', 'unprocessed'].includes(item.status);
         if (entry.commandDetails.open && !entry.commandDetails.hidden) loadEncodingDetails(entry);
         const knownStatus = Object.hasOwn(statusLabels, item.status) ? item.status : 'pending';
@@ -1345,7 +1458,7 @@
         const retained = ['retained-completed', 'publication-uncertain'].includes(item.outputDisposition?.kind);
         entry.status.className = `status status-${savedWarning || retained ? 'conflict' : knownStatus}`;
         entry.status.textContent = savedWarning ? 'Saved with warning' : retained ? 'Completed stage retained'
-          : knownStatus === 'validating' ? jobStageLabels[jobStage] || statusLabels.validating : statusLabels[knownStatus];
+          : knownStatus === 'validating' ? jobStageLabels[jobStage] || statusLabels.validating : knownStatus === 'running' && isRemux() ? 'Remuxing' : statusLabels[knownStatus];
         entry.status.title = item.reason || entry.status.textContent;
       }
       entry.row.hidden = !matchesFilter(item);
@@ -1369,6 +1482,11 @@
     put('attention-warning', problems.length ? `Needs attention: ${problems.join(' · ')}. Expand a filename for its reason and available actions.` : '');
     visible('empty-message', !items.length);
     visible('reencode-toolbar', counts.generated > 0 && snapshot.phase === 'ready' && !dirty);
+    put('reencode-warning', isRemux() ? 'Choose exact generated outputs, then explicitly authorize them as sources for this prepared Remux batch. Remux copies qualified streams without a new lossy encoding generation.' : 'Re-encoding an already compressed video can introduce additional quality loss. Choose individual generated outputs below, then explicitly authorize them for this prepared batch.');
+    put('generated-source-permission', isRemux()
+      ? 'Filtering does not authorize files. Remux source permission applies only to unchanged files in this preparation.'
+      : 'Filtering does not authorize files. Re-encoding permission applies only to unchanged files in this preparation.');
+    put('reencode-selected', isRemux() ? 'Use chosen outputs as Remux sources' : 'Re-encode chosen outputs');
     syncSelection();
   }
 
@@ -1400,13 +1518,13 @@
     put('active-job-summary', [activeStage, item?.name, hasPercent ? `${Math.min(100, Math.max(0, progress.percent)).toFixed(1)}%` : '',
       preparing && preparation.total ? `${preparation.resolved} of ${preparation.total} files inspected · ${preparation.reused || 0} reused` : ''].filter(Boolean).join(' · '));
     put('percent', hasPercent ? `${Math.min(100, Math.max(0, progress.percent)).toFixed(1)}%` : processing ? 'Processing' : 'In progress');
-    put('progress-label', snapshot.phase === 'preparing' ? 'Inspecting media' : snapshot.phase === 'checking' ? 'Checking encoders' : processing ? activeStage : 'Encoding progress');
-    put('monitor-heading', preparing ? '03 / Inspecting recordings' : '03 / Encoding monitor');
+    put('progress-label', snapshot.phase === 'preparing' ? 'Inspecting media' : snapshot.phase === 'checking' ? 'Checking encoders' : processing ? activeStage : isRemux() ? 'Remux progress' : 'Encoding progress');
+    put('monitor-heading', preparing ? '03 / Inspecting recordings' : isRemux() ? '03 / Remux monitor' : '03 / Encoding monitor');
     visible('inspection-details', preparing);
     visible('encoding-telemetry', !preparing && !processing);
     put('progress-note', preparing ? 'Progress counts resolved files. Individual inspection times vary with the recording.'
       : processing ? `${jobStageLabels[progress.stage]}. The job remains active until protected checks, publication and cleanup settle. There is no reliable percentage or ETA for this stage.`
-        : 'A file is complete after the encoded output has been verified and saved.');
+        : `A file is complete after the ${isRemux() ? 'remuxed' : 'encoded'} output has been verified and saved.`);
     const stages = { identity: 'Checking file identity', metadata: 'Reading duration, video properties and streams', frames: 'Checking sampled SDR/HDR metadata', reused: 'Reusing validated inspection' };
     put('inspection-stage', `${stages[preparation.stage] || 'Preparing inspection'}${preparation.window ? ` · ${preparation.window}` : ''}`);
     visible('inspection-notice', Boolean(preparation.notice));
@@ -1445,9 +1563,9 @@
     else if (phase === 'cancelling') activity = 'Waiting for the active process to exit and temporary files to be cleaned up.';
     else if (phase === 'running') activity = processingStages.has(snapshot.progress?.stage)
       ? `${currentJobLabel()}. The job is still active; cancellation and Jobs remain available.`
-      : 'Encoding locally. Each completed output is verified before it is saved.';
+      : `${isRemux() ? 'Remuxing' : 'Encoding'} locally. Each completed output is verified before it is saved.`;
     else if (pendingCommands) activity = 'Working…';
-    else if (ready) activity = 'Review the effective settings and select the files to encode.';
+    else if (ready) activity = `Review the effective settings and select the files to ${isRemux() ? 'remux' : 'encode'}.`;
     else if (dirty && editing && capabilities) activity = 'Choose your settings, then review the batch.';
     put('activity-message', activity);
     visible('diagnostic-warning', Boolean(snapshot.diagnosticWarning)); put('diagnostic-warning', snapshot.diagnosticWarning || '');
@@ -1455,7 +1573,7 @@
     visible('location-panel', activeWorkspace === 'encode' || activeWorkspace === 'remux');
     // Move the existing rows instead of rendering a second queue. Expanded
     // details, ID-bound actions and focus stay attached to the same DOM nodes.
-    const batchWorkspace = busy || terminal ? 'jobs' : 'encode';
+    const batchWorkspace = busy || terminal ? 'jobs' : currentOperation();
     const batchSlot = byId(`${batchWorkspace}-batch-slot`);
     if (byId('batch-panel').parentElement !== batchSlot) {
       const movingFocus = byId('batch-panel').contains(document.activeElement);
@@ -1477,14 +1595,17 @@
     visible('results-panel', showResults);
     visible('jobs-empty', (!busy && !terminal) || phase === 'checking');
     put('jobs-empty-message', phase === 'checking' ? 'The bundled encoders are being checked. The current operation remains visible below.'
-      : ready ? 'This batch is prepared but has not started. Review its files and start the selected items in Encode.' : 'No batch is running. Choose folders and review a batch in Encode.');
+      : ready ? `This ${operationName()} batch is prepared but has not started. Review its files and start the selected items in ${operationName()}.` : 'No batch is running. Choose folders and prepare an Encode or Remux batch.');
+    put('jobs-open-encode', `Go to ${operationName()}`);
     visible('preview-actions', ready);
     visible('cancel-bar', busy);
     put('cancel-explanation', phase === 'checking' ? 'Cancel this capability check.' : 'Cancellation stops this operation and the remaining queue.');
     byId('cancel-batch').disabled = !snapshot.batchId || cancelPending || phase === 'cancelling';
     put('cancel-batch', phase === 'cancelling' || cancelPending ? 'Cancelling…' : phase === 'preparing' ? 'Cancel inspection' : phase === 'checking' ? 'Cancel check' : 'Cancel batch');
     const locked = busy || pendingCommands > 0;
-    for (const id of ['choose-input', 'choose-output']) byId(id).disabled = locked || !capabilities;
+    for (const id of ['choose-input', 'choose-output']) byId(id).disabled = locked;
+    byId('remux-target').disabled = locked;
+    byId('prepare-remux').disabled = locked || !inputFolder?.id || !outputFolder?.id || inputFolder.available === false || outputFolder.available === false;
     byId('profile').disabled = locked || !capabilities;
     for (const id of ['preset', 'quality', 'quality-slider', 'tested-default']) byId(id).disabled = locked || !selectedProfile();
     const candidate = profileRecipe();
@@ -1514,21 +1635,24 @@
     }
     const profileUnavailable = Boolean(capabilities && !selectedProfile()?.available);
     visible('profile-unavailable', profileUnavailable);
-    put('profile-unavailable', profileUnavailable ? `Selected profile is unavailable: ${selectedProfile()?.reason || 'This profile cannot initialize on this computer.'} Choose an available profile to review a batch.` : '');
+    put('profile-unavailable', profileUnavailable ? profiles().length
+      ? `Selected profile is unavailable: ${selectedProfile()?.reason || 'This profile cannot initialize on this computer.'} Choose an available profile to review an Encode batch.`
+      : 'No encoding profile is available. See encoder availability for the reported reasons. Remux preparation checks its own qualification.' : '');
     renderPreferencesNotice();
-    put('effective-settings', snapshot.settings ? `Effective settings: ${describeSettings(snapshot.settings)}` : '');
-    put('monitor-settings', describeSettings(snapshot.settings));
+    const settingsSummary = isRemux() ? `Full stream copy · ${preparedRemuxTarget() || 'target pending inspection'} · No transcoding` : describeSettings(snapshot.settings);
+    put('effective-settings', settingsSummary ? `Effective settings: ${settingsSummary}` : '');
+    put('monitor-settings', settingsSummary);
     const hasEligible = (snapshot.items || []).some(item => selectableStatuses.has(item.status));
     put('preview-message', ready && !hasEligible
-      ? 'Nothing to encode in this batch. Review the skipped or unsupported reasons below, or change your folders and settings.'
+      ? `Nothing to ${isRemux() ? 'remux' : 'encode'} in this batch. Review the skipped or unsupported reasons below, or change your folders and settings.`
       : showResults ? 'Completed batch. Each file result and any skipped or unsupported reason is shown below.'
-        : 'Select files to encode. Existing outputs stay unchanged. For conflicting output names, select one input per destination.');
+        : `Select files to ${isRemux() ? 'remux' : 'encode'}. Existing outputs stay unchanged. For conflicting output names, select one input per destination.`);
     renderItems(); renderTelemetry();
     // A focused details body may live in the inspector, outside the table.
     // Lock identity-bound actions by their retained references, never subtree.
     for (const entry of itemRows.values()) {
       entry.action.disabled = locked || !ready;
-      entry.reencode.disabled = locked || !ready;
+      entry.reencode.disabled = locked || !ready || remuxTargetChanged();
     }
     const recovery = snapshot.provenanceRecovery;
     if (byId('provenance-notice')) {
@@ -1539,7 +1663,7 @@
     if (showResults) {
       for (const key of ['success', 'failed', 'skipped', 'cancelled', 'unprocessed']) put(`count-${key}`, snapshot.counts?.[key] || 0);
       put('result-phase', phaseLabels[phase]);
-      put('result-message', phase === 'completed' ? 'The batch has finished. Review individual results above; skipped and unsupported files are listed with their reasons.' : phase === 'cancelled' ? 'The operation was cancelled. Completed outputs are preserved. Remaining files were not encoded.' : snapshot.error || 'The batch stopped. Review the file results before preparing a new batch.');
+      put('result-message', phase === 'completed' ? 'The batch has finished. Review individual results above; skipped and unsupported files are listed with their reasons.' : phase === 'cancelled' ? 'The operation was cancelled. Completed outputs are preserved. Remaining files were not processed.' : snapshot.error || 'The batch stopped. Review the file results before preparing a new batch.');
     }
   }
 
@@ -1551,12 +1675,14 @@
         Home: 0, End: workspaceNames.length - 1 };
       if (Object.hasOwn(positions, event.key)) {
         event.preventDefault();
+        workspaceNavigationRevision++;
         for (const candidate of workspaceNames) byId(`tab-${candidate}`).tabIndex = -1;
         const next = byId(`tab-${workspaceNames[positions[event.key]]}`); next.tabIndex = 0; next.focus();
       } else if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); activateWorkspace(name); }
     });
   }
   byId('files-toggle').addEventListener('click', () => setFilesDrawer(!filesDrawerOpen));
+  byId('remux-files-toggle').addEventListener('click', () => setFilesDrawer(!filesDrawerOpen));
   byId('focused-file-clear').addEventListener('click', () => {
     const previous = itemRows.get(focusedFileId); focusedFileId = null; renderFocusedFile();
     const rowVisible = previous && !previous.row.hidden && !previewCollapsed
@@ -1573,11 +1699,11 @@
     byId('review-selected').setAttribute('aria-expanded', String(byId('selected-review').open));
   }
   byId('selected-review').addEventListener('toggle', syncReviewDisclosure);
-  byId('workspace-encode').addEventListener('keydown', event => {
+  for (const name of ['encode', 'remux']) byId(`workspace-${name}`).addEventListener('keydown', event => {
     if (event.key === 'Escape' && filesDrawerOpen && !activeHelp) { event.preventDefault(); setFilesDrawer(false, true); }
   });
   byId('view-jobs').addEventListener('click', () => activateWorkspace('jobs', true));
-  byId('jobs-open-encode').addEventListener('click', () => activateWorkspace('encode', true));
+  byId('jobs-open-encode').addEventListener('click', () => activateWorkspace(currentOperation(), true));
   byId('app-settings-reload').addEventListener('click', () => { void loadAppDefaults(); });
   byId('app-settings-form').addEventListener('submit', event => { event.preventDefault(); void saveAppDefaults(); });
   byId('app-settings-reset').addEventListener('click', () => { void saveAppDefaults(true); });
@@ -1634,24 +1760,24 @@
   byId('history-select-export').addEventListener('click', () => { byId('history-export-text').focus(); byId('history-export-text').select(); });
 
   byId('profile').addEventListener('change', () => {
-    drainPendingSave(); populateProfileSettings(); invalidatePreview(); rememberCurrentSettings();
+    drainPendingSave(); populateProfileSettings(); invalidatePreview(true); rememberCurrentSettings();
   });
-  byId('preset').addEventListener('change', () => { invalidatePreview(); rememberCurrentSettings(); refreshRecipe(); });
+  byId('preset').addEventListener('change', () => { invalidatePreview(true); rememberCurrentSettings(); refreshRecipe(); });
   byId('quality').addEventListener('input', () => {
     const value = byId('quality').valueAsNumber;
     if (finite(value)) byId('quality-slider').value = value;
-    put('quality-value', finite(value) ? value : '—'); invalidatePreview(); rememberCurrentSettings(true); refreshRecipe();
+    put('quality-value', finite(value) ? value : '—'); invalidatePreview(true); rememberCurrentSettings(true); refreshRecipe();
   });
   byId('quality-slider').addEventListener('input', () => {
     byId('quality').value = byId('quality-slider').value;
-    put('quality-value', byId('quality').value); invalidatePreview(); rememberCurrentSettings(true); refreshRecipe();
+    put('quality-value', byId('quality').value); invalidatePreview(true); rememberCurrentSettings(true); refreshRecipe();
   });
   for (const id of ['quality', 'quality-slider']) byId(id).addEventListener('change', () => rememberCurrentSettings());
   byId('tested-default').addEventListener('click', () => command(async () => {
     await flushSettings();
     const result = await api.resetProfile({ profileId: byId('profile').value });
     applyPreferences(result, 'Tested Default applied to the current profile. You can edit these values.');
-    invalidatePreview();
+    invalidatePreview(true);
   }));
   byId('archive-quality').addEventListener('click', () => command(async () => {
     const recipe = profileRecipe();
@@ -1661,7 +1787,7 @@
     byId('preset').value = recipe.preset;
     for (const id of ['quality', 'quality-slider']) byId(id).value = recipe.quality;
     put('quality-value', recipe.quality);
-    invalidatePreview(); rememberCurrentSettings(); refreshRecipe();
+    invalidatePreview(true); rememberCurrentSettings(); refreshRecipe();
     // The helper exposes its complete production contribution immediately;
     // native preset/quality controls remain available for deliberate changes.
     byId('current-recipe').open = true;
@@ -1670,7 +1796,7 @@
   byId('clear-recipe').addEventListener('click', () => command(async () => {
     await flushSettings();
     selectedRecipeId = null;
-    invalidatePreview(); rememberCurrentSettings(); refreshRecipe();
+    invalidatePreview(true); rememberCurrentSettings(); refreshRecipe();
     await flushSettings();
   }));
   byId('forget-preferences').addEventListener('click', () => command(async () => {
@@ -1700,13 +1826,13 @@
   byId('reencode-selected').addEventListener('click', () => command(() => authorizeReencode([...reencodeChoices])));
   byId('choose-input').addEventListener('click', () => command(async () => {
     if (hasOperationEdits()) throw new Error('Apply or discard processing edits before choosing another source folder.');
-    await flushSettings();
+    await settleWorkspaceSettings();
     const selected = await api.chooseInputFolder();
     if (selected) { inputFolder = selected; invalidatePreview(); }
   }));
   byId('choose-output').addEventListener('click', () => command(async () => {
     if (hasOperationEdits()) throw new Error('Apply or discard processing edits before choosing another output folder.');
-    await flushSettings();
+    await settleWorkspaceSettings();
     const selected = await api.chooseOutputFolder();
     if (selected) { outputFolder = selected; invalidatePreview(); }
   }));
@@ -1727,8 +1853,21 @@
     applySnapshot(next);
     if (snapshot.phase === 'ready') byId('batch-heading').scrollIntoView({ block: 'start' });
   }));
+  byId('remux-target').addEventListener('change', () => { remuxTargetChosen = true; render(); });
+  byId('prepare-remux').addEventListener('click', () => command(async () => {
+    if (!inputFolder?.id || !outputFolder?.id || inputFolder.available === false || outputFolder.available === false) throw new Error('Choose both folders before preparing Remux.');
+    if (hasOperationEdits()) throw new Error('Apply or discard processing edits before preparing a new Remux batch.');
+    const target = byId('remux-target').value;
+    if (!['matroska', 'mp4', 'mov'].includes(target)) throw new Error('Choose a supported Remux target.');
+    drainPendingSave(); await saveChain;
+    const next = await api.prepareRemuxBatch({ inputFolderId: inputFolder.id, outputFolderId: outputFolder.id, target });
+    preparedFolderPair = next?.phase === 'ready' && next.operationDraft?.id
+      ? { inputFolderId: inputFolder.id, outputFolderId: outputFolder.id, draftId: next.operationDraft.id } : null;
+    applySnapshot(next);
+    if (snapshot.phase === 'ready') byId('batch-heading').scrollIntoView({ block: 'start' });
+  }));
   byId('start-batch').addEventListener('click', () => command(async () => {
-    if (dirty || !selectedIds.size || hasOperationEdits()) throw new Error('Review the batch, apply or discard processing edits, and select at least one ready file.');
+    if (dirty || !selectedIds.size || hasOperationEdits() || remuxTargetChanged()) throw new Error('Review the batch, prepare the current target, apply or discard processing edits, and select at least one ready file.');
     applySnapshot(await api.startBatch({ planId: snapshot.planId, fileIds: [...selectedIds] }));
     activateWorkspace('jobs');
     byId('monitor-heading').scrollIntoView({ block: 'start' });
@@ -1748,9 +1887,9 @@
     if (isBusy()) return;
     preparedFolderPair = null;
     editing = true; dirty = true; selectedIds.clear(); reencodeChoices.clear(); uiError = ''; render();
-    activateWorkspace('encode');
+    activateWorkspace(currentOperation());
     if (!capabilities) command(loadCapabilities);
-    byId('setup-heading').scrollIntoView({ block: 'start' });
+    byId(isRemux() ? 'remux-heading' : 'setup-heading').scrollIntoView({ block: 'start' });
   });
 
   // One in-flow explanation area sits below every encoder control. An open

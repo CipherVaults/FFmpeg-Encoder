@@ -76,7 +76,8 @@ class OperationDraft {
         overrides: structuredClone(this.#overrides.get(fileId) || {}) })) });
   }
   fileRequest(fileId) { return this.#request(fileId); }
-  invalidateEncodingSettings(request) {
+  invalidateEncodingSettings(request) { return this.invalidatePreparedChoices(request); }
+  invalidatePreparedChoices(request) {
     exact(request, ['draftId', 'revision']); this.#editable(request);
     // Encoder changes invalidate prepared authority without moving a range or
     // processing override to another file or resetting it to Full.

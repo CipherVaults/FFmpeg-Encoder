@@ -236,18 +236,62 @@ test('TS unknown program, multiple programs, unresolved membership and service m
   }
 });
 
-test('metadata preserves titles and creation-time aliases without claiming old container identity', () => {
+// October23 owner amendment: descriptive dates/container labels are copy
+// attempts; functional track/chapter labels and unknown tags remain required.
+test('metadata separates descriptive copy attempts from functional preservation without losing existing mapping', () => {
   const probe = source();
   probe.streams[0].tags.creation_time = '2026-09-01T00:00:00.123456Z';
   probe.chapters = [{ id: 0, time_base: '1/1000', start: 0, end: 1000, start_time: '0', end_time: '1', tags: { title: 'Chapter', creation_time: '2026-09-01T00:00:00Z' } }];
   const result = assess(probe), args = argv(result), metadata = result.expectedOutput.streams[0].metadata;
-  assert.equal(metadata.preserved.creation_time, probe.streams[0].tags.creation_time);
+  assert.equal(metadata.attempted.creation_time, probe.streams[0].tags.creation_time);
+  assert.equal(Object.hasOwn(metadata.preserved, 'creation_time'), false);
+  assert.equal(metadata.classifications.find(item => item.key === 'creation_time').mismatch, 'warning');
   assert.equal(metadata.representations[0].outputKey, 'SOURCE_CREATION_TIME');
   assert.equal(option(args, '-metadata:s:0'), `SOURCE_CREATION_TIME=${probe.streams[0].tags.creation_time}`);
-  assert.equal(result.expectedOutput.metadata.preserved.title, 'A real source title');
+  assert.equal(result.expectedOutput.metadata.attempted.title, 'A real source title');
   assert.equal(result.expectedOutput.metadata.replacements[0].key, 'major_brand');
   assert.equal(result.expectedOutput.chapters[0].metadata.preserved.title, 'Chapter');
   assert.equal(result.expectedOutput.chapters[0].metadata.representations[0].outputKey, undefined);
+  assert.equal(result.expectedOutput.metadataPolicy.id, 'remux-functional-consequence');
+  assert.equal(option(args, '-map_metadata'), '0');
+  assert.equal(option(args, '-map_metadata:s:0'), '0:s:0');
+  assert.equal(option(args, '-map_chapters'), '0');
+});
+
+test('vendor/tool descriptions are attempted while derived counters, brands and provenance retain their transformations', () => {
+  const probe = source();
+  Object.assign(probe.streams[0].tags, { vendor_id: 'FFMP', encoder: 'Source tool', generator: 'Generator', duration: '00:00:02', number_of_frames: '120', number_of_bytes: '100' });
+  const result = assess(probe), metadata = result.expectedOutput.streams[0].metadata;
+  assert.deepEqual(metadata.attempted, { vendor_id: 'FFMP', encoder: 'Source tool', generator: 'Generator' });
+  assert.deepEqual(metadata.preserved, { language: 'eng' });
+  assert.deepEqual(metadata.replacements.map(item => item.key), ['duration', 'number_of_frames', 'number_of_bytes']);
+  assert.ok(metadata.classifications.every(item => item.key === 'language' ? item.mismatch === 'error' : item.mismatch === 'warning'));
+  assert.equal(Object.isFrozen(metadata.attempted), true);
+  assert.equal(Object.isFrozen(metadata.classifications), true);
+  assert.equal(Object.isFrozen(metadata.policy.descriptiveTagKeys), true);
+});
+
+test('output-only neutral defaults and track-name aliases are explicitly bounded in the main metadata contract', () => {
+  const probe = source(); delete probe.streams[0].tags.language;
+  for (const target of ['matroska', 'mp4', 'mov']) {
+    const expected = assess(probe, target).expectedOutput;
+    const video = expected.streams[0].metadata, audio = expected.streams[1].metadata;
+    assert.equal(video.allowedAdditions.find(item => item.key === 'language').value, 'und');
+    assert.equal(audio.allowedAdditions.some(item => item.key === 'language'), false, 'an existing language has no neutral overwrite permission');
+    if (target === 'matroska') assert.equal(video.allowedAdditions.some(item => item.key === 'handler_name'), false);
+    else {
+      assert.equal(video.allowedAdditions.find(item => item.key === 'handler_name').value, 'VideoHandler');
+      assert.equal(audio.allowedAdditions.find(item => item.key === 'handler_name').value, 'SoundHandler');
+      assert.equal(audio.allowedAdditions.find(item => item.key === 'name').value, 'Original audio');
+    }
+    assert.equal(expected.metadata.allowedAdditions.find(item => item.key === MARKER_KEY).value, '1');
+    assert.equal(expected.metadata.allowedAdditions.find(item => item.key === OUTPUT_ID_KEY).match, 'fresh-output-id');
+    assert.equal(expected.metadata.allowedAdditions.some(item => item.key === GENERATION_KEY), false);
+    assert.equal(Object.isFrozen(video.allowedAdditions), true);
+    assert.ok(video.allowedAdditions.every(Object.isFrozen));
+  }
+  const existing = source(); existing.streams[0].tags.handler_name = 'Custom source label';
+  assert.equal(assess(existing, 'mp4').expectedOutput.streams[0].metadata.allowedAdditions.some(item => item.key === 'handler_name'), false);
 });
 
 test('prototype-looking metadata remains explicit preservation evidence rather than disappearing', () => {

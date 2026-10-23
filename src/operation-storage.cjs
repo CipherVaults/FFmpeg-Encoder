@@ -13,6 +13,7 @@ const { randomUUID } = require('node:crypto');
 const LIMITS = Object.freeze({ capBytes: 1024 * 1024 * 1024, initialReserveBytes: 32 * 1024 * 1024,
   minFreeBytes: 25 * 1024 * 1024 * 1024, metadataHeadroomBytes: 64 * 1024, maxEntries: 4096, maxDepth: 4 });
 const LEASE = '.storage-lease.json', LEDGER = '.storage-ledger.json', MAX_METADATA = 32 * 1024;
+const MAX_WALK_ATTEMPTS = 3;
 const PROCESS_TOKEN = randomUUID();
 const fault = (code, message, details = {}) => Object.assign(new Error(message), { code, ...details });
 const need = (value, message, code = 'OPERATION_STORAGE_INVALID') => { if (!value) throw fault(code, message); };
@@ -113,48 +114,65 @@ async function openEvidenceStorage(options = {}) {
       'Evidence lease identity changed; no further admission is permitted.', 'OPERATION_STORAGE_LEASE');
   }
   async function walk() {
-    await guard(); let total = 0n, entries = 0; const jobs = new Map();
-    async function visit(file, depth, jobId) {
-      const before = await ordinaryDirectory(file), listing = await io.opendir(file);
-      for await (const entry of listing) {
-        need(++entries <= config.maxEntries && safeName(entry.name), 'Evidence walk entry limit or unsafe name; space is unknown.', 'OPERATION_STORAGE_OBSERVATION');
-        const child = path.join(file, entry.name), stat = await io.lstat(child, { bigint: true });
-        const id = depth === 0 && active.has(entry.name) ? entry.name : jobId;
-        if (directory(stat)) {
-          need(depth + 1 <= config.maxDepth, 'Evidence walk depth limit; space is unknown.', 'OPERATION_STORAGE_OBSERVATION');
-          await visit(child, depth + 1, id);
-        } else {
-          need(regular(stat) && canonical(await io.realpath(child)) === canonical(child),
-            'Evidence contains a link, special file or ambiguous object; preserved.', 'OPERATION_STORAGE_PATH');
-          const after = await io.lstat(child, { bigint: true });
-          need(regular(after) && sameObject(stat, after) && after.size >= stat.size,
-            'An evidence file changed identity or shrank while accounting.', 'OPERATION_STORAGE_OBSERVATION');
-          total += after.size; if (id) jobs.set(id, (jobs.get(id) || 0n) + after.size);
+    const identities = new Map();
+    for (let attempt = 1; attempt <= MAX_WALK_ATTEMPTS; attempt++) {
+      await guard(); let total = 0n, entries = 0, membershipChanged = false; const jobs = new Map();
+      async function visit(file, depth, jobId, expected = null) {
+        const before = await ordinaryDirectory(file), previous = identities.get(file);
+        need((!expected || sameObject(expected, before)) && (!previous || sameObject(previous, before)),
+          'An evidence directory changed identity while accounting.', 'OPERATION_STORAGE_OBSERVATION');
+        identities.set(file, before);
+        const listing = await io.opendir(file);
+        for await (const entry of listing) {
+          need(++entries <= config.maxEntries && safeName(entry.name), 'Evidence walk entry limit or unsafe name; space is unknown.', 'OPERATION_STORAGE_OBSERVATION');
+          const child = path.join(file, entry.name), stat = await io.lstat(child, { bigint: true });
+          const id = depth === 0 && active.has(entry.name) ? entry.name : jobId;
+          if (directory(stat)) {
+            need(depth + 1 <= config.maxDepth, 'Evidence walk depth limit; space is unknown.', 'OPERATION_STORAGE_OBSERVATION');
+            await visit(child, depth + 1, id, stat);
+          } else {
+            need(regular(stat) && canonical(await io.realpath(child)) === canonical(child),
+              'Evidence contains a link, special file or ambiguous object; preserved.', 'OPERATION_STORAGE_PATH');
+            const after = await io.lstat(child, { bigint: true });
+            need(regular(after) && sameObject(stat, after) && after.size >= stat.size,
+              'An evidence file changed identity or shrank while accounting.', 'OPERATION_STORAGE_OBSERVATION');
+            total += after.size; if (id) jobs.set(id, (jobs.get(id) || 0n) + after.size);
+          }
         }
+        const after = await ordinaryDirectory(file);
+        need(sameObject(before, after), 'An evidence directory changed identity while accounting.', 'OPERATION_STORAGE_OBSERVATION');
+        // A collector may add an owned spool while this full scan is running.
+        // Finish checking the namespace so a later unsafe object/read/limit is
+        // never hidden by churn, then discard all counts and start afresh. Only
+        // this observed same-object mtime change permits a bounded retry.
+        if (before.mtimeNs !== after.mtimeNs) membershipChanged = true;
       }
-      const after = await ordinaryDirectory(file);
-      need(sameObject(before, after) && before.mtimeNs === after.mtimeNs,
-        'Evidence namespace membership changed during accounting.', 'OPERATION_STORAGE_OBSERVATION');
+      await visit(root, 0, null); await guard();
+      need(total <= BigInt(Number.MAX_SAFE_INTEGER), 'Evidence total cannot be represented exactly.', 'OPERATION_STORAGE_OBSERVATION');
+      if (membershipChanged) {
+        if (attempt < MAX_WALK_ATTEMPTS) continue;
+        throw fault('OPERATION_STORAGE_OBSERVATION', 'Evidence namespace membership changed during accounting.',
+          { reason: 'namespace-membership-changed', observationAttempts: attempt, maxObservationAttempts: MAX_WALK_ATTEMPTS });
+      }
+      const statfs = await io.statfs(root, { bigint: true });
+      need(typeof statfs.bavail === 'bigint' && typeof statfs.bsize === 'bigint' && statfs.bavail >= 0n && statfs.bsize > 0n,
+        'Available filesystem space is unknown.', 'OPERATION_STORAGE_OBSERVATION');
+      const free = statfs.bavail * statfs.bsize;
+      let reserved = 0; const currentJobs = [];
+      for (const item of active.values()) {
+        const actual = Number(jobs.get(item.id) || 0n); const remaining = Math.max(0, item.reservedBytes - actual); reserved += remaining;
+        currentJobs.push({ id: item.id, actualBytes: actual, reservedBytes: item.reservedBytes, remainingBytes: remaining, overReservation: actual > item.reservedBytes });
+      }
+      const usedBytes = Number(total), projectedBytes = usedBytes + reserved + config.metadataHeadroomBytes;
+      const result = { schema: 1, observation: 'complete', consistency: 'bounded-point-observations', observationAttempts: attempt,
+        maxObservationAttempts: MAX_WALK_ATTEMPTS, usedBytes, reservedBytes: reserved,
+        projectedBytes, capBytes: config.capBytes, metadataHeadroomBytes: config.metadataHeadroomBytes, entries,
+        freeBytes: Number(free > BigInt(Number.MAX_SAFE_INTEGER) ? BigInt(Number.MAX_SAFE_INTEGER) : free), minFreeBytes: config.minFreeBytes,
+        overCap: usedBytes > config.capBytes, overAdmissionCap: projectedBytes > config.capBytes,
+        lowFree: free < BigInt(config.minFreeBytes), jobs: currentJobs, leaseRecovery, ledgerState, startupLedgerState, directorySync,
+        hardWriteCap: false };
+      lastSnapshot = freeze(result); return lastSnapshot;
     }
-    await visit(root, 0, null); await guard();
-    need(total <= BigInt(Number.MAX_SAFE_INTEGER), 'Evidence total cannot be represented exactly.', 'OPERATION_STORAGE_OBSERVATION');
-    const statfs = await io.statfs(root, { bigint: true });
-    need(typeof statfs.bavail === 'bigint' && typeof statfs.bsize === 'bigint' && statfs.bavail >= 0n && statfs.bsize > 0n,
-      'Available filesystem space is unknown.', 'OPERATION_STORAGE_OBSERVATION');
-    const free = statfs.bavail * statfs.bsize;
-    let reserved = 0; const currentJobs = [];
-    for (const item of active.values()) {
-      const actual = Number(jobs.get(item.id) || 0n); const remaining = Math.max(0, item.reservedBytes - actual); reserved += remaining;
-      currentJobs.push({ id: item.id, actualBytes: actual, reservedBytes: item.reservedBytes, remainingBytes: remaining, overReservation: actual > item.reservedBytes });
-    }
-    const usedBytes = Number(total), projectedBytes = usedBytes + reserved + config.metadataHeadroomBytes;
-    const result = { schema: 1, observation: 'complete', consistency: 'bounded-point-observations', usedBytes, reservedBytes: reserved,
-      projectedBytes, capBytes: config.capBytes, metadataHeadroomBytes: config.metadataHeadroomBytes, entries,
-      freeBytes: Number(free > BigInt(Number.MAX_SAFE_INTEGER) ? BigInt(Number.MAX_SAFE_INTEGER) : free), minFreeBytes: config.minFreeBytes,
-      overCap: usedBytes > config.capBytes, overAdmissionCap: projectedBytes > config.capBytes,
-      lowFree: free < BigInt(config.minFreeBytes), jobs: currentJobs, leaseRecovery, ledgerState, startupLedgerState, directorySync,
-      hardWriteCap: false };
-    lastSnapshot = freeze(result); return lastSnapshot;
   }
   async function writeExclusive(file, payload) {
     const bytes = Buffer.from(JSON.stringify(payload) + '\n'); need(bytes.length <= MAX_METADATA, 'Storage metadata bound exceeded.');

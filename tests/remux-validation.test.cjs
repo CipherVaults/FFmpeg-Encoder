@@ -215,21 +215,162 @@ test('all copied audio properties remain significant', () => {
   }
 });
 
-test('dispositions and meaningful track/container metadata survive exactly', () => {
+// October23 owner amendment changes only descriptive label/date failures below
+// into warnings. Track/chapter interpretation and all media checks stay strict.
+test('dispositions and track metadata remain strict while container titles produce descriptive warnings', () => {
   const s = setup(); s.output.streams[1].disposition.forced = 1; s.refresh(); rejected(s.validate(), /dispositions/);
   const track = setup(); delete track.output.streams[1].tags.title; track.refresh(); rejected(track.validate(), /metadata 'title'/);
-  const global = setup(); global.output.format.tags.title = 'Different'; global.refresh(); rejected(global.validate(), /Container/);
+  const global = setup(); global.output.format.tags.title = 'Different'; global.refresh();
+  const result = global.validate(); assert.equal(result.valid, true); assert.deepEqual(result.errors, []);
+  assert.equal(result.warnings.length, 1); assert.match(result.warnings[0].message, /Container.*title/);
 });
 
-test('creation-time instant equivalence preserves sub-millisecond precision', () => {
-  const s = setup(); s.output.format.tags.creation_time = '2026-10-01T14:00:00.123456000+02:00'; s.refresh(); assert.equal(s.validate().valid, true);
-  s.output.format.tags.creation_time = '2026-10-01T12:00:00.123457Z'; s.refresh(); rejected(s.validate(), /creation_time/);
+test('creation-time equivalence retains precision while descriptive differences are warned without rounding them away', () => {
+  const s = setup(); s.output.format.tags.creation_time = '2026-10-01T14:00:00.123456000+02:00'; s.refresh();
+  assert.equal(s.validate().valid, true); assert.deepEqual(s.validate().warnings, []);
+  s.output.format.tags.creation_time = '2026-10-01T12:00:00.123457Z'; s.refresh();
+  const result = s.validate(); assert.equal(result.valid, true); assert.equal(result.warnings.length, 1);
+  assert.match(result.warnings[0].message, /creation_time/);
 });
 
-test('Matroska source creation-time alias must retain exact original text', () => {
+test('Matroska exact creation-time alias is still attempted and its loss or alteration yields one descriptive warning', () => {
   const probe = source(); probe.streams[0].tags.creation_time = '2026-10-01T12:00:00.123456Z';
   const s = setup({ probe }); delete s.output.streams[0].tags.creation_time; s.refresh(); assert.equal(s.validate().valid, true);
-  s.output.streams[0].tags.SOURCE_CREATION_TIME = '2026-10-01T12:00:00.123456000Z'; s.refresh(); rejected(s.validate(), /creation-time|creation_time/);
+  assert.deepEqual(s.validate().warnings, []);
+  s.output.streams[0].tags.SOURCE_CREATION_TIME = '2026-10-01T12:00:00.123456000Z'; s.refresh();
+  let result = s.validate(); assert.equal(result.valid, true); assert.equal(result.warnings.length, 1);
+  assert.match(result.warnings[0].message, /creation_time/);
+  delete s.output.streams[0].tags.SOURCE_CREATION_TIME; s.refresh();
+  result = s.validate(); assert.equal(result.valid, true); assert.equal(result.warnings.length, 1);
+  const priorAlias = clone(probe); priorAlias.streams[0].tags.SOURCE_CREATION_TIME = priorAlias.streams[0].tags.creation_time;
+  const duplicate = setup({ probe: priorAlias }); delete duplicate.output.streams[0].tags.SOURCE_CREATION_TIME; duplicate.refresh();
+  assert.equal(duplicate.validate().warnings.length, 1, 'a matching preexisting descriptive alias does not duplicate the same warning');
+});
+
+test('known descriptive metadata differences return structured warnings for every target while copied descriptions stay quiet', () => {
+  for (const target of ['matroska', 'mp4', 'mov']) {
+    const probe = source(); Object.assign(probe.streams[0].tags, { vendor_id: 'FFMP', encoder: 'Source tool' });
+    Object.assign(probe.format.tags, { comment: 'A source note', author: 'Author', description: 'Container description' });
+    const s = setup({ probe, target }); assert.deepEqual(s.validate().warnings, []);
+    s.output.streams[0].tags.vendor_id = '0000'; delete s.output.streams[0].tags.encoder;
+    delete s.output.format.tags.comment; s.output.format.tags.author = 'Changed'; delete s.output.format.tags.description;
+    s.refresh(); const result = s.validate();
+    assert.equal(result.valid, true); assert.deepEqual(result.errors, []);
+    assert.deepEqual(result.warnings.map(item => item.key).sort(), ['author', 'comment', 'description', 'encoder', 'vendor_id']);
+    for (const warning of result.warnings) {
+      assert.equal(warning.code, 'REMUX_DESCRIPTIVE_METADATA_DIFFERENCE');
+      assert.equal(typeof warning.message, 'string'); assert.ok(warning.message.length);
+      assert.equal(warning.policy, 'remux-functional-consequence'); assert.equal(warning.policyVersion, 1);
+      assert.equal(Object.isFrozen(warning), true);
+    }
+    assert.equal(Object.isFrozen(result.warnings), true);
+  }
+});
+
+test('functional and unassessed metadata remain errors alongside descriptive warnings', () => {
+  for (const key of ['title', 'name', 'language', 'timecode', 'encoder_delay', 'description', 'unassessed_playback_mode']) {
+    const probe = source(); probe.streams[0].tags[key] = 'Important'; probe.streams[0].tags.vendor_id = 'FFMP';
+    const s = setup({ probe }); delete s.output.streams[0].tags[key]; delete s.output.streams[0].tags.vendor_id; s.refresh();
+    const result = s.validate(); rejected(result, new RegExp(`metadata '${key}'`));
+    assert.deepEqual(result.warnings.map(item => item.key), ['vendor_id']);
+  }
+  for (const key of ['__proto__', 'constructor', 'prototype']) {
+    const probe = source(); Object.defineProperty(probe.format.tags, key, { value: 'Unassessed original', enumerable: true, writable: true, configurable: true });
+    const s = setup({ probe }); delete s.output.format.tags[key]; s.refresh(); rejected(s.validate(), new RegExp(key));
+  }
+  assert.equal(Object.prototype.polluted, undefined);
+});
+
+test('output-only functional and unknown tags are refused at stream, container and chapter scope despite matching essence', () => {
+  for (const scope of ['stream', 'container', 'chapter']) {
+    for (const key of ['replaygain_track_gain', 'unknown_playback_mode', 'constructor', '__proto__']) {
+      const probe = source();
+      if (scope === 'chapter') probe.chapters = [{ id: 0, time_base: '1/1000', start: 10000, end: 11000, tags: { title: 'Chapter' } }];
+      const s = setup({ probe });
+      const tags = scope === 'stream' ? s.output.streams[1].tags : scope === 'container' ? s.output.format.tags : s.output.chapters[0].tags;
+      Object.defineProperty(tags, key, { value: key === 'replaygain_track_gain' ? '-12 dB' : 'New playback interpretation', enumerable: true, writable: true, configurable: true });
+      s.refresh(); const result = s.validate();
+      rejected(result, new RegExp(`output-only .*metadata '${key}'`));
+      assert.deepEqual(result.warnings, []);
+    }
+  }
+  for (const key of ['rotate', 'color_transfer', 'timecode']) {
+    const s = setup(); s.output.streams[0].tags[key] = 'Changed interpretation'; s.refresh();
+    rejected(s.validate(), new RegExp(`output-only .*metadata '${key}'`));
+  }
+  assert.equal(Object.prototype.polluted, undefined);
+});
+
+test('only exact unspecified language and codec-matched native handler defaults are neutral additions', () => {
+  const neutral = target => {
+    const probe = add(source(), { index: 5, codec_type: 'subtitle', codec_name: 'mov_text', disposition: {}, tags: { title: 'Captions' } });
+    for (const stream of probe.streams) delete stream.tags.language;
+    const s = setup({ probe, target });
+    for (const [index, handler] of ['VideoHandler', 'SoundHandler', 'SubtitleHandler'].entries()) {
+      Object.assign(s.output.streams[index].tags, { language: 'und', handler_name: handler });
+    }
+    s.refresh(); return s;
+  };
+  for (const target of ['mp4', 'mov']) {
+    const s = neutral(target); assert.equal(s.validate().valid, true); assert.deepEqual(s.validate().warnings, []);
+    for (const [index, key, value] of [[0, 'language', 'eng'], [1, 'language', 'UND'], [0, 'handler_name', 'SoundHandler'],
+      [1, 'handler_name', 'VideoHandler'], [2, 'handler_name', 'Arbitrary subtitle label']]) {
+      const wrong = neutral(target); wrong.output.streams[index].tags[key] = value; wrong.refresh();
+      rejected(wrong.validate(), new RegExp(`output-only functional metadata '${key}'`));
+    }
+  }
+  const sourceHandler = source(); sourceHandler.streams[0].tags.handler_name = 'A source label';
+  const replaced = setup({ probe: sourceHandler, target: 'mp4' }); replaced.output.streams[0].tags.handler_name = 'VideoHandler'; replaced.refresh();
+  rejected(replaced.validate(), /metadata 'handler_name' was not preserved/);
+  const specified = setup({ target: 'mp4' }); specified.output.streams[0].tags.language = 'und'; specified.refresh();
+  rejected(specified.validate(), /metadata 'language' was not preserved/);
+});
+
+test('track language defaults never authorize container or chapter language additions', () => {
+  for (const scope of ['container', 'chapter']) {
+    const probe = source();
+    if (scope === 'chapter') probe.chapters = [{ id: 0, time_base: '1/1000', start: 10000, end: 11000, tags: { title: 'Chapter' } }];
+    const s = setup({ probe });
+    (scope === 'container' ? s.output.format.tags : s.output.chapters[0].tags).language = 'und'; s.refresh();
+    rejected(s.validate(), /output-only functional metadata 'language'/);
+  }
+});
+
+test('a declared native title-to-name addition requires the exact source label', () => {
+  for (const target of ['mp4', 'mov']) {
+    const s = setup({ target });
+    assert.equal(s.output.streams[0].tags.title, undefined);
+    assert.equal(s.output.streams[0].tags.name, 'Main video');
+    assert.equal(s.validate().valid, true);
+    s.output.streams[0].tags.name = 'Another track'; s.refresh();
+    rejected(s.validate(), /output-only functional metadata 'name'/);
+  }
+});
+
+test('output-only descriptive/derived tags and declared target brands remain allowed without granting unknown tag authority', () => {
+  for (const target of ['matroska', 'mp4', 'mov']) {
+    const probe = source(); delete probe.format.tags.major_brand;
+    const s = setup({ probe, target });
+    Object.assign(s.output.streams[0].tags, { vendor_id: 'FFMP', encoder: 'Output muxer', comment: 'A new description', number_of_frames: '120' });
+    Object.assign(s.output.format.tags, { description: 'A container description', duration: '00:00:02' });
+    if (target !== 'matroska') Object.assign(s.output.format.tags, { major_brand: 'isom', minor_version: '512', compatible_brands: 'isomiso2avc1mp41' });
+    s.refresh(); assert.equal(s.validate().valid, true); assert.deepEqual(s.validate().warnings, []);
+    s.output.format.tags.unassessed_playback_mode = 'Unexpected'; s.refresh(); rejected(s.validate(), /output-only unassessed metadata/);
+  }
+});
+
+test('descriptive loss never waives essence, PCM unit count, timing or fresh-provenance failures', () => {
+  for (const [change, reason] of [
+    [s => { s.evidence.streams[0].output.contentSha256 = 'f'.repeat(64); }, /native essence/],
+    [s => { s.evidence.streams[1].output.unitCount = '95999'; }, /unit count/],
+    [s => { s.evidence.streams[0].timestamps.maxPtsError = rat(1); }, /maxPtsError/],
+    [s => { delete s.output.format.tags[MARKER_KEY]; }, /provenance/],
+  ]) {
+    const probe = source(); probe.streams[0].tags.vendor_id = 'FFMP';
+    const s = setup({ probe }); delete s.output.streams[0].tags.vendor_id; change(s); s.refresh();
+    const result = s.validate(); rejected(result, reason);
+    assert.deepEqual(result.warnings.map(item => item.key), ['vendor_id']);
+  }
 });
 
 test('undefined Matroska language may be omitted but a real language may not', () => {
@@ -256,6 +397,7 @@ test('chapters preserve exact rational boundaries and meaningful tags', () => {
   s.output.chapters[0].end += 3; s.refresh(); rejected(s.validate(), /Chapter 0: end/);
   const missing = setup({ probe }); missing.output.chapters = []; missing.refresh(); rejected(missing.validate(), /Chapter count/);
   const contradictory = setup({ probe }); contradictory.output.chapters[0].start_time = '200'; contradictory.refresh(); rejected(contradictory.validate(), /contradict/);
+  const label = setup({ probe }); delete label.output.chapters[0].tags.title; label.refresh(); rejected(label.validate(), /Chapter 0.*metadata 'title'/);
 });
 
 test('only exact per-file omission grants remove streams from the expected validation map', () => {
@@ -276,6 +418,9 @@ test('attachments need both exact extradata and complete payload evidence', () =
   const s = setup({ probe }); assert.equal(s.validate().valid, true);
   s.output.streams[2].extradata_hash = `SHA256:${'e'.repeat(64)}`; s.refresh(); rejected(s.validate(), /attachment content/);
   const missing = setup({ probe }); missing.evidence.streams.pop(); rejected(missing.validate(), /every admitted/);
+  for (const key of ['filename', 'mimetype']) {
+    const identity = setup({ probe }); delete identity.output.streams[2].tags[key]; identity.refresh(); rejected(identity.validate(), new RegExp(`metadata '${key}'`));
+  }
 });
 
 test('subtitle semantic content and events cannot be lost while the codec remains unchanged', () => {
@@ -285,7 +430,8 @@ test('subtitle semantic content and events cannot be lost while the codec remain
 });
 
 test('normal fresh provenance must round-trip and prior encode recipes must not survive remux', () => {
-  for (const change of [s => { delete s.output.format.tags[MARKER_KEY]; }, s => { s.output.format.tags[OUTPUT_ID_KEY] = '9690cc4c-fd65-4b75-a0a2-c4b81e4f24e3'; },
+  for (const change of [s => { delete s.output.format.tags[MARKER_KEY]; }, s => { s.output.format.tags[MARKER_KEY] = '2'; },
+    s => { s.output.format.tags[MARKER_KEY] = 1; }, s => { s.output.format.tags[OUTPUT_ID_KEY] = '9690cc4c-fd65-4b75-a0a2-c4b81e4f24e3'; },
     s => { s.output.format.tags[GENERATION_KEY] = '{}'; }, s => { s.output.streams[0].tags[MARKER_KEY] = '1'; }]) {
     const s = setup(); change(s); s.refresh(); assert.equal(s.validate().valid, false);
   }

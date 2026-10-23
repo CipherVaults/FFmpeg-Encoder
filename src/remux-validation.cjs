@@ -8,6 +8,7 @@ const { getRemuxAssessmentSource } = require('./remux-contract.cjs');
 const { classifyMarker, provenanceArgs, GENERATION_KEY } = require('./provenance.cjs');
 const { STREAM_CREATION_TIME_ALIAS } = require('./media.cjs');
 const { getMovRepresentation } = require('./mov-representation.cjs');
+const { classifyRemuxMetadataTag } = require('./remux-metadata-policy.cjs');
 
 const VERSION = 1;
 const HASH = /^[a-f0-9]{64}$/;
@@ -100,10 +101,13 @@ function instant(value) {
   const base = Date.parse(match[1] + match[3]);
   return Number.isFinite(base) ? BigInt(base) * 1000000n + BigInt((match[2] || '').padEnd(9, '0')) : null;
 }
-function tagsMatch(contract, actualTags, label, errors, { movRepresentation, outputIndex } = {}) {
+function tagsMatch(contract, actualTags, label, errors, warnings, { movRepresentation, outputIndex, outputId } = {}) {
   const actual = tagMap(actualTags);
-  for (const [key, value] of Object.entries(contract.preserved)) {
+  for (const [key, value] of [...Object.entries(contract.preserved), ...Object.entries(contract.attempted)]) {
     const name = key.toLowerCase(), expected = String(value);
+    // The generated creation-time alias is the same descriptive copy attempt,
+    // not another preservation failure when that exact source alias also exists.
+    if (name === STREAM_CREATION_TIME_ALIAS.toLowerCase() && contract.creationAlias !== null) continue;
     const representation = contract.representations.find(item => item.key === key);
     const received = actual.get(name);
     let matches = received === expected;
@@ -120,10 +124,25 @@ function tagsMatch(contract, actualTags, label, errors, { movRepresentation, out
     else if (representation?.equivalence === 'same-UTC-instant-or-exact-source-text' && received !== undefined) {
       const before = instant(expected), after = instant(received); matches ||= before !== null && before === after;
     }
-    if (!matches) errors.push(`${label}: metadata '${key}' was not preserved in its declared representation.`);
+    if (!matches) {
+      const classification = contract.classifications.find(item => item.key === key);
+      if (classification?.mismatch === 'warning') warnings.push({ code: 'REMUX_DESCRIPTIVE_METADATA_DIFFERENCE',
+        message: `${label}: descriptive metadata '${key}' is missing or changed in its requested representation.`,
+        key, scope: contract.scope, location: label, policy: contract.policy.id, policyVersion: contract.policy.version });
+      else errors.push(`${label}: metadata '${key}' was not preserved in its declared representation.`);
+    }
   }
-  if (contract.creationAlias !== null && actual.get(STREAM_CREATION_TIME_ALIAS.toLowerCase()) !== contract.creationAlias) {
-    errors.push(`${label}: exact source creation-time alias is missing or changed.`);
+  const sourceKeys = new Set([...Object.keys(contract.preserved), ...Object.keys(contract.attempted),
+    ...contract.replacements.map(item => item.key)].map(key => key.toLowerCase()));
+  for (const [key, value] of actual) {
+    if (sourceKeys.has(key)) continue;
+    const classification = classifyRemuxMetadataTag(key, { scope: contract.scope });
+    if (classification.preservation !== 'required') continue;
+    const allowance = contract.allowedAdditions.find(item => item.key.toLowerCase() === key);
+    const allowed = allowance?.match === 'exact' ? value === allowance.value
+      : allowance?.match === 'fresh-output-id' ? typeof outputId === 'string' && value.toLowerCase() === outputId
+      : allowance?.match === 'operation-derived';
+    if (!allowed) errors.push(`${label}: output-only ${classification.classification} metadata '${key}' has no matching declared neutral representation.`);
   }
 }
 function dispositions(stream) {
@@ -223,7 +242,7 @@ function createRemuxValidator({ requireQualification } = {}) {
     record(options, ['plan', 'outputProbe', 'essenceEvidence', 'movRepresentationReceipt'], 'Remux output validation', ['plan', 'outputProbe', 'essenceEvidence']);
     const context = plans.get(options.plan);
     check(context?.owner === owner, 'A genuine prepared validation plan from this registry is required.', 'REMUX_VALIDATION_PLAN_REQUIRED');
-    const errors = [], { assessment, source, tolerance } = context, { plan } = options;
+    const errors = [], warnings = [], { assessment, source, tolerance } = context, { plan } = options;
     let output;
     try {
       output = normalizeProbe(dataCopy(options.outputProbe));
@@ -253,7 +272,7 @@ function createRemuxValidator({ requireQualification } = {}) {
         if (!after) { errors.push(`${label}: mapped stream is missing.`); continue; }
         if (after.codec_type !== stream.codecType || after.codec_name !== stream.codecName) errors.push(`${label}: copied stream type or codec changed.`);
         if (!isDeepStrictEqual(dispositions(after), stream.disposition)) errors.push(`${label}: dispositions changed.`);
-        tagsMatch(stream.metadata, after.tags, label, errors, { movRepresentation, outputIndex: stream.outputIndex });
+        tagsMatch(stream.metadata, after.tags, label, errors, warnings, { movRepresentation, outputIndex: stream.outputIndex });
         compareKnown(before, after, ['profile', 'level'], label, errors);
         if (stream.codecType === 'video') {
           compareKnown(before, after, ['width', 'height', 'pix_fmt', 'bits_per_raw_sample', 'field_order', 'color_transfer', 'color_primaries', 'color_space', 'color_range', 'chroma_location'], label, errors);
@@ -272,7 +291,7 @@ function createRemuxValidator({ requireQualification } = {}) {
         }
         if (!isDeepStrictEqual(before.side_data_list || [], after.side_data_list || [])) errors.push(`${label}: meaningful side-data representation changed or is missing.`);
       }
-      tagsMatch(expected.metadata, output.format.tags, 'Container', errors);
+      tagsMatch(expected.metadata, output.format.tags, 'Container', errors, warnings, { outputId: plan.outputId });
       if (output.chapters.length !== expected.chapters.length) errors.push('Chapter count changed.');
       expected.chapters.forEach((chapter, index) => {
         const after = output.chapters[index]; if (!after) return;
@@ -284,7 +303,7 @@ function createRemuxValidator({ requireQualification } = {}) {
             if (exact && entry[`${field}_time`] !== undefined && (!presented || greater(absolute(difference(exact, presented)), tolerance.chapter))) errors.push(`Chapter ${index}: ${field} ticks and reported seconds contradict each other.`);
           }
         }
-        tagsMatch(chapter.metadata, after.tags, `Chapter ${index}`, errors);
+        tagsMatch(chapter.metadata, after.tags, `Chapter ${index}`, errors, warnings);
       });
       const marker = classifyMarker(output);
       if (marker.kind !== 'generated' || marker.outputId !== plan.outputId) errors.push('Fresh normal application provenance did not round-trip.');
@@ -307,7 +326,7 @@ function createRemuxValidator({ requireQualification } = {}) {
         }
       }
     } catch (error) { errors.push(error.message || 'Remux validation failed.'); }
-    return freeze({ valid: errors.length === 0, errors, version: VERSION, operation: 'remux', target: plan.target,
+    return freeze({ valid: errors.length === 0, errors, warnings, version: VERSION, operation: 'remux', target: plan.target,
       qualificationEvidenceId: plan.qualificationEvidenceId,
       contentClaim: 'Complete qualified native essence and declared semantic preservation; container and framed packet bytes may differ.' });
   }

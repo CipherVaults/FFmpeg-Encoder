@@ -6,6 +6,7 @@ const { ToolError } = require('./process-runner.cjs');
 const { normalizeProbe } = require('./inspection.cjs');
 const { streamCreationTimeAlias, STREAM_CREATION_TIME_ALIAS } = require('./media.cjs');
 const { provenanceArgs, classifyMarker, MARKER_KEY, OUTPUT_ID_KEY, GENERATION_KEY } = require('./provenance.cjs');
+const { REMUX_METADATA_POLICY, classifyRemuxMetadataTag } = require('./remux-metadata-policy.cjs');
 
 // Pure main-side planning only. A table entry is a candidate for qualification,
 // not evidence that a muxer preserved the requested media. This module runs no
@@ -30,8 +31,8 @@ const MKV_FLAGS = ['default', 'dub', 'original', 'comment', 'forced', 'hearing_i
 // are not interchangeable merely because FFmpeg accepts the same CLI spelling.
 const MOV_FLAGS = ['default', 'forced', 'hearing_impaired', 'visual_impaired', 'attached_pic'];
 const APPLICATION_TAGS = [MARKER_KEY, OUTPUT_ID_KEY, GENERATION_KEY];
-const MUXER_TAGS = new Set(['encoder', 'duration', 'number_of_frames', 'number_of_bytes']);
 const BRAND_TAGS = new Set(['major_brand', 'minor_version', 'compatible_brands']);
+const DEFAULT_HANDLER_NAMES = new Map([['video', 'VideoHandler'], ['audio', 'SoundHandler'], ['subtitle', 'SubtitleHandler']]);
 const assessments = new WeakMap();
 const own = (value, key) => Object.hasOwn(value, key);
 const plain = value => value && typeof value === 'object' && !Array.isArray(value)
@@ -112,20 +113,24 @@ function validateRemuxRequest(value) {
 }
 
 function tagContract(tags = {}, { target, stream, container = false } = {}) {
-  const preserved = {}, representations = [], replacements = [], seen = new Set();
+  const preserved = {}, attempted = {}, classifications = [], representations = [], replacements = [], allowedAdditions = [], seen = new Set();
+  const scope = container ? 'container' : stream ? 'stream' : 'chapter';
   const matroskaTrack = target === 'matroska' && stream && ['video', 'audio', 'subtitle'].includes(stream.codec_type);
   for (const [key, value] of Object.entries(tags)) {
     const lower = key.toLowerCase();
     if (seen.has(lower) || key.includes('=')) fail('REMUX_METADATA_AMBIGUOUS', 'Metadata contains ambiguous case-folded keys or an unrepresentable key.');
     seen.add(lower);
+    const classification = classifyRemuxMetadataTag(key, { scope });
     if (container && APPLICATION_TAGS.includes(key.toUpperCase())) {
       replacements.push({ key, action: 'operation-required-transformation', reason: 'Fresh remux provenance replaces the prior application generation; prior encode settings must not describe this operation.' });
-    } else if (MUXER_TAGS.has(lower) || container && BRAND_TAGS.has(lower)) {
+    } else if (classification.classification === 'operation-derived' || container && BRAND_TAGS.has(lower)) {
       replacements.push({ key, action: 'operation-required-transformation', reason: 'Muxer-owned identity or derived counters must describe the new container, not be asserted identical.' });
     } else {
+      classifications.push(classification);
       // Metadata keys are arbitrary media data, including __proto__. Define
       // an own property rather than invoking Object.prototype's legacy setter.
-      Object.defineProperty(preserved, key, { value: String(value), enumerable: true, configurable: true, writable: true });
+      Object.defineProperty(classification.mismatch === 'warning' ? attempted : preserved, key,
+        { value: String(value), enumerable: true, configurable: true, writable: true });
       if (lower === 'creation_time') representations.push({ key, equivalence: matroskaTrack ? 'exact-source-text-track-alias' : 'same-UTC-instant-or-exact-source-text',
         ...(matroskaTrack ? { outputKey: STREAM_CREATION_TIME_ALIAS } : {}) });
       if (matroskaTrack && lower === 'language' && value === 'und') representations.push({ key, equivalence: 'undefined-track-language-may-be-omitted-by-ffprobe' });
@@ -148,7 +153,29 @@ function tagContract(tags = {}, { target, stream, container = false } = {}) {
   }
   let creationAlias = null;
   if (target === 'matroska' && stream) creationAlias = streamCreationTimeAlias(stream);
-  return { preserved, representations, replacements, creationAlias };
+  // Source comparisons alone cannot detect a new functional tag. Declare only
+  // neutral muxer defaults/aliases and fresh provenance; no unknown-key wildcard
+  // or arbitrary-value track default can become an output allowance.
+  if (stream) {
+    if (!seen.has('language')) allowedAdditions.push({ key: 'language', match: 'exact', value: 'und',
+      reason: 'An unspecified track language adds no language selection information.' });
+    if (target !== 'matroska' && !seen.has('handler_name') && DEFAULT_HANDLER_NAMES.has(stream.codec_type)) {
+      allowedAdditions.push({ key: 'handler_name', match: 'exact', value: DEFAULT_HANDLER_NAMES.get(stream.codec_type),
+        reason: 'The native default handler label identifies only this already-bound track type.' });
+    }
+    for (const representation of representations) {
+      if (representation.equivalence === 'native-isobmff-track-name' && !seen.has(representation.outputKey)) {
+        allowedAdditions.push({ key: representation.outputKey, match: 'exact', value: Object.getOwnPropertyDescriptor(preserved, representation.key).value,
+          reason: 'The declared native track-name alias must equal the exact source label.' });
+      }
+    }
+  } else if (container) {
+    allowedAdditions.push({ key: MARKER_KEY, match: 'exact', value: '1', reason: 'Fresh normal application marker; full provenance validation remains mandatory.' },
+      { key: OUTPUT_ID_KEY, match: 'fresh-output-id', reason: 'Only the prepared output identity is allowed; full provenance validation remains mandatory.' });
+    if (target !== 'matroska') for (const key of BRAND_TAGS) allowedAdditions.push({ key, match: 'operation-derived',
+      reason: 'The qualified target muxer describes its new container brands; brands do not grant target qualification.' });
+  }
+  return { policy: REMUX_METADATA_POLICY, scope, preserved, attempted, classifications, representations, replacements, allowedAdditions, creationAlias };
 }
 
 function sourceFamily(probe) {
@@ -276,7 +303,7 @@ function assessRemux(options) {
       action: 'equivalent-representation', reason: 'Remove ADTS transport framing and retain AAC access-unit content; qualify packet/sample identity and decoder configuration.' }));
   qualifications.push(
     qualificationRequirement('media-content-and-timeline', 'Validate all copied streams, relative A/V offsets, full duration, frame/packet content and permissible time-base rounding.'),
-    qualificationRequirement('chapters-and-container-tags', 'Preserve chapter boundaries and all representable user metadata; report exact representation differences.'),
+    qualificationRequirement('chapters-and-container-tags', 'Preserve chapter boundaries, functional and unassessed metadata; attempt descriptive tags and report differences as warnings.'),
     qualificationRequirement(`provenance:${request.target}`, 'Fresh marker/output ID must round-trip and be recognized on a subsequent same-folder scan.'),
     qualificationRequirement('publication-and-lifecycle', 'Validate output before no-overwrite publication; preserve source, cancellation, retained-output and cleanup guarantees.'),
   );
@@ -291,7 +318,7 @@ function assessRemux(options) {
       selectedVideoInputIndex: selected?.inputIndex ?? null, streams: mapped,
       omittedStreams: streams.filter(stream => omitted.has(stream.index)).map(stream => ({ inputIndex: stream.index,
         streamFingerprint: fingerprints.get(stream.index), action: 'explicitly-omitted', decisionId: omitted.get(stream.index), codecType: stream.codec_type, codecName: stream.codec_name })),
-      chapters, metadata: globalMetadata, bitstream,
+      chapters, metadata: globalMetadata, metadataPolicy: REMUX_METADATA_POLICY, bitstream,
       auxiliaryStreams: { policy: 'no-unexpected-streams', chapterCarrierQualificationRequired: chapters.length > 0 && request.target !== 'matroska',
         qualifiedCarriers: null, automaticTimecodeTrack: false },
       timeline: { policy: 'copy-input-timestamps-no-independent-stream-rebase', trim: false, frameRateConversion: false,

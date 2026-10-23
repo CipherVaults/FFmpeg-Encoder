@@ -28,6 +28,8 @@ function registerIpc({ ipcMain, window, service, dialog, entryUrl }) {
     'encoder:input-folder': [0, choose('input')],
     'encoder:output-folder': [0, choose('output')],
     'encoder:prepare': [1, payload => service.prepareBatch(payload)],
+    'encoder:prepare-remux': [1, payload => service.prepareRemuxBatch(payload)],
+    'encoder:remux-omissions': [1, payload => service.setRemuxOmissions(payload)],
     'encoder:update-file-operations': [1, payload => service.updateFileOperations(payload)],
     'encoder:update-batch-operation-defaults': [1, payload => service.updateBatchOperationDefaults(payload)],
     'encoder:apply-app-defaults-to-batch': [1, payload => service.applyAppDefaultsToBatch(payload)],

@@ -28,6 +28,34 @@ async function fixture(t, defaults = {}) {
 }
 async function sized(file, bytes) { await fs.writeFile(file, ''); await fs.truncate(file, bytes); }
 
+function controlledScanIO() {
+  const control = { directory: null, generation: 0, attempts: 0, visits: [], afterEntries: null, mutateStat: null };
+  const io = { ...fs, statfs: hugeSpace, async lstat(file, options) {
+    const stat = await fs.lstat(file, options);
+    if (file === control.directory) {
+      // Explicit generations avoid relying on filesystem timestamp resolution.
+      stat.mtimeNs = BigInt(control.generation);
+      if (control.mutateStat) control.mutateStat(stat);
+    }
+    return stat;
+  }, async opendir(file) {
+    const listing = await fs.opendir(file);
+    if (!control.directory) return listing;
+    control.visits.push(file);
+    const entries = [];
+    for await (const entry of listing) entries.push(entry);
+    entries.sort((a, b) => a.name.localeCompare(b.name));
+    return { async *[Symbol.asyncIterator]() {
+      for (const entry of entries) yield entry;
+      if (file === control.directory) {
+        control.attempts++;
+        if (control.afterEntries) await control.afterEntries(control.attempts);
+      }
+    } };
+  } };
+  return { control, io };
+}
+
 test('filesystem totals retain unknown files and failed/cancelled jobs across restart', async t => {
   const h = await fixture(t); await fs.mkdir(h.root); await fs.writeFile(path.join(h.root, 'older-receipt.txt'), 'existing evidence');
   let store = await h.open();
@@ -171,6 +199,145 @@ test('fresh reservation directory identity cannot be replaced by another ordinar
   const previous = reservation.directory + '-preserved'; await fs.rename(reservation.directory, previous); await fs.mkdir(reservation.directory);
   await assert.rejects(store.observeGrowth(reservation), { code: 'OPERATION_STORAGE_PATH' });
   assert.ok((await fs.readdir(previous)).includes('storage-reservation.json'));
+});
+
+test('one membership insertion retries a complete scan and counts new bytes once without resetting reservations', async t => {
+  const { control, io } = controlledScanIO(), h = await fixture(t, { io }), store = await h.open();
+  const first = await store.admit({ forecastBytes: 1 }), second = await store.admit({ forecastBytes: 1 });
+  await fs.writeFile(path.join(first.directory, 'existing-spool.tsv'), Buffer.alloc(3000));
+  const before = await store.snapshot(), inserted = Buffer.alloc(8192);
+  control.directory = first.directory;
+  control.afterEntries = async attempt => {
+    if (attempt === 1) {
+      await fs.writeFile(path.join(first.directory, 'new-owned-spool.tsv'), inserted); control.generation++;
+    }
+  };
+  const observed = await store.observeGrowth(first);
+  assert.equal(control.attempts, 2); assert.equal(observed.observationAttempts, 2); assert.equal(observed.maxObservationAttempts, 3);
+  assert.equal(control.visits.filter(file => file === h.root).length, 2);
+  assert.equal(control.visits.filter(file => file === second.directory).length, 2, 'Every retry visits the whole namespace.');
+  assert.equal(observed.usedBytes, before.usedBytes + inserted.length); assert.equal(observed.entries, before.entries + 1);
+  assert.equal(observed.reservedBytes, before.reservedBytes - inserted.length);
+  assert.equal(observed.projectedBytes, before.projectedBytes);
+  for (const job of observed.jobs) {
+    const previous = before.jobs.find(old => old.id === job.id);
+    assert.equal(job.reservedBytes, previous.reservedBytes); assert.equal(job.overReservation, false);
+    assert.equal(job.remainingBytes, job.reservedBytes - job.actualBytes);
+  }
+  assert.equal(observed.jobs.find(job => job.id === first.id).actualBytes, before.jobs.find(job => job.id === first.id).actualBytes + inserted.length);
+  assert.equal(observed.jobs.find(job => job.id === second.id).actualBytes, before.jobs.find(job => job.id === second.id).actualBytes);
+  assert.equal(await store.assertReservation(first), true); assert.equal(await store.assertReservation(second), true);
+});
+
+test('persistent membership churn exhausts three complete scans and retains the last complete accounting', async t => {
+  const { control, io } = controlledScanIO(), h = await fixture(t, { io }), store = await h.open();
+  const reservation = await store.admit({ forecastBytes: 1 }), before = await store.snapshot();
+  control.directory = reservation.directory;
+  control.afterEntries = async attempt => {
+    await fs.writeFile(path.join(reservation.directory, `owned-spool-${attempt}.tsv`), 'xx'); control.generation++;
+  };
+  await assert.rejects(store.observeGrowth(reservation), error => {
+    assert.equal(error.code, 'OPERATION_STORAGE_OBSERVATION'); assert.equal(error.reason, 'namespace-membership-changed');
+    assert.equal(error.message, 'Evidence namespace membership changed during accounting.');
+    assert.equal(error.observationAttempts, 3); assert.equal(error.maxObservationAttempts, 3);
+    assert.equal(error.accounting.observation, 'unavailable'); assert.equal(error.accounting.recordPersisted, false);
+    assert.equal(error.accounting.lastObserved, before); assert.equal(error.storageSnapshot, before); return true;
+  });
+  assert.equal(control.attempts, 3); assert.equal(control.visits.filter(file => file === h.root).length, 3);
+  control.afterEntries = null;
+  const stable = await store.snapshot();
+  assert.equal(stable.observationAttempts, 1); assert.equal(stable.usedBytes, before.usedBytes + 6);
+  assert.equal(stable.reservedBytes, before.reservedBytes - 6); assert.equal(stable.projectedBytes, before.projectedBytes);
+  assert.equal(stable.jobs[0].reservedBytes, before.jobs[0].reservedBytes);
+  assert.equal(await store.assertReservation(reservation), true);
+});
+
+for (const kind of ['cumulative-cap', 'free-space-floor']) test(`a stable retry still enforces the ${kind}`, async t => {
+  const { control, io } = controlledScanIO(); let available = 100n * BigInt(MiB);
+  io.statfs = async () => ({ bavail: available, bsize: 1n });
+  const h = await fixture(t, { io, capBytes: 64 * MiB, minFreeBytes: kind === 'free-space-floor' ? 40 * MiB : 0 });
+  const store = await h.open(), reservation = await store.admit({ forecastBytes: 1 });
+  control.directory = reservation.directory;
+  control.afterEntries = async attempt => {
+    if (attempt !== 1) return;
+    await sized(path.join(reservation.directory, 'new-owned-spool.tsv'), kind === 'cumulative-cap' ? 65 * MiB : 1000);
+    if (kind === 'free-space-floor') available = 39n * BigInt(MiB);
+    control.generation++;
+  };
+  await assert.rejects(store.observeGrowth(reservation), error => {
+    assert.equal(error.code, 'OPERATION_STORAGE_LIMIT'); assert.equal(error.accounting.observation, 'complete');
+    assert.ok(error.accounting.violations.includes(kind)); assert.equal(error.storageSnapshot.observationAttempts, 2);
+    assert.equal(error.storageSnapshot.jobs[0].reservedBytes, LIMITS.initialReserveBytes); return true;
+  });
+  assert.equal(control.attempts, 2);
+});
+
+for (const kind of ['identity', 'reparse', 'unreadable', 'same-message-error']) test(`directory ${kind} failure never authorizes a membership retry`, async t => {
+  const { control, io } = controlledScanIO(), h = await fixture(t, { io }), store = await h.open();
+  const reservation = await store.admit({ forecastBytes: 1 }), before = await store.snapshot();
+  control.directory = reservation.directory;
+  control.afterEntries = async () => {
+    control.generation++;
+    if (kind === 'unreadable') throw Object.assign(new Error('Injected directory read error.'), { code: 'EIO' });
+    if (kind === 'same-message-error') throw Object.assign(new Error('Evidence namespace membership changed during accounting.'), { code: 'OPERATION_STORAGE_OBSERVATION' });
+    control.mutateStat = stat => {
+      if (kind === 'identity') stat.ino += 1n;
+      if (kind === 'reparse') stat.isSymbolicLink = () => true;
+    };
+  };
+  await assert.rejects(store.observeGrowth(reservation), error => {
+    assert.equal(error.code, kind === 'reparse' ? 'OPERATION_STORAGE_PATH' : 'OPERATION_STORAGE_OBSERVATION');
+    assert.equal(error.reason, undefined); assert.equal(error.observationAttempts, undefined);
+    assert.equal(error.accounting.observation, 'unavailable'); assert.equal(error.accounting.lastObserved, before); return true;
+  });
+  assert.equal(control.attempts, 1); assert.equal(control.visits.filter(file => file === h.root).length, 1);
+  control.directory = null;
+  assert.equal(await store.assertReservation(reservation), true);
+});
+
+test('directory identity replacement between otherwise retryable scans fails before another directory listing', async t => {
+  const { control, io } = controlledScanIO(); let replace = false;
+  const wrapped = { ...io, async opendir(file) {
+    if (control.directory && file === h.root && control.attempts === 1) replace = true;
+    return io.opendir(file);
+  }, async lstat(file, options) {
+    const stat = await io.lstat(file, options);
+    if (replace && file === control.directory) stat.ino += 1n;
+    return stat;
+  } };
+  const h = await fixture(t, { io: wrapped }), store = await h.open();
+  const reservation = await store.admit({ forecastBytes: 1 }); control.directory = reservation.directory;
+  control.afterEntries = async () => { control.generation++; };
+  await assert.rejects(store.observeGrowth(reservation), error => error.code === 'OPERATION_STORAGE_OBSERVATION'
+    && /directory changed identity/.test(error.message) && error.observationAttempts === undefined);
+  assert.equal(control.attempts, 1, 'The replacement must not be rescanned as a legitimate namespace.');
+  control.directory = null;
+});
+
+for (const kind of ['special', 'entry-limit', 'depth-limit']) test(`membership churn cannot hide a later ${kind} failure in the same full scan`, async t => {
+  const { control, io } = controlledScanIO(), h = await fixture(t, { io, ...(kind === 'entry-limit' ? { maxEntries: 7 } : {}),
+    ...(kind === 'depth-limit' ? { maxDepth: 2 } : {}) }), store = await h.open();
+  const reservation = await store.admit({ forecastBytes: 1 });
+  const churn = path.join(reservation.directory, 'a-churn'), later = path.join(reservation.directory, 'z-later');
+  await fs.mkdir(churn); await fs.mkdir(later);
+  const suspect = path.join(later, 'retained.txt'); await fs.writeFile(suspect, 'preserve');
+  if (kind === 'entry-limit') await fs.writeFile(path.join(later, 'more.txt'), 'preserve');
+  if (kind === 'depth-limit') await fs.mkdir(path.join(later, 'too-deep'));
+  if (kind === 'special') {
+    const baseLstat = io.lstat;
+    io.lstat = async (file, options) => {
+      const stat = await baseLstat(file, options);
+      if (file === suspect) { stat.isFile = () => false; stat.isDirectory = () => false; }
+      return stat;
+    };
+  }
+  control.directory = churn; control.afterEntries = async () => { control.generation++; };
+  await assert.rejects(store.snapshot(), error => {
+    assert.equal(error.code, kind === 'special' ? 'OPERATION_STORAGE_PATH' : 'OPERATION_STORAGE_OBSERVATION');
+    assert.equal(error.reason, undefined); assert.equal(error.observationAttempts, undefined); return true;
+  });
+  assert.equal(control.attempts, 1); assert.equal(control.visits.filter(file => file === h.root).length, 1);
+  assert.equal(await fs.readFile(suspect, 'utf8'), 'preserve'); control.directory = null;
 });
 
 test('entry and depth caps refuse incomplete namespace accounting', async t => {

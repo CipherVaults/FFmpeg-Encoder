@@ -24,7 +24,8 @@ test('foreign window, subframe and changed URL cannot invoke a privileged method
 test('draft processing methods retain sender and arity guards and forward only their one typed request', async () => {
   for (const [channel, method] of [['encoder:update-file-operations', 'updateFileOperations'],
     ['encoder:update-batch-operation-defaults', 'updateBatchOperationDefaults'], ['encoder:apply-app-defaults-to-batch', 'applyAppDefaultsToBatch'],
-    ['encoder:reprepare-encoding-settings', 'reprepareEncodingSettings']]) {
+    ['encoder:reprepare-encoding-settings', 'reprepareEncodingSettings'], ['encoder:prepare-remux', 'prepareRemuxBatch'],
+    ['encoder:remux-omissions', 'setRemuxOmissions']]) {
     const calls = [];
     const { handlers, event } = harness({ [method]: async request => { calls.push(request); return { phase: 'ready', revision: 12 }; } });
     const handler = handlers.get(channel), request = { planId: 'main-plan', draftId: 'main-draft', revision: 2,

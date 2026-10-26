@@ -1,4 +1,4 @@
-## October26 continuation — reviewed native product seam, UI QA next
+## October26 continuation — reviewed native product seam and bounded UI result
 
 The initial19-path foundation was committed and privately pushed as95f8b6e766ee0dd31f8c3da93b09039cbaccdc3c, with exact remote equality and an empty index. Root then integrated the native coordinator into production main, the shared service scheduler, typed IPC/preload and a separate Beta Settings panel. This remains generated-sample qualification only: file encoding, native provenance/applicability and actual AMD/Intel hardware proof remain open.
 
@@ -1952,3 +1952,14 @@ Example:
 
 
 \---
+
+
+## October26 native UI closeout atbb53c05
+
+The private candidate branch/readback matchedbb53c05. Independent pre-admission review corrected a draft QA observer/host before execution: original app entry and isolated F: profile binding, executable/argv roles, pre-spawn ownership, two-pipe EOF/runner/witness settlement, processing cutoff/closure watchdog and readback-before-lease-release. The initial bare-name lookup missed the manifest's.exe suffix; no app/helper/query had run, old draft packets remain and exact packetVersion5 passed review.
+
+The sole real launch completed normal startup and one device refresh:56controlled tool children, allclosed0/max1;112hashed captures/102620B;2in-process CIM queries;0workflowStarts/filejobs/nativeinitializers/qualifiers;184691.5997ms; app and host exit0, saved final census[], no forced exit and leaseabsent. Independent result audit verifies72source pins and24private hashes, all role/capture/closure joins. The allowance is exhausted, with no second launch/replay. Historical O/P and benchmark budgets are untouched.
+
+Root used supported Computer Use to inspect the dark/current-size production Settings panel, Beta menu, explicit native CQP and ICQ values, device absence/disabled qualifier, Refresh busy/cancel presentation and normal close. Immediate accessibility text sometimes lagged the screenshot, so the next input used refreshed state. Inline tool screenshots and root textual observations are distinct from independent saved-result review; no independent screenshot/native-SDK/file-job/light/narrow/accessibility/portable or owner acceptance is claimed. New appdata observed peak6862964B is polling evidence, not OSquota.
+
+Project Hub and Blue Handoff now carry the reviewed checkpoint/result and remaining software, with title/icon/cover and native refs preserved. Detailed local execution records retain failures, corrections, receipts and limits. Continue device-independent native recipe/descriptive history and finite native file contracts/lifecycle; actual AMD/Intel proof and the AMF same-component producer remain separate gaps. Eligible independent SDRQ work can proceed under the documented blocker disposition without closing P.

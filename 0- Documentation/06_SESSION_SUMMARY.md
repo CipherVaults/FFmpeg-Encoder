@@ -1,3 +1,11 @@
+## October26 continuation — native requested recipes and descriptive history
+
+After the reviewed native UI result, documentation checkpoint0b38dec was normally committed/pushed with exact private-remote readback. Root then extracted pure native encoder validation/contributions and added strict native descriptive generationv2 plus history formatting. This closes a software description gap without adding native file execution, device/session persistence or effective-mode claims. The20pre-refactor whole-liveDTO fixtures preserve existing native arrays/device/evidence fields. Marker/UUID/journalnamespace and ordinaryv1 remain intact, including historicalCQ32 recipes; media/default/ArchiveCQ29 source bytes are unchanged.
+
+First128tests recorded127pass/1fail/Node1 because a malformed-input fixture tried to redefine a frozen canonical argument array before reaching the decoder. The old fixture/logs remain; the fixture now clones arrays/quality. Corrected128pass/Node0/1495.9653ms; separate affected registry/collector/coordinator/composition run61pass/0fail/1host-junctionskip/Node0/624.2906ms. No actual runtime/device/media/UI operation ran. Independent semantic and scope reviews pass43requirements/private24/identity/default preservation. Source drift is nowHDR9/69 andFull7/32; no reseal, activation or earlier-nativeQA extension.
+
+The next concrete work is native file contract/runtime/normal lifecycle software, still distinct from absent hardware and AMF's missing same-component producer. Keep Ppartial, HDRexpansiondeferred and native file authority unavailable. The prior sourcebb53c05 UI evidence and its exhausted58call allowance remain historical; no automatic replay follows.
+
 ## October26 continuation — reviewed native product seam and bounded UI result
 
 The initial19-path foundation was committed and privately pushed as95f8b6e766ee0dd31f8c3da93b09039cbaccdc3c, with exact remote equality and an empty index. Root then integrated the native coordinator into production main, the shared service scheduler, typed IPC/preload and a separate Beta Settings panel. This remains generated-sample qualification only: file encoding, native provenance/applicability and actual AMD/Intel hardware proof remain open.

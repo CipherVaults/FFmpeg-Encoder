@@ -443,6 +443,32 @@ const completedItem = extra => ({ id: 'published-file', name: 'Source.mkv', outp
 const completedSnapshot = (items, revision = 2) => ({ revision, phase: 'completed', batchId: 'finished-batch', planId: 'finished-plan',
   settings: { profileId: 'h265-cpu', preset: 'slow', quality: 25 }, items, counts: { success: items.length } });
 
+test('native generation history formats exact frame quantizers without current inventory or automatic actions', async () => {
+  const h = await harness(), previous = { version: 2, kind: 'native-encoder', codec: 'H265', backend: 'qsv', encoder: 'hevc_qsv', preset: 'medium',
+    qualityMode: 'CQP', quality: { p: 25, b: 28, i: 22 }, bitDepth: 10, pipelineId: 'software-d3d11-upload-v1', encoderArgs: ['-c:v:0', 'hevc_qsv'],
+    appVersion: '0.7.0-alpha.1', createdAt: '2026-10-26T08:00:00.000Z', runtimeVersion: '<img src=x onerror=unsafe()> runtime text' };
+  h.update(completedSnapshot([completedItem({ status: 'generated', outputAccess: undefined, outputDisposition: undefined,
+    origin: { kind: 'generated', previousGeneration: previous } })]));
+  const row = h.byId('batch-items').children[0], summary = row.querySelector('[data-testid="previous-generation"]'), details = row.querySelector('[data-testid="previous-generation-details"]');
+  assert.match(summary.textContent, /Intel Quick Sync.*CQP I22\/P25\/B28.*10-bit.*recorded requested settings/);
+  assert.doesNotMatch(summary.textContent, /\[object Object\]/); assert.match(details.textContent, /Planned pipeline software-d3d11-upload-v1/);
+  assert.match(details.textContent, /no current device or effective-mode proof/); assert.match(details.textContent, /<img src=x/);
+  assert.equal(details.querySelectorAll('img').length, 0); assert.equal(row.querySelector('[data-testid="completed-output-open"]'), null);
+  assert.equal(h.byId('profile').options.length, 1);
+  assert.equal(h.calls.some(call => ['getNativeBackendState', 'qualifyNativeBackend', 'startBatch', 'reencodeOutputs'].includes(call.name)), false);
+});
+test('native generation history distinguishes AMF I/P and scalar ICQ or QVBR values', async () => {
+  const h = await harness();
+  for (const [index, backend, qualityMode, quality, expected] of [[0, 'amf', 'CQP', { i: 20, p: 27 }, /AMD AMF.*CQP I20\/P27/],
+    [1, 'qsv', 'ICQ', 29, /Intel Quick Sync.*ICQ 29/], [2, 'amf', 'QVBR', 37, /AMD AMF.*QVBR 37/]]) {
+    h.update(completedSnapshot([completedItem({ origin: { kind: 'generated', previousGeneration: { version: 2, kind: 'native-encoder', codec: 'H265', backend,
+      encoder: backend === 'amf' ? 'hevc_amf' : 'hevc_qsv', preset: 'medium', qualityMode, quality, bitDepth: 10, pipelineId: 'software-d3d11-upload-v1',
+      encoderArgs: [], appVersion: '0.7.0-alpha.1', createdAt: '2026-10-26T08:00:00.000Z' } } })], 10 + index));
+    const summary = h.byId('batch-items').children[0].querySelector('[data-testid="previous-generation"]'); assert.match(summary.textContent, expected);
+    if (qualityMode === 'CQP') assert.doesNotMatch(summary.textContent, /\/B/);
+  }
+});
+
 test('completed-output controls submit only a receipt token and fixed action, with pending click suppression', async () => {
   let resolveOpen;
   const h = await harness({ openCompletedOutput: request => request.action === 'open'

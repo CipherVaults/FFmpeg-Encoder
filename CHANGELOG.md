@@ -1,5 +1,6 @@
 ## Continue non-HDR0.7; preserve experimental HDR — October26,2026 (unaccepted alpha)
 
+- Add device-independent native requested recipes and strict descriptive generationv2/history, retaining marker/UUID/journalv1 and exact ordinary/live-native compatibility.128focused+61separate consumer checks pass, with one unavailable junction fixture; native file authority remains disabled.
 - Defer further HDR expansion while preserving partial implementation, evidence, failures and return points. Retain all43 requirement texts and keep packaging last after applicable final QA.
 - Integrate native generated-sample checks into main, the shared operation scheduler, typed IPC/preload and Beta Settings controls. Retain successful/failed/cancelled initialization captures, bind displayed proof to exact settings, refresh revisions after cancellation and close admission before shutdown awaits.217direct checks pass/0fail/1unavailable junction fixture; actual AMD/Intel and native file execution remain unqualified.
 - Validate one bounded production-main startup/device-refresh/close atbb53c05 with complete56tool-child capture/closure and2process queries; no native qualifier or file job. Independent result audit passes.

@@ -214,3 +214,10 @@ Four named IPC/preload actions expose inert state, refresh, select and qualify r
 
 
 The instrumented original production-main UI pass atbb53c05 now complements direct checks: one startup/Refresh/normal close,56controlled tool children plus2in-process CIM attempts, allowned closure/EOF/runner/witness readback complete,0workflowStarts/filejobs/nativequalifiers. Independent saved-result review passes72source/24private pins and final empty census/lease release. Hardware absence, actual AMF/QSV mode proof and native file execution remain open. The fresh QA allowance is exhausted; no replay follows from unused time.
+
+
+## Native requested recipe and descriptive generationv2 — October26
+
+`validateNativeEncoderSettings` and `nativeEncoderContribution` provide frozen device-free canonical encoder fragments. The live native contribution composes the same arrays with its genuine current device requirements;20pre-refactor wholeDTO fixtures retain exact output compatibility. Pure fragments explicitly grant no execution authority.
+
+Only the descriptive generation payload gains native version2. The marker/outputUUID and provenance-v1 journal remain version1, with ordinary generationv1 behavior retained. Nativev2 requires exact requested mode/quality/depth/pipeline/policy, canonical ordered encoderArgs, inert dense bounded data and4096UTF8bytes; it excludes session/device/source/authority fields. Unknown or malformed descriptions preserve generated exclusion with previous settings unavailable. History formats exactI/P[/B] orICQ/QVBR scalars and planned pipeline without current inventory, adoption or effective-mode claims.128focused and61separate consumer passes/1unavailable junction fixture verify software only. No native file route is activated; currentHDR9/69 andFull7/32 raw differences remain suspended.

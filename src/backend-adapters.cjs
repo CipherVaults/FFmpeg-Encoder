@@ -91,11 +91,11 @@ function validatePreset(profile, preset) {
   if (typeof preset !== 'string' || !profile.presets.includes(preset)) throw error('INVALID_NATIVE_SETTINGS', 'Choose a native preset offered by this profile.');
   return preset;
 }
-function validateNativeSettings(profileId, settings) {
+function validateNativeEncoderSettings(profileId, settings) {
   const profile = getNativeProfile(profileId);
-  record(settings, ['preset', 'mode', 'quality', 'deviceId'], 'native settings');
+  record(settings, ['preset', 'mode', 'quality'], 'native encoder settings');
+  if (Object.values(Object.getOwnPropertyDescriptors(settings)).some(field => !field.enumerable)) throw error('INVALID_NATIVE_SETTINGS', 'Native encoder settings cannot contain hidden fields.');
   const preset = validatePreset(profile, settings.preset), mode = validateMode(profile, settings.mode);
-  const deviceId = opaqueId(settings.deviceId, 'Device ID');
   let quality;
   if (mode.kind === 'frame-quantizers') {
     // A numeric convenience value visibly expands into native frame controls.
@@ -105,11 +105,20 @@ function validateNativeSettings(profileId, settings) {
       quality = Object.fromEntries(mode.fields.map(field => [field, value]));
     } else {
       record(settings.quality, mode.fields, 'native frame quantizers');
+      if (Object.values(Object.getOwnPropertyDescriptors(settings.quality)).some(field => !field.enumerable)) throw error('INVALID_NATIVE_SETTINGS', 'Native frame quantizers cannot contain hidden fields.');
       quality = Object.fromEntries(mode.fields.map(field => [field,
         integer(settings.quality[field], mode.min, mode.max, `${field.toUpperCase()} quantizer`)]));
     }
   } else quality = integer(settings.quality, mode.min, mode.max, mode.label);
-  return freeze({ preset, mode: settings.mode, quality, deviceId });
+  return freeze({ preset, mode: settings.mode, quality });
+}
+function validateNativeSettings(profileId, settings) {
+  const profile = getNativeProfile(profileId);
+  record(settings, ['preset', 'mode', 'quality', 'deviceId'], 'native settings');
+  validatePreset(profile, settings.preset); validateMode(profile, settings.mode);
+  const deviceId = opaqueId(settings.deviceId, 'Device ID');
+  const normalized = validateNativeEncoderSettings(profileId, { preset: settings.preset, mode: settings.mode, quality: settings.quality });
+  return freeze({ ...normalized, deviceId });
 }
 
 // Main resolves an opaque UI ID into this descriptor from its actual adapter
@@ -132,12 +141,13 @@ function validateDepth(profile, bitDepth) {
   return bitDepth;
 }
 
-function nativeContribution(profileId, settings, trusted) {
-  const profile = getNativeProfile(profileId), normalized = validateNativeSettings(profileId, settings);
-  record(trusted, ['device', 'bitDepth', 'pipelineId'], 'trusted preparation', ['pipelineId']);
-  const device = validateTrustedDevice(trusted.device, profile.backend);
-  if (normalized.deviceId !== device.id) throw error('NATIVE_DEVICE_MISMATCH', 'The chosen device ID is no longer bound to this adapter.');
-  const bitDepth = validateDepth(profile, trusted.bitDepth), pipelineId = Object.hasOwn(trusted, 'pipelineId') ? trusted.pipelineId : UPLOAD_PIPELINE;
+// Canonical requested encoder fragment, independent of current device/session.
+// This can describe history after device removal. It grants no execution proof.
+function nativeEncoderContribution(profileId, settings, configuration) {
+  const profile = getNativeProfile(profileId), normalized = validateNativeEncoderSettings(profileId, settings);
+  record(configuration, ['bitDepth', 'pipelineId'], 'native encoder configuration', ['pipelineId']);
+  if (Object.values(Object.getOwnPropertyDescriptors(configuration)).some(field => !field.enumerable)) throw error('INVALID_NATIVE_SETTINGS', 'Native encoder configuration cannot contain hidden fields.');
+  const bitDepth = validateDepth(profile, configuration.bitDepth), pipelineId = Object.hasOwn(configuration, 'pipelineId') ? configuration.pipelineId : UPLOAD_PIPELINE;
   if (pipelineId !== UPLOAD_PIPELINE) throw error('UNSUPPORTED_NATIVE_PIPELINE', 'This adapter contribution requires its qualified software-to-D3D11 upload path.');
   const codec = ['-c:v:0', profile.encoder];
   const preset = [profile.backend === 'amf' ? '-quality:v:0' : '-preset:v:0', normalized.preset];
@@ -162,11 +172,24 @@ function nativeContribution(profileId, settings, trusted) {
   const encodedProfile = profile.codec === 'H264' ? 'high' : profile.codec === 'H265' && bitDepth === 10 ? 'main10' : 'main';
   const pixelArgs = ['-profile:v:0', encodedProfile, '-pix_fmt:v:0', profile.backend === 'amf' ? 'd3d11' : 'qsv'];
   if (profile.backend === 'amf' && profile.codec !== 'H264') pixelArgs.push('-bitdepth:v:0', String(bitDepth));
+  const uploadFilters = [`format=${bitDepth === 10 ? 'p010le' : 'nv12'}`, 'hwupload=extra_hw_frames=16'];
+  return freeze({ policyVersion: POLICY_VERSION, profileId, settings: normalized, backend: profile.backend,
+    codecName: profile.codec, encodedCodec: profile.encodedCodec, encoder: profile.encoder, bitDepth, pipelineId,
+    codec, preset, options, pixelArgs, uploadFilters, args: [...codec, ...preset, ...options, ...pixelArgs],
+    scope: 'native-encoder-contribution-only', executionAuthority: 'none' });
+}
+function nativeContribution(profileId, settings, trusted) {
+  const profile = getNativeProfile(profileId), normalized = validateNativeSettings(profileId, settings);
+  record(trusted, ['device', 'bitDepth', 'pipelineId'], 'trusted preparation', ['pipelineId']);
+  const device = validateTrustedDevice(trusted.device, profile.backend);
+  if (normalized.deviceId !== device.id) throw error('NATIVE_DEVICE_MISMATCH', 'The chosen device ID is no longer bound to this adapter.');
+  const fragment = nativeEncoderContribution(profileId, { preset: normalized.preset, mode: normalized.mode, quality: normalized.quality },
+    { bitDepth: trusted.bitDepth, ...(Object.hasOwn(trusted, 'pipelineId') ? { pipelineId: trusted.pipelineId } : {}) });
+  const { bitDepth, pipelineId, codec, preset, options, pixelArgs, uploadFilters } = fragment;
   const deviceArgs = ['-init_hw_device', `d3d11va=ffenc_d3d:${device.adapterIndex}`];
   const filterDevice = profile.backend === 'amf' ? 'ffenc_d3d' : 'ffenc_qsv';
   if (profile.backend === 'qsv') deviceArgs.push('-init_hw_device', 'qsv=ffenc_qsv@ffenc_d3d');
   deviceArgs.push('-filter_hw_device', filterDevice);
-  const uploadFilters = [`format=${bitDepth === 10 ? 'p010le' : 'nv12'}`, 'hwupload=extra_hw_frames=16'];
   return freeze({ profileId, settings: normalized, backend: profile.backend, encoder: profile.encoder, bitDepth,
     pipelineId, deviceId: device.id, codec, preset, options, pixelArgs, deviceArgs, uploadFilters,
     // This is output-side encoder argv only. Device setup precedes the input;
@@ -270,5 +293,6 @@ function requireVerifiedCapability(cell, policy) {
 }
 
 module.exports = { POLICY_VERSION, UPLOAD_PIPELINE, NATIVE_PROFILES, getNativeProfile, validateNativeSettings,
+  validateNativeEncoderSettings, nativeEncoderContribution,
   validateTrustedDevice, nativeContribution, describeNativeRecipe, validateCapabilityPolicy, capabilityKey,
   validateCapabilityCell, requireVerifiedCapability };

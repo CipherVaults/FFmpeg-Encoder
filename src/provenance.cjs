@@ -30,7 +30,7 @@ function outputIdOf(value) {
 }
 // This bounded extension describes an encode. It never grants source admission,
 // publication, cleanup or filesystem authority; the original marker/ID stay v1.
-function generationDescriptionOf(value) {
+function generationDescriptionV1(value) {
   const required = ['version', 'profileId', 'codec', 'backend', 'encoder', 'preset', 'qualityMode', 'quality', 'bitDepth', 'encoderArgs', 'appVersion', 'createdAt'];
   const keys = [...required, ...['runtimeVersion', 'recipeId'].filter(key => value && Object.hasOwn(value, key))];
   if (!exactKeys(value, keys) || value.version !== 1 || Buffer.byteLength(JSON.stringify(value)) > 4096) return null;
@@ -57,6 +57,56 @@ function generationDescriptionOf(value) {
         || new Date(value.createdAt).toISOString() !== value.createdAt) return null;
   } catch { return null; }
   return structuredClone(value);
+}
+function inertNativeDescription(value, depth = 0, budget = { nodes: 0 }) {
+  if (++budget.nodes > 128 || depth > 3) return false;
+  if (typeof value === 'string') return Buffer.byteLength(value) <= 4096;
+  if (typeof value === 'number') return Number.isFinite(value);
+  if (!object(value) && !Array.isArray(value)) return false;
+  const descriptors = Object.getOwnPropertyDescriptors(value), keys = Reflect.ownKeys(descriptors);
+  if (Array.isArray(value)) {
+    if (Object.getPrototypeOf(value) !== Array.prototype || !Number.isSafeInteger(value.length) || value.length > 64 || keys.length !== value.length + 1
+        || keys.some(key => key !== 'length' && (typeof key !== 'string' || !/^(0|[1-9]\d*)$/.test(key) || Number(key) >= value.length))) return false;
+  } else if (keys.length > 32) return false;
+  for (const key of keys) {
+    if (Array.isArray(value) && key === 'length') continue;
+    const field = descriptors[key];
+    if (typeof key !== 'string' || !field.enumerable || !Object.hasOwn(field, 'value') || !inertNativeDescription(field.value, depth + 1, budget)) return false;
+  }
+  return true;
+}
+function generationDescriptionV2(value) {
+  try {
+    if (!inertNativeDescription(value)) return null;
+    const required = ['version', 'kind', 'adapterPolicyVersion', 'profileId', 'codec', 'backend', 'encoder', 'preset', 'qualityMode', 'quality',
+      'bitDepth', 'pipelineId', 'encoderArgs', 'settingsRole', 'scope', 'appVersion', 'createdAt'];
+    const keys = [...required, ...(Object.hasOwn(value, 'runtimeVersion') ? ['runtimeVersion'] : [])];
+    if (!exactKeys(value, keys) || value.version !== 2 || value.kind !== 'native-encoder' || value.adapterPolicyVersion !== 1
+        || value.settingsRole !== 'requested' || value.scope !== 'native-encoder-contribution-only' || Buffer.byteLength(JSON.stringify(value)) > 4096) return null;
+    const token = entry => typeof entry === 'string' && /^[a-zA-Z0-9.+_-]{1,80}$/.test(entry);
+    if (![value.profileId, value.encoder, value.preset, value.appVersion].every(token)
+        || !Array.isArray(value.encoderArgs) || value.encoderArgs.length > 64
+        || value.encoderArgs.some(entry => typeof entry !== 'string' || entry.length > 128 || /[\x00-\x1f\x7f]/.test(entry))
+        || typeof value.createdAt !== 'string' || !/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$/.test(value.createdAt)
+        || new Date(value.createdAt).toISOString() !== value.createdAt
+        || (Object.hasOwn(value, 'runtimeVersion') && (typeof value.runtimeVersion !== 'string' || !value.runtimeVersion.length
+          || value.runtimeVersion.length > 256 || /[\x00-\x1f\x7f]/.test(value.runtimeVersion)))) return null;
+    const { nativeEncoderContribution } = require('./backend-adapters.cjs');
+    if (!['CQP', 'QVBR', 'ICQ'].includes(value.qualityMode)) return null;
+    const mode = { CQP: 'cqp', QVBR: 'qvbr', ICQ: 'icq' }[value.qualityMode];
+    if (!mode || mode === 'cqp' && !object(value.quality)) return null;
+    const fragment = nativeEncoderContribution(value.profileId, { preset: value.preset, mode, quality: value.quality },
+      { bitDepth: value.bitDepth, pipelineId: value.pipelineId });
+    if (fragment.codecName !== value.codec || fragment.backend !== value.backend || fragment.encoder !== value.encoder
+        || fragment.policyVersion !== value.adapterPolicyVersion || JSON.stringify(fragment.args) !== JSON.stringify(value.encoderArgs)) return null;
+    return { ...structuredClone(value), quality: structuredClone(fragment.settings.quality) };
+  } catch { return null; }
+}
+function generationDescriptionOf(value) {
+  if (!object(value)) return null;
+  const version = Object.getOwnPropertyDescriptor(value, 'version');
+  if (!version || !Object.hasOwn(version, 'value') || !version.enumerable) return null;
+  return version.value === 1 ? generationDescriptionV1(value) : version.value === 2 ? generationDescriptionV2(value) : null;
 }
 function provenanceArgs(outputId, generationDescription) {
   const args = ['-metadata', `${MARKER_KEY}=1`, '-metadata', `${OUTPUT_ID_KEY}=${outputIdOf(outputId)}`];

@@ -1216,6 +1216,12 @@
         ? 'Historical filename evidence · exact generation details unknown' : '';
     // Never infer previous settings from suffixes, current controls or codecs
     // found in the stream. Only main's validated descriptive provenance is used.
+    if (previous.version === 2 && previous.kind === 'native-encoder') {
+      const backend = previous.backend === 'amf' ? 'AMD AMF' : previous.backend === 'qsv' ? 'Intel Quick Sync' : 'Unknown native backend';
+      const quality = previous.qualityMode === 'CQP'
+        ? ['i', 'p', 'b'].filter(key => Object.hasOwn(previous.quality, key)).map(key => `${key.toUpperCase()}${previous.quality[key]}`).join('/') : String(previous.quality);
+      return `${previous.codec} · ${backend} · ${previous.encoder} · preset ${previous.preset} · ${previous.qualityMode} ${quality} · ${previous.bitDepth}-bit · recorded requested settings`;
+    }
     const previousRecipe = recipes().find(recipe => recipe.id === previous.recipeId);
     return `${previous.codec} · ${previous.backend} · ${previous.encoder}${previousRecipe ? ` · ${previousRecipe.label}` : ''} · preset ${previous.preset} · ${previous.qualityMode} ${previous.quality} · ${previous.bitDepth}-bit`;
   }
@@ -1582,7 +1588,9 @@
         const previous = item.origin?.previousGeneration;
         entry.previousDetails.hidden = !previous;
         entry.previousInfo.textContent = previous
-          ? `${generationSummary(item)} · FFmpeg Encoder ${previous.appVersion}${previous.runtimeVersion ? ` · ${previous.runtimeVersion}` : ''} · ${previous.createdAt}. Recorded encoder arguments are descriptive provenance, not a complete previous invocation.` : '';
+          ? `${generationSummary(item)} · FFmpeg Encoder ${previous.appVersion}${previous.runtimeVersion ? ` · ${previous.runtimeVersion}` : ''} · ${previous.createdAt}. ${previous.version === 2
+            ? `Planned pipeline ${previous.pipelineId}. Recorded requested encoder settings only; no current device or effective-mode proof, source transform or complete previous invocation.`
+            : 'Recorded encoder arguments are descriptive provenance, not a complete previous invocation.'}` : '';
         entry.previousArgs.textContent = previous ? formatArguments(previous.encoderArgs) : '';
         entry.reencodeBox.hidden = !canAuthorize(item);
         entry.reencodeChoice.setAttribute('aria-label', `Choose ${item.name} for ${isRemux() ? 'Remux source' : 're-encoding'} authorization`);

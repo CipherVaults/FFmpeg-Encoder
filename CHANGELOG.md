@@ -1,3 +1,5 @@
+- Add unqualified native file source-contract/current-selection foundations and a bounded complete-source owner; correct mixed source-evidence joins. No native file execution or catalog is activated.
+
 ## Continue non-HDR0.7; preserve experimental HDR — October26,2026 (unaccepted alpha)
 
 - Add device-independent native requested recipes and strict descriptive generationv2/history, retaining marker/UUID/journalv1 and exact ordinary/live-native compatibility.128focused+61separate consumer checks pass, with one unavailable junction fixture; native file authority remains disabled.

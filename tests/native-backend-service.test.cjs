@@ -34,6 +34,7 @@ function harness(options = {}) {
   const service = new NativeBackendService({ registry,
     discover: async request => {
       calls.discovery++; assert.equal(request.registry, registry);
+      if (options.discover) await options.discover(request);
       if (request.initialization !== undefined) { assert.equal(request.initialization, token); initialized = true; }
       observation = environment(); return { registry: options.foreignRegistry ? new NativeCapabilityRegistry() : registry, environment: observation };
     },
@@ -161,4 +162,65 @@ test('fresh registry evidence with a mismatched report ID is refused', async () 
   const h = harness({ probe: async (r, c, helpers) => { const cell = helpers.mint(r.cellId); return { status: 'verified', cell, cellId: cell.cellId, evidenceId: randomUUID() }; } });
   await h.service.refresh(); h.choose(); await assert.rejects(h.service.qualify(h.selectedRequest()), code('NATIVE_PROBE_EVIDENCE_STALE'));
   assert.equal(h.service.snapshot().selection.probeVerified, false);
+});
+
+test('private file selections require a genuine completed sample and grant no file execution', async () => {
+  const h = harness(); await h.service.refresh(); h.choose('h264-qsv');
+  assert.throws(() => h.service.captureFileSelection(h.selectedRequest()), code('NATIVE_CAPABILITY_UNVERIFIED'));
+  await h.service.qualify(h.selectedRequest());
+  const token = h.service.captureFileSelection(h.selectedRequest());
+  assert.equal(h.service.requireFileSelection(token), token);
+  assert.equal(token.fileExecutionReady, false); assert.equal(token.executionAuthority, 'none');
+  assert.equal(token.request.profileId, 'h264-qsv'); assert.ok(Object.isFrozen(token.policy.device));
+  assert.throws(() => h.service.requireFileSelection(JSON.parse(JSON.stringify(token))), code('NATIVE_FILE_SELECTION_STALE'));
+  assert.throws(() => harness().service.requireFileSelection(token), code('NATIVE_FILE_SELECTION_STALE'));
+});
+
+test('fresh same-registry file discovery preserves only the unchanged exact sample cell', async () => {
+  const h = harness(); await h.service.refresh(); h.choose('h264-qsv'); await h.service.qualify(h.selectedRequest());
+  const token = h.service.captureFileSelection(h.selectedRequest()), before = h.calls.discovery;
+  const observed = await h.service.observeFileSelection(token);
+  assert.equal(observed.selection, token); assert.equal(h.calls.discovery, before + 1);
+  assert.equal(h.service.requireFileSelection(token), token); assert.equal(h.service.snapshot().fileExecutionReady, false);
+  h.registry.observeDiscovery({ ...observed.environment, evidenceId: randomUUID(), observedAt: observed.environment.observedAt + 1,
+    runtime: { ...observed.environment.runtime, ffmpeg: { sha256: 'e'.repeat(64), version: 'ffmpeg version different-runtime' } } });
+  assert.throws(() => h.service.requireFileSelection(token), code('NATIVE_FILE_SELECTION_STALE'));
+});
+
+test('select, refresh, requalification and invalidation revoke private file selections', async () => {
+  for (const action of ['select', 'refresh', 'qualify', 'invalidate']) {
+    const h = harness(); await h.service.refresh(); h.choose('h264-qsv'); await h.service.qualify(h.selectedRequest());
+    const token = h.service.captureFileSelection(h.selectedRequest());
+    if (action === 'select') h.choose('h264-qsv');
+    else if (action === 'qualify') await h.service.qualify(h.selectedRequest());
+    else await h.service[action]();
+    assert.throws(() => h.service.requireFileSelection(token), code('NATIVE_FILE_SELECTION_STALE'), action);
+  }
+});
+
+test('pre-admission cancellation starts no discovery or sample and explicit invalidate revokes the selection', async () => {
+  const h = harness(); await h.service.refresh(); h.choose('h264-qsv'); await h.service.qualify(h.selectedRequest());
+  const token = h.service.captureFileSelection(h.selectedRequest()), controller = new AbortController();
+  const calls = h.calls.probe.length; controller.abort();
+  await assert.rejects(h.service.observeFileSelection(token, { signal: controller.signal }), code('CANCELLED'));
+  // Pre-admission cancellation performs no discovery and does not manufacture
+  // new qualification. Explicit invalidation revokes the still-current token.
+  assert.equal(h.calls.probe.length, calls); await h.service.invalidate();
+  assert.throws(() => h.service.requireFileSelection(token), code('NATIVE_FILE_SELECTION_STALE'));
+});
+
+test('cancelled live file discovery keeps ownership until its collector settles and revokes its token', async () => {
+  let block = false, finish, entered, sawAbort = false;
+  const started = new Promise(resolve => { entered = resolve; }), drained = new Promise(resolve => { finish = resolve; });
+  const h = harness({ discover: async ({ signal }) => {
+    if (!block) return;
+    signal.addEventListener('abort', () => { sawAbort = true; }, { once: true }); entered(); await drained;
+  } });
+  await h.service.refresh(); h.choose('h264-qsv'); await h.service.qualify(h.selectedRequest());
+  const request = h.selectedRequest(), token = h.service.captureFileSelection(request); block = true;
+  const work = h.service.observeFileSelection(token), rejected = assert.rejects(work, code('CANCELLED')); await started;
+  const invalidated = h.service.invalidate(); assert.equal(sawAbort, true); assert.equal(h.service.snapshot().busy, true);
+  assert.throws(() => h.service.captureFileSelection(request), code('NATIVE_BACKEND_BUSY'));
+  finish(); await rejected; await invalidated;
+  assert.equal(h.service.snapshot().busy, false); assert.throws(() => h.service.requireFileSelection(token), code('NATIVE_FILE_SELECTION_STALE'));
 });

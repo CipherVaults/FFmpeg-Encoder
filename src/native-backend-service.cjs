@@ -37,6 +37,7 @@ class NativeBackendService {
   #registry; #discover; #probe; #active = null; #pending = null;
   #devices = [];
   #revision = 0; #epoch = 0; #selection = null; #qualification = null; #last = null; #ownerBlock = null;
+  #fileSelections = new WeakMap();
   constructor(options) {
     record(options, ['registry', 'discover', 'createProbe'], ['discover', 'createProbe']);
     if (typeof options.discover !== 'function' || typeof options.createProbe !== 'function') fail('INVALID_NATIVE_REQUEST', 'Main-owned discovery and probe factory are required.');
@@ -188,6 +189,47 @@ class NativeBackendService {
     if (!view.selection?.probeVerified) fail('NATIVE_CAPABILITY_UNVERIFIED', 'This current selection has no completed genuine exact-cell probe.');
     const cell = this.#registry.getCell({ cellId: selected.cellId });
     return this.#registry.requireVerified({ cellId: cell.cellId, revision: cell.revision });
+  }
+  // Private main-to-main seam. This preserves a genuine sample selection for
+  // a separate file policy owner; it grants no source, command or publication.
+  captureFileSelection(request) {
+    const cell = this.requireProbeVerified(request);
+    if (getNativeProfile(cell.policy.profileId).backend === 'amf') fail('AMF_EFFECTIVE_PROPERTIES_UNOBSERVED', 'A native file cannot substitute for the missing AMF producer.');
+    const token = freeze({ schema: 1, kind: 'native-file-selection', selectionId: this.#selection.selectionId,
+      selectionRevision: this.#revision, cellId: cell.cellId, cellRevision: cell.revision, cellKey: cell.key,
+      evidenceId: cell.evidenceId, request: this.#selection.request, policy: cell.policy,
+      fileExecutionReady: false, executionAuthority: 'none' });
+    this.#fileSelections.set(token, { epoch: this.#epoch, selection: this.#selection });
+    return token;
+  }
+  #fileSelection(token) {
+    const owned = token && typeof token === 'object' && this.#fileSelections.get(token);
+    if (!owned || owned.epoch !== this.#epoch || owned.selection !== this.#selection || token.selectionRevision !== this.#revision) {
+      fail('NATIVE_FILE_SELECTION_STALE', 'Use this session\'s original current native selection.');
+    }
+    const cell = this.#registry.getCell({ cellId: token.cellId });
+    if (!this.#qualification || this.#qualification.epoch !== this.#epoch || cell.state !== 'verified'
+        || cell.revision !== token.cellRevision || cell.key !== token.cellKey || cell.evidenceId !== token.evidenceId) {
+      fail('NATIVE_FILE_SELECTION_STALE', 'The native cell or its evidence changed.');
+    }
+    this.#registry.requireVerified({ cellId: cell.cellId, revision: cell.revision });
+    return token;
+  }
+  requireFileSelection(token) { this.#idle(); return this.#fileSelection(token); }
+  async observeFileSelection(token, { signal } = {}) {
+    this.requireFileSelection(token);
+    const active = this.#begin('file-discovery', signal);
+    const pending = (async () => {
+      try {
+        const environment = await this.#observe({ signal: active.controller.signal });
+        cancelled(active.controller.signal);
+        this.#fileSelection(token);
+        return Object.freeze({ selection: token, environment });
+      } catch (error) { this.#drop(); throw error; }
+      finally { this.#settle(active); }
+    })();
+    this.#pending = pending;
+    try { return await pending; } finally { if (this.#pending === pending) this.#pending = null; }
   }
   async invalidate() {
     const pending = this.#pending, active = this.#active;

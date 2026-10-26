@@ -10,6 +10,7 @@ const { assessRemux } = require('../src/remux-contract.cjs');
 const { collectRemuxEvidence, getCollectedRemuxEvidence, REMUX_EVIDENCE_LIMITS } = require('../src/remux-evidence.cjs');
 const { createRemuxValidator } = require('../src/remux-validation.cjs');
 const { MARKER_KEY, OUTPUT_ID_KEY } = require('../src/provenance.cjs');
+const savedVfr = require('./fixtures/remux-vfr-timeline-v1.json');
 
 // Every child is an async deterministic mock. Tiny inert files establish actual
 // filesystem identity; no media is generated, decoded, probed or encoded here.
@@ -120,6 +121,65 @@ function validator(s, maxTimestampError = zero(), changeEvidence) {
     return registry.validate({ plan, outputProbe: s.output, essenceEvidence: changeEvidence ? changeEvidence(clone(value)) : value }); };
 }
 function failure(receipt, pattern) { assert.equal(receipt.status, 'failed'); assert.equal(receipt.essenceEvidence, null); assert.match(JSON.stringify(receipt.failure), pattern); }
+
+async function vfrSetup(t, { changeFrames, changeAverage } = {}) {
+  const probe = source(); probe.streams = [probe.streams[0]]; probe.format.nb_streams = 1; probe.format.duration = '2.040000';
+  Object.assign(probe.streams[0], { time_base: savedVfr.timeBase, duration: '2.040000', avg_frame_rate: '25/1', r_frame_rate: '25/1' });
+  return setup(t, { probe, target: 'mp4',
+    // The complete saved timeline is exact. This different positive rate tag
+    // is a synthetic representation fixture, not an invented saved probe fact.
+    changeOutput: output => {
+      output.streams[0].avg_frame_rate = changeAverage || '1025/51';
+      output.streams[0].tags.name = output.streams[0].tags.title; delete output.streams[0].tags.title;
+    },
+    changeFrames: (frames, call) => {
+      const all = savedVfr.frames.map(frame => ({ ...frames[0], pts: frame.ptsUs, duration: frame.durationUs }));
+      return changeFrames?.(all, call) ?? all;
+    },
+    bytesFor: (bytes, call) => call.args.includes('framehash') ? Buffer.from('#format: frame checksums\n#hash: SHA256\n'
+      + savedVfr.frames.map((_, index) => `0, ${index}, ${index}, 1, 6, ${hash(Buffer.from(String(index)))}\n`).join('')) : bytes });
+}
+
+test('the retained 41-frame VFR timeline establishes complete variable witnesses despite equal source rate tags', async t => {
+  const s = await vfrSetup(t), receipt = await s.collect(), value = evidence(s, receipt);
+  assert.equal(receipt.status, 'completed'); assert.equal(value.streams[0].source.unitCount, '41');
+  const expected = { version: 1, classification: 'variable', intervalCount: '40',
+    firstStep: { numerator: '1', denominator: '25' }, differingStep: { numerator: '2', denominator: '25' } };
+  assert.deepEqual(value.streams[0].source.cadence, expected); assert.deepEqual(value.streams[0].output.cadence, expected);
+  assert.deepEqual(value.streams[0].source.endPts, { numerator: '51', denominator: '25' });
+  assert.deepEqual(value.streams[0].timestamps.maxPtsError, zero()); assert.deepEqual(value.streams[0].timestamps.maxDurationError, zero());
+  const valid = validator(s)(receipt); assert.equal(valid.valid, true, JSON.stringify(valid)); assert.match(valid.warnings.join('\n'), /average frame-rate summaries differ/);
+  for (const side of ['source', 'output']) {
+    const legacy = validator(s, zero(), e => { delete e.streams[0][side].cadence; return e; })(receipt);
+    assert.equal(legacy.valid, false); assert.match(legacy.errors.join('\n'), /avg_frame_rate/);
+  }
+});
+
+test('a complete VFR witness does not waive changed interior durations, PTS or final extent', async t => {
+  for (const kind of ['duration', 'pts', 'end']) {
+    const s = await vfrSetup(t, { changeFrames: (frames, call) => {
+      if (call.side === 'output') {
+        if (kind === 'duration') frames[20].duration += 1000;
+        if (kind === 'pts') frames[20].pts += 1000;
+        if (kind === 'end') frames.at(-1).duration += 1000;
+      } return frames;
+    } });
+    const receipt = await s.collect(); assert.equal(receipt.status, 'completed'); assert.equal(validator(s)(receipt).valid, false, kind);
+  }
+});
+
+test('missing, duplicated and reordered presentation frames cannot create complete positive VFR evidence', async t => {
+  for (const kind of ['missing', 'duplicate', 'reordered']) {
+    const s = await vfrSetup(t, { changeFrames: (frames, call) => {
+      if (call.side === 'output') {
+        if (kind === 'missing') frames.splice(20, 1);
+        if (kind === 'duplicate') frames[20].pts = frames[19].pts;
+        if (kind === 'reordered') [frames[19], frames[20]] = [frames[20], frames[19]];
+      } return frames;
+    } });
+    const receipt = await s.collect(); failure(receipt, /complete native hash|Every decoded video|strictly increasing/i);
+  }
+});
 
 const TWO_MS = Object.freeze({ numerator: '1', denominator: '500' });
 async function quantizedAudio(t, { changeFrames, changePcm = false } = {}) {

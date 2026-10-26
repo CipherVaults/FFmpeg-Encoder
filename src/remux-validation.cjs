@@ -182,12 +182,18 @@ function verifyQualification(receipt, policy) {
 }
 
 function verifyDecode(recordValue, type, label) {
-  record(recordValue, ['complete', 'exitCode', 'stderrComplete', 'errors', 'representation', 'contentSha256', 'metadataSha256', 'unitCount', 'firstPts', 'endPts'], label);
+  const fields = ['complete', 'exitCode', 'stderrComplete', 'errors', 'representation', 'contentSha256', 'metadataSha256', 'unitCount', 'firstPts', 'endPts'];
+  record(recordValue, [...fields, 'cadence'], label, fields);
   check(recordValue.complete === true && recordValue.exitCode === 0 && recordValue.stderrComplete === true
     && Array.isArray(recordValue.errors) && recordValue.errors.length === 0, `${label}: complete successful decoder/semantic evidence is required.`);
   const representation = { video: 'native-video-v1', audio: 'native-audio-v1', subtitle: 'subtitle-events-v1', attachment: 'attachment-extradata-v1' }[type];
   check(representation && recordValue.representation === representation && HASH.test(recordValue.contentSha256) && HASH.test(recordValue.metadataSha256), `${label}: qualified native essence and meaningful metadata hashes are required.`);
   const units = count(recordValue.unitCount, `${label} unit count`, type === 'subtitle');
+  let cadence = null;
+  if (own(recordValue, 'cadence')) {
+    check(type === 'video', `${label}: only complete video evidence can describe cadence.`);
+    cadence = verifyCadence(recordValue.cadence, units, label);
+  }
   if (type === 'attachment') {
     check(units === 1n && recordValue.firstPts === null && recordValue.endPts === null, `${label}: attachment evidence must describe exactly one complete payload.`);
     return { units, first: null, end: null };
@@ -197,7 +203,30 @@ function verifyDecode(recordValue, type, label) {
   }
   const first = rational(recordValue.firstPts, `${label} first PTS`), end = rational(recordValue.endPts, `${label} end PTS`);
   check(greater(end, first), `${label}: decoded timeline must have positive extent.`);
-  return { units, first, end };
+  return { units, first, end, cadence };
+}
+
+function verifyCadence(value, units, label) {
+  record(value, ['version', 'classification', 'intervalCount', 'firstStep', 'differingStep'], `${label} cadence`);
+  check(value.version === 1 && ['constant', 'variable', 'insufficient'].includes(value.classification)
+    && count(value.intervalCount, `${label} cadence interval count`) === units - 1n, `${label}: cadence does not cover every decoded interval.`);
+  if (units === 1n) {
+    check(value.classification === 'insufficient' && value.firstStep === null && value.differingStep === null, `${label}: one frame cannot establish cadence.`);
+    return 'insufficient';
+  }
+  const first = rational(value.firstStep, `${label} cadence first step`);
+  check(first.n > 0n, `${label}: cadence steps must be positive.`);
+  if (value.classification === 'constant') check(value.differingStep === null, `${label}: constant cadence cannot contain a variable witness.`);
+  else {
+    check(value.classification === 'variable' && units >= 3n, `${label}: variable cadence needs at least two observed intervals.`);
+    const different = rational(value.differingStep, `${label} cadence differing step`);
+    check(different.n > 0n && difference(first, different).n !== 0n, `${label}: variable cadence needs mathematically different positive steps.`);
+  }
+  return value.classification;
+}
+function positiveRate(value) {
+  if (typeof value !== 'string' || !/^[1-9]\d{0,19}\/[1-9]\d{0,19}$/.test(value)) return null;
+  const [n, d] = value.split('/'); return { n: BigInt(n), d: BigInt(d) };
 }
 
 /**
@@ -279,10 +308,9 @@ function createRemuxValidator({ requireQualification } = {}) {
           for (const field of ['coded_width', 'coded_height']) if (Number(before[field]) > 0) compareKnown(before, after, [field], label, errors);
           compareRatio(before, after, 'sample_aspect_ratio', ':', label, errors);
           compareRatio(before, after, 'display_aspect_ratio', ':', label, errors);
-          // Native frame/timestamp evidence below decides VFR preservation. A
-          // muxer's rounded average is not an independent frame-rate transform.
-          const avg = before.avg_frame_rate, nominal = before.r_frame_rate;
-          if (avg && nominal && avg === nominal) compareRatio(before, after, 'avg_frame_rate', '/', label, errors);
+          // Complete decoded cadence below decides whether a different valid
+          // VFR average is a representation difference. Tag equality alone
+          // does not prove a constant frame grid.
         } else if (stream.codecType === 'audio') {
           compareKnown(before, after, ['sample_fmt', 'sample_rate', 'channels', 'channel_layout', 'bits_per_sample', 'bits_per_raw_sample'], label, errors);
         } else if (stream.codecType === 'attachment') {
@@ -316,6 +344,16 @@ function createRemuxValidator({ requireQualification } = {}) {
         check(stream && !seen.has(item.outputIndex), 'Stream essence evidence is duplicated, unmapped or has changed type.'); seen.add(item.outputIndex);
         const label = `Stream ${item.inputIndex} → ${item.outputIndex}`;
         const before = verifyDecode(item.source, item.codecType, `${label} source`), after = verifyDecode(item.output, item.codecType, `${label} output`);
+        if (item.codecType === 'video') {
+          const original = originals.get(item.inputIndex), actualVideo = actual.get(item.outputIndex);
+          const avg = original.avg_frame_rate, nominal = original.r_frame_rate;
+          if (avg && nominal && avg === nominal) {
+            const a = positiveRate(avg), b = positiveRate(actualVideo?.avg_frame_rate);
+            if (before.cadence === 'variable' && after.cadence === 'variable' && a && b) {
+              if (difference(a, b).n !== 0n) warnings.push(`${label}: average frame-rate summaries differ; complete variable presentation timestamps remain subject to every preservation check.`);
+            } else compareRatio(original, actualVideo || {}, 'avg_frame_rate', '/', label, errors);
+          }
+        }
         if (item.source.contentSha256 !== item.output.contentSha256 || item.source.metadataSha256 !== item.output.metadataSha256 || before.units !== after.units) errors.push(`${label}: complete native essence, meaningful per-unit metadata or unit count changed.`);
         if (item.codecType === 'attachment') { check(item.timestamps === null, 'Attachments cannot invent a packet timeline.'); continue; }
         record(item.timestamps, ['complete', 'comparedUnits', 'maxPtsError', 'maxDurationError'], 'Complete timestamp comparison');

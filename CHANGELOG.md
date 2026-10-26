@@ -1,3 +1,5 @@
+- Derive remux cadence from complete rational video timestamps, avoiding false VFR average-summary refusals while retaining all preservation checks. No new remux route is activated;83focused and66separate consumer checks pass.
+
 - Add unqualified native file source-contract/current-selection foundations and a bounded complete-source owner; correct mixed source-evidence joins. No native file execution or catalog is activated.
 
 ## Continue non-HDR0.7; preserve experimental HDR — October26,2026 (unaccepted alpha)

@@ -209,6 +209,75 @@ test('equivalent SAR and declared constant rate rationals remain valid', () => {
   assert.equal(s.validate().valid, true);
 });
 
+function variableRateFixture() {
+  const s = setup();
+  for (const side of ['source', 'output']) s.evidence.streams[0][side].cadence = {
+    version: 1, classification: 'variable', intervalCount: '119', firstStep: rat(1, 25), differingStep: rat(2, 25) };
+  s.output.streams[0].avg_frame_rate = '30/1'; s.refresh(); return s;
+}
+
+test('only complete variable witnesses on both sides waive differing valid average summaries', () => {
+  const s = variableRateFixture(), result = s.validate();
+  assert.equal(result.valid, true); assert.match(result.warnings.join('\n'), /average frame-rate summaries differ/);
+  for (const side of ['source', 'output']) {
+    const missing = variableRateFixture(); delete missing.evidence.streams[0][side].cadence;
+    rejected(missing.validate(), /avg_frame_rate/);
+    const constant = variableRateFixture(); constant.evidence.streams[0][side].cadence.classification = 'constant';
+    constant.evidence.streams[0][side].cadence.differingStep = null; rejected(constant.validate(), /avg_frame_rate/);
+  }
+  for (const value of [undefined, '0/1', '0/0', 'not-a-rate', '-30/1']) {
+    const invalid = variableRateFixture();
+    if (value === undefined) delete invalid.output.streams[0].avg_frame_rate;
+    else invalid.output.streams[0].avg_frame_rate = value;
+    invalid.refresh(); rejected(invalid.validate(), /avg_frame_rate/);
+  }
+});
+
+test('cadence witnesses reject malformed, incomplete and rationally equivalent variable claims', () => {
+  const mutations = [c => { c.version = 2; }, c => { c.classification = 'unknown'; }, c => { c.intervalCount = '118'; },
+    c => { c.firstStep = rat(0); }, c => { c.firstStep = rat(-1); }, c => { c.firstStep.denominator = '0'; },
+    c => { c.differingStep = null; }, c => { c.differingStep = rat(40, 1000); }, c => { c.differingStep = rat(-1, 25); },
+    c => { c.classification = 'constant'; }, c => { c.classification = 'insufficient'; }, c => { c.extra = true; }];
+  for (const side of ['source', 'output']) for (const mutate of mutations) {
+    const s = variableRateFixture(); mutate(s.evidence.streams[0][side].cadence); rejected(s.validate(), /cadence/);
+  }
+  const skippedHeaderBranch = setup(); skippedHeaderBranch.evidence.streams[0].source.cadence = { version: 999 };
+  rejected(skippedHeaderBranch.validate(), /cadence/);
+});
+
+test('constant and insufficient cadence retain strict rate behavior and exact count conventions', () => {
+  for (const units of ['1', '2', '120']) {
+    const s = setup();
+    for (const side of ['source', 'output']) {
+      s.evidence.streams[0][side].unitCount = units;
+      s.evidence.streams[0][side].cadence = { version: 1, classification: units === '1' ? 'insufficient' : 'constant',
+        intervalCount: String(BigInt(units) - 1n), firstStep: units === '1' ? null : rat(1, 60), differingStep: null };
+    }
+    s.evidence.streams[0].timestamps.comparedUnits = units; assert.equal(s.validate().valid, true);
+    s.output.streams[0].avg_frame_rate = '30/1'; s.refresh(); rejected(s.validate(), /avg_frame_rate/);
+  }
+  const two = setup();
+  for (const side of ['source', 'output']) {
+    two.evidence.streams[0][side].unitCount = '2';
+    two.evidence.streams[0][side].cadence = { version: 1, classification: 'variable', intervalCount: '1', firstStep: rat(1, 25), differingStep: rat(2, 25) };
+  }
+  two.evidence.streams[0].timestamps.comparedUnits = '2'; rejected(two.validate(), /two observed intervals/);
+});
+
+test('a VFR average representation cannot mask any native preservation failure', () => {
+  for (const change of [
+    s => { s.evidence.streams[0].output.contentSha256 = 'e'.repeat(64); },
+    s => { s.evidence.streams[0].output.metadataSha256 = 'e'.repeat(64); },
+    s => { s.evidence.streams[0].timestamps.comparedUnits = '119'; },
+    s => { s.evidence.streams[0].timestamps.maxPtsError = rat(1); },
+    s => { s.evidence.streams[0].timestamps.maxDurationError = rat(1); },
+    s => { s.evidence.streams[0].output.endPts = rat(13); },
+    s => { s.output.streams[0].width = 1280; s.refresh(); },
+    s => { delete s.output.format.tags[OUTPUT_ID_KEY]; s.refresh(); },
+    s => { s.output.streams[1].channel_layout = 'mono'; s.refresh(); },
+  ]) { const s = variableRateFixture(); change(s); assert.equal(s.validate().valid, false); }
+});
+
 test('all copied audio properties remain significant', () => {
   for (const [field, value] of Object.entries({ sample_fmt: 's16p', sample_rate: '44100', channels: 1, channel_layout: 'mono', profile: 'HE-AAC' })) {
     const s = setup(); s.output.streams[1][field] = value; s.refresh(); rejected(s.validate(), new RegExp(field));

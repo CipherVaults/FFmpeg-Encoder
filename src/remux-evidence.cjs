@@ -82,7 +82,21 @@ function collectTimeline(frames, stream, contentSha256, maximumRecords = LIMITS.
   need(greater(end, first), 'The complete native interval must have positive extent.');
   return { chunks, count, record: { complete: true, exitCode: 0, stderrComplete: true, errors: [],
     representation: stream.codec_type === 'video' ? 'native-video-v1' : 'native-audio-v1', contentSha256,
-    metadataSha256: metadata.digest('hex'), unitCount: String(count), firstPts: encoded(first), endPts: encoded(end) } };
+    metadataSha256: metadata.digest('hex'), unitCount: String(count), firstPts: encoded(first), endPts: encoded(end),
+    ...(stream.codec_type === 'video' ? { cadence: videoCadence(chunks) } : {}) } };
+}
+// Rate-summary tags do not establish a presentation grid. These bounded
+// witnesses come from every complete decoded PTS, in its exact native timebase.
+function videoCadence(chunks) {
+  let firstStep = null, differingStep = null;
+  for (let index = 1; index < chunks.length; index++) {
+    const step = sub(chunks[index].pts, chunks[index - 1].pts);
+    need(step.n > 0n, 'Complete video presentation timestamps must be strictly increasing.');
+    if (!firstStep) firstStep = step;
+    else if (sub(firstStep, step).n !== 0n && !differingStep) differingStep = step;
+  }
+  return { version: 1, classification: !firstStep ? 'insufficient' : differingStep ? 'variable' : 'constant',
+    intervalCount: String(chunks.length - 1), firstStep: firstStep && encoded(firstStep), differingStep: differingStep && encoded(differingStep) };
 }
 function compareTimelines(before, after) {
   need(before.count === after.count, 'Every complete decoded/event unit must remain present.');

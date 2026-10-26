@@ -9,7 +9,7 @@ const { validateNativeSettings, nativeEncoderContribution } = require('./backend
 // executable command, prepared grant or publication is created by this module.
 const VERSION = 1, ID = 'native-file-h264-bt709-full-v1';
 const UUID = /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/;
-const descriptions = new WeakMap();
+const descriptions = new WeakMap(), contracts = new WeakMap();
 const fail = (code, message) => { throw Object.assign(new Error(message), { code }); };
 const plain = value => value && typeof value === 'object' && !Array.isArray(value)
   && [Object.prototype, null].includes(Object.getPrototypeOf(value));
@@ -134,7 +134,7 @@ function buildNativeFileContract(options) {
   if (!owned || owned.requestHash !== hash(request)) fail('NATIVE_FILE_APPLICABILITY_STALE', 'Use the genuine current source description for this exact request.');
   if (options.applicability.status !== 'structurally-eligible-unqualified') fail('NATIVE_FILE_SOURCE_UNSUPPORTED', 'This source is outside the native file engineering contract.');
   const settings = request.settings, fragment = nativeEncoderContribution(request.profileId, { preset: settings.preset, mode: settings.mode, quality: settings.quality }, { bitDepth: request.bitDepth });
-  return freeze({ schema: VERSION, id: ID, kind: 'native-file-contract', request, sourceProbeFingerprint: options.applicability.sourceProbeFingerprint,
+  const contract = freeze({ schema: VERSION, id: ID, kind: 'native-file-contract', request, sourceProbeFingerprint: options.applicability.sourceProbeFingerprint,
     inspectionPolicy: { ...INSPECTION_POLICY }, mediaEvidenceVersion: EVIDENCE_VERSION, sourceFacts: owned.facts,
     encoderContribution: fragment, expectedOutput: { target: 'matroska', videoIndex: 0, sourceVideoIndex: owned.facts.videoIndex,
       codec: 'h264', profile: 'High', bitDepth: 8, pixelFormat: 'yuv420p', width: 1280, height: 720, sampleAspectRatio: '1/1', displayAspectRatio: '16/9',
@@ -142,7 +142,17 @@ function buildNativeFileContract(options) {
       audio: 'not-applicable', retainedVideoStreams: 1, otherStreams: 0, chapters: 0, omissions: [],
       timestampPolicy: 'exact-source-and-container-clock-qualification-required', metadataPolicy: 'preserve-source-tags-and-dispositions-plus-descriptive-generation' },
     qualificationRequirements: options.applicability.qualificationRequirements, status: 'unqualified', fileExecutionReady: false, executionAuthority: 'none' });
+  contracts.set(contract, freeze({ contract, probe: structuredClone(owned.probe) }));
+  return contract;
+}
+
+// Main-private consumers need the actual normalized source metadata, not a
+// caller's copy of the contract or a reconstructed sourceFacts projection.
+function readNativeFileContract(contract) {
+  const owned = contract && typeof contract === 'object' && contracts.get(contract);
+  if (!owned) fail('NATIVE_FILE_CONTRACT_UNOWNED', 'Use the original native file contract from this module.');
+  return owned;
 }
 
 module.exports = { NATIVE_FILE_CONTRACT_VERSION: VERSION, NATIVE_FILE_CANDIDATE: CANDIDATE,
-  validateNativeFileRequest, fingerprintNativeFileSource, describeNativeFileSource, buildNativeFileContract };
+  validateNativeFileRequest, fingerprintNativeFileSource, describeNativeFileSource, buildNativeFileContract, readNativeFileContract };

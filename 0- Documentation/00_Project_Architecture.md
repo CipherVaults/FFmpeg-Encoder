@@ -1,3 +1,9 @@
+## Native file command boundary — October26,2026
+
+`native-file-contract.cjs` now privately brands each original contract and retains an isolated frozen normalized source probe. `native-file-command.cjs` consumes that original to construct the existing finite H2648/BT709 Full/KeepSource video-only Matroska command. Canonical native contributions supply requested device/upload/encoder settings; descriptive generationv2 is cross-bound to this exact contribution. Source maps and metadata/disposition/creation-time representation remain explicit. No generic args, transforms or fallback are accepted.
+
+This main-private pure module does no I/O, process or discovery work and is not wired into main/IPC/UI/service or a file policy. Source/stage paths and device descriptor remain validated binding assertions, without current selection, held source, runtime, owned-stage or execution proof. Existing source/selection foundations and future runtime/collector/lifecycle must supply those independent authorities; file policies remain0. P/Q staypartial, HDR expansiondeferred, packaginglast. Remux proof/defaults and all prior evidence remain unchanged.
+
 ## Current finite HDR-to-SDR owner and qualification — October24 Cairo / October23 UTC
 
 The existing main-owned HDR workspace now prepares explicit SDR operations for two reviewed CPU HEVC Main10 source configurations. Source acquisition/complete content identity, strict HDR interpretation, operation-token execution, encoder telemetry, independent output/source validation and no-overwrite publication remain separate authorities. The renderer selects existing typed operation choices and displays the interpretation; it receives no new filesystem/process/argv privilege. Provisional SDR names resolve from the final transform descriptor; stale discard cannot erase a newer plan. Ordinary CPU/NVIDIA names, defaults and ArchiveCQ29 stay unchanged.

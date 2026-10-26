@@ -1,3 +1,5 @@
+- Add the finite original-contract native file command builder for existing H2648 AMF/QSV modes, with exact source metadata/provenance/device assertions and strict local stage syntax.22focused+68compatibility checks pass; runtime/file policies/lifecycle and actual execution remain unqualified.
+
 - Verify the finite VFR remux laboratory path with one video-only publication and collision protection; complete prepared-cancel/stale-Start proof in a separate zero-job recovery. Preserve the initial harness failure and existing three-route default catalog.
 
 - Derive remux cadence from complete rational video timestamps, avoiding false VFR average-summary refusals while retaining all preservation checks. No new remux route is activated;83focused and66separate consumer checks pass.

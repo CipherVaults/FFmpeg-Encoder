@@ -258,3 +258,10 @@ New MKV outputs carry global FFMPEG_ENCODER_PROVENANCE=1 and FFMPEG_ENCODER_OUTP
 The local provenance-v1 journal is separate from inspection cache and preferences. Immutable checksummed intent/published files are bounded to10,000 namespace entries/32MiB total/16KiB per record with no automatic eviction. Required intent failure stops that encode; final publication-record failure keeps valid output/intent and shows pending bookkeeping. Startup inspects at most128 pending intents without changing media; completed pairs need no recovery probe. Matching/absent/unrelated/uncertain and remaining inventory are reported. Unmatched or malformed data is preserved, never used to delete/republish.
 
 Markers support ordinary rename/copy recognition; index identity includes dev/ino/birthtime/size/sparse digest and permits supported same-object renames. This is recognition, not authentication or full-byte proof. Removal of all marker, identity and naming/index evidence can erase attribution. Old0.5 does not understand provenance: rollback uses distinct folders/original-only sources and keeps0.6 data separate.
+
+
+## October26 native coordinator seam — component only
+
+`NativeBackendService` exposes main-private `refresh`, `select`, `qualify`, `snapshot`, `requireProbeVerified` and awaited `invalidate`. Requests carry only typed settings, depth and opaque session selection/revision IDs. Fixed SDR/none-v1/Matroska probe scope cannot be changed by a request. Main injects the real registry/discovery/probe/lease owners; there is no path/argv/filtergraph IPC and no startup qualification.
+
+A completed tiny probe is not a file execution grant. `fileExecutionReady` staysfalse and actual product wiring, native settings/provenance, finite file applicability and per-job validation remain outstanding.17serial injected coordinator checks pass, with initialfixture failure and independentcurrent-attempt correction preserved in the [October26 execution record](Execution%20Summaries/2026-10-26_Non_HDR_Reconciliation_and_Continuation.md). Actual hardware/driver mode and packaging evidence are separate.

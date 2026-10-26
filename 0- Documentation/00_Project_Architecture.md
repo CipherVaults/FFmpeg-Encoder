@@ -197,3 +197,10 @@ The direct pinned Packager builder and existing 7-Zip produce fresh, independent
 ## Provenance and publication (K)
 
 provenance.cjs classifies reserved metadata and all historical suffixes independently of hardware. Main issues identity/plan-bound legacy overrides, creates output UUIDs and persists intent before encoding. Immutable bounded checksummed intent/published records identify outputs and support read-only pending recovery; they never authorize cleanup. outputs.cjs owns exact stage objects privately, seals successful outputs before ffprobe, checks source/directory identity and publishes atomically/exclusively for same-folder mode. Distinct folders retain explicit exclusive-copy fallback. Final-bookkeeping failure preserves completed output; cleanup retains anything whose ownership cannot be established. The Same Folder report records cooperative filesystem and marker-erasure limits.
+
+
+## October26 non-HDR native coordinator component (not product-wired)
+
+`native-backend-service.cjs` owns transient typed native selections, one genuine session registry and injected main-owned discovery/probe owners. An explicit QSV initializer feeds fresh current discovery before rebinding the exact SDR/no-transform cell. Qualification must advance the cell revision/evidence and match the returned report identifiers. AMF's missing same-component producer refuses before initializer/media scheduling; absence of that producer is separate from absent hardware.
+
+Invalidation drops selection authority immediately and awaits the owner promise through drainage. Unconfirmed release/rejection latches the owner; persistence failure grants no coordinator qualification. Snapshots are frozen descriptive records with `fileExecutionReady:false`, never serialized authority or source-file applicability. The new component is not yet composed in main/EncoderService/IPC/preload/UI and adds no startup probe. Existing Full/HDR producer manifests are not silently refreshed. [Amendment33](33_0.7_Non_HDR_Completion_Amendment_2026-10-26.md) controls deferred HDR scope.

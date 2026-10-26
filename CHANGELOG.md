@@ -1,3 +1,5 @@
+- Verify the finite VFR remux laboratory path with one video-only publication and collision protection; complete prepared-cancel/stale-Start proof in a separate zero-job recovery. Preserve the initial harness failure and existing three-route default catalog.
+
 - Derive remux cadence from complete rational video timestamps, avoiding false VFR average-summary refusals while retaining all preservation checks. No new remux route is activated;83focused and66separate consumer checks pass.
 
 - Add unqualified native file source-contract/current-selection foundations and a bounded complete-source owner; correct mixed source-evidence joins. No native file execution or catalog is activated.

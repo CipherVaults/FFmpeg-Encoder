@@ -11,6 +11,10 @@ async function invoke(channel, ...args) {
 // Expose named capabilities only. Callbacks never receive Electron event objects.
 contextBridge.exposeInMainWorld('encoder', Object.freeze({
   getCapabilities: () => invoke('encoder:capabilities'),
+  getNativeBackendState: () => invoke('encoder:native-state'),
+  refreshNativeBackends: () => invoke('encoder:native-refresh'),
+  selectNativeBackend: request => invoke('encoder:native-select', request),
+  qualifyNativeBackend: request => invoke('encoder:native-qualify', request),
   getPreferences: () => invoke('encoder:preferences'),
   getAppearance: () => invoke('encoder:appearance'),
   saveAppearance: request => invoke('encoder:save-appearance', request),

@@ -2,7 +2,7 @@
 
 const { randomUUID } = require('node:crypto');
 const { NativeCapabilityRegistry } = require('./backend-capabilities.cjs');
-const { getNativeProfile, validateNativeSettings } = require('./backend-adapters.cjs');
+const { getNativeProfile, validateNativeSettings, NATIVE_PROFILES } = require('./backend-adapters.cjs');
 
 // Main-private orchestration only. Construction and snapshots run no collector.
 // Main injects the real discovery/probe owners and their shared media lease.
@@ -35,6 +35,7 @@ function cancelled(signal) { if (signal?.aborted) fail('CANCELLED', 'Native back
 
 class NativeBackendService {
   #registry; #discover; #probe; #active = null; #pending = null;
+  #devices = [];
   #revision = 0; #epoch = 0; #selection = null; #qualification = null; #last = null; #ownerBlock = null;
   constructor(options) {
     record(options, ['registry', 'discover', 'createProbe'], ['discover', 'createProbe']);
@@ -66,7 +67,8 @@ class NativeBackendService {
         && this.#qualification.cellId === cell.cellId && this.#qualification.cellRevision === cell.revision && cell.state === 'verified');
     }
     return freeze({ schema: 1, revision: this.#revision, busy: Boolean(this.#active), phase: this.#active?.kind || 'idle',
-      native, selection: this.#selection ? { selectionId: this.#selection.selectionId, request: this.#selection.request, cell, probeVerified } : null,
+      native, controls: NATIVE_PROFILES, devices: this.#devices,
+      selection: this.#selection ? { selectionId: this.#selection.selectionId, request: this.#selection.request, cell, probeVerified } : null,
       lastOutcome: this.#last, ownerBlock: this.#ownerBlock, beta: true, fileExecutionReady: false,
       scope: 'Session-only exact-settings SDR/no-transform probe coordination; no source-file or publication authority.' });
   }
@@ -77,6 +79,9 @@ class NativeBackendService {
     cancelled(options.signal);
     if (!observed || observed.registry !== this.#registry || !plain(observed.environment)) fail('NATIVE_DISCOVERY_OWNER_MISMATCH', 'Discovery must belong to this registry and current session.');
     this.#registry.observeDiscovery(observed.environment);
+    this.#devices = observed.environment.inventory.devices.map(device => ({ id: device.id, backend: device.backend,
+      description: observed.display?.devices?.find(row => row.id === device.id)?.description || `${device.backend.toUpperCase()} adapter`,
+      driverVersion: device.driverVersion }));
     return observed.environment;
   }
   #begin(kind, signal) {
@@ -136,7 +141,8 @@ class NativeBackendService {
         cancelled(active.controller.signal);
         if (this.#selection !== chosen || this.#epoch !== active.epoch) fail('STALE_NATIVE_SELECTION', 'Native choices were invalidated during initialization.');
         if (initial?.status !== 'observed' || !initial.initialization || initial.failure) {
-          this.#last = { status: 'untested', reason: typeof initial?.reason === 'string' ? initial.reason.slice(0, 128) : 'INITIALIZATION_UNOBSERVED' };
+          this.#last = { status: 'untested', reason: typeof initial?.reason === 'string' ? initial.reason.slice(0, 128) : 'INITIALIZATION_UNOBSERVED',
+            ...(initial?.persistenceFailure ? { persistenceFailure: 'NATIVE_INITIALIZATION_NOT_RETAINED' } : {}) };
           return;
         }
         // A bootstrap receipt is consumed only by genuine current discovery.

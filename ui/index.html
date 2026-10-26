@@ -172,6 +172,27 @@
         <div class="appearance-layout"><div class="field"><label for="appearance-theme">Color theme</label><select id="appearance-theme" aria-describedby="appearance-description appearance-status" disabled><option value="dark">Dark · graphite</option><option value="light">Light · paper</option></select></div><div><p id="appearance-description" class="appearance-description">Choose a familiar dark workbench or a clean, paper-white view. Your choice applies across the application and leaves encoding settings unchanged.</p><div class="appearance-preview" aria-hidden="true"><span></span><span></span><span></span></div></div></div>
         <p id="appearance-status" class="appearance-status" role="status">Reading your appearance preference…</p><p id="appearance-error" class="attention-warning" role="alert" hidden></p>
       </section>
+      <section class="panel" aria-labelledby="native-settings-heading">
+        <h2 id="native-settings-heading">Native backend checks <span class="scope-label">Beta</span></h2>
+        <p class="hint">AMD AMF and Intel Quick Sync use their own quality modes. Checks use a small generated SDR sample; your files are not encoded. A passing sample check does not enable file encoding in this alpha.</p>
+        <details id="native-settings-details"><summary>Inspect devices and check exact settings</summary>
+          <button id="native-refresh" type="button" class="subtle">Refresh devices</button>
+          <p id="native-status" class="hint" role="status">Open this section to inspect the current session.</p>
+          <fieldset id="native-settings-fields" disabled><legend>Settings for the generated sample</legend><div class="settings-grid">
+            <div class="field"><label for="native-profile">Backend and codec</label><select id="native-profile"></select></div>
+            <div class="field"><label for="native-device">Device</label><select id="native-device"></select></div>
+            <div class="field"><label for="native-depth">Bit depth</label><select id="native-depth"></select></div>
+            <div class="field"><label for="native-preset">Native preset</label><select id="native-preset"></select></div>
+            <div class="field"><label for="native-mode">Rate control</label><select id="native-mode"></select></div>
+            <div id="native-scalar-field" class="field"><label for="native-quality">Quality level</label><input id="native-quality" type="number" step="1"></div>
+            <div id="native-qp-i-field" class="field"><label for="native-qp-i">I-frame quantizer</label><input id="native-qp-i" type="number" step="1"></div>
+            <div id="native-qp-p-field" class="field"><label for="native-qp-p">P-frame quantizer</label><input id="native-qp-p" type="number" step="1"></div>
+            <div id="native-qp-b-field" class="field"><label for="native-qp-b">B-frame quantizer</label><input id="native-qp-b" type="number" step="1"></div>
+          </div><p class="hint">Starting values are operational seeds, with no tested-default or quality-equivalence claim. CQP uses the explicit frame quantizers shown above.</p>
+          <button id="native-qualify" type="button">Check selected settings</button></fieldset>
+          <p id="native-limitation" class="hint">AMD AMF remains unavailable for qualification: the bundled runtime cannot read back all required effective properties. Intel checks still require a matching discovered device.</p>
+        </details>
+      </section>
       <section class="panel" aria-labelledby="app-settings-heading">
         <div class="section-heading"><h2 id="app-settings-heading">Defaults for new batches</h2><button id="app-settings-reload" class="subtle" type="button">Reload stored defaults</button></div>
         <p class="hint">Factory defaults → saved app defaults → batch choices → file overrides → compatibility validation. Saving never changes prepared, queued or running jobs.</p>

@@ -7,8 +7,7 @@ const { OutputAccess } = require('./src/output-access.cjs');
 const { verifyCandidateRuntime } = require('./src/candidate-runtime.cjs');
 const { createOperationControls } = require('./src/operation-controls.cjs');
 const { FAMILIES, POLICY_ID } = require('./src/operation-catalog.cjs');
-const { discoverNativeBackends } = require('./src/backend-discovery.cjs');
-const { NativeCapabilityRegistry } = require('./src/backend-capabilities.cjs');
+const { createNativeBackendControls } = require('./src/native-backend-controls.cjs');
 const { registerIpc } = require('./src/ipc.cjs');
 const { ENTRY_URL, resolveAsset, registerLocalProtocol } = require('./src/local-protocol.cjs');
 const { AppearanceSettings } = require('./src/appearance.cjs');
@@ -37,6 +36,7 @@ function finishShutdown() {
   // Close admission synchronously, before draining media can yield to another
   // IPC request. Previously accepted appearance writes still finish durably.
   appearance?.closeAdmission();
+  service?.closeAdmission?.();
   shutdownPromise ||= (async () => {
     // A failed drain must not skip attempts to close owned handles/leases or
     // flush diagnostics. Each closure retains its own failure identity.
@@ -159,12 +159,12 @@ async function createWindow() {
   if (quitDuringStartup || shutdownComplete) return;
   const runtimeIdentity = createHash('sha256').update(JSON.stringify(runtime.verified.slice(0, 2)
     .map(({ sizeBytes, sha256 }) => ({ sizeBytes, sha256 })))).digest('hex');
-  const nativeRegistry = new NativeCapabilityRegistry();
+  const nativeControls = createNativeBackendControls({ runtime, stateDir,
+    acquireMediaSlot: request => service.acquireNativeMediaSlot(request),
+    retainInitialization: report => service.retainNativeInitialization(report) });
   service = new EncoderService({ ffmpeg: runtime.ffmpeg, ffprobe: runtime.ffprobe, runtimeIdentity, stateDir,
     ...createOperationControls({ runtime, stateDir, families: FAMILIES, policyIdentity: POLICY_ID }),
-    discoverBackends: ({ signal, run, versions }) => discoverNativeBackends({ ffmpeg: runtime.ffmpeg, signal, run, registry: nativeRegistry,
-      runtime: Object.fromEntries(['ffmpeg', 'ffprobe'].map((name, index) => [name,
-        { sha256: runtime.verified[index].sha256, version: versions[name] }])) }),
+    ...nativeControls,
     outputAccess: new OutputAccess({ openPath: file => shell.openPath(file), showItemInFolder: file => shell.showItemInFolder(file) }) });
   await service.initializeDiagnostics();
   if (quitDuringStartup) { await finishShutdown(); return; }
@@ -201,18 +201,19 @@ async function createWindow() {
     if (window && !window.isDestroyed() && !window.webContents.isDestroyed()) window.webContents.send('encoder:update', snapshot);
   });
   window.on('close', async event => {
-    if (exitAllowed || !service.busy) { appearance.closeAdmission(); return; }
+    if (exitAllowed || !service.busy) { appearance.closeAdmission(); service.closeAdmission(); return; }
     event.preventDefault();
     if (closePrompt) return;
     closePrompt = true;
     try {
       const choice = await dialog.showMessageBox(window, {
-        type: 'question', title: 'Encoding is active',
+        type: 'question', title: 'An operation is active',
         message: 'Keep the application open, or cancel the current work and exit?',
-        buttons: ['Keep application open', 'Cancel encoding and exit'], defaultId: 0, cancelId: 0, noLink: true,
+        buttons: ['Keep application open', 'Cancel work and exit'], defaultId: 0, cancelId: 0, noLink: true,
       });
       if (choice.response === 1) {
         appearance.closeAdmission();
+        service.closeAdmission();
         await service.cancelCurrent();
         exitAllowed = true;
         window.close();
@@ -224,6 +225,7 @@ async function createWindow() {
     shutdownOutcome = 'failed';
     rendererLost = true;
     appearance.closeAdmission();
+    service.closeAdmission();
     // Abort ownership synchronously before waiting on disk-backed diagnostics.
     // An unavailable/slow log directory must never prolong invisible encoding.
     const cancellation = service.cancelCurrent();

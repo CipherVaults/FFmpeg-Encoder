@@ -92,6 +92,66 @@ function dom() {
 const defaults = () => ({ schema: 1, revision: 4, defaults: { fullAudioPolicy: 'copy', rangeAudioPolicy: 'precision-aac', resolution: 'source', hdrPolicy: 'preserve', remuxTarget: 'matroska', previewExpanded: false }, persistence: { state: 'ready', persisted: true, resetRequired: false }, notices: [] });
 const profile = { id: 'h265-cpu', label: 'H.265 CPU', available: true, presets: ['slow', 'medium'], defaultPreset: 'slow', quality: { mode: 'CRF', min: 0, max: 51, default: 25 }, suffix: 'H265-CPU', supportedBitDepths: [8, 10] };
 
+function nativeView() {
+  const { NATIVE_PROFILES } = require('../src/backend-adapters.cjs');
+  return { revision: 1, fileExecutionReady: false, controls: plain(NATIVE_PROFILES), ownerBlock: null,
+    native: { profiles: NATIVE_PROFILES.map(item => ({ profileId: item.id, reason: 'CHOOSE_AND_QUALIFY_CELL' })) },
+    devices: [{ id: 'opaque-intel-device', backend: 'qsv', description: 'Injected Intel adapter', driverVersion: '32.0.1.2' }] };
+}
+test('native panel sends exact frame quantizers and preserves displayed settings after a sample result', async () => {
+  const view = nativeView(); let selected;
+  const h = await harness({ getNativeBackendState: async () => view,
+    selectNativeBackend: async request => { selected = request; return { ...view, revision: 2,
+      selection: { selectionId: 'opaque-selection', request, probeVerified: false } }; },
+    qualifyNativeBackend: async request => { assert.deepEqual(plain(request), { selectionId: 'opaque-selection', revision: 2 });
+      return { ...view, revision: 3, selection: { selectionId: request.selectionId, request: selected, probeVerified: true } }; } });
+  h.byId('native-settings-details').open = true; await h.byId('native-settings-details').emit('toggle');
+  h.byId('native-profile').value = 'h264-qsv'; await h.byId('native-profile').emit('change');
+  h.byId('native-mode').value = 'cqp'; await h.byId('native-mode').emit('change');
+  for (const [key, value] of [['i', '22'], ['p', '25'], ['b', '28']]) h.byId(`native-qp-${key}`).value = value;
+  await h.byId('native-qualify').click();
+  assert.deepEqual(plain(selected.settings.quality), { i: 22, p: 25, b: 28 }); assert.equal(selected.settings.mode, 'cqp');
+  assert.equal(h.byId('native-qp-b').value, '28'); assert.match(h.byId('native-status').textContent, /sample check passed.*File encoding remains unavailable/);
+  assert.equal(h.byId('profile').options.length, 1); assert.equal(h.calls.some(call => call.name === 'startBatch'), false);
+});
+test('blank native CQP fields get no IPC and native activity locks controls with a cancel path', async () => {
+  const h = await harness({ getNativeBackendState: async () => nativeView(), selectNativeBackend: async () => { throw new Error('Must not be called'); } });
+  h.byId('native-settings-details').open = true; await h.byId('native-settings-details').emit('toggle');
+  h.byId('native-profile').value = 'h264-qsv'; await h.byId('native-profile').emit('change');
+  h.byId('native-mode').value = 'cqp'; await h.byId('native-mode').emit('change'); h.byId('native-qp-i').value = '';
+  await h.byId('native-qualify').click(); assert.equal(h.calls.some(call => call.name === 'selectNativeBackend'), false);
+  h.update({ revision: 50, batchId: 'native-operation', phase: 'native-checking', items: [], counts: {} });
+  assert.equal(h.byId('native-settings-fields').disabled, true); assert.equal(h.byId('native-refresh').disabled, true);
+  assert.equal(h.byId('cancel-batch').disabled, false); assert.equal(h.byId('cancel-batch').textContent, 'Cancel check');
+});
+test('a different displayed native profile cannot inherit a previous exact-settings success on reopen', async () => {
+  let current = nativeView();
+  const h = await harness({ getNativeBackendState: async () => current,
+    selectNativeBackend: async request => (current = { ...current, revision: 2, selection: { selectionId: 'opaque', request } }),
+    qualifyNativeBackend: async () => (current = { ...current, revision: 3, selection: { ...current.selection, probeVerified: true } }) });
+  h.byId('native-settings-details').open = true; await h.byId('native-settings-details').emit('toggle');
+  h.byId('native-profile').value = 'h264-qsv'; await h.byId('native-profile').emit('change'); await h.byId('native-qualify').click();
+  assert.match(h.byId('native-status').textContent, /sample check passed/);
+  h.byId('native-profile').value = 'h265-qsv'; await h.byId('native-profile').emit('change');
+  await h.byId('native-settings-details').emit('toggle');
+  assert.equal(h.byId('native-profile').value, 'h265-qsv'); assert.match(h.byId('native-status').textContent, /displayed settings are not checked/);
+  assert.doesNotMatch(h.byId('native-status').textContent, /sample check passed/);
+});
+test('a cancelled native attempt refreshes its revision and permits a deliberate second check', async () => {
+  let current = nativeView(), attempts = 0; const revisions = [];
+  const h = await harness({ getNativeBackendState: async () => current,
+    selectNativeBackend: async request => { assert.equal(request.revision, current.revision); revisions.push(request.revision);
+      return (current = { ...current, revision: current.revision + 1, selection: { selectionId: 'opaque-' + attempts, request } }); },
+    qualifyNativeBackend: async () => { attempts++; current = { ...current, revision: current.revision + 1,
+      selection: { ...current.selection, probeVerified: attempts > 1 }, lastOutcome: { status: 'untested', reason: 'CANCELLED' } };
+      if (attempts === 1) throw Object.assign(new Error('Check cancelled'), { code: 'CANCELLED' }); return current; } });
+  h.byId('native-settings-details').open = true; await h.byId('native-settings-details').emit('toggle');
+  h.byId('native-profile').value = 'h264-qsv'; await h.byId('native-profile').emit('change');
+  await h.byId('native-qualify').click(); assert.match(h.byId('native-status').textContent, /CANCELLED/);
+  await h.byId('native-qualify').click(); assert.deepEqual(revisions, [1, 3]); assert.equal(attempts, 2);
+  assert.match(h.byId('native-status').textContent, /sample check passed/);
+});
+
 test('native backend discovery is explanatory and cannot silently populate an enabled profile', async () => {
   const h = await harness({ getCapabilities: async () => ({ profiles: [profile], versions: {}, backendDiscovery: {
     profiles: [{ encoder: 'hevc_amf', state: 'unavailable', reason: 'MISSING_DEVICE' },

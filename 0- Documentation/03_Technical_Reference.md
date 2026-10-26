@@ -260,8 +260,15 @@ The local provenance-v1 journal is separate from inspection cache and preference
 Markers support ordinary rename/copy recognition; index identity includes dev/ino/birthtime/size/sparse digest and permits supported same-object renames. This is recognition, not authentication or full-byte proof. Removal of all marker, identity and naming/index evidence can erase attribution. Old0.5 does not understand provenance: rollback uses distinct folders/original-only sources and keeps0.6 data separate.
 
 
-## October26 native coordinator seam — component only
+## October26 native coordinator seam — component only (initial95f8b6e checkpoint)
 
 `NativeBackendService` exposes main-private `refresh`, `select`, `qualify`, `snapshot`, `requireProbeVerified` and awaited `invalidate`. Requests carry only typed settings, depth and opaque session selection/revision IDs. Fixed SDR/none-v1/Matroska probe scope cannot be changed by a request. Main injects the real registry/discovery/probe/lease owners; there is no path/argv/filtergraph IPC and no startup qualification.
 
 A completed tiny probe is not a file execution grant. `fileExecutionReady` staysfalse and actual product wiring, native settings/provenance, finite file applicability and per-job validation remain outstanding.17serial injected coordinator checks pass, with initialfixture failure and independentcurrent-attempt correction preserved in the [October26 execution record](Execution%20Summaries/2026-10-26_Non_HDR_Reconciliation_and_Continuation.md). Actual hardware/driver mode and packaging evidence are separate.
+
+
+## October26 current product seam
+
+`native-backend-controls.cjs` now composes the genuine session registry, discovery, coordinator and probe using exactly the two verified executable paths. Construction performs no collection or filesystem allocation. The service owns a distinct `native-checking` phase/controller/task, a subordinate native media slot and synchronous shutdown admission. Initialization capture uses `native-initialization-evidence.cjs` with the existing retained operation store: bounded exclusive write, sync/readback, no live bootstrap serialization, and terminal failure/cancellation capture preservation. Store completion means capture retention only.
+
+Four named IPC/preload actions expose inert state, refresh, select and qualify requests. Settings presents Beta native profiles, main-labeled opaque devices, depth, native preset and explicit ICQ/QVBR or CQP frame controls; it never adds a file Encode profile. A passing tiny probe still has `fileExecutionReady:false`. Native file applicability/provenance/per-job validation and actual AMD/Intel execution remain pending; AMF same-component readback is still blocked. Final217direct passes and one unavailable Windows junction fixture establish software boundaries only. Shared producer drift suspends the retained HDR/Full policies without resealing. See the [October26 record](Execution%20Summaries/2026-10-26_Non_HDR_Reconciliation_and_Continuation.md).

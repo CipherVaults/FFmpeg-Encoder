@@ -13,6 +13,10 @@ function registerIpc({ ipcMain, window, service, appearance, dialog, entryUrl })
   };
   const methods = {
     'encoder:capabilities': [0, () => service.getCapabilities()],
+    'encoder:native-state': [0, () => service.getNativeBackendState()],
+    'encoder:native-refresh': [0, () => service.refreshNativeBackends()],
+    'encoder:native-select': [1, request => service.selectNativeBackend(request)],
+    'encoder:native-qualify': [1, request => service.qualifyNativeBackend(request)],
     'encoder:preferences': [0, () => service.getPreferences()],
     'encoder:appearance': [0, () => appearance.load()],
     'encoder:save-appearance': [1, payload => appearance.set(payload)],

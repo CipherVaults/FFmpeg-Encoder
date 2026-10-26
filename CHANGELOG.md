@@ -1,7 +1,7 @@
 ## Continue non-HDR0.7; preserve experimental HDR — October26,2026 (unaccepted alpha)
 
 - Defer further HDR expansion while preserving partial implementation, evidence, failures and return points. Retain all43 requirement texts and keep packaging last after applicable final QA.
-- Add an internal native-backend coordinator for exact SDR settings/cell initialization, fresh proof binding and cancellation/release handling.17serialinjectedchecks pass; product/service/UI/file execution remains unfinished, with no actual AMD/Intel qualification.
+- Integrate native generated-sample checks into main, the shared operation scheduler, typed IPC/preload and Beta Settings controls. Retain successful/failed/cancelled initialization captures, bind displayed proof to exact settings, refresh revisions after cancellation and close admission before shutdown awaits.217direct checks pass/0fail/1unavailable junction fixture; actual AMD/Intel and native file execution remain unqualified.
 - Preserve ordinary CPU/NVIDIA defaults/ArchiveCQ29, accepted releases, private records and the separate benchmark. [Scope and evidence](0-%20Documentation/Execution%20Summaries/2026-10-26_Non_HDR_Reconciliation_and_Continuation.md).
 
 ## Add finite explicit CPU HDR-to-SDR conversion — October24 Cairo / October23 UTC (unaccepted alpha)

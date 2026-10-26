@@ -27,7 +27,7 @@ async function harness({ runtimePending = false, diagnosticsPending = false, res
   const verified = { ffmpeg: 'verified/ffmpeg.exe', ffprobe: 'verified/ffprobe.exe',
     verified: [{ sizeBytes: 1, sha256: 'a'.repeat(64) }, { sizeBytes: 2, sha256: 'b'.repeat(64) }] };
   if (!runtimePending) runtime.resolve(verified);
-  const calls = []; let window, service, controlOptions, ipcOptions, appearanceOptions, appearanceClosed = false;
+  const calls = []; let window, service, controlOptions, nativeControlOptions, ipcOptions, appearanceOptions, appearanceClosed = false;
   const families = [{ id: 'main-private-family-fixture' }], qualification = Object.freeze({});
   const app = new EventEmitter();
   Object.assign(app, { isReady: () => true, getAppPath: () => 'test-root', setPath() {}, requestSingleInstanceLock: () => true,
@@ -36,6 +36,7 @@ async function harness({ runtimePending = false, diagnosticsPending = false, res
   class Service extends EventEmitter {
     constructor(options) { super(); service = this; this.busy = false; this.options = options; }
     initializeDiagnostics() { return initialized.promise; }
+    closeAdmission() { calls.push('close-admission'); }
     cancelCurrent() { calls.push('cancel'); return drained.promise; }
     closeOperationResources() { calls.push('close-operation-resources'); return resources.promise; }
     async recordIncident(event) { calls.push(event.reason); }
@@ -80,8 +81,11 @@ async function harness({ runtimePending = false, diagnosticsPending = false, res
     if (id === './src/operation-controls.cjs') return { createOperationControls: options => {
       controlOptions = options; return { operationQualifications: qualification, operationTelemetry: true };
     } };
-    if (id === './src/backend-discovery.cjs') return { discoverNativeBackends: async options => options };
-    if (id === './src/backend-capabilities.cjs') return require('../src/backend-capabilities.cjs');
+    if (id === './src/native-backend-controls.cjs') return { createNativeBackendControls: options => {
+      nativeControlOptions = options;
+      const registry = new (require('../src/backend-capabilities.cjs').NativeCapabilityRegistry)();
+      return { nativeBackends: { fixture: true }, discoverBackends: async request => ({ ...request, registry, ffmpeg: options.runtime.ffmpeg }) };
+    } };
     if (id === './src/encoder-service.cjs') return { EncoderService: Service };
     if (id === './src/output-access.cjs') return require('../src/output-access.cjs');
     if (id === './src/appearance.cjs') return { AppearanceSettings: Appearance };
@@ -93,7 +97,8 @@ async function harness({ runtimePending = false, diagnosticsPending = false, res
   return { app, load, drained, dialogClosed, closeChoice, calls, window, service, runtime, verified, initialized, resources,
     appearanceReady, appearanceFlushed, appearanceWrites, appearanceSnapshot, nativeChanges, backgroundChanges, appearanceOrder,
     getWindow: () => window, getService: () => service, getControlOptions: () => controlOptions,
-    getIpcOptions: () => ipcOptions, getAppearanceOptions: () => appearanceOptions, isAppearanceClosed: () => appearanceClosed, families, qualification };
+    getIpcOptions: () => ipcOptions, getNativeControlOptions: () => nativeControlOptions,
+    getAppearanceOptions: () => appearanceOptions, isAppearanceClosed: () => appearanceClosed, families, qualification };
 }
 
 test('main reuses one private native registry across discovery observations', async () => {
@@ -106,6 +111,7 @@ test('main reuses one private native registry across discovery observations', as
 
 test('shutdown drains children then operation handles/lease before diagnostic closure and exit', async () => {
   const h = await harness({ resourcesPending: true }); h.window.destroy(); await tick();
+  assert.ok(h.calls.indexOf('close-admission') < h.calls.indexOf('cancel'));
   assert.ok(h.calls.includes('cancel')); assert.ok(!h.calls.includes('close-operation-resources'));
   h.drained.resolve(); await tick(); assert.ok(h.calls.includes('close-operation-resources'));
   assert.ok(!h.calls.some(value => Array.isArray(value) && value[0] === 'closed')); assert.ok(!h.calls.includes('quit'));
@@ -161,8 +167,9 @@ test('candidate runtime verification precedes any window, service or process aut
   assert.equal(h.getService().options.operationQualifications, h.qualification); assert.equal(h.getService().options.operationTelemetry, true);
   const discovery = await h.getService().options.discoverBackends({ versions: { ffmpeg: 'ffmpeg version test', ffprobe: 'ffprobe version test' } });
   assert.equal(discovery.ffmpeg, h.verified.ffmpeg);
-  assert.equal(discovery.runtime.ffmpeg.sha256, h.verified.verified[0].sha256);
-  assert.equal(discovery.runtime.ffprobe.version, 'ffprobe version test');
+  assert.equal(h.getNativeControlOptions().runtime, h.verified);
+  assert.equal(typeof h.getNativeControlOptions().acquireMediaSlot, 'function');
+  assert.equal(typeof h.getNativeControlOptions().retainInitialization, 'function');
   assert.ok(h.getWindow());
 });
 

@@ -17,6 +17,7 @@ const { createOutputId, classifyMarker, historicalSuffix, ProvenanceJournal, gen
 const { readFileStamp, readSourceIdentity, sameStamp, sameIdentity, assertIdentityMatches, assessCompletedSource } = require('./source-identity.cjs');
 const { StorageEligibility } = require('./storage-eligibility.cjs');
 const { InspectionCache } = require('./inspection-cache.cjs');
+const { retainNativeInitialization } = require('./native-initialization-evidence.cjs');
 const { Preferences } = require('./preferences.cjs');
 const { DiagnosticJournal } = require('./diagnostics.cjs');
 const { AppSettings } = require('./app-settings.cjs');
@@ -30,7 +31,7 @@ const { collectHdrEvidence } = require('./hdr-evidence.cjs');
 const { prepareEncodePreservation, requireEncodePreservation, setEncodePreservationDecisions,
   installEncodePreservationDecisions } = require('./encode-preservation-workspace.cjs');
 
-const BUSY = new Set(['checking', 'preparing', 'running', 'cancelling']);
+const BUSY = new Set(['checking', 'native-checking', 'preparing', 'running', 'cancelling']);
 const EXTENSIONS = new Set(['.mp4', '.mkv', '.mov', '.avi', '.webm']);
 const fail = (code, message) => Object.assign(new Error(message), { code });
 const clone = value => structuredClone(value);
@@ -97,7 +98,7 @@ const sharedFailure = isSharedToolFailure;
 
 class EncoderService extends EventEmitter {
   constructor({ ffmpeg, ffprobe, stateDir, run = runTool, inspect = inspectInput, verify = validateOutput, capabilities = checkCapabilities,
-    inspectionCache, storageEligibility, inspectionWorkers = 2, provenanceJournal, preferences, diagnostics, appSettings, outputAccess, runtimeIdentity = null, discoverBackends = null,
+    inspectionCache, storageEligibility, inspectionWorkers = 2, provenanceJournal, preferences, diagnostics, appSettings, outputAccess, runtimeIdentity = null, discoverBackends = null, nativeBackends = null,
     operationQualifications = null, operationEvidenceBudget = null, operationEnvironment = null, operationDeadlineMs = 120000,
     operationRuntime = null, operationStorage = null, operationTelemetry = false, remuxOperations = null, hdrOperations = null, encodePreservationOperations = null }) {
     super();
@@ -138,6 +139,10 @@ class EncoderService extends EventEmitter {
     this.runtimeIdentity = runtimeIdentity;
     this.discoverBackends = discoverBackends;
     this.nativeCapabilities = null;
+    this.nativeBackends = nativeBackends;
+    this.nativeMediaSlot = null;
+    this.nativeOperation = null;
+    this.admissionClosed = false;
     // Main-private dependency injection, never an IPC registration surface.
     // Without a trusted catalog and complete cost envelope, changed operations
     // retain their existing refusal. Ordinary Full never consumes this gate.
@@ -165,14 +170,16 @@ class EncoderService extends EventEmitter {
       ? this.operationStorage() : this.operationStorage).catch(error => { this.operationStoragePromise = null; throw error; });
   }
   async closeOperationResources() {
+    this.admissionClosed = true;
     // The caller drains queue children and sink callbacks first. Closing these
     // handles/leases never removes media or accumulated evidence.
     await this.taskPromise.catch(() => {});
     this.hdrOperations?.invalidate();
     this.encodePreservationOperations?.invalidate();
-    const closed = await Promise.allSettled([this.operationRuntime?.close(),
+    const closed = await Promise.allSettled([this.nativeBackends?.invalidate(), this.operationRuntime?.close(),
       this.operationStoragePromise ? this.operationStoragePromise.then(store => store.close()) : undefined]);
     const failures = closed.filter(result => result.status === 'rejected').map(result => result.reason);
+    if (this.nativeMediaSlot) failures.push(fail('NATIVE_OWNER_UNSETTLED', 'A native media owner has not released its slot.'));
     if (failures.length) throw new AggregateError(failures, 'Some owned operation resources could not be closed.');
   }
 
@@ -299,7 +306,69 @@ class EncoderService extends EventEmitter {
     this.state.revision++;
     this.emit('update', this.snapshot());
   }
-  requireIdle() { if (this.busy || this.preferenceMutation) throw fail('BUSY', 'Wait for the current operation and cleanup to finish.'); }
+  requireIdle() {
+    if (this.admissionClosed) throw fail('SHUTTING_DOWN', 'The application is closing.');
+    if (this.busy || this.preferenceMutation || this.nativeMediaSlot) throw fail('BUSY', 'Wait for the current operation and cleanup to finish.');
+  }
+  closeAdmission() { this.admissionClosed = true; }
+
+  getNativeBackendState() {
+    if (!this.nativeBackends) throw fail('NATIVE_BACKEND_UNAVAILABLE', 'Native backend qualification is unavailable in this host.');
+    return this.nativeBackends.snapshot();
+  }
+  selectNativeBackend(request) {
+    this.requireIdle(); this.getNativeBackendState();
+    const result = this.nativeBackends.select(request);
+    this.emitState(); return result;
+  }
+  // One scheduler/controller/task owns ordinary capabilities, native discovery,
+  // initialization, encode/decode probes and application workflows. A distinct
+  // phase prevents getCapabilities from joining the wrong kind of task.
+  async runNativeBackendOperation(method, request) {
+    this.requireIdle(); this.getNativeBackendState();
+    const previousState = this.state, previousTimes = { startedAt: this.startedAt, finishedAt: this.finishedAt };
+    const signal = this.begin('native-checking');
+    const nativeOperation = {}; this.nativeOperation = nativeOperation;
+    let result, failure;
+    this.taskPromise = (async () => {
+      try {
+        await this.recordIncident({ stage: 'capability', reason: 'NATIVE_CHECK_STARTED', context: { action: method } });
+        result = method === 'refresh' ? await this.nativeBackends.refresh({ signal })
+          : await this.nativeBackends.qualify(request, { signal });
+        notCancelled(signal);
+      } catch (error) { failure = error; }
+      finally {
+        try {
+          if (signal.aborted) await this.nativeBackends.invalidate();
+          await this.recordIncident({ stage: 'capability', reason: failure ? 'NATIVE_CHECK_FAILED' : 'NATIVE_CHECK_FINISHED',
+            severity: failure ? 'warning' : 'info', context: { action: method, code: failure?.code || 'COMPLETED', fileExecutionReady: false } });
+        } catch (error) { failure ||= error; }
+        if (this.nativeMediaSlot) failure ||= fail('NATIVE_OWNER_UNSETTLED', 'The native media owner has not confirmed release.');
+        this.state = { ...previousState, revision: this.state.revision, diagnostics: this.state.diagnostics,
+          diagnosticWarning: this.state.diagnosticWarning, interruptedSessions: this.state.interruptedSessions,
+          ...(this.nativeMediaSlot ? { phase: 'native-checking', error: failure.message } : {}) };
+        Object.assign(this, previousTimes); this.emitState();
+        if (this.nativeOperation === nativeOperation) this.nativeOperation = null;
+      }
+    })();
+    await this.taskPromise;
+    if (failure) throw failure;
+    return result;
+  }
+  refreshNativeBackends() { return this.runNativeBackendOperation('refresh'); }
+  qualifyNativeBackend(request) { return this.runNativeBackendOperation('qualify', request); }
+  acquireNativeMediaSlot({ signal, purpose }) {
+    if (this.admissionClosed || this.state.phase !== 'native-checking' || this.controller.signal.aborted || signal?.aborted
+        || !['native-backend-initialization', 'native-backend-capability'].includes(purpose) || this.nativeMediaSlot) {
+      throw fail('NATIVE_MEDIA_ADMISSION_REFUSED', 'The current native operation does not own an available media slot.');
+    }
+    const owner = {}; this.nativeMediaSlot = owner;
+    return { release: async () => { if (this.nativeMediaSlot === owner) this.nativeMediaSlot = null; } };
+  }
+  async retainNativeInitialization(report) {
+    if (!this.nativeOperation || !['native-checking', 'cancelling'].includes(this.state.phase)) throw fail('NATIVE_MEDIA_ADMISSION_REFUSED', 'Only the current native operation may retain initialization evidence.');
+    return retainNativeInitialization({ store: await this.operationStore(), report });
+  }
   begin(phase) {
     this.controller = new AbortController();
     this.preparationFailure = null;

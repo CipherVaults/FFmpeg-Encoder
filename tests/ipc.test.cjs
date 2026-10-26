@@ -11,6 +11,20 @@ function harness(serviceOverrides = {}, appearance = { load() {}, set() {} }) {
     service: { snapshot: () => ({ phase: 'idle' }), startBatch: () => { starts++; return {}; }, ...serviceOverrides }, appearance, dialog: {}, entryUrl: frame.url });
   return { handlers, event, window, unregister, starts: () => starts };
 }
+
+test('native channels retain sender and arity checks, with no path or generic invocation bridge', async () => {
+  const calls = [], h = harness({ getNativeBackendState: () => ({ fileExecutionReady: false }),
+    refreshNativeBackends: () => { calls.push('refresh'); return {}; },
+    selectNativeBackend: request => { calls.push(request); return {}; }, qualifyNativeBackend: request => { calls.push(request); return {}; } });
+  for (const [channel, args] of [['encoder:native-state', []], ['encoder:native-refresh', []],
+    ['encoder:native-select', [{ revision: 1 }]], ['encoder:native-qualify', [{ selectionId: 'opaque', revision: 2 }]]]) {
+    const invoke = h.handlers.get(channel);
+    assert.equal((await invoke({ ...h.event, sender: {} }, ...args)).error.code, 'UNTRUSTED_SENDER');
+    assert.equal((await invoke(h.event, ...args, 'extra')).error.code, 'INVALID_REQUEST');
+    assert.equal((await invoke(h.event, ...args)).ok, true);
+  }
+  assert.equal(calls.length, 3); assert.ok(!h.handlers.has('encoder:native-run'));
+});
 test('foreign window, subframe and changed URL cannot invoke a privileged method', async () => {
   const { handlers, event, starts } = harness();
   for (const altered of [{ ...event, sender: {} }, { ...event, senderFrame: { url: event.senderFrame.url } }]) {

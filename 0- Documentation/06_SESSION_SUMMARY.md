@@ -1,3 +1,11 @@
+## October26 continuation — reviewed native product seam, UI QA next
+
+The initial19-path foundation was committed and privately pushed as95f8b6e766ee0dd31f8c3da93b09039cbaccdc3c, with exact remote equality and an empty index. Root then integrated the native coordinator into production main, the shared service scheduler, typed IPC/preload and a separate Beta Settings panel. This remains generated-sample qualification only: file encoding, native provenance/applicability and actual AMD/Intel hardware proof remain open.
+
+Independent review caught and fixed an actual startup runtime-shape bug, a pre-allocation redirected-directory side effect, loss of failed/cancelled initialization captures, shutdown admission races, stale UI success text and stale post-cancel revision reuse. Retention uses the genuine existing operation store, exclusive bounded writes, sync/readback and separate capture-versus-qualification status. Direct final regression217passed/0failed/1unavailable Windows junction fixture, Node0/21085.4172ms. Failed earlier runs and fixture corrections remain in the detailed execution record; simulated guard ordering is not native junction proof. Source changes now suspend the old HDR/Full byte policies; no silent reseal or HDR replay occurred.
+
+Blue forwarded fresh owner desktop availability at07:44UTC while PBS stays file-only. Computer Use skill was read/initialized, with no app input or launch yet. A prospectively bounded one-launch production UI pass is next; startup generated-sample calls must be counted separately from exhausted historical campaigns. No workflow Start/filejob/native qualifier or acceptance is inferred.
+
 # Session: October26,2026 — non-HDR0.7 scope and grounded continuation (in progress)
 
 Ahmed renewed authority through Blue to finish as much0.7 as possible excluding further HDR expansion, and authorized understandable tested Git/GitHub updates. The local scope amendment33 explicitly retains HDR as experimental alpha/PARTIAL/deferred, not complete. Accepted0.5/0.6, originals, defaults/ArchiveCQ29 and the separate benchmark remain protected. Existing Thread2 stays the development home with root as sole repository writer.

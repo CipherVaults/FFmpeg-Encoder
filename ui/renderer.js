@@ -6,7 +6,7 @@
 (() => {
   const api = window.encoder;
   const byId = id => document.getElementById(id);
-  const busyPhases = new Set(['checking', 'preparing', 'running', 'cancelling']);
+  const busyPhases = new Set(['checking', 'native-checking', 'preparing', 'running', 'cancelling']);
   const terminalPhases = new Set(['completed', 'cancelled', 'failed']);
   const selectableStatuses = new Set(['ready', 'conflict']);
   const attentionStatuses = new Set(['conflict', 'unsupported', 'ambiguous', 'provenance-issue', 'failed']);
@@ -17,7 +17,7 @@
     generated: 'Generated output', ambiguous: 'Possible previous output', 'provenance-issue': 'Provenance issue',
   };
   const phaseLabels = {
-    idle: 'Ready', checking: 'Checking encoders', preparing: 'Inspecting files',
+    idle: 'Ready', checking: 'Checking encoders', 'native-checking': 'Checking native backend', preparing: 'Inspecting files',
     ready: 'Review batch', running: 'Encoding', cancelling: 'Cancelling',
     completed: 'Completed', cancelled: 'Cancelled', failed: 'Stopped',
   };
@@ -32,6 +32,90 @@
       : jobStageLabels[snapshot.progress?.stage] || (isRemux() ? 'Remuxing' : phaseLabels.running)
     : phaseLabels[snapshot.phase] || 'Current operation';
   let capabilities = null;
+  let nativeState = null;
+
+  function nativeProofMatchesDisplay() {
+    const request = nativeState?.selection?.request, settings = request?.settings;
+    if (!settings || request.profileId !== byId('native-profile').value || request.bitDepth !== Number(byId('native-depth').value)
+        || settings.deviceId !== byId('native-device').value || settings.preset !== byId('native-preset').value
+        || settings.mode !== byId('native-mode').value) return false;
+    const same = (id, value) => byId(id).value.trim() !== '' && Number(byId(id).value) === value;
+    return typeof settings.quality === 'number' ? same('native-quality', settings.quality)
+      : Object.entries(settings.quality).every(([key, value]) => same(`native-qp-${key}`, value));
+  }
+  function renderNativeStatus() {
+    if (!nativeState) return;
+    put('native-status', nativeState.selection?.probeVerified
+      ? nativeProofMatchesDisplay() ? 'Generated sample check passed for these exact settings. File encoding remains unavailable.'
+        : 'The displayed settings are not checked. The earlier sample result applies to a different selection.'
+      : nativeState.lastOutcome ? `Last check: ${nativeState.lastOutcome.status} · ${nativeState.lastOutcome.reason || 'No exact-settings proof'}${nativeState.lastOutcome.persistenceFailure ? ' · capture was not confirmed saved' : ''}`
+      : 'Session inventory only. Choose a device and exact settings to run an explicit sample check.');
+  }
+
+  function nativeProfile() { return nativeState?.controls?.find(profile => profile.id === byId('native-profile').value); }
+  function nativeOptions(id, entries, preferred) {
+    const select = byId(id); select.replaceChildren();
+    for (const [value, label] of entries) { const option = document.createElement('option'); option.value = value; option.textContent = label; select.append(option); }
+    if (entries.some(([value]) => String(value) === String(preferred))) select.value = preferred;
+    else select.value = entries[0]?.[0] ?? '';
+  }
+  function nativeQualityChanged() {
+    const profile = nativeProfile(), mode = profile?.modes[byId('native-mode').value];
+    visible('native-scalar-field', Boolean(mode && mode.kind !== 'frame-quantizers'));
+    for (const key of ['i', 'p', 'b']) visible(`native-qp-${key}-field`, Boolean(mode?.fields?.includes(key)));
+    if (!mode) return;
+    for (const id of ['native-quality', 'native-qp-i', 'native-qp-p', 'native-qp-b']) {
+      const field = byId(id); field.min = mode.min; field.max = mode.max; field.value = mode.seed;
+    }
+  }
+  function nativeProfileChanged() {
+    const profile = nativeProfile();
+    nativeOptions('native-device', (nativeState?.devices || []).filter(device => device.backend === profile?.backend)
+      .map(device => [device.id, `${device.description} · driver ${device.driverVersion}`]));
+    nativeOptions('native-depth', (profile?.bitDepths || []).map(depth => [String(depth), `${depth}-bit`]));
+    nativeOptions('native-preset', (profile?.presets || []).map(preset => [preset, preset]), profile?.operationalSeed.preset);
+    nativeOptions('native-mode', Object.entries(profile?.modes || {}).map(([id, mode]) => [id, mode.label]), profile?.operationalSeed.mode);
+    nativeQualityChanged(); render();
+  }
+  function showNativeState(next) {
+    if (nativeState && next.revision < nativeState.revision) return;
+    const preferred = byId('native-profile').value; nativeState = next;
+    nativeOptions('native-profile', (next.controls || []).map(profile => [profile.id, `${profile.label} · Beta`]), preferred);
+    nativeProfileChanged();
+    if (next.selection?.request?.profileId === byId('native-profile').value) {
+      const request = next.selection.request, settings = request.settings;
+      byId('native-device').value = settings.deviceId; byId('native-depth').value = String(request.bitDepth);
+      byId('native-preset').value = settings.preset; byId('native-mode').value = settings.mode; nativeQualityChanged();
+      if (typeof settings.quality === 'number') byId('native-quality').value = settings.quality;
+      else for (const [key, value] of Object.entries(settings.quality)) byId(`native-qp-${key}`).value = value;
+    }
+    renderNativeStatus();
+  }
+  async function loadNativeState() {
+    if (typeof api?.getNativeBackendState !== 'function') return;
+    showNativeState(await api.getNativeBackendState());
+  }
+  async function checkNativeSettings() {
+    const profile = nativeProfile(), mode = profile?.modes[byId('native-mode').value];
+    if (!profile || !mode || !byId('native-device').value) throw new Error('Choose a discovered device and valid native settings.');
+    const fields = mode.kind === 'frame-quantizers' ? mode.fields.map(key => `native-qp-${key}`) : ['native-quality'];
+    if (fields.some(id => byId(id).value.trim() === '')) throw new Error('Enter each displayed native quality value.');
+    const quality = mode.kind === 'frame-quantizers'
+      ? Object.fromEntries(mode.fields.map(key => [key, Number(byId(`native-qp-${key}`).value)])) : Number(byId('native-quality').value);
+    const values = typeof quality === 'number' ? [quality] : Object.values(quality);
+    if (values.some(value => !Number.isInteger(value) || value < mode.min || value > mode.max)) throw new Error('Enter integer native quality values within the displayed limits.');
+    try {
+      const selected = await api.selectNativeBackend({ revision: nativeState.revision, profileId: profile.id, bitDepth: Number(byId('native-depth').value),
+        settings: { deviceId: byId('native-device').value, preset: byId('native-preset').value, mode: byId('native-mode').value, quality } });
+      showNativeState(selected);
+      showNativeState(await api.qualifyNativeBackend({ selectionId: selected.selection.selectionId, revision: selected.revision }));
+    } catch (error) {
+      // A failed/cancelled main attempt still advances its revision. Read the
+      // inert current DTO so the next explicit check does not reuse old IDs.
+      try { await loadNativeState(); } catch { /* retain the actual check error */ }
+      throw error;
+    }
+  }
   let inputFolder = null;
   let outputFolder = null;
   let snapshot = { revision: -1, phase: 'idle', items: [], counts: {}, progress: null };
@@ -1600,6 +1684,7 @@
 
   function render() {
     const phase = snapshot.phase;
+    const checking = phase === 'checking' || phase === 'native-checking';
     const busy = isBusy();
     const terminal = terminalPhases.has(phase);
     const ready = phase === 'ready' && !dirty;
@@ -1608,7 +1693,8 @@
     visible('error-banner', Boolean(error)); put('error-banner', error);
     put('phase-badge', currentJobLabel());
     let activity = '';
-    if (phase === 'checking') activity = 'Checking the bundled encoders on this computer. This can take a moment.';
+    if (phase === 'native-checking') activity = 'Checking the selected native backend. Cancellation remains available in Current Jobs.';
+    else if (phase === 'checking') activity = 'Checking the bundled encoders on this computer. This can take a moment.';
     else if (phase === 'preparing') {
       const p = snapshot.preparation;
       activity = p ? `Checking ${p.total} recordings · ${p.resolved} resolved · ${p.reused} reused · ${p.active} inspecting` : 'Preparing inspection and checking output names…';
@@ -1644,18 +1730,25 @@
       if (movingFocus && activeWorkspace !== batchWorkspace) byId(`tab-${batchWorkspace}`).focus();
     }
     visible('batch-panel', (ready || busy || showResults) && (snapshot.items || []).length > 0);
-    visible('monitor-panel', busy && phase !== 'checking');
+    visible('monitor-panel', busy && !checking);
     visible('results-panel', showResults);
-    visible('jobs-empty', (!busy && !terminal) || phase === 'checking');
-    put('jobs-empty-message', phase === 'checking' ? 'The bundled encoders are being checked. The current operation remains visible below.'
+    visible('jobs-empty', (!busy && !terminal) || checking);
+    put('jobs-empty-message', phase === 'native-checking' ? 'The selected native backend is being checked with generated data. File encoding remains unavailable for this backend.'
+      : phase === 'checking' ? 'The bundled encoders are being checked. The current operation remains visible below.'
       : ready ? `This ${operationName()} batch is prepared but has not started. Review its files and start the selected items in ${operationName()}.` : 'No batch is running. Choose folders and prepare an Encode or Remux batch.');
     put('jobs-open-encode', `Go to ${operationName()}`);
     visible('preview-actions', ready);
     visible('cancel-bar', busy);
-    put('cancel-explanation', phase === 'checking' ? 'Cancel this capability check.' : 'Cancellation stops this operation and the remaining queue.');
+    put('cancel-explanation', checking ? 'Cancel this capability check.' : 'Cancellation stops this operation and the remaining queue.');
     byId('cancel-batch').disabled = !snapshot.batchId || cancelPending || phase === 'cancelling';
-    put('cancel-batch', phase === 'cancelling' || cancelPending ? 'Cancelling…' : phase === 'preparing' ? 'Cancel inspection' : phase === 'checking' ? 'Cancel check' : 'Cancel batch');
+    put('cancel-batch', phase === 'cancelling' || cancelPending ? 'Cancelling…' : phase === 'preparing' ? 'Cancel inspection' : checking ? 'Cancel check' : 'Cancel batch');
     const locked = busy || pendingCommands > 0;
+    byId('native-settings-fields').disabled = locked || !nativeState || Boolean(nativeState.ownerBlock);
+    byId('native-refresh').disabled = locked || typeof api?.refreshNativeBackends !== 'function' || Boolean(nativeState?.ownerBlock);
+    const native = nativeProfile(), availability = nativeState?.native.profiles.find(profile => profile.profileId === native?.id);
+    byId('native-qualify').disabled = locked || !native || !byId('native-device').value || native.backend === 'amf'
+      || availability?.reason !== 'CHOOSE_AND_QUALIFY_CELL' || Boolean(nativeState?.ownerBlock);
+    renderNativeStatus();
     for (const id of ['choose-input', 'choose-output']) byId(id).disabled = locked;
     byId('remux-target').disabled = locked;
     byId('prepare-remux').disabled = locked || !inputFolder?.id || !outputFolder?.id || inputFolder.available === false || outputFolder.available === false;
@@ -2021,6 +2114,16 @@
     if (activeHelp && !activeHelp.help.contains(event.target) && !activeHelp.panel.contains(event.target)) closeHelp();
   });
   const elapsedTimer = setInterval(renderElapsed, 1000);
+  byId('native-settings-details').addEventListener('toggle', () => {
+    if (byId('native-settings-details').open) void command(loadNativeState);
+  });
+  byId('native-profile').addEventListener('change', nativeProfileChanged);
+  byId('native-mode').addEventListener('change', () => { nativeQualityChanged(); render(); });
+  byId('native-device').addEventListener('change', render);
+  byId('native-settings-fields').addEventListener('input', render);
+  byId('native-settings-fields').addEventListener('change', render);
+  byId('native-refresh').addEventListener('click', () => command(async () => showNativeState(await api.refreshNativeBackends())));
+  byId('native-qualify').addEventListener('click', () => command(checkNativeSettings));
   window.addEventListener('beforeunload', () => { drainPendingSave(); clearInterval(elapsedTimer); clearTimeout(recipeTimer); unsubscribe?.(); }, { once: true });
   if (!api) {
     setError(new Error('The application bridge is unavailable. Close and reopen FFmpeg Encoder.'));

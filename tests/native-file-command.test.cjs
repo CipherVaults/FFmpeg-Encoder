@@ -66,6 +66,7 @@ test('Full KeepSource maps the actual source index and keeps exact timeline inte
   assert.ok(a.indexOf('-copyts') < a.indexOf('-i')); assert.ok(a.indexOf('-noautorotate') < a.indexOf('-i'));
   assert.equal(value(a, '-fps_mode:v:0'), 'passthrough'); assert.equal(value(a, '-avoid_negative_ts'), 'disabled');
   assert.equal(value(a, '-default_mode'), 'passthrough'); assert.deepEqual(a.slice(-3), ['-f', 'matroska', f.options.output]);
+  assert.equal(value(a, '-fflags'), '+bitexact'); assert.ok(a.indexOf('-fflags')>a.indexOf('-i'));
   for (const key of ['-r', '-framerate', '-ss', '-t', '-to', '-frames:v', '-frames:v:0', '-s', '-s:v', '-shortest', '-y', '-hwaccel']) assert.equal(a.includes(key), false, key);
   assert.ok(a.includes('-n')); assert.ok(a.includes('-an') && a.includes('-sn') && a.includes('-dn'));
   assert.equal(value(a, '-protocol_whitelist'), 'file,pipe'); assert.equal(value(a, '-format_whitelist'), 'mov,matroska,webm');

@@ -38,6 +38,23 @@ async function fixture(t, bytes = 4096) {
 }
 const code = expected => error => error.code === expected;
 
+test('final source currentness requires the original completed assessment and refuses later changes', async t => {
+  const {file,owner}=await fixture(t),source=await owner.seal(file);
+  await assert.rejects(owner.requirePublicationCurrent({}),code('NATIVE_SOURCE_STALE'));
+  await owner.beginCompletion(source);const assessment=await owner.assessCompleted(source);
+  assert.equal(await owner.requirePublicationCurrent(assessment),assessment);
+  await assert.rejects(owner.requirePublicationCurrent({...assessment}),code('NATIVE_SOURCE_STALE'));
+  await assert.rejects(owner.requireCurrent(source),code('NATIVE_SOURCE_STALE'));
+  await fs.writeFile(file,Buffer.alloc(4096,41));await assert.rejects(owner.requirePublicationCurrent(assessment),code('NATIVE_SOURCE_CHANGED'));
+  await owner.release(source);await assert.rejects(owner.requirePublicationCurrent(assessment),code('NATIVE_SOURCE_STALE'));
+});
+
+test('cancelled final-currentness starts no publication check and does not mint new source authority', async t => {
+  const {file,owner}=await fixture(t),source=await owner.seal(file);await owner.beginCompletion(source);const assessment=await owner.assessCompleted(source),controller=new AbortController();controller.abort();
+  await assert.rejects(owner.requirePublicationCurrent(assessment,{signal:controller.signal}),code('CANCELLED'));
+  assert.equal(await owner.requirePublicationCurrent(assessment),assessment);assert.equal(assessment.executionAuthority,'none');
+});
+
 test('complete source observations bind all bytes, retained identity and no execution authority', async t => {
   const { file, data, owner } = await fixture(t, 1024 * 1024 + 17), expectedIdentity = await readSourceIdentity(file);
   const token = await owner.seal(file, { expectedIdentity });

@@ -65,6 +65,14 @@ function harness(options = {}) {
 }
 const code = expected => error => error.code === expected;
 
+test('private file discovery forwards only an explicitly supplied main-owned runner',async()=>{
+  let forwarded=0;const run=async()=>({}),h=harness({discover:request=>{if(request.run!==undefined){assert.equal(request.run,run);forwarded++;}}});
+  await h.service.refresh();h.choose('h264-qsv');await h.service.qualify(h.selectedRequest());const token=h.service.captureFileSelection(h.selectedRequest());
+  await h.service.observeFileSelection(token,{run});assert.equal(forwarded,1);const before=h.calls.discovery;
+  await assert.rejects(h.service.observeFileSelection(token,{run:{}}),code('INVALID_NATIVE_REQUEST'));
+  await assert.rejects(h.service.observeFileSelection(token,{onChild(){}}),code('INVALID_NATIVE_REQUEST'));assert.equal(h.calls.discovery,before);
+});
+
 test('construction and snapshots perform no discovery, initialization or probe', () => {
   const h = harness(); assert.deepEqual(h.calls, { discovery: 0, initialize: [], probe: [] });
   const view = h.service.snapshot(); assert.equal(view.beta, true); assert.equal(view.fileExecutionReady, false); assert.equal(view.selection, null);

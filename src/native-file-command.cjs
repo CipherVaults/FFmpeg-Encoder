@@ -33,6 +33,7 @@ function sameDescription(description, fragment) {
     && description.bitDepth === fragment.bitDepth && description.pipelineId === fragment.pipelineId
     && JSON.stringify(description.encoderArgs) === JSON.stringify(fragment.args);
 }
+const commands = new WeakSet();
 function buildNativeFileCommand(options) {
   record(options);
   const { contract, probe } = readNativeFileContract(options.contract), { request } = contract;
@@ -55,16 +56,22 @@ function buildNativeFileCommand(options) {
   argv.push('-vf', contribution.uploadFilters.join(','), ...contribution.args,
     '-fps_mode:v:0', 'passthrough', '-color_range:v:0', 'tv', '-color_primaries:v:0', 'bt709', '-color_trc:v:0', 'bt709', '-colorspace:v:0', 'bt709', '-chroma_sample_location:v:0', 'left');
   for (const key of Object.keys(probe.format.tags || {})) if ([MARKER_KEY, OUTPUT_ID_KEY, GENERATION_KEY].includes(key.toUpperCase())) argv.push('-metadata', `${key}=`);
-  argv.push(...markerArgs, '-avoid_negative_ts', 'disabled', '-default_mode', 'passthrough', '-f', 'matroska', options.output);
+  argv.push(...markerArgs, '-avoid_negative_ts', 'disabled', '-default_mode', 'passthrough', '-fflags', '+bitexact', '-f', 'matroska', options.output);
   if (argv.length > 8192 || argv.some(value => typeof value !== 'string' || value.length > 32767 || value.includes('\0'))
       || Buffer.byteLength(JSON.stringify(argv)) > 1024 * 1024) fail('NATIVE_FILE_COMMAND_LIMIT', 'The native command exceeds its bounded argument representation.');
-  return freeze({ schema: 1, kind: 'native-file-command', contractId: contract.id, sourceProbeFingerprint: contract.sourceProbeFingerprint,
+  const command = freeze({ schema: 1, kind: 'native-file-command', contractId: contract.id, sourceProbeFingerprint: contract.sourceProbeFingerprint,
     profileId: request.profileId, settings: request.settings, contribution, device,
     input: options.input, output: options.output, outputId, generationDescription: description, argv,
     argvSha256: createHash('sha256').update(JSON.stringify(argv)).digest('hex'), expectedOutput: contract.expectedOutput,
     sourceAdmission: marker.kind === 'generated' ? 'current-per-file-generated-source-permission-required' : 'unmarked-source-binding-only',
     bindingAssurance: 'Main-supplied paths/device descriptor only; no live selection, complete source, runtime or stage-ownership proof.',
     outputRole: 'expected-owned-stage', status: 'unqualified', fileExecutionReady: false, executionAuthority: 'none' });
+  commands.add(command);
+  return command;
 }
 
-module.exports = { buildNativeFileCommand };
+// Consumers (template observer, runtime) accept only an original command built
+// here, never a caller-shaped copy with a stale or substituted UUID/argv.
+function isNativeFileCommand(value) { return Boolean(value) && typeof value === 'object' && commands.has(value); }
+
+module.exports = { buildNativeFileCommand, isNativeFileCommand };

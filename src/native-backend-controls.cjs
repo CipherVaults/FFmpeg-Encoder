@@ -15,9 +15,9 @@ function createNativeBackendControls({ runtime, stateDir, acquireMediaSlot, reta
   const registry = new NativeCapabilityRegistry(), ownedRoot = path.resolve(stateDir, 'native-probes');
   let versions = null, display = null;
   const nativeBackends = new NativeBackendService({ registry,
-    discover: async ({ signal, initialization }) => {
+    discover: async ({ signal, initialization, run }) => {
       if (!versions) throw Object.assign(new Error('Check the pinned runtime before native discovery.'), { code: 'NATIVE_RUNTIME_UNOBSERVED' });
-      const result = await discover({ ffmpeg: runtime.ffmpeg, signal, registry, initialization,
+      const result = await discover({ ffmpeg: runtime.ffmpeg, signal, registry, initialization, ...(run === undefined ? {} : { run }),
         runtime: Object.fromEntries(['ffmpeg', 'ffprobe'].map((name, index) => [name,
           { sha256: runtime.verified[index].sha256, version: versions[name] }])) });
       display = result.display; return result;

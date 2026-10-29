@@ -31,7 +31,7 @@ function cancelled(signal) { if (signal?.aborted) fail('CANCELLED', 'Complete na
 const freeze = value => { if (value && typeof value === 'object' && !Object.isFrozen(value)) { Object.values(value).forEach(freeze); Object.freeze(value); } return value; };
 
 class NativeFileSourceOwner {
-  #maximum; #tokens = new WeakMap(); #held = new Set(); #active = null; #closed = false; #closing = null;
+  #maximum; #tokens = new WeakMap(); #assessments = new WeakMap(); #held = new Set(); #active = null; #closed = false; #closing = null;
   constructor(options = {}) {
     record(options, ['maximumBytes'], []);
     this.#maximum = options.maximumBytes === undefined ? Number(NATIVE_FILE_CANDIDATE.maximumSourceBytes) : options.maximumBytes;
@@ -102,7 +102,7 @@ class NativeFileSourceOwner {
           assurance: 'complete-held-read-and-path-comparison; no-write-lock-or-atomic-executable-source-pin', executionAuthority: 'none' });
         entry.token = token; this.#tokens.set(token, entry); return token;
       } catch (error) {
-        if (entry) { entry.failed = true; try { await entry.handle.close(); entry.released = true; this.#held.delete(entry); }
+        if (entry) { entry.failed = true; try { await this.#closeEntry(entry); }
           catch (closeError) { error.sourceCloseFailure = { code: closeError.code || 'NATIVE_SOURCE_CLOSE_FAILED' }; } }
         throw error;
       }
@@ -145,18 +145,44 @@ class NativeFileSourceOwner {
         const contentEvidence = freeze({ before: token.content, after: complete.content });
         const assessment = assessCompletedSource(token.identity, identity, { stage: 'native-after-complete-output', contentEvidence });
         entry.phase = 'completed';
-        return freeze({ schema: 1, kind: 'native-complete-source-assessment', assessment, contentEvidence,
+        const result = freeze({ schema: 1, kind: 'native-complete-source-assessment', assessment, contentEvidence,
           finalIdentity: identity, executionAuthority: 'none', publicationRequires: 'independent-complete-output-validation-and-current-file-policy' });
+        this.#assessments.set(result, { entry, stamp: complete.stamp });
+        return result;
       } catch (error) { entry.failed = true; throw error; }
     });
   }
+  async requirePublicationCurrent(assessment, options = {}) {
+    record(options, ['signal'], []);
+    return this.#work(options.signal, async signal => {
+      const owned = assessment && typeof assessment === 'object' && this.#assessments.get(assessment);
+      if (!owned || owned.entry.released || owned.entry.failed || owned.entry.phase !== 'completed') fail('NATIVE_SOURCE_STALE', 'Use this owner\'s original completed-source assessment.');
+      if (assessment.assessment.kind !== 'unchanged' && assessment.assessment.kind !== 'ctime-only') fail('NATIVE_SOURCE_CHANGED', 'The completed source disposition does not permit publication.');
+      try {
+        await this.#stable(owned.entry, { exact: owned.stamp });
+        const identity = await readSourceIdentity(owned.entry.file, { signal });
+        await this.#stable(owned.entry, { exact: owned.stamp }); cancelled(signal);
+        if (!sameIdentity(assessment.finalIdentity, identity) || !identityMatches(identity, owned.entry.file, owned.stamp)) fail('NATIVE_SOURCE_CHANGED', 'The source changed after its final complete assessment.');
+        return assessment;
+      } catch (error) { owned.entry.failed = true; throw error; }
+    });
+  }
+  // A FileHandle whose close() rejected must never be retried: Node marks the fd
+  // closed first, so a second close() resolves and would hide the failure. The
+  // entry stays held with its latched error so the runtime keeps the media lease.
+  async #closeEntry(entry) {
+    if (entry.closeFailure) throw entry.closeFailure;
+    try { await entry.handle.close(); } catch (error) { entry.closeFailure = error; throw error; }
+    entry.released = true; this.#held.delete(entry);
+  }
+  hasUnsettledHandles() { return [...this.#held].some(entry => entry.closeFailure); }
   async release(token) {
     const entry = token && typeof token === 'object' && this.#tokens.get(token);
     if (!entry) fail('NATIVE_SOURCE_STALE', 'Only this owner can release its original source observation.');
     if (entry.released) return;
     return this.#work(undefined, async () => {
       entry.failed = true;
-      await entry.handle.close(); entry.released = true; this.#held.delete(entry);
+      await this.#closeEntry(entry);
     });
   }
   async close() {
@@ -164,7 +190,7 @@ class NativeFileSourceOwner {
     this.#closed = true;
     this.#closing = (async () => {
       if (this.#active) { this.#active.controller.abort(); await this.#active.done.catch(() => {}); }
-      const results = await Promise.allSettled([...this.#held].map(async entry => { await entry.handle.close(); entry.released = true; this.#held.delete(entry); }));
+      const results = await Promise.allSettled([...this.#held].map(entry => this.#closeEntry(entry)));
       const errors = results.filter(result => result.status === 'rejected').map(result => result.reason);
       if (errors.length) throw new AggregateError(errors, 'Native source handle closure is incomplete.');
     })(); return this.#closing;

@@ -216,12 +216,15 @@ class NativeBackendService {
     return token;
   }
   requireFileSelection(token) { this.#idle(); return this.#fileSelection(token); }
-  async observeFileSelection(token, { signal } = {}) {
+  async observeFileSelection(token, options = {}) {
+    record(options, ['signal', 'run'], []);
+    const { signal, run } = options;
+    if (run !== undefined && typeof run !== 'function') fail('INVALID_NATIVE_REQUEST', 'Main must supply an owned discovery runner.');
     this.requireFileSelection(token);
     const active = this.#begin('file-discovery', signal);
     const pending = (async () => {
       try {
-        const environment = await this.#observe({ signal: active.controller.signal });
+        const environment = await this.#observe({ signal: active.controller.signal, ...(run === undefined ? {} : { run }) });
         cancelled(active.controller.signal);
         this.#fileSelection(token);
         return Object.freeze({ selection: token, environment });

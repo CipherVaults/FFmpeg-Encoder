@@ -1,3 +1,8 @@
+## Claude continuation — October 29–30, 2026 (unaccepted alpha)
+
+- Resume non-HDR 0.7 under Claude Code (record 35) with an enforced safety guard, evidence-bound test runs and a lean Claude entry; project truth stays in the repository records.
+- Finish and harden the unwired native AMF/QSV file path: runtime/tool/pair ownership, a finalized-dialect Matroska template observer with branded receipts, and an exact-reference oracle wired into validate/publish (no-overwrite publication, final source currentness, published-byte re-hash). Production native file policies remain 0; no reference row, real encode or hardware proof exists. [Record](0-%20Documentation/Execution%20Summaries/2026-10-29_Claude_Continuation_and_Native_Runtime.md).
+
 ## Paused local work — October26 documentation reconciliation (uncommitted, unaccepted)
 
 - Preserve draft native runtime/evidence/retention/currentness code and an unreviewed, untested complete-file template observer. No native file policy or product route is enabled. Latest14-file source/test tree has no final-byte test pass; original failed/time-out evidence remains retained.

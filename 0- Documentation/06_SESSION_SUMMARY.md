@@ -1,3 +1,66 @@
+# 📘 Session: October 29–30, 2026 — FFmpeg Encoder — Claude takeover, foundation and native runtime/oracle
+
+## 🤖 Models, Effort, Roles and Provenance
+
+Root/integrator: Claude Code desktop session, model Claude Opus 5.5 (effort chosen by Ahmed in the model picker: high, then raised; Ultra Code workflows enabled; permission mode later set to bypass by Ahmed, with the project guard hook still enforcing preservation rules). This is a new executor taking over from the Codex arrangement (GPT-6 Astra Ultra, then GPT-6.1 Sol Ultra, coordinated by Blue). Subagents: Opus reviewers/researchers (read-only), one Haiku-tier documentation checker, workflow agents for adversarial review and logo design. Root remained sole writer/committer. Written by root at the checkpoint from live tool results; no hidden reasoning is reproduced.
+
+## 🕒 Time
+
+October 29, 2026 ~20:05 Cairo (UTC+3) to October 30 ~02:00 Cairo (UTC+2 after the DST change). Two 5-hour plan windows were exhausted (Pro plan); work resumed after each reset. One app restart interrupted background workflows; their completed agents were recovered from the workflow journal.
+
+## 🎯 Session Goal
+
+Ahmed's handoff: study PBS and the project deeply before editing, report readiness, then continue eligible non-HDR 0.7 work (P01–P04 → Q → R → S, HDR deferred, packaging last) with PBS documentation each phase, tested commits/pushes to the private branch, Notion status updates, a candidate logo set and security from the left.
+
+## 🛠️ Actions Taken
+
+Read-only re-entry: verified the PBS skill copies, live Git (HEAD/remote `8ef7ad1`), the 14 paused files against the October 26 receipt/snapshot, the reconciled docs against their readback, Notion freshness and the Blue cumulative-summary location. Delivered a Project Understanding and Execution Readiness report and model/cost advice grounded in the Artificial Analysis leaderboard.
+
+Committed record 35 with the reconciled October 26 docs (`da51283`) and the Claude foundation (`f6f1f11`: CLAUDE.md, PreToolUse safety guard, reviewer/researcher/auditor roles, evidence-run and reentry-check skills). Ran final-tree native checks, a four-lens adversarial review workflow, root verification of its 33 findings, the confirmed fixes and new tests. Implemented the exact-reference oracle and wired it into runtime validate/publish with integrated lifecycle tests. Ran the full regression and proved its five failures pre-exist on a clean HEAD worktree. Set up hourly in-session continuation, post-reset one-shots and a durable 3-hourly backup task guarded by a writer lock.
+
+## 🧠 Key Insights
+
+The safest way to qualify native files without invented tolerances is exact membership in an independently qualified reference: decoded raw, complete metadata, rational timeline and the complete Matroska byte template must all match, with only validated dynamic provenance masked. A template observer that accepts caller-shaped commands, unknown-size (unfinalized) Segments or nested CRCs can certify the wrong bytes, so brands, a finalized dialect and level-1-only CRCs matter. Shared discovery code swallows owner refusals as "incomplete environment"; converting them to cancellation keeps the shared registry truthful.
+
+## 📌 Decisions Made
+
+Project truth stays in repository Markdown/Git so Codex can resume; Claude-specific files only route to it. Personal media under F:\shadow play is read-only test material (owner correction). Logo work proceeds as an independent candidate set; the shipped icon stays until Ahmed selects. Skeptic verification that ran out of quota was replaced by root verification against code, not by accepting findings unverified. Full-suite failures were classified only after a clean-HEAD reproduction.
+
+## ⚠️ Difficulties / Friction
+
+Pro-plan 5-hour windows were exhausted twice; large workflows (2.1 M subagent tokens for one review) dominate usage. An app restart killed session-only cron jobs and in-flight workflows. Shell quoting in Git Bash broke two inline scripts; edits moved to scratch script files and the Edit tool. A stray empty temp file and a temp file list were created outside the project and removed; a temporary HEAD worktree hit the Windows long-path limit and was removed by literal path after the guard correctly refused a variable path.
+
+## 🔧 Adjustments Made
+
+Reviewer verification stages were replaced by root triage to save quota. Duplicate cron jobs created across the restart were removed. The oracle compares the timeline before full metadata for precise refusal codes. Fixtures were shared between template, oracle and runtime tests.
+
+## ❌ Mistakes / Risks Noted
+
+A `cat >` without a heredoc briefly waited on stdin and created an empty temp file (removed). The guard's string inspection is defence in depth, not a sandbox. Several lower-priority review test gaps remain open (listed in the execution record). Event-loop blocking during a 128 MiB template inspection (~0.4 s) remains a known limit.
+
+## 📍 Current Position
+
+Pushed: `da51283`, `f6f1f11`. Native runtime/tool/pair/template/oracle/validate/publish software and tests are complete for the finite contract and are being committed as the next checkpoint. Production native file policies remain 0; no reference row exists; no real encode/hardware/GUI ran. P/Q/R partial, S pending, HDR deferred, packaging last.
+
+## 🔜 Next Steps
+
+Commit/push the native checkpoint after the independent fix review; Notion overlay. Then service/IPC wiring of the native file path (still policy-gated, Beta-labelled), the remaining review test gaps, the logo candidate review sheet, and an explicit P01–P04 closure assessment with exact external blockers before Q.
+
+## ❓ Open Questions
+
+AMF same-component effective-property producer: Ahmed's technical disposition is needed before P01 can close. Whether a real exact-source native qualification (reference row) should ever be produced without local AMD/Intel hardware. Logo selection.
+
+## 🧾 Session Outcome
+
+The project moved safely from Codex to Claude with verified state, an enforced safety foundation and a substantial finite native P01–P03 software tranche. No acceptance, hardware support or release is claimed.
+
+## 🔍 Confidence Level
+
+High for the verified Git/record state, the guard and the pure/injected native behaviour on the receipted bytes. Limited for real FFmpeg/device behaviour (untested), future service wiring and owner acceptance.
+
+---
+
+
 ## October26 documentation-only reconciliation before the cumulative summary
 
 Ahmed through Blue requested an audit of the full affected documentation set before final cumulative-session-summary delivery, explicitly retaining the development pause. Root separated documentation authority from engineering authority and recovered the unchanged14-file application/test tree,8ef7ad1 local/private equality, saved test outcomes and paused snapshot. Independent reviewers audited local document ownership/history, exact source/evidence integrity, and live Notion pages/cards. No application import, test, media/device/GUI/census operation or development restart occurred.

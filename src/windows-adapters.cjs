@@ -158,4 +158,4 @@ async function queryWindowsAdapters({ run = runTool, platform = process.platform
   }
 }
 
-module.exports = { queryWindowsAdapters, parseAdapterInventory };
+module.exports = { queryWindowsAdapters, parseAdapterInventory, WINDOWS_ADAPTER_QUERY: DXGI_QUERY };

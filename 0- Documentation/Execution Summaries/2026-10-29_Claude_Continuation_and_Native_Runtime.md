@@ -41,3 +41,9 @@ Not changed, with rationale: `MAX_ELEMENTS=65536` (the finite contract admits at
 ## Limits
 
 All checks are pure/injected or small owned byte fixtures: no real FFmpeg encode, device, media file, GUI or process census ran. No AMD/Intel hardware exists locally; AMF's same-component effective-property producer is still absent and needs an owner technical disposition. HDR remains deferred; packaging last.
+
+## Checkpoint and Notion overlay — October 30 ~02:00 Cairo
+
+Committed and pushed `253c567` (native runtime/template/oracle/validate/publish, all tests above). Notion readback confirmed: the Project Hub now opens with a dated "development active" callout, the October 26 pause is kept as a historical callout, the technical-detail toggle's "remains paused" line is marked superseded, and Blue — Handoff has a dated top entry. Older Notion text is preserved.
+
+Next, in order: (1) finish the R07 logo candidate panel (workflow `wf_6b545790-684`, resumable) and build a review sheet for Ahmed; the shipped icon stays until he selects; (2) write and independently review the native file service-integration design and an explicit P01–P04 closure assessment naming the exact external blockers (no qualified reference/policy, no local AMD/Intel hardware, AMF producer disposition) and the independent work they do not block; (3) close the remaining lower-priority review test gaps. The 5-hour window was ~80% used at 01:56; the hourly check-in, the 02:33 one-shot and the 3-hourly backup remain scheduled.

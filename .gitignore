@@ -11,3 +11,7 @@ Context Files for ChatGPT/
 *.log
 data-next-0.6/
 data-next-0.7/
+
+# Claude Code local-only state
+.claude/settings.local.json
+.claude/worktrees/

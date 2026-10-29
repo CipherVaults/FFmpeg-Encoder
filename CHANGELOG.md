@@ -1,3 +1,8 @@
+## Paused local work — October26 documentation reconciliation (uncommitted, unaccepted)
+
+- Preserve draft native runtime/evidence/retention/currentness code and an unreviewed, untested complete-file template observer. No native file policy or product route is enabled. Latest14-file source/test tree has no final-byte test pass; original failed/time-out evidence remains retained.
+- Development remains temporarily paused while documentation and the cumulative session summary are corrected. HDR stays experimental/alpha/deferred; packaging remains last. [Checked inventory](0-%20Documentation/34_0.7_Paused_Documentation_Reconciliation_2026-10-26.md).
+
 - Add the finite original-contract native file command builder for existing H2648 AMF/QSV modes, with exact source metadata/provenance/device assertions and strict local stage syntax.22focused+68compatibility checks pass; runtime/file policies/lifecycle and actual execution remain unqualified.
 
 - Verify the finite VFR remux laboratory path with one video-only publication and collision protection; complete prepared-cancel/stale-Start proof in a separate zero-job recovery. Preserve the initial harness failure and existing three-route default catalog.

@@ -1,16 +1,22 @@
-## Native file command boundary — October26,2026
+## Paused working-tree ownership — October 26 documentation reconciliation
+
+Committed checkpoint8ef7ad1 contains the reviewed pure native file builder. Fourteen additional source/test files now preserve a draft composition: native runtime pair/source/selection bindings, owned discovery and child/EOF/runner/sink barriers, same-child observation, retained staging and a complete-file template observer. These are local uncommitted implementation drafts; the latest tree is not final-tested/reviewed, and the template observer is unreviewed/untested. The draft runtime calls the builder but is not wired into the application's normal file service/UI or a qualified production policy. Complete oracle/validation/publication remains unfinished.
+
+Fresh qualification applicability differs from preserved history: current raw producer drift is HDR12/69 and Full7/32, without reseal; the earlier Full1/HDR4 activation is a dated qualification result. Native file policies remain0 and remux routes3. P/Qpartial, experimental HDR deferred, packaginglast and the temporary development pause control current use. [Checked inventory](34_0.7_Paused_Documentation_Reconciliation_2026-10-26.md) distinguishes architecture from evidence and acceptance.
+
+## Committed native file command boundary — 8ef7ad1, October26
 
 `native-file-contract.cjs` now privately brands each original contract and retains an isolated frozen normalized source probe. `native-file-command.cjs` consumes that original to construct the existing finite H2648/BT709 Full/KeepSource video-only Matroska command. Canonical native contributions supply requested device/upload/encoder settings; descriptive generationv2 is cross-bound to this exact contribution. Source maps and metadata/disposition/creation-time representation remain explicit. No generic args, transforms or fallback are accepted.
 
 This main-private pure module does no I/O, process or discovery work and is not wired into main/IPC/UI/service or a file policy. Source/stage paths and device descriptor remain validated binding assertions, without current selection, held source, runtime, owned-stage or execution proof. Existing source/selection foundations and future runtime/collector/lifecycle must supply those independent authorities; file policies remain0. P/Q staypartial, HDR expansiondeferred, packaginglast. Remux proof/defaults and all prior evidence remain unchanged.
 
-## Current finite HDR-to-SDR owner and qualification — October24 Cairo / October23 UTC
+## Historical finite HDR-to-SDR owner and qualification — October24 Cairo / October23 UTC
 
 The existing main-owned HDR workspace now prepares explicit SDR operations for two reviewed CPU HEVC Main10 source configurations. Source acquisition/complete content identity, strict HDR interpretation, operation-token execution, encoder telemetry, independent output/source validation and no-overwrite publication remain separate authorities. The renderer selects existing typed operation choices and displays the interpretation; it receives no new filesystem/process/argv privilege. Provisional SDR names resolve from the final transform descriptor; stale discard cannot erase a newer plan. Ordinary CPU/NVIDIA names, defaults and ArchiveCQ29 stay unchanged.
 
 The v2 graph declares full-range linear float properties, BT709 Hable desaturation coefficients and nominal100nit BT709 limited10bit output. Admission requires reported4000nit PQ, or declared1000nit/gamma1.2 HLG reference interpretation; the application has not measured either peak. Complete output observation checks obsolete HDR metadata absence. Dolby/audio/ancillary and arbitrary source support are outside this finite route.
 
-Explicit reviewed raw-byte qualification maintenance currently activates Full1 under32producers and HDR4 under69producers (two preservation/two SDR). Earlier31/57-producer and suspended paragraphs below retain dated history. Fresh loading and the stateless HDR reader reject drift; already-created HDR factories retain immutable load snapshots, so live cached-factory expiry is unclaimed. Independent saved numerical and actual cancellation reviews qualify the documented finite evidence only. [P receipt](Execution%20Summaries/2026-10-23_P_HDR_Vendor_and_Conversion.md).
+At that historical checkpoint, explicit reviewed raw-byte qualification maintenance activated Full1 under32producers and HDR4 under69producers (two preservation/two SDR). Earlier31/57-producer and suspended paragraphs below retain dated history. Fresh loading and the stateless HDR reader reject drift; already-created HDR factories retain immutable load snapshots, so live cached-factory expiry is unclaimed. Independent saved numerical and actual cancellation reviews qualify the documented finite evidence only. [P receipt](Execution%20Summaries/2026-10-23_P_HDR_Vendor_and_Conversion.md).
 
 ## Earlier architecture checkpoints
 
@@ -205,7 +211,7 @@ The direct pinned Packager builder and existing 7-Zip produce fresh, independent
 provenance.cjs classifies reserved metadata and all historical suffixes independently of hardware. Main issues identity/plan-bound legacy overrides, creates output UUIDs and persists intent before encoding. Immutable bounded checksummed intent/published records identify outputs and support read-only pending recovery; they never authorize cleanup. outputs.cjs owns exact stage objects privately, seals successful outputs before ffprobe, checks source/directory identity and publishes atomically/exclusively for same-folder mode. Distinct folders retain explicit exclusive-copy fallback. Final-bookkeeping failure preserves completed output; cleanup retains anything whose ownership cannot be established. The Same Folder report records cooperative filesystem and marker-erasure limits.
 
 
-## October26 non-HDR native coordinator component (not product-wired)
+## Initial95f8b6e native coordinator component — historical pre-product checkpoint
 
 `native-backend-service.cjs` owns transient typed native selections, one genuine session registry and injected main-owned discovery/probe owners. An explicit QSV initializer feeds fresh current discovery before rebinding the exact SDR/no-transform cell. Qualification must advance the cell revision/evidence and match the returned report identifiers. AMF's missing same-component producer refuses before initializer/media scheduling; absence of that producer is separate from absent hardware.
 
@@ -229,7 +235,7 @@ The instrumented original production-main UI pass atbb53c05 now complements dire
 Only the descriptive generation payload gains native version2. The marker/outputUUID and provenance-v1 journal remain version1, with ordinary generationv1 behavior retained. Nativev2 requires exact requested mode/quality/depth/pipeline/policy, canonical ordered encoderArgs, inert dense bounded data and4096UTF8bytes; it excludes session/device/source/authority fields. Unknown or malformed descriptions preserve generated exclusion with previous settings unavailable. History formats exactI/P[/B] orICQ/QVBR scalars and planned pipeline without current inventory, adoption or effective-mode claims.128focused and61separate consumer passes/1unavailable junction fixture verify software only. No native file route is activated; currentHDR9/69 andFull7/32 raw differences remain suspended.
 
 
-## Native file foundation — October 26, unqualified
+## Historical5260f9c native file foundation — October26, unqualified
 
 `native-file-contract.cjs` rebuilds inspection5/media-evidence2 from bounded raw probe data, binds original applicability to an exact normalized H2648 request, and describes only the finite engineering proposal. It preserves unknown orientation, undeclared decoded frame proof and incomplete HDR coverage; no policy or command follows from structural eligibility. `NativeBackendService` privately captures original current sample selections and rechecks exact epoch/local revision/cell revision/key/evidence through same-registry fresh discovery; copies, changed selections and invalidation refuse. This seam has no IPC grant and still says fileExecutionReadyfalse.
 

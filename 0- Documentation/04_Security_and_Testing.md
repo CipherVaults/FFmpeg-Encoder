@@ -1,4 +1,17 @@
-## Current P06 finite evidence and remaining qualification — October24 Cairo / October23 UTC
+## Current evidence applicability — paused documentation reconciliation, October26
+
+No new tests, source imports, media/device/GUI/census jobs or security scans were run for this reconciliation. Development remains temporarily paused. The last committed candidate8ef7ad1 had22focused builder/contract and68separate compatibility passes; those results do not cover later local edits.
+
+| Saved check | Observed outcome | Applicability |
+|---|---|---|
+| Native file tool owner |17pass, Node0,162.6291ms|Intermediate pre-latest rawSHA bytes; original pipe/cancel/sink/clock tests only.|
+| Initial combined runtime/source/service |48tests:46pass,2cancelled raw-fixture timeouts, Node1,61435.3939ms|FAILED packet retained; not a green aggregate.|
+| Corrected runtime-only fixture |9pass, Node0,1273.3817ms|Intermediate source/test bytes before later consent/lease/role/hash/bitexact edits.|
+| Current14-file working tree |Not run as a final tree|Runtime test file now has13declarations; later cases/body edits and template observer lack final-byte coverage. Template is unreviewed/untested.|
+
+Synthetic children use real Node pipes and temporary owned bytes through an injected process runner; they are not actual FFmpeg/DXGI/native encoding or hardware qualification. Current source/pause-copy hashes, test logs/exits, remux immutability and private/ref checks were read without re-execution. Current HDR12/69 andFull7/32 raw drift is unresealed; historical Full1/HDR4 cells below cannot qualify fresh current bytes. Native policies0, remux routes3, P/Qpartial, HDRdeferred and packaginglast remain. Required tests later in this document are obligations after authorized resumption, not permission to run them now. [Checked inventory and safe handoff](34_0.7_Paused_Documentation_Reconciliation_2026-10-26.md).
+
+## Historical P06 finite evidence and remaining qualification — October24 Cairo / October23 UTC
 
 The final19affected source suites pass524/0fail/0cancel/0skip; final cancellation-harness branches pass44/0/0/0 separately. Pure/injected checks establish owner/schema/race/refusal behavior, while genuine normal-service publications, independent saved1100pair audit and one fresh-service active cancellation supply distinct runtime evidence. Earlier full1619 results bind earlier bytes and are not a current full-suite claim.
 

@@ -1,8 +1,10 @@
-> **October26 scope supersession:** [Amendment33](../33_0.7_Non_HDR_Completion_Amendment_2026-10-26.md) defers further HDR expansion. Preserve this entire P06/P07 record as scoped evidence and return point; P05–P09 remain experimental alpha/PARTIAL, not complete. Continue eligible non-HDRP01–P04 first under the [October26 execution record](2026-10-26_Non_HDR_Reconciliation_and_Continuation.md). Do not execute the saved P07 recovery or spend its old accounting under this assignment.
+> **October26 scope supersession:** [Amendment33](../33_0.7_Non_HDR_Completion_Amendment_2026-10-26.md) defers further HDR expansion. Preserve this entire P06/P07 record as scoped evidence and return point; P05–P09 remain experimental alpha/PARTIAL, not complete. After later explicit owner/Blue continuation, the eligible order remains non-HDRP01–P04 first under the [October26 execution record](2026-10-26_Non_HDR_Reconciliation_and_Continuation.md). Do not execute the saved P07 recovery or spend its old accounting under this assignment.
+
+> **October26 documentation-only readback:** The temporary pause remains active; this full P06/P07 receipt is preserved. Current source policy drift is HDR12/69 andFull7/32 with no reseal. No new HDR recovery/media/qualification or budget replay occurred. [Affected-document inventory](../34_0.7_Paused_Documentation_Reconciliation_2026-10-26.md) owns this readback; it does not alter any frozen evidence or numerical criterion.
 
 # P — vendor encoders, HDR preservation and deliberate conversion
 
-## Active authority and admission — October23,2026
+## Historical authority and admission — October23,2026
 
 Blue accepted O01–O08 technical closeout and acknowledged the same active P continuation. Ahmed's alphabetical O→P→Q→R→S and continuation-from-surviving-work directions remain controlling. Existing Thread2 is the sole development home; root owns integration/source writes and all real media/desktop scheduling. New workers explicitly GPT-6.1 Sol/Ultra/fork-none. A checkpoint is not a new owner-resume gate. Packaging is final/deferred; Security Cloud is excluded.
 

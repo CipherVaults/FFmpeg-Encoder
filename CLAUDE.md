@@ -33,6 +33,7 @@ Security is part of every change, not a final check. The trust model: the sandbo
 - **This root session** is the sole repository writer, scheduler, committer and integrator.
 - Subagents (`.claude/agents/`) are read-only and return reports: `reviewer` (Opus xhigh; independent review), `researcher` (Opus medium; dense docs/Notion), `auditor` (Haiku; mechanical hash/inventory checks). Workflows (Ultra Code) are for adversarial multi-lens review and broad verification; workflow agents never commit.
 - Delegated writes are allowed only into a disjoint folder the root names (for example a candidate-asset folder).
+- Installed plugins and skills: follow `0- Documentation/36_Claude_Toolkit_Adoption_2026-10-30.md` (adopted toolkit, commands never to run here, pending owner decisions). Do not call Desktop Commander, agent-memory or GitHub MCP write tools.
 - Overnight continuation: writer lock `artifacts/v0.7/claude-continuation/writer-lock.json`; refresh with `node artifacts/v0.7/claude-continuation/heartbeat.cjs "<phase>" "<next>"`.
 
 ## Evidence and records (PBS)

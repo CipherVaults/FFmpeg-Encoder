@@ -36,6 +36,38 @@ function policy(v) {
 }
 const objectStamp = s => ({dev:String(s.dev),ino:String(s.ino),birthtimeNs:String(s.birthtimeNs)});
 
+// R1 (record 37): ordered admission reasons shared by prepare and the service's
+// pure readiness check. No I/O, lease or owner mutation. The first reason is
+// exactly the code prepare throws; the split around the selection keeps the
+// original order (requireFileSelection throws its own code in between).
+function preSelectionReasons(policies,contract,probe){
+  const reasons=[];
+  if(!policies.length)reasons.push(['NATIVE_FILE_POLICY_REQUIRED','No native source-file policy is qualified; no source/runtime/discovery work was started.']);
+  if(classifyMarker(probe).kind!=='unmarked')reasons.push(['NATIVE_FILE_SOURCE_PERMISSION_REQUIRED','Generated/suspicious native inputs require a separate genuine source-admission owner; none is wired here.']);
+  if(contract.request.profileId==='h264-amf')reasons.push(['AMF_EFFECTIVE_PROPERTIES_UNOBSERVED','AMF cannot start a file while its same-component producer is absent.']);
+  return reasons;
+}
+function postSelectionReasons(policies,pins,identity,contract,selection){
+  const reasons=[],request=contract.request;
+  if(['ffmpeg','ffprobe'].some(name=>pins[name].sha256!==selection.policy[name+'Sha256']))reasons.push(['NATIVE_FILE_SELECTION_STALE','The fixed binary pair differs from the native selection before any file child.']);
+  if(selection.request.profileId!==request.profileId||selection.request.bitDepth!==request.bitDepth||!same(selection.request.settings,request.settings))reasons.push(['NATIVE_FILE_SELECTION_STALE','The original sample selection does not match this file request.']);
+  const matching=policies.filter(p=>p.contractId===contract.id&&p.runtimeIdentity===identity&&p.sourceProbeFingerprint===contract.sourceProbeFingerprint&&p.nativeCellKey===capabilityKey(selection.policy)&&p.profileId===request.profileId&&same(p.settings,request.settings));
+  if(matching.length!==1)reasons.push(['NATIVE_FILE_POLICY_REQUIRED','No unique exact trusted native file policy applies.']);
+  return {reasons,matching};
+}
+const throwFirst=reasons=>{if(reasons.length)fail(reasons[0][0],reasons[0][1]);};
+function assessNativeFileAdmission(options){
+  record(options,['policies','runtime','contract','selection'],['runtime','contract']);
+  const rows=(options.policies===undefined?DEFAULT_NATIVE_FILE_POLICIES:options.policies);
+  if(!Array.isArray(rows)||rows.length>32)fail('INVALID_NATIVE_FILE_RUNTIME','Bounded main-owned policy catalog required.');
+  const policies=rows.map(policy),pair=new NativeFileRuntimePair(options.runtime),{contract,probe}=readNativeFileContract(options.contract);
+  const reasons=preSelectionReasons(policies,contract,probe);let matching=[];
+  if(options.selection===undefined||options.selection===null)reasons.push(['NATIVE_SELECTION_REQUIRED','Choose and check a native device and exact settings first.']);
+  else{const post=postSelectionReasons(policies,{ffmpeg:pair.pin('ffmpeg'),ffprobe:pair.pin('ffprobe')},pair.identity(),contract,options.selection);reasons.push(...post.reasons);matching=post.matching;}
+  const reasonCodes=[...new Set(reasons.map(r=>r[0]))],chosen=matching.length===1?matching[0]:null;
+  return freeze({schema:1,admissible:reasonCodes.length===0,reasonCodes,policyId:chosen?chosen.id:null,referencePresent:Boolean(chosen?.reference),executionAuthority:'none'});
+}
+
 // Native-only runtime/evidence owner. An empty production file policy catalog
 // refuses before source/tool hashes, stage creation, discovery or child work.
 // Injected main policy rows test plumbing; they do not qualify source/hardware.
@@ -93,14 +125,10 @@ class NativeFileRuntimeOwner {
     return this.#work(signal,async linked=>{
       if(this.#session)fail('NATIVE_FILE_RUNTIME_BUSY','Close the current native file session before replacing it.');
       const {contract,probe}=readNativeFileContract(options.contract);
-      if(!this.#policies.length)fail('NATIVE_FILE_POLICY_REQUIRED','No native source-file policy is qualified; no source/runtime/discovery work was started.');
-      const marker=classifyMarker(probe);if(marker.kind!=='unmarked')fail('NATIVE_FILE_SOURCE_PERMISSION_REQUIRED','Generated/suspicious native inputs require a separate genuine source-admission owner; none is wired here.');
-      if(contract.request.profileId==='h264-amf')fail('AMF_EFFECTIVE_PROPERTIES_UNOBSERVED','AMF cannot start a file while its same-component producer is absent.');
-      const selection=this.#native.requireFileSelection(options.selection),request=contract.request;
-      if(['ffmpeg','ffprobe'].some(name=>this.#pair.pin(name).sha256!==selection.policy[name+'Sha256']))fail('NATIVE_FILE_SELECTION_STALE','The fixed binary pair differs from the native selection before any file child.');
-      if(selection.request.profileId!==request.profileId||selection.request.bitDepth!==request.bitDepth||!same(selection.request.settings,request.settings))fail('NATIVE_FILE_SELECTION_STALE','The original sample selection does not match this file request.');
-      const matching=this.#policies.filter(p=>p.contractId===contract.id&&p.runtimeIdentity===this.#pair.identity()&&p.sourceProbeFingerprint===contract.sourceProbeFingerprint&&p.nativeCellKey===capabilityKey(selection.policy)&&p.profileId===request.profileId&&same(p.settings,request.settings));
-      if(matching.length!==1)fail('NATIVE_FILE_POLICY_REQUIRED','No unique exact trusted native file policy applies.');
+      throwFirst(preSelectionReasons(this.#policies,contract,probe));
+      const selection=this.#native.requireFileSelection(options.selection);
+      const {reasons,matching}=postSelectionReasons(this.#policies,{ffmpeg:this.#pair.pin('ffmpeg'),ffprobe:this.#pair.pin('ffprobe')},this.#pair.identity(),contract,selection);
+      throwFirst(reasons);
       const e={id:randomUUID(),policy:matching[0],selection,contract,phase:'preparing',source:null,slot:null,stage:null,failed:false,closed:false,evidence:new Map()};this.#session=e;
       try {
         const slot=await this.#slotProvider({signal:linked,purpose:'native-file-runtime'});if(!slot||typeof slot.release!=='function'){e.leaseUnknown=true;fail('NATIVE_FILE_LEASE_REQUIRED','The main scheduler did not return its owned media lease.');}e.slot=slot;
@@ -220,4 +248,4 @@ class NativeFileRuntimeOwner {
     // unknown child or lease ownership stays a permanent hard quarantine.
     this.#closing=closing.catch(error=>{const s=this.#session,tools=s?.tools?.snapshot();if(!s?.leaseUnknown&&!tools?.busy&&!tools?.ownershipUnknown&&!s?.sourceUnsettled&&!this.#source.hasUnsettledHandles())this.#closing=null;throw error;});return this.#closing; }
 }
-module.exports={NativeFileRuntimeOwner,DEFAULT_NATIVE_FILE_POLICIES};
+module.exports={NativeFileRuntimeOwner,DEFAULT_NATIVE_FILE_POLICIES,assessNativeFileAdmission};

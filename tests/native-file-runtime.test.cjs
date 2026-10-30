@@ -245,3 +245,22 @@ test('a runtime pair handle whose close failed is never reported closed',async t
   const h=await fixture(t),faults=failingCloses(t),pair=new NativeFileRuntimePair(h.runtime);await pair.open();
   await assert.rejects(pair.close());faults.stop();await assert.rejects(pair.close());assert.equal(pair.snapshot().heldTools,2);
 });
+
+test('NF-C2: the pure admission check names exactly the first code prepare throws, without lease or child work',async t=>{
+  const {assessNativeFileAdmission}=require('../src/native-file-runtime.cjs');
+  const check=async(h,policies,expected)=>{
+    const assessed=assessNativeFileAdmission({policies,runtime:h.runtime,contract:h.contract,selection:h.native.requireFileSelection(h.selection)});
+    assert.equal(assessed.reasonCodes[0],expected);assert.equal(assessed.admissible,false);assert.equal(assessed.executionAuthority,'none');
+    const owner=new NativeFileRuntimeOwner({...h.config,policies});
+    await assert.rejects(owner.prepare({contract:h.contract,input:h.source,selection:h.selection,outputId:randomUUID(),generationDescription:h.generationDescription}),{code:expected});await owner.close();
+  };
+  const h=await fixture(t);
+  await check(h,[],'NATIVE_FILE_POLICY_REQUIRED');
+  await check(h,[{...h.policy,settings:{...h.policy.settings,quality:24}}],'NATIVE_FILE_POLICY_REQUIRED');
+  const generated=await fixture(t,{generated:true});await check(generated,[generated.policy],'NATIVE_FILE_SOURCE_PERMISSION_REQUIRED');
+  assert.equal(h.slotAcquires,0);assert.equal(generated.slotAcquires,0);assert.equal(h.calls.length,0);
+  const ok=assessNativeFileAdmission({policies:[h.policy],runtime:h.runtime,contract:h.contract,selection:h.native.requireFileSelection(h.selection)});
+  assert.deepEqual([ok.admissible,ok.policyId,ok.referencePresent],[true,h.policy.id,false]);
+  assert.deepEqual(assessNativeFileAdmission({policies:[h.policy],runtime:h.runtime,contract:h.contract}).reasonCodes,['NATIVE_SELECTION_REQUIRED']);
+  assert.throws(()=>assessNativeFileAdmission({policies:[h.policy],runtime:h.runtime,contract:h.contract,run(){}}),{code:'INVALID_NATIVE_FILE_RUNTIME'});
+});

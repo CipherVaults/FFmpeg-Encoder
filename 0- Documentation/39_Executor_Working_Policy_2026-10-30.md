@@ -50,8 +50,15 @@ Supporting private artifacts:
    - Correction: root first described this as answering **D4**. D4 is in fact "Q start order" (record 38 §8), whether Q may start before C1–C4, and he did not answer it. D4 stays open.
    - Until he answers D4, work continues in record 35's order (C1–C4, the P04 recheck and C7, then Q01), which is record 38's recommendation.
    - The design still fails closed: with no approved reference results, every AMD/Intel file job is refused, never producing a bad output.
-   - D1–D7 all stay open.
+   - D1–D3 and D5–D7 stay open. D4 was answered later the same day (decision 10).
 9. **Skills.** Ahmed: "please do so … even if it's going to be costing a little bit of time and quota" and "build them literally before the start of the development now." The three skills below were built before development resumes.
+10. **D4 answered (~19:50 Cairo): Q waits for C1–C4.** Asked whether milestone Q should wait until the AMD/Intel connection (C1–C4) is finished, Ahmed answered: "Yes, finish C1-C4 First, but don't start till I say so".
+   - Record 35's order now stands as his decision: C1–C4, then the P04 recheck and C7, then Q01.
+   - Development stays paused until he says to start.
+11. **The Notion hub shows only the current position.** Ahmed: "for the callout's don't hold on to older ones, we don't want to stake them in the home page, it's not it's job to be a memory for that, it's just something to understand where we are quickly and what's our current position on Notion."
+   - The hub keeps one status callout, replaced at each phase close rather than stacked. The older status callouts were removed on October 30, with readback.
+   - History lives in Blue — Handoff (dated entries, newest on top) and in the repository records.
+   - This narrows CLAUDE.md's earlier "never rewrite their history" rule, for the hub's status callout only.
 
 ## Observations that shaped the policy
 

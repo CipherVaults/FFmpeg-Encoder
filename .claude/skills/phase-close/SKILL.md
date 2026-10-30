@@ -21,7 +21,10 @@ Work through these steps in order. Steps 4 and 8 are scripted; the rest are judg
    It must show no FAIL. It checks the branch, that no Planning file is staged, the session-summary template and Codex toolkit drift, and lists which owner records changed. If `.claude/` changed, run `toolkit-sync --write` first and stage the regenerated copies.
 5. **Commit.** Write a plain, outcome-based subject. The body covers why, what, verification with receipt labels, and scope and limits. End it with the attribution lines.
 6. **Push and read back.** Push normally to `codex/v0.7-candidate`, never with force. Then run `node .claude/skills/phase-close/phase-close-check.cjs --after-push` and `/reentry-check`.
-7. **Notion.** Add a narrow dated overlay to the FFmpeg Encoder — Project Hub and to Blue — Handoff, then read it back. Never rewrite history there.
+7. **Notion.**
+   - Replace the FFmpeg Encoder — Project Hub's single status callout with the current position in plain words. Never stack older callouts; the hub is not a memory (Ahmed, record 39).
+   - Add a dated entry on top of Blue — Handoff, never rewriting its history.
+   - Read both back.
 8. **Writer lock.** Run `node artifacts/v0.7/claude-continuation/heartbeat.cjs "awaiting-owner" "<next action in plain words>"`.
 9. **Stop.** End the turn with a short message in plain words: codes go in brackets, after the plain description.
    - What finished, and where it stands.

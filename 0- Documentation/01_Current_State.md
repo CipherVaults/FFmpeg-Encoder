@@ -1,6 +1,6 @@
 > **Current state — October 30, 2026, ~19:30 Cairo: development PAUSED by Ahmed for an owner talk; nothing in the product changed since `e49f07d`.**
 > - **Since 02:00:** the native file service-integration design and the P01–P04 closure assessment were reviewed and committed ([records 37](37_Native_Service_Integration_Design_2026-10-30.md)/[38](38_P01-P04_Closure_Assessment_2026-10-30.md); P01–P04 stay PARTIAL). Step C1 is half done (R1, R2, R4 pushed).
-> - **Working policy, owner decisions:** [record 39](39_Executor_Working_Policy_2026-10-30.md) covers effort-switch stops, compaction, plain-language updates, OpenCode excluded, Codex planned but not active, and Beta software for hardware-blocked vendor work. D4 is still open.
+> - **Working policy, owner decisions:** [record 39](39_Executor_Working_Policy_2026-10-30.md) covers effort-switch stops, compaction, plain-language updates, OpenCode excluded, Codex planned but not active, and Beta software for hardware-blocked vendor work. D4 decided: Q waits until C1–C4 are finished.
 > - **Executor toolkit:** the `phase-close`, `codex-run` and `toolkit-sync` skills were built and tested. `codex-run` failed its security review and is blocked for real Codex until hardened.
 > - **Resumes on Ahmed's go-ahead:** C1 R3 and the controls file. Open owner items: D1–D3 and D5–D7, logo selection, a ChatGPT Plus quota for the Codex pilot.
 

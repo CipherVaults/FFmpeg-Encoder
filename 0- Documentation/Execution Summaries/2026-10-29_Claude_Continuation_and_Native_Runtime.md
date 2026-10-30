@@ -99,3 +99,12 @@ All are pure or temp-repo fixture tests; none calls real Codex, FFmpeg or the ap
 - `codex-run-final-blocked`: 8/8 (`…/20261030T170400Z_codex-run-final-blocked`).
 - `phase-close-final`: 4/4 (`…/20261030T170411Z_phase-close-final`).
 - `guard-after-autocompact`: 7/7 (unchanged bytes).
+
+**Later, ~19:50 Cairo.** Ahmed made two more decisions:
+
+- **D4:** "Yes, finish C1-C4 First, but don't start till I say so".
+- **The Notion hub:** it should stop holding older status callouts.
+
+The hub now shows only the current status callout. The two older callouts were removed and the dangling "blue callout" reference fixed; readback confirmed. Blue — Handoff has a dated update.
+
+These are recorded as record 39 decisions 10–11. CLAUDE.md and the phase-close skill now say to replace the hub callout rather than stack it.

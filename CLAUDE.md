@@ -46,7 +46,10 @@ Security is part of every change, not a final check. The trust model: the sandbo
 - Run tests with `/evidence-run` (`node .claude/skills/evidence-run/run-tests.cjs <label> <tests...> --covers <src...>`); it saves stdout/stderr/exit and file hashes under ignored `artifacts/v0.7/evidence/`. Failed receipts are retained, never relabelled.
 - Before editing a file with preserved history, copy it to the phase's `artifacts/.../before-*` folder.
 - After each phase update only the owners whose facts changed: Current State, Continuation, tracker 25 rows, Execution Index, the dated Execution Summary, and `06_SESSION_SUMMARY.md` using its established full session template (headings with emoji: Models/Effort/Roles/Provenance, Time, Session Goal, Actions Taken, Key Insights, Decisions Made, Difficulties/Friction, Adjustments, Mistakes/Risks, Current Position, Next Steps, Open Questions, Session Outcome, Confidence). New entries go on top; older entries are preserved.
-- Notion hub (`FFmpeg Encoder — Project Hub`) and `Blue — Handoff` get narrow dated overlays with readback; never rewrite their history.
+- Notion:
+  - The hub (`FFmpeg Encoder — Project Hub`) shows only the current position: one status callout in plain words, replaced at each phase close, never stacked (Ahmed, record 39).
+  - `Blue — Handoff` gets a dated entry on top; never rewrite its history.
+  - Read both back after writing.
 - Commits: plain outcome-based subject, then a body with why / what / verification and its scope / limits. Stage explicit paths only. Normal push to `codex/v0.7-candidate`, then read back remote equality.
 
 ## Commands

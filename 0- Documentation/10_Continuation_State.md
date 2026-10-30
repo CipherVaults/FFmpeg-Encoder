@@ -6,7 +6,7 @@
 > - Codex planned as a delegated worker once a Plus quota exists, read-only pilot first;
 > - Ahmed's direction that hardware-blocked AMD/Intel work is built as Beta software without waiting on hardware.
 >
-> D4 (Q start order) is **still open**; record 35's order continues meanwhile.
+> **D4 decided by Ahmed (~19:50):** Q waits until C1–C4 are finished (record 35's order). Development stays paused until he says to start. The Notion hub now keeps only one current status callout.
 >
 > Built and tested before development resumes:
 > - The `phase-close`, `codex-run` and `toolkit-sync` skills, with the Codex toolkit copies regenerated.

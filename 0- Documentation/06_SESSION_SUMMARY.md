@@ -51,7 +51,7 @@ All are in record 39, with Ahmed's words:
 - Beta software for hardware-blocked vendor work;
 - skills built before development resumes.
 
-D4 is not answered.
+Later the same evening Ahmed decided two more things. On D4, Q waits until C1–C4 are finished, and development waits for his word. And the Notion hub shows only the current status callout.
 
 ## ⚠️ Difficulties / Friction
 
@@ -85,13 +85,12 @@ D4 is not answered.
 On Ahmed's go:
 1. Restart the app and confirm the 500k compaction window.
 2. Finish C1: R3, then `src/native-file-controls.cjs` and its tests, then the security review and reviewer pass.
-3. Then C2–C4, the P04 recheck and C7, unless D4 changes the order.
+3. Then C2–C4, the P04 recheck and C7, then Q01 (D4 decided).
 
 Before any Codex pilot: the `codex-run` hardening and a new security review.
 
 ## ❓ Open Questions
 
-- D4: does Q wait for C1–C4?
 - D1–D3 and D5–D7.
 - Logo selection.
 - When a ChatGPT Plus Codex quota will exist.

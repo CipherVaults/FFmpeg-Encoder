@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" role="img" aria-label="FFmpeg Encoder Precision Aperture 16 pixel optical source">
+  <rect x="1" y="1" width="14" height="14" rx="3" fill="#172A33"/>
+  <path d="M2 2H5V3H3V5H2Z" fill="#F9F6EC"/>
+  <path d="M14 14H11V13H13V11H14Z" fill="#F9F6EC"/>
+  <path d="M13 8A5 5 0 1 1 8 3V5A3 3 0 1 0 11 8Z" fill="#F9F6EC"/>
+  <path d="M8 2A6 6 0 0 1 14 8H11A3 3 0 0 0 8 5Z" fill="#F4B54C"/>
+  <rect x="7" y="7" width="2" height="2" fill="#50C7BC"/>
+</svg>

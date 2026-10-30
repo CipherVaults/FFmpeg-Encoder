@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="FFmpeg Encoder Kept Streams 24 pixel optical source">
+  <rect x="1" y="1" width="22" height="22" rx="5" fill="#1D2A2E"/>
+  <path fill-rule="evenodd" d="M6 1H18A5 5 0 0 1 23 6V18A5 5 0 0 1 18 23H6A5 5 0 0 1 1 18V6A5 5 0 0 1 6 1ZM6 2H18A4 4 0 0 1 22 6V18A4 4 0 0 1 18 22H6A4 4 0 0 1 2 18V6A4 4 0 0 1 6 2Z" fill="#33464B"/>
+  <path d="M5 11H10V10H11V9H12V8H13V7H14V6H19V9H14V10H13V11H12V12H11V13H10V14H5Z" fill="#F4AA45"/>
+  <path d="M5 15H10V14H11V13H12V12H13V11H14V10H19V12H14V13H13V14H12V15H11V16H10V17H5Z" fill="#5FC5AE"/>
+  <path d="M5 18H10V17H11V16H12V15H13V14H14V13H19V14H15V15H14V16H13V17H12V18H11V19H5Z" fill="#FBF4E6"/>
+</svg>

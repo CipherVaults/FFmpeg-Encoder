@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="FFmpeg Encoder candidate B, Kept Frame">
+  <rect x="8" y="8" width="240" height="240" rx="52" fill="#172A33"/>
+  <path d="M104 52H192V76H104Z" fill="#F4B54C"/>
+  <path d="M216 76V180A24 24 0 0 1 192 204H104V180H192V76Z" fill="#50C7BC"/>
+  <path d="M192 52L216 76H192Z" fill="#2E978E"/>
+  <path fill-rule="evenodd" d="M56 86H138A16 16 0 0 1 154 102V154A16 16 0 0 1 138 170H56A16 16 0 0 1 40 154V102A16 16 0 0 1 56 86ZM66 108H128A4 4 0 0 1 132 112V144A4 4 0 0 1 128 148H66A4 4 0 0 1 62 144V112A4 4 0 0 1 66 108Z" fill="#F9F6EC"/>
+</svg>

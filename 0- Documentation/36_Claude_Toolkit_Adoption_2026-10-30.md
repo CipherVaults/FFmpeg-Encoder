@@ -36,3 +36,11 @@ Never run from installed plugins: `agentic-council` `/council`, `/ship`, `/hando
 6. Optional: install Anthropic's `pr-review-toolkit` and use only its silent-failure-hunter and pr-test-analyzer agents.
 
 Until Ahmed decides, root does not call Desktop Commander, agent-memory or GitHub MCP write tools; the guard enforces the dangerous cases.
+
+## Owner decisions — October 30, 2026 (~11:30 Cairo)
+
+Ahmed approved all recommendations ("All recommended"; "apply all the recommendations you mentioned, and disable the ones we don't need"):
+
+1. Disable Desktop Commander, agent-memory, claude-context-optimizer, 10x-Team, agentics-beyond-code, and the unused Anthropic business plugins (data, finance, product-management, cowork-plugin-management, engineering, productivity, pdf-viewer). Keep `design` off until milestone R. Plugins in this desktop app are switched in the app's plugin manager, which only Ahmed can operate; root cannot toggle them. As a project-side enforcement, the guard now refuses every Desktop Commander and agent-memory tool call even while those plugins remain switched on.
+2. **claude-security is not the forbidden "Security Cloud"**: it runs inside the Claude Code session. It may be used once as a changes scan at the end of P and at the end of Q, and once as a codebase scan in S. The "Never Security Cloud" rule continues to forbid any external hosted scanning service.
+3. Install `pr-review-toolkit`; use only its silent-failure-hunter and pr-test-analyzer agents. Install cards for both plugins were presented to Ahmed; installation happens in his app.

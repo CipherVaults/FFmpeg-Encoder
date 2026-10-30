@@ -174,6 +174,9 @@ process.stdin.on('end', () => {
 // write/move/delete-style tool gets the media and frozen-path rules on every
 // path-like field; GitHub API writes are refused so git stays on the guarded CLI.
 function checkMcp(name, input) {
+  // Owner decision 2026-10-30 (record 36): these plugins are disabled for this
+  // project. Refuse every tool call even if the plugin is still switched on.
+  if (/desktop-commander|agent-memory/i.test(name)) block('this plugin is disabled for FFmpeg Encoder by owner decision (record 36); use the guarded built-in tools.');
   const tool = name.split('__').pop().toLowerCase();
   if (/github/i.test(name) && /(push|merge|delete|create_or_update|update_ref|create_branch|fork|release|update_pull|create_pull|create_repo|tag)/.test(tool))
     block(`GitHub API writes bypass the git safeguards (${tool}); use the git CLI on the candidate branch.`);

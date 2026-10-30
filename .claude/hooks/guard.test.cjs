@@ -75,8 +75,10 @@ test('MCP terminal, filesystem and GitHub tools cannot bypass the guard', () => 
   blocked(dc('set_config_value'), { key: 'blockedCommands', value: [] });
   blocked('mcp__github__push_files', { owner: 'AE0101', repo: 'FFmpeg-Encoder', branch: 'main' });
   blocked('mcp__github__merge_pull_request', { pullNumber: 1 });
-  allowed(dc('read_file'), { path: 'F:/shadow play/a.mkv' });
-  allowed(dc('start_process'), { command: 'git status --porcelain' });
+  // Owner decision 2026-10-30: Desktop Commander and agent-memory are disabled for this project entirely.
+  blocked(dc('read_file'), { path: 'F:/shadow play/a.mkv' });
+  blocked(dc('start_process'), { command: 'git status --porcelain' });
+  blocked('mcp__plugin_agent-memory_agent-memory__memory_search', { query: 'x' });
   allowed('mcp__github__get_file_contents', { owner: 'AE0101', repo: 'FFmpeg-Encoder', path: 'README.md' });
   allowed('mcp__a8aaf34a__notion-update-page', { page_id: 'x', content: 'Notes about F:\\shadow play footage' });
 });

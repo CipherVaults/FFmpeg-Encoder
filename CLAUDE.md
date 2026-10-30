@@ -20,7 +20,7 @@ Keep these three apart: **permission** (owner instructions/records), **observati
 ## Scope and hard limits (record 35, amendments 32/33)
 
 - Order: non-HDR P01–P04 → eligible Q → R → S. HDR P05–P09 deferred (no expansion, replay or catalog reseal). Packaging (portable + installer) last.
-- Never: Security Cloud; change ordinary defaults / Archive CQ29 / the benchmark / accepted tags; public release; force push or history rewrite; stage `0- Documentation/Planning/` (private); dependency/runtime upgrades; delete or modify anything under `F:\shadow play` (personal media is read-only test material; outputs go to project-owned folders).
+- Never: Security Cloud (an external hosted scanning service; the in-session `claude-security` plugin is allowed per record 36); change ordinary defaults / Archive CQ29 / the benchmark / accepted tags; public release; force push or history rewrite; stage `0- Documentation/Planning/` (private); dependency/runtime upgrades; delete or modify anything under `F:\shadow play` (personal media is read-only test material; outputs go to project-owned folders).
 - Owner gates: AMF same-component producer technical disposition, milestone/product acceptance, logo selection, scope changes, packaging acceptance.
 - `.claude/hooks/guard.cjs` enforces the history/media/Planning/install rules; do not weaken it to get past a block — report the block instead.
 

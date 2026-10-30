@@ -18,6 +18,8 @@ Supporting private artifacts:
    - After the reply, root first confirms the session's effort in the session metadata.
    - Lead efforts: **xhigh** for trust-boundary code or design and final review. That covers the rest of P (native integration C1–C4, C7), Q's media paths and S's review. **high** for UI, settings, accessibility, copy, packaging, and records-only work.
    - The close-out of a phase stays at that phase's effort. Subagent efforts stay as defined in `.claude/agents/`.
+   - **Phase boundaries (root's definition, ~20:00 Cairo):** the current phase is the AMD/Intel connection, C1 through C7, all at xhigh. Each step (C1, C2, C3, C4, the P04 recheck, C7) ends with a checkpoint: records, commit, push, the hub callout replaced. Work then continues without stopping. The stop for Ahmed's effort choice and `/compact` comes after C7, before Q01, or earlier at any owner gate. The automatic 500k compaction covers the steps in between.
+   - The backup scheduled task stays disabled. On October 30 its instructions were updated so that it never lifts an `awaiting-owner` or `paused` lock, follows phase-close, and never runs real Codex. It is re-enabled only when Ahmed says to start.
 3. **Compaction.**
    - The thread stays as one continuing thread.
    - `.claude/settings.json` sets `autoCompactWindow: 500000` (Ahmed: "what if we actually set it indeed to 500,000 token ourselves?"). Automatic compaction becomes a safety net at about 500k tokens.

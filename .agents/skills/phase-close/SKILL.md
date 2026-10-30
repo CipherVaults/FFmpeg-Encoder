@@ -7,6 +7,11 @@ description: The FFmpeg Encoder end-of-phase routine — evidence, PBS record ow
 
 Work through these steps in order. Steps 4 and 8 are scripted; the rest are judgement, written in plain words.
 
+**When it runs:**
+- **Checkpoint:** steps 1–8 run at the end of every planned work step (for example each of C1, C2, C3 and C4). Afterwards, carry on with the next step of the same phase.
+- **Stop:** step 9 runs only at the end of a phase, where the next work may need a different effort and a planned `/compact` fits. It also runs at any owner gate, or when Ahmed asked to be stopped at that point.
+- **Current phase:** the AMD/Intel connection, C1 through C7. Its stop comes after C7, before Q01.
+
 1. **Evidence.** Every result you will cite has an `/evidence-run` receipt for the exact final bytes. Substantive diffs (main, preload, IPC, child processes, paths, publication, scripts that spawn processes) have had `/security-review` and an independent `reviewer` pass. Fix or record every confirmed finding.
 2. **Before copies.** Before editing a file whose history must be preserved, copy it into the phase's `artifacts/.../before-*` folder.
 3. **Records.** Update only the owners whose facts changed. New entries go on top; older text is preserved.
@@ -25,7 +30,9 @@ Work through these steps in order. Steps 4 and 8 are scripted; the rest are judg
    - Replace the FFmpeg Encoder — Project Hub's single status callout with the current position in plain words. Never stack older callouts; the hub is not a memory (Ahmed, record 39).
    - Add a dated entry on top of Blue — Handoff, never rewriting its history.
    - Read both back.
-8. **Writer lock.** Run `node artifacts/v0.7/claude-continuation/heartbeat.cjs "awaiting-owner" "<next action in plain words>"`.
+8. **Writer lock.**
+   - At a checkpoint, run `node artifacts/v0.7/claude-continuation/heartbeat.cjs "<next step>" "<next action>"` and continue.
+   - At a stop, run `node artifacts/v0.7/claude-continuation/heartbeat.cjs "awaiting-owner" "<next action in plain words>"`.
 9. **Stop.** End the turn with a short message in plain words: codes go in brackets, after the plain description.
    - What finished, and where it stands.
    - What the next phase is.

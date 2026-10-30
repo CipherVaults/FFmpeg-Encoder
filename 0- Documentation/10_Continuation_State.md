@@ -8,6 +8,12 @@
 >
 > **D4 decided by Ahmed (~19:50):** Q waits until C1–C4 are finished (record 35's order). Development stays paused until he says to start. The Notion hub now keeps only one current status callout.
 >
+> **When he says start:**
+> 1. Set the lock to the C1 step and create the in-session hourly tick (after an app restart, session ticks must be recreated).
+> 2. Re-enable the updated backup task.
+> 3. Work through C1–C7, checkpointing after each step without stopping.
+> 4. Stop after C7 for his effort choice and `/compact` (record 39).
+>
 > Built and tested before development resumes:
 > - The `phase-close`, `codex-run` and `toolkit-sync` skills, with the Codex toolkit copies regenerated.
 > - `codex-run` failed its independent security review. It is blocked in code for real Codex until hardened and re-reviewed, before the pilot. The continuation ticks stay off. **Exact next action, only after Ahmed says go (effort stays xhigh):**

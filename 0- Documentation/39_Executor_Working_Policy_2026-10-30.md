@@ -61,6 +61,16 @@ Supporting private artifacts:
    - The hub keeps one status callout, replaced at each phase close rather than stacked. The older status callouts were removed on October 30, with readback.
    - History lives in Blue — Handoff (dated entries, newest on top) and in the repository records.
    - This narrows CLAUDE.md's earlier "never rewrite their history" rule, for the hub's status callout only.
+12. **Development restarted on Ahmed's word (~19:50 Cairo).** After his `/compact` and the app restart, with about 4% of the 5-hour window left, Ahmed wrote: "I will leave the decision for continuation or waiting for you based on what you think is best, and what can be used in this remaining 4%." He added: "make sure the custom skills we made and what we need is active and ready to be used."
+   - Root took this as the "say so" of decision 10. It did not start code that the limit would cut off. Instead it:
+     - confirmed the five project skills, whose tests passed 24/24;
+     - confirmed the 500k compaction window was live (the session's context report read a 500,000-token window);
+     - confirmed effort xhigh;
+     - set the writer lock to C1;
+     - recreated the in-session hourly tick, which stands down while the 5-hour window is 90% or more used;
+     - re-enabled the backup task.
+   - Decision 1's ticks are therefore running again, on his word.
+   - The first tick after the 22:00 reset started C1.
 
 ## Observations that shaped the policy
 

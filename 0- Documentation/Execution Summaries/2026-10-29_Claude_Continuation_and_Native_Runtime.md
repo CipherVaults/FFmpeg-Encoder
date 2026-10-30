@@ -108,3 +108,80 @@ All are pure or temp-repo fixture tests; none calls real Codex, FFmpeg or the ap
 The hub now shows only the current status callout. The two older callouts were removed and the dangling "blue callout" reference fixed; readback confirmed. Blue — Handoff has a dated update.
 
 These are recorded as record 39 decisions 10–11. CLAUDE.md and the phase-close skill now say to replace the hub callout rather than stack it.
+
+## C1 finished — October 30 ~22:00–23:30 Cairo
+
+**Start.** Ahmed left the start decision to root ([record 39](../39_Executor_Working_Policy_2026-10-30.md), decision 12). At 98% of the 5-hour window, root only checked readiness:
+- the five project skills, with tests 24/24;
+- the 500k compaction window, live;
+- effort xhigh.
+
+It then set the writer lock to C1, recreated the hourly tick and re-enabled the backup task. The first tick after the 22:00 reset started C1.
+
+**What C1 now contains** ([record 37](../37_Native_Service_Integration_Design_2026-10-30.md) §2, §12):
+- **R3, in `src/native-file-runtime.cjs`.** `publish` accepts `requireDestinationCurrent`. The order is:
+  1. `requirePublicationCurrent` and the second selection check;
+  2. the awaited callback, then a cancel check;
+  3. a fresh `#destination` that must name the same file **and the same folder object** (dev, ino, birth time);
+  4. `publication = 'attempted'`, the no-overwrite link, then `committed` or `collision`, then `verified` after the full-SHA readback.
+
+  The snapshot gains `publication` and `stageState` (`none`, `unsealed`, `sealed`, `validated`).
+- **Production jobs.** They are made only by `createNativeFileRuntimeJob`, which records a module-private binding. Such a job:
+  - must pass main's callback;
+  - runs main's lease-time checks (`admitLease`) while it already holds the slot;
+  - requires its first owned-root stamp to equal main's lease pin. This is R4, strengthened.
+
+  `readNativeFilePolicies` is the extracted, behaviour-identical catalog check.
+- **`src/native-file-controls.cjs` (new):**
+  - `createNativeFileControls({runtime, stateDir, nativeBackends})` takes exact keys only. Its catalog is always `[]`.
+  - `createTestNativeFileControls` adds `policies` and `run`. `nativeFileControlsKind` tells the `production` and `injected` brands apart through a module-private WeakMap.
+  - `readiness(view)` is pure and follows §3.1's order and Hides column.
+  - `assess` is `assessNativeFileAdmission`, but a matching row without a reference is refused with `NATIVE_FILE_REFERENCE_REQUIRED` (§3.3).
+  - `createJob` checks:
+    - the stateDir stamp;
+    - the `native-files` pin. An absent folder is recreated and pinned afresh;
+    - a bounded lstat-only scan: 64 entries and stage-named ordinary folders;
+    - the quota: at most 8 stages and 3 GiB;
+    - both folders again;
+    - cancellation.
+  - `keptStages()` returns the last scan plus stages kept since.
+  - `NATIVE_MESSAGES` holds fixed text with no interpolation, also covering the helper modules on the native call path and the shared preparation codes. `nativeRefusal` reads each field once and relabels unknown codes `NATIVE_FILE_JOB_FAILED`, keeping the original only in `nativePrivate`.
+
+**Deliberate deviations from record 37 (root's design, reviewed):**
+- The callback is mandatory only for production jobs. The raw owner keeps it optional, so the 27 pre-C1 runtime tests stay unedited (record 37 §2). A scan test requires that nothing in `src/`, `main.js` or `preload.js` reaches the runtime except through the controls.
+- Lease checks run inside the runtime, after the slot is held, rather than in a slot wrapper. A refusal whose release fails is therefore retried by `close()` and never reported as released (review S1).
+- The `#destination` re-run also compares the folder identity (S2).
+- `STAGE_CHANGED` text now advises a restart (S5).
+
+**Independent review** (workflow `wf_a3011cbb-b48`: security, design and test lenses plus an adversarial verifier, 4 agents). It produced 19 candidates.
+- **Confirmed and fixed (12):**
+  - S1: release failure hidden;
+  - S2: path-only re-run;
+  - S4: weak constructor scan;
+  - S5: deleted work folder blocks until restart;
+  - S6: code read several times;
+  - D2: reference-less admission (medium);
+  - D3: stale kept count;
+  - D5: missing shared codes;
+  - T3: order, cancel and `attempted` untested;
+  - T4: call-path modules unscanned;
+  - T5: R4 window and lease-check guards untested;
+  - T6: only the count limb tested.
+- **Refuted (7):** S3, D1, D4, T1, T2, T7, T8.
+
+**Evidence:**
+- Receipts `c1-r3-controls` (42/42, before the review) and **`c1-final` (45/45)**: `node --test tests/native-file-controls.test.cjs tests/native-file-runtime.test.cjs` with both sources covered.
+- The diff of the runtime test file is append-only.
+- 26 deliberate breaks were made; 25 were caught. The survivor, which removes the link check on scanned entries, is equivalent: a junction already fails `isDirectory()` under lstat.
+
+**Limits:**
+- The byte limb is proven with a faked lstat size, not a real 3 GiB file. The post-scan recheck is proven with an `opendir` hook.
+- The fix delta has not had a second independent review; it joins C2's review.
+- The full `npm test` is scheduled at C4 (record 37 §12). Only `src/native-file-controls.cjs` and the tests import the changed runtime.
+- No hardware, Electron window or real encode ran. Policies stay `[]` and nothing is wired.
+
+**Carried to C2–C4 from the review:**
+- `nativeRefusal` returns `nativePrivate` beside the renderer-safe fields. Callers copy only `reasonCode` and `reason`.
+- A composition failure in `main.js` must leave native files unavailable, not stop the app.
+- A cancel during the readback may surface as `ABORT_ERR` (check under NS-15).
+- The copy fallback's partial destination needs a disposition (C4).

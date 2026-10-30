@@ -1,3 +1,95 @@
+# 📘 Session: October 30, 2026 — FFmpeg Encoder — restart on Ahmed's word and C1 of the AMD/Intel connection
+
+## 🤖 Models, Effort, Roles and Provenance
+
+- **Root (sole writer and committer):** Claude Opus 5.5 at xhigh, confirmed in the session metadata, in the same desktop session after Ahmed's `/compact` and app restart.
+- **Review workflow:** 4 `reviewer` agents (security, design, tests, adversarial verifier).
+- **Provenance:** written by root from live tool results and receipts.
+
+## 🕒 Time
+
+October 30, 2026, about 19:50–23:30 Cairo (UTC+2).
+- The 5-hour window was at 98–99% until it reset at 22:00, then reached 64% by the checkpoint.
+- The weekly window went from 39% to 48%.
+
+## 🎯 Session Goal
+
+Resume development on Ahmed's word and finish record 37 commit C1. That covers:
+- R3, the destination recheck and publication facts;
+- the native file controls module;
+- tests, review and the checkpoint.
+
+## 🛠️ Actions Taken
+
+- **Before the reset:** confirmed readiness (skills 24/24, 500k window, effort xhigh), set the lock, recreated the hourly tick and re-enabled the backup task.
+- **After the reset:**
+  - implemented R3 and production-job bindings in the runtime;
+  - wrote `src/native-file-controls.cjs` and its tests;
+  - ran mutation checks;
+  - ran the four-agent review and fixed its 12 confirmed findings;
+  - saved receipt `c1-final` 45/45;
+  - updated the records.
+
+## 🧠 Key Insights
+
+- **A path re-run is not an identity check.** `assertOrdinaryPath` returns the lexical path, so only a folder stamp detects an ordinary-folder swap.
+- **The runtime must hold the slot before main's checks run.** Otherwise a failed release is silently lost.
+- **Readiness is cell-level, while admission is per-file.** They can disagree when rows differ by source.
+
+## 📌 Decisions Made
+
+- Ahmed handed the start decision to root (record 39, decision 12).
+- Root's design choices, all recorded in the Execution Summary:
+  - the production-only callback requirement;
+  - lease checks inside the runtime;
+  - the folder-identity re-run;
+  - re-pinning an absent work folder.
+
+## ⚠️ Difficulties / Friction
+
+- One heredoc failed to parse in the shell wrapper; root used file-based appends instead.
+- The first sed edits silently missed escaped patterns and were redone with exact edits.
+- Context reached 85% of the 500k window by the checkpoint.
+
+## 🔧 Adjustments Made
+
+The fix delta goes into C2's independent review instead of a second C1 review, to keep the checkpoint inside the window.
+
+## ❌ Mistakes / Risks Noted
+
+- The first message-test sentinel ("private") matched real table text. It was caught by a failing test and changed.
+- **Residual:** the path-based link window of a few syscalls remains (record 37 §10.4).
+
+## 📍 Current Position
+
+- C1 is complete and committed in this checkpoint.
+- Writer lock: C2.
+- Production policies stay `[]`; nothing is wired.
+
+## 🔜 Next Steps
+
+1. C2: service slot, quarantine and diagnostics projection, plus main composition.
+2. Then C3, C4, the P04 recheck and C7.
+3. Stop after C7 for Ahmed's effort choice and `/compact`.
+
+## ❓ Open Questions
+
+- D1–D3 and D5–D7.
+- Logo selection.
+- The ChatGPT Plus Codex quota.
+
+## 🧾 Session Outcome
+
+The native file runtime has its main-owned composition and a hardened publication step, reviewed and tested. There is no product, acceptance or release change.
+
+## 🔍 Confidence Level
+
+- **High:** receipted test behaviour (fixtures only), the mutation results and the fixed findings.
+- **Medium:** completeness of the message table for future C3/C4 codes.
+- **Unverified:** real hardware and the Electron runtime.
+
+---
+
 # 📘 Session: October 30, 2026 — FFmpeg Encoder — owner talk: model economics, codebook, working policy and executor toolkit
 
 ## 🤖 Models, Effort, Roles and Provenance

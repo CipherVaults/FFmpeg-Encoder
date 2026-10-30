@@ -35,6 +35,16 @@ function policy(v) {
   return freeze({...v,settings,budget,evidenceIds:v.evidenceIds.slice(),reference});
 }
 const objectStamp = s => ({dev:String(s.dev),ino:String(s.ino),birthtimeNs:String(s.birthtimeNs)});
+// Dense bounded catalog of exact rows, shared by the owner and main's controls.
+function readNativeFilePolicies(rows) {
+  if(!Array.isArray(rows)||Object.getPrototypeOf(rows)!==Array.prototype||rows.length>32||Reflect.ownKeys(rows).length!==rows.length+1)fail('INVALID_NATIVE_FILE_RUNTIME','Bounded dense main-owned policy catalog required.');
+  const policies=[];for(let i=0;i<rows.length;i++){const d=Object.getOwnPropertyDescriptor(rows,String(i));if(!d?.enumerable||!Object.hasOwn(d,'value'))fail('INVALID_NATIVE_FILE_RUNTIME','Policy catalog cannot contain accessors/holes.');policies.push(policy(d.value));}
+  if(new Set(policies.map(p=>p.id)).size!==policies.length)fail('INVALID_NATIVE_FILE_RUNTIME','Duplicate native file policies.');
+  return policies;
+}
+// Production jobs (record 37 R3/R4): main's destination recheck is mandatory
+// for publication, and the first owned-root stamp must equal main's lease pin.
+const PRODUCTION_JOBS = new WeakMap();
 
 // R1 (record 37): ordered admission reasons shared by prepare and the service's
 // pure readiness check. No I/O, lease or owner mutation. The first reason is
@@ -79,18 +89,17 @@ class NativeFileRuntimeOwner {
     record(options,['runtime','nativeSelections','ownedRoot','acquireMediaSlot','policies','run'],['runtime','nativeSelections','ownedRoot','acquireMediaSlot']);
     if(!(options.nativeSelections instanceof NativeBackendService)||typeof options.acquireMediaSlot!=='function'||typeof options.ownedRoot!=='string'||!path.isAbsolute(options.ownedRoot)
       ||options.ownedRoot.length>32767||/[\x00-\x1f\x7f]/.test(options.ownedRoot)||options.run!==undefined&&typeof options.run!=='function')fail('INVALID_NATIVE_FILE_RUNTIME','Genuine native selection owner, fixed owned root and media lease provider required.');
-    const rows=options.policies===undefined?DEFAULT_NATIVE_FILE_POLICIES:options.policies;
-    if(!Array.isArray(rows)||Object.getPrototypeOf(rows)!==Array.prototype||rows.length>32||Reflect.ownKeys(rows).length!==rows.length+1)fail('INVALID_NATIVE_FILE_RUNTIME','Bounded dense main-owned policy catalog required.');
-    this.#policies=[];for(let i=0;i<rows.length;i++){const d=Object.getOwnPropertyDescriptor(rows,String(i));if(!d?.enumerable||!Object.hasOwn(d,'value'))fail('INVALID_NATIVE_FILE_RUNTIME','Policy catalog cannot contain accessors/holes.');this.#policies.push(policy(d.value));}
-    if(new Set(this.#policies.map(p=>p.id)).size!==this.#policies.length)fail('INVALID_NATIVE_FILE_RUNTIME','Duplicate native file policies.');
+    this.#policies=readNativeFilePolicies(options.policies===undefined?DEFAULT_NATIVE_FILE_POLICIES:options.policies);
     this.#pair=new NativeFileRuntimePair(options.runtime);this.#native=options.nativeSelections;this.#root=path.resolve(options.ownedRoot);this.#slotProvider=options.acquireMediaSlot;this.#run=options.run;
   }
   snapshot() { const s=this.#session;return freeze({schema:1,policyCount:this.#policies.length,busy:Boolean(this.#active),admissionClosed:this.#closed,phase:s?.phase||'idle',sessionId:s?.id||null,
-    runtime:this.#pair.snapshot(),tools:s?.tools?.snapshot()||null,sourceHeld:Boolean(s?.source),leaseHeld:Boolean(s?.slot),leaseOwnershipUnknown:Boolean(s?.leaseUnknown),stageRetained:s?.cleanup?.retained??Boolean(s?.stage),fileExecutionReady:false,executionAuthority:'none',qualification:'unqualified-runtime-plumbing'}); }
+    runtime:this.#pair.snapshot(),tools:s?.tools?.snapshot()||null,sourceHeld:Boolean(s?.source),leaseHeld:Boolean(s?.slot),leaseOwnershipUnknown:Boolean(s?.leaseUnknown),stageRetained:s?.cleanup?.retained??Boolean(s?.stage),publication:s?.publication||'not-attempted',stageState:s?.stageState||'none',fileExecutionReady:false,executionAuthority:'none',qualification:'unqualified-runtime-plumbing'}); }
   #entry(token) { const e=token&&typeof token==='object'&&this.#tokens.get(token);if(!e||e!==this.#session||e.failed||e.closed)fail('NATIVE_FILE_SESSION_STALE','Use this owner\'s original current file session.');return e; }
   async #work(signal,action) { if(signal!==undefined&&!(signal instanceof AbortSignal))fail('INVALID_NATIVE_FILE_RUNTIME','AbortSignal required.');if(signal?.aborted)fail('CANCELLED','Native file action cancelled before admission.');if(this.#closed)fail('NATIVE_FILE_RUNTIME_CLOSED','Native file admission is closed.');if(this.#active)fail('NATIVE_FILE_RUNTIME_BUSY','Wait for the previous native file action to drain.');const controller=new AbortController(),linked=signal?AbortSignal.any([signal,controller.signal]):controller.signal,active={controller,done:null};this.#active=active;active.done=Promise.resolve().then(()=>{if(linked.aborted)fail('CANCELLED','Native file action cancelled before work.');return action(linked);});try{return await active.done;}finally{if(this.#active===active)this.#active=null;} }
-  async #rootCurrent(e) { const canonical=await assertOrdinaryPath(this.#root,'directory'),stat=await fsp.lstat(canonical,{bigint:true});if(canonical!==this.#root||!stat.isDirectory()||stat.isSymbolicLink()||e.rootStamp&&!same(e.rootStamp,objectStamp(stat)))fail('NATIVE_FILE_STAGE_CHANGED','The owned root changed.');e.rootStamp||=objectStamp(stat); }
-  async #stageCurrent(e,empty=false) { await this.#rootCurrent(e);const canonical=await assertOrdinaryPath(e.stage.directory,'directory'),stat=await fsp.lstat(canonical,{bigint:true});if(canonical!==e.stage.directory||!same(e.stageStamp,objectStamp(stat)))fail('NATIVE_FILE_STAGE_CHANGED','The owned stage directory changed.');if(empty){try{await fsp.lstat(e.stage.file);fail('NATIVE_FILE_STAGE_CHANGED','The native stage is already occupied.');}catch(error){if(error.code!=='ENOENT')throw error;}}else{await sealStage(e.stage);await retainSealedStage(e.stage,'Native file output retained pending complete independent validation and file qualification.');const s=await fsp.lstat(e.stage.file,{bigint:true});if(s.size>BigInt(e.policy.budget.maximumStageBytes))fail('NATIVE_FILE_STAGE_LIMIT','The observed stage exceeds its admitted size; it is retained.');} }
+  async #rootCurrent(e) { let canonical,stat;try{canonical=await assertOrdinaryPath(this.#root,'directory');stat=await fsp.lstat(canonical,{bigint:true});}catch{fail('NATIVE_FILE_STAGE_CHANGED','The owned root changed.');}
+    const current=objectStamp(stat),pin=!e.rootStamp&&PRODUCTION_JOBS.get(this)?.ownedRootPin,pinned=pin&&pin();
+    if(canonical!==this.#root||!stat.isDirectory()||stat.isSymbolicLink()||e.rootStamp&&!same(e.rootStamp,current)||pin&&!(pinned&&['dev','ino','birthtimeNs'].every(k=>pinned[k]===current[k])))fail('NATIVE_FILE_STAGE_CHANGED','The owned root changed.');e.rootStamp||=current; }
+  async #stageCurrent(e,empty=false) { await this.#rootCurrent(e);const canonical=await assertOrdinaryPath(e.stage.directory,'directory'),stat=await fsp.lstat(canonical,{bigint:true});if(canonical!==e.stage.directory||!same(e.stageStamp,objectStamp(stat)))fail('NATIVE_FILE_STAGE_CHANGED','The owned stage directory changed.');if(empty){try{await fsp.lstat(e.stage.file);fail('NATIVE_FILE_STAGE_CHANGED','The native stage is already occupied.');}catch(error){if(error.code!=='ENOENT')throw error;}}else{await sealStage(e.stage);if(e.stageState==='unsealed')e.stageState='sealed';await retainSealedStage(e.stage,'Native file output retained pending complete independent validation and file qualification.');const s=await fsp.lstat(e.stage.file,{bigint:true});if(s.size>BigInt(e.policy.budget.maximumStageBytes))fail('NATIVE_FILE_STAGE_LIMIT','The observed stage exceeds its admitted size; it is retained.');} }
   #selectionCurrent(e) { const selected=this.#native.requireFileSelection(e.selection);if(selected!==e.selection||['ffmpeg','ffprobe'].some(name=>this.#pair.pin(name).sha256!==selected.policy[name+'Sha256']))fail('NATIVE_FILE_SELECTION_STALE','Both held runtime pins must match the genuine current native selection.');return selected; }
   async #tool(e,executable,argv,options,signal) {
     await this.#pair.requireCurrent({signal,invocation:true});
@@ -129,10 +138,13 @@ class NativeFileRuntimeOwner {
       const selection=this.#native.requireFileSelection(options.selection);
       const {reasons,matching}=postSelectionReasons(this.#policies,{ffmpeg:this.#pair.pin('ffmpeg'),ffprobe:this.#pair.pin('ffprobe')},this.#pair.identity(),contract,selection);
       throwFirst(reasons);
-      const e={id:randomUUID(),policy:matching[0],selection,contract,phase:'preparing',source:null,slot:null,stage:null,failed:false,closed:false,evidence:new Map()};this.#session=e;
+      const e={id:randomUUID(),policy:matching[0],selection,contract,phase:'preparing',source:null,slot:null,stage:null,stageState:'none',publication:'not-attempted',failed:false,closed:false,evidence:new Map()};this.#session=e;
       try {
         const slot=await this.#slotProvider({signal:linked,purpose:'native-file-runtime'});if(!slot||typeof slot.release!=='function'){e.leaseUnknown=true;fail('NATIVE_FILE_LEASE_REQUIRED','The main scheduler did not return its owned media lease.');}e.slot=slot;
         if(linked.aborted)fail('CANCELLED','Native preparation cancelled after lease admission.');
+        // Production jobs: main's lease-time folder checks run while this owner
+        // already holds the slot, so a refusal releases it under #dispose's rules.
+        const admit=PRODUCTION_JOBS.get(this)?.admitLease;if(admit)await admit({signal:linked});
         // R4: stamp the owned root right after the lease, before long source/pair hashing.
         await this.#rootCurrent(e);
         e.source=await this.#source.seal(options.input,{signal:linked});
@@ -141,7 +153,7 @@ class NativeFileRuntimeOwner {
         // Lease queueing and complete source/pair hashing must not consume the child deadline.
         e.tools=new NativeFileToolOwner({maximumChildren:e.policy.budget.maximumChildren,maximumBytes:e.policy.budget.maximumPipeBytes,deadlineMs:e.policy.budget.deadlineMs,...(this.#run?{run:this.#run}:{})});
         await this.#rootCurrent(e);e.before=await this.#observe(e,linked);await this.#source.requireCurrent(e.source,{signal:linked});
-        e.stage=await createStage(this.#root);e.stageStamp=objectStamp(await fsp.lstat(e.stage.directory,{bigint:true}));await this.#stageCurrent(e,true);
+        e.stage=await createStage(this.#root);e.stageState='unsealed';e.stageStamp=objectStamp(await fsp.lstat(e.stage.directory,{bigint:true}));await this.#stageCurrent(e,true);
         e.command=buildNativeFileCommand({contract,input:e.source.file,output:e.stage.file,device:selection.policy.device,outputId:options.outputId,generationDescription:options.generationDescription});
         const token=Object.freeze({schema:1,sessionId:e.id});e.token=token;this.#tokens.set(token,e);e.phase='prepared-runtime';return token;
       } catch(error){e.failed=true;e.phase='failed';this.#closed=true;if(error.sourceCloseFailure)e.sourceUnsettled=true;try{await this.#dispose(e);}catch(closeError){error.nativeCloseFailure=closeError;}throw error;}
@@ -193,7 +205,7 @@ class NativeFileRuntimeOwner {
         const template=await observeNativeFileTemplate(e.stage.file,e.command,{signal:linked,maximumBytes:Math.min(e.policy.budget.maximumStageBytes,NATIVE_TEMPLATE_MAXIMUM_BYTES),deadlineAt:Date.now()+e.policy.budget.deadlineMs});
         await this.#stageCurrent(e);
         const checks=joinNativeFileOracle({reference:e.policy.reference,contract:e.contract,command:e.command,sourceSha256:e.source.content.digest,roles,template});
-        await markStageValidated(e.stage);
+        await markStageValidated(e.stage);e.stageState='validated';
         const receipt=freeze({schema:1,kind:'native-file-output-checked',sessionId:e.id,referenceId:checks.referenceId,outputSha256:template.sha256,checks:checks.checks,
           qualification:'exact-reference-member; final source assessment and publication pending',fileExecutionReady:false,executionAuthority:'none'});
         this.#checked.set(receipt,e);e.checked=receipt;e.template=template;e.phase='output-checked';return receipt;
@@ -206,27 +218,38 @@ class NativeFileRuntimeOwner {
     if(typeof value!=='string'||value.length>32767||/[\x00-\x1f\x7f"<>|?*]/.test(value)||!/^[A-Za-z]:\\/.test(value)||value.slice(2).includes(':')||/[. ]$/.test(value)
       ||path.win32.extname(value).toLowerCase()!=='.mkv'||/^(con|prn|aux|nul|com\d|lpt\d)(\..*)?$/i.test(path.win32.basename(value)))fail('NATIVE_FILE_DESTINATION','A local drive-qualified .mkv destination is required.');
     const resolved=path.win32.resolve(value);if(resolved.toLowerCase().startsWith(this.#root.toLowerCase()+path.sep))fail('NATIVE_FILE_DESTINATION','The destination cannot be inside the owned staging root.');
-    try{const directory=await assertOrdinaryPath(path.win32.dirname(resolved),'directory');return path.win32.join(directory,path.win32.basename(resolved));}catch(error){fail('NATIVE_FILE_DESTINATION','The destination folder is not an ordinary existing directory.');}
+    try{const directory=await assertOrdinaryPath(path.win32.dirname(resolved),'directory'),stat=await fsp.lstat(directory,{bigint:true});if(!stat.isDirectory()||stat.isSymbolicLink())throw new Error('not an ordinary folder');
+      return {file:path.win32.join(directory,path.win32.basename(resolved)),folder:objectStamp(stat)};}catch(error){fail('NATIVE_FILE_DESTINATION','The destination folder is not an ordinary existing directory.');}
   }
   // Publication after exact validation: final complete-source assessment, its
-  // publication-time currentness, no-overwrite publication, then a full SHA of
-  // the published name joined to the validated template bytes.
+  // publication-time currentness, main's destination recheck (R3) and a fresh
+  // canonical destination, no-overwrite publication, then a full SHA of the
+  // published name joined to the validated template bytes.
   async publish(token,receipt,options={}) {
-    record(options,['destination','signal'],['destination']);
+    record(options,['destination','signal','requireDestinationCurrent'],['destination']);
+    const check=options.requireDestinationCurrent;
+    if(check!==undefined&&typeof check!=='function'||check===undefined&&PRODUCTION_JOBS.has(this))fail('INVALID_NATIVE_FILE_RUNTIME','Main\'s destination recheck is required for publication.');
     return this.#work(options.signal,async linked=>{const e=this.#entry(token);
       if(e.phase!=='output-checked'||this.#checked.get(receipt)!==e||receipt!==e.checked)fail('NATIVE_FILE_EVIDENCE_UNOWNED','Use this session\'s original output-checked receipt.');
-      const destination=await this.#destination(options.destination);
+      const target=await this.#destination(options.destination),destination=target.file;
       try{this.#selectionCurrent(e);
         const assessment=await this.#source.assessCompleted(e.source,{signal:linked});e.phase='source-assessed';
         await this.#source.requirePublicationCurrent(assessment,{signal:linked});this.#selectionCurrent(e);
+        // R3: the long source assessment is over; recheck the destination now,
+        // including the folder object first seen, not only the path text.
+        if(check){await check();if(linked.aborted)fail('CANCELLED','Native publication cancelled before the link.');}
+        const again=await this.#destination(options.destination);
+        if(again.file!==destination||!same(again.folder,target.folder))fail('NATIVE_FILE_DESTINATION','The destination folder changed before publication.');
+        e.publication='attempted';
         const published=await publishOutput(e.stage,destination,{signal:linked});
+        e.publication=published?'committed':'collision';
         if(!published){e.phase='collision';return freeze({schema:1,kind:'native-file-publication',published:false,reason:'DESTINATION_EXISTS',outputRetained:true,executionAuthority:'none'});}
         // R2: keep the checked publication identity so main can record provenance.
         const identity=await readPublishedOutputIdentity(e.stage);
         const hash=createHash('sha256');let bytes=0;
         for await(const chunk of fs.createReadStream(destination,{highWaterMark:1024**2,signal:linked})){bytes+=chunk.length;if(bytes>e.template.bytes)fail('NATIVE_FILE_PUBLISHED_CHANGED','The published output grew beyond its validated length.');hash.update(chunk);}
         const sha256=hash.digest('hex');if(bytes!==e.template.bytes||sha256!==e.template.sha256)fail('NATIVE_FILE_PUBLISHED_CHANGED','The published bytes differ from the validated output.');
-        e.phase='published';
+        e.phase='published';e.publication='verified';
         return freeze({schema:1,kind:'native-file-publication',published:true,destination,sha256,bytes,identity,referenceId:receipt.referenceId,sourceDisposition:assessment.assessment.kind,
           warnings:assessment.assessment.kind==='ctime-only'?['SOURCE_CTIME_CHANGED_DURING_JOB']:[],executionAuthority:'none'});
       }catch(error){e.failed=true;e.phase='failed';throw error;}
@@ -251,4 +274,8 @@ class NativeFileRuntimeOwner {
     // unknown child or lease ownership stays a permanent hard quarantine.
     this.#closing=closing.catch(error=>{const s=this.#session,tools=s?.tools?.snapshot();if(!s?.leaseUnknown&&!tools?.busy&&!tools?.ownershipUnknown&&!s?.sourceUnsettled&&!this.#source.hasUnsettledHandles())this.#closing=null;throw error;});return this.#closing; }
 }
-module.exports={NativeFileRuntimeOwner,DEFAULT_NATIVE_FILE_POLICIES,assessNativeFileAdmission};
+function createNativeFileRuntimeJob(options,binding){
+  record(binding,['ownedRootPin','admitLease']);if(typeof binding.ownedRootPin!=='function'||typeof binding.admitLease!=='function')fail('INVALID_NATIVE_FILE_RUNTIME','Main\'s owned-root pin and lease-time checks are required for a production job.');
+  const owner=new NativeFileRuntimeOwner(options);PRODUCTION_JOBS.set(owner,Object.freeze({ownedRootPin:binding.ownedRootPin,admitLease:binding.admitLease}));return owner;
+}
+module.exports={NativeFileRuntimeOwner,DEFAULT_NATIVE_FILE_POLICIES,assessNativeFileAdmission,readNativeFilePolicies,createNativeFileRuntimeJob};

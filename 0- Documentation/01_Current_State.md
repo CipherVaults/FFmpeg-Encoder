@@ -1,3 +1,10 @@
+> **October 30, 2026, ~23:30 Cairo: development active; C1 of the AMD/Intel connection finished.**
+> - The native file runtime now rechecks the destination folder, by its identity, after the long source check and before saving (R3). It records how far publication got.
+> - The new main-only `src/native-file-controls.cjs` composes the runtime with a fixed empty production policy catalog and fixed user texts.
+> - Evidence: receipt `c1-final` 45/45; an independent review's 12 confirmed findings are fixed.
+> - Native file encoding stays unreachable: policies `[]`, and there is no service, IPC or UI wiring.
+> - Next: C2. [Continuation](10_Continuation_State.md).
+
 > **Current state — October 30, 2026, ~19:30 Cairo: development PAUSED by Ahmed for an owner talk; nothing in the product changed since `e49f07d`.**
 > - **Since 02:00:** the native file service-integration design and the P01–P04 closure assessment were reviewed and committed ([records 37](37_Native_Service_Integration_Design_2026-10-30.md)/[38](38_P01-P04_Closure_Assessment_2026-10-30.md); P01–P04 stay PARTIAL). Step C1 is half done (R1, R2, R4 pushed).
 > - **Working policy, owner decisions:** [record 39](39_Executor_Working_Policy_2026-10-30.md) covers effort-switch stops, compaction, plain-language updates, OpenCode excluded, Codex planned but not active, and Beta software for hardware-blocked vendor work. D4 decided: Q waits until C1–C4 are finished.

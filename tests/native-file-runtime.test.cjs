@@ -278,3 +278,169 @@ test('R4: the owned root stamped at lease time cannot be swapped before the enco
   await fs.rm(h.ownedRoot,{recursive:true,force:true});await fs.mkdir(h.ownedRoot);
   await assert.rejects(h.owner.encode(token),{code:'NATIVE_FILE_STAGE_CHANGED'});assert.equal(h.calls.filter(c=>c.argv.includes('-c:v:0')).length,0);
 });
+
+// Test-only spy: counts complete source seals (the first full-source hash).
+function spySeal(t){const {NativeFileSourceOwner}=require('../src/native-file-source.cjs'),original=NativeFileSourceOwner.prototype.seal;let calls=0;
+  NativeFileSourceOwner.prototype.seal=function(...args){calls++;return original.apply(this,args);};t.after(()=>{NativeFileSourceOwner.prototype.seal=original;});return{get calls(){return calls;}};}
+
+test('NF-C6: R3 runs the callback after publication currentness and before the link, and records publication and stage facts',async t=>{
+  const {NativeFileSourceOwner}=require('../src/native-file-source.cjs');
+  const h=await fixture(t);assert.deepEqual([h.owner.snapshot().stageState,h.owner.snapshot().publication],['none','not-attempted']);
+  await h.prepare();assert.equal(h.owner.snapshot().stageState,'unsealed');await h.owner.close();
+  const {owner,token,h:l}=await lifecycle(t);assert.deepEqual([owner.snapshot().stageState,owner.snapshot().publication],['sealed','not-attempted']);
+  const checked=await owner.validate(token);assert.equal(owner.snapshot().stageState,'validated');
+  const destination=path.join(l.root,'r3.mkv'),order=[],current=NativeFileSourceOwner.prototype.requirePublicationCurrent,link=fs.link;
+  await assert.rejects(owner.publish(token,checked,{destination,requireDestinationCurrent:'not a function'}),{code:'INVALID_NATIVE_FILE_RUNTIME'});
+  NativeFileSourceOwner.prototype.requirePublicationCurrent=async function(...args){order.push('publication-current');return current.apply(this,args);};
+  fs.link=async(...args)=>{order.push('link');return link(...args);};
+  let result;
+  try{result=await owner.publish(token,checked,{destination,requireDestinationCurrent:async(...args)=>{const s=owner.snapshot();order.push(['callback',args.length,s.phase,s.publication]);await assert.rejects(fs.access(destination));}});}
+  finally{NativeFileSourceOwner.prototype.requirePublicationCurrent=current;fs.link=link;}
+  assert.deepEqual(order,['publication-current',['callback',0,'source-assessed','not-attempted'],'link']);
+  assert.equal(result.published,true);assert.equal(owner.snapshot().publication,'verified');
+});
+
+test('NF-C6: a failed recheck, a cancel, a removed or swapped folder refuses before the link; a link error and a collision are recorded',async t=>{
+  {const {h,owner,token}=await lifecycle(t),checked=await owner.validate(token),destination=path.join(h.root,'refused.mkv');
+    await assert.rejects(owner.publish(token,checked,{destination,requireDestinationCurrent:async()=>{throw Object.assign(new Error('Synthetic folder change.'),{code:'OUTPUT_FOLDER_CHANGED'});}}),{code:'OUTPUT_FOLDER_CHANGED'});
+    await assert.rejects(fs.access(destination));assert.deepEqual([owner.snapshot().publication,owner.snapshot().stageState,owner.snapshot().stageRetained],['not-attempted','validated',true]);}
+  {const {h,owner,token}=await lifecycle(t),checked=await owner.validate(token),destination=path.join(h.root,'cancelled.mkv'),controller=new AbortController();
+    await assert.rejects(owner.publish(token,checked,{destination,signal:controller.signal,requireDestinationCurrent:async()=>{controller.abort();}}),{code:'CANCELLED'});
+    await assert.rejects(fs.access(destination));assert.equal(owner.snapshot().publication,'not-attempted');}
+  {const {h,owner,token}=await lifecycle(t),checked=await owner.validate(token),folder=path.join(h.root,'outdir');await fs.mkdir(folder);
+    await assert.rejects(owner.publish(token,checked,{destination:path.join(folder,'gone.mkv'),requireDestinationCurrent:async()=>{await fs.rm(folder,{recursive:true});}}),{code:'NATIVE_FILE_DESTINATION'});
+    assert.equal(owner.snapshot().publication,'not-attempted');}
+  // An ordinary folder renamed into place after main's check (no junction involved).
+  {const {h,owner,token}=await lifecycle(t),checked=await owner.validate(token),folder=path.join(h.root,'ordinary'),substitute=path.join(h.root,'substitute');await fs.mkdir(folder);await fs.mkdir(substitute);
+    await assert.rejects(owner.publish(token,checked,{destination:path.join(folder,'swap.mkv'),requireDestinationCurrent:async()=>{await fs.rename(folder,folder+'-moved');await fs.rename(substitute,folder);}}),{code:'NATIVE_FILE_DESTINATION'});
+    assert.equal(owner.snapshot().publication,'not-attempted');assert.deepEqual(await fs.readdir(folder),[]);}
+  if(process.platform==='win32'){const {h,owner,token}=await lifecycle(t),checked=await owner.validate(token),folder=path.join(h.root,'swapped');await fs.mkdir(folder);
+    await assert.rejects(owner.publish(token,checked,{destination:path.join(folder,'junction.mkv'),requireDestinationCurrent:async()=>{await fs.rename(folder,folder+'-moved');await fs.symlink(h.ownedRoot,folder,'junction');}}),{code:'NATIVE_FILE_DESTINATION'});
+    assert.equal(owner.snapshot().publication,'not-attempted');await assert.rejects(fs.access(path.join(h.ownedRoot,'junction.mkv')));await fs.unlink(folder);}
+  {const {h,owner,token}=await lifecycle(t),checked=await owner.validate(token),destination=path.join(h.root,'eio.mkv'),link=fs.link;
+    fs.link=async()=>{throw Object.assign(new Error('Synthetic link failure.'),{code:'EIO'});};
+    try{await assert.rejects(owner.publish(token,checked,{destination,requireDestinationCurrent:async()=>{}}),{code:'EIO'});}finally{fs.link=link;}
+    assert.equal(owner.snapshot().publication,'attempted');await assert.rejects(fs.access(destination));}
+  {const {h,owner,token}=await lifecycle(t),checked=await owner.validate(token),destination=path.join(h.root,'taken-r3.mkv');await fs.writeFile(destination,'owner file');
+    const result=await owner.publish(token,checked,{destination,requireDestinationCurrent:async()=>{}});assert.equal(result.published,false);
+    assert.equal(owner.snapshot().publication,'collision');assert.equal(await fs.readFile(destination,'utf8'),'owner file');}
+});
+
+test('NF-C6: a readback mismatch after the link leaves publication committed and the destination in place',async t=>{
+  const fsSync=require('node:fs'),{Readable}=require('node:stream');
+  const {h,owner,token}=await lifecycle(t),checked=await owner.validate(token),destination=path.join(h.root,'committed.mkv'),original=fsSync.createReadStream;
+  fsSync.createReadStream=(file,options)=>file===destination?Readable.from([Buffer.from('different bytes')]):original(file,options);
+  try{await assert.rejects(owner.publish(token,checked,{destination,requireDestinationCurrent:async()=>{}}),{code:'NATIVE_FILE_PUBLISHED_CHANGED'});}finally{fsSync.createReadStream=original;}
+  assert.equal(owner.snapshot().publication,'committed');assert.equal(sha(await fs.readFile(destination)),checked.outputSha256);
+});
+
+test('R4: a production job runs main\'s lease checks while holding the slot, then compares its first root stamp with the lease pin',async t=>{
+  const {createNativeFileRuntimeJob}=require('../src/native-file-runtime.cjs'),seal=spySeal(t);
+  const h=await fixture(t);await h.owner.close();const config={...h.config,policies:[h.policy]},admitLease=async()=>{};
+  const request=()=>({contract:h.contract,input:h.source,selection:h.selection,outputId:randomUUID(),generationDescription:h.generationDescription});
+  const stamp=async()=>{const s=await fs.lstat(h.ownedRoot,{bigint:true});return{dev:String(s.dev),ino:String(s.ino),birthtimeNs:String(s.birthtimeNs)};};
+  for(const binding of [undefined,{},{ownedRootPin:()=>null},{ownedRootPin:'pin',admitLease},{ownedRootPin:()=>null,admitLease:'checks'},{ownedRootPin:()=>null,admitLease,extra:1}])
+    assert.throws(()=>createNativeFileRuntimeJob(config,binding),{code:'INVALID_NATIVE_FILE_RUNTIME'});
+  // Stale and missing pins refuse at R4, before any source hash, releasing the slot once.
+  for(const pin of [()=>({dev:'1',ino:'2',birthtimeNs:'3'}),()=>null]){const job=createNativeFileRuntimeJob(config,{ownedRootPin:pin,admitLease}),released=h.slotReleases;
+    await assert.rejects(job.prepare(request()),{code:'NATIVE_FILE_STAGE_CHANGED'});assert.equal(h.slotReleases,released+1);assert.equal(job.snapshot().sourceHeld,false);await job.close();assert.equal(h.slotReleases,released+1);
+    await assert.rejects(job.publish(undefined,undefined,{destination:path.join(h.root,'x.mkv')}),{code:'INVALID_NATIVE_FILE_RUNTIME'});}
+  // A swap right after main's lease checks: the window between the adapter and R4.
+  {const pinned=await stamp(),job=createNativeFileRuntimeJob(config,{ownedRootPin:()=>pinned,admitLease:async()=>{await fs.rm(h.ownedRoot,{recursive:true,force:true});await fs.mkdir(h.ownedRoot);}}),released=h.slotReleases;
+    await assert.rejects(job.prepare(request()),{code:'NATIVE_FILE_STAGE_CHANGED'});assert.equal(h.slotReleases,released+1);await job.close();}
+  assert.equal(seal.calls,0);assert.equal(h.calls.length,0);
+  const pinned=await stamp(),seen=[];let good=null;
+  good=createNativeFileRuntimeJob(config,{ownedRootPin:()=>pinned,admitLease:async({signal})=>{seen.push([signal instanceof AbortSignal,good.snapshot().leaseHeld,seal.calls]);}});t.after(()=>good.close().catch(()=>{}));
+  assert.ok(await good.prepare(request()));assert.deepEqual(seen,[[true,true,0]]);assert.equal(seal.calls,1);await good.close();
+});
+
+test('R4: a lease-check refusal whose slot release fails keeps the lease held until a later close releases it once',async t=>{
+  const {createNativeFileRuntimeJob}=require('../src/native-file-runtime.cjs');
+  const h=await fixture(t,{releaseFailOnce:true});await h.owner.close();
+  const job=createNativeFileRuntimeJob({...h.config,policies:[h.policy]},{ownedRootPin:()=>null,admitLease:async()=>{throw Object.assign(new Error('Synthetic quota.'),{code:'NATIVE_FILE_STAGE_QUOTA'});}});
+  await assert.rejects(job.prepare({contract:h.contract,input:h.source,selection:h.selection,outputId:randomUUID(),generationDescription:h.generationDescription}),error=>error.code==='NATIVE_FILE_STAGE_QUOTA'&&Boolean(error.nativeCloseFailure));
+  assert.equal(h.slotReleases,0);assert.equal(job.snapshot().leaseHeld,true);
+  const closed=await job.close();assert.equal(h.slotReleases,1);assert.equal(closed.leaseHeld,false);await job.close();assert.equal(h.slotReleases,1);
+});
+
+async function controlled(t,h,name='state',acquireMediaSlot=h.config.acquireMediaSlot){
+  const {createTestNativeFileControls}=require('../src/native-file-controls.cjs'),stateDir=path.join(h.root,name);await fs.mkdir(stateDir);
+  const controls=createTestNativeFileControls({runtime:h.runtime,stateDir,nativeBackends:h.native,policies:[h.policy],run:h.config.run});
+  const job=()=>{const j=controls.createJob({acquireMediaSlot});t.after(()=>j.close().catch(()=>{}));return j;};
+  const prepare=(j,options)=>j.prepare({contract:h.contract,input:h.source,selection:h.selection,outputId:randomUUID(),generationDescription:h.generationDescription},options);
+  return {controls,stateDir,ownedRoot:path.join(stateDir,'native-files'),job,prepare};
+}
+
+test('NF-C4: lease checks pin the state and work folders; a replaced folder is refused and the slot is released once',async t=>{
+  const h=await fixture(t);await h.owner.close();const seal=spySeal(t);
+  const refused=async(work,expected)=>{const released=h.slotReleases,seals=seal.calls;await assert.rejects(work,expected);assert.equal(h.slotReleases,released+1);assert.equal(seal.calls,seals);};
+  const a=await controlled(t,h,'state-a');assert.equal(a.controls.keptStages(),null);await assert.rejects(fs.access(a.ownedRoot));
+  const first=a.job();assert.ok(await a.prepare(first));assert.equal(a.controls.keptStages(),1);await first.close();
+  // A replaced work folder is refused by the lease checks (their own text); R4's pin comparison is the second layer.
+  await fs.rm(a.ownedRoot,{recursive:true,force:true});await fs.mkdir(a.ownedRoot);
+  await refused(a.prepare(a.job()),{code:'NATIVE_FILE_STAGE_CHANGED',message:'The native work folder changed.'});
+  const b=await controlled(t,h,'state-b');await fs.rename(b.stateDir,b.stateDir+'-moved');await fs.mkdir(b.stateDir);
+  await refused(b.prepare(b.job()),{code:'NATIVE_FILE_STAGE_CHANGED',message:'The app\'s state folder changed.'});await assert.rejects(fs.access(b.ownedRoot));
+  const c=await controlled(t,h,'state-c'),later=c.job(),token=await c.prepare(later);
+  await fs.rm(c.ownedRoot,{recursive:true,force:true});await fs.mkdir(c.ownedRoot);
+  let released=h.slotReleases;await assert.rejects(later.encode(token),{code:'NATIVE_FILE_STAGE_CHANGED'});assert.equal(h.calls.filter(x=>x.argv.includes('-c:v:0')).length,0);
+  await later.close().catch(()=>{});assert.equal(h.slotReleases,released+1);
+  // A work folder the user removed holds no kept stage: it is recreated and pinned afresh.
+  const d=await controlled(t,h,'state-d'),one=d.job();assert.ok(await d.prepare(one));await one.close();await fs.rm(d.ownedRoot,{recursive:true,force:true});
+  const two=d.job();assert.ok(await d.prepare(two));await two.close();
+  // A cancel while the slot is being granted releases it once, before any source work.
+  const controller=new AbortController(),e=await controlled(t,h,'state-e',async request=>{controller.abort();return h.config.acquireMediaSlot(request);});
+  await refused(e.prepare(e.job(),{signal:controller.signal}),{code:'CANCELLED'});
+});
+
+test('NF-C4: a stage kept by a job is counted at once and again by the next lease scan',async t=>{
+  const h=await fixture(t);await h.owner.close();const k=await controlled(t,h,'state-kept');
+  const job=k.job(),token=await k.prepare(job);await job.encode(token);await job.close();
+  assert.equal(job.snapshot().stageRetained,true);assert.equal(k.controls.keptStages(),1);assert.equal(k.controls.readiness(h.native.snapshot()).keptStages,1);
+  const next=k.job();assert.ok(await k.prepare(next));assert.equal(k.controls.keptStages(),2);await next.close();
+  assert.equal(k.controls.keptStages(),(await fs.readdir(k.ownedRoot)).length);
+});
+
+test('NF-C4: kept work folders are bounded and unexpected entries refuse before any source work',async t=>{
+  const h=await fixture(t);await h.owner.close();const seal=spySeal(t);
+  const refused=async(name,setup,code)=>{const s=await controlled(t,h,name);await fs.mkdir(s.ownedRoot);await setup(s.ownedRoot);const released=h.slotReleases;
+    await assert.rejects(s.prepare(s.job()),{code});assert.equal(h.slotReleases,released+1);return s;};
+  const full=await refused('state-full',async root=>{for(let i=0;i<8;i++)await fs.mkdir(path.join(root,'.ffmpeg-encoder-kept0'+i));},'NATIVE_FILE_STAGE_QUOTA');assert.equal(full.controls.keptStages(),8);
+  await refused('state-odd',root=>fs.writeFile(path.join(root,'unexpected.txt'),'x'),'NATIVE_FILE_STAGE_CHANGED');
+  await refused('state-name',root=>fs.mkdir(path.join(root,'not-a-stage')),'NATIVE_FILE_STAGE_CHANGED');
+  await refused('state-many',async root=>{for(let i=0;i<65;i++)await fs.mkdir(path.join(root,'.ffmpeg-encoder-many'+String(i).padStart(2,'0')));},'NATIVE_FILE_STAGE_CHANGED');
+  if(process.platform==='win32'){const target=path.join(h.root,'junction-target');await fs.mkdir(target);await refused('state-junction',root=>fs.symlink(target,path.join(root,'.ffmpeg-encoder-abcdef'),'junction'),'NATIVE_FILE_STAGE_CHANGED');}
+  assert.equal(seal.calls,0);assert.equal(h.calls.length,0);
+});
+
+test('NF-C3: with a genuine verified selection, readiness and assess ask for a reference, or are available with one',async t=>{
+  const {createNativeFileControls,createTestNativeFileControls}=require('../src/native-file-controls.cjs');
+  const h=await fixture(t);await h.owner.close();const c=await controlled(t,h),view=h.native.snapshot(),file={contract:h.contract,selection:h.selection};
+  const controls=policies=>createTestNativeFileControls({runtime:h.runtime,stateDir:c.stateDir,nativeBackends:h.native,policies});
+  assert.deepEqual(c.controls.readiness(view).reasons.map(r=>r.code),['NATIVE_FILE_REFERENCE_REQUIRED']);
+  assert.deepEqual([c.controls.assess(file).admissible,c.controls.assess(file).reasonCodes],[false,['NATIVE_FILE_REFERENCE_REQUIRED']]);
+  const withReference=controls([{...h.policy,reference:referenceFor(h)}]);
+  assert.deepEqual([withReference.readiness(view).available,withReference.readiness(view).reasons],[true,[]]);
+  assert.deepEqual([withReference.assess(file).admissible,withReference.assess(file).reasonCodes],[true,[]]);
+  // A cell-level row with a reference makes readiness available, but this file's own row has none.
+  const mixed=controls([h.policy,{...h.policy,id:'other-source',sourceProbeFingerprint:'f'.repeat(64),reference:referenceFor(h)}]);
+  assert.equal(mixed.readiness(view).available,true);assert.deepEqual(mixed.assess(file).reasonCodes,['NATIVE_FILE_REFERENCE_REQUIRED']);
+  const production=createNativeFileControls({runtime:h.runtime,stateDir:c.stateDir,nativeBackends:h.native});
+  assert.deepEqual(production.readiness(view).reasons.map(r=>r.code),['NATIVE_FILE_POLICY_REQUIRED']);
+  assert.deepEqual(production.assess(file).reasonCodes,['NATIVE_FILE_POLICY_REQUIRED']);assert.equal(h.slotAcquires,0);assert.equal(h.calls.length,0);
+});
+
+test('NF-C4: the byte limb of the kept-stage bound and the post-scan recheck each refuse',async t=>{
+  const h=await fixture(t);await h.owner.close();
+  // One kept stage whose encoded.mkv reports more than 3 GiB (test-only size fake; no large file is written).
+  const big=await controlled(t,h,'state-bytes'),stage=path.join(big.ownedRoot,'.ffmpeg-encoder-bytes0'),file=path.join(stage,'encoded.mkv');
+  await fs.mkdir(stage,{recursive:true});await fs.writeFile(file,'x');const lstat=fs.lstat;
+  fs.lstat=async(target,options)=>{const s=await lstat(target,options);return target===file?Object.assign(Object.create(Object.getPrototypeOf(s)),s,{size:3n*1024n**3n+1n}):s;};
+  let released=h.slotReleases;try{await assert.rejects(big.prepare(big.job()),{code:'NATIVE_FILE_STAGE_QUOTA'});}finally{fs.lstat=lstat;}assert.equal(h.slotReleases,released+1);
+  // The work folder is swapped as the scan opens it: the post-scan recheck refuses with its own text.
+  const swap=await controlled(t,h,'state-swap'),first=swap.job();assert.ok(await swap.prepare(first));await first.close();
+  const opendir=fs.opendir;let armed=true;
+  fs.opendir=async(dir,...rest)=>{if(armed&&dir===swap.ownedRoot){armed=false;await fs.rename(dir,dir+'-moved');await fs.mkdir(dir);}return opendir(dir,...rest);};
+  released=h.slotReleases;try{await assert.rejects(swap.prepare(swap.job()),{code:'NATIVE_FILE_STAGE_CHANGED',message:'The native work folder changed.'});}finally{fs.opendir=opendir;}
+  assert.equal(armed,false);assert.equal(h.slotReleases,released+1);
+});

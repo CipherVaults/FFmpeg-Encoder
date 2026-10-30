@@ -1,3 +1,28 @@
+> **C1 finished — October 30, 2026, ~23:30 Cairo. Work ACTIVE on Ahmed's start ([record 39](39_Executor_Working_Policy_2026-10-30.md), decision 12).** Record 37 commit C1 is complete:
+> - R1–R4 are in `src/native-file-runtime.cjs`.
+> - The new `src/native-file-controls.cjs` adds:
+>   - production and test factories with module-private brands;
+>   - pure readiness;
+>   - a policy-gated `assess`;
+>   - `createJob`, whose lease-time folder checks run while the runtime holds the slot;
+>   - the kept-stage bound;
+>   - the fixed `NATIVE_MESSAGES` table and `nativeRefusal`.
+>
+> Evidence:
+> - Receipt `c1-final`: 45/45, with the 30 pre-C1 runtime tests unedited.
+> - 25 of 26 deliberate breaks were caught; the survivor is equivalent.
+> - An independent four-agent review confirmed 12 findings (1 medium, 11 low). All are fixed with tests.
+>
+> Production policies stay `[]`. Nothing is wired into the service, IPC or UI.
+>
+> **Exact next action: C2** (record 37 §12):
+> - `acquireNativeFileSlot` and the quarantine/settle path in `src/encoder-service.cjs`;
+> - `rendererEvent` in `src/diagnostics.cjs`;
+> - the production composition and startup brand assertion in `main.js`. A composition failure must leave native files unavailable, not stop the app;
+> - tests NS-01, NS-02, NS-16a, NS-18, NS-20 and NS-09b.
+>
+> Include the C1 fix delta in C2's independent review. Then C3, C4, the P04 recheck and C7. Stop after C7 for Ahmed's effort choice and `/compact`.
+
 > **PAUSED for the owner talk; executor toolkit checkpoint — October 30, 2026, ~19:30 Cairo.** Ahmed paused development from ~13:00 Cairo to settle how the work is run. Decisions are in [record 39](39_Executor_Working_Policy_2026-10-30.md):
 > - an effort-switch stop at every phase end;
 > - compaction at ~500k tokens plus his `/compact` at phase ends;

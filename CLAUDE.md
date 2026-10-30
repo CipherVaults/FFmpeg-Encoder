@@ -34,7 +34,12 @@ Security is part of every change, not a final check. The trust model: the sandbo
 - Subagents (`.claude/agents/`) are read-only and return reports: `reviewer` (Opus xhigh; independent review), `researcher` (Opus medium; dense docs/Notion), `auditor` (Haiku; mechanical hash/inventory checks). Workflows (Ultra Code) are for adversarial multi-lens review and broad verification; workflow agents never commit.
 - Delegated writes are allowed only into a disjoint folder the root names (for example a candidate-asset folder).
 - Installed plugins and skills: follow `0- Documentation/36_Claude_Toolkit_Adoption_2026-10-30.md` (adopted toolkit, commands never to run here, pending owner decisions). Do not call Desktop Commander, agent-memory or GitHub MCP write tools.
-- Overnight continuation: writer lock `artifacts/v0.7/claude-continuation/writer-lock.json`; refresh with `node artifacts/v0.7/claude-continuation/heartbeat.cjs "<phase>" "<next>"`.
+- Overnight continuation: writer lock `artifacts/v0.7/claude-continuation/writer-lock.json`; refresh with `node artifacts/v0.7/claude-continuation/heartbeat.cjs "<phase>" "<next>"`. The continuation ticks are paused by Ahmed (record 39); do not re-enable them without his word.
+- Working policy ([record 39](0-%20Documentation/39_Executor_Working_Policy_2026-10-30.md)):
+  - Talk to Ahmed in plain words, with codes in brackets (the *FFmpeg Encoder Codebook* artifact decodes them).
+  - Close every phase with `/phase-close`. It stops for his effort switch and `/compact`; never continue past that stop on your own, and never change your own effort.
+  - Codex runs only through `/codex-run`, once Ahmed says the Codex quota is active; it starts with the read-only pilot.
+  - After any change to `.claude/`, run `/toolkit-sync`.
 
 ## Evidence and records (PBS)
 
@@ -49,3 +54,14 @@ Security is part of every change, not a final check. The trust model: the sandbo
 - Full suite: `npm test` (`node --test tests/*.test.cjs`). Focused: `node --test tests/<name>.test.cjs`.
 - App: `npm start`. UI smoke scripts: `npm run test:layout`, `test:product`, `test:app` (these launch Electron windows; desktop must be free).
 - Windows: Git Bash for POSIX commands; quote paths (the root contains an apostrophe and spaces).
+
+# Compact instructions
+
+When summarizing this conversation, keep:
+- Ahmed's decisions and instructions in his own words, with dates.
+- The current phase, step and exact next action.
+- Whether work is active, paused, or waiting on Ahmed (an effort switch, `/compact`, an owner gate), and which question is open.
+- Uncommitted or unpushed changes.
+- Promises made to him.
+
+Drop tool output that the records or Git already hold. After compaction, trust live state over the summary: run `/reentry-check` and read the top of `0- Documentation/10_Continuation_State.md` before acting.

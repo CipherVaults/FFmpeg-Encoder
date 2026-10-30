@@ -1,3 +1,19 @@
+> **PAUSED for the owner talk; executor toolkit checkpoint — October 30, 2026, ~19:30 Cairo.** Ahmed paused development from ~13:00 Cairo to settle how the work is run. Decisions are in [record 39](39_Executor_Working_Policy_2026-10-30.md):
+> - an effort-switch stop at every phase end;
+> - compaction at ~500k tokens plus his `/compact` at phase ends;
+> - plain-language updates;
+> - OpenCode out;
+> - Codex planned as a delegated worker once a Plus quota exists, read-only pilot first;
+> - Ahmed's direction that hardware-blocked AMD/Intel work is built as Beta software without waiting on hardware.
+>
+> D4 (Q start order) is **still open**; record 35's order continues meanwhile.
+>
+> Built and tested before development resumes:
+> - The `phase-close`, `codex-run` and `toolkit-sync` skills, with the Codex toolkit copies regenerated.
+> - `codex-run` failed its independent security review. It is blocked in code for real Codex until hardened and re-reviewed, before the pilot. The continuation ticks stay off. **Exact next action, only after Ahmed says go (effort stays xhigh):**
+> 1. Confirm the 500k compaction window after the app restart (session context report).
+> 2. Continue C1, unchanged below: R3, then `src/native-file-controls.cjs` with NF-C1/C3/C4/C6/NS-09a, then `/security-review` and a reviewer pass. C1 is half done: R1, R2 and R4 are pushed.
+
 > **C1 progress — October 30, 2026, ~12:20 Cairo.** Record 37 commit C1 is under way: R1 (pure assessNativeFileAdmission shared with prepare, refusal order unchanged; 27 existing runtime tests unedited + NF-C2) is pushed at `a3d60a9`. R2 (publish returns identity) and R4 (root stamped at lease time) are pushed at `0807633` (runtime 30/30). Remaining in C1: R3 (requireDestinationCurrent callback, publication/stageState snapshot facts), new `src/native-file-controls.cjs` with tests NF-C1, NF-C3–C6 and NS-09a, then /security-review + reviewer pass. Then C2–C4, P04 recheck, C7.
 
 > **Native service design checkpoint — October 30, 2026, ~12:00 Cairo.** The reviewed native file service-integration design ([record 37](37_Native_Service_Integration_Design_2026-10-30.md); STRIDE over 9 flows, 13 High risks mapped to named negative tests, two skeptic reviews with 22 of 23 findings resolved) and the P01–P04 closure assessment ([record 38](38_P01-P04_Closure_Assessment_2026-10-30.md)) are committed. None of P01–P04 closes yet: missing software is the service lifecycle C1–C4 plus runtime changes R1–R4, then a P04 recheck and the C7 closure record; only after those may Q01 start (the Q07/Q08 cadence exception stays permitted). C5–C6 (new IPC channel and native file UI) stay unscheduled while production policies are [] (recommendation D2). Owner decisions listed as D1–D7 in record 38; D1 (AMF producer), D3 (contract breadth), D5 (vendor qualification route), D6 (final labels) and D7 (Full catalog reseal) do not block C1–C4. **Next action:** implement record 37 commits C1–C4 with their tests, root as sole writer, /security-review and the reviewer agent on each diff, evidence-run receipts, then P04 recheck and C7.

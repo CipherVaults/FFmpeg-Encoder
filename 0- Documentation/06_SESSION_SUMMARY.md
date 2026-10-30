@@ -1,3 +1,117 @@
+# 📘 Session: October 30, 2026 — FFmpeg Encoder — owner talk: model economics, codebook, working policy and executor toolkit
+
+## 🤖 Models, Effort, Roles and Provenance
+
+- **Root (sole writer and committer):** the same Claude Code desktop session, Claude Opus 5.5 at **xhigh**. The session metadata reads xhigh; the earlier assumption of "high" was stale.
+- **Workflows:** one research workflow of 9 agents (four record readers and a checker at medium/high; three web researchers and a skeptic), plus one review workflow of 2 reviewer agents (security at xhigh, correctness and records at high).
+- **Other agents:** one claude-code-guide check.
+- **Provenance:** written by root from live tool results; no hidden reasoning is reproduced.
+
+## 🕒 Time
+
+October 30, 2026, about 13:00–19:30 Cairo (UTC+2). The Pro 5-hour window went from 5% to about 80%, and the weekly window from 27% to 37%.
+
+## 🎯 Session Goal
+
+Ahmed paused development to talk before continuing. His goals:
+- choose the lead and subagent models and efforts;
+- understand the long-thread cost and the project's codes;
+- assess OpenCode and Codex as extra capacity;
+- build project-specific skills before development resumes.
+
+## 🛠️ Actions Taken
+
+- **Artifacts:** published *FFmpeg Encoder Model Economics* and *FFmpeg Encoder Codebook* (107 plain-words terms, 39 records, checked against sources).
+- **Pause:** paused the continuation ticks (hourly deleted, backup disabled).
+- **Measurements:** measured this thread's context cost from its transcript, and checked the compaction controls in the official docs.
+- **Research:** OpenCode (excluded) and the local Codex install (bundled CLI, signed in; the Codex "sync from Claude" import was traced and its broken paths found).
+- **Compaction:** set `autoCompactWindow: 500000`.
+- **Skills:** built `phase-close`, `codex-run` and `toolkit-sync` with tests, mutation checks and receipts.
+- **Codex copies:** regenerated the Codex toolkit copies.
+- **Records:** wrote record 39 and the AGENTS.md/CLAUDE.md policy lines.
+- **Review:** ran an independent two-lens review and dispositioned every finding.
+
+## 🧠 Key Insights
+
+- **Context cost:** the main cost driver was context size, not subagents. 340 calls averaged 519k tokens of context before the first compaction, and 187 M tokens were re-read from cache.
+- **The codes:** they confuse because letters are reused: milestone R versus fixes R1–R4, and decisions D1–D7 versus risk labels D1–D3.
+- **Free models:** a free model tier is no substitute for a frontier model when the data terms forbid private code.
+- **Wrapping another agent CLI:** the risks lie in its inherited user config and in the filesystem it can shape (junctions), not only in its command-line flags.
+
+## 📌 Decisions Made
+
+All are in record 39, with Ahmed's words:
+- continuation ticks paused;
+- an effort-switch stop at every phase end;
+- compaction at 500k, plus his `/compact` at phase ends;
+- plain-language updates;
+- OpenCode excluded;
+- Codex planned as a delegated worker (ChatGPT Go now; Plus later; read-only pilot first);
+- PBS cost accepted;
+- Beta software for hardware-blocked vendor work;
+- skills built before development resumes.
+
+D4 is not answered.
+
+## ⚠️ Difficulties / Friction
+
+- The 5-hour window filled quickly: one research workflow used 0.86 M subagent tokens, and the settings reference added about 100k tokens of context.
+- The guard refused a recursive delete through a shell variable; root redid it with a literal scratch path.
+- An inline shell script ran the backtick spans of this entry as commands. They only failed with "not found"; root rebuilt the entry from a file.
+- The 500k setting is not live until the app restarts.
+
+## 🔧 Adjustments Made
+
+- Review scope cut to two agents at the 61% mark, with root verifying the findings instead of a separate verifier.
+- `codex-run` blocked in code for real Codex rather than rushing the full hardening near the window limit.
+- Effort-switch guidance revised to fewer switches: only at phase boundaries, and close-outs stay at the phase's effort.
+
+## ❌ Mistakes / Risks Noted
+
+- Root told Ahmed that his Beta comment "settles D4". It does not: D4 is the Q start order. This is corrected in the records and to Ahmed.
+- The first AGENTS.md wording presented root's Codex design as an owner rule. Corrected.
+- `codex-run` v1 had two high-severity flaws: junction-following deletion, and inherited MCP servers and plugins. It is blocked until fixed.
+- The `.codex/hooks.json` path is machine-specific, and whether Codex honours hooks is unverified.
+
+## 📍 Current Position
+
+- Development is paused, waiting on Ahmed.
+- Product code is unchanged since `e49f07d`; C1 is half done (R1, R2, R4 pushed).
+- The toolkit, records and Codex copies are committed in this checkpoint.
+- The writer lock is set to awaiting-owner.
+
+## 🔜 Next Steps
+
+On Ahmed's go:
+1. Restart the app and confirm the 500k compaction window.
+2. Finish C1: R3, then `src/native-file-controls.cjs` and its tests, then the security review and reviewer pass.
+3. Then C2–C4, the P04 recheck and C7, unless D4 changes the order.
+
+Before any Codex pilot: the `codex-run` hardening and a new security review.
+
+## ❓ Open Questions
+
+- D4: does Q wait for C1–C4?
+- D1–D3 and D5–D7.
+- Logo selection.
+- When a ChatGPT Plus Codex quota will exist.
+- Whether Codex honours its project hook after trust.
+
+## 🧾 Session Outcome
+
+- Ahmed now has a readable map of the project and a costed model policy.
+- The working rules are recorded for any executor.
+- Two of the three new skills are usable now; the Codex runner is safely blocked pending its hardening.
+- No product, acceptance or release change.
+
+## 🔍 Confidence Level
+
+- **High:** the measured context cost, the recorded decisions and quotes, the receipted skill behaviour (fixtures only), and the security findings, which were reproduced.
+- **Medium:** the OpenCode and Codex facts, which come from sources dated October 30 and may change.
+- **Unverified:** real Codex behaviour, and the Code tab honouring `autoCompactWindow`.
+
+---
+
 # 📘 Session: October 29–30, 2026 — FFmpeg Encoder — Claude takeover, foundation and native runtime/oracle
 
 ## 🤖 Models, Effort, Roles and Provenance

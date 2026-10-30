@@ -47,3 +47,55 @@ All checks are pure/injected or small owned byte fixtures: no real FFmpeg encode
 Committed and pushed `253c567` (native runtime/template/oracle/validate/publish, all tests above). Notion readback confirmed: the Project Hub now opens with a dated "development active" callout, the October 26 pause is kept as a historical callout, the technical-detail toggle's "remains paused" line is marked superseded, and Blue — Handoff has a dated top entry. Older Notion text is preserved.
 
 Next, in order: (1) finish the R07 logo candidate panel (workflow `wf_6b545790-684`, resumable) and build a review sheet for Ahmed; the shipped icon stays until he selects; (2) write and independently review the native file service-integration design and an explicit P01–P04 closure assessment naming the exact external blockers (no qualified reference/policy, no local AMD/Intel hardware, AMF producer disposition) and the independent work they do not block; (3) close the remaining lower-priority review test gaps. The 5-hour window was ~80% used at 01:56; the hourly check-in, the 02:33 one-shot and the 3-hourly backup remain scheduled.
+
+## Owner talk and executor toolkit — October 30 ~13:00–19:30 Cairo
+
+**Pause and scope.** After the C1 progress push (`e49f07d`), Ahmed asked to finish the model comparison artifact and talk before any development continued. He then said "Yes, pause it". The hourly in-session tick was deleted, the 3-hourly backup task was disabled (not deleted), and the writer lock read `paused-owner-talk`. No product code changed in this window.
+
+**Talk outputs (all private artifacts).**
+- *FFmpeg Encoder Model Economics*: model and effort charts from Artificial Analysis data, plus the observed Pro-plan usage.
+- *FFmpeg Encoder Codebook*: four read-only readers compiled the entries from the records and Git; a checker verified 27 of them against their sources, corrected 15 and added 11. The result is 107 terms and 39 records in plain words.
+- OpenCode research: three researchers and one skeptic. The free tier is real but small; the named models are paid; no "100 M tokens/day" source exists; most free models retain or train on prompts; the terms forbid programmatic extraction. Ahmed excluded OpenCode.
+- Codex: the bundled CLI (`codex-cli 0.162.0-alpha.2`) was found and is signed in. Its `exec` flags were read from `--help`. Codex's "sync from Claude" import was traced: eight sessions were imported, and the toolkit was converted with broken `.Codex/…` paths.
+
+**Measured thread cost.** From the session transcript: 367 main-thread calls; the first segment ran 340 calls with an average context of 519k and a peak of 957k before compacting; 187 M tokens were re-read from cache against 0.49 M written. Anthropic's documentation (via a claude-code-guide check) confirms that long sessions draw usage for the whole conversation on every message. It also documents `/compact [instructions]`, `autoCompactWindow`, `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` and CLAUDE.md "Compact instructions".
+
+**Decisions recorded** in [record 39](../39_Executor_Working_Policy_2026-10-30.md): continuation ticks paused; the effort-switch stop; compaction (`.claude/settings.json` `autoCompactWindow: 500000` plus `/compact` at phase ends; it loads after an app restart, still to be confirmed); plain-language updates; OpenCode out; Codex planned but not active (ChatGPT Go now); PBS cost accepted; Ahmed's direction that hardware-blocked vendor work is built as Beta software without waiting on hardware (root first misread this as answering D4; D4, the Q start order, stays open and record 35's order continues); skills built before development resumes. `AGENTS.md` (line-1 banner) and `CLAUDE.md` (working-policy lines, "Compact instructions") route every executor to record 39.
+
+**Executor toolkit (new).**
+- `phase-close`: the routine, plus a check of branch, staged Planning, the 14-section summary template, toolkit drift, the writer lock and remote equality.
+- `codex-run`: bounded, receipted Codex jobs. Reviews are read-only and the checkout is verified unchanged afterwards. Slices run in a throwaway worktree and come back as a patch, with protected paths rejected. Bypass and widening options are refused, the prompt goes on stdin, a time limit kills the process tree, the JSON report is strict, and exit codes are distinct.
+- `toolkit-sync`: generates `.codex/agents`, the `.codex/hooks` copies, `.codex/hooks.json` and `.agents/skills` from `.claude/`, fixing the importer's paths, and fails on drift.
+
+The regenerated Codex copies are now tracked. A mutation check broke three runner guards (a refused bypass flag, the read-only tamper check, prompt-on-stdin); a test failed for each.
+
+**Evidence (exact final bytes at receipt time).**
+- `toolkit-sync-v1`: 5/5 (`artifacts/v0.7/evidence/20261030T164533Z_toolkit-sync-v1`).
+- `codex-run-v1`: 8/8 (`…/20261030T164533Z_codex-run-v1`).
+- `phase-close-v1`: 4/4 (`…/20261030T164544Z_phase-close-v1`).
+- `guard-after-autocompact`: 7/7 (`…/20261030T164550Z_guard-after-autocompact`).
+
+All are pure or temp-repo fixture tests; none calls real Codex, FFmpeg or the app. The full product suite was not rerun because no `src/` or `tests/` file changed.
+
+**Not verified:** `codex-run` against real Codex; whether Codex fires `.codex/hooks.json` (hook trust); `resume` keeping read-only; `autoCompactWindow` in the desktop Code tab.
+
+
+**Independent review and disposition.** Two reviewer agents ran: security on `codex-run` at xhigh, and correctness plus records fidelity at high.
+
+- **Security: FAIL.** Two high findings, both reproduced with temp sentinels:
+  - junction-following deletion during worktree cleanup;
+  - the owner's Codex config, with its MCP servers, plugins and memories acting outside the sandbox, loaded into every job.
+
+  Medium and low findings: case-sensitive protected paths, orphan-grandchild hangs, an incomplete checkout snapshot, bare `git` lookup, unrejected symlink, gitlink and binary or unreported changes, foreground timeout, unrestricted `--resume`, and test gaps.
+
+  Fixed now: case-insensitive protected paths, plus `.gitattributes`, `.gitignore`, `.gitmodules` and `.npmrc` at any depth, and the safe `git` lookup. **The wrapper refuses any real Codex binary** until the remaining hardening lands and is re-reviewed. That hardening is listed in its SKILL.md and in record 39, and is required before the pilot.
+- **Correctness and records: PASS WITH FINDINGS.**
+  - Fixed: the D4 misreading; the AGENTS.md delegated-worker wording, now root's design, with Codex able to become root on Ahmed's word; the paused ticks added to the AGENTS.md banner; the "now tracked" overclaim; phase-close-check gaps (staged Planning renames, untracked files, unstaged session summary).
+  - Carried to the pilot: the machine-specific `.codex/hooks.json` path and the Codex agent TOML lacking a read-only key equivalent to Claude's `tools:` list.
+
+**Final evidence for the committed bytes** (after the review fixes; the v1 receipts above are historical):
+
+- `toolkit-sync-final`: 5/5 (`artifacts/v0.7/evidence/20261030T170359Z_toolkit-sync-final`).
+- `codex-run-final-blocked`: 8/8 (`…/20261030T170400Z_codex-run-final-blocked`).
+- `phase-close-final`: 4/4 (`…/20261030T170411Z_phase-close-final`).
+- `guard-after-autocompact`: 7/7 (unchanged bytes).

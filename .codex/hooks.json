@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|PowerShell|Edit|Write|NotebookEdit|MultiEdit|mcp__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node 'D:\\Claude'\\''s Projects\\FFmpeg Encoder\\.codex\\hooks\\guard.cjs'",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -63,3 +63,20 @@ test('malformed hook input does not brick the session', () => {
   const r = spawnSync(process.execPath, [guard], { input: 'not json', encoding: 'utf8' });
   assert.equal(r.status, 0);
 });
+
+test('MCP terminal, filesystem and GitHub tools cannot bypass the guard', () => {
+  const dc = n => 'mcp__plugin_desktop-commander_desktop-commander__' + n;
+  blocked(dc('start_process'), { command: 'git push --force origin codex/v0.7-candidate' });
+  blocked(dc('start_process'), { command: 'Remove-Item -Recurse "F:\\shadow play\\OBS"' });
+  blocked(dc('interact_with_process'), { pid: 1, input: 'git reset --hard' });
+  blocked(dc('write_file'), { path: 'F:\\shadow play\\x.txt', content: 'x' });
+  blocked(dc('move_file'), { source: 'F:/shadow play/a.mkv', destination: 'D:/tmp/a.mkv' });
+  blocked(dc('edit_block'), { file_path: 'D:/repo/0- Documentation/Planning/0.7/x.md', old_string: 'a', new_string: 'b' });
+  blocked(dc('set_config_value'), { key: 'blockedCommands', value: [] });
+  blocked('mcp__github__push_files', { owner: 'AE0101', repo: 'FFmpeg-Encoder', branch: 'main' });
+  blocked('mcp__github__merge_pull_request', { pullNumber: 1 });
+  allowed(dc('read_file'), { path: 'F:/shadow play/a.mkv' });
+  allowed(dc('start_process'), { command: 'git status --porcelain' });
+  allowed('mcp__github__get_file_contents', { owner: 'AE0101', repo: 'FFmpeg-Encoder', path: 'README.md' });
+  allowed('mcp__a8aaf34a__notion-update-page', { page_id: 'x', content: 'Notes about F:\\shadow play footage' });
+});

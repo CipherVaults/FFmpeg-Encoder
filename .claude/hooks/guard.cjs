@@ -164,5 +164,33 @@ process.stdin.on('end', () => {
   const tool = input.tool_input || {};
   if (name === 'Bash' || name === 'PowerShell') checkCommand(tool.command);
   if (['Edit', 'Write', 'NotebookEdit', 'MultiEdit'].includes(name)) checkPath(tool.file_path || tool.notebook_path);
+  if (name.startsWith('mcp__')) checkMcp(name, tool);
   process.exit(0);
 });
+
+// MCP tools (for example Desktop Commander's terminal/filesystem tools or the
+// GitHub API server) never pass through the Bash/Edit matchers, so without this
+// they would bypass every rule above. Commands get the Bash rules; any
+// write/move/delete-style tool gets the media and frozen-path rules on every
+// path-like field; GitHub API writes are refused so git stays on the guarded CLI.
+function checkMcp(name, input) {
+  const tool = name.split('__').pop().toLowerCase();
+  if (/github/i.test(name) && /(push|merge|delete|create_or_update|update_ref|create_branch|fork|release|update_pull|create_pull|create_repo|tag)/.test(tool))
+    block(`GitHub API writes bypass the git safeguards (${tool}); use the git CLI on the candidate branch.`);
+  const strings = [];
+  (function collect(value, key, depth) {
+    if (depth > 4 || strings.length > 200) return;
+    if (typeof value === 'string') strings.push({ key: String(key || '').toLowerCase(), value });
+    else if (Array.isArray(value)) value.forEach(v => collect(v, key, depth + 1));
+    else if (value && typeof value === 'object') for (const [k, v] of Object.entries(value)) collect(v, k, depth + 1);
+  })(input, '', 0);
+  if (/(process|terminal|shell|command|exec|run|interact)/.test(tool))
+    for (const { key, value } of strings) if (/^(command|cmd|input|script|args?)$/.test(key)) checkCommand(value);
+  if (/(write|edit|move|rename|delete|remove|create|copy|set_config|patch|append|mkdir|upload)/.test(tool))
+    for (const { key, value } of strings) {
+      if (!/(path|file|source|destination|target|dir|directory|from|to|old|new)/.test(key)) continue;
+      if (MEDIA.test(value)) block('personal media under F:\\shadow play is read-only, including through MCP tools.');
+      for (const frozen of FROZEN_PATHS) if (frozen.test(value)) block('this path is a frozen private/immutable record (MCP tool).');
+    }
+  if (/set_config/.test(tool)) block('changing an MCP tool\'s own safety configuration is not allowed from a session.');
+}

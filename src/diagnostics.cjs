@@ -26,6 +26,14 @@ function requireId(id) {
   if (typeof id !== 'string' || !UUID.test(id)) throw fail('INVALID_DIAGNOSTIC_REQUEST', 'A diagnostic UUID is required.');
   return id;
 }
+// Native events keep their originals in the persisted journal, the main-only
+// audit record. Readers that can reach the renderer get this projection:
+// the reserved context.nativePrivate and the stderr text are withheld.
+function rendererEvent(event) {
+  if (!plain(event?.context) || !Object.hasOwn(event.context, 'nativePrivate')) return event;
+  return { ...event, context: { ...event.context, nativePrivate: '[main-only]' },
+    ...(event.stderr ? { stderr: { withheld: true, bytes: event.stderr.bytes } } : {}) };
+}
 const cursorOf = event => Buffer.from(JSON.stringify([event.at, event.sequence, event.id])).toString('base64url');
 function parseCursor(value) {
   if (typeof value !== 'string' || !/^[A-Za-z0-9_-]{1,160}$/.test(value)) throw fail('INVALID_DIAGNOSTIC_REQUEST', 'Invalid diagnostic cursor.');
@@ -524,7 +532,7 @@ class DiagnosticJournal {
   read(id) {
     requireId(id);
     return this.#enqueue(async () => {
-      try { await this.#initialize(); return { event: await this.#readEvent(id), status: this.snapshot() }; }
+      try { await this.#initialize(); return { event: rendererEvent(await this.#readEvent(id)), status: this.snapshot() }; }
       catch (error) { return { event: null, ...this.#failure(error) }; }
     });
   }
@@ -539,7 +547,7 @@ class DiagnosticJournal {
         if (!session) return { session: null, status: this.snapshot() };
         const selected = session.events.filter(e => e.sequence > afterSequence).slice(0, limit);
         const events = [];
-        for (const event of selected) events.push(await this.#readEvent(event.id));
+        for (const event of selected) events.push(rendererEvent(await this.#readEvent(event.id)));
         return { session: { id, outcome: session.terminal?.outcome || 'open', events,
           nextSequence: selected.length === limit ? selected.at(-1).sequence : null }, status: this.snapshot() };
       } catch (error) { return { session: null, ...this.#failure(error) }; }

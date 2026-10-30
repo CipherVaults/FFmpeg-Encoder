@@ -14,7 +14,8 @@ const tick = () => new Promise(resolve => setImmediate(resolve));
 const deferred = () => { let resolve, reject; const promise = new Promise((yes, no) => { resolve = yes; reject = no; }); return { promise, resolve, reject }; };
 
 async function harness({ runtimePending = false, diagnosticsPending = false, resourcesPending = false,
-  appearancePending = false, appearanceFlushPending = false, initialTheme = 'dark', initialPersistence = 'saved', diagnosticCloseResult = { persisted: true }, diagnosticCloseError = null } = {}) {
+  appearancePending = false, appearanceFlushPending = false, initialTheme = 'dark', initialPersistence = 'saved', diagnosticCloseResult = { persisted: true }, diagnosticCloseError = null,
+  nativeFileComposition = 'production' } = {}) {
   const load = deferred(), drained = deferred(), dialogClosed = deferred();
   const closeChoice = deferred();
   const initialized = deferred(); if (!diagnosticsPending) initialized.resolve();
@@ -28,6 +29,7 @@ async function harness({ runtimePending = false, diagnosticsPending = false, res
     verified: [{ sizeBytes: 1, sha256: 'a'.repeat(64) }, { sizeBytes: 2, sha256: 'b'.repeat(64) }] };
   if (!runtimePending) runtime.resolve(verified);
   const calls = []; let window, service, controlOptions, nativeControlOptions, ipcOptions, appearanceOptions, appearanceClosed = false;
+  const nativeFileControls = Object.freeze({ policyCount: 0 }), nativeFileCalls = [], incidents = []; let nativeFileOptions;
   const families = [{ id: 'main-private-family-fixture' }], qualification = Object.freeze({});
   const app = new EventEmitter();
   Object.assign(app, { isReady: () => true, getAppPath: () => 'test-root', setPath() {}, requestSingleInstanceLock: () => true,
@@ -39,7 +41,7 @@ async function harness({ runtimePending = false, diagnosticsPending = false, res
     closeAdmission() { calls.push('close-admission'); }
     cancelCurrent() { calls.push('cancel'); return drained.promise; }
     closeOperationResources() { calls.push('close-operation-resources'); return resources.promise; }
-    async recordIncident(event) { calls.push(event.reason); }
+    async recordIncident(event) { calls.push(event.reason); incidents.push(event); }
     async closeDiagnostics(outcome) { calls.push(['closed', outcome]); if (diagnosticCloseError) throw diagnosticCloseError; return diagnosticCloseResult; }
   }
   class Window extends EventEmitter {
@@ -86,6 +88,17 @@ async function harness({ runtimePending = false, diagnosticsPending = false, res
       const registry = new (require('../src/backend-capabilities.cjs').NativeCapabilityRegistry)();
       return { nativeBackends: { fixture: true }, discoverBackends: async request => ({ ...request, registry, ffmpeg: options.runtime.ffmpeg }) };
     } };
+    if (id === './src/native-file-controls.cjs') return { nativeRefusal: require('../src/native-file-controls.cjs').nativeRefusal,
+      createNativeFileControls: options => {
+        nativeFileOptions = options; nativeFileCalls.push('compose');
+        if (nativeFileComposition === 'fails') throw Object.assign(new Error('zq-private C:\\state is not ordinary'), { code: 'EPERM' });
+        return nativeFileControls;
+      },
+      assertProductionNativeFileControls: value => {
+        nativeFileCalls.push(['assert', value]);
+        if (nativeFileComposition === 'injected') throw Object.assign(new Error('Only the production native file controls with an empty catalog may start.'), { code: 'INVALID_NATIVE_FILE_COMPOSITION' });
+        return value;
+      } };
     if (id === './src/encoder-service.cjs') return { EncoderService: Service };
     if (id === './src/output-access.cjs') return require('../src/output-access.cjs');
     if (id === './src/appearance.cjs') return { AppearanceSettings: Appearance };
@@ -98,7 +111,8 @@ async function harness({ runtimePending = false, diagnosticsPending = false, res
     appearanceReady, appearanceFlushed, appearanceWrites, appearanceSnapshot, nativeChanges, backgroundChanges, appearanceOrder,
     getWindow: () => window, getService: () => service, getControlOptions: () => controlOptions,
     getIpcOptions: () => ipcOptions, getNativeControlOptions: () => nativeControlOptions,
-    getAppearanceOptions: () => appearanceOptions, isAppearanceClosed: () => appearanceClosed, families, qualification };
+    getAppearanceOptions: () => appearanceOptions, isAppearanceClosed: () => appearanceClosed, families, qualification,
+    nativeFileControls, nativeFileCalls, incidents, getNativeFileOptions: () => nativeFileOptions };
 }
 
 test('main reuses one private native registry across discovery observations', async () => {
@@ -387,4 +401,39 @@ test('unexpected appearance flush failure still closes diagnostics and exits aft
   assert.ok(h.calls.includes('APPEARANCE_FLUSH_FAILED'));
   assert.ok(h.calls.some(value => Array.isArray(value) && value[0] === 'closed' && value[1] === 'failed'));
   assert.equal(h.calls.at(-1), 'quit');
+});
+
+test('NS-20: main composes native file controls once from the verified pins and passes only the asserted production object', async () => {
+  const h = await harness(); await tick();
+  const options = h.getNativeFileOptions();
+  assert.deepEqual(Object.keys(options).sort(), ['nativeBackends', 'runtime', 'stateDir']);
+  // Built inside main.js's realm: compare data, not prototypes.
+  assert.deepEqual(JSON.parse(JSON.stringify(options.runtime)), { ffmpeg: { file: h.verified.ffmpeg, sizeBytes: 1, sha256: 'a'.repeat(64) },
+    ffprobe: { file: h.verified.ffprobe, sizeBytes: 2, sha256: 'b'.repeat(64) } });
+  assert.equal(options.stateDir, h.getService().options.stateDir);
+  assert.equal(options.nativeBackends, h.getService().options.nativeBackends);
+  assert.deepEqual(h.nativeFileCalls, ['compose', ['assert', h.nativeFileControls]]);
+  assert.equal(h.getService().options.nativeFiles, h.nativeFileControls);
+  assert.equal(Object.hasOwn(h.getService().options, 'allowInjectedNativeFiles'), false);
+  assert.ok(!h.calls.includes('NATIVE_FILE_COMPOSITION_FAILED')); assert.ok(h.getWindow());
+});
+
+test('NS-20: a native file composition failure leaves native files unavailable and keeps its detail main-private', async () => {
+  const h = await harness({ nativeFileComposition: 'fails' }); await tick(); await tick();
+  assert.deepEqual(h.nativeFileCalls, ['compose']);
+  assert.equal(h.getService().options.nativeFiles, null);
+  const incident = h.incidents.find(event => event.reason === 'NATIVE_FILE_COMPOSITION_FAILED');
+  assert.equal(incident.stage, 'startup'); assert.equal(incident.severity, 'warning'); assert.equal(Object.hasOwn(incident, 'message'), false);
+  assert.deepEqual(Object.keys(incident.context), ['nativePrivate']);
+  assert.equal(incident.context.nativePrivate.code, 'EPERM');
+  assert.ok(h.getWindow()); assert.ok(!h.calls.includes('async-dialog'));
+});
+
+test('NS-20: a non-production native file brand stops startup before any service or window exists', async () => {
+  const h = await harness({ nativeFileComposition: 'injected' }); await tick();
+  assert.deepEqual(h.nativeFileCalls, ['compose', ['assert', h.nativeFileControls]]);
+  assert.equal(h.getService(), undefined); assert.equal(h.getWindow(), undefined);
+  assert.ok(h.calls.includes('async-dialog'));
+  h.dialogClosed.resolve(); await tick(); await tick();
+  assert.deepEqual(h.calls.at(-1), ['exit', 1]);
 });

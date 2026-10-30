@@ -1,3 +1,25 @@
+> **C2 written and tested, independent review PENDING — October 30, 2026, ~23:59 Cairo. Work ACTIVE on Ahmed's start ([record 39](39_Executor_Working_Policy_2026-10-30.md), decision 12).** Record 37 commit C2 is in place:
+> - `src/encoder-service.cjs`, at the §9 seams only:
+>   - `nativeFiles` and `allowInjectedNativeFiles` options, with a constructor brand check;
+>   - `acquireNativeFileSlot`;
+>   - the single-flight `settleNativeFileRuntime`;
+>   - the `NATIVE_OWNER_UNSETTLED` quarantine line in `requireIdle`;
+>   - settle before backend invalidation at shutdown.
+> - `src/diagnostics.cjs`: the `rendererEvent` projection in `read` and `readSession`.
+> - `main.js`: one composition with the verified pins. A composition failure leaves native files unavailable and is recorded; a wrong brand or catalog stops startup.
+> - `src/native-file-controls.cjs`: `assertProductionNativeFileControls`.
+>
+> Evidence:
+> - Receipt `c2-focused`: 228/228 (the C2, main, controls, runtime, diagnostics, service and IPC suites).
+> - Full-suite receipt `c2-service`: 2,054 of 2,064 pass, with 5 host-link skips and the 5 documented suspended exact-byte catalog failures. Those five fail identically with HEAD's bytes.
+> - 33 of 34 deliberate breaks were caught; the survivor is equivalent.
+>
+> **The independent review has not run.** The 5-hour window passed 80% (83%), so no review workflow may start until it resets (about 03:20 Cairo).
+>
+> Production policies stay `[]`. No native batch can be prepared or started.
+>
+> **Exact next action: the C2 review.** Once usage is below 80%, run one review workflow of 5 agents or fewer over the C1 fix delta (`e49f07d..87b05e7`, runtime and controls) plus C2 (`87b05e7..` this commit). Fix and test every confirmed finding, then checkpoint. Then C3, C4, the P04 recheck and C7. Stop after C7 for Ahmed's effort choice and `/compact`.
+
 > **C1 finished — October 30, 2026, ~23:30 Cairo. Work ACTIVE on Ahmed's start ([record 39](39_Executor_Working_Policy_2026-10-30.md), decision 12).** Record 37 commit C1 is complete:
 > - R1–R4 are in `src/native-file-runtime.cjs`.
 > - The new `src/native-file-controls.cjs` adds:

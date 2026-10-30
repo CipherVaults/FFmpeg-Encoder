@@ -8,6 +8,7 @@ const { verifyCandidateRuntime } = require('./src/candidate-runtime.cjs');
 const { createOperationControls } = require('./src/operation-controls.cjs');
 const { FAMILIES, POLICY_ID } = require('./src/operation-catalog.cjs');
 const { createNativeBackendControls } = require('./src/native-backend-controls.cjs');
+const { createNativeFileControls, assertProductionNativeFileControls, nativeRefusal } = require('./src/native-file-controls.cjs');
 const { registerIpc } = require('./src/ipc.cjs');
 const { ENTRY_URL, resolveAsset, registerLocalProtocol } = require('./src/local-protocol.cjs');
 const { AppearanceSettings } = require('./src/appearance.cjs');
@@ -162,12 +163,24 @@ async function createWindow() {
   const nativeControls = createNativeBackendControls({ runtime, stateDir,
     acquireMediaSlot: request => service.acquireNativeMediaSlot(request),
     retainInitialization: report => service.retainNativeInitialization(report) });
+  // Native file encoding (Beta) is composed once with its fixed empty catalog.
+  // An environmental failure leaves it unavailable; a non-production brand or
+  // any policy row is a build defect and stops startup.
+  let nativeFiles = null, nativeFilesFailure = null;
+  try {
+    nativeFiles = createNativeFileControls({ stateDir, nativeBackends: nativeControls.nativeBackends,
+      runtime: Object.fromEntries(['ffmpeg', 'ffprobe'].map((name, index) => [name,
+        { file: runtime[name], sizeBytes: runtime.verified[index].sizeBytes, sha256: runtime.verified[index].sha256 }])) });
+  } catch (error) { nativeFilesFailure = nativeRefusal(error); }
+  if (nativeFiles) assertProductionNativeFileControls(nativeFiles);
   service = new EncoderService({ ffmpeg: runtime.ffmpeg, ffprobe: runtime.ffprobe, runtimeIdentity, stateDir,
     ...createOperationControls({ runtime, stateDir, families: FAMILIES, policyIdentity: POLICY_ID }),
-    ...nativeControls,
+    ...nativeControls, nativeFiles,
     outputAccess: new OutputAccess({ openPath: file => shell.openPath(file), showItemInFolder: file => shell.showItemInFolder(file) }) });
   await service.initializeDiagnostics();
   if (quitDuringStartup) { await finishShutdown(); return; }
+  if (nativeFilesFailure) await service.recordIncident({ stage: 'startup', reason: 'NATIVE_FILE_COMPOSITION_FAILED', severity: 'warning',
+    context: { nativePrivate: nativeFilesFailure.nativePrivate } });
   appearance = new AppearanceSettings({ directory: stateDir });
   const initialAppearance = await appearance.load();
   // Quitting while the app-owned preference is loading must not create a late

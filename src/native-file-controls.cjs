@@ -381,5 +381,14 @@ function createTestNativeFileControls(options) {
   return compose(options, { kind: 'injected', policies: options.policies, run: options.run });
 }
 function nativeFileControlsKind(value) { return (value && typeof value === 'object' && KINDS.get(value)) || null; }
+// main.js startup assertion (record 37 invariant 2): this build may run only
+// the production brand with its fixed empty catalog.
+function assertProductionNativeFileControls(value) {
+  if (nativeFileControlsKind(value) !== 'production' || value.policyCount !== 0) {
+    fail('INVALID_NATIVE_FILE_COMPOSITION', 'Only the production native file controls with an empty catalog may start.');
+  }
+  return value;
+}
 
-module.exports = { createNativeFileControls, createTestNativeFileControls, nativeFileControlsKind, NATIVE_MESSAGES, NATIVE_MESSAGE_FAMILIES, nativeRefusal };
+module.exports = { createNativeFileControls, createTestNativeFileControls, nativeFileControlsKind, assertProductionNativeFileControls,
+  NATIVE_MESSAGES, NATIVE_MESSAGE_FAMILIES, nativeRefusal };

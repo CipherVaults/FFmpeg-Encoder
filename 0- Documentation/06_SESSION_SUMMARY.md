@@ -1,3 +1,89 @@
+# 📘 Session: October 30, 2026 — FFmpeg Encoder — C2 of the AMD/Intel connection (review pending)
+
+## 🤖 Models, Effort, Roles and Provenance
+
+- **Root (sole writer and committer):** Claude Opus 5.5 at xhigh, in the same desktop session after an automatic compaction.
+- **Agents:** none ran; the review is pending.
+- **Provenance:** written by root from live tool results and the receipt.
+
+## 🕒 Time
+
+October 30, 2026, about 23:30–23:59 Cairo (UTC+2).
+- The 5-hour window went from 68% to about 85%.
+- The weekly window was at about 50%.
+
+## 🎯 Session Goal
+
+Record 37 commit C2:
+- the service-owned native file slot;
+- quarantine and settle;
+- the renderer diagnostics projection;
+- the main composition with its startup assertion;
+- tests NS-01, NS-02, NS-16a, NS-18, NS-20 and NS-09b.
+
+## 🛠️ Actions Taken
+
+- Saved before-copies of the five changed files.
+- Wrote the §9 seams, the diagnostics projection, the main composition and the assertion helper.
+- Added 8 service tests and 3 main tests.
+- Ran 34 deliberate breaks.
+- Saved receipts `c2-focused` (228/228) and `c2-service` (full suite: only the 5 known catalog failures, which also fail with HEAD's bytes).
+- Updated the records, committed and pushed.
+
+## 🧠 Key Insights
+
+- The C1 review's note turned record 37's "startup fails closed" into two cases: environmental composition failures fail soft, and wrong brands fail closed.
+- An owner check alone makes a release "at most once". A separate flag was dead code and was removed.
+- Objects built inside the `main.js` test sandbox have another realm's prototypes, so data comparisons go through JSON.
+
+## 📌 Decisions Made
+
+Root:
+- deferred the review instead of running it past 80% usage;
+- committed a checkpoint marked "review pending" so the work is safe in Git;
+- set C3 to wait for the review.
+
+## ⚠️ Difficulties / Friction
+
+- A shell-escaped regex lost its backslashes. It was caught by a failing test and fixed with an exact edit.
+
+## 🔧 Adjustments Made
+
+The C2 review moves after the 5-hour reset and still covers the C1 fix delta.
+
+## ❌ Mistakes / Risks Noted
+
+**Residual:** the renderer projection depends on the reserved first key (C4 writer rule).
+
+## 📍 Current Position
+
+- C2 is written, tested and committed; its review is pending.
+- Writer lock: `C2-review`.
+
+## 🔜 Next Steps
+
+1. Run the review once usage is below 80%, and fix what it confirms.
+2. Then C3, C4, the P04 recheck and C7.
+3. Stop after C7.
+
+## ❓ Open Questions
+
+- D1–D3 and D5–D7.
+- Logo selection.
+- The ChatGPT Plus Codex quota.
+
+## 🧾 Session Outcome
+
+Native file jobs now have a main-owned slot and an honest quarantine, and the renderer cannot read native private detail. There is no product, acceptance or release change.
+
+## 🔍 Confidence Level
+
+- **High:** the receipted fixture behaviour and the mutation results.
+- **Medium:** completeness until the independent review.
+- **Unverified:** hardware and the Electron runtime.
+
+---
+
 # 📘 Session: October 30, 2026 — FFmpeg Encoder — restart on Ahmed's word and C1 of the AMD/Intel connection
 
 ## 🤖 Models, Effort, Roles and Provenance

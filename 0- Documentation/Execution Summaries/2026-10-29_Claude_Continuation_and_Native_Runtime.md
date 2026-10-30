@@ -185,3 +185,49 @@ It then set the writer lock to C1, recreated the hourly tick and re-enabled the 
 - A composition failure in `main.js` must leave native files unavailable, not stop the app.
 - A cancel during the readback may surface as `ABORT_ERR` (check under NS-15).
 - The copy fallback's partial destination needs a disposition (C4).
+
+## C2 written — October 30 ~23:30–23:59 Cairo (review pending)
+
+**What C2 now contains** ([record 37](../37_Native_Service_Integration_Design_2026-10-30.md) §4, §7, §9, §12):
+- **`src/encoder-service.cjs`, at the §9 seams only.** One ordinary line changed: the constructor's parameter list.
+  - **Constructor.** It takes `nativeFiles = null` and `allowInjectedNativeFiles = false`. A present value must carry a controls brand. The `injected` brand also needs the allowance to be exactly `true`. Otherwise it refuses with `INVALID_NATIVE_FILE_COMPOSITION`. It adds the fields `nativeFileJob`, `nativeFileRuntime` and `nativeSettle`.
+  - **`acquireNativeFileSlot(jobOwner, {signal, purpose})`.** It refuses with `NATIVE_MEDIA_ADMISSION_REFUSED` unless all of these hold:
+    - admission is open;
+    - the phase is `running`;
+    - the owner is the current `nativeFileJob` object;
+    - the purpose is `native-file-runtime`;
+    - neither signal is aborted;
+    - no slot is held.
+
+    Release clears only its own holder. `acquireNativeMediaSlot` is byte-identical, and a hash test pins it.
+  - **`settleNativeFileRuntime()`.** Single-flight. It awaits `close()`, then requires the runtime to report no work, lease, unknown lease or source, and the slot to be free. Only then does it drop the owner and emit state once. Every attempt records `NATIVE_RUNTIME_SETTLED` or `NATIVE_RUNTIME_CLOSE_FAILED` (stage `recovery`), with boolean facts and, on an error, `nativePrivate` only.
+  - **`requireIdle`.** It keeps `SHUTTING_DOWN` first. Then, if a native file owner is set and nothing is running, it starts the settle without awaiting it and throws `NATIVE_OWNER_UNSETTLED` with the fixed text. While work runs, `BUSY` stays the honest code.
+  - **`closeOperationResources`.** It settles before `nativeBackends.invalidate()` and reports an unsettled owner.
+- **`src/diagnostics.cjs`.** A module-private `rendererEvent()` serves `read` (the `encoder:diagnostic-record` channel) and `readSession`. In an event whose context holds `nativePrivate`, that key reads `'[main-only]'` and `stderr` reads `{withheld:true, bytes}`. The persisted journal is unchanged, and so is the redacted export, which already drops both.
+- **`main.js`.** One composition from the verified pins: `file` from `runtime.ffmpeg`/`ffprobe`, and size and SHA-256 from `runtime.verified[0..1]`, with the same `nativeBackends`.
+  - If composition throws, native files stay unavailable (`nativeFiles: null`) and `NATIVE_FILE_COMPOSITION_FAILED` is recorded with `nativePrivate` only. This follows the C1 review note, so an environmental fault cannot stop the app.
+  - If composition succeeds, `assertProductionNativeFileControls` must pass, or startup fails closed (record 37 invariant 2).
+- **`src/native-file-controls.cjs`.** It adds `assertProductionNativeFileControls`: the `production` brand and `policyCount === 0`.
+
+**Tests:**
+- New: `tests/native-file-service.test.cjs` (8 tests):
+  - NS-01: the slot refusal matrix, single holder, inert stale release, and no IPC or preload surface;
+  - NS-02;
+  - NS-16a ×2: four close/report failure modes plus a held slot; single-flight; one emission on success; shutdown order;
+  - NS-18: an ordinary batch's argv, statuses and phase are deep-equal with and without composed production controls, after normalizing the root, UUIDs, the timestamp and the stage name;
+  - NS-20 ×2: the identifier scan; constructor and assertion refusals;
+  - NS-09b: through the real IPC handler, `readSession` and the export, with a 12-key context that is truncated but keeps `nativePrivate` first.
+- `tests/main-lifecycle.test.cjs` got a stub for the new module (one harness option and two capture arrays) and 3 tests: composition, fail-soft composition, and the fail-closed brand. Its 27 earlier tests are otherwise unedited.
+
+**Evidence:**
+- Receipt **`c2-focused`**: 228/228. It runs the native file service, main lifecycle, controls, runtime, diagnostics, diagnostics service, encoder service and IPC suites, and covers the four changed sources and the runtime.
+- Full-suite receipt `c2-service` (`tests/*.test.cjs`, exit 1, retained as is): 2,064 tests, 2,054 pass, 5 host-link skips and 5 failures. The failures are exactly the documented suspended exact-byte catalogs (`encode-preservation-catalog` ×2, `hdr-catalog-activation` ×2, `hdr-operation` ×1).
+  - With the four C2 sources swapped back to HEAD's bytes, the same five fail identically. The C2 bytes were restored afterwards, and their hashes were checked.
+  - These catalogs pin `main.js`, `src/diagnostics.cjs` and `src/encoder-service.cjs` among their producers, so their drift continues. No reseal was made (HDR is deferred).
+- 34 deliberate breaks were made and 33 were caught. The survivor removes the `policyCount` limb of the startup assertion. It is equivalent today, because the production factory has no way to carry a row.
+
+**Limits:**
+- The independent review has not run. It is deferred until usage is below 80% (tick rule), and it will cover the C1 fix delta too.
+- `rendererEvent` relies on the reserved key surviving the context bound. C4's writer must put `nativePrivate` first, and NS-09b shows that a first key survives truncation.
+- The settle path is proven with stub runtimes. The genuine runtime's close semantics were proven in C1.
+- No native job runs yet (C4). No hardware, Electron window or real encode ran.

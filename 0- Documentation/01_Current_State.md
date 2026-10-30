@@ -1,3 +1,11 @@
+> **October 30, 2026, ~23:59 Cairo: development active; C2 of the AMD/Intel connection written and tested, review pending.**
+> - The app service now owns the native file slot. A native file job that cannot confirm it released its device, files and work folder keeps the app in a clear "not settled" state, and the app retries instead of reporting a generic busy.
+> - The diagnostics the window can read now hide native private details and native error output. The saved journal keeps them for main-process audit.
+> - Startup composes native file controls once. If they cannot be composed, native files are simply unavailable; a wrong build stops startup.
+> - Evidence: receipt `c2-focused` 228/228. The full suite shows only the 5 known catalog failures. The independent review is pending until usage resets.
+> - Native file encoding stays unreachable: policies `[]`, and nothing can prepare or start a native batch.
+> - Next: the C2 review, then C3. [Continuation](10_Continuation_State.md).
+
 > **October 30, 2026, ~23:30 Cairo: development active; C1 of the AMD/Intel connection finished.**
 > - The native file runtime now rechecks the destination folder, by its identity, after the long source check and before saving (R3). It records how far publication got.
 > - The new main-only `src/native-file-controls.cjs` composes the runtime with a fixed empty production policy catalog and fixed user texts.

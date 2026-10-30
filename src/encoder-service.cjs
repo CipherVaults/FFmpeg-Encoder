@@ -18,6 +18,7 @@ const { readFileStamp, readSourceIdentity, sameStamp, sameIdentity, assertIdenti
 const { StorageEligibility } = require('./storage-eligibility.cjs');
 const { InspectionCache } = require('./inspection-cache.cjs');
 const { retainNativeInitialization } = require('./native-initialization-evidence.cjs');
+const { nativeFileControlsKind, nativeRefusal, NATIVE_MESSAGES } = require('./native-file-controls.cjs');
 const { Preferences } = require('./preferences.cjs');
 const { DiagnosticJournal } = require('./diagnostics.cjs');
 const { AppSettings } = require('./app-settings.cjs');
@@ -100,9 +101,16 @@ class EncoderService extends EventEmitter {
   constructor({ ffmpeg, ffprobe, stateDir, run = runTool, inspect = inspectInput, verify = validateOutput, capabilities = checkCapabilities,
     inspectionCache, storageEligibility, inspectionWorkers = 2, provenanceJournal, preferences, diagnostics, appSettings, outputAccess, runtimeIdentity = null, discoverBackends = null, nativeBackends = null,
     operationQualifications = null, operationEvidenceBudget = null, operationEnvironment = null, operationDeadlineMs = 120000,
-    operationRuntime = null, operationStorage = null, operationTelemetry = false, remuxOperations = null, hdrOperations = null, encodePreservationOperations = null }) {
+    operationRuntime = null, operationStorage = null, operationTelemetry = false, remuxOperations = null, hdrOperations = null, encodePreservationOperations = null,
+    nativeFiles = null, allowInjectedNativeFiles = false }) {
     super();
     if (![1, 2].includes(inspectionWorkers)) throw new TypeError('Inspection workers must be one or two.');
+    // Main composes native file controls once (record 37). Only tests may pass
+    // the injected brand, and only with this explicit allowance.
+    const nativeFilesKind = nativeFiles === null ? null : nativeFileControlsKind(nativeFiles);
+    if (nativeFiles !== null && (!nativeFilesKind || (nativeFilesKind === 'injected' && allowInjectedNativeFiles !== true))) {
+      throw fail('INVALID_NATIVE_FILE_COMPOSITION', NATIVE_MESSAGES.INVALID_NATIVE_FILE_COMPOSITION);
+    }
     Object.assign(this, { ffmpeg, ffprobe, stateDir, run, inspect, verify, capabilities });
     this.inspectionWorkers = inspectionWorkers;
     this.folders = new Map();
@@ -142,6 +150,12 @@ class EncoderService extends EventEmitter {
     this.nativeBackends = nativeBackends;
     this.nativeMediaSlot = null;
     this.nativeOperation = null;
+    // One native file job at a time owns these; they stay set (quarantine)
+    // until its runtime confirms that no child, lease or source remains.
+    this.nativeFiles = nativeFiles;
+    this.nativeFileJob = null;
+    this.nativeFileRuntime = null;
+    this.nativeSettle = null;
     this.admissionClosed = false;
     // Main-private dependency injection, never an IPC registration surface.
     // Without a trusted catalog and complete cost envelope, changed operations
@@ -174,11 +188,14 @@ class EncoderService extends EventEmitter {
     // The caller drains queue children and sink callbacks first. Closing these
     // handles/leases never removes media or accumulated evidence.
     await this.taskPromise.catch(() => {});
+    // A native file owner settles before its backend selections are invalidated.
+    const nativeUnsettled = this.nativeFileRuntime && !(await this.settleNativeFileRuntime());
     this.hdrOperations?.invalidate();
     this.encodePreservationOperations?.invalidate();
     const closed = await Promise.allSettled([this.nativeBackends?.invalidate(), this.operationRuntime?.close(),
       this.operationStoragePromise ? this.operationStoragePromise.then(store => store.close()) : undefined]);
     const failures = closed.filter(result => result.status === 'rejected').map(result => result.reason);
+    if (nativeUnsettled) failures.push(fail('NATIVE_OWNER_UNSETTLED', NATIVE_MESSAGES.NATIVE_OWNER_UNSETTLED));
     if (this.nativeMediaSlot) failures.push(fail('NATIVE_OWNER_UNSETTLED', 'A native media owner has not released its slot.'));
     if (failures.length) throw new AggregateError(failures, 'Some owned operation resources could not be closed.');
   }
@@ -308,6 +325,7 @@ class EncoderService extends EventEmitter {
   }
   requireIdle() {
     if (this.admissionClosed) throw fail('SHUTTING_DOWN', 'The application is closing.');
+    if (this.nativeFileRuntime && !this.busy) { void this.settleNativeFileRuntime(); throw fail('NATIVE_OWNER_UNSETTLED', NATIVE_MESSAGES.NATIVE_OWNER_UNSETTLED); }
     if (this.busy || this.preferenceMutation || this.nativeMediaSlot) throw fail('BUSY', 'Wait for the current operation and cleanup to finish.');
   }
   closeAdmission() { this.admissionClosed = true; }
@@ -364,6 +382,44 @@ class EncoderService extends EventEmitter {
     }
     const owner = {}; this.nativeMediaSlot = owner;
     return { release: async () => { if (this.nativeMediaSlot === owner) this.nativeMediaSlot = null; } };
+  }
+  // The native file runtime's lease: only the current running job, for its one
+  // purpose, with no other holder. Never an IPC surface (record 37 §4).
+  acquireNativeFileSlot(jobOwner, { signal, purpose } = {}) {
+    if (this.admissionClosed || this.state.phase !== 'running' || typeof jobOwner !== 'object' || jobOwner === null
+        || this.nativeFileJob !== jobOwner || purpose !== 'native-file-runtime' || this.controller?.signal.aborted !== false
+        || signal?.aborted || this.nativeMediaSlot) {
+      throw fail('NATIVE_MEDIA_ADMISSION_REFUSED', NATIVE_MESSAGES.NATIVE_MEDIA_ADMISSION_REFUSED);
+    }
+    // Release clears only its own holder, so a repeated or stale release is inert.
+    const owner = {}; this.nativeMediaSlot = owner;
+    return { release: async () => { if (this.nativeMediaSlot === owner) this.nativeMediaSlot = null; } };
+  }
+  // Single-flight. The owner is dropped only after close() resolves and the
+  // runtime reports no work, lease, unknown lease or source handle, and the
+  // slot is free. Otherwise it stays quarantined; resolves true when settled.
+  settleNativeFileRuntime() {
+    return this.nativeSettle ||= (async () => {
+      const runtime = this.nativeFileRuntime;
+      if (!runtime) return true;
+      let settled = false, failure = null, facts = {};
+      try {
+        await runtime.close();
+        const s = runtime.snapshot();
+        facts = { busy: s.busy === true, leaseHeld: s.leaseHeld === true, leaseOwnershipUnknown: s.leaseOwnershipUnknown === true,
+          sourceHeld: s.sourceHeld === true, slotHeld: this.nativeMediaSlot !== null };
+        settled = s.busy === false && s.leaseHeld === false && s.leaseOwnershipUnknown === false && s.sourceHeld === false
+          && this.nativeMediaSlot === null;
+      } catch (error) { failure = error; }
+      if (settled && this.nativeFileRuntime === runtime) { this.nativeFileRuntime = null; this.nativeFileJob = null; }
+      await this.recordIncident({ stage: 'recovery', reason: settled ? 'NATIVE_RUNTIME_SETTLED' : 'NATIVE_RUNTIME_CLOSE_FAILED',
+        severity: settled ? 'info' : 'warning', context: { settled, ...facts,
+          ...(failure ? { nativePrivate: nativeRefusal(failure).nativePrivate } : {}) } });
+      // requireIdle does not await this; a listener fault must not become an
+      // unhandled rejection. The settled state is already recorded above.
+      try { if (settled) this.emitState(); } catch {}
+      return settled;
+    })().finally(() => { this.nativeSettle = null; });
   }
   async retainNativeInitialization(report) {
     if (!this.nativeOperation || !['native-checking', 'cancelling'].includes(this.state.phase)) throw fail('NATIVE_MEDIA_ADMISSION_REFUSED', 'Only the current native operation may retain initialization evidence.');

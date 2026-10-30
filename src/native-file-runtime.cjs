@@ -133,6 +133,8 @@ class NativeFileRuntimeOwner {
       try {
         const slot=await this.#slotProvider({signal:linked,purpose:'native-file-runtime'});if(!slot||typeof slot.release!=='function'){e.leaseUnknown=true;fail('NATIVE_FILE_LEASE_REQUIRED','The main scheduler did not return its owned media lease.');}e.slot=slot;
         if(linked.aborted)fail('CANCELLED','Native preparation cancelled after lease admission.');
+        // R4: stamp the owned root right after the lease, before long source/pair hashing.
+        await this.#rootCurrent(e);
         e.source=await this.#source.seal(options.input,{signal:linked});
         if(e.source.content.digest!==e.policy.sourceSha256||e.source.content.bytes!==contract.sourceFacts.sourceBytes)fail('NATIVE_FILE_SOURCE_UNQUALIFIED','Complete held source does not match this exact file policy/contract.');
         await this.#pair.open({signal:linked});
@@ -219,12 +221,13 @@ class NativeFileRuntimeOwner {
         await this.#source.requirePublicationCurrent(assessment,{signal:linked});this.#selectionCurrent(e);
         const published=await publishOutput(e.stage,destination,{signal:linked});
         if(!published){e.phase='collision';return freeze({schema:1,kind:'native-file-publication',published:false,reason:'DESTINATION_EXISTS',outputRetained:true,executionAuthority:'none'});}
-        await readPublishedOutputIdentity(e.stage);
+        // R2: keep the checked publication identity so main can record provenance.
+        const identity=await readPublishedOutputIdentity(e.stage);
         const hash=createHash('sha256');let bytes=0;
         for await(const chunk of fs.createReadStream(destination,{highWaterMark:1024**2,signal:linked})){bytes+=chunk.length;if(bytes>e.template.bytes)fail('NATIVE_FILE_PUBLISHED_CHANGED','The published output grew beyond its validated length.');hash.update(chunk);}
         const sha256=hash.digest('hex');if(bytes!==e.template.bytes||sha256!==e.template.sha256)fail('NATIVE_FILE_PUBLISHED_CHANGED','The published bytes differ from the validated output.');
         e.phase='published';
-        return freeze({schema:1,kind:'native-file-publication',published:true,destination,sha256,bytes,referenceId:receipt.referenceId,sourceDisposition:assessment.assessment.kind,
+        return freeze({schema:1,kind:'native-file-publication',published:true,destination,sha256,bytes,identity,referenceId:receipt.referenceId,sourceDisposition:assessment.assessment.kind,
           warnings:assessment.assessment.kind==='ctime-only'?['SOURCE_CTIME_CHANGED_DURING_JOB']:[],executionAuthority:'none'});
       }catch(error){e.failed=true;e.phase='failed';throw error;}
     });

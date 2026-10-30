@@ -264,3 +264,17 @@ test('NF-C2: the pure admission check names exactly the first code prepare throw
   assert.deepEqual(assessNativeFileAdmission({policies:[h.policy],runtime:h.runtime,contract:h.contract}).reasonCodes,['NATIVE_SELECTION_REQUIRED']);
   assert.throws(()=>assessNativeFileAdmission({policies:[h.policy],runtime:h.runtime,contract:h.contract,run(){}}),{code:'INVALID_NATIVE_FILE_RUNTIME'});
 });
+
+test('NF-C5: the publication receipt carries the checked published identity (R2)',async t=>{
+  const {readSourceIdentity}=require('../src/source-identity.cjs');
+  const {h,owner,token}=await lifecycle(t),checked=await owner.validate(token),destination=path.join(h.root,'identity.mkv');
+  const result=await owner.publish(token,checked,{destination});
+  const now=await readSourceIdentity(destination);
+  for(const key of ['canonicalPath','dev','ino','size'])assert.equal(result.identity[key],now[key],key);
+});
+
+test('R4: the owned root stamped at lease time cannot be swapped before the encoder starts',async t=>{
+  const h=await fixture(t),token=await h.prepare();
+  await fs.rm(h.ownedRoot,{recursive:true,force:true});await fs.mkdir(h.ownedRoot);
+  await assert.rejects(h.owner.encode(token),{code:'NATIVE_FILE_STAGE_CHANGED'});assert.equal(h.calls.filter(c=>c.argv.includes('-c:v:0')).length,0);
+});

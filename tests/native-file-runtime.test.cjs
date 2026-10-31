@@ -406,10 +406,10 @@ test('NF-C4: kept work folders are bounded and unexpected entries refuse before 
   const refused=async(name,setup,code)=>{const s=await controlled(t,h,name);await fs.mkdir(s.ownedRoot);await setup(s.ownedRoot);const released=h.slotReleases;
     await assert.rejects(s.prepare(s.job()),{code});assert.equal(h.slotReleases,released+1);return s;};
   const full=await refused('state-full',async root=>{for(let i=0;i<8;i++)await fs.mkdir(path.join(root,'.ffmpeg-encoder-kept0'+i));},'NATIVE_FILE_STAGE_QUOTA');assert.equal(full.controls.keptStages(),8);
-  await refused('state-odd',root=>fs.writeFile(path.join(root,'unexpected.txt'),'x'),'NATIVE_FILE_STAGE_CHANGED');
-  await refused('state-name',root=>fs.mkdir(path.join(root,'not-a-stage')),'NATIVE_FILE_STAGE_CHANGED');
-  await refused('state-many',async root=>{for(let i=0;i<65;i++)await fs.mkdir(path.join(root,'.ffmpeg-encoder-many'+String(i).padStart(2,'0')));},'NATIVE_FILE_STAGE_CHANGED');
-  if(process.platform==='win32'){const target=path.join(h.root,'junction-target');await fs.mkdir(target);await refused('state-junction',root=>fs.symlink(target,path.join(root,'.ffmpeg-encoder-abcdef'),'junction'),'NATIVE_FILE_STAGE_CHANGED');}
+  await refused('state-odd',root=>fs.writeFile(path.join(root,'unexpected.txt'),'x'),'NATIVE_FILE_WORK_FOLDER_UNEXPECTED');
+  await refused('state-name',root=>fs.mkdir(path.join(root,'not-a-stage')),'NATIVE_FILE_WORK_FOLDER_UNEXPECTED');
+  await refused('state-many',async root=>{for(let i=0;i<65;i++)await fs.mkdir(path.join(root,'.ffmpeg-encoder-many'+String(i).padStart(2,'0')));},'NATIVE_FILE_WORK_FOLDER_UNEXPECTED');
+  if(process.platform==='win32'){const target=path.join(h.root,'junction-target');await fs.mkdir(target);await refused('state-junction',root=>fs.symlink(target,path.join(root,'.ffmpeg-encoder-abcdef'),'junction'),'NATIVE_FILE_WORK_FOLDER_UNEXPECTED');}
   assert.equal(seal.calls,0);assert.equal(h.calls.length,0);
 });
 
@@ -443,4 +443,29 @@ test('NF-C4: the byte limb of the kept-stage bound and the post-scan recheck eac
   fs.opendir=async(dir,...rest)=>{if(armed&&dir===swap.ownedRoot){armed=false;await fs.rename(dir,dir+'-moved');await fs.mkdir(dir);}return opendir(dir,...rest);};
   released=h.slotReleases;try{await assert.rejects(swap.prepare(swap.job()),{code:'NATIVE_FILE_STAGE_CHANGED',message:'The native work folder changed.'});}finally{fs.opendir=opendir;}
   assert.equal(armed,false);assert.equal(h.slotReleases,released+1);
+});
+
+test('NF-C4: a failed lease scan keeps counting a stage that is still kept, and asks for stray items to be moved out',async t=>{
+  const h=await fixture(t);await h.owner.close();const k=await controlled(t,h,'state-stray');
+  const {nativeRefusal,NATIVE_MESSAGES}=require('../src/native-file-controls.cjs');
+  const job=k.job(),token=await k.prepare(job);await job.encode(token);await job.close();
+  assert.equal(job.snapshot().stageRetained,true);assert.equal(k.controls.keptStages(),1);
+  const stray=path.join(k.ownedRoot,'desktop.ini');await fs.writeFile(stray,'x');let released=h.slotReleases,refusal;
+  await assert.rejects(k.prepare(k.job()),error=>{refusal=error;return error.code==='NATIVE_FILE_WORK_FOLDER_UNEXPECTED';});
+  assert.equal(h.slotReleases,released+1);assert.equal(k.controls.keptStages(),1,'the kept stage is still counted after a failed scan');
+  assert.equal(nativeRefusal(refusal).reason,NATIVE_MESSAGES.NATIVE_FILE_WORK_FOLDER_UNEXPECTED);assert.match(nativeRefusal(refusal).reason,/Move them out/);
+  await fs.rm(stray);const next=k.job();assert.ok(await k.prepare(next));assert.equal(k.controls.keptStages(),2);await next.close();
+  assert.equal(k.controls.keptStages(),(await fs.readdir(k.ownedRoot)).length);
+});
+
+test('NF-C4: the lease checks refuse a cancel that arrives during the scan and a state folder replaced during it',async t=>{
+  const h=await fixture(t);await h.owner.close();const opendir=fs.opendir;
+  const c=await controlled(t,h,'state-cancel'),controller=new AbortController();let armed=true;
+  fs.opendir=async(dir,...rest)=>{if(armed&&dir===c.ownedRoot){armed=false;controller.abort();}return opendir(dir,...rest);};
+  let released=h.slotReleases;try{await assert.rejects(c.prepare(c.job(),{signal:controller.signal}),{code:'CANCELLED',message:'Native file preparation cancelled.'});}finally{fs.opendir=opendir;}
+  assert.equal(armed,false);assert.equal(h.slotReleases,released+1);
+  const s=await controlled(t,h,'state-replaced');armed=true;
+  fs.opendir=async(dir,...rest)=>{if(armed&&dir===s.ownedRoot){armed=false;await fs.rename(s.stateDir,s.stateDir+'-moved');await fs.mkdir(s.ownedRoot,{recursive:true});}return opendir(dir,...rest);};
+  released=h.slotReleases;try{await assert.rejects(s.prepare(s.job()),{code:'NATIVE_FILE_STAGE_CHANGED',message:"The app's state folder changed."});}finally{fs.opendir=opendir;}
+  assert.equal(armed,false);assert.equal(h.slotReleases,released+1);assert.equal(h.calls.length,0);
 });

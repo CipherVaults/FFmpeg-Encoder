@@ -1,3 +1,29 @@
+> **C2 reviewed and fixed — October 31, 2026, ~04:10 Cairo. Work ACTIVE on Ahmed's start ([record 39](39_Executor_Working_Policy_2026-10-30.md), decision 12).** The independent review of the C1 fix delta plus C2 has run (workflow `wf_e32a2e4c-eb2`: 3 lenses and 1 adversarial verifier, 4 agents). It confirmed 9 findings (1 medium, 8 low) and refuted 5 (4 duplicates and 1 pre-existing behaviour). All 9 are fixed with tests:
+> - **T1 (medium):** the diagnostics projection could fail open once a native context was too large; the reserved marker now survives every bound.
+> - **S2:** only the data folder's own condition fails soft; any other composition refusal stops startup.
+> - **D1:** a failed lease scan keeps the kept-stage count, and stray items get "move them out" advice.
+> - **D2:** the quarantine record keeps its facts and the member codes.
+> - **D4:** 9 more fixed message codes.
+> - **T2, T3, T6:** new tests.
+> - **T4:** the evidence is now receipted.
+>
+> Evidence:
+> - Receipt `c2-review-focused`: 232/232.
+> - Full-suite receipt `c2-review-full`: 2,058 of 2,068 pass, 5 host-link skips, and only the 5 documented suspended catalog failures.
+> - `c2-head-catalogs-87b05e7` shows the same 5 catalog failures at the C1 bytes.
+> - Break ledger `c2-review-breaks`: 48 of 50 breaks caught; the 2 survivors are the recorded equivalents (the startup assertion catalog-size limb, and the admitLease entry cancel check, which the runtime makes just before).
+>
+> Production policies stay `[]`. No native batch can be prepared or started.
+>
+> **Exact next action: C3** (record 37 §3.2–§3.5 and §12 C3):
+> - `prepareNativeFileBatch` with the §3.2 gate in order;
+> - `prepareNativeItem` and the details helpers in a new `src/native-file-workspace.cjs`;
+> - the `prepareSourceBatch` native branches and the `:787` dispatch;
+> - the §3.5 guards and the cancel revoke;
+> - tests NS-03 to NS-08, NS-19 and NS-09c.
+>
+> Start still refuses native plans (`NATIVE_FILE_START_UNWIRED`). Then C4, the P04 recheck and C7. Stop after C7 for Ahmed's effort choice and `/compact`.
+
 > **C2 written and tested, independent review PENDING — October 30, 2026, ~23:59 Cairo. Work ACTIVE on Ahmed's start ([record 39](39_Executor_Working_Policy_2026-10-30.md), decision 12).** Record 37 commit C2 is in place:
 > - `src/encoder-service.cjs`, at the §9 seams only:
 >   - `nativeFiles` and `allowInjectedNativeFiles` options, with a constructor brand check;

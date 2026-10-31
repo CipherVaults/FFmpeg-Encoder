@@ -1,3 +1,92 @@
+# 📘 Session: October 31, 2026 — FFmpeg Encoder — independent review and fixes for C2
+
+## 🤖 Models, Effort, Roles and Provenance
+
+- **Root (sole writer and committer):** Claude Opus 5.5 at xhigh.
+- **Review workflow `wf_e32a2e4c-eb2`:** 4 `reviewer` agents (3 lenses and 1 adversarial verifier).
+- **Provenance:** written by root from live tool results, the workflow journal and receipts.
+
+## 🕒 Time
+
+October 31, 2026, about 03:20–04:10 Cairo (UTC+2).
+- The 5-hour window had reset to 0% at the start.
+- The weekly window was at about 52–60%.
+
+## 🎯 Session Goal
+
+- Run the deferred independent review of the C1 fix delta plus C2.
+- Fix every confirmed finding with tests.
+- Checkpoint, then continue to C3.
+
+## 🛠️ Actions Taken
+
+- The hourly ticks waited out the 90%+ window.
+- After the reset: re-entry checks, then the review (14 candidates, 9 confirmed).
+- Fixed T1, S2, D1, D2 and D4, and added tests for T2, T3 and T6.
+- Receipted the HEAD-bytes catalog comparison in an LF-exact clone.
+- Re-ran a saved break ledger.
+- Saved the focused and full receipts, then updated the records, committed and pushed.
+
+## 🧠 Key Insights
+
+- **A size bound measured in raw bytes is not a bound on the escaped JSON.** A privacy marker inside a field the bound may erase fails open. The marker must outlive the bound.
+- **"Fail soft" needs a code that names the environment.** Otherwise it also hides build defects.
+- **The journal re-bounds stored contexts on read.** Any change to the bound must keep stored values as fixed points.
+
+## 📌 Decisions Made
+
+Root:
+- kept fail-soft only for the state folder's own condition (`NATIVE_FILE_STATE_FOLDER_UNAVAILABLE`);
+- gave stray `native-files` items their own code and advice;
+- recorded NS-18 as covering encode profiles only, with non-encode operations at the P04 recheck.
+
+## ⚠️ Difficulties / Friction
+
+- Shell heredocs dropped backslashes twice. They were caught by syntax errors and redone with exact edits.
+- The guard blocked an `rm -rf` on a variable path that was not yet created, and that step was dropped.
+
+## 🔧 Adjustments Made
+
+The break count is now a saved ledger instead of a number in prose.
+
+## ❌ Mistakes / Risks Noted
+
+Three C1/C2 record claims were overstated:
+- the message coverage;
+- that "a wrong build stops startup";
+- NS-18 as fully delivered.
+
+They are corrected in the new Execution Summary section; older sections are kept.
+
+## 📍 Current Position
+
+- C2 is reviewed and fixed, then committed and pushed in this checkpoint.
+- Writer lock: `C3`.
+
+## 🔜 Next Steps
+
+1. C3: policy-gated native preparation in main.
+2. Then C4, the P04 recheck and C7.
+3. Stop after C7.
+
+## ❓ Open Questions
+
+- D1–D3 and D5–D7.
+- Logo selection.
+- The ChatGPT Plus Codex quota.
+
+## 🧾 Session Outcome
+
+C2's slot, quarantine and diagnostics projection now carry an independent review, and its confirmed issues are closed. There is no product, acceptance or release change.
+
+## 🔍 Confidence Level
+
+- **High:** the receipted fixture behaviour and the saved break ledger.
+- **Medium:** the stub-based settle path until C4 runs real jobs.
+- **Unverified:** hardware and the Electron runtime.
+
+---
+
 # 📘 Session: October 30, 2026 — FFmpeg Encoder — C2 of the AMD/Intel connection (review pending)
 
 ## 🤖 Models, Effort, Roles and Provenance

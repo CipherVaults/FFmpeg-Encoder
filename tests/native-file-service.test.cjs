@@ -41,7 +41,10 @@ function stubRuntime(mode) {
       if (r.mode === 'aggregate') throw new AggregateError([Object.assign(new Error('zq-private lease'), { code: 'NATIVE_FILE_UNSETTLED' })], 'zq-private aggregate');
       if (r.mode === 'plain') throw new Error('zq-private plain');
     },
-    snapshot() { return Object.freeze({ busy: false, leaseHeld: r.mode === 'lease', leaseOwnershipUnknown: r.mode === 'unknown', sourceHeld: r.mode === 'source' }); } };
+    snapshot() {
+      if (r.mode === 'snapshot-throws') throw new Error('zq-private snapshot');
+      return Object.freeze({ busy: r.mode === 'busy', leaseHeld: r.mode === 'lease', leaseOwnershipUnknown: r.mode === 'unknown', sourceHeld: r.mode === 'source' });
+    } };
   return r;
 }
 const reasons = async (s, reason) => (await s.getDiagnosticHistory({ limit: 200 })).events.filter(e => e.reason === reason);
@@ -92,10 +95,11 @@ test('NS-02: the backend check slot still refuses the native file purpose and is
 });
 
 test('NS-16a: a quarantined native file owner refuses idle work with its own code, retries single-flight and is released once', async t => {
-  const s = (await owned(t)).make(), runtime = stubRuntime('aggregate'), job = {};
+  const h = await owned(t), s = h.make(), runtime = stubRuntime('aggregate'), job = {};
   s.nativeFileRuntime = runtime; s.nativeFileJob = job;
   const updates = []; s.on('update', () => updates.push(s.nativeFileRuntime));
-  for (const mode of ['aggregate', 'plain', 'lease', 'unknown', 'source', 'slot']) {
+  const modes = ['aggregate', 'plain', 'lease', 'unknown', 'source', 'slot', 'busy', 'snapshot-throws'];
+  for (const mode of modes) {
     runtime.mode = mode; s.nativeMediaSlot = mode === 'slot' ? {} : null;
     const before = runtime.closes;
     assert.throws(() => s.requireIdle(), unsettled, mode);
@@ -120,15 +124,20 @@ test('NS-16a: a quarantined native file owner refuses idle work with its own cod
   assert.deepEqual(updates, [null], 'one state emission, after the owner was dropped');
   s.requireIdle(); assert.equal(s.nativeSettle, null); assert.equal(await s.settleNativeFileRuntime(), true); assert.equal(runtime.closes, closes + 1);
 
-  assert.equal((await reasons(s, 'NATIVE_RUNTIME_CLOSE_FAILED')).length, 6);
+  assert.equal((await reasons(s, 'NATIVE_RUNTIME_CLOSE_FAILED')).length, modes.length);
   const settled = await reasons(s, 'NATIVE_RUNTIME_SETTLED'); assert.equal(settled.length, 1);
-  const failed = (await reasons(s, 'NATIVE_RUNTIME_CLOSE_FAILED')).map(e => e.id);
+  const failed = (await reasons(s, 'NATIVE_RUNTIME_CLOSE_FAILED')).map(e => e.id).reverse();
   const records = await Promise.all(failed.map(async id => (await s.getDiagnosticRecord({ eventId: id })).event));
-  const withError = records.filter(e => Object.hasOwn(e.context, 'nativePrivate'));
-  assert.equal(withError.length, 2); assert.ok(withError.every(e => e.context.nativePrivate === '[main-only]' && e.stage === 'recovery'));
-  assert.deepEqual(records.filter(e => !Object.hasOwn(e.context, 'nativePrivate')).map(e => Object.entries(e.context).filter(([, v]) => v === true).map(([k]) => k)),
-    [['leaseHeld'], ['leaseOwnershipUnknown'], ['sourceHeld'], ['slotHeld']].reverse());
+  assert.deepEqual(records.map(e => Object.hasOwn(e.context, 'nativePrivate')), modes.map(m => ['aggregate', 'plain', 'snapshot-throws'].includes(m)));
+  assert.ok(records.every(e => e.stage === 'recovery' && e.context.settled === false && (!Object.hasOwn(e.context, 'nativePrivate') || e.context.nativePrivate === '[main-only]')));
+  // The facts are recorded whether close resolved or rejected.
+  assert.deepEqual(records.map(e => Object.entries(e.context).filter(([k, v]) => k !== 'settled' && v === true).map(([k]) => k)),
+    [[], [], ['leaseHeld'], ['leaseOwnershipUnknown'], ['sourceHeld'], ['slotHeld'], ['busy'], []]);
+  assert.ok(records.slice(0, 2).every(e => Object.hasOwn(e.context, 'leaseHeld')), 'a rejected close still records the snapshot facts');
   assert.doesNotMatch(JSON.stringify(records), /zq-private/);
+  // The persisted main-only record keeps the aggregate's member codes.
+  const persisted = fs.readFileSync(path.join(h.stateDir, 'diagnostics-v1', 'events', failed[0] + '.json'), 'utf8');
+  assert.match(persisted, /"memberCodes":\["NATIVE_FILE_UNSETTLED"\]/); assert.match(persisted, /zq-private aggregate/);
 });
 
 test('NS-16a: shutdown settles the native file owner before invalidating backend selections and reports one that stays unsettled', async t => {
@@ -147,7 +156,7 @@ test('NS-16a: shutdown settles the native file owner before invalidating backend
   }
 });
 
-async function ordinaryBatch(t, compose) {
+async function ordinaryBatch(t, compose, settings) {
   const h = await owned(t), input = path.join(h.dir, 'input'), output = path.join(h.dir, 'output');
   await fsp.mkdir(input); await fsp.mkdir(output); await fsp.writeFile(path.join(input, 'a.mp4'), 'Original input a.mp4');
   const nativeBackends = backends(), calls = [];
@@ -170,7 +179,7 @@ async function ordinaryBatch(t, compose) {
       return { stdout: '', stderr: '', exitCode: 0 };
     } });
   const a = await s.registerFolder(input, 'input'), b = await s.registerFolder(output, 'output');
-  const plan = await s.prepareBatch({ inputFolderId: a.id, outputFolderId: b.id, settings: { profileId: 'h265-cpu', preset: 'slow', quality: 25 } });
+  const plan = await s.prepareBatch({ inputFolderId: a.id, outputFolderId: b.id, settings });
   s.startBatch({ planId: plan.planId, fileIds: plan.items.filter(item => item.status === 'ready').map(item => item.id) }); await s.taskPromise;
   const text = JSON.stringify({ calls, statuses: s.snapshot().items.map(item => item.status), phase: s.snapshot().phase });
   return { s, value: JSON.parse(text.split(JSON.stringify(h.dir).slice(1, -1)).join('<root>')
@@ -178,15 +187,22 @@ async function ordinaryBatch(t, compose) {
     .replace(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/g, '<time>').replace(/\.ffmpeg-encoder-[A-Za-z0-9]{6}/g, '.ffmpeg-encoder-<stage>')) };
 }
 
-test('NS-18: an ordinary batch is unchanged by composed native file controls, argv included', async t => {
-  const without = await ordinaryBatch(t, false), withControls = await ordinaryBatch(t, true);
-  assert.equal(without.value.calls.length, 1); assert.deepEqual(without.value.statuses, ['success']);
-  assert.deepEqual(withControls.value, without.value);
-  for (const { s } of [without, withControls]) {
-    assert.equal(s.nativeMediaSlot, null); assert.equal(s.nativeFileRuntime, null); assert.equal(s.nativeFileJob, null);
-    assert.equal(Object.hasOwn(s.snapshot(), 'native'), false);
+// Every ordinary encode profile (CPU and NVIDIA) at its defaults. Non-encode
+// operations are outside NS-18 and are covered by the P04 recheck.
+test('NS-18: an ordinary batch is unchanged by composed native file controls, argv included, for every ordinary profile', async t => {
+  assert.equal(PROFILES.length, 6);
+  for (const profile of PROFILES) {
+    const settings = { profileId: profile.id, preset: profile.defaultPreset, quality: profile.quality.default };
+    const without = await ordinaryBatch(t, false, settings), withControls = await ordinaryBatch(t, true, settings);
+    assert.equal(without.value.calls.length, 1, profile.id); assert.deepEqual(without.value.statuses, ['success'], profile.id);
+    assert.ok(without.value.calls[0].args.includes(profile.defaultPreset), profile.id);
+    assert.deepEqual(withControls.value, without.value, profile.id);
+    for (const { s } of [without, withControls]) {
+      assert.equal(s.nativeMediaSlot, null); assert.equal(s.nativeFileRuntime, null); assert.equal(s.nativeFileJob, null);
+      assert.equal(Object.hasOwn(s.snapshot(), 'native'), false);
+    }
+    assert.equal(withControls.s.nativeFiles.policyCount, 0); assert.equal(without.s.nativeFiles, null);
   }
-  assert.equal(withControls.s.nativeFiles.policyCount, 0); assert.equal(without.s.nativeFiles, null);
 });
 
 test('NS-20: only the controls module names the test factory, and only the service constructor names the allowance', () => {
@@ -251,4 +267,37 @@ test('NS-09b: renderer-readable diagnostics withhold native private detail and s
   const journal = path.join(h.stateDir, 'diagnostics-v1');
   assert.match(fs.readFileSync(path.join(journal, 'events', nativeId + '.json'), 'utf8'), /EACCES/);
   assert.equal(fs.readFileSync(path.join(journal, 'stderr', nativeId + '.txt'), 'utf8'), nativeStderr);
+});
+
+test('NS-09b: the native marker survives every context bound, so stderr text stays withheld; ordinary events are unchanged', async t => {
+  const h = await owned(t), s = h.make(), dense = 'C:' + '\\'.repeat(3900);
+  const cases = {
+    // Escaped JSON far over the bound: the whole context would otherwise be dropped.
+    oversized: { nativePrivate: { code: 'EACCES', message: 'zq-secret C:\\private', causeCode: null }, ...Object.fromEntries(Array.from({ length: 8 }, (_, i) => ['argv' + i, dense])) },
+    // The reserved key written last behind fields that exhaust the key budget.
+    last: { ...Object.fromEntries(Array.from({ length: 12 }, (_, i) => ['big' + i, 'x'.repeat(5000)])), nativePrivate: { code: 'EACCES', message: 'zq-secret late', causeCode: null } },
+    // An accessor is never run, but the event is still marked.
+    accessor: Object.defineProperty({ profileId: 'h264-qsv' }, 'nativePrivate', { enumerable: true, get() { throw new Error('zq-secret getter ran'); } }),
+  };
+  for (const [name, context] of Object.entries(cases)) {
+    const result = await s.recordIncident({ stage: 'encoding', reason: 'NATIVE_FILE_JOB_FAILED', context, stderr: 'zq-secret stderr ' + name });
+    assert.equal(result.persisted, true, name);
+  }
+  await s.recordIncident({ stage: 'encoding', reason: 'ENCODE_FAILED', context: Object.fromEntries(Array.from({ length: 8 }, (_, i) => ['argv' + i, dense])), stderr: 'ordinary oversized tail' });
+  const nativeIds = (await reasons(s, 'NATIVE_FILE_JOB_FAILED')).map(e => e.id).reverse(), ordinaryId = (await reasons(s, 'ENCODE_FAILED'))[0].id;
+  const records = await Promise.all(nativeIds.map(async id => (await s.getDiagnosticRecord({ eventId: id })).event));
+  for (const [index, record] of records.entries()) {
+    const name = Object.keys(cases)[index];
+    assert.equal(record.context.nativePrivate, '[main-only]', name); assert.equal(record.contextTruncated, true, name);
+    assert.deepEqual(record.stderr, { withheld: true, bytes: Buffer.byteLength('zq-secret stderr ' + name) }, name);
+  }
+  assert.deepEqual(Object.keys(records[0].context), ['nativePrivate'], 'an oversized native context keeps only its marker');
+  assert.equal(records[2].context.profileId, 'h264-qsv');
+  const session = (await s.diagnostics.readSession(records[0].sessionId, { limit: 200 })).session;
+  assert.doesNotMatch(JSON.stringify([records, session]), /zq-secret/);
+  // The journal keeps the reserved detail in preference to other fields.
+  assert.match(fs.readFileSync(path.join(h.stateDir, 'diagnostics-v1', 'events', nativeIds[1] + '.json'), 'utf8'), /zq-secret late/);
+  // Ordinary events keep their existing behaviour: an oversized context is dropped and stderr text is shown.
+  const ordinary = (await s.getDiagnosticRecord({ eventId: ordinaryId })).event;
+  assert.equal(ordinary.context, null); assert.equal(ordinary.stderr.text, 'ordinary oversized tail');
 });

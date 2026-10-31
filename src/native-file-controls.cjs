@@ -70,6 +70,8 @@ const NATIVE_MESSAGES = freeze(Object.assign(Object.create(null), {
   NATIVE_FILE_LEASE_REQUIRED: 'The native file job could not confirm its media slot.',
   NATIVE_FILE_SOURCE_UNQUALIFIED: 'This source file is not the exact file the native policy was qualified with.',
   NATIVE_FILE_STAGE_CHANGED: 'The native work folder changed unexpectedly. Restart the app, then try again.',
+  NATIVE_FILE_WORK_FOLDER_UNEXPECTED: 'The native-files folder in the app\'s data folder holds items the app did not create. Move them out, then try again.',
+  NATIVE_FILE_STATE_FOLDER_UNAVAILABLE: 'Native file encoding is unavailable because the app\'s data folder is not an ordinary local folder.',
   NATIVE_FILE_STAGE_LIMIT: 'The native encoder wrote more data than allowed. The work file was kept.',
   NATIVE_FILE_DISCOVERY_COMMAND: 'The native file job refused an unexpected device check.',
   NATIVE_FILE_EVIDENCE_REQUEST: 'The native file job refused an unexpected evidence request.',
@@ -178,7 +180,17 @@ const NATIVE_MESSAGES = freeze(Object.assign(Object.create(null), {
   TIMEOUT: 'A native process took longer than allowed.',
   TOOL_FAILED: 'A native process exited with an error.',
   SOURCE_CTIME_ONLY: 'The source file\'s change time moved during the job, but no other change was found.',
+  // Native settings, device and capability records (backend-adapters.cjs) and output identity (provenance.cjs).
+  INVALID_NATIVE_SETTINGS: 'The native encoder settings are not valid for this device.',
+  INVALID_NATIVE_PROFILE: 'This native encoder profile is not supported.',
+  UNSUPPORTED_NATIVE_DEPTH: 'This bit depth is not supported by the native encoder.',
+  UNSUPPORTED_NATIVE_PIPELINE: 'This native encoder pipeline is not supported.',
+  NATIVE_DEVICE_MISMATCH: 'The native device no longer matches the one that was checked. Run "Check these settings" again.',
+  INVALID_CAPABILITY_POLICY: 'The native capability record is not valid.',
+  INVALID_CAPABILITY_STATE: 'The native capability state is not valid. Run "Check these settings" again.',
+  PROVENANCE_UNAVAILABLE: 'The output could not be given its identity marker.',
   // Shared preparation and Start codes the native gate passes through (encoder-service.cjs).
+  CAPABILITIES_FAILED: 'The encoder capabilities could not be checked.',
   BUSY: 'Wait for the current operation and cleanup to finish.',
   SHUTTING_DOWN: 'The application is closing.',
   NO_INPUTS: 'No supported top-level video files were found.',
@@ -204,19 +216,29 @@ const CODE = /^[A-Z][A-Z0-9_]{0,95}$/;
 // Each field is read once into a local and only a validated string is used,
 // so a hostile error object cannot make this throw or return a non-text code.
 function nativeRefusal(error) {
-  let code = null, message = '', causeCode = null;
+  let code = null, message = '', causeCode = null, memberCodes = null;
   try {
     if (error && typeof error === 'object') {
-      const c = error.code, m = error.message, k = error.cause;
+      const c = error.code, m = error.message, k = error.cause, members = error.errors;
       if (typeof c === 'string' && CODE.test(c)) code = c;
       if (typeof m === 'string') message = m.slice(0, 2048);
       if (k && typeof k === 'object') { const kc = k.code; if (typeof kc === 'string' && CODE.test(kc)) causeCode = kc; }
+      // An AggregateError (for example from the runtime's close) keeps up to
+      // eight member codes, so the main-only record says what is still held.
+      if (Array.isArray(members)) {
+        memberCodes = [];
+        for (const member of members.slice(0, 8)) {
+          let mc = null;
+          try { const value = member && typeof member === 'object' ? member.code : null; if (typeof value === 'string' && CODE.test(value)) mc = value; } catch {}
+          memberCodes.push(mc);
+        }
+      }
     }
-  } catch { code = null; message = ''; causeCode = null; }
+  } catch { code = null; message = ''; causeCode = null; memberCodes = null; }
   const family = code && Object.keys(NATIVE_MESSAGE_FAMILIES).find(prefix => code.startsWith(prefix) && code.length > prefix.length);
   const reasonCode = code && (Object.hasOwn(NATIVE_MESSAGES, code) || family) ? code : 'NATIVE_FILE_JOB_FAILED';
   return freeze({ reasonCode, reason: Object.hasOwn(NATIVE_MESSAGES, reasonCode) ? NATIVE_MESSAGES[reasonCode] : NATIVE_MESSAGE_FAMILIES[family],
-    nativePrivate: { code, message, causeCode } });
+    nativePrivate: { code, message, causeCode, ...(memberCodes ? { memberCodes } : {}) } });
 }
 
 // Readiness (§3.1): pure, fixed order; a reason is hidden only by an earlier
@@ -259,8 +281,11 @@ function readinessReasons(view, catalog, identity) {
 
 function compose(options, { kind, policies, run }) {
   const { runtime, stateDir, nativeBackends } = options;
+  // INVALID_NATIVE_FILE_COMPOSITION is a build defect (main.js stops startup);
+  // only the state folder's own condition is environmental (native files off).
   if (!(nativeBackends instanceof NativeBackendService)) fail('INVALID_NATIVE_FILE_COMPOSITION', 'The genuine native backend service is required.');
-  if (typeof stateDir !== 'string' || !path.isAbsolute(stateDir) || stateDir.length > 32767 || /[\x00-\x1f\x7f]/.test(stateDir)) fail('INVALID_NATIVE_FILE_COMPOSITION', 'An absolute main-owned state folder is required.');
+  if (typeof stateDir !== 'string') fail('INVALID_NATIVE_FILE_COMPOSITION', 'A main-owned state folder is required.');
+  if (!path.isAbsolute(stateDir) || stateDir.length > 32767 || /[\x00-\x1f\x7f]/.test(stateDir)) fail('NATIVE_FILE_STATE_FOLDER_UNAVAILABLE', 'An absolute main-owned state folder is required.');
   if (run !== undefined && typeof run !== 'function') fail('INVALID_NATIVE_FILE_COMPOSITION', 'An injected test runner must be a function.');
   const pair = new NativeFileRuntimePair(runtime), identity = pair.identity();
   const stateRoot = path.resolve(stateDir), ownedRoot = path.join(stateRoot, 'native-files');
@@ -270,7 +295,7 @@ function compose(options, { kind, policies, run }) {
     const stat = fs.lstatSync(stateRoot, { bigint: true });
     if (!stat.isDirectory() || stat.isSymbolicLink() || !samePath(fs.realpathSync.native(stateRoot), stateRoot)) throw new Error('not ordinary');
     stateStamp = stampOf(stat);
-  } catch (error) { fail('INVALID_NATIVE_FILE_COMPOSITION', 'The state folder must be an existing ordinary folder.', error); }
+  } catch (error) { fail('NATIVE_FILE_STATE_FOLDER_UNAVAILABLE', 'The state folder must be an existing ordinary folder.', error); }
   // Owners re-validate their rows; keep an inert frozen copy for every job.
   const rows = policies === DEFAULT_NATIVE_FILE_POLICIES ? DEFAULT_NATIVE_FILE_POLICIES : (readNativeFilePolicies(policies), freeze(structuredClone(policies)));
   const catalog = rows === DEFAULT_NATIVE_FILE_POLICIES ? rows : freeze(readNativeFilePolicies(rows));
@@ -296,23 +321,29 @@ function compose(options, { kind, policies, run }) {
     } catch (error) { fail('NATIVE_FILE_STAGE_CHANGED', 'The native work folder changed.', error); }
   };
   // Kept-stage bound: bounded lstat-only scan of ordinary stage folders.
+  // A failed walk leaves the last good total in place (kept + sinceScan).
   const scan = async () => {
-    let count = 0, bytes = 0n, dir;
+    let count = 0, bytes = 0n, dir, unexpected = false;
+    const foreign = () => { unexpected = true; return new Error('unexpected native-files content'); };
     try {
       dir = await fsp.opendir(ownedRoot);
       for await (const entry of dir) {
-        if (++count > SCAN_LIMIT) throw new Error('too many entries');
+        if (++count > SCAN_LIMIT) throw foreign();
         const folder = path.join(ownedRoot, entry.name), stat = await fsp.lstat(folder, { bigint: true });
-        if (!STAGE_NAME.test(entry.name) || !stat.isDirectory() || stat.isSymbolicLink()) throw new Error('unexpected entry');
+        if (!STAGE_NAME.test(entry.name) || !stat.isDirectory() || stat.isSymbolicLink()) throw foreign();
         try {
           const file = await fsp.lstat(path.join(folder, 'encoded.mkv'), { bigint: true });
-          if (!file.isFile() || file.isSymbolicLink()) throw new Error('unexpected stage file');
+          if (!file.isFile() || file.isSymbolicLink()) throw foreign();
           bytes += file.size;
-        } catch (error) { if (error.code !== 'ENOENT') throw error; }
+        } catch (error) { if (unexpected || error.code !== 'ENOENT') throw error; }
       }
-    } catch (error) { fail('NATIVE_FILE_STAGE_CHANGED', 'The native work folder holds unexpected entries.', error); }
+    } catch (error) {
+      // Items the user can remove get advice that works; anything else is a change.
+      if (unexpected) fail('NATIVE_FILE_WORK_FOLDER_UNEXPECTED', 'The native work folder holds unexpected entries.', error);
+      fail('NATIVE_FILE_STAGE_CHANGED', 'The native work folder could not be read.', error);
+    }
     finally { await dir?.close().catch(() => {}); }
-    kept = count;
+    kept = count; sinceScan = [];
     if (count >= KEPT_STAGE_LIMIT || bytes > BigInt(KEPT_BYTES_LIMIT)) fail('NATIVE_FILE_STAGE_QUOTA', 'Kept native work files reached their bound.');
   };
   const cancelled = signal => { if (signal?.aborted) fail('CANCELLED', 'Native file preparation cancelled.'); };
@@ -335,7 +366,6 @@ function compose(options, { kind, policies, run }) {
     }
     const stamp = await rootCurrent();
     rootPin ||= freeze(stamp);
-    sinceScan = [];
     await scan();
     await stateCurrent(); await rootCurrent();
     cancelled(signal);

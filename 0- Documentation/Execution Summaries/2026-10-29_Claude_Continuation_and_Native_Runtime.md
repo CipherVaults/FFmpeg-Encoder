@@ -231,3 +231,60 @@ It then set the writer lock to C1, recreated the hourly tick and re-enabled the 
 - `rendererEvent` relies on the reserved key surviving the context bound. C4's writer must put `nativePrivate` first, and NS-09b shows that a first key survives truncation.
 - The settle path is proven with stub runtimes. The genuine runtime's close semantics were proven in C1.
 - No native job runs yet (C4). No hardware, Electron window or real encode ran.
+
+## C2 review — October 31 ~03:20–04:10 Cairo
+
+**Review.** Workflow `wf_e32a2e4c-eb2` ran after the 5-hour window reset. It had three `reviewer` lenses and one adversarial verifier over all the candidates (4 agents):
+- security and trust boundary;
+- design conformance and correctness against the real runtime;
+- tests, evidence and records.
+
+It covered the C1 fix delta (`e49f07d..87b05e7`, runtime and controls) and C2 (`87b05e7..0e8146e`). Of 14 candidates, 9 were confirmed and 5 refuted:
+- S1, S3, T5 and D3 duplicate T1, D2, D4 and T1;
+- D5 is pre-existing: the IPC layer already writes one rejected-request record per call, and quarantine adds at most one record per single-flight settle.
+
+**Confirmed and fixed:**
+- **T1 (medium).** `boundedContext` budgets raw bytes. JSON escaping could push a native context past the bound, so the whole context became `null`, the `nativePrivate` marker was lost, and `rendererEvent` returned native stderr text.
+  - The writers at that time could not reach this (small records, no stderr); C4's would have.
+  - Fix: at the top level, the bound now visits `nativePrivate` first. It restores the marker as the first key when the key was skipped (an accessor, or the key budget), and keeps `{nativePrivate:null}` when an oversized native context must be dropped. A stored context still re-bounds to itself on read.
+  - Ordinary events are unchanged, and a test shows it.
+  - The C2 Limits rule "C4's writer must put `nativePrivate` first" is therefore no longer needed.
+- **S2.** `main.js` used to fail soft on every composition error, including factory refusals of build defects (extra keys such as `policies`, or a non-genuine backend service).
+  - The state folder's own condition now has its own code, `NATIVE_FILE_STATE_FOLDER_UNAVAILABLE` (not absolute, missing, not ordinary, a reparse point, or a realpath mismatch), and only that code fails soft. Anything else stops startup.
+  - This corrects the C2 claim that "a wrong brand or catalog stops startup", which was true only for the assertion path.
+- **D1.** A lease scan that failed (a stray item in `native-files`, or more than 64 entries) cleared the since-scan list first, so a stage that was still kept stopped being counted.
+  - `kept` and `sinceScan` are now updated together, only after a successful walk.
+  - Stray items get the new `NATIVE_FILE_WORK_FOLDER_UNEXPECTED` code with "move them out" advice. A restart could not fix that case. Real I/O failures keep `NATIVE_FILE_STAGE_CHANGED`.
+- **D2.** `NATIVE_RUNTIME_CLOSE_FAILED` lost its facts when `close()` rejected, which is the usual permanent-quarantine case.
+  - The snapshot is now read on both paths.
+  - `nativeRefusal` keeps up to 8 member codes of an AggregateError in `nativePrivate.memberCodes`, read safely.
+- **D4.** Nine more codes have fixed text:
+  - from `backend-adapters.cjs`: `INVALID_NATIVE_SETTINGS`, `INVALID_NATIVE_PROFILE`, `UNSUPPORTED_NATIVE_DEPTH`, `UNSUPPORTED_NATIVE_PIPELINE`, `NATIVE_DEVICE_MISMATCH`, `INVALID_CAPABILITY_POLICY` and `INVALID_CAPABILITY_STATE`;
+  - from `provenance.cjs`: `PROVENANCE_UNAVAILABLE`;
+  - from the §3.2 gate: `CAPABILITIES_FAILED`.
+
+  NS-09a now also scans `backend-adapters.cjs` and `provenance.cjs`, and its pattern matches `error(`. This corrects C1's overstated claim that the table already covered "the helper modules on the native call path".
+- **T2.** NS-16a adds a busy runtime and a snapshot that throws.
+- **T3.** NS-18 now covers all six ordinary encode profiles (CPU and NVIDIA) at their defaults. It still compares no non-encode operation (remux, HDR, preservation); those belong to the P04 recheck. This corrects the C2 list, which presented NS-18 as fully delivered.
+- **T4.** The C2 claim that the five catalog failures "fail identically with HEAD's bytes" was an unreceipted observation. It is now receipt `c2-head-catalogs-87b05e7`:
+  - it ran in an LF-exact clone of `87b05e7`;
+  - the same five tests fail with the same assertion values.
+
+  The "33 of 34" break count was unreceipted as well. It is replaced by the saved ledger below.
+- **T6.** New tests show the lease checks' own post-scan cancel check and post-scan state-folder recheck refuse with their own text.
+
+**Test edits outside the new tests (C1- and C2-added tests only; the 30 original runtime tests are untouched):**
+- NF-C1's state-folder cases expect `NATIVE_FILE_STATE_FOLDER_UNAVAILABLE`.
+- NF-C4's stray-item cases expect `NATIVE_FILE_WORK_FOLDER_UNEXPECTED`.
+- The main-lifecycle fail-soft stub uses the state-folder code, and a new test shows that a defect code stops startup.
+
+**Evidence:**
+- **`c2-review-focused`:** 232/232. It covers the native file service, main lifecycle, controls, runtime, diagnostics, diagnostics service, encoder service and IPC suites.
+- **`c2-review-full`** (`tests/*.test.cjs`): 2,058 of 2,068 pass, 5 host-link skips, and only the 5 documented suspended catalog failures.
+- **`c2-head-catalogs-87b05e7`:** 66 of 71 pass, and the same 5 tests fail as on the current bytes.
+- **Break ledger `c2-review-breaks`** (`ledger.json`: each break, its failing tests and the source hashes): 48 of 50 breaks caught; the 2 survivors are the recorded equivalents (the startup assertion catalog-size limb, and the admitLease entry cancel check, which the runtime makes just before).
+
+**Limits:**
+- The settle path is still proven with stub runtimes. NS-18 covers encode profiles only.
+- Journals written before this fix cannot hold a native context with `nativePrivate` out of first place: no native file job could run, and the composition record has only that key.
+- No hardware, Electron window or real encode ran.

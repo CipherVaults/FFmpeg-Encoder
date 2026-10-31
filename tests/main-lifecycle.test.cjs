@@ -91,7 +91,8 @@ async function harness({ runtimePending = false, diagnosticsPending = false, res
     if (id === './src/native-file-controls.cjs') return { nativeRefusal: require('../src/native-file-controls.cjs').nativeRefusal,
       createNativeFileControls: options => {
         nativeFileOptions = options; nativeFileCalls.push('compose');
-        if (nativeFileComposition === 'fails') throw Object.assign(new Error('zq-private C:\\state is not ordinary'), { code: 'EPERM' });
+        if (nativeFileComposition === 'fails') throw Object.assign(new Error('zq-private C:\\state is not ordinary'), { code: 'NATIVE_FILE_STATE_FOLDER_UNAVAILABLE', cause: { code: 'EPERM' } });
+        if (nativeFileComposition === 'defect') throw Object.assign(new Error('Native file controls accept only their fixed main-owned fields.'), { code: 'INVALID_NATIVE_FILE_COMPOSITION' });
         return nativeFileControls;
       },
       assertProductionNativeFileControls: value => {
@@ -425,7 +426,7 @@ test('NS-20: a native file composition failure leaves native files unavailable a
   const incident = h.incidents.find(event => event.reason === 'NATIVE_FILE_COMPOSITION_FAILED');
   assert.equal(incident.stage, 'startup'); assert.equal(incident.severity, 'warning'); assert.equal(Object.hasOwn(incident, 'message'), false);
   assert.deepEqual(Object.keys(incident.context), ['nativePrivate']);
-  assert.equal(incident.context.nativePrivate.code, 'EPERM');
+  assert.equal(incident.context.nativePrivate.code, 'NATIVE_FILE_STATE_FOLDER_UNAVAILABLE'); assert.equal(incident.context.nativePrivate.causeCode, 'EPERM');
   assert.ok(h.getWindow()); assert.ok(!h.calls.includes('async-dialog'));
 });
 
@@ -434,6 +435,15 @@ test('NS-20: a non-production native file brand stops startup before any service
   assert.deepEqual(h.nativeFileCalls, ['compose', ['assert', h.nativeFileControls]]);
   assert.equal(h.getService(), undefined); assert.equal(h.getWindow(), undefined);
   assert.ok(h.calls.includes('async-dialog'));
+  h.dialogClosed.resolve(); await tick(); await tick();
+  assert.deepEqual(h.calls.at(-1), ['exit', 1]);
+});
+
+test('NS-20: a native file composition defect (for example an extra policies key) stops startup instead of failing soft', async () => {
+  const h = await harness({ nativeFileComposition: 'defect' }); await tick();
+  assert.deepEqual(h.nativeFileCalls, ['compose']);
+  assert.equal(h.getService(), undefined); assert.equal(h.getWindow(), undefined);
+  assert.ok(!h.calls.includes('NATIVE_FILE_COMPOSITION_FAILED')); assert.ok(h.calls.includes('async-dialog'));
   h.dialogClosed.resolve(); await tick(); await tick();
   assert.deepEqual(h.calls.at(-1), ['exit', 1]);
 });

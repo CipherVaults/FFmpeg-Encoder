@@ -27,11 +27,13 @@ test('NF-C1: the production catalog is frozen and empty, construction is inert a
   const accessor={...s.options};Object.defineProperty(accessor,'stateDir',{get:()=>s.root,enumerable:true});
   for(const bad of [{...s.options,policies:[]},{...s.options,run:s.count},{...s.options,extra:true},{runtime:s.runtime,stateDir:s.root},accessor,Object.assign(Object.create({}),s.options),null,'options',[s.options]])
     assert.throws(()=>createNativeFileControls(bad),{code:'INVALID_NATIVE_FILE_COMPOSITION'});
-  for(const bad of [{...s.options,nativeBackends:{}},{...s.options,stateDir:'relative'},{...s.options,stateDir:path.join(s.root,'missing')}])
-    assert.throws(()=>createNativeFileControls(bad),{code:'INVALID_NATIVE_FILE_COMPOSITION'});
-  await fsp.writeFile(path.join(s.root,'file'),'x');assert.throws(()=>createNativeFileControls({...s.options,stateDir:path.join(s.root,'file')}),{code:'INVALID_NATIVE_FILE_COMPOSITION'});
+  // A build defect (shape, a non-genuine backend service) and the data folder's own condition have distinct codes.
+  for(const bad of [{...s.options,nativeBackends:{}},{...s.options,stateDir:1}])assert.throws(()=>createNativeFileControls(bad),{code:'INVALID_NATIVE_FILE_COMPOSITION'});
+  for(const bad of [{...s.options,stateDir:'relative'},{...s.options,stateDir:path.join(s.root,'missing')}])
+    assert.throws(()=>createNativeFileControls(bad),{code:'NATIVE_FILE_STATE_FOLDER_UNAVAILABLE',message:/state folder/});
+  await fsp.writeFile(path.join(s.root,'file'),'x');assert.throws(()=>createNativeFileControls({...s.options,stateDir:path.join(s.root,'file')}),{code:'NATIVE_FILE_STATE_FOLDER_UNAVAILABLE'});
   if(process.platform==='win32'){const target=path.join(s.root,'target'),link=path.join(s.root,'link');await fsp.mkdir(target);await fsp.symlink(target,link,'junction');
-    assert.throws(()=>createNativeFileControls({...s.options,stateDir:link}),{code:'INVALID_NATIVE_FILE_COMPOSITION'});}
+    assert.throws(()=>createNativeFileControls({...s.options,stateDir:link}),{code:'NATIVE_FILE_STATE_FOLDER_UNAVAILABLE'});}
   for(const bad of [{},{acquireMediaSlot:1},{acquireMediaSlot:async()=>{},extra:1}])assert.throws(()=>production.createJob(bad),{code:'INVALID_NATIVE_FILE_COMPOSITION'});
   assert.equal(s.runs,0);
 });
@@ -84,17 +86,18 @@ test('NF-C3: readiness keeps its fixed order and hiding, and production never be
 
 test('NS-09a: every literal refusal code in the scanned modules has fixed main text',()=>{
   // Record 37 §6's modules plus the helpers a native job calls into (device evidence,
-  // capabilities, the process runner and source identity).
+  // capabilities, adapters, the process runner, source identity and output provenance).
   const dir=path.join(__dirname,'..','src'),files=fs.readdirSync(dir).filter(name=>/^native-file-.*\.cjs$/.test(name))
-    .concat(['native-backend-service.cjs','outputs.cjs','backend-observation.cjs','backend-capabilities.cjs','process-runner.cjs','source-identity.cjs']);
+    .concat(['native-backend-service.cjs','outputs.cjs','backend-observation.cjs','backend-capabilities.cjs','backend-adapters.cjs','process-runner.cjs','source-identity.cjs','provenance.cjs']);
   const prefixes={'native-file-oracle.cjs':'NATIVE_ORACLE_','native-file-template.cjs':'NATIVE_TEMPLATE_'},found=new Set();
   for(const name of files){const text=fs.readFileSync(path.join(dir,name),'utf8'),prefix=prefixes[name]||'';
-    for(const m of text.matchAll(/\b(?:fail|failure)\(\s*['"]([A-Z][A-Z0-9_]*)['"]/g))found.add(prefix+m[1]);
+    for(const m of text.matchAll(/\b(?:fail|failure|error)\(\s*['"]([A-Z][A-Z0-9_]*)['"]/g))found.add(prefix+m[1]);
     for(const m of text.matchAll(/\b(?:ToolError|beforeSpawnError)\(\s*['"]([A-Z][A-Z0-9_]*)['"]/g))found.add(m[1]);
     for(const m of text.matchAll(/\bcode\s*:\s*['"]([A-Z][A-Z0-9_]*[A-Z0-9])['"]/g))found.add(m[1]);
     if(name==='native-file-runtime.cjs')for(const m of text.matchAll(/\[['"]([A-Z][A-Z0-9_]+)['"],\s*['"]/g))found.add(m[1]);}
   // Shared preparation and Start codes the native gate passes through (encoder-service.cjs).
-  for(const code of ['BUSY','SHUTTING_DOWN','NO_INPUTS','STALE_PLAN','UNPREPARED_FILE','INVALID_REQUEST','INVALID_ID','INVALID_FOLDER'])found.add(code);
+  for(const code of ['BUSY','SHUTTING_DOWN','NO_INPUTS','STALE_PLAN','UNPREPARED_FILE','INVALID_REQUEST','INVALID_ID','INVALID_FOLDER','CAPABILITIES_FAILED'])found.add(code);
+  for(const code of ['INVALID_NATIVE_SETTINGS','NATIVE_DEVICE_MISMATCH','INVALID_CAPABILITY_POLICY','PROVENANCE_UNAVAILABLE'])assert.ok(found.has(code),code);
   assert.ok(found.size>=140,String(found.size));
   for(const code of found){const refusal=nativeRefusal({code,message:'D:\\zq-sentinel\\folder\\file.mkv'});assert.equal(refusal.reasonCode,code,code);assert.ok(!refusal.reason.includes('zq-sentinel'),code);}
   for(const [code,text] of [...Object.entries(NATIVE_MESSAGES),...Object.entries(NATIVE_MESSAGE_FAMILIES)])
@@ -112,6 +115,13 @@ test('NS-09a: unknown or hostile errors get the fixed job-failed text and keep t
   assert.equal(nativeRefusal({code:'NATIVE_TEMPLATE_'}).reasonCode,'NATIVE_FILE_JOB_FAILED');
   assert.equal(nativeRefusal({code:'OUTPUT_FOLDER_CHANGED',message:'EPERM D:\\out'}).reason,NATIVE_MESSAGES.OUTPUT_FOLDER_CHANGED);
   const cause=nativeRefusal(Object.assign(new Error('x'),{code:'NATIVE_FILE_STAGE_CHANGED',cause:{code:'EBUSY'}}));assert.equal(cause.nativePrivate.causeCode,'EBUSY');
+  assert.equal(Object.hasOwn(cause.nativePrivate,'memberCodes'),false);
+  // An aggregate keeps at most eight member codes, read safely; the shown text stays fixed.
+  const members=[{code:'NATIVE_FILE_UNSETTLED'},{code:'EBUSY'},'text',{get code(){throw new Error('trap');}},{code:'not a code'},...Array.from({length:6},()=>({code:'EPERM'}))];
+  const aggregate=nativeRefusal(new AggregateError(members,'Native runtime closure is incomplete.'));
+  assert.deepEqual([aggregate.reasonCode,aggregate.nativePrivate.code],['NATIVE_FILE_JOB_FAILED',null]);
+  assert.deepEqual(aggregate.nativePrivate.memberCodes,['NATIVE_FILE_UNSETTLED','EBUSY',null,null,null,'EPERM','EPERM','EPERM']);
+  assert.equal(nativeRefusal({errors:new Proxy([],{get(){throw new Error('trap');}})}).reasonCode,'NATIVE_FILE_JOB_FAILED');
   for(const hostile of [null,undefined,'NATIVE_FILE_DESTINATION',{code:'__proto__'},{code:'constructor'},{code:'a'.repeat(300)},{get code(){throw new Error('trap');}},new Proxy({},{get(){throw new Error('trap');}})])
     assert.equal(nativeRefusal(hostile).reasonCode,'NATIVE_FILE_JOB_FAILED');
   // A code that changes between reads is read once: it can neither throw nor return a non-text code.

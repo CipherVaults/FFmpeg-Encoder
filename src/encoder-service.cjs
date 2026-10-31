@@ -403,14 +403,16 @@ class EncoderService extends EventEmitter {
       const runtime = this.nativeFileRuntime;
       if (!runtime) return true;
       let settled = false, failure = null, facts = {};
+      try { await runtime.close(); } catch (error) { failure = error; }
+      // The facts are read on both paths: a rejected close is the usual
+      // permanent-quarantine case, and its record must say what is still held.
       try {
-        await runtime.close();
         const s = runtime.snapshot();
         facts = { busy: s.busy === true, leaseHeld: s.leaseHeld === true, leaseOwnershipUnknown: s.leaseOwnershipUnknown === true,
           sourceHeld: s.sourceHeld === true, slotHeld: this.nativeMediaSlot !== null };
-        settled = s.busy === false && s.leaseHeld === false && s.leaseOwnershipUnknown === false && s.sourceHeld === false
+        settled = !failure && s.busy === false && s.leaseHeld === false && s.leaseOwnershipUnknown === false && s.sourceHeld === false
           && this.nativeMediaSlot === null;
-      } catch (error) { failure = error; }
+      } catch (error) { failure ||= error; }
       if (settled && this.nativeFileRuntime === runtime) { this.nativeFileRuntime = null; this.nativeFileJob = null; }
       await this.recordIncident({ stage: 'recovery', reason: settled ? 'NATIVE_RUNTIME_SETTLED' : 'NATIVE_RUNTIME_CLOSE_FAILED',
         severity: settled ? 'info' : 'warning', context: { settled, ...facts,

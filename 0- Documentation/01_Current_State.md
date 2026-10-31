@@ -1,3 +1,10 @@
+> **October 31, 2026, ~04:10 Cairo: development active; C2 of the AMD/Intel connection independently reviewed and fixed.**
+> - The review found one real gap: once very large native records exist (C4), the window could have seen native error output. That is closed, and so are 8 smaller issues.
+> - A wrong build now stops startup instead of quietly switching native files off.
+> - Evidence: receipt `c2-review-focused` 232/232. The full suite shows only the 5 known catalog failures.
+> - Native file encoding stays unreachable: policies `[]`, and nothing can prepare or start a native batch.
+> - Next: C3. [Continuation](10_Continuation_State.md).
+
 > **October 30, 2026, ~23:59 Cairo: development active; C2 of the AMD/Intel connection written and tested, review pending.**
 > - The app service now owns the native file slot. A native file job that cannot confirm it released its device, files and work folder keeps the app in a clear "not settled" state, and the app retries instead of reporting a generic busy.
 > - The diagnostics the window can read now hide native private details and native error output. The saved journal keeps them for main-process audit.

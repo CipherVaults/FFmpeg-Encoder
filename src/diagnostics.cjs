@@ -88,6 +88,8 @@ function boundedContext(value, maximum) {
     const result = Array.isArray(item) ? [] : Object.create(null);
     const descriptors = Object.getOwnPropertyDescriptors(item);
     const keys = Object.keys(descriptors).filter(key => key !== 'length');
+    // The reserved native key is bounded first, so its main-only detail is kept in preference to other fields.
+    if (depth === 0 && keys.includes('nativePrivate')) keys.unshift(...keys.splice(keys.indexOf('nativePrivate'), 1));
     if (keys.length > 128) truncated = true;
     for (const key of keys.slice(0, 128)) {
       if (remaining < 64 || nodes >= 2048) { truncated = true; break; }
@@ -104,8 +106,17 @@ function boundedContext(value, maximum) {
     }
     seen.delete(item); return result;
   };
-  const result = visit(value, 0);
-  if (Buffer.byteLength(JSON.stringify(result)) > maximum) return { value: null, truncated: true };
+  // A native event's marker survives every bound (a skipped accessor, the key
+  // budget, or an oversized whole), so rendererEvent always withholds its
+  // private detail and stderr text; failing open would show them.
+  // The marker goes first, as visit orders it, so a stored context re-bounds
+  // to itself when it is read back.
+  const native = plain(value) && Object.hasOwn(value, 'nativePrivate');
+  let result = visit(value, 0);
+  if (native && !Object.hasOwn(result, 'nativePrivate')) { result = Object.assign(Object.create(null), { nativePrivate: null }, result); truncated = true; }
+  if (Buffer.byteLength(JSON.stringify(result)) > maximum) {
+    return { value: native ? Object.assign(Object.create(null), { nativePrivate: null }) : null, truncated: true };
+  }
   return { value: result, truncated };
 }
 function liveOwner(owner) {

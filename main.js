@@ -164,14 +164,18 @@ async function createWindow() {
     acquireMediaSlot: request => service.acquireNativeMediaSlot(request),
     retainInitialization: report => service.retainNativeInitialization(report) });
   // Native file encoding (Beta) is composed once with its fixed empty catalog.
-  // An environmental failure leaves it unavailable; a non-production brand or
-  // any policy row is a build defect and stops startup.
+  // Only the data folder's own condition leaves it unavailable; any other
+  // refusal (extra keys such as policies, a non-genuine backend service, a
+  // non-production brand or a policy row) is a build defect and stops startup.
   let nativeFiles = null, nativeFilesFailure = null;
   try {
     nativeFiles = createNativeFileControls({ stateDir, nativeBackends: nativeControls.nativeBackends,
       runtime: Object.fromEntries(['ffmpeg', 'ffprobe'].map((name, index) => [name,
         { file: runtime[name], sizeBytes: runtime.verified[index].sizeBytes, sha256: runtime.verified[index].sha256 }])) });
-  } catch (error) { nativeFilesFailure = nativeRefusal(error); }
+  } catch (error) {
+    if (error?.code !== 'NATIVE_FILE_STATE_FOLDER_UNAVAILABLE') throw error;
+    nativeFilesFailure = nativeRefusal(error);
+  }
   if (nativeFiles) assertProductionNativeFileControls(nativeFiles);
   service = new EncoderService({ ffmpeg: runtime.ffmpeg, ffprobe: runtime.ffprobe, runtimeIdentity, stateDir,
     ...createOperationControls({ runtime, stateDir, families: FAMILIES, policyIdentity: POLICY_ID }),

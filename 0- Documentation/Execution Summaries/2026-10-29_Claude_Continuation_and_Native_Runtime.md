@@ -288,3 +288,70 @@ It covered the C1 fix delta (`e49f07d..87b05e7`, runtime and controls) and C2 (`
 - The settle path is still proven with stub runtimes. NS-18 covers encode profiles only.
 - Journals written before this fix cannot hold a native context with `nativePrivate` out of first place: no native file job could run, and the composition record has only that key.
 - No hardware, Electron window or real encode ran.
+
+## Pause and the Codex teammate arrangement — October 31 ~05:00–22:00 Cairo
+
+**Pause (~05:00).** Ahmed paused development until ChatGPT Plus and Codex were available, with the weekly quota at 64%.
+- The ticks were turned off.
+- C3 was left uncommitted, with a local backup (`c3-wip/`).
+- Banners were committed in `b7c8b70`.
+
+**Owner talk (11:31–21:30).** Ahmed's decisions are in [record 40](../40_Codex_Teammate_Arrangement_2026-10-31.md):
+- Development is active again.
+- Claude leads, reviews and commits. Codex executes in this folder with full access at xhigh, and never commits.
+- A fresh local Codex session replaces the old thread.
+- Quota limits: 80% of the 5-hour window and 90% of the weekly window.
+- Shadowplay: read anything; write new files only in `F:\shadow play\FFmpeg Encoder Tests\`; never delete, move, rename or overwrite.
+
+**Read-only checks behind those decisions:**
+- **The Codex CLI.**
+  - It is not on the Bash or PowerShell PATH.
+  - The app bundles it at `%LOCALAPPDATA%\OpenAI\Codex\bin\22cfb1d302613eae\codex.exe` (0.166.0-alpha.5.1). An older copy sits in `%USERPROFILE%\.codex\.sandbox-bin\` (0.162.0-alpha.2).
+  - `exec` supports `-C`, `--json`, `-o`, `--output-schema`, `--ignore-user-config` and both bypass flags. `exec resume` takes the same fixed flags but no `-C` or `--color`.
+  - Sol's efforts are low, medium, high, xhigh, max and ultra; "ultra" adds automatic task delegation.
+- **The old thread `01a1654e…`** (147 MB, 26,216 lines, cwd `D:\Codex Projects\FFmpeg Encoder`):
+  - Ahmed's model-switch turn at 18:39 UTC sent 202,248 input tokens, of which 24,064 were cached.
+  - Its last user messages are the October 29 handoff to Claude and today's "don't continue working just yet".
+- **The old folder `D:\Codex Projects\FFmpeg Encoder`.**
+  - HEAD is `8ef7ad1`, an ancestor of `b7c8b70` (21 commits since).
+  - It has 39 non-Planning uncommitted paths, the newest changed October 26 at 16:57 Cairo. These are the state Claude took over and finished in `253c567` and later commits.
+  - It was left untouched.
+- **Quota visibility.** Codex's `token_count` events carry `rate_limits`: 300-minute and 10,080-minute windows with `used_percent` and `resets_at`, plus `plan_type`. They trail the newest call: the 18:40 UTC reading still showed 0% while the app showed 10%.
+
+**Stage 0 work (uncommitted until this section's commit).**
+- Before-copies: `artifacts/v0.7/claude-reentry-2026-10-29/before-source/codex-teammate/` (with `SHA256SUMS`).
+- **Records:**
+  - record 40;
+  - new top banners in `AGENTS.md`, 10 and 01 (the morning pause is now history);
+  - `CLAUDE.md`: the hard-limit line, the Codex bullets and the writer lines;
+  - the 07 index;
+  - this section.
+- **Toolkit:**
+  - `codex-run` rewritten for working in place;
+  - the guard's Shadowplay rule;
+  - the Codex copies regenerated with `toolkit-sync --write` (`--check` passes).
+- **Test folder:** root created `F:\shadow play\FFmpeg Encoder Tests\` with a `README.txt` stating the rules. It is the folder's only file, and the guard tests use it as their "already exists" case.
+- **Writer lock:** `codex-pilot`. The ticks stay off.
+
+**Independent review (workflow `wf_807770ac-884`).**
+- Setup: three `reviewer` lenses (security, correctness against the real CLI and Windows, records against Ahmed's words) and one adversarial verifier, 4 agents.
+- Outcome: 37 candidates, 17 confirmed and fixed, 20 duplicates or refuted. Record 40 lists the 17.
+- The two that mattered most:
+  - a link created in the test folder could have let a later "new file" write reach a personal original;
+  - the quota gate read the wrong session files, so it would have refused the pilot on an October 27 reading from the old plan.
+
+  Both are fixed and covered by tests.
+- Live check after the fix, read-only: the gate now finds the 18:40 UTC reading (Plus plan, 300-minute window resetting at 22:28 UTC). The hidden-state snapshot of this repository takes about 0.5 s.
+
+**Evidence:**
+- `stage0-guard`: 10/10.
+- `stage0-codex-run`: 15/15. Every gate, exit path and rejection runs against `fake-codex.cjs`; no real Codex ran.
+- `stage0-toolkit-sync`: 5/5, including the drift test over the real repository.
+
+**Limits:**
+- No real Codex job has run. Three things wait for the Stage 1 pilot:
+  - whether Codex fires `.codex/hooks.json` for its own tool names;
+  - whether sign-in survives `--ignore-user-config`;
+  - whether `features.memories=false` is honoured.
+- The guard is defence in depth: a script file that writes into the media folder on its own is not seen.
+- The `06_SESSION_SUMMARY` entry for this session comes with the C3 checkpoint, which closes the same piece of work.

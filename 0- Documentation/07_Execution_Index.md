@@ -1,3 +1,10 @@
+- **October 31, 2026 — [Pause lifted; Codex joins as a teammate](Execution%20Summaries/2026-10-29_Claude_Continuation_and_Native_Runtime.md#pause-and-the-codex-teammate-arrangement--october-31-05002200-cairo).** Ahmed paused at ~05:00 until Codex was available, then set the arrangement in [record 40](40_Codex_Teammate_Arrangement_2026-10-31.md):
+  - Claude leads; Codex executes in this folder with full access at xhigh and never commits.
+  - Quota limits are 80% (5-hour window) and 90% (weekly).
+  - Shadowplay: write new files only in the test folder, and never delete there.
+
+  `codex-run` was rewritten for working in place, and the guard has the Shadowplay rule. An independent review confirmed 17 findings, all fixed before the commit. Receipts: `stage0-codex-run` 15/15, `stage0-guard` 10/10, `stage0-toolkit-sync` 5/5.
+
 - **October 31, 2026 — [C2 review: 9 confirmed findings fixed](Execution%20Summaries/2026-10-29_Claude_Continuation_and_Native_Runtime.md#c2-review--october-31-03200410-cairo).** A four-agent independent review covered the C1 fix delta and C2. 1 medium and 8 low findings were fixed with tests. Receipts: `c2-review-focused` 232/232, `c2-review-full`, `c2-head-catalogs-87b05e7` and the break ledger `c2-review-breaks`. Policies remain `[]`.
 
 - **October 30, 2026 — [C2 written: service-owned native file slot, quarantine and diagnostics projection](Execution%20Summaries/2026-10-29_Claude_Continuation_and_Native_Runtime.md#c2-written--october-30-23302359-cairo-review-pending).** Receipt `c2-focused` 228/228; the full suite (`c2-service`) has only the 5 documented catalog failures; 33 of 34 deliberate breaks caught. The independent review is pending (usage past 80%). Policies remain `[]`; no native batch can be prepared.

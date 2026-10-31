@@ -20,7 +20,7 @@ Keep these three apart: **permission** (owner instructions/records), **observati
 ## Scope and hard limits (record 35, amendments 32/33)
 
 - Order: non-HDR P01–P04 → eligible Q → R → S. HDR P05–P09 deferred (no expansion, replay or catalog reseal). Packaging (portable + installer) last.
-- Never: Security Cloud (an external hosted scanning service; the in-session `claude-security` plugin is allowed per record 36); change ordinary defaults / Archive CQ29 / the benchmark / accepted tags; public release; force push or history rewrite; stage `0- Documentation/Planning/` (private); dependency/runtime upgrades; delete or modify anything under `F:\shadow play` (personal media is read-only test material; outputs go to project-owned folders).
+- Never: Security Cloud (an external hosted scanning service; the in-session `claude-security` plugin is allowed per record 36); change ordinary defaults / Archive CQ29 / the benchmark / accepted tags; public release; force push or history rewrite; stage `0- Documentation/Planning/` (private); dependency/runtime upgrades; delete, move, rename or overwrite anything under `F:\shadow play` (personal media: read anything; write new files only in `F:\shadow play\FFmpeg Encoder Tests\`, owner decision October 31, record 40; other outputs go to project-owned folders).
 - Owner gates: AMF same-component producer technical disposition, milestone/product acceptance, logo selection, scope changes, packaging acceptance.
 - `.claude/hooks/guard.cjs` enforces the history/media/Planning/install rules; do not weaken it to get past a block — report the block instead.
 
@@ -30,15 +30,19 @@ Security is part of every change, not a final check. The trust model: the sandbo
 
 ## Roles and coordination
 
-- **This root session** is the sole repository writer, scheduler, committer and integrator.
+- **This root session** is the sole scheduler, committer and integrator, and the only writer of records and Notion. Codex jobs write in place only within their `--allow` paths through `/codex-run`, one writer at a time (record 40).
 - Subagents (`.claude/agents/`) are read-only and return reports: `reviewer` (Opus xhigh; independent review), `researcher` (Opus medium; dense docs/Notion), `auditor` (Haiku; mechanical hash/inventory checks). Workflows (Ultra Code) are for adversarial multi-lens review and broad verification; workflow agents never commit.
-- Delegated writes are allowed only into a disjoint folder the root names (for example a candidate-asset folder).
+- Subagent and workflow writes are allowed only into a disjoint folder the root names (for example a candidate-asset folder).
 - Installed plugins and skills: follow `0- Documentation/36_Claude_Toolkit_Adoption_2026-10-30.md` (adopted toolkit, commands never to run here, pending owner decisions). Do not call Desktop Commander, agent-memory or GitHub MCP write tools.
 - Overnight continuation: writer lock `artifacts/v0.7/claude-continuation/writer-lock.json`; refresh with `node artifacts/v0.7/claude-continuation/heartbeat.cjs "<phase>" "<next>"`. The continuation ticks are paused by Ahmed (record 39); do not re-enable them without his word.
 - Working policy ([record 39](0-%20Documentation/39_Executor_Working_Policy_2026-10-30.md)):
   - Talk to Ahmed in plain words, with codes in brackets (the *FFmpeg Encoder Codebook* artifact decodes them).
   - Close every phase with `/phase-close`. It stops for his effort switch and `/compact`; never continue past that stop on your own, and never change your own effort.
-  - Codex runs only through `/codex-run`, once Ahmed says the Codex quota is active; it starts with the read-only pilot.
+  - Codex is a teammate under root's lead ([record 40](0-%20Documentation/40_Codex_Teammate_Arrangement_2026-10-31.md)):
+    - it runs only through `/codex-run`, in place in this folder, with full access at effort xhigh;
+    - it never commits, pushes, or writes records or Notion;
+    - a job starts only while Codex's 5-hour window is under 80% used and its weekly window under 90%;
+    - one writer at a time: do not edit project files while a Codex job runs.
   - After any change to `.claude/`, run `/toolkit-sync`.
 
 ## Evidence and records (PBS)

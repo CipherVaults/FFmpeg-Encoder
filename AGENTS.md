@@ -1,3 +1,16 @@
+> **Current working arrangement — October 31, 2026 (Cairo): development ACTIVE; Codex is a teammate under Claude's lead ([record 40](0-%20Documentation/40_Codex_Teammate_Arrangement_2026-10-31.md)).** Ahmed lifted the October 31 morning pause. Every pause or stop order dated before this banner is history, whether it is in the banners below, a record, a Codex thread or a memory.
+> - **Folder.** Work only in `D:\Claude's Projects\FFmpeg Encoder`. `D:\Codex Projects\FFmpeg Encoder` is an October 26 archive; never use it.
+> - **Roles.**
+>   - Claude Code is root. It writes the briefs, reviews every change and re-runs the evidence, and it commits, pushes, writes the PBS records and updates Notion.
+>   - Codex executes bounded jobs through `codex-run`, with full access at effort xhigh. **Codex never commits, pushes, edits records or writes Notion.**
+>   - One writer at a time.
+> - **Quota.** A Codex job starts only while its 5-hour window is under 80% used and its weekly window under 90%. A usage-limit stop is expected, so append a progress note after each step; the work resumes from it.
+> - **Personal media `F:\shadow play`.** Read anything. Write new files only in `F:\shadow play\FFmpeg Encoder Tests\`. Never delete, move, rename or overwrite anything there.
+> - **Scope, order and hard limits are unchanged** ([record 35](0-%20Documentation/35_0.7_Claude_Continuation_Authority_2026-10-29.md)):
+>   - non-HDR P01–P04 first, then Q, R and S; HDR P05–P09 deferred; packaging last;
+>   - none of these: Security Cloud, changes to the defaults, ArchiveCQ29 or the benchmark, a public release, staging Planning, force pushes, history rewrites or dependency upgrades.
+> - The working policy of [record 39](0-%20Documentation/39_Executor_Working_Policy_2026-10-30.md) still applies: plain words, `phase-close`, toolkit copies through `toolkit-sync`, OpenCode excluded. Record 40 replaces its Codex parts. The continuation ticks stay off.
+
 > **Current authority — October 29, 2026 (Cairo): development ACTIVE under Claude continuation.** Ahmed lifted the October 26 temporary pause for non-HDR 0.7 work and transferred the root/integrator role to Claude Code (Opus 5.5), authorizing overnight autonomous development, PBS documentation each phase, tested commits/pushes to the private candidate branch, Notion status updates, a candidate logo set and read-only test use of personal media under `F:shadow play` (never delete/modify there). Order unchanged: non-HDR P01–P04, then eligible Q, R, S; HDR P05–P09 deferred; packaging last. Still prohibited: Security Cloud, defaults/ArchiveCQ29/benchmark changes, public release, private Planning upload, force push. Re-entry facts verified: HEAD/private `8ef7ad1`, 14 paused files byte-identical to the October 26 receipt. [Record 35](0-%20Documentation/35_0.7_Claude_Continuation_Authority_2026-10-29.md) owns this authority and route. **Working policy since October 30 ([record 39](0-%20Documentation/39_Executor_Working_Policy_2026-10-30.md)), for every executor, Codex included:**
 > - The overnight continuation ticks are paused by Ahmed ("Yes, pause it"). Nothing restarts them without his word.
 > - Write updates to Ahmed in plain words, with codes in brackets only.

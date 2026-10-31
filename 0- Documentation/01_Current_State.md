@@ -1,3 +1,9 @@
+> **October 31, 2026, ~22:00 Cairo: development ACTIVE again, now with Codex as a teammate** ([record 40](40_Codex_Teammate_Arrangement_2026-10-31.md)).
+> - Claude leads, reviews and commits. Codex (GPT-6.1 Sol, extra high) does bounded jobs in this folder and never commits.
+> - First comes a read-only Codex pilot. Then Codex finishes the C3 checkpoint, and Claude verifies and commits it.
+> - C3 is still uncommitted. Native file encoding stays unreachable: policies `[]`, and Start refuses native plans.
+> - The morning pause below is history.
+
 > **October 31, 2026, ~05:00 Cairo: development PAUSED by Ahmed until ChatGPT Plus and Codex are available** (weekly quota at 64%).
 > - The continuation ticks are off.
 > - C3 (preparing native batches in main) is written and its focused tests pass, but it is not yet committed, receipted or reviewed. It sits in the working tree, with a local backup.

@@ -1,3 +1,17 @@
+> **ACTIVE — October 31, 2026, ~22:00 Cairo. Writer lock phase `codex-pilot`.** Ahmed lifted his ~05:00 pause and set the Codex teammate arrangement ([record 40](40_Codex_Teammate_Arrangement_2026-10-31.md)). In his words: "go ahead, Claude. You have full authority to execute and test and go with your plan and see how it goes."
+> - **Roles.** Claude (root) leads: it reviews, re-runs the evidence, writes the records and Notion, and commits and pushes. Codex executes through `/codex-run` only, in this folder, with full access at effort xhigh, and never commits. One writer at a time.
+> - **Quota.** A Codex job starts only while Codex's 5-hour window is under 80% used and its weekly window under 90%. The wrapper reads Codex's own logs.
+> - **Shadowplay.** Read anything. Write new files only in `F:\shadow play\FFmpeg Encoder Tests\`. Never delete, move, rename or overwrite.
+> - The continuation ticks stay off.
+> - **C3 is still UNCOMMITTED.** The files and the local backup `c3-wip/` are listed in the banner below.
+> - **Next, in order:**
+>   1. Stage 0 commit: record 40, these banners and the rewritten `codex-run` and guard.
+>   2. Stage 1: a read-only Codex pilot.
+>   3. Stage 2: Codex finishes the C3 checkpoint. That covers the two test gaps (NS-03, NS-19), the ledger re-run, the `c3-focused` and full-suite receipts, and an independent review.
+>   4. Root verifies, re-runs the receipts, commits, pushes, reads back, and updates Notion.
+>   5. Then C4, the P04 recheck and C7.
+> - The PAUSED banner below is history.
+
 > **PAUSED BY AHMED — October 31, 2026, ~05:00 Cairo. Writer lock phase `paused-owner-codex-wait`.** Ahmed, in his words: "don't continue on the next heart beat, I think we can wait for when I have ChatGPT Plus, and Codex with us to help us, since we are at a 64% of the weekly quota, and setting up and testing Codex will use a lot of quota on it's own most likely, so wait, don't continue development just yet."
 > - The hourly session tick was deleted and the 3-hourly backup task `ffmpeg-encoder-continuation-backup` was disabled. Neither may be re-enabled without Ahmed's word.
 > - **C3 is written but UNCOMMITTED** in the working tree: `src/encoder-service.cjs` and `src/native-file-controls.cjs` (changed), plus the new `src/native-file-workspace.cjs`, `tests/native-file-fixture.cjs` and `tests/native-file-prepare.test.cjs`.

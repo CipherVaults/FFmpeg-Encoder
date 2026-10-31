@@ -19,6 +19,8 @@ const { StorageEligibility } = require('./storage-eligibility.cjs');
 const { InspectionCache } = require('./inspection-cache.cjs');
 const { retainNativeInitialization } = require('./native-initialization-evidence.cjs');
 const { nativeFileControlsKind, nativeRefusal, NATIVE_MESSAGES } = require('./native-file-controls.cjs');
+const { readNativeBatchRequest, nativeBatchFolders, requireNativeReadiness, nativeGateRefusal, requireNativeOutputFolder,
+  requireNativeSelection, nativeBatchState, nativeItemRefusal, prepareNativeItem } = require('./native-file-workspace.cjs');
 const { Preferences } = require('./preferences.cjs');
 const { DiagnosticJournal } = require('./diagnostics.cjs');
 const { AppSettings } = require('./app-settings.cjs');
@@ -329,13 +331,18 @@ class EncoderService extends EventEmitter {
     if (this.busy || this.preferenceMutation || this.nativeMediaSlot) throw fail('BUSY', 'Wait for the current operation and cleanup to finish.');
   }
   closeAdmission() { this.admissionClosed = true; }
+  // Record 37 §3.5: a prepared native file plan fixes its selection, source
+  // permissions and options; Cancel or a new folder revokes it first.
+  requireNoNativePlan(code) {
+    if (this.plan?.operation === 'native-encode') throw fail(code, NATIVE_MESSAGES[code]);
+  }
 
   getNativeBackendState() {
     if (!this.nativeBackends) throw fail('NATIVE_BACKEND_UNAVAILABLE', 'Native backend qualification is unavailable in this host.');
     return this.nativeBackends.snapshot();
   }
   selectNativeBackend(request) {
-    this.requireIdle(); this.getNativeBackendState();
+    this.requireIdle(); this.requireNoNativePlan('NATIVE_FILE_PLAN_ACTIVE'); this.getNativeBackendState();
     const result = this.nativeBackends.select(request);
     this.emitState(); return result;
   }
@@ -343,7 +350,7 @@ class EncoderService extends EventEmitter {
   // initialization, encode/decode probes and application workflows. A distinct
   // phase prevents getCapabilities from joining the wrong kind of task.
   async runNativeBackendOperation(method, request) {
-    this.requireIdle(); this.getNativeBackendState();
+    this.requireIdle(); this.requireNoNativePlan('NATIVE_FILE_PLAN_ACTIVE'); this.getNativeBackendState();
     const previousState = this.state, previousTimes = { startedAt: this.startedAt, finishedAt: this.finishedAt };
     const signal = this.begin('native-checking');
     const nativeOperation = {}; this.nativeOperation = nativeOperation;
@@ -438,6 +445,11 @@ class EncoderService extends EventEmitter {
   }
 
   async getCapabilities() {
+    return this.#getCapabilities();
+  }
+  // Only native preparation can select fixed-text failure diagnostics. A
+  // joined check keeps the policy of the caller that started it.
+  async #getCapabilities(native = false) {
     if (this.capabilityResult) return clone(this.capabilityResult);
     if (this.state.phase === 'checking') {
       await this.taskPromise;
@@ -478,8 +490,11 @@ class EncoderService extends EventEmitter {
         this.nativeCapabilities = null;
         await this.recordRuntimeVersions(error.runtimeVersions);
         this.state.phase = error.code === 'CANCELLED' ? 'cancelled' : 'failed';
-        this.state.error = error.message;
-        await this.recordIncident({ stage: 'capability', reason: 'CAPABILITY_FAILED', severity: 'error', message: error.message, ...diagnosticStderr(error), context: { code: error.code } });
+        const failure = native ? nativeRefusal(error) : null;
+        this.state.error = failure ? failure.reason : error.message;
+        // As for every native event, stderr keeps its bounded tail; the projection withholds its text.
+        await this.recordIncident({ stage: 'capability', reason: 'CAPABILITY_FAILED', severity: 'error', message: this.state.error,
+          ...diagnosticStderr(error), context: { code: error.code, ...(failure ? { nativePrivate: failure.nativePrivate } : {}) } });
       } finally { this.emitState(); }
     })();
     await this.taskPromise;
@@ -518,6 +533,8 @@ class EncoderService extends EventEmitter {
   }
 
   invalidatePreparedEncoding() {
+    // Ordinary encoder settings never feed a native plan, so saving them keeps it.
+    if (this.plan?.operation === 'native-encode') return;
     if (this.plan?.operation === 'remux') return;
     this.hdrOperations?.invalidate();
     this.encodePreservationOperations?.invalidate();
@@ -604,6 +621,8 @@ class EncoderService extends EventEmitter {
     if (!this.plan || id(request.planId) !== this.plan.id) throw fail('STALE_PLAN', 'Prepare the current batch again.');
     const entry = this.plan.entries.get(id(request.fileId));
     if (!entry) throw fail('UNPREPARED_FILE', 'Resolved encoding details are available after this file is admitted and prepared.');
+    // Native details were frozen at preparation and never derive from argv (record 37 §7).
+    if (entry.native) return clone(entry.details);
     // This is display data, not a shell command or an argument submission API.
     // Execution consumes this exact stored array, substituting only its final
     // staging filename. The eventual publication destination is separate.
@@ -743,7 +762,7 @@ class EncoderService extends EventEmitter {
     let destination = path.join(output.path, item.outputName);
     const preparedPlan = this.plan;
     if (this.plan.draft) item.operationRequest = this.plan.draft.fileRequest(item.id);
-    let inspectionDiagnostic;
+    let inspectionDiagnostic, nativePrivate = null;
     const onStage = detail => {
       if (signal.aborted || owner !== this.state.batchId || this.state.phase !== 'preparing') return;
       Object.assign(progress, { fileId: item.id, stage: detail.stage, window: detail.window || null });
@@ -756,7 +775,7 @@ class EncoderService extends EventEmitter {
       const { identity, reusable, reason } = await this.identifyForInspection(file, signal);
       assertIdentityMatches(baseline.identity, identity, { stage: 'after-directory-snapshot', message: 'Source identity changed after the directory snapshot.' });
       notCancelled(signal);
-      if (reason) progress.notice ||= reason;
+      if (reason) progress.notice ||= preparedPlan.operation === 'native-encode' ? NATIVE_MESSAGES.NATIVE_FILE_INSPECTION_REUSE_UNAVAILABLE : reason;
       let inspection = reusable ? await this.inspectionCache.lookup(identity) : null;
       let probe = inspection?.probe;
       item.inspectionMethod = inspection ? 'reused' : 'fresh';
@@ -838,11 +857,12 @@ class EncoderService extends EventEmitter {
       assertIdentityMatches(identity, await readFileStamp(file), { stage: 'after-inspection', message: 'Source identity changed during inspection.' });
       if (reusable && item.inspectionMethod === 'fresh') {
         await this.inspectionCache.store(identity, inspection);
-        if (this.inspectionCache.warning) progress.notice ||= this.inspectionCache.warning;
+        if (this.inspectionCache.warning) progress.notice ||= preparedPlan.operation === 'native-encode' ? NATIVE_MESSAGES.NATIVE_FILE_INSPECTION_REUSE_UNAVAILABLE : this.inspectionCache.warning;
       }
       // Inspection facts remain useful when a later operation policy refuses
       // the file. Duration in the preview is descriptive, never admission.
       item.summary = inspection.summary;
+      if (this.plan.operation === 'native-encode') { nativePrivate = prepareNativeItem.call(this, item, { file, destination, inspection, identity, caps, signal }); return; }
       if (!inspection.color.supported && inspection.color.classification === 'hdr' && this.hdrOperations) {
         const resolveTransformDestination = deferredSdrDestination ? async descriptor => {
           notCancelled(signal);
@@ -933,14 +953,18 @@ class EncoderService extends EventEmitter {
       item.details = typeof error.stderr === 'string' ? error.stderr.slice(-4000) : undefined;
       inspectionDiagnostic = diagnosticStderr(error);
       if (error.sourceIdentityDiagnostic) item.sourceIdentityDiagnostic = error.sourceIdentityDiagnostic;
+      // Invariant 9 (record 37): a native plan's item keeps fixed text only.
+      if (preparedPlan.operation === 'native-encode') nativePrivate = nativeItemRefusal(item, error);
     } finally {
       progress.active--;
       progress.workers = progress.workers.filter(entry => entry.fileId !== item.id);
       if (item.status !== 'pending') progress.resolved++;
+      if (preparedPlan.operation === 'native-encode') nativePrivate = { file, ...nativePrivate };
       await this.recordIncident({ stage: 'inspection', reason: 'FILE_INSPECTED', severity: item.status === 'unsupported' ? 'warning' : 'info',
         fileId: item.id, message: item.reason, ...(inspectionDiagnostic || {}),
-        context: { file: file, status: item.status, summary: item.summary, code: item.reasonCode,
-          ...(item.encodePreservation ? { preservation: item.encodePreservation, warnings: item.warnings || [] } : {}), sourceIdentityDiagnostic: item.sourceIdentityDiagnostic } });
+        context: { ...(preparedPlan.operation === 'native-encode' ? {} : { file }), status: item.status, summary: item.summary, code: item.reasonCode,
+          ...(item.encodePreservation ? { preservation: item.encodePreservation, warnings: item.warnings || [] } : {}), sourceIdentityDiagnostic: item.sourceIdentityDiagnostic,
+          ...(nativePrivate ? { nativePrivate } : {}) } });
       if (owner === this.state.batchId) this.emitState();
     }
   }
@@ -981,6 +1005,29 @@ class EncoderService extends EventEmitter {
     return this.prepareSourceBatch(request, 'remux');
   }
 
+  // Record 37 §3.2, in order. Main-only in C3 (the channel is C5, deferred).
+  // Production's empty catalog refuses at readiness, before any capability
+  // check, folder read or inspection. The selection token is captured after
+  // capabilities and reaches begin() with no await between them.
+  async prepareNativeFileBatch(request) {
+    try {
+      const native = readNativeBatchRequest(request);
+      if (!nativeFileControlsKind(this.nativeFiles) || !this.nativeBackends) throw fail('NATIVE_FILE_RUNTIME_UNAVAILABLE', NATIVE_MESSAGES.NATIVE_FILE_RUNTIME_UNAVAILABLE);
+      this.requireIdle();
+      const { input, output } = nativeBatchFolders.call(this, native);
+      requireNativeReadiness.call(this);
+      const caps = await this.#getCapabilities(true);
+      this.requireIdle();
+      const current = nativeBatchFolders.call(this, native);
+      if (current.input !== input || current.output !== output) throw fail('INVALID_FOLDER', NATIVE_MESSAGES.INVALID_FOLDER);
+      // The capture runs before the readiness recheck so that a capability
+      // refresh which dropped the selection says so (case 30). Both are synchronous.
+      const token = this.nativeBackends.captureFileSelection({ selectionId: native.selectionId, revision: native.revision });
+      requireNativeReadiness.call(this);
+      return await this.prepareSourceBatch(native, 'native-encode', { token, caps });
+    } catch (error) { throw nativeGateRefusal(error); }
+  }
+
   setRemuxOmissions(request) {
     objectKeys(request, ['planId', 'draftId', 'revision', 'decisionIds']);
     return setRemuxOmissions.call(this, request);
@@ -991,31 +1038,34 @@ class EncoderService extends EventEmitter {
     return setEncodePreservationDecisions.call(this, request);
   }
 
-  async prepareSourceBatch(request, operation) {
+  async prepareSourceBatch(request, operation, native = null) {
     const remux = operation === 'remux';
-    const settings = remux ? null : validateSettings(request.settings);
+    const settings = remux || native ? null : validateSettings(request.settings);
     const input = this.folders.get(id(request.inputFolderId));
     const output = this.folders.get(id(request.outputFolderId));
     if (input?.role !== 'input' || output?.role !== 'output') throw fail('INVALID_FOLDER', 'Select both folders again.');
     const sameFolder = input.path.toLowerCase() === output.path.toLowerCase();
     this.requireIdle();
-    const appDefaults = await this.getAppSettings();
-    const draft = new OperationDraft({ operation, appDefaults: appDefaults.defaults, appDefaultsRevision: appDefaults.revision });
+    // A native batch has no draft and already holds its capabilities, so it
+    // reaches begin() synchronously after its token capture (record 37 §3.2).
+    const appDefaults = native ? null : await this.getAppSettings();
+    const draft = native ? null : new OperationDraft({ operation, appDefaults: appDefaults.defaults, appDefaultsRevision: appDefaults.revision });
     if (Object.hasOwn(request, 'batchOverrides')) draft.setBatchOverrides({ draftId: draft.id, revision: 0, overrides: request.batchOverrides });
     if (remux) draft.setBatchOverrides({ draftId: draft.id, revision: 0, overrides: { remuxTarget: request.target } });
-    const caps = remux ? null : await this.getCapabilities();
+    const caps = remux ? null : native ? native.caps : await this.getCapabilities();
     this.requireIdle();
     if (this.folders.get(request.inputFolderId) !== input || this.folders.get(request.outputFolderId) !== output) {
       throw fail('INVALID_FOLDER', 'The folder selections changed. Select both folders again.');
     }
-    if (!remux && !caps.profiles.find(profile => profile.id === settings.profileId)?.available) throw fail('UNAVAILABLE_PROFILE', 'The selected encoder cannot initialize on this computer.');
-    if (!remux && settings.recipeId && !caps.recipes?.find(recipe => recipe.id === settings.recipeId)?.available) {
+    if (!remux && !native && !caps.profiles.find(profile => profile.id === settings.profileId)?.available) throw fail('UNAVAILABLE_PROFILE', 'The selected encoder cannot initialize on this computer.');
+    if (!remux && !native && settings.recipeId && !caps.recipes?.find(recipe => recipe.id === settings.recipeId)?.available) {
       throw fail('UNAVAILABLE_RECIPE', 'The named recipe cannot initialize with its complete settings on this computer. Choose standard options explicitly to continue.');
     }
-    const signal = this.begin('preparing');
     this.state.items = [];
     this.state.settings = settings;
     this.state.operation = operation;
+    if (native) this.state.native = nativeBatchState(native.token); else delete this.state.native;
+    const signal = this.begin('preparing');
     this.remuxOperations?.invalidate();
     this.hdrOperations?.invalidate();
     this.state.encodingSettingsStale = false;
@@ -1023,12 +1073,15 @@ class EncoderService extends EventEmitter {
     this.plan = { operation, encodePreservationGrants: new Map(), encodePreservationCandidates: new Map(), remuxGrants: new Map(), remuxCandidates: new Map(), remuxFacts: new Map(), id: randomUUID(), input: input.path, output: output.path, settings, sameFolder, draft, entries: new Map(),
       baseline: new Map(), reservedPaths: new Set(), reservedIdentities: new Set(), overrides: new Map(), ambiguities: new Map(),
       generated: new Map(), reencodeAuthorizations: new Map() };
+    if (native) this.plan.nativeSelection = native.token;
     this.state.planId = this.plan.id;
     this.taskPromise = (async () => {
       try {
-        await this.recordIncident({ stage: 'preparation', reason: 'PREPARATION_STARTED', context: { settings, input: input.path, output: output.path } });
+        await this.recordIncident({ stage: 'preparation', reason: 'PREPARATION_STARTED', context: { settings,
+          ...(native ? { nativePrivate: { input: input.path, output: output.path } } : { input: input.path, output: output.path }) } });
         await this.captureFolders();
         await this.verifyFolders();
+        if (native) await requireNativeOutputFolder(this.plan.output);
         await this.initializeInspectionCache(signal);
         const files = (await fs.readdir(input.path, { withFileTypes: true }))
           .filter(entry => (entry.isFile() || entry.isSymbolicLink()) && EXTENSIONS.has(path.extname(entry.name).toLowerCase()))
@@ -1040,20 +1093,24 @@ class EncoderService extends EventEmitter {
           const storage = candidate && await this.storageEligibility.check(candidate.identity.canonicalPath, candidate.identity, { signal });
           if (!storage?.eligible) throw fail('SAME_FOLDER_STORAGE', 'Output beside originals requires verified local fixed NTFS storage. Choose a distinct output folder for this storage.');
         }
-        const profile = remux ? null : PROFILES.find(entry => entry.id === settings.profileId);
-        this.state.items = files.map(entry => ({ id: randomUUID(), name: entry.name, outputName: remux ? remuxOutputName(entry.name, request.target) : encodeOutputName(entry.name, profile.suffix), status: 'pending', reason: '', reencodeAuthorized: false }));
-        draft.addSources(this.state.items.map(item => ({ fileId: item.id, identityRevision: 0 })));
-        this.state.operationDraft = draft.snapshot();
-        this.state.preparation = { total: files.length, resolved: 0, reused: 0, inspected: 0, active: 0, workers: [], stage: 'identity', fileId: null, notice: this.cacheWarning };
+        const profile = remux || native ? null : PROFILES.find(entry => entry.id === settings.profileId);
+        this.state.items = files.map(entry => ({ id: randomUUID(), name: entry.name, outputName: remux ? remuxOutputName(entry.name, request.target) : encodeOutputName(entry.name, native ? native.token.request.profileId : profile.suffix), status: 'pending', reason: '', reencodeAuthorized: false }));
+        draft?.addSources(this.state.items.map(item => ({ fileId: item.id, identityRevision: 0 })));
+        this.state.operationDraft = draft ? draft.snapshot() : null;
+        this.state.preparation = { total: files.length, resolved: 0, reused: 0, inspected: 0, active: 0, workers: [], stage: 'identity', fileId: null,
+          notice: native && this.cacheWarning ? NATIVE_MESSAGES.NATIVE_FILE_INSPECTION_REUSE_UNAVAILABLE : this.cacheWarning };
         const context = { input, output, settings, profile, caps, signal, owner: this.state.batchId };
         await this.prepareWithWorkers(context);
         this.markConflicts();
+        if (native) requireNativeSelection.call(this, native.token);
         this.state.phase = 'ready';
       } catch (error) {
         this.state.phase = this.preparationFailure ? 'failed' : signal.aborted || error.code === 'CANCELLED' ? 'cancelled' : 'failed';
-        this.state.error = error.message;
-        await this.recordIncident({ stage: 'preparation', reason: 'PREPARATION_FAILED', severity: 'error', message: error.message,
-          ...diagnosticStderr(error), context: { code: error.code || 'PREPARATION_FAILED' } });
+        // A native batch reports fixed text; the original stays main-only.
+        const refusal = native ? nativeRefusal(error) : null;
+        this.state.error = refusal ? refusal.reason : error.message;
+        await this.recordIncident({ stage: 'preparation', reason: 'PREPARATION_FAILED', severity: 'error', message: this.state.error,
+          ...diagnosticStderr(error), context: { code: error.code || 'PREPARATION_FAILED', ...(refusal ? { nativePrivate: refusal.nativePrivate } : {}) } });
         for (const item of this.state.items) if (item.status === 'pending') item.status = 'unprocessed';
         this.plan = null;
         this.state.planId = null;
@@ -1088,6 +1145,7 @@ class EncoderService extends EventEmitter {
 
   requireEditableDraft(planId, { allowStaleEncoding = false } = {}) {
     this.requireIdle();
+    this.requireNoNativePlan('NATIVE_FILE_OPTIONS_FIXED');
     if (!this.plan?.draft || this.state.phase !== 'ready' || id(planId) !== this.plan.id) {
       throw fail('STALE_PLAN', 'Review a current batch before changing its file options.');
     }
@@ -1283,6 +1341,7 @@ class EncoderService extends EventEmitter {
   async treatAsOriginal(request) {
     objectKeys(request, ['planId', 'fileId']);
     this.requireIdle();
+    this.requireNoNativePlan('NATIVE_FILE_SOURCE_PERMISSION_REQUIRED');
     if (!this.plan || this.state.phase !== 'ready' || id(request.planId) !== this.plan.id) throw fail('STALE_PLAN', 'Prepare the current batch again.');
     const item = this.state.items.find(entry => entry.id === id(request.fileId));
     const ambiguous = this.plan.ambiguities.get(request.fileId);
@@ -1321,6 +1380,7 @@ class EncoderService extends EventEmitter {
   async reencodeOutputs(request) {
     objectKeys(request, ['planId', 'fileIds']);
     this.requireIdle();
+    this.requireNoNativePlan('NATIVE_FILE_SOURCE_PERMISSION_REQUIRED');
     if (!this.plan || this.state.phase !== 'ready' || id(request.planId) !== this.plan.id) throw fail('STALE_PLAN', 'Prepare the current batch again.');
     if (!Array.isArray(request.fileIds) || !request.fileIds.length || request.fileIds.length > this.state.items.length) throw fail('INVALID_SELECTION', 'Choose the generated outputs to re-encode.');
     const selected = new Set(request.fileIds.map(id));
@@ -1414,6 +1474,9 @@ class EncoderService extends EventEmitter {
       if (names.has(key)) throw fail('OUTPUT_CONFLICT', 'Select only one input for each output name.');
       names.add(key);
     }
+    // C3 (record 37 §12): a native plan stays ready and unstarted until C4
+    // wires its job. Nothing has changed state at this point.
+    if (this.plan.operation === 'native-encode') throw fail('NATIVE_FILE_START_UNWIRED', NATIVE_MESSAGES.NATIVE_FILE_START_UNWIRED);
     for (const item of this.state.items) if (['ready', 'conflict'].includes(item.status)) item.status = selected.has(item.id) ? 'pending' : 'unprocessed';
     if (this.plan.draft) {
       const draft = this.plan.draft.snapshot();
@@ -1871,21 +1934,25 @@ class EncoderService extends EventEmitter {
     // not leave the old Start capability live.
     const preparedHdr = this.plan?.entries && [...this.plan.entries.values()].some(entry => entry.hdr);
     const preparedPreservation = this.state.items.some(item => item.encodePreservation);
-    if (!this.busy && (this.plan?.operation === 'remux' || preparedHdr || preparedPreservation) && this.state.phase === 'ready') {
+    // A ready native plan holds selection tokens and contracts; Cancel revokes them (record 37 §3.5).
+    const preparedNative = this.plan?.operation === 'native-encode';
+    if (!this.busy && (this.plan?.operation === 'remux' || preparedHdr || preparedPreservation || preparedNative) && this.state.phase === 'ready') {
       const remux = this.plan.operation === 'remux';
       if (remux) { this.remuxOperations.invalidate(); this.plan.remuxGrants.clear(); this.plan.remuxCandidates.clear(); }
+      if (preparedNative) this.plan.nativeSelection = null;
       this.hdrOperations?.invalidate(); this.plan.entries.clear();
       this.encodePreservationOperations?.invalidate(); this.plan.encodePreservationGrants.clear(); this.plan.encodePreservationCandidates.clear();
       this.plan = null; this.state.planId = null; this.state.operationDraft = null;
       for (const item of this.state.items) if (['ready', 'conflict'].includes(item.status)) {
         item.status = 'cancelled'; item.reason = `Prepared ${remux ? 'Remux' : preparedPreservation ? 'Encode preservation' : 'HDR'} cancelled. Prepare again to create new authority.`;
+        if (preparedNative) item.reason = NATIVE_MESSAGES.PREPARED_NATIVE_CANCELLED;
       }
       // Keep admission closed across asynchronous diagnostics and saved writes.
       // This cancellation must never fall through and abort a later batch.
       this.state.phase = 'cancelling';
       this.preparedCancellation = (async () => {
         try {
-          await this.recordIncident({ stage: 'cancellation', reason: remux ? 'PREPARED_REMUX_CANCELLED' : preparedPreservation ? 'PREPARED_ENCODE_PRESERVATION_CANCELLED' : 'PREPARED_HDR_CANCELLED' });
+          await this.recordIncident({ stage: 'cancellation', reason: preparedNative ? 'PREPARED_NATIVE_CANCELLED' : remux ? 'PREPARED_REMUX_CANCELLED' : preparedPreservation ? 'PREPARED_ENCODE_PRESERVATION_CANCELLED' : 'PREPARED_HDR_CANCELLED' });
         } finally {
           await drainWrites();
           this.state.phase = 'cancelled'; this.finishedAt = Date.now(); this.emitState();

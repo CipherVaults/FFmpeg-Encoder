@@ -1,3 +1,24 @@
+> **ACTIVE — October 31, 2026, ~23:45 Cairo. Writer lock phase `codex-c3-checkpoint`. C3 is COMMITTED and pushed in the commit that carries this banner.** Codex finished the checkpoint under root's lead ([record 40](40_Codex_Teammate_Arrangement_2026-10-31.md), Stage 2). Receipts are in `artifacts/v0.7/codex/`.
+> - **Codex work job `c3-test-gaps`** closed both test gaps: NS-03 (genuine backend with null or look-alike native file controls) and NS-19 (the literal cancel text).
+> - **Codex review `c3-review`** found 4 defects. Root confirmed them against the code; Codex work job `c3-fixes` fixed them with tests.
+>   - A native-started capability failure published its raw message and stderr.
+>   - Inspection-cache and identity notices carried path-bearing errno text into `preparation.notice`.
+>   - Native `FILE_INSPECTED` and `PREPARATION_STARTED` records showed the source and folder paths outside `nativePrivate`.
+>   - The first update of a new preparation still showed the previous plan's operation and native state.
+> - **Root changed one fix:** a native `CAPABILITY_FAILED` keeps stderr in its bounded tail, like every native event (the projection already withholds the text), and `nativePrivate` holds only the refusal's originals.
+> - **Codex re-review `c3-rereview` passed**, with no new defect.
+> - **Evidence**, on the working-tree bytes committed here:
+>   - `c3-focused`: 203/203 (`artifacts/v0.7/evidence/20261031T212734Z_c3-focused`).
+>   - Full suite: 2083 pass, 5 fail, 5 skipped. The 5 failures are the known suspended catalog tests, the same as `c2-review-full` (`…T212756Z_c3-full`).
+>   - Break ledger: 74 breaks, 70 caught, 4 expected equivalents, restored (`…T211848Z_c3-breaks-final`).
+> - **Codex cost of Stage 2:** its 5-hour window went from 12% to 53%, and its weekly window to 8%.
+> - **Not a C3 defect; for C7 to decide.** The general diagnostics status shows the diagnostics folder path. This has been ordinary 0.7 behaviour since `59b6b5b`; it is unused by the UI and is not a native path.
+> - **Next, in order:**
+>   1. After Claude's 5-hour reset (02:00 Cairo; it was at 91%): one independent Claude review workflow of C3's final bytes (5 agents or fewer). Fix anything confirmed.
+>   2. Records: the Execution Summary C3 section, record 40's Stage 2 results, the 07 index and the 06 session summary. Then the Notion hub and handoff, read back.
+>   3. Then C4, the P04 recheck and C7. Stop after C7.
+> - The banner below is history.
+
 > **ACTIVE — October 31, 2026, ~22:00 Cairo. Writer lock phase `codex-pilot`.** Ahmed lifted his ~05:00 pause and set the Codex teammate arrangement ([record 40](40_Codex_Teammate_Arrangement_2026-10-31.md)). In his words: "go ahead, Claude. You have full authority to execute and test and go with your plan and see how it goes."
 > - **Roles.** Claude (root) leads: it reviews, re-runs the evidence, writes the records and Notion, and commits and pushes. Codex executes through `/codex-run` only, in this folder, with full access at effort xhigh, and never commits. One writer at a time.
 > - **Quota.** A Codex job starts only while Codex's 5-hour window is under 80% used and its weekly window under 90%. The wrapper reads Codex's own logs.

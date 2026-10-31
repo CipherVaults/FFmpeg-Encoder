@@ -1,3 +1,9 @@
+> **October 31, 2026, ~23:45 Cairo: C3 (preparing native batches in main) is committed and pushed. Codex finished it under Claude's lead.**
+> - Codex added the two missing tests, then reviewed C3. It found 4 places where native details could leak or show stale state; all 4 are fixed and tested, and a second Codex review passed.
+> - Native file encoding stays unreachable: policies `[]`, and Start refuses native plans.
+> - Next: an independent Claude review after the usage reset, the records and Notion, then C4.
+> - The banner below is history.
+
 > **October 31, 2026, ~22:00 Cairo: development ACTIVE again, now with Codex as a teammate** ([record 40](40_Codex_Teammate_Arrangement_2026-10-31.md)).
 > - Claude leads, reviews and commits. Codex (GPT-6.1 Sol, extra high) does bounded jobs in this folder and never commits.
 > - First comes a read-only Codex pilot. Then Codex finishes the C3 checkpoint, and Claude verifies and commits it.

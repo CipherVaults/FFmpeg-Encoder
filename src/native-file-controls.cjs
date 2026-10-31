@@ -61,6 +61,8 @@ const NATIVE_MESSAGES = freeze(Object.assign(Object.create(null), {
   NATIVE_FILE_STAGE_QUOTA: 'Kept native work files have reached their limit. Remove the folders inside native-files in the app\'s data folder, then try again.',
   INVALID_NATIVE_FILE_COMPOSITION: 'Native file encoding is not composed correctly in this build.',
   NATIVE_FILE_JOB_FAILED: 'The native file job failed. The details are kept in the app\'s own diagnostics.',
+  NATIVE_FILE_START_UNWIRED: 'Native file batches cannot start in this build yet.',
+  PREPARED_NATIVE_CANCELLED: 'Prepared native file batch cancelled. Prepare again to create new authority.',
   // Runtime owner (native-file-runtime.cjs and its helpers).
   INVALID_NATIVE_FILE_RUNTIME: 'The native file runtime refused an invalid internal request.',
   NATIVE_FILE_SESSION_STALE: 'This native file session is no longer current.',
@@ -191,11 +193,20 @@ const NATIVE_MESSAGES = freeze(Object.assign(Object.create(null), {
   PROVENANCE_UNAVAILABLE: 'The output could not be given its identity marker.',
   // Shared preparation and Start codes the native gate passes through (encoder-service.cjs).
   CAPABILITIES_FAILED: 'The encoder capabilities could not be checked.',
+  NATIVE_FILE_INSPECTION_REUSE_UNAVAILABLE: 'Inspection reuse is unavailable; using fresh inspection.',
   BUSY: 'Wait for the current operation and cleanup to finish.',
   SHUTTING_DOWN: 'The application is closing.',
   NO_INPUTS: 'No supported top-level video files were found.',
   STALE_PLAN: 'The batch changed. Prepare it again.',
   UNPREPARED_FILE: 'Encoding details are available after this file is prepared.',
+  // Shared per-file preparation steps a native item passes through first (encoder-service.cjs, inspection.cjs, operation-names.cjs).
+  UNSAFE_SOURCE: 'This source file could not be read safely, or another name in the folder refers to the same file.',
+  INVALID_PROBE: 'The source file could not be read as a supported video.',
+  INVALID_INSPECTION: 'The source file could not be inspected.',
+  FRAME_DECODE_ERROR: 'The source file\'s pictures could not be decoded during inspection.',
+  EMPTY_FRAME_SAMPLE: 'The source file\'s pictures could not be decoded during inspection.',
+  FRAME_SAMPLE_COVERAGE: 'The source file\'s pictures could not be decoded during inspection.',
+  INVALID_OUTPUT_NAME: 'A source file name cannot form a safe output file name.',
   // Ordinary codes a native job can raise.
   CANCELLED: 'Cancelled.',
   INPUT_CHANGED: 'The source file changed after it was checked.',

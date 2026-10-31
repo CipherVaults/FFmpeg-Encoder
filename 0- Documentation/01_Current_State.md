@@ -1,3 +1,9 @@
+> **October 31, 2026, ~05:00 Cairo: development PAUSED by Ahmed until ChatGPT Plus and Codex are available** (weekly quota at 64%).
+> - The continuation ticks are off.
+> - C3 (preparing native batches in main) is written and its focused tests pass, but it is not yet committed, receipted or reviewed. It sits in the working tree, with a local backup.
+> - Native file encoding stays unreachable: policies `[]`, and Start refuses native plans.
+> - [Continuation](10_Continuation_State.md) has the exact resume steps.
+
 > **October 31, 2026, ~04:10 Cairo: development active; C2 of the AMD/Intel connection independently reviewed and fixed.**
 > - The review found one real gap: once very large native records exist (C4), the window could have seen native error output. That is closed, and so are 8 smaller issues.
 > - A wrong build now stops startup instead of quietly switching native files off.

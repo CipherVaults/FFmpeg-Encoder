@@ -1,3 +1,13 @@
+> **PAUSED BY AHMED — October 31, 2026, ~05:00 Cairo. Writer lock phase `paused-owner-codex-wait`.** Ahmed, in his words: "don't continue on the next heart beat, I think we can wait for when I have ChatGPT Plus, and Codex with us to help us, since we are at a 64% of the weekly quota, and setting up and testing Codex will use a lot of quota on it's own most likely, so wait, don't continue development just yet."
+> - The hourly session tick was deleted and the 3-hourly backup task `ffmpeg-encoder-continuation-backup` was disabled. Neither may be re-enabled without Ahmed's word.
+> - **C3 is written but UNCOMMITTED** in the working tree: `src/encoder-service.cjs` and `src/native-file-controls.cjs` (changed), plus the new `src/native-file-workspace.cjs`, `tests/native-file-fixture.cjs` and `tests/native-file-prepare.test.cjs`.
+>   - Before-copies: `artifacts/v0.7/claude-reentry-2026-10-29/before-source/c3/`. Backup of the C3 work (patch plus the new files, with `SHA256SUMS`): `artifacts/v0.7/claude-reentry-2026-10-29/c3-wip/`. Both are ignored, local-only folders.
+>   - The 26 focused tests (prepare, native file service, controls) passed in an unreceipted run.
+>   - Break ledger `artifacts/v0.7/evidence/20261031T024612Z_c3-breaks`: files restored; 55 of 62 breaks caught; 5 expected equivalents; **2 test gaps:** NS-03 needs a host with the backend service but no native file controls, and NS-19 must compare the cancel reason with the literal text instead of the table.
+>   - Not yet done: the two test fixes and a ledger re-run, the `c3-focused` and full-suite receipts, the independent review, the records, the commit and push, and the Notion hub and handoff.
+> - **Resume only on Ahmed's word** (expected once the ChatGPT Plus Codex quota is active; Codex runs only through `/codex-run`, read-only pilot first, record 39). Then finish the C3 checkpoint as listed above, then C4, the P04 recheck and C7.
+> - Earlier banners below are history.
+
 > **C2 reviewed and fixed — October 31, 2026, ~04:10 Cairo. Work ACTIVE on Ahmed's start ([record 39](39_Executor_Working_Policy_2026-10-30.md), decision 12).** The independent review of the C1 fix delta plus C2 has run (workflow `wf_e32a2e4c-eb2`: 3 lenses and 1 adversarial verifier, 4 agents). It confirmed 9 findings (1 medium, 8 low) and refuted 5 (4 duplicates and 1 pre-existing behaviour). All 9 are fixed with tests:
 > - **T1 (medium):** the diagnostics projection could fail open once a native context was too large; the reserved marker now survives every bound.
 > - **S2:** only the data folder's own condition fails soft; any other composition refusal stops startup.

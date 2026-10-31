@@ -109,12 +109,29 @@ The confirmed findings:
   Root then verifies the result, re-runs the receipts on the final bytes, commits (recording that Codex finished the checkpoint), pushes, reads back, and updates Notion. Work then continues with C4. The phase-close stop comes after C7, or earlier at an owner gate (record 39 decision 2).
 - Then C4 in slices, the P04 recheck and C7, in the same pattern.
 
+## Stage 1 pilot result (October 31, ~22:32 Cairo)
+
+Receipt `artifacts/v0.7/codex/20261031T203148Z-pilot-reentry-a6410c`; Codex CLI 0.166.0-alpha.5.1; session `01a193a9-5092-72a3-9f2b-286890447f59`.
+- **The job:** `done` in 119 s. No file changed, and there were no rule violations and no hidden-state changes.
+- **Sign-in:** works with `--ignore-user-config`.
+- **Re-entry:** correct. Codex reported:
+  - the folder, branch and HEAD `caa565b`;
+  - that development is active under record 40;
+  - its role and the limits that bind it, including the Shadowplay rule and the quota limits;
+  - the next step;
+  - how it would continue after a cut-off.
+- **Cost:** 455,017 input tokens, of which 409,216 were cached, plus 4,861 output. The 5-hour reading was 12% after the job. Ahmed's earlier model-switch turn accounted for about 10%, so the job itself used roughly 2%. The weekly reading was 2%.
+- **The project hook does not fire for Codex.** Codex's shell tool is `exec`, which the Claude-style matcher does not cover; its session log shows no hook events. For Codex jobs the protection is therefore:
+  - the prompt rules;
+  - the wrapper's before-and-after checks;
+  - Ahmed's trust decision.
+
+  Extending the guard to Codex needs Codex's hook input format, which is not yet known. That is a later improvement, not a blocker.
+- **Codex's two findings (low) were both right, and both are fixed:** the October 29 `AGENTS.md` banner still read as "Current authority", and the 10 banner still listed Stage 0 as next.
+
 ## Limits
 
-- Not verified yet; these are pilot checks:
-  - whether Codex fires `.codex/hooks.json` for its own tool names (the matcher uses Claude tool names);
-  - whether `--ignore-user-config` keeps sign-in working;
-  - whether `features.memories=false` is honoured.
+- Not verified: whether `features.memories=false` is honoured. The pilot's log shows no memory use beyond the records it read.
 - The quota reading trails the newest call. It cannot stop a job that crosses a limit mid-way; Codex's own hard limit does that, and the cut-off handling covers it.
 - What the checkout comparison does not cover:
   - `node_modules/` is fingerprinted only by its top-level listing and lock file, not by hashing every file;

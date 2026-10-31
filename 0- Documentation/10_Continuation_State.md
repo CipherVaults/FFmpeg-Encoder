@@ -4,9 +4,13 @@
 > - **Shadowplay.** Read anything. Write new files only in `F:\shadow play\FFmpeg Encoder Tests\`. Never delete, move, rename or overwrite.
 > - The continuation ticks stay off.
 > - **C3 is still UNCOMMITTED.** The files and the local backup `c3-wip/` are listed in the banner below.
+> - **Done:**
+>   - Stage 0 is committed as `caa565b` (pushed; the Notion hub and handoff were read back).
+>   - Stage 1, the read-only pilot, passed. Receipt: `artifacts/v0.7/codex/20261031T203148Z-pilot-reentry-a6410c`, session `01a193a9…`.
+>     - Codex re-entered correctly in 2 minutes and changed nothing. Sign-in worked without the user config.
+>     - It used about 2% of the 5-hour window (a reading of 12% after the job): 455k input tokens, 409k of them cached.
+>     - The project guard does **not** fire for Codex, because its shell tool is named `exec`. For Codex jobs the protection is the prompt rules plus the wrapper's before-and-after checks.
 > - **Next, in order:**
->   1. Stage 0 commit: record 40, these banners and the rewritten `codex-run` and guard.
->   2. Stage 1: a read-only Codex pilot.
 >   3. Stage 2: Codex finishes the C3 checkpoint. That covers the two test gaps (NS-03, NS-19), the ledger re-run, the `c3-focused` and full-suite receipts, and an independent review.
 >   4. Root verifies, re-runs the receipts, commits, pushes, reads back, and updates Notion.
 >   5. Then C4, the P04 recheck and C7.

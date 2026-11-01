@@ -274,8 +274,11 @@ test('NS-19: while a native plan is ready, saved settings keep it, options and S
   const h = await harness(t);
   let ready = await h.s.prepareNativeFileBatch(h.request());
   const planId = ready.planId, item = ready.items[0];
-  // Start is not wired yet (C3) and changes nothing.
-  await refuses(() => h.s.startBatch({ planId, fileIds: [item.id] }), refusal('NATIVE_FILE_START_UNWIRED'));
+  // A forged selection is refused without changing the ready plan.
+  const entry = h.s.plan.entries.get(item.id), selection = entry.selection;
+  entry.selection = { ...selection };
+  await refuses(() => h.s.startBatch({ planId, fileIds: [item.id] }), refusal('NATIVE_FILE_SELECTION_STALE'));
+  entry.selection = selection;
   assert.equal(h.s.state.phase, 'ready'); assert.deepEqual(h.s.snapshot().items.map(i => i.status), ['ready']); assert.equal(h.s.plan.id, planId);
   // Case 20: saving or resetting ordinary encoder settings keeps the native plan.
   await h.s.saveSettings(ordinarySettings); await h.s.resetProfile({ profileId: ordinarySettings.profileId });
@@ -317,11 +320,14 @@ test('NS-09c: no token, policy, hash, stage path, argv, executable or destinatio
   const ready = await h.s.prepareNativeFileBatch(h.request()), byName = Object.fromEntries(ready.items.map(item => [item.name, item]));
   assert.deepEqual([byName['c.mp4'].status, byName['c.mp4'].reasonCode, byName['c.mp4'].reason], ['unsupported', 'INVALID_PROBE', text('INVALID_PROBE')]);
   const entry = h.s.plan.entries.get(byName['a.mp4'].id), request = { planId: ready.planId, fileId: byName['a.mp4'].id };
+  const selectionEvidenceId = entry.selection.evidenceId;
+  assert.deepEqual(entry.evidenceIds, ['synthetic-fixture-not-hardware-proof']); assert.ok(Object.isFrozen(entry.evidenceIds));
   const details = h.s.getEncodingDetails(request);
   assert.deepEqual(Object.keys(details).sort(), ['beta', 'contractId', 'encoderArgs', 'expectedOutput', 'kind', 'label', 'notice', 'profileId', 'settings']);
   assert.equal(details.kind, 'native-description'); assert.deepEqual(details.encoderArgs, [...entry.contract.encoderContribution.args]);
   assert.ok(Object.isFrozen(entry.details)); details.encoderArgs.push('-tampered');
-  await refuses(() => h.s.startBatch({ planId: ready.planId, fileIds: [byName['a.mp4'].id] }), refusal('NATIVE_FILE_START_UNWIRED'));
+  entry.selection = { ...entry.selection };
+  await refuses(() => h.s.startBatch({ planId: ready.planId, fileIds: [byName['a.mp4'].id] }), refusal('NATIVE_FILE_SELECTION_STALE'));
   assert.deepEqual(h.s.getEncodingDetails(request), { ...details, encoderArgs: details.encoderArgs.slice(0, -1) }, 'identical before and after Start');
   const atReady = h.s.snapshot();
   await h.s.cancelCurrent();
@@ -331,10 +337,10 @@ test('NS-09c: no token, policy, hash, stage path, argv, executable or destinatio
   const failed = await failing.s.prepareNativeFileBatch(failing.request());
 
   const keys = new Set(['executable', 'destination', 'args', 'argv', 'contract', 'policy', 'policyId', 'policyCount', 'sourceSha256', 'sourceProbeFingerprint',
-    'nativeCellKey', 'evidenceId', 'evidenceIds', 'cellKey', 'cellId', 'runtimeIdentity', 'reference', 'token', 'nativeSelection', 'selection', 'nativePrivate',
+    'nativeCellKey', 'evidenceId', 'evidenceIds', 'selectionEvidenceId', 'cellKey', 'cellId', 'runtimeIdentity', 'reference', 'token', 'nativeSelection', 'selection', 'nativePrivate',
     'ownedRoot', 'details', 'stderr', 'sourceIdentityDiagnostic', 'generationDescription', 'outputId', 'fingerprint']);
   const strings = ['native-file-selection', 'row-a', 'row-b', 'synthetic-reference', 'synthetic-fixture', '-init_hw_device', '-filter_hw_device', '-hide_banner',
-    'native-files', '.ffmpeg-encoder-', 'ffenc_', 'zq-secret', 'injected-ffmpeg', h.runtime.ffmpeg.file, failing.runtime.ffmpeg.file];
+    'native-files', '.ffmpeg-encoder-', 'ffenc_', 'zq-secret', 'injected-ffmpeg', selectionEvidenceId, ...entry.evidenceIds, h.runtime.ffmpeg.file, failing.runtime.ffmpeg.file];
   const scan = (value, where, trail = '') => {
     if (typeof value === 'string') {
       assert.doesNotMatch(value, /[a-f0-9]{64}/i, `${where}${trail}`);

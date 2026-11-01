@@ -156,6 +156,29 @@ test('NS-16a: shutdown settles the native file owner before invalidating backend
   }
 });
 
+test('NS-16a: a settlement record that rejects keeps the settle result and never rejects the idle retry or shutdown', async t => {
+  const h = await owned(t);
+  for (const mode of ['settled', 'lease']) {
+    const runtime = stubRuntime(mode), order = [], unhandled = [];
+    const onUnhandled = reason => unhandled.push(reason); process.on('unhandledRejection', onUnhandled);
+    t.after(() => process.off('unhandledRejection', onUnhandled));
+    const s = h.make({ nativeBackends: { invalidate: async () => { order.push('invalidate'); } } });
+    s.recordIncident = async () => { throw new Error('zq-private journal'); };
+    // The idle retry is not awaited by requireIdle; its rejection would be unhandled.
+    s.nativeFileRuntime = runtime; s.nativeFileJob = {};
+    assert.throws(() => s.requireIdle(), unsettled);
+    assert.equal(await s.nativeSettle, mode === 'settled');
+    await new Promise(resolve => setImmediate(resolve));
+    assert.deepEqual(unhandled, [], mode);
+    // Shutdown still invalidates the backends after the record failure.
+    s.nativeFileRuntime = runtime; s.nativeFileJob = {};
+    if (mode === 'settled') await s.closeOperationResources();
+    else await assert.rejects(s.closeOperationResources(), error => error instanceof AggregateError && error.errors[0].code === 'NATIVE_OWNER_UNSETTLED');
+    assert.deepEqual(order, ['invalidate'], mode);
+    assert.equal(s.nativeFileRuntime, mode === 'settled' ? null : runtime);
+  }
+});
+
 async function ordinaryBatch(t, compose, settings) {
   const h = await owned(t), input = path.join(h.dir, 'input'), output = path.join(h.dir, 'output');
   await fsp.mkdir(input); await fsp.mkdir(output); await fsp.writeFile(path.join(input, 'a.mp4'), 'Original input a.mp4');

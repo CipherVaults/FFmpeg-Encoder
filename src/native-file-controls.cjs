@@ -61,7 +61,14 @@ const NATIVE_MESSAGES = freeze(Object.assign(Object.create(null), {
   NATIVE_FILE_STAGE_QUOTA: 'Kept native work files have reached their limit. Remove the folders inside native-files in the app\'s data folder, then try again.',
   INVALID_NATIVE_FILE_COMPOSITION: 'Native file encoding is not composed correctly in this build.',
   NATIVE_FILE_JOB_FAILED: 'The native file job failed. The details are kept in the app\'s own diagnostics.',
-  NATIVE_FILE_START_UNWIRED: 'Native file batches cannot start in this build yet.',
+  NATIVE_ENCODE_STARTED: 'Native file encoding started.',
+  NATIVE_ENCODE_CLOSED: 'The native encoder closed; the output still needs validation.',
+  NATIVE_OUTPUT_CHECKED: 'The native output passed its exact reference check.',
+  NATIVE_OUTPUT_SAVED: 'Output saved.',
+  NATIVE_OUTPUT_COLLISION: 'Another output won the publication race.',
+  NATIVE_OUTPUT_APPEARED: 'Output appeared since preview.',
+  NATIVE_PROVENANCE_PENDING: 'Output saved; provenance bookkeeping remains pending.',
+  NATIVE_PUBLICATION_CHANGED: 'The saved file changed after publication. It was left in place and not recorded as saved.',
   PREPARED_NATIVE_CANCELLED: 'Prepared native file batch cancelled. Prepare again to create new authority.',
   // Runtime owner (native-file-runtime.cjs and its helpers).
   INVALID_NATIVE_FILE_RUNTIME: 'The native file runtime refused an invalid internal request.',
@@ -400,8 +407,9 @@ function compose(options, { kind, policies, run }) {
       composition(request, ['contract', 'selection'], ['contract']);
       const assessed = assessNativeFileAdmission({ policies: rows, runtime, contract: request.contract, ...(request.selection == null ? {} : { selection: request.selection }) });
       // §3.3 step 4: a matching row without a qualified reference is not admissible.
-      return assessed.admissible && !assessed.referencePresent
-        ? freeze({ ...assessed, admissible: false, reasonCodes: ['NATIVE_FILE_REFERENCE_REQUIRED'] }) : assessed;
+      if (assessed.admissible && !assessed.referencePresent) return freeze({ ...assessed, admissible: false, reasonCodes: ['NATIVE_FILE_REFERENCE_REQUIRED'] });
+      return assessed.admissible
+        ? freeze({ ...assessed, evidenceIds: [...catalog.find(row => row.id === assessed.policyId).evidenceIds] }) : assessed;
     },
     createJob(request) {
       composition(request, ['acquireMediaSlot'], ['acquireMediaSlot']);

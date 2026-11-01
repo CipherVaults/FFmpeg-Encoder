@@ -401,3 +401,51 @@ Root reviewed the diff and updated three ledger entries for the new code.
 - Policies stay `[]`.
 - C5 and C6 stay deferred.
 - Claude task shares in the ledger are estimates; Codex shares are measured.
+
+## C4: native file jobs through the one queue — November 1 ~04:20–07:00 Cairo
+
+**What C4 does.**
+- A prepared native file plan can now start. Start re-checks it synchronously before anything changes (`requireNativeStart`, record 37 §3.4).
+- Each native item runs through `executeNativeJob` inside the existing queue (§5), in this order:
+  1. the source re-check;
+  2. the runtime `prepare`;
+  3. the provenance intent;
+  4. a persisted `ENCODE_STARTED`;
+  5. the encode and the evidence;
+  6. validation, with a persisted `OUTPUT_CHECKED`;
+  7. publication, only through the runtime.
+- The disposition follows the runtime's publication facts (`nativeDisposition`), and the queue's outer `finally` drops the native authority.
+- Production policies stay `[]`, so outside injected tests nothing reaches this path. No renderer channel was added.
+
+**How it ran.** Codex did the work and the reviews; root briefed, reviewed every diff, ran the evidence and committed ([record 40](../40_Codex_Teammate_Arrangement_2026-10-31.md), Stage 3):
+- **`c4-work`** wrote C4 and 62 tests, plus a 67-entry break list, all caught. It reported two design points it could not meet with the allowed APIs.
+- **`c4-review`**, an independent read-only pass, made 8 points:
+  - It refuted root's worry that a long failure stderr loses its record, but showed the stderr was cut to 4 KiB.
+  - It confirmed: the progress units, the settle-versus-bookkeeping mix-up, the policy evidence IDs, an untested early reservation check and a double import.
+  - It re-reported the 2 older diagnostics items.
+- **`c4-fixes`** fixed F1–F6.
+- **`c4-rereview`** found all fixes and root's changes correct. It added one medium point: a failure of the settle's own record still escaped callers without a callback, so shutdown could skip its remaining cleanup.
+
+**Root's changes**:
+1. Reverted the `getDiagnosticExport` patch from `c4-fixes`. The redacted export already omits all stderr text and digests, so the test now asserts that existing shape.
+2. A derived disposition now stays when a later record fails, and the batch stops with `OPERATION_DIAGNOSTICS_INCOMPLETE`, as §5 requires for the published-changed record.
+3. The settle never rejects on its own record failure. This fixes the re-review point, with a test and a break.
+4. The break list moved to the ignored `c4-wip/` folder and has 79 entries.
+
+The design decisions are in record 37's new "C4 amendments" section.
+
+**Evidence**, on the bytes in this commit:
+- `c4-focused`: 346/346 (`artifacts/v0.7/evidence/20261101T035252Z_c4-focused`).
+- `c4-full`: 2164 pass, 5 fail, 5 skipped. The 5 failures are the same known catalog tests as in `c3-full2` (`…T035335Z_c4-full`).
+- `c4-breaks-final`: 79/79 caught, restored (`…T035441Z_c4-breaks-final`).
+- `c3-breaks-after-c4-final`: 68/74, restored (`…T044032Z_c3-breaks-after-c4-final`). The 4 misses are the known equivalents, and 2 entries no longer match because C4 removes the Start refusal they broke.
+
+**Limits.**
+- No `/security-review` and no Claude `reviewer` pass ran on C4. The two independent Codex reviews carried the security checklist, and Claude stayed inside Ahmed's 90% weekly ceiling.
+- The native path runs only on synthetic fixtures. Hardware and Electron are unverified.
+- For C7: the two ordinary diagnostics items, `diagnosticWarning` and `status.directory` (record 37, C4 amendments).
+
+**Cost.**
+- Codex: its 5-hour window went from 12% to 81% and its weekly window from 10% to 21%.
+- Claude: its weekly window went from 85% to about 87%.
+- `c4-work` alone used 39 points of Codex's 5-hour window. Most of that was cached re-reads while Codex watched its own long ledger run. Root now runs the ledgers itself, and the next three jobs cost 9–11 points each ([record 41](../41_Usage_Ledger_2026-11-01.md)).

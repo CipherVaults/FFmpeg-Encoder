@@ -20,7 +20,7 @@ const { InspectionCache } = require('./inspection-cache.cjs');
 const { retainNativeInitialization } = require('./native-initialization-evidence.cjs');
 const { nativeFileControlsKind, nativeRefusal, NATIVE_MESSAGES } = require('./native-file-controls.cjs');
 const { readNativeBatchRequest, nativeBatchFolders, requireNativeReadiness, nativeGateRefusal, requireNativeOutputFolder,
-  requireNativeSelection, nativeBatchState, nativeItemRefusal, prepareNativeItem } = require('./native-file-workspace.cjs');
+  requireNativeSelection, nativeBatchState, nativeItemRefusal, prepareNativeItem, executeNativeJob } = require('./native-file-workspace.cjs');
 const { Preferences } = require('./preferences.cjs');
 const { DiagnosticJournal } = require('./diagnostics.cjs');
 const { AppSettings } = require('./app-settings.cjs');
@@ -405,7 +405,7 @@ class EncoderService extends EventEmitter {
   // Single-flight. The owner is dropped only after close() resolves and the
   // runtime reports no work, lease, unknown lease or source handle, and the
   // slot is free. Otherwise it stays quarantined; resolves true when settled.
-  settleNativeFileRuntime() {
+  settleNativeFileRuntime(onBookkeepingError) {
     return this.nativeSettle ||= (async () => {
       const runtime = this.nativeFileRuntime;
       if (!runtime) return true;
@@ -421,9 +421,16 @@ class EncoderService extends EventEmitter {
           && this.nativeMediaSlot === null;
       } catch (error) { failure ||= error; }
       if (settled && this.nativeFileRuntime === runtime) { this.nativeFileRuntime = null; this.nativeFileJob = null; }
-      await this.recordIncident({ stage: 'recovery', reason: settled ? 'NATIVE_RUNTIME_SETTLED' : 'NATIVE_RUNTIME_CLOSE_FAILED',
-        severity: settled ? 'info' : 'warning', context: { settled, ...facts,
-          ...(failure ? { nativePrivate: nativeRefusal(failure).nativePrivate } : {}) } });
+      try {
+        const recorded = await this.recordIncident({ stage: 'recovery', reason: settled ? 'NATIVE_RUNTIME_SETTLED' : 'NATIVE_RUNTIME_CLOSE_FAILED',
+          severity: settled ? 'info' : 'warning', context: { settled, ...facts,
+            ...(failure ? { nativePrivate: nativeRefusal(failure).nativePrivate } : {}) } });
+        if (settled && !recorded?.persisted) onBookkeepingError?.(new Error(NATIVE_MESSAGES.OPERATION_DIAGNOSTICS_INCOMPLETE));
+      } catch (error) {
+        // A record failure never changes the settlement result and never rejects:
+        // requireIdle does not await this, and shutdown must still close the rest.
+        if (settled) onBookkeepingError?.(error);
+      }
       // requireIdle does not await this; a listener fault must not become an
       // unhandled rejection. The settled state is already recorded above.
       try { if (settled) this.emitState(); } catch {}
@@ -1463,6 +1470,25 @@ class EncoderService extends EventEmitter {
     }
   }
 
+  // Synchronous and before any queue/status mutation (record 37 §3.4).
+  // A refused Start keeps the prepared plan available for a valid retry.
+  requireNativeStart(selected) {
+    if (this.plan.operation !== 'native-encode') return;
+    try {
+      if (nativeFileControlsKind(this.nativeFiles) === null || !this.nativeBackends) throw fail('NATIVE_FILE_RUNTIME_UNAVAILABLE', NATIVE_MESSAGES.NATIVE_FILE_RUNTIME_UNAVAILABLE);
+      requireNativeReadiness.call(this);
+      for (const fileId of selected) {
+        const entry = this.plan.entries.get(fileId);
+        if (!entry?.native) throw fail('NATIVE_FILE_CONTRACT_UNOWNED', NATIVE_MESSAGES.NATIVE_FILE_CONTRACT_UNOWNED);
+        this.nativeBackends.requireFileSelection(entry.selection);
+        const assessed = this.nativeFiles.assess({ contract: entry.contract, selection: entry.selection });
+        if (!assessed.admissible) throw fail(assessed.reasonCodes[0], NATIVE_MESSAGES[assessed.reasonCodes[0]]);
+      }
+    } catch (error) {
+      const refusal = nativeGateRefusal(error); throw refusal;
+    }
+  }
+
   startBatch(request) {
     objectKeys(request, ['planId', 'fileIds']);
     this.requireIdle();
@@ -1479,9 +1505,7 @@ class EncoderService extends EventEmitter {
       if (names.has(key)) throw fail('OUTPUT_CONFLICT', 'Select only one input for each output name.');
       names.add(key);
     }
-    // C3 (record 37 §12): a native plan stays ready and unstarted until C4
-    // wires its job. Nothing has changed state at this point.
-    if (this.plan.operation === 'native-encode') throw fail('NATIVE_FILE_START_UNWIRED', NATIVE_MESSAGES.NATIVE_FILE_START_UNWIRED);
+    this.requireNativeStart(selected);
     for (const item of this.state.items) if (['ready', 'conflict'].includes(item.status)) item.status = selected.has(item.id) ? 'pending' : 'unprocessed';
     if (this.plan.draft) {
       const draft = this.plan.draft.snapshot();
@@ -1499,6 +1523,12 @@ class EncoderService extends EventEmitter {
       for (const item of this.state.items.filter(entry => selected.has(entry.id))) {
         if (signal.aborted) break;
         const entry = this.plan.entries.get(item.id);
+        if (entry.native) {
+          const outcome = await executeNativeJob.call(this, item, entry, signal);
+          if (outcome === 'stop') { stoppedByFailure = true; break; }
+          if (outcome === 'cancelled') break;
+          continue;
+        }
         let stage;
         let invocationId;
         let publishedIdentity;
@@ -1917,6 +1947,10 @@ class EncoderService extends EventEmitter {
       this.hdrOperations?.invalidate();
       this.encodePreservationOperations?.invalidate();
       this.plan?.encodePreservationGrants.clear(); this.plan?.encodePreservationCandidates.clear();
+      if (this.plan?.operation === 'native-encode') {
+        for (const entry of this.plan.entries.values()) { entry.selection = null; entry.contract = null; }
+        this.plan.nativeSelection = null;
+      }
       this.state.phase = terminalPhase;
       this.finishedAt = Date.now();
       this.emitState();

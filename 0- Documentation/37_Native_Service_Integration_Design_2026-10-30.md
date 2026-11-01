@@ -627,3 +627,16 @@ Every finding was checked against the cited source before it was applied.
 | B10, relabelling breaks control flow | **Accepted.** Classification uses the original code; known codes are kept; errno fixtures added. | §6, NS-09d |
 | B11, intent before prepare | **Accepted.** Moved after `prepare` and before encode. | §5 step 5, NS-14 |
 | B12, C5–C6 out of production reach | **Accepted.** Deferred to an owner scope decision, which C7 asks for. Obligation 7 does not need them. | §12, §13 |
+
+## C4 amendments (November 1, 2026, root)
+
+Root decided these points during C4 (Codex jobs `c4-work`, `c4-review`, `c4-fixes` and `c4-rereview`; receipts under `artifacts/v0.7/codex/`). Where they differ from the text above, they replace it.
+
+| Point | Decision | Section |
+|---|---|---|
+| Progress units | `state.progress.percent` uses the ordinary unit, 0–100, capped at 99 like ordinary jobs. It stays finite and never moves backwards. The "[0, 1]" in step 7 and NS-23 is read this way, because the renderer field it would feed in C6 is the ordinary one. | §5 step 7, NS-23 |
+| Policy evidence | On an admissible result, `assess()` also returns the matched policy's `evidenceIds` as a frozen copy. The entry keeps them main-only. `ENCODE_STARTED` records them in `nativePrivate.evidenceIds`, and the selection's own evidence ID separately as `selectionEvidenceId`. | §5 step 6 |
+| Successful-encode stderr | Not kept as text. A successful `encode()` returns only the owned effective observation, and `ENCODE_CLOSED` records that observation, including its stderr hash. Keeping the text would widen the runtime owner's API, which C4 leaves unchanged. Failure stderr is kept in the journal's top-level `stderr` field (256 KiB bound, withheld from the renderer), as for every native event. | §5 step 7 |
+| Record failures after the disposition | A derived disposition is a publication fact and stays. If a later record cannot be saved (the published-changed record, `JOB_DISPOSITION`, or the settle's own record), the batch stops with `OPERATION_DIAGNOSTICS_INCOMPLETE`. Only a disposition that could not be derived falls back to `stage-unavailable`, with `NATIVE_FILE_JOB_FAILED`. A confirmed settle stays confirmed. | §5 step F |
+| Settle never rejects | A failure of the settle's own record never changes its result and never rejects. So `requireIdle`'s unawaited retry and the shutdown cleanup always continue. | §4 |
+| Logged for C7 | Two ordinary 0.7 behaviours outside C4 that show the app data folder path to the renderer: `diagnosticWarning` copies the journal's initialization error text (`encoder-service.cjs`, the two `recordIncident` failure paths), and the diagnostics `status.directory`. Neither is a native path; C7 decides. | C7 |

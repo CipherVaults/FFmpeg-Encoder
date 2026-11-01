@@ -1,3 +1,8 @@
+> **November 1, 2026, ~07:00 Cairo: C4 is committed. Prepared native file batches can now run through the app's one queue, and they publish only through the native runtime.**
+> - Codex wrote it and reviewed it twice. Claude reviewed every change and fixed four points itself.
+> - All tests pass, except the 5 known parked catalog tests. Native file encoding still cannot be reached in a production build: policies stay `[]`, and there is no renderer channel.
+> - Next: the P04 recheck and C7, the last step before the planned stop. Claude is at about 87% of its weekly window, against the 90% ceiling.
+
 > **November 1, 2026, ~04:00 Cairo: C3 is reviewed by Claude as well, and its four small findings are fixed by Codex.**
 > - All tests pass, except the 5 known parked catalog tests. Native file encoding stays unreachable.
 > - A new usage ledger measures what Claude and Codex spend per task ([record 41](41_Usage_Ledger_2026-11-01.md)). Claude's weekly ceiling is 90%, and Claude is at about 84% until November 6.

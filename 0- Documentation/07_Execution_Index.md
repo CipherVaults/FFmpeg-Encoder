@@ -1,3 +1,7 @@
+- **November 1, 2026 — [C4: native file jobs through the one queue](Execution%20Summaries/2026-10-29_Claude_Continuation_and_Native_Runtime.md#c4-native-file-jobs-through-the-one-queue--november-1-04200700-cairo).**
+  - Codex jobs `c4-work`, `c4-review`, `c4-fixes` and `c4-rereview` ([record 40](40_Codex_Teammate_Arrangement_2026-10-31.md), Stage 3). Root made four changes, recorded in record 37's "C4 amendments".
+  - Receipts: `c4-focused` 346/346; `c4-full` with the 5 known failures; ledgers `c4-breaks-final` 79/79 and `c3-breaks-after-c4-final` 68/74.
+  - [Record 41](41_Usage_Ledger_2026-11-01.md): cached re-reads made the first Codex job cost 39 points, so root now runs the long ledgers itself.
 - **November 1, 2026 — [C3 checkpoint, Claude review and usage ledger](Execution%20Summaries/2026-10-29_Claude_Continuation_and_Native_Runtime.md#c3-checkpoint-claude-review-and-usage-ledger--october-31-2230-to-november-1-0400-cairo).**
   - C3 was committed as `8570b24`, with Codex finishing the checkpoint.
   - A 3-agent Claude review confirmed 4 low findings; Codex job `c3-fixes2` fixed them.

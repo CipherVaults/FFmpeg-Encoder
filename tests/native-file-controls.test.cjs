@@ -84,6 +84,25 @@ test('NF-C3: readiness keeps its fixed order and hiding, and production never be
   for(const reason of projection.reasons)assert.equal(reason.message,NATIVE_MESSAGES[reason.code]);
 });
 
+test('NF-C2: admissible assessment returns only the matched policy evidence as a frozen independent copy',async t=>{
+  const {fixture,referenceFor}=require('./native-file-fixture.cjs'),h=await fixture(t,{matroska:true});await h.owner.close();
+  const policy={...h.policy,reference:referenceFor(h)},other={...policy,id:'other-policy',sourceProbeFingerprint:'0'.repeat(64),evidenceIds:['other-policy-evidence']};
+  const options={runtime:h.runtime,stateDir:h.root,nativeBackends:h.native,policies:[other,policy]};
+  const controls=createTestNativeFileControls(options),request={contract:h.contract,selection:h.selection};
+  const assessed=controls.assess(request);
+  assert.equal(assessed.admissible,true);assert.equal(assessed.policyId,policy.id);
+  assert.deepEqual(assessed.evidenceIds,['synthetic-fixture-not-hardware-proof']);
+  assert.ok(Object.isFrozen(assessed));assert.ok(Object.isFrozen(assessed.evidenceIds));
+  assert.notEqual(assessed.evidenceIds,policy.evidenceIds);assert.notEqual(assessed.evidenceIds,controls.assess(request).evidenceIds);
+  assert.throws(()=>assessed.evidenceIds.push('tampered'),TypeError);
+  policy.evidenceIds.push('caller-edit');assert.deepEqual(controls.assess(request).evidenceIds,['synthetic-fixture-not-hardware-proof']);
+  for(const policies of [[other],[{...policy,reference:undefined}]]){
+    const denied=createTestNativeFileControls({...options,policies}).assess(request);
+    assert.equal(denied.admissible,false);assert.equal(Object.hasOwn(denied,'evidenceIds'),false);
+  }
+  assert.equal(h.calls.length,0);
+});
+
 test('NS-09a: every literal refusal code in the scanned modules has fixed main text',()=>{
   // Record 37 §6's modules plus the helpers a native job calls into (device evidence,
   // capabilities, adapters, the process runner, source identity and output provenance).

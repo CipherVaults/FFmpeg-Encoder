@@ -1,3 +1,91 @@
+# 📘 Session: November 1, 2026 — FFmpeg Encoder — C4 with Codex doing the work
+
+## 🤖 Models, Effort, Roles and Provenance
+
+- **Root (sole committer, writer of records and Notion):** Claude Opus 5.5 at xhigh, after Ahmed's `/compact`.
+- **Codex:** GPT-6.1 Sol at xhigh, through `/codex-run` (record 40). It ran 2 work jobs and 2 read-only reviews, and never committed.
+- **Workflows:** none. Claude stayed inside Ahmed's 90% weekly ceiling.
+- **Provenance:** written by root from live tool results, the Codex receipts and the test receipts.
+
+## 🕒 Time
+
+November 1, about 04:20 to 07:00 Cairo (UTC+2).
+- Claude's weekly window went from 85% to about 87%.
+- Codex went from 12% to 81% of its 5-hour window, and from 10% to 21% weekly.
+
+## 🎯 Session Goal
+
+- Do C4 (record 37 §12) the Codex-heavy way: Codex executes and reviews; Claude briefs, verifies and commits.
+
+## 🛠️ Actions Taken
+
+- **Re-entry.** Ran `/reentry-check` (all pass), read the C4 design and checked both quotas.
+- **Break-ledger engine.** Wrote a generic one (`c4-wip/run-breaks.cjs`) that reads its breaks from a JSON list, so Codex can propose the list without touching protected paths.
+- **Codex jobs:**
+  - `c4-work` (55 minutes) implemented C4.
+  - `c4-review` made 8 points.
+  - `c4-fixes` fixed F1–F6.
+  - `c4-rereview` found one more medium point.
+- **Root's four changes:** reverted an unneeded export patch; kept derived dispositions when a later record fails; made the settle never reject on its own record failure; moved the break list and extended it to 79 entries.
+- **Evidence:** `c4-focused` 346/346; `c4-full` with the 5 known failures; both ledgers.
+- **Records:** record 37's "C4 amendments", record 40 Stage 3, record 41's C4 finding, the 10, 01 and 07 banners, the Execution Summary and this entry. Then the commit, the push and Notion.
+
+## 🧠 Key Insights
+
+- **A Codex job that watches a long run is expensive.** `c4-work` used 39 points of Codex's 5-hour window, mostly cached re-reads while it polled its own ledger. The jobs after it cost 9–11 points each.
+- **The wrong-shaped brief costs a fix.** Root's own F1 brief asked for a different export shape. Codex built a service-level patch for it, which root then reverted.
+- **Independent reviews still find things on the second pass.** The re-review found a real shutdown gap that the first review and the writer missed.
+
+## 📌 Decisions Made
+
+Root decided these within record 37's scope (record 37, "C4 amendments"):
+- Progress uses 0–100, capped at 99.
+- `ENCODE_STARTED` records the policy's evidence IDs, which `assess()` now returns, and the selection's own ID separately.
+- A successful encode's stderr text is not kept; its hash is.
+- A derived disposition survives record failures, which stop the batch as incomplete diagnostics.
+- The settle never rejects.
+- Two ordinary diagnostics items go to C7.
+
+## ⚠️ Difficulties / Friction
+
+- Codex reported `blocked` because the runtime API lacked two design inputs. Root resolved both without changing the runtime.
+- After the re-review, Codex was over its 80% gate, so root fixed the last point itself.
+
+## 🔧 Adjustments Made
+
+- Root now runs the long ledgers and the full suite itself. Codex proposes break entries and runs the focused tests only.
+
+## ❌ Mistakes / Risks Noted
+
+- Root's F1 brief over-specified the export shape (corrected).
+- No `/security-review` and no Claude `reviewer` pass ran on C4. This is a deliberate trade against the weekly ceiling; the two Codex reviews carried the security checklist.
+
+## 📍 Current Position
+
+C4 is committed and pushed. Native file encoding is still unreachable in production: policies `[]`, and no renderer channel.
+
+## 🔜 Next Steps
+
+- The P04 recheck and C7: the P closure record, the owner question on C5–C6, and the two diagnostics items.
+- Then the planned stop.
+
+## ❓ Open Questions
+
+- For Ahmed: start C7 now, inside about 3 weekly points, or after the November 6 reset?
+- For Ahmed: optionally, a Claude security review of C4 after the reset.
+
+## 🧾 Session Outcome
+
+C4 is delivered with two independent Codex reviews and every finding fixed with tests. Claude spent about 2 weekly points on it, against about 10 for C2's Claude-only round. There is no product, acceptance or release change.
+
+## 🔍 Confidence Level
+
+- **High:** the receipted results, both ledgers, and Codex's measured tokens and readings.
+- **Medium:** Claude's cost share, which is estimated from account-wide windows.
+- **Unverified:** hardware and the Electron runtime.
+
+---
+
 # 📘 Session: October 31 – November 1, 2026 — FFmpeg Encoder — C3, the pause, Codex as a teammate, and the usage ledger
 
 ## 🤖 Models, Effort, Roles and Provenance

@@ -153,3 +153,17 @@ Codex ran six jobs through `/codex-run` (receipts in `artifacts/v0.7/codex/`). N
 - **Root adjustment** to `c3-fixes`: a native `CAPABILITY_FAILED` keeps stderr in its bounded tail like every native event. It does not keep it inside `nativePrivate`.
 - **One wrapper refusal before launch.** `--allow` named `artifacts/…/c3-mutations.cjs`, a protected path, and the wrapper refused. Root keeps the break ledger; Codex proposes break entries in its report.
 - **Finding:** Codex's uncached input predicts its quota cost best, at about 15k uncached tokens per 1% of the 5-hour window. The method and the running figures are in [record 41](41_Usage_Ledger_2026-11-01.md).
+
+## Stage 3 result — C4 (November 1 ~04:20–07:00 Cairo)
+
+Codex ran four jobs through `/codex-run`. None had a violation or an unreported change. Root reviewed every diff, made four changes of its own, ran the evidence and committed.
+
+| Job | Mode | What it did | Minutes | 5-hour | Weekly | Tokens (uncached) |
+|---|---|---|---|---|---|---|
+| `c4-work` | work | wrote C4, its tests and a 67-entry break list | 55 | 39% | 6% | 18.65M (165k) |
+| `c4-review` | review | 8 points: 6 confirmed, 1 refuted in part, 2 older items re-reported | 7 | 10% | 2% | 2.87M (141k) |
+| `c4-fixes` | work | fixed F1–F6 with tests | 10 | 11% | 2% | 2.85M (133k) |
+| `c4-rereview` | review | all fixes correct; 1 new medium point, which root fixed | 7 | 9% | 1% | 2.31M (134k) |
+
+- **Lesson:** a job must not watch a long run. In `c4-work`, Codex polled its own 67-break ledger run about 22 times and re-read its whole context each time: 18.4M cached tokens. Root now runs the ledgers and the full suite itself, and asks Codex only for the break list and the focused tests.
+- **Gate:** after `c4-rereview`, Codex's 5-hour window was at 81%, over the 80% gate. So root fixed the re-review's one point itself instead of starting another job.

@@ -1,3 +1,18 @@
+> **ACTIVE — November 1, 2026, ~07:00 Cairo. Writer lock phase `c4-closed`. C4 is COMMITTED in the commit that carries this banner.** Native file jobs now run through the one queue and publish only through the runtime (record 37 §12 C4). Details: the newest Execution Summary section.
+> - **Codex did the work and the reviews** ([record 40](40_Codex_Teammate_Arrangement_2026-10-31.md), Stage 3): `c4-work`, `c4-review`, `c4-fixes` and `c4-rereview`. Root reviewed every diff and made four changes; the design decisions are in record 37's "C4 amendments".
+> - **Evidence:**
+>   - `c4-focused`: 346/346.
+>   - `c4-full`: 2164 pass, plus the same 5 known catalog failures.
+>   - `c4-breaks-final`: 79/79 caught, restored.
+>   - `c3-breaks-after-c4-final`: 68/74 (the 4 known equivalents; 2 entries are gone with the removed Start refusal).
+> - **Not run:** `/security-review` and a Claude `reviewer` pass. The two independent Codex reviews carried the security checklist, and Claude stayed inside Ahmed's 90% weekly ceiling.
+> - **Quota:** Claude's weekly window is about 87%, against the 90% ceiling, until November 6, 04:00 Cairo. Codex is at 81% of its 5-hour window (it resets at 08:25 Cairo) and 21% of its weekly window.
+> - **Next.**
+>   1. The P04 recheck and C7: the P closure record, the owner question on C5–C6, and the two diagnostics items logged for C7.
+>   2. Ahmed decides whether C7 starts inside the remaining weekly headroom or after the November 6 reset.
+>   3. Stop after C7 still applies.
+> - The banner below is history.
+
 > **ACTIVE — November 1, 2026, ~04:00 Cairo. Writer lock phase `c3-review-fixes`. C3's independent Claude review is closed, and its fixes are in the commit that carries this banner.** Details: the newest Execution Summary section.
 > - **Claude review `wf_ca24f981-191`** (3 agents) confirmed 4 low findings (S1, C1, C2, C3). Codex job `c3-fixes2` fixed them, and root reviewed the diff.
 > - **Evidence:**

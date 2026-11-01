@@ -83,3 +83,9 @@ Ahmed, November 1, ~03:15 Cairo, verbatim:
 - Before planning a phase, read the four windows and the per-unit rates. Send long or exploratory execution to Codex. Keep Claude for leading, review and records.
 - Prefer a fresh or compacted lead context for long phases.
 - Record each phase's Claude and Codex figures in its Execution Summary section.
+
+## C4 finding (November 1, ~07:00 Cairo)
+
+- Codex's cached input is not free. `c4-work` had 165k uncached but 18.4M cached input tokens, and it used 39 points of the 5-hour window. By the 15k-uncached rule, it would have used 11. Short jobs still fit that rule: `c4-review`, `c4-fixes` and `c4-rereview` used 9–11 points each, for 133k–141k uncached.
+- The cause was the job polling its own long ledger run. The fix is a working rule, recorded in record 40, Stage 3: root runs long ledgers and the full suite.
+- C4 as a whole: Codex used 69 points of its 5-hour window and 11 of its weekly window. Claude used about 2 weekly points, for briefs, diff review, four small root fixes, the evidence and these records.

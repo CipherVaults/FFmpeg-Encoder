@@ -1,3 +1,8 @@
+> **November 1, 2026, ~10:00 Cairo: C7 is committed, and milestone P's software is closed for now ([record 42](42_P_Closure_Record_2026-11-01.md)).** This is the planned stop.
+> - No P row is complete. AMD/Intel file encoding is blocked by things outside the code: no AMD or Intel hardware here, no qualified settings, and AMF's missing producer. It stays switched off in the app.
+> - Ordinary CPU/NVIDIA encoding is rechecked and unchanged.
+> - First thing after Claude's weekly reset (Friday, November 6): the security scans. Then Q. Ahmed's open decisions are listed in plain words in record 42 §6.
+
 > **November 1, 2026, ~07:00 Cairo: C4 is committed. Prepared native file batches can now run through the app's one queue, and they publish only through the native runtime.**
 > - Codex wrote it and reviewed it twice. Claude reviewed every change and fixed four points itself.
 > - All tests pass, except the 5 known parked catalog tests. Native file encoding still cannot be reached in a production build: policies stay `[]`, and there is no renderer channel.

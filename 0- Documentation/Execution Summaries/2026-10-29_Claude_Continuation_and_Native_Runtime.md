@@ -449,3 +449,23 @@ The design decisions are in record 37's new "C4 amendments" section.
 - Codex: its 5-hour window went from 12% to 81% and its weekly window from 10% to 21%.
 - Claude: its weekly window went from 85% to about 87%.
 - `c4-work` alone used 39 points of Codex's 5-hour window. Most of that was cached re-reads while Codex watched its own long ledger run. Root now runs the ledgers itself, and the next three jobs cost 9–11 points each ([record 41](../41_Usage_Ledger_2026-11-01.md)).
+
+## C7: P closure and the P04 recheck — November 1 ~09:30–10:00 Cairo
+
+- **P04 recheck.** The ordinary builder and default files are byte-identical to `253c567`.
+  - Receipt `p04-recheck-d122e22`: 161/161 on the clean committed tree. It covers the ordinary argv, recipe and media tests, NS-18 and the ordinary service suites.
+  - Codex review `p04-recheck` (read-only, 4 minutes): "Yes, P04 holds at d122e22. No defects found." It also showed that an injected argv change fails NS-18.
+- **[Record 42](../42_P_Closure_Record_2026-11-01.md)** is the P closure record:
+  - the row labels (no row COMPLETE);
+  - what C1–C4 delivered;
+  - the exact external limits: B-AMF-PRODUCER, B-QSV-HARDWARE and no AMD hardware, no qualified reference or policy, and L-IDENTITY-ASSURANCE;
+  - the Q eligibility check;
+  - Ahmed's open decisions, in plain words.
+- **Tracker 25**, rows P01–P04: evidence notes only.
+- **The security gap.** No `/security-review` run is recorded for C1–C4, and the `claude-security` changes scan for P has not run. Ahmed: "The security scans will be the first thing after the reset on Friday, so it's not to be skipped." Q01 waits for them.
+- **Usage page** ([record 41](../41_Usage_Ledger_2026-11-01.md)):
+  - weekly and 5-hour panels in both bar charts;
+  - Codex's per-1% figures for the week;
+  - estimated window sizes in tokens.
+  It was checked live in both themes after Ahmed signed the browser in.
+- **Cost.** Claude went from 87% to about 90% weekly, under Ahmed's one-time exception for this step. Codex used 6 points of its 5-hour window and 1 weekly point.

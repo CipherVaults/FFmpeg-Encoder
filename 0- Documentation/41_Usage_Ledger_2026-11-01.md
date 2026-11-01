@@ -89,3 +89,13 @@ Ahmed, November 1, ~03:15 Cairo, verbatim:
 - Codex's cached input is not free. `c4-work` had 165k uncached but 18.4M cached input tokens, and it used 39 points of the 5-hour window. By the 15k-uncached rule, it would have used 11. Short jobs still fit that rule: `c4-review`, `c4-fixes` and `c4-rereview` used 9–11 points each, for 133k–141k uncached.
 - The cause was the job polling its own long ledger run. The fix is a working rule, recorded in record 40, Stage 3: root runs long ledgers and the full suite.
 - C4 as a whole: Codex used 69 points of its 5-hour window and 11 of its weekly window. Claude used about 2 weekly points, for briefs, diff review, four small root fixes, the evidence and these records.
+
+## Page update (November 1, ~09:30 Cairo)
+
+Ahmed asked for the weekly view in the charts and for a token figure for each allowance:
+- **Both bar charts now have two panels**, each on its own scale: the share of the week, and the 5-hour windows used.
+- **The Codex rate card** gives what 1% of the week buys, too: about 2.1M tokens (89k uncached).
+- **New cards estimate each window's size**, as an educated guess from the measured rates and not a published limit:
+  - Claude: about 12.2M weighted tokens per 5-hour window and 88M per week. That is about 74M and 533M raw at this project's mix.
+  - Codex: about 28.8M and 207M tokens, counting cached input (1.5M and 8.9M uncached).
+- **The theme is unchanged:** only the app's existing tokens, amber and teal. The page was checked live in both themes.

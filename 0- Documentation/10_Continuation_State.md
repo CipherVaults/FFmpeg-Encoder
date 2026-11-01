@@ -1,3 +1,17 @@
+> **ACTIVE — November 1, 2026, ~10:00 Cairo. Writer lock phase `c7-closed`. C7 is COMMITTED in the commit that carries this banner; this is the planned stop.** [Record 42](42_P_Closure_Record_2026-11-01.md) closes milestone P's software: no row is COMPLETE, P01–P03 are externally blocked, and P04 is rechecked. Details: the newest Execution Summary section.
+> - **P04 recheck at `d122e22`:** `p04-recheck-d122e22` 161/161. Codex review `p04-recheck`: "P04 holds". The ordinary builder and default files are byte-identical to `253c567`.
+> - **Ahmed, November 1:**
+>   - "I authorize for this specific task to exceed the 90% weekly quota limit to just finish it." Root applied it only to C7 and the usage-page update. Later: "it's ok to bypass the limit in this run just to settle everything down correctly before waiting for the friday reset".
+>   - "The security scans will be the first thing after the reset on Friday, so it's not to be skipped."
+>   - "keep in mind that the updated ledgers and the usage ledger page needs to be still with the same theme of our app."
+> - **Usage page:** weekly figures beside the 5-hour ones in both bar charts, plus estimated window sizes in tokens. Checked live in both themes.
+> - **Quota:** Claude's weekly window is about 90% until Friday, November 6, 04:00 Cairo. Codex is at 6% of its 5-hour window and 22% weekly.
+> - **Next, in order:**
+>   1. **Friday, November 6, after 04:00 Cairo:** `/security-review` on the C1–C4 diff and the `claude-security` changes scan for P (record 36, decision 2). Then the two diagnostics path items (record 42 §6), with tests.
+>   2. Then Q01, which becomes eligible once those pass (record 42 §5).
+>   3. Ahmed's open decisions: record 42 §6 (D1, D2 = C5–C6, D3, D5, D6, D7, logo).
+> - The banner below is history.
+
 > **ACTIVE — November 1, 2026, ~07:00 Cairo. Writer lock phase `c4-closed`. C4 is COMMITTED in the commit that carries this banner.** Native file jobs now run through the one queue and publish only through the runtime (record 37 §12 C4). Details: the newest Execution Summary section.
 > - **Codex did the work and the reviews** ([record 40](40_Codex_Teammate_Arrangement_2026-10-31.md), Stage 3): `c4-work`, `c4-review`, `c4-fixes` and `c4-rereview`. Root reviewed every diff and made four changes; the design decisions are in record 37's "C4 amendments".
 > - **Evidence:**

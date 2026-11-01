@@ -167,3 +167,5 @@ Codex ran four jobs through `/codex-run`. None had a violation or an unreported 
 
 - **Lesson:** a job must not watch a long run. In `c4-work`, Codex polled its own 67-break ledger run about 22 times and re-read its whole context each time: 18.4M cached tokens. Root now runs the ledgers and the full suite itself, and asks Codex only for the break list and the focused tests.
 - **Gate:** after `c4-rereview`, Codex's 5-hour window was at 81%, over the 80% gate. So root fixed the re-review's one point itself instead of starting another job.
+
+- **C7 (November 1, ~09:40 Cairo):** read-only review `p04-recheck`, 4 minutes, 6% of the 5-hour window and 1% weekly, 1.39M tokens (110k uncached): "P04 holds at d122e22."

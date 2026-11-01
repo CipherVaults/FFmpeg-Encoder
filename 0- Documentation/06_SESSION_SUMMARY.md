@@ -30,6 +30,7 @@ November 1, about 09:30 to 10:00 Cairo. Claude went from 87% to about 90% weekly
   - "The security scans will be the first thing after the reset on Friday, so it's not to be skipped."
   - "keep in mind that the updated ledgers and the usage ledger page needs to be still with the same theme of our app."
 - **Root:** the two diagnostics path items are fixed in Friday's security pass, unless Ahmed says otherwise.
+- **Ahmed, ~10:30 Cairo:** AMD and Intel become first-class encoders, with a "not tested on real hardware" mark, the full technically possible range, and greying from the startup check. A new logo comes from Codex later ([record 43](43_AMD_Intel_First_Class_Decision_2026-11-01.md)).
 
 ## ⚠️ Difficulties / Friction
 - The browser could not show the page until Ahmed signed it in. Local files there do not run scripts, so the calculations were checked in Node first.

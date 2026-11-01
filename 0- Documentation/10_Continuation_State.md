@@ -1,3 +1,16 @@
+> **Owner decision — November 1, 2026, ~10:30 Cairo: AMD and Intel become first-class encoders** ([record 43](43_AMD_Intel_First_Class_Decision_2026-11-01.md)). Ahmed: "we need to be preparing the AMD and Intel options as if they are there, similarly to how we done this for NVIDIA."
+> - **D2 (C5–C6):** build the channel and the UI. AMD and Intel appear like NVIDIA, and the startup check greys out what a machine lacks.
+> - **D3:** the full spectrum that is technically possible, with a stated reason for each limit.
+> - **D5 and D1:** ship with a "not tested on real hardware" mark. AMD's mark also says that its settings cannot be confirmed.
+> - **Logo:** none of the current candidates; Codex designs new ones later.
+> - **D6 and D7:** still at S.
+> - **Order:**
+>   1. Friday's security scans first.
+>   2. A reviewed design for AMD/Intel on the ordinary pipeline, revising record 37.
+>   3. The implementation.
+>   4. Q.
+> - The banner below is history.
+
 > **ACTIVE — November 1, 2026, ~10:00 Cairo. Writer lock phase `c7-closed`. C7 is COMMITTED in the commit that carries this banner; this is the planned stop.** [Record 42](42_P_Closure_Record_2026-11-01.md) closes milestone P's software: no row is COMPLETE, P01–P03 are externally blocked, and P04 is rechecked. Details: the newest Execution Summary section.
 > - **P04 recheck at `d122e22`:** `p04-recheck-d122e22` 161/161. Codex review `p04-recheck`: "P04 holds". The ordinary builder and default files are byte-identical to `253c567`.
 > - **Ahmed, November 1:**

@@ -57,6 +57,8 @@ So Q01 becomes eligible once these have run and anything they confirm is fixed: 
 
 ## 6. Owner decisions still open (plain words)
 
+> **Answered November 1, ~10:30 Cairo, in [record 43](43_AMD_Intel_First_Class_Decision_2026-11-01.md):** D1, D2, D3, D5 and the logo. Only D6 and D7 remain, at S. The table below is kept as asked.
+
 | # | The question | Root's recommendation |
 |---|---|---|
 | D2 (C5–C6) | Should the app get a window channel (C5) and a "Prepare files with this selection · Beta" button with its reason list (C6) for AMD/Intel file encoding now? With policies `[]`, the button could never be enabled, so it would only add attack surface. | Not now. Build them when a real qualified policy exists. |

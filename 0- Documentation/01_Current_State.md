@@ -1,3 +1,8 @@
+> **November 1, 2026, ~10:30 Cairo: Ahmed decided that AMD and Intel are first-class encoders** ([record 43](43_AMD_Intel_First_Class_Decision_2026-11-01.md)).
+> - They are offered like NVIDIA, with the full range of options the hardware allows, greyed out where a machine lacks them.
+> - A "not tested on real hardware" mark stays until he confirms them on real machines.
+> - After Friday's security scans comes the design for this, then the build, then Q.
+
 > **November 1, 2026, ~10:00 Cairo: C7 is committed, and milestone P's software is closed for now ([record 42](42_P_Closure_Record_2026-11-01.md)).** This is the planned stop.
 > - No P row is complete. AMD/Intel file encoding is blocked by things outside the code: no AMD or Intel hardware here, no qualified settings, and AMF's missing producer. It stays switched off in the app.
 > - Ordinary CPU/NVIDIA encoding is rechecked and unchanged.

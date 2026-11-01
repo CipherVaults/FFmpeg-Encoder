@@ -1,3 +1,8 @@
+- **November 1, 2026 — [C3 checkpoint, Claude review and usage ledger](Execution%20Summaries/2026-10-29_Claude_Continuation_and_Native_Runtime.md#c3-checkpoint-claude-review-and-usage-ledger--october-31-2230-to-november-1-0400-cairo).**
+  - C3 was committed as `8570b24`, with Codex finishing the checkpoint.
+  - A 3-agent Claude review confirmed 4 low findings; Codex job `c3-fixes2` fixed them.
+  - Receipts: `c3-focused2` 226/226; `c3-full2` with the 5 known failures; ledger 70/74.
+  - [Record 41](41_Usage_Ledger_2026-11-01.md) sets up the usage ledger and Claude's 90% weekly ceiling.
 - **October 31, 2026 — [Pause lifted; Codex joins as a teammate](Execution%20Summaries/2026-10-29_Claude_Continuation_and_Native_Runtime.md#pause-and-the-codex-teammate-arrangement--october-31-05002200-cairo).** Ahmed paused at ~05:00 until Codex was available, then set the arrangement in [record 40](40_Codex_Teammate_Arrangement_2026-10-31.md):
   - Claude leads; Codex executes in this folder with full access at xhigh and never commits.
   - Quota limits are 80% (5-hour window) and 90% (weekly).

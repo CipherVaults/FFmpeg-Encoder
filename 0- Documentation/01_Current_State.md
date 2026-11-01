@@ -1,3 +1,8 @@
+> **November 1, 2026, ~04:00 Cairo: C3 is reviewed by Claude as well, and its four small findings are fixed by Codex.**
+> - All tests pass, except the 5 known parked catalog tests. Native file encoding stays unreachable.
+> - A new usage ledger measures what Claude and Codex spend per task ([record 41](41_Usage_Ledger_2026-11-01.md)). Claude's weekly ceiling is 90%, and Claude is at about 84% until November 6.
+> - Next: C4, with Codex doing most of the work.
+
 > **October 31, 2026, ~23:45 Cairo: C3 (preparing native batches in main) is committed and pushed. Codex finished it under Claude's lead.**
 > - Codex added the two missing tests, then reviewed C3. It found 4 places where native details could leak or show stale state; all 4 are fixed and tested, and a second Codex review passed.
 > - Native file encoding stays unreachable: policies `[]`, and Start refuses native plans.

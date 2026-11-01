@@ -227,13 +227,19 @@ const CODE = /^[A-Z][A-Z0-9_]{0,95}$/;
 // Each field is read once into a local and only a validated string is used,
 // so a hostile error object cannot make this throw or return a non-text code.
 function nativeRefusal(error) {
-  let code = null, message = '', causeCode = null, memberCodes = null;
+  let code = null, message = '', causeCode = null, causeMessage = '', memberCodes = null;
   try {
     if (error && typeof error === 'object') {
       const c = error.code, m = error.message, k = error.cause, members = error.errors;
       if (typeof c === 'string' && CODE.test(c)) code = c;
       if (typeof m === 'string') message = m.slice(0, 2048);
-      if (k && typeof k === 'object') { const kc = k.code; if (typeof kc === 'string' && CODE.test(kc)) causeCode = kc; }
+      if (k && typeof k === 'object') {
+        const kc = k.code, field = Object.getOwnPropertyDescriptor(k, 'message');
+        const km = field && Object.hasOwn(field, 'value') ? field.value : null;
+        if (typeof kc === 'string' && CODE.test(kc)) causeCode = kc;
+        // Preserve a bounded audit cause without invoking a message accessor.
+        if (typeof km === 'string') causeMessage = km.slice(0, 2048);
+      }
       // An AggregateError (for example from the runtime's close) keeps up to
       // eight member codes, so the main-only record says what is still held.
       if (Array.isArray(members)) {
@@ -245,11 +251,11 @@ function nativeRefusal(error) {
         }
       }
     }
-  } catch { code = null; message = ''; causeCode = null; memberCodes = null; }
+  } catch { code = null; message = ''; causeCode = null; causeMessage = ''; memberCodes = null; }
   const family = code && Object.keys(NATIVE_MESSAGE_FAMILIES).find(prefix => code.startsWith(prefix) && code.length > prefix.length);
   const reasonCode = code && (Object.hasOwn(NATIVE_MESSAGES, code) || family) ? code : 'NATIVE_FILE_JOB_FAILED';
   return freeze({ reasonCode, reason: Object.hasOwn(NATIVE_MESSAGES, reasonCode) ? NATIVE_MESSAGES[reasonCode] : NATIVE_MESSAGE_FAMILIES[family],
-    nativePrivate: { code, message, causeCode, ...(memberCodes ? { memberCodes } : {}) } });
+    nativePrivate: { code, message, causeCode, causeMessage, ...(memberCodes ? { memberCodes } : {}) } });
 }
 
 // Readiness (§3.1): pure, fixed order; a reason is hidden only by an earlier

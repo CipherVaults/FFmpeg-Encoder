@@ -1,3 +1,114 @@
+# 📘 Session: October 31 – November 1, 2026 — FFmpeg Encoder — C3, the pause, Codex as a teammate, and the usage ledger
+
+## 🤖 Models, Effort, Roles and Provenance
+
+- **Root (sole committer, writer of records and Notion):** Claude Opus 5.5 at xhigh.
+- **Codex:** GPT-6.1 Sol at xhigh, through `/codex-run` (record 40). It ran 1 pilot, 3 work jobs and 2 read-only reviews, and never committed.
+- **Workflows:**
+  - `wf_807770ac-884`: 4 `reviewer` agents on the Stage 0 toolkit.
+  - `wf_ca24f981-191`: 3 `reviewer` agents on C3.
+- **Provenance:** written by root from live tool results, the Codex receipts, the workflow journals and the test receipts.
+
+## 🕒 Time
+
+October 31, about 04:10 Cairo, to November 1, about 04:00 Cairo (UTC+2). Ahmed's pause ran from about 05:00 to 21:30.
+- Claude's weekly window went from about 60% to about 84%.
+- Codex went from 0% to 10% weekly.
+
+## 🎯 Session Goal
+
+- Finish C3: preparing native batches in main.
+- Respect Ahmed's pause, and bring Codex in as a teammate under Claude's lead.
+- Close C3 with independent reviews.
+- Build the usage ledger Ahmed asked for.
+
+## 🛠️ Actions Taken
+
+- **C3 and the pause.** Wrote C3 (uncommitted, backed up). Paused at Ahmed's word and committed the pause banners (`b7c8b70`).
+- **Stage 0 (`caa565b`):**
+  - record 40;
+  - the `codex-run` rewrite;
+  - the guard's Shadowplay rule;
+  - a 4-agent review with 17 findings fixed.
+- **Stage 1 (`cf33823`):** the read-only Codex pilot passed.
+- **Stage 2:**
+  - Codex closed the test gaps.
+  - Codex reviewed C3 and found 4 defects, then fixed them. Root adjusted one fix.
+  - Codex re-reviewed C3: pass.
+  - C3 was committed as `8570b24`.
+- **Claude review (3 agents):** 4 low findings. Codex fixed them, and root verified and committed (this checkpoint).
+- **Usage ledger:**
+  - scan and build tools;
+  - the [themed Dashboard page](https://claude.ai/artifact/QzNLwoD6A5RYEcdvskFYKU);
+  - record 41.
+
+## 🧠 Key Insights
+
+- **A different model family finds different things.** Codex found leak paths that Claude's own writing missed, and Claude's review then found four more that both Codex passes missed.
+- **Uncached input drives Codex's cost.** About 15k uncached tokens buy 1% of its 5-hour window. A cold 200k-token thread cost 10% in one turn.
+- **Codex executing a review-and-fix round is much cheaper for Claude.** It cost Claude about 2% of its week, against about 9.8% when Claude did the C2 round alone.
+- **A long lead context is a running cost.** Each step re-reads it.
+
+## 📌 Decisions Made
+
+- **Ahmed:** Claude's weekly ceiling is 90% ("shift the upper limit of the weekly limit to be 90%, not 80%"), and he asked for the usage ledger (record 41). His October 31 decisions are in record 40.
+- **Root:**
+  - user-chosen paths in native records are hardening, not a design breach;
+  - the diagnostics-folder path in the general status is ordinary 0.7 behaviour, left for C7;
+  - stderr stays in its bounded tail for native events;
+  - the stale-display reset applies to every preparation.
+
+## ⚠️ Difficulties / Friction
+
+- The wrapper refused a job whose `--allow` named the protected `artifacts/` path. That was correct; root keeps the break ledger.
+- The guard read a `2>&1` redirect as a push refspec. Root retried without it.
+- A Git Bash path (`/d/...`) reached Node as `D:\d\...`. Root restored the script from its before-copy and re-ran.
+- Claude's 5-hour window reached 91% and work waited for the reset. Tonight's review and ledger used about 5% of the week.
+
+## 🔧 Adjustments Made
+
+- Codex now does execution and re-reviews; Claude keeps few steps of its own.
+- The dashboard groups readings at 10-minute precision, because the windows reset on the half hour.
+- Task estimates use one median rate, so a single noisy window cannot distort them.
+
+## ❌ Mistakes / Risks Noted
+
+- Root's first `c3-fixes2` launch named a protected path.
+- Root's first patch run used the wrong path form.
+
+Both were caught before any effect. The risk now is Claude's weekly headroom: about 6 points until November 6.
+
+## 📍 Current Position
+
+- C1, C2 and C3 are committed and reviewed. The C3 review fixes are in this checkpoint.
+- Native encoding is still unreachable: policies `[]`.
+- Writer lock: `c3-review-fixes`.
+
+## 🔜 Next Steps
+
+1. C4 runs Codex-heavy. Claude briefs, verifies and commits.
+2. The P04 recheck.
+3. C7. Stop after C7 for Ahmed's effort choice and `/compact`.
+
+## ❓ Open Questions
+
+- Should Claude continue C4 inside the remaining weekly headroom, or after a `/compact`?
+- Decisions D1–D3 and D5–D7.
+- Logo selection.
+- The diagnostics-folder path (for C7).
+
+## 🧾 Session Outcome
+
+C3 is delivered and closed by four independent passes: two Codex reviews, a Codex re-review and a Claude review. Every finding is fixed with tests. The team has its first measured picture of what each kind of work costs. There is no product, acceptance or release change.
+
+## 🔍 Confidence Level
+
+- **High:** the receipted test results, the break ledgers, and Codex's measured tokens and readings.
+- **Medium:** Claude's per-task shares, which are estimates from account-wide windows.
+- **Unverified:** hardware and the Electron runtime.
+
+---
+
 # 📘 Session: October 31, 2026 — FFmpeg Encoder — independent review and fixes for C2
 
 ## 🤖 Models, Effort, Roles and Provenance

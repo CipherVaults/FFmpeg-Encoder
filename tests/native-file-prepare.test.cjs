@@ -140,13 +140,21 @@ test('NS-04: the request is exactly four inert fields, and the folders must be d
   assert.equal(h.counts.inspect, 0);
   const failed = (await reasons(h.s, 'PREPARATION_FAILED'))[0], record = (await h.s.getDiagnosticRecord({ eventId: failed.id })).event;
   assert.equal(record.message, text('NATIVE_FILE_OUTPUT_PATH_UNSUPPORTED')); assert.equal(record.context.nativePrivate, '[main-only]');
-  assert.match(fs.readFileSync(path.join(h.stateDir, 'diagnostics-v1', 'events', failed.id + '.json'), 'utf8'), /"causeCode":"ERR_ASSERTION"/);
+  const stored = JSON.parse(await fsp.readFile(path.join(h.stateDir, 'diagnostics-v1', 'events', failed.id + '.json'), 'utf8')).event;
+  assert.equal(stored.context.nativePrivate.causeCode, 'ERR_ASSERTION');
+  assert.ok(stored.context.nativePrivate.causeMessage.includes(ancestor), 'the main-only cause retains the refused ancestor');
+  assert.ok(!JSON.stringify(record).includes(ancestor), 'the cause path stays main-only');
   // An output folder that disappeared after registration: fixed text, and the errno text stays main-only.
   await fsp.rm(h.output, { recursive: true });
   const gone = await h.s.prepareNativeFileBatch(h.request());
   assert.deepEqual([gone.phase, gone.error], ['failed', text('NATIVE_FILE_JOB_FAILED')]);
   const goneRecord = (await h.s.getDiagnosticRecord({ eventId: (await reasons(h.s, 'PREPARATION_FAILED'))[0].id })).event;
-  assert.equal(goneRecord.message, text('NATIVE_FILE_JOB_FAILED')); assert.doesNotMatch(JSON.stringify([gone, goneRecord]), /no such file|ENOENT:/);
+  const goneExport = await h.s.getDiagnosticExport({ eventIds: [goneRecord.id] });
+  assert.equal(goneRecord.message, text('NATIVE_FILE_JOB_FAILED')); assert.equal(goneRecord.context.code, 'NATIVE_FILE_JOB_FAILED');
+  assert.equal(goneExport.data.events[0].context.code, 'NATIVE_FILE_JOB_FAILED');
+  assert.doesNotMatch(JSON.stringify([gone, goneRecord, goneExport]), /no such file|ENOENT|EACCES|EPERM/);
+  const goneStored = JSON.parse(await fsp.readFile(path.join(h.stateDir, 'diagnostics-v1', 'events', goneRecord.id + '.json'), 'utf8')).event;
+  assert.equal(goneStored.context.nativePrivate.code, 'ENOENT');
 });
 
 test('NS-05: the token is captured after capabilities; a capability refresh that dropped the check says so (case 30)', async t => {
@@ -193,9 +201,17 @@ test('NS-05: a stale request, and selection changes while a native plan is ready
 
 test('NS-05: the captured token is checked again before the plan becomes ready', async t => {
   // The selection is invalidated while files are inspected (step 8).
-  const h = await harness(t, { onInspect: async h => { await h.fx.native.invalidate(); } });
+  const h = await harness(t, { files: { 'a.mp4': nativeProbe(), 'a.mkv': nativeProbe(), 'b.mp4': nativeProbe() },
+    onInspect: async h => { await h.fx.native.invalidate(); } });
+  const mark = h.s.markConflicts.bind(h.s); let admitted;
+  h.s.markConflicts = () => { mark(); admitted = h.s.state.items.map(item => item.status).sort(); };
   const result = await h.s.prepareNativeFileBatch(h.request());
   assert.equal(result.phase, 'failed'); assert.equal(result.error, text('NATIVE_FILE_SELECTION_STALE')); assert.equal(result.planId, null); assert.equal(h.s.plan, null);
+  assert.deepEqual(admitted, ['conflict', 'conflict', 'ready'], 'both admitted statuses reached the step-8 check');
+  assert.deepEqual(result.items.map(item => [item.status, item.reason]), Array.from({ length: 3 }, () => ['unprocessed', text('NATIVE_FILE_SELECTION_STALE')]));
+  const finished = (await h.s.getDiagnosticRecord({ eventId: (await reasons(h.s, 'PREPARATION_FINISHED'))[0].id })).event;
+  assert.equal(finished.context.phase, 'failed');
+  assert.deepEqual(finished.context.items, result.items.map(item => ({ id: item.id, status: item.status, reason: item.reason })));
   const failed = (await reasons(h.s, 'PREPARATION_FAILED'))[0];
   assert.equal((await h.s.getDiagnosticRecord({ eventId: failed.id })).event.context.nativePrivate, '[main-only]');
   assert.match(fs.readFileSync(path.join(h.stateDir, 'diagnostics-v1', 'events', failed.id + '.json'), 'utf8'), /"code":"NATIVE_FILE_SELECTION_STALE".*"causeCode":"NATIVE_FILE_SELECTION_STALE"/s);
@@ -344,23 +360,27 @@ test('NS-09c: no token, policy, hash, stage path, argv, executable or destinatio
 test('NS-09c: a native-owned capability failure publishes fixed text and keeps its message and stderr main-only', async t => {
   const h = await harness(t, { discover: 'uncached' }), seen = [];
   const message = 'spawn failed: ' + h.runtime.ffmpeg.file, stderr = h.stateDir + ' private capability stderr';
-  h.s.capabilities = async () => { throw Object.assign(new Error(message), { code: 'SPAWN_FAILED', stderr }); };
+  h.s.capabilities = async () => { throw Object.assign(new Error(message), { code: 'EACCES', stderr }); };
   h.s.on('update', snapshot => seen.push(snapshot));
   const native = h.s.prepareNativeFileBatch(h.request());
   // An ordinary joiner cannot change the policy of the native-owned check.
   const ordinary = h.s.getCapabilities();
   await assert.rejects(native, refusal('CAPABILITIES_FAILED'));
-  await assert.rejects(ordinary, { code: 'CAPABILITIES_FAILED', message: text('SPAWN_FAILED') });
-  assert.equal(h.s.snapshot().error, text('SPAWN_FAILED')); assert.ok(seen.length >= 2);
-  for (const snapshot of seen) assert.ok(snapshot.error === null || snapshot.error === text('SPAWN_FAILED'));
+  await assert.rejects(ordinary, { code: 'CAPABILITIES_FAILED', message: text('NATIVE_FILE_JOB_FAILED') });
+  assert.equal(h.s.snapshot().error, text('NATIVE_FILE_JOB_FAILED')); assert.ok(seen.length >= 2);
+  for (const snapshot of seen) assert.ok(snapshot.error === null || snapshot.error === text('NATIVE_FILE_JOB_FAILED'));
   const event = (await reasons(h.s, 'CAPABILITY_FAILED'))[0];
   const record = (await h.s.getDiagnosticRecord({ eventId: event.id })).event;
-  assert.equal(record.message, text('SPAWN_FAILED')); assert.equal(record.context.nativePrivate, '[main-only]');
+  const exported = await h.s.getDiagnosticExport({ eventIds: [event.id] });
+  assert.equal(record.message, text('NATIVE_FILE_JOB_FAILED')); assert.equal(record.context.nativePrivate, '[main-only]');
+  assert.equal(record.context.code, 'NATIVE_FILE_JOB_FAILED'); assert.equal(exported.data.events[0].context.code, 'NATIVE_FILE_JOB_FAILED');
+  assert.doesNotMatch(JSON.stringify([record, exported]), /ENOENT|EACCES|EPERM/);
   assert.deepEqual(record.stderr, { withheld: true, bytes: Buffer.byteLength(stderr) });
   assert.doesNotMatch(JSON.stringify(record), /private capability stderr|ffmpeg\.exe/);
   const stored = JSON.parse(await fsp.readFile(path.join(h.stateDir, 'diagnostics-v1', 'events', event.id + '.json'), 'utf8')).event;
   // The original message is main-only; stderr keeps its own bounded, hashed tail like every native event.
   assert.equal(stored.context.nativePrivate.message, message); assert.equal(Object.hasOwn(stored.context.nativePrivate, 'stderr'), false);
+  assert.equal(stored.context.nativePrivate.code, 'EACCES');
   assert.equal(stored.stderr.sha256, createHash('sha256').update(stderr).digest('hex'));
   const session = await h.s.diagnostics.readSession(event.sessionId, { limit: 200 });
   assert.deepEqual(session.session.events.find(e => e.id === event.id), record);
@@ -461,7 +481,12 @@ test('NS-19: every update belongs to the new preparation in both native/CPU dire
     h.s.on('update', snapshot => seen.push(snapshot));
     const assertUpdates = (native, ready) => {
       assert.ok(seen.length > 2); assert.equal(seen[0].phase, 'preparing'); assert.deepEqual(seen[0].items, []);
+      assert.equal(seen[0].planId, null); assert.equal(seen[0].operationDraft, null);
       for (const snapshot of [...seen, ready]) {
+        assert.ok(snapshot.planId === null || snapshot.planId === ready.planId, 'only the new plan is displayed');
+        assert.equal(snapshot.encodingSettingsStale, false);
+        if (native) assert.equal(snapshot.operationDraft, null);
+        else if (snapshot.operationDraft) assert.equal(snapshot.operationDraft.id, ready.operationDraft.id);
         assert.equal(snapshot.operation, native ? 'native-encode' : 'encode');
         assert.deepEqual(snapshot.settings, native ? null : ordinarySettings);
         assert.equal(Object.hasOwn(snapshot, 'native'), native);
@@ -475,7 +500,22 @@ test('NS-19: every update belongs to the new preparation in both native/CPU dire
       assert.ok(seen.length); assert.ok(seen.every(snapshot => snapshot.operation === 'native-encode' && Object.hasOwn(snapshot, 'native')));
     }
     seen.length = 0;
+    h.s.state.encodingSettingsStale = true;
     const second = await (firstNative ? cpu() : native()); assertUpdates(!firstNative, second);
     assert.equal(second.phase, 'ready');
   });
+});
+
+test('NS-19: an early native failure clears the previous ordinary draft', async t => {
+  const h = await harness(t), seen = [];
+  const previous = await h.s.prepareBatch({ inputFolderId: h.folders.input.id, outputFolderId: h.folders.output.id, settings: ordinarySettings });
+  assert.ok(previous.operationDraft); assert.ok(previous.planId);
+  await fsp.unlink(path.join(h.input, 'a.mp4'));
+  h.s.on('update', snapshot => seen.push(snapshot));
+  const failed = await h.s.prepareNativeFileBatch(h.request());
+  assert.equal(failed.phase, 'failed'); assert.equal(failed.error, text('NO_INPUTS'));
+  assert.equal(failed.planId, null); assert.equal(failed.operationDraft, null); assert.equal(h.s.plan, null);
+  for (const snapshot of [...seen, h.s.snapshot()]) {
+    assert.equal(snapshot.operationDraft, null); assert.notEqual(snapshot.planId, previous.planId);
+  }
 });

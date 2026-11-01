@@ -494,7 +494,7 @@ class EncoderService extends EventEmitter {
         this.state.error = failure ? failure.reason : error.message;
         // As for every native event, stderr keeps its bounded tail; the projection withholds its text.
         await this.recordIncident({ stage: 'capability', reason: 'CAPABILITY_FAILED', severity: 'error', message: this.state.error,
-          ...diagnosticStderr(error), context: { code: error.code, ...(failure ? { nativePrivate: failure.nativePrivate } : {}) } });
+          ...diagnosticStderr(error), context: { code: failure ? failure.reasonCode : error.code, ...(failure ? { nativePrivate: failure.nativePrivate } : {}) } });
       } finally { this.emitState(); }
     })();
     await this.taskPromise;
@@ -1065,10 +1065,12 @@ class EncoderService extends EventEmitter {
     this.state.settings = settings;
     this.state.operation = operation;
     if (native) this.state.native = nativeBatchState(native.token); else delete this.state.native;
+    this.state.planId = null;
+    this.state.operationDraft = null;
+    this.state.encodingSettingsStale = false;
     const signal = this.begin('preparing');
     this.remuxOperations?.invalidate();
     this.hdrOperations?.invalidate();
-    this.state.encodingSettingsStale = false;
     this.encodePreservationOperations?.invalidate();
     this.plan = { operation, encodePreservationGrants: new Map(), encodePreservationCandidates: new Map(), remuxGrants: new Map(), remuxCandidates: new Map(), remuxFacts: new Map(), id: randomUUID(), input: input.path, output: output.path, settings, sameFolder, draft, entries: new Map(),
       baseline: new Map(), reservedPaths: new Set(), reservedIdentities: new Set(), overrides: new Map(), ambiguities: new Map(),
@@ -1110,8 +1112,11 @@ class EncoderService extends EventEmitter {
         const refusal = native ? nativeRefusal(error) : null;
         this.state.error = refusal ? refusal.reason : error.message;
         await this.recordIncident({ stage: 'preparation', reason: 'PREPARATION_FAILED', severity: 'error', message: this.state.error,
-          ...diagnosticStderr(error), context: { code: error.code || 'PREPARATION_FAILED', ...(refusal ? { nativePrivate: refusal.nativePrivate } : {}) } });
-        for (const item of this.state.items) if (item.status === 'pending') item.status = 'unprocessed';
+          ...diagnosticStderr(error), context: { code: refusal ? refusal.reasonCode : error.code || 'PREPARATION_FAILED', ...(refusal ? { nativePrivate: refusal.nativePrivate } : {}) } });
+        for (const item of this.state.items) {
+          if (native && ['ready', 'conflict'].includes(item.status)) { item.status = 'unprocessed'; item.reason = refusal.reason; }
+          else if (item.status === 'pending') item.status = 'unprocessed';
+        }
         this.plan = null;
         this.state.planId = null;
       } finally {

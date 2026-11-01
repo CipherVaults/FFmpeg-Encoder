@@ -137,3 +137,19 @@ Receipt `artifacts/v0.7/codex/20261031T203148Z-pilot-reentry-a6410c`; Codex CLI 
   - `node_modules/` is fingerprinted only by its top-level listing and lock file, not by hashing every file;
   - `artifacts/` (ignored, root's evidence) is not compared, except for the job's own backup;
   - the `.git` object store is not compared beyond HEAD, the branch, refs, the index, config, info and hooks.
+
+## Stage 2 result — the C3 checkpoint (October 31 ~22:30 to November 1 ~04:00 Cairo)
+
+Codex ran six jobs through `/codex-run` (receipts in `artifacts/v0.7/codex/`). None had a violation or an unreported change. Root reviewed every diff before committing it.
+
+| Job | Mode | What it did | 5-hour | Weekly | Tokens (uncached) |
+|---|---|---|---|---|---|
+| `c3-test-gaps` | work | NS-03 controls-brand limb, NS-19 literal cancel text, ledger re-run | 6% | 1% | 1.81M (90k) |
+| `c3-review` | review | found 4 defects (3 medium, 1 low) | 12% | 2% | 3.45M (179k) |
+| `c3-fixes` | work | fixed them with tests | 13% | 2% | 4.40M (138k) |
+| `c3-rereview` | review | pass, no new defect | 10% | 1% | 2.25M (152k) |
+| `c3-fixes2` | work | fixed the 4 low findings of root's Claude review `wf_ca24f981-191` | 12% | 2% | 4.14M (138k) |
+
+- **Root adjustment** to `c3-fixes`: a native `CAPABILITY_FAILED` keeps stderr in its bounded tail like every native event. It does not keep it inside `nativePrivate`.
+- **One wrapper refusal before launch.** `--allow` named `artifacts/…/c3-mutations.cjs`, a protected path, and the wrapper refused. Root keeps the break ledger; Codex proposes break entries in its report.
+- **Finding:** Codex's uncached input predicts its quota cost best, at about 15k uncached tokens per 1% of the 5-hour window. The method and the running figures are in [record 41](41_Usage_Ledger_2026-11-01.md).

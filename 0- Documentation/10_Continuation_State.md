@@ -1,3 +1,19 @@
+> **ACTIVE — November 1, 2026, ~04:00 Cairo. Writer lock phase `c3-review-fixes`. C3's independent Claude review is closed, and its fixes are in the commit that carries this banner.** Details: the newest Execution Summary section.
+> - **Claude review `wf_ca24f981-191`** (3 agents) confirmed 4 low findings (S1, C1, C2, C3). Codex job `c3-fixes2` fixed them, and root reviewed the diff.
+> - **Evidence:**
+>   - `c3-focused2`: 226/226.
+>   - `c3-full2`: 2086 pass, plus the 5 known catalog failures.
+>   - Ledger `c3-breaks-final2`: 70/74 caught, 4 expected equivalents, restored.
+> - **Ahmed, November 1:**
+>   - "shift the upper limit of the weekly limit to be 90%, not 80%". Claude's weekly ceiling is now 90%.
+>   - He asked for a usage ledger: [record 41](41_Usage_Ledger_2026-11-01.md), and the page [FFmpeg Encoder Usage Ledger](https://claude.ai/artifact/QzNLwoD6A5RYEcdvskFYKU).
+> - **Quota:** Claude's weekly window is about 84%, against the 90% ceiling, until November 6, 04:00 Cairo. Codex is at 12% of its 5-hour window and 10% of its weekly window.
+> - **Next.**
+>   1. C4 runs Codex-heavy: Codex executes and reviews, and Claude briefs, verifies and commits, with few steps.
+>   2. Before that, Ahmed chooses whether Claude starts C4 now, inside the remaining weekly headroom, or after his `/compact`. A smaller context makes each Claude step cheaper.
+>   3. Stop after C7 still applies.
+> - The banner below is history.
+
 > **ACTIVE — October 31, 2026, ~23:45 Cairo. Writer lock phase `codex-c3-checkpoint`. C3 is COMMITTED and pushed in the commit that carries this banner.** Codex finished the checkpoint under root's lead ([record 40](40_Codex_Teammate_Arrangement_2026-10-31.md), Stage 2). Receipts are in `artifacts/v0.7/codex/`.
 > - **Codex work job `c3-test-gaps`** closed both test gaps: NS-03 (genuine backend with null or look-alike native file controls) and NS-19 (the literal cancel text).
 > - **Codex review `c3-review`** found 4 defects. Root confirmed them against the code; Codex work job `c3-fixes` fixed them with tests.

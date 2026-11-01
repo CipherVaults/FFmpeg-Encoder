@@ -355,3 +355,49 @@ It covered the C1 fix delta (`e49f07d..87b05e7`, runtime and controls) and C2 (`
   - whether `features.memories=false` is honoured.
 - The guard is defence in depth: a script file that writes into the media folder on its own is not seen.
 - The `06_SESSION_SUMMARY` entry for this session comes with the C3 checkpoint, which closes the same piece of work.
+
+## C3 checkpoint, Claude review and usage ledger — October 31 ~22:30 to November 1 ~04:00 Cairo
+
+**C3 committed (`8570b24`).** Codex finished the checkpoint under root's lead ([record 40](../40_Codex_Teammate_Arrangement_2026-10-31.md), Stage 2):
+- Codex closed the two test gaps.
+- Codex review `c3-review` found 4 defects; `c3-fixes` fixed them. Root adjusted the stderr handling.
+- Codex re-review `c3-rereview` passed.
+- Receipts: `c3-focused` 203/203; `c3-full` with only the 5 known catalog failures; ledger `c3-breaks-final` 70/74.
+
+**Independent Claude review (`wf_ca24f981-191`).** Two `reviewer` lenses (security, correctness) and one adversarial verifier, 3 agents, about 18 minutes. Of 4 candidates, 4 were confirmed, all low:
+- **S1:** native `PREPARATION_FAILED` and `CAPABILITY_FAILED` kept the raw errno code (for example `ENOENT`) in renderer-readable `context.code` and in the redacted export.
+- **C1:** a native batch failing at §3.2 step 8 left admitted items `ready`, with the ready text.
+- **C2:** the first update of a new preparation still carried the previous `planId`, `operationDraft` and `encodingSettingsStale`; an early failure kept the old draft.
+- **C3:** `nativeRefusal` dropped the cause's message, so the main-only audit record could not say which check refused.
+
+None grants authority. Codex job `c3-fixes2` fixed all four with tests.
+- S1: the table code is written publicly.
+- C1: admitted items become `unprocessed` with fixed text.
+- C2: `planId`, `operationDraft` and `encodingSettingsStale` are reset before `begin` for every preparation. This is the one ordinary change; it removes stale display values only.
+- C3: a bounded `causeMessage` (2048 characters, no accessor runs) is kept in `nativePrivate`.
+
+Root reviewed the diff and updated three ledger entries for the new code.
+
+**Evidence on the committed bytes:**
+- `c3-focused2`: 226/226 across 11 suites (`artifacts/v0.7/evidence/20261101T014951Z_c3-focused2`).
+- `c3-full2`: 2086 pass, 5 fail, 5 skipped. The 5 failures are the same suspended catalog tests (`…T015014Z_c3-full2`).
+- Ledger `c3-breaks-final2`: 74 breaks, 70 caught, 4 expected equivalents, restored.
+- Codex's revert check: 13 of 13 new assertions fail without their fix.
+
+**Usage ledger ([record 41](../41_Usage_Ledger_2026-11-01.md)).**
+- Ahmed asked for a themed page that measures Claude and Codex consumption per task. He also set Claude's weekly ceiling at 90%.
+- [FFmpeg Encoder Usage Ledger](https://claude.ai/artifact/QzNLwoD6A5RYEcdvskFYKU) is published, with local tools in `artifacts/v0.7/usage/`.
+- **Headline:** 1M weighted Claude tokens cost about 8.3% of a 5-hour window and 1.15% of the week. 1% of Codex's 5-hour window costs about 15k uncached input tokens.
+- **C2 versus C3:** C2's Claude-only review-and-fix round cost Claude about 9.8% of its week. C3's Codex-run round cost Claude about 2% and Codex about 8% of its own week.
+
+**Quota at the end.**
+- Claude: 5-hour about 45%, weekly about 84% (ceiling 90%, resets November 6, 04:00 Cairo).
+- Codex: 5-hour 12%, weekly 10%.
+
+**Not a C3 defect; for C7 to decide.** The general diagnostics status shows the diagnostics folder path. It has been ordinary 0.7 behaviour since `59b6b5b`.
+
+**Limits:**
+- No hardware, Electron or device run.
+- Policies stay `[]`.
+- C5 and C6 stay deferred.
+- Claude task shares in the ledger are estimates; Codex shares are measured.

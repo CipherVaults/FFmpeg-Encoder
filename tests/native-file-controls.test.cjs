@@ -129,3 +129,22 @@ test('NS-09a: unknown or hostile errors get the fixed job-failed text and keep t
     const flipping=new Proxy({},{get(target,key){if(key!=='code')return undefined;return ++reads<=1?'CANCELLED':later;}});
     const refusal=nativeRefusal(flipping);assert.equal(typeof refusal.reasonCode,'string');assert.equal(refusal.reasonCode,'CANCELLED');assert.equal(reads,1);}
 });
+
+test('NS-09a: the main-only cause message is a bounded string read once',()=>{
+  for(const message of ['D:\\private\\ancestor','x'.repeat(4096),null,17,{}]){
+    let reads=0;const cause=new Proxy({code:'ERR_ASSERTION',message},{getOwnPropertyDescriptor(target,key){if(key==='message')reads++;return Reflect.getOwnPropertyDescriptor(target,key);}});
+    const refusal=nativeRefusal({code:'NATIVE_FILE_OUTPUT_PATH_UNSUPPORTED',message:'outer',cause});
+    assert.equal(refusal.nativePrivate.causeMessage,typeof message==='string'?message.slice(0,2048):'');
+    assert.equal(reads,1);assert.ok(Object.isFrozen(refusal.nativePrivate));
+    assert.equal(refusal.reason,NATIVE_MESSAGES.NATIVE_FILE_OUTPUT_PATH_UNSUPPORTED);
+  }
+});
+
+test('NS-09a: a cause message accessor never runs',()=>{
+  let reads=0;const accessor={get message(){reads++;throw new Error('A cause message accessor must not run.');}};
+  for(const cause of [accessor,Object.create(accessor)]){
+    const refusal=nativeRefusal({code:'NATIVE_FILE_OUTPUT_PATH_UNSUPPORTED',cause});
+    assert.equal(reads,0);assert.equal(refusal.nativePrivate.causeMessage,'');
+    assert.equal(refusal.reasonCode,'NATIVE_FILE_OUTPUT_PATH_UNSUPPORTED');
+  }
+});

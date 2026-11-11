@@ -1,5 +1,7 @@
 # 41 — Usage ledger for Claude and Codex (November 1, 2026)
 
+> **November 11, 2026:** pacing changed by [record 44](44_Leftover_Quota_and_Full_Throttle_Run_2026-11-11.md). Since November 4, 0.7 runs on end-of-week leftovers, and the 90% weekly limits lift on the last day of a week. For the November 11 run, Claude works up to 95% of its 5-hour and weekly windows; Codex keeps 80%/90%.
+
 **Status:** active. Owner: Ahmed. Writer: Claude (root). This record owns the method, the ceilings and the first findings. The live page is a view of the same data.
 
 ## Owner request and decision

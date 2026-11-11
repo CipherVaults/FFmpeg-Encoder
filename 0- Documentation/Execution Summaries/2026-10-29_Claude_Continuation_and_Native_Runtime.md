@@ -469,3 +469,10 @@ The design decisions are in record 37's new "C4 amendments" section.
   - estimated window sizes in tokens.
   It was checked live in both themes after Ahmed signed the browser in.
 - **Cost.** Claude went from 87% to about 90% weekly, under Ahmed's one-time exception for this step. Codex used 6 points of its 5-hour window and 1 weekly point.
+
+## Leftover quota and the full-throttle run — November 4 and November 11, 2026
+
+- **November 4 (chat only until now).** Ahmed accepted root's proposal that 0.7 runs on end-of-week leftover quota. Security Cloud is dropped; the in-session scans stay first. On the mother-thread and Projects idea: "We don't change anything." These were held in Claude's memory and are now in [record 44](../44_Leftover_Quota_and_Full_Throttle_Run_2026-11-11.md) §1–§2.
+- **November 11, ~22:15 Cairo.** Ahmed: "push full throttle, plan around that 5 hourly cycles, leave 5% of that 5 hourly cycles … Yeah, full authority." Run rules: record 44 §3.
+- **Re-entry:** `/reentry-check` passed every check at `2a18036` (HEAD equals the remote, protected tags unchanged, 24 Planning hashes match, 43 requirements intact).
+- **Quota at start:** Claude 33% of its 5-hour window and 5% weekly; Codex 39% weekly.

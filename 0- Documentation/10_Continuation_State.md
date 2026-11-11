@@ -1,3 +1,15 @@
+> **ACTIVE — November 11, 2026, ~22:30 Cairo. Writer lock phase `run-2026-11-11`. Ahmed started a full-throttle run** ([record 44](44_Leftover_Quota_and_Full_Throttle_Run_2026-11-11.md)).
+> - **Recorded now:** the November 4 leftover-quota plan (0.7 runs on end-of-week leftovers, the security scans move to the first leftover run, Security Cloud dropped) and "We don't change anything" on the mother-thread and Projects idea.
+> - **Ahmed, November 11:** "push full throttle, plan around that 5 hourly cycles, leave 5% of that 5 hourly cycles … Yeah, full authority."
+> - **Rules for this run:** Claude works up to 95% of each 5-hour window and 95% of the week, then waits for the reset. Codex keeps its 80%/90% gate. Phase closes still record, commit and push, but the run carries on past the `/phase-close` stop.
+> - **Quota at start:** Claude 33% of the 5-hour window, 5% weekly (resets Friday, November 13, 04:00 Cairo). Codex 39% weekly (resets November 18, 01:00 Cairo).
+> - **Next, in order:**
+>   1. `/security-review` on the C1–C4 diff (`253c567..d122e22`) and the `claude-security` changes scan for P.
+>   2. Fixes, and the two diagnostics path items (record 42 §6), with tests.
+>   3. The reviewed AMD/Intel design (record 43 §5), revising record 37.
+>   4. The build, Codex-heavy.
+> - The banner below is history.
+
 > **Owner decision — November 1, 2026, ~10:30 Cairo: AMD and Intel become first-class encoders** ([record 43](43_AMD_Intel_First_Class_Decision_2026-11-01.md)). Ahmed: "we need to be preparing the AMD and Intel options as if they are there, similarly to how we done this for NVIDIA."
 > - **D2 (C5–C6):** build the channel and the UI. AMD and Intel appear like NVIDIA, and the startup check greys out what a machine lacks.
 > - **D3:** the full spectrum that is technically possible, with a stated reason for each limit.

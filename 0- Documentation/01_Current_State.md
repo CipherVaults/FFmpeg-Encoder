@@ -1,3 +1,7 @@
+> **November 11, 2026, ~22:30 Cairo: Ahmed started a full-throttle run until Friday's reset** ([record 44](44_Leftover_Quota_and_Full_Throttle_Run_2026-11-11.md)).
+> - Since November 4, 0.7 runs only on quota left at the end of each week. Security Cloud is dropped; the in-session scans still run first.
+> - This run: security scans, fixes, the AMD/Intel design, then the build.
+
 > **November 1, 2026, ~10:30 Cairo: Ahmed decided that AMD and Intel are first-class encoders** ([record 43](43_AMD_Intel_First_Class_Decision_2026-11-01.md)).
 > - They are offered like NVIDIA, with the full range of options the hardware allows, greyed out where a machine lacks them.
 > - A "not tested on real hardware" mark stays until he confirms them on real machines.

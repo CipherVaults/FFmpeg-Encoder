@@ -1,3 +1,12 @@
+> **ACTIVE — November 12, 2026. Writer lock phase `vendor-s5`. AMD/Intel slice 5 (the UI) is COMMITTED in the commit that carries this banner.** All five slices of [record 45](45_AMD_Intel_First_Class_Design_2026-11-12.md) are built and tested with fakes.
+> - **Evidence:** `vendor-s5-focused` 90/90; `vendor-s5-full` with the 5 known failures.
+> - **Codex** reached its weekly limit (it resets November 18, ~01:00 Cairo).
+> - **Next:**
+>   1. The desktop UI smoke tests (`test:layout`, `test:product`) and a live look at the mark in both themes, when Ahmed's desktop is free.
+>   2. Ahmed's hardware checklist and the owner points (record 45 O1–O10).
+>   3. Then Q.
+> - The banner below is history.
+
 > **ACTIVE — November 12, 2026. Writer lock phase `vendor-s34`. AMD/Intel slices 3 and 4 (preparation and guarded execution) are COMMITTED in the commit that carries this banner** ([record 45](45_AMD_Intel_First_Class_Design_2026-11-12.md)).
 > - **Independent security review:** PASS with two findings, both fixed by root with tests (an uncertain publication is now reported truthfully; the cache notice is fixed text).
 > - **Evidence:** `vendor-s34-final2` 753/753; `vendor-s34-final2-full` with the 5 known failures.

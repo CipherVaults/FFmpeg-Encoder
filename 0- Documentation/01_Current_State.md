@@ -1,3 +1,5 @@
+> **November 12, 2026: AMD and Intel are built as first-class encoder choices** ([record 45](45_AMD_Intel_First_Class_Design_2026-11-12.md)). Six new options carry an amber ⚠ "not tested on real hardware" mark, and the startup check greys out what a machine lacks. CPU and NVIDIA are byte-identical. Everything is tested with fakes; real AMD/Intel hardware has not run it yet. Next: the desktop UI checks, then Ahmed's hardware test when possible.
+
 > **November 12, 2026, ~08:30 Cairo: the AMD/Intel design is recorded ([record 45](45_AMD_Intel_First_Class_Design_2026-11-12.md)).** AMD and Intel become six new encoder choices on the ordinary pipeline. CPU and NVIDIA stay byte-identical. Codex reviewed the design, and its seven points are adopted. Codex now builds it (Ahmed moved Codex to ChatGPT Pro).
 
 > **November 12, 2026, ~03:15 Cairo: milestone P's security pass is done and committed.** Both scans found no vulnerabilities. Four small items were fixed with tests: no private folder paths reach the window from diagnostics, the native output-folder rule matches its message, and a finished native batch no longer blocks device changes. Next: the AMD/Intel design.

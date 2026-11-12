@@ -574,3 +574,22 @@ The design decisions are in record 37's new "C4 amendments" section.
   - Codex's guard removals: 46/46.
 - **Codex quota:** 93% → 97% weekly.
 - **Reachability:** vendor profiles now prepare and run end to end with fakes, but there is no UI to choose them yet (slice 5). No AMD/Intel hardware has run anything.
+
+## AMD/Intel build, slice 5: the UI — November 12 Cairo
+
+- **Codex job `vendor-s5`** (receipt `artifacts/v0.7/codex/20261112T074859Z-vendor-s5-244ca1`).
+  - Codex reached its weekly usage limit while writing its final report, so the receipt status is `quota`.
+  - Its `progress.md` records the work as complete: 90/90 tests, 10 guard removals caught, and a scope and hash check.
+  - Root reviewed the diff and re-ran the evidence.
+- **What changed (`ui/renderer.js`, `ui/index.html`, `ui/styles.css`, new `tests/ui-vendor.test.cjs`):**
+  - AMD and Intel `<optgroup>`s labelled "— not yet tested on real hardware". Options read `H265 · AMD ⚠`; a disabled option shows its fixed reason.
+  - A ⚠ mark (`#profile-untested`) with Ahmed's exact tooltip, and the vendor-specific disclosure line.
+  - "Starting values" replaces "Tested Default" for vendor profiles, with QP/ICQ labels.
+  - Capability rows name the adapter and show partial support.
+  - Result rows carry the ⚠ mark.
+  - The Beta note text is rewritten; the Beta labels stay.
+  - Only the existing `--warning-text` / `--warning-accent` tokens are used. All text goes through `textContent`.
+- **Evidence:**
+  - `vendor-s5-focused`: 90/90.
+  - `vendor-s5-full`: 2564 of 2574 pass, with the 5 known parked failures.
+  - Not run yet: `test:layout`, `test:product` and a live look in both themes. They open windows on Ahmed's desktop.

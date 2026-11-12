@@ -393,6 +393,8 @@ summary:hover { color: var(--text); }
 .control-help > summary { display: flex; align-items: center; justify-content: center; list-style: none; width: 2.25rem; min-height: 2.25rem; border: 1px solid var(--help-border); border-radius: 6px; color: var(--help-text); background: var(--context-background); font-family: "Segoe UI Symbol", "Segoe UI", sans-serif; font-size: 1.05rem; line-height: 1; padding: .3rem; }
 .control-help > summary::-webkit-details-marker { display: none; }
 .control-help > summary:hover, .control-help[open] > summary { color: var(--orange); border-color: var(--orange); background: var(--help-selected); }
+#profile-untested > summary, #profile-untested > summary:hover, #profile-untested[open] > summary { color: var(--warning-text); border-color: var(--warning-accent); }
+.untested-mark { display: inline-block; margin-left: .4rem; color: var(--warning-text); border-bottom: 1px solid var(--warning-accent); }
 #control-help-display { margin-top: .85rem; }
 .help-panel { position: static; max-width: 100%; max-height: min(32rem, 70vh); overflow: auto; padding: 1rem; border: 1px solid var(--help-panel-border); border-left: 3px solid var(--orange); border-radius: 6px; background: var(--help-panel); color: var(--text); font-size: .88rem; line-height: 1.65; overflow-wrap: anywhere; scrollbar-gutter: stable; }
 .help-panel p + p, .help-panel code + p { margin-top: .65rem; }

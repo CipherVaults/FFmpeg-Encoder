@@ -193,7 +193,10 @@
   const remuxTargetChanged = () => isRemux() && snapshot.phase === 'ready'
     && byId('remux-target').value !== preparedRemuxTarget();
 
-  const profiles = () => capabilities?.profiles || [];
+  const vendorProfiles = () => capabilities?.vendorProfiles || [];
+  const profiles = () => [...(capabilities?.profiles || []), ...vendorProfiles()];
+  const selectedVendorProfile = () => vendorProfiles().find(profile => profile.id === byId('profile').value);
+  const untestedHardwareNotice = 'Not yet tested on real AMD/Intel hardware. Results are checked after encoding.';
   const recipes = () => capabilities?.recipes || [];
   const selectedProfile = () => profiles().find(profile => profile.id === byId('profile').value);
   const profileRecipe = () => recipes().find(recipe => recipe.profileId === byId('profile').value);
@@ -619,11 +622,12 @@
         // The native selector's help follows its current value. The adjacent
         // focusable disclosure supports technical text beyond native tooltips.
         byId('preset').title = `${recipe.presetHelp} This preset contributes: ${(recipe.presetContribution || []).join(' ')}`;
-        const defaults = recipe.testedDefault;
+        if (selectedVendorProfile()) updateQualityLabels(selectedProfile(), recipe.qualityMode);
+        const defaults = selectedVendorProfile() ? recipe.startingValues : recipe.testedDefault;
         put('default-recipe-label', `${defaults.label} · ${defaults.encoder} · preset ${defaults.settings.preset} · ${defaults.qualityMode} ${defaults.settings.quality}`);
         put('default-args', formatArguments(defaults.args));
         put('tested-default-values', `Preset ${defaults.settings.preset} · ${defaults.qualityMode} ${defaults.settings.quality}`);
-        byId('tested-default').title = `Applies preset ${defaults.settings.preset} and ${defaults.qualityMode} ${defaults.settings.quality}. Inspect the adjacent help for all production encoder options.`;
+        byId('tested-default').title = `${selectedVendorProfile() ? 'Applies untested starting values: ' : 'Applies '}preset ${defaults.settings.preset} and ${defaults.qualityMode} ${defaults.settings.quality}. Inspect the adjacent help for all production encoder options.`;
         if (candidateRecipe) {
           put('archive-recipe-label', `${candidateRecipe.recipe?.label || candidate.label} · preset ${candidateRecipe.settings.preset} · ${candidateRecipe.qualityMode} ${candidateRecipe.settings.quality}`);
           put('archive-args', formatArguments(candidateRecipe.args));
@@ -720,8 +724,36 @@
     render();
   }
 
+  function updateQualityLabels(profile, mode = profile.quality.mode) {
+    put('quality-label', `${mode} quality (${profile.quality.min}–${profile.quality.max})`);
+    put('slider-label', `Adjust ${mode}`);
+    put('quality-hint', selectedVendorProfile()
+      ? `${mode} values are untested starting values. Equal numbers across profiles do not mean equal quality.`
+      : 'CRF and NVIDIA VBR-CQ differ. Equal numbers across profiles do not mean equal quality.');
+    byId('quality-hint').title = selectedVendorProfile()
+      ? `${mode} uses this encoder's rate control. Lower values generally request higher quality. Values are not equivalent to CRF or CQ.`
+      : 'CPU CRF and NVIDIA VBR-CQ use different rate-control systems. Lower values generally request higher quality within the same encoder; equal numbers across encoders do not imply equal perceptual quality.';
+  }
+
   function populateProfileSettings() {
     const profile = selectedProfile();
+    const vendor = selectedVendorProfile();
+    visible('profile-untested', Boolean(vendor));
+    // Help panels live in the shared display. Revoke an open vendor disclosure
+    // on profile changes too, so its text cannot outlive the selected encoder.
+    if (activeHelp?.help === byId('profile-untested')) closeHelp();
+    put('profile-untested-disclosure', vendor ? vendor.hardware === 'AMD'
+      ? 'The app cannot confirm which encoder settings AMD actually used.'
+      : 'The app cannot prove which Intel adapter encoded the file.' : '');
+    put('tested-default', vendor ? 'Starting values' : 'Tested Default');
+    byId('tested-default').setAttribute('aria-label', vendor
+      ? 'Reset current profile to untested starting values' : 'Reset current profile to Tested Default');
+    byId('default-help').setAttribute('aria-label', vendor
+      ? 'Inspect untested starting values and arguments' : 'Inspect Tested Default values and arguments');
+    byId('default-args').setAttribute('aria-label', vendor ? 'Untested starting value encoder arguments' : 'Tested Default encoder arguments');
+    put('default-help-text', vendor
+      ? 'These are untested starting values for this encoder, and remain editable. They are not a claim of optimal quality.'
+      : "The current profile's tested operational starting point remains editable. It is not a claim of universally optimal quality.");
     byId('preset').replaceChildren();
     if (!profile) {
       selectedRecipeId = rememberedSettings[byId('profile').value]?.recipeId || null;
@@ -751,8 +783,7 @@
       byId(id).max = profile.quality.max;
       byId(id).value = settings.quality;
     }
-    put('quality-label', `${profile.quality.mode} quality (${profile.quality.min}–${profile.quality.max})`);
-    put('slider-label', `Adjust ${profile.quality.mode}`);
+    updateQualityLabels(profile);
     put('quality-value', settings.quality);
     const depths = profile.supportedBitDepths || profile.bitDepths || [];
     put('profile-description', `${profile.label} · ${depths.length ? `${depths.join(' / ')}-bit supported` : 'See availability details'} · output: name_${profile.suffix}.mkv`);
@@ -766,7 +797,7 @@
     capabilities = result;
     byId('profile').replaceChildren();
     byId('capability-list').replaceChildren();
-    for (const profile of profiles()) {
+    for (const profile of result.profiles) {
       const option = document.createElement('option');
       option.value = profile.id;
       option.textContent = `${profile.label}${profile.available ? '' : ' — unavailable'}`;
@@ -779,6 +810,30 @@
         : `${profile.label}: ${profile.reason || 'Encoder cannot initialize on this computer.'}`;
       if (!profile.available) row.className = 'unavailable';
       byId('capability-list').append(row);
+    }
+    for (const hardware of ['AMD', 'Intel']) {
+      const entries = vendorProfiles().filter(profile => profile.hardware === hardware);
+      if (!entries.length) continue;
+      const group = document.createElement('optgroup');
+      group.label = `${hardware} — not yet tested on real hardware`;
+      for (const profile of entries) {
+        const option = document.createElement('option');
+        option.value = profile.id;
+        option.textContent = `${profile.label} ⚠${profile.available ? '' : ' — unavailable'}`;
+        option.disabled = !profile.available;
+        if (!profile.available) option.title = profile.reason;
+        group.append(option);
+        const row = document.createElement('li');
+        const depths = profile.supportedBitDepths || [];
+        const failures = (profile.checks || []).filter(check => !check.available);
+        row.textContent = `${profile.label} ⚠${profile.device ? ` · ${profile.device.description}` : ''}: `
+          + (profile.available ? `${depths.join(' / ')}-bit${failures.length ? ' only on this computer' : ' supported on this computer'}`
+            + failures.map(check => ` — ${check.bitDepth}-bit: ${check.reason}`).join('') : profile.reason)
+          + (profile.disclosures || []).map(disclosure => ` · ${disclosure.message}`).join('');
+        if (!profile.available) row.className = 'unavailable';
+        byId('capability-list').append(row);
+      }
+      byId('profile').append(group);
     }
     for (const recipe of recipes()) {
       const row = document.createElement('li');
@@ -1534,9 +1589,16 @@
     fileCell.append(details, origin, previous, reencodeBox, inspect);
     const statusCell = document.createElement('td');
     const status = document.createElement('span');
-    statusCell.append(status);
+    const untested = document.createElement('span');
+    untested.className = 'untested-mark';
+    untested.dataset.testid = 'result-untested';
+    untested.textContent = '⚠';
+    untested.title = untestedHardwareNotice;
+    untested.setAttribute('aria-label', untestedHardwareNotice);
+    untested.setAttribute('role', 'img');
+    statusCell.append(status, untested);
     row.append(useCell, fileCell, statusCell);
-    return { row, checkbox, details, body, inspect, name, output, summary, reason, metadata, sampling, action, status, item, key: '', origin, previous, ...operation,
+    return { row, checkbox, details, body, inspect, name, output, summary, reason, metadata, sampling, action, status, untested, item, key: '', origin, previous, ...operation,
       outputControls, outputNotice, outputAccessId: undefined, outputRequest: 0, outputPending: false, outputResult: '', outputFailed: false,
       previousDetails, previousInfo, previousArgs, reencodeBox, reencodeChoice, reencode, remuxDetails, remuxBody, remuxKey: null, remuxButtons: [],
       commandDetails, commandHeading, commandNotice, commandExecutable, commandDestination, commandArgs, commandKey: null };
@@ -1557,6 +1619,7 @@
       let entry = itemRows.get(item.id);
       if (!entry) { entry = createItemRow(item); itemRows.set(item.id, entry); }
       entry.item = item;
+      entry.untested.hidden = item.hardwareTier !== 'untested';
       renderFileOperation(entry);
       renderRemuxDecisions(entry);
       renderOutputAccess(entry);
@@ -1930,7 +1993,9 @@
   byId('tested-default').addEventListener('click', () => command(async () => {
     await flushSettings();
     const result = await api.resetProfile({ profileId: byId('profile').value });
-    applyPreferences(result, 'Tested Default applied to the current profile. You can edit these values.');
+    applyPreferences(result, selectedVendorProfile()
+      ? 'Untested starting values applied to the current profile. You can edit these values.'
+      : 'Tested Default applied to the current profile. You can edit these values.');
     invalidatePreview(true);
   }));
   byId('archive-quality').addEventListener('click', () => command(async () => {

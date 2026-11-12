@@ -1,3 +1,74 @@
+# 📘 Session: November 12, 2026 (afternoon–evening) — FFmpeg Encoder — milestone Q starts: the plan, Q1a and Q1b
+
+## 🤖 Models, Effort, Roles and Provenance
+- **Root:** Claude Opus 5.5, at the effort Ahmed set. Root did the mapping synthesis, the plan, all code and tests, the fixes, the records, the commits and Notion.
+- **Codex:** not used. Its weekly limit is reached until November 18 (~01:00 Cairo).
+- **Workflows and agents:**
+  - `wf_13432d65-e4c`: four read-only researchers mapped Q01–Q08;
+  - `wf_5d465cb0-c62`: three lenses plus a verifier reviewed Q1a;
+  - an independent `reviewer` ran the `/security-review` method on Q1a;
+  - `wf_385931ae-44e`: two lenses plus a verifier reviewed Q1b.
+- **Provenance:** live tool results, `/evidence-run` receipts, workflow journals and Git.
+
+## 🕒 Time
+From 12:41 Cairo (the 5-hour reset Ahmed asked to wait for) to the evening of November 12. A stop at 92% of the 5-hour window paused the work until 17:40; Ahmed chose "Yes, auto-resume".
+
+## 🎯 Session Goal
+Start milestone Q (Q01–Q08) on Ahmed's "Yes, after reset", root-led until Codex resets, using up to 95% of each window (record 44).
+
+## 🛠️ Actions Taken
+- `/reentry-check` passed. Confirmed Q is eligible: record 42 §5's two security scans ran on November 12.
+- Mapped Q with four researchers and wrote the plan: [record 47](47_Milestone_Q_Plan_2026-11-12.md), three waves plus QD1–QD4 for Ahmed.
+- **Q1a (`575ceff`).** Fitting a box never depends on orientation, so a file that already fits now runs the ordinary command. Resize refusals name the real missing qualification. Fixed a pre-existing ordinary-path fault in the family's inspection walk.
+- **Q1b (`ef094c9`).** The trim sliders use main's exact range limit per file, and a test shows per-file refusal when one range is applied across files of different lengths.
+- Both slices were reviewed, mutation-checked, run through the full suite, recorded, pushed and read back, with Notion updated and read back.
+
+## 🧠 Key Insights
+- The box turns with the picture, so whether a picture already fits is orientation-independent. My first narrower rule was wrong; the review caught it.
+- A truthful refusal message must not hide faults in the file's own evidence. Only the one missing-orientation code may be re-described.
+- The NVIDIA driver on this PC moved to 621.14, while the family's NVIDIA cell is bound to 621.01. NVIDIA range jobs are refused here until they are re-measured (Q2a).
+
+## 📌 Decisions Made
+- Ahmed, November 12: "Yes, after reset" (start Q); "Yes, auto-resume" (continue after the 5-hour reset).
+- Root: the vendor byte pins are re-pinned per Q slice, with labels, only for the files the slice changed; the golden ordinary-argv capture stays the byte proof.
+- Root: the `/security-review` method runs through an independent `reviewer`, because the built-in command needs `origin/HEAD`.
+
+## ⚠️ Difficulties / Friction
+- The workflow output files are not plain JSON, so results were read from each journal.
+- Python string escaping broke a test (`\.`) and the renderer (an apostrophe); both were fixed, and the UI suite went from 62 failures back to 64/64.
+- `src/encoder-service.cjs` is CRLF in the working tree, while Git stores LF. Edits to it use the Edit tool.
+
+## 🔧 Adjustments Made
+- I check line endings by exact byte count before scripted edits.
+- After the first window used 92%, the reviews moved to smaller workflows (three agents).
+
+## ❌ Mistakes / Risks Noted
+- The baseline full run overlapped an edit, so `q-baseline-full` is indicative only.
+- The first Q1a rule was too narrow, and its refusal re-description too wide. Both were fixed before commit.
+- The seal drift for HDR and encode-preservation keeps growing with Q edits; no reseal (D7).
+
+## 📍 Current Position
+HEAD `ef094c9`, pushed and equal to the remote. Q1a and Q1b are done; next is Q1c. QD1–QD4 and O1–O10 are open with Ahmed; none blocks Waves 1–2.
+
+## 🔜 Next Steps
+1. **Q1c:** effective timing in the changed-path result, and tests for start-only and end-only requests.
+2. **Q1d:** the pure chapter and packet-range modules.
+3. **Q1e:** the MOV receipt and remux provenance.
+4. **Wave 2:** Q2a (NVIDIA re-measure on 621.14) first.
+
+## ❓ Open Questions
+- QD1–QD4 (record 47 §4).
+- O1–O10 (record 46).
+
+## 🧾 Session Outcome
+Milestone Q is under way with a reviewed plan and two committed, reviewed slices. No tolerance, catalog, default or ordinary argv changed.
+
+## 🔍 Confidence Level
+- **High** for Q1a and Q1b behaviour, which is covered by focused tests, mutations and full-suite receipts.
+- **Medium** for the plan's Wave 2 estimates, which still need real-media runs.
+
+---
+
 # 📘 Session: November 11–12, 2026 — FFmpeg Encoder — the full-throttle run: security pass, AMD/Intel built, smoke tests, hardware checklist
 
 ## 🤖 Models, Effort, Roles and Provenance

@@ -39,3 +39,15 @@ How root applies it:
 | Unchanged | Every other rule: record 35's hard limits, the guard, one writer at a time, explicit staging, no Planning, owner gates. |
 
 The run ends when Friday's reset arrives, when the quota margin is reached, or when Ahmed says so.
+
+## 4. November 12, 2026, ~07:45 Cairo: a correction, and Codex on ChatGPT Pro
+
+Ahmed:
+> "your higher than usual Codex numbers is not fully caused by you, Codex is already working on something else somewhere else. and that is what is consuming quota with you."
+> "I have increased the subscription of ChatGPT to be ChatGPT Pro subscription, which is 10x the Plus in weekly Quota and no 5h limits."
+> "feel free to push as much as you want on Codex with you."
+
+- **The correction.** Codex's quota is shared with Ahmed's other Codex work. Weekly jumps measured during this run, such as 39% → 59% around job `sec-fixes`, are not all this project's. Record 41's per-job Codex figures from November 11–12 are upper bounds.
+- **The new plan.** Execution and reviews shift to Codex; Claude briefs, reviews diffs and commits. Codex has no 5-hour window now.
+- **The gate.** `/codex-run`'s 90% weekly gate (record 40) is kept because the quota is shared. With ten times the room it should rarely bind.
+- **Security Cloud.** The reason it was dropped (§1: no ChatGPT Pro) no longer holds. It stays forbidden by the CLAUDE.md hard limit unless Ahmed lifts that rule. Root raised this with him in chat.

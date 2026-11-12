@@ -1,3 +1,12 @@
+> **ACTIVE — November 12, 2026, ~08:30 Cairo. Writer lock phase `design45-recorded`. The AMD/Intel design is COMMITTED as [record 45](45_AMD_Intel_First_Class_Design_2026-11-12.md) in the commit that carries this banner.**
+> - **Design:** six profiles (`h264-amd` … `av1-intel`) on the ordinary Full/KeepSource path. Each uses a CPU "codec twin" plus a checked argv overlay, so CPU/NVIDIA argv, `PROFILES`, defaults and Archive CQ29 stay byte-identical. A separate vendor startup check greys out what a machine lacks. Outputs are checked for the encoder tag, frame count and a strict decode. The amber "not tested on real hardware" mark is shown.
+> - **Review:** three designs, two judges and one synthesis (Claude workflow `wf_cc356d2d-d80`), then Codex review `amd-intel-design-review` ("Sound with changes"). All seven issues are adopted as record 45 §12.
+> - **Ahmed, November 12:** Codex is now on ChatGPT Pro, and push it "as much as you want". Earlier Codex usage was partly his other work (record 44 §4).
+> - **Quota:** Claude 5-hour window reset at 07:40 Cairo; weekly about 30%.
+> - **Next:** Codex builds slices 0+1 (golden baseline at `f8fc2df`, the pure catalog and overlay), then slices 2–5, with root reviewing and committing each.
+> - **Owner points, none blocking:** record 45 "Decisions" O1–O10 (accepting the design, the full-decode cost O4, NVIDIA parity O5, and the rest).
+> - The banner below is history.
+
 > **ACTIVE — November 12, 2026, ~03:15 Cairo. Writer lock phase `security-pass-closed`. The security pass for milestone P is COMMITTED in the commit that carries this banner** (run rules: [record 44](44_Leftover_Quota_and_Full_Throttle_Run_2026-11-11.md)).
 > - **`claude-security` changes scan** (since `253c567`, 101 files, medium): 0 findings, stamped `verified`. 28/28 researchers returned; the panel rejected all 3 candidates.
 > - **`/security-review` method** (independent `reviewer`): PASS, no exploitable finding.

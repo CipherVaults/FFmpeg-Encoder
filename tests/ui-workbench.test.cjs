@@ -1311,3 +1311,54 @@ test('Remux narrow drawer and Encode-only settings retain source selection witho
   assert.equal(h.byId('batch-panel').parentElement, h.byId('remux-batch-slot'));
   assert.equal(h.calls.some(call => ['prepareRemuxBatch', 'prepareBatch', 'setRemuxOmissions', 'startBatch'].includes(call.name)), false);
 });
+
+test('a finished changed-path row shows asked versus kept timing and the AAC delay as plain read-only text', async () => {
+  const h = await processingHarness({ durationSeconds: 4, rangeLimitUs: 4000000 });
+  const timing = { timeline: 'request-relative', requested: { startUs: 3000000, endUs: null }, resolved: { startUs: 3000000, endUs: 4000000 },
+    video: { startUs: 3000000, endUs: 4000000, frames: 30, outputStartUs: 0, outputEndUs: 1000000 },
+    audio: [{ inputIndex: 1, mode: 'precision-aac', startUs: 2999979, endUs: 4000000, outputStartUs: 0, outputEndUs: 1000021,
+      encoderDelaySamples: 1024, discardPaddingSamples: 448, sampleCountDifference: -1 }] };
+  const finished = h.snapshot('completed');
+  finished.items[0] = { ...finished.items[0], status: 'success', outcome: 'saved', timing };
+  finished.items[1] = { ...finished.items[1], status: 'success', outcome: 'saved' };
+  h.update(finished);
+  const line = h.row(0).querySelector('[data-testid="operation-timing"]');
+  assert.equal(line.hidden, false);
+  assert.equal(line.textContent, 'Trim asked: 3 s to the file end (4 s). Video kept 3–4 s (30 frames). '
+    + 'Audio 1: kept 2.999979–4 s; AAC start delay 1024 samples, end padding 448 samples; -1 samples versus the source.');
+  assert.equal(line.children.length, 0);
+  // Ordinary rows (no timing) and malformed timing show nothing; a row that is not a success shows nothing.
+  assert.equal(h.row(1).querySelector('[data-testid="operation-timing"]').hidden, true);
+  for (const bad of [{ ...timing, audio: 'x' }, { ...timing, video: { ...timing.video, endUs: 2000000 } }, { ...timing, resolved: null },
+    { ...timing, audio: [{ ...timing.audio[0], inputIndex: '1' }] }, { ...timing, audio: Array(65).fill(timing.audio[0]) }]) {
+    const next = h.snapshot('completed'); next.items[0] = { ...next.items[0], status: 'success', outcome: 'saved', timing: bad }; h.update(next);
+    assert.equal(h.row(0).querySelector('[data-testid="operation-timing"]').hidden, true, JSON.stringify(bad).slice(0, 80));
+  }
+  const failed = h.snapshot('failed'); failed.items[0] = { ...failed.items[0], status: 'failed', timing }; h.update(failed);
+  assert.equal(h.row(0).querySelector('[data-testid="operation-timing"]').hidden, true);
+  const show = (value, status = 'success') => { const next = h.snapshot('completed');
+    next.items[0] = { ...next.items[0], status, outcome: status === 'success' ? 'saved' : 'destination-collision', timing: value }; h.update(next);
+    const element = h.row(0).querySelector('[data-testid="operation-timing"]'); return element.hidden ? null : element.textContent; };
+  for (const status of ['skipped', 'cancelled', 'validating']) assert.equal(show(timing, status), null, status);
+  for (const bad of [{ ...timing, timeline: undefined }, { ...timing, timeline: 'other' }, { ...timing, requested: { startUs: -1, endUs: null } },
+    { ...timing, video: { ...timing.video, frames: -1 } }, { ...timing, audio: [{ ...timing.audio[0], inputIndex: -1 }] }]) assert.equal(show(bad), null, JSON.stringify(bad).slice(0, 80));
+  // Negative delay or padding counts never print; the rest of the line still describes the kept span.
+  assert.doesNotMatch(show({ ...timing, audio: [{ ...timing.audio[0], encoderDelaySamples: -1 }] }), /AAC/);
+  assert.equal(show({ ...timing, requested: { startUs: null, endUs: 1000000 }, resolved: { startUs: 0, endUs: 1000000 },
+    video: { ...timing.video, startUs: 0, endUs: 1000000 }, audio: [] }), 'Trim asked: the file start (0 s) to 1 s. Video kept 0–1 s (30 frames).');
+  assert.equal(show({ timeline: 'source-timestamps', requested: null, resolved: null, video: timing.video, audio: [{ ...timing.audio[0], sampleCountDifference: 0 }] }),
+    'Audio 1: AAC start delay 1024 samples, end padding 448 samples.');
+});
+
+test('a remux generation history line names copied and omitted streams and never shows encoder settings', async () => {
+  const h = await harness(), previous = { version: 4, kind: 'remux', inputFamily: 'isobmff', target: 'matroska',
+    streams: [{ codecType: 'video', codecName: 'h264' }, { codecType: 'audio', codecName: 'aac' }], omittedStreams: [{ codecType: 'subtitle', codecName: 'mov_text' }],
+    bitstreamFilters: [], appVersion: '0.7.0-alpha.1', createdAt: '2026-11-12T18:00:00.000Z', runtimeVersion: '<img src=x> runtime' };
+  h.update(completedSnapshot([completedItem({ status: 'generated', outputAccess: undefined, outputDisposition: undefined,
+    origin: { kind: 'generated', previousGeneration: previous } })]));
+  const row = h.byId('batch-items').children[0], summary = row.querySelector('[data-testid="previous-generation"]'), details = row.querySelector('[data-testid="previous-generation-details"]');
+  assert.equal(summary.textContent, 'Remux · MP4/MOV to MKV · 2 streams copied · 1 omitted · no new encoding generation');
+  assert.match(details.textContent, /no encoder settings were recorded/); assert.doesNotMatch(details.textContent, /undefined|\[\]/);
+  assert.equal(details.querySelectorAll('img').length, 0);
+  assert.equal(row.querySelector('.argument-list').hidden, true);
+});

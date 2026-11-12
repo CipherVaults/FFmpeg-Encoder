@@ -325,3 +325,18 @@ test('CFR requires absolute ordinal phase throughout the full source, not just s
   drift.completeSource.video.maximumNominalPhaseErrorUs = 1000;
   assert.equal(h.selector.verifyCollectedSource(selection, drift), true);
 });
+
+test('start-only, end-only and to-source-end ranges resolve against the file and keep the 0.5–30 s family limit', () => {
+  for (const range of [{ startUs: 1000000 }, { endUs: 2000000 }, { startUs: 3000000, endUs: 4000000 }, { startUs: 3500000 }]) {
+    const h = fixture({ overrides: { range } }); assert.ok(h.selector.select(h.bindings), JSON.stringify(range));
+  }
+  const resolved = fixture({ overrides: { range: { startUs: 1000000 } } }).plan.contract.range.resolved;
+  assert.deepEqual({ ...resolved }, { startUs: 1000000, endUs: 4000000 });
+  assert.deepEqual({ ...fixture({ overrides: { range: { endUs: 2000000 } } }).plan.contract.range.resolved }, { startUs: 0, endUs: 2000000 });
+  // An open edge takes the file's own start or end, so the resolved span, not
+  // the typed one, must stay inside the family: no silent clamping to 30 s.
+  for (const range of [{ startUs: 5000000 }, { endUs: 31000000 }, { startUs: 3600000 }]) {
+    const h = fixture({ duration: range.startUs === 3600000 ? 4 : 40, overrides: { range } });
+    required(() => h.selector.select(h.bindings));
+  }
+});

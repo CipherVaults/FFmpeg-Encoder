@@ -239,8 +239,13 @@ class RemuxOperations {
   validate(plan, outputProbe, collectorReceipt, optional = {}) {
     record(optional, ['movRepresentationReceipt', 'outputFileSha256'], []); const state = this.#current(plan);
     need(state.selected && state.invocationOutput !== null, 'Validation requires a selected plan and its bound actual invocation stage.');
-    const { getCollectedRemuxEvidence } = require('./remux-evidence.cjs');
-    const essence = getCollectedRemuxEvidence(collectorReceipt, { assessment: state.assessment, runtimeIdentity: this.#runtime, outputId: state.outputId });
+    const { getCollectedRemuxEvidence, getCollectedMovRepresentation } = require('./remux-evidence.cjs');
+    const bindings = { assessment: state.assessment, runtimeIdentity: this.#runtime, outputId: state.outputId };
+    const essence = getCollectedRemuxEvidence(collectorReceipt, bindings), collectedMov = getCollectedMovRepresentation(collectorReceipt, bindings);
+    // The collector's own observation is the MOV representation; a caller may
+    // pass only that same receipt, never a different one in its place.
+    need(!own(optional, 'movRepresentationReceipt') || collectedMov !== null && optional.movRepresentationReceipt === collectedMov,
+      "A MOV representation must be the collector's own observation of this output.");
     need(collectorReceipt.sourcePath === state.input && collectorReceipt.outputPath === state.invocationOutput
       && collectorReceipt.sourceProbeFingerprint === state.sourceProbeFingerprint
       && collectorReceipt.outputProbeFingerprint === remuxProbeFingerprint(outputProbe), 'Collected evidence belongs to another actual source, output path or probe.');
@@ -249,7 +254,7 @@ class RemuxOperations {
     digest(essence.outputFileSha256, 'Complete owned output seal');
     need(!own(optional, 'outputFileSha256') || optional.outputFileSha256 === essence.outputFileSha256, 'The supplied output seal differs from complete collected bytes.');
     return state.validator.validate({ plan: state.innerPlan, outputProbe, essenceEvidence: essence,
-      ...(own(optional, 'movRepresentationReceipt') ? { movRepresentationReceipt: optional.movRepresentationReceipt } : {}) });
+      ...(collectedMov ? { movRepresentationReceipt: collectedMov } : {}) });
   }
   invalidate() { this.#epoch++; this.#latest.clear(); }
 }

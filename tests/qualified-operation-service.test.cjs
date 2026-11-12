@@ -194,6 +194,26 @@ test('qualified exact FLAC range executes the canonical plan, complete evidence 
   assert.equal(validated.context.validation.valid, true);
 });
 
+test('a published changed-path item carries the checked timing as inert data; ordinary and new preparations have none', async t => {
+  const h = await harness(t), plan = await h.prepare(); requireReady(plan);
+  const result = await h.finish(plan), item = result.items[0];
+  assert.equal(item.status, 'success', item.reason);
+  assert.equal(item.timing.timeline, 'request-relative');
+  assert.deepEqual(item.timing.requested, RANGE); assert.deepEqual(item.timing.resolved, RANGE);
+  assert.equal(item.timing.audio.length, 1); assert.equal(item.timing.audio[0].inputIndex, 2);
+  assert.ok(Number.isSafeInteger(item.timing.video.startUs) && item.timing.video.startUs >= RANGE.startUs);
+  assert.ok(item.timing.video.endUs <= RANGE.endUs);
+  const validated = (await h.events()).find(event => event.reason === 'OUTPUT_CHECKED');
+  assert.deepEqual(validated.context.validation.timing, item.timing);
+  // A new preparation starts from fresh items; an ordinary job never gains timing.
+  const again = await h.prepare({ ordinary: true });
+  assert.equal(Object.hasOwn(again.items[0], 'timing'), false);
+  const fresh = await harness(t), ordinaryPlan = await fresh.prepare({ ordinary: true }); requireReady(ordinaryPlan);
+  const ordinary = await fresh.finish(ordinaryPlan);
+  assert.equal(ordinary.items[0].status, 'success', ordinary.items[0].reason);
+  assert.equal(Object.hasOwn(ordinary.items[0], 'timing'), false);
+});
+
 test('each prepared item carries main\'s exact range limit as inert data, or null when unknown', async t => {
   const h = await harness(t), first = await h.prepare({ ordinary: true });
   assert.equal(first.items[0].rangeLimitUs, 400000);
@@ -379,6 +399,8 @@ test('no-overwrite publication retains validated staging when a destination appe
   const plan = await h.prepare(); requireReady(plan);
   const result = await h.finish(plan), item = result.items[0];
   assert.equal(item.status, 'skipped', item.reason); assert.equal(item.outcome, 'destination-collision');
+  // Validated but not published: the timing summary belongs only to a published result.
+  assert.equal(Object.hasOwn(item, 'timing'), false);
   assert.equal(item.outputDisposition.kind, 'retained-completed'); assert.equal(item.outputDisposition.validationCurrent, true);
   assert.equal(await fs.readFile(h.destination, 'utf8'), 'synthetic unrelated race winner');
   assert.equal(await fs.readFile(item.outputDisposition.file, 'utf8'), 'synthetic encoded output bytes');

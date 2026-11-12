@@ -40,9 +40,10 @@ test('v3 rejects accessors, proxies and extra array keys without invoking execut
   assert.equal(generationDescriptionV3(nested), null); assert.equal(reads, 0);
 });
 test('accepted-0.6-style v1-only dispatch refuses v3 but retains the generated-output marker', () => {
-  const old = load('src/provenance.cjs', source => source.replace(
-    /return version\.value === 1 \? generationDescriptionV1\(value\) : version\.value === 2 \? generationDescriptionV2\(value\)\s*: version\.value === 3 \? generationDescriptionV3\(value\) : null;/,
-    'return version.value === 1 ? generationDescriptionV1(value) : null;'));
+  // The rewrite must actually apply; a silent non-match would test the current code instead.
+  const old = load('src/provenance.cjs', source => { const changed = source.replace(
+    /return version\.value === 1 \? generationDescriptionV1\(value\) : version\.value === 2 \? generationDescriptionV2\(value\)\s*: version\.value === 3 \? generationDescriptionV3\(value\)(?: : version\.value === 4 \? generationDescriptionV4\(value\))? : null;/,
+    'return version.value === 1 ? generationDescriptionV1(value) : null;'); assert.notEqual(changed, source); return changed; });
   const value = description();
   assert.equal(old.generationDescriptionOf(value), null);
   const marker = old.classifyMarker({ format: { tags: { FFMPEG_ENCODER_PROVENANCE: '1', FFMPEG_ENCODER_OUTPUT_ID: createOutputId(),

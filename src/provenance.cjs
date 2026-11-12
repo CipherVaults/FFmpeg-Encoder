@@ -139,13 +139,62 @@ function generationDescriptionV3(value) {
     return structuredClone(value);
   } catch { return null; }
 }
+// Version 4 describes a remux generation (record 47, Q1e): which copied
+// streams it carried and which it omitted. It names no encoder settings, so a
+// remux never inherits or advertises a previous encode's configuration. It is
+// descriptive only; no remux route writes it until that route's own measured
+// round trip qualifies it (remux contract: required-before-target-enablement).
+const REMUX_TARGETS = ['matroska', 'mp4', 'mov'], REMUX_FAMILIES = ['isobmff', 'matroska', 'mpegts'];
+const REMUX_STREAM_TYPES = ['video', 'audio', 'subtitle', 'attachment'];
+// Copies only own enumerable data properties of plain records and dense plain
+// arrays, so no getter, proxy trap, toJSON or hidden key is ever honoured.
+function inertDescriptionCopy(value, depth = 0, budget = { nodes: 0 }) {
+  if (++budget.nodes > 256) throw new Error('too large');
+  if (typeof value === 'string' || typeof value === 'number' && Number.isFinite(value)) return value;
+  if (!value || typeof value !== 'object' || types.isProxy(value) || depth > 2
+      || !(Array.isArray(value) ? Object.getPrototypeOf(value) === Array.prototype : object(value))) throw new Error('not inert');
+  const fields = Object.getOwnPropertyDescriptors(value), keys = Reflect.ownKeys(fields);
+  if (keys.length > 65 || Array.isArray(value) && keys.length !== value.length + 1) throw new Error('not dense');
+  const copy = Array.isArray(value) ? [] : {};
+  for (const key of keys) {
+    if (Array.isArray(value) && key === 'length') continue;
+    const field = fields[key];
+    if (typeof key !== 'string' || !field.enumerable || !Object.hasOwn(field, 'value')
+        || Array.isArray(value) && !/^(?:0|[1-9]\d*)$/.test(key)) throw new Error('not data');
+    Object.defineProperty(copy, key, { value: inertDescriptionCopy(field.value, depth + 1, budget), enumerable: true, writable: true, configurable: true });
+  }
+  return copy;
+}
+function generationDescriptionV4(input) {
+  try {
+    const value = inertDescriptionCopy(input);
+    const required = ['version', 'kind', 'inputFamily', 'target', 'streams', 'omittedStreams', 'bitstreamFilters', 'appVersion', 'createdAt'];
+    const keys = [...required, ...(Object.hasOwn(value, 'runtimeVersion') ? ['runtimeVersion'] : [])];
+    if (!exactKeys(value, keys) || value.version !== 4 || value.kind !== 'remux' || Buffer.byteLength(JSON.stringify(value)) > 4096) return null;
+    const token = entry => typeof entry === 'string' && /^[a-z0-9_]{1,64}$/.test(entry);
+    const list = (entry, max) => Array.isArray(entry) && !types.isProxy(entry) && Object.getPrototypeOf(entry) === Array.prototype
+      && entry.length <= max && Object.keys(entry).length === entry.length;
+    const stream = entry => !types.isProxy(entry) && exactKeys(entry, ['codecType', 'codecName'])
+      && REMUX_STREAM_TYPES.includes(entry.codecType) && token(entry.codecName);
+    if (!REMUX_FAMILIES.includes(value.inputFamily) || !REMUX_TARGETS.includes(value.target)
+        || !list(value.streams, 32) || !value.streams.length || !value.streams.every(stream)
+        || !list(value.omittedStreams, 32) || !value.omittedStreams.every(stream)
+        || !list(value.bitstreamFilters, 32) || !value.bitstreamFilters.every(token)
+        || typeof value.appVersion !== 'string' || !/^[a-zA-Z0-9.+_-]{1,80}$/.test(value.appVersion)
+        || typeof value.createdAt !== 'string' || !/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$/.test(value.createdAt)
+        || new Date(value.createdAt).toISOString() !== value.createdAt
+        || (Object.hasOwn(value, 'runtimeVersion') && (typeof value.runtimeVersion !== 'string' || !value.runtimeVersion.length
+          || value.runtimeVersion.length > 256 || /[\x00-\x1f\x7f]/.test(value.runtimeVersion)))) return null;
+    return structuredClone(value);
+  } catch { return null; }
+}
 function generationDescriptionOf(value) {
   if (types.isProxy(value)) return null;
   if (!object(value)) return null;
   const version = Object.getOwnPropertyDescriptor(value, 'version');
   if (!version || !Object.hasOwn(version, 'value') || !version.enumerable) return null;
   return version.value === 1 ? generationDescriptionV1(value) : version.value === 2 ? generationDescriptionV2(value)
-    : version.value === 3 ? generationDescriptionV3(value) : null;
+    : version.value === 3 ? generationDescriptionV3(value) : version.value === 4 ? generationDescriptionV4(value) : null;
 }
 function provenanceArgs(outputId, generationDescription) {
   const args = ['-metadata', `${MARKER_KEY}=1`, '-metadata', `${OUTPUT_ID_KEY}=${outputIdOf(outputId)}`];

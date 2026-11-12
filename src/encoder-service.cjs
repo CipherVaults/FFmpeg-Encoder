@@ -1342,7 +1342,7 @@ class EncoderService extends EventEmitter {
     this.state.operationDraft = this.plan.draft.snapshot();
     for (const item of this.state.items) {
       Object.assign(item, { status: 'pending', reason: '', reencodeAuthorized: false });
-      for (const field of ['reasonCode', 'details', 'sourceIdentityDiagnostic', 'summary', 'rangeLimitUs', 'hdr', 'encodePreservation', 'warnings', 'hardwareTier']) delete item[field];
+      for (const field of ['reasonCode', 'details', 'sourceIdentityDiagnostic', 'summary', 'rangeLimitUs', 'timing', 'hdr', 'encodePreservation', 'warnings', 'hardwareTier']) delete item[field];
     }
     const signal = this.begin('preparing');
     this.state.preparation = { total: this.state.items.length, resolved: 0, reused: 0, inspected: 0,
@@ -1910,6 +1910,10 @@ class EncoderService extends EventEmitter {
             severity: validation.valid ? 'info' : 'error', context: { validation } });
           if (protectedReceipt && !validationRecord.persisted) throw fail('OPERATION_DIAGNOSTICS_INCOMPLETE', 'The output-validation record could not be saved. Output retained without publication.');
           if (!validation.valid) throw fail('INVALID_OUTPUT', validation.errors.join(' '));
+          // Changed-path encodes only: a read-only copy of the checked timing,
+          // attached to the item only once the output is published below.
+          // The ordinary and remux result shapes stay exactly as before.
+          const checkedTiming = validation.validation === 'decoded-operation-contract' && validation.timing ? clone(validation.timing) : null;
           const validationWarnings = mergeWarnings(item.warnings || [], validation.warnings || []);
           if (validationWarnings.length) item.warnings = validationWarnings;
           if (entry.vendor) await vendorOutputCheck({ vendor: entry.vendor, outputProbe, encoderProgress,
@@ -1956,6 +1960,7 @@ class EncoderService extends EventEmitter {
           await this.recordIncident({ stage: 'publication', reason: published ? 'OUTPUT_PUBLISHED' : 'OUTPUT_COLLISION', fileId: item.id,
             severity: !published || assessment.kind === 'ctime-only' ? 'warning' : 'info', context: { destination: entry.destination, published, sourceAssessment: assessment } });
           item.status = published ? 'success' : 'skipped';
+          if (published && checkedTiming) item.timing = checkedTiming;
           item.outcome = published ? item.warnings?.length ? 'saved-with-warning' : 'saved' : 'destination-collision';
           item.outputDisposition = { kind: published ? 'published' : 'retained-completed', published, ...(published ? { file: entry.destination } : {}) };
           item.reason = published ? item.warnings?.length ? 'Output saved. ' + item.warnings.map(warning => warning.message).join(' ') : '' : 'Another output won the publication race.';

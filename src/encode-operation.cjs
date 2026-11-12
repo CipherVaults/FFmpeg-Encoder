@@ -391,7 +391,38 @@ function decodedEvidence(value, plan, qualification, errors, warnings) {
     // This is clock quantization, not an added AAC frame/padding allowance.
     audioToleranceUs: Math.ceil(2000000 / 48000 + 1000) }) : null;
   return { maximumEndUs: Math.max(...outputEnds), minimumStartUs: Math.min(...outputStarts),
-    ...(clock ? { containerEndUs: clock.maximumStoredEndUs } : {}) };
+    ...(clock ? { containerEndUs: clock.maximumStoredEndUs } : {}), timing: operationTiming(plan, video, value.audio) };
+}
+
+// Read-only result description, attached only to a valid result, from the
+// same decoded evidence the validator checked: what the request asked for, what main resolved and what
+// each stream actually kept, plus the AAC start delay and end padding. Source
+// spans use the request's timeline (relative to the source origin) so they
+// compare directly with the asked range. Inert integers; no authority.
+function roundedMicros(value) {
+  const item = rat(value), scaled = item.n * 1000000n, negative = scaled < 0n, magnitude = negative ? -scaled : scaled;
+  const rounded = magnitude / item.d + (magnitude % item.d * 2n >= item.d ? 1n : 0n);
+  return Number(negative ? -rounded : rounded);
+}
+function operationTiming(plan, video, audio) {
+  const range = plan.contract.range, ranged = range.kind === 'range';
+  // Same nearest-microsecond rule (ties away from zero) the collector applies
+  // to each decoded timestamp, so a frame at the asked edge reads exactly there.
+  const baseUs = ranged ? roundedMicros(range.sourceOrigin) : 0;
+  const asked = key => ranged && own(range.requested, key) ? range.requested[key] : null;
+  return freeze({
+    timeline: ranged ? 'request-relative' : 'source-timestamps',
+    requested: ranged ? { startUs: asked('startUs'), endUs: asked('endUs') } : null,
+    resolved: ranged ? { startUs: range.resolved.startUs, endUs: range.resolved.endUs } : null,
+    video: { startUs: video.firstSourcePtsUs - baseUs, endUs: video.lastSourcePtsUs + video.lastSourceDurationUs - baseUs,
+      frames: video.outputFrameCount, outputStartUs: video.firstOutputPtsUs, outputEndUs: video.lastOutputPtsUs + video.lastOutputDurationUs },
+    audio: audio.map(item => ({ inputIndex: item.inputIndex,
+      mode: plan.contract.audio.streams.find(stream => stream.index === item.inputIndex).mode,
+      startUs: item.firstSourcePtsUs - baseUs, endUs: item.lastSourceEndUs - baseUs,
+      outputStartUs: item.firstOutputPtsUs, outputEndUs: item.lastOutputEndUs,
+      encoderDelaySamples: item.encoderDelaySamples, discardPaddingSamples: item.discardPaddingSamples,
+      sampleCountDifference: item.outputSampleCount - item.sourceSampleCount })),
+  });
 }
 
 function validateEncodeOperationOutput(plan, rawOutputProbe, options = {}) {
@@ -493,7 +524,7 @@ function validateEncodeOperationOutput(plan, rawOutputProbe, options = {}) {
       if (marker.kind !== 'generated' || marker.outputId !== plan.expectedOutput.outputId.toLowerCase()) errors.push('Prepared output provenance did not round-trip.');
     }
     return { valid: errors.length === 0, errors, warnings, validation: plan.compatibilityPath ? 'accepted-full-validator' : 'decoded-operation-contract',
-      qualificationEvidenceId: qualified?.evidenceId ?? null };
+      qualificationEvidenceId: qualified?.evidenceId ?? null, ...(decoded && errors.length === 0 ? { timing: decoded.timing } : {}) };
   } catch (error) {
     errors.push(error.message || 'Operation output validation failed.');
     return { valid: false, errors, warnings, code: error.code || 'INVALID_OPERATION_VALIDATION' };

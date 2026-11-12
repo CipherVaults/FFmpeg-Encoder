@@ -375,3 +375,35 @@ test('oversized existing recognized record is preserved and excluded before pars
   assert.match(restarted.warnings.join('\n'), /oversized/);
   assert.equal(await fs.readFile(filename, 'utf8'), oversized);
 });
+
+test('a v4 remux description names copied and omitted streams only, and anything else is unavailable', () => {
+  const { generationDescriptionOf, provenanceArgs: args, GENERATION_KEY } = require('../src/provenance.cjs');
+  const description = { version: 4, kind: 'remux', inputFamily: 'isobmff', target: 'mov',
+    streams: [{ codecType: 'video', codecName: 'h264' }, { codecType: 'audio', codecName: 'aac' }],
+    omittedStreams: [{ codecType: 'subtitle', codecName: 'mov_text' }], bitstreamFilters: [],
+    appVersion: '0.7.0-alpha.1', createdAt: '2026-11-12T18:00:00.000Z', runtimeVersion: 'ffmpeg 9.0.2' };
+  assert.deepEqual(generationDescriptionOf(description), description);
+  assert.notEqual(generationDescriptionOf(description), description);
+  const outputId = createOutputId(), written = args(outputId, description);
+  assert.equal(written.at(-1), `${GENERATION_KEY}=${JSON.stringify(description)}`);
+  assert.deepEqual(classifyMarker(marked(outputId, { [GENERATION_KEY]: JSON.stringify(description) })).previousGeneration, description);
+  for (const change of [d => { d.kind = 'encode'; }, d => { d.target = 'avi'; }, d => { d.inputFamily = 'webm'; }, d => { d.streams = []; },
+    d => { d.streams[0].codecType = 'data'; }, d => { d.streams[0].codecName = 'H264'; }, d => { d.streams[0].extra = 1; },
+    d => { d.streams = Array(33).fill({ codecType: 'audio', codecName: 'aac' }); }, d => { d.bitstreamFilters = ['h264_mp4toannexb', '-y']; },
+    d => { d.encoderArgs = ['-c', 'copy']; }, d => { d.createdAt = '2026-11-12'; }, d => { d.createdAt = '2026-02-30T00:00:00.000Z'; },
+    d => { d.runtimeVersion = 'bad\u0001'; }, d => { d.runtimeVersion = ''; }, d => { d.appVersion = '0.7 alpha'; },
+    d => { d.streams = new Proxy(d.streams, {}); }, d => { d.omittedStreams = { length: 0 }; }, d => { delete d.omittedStreams; }]) {
+    const changed = structuredClone(description); change(changed);
+    assert.equal(generationDescriptionOf(changed), null, change.toString());
+  }
+  // Accessors, hidden keys, holes and toJSON are never honoured.
+  let read = false;
+  const getter = structuredClone(description); Object.defineProperty(getter, 'target', { enumerable: true, get() { read = true; return 'mov'; } });
+  const holed = structuredClone(description); holed.streams = [description.streams[0], , description.streams[1]]; holed.streams.extra = 1;
+  const hidden = structuredClone(description); Object.defineProperty(hidden, 'toJSON', { enumerable: false, value: () => ({}) });
+  const symbol = structuredClone(description); symbol[Symbol('x')] = 1;
+  for (const crafted of [getter, holed, hidden, symbol]) assert.equal(generationDescriptionOf(crafted), null);
+  assert.equal(read, false);
+  // Marker v1 and the earlier description versions are untouched.
+  assert.deepEqual(args(outputId).slice(0, 4), ['-metadata', `${MARKER_KEY}=1`, '-metadata', `${OUTPUT_ID_KEY}=${outputId}`]);
+});

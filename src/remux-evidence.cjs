@@ -10,6 +10,7 @@ const { remuxProbeFingerprint } = require('./remux-validation.cjs');
 const { provenanceArgs } = require('./provenance.cjs');
 const { assertOrdinaryPath } = require('./candidate-runtime.cjs');
 const { classifyColor } = require('./media.cjs');
+const { observeMovRepresentation } = require('./mov-representation.cjs');
 const { projectRequiredRemuxTags } = require('./remux-metadata-policy.cjs');
 
 // Acquisition is main-owned and deliberately separate from qualification and
@@ -442,12 +443,23 @@ async function collectRemuxEvidence(options) {
       need(same(outputBefore, await handle.stat({ bigint: true })), 'Output changed during full seal.', 'REMUX_EVIDENCE_CHANGED');
     } finally { await handle.close(); }
     essence.outputFileSha256 = hash.digest('hex'); await paths();
+    // A MOV target's unspecified track languages are read from the sealed
+    // owned file itself (record 47, Q1e). The branded receipt stays private to
+    // main; the persisted receipt keeps only a bounded description of it.
+    let movRepresentation = null;
+    if (assessment.target === 'mov') {
+      movRepresentation = await observeMovRepresentation({ outputId, outputProbe, signal,
+        fileReceipt: { path: outputPath, sha256: essence.outputFileSha256, bytes: Number(outputBefore.size), identity: stamp(outputBefore) } });
+      await paths();
+      receipt.movRepresentation = { kind: movRepresentation.kind,
+        tracks: movRepresentation.tracks.map(track => ({ outputIndex: track.outputIndex, trackId: track.trackId, languageCode: track.languageCode })) };
+    }
     receipt.sourceAfter = stamp(await unchanged(sourcePath, sourceBefore)); receipt.outputAfter = stamp(await unchanged(outputPath, outputBefore));
     await persist('essence.json', Buffer.from(JSON.stringify(essence, null, 2))); receipt.essenceEvidence = essence;
     for (const item of owned) await unchanged(item.file, item.stat);
     receipt.status = 'completed'; await persist('receipt.json', Buffer.from(JSON.stringify(receipt, null, 2)), 0);
     await paths(); for (const item of owned) await unchanged(item.file, item.stat);
-    const result = freeze(receipt); receipts.set(result, { assessment, runtimeIdentity, outputId: outputId.toLowerCase(), essence }); return result;
+    const result = freeze(receipt); receipts.set(result, { assessment, runtimeIdentity, outputId: outputId.toLowerCase(), essence, movRepresentation }); return result;
   } catch (error) {
     receipt.status = signal?.aborted ? 'cancelled' : 'failed'; receipt.failure = errorData(error); receipt.essenceEvidence = null;
     // Never clean up or overwrite partial evidence. If the owned directory/path
@@ -464,5 +476,10 @@ function getCollectedRemuxEvidence(receipt, { assessment, runtimeIdentity, outpu
     && typeof outputId === 'string' && state.outputId === outputId.toLowerCase(), 'A genuine complete matching main-owned Remux collector receipt is required.', 'REMUX_EVIDENCE_RECEIPT_REQUIRED');
   getRemuxAssessmentSource(assessment); return state.essence;
 }
+// The collector's own MOV observation for the same genuine receipt, or null
+// when the target is not MOV. Same binding rules as the essence accessor.
+function getCollectedMovRepresentation(receipt, bindings) {
+  getCollectedRemuxEvidence(receipt, bindings); return receipts.get(receipt).movRepresentation;
+}
 
-module.exports = { REMUX_EVIDENCE_LIMITS: LIMITS, collectRemuxEvidence, getCollectedRemuxEvidence };
+module.exports = { REMUX_EVIDENCE_LIMITS: LIMITS, collectRemuxEvidence, getCollectedRemuxEvidence, getCollectedMovRepresentation };

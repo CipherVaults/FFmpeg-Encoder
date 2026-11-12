@@ -8,7 +8,9 @@ const path = require('node:path');
 const { RemuxOperations, fingerprintRemuxSourceIdentity } = require('../src/remux-operation.cjs');
 const { assessRemux } = require('../src/remux-contract.cjs');
 const { remuxProbeFingerprint } = require('../src/remux-validation.cjs');
-const { collectRemuxEvidence } = require('../src/remux-evidence.cjs');
+const { collectRemuxEvidence, getCollectedMovRepresentation } = require('../src/remux-evidence.cjs');
+const { observeMovRepresentation } = require('../src/mov-representation.cjs');
+const { fixture: movFixture, writeFixture: writeMovFixture } = require('./helpers/mov-fixture.cjs');
 const { readSourceIdentity } = require('../src/source-identity.cjs');
 const { MARKER_KEY, OUTPUT_ID_KEY, GENERATION_KEY } = require('../src/provenance.cjs');
 
@@ -228,16 +230,18 @@ test('catalogs are immutable bounded main-owned data and reject forged authority
   invalid(() => make([p])); assert.equal(reads, 0);
 });
 
-async function collected(t, { offset = 0, contentChanged = false, metadataChanged = false } = {}) {
+async function collected(t, { offset = 0, contentChanged = false, metadataChanged = false, mov = false } = {}) {
   const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'remux-owner-test-'));
   t.after(async () => { assert.equal(path.dirname(directory), os.tmpdir()); assert.match(path.basename(directory), /^remux-owner-test-/); await fs.rm(directory, { recursive: true, force: true }); });
   const input = path.join(directory, 'source.inert'), output = path.join(directory, 'output.inert'), stageDirectory = path.join(directory, 'evidence');
-  await fs.writeFile(input, 'source inert fixture'); await fs.writeFile(output, 'output inert fixture'); await fs.mkdir(stageDirectory);
+  await fs.writeFile(input, 'source inert fixture'); await fs.writeFile(output, mov ? movFixture([{ id: 1 }]) : 'output inert fixture'); await fs.mkdir(stageDirectory);
   const identity = await readSourceIdentity(input), p = source({ audio: false }); p.format.size = identity.size;
   Object.assign(p.streams[0], { width: 2, height: 2, display_aspect_ratio: '1:1', avg_frame_rate: '1/1', r_frame_rate: '1/1', time_base: '1/1000', duration_ts: 2000 });
-  const h = fixture({ probe: p, identity }), selection = h.owner.select(h.bindings); h.owner.requireCurrent(selection, h.bindings);
+  // MOV declares stream titles differently; this check is about track languages only.
+  if (mov) delete p.streams[0].tags.title;
+  const h = fixture({ probe: p, identity, ...(mov ? { target: 'mov' } : {}) }), selection = h.owner.select(h.bindings); h.owner.requireCurrent(selection, h.bindings);
   h.owner.resolveInvocation(h.plan, { output });
-  const target = clone(p); target.format.format_name = 'matroska,webm'; target.format.tags = { ...target.format.tags, [MARKER_KEY]: '1', [OUTPUT_ID_KEY]: OUTPUT_ID };
+  const target = clone(p); target.format.format_name = mov ? 'mov,mp4,m4a,3gp,3g2,mj2' : 'matroska,webm'; if (mov) target.streams[0].id = '0x1'; target.format.tags = { ...target.format.tags, [MARKER_KEY]: '1', [OUTPUT_ID_KEY]: OUTPUT_ID };
   const run = async (executable, args, options) => {
     const isOutput = args[args.indexOf('-i') + 1] === output; let bytes;
     if (args.includes('-show_frames')) bytes = Buffer.from(JSON.stringify({ frames: [0, 1000].map(pts => ({ media_type: 'video', stream_index: 0,
@@ -274,4 +278,20 @@ test('complete receipts cannot weaken native content, metadata or fixed timing v
     const h = await collected(t, options), result = h.owner.validate(h.plan, h.target, h.receipt);
     assert.equal(result.valid, false); assert.match(result.errors.join('\n'), options.offset ? /maxPtsError|interval/ : /native essence/);
   }
+});
+
+test("a MOV remux validates with the collector's own MOV observation and refuses any other representation receipt", async t => {
+  const h = await collected(t, { mov: true });
+  const own = getCollectedMovRepresentation(h.receipt, { assessment: h.assessment, runtimeIdentity: RUNTIME, outputId: OUTPUT_ID });
+  assert.equal(own.tracks[0].languageCode, 32767);
+  const result = h.owner.validate(h.plan, h.target, h.receipt);
+  assert.equal(result.valid, true, result.errors?.join('; '));
+  assert.equal(h.owner.validate(h.plan, h.target, h.receipt, { movRepresentationReceipt: own }).valid, true);
+  const file = await writeMovFixture(t, movFixture([{ id: 1 }]));
+  const foreign = await observeMovRepresentation({ outputId: OUTPUT_ID, outputProbe: h.target, fileReceipt: file });
+  assert.throws(() => h.owner.validate(h.plan, h.target, h.receipt, { movRepresentationReceipt: foreign }), /collector's own observation/);
+  assert.throws(() => h.owner.validate(h.plan, h.target, h.receipt, { movRepresentationReceipt: clone(own) }), /collector's own observation/);
+  // A Matroska remux has no MOV observation, so none can be supplied.
+  const mkv = await collected(t);
+  assert.throws(() => mkv.owner.validate(mkv.plan, mkv.target, mkv.receipt, { movRepresentationReceipt: own }), /collector's own observation/);
 });

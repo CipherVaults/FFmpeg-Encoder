@@ -392,3 +392,63 @@ test('a Full request whose display already fits in either orientation keeps the 
   const tag = source(); tag.streams[0].tags.rotate = '';
   assert.throws(() => build(tag, { resolution: '1080' }), { code: 'GEOMETRY_ORIENTATION_UNKNOWN' });
 });
+
+test('changed-path results describe asked, resolved and kept timing for start-only, end-only and to-source-end ranges', () => {
+  const cases = [
+    { range: { startUs: 3000000 }, origin: 3000000, seconds: 1, requested: { startUs: 3000000, endUs: null }, resolved: { startUs: 3000000, endUs: 4000000 } },
+    { range: { endUs: 1000000 }, origin: 0, seconds: 1, requested: { startUs: null, endUs: 1000000 }, resolved: { startUs: 0, endUs: 1000000 } },
+    { range: { startUs: 2000000, endUs: 4000000 }, origin: 2000000, seconds: 2, requested: { startUs: 2000000, endUs: 4000000 }, resolved: { startUs: 2000000, endUs: 4000000 } }];
+  for (const item of cases) {
+    const probe = source(), plan = build(probe, { range: item.range }), actual = output(probe, plan, item.seconds);
+    const result = validateEncodeOperationOutput(plan, actual, { qualification: qualification(), decodedEvidence: decoded({ origin: item.origin, seconds: item.seconds }) });
+    assert.equal(result.valid, true, result.errors.join('; '));
+    assert.ok(Object.isFrozen(result.timing));
+    assert.equal(result.timing.timeline, 'request-relative');
+    assert.deepEqual({ ...result.timing.requested }, item.requested);
+    assert.deepEqual({ ...result.timing.resolved }, item.resolved);
+    assert.deepEqual({ ...result.timing.video }, { startUs: item.resolved.startUs, endUs: item.resolved.endUs, frames: item.seconds * 25,
+      outputStartUs: 0, outputEndUs: item.seconds * 1000000 });
+    assert.deepEqual({ ...result.timing.audio[0] }, { inputIndex: 2, mode: 'precision-aac', startUs: item.resolved.startUs, endUs: item.resolved.endUs,
+      outputStartUs: 0, outputEndUs: item.seconds * 1000000, encoderDelaySamples: 0, discardPaddingSamples: 0, sampleCountDifference: 0 });
+  }
+});
+
+test('timing spans are relative to the source origin, so a nonzero start time still compares with the asked range', () => {
+  const probe = source({ origin: 10 }), plan = build(probe, { range: { startUs: 1000000, endUs: 2000000 } }), actual = output(probe, plan);
+  const result = validateEncodeOperationOutput(plan, actual, { qualification: qualification(), decodedEvidence: decoded({ origin: 11000000 }) });
+  assert.equal(result.valid, true, result.errors.join('; '));
+  assert.equal(result.timing.video.startUs, 1000000); assert.equal(result.timing.video.endUs, 2000000);
+  assert.equal(result.timing.audio[0].startUs, 1000000);
+});
+
+test('full-length changed results carry the AAC start delay, end padding and sample difference; ordinary results keep their shape', () => {
+  const probe = source(), plan = build(probe, { audioPolicy: 'precision-aac' }), actual = output(probe, plan, 4);
+  const data = decoded({ origin: 0, seconds: 4 });
+  Object.assign(data.audio[0], { encoderDelaySamples: 1024, discardPaddingSamples: 448, outputSampleCount: data.audio[0].sourceSampleCount + 1 });
+  const measured = qualification(); measured.tolerances.sampleCount = 1;
+  const result = validateEncodeOperationOutput(plan, actual, { qualification: measured, decodedEvidence: data });
+  assert.equal(result.valid, true, result.errors.join('; '));
+  assert.equal(result.timing.timeline, 'source-timestamps');
+  assert.equal(result.timing.requested, null); assert.equal(result.timing.resolved, null);
+  assert.deepEqual({ ...result.timing.audio[0] }, { inputIndex: 2, mode: 'precision-aac', startUs: 0, endUs: 4000000, outputStartUs: 0, outputEndUs: 4000000,
+    encoderDelaySamples: 1024, discardPaddingSamples: 448, sampleCountDifference: 1 });
+  const ordinary = build(probe), ordinaryResult = validateEncodeOperationOutput(ordinary, output(probe, ordinary, 4));
+  assert.equal(ordinary.compatibilityPath, true);
+  assert.deepEqual(Object.keys(ordinaryResult).sort(), ['errors', 'qualificationEvidenceId', 'valid', 'validation', 'warnings']);
+});
+
+test('a half-microsecond negative origin rounds like the collector, so a frame at the asked start reads exactly 0', () => {
+  const probe = source();
+  Object.assign(probe.streams[0], { time_base: '1/2000000', start_pts: -1, start_time: '-0.0000005', duration_ts: 8000000 });
+  const plan = build(probe, { range: { endUs: 1000000 } }), actual = output(probe, plan);
+  const result = validateEncodeOperationOutput(plan, actual, { qualification: qualification(), decodedEvidence: decoded({ origin: -1 }) });
+  assert.equal(result.valid, true, result.errors.join('; '));
+  assert.equal(result.timing.video.startUs, 0); assert.equal(result.timing.audio[0].startUs, 0);
+});
+
+test('an invalid changed-path result carries no timing description', () => {
+  const probe = source(), plan = build(probe, { range: { startUs: 1000000, endUs: 2000000 } }), data = decoded();
+  data.video.outputFrameCount--;
+  const result = validateEncodeOperationOutput(plan, output(probe, plan), { qualification: qualification(), decodedEvidence: data });
+  assert.equal(result.valid, false); assert.equal(Object.hasOwn(result, 'timing'), false);
+});

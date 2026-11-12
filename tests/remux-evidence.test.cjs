@@ -11,6 +11,9 @@ const { collectRemuxEvidence, getCollectedRemuxEvidence, REMUX_EVIDENCE_LIMITS }
 const { createRemuxValidator } = require('../src/remux-validation.cjs');
 const { MARKER_KEY, OUTPUT_ID_KEY } = require('../src/provenance.cjs');
 const savedVfr = require('./fixtures/remux-vfr-timeline-v1.json');
+const { fixture: movFixture } = require('./helpers/mov-fixture.cjs');
+const { getCollectedMovRepresentation } = require('../src/remux-evidence.cjs');
+const { getMovRepresentation } = require('../src/mov-representation.cjs');
 
 // Every child is an async deterministic mock. Tiny inert files establish actual
 // filesystem identity; no media is generated, decoded, probed or encoded here.
@@ -30,14 +33,14 @@ function source() {
   ], format: { format_name: 'mov,mp4,m4a,3gp,3g2,mj2', duration: '2', nb_streams: 2, nb_programs: 0, nb_stream_groups: 0,
     tags: { title: 'Source' } }, chapters: [], programs: [], stream_groups: [] };
 }
-async function setup(t, { probe = source(), target = 'matroska', omitAttachment = false, changeOutput, mutate, changeFrames, changePackets, changeHeader, changeCapture, bytesFor, extraChunk } = {}) {
+async function setup(t, { probe = source(), target = 'matroska', omitAttachment = false, changeOutput, mutate, changeFrames, changePackets, changeHeader, changeCapture, bytesFor, extraChunk, outputBytes = 'output fixture bytes' } = {}) {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'remux-collector-test-'));
   t.after(async () => {
     assert.equal(path.dirname(root), os.tmpdir()); assert.ok(path.basename(root).startsWith('remux-collector-test-'));
     await fs.rm(root, { recursive: true, force: true });
   });
   const sourcePath = path.join(root, 'source.inert'), outputPath = path.join(root, 'output.inert'), stageDirectory = path.join(root, 'stage');
-  await fs.mkdir(stageDirectory); await fs.writeFile(sourcePath, 'source fixture bytes'); await fs.writeFile(outputPath, 'output fixture bytes');
+  await fs.mkdir(stageDirectory); await fs.writeFile(sourcePath, 'source fixture bytes'); await fs.writeFile(outputPath, outputBytes);
   const request = { fileId: 'fixture', identityRevision: 0, draftRevision: 0, operation: 'remux', target, range: null, omissionRequestIds: [] };
   let assessment = assessRemux({ request, probe, sourceFingerprint: SOURCE });
   if (omitAttachment) {
@@ -651,4 +654,38 @@ test('cancellation retains an unbranded failure receipt without accepting partia
   const controller = new AbortController(); const s = await setup(t, { mutate: () => controller.abort() });
   const receipt = await s.collect({ signal: controller.signal }); assert.equal(receipt.status, 'cancelled'); assert.equal(receipt.essenceEvidence, null);
   assert.ok((await fs.readdir(receipt.directory)).includes('failure.json'));
+});
+
+test('a MOV target collection reads track languages from the sealed owned output and keeps the branded receipt private', async t => {
+  const ids = changed => { changed.streams[0].id = '0x1'; changed.streams[1].id = '0x2'; };
+  const s = await setup(t, { target: 'mov', changeOutput: ids, outputBytes: movFixture([{ id: 1 }, { id: 2, language: 0 }]) });
+  const receipt = await s.collect();
+  assert.equal(receipt.status, 'completed', JSON.stringify(receipt.failure));
+  const bindings = { assessment: s.assessment, runtimeIdentity: RUNTIME, outputId: OUTPUT_ID };
+  const mov = getCollectedMovRepresentation(receipt, bindings), value = evidence(s, receipt);
+  assert.deepEqual(mov.tracks.map(track => [track.outputIndex, track.trackId, track.languageCode]), [[0, 1, 32767], [1, 2, 0]]);
+  assert.equal(mov.outputSha256, value.outputFileSha256);
+  assert.equal(getMovRepresentation(mov, { outputId: OUTPUT_ID, outputEvidenceFingerprint: value.outputEvidenceFingerprint, outputSha256: value.outputFileSha256 }), mov);
+  // The persisted and returned receipt carries a bounded description, not the branded object.
+  assert.notEqual(receipt.movRepresentation, mov);
+  assert.deepEqual(receipt.movRepresentation, { kind: 'owned-mov-mdhd-language', tracks: [{ outputIndex: 0, trackId: 1, languageCode: 32767 }, { outputIndex: 1, trackId: 2, languageCode: 0 }] });
+  assert.deepEqual(JSON.parse(await fs.readFile(path.join(receipt.directory, 'receipt.json'), 'utf8')).movRepresentation, receipt.movRepresentation);
+  assert.throws(() => getCollectedMovRepresentation(clone(receipt), bindings), /genuine/);
+  assert.throws(() => getCollectedMovRepresentation(receipt, { ...bindings, runtimeIdentity: 'f'.repeat(64) }), /genuine/);
+});
+
+test('a MOV target whose sealed output is not a readable QuickTime file fails collection, and other targets observe nothing', async t => {
+  const ids = changed => { changed.streams[0].id = '0x1'; changed.streams[1].id = '0x2'; };
+  for (const outputBytes of ['output fixture bytes', movFixture([{ id: 1 }, { id: 2 }], { brand: 'isom' }), movFixture([{ id: 1 }, { id: 3 }])]) {
+    const s = await setup(t, { target: 'mov', changeOutput: ids, outputBytes });
+    failure(await s.collect(), /MOV_REPRESENTATION_UNVERIFIED/);
+  }
+  const failed = await setup(t, { target: 'mov', changeOutput: ids }), failedReceipt = await failed.collect();
+  assert.throws(() => getCollectedMovRepresentation(failedReceipt, { assessment: failed.assessment, runtimeIdentity: RUNTIME, outputId: OUTPUT_ID }), /genuine/);
+  const mp4 = await setup(t, { target: 'mp4' }), mp4Receipt = await mp4.collect();
+  assert.equal(mp4Receipt.status, 'completed', JSON.stringify(mp4Receipt.failure)); assert.equal(Object.hasOwn(mp4Receipt, 'movRepresentation'), false);
+  assert.equal(getCollectedMovRepresentation(mp4Receipt, { assessment: mp4.assessment, runtimeIdentity: RUNTIME, outputId: OUTPUT_ID }), null);
+  const mkv = await setup(t), receipt = await mkv.collect();
+  assert.equal(receipt.status, 'completed'); assert.equal(Object.hasOwn(receipt, 'movRepresentation'), false);
+  assert.equal(getCollectedMovRepresentation(receipt, { assessment: mkv.assessment, runtimeIdentity: RUNTIME, outputId: OUTPUT_ID }), null);
 });

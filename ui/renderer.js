@@ -1116,6 +1116,40 @@
       : ' Range sliders are off: main has not established the exact range limit for this file. The exact fields still work.';
   }
 
+  // Read-only description of a finished changed-path job, from main's checked
+  // decoded timing. Plain text only; anything malformed shows nothing.
+  function timingText(timing) {
+    const int = value => Number.isSafeInteger(value), count = value => int(value) && value >= 0;
+    const signed = value => value < 0 ? `-${secondsText(-value)}` : secondsText(value);
+    const span = part => int(part?.startUs) && int(part?.endUs) && part.endUs > part.startUs ? `${signed(part.startUs)}–${signed(part.endUs)} s` : '';
+    if (!timing || typeof timing !== 'object' || !['request-relative', 'source-timestamps'].includes(timing.timeline)
+        || !Array.isArray(timing.audio) || timing.audio.length > 64) return '';
+    const parts = [];
+    if (timing.timeline === 'request-relative') {
+      const resolved = timing.resolved, asked = timing.requested || {};
+      const video = span(timing.video);
+      if (!count(resolved?.startUs) || !count(resolved?.endUs) || !video || !count(timing.video.frames)) return '';
+      if (asked.startUs != null && !count(asked.startUs) || asked.endUs != null && !count(asked.endUs)) return '';
+      const start = int(asked.startUs) ? `${secondsText(asked.startUs)} s` : `the file start (${secondsText(resolved.startUs)} s)`;
+      const end = int(asked.endUs) ? `${secondsText(asked.endUs)} s` : `the file end (${secondsText(resolved.endUs)} s)`;
+      parts.push(`Trim asked: ${start} to ${end}. Video kept ${video} (${timing.video.frames} frames).`);
+    }
+    for (const audio of timing.audio) {
+      if (!count(audio?.inputIndex)) return '';
+      const kept = timing.timeline === 'request-relative' ? span(audio) : '';
+      const details = [];
+      if (kept) details.push(`kept ${kept}`);
+      if (audio.mode === 'precision-aac' && count(audio.encoderDelaySamples) && count(audio.discardPaddingSamples)) {
+        details.push(`AAC start delay ${audio.encoderDelaySamples} samples, end padding ${audio.discardPaddingSamples} samples`);
+      }
+      if (int(audio.sampleCountDifference) && audio.sampleCountDifference !== 0) {
+        details.push(`${audio.sampleCountDifference > 0 ? '+' : ''}${audio.sampleCountDifference} samples versus the source`);
+      }
+      if (details.length) parts.push(`Audio ${audio.inputIndex}: ${details.join('; ')}.`);
+    }
+    return parts.join(' ');
+  }
+
   function renderRangeSliders(entry, editable) {
     // Main sends the exact latest range end it would accept for this file's
     // video timeline; the rounded inspected duration is never used as a bound.
@@ -1282,6 +1316,11 @@
       const quality = previous.qualityMode === 'CQP'
         ? ['i', 'p', 'b'].filter(key => Object.hasOwn(previous.quality, key)).map(key => `${key.toUpperCase()}${previous.quality[key]}`).join('/') : String(previous.quality);
       return `${previous.codec} · ${backend} · ${previous.encoder} · preset ${previous.preset} · ${previous.qualityMode} ${quality} · ${previous.bitDepth}-bit · recorded requested settings`;
+    }
+    if (previous.version === 4 && previous.kind === 'remux') {
+      const targets = { matroska: 'MKV', mp4: 'MP4', mov: 'MOV' }, families = { isobmff: 'MP4/MOV', matroska: 'MKV', mpegts: 'TS' };
+      const copied = Array.isArray(previous.streams) ? previous.streams.length : 0, omitted = Array.isArray(previous.omittedStreams) ? previous.omittedStreams.length : 0;
+      return `Remux · ${families[previous.inputFamily] || 'Unknown input'} to ${targets[previous.target] || 'unknown target'} · ${copied} stream${copied === 1 ? '' : 's'} copied${omitted ? ` · ${omitted} omitted` : ''} · no new encoding generation`;
     }
     const previousRecipe = recipes().find(recipe => recipe.id === previous.recipeId);
     return `${previous.codec} · ${previous.backend} · ${previous.encoder}${previousRecipe ? ` · ${previousRecipe.label}` : ''} · preset ${previous.preset} · ${previous.qualityMode} ${previous.quality} · ${previous.bitDepth}-bit`;
@@ -1501,6 +1540,10 @@
     reason.className = 'item-reason';
     const sampling = document.createElement('p');
     sampling.className = 'file-detail';
+    const timing = document.createElement('p');
+    timing.className = 'file-detail';
+    timing.dataset.testid = 'operation-timing';
+    timing.hidden = true;
     const metadata = document.createElement('p');
     metadata.className = 'file-detail';
     metadata.dataset.testid = 'metadata-notices';
@@ -1582,7 +1625,7 @@
       const entry = itemRows.get(item.id);
       if (entry) loadEncodingDetails(entry);
     });
-    body.append(output, outputControls, outputNotice, summary, reason, metadata, sampling, operation.operationEditor, remuxDetails, previousDetails, action, commandDetails);
+    body.append(output, outputControls, outputNotice, summary, reason, timing, metadata, sampling, operation.operationEditor, remuxDetails, previousDetails, action, commandDetails);
     details.append(name, body);
     // Classification and its deliberate action stay visible in compact rows.
     // Heavy provenance/argument details expand only when requested.
@@ -1604,7 +1647,7 @@
     untested.setAttribute('role', 'img');
     statusCell.append(status, untested);
     row.append(useCell, fileCell, statusCell);
-    return { row, checkbox, details, body, inspect, name, output, summary, reason, metadata, sampling, action, status, untested, item, key: '', origin, previous, ...operation,
+    return { row, checkbox, details, body, inspect, name, output, summary, reason, timing, metadata, sampling, action, status, untested, item, key: '', origin, previous, ...operation,
       outputControls, outputNotice, outputAccessId: undefined, outputRequest: 0, outputPending: false, outputResult: '', outputFailed: false,
       previousDetails, previousInfo, previousArgs, reencodeBox, reencodeChoice, reencode, remuxDetails, remuxBody, remuxKey: null, remuxButtons: [],
       commandDetails, commandHeading, commandNotice, commandExecutable, commandDestination, commandArgs, commandKey: null };
@@ -1630,7 +1673,7 @@
       renderRemuxDecisions(entry);
       renderOutputAccess(entry);
       const jobStage = snapshot.progress?.fileId === item.id ? snapshot.progress.stage : null;
-      const key = JSON.stringify([currentOperation(), item.name, item.outputName, item.status, item.reason, item.summary, item.origin, item.reencodeAuthorized, item.outcome, item.outputDisposition, jobStage]);
+      const key = JSON.stringify([currentOperation(), item.name, item.outputName, item.status, item.reason, item.summary, item.origin, item.reencodeAuthorized, item.outcome, item.outputDisposition, item.timing, jobStage]);
       if (key !== entry.key) {
         entry.key = key;
         entry.checkbox.setAttribute('aria-label', `${operationName()} ${item.name}`);
@@ -1642,6 +1685,8 @@
         entry.summary.hidden = !entry.summary.textContent;
         entry.reason.textContent = item.reason || '';
         entry.reason.hidden = !item.reason;
+        entry.timing.textContent = item.status === 'success' ? timingText(item.timing) : '';
+        entry.timing.hidden = !entry.timing.textContent;
         // Main's inspection describes container representation changes. Render
         // plain text only; media metadata never becomes HTML or IPC authority.
         entry.metadata.textContent = [...(item.summary?.metadataNotices || []), ...(item.hdr?.notice ? [item.hdr.notice] : [])].join(' ');
@@ -1657,10 +1702,13 @@
         const previous = item.origin?.previousGeneration;
         entry.previousDetails.hidden = !previous;
         entry.previousInfo.textContent = previous
-          ? `${generationSummary(item)} · FFmpeg Encoder ${previous.appVersion}${previous.runtimeVersion ? ` · ${previous.runtimeVersion}` : ''} · ${previous.createdAt}. ${previous.version === 2
+          ? `${generationSummary(item)} · FFmpeg Encoder ${previous.appVersion}${previous.runtimeVersion ? ` · ${previous.runtimeVersion}` : ''} · ${previous.createdAt}. ${previous.version === 4
+            ? 'Recorded copied and omitted streams only. A remux copies coded media, so no encoder settings were recorded.'
+            : previous.version === 2
             ? `Planned pipeline ${previous.pipelineId}. Recorded requested encoder settings only; no current device or effective-mode proof, source transform or complete previous invocation.`
             : 'Recorded encoder arguments are descriptive provenance, not a complete previous invocation.'}` : '';
-        entry.previousArgs.textContent = previous ? formatArguments(previous.encoderArgs) : '';
+        entry.previousArgs.textContent = previous && previous.version !== 4 ? formatArguments(previous.encoderArgs) : '';
+        entry.previousArgs.hidden = !entry.previousArgs.textContent;
         entry.reencodeBox.hidden = !canAuthorize(item);
         entry.reencodeChoice.setAttribute('aria-label', `Choose ${item.name} for ${isRemux() ? 'Remux source' : 're-encoding'} authorization`);
         entry.reencodeChoice.parentElement.querySelector('span').textContent = isRemux() ? 'Choose as a Remux source' : 'Choose for re-encoding';

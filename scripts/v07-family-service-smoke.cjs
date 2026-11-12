@@ -20,7 +20,9 @@ const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 async function main() {
   assert.deepEqual(process.argv.slice(2), ['--run-owned-service']);
   const { FAMILIES, POLICY_ID } = require('../src/operation-catalog.cjs');
-  assert.equal(FAMILIES.length, 2, 'A reviewed CPU/NVIDIA catalog is required before this endpoint');
+  // Record 47 Q2a: one CPU cell plus one NVIDIA cell per measured driver.
+  assert.ok(FAMILIES.length >= 2 && FAMILIES.filter(item => item.settings.profileId === 'h265-cpu').length === 1
+    && FAMILIES.some(item => item.settings.profileId === 'h265-nvidia'), 'A reviewed CPU/NVIDIA catalog is required before this endpoint');
   const id = randomUUID(), directory = path.join(ROOT, 'artifacts/v0.7/slice2/family-service', id);
   const owned = path.join(OWNED, 'outputs', 'family-service-' + id), input = path.join(owned, 'media'), stateDir = path.join(owned, 'state');
   const leasePath = path.join(ROOT, 'artifacts/v0.7/media-job.lock'), children = new Set();

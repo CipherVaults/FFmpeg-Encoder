@@ -73,6 +73,10 @@ Range packet copy (Q04), chapters in a range encode (Q06), subtitles on a resize
 - **Q1d.** Both modules are pure and unwired. The packet-range module handles only every-key streams. Video needs decode-order evidence first. Codecs with decoder pre-roll (AAC, Opus) may need priming before the first kept packet; the reported differences are packet edges, not decoded-sample edges. Chapter ids from 64-bit Matroska UIDs must reach the module as digit text, which the inspection path doesn't do yet; wiring must add that.
 - **Q1e.** No remux route writes the v4 description yet; a route adopts it only with its own measured round trip. The MOV receipt path is unreachable until a MOV route (Q2e) exists.
 
+### Q2a notes
+
+- The re-measure used the unchanged calibration harness and the unchanged normal-service smoke (only its catalog-count check). Calibration `0ad1d184` passed 6/6 and service `3a0b698b` passed; an auditor agent passed all six checks. The 621.14 cell has the same frozen bounds as the 621.01 cell, which stays in the catalog.
+
 ## 4. Points for Ahmed (none blocks Waves 1–2)
 
 | # | Question | Root's recommendation |

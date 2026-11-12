@@ -707,3 +707,23 @@ The design decisions are in record 37's new "C4 amendments" section.
 - **Pins and seals.** `tests/vendor-baseline.test.cjs` re-pins `src/encode-operation.cjs` (label Q1c). The golden ordinary-argv capture passes unedited. The suspended encode-preservation catalog pin on `src/encode-operation.cjs` drifts further, and HDR seal drift grows. No reseal (D7).
 - **Commit.** `4c1c305`, pushed, remote equal.
 - **Q2a started.** The driver reads 621.14 on the same adapter. `scripts/v07-sdr-family-calibration.cjs --profile h265-nvidia` was started on the committed bytes (it fingerprints its modules before and after).
+
+## Slice Q2a: the NVIDIA cell re-measured on driver 621.14 — November 12 (Cairo)
+
+- **Why.** The PC's driver moved from 621.01 to 621.14, so the only NVIDIA cell no longer matched and NVIDIA trims were refused (found in Q1a).
+- **Calibration.** The existing harness, unchanged, on the committed bytes of `4c1c305`: `scripts/v07-sdr-family-calibration.cjs --run-owned-calibration --fixtures <envelope fixture report> --profile h265-nvidia`.
+  - Report `artifacts/v0.7/slice2/family-calibration/0ad1d184-663b-4aa7-85f0-61d847622ce1/report.json`, SHA-256 `c1d7ce2e37cef060e40194218df5fc6ff70dabf3b7343cf78f22659a19a308c6`.
+  - Status `passed-representative-profile-calibration`: A, B, C, D, E and D-keep passed in 102 s, with the 18 module hashes equal before and after.
+  - AAC sample-count differences of 368–864 stay inside the frozen 1023 bound and are shown as warnings.
+- **Manifest and cell.**
+  - `artifacts/v0.7/milestone-q/q2a/build-manifest.cjs` copies the report's frozen per-case values into `catalog-evidence-v3-nvidia-621.14.json` (SHA-256 `91cd933c82437553dd8046bc5a61511ebb167fa43918414b1cbcdb1dbdf52a90`).
+  - `src/operation-catalog.cjs` appends the 621.14 cell (evidence ids `sdr-range-20261112:h265-nvidia:91cd933c82437553:*`), keeps the 621.01 cell, and sets `POLICY_ID` to name both manifests.
+  - The tolerances are the frozen pre-encode bounds and identical to the 621.01 cell.
+- **Normal service.** `scripts/v07-family-service-smoke.cjs --run-owned-service`. Only its catalog-count assertion changed: one CPU cell, at least one NVIDIA cell.
+  - Report `artifacts/v0.7/slice2/family-service/3a0b698b-df40-463b-b1f0-3d8492cc18f3/report.json`, SHA-256 `bd0b79d919b531c98e1819e7ea2c312815e003d01e1accf01d7b3deddffacb9b`, `passed-bounded-fresh-service`.
+  - CPU and NVIDIA both passed through the normal main factory and catalog, with one child at a time and 100 invocations.
+  - The NVIDIA job's result carries the Q1c timing: asked 1.013–2.787 s, video kept 1.033333–2.8 s (53 whole frames), AAC delay 1024 samples, +864 samples.
+- **Audit.** An independent `auditor` agent ran six mechanical checks; all pass.
+- **Tests.** New `tests/operation-catalog.test.cjs` pins the three-cell shape, the equal bounds, the evidence ids and the policy id, and checks that the selector accepts the catalog. `q2a-focused` 209/209; `q2a-full` 2599/2609 with the 5 known failures.
+- **Known limit.** `orientationQualification` picks the first family matching runtime and settings, so an absent-rotation 720 NVIDIA plan names the 621.01 endpoint evidence id. That id is descriptive (format-checked only), and both cells share runtime and bounds.
+- **Seals.** `src/operation-catalog.cjs` is in the suspended HDR seal list, so drift grows. No reseal (D7).

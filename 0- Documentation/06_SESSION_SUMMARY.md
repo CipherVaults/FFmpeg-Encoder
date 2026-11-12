@@ -1,3 +1,93 @@
+# 📘 Session: November 11–12, 2026 — FFmpeg Encoder — the full-throttle run: security pass, AMD/Intel built, smoke tests, hardware checklist
+
+## 🤖 Models, Effort, Roles and Provenance
+- **Root:** Claude Opus 5.5, at the effort Ahmed set. Root owned the design, every review, the fixes, the records, the commits and the smoke tests.
+- **Codex:** GPT-6.1 Sol at xhigh. It ran the design review, then built slices 0–5 in place through `/codex-run`. It never committed.
+- **Workflows and agents:**
+  - the three-angle design workflow;
+  - the claude-security scan;
+  - the reviewer agent's security reviews;
+  - the four-lens checklist verification `wf_cce08f7a-a68`.
+- **Provenance:** live tool results, `/evidence-run` receipts, Codex receipts and Git.
+
+## 🕒 Time
+From about 22:30 on November 11 to the afternoon of November 12, Cairo. This was Ahmed's full-throttle run ([record 44](44_Leftover_Quota_and_Full_Throttle_Run_2026-11-11.md)). The Codex weekly limit was reached during slice 5; Codex resets November 18 at about 01:00 Cairo.
+
+## 🎯 Session Goal
+Use the leftover quota at full throttle, as Ahmed asked:
+- milestone P's security pass;
+- the AMD/Intel design (record 45);
+- the AMD/Intel build;
+- the desktop smoke tests;
+- the hardware checklist with the owner points.
+
+## 🛠️ Actions Taken
+- **Security pass (`f8fc2df`).** Both scans found no vulnerabilities. Four small hardening fixes were made, with tests.
+- **AMD/Intel design.** Record 45, with the Codex review's seven amendments adopted as §12.
+- **Build** (Codex, reviewed and committed by root):
+  - slices 0–1 (`ee894ab`): the golden baseline, catalog and overlay;
+  - slice 2 (`79302c9`): the startup check;
+  - slices 3–4 (`3a12260`): preparation, provenance, preferences and guarded execution. Root fixed two review findings in these.
+  - slice 5 (`d7eadb3`): the UI and the ⚠ mark.
+- **The Codex weekly gate** was raised to 100% at Ahmed's choice (`b96af12`, record 40 amendment).
+- **Smoke tests (`50c1bcd`).**
+  - `test:layout` was stale: since October 11 the monitor lives in Current Jobs, and the folder step had a timing race. Root fixed the script only, and it then passed twice.
+  - `test:product` passed.
+  - The ⚠ mark was checked live in both themes.
+- **Record 46.** The hardware checklist and O1–O10 in plain words, verified by four lenses before commit.
+
+## 🧠 Key Insights
+- A smoke script that has not run for two months can fail on old drift rather than new work. Checking its history first saved a false regression hunt.
+- The verification workflow caught a wrong FFmpeg path that could quietly have tested the legacy 9.0.1, and a log that could have been overwritten. Checking a document's instructions against the code was worth its cost.
+
+## 📌 Decisions Made
+- **Ahmed, November 11:** "push full throttle … leave 5% … full authority."
+- **Ahmed, November 12:** "feel free to push as much as you want on Codex with you." He chose "Lift gate to 100%".
+- **Ahmed, November 12:** "Codex's quota ran out, you will need to lead the development yourself for the time being till the next reset".
+- **Ahmed:** "Yes, run them now" (the smoke tests) and "Yes, write them" (the checklist and owner points).
+- **Root:** H1 was added as a decision about how the app reaches a test computer. Root recommends the test-only portable copy (A), which needs Ahmed's word because packaging comes last.
+
+## ⚠️ Difficulties / Friction
+- Codex quota ran out mid-run.
+- The claude-security scan cannot be driven from a subagent.
+- The guard blocked a heredoc that mentioned the Planning path, and an `rm -r`.
+
+## 🔧 Adjustments Made
+- Root leads development alone until November 18.
+- Briefs are written with the Write tool. Files are removed one by one.
+
+## ❌ Mistakes / Risks Noted
+- **Root's error:** a Python text-mode edit turned two CRLF files into LF, which failed 3 tests. The receipt is retained, and CRLF was restored in binary mode.
+- **Root's error:** a review workflow was launched with an unfilled placeholder, and stopped at 97% of the 5-hour window.
+- **Open risk:** the frame-upload binding is unproven on real hardware (record 45 §11 risk 1).
+
+## 📍 Current Position
+- All six AMD/Intel choices are built, tested with fakes, and smoke-tested.
+- Record 46 waits on Ahmed.
+- HEAD is pushed and equal to the remote.
+
+## 🔜 Next Steps
+- Ahmed: H1 and O6 (with O1 and O2), then the hardware tests.
+- Root: milestone Q (Q01–Q08) until Codex resets November 18.
+
+## ❓ Open Questions
+- H1 and O1–O10 (record 46 Part 2).
+- Two minor items below the 80% threshold: `nativePrivate` crowding `CAPABILITY_FINISHED`, and `Preferences.forget()` rejecting after deleting the main file.
+
+## 🧾 Session Outcome
+- AMD and Intel are built as first-class, clearly marked untested choices, with CPU/NVIDIA proven unchanged.
+- No real-hardware result exists yet, and there is no acceptance or release change.
+
+## 🔍 Confidence Level
+- **High:**
+  - the receipts (`vendor-s5-full`: 2564/2574, with only the 5 known parked failures);
+  - the smoke results;
+  - the byte-identity proof.
+- **Medium:** the AMF/QSV verbose-log wording in record 46.
+- **Unverified:** everything on real AMD/Intel hardware.
+
+---
+
 # 📘 Session: November 1, 2026 — FFmpeg Encoder — C7, the P closure, and a richer usage page
 
 ## 🤖 Models, Effort, Roles and Provenance

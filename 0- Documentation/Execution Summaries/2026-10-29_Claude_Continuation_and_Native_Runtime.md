@@ -610,3 +610,29 @@ The design decisions are in record 37's new "C4 amendments" section.
   - "Starting values" and the QP/ICQ labels show. Capability rows name the adapter and show "8-bit only on this computer — 10-bit: …".
   - Harness side effect: the "remains selected but is unavailable" notice comes from main's real capability result, which the override does not touch. It would not appear on a real AMD/Intel computer.
 - **Limits:** no real AMD/Intel encode has run. Result-row marks are covered by `tests/ui-vendor.test.cjs` only.
+
+## AMD/Intel hardware checklist and owner points — November 12 (Cairo)
+
+- **Permission:** Ahmed, "Yes, write them".
+- **Output:** [record 46](../46_AMD_Intel_Hardware_Checklist_and_Owner_Points_2026-11-12.md).
+  - Part 1 is the checklist. Per vendor: a startup screenshot, then 6 runs plus an optional HDR refusal. These cover 8/10-bit and Full/Keep Source, plus three refusals (H.264 10-bit, 720p, HDR). Then one detailed (`-loglevel` 40 via `FFREPORT`) FFmpeg run per vendor, to read the "Using device" line.
+  - Part 2 gives O1–O10 in plain words, with root's recommendations and a one-word answer sheet.
+  - It adds decision H1: how the app reaches a test computer.
+- **Facts used:**
+  - This computer: Ryzen 5 5600X (no built-in graphics), RTX 5060.
+  - Exact vendor fragments from `vendorFragments` for all 10 profile/depth cells.
+  - `getEncodingDetails` shows the executable and the prepared argv, including `d3d11va=ffenc_d3d:N`.
+- **Verification:** workflow `wf_cce08f7a-a68` ran four read-only lenses, 65 findings in total, overlapping. Every finding was applied; none concerned app code. The main corrections:
+  - FFmpeg path:
+    - the portable copy keeps FFmpeg under `resources\ffmpeg\`;
+    - in a developer checkout, the top-level `ffmpeg\` is the legacy 9.0.1;
+    - so the path comes from Inspect, with a version check, and `-hide_banner` is dropped so the log shows the version.
+  - Order: N must be read before Start, because a repeat prepare is skipped ("Output already exists").
+  - The FFREPORT log is opened with `"w"`, so it is checked before writing, named per vendor and unset afterwards.
+  - `hwcontext_d3d11va.c` logs "Using device" at INFO with an `[AVHWDeviceContext @ …]` prefix. A missing adapter falls back silently to the default chip, so the absence of the line is treated as "proves nothing".
+  - Clip suitability (yuvj420p, 4:2:2/4:4:4, colour evidence, timecode tracks); one clip per input folder.
+  - `scripts/portable-smoke.cjs` is 0.6/RTX-5060-specific, so H1-A includes an adapted 0.7 check. The copy is for Ahmed's own computers only (distribution status: local candidate only).
+  - RDNA3 AV1 height padding (FFmpeg trac #10266) may grey AMD AV1 out or fail it.
+  - `VENDOR_TESTED_EVIDENCE` has no consumer yet, so removing the mark needs a later code change.
+  - O4 gains A3's stricter option; O7 includes omission; O8 offers "discuss later"; O9 covers only unmarked files.
+- **Limits:** the AMF/QSV verbose-line wording comes from the reviewers' reading of upstream source and has not been observed on hardware.

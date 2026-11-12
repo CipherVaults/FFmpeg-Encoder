@@ -1,4 +1,17 @@
-> **ACTIVE — November 12, 2026. Writer lock phase `vendor-smoke`. The desktop UI smoke tests PASS, and the ⚠ mark was checked live in both themes.**
+> **ACTIVE — November 12, 2026. Writer lock phase `vendor-checklist`. [Record 46](46_AMD_Intel_Hardware_Checklist_and_Owner_Points_2026-11-12.md) holds Ahmed's AMD/Intel hardware checklist and record 45's owner points O1–O10 in plain words. Both wait on Ahmed.**
+> - **Verified before commit:** four-lens workflow `wf_cce08f7a-a68` (app facts, FFmpeg commands against upstream n9.0.2 source, safety/limits, usability). All findings were applied. The main ones:
+>   - the FFmpeg path now comes from Inspect's "Executable:" line, with a 9.0.2 version check;
+>   - N is noted in run 3, before Start;
+>   - a log name per vendor, checked before the run;
+>   - one clip per input folder;
+>   - the portable check is 0.6-specific (H1-A needs an adapted 0.7 check);
+>   - the RDNA3 AV1 height-padding limit;
+>   - O4 offers a third, stricter option (A3); O8 offers "discuss later".
+> - **Waiting on Ahmed:** H1 (how the app reaches a test computer: A portable / B developer copy / C wait) and O6 (go-ahead to test). O1 and O2 would best come at the same time.
+> - **Next, unless Ahmed redirects:** milestone Q (Q01–Q08), root-led until Codex resets November 18 (~01:00 Cairo).
+> - The banner below is history.
+
+> **November 12, 2026. Writer lock phase `vendor-smoke`. The desktop UI smoke tests PASS, and the ⚠ mark was checked live in both themes.**
 > - **`test:layout`:** the first run failed (`artifacts/layout-smoke-1794470406555/`, retained). The script, last changed on September 8, still looked for the progress monitor on Encode. The October 11 workbench had moved it to Current Jobs. A second run hit a timing race at the folder step. Root fixed only `scripts/layout-smoke.cjs`: it opens Current Jobs before that check and waits for Prepare to enable. Two runs then passed, 15 layouts each (`layout-smoke-1794470594650`, `-1794470612270`).
 > - **`test:product`:** PASS on the first run. The six ordinary profiles ran with 8/10-bit outputs fully decoded; the source and pre-existing output hashes were unchanged; 10 layouts.
 > - **Theme check** (`artifacts/v0.7/evidence/smoke-2026-11-12/theme2/`; the vendor rows are a harness-only override, since this computer has no AMD/Intel adapter):

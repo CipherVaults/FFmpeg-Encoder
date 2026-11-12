@@ -12,7 +12,8 @@ const { spawn, spawnSync } = require('node:child_process');
 const MAX_BRIEF = 64 * 1024, MAX_STDOUT = 50 * 1024 * 1024, MAX_STDERR = 5 * 1024 * 1024, MAX_BACKUP = 512 * 1024 * 1024;
 const OWN_REPO = path.resolve(__dirname, '..', '..', '..');
 // Ahmed, October 31: start a job only while the 5-hour window is under 80% used and longer windows under 90%.
-const QUOTA_LIMITS = { short: 80, long: 90 };
+// Long (weekly) limit 100%: Ahmed, November 12, 2026, record 40 amendment.
+const QUOTA_LIMITS = { short: 80, long: 100 };
 // Owner design (record 40): full access, no sandbox; no user config, so none of the owner's plugins, MCP servers,
 // memories or notify ride along (they cost tokens on every call and carry the old thread's state).
 const FIXED_ARGS = ['--dangerously-bypass-approvals-and-sandbox', '--dangerously-bypass-hook-trust', '--ignore-user-config'];

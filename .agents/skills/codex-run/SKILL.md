@@ -20,7 +20,7 @@ node .agents/skills/codex-run/codex-run.cjs --mode work   --brief <follow-up.md>
 ```
 
 - **Quota gate (Ahmed's limits).**
-  - A job starts only while Codex's 5-hour window is under **80%** used and any longer window (weekly) is under **90%**.
+  - A job starts only while Codex's 5-hour window is under **80%** used and any longer window (weekly) is under **100%** (raised from 90% by Ahmed on November 12, 2026; record 40).
   - The reading comes from Codex's own session logs: its `token_count` events carry the plan limits and reset times.
     - The gate takes the newest reading from the most recently written session files in every date folder, because Codex files a session under the day it started.
     - The reading trails the newest model call, so treat it as the least that is used.

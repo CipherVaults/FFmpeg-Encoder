@@ -169,3 +169,11 @@ Codex ran four jobs through `/codex-run`. None had a violation or an unreported 
 - **Gate:** after `c4-rereview`, Codex's 5-hour window was at 81%, over the 80% gate. So root fixed the re-review's one point itself instead of starting another job.
 
 - **C7 (November 1, ~09:40 Cairo):** read-only review `p04-recheck`, 4 minutes, 6% of the 5-hour window and 1% weekly, 1.39M tokens (110k uncached): "P04 holds at d122e22."
+
+## Amendment — November 12, 2026: the weekly gate is 100%
+
+Codex's weekly window read 91% (plan `prolite`) and the 90% gate refused AMD/Intel slice 2 (`vendor-s2`, receipt `artifacts/v0.7/codex/20261112T062151Z-vendor-s2-14bb87`). Ahmed had said "feel free to push as much as you want on Codex with you" (record 44 §4). Asked whether to lift the gate to 100% even though the quota is shared with his other Codex work until November 18, he chose **"Lift gate to 100%"**.
+
+- `QUOTA_LIMITS.long` in `/codex-run` is now 100. The 5-hour gate stays at 80%.
+- Root synced the change to `.agents` with `toolkit-sync --write`. Receipt: `codex-gate-100`.
+- Every other rule in this record is unchanged.

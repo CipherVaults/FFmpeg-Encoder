@@ -102,14 +102,15 @@ test('prompt carries the team roles, the folder, the active status, the media ru
   assert.equal(cr.validateReport('nope').ok, false);
 });
 
-test('quota: 80% of the 5-hour window and 90% of longer windows stop new jobs; a passed reset clears a reading', () => {
+test('quota: 80% of the 5-hour window and 100% of longer windows stop new jobs; a passed reset clears a reading', () => {
   const now = Date.parse('2026-10-31T20:00:00Z'), later = now / 1000 + 3600, earlier = now / 1000 - 60;
   const verdict = limits => cr.quotaVerdict({ at: '2026-10-31T19:59:00Z', limits }, now);
   assert.equal(cr.quotaVerdict(null).ok, true);
   assert.equal(verdict({ primary: win(79, 300, later), secondary: win(89, 10080, later) }).ok, true);
   assert.equal(verdict({ primary: win(80, 300, later), secondary: win(10, 10080, later) }).ok, false);
-  assert.equal(verdict({ primary: win(5, 300, later), secondary: win(90, 10080, later) }).ok, false);
-  assert.equal(verdict({ primary: win(89, 43200, later) }).ok, true, 'a monthly window uses the 90% limit');
+  assert.equal(verdict({ primary: win(5, 300, later), secondary: win(99, 10080, later) }).ok, true, 'weekly 99% still starts');
+  assert.equal(verdict({ primary: win(5, 300, later), secondary: win(100, 10080, later) }).ok, false);
+  assert.equal(verdict({ primary: win(99, 43200, later) }).ok, true, 'a monthly window uses the 100% limit');
   const reset = verdict({ primary: win(95, 300, earlier), secondary: win(40, 10080, later) });
   assert.equal(reset.ok, true); assert.equal(reset.windows[0].usedPercent, 0); assert.equal(reset.windows[0].resetSinceReading, true);
   assert.equal(verdict({ primary: win(10, 300, later), rate_limit_reached_type: 'primary' }).ok, false);

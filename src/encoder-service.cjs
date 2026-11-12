@@ -17,7 +17,8 @@ const { buildEncodeOperation, validateEncodeOperationOutput, fingerprintEncodeSo
 const { collectOperationEvidence } = require('./operation-evidence.cjs');
 const { createOperationTelemetry, assertTelemetryReady, collectOperationTelemetry, closeOperationTelemetry } = require('./operation-telemetry.cjs');
 const { runTool, isSharedToolFailure, boundedToolStderr } = require('./process-runner.cjs');
-const { inspectInput, inspectMetadata, finishInspection, parseProbeJson, validateOutput } = require('./inspection.cjs');
+const { inspectInput, inspectMetadata, finishInspection, parseProbeJson, validateOutput, normalizeProbe } = require('./inspection.cjs');
+const { rangeLimitUs } = require('./operation-contract.cjs');
 const { checkCapabilities } = require('./capabilities.cjs');
 const { projectVendorCapabilities, failedVendorCapabilities } = require('./vendor-capabilities.cjs');
 const { exists, createStage, sealStage, markStageValidated, retainSealedStage, cleanupStage, publishOutput, readPublishedOutputIdentity } = require('./outputs.cjs');
@@ -54,6 +55,17 @@ const diagnosticStderr = result => ({ stderr: typeof result?.stderr === 'string'
   ...(result?.stderrCapture ? { stderrCapture: result.stderrCapture } : {}) });
 const diagnosticFields = (value, keys) => Object.fromEntries(keys.filter(key => value && Object.hasOwn(value, key))
   .map(key => [key, clone(value[key])]));
+// Descriptive only: the exact latest range end main would accept for the
+// selected video, sent to the window as an inert integer, or null when main
+// cannot establish it. Main still validates every submitted range itself.
+function rangeLimitOf(probe) {
+  try {
+    const normalized = normalizeProbe(probe), video = selectVideo(normalized);
+    const limit = rangeLimitUs(normalized.mediaEvidence.streams.find(stream => stream.index === video.index));
+    return Number.isSafeInteger(limit) && limit > 0 ? limit : null;
+  } catch { return null; }
+}
+
 function describeDiagnosticOperation(plan, request) {
   // Describe processing choices rather than duplicating private source/frame
   // evidence or an arbitrarily deep expected-output tree in every incident.
@@ -943,6 +955,7 @@ class EncoderService extends EventEmitter {
       // Inspection facts remain useful when a later operation policy refuses
       // the file. Duration in the preview is descriptive, never admission.
       item.summary = inspection.summary;
+      item.rangeLimitUs = rangeLimitOf(inspection.probe);
       if (this.plan.operation === 'native-encode') { nativePrivate = prepareNativeItem.call(this, item, { file, destination, inspection, identity, caps, signal }); return; }
       if (VENDOR_PROFILES.includes(profile)) {
         this.prepareVendorItem(item, { file, destination, inspection, identity, marker, indexed, settings, profile, caps });
@@ -1329,7 +1342,7 @@ class EncoderService extends EventEmitter {
     this.state.operationDraft = this.plan.draft.snapshot();
     for (const item of this.state.items) {
       Object.assign(item, { status: 'pending', reason: '', reencodeAuthorized: false });
-      for (const field of ['reasonCode', 'details', 'sourceIdentityDiagnostic', 'summary', 'hdr', 'encodePreservation', 'warnings', 'hardwareTier']) delete item[field];
+      for (const field of ['reasonCode', 'details', 'sourceIdentityDiagnostic', 'summary', 'rangeLimitUs', 'hdr', 'encodePreservation', 'warnings', 'hardwareTier']) delete item[field];
     }
     const signal = this.begin('preparing');
     this.state.preparation = { total: this.state.items.length, resolved: 0, reused: 0, inspected: 0,

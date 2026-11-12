@@ -658,3 +658,22 @@ The design decisions are in record 37's new "C4 amendments" section.
   - `q1a-focused-3` 166/166 and `q1a-full-3` 2569/2579 (5 known failures), on the final bytes.
   - `q-baseline-full` is indicative only, because an edit landed during the run.
 - **Limits.** No new catalog cell, family or tolerance. HDR is unaffected: HDR accepts Keep Source only. The seal drift for HDR and encode-preservation grows; there is no reseal (D7). Real-window UI checks are not rerun.
+
+## Slice Q1b: the range slider uses main's exact limit — November 12 (Cairo)
+
+- **Resume.** Ahmed: "Yes, auto-resume". This was a one-time wait to the 5-hour reset (17:40 Cairo), and `/reentry-check` passed.
+- **Code.**
+  - `src/operation-contract.cjs`: `rangeLimitUs(videoEvidence)` returns the full-duration end that `resolveTimeRange` accepts (`{ startUs: 0 }`), or null.
+  - `src/encoder-service.cjs`: `rangeLimitOf` sets `item.rangeLimitUs` next to `item.summary`, and re-preparation deletes it along with the other per-item facts.
+  - `ui/renderer.js`: the sliders use only `rangeLimitUs`. Without it they are disabled, and the row says so in visible text. The row shows "Latest range end" when the limit is known.
+- **Tests.**
+  - `tests/operation-contract.test.cjs`: limit equality with `resolveTimeRange`, the floor, and null cases.
+  - `tests/ui-workbench.test.cjs`: the slider max comes from the limit, not the duration; forged or missing values keep the slider off. The existing slider tests now pass a limit.
+  - `tests/qualified-operation-service.test.cjs`:
+    - the item carries the limit;
+    - an early-exit re-preparation clears it (mutation-checked);
+    - one range applied to files of different lengths is refused only for the shorter (`RANGE_EXCEEDS_DURATION`) and never clamped.
+  - `tests/vendor-baseline.test.cjs` re-pins `src/operation-contract.cjs` (Q1b).
+- **Review.** Workflow `wf_385931ae-44e`: one confirmed finding, applied. The verifier judged two not material: the overflow-adjacent null is conservative and is now documented, and the visible reason is applied anyway. The correctness/trust lens covered the trust boundary: one new inert integer goes to the window.
+- **Evidence.** `q1b-focused` 233/233 and `q1b-full` (5 known failures) on pre-review bytes; `q1b-focused-2` 233/233 and `q1b-full-2` 2573/2583 (5 known failures) on the final bytes.
+- **Limits.** Display only: main's range validation is unchanged, and so are the catalog, families and tolerances. Real-window UI checks are not rerun.

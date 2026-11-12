@@ -1,3 +1,5 @@
+> **November 12, 2026, evening: Q1b is done.** The trim sliders now stop at the exact latest end the app accepts for each file, instead of the rounded duration. When the app can't work that out, the sliders stay off and the row says why; typing exact seconds still works. Next: Q1c.
+
 > **November 12, 2026: milestone Q has started** ([record 47](47_Milestone_Q_Plan_2026-11-12.md)). In slice Q1a, a request for a size the picture already fits within (for example 4K, or 1080p, on a 1080p file) is no change and runs the exact ordinary command, even when the file reports no orientation. A resize that isn't supported yet now gives the real reason for the refusal. Also found: the NVIDIA driver changed (621.14), so NVIDIA trims are refused until they are re-measured. Next: Q1b.
 
 > **November 12, 2026: the AMD/Intel hardware checklist and the ten owner points are ready for Ahmed** ([record 46](46_AMD_Intel_Hardware_Checklist_and_Owner_Points_2026-11-12.md)). Ahmed chose to wait for packaging before any hardware testing (H1: "C: wait for packaging"), so AMD/Intel stay marked untested until then. The owner points O1–O10 are still open. Next: milestone Q.

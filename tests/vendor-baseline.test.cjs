@@ -16,7 +16,7 @@ const PROTECTED = {
   'src/media.cjs': ['253c567', '4aaf7227e43b8ba10134fa1e34d15be7362eb5195d001eb1cfc629b66c677e66'],
   'src/encode-operation.cjs': ['253c567', 'd78f98d00abb55c507c6996d0a0c064af757efdc4ee27929a80739c2a6ea5355'],
   'src/operation-family.cjs': ['Q1a', '7de5909b2e20ed081bbd16b866e325788920e5b5e32940832c422b9a1bc3797b'],
-  'src/operation-contract.cjs': ['Q1a', '84111682aeef801e1438904e695aa7c46c09fe23b1afe059d3a11e90142be4b1'],
+  'src/operation-contract.cjs': ['Q1b', 'e87c0bd40a27e9bc4309cfff489a3270899edc6505face10a9c4461272bb343d'],
 };
 for (const [file, [since, expected]] of Object.entries(PROTECTED)) test(`${file} retains its ${since} bytes`, () => {
   assert.equal(createHash('sha256').update(fs.readFileSync(path.resolve(__dirname, '..', file))).digest('hex'), expected);

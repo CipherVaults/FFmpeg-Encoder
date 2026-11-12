@@ -553,7 +553,7 @@ test('a stale output response cannot replace the state of a new receipt or remov
   assert.equal(h.byId('error-banner').textContent, '');
 });
 
-async function processingHarness({ fileOverrides = [], batchOverrides = {}, refuse = false, failUpdate = false, withFolders = false, invalidateOnSave = false, durationSeconds, narrow = false } = {}) {
+async function processingHarness({ fileOverrides = [], batchOverrides = {}, refuse = false, failUpdate = false, withFolders = false, invalidateOnSave = false, durationSeconds, rangeLimitUs, narrow = false } = {}) {
   const { OperationDraft } = require('../src/operation-draft.cjs');
   const ids = ['11345678-1234-4234-8234-123456789abc', '22345678-1234-4234-8234-123456789abc'];
   const draft = new OperationDraft({ operation: 'encode', appDefaults: defaults().defaults, appDefaultsRevision: 4 });
@@ -564,7 +564,7 @@ async function processingHarness({ fileOverrides = [], batchOverrides = {}, refu
   let settings = { profileId: 'h265-cpu', preset: 'slow', quality: 25 };
   const snapshot = (phase = 'ready') => ({ revision: ++stateRevision, phase, batchId: 'processing-batch', planId: plan,
     settings, encodingSettingsStale, operationDraft: draft.snapshot(), counts: {},
-    items: ids.map((id, index) => ({ id, name: `Source ${index + 1}.mkv`, outputName: `Source ${index + 1}_H265-CPU.mkv`, summary: { durationSeconds },
+    items: ids.map((id, index) => ({ id, name: `Source ${index + 1}.mkv`, outputName: `Source ${index + 1}_H265-CPU.mkv`, summary: { durationSeconds }, ...(rangeLimitUs === undefined ? {} : { rangeLimitUs }),
       status: encodingSettingsStale ? 'unprocessed' : refused && index === 0 ? 'unsupported' : 'ready',
       reason: encodingSettingsStale ? 'Encoding settings changed. Prepare this draft again before starting.' : refused && index === 0 ? 'This range/audio cell is not yet qualified.' : '' })) });
   const check = request => assert.equal(request.planId, plan);
@@ -601,7 +601,7 @@ async function processingHarness({ fileOverrides = [], batchOverrides = {}, refu
 }
 
 test('range sliders reflect known duration and preserve exact text until the user moves a boundary', async () => {
-  const h = await processingHarness({ durationSeconds: 12.123456,
+  const h = await processingHarness({ durationSeconds: 12.123456, rangeLimitUs: 12123456,
     fileOverrides: [{ range: { startUs: 1234567, endUs: 9123456 } }] });
   assert.equal(h.control(0, 'start-slider').disabled, false);
   assert.equal(h.control(0, 'start-slider').step, '0.001');
@@ -617,7 +617,7 @@ test('range sliders reflect known duration and preserve exact text until the use
 });
 
 test('range sliders never clamp exact fields, authorize a crossed interval, or invent a missing duration', async () => {
-  const h = await processingHarness({ durationSeconds: 10, fileOverrides: [{ range: { startUs: 1000000, endUs: 2000000 } }] });
+  const h = await processingHarness({ durationSeconds: 10, rangeLimitUs: 10000000, fileOverrides: [{ range: { startUs: 1000000, endUs: 2000000 } }] });
   h.control(0, 'end').value = '12.987654'; await h.control(0, 'end').emit('input');
   assert.equal(h.control(0, 'end-slider').value, '10'); assert.equal(h.control(0, 'end').value, '12.987654');
   h.control(0, 'start-slider').value = '5'; await h.control(0, 'start-slider').emit('input');
@@ -627,9 +627,25 @@ test('range sliders never clamp exact fields, authorize a crossed interval, or i
   assert.match(h.control(0, 'notice').textContent, /later than its start/);
   const unknown = await processingHarness({ fileOverrides: [{ range: { endUs: 2000000 } }] });
   assert.equal(unknown.control(0, 'start-slider').disabled, true); assert.equal(unknown.control(0, 'start').disabled, false);
-  const full = await processingHarness({ durationSeconds: 10 });
+  const full = await processingHarness({ durationSeconds: 10, rangeLimitUs: 10000000 });
   assert.equal(full.control(0, 'start-slider').disabled, true);
   h.update(h.snapshot('running')); assert.equal(h.control(0, 'start-slider').disabled, true);
+});
+
+test('range sliders use only main\'s exact range limit, never the rounded inspected duration', async () => {
+  // The inspected duration is a rounded description; main's limit is the exact latest end it accepts.
+  const h = await processingHarness({ durationSeconds: 10.2, rangeLimitUs: 9999999, fileOverrides: [{ range: { startUs: 1000000, endUs: 2000000 } }] });
+  assert.equal(h.control(0, 'end-slider').max, '9.999999'); assert.equal(h.control(0, 'end-slider').disabled, false);
+  assert.match(h.row(0).textContent, /Latest range end: 9\.999999 s\./);
+  // Without main's limit, or with anything but a positive safe integer, the slider stays off; exact fields stay usable.
+  for (const rangeLimitUs of [undefined, null, '10000000', -1, 0, 1.5, 2 ** 60, Number.NaN]) {
+    const other = await processingHarness({ durationSeconds: 10, rangeLimitUs, fileOverrides: [{ range: { startUs: 1000000, endUs: 2000000 } }] });
+    assert.equal(other.control(0, 'end-slider').disabled, true, String(rangeLimitUs));
+    assert.equal(other.control(0, 'end').disabled, false);
+    assert.match(other.control(0, 'end-slider').title, /exact range limit for this file, so the slider is off/);
+    assert.doesNotMatch(other.row(0).textContent, /Latest range end/);
+    assert.match(other.row(0).textContent, /Range sliders are off: main has not established the exact range limit for this file\. The exact fields still work\./);
+  }
 });
 
 test('file range edits use exact integer microseconds, preserve unrelated choices, and surface qualification refusal', async () => {

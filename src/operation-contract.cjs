@@ -293,6 +293,15 @@ function resolveTimeRange(videoEvidence, range) {
     audioBoundaryTarget: 'one-source-sample-plus-declared-timestamp-quantization', qualification: 'seek-frame-audio-delay-padding-container-required' });
 }
 
+// Main-only and descriptive: the latest end a range may request for this
+// video, from the same evidence and floor rule resolveTimeRange applies.
+// Null when main cannot establish it, so the window never substitutes a guess;
+// this deliberately includes timelines whose full end would overflow the
+// absolute microsecond guard, where a slider would offer a refused end.
+function rangeLimitUs(videoEvidence) {
+  try { return resolveTimeRange(videoEvidence, { startUs: 0 }).resolved.endUs; } catch { return null; }
+}
+
 function resolveAudio(audioEvidence, options) {
   record(options, ['target', 'range', 'audioPolicy', 'aacBitrateKbps'], 'Audio request');
   const { target, range, audioPolicy, aacBitrateKbps = null } = options;
@@ -359,4 +368,4 @@ function buildOperationContract(options) {
     status: 'descriptive-unqualified-contract', argv: null });
 }
 
-module.exports = { OPERATION_CONTRACT_VERSION, OPERATION_DEFAULTS, createBatchDefaults, resolveFileRequest, resolveGeometry, resolveTimeRange, resolveAudio, buildOperationContract };
+module.exports = { OPERATION_CONTRACT_VERSION, OPERATION_DEFAULTS, createBatchDefaults, resolveFileRequest, resolveGeometry, resolveTimeRange, rangeLimitUs, resolveAudio, buildOperationContract };

@@ -1111,10 +1111,16 @@
     }
   }
 
+  function rangeLimitText(item) {
+    return Number.isSafeInteger(item.rangeLimitUs) && item.rangeLimitUs > 0 ? ` Latest range end: ${secondsText(item.rangeLimitUs)} s.`
+      : ' Range sliders are off: main has not established the exact range limit for this file. The exact fields still work.';
+  }
+
   function renderRangeSliders(entry, editable) {
-    const controls = entry.operationControls, seconds = entry.item.summary?.durationSeconds;
-    const limit = finite(seconds) && seconds > 0 && Number.isSafeInteger(Math.floor(seconds * 1000000))
-      ? Math.floor(seconds * 1000000) : null;
+    // Main sends the exact latest range end it would accept for this file's
+    // video timeline; the rounded inspected duration is never used as a bound.
+    const controls = entry.operationControls, exact = entry.item.rangeLimitUs;
+    const limit = Number.isSafeInteger(exact) && exact > 0 ? exact : null;
     for (const key of ['start', 'end']) {
       const slider = controls[`${key}Slider`];
       slider.disabled = !editable || controls.mode.value !== 'range' || limit === null;
@@ -1126,7 +1132,7 @@
       // rounded when rendering. Main still validates the submitted interval.
       slider.value = secondsText(Math.min(limit ?? 0, Math.max(0, displayed)));
       slider.setAttribute('aria-valuetext', `Slider approximation ${slider.value} seconds; exact field ${controls[key].value.trim() || (key === 'start' ? 'beginning' : 'source end')}. Apply changes to use the exact field.`);
-      slider.title = limit === null ? 'A known inspected duration is required for this slider.'
+      slider.title = limit === null ? 'Main has not established the exact range limit for this file, so the slider is off. You can still enter exact seconds above; main checks them.'
         : 'Move this boundary in millisecond steps, or enter exact seconds in the field above. Apply changes to prepare it.';
     }
   }
@@ -1163,7 +1169,7 @@
     }
     entry.operationSummary.textContent = processingLabel(file.request);
     entry.operationDuration.textContent = finite(entry.item.summary?.durationSeconds) && entry.item.summary.durationSeconds > 0
-      ? `Inspected duration: ${duration(entry.item.summary.durationSeconds)}. Main checks exact bounds separately for every file; nothing is silently clamped.`
+      ? `Inspected duration: ${duration(entry.item.summary.durationSeconds)}.${rangeLimitText(entry.item)} Main checks exact bounds separately for every file; nothing is silently clamped.`
       : 'Duration is not available in this preview. You may enter exact seconds; main must establish valid bounds before it can prepare a range.';
   }
 

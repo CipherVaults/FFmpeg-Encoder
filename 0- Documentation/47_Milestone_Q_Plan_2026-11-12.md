@@ -62,6 +62,11 @@ Range packet copy (Q04), chapters in a range encode (Q06), subtitles on a resize
 - `tests/vendor-baseline.test.cjs` now re-pins `src/operation-family.cjs` and `src/operation-contract.cjs` at their Q1a bytes, labelled Q1a; `src/media.cjs` and `src/encode-operation.cjs` keep their 253c567 pins. The golden ordinary-argv capture passes unedited. Record 45 §9's "tests only added" check no longer applies from Q1a on.
 - One existing test changed: in `tests/operation-family.test.cjs` "accessors and hidden family authority are rejected before any getter runs", the orientation check on a Keep Source request now returns `{}` without reading anything, and its rejection check moved to the resize route. The getter is still never read; after the security review, a getter on `request.resolution` itself isn't read either.
 
+### Q1b notes (review `wf_385931ae-44e`)
+
+- The limit is the full-duration end that main accepts. Main reports null rather than a smaller end when that end would cross the absolute overflow guard, which only crafted timelines reach.
+- The visible row text, not only the slider tooltip, says when the sliders are off.
+
 ## 4. Points for Ahmed (none blocks Waves 1–2)
 
 | # | Question | Root's recommendation |

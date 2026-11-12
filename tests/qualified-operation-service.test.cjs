@@ -36,6 +36,12 @@ function sourceProbe() {
   format: { format_name: 'mov,mp4,m4a,3gp,3g2,mj2', duration: '0.4', start_time: '0', nb_streams: 2, nb_programs: 0, nb_stream_groups: 0, tags: { title: 'Synthetic source' } },
   chapters: [], programs: [], stream_groups: [] };
 }
+// A copy of the source whose video and audio end after 0.2 seconds.
+function shortProbe(probe) {
+  const result = clone(probe);
+  Object.assign(result.streams[0], { duration_ts: 200, duration: '0.2' }); Object.assign(result.streams[1], { duration_ts: 9600, duration: '0.2' });
+  result.format.duration = '0.2'; return result;
+}
 function line(section, row) { return section + '|' + Object.entries(row).map(([key, value]) => `${key}=${value}`).join('|') + '\n'; }
 function frames(stream, timestamps, audio = false) {
   return timestamps.map(pts => audio ? { media_type: 'audio', stream_index: stream.index, pts, nb_samples: 4800,
@@ -50,13 +56,14 @@ function metadata(args) {
   }
   return result;
 }
-async function harness(t, { mode = 'precision-flac', sameFolder = false, missingBudget = false, onEncode, onStream, executionBudgetMs = 60000, probeChange } = {}) {
+async function harness(t, { mode = 'precision-flac', sameFolder = false, missingBudget = false, onEncode, onStream, executionBudgetMs = 60000, probeChange, shortCopy = false } = {}) {
   await fs.mkdir(artifactParent, { recursive: true });
   const root = await fs.mkdtemp(path.join(artifactParent, 'run-'));
   const input = path.join(root, 'input'), output = sameFolder ? input : path.join(root, 'output');
   await fs.mkdir(input); if (!sameFolder) await fs.mkdir(output);
   const source = path.join(input, 'synthetic-source.mov'), sourceBytes = Buffer.from('synthetic immutable original bytes');
   await fs.writeFile(source, sourceBytes);
+  if (shortCopy) await fs.writeFile(path.join(input, 'synthetic-short.mov'), Buffer.from('synthetic short original bytes'));
   let service;
   t.after(async () => {
     if (service?.busy) await service.cancelCurrent();
@@ -126,7 +133,7 @@ async function harness(t, { mode = 'precision-flac', sameFolder = false, missing
     operationEvidenceBudget: missingBudget ? null : BUDGET, operationDeadlineMs: executionBudgetMs,
     capabilities: async () => ({ profiles: PROFILES.map(profile => ({ ...profile, available: true, supportedBitDepths: [8, 10] })),
       versions: { ffmpeg: 'synthetic ffmpeg fixture', ffprobe: 'synthetic ffprobe fixture' } }),
-    inspect: async () => ({ probe: clone(probe), color: classifyColor(probe), duration: .4,
+    inspect: async file => ({ probe: path.basename(file) === 'synthetic-short.mov' ? shortProbe(probe) : clone(probe), color: classifyColor(probe), duration: .4,
       summary: { selectedVideoIndex: 0, codec: 'h264', width: 320, height: 180, bitDepth: 8 } }),
     verify: () => { data.legacyValidations++; return { valid: true, errors: [] }; } });
   const updates = []; service.on('update', state => { updates.push(state); });
@@ -185,6 +192,35 @@ test('qualified exact FLAC range executes the canonical plan, complete evidence 
   assert.deepEqual(collected.context.evidenceIds, ['synthetic-service-endpoint', 'synthetic-service-interior']);
   assert.equal(validated.context.validation.validation, 'decoded-operation-contract');
   assert.equal(validated.context.validation.valid, true);
+});
+
+test('each prepared item carries main\'s exact range limit as inert data, or null when unknown', async t => {
+  const h = await harness(t), first = await h.prepare({ ordinary: true });
+  assert.equal(first.items[0].rangeLimitUs, 400000);
+  const ranged = await h.prepare(); assert.equal(ranged.items[0].rangeLimitUs, 400000);
+  // A re-preparation that leaves the item before inspection never keeps the previous limit.
+  await fs.writeFile(h.destination, 'pre-existing output');
+  const again = await h.service.updateFileOperations({ planId: ranged.planId, draftId: ranged.operationDraft.id, revision: ranged.operationDraft.revision,
+    fileIds: [ranged.items[0].id], overrides: { range: { startUs: 100000, endUs: 200000 } } });
+  assert.notEqual(again.items[0].status, 'ready'); assert.equal(Object.hasOwn(again.items[0], 'rangeLimitUs'), false);
+  const unknown = await harness(t, { probeChange: probe => { delete probe.streams[0].duration; delete probe.streams[0].duration_ts; } });
+  const plan = await unknown.prepare({ ordinary: true });
+  assert.equal(plan.items[0].rangeLimitUs, null);
+  assert.ok(Object.hasOwn(plan.items[0], 'rangeLimitUs'));
+});
+
+test('one range applied to files of different lengths is refused only for the file it exceeds, never clamped', async t => {
+  const h = await harness(t, { shortCopy: true }), first = await h.service.prepareBatch(h.request);
+  assert.equal(first.phase, 'ready', first.error); assert.equal(first.items.length, 2);
+  const plan = await h.service.updateFileOperations({ planId: first.planId, draftId: first.operationDraft.id, revision: first.operationDraft.revision,
+    fileIds: first.items.map(item => item.id), overrides: { range: RANGE, audioPolicy: 'precision-flac' } });
+  const byName = name => plan.items.find(item => item.name === name);
+  const long = byName('synthetic-source.mov'), short = byName('synthetic-short.mov');
+  assert.equal(long.status, 'ready', JSON.stringify(long)); assert.equal(long.rangeLimitUs, 400000);
+  assert.equal(short.status, 'unsupported'); assert.equal(short.reasonCode, 'RANGE_EXCEEDS_DURATION'); assert.equal(short.rangeLimitUs, 200000);
+  // The exact request is kept for both files; nothing was shortened to fit.
+  for (const file of plan.operationDraft.files) assert.deepEqual(file.request.range, RANGE);
+  assert.equal(h.service.plan.entries.size, 1); assert.ok(h.service.plan.entries.has(long.id)); assert.equal(h.data.encodes.length, 0);
 });
 
 test('missing collection budget refuses changed preparation before an encode', async t => {

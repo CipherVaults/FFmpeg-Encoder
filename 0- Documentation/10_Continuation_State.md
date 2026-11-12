@@ -1,3 +1,12 @@
+> **ACTIVE — November 12, 2026 (evening). Writer lock phase `q1b`. Slice Q1b of [record 47](47_Milestone_Q_Plan_2026-11-12.md) is COMMITTED in the commit that carries this banner.**
+> - **Ahmed:** "Yes, auto-resume" (to resuming Q1b after the 5-hour reset). It was a one-time wait; the continuation ticks stay paused (record 39).
+> - **Q1b.** For each prepared file, main sends `rangeLimitUs`: the full-duration range end it accepts for the selected video (`rangeLimitUs` in `src/operation-contract.cjs`, reusing `resolveTimeRange`). It is null when main cannot establish it, including timelines near the absolute overflow guard, and it is cleared on every re-preparation. The range sliders use only this value, never the rounded inspected duration; without it they stay off and say why, in visible text. The exact fields still work, and main still validates every range.
+> - **Tests.** One range applied to two files of different lengths is refused only for the shorter one (`RANGE_EXCEEDS_DURATION`), and the request is kept unchanged.
+> - **Review.** Workflow `wf_385931ae-44e` (correctness/trust and UI/tests lenses, plus a verifier). One confirmed finding (a missing negative test for the re-preparation clear), applied and mutation-checked. Two refuted as not material; the accessibility one was applied anyway.
+> - **Evidence.** `q1b-focused-2` 233/233; `q1b-full-2` 2573/2583 with the 5 known failures.
+> - **Next:** Q1c, which shows requested versus effective boundaries, AAC delay and tail in the changed-path result, and pins start-only and end-only requests.
+> - The banner below is history.
+
 > **ACTIVE — November 12, 2026. Writer lock phase `q1a`. Milestone Q has started. [Record 47](47_Milestone_Q_Plan_2026-11-12.md) is the plan, and slice Q1a is COMMITTED in the commit that carries this banner.**
 > - **Start.** Ahmed, November 12: "Yes, after reset". Both pre-Q security scans (record 42 §5) ran on November 12.
 > - **Q1a.** Whether a picture already fits a box never depends on its orientation. A file with no reported orientation that already fits now prepares on the unchanged ordinary builder (Full). A real downscale with no measured family names the missing qualification (`OPERATION_RESIZE_UNQUALIFIED`) instead of `GEOMETRY_ORIENTATION_UNKNOWN`. Other refusals keep their codes. Also fixed: a pre-existing fault where the family's bounded inspection walk ran for every ordinary request, and missing spaces in the family's refusal messages.

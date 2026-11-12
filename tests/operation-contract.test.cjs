@@ -302,3 +302,20 @@ test('rational evidence rejects coerced numbers and absolute timestamp overflow 
   const noBase = video(); noBase.timeline.timeBase = unknown();
   assert.throws(() => resolveTimeRange(noBase, { endUs: 1000000 }), { code: 'RANGE_TIME_BASE_UNKNOWN' });
 });
+
+test('the range limit is the full-duration end main accepts, or null when main cannot establish it', () => {
+  const { rangeLimitUs } = require('../src/operation-contract.cjs');
+  const source = video();
+  assert.equal(rangeLimitUs(source), 10000000);
+  assert.equal(resolveTimeRange(source, { endUs: rangeLimitUs(source) }).resolved.endUs, 10000000);
+  assert.throws(() => resolveTimeRange(source, { endUs: rangeLimitUs(source) + 1 }), { code: 'RANGE_EXCEEDS_DURATION' });
+  // Submicrosecond durations floor without extending the source.
+  const fine = video(); fine.timeline.durationTicks = integer(900001); fine.timeline.durationSeconds = rational(900001, 90000);
+  assert.equal(rangeLimitUs(fine), 10000011);
+  // Unknown, conflicting or unusable timelines give null instead of a guess.
+  const missing = video(); missing.timeline.durationTicks = unknown(); missing.timeline.durationSeconds = unknown();
+  const conflict = video(); conflict.timeline.durationSeconds = rational(11);
+  const noOrigin = video(); noOrigin.timeline.startPts = unknown(); noOrigin.timeline.startSeconds = unknown();
+  const noBase = video(); noBase.timeline.timeBase = unknown();
+  for (const value of [missing, conflict, noOrigin, noBase, null, undefined, {}]) assert.equal(rangeLimitUs(value), null);
+});

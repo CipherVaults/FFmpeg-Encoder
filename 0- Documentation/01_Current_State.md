@@ -1,4 +1,4 @@
-> **November 12, 2026: the AMD/Intel hardware checklist and the ten owner points are ready for Ahmed** ([record 46](46_AMD_Intel_Hardware_Checklist_and_Owner_Points_2026-11-12.md)). Before any testing, Ahmed decides how the app reaches an AMD/Intel computer (H1) and gives the go-ahead to test (O6). Next: milestone Q.
+> **November 12, 2026: the AMD/Intel hardware checklist and the ten owner points are ready for Ahmed** ([record 46](46_AMD_Intel_Hardware_Checklist_and_Owner_Points_2026-11-12.md)). Ahmed chose to wait for packaging before any hardware testing (H1: "C: wait for packaging"), so AMD/Intel stay marked untested until then. The owner points O1–O10 are still open. Next: milestone Q.
 
 > **November 12, 2026, afternoon: the desktop UI smoke tests pass.** Both the layout and product tests pass, and the ⚠ mark was checked live in the dark amber and light teal themes. The layout test needed a small script fix: since October 11 the progress monitor lives in Current Jobs. Next: Ahmed's hardware checklist and the owner points, then Q.
 

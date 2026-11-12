@@ -7,7 +7,8 @@
 >   - the portable check is 0.6-specific (H1-A needs an adapted 0.7 check);
 >   - the RDNA3 AV1 height-padding limit;
 >   - O4 offers a third, stricter option (A3); O8 offers "discuss later".
-> - **Waiting on Ahmed:** H1 (how the app reaches a test computer: A portable / B developer copy / C wait) and O6 (go-ahead to test). O1 and O2 would best come at the same time.
+> - **Ahmed, November 12, H1: "C: wait for packaging".** No test copy is built, and real-hardware testing waits for packaging.
+> - **Still open:** O1–O10. None of them blocks Q.
 > - **Next, unless Ahmed redirects:** milestone Q (Q01–Q08), root-led until Codex resets November 18 (~01:00 Cairo).
 > - The banner below is history.
 

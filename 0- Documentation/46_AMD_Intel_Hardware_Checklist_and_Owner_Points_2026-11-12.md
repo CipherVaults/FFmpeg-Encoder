@@ -7,6 +7,12 @@
 - Writer: Claude (root).
 - A four-lens review checked it against the code, upstream FFmpeg source and the project limits before commit (workflow `wf_cce08f7a-a68`).
 
+**Owner answers:**
+- **H1, November 12, 2026: "C: wait for packaging"** (Ahmed, verbatim).
+  - No portable test copy is built now, and hardware testing waits for packaging, which comes last (record 35).
+  - AMD/Intel stay marked "not yet tested" until then.
+- O1–O10 are still open.
+
 **Where the work stands:**
 - The six AMD/Intel choices are built and tested with simulated hardware [fakes]. CPU and NVIDIA encodes are proven unchanged [byte-identical].
 - The desktop smoke tests pass, and the ⚠ mark was checked in both themes (commit `50c1bcd`).

@@ -206,10 +206,26 @@ function resolveGeometry(videoEvidence, resolution) {
   if (geometry.issues?.length) fail('GEOMETRY_CONFLICT', 'Source display geometry contains contradictory evidence.');
   const sar = evidenceRational(geometry.sampleAspectRatio, 'GEOMETRY_SAR_UNKNOWN', 'Sample aspect ratio', { positive: true });
   if (compare(sar, rat(1n, 1024n)) < 0 || compare(sar, rat(1024n)) > 0) fail('GEOMETRY_SAR_UNSUPPORTED', 'Sample aspect ratio exceeds the bounded geometry policy.');
+  const [long, short] = BOXES[resolution];
+  const unreported = geometry.rotationSource === 'not-reported'
+    && ['rotationDegrees', 'legacyRotationDegrees', 'displayMatrix'].every(field => geometry[field]?.state === 'unknown');
+  const unrotatedWidth = mul(rat(width), sar), unrotatedHeight = rat(height);
+  const landscape = compare(unrotatedWidth, unrotatedHeight) >= 0;
+  const [longer, shorter] = landscape ? [unrotatedWidth, unrotatedHeight] : [unrotatedHeight, unrotatedWidth];
+  // The box turns with the displayed picture (see below), and an orthogonal
+  // rotation only swaps the display sides, so whether the picture already fits
+  // never depends on orientation. With no reported orientation at all, such a
+  // request needs no interpretation; every real resize still requires one.
+  if (unreported && compare(longer, rat(BigInt(long))) <= 0 && compare(shorter, rat(BigInt(short))) <= 0) {
+    return freeze({ requested: resolution, mode: 'already-fits', filterRequired: false, source,
+      display: { width: packed(unrotatedWidth), height: packed(unrotatedHeight), rotationDegrees: null },
+      box: landscape ? { width: long, height: short } : { width: short, height: long },
+      output: { ...source, sampleAspectRatio: packed(sar), orientation: 'preserve-source' },
+      qualification: 'existing-source-path', notices: ['No upscaling or unnecessary SAR normalization.', 'Fitting does not depend on orientation; the unreported source orientation is left unchanged.'] });
+  }
   const degrees = orientation(geometry);
   let displayWidth = mul(rat(width), sar), displayHeight = rat(height);
   if (degrees === 90 || degrees === 270) [displayWidth, displayHeight] = [displayHeight, displayWidth];
-  const [long, short] = BOXES[resolution];
   const [boxWidth, boxHeight] = compare(displayWidth, displayHeight) >= 0 ? [long, short] : [short, long];
   const display = { width: packed(displayWidth), height: packed(displayHeight), rotationDegrees: degrees };
   if (compare(displayWidth, rat(BigInt(boxWidth))) <= 0 && compare(displayHeight, rat(BigInt(boxHeight))) <= 0) {

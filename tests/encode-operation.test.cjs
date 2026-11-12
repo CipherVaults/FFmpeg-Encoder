@@ -372,3 +372,23 @@ test('AAC cannot carry a misleading lossless PCM identity claim', () => {
   const data = decoded(); data.audio[0].pcmIdentity = {};
   assert.equal(validateEncodeOperationOutput(plan, output(probe, plan), { qualification: qualification(), decodedEvidence: data }).valid, false);
 });
+
+test('a Full request whose display already fits in either orientation keeps the accepted builder argv byte-for-byte', () => {
+  for (const [width, height, resolution] of [[1920, 1080, '1080'], [1920, 1080, '2160'], [1280, 720, '720'], [720, 1280, '1440']]) {
+    const probe = source({ width, height }); delete probe.streams[0].tags.rotate;
+    const opts = options(probe, { resolution }), result = buildEncodeOperation(opts);
+    assert.equal(result.compatibilityPath, true); assert.equal(result.contract.geometry.mode, 'already-fits');
+    assert.equal(result.contract.geometry.display.rotationDegrees, null);
+    assert.deepEqual(result.args, buildEncodeArgs({ input: opts.input, output: opts.output, settings, probe, colorEvidence: opts.inspection.color }));
+    assert.equal(result.args.includes('-filter:v:0'), false); assert.equal(result.args.includes('-noautorotate'), false);
+  }
+  // A real downscale still needs orientation evidence.
+  const wide = source(); delete wide.streams[0].tags.rotate;
+  assert.throws(() => build(wide, { resolution: '720' }), { code: 'GEOMETRY_ORIENTATION_UNKNOWN' });
+  // Reported but unreadable orientation is never treated as absent: an empty
+  // Display Matrix entry and an empty rotate tag both still refuse.
+  const matrix = source(); delete matrix.streams[0].tags.rotate; matrix.streams[0].side_data_list = [{ side_data_type: 'Display Matrix' }];
+  assert.throws(() => build(matrix, { resolution: '1080' }), { code: 'GEOMETRY_ORIENTATION_UNKNOWN' });
+  const tag = source(); tag.streams[0].tags.rotate = '';
+  assert.throws(() => build(tag, { resolution: '1080' }), { code: 'GEOMETRY_ORIENTATION_UNKNOWN' });
+});

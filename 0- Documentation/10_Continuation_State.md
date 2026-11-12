@@ -1,3 +1,13 @@
+> **ACTIVE — November 12, 2026. Writer lock phase `q1a`. Milestone Q has started. [Record 47](47_Milestone_Q_Plan_2026-11-12.md) is the plan, and slice Q1a is COMMITTED in the commit that carries this banner.**
+> - **Start.** Ahmed, November 12: "Yes, after reset". Both pre-Q security scans (record 42 §5) ran on November 12.
+> - **Q1a.** Whether a picture already fits a box never depends on its orientation. A file with no reported orientation that already fits now prepares on the unchanged ordinary builder (Full). A real downscale with no measured family names the missing qualification (`OPERATION_RESIZE_UNQUALIFIED`) instead of `GEOMETRY_ORIENTATION_UNKNOWN`. Other refusals keep their codes. Also fixed: a pre-existing fault where the family's bounded inspection walk ran for every ordinary request, and missing spaces in the family's refusal messages.
+> - **Review.** Workflow `wf_5d465cb0-c62` (three lenses plus an adversarial verifier): 8 confirmed findings, all applied. The `/security-review` method was run by an independent `reviewer`: PASS, with two low notes, both applied.
+> - **Evidence.** `q1a-focused-3` 166/166; `q1a-full-3` 2569/2579 with the 5 known failures. The baseline `q-baseline-full` is indicative only, because an edit landed during that run.
+> - **New finding.** This PC's NVIDIA driver is now 621.14, and the family's NVIDIA cell is bound to 621.01. The app therefore refuses NVIDIA range jobs here (fail-closed); CPU range jobs still work. Re-measuring is Wave 2 slice Q2a.
+> - **Open with Ahmed:** QD1–QD4 (record 47 §4) and O1–O10 (record 46). None blocks Waves 1–2.
+> - **Next:** Q1b, the range slider bound to main's exact duration. Claude's 5-hour window is near the 95% ceiling; work resumes after its reset (~17:40 Cairo).
+> - The banner below is history.
+
 > **ACTIVE — November 12, 2026. Writer lock phase `vendor-checklist`. [Record 46](46_AMD_Intel_Hardware_Checklist_and_Owner_Points_2026-11-12.md) holds Ahmed's AMD/Intel hardware checklist and record 45's owner points O1–O10 in plain words. Both wait on Ahmed.**
 > - **Verified before commit:** four-lens workflow `wf_cce08f7a-a68` (app facts, FFmpeg commands against upstream n9.0.2 source, safety/limits, usability). All findings were applied. The main ones:
 >   - the FFmpeg path now comes from Inspect's "Executable:" line, with a 9.0.2 version check;

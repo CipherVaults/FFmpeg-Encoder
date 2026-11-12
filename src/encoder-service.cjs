@@ -991,10 +991,24 @@ class EncoderService extends EventEmitter {
       // qualification gate above, not merely a syntactically valid command.
       const encodePreservationSelection = prepareEncodePreservation.call(this, item, { probe: inspection.probe, identity, settings });
       if (encodePreservationSelection && !this.operationRuntime) throw fail('OPERATION_CONTROLS_UNAVAILABLE', 'Full preservation needs the current pinned runtime observer.');
-      let operationPlan = buildEncodeOperation({ input: file, output: destination, settings, inspection,
-        request: item.operationRequest, runtimeIdentity: this.runtimeIdentity, outputId, generationDescription,
-        ...(encodePreservationSelection ? { preservationSelection: encodePreservationSelection } : {}),
-        ...(this.operationQualifications?.orientationQualification?.({ inspection, request: item.operationRequest, runtimeIdentity: this.runtimeIdentity, settings }) || {}) });
+      let operationPlan;
+      try {
+        operationPlan = buildEncodeOperation({ input: file, output: destination, settings, inspection,
+          request: item.operationRequest, runtimeIdentity: this.runtimeIdentity, outputId, generationDescription,
+          ...(encodePreservationSelection ? { preservationSelection: encodePreservationSelection } : {}),
+          ...(this.operationQualifications?.orientationQualification?.({ inspection, request: item.operationRequest, runtimeIdentity: this.runtimeIdentity, settings }) || {}) });
+      } catch (error) {
+        // Missing orientation on a resize that no measured family admits would
+        // otherwise report an orientation detail of a route that cannot run.
+        // Faults in the file's own geometry evidence keep their specific code.
+        let explained = null;
+        if (error?.code === 'GEOMETRY_ORIENTATION_UNKNOWN' && !encodePreservationSelection
+            && item.operationRequest?.resolution !== 'source' && typeof this.operationQualifications?.explainResize === 'function') {
+          try { explained = this.operationQualifications.explainResize({ inspection, request: item.operationRequest, runtimeIdentity: this.runtimeIdentity, settings }); } catch { explained = null; }
+        }
+        if (explained?.code === 'OPERATION_RESIZE_UNQUALIFIED' && typeof explained.message === 'string') throw fail(explained.code, explained.message);
+        throw error;
+      }
       if (this.operationTelemetry) operationPlan = withEncodeOperationTelemetry(operationPlan);
       const operationRuntimeToken = !operationPlan.compatibilityPath && this.operationRuntime
         ? await this.operationRuntime.observe({ hardware: profile.hardware, signal }) : null;

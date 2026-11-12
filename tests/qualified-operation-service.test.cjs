@@ -6,6 +6,7 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const { EncoderService } = require('../src/encoder-service.cjs');
 const { OperationQualificationSelector } = require('../src/operation-qualification.cjs');
+const { OperationFamilySelector } = require('../src/operation-family.cjs');
 const { fingerprintEncodeSource } = require('../src/encode-operation.cjs');
 const { readSourceIdentity } = require('../src/source-identity.cjs');
 const { classifyColor, PROFILES } = require('../src/media.cjs');
@@ -49,7 +50,7 @@ function metadata(args) {
   }
   return result;
 }
-async function harness(t, { mode = 'precision-flac', sameFolder = false, missingBudget = false, onEncode, onStream, executionBudgetMs = 60000 } = {}) {
+async function harness(t, { mode = 'precision-flac', sameFolder = false, missingBudget = false, onEncode, onStream, executionBudgetMs = 60000, probeChange } = {}) {
   await fs.mkdir(artifactParent, { recursive: true });
   const root = await fs.mkdtemp(path.join(artifactParent, 'run-'));
   const input = path.join(root, 'input'), output = sameFolder ? input : path.join(root, 'output');
@@ -63,7 +64,7 @@ async function harness(t, { mode = 'precision-flac', sameFolder = false, missing
     assert.ok(actual.startsWith(parent + path.sep) && path.basename(actual).startsWith('run-'), 'Cleanup must remain inside this owned test tree.');
     await fs.rm(actual, { recursive: true });
   });
-  const probe = sourceProbe(), sourceIdentity = await readSourceIdentity(source);
+  const probe = sourceProbe(), sourceIdentity = await readSourceIdentity(source); probeChange?.(probe);
   const cell = { evidenceIds: ['synthetic-service-endpoint', 'synthetic-service-interior'], runtimeIdentity: RUNTIME,
     sourceIdentity, sourceProbeFingerprint: fingerprintEncodeSource(probe), settings: SETTINGS,
     request: { range: RANGE, resolution: 'source', target: 'matroska', hdrPolicy: 'preserve', audioPolicy: mode, aacBitrateKbps: null, omissionRequestIds: [] },
@@ -133,12 +134,12 @@ async function harness(t, { mode = 'precision-flac', sameFolder = false, missing
   const request = { inputFolderId: inputFolder.id, outputFolderId: outputFolder.id, settings: SETTINGS };
   const result = { root, input, output, source, sourceBytes, sourceIdentity, selector, service, request, data, updates,
     destination: path.join(output, 'synthetic-source_H265-CPU.mkv'),
-    async prepare({ ordinary = false } = {}) {
+    async prepare({ ordinary = false, overrides = { range: RANGE, audioPolicy: mode } } = {}) {
       const first = await service.prepareBatch(request);
       assert.equal(first.phase, 'ready', first.error);
       if (ordinary) return first;
       return service.updateFileOperations({ planId: first.planId, draftId: first.operationDraft.id, revision: first.operationDraft.revision,
-        fileIds: [first.items[0].id], overrides: { range: RANGE, audioPolicy: mode } });
+        fileIds: [first.items[0].id], overrides });
     },
     start(plan) { return service.startBatch({ planId: plan.planId, fileIds: [plan.items[0].id] }); },
     async finish(plan) { this.start(plan); await service.taskPromise; return service.snapshot(); },
@@ -190,6 +191,59 @@ test('missing collection budget refuses changed preparation before an encode', a
   const h = await harness(t, { missingBudget: true }), plan = await h.prepare();
   assert.equal(plan.items[0].status, 'unsupported'); assert.equal(plan.items[0].reasonCode, 'OPERATION_QUALIFICATION_REQUIRED');
   assert.equal(h.service.plan.entries.size, 0); assert.equal(h.data.encodes.length, 0); await absent(h.destination);
+});
+
+test('a resize refusal names the missing qualification only through the main-owned diagnosis', async t => {
+  const large = probe => { Object.assign(probe.streams[0], { width: 1920, height: 1080 }); delete probe.streams[0].tags.rotate; };
+  const counted = (h, explainResize) => {
+    const calls = [];
+    h.selector.explainResize = options => { calls.push(options); return explainResize(options); };
+    return calls;
+  };
+  const refused = async ({ probeChange = large, overrides = { resolution: '720' }, explainResize, selector }, code) => {
+    const h = await harness(t, { probeChange });
+    if (selector) h.service.operationQualifications = selector;
+    const calls = explainResize ? counted(h, explainResize) : null;
+    const plan = await h.prepare({ overrides }), item = plan.items[0];
+    assert.equal(item.status, 'unsupported'); assert.equal(item.reasonCode, code, JSON.stringify(item));
+    assert.equal(h.service.plan.entries.size, 0); assert.equal(h.data.encodes.length, 0); await absent(h.destination);
+    return { item, calls };
+  };
+  const reason = 'This resize has no measured qualification, so no plan was created. A resolved bounded range is required.';
+  const refusal = () => ({ code: 'OPERATION_RESIZE_UNQUALIFIED', message: reason });
+  // Without a diagnosis the geometry refusal stands unchanged.
+  await refused({}, 'GEOMETRY_ORIENTATION_UNKNOWN');
+  const named = await refused({ explainResize: refusal }, 'OPERATION_RESIZE_UNQUALIFIED');
+  assert.equal(named.item.reason, reason); assert.equal(named.calls.length, 1);
+  assert.deepEqual(Object.keys(named.calls[0]).sort(), ['inspection', 'request', 'runtimeIdentity', 'settings']);
+  assert.equal(named.calls[0].request.resolution, '720');
+  // The real production selector, wired into the service, names the gap.
+  const real = await refused({ selector: new OperationFamilySelector({ policyIdentity: 'synthetic-service-family-policy-v1' }) }, 'OPERATION_RESIZE_UNQUALIFIED');
+  assert.equal(real.item.reason, 'This resize has no measured qualification, so no plan was created. No measured family exists for these encoder settings and this runtime.');
+  // A family that admits the request, a failing or malformed diagnosis keep the original refusal.
+  for (const explainResize of [() => null, () => { throw new Error('diagnosis failed'); },
+    () => ({ code: 'OPERATION_QUALIFICATION_GRANTED', message: 'not a refusal' }), () => ({ code: 'OPERATION_RESIZE_UNQUALIFIED', message: 42 })]) {
+    await refused({ explainResize }, 'GEOMETRY_ORIENTATION_UNKNOWN');
+  }
+  // Faults in the file's own evidence, and non-geometry refusals, are never re-described.
+  const contradictory = await refused({ probeChange: probe => { large(probe); probe.streams[0].display_aspect_ratio = '4:3'; }, explainResize: refusal }, 'GEOMETRY_CONFLICT');
+  assert.equal(contradictory.calls.length, 0);
+  const subtitled = await refused({ probeChange: probe => { Object.assign(probe.streams[0], { width: 1920, height: 1080 });
+    probe.streams.push({ index: 3, codec_type: 'subtitle', codec_name: 'subrip', time_base: '1/1000', start_pts: 0, start_time: '0', duration_ts: 400, duration: '0.4', disposition: { default: 0 } });
+    probe.format.nb_streams = 3; }, explainResize: refusal }, 'ENCODE_SUBTITLE_TRANSFORM_UNQUALIFIED');
+  assert.equal(subtitled.calls.length, 0);
+  // A changed request on a file that already fits still needs its measured family.
+  const ranged = await refused({ probeChange: probe => { delete probe.streams[0].tags.rotate; }, overrides: { resolution: '720', range: RANGE, audioPolicy: 'precision-flac' },
+    selector: new OperationFamilySelector({ policyIdentity: 'synthetic-service-family-policy-v1' }) }, 'OPERATION_QUALIFICATION_REQUIRED');
+  assert.equal(ranged.calls, null);
+  // Files that already fit prepare on the accepted ordinary path without any family or diagnosis.
+  for (const [probeChange, resolution] of [[probe => { delete probe.streams[0].tags.rotate; }, '720'], [large, '1080']]) {
+    const h = await harness(t, { probeChange }), calls = counted(h, refusal);
+    const plan = await h.prepare({ overrides: { resolution } }); requireReady(plan);
+    const entry = h.service.plan.entries.get(plan.items[0].id);
+    assert.equal(entry.operationPlan.compatibilityPath, true); assert.equal(entry.operationPlan.contract.geometry.mode, 'already-fits');
+    assert.equal(calls.length, 0);
+  }
 });
 
 for (const change of ['catalog', 'runtime']) test(`stale ${change} refuses a previously prepared changed operation`, async t => {

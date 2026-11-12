@@ -188,6 +188,62 @@ test('absent orientation gets source-bound interpretation only for matching1080â
   assert.deepEqual(new OperationFamilySelector({ policyIdentity: POLICY }).orientationQualification({ inspection: h.inspection, request, runtimeIdentity: RUNTIME, settings: CPU }), {});
 });
 
+test('resize diagnosis grants nothing and explains only a real downscale of absent orientation that no family admits', () => {
+  const h = fixture({ width: 1920, absent: true, overrides: { resolution: '720' } });
+  const explain = (request, { source = probe({ width: 1920, absent: true }), settings = CPU, selector = h.selector } = {}) =>
+    selector.explainResize({ inspection: { probe: source }, request, runtimeIdentity: RUNTIME, settings });
+  const ask = overrides => resolveFileRequest({ fileId: 'synthetic-file', identityRevision: 1, draftRevision: 1, operation: 'encode', overrides });
+  const range = { range: { startUs: 1000000, endUs: 2000000 }, audioPolicy: 'precision-aac' };
+  // Nothing to explain: the admitted family route, Keep Source, a request that
+  // already fits, and any file whose orientation is reported (even as zero).
+  assert.equal(explain(h.request), null);
+  assert.equal(explain(ask(range)), null);
+  assert.equal(explain(ask({ resolution: '1080' })), null);
+  assert.equal(explain(ask({ resolution: '2160', ...range })), null);
+  assert.equal(explain(ask({ resolution: '720' }), { source: probe({ width: 1920 }) }), null);
+  const matrix = probe({ width: 1920, absent: true }); matrix.streams[0].side_data_list = [{ side_data_type: 'Display Matrix' }];
+  assert.equal(explain(ask({ resolution: '720' }), { source: matrix }), null);
+  const cases = [
+    [ask({ resolution: '720' }), {}, 'Only SDR Matroska range encoding with layout-default precision AAC and no omissions belongs to this family.'],
+    [ask({ resolution: '720', audioPolicy: 'precision-aac' }), {}, 'A resolved bounded range is required.'],
+    [h.request, { source: (() => { const p = probe({ width: 1920, absent: true }); p.streams[0].avg_frame_rate = '30000/1001'; return p; })() }, 'Only matching nominal and average 30/1 or 60/1 rates belong to this family.'],
+    [h.request, { settings: NVIDIA }, 'No measured family exists for these encoder settings and this runtime.'],
+    [h.request, { selector: new OperationFamilySelector({ policyIdentity: POLICY }) }, 'No measured family exists for these encoder settings and this runtime.'],
+    [h.request, { settings: { profileId: 'h265-cpu', preset: 'not-a-preset', quality: 25 } }, 'The encoder settings are outside every measured family.'],
+  ];
+  for (const [request, options, reason] of cases) {
+    const result = explain(request, options);
+    assert.ok(Object.isFrozen(result)); assert.equal(result.code, 'OPERATION_RESIZE_UNQUALIFIED');
+    assert.equal(result.message, `This resize has no measured qualification, so no plan was created. ${reason}`);
+  }
+  // The diagnosis is main-only plain data and refuses hidden or extra inputs without reading them.
+  rejects(() => h.selector.explainResize({ inspection: h.inspection, request: h.request, runtimeIdentity: RUNTIME, settings: CPU, extra: 1 }), 'INVALID_OPERATION_QUALIFICATION');
+  let read = false;
+  const hidden = { probe: probe({ width: 1920, absent: true }) }; Object.defineProperty(hidden, 'trap', { get() { read = true; return 1; }, enumerable: true });
+  rejects(() => h.selector.explainResize({ inspection: hidden, request: h.request, runtimeIdentity: RUNTIME, settings: CPU }), 'INVALID_OPERATION_QUALIFICATION');
+  assert.equal(read, false);
+});
+
+test('orientation interpretation never walks the inspection of an unrelated ordinary request', () => {
+  const h = fixture({ width: 1920, absent: true, overrides: { resolution: '720' } });
+  let read = false;
+  const hidden = { probe: probe({ width: 1920, absent: true }) }; Object.defineProperty(hidden, 'trap', { get() { read = true; return 1; }, enumerable: true });
+  const keep = resolveFileRequest({ fileId: 'synthetic-file', identityRevision: 1, draftRevision: 1, operation: 'encode', overrides: {} });
+  assert.deepEqual(h.selector.orientationQualification({ inspection: hidden, request: keep, runtimeIdentity: RUNTIME, settings: CPU }), {});
+  // A large but valid inspection no longer fails an ordinary request on the family's walk bound.
+  const large = { probe: probe({ width: 1920, absent: true }), chapters: Array.from({ length: 40000 }, (_, id) => ({ id })) };
+  assert.deepEqual(h.selector.orientationQualification({ inspection: large, request: keep, runtimeIdentity: RUNTIME, settings: CPU }), {});
+  // The resize route still walks and refuses hidden data.
+  rejects(() => h.selector.orientationQualification({ inspection: hidden, request: h.request, runtimeIdentity: RUNTIME, settings: CPU }), 'INVALID_OPERATION_QUALIFICATION');
+  assert.equal(read, false);
+  // A getter on the request's resolution itself is never called by either helper.
+  let reads = 0;
+  const request = { ...h.request }; Object.defineProperty(request, 'resolution', { enumerable: true, get() { reads++; return '720'; } });
+  assert.deepEqual(h.selector.orientationQualification({ inspection: h.inspection, request, runtimeIdentity: RUNTIME, settings: CPU }), {});
+  assert.equal(h.selector.explainResize({ inspection: h.inspection, request, runtimeIdentity: RUNTIME, settings: CPU }), null);
+  assert.equal(reads, 0);
+});
+
 test('reported orientation must be explicit zero with an identity matrix and cannot conceal conflicting legacy data', () => {
   const displaymatrix = '00000000:        65536           0           0\n00000001:            0       65536           0\n00000002:            0           0  1073741824';
   const explicit = fixture({ mutate: p => { p.streams[0].side_data_list = [{ side_data_type: 'Display Matrix', displaymatrix, rotation: 0 }]; } });
@@ -236,7 +292,11 @@ test('accessors and hidden family authority are rejected before any getter runs'
   const source = receipt(h); Object.defineProperty(source.completeSource.video, 'frames', { enumerable: true, get() { reads++; return 120; } });
   badSource(() => h.selector.verifyCollectedSource(selection, source));
   const inspection = { get probe() { reads++; return h.source; } };
-  invalid(() => h.selector.orientationQualification({ inspection, request: h.request, runtimeIdentity: RUNTIME, settings: CPU }));
+  // Q1a: an unrelated Keep Source request no longer walks the inspection at
+  // all; the resize route still walks it and refuses the accessor unread.
+  assert.deepEqual(h.selector.orientationQualification({ inspection, request: h.request, runtimeIdentity: RUNTIME, settings: CPU }), {});
+  const resize = fixture({ width: 1920, absent: true, overrides: { resolution: '720' } });
+  invalid(() => resize.selector.orientationQualification({ inspection, request: resize.request, runtimeIdentity: RUNTIME, settings: CPU }));
   assert.equal(reads, 0);
 });
 

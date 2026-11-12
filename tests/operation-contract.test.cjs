@@ -124,6 +124,44 @@ test('orthogonal display matrices choose portrait bounds and are normalized only
   assert.equal(unchanged.filterRequired, false); assert.equal(unchanged.output.orientation, 'preserve-source');
 });
 
+test('fitting never depends on orientation, so unreported orientation needs no evidence unless a real resize runs', () => {
+  const unreported = (width, height, sar = rational(1)) => {
+    const source = video(width, height);
+    Object.assign(source.geometry, { sampleAspectRatio: sar, rotationDegrees: unknown(), rotationSource: 'not-reported', legacyRotationDegrees: unknown(), displayMatrix: unknown() });
+    return source;
+  };
+  for (const [width, height, resolution, box] of [[1920, 1080, '1080', [1920, 1080]], [1920, 1080, '1440', [2560, 1440]], [1920, 1080, '2160', [3840, 2160]],
+    [1080, 1920, '1080', [1080, 1920]], [1280, 720, '720', [1280, 720]], [720, 1280, '720', [720, 1280]], [1080, 1080, '1080', [1920, 1080]], [3840, 2160, '2160', [3840, 2160]]]) {
+    const result = resolveGeometry(unreported(width, height), resolution);
+    assert.equal(result.mode, 'already-fits', `${width}x${height}@${resolution}`); assert.equal(result.filterRequired, false);
+    assert.deepEqual(result.box, { width: box[0], height: box[1] }); assert.equal(result.display.rotationDegrees, null);
+    assert.deepEqual(result.output, { width, height, sampleAspectRatio: { numerator: '1', denominator: '1' }, orientation: 'preserve-source' });
+    // The same decision as for every explicit orthogonal orientation.
+    for (const degrees of [0, 90, 180, 270]) {
+      const reported = video(width, height); reported.geometry.rotationDegrees = rational(degrees); reported.geometry.legacyRotationDegrees = rational(degrees);
+      assert.equal(resolveGeometry(reported, resolution).mode, 'already-fits');
+    }
+  }
+  // A real downscale still needs to know which way the picture is shown.
+  for (const [width, height, resolution] of [[1920, 1080, '720'], [3840, 2160, '1080'], [1080, 1920, '720'], [2560, 1440, '1080']]) {
+    assert.throws(() => resolveGeometry(unreported(width, height), resolution), { code: 'GEOMETRY_ORIENTATION_UNKNOWN' });
+  }
+  // The decision uses the display size: 1440x1080 at SAR 4:3 is shown as 1920x1080.
+  assert.equal(resolveGeometry(unreported(1440, 1080, rational(4, 3)), '1080').mode, 'already-fits');
+  assert.throws(() => resolveGeometry(unreported(1440, 1080, rational(4, 3)), '720'), { code: 'GEOMETRY_ORIENTATION_UNKNOWN' });
+  // Reported, partial or malformed orientation is never treated as absent, even when the picture fits.
+  for (const change of [g => { g.legacyRotationDegrees = rational(90); }, g => { g.displayMatrix = { state: 'malformed', reason: 'bad' }; },
+    g => { g.rotationSource = 'display-matrix'; }, g => { g.rotationSource = 'legacy-rotate-tag'; }]) {
+    const source = unreported(1280, 720); change(source.geometry);
+    assert.throws(() => resolveGeometry(source, '2160'), { code: 'GEOMETRY_ORIENTATION_UNKNOWN' });
+  }
+  // SAR and conflict checks still come first.
+  const noSar = unreported(1280, 720); noSar.geometry.sampleAspectRatio = unknown();
+  assert.throws(() => resolveGeometry(noSar, '2160'), { code: 'GEOMETRY_SAR_UNKNOWN' });
+  const conflict = unreported(1280, 720); conflict.geometry.issues = ['display-aspect-ratio-mismatch'];
+  assert.throws(() => resolveGeometry(conflict, '2160'), { code: 'GEOMETRY_CONFLICT' });
+});
+
 test('resize refuses unknown SAR/orientation, interlace and conflicting or non-orthogonal matrices', () => {
   for (const [change, code] of [
     [source => { source.geometry.sampleAspectRatio = unknown(); }, 'GEOMETRY_SAR_UNKNOWN'],

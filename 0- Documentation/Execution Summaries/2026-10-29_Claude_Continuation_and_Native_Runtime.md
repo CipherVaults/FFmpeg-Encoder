@@ -636,3 +636,25 @@ The design decisions are in record 37's new "C4 amendments" section.
   - `VENDOR_TESTED_EVIDENCE` has no consumer yet, so removing the mark needs a later code change.
   - O4 gains A3's stricter option; O7 includes omission; O8 offers "discuss later"; O9 covers only unmarked files.
 - **Limits:** the AMF/QSV verbose-line wording comes from the reviewers' reading of upstream source and has not been observed on hardware.
+
+## Milestone Q starts; slice Q1a — November 12 (Cairo)
+
+- **Start.** Ahmed: "Yes, after reset". The 5-hour window reset at 12:40 Cairo, and `/reentry-check` passed. Record 42 §5's two security scans ran on November 12, so Q is eligible.
+- **Mapping.** Workflow `wf_13432d65-e4c` had four read-only researchers, one per pair of Q rows. [Record 47](../47_Milestone_Q_Plan_2026-11-12.md) is the resulting plan in three waves. Wave 1 is software-only; Wave 2 adds measured cells on real media in the owned folder approved by record 23; Wave 3 needs Ahmed's choices QD1–QD4.
+- **Live finding.** `nvidia-smi` reports driver 621.14, but the family's NVIDIA cell is bound to 621.01 (`src/operation-catalog.cjs:77`). The app refuses NVIDIA range jobs here (fail-closed); CPU range jobs still work.
+- **Q1a, code.**
+  - `src/operation-contract.cjs` `resolveGeometry`: if the file reports no orientation at all and the picture fits (long side ≤ the box's long side, short side ≤ its short side), the result is `already-fits`, with no filter and the source orientation left unchanged. A Full/copy request therefore uses the accepted ordinary builder byte-for-byte; a test asserts argv equality.
+  - `src/operation-family.cjs`:
+    - `explainResize`, a main-only diagnosis. It explains only a real downscale of a file with no reported orientation, and only when no measured family admits the request. It grants nothing.
+    - `orientationQualification` now returns before its bounded inspection walk for any request other than the 720 resize. This fixes a pre-existing fault since 717d967.
+    - Restored spaces in the user-visible refusal messages.
+  - `src/encoder-service.cjs`: re-describes only `GEOMETRY_ORIENTATION_UNKNOWN`, as `OPERATION_RESIZE_UNQUALIFIED`. Any other geometry or operation refusal keeps its code.
+- **Review.** Workflow `wf_5d465cb0-c62`, three lenses plus an adversarial verifier: 8 confirmed, 1 largely refuted, all 8 applied. Two guard mutations were checked by hand; both are caught, and the files were restored byte for byte. The `/security-review` method was run by an independent `reviewer`; the built-in command cannot run here, because the repository has no `origin/HEAD`. PASS, with no finding at 8/10 or above. Both low notes were applied: the family helpers read `resolution` through its descriptor, so no getter runs, and a test pins that a range on an already-fitting file is still refused (`OPERATION_QUALIFICATION_REQUIRED`).
+- **Baseline pins.** `tests/vendor-baseline.test.cjs` re-pins `src/operation-family.cjs` and `src/operation-contract.cjs` at their Q1a bytes. `src/media.cjs` and `src/encode-operation.cjs` keep their 253c567 pins, and the golden ordinary-argv capture passes unedited. One existing test changed its rejection check to the resize route; the getter is still never read (record 47, Q1a notes).
+- **Evidence.**
+  - `q1a-focused` FAILED, retained: two vendor byte pins, before the re-pin.
+  - `q1a-full` with the 5 known failures, on pre-review bytes.
+  - `q1a-focused-2` 166/166 and `q1a-full-2` (5 known failures), on the bytes before the security notes.
+  - `q1a-focused-3` 166/166 and `q1a-full-3` 2569/2579 (5 known failures), on the final bytes.
+  - `q-baseline-full` is indicative only, because an edit landed during the run.
+- **Limits.** No new catalog cell, family or tolerance. HDR is unaffected: HDR accepts Keep Source only. The seal drift for HDR and encode-preservation grows; there is no reseal (D7). Real-window UI checks are not rerun.

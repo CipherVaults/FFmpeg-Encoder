@@ -7,9 +7,9 @@
 // before publication. This module reads no files and launches no processes.
 const path = require('node:path');
 const { ToolError } = require('./process-runner.cjs');
-const { validateSettings } = require('./media.cjs');
+const { validateSettings, selectVideo } = require('./media.cjs');
 const { normalizeProbe } = require('./inspection.cjs');
-const { resolveTimeRange, resolveAudio } = require('./operation-contract.cjs');
+const { resolveTimeRange, resolveAudio, resolveGeometry } = require('./operation-contract.cjs');
 const { assertEncodeOperationPlan, describeEncodeOperationSource, fingerprintEncodeSource } = require('./encode-operation.cjs');
 
 const FAMILY = 'short-sdr-range-v1', MAX_EXTENT_US = 120000000, MAX_BYTES = 512 * 1024 * 1024;
@@ -61,7 +61,7 @@ function sourceIdentity(value) {
 function settings(value) {
   record(value, ['profileId', 'preset', 'quality']); const result = validateSettings(value);
   need(result.quality === 25 && (result.profileId === 'h265-cpu' && result.preset === 'slow'
-    || result.profileId === 'h265-nvidia' && result.preset === 'p5'), 'Only the exact measured CPU slow25 or NVIDIA p5CQ25 HEVC tuple belongs to this family.'); return result;
+    || result.profileId === 'h265-nvidia' && result.preset === 'p5'), 'Only the exact measured CPU slow CRF 25 or NVIDIA p5 CQ 25 HEVC tuple belongs to this family.'); return result;
 }
 function environment(value, config, runtimeIdentity) {
   if (config.profileId === 'h265-cpu') { need(value === null || value === undefined, 'A CPU family has a null device environment.'); return null; }
@@ -118,7 +118,7 @@ const absolute = value => ({ n: value.n < 0n ? -value.n : value.n, d: value.d })
 const rat = (n, d = 1n) => ({ n, d });
 function known(value, label) { need(value?.state === 'known', `Known ${label} is required.`); return value.value; }
 function observedRational(value, label) { return rational(known(value, label)); }
-function positiveExtent(value, label) { const result = observedRational(value, label); need(result.n > 0n && compare(result, rat(120n)) <= 0n, `${label} must be positive and at most120 seconds.`); return result; }
+function positiveExtent(value, label) { const result = observedRational(value, label); need(result.n > 0n && compare(result, rat(120n)) <= 0n, `${label} must be positive and at most 120 seconds.`); return result; }
 function orientation(geometry) {
   const rotation = geometry.rotationDegrees, legacy = geometry.legacyRotationDegrees, matrix = geometry.displayMatrix;
   need(!geometry.issues?.length && [rotation, legacy, matrix].every(value => value && value.state !== 'malformed'), 'Source orientation must be complete and unambiguous.');
@@ -161,10 +161,10 @@ function sourceFacts(probe, actualBytes) {
   const video = probe.streams.find(item => item.codec_type === 'video'), audio = probe.streams.find(item => item.codec_type === 'audio');
   need(video && audio && video.index !== audio.index && video.codec_name === 'h264' && video.profile === 'High' && video.pix_fmt === 'yuv420p'
     && video.field_order === 'progressive' && Number(video.disposition?.attached_pic || 0) === 0
-    && (video.width === 1920 && video.height === 1080 || video.width === 1280 && video.height === 720), 'Only progressive8-bit H264 High1080p/720p source video belongs to this family.');
-  need(['30/1', '60/1'].includes(video.avg_frame_rate) && video.r_frame_rate === video.avg_frame_rate, 'Only matching nominal and average30/1 or60/1 rates belong to this family.');
+    && (video.width === 1920 && video.height === 1080 || video.width === 1280 && video.height === 720), 'Only progressive 8-bit H264 High 1080p/720p source video belongs to this family.');
+  need(['30/1', '60/1'].includes(video.avg_frame_rate) && video.r_frame_rate === video.avg_frame_rate, 'Only matching nominal and average 30/1 or 60/1 rates belong to this family.');
   need(audio.codec_name === 'aac' && audio.profile === 'LC' && audio.sample_fmt === 'fltp' && String(audio.sample_rate) === '48000'
-    && audio.channels === 2 && audio.channel_layout === 'stereo', 'Only48kHz stereo AAC LC/fltp source audio belongs to this family.');
+    && audio.channels === 2 && audio.channel_layout === 'stereo', 'Only 48 kHz stereo AAC LC/fltp source audio belongs to this family.');
   streamSideData(video, audio);
   need(probe.format.format_name === 'mov,mp4,m4a,3gp,3g2,mj2', 'Only the observed MOV/MP4 demuxer family is implemented.');
   const media = probe.mediaEvidence, container = media.container;
@@ -176,7 +176,7 @@ function sourceFacts(probe, actualBytes) {
   if (actualBytes !== undefined) need(actualBytes > 0n && actualBytes <= BigInt(MAX_BYTES) && reportedBytes === actualBytes, 'The actual current source size must match the bounded observed container size.');
   const ve = media.streams.find(item => item.index === video.index), ae = media.streams.find(item => item.index === audio.index);
   need(compare(observedRational(ve.geometry.sampleAspectRatio, 'sample aspect ratio'), rat(1n)) === 0n
-    && compare(observedRational(ve.geometry.displayAspectRatio, 'display aspect ratio'), rat(16n, 9n)) === 0n, 'Only explicit square-pixel16:9 geometry belongs to this family.');
+    && compare(observedRational(ve.geometry.displayAspectRatio, 'display aspect ratio'), rat(16n, 9n)) === 0n, 'Only explicit square-pixel 16:9 geometry belongs to this family.');
   need(['color_transfer', 'color_primaries', 'color_space'].every(key => video[key] === 'bt709') && video.color_range === 'tv' && video.chroma_location === 'left'
     && !ve.hdr.entries.length && !ae.hdr.entries.length, 'Explicit BT709 limited-range SDR without reported HDR metadata is required.');
   const videoTimeline = timeline(ve), audioTimeline = timeline(ae), rate = Number(video.avg_frame_rate.split('/')[0]);
@@ -188,15 +188,15 @@ function requestScope(request, facts, contract) {
   need(request.operation === 'encode' && request.target === 'matroska' && ['preserve', 'sdr'].includes(request.hdrPolicy)
     && request.audioPolicy === 'precision-aac' && request.aacBitrateKbps === null
     && Array.isArray(request.omissionRequestIds) && request.omissionRequestIds.length === 0, 'Only SDR Matroska range encoding with layout-default precision AAC and no omissions belongs to this family.');
-  need(request.resolution === 'source' || request.resolution === '720' && facts.width === 1920, 'Only Keep Source or1080p to720p belongs to this family.');
+  need(request.resolution === 'source' || request.resolution === '720' && facts.width === 1920, 'Only Keep Source or 1080p to 720p belongs to this family.');
   const range = contract?.range || resolveTimeRange(facts.videoEvidence, request.range);
   need(range.kind === 'range' && range.resolved && Number.isSafeInteger(range.resolved.startUs) && Number.isSafeInteger(range.resolved.endUs), 'A resolved bounded range is required.');
   const span = range.resolved.endUs - range.resolved.startUs;
-  need(range.resolved.startUs >= 0 && span >= 500000 && span <= 30000000 && range.resolved.endUs <= MAX_EXTENT_US, 'The resolved range must retain0.5 to30 seconds within the bounded source.');
+  need(range.resolved.startUs >= 0 && span >= 500000 && span <= 30000000 && range.resolved.endUs <= MAX_EXTENT_US, 'The resolved range must retain 0.5 to 30 seconds within the bounded source.');
   const audio = contract?.audio || resolveAudio([facts.audioEvidence], { target: request.target, range, audioPolicy: request.audioPolicy, aacBitrateKbps: request.aacBitrateKbps });
   need(audio.streams.length === 1 && audio.streams[0].index === facts.audioIndex && audio.streams[0].mode === 'precision-aac'
     && audio.streams[0].sampleRate === 48000 && audio.streams[0].channels === 2 && audio.streams[0].channelLayout === 'stereo'
-    && audio.streams[0].bitrateKbps === 320 && audio.streams[0].bitrateOrigin === 'layout-policy', 'The canonical audio contract must retain48kHz stereo at the measured layout-default320kb/s AAC policy.');
+    && audio.streams[0].bitrateKbps === 320 && audio.streams[0].bitrateOrigin === 'layout-policy', 'The canonical audio contract must retain 48 kHz stereo at the measured layout-default 320 kb/s AAC policy.');
   return Object.fromEntries(['range', 'resolution', 'target', 'hdrPolicy', 'audioPolicy', 'aacBitrateKbps', 'omissionRequestIds'].map(key => [key, structuredClone(request[key])]));
 }
 const BINDINGS = ['plan', 'settings', 'sourceIdentity', 'sourceProbeFingerprint', 'runtimeIdentity', 'environment', 'budget', 'executionBudgetMs'];
@@ -225,6 +225,13 @@ function inert(value, state = { count: 0 }, depth = 0) {
     const descriptor = Object.getOwnPropertyDescriptor(value, key);
     need(typeof key === 'string' && descriptor.enumerable && own(descriptor, 'value'), 'Inspection cannot contain accessors or hidden data.'); inert(descriptor.value, state, depth + 1);
   }
+}
+
+// Reads only a plain data property, so no getter runs before the inert walk.
+function resolutionOf(request) {
+  if (!plain(request)) return null;
+  const descriptor = Object.getOwnPropertyDescriptor(request, 'resolution');
+  return descriptor && own(descriptor, 'value') && typeof descriptor.value === 'string' ? descriptor.value : null;
 }
 
 class OperationFamilySelector {
@@ -256,10 +263,12 @@ class OperationFamilySelector {
   }
   invalidate(diagnosticReason) { need(typeof diagnosticReason === 'string' && /^[\x20-\x7e]{1,512}$/.test(diagnosticReason) && diagnosticReason.trim(), 'Invalidation requires a bounded diagnostic reason.'); this.#epoch++; }
   orientationQualification(options) {
-    record(options, ['inspection', 'request', 'runtimeIdentity', 'settings']); inert(options.inspection); inert(options.request);
+    record(options, ['inspection', 'request', 'runtimeIdentity', 'settings']);
     // This helper can only interpret absence for the one resize route. Avoid
-    // adding family/runtime preconditions to unrelated ordinary Full requests.
-    if (!plain(options.request) || options.request.resolution !== '720') return {};
+    // adding family/runtime preconditions, including the bounded inert walk,
+    // to unrelated ordinary Full requests.
+    if (resolutionOf(options.request) !== '720') return {};
+    inert(options.inspection); inert(options.request);
     // Ordinary Full settings and known recipes can legitimately be outside the
     // family; they receive no orientation override and keep their existing path.
     record(options.settings, ['profileId', 'preset', 'quality', 'recipeId'], ['profileId', 'preset', 'quality']);
@@ -272,6 +281,40 @@ class OperationFamilySelector {
       return freeze({ identityOrientationQualification: { evidenceId: selected.qualification.evidenceId, runtimeIdentity,
         sourceEvidenceFingerprint: fingerprintEncodeSource(probe), videoIndex: facts.videoIndex } });
     } catch { return {}; }
+  }
+  // Main-only diagnosis for a resize whose plan could not be built. It grants
+  // nothing: it returns null whenever some measured family admits the request,
+  // so the original geometry refusal stands, and otherwise names the missing
+  // qualification instead of an orientation detail of an unqualified route.
+  explainResize(options) {
+    record(options, ['inspection', 'request', 'runtimeIdentity', 'settings']);
+    const resolution = resolutionOf(options.request); if (resolution === null || resolution === 'source') return null;
+    inert(options.inspection); inert(options.request);
+    // Explain only a real downscale of a picture with no reported orientation
+    // at all. Already-fitting requests, partial or conflicting orientation and
+    // other geometry faults keep their own specific refusal.
+    try {
+      const probe = normalizeProbe(options.inspection.probe), index = selectVideo(probe).index;
+      const evidence = structuredClone(probe.mediaEvidence.streams.find(item => item.index === index)), g = evidence?.geometry;
+      if (!plain(g) || g.rotationSource !== 'not-reported'
+          || !['rotationDegrees', 'legacyRotationDegrees', 'displayMatrix'].every(field => g[field]?.state === 'unknown')) return null;
+      g.rotationSource = 'qualified-identity'; g.rotationDegrees = { state: 'known', value: { numerator: '0', denominator: '1' } };
+      if (resolveGeometry(evidence, resolution).mode !== 'downscale') return null;
+    } catch { return null; }
+    const refusal = reason => freeze({ code: 'OPERATION_RESIZE_UNQUALIFIED',
+      message: `This resize has no measured qualification, so no plan was created. ${reason}`.slice(0, 1024) });
+    let config, runtimeIdentity;
+    try {
+      record(options.settings, ['profileId', 'preset', 'quality', 'recipeId'], ['profileId', 'preset', 'quality']);
+      config = validateSettings(options.settings); runtimeIdentity = digest(options.runtimeIdentity, 'Paired runtime');
+    } catch { return refusal('The encoder settings are outside every measured family.'); }
+    if (!this.#families.some(item => item.runtimeIdentity === runtimeIdentity && same(item.settings, config))) {
+      return refusal('No measured family exists for these encoder settings and this runtime.');
+    }
+    try {
+      requestScope(options.request, sourceFacts(normalizeProbe(options.inspection.probe)));
+      return null;
+    } catch (error) { return refusal(typeof error?.message === 'string' && error.message ? error.message : 'The file or request is outside the measured family.'); }
   }
   verifyCollectedSource(token, evidence) {
     return checked(SOURCE_FAILED, () => {
@@ -291,7 +334,7 @@ class OperationFamilySelector {
         && video.properties.sideDataPolicy === 'h26x-unregistered-sei-only' && video.properties.framesChecked === video.frames,
       'Every complete source video frame must receive the exact qualified SAR, chroma and side-data checks.');
       const first = rational(video.firstTime, true), end = rational(video.endTime, true);
-      need(first.n === 0n && end.n > 0n && compare(end, rat(120n)) <= 0n, 'Complete decoded video must start at zero and end within120 seconds.');
+      need(first.n === 0n && end.n > 0n && compare(end, rat(120n)) <= 0n, 'Complete decoded video must start at zero and end within 120 seconds.');
       for (const key of ['maximumNominalCadenceErrorUs', 'maximumNominalDurationErrorUs', 'maximumNominalPhaseErrorUs']) {
         integer(video[key], key); need(BigInt(video[key]) * facts.videoTick.d <= facts.videoTick.n * 1000000n, 'Complete source video is not CFR within its one observed source timestamp tick.');
       }
@@ -301,7 +344,7 @@ class OperationFamilySelector {
       need(audio[0].inputIndex === facts.audioIndex && audio[0].gaps === 0, 'Complete source audio must name the original stream and contain no gaps.');
       const samples = exactInteger(audio[0].sampleCount, 'Complete source sample count', 1n, 120n * 48000n);
       const audioFirst = rational(audio[0].firstTime, true), audioEnd = rational(audio[0].endTime, true);
-      need(audioFirst.n === 0n && audioEnd.n > 0n && compare(audioEnd, rat(120n)) <= 0n, 'Complete decoded audio must start at zero and end within120 seconds.');
+      need(audioFirst.n === 0n && audioEnd.n > 0n && compare(audioEnd, rat(120n)) <= 0n, 'Complete decoded audio must start at zero and end within 120 seconds.');
       need(compare(absolute(minus(audioEnd, rat(samples, 48000n))), facts.audioTick) <= 0n, 'Complete source samples and decoded audio extent disagree beyond one observed audio tick.');
       return true;
     });

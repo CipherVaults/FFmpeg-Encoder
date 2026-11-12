@@ -180,7 +180,7 @@ class DiagnosticJournal {
       message: 'Diagnostic history could not be persisted or read completely. Current work must not be reported as fully logged.' };
     return { persisted: false, status: this.snapshot() };
   }
-  snapshot() { return clone({ ...this.#status, sessionId: this.#session, directory: this.directory }); }
+  snapshot() { return clone({ ...this.#status, sessionId: this.#session }); }
   flush() { return this.#pending.then(() => this.snapshot()); }
 
   async #guard(directory, create = false) {

@@ -1,3 +1,5 @@
+> **November 12, 2026, ~03:15 Cairo: milestone P's security pass is done and committed.** Both scans found no vulnerabilities. Four small items were fixed with tests: no private folder paths reach the window from diagnostics, the native output-folder rule matches its message, and a finished native batch no longer blocks device changes. Next: the AMD/Intel design.
+
 > **November 11, 2026, ~22:30 Cairo: Ahmed started a full-throttle run until Friday's reset** ([record 44](44_Leftover_Quota_and_Full_Throttle_Run_2026-11-11.md)).
 > - Since November 4, 0.7 runs only on quota left at the end of each week. Security Cloud is dropped; the in-session scans still run first.
 > - This run: security scans, fixes, the AMD/Intel design, then the build.

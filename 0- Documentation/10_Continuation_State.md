@@ -1,3 +1,12 @@
+> **ACTIVE — November 12, 2026, ~03:15 Cairo. Writer lock phase `security-pass-closed`. The security pass for milestone P is COMMITTED in the commit that carries this banner** (run rules: [record 44](44_Leftover_Quota_and_Full_Throttle_Run_2026-11-11.md)).
+> - **`claude-security` changes scan** (since `253c567`, 101 files, medium): 0 findings, stamped `verified`. 28/28 researchers returned; the panel rejected all 3 candidates.
+> - **`/security-review` method** (independent `reviewer`): PASS, no exploitable finding.
+> - **Fixed with tests** (Codex `sec-fixes`): the two diagnostics path items (record 42 §6), the native output folder now refuses the whole app data folder, and a finished native plan no longer blocks device changes.
+> - **Evidence:** `sec-fixes-focused` 346/346; `sec-fixes-full` with the 5 known failures; ledger `sec-fixes-breaks` 7/8 caught (1 equivalent).
+> - **Quota:** Claude 36% of the 5-hour window (resets 07:40 Cairo) and 19% weekly. Codex 59% weekly.
+> - **Next:** the AMD/Intel first-class design (a multi-agent design workflow is running), its independent review, then the build.
+> - The banner below is history.
+
 > **ACTIVE — November 11, 2026, ~22:30 Cairo. Writer lock phase `run-2026-11-11`. Ahmed started a full-throttle run** ([record 44](44_Leftover_Quota_and_Full_Throttle_Run_2026-11-11.md)).
 > - **Recorded now:** the November 4 leftover-quota plan (0.7 runs on end-of-week leftovers, the security scans move to the first leftover run, Security Cloud dropped) and "We don't change anything" on the mother-thread and Projects idea.
 > - **Ahmed, November 11:** "push full throttle, plan around that 5 hourly cycles, leave 5% of that 5 hourly cycles … Yeah, full authority."

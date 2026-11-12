@@ -41,9 +41,9 @@ function readNativeBatchRequest(request) {
   return Object.freeze(value);
 }
 
-// The runtime owner's #destination rules, applied lexically in main to the
-// output folder and to every derived destination.
-const ownedRootOf = stateDir => path.join(path.resolve(stateDir), 'native-files');
+// Main excludes the whole app data folder, including the runtime owner's
+// native-files root, from output folders and every derived destination.
+const stateRootOf = stateDir => path.resolve(stateDir);
 function inside(value, root) {
   const target = path.win32.resolve(value).toLowerCase(), owned = path.win32.resolve(root).toLowerCase();
   return target === owned || target.startsWith(owned + '\\');
@@ -65,7 +65,7 @@ function nativeBatchFolders(request) {
   if (input?.role !== 'input' || output?.role !== 'output') fail('INVALID_FOLDER');
   if (input.path.toLowerCase() === output.path.toLowerCase()) fail('NATIVE_FILE_SAME_FOLDER_UNSUPPORTED');
   if (!/^[A-Za-z]:\\/.test(input.path)) fail('NATIVE_FILE_SOURCE_PATH_UNSUPPORTED');
-  if (!ordinaryLocalFolder(output.path, ownedRootOf(this.stateDir))) fail('NATIVE_FILE_OUTPUT_PATH_UNSUPPORTED');
+  if (!ordinaryLocalFolder(output.path, stateRootOf(this.stateDir))) fail('NATIVE_FILE_OUTPUT_PATH_UNSUPPORTED');
   return { input, output };
 }
 
@@ -139,7 +139,7 @@ function nativeItemRefusal(item, error) {
 function prepareNativeItem(item, { file, destination, inspection, identity, caps, signal }) {
   const plan = this.plan, token = plan.nativeSelection;
   try {
-    if (!nativeDestinationAllowed(destination, ownedRootOf(this.stateDir))) fail('NATIVE_FILE_OUTPUT_PATH_UNSUPPORTED');
+    if (!nativeDestinationAllowed(destination, stateRootOf(this.stateDir))) fail('NATIVE_FILE_OUTPUT_PATH_UNSUPPORTED');
     const { profileId, settings } = token.request;
     const request = { schema: 1, kind: 'native-file', operation: 'encode', fileId: item.id, identityRevision: 0, draftId: plan.id, draftRevision: 0,
       profileId, settings, bitDepth: 8, target: 'matroska', resolution: 'source', range: null, signal: 'sdr', hdrPolicy: 'sdr', audioPolicy: 'copy',
@@ -198,8 +198,13 @@ async function executeNativeJob(item, entry, signal) {
     this.state.progress = { fileId: item.id, stage, duration: null, percent: null };
     emit();
   };
-  const reserved = () => { if (this.plan.reservedPaths.has(entry.destination.toLowerCase())) fail('PROTECTED_SOURCE'); };
+  const destinationAllowed = () => {
+    const stateRoot = stateRootOf(this.stateDir);
+    if (!ordinaryLocalFolder(this.plan.output, stateRoot) || !nativeDestinationAllowed(entry.destination, stateRoot)) fail('NATIVE_FILE_OUTPUT_PATH_UNSUPPORTED');
+  };
+  const reserved = () => { destinationAllowed(); if (this.plan.reservedPaths.has(entry.destination.toLowerCase())) fail('PROTECTED_SOURCE'); };
   try {
+    destinationAllowed();
     if (this.nativeFileRuntime !== null) fail('NATIVE_OWNER_UNSETTLED');
     requireNativeSelection.call(this, entry.selection);
     const jobOwner = {}; this.nativeFileJob = jobOwner;

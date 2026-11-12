@@ -255,7 +255,7 @@ class EncoderService extends EventEmitter {
       // Rejected initialization (including mkdir) is just as retryable as an
       // explicit persisted:false result. Do not retain a rejected promise.
       if (this.diagnosticInitialization === pending) this.diagnosticInitialization = null;
-      this.state.diagnosticWarning = 'Diagnostic history is incomplete. ' + error.message;
+      this.state.diagnosticWarning = 'Diagnostic history is incomplete. The session start could not be saved.';
       throw error;
     }
     // A failed durable start is retryable; caching its false result forever
@@ -278,10 +278,10 @@ class EncoderService extends EventEmitter {
       const contextIds = Object.fromEntries(['batchId', 'planId'].filter(key => this.state[key]).map(key => [key, this.state[key]]));
       const result = await this.diagnostics.append({ ...contextIds, ...event });
       this.state.diagnostics = this.diagnostics.snapshot();
-      if (!result.persisted) this.state.diagnosticWarning = 'Diagnostic history is incomplete. ' + (result.status?.lastError?.message || 'A record could not be saved.');
+      if (!result.persisted) this.state.diagnosticWarning = 'Diagnostic history is incomplete. A record could not be saved.';
       return result;
     } catch (error) {
-      this.state.diagnosticWarning = 'Diagnostic history is incomplete. ' + error.message;
+      this.state.diagnosticWarning = 'Diagnostic history is incomplete. A record could not be saved.';
       return { persisted: false };
     }
   }
@@ -332,9 +332,9 @@ class EncoderService extends EventEmitter {
   }
   closeAdmission() { this.admissionClosed = true; }
   // Record 37 §3.5: a prepared native file plan fixes its selection, source
-  // permissions and options; Cancel or a new folder revokes it first.
+  // permissions and options until it is cancelled, replaced or finished.
   requireNoNativePlan(code) {
-    if (this.plan?.operation === 'native-encode') throw fail(code, NATIVE_MESSAGES[code]);
+    if (this.plan?.operation === 'native-encode' && (this.state.phase === 'ready' || this.busy)) throw fail(code, NATIVE_MESSAGES[code]);
   }
 
   getNativeBackendState() {

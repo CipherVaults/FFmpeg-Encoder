@@ -133,6 +133,67 @@ test('rejected state-directory initialization recovers without replacing the ser
   assert.ok((await h.records()).some(event => event.reason === 'AFTER_MKDIR_RECOVERY'));
 });
 
+test('SEC-F1: mkdir rejection keeps private error text out of diagnosticWarning', async t => {
+  const h = await fixture(t), mkdir = fs.mkdir;
+  const error = Object.assign(new Error('private-mkdir-detail C:\\Users\\secret\\path'), { code: 'EACCES' });
+  fs.mkdir = async (directory, ...args) => {
+    if (directory === h.service.stateDir) throw error;
+    return mkdir(directory, ...args);
+  };
+  try { await assert.rejects(h.service.initializeDiagnostics(), error); }
+  finally { fs.mkdir = mkdir; }
+  const warning = h.service.snapshot().diagnosticWarning;
+  assert.equal(warning, 'Diagnostic history is incomplete. The session start could not be saved.');
+  assert.doesNotMatch(warning, /private-mkdir-detail|Users|secret|path|\\/);
+});
+
+test('SEC-F1: incident rejection keeps private error text out of diagnosticWarning', async t => {
+  const h = await fixture(t); await h.service.initializeDiagnostics();
+  const append = h.service.diagnostics.append;
+  h.service.diagnostics.append = async () => { throw new Error('private-incident-detail C:\\Users\\secret\\path'); };
+  try { assert.deepEqual(await h.service.recordIncident({ stage: 'admission', reason: 'PRIVATE_ERROR' }), { persisted: false }); }
+  finally { h.service.diagnostics.append = append; }
+  const warning = h.service.snapshot().diagnosticWarning;
+  assert.equal(warning, 'Diagnostic history is incomplete. A record could not be saved.');
+  assert.doesNotMatch(warning, /private-incident-detail|Users|secret|path|\\/);
+});
+
+test('SEC-F1: unpersisted incidents use fixed text without reading failure messages', async t => {
+  const h = await fixture(t); await h.service.initializeDiagnostics();
+  let reads = 0;
+  const status = Object.defineProperties({}, Object.fromEntries(['lastError', 'lastFailure'].map(key => [key,
+    { get() { reads++; return { message: 'private-status-detail C:\\Users\\secret\\path' }; } }])));
+  const append = h.service.diagnostics.append;
+  h.service.diagnostics.append = async () => ({ persisted: false, status });
+  try { assert.equal((await h.service.recordIncident({ stage: 'admission', reason: 'UNPERSISTED' })).persisted, false); }
+  finally { h.service.diagnostics.append = append; }
+  assert.equal(reads, 0);
+  assert.equal(h.service.snapshot().diagnosticWarning, 'Diagnostic history is incomplete. A record could not be saved.');
+});
+
+test('SEC-F2: diagnostic state, session, record, history and export results withhold the state directory', async t => {
+  const h = await fixture(t), emitted = [];
+  h.service.on('update', state => emitted.push(state));
+  const initial = h.service.snapshot(), started = await h.service.initializeDiagnostics();
+  const recorded = await h.service.recordIncident({ stage: 'admission', reason: 'PATH_FREE_STATUS' });
+  const session = await h.service.diagnostics.readSession(started.sessionId);
+  const record = await h.service.getDiagnosticRecord({ eventId: recorded.eventId });
+  const history = await h.service.getDiagnosticHistory({ limit: 200 });
+  const exported = await h.service.getDiagnosticExport({ eventIds: [recorded.eventId] });
+  const flushed = await h.service.diagnostics.flush(); h.service.emitState();
+  assert.ok(session.session); assert.ok(record.event); assert.ok(exported.data); assert.equal(emitted.length, 1);
+  const forbidden = [h.service.stateDir, h.service.stateDir.replaceAll('\\', '/'), h.service.stateDir.replaceAll('\\', '\\\\')]
+    .map(value => value.toLowerCase());
+  const scan = value => {
+    if (typeof value === 'string') for (const secret of forbidden) assert.ok(!value.toLowerCase().includes(secret), value);
+    else if (value && typeof value === 'object') for (const [key, child] of Object.entries(value)) {
+      assert.notEqual(key, 'directory'); scan(child);
+    }
+  };
+  [initial, started, recorded, session, record, history, exported, flushed, h.service.snapshot(), emitted].forEach(scan);
+  assert.equal(h.service.diagnostics.directory, path.join(h.service.stateDir, 'diagnostics-v1'), 'main retains its private journal directory');
+});
+
 test('inspection failure keeps its bounded child diagnostic in the file incident', async t => {
   const h = await fixture(t, { inspect: async () => { throw Object.assign(new Error('Inspection failed'),
     { code: 'INVALID_PROBE', stderr: 'x'.repeat(8000) + '\nprecise child failure' }); } });

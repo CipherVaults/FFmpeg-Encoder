@@ -94,6 +94,52 @@ async function safeRecords(h) {
 }
 const storedEvent = async (h, id) => JSON.parse(await fs.readFile(path.join(h.stateDir, 'diagnostics-v1', 'events', id + '.json'), 'utf8')).event;
 
+for (const phase of ['completed', 'failed']) test(`SEC-F4: a ${phase} native batch permits device selection and rechecking`, async t => {
+  const h = await harness(t), before = h.native.snapshot();
+  const request = { revision: before.revision, profileId: 'h264-qsv', settings: before.selection.request.settings, bitDepth: 8 };
+  assert.throws(() => h.s.selectNativeBackend(request), { code: 'NATIVE_FILE_PLAN_ACTIVE' });
+  await assert.rejects(h.s.qualifyNativeBackend({ selectionId: before.selection.selectionId, revision: before.revision }), { code: 'NATIVE_FILE_PLAN_ACTIVE' });
+  await assert.rejects(h.s.refreshNativeBackends(), { code: 'NATIVE_FILE_PLAN_ACTIVE' });
+  if (phase === 'failed') wrap(t, h.s, 'verifyFolders', async () => { throw fault('NATIVE_FILE_SELECTION_STALE'); });
+  h.start();
+  assert.throws(() => h.s.requireNoNativePlan('NATIVE_FILE_PLAN_ACTIVE'), { code: 'NATIVE_FILE_PLAN_ACTIVE' }, 'running plans stay fixed');
+  await h.s.taskPromise;
+  assert.equal(h.s.state.phase, phase); assert.equal(h.entry.selection, null); assert.equal(h.entry.contract, null);
+  assert.equal(h.s.nativeFileRuntime, null); assert.equal(h.s.nativeMediaSlot, null);
+  const current = h.native.snapshot();
+  h.s.selectNativeBackend({ ...request, revision: current.revision });
+  const selected = h.native.snapshot();
+  await h.s.qualifyNativeBackend({ selectionId: selected.selection.selectionId, revision: selected.revision });
+  assert.equal(h.native.snapshot().selection.probeVerified, true); assert.equal(h.s.state.phase, phase);
+  await h.s.refreshNativeBackends(); assert.equal(h.s.state.phase, phase);
+});
+
+for (const when of ['validated', 'assessed']) for (const location of ['state folder', 'diagnostic events']) for (const scope of ['folder', 'destination'])
+  test(`SEC-F3: ${when} ${scope} in ${location} refuses publication`, async t => {
+    const h = await harness(t), forbidden = location === 'state folder' ? h.stateDir : path.join(h.stateDir, 'diagnostics-v1', 'events');
+    const redirect = async () => {
+      if (scope === 'destination') h.entry.destination = path.join(forbidden, h.item.outputName);
+      else {
+        const stat = await fs.lstat(forbidden, { bigint: true });
+        h.s.plan.output = forbidden;
+        h.s.plan.folderIdentities.output = { dev: String(stat.dev), ino: String(stat.ino), birthtimeNs: String(stat.birthtimeNs) };
+      }
+    };
+    if (when === 'validated') wrap(t, NativeFileRuntimeOwner.prototype, 'validate', async (original, ...args) => {
+      const result = await original(...args); await redirect(); return result;
+    });
+    else wrap(t, NativeFileSourceOwner.prototype, 'assessCompleted', async (original, ...args) => {
+      const result = await original(...args); await redirect(); return result;
+    });
+    let links = 0;
+    wrap(t, fs, 'link', async (original, from, to) => { if (to === h.entry.destination) links++; return original(from, to); });
+    await h.finish();
+    assert.equal(h.item.status, 'failed'); assert.equal(h.item.reasonCode, 'NATIVE_FILE_OUTPUT_PATH_UNSUPPORTED');
+    assert.equal(h.item.reason, NATIVE_MESSAGES.NATIVE_FILE_OUTPUT_PATH_UNSUPPORTED);
+    assert.equal(links, 0); assert.equal(h.counts.published, 0); await absent(h.entry.destination);
+    assert.equal(h.item.outputDisposition.kind, 'retained-completed');
+  });
+
 test('NS-10: forged/stale Start and unavailable controls leave ready authority untouched; a later valid Start runs', async t => {
   const h = await harness(t), token = h.entry.selection, contract = h.entry.contract, controls = h.s.nativeFiles;
   const attempt = (code) => {

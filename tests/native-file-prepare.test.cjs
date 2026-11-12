@@ -9,7 +9,7 @@ const { InspectionCache } = require('../src/inspection-cache.cjs');
 const { reconstructInspection } = require('../src/inspection.cjs');
 const { PROFILES } = require('../src/media.cjs');
 const { createNativeFileControls, createTestNativeFileControls, NATIVE_MESSAGES } = require('../src/native-file-controls.cjs');
-const { nativeDestinationAllowed } = require('../src/native-file-workspace.cjs');
+const { nativeDestinationAllowed, prepareNativeItem } = require('../src/native-file-workspace.cjs');
 const { MARKER_KEY, OUTPUT_ID_KEY } = require('../src/provenance.cjs');
 const { nativeRuntime, nativeBackends, nativeProbe, nativeInspection, nativePolicy } = require('./native-file-fixture.cjs');
 
@@ -21,6 +21,31 @@ const refuses = (fn, expected, label) => assert.rejects(async () => fn(), expect
 const ordinarySettings = { profileId: PROFILES[0].id, preset: PROFILES[0].defaultPreset, quality: PROFILES[0].quality.default };
 const reasons = async (s, reason) => (await s.getDiagnosticHistory({ limit: 200 })).events.filter(e => e.reason === reason);
 const defaultRows = (fx, runtime, files) => [nativePolicy({ runtime, native: fx.native, probe: files['a.mp4'] })];
+
+for (const location of ['state folder', 'diagnostic events', 'uppercase diagnostic events'])
+  test(`SEC-F3: preparation rejects ${location} and permits a prefix sibling`, async t => {
+    const h = await harness(t), id = randomUUID();
+    const folder = location === 'state folder' ? h.stateDir : path.join(h.stateDir, 'diagnostics-v1', 'events');
+    h.s.folders.set(id, { role: 'output', path: location.startsWith('uppercase') ? folder.toUpperCase() : folder });
+    await assert.rejects(h.s.prepareNativeFileBatch(h.request({ outputFolderId: id })), refusal('NATIVE_FILE_OUTPUT_PATH_UNSUPPORTED'));
+    assert.deepEqual(h.counts, { capabilities: 0, inspect: 0, run: 0 }); assert.equal(h.s.plan, null);
+    const sibling = h.stateDir + '-outputs'; await fsp.mkdir(sibling);
+    const registered = await h.s.registerFolder(sibling, 'output');
+    const ready = await h.s.prepareNativeFileBatch(h.request({ outputFolderId: registered.id }));
+    assert.equal(ready.phase, 'ready'); assert.deepEqual(ready.items.map(item => item.status), ['ready']);
+  });
+
+test('SEC-F3: every prepared destination excludes the whole state folder', async t => {
+  const h = await harness(t), ready = await h.s.prepareNativeFileBatch(h.request());
+  const entry = h.s.plan.entries.get(ready.items[0].id);
+  for (const folder of [h.stateDir, path.join(h.stateDir, 'diagnostics-v1', 'events')]) {
+    const item = { ...ready.items[0] };
+    prepareNativeItem.call(h.s, item, { ...entry, destination: path.join(folder, item.outputName), identity: entry.fingerprint });
+    assert.equal(item.status, 'unsupported'); assert.equal(item.reasonCode, 'NATIVE_FILE_OUTPUT_PATH_UNSUPPORTED');
+    assert.equal(item.reason, text('NATIVE_FILE_OUTPUT_PATH_UNSUPPORTED'));
+  }
+  assert.equal(nativeDestinationAllowed(path.join(h.stateDir + '-outputs', ready.items[0].outputName), h.stateDir), true);
+});
 
 async function harness(t, { devices, profileId = 'h264-qsv', discover = 'cached', files = { 'a.mp4': nativeProbe() }, policies = defaultRows,
   production = false, onInspect, cache, storage } = {}) {
@@ -127,7 +152,7 @@ test('NS-04: the request is exactly four inert fields, and the folders must be d
   // The runtime's destination rules, applied to each derived destination.
   for (const [file, allowed] of [['C:\\out\\a_h264-qsv.mkv', true], ['C:\\out\\a.mp4', false], ['C:\\out\\CON.mkv', false], ['C:\\out\\con.txt.mkv', false],
     ['C:\\out\\a.mkv.', false], ['C:\\out\\a:b.mkv', false], ['\\\\server\\share\\a.mkv', false], [path.join(owned, 'a.mkv'), false], ['C:\\out\\CON_h264-qsv.mkv', true]])
-    assert.equal(nativeDestinationAllowed(file, owned), allowed, file);
+    assert.equal(nativeDestinationAllowed(file, h.stateDir), allowed, file);
 
   // After the folders are verified, a reparse ancestor of the output folder refuses with fixed text.
   // The fake link is shown only to the ordinary-path check, so the journal (which checks its own ancestors) still writes.

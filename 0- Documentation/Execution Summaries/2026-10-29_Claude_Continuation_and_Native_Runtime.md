@@ -476,3 +476,32 @@ The design decisions are in record 37's new "C4 amendments" section.
 - **November 11, ~22:15 Cairo.** Ahmed: "push full throttle, plan around that 5 hourly cycles, leave 5% of that 5 hourly cycles … Yeah, full authority." Run rules: record 44 §3.
 - **Re-entry:** `/reentry-check` passed every check at `2a18036` (HEAD equals the remote, protected tags unchanged, 24 Planning hashes match, 43 requirements intact).
 - **Quota at start:** Claude 33% of its 5-hour window and 5% weekly; Codex 39% weekly.
+
+## Security pass for milestone P — November 11 ~23:20 to November 12 Cairo
+
+- **`claude-security` changes scan** (record 36, decision 2), run from the root session after Ahmed confirmed the plugin's cost question with "Yes".
+  - Range: this branch since `253c567` up to `8d8b510`, 101 changed files, medium effort. Workflow `wf_b3ef61a2-5ac`: 28 researchers dispatched, 28 returned, one verification run.
+  - Result: **0 findings**, stamped `verified`. Three candidates reached the three-voter panel, and all were rejected:
+    - C1, the Codex runner's sandbox-bypass flags: 0/3.
+    - C2, an escaped-`..` gap in the guard hook: 0/3.
+    - C3, an FFmpeg `tee` spec read as one path by the guard: 1/3 (LOW).
+    C2 and C3 have no attacker: the only author of the command is the agent the hook restrains, and the hook is defence in depth.
+  - Report: `artifacts/v0.7/security/CLAUDE-SECURITY-20261111-212331/` (ignored). The plugin's redactor agent is not installed in this session, so root checked the report files for credential-like values and found none.
+  - Cost: it used the rest of Claude's 5-hour window, which hit its limit and reset at 02:40 Cairo, and moved the week from 5% to 19%.
+- **`/security-review` method, independent `reviewer` (Opus xhigh)** on the product code of C1–C4 (`main.js`, `src/diagnostics.cjs`, `src/encoder-service.cjs`, `src/native-file-controls.cjs`, `-runtime.cjs`, `-workspace.cjs`). The built-in `/security-review` command cannot run here, because the repository has no `origin/HEAD`, so the reviewer followed its method.
+  - Verdict: **PASS**, no exploitable finding. Native file encoding is unreachable from the window (no IPC channel, policies `[]`), and the native code was also reviewed as if enabled.
+  - It confirmed the two known diagnostics items (record 42 §6): `diagnosticWarning` copies `error.message` (a mkdir path can reach the window), and the diagnostics snapshot carries `directory`.
+  - Two non-security items: the native output-folder check is narrower than its message (it refuses only `native-files`, not the whole app data folder), and a finished native plan keeps blocking device and settings changes (`NATIVE_FILE_PLAN_ACTIVE`).
+  - One harmless field mix-up: `status.lastError` should be `lastFailure`.
+- **Security Cloud:** not run, and dropped (record 44 §1). The final support matrix will say that no hosted scan ran.
+- **Fixes** (Codex job `sec-fixes`, receipt `artifacts/v0.7/codex/20261112T005558Z-sec-fixes-82c32d`; root reviewed the diff):
+  - F1: `diagnosticWarning` uses fixed text in `initializeDiagnostics` and `recordIncident` (`src/encoder-service.cjs`).
+  - F2: the diagnostics snapshot no longer carries `directory` (`src/diagnostics.cjs`); main keeps its private journal folder.
+  - F3: native output folders and destinations refuse the whole app state folder, at preparation, at job start and at publication (`src/native-file-workspace.cjs`). The message is unchanged and now true.
+  - F4: `requireNoNativePlan` refuses only while a native plan is ready or running, so a finished batch no longer blocks device and settings changes.
+  - 18 new regression tests in `diagnostics-service`, `native-file-job` and `native-file-prepare`.
+- **Evidence:**
+  - `sec-fixes-focused`: 346/346.
+  - `sec-fixes-full`: 2182 pass of 2192, plus the same 5 known parked catalog failures as `c4-full`.
+  - Break ledger `sec-fixes-breaks`: 7/8 caught, restored. The miss is the job-start re-check, which the publication re-check covers (equivalent).
+- **Cost:** Codex's week went from 39% to 59% on this one job. Claude was at 36% of its new 5-hour window and 19% weekly.

@@ -90,6 +90,8 @@ async function main() {
     }, folders);
     await page.click('#choose-input');
     await page.click('#choose-output');
+    // Folder selection settles asynchronously in main; wait rather than race it.
+    await page.waitForFunction(() => document.querySelector('#prepare-batch')?.disabled === false, null, { timeout: 15000 });
     assert.equal(await page.isEnabled('#prepare-batch'), true);
 
     async function capture(phase, scenario) {
@@ -158,6 +160,8 @@ async function main() {
       assert.equal(await page.locator('#encode-progress').getAttribute('value'), knownDuration ? '37.5' : null);
       assert.equal(await page.textContent('#eta'), knownDuration ? '01:15' : '—');
       assert.equal(await page.textContent('#monitor-count'), 'File 1 of 2');
+      // Since the October 11 workbench, the monitor lives in Current Jobs.
+      await page.click('#tab-jobs');
       assert.equal(await page.isVisible('#monitor-panel'), true);
       const phase = knownDuration ? 'monitor-determinate' : 'monitor-unknown';
       for (const scenario of scenarios) await capture(phase, scenario);

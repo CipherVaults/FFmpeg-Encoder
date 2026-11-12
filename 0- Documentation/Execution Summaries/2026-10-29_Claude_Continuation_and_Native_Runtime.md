@@ -593,3 +593,20 @@ The design decisions are in record 37's new "C4 amendments" section.
   - `vendor-s5-focused`: 90/90.
   - `vendor-s5-full`: 2564 of 2574 pass, with the 5 known parked failures.
   - Not run yet: `test:layout`, `test:product` and a live look in both themes. They open windows on Ahmed's desktop.
+
+## Desktop UI smoke tests and the theme check — November 12 (Cairo)
+
+- **Permission:** Ahmed, "Yes, run them now".
+- **`npm run test:layout`:**
+  - Run 1 failed at `scripts/layout-smoke.cjs:161`. `#monitor-panel` was not visible because, since the October 11 workbench (`e88ee64`), the monitor lives in Current Jobs. The script was last changed on September 8 and had not run since. This is not a slice 5 regression. The failure artifacts stay in `artifacts/layout-smoke-1794470406555/`.
+  - Run 2 failed earlier, at line 93: Prepare was checked before the folder choice settled (a timing race).
+  - Fix, script only: open `#tab-jobs` before the monitor check, and wait up to 15 s for `#prepare-batch` to enable. A before-copy is in `artifacts/v0.7/evidence/smoke-2026-11-12/before-layout-fix/`.
+  - Runs 3 and 4 PASS, 15 layouts each.
+- **`npm run test:product`:** PASS on the first run (6 cases, 10 layouts; source and pre-existing output SHA-256 unchanged).
+- **Theme check** (`artifacts/v0.7/evidence/smoke-2026-11-12/theme-check.cjs`, screenshots in `theme2/`):
+  - `h265-amd` and `h264-intel` were marked available by a harness-only override of the capability return value. This computer has no AMD/Intel adapter.
+  - In dark and light: the mark shows for both vendors and hides for `h265-cpu`. The tooltip is exact, and the help panel adds the AMD or Intel line.
+  - The summary colour is `rgb(255,208,138)` on dark and `rgb(128,80,19)` on light: the existing warning tokens, with no palette change.
+  - "Starting values" and the QP/ICQ labels show. Capability rows name the adapter and show "8-bit only on this computer — 10-bit: …".
+  - Harness side effect: the "remains selected but is unavailable" notice comes from main's real capability result, which the override does not touch. It would not appear on a real AMD/Intel computer.
+- **Limits:** no real AMD/Intel encode has run. Result-row marks are covered by `tests/ui-vendor.test.cjs` only.

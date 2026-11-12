@@ -1,4 +1,14 @@
-> **ACTIVE — November 12, 2026. Writer lock phase `vendor-s5`. AMD/Intel slice 5 (the UI) is COMMITTED in the commit that carries this banner.** All five slices of [record 45](45_AMD_Intel_First_Class_Design_2026-11-12.md) are built and tested with fakes.
+> **ACTIVE — November 12, 2026. Writer lock phase `vendor-smoke`. The desktop UI smoke tests PASS, and the ⚠ mark was checked live in both themes.**
+> - **`test:layout`:** the first run failed (`artifacts/layout-smoke-1794470406555/`, retained). The script, last changed on September 8, still looked for the progress monitor on Encode. The October 11 workbench had moved it to Current Jobs. A second run hit a timing race at the folder step. Root fixed only `scripts/layout-smoke.cjs`: it opens Current Jobs before that check and waits for Prepare to enable. Two runs then passed, 15 layouts each (`layout-smoke-1794470594650`, `-1794470612270`).
+> - **`test:product`:** PASS on the first run. The six ordinary profiles ran with 8/10-bit outputs fully decoded; the source and pre-existing output hashes were unchanged; 10 layouts.
+> - **Theme check** (`artifacts/v0.7/evidence/smoke-2026-11-12/theme2/`; the vendor rows are a harness-only override, since this computer has no AMD/Intel adapter):
+>   - the mark shows for AMD/Intel and hides for CPU, with the exact tooltip and the vendor line;
+>   - colours are `--warning-text` only: `#ffd08a` on dark amber, `#805013` on light teal;
+>   - "Starting values" and the QP/ICQ labels show; capability rows name the adapter and partial depth.
+> - **Next:** Ahmed's hardware checklist and the owner points (record 45 O1–O10), then Q.
+> - The banner below is history.
+
+> **November 12, 2026. Writer lock phase `vendor-s5`. AMD/Intel slice 5 (the UI) is COMMITTED in the commit that carries this banner.** All five slices of [record 45](45_AMD_Intel_First_Class_Design_2026-11-12.md) are built and tested with fakes.
 > - **Evidence:** `vendor-s5-focused` 90/90; `vendor-s5-full` with the 5 known failures.
 > - **Codex** reached its weekly limit (it resets November 18, ~01:00 Cairo).
 > - **Next:**

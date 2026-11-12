@@ -1,3 +1,9 @@
+> **ACTIVE — November 12, 2026. Writer lock phase `vendor-s2`. AMD/Intel slice 2 (the vendor startup check) is COMMITTED in the commit that carries this banner** ([record 45](45_AMD_Intel_First_Class_Design_2026-11-12.md) §3).
+> - Codex's weekly gate is now 100% (Ahmed: "Lift gate to 100%"; record 40 amendment).
+> - **Evidence:** `vendor-s2-focused` 434/434; `vendor-s2-full` with the 5 known failures.
+> - **Next:** slices 3 and 4 (preparation, then guarded execution; Start stays refused for vendors until slice 4, per §12 A4), then the UI in slice 5.
+> - The banner below is history.
+
 > **ACTIVE — November 12, 2026. Writer lock phase `vendor-s01`. AMD/Intel build slices 0 and 1 are COMMITTED in the commit that carries this banner** ([record 45](45_AMD_Intel_First_Class_Design_2026-11-12.md) §10).
 > - The commit adds a golden baseline of every ordinary argv (4,056 cases) and the pure vendor catalog and overlay. No existing file changed, and nothing in the app calls the new modules yet.
 > - **Evidence:** `vendor-s01-focused` 268/268; `vendor-s01-full` with the 5 known failures.

@@ -244,4 +244,4 @@ async function checkCapabilities(options) {
   }
 }
 
-module.exports = { checkCapabilities };
+module.exports = { checkCapabilities, verifyVideo, parseProbe, failureReason };

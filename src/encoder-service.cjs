@@ -12,6 +12,7 @@ const { createOperationTelemetry, assertTelemetryReady, collectOperationTelemetr
 const { runTool, isSharedToolFailure, boundedToolStderr } = require('./process-runner.cjs');
 const { inspectInput, inspectMetadata, finishInspection, parseProbeJson, validateOutput } = require('./inspection.cjs');
 const { checkCapabilities } = require('./capabilities.cjs');
+const { projectVendorCapabilities, failedVendorCapabilities } = require('./vendor-capabilities.cjs');
 const { exists, createStage, sealStage, markStageValidated, retainSealedStage, cleanupStage, publishOutput, readPublishedOutputIdentity } = require('./outputs.cjs');
 const { createOutputId, classifyMarker, historicalSuffix, ProvenanceJournal, generationDescriptionOf } = require('./provenance.cjs');
 const { readFileStamp, readSourceIdentity, sameStamp, sameIdentity, assertIdentityMatches, assessCompletedSource } = require('./source-identity.cjs');
@@ -100,7 +101,8 @@ function notCancelled(signal) { if (signal?.aborted) throw fail('CANCELLED', 'Pr
 const sharedFailure = isSharedToolFailure;
 
 class EncoderService extends EventEmitter {
-  constructor({ ffmpeg, ffprobe, stateDir, run = runTool, inspect = inspectInput, verify = validateOutput, capabilities = checkCapabilities,
+  #vendorBindings = new Map();
+  constructor({ ffmpeg, ffprobe, stateDir, run = runTool, inspect = inspectInput, verify = validateOutput, capabilities = checkCapabilities, vendorCapabilities = null,
     inspectionCache, storageEligibility, inspectionWorkers = 2, provenanceJournal, preferences, diagnostics, appSettings, outputAccess, runtimeIdentity = null, discoverBackends = null, nativeBackends = null,
     operationQualifications = null, operationEvidenceBudget = null, operationEnvironment = null, operationDeadlineMs = 120000,
     operationRuntime = null, operationStorage = null, operationTelemetry = false, remuxOperations = null, hdrOperations = null, encodePreservationOperations = null,
@@ -113,7 +115,7 @@ class EncoderService extends EventEmitter {
     if (nativeFiles !== null && (!nativeFilesKind || (nativeFilesKind === 'injected' && allowInjectedNativeFiles !== true))) {
       throw fail('INVALID_NATIVE_FILE_COMPOSITION', NATIVE_MESSAGES.INVALID_NATIVE_FILE_COMPOSITION);
     }
-    Object.assign(this, { ffmpeg, ffprobe, stateDir, run, inspect, verify, capabilities });
+    Object.assign(this, { ffmpeg, ffprobe, stateDir, run, inspect, verify, capabilities, vendorCapabilities });
     this.inspectionWorkers = inspectionWorkers;
     this.folders = new Map();
     this.plan = null;
@@ -480,10 +482,29 @@ class EncoderService extends EventEmitter {
           nativeCapabilities = discovered.registry;
           capabilityResult.backendDiscovery = discovered.display;
         }
-        await this.recordIncident({ stage: 'capability', reason: 'CAPABILITY_FINISHED', context: capabilityResult });
+        let vendorBindings = new Map(), vendorPrivate;
+        if (this.vendorCapabilities) {
+          try {
+            const vendors = await this.vendorCapabilities({ ffmpeg: this.ffmpeg, ffprobe: this.ffprobe, stateDir: this.stateDir, signal, run: this.run });
+            notCancelled(signal);
+            capabilityResult.vendorProfiles = projectVendorCapabilities(vendors);
+            vendorBindings = new Map(vendors.bindings);
+            vendorPrivate = vendors.nativePrivate;
+          } catch (error) {
+            notCancelled(signal);
+            if (error?.code === 'CANCELLED') throw fail('CANCELLED', 'Vendor capability inspection cancelled.');
+            vendorBindings = new Map();
+            capabilityResult.vendorProfiles = failedVendorCapabilities();
+            vendorPrivate = { message: typeof error?.message === 'string' ? error.message : null,
+              ...diagnosticStderr(error), context: error?.nativePrivate };
+          }
+        }
+        await this.recordIncident({ stage: 'capability', reason: 'CAPABILITY_FINISHED',
+          context: vendorPrivate ? { ...capabilityResult, nativePrivate: vendorPrivate } : capabilityResult });
         await this.recoverProvenance(signal);
         notCancelled(signal);
         this.capabilityResult = capabilityResult;
+        this.#vendorBindings = vendorBindings;
         this.nativeCapabilities = nativeCapabilities;
         // Capability initialization is a separate operation. Returning from it
         // must not erase a completed/failed/cancelled workflow or its timings.
@@ -494,6 +515,7 @@ class EncoderService extends EventEmitter {
         // Partially completed capability/discovery work is not a reusable ready
         // result after cancellation or failure. A retry re-observes ownership.
         this.capabilityResult = null;
+        this.#vendorBindings.clear();
         this.nativeCapabilities = null;
         await this.recordRuntimeVersions(error.runtimeVersions);
         this.state.phase = error.code === 'CANCELLED' ? 'cancelled' : 'failed';

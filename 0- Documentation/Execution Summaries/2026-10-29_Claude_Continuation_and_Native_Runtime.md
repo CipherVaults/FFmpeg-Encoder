@@ -524,3 +524,27 @@ The design decisions are in record 37's new "C4 amendments" section.
   - `vendor-s01-full`: 2325 of 2335 pass, with the same 5 known parked catalog failures.
   - Codex's in-memory guard removals: 28/28 caught.
 - **Not yet reachable:** nothing in the app calls the new modules.
+
+## AMD/Intel build, slice 2: the vendor startup check — November 12 Cairo
+
+- **Codex job `vendor-s2`** (receipt `artifacts/v0.7/codex/20261112T063210Z-vendor-s2-26e914`). The first attempt was refused by the 90% weekly gate. Ahmed chose "Lift gate to 100%" (record 40 amendment, commit `b96af12`).
+- **What it built:**
+  - `src/vendor-capabilities.cjs` (record 45 §3):
+    - its own DXGI read, re-validated through `parseAdapterInventory`;
+    - at most 4 adapters per vendor;
+    - 2-frame FFV1 fixtures under `stateDir/vendor-capability-*`, encoded with the production overlay argv;
+    - `-count_frames` probe, `verifyVideo` and a strict decode;
+    - 20 s per child and 90 s per vendor;
+    - only owned files are removed, after every child has settled;
+    - fixed-text public rows through `projectVendorCapabilities`.
+  - `src/capabilities.cjs`: an export-only change.
+  - `src/encoder-service.cjs`: a constructor option, a private `#vendorBindings` Map set and cleared with `capabilityResult`, and one contained seam in `#getCapabilities`. A non-cancel error turns every vendor row into `VENDOR_CHECK_FAILED`, and the private detail goes to `nativePrivate` only.
+  - `main.js`: the composition.
+  - `tests/main-lifecycle.test.cjs`: its module whitelist gains the new import.
+- **Root review:** the renderer sees only fixed text and `device.description`, and the vendor path reads no native service state. Startup cost: one DXGI helper call when no AMD/Intel adapter exists, and at most 90 s per vendor when one exists but fails.
+- **Evidence:**
+  - `vendor-s2-focused`: 434/434.
+  - `vendor-s2-full`: 2392 of 2402 pass, with the same 5 known parked catalog failures.
+  - Codex's guard and lifecycle removals: 25/25 caught.
+  - Codex's week went from 91% to 93%.
+- **Still unreachable for encoding:** vendor rows appear in the capability result, but preparation does not accept vendor ids until slice 3, and Start does not until slice 4.

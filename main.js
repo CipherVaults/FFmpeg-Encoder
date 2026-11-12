@@ -3,6 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { createHash } = require('node:crypto');
 const { EncoderService } = require('./src/encoder-service.cjs');
+const { checkVendorCapabilities } = require('./src/vendor-capabilities.cjs');
 const { OutputAccess } = require('./src/output-access.cjs');
 const { verifyCandidateRuntime } = require('./src/candidate-runtime.cjs');
 const { createOperationControls } = require('./src/operation-controls.cjs');
@@ -179,7 +180,7 @@ async function createWindow() {
   if (nativeFiles) assertProductionNativeFileControls(nativeFiles);
   service = new EncoderService({ ffmpeg: runtime.ffmpeg, ffprobe: runtime.ffprobe, runtimeIdentity, stateDir,
     ...createOperationControls({ runtime, stateDir, families: FAMILIES, policyIdentity: POLICY_ID }),
-    ...nativeControls, nativeFiles,
+    ...nativeControls, nativeFiles, vendorCapabilities: checkVendorCapabilities,
     outputAccess: new OutputAccess({ openPath: file => shell.openPath(file), showItemInFolder: file => shell.showItemInFolder(file) }) });
   await service.initializeDiagnostics();
   if (quitDuringStartup) { await finishShutdown(); return; }

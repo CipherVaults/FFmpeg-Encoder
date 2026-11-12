@@ -100,6 +100,7 @@ async function harness({ runtimePending = false, diagnosticsPending = false, res
         if (nativeFileComposition === 'injected') throw Object.assign(new Error('Only the production native file controls with an empty catalog may start.'), { code: 'INVALID_NATIVE_FILE_COMPOSITION' });
         return value;
       } };
+    if (id === './src/vendor-capabilities.cjs') return { checkVendorCapabilities: require('../src/vendor-capabilities.cjs').checkVendorCapabilities };
     if (id === './src/encoder-service.cjs') return { EncoderService: Service };
     if (id === './src/output-access.cjs') return require('../src/output-access.cjs');
     if (id === './src/appearance.cjs') return { AppearanceSettings: Appearance };
@@ -122,6 +123,7 @@ test('main reuses one private native registry across discovery observations', as
   assert.ok(first.registry instanceof require('../src/backend-capabilities.cjs').NativeCapabilityRegistry);
   assert.equal(first.registry, second.registry);
   assert.equal(first.ffmpeg, h.verified.ffmpeg);
+  assert.equal(h.service.options.vendorCapabilities, require('../src/vendor-capabilities.cjs').checkVendorCapabilities);
 });
 
 test('shutdown drains children then operation handles/lease before diagnostic closure and exit', async () => {

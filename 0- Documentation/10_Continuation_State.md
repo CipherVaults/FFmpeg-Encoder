@@ -1,3 +1,9 @@
+> **ACTIVE — November 12, 2026. Writer lock phase `vendor-s34`. AMD/Intel slices 3 and 4 (preparation and guarded execution) are COMMITTED in the commit that carries this banner** ([record 45](45_AMD_Intel_First_Class_Design_2026-11-12.md)).
+> - **Independent security review:** PASS with two findings, both fixed by root with tests (an uncertain publication is now reported truthfully; the cache notice is fixed text).
+> - **Evidence:** `vendor-s34-final2` 753/753; `vendor-s34-final2-full` with the 5 known failures.
+> - **Next:** slice 5, the UI (brief `artifacts/v0.7/codex/briefs/codex-vendor-s5-brief.md`). Codex is at 97% weekly with a 100% gate.
+> - The banner below is history.
+
 > **ACTIVE — November 12, 2026. Writer lock phase `vendor-s2`. AMD/Intel slice 2 (the vendor startup check) is COMMITTED in the commit that carries this banner** ([record 45](45_AMD_Intel_First_Class_Design_2026-11-12.md) §3).
 > - Codex's weekly gate is now 100% (Ahmed: "Lift gate to 100%"; record 40 amendment).
 > - **Evidence:** `vendor-s2-focused` 434/434; `vendor-s2-full` with the 5 known failures.

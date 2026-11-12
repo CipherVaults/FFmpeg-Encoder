@@ -33,6 +33,12 @@ const VENDOR_MESSAGES = Object.freeze({
   VENDOR_ENCODE_FAILED: 'The vendor encode failed. No output was published.',
   VENDOR_EXECUTION_UNAVAILABLE: 'Vendor execution is unavailable until its execution checks are installed.',
   VENDOR_VALIDATION_TIMEOUT: 'Vendor output validation reached its time budget. No output was published.',
+  // Ordinary job outcomes keep their own codes so dispositions stay truthful.
+  PUBLICATION_UNCERTAIN: 'Publication could not be confirmed. A copy may exist in the output folder under its final name; check it before use.',
+  CANCELLED: 'Cancelled. No output was published.',
+  INPUT_CHANGED: 'The source file changed while it was being encoded. The completed output was retained without publication.',
+  SOURCE_CHECK_INCOMPLETE: 'The completed source check was incomplete. The completed output was retained without publication.',
+  VENDOR_INSPECTION_REUSE_UNAVAILABLE: 'Inspection reuse is unavailable; using fresh inspection.',
 });
 const fail = code => { throw Object.assign(new Error(VENDOR_MESSAGES[code]), { code }); };
 

@@ -107,14 +107,14 @@ test('reserved stream/chapter tags are suspicious even beside otherwise valid gl
   for (const malformed of [null, [], { format: { tags: [] } }, { streams: {} }, { chapters: [null] }]) assert.equal(classifyMarker(malformed).kind, 'suspicious');
 });
 
-test('all six historical suffixes are recognized without any current hardware or profile input', () => {
-  assert.equal(HISTORICAL_SUFFIXES.length, 6);
+test('all twelve historical suffixes are recognized without any current hardware or profile input', () => {
+  assert.equal(HISTORICAL_SUFFIXES.length, 12);
   for (const suffix of HISTORICAL_SUFFIXES) {
     assert.equal(historicalSuffix(`Recording_${suffix}.mkv`), suffix);
     assert.equal(historicalSuffix(`D:\\fixture\\Recording_${suffix.toUpperCase()}.MKV`), suffix);
     assert.equal(historicalSuffix(`Recording_H265-CPU_${suffix}.mkv`), suffix);
   }
-  for (const name of ['Recording.mkv', 'Recording_H265-CPU_extra.mkv', 'H265-CPU.mkv', 'Recording_H264-AMD-GPU.mkv', null]) assert.equal(historicalSuffix(name), null);
+  for (const name of ['Recording.mkv', 'Recording_H265-CPU_extra.mkv', 'H265-CPU.mkv', 'Recording_H264-Unknown-GPU.mkv', null]) assert.equal(historicalSuffix(name), null);
 });
 
 test('journal intent and final record survive restart in a separate namespace and cannot be overridden', async t => {

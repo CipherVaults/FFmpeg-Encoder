@@ -3,7 +3,14 @@ const fs = require('node:fs/promises');
 const { createReadStream } = require('node:fs');
 const path = require('node:path');
 const { randomUUID, createHash } = require('node:crypto');
-const { PROFILES, validateSettings, selectVideo, describeRecipe, outputPixelFormat, classifyColor } = require('./media.cjs');
+const { selectVideo, outputPixelFormat, classifyColor } = require('./media.cjs');
+const { resolveCatalogSettings, catalogProfile, describeCatalogRecipe, catalogCapability } = require('./encoder-catalog.cjs');
+const { VENDOR_PROFILES, VENDOR_MESSAGES, vendorPixelFormat } = require('./vendor-profiles.cjs');
+const { overlayVendorArgs, vendorArgsHash } = require('./vendor-encode.cjs');
+const { vendorGuard, vendorRefusal, vendorPublicItem, requireVendorRoute, declaredVendorFrames, requireVendorArgs,
+  requireVendorDevice, vendorOutputCheck } = require('./vendor-execution.cjs');
+// The catalog returns ordinary settings unchanged; vendor twins stay main-only.
+const catalogSettings = request => { const resolved = resolveCatalogSettings(request); return resolved.settings || resolved; };
 const { encodeOutputName } = require('./operation-names.cjs');
 const { buildEncodeOperation, validateEncodeOperationOutput, fingerprintEncodeSource, withEncodeOperationTelemetry,
   resolveEncodeOperationInvocation, validateEncodeOperationTelemetry } = require('./encode-operation.cjs');
@@ -106,7 +113,7 @@ class EncoderService extends EventEmitter {
     inspectionCache, storageEligibility, inspectionWorkers = 2, provenanceJournal, preferences, diagnostics, appSettings, outputAccess, runtimeIdentity = null, discoverBackends = null, nativeBackends = null,
     operationQualifications = null, operationEvidenceBudget = null, operationEnvironment = null, operationDeadlineMs = 120000,
     operationRuntime = null, operationStorage = null, operationTelemetry = false, remuxOperations = null, hdrOperations = null, encodePreservationOperations = null,
-    nativeFiles = null, allowInjectedNativeFiles = false }) {
+    nativeFiles = null, allowInjectedNativeFiles = false, vendorAdapters }) {
     super();
     if (![1, 2].includes(inspectionWorkers)) throw new TypeError('Inspection workers must be one or two.');
     // Main composes native file controls once (record 37). Only tests may pass
@@ -116,6 +123,7 @@ class EncoderService extends EventEmitter {
       throw fail('INVALID_NATIVE_FILE_COMPOSITION', NATIVE_MESSAGES.INVALID_NATIVE_FILE_COMPOSITION);
     }
     Object.assign(this, { ffmpeg, ffprobe, stateDir, run, inspect, verify, capabilities, vendorCapabilities });
+    this.vendorAdapters = vendorAdapters;
     this.inspectionWorkers = inspectionWorkers;
     this.folders = new Map();
     this.plan = null;
@@ -321,7 +329,9 @@ class EncoderService extends EventEmitter {
       if (['unsupported', 'provenance-issue'].includes(item.status)) counts.failed++;
       else if (Object.hasOwn(counts, item.status)) counts[item.status]++;
     }
-    return clone({ ...this.state, counts, elapsedSeconds: this.startedAt ? ((this.finishedAt || Date.now()) - this.startedAt) / 1000 : 0 });
+    const items = VENDOR_PROFILES.some(profile => profile.id === this.state.settings?.profileId)
+      ? this.state.items.map(vendorPublicItem) : this.state.items;
+    return clone({ ...this.state, items, counts, elapsedSeconds: this.startedAt ? ((this.finishedAt || Date.now()) - this.startedAt) / 1000 : 0 });
   }
   emitState() {
     this.state.revision++;
@@ -619,7 +629,7 @@ class EncoderService extends EventEmitter {
 
   preferencesSnapshot() {
     const { profileId, settingsByProfile, notices } = this.preferences.snapshot();
-    const capability = this.capabilityResult?.profiles.find(profile => profile.id === profileId);
+    const capability = catalogCapability(this.capabilityResult, profileId);
     if (capability && !capability.available) notices.push(`${capability.label} remains selected but is unavailable: ${capability.reason || 'The encoder could not initialize on this computer.'}`);
     return clone({ inputFolder: this.rememberedFolders.input, outputFolder: this.rememberedFolders.output,
       profileId, settingsByProfile, notices });
@@ -632,7 +642,7 @@ class EncoderService extends EventEmitter {
   }
 
   async saveSettings(request) {
-    const settings = validateSettings(request);
+    const settings = catalogSettings(request);
     return this.mutatePreferences(async () => {
       await this.initializePreferences();
       await this.preferences.saveSettings(settings);
@@ -642,7 +652,7 @@ class EncoderService extends EventEmitter {
   }
 
   getRecipe(request) {
-    return clone(describeRecipe(validateSettings(request)));
+    return clone(describeCatalogRecipe(catalogSettings(request)));
   }
 
   getEncodingDetails(request) {
@@ -667,7 +677,7 @@ class EncoderService extends EventEmitter {
 
   async resetProfile(request) {
     objectKeys(request, ['profileId']);
-    if (!PROFILES.some(profile => profile.id === request.profileId)) throw fail('INVALID_SETTINGS', 'Choose a supported encoding profile.');
+    if (!catalogProfile(request.profileId)) throw fail('INVALID_SETTINGS', 'Choose a supported encoding profile.');
     return this.mutatePreferences(async () => {
       await this.initializePreferences();
       await this.preferences.resetProfile(request.profileId);
@@ -779,6 +789,46 @@ class EncoderService extends EventEmitter {
     }
   }
 
+  prepareVendorItem(item, { file, destination, inspection, identity, marker, indexed, settings, profile, caps }) {
+    requireVendorRoute(inspection, item.operationRequest);
+    const video = selectVideo(inspection.probe);
+    // Refuse silent chroma/range conversions before creating any argv.
+    vendorPixelFormat(profile, video.pix_fmt);
+    const bitDepth = video.pix_fmt === 'yuv420p10le' ? 10 : 8;
+    vendorGuard('capability-depth', catalogCapability(caps, profile.id)?.supportedBitDepths.includes(bitDepth), 'VENDOR_DEPTH_NOT_OFFERED');
+    const binding = this.#vendorBindings.get(`${profile.id}:${bitDepth}`);
+    vendorGuard('preparation-binding', binding !== undefined && binding !== null, 'VENDOR_DEVICE_REQUIRED');
+    const { twinSettings } = resolveCatalogSettings(settings), recipe = describeCatalogRecipe(settings);
+    const outputId = createOutputId();
+    const generationDescription = generationDescriptionOf({ version: 3, kind: 'vendor-encoder', profileId: profile.id,
+      codec: profile.codec, backend: profile.hardware, encoder: profile.encoder, preset: settings.preset,
+      qualityMode: recipe.qualityMode, quality: settings.quality, bitDepth, encoderArgs: recipe.args,
+      appVersion: APP_VERSION, createdAt: new Date().toISOString(),
+      ...(typeof caps.versions?.ffmpeg === 'string' ? { runtimeVersion: caps.versions.ffmpeg.slice(0, 256) } : {}) });
+    vendorGuard('description', generationDescription !== null, 'INVALID_PLAN');
+    let preservation;
+    try { preservation = prepareEncodePreservation.call(this, item, { probe: inspection.probe, identity, settings: twinSettings }); }
+    catch (error) {
+      if (!error.code?.startsWith('ENCODE_PRESERVATION_')) throw error;
+      throw fail('VENDOR_ROUTE_UNQUALIFIED', VENDOR_MESSAGES.VENDOR_ROUTE_UNQUALIFIED);
+    }
+    vendorGuard('preservation', !preservation, 'VENDOR_ROUTE_UNQUALIFIED');
+    const operationPlan = buildEncodeOperation({ input: file, output: destination, settings: twinSettings, inspection,
+      request: item.operationRequest, runtimeIdentity: this.runtimeIdentity, outputId, generationDescription });
+    vendorGuard('compatibility', operationPlan.compatibilityPath === true, 'VENDOR_ROUTE_UNQUALIFIED');
+    const args = overlayVendorArgs(operationPlan.args, { twinSettings, profile, settings, bitDepth, binding });
+    const preparedArgs = Object.freeze([...args.slice(0, -1), OUTPUT_PLACEHOLDER]);
+    const vendor = Object.freeze({ profileId: profile.id, settings: Object.freeze({ ...settings }),
+      twinSettings: Object.freeze(twinSettings), binding, argsHash: vendorArgsHash(preparedArgs), sourceFrameCount: declaredVendorFrames(video) });
+    this.plan.entries.set(item.id, { file, destination, inspection, fingerprint: identity, overridden: this.plan.overrides.has(item.id),
+      reencodeAuthorized: item.reencodeAuthorized, sourceOutputId: marker.outputId || indexed?.outputId,
+      outputId, generationDescription, operationPlan, preparedArgs, vendor });
+    this.plan.ambiguities.delete(item.id);
+    Object.assign(item, { status: 'ready', hardwareTier: 'untested', reason: item.reencodeAuthorized
+      ? 'Explicit re-encoding authorized for this file and prepared batch only.'
+      : this.plan.overrides.has(item.id) ? 'Explicitly treated as original for this plan only.' : '' });
+  }
+
   async prepareItem(item, { input, output, settings, profile, caps, signal, owner }) {
     const progress = this.state.preparation;
     notCancelled(signal);
@@ -804,7 +854,8 @@ class EncoderService extends EventEmitter {
       const { identity, reusable, reason } = await this.identifyForInspection(file, signal);
       assertIdentityMatches(baseline.identity, identity, { stage: 'after-directory-snapshot', message: 'Source identity changed after the directory snapshot.' });
       notCancelled(signal);
-      if (reason) progress.notice ||= preparedPlan.operation === 'native-encode' ? NATIVE_MESSAGES.NATIVE_FILE_INSPECTION_REUSE_UNAVAILABLE : reason;
+      if (reason) progress.notice ||= preparedPlan.operation === 'native-encode' ? NATIVE_MESSAGES.NATIVE_FILE_INSPECTION_REUSE_UNAVAILABLE
+        : VENDOR_PROFILES.includes(profile) ? VENDOR_MESSAGES.VENDOR_INSPECTION_REUSE_UNAVAILABLE : reason;
       let inspection = reusable ? await this.inspectionCache.lookup(identity) : null;
       let probe = inspection?.probe;
       item.inspectionMethod = inspection ? 'reused' : 'fresh';
@@ -886,12 +937,17 @@ class EncoderService extends EventEmitter {
       assertIdentityMatches(identity, await readFileStamp(file), { stage: 'after-inspection', message: 'Source identity changed during inspection.' });
       if (reusable && item.inspectionMethod === 'fresh') {
         await this.inspectionCache.store(identity, inspection);
-        if (this.inspectionCache.warning) progress.notice ||= preparedPlan.operation === 'native-encode' ? NATIVE_MESSAGES.NATIVE_FILE_INSPECTION_REUSE_UNAVAILABLE : this.inspectionCache.warning;
+        if (this.inspectionCache.warning) progress.notice ||= preparedPlan.operation === 'native-encode' ? NATIVE_MESSAGES.NATIVE_FILE_INSPECTION_REUSE_UNAVAILABLE
+          : VENDOR_PROFILES.includes(profile) ? VENDOR_MESSAGES.VENDOR_INSPECTION_REUSE_UNAVAILABLE : this.inspectionCache.warning;
       }
       // Inspection facts remain useful when a later operation policy refuses
       // the file. Duration in the preview is descriptive, never admission.
       item.summary = inspection.summary;
       if (this.plan.operation === 'native-encode') { nativePrivate = prepareNativeItem.call(this, item, { file, destination, inspection, identity, caps, signal }); return; }
+      if (VENDOR_PROFILES.includes(profile)) {
+        this.prepareVendorItem(item, { file, destination, inspection, identity, marker, indexed, settings, profile, caps });
+        return;
+      }
       if (!inspection.color.supported && inspection.color.classification === 'hdr' && this.hdrOperations) {
         const resolveTransformDestination = deferredSdrDestination ? async descriptor => {
           notCancelled(signal);
@@ -914,13 +970,13 @@ class EncoderService extends EventEmitter {
       }
       const video = selectVideo(inspection.probe);
       const depth = /(?:10|12)/.exec(video.pix_fmt)?.[0] || '8';
-      const capability = caps.profiles.find(entry => entry.id === profile.id);
+      const capability = catalogCapability(caps, profile.id);
       if (!capability.supportedBitDepths.includes(Number(depth))) throw fail('UNSUPPORTED_DEPTH', profile.label + ' cannot encode this bit depth on the current device.');
       if (settings.recipeId && !caps.recipes?.find(recipe => recipe.id === settings.recipeId)?.supportedBitDepths.includes(Number(depth))) {
         throw fail('UNSUPPORTED_RECIPE_DEPTH', 'The named recipe has not passed a real encode/decode check for this input bit depth on the current device.');
       }
       const outputId = createOutputId();
-      const recipe = describeRecipe(settings);
+      const recipe = describeCatalogRecipe(settings);
       const pixelFormat = outputPixelFormat(profile, video);
       const generationDescription = generationDescriptionOf({ version: 1, profileId: settings.profileId, codec: profile.codec,
         backend: profile.hardware, encoder: profile.encoder, preset: settings.preset, qualityMode: recipe.qualityMode, quality: settings.quality,
@@ -972,7 +1028,7 @@ class EncoderService extends EventEmitter {
         ? 'Explicit re-encoding authorized for this file and prepared batch only.'
         : this.plan.overrides.has(item.id) ? 'Explicitly treated as original for this plan only.' : '' });
     } catch (error) {
-      if (error.code === 'CANCELLED' || signal.aborted || sharedFailure(error)) throw error;
+      if (error.code === 'CANCELLED' || signal.aborted || !VENDOR_PROFILES.includes(profile) && sharedFailure(error)) throw error;
       if (['INPUT_CHANGED', 'UNSAFE_SOURCE'].includes(error.code)) {
         item.reencodeAuthorized = false;
         this.plan.reencodeAuthorizations.delete(item.id);
@@ -984,6 +1040,12 @@ class EncoderService extends EventEmitter {
       if (error.sourceIdentityDiagnostic) item.sourceIdentityDiagnostic = error.sourceIdentityDiagnostic;
       // Invariant 9 (record 37): a native plan's item keeps fixed text only.
       if (preparedPlan.operation === 'native-encode') nativePrivate = nativeItemRefusal(item, error);
+      if (VENDOR_PROFILES.includes(profile)) {
+        const refusal = vendorRefusal(error);
+        item.reason = refusal.reason; item.reasonCode = refusal.reasonCode;
+        delete item.details; delete item.sourceIdentityDiagnostic;
+        nativePrivate = refusal.nativePrivate;
+      }
     } finally {
       progress.active--;
       progress.workers = progress.workers.filter(entry => entry.fileId !== item.id);
@@ -1069,7 +1131,7 @@ class EncoderService extends EventEmitter {
 
   async prepareSourceBatch(request, operation, native = null) {
     const remux = operation === 'remux';
-    const settings = remux || native ? null : validateSettings(request.settings);
+    const settings = remux || native ? null : catalogSettings(request.settings);
     const input = this.folders.get(id(request.inputFolderId));
     const output = this.folders.get(id(request.outputFolderId));
     if (input?.role !== 'input' || output?.role !== 'output') throw fail('INVALID_FOLDER', 'Select both folders again.');
@@ -1086,7 +1148,7 @@ class EncoderService extends EventEmitter {
     if (this.folders.get(request.inputFolderId) !== input || this.folders.get(request.outputFolderId) !== output) {
       throw fail('INVALID_FOLDER', 'The folder selections changed. Select both folders again.');
     }
-    if (!remux && !native && !caps.profiles.find(profile => profile.id === settings.profileId)?.available) throw fail('UNAVAILABLE_PROFILE', 'The selected encoder cannot initialize on this computer.');
+    if (!remux && !native && !catalogCapability(caps, settings.profileId)?.available) throw fail('UNAVAILABLE_PROFILE', 'The selected encoder cannot initialize on this computer.');
     if (!remux && !native && settings.recipeId && !caps.recipes?.find(recipe => recipe.id === settings.recipeId)?.available) {
       throw fail('UNAVAILABLE_RECIPE', 'The named recipe cannot initialize with its complete settings on this computer. Choose standard options explicitly to continue.');
     }
@@ -1124,7 +1186,7 @@ class EncoderService extends EventEmitter {
           const storage = candidate && await this.storageEligibility.check(candidate.identity.canonicalPath, candidate.identity, { signal });
           if (!storage?.eligible) throw fail('SAME_FOLDER_STORAGE', 'Output beside originals requires verified local fixed NTFS storage. Choose a distinct output folder for this storage.');
         }
-        const profile = remux || native ? null : PROFILES.find(entry => entry.id === settings.profileId);
+        const profile = remux || native ? null : catalogProfile(settings.profileId);
         this.state.items = files.map(entry => ({ id: randomUUID(), name: entry.name, outputName: remux ? remuxOutputName(entry.name, request.target) : encodeOutputName(entry.name, native ? native.token.request.profileId : profile.suffix), status: 'pending', reason: '', reencodeAuthorized: false }));
         draft?.addSources(this.state.items.map(item => ({ fileId: item.id, identityRevision: 0 })));
         this.state.operationDraft = draft ? draft.snapshot() : null;
@@ -1138,7 +1200,7 @@ class EncoderService extends EventEmitter {
       } catch (error) {
         this.state.phase = this.preparationFailure ? 'failed' : signal.aborted || error.code === 'CANCELLED' ? 'cancelled' : 'failed';
         // A native batch reports fixed text; the original stays main-only.
-        const refusal = native ? nativeRefusal(error) : null;
+        const refusal = native ? nativeRefusal(error) : VENDOR_PROFILES.some(row => row.id === settings?.profileId) ? vendorRefusal(error) : null;
         this.state.error = refusal ? refusal.reason : error.message;
         await this.recordIncident({ stage: 'preparation', reason: 'PREPARATION_FAILED', severity: 'error', message: this.state.error,
           ...diagnosticStderr(error), context: { code: refusal ? refusal.reasonCode : error.code || 'PREPARATION_FAILED', ...(refusal ? { nativePrivate: refusal.nativePrivate } : {}) } });
@@ -1212,17 +1274,17 @@ class EncoderService extends EventEmitter {
   async reprepareEncodingSettings(request) {
     objectKeys(request, ['planId', 'draftId', 'revision', 'settings']);
     const plan = this.requireEditableDraft(request.planId, { allowStaleEncoding: true });
-    const settings = validateSettings(request.settings);
+    const settings = catalogSettings(request.settings);
     const caps = await this.getCapabilities();
     if (this.requireEditableDraft(request.planId, { allowStaleEncoding: true }) !== plan) throw fail('STALE_PLAN', 'The batch changed while checking encoder settings.');
-    if (!caps.profiles.find(profile => profile.id === settings.profileId)?.available) throw fail('UNAVAILABLE_PROFILE', 'The selected encoder cannot initialize on this computer.');
+    if (!catalogCapability(caps, settings.profileId)?.available) throw fail('UNAVAILABLE_PROFILE', 'The selected encoder cannot initialize on this computer.');
     if (settings.recipeId && !caps.recipes?.find(recipe => recipe.id === settings.recipeId)?.available) {
       throw fail('UNAVAILABLE_RECIPE', 'The complete named recipe is unavailable; choose ordinary settings explicitly.');
     }
     plan.draft.invalidateEncodingSettings({ draftId: request.draftId, revision: request.revision });
     plan.settings = settings; this.state.settings = settings;
     plan.encodingSettingsStale = false; this.state.encodingSettingsStale = false;
-    const profile = PROFILES.find(entry => entry.id === settings.profileId);
+    const profile = catalogProfile(settings.profileId);
     for (const item of this.state.items) item.outputName = encodeOutputName(item.name, profile.suffix);
     return this.reprepareDraft();
   }
@@ -1247,20 +1309,20 @@ class EncoderService extends EventEmitter {
       this.remuxOperations.invalidate(); this.plan.remuxGrants.clear(); this.plan.remuxCandidates.clear(); this.plan.remuxFacts.clear();
       for (const item of this.state.items) item.outputName = remuxOutputName(item.name, this.plan.draft.fileRequest(item.id).target);
     } else {
-      const profile = PROFILES.find(entry => entry.id === this.plan.settings.profileId);
+      const profile = catalogProfile(this.plan.settings.profileId);
       for (const item of this.state.items) item.outputName = encodeOutputName(item.name, profile.suffix);
     }
     this.state.operationDraft = this.plan.draft.snapshot();
     for (const item of this.state.items) {
       Object.assign(item, { status: 'pending', reason: '', reencodeAuthorized: false });
-      for (const field of ['reasonCode', 'details', 'sourceIdentityDiagnostic', 'summary', 'hdr', 'encodePreservation', 'warnings']) delete item[field];
+      for (const field of ['reasonCode', 'details', 'sourceIdentityDiagnostic', 'summary', 'hdr', 'encodePreservation', 'warnings', 'hardwareTier']) delete item[field];
     }
     const signal = this.begin('preparing');
     this.state.preparation = { total: this.state.items.length, resolved: 0, reused: 0, inspected: 0,
       active: 0, workers: [], stage: 'identity', fileId: null, notice: this.cacheWarning };
     const receiptIds = { batchId: this.state.batchId, planId: this.plan.id };
     const context = { input: { path: this.plan.input }, output: { path: this.plan.output }, settings: this.plan.settings,
-      profile: this.plan.operation === 'remux' ? null : PROFILES.find(profile => profile.id === this.plan.settings.profileId), caps: this.capabilityResult,
+      profile: this.plan.operation === 'remux' ? null : catalogProfile(this.plan.settings.profileId), caps: this.capabilityResult,
       signal, owner: this.state.batchId };
     this.taskPromise = (async () => {
       try {
@@ -1283,7 +1345,7 @@ class EncoderService extends EventEmitter {
         this.markConflicts(); this.state.phase = 'ready';
       } catch (error) {
         this.state.phase = this.preparationFailure ? 'failed' : signal.aborted || error.code === 'CANCELLED' ? 'cancelled' : 'failed';
-        this.state.error = error.message;
+        this.state.error = VENDOR_PROFILES.some(row => row.id === this.state.settings?.profileId) ? vendorRefusal(error).reason : error.message;
         for (const item of this.state.items) { item.reencodeAuthorized = false; if (item.status === 'pending') item.status = 'unprocessed'; }
         this.plan = null; this.state.planId = null;
         await this.recordIncident({ ...receiptIds, stage: 'preparation', reason: 'DRAFT_REPREPARATION_FAILED', severity: 'error', message: error.message,
@@ -1393,13 +1455,13 @@ class EncoderService extends EventEmitter {
         if (!sameIdentity(current, ambiguous.fingerprint)) throw fail('INPUT_CHANGED', 'The possible previous output changed. Prepare the batch again.');
         this.plan.overrides.set(item.id, current);
         await this.prepareItem(item, { input: { path: this.plan.input }, output: { path: this.plan.output }, settings: this.plan.settings,
-          profile: this.plan.operation === 'remux' ? null : PROFILES.find(profile => profile.id === this.plan.settings.profileId), caps: this.capabilityResult, signal, owner: this.state.batchId });
+          profile: this.plan.operation === 'remux' ? null : catalogProfile(this.plan.settings.profileId), caps: this.capabilityResult, signal, owner: this.state.batchId });
         notCancelled(signal);
         this.markConflicts(); this.state.phase = 'ready';
       } catch (error) {
         permissionCode = error.code || 'SOURCE_PERMISSION_FAILED';
         item.status = signal.aborted ? 'unprocessed' : 'unsupported'; item.reason = error.message;
-        this.state.phase = signal.aborted ? 'cancelled' : 'failed'; this.state.error = error.message;
+        this.state.phase = signal.aborted ? 'cancelled' : 'failed'; this.state.error = VENDOR_PROFILES.some(row => row.id === this.state.settings?.profileId) ? vendorRefusal(error).reason : error.message;
         for (const entry of this.state.items) entry.reencodeAuthorized = false;
         this.plan = null; this.state.planId = null;
       } finally {
@@ -1446,7 +1508,7 @@ class EncoderService extends EventEmitter {
         for (const item of items) {
           item.status = 'pending';
           await this.prepareItem(item, { input: { path: this.plan.input }, output: { path: this.plan.output }, settings: this.plan.settings,
-            profile: this.plan.operation === 'remux' ? null : PROFILES.find(profile => profile.id === this.plan.settings.profileId), caps: this.capabilityResult, signal, owner: this.state.batchId });
+            profile: this.plan.operation === 'remux' ? null : catalogProfile(this.plan.settings.profileId), caps: this.capabilityResult, signal, owner: this.state.batchId });
         }
         notCancelled(signal);
         this.markConflicts(); this.state.phase = 'ready';
@@ -1456,7 +1518,7 @@ class EncoderService extends EventEmitter {
           item.reencodeAuthorized = false;
           item.status = signal.aborted ? 'unprocessed' : 'unsupported'; item.reason = error.message;
         }
-        this.state.phase = signal.aborted ? 'cancelled' : 'failed'; this.state.error = error.message;
+        this.state.phase = signal.aborted ? 'cancelled' : 'failed'; this.state.error = VENDOR_PROFILES.some(row => row.id === this.state.settings?.profileId) ? vendorRefusal(error).reason : error.message;
         for (const entry of this.state.items) entry.reencodeAuthorized = false;
         this.plan = null; this.state.planId = null;
       } finally {
@@ -1522,6 +1584,11 @@ class EncoderService extends EventEmitter {
     for (const fileId of selected) {
       const item = this.state.items.find(entry => entry.id === fileId);
       if (!item || !['ready', 'conflict'].includes(item.status)) throw fail('INVALID_SELECTION', 'A selected input is not ready.');
+      const entry = this.plan.entries.get(fileId);
+      if (VENDOR_PROFILES.some(profile => profile.id === this.plan.settings?.profileId)) {
+        vendorGuard('start-entry', Boolean(entry?.vendor), 'INVALID_PLAN');
+      }
+      if (entry?.vendor) requireVendorArgs(entry);
       requireEncodePreservation.call(this, this.plan.entries.get(fileId));
       const key = item.outputName.toLowerCase();
       if (names.has(key)) throw fail('OUTPUT_CONFLICT', 'Select only one input for each output name.');
@@ -1554,6 +1621,7 @@ class EncoderService extends EventEmitter {
         let stage;
         let invocationId;
         let publishedIdentity;
+        let encoderProgress;
         let validatingSource = false;
         let operationTimer;
         let operationController;
@@ -1716,16 +1784,23 @@ class EncoderService extends EventEmitter {
           invocationId = randomUUID();
           const invocationRecord = await this.recordIncident({ stage: 'invocation', reason: entry.remux ? 'REMUX_STARTED' : 'ENCODE_STARTED', fileId: item.id, invocationId,
             context: { executable: this.ffmpeg, argv: args, settings: this.plan.settings,
+              ...(entry.vendor ? { hardwareTier: 'untested' } : {}),
               operation: describeDiagnosticOperation(entry.operationPlan, item.operationRequest),
               ...(protectedReceipt ? { planFingerprint: entry.operationPlan.planFingerprint, evidenceIds: protectedReceipt.evidenceIds, policyIdentity: protectedReceipt.policyIdentity } : {}) } });
           if (protectedReceipt && !invocationRecord.persisted) throw fail('OPERATION_DIAGNOSTICS_INCOMPLETE', 'The prepared invocation and preservation choices could not be recorded; encoding did not start.');
+          if (entry.vendor) {
+            requireVendorArgs(entry);
+            await requireVendorDevice(entry.vendor.binding, { signal: jobSignal, run: this.run, adapters: this.vendorAdapters });
+          }
           const encodeResult = await run(this.ffmpeg, args, { signal: jobSignal, timeoutMs: 0, onProgress: record => {
+            if (entry.vendor) encoderProgress = { frame: record.frame, ended: record.ended };
             if (owner !== this.state.batchId || item.status !== 'running' || this.state.progress?.stage !== processingStage) return;
             const duration = operationDuration(entry);
             const percent = duration > 0 && record.seconds !== null ? Math.min(99, Math.max(0, record.seconds / duration * 100)) : null;
             this.state.progress = { ...record, fileId: item.id, stage: processingStage, duration, percent, etaSeconds: record.speed > 0 && duration > 0 ? Math.max(0, (duration - (record.seconds || 0)) / record.speed) : null };
             if (Date.now() - lastProgress > 150) { lastProgress = Date.now(); this.emitState(); }
           } });
+          if (entry.vendor) vendorGuard('encode-exit', encodeResult.exitCode === 0, 'VENDOR_ENCODE_FAILED');
           setJobStage('output-validation');
           await this.recordIncident({ stage: 'invocation', reason: entry.remux ? 'REMUX_CLOSED' : 'ENCODE_CLOSED', fileId: item.id, invocationId, ...diagnosticStderr(encodeResult), context: { exitCode: 0 } });
           await sealStage(stage);
@@ -1803,13 +1878,15 @@ class EncoderService extends EventEmitter {
           } else if (entry.encodePreservation) {
             requireEncodePreservation.call(this, entry);
             validation = validateEncodeOperationOutput(entry.operationPlan, outputProbe);
-          } else validation = this.verify(entry.inspection, outputProbe, this.plan.settings);
+          } else validation = this.verify(entry.inspection, outputProbe, entry.vendor ? entry.vendor.twinSettings : this.plan.settings);
           const validationRecord = await this.recordIncident({ stage: 'validation', reason: 'OUTPUT_CHECKED', fileId: item.id, invocationId,
             severity: validation.valid ? 'info' : 'error', context: { validation } });
           if (protectedReceipt && !validationRecord.persisted) throw fail('OPERATION_DIAGNOSTICS_INCOMPLETE', 'The output-validation record could not be saved. Output retained without publication.');
           if (!validation.valid) throw fail('INVALID_OUTPUT', validation.errors.join(' '));
           const validationWarnings = mergeWarnings(item.warnings || [], validation.warnings || []);
           if (validationWarnings.length) item.warnings = validationWarnings;
+          if (entry.vendor) await vendorOutputCheck({ vendor: entry.vendor, outputProbe, encoderProgress,
+            duration: entry.inspection.duration, file: stage.file, ffmpeg: this.ffmpeg, run, signal: jobSignal });
           await markStageValidated(stage);
           item.outputDisposition = { kind: 'validated-staged', published: false };
           validatingSource = true;
@@ -1847,6 +1924,7 @@ class EncoderService extends EventEmitter {
           if (entry.operationRuntimeToken) await this.operationRuntime.requireCurrent(entry.operationRuntimeToken, { signal: jobSignal });
           if (storage) await storage.observeGrowth(storageReservation);
           if (storageFailure) throw storageFailure;
+          if (entry.vendor) await requireVendorDevice(entry.vendor.binding, { signal: jobSignal, run: this.run, adapters: this.vendorAdapters });
           const published = await publishOutput(stage, entry.destination, { signal: jobSignal, atomicOnly: this.plan.sameFolder });
           await this.recordIncident({ stage: 'publication', reason: published ? 'OUTPUT_PUBLISHED' : 'OUTPUT_COLLISION', fileId: item.id,
             severity: !published || assessment.kind === 'ctime-only' ? 'warning' : 'info', context: { destination: entry.destination, published, sourceAssessment: assessment } });
@@ -1860,9 +1938,13 @@ class EncoderService extends EventEmitter {
               await this.provenanceJournal.recordPublished(entry.outputId, publishedIdentity);
             }
             catch (error) {
-              item.reason = [item.reason, 'Output saved; provenance bookkeeping remains pending. ' + error.message].filter(Boolean).join(' ');
+              item.reason = entry.vendor ? 'Output saved; provenance bookkeeping remains pending.'
+                : [item.reason, 'Output saved; provenance bookkeeping remains pending. ' + error.message].filter(Boolean).join(' ');
+              if (entry.vendor) await this.recordIncident({ stage: 'publication', reason: 'VENDOR_BOOKKEEPING_PENDING', severity: 'warning',
+                fileId: item.id, context: { nativePrivate: vendorRefusal(error).nativePrivate } });
               if (this.outputAccess && !publishedIdentity) {
-                item.outputAccessWarning = 'Output saved, but its open/reveal action could not be bound safely: ' + error.message;
+                item.outputAccessWarning = entry.vendor ? 'Output saved, but its open/reveal action could not be bound safely.'
+                  : 'Output saved, but its open/reveal action could not be bound safely: ' + error.message;
               }
             }
           }
@@ -1881,17 +1963,20 @@ class EncoderService extends EventEmitter {
             this.plan.reencodeAuthorizations.delete(item.id);
           }
           item.status = signal.aborted || error.code === 'CANCELLED' ? 'cancelled' : 'failed';
-          item.reason = error.message;
-          item.reasonCode = error.code || 'OPERATION_FAILED';
-          item.details = error.stderr?.slice(-4000);
-          if (error.sourceIdentityDiagnostic) item.sourceIdentityDiagnostic = error.sourceIdentityDiagnostic;
+          const vendorFailure = entry.vendor ? vendorRefusal(error) : null;
+          item.reason = vendorFailure ? vendorFailure.reason : error.message;
+          item.reasonCode = vendorFailure ? vendorFailure.reasonCode : error.code || 'OPERATION_FAILED';
+          if (!entry.vendor) {
+            item.details = error.stderr?.slice(-4000);
+            if (error.sourceIdentityDiagnostic) item.sourceIdentityDiagnostic = error.sourceIdentityDiagnostic;
+          }
           await this.recordIncident({ stage: item.status === 'cancelled' ? 'cancellation' : 'encoding', reason: item.status === 'cancelled' ? 'JOB_CANCELLED' : 'JOB_FAILED',
-            severity: item.status === 'cancelled' ? 'info' : 'error', fileId: item.id, message: error.message, ...diagnosticStderr(error),
+            severity: item.status === 'cancelled' ? 'info' : 'error', fileId: item.id, message: item.reason, ...diagnosticStderr(error),
             ...(invocationId ? { invocationId } : {}), context: { code: item.reasonCode, sourceIdentityDiagnostic: item.sourceIdentityDiagnostic,
               exitCode: error.exitCode, signal: error.exitSignal ?? error.signal, evidenceDirectory: error.evidenceDirectory,
-              evidenceFailure: error.evidenceReceipt?.failure } });
+              evidenceFailure: error.evidenceReceipt?.failure, ...(vendorFailure ? { nativePrivate: vendorFailure.nativePrivate } : {}) } });
           if (item.status === 'cancelled') break;
-          if (sharedFailure(error)) { stoppedByFailure = true; this.state.error = error.message; break; }
+          if (sharedFailure(error)) { stoppedByFailure = true; this.state.error = item.reason; break; }
         } finally {
           if (operationTimer) clearTimeout(operationTimer);
           if (storageMonitor) clearInterval(storageMonitor);
@@ -1908,7 +1993,12 @@ class EncoderService extends EventEmitter {
               item.reason = [item.reason, 'Temporary files retained for safety: ' + cleanup.reason].filter(Boolean).join(' ');
             }
           }
-          catch (error) { stoppedByFailure = true; this.state.error = `Could not clean owned temporary output: ${error.message}`; }
+          catch (error) {
+            stoppedByFailure = true;
+            this.state.error = entry.vendor ? VENDOR_MESSAGES.VENDOR_ENCODE_FAILED : `Could not clean owned temporary output: ${error.message}`;
+            if (entry.vendor) await this.recordIncident({ stage: 'publication', reason: 'VENDOR_ENCODE_FAILED', severity: 'error',
+              context: { nativePrivate: vendorRefusal(error).nativePrivate } });
+          }
           if (item.outputDisposition && item.outputDisposition.published !== true) {
             // Validation describes the earlier bound bytes, not whichever file
             // now occupies a pathname. Reconcile even when cleanup found no file
@@ -1928,7 +2018,10 @@ class EncoderService extends EventEmitter {
               const current = await readPublishedOutputIdentity(stage, { afterCleanup: true });
               item.outputAccess = await this.outputAccess.issue({ file: current.canonicalPath, identity: current });
             } catch (error) {
-              item.outputAccessWarning = 'Output saved, but its open/reveal action could not be bound safely: ' + error.message;
+              item.outputAccessWarning = entry.vendor ? 'Output saved, but its open/reveal action could not be bound safely.'
+                : 'Output saved, but its open/reveal action could not be bound safely: ' + error.message;
+              if (entry.vendor) await this.recordIncident({ stage: 'publication', reason: 'VENDOR_OUTPUT_ACTION_UNAVAILABLE', severity: 'warning',
+                fileId: item.id, context: { nativePrivate: vendorRefusal(error).nativePrivate } });
             }
           }
           if (storage && storageReservation) {
@@ -1939,6 +2032,7 @@ class EncoderService extends EventEmitter {
               failure: { code: error.code || 'OPERATION_STORAGE_UNAVAILABLE', message: error.message } };
               item.evidenceWarning = 'Retained evidence accounting is incomplete: ' + error.message; }
           }
+          if (entry.vendor && ['failed', 'cancelled'].includes(item.status)) item.reason = vendorRefusal({ code: item.reasonCode }).reason;
           await this.recordIncident({ stage: 'publication', reason: 'JOB_DISPOSITION', fileId: item.id, context: {
             name: item.name, outputName: item.outputName, settings: this.plan.settings,
             operation: describeDiagnosticOperation(entry.operationPlan, item.operationRequest),
@@ -1951,7 +2045,7 @@ class EncoderService extends EventEmitter {
       }
     } catch (error) {
       stoppedByFailure = true;
-      this.state.error = error.message;
+      this.state.error = VENDOR_PROFILES.some(row => row.id === this.state.settings?.profileId) ? vendorRefusal(error).reason : error.message;
     } finally {
       for (const item of this.state.items) if (item.status === 'pending') item.status = 'unprocessed';
       const terminalPhase = signal.aborted ? 'cancelled' : stoppedByFailure ? 'failed' : 'completed';

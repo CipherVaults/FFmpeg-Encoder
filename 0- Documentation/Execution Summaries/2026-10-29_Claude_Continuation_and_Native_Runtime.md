@@ -548,3 +548,29 @@ The design decisions are in record 37's new "C4 amendments" section.
   - Codex's guard and lifecycle removals: 25/25 caught.
   - Codex's week went from 91% to 93%.
 - **Still unreachable for encoding:** vendor rows appear in the capability result, but preparation does not accept vendor ids until slice 3, and Start does not until slice 4.
+
+## AMD/Intel build, slices 3 and 4: preparation and guarded execution — November 12 Cairo
+
+- **Codex job `vendor-s34`** (receipt `artifacts/v0.7/codex/20261112T065602Z-vendor-s34-19219f`). Both slices landed together, which satisfies record 45 §12 A4.
+- **What changed:**
+  - `src/encoder-service.cjs`: catalog seams; `prepareVendorItem`; Start re-checks `argsHash`; DXGI re-checks before spawn and before publish; the twin settings at `verify`; `vendorOutputCheck`; fixed-text projection of vendor items.
+  - `src/provenance.cjs`: `generationDescriptionV3` and 12 historical suffixes.
+  - `src/preferences.cjs`, plus the new `src/vendor-preferences.cjs` (a separate `vendor-preferences.json`).
+  - The new `src/vendor-execution.cjs`.
+  - Tests: `vendor-preparation`, `vendor-execution`, `vendor-preferences`, `vendor-provenance` and `vendor-s34-guards`. One existing edit: `provenance.test.cjs` for the O9 suffixes.
+- **Independent Claude `reviewer` (the `/security-review` method), slices 2–4:** PASS with findings.
+  - Nothing steers the argv or the device, and no bypass of the shape check, brand, `argsHash` or rechecks was found.
+  - In a run on the bundled 9.0.2, a source's `ENCODER` tag was replaced by the encoder that actually ran, so media cannot forge that tag.
+  - **F1, medium, fixed by root:** `vendorRefusal` mapped `PUBLICATION_UNCERTAIN` to "No output was published". `VENDOR_MESSAGES` now has fixed text for `PUBLICATION_UNCERTAIN`, `CANCELLED`, `INPUT_CHANGED` and `SOURCE_CHECK_INCOMPLETE`, so the disposition stays truthful.
+  - **F2, low, fixed by root:** the inspection-cache notice is fixed text for vendor batches. CPU/NVIDIA keep their existing behaviour.
+  - Test: `tests/vendor-review-fixes.test.cjs`.
+  - Below the 80% threshold, logged and not fixed: `nativePrivate` might crowd the `CAPABILITY_FINISHED` record, and `Preferences.forget()` can reject after deleting the main file.
+- **Evidence:**
+  - `vendor-s34-focused`: 750/750 on Codex's bytes.
+  - The first `vendor-s34-final` run **failed (3)**: root's Python edit had turned two files' CRLF line endings into LF, and three source-needle tests match CRLF. Root restored CRLF; that receipt is retained.
+  - `vendor-s34-final2`: 753/753.
+  - `vendor-s34-final2-full`: 2542 of 2552 pass, with the 5 known parked failures.
+  - Ledger `vendor-review-fixes-breaks`: 2/3 caught. The miss is the second notice path, which the test does not reach because the first path fills the notice; it is the same expression.
+  - Codex's guard removals: 46/46.
+- **Codex quota:** 93% → 97% weekly.
+- **Reachability:** vendor profiles now prepare and run end to end with fakes, but there is no UI to choose them yet (slice 5). No AMD/Intel hardware has run anything.

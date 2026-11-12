@@ -4,6 +4,8 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const { randomUUID } = require('node:crypto');
 const { PROFILES, validateSettings } = require('./media.cjs');
+const { catalogProfile, resolveCatalogSettings } = require('./encoder-catalog.cjs');
+const { VendorPreferences } = require('./vendor-preferences.cjs');
 
 const PREFERENCES_NAMESPACE = 'localpreferences-v1';
 const PREFERENCES_FILE = 'preferences.json';
@@ -44,7 +46,7 @@ function decodePreferences(record) {
     if (record[key] === null || validPath(record[key])) data[key] = record[key];
     else notices.push(`The remembered ${role} location is invalid. Choose a folder again.`);
   }
-  if (PROFILES.some(profile => profile.id === record.profileId)) data.profileId = record.profileId;
+  if (catalogProfile(record.profileId)) data.profileId = record.profileId;
   else notices.push('The remembered profile is invalid. H265 · CPU Tested Default is selected.');
   for (const profile of PROFILES) {
     const value = record.settingsByProfile[profile.id];
@@ -67,14 +69,21 @@ class Preferences {
   #data = defaultPreferences();
   #notices = [];
   #readOnly = false;
+  #vendor;
 
   constructor({ directory }) {
     if (typeof directory !== 'string' || !path.isAbsolute(directory)) throw new TypeError('Preferences require an absolute app-owned directory.');
     this.directory = path.join(directory, PREFERENCES_NAMESPACE);
     this.filename = path.join(this.directory, PREFERENCES_FILE);
+    this.#vendor = new VendorPreferences({ directory });
   }
 
-  snapshot() { return structuredClone({ ...this.#data, notices: this.#notices }); }
+  snapshot() {
+    const vendor = this.#vendor.snapshot(), profile = catalogProfile(this.#data.profileId);
+    const selected = profile?.tier === 'untested' ? { [profile.id]: { preset: profile.defaultPreset, quality: profile.quality.default } } : {};
+    return structuredClone({ ...this.#data, settingsByProfile: { ...this.#data.settingsByProfile, ...selected, ...vendor.settingsByProfile },
+      notices: [...this.#notices, ...vendor.notices] });
+  }
 
   #notice(message) { if (!this.#notices.includes(message)) this.#notices.push(message); }
 
@@ -117,6 +126,7 @@ class Preferences {
     // One load per process. Re-reading preferences must not replace live manual
     // settings or create a second set of folder authority tokens.
     this.#loaded ||= (async () => {
+      await this.#vendor.load();
       try {
         const decoded = decodePreferences(await this.#read());
         this.#data = decoded.data;
@@ -170,7 +180,7 @@ class Preferences {
   #change(mutate) {
     const pending = this.#pending.then(async () => {
       await this.load();
-      mutate(this.#data);
+      await mutate(this.#data);
       try { await this.#write(); }
       catch { this.#notice('Preferences could not be saved. The current choices remain usable for this session.'); }
       return this.snapshot();
@@ -185,7 +195,12 @@ class Preferences {
   }
 
   saveSettings(request) {
-    const settings = validateSettings(request);
+    const resolved = resolveCatalogSettings(request);
+    const settings = resolved.settings || resolved;
+    if (resolved.twinSettings) return this.#change(async data => {
+      await this.#vendor.saveSettings(settings);
+      data.profileId = settings.profileId;
+    });
     return this.#change(data => {
       data.profileId = settings.profileId;
       const { profileId, ...saved } = settings;
@@ -194,7 +209,7 @@ class Preferences {
   }
 
   resetProfile(profileId) {
-    const profile = PROFILES.find(entry => entry.id === profileId);
+    const profile = catalogProfile(profileId);
     if (!profile) throw Object.assign(new Error('Choose a supported encoding profile.'), { code: 'INVALID_SETTINGS' });
     return this.saveSettings({ profileId, preset: profile.defaultPreset, quality: profile.quality.default });
   }
@@ -213,6 +228,7 @@ class Preferences {
       this.#data = defaultPreferences();
       this.#notices = [];
       this.#readOnly = false;
+      await this.#vendor.forget();
       return this.snapshot();
     });
     this.#pending = pending.then(() => undefined, () => undefined);

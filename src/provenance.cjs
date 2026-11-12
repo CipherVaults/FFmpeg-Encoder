@@ -3,6 +3,7 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const { createHash, randomUUID } = require('node:crypto');
+const { types } = require('node:util');
 
 const PROVENANCE_NAMESPACE = 'provenance-v1';
 const PROVENANCE_LIMITS = Object.freeze({ records: 10000, bytes: 32 * 1024 * 1024, recordBytes: 16 * 1024 });
@@ -12,7 +13,8 @@ const GENERATION_KEY = 'FFMPEG_ENCODER_GENERATION';
 const UUID = /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i;
 const RECORD_NAME = /^([a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12})\.(intent|published)\.json$/;
 // Historical recognition must survive hardware/profile availability changes.
-const HISTORICAL_SUFFIXES = Object.freeze(['H264-CPU', 'H265-CPU', 'AV1-CPU', 'H264-Nvidia-GPU', 'H265-Nvidia-GPU', 'AV1-Nvidia-GPU']);
+const HISTORICAL_SUFFIXES = Object.freeze(['H264-CPU', 'H265-CPU', 'AV1-CPU', 'H264-Nvidia-GPU', 'H265-Nvidia-GPU', 'AV1-Nvidia-GPU',
+  'H264-AMD-GPU', 'H265-AMD-GPU', 'AV1-AMD-GPU', 'H264-Intel-GPU', 'H265-Intel-GPU', 'AV1-Intel-GPU']);
 const STAMP_FIELDS = ['canonicalPath', 'dev', 'ino', 'size', 'mtimeNs', 'ctimeNs', 'birthtimeNs'];
 const HASH = /^[a-f0-9]{64}$/;
 const object = value => Boolean(value && typeof value === 'object' && !Array.isArray(value)
@@ -102,11 +104,48 @@ function generationDescriptionV2(value) {
     return { ...structuredClone(value), quality: structuredClone(fragment.settings.quality) };
   } catch { return null; }
 }
+// Version 3 is descriptive only. Reject executable properties before consulting
+// the catalog; neither a forged description nor a device identifier is authority.
+function vendorDescriptionData(value, depth = 0) {
+  if (typeof value === 'string') return value.length <= 4096;
+  if (typeof value === 'number') return Number.isFinite(value);
+  if (!value || typeof value !== 'object' || types.isProxy(value) || depth > 1
+      || !(Array.isArray(value) ? Object.getPrototypeOf(value) === Array.prototype : object(value))) return false;
+  const fields = Object.getOwnPropertyDescriptors(value), keys = Reflect.ownKeys(fields);
+  if (keys.length > 65 || Array.isArray(value) && keys.length !== value.length + 1) return false;
+  return keys.every(key => Array.isArray(value) && key === 'length' || typeof key === 'string'
+    && fields[key].enumerable && Object.hasOwn(fields[key], 'value') && vendorDescriptionData(fields[key].value, depth + 1));
+}
+function generationDescriptionV3(value) {
+  try {
+    if (!vendorDescriptionData(value)) return null;
+    const required = ['version', 'kind', 'profileId', 'codec', 'backend', 'encoder', 'preset', 'qualityMode', 'quality',
+      'bitDepth', 'encoderArgs', 'appVersion', 'createdAt'];
+    const keys = [...required, ...(Object.hasOwn(value, 'runtimeVersion') ? ['runtimeVersion'] : [])];
+    if (!exactKeys(value, keys) || value.version !== 3 || value.kind !== 'vendor-encoder'
+        || Buffer.byteLength(JSON.stringify(value)) > 4096) return null;
+    if (typeof value.appVersion !== 'string' || !/^[a-zA-Z0-9.+_-]{1,80}$/.test(value.appVersion)
+        || typeof value.createdAt !== 'string' || !/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$/.test(value.createdAt)
+        || new Date(value.createdAt).toISOString() !== value.createdAt
+        || !Array.isArray(value.encoderArgs) || value.encoderArgs.length > 64
+        || value.encoderArgs.some(entry => typeof entry !== 'string' || entry.length > 128 || /[\x00-\x1f\x7f]/.test(entry))
+        || (Object.hasOwn(value, 'runtimeVersion') && (typeof value.runtimeVersion !== 'string' || !value.runtimeVersion.length
+          || value.runtimeVersion.length > 256 || /[\x00-\x1f\x7f]/.test(value.runtimeVersion)))) return null;
+    const { VENDOR_PROFILES, describeVendorRecipe } = require('./vendor-profiles.cjs');
+    const profile = VENDOR_PROFILES.find(row => row.id === value.profileId);
+    const recipe = describeVendorRecipe({ profileId: value.profileId, preset: value.preset, quality: value.quality });
+    if (!profile.bitDepths.includes(value.bitDepth) || ['codec', 'backend', 'encoder', 'qualityMode'].some(key => recipe[key] !== value[key])
+        || JSON.stringify(recipe.args) !== JSON.stringify(value.encoderArgs)) return null;
+    return structuredClone(value);
+  } catch { return null; }
+}
 function generationDescriptionOf(value) {
+  if (types.isProxy(value)) return null;
   if (!object(value)) return null;
   const version = Object.getOwnPropertyDescriptor(value, 'version');
   if (!version || !Object.hasOwn(version, 'value') || !version.enumerable) return null;
-  return version.value === 1 ? generationDescriptionV1(value) : version.value === 2 ? generationDescriptionV2(value) : null;
+  return version.value === 1 ? generationDescriptionV1(value) : version.value === 2 ? generationDescriptionV2(value)
+    : version.value === 3 ? generationDescriptionV3(value) : null;
 }
 function provenanceArgs(outputId, generationDescription) {
   const args = ['-metadata', `${MARKER_KEY}=1`, '-metadata', `${OUTPUT_ID_KEY}=${outputIdOf(outputId)}`];
@@ -440,5 +479,5 @@ class ProvenanceJournal {
   }
 }
 
-module.exports = { createOutputId, provenanceArgs, classifyMarker, historicalSuffix, samePublishedIdentity, generationDescriptionOf,
+module.exports = { createOutputId, provenanceArgs, classifyMarker, historicalSuffix, samePublishedIdentity, generationDescriptionOf, generationDescriptionV3,
   ProvenanceJournal, PROVENANCE_NAMESPACE, PROVENANCE_LIMITS, HISTORICAL_SUFFIXES, MARKER_KEY, OUTPUT_ID_KEY, GENERATION_KEY };

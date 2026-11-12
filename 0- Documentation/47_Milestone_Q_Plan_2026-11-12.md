@@ -67,6 +67,12 @@ Range packet copy (Q04), chapters in a range encode (Q06), subtitles on a resize
 - The limit is the full-duration end that main accepts. Main reports null rather than a smaller end when that end would cross the absolute overflow guard, which only crafted timelines reach.
 - The visible row text, not only the slider tooltip, says when the sliders are off.
 
+### Q1c–Q1e notes (commit `4c1c305`; two reviewer agents)
+
+- **Q1c.** The timing summary is attached only to a valid result and to a published item. Source spans use the request's timeline, so they compare directly with the asked range.
+- **Q1d.** Both modules are pure and unwired. The packet-range module handles only every-key streams. Video needs decode-order evidence first. Codecs with decoder pre-roll (AAC, Opus) may need priming before the first kept packet; the reported differences are packet edges, not decoded-sample edges. Chapter ids from 64-bit Matroska UIDs must reach the module as digit text, which the inspection path doesn't do yet; wiring must add that.
+- **Q1e.** No remux route writes the v4 description yet; a route adopts it only with its own measured round trip. The MOV receipt path is unreachable until a MOV route (Q2e) exists.
+
 ## 4. Points for Ahmed (none blocks Waves 1–2)
 
 | # | Question | Root's recommendation |

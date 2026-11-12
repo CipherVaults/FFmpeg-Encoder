@@ -677,3 +677,33 @@ The design decisions are in record 37's new "C4 amendments" section.
 - **Review.** Workflow `wf_385931ae-44e`: one confirmed finding, applied. The verifier judged two not material: the overflow-adjacent null is conservative and is now documented, and the visible reason is applied anyway. The correctness/trust lens covered the trust boundary: one new inert integer goes to the window.
 - **Evidence.** `q1b-focused` 233/233 and `q1b-full` (5 known failures) on pre-review bytes; `q1b-focused-2` 233/233 and `q1b-full-2` 2573/2583 (5 known failures) on the final bytes.
 - **Limits.** Display only: main's range validation is unchanged, and so are the catalog, families and tolerances. Real-window UI checks are not rerun.
+
+## Slices Q1c–Q1e: trim timing, chapter and packet-range modules, MOV receipt — November 12 (Cairo)
+
+- **Instruction.** Ahmed: "Any stopping points needlessly would be a waste of quota." Root carried straight on after compaction; `/reentry-check` passed at `98f0749`.
+- **Q1c (Q05, Q03).**
+  - `operationTiming` in `src/encode-operation.cjs` builds a frozen summary from the decoded evidence the validator checked. It is attached only to a valid result (`decoded-operation-contract`).
+  - The source origin is rounded to the microsecond with the collector's rule (ties away from zero), so a frame at the asked edge reads exactly there.
+  - `src/encoder-service.cjs` copies it to `item.timing` only after publication; it is cleared on preparation. `ui/renderer.js` `timingText` shows it as plain text on successful rows only, accepting only the two known timeline kinds and non-negative counts.
+  - Tests pin start-only, end-only and to-the-end requests (encode-operation and family), a nonzero and a half-microsecond negative origin, the full-length AAC fields, the unchanged ordinary key list, an invalid result without timing, a skipped (collision) item without timing, and the window text.
+- **Q1d (Q06, Q04).**
+  - `src/operation-chapters.cjs` `clipChapters`: start-inclusive/end-exclusive clipping, rebasing to a target time base in exact rationals. Refuses inexact edges (`CHAPTER_BOUNDARY_INEXACT`), duplicate ids, unsafe numeric ids (`CHAPTER_VALUE_INEXACT`; 64-bit Matroska ChapterUIDs must arrive as digit text), more than 256 tags, proxies and accessors. A `__proto__` tag stays an ordinary tag.
+  - `src/operation-packet-range.cjs` `selectPacketRange`: whole packets of a copied every-key stream with an explicit `inside` or `cover` edge rule. It reports exact start and end differences (packed rationals plus display microseconds). Refuses gaps, overlaps, discard or corrupt packets, malformed flags, non-key packets and any video-style request (`PACKET_RANGE_REORDER_UNVERIFIED`: presentation order can't show B-frame references).
+  - Neither module is wired. A range encode still refuses chapters; range copy is still refused. QD1 is open.
+- **Q1e (Q07, Q08).**
+  - The collector (`src/remux-evidence.cjs`) calls `observeMovRepresentation` on the sealed owned output for MOV targets. The branded receipt stays in the collector's private state, and the persisted receipt keeps a bounded description. A MOV observation failure fails collection closed and retains evidence.
+  - `RemuxOperations.validate` passes only the collector's own receipt and refuses any other supplied one.
+  - `src/provenance.cjs` gains a v4 `remux` generation description (copied and omitted streams, bitstream filters, versions; no encoder settings), validated on an inert data copy. The window summarises it. No route writes it: the remux contract says `absent-until-remux-description-schema` / `required-before-target-enablement`, and there is no catalog MOV route.
+  - Marker v1 and descriptions v1–v3 are unchanged.
+- **Reviews.** Two independent `reviewer` agents.
+  - Q1c: one low defect (origin rounding) and four hardening suggestions. All applied.
+  - Q1d/Q1e: two real defects in the unwired modules (B-frames whose reference frame was dropped; unsafe 64-bit chapter ids) and five low gaps (unbounded tags, `__proto__`, v4 reading getters, loose packet flags, proxies). All applied with negative tests.
+  - Mutation checks: removing the valid-only guard, restoring `Math.round`, and attaching timing before publication each fail a test.
+- **Evidence.**
+  - `q1c-focused` 209/209 (before the review fixes).
+  - `q1cde-focused` 369/369.
+  - `q1cde-full` 2598/2609, retained as failed: 6 failures, the new one being the 0.6 dispatch simulation in `tests/vendor-provenance.test.cjs`, whose rewrite pattern no longer matched after the v4 branch. The pattern was fixed and now asserts that its rewrite applied.
+  - `q1cde-full-2` 2599/2609 with only the 5 parked encode-preservation failures.
+- **Pins and seals.** `tests/vendor-baseline.test.cjs` re-pins `src/encode-operation.cjs` (label Q1c). The golden ordinary-argv capture passes unedited. The suspended encode-preservation catalog pin on `src/encode-operation.cjs` drifts further, and HDR seal drift grows. No reseal (D7).
+- **Commit.** `4c1c305`, pushed, remote equal.
+- **Q2a started.** The driver reads 621.14 on the same adapter. `scripts/v07-sdr-family-calibration.cjs --profile h265-nvidia` was started on the committed bytes (it fingerprints its modules before and after).

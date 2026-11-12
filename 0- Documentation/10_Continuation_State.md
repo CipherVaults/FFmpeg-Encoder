@@ -1,3 +1,9 @@
+> **ACTIVE — November 12, 2026. Writer lock phase `vendor-s01`. AMD/Intel build slices 0 and 1 are COMMITTED in the commit that carries this banner** ([record 45](45_AMD_Intel_First_Class_Design_2026-11-12.md) §10).
+> - The commit adds a golden baseline of every ordinary argv (4,056 cases) and the pure vendor catalog and overlay. No existing file changed, and nothing in the app calls the new modules yet.
+> - **Evidence:** `vendor-s01-focused` 268/268; `vendor-s01-full` with the 5 known failures.
+> - **Next:** slice 2, the vendor startup check (Codex).
+> - The banner below is history.
+
 > **ACTIVE — November 12, 2026, ~08:30 Cairo. Writer lock phase `design45-recorded`. The AMD/Intel design is COMMITTED as [record 45](45_AMD_Intel_First_Class_Design_2026-11-12.md) in the commit that carries this banner.**
 > - **Design:** six profiles (`h264-amd` … `av1-intel`) on the ordinary Full/KeepSource path. Each uses a CPU "codec twin" plus a checked argv overlay, so CPU/NVIDIA argv, `PROFILES`, defaults and Archive CQ29 stay byte-identical. A separate vendor startup check greys out what a machine lacks. Outputs are checked for the encoder tag, frame count and a strict decode. The amber "not tested on real hardware" mark is shown.
 > - **Review:** three designs, two judges and one synthesis (Claude workflow `wf_cc356d2d-d80`), then Codex review `amd-intel-design-review` ("Sound with changes"). All seven issues are adopted as record 45 §12.

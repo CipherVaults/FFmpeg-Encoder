@@ -505,3 +505,22 @@ The design decisions are in record 37's new "C4 amendments" section.
   - `sec-fixes-full`: 2182 pass of 2192, plus the same 5 known parked catalog failures as `c4-full`.
   - Break ledger `sec-fixes-breaks`: 7/8 caught, restored. The miss is the job-start re-check, which the publication re-check covers (equivalent).
 - **Cost:** Codex's week went from 39% to 59% on this one job. Claude was at 36% of its new 5-hour window and 19% weekly.
+
+## AMD/Intel build, slices 0 and 1 — November 12 Cairo
+
+- **Codex job `vendor-s01`** (receipt `artifacts/v0.7/codex/20261112T055716Z-vendor-s01-da95e3`), from record 45 §9–§10 and §12. It added nine new files and changed no existing file:
+  - `scripts/capture-ordinary-argv.cjs` and `tests/fixtures/ordinary-argv-golden.json`: 4,056 ordinary cases and 52 fake capability calls, captured before any vendor code existed. The fixture is 8.7 MB, about 235 KB compressed.
+  - `tests/vendor-baseline.test.cjs`: live recapture equals the golden capture, and the four protected files keep their `253c567` SHA-256.
+  - `src/vendor-profiles.cjs`: the six vendor rows, derived read-only from `NATIVE_PROFILES` and `nativeEncoderContribution`, with `VENDOR_TESTED_EVIDENCE = []` and fixed messages.
+  - `src/encoder-catalog.cjs`: ordinary ids delegate unchanged to `media.validateSettings`.
+  - `src/vendor-encode.cjs`: a full-grammar parser of the twin argv (§12 A1), the branded binding and the overlay.
+  - Tests: `vendor-profiles`, `encoder-catalog`, `vendor-encode`.
+- **Root review:**
+  - The overlay parses the whole accepted grammar. Unknown options, device, filter or hwaccel aliases, a second input or output, and a changed terminal block have no production in it, so they fail with `VENDOR_ARGV_SHAPE`.
+  - The binding is in a module-private WeakSet and carries its full identity.
+  - The protected-file hashes are taken over the working-copy bytes, which are LF here. A CRLF checkout would fail them; that is logged, not changed.
+- **Evidence:**
+  - `vendor-s01-focused`: 268/268.
+  - `vendor-s01-full`: 2325 of 2335 pass, with the same 5 known parked catalog failures.
+  - Codex's in-memory guard removals: 28/28 caught.
+- **Not yet reachable:** nothing in the app calls the new modules.

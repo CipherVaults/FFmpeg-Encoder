@@ -37,11 +37,11 @@ Continue milestone Q's remux slices at full throttle (record 44), moving as much
 - A long shell heredoc with apostrophes failed to parse; record scripts are now written as files.
 - The generated fixture script had an initialization bug that only showed on its first real run.
 
-## 🔄 Adjustments
+## 🔧 Adjustments Made
 - Reviews moved from Claude workflows to fresh Codex sessions.
 - Record scripts and commit messages are written to files, not inline.
 
-## ❗ Mistakes / Risks
+## ❌ Mistakes / Risks Noted
 - Root's first Q2e wrapper-test edit used a wrong call shape; fixed before commit.
 - Risk: the Q2e proof harness is now historical; its normal mode refuses by design and a test pins that.
 - Risk: remux still accepts only files up to 120 s and 512 MiB until Q2i lands.
@@ -49,7 +49,7 @@ Continue milestone Q's remux slices at full throttle (record 44), moving as much
 ## 📍 Current Position
 HEAD `d280f4e` plus this records commit, pushed to `codex/v0.7-candidate`. Five remux routes are live; the MOV route accepts constant 30/60 fps and variable cadence up to 60 fps.
 
-## ➡️ Next Steps
+## 🔜 Next Steps
 Q2i (remove the remux length and size limits), Q2j (TS→MP4, MP3→MP4), Q2k (MKV→MP4 audio setting), Q2l, Q2m, Q2h, Q2f.
 
 ## ❓ Open Questions
@@ -57,10 +57,10 @@ Q2i (remove the remux length and size limits), Q2j (TS→MP4, MP3→MP4), Q2k (M
 - Does "MP3 on the reverse" mean MP3→MP4?
 - QD1–QD4 (record 47 §4).
 
-## 🏁 Session Outcome
+## 🧾 Session Outcome
 Three remux slices committed and proven in one day, with Codex doing the building and reviewing.
 
-## 📊 Confidence
+## 🔍 Confidence Level
 High for the committed routes within their measured shapes. Medium for the remaining plan until long files and TS inputs are measured.
 
 ---

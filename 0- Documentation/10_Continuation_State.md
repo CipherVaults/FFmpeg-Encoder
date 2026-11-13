@@ -1,3 +1,15 @@
+> **ACTIVE — November 13, 2026 (evening). Writer lock phase `q2g`. Slice Q2g of [record 47](47_Milestone_Q_Plan_2026-11-12.md) is COMMITTED in `d280f4e`: variable-frame-rate MP4 and MOV files can be remuxed to MOV.**
+> - **Route.** `full-remux-isobmff-mov-v1` now uses `sourceEnvelope: 'h264-aac-lc-48k-stereo-v2'`; `REMUX_POLICY_ID` is `full-remux-v4:2026-11-13:five-routes-mov-vfr`.
+>   - Constant-cadence files keep the 30/60 fps rule (`REMUX_MOV_RATE_UNQUALIFIED` otherwise).
+>   - Variable-cadence files up to 60 fps publish only when the collected cadence is variable on source and output (`REMUX_MOV_CADENCE_UNQUALIFIED` otherwise). Validator and tolerances are unchanged.
+> - **Proof.** Owned fixtures `a12935df` (720p, 320 frames, B-frames, 60 fps peak, 40 fps average; MP4 and MOV). Qualification `d252713e` and normal-service `a274430b` passed on `vfr-mp4-mov`, `vfr-mov-mov` and `cfr-mp4-mov`.
+> - **Evidence.** `q2g-focused` 134/134; `q2g-full-r2` 2715 pass with the same 5 parked failures. Failed receipt `q2g-full` (one stale Q2e test) is retained.
+> - **Owner plan, November 13 (record 47 §6).** Remux completeness: no length or size limit and TS→MP4 / MP3→MP4 are critical; audio choices for MKV→MP4 as a setting with a tested default; other audio shapes, several tracks, subtitles and chapters enabled or greyed out with the reason; an optimization pass during polishing; a roadmap artifact kept up to date.
+> - **Roadmap artifact.** "FFmpeg Encoder Roadmap", https://claude.ai/artifact/VhJeta8oFkJ9m5xoyAmwEB; source kept at `artifacts/v0.7/roadmap/ffmpeg-encoder-roadmap.html` (ignored). Republish to the same link when features change.
+> - **Open with Ahmed (not blocking).** Whether Quick copy keeps every track (root's default: yes); whether "MP3 on the reverse" means MP3→MP4 (root's reading); QD1–QD4.
+> - **Next:** Q2i (remove the 120 s / 512 MiB remux limits), then TS→MP4 and MP3→MP4, then the MKV→MP4 audio setting. All via Codex.
+> - The banner below is history.
+
 > **ACTIVE — November 13, 2026 (afternoon). Writer lock phase `q2e`. Slice Q2e of [record 47](47_Milestone_Q_Plan_2026-11-12.md) is COMMITTED in `adb9f0e`: MP4 and MOV files can be remuxed to MOV with their H.264 video and AAC audio.**
 > - **Team change (Ahmed, November 13; record 40 amendment, commit `7903aa7`).** Codex first: Codex now also reviews, in a fresh review session. `/codex-run` accepts `--effort max` for the hardest jobs. Root runs on Fable 5.2 at Low (Ahmed switched it); `reviewer` and `researcher` helpers use Fable Low.
 > - **Route.** `full-remux-isobmff-mov-v1` (`REMUX_POLICY_ID` `full-remux-v3:2026-11-13:five-routes`), `sourceEnvelope: 'h264-aac-lc-48k-stereo-v1'`. Policy review: [record 49](49_Q2e_ISOBMFF_to_MOV_Policy_Review_2026-11-13.md).

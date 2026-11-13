@@ -123,3 +123,38 @@ Root's plan for them:
 - **Open with Ahmed:** whether Quick copy keeps every track or one video and one audio track, as his batch files do.
 - **Flagged to Ahmed:** verified remux still accepts only files up to 120 s and 512 MiB; lifting that needs measurement on longer files.
 - Order: Q2g, Q2h, then Q2f, unless Ahmed reorders.
+
+### Q2g notes (commit `d280f4e`; Codex-built and Codex-reviewed, root-decided)
+
+- Envelope `h264-aac-lc-48k-stereo-v2` replaces v1 on the production MOV route. Constant cadence keeps the 30/60 fps rule; variable cadence up to 60 fps publishes only when it is variable on both sides. Proofs `d252713e` and `a274430b` on fixtures `a12935df`.
+- Not measured: very long frame gaps, 1080p variable sources.
+
+## 6. Owner plan — November 13, 2026 (remux completeness, settings, optimization, roadmap)
+
+Ahmed, after root listed what the Remux tab still cannot do:
+
+- "firstly, obviously, no length and size, obviously, because that's critical"
+- Variable frame rate to MOV "if possible. If that proved not possible for MOV, then it would be grayed out and explained"
+- "decide what to do on regarding the best choice for the audio on MKV to MB4 ... give me the options and trade-offs of each choice"
+- Several audio tracks, subtitles and chapters: grey out and explain if difficult.
+- "HDR is deferred, the TS to MB4 and MB3 on the reverse is critical."
+- On the audio options: "try, yes, as you said, D and B ... but we could also offer C and all of them into the settings of the app so the user can actually choose ... we don't have to hard lock a choice ... we can have a default ... based on our actual testing, which one is it, B or D ... leave settings to accommodate such circumstances, not just this situation, but similar situations."
+- "make in the polishing pass an optimization pass for the app ... we don't weaken obviously the quality of the app and the impact of its functionality in any capacity."
+- "build me a roadmap artifact ... historical versions for what we have already obviously done ... And the upcoming versions ... update it as we go."
+
+Root's plan, in order (each slice via Codex, measured on owned files before it is enabled):
+
+| Slice | Change |
+|---|---|
+| Q2g | Variable frame rate to MOV. **Done** (`d280f4e`). |
+| Q2i | Remove the 120 s / 512 MiB remux limits, with long owned test files. |
+| Q2j | TS→MP4 and MP3→MP4. Root reads "MP3 on the reverse" as MP3→MP4; unconfirmed. |
+| Q2k | Audio on MKV→MP4 as a setting: exact copy (D), copy with a stated shift (B), re-encode (C), leave out. Default from measurement: D if achievable, else B. Root brings the numbers to Ahmed before fixing the default. |
+| Q2l | Other audio shapes and several audio tracks: accept a track when its decoded audio matches exactly; one real file per shape. |
+| Q2m | Subtitles and chapters: keep where the target can hold them; otherwise greyed out with the specific reason. |
+| Q2h | Quick copy (unverified) with a themed warning dialog. Keeps every track unless Ahmed says otherwise. |
+| Q2f | 44.1 kHz and mono AAC for trims. |
+
+- **Settings pattern (R).** Where a case has several valid answers, the app offers them as remux-only settings: a one-line trade-off each, a recommended default from measurement, greyed-out options with their reason, a per-file override, and the result row states which option was used. Ordinary encode defaults are untouched.
+- **Optimization pass (R).** During polishing: speed and memory work that leaves quality, checks and behaviour unchanged, each change measured before and after.
+- **Roadmap artifact.** https://claude.ai/artifact/VhJeta8oFkJ9m5xoyAmwEB; root republishes it at each phase close when features change.

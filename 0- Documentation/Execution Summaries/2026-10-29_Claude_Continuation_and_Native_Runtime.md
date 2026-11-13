@@ -806,3 +806,14 @@ The design decisions are in record 37's new "C4 amendments" section.
 - **Retained failure.** `q2e-full` showed 13 failures: 8 tests asserted production MOV was still off. **Codex job 4** (`q2e-mov-4`, tests only) corrected them; `q2e-full-r2` is 2683 pass with the same 5 parked failures.
 - **Commit** `adb9f0e`, with record 49.
 - **Model-choice study.** From Ahmed's Fable-versus-Opus package (Artificial Analysis v5.0.1), root published the artifact "Claude Seat Model Choice". Result: stay on Fable 5.2 Low for the coordinator and inspector seat; Opus 5.5 High is better only at professional documents.
+
+## Slice Q2g: variable frame rate to MOV — November 13 (Cairo)
+
+- **Ahmed's instructions.** "can we actually include the variable frame rate as well in this cycle?"; later, with root near its 5-hour limit: "try to keep the codecs working on things in that meantime". Root paused until the limit reset; Codex kept working.
+- **Codex job 1** (`q2g-vfr-1`, Max effort): envelope v2, the fixture generator, the proof harness and tests.
+- **Codex review** (`q2g-review-1`, fresh session): the five existing routes matched in 285 comparisons; three findings. v2 also admitted unmeasured constant rates such as 24 fps (medium); two tests read an ignored backup file (medium); three guards lacked an independent negative test (low).
+- **Root decision.** v2 keeps v1's 30/60 fps rule for constant cadence and only adds variable cadence. **Codex job 2** (`q2g-vfr-2`) fixed all three; 8 mutants killed.
+- **Root work.** Fixed a one-line initialization bug in the fixture generator; generated fixtures `a12935df`; `q2g-focused` 134/134; qualification `d252713e` passed; catalog moved to v2; normal-service `a274430b` passed.
+- **Retained failure.** `q2g-full` had one new failure: a Q2e test still pinned the v1 production route. Root updated that test to pin the v2 route and to require the retained Q2e harness to refuse its normal mode. `q2g-full-r2` is 2715 pass with the same 5 parked failures.
+- **Commit** `d280f4e`.
+- **Roadmap artifact.** Published "FFmpeg Encoder Roadmap" at Ahmed's request, modelled on his Notaya roadmap.

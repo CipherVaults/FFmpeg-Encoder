@@ -1,3 +1,70 @@
+# 📘 Session: November 13, 2026 — FFmpeg Encoder — Codex-first remux run: Q2d, Q2e and Q2g, plus the remux-completeness plan
+
+## 🤖 Models, Effort, Roles and Provenance
+- **Root:** Claude Opus 5.5 in the morning; from midday Claude Fable 5.2 at Low (Ahmed switched it himself). Root scheduled, decided policy, ran all media, edited the catalog, wrote the records and Notion, and committed.
+- **Codex:** GPT-6.1 Sol, xhigh by default and Max for the hardest jobs (Ahmed: "Allow Max for hard jobs"). It wrote the code, harnesses and tests, and reviewed in fresh `--mode review` sessions. Jobs: `q2d-mkvmp4-1`–`3`, `q2e-mov-1`–`4`, `q2e-review-1`, `q2g-vfr-1`–`2`, `q2g-review-1`.
+- **Workflows and agents:** one Claude review workflow for Q2d; a second (`w8j0l1q53`) was stopped when Ahmed asked to save Claude quota.
+- **Provenance:** live tool results, `/evidence-run` receipts, Codex receipts under `artifacts/v0.7/codex/`, proof reports and Git.
+
+## 🕒 Time
+Morning to evening of November 13 (Cairo). Root paused at 89% of its 5-hour window on Ahmed's warning and resumed after the 18:40 reset; Codex job `q2g-vfr-1` ran through the pause.
+
+## 🎯 Session Goal
+Continue milestone Q's remux slices at full throttle (record 44), moving as much work as possible to Codex.
+
+## 🛠️ Actions Taken
+- **Q2d (`bc19e51`).** MKV→MP4, video only, every audio track explicitly left out. Record 48.
+- **Toolkit (`7903aa7`).** `/codex-run` accepts `--effort max`; `reviewer` and `researcher` moved to Fable Low; record 40 amended.
+- **Q2e (`adb9f0e`).** MP4/MOV→MOV with H.264 and AAC stereo at constant 30/60 fps. Record 49.
+- **Q2g (`d280f4e`).** Variable frame rate to MOV through envelope v2; proofs `d252713e` and `a274430b`.
+- Published two artifacts: "Claude Seat Model Choice" and "FFmpeg Encoder Roadmap".
+- Explained to Ahmed how verified remux differs from his raw FFmpeg batch files, and listed what the Remux tab still lacks.
+- Records, pushes, read-backs and Notion after each slice.
+
+## 🧠 Key Insights
+- Constant cadence cannot be proven before Start; a rate prefilter plus a post-collection gate is the honest design.
+- A fresh Codex review session finds real defects (unmeasured rates admitted, tests reading ignored files) at a fraction of the Claude cost.
+- Promoting a route breaks tests that asserted the old state; a retained failed receipt plus a tests-only fix is the clean path.
+
+## 📌 Decisions Made
+- Ahmed: "use Codex when you can to save on your own quota"; "Allow Max for hard jobs"; "switch to Fable 5.2 Low for your work if it's indeed better."
+- Ahmed: add "Quick copy (unverified)" with a warning dialog; include variable frame rate in this cycle.
+- Ahmed: complete the Remux tab — no length or size limit and TS/MP3 inputs are critical; audio options as settings with a tested default; grey out and explain what cannot be done; an optimization pass during polishing; a roadmap artifact kept current (record 47 §6).
+- Root: v2 keeps the 30/60 fps rule for constant cadence; MOV outputs publish only when collected cadence matches on both sides.
+
+## ⚠️ Difficulties / Friction
+- Root's 5-hour window reached 89%; work paused until the reset.
+- A long shell heredoc with apostrophes failed to parse; record scripts are now written as files.
+- The generated fixture script had an initialization bug that only showed on its first real run.
+
+## 🔄 Adjustments
+- Reviews moved from Claude workflows to fresh Codex sessions.
+- Record scripts and commit messages are written to files, not inline.
+
+## ❗ Mistakes / Risks
+- Root's first Q2e wrapper-test edit used a wrong call shape; fixed before commit.
+- Risk: the Q2e proof harness is now historical; its normal mode refuses by design and a test pins that.
+- Risk: remux still accepts only files up to 120 s and 512 MiB until Q2i lands.
+
+## 📍 Current Position
+HEAD `d280f4e` plus this records commit, pushed to `codex/v0.7-candidate`. Five remux routes are live; the MOV route accepts constant 30/60 fps and variable cadence up to 60 fps.
+
+## ➡️ Next Steps
+Q2i (remove the remux length and size limits), Q2j (TS→MP4, MP3→MP4), Q2k (MKV→MP4 audio setting), Q2l, Q2m, Q2h, Q2f.
+
+## ❓ Open Questions
+- Does Quick copy keep every track (root's default) or one video and one audio?
+- Does "MP3 on the reverse" mean MP3→MP4?
+- QD1–QD4 (record 47 §4).
+
+## 🏁 Session Outcome
+Three remux slices committed and proven in one day, with Codex doing the building and reviewing.
+
+## 📊 Confidence
+High for the committed routes within their measured shapes. Medium for the remaining plan until long files and TS inputs are measured.
+
+---
+
 # 📘 Session: November 12, 2026 (afternoon–evening) — FFmpeg Encoder — milestone Q starts: the plan, Q1a and Q1b
 
 ## 🤖 Models, Effort, Roles and Provenance

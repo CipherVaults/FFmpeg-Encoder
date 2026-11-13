@@ -106,6 +106,20 @@ test('Matroska-to-MP4 native language and handler declarations require represent
   assert.deepEqual(assess(probe, 'mp4').expectedOutput.streams[0].metadata.representations.map(item => item.key), ['language', 'HANDLER_NAME']);
 });
 
+test('ISOBMFF-to-MOV declares exact native language/handler fields without new output allowances', () => {
+  const p = source(); p.streams[0].tags = { language: 'eng', HANDLER_NAME: 'VideoHandler', BPS: '123' };
+  const metadata = assess(p, 'mov').expectedOutput.streams[0].metadata;
+  assert.deepEqual(metadata.representations.map(item => item.key), ['language', 'HANDLER_NAME']);
+  assert.deepEqual(metadata.allowedAdditions, []);
+  assert.equal(metadata.preserved.BPS, '123');
+  for (const [key, value] of [['language', 'en'], ['language', 'ENG'], ['handler_name', '']]) {
+    p.streams[0].tags = { [key]: value }; const invalid = assess(p, 'mov').expectedOutput.streams[0].metadata;
+    assert.deepEqual(invalid.representations, []); assert.equal(invalid.preserved[key], value);
+  }
+  p.streams[0].tags = { language: 'und' };
+  assert.deepEqual(assess(p, 'mov').expectedOutput.streams[0].metadata.representations.map(item => item.equivalence), ['owned-mov-mdhd-unspecified-language']);
+});
+
 test('strict typed Full request excludes TS output, transforms, raw argv, paths and authority claims', () => {
   assert.deepEqual(REMUX_TARGETS, ['matroska', 'mp4', 'mov']);
   for (const changes of [{ target: 'mpegts' }, { target: 'mkv' }, { range: { startUs: 0, endUs: 1 } }, { range: undefined },

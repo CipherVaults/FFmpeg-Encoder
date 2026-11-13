@@ -73,18 +73,22 @@ function sourceIdentity(value) {
 }
 function fingerprintRemuxSourceIdentity(value) { return hash(sourceIdentity(value)); }
 function policy(value) {
-  const fields = ['id', 'inputFamily', 'target', 'evidenceIds', 'allowAncillary', 'runtimeIdentity', 'allowRotation90', 'audio'];
+  const fields = ['id', 'inputFamily', 'target', 'evidenceIds', 'allowAncillary', 'runtimeIdentity', 'allowRotation90', 'audio', 'sourceEnvelope'];
   record(value, fields, fields.slice(0, 6), 'Main-reviewed Remux route policy');
   need(['isobmff', 'matroska'].includes(value.inputFamily) && ['matroska', 'mp4', 'mov'].includes(value.target), 'Only the finite reviewed local Remux families are available.');
   need(typeof value.allowAncillary === 'boolean' && (!own(value, 'allowRotation90') || typeof value.allowRotation90 === 'boolean'), 'Route options must be explicit booleans.');
   need(!value.allowAncillary || value.inputFamily === 'matroska' && value.target === 'matroska', 'Ancillary collection is available only for reviewed Matroska-to-Matroska routes.');
   if (own(value, 'audio')) need(value.audio === 'explicitly-omitted-only' && value.inputFamily === 'matroska' && value.target === 'mp4',
     'The explicitly-omitted-only audio policy is available only for reviewed Matroska-to-MP4 routes.');
+  if (own(value, 'sourceEnvelope')) need(value.sourceEnvelope === 'h264-aac-lc-48k-stereo-v1'
+    && value.inputFamily === 'isobmff' && value.target === 'mov' && value.allowRotation90 !== true,
+  'The measured H264/AAC source envelope is available only for unrotated ISOBMFF-to-MOV routes.');
   const evidenceIds = list(value.evidenceIds, 32, 'Retained route evidence').map(item => id(item, 'Retained route evidence'));
   need(evidenceIds.length > 0 && new Set(evidenceIds).size === evidenceIds.length, 'A reviewed route needs unique retained evidence IDs.');
   return freeze({ id: id(value.id, 'Route policy'), inputFamily: value.inputFamily, target: value.target, evidenceIds,
     allowAncillary: value.allowAncillary, runtimeIdentity: digest(value.runtimeIdentity, 'Qualified paired runtime'),
-    allowRotation90: value.allowRotation90 === true, ...(own(value, 'audio') ? { audio: value.audio } : {}) });
+    allowRotation90: value.allowRotation90 === true, ...(own(value, 'audio') ? { audio: value.audio } : {}),
+    ...(own(value, 'sourceEnvelope') ? { sourceEnvelope: value.sourceEnvelope } : {}) });
 }
 function ratio(value, separator = '/') {
   const parts = typeof value === 'string' && value.split(separator);
@@ -114,20 +118,46 @@ function geometry(evidence, route) {
 }
 function sourcePolicy(assessment, source, identity, route) {
   const mapped = assessment.expectedOutput.streams.map(mapping => source.streams.find(stream => stream.index === mapping.inputIndex));
+  // This measured MOV cell cannot borrow the broader AAC/omission envelopes of
+  // other routes. Inspect the whole source, so an omission cannot hide a track
+  // whose muxer relationships or decoder alignment have not been measured.
+  if (route.sourceEnvelope === 'h264-aac-lc-48k-stereo-v1') {
+    need(source.streams.length === 2 && mapped.length === 2 && assessment.expectedOutput.omittedStreams.length === 0
+      && source.chapters.length === 0 && source.streams.filter(stream => stream.codec_type === 'video').length === 1
+      && source.streams.filter(stream => stream.codec_type === 'audio').length === 1,
+    'The MOV route requires exactly one video and one AAC track, no chapters or omitted/extra streams.', 'REMUX_MOV_SOURCE_SHAPE_UNQUALIFIED');
+    const audio = source.streams.find(stream => stream.codec_type === 'audio');
+    need(audio.codec_name === 'aac' && audio.profile === 'LC' && audio.sample_fmt === 'fltp' && audio.sample_rate === '48000'
+      && audio.channels === 2 && audio.channel_layout === 'stereo',
+    'The MOV route qualifies only 48kHz stereo AAC LC/fltp audio.', 'REMUX_MOV_AUDIO_UNQUALIFIED');
+    // Necessary rate-summary restriction, NOT a constant-cadence certificate:
+    // equal averages/nominal rates cannot establish every source PTS interval.
+    // Complete constant cadence is required from bound evidence after Start.
+    const video = source.streams.find(stream => stream.codec_type === 'video');
+    const rates = ['avg_frame_rate', 'r_frame_rate'].map(key =>
+      typeof video[key] === 'string' && /^([1-9]\d{0,15})\/([1-9]\d{0,15})$/.exec(video[key]));
+    need(rates.every(rate => rate && [30n, 60n].some(fps => BigInt(rate[1]) === fps * BigInt(rate[2])))
+      && BigInt(rates[0][1]) * BigInt(rates[1][2]) === BigInt(rates[1][1]) * BigInt(rates[0][2]),
+    'MOV requires matching known 30/60fps average and nominal summaries; these summaries alone do not prove constant cadence.',
+    'REMUX_MOV_RATE_UNQUALIFIED');
+  }
   // The genuine immutable assessment records only main-resolved, current
   // per-stream omission decisions. A missing output track alone is no grant.
   if (route.audio === 'explicitly-omitted-only') need(source.streams.filter(stream => stream.codec_type === 'audio')
     .every(stream => assessment.expectedOutput.omittedStreams.some(item => item.inputIndex === stream.index
       && item.codecType === 'audio' && item.action === 'explicitly-omitted' && assessment.request.omissionRequestIds.includes(item.decisionId))),
   'Matroska-to-MP4 requires a current explicit omission decision for every audio stream; audio preservation is not qualified.', 'REMUX_AUDIO_OMISSION_REQUIRED');
-  if (assessment.inputFamily === 'matroska' && assessment.target === 'mp4') {
+  if (assessment.inputFamily === 'matroska' && assessment.target === 'mp4'
+    || assessment.inputFamily === 'isobmff' && assessment.target === 'mov') {
     for (const stream of assessment.expectedOutput.streams) {
       const metadata = stream.metadata;
       for (const item of metadata.classifications) if (item.mismatch === 'error') need(
         metadata.representations.some(rep => rep.key === item.key)
           || metadata.allowedAdditions.some(addition => addition.key.toLowerCase() === item.normalizedKey
             && addition.match === 'exact' && addition.value === metadata.preserved[item.key]),
-        `Matroska-to-MP4 cannot preserve required track tag '${item.key}' on stream ${stream.inputIndex}; no MP4 representation is declared.`,
+        assessment.target === 'mp4'
+          ? `Matroska-to-MP4 cannot preserve required track tag '${item.key}' on stream ${stream.inputIndex}; no MP4 representation is declared.`
+          : `ISOBMFF-to-MOV cannot preserve required track tag '${item.key}' on stream ${stream.inputIndex}; no MOV representation is declared.`,
         'REMUX_TRACK_TAG_UNREPRESENTABLE');
     }
   }
@@ -272,6 +302,14 @@ class RemuxOperations {
       && SOURCE_FIELDS.slice(1, -1).every(key => stamp[key] === state.identity[key]), 'Collected source identity differs from its prepared identity.');
     digest(essence.outputFileSha256, 'Complete owned output seal');
     need(!own(optional, 'outputFileSha256') || optional.outputFileSha256 === essence.outputFileSha256, 'The supplied output seal differs from complete collected bytes.');
+    if (state.route.sourceEnvelope === 'h264-aac-lc-48k-stereo-v1') {
+      // Rate summaries are only an early filter. Publication requires complete
+      // source/output cadence from this plan's genuine bound collector receipt;
+      // caller copies and optional metadata receipts cannot supply this fact.
+      const videos = essence.streams.filter(stream => stream.codecType === 'video');
+      need(videos.length === 1 && ['source', 'output'].every(side => videos[0][side]?.cadence?.classification === 'constant'),
+        'MOV requires complete constant cadence on both collected source and output video.', 'REMUX_MOV_CADENCE_UNQUALIFIED');
+    }
     return state.validator.validate({ plan: state.innerPlan, outputProbe, essenceEvidence: essence,
       ...(collectedMov ? { movRepresentationReceipt: collectedMov } : {}) });
   }

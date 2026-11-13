@@ -269,7 +269,7 @@ function assessRemux(options) {
     let metadata = null;
     try {
       metadata = tagContract(stream.tags, { target: request.target, stream });
-      if (family === 'matroska' && request.target === 'mp4') {
+      if (family === 'matroska' && request.target === 'mp4' || family === 'isobmff' && request.target === 'mov') {
         // The contract already names native track fields through its neutral
         // defaults (language and the type's handler label). Declare exact source
         // preservation for those same fields, without adding output allowances

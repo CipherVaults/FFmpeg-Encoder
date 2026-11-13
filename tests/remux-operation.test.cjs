@@ -66,6 +66,95 @@ function fixture(options = {}) {
   return { owner, probe, identity, request, assessment, retained, prepare, plan, bindings };
 }
 
+const MOV_POLICY = { id: 'test-isobmff-mov', inputFamily: 'isobmff', target: 'mov', allowAncillary: false,
+  allowRotation90: false, sourceEnvelope: 'h264-aac-lc-48k-stereo-v1', runtimeIdentity: RUNTIME, evidenceIds: ['test-only-mov'] };
+const PRE_MOV_POLICY_IDS = ['full-remux-isobmff-matroska-v1', 'full-remux-isobmff-mp4-v1',
+  'full-remux-matroska-matroska-v1', 'full-remux-matroska-mp4-v1'];
+const PRE_MOV_POLICIES = REMUX_POLICIES.filter(route => PRE_MOV_POLICY_IDS.includes(route.id));
+function movRoute(options = {}) {
+  const owner = new RemuxOperations({ runtimeIdentity: RUNTIME, policyIdentity: 'five-test-routes',
+    policies: [...PRE_MOV_POLICIES.map(route => ({ ...route, runtimeIdentity: RUNTIME })), MOV_POLICY] });
+  return fixture({ target: 'mov', owner, ...options });
+}
+test('five-policy test catalog admits the exact MOV AAC shape with native track fields and B frames', () => {
+  assert.deepEqual(PRE_MOV_POLICIES.map(route => route.id).sort(), [...PRE_MOV_POLICY_IDS].sort());
+  const promoted = REMUX_POLICIES.filter(route => route.inputFamily === 'isobmff' && route.target === 'mov');
+  assert.equal(promoted.length, 1);
+  assert.equal(promoted[0].id, 'full-remux-isobmff-mov-v1');
+  assert.equal(promoted[0].sourceEnvelope, 'h264-aac-lc-48k-stereo-v1');
+  assert.equal(promoted[0].allowAncillary, false); assert.equal(promoted[0].allowRotation90, false);
+  const h = movRoute({ change: p => { p.streams[0].has_b_frames = 2; p.streams[0].tags.handler_name = 'VideoHandler';
+    p.streams[1].tags.language = 'und'; p.streams[1].tags.handler_name = 'SoundHandler'; } });
+  assert.ok(h.plan); assert.equal(h.plan.expectedOutput.streams.length, 2);
+  assert.deepEqual(h.plan.args.slice(-3, -1), ['-f', 'mov']);
+  assert.equal(h.plan.args[h.plan.args.indexOf('-write_tmcd') + 1], '0');
+  assert.equal(h.plan.args[h.plan.args.indexOf('-movflags') + 1], 'use_metadata_tags');
+  assert.equal(h.plan.args[h.plan.args.indexOf('-c') + 1], 'copy');
+});
+test('MOV rate prefilter refuses differing, unknown and unmeasured summaries without claiming CFR proof', () => {
+  for (const [average, nominal] of [['299/10', '30/1'], ['30/1', '60/1'], ['24/1', '24/1'],
+    [undefined, '30/1'], ['30/1', undefined], ['0/0', '0/0'], ['N/A', '30/1'], ['61/1', '61/1']]) {
+    const h = movRoute({ noPrepare: true, change: p => {
+      if (average === undefined) delete p.streams[0].avg_frame_rate; else p.streams[0].avg_frame_rate = average;
+      if (nominal === undefined) delete p.streams[0].r_frame_rate; else p.streams[0].r_frame_rate = nominal;
+    } });
+    reject(() => h.owner.prepare(h.prepare), 'REMUX_MOV_RATE_UNQUALIFIED');
+  }
+  for (const [average, nominal] of [['30/1', '30/1'], ['60/1', '60/1'], ['30000/1000', '30/1']])
+    assert.ok(movRoute({ change: p => { p.streams[0].avg_frame_rate = average; p.streams[0].r_frame_rate = nominal; } }).plan);
+  // Admission remains only a summary prefilter. These fields cannot certify all
+  // source presentation intervals; bound collected cadence is checked after Start.
+  for (const route of PRE_MOV_POLICIES) assert.ok(fixture({ family: route.inputFamily, target: route.target,
+    policy: { ...route, runtimeIdentity: RUNTIME }, ...(route.audio ? { omit: [2] } : {}),
+    change: p => { p.streams[0].avg_frame_rate = '299/10'; } }).plan, route.id);
+});
+test('the MOV route envelope is an exact inert route-local policy field', () => {
+  const make = route => new RemuxOperations({ runtimeIdentity: RUNTIME, policyIdentity: 'p', policies: [route] });
+  for (const delta of [{ sourceEnvelope: undefined }, { sourceEnvelope: 'any-aac' }, { inputFamily: 'matroska' },
+    { target: 'mp4' }, { target: 'matroska' }, { allowRotation90: true }]) invalid(() => make({ ...MOV_POLICY, ...delta }));
+  let reads = 0; const hostile = { ...MOV_POLICY };
+  Object.defineProperty(hostile, 'sourceEnvelope', { enumerable: true, get() { reads++; return MOV_POLICY.sourceEnvelope; } });
+  invalid(() => make(hostile)); assert.equal(reads, 0);
+});
+test('five-policy MOV preparation refuses every unmeasured audio shape', () => {
+  for (const change of [a => { a.sample_rate = '44100'; }, a => { a.sample_rate = '96000'; },
+    a => { a.channels = 1; a.channel_layout = 'mono'; }, a => { a.channels = 6; a.channel_layout = '5.1'; },
+    a => { a.profile = 'HE-AAC'; }, a => { a.sample_fmt = 's16'; }, a => { a.codec_name = 'pcm_s16le'; },
+    a => { delete a.profile; }, a => { delete a.channel_layout; }]) {
+    const h = movRoute({ noPrepare: true, change: p => change(p.streams[1]) });
+    reject(() => h.owner.prepare(h.prepare), 'REMUX_MOV_AUDIO_UNQUALIFIED');
+  }
+});
+test('five-policy MOV preparation refuses extra, missing and explicitly omitted tracks and chapters', () => {
+  for (const change of [p => { p.streams.pop(); p.format.nb_streams--; },
+    p => { p.streams.push({ ...clone(p.streams[1]), index: 4 }); p.format.nb_streams++; },
+    p => { p.chapters = [{ id: 0, time_base: '1/1000', start: 0, end: 1000, tags: {} }]; }]) {
+    const h = movRoute({ noPrepare: true, change }); reject(() => h.owner.prepare(h.prepare), 'REMUX_MOV_SOURCE_SHAPE_UNQUALIFIED');
+  }
+  for (const extra of [{ codec_type: 'subtitle', codec_name: 'mov_text' }, { codec_type: 'data', codec_name: 'tmcd', codec_tag_string: 'tmcd' },
+    { codec_type: 'attachment', codec_name: 'ttf' }, { codec_type: 'video', codec_name: 'mjpeg', disposition: { attached_pic: 1 } }]) {
+    const h = movRoute({ noPrepare: true, change: p => { p.streams.push({ index: 4, ...extra }); p.format.nb_streams++; }, omit: [4] });
+    reject(() => h.owner.prepare(h.prepare), 'REMUX_MOV_SOURCE_SHAPE_UNQUALIFIED');
+  }
+  const omitted = movRoute({ noPrepare: true, omit: [2] }); reject(() => omitted.owner.prepare(omitted.prepare), 'REMUX_MOV_SOURCE_SHAPE_UNQUALIFIED');
+});
+test('MOV required track tags without a representation refuse before Start while descriptive tags stay admitted', () => {
+  for (const tags of [{ BPS: '1234' }, { replaygain_track_gain: '-3 dB' }, { language: 'en' }, { language: 'ENG' }, { handler_name: '' }]) {
+    const h = movRoute({ noPrepare: true, change: p => { p.streams[0].tags = tags; } });
+    reject(() => h.owner.prepare(h.prepare), 'REMUX_TRACK_TAG_UNREPRESENTABLE');
+  }
+  assert.ok(movRoute({ change: p => { p.streams[0].tags.vendor_id = 'FFMP'; } }).plan);
+});
+test('the new MOV policy retains all existing video/geometry/color/bounds refusals', () => {
+  for (const change of [p => { p.streams[0].codec_name = 'hevc'; }, p => { p.streams[0].pix_fmt = 'yuv420p10le'; },
+    p => { p.streams[0].color_transfer = 'smpte2084'; }, p => { p.streams[0].sample_aspect_ratio = '4:3'; },
+    p => { p.streams[0].width = 1921; }, p => { p.format.duration = '121'; },
+    p => { p.streams[0].side_data_list = [{ side_data_type: 'Display Matrix', rotation: 90,
+      displaymatrix: '\n00000000: 0 -65536 0\n00000001: 65536 0 0\n00000002: 0 0 1073741824\n' }]; }]) {
+    const h = movRoute({ noPrepare: true, change }); required(() => h.owner.prepare(h.prepare));
+  }
+});
+
 test('empty catalogs, unreviewed routes and copied assessments never prepare execution', () => {
   const h = fixture({ noPrepare: true, empty: true }); required(() => h.owner.prepare(h.prepare));
   const valid = fixture({ noPrepare: true });
@@ -466,25 +555,28 @@ test('catalogs are immutable bounded main-owned data and reject forged authority
   invalid(() => make([p])); assert.equal(reads, 0);
 });
 
-async function collected(t, { offset = 0, contentChanged = false, metadataChanged = false, mov = false } = {}) {
+async function collected(t, { offset = 0, contentChanged = false, metadataChanged = false, mov = false, variable = false, route } = {}) {
   const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'remux-owner-test-'));
   t.after(async () => { assert.equal(path.dirname(directory), os.tmpdir()); assert.match(path.basename(directory), /^remux-owner-test-/); await fs.rm(directory, { recursive: true, force: true }); });
   const input = path.join(directory, 'source.inert'), output = path.join(directory, 'output.inert'), stageDirectory = path.join(directory, 'evidence');
   await fs.writeFile(input, 'source inert fixture'); await fs.writeFile(output, mov ? movFixture([{ id: 1 }]) : 'output inert fixture'); await fs.mkdir(stageDirectory);
-  const identity = await readSourceIdentity(input), p = source({ audio: false }); p.format.size = identity.size;
+  const identity = await readSourceIdentity(input), p = source({ audio: false, family: route?.inputFamily }); p.format.size = identity.size;
   Object.assign(p.streams[0], { width: 2, height: 2, display_aspect_ratio: '1:1', avg_frame_rate: '1/1', r_frame_rate: '1/1', time_base: '1/1000', duration_ts: 2000 });
   // MOV declares stream titles differently; this check is about track languages only.
-  if (mov) delete p.streams[0].tags.title;
-  const h = fixture({ probe: p, identity, ...(mov ? { target: 'mov' } : {}) }), selection = h.owner.select(h.bindings); h.owner.requireCurrent(selection, h.bindings);
+  const targetName = route?.target || (mov ? 'mov' : 'matroska');
+  if (targetName !== 'matroska') delete p.streams[0].tags.title;
+  const h = fixture({ probe: p, identity, target: targetName, ...(route ? { policy: { ...route, runtimeIdentity: RUNTIME } } : {}) }),
+    selection = h.owner.select(h.bindings); h.owner.requireCurrent(selection, h.bindings);
   h.owner.resolveInvocation(h.plan, { output });
-  const target = clone(p); target.format.format_name = mov ? 'mov,mp4,m4a,3gp,3g2,mj2' : 'matroska,webm'; if (mov) target.streams[0].id = '0x1'; target.format.tags = { ...target.format.tags, [MARKER_KEY]: '1', [OUTPUT_ID_KEY]: OUTPUT_ID };
+  const target = clone(p); target.format.format_name = targetName === 'matroska' ? 'matroska,webm' : 'mov,mp4,m4a,3gp,3g2,mj2'; if (mov) target.streams[0].id = '0x1'; target.format.tags = { ...target.format.tags, [MARKER_KEY]: '1', [OUTPUT_ID_KEY]: OUTPUT_ID };
+  const pts = variable ? [0, 500, 1500] : [0, 1000], duration = variable ? 500 : 1000;
   const run = async (executable, args, options) => {
     const isOutput = args[args.indexOf('-i') + 1] === output; let bytes;
-    if (args.includes('-show_frames')) bytes = Buffer.from(JSON.stringify({ frames: [0, 1000].map(pts => ({ media_type: 'video', stream_index: 0,
-      pts: pts + (isOutput ? offset : 0), duration: 1000, width: 2, height: 2, pix_fmt: 'yuv420p', key_frame: 1,
+    if (args.includes('-show_frames')) bytes = Buffer.from(JSON.stringify({ frames: pts.map(pts => ({ media_type: 'video', stream_index: 0,
+      pts: pts + (isOutput ? offset : 0), duration, width: 2, height: 2, pix_fmt: 'yuv420p', key_frame: 1,
       ...(isOutput && metadataChanged ? { color_primaries: 'bt2020' } : {}) })) }));
-    else if (args.includes('-show_packets')) bytes = Buffer.from(JSON.stringify({ packets: [0, 1000].map(pts => ({ stream_index: 0, pts, duration: 1000, size: '6', data_hash: `SHA256:${'c'.repeat(64)}` })) }));
-    else bytes = Buffer.from(`#hash: SHA256\n0, 0, 0, 1, 6, ${(isOutput && contentChanged ? 'd' : 'c').repeat(64)}\n0, 1, 1, 1, 6, ${'c'.repeat(64)}\n`);
+    else if (args.includes('-show_packets')) bytes = Buffer.from(JSON.stringify({ packets: pts.map(pts => ({ stream_index: 0, pts, duration, size: '6', data_hash: `SHA256:${'c'.repeat(64)}` })) }));
+    else bytes = Buffer.from('#hash: SHA256\n' + pts.map((pts, i) => `0, ${i}, ${pts}, ${duration}, 6, ${(isOutput && contentChanged && i === 0 ? 'd' : 'c').repeat(64)}\n`).join(''));
     await options.onStdoutChunk(bytes);
     return { exitCode: 0, stdout: '', stderr: '', stderrCapture: { totalBytes: 0, truncated: false }, stdoutCapture: { totalBytes: bytes.length, truncated: false, streamed: true } };
   };
@@ -507,6 +599,17 @@ test('complete genuine collected evidence validates actual stage while serialize
   invalid(() => anotherOwner.owner.validate(renewed, h.target, h.receipt));
   anotherOwner.owner.resolveInvocation(renewed, { output: `${h.output}.different` }); invalid(() => anotherOwner.owner.validate(renewed, h.target, h.receipt));
   invalid(() => h.owner.prepare(h.prepare)); h.owner.invalidate(); invalid(() => h.owner.prepare(h.prepare));
+});
+
+test('the four existing routes still validate complete variable cadence without the MOV envelope gate', async t => {
+  assert.equal(PRE_MOV_POLICIES.length, 4);
+  for (const route of PRE_MOV_POLICIES) {
+    const h = await collected(t, { route, variable: true });
+    const video = h.receipt.essenceEvidence.streams.find(stream => stream.codecType === 'video');
+    assert.equal(video.source.cadence.classification, 'variable'); assert.equal(video.output.cadence.classification, 'variable');
+    const result = h.owner.validate(h.plan, h.target, h.receipt);
+    assert.equal(result.valid, true, route.id + ': ' + result.errors.join('; '));
+  }
 });
 
 test('complete receipts cannot weaken native content, metadata or fixed timing validation', async t => {

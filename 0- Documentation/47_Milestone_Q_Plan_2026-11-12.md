@@ -77,6 +77,10 @@ Range packet copy (Q04), chapters in a range encode (Q06), subtitles on a resize
 
 - The re-measure used the unchanged calibration harness and the unchanged normal-service smoke (only its catalog-count check). Calibration `0ad1d184` passed 6/6 and service `3a0b698b` passed; an auditor agent passed all six checks. The 621.14 cell has the same frozen bounds as the 621.01 cell, which stays in the catalog.
 
+### Q2b notes (commit `f5e5455`)
+
+- The first FULL cells cover only 1080p30 whole files whose video, audio, container and decoded source last 10–31 s, with audio within one AAC frame of the video. That is the measured shape (A 10 s, E 31 s); everything else is refused. Copied audio is proven by packet identity and exact sample equality, and a new copy clock models the Matroska duration. 60 fps, longer and shorter files each need a fixture and a calibration first.
+
 ## 4. Points for Ahmed (none blocks Waves 1–2)
 
 | # | Question | Root's recommendation |

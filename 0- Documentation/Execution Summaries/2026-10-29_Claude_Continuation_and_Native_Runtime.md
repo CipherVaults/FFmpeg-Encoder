@@ -727,3 +727,27 @@ The design decisions are in record 37's new "C4 amendments" section.
 - **Tests.** New `tests/operation-catalog.test.cjs` pins the three-cell shape, the equal bounds, the evidence ids and the policy id, and checks that the selector accepts the catalog. `q2a-focused` 209/209; `q2a-full` 2599/2609 with the 5 known failures.
 - **Known limit.** `orientationQualification` picks the first family matching runtime and settings, so an absent-rotation 720 NVIDIA plan names the 621.01 endpoint evidence id. That id is descriptive (format-checked only), and both cells share runtime and bounds.
 - **Seals.** `src/operation-catalog.cjs` is in the suspended HDR seal list, so drift grows. No reseal (D7).
+
+## Slice Q2b: whole-file 1080p30→720p with copied audio — November 12–13 (Cairo)
+
+- **Why.** A whole-file resize that keeps the original audio was always refused (`OPERATION_RESIZE_UNQUALIFIED` or `OPERATION_QUALIFICATION_REQUIRED`). The only family covered trims with re-encoded AAC.
+- **Observation before freezing bounds.** A throwaway MP4/MOV→Matroska AAC copy of fixtures A and E kept every payload hash, the extradata, the 1024-sample priming and the end padding. Timestamps were rounded to 1 ms (worst 333 µs). Matroska stored the copied end plus the codec delay (10.000 s → 10.021 s). That fixed the copy-clock model before any calibration encode. The calibration outputs fitted nothing.
+- **Code (`f5e5455`).**
+  - `src/operation-family.cjs`: second family, per-family scope, exactly-one selection, options read once, preferred refusal reason, and decoded extents bounded per family.
+  - `src/operation-evidence.cjs`: copied-packet identity and the new source policy id (30 fps only, never the AAC packet clock).
+  - `src/encode-operation.cjs`: packet-identity rule, exact copy sample count and the `matroska-copy-end-plus-codec-delay` clock.
+  - `src/operation-catalog.cjs`: two cells.
+  - New `scripts/v07-sdr-full-copy-calibration.cjs`, which adds an independent packet-hash comparison and exact PCM equality. The range harness is byte-identical.
+  - `scripts/v07-family-service-smoke.cjs`: a whole-file job per profile.
+- **Calibrations.**
+  - CPU `98477556` (SHA-256 `3d9be6b4…df0`, 41.5 s) and NVIDIA `ac92103e` (SHA-256 `c2aa0d91…be06`, 16.9 s). Both passed A and E, with module hashes equal before and after.
+  - The earlier `3e33e802`/`f0934543` and manifest `catalog-evidence-v4-full-copy.json` are superseded and retained.
+- **Service.** `84cb3464` (SHA-256 `6d67f3a3…a9f`), `passed-bounded-fresh-service`. The pre-fix run `0f12c667` also passed.
+- **Review.** Workflow `wf_eb1aad7e-7ff`: three lenses (family, evidence, chain), each finding adversarially verified.
+  - Medium (fixed): the scope bounded only the video metadata. A 10 s video with 100 s of copied audio could have been admitted, and the decoded check kept 120 s.
+  - Low (fixed): double read of the options, wrong-family refusal text, receipt scope label, calibration decode label, missing pins.
+  - Refuted: the claim that older encode-operation smokes break (their resize cases have no audio), and the claim of design-test drift.
+  - Kept as a known limit: the ambiguity branch has no reachable test.
+- **Tests.** New negative tests for long audio, long container, mismatched audio, a file under 10 s, decoded extents, and tampered packets, priming and headers. Five mutation checks fail. `q2b-focused` 121/121; `q2b-full` 2612/2622 with the same 5 parked failures as `q2a-full`.
+- **Narrowing for Ahmed.** The first cell admits only 10–31 s at 30 fps; that is what was measured. Shorter, longer and 60 fps whole files need their own fixtures and calibrations. No budget was raised.
+- **Pause.** The 5-hour window reached 98% at about 23:20. Root stopped and resumed at 03:41 Cairo on Ahmed's instruction.

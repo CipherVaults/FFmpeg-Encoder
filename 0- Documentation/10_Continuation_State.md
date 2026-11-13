@@ -1,3 +1,24 @@
+> **ACTIVE — November 13, 2026 (early morning). Writer lock phase `q2b`. Slice Q2b of [record 47](47_Milestone_Q_Plan_2026-11-12.md) is COMMITTED in `f5e5455`: a whole 1080p30 file can be encoded to 720p while keeping its original AAC audio, checked packet by packet.**
+> - **Ahmed, November 12–13:** "continue the work immediately at Friday nov 13, 3:40am" (root paused at 98% of the 5-hour window and resumed then). Then: "after your 4:00am reset, use Codex in as much work as you can delegate, I will Reset Codex's Quota now... push as hard as you can to utilize your own quota first in this window. and then after 4:00am rely on Codex like we did before." From 04:00 Cairo, Q2c onward is briefed to Codex through `/codex-run` (record 40), with root reviewing and committing.
+> - **Family.** `full-sdr-resize-copy-v1` admits only a whole-file 1080p30 → 720p job with exactly one AAC stream copied. Video, audio, container and the decoded source must all last 10–31 s, and the audio must end within one AAC frame (1024/48000 s) of the video. Selection now picks exactly one family by request scope (`OPERATION_FAMILY_AMBIGUOUS` otherwise; unreachable with today's disjoint scopes). The options are read once, and a refusal names the family the job aimed at. The range family's behaviour is unchanged.
+> - **Copied audio is proven.** The collector compares the ordered payload SHA-256 of every copied packet, the skip/padding side data and the decoder header with the source (`OPERATION_EVIDENCE_PACKET_IDENTITY`). The validator requires those seals and an exactly equal decoded sample count. The container duration uses a new copy clock: max(video end, decoded copied end + its own codec delay), within the frozen 1088 µs bound. Matroska was observed to store the copied end plus the 1024-sample delay (10.000 s → 10.021 s).
+> - **Measured.**
+>   - First calibrations: `3e33e802` (CPU) and `f0934543` (NVIDIA). Both passed, then were superseded by the review fixes.
+>   - Final calibrations on the committed bytes: `98477556` (CPU) and `ac92103e` (NVIDIA 621.14). Each passed A (10 s MP4) and E (31 s MOV): 470 and 1455 packets identical, decoded PCM byte-identical, sample counts equal.
+>   - Manifest: `artifacts/v0.7/milestone-q/q2b/catalog-evidence-v4-full-copy-r2.json` (SHA-256 `48fb030e…2811`).
+>   - The two new catalog cells carry the frozen bounds 1067/1042/2109/1088/0. Each is at most the range family's bound; nothing was fitted or widened.
+> - **Normal service.** `84cb3464` passed: CPU and NVIDIA each ran a trim and a whole-file copy through the main factory and catalog, one child at a time, in 140 invocations. The smoke's invocation cap was raised from 120 to 180; that is a harness limit, not a product budget.
+> - **Review.** Three `reviewer` lenses with adversarial verification. Confirmed and fixed:
+>   - the 31 s limit was checked on the video metadata only (audio, container and decoded extents could reach 120 s);
+>   - the options were read twice;
+>   - refusal messages named the wrong family;
+>   - the receipt scope label and a calibration decode label were wrong;
+>   - two pins were missing.
+>   Five mutation checks each fail a test.
+> - **Evidence.** `q2b-focused` 121/121; `q2b-full` 2612/2622 with the same 5 parked encode-preservation failures. `tests/vendor-baseline.test.cjs` re-pins `src/encode-operation.cjs` and `src/operation-family.cjs` as Q2b; the golden ordinary-argv capture passes unedited. HDR seal drift grows; no reseal (D7).
+> - **Next:** Q2c (FLAC range) via Codex after 04:00, then Q2d–Q2f.
+> - The banner below is history.
+
 > **ACTIVE — November 12, 2026 (night). Writer lock phase `q2a`. Slice Q2a of [record 47](47_Milestone_Q_Plan_2026-11-12.md) is COMMITTED in the commit that carries this banner: NVIDIA trims work again on driver 621.14.**
 > - **Calibration.** `scripts/v07-sdr-family-calibration.cjs --profile h265-nvidia` on the committed bytes of `4c1c305`: report `0ad1d184-663b-4aa7-85f0-61d847622ce1` (SHA-256 `c1d7ce2e…a308c6`), status `passed-representative-profile-calibration`, all six cases A, B, C, D, E and D-keep passed in 102 s. Same adapter UUID, driver 621.14; modules unchanged before and after.
 > - **Cell.** Manifest `artifacts/v0.7/milestone-q/q2a/catalog-evidence-v3-nvidia-621.14.json` (SHA-256 `91cd933c…bdf52a90`, built by `build-manifest.cjs` beside it; copies the report's frozen per-case values). `src/operation-catalog.cjs` gains a third family: the NVIDIA cell bound to 621.14, with evidence ids `sdr-range-20261112:h265-nvidia:91cd933c82437553:*`. Its tolerances are the frozen pre-encode bounds, identical to the 621.01 cell; nothing was fitted or widened. The 621.01 cell stays. `POLICY_ID` names both manifests.

@@ -28,7 +28,7 @@ node .claude/skills/codex-run/codex-run.cjs --mode work   --brief <follow-up.md>
     - A reached limit clears when that window resets.
   - Over a limit, the job is not started (exit 6) and the reset time is printed. Wait for the reset, or do root-side work meanwhile.
   - Every receipt keeps the readings before and after, plus the job's own token total, so real costs are learned per job.
-- **Effort.** `xhigh` with `gpt-6.1-sol` by default. Ahmed chose xhigh over `ultra`: ultra delegates to helper agents root cannot track, and it costs more. `max` and `ultra` are refused.
+- **Effort.** `xhigh` with `gpt-6.1-sol` by default. Ahmed chose xhigh over `ultra`: ultra delegates to helper agents root cannot track, and it costs more. `ultra` is refused. `--effort max` is allowed for the hardest jobs only (Ahmed, November 13, 2026): policy reviews, validator or trust-boundary work, and anything where a wrong answer would waste a fresh proof run.
 - **Fixed Codex arguments.**
   - **Full access, no approvals:** `--dangerously-bypass-approvals-and-sandbox` (owner decision).
   - **The project guard runs:** `--dangerously-bypass-hook-trust` runs `.codex/hooks.json`, which `toolkit-sync` keeps identical to `.claude/`. Whether Codex fires it for its own tool names is checked in the pilot.

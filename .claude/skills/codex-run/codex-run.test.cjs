@@ -69,7 +69,8 @@ test('options: malformed, oversized and out-of-policy inputs fail closed with a 
   assert.equal(opts(fx).effort, 'xhigh'); assert.equal(opts(fx).timeoutSec, 3600);
   bad(['--mode', 'slice'], /--mode/);
   bad(['--label', 'Bad Label'], /--label/);
-  for (const e of ['max', 'ultra']) bad(['--effort', e], /no max or ultra/);
+  bad(['--effort', 'ultra'], /no ultra/);
+  assert.equal(opts(fx, ['--effort', 'max']).effort, 'max');
   bad(['--allow', 'src'], /work jobs only/);
   const work = extra => cr.parseOptions(['--mode', 'work', '--brief', fx.brief, '--label', 'x', '--repo', fx.repo, '--codex-bin', FAKE, '--receipts', fx.receipts, ...extra]);
   assert.throws(() => work([]), /at least one --allow/);

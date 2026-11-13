@@ -177,3 +177,21 @@ Codex's weekly window read 91% (plan `prolite`) and the 90% gate refused AMD/Int
 - `QUOTA_LIMITS.long` in `/codex-run` is now 100. The 5-hour gate stays at 80%.
 - Root synced the change to `.agents` with `toolkit-sync --write`. Receipt: `codex-gate-100`.
 - Every other rule in this record is unchanged.
+
+## Amendment — November 13, 2026: Codex first, Max allowed, Claude on Fable Low
+
+Ahmed, November 13:
+
+- "use Codex when you can to save on your own quota, Codex has GPT-6.1 Sol Extra High which is on bar with Opus 5.5 High at fifth of the cost." He is on ChatGPT Pro 10x, so Codex has no 5-hour limit and plenty of weekly quota.
+- Asked whether the wrapper should allow Sol Max for the hardest jobs: "Allow Max for hard jobs".
+- "switch to Fable 5.2 Low for your work if it's indeed better." He then switched this session to Fable 5.2 at Low himself.
+
+What changed:
+
+- **Codex first.** Codex now does reviews as well as code, proof scripts and tests. A review runs in a fresh `--mode review` session, never the session that wrote the code. Root keeps scheduling, the media runs, catalog entries, records, Notion, commits and a short final check. Large Claude review workflows are for cases where the risk calls for them.
+- **Max.** `/codex-run` accepts `--effort max`; the default stays `xhigh`, and `ultra` stays refused. Max is for the hardest jobs only: policy reviews, validator or trust-boundary work, and anything where a wrong answer would waste a fresh proof run.
+- **Claude helpers.** `reviewer` and `researcher` moved from Opus to Fable at Low effort; `auditor` stays on Haiku.
+- **Basis.** Ahmed's Benchmark Lab (Artificial Analysis Intelligence Index v5.0.1, November 13): Sol Max 55 at $1.27 per task; Fable 5.2 Low 54 at $3.10; Opus 5.5 High 52 at $3.46. These are API costs per benchmark task, not subscription quota.
+- **Context, not an instruction.** Fable has its own weekly meter on the Pro plan. The app shows Fable as "Included until November 16".
+- Root synced the toolkit with `toolkit-sync --write`; the wrapper and sync tests pass (20/20). Every other rule in this record is unchanged.
+

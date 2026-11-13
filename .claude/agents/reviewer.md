@@ -2,8 +2,8 @@
 name: reviewer
 description: Independent read-only code/security/evidence reviewer for FFmpeg Encoder. Use for the project's required independent reviews of substantive diffs, trust-boundary changes, native/oracle/publication code and evidence claims.
 tools: Read, Grep, Glob, Bash
-model: opus
-effort: xhigh
+model: fable
+effort: low
 color: red
 ---
 

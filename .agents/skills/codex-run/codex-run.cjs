@@ -4,7 +4,7 @@
 // the project; it never commits or pushes. Root reviews every change, re-runs the evidence and commits.
 // One writer at a time: root does not edit project files while a job runs. Usage (repository root):
 //   node .claude/skills/codex-run/codex-run.cjs --mode review|work --brief <file.md> --label <name>
-//        [--allow <path>]... [--effort low|medium|high|xhigh] [--model <id>] [--timeout-min <1-240>] [--resume <session-id>]
+//        [--allow <path>]... [--effort low|medium|high|xhigh|max] [--model <id>] [--timeout-min <1-240>] [--resume <session-id>]
 // Exit codes: 0 done, 1 Codex failed, 2 usage, 3 blocked, 4 needs owner decision, 5 rejected, 6 quota, 124 timeout.
 const fs = require('node:fs'), os = require('node:os'), path = require('node:path'), crypto = require('node:crypto');
 const { spawn, spawnSync } = require('node:child_process');
@@ -19,7 +19,7 @@ const QUOTA_LIMITS = { short: 80, long: 100 };
 const FIXED_ARGS = ['--dangerously-bypass-approvals-and-sandbox', '--dangerously-bypass-hook-trust', '--ignore-user-config'];
 const REFUSED = new Set(['--add-dir', '--ignore-rules', '--approve-for-me', '--full-auto', '--yolo', '--oss', '--local-provider',
   '--cyber-access-program', '--worktree', '--skip-git-repo-check', '-p', '--profile', '--enable', '--disable', '-s', '--sandbox', '--last', '--all']);
-const CONFIG_OK = /^(model_reasoning_effort="(low|medium|high|xhigh)"|features\.memories=false)$/;
+const CONFIG_OK = /^(model_reasoning_effort="(low|medium|high|xhigh|max)"|features\.memories=false)$/;
 // Paths a job may never change; root owns records, toolkit, dependencies, Git and the pinned runtime.
 const PROTECTED = [/^0- Documentation\//i, /^\.claude\//i, /^\.codex\//i, /^\.agents\//i, /^AGENTS\.md$/i, /^CLAUDE\.md$/i,
   /^package(-lock)?\.json$/i, /^node_modules\//i, /^artifacts\//i, /^\.git/i, /^ffmpeg\//i,
@@ -67,7 +67,7 @@ function parseOptions(argv, env = process.env, cwd = process.cwd()) {
   }
   if (!['review', 'work'].includes(o.mode)) throw usage('--mode must be review or work');
   if (!o.label || !/^[a-z0-9][a-z0-9-]{0,47}$/.test(o.label)) throw usage('--label must be 1-48 lowercase letters, digits or dashes');
-  if (!['low', 'medium', 'high', 'xhigh'].includes(o.effort)) throw usage('--effort must be low, medium, high or xhigh (record 40: no max or ultra)');
+  if (!['low', 'medium', 'high', 'xhigh', 'max'].includes(o.effort)) throw usage('--effort must be low, medium, high, xhigh or max (record 40: no ultra; max only for the hardest jobs)');
   if (!/^[a-z0-9][a-z0-9.-]{0,63}$/.test(o.model)) throw usage('--model has unexpected characters');
   if (o.mode === 'review' && o.allow.length) throw usage('--allow applies to work jobs only; a review changes nothing');
   if (o.mode === 'work' && !o.allow.length) throw usage('a work job needs at least one --allow path');

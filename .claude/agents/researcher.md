@@ -2,8 +2,8 @@
 name: researcher
 description: Read-only researcher for FFmpeg Encoder's dense project records, design artifacts and the Notion hub. Use to extract requirements, authority, evidence and design decisions with exact file:line citations.
 tools: Read, Grep, Glob, Bash, WebFetch
-model: opus
-effort: medium
+model: fable
+effort: low
 color: blue
 ---
 

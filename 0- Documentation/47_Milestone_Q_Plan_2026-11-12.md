@@ -177,3 +177,14 @@ Changes to the plan in §6:
 | R07 logo | Codex designs candidates; root reviews for theme fit; Ahmed selects. |
 
 - Q2i status at this entry: Codex jobs `q2i-limits-1` (blocked on the allow list) and `q2i-limits-2` (done) removed the fixed 120 s / 512 MiB remux ceilings in the working tree; not yet reviewed, measured or committed.
+
+## 8. Owner decision — November 13, 2026 (night): remux verification must take seconds
+
+- **Measurement.** Q2i's first long proof (`bb1a7617`, failed and retained for a wrong harness expectation, not an app fault) remuxed a 20-minute 1080p30 file correctly. The copy took 0.24 s. Verification took about 12.7 minutes: `ffprobe` frame listing 42–46 s per side and a complete decoded video frame hash 325–327 s per side. Peak main-process memory was about 353 MB. At that rate a 2-hour file needs roughly 75 minutes.
+- **Ahmed:** "yes, it's critical to bring this time to seconds not hours, almost drive write speed difference."
+- **Root's technical decision (slice Q2o, built on the uncommitted Q2i tree).** Verified Full Remux proves essence identity on the compressed data instead of decoding every frame:
+  - every packet of every copied stream is hashed on the source and on the output and compared in order, with its size, key flag and exact timestamps; codec parameters (extradata) must match;
+  - a bounded decode check at the start and the end proves the output decodes with its own container parameters;
+  - where a route would legitimately change packet bytes, the complete decoded comparison remains the method.
+- **Why this is not a weaker check.** A stream copy cannot change a picture without changing a packet or the codec parameters; identical packets and parameters decode to identical pictures. The timing, metadata, disposition and publication checks are unchanged.
+- The second proof run `9c1b8e43` was stopped by root when Ahmed decided this; it is incomplete and proves nothing.

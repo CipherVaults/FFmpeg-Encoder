@@ -1,3 +1,8 @@
+> **November 13, 2026 (late evening) — additions to the banner below.**
+> - **Owner decisions (record 47 §7).** Order after 0.7 agreed (0.8 HDR, 0.9 bigger and broader, 1.0 public release; not a go to build). Quick copy keeps every track. MP3→MP4 confirmed; root picks the method. No feature may be limited to short videos: trim and whole-file resize at any length is 0.7 work (slice Q2n). Codex designs the logo candidates.
+> - **Q2i in the working tree, uncommitted.** Codex job `q2i-limits-2` removed the remux length and size ceilings (13 files; its own run: 2750 pass, same 5 parked failures). Next: fresh Codex review, fixes, long fixtures (`scripts/v07-remux-long-fixtures.cjs`), proofs (`scripts/v07-remux-long-smoke.cjs`), commit.
+> - **Then:** logo job and Q2j (TS→MP4, MP3→MP4), then Q2n.
+
 > **ACTIVE — November 13, 2026 (evening). Writer lock phase `q2g`. Slice Q2g of [record 47](47_Milestone_Q_Plan_2026-11-12.md) is COMMITTED in `d280f4e`: variable-frame-rate MP4 and MOV files can be remuxed to MOV.**
 > - **Route.** `full-remux-isobmff-mov-v1` now uses `sourceEnvelope: 'h264-aac-lc-48k-stereo-v2'`; `REMUX_POLICY_ID` is `full-remux-v4:2026-11-13:five-routes-mov-vfr`.
 >   - Constant-cadence files keep the 30/60 fps rule (`REMUX_MOV_RATE_UNQUALIFIED` otherwise).

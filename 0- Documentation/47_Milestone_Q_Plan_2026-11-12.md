@@ -158,3 +158,22 @@ Root's plan, in order (each slice via Codex, measured on owned files before it i
 - **Settings pattern (R).** Where a case has several valid answers, the app offers them as remux-only settings: a one-line trade-off each, a recommended default from measurement, greyed-out options with their reason, a per-file override, and the result row states which option was used. Ordinary encode defaults are untouched.
 - **Optimization pass (R).** During polishing: speed and memory work that leaves quality, checks and behaviour unchanged, each change measured before and after.
 - **Roadmap artifact.** https://claude.ai/artifact/VhJeta8oFkJ9m5xoyAmwEB; root republishes it at each phase close when features change.
+
+## 7. Owner decisions — November 13, 2026 (evening)
+
+Ahmed's words, in order:
+
+- "Keep the split" — the order after 0.7 shown on the roadmap artifact: 0.8 HDR, 0.9 bigger and broader (4K/1440p, more source kinds, AMD/Intel on real hardware), 1.0 public release. This agrees the order; it is not a go to build any of it.
+- "yes, to both but choose how to do it" — Quick copy keeps every track, and "MP3 on the reverse" means MP3→MP4. Root chooses the method for each.
+- "the Trimming option should be for any length of videos, not just short ones (same for every future)" — no feature may be limited to short videos. The 0.5–30 s trim range and the 10–31 s whole-file resize range are removed inside 0.7.
+- "and Let Codex design the logo" — a Codex job designs the logo candidates (R07) into a separate candidate folder, fitted to the dark amber and light teal themes. The shipped icon stays until Ahmed selects.
+- On the roadmap artifact: an always-visible side scroll bar, the current version shown on open, a button to expand details, a light look by default, and "XS, S, M, L & XL classes" for each feature.
+
+Changes to the plan in §6:
+
+| Slice | Change |
+|---|---|
+| Q2n | Trim and whole-file resize at any length (streaming verification and proportional budgets, as Q2i does for remux). After Q2j. |
+| R07 logo | Codex designs candidates; root reviews for theme fit; Ahmed selects. |
+
+- Q2i status at this entry: Codex jobs `q2i-limits-1` (blocked on the allow list) and `q2i-limits-2` (done) removed the fixed 120 s / 512 MiB remux ceilings in the working tree; not yet reviewed, measured or committed.

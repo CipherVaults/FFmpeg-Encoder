@@ -751,3 +751,25 @@ The design decisions are in record 37's new "C4 amendments" section.
 - **Tests.** New negative tests for long audio, long container, mismatched audio, a file under 10 s, decoded extents, and tampered packets, priming and headers. Five mutation checks fail. `q2b-focused` 121/121; `q2b-full` 2612/2622 with the same 5 parked failures as `q2a-full`.
 - **Narrowing for Ahmed.** The first cell admits only 10–31 s at 30 fps; that is what was measured. Shorter, longer and 60 fps whole files need their own fixtures and calibrations. No budget was raised.
 - **Pause.** The 5-hour window reached 98% at about 23:20. Root stopped and resumed at 03:41 Cairo on Ahmed's instruction.
+
+## Slice Q2c: precision-FLAC range family — November 13 (Cairo)
+
+- **Instruction.** Ahmed: "after your 4:00am reset, use Codex in as much work as you can delegate ... and then after 4:00am rely on Codex like we did before."
+- **Codex job 1** (`20261113T014753Z-q2c-flac-1-188250`, about 14 minutes) built the family, collector and validator changes, the two parameterised scripts and the tests.
+  - Its brief is `artifacts/v0.7/milestone-q/q2c/brief-work-1.md`.
+  - Its progress log records the source-shape choice (QuickTime `pcm_s16le` s16 48 kHz stereo) and a throwaway Matroska mux showing that FLAC duration equals the decoded end. It also records each frozen bound with its derivation.
+- **Root media work.**
+  - Fixtures `eb6ba690`. The report SHA `11c90201…b526` was filled into the calibration constants.
+  - First calibrations `3e1a212e` (CPU) and `8b606f80` (NVIDIA): 6/6 each.
+- **Review.** Workflow `wf_5f600355-a7c`: three lenses, each finding adversarially verified. Five low findings were confirmed:
+  - whole-file FLAC refusal text;
+  - MP4-branded PCM admitted although only QuickTime was measured;
+  - the 44.1 kHz AAC refusal reason changed;
+  - two guard clauses had no negative test;
+  - no non-AAC coverage for the moved AAC check.
+- **Codex job 2** (`20261113T022200Z-q2c-flac-2-8bf097`, resume of the same session) fixed all five. It also added FLAC-only catalog ceilings.
+- **Re-measured on the final bytes.** `6a084955` (CPU, SHA-256 `b185e4d0…49f4b1`, 234 s) and `c16a9599` (NVIDIA, SHA-256 `8086b4f3…dd2b20`, 92 s): 6/6, with the module hashes equal to the committed bytes.
+- **Catalog.** Manifest `catalog-evidence-v5-flac-range.json` (`58e6c2ae…3d3c`) and two cells. `POLICY_ID` became a single digest (`9e2629b5…ae08`) because the chained form exceeded the 256-character bound. Root caught this with the catalog test.
+- **Service.** `d201d3cb` (SHA-256 `0cc7a75a…944c`) passed all six jobs.
+- **Checks.** Five mutation checks (brand, ceilings, FLAC clock, collector range clause, packet-clock guard) each fail a test. `q2c-focused` 161/161; `q2c-full` 2627/2637 with the same 5 parked failures.
+- **Limits for Ahmed.** FLAC needs integer 16-bit PCM sources in QuickTime at 48 kHz stereo. AAC, 44.1 kHz, mono, 24-bit, planar and MP4-branded sources are refused until measured.

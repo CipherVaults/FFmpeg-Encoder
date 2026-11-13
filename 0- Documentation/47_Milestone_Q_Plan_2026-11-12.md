@@ -81,6 +81,10 @@ Range packet copy (Q04), chapters in a range encode (Q06), subtitles on a resize
 
 - The first FULL cells cover only 1080p30 whole files whose video, audio, container and decoded source last 10–31 s, with audio within one AAC frame of the video. That is the measured shape (A 10 s, E 31 s); everything else is refused. Copied audio is proven by packet identity and exact sample equality, and a new copy clock models the Matroska duration. 60 fps, longer and shorter files each need a fixture and a calibration first.
 
+### Q2c notes (commit `6b620fd`; Codex-built, root-reviewed)
+
+- FLAC for trims applies only to QuickTime sources with integer 16-bit PCM at 48 kHz stereo. That is the measured shape; AAC sources cannot become lossless FLAC. The family uses `end-timestamp` with exact PCM identity, and its bounds can never exceed the AAC range family's. Wider PCM shapes (24-bit, 44.1 kHz, mono, MP4 brand) each need a fixture and a calibration.
+
 ## 4. Points for Ahmed (none blocks Waves 1–2)
 
 | # | Question | Root's recommendation |

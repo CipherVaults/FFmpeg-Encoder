@@ -1,3 +1,22 @@
+> **ACTIVE — November 13, 2026 (morning). Writer lock phase `q2c`. Slice Q2c of [record 47](47_Milestone_Q_Plan_2026-11-12.md) is COMMITTED in `6b620fd`: trims of QuickTime PCM files can carry lossless FLAC audio, checked sample for sample.**
+> - **Team.** Per Ahmed's November 13 instruction, Codex (GPT-6.1 Sol, xhigh, `/codex-run`, record 40) wrote the code, scripts and tests in two jobs (`q2c-flac-1`; `q2c-flac-2` for the review fixes); together they used about 8% of its weekly window. Root reviewed, generated fixtures, ran every media job, built the manifest and catalog, edited the smoke and the catalog test, and committed.
+> - **Family.** `short-sdr-range-flac-v1` admits a 0.5–30 s range, Keep Source or 1080→720, from a QuickTime (`qt  `) file with one 48 kHz stereo `pcm_s16le` stream, encoded to FLAC.
+>   - The sample count and the selected decoded PCM must match exactly.
+>   - Container duration is `end-timestamp`: Codex's throwaway mux showed no codec delay. The AAC packet clock and the copy clock are refused.
+>   - The family loader also refuses any FLAC record wider than the AAC range bounds.
+>   - The AAC range and copy families admit exactly what they did before. `sourceFacts` keeps a family-neutral audio precheck; codec selection is per family.
+> - **Measured.**
+>   - PCM fixtures `eb6ba690`: four QuickTime files, 720p30, 720p60, 1080p30 and 1080p60.
+>   - Calibrations on the final bytes: `6a084955` (CPU) and `c16a9599` (NVIDIA 621.14), 6/6 each, with exact samples and PCM and no warnings. The pre-fix runs `3e1a212e` and `8b606f80` passed and are superseded.
+>   - Manifest `artifacts/v0.7/milestone-q/q2c/catalog-evidence-v5-flac-range.json` (SHA-256 `58e6c2ae…3d3c`).
+>   - Cell bounds 1067/1042/2109/1088/0, each at most the AAC range bound.
+> - **Policy id.** `POLICY_ID` is now `sdr-families-v2:2026-11-13:sha256:<sha256 of the four manifest digests joined by +>`. Chaining four digests exceeded the 256-character identity bound; the catalog test caught it before any run.
+> - **Normal service.** `d201d3cb` passed an AAC trim, a whole-file copy and a FLAC trim on CPU and NVIDIA, one child at a time, in 168 invocations. The smoke's caps rose to 240 invocations and 20 minutes; these are harness limits only.
+> - **Review.** Three `reviewer` lenses with adversarial verification found five low findings, all fixed by Codex: refusal-reason order, measured QuickTime brand only, the family-neutral audio precheck, two missing negatives, and coverage for the moved AAC check. Five mutation checks each fail a test.
+> - **Evidence.** `q2c-focused` 161/161; `q2c-full` 2627/2637 with the same 5 parked failures. Vendor baseline re-pins `encode-operation.cjs` and `operation-family.cjs` as Q2c; the golden ordinary-argv capture passes unedited.
+> - **Next:** Q2d (promote MKV→MP4 remux) via Codex.
+> - The banner below is history.
+
 > **ACTIVE — November 13, 2026 (early morning). Writer lock phase `q2b`. Slice Q2b of [record 47](47_Milestone_Q_Plan_2026-11-12.md) is COMMITTED in `f5e5455`: a whole 1080p30 file can be encoded to 720p while keeping its original AAC audio, checked packet by packet.**
 > - **Ahmed, November 12–13:** "continue the work immediately at Friday nov 13, 3:40am" (root paused at 98% of the 5-hour window and resumed then). Then: "after your 4:00am reset, use Codex in as much work as you can delegate, I will Reset Codex's Quota now... push as hard as you can to utilize your own quota first in this window. and then after 4:00am rely on Codex like we did before." From 04:00 Cairo, Q2c onward is briefed to Codex through `/codex-run` (record 40), with root reviewing and committing.
 > - **Family.** `full-sdr-resize-copy-v1` admits only a whole-file 1080p30 → 720p job with exactly one AAC stream copied. Video, audio, container and the decoded source must all last 10–31 s, and the audio must end within one AAC frame (1024/48000 s) of the video. Selection now picks exactly one family by request scope (`OPERATION_FAMILY_AMBIGUOUS` otherwise; unreachable with today's disjoint scopes). The options are read once, and a refusal names the family the job aimed at. The range family's behaviour is unchanged.

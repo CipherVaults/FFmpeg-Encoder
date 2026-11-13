@@ -80,8 +80,8 @@ test('five-policy test catalog admits the exact MOV AAC shape with native track 
   assert.deepEqual(PRE_MOV_POLICIES.map(route => route.id).sort(), [...PRE_MOV_POLICY_IDS].sort());
   const promoted = REMUX_POLICIES.filter(route => route.inputFamily === 'isobmff' && route.target === 'mov');
   assert.equal(promoted.length, 1);
-  assert.equal(promoted[0].id, 'full-remux-isobmff-mov-v1');
-  assert.equal(promoted[0].sourceEnvelope, 'h264-aac-lc-48k-stereo-v1');
+  assert.match(promoted[0].id, /^full-remux-isobmff-mov-v[12]$/);
+  assert.ok(['h264-aac-lc-48k-stereo-v1', 'h264-aac-lc-48k-stereo-v2'].includes(promoted[0].sourceEnvelope));
   assert.equal(promoted[0].allowAncillary, false); assert.equal(promoted[0].allowRotation90, false);
   const h = movRoute({ change: p => { p.streams[0].has_b_frames = 2; p.streams[0].tags.handler_name = 'VideoHandler';
     p.streams[1].tags.language = 'und'; p.streams[1].tags.handler_name = 'SoundHandler'; } });
@@ -108,6 +108,36 @@ test('MOV rate prefilter refuses differing, unknown and unmeasured summaries wit
     policy: { ...route, runtimeIdentity: RUNTIME }, ...(route.audio ? { omit: [2] } : {}),
     change: p => { p.streams[0].avg_frame_rate = '299/10'; } }).plan, route.id);
 });
+
+const MOV_V2_POLICY = { ...MOV_POLICY, sourceEnvelope: 'h264-aac-lc-48k-stereo-v2' };
+test('MOV v2 admits bounded positive unequal summaries while refusing each missing/unknown/over-60 summary', () => {
+  const prepareV2 = change => fixture({ target: 'mov', policy: MOV_V2_POLICY, change });
+  for (const [average, nominal] of [['40/1', '60/1'], ['299/10', '30/1'], ['24/1', '24/1'], ['60/1', '60/1']])
+    assert.ok(prepareV2(p => { p.streams[0].avg_frame_rate = average; p.streams[0].r_frame_rate = nominal; }).plan);
+  for (const key of ['avg_frame_rate', 'r_frame_rate']) for (const value of [undefined, 'N/A', '0/0', '0/1', '1/0',
+    '61/1', '60001/1000', '-1/1', '1.5/1', '1/10000000000000000']) {
+    reject(() => prepareV2(p => { if (value === undefined) delete p.streams[0][key]; else p.streams[0][key] = value; }), 'REMUX_MOV_RATE_UNQUALIFIED');
+  }
+});
+test('MOV v2 preserves every whole-source shape, audio, geometry and functional-metadata guard', () => {
+  for (const [change, code] of [
+    [p => { p.streams.pop(); p.format.nb_streams--; }, 'REMUX_MOV_SOURCE_SHAPE_UNQUALIFIED'],
+    [p => { p.chapters.push({ id: 0, time_base: '1/1000', start: 0, end: 1000, tags: {} }); }, 'REMUX_MOV_SOURCE_SHAPE_UNQUALIFIED'],
+    [p => { p.streams[1].sample_rate = '44100'; }, 'REMUX_MOV_AUDIO_UNQUALIFIED'],
+    [p => { p.streams[1].channels = 1; p.streams[1].channel_layout = 'mono'; }, 'REMUX_MOV_AUDIO_UNQUALIFIED'],
+    [p => { p.streams[0].tags.BPS = '1000'; }, 'REMUX_TRACK_TAG_UNREPRESENTABLE'],
+    [p => { p.streams[0].pix_fmt = 'yuv420p10le'; }, 'REMUX_QUALIFICATION_REQUIRED'],
+    [p => { p.streams[0].sample_aspect_ratio = '4:3'; }, 'REMUX_QUALIFICATION_REQUIRED'],
+  ]) reject(() => fixture({ target: 'mov', policy: MOV_V2_POLICY, change }), code);
+  reject(() => fixture({ target: 'mov', policy: MOV_V2_POLICY, omit: [2] }), 'REMUX_MOV_SOURCE_SHAPE_UNQUALIFIED');
+  for (const delta of [{ inputFamily: 'matroska' }, { target: 'mp4' }, { allowRotation90: true }]) invalid(() =>
+    new RemuxOperations({ runtimeIdentity: RUNTIME, policyIdentity: 'v2-test', policies: [{ ...MOV_V2_POLICY, ...delta }] }));
+  let reads = 0; const hostile = { ...MOV_V2_POLICY };
+  Object.defineProperty(hostile, 'sourceEnvelope', { enumerable: true, get() { reads++; return MOV_V2_POLICY.sourceEnvelope; } });
+  invalid(() => new RemuxOperations({ runtimeIdentity: RUNTIME, policyIdentity: 'v2-test', policies: [hostile] }));
+  assert.equal(reads, 0);
+});
+
 test('the MOV route envelope is an exact inert route-local policy field', () => {
   const make = route => new RemuxOperations({ runtimeIdentity: RUNTIME, policyIdentity: 'p', policies: [route] });
   for (const delta of [{ sourceEnvelope: undefined }, { sourceEnvelope: 'any-aac' }, { inputFamily: 'matroska' },

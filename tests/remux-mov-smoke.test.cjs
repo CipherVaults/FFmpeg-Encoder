@@ -279,14 +279,17 @@ test('Q2e orchestration fails if the service accepts a stale Start or ignores a 
 });
 test('Q2e exact configuration, normal route identity and fixed bounds cannot widen via CLI', () => {
   assert.equal(routeOptions('--qualify').remuxPolicies.length, 5);
-  const normal = routeOptions('--normal');
-  assert.equal(normal.remuxPolicies, REMUX_POLICIES); assert.equal(normal.remuxPolicyIdentity, REMUX_POLICY_ID);
-  assert.equal(REMUX_POLICY_ID, 'full-remux-v3:2026-11-13:five-routes');
-  const promoted = normal.remuxPolicies.filter(route => route.inputFamily === 'isobmff' && route.target === 'mov');
+  // Q2g (record 47) moved the production route to envelope v2. This retained Q2e
+  // harness is pinned to v1, so its normal mode must now refuse instead of
+  // producing evidence against a different production policy.
+  assert.equal(REMUX_POLICY_ID, 'full-remux-v4:2026-11-13:five-routes-mov-vfr');
+  const promoted = REMUX_POLICIES.filter(route => route.inputFamily === 'isobmff' && route.target === 'mov');
   assert.equal(promoted.length, 1); assert.equal(promoted[0].id, 'full-remux-isobmff-mov-v1');
-  assert.equal(promoted[0].sourceEnvelope, 'h264-aac-lc-48k-stereo-v1');
+  assert.equal(promoted[0].sourceEnvelope, 'h264-aac-lc-48k-stereo-v2');
   assert.equal(promoted[0].allowAncillary, false); assert.equal(promoted[0].allowRotation90, false);
-  assert.throws(() => requireProductionRoute(normal.remuxPolicies.filter(route => route.id !== 'full-remux-isobmff-mov-v1')));
+  assert.throws(() => routeOptions('--normal'));
+  assert.throws(() => requireProductionRoute(REMUX_POLICIES));
+  assert.throws(() => requireProductionRoute(REMUX_POLICIES.filter(route => route.id !== 'full-remux-isobmff-mov-v1')));
   for (const args of [[], ['--run-owned-remux','--qualify','--cases','mp4-a-mov,mp4-a-mov'],
     ['--run-owned-remux','--qualify','--cases','all'], ['--run-owned-remux','--qualify','--cases','mp4-a-mov','--maxStarts','3']]) assert.throws(() => configuration(args));
   assert.throws(() => routeOptions('--fallback'));

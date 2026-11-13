@@ -7,8 +7,10 @@
 // current explicit omission, and its evidence is fresh run 838e1196 (VFR, CFR
 // and B-frame sources under the 3fa87a3 complete-cadence validator).
 // ISOBMFF->MOV (record 47 Q2e) admits only one H.264 video plus one 48 kHz
-// stereo AAC-LC track at constant 30/60 fps, with no chapters; evidence is fresh
-// run 7a7f87a2. Other MOV shapes, TS and HDR remain unqualified.
+// stereo AAC-LC track, with no chapters: constant 30/60 fps (fresh run 7a7f87a2)
+// or genuinely variable cadence up to 60 fps that stays variable on the output
+// (record 47 Q2g, envelope v2, fresh run d252713e). Other MOV shapes, TS and HDR
+// remain unqualified.
 const runtimeIdentity = '56006c748ed2ee641597cd57e0874c11a86e52e6f634879afc503adb943f99d6';
 const REMUX_POLICIES = Object.freeze([
   { id: 'full-remux-isobmff-matroska-v1', inputFamily: 'isobmff', target: 'matroska', allowAncillary: false,
@@ -22,9 +24,10 @@ const REMUX_POLICIES = Object.freeze([
   { id: 'full-remux-matroska-mp4-v1', inputFamily: 'matroska', target: 'mp4', allowAncillary: false, audio: 'explicitly-omitted-only',
     evidenceIds: ['838e1196-80b3-43bf-8bbf-9de3bd4f965a:timeline-video-mp4', '838e1196-80b3-43bf-8bbf-9de3bd4f965a:cfr-video-mp4',
       '838e1196-80b3-43bf-8bbf-9de3bd4f965a:bframe-video-mp4'] },
-  { id: 'full-remux-isobmff-mov-v1', inputFamily: 'isobmff', target: 'mov', allowAncillary: false, sourceEnvelope: 'h264-aac-lc-48k-stereo-v1',
+  { id: 'full-remux-isobmff-mov-v1', inputFamily: 'isobmff', target: 'mov', allowAncillary: false, sourceEnvelope: 'h264-aac-lc-48k-stereo-v2',
     evidenceIds: ['7a7f87a2-7eb9-4bc5-82d0-f119710e0fb3:mp4-a-mov', '7a7f87a2-7eb9-4bc5-82d0-f119710e0fb3:mov-b-mov',
-      '7a7f87a2-7eb9-4bc5-82d0-f119710e0fb3:mp4-c-mov'] },
+      '7a7f87a2-7eb9-4bc5-82d0-f119710e0fb3:mp4-c-mov', 'd252713e-6629-4627-a176-1653355a3e23:vfr-mp4-mov',
+      'd252713e-6629-4627-a176-1653355a3e23:vfr-mov-mov', 'd252713e-6629-4627-a176-1653355a3e23:cfr-mp4-mov'] },
 ].map(value => Object.freeze({ ...value, runtimeIdentity, allowRotation90: false, evidenceIds: Object.freeze(value.evidenceIds) })));
-const REMUX_POLICY_ID = 'full-remux-v3:2026-11-13:five-routes';
+const REMUX_POLICY_ID = 'full-remux-v4:2026-11-13:five-routes-mov-vfr';
 module.exports = { REMUX_POLICIES, REMUX_POLICY_ID };

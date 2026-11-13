@@ -80,7 +80,7 @@ function policy(value) {
   need(!value.allowAncillary || value.inputFamily === 'matroska' && value.target === 'matroska', 'Ancillary collection is available only for reviewed Matroska-to-Matroska routes.');
   if (own(value, 'audio')) need(value.audio === 'explicitly-omitted-only' && value.inputFamily === 'matroska' && value.target === 'mp4',
     'The explicitly-omitted-only audio policy is available only for reviewed Matroska-to-MP4 routes.');
-  if (own(value, 'sourceEnvelope')) need(value.sourceEnvelope === 'h264-aac-lc-48k-stereo-v1'
+  if (own(value, 'sourceEnvelope')) need(['h264-aac-lc-48k-stereo-v1', 'h264-aac-lc-48k-stereo-v2'].includes(value.sourceEnvelope)
     && value.inputFamily === 'isobmff' && value.target === 'mov' && value.allowRotation90 !== true,
   'The measured H264/AAC source envelope is available only for unrotated ISOBMFF-to-MOV routes.');
   const evidenceIds = list(value.evidenceIds, 32, 'Retained route evidence').map(item => id(item, 'Retained route evidence'));
@@ -121,7 +121,7 @@ function sourcePolicy(assessment, source, identity, route) {
   // This measured MOV cell cannot borrow the broader AAC/omission envelopes of
   // other routes. Inspect the whole source, so an omission cannot hide a track
   // whose muxer relationships or decoder alignment have not been measured.
-  if (route.sourceEnvelope === 'h264-aac-lc-48k-stereo-v1') {
+  if (['h264-aac-lc-48k-stereo-v1', 'h264-aac-lc-48k-stereo-v2'].includes(route.sourceEnvelope)) {
     need(source.streams.length === 2 && mapped.length === 2 && assessment.expectedOutput.omittedStreams.length === 0
       && source.chapters.length === 0 && source.streams.filter(stream => stream.codec_type === 'video').length === 1
       && source.streams.filter(stream => stream.codec_type === 'audio').length === 1,
@@ -130,16 +130,19 @@ function sourcePolicy(assessment, source, identity, route) {
     need(audio.codec_name === 'aac' && audio.profile === 'LC' && audio.sample_fmt === 'fltp' && audio.sample_rate === '48000'
       && audio.channels === 2 && audio.channel_layout === 'stereo',
     'The MOV route qualifies only 48kHz stereo AAC LC/fltp audio.', 'REMUX_MOV_AUDIO_UNQUALIFIED');
-    // Necessary rate-summary restriction, NOT a constant-cadence certificate:
-    // equal averages/nominal rates cannot establish every source PTS interval.
-    // Complete constant cadence is required from bound evidence after Start.
+    // Summaries are only a pre-Start filter, never a cadence certificate. v1
+    // retains its measured 30/60-only rule. v2 admits unequal positive summaries
+    // up to 60fps; complete matching cadence is still required after collection.
     const video = source.streams.find(stream => stream.codec_type === 'video');
     const rates = ['avg_frame_rate', 'r_frame_rate'].map(key =>
       typeof video[key] === 'string' && /^([1-9]\d{0,15})\/([1-9]\d{0,15})$/.exec(video[key]));
-    need(rates.every(rate => rate && [30n, 60n].some(fps => BigInt(rate[1]) === fps * BigInt(rate[2])))
+    if (route.sourceEnvelope === 'h264-aac-lc-48k-stereo-v1') need(rates.every(rate => rate && [30n, 60n].some(fps => BigInt(rate[1]) === fps * BigInt(rate[2])))
       && BigInt(rates[0][1]) * BigInt(rates[1][2]) === BigInt(rates[1][1]) * BigInt(rates[0][2]),
     'MOV requires matching known 30/60fps average and nominal summaries; these summaries alone do not prove constant cadence.',
     'REMUX_MOV_RATE_UNQUALIFIED');
+    else need(rates.every(rate => rate && BigInt(rate[1]) <= 60n * BigInt(rate[2])),
+      'MOV v2 requires known positive average and nominal rate summaries no greater than60fps; complete cadence is checked after collection.',
+      'REMUX_MOV_RATE_UNQUALIFIED');
   }
   // The genuine immutable assessment records only main-resolved, current
   // per-stream omission decisions. A missing output track alone is no grant.
@@ -309,6 +312,30 @@ class RemuxOperations {
       const videos = essence.streams.filter(stream => stream.codecType === 'video');
       need(videos.length === 1 && ['source', 'output'].every(side => videos[0][side]?.cadence?.classification === 'constant'),
         'MOV requires complete constant cadence on both collected source and output video.', 'REMUX_MOV_CADENCE_UNQUALIFIED');
+    }
+    if (state.route.sourceEnvelope === 'h264-aac-lc-48k-stereo-v2') {
+      // Only this plan's genuine collector receipt can supply these witnesses.
+      // The unchanged validator below checks their full structure and every
+      // native unit, PTS, duration and interval at the existing 1/500s ceiling.
+      const videos = essence.streams.filter(stream => stream.codecType === 'video');
+      const before = videos[0]?.source, after = videos[0]?.output;
+      need(videos.length === 1 && before?.complete === true && after?.complete === true
+        && ['constant', 'variable'].includes(before.cadence?.classification)
+        && before.cadence.classification === after.cadence?.classification,
+      'MOV v2 requires matching complete constant or variable source/output cadence; insufficient cadence is unqualified.',
+      'REMUX_MOV_CADENCE_UNQUALIFIED');
+      if (before.cadence.classification === 'constant') {
+        // Equal rate summaries alone can also describe VFR. Once complete
+        // collection establishes CFR, retain v1's exact source-rate envelope;
+        // the unchanged validator still compares the actual output's timing.
+        const video = getRemuxAssessmentSource(state.assessment).streams.find(stream => stream.codec_type === 'video');
+        const rates = ['avg_frame_rate', 'r_frame_rate'].map(key =>
+          typeof video[key] === 'string' && /^([1-9]\d{0,15})\/([1-9]\d{0,15})$/.exec(video[key]));
+        need(rates.every(rate => rate && [30n, 60n].some(fps => BigInt(rate[1]) === fps * BigInt(rate[2])))
+          && BigInt(rates[0][1]) * BigInt(rates[1][2]) === BigInt(rates[1][1]) * BigInt(rates[0][2]),
+        'MOV v2 constant cadence requires the matching known30/60fps average and nominal summaries qualified by v1.',
+        'REMUX_MOV_RATE_UNQUALIFIED');
+      }
     }
     return state.validator.validate({ plan: state.innerPlan, outputProbe, essenceEvidence: essence,
       ...(collectedMov ? { movRepresentationReceipt: collectedMov } : {}) });

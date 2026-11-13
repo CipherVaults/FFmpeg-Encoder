@@ -27,7 +27,8 @@ function probe() {
   format: { format_name: 'matroska,webm', duration: '2', start_time: '0', nb_streams: 2, nb_programs: 0, nb_stream_groups: 0, tags: { title: 'Synthetic preparation facts' } },
   chapters: [], programs: [], stream_groups: [] };
 }
-async function harness(t, { target = 'matroska', count = 1, explicitAudio = false, videoTags = {}, mov = false, change = () => {} } = {}) {
+async function harness(t, { target = 'matroska', count = 1, explicitAudio = false, videoTags = {}, mov = false,
+  sourceEnvelope = 'h264-aac-lc-48k-stereo-v1', change = () => {} } = {}) {
   await fs.mkdir(parent, { recursive: true }); const root = await fs.mkdtemp(path.join(parent, 'run-'));
   const input = path.join(root, 'input'), output = path.join(root, 'output'); await fs.mkdir(input); await fs.mkdir(output);
   for (let i = 0; i < count; i++) await fs.writeFile(path.join(input, `source-${i}.mkv`), 'Owned inert source bytes ' + randomUUID());
@@ -40,7 +41,7 @@ async function harness(t, { target = 'matroska', count = 1, explicitAudio = fals
     operationEvidenceBudget: EVIDENCE_BUDGET, operationDeadlineMs: 600000,
     remuxOperations: new RemuxOperations({ runtimeIdentity: RUNTIME, policyIdentity: 'synthetic-main-route-policy', policies: mov
       ? [{ id: 'synthetic-mov', inputFamily: 'isobmff', target: 'mov', evidenceIds: ['synthetic-route'], allowAncillary: false,
-        runtimeIdentity: RUNTIME, sourceEnvelope: 'h264-aac-lc-48k-stereo-v1' }]
+        runtimeIdentity: RUNTIME, sourceEnvelope }]
       : ['matroska', 'mp4'].map(target =>
         ({ id: 'synthetic-' + target, inputFamily: 'matroska', target, evidenceIds: ['synthetic-route'], allowAncillary: false, runtimeIdentity: RUNTIME,
           ...(explicitAudio && target === 'mp4' ? { audio: 'explicitly-omitted-only' } : {}) })) }) });
@@ -64,15 +65,19 @@ test('MOV source-shape, AAC and required-track-tag guards reach service preparat
   assert.equal(service.snapshot().items[0].status, 'ready', service.snapshot().items[0].reason);
 });
 
-async function cadenceJob(t, { sourceVariable = false, outputVariable = false, insufficient = false } = {}) {
+async function cadenceJob(t, { sourceVariable = false, outputVariable = false, insufficient = false,
+  sourceEnvelope = 'h264-aac-lc-48k-stereo-v1', average = '30/1', nominal = '30/1', outputAverage,
+  cadenceFps = 30, offsetTicks = 0, contentChanged = false } = {}) {
   // Real service, owner, collector, validator and publication; only tool output,
   // runtime observation and storage accounting are injected. Atom fixtures are
   // inert bytes, not playable media, and no native process is created.
-  const timestamps = variable => insufficient ? [0] : variable ? [0, 1000, 3000] : [0, 1000, 2000];
-  const extent = variable => String((timestamps(variable).at(-1) + 1000) / 30000).slice(0, 14);
-  const h = await harness(t, { target: 'mov', mov: true, change: p => {
+  const step = 30000 / cadenceFps;
+  const timestamps = variable => insufficient ? [0] : variable ? [0, step, 3 * step] : [0, step, 2 * step];
+  const extent = variable => String((timestamps(variable).at(-1) + step) / 30000).slice(0, 14);
+  const h = await harness(t, { target: 'mov', mov: true, sourceEnvelope, change: p => {
     Object.assign(p.streams[0], { width: 2, height: 2, coded_width: 2, coded_height: 2, display_aspect_ratio: '1:1',
-      time_base: '1/30000', duration_ts: timestamps(sourceVariable).at(-1) + 1000, duration: extent(sourceVariable) });
+      time_base: '1/30000', avg_frame_rate: average, r_frame_rate: nominal,
+      duration_ts: timestamps(sourceVariable).at(-1) + step, duration: extent(sourceVariable) });
     p.streams[0].tags.language = 'und'; p.streams[1].tags.language = 'und';
     Object.assign(p.streams[1], { time_base: '1/48000', duration_ts: 4, duration: '0.000083333333' });
     p.format.duration = extent(sourceVariable);
@@ -94,20 +99,21 @@ async function cadenceJob(t, { sourceVariable = false, outputVariable = false, i
         stream.id = '0x' + (i + 1); stream.tags.name = stream.tags.title; delete stream.tags.title;
         stream.tags.handler_name = i === 0 ? 'VideoHandler' : 'SoundHandler';
       });
-      Object.assign(outputProbe.streams[0], { duration_ts: timestamps(outputVariable).at(-1) + 1000, duration: extent(outputVariable) });
+      Object.assign(outputProbe.streams[0], { duration_ts: timestamps(outputVariable).at(-1) + step, duration: extent(outputVariable) });
+      if (outputAverage) outputProbe.streams[0].avg_frame_rate = outputAverage;
       Object.assign(outputProbe.format, { size: String((await fs.stat(args.at(-1))).size), duration: extent(outputVariable),
         tags: { ...outputProbe.format.tags, [MARKER_KEY]: '1', [OUTPUT_ID_KEY]: entry.outputId } });
       bytes = Buffer.from(JSON.stringify(outputProbe));
     } else {
       const file = args[args.indexOf('-i') + 1], isOutput = file !== entry.file;
       const index = Number(args[args.indexOf(args.includes('-select_streams') ? '-select_streams' : '-map') + 1].replace(/^0:/, ''));
-      const pts = timestamps(isOutput ? outputVariable : sourceVariable);
+      const pts = timestamps(isOutput ? outputVariable : sourceVariable).map(value => value + (isOutput ? offsetTicks : 0));
       if (args.includes('-show_frames')) bytes = Buffer.from(JSON.stringify({ frames: index === 0
-        ? pts.map(pts => ({ media_type: 'video', stream_index: 0, pts, duration: 1000, width: 2, height: 2, pix_fmt: 'yuv420p', key_frame: 1 }))
+        ? pts.map(pts => ({ media_type: 'video', stream_index: 0, pts, duration: step, width: 2, height: 2, pix_fmt: 'yuv420p', key_frame: 1 }))
         : [{ media_type: 'audio', stream_index: 1, pts: 0, nb_samples: 4, sample_fmt: 'fltp', sample_rate: '48000', channels: 2, channel_layout: 'stereo' }] }));
       else if (args.includes('-show_packets')) bytes = Buffer.from(JSON.stringify({ packets: pts.map(pts =>
-        ({ stream_index: 0, pts, duration: 1000, size: '6', data_hash: `SHA256:${'c'.repeat(64)}` })) }));
-      else if (args.includes('framehash')) bytes = Buffer.from('#hash: SHA256\n' + pts.map((pts, i) => `0, ${i}, ${pts}, 1000, 6, ${'c'.repeat(64)}\n`).join(''));
+        ({ stream_index: 0, pts, duration: step, size: '6', data_hash: `SHA256:${'c'.repeat(64)}` })) }));
+      else if (args.includes('framehash')) bytes = Buffer.from('#hash: SHA256\n' + pts.map((pts, i) => `0, ${i}, ${pts}, ${step}, 6, ${(isOutput && contentChanged ? 'd' : 'c').repeat(64)}\n`).join(''));
       else { assert.ok(args.includes('pcm_f32le')); bytes = Buffer.alloc(4 * 2 * 4, 5); }
     }
     await options.onStdoutChunk?.(bytes);
@@ -156,6 +162,51 @@ test('matching variable MOV timing is refused even when native preservation chec
   assert.equal(h.result.reasonCode, 'REMUX_MOV_CADENCE_UNQUALIFIED');
   assert.equal(h.result.outputDisposition.published, false);
   await assert.rejects(fs.stat(h.entry.destination), { code: 'ENOENT' });
+});
+
+const MOV_V2 = 'h264-aac-lc-48k-stereo-v2';
+test('MOV v2 publishes matching complete CFR/VFR and retains the exact average-summary warning', async t => {
+  for (const options of [{}, { average: '60/1', nominal: '60/1', cadenceFps: 60 },
+    { average: '30000/1000', nominal: '30/1' },
+    ...[24, 25, 50].map(fps => ({ sourceVariable: true, outputVariable: true, average: `${fps}/1`, nominal: `${fps}/1` })),
+    { sourceVariable: true, outputVariable: true, average: '20/1', nominal: '30/1' },
+    { sourceVariable: true, outputVariable: true, outputAverage: '299/10' }]) {
+    const h = await cadenceJob(t, { ...options, sourceEnvelope: MOV_V2 });
+    assert.equal(h.result.status, 'success', h.result.reason); assert.equal(h.result.outputDisposition.published, true);
+    assert.equal(h.refusedCopies, 1); assert.ok((await fs.stat(h.entry.destination)).size > 0);
+    assert.deepEqual(h.result.warnings ?? [], options.outputAverage ? [{ code: 'OPERATION_VALIDATION_WARNING',
+      message: 'Stream 0 → 0: average frame-rate summaries differ; complete variable presentation timestamps remain subject to every preservation check.' }] : []);
+  }
+});
+test('MOV v2 refuses unmeasured constant24/25/50fps and mismatched summaries before publication', async t => {
+  for (const options of [...[24, 25, 50].map(fps => ({ average: `${fps}/1`, nominal: `${fps}/1`, cadenceFps: fps })),
+    { average: '30/1', nominal: '60/1' }, { average: '30/1', nominal: '24/1' }]) {
+    const h = await cadenceJob(t, { ...options, sourceEnvelope: MOV_V2 });
+    const video = h.entry.operationEvidence.essenceEvidence.streams.find(stream => stream.codecType === 'video');
+    assert.equal(video.source.cadence.classification, 'constant'); assert.equal(video.output.cadence.classification, 'constant');
+    assert.equal(h.entry.operationEvidence.status, 'completed');
+    assert.equal(h.result.status, 'failed'); assert.equal(h.result.reasonCode, 'REMUX_MOV_RATE_UNQUALIFIED');
+    assert.equal(h.result.outputDisposition.published, false);
+    await assert.rejects(fs.stat(h.entry.destination), { code: 'ENOENT' });
+  }
+});
+test('MOV v2 refuses mismatched or insufficient genuine cadence before publication', async t => {
+  for (const options of [{ sourceVariable: true }, { outputVariable: true }, { insufficient: true }]) {
+    const h = await cadenceJob(t, { ...options, sourceEnvelope: MOV_V2 });
+    assert.equal(h.entry.operationEvidence.status, 'completed', JSON.stringify(h.entry.operationEvidence.failure));
+    assert.equal(h.result.status, 'failed'); assert.equal(h.result.reasonCode, 'REMUX_MOV_CADENCE_UNQUALIFIED');
+    assert.equal(h.refusedCopies, 1); assert.equal(h.result.outputDisposition.published, false);
+    await assert.rejects(fs.stat(h.entry.destination), { code: 'ENOENT' });
+  }
+});
+test('MOV v2 matching VFR never waives the unchanged timestamp or native-content checks', async t => {
+  for (const options of [{ offsetTicks: 90 }, { contentChanged: true }]) {
+    const h = await cadenceJob(t, { ...options, sourceEnvelope: MOV_V2, sourceVariable: true, outputVariable: true });
+    assert.equal(h.entry.operationEvidence.status, 'completed', JSON.stringify(h.entry.operationEvidence.failure));
+    assert.equal(h.result.status, 'failed'); assert.equal(h.result.outputDisposition.published, false);
+    assert.match(h.result.reason, options.offsetTicks ? /maxPtsError|interval/ : /native essence/);
+    await assert.rejects(fs.stat(h.entry.destination), { code: 'ENOENT' });
+  }
 });
 test('Remux prepares a canonical Full copy without an encoder or quality settings', async t => {
   const { service } = await harness(t); const s = service.snapshot();

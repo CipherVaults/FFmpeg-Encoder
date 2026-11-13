@@ -20,16 +20,19 @@ const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 async function main() {
   assert.deepEqual(process.argv.slice(2), ['--run-owned-service']);
   const { FAMILIES, POLICY_ID } = require('../src/operation-catalog.cjs');
-  // Record 47 Q2a: one CPU cell plus one NVIDIA cell per measured driver.
-  assert.ok(FAMILIES.length >= 2 && FAMILIES.filter(item => item.settings.profileId === 'h265-cpu').length === 1
-    && FAMILIES.some(item => item.settings.profileId === 'h265-nvidia'), 'A reviewed CPU/NVIDIA catalog is required before this endpoint');
+  // Record 47 Q2a/Q2b: per family, one CPU cell plus one NVIDIA cell per measured driver.
+  for (const family of ['short-sdr-range-v1', 'full-sdr-resize-copy-v1']) {
+    const cells = FAMILIES.filter(item => item.id === family);
+    assert.ok(cells.filter(item => item.settings.profileId === 'h265-cpu').length === 1 && cells.some(item => item.settings.profileId === 'h265-nvidia'),
+      `A reviewed CPU/NVIDIA ${family} catalog is required before this endpoint`);
+  }
   const id = randomUUID(), directory = path.join(ROOT, 'artifacts/v0.7/slice2/family-service', id);
   const owned = path.join(OWNED, 'outputs', 'family-service-' + id), input = path.join(owned, 'media'), stateDir = path.join(owned, 'state');
   const leasePath = path.join(ROOT, 'artifacts/v0.7/media-job.lock'), children = new Set();
   const report = { schema: 1, id, status: 'running', directory, owned, startedAt: new Date().toISOString(),
     purpose: 'Fresh normal service inspection/capabilities and main factory/catalog; no native UI/benchmark acceptance',
-    invocations: [], cases: [], maximumConcurrentChildren: 0, limits: { totalMs: 15 * 60000, forecastBytes: 1024 ** 3, maxInvocations: 120 },
-    limitations: ['No native BrowserWindow input or packaged endpoint.', 'Only the exact qualified short SDR family and current observed NVIDIA UUID/driver.',
+    invocations: [], cases: [], maximumConcurrentChildren: 0, limits: { totalMs: 15 * 60000, forecastBytes: 1024 ** 3, maxInvocations: 180 },
+    limitations: ['No native BrowserWindow input or packaged endpoint.', 'Only the exact qualified short SDR range and whole-file copied-audio families and the current observed NVIDIA UUID/driver.',
       'Runtime observation helpers may run nvidia-smi separately; media child accounting describes FFmpeg/ffprobe.',
       'Distinct owned destinations: same-folder native storage eligibility is not established by this endpoint.'] };
   let lease, leaseIdentity, service, runtime, cancellationTimer, cancelEncodeRequested = false, abortRequested = false;
@@ -104,10 +107,12 @@ async function main() {
         report.gpuBefore = result.stdout.trim(); const fields = result.stdout.trim().split(',').map(value => value.trim());
         assert.equal(fields.length, 4); assert.equal(Number(fields[2]), 0); assert.equal(Number(fields[3]), 0);
       }
-      const output = path.join(owned, profileId + '-output'); await fs.mkdir(output);
+      // Q2b: a 1.774 s trim with re-encoded AAC, then the whole 31 s file at 720p with copied audio.
+      for (const kind of ['range', 'full']) {
+      const output = path.join(owned, profileId + (kind === 'range' ? '-output' : '-full-output')); await fs.mkdir(output);
       const selection = await service.registerFolder(input, 'input'), destination = await service.registerFolder(output, 'output');
       const settings = { profileId, preset: profileId === 'h265-cpu' ? 'slow' : 'p5', quality: 25 };
-      const endpoint = { profileId, status: 'preparing', events: [] }; report.cases.push(endpoint); await save();
+      const endpoint = { profileId, kind, status: 'preparing', events: [] }; report.cases.push(endpoint); await save();
       service.on('update', snapshot => {
         if (endpoint.status === 'passed-fresh-main-factory-service') return;
         if (snapshot.progress?.stage && endpoint.events.at(-1) !== snapshot.progress.stage) endpoint.events.push(snapshot.progress.stage);
@@ -118,7 +123,8 @@ async function main() {
       // This endpoint uses distinct owned destinations; it does not claim a
       // fresh same-folder/generated-output native eligibility result.
       await service.updateFileOperations({ planId: prepared.planId, draftId: prepared.operationDraft.id, revision: prepared.operationDraft.revision,
-        fileIds: [selected.id], overrides: { range: { startUs: 1013000, endUs: 2787000 }, resolution: '720', audioPolicy: 'precision-aac' } });
+        fileIds: [selected.id], overrides: kind === 'range' ? { range: { startUs: 1013000, endUs: 2787000 }, resolution: '720', audioPolicy: 'precision-aac' }
+          : { range: null, resolution: '720', audioPolicy: 'copy' } });
       await service.taskPromise; prepared = service.snapshot(); endpoint.prepared = prepared;
       assert.equal(prepared.items.find(item => item.id === selected.id).status, 'ready', prepared.items.find(item => item.id === selected.id).reason);
       endpoint.detailsBefore = service.getEncodingDetails({ planId: prepared.planId, fileId: selected.id });
@@ -128,11 +134,19 @@ async function main() {
       endpoint.detailsAfter = service.getEncodingDetails({ planId: prepared.planId, fileId: selected.id });
       endpoint.evidence = entry.operationEvidence; endpoint.telemetryValidation = entry.telemetryValidation;
       assert.equal(endpoint.telemetryValidation.valid, true); assert.equal(endpoint.evidence.status, 'completed');
-      assert.equal(item.evidenceStorage.final.violations.length, 0); assert.ok(endpoint.evidence.decodedEvidence.containerClock);
+      assert.equal(item.evidenceStorage.final.violations.length, 0);
+      if (kind === 'range') assert.ok(endpoint.evidence.decodedEvidence.containerClock);
+      else {
+        const [audio] = endpoint.evidence.decodedEvidence.audio;
+        assert.equal(endpoint.evidence.decodedEvidence.containerClock, undefined); assert.equal(audio.outputSampleCount, audio.sourceSampleCount);
+        assert.equal(audio.packetIdentity.sourceSeal, audio.packetIdentity.outputSeal); assert.ok(audio.packetIdentity.packets > 0);
+        assert.equal(endpoint.evidence.completeSource.video.properties.policy, 'full-sdr-resize-copy-v1');
+      }
       endpoint.output = { file: entry.destination, sha256: sha(await fs.readFile(entry.destination)) };
       assert.equal(sha(await fs.readFile(source)), report.source.sha256);
       endpoint.status = 'passed-fresh-main-factory-service';
       report.resourcesLatest = await resources(); await save();
+      }
     }
     const cancelOutput = path.join(owned, 'cancel-output'); await fs.mkdir(cancelOutput);
     const a = await service.registerFolder(input, 'input'), b = await service.registerFolder(cancelOutput, 'output');

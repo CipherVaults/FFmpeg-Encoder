@@ -99,6 +99,9 @@ async function fixture(t, { mode = 'precision-flac', overrides = {}, mutateProbe
     const source = args[args.indexOf('-i') + 1] === sourcePath;
     if (args.includes('-show_frames')) {
       const index = args[args.indexOf('-select_streams') + 1]; bytes = Buffer.from((source ? data.sourceFrames : data.outputFrames)[index].map(row => line('frame', row)).join(''));
+    } else if (args.includes('-show_data_hash')) {
+      // Record 47 Q2b copied-packet identity: payload hashes, then the stream header.
+      bytes = Buffer.from((args.includes('-show_streams') ? data.headerRows : data.identityRows)[source ? 'source' : 'output'].join(''));
     } else if (args.includes('-show_packets')) {
       const index = args[args.indexOf('-select_streams') + 1];
       bytes = Buffer.from((data.packetRowsByIndex?.[index] || data.packetRows).join(''));
@@ -421,4 +424,64 @@ test('compact parser rejects duplicate/escaped/unrequested fields and bounds spl
   assert.equal(sink.finish().records, 1000); assert.equal(lines.length, 1000);
   const oversized = lineSink(async () => {}, { maxBytes: 100000, maxRecords: 2 });
   await assert.rejects(oversized.push(Buffer.from('x'.repeat(8193))), { code: 'OPERATION_EVIDENCE_LIMIT' });
+});
+
+// Record 47 Q2b: a whole-file resize with copied audio proves the copy packet by packet.
+async function copyFixture(t) {
+  const made = await fixture(t, { mode: 'copy', overrides: { range: null, resolution: '720' }, mutateProbe(probe) { probe.streams[0].tags.rotate = '0'; } });
+  const { options, data } = made;
+  Object.assign(options.outputProbe.streams[1], { codec_name: 'pcm_s16le', duration: '.4', duration_ts: 400 }); options.outputProbe.format.duration = '.4';
+  Object.assign(options.outputProbe.streams[0], { duration: '.4', duration_ts: 400 });
+  data.outputFrames = { 0: frames(options.outputProbe.streams[0], [0, 100, 200, 300]), 1: frames(options.outputProbe.streams[1], [0, 100, 200, 300], true) };
+  const hash = n => 'SHA256:' + String(n).repeat(64).slice(0, 64);
+  const rows = index => [1, 2, 3, 4].map(n => line('packet', { stream_index: index, data_hash: hash(n),
+    ...(n === 1 ? { 'side_datum/skip_samples:side_data_type': 'Skip Samples', 'side_datum/skip_samples:skip_samples': 1024, 'side_datum/skip_samples:discard_padding': 0 } : {}) }));
+  data.identityRows = { source: rows(2), output: rows(1) };
+  data.headerRows = { source: [line('stream', { index: 2, extradata_hash: hash(9) })], output: [line('stream', { index: 1, extradata_hash: hash(9) })] };
+  return { ...made, rows, hash };
+}
+
+test('copied audio is checked packet by packet against the source, including its header and priming side data', async t => {
+  const { options, data } = await copyFixture(t);
+  assert.equal(options.plan.contract.range.kind, 'full'); assert.equal(options.plan.contract.audio.streams[0].mode, 'copy');
+  const result = await collectOperationEvidence(options), [audio] = result.decodedEvidence.audio;
+  assert.equal(result.status, 'completed');
+  assert.equal(audio.packetIdentity.algorithm, 'sha256'); assert.equal(audio.packetIdentity.packets, 4);
+  assert.match(audio.packetIdentity.sourceSeal, /^[a-f0-9]{64}$/); assert.equal(audio.packetIdentity.sourceSeal, audio.packetIdentity.outputSeal);
+  assert.deepEqual(result.packetIdentity[0].source, result.packetIdentity[0].output);
+  assert.ok(data.calls.some(call => call.args.includes('packet=stream_index,data_hash:packet_tags=:packet_side_data=side_data_type,skip_samples,discard_padding')));
+});
+
+test('one altered, dropped or reordered packet, changed priming side data or a different header fails the copy closed', async t => {
+  const tampers = {
+    'altered payload': data => { data.identityRows.output[2] = data.identityRows.output[2].replace(/data_hash=SHA256:3+/, 'data_hash=SHA256:' + '7'.repeat(64)); },
+    'dropped packet': data => { data.identityRows.output.pop(); },
+    'reordered packets': data => { [data.identityRows.output[1], data.identityRows.output[2]] = [data.identityRows.output[2], data.identityRows.output[1]]; },
+    'priming changed': data => { data.identityRows.output[0] = data.identityRows.output[0].replace('skip_samples=1024', 'skip_samples=0'); },
+    'priming removed': data => { data.identityRows.output[0] = line('packet', { stream_index: 1, data_hash: 'SHA256:' + '1'.repeat(64) }); },
+    'header changed': data => { data.headerRows.output = [line('stream', { index: 1, extradata_hash: 'SHA256:' + '8'.repeat(64) })]; },
+  };
+  for (const [name, change] of Object.entries(tampers)) {
+    const { options, data } = await copyFixture(t); change(data);
+    await assert.rejects(collectOperationEvidence(options), error => error.code === 'OPERATION_EVIDENCE_PACKET_IDENTITY' && error.evidenceReceipt?.packetIdentity?.length === 1, name);
+  }
+  const malformed = {
+    'missing payload hash': data => { data.identityRows.source[1] = line('packet', { stream_index: 2 }); },
+    'second header row': data => { data.headerRows.source.push(data.headerRows.source[0]); },
+    'missing header': data => { data.headerRows.output = [line('stream', { index: 1 })]; },
+    'unknown side data': data => { data.identityRows.source[0] = data.identityRows.source[0].replace('Skip Samples', 'Other'); },
+  };
+  for (const [name, change] of Object.entries(malformed)) {
+    const { options, data } = await copyFixture(t); change(data);
+    await assert.rejects(collectOperationEvidence(options), error => error.code === 'OPERATION_EVIDENCE_PACKET_IDENTITY', name);
+  }
+});
+
+test('the whole-file copied-audio source policy is 30 fps only and never takes the AAC packet clock', async t => {
+  const { options } = await copyFixture(t);
+  for (const policy of [{ id: 'full-sdr-resize-copy-v1', rate: 60, maximumExtentUs: 120000000 }, { id: 'full-sdr-resize-copy-v2', rate: 30, maximumExtentUs: 120000000 }]) {
+    await assert.rejects(collectOperationEvidence({ ...options, sourcePolicy: policy }), { code: 'OPERATION_EVIDENCE_INVALID' });
+  }
+  await assert.rejects(collectOperationEvidence({ ...options, sourcePolicy: { id: 'full-sdr-resize-copy-v1', rate: 30, maximumExtentUs: 120000000 },
+    containerClockPolicy: 'matroska-packet-end-plus-codec-delay' }), { code: 'OPERATION_EVIDENCE_INVALID' });
 });

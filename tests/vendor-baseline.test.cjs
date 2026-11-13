@@ -14,8 +14,8 @@ const { captureOrdinary } = require('../scripts/capture-ordinary-argv.cjs');
 // that ordinary argv, plans and defaults are unchanged.
 const PROTECTED = {
   'src/media.cjs': ['253c567', '4aaf7227e43b8ba10134fa1e34d15be7362eb5195d001eb1cfc629b66c677e66'],
-  'src/encode-operation.cjs': ['Q1c', 'a94ca2bb4f94cfa91c62f3df3fbd8223587c0129e660abaa4c2b256dee1110ea'],
-  'src/operation-family.cjs': ['Q1a', '7de5909b2e20ed081bbd16b866e325788920e5b5e32940832c422b9a1bc3797b'],
+  'src/encode-operation.cjs': ['Q2b', 'eeb1535b9b48d61287c8f846ae180aeca23fc58d060ab1eafc01d1fcf398c434'],
+  'src/operation-family.cjs': ['Q2b', '3a0071a526bdaa9b53d51ed4a3ec05a439480d97d679cd715feddb568e0b5086'],
   'src/operation-contract.cjs': ['Q1b', 'e87c0bd40a27e9bc4309cfff489a3270899edc6505face10a9c4461272bb343d'],
 };
 for (const [file, [since, expected]] of Object.entries(PROTECTED)) test(`${file} retains its ${since} bytes`, () => {

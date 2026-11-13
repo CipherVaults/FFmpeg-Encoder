@@ -149,6 +149,7 @@ function sourceChange(before, after) {
 
 const FRAME_FIELDS = ['media_type', 'stream_index', 'pts', 'duration', 'pkt_duration', 'nb_samples', 'sample_fmt', 'channels', 'channel_layout', 'width', 'height', 'pix_fmt', 'interlaced_frame', 'color_range', 'color_space', 'color_primaries', 'color_transfer'];
 const PACKET_FIELDS = ['stream_index', 'side_data_type', 'skip_samples', 'discard_padding', 'pts', 'duration'];
+const PACKET_HASH = /^SHA256:[0-9a-f]{64}$/i, IDENTITY_CODE = 'OPERATION_EVIDENCE_PACKET_IDENTITY';
 const CONTAINER_CLOCK = 'matroska-packet-end-plus-codec-delay';
 const INPUT_GUARDS = ['-protocol_whitelist', 'file,pipe', '-format_whitelist', 'mov,matroska,webm,avi,mpegts'];
 const PROPERTY_FIELDS = ['sample_aspect_ratio', 'chroma_location', 'side_data_type'];
@@ -222,11 +223,13 @@ async function collectOperationEvidence(options) {
   const sourceProperties = own(options, 'sourcePolicy');
   if (sourceProperties) {
     exact(options.sourcePolicy, ['id', 'rate', 'maximumExtentUs'], 'Decoded source policy');
-    need(options.sourcePolicy.id === 'short-sdr-range-v1' && [30, 60].includes(options.sourcePolicy.rate)
-      && options.sourcePolicy.maximumExtentUs === 120000000, 'Only the bounded short SDR source policy is implemented.');
+    // Record 47 Q2b: the whole-file copied-audio family uses the same SDR source checks at 30 fps only.
+    need((options.sourcePolicy.id === 'short-sdr-range-v1' && [30, 60].includes(options.sourcePolicy.rate)
+      || options.sourcePolicy.id === 'full-sdr-resize-copy-v1' && options.sourcePolicy.rate === 30)
+      && options.sourcePolicy.maximumExtentUs === 120000000, 'Only the bounded short SDR source policies are implemented.');
   }
   const packetClock = own(options, 'containerClockPolicy');
-  if (packetClock) need(sourceProperties && options.containerClockPolicy === CONTAINER_CLOCK,
+  if (packetClock) need(sourceProperties && options.sourcePolicy.id === 'short-sdr-range-v1' && options.containerClockPolicy === CONTAINER_CLOCK,
     'The packet/codec-delay clock requires the qualified short SDR source policy.');
   exact(budget, ['sourceDecode', 'timeoutMs', 'maxFrameBytes', 'maxPcmBytes', 'maxRecords', 'maxSpoolBytes'], 'Evidence budget');
   need(budget.sourceDecode === 'complete', 'Main must explicitly budget complete source decoding; telemetry alone does not satisfy this validator.', 'OPERATION_EVIDENCE_COST_APPROVAL');
@@ -268,7 +271,7 @@ async function collectOperationEvidence(options) {
   const handles = [], spools = [], invocations = [];
   let spoolBytes = 0, completed = false;
   const receipt = { schema: VERSION, runtimeIdentity: plan.runtimeIdentity, planFingerprint: plan.planFingerprint, directory,
-    scope: 'complete-decoded-timing-and-selected-flac-pcm', publicationAuthorized: false, qualificationGranted: false,
+    scope: plan.contract.audio.streams.some(stream => stream.mode === 'copy') ? 'complete-decoded-timing-and-copied-packet-identity' : 'complete-decoded-timing-and-selected-flac-pcm', publicationAuthorized: false, qualificationGranted: false,
     cost: 'Sequential complete source/output timing decode; extra complete audio PCM decoding for FLAC. No original video prehash. timeoutMs and stream byte/row budgets apply per child; main owns the total operation deadline.',
     budget: { ...budget }, timingQualification: { ...timingQualification }, timelineComparisons: { video: null, audio: [] },
     sourcePath, outputPath, sourceBefore: stamps(sourceBefore), outputBefore: stamps(outputBefore), spools, invocations,
@@ -358,7 +361,7 @@ async function collectOperationEvidence(options) {
     receipt.completeSource.video = { frames: completeVideoCount, firstTime: pack(completeFirst.time), endTime: pack(add(completeLast.time, completeLast.duration)),
       maximumNominalCadenceErrorUs: period ? cadenceErrorUs : null, maximumNominalDurationErrorUs: period ? durationErrorUs : null,
       maximumNominalPhaseErrorUs: period ? phaseErrorUs : null,
-      ...(sourceProperties ? { properties: { policy: 'short-sdr-range-v1', sampleAspectRatio: '1:1', chromaLocation: 'left',
+      ...(sourceProperties ? { properties: { policy: options.sourcePolicy.id, sampleAspectRatio: '1:1', chromaLocation: 'left',
         sideDataPolicy: 'h26x-unregistered-sei-only', framesChecked: completeVideoCount } } : {}) };
     receipt.encoderInputs.video = { outputIndex: mapping.outputIndex, records: String(sourceCount), orderedPts: encoderPtsHash.digest('hex'),
       scope: 'independent-selected-source-timestamps-minus-canonical-filter-origin' };
@@ -509,6 +512,40 @@ async function collectOperationEvidence(options) {
         const original = await pcm(sourcePath, sa, true), result = await pcm(outputPath, oa, false);
         evidence.pcmIdentity = { algorithm: 'sha256', format: precision.pcmFormat, sourceHash: original.sha256, outputHash: result.sha256,
           sourceBytes: original.selectedBytes, outputBytes: result.selectedBytes };
+      }
+      if (mode === 'copy') {
+        // Record 47 Q2b: copied audio must be the source's own coded packets in
+        // order, with the same decoder header and the same priming/padding side
+        // data. Timestamps are checked separately (the container may round them).
+        async function packetIdentity(file, stream, label) {
+          const payload = createHash('sha256'), side = createHash('sha256'); let count = 0;
+          await invoke(`${label}-audio-${stream.index}-packet-identity`, ffprobe, ['-v', 'error', ...INPUT_GUARDS, '-select_streams', String(stream.index),
+            '-show_packets', '-show_data_hash', 'sha256', '-show_entries', 'packet=stream_index,data_hash:packet_tags=:packet_side_data=side_data_type,skip_samples,discard_padding',
+            '-of', 'compact=p=1:nk=0:escape=c', '-i', file], lineSink(async line => {
+            const row = compactRow(line, 'packet', [...PACKET_FIELDS, 'data_hash']);
+            need(int(row.stream_index, 'Packet stream', 0n) === BigInt(stream.index) && PACKET_HASH.test(String(row.data_hash)), 'Every copied packet needs its payload SHA-256.', IDENTITY_CODE);
+            const signalled = own(row, 'side_data_type') || own(row, 'skip_samples') || own(row, 'discard_padding');
+            if (signalled) need(row.side_data_type === 'Skip Samples' && own(row, 'skip_samples') && own(row, 'discard_padding'), 'Incomplete/unknown packet padding evidence.', IDENTITY_CODE);
+            payload.update(`${row.data_hash.slice(7).toLowerCase()}\n`);
+            side.update(`${count}:${signalled ? `${int(row.skip_samples, 'Skip samples', 0n)},${int(row.discard_padding, 'Discard padding', 0n)}` : '-'}\n`); count++;
+          }, sinkOptions), budget.maxFrameBytes);
+          let header = null;
+          await invoke(`${label}-audio-${stream.index}-header`, ffprobe, ['-v', 'error', ...INPUT_GUARDS, '-select_streams', String(stream.index),
+            '-show_streams', '-show_data_hash', 'sha256', '-show_entries', 'stream=index,extradata_hash:stream_tags=:stream_disposition=',
+            '-of', 'compact=p=1:nk=0:escape=c', '-i', file], lineSink(async line => {
+            const row = compactRow(line, 'stream', ['index', 'extradata_hash']);
+            need(header === null && row.index === String(stream.index) && PACKET_HASH.test(String(row.extradata_hash)), 'The copied stream needs exactly one decoder header hash.', IDENTITY_CODE);
+            header = row.extradata_hash.slice(7).toLowerCase();
+          }, sinkOptions), budget.maxFrameBytes);
+          need(count > 0 && header !== null, 'No copied packet identity was observed.', IDENTITY_CODE);
+          const facts = { packets: count, payloadSha256: payload.digest('hex'), sideDataSha256: side.digest('hex'), extradataSha256: header };
+          return { ...facts, seal: createHash('sha256').update(JSON.stringify(facts)).digest('hex') };
+        }
+        const sourcePackets = await packetIdentity(sourcePath, sa, 'source'), outputPackets = await packetIdentity(outputPath, oa, 'output');
+        receipt.packetIdentity ||= [];
+        receipt.packetIdentity.push({ inputIndex: mapping.inputIndex, outputIndex: mapping.outputIndex, source: sourcePackets, output: outputPackets });
+        need(sourcePackets.seal === outputPackets.seal, 'Copied audio is not the source stream\'s own coded packets, header and padding.', IDENTITY_CODE);
+        evidence.packetIdentity = { algorithm: 'sha256', packets: sourcePackets.packets, sourceSeal: sourcePackets.seal, outputSeal: outputPackets.seal };
       }
       decodedEvidence.audio.push(evidence);
     }

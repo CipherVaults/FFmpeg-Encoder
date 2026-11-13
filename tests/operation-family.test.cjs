@@ -37,7 +37,7 @@ function family(config = CPU) {
 }
 function fixture(options = {}) {
   const source = probe(options), config = options.config || CPU; options.mutate?.(source);
-  const retained = family(config), selector = new OperationFamilySelector({ families: options.empty ? [] : [retained], policyIdentity: POLICY });
+  const retained = options.families ? options.families[0] : family(config), selector = new OperationFamilySelector({ families: options.empty ? [] : options.families || [retained], policyIdentity: POLICY });
   const request = resolveFileRequest({ fileId: options.fileId || 'synthetic-file', identityRevision: 1, draftRevision: 1, operation: 'encode',
     overrides: options.ordinary ? {} : { range: { startUs: 1000000, endUs: 2000000 }, audioPolicy: 'precision-aac', ...options.overrides } });
   const inspection = { probe: source, color: classifyColor(source), duration: Number(source.format.duration) };
@@ -53,7 +53,7 @@ function receipt(h, { rate = Number(h.source.streams[0].avg_frame_rate.split('/'
   return { schema: 1, status: 'completed', runtimeIdentity: RUNTIME, planFingerprint: h.plan.planFingerprint,
     sourcePath: h.bindings.sourceIdentity.canonicalPath, completeSource: { video: { frames: duration * rate,
       firstTime: { n: '0', d: '1' }, endTime: { n: String(duration), d: '1' }, maximumNominalCadenceErrorUs: 0, maximumNominalDurationErrorUs: 0,
-      maximumNominalPhaseErrorUs: 0, properties: { policy: 'short-sdr-range-v1', sampleAspectRatio: '1:1', chromaLocation: 'left',
+      maximumNominalPhaseErrorUs: 0, properties: { policy: h.policy || 'short-sdr-range-v1', sampleAspectRatio: '1:1', chromaLocation: 'left',
         sideDataPolicy: 'h26x-unregistered-sei-only', framesChecked: duration * rate } },
     audio: [{ inputIndex: 1, sampleCount: String(duration * 48000), firstTime: { n: '0', d: '1' }, endTime: { n: String(duration), d: '1' }, gaps: 0 }] } };
 }
@@ -339,4 +339,137 @@ test('start-only, end-only and to-source-end ranges resolve against the file and
     const h = fixture({ duration: range.startUs === 3600000 ? 4 : 40, overrides: { range } });
     required(() => h.selector.select(h.bindings));
   }
+});
+
+// Record 47 Q2b: the whole-file 1080p30 -> 720p family with copied audio.
+const FULL_ID = 'full-sdr-resize-copy-v1';
+function fullFamily(config = CPU) {
+  const value = family(config); value.id = FULL_ID; value.evidenceIds = ['synthetic-full-endpoint', 'synthetic-full-interior'];
+  value.qualification = { ...value.qualification, evidenceId: 'synthetic-full-endpoint', containerDuration: 'matroska-copy-end-plus-codec-delay', tolerances: { ...value.qualification.tolerances, sampleCount: 0 } };
+  value.timingQualification = { ...value.timingQualification, evidenceId: 'synthetic-full-interior', aac: null };
+  return value;
+}
+const WHOLE = { range: null, audioPolicy: 'copy', resolution: '720' };
+function full(options = {}) {
+  const h = fixture({ width: 1920, rate: 30, duration: 10, families: [fullFamily(options.config)], ...options, overrides: { ...WHOLE, ...options.overrides } });
+  h.policy = FULL_ID; return h;
+}
+
+test('a whole-file 1080p30 to 720p job with copied audio selects only the copied-audio family', () => {
+  for (const config of [CPU, NVIDIA]) {
+    const h = full({ config }), selection = h.selector.select(h.bindings), selected = h.selector.requireCurrent(selection, h.bindings);
+    assert.equal(h.plan.compatibilityPath, false); assert.equal(h.plan.contract.range.kind, 'full'); assert.equal(h.plan.contract.audio.streams[0].mode, 'copy');
+    assert.deepEqual(selected.sourcePolicy, { id: FULL_ID, rate: 30, maximumExtentUs: 120000000 });
+    assert.equal(selected.timingQualification.aac, null); assert.equal(selected.qualification.tolerances.sampleCount, 0);
+    assert.deepEqual(selected.evidenceIds, ['synthetic-full-endpoint', 'synthetic-full-interior']);
+    assert.equal(h.selector.verifyCollectedSource(selection, receipt(h)), true);
+    // A receipt collected under the range family's policy is not this family's evidence.
+    badSource(() => h.selector.verifyCollectedSource(selection, receipt({ ...h, policy: 'short-sdr-range-v1' })));
+    // With no reported rotation the plan is built only through this family's own orientation evidence.
+    const absent = full({ config, absent: true });
+    assert.equal(absent.orientation.identityOrientationQualification.evidenceId, 'synthetic-full-endpoint');
+    assert.equal(absent.selector.requireCurrent(absent.selector.select(absent.bindings), absent.bindings).sourcePolicy.id, FULL_ID);
+  }
+});
+
+test('with both families on one tuple each job selects its own family and the other stays unreachable to it', () => {
+  const families = [family(), fullFamily()];
+  const ranged = fixture({ width: 1920, rate: 30, duration: 10, absent: true, families, overrides: { resolution: '720' } });
+  assert.equal(ranged.selector.requireCurrent(ranged.selector.select(ranged.bindings), ranged.bindings).sourcePolicy.id, 'short-sdr-range-v1');
+  assert.equal(ranged.orientation.identityOrientationQualification.evidenceId, 'synthetic-family-endpoint');
+  const whole = full({ absent: true, families: [family(), fullFamily()] });
+  const selection = whole.selector.select(whole.bindings);
+  assert.equal(whole.selector.requireCurrent(selection, whole.bindings).sourcePolicy.id, FULL_ID);
+  assert.equal(whole.orientation.identityOrientationQualification.evidenceId, 'synthetic-full-endpoint');
+  assert.equal(whole.selector.explainResize({ inspection: whole.inspection, request: whole.request, runtimeIdentity: RUNTIME, settings: CPU }), null);
+  // Without the copied-audio family the same whole-file job gets no orientation help and an explained refusal.
+  const rangeSelector = new OperationFamilySelector({ families: [family()], policyIdentity: POLICY });
+  const ask = { inspection: whole.inspection, request: whole.request, runtimeIdentity: RUNTIME, settings: CPU };
+  assert.deepEqual(rangeSelector.orientationQualification(ask), {});
+  assert.equal(rangeSelector.explainResize(ask).code, 'OPERATION_RESIZE_UNQUALIFIED');
+  // A whole-file job never reaches the range family, and a range job never reaches the whole-file family.
+  const rangeOnly = fixture({ width: 1920, rate: 30, duration: 10, families: [fullFamily()], overrides: { resolution: '720' } });
+  required(() => rangeOnly.selector.select(rangeOnly.bindings));
+});
+
+test('the copied-audio family refuses every job outside its measured whole-file 1080p30 scope', () => {
+  const cases = [
+    { name: '60 fps', options: { rate: 60 } },
+    { name: 'longer than 31 s', options: { duration: 32 } },
+    { name: 're-encoded AAC', options: { overrides: { audioPolicy: 'precision-aac' } } },
+  ];
+  for (const item of cases) {
+    const h = full(item.options); assert.throws(() => h.selector.select(h.bindings), error => error.code === "OPERATION_QUALIFICATION_REQUIRED", item.name);
+    // The same job with no reported rotation: no orientation help, and a resize is explained as unqualified.
+    const source = probe({ width: 1920, rate: 30, duration: 10, ...item.options, absent: true });
+    const ask = { inspection: { probe: source }, request: h.request, runtimeIdentity: RUNTIME, settings: CPU };
+    assert.deepEqual(h.selector.orientationQualification(ask), {}, item.name);
+    assert.equal(h.selector.explainResize(ask)?.code, 'OPERATION_RESIZE_UNQUALIFIED', item.name);
+  }
+  // Whole-file Keep Source with copied audio stays the ordinary path and needs no family.
+  const ordinary = full({ overrides: { resolution: 'source' } });
+  assert.equal(ordinary.plan.compatibilityPath, true); assert.equal(ordinary.selector.select({ plan: ordinary.plan }), null);
+  // A 31 s file is still inside the scope.
+  const edge = full({ duration: 31 }); assert.ok(edge.selector.select(edge.bindings));
+});
+
+test('a copied-audio family record cannot carry AAC alignment, the AAC packet clock or a sample allowance', () => {
+  assert.doesNotThrow(() => new OperationFamilySelector({ families: [family(), fullFamily()], policyIdentity: POLICY }));
+  const variants = [
+    value => { value.timingQualification.aac = family().timingQualification.aac; },
+    value => { value.qualification.containerDuration = 'matroska-packet-end-plus-codec-delay'; },
+    value => { value.qualification.containerDuration = 'span'; },
+    value => { value.qualification.containerDuration = 'end-timestamp'; },
+    value => { value.qualification.tolerances.sampleCount = 1; },
+    value => { value.id = 'full-sdr-resize-copy-v2'; },
+  ];
+  for (const change of variants) { const value = fullFamily(); change(value); invalid(() => new OperationFamilySelector({ families: [value], policyIdentity: POLICY })); }
+  // The range family still requires its AAC alignment.
+  const range = family(); range.timingQualification.aac = null; invalid(() => new OperationFamilySelector({ families: [range], policyIdentity: POLICY }));
+  // The copy clock belongs to no other family.
+  const clocked = family(); clocked.qualification.containerDuration = 'matroska-copy-end-plus-codec-delay';
+  invalid(() => new OperationFamilySelector({ families: [clocked], policyIdentity: POLICY }));
+  invalid(() => new OperationFamilySelector({ families: [fullFamily(), fullFamily()], policyIdentity: POLICY }));
+});
+
+// Review fix: every extent of a whole-file job, reported and decoded, keeps the measured 10-31 s shape.
+test('the copied-audio family bounds audio, container and decoded extents, not only the video stream', () => {
+  const audio = (source, seconds) => Object.assign(source.streams[1], { duration: String(seconds), duration_ts: Math.round(seconds * 48000) });
+  const cases = {
+    'audio of 100 s under 10 s of video': source => { audio(source, 100); source.format.duration = '100'; },
+    'audio of 32 s under 31 s of video': source => { audio(source, 32); source.format.duration = '32'; },
+    'container of 100 s over 10 s streams': source => { source.format.duration = '100'; },
+    'container 30 ms past its streams': source => { source.format.duration = '10.03'; },
+    'audio 30 ms longer than video': source => { audio(source, 10.03); source.format.duration = '10.03'; },
+    'audio 30 ms shorter than video': source => { audio(source, 9.97); },
+  };
+  for (const [name, mutate] of Object.entries(cases)) {
+    const duration = name.includes('31 s') ? 31 : 10, h = full({ duration, mutate });
+    assert.throws(() => h.selector.select(h.bindings), error => error.code === 'OPERATION_QUALIFICATION_REQUIRED', name);
+  }
+  // Inside one AAC frame (21.333 ms) the measured shape still admits the file.
+  const near = full({ mutate: source => { audio(source, 10.021); source.format.duration = '10.021'; } }); assert.ok(near.selector.select(near.bindings));
+  // Shorter than the shortest measured whole file (10 s).
+  const short = full({ duration: 9 }); required(() => short.selector.select(short.bindings));
+  // The decoded source must keep the same shape as the metadata that admitted it.
+  const h = full(), selection = h.selector.select(h.bindings);
+  assert.equal(h.selector.verifyCollectedSource(selection, receipt(h)), true);
+  const decoded = [
+    value => { value.completeSource.video.frames = 3000; value.completeSource.video.properties.framesChecked = 3000; value.completeSource.video.endTime = { n: '100', d: '1' }; },
+    value => { Object.assign(value.completeSource.audio[0], { sampleCount: String(100 * 48000), endTime: { n: '100', d: '1' } }); },
+    value => { Object.assign(value.completeSource.audio[0], { sampleCount: String(10 * 48000 + 1440), endTime: { n: String(10 * 48000 + 1440), d: '48000' } }); },
+  ];
+  for (const change of decoded) { const value = receipt(h); change(value); badSource(() => h.selector.verifyCollectedSource(selection, value)); }
+  // The range family keeps its 120 s decoded bound and still accepts unequal stream ends within it.
+  const ranged = fixture({ width: 1920, rate: 30, duration: 10, overrides: { resolution: '720' } }), token = ranged.selector.select(ranged.bindings);
+  const long = receipt(ranged); Object.assign(long.completeSource.audio[0], { sampleCount: String(10 * 48000 + 1440), endTime: { n: String(10 * 48000 + 1440), d: '48000' } });
+  assert.equal(ranged.selector.verifyCollectedSource(token, long), true);
+});
+
+test('a refused range job names the range family, and a refused whole-file job names the whole-file family', () => {
+  const families = [family(), fullFamily()];
+  const ranged = fixture({ width: 1920, rate: 60, duration: 10, families, overrides: { resolution: '720', range: { startUs: 1000000, endUs: 1200000 } } });
+  assert.throws(() => ranged.selector.select(ranged.bindings), error => /range/i.test(error.message) && !/whole-file/i.test(error.message));
+  const whole = full({ rate: 60, families });
+  assert.throws(() => whole.selector.select(whole.bindings), error => /whole-file/i.test(error.message));
 });

@@ -10,6 +10,9 @@ const { classifyMarker } = require('./provenance.cjs');
 const { FORMATS, assertTelemetryBinding, assertCollectedTelemetry } = require('./operation-telemetry.cjs');
 const { validateContainerClock } = require('./container-clock.cjs');
 const PACKET_CLOCK = 'matroska-packet-end-plus-codec-delay';
+// Record 47 Q2b: Matroska stores a copied AAC stream's end plus its own codec
+// delay, so the whole-file copy clock is the decoded end plus the observed delay.
+const COPY_CLOCK = 'matroska-copy-end-plus-codec-delay';
 
 // Canonical main-side SDR operation builder. It never launches a child or accepts
 // renderer filter strings. Native qualification owns runtime support and measured
@@ -317,7 +320,7 @@ function finite(value, label, { integer = false, minimum = -Number.MAX_SAFE_INTE
 function qualifier(value, plan) {
   record(value, ['evidenceId', 'runtimeIdentity', 'containerDuration', 'tolerances'], ['evidenceId', 'runtimeIdentity', 'containerDuration', 'tolerances'], 'Measured qualification');
   if (typeof value.evidenceId !== 'string' || !/^[A-Za-z0-9._:+-]{1,256}$/.test(value.evidenceId)
-      || value.runtimeIdentity !== plan.runtimeIdentity || !['span', 'end-timestamp', PACKET_CLOCK].includes(value.containerDuration)) fail('INVALID_OPERATION_VALIDATION', 'Measured qualification must identify matching runtime evidence and duration representation.');
+      || value.runtimeIdentity !== plan.runtimeIdentity || !['span', 'end-timestamp', PACKET_CLOCK, COPY_CLOCK].includes(value.containerDuration)) fail('INVALID_OPERATION_VALIDATION', 'Measured qualification must identify matching runtime evidence and duration representation.');
   const keys = ['videoTimestampUs', 'audioTimestampUs', 'avSyncUs', 'durationUs', 'sampleCount'];
   record(value.tolerances, keys, keys, 'Measured tolerances');
   for (const key of keys) finite(value.tolerances[key], key, { minimum: 0, maximum: key === 'sampleCount' ? 1048576 : 1000000, integer: true });
@@ -346,7 +349,7 @@ function decodedEvidence(value, plan, qualification, errors, warnings) {
   const seen = new Set(), outputEnds = [video.lastOutputPtsUs + video.lastOutputDurationUs], outputStarts = [video.firstOutputPtsUs];
   for (const item of value.audio) {
     const keys = ['inputIndex', 'sourceSampleCount', 'outputSampleCount', 'firstSourcePtsUs', 'lastSourceEndUs', 'firstOutputPtsUs', 'lastOutputEndUs', 'encoderDelaySamples', 'discardPaddingSamples'];
-    record(item, [...keys, 'pcmIdentity'], keys, 'Decoded audio evidence');
+    record(item, [...keys, 'pcmIdentity', 'packetIdentity'], keys, 'Decoded audio evidence');
     for (const key of keys) finite(item[key], key, { integer: true, minimum: /Pts|End/.test(key) ? -Number.MAX_SAFE_INTEGER : 0 });
     const source = expectedAudio.find(stream => stream.index === item.inputIndex);
     if (!source || seen.has(item.inputIndex)) fail('INVALID_OPERATION_VALIDATION', 'Decoded audio evidence is duplicated or unrelated.');
@@ -368,6 +371,18 @@ function decodedEvidence(value, plan, qualification, errors, warnings) {
         errors.push(`Audio ${item.inputIndex}: FLAC must preserve every selected decoded PCM sample exactly, without a padding or precision-loss allowance.`);
       }
     } else if (own(item, 'pcmIdentity')) fail('INVALID_OPERATION_VALIDATION', 'PCM identity belongs only to the qualified lossless FLAC path.');
+    if (source.mode === 'copy') {
+      // Record 47 Q2b: a copy keeps the source's own packets, so its decoded
+      // samples must match exactly; the shared padding tolerance never applies.
+      const identity = item.packetIdentity, identityKeys = ['algorithm', 'packets', 'sourceSeal', 'outputSeal'];
+      record(identity, identityKeys, identityKeys, 'Copied audio packet identity');
+      if (identity.algorithm !== 'sha256' || typeof identity.sourceSeal !== 'string' || typeof identity.outputSeal !== 'string'
+          || !/^[a-f0-9]{64}$/.test(identity.sourceSeal) || !/^[a-f0-9]{64}$/.test(identity.outputSeal)) fail('INVALID_OPERATION_VALIDATION', 'Copied audio requires the collector\'s packet identity seals for both files.');
+      finite(identity.packets, 'packets', { integer: true, minimum: 1 });
+      if (identity.sourceSeal !== identity.outputSeal || item.sourceSampleCount !== item.outputSampleCount) {
+        errors.push(`Audio ${item.inputIndex}: copied audio must keep every source packet and decoded sample exactly.`);
+      }
+    } else if (own(item, 'packetIdentity')) fail('INVALID_OPERATION_VALIDATION', 'Packet identity belongs only to copied audio.');
     if (item.sourceSampleCount <= 0 || item.outputSampleCount <= 0 || item.lastSourceEndUs <= item.firstSourcePtsUs || item.lastOutputEndUs <= item.firstOutputPtsUs) errors.push(`Audio ${item.inputIndex}: empty or unordered decoded samples.`);
     if (Math.abs(item.outputSampleCount - item.sourceSampleCount) > tolerance.sampleCount) errors.push(`Audio ${item.inputIndex}: decoded sample count differs beyond measured padding tolerance.`);
     else if (item.outputSampleCount !== item.sourceSampleCount) warnings.push(`Audio ${item.inputIndex}: measured decoded sample-count difference ${item.outputSampleCount - item.sourceSampleCount}; not sample-identical.`);
@@ -391,6 +406,7 @@ function decodedEvidence(value, plan, qualification, errors, warnings) {
     // This is clock quantization, not an added AAC frame/padding allowance.
     audioToleranceUs: Math.ceil(2000000 / 48000 + 1000) }) : null;
   return { maximumEndUs: Math.max(...outputEnds), minimumStartUs: Math.min(...outputStarts),
+    outputEnds: { video: [outputEnds[0]], audio: value.audio.map(item => ({ inputIndex: item.inputIndex, lastOutputEndUs: item.lastOutputEndUs, encoderDelaySamples: item.encoderDelaySamples })) },
     ...(clock ? { containerEndUs: clock.maximumStoredEndUs } : {}), timing: operationTiming(plan, video, value.audio) };
 }
 
@@ -465,6 +481,11 @@ function validateEncodeOperationOutput(plan, rawOutputProbe, options = {}) {
           || output.streams.length !== 2 || output.streams.some(stream => stream.time_base !== '1/1000'))) {
         fail('INVALID_OPERATION_VALIDATION', 'The qualified packet clock requires the measured1/1000 Matroska output time bases.');
       }
+      if (qualified.containerDuration === COPY_CLOCK && (plan.contract.range.kind !== 'full' || !plan.contract.audio.streams.length
+          || plan.contract.audio.streams.some(audio => audio.mode !== 'copy') || output.format.format_name !== 'matroska,webm'
+          || output.streams.some(stream => stream.time_base !== '1/1000'))) {
+        fail('INVALID_OPERATION_VALIDATION', 'The copy clock applies only to whole-file copied audio in 1/1000 Matroska output.');
+      }
       decoded = decodedEvidence(options.decodedEvidence, plan, qualified, errors, warnings);
       // Reuse the established metadata/stream/color validator against the
       // explicitly transformed expectation. Its old blanket duration/FPS check
@@ -478,7 +499,12 @@ function validateEncodeOperationOutput(plan, rawOutputProbe, options = {}) {
         const stream = input.streams.find(item => item.index === audio.index);
         stream.codec_name = audio.codec; stream.sample_rate = String(audio.sampleRate); stream.channels = audio.channels; stream.channel_layout = audio.channelLayout;
       }
-      const expectedDurationUs = qualified.containerDuration === PACKET_CLOCK ? decoded.containerEndUs
+      const copyEnd = () => Math.max(...decoded.outputEnds.video, ...decoded.outputEnds.audio.map(item => {
+        const rate = Number(input.streams.find(stream => stream.index === item.inputIndex)?.sample_rate);
+        if (!Number.isSafeInteger(rate) || rate <= 0) fail('INVALID_OPERATION_VALIDATION', 'The copy clock needs the copied stream\'s own sample rate.');
+        return Math.round(item.lastOutputEndUs + item.encoderDelaySamples * 1000000 / rate);
+      }));
+      const expectedDurationUs = qualified.containerDuration === PACKET_CLOCK ? decoded.containerEndUs : qualified.containerDuration === COPY_CLOCK ? copyEnd()
         : qualified.containerDuration === 'span' ? decoded.maximumEndUs - decoded.minimumStartUs : decoded.maximumEndUs;
       const containerDuration = Number(output.format.duration);
       if (!Number.isFinite(containerDuration) || containerDuration <= 0 || Math.abs(containerDuration * 1000000 - expectedDurationUs) > qualified.tolerances.durationUs) errors.push('Container duration differs from decoded full output extent beyond the measured tolerance.');

@@ -270,9 +270,39 @@ test('permitted measured padding differences remain visible, not relabelled samp
   assert.equal(result.valid, true, result.errors.join('; ')); assert.equal(result.warnings.length, 1); assert.match(result.warnings[0], /not sample-identical/);
 });
 
+// Record 47 Q2b: copied audio carries the collector's packet identity seals.
+const SEAL = 'a'.repeat(64);
+function copied(evidence, identity = { algorithm: 'sha256', packets: 188, sourceSeal: SEAL, outputSeal: SEAL }) {
+  for (const audio of evidence.audio) audio.packetIdentity = structuredClone(identity);
+  return evidence;
+}
+
+test('copied audio must keep every source packet and decoded sample exactly, with no padding allowance', () => {
+  const probe = source({ width: 3840, height: 2160 }), plan = build(probe, { resolution: '1080' }), actual = output(probe, plan, 4);
+  assert.equal(plan.contract.audio.streams[0].mode, 'copy');
+  const measured = qualification(); measured.tolerances.sampleCount = 1023;
+  const check = evidence => validateEncodeOperationOutput(plan, actual, { qualification: measured, decodedEvidence: evidence });
+  assert.equal(check(copied(decoded({ origin: 0, seconds: 4 }))).valid, true);
+  // Without the identity the copy is not checked against the source at all.
+  assert.equal(check(decoded({ origin: 0, seconds: 4 })).valid, false);
+  // Different seals, a one-sample difference inside the AAC tolerance, malformed or extra identity fields.
+  assert.equal(check(copied(decoded({ origin: 0, seconds: 4 }), { algorithm: 'sha256', packets: 188, sourceSeal: SEAL, outputSeal: 'b'.repeat(64) })).valid, false);
+  const short = copied(decoded({ origin: 0, seconds: 4 })); short.audio[0].outputSampleCount -= 1;
+  const result = check(short); assert.equal(result.valid, false); assert.match(result.errors.join(' '), /copied audio must keep every source packet/);
+  for (const identity of [{ algorithm: 'md5', packets: 188, sourceSeal: SEAL, outputSeal: SEAL }, { algorithm: 'sha256', packets: 0, sourceSeal: SEAL, outputSeal: SEAL },
+    { algorithm: 'sha256', packets: 188, sourceSeal: 'A'.repeat(64), outputSeal: 'A'.repeat(64) }, { algorithm: 'sha256', packets: 188, sourceSeal: SEAL, outputSeal: SEAL, extra: 1 },
+    { algorithm: 'sha256', packets: 188, sourceSeal: SEAL }]) {
+    assert.equal(check(copied(decoded({ origin: 0, seconds: 4 }), identity)).valid, false, JSON.stringify(identity));
+  }
+  // A re-encoded AAC stream cannot carry a packet identity claim.
+  const ranged = build(source(), { range: { startUs: 1000000, endUs: 2000000 } });
+  assert.equal(validateEncodeOperationOutput(ranged, output(source(), ranged), { qualification: qualification(), decodedEvidence: copied(decoded()) }).valid, false);
+  assert.equal(validateEncodeOperationOutput(ranged, output(source(), ranged), { qualification: qualification(), decodedEvidence: decoded() }).valid, true);
+});
+
 test('resized output validates dimensions, SAR, color and normalized orientation rather than codec alone', () => {
   const probe = source({ width: 3840, height: 2160 }), plan = build(probe, { resolution: '1080' }), actual = output(probe, plan, 4);
-  const evidence = decoded({ origin: 0, seconds: 4 });
+  const evidence = copied(decoded({ origin: 0, seconds: 4 }));
   assert.equal(validateEncodeOperationOutput(plan, actual, { qualification: qualification(), decodedEvidence: evidence }).valid, true);
   for (const change of [data => { data.streams[0].width = 1280; }, data => { data.streams[0].sample_aspect_ratio = '2:1'; },
     data => { data.streams[0].color_range = 'pc'; }, data => { data.streams[0].tags.rotate = '90'; }, data => { data.format.duration = '3'; }]) {
@@ -451,4 +481,22 @@ test('an invalid changed-path result carries no timing description', () => {
   data.video.outputFrameCount--;
   const result = validateEncodeOperationOutput(plan, output(probe, plan), { qualification: qualification(), decodedEvidence: data });
   assert.equal(result.valid, false); assert.equal(Object.hasOwn(result, 'timing'), false);
+});
+
+test('the copy clock adds the copied stream\'s own codec delay to its decoded end and applies only to whole-file copies', () => {
+  const probe = source({ width: 3840, height: 2160 }), plan = build(probe, { resolution: '1080' });
+  const clock = qualification({ containerDuration: 'matroska-copy-end-plus-codec-delay', tolerances: { videoTimestampUs: 1000, audioTimestampUs: 1000, avSyncUs: 2000, durationUs: 1088, sampleCount: 0 } });
+  const evidence = () => { const value = copied(decoded({ origin: 0, seconds: 4 })); value.audio[0].encoderDelaySamples = 1024; return value; };
+  const at = seconds => { const actual = output(probe, plan, seconds); for (const stream of actual.streams) stream.time_base = '1/1000'; return actual; };
+  // 4 s of decoded audio plus 1024/48000 s of codec delay is 4.021333 s; Matroska stores milliseconds.
+  assert.equal(validateEncodeOperationOutput(plan, at(4.021), { qualification: clock, decodedEvidence: evidence() }).valid, true);
+  for (const seconds of [4, 4.023, 4.0]) assert.equal(validateEncodeOperationOutput(plan, at(seconds), { qualification: clock, decodedEvidence: evidence() }).valid, false, String(seconds));
+  // A missing final AAC packet (21.333 ms) cannot hide inside the bound.
+  const short = evidence(); short.audio[0].lastOutputEndUs -= 21333;
+  assert.equal(validateEncodeOperationOutput(plan, at(4.021), { qualification: clock, decodedEvidence: short }).valid, false);
+  // The copy clock needs 1/1000 Matroska output and never applies to a range or re-encoded audio.
+  assert.equal(validateEncodeOperationOutput(plan, output(probe, plan, 4.021), { qualification: clock, decodedEvidence: evidence() }).valid, false);
+  const ranged = build(source(), { range: { startUs: 1000000, endUs: 2000000 } }), rangedOutput = output(source(), ranged);
+  for (const stream of rangedOutput.streams) stream.time_base = '1/1000';
+  assert.equal(validateEncodeOperationOutput(ranged, rangedOutput, { qualification: clock, decodedEvidence: decoded() }).valid, false);
 });

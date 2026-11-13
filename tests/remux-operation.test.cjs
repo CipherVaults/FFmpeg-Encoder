@@ -6,6 +6,7 @@ const fs = require('node:fs/promises');
 const os = require('node:os');
 const path = require('node:path');
 const { RemuxOperations, fingerprintRemuxSourceIdentity } = require('../src/remux-operation.cjs');
+const { REMUX_POLICIES } = require('../src/remux-catalog.cjs');
 const { assessRemux } = require('../src/remux-contract.cjs');
 const { remuxProbeFingerprint } = require('../src/remux-validation.cjs');
 const { collectRemuxEvidence, getCollectedMovRepresentation } = require('../src/remux-evidence.cjs');
@@ -52,6 +53,7 @@ function fixture(options = {}) {
       draftRevision: request.draftRevision, sourceFingerprint: fingerprint, target, operation: 'remux', streamIndex: index,
       streamFingerprint: assessment.expectedOutput.streams.find(item => item.inputIndex === index).streamFingerprint, action: 'omit-stream' }));
     request.omissionRequestIds = decisions.map(item => item.id);
+    options.changeDecisions?.(decisions);
     assessment = assessRemux({ request, probe, sourceFingerprint: fingerprint, resolveOmission: id => decisions.find(item => item.id === id) });
   }
   const retained = { id: 'synthetic-reviewed-route', inputFamily: assessment.inputFamily, target, evidenceIds: ['synthetic-native', 'synthetic-lifecycle'],
@@ -167,6 +169,240 @@ test('retained MKV AAC and PCM MKV defects stay refused while genuine audio omis
   required(() => pcm.owner.prepare(pcm.prepare));
   const videoOnly = fixture({ change: p => { Object.assign(p.streams[1], { codec_name: 'pcm_s16le', sample_fmt: 's16' }); delete p.streams[1].profile; }, omit: [2] });
   assert.equal(videoOnly.plan.expectedOutput.streams.length, 1);
+});
+
+const EXISTING_POLICIES = REMUX_POLICIES.filter(value => ['full-remux-isobmff-matroska-v1', 'full-remux-isobmff-mp4-v1',
+  'full-remux-matroska-matroska-v1'].includes(value.id));
+function fourPolicyOwner() {
+  return new RemuxOperations({ runtimeIdentity: RUNTIME, policyIdentity: 'synthetic-four-routes', policies: [
+    ...EXISTING_POLICIES.map(value => ({ ...value, runtimeIdentity: RUNTIME })),
+    { id: 'full-remux-matroska-mp4-v1', inputFamily: 'matroska', target: 'mp4', allowAncillary: false,
+      audio: 'explicitly-omitted-only', evidenceIds: ['synthetic-mkv-mp4-only'], runtimeIdentity: RUNTIME },
+  ] });
+}
+function twoAudio(probe) {
+  probe.streams.push({ ...clone(probe.streams[1]), index: 5 }); probe.format.nb_streams++;
+}
+test('four-policy catalog admits Matroska-to-MP4 only after all current audio omissions, or without source audio', () => {
+  for (const options of [{ change: twoAudio, omit: [2, 5] }, { audio: false }]) {
+    const h = fixture({ family: 'matroska', target: 'mp4', owner: fourPolicyOwner(), ...options });
+    assert.deepEqual(h.plan.expectedOutput.streams.map(item => item.inputIndex), [0]);
+    assert.deepEqual(h.plan.expectedOutput.omittedStreams.map(item => item.inputIndex), options.omit || []);
+    assert.deepEqual(h.plan.args.filter((arg, index, args) => args[index - 1] === '-map'), ['0:0']);
+    const current = h.owner.requireCurrent(h.owner.select(h.bindings), h.bindings);
+    assert.equal(current.sourcePolicy.id, 'full-remux-matroska-mp4-v1');
+    assert.deepEqual(current.sourcePolicy.audioInputIndexes, []);
+  }
+});
+test('explicit audio policy refuses every unomitted audio codec, including a partial multi-track omission', () => {
+  for (const codec of ['aac', 'ac3', 'mp3']) {
+    for (const omit of [[], [2]]) {
+      const h = fixture({ family: 'matroska', target: 'mp4', owner: fourPolicyOwner(), noPrepare: true, omit,
+        change: p => { twoAudio(p); p.streams[2].codec_name = codec; } });
+      assert.throws(() => h.owner.prepare(h.prepare), error => error.code === 'REMUX_AUDIO_OMISSION_REQUIRED'
+        && /current explicit omission decision for every audio stream/.test(error.message));
+    }
+  }
+  const pcm = { family: 'matroska', target: 'mp4', owner: fourPolicyOwner(),
+    change: p => { p.streams[1].codec_name = 'pcm_s16le'; } };
+  reject(() => fixture(pcm), 'REMUX_NOT_PLANNABLE', 'Unsupported PCM is refused by the earlier contract guard.');
+  assert.ok(fixture({ ...pcm, omit: [2] }).plan, 'An unsupported audio codec still requires its exact explicit omission.');
+});
+test('explicit audio policy cannot borrow stale or unresolved omission decisions', () => {
+  for (const change of [{ id: 'unresolved' }, { fileId: 'another-file' }, { identityRevision: 2 }, { draftRevision: 2 },
+    { sourceFingerprint: 'c'.repeat(64) }, { target: 'mov' }, { operation: 'encode' }, { streamIndex: 0 },
+    { streamFingerprint: 'c'.repeat(64) }, { action: 'preserve-copy' }]) {
+    const h = fixture({ family: 'matroska', target: 'mp4', owner: fourPolicyOwner(), noPrepare: true, omit: [2],
+      changeDecisions: decisions => Object.assign(decisions[0], change) });
+    assert.ok(h.assessment.blockers.some(item => ['REMUX_OMISSION_STALE', 'REMUX_OMISSION_UNAUTHORIZED'].includes(item.code)));
+    assert.deepEqual(h.assessment.expectedOutput.omittedStreams, []);
+    reject(() => h.owner.prepare(h.prepare), 'REMUX_NOT_PLANNABLE');
+  }
+});
+test('Matroska-to-MP4 refuses required track tags without a declared representation before Start', () => {
+  for (const key of ['BPS', '_STATISTICS_WRITING_APP', 'unassessed.track', 'replaygain_track_gain', 'rotate']) {
+    assert.throws(() => fixture({ family: 'matroska', target: 'mp4', audio: false, owner: fourPolicyOwner(),
+      change: p => { p.streams[0].tags[key] = 'unrepresentable'; } }), error => error.code === 'REMUX_TRACK_TAG_UNREPRESENTABLE'
+        && error.message.includes(`'${key}'`) && error.message.includes('stream 0'));
+  }
+  const h = fixture({ family: 'matroska', target: 'mp4', audio: false, owner: fourPolicyOwner(), change: p => {
+    p.streams[0].tags = { ENCODER: 'Lavc63.1.102 libx264', HANDLER_NAME: 'VideoHandler', VENDOR_ID: 'FFMP', DURATION: '00:00:01.640000000' };
+  } });
+  assert.ok(h.plan); assert.equal(h.plan.expectedOutput.streams[0].metadata.attempted.VENDOR_ID, 'FFMP');
+  for (const route of EXISTING_POLICIES) {
+    const kept = fixture({ family: route.inputFamily, target: route.target, change: p => {
+      Object.assign(p.streams[0].tags, { BPS: '12345', _STATISTICS_WRITING_APP: 'mkvmerge' });
+    } });
+    assert.ok(kept.plan, route.id);
+  }
+});
+test('Matroska-to-MP4 rejects short/uppercase/regional language and empty native fields before Start', () => {
+  for (const [key, value] of [['language', 'en'], ['language', 'EN'], ['language', 'en-US'], ['language', 'English'], ['language', ''], ['HANDLER_NAME', '']]) {
+    assert.throws(() => fixture({ family: 'matroska', target: 'mp4', audio: false, owner: fourPolicyOwner(),
+      change: p => { p.streams[0].tags = { [key]: value }; } }), error => error.code === 'REMUX_TRACK_TAG_UNREPRESENTABLE' && error.message.includes(`'${key}'`));
+    for (const route of EXISTING_POLICIES) assert.ok(fixture({ family: route.inputFamily, target: route.target,
+      change: p => { p.streams[0].tags = { [key]: value }; } }).plan, route.id);
+  }
+  assert.ok(fixture({ family: 'matroska', target: 'mp4', audio: false, owner: fourPolicyOwner(),
+    change: p => { p.streams[0].tags = { language: 'eng', HANDLER_NAME: 'VideoHandler' }; } }).plan);
+});
+test('audio route option rejects other routes, unknown values and getter authority', () => {
+  const h = fixture({ family: 'matroska', target: 'mp4', noPrepare: true });
+  const make = policy => new RemuxOperations({ runtimeIdentity: RUNTIME, policyIdentity: 'synthetic-audio-policy', policies: [{ ...h.retained, ...policy }] });
+  for (const [inputFamily, target] of [['isobmff', 'mp4'], ['isobmff', 'matroska'], ['matroska', 'matroska'], ['matroska', 'mov']])
+    invalid(() => make({ inputFamily, target, audio: 'explicitly-omitted-only' }));
+  for (const audio of [undefined, null, '', 'copy', 'explicitly-omitted', true, {}, []]) invalid(() => make({ audio }));
+  invalid(() => make({ audio: 'explicitly-omitted-only', allowAncillary: true }));
+  let reads = 0; const policy = { ...h.retained };
+  Object.defineProperty(policy, 'audio', { enumerable: true, get() { reads++; return 'explicitly-omitted-only'; } });
+  invalid(() => new RemuxOperations({ runtimeIdentity: RUNTIME, policyIdentity: 'getter-policy', policies: [policy] }));
+  assert.equal(reads, 0);
+});
+test('adding the audio-only route leaves the three existing routes and their plans unchanged', () => {
+  assert.equal(EXISTING_POLICIES.length, 3);
+  for (const route of EXISTING_POLICIES) {
+    assert.equal(Object.hasOwn(route, 'audio'), false);
+    const policies = EXISTING_POLICIES.map(value => ({ ...value, runtimeIdentity: RUNTIME }));
+    const before = new RemuxOperations({ runtimeIdentity: RUNTIME, policyIdentity: 'same-catalog-identity', policies });
+    const after = new RemuxOperations({ runtimeIdentity: RUNTIME, policyIdentity: 'same-catalog-identity', policies: [...policies,
+      { id: 'synthetic-fourth', inputFamily: 'matroska', target: 'mp4', audio: 'explicitly-omitted-only', allowAncillary: false,
+        evidenceIds: ['synthetic'], runtimeIdentity: RUNTIME }] });
+    const options = { family: route.inputFamily, target: route.target };
+    const a = fixture({ ...options, owner: before }), b = fixture({ ...options, owner: after });
+    assert.deepEqual(a.plan, b.plan, route.id);
+    assert.deepEqual(before.requireCurrent(before.select(a.bindings), a.bindings), after.requireCurrent(after.select(b.bindings), b.bindings));
+  }
+});
+
+test('Q2d proof configuration refuses unknown cases/modes/extra flags and normal mode uses only the production catalog', () => {
+  // Importing the harness calls no main, child or filesystem operation.
+  const { configuration, routeOptions, CASES, LIMITS } = require('../scripts/v07-remux-mkv-mp4-smoke.cjs');
+  for (const mode of ['--qualify', '--normal']) {
+    const config = configuration(['--run-owned-remux', mode, '--cases', CASES.join(',')]);
+    assert.equal(config.mode, mode); assert.deepEqual(config.choices, [...CASES]);
+    assert.ok(Object.isFrozen(config) && Object.isFrozen(config.choices));
+  }
+  for (const cli of [[], ['--run-owned-remux'], ['--run-owned-remux', '--qualify', '--cases', ''],
+    ['--run-owned-remux', '--qualify', '--cases', CASES[0] + ',' + CASES[0]],
+    ['--run-owned-remux', '--qualify', '--cases', 'E-mkv'], ['--run-owned-remux', '--qualify', '--cases', CASES[0] + ',unknown'],
+    ['--run-owned-remux', '--qualify', '--cases', CASES[0], '--lifecycle'],
+    ['--run-owned-remux', '--qualify', '--cases', 1], ['--run-owned-remux', '--other', '--cases', CASES[0]],
+    ['--run-other', '--qualify', '--cases', CASES[0]], ['--run-owned-remux', '--normal', '--all', CASES[0]]]) assert.throws(() => configuration(cli));
+  assert.throws(() => routeOptions('--other'));
+  const promoted = REMUX_POLICIES.some(value => value.inputFamily === 'matroska' && value.target === 'mp4');
+  if (promoted) {
+    const normal = routeOptions('--normal');
+    assert.equal(normal.remuxPolicies, REMUX_POLICIES);
+    assert.equal(normal.remuxPolicyIdentity, require('../src/remux-catalog.cjs').REMUX_POLICY_ID);
+  } else assert.throws(() => routeOptions('--normal'), /requires full-remux-matroska-mp4-v1/);
+  const lab = routeOptions('--qualify');
+  for (const route of REMUX_POLICIES.filter(value => value.inputFamily !== 'matroska' || value.target !== 'mp4'))
+    assert.equal(lab.remuxPolicies.find(value => value.id === route.id), route);
+  const route = lab.remuxPolicies.find(value => value.inputFamily === 'matroska' && value.target === 'mp4');
+  assert.equal(route.audio, 'explicitly-omitted-only'); assert.equal(route.allowAncillary, false); assert.equal(route.allowRotation90, false);
+  assert.deepEqual(CASES, ['timeline-video-mp4', 'cfr-video-mp4', 'bframe-video-mp4']);
+  assert.deepEqual(LIMITS, { totalMs: 3600000, forecastBytes: 2147483648, maxInvocations: 128, maxStarts: 5 });
+});
+test('Q2d proof refuses mislabeled cadence and exhausted Start budgets without running media', () => {
+  const { requireCadence, requireStartBudget, LIMITS } = require('../scripts/v07-remux-mkv-mp4-smoke.cjs');
+  const essence = { streams: [{ codecType: 'video', source: { cadence: { classification: 'constant' } }, output: { cadence: { classification: 'constant' } } }] };
+  requireCadence(essence, 'constant');
+  for (const change of [e => { e.streams = []; }, e => { e.streams.push(clone(e.streams[0])); }, e => { e.streams[0].codecType = 'audio'; },
+    e => { e.streams[0].source.cadence.classification = 'variable'; }, e => { e.streams[0].output.cadence.classification = 'variable'; }]) {
+    const changed = clone(essence); change(changed); assert.throws(() => requireCadence(changed, 'constant'));
+  }
+  assert.throws(() => requireCadence(essence, 'nominal-CFR'));
+  requireStartBudget(0); requireStartBudget(LIMITS.maxStarts - 1);
+  for (const count of [LIMITS.maxStarts, LIMITS.maxStarts + 1, -1, 0.5, NaN, '0']) assert.throws(() => requireStartBudget(count));
+});
+
+test('Q2d normal route and omission checks pin the exact reviewed policy and error code', () => {
+  const { requireProductionRoute, requireOmissionRefusal } = require('../scripts/v07-remux-mkv-mp4-smoke.cjs');
+  const route = { id: 'full-remux-matroska-mp4-v1', inputFamily: 'matroska', target: 'mp4', audio: 'explicitly-omitted-only' };
+  assert.equal(requireProductionRoute([route]), route);
+  assert.throws(() => requireProductionRoute([]), /real production catalog/);
+  for (const change of [{ id: 'laboratory' }, { audio: undefined }, { audio: 'copy' }, { inputFamily: 'isobmff' }, { target: 'mov' }])
+    assert.throws(() => requireProductionRoute([{ ...route, ...change }]));
+  requireOmissionRefusal({ status: 'unsupported', reasonCode: 'REMUX_AUDIO_OMISSION_REQUIRED' });
+  requireOmissionRefusal({ status: 'unsupported', remux: { blockers: [{ code: 'REMUX_AUDIO_OMISSION_REQUIRED' }] } });
+  for (const item of [{ status: 'ready', reasonCode: 'REMUX_AUDIO_OMISSION_REQUIRED' }, { status: 'unsupported', reason: 'Matroska AAC priming omission' },
+    { status: 'unsupported', reasonCode: 'REMUX_QUALIFICATION_REQUIRED' },
+    { status: 'unsupported', reasonCode: 'OTHER', remux: { blockers: [{ code: 'REMUX_AUDIO_OMISSION_REQUIRED' }] } }]) assert.throws(() => requireOmissionRefusal(item));
+});
+test('Q2d outcomes reject every extra, missing, changed or duplicated warning and pin the CFR rate branch', () => {
+  const { requireOutcome, requireCfrRates } = require('../scripts/v07-remux-mkv-mp4-smoke.cjs');
+  const vendor = { code: 'REMUX_DESCRIPTIVE_METADATA_DIFFERENCE', key: 'VENDOR_ID',
+    message: "Stream 0 → 0: descriptive metadata 'VENDOR_ID' is missing or changed in its requested representation." };
+  const average = { code: 'OPERATION_VALIDATION_WARNING',
+    message: 'Stream 0 → 0: average frame-rate summaries differ; complete variable presentation timestamps remain subject to every preservation check.' };
+  for (const [label, warnings] of [['timeline-video-mp4', [vendor, average]], ['bframe-video-mp4', [vendor]],
+    ['cfr-video-mp4', []], ['cfr-seed-mkv', []], ['bframe-seed-mkv', []]]) {
+    const outcome = warnings.length ? 'saved-with-warning' : 'saved';
+    requireOutcome(label, { outcome, warnings });
+    requireOutcome(label, { outcome, warnings: [...warnings].reverse() });
+    assert.throws(() => requireOutcome(label, { outcome: outcome === 'saved' ? 'saved-with-warning' : 'saved', warnings }));
+    assert.throws(() => requireOutcome(label, { outcome, warnings: [...warnings, average] }));
+    if (warnings.length) {
+      assert.throws(() => requireOutcome(label, { outcome, warnings: warnings.slice(1) }));
+      for (const change of [{ key: 'vendor_id' }, { code: 'OTHER' }, { message: 'Another validation warning' }])
+        assert.throws(() => requireOutcome(label, { outcome, warnings: [{ ...warnings[0], ...change }, ...warnings.slice(1)] }));
+      assert.throws(() => requireOutcome(label, { outcome, warnings: [...warnings, warnings[0]] }));
+    }
+  }
+  assert.throws(() => requireOutcome('__proto__', { outcome: 'saved' }));
+  const probe = { streams: [{ codec_type: 'video', avg_frame_rate: '10/1', r_frame_rate: '10/1' }] }; requireCfrRates(probe);
+  for (const change of [{ avg_frame_rate: undefined }, { avg_frame_rate: '' }, { r_frame_rate: undefined }, { r_frame_rate: '30/1' }])
+    assert.throws(() => requireCfrRates({ streams: [{ ...probe.streams[0], ...change }] }));
+});
+test('Q2d B-frame proof is bound to the pinned source receipt and its retained positive raw observation', () => {
+  const { bframeFixture, requireBframeSource, requireBframeObservation } = require('../scripts/v07-remux-mkv-mp4-smoke.cjs');
+  const file = path.join('F:\\FFmpeg Encoder Project supplied videos\\_FFmpeg-0.7-Owned',
+    'fixtures/sdr-envelope-6b317682-605b-4d40-8ff3-b3f84678f0ae/B-1280x720-30fps.mov');
+  const hash = 'd6030cb3613006b72da5ea02a80fefd82ad14f57c76268b823a691f83e162273';
+  const receipt = { cases: [{ id: 'B', output: file, file: { sha256: hash } }], invocations: [
+    { kind: 'metadata', argv: ['-i', file], exitCode: 0, stdout: JSON.stringify({ streams: [{ codec_type: 'video', has_b_frames: 2 }] }) },
+  ] };
+  const specimen = requireBframeSource(receipt); assert.equal(specimen.proof.kind, 'retained-raw-metadata');
+  assert.equal(specimen.proof.value, 2); assert.match(specimen.file, /B-1280x720-30fps\.mov$/);
+  assert.equal(specimen.sha256, 'd6030cb3613006b72da5ea02a80fefd82ad14f57c76268b823a691f83e162273');
+  assert.throws(() => bframeFixture(Buffer.from('{}')), /receipt changed/);
+  for (const change of [r => { r.cases[0].id = 'E'; }, r => { r.cases[0].output = 'foreign'; }, r => { r.cases[0].file.sha256 = '0'.repeat(64); },
+    r => { r.invocations = []; }, r => { r.invocations[0].exitCode = 1; }, r => { r.invocations[0].stdout = '{}'; },
+    r => { r.invocations[0].stdout = JSON.stringify({ streams: [{ codec_type: 'video', has_b_frames: 0 }] }); }]) {
+    const changed = clone(receipt); change(changed); assert.throws(() => requireBframeSource(changed));
+  }
+  for (const video of [undefined, {}, { has_b_frames: 0 }, { has_b_frames: -1 }, { has_b_frames: '2' }, { has_b_frames: 1.5 }])
+    assert.throws(() => requireBframeObservation(video));
+});
+test('Q2d child admission enforces the copy ceiling for any path and accounts for the storage floor and actual growth', () => {
+  const { countFileCopy, requireSpace, requireGrowth, LIMITS } = require('../scripts/v07-remux-mkv-mp4-smoke.cjs');
+  const owned = path.join('F:\\proof', 'run'), ffmpeg = path.join('D:\\tools', 'ffmpeg.exe');
+  const args = ['-n', '-c', 'copy', path.join(owned, 'stage.mp4')];
+  let copies = 0; for (let i = 0; i < LIMITS.maxStarts; i++) copies = countFileCopy(ffmpeg, args, ffmpeg, owned, copies);
+  assert.equal(copies, LIMITS.maxStarts);
+  assert.throws(() => countFileCopy(ffmpeg, args, ffmpeg, owned, copies), /Start ceiling/);
+  assert.equal(countFileCopy(ffmpeg, ['-f', 'framehash', 'pipe:1'], ffmpeg, owned, copies), copies);
+  assert.equal(countFileCopy('ffprobe', ['-of', 'json'], ffmpeg, owned, copies), copies);
+  assert.throws(() => countFileCopy(ffmpeg, ['-c', 'libx264', args.at(-1)], ffmpeg, owned, 0));
+  assert.throws(() => countFileCopy(ffmpeg, ['-c', 'copy', path.join('F:\\other', 'stage.mp4')], ffmpeg, owned, 0));
+  const floor = require('../src/operation-storage.cjs').LIMITS.minFreeBytes;
+  const enough = { DFreeBytes: 25 * 1024 ** 3, FFreeBytes: floor + LIMITS.forecastBytes + 512 * 1024 ** 2 }; requireSpace(enough);
+  for (const change of [{ DFreeBytes: enough.DFreeBytes - 1 }, { FFreeBytes: enough.FFreeBytes - 1 }, { FFreeBytes: LIMITS.forecastBytes + 512 * 1024 ** 2 },
+    { FFreeBytes: '99999999999' }, { DFreeBytes: Infinity }]) assert.throws(() => requireSpace({ ...enough, ...change }));
+  assert.equal(requireGrowth(7, 7 + LIMITS.forecastBytes), LIMITS.forecastBytes);
+  for (const values of [[7, 8 + LIMITS.forecastBytes], [7, 6], [-1, 0], [0, NaN], ['0', 1]]) assert.throws(() => requireGrowth(...values));
+});
+test('Q2d actual-growth walk accounts for every file and refuses malformed or unbounded trees', async () => {
+  const { ownedBytes } = require('../scripts/v07-remux-mkv-mp4-smoke.cjs');
+  const stat = (type, size = 0) => ({ size, isFile: () => type === 'file', isDirectory: () => type === 'dir', isSymbolicLink: () => type === 'link' });
+  const root = path.resolve('inert-owned');
+  const tree = new Map([[root, stat('dir')], [path.join(root, 'state'), stat('dir')], [path.join(root, 'state', 'receipt'), stat('file', 17)], [path.join(root, 'output'), stat('file', 23)]]);
+  assert.equal(await ownedBytes(root, { lstat: async p => tree.get(p), readdir: async p => p === root ? ['state', 'output'] : ['receipt'] }), 40);
+  for (const type of ['link', 'special']) await assert.rejects(ownedBytes(root, { lstat: async () => stat(type) }));
+  for (const size of [-1, 0.5, Infinity, Number.MAX_SAFE_INTEGER + 1]) await assert.rejects(ownedBytes(root, { lstat: async () => stat('file', size) }));
+  for (const name of ['', '.', '..', '../outside', 'a/b', 'a\\b', 1]) await assert.rejects(ownedBytes(root, { lstat: async () => stat('dir'), readdir: async () => [name] }));
+  await assert.rejects(ownedBytes(root, { lstat: async () => stat('dir'), readdir: async () => ['deeper'] }), /structural bound/);
+  await assert.rejects(ownedBytes(root, { lstat: async p => stat(p === root ? 'dir' : 'file'), readdir: async () => Array.from({ length: 8193 }, (_, i) => String(i)) }), /structural bound/);
 });
 
 test('the finite SDR/source envelope refuses unmeasured dimensions/rates/color/layout and bounded observation conflicts', () => {

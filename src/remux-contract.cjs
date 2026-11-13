@@ -267,7 +267,22 @@ function assessRemux(options) {
         choices: ['choose-qualified-alternate-target', 'explicitly-omit-this-stream'], reasons });
     }
     let metadata = null;
-    try { metadata = tagContract(stream.tags, { target: request.target, stream }); }
+    try {
+      metadata = tagContract(stream.tags, { target: request.target, stream });
+      if (family === 'matroska' && request.target === 'mp4') {
+        // The contract already names native track fields through its neutral
+        // defaults (language and the type's handler label). Declare exact source
+        // preservation for those same fields, without adding output allowances
+        // or changing the builder/validator's existing exact-value comparison.
+        const nativeFields = tagContract({}, { target: request.target, stream }).allowedAdditions;
+        for (const item of metadata.classifications) if (item.mismatch === 'error'
+          && nativeFields.some(field => field.key === item.normalizedKey)
+          && (item.normalizedKey === 'language' ? /^[a-z]{3}$/.test(metadata.preserved[item.key])
+            : item.normalizedKey === 'handler_name' && metadata.preserved[item.key].length > 0)
+          && !metadata.representations.some(rep => rep.key === item.key)) metadata.representations.push({
+          key: item.key, equivalence: 'native-isobmff-track-field', outputKey: item.normalizedKey });
+      }
+    }
     catch (error) { addBlocker(error.code || 'REMUX_METADATA_AMBIGUOUS', error.message, stream.index); }
     const outputIndex = mapped.length;
     mapped.push({ inputIndex: stream.index, outputIndex, streamFingerprint: fingerprints.get(stream.index), codecType: stream.codec_type,

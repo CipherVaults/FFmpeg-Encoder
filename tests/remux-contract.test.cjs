@@ -77,6 +77,35 @@ test('only explicit source und and MOV target declare the observed unspecified-m
   assert.equal(assess(probe, 'mov').expectedOutput.streams[0].metadata.representations.some(item => item.equivalence === 'owned-mov-mdhd-unspecified-language'), false);
 });
 
+test('Matroska-to-MP4 declares existing native track fields without allowing arbitrary required keys or changing argv', () => {
+  const probe = source();
+  Object.assign(probe.streams[0].tags, { HANDLER_NAME: 'VideoHandler', BPS: '123', _STATISTICS_WRITING_APP: 'mkvmerge', VENDOR_ID: 'FFMP' });
+  const original = assess(probe, 'mp4'); probe.format.format_name = 'matroska,webm';
+  const result = assess(probe, 'mp4'), metadata = result.expectedOutput.streams[0].metadata;
+  for (const key of ['language', 'HANDLER_NAME']) assert.ok(metadata.representations.some(item => item.key === key
+    && item.equivalence === 'native-isobmff-track-field' && item.outputKey === key.toLowerCase()));
+  for (const key of ['BPS', '_STATISTICS_WRITING_APP', 'VENDOR_ID']) assert.equal(metadata.representations.some(item => item.key === key), false);
+  for (const key of ['BPS', '_STATISTICS_WRITING_APP']) assert.equal(metadata.classifications.find(item => item.key === key).mismatch, 'error');
+  assert.equal(metadata.classifications.find(item => item.key === 'VENDOR_ID').mismatch, 'warning');
+  assert.deepEqual(metadata.allowedAdditions, original.expectedOutput.streams[0].metadata.allowedAdditions);
+  assert.deepEqual(argv(result), argv(original));
+  for (const target of ['matroska', 'mov']) assert.equal(assess(probe, target).expectedOutput.streams[0].metadata.representations
+    .some(item => item.equivalence === 'native-isobmff-track-field'), false);
+  assert.equal(original.expectedOutput.streams[0].metadata.representations.some(item => item.equivalence === 'native-isobmff-track-field'), false);
+});
+test('Matroska-to-MP4 native language and handler declarations require representable values', () => {
+  for (const [key, value] of [['language', 'en'], ['language', 'EN'], ['language', 'en-US'], ['language', 'English'], ['language', 'ENG'],
+    ['language', ''], ['HANDLER_NAME', '']]) {
+    const probe = source(); probe.format.format_name = 'matroska,webm'; probe.streams[0].tags = { [key]: value };
+    const metadata = assess(probe, 'mp4').expectedOutput.streams[0].metadata;
+    assert.equal(metadata.representations.some(item => item.key === key), false, `${key}=${value}`);
+    assert.equal(metadata.preserved[key], value); assert.equal(metadata.classifications[0].mismatch, 'error');
+  }
+  const probe = source(); probe.format.format_name = 'matroska,webm';
+  probe.streams[0].tags = { language: 'eng', HANDLER_NAME: 'VideoHandler' };
+  assert.deepEqual(assess(probe, 'mp4').expectedOutput.streams[0].metadata.representations.map(item => item.key), ['language', 'HANDLER_NAME']);
+});
+
 test('strict typed Full request excludes TS output, transforms, raw argv, paths and authority claims', () => {
   assert.deepEqual(REMUX_TARGETS, ['matroska', 'mp4', 'mov']);
   for (const changes of [{ target: 'mpegts' }, { target: 'mkv' }, { range: { startUs: 0, endUs: 1 } }, { range: undefined },

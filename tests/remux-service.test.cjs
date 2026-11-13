@@ -25,18 +25,19 @@ function probe() {
   format: { format_name: 'matroska,webm', duration: '2', start_time: '0', nb_streams: 2, nb_programs: 0, nb_stream_groups: 0, tags: { title: 'Synthetic preparation facts' } },
   chapters: [], programs: [], stream_groups: [] };
 }
-async function harness(t, { target = 'matroska', count = 1 } = {}) {
+async function harness(t, { target = 'matroska', count = 1, explicitAudio = false, videoTags = {} } = {}) {
   await fs.mkdir(parent, { recursive: true }); const root = await fs.mkdtemp(path.join(parent, 'run-'));
   const input = path.join(root, 'input'), output = path.join(root, 'output'); await fs.mkdir(input); await fs.mkdir(output);
   for (let i = 0; i < count; i++) await fs.writeFile(path.join(input, `source-${i}.mkv`), 'Owned inert source bytes ' + randomUUID());
   const service = new EncoderService({ ffmpeg: path.join(root, 'dummy-ffmpeg'), ffprobe: path.join(root, 'dummy-ffprobe'), stateDir: path.join(root, 'state'),
-    inspect: async file => { const value = probe(); value.format.size = String((await fs.stat(file)).size); return { probe: value, duration: 2, summary: {} }; }, capabilities: async () => { throw new Error('Remux must not initialize encoders'); },
+    inspect: async file => { const value = probe(); Object.assign(value.streams[0].tags, videoTags); value.format.size = String((await fs.stat(file)).size); return { probe: value, duration: 2, summary: {} }; }, capabilities: async () => { throw new Error('Remux must not initialize encoders'); },
     inspectionCache: null, storageEligibility: { check: async () => ({ eligible: false, reason: 'Synthetic storage observation' }) },
     runtimeIdentity: RUNTIME, operationRuntime: { observe: async () => Object.freeze({}), snapshot: () => ({ runtimeIdentity: RUNTIME, environment: null }), close: async () => {} },
     operationStorage: () => { throw new Error('No execution storage should open during preparation'); },
     operationEvidenceBudget: EVIDENCE_BUDGET, operationDeadlineMs: 600000,
     remuxOperations: new RemuxOperations({ runtimeIdentity: RUNTIME, policyIdentity: 'synthetic-main-route-policy', policies: ['matroska', 'mp4'].map(target =>
-      ({ id: 'synthetic-' + target, inputFamily: 'matroska', target, evidenceIds: ['synthetic-route'], allowAncillary: false, runtimeIdentity: RUNTIME })) }) });
+      ({ id: 'synthetic-' + target, inputFamily: 'matroska', target, evidenceIds: ['synthetic-route'], allowAncillary: false, runtimeIdentity: RUNTIME,
+        ...(explicitAudio && target === 'mp4' ? { audio: 'explicitly-omitted-only' } : {}) })) }) });
   t.after(async () => { await service.cancelCurrent(); await service.closeOperationResources(); await service.closeDiagnostics(); });
   const a = await service.registerFolder(input, 'input'), b = await service.registerFolder(output, 'output');
   await service.prepareRemuxBatch({ inputFolderId: a.id, outputFolderId: b.id, target });
@@ -64,6 +65,30 @@ test('known AAC conversion refuses; exact omission set enables only the remainin
   assert.throws(() => service.setRemuxOmissions({ planId: oldPlan, draftId: s.operationDraft.id, revision: s.operationDraft.revision, decisionIds: [candidate.id] }), { code: 'STALE_PLAN' });
   await service.setRemuxOmissions({ planId: s.planId, draftId: s.operationDraft.id, revision: s.operationDraft.revision, decisionIds: [] });
   assert.equal(service.snapshot().items[0].status, 'unsupported');
+});
+test('explicit-audio MP4 route exposes the omission refusal and revokes Ready when the choice is cleared', async t => {
+  const { service } = await harness(t, { target: 'mp4', explicitAudio: true });
+  let s = service.snapshot(); assert.equal(s.items[0].status, 'unsupported');
+  assert.match(s.items[0].reason, /Matroska-to-MP4 requires a current explicit omission decision for every audio stream/);
+  const candidate = s.items[0].remux.omissionCandidates.find(item => item.streamIndex === 1);
+  assert.ok(candidate);
+  await service.setRemuxOmissions({ planId: s.planId, draftId: s.operationDraft.id, revision: s.operationDraft.revision, decisionIds: [candidate.id] });
+  s = service.snapshot(); assert.equal(s.items[0].status, 'ready', s.items[0].reason);
+  const ready = s;
+  assert.deepEqual(service.getEncodingDetails({ planId: s.planId, fileId: s.items[0].id }).operation.expectedOutput.streams.map(item => item.inputIndex), [0]);
+  await service.setRemuxOmissions({ planId: s.planId, draftId: s.operationDraft.id, revision: s.operationDraft.revision, decisionIds: [] });
+  s = service.snapshot(); assert.equal(s.items[0].status, 'unsupported');
+  assert.match(s.items[0].reason, /every audio stream/);
+  assert.throws(() => service.startBatch({ planId: ready.planId, fileIds: [ready.items[0].id] }), { code: 'STALE_PLAN' });
+});
+test('an explicit audio omission cannot make an unrepresentable Matroska track tag Ready', async t => {
+  const { service } = await harness(t, { target: 'mp4', explicitAudio: true, videoTags: { BPS: '12345' } });
+  let s = service.snapshot(); assert.equal(s.items[0].reasonCode, 'REMUX_AUDIO_OMISSION_REQUIRED');
+  const candidate = s.items[0].remux.omissionCandidates.find(item => item.streamIndex === 1);
+  await service.setRemuxOmissions({ planId: s.planId, draftId: s.operationDraft.id, revision: s.operationDraft.revision, decisionIds: [candidate.id] });
+  s = service.snapshot(); assert.equal(s.items[0].status, 'unsupported');
+  assert.equal(s.items[0].reasonCode, 'REMUX_TRACK_TAG_UNREPRESENTABLE'); assert.match(s.items[0].reason, /'BPS'/);
+  assert.throws(() => service.startBatch({ planId: s.planId, fileIds: [s.items[0].id] }), { code: 'INVALID_SELECTION' });
 });
 test('arbitrary/duplicate/foreign decisions and transforms cannot manufacture Remux authority', async t => {
   const { service, a, b } = await harness(t); const s = service.snapshot(), candidate = s.items[0].remux.omissionCandidates[0];

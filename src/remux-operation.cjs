@@ -73,16 +73,18 @@ function sourceIdentity(value) {
 }
 function fingerprintRemuxSourceIdentity(value) { return hash(sourceIdentity(value)); }
 function policy(value) {
-  const fields = ['id', 'inputFamily', 'target', 'evidenceIds', 'allowAncillary', 'runtimeIdentity', 'allowRotation90'];
-  record(value, fields, fields.slice(0, -1), 'Main-reviewed Remux route policy');
+  const fields = ['id', 'inputFamily', 'target', 'evidenceIds', 'allowAncillary', 'runtimeIdentity', 'allowRotation90', 'audio'];
+  record(value, fields, fields.slice(0, 6), 'Main-reviewed Remux route policy');
   need(['isobmff', 'matroska'].includes(value.inputFamily) && ['matroska', 'mp4', 'mov'].includes(value.target), 'Only the finite reviewed local Remux families are available.');
   need(typeof value.allowAncillary === 'boolean' && (!own(value, 'allowRotation90') || typeof value.allowRotation90 === 'boolean'), 'Route options must be explicit booleans.');
   need(!value.allowAncillary || value.inputFamily === 'matroska' && value.target === 'matroska', 'Ancillary collection is available only for reviewed Matroska-to-Matroska routes.');
+  if (own(value, 'audio')) need(value.audio === 'explicitly-omitted-only' && value.inputFamily === 'matroska' && value.target === 'mp4',
+    'The explicitly-omitted-only audio policy is available only for reviewed Matroska-to-MP4 routes.');
   const evidenceIds = list(value.evidenceIds, 32, 'Retained route evidence').map(item => id(item, 'Retained route evidence'));
   need(evidenceIds.length > 0 && new Set(evidenceIds).size === evidenceIds.length, 'A reviewed route needs unique retained evidence IDs.');
   return freeze({ id: id(value.id, 'Route policy'), inputFamily: value.inputFamily, target: value.target, evidenceIds,
     allowAncillary: value.allowAncillary, runtimeIdentity: digest(value.runtimeIdentity, 'Qualified paired runtime'),
-    allowRotation90: value.allowRotation90 === true });
+    allowRotation90: value.allowRotation90 === true, ...(own(value, 'audio') ? { audio: value.audio } : {}) });
 }
 function ratio(value, separator = '/') {
   const parts = typeof value === 'string' && value.split(separator);
@@ -112,6 +114,23 @@ function geometry(evidence, route) {
 }
 function sourcePolicy(assessment, source, identity, route) {
   const mapped = assessment.expectedOutput.streams.map(mapping => source.streams.find(stream => stream.index === mapping.inputIndex));
+  // The genuine immutable assessment records only main-resolved, current
+  // per-stream omission decisions. A missing output track alone is no grant.
+  if (route.audio === 'explicitly-omitted-only') need(source.streams.filter(stream => stream.codec_type === 'audio')
+    .every(stream => assessment.expectedOutput.omittedStreams.some(item => item.inputIndex === stream.index
+      && item.codecType === 'audio' && item.action === 'explicitly-omitted' && assessment.request.omissionRequestIds.includes(item.decisionId))),
+  'Matroska-to-MP4 requires a current explicit omission decision for every audio stream; audio preservation is not qualified.', 'REMUX_AUDIO_OMISSION_REQUIRED');
+  if (assessment.inputFamily === 'matroska' && assessment.target === 'mp4') {
+    for (const stream of assessment.expectedOutput.streams) {
+      const metadata = stream.metadata;
+      for (const item of metadata.classifications) if (item.mismatch === 'error') need(
+        metadata.representations.some(rep => rep.key === item.key)
+          || metadata.allowedAdditions.some(addition => addition.key.toLowerCase() === item.normalizedKey
+            && addition.match === 'exact' && addition.value === metadata.preserved[item.key]),
+        `Matroska-to-MP4 cannot preserve required track tag '${item.key}' on stream ${stream.inputIndex}; no MP4 representation is declared.`,
+        'REMUX_TRACK_TAG_UNREPRESENTABLE');
+    }
+  }
   need(source.mediaEvidence.container.relationships.state === 'known' && source.programs.length === 0 && source.stream_groups.length === 0
     && source.streams.every(stream => stream.codec_type !== 'data'), 'Programs, unknown relationships, groups and timed data/timecode remain unqualified.', REQUIRED);
   need(source.format.size === identity.size, 'Observed source size must match the current exact source identity.', REQUIRED);

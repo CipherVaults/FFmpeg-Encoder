@@ -85,6 +85,10 @@ Range packet copy (Q04), chapters in a range encode (Q06), subtitles on a resize
 
 - FLAC for trims applies only to QuickTime sources with integer 16-bit PCM at 48 kHz stereo. That is the measured shape; AAC sources cannot become lossless FLAC. The family uses `end-timestamp` with exact PCM identity, and its bounds can never exceed the AAC range family's. Wider PCM shapes (24-bit, 44.1 kHz, mono, MP4 brand) each need a fixture and a calibration.
 
+### Q2d notes (commit `bc19e51`; Codex-built, root-reviewed)
+
+- The written source/producer policy review is [record 48](48_Q2d_Matroska_to_MP4_Policy_Review_2026-11-13.md). The route is video only, with audio explicitly omitted, and the existing "saved with warning" rules are kept with no new allowance. B-frame, VFR and CFR sources are measured. Unrepresentable track tags are refused before Start.
+
 ## 4. Points for Ahmed (none blocks Waves 1–2)
 
 | # | Question | Root's recommendation |

@@ -773,3 +773,24 @@ The design decisions are in record 37's new "C4 amendments" section.
 - **Service.** `d201d3cb` (SHA-256 `0cc7a75a…944c`) passed all six jobs.
 - **Checks.** Five mutation checks (brand, ceilings, FLAC clock, collector range clause, packet-clock guard) each fail a test. `q2c-focused` 161/161; `q2c-full` 2627/2637 with the same 5 parked failures.
 - **Limits for Ahmed.** FLAC needs integer 16-bit PCM sources in QuickTime at 48 kHz stereo. AAC, 44.1 kHz, mono, 24-bit, planar and MP4-branded sources are refused until measured.
+
+## Slice Q2d: Matroska→MP4 video-only route — November 13 (Cairo)
+
+- **Codex job 1** (`20261113T024255Z-q2d-mkvmp4-1-7d91c1`): drafted the source/producer policy review as seven cited findings. Added the `audio: 'explicitly-omitted-only'` route field and its gate in `src/remux-operation.cjs`. Wrote the parameterised harness `scripts/v07-remux-mkv-mp4-smoke.cjs` with a CFR case.
+- **Review round 1** (workflow `wf_8f6840d9-7e0`: gate, harness and policy lenses plus an adversarial verifier).
+  - The gate passed: 198 side-by-side cases were identical, and no audio can reach the output.
+  - Confirmed: one medium issue (neither proof source had B-frames) and lows: proof assertions not pinned, track tags MP4 cannot hold caught only after a full copy, refusal-path Starts uncounted, and the stale brand tags (recorded, not changed).
+- **Codex job 2** (`20261113T070538Z-q2d-mkvmp4-2-6416ca`, resume) fixed them:
+  - a B-frame case built from envelope fixture B;
+  - pinned outcomes and warnings;
+  - a copy-slot ceiling, the storage floor and a growth bound;
+  - `REMUX_TRACK_TAG_UNREPRESENTABLE` (Matroska→MP4 only).
+- **Review round 2** (`wf_8434a89f-1be`, source and harness lenses). 2160 before/after cases were byte-identical for the existing routes, and 17 of 23 mutants were killed (the survivors are equivalent). Three lows: language/handler values, harness wiring tests, and the B-frame average-rate pin.
+- **Codex job 3** (`20261113T074801Z-q2d-mkvmp4-3-302af4`, resume) fixed all three.
+- **Root.** `q2d-focused-r3` passed 255/255 on the final bytes.
+  - Qualification run `838e1196` (report SHA-256 `ee7c7ad4…16bd`, 35 s) passed.
+  - Catalog entry added, with evidence IDs `838e1196:<case>`.
+  - Normal-service run `b154a940` (SHA-256 `ab37baac…f6fb`) passed with identical outcomes, and its module hashes equal the committed bytes.
+  - Record 48 written; commit `bc19e51`.
+- **Checks.** `q2d-full` 2653 pass with the same 5 parked failures.
+- **Limits for Ahmed.** The route is video only. Carried audio, subtitles, chapters and MOV are not claimed. Source brand tags are still copied into the MP4 metadata (pre-existing).

@@ -1,3 +1,17 @@
+> **ACTIVE — November 13, 2026 (morning). Writer lock phase `q2d`. Slice Q2d of [record 47](47_Milestone_Q_Plan_2026-11-12.md) is COMMITTED in `bc19e51`: MKV files can be remuxed to MP4 as video only, with every audio track explicitly left out.**
+> - **Team.** Codex (GPT-6.1 Sol, xhigh, `/codex-run`) drafted the policy review and wrote the code, harness and tests in three jobs: `q2d-mkvmp4-1`, then `-2` and `-3` for the review fixes. Codex is at 23% of its week. Root reviewed, ran both media proofs, added the catalog entry and wrote [record 48](48_Q2d_Matroska_to_MP4_Policy_Review_2026-11-13.md), the written source/producer policy review that amendment 33:50 requires.
+> - **Route.** `full-remux-matroska-mp4-v1` (`REMUX_POLICY_ID` `full-remux-v2:2026-11-13:four-routes`), `allowAncillary: false`, `audio: 'explicitly-omitted-only'`.
+>   - A file with audio that is not explicitly omitted is refused before Start with `REMUX_AUDIO_OMISSION_REQUIRED`.
+>   - Track tags MP4 cannot hold are refused before Start with `REMUX_TRACK_TAG_UNREPRESENTABLE`. Examples: mkvmerge `BPS`/`_STATISTICS_*`, a language that is not three lowercase letters, an empty handler.
+>   - The three existing routes are byte-identical: a 2160-case before/after experiment.
+> - **Proof.** Harness `scripts/v07-remux-mkv-mp4-smoke.cjs` (a new parameterised copy; the original is unchanged). It has three cases (VFR, CFR, B-frame) with pinned outcomes and warnings. Limits per mode: 5 copies, 128 invocations, 60 min, 2 GiB.
+>   - Qualification `838e1196` and normal-service `b154a940` both passed: 75 invocations, 5 copies, one child at a time, sources unchanged, clean closure, stale-Start and collision refused.
+>   - Results: VFR saved with the `VENDOR_ID` and average-rate warnings; CFR saved clean; B-frame saved with `VENDOR_ID` only.
+> - **Review.** Round 1 (three lenses plus an adversarial verifier) found one medium issue (no B-frame proof) and five lows. Round 2 (two lenses) found three lows. All are fixed, except the stale-brand-tag limitation, which is recorded in record 48 §5 and also exists on the ISOBMFF→MP4 route.
+> - **Evidence.** `q2d-focused-r3` 255/255; `q2d-full` 2653 pass with the same 5 parked failures. No vendor re-pin was needed: the remux files are not hash-pinned. The golden ordinary argv is unchanged. HDR seal drift grows by `remux-catalog.cjs` and `remux-contract.cjs`; there is no reseal.
+> - **Next:** Q2e (ISOBMFF→MOV) via Codex.
+> - The banner below is history.
+
 > **ACTIVE — November 13, 2026 (morning). Writer lock phase `q2c`. Slice Q2c of [record 47](47_Milestone_Q_Plan_2026-11-12.md) is COMMITTED in `6b620fd`: trims of QuickTime PCM files can carry lossless FLAC audio, checked sample for sample.**
 > - **Team.** Per Ahmed's November 13 instruction, Codex (GPT-6.1 Sol, xhigh, `/codex-run`, record 40) wrote the code, scripts and tests in two jobs (`q2c-flac-1`; `q2c-flac-2` for the review fixes); together they used about 8% of its weekly window. Root reviewed, generated fixtures, ran every media job, built the manifest and catalog, edited the smoke and the catalog test, and committed.
 > - **Family.** `short-sdr-range-flac-v1` admits a 0.5–30 s range, Keep Source or 1080→720, from a QuickTime (`qt  `) file with one 48 kHz stereo `pcm_s16le` stream, encoded to FLAC.

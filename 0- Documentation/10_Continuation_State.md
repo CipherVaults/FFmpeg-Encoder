@@ -1,3 +1,14 @@
+> **ACTIVE — November 13, 2026 (afternoon). Writer lock phase `q2e`. Slice Q2e of [record 47](47_Milestone_Q_Plan_2026-11-12.md) is COMMITTED in `adb9f0e`: MP4 and MOV files can be remuxed to MOV with their H.264 video and AAC audio.**
+> - **Team change (Ahmed, November 13; record 40 amendment, commit `7903aa7`).** Codex first: Codex now also reviews, in a fresh review session. `/codex-run` accepts `--effort max` for the hardest jobs. Root runs on Fable 5.2 at Low (Ahmed switched it); `reviewer` and `researcher` helpers use Fable Low.
+> - **Route.** `full-remux-isobmff-mov-v1` (`REMUX_POLICY_ID` `full-remux-v3:2026-11-13:five-routes`), `sourceEnvelope: 'h264-aac-lc-48k-stereo-v1'`. Policy review: [record 49](49_Q2e_ISOBMFF_to_MOV_Policy_Review_2026-11-13.md).
+>   - Before Start it refuses any shape other than one H.264 video plus one 48 kHz stereo AAC-LC track, rate summaries other than matching 30/60 fps, chapters, and track tags MOV cannot hold.
+>   - After the copy it publishes only if the collected cadence is constant on source and output (`REMUX_MOV_CADENCE_UNQUALIFIED` otherwise). Root's technical decision; it only narrows.
+> - **Proof.** Qualification `7a7f87a2` and normal-service `ff1c4445`: fixtures A (1080p30 MP4), B (720p30 MOV) and C (720p60 MP4), each saved with zero warnings; 51 invocations, 3 copies, sources unchanged.
+> - **Evidence.** `q2e-focused-r3` 288/288; `q2e-full-r2` 2683 pass with the same 5 parked failures. Failed receipt `q2e-full` (13 failures: tests assumed MOV was off) is retained; Codex job `q2e-mov-4` fixed the tests only.
+> - **Owner decisions, November 13 (record 47 §5).** Add a "Quick copy (unverified)" Remux option with a warning dialog, and include variable frame rate in this cycle. One point is open with Ahmed: whether Quick copy keeps every track or one video and one audio.
+> - **Next:** Q2g (variable frame rate for MOV), then Q2h (Quick copy), then Q2f. All via Codex.
+> - The banner below is history.
+
 > **ACTIVE — November 13, 2026 (morning). Writer lock phase `q2d`. Slice Q2d of [record 47](47_Milestone_Q_Plan_2026-11-12.md) is COMMITTED in `bc19e51`: MKV files can be remuxed to MP4 as video only, with every audio track explicitly left out.**
 > - **Team.** Codex (GPT-6.1 Sol, xhigh, `/codex-run`) drafted the policy review and wrote the code, harness and tests in three jobs: `q2d-mkvmp4-1`, then `-2` and `-3` for the review fixes. Codex is at 23% of its week. Root reviewed, ran both media proofs, added the catalog entry and wrote [record 48](48_Q2d_Matroska_to_MP4_Policy_Review_2026-11-13.md), the written source/producer policy review that amendment 33:50 requires.
 > - **Route.** `full-remux-matroska-mp4-v1` (`REMUX_POLICY_ID` `full-remux-v2:2026-11-13:four-routes`), `allowAncillary: false`, `audio: 'explicitly-omitted-only'`.

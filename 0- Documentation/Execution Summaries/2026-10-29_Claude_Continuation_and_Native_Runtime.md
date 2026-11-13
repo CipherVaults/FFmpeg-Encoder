@@ -794,3 +794,15 @@ The design decisions are in record 37's new "C4 amendments" section.
   - Record 48 written; commit `bc19e51`.
 - **Checks.** `q2d-full` 2653 pass with the same 5 parked failures.
 - **Limits for Ahmed.** The route is video only. Carried audio, subtitles, chapters and MOV are not claimed. Source brand tags are still copied into the MP4 metadata (pre-existing).
+
+## Slice Q2e: ISOBMFF→MOV route — November 13 (Cairo)
+
+- **Ahmed's instructions during the slice.** "use Codex when you can to save on your own quota"; "Allow Max for hard jobs"; "switch to Fable 5.2 Low for your work if it's indeed better." Root stopped its own Claude review workflow and gave the review to a fresh Codex session. Toolkit commit `7903aa7`; record 40 amendment.
+- **Codex job 1** (`q2e-mov-1`): policy review, the `sourceEnvelope` route field, the proof harness and tests.
+- **Codex review** (`q2e-review-1`, fresh session): existing routes byte-identical in 84 cases; three medium findings (VFR and 60 fps admitted but unmeasured; a masked receipt-pin negative; harness limits without wiring tests).
+- **Codex job 2** (`q2e-mov-2`): fixed the tests, added fixture C (60 fps) and a rate-summary prefilter, then returned `needs_decision` (exit 4): constant cadence cannot be proven before Start.
+- **Root decision.** Keep the prefilter and add a post-collection constant-cadence gate. **Codex job 3** (`q2e-mov-3`) implemented it; 10 mutants killed.
+- **Root proofs.** `q2e-focused-r3` 288/288. Qualification `7a7f87a2` passed; catalog entry added; normal-service `ff1c4445` passed.
+- **Retained failure.** `q2e-full` showed 13 failures: 8 tests asserted production MOV was still off. **Codex job 4** (`q2e-mov-4`, tests only) corrected them; `q2e-full-r2` is 2683 pass with the same 5 parked failures.
+- **Commit** `adb9f0e`, with record 49.
+- **Model-choice study.** From Ahmed's Fable-versus-Opus package (Artificial Analysis v5.0.1), root published the artifact "Claude Seat Model Choice". Result: stay on Fable 5.2 Low for the coordinator and inspector seat; Opus 5.5 High is better only at professional documents.

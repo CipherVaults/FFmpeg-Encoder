@@ -89,6 +89,10 @@ Range packet copy (Q04), chapters in a range encode (Q06), subtitles on a resize
 
 - The written source/producer policy review is [record 48](48_Q2d_Matroska_to_MP4_Policy_Review_2026-11-13.md). The route is video only, with audio explicitly omitted, and the existing "saved with warning" rules are kept with no new allowance. B-frame, VFR and CFR sources are measured. Unrepresentable track tags are refused before Start.
 
+### Q2e notes (commit `adb9f0e`; Codex-built and Codex-reviewed, root-decided)
+
+- The policy review is [record 49](49_Q2e_ISOBMFF_to_MOV_Policy_Review_2026-11-13.md). The route admits one H.264 video plus one 48 kHz stereo AAC-LC track at constant 30/60 fps. It refuses other shapes before Start and publishes only when the collected cadence is constant on both sides.
+
 ## 4. Points for Ahmed (none blocks Waves 1–2)
 
 | # | Question | Root's recommendation |
@@ -101,3 +105,21 @@ Range packet copy (Q04), chapters in a range encode (Q06), subtitles on a resize
 ## 5. Not changed by this record
 
 Tracker 25 requirement texts and order; the 5 parked failures (D7); HDR; O1–O10 (record 46).
+
+## 5. Owner decisions — November 13, 2026 (scope additions)
+
+Ahmed, after root explained how the verified remux differs from his raw FFmpeg batch files:
+
+- "we can, yes, add that quick copy unverified option toggle ... with a warning perhaps that explains in a pop-up message that like a smaller window that can be closed in a clean, polished way about that part and its risk."
+- "can we actually include the variable frame rate as well in this cycle?"
+
+Root's plan for them:
+
+| Slice | Rows | Change |
+|---|---|---|
+| Q2g | Q07, Q08 | Variable frame rate for ISOBMFF→MOV: an owned VFR fixture and a fresh proof; the post-copy check of every frame stays. Matroska→MP4 already measures VFR (record 48). |
+| Q2h | Q07 | "Quick copy (unverified)" on the Remux screen, off by default. A small themed warning dialog explains the risks. It runs a plain stream copy without the measured-shape or length limits. The source stays untouched, nothing is overwritten, jobs stay one at a time, and the result row says "Quick copy, not verified". |
+
+- **Open with Ahmed:** whether Quick copy keeps every track or one video and one audio track, as his batch files do.
+- **Flagged to Ahmed:** verified remux still accepts only files up to 120 s and 512 MiB; lifting that needs measurement on longer files.
+- Order: Q2g, Q2h, then Q2f, unless Ahmed reorders.

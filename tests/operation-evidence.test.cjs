@@ -121,6 +121,52 @@ async function fixture(t, { mode = 'precision-flac', overrides = {}, mutateProbe
 const qualification = { evidenceId: 'pure-fixture-only', runtimeIdentity: 'a'.repeat(64), containerDuration: 'end-timestamp',
   tolerances: { videoTimestampUs: 0, audioTimestampUs: 0, avSyncUs: 0, durationUs: 0, sampleCount: 0 } };
 
+test('FLAC range source policy collects canonical atrim membership with exact selected PCM identity', async t => {
+  const { options, data } = await fixture(t);
+  options.sourcePolicy = { id: 'short-sdr-range-flac-v1', rate: 30, maximumExtentUs: 120000000 };
+  for (const row of data.sourceFrames[0]) Object.assign(row, { sample_aspect_ratio: '1:1', chroma_location: 'left' });
+  assert.deepEqual(options.plan.expectedOutput.filters.audio[0].filters,
+    ['asettb=expr=1/48000', 'atrim=start_pts=4800:end_pts=14400', 'asetpts=PTS-(4800)']);
+  const result = await collectOperationEvidence(options), audio = result.decodedEvidence.audio[0];
+  assert.equal(result.completeSource.video.properties.policy, 'short-sdr-range-flac-v1');
+  assert.equal(audio.sourceSampleCount, 9600); assert.equal(audio.outputSampleCount, 9600);
+  assert.equal(audio.pcmIdentity.sourceBytes, 38400); assert.equal(audio.pcmIdentity.outputBytes, 38400);
+  assert.equal(audio.pcmIdentity.sourceHash, audio.pcmIdentity.outputHash);
+  const validation = validateEncodeOperationOutput(options.plan, options.outputProbe, { qualification, decodedEvidence: result.decodedEvidence });
+  assert.equal(validation.valid, true, validation.errors.join('; '));
+  data.outputPcm[123] ^= 1;
+  const changed = await collectOperationEvidence(options);
+  assert.notEqual(changed.decodedEvidence.audio[0].pcmIdentity.sourceHash, changed.decodedEvidence.audio[0].pcmIdentity.outputHash);
+  assert.equal(validateEncodeOperationOutput(options.plan, options.outputProbe, { qualification, decodedEvidence: changed.decodedEvidence }).valid, false);
+});
+
+test('FLAC source policy refuses other routes, rates, layouts, source formats, AAC alignment and either foreign clock before children', async t => {
+  const variants = [
+    { mode: 'precision-aac' },
+    { mode: 'precision-flac', overrides: { range: null } },
+    { mode: 'copy', overrides: { range: null, resolution: '720' }, mutateProbe(p) { p.streams[0].tags.rotate = '0'; } },
+    { mutateProbe(p) { Object.assign(p.streams[1], { sample_rate: '44100', time_base: '1/44100', duration_ts: 17640 }); } },
+    { mutateProbe(p) { Object.assign(p.streams[1], { channels: 1, channel_layout: 'mono' }); } },
+    { mutateProbe(p) { p.streams[1].codec_name = 'pcm_s16be'; } },
+    { mutateProbe(p) { Object.assign(p.streams[1], { codec_name: 'pcm_s24le', sample_fmt: 's32', bits_per_raw_sample: 24 }); } },
+  ];
+  for (const variant of variants) {
+    const { options, data } = await fixture(t, variant);
+    options.sourcePolicy = { id: 'short-sdr-range-flac-v1', rate: 30, maximumExtentUs: 120000000 };
+    await assert.rejects(collectOperationEvidence(options), { code: 'OPERATION_EVIDENCE_INVALID' }); assert.equal(data.calls.length, 0);
+  }
+  const { options, data } = await fixture(t);
+  options.sourcePolicy = { id: 'short-sdr-range-flac-v1', rate: 30, maximumExtentUs: 120000000 };
+  const alignment = { alignment: 'decoded-after-signalled-skip', encoderDelaySamples: 0, discardPaddingSamples: 0 };
+  for (const change of [{ sourcePolicy: { ...options.sourcePolicy, rate: 24 } },
+    { sourcePolicy: { ...options.sourcePolicy, maximumExtentUs: 120000001 } },
+    { timingQualification: { ...options.timingQualification, aac: alignment } },
+    ...['matroska-packet-end-plus-codec-delay', 'matroska-copy-end-plus-codec-delay'].map(containerClockPolicy => ({ containerClockPolicy }))]) {
+    await assert.rejects(collectOperationEvidence({ ...options, ...change }), { code: 'OPERATION_EVIDENCE_INVALID' });
+    assert.equal(data.calls.length, 0);
+  }
+});
+
 test('production compact packet collector and validator reject AAC truncation with a compensating final packet duration', async t => {
   for (const truncated of [false, true]) {
     const { options, data } = await fixture(t, { mode: 'precision-aac', overrides: { range: { startUs: 0, endUs: 500000 } }, mutateProbe(probe) {

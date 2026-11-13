@@ -16,12 +16,15 @@ const { createOperationControls } = require('../src/operation-controls.cjs');
 const ROOT = path.resolve(__dirname, '..');
 const OWNED = 'F:\\FFmpeg Encoder Project supplied videos\\_FFmpeg-0.7-Owned';
 const FIXTURES = path.join(ROOT, 'artifacts/v0.7/slice2/envelope-fixtures/6b317682-605b-4d40-8ff3-b3f84678f0ae/report.json');
+// Record 47 Q2c: owned QuickTime pcm_s16le fixtures for the precision-FLAC range family.
+const PCM_FIXTURES = path.join(ROOT, 'artifacts/v0.7/slice2/pcm-envelope-fixtures/eb6ba690-cd10-4697-b535-ca7c958aa078/report.json');
+const PCM_FIXTURES_SHA = '11c90201e60f19d7866a76eb2fb71ef429a050a90027d7bbb32264bf93c9b526';
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 async function main() {
   assert.deepEqual(process.argv.slice(2), ['--run-owned-service']);
   const { FAMILIES, POLICY_ID } = require('../src/operation-catalog.cjs');
-  // Record 47 Q2a/Q2b: per family, one CPU cell plus one NVIDIA cell per measured driver.
-  for (const family of ['short-sdr-range-v1', 'full-sdr-resize-copy-v1']) {
+  // Record 47 Q2a/Q2b/Q2c: per family, one CPU cell plus one NVIDIA cell per measured driver.
+  for (const family of ['short-sdr-range-v1', 'full-sdr-resize-copy-v1', 'short-sdr-range-flac-v1']) {
     const cells = FAMILIES.filter(item => item.id === family);
     assert.ok(cells.filter(item => item.settings.profileId === 'h265-cpu').length === 1 && cells.some(item => item.settings.profileId === 'h265-nvidia'),
       `A reviewed CPU/NVIDIA ${family} catalog is required before this endpoint`);
@@ -31,8 +34,8 @@ async function main() {
   const leasePath = path.join(ROOT, 'artifacts/v0.7/media-job.lock'), children = new Set();
   const report = { schema: 1, id, status: 'running', directory, owned, startedAt: new Date().toISOString(),
     purpose: 'Fresh normal service inspection/capabilities and main factory/catalog; no native UI/benchmark acceptance',
-    invocations: [], cases: [], maximumConcurrentChildren: 0, limits: { totalMs: 15 * 60000, forecastBytes: 1024 ** 3, maxInvocations: 180 },
-    limitations: ['No native BrowserWindow input or packaged endpoint.', 'Only the exact qualified short SDR range and whole-file copied-audio families and the current observed NVIDIA UUID/driver.',
+    invocations: [], cases: [], maximumConcurrentChildren: 0, limits: { totalMs: 20 * 60000, forecastBytes: 1024 ** 3, maxInvocations: 240 },
+    limitations: ['No native BrowserWindow input or packaged endpoint.', 'Only the exact qualified short SDR AAC-range, FLAC-range and whole-file copied-audio families and the current observed NVIDIA UUID/driver.',
       'Runtime observation helpers may run nvidia-smi separately; media child accounting describes FFmpeg/ffprobe.',
       'Distinct owned destinations: same-folder native storage eligibility is not established by this endpoint.'] };
   let lease, leaseIdentity, service, runtime, cancellationTimer, cancelEncodeRequested = false, abortRequested = false;
@@ -93,6 +96,12 @@ async function main() {
     const sourceBytes = await fs.readFile(specimen.output); assert.equal(sha(sourceBytes), specimen.file.sha256);
     const source = path.join(input, 'fresh-source.mp4'); await fs.writeFile(source, sourceBytes, { flag: 'wx' });
     report.source = { file: source, bytes: sourceBytes.length, sha256: sha(sourceBytes), origin: specimen.output };
+    const pcmReportBytes = await fs.readFile(PCM_FIXTURES); assert.equal(sha(pcmReportBytes), PCM_FIXTURES_SHA);
+    const pcmSpecimen = JSON.parse(pcmReportBytes).cases.find(value => value.id === 'A');
+    const pcmBytes = await fs.readFile(pcmSpecimen.output); assert.equal(sha(pcmBytes), pcmSpecimen.file.sha256);
+    const pcmInput = path.join(owned, 'pcm-media'); await fs.mkdir(pcmInput);
+    const pcmSource = path.join(pcmInput, 'fresh-pcm-source.mov'); await fs.writeFile(pcmSource, pcmBytes, { flag: 'wx' });
+    report.pcmSource = { file: pcmSource, bytes: pcmBytes.length, sha256: sha(pcmBytes), origin: pcmSpecimen.output };
     const controls = createOperationControls({ runtime, stateDir, families: FAMILIES, policyIdentity: POLICY_ID });
     const observer = controls.operationRuntime, invoke = observer.invoke.bind(observer);
     observer.invoke = (token, tool, argv, options) => tracked(runtime[tool], argv, options,
@@ -108,9 +117,11 @@ async function main() {
         assert.equal(fields.length, 4); assert.equal(Number(fields[2]), 0); assert.equal(Number(fields[3]), 0);
       }
       // Q2b: a 1.774 s trim with re-encoded AAC, then the whole 31 s file at 720p with copied audio.
-      for (const kind of ['range', 'full']) {
-      const output = path.join(owned, profileId + (kind === 'range' ? '-output' : '-full-output')); await fs.mkdir(output);
-      const selection = await service.registerFolder(input, 'input'), destination = await service.registerFolder(output, 'output');
+      // Q2c: the same trim of a QuickTime pcm_s16le file with precision FLAC.
+      for (const kind of ['range', 'full', 'flac']) {
+      const output = path.join(owned, profileId + { range: '-output', full: '-full-output', flac: '-flac-output' }[kind]); await fs.mkdir(output);
+      const jobSource = kind === 'flac' ? pcmSource : source;
+      const selection = await service.registerFolder(kind === 'flac' ? pcmInput : input, 'input'), destination = await service.registerFolder(output, 'output');
       const settings = { profileId, preset: profileId === 'h265-cpu' ? 'slow' : 'p5', quality: 25 };
       const endpoint = { profileId, kind, status: 'preparing', events: [] }; report.cases.push(endpoint); await save();
       service.on('update', snapshot => {
@@ -119,12 +130,13 @@ async function main() {
       });
       await service.prepareBatch({ inputFolderId: selection.id, outputFolderId: destination.id, settings }); await service.taskPromise;
       let prepared = service.snapshot(); assert.equal(prepared.phase, 'ready', prepared.error);
-      const selected = prepared.items.find(item => item.name === path.basename(source)); assert.equal(selected.status, 'ready', selected.reason);
+      const selected = prepared.items.find(item => item.name === path.basename(jobSource)); assert.equal(selected.status, 'ready', selected.reason);
       // This endpoint uses distinct owned destinations; it does not claim a
       // fresh same-folder/generated-output native eligibility result.
       await service.updateFileOperations({ planId: prepared.planId, draftId: prepared.operationDraft.id, revision: prepared.operationDraft.revision,
         fileIds: [selected.id], overrides: kind === 'range' ? { range: { startUs: 1013000, endUs: 2787000 }, resolution: '720', audioPolicy: 'precision-aac' }
-          : { range: null, resolution: '720', audioPolicy: 'copy' } });
+          : kind === 'flac' ? { range: { startUs: 1013000, endUs: 2787000 }, resolution: '720', audioPolicy: 'precision-flac' }
+            : { range: null, resolution: '720', audioPolicy: 'copy' } });
       await service.taskPromise; prepared = service.snapshot(); endpoint.prepared = prepared;
       assert.equal(prepared.items.find(item => item.id === selected.id).status, 'ready', prepared.items.find(item => item.id === selected.id).reason);
       endpoint.detailsBefore = service.getEncodingDetails({ planId: prepared.planId, fileId: selected.id });
@@ -136,14 +148,19 @@ async function main() {
       assert.equal(endpoint.telemetryValidation.valid, true); assert.equal(endpoint.evidence.status, 'completed');
       assert.equal(item.evidenceStorage.final.violations.length, 0);
       if (kind === 'range') assert.ok(endpoint.evidence.decodedEvidence.containerClock);
-      else {
+      else if (kind === 'flac') {
+        const [audio] = endpoint.evidence.decodedEvidence.audio;
+        assert.equal(endpoint.evidence.decodedEvidence.containerClock, undefined); assert.equal(audio.outputSampleCount, audio.sourceSampleCount);
+        assert.equal(audio.pcmIdentity.sourceHash, audio.pcmIdentity.outputHash); assert.equal(audio.packetIdentity, undefined);
+        assert.equal(endpoint.evidence.completeSource.video.properties.policy, 'short-sdr-range-flac-v1');
+      } else {
         const [audio] = endpoint.evidence.decodedEvidence.audio;
         assert.equal(endpoint.evidence.decodedEvidence.containerClock, undefined); assert.equal(audio.outputSampleCount, audio.sourceSampleCount);
         assert.equal(audio.packetIdentity.sourceSeal, audio.packetIdentity.outputSeal); assert.ok(audio.packetIdentity.packets > 0);
         assert.equal(endpoint.evidence.completeSource.video.properties.policy, 'full-sdr-resize-copy-v1');
       }
       endpoint.output = { file: entry.destination, sha256: sha(await fs.readFile(entry.destination)) };
-      assert.equal(sha(await fs.readFile(source)), report.source.sha256);
+      assert.equal(sha(await fs.readFile(source)), report.source.sha256); assert.equal(sha(await fs.readFile(pcmSource)), report.pcmSource.sha256);
       endpoint.status = 'passed-fresh-main-factory-service';
       report.resourcesLatest = await resources(); await save();
       }

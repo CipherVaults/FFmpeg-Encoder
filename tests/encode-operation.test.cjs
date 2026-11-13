@@ -383,6 +383,34 @@ test('FLAC requires complete canonical decoded PCM identity and rejects sample l
   }
 });
 
+test('FLAC range duration uses decoded end-timestamp without AAC priming and rejects packet/copy clocks', () => {
+  const probe = source(); Object.assign(probe.streams[1], { codec_name: 'pcm_s16le', sample_fmt: 's16', bits_per_raw_sample: 16 });
+  const plan = build(probe, { range: { startUs: 1000000, endUs: 2000000 }, audioPolicy: 'precision-flac' });
+  const actual = output(probe, plan), evidence = pcmIdentity(plan, decoded()), qualified = qualification();
+  actual.streams.forEach(stream => { stream.time_base = '1/1000'; });
+  assert.equal(option(plan.args, '-filter:a:0'), 'asettb=expr=1/48000,atrim=start_pts=48000:end_pts=96000,asetpts=PTS-(48000)');
+  const valid = validateEncodeOperationOutput(plan, actual, { qualification: qualified, decodedEvidence: evidence });
+  assert.equal(valid.valid, true, valid.errors.join('; '));
+  const padded = clone(actual); padded.format.duration = '1.021';
+  assert.equal(validateEncodeOperationOutput(plan, padded, { qualification: qualified, decodedEvidence: evidence }).valid, false);
+  for (const clock of ['matroska-packet-end-plus-codec-delay', 'matroska-copy-end-plus-codec-delay']) {
+    const result = validateEncodeOperationOutput(plan, actual, { qualification: qualification({ containerDuration: clock }), decodedEvidence: evidence });
+    assert.equal(result.valid, false); assert.match(result.errors.join('; '), /packet clock|copy clock/i);
+  }
+  for (const mutate of [data => { data.audio[0].outputSampleCount++; data.audio[0].pcmIdentity.outputBytes += 4; },
+    data => { data.audio[0].pcmIdentity.outputHash = 'c'.repeat(64); }]) {
+    const changed = clone(evidence); mutate(changed);
+    const result = validateEncodeOperationOutput(plan, actual, { qualification: qualified, decodedEvidence: changed });
+    assert.equal(result.valid, false); assert.match(result.errors.join('; '), /FLAC must preserve/);
+  }
+  // No new FLAC-only duration representation was introduced. Unknown models
+  // cannot be applied to FLAC, AAC or copy; existing AAC end-timestamp is kept.
+  for (const changedPlan of [plan, build(source(), { range: { startUs: 1000000, endUs: 2000000 } }), build(source(), { resolution: '720' })]) {
+    const result = validateEncodeOperationOutput(changedPlan, actual, { qualification: qualification({ containerDuration: 'matroska-flac-end-timestamp' }), decodedEvidence: evidence });
+    assert.equal(result.valid, false); assert.match(result.errors.join('; '), /duration representation/);
+  }
+});
+
 test('FLAC output must report enough significant precision independently of matching PCM evidence', () => {
   const probe = source(); Object.assign(probe.streams[1], { codec_name: 'pcm_s24le', sample_fmt: 's32', bits_per_raw_sample: '24' });
   const plan = build(probe, { range: { startUs: 1000000, endUs: 2000000 }, audioPolicy: 'precision-flac' }), actual = output(probe, plan);
@@ -499,4 +527,15 @@ test('the copy clock adds the copied stream\'s own codec delay to its decoded en
   const ranged = build(source(), { range: { startUs: 1000000, endUs: 2000000 } }), rangedOutput = output(source(), ranged);
   for (const stream of rangedOutput.streams) stream.time_base = '1/1000';
   assert.equal(validateEncodeOperationOutput(ranged, rangedOutput, { qualification: clock, decodedEvidence: decoded() }).valid, false);
+});
+
+test('copied audio cannot validate with the precision-AAC packet clock', () => {
+  const probe = source(), plan = build(probe, { resolution: '720' }), actual = output(probe, plan, 4);
+  assert.equal(plan.compatibilityPath, false); assert.equal(plan.contract.audio.streams[0].mode, 'copy');
+  for (const stream of actual.streams) stream.time_base = '1/1000';
+  const result = validateEncodeOperationOutput(plan, actual, {
+    qualification: qualification({ containerDuration: 'matroska-packet-end-plus-codec-delay' }),
+    decodedEvidence: copied(decoded({ origin: 0, seconds: 4 })) });
+  assert.equal(result.valid, false);
+  assert.deepEqual(result.errors, ['The packet clock belongs only to precision AAC, never FLAC or copied audio.']);
 });

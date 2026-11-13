@@ -477,6 +477,10 @@ function validateEncodeOperationOutput(plan, rawOutputProbe, options = {}) {
     let qualified = null, decoded = null;
     if (!plan.compatibilityPath) {
       qualified = qualifier(options.qualification, plan);
+      if (qualified.containerDuration === PACKET_CLOCK && (plan.contract.audio.streams.length !== 1
+          || plan.contract.audio.streams[0].mode !== 'precision-aac')) {
+        fail('INVALID_OPERATION_VALIDATION', 'The packet clock belongs only to precision AAC, never FLAC or copied audio.');
+      }
       if (qualified.containerDuration === PACKET_CLOCK && (output.format.format_name !== 'matroska,webm'
           || output.streams.length !== 2 || output.streams.some(stream => stream.time_base !== '1/1000'))) {
         fail('INVALID_OPERATION_VALIDATION', 'The qualified packet clock requires the measured1/1000 Matroska output time bases.');

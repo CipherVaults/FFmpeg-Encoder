@@ -8,10 +8,11 @@ const { OperationFamilySelector } = require('../src/operation-family.cjs');
 // Record 47 Q2a: one CPU cell plus one NVIDIA cell per measured driver, each
 // from its own retained manifest, all with the same frozen pre-encode bounds.
 test('the production family catalog holds one CPU cell and one NVIDIA cell per measured driver', () => {
-  assert.equal(FAMILIES.length, 5);
+  assert.equal(FAMILIES.length, 7);
   assert.deepEqual(FAMILIES.map(item => [item.id, item.settings.profileId, item.environment?.driverVersion ?? null]),
     [['short-sdr-range-v1', 'h265-cpu', null], ['short-sdr-range-v1', 'h265-nvidia', '621.01'], ['short-sdr-range-v1', 'h265-nvidia', '621.14'],
-      ['full-sdr-resize-copy-v1', 'h265-cpu', null], ['full-sdr-resize-copy-v1', 'h265-nvidia', '621.14']]);
+      ['full-sdr-resize-copy-v1', 'h265-cpu', null], ['full-sdr-resize-copy-v1', 'h265-nvidia', '621.14'],
+      ['short-sdr-range-flac-v1', 'h265-cpu', null], ['short-sdr-range-flac-v1', 'h265-nvidia', '621.14']]);
   const [, old, current] = FAMILIES;
   assert.deepEqual(current.environment, { ...old.environment, driverVersion: '621.14' });
   for (const key of ['id', 'runtimeIdentity', 'settings', 'budget', 'executionBudgetMs']) assert.deepEqual(current[key], old[key], key);
@@ -21,7 +22,11 @@ test('the production family catalog holds one CPU cell and one NVIDIA cell per m
   assert.deepEqual(current.evidenceIds, ['endpoints', 'interior', 'A', 'B', 'C', 'D', 'D-keep', 'E'].map(suffix => `${prefix}:${suffix}`));
   assert.equal(current.qualification.evidenceId, `${prefix}:endpoints`); assert.equal(current.timingQualification.evidenceId, `${prefix}:interior`);
   assert.ok(Object.isFrozen(current) && Object.isFrozen(current.environment));
-  assert.match(POLICY_ID, /b794beab835636c75048f52f8e82c8260e6c1c733179e18d6d028e99fb06c82c\+91cd933c82437553dd8046bc5a61511ebb167fa43918414b1cbcdb1dbdf52a90\+48fb030eef87f19cd616e0044c73bc9c3da40b6d3060ba1ba69a2c25b5ad2811$/);
+  // Record 47 Q2c: one digest binds every manifest digest, in order, within the 256-character identity bound.
+  const manifests = ['b794beab835636c75048f52f8e82c8260e6c1c733179e18d6d028e99fb06c82c', '91cd933c82437553dd8046bc5a61511ebb167fa43918414b1cbcdb1dbdf52a90',
+    '48fb030eef87f19cd616e0044c73bc9c3da40b6d3060ba1ba69a2c25b5ad2811', '58e6c2aef6fdbf46ae59d490324af87ffb7c0be11bd4a81192e55ff9b7ab3d3c'];
+  assert.equal(POLICY_ID, `sdr-families-v2:2026-11-13:sha256:${require('node:crypto').createHash('sha256').update(manifests.join('+')).digest('hex')}`);
+  assert.ok(POLICY_ID.length <= 256);
   // The selector accepts the catalog: no two cells share an exact runtime/environment/settings tuple.
   assert.doesNotThrow(() => new OperationFamilySelector({ families: FAMILIES, policyIdentity: POLICY_ID }));
 });
@@ -44,6 +49,28 @@ test('the whole-file copied-audio cells carry only their frozen copy bounds and 
     assert.deepEqual({ ...cell.timingQualification, evidenceId: null }, { evidenceId: null, runtimeIdentity: range.runtimeIdentity, videoDurationUs: 1067, audioTimelineUs: 1042, aac: null });
     const prefix = `full-copy-20261112:${cell.settings.profileId}:48fb030eef87f19c`;
     assert.deepEqual(cell.evidenceIds, ['endpoints', 'interior', 'A', 'E'].map(suffix => `${prefix}:${suffix}`));
+    assert.equal(cell.qualification.evidenceId, `${prefix}:endpoints`); assert.equal(cell.timingQualification.evidenceId, `${prefix}:interior`);
+    assert.ok(Object.isFrozen(cell) && Object.isFrozen(cell.qualification.tolerances));
+  }
+});
+
+// Record 47 Q2c: the precision-FLAC range cells come from one retained manifest,
+// share runtime/settings/environment/budget with the matching AAC range cell and
+// carry only frozen bounds no wider than that cell's.
+test('the precision-FLAC range cells carry only frozen exact-PCM bounds and their manifest evidence ids', () => {
+  const flac = FAMILIES.filter(item => item.id === 'short-sdr-range-flac-v1');
+  assert.equal(flac.length, 2);
+  for (const cell of flac) {
+    const range = FAMILIES.find(item => item.id === 'short-sdr-range-v1' && JSON.stringify(item.settings) === JSON.stringify(cell.settings)
+      && JSON.stringify(item.environment) === JSON.stringify(cell.environment));
+    assert.ok(range, cell.settings.profileId);
+    for (const key of ['runtimeIdentity', 'settings', 'environment', 'budget', 'executionBudgetMs']) assert.deepEqual(cell[key], range[key], key);
+    assert.equal(cell.qualification.containerDuration, 'end-timestamp');
+    assert.deepEqual(cell.qualification.tolerances, { videoTimestampUs: 1067, audioTimestampUs: 1042, avSyncUs: 2109, durationUs: 1088, sampleCount: 0 });
+    for (const [key, value] of Object.entries(cell.qualification.tolerances)) assert.ok(value <= range.qualification.tolerances[key], key);
+    assert.deepEqual({ ...cell.timingQualification, evidenceId: null }, { evidenceId: null, runtimeIdentity: range.runtimeIdentity, videoDurationUs: 1067, audioTimelineUs: 1042, aac: null });
+    const prefix = `flac-range-20261113:${cell.settings.profileId}:58e6c2aef6fdbf46`;
+    assert.deepEqual(cell.evidenceIds, ['endpoints', 'interior', 'A', 'B', 'C', 'D', 'E', 'D-keep'].map(suffix => `${prefix}:${suffix}`));
     assert.equal(cell.qualification.evidenceId, `${prefix}:endpoints`); assert.equal(cell.timingQualification.evidenceId, `${prefix}:interior`);
     assert.ok(Object.isFrozen(cell) && Object.isFrozen(cell.qualification.tolerances));
   }

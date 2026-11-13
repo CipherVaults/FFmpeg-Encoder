@@ -355,6 +355,239 @@ function full(options = {}) {
   h.policy = FULL_ID; return h;
 }
 
+// Q2c: inert policies only; real retained PCM/media evidence belongs to root.
+const FLAC_ID = 'short-sdr-range-flac-v1';
+function flacFamily(config = CPU) {
+  const value = family(config); value.id = FLAC_ID;
+  value.evidenceIds = ['synthetic-flac-endpoint', 'synthetic-flac-interior'];
+  value.qualification.evidenceId = value.evidenceIds[0]; value.qualification.tolerances.sampleCount = 0;
+  value.timingQualification.evidenceId = value.evidenceIds[1]; value.timingQualification.aac = null;
+  return value;
+}
+function flac(options = {}) {
+  const h = fixture({ ...options, families: options.families || [flacFamily(options.config)],
+    mutate(source) {
+      Object.assign(source.streams[1], { codec_name: 'pcm_s16le', sample_fmt: 's16', bits_per_sample: 16 });
+      source.format.tags = { ...source.format.tags, major_brand: 'qt  ' };
+      delete source.streams[1].profile; options.mutate?.(source);
+    }, overrides: { audioPolicy: 'precision-flac', ...options.overrides } });
+  h.policy = FLAC_ID; return h;
+}
+
+test('FLAC ranges select their own family across both rates, geometries and backends with exact source coverage', () => {
+  for (const config of [CPU, NVIDIA]) for (const rate of [30, 60]) for (const width of [1280, 1920]) {
+    for (const resolution of width === 1920 ? ['source', '720'] : ['source']) {
+      const h = flac({ config, rate, width, absent: true, overrides: { resolution }, families: [family(config), fullFamily(config), flacFamily(config)] });
+      const token = h.selector.select(h.bindings), selected = h.selector.requireCurrent(token, h.bindings);
+      assert.equal(selected.sourcePolicy.id, FLAC_ID); assert.equal(selected.timingQualification.aac, null);
+      assert.equal(selected.qualification.containerDuration, 'end-timestamp'); assert.equal(selected.qualification.tolerances.sampleCount, 0);
+      assert.equal(h.selector.verifyCollectedSource(token, receipt(h)), true);
+      badSource(() => h.selector.verifyCollectedSource(token, receipt({ ...h, policy: 'short-sdr-range-v1' })));
+      if (resolution === '720') {
+        assert.equal(h.orientation.identityOrientationQualification.evidenceId, 'synthetic-flac-endpoint');
+        assert.equal(h.selector.explainResize({ inspection: h.inspection, request: h.request, runtimeIdentity: RUNTIME, settings: config }), null);
+      }
+    }
+  }
+  const families = [flacFamily(), family(), fullFamily()];
+  const aac = fixture({ families }), copy = full({ families });
+  assert.equal(aac.selector.requireCurrent(aac.selector.select(aac.bindings), aac.bindings).sourcePolicy.id, 'short-sdr-range-v1');
+  assert.equal(copy.selector.requireCurrent(copy.selector.select(copy.bindings), copy.bindings).sourcePolicy.id, FULL_ID);
+});
+
+test('FLAC source admission never admits AAC, non-s16 PCM, another rate or layout and never broadens AAC or copy', () => {
+  assert.throws(() => fixture({ families: [flacFamily()], overrides: { audioPolicy: 'precision-flac' } }), { code: 'FLAC_SAMPLE_REPRESENTATION_UNQUALIFIED' });
+  for (const mutate of [
+    p => { Object.assign(p.streams[1], { sample_rate: '44100', time_base: '1/44100', duration_ts: 176400 }); },
+    p => { Object.assign(p.streams[1], { channels: 1, channel_layout: 'mono' }); },
+    p => { Object.assign(p.streams[1], { codec_name: 'pcm_s16be' }); },
+    p => { Object.assign(p.streams[1], { codec_name: 'pcm_s24le', sample_fmt: 's32', bits_per_sample: 24, bits_per_raw_sample: 24 }); },
+    p => { p.streams[1].sample_fmt = 's16p'; },
+    p => { p.streams[1].bits_per_sample = 8; },
+    p => { p.streams[1].bits_per_raw_sample = 8; },
+  ]) {
+    const h = flac({ mutate }); required(() => h.selector.select(h.bindings));
+  }
+  for (const bits of [undefined, 0, 16]) {
+    const h = flac({ mutate: p => { if (bits !== undefined) p.streams[1].bits_per_raw_sample = bits; } });
+    assert.ok(h.selector.select(h.bindings));
+  }
+  const pcmAac = flac({ families: [family(), flacFamily()], overrides: { audioPolicy: 'precision-aac' } });
+  required(() => pcmAac.selector.select(pcmAac.bindings));
+  const pcmCopy = flac({ width: 1920, duration: 10, families: [fullFamily(), flacFamily()], overrides: WHOLE });
+  required(() => pcmCopy.selector.select(pcmCopy.bindings));
+});
+
+test('FLAC retains the range limits, refuses full-file jobs and reports the FLAC refusal in a mixed catalog', () => {
+  for (const range of [{ startUs: 0, endUs: 500000 }, { startUs: 1000000 }, { endUs: 2000000 }, { startUs: 0, endUs: 30000000 }]) {
+    const h = flac({ duration: range.endUs === 30000000 ? 40 : 4, overrides: { range } }); assert.ok(h.selector.select(h.bindings));
+  }
+  for (const overrides of [{ range: null }, { range: { startUs: 0, endUs: 499999 } },
+    { range: { startUs: 0, endUs: 30000001 } }, { resolution: '1080' }]) {
+    const h = flac({ duration: 40, overrides }); required(() => h.selector.select(h.bindings));
+  }
+  const h = flac({ width: 1920, absent: true, families: [family(), fullFamily(), flacFamily()], overrides: { range: null, resolution: 'source' } });
+  // A range request at an unsupported PCM source shape must name FLAC, even
+  // when the AAC record occurs first. These helpers do not grant authority.
+  const request = resolveFileRequest({ fileId: 'refusal', identityRevision: 1, draftRevision: 1, operation: 'encode',
+    overrides: { audioPolicy: 'precision-flac', resolution: '720', range: { startUs: 0, endUs: 499999 } } });
+  const ask = { inspection: h.inspection, request, runtimeIdentity: RUNTIME, settings: CPU };
+  assert.deepEqual(h.selector.orientationQualification(ask), {});
+  const refusal = h.selector.explainResize(ask);
+  assert.equal(refusal.code, 'OPERATION_RESIZE_UNQUALIFIED'); assert.match(refusal.message, /0\.5 to 30 seconds/);
+  const bad = flac({ families: [family(), fullFamily(), flacFamily()], mutate: p => { p.streams[1].codec_name = 'pcm_s16be'; } });
+  assert.throws(() => bad.selector.select(bad.bindings), error => error.code === 'OPERATION_QUALIFICATION_REQUIRED' && /48 kHz stereo/.test(error.message));
+  const edge = flac({ duration: 120, rate: 60 }), token = edge.selector.select(edge.bindings);
+  assert.equal(edge.selector.verifyCollectedSource(token, receipt(edge)), true);
+  const beyond = receipt(edge); beyond.completeSource.audio[0].sampleCount = String(120 * 48000 + 1);
+  badSource(() => edge.selector.verifyCollectedSource(token, beyond));
+});
+
+test('a whole-file FLAC resize names the FLAC range refusal for selection and absent-orientation diagnosis', () => {
+  const h = flac({ width: 1920, duration: 10, absent: true, families: [family(), fullFamily(), flacFamily()] });
+  const request = resolveFileRequest({ fileId: 'whole-flac', identityRevision: 1, draftRevision: 1, operation: 'encode',
+    overrides: { range: null, resolution: '720', audioPolicy: 'precision-flac' } });
+  const ask = { inspection: h.inspection, request, runtimeIdentity: RUNTIME, settings: CPU };
+  assert.deepEqual(h.selector.orientationQualification(ask), {});
+  // Supply a synthetic source-bound orientation interpretation solely to build
+  // the genuine plan that selection must refuse. No family grants the request.
+  const plan = buildEncodeOperation({ input: SOURCE.canonicalPath, output: 'F:\\synthetic-family-owned\\whole-flac.mkv',
+    inspection: h.inspection, request, settings: CPU, runtimeIdentity: RUNTIME,
+    identityOrientationQualification: { evidenceId: 'synthetic-flac-endpoint', runtimeIdentity: RUNTIME,
+      sourceEvidenceFingerprint: fingerprintEncodeSource(h.source), videoIndex: 0 } });
+  assert.equal(plan.contract.range.kind, 'full'); assert.equal(plan.contract.audio.streams[0].mode, 'precision-flac');
+  assert.throws(() => h.selector.select({ ...h.bindings, plan }), error => error.code === 'OPERATION_QUALIFICATION_REQUIRED'
+    && error.message === 'A resolved bounded range is required.');
+  const refusal = h.selector.explainResize(ask);
+  assert.equal(refusal.code, 'OPERATION_RESIZE_UNQUALIFIED'); assert.match(refusal.message, /A resolved bounded range is required\./);
+});
+
+test('FLAC requires the exact measured QuickTime brand while AAC and copy retain their container scope', () => {
+  for (const brand of ['isom', 'mp42', undefined, 'qt', 'QT  ']) {
+    const mutate = source => { if (brand === undefined) delete source.format.tags; else source.format.tags.major_brand = brand; };
+    const h = flac({ width: 1920, absent: true, families: [family(), fullFamily(), flacFamily()], mutate });
+    assert.throws(() => h.selector.select(h.bindings), error => error.code === 'OPERATION_QUALIFICATION_REQUIRED' && /measured QuickTime major brand/.test(error.message));
+    const request = resolveFileRequest({ fileId: 'brand-refusal', identityRevision: 1, draftRevision: 1, operation: 'encode',
+      overrides: { range: { startUs: 1000000, endUs: 2000000 }, resolution: '720', audioPolicy: 'precision-flac' } });
+    const ask = { inspection: h.inspection, request, runtimeIdentity: RUNTIME, settings: CPU };
+    assert.deepEqual(h.selector.orientationQualification(ask), {});
+    assert.match(h.selector.explainResize(ask).message, /measured QuickTime major brand/);
+    for (const make of [fixture, full]) {
+      const aac = make({ families: [family(), fullFamily(), flacFamily()], mutate(source) {
+        if (brand !== undefined) source.format.tags = { major_brand: brand };
+      } });
+      assert.ok(aac.selector.select(aac.bindings));
+    }
+  }
+  const measured = flac(); assert.ok(measured.selector.select(measured.bindings));
+});
+
+test('the common audio pre-check reports 44.1 kHz AAC before clock or side-data diagnostics', () => {
+  for (const sideData of [false, true]) {
+    const h = fixture({ families: [family(), fullFamily(), flacFamily()], mutate(source) {
+      Object.assign(source.streams[1], { sample_rate: '44100', time_base: '1/44100', duration_ts: 176400 });
+      if (sideData) source.streams[1].side_data_list = [{ side_data_type: 'Replay Gain', track_gain: 0 }];
+    } });
+    assert.throws(() => h.selector.select(h.bindings), error => error.code === 'OPERATION_QUALIFICATION_REQUIRED'
+      && error.message === 'Only 48 kHz stereo AAC LC/fltp or pcm_s16le/s16 source audio belongs to these families.');
+  }
+});
+
+test('a three-family catalog keeps HE-AAC, s16p, mono, mp3 and PCM outside the older families', () => {
+  const families = [family(), fullFamily(), flacFamily()];
+  for (const mutate of [source => { source.streams[1].profile = 'HE-AAC'; },
+    source => { source.streams[1].sample_fmt = 's16p'; },
+    source => { Object.assign(source.streams[1], { channels: 1, channel_layout: 'mono' }); },
+    source => { source.streams[1].codec_name = 'mp3'; }]) {
+    const h = full({ families, mutate }); required(() => h.selector.select(h.bindings));
+  }
+  const mono = fixture({ families, mutate(source) { Object.assign(source.streams[1], { channels: 1, channel_layout: 'mono' }); } });
+  required(() => mono.selector.select(mono.bindings));
+  for (const overrides of [{ audioPolicy: 'precision-aac' }, WHOLE]) {
+    const pcm = flac({ width: 1920, duration: 10, families, overrides });
+    assert.throws(() => pcm.selector.select(pcm.bindings), error => error.code === 'OPERATION_QUALIFICATION_REQUIRED'
+      && /Only 48 kHz stereo AAC LC\/fltp source audio/.test(error.message));
+  }
+});
+
+test('FLAC family qualification cannot exceed any frozen AAC endpoint or interior ceiling', () => {
+  const ceilings = { videoTimestampUs: 1067, audioTimestampUs: 22355, avSyncUs: 23422, durationUs: 1088 };
+  const value = flacFamily(); Object.assign(value.qualification.tolerances, ceilings);
+  Object.assign(value.timingQualification, { videoDurationUs: 1067, audioTimelineUs: 1042 });
+  assert.doesNotThrow(() => new OperationFamilySelector({ families: [value], policyIdentity: POLICY }));
+  for (const [key, maximum] of Object.entries(ceilings)) {
+    const wide = clone(value); wide.qualification.tolerances[key] = maximum + 1;
+    assert.throws(() => new OperationFamilySelector({ families: [wide], policyIdentity: POLICY }), error => error.code === 'INVALID_OPERATION_QUALIFICATION'
+      && error.message.includes(key) && /frozen AAC range ceiling/.test(error.message));
+  }
+  for (const [key, maximum] of Object.entries({ videoDurationUs: 1067, audioTimelineUs: 1042 })) {
+    const wide = clone(value); wide.timingQualification[key] = maximum + 1;
+    assert.throws(() => new OperationFamilySelector({ families: [wide], policyIdentity: POLICY }), error => error.code === 'INVALID_OPERATION_QUALIFICATION'
+      && /interior timing tolerances exceed/.test(error.message));
+  }
+  // The stronger existing FLAC rule still requires zero, below AAC's 1023.
+  const samples = clone(value); samples.qualification.tolerances.sampleCount = 1;
+  invalid(() => new OperationFamilySelector({ families: [samples], policyIdentity: POLICY }));
+  for (const other of [family(), fullFamily()]) {
+    other.qualification.tolerances.videoTimestampUs = 1068; other.timingQualification.audioTimelineUs = 1043;
+    assert.doesNotThrow(() => new OperationFamilySelector({ families: [other], policyIdentity: POLICY }));
+  }
+});
+
+test('FLAC family records forbid AAC alignment, packet/copy clocks, span and any sample-count allowance', () => {
+  for (const mutate of [value => { value.timingQualification.aac = family().timingQualification.aac; },
+    ...['matroska-packet-end-plus-codec-delay', 'matroska-copy-end-plus-codec-delay', 'span'].map(clock => value => { value.qualification.containerDuration = clock; }),
+    value => { value.qualification.tolerances.sampleCount = 1; }]) {
+    const value = flacFamily(); mutate(value); invalid(() => new OperationFamilySelector({ families: [value], policyIdentity: POLICY }));
+  }
+  // The selected FLAC representation is the existing end-timestamp model,
+  // still valid for AAC. No new FLAC-only clock string is accepted anywhere.
+  assert.doesNotThrow(() => new OperationFamilySelector({ families: [family(), fullFamily(), flacFamily()], policyIdentity: POLICY }));
+  for (const value of [family(), fullFamily(), flacFamily()]) {
+    value.qualification.containerDuration = 'matroska-flac-end-timestamp';
+    invalid(() => new OperationFamilySelector({ families: [value], policyIdentity: POLICY }));
+  }
+});
+
+test('FLAC calibration freezes clock-only tighter bounds and refuses unbound fixture constants before work', async () => {
+  const { frozenQualifications, validateFixtureBinding, main } = require('../scripts/v07-sdr-flac-range-calibration.cjs');
+  const { FIXTURES, generationArgs, assessMetadata } = require('../scripts/v07-sdr-pcm-envelope-fixtures.cjs');
+  const source = probe(); Object.assign(source.streams[0], { time_base: '1/15360' });
+  Object.assign(source.streams[1], { codec_name: 'pcm_s16le', sample_fmt: 's16' });
+  const frozen = frozenQualifications('synthetic-flac', RUNTIME, source);
+  assert.deepEqual(frozen.qualification.tolerances,
+    { videoTimestampUs: 1067, audioTimestampUs: 1042, avSyncUs: 2109, durationUs: 1088, sampleCount: 0 });
+  assert.equal(frozen.timingQualification.aac, null); assert.equal(frozen.timingQualification.videoDurationUs, 1067);
+  assert.equal(frozen.timingQualification.audioTimelineUs, 1042); assert.equal(frozen.qualification.containerDuration, 'end-timestamp');
+  for (const mutate of [p => { p.streams[0].time_base = '1/1000'; }, p => { p.streams[1].time_base = '1/1000'; },
+    p => { p.streams[0].time_base = '-1/15360'; }, p => { p.streams[1].sample_rate = '44100'; },
+    p => { p.streams[1].channels = 1; }, p => { p.streams[1].channel_layout = 'mono'; },
+    p => { p.streams[1].codec_name = 'aac'; }, p => { p.streams[1].sample_fmt = 'fltp'; }]) {
+    const changed = clone(source); mutate(changed); assert.throws(() => frozenQualifications('synthetic-flac', RUNTIME, changed));
+  }
+  const id = '01234567-89ab-4cde-8123-456789abcdef';
+  assert.doesNotThrow(() => validateFixtureBinding(id, RUNTIME));
+  assert.throws(() => validateFixtureBinding('ROOT_FILL_PCM_FIXTURE_UUID', RUNTIME), /ROOT must bind/);
+  assert.throws(() => validateFixtureBinding(id, 'ROOT_FILL_PCM_FIXTURE_REPORT_SHA256'), /ROOT must bind/);
+  // Before and after root pins the report, a missing CLI cannot start work.
+  await assert.rejects(main([]), /ROOT must bind|Require explicit fixture report/);
+  assert.equal(FIXTURES.length, 4);
+  assert.equal(new Set(FIXTURES.map(spec => `${spec.width}:${spec.fps}`)).size, 4);
+  for (const spec of FIXTURES) {
+    const args = generationArgs(spec, 'synthetic-owned.mov', 1000000);
+    assert.equal(spec.container, 'mov'); assert.ok(args.includes('pcm_s16le')); assert.ok(args.includes('s16')); assert.ok(!args.includes('aac'));
+  }
+  const generated = probe({ width: 1920, duration: 10 });
+  Object.assign(generated.streams[1], { codec_name: 'pcm_s16le', sample_fmt: 's16', bits_per_sample: 16 });
+  delete generated.streams[1].profile;
+  const normalize = require('../src/inspection.cjs').normalizeProbe;
+  assert.equal(assessMetadata(FIXTURES[0], normalize(generated)).audio.codec, 'pcm_s16le');
+  for (const mutate of [p => { p.streams[1].codec_name = 'aac'; }, p => { p.streams[1].sample_fmt = 'fltp'; },
+    p => { p.streams[1].bits_per_sample = 24; }]) {
+    const changed = clone(generated); mutate(changed); assert.throws(() => assessMetadata(FIXTURES[0], normalize(changed)));
+  }
+});
+
 test('a whole-file 1080p30 to 720p job with copied audio selects only the copied-audio family', () => {
   for (const config of [CPU, NVIDIA]) {
     const h = full({ config }), selection = h.selector.select(h.bindings), selected = h.selector.requireCurrent(selection, h.bindings);

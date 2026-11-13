@@ -224,7 +224,7 @@ async function collectOperationEvidence(options) {
   if (sourceProperties) {
     exact(options.sourcePolicy, ['id', 'rate', 'maximumExtentUs'], 'Decoded source policy');
     // Record 47 Q2b: the whole-file copied-audio family uses the same SDR source checks at 30 fps only.
-    need((options.sourcePolicy.id === 'short-sdr-range-v1' && [30, 60].includes(options.sourcePolicy.rate)
+    need((['short-sdr-range-v1', 'short-sdr-range-flac-v1'].includes(options.sourcePolicy.id) && [30, 60].includes(options.sourcePolicy.rate)
       || options.sourcePolicy.id === 'full-sdr-resize-copy-v1' && options.sourcePolicy.rate === 30)
       && options.sourcePolicy.maximumExtentUs === 120000000, 'Only the bounded short SDR source policies are implemented.');
   }
@@ -248,6 +248,17 @@ async function collectOperationEvidence(options) {
     for (const key of ['encoderDelaySamples', 'discardPaddingSamples']) need(safe(timingQualification.aac[key], key) <= 1048576, 'Unsupported AAC padding qualification.');
   }
   const source = normalizeProbe(options.sourceProbe), output = normalizeProbe(options.outputProbe);
+  if (sourceProperties && options.sourcePolicy.id === 'short-sdr-range-flac-v1') {
+    // The new source policy is specific to one integer-PCM range route. It
+    // cannot be attached to an AAC or copied-audio plan to borrow its checks.
+    const audio = plan.contract.audio.streams, stream = source.streams.find(item => item.index === audio[0]?.index);
+    need(plan.contract.range.kind === 'range' && timingQualification.aac === null && audio.length === 1
+      && audio[0].mode === 'precision-flac' && audio[0].codec === 'flac' && audio[0].sourceSampleFormat === 's16'
+      && audio[0].sampleRate === 48000 && audio[0].channels === 2 && audio[0].channelLayout === 'stereo'
+      && stream?.codec_name === 'pcm_s16le' && stream.sample_fmt === 's16'
+      && stream.sample_rate === '48000' && stream.channels === 2 && stream.channel_layout === 'stereo',
+    'The precision-FLAC source policy requires one 48 kHz stereo pcm_s16le/s16 range stream and no AAC alignment.');
+  }
   if (packetClock) need(output.format.format_name === 'matroska,webm' && output.streams.length === 2
     && output.streams.every(stream => stream.time_base === '1/1000'),
   'The qualified stored-clock representation requires the exact observed1/1000 Matroska output clock.');

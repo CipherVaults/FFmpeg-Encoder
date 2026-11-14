@@ -251,3 +251,12 @@ Ahmed asked root to study Anthropic's "Building strong safety evaluations" (publ
 4. **Reviews ask both questions:** which bad file gets through, and which good file is refused. The reviewer is a fresh session, never the author.
 5. **Real files beside generated ones** where they exist; say plainly when fixtures are only generated.
 6. **Already in force and kept:** verdicts pinned before a run, tolerances never widened, failed receipts retained, limits reported.
+
+### Q2j part 1 fourth review and fix; logo and effort decisions (November 14, 2026, late afternoon)
+
+- **Review `q2j-review-5` (nine findings, all addressed by `q2j-ts-7`).** High: the post-mux playback write checked protected identities only after writing, so a substituted second input could be modified; `tapt` aperture geometry ignored; ISO-only track controls lost on Matroska targets. Medium: fragments without `tfdt` refused; hybrid fragmented files refused; contiguous media edits refused; an unpolled default-only `trun` loop; output-side geometry/balance checks untested; the corpus test could not detect loss of MOV support.
+- **Root decision.** The app writes to nothing but its own staged output; where that could not be made airtight the write is removed and the source refused instead. Codex removed the writer and its APIs.
+- **Proof.** Normal service on these bytes: TS `725f7872`, existing 14 cases `e1b2996e`. Receipt `q2j-fix7-full-root`: 3058 tests, 3048 pass, the same 5 parked failures, 5 skipped. Codex audit: 235 saved outputs and 135 ISO admissions pass.
+- **Refused rather than supported (candidates for later work):** sources needing track flags, layers or alternate groups the muxer would change; non-neutral `tapt`; several media edits; fragmented AAC.
+- **Logo (R07) final.** Ahmed: "Mid-tone" for the Windows icon, after seeing both options (commit `5f8c020`). In-app: amber square fixed, frame part follows the theme, no background. Wiring into the app is a queued Codex job; Ahmed sees the running app before the shipped icon is replaced.
+- **Effort.** Ahmed: "the Max may be only offering a diminishing returns of 5-7% improvement in benchmarks ... while costing ~67% more." Default stays xhigh. He used the full weekly Codex reset and said to push Codex as much as wanted; earlier: use the remaining quota fully and do not ask for an early reset.

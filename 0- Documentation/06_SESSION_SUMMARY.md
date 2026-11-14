@@ -1,3 +1,64 @@
+# 📘 Session: November 13 (evening) – November 14, 2026 — FFmpeg Encoder — remux at any length, verified in seconds; roadmap artifact
+
+## 🤖 Models, Effort, Roles and Provenance
+- **Root:** Claude Fable 5.2 at Low. Root made the design decisions, ran every measurement, edited the catalog, wrote the records and Notion, and committed.
+- **Codex:** GPT-6.1 Sol at Max for all work and review jobs here except the last fix and review (xhigh). Jobs `q2g-vfr-1`–`2`, `q2i-limits-1`–`3`, `q2o-fastverify-1`–`8`; reviews `q2g-review-1`, `q2i-review-1`, `q2o-review-1`–`3`.
+- **Workflows and agents:** none.
+- **Provenance:** live tool results, `/evidence-run` receipts, Codex receipts under `artifacts/v0.7/codex/`, proof reports and Git.
+
+## 🕒 Time
+From the 18:40 reset on November 13 to the morning of November 14 (Cairo).
+
+## 🎯 Session Goal
+Finish variable frame rate for MOV, then start Ahmed's plan to complete the Remux tab, Codex first.
+
+## 🛠️ Actions Taken
+- **Q2g (`d280f4e`).** Variable frame rate to MOV.
+- **Roadmap artifact.** Published and revised four times on Ahmed's feedback: release view with a pinned scroll bar, the current step shown on open, details on demand, light by default, size classes, six steps for 0.7, and the agreed order after 0.7.
+- **Q2i and Q2o (`bc7d299`).** Remux without length or size ceilings, verified by packet identity in seconds.
+- Records and Notion after each step.
+
+## 🧠 Key Insights
+- Decoding every frame to verify a stream copy costs about two thirds of the video's running time. Comparing compressed packets proves the same identity at reading speed.
+- Real files expose what injected tests cannot: priming notation differs between MP4 and Matroska; Matroska end seeks; the muxer forcing a default flag.
+- Letting Codex run a one-minute proof itself, capped and never as evidence, removed an hour from every fix cycle.
+
+## 📌 Decisions Made
+- Ahmed: "Keep the split"; "yes, to both but choose how to do it"; "the Trimming option should be for any length of videos, not just short ones (same for every future)"; "Let Codex design the logo"; "it's critical to bring this time to seconds not hours"; "fast check always, Deep isn't practical at all".
+- Root: packet identity with compressed-domain admission and whole-stream header validation; the sole-track default-flag warning; a two-child group for remux verification only.
+
+## ⚠️ Difficulties / Friction
+- Four proof runs failed before the first pass, each on a different real-file fact.
+- The project guard blocked a command whose brief named the personal media folder beside the word "delete"; the brief was reworded.
+- Shell heredocs with apostrophes failed again; scripts are written as files.
+
+## 🔧 Adjustments Made
+- The proof ran before the review once it became cheap.
+- Briefs that mention protected paths are written with the Write tool and point at the rule instead of restating it.
+
+## ❌ Mistakes / Risks Noted
+- Root's first Q2i brief allowed a file that does not exist and omitted three that were needed.
+- Root proposed an optional deep check; Ahmed declined it and Codex removed it.
+- Risk: the interior of a source is not decoded. Accepted by Ahmed.
+- Risk: the last one-line escape guard was read by root but not independently re-reviewed.
+
+## 📍 Current Position
+HEAD `bc7d299` plus this records commit, pushed to `codex/v0.7-candidate`.
+
+## 🔜 Next Steps
+The logo job and Q2j (TS→MP4, MP3→MP4), then Q2n (trim and resize at any length), Q2k, Q2l, Q2m, Q2h, Q2f.
+
+## ❓ Open Questions
+- QD1–QD4 (record 47 §4) and O1–O10 (record 46).
+
+## 🧾 Session Outcome
+Verified remux works on files of any length and checks them in seconds.
+
+## 🔍 Confidence Level
+High for the five routes within their measured shapes. Medium for very large files: 680 MB is the largest measured.
+
+---
+
 # 📘 Session: November 13, 2026 — FFmpeg Encoder — Codex-first remux run: Q2d, Q2e and Q2g, plus the remux-completeness plan
 
 ## 🤖 Models, Effort, Roles and Provenance

@@ -200,3 +200,9 @@ Changes to the plan in §6:
   - There is no user-facing deep verification. The complete-decode method stays only as internal code for a future route that changes packet bytes.
   - Accepted consequence: a source already damaged in its interior is copied faithfully, damage included, without a refusal. The copy is never worse than the source.
 - **Speed targets given to Codex.** Fixed overhead at most 3 s per job and at most 6 s per GB. After follow-up 5: 20.1 s for the 680 MB file (29.6 s/GB by Codex's own run); targets not yet met.
+
+### Q2i and Q2o notes (commit `bc7d299`; Codex-built, three Codex reviews, root-decided)
+
+- All five routes use `packet-identity-v1`; policy id `full-remux-v5:2026-11-14:packet-identity-headers`. Proofs `c020cf60` and `aa9cd74a` on fixtures `b29f31e5` plus the Q2g and Q2d fixtures.
+- Measured on the final bytes: 3.0–4.9 s for 8-second files, 5.5–13.8 s for 20-minute files, about 12 s for 680 MB. Root's target of 3 s fixed and 6 s per GB is not met (about 4 s and 18 s per GB); the remainder is in-app bookkeeping, for the optimization pass.
+- Not done: verification progress in the window; child-process memory and hour-scale throughput are unmeasured.

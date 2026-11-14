@@ -817,3 +817,16 @@ The design decisions are in record 37's new "C4 amendments" section.
 - **Retained failure.** `q2g-full` had one new failure: a Q2e test still pinned the v1 production route. Root updated that test to pin the v2 route and to require the retained Q2e harness to refuse its normal mode. `q2g-full-r2` is 2715 pass with the same 5 parked failures.
 - **Commit** `d280f4e`.
 - **Roadmap artifact.** Published "FFmpeg Encoder Roadmap" at Ahmed's request, modelled on his Notaya roadmap.
+
+## Slices Q2i and Q2o: remux at any length, verified in seconds — November 13–14 (Cairo)
+
+- **Ahmed's instructions.** "no length and size, obviously, because that's critical"; "it's critical to bring this time to seconds not hours, almost drive write speed difference"; "fast check always, Deep isn't practical at all, the point of a remux is to be quick, not taking hours like encoding."
+- **Q2i.** Codex job `q2i-limits-1` stopped at its allow list; `q2i-limits-2` removed the fixed ceilings with proportional budgets and streaming checks. Review `q2i-review-1` passed the source and found one harness race; `q2i-limits-3` fixed it.
+- **First long proof `bb1a7617` (failed, retained).** A wrong harness expectation, not an app fault. It showed the real cost: 12.7 minutes to verify a 20-minute file, almost all of it decoding and hashing every frame twice. Root stopped the second run `9c1b8e43` when Ahmed set the speed requirement.
+- **Q2o.** Root chose packet identity. `q2o-fastverify-1` built it as an opt-in and asked about source admission; root required compressed-domain admission (`-2`). Real runs then exposed, in turn: audio priming is marked differently in MP4 and Matroska (`b4b16fc8`; fixed by comparing the effective trim, `-3`); an end-window seek fault and a spurious abort (`e3c45ff7`). From `-4` root let Codex run the short qualification itself, capped and never as evidence.
+- **Reviews.** `q2o-review-1`: interior slices unvalidated, a storage forecast mismatch, a stall false positive. `q2o-review-2`: a per-SPS bound, emulation prevention, omitted surround audio refused. `q2o-review-3`: one remaining escape gap. Jobs `-5` to `-8` fixed all of them.
+- **Root decisions.** Header validation of the whole stream without decoding; a sole track's forced default flag becomes a warning; a two-child group for remux verification only; the catalog change to policy v5 with fresh evidence ids.
+- **Root's proposal declined by Ahmed.** An optional deep check; Codex removed it in `-6`.
+- **Root proofs on the final bytes.** Qualification `c020cf60`, normal-service `aa9cd74a`, receipt `q2o-full-final` (2925 pass, the same 5 parked failures). Failed receipt `q2o-full` (one stale policy-id pin) is retained.
+- **Commit** `bc7d299`.
+- **Guard block.** The project guard refused one of root's commands because a brief named the owner's personal media folder beside the word "delete". Root rewrote the brief to point at the existing rule and left the guard unchanged.

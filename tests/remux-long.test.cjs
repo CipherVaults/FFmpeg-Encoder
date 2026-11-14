@@ -174,6 +174,7 @@ test('complete fake long-file acquisition spools and compares a million packets 
   const request = { fileId: 'fake', identityRevision: 0, draftRevision: 0, operation: 'remux', target: 'matroska', range: null, omissionRequestIds: [] };
   const assessment = assessRemux({ request, probe: p, sourceFingerprint: 'a'.repeat(64) });
   const out = structuredClone(p); out.format.format_name = 'matroska,webm';
+  await fs.writeFile(outputPath,require('./helpers/matroska-fixture.cjs').matroskaFixture(out));
   let pipeBytes = 0, packetUnits = 0, peakRss = process.memoryUsage().rss; const baselineRss = peakRss;
   const run = async (_file, args, options) => {
     let bytes = 0;

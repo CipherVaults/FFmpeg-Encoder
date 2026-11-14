@@ -56,6 +56,7 @@ async function setup(t, { mutatePackets, mutateSource, mutateOutput, mutateHeade
   const assessment = assessRemux({ request, probe, sourceFingerprint: HASH }); assert.equal(assessment.status, 'qualification-required');
   const output = clone(probe); output.streams.forEach((s, i) => { s.index = i; s.codec_tag_string = '[0][0][0][0]'; if (s.codec_type === 'video') s.time_base = '1/1000'; });
   output.format.format_name = 'matroska,webm'; output.format.tags[MARKER_KEY] = '1'; output.format.tags[OUTPUT_ID_KEY] = OUTPUT; mutateOutput?.(output);
+  await fs.writeFile(outputPath,require('./helpers/matroska-fixture.cjs').matroskaFixture(output,16384));
   const calls = [], controller = new AbortController(); let active = 0, peakChildren = 0;
   const scanPackets = (stream, call = null) => {
     const values = Array.from({ length: 6 }, (_, i) => admission.packet(i));

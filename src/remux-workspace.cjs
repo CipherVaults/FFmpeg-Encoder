@@ -9,6 +9,7 @@ const { remuxProbeFingerprint } = require('./remux-validation.cjs');
 const { fingerprintRemuxSourceIdentity, deriveRemuxAssessmentBudget } = require('./remux-operation.cjs');
 const { prepareTransport } = require('./remux-transport-evidence.cjs');
 const { observeRemuxSourcePlayback } = require('./remux-edit-lists.cjs');
+const { observeNativeInventory } = require('./remux-native-checks.cjs');
 const { readSourceIdentity, sameIdentity } = require('./source-identity.cjs');
 const { normalizeProbe } = require('./inspection.cjs');
 const OUTPUT_PLACEHOLDER = '<temporary output assigned at start>';
@@ -118,6 +119,8 @@ async function prepareRemuxItem(item, { file, destination, probe, identity, mark
     const operationRuntimeToken = await this.operationRuntime.observe({ hardware: 'CPU', signal });
     const observed = this.operationRuntime.snapshot(operationRuntimeToken);
     if (observed.runtimeIdentity !== this.runtimeIdentity) throw fail('OPERATION_RUNTIME_STALE', 'The current Remux runtime differs from the prepared pair.');
+    if (assessment.inputFamily !== 'mpegts') await observeNativeInventory({file,probe:source,identity,signal,family:assessment.inputFamily,target:assessment.target,
+      selectedIndexes:assessment.expectedOutput.streams.map(s=>s.inputIndex),...deriveRemuxAssessmentBudget(assessment,identity.size,operationPlan.verificationMethod).budget});
     if (assessment.inputFamily === 'isobmff') await observeRemuxSourcePlayback({ file, probe: source, identity, signal, target: assessment.target,
       selectedIndexes: assessment.expectedOutput.streams.map(s => s.inputIndex),
       ...deriveRemuxAssessmentBudget(assessment, identity.size, operationPlan.verificationMethod).budget });

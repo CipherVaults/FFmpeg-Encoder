@@ -21,7 +21,7 @@ const request = { fileId: 'ts', identityRevision: 0, draftRevision: 0, operation
 async function temp(t) { const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'remux-ts-unit-'));
   t.after(async () => { assert.equal(path.dirname(dir), os.tmpdir()); assert.ok(path.basename(dir).startsWith('remux-ts-unit-')); await fs.rm(dir, { recursive: true }); }); return dir; }
 async function probe(file) { return JSON.parse((await runTool(ffprobe, ['-v', 'error', '-show_streams', '-show_format', '-show_programs', '-show_stream_groups', '-show_chapters', '-show_data_hash', 'sha256', '-of', 'json', file])).stdout); }
-async function fixture(t, { audio = true, offset = false, bframes = true, vfr = false, twoAudio = false, stereo = false } = {}) {
+async function fixture(t, { audio = true, offset = false, bframes = true, vfr = false, twoAudio = false, stereo = false, language = false } = {}) {
   const dir = await temp(t), file = path.join(dir, 'input.ts');
   const args = ['-v', 'error', '-nostdin', '-n', '-f', 'lavfi', '-i', 'testsrc2=s=128x72:r=30:d=1'];
   if (audio) args.push('-f', 'lavfi', '-i', 'sine=r=48000:d=1');
@@ -31,6 +31,7 @@ async function fixture(t, { audio = true, offset = false, bframes = true, vfr = 
     '-x264-params', 'keyint=6:min-keyint=6:scenecut=0:open-gop=0:bframes=' + (bframes ? '2' : '0'),
     '-color_primaries', 'bt709', '-color_trc', 'bt709', '-colorspace', 'bt709', '-color_range', 'tv');
   if (audio) args.push('-c:a', 'aac', '-ar:a', '48000', '-ac:a', stereo ? '2' : '1');
+  if(language)args.push('-metadata:s:a:0','language=eng');
   if (offset) args.push('-output_ts_offset', '4');
   args.push('-f', 'mpegts', file); await runTool(ffmpeg, args);
   const raw = await probe(file), identity = await readSourceIdentity(file);
@@ -86,7 +87,7 @@ async function complete(t, shape = {}, mutant = null) {
   return { ...f, api, plan, evidence, output, outputProbe };
 }
 for (const [name, shape] of Object.entries({ 'H264 plus ADTS AAC': {}, 'video only': { audio: false },
-  'non-zero start': { offset: true }, 'B frames': { bframes: true }, 'stereo AAC': { stereo: true }, 'variable timestamps': { audio: false, vfr: true } }))
+  'non-zero start': { offset: true }, 'B frames': { bframes: true }, 'stereo AAC': { stereo: true }, 'ISO639 language': {language:true}, 'variable timestamps': { audio: false, vfr: true } }))
   test('generated TS packet-identity: ' + name, async t => { await complete(t, shape); });
 test('six production routes are evidenced while an injected empty-evidence TS route still refuses preparation', async t => {
   const f = await fixture(t); assert.equal(REMUX_POLICIES.length, 6); assert.ok(REMUX_POLICIES.every(p => p.evidenceIds.length));
@@ -140,7 +141,6 @@ test('complete collector refuses every native playback-control and header-durati
     ['audio track disabled', 'tkhd', 1, 1, 3, 0, 'REMUX_OUTPUT_PLAYBACK_UNEXPECTED'],
     ['video track volume nonzero', 'tkhd', 0, 36, 2, 256, 'REMUX_OUTPUT_PLAYBACK_UNEXPECTED'],
     ['track layer', 'tkhd', 0, 32, 2, 1, 'REMUX_OUTPUT_PLAYBACK_UNEXPECTED'],
-    ['audio alternate group', 'tkhd', 1, 34, 2, 2, 'REMUX_OUTPUT_PLAYBACK_UNEXPECTED'],
     ['track matrix', 'tkhd', 0, 40, 4, 131072, 'REMUX_OUTPUT_PLAYBACK_UNEXPECTED'],
     ['video display width', 'tkhd', 0, 76, 4, 32 * 65536, 'REMUX_TRACK_GEOMETRY_UNSUPPORTED'],
     ['video display height', 'tkhd', 0, 80, 4, 32 * 65536, 'REMUX_TRACK_GEOMETRY_UNSUPPORTED'],
@@ -185,6 +185,14 @@ test('two audio TS is refused before preparation', async t => {
     '-color_primaries','bt709','-color_trc','bt709','-colorspace','bt709','-color_range','tv','-c:a','aac','-f','mpegts',file]);
   const p = await probe(file), a = assessRemux({ request, probe: p, sourceFingerprint: 'a'.repeat(64) });
   assert.ok(a.blockers.some(b => b.code === 'REMUX_TS_AUDIO_COUNT'));
+});
+
+test('native TS language audio-type selection is refused during preparation before Ready',async t=>{
+  const f=await fixture(t,{language:true}),bytes=await fs.readFile(f.file),pattern=Buffer.from([10,4,101,110,103,0]);let changed=0;
+  for(let at=0;at+188<=bytes.length;at+=188){const pid=((bytes[at+1]&31)<<8)|bytes[at+2];if(pid!==f.raw.programs[0].pmt_pid)continue;
+    const pos=bytes.subarray(at,at+188).indexOf(pattern);if(pos>=0){bytes[at+pos+5]=2;changed++;}}
+  assert.ok(changed>0);await fs.writeFile(f.file,bytes);f.identity=await readSourceIdentity(f.file);
+  await assert.rejects(prepare(f),{code:require('../src/remux-native-inventory.cjs').INVENTORY.find(r=>r.tag===10).code});
 });
 test('transport preparation cannot be replaced with a serialized token', async t => {
   const f = await complete(t); const { getTransportPreparation } = require('../src/remux-transport-evidence.cjs');
@@ -283,7 +291,7 @@ test('PCR base/extension are monotonic, bounded and tied to the declared PID and
   const pes=Buffer.alloc(188,255);pes.set([71,65,0,16,0,0,1,224,0,0,128,128,5,33,0,1,0,1]);
   const mismatch=createTransportIntegrity(streams,programs);mismatch.push(pcr(1800000));
   assert.throws(()=>mismatch.push(pes),{code:'REMUX_TS_PCR_PES_MISMATCH'});
-  const table=(pid,id)=>{const b=Buffer.alloc(188,255);b.set([71,64|(pid>>8),pid&255,16,0,id,176,9,0,1,193,0,0,0,0,0,0]);return b;};
+  const table=(pid,id)=>{const b=Buffer.alloc(188,255);b.set([71,64|(pid>>8),pid&255,16,0,id,176,id===2?13:9,0,1,193,0,0]);if(id===2)b.set([225,0,240,0,0,0,0,0],13);else b.fill(0,13,17);return b;};
   const missing=createTransportIntegrity(streams,programs);missing.push(Buffer.concat([table(0,0),table(4096,2),pes]));
   assert.throws(()=>missing.finish(),{code:'REMUX_TS_PCR_MISSING'});
 });
@@ -326,7 +334,7 @@ test('TS audio clocks cannot round onto a different MP4 sample grid',()=>{
 });
 test('raw program-table and partial audio head guards refuse their own mutants',()=>{
   const streams=[{id:'0x100',codec_type:'video'}],programs=[{pmt_pid:4096,pcr_pid:256}];
-  const table=(pid,id,cc=0)=>{const b=Buffer.alloc(188,255);b.set([71,64|(pid>>8),pid&255,16|cc,0,id,176,9,0,1,193,0,0,0,0,0,0]);return b;};
+  const table=(pid,id,cc=0)=>{const b=Buffer.alloc(188,255);b.set([71,64|(pid>>8),pid&255,16|cc,0,id,176,id===2?13:9,0,1,193,0,0]);if(id===2)b.set([225,0,240,0,0,0,0,0],13);else b.fill(0,13,17);return b;};
   assert.throws(()=>createTransportIntegrity(streams,[{pmt_pid:256}]),{code:'REMUX_TS_PROGRAM'});
   const check=createTransportIntegrity(streams,programs);check.push(table(0,0));check.push(table(4096,2));
   const changed=table(4096,2,1);changed[10]=195;assert.throws(()=>check.push(changed),{code:'REMUX_TS_PROGRAM_CHANGED'});

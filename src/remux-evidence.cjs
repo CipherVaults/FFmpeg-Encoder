@@ -14,6 +14,7 @@ const { observeMovRepresentation } = require('./mov-representation.cjs');
 const { projectRequiredRemuxTags } = require('./remux-metadata-policy.cjs');
 const { deriveRemuxAssessmentBudget } = require('./remux-operation.cjs');
 const { observeRemuxEditLists, remuxEditInterval, observeRemuxSourcePlayback } = require('./remux-edit-lists.cjs');
+const { observeNativeInventory, compareNativeInventories } = require('./remux-native-checks.cjs');
 const { TextDecoder } = require('node:util');
 const { setImmediate: yieldIO } = require('node:timers/promises');
 
@@ -1663,6 +1664,11 @@ async function collectRemuxEvidence(options) {
     }
   }
   try {
+    const nativeSource=await observeNativeInventory({file:sourcePath,probe:source,family:assessment.inputFamily,target:assessment.target,
+      identity:stamp(sourceBefore),selectedIndexes:mappings.map(m=>m.inputIndex),...budget,signal});
+    const nativeOutput=await observeNativeInventory({file:outputPath,probe:output,family:outputFamily,target:assessment.target,
+      identity:stamp(outputBefore),...budget,signal});
+    receipt.nativeInventory=compareNativeInventories(nativeSource,nativeOutput,mappings);
     if (verificationMethod === 'packet-identity-v1') {
       if (transport) await collectTransportSides();
       else {
@@ -1840,6 +1846,11 @@ async function collectRemuxEvidence(options) {
     const completeOperations = transport ? [{ side: 'source', operation: 'transport-integrity', bytesRead: Number(sourceBefore.size) },
       { side: 'source', operation: 'packet-probe-during-preparation' }] : [];
     const partialOperations = [];
+    for(const side of ['source','output']){
+      const native=receipt.nativeInventory?.[side];
+      if(native?.metadataBytesRead!==undefined)partialOperations.push({side,operation:'native-inventory-metadata',bytesRead:native.metadataBytesRead,
+        ...(side==='source'?{preparationRead:'Normal-service preparation separately inspects native source metadata; those metadata bytes are unmeasured here.'}:{})});
+    }
     if (sourcePlayback) partialOperations.push({ side: 'source', operation: 'native-source-playback-metadata', bytesRead: sourcePlayback.metadataBytesRead,
       preparationRead: 'Normal-service preparation separately inspects ISO source metadata; those preparation metadata bytes are unmeasured here.' });
     for (const call of receipt.invocations) {

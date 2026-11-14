@@ -62,6 +62,7 @@ async function writeFixture(t, bytes) {
     identity: Object.fromEntries(['dev', 'ino', 'size', 'nlink', 'mtimeNs', 'ctimeNs', 'birthtimeNs'].map(key => [key, String(stat[key])])) };
 }
 function playbackFixture(probe, paddedBytes = 0) {
+  if((probe.format?.format_name||'').split(',').includes('matroska'))return require('./matroska-fixture.cjs').matroskaFixture(probe,paddedBytes);
   const tracks = probe.streams.filter(s => ['video', 'audio'].includes(s.codec_type)).map(s => {
     s.id ||= String(s.index + 1);
     return { id: Number(BigInt(s.id)), kind: s.codec_type, width: s.width, height: s.height, scale: 48000, pts: [0], durations: [48000] };

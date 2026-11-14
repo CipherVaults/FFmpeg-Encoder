@@ -8,6 +8,7 @@ const { createHash } = require('node:crypto');
 const { runTool } = require('../src/process-runner.cjs');
 const { observeRemuxEditLists, observeRemuxSourcePlayback } = require('../src/remux-edit-lists.cjs');
 const { readSourceIdentity } = require('../src/source-identity.cjs');
+const { observeNativeInventory, compareNativeInventories } = require('../src/remux-native-checks.cjs');
 const reports = [
   'slice3/service/1acb16cc-6616-434d-a1f8-8a465d436b44',
   'slice3/service/b9ec1209-7d3b-4b2c-b4ff-e022fae611d4',
@@ -43,6 +44,11 @@ async function audit({ read = fsp.readFile, stat = fsp.stat, hashFile = async fi
         probe: sourceProbe, target: c.target, identity: await readSourceIdentity(sourcePath), selectedIndexes: c.evidence.essenceEvidence.streams.map(s => s.inputIndex),
         maxRecords: c.evidence.budget.maxRecords });
       const outputProbe = await probe(file);
+      const sourceFamily = sourceProbe.format.format_name.split(',').includes('mov')?'isobmff':sourceProbe.format.format_name.split(',').includes('mpegts')?'mpegts':'matroska';
+      const sourceNative = await observeNativeInventory({file:sourcePath,probe:sourceProbe,family:sourceFamily,target:c.target,
+        selectedIndexes:c.evidence.essenceEvidence.streams.map(s=>s.inputIndex),maxRecords:c.evidence.budget.maxRecords});
+      const outputNative = await observeNativeInventory({file,probe:outputProbe,family:'isobmff',target:c.target,maxRecords:c.evidence.budget.maxRecords});
+      compareNativeInventories(sourceNative,outputNative,c.evidence.essenceEvidence.streams);
       const intervals = [];
       for (const s of c.evidence.essenceEvidence.streams) {
         const record = s.source; let firstPts = record.firstPts, visibleStart = firstPts;

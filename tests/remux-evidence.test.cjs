@@ -37,14 +37,14 @@ function source() {
     tags: { title: 'Source' } }, chapters: [], programs: [], stream_groups: [] };
 }
 async function setup(t, { probe = source(), target = 'matroska', omitAttachment = false, changeOutput, mutate, changeFrames, changePackets, changeHeader, changeCapture, bytesFor, extraChunk,
-  outputBytes = target === 'mp4' || target === 'mov' ? movFixture(nativeTracks) : 'output fixture bytes' } = {}) {
+  outputBytes = target === 'mp4' || target === 'mov' ? movFixture(nativeTracks) : null } = {}) {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'remux-collector-test-'));
   t.after(async () => {
     assert.equal(path.dirname(root), os.tmpdir()); assert.ok(path.basename(root).startsWith('remux-collector-test-'));
     await fs.rm(root, { recursive: true, force: true });
   });
   const sourcePath = path.join(root, 'source.inert'), outputPath = path.join(root, 'output.inert'), stageDirectory = path.join(root, 'stage');
-  await fs.mkdir(stageDirectory); await fs.writeFile(sourcePath, require('./helpers/mov-fixture.cjs').playbackFixture(probe)); await fs.writeFile(outputPath, outputBytes);
+  await fs.mkdir(stageDirectory); await fs.writeFile(sourcePath, require('./helpers/mov-fixture.cjs').playbackFixture(probe)); await fs.writeFile(outputPath, outputBytes||require('./helpers/matroska-fixture.cjs').matroskaFixture(probe));
   const request = { fileId: 'fixture', identityRevision: 0, draftRevision: 0, operation: 'remux', target, range: null, omissionRequestIds: [] };
   let assessment = assessRemux({ request, probe, sourceFingerprint: SOURCE });
   if (omitAttachment) {
@@ -64,6 +64,7 @@ async function setup(t, { probe = source(), target = 'matroska', omitAttachment 
   output.format.format_name = target === 'matroska' ? 'matroska,webm' : 'mov,mp4,m4a,3gp,3g2,mj2';
   output.format.tags = { ...output.format.tags, [MARKER_KEY]: '1', [OUTPUT_ID_KEY]: OUTPUT_ID };
   changeOutput?.(output);
+  if(!outputBytes)await fs.writeFile(outputPath,require('./helpers/matroska-fixture.cjs').matroskaFixture(output));
   const calls = []; let running = false;
   const ffmpeg = path.join(root, 'mock-ffmpeg.exe'), ffprobe = path.join(root, 'mock-ffprobe.exe');
   async function run(executable, args, options) {
@@ -694,11 +695,11 @@ test('a MOV target collection reads track languages from the sealed owned output
   assert.throws(() => getCollectedMovRepresentation(receipt, { ...bindings, runtimeIdentity: 'f'.repeat(64) }), /genuine/);
 });
 
-test('a MOV target whose sealed output is not a readable QuickTime file fails collection, and other targets observe nothing', async t => {
+test('unreadable MOV output fails native collection; other targets obtain no MOV language receipt', async t => {
   const ids = changed => { changed.streams[0].id = '0x1'; changed.streams[1].id = '0x2'; };
-  for (const [outputBytes, code] of [['output fixture bytes', /REMUX_EDIT_LIST_UNVERIFIED/],
+  for (const [outputBytes, code] of [['output fixture bytes', /REMUX_NATIVE_STRUCTURE/],
     [movFixture([{ id: 1 }, { id: 2 }], { brand: 'isom' }), /MOV_REPRESENTATION_UNVERIFIED/],
-    [movFixture([{ id: 1 }, { id: 3 }]), /REMUX_EDIT_LIST_UNVERIFIED/]]) {
+    [movFixture([{ id: 1 }, { id: 3 }]), /REMUX_NATIVE_STRUCTURE/]]) {
     const s = await setup(t, { target: 'mov', changeOutput: ids, outputBytes });
     failure(await s.collect(), code);
   }

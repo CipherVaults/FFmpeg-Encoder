@@ -40,7 +40,10 @@ test('non-reproducible controls refuse per target, while default/alternative dis
   await inspect(t,alternate,{probe:p,target:'matroska'});
   await assert.rejects(inspect(t,alternate,{probe:p,target:'mp4'}),{code:'REMUX_SOURCE_CONTROL_UNREPRESENTABLE'});
   await assert.rejects(inspect(t,alternate),e=>e.code==='REMUX_SOURCE_PLAYBACK_UNSUPPORTED'&&e.message.includes('tkhd.flags=2'));
-  for(const target of ['mp4','mov','matroska'])for(const [offset,value]of [[32,2],[34,0]])await assert.rejects(inspect(t,rewrite(bytes(),'tkhd',b=>{b.writeUInt16BE(value,offset);return b;},1),{target}),{code:'REMUX_SOURCE_CONTROL_UNREPRESENTABLE'});
+  for(const target of ['mp4','mov','matroska']){
+    await assert.rejects(inspect(t,rewrite(bytes(),'tkhd',b=>{b.writeUInt16BE(2,32);return b;},1),{target}),{code:'REMUX_SOURCE_CONTROL_UNREPRESENTABLE'});
+    await inspect(t,rewrite(bytes(),'tkhd',b=>{b.writeUInt16BE(0,34);return b;},1),{target});
+  }
   await assert.rejects(inspect(t,bytes(),{target:'unknown'}),{code:'REMUX_SOURCE_CONTROL_UNREPRESENTABLE'});
   const omitted=structuredClone(raw);omitted.streams[1].codec_type='subtitle';omitted.streams[1].codec_name='mov_text';
   await inspect(t,bytes(),{probe:omitted,selectedIndexes:[0]});

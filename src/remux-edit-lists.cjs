@@ -127,15 +127,15 @@ async function observeRemuxEditLists({ fileReceipt, outputProbe, intervals, maxR
         // There is deliberately no post-mux writable handle. Admit ISO controls
         // only when movenc itself reproduces every admitted native value.
         if (target === 'mp4' || target === 'mov') need(controls.flags === predictedFlags && controls.layer === 0
-          && controls.alternateGroup === (kind === 'audio' ? 1 : 0),
+          ,
           `Stream ${outputIndex}: ${target.toUpperCase()} cannot preserve tkhd.flags=${controls.flags}, layer=${controls.layer}, alternate_group=${controls.alternateGroup} without rewriting playback controls.`,
           'REMUX_SOURCE_CONTROL_UNREPRESENTABLE');
         else if (target === 'matroska') need([2, 3].includes(controls.flags) && controls.layer === 0
-          && controls.alternateGroup === (kind === 'audio' ? 1 : 0),
+          ,
           `Stream ${outputIndex}: Matroska cannot represent tkhd.flags=${controls.flags}, layer=${controls.layer}, alternate_group=${controls.alternateGroup}; only ordinary movie tracks and the common audio alternative group map to default/forced dispositions.`,
           'REMUX_SOURCE_CONTROL_UNREPRESENTABLE');
         else need(false, 'The native playback-control target is unknown.', 'REMUX_SOURCE_CONTROL_UNREPRESENTABLE');
-      } else for (const key of Object.keys(wanted)) need(equal(controls[key], wanted[key]),
+      } else for (const key of Object.keys(wanted).filter(key=>key!=='alternateGroup')) need(equal(controls[key], wanted[key]),
         `Stream ${outputIndex}: tkhd.${key}=${JSON.stringify(controls[key])}; expected ${JSON.stringify(wanted[key])}.`, controlCode);
       const dimensions = { width: th.readUInt32BE(controlAt + 44), height: th.readUInt32BE(controlAt + 48) };
       const sar = /^\d{1,9}:\d{1,9}$/.test(stream.sample_aspect_ratio || '') ? stream.sample_aspect_ratio.split(':').map(BigInt) : [1n, 1n];

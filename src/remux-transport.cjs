@@ -13,6 +13,49 @@ const MAX_PACKET = 8 * 1024 * 1024;
 // apart; each delivered PES decode clock within ten seconds of the latest PCR.
 const PCR_GAP = 27000000n, PCR_PES_DISTANCE = 270000000n;
 
+// PMT descriptor loops are at most a 1024-byte PSI section. Keep the treatment
+// in the shared inventory; never interpret a descriptor's text as instructions.
+function inspectTransportDescriptors(bytes, streams) {
+  const code='REMUX_TS_DESCRIPTOR_STRUCTURE',rules=require('./remux-native-inventory.cjs').INVENTORY
+    .filter(r=>r.container==='mpegts'&&r.enforcement==='transport-inventory');
+  need(Buffer.isBuffer(bytes)&&bytes.length>=16&&bytes.length<=1024&&bytes[0]===2,code,'Invalid bounded PMT descriptor section.');
+  const end=bytes.length-4,programLength=((bytes[10]&15)<<8)|bytes[11];
+  function loop(start,limit,stream){
+    need(start<=limit&&limit<=end,code,'PMT descriptor loop exceeds the section.');
+    const seen=new Set();
+    for(let at=start;at<limit;){
+      need(at+2<=limit,code,'Truncated PMT descriptor header.');const tag=bytes[at],length=bytes[at+1],next=at+2+length;
+      need(next<=limit,code,'PMT descriptor payload exceeds its loop.');
+      for(const r of rules.filter(r=>r.tag===tag)){
+        need(!seen.has(tag),r.code,'TS '+r.field+': duplicate presentation descriptor.');seen.add(tag);
+        if(r.check==='ts-absent')need(false,r.code,'TS '+r.field+': this presentation/selection control cannot be carried by MP4.');
+        if(r.check==='ts-language'){
+          const language=length===4?bytes.toString('latin1',at+2,at+5):'';
+          need(stream?.codec_type==='audio'&&/^[a-z]{3}$/.test(language)&&bytes[at+5]===0
+            &&language===(stream.tags?.language||'und'),r.code,
+          'TS ISO_639_language_audio_type: requires one faithfully carried language and ordinary audio type 0.');
+        }
+        if(r.check==='ts-aac'){
+          // ETSI EN 300 468 H.2 / table 26: AAC uses the HE-AAC component
+          // labels too. Only the neutral channel-mode labels are equivalent;
+          // receiver mixes and PES-private SAOC-DE controls cannot be copied.
+          need(stream?.codec_type==='audio'&&stream.codec_name==='aac'&&length>=1&&length<=3,r.code,'TS AAC descriptor: unsupported or malformed AAC presentation.');
+          if(length>1){const flags=bytes[at+3],type=bytes[at+4],channels=Number(stream.channels);
+            need(!(flags&127)&&(flags&128?length===3&&(type===1&&channels===1||type===3&&channels===2||type===5&&channels>2):length===2),r.code,
+              'TS AAC descriptor: accessibility, receiver-mix, SAOC-DE or mismatched channel modes cannot be carried.');}
+        }
+      }
+      at=next;
+    }
+  }
+  loop(12,12+programLength,null);
+  for(let at=12+programLength;at<end;){
+    need(at+5<=end,code,'Truncated PMT elementary-stream descriptor header.');
+    const pid=((bytes[at+1]&31)<<8)|bytes[at+2],length=((bytes[at+3]&15)<<8)|bytes[at+4],next=at+5+length;
+    loop(at+5,next,streams.find(s=>Number(s.id)===pid));at=next;
+  }
+}
+
 function transportSourceReasons(probe, target) {
   const reasons = [], add = (code, message) => reasons.push({ code, message, streamIndex: null });
   if (target !== 'mp4') add('REMUX_TS_TARGET', 'MPEG-TS stream copy is qualified only for MP4.');
@@ -179,6 +222,7 @@ function createTransportIntegrity(streams, programs = null) {
         const bytes = table.data.subarray(0, table.total), hash = sha(bytes);
         need((bytes[5] & 1) && bytes[6] === 0 && bytes[7] === 0, 'REMUX_TS_PSI', 'Multi-section or future TS program tables are unsupported.');
         need(!table.hash || table.hash === hash, 'REMUX_TS_PROGRAM_CHANGED', 'The TS program map or program metadata changes inside the file.');
+        if(table.tableId===2&&!table.hash)inspectTransportDescriptors(bytes,streams);
         table.hash = hash; table.used = 0; table.total = 0;
       }
     }
@@ -284,4 +328,4 @@ async function inspectTransportHead(file, signal) {
     }
   } finally { await handle.close(); }
 }
-module.exports = { transportSourceReasons, dumpBytes, transportNals, canonicalTransportVideo, canonicalTransportAudio, transportClock, createTransportIntegrity, inspectTransportHead };
+module.exports = { transportSourceReasons, dumpBytes, transportNals, canonicalTransportVideo, canonicalTransportAudio, transportClock, createTransportIntegrity, inspectTransportHead, inspectTransportDescriptors };

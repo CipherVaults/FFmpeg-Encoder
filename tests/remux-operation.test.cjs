@@ -57,7 +57,7 @@ function fixture(options = {}) {
     assessment = assessRemux({ request, probe, sourceFingerprint: fingerprint, resolveOmission: id => decisions.find(item => item.id === id) });
   }
   const retained = { id: 'synthetic-reviewed-route', inputFamily: assessment.inputFamily, target, evidenceIds: ['synthetic-native', 'synthetic-lifecycle'],
-    allowAncillary: false, runtimeIdentity: RUNTIME, ...options.policy };
+    allowAncillary: false, runtimeIdentity: RUNTIME, verificationMethod: 'complete-native-v1', ...options.policy };
   const owner = options.owner || new RemuxOperations({ runtimeIdentity: RUNTIME, policyIdentity: 'synthetic-policy-v1', policies: options.empty ? [] : [retained] });
   const prepare = { assessment, input: identity.canonicalPath, output: 'F:\\synthetic-remux-output\\destination.mkv', outputId: options.outputId || OUTPUT_ID, sourceIdentity: identity, request };
   const plan = options.noPrepare ? null : owner.prepare(prepare);
@@ -67,17 +67,108 @@ function fixture(options = {}) {
 }
 
 const MOV_POLICY = { id: 'test-isobmff-mov', inputFamily: 'isobmff', target: 'mov', allowAncillary: false,
-  allowRotation90: false, sourceEnvelope: 'h264-aac-lc-48k-stereo-v1', runtimeIdentity: RUNTIME, evidenceIds: ['test-only-mov'] };
+  allowRotation90: false, verificationMethod: 'complete-native-v1', sourceEnvelope: 'h264-aac-lc-48k-stereo-v1', runtimeIdentity: RUNTIME, evidenceIds: ['test-only-mov'] };
 const PRE_MOV_POLICY_IDS = ['full-remux-isobmff-matroska-v1', 'full-remux-isobmff-mp4-v1',
   'full-remux-matroska-matroska-v1', 'full-remux-matroska-mp4-v1'];
-const PRE_MOV_POLICIES = REMUX_POLICIES.filter(route => PRE_MOV_POLICY_IDS.includes(route.id));
+// Exercise the retained complete verifier under test-only future route ids;
+// production ids are intentionally incapable of selecting it.
+const PRE_MOV_POLICIES = REMUX_POLICIES.filter(route => PRE_MOV_POLICY_IDS.includes(route.id)).map(route => ({ ...route,
+  id: 'test-complete-' + route.id, verificationMethod: 'complete-native-v1' }));
+test('root singleton policy admits a non-default sole Matroska video for exact output validation', () => {
+  // LONG_MKV b29f31e5: one H264 video, disposition.default=0; pinned FFmpeg
+  // writes default=1 in MP4 even with explicit -disposition:0 0. Never waive
+  // that functional difference (the old complete validator also refused it).
+  for (const value of [0, undefined]) {
+    const h = fixture({ family: 'matroska', audio: false, target: 'mp4', noPrepare: true,
+      change: p => { p.streams[0].disposition = value === undefined ? {} : { default: value }; } });
+    assert.ok(h.owner.prepare(h.prepare));
+  }
+  assert.ok(fixture({ family: 'matroska', audio: false, target: 'mp4' }).plan);
+  assert.ok(fixture({ family: 'matroska', audio: false, target: 'matroska', change: p => { p.streams[0].disposition.default = 0; } }).plan);
+});
 function movRoute(options = {}) {
   const owner = new RemuxOperations({ runtimeIdentity: RUNTIME, policyIdentity: 'five-test-routes',
     policies: [...PRE_MOV_POLICIES.map(route => ({ ...route, runtimeIdentity: RUNTIME })), MOV_POLICY] });
   return fixture({ target: 'mov', owner, ...options });
 }
+test('unlisted main routes retain complete decoding while reviewed stream-copy routes select packet identity privately', () => {
+  const h = fixture({ noPrepare: true }), route = { ...h.retained }; delete route.verificationMethod;
+  const owner = new RemuxOperations({ runtimeIdentity: RUNTIME, policyIdentity: 'method-test', policies: [route] });
+  const plan = owner.prepare(h.prepare), bindings = { ...h.bindings, plan };
+  assert.equal(owner.requireCurrent(owner.select(bindings), bindings).verificationMethod, 'complete-native-v1');
+  const packet = fixture({ policy: { verificationMethod: 'packet-identity-v1' } });
+  assert.equal(packet.owner.requireCurrent(packet.owner.select(packet.bindings), packet.bindings).verificationMethod, 'packet-identity-v1');
+  const fallback = fixture(); assert.equal(fallback.owner.requireCurrent(fallback.owner.select(fallback.bindings), fallback.bindings).verificationMethod, 'complete-native-v1');
+  invalid(() => new RemuxOperations({ runtimeIdentity: RUNTIME, policyIdentity: 'method-test', policies: [{ ...route, verificationMethod: 'renderer-choice' }] }));
+  let reads = 0; Object.defineProperty(route, 'verificationMethod', { enumerable: true, get() { reads++; return 'packet-identity-v1'; } });
+  invalid(() => new RemuxOperations({ runtimeIdentity: RUNTIME, policyIdentity: 'method-test', policies: [route] })); assert.equal(reads, 0);
+  required(() => owner.select({ ...bindings, verificationMethod: 'complete-native-v1' }));
+});
+
+test('all five production policy ids select packet admission without renderer method authority; future conversion routes retain complete decoding', () => {
+  assert.equal(REMUX_POLICIES.length, 5);
+  for (const route of REMUX_POLICIES) {
+    const h = fixture({ family: route.inputFamily, target: route.target,
+      policy: { ...route, runtimeIdentity: RUNTIME, verificationMethod: 'packet-identity-v1' }, ...(route.audio ? { omit: [2] } : {}),
+      noPrepare: true });
+    const policy = { ...h.retained }; delete policy.verificationMethod;
+    const owner = new RemuxOperations({ runtimeIdentity: RUNTIME, policyIdentity: 'production-method-test', policies: [policy] });
+    const plan = owner.prepare(h.prepare), bindings = { ...h.bindings, plan };
+    assert.equal(owner.requireCurrent(owner.select(bindings), bindings).verificationMethod, 'packet-identity-v1', route.id);
+    required(() => owner.select({ ...bindings, verificationMethod: 'complete-native-v1' }));
+    const future = { ...policy, id: 'future-bitstream-conversion' };
+    const fallbackOwner = new RemuxOperations({ runtimeIdentity: RUNTIME, policyIdentity: 'future-method-test', policies: [future] });
+    const fallbackPlan = fallbackOwner.prepare(h.prepare), fallbackBindings = { ...h.bindings, plan: fallbackPlan };
+    assert.equal(fallbackOwner.requireCurrent(fallbackOwner.select(fallbackBindings), fallbackBindings).verificationMethod, 'complete-native-v1');
+  }
+});
+
+test('no current production route can declare the internal complete verifier, including the guard-removal mutant', async () => {
+  function check(Owner) {
+    for (const route of REMUX_POLICIES) assert.throws(() => new Owner({ runtimeIdentity: RUNTIME, policyIdentity: 'current-fast-only',
+      policies: [{ ...route, runtimeIdentity: RUNTIME, verificationMethod: 'complete-native-v1' }] }), { code: 'REMUX_VERIFICATION_METHOD' });
+  }
+  check(RemuxOperations);
+  const filename = require.resolve('../src/remux-operation.cjs'), Module = require('node:module'), source = await fs.readFile(filename, 'utf8');
+  const before = "need(!PACKET_ROUTES[value.id] || !own(value, 'verificationMethod') || value.verificationMethod === 'packet-identity-v1',";
+  assert.ok(source.includes(before)); const unit = new Module(filename, module); unit.filename = filename; unit.paths = module.paths;
+  unit._compile(source.replace(before, 'need(true,'), filename);
+  assert.throws(() => check(unit.exports.RemuxOperations), assert.AssertionError);
+});
+
+test('omitted5.1/7.1 audio counts packets but never PCM; retained surround keeps the existing refusal (mutants killed)', async () => {
+  const api = require('../src/remux-operation.cjs'), { getRemuxAssessmentSource } = require('../src/remux-contract.cjs');
+  function exercise(target, channels) {
+    const h = fixture({ family: 'matroska', target: 'mp4', omit: [2], noPrepare: true,
+      policy: { id: 'full-remux-matroska-mp4-v1', audio: 'explicitly-omitted-only', verificationMethod: 'packet-identity-v1' },
+      change: p => { p.format.duration = '10800'; p.streams[1].channels = channels; p.streams[1].channel_layout = channels === 6 ? '5.1' : '7.1'; } });
+    const owner = new target.RemuxOperations({ runtimeIdentity: RUNTIME, policyIdentity: 'omitted-surround-test', policies: [h.retained] });
+    let plan, selected; assert.doesNotThrow(() => { plan = owner.prepare(h.prepare); const bindings = { ...h.bindings, plan };
+      selected = owner.requireCurrent(owner.select(bindings), bindings); });
+    const costs = target.deriveRemuxAssessmentBudget(h.assessment, h.identity.size, 'packet-identity-v1');
+    assert.deepEqual(selected.budget, costs.budget); assert.equal(costs.budget.maxPcmBytes, BUDGET.maxPcmBytes);
+    const native = target.deriveRemuxAssessmentBudget(h.assessment, h.identity.size, 'complete-native-v1');
+    assert.ok(costs.budget.maxRecords > native.budget.maxRecords); assert.ok(costs.budget.maxSpoolBytes > native.budget.maxSpoolBytes);
+    return h;
+  }
+  for (const channels of [6, 8]) {
+    const h = exercise(api, channels);
+    const retained = fixture({ family: 'matroska', target: 'matroska', noPrepare: true,
+      policy: { verificationMethod: 'packet-identity-v1' }, change: p => { p.streams[1].channels = channels; p.streams[1].channel_layout = channels === 6 ? '5.1' : '7.1'; } });
+    assert.throws(() => retained.owner.prepare(retained.prepare), { code: 'REMUX_QUALIFICATION_REQUIRED' });
+    assert.throws(() => api.deriveRemuxBudget(getRemuxAssessmentSource(h.assessment), h.identity.size), { code: 'REMUX_PROPORTIONAL_BUDGET' });
+  }
+  const filename = require.resolve('../src/remux-operation.cjs'), text = await fs.readFile(filename, 'utf8'), Module = require('node:module');
+  function variant(before, after) { assert.equal(text.split(before).length, 2); const m = new Module(filename, module); m.filename = filename;
+    m.paths = Module._nodeModulePaths(path.dirname(filename)); m._compile(text.replace(before, after), filename); return m.exports; }
+  assert.throws(() => exercise(variant("verificationMethod === 'packet-identity-v1' ? null : retained, retained", "verificationMethod === 'packet-identity-v1' ? null : retained, null"), 6), assert.AssertionError);
+  assert.throws(() => exercise(variant("verificationMethod === 'packet-identity-v1' ? null : retained, retained", 'retained, retained'), 8), assert.AssertionError);
+  const h = exercise(api, 6), noGuard = variant('[1, 2].includes(channels)', 'true');
+  assert.throws(() => assert.throws(() => noGuard.deriveRemuxBudget(getRemuxAssessmentSource(h.assessment), h.identity.size), { code: 'REMUX_PROPORTIONAL_BUDGET' }), assert.AssertionError);
+});
+
 test('five-policy test catalog admits the exact MOV AAC shape with native track fields and B frames', () => {
-  assert.deepEqual(PRE_MOV_POLICIES.map(route => route.id).sort(), [...PRE_MOV_POLICY_IDS].sort());
+  assert.deepEqual(PRE_MOV_POLICIES.map(route => route.id.replace('test-complete-', '')).sort(), [...PRE_MOV_POLICY_IDS].sort());
   const promoted = REMUX_POLICIES.filter(route => route.inputFamily === 'isobmff' && route.target === 'mov');
   assert.equal(promoted.length, 1);
   assert.match(promoted[0].id, /^full-remux-isobmff-mov-v[12]$/);
@@ -178,7 +269,7 @@ test('MOV required track tags without a representation refuse before Start while
 test('the new MOV policy retains all existing video/geometry/color/bounds refusals', () => {
   for (const change of [p => { p.streams[0].codec_name = 'hevc'; }, p => { p.streams[0].pix_fmt = 'yuv420p10le'; },
     p => { p.streams[0].color_transfer = 'smpte2084'; }, p => { p.streams[0].sample_aspect_ratio = '4:3'; },
-    p => { p.streams[0].width = 1921; }, p => { p.format.duration = '121'; },
+    p => { p.streams[0].width = 1921; }, p => { p.format.duration = '0'; },
     p => { p.streams[0].side_data_list = [{ side_data_type: 'Display Matrix', rotation: 90,
       displaymatrix: '\n00000000: 0 -65536 0\n00000001: 65536 0 0\n00000002: 0 0 1073741824\n' }]; }]) {
     const h = movRoute({ noPrepare: true, change }); required(() => h.owner.prepare(h.prepare));
@@ -222,7 +313,7 @@ test('genuine immutable plans reuse only canonical stream-copy arguments and fix
   assert.equal(h.plan.args[h.plan.args.indexOf('-c') + 1], 'copy'); assert.ok(h.plan.args.includes('-copyts') && h.plan.args.includes('-n'));
   assert.ok(!h.plan.args.includes('-vf') && !h.plan.args.includes('-af') && !h.plan.args.some(arg => arg.startsWith('-stats_enc')));
   assert.ok(!h.plan.args.some(arg => arg.includes(`${GENERATION_KEY}=`) && !arg.endsWith('=')));
-  assert.deepEqual(result.budget, BUDGET); assert.equal(result.executionBudgetMs, 600000); assert.equal(result.controlsRequired, true); assert.equal(result.remux, true);
+  assert.deepEqual(result.budget, require('../src/remux-operation.cjs').deriveRemuxBudget(require('../src/inspection.cjs').normalizeProbe(h.probe), h.prepare.sourceIdentity.size, h.assessment.expectedOutput.streams.map(s => s.inputIndex)).budget); assert.equal(result.executionBudgetMs, 600000); assert.equal(result.controlsRequired, true); assert.equal(result.remux, true);
   assert.deepEqual(result.qualification.maxTimestampError, { numerator: '1', denominator: '500' });
   assert.deepEqual(result.qualification.maxChapterError, result.qualification.maxTimestampError); assert.deepEqual(result.evidenceIds, h.retained.evidenceIds);
   assert.ok(Object.isFrozen(result.qualification.maxTimestampError)); assert.equal(h.plan.sourceProbeFingerprint, remuxProbeFingerprint(h.probe));
@@ -529,11 +620,12 @@ test('the finite SDR/source envelope refuses unmeasured dimensions/rates/color/l
     p => { p.streams[0].field_order = 'tt'; }, p => { p.streams[0].r_frame_rate = '61/1'; }, p => { p.streams[0].avg_frame_rate = '0/0'; },
     p => { p.streams[0].color_transfer = 'smpte2084'; }, p => { delete p.streams[0].color_range; }, p => { p.streams[0].sample_aspect_ratio = '4:3'; },
     p => { p.streams[1].sample_rate = '96000'; }, p => { p.streams[1].channel_layout = '5.1'; }, p => { p.streams[1].codec_name = 'opus'; },
-    p => { p.format.duration = '121'; }, p => { p.format.size = '1'; }]) {
+    p => { p.format.duration = '0'; }, p => { p.format.size = '1'; }]) {
     const h = fixture({ noPrepare: true, change }); required(() => h.owner.prepare(h.prepare));
   }
   const absent = fixture({ noPrepare: true, change: p => { delete p.format.duration; } }); required(() => absent.owner.prepare(absent.prepare));
-  required(() => fingerprintRemuxSourceIdentity({ ...SOURCE, size: String(512 * 1024 * 1024 + 1) }));
+  assert.equal(typeof fingerprintRemuxSourceIdentity({ ...SOURCE, size: String(512 * 1024 * 1024 + 1) }), 'string');
+  required(() => fingerprintRemuxSourceIdentity({ ...SOURCE, size: String(BigInt(Number.MAX_SAFE_INTEGER) + 1n) }));
 });
 
 test('rotation opt-in requires exact independent native matrix and rejects other side-data', () => {

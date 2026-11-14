@@ -37,6 +37,7 @@ const { OperationDraft } = require('./operation-draft.cjs');
 const { prepareRemuxItem, setRemuxOmissions, requireRemuxGrants, installRemuxDecisions, remuxOutputName } = require('./remux-workspace.cjs');
 const { remuxProbeFingerprint } = require('./remux-validation.cjs');
 const { collectRemuxEvidence } = require('./remux-evidence.cjs');
+const { createRemuxStorageAllowance } = require('./operation-storage.cjs');
 const { prepareHdrItem } = require('./hdr-workspace.cjs');
 const { fingerprintHdrProbe } = require('./hdr-operation.cjs');
 const { collectHdrEvidence } = require('./hdr-evidence.cjs');
@@ -48,6 +49,38 @@ const EXTENSIONS = new Set(['.mp4', '.mkv', '.mov', '.avi', '.webm']);
 const fail = (code, message) => Object.assign(new Error(message), { code });
 const clone = value => structuredClone(value);
 const OUTPUT_PLACEHOLDER = '<temporary output assigned at start>';
+// Defaults are intentionally unchanged for ordinary/Full/range encode. Only a
+// genuine main-private Remux selection supplies proportional execution limits.
+const LEGACY_OPERATION_COSTS = Object.freeze({ pipeBytes: 256 * 1024 * 1024, evidenceBytes: 256 * 1024 * 1024,
+  maxChildren: 64, evidenceReserveBytes: 32 * 1024 * 1024, stallMs: null });
+function operationCostLimits(entry, qualified) {
+  if (!entry.remux) return { ...LEGACY_OPERATION_COSTS, executionBudgetMs: qualified?.executionBudgetMs ?? null };
+  if (!qualified || qualified.remux !== true || !qualified.resources) throw fail('REMUX_PROPORTIONAL_BUDGET', 'A genuine source-derived Remux selection is required.');
+  return { ...qualified.resources, executionBudgetMs: qualified.executionBudgetMs };
+}
+function createRemuxProgressClock(stallMs, deadline, now = Date.now) {
+  if (!Number.isSafeInteger(stallMs) || stallMs <= 0 || !Number.isSafeInteger(deadline) || deadline <= now())
+    throw fail('REMUX_PROPORTIONAL_BUDGET', 'Invalid Remux progress clock budget.');
+  let advancedAt = now(), previousStage = '', previousValue = -1;
+  return { advance(stage, completed = 0) {
+    if (stage !== previousStage || Number.isFinite(completed) && completed > previousValue) {
+      advancedAt = now(); previousStage = stage; previousValue = completed;
+    }
+  }, check() {
+    if (now() >= deadline) return fail('REMUX_PROPORTIONAL_BUDGET', 'Remux exceeded its source-derived absolute time budget.');
+    if (now() - advancedAt >= stallMs) return fail('REMUX_STALLED', 'Remux stopped making progress.');
+    return null;
+  } };
+}
+function requireRemuxOutputSpace({ freeBytes, actualBytes, maxOutputBytes, outputReserveBytes, evidenceReserveBytes }) {
+  if (typeof freeBytes !== 'bigint' || freeBytes < 0n || typeof actualBytes !== 'bigint' || actualBytes < 0n
+    || ![maxOutputBytes, outputReserveBytes, evidenceReserveBytes].every(Number.isSafeInteger)
+    || maxOutputBytes <= 0 || outputReserveBytes < maxOutputBytes || evidenceReserveBytes < 0
+    || actualBytes > BigInt(maxOutputBytes)
+    || freeBytes < BigInt(outputReserveBytes) - actualBytes + BigInt(evidenceReserveBytes) + 25n * 1024n ** 3n)
+    throw fail('REMUX_STORAGE', 'Insufficient or unknown output-volume space for source size plus margin and retained evidence.');
+  return true;
+}
 const APP_VERSION = require('../package.json').version;
 // Keep the owned child's capture accounting separate from the small UI excerpt.
 // Journals must not relabel an upstream-truncated tail as a complete capture.
@@ -680,6 +713,7 @@ class EncoderService extends EventEmitter {
     return clone({ kind: entry.actualArgs ? 'actual-invocation' : 'resolved-argument-template', executable: this.ffmpeg,
       args: entry.actualArgs || entry.preparedArgs, destination: entry.destination,
       operation: entry.operationPlan ? { contract: entry.operationPlan.contract, expectedOutput: entry.operationPlan.expectedOutput,
+        ...(entry.remux ? { verificationMethod: entry.operationPlan.verificationMethod, verificationClaim: entry.operationPlan.verificationClaim } : {}),
         compatibilityPath: entry.operationPlan.compatibilityPath, ...(entry.operationPlan.validationMode ? { validationMode: entry.operationPlan.validationMode } : {}), instrumentation: entry.operationPlan.instrumentation || null } : null,
       ...(entry.actualArgs ? {} : { outputPlaceholder: OUTPUT_PLACEHOLDER }),
       notice: entry.actualArgs ? 'Exact arguments passed to FFmpeg. This temporary output is validated before publication.'
@@ -939,6 +973,8 @@ class EncoderService extends EventEmitter {
         if (!inspection) progress.inspected++;
         onStage({ stage: 'stream-preservation' });
         await prepareRemuxItem.call(this, item, { file, destination, probe, identity, marker, indexed, signal });
+        const prepared = this.plan.entries.get(item.id)?.operationPlan;
+        if (prepared) { item.verificationMethod = prepared.verificationMethod; item.verificationClaim = prepared.verificationClaim; }
         return;
       }
       if (!inspection) {
@@ -1652,7 +1688,8 @@ class EncoderService extends EventEmitter {
         let validatingSource = false;
         let operationTimer;
         let operationController;
-        let operationExpired = false;
+        let operationExpired = false, remuxFailure = null, remuxGroup = null;
+        let advanceRemux = () => {};
         let storage, storageReservation, storageMonitor, storageFailure, telemetry;
         let storageWatch = Promise.resolve();
         try {
@@ -1669,20 +1706,69 @@ class EncoderService extends EventEmitter {
             return entry.qualificationSelection ? qualificationOwner.requireCurrent(entry.qualificationSelection, qualificationBindings()) : null;
           };
           const qualified = requireQualification();
+          const costLimits = operationCostLimits(entry, qualified);
+          let evidenceRemainingBytes = costLimits.evidenceReserveBytes;
+          const observeEvidenceGrowth = async () => {
+            const current = await storage.observeGrowth(storageReservation);
+            if (entry.remux && Array.isArray(current.jobs)) {
+              const job = current.jobs.find(value => value.id === storageReservation.id);
+              if (!job || !Number.isSafeInteger(job.remainingBytes) || job.remainingBytes < 0 || job.remainingBytes > costLimits.evidenceReserveBytes)
+                throw fail('REMUX_STORAGE', 'Remux evidence reservation accounting is incomplete.');
+              evidenceRemainingBytes = job.remainingBytes;
+            }
+            return current;
+          };
           const protectedReceipt = qualified || requireEncodePreservation.call(this, entry);
           operationController = qualified ? new AbortController() : null;
           const jobSignal = operationController ? AbortSignal.any([signal, operationController.signal]) : signal;
           // Review/queued time does not consume an active job's cost envelope.
           // Policy/source/runtime freshness is checked independently above.
-          const activeDeadline = qualified ? Date.now() + qualified.executionBudgetMs : null;
-          if (qualified) operationTimer = setTimeout(() => { operationExpired = true; operationController.abort(); }, qualified.executionBudgetMs);
+          const activeDeadline = qualified ? Date.now() + costLimits.executionBudgetMs : null;
+          if (entry.remux) {
+            const clock = createRemuxProgressClock(costLimits.stallMs, activeDeadline);
+            advanceRemux = clock.advance;
+            // Periodic checking avoids signed-32-bit timer overflow. Only actual
+            // copy/verification advancement renews the idle clock, never logs.
+            operationTimer = setInterval(() => {
+              remuxFailure ||= clock.check();
+              if (remuxFailure) operationController.abort();
+            }, 1000);
+            operationTimer.unref();
+          } else if (qualified) operationTimer = setTimeout(() => { operationExpired = true; operationController.abort(); }, costLimits.executionBudgetMs);
+          const observeRemuxOutput = async () => {
+            if (!entry.remux) return;
+            try {
+              const free = await fs.statfs(this.plan.output, { bigint: true });
+              if (typeof free.bavail !== 'bigint' || typeof free.bsize !== 'bigint' || free.bavail < 0n || free.bsize <= 0n)
+                throw fail('REMUX_STORAGE', 'Remux output free space is unknown.');
+              let actualBytes = 0n;
+              if (stage) {
+                try { const current = await fs.lstat(stage.file, { bigint: true });
+                  if (!current.isFile() || current.isSymbolicLink() || current.nlink !== 1n || current.size > BigInt(qualified.budget.maxOutputBytes))
+                    throw fail('REMUX_STORAGE', 'Remux stage exceeded its source-derived output budget or changed kind.');
+                  actualBytes = current.size;
+                } catch (error) { if (error.code !== 'ENOENT') throw error; }
+              }
+              const outputStat = await fs.stat(this.plan.output, { bigint: true });
+              const evidenceStat = storageReservation ? await fs.stat(storageReservation.directory, { bigint: true }) : null;
+              // Same-volume admission must cover both reservations. The retained
+              // evidence store independently monitors actual spool growth.
+              const evidenceReserve = evidenceStat?.dev === outputStat.dev ? BigInt(evidenceRemainingBytes) : 0n;
+              requireRemuxOutputSpace({ freeBytes: free.bavail * free.bsize, actualBytes, maxOutputBytes: qualified.budget.maxOutputBytes,
+                outputReserveBytes: costLimits.outputReserveBytes, evidenceReserveBytes: Number(evidenceReserve) });
+            } catch (error) {
+              if (error.code === 'REMUX_STORAGE') throw error;
+              throw Object.assign(fail('REMUX_STORAGE', 'Remux output storage could not be observed.'), { cause: error });
+            }
+          };
           let operationChildren = 0, evidenceBytes = 0;
           const pipeBytes = { stdout: 0, stderr: 0 };
           if (qualified && this.operationStorage) {
             storage = await this.operationStore();
-            try { storageReservation = await storage.admit({ forecastBytes: 32 * 1024 * 1024 }); }
+            try { storageReservation = await storage.admit({ forecastBytes: costLimits.evidenceReserveBytes,
+              ...(entry.remux ? { remuxAllowance: createRemuxStorageAllowance(entry.remuxAssessment, entry.fingerprint.size, qualified.verificationMethod) } : {}) }); }
             catch (error) { storageReservation = error.storageReservation; throw error; }
-            const observe = async () => { await storage.assertReservation(storageReservation); return storage.observeGrowth(storageReservation); };
+            const observe = async () => { await storage.assertReservation(storageReservation); const current = await observeEvidenceGrowth(); if (entry.remux) await observeRemuxOutput(); return current; };
             let watching = false;
             storageMonitor = setInterval(() => {
               if (watching || storageFailure) return;
@@ -1695,30 +1781,34 @@ class EncoderService extends EventEmitter {
           // collector limits; an exhausted job never falls back to legacy proof.
           const run = qualified ? async (executable, args, options = {}) => {
             requireQualification();
-            if (++operationChildren > 64) throw fail('OPERATION_CHILD_LIMIT', 'The changed operation exceeded its child-process budget.');
+            if (++operationChildren > costLimits.maxChildren) throw fail('OPERATION_CHILD_LIMIT', 'The changed operation exceeded its child-process budget.');
             const remaining = activeDeadline - Date.now();
             if (remaining <= 0 || operationController.signal.aborted) throw fail('OPERATION_DEADLINE', 'The changed operation exceeded its total deadline.');
+            advanceRemux('child-' + operationChildren, 0);
             const chunk = options.onStdoutChunk;
             try {
-              if (storage) await storage.observeGrowth(storageReservation);
+              if (storage) await observeEvidenceGrowth();
+              if (entry.remux) await observeRemuxOutput();
               const runner = entry.operationRuntimeToken
                 ? (executable, argv, options) => {
                   const tool = executable === this.ffmpeg ? 'ffmpeg' : executable === this.ffprobe ? 'ffprobe' : null;
                   if (!tool) throw fail('OPERATION_RUNTIME_UNBOUND', 'The invocation does not use an observed fixed tool.');
-                  return this.operationRuntime.invoke(entry.operationRuntimeToken, tool, argv, options);
+                  return remuxGroup ? this.operationRuntime.invokeRemux(remuxGroup, tool, argv, options)
+                    : this.operationRuntime.invoke(entry.operationRuntimeToken, tool, argv, options);
                 } : (executable, argv, options) => this.run(executable, argv, options);
               const result = await runner(executable, args, { ...options, signal: jobSignal,
                 timeoutMs: Math.min(options.timeoutMs || remaining, remaining),
                 stdoutLimit: options.stdoutLimit || 16 * 1024 * 1024,
                 onOutputBytes: ({ stream, bytes }) => {
                   pipeBytes[stream] += bytes;
-                  if (pipeBytes.stdout + pipeBytes.stderr > 256 * 1024 * 1024) throw fail('OPERATION_PIPE_LIMIT', 'The aggregate stdout/stderr pipe-byte allowance was exhausted.');
+                  if (pipeBytes.stdout + pipeBytes.stderr > costLimits.pipeBytes) throw fail(entry.remux ? 'REMUX_PROPORTIONAL_BUDGET' : 'OPERATION_PIPE_LIMIT', 'The aggregate stdout/stderr pipe-byte allowance was exhausted.');
                   options.onOutputBytes?.({ stream, bytes });
                 },
-                ...(chunk ? { onStdoutChunk: async bytes => {
+                ...(chunk ? { onStdoutChunk: async (bytes, pipe) => {
                   evidenceBytes += bytes.length;
-                  if (evidenceBytes > 256 * 1024 * 1024) throw fail('OPERATION_EVIDENCE_LIMIT', 'The total evidence stdout budget was exceeded.');
-                  return chunk(bytes);
+                  if (evidenceBytes > costLimits.evidenceBytes) throw fail(entry.remux ? 'REMUX_PROPORTIONAL_BUDGET' : 'OPERATION_EVIDENCE_LIMIT', 'The total evidence stdout budget was exceeded.');
+                  advanceRemux('evidence-child-' + operationChildren, evidenceBytes);
+                  return chunk(bytes, pipe);
                 } } : {}) });
               if (storage) {
                 // A successful child can still be followed by a failed disk
@@ -1728,11 +1818,14 @@ class EncoderService extends EventEmitter {
                   { code: 'OWNED_CHILD_COMPLETED', ...boundedToolStderr(result), exitCode: result.exitCode,
                     ...(result.stdoutCapture ? { stdoutCapture: result.stdoutCapture } : {}) });
                 if (storageFailure) throw operationFailure(storageFailure, closed);
-                try { await storage.observeGrowth(storageReservation); }
+                try { await observeEvidenceGrowth(); }
                 catch (error) { throw operationFailure(error, closed); }
               }
+              advanceRemux('child-' + operationChildren + '-closed', 1);
+              if (entry.remux) await observeRemuxOutput();
               return result;
             } catch (error) {
+              if (remuxFailure && !signal.aborted) throw operationFailure(remuxFailure, error);
               if (storageFailure && !signal.aborted) throw operationFailure(storageFailure, error);
               if (!signal.aborted && (operationExpired || Date.now() >= activeDeadline)) {
                 throw operationFailure(fail('OPERATION_DEADLINE', 'The changed operation exceeded its total deadline; its child and sinks have settled.'), error);
@@ -1779,6 +1872,7 @@ class EncoderService extends EventEmitter {
           validatingSource = false;
           await this.provenanceJournal.recordIntent({ outputId: entry.outputId, sourceIdentity: entry.fingerprint,
             destination: entry.destination, profileId: entry.remux ? `remux-${entry.remuxRequest.target}` : this.plan.settings.profileId, generationDescription: entry.generationDescription });
+          if (entry.remux) await observeRemuxOutput();
           stage = await createStage(this.plan.output);
           item.status = 'running';
           const owner = this.state.batchId;
@@ -1787,6 +1881,7 @@ class EncoderService extends EventEmitter {
           // stages change presentation only; queue/cancel ownership stays held
           // through validation, publication and the existing cleanup pipeline.
           const setJobStage = stageName => {
+            advanceRemux(stageName, 0);
             item.status = ['encoding', 'remuxing'].includes(stageName) ? 'running' : 'validating';
             this.state.progress = { fileId: item.id, stage: stageName, duration: operationDuration(entry), percent: null };
             this.emitState();
@@ -1820,6 +1915,7 @@ class EncoderService extends EventEmitter {
             await requireVendorDevice(entry.vendor.binding, { signal: jobSignal, run: this.run, adapters: this.vendorAdapters });
           }
           const encodeResult = await run(this.ffmpeg, args, { signal: jobSignal, timeoutMs: 0, onProgress: record => {
+            advanceRemux(processingStage, Math.max(record.seconds || 0, record.bytes || 0, record.frame || 0));
             if (entry.vendor) encoderProgress = { frame: record.frame, ended: record.ended };
             if (owner !== this.state.batchId || item.status !== 'running' || this.state.progress?.stage !== processingStage) return;
             const duration = operationDuration(entry);
@@ -1862,10 +1958,20 @@ class EncoderService extends EventEmitter {
             // staging directory nonempty and suppress safe result actions.
             const evidenceDirectory = storageReservation ? storageReservation.directory : path.join(this.stateDir, 'operation-evidence');
             await fs.mkdir(evidenceDirectory, { recursive: true });
+            if (entry.remux && qualified.verificationMethod === 'packet-identity-v1' && typeof this.operationRuntime.createRemuxGroup === 'function') {
+              remuxGroup = this.operationRuntime.createRemuxGroup(entry.operationRuntimeToken, entry.remuxAssessment);
+            }
             const evidence = entry.remux ? await collectRemuxEvidence({ assessment: entry.remuxAssessment,
               runtimeIdentity: this.runtimeIdentity, outputId: entry.outputId, sourceProbe: entry.inspection.probe,
               outputProbe, sourcePath: entry.file, outputPath: stage.file, stageDirectory: evidenceDirectory,
-              ffmpeg: this.ffmpeg, ffprobe: this.ffprobe, run, signal: jobSignal, budget: qualified.budget })
+              ffmpeg: this.ffmpeg, ffprobe: this.ffprobe, run, signal: jobSignal, budget: qualified.budget, verificationMethod: qualified.verificationMethod, maxConcurrentChildren: remuxGroup ? 2 : 1,
+              onProgress: record => {
+                advanceRemux(record.stage, record.completed);
+                if (owner !== this.state.batchId || jobSignal.aborted) return;
+                this.state.progress = { fileId: item.id, stage: 'evidence-collection', verificationStage: record.stage,
+                  completed: record.completed, total: record.total, percent: record.total > 0 ? Math.min(99, record.completed / record.total * 100) : null };
+                this.emitState();
+              } })
               : entry.hdr ? await collectHdrEvidence({ plan: entry.operationPlan,
                 runtimeIdentity: this.runtimeIdentity, outputId: entry.outputId, sourceProbe: entry.inspection.probe,
                 outputProbe, sourcePath: entry.file, outputPath: stage.file, stageDirectory: evidenceDirectory,
@@ -1877,7 +1983,9 @@ class EncoderService extends EventEmitter {
               ...(qualified.sourcePolicy ? { sourcePolicy: qualified.sourcePolicy } : {}),
               ...(qualified.qualification.containerDuration === 'matroska-packet-end-plus-codec-delay'
                 ? { containerClockPolicy: qualified.qualification.containerDuration } : {}) });
+            if (remuxGroup) { entry.operationRuntimeGroup = await this.operationRuntime.closeRemuxGroup(remuxGroup); remuxGroup = null; }
             entry.operationEvidence = evidence;
+            if (entry.remux) { item.verificationMethod = evidence.verificationMethod; item.verificationClaim = evidence.verificationClaim; }
             qualificationOwner.verifyCollectedSource?.(entry.qualificationSelection, evidence);
             if (entry.operationPlan.instrumentation && (!entry.hdr || evidence.status === 'completed')) {
               entry.telemetryValidation = entry.hdr
@@ -1887,6 +1995,7 @@ class EncoderService extends EventEmitter {
             const receiptRecord = await this.recordIncident({ stage: 'validation', reason: 'OPERATION_EVIDENCE_COLLECTED', fileId: item.id, invocationId,
               context: { directory: evidence.directory, planFingerprint: evidence.planFingerprint, evidenceIds: qualified.evidenceIds,
                 status: evidence.status, scope: evidence.scope, failure: evidence.failure, children: operationChildren, streamedBytes: evidenceBytes, pipeBytes,
+                ...(entry.remux ? { runtimeGroup: entry.operationRuntimeGroup || null } : {}),
                 telemetryValidation: entry.telemetryValidation,
                 sourceIdentityDisposition: evidence.sourceIdentityDisposition } });
             if (!receiptRecord.persisted) throw fail('OPERATION_DIAGNOSTICS_INCOMPLETE', 'Complete evidence was collected but its correlated record could not be saved. Output retained without publication.');
@@ -1953,10 +2062,11 @@ class EncoderService extends EventEmitter {
           // only through the existing no-overwrite owned stage.
           requireQualification(); notCancelled(jobSignal);
           if (entry.operationRuntimeToken) await this.operationRuntime.requireCurrent(entry.operationRuntimeToken, { signal: jobSignal });
-          if (storage) await storage.observeGrowth(storageReservation);
+          if (storage) await observeEvidenceGrowth();
           if (storageFailure) throw storageFailure;
           if (entry.vendor) await requireVendorDevice(entry.vendor.binding, { signal: jobSignal, run: this.run, adapters: this.vendorAdapters });
-          const published = await publishOutput(stage, entry.destination, { signal: jobSignal, atomicOnly: this.plan.sameFolder });
+          const published = await publishOutput(stage, entry.destination, { signal: jobSignal, atomicOnly: this.plan.sameFolder,
+            ...(entry.remux ? { onProgress: event => advanceRemux(event.stage, event.completed) } : {}) });
           await this.recordIncident({ stage: 'publication', reason: published ? 'OUTPUT_PUBLISHED' : 'OUTPUT_COLLISION', fileId: item.id,
             severity: !published || assessment.kind === 'ctime-only' ? 'warning' : 'info', context: { destination: entry.destination, published, sourceAssessment: assessment } });
           item.status = published ? 'success' : 'skipped';
@@ -1981,6 +2091,7 @@ class EncoderService extends EventEmitter {
             }
           }
         } catch (error) {
+          if (remuxFailure && !signal.aborted && error.code !== 'PUBLICATION_UNCERTAIN') error = operationFailure(remuxFailure, error);
           if (storageFailure && !signal.aborted && error.code !== 'PUBLICATION_UNCERTAIN') error = operationFailure(storageFailure, error);
           if (operationExpired && !signal.aborted && error.code !== 'PUBLICATION_UNCERTAIN') {
             error = Object.assign(fail('OPERATION_DEADLINE', 'The changed operation exceeded its total deadline. No unvalidated output was published.'),
@@ -2011,6 +2122,7 @@ class EncoderService extends EventEmitter {
           if (sharedFailure(error)) { stoppedByFailure = true; this.state.error = item.reason; break; }
         } finally {
           if (operationTimer) clearTimeout(operationTimer);
+          if (remuxGroup) { await this.operationRuntime.closeRemuxGroup(remuxGroup); remuxGroup = null; }
           if (storageMonitor) clearInterval(storageMonitor);
           await storageWatch;
           if (telemetry) {
@@ -2164,4 +2276,4 @@ class EncoderService extends EventEmitter {
   }
 }
 
-module.exports = { EncoderService, objectKeys, sharedFailure, describeDiagnosticOperation };
+module.exports = { EncoderService, objectKeys, sharedFailure, describeDiagnosticOperation, operationCostLimits, createRemuxProgressClock, requireRemuxOutputSpace };

@@ -64,7 +64,7 @@ async function setup(t, { probe = source(), target = 'matroska', omitAttachment 
   async function run(executable, args, options) {
     assert.equal(running, false, 'children are strictly sequential'); running = true;
     const file = args[args.indexOf('-i') + 1], side = file === sourcePath ? 'source' : 'output';
-    assert.ok(file === sourcePath || file === outputPath); assert.equal(options.timeoutMs, 120000);
+    assert.ok(file === sourcePath || file === outputPath); assert.ok(options.timeoutMs >= 120000);
     assert.equal(typeof options.onStdoutChunk, 'function'); assert.ok(!args.includes('-t') && !args.includes('-ss'));
     const index = Number(args[args.indexOf(executable === ffprobe ? '-select_streams' : '-map') + 1].replace(/^0:/, ''));
     const stream = (side === 'source' ? probe : output).streams.find(value => value.index === index);
@@ -331,9 +331,9 @@ test('per-frame conversion, missing geometry and full-frame HDR changes are refu
 });
 
 test('raw JSON and frame rows stay below hard byte and record caps', async t => {
-  const rows = await setup(t, { changeFrames: (frames, call) => call.stream.codec_type === 'video' ? Array.from({ length: 20001 }, () => frames[0]) : frames });
+  const rows = await setup(t, { changeFrames: (frames, call) => call.stream.codec_type === 'video' ? Array.from({ length: 20001 }, (_, i) => ({ ...frames[0], pts: i, duration: 1 })) : frames });
   failure(await rows.collect(), /excessive/i);
-  const bytes = await setup(t, { bytesFor: (value, call) => call.args.includes('-show_frames') ? Buffer.alloc(8 * 1024 * 1024 + 1) : value });
+  const bytes = await setup(t, { bytesFor: (value, call) => call.args.includes('-show_frames') ? Buffer.from('{"frames":[{"pad":"' + 'x'.repeat(8 * 1024 * 1024 + 1) + '"}]}') : value });
   failure(await bytes.collect(), /byte ceiling/i);
 });
 
@@ -529,7 +529,7 @@ test('complete cost/byte/record/time/spool ceilings cannot be raised or sampled'
   const small = await setup(t); failure(await small.collect({ budget: { ...budget(), maxRecords: 1 } }), /excessive|limit/i);
   const spool = await setup(t); failure(await spool.collect({ budget: { ...budget(), maxSpoolBytes: 100 } }), /spool/i);
   const duration = source(); duration.format.duration = '120.000000001'; const long = await setup(t, { probe: duration });
-  await assert.rejects(long.collect(), /duration/);
+  assert.equal((await long.collect()).status, 'completed');
 });
 
 test('native PCM16/24/32 and float64 retain complete precision without resampling', async t => {
@@ -549,6 +549,20 @@ test('PCM bytes are budgeted across all audio streams in each complete file', as
   const receipt = await s.collect({ budget: { ...budget(), maxPcmBytes: 32 } });
   failure(receipt, /per-file byte ceiling/);
   assert.equal(s.calls.filter(call => call.args.includes('-c:a')).length, 1, 'second audio cannot spend a fresh per-stream allowance');
+});
+
+test('complete PCM window digests locate an interior mismatch beyond the first MiB', async t => {
+  const samples = 262145, probe = source(); probe.format.duration = '60';
+  const s = await setup(t, { probe, changeFrames: (frames, call) => call.stream.codec_type === 'audio'
+    ? frames.map(frame => ({ ...frame, nb_samples: samples })) : frames,
+  bytesFor: (bytes, call) => {
+    if (!call.args.includes('-c:a')) return bytes;
+    const pcm = Buffer.alloc(samples * 8, 5); if (call.side === 'output') pcm[1024 * 1024 + 7] = 6; return pcm;
+  } });
+  const receipt = await s.collect(); assert.equal(receipt.status, 'completed', JSON.stringify(receipt.failure));
+  const compared = receipt.comparisons[1].pcmWindows; assert.equal(compared.comparedWindows, 3);
+  assert.equal(compared.firstMismatchByte, 1024 * 1024); assert.equal(validator(s)(receipt).valid, false);
+  await assert.rejects(s.collect({ onProgress: 1 }), /main-owned callback/);
 });
 
 test('opaque native side-data descriptors require full coded payload identity', async t => {

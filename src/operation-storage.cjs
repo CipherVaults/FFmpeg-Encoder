@@ -15,6 +15,19 @@ const LIMITS = Object.freeze({ capBytes: 1024 * 1024 * 1024, initialReserveBytes
 const LEASE = '.storage-lease.json', LEDGER = '.storage-ledger.json', MAX_METADATA = 32 * 1024;
 const MAX_WALK_ATTEMPTS = 3;
 const PROCESS_TOKEN = randomUUID();
+const REMUX_SANITY_BYTES = 64 * 1024 ** 4;
+const remuxAllowances = new WeakMap();
+// Main-only capability: a JSON copy or arbitrary byte ceiling cannot enlarge
+// retention. Re-derive the forecast from a genuine main-private assessment.
+function createRemuxStorageAllowance(assessment, sourceBytes, verificationMethod = 'packet-identity-v1') {
+  const { deriveRemuxAssessmentBudget } = require('./remux-operation.cjs');
+  // The all-stream packet pass also encounters explicitly omitted tracks.
+  // Preparation and storage must use the same genuine method/stream forecast.
+  const forecastBytes = deriveRemuxAssessmentBudget(assessment, sourceBytes, verificationMethod).budget.maxSpoolBytes;
+  need(Number.isSafeInteger(forecastBytes) && forecastBytes > 0 && forecastBytes + LIMITS.capBytes <= REMUX_SANITY_BYTES,
+    'Remux evidence forecast exceeds the exact 64TiB accounting sanity bound.');
+  const token = Object.freeze({}); remuxAllowances.set(token, { forecastBytes }); return token;
+}
 const fault = (code, message, details = {}) => Object.assign(new Error(message), { code, ...details });
 const need = (value, message, code = 'OPERATION_STORAGE_INVALID') => { if (!value) throw fault(code, message); };
 const freeze = value => { if (value && typeof value === 'object' && !Object.isFrozen(value)) { Object.values(value).forEach(freeze); Object.freeze(value); } return value; };
@@ -53,6 +66,7 @@ async function openEvidenceStorage(options = {}) {
   const ancestors = [], reservations = new WeakMap(), active = new Map();
   let name = parsed.base, closed = false, tail = Promise.resolve(), leaseHandle, leaseIdentity, leaseBytes;
   let lastSnapshot = null, ledgerState = 'missing-reconciled', startupLedgerState = 'missing-reconciled', leaseRecovery = 'none', directorySync = 'not-attempted';
+  let retainedCapBytes = config.capBytes;
   async function ordinaryDirectory(file) {
     const stat = await io.lstat(file, { bigint: true });
     need(directory(stat) && canonical(await io.realpath(file)) === canonical(file), 'Linked, redirected or ambiguous evidence directory.', 'OPERATION_STORAGE_PATH');
@@ -113,7 +127,7 @@ async function openEvidenceStorage(options = {}) {
     need(regular(named) && sameFile(leaseIdentity, named) && sameFile(named, await leaseHandle.stat({ bigint: true })),
       'Evidence lease identity changed; no further admission is permitted.', 'OPERATION_STORAGE_LEASE');
   }
-  async function walk() {
+  async function walk(parallelFiles = false) {
     const identities = new Map();
     for (let attempt = 1; attempt <= MAX_WALK_ATTEMPTS; attempt++) {
       await guard(); let total = 0n, entries = 0, membershipChanged = false; const jobs = new Map();
@@ -122,23 +136,46 @@ async function openEvidenceStorage(options = {}) {
         need((!expected || sameObject(expected, before)) && (!previous || sameObject(previous, before)),
           'An evidence directory changed identity while accounting.', 'OPERATION_STORAGE_OBSERVATION');
         identities.set(file, before);
-        const listing = await io.opendir(file);
-        for await (const entry of listing) {
-          need(++entries <= config.maxEntries && safeName(entry.name), 'Evidence walk entry limit or unsafe name; space is unknown.', 'OPERATION_STORAGE_OBSERVATION');
-          const child = path.join(file, entry.name), stat = await io.lstat(child, { bigint: true });
-          const id = depth === 0 && active.has(entry.name) ? entry.name : jobId;
-          if (directory(stat)) {
-            need(depth + 1 <= config.maxDepth, 'Evidence walk depth limit; space is unknown.', 'OPERATION_STORAGE_OBSERVATION');
-            await visit(child, depth + 1, id, stat);
-          } else {
-            need(regular(stat) && canonical(await io.realpath(child)) === canonical(child),
-              'Evidence contains a link, special file or ambiguous object; preserved.', 'OPERATION_STORAGE_PATH');
-            const after = await io.lstat(child, { bigint: true });
-            need(regular(after) && sameObject(stat, after) && after.size >= stat.size,
-              'An evidence file changed identity or shrank while accounting.', 'OPERATION_STORAGE_OBSERVATION');
-            total += after.size; if (id) jobs.set(id, (jobs.get(id) || 0n) + after.size);
+        const listing = await io.opendir(file), pending = [];
+        async function drain() {
+          const results = await Promise.all(pending.splice(0));
+          const failed = results.find(result => result.status === 'rejected'); if (failed) throw failed.reason;
+          // All entry I/O has settled before visiting any returned directory;
+          // recursion never multiplies the global eight-observation ceiling.
+          for (const result of results) if (result.value) {
+            const { child, id, stat } = result.value; await visit(child, depth + 1, id, stat);
           }
         }
+        const observeChild = async (child, id) => {
+          const stat = await io.lstat(child, { bigint: true });
+          if (directory(stat)) {
+            need(depth + 1 <= config.maxDepth, 'Evidence walk depth limit; space is unknown.', 'OPERATION_STORAGE_OBSERVATION');
+            return { child, id, stat };
+          }
+          need(regular(stat) && canonical(await io.realpath(child)) === canonical(child),
+            'Evidence contains a link, special file or ambiguous object; preserved.', 'OPERATION_STORAGE_PATH');
+          const after = await io.lstat(child, { bigint: true });
+          need(regular(after) && sameObject(stat, after) && after.size >= stat.size,
+            'An evidence file changed identity or shrank while accounting.', 'OPERATION_STORAGE_OBSERVATION');
+          total += after.size; if (id) jobs.set(id, (jobs.get(id) || 0n) + after.size);
+          return null;
+        };
+        let listingFailure;
+        try { for await (const entry of listing) {
+          need(++entries <= config.maxEntries && safeName(entry.name), 'Evidence walk entry limit or unsafe name; space is unknown.', 'OPERATION_STORAGE_OBSERVATION');
+          const child = path.join(file, entry.name);
+          const id = depth === 0 && active.has(entry.name) ? entry.name : jobId;
+          if (!parallelFiles) {
+            const next = await observeChild(child, id); if (next) await visit(next.child, depth + 1, next.id, next.stat);
+          } else {
+            pending.push(observeChild(child, id).then(value => ({ status: 'fulfilled', value }), reason => ({ status: 'rejected', reason })));
+            if (pending.length >= 8) await drain();
+          }
+        } } catch (error) { listingFailure = error; }
+        // Even an entry-limit/listing/read failure must await every already
+        // issued observation before returning or releasing the storage lease.
+        try { await drain(); } catch (error) { listingFailure ||= error; }
+        if (listingFailure) throw listingFailure;
         const after = await ordinaryDirectory(file);
         need(sameObject(before, after), 'An evidence directory changed identity while accounting.', 'OPERATION_STORAGE_OBSERVATION');
         // A collector may add an owned spool while this full scan is running.
@@ -166,9 +203,9 @@ async function openEvidenceStorage(options = {}) {
       const usedBytes = Number(total), projectedBytes = usedBytes + reserved + config.metadataHeadroomBytes;
       const result = { schema: 1, observation: 'complete', consistency: 'bounded-point-observations', observationAttempts: attempt,
         maxObservationAttempts: MAX_WALK_ATTEMPTS, usedBytes, reservedBytes: reserved,
-        projectedBytes, capBytes: config.capBytes, metadataHeadroomBytes: config.metadataHeadroomBytes, entries,
+        projectedBytes, capBytes: retainedCapBytes, metadataHeadroomBytes: config.metadataHeadroomBytes, entries,
         freeBytes: Number(free > BigInt(Number.MAX_SAFE_INTEGER) ? BigInt(Number.MAX_SAFE_INTEGER) : free), minFreeBytes: config.minFreeBytes,
-        overCap: usedBytes > config.capBytes, overAdmissionCap: projectedBytes > config.capBytes,
+        overCap: usedBytes > retainedCapBytes, overAdmissionCap: projectedBytes > retainedCapBytes,
         lowFree: free < BigInt(config.minFreeBytes), jobs: currentJobs, leaseRecovery, ledgerState, startupLedgerState, directorySync,
         hardWriteCap: false };
       lastSnapshot = freeze(result); return lastSnapshot;
@@ -216,6 +253,7 @@ async function openEvidenceStorage(options = {}) {
     if (snapshot.overCap || snapshot.overAdmissionCap) reasons.push('cumulative-cap');
     if (snapshot.lowFree) reasons.push('free-space-floor');
     if (item && snapshot.jobs.find(job => job.id === item.id)?.overReservation) reasons.push('job-reservation');
+    if (item && !item.remux && snapshot.projectedBytes > config.capBytes && !reasons.includes('cumulative-cap')) reasons.push('cumulative-cap');
     return reasons;
   }
   function enforce(snapshot, item = null) {
@@ -255,17 +293,31 @@ async function openEvidenceStorage(options = {}) {
   }
   return Object.freeze({
     admit(request) { return serial(async () => {
-      need(request && Object.keys(request).length === 1 && Object.hasOwn(request, 'forecastBytes'), 'Admission requires an explicit disk-byte forecast.');
-      const forecast = safeNumber(request.forecastBytes, 'Disk-byte forecast', 1, config.capBytes);
+      need(request && [Object.prototype, null].includes(Object.getPrototypeOf(request))
+        && Reflect.ownKeys(request).every(key => ['forecastBytes', 'remuxAllowance'].includes(key)
+          && Object.getOwnPropertyDescriptor(request, key).enumerable && Object.hasOwn(Object.getOwnPropertyDescriptor(request, key), 'value'))
+        && Object.hasOwn(request, 'forecastBytes'), 'Admission requires an explicit inert disk-byte forecast.');
+      const allowance = Object.hasOwn(request, 'remuxAllowance') ? remuxAllowances.get(request.remuxAllowance) : null;
+      need(!Object.hasOwn(request, 'remuxAllowance') || allowance, 'Only a genuine main-owned Remux allowance may enlarge evidence retention.');
+      const forecast = safeNumber(request.forecastBytes, 'Disk-byte forecast', 1, allowance ? allowance.forecastBytes : config.capBytes);
+      need(!allowance || forecast === allowance.forecastBytes, 'Remux disk forecast must equal the source-derived allowance.');
+      if (!allowance && ![...active.values()].some(item => item.remux)) retainedCapBytes = config.capBytes;
       let observed;
       try { observed = await walk(); } catch (error) { throw attach(error); }
+      if (allowance) {
+        // Never reset existing retained usage. Enlarge only for this complete
+        // forecast + existing outstanding reservations + terminal metadata.
+        const proposed = observed.projectedBytes + Math.max(config.initialReserveBytes, forecast) + config.metadataHeadroomBytes;
+        need(Number.isSafeInteger(proposed) && proposed <= REMUX_SANITY_BYTES, 'Cumulative Remux retention exceeds its 64TiB sanity ceiling.');
+        retainedCapBytes = Math.max(retainedCapBytes, proposed); observed = await walk();
+      }
       enforce(observed); const reservedBytes = Math.max(config.initialReserveBytes, forecast);
-      if (observed.projectedBytes + reservedBytes > config.capBytes || observed.freeBytes - observed.reservedBytes - reservedBytes - config.metadataHeadroomBytes < config.minFreeBytes) {
+      if (observed.projectedBytes + reservedBytes > (allowance ? retainedCapBytes : config.capBytes) || observed.freeBytes - observed.reservedBytes - reservedBytes - config.metadataHeadroomBytes < config.minFreeBytes) {
         throw fault('OPERATION_STORAGE_ADMISSION', 'Insufficient retained evidence capacity or free space for this reservation.',
           { storageSnapshot: observed, accounting: freeze({ observation: 'complete', requestedReserveBytes: reservedBytes, admitted: false, retained: true }) });
       }
       const id = 'job-' + randomUUID(), directoryPath = path.join(root, id); await guard(); await io.mkdir(directoryPath);
-      const item = { id, directory: directoryPath, identity: await ordinaryDirectory(directoryPath), reservedBytes, finished: false };
+      const item = { id, directory: directoryPath, identity: await ordinaryDirectory(directoryPath), reservedBytes, finished: false, remux: Boolean(allowance) };
       const reservation = freeze({ directory: directoryPath, id }); reservations.set(reservation, item); active.set(id, item);
       try {
         await writeExclusive(path.join(directoryPath, 'storage-reservation.json'), { schema: 1, id, reservedBytes, forecastBytes: forecast,
@@ -281,7 +333,12 @@ async function openEvidenceStorage(options = {}) {
       const item = trusted(reservation); let current;
       try {
         await guard(); need(sameObject(item.identity, await ordinaryDirectory(item.directory)), 'Reservation directory changed.', 'OPERATION_STORAGE_PATH');
-        current = await walk(); await persist(current);
+        current = await walk(item.remux);
+        // The ledger is diagnostic-only and restart always reconciles every
+        // retained byte. Remux keeps durable admission/terminal records, while
+        // every intermediate observation still walks and enforces all guards.
+        // Avoid an fsync+rename for each streamed child/monitor observation.
+        if (!item.remux) await persist(current);
       } catch (error) { throw attach(error, current); }
       enforce(current, item); return current;
     }); },
@@ -318,7 +375,7 @@ async function openEvidenceStorage(options = {}) {
         if (item.finalRecord?.observation === 'unavailable') {
           try {
             await persist({ schema: 1, observation: 'unavailable', lastObserved: current || lastSnapshot, failure: errorRecord(failure),
-              capBytes: config.capBytes, accountingReset: false }, item.finalRecord); ledgerPersisted = true;
+              capBytes: retainedCapBytes, accountingReset: false }, item.finalRecord); ledgerPersisted = true;
           } catch (persistError) { recordFailure ||= errorRecord(persistError); }
         }
         failure.accounting = freeze({ observation: 'unavailable', lastObserved: current || lastSnapshot, failure: errorRecord(failure),
@@ -330,4 +387,4 @@ async function openEvidenceStorage(options = {}) {
   });
 }
 
-module.exports = { openEvidenceStorage, LIMITS };
+module.exports = { openEvidenceStorage, LIMITS, createRemuxStorageAllowance, REMUX_SANITY_BYTES };

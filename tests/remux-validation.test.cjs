@@ -65,6 +65,48 @@ function setup({ probe = source(), target = 'matroska', requireQualification = r
 }
 function rejected(result, fragment) { assert.equal(result.valid, false); assert.match(result.errors.join('\n'), fragment); }
 function add(probe, stream) { probe.streams.push(stream); probe.format.nb_streams = probe.streams.length; return probe; }
+test('singleton default normalization is one explicit warning; multiple tracks, other flags and unproved combinations remain strict', () => {
+  function singleton({ family = 'matroska', target = 'mp4', type = 'video', multi = false } = {}) {
+    const probe = source(); probe.format.format_name = family === 'matroska' ? 'matroska,webm' : 'mov';
+    if (type === 'video') probe.streams = [probe.streams[0]];
+    const stream = probe.streams.find(s => s.codec_type === type); stream.disposition.default = 0;
+    if (multi) probe.streams.push({ ...clone(stream), index: 4, disposition: { default: 1 } }); probe.format.nb_streams = probe.streams.length;
+    const s = setup({ probe, target }); s.output.streams.find(s => s.codec_type === type).disposition.default = 1; s.refresh(); return s;
+  }
+  const s = singleton(), result = s.validate(); assert.equal(result.valid, true, JSON.stringify(result.errors));
+  assert.deepEqual(result.warnings.filter(w => w.code === 'REMUX_SINGLETON_DEFAULT_MARKED'), [{ code: 'REMUX_SINGLETON_DEFAULT_MARKED', key: 'disposition.default',
+    message: 'Stream 0 → 0: the MP4 target marks this sole video track as default; it has no track-selection effect.' }]);
+  for (const options of [{ multi: true }, { family: 'isobmff' }, { target: 'mov' }, { type: 'audio' }]) rejected(singleton(options).validate(), /dispositions changed/);
+  s.output.streams[0].disposition.forced = 1; s.refresh(); rejected(s.validate(), /dispositions changed/);
+  const reversed = singleton(); reversed.output.streams[0].disposition = {}; reversed.refresh(); assert.equal(reversed.validate().valid, true);
+  const originalDefault = source(); originalDefault.format.format_name = 'matroska'; originalDefault.streams = [originalDefault.streams[0]]; originalDefault.format.nb_streams = 1;
+  const removed = setup({ probe: originalDefault, target: 'mp4' }); removed.output.streams[0].disposition.default = 0; removed.refresh(); rejected(removed.validate(), /dispositions changed/);
+});
+
+test('each singleton/default boundary independently kills its removal mutant', () => {
+  const filename = require.resolve('../src/remux-validation.cjs'), raw = require('node:fs').readFileSync(filename, 'utf8'), Module = require('node:module');
+  function variant(before, after) {
+    assert.equal(raw.split(before).length, 2, before); const m = new Module(filename, module); m.filename = filename; m.paths = Module._nodeModulePaths(require('node:path').dirname(filename));
+    m._compile(raw.replace(before, after), filename); return m.exports;
+  }
+  const base = () => [{ streams: [{ codec_type: 'video' }] }, { streams: [{ codec_type: 'video' }] },
+    { inputFamily: 'matroska', target: 'mp4' }, { codecType: 'video', disposition: [], inputIndex: 0, outputIndex: 0 }, { disposition: { default: 1 } }];
+  const api = require('../src/remux-validation.cjs'); assert.equal(api.singletonDefaultWarning(...base()).code, 'REMUX_SINGLETON_DEFAULT_MARKED');
+  for (const [guard, replacement, change] of [
+    ["return inputFamily === 'matroska'", 'return true', a => { a[2].inputFamily = 'isobmff'; }],
+    ["target === 'mp4' && codecType === 'video'", "target === 'mp4'", a => { a[3].codecType = 'audio'; a[0].streams[0].codec_type = a[1].streams[0].codec_type = 'audio'; }],
+    ["target === 'mp4' && codecType === 'video'", "codecType === 'video'", a => { a[2].target = 'mov'; }],
+    ['source.streams.filter(stream => stream.codec_type === codecType).length === 1', 'true', a => { a[0].streams.push({ codec_type: 'video' }); }],
+    ['output.streams.filter(item => item.codec_type === stream.codecType).length !== 1', 'false', a => { a[1].streams.push({ codec_type: 'video' }); }],
+    ["!flags.includes('default')", 'false', a => { a[4].disposition = {}; }],
+    ["!isDeepStrictEqual(flags.filter(flag => flag !== 'default'), stream.disposition)", 'false', a => { a[4].disposition.forced = 1; }],
+  ]) {
+    const args = base(); change(args);
+    const negative = target => assert.equal(target.singletonDefaultWarning(...args), null);
+    negative(api);
+    assert.throws(() => negative(variant(guard, replacement)), { code: 'ERR_ASSERTION' }, guard);
+  }
+});
 
 function mediaOptions(s) {
   return { assessment: s.assessment, runtimeIdentity: RUNTIME, cellId: 'native-cell-1', outputId: OUTPUT_ID,

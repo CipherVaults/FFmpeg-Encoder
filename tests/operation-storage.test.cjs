@@ -7,6 +7,10 @@ const path = require('node:path');
 const os = require('node:os');
 const { randomUUID } = require('node:crypto');
 const { openEvidenceStorage, LIMITS } = require('../src/operation-storage.cjs');
+const { createRemuxStorageAllowance, REMUX_SANITY_BYTES } = require('../src/operation-storage.cjs');
+const { assessRemux } = require('../src/remux-contract.cjs');
+const { normalizeProbe } = require('../src/inspection.cjs');
+const { deriveRemuxBudget } = require('../src/remux-operation.cjs');
 const MiB = 1024 * 1024;
 const hugeSpace = async () => ({ bavail: 1024n * 1024n * 1024n, bsize: 4096n });
 
@@ -27,6 +31,137 @@ async function fixture(t, defaults = {}) {
   return { home, root, open };
 }
 async function sized(file, bytes) { await fs.writeFile(file, ''); await fs.truncate(file, bytes); }
+
+function longStorageAssessment(seconds = 10800) {
+  const probe = { streams: [{ index: 0, codec_type: 'video', codec_name: 'h264', width: 2, height: 2, pix_fmt: 'yuv420p',
+    color_range: 'tv', color_transfer: 'bt709', color_primaries: 'bt709', color_space: 'bt709', time_base: '1/1000',
+    sample_aspect_ratio: '1:1', duration: String(seconds), disposition: {}, tags: {} }],
+  format: { format_name: 'mov,mp4,m4a,3gp,3g2,mj2', duration: String(seconds), size: String(40 * 1024 ** 3), nb_streams: 1,
+    nb_programs: 0, nb_stream_groups: 0, tags: {} }, chapters: [], programs: [], stream_groups: [] };
+  return { probe, assessment: assessRemux({ probe, sourceFingerprint: 'a'.repeat(64), request: { fileId: 'long', identityRevision: 0,
+    draftRevision: 0, operation: 'remux', target: 'matroska', range: null, omissionRequestIds: [] } }) };
+}
+
+test('remux intermediate observations enforce actual growth without redundant diagnostic fsyncs; restart reconciles it', async t => {
+  let writes = 0;
+  const io = { ...fs, statfs: hugeSpace, async rename(a, b) { writes++; return fs.rename(a, b); } };
+  const h = await fixture(t, { io }), store = await h.open(), { probe, assessment } = longStorageAssessment(2);
+  const forecastBytes = deriveRemuxBudget(normalizeProbe(probe), '1024').budget.maxSpoolBytes;
+  const remuxAllowance = createRemuxStorageAllowance(assessment, '1024');
+  const reservation = await store.admit({ forecastBytes, remuxAllowance }), before = writes;
+  const file = path.join(reservation.directory, 'actual.txt'); await fs.writeFile(file, Buffer.alloc(8192, 1));
+  const observed = await store.observeGrowth(reservation); assert.ok(observed.jobs[0].actualBytes >= 8192);
+  assert.equal(writes, before, 'Only main-branded remux skips intermediate diagnostic ledger writes.');
+  await store.close();
+  const restarted = await h.open(); assert.ok((await restarted.snapshot()).usedBytes >= 8192);
+  assert.ok(JSON.parse(await fs.readFile(path.join(h.root, '.storage-ledger.json'), 'utf8')).accounting.usedBytes >= 8192);
+  assert.ok(writes > before, 'Restart reconciles filesystem bytes instead of trusting the old ledger.');
+  const ordinary = await restarted.admit({ forecastBytes: 1 }), mark = writes;
+  await restarted.observeGrowth(ordinary); assert.equal(writes, mark + 1, 'Ordinary durable-observation behavior is unchanged.');
+});
+
+test('remux coalescing retains free-space and per-reservation guards on every observation', async t => {
+  let available = 1n << 60n;
+  const h = await fixture(t, { minFreeBytes: MiB, io: { ...fs, statfs: async () => ({ bavail: available, bsize: 1n }) } });
+  const store = await h.open(), { probe, assessment } = longStorageAssessment(2);
+  const forecastBytes = deriveRemuxBudget(normalizeProbe(probe), '1024').budget.maxSpoolBytes;
+  const reservation = await store.admit({ forecastBytes, remuxAllowance: createRemuxStorageAllowance(assessment, '1024') });
+  available = 0n; await assert.rejects(store.observeGrowth(reservation), e => e.code === 'OPERATION_STORAGE_LIMIT' && e.accounting.violations.includes('free-space-floor'));
+  available = 1n << 60n; await sized(path.join(reservation.directory, 'over-budget'), forecastBytes + 1);
+  await assert.rejects(store.observeGrowth(reservation), e => e.code === 'OPERATION_STORAGE_LIMIT' && e.accounting.violations.includes('job-reservation'));
+});
+
+test('only genuine remux observations batch file checks, cap eight and drain every pending check on listing failure (mutants killed)', async t => {
+  async function exercise(api, remux, listingFailure = false, fileFailure = null) {
+    const h = await fixture(t), cache = new Map(), reads = new Map(), issued = [];
+    let scanning = false, target, names, rootNames, running = 0, peak = 0;
+    const io = { ...fs, statfs: hugeSpace,
+      async lstat(file, options) {
+        if (!scanning || !cache.has(file)) return fs.lstat(file, options);
+        const stat = Object.assign(Object.create(Object.getPrototypeOf(cache.get(file))), cache.get(file)), count = (reads.get(file) || 0) + 1; reads.set(file, count);
+        if (path.basename(file) === 'batch-01') {
+          if (fileFailure === 'link') stat.isSymbolicLink = () => true;
+          if (count > 1 && fileFailure === 'identity') stat.ino += 1n;
+          if (count > 1 && fileFailure === 'shrink') stat.size = 0n;
+        }
+        return stat;
+      },
+      async realpath(file) {
+        if (!scanning || !cache.has(file)) return fs.realpath(file);
+        running++; peak = Math.max(peak, running);
+        const pending = new Promise(resolve => setImmediate(resolve)); issued.push(pending);
+        try { await pending;
+          if (path.basename(file) === 'batch-01' && fileFailure === 'EIO') throw Object.assign(Error('injected file I/O'), { code: 'EIO' });
+          return path.basename(file) === 'batch-01' && fileFailure === 'alias' ? file + '-alias' : file;
+        } finally { running--; }
+      },
+      async opendir(file) {
+        if (!scanning || file !== target && file !== h.root) return fs.opendir(file);
+        return { async *[Symbol.asyncIterator]() { let count = 0; for (const name of file === target ? names : rootNames) {
+          if (file === target && listingFailure && ++count === 4) throw Object.assign(Error('injected listing I/O error'), { code: 'EIO' });
+          yield { name };
+        } } };
+      } };
+    const store = await api.openEvidenceStorage({ root: h.root, io, minFreeBytes: 0 });
+    try {
+      const { probe, assessment } = longStorageAssessment(2);
+      const request = remux ? { forecastBytes: deriveRemuxBudget(normalizeProbe(probe), '1024').budget.maxSpoolBytes,
+        remuxAllowance: api.createRemuxStorageAllowance(assessment, '1024') } : { forecastBytes: 1 };
+      const reservation = await store.admit(request); target = reservation.directory;
+      for (let i = 0; i < 32; i++) { const file = path.join(target, 'batch-' + String(i).padStart(2, '0'));
+        await fs.writeFile(file, 'x'); cache.set(file, await fs.lstat(file, { bigint: true })); }
+      names = (await fs.readdir(target)).sort(); rootNames = (await fs.readdir(h.root)).sort(); scanning = true;
+      if (listingFailure || fileFailure) await assert.rejects(store.observeGrowth(reservation),
+        { code: ['link', 'alias'].includes(fileFailure) ? 'OPERATION_STORAGE_PATH' : 'OPERATION_STORAGE_OBSERVATION' });
+      else { const result = await store.observeGrowth(reservation); assert.ok(result.jobs[0].actualBytes >= 32); }
+      assert.equal(running, 0, 'Every issued check must drain before the observation settles.');
+      assert.ok(peak <= (remux ? 8 : 1), 'Main metadata concurrency is bounded; ordinary callers remain serial.');
+      if (remux && !listingFailure && !fileFailure) assert.equal(peak, 8);
+    } finally { await Promise.allSettled(issued); scanning = false; await store.close(); }
+  }
+  const api = require('../src/operation-storage.cjs');
+  await exercise(api, false); await exercise(api, true); await exercise(api, true, true);
+  for (const kind of ['link', 'alias', 'identity', 'shrink', 'EIO']) await exercise(api, true, false, kind);
+  const filename = require.resolve('../src/operation-storage.cjs'), raw = require('node:fs').readFileSync(filename, 'utf8'), Module = require('node:module');
+  function variant(before, after) { assert.equal(raw.split(before).length, 2); const m = new Module(filename, module); m.filename = filename;
+    m.paths = Module._nodeModulePaths(path.dirname(filename)); m._compile(raw.replace(before, after), filename); return m.exports; }
+  await assert.rejects(exercise(variant('pending.length >= 8', 'pending.length >= 9'), true), { code: 'ERR_ASSERTION' });
+  await assert.rejects(exercise(variant('walk(item.remux)', 'walk(true)'), false), { code: 'ERR_ASSERTION' });
+  await assert.rejects(exercise(variant('try { await drain(); } catch (error) { listingFailure ||= error; }',
+    '/* mutant omits final drain */'), true, true), { code: 'ERR_ASSERTION' });
+});
+test('only genuine remux allowances enlarge retention; ordinary admissions keep the legacy cap', async t => {
+  const h = await fixture(t), { probe, assessment } = longStorageAssessment();
+  const costs = deriveRemuxBudget(normalizeProbe(probe), probe.format.size);
+  const token = createRemuxStorageAllowance(assessment, probe.format.size), store = await h.open();
+  assert.ok(costs.budget.maxSpoolBytes > LIMITS.capBytes);
+  for (const request of [{ forecastBytes: costs.budget.maxSpoolBytes }, { forecastBytes: costs.budget.maxSpoolBytes, remuxAllowance: {} },
+    { forecastBytes: costs.budget.maxSpoolBytes, remuxAllowance: structuredClone(token) },
+    { forecastBytes: costs.budget.maxSpoolBytes - 1, remuxAllowance: token }, { forecastBytes: 1, capBytes: REMUX_SANITY_BYTES }])
+    await assert.rejects(store.admit(request));
+  let reads = 0; const request = { forecastBytes: 1 }; Object.defineProperty(request, 'remuxAllowance', { enumerable: true, get() { reads++; return token; } });
+  await assert.rejects(store.admit(request)); assert.equal(reads, 0);
+  assert.throws(() => createRemuxStorageAllowance(structuredClone(assessment), probe.format.size));
+  const reservation = await store.admit({ forecastBytes: costs.budget.maxSpoolBytes, remuxAllowance: token });
+  assert.ok((await store.snapshot()).capBytes > LIMITS.capBytes);
+  await store.finish(reservation, { status: 'completed' });
+  const ordinary = await store.admit({ forecastBytes: 1 }); assert.equal((await store.snapshot()).capBytes, LIMITS.capBytes);
+  const ordinaryFinal = await store.finish(ordinary, { status: 'completed' }); assert.equal(ordinaryFinal.capBytes, LIMITS.capBytes);
+  await assert.rejects(store.admit({ forecastBytes: LIMITS.capBytes + 1 }));
+  await assert.rejects(h.open({ capBytes: LIMITS.capBytes + 1 }));
+});
+test('remux source-derived allowance retains free-space, growth and cumulative sanity guards', async t => {
+  const { probe, assessment } = longStorageAssessment(), costs = deriveRemuxBudget(normalizeProbe(probe), probe.format.size);
+  const token = createRemuxStorageAllowance(assessment, probe.format.size);
+  const low = await fixture(t, { minFreeBytes: LIMITS.minFreeBytes, io: { ...fs, statfs: async () => ({ bavail: BigInt(LIMITS.minFreeBytes), bsize: 1n }) } });
+  await assert.rejects((await low.open()).admit({ forecastBytes: costs.budget.maxSpoolBytes, remuxAllowance: token }), { code: 'OPERATION_STORAGE_ADMISSION' });
+  const h = await fixture(t); await fs.mkdir(h.root); const retained = path.join(h.root, 'old-retained.bin'); await fs.writeFile(retained, 'owned');
+  const io = { ...fs, statfs: hugeSpace, lstat: async (file, options) => { const stat = await fs.lstat(file, options);
+    if (file === retained) stat.size = BigInt(REMUX_SANITY_BYTES); return stat; } };
+  const store = await h.open({ io });
+  await assert.rejects(store.admit({ forecastBytes: costs.budget.maxSpoolBytes, remuxAllowance: token }), /sanity/);
+  const enormous = longStorageAssessment(1e12); assert.throws(() => createRemuxStorageAllowance(enormous.assessment, probe.format.size), /sanity|overflow/i);
+});
 
 function controlledScanIO() {
   const control = { directory: null, generation: 0, attempts: 0, visits: [], afterEntries: null, mutateStat: null };

@@ -140,6 +140,7 @@ const NATIVE_MESSAGES = freeze(Object.assign(Object.create(null), {
   COPY_CONTENT_MISMATCH: 'The copied output did not match the checked output.',
   COPY_VERIFICATION_CHANGED: 'The output changed while it was being verified.',
   COPY_VERIFICATION_LIMIT: 'The output was too large to verify.',
+  INVALID_PUBLICATION_PROGRESS: 'The output progress callback was not valid.',
   INVALID_PUBLICATION_RECEIPT: 'The output receipt was not valid.',
   INVALID_RETENTION_REASON: 'The reason for keeping a work file was not valid.',
   INVALID_STAGE: 'The work folder was not valid.',

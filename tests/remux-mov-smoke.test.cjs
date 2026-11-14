@@ -282,7 +282,7 @@ test('Q2e exact configuration, normal route identity and fixed bounds cannot wid
   // Q2g (record 47) moved the production route to envelope v2. This retained Q2e
   // harness is pinned to v1, so its normal mode must now refuse instead of
   // producing evidence against a different production policy.
-  assert.equal(REMUX_POLICY_ID, 'full-remux-v4:2026-11-13:five-routes-mov-vfr');
+  assert.equal(REMUX_POLICY_ID, 'full-remux-v5:2026-11-14:packet-identity-headers');
   const promoted = REMUX_POLICIES.filter(route => route.inputFamily === 'isobmff' && route.target === 'mov');
   assert.equal(promoted.length, 1); assert.equal(promoted[0].id, 'full-remux-isobmff-mov-v1');
   assert.equal(promoted[0].sourceEnvelope, 'h264-aac-lc-48k-stereo-v2');

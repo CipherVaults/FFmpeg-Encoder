@@ -4,8 +4,8 @@ const path = require('node:path');
 const { createHash } = require('node:crypto');
 const { isDeepStrictEqual } = require('node:util');
 const { ToolError } = require('./process-runner.cjs');
-const { getRemuxAssessmentSource, validateRemuxRequest, buildRemuxQualificationArgs } = require('./remux-contract.cjs');
-const { createRemuxValidator, remuxProbeFingerprint } = require('./remux-validation.cjs');
+const { getRemuxAssessmentSource, validateRemuxRequest, buildRemuxQualificationArgs, remuxVerificationDescription } = require('./remux-contract.cjs');
+const { createRemuxValidator, remuxProbeFingerprint, qualifiedSingletonDefault } = require('./remux-validation.cjs');
 
 // Main-private ownership, not a renderer registry or a codec-table permission.
 // A policy is supplied only after main reviews its retained route/lifecycle
@@ -19,7 +19,15 @@ const BINDINGS = ['plan', 'settings', 'sourceIdentity', 'sourceProbeFingerprint'
 const BUDGET = Object.freeze({ sourceDecode: 'complete', timeoutMs: 120000, maxFrameBytes: 8 * 1024 * 1024,
   maxPcmBytes: 128 * 1024 * 1024, maxRecords: 20000, maxSpoolBytes: 32 * 1024 * 1024 });
 const TIMING = Object.freeze({ numerator: '1', denominator: '500' });
-const EXECUTION_MS = 600000, MAX_BYTES = 512n * 1024n * 1024n;
+const EXECUTION_MS = 600000;
+const MiB = 1024 * 1024, EVIDENCE_SANITY_BYTES = 64 * 1024 ** 4;
+// Root's Q2o decision: these existing main-owned routes use complete compressed
+// admission plus packet identity. Future/unknown routes retain native decoding.
+const PACKET_ROUTES = Object.freeze({
+  'full-remux-isobmff-matroska-v1': 'isobmff:matroska', 'full-remux-isobmff-mp4-v1': 'isobmff:mp4',
+  'full-remux-matroska-matroska-v1': 'matroska:matroska', 'full-remux-matroska-mp4-v1': 'matroska:mp4',
+  'full-remux-isobmff-mov-v1': 'isobmff:mov',
+});
 const own = (value, key) => Object.hasOwn(value, key);
 const plain = value => value && typeof value === 'object' && !Array.isArray(value)
   && [Object.prototype, null].includes(Object.getPrototypeOf(value));
@@ -67,15 +75,26 @@ function sourceIdentity(value) {
     const integer = BigInt(value[key]); need(integer >= (['dev', 'ino', 'size'].includes(key) ? 1n : -9223372036854775808n)
       && integer <= 18446744073709551615n, 'Source identity integer exceeds its bound.'); result[key] = value[key];
   }
-  need(BigInt(result.size) <= MAX_BYTES, 'Source exceeds the measured 512MiB Remux envelope.', REQUIRED);
+  need(BigInt(result.size) <= BigInt(Number.MAX_SAFE_INTEGER), 'Source size exceeds exact local-file addressing.', REQUIRED);
   need(typeof value.sparseDigest === 'string' && /^sha256-sparse-v1:[a-f0-9]{64}$/.test(value.sparseDigest), 'Source identity needs its complete bounded sparse digest.');
   result.sparseDigest = value.sparseDigest; return result;
 }
 function fingerprintRemuxSourceIdentity(value) { return hash(sourceIdentity(value)); }
+function deriveRemuxAssessmentBudget(assessment, sourceBytes, verificationMethod) {
+  need(['packet-identity-v1', 'complete-native-v1'].includes(verificationMethod),
+    'A main-selected verification method is required for Remux accounting.', 'REMUX_VERIFICATION_METHOD');
+  const retained = assessment.expectedOutput.streams.map(stream => stream.inputIndex);
+  return deriveRemuxBudget(getRemuxAssessmentSource(assessment), sourceBytes,
+    verificationMethod === 'packet-identity-v1' ? null : retained, retained);
+}
 function policy(value) {
-  const fields = ['id', 'inputFamily', 'target', 'evidenceIds', 'allowAncillary', 'runtimeIdentity', 'allowRotation90', 'audio', 'sourceEnvelope'];
+  const fields = ['id', 'inputFamily', 'target', 'evidenceIds', 'allowAncillary', 'runtimeIdentity', 'allowRotation90', 'audio', 'sourceEnvelope', 'verificationMethod'];
   record(value, fields, fields.slice(0, 6), 'Main-reviewed Remux route policy');
   need(['isobmff', 'matroska'].includes(value.inputFamily) && ['matroska', 'mp4', 'mov'].includes(value.target), 'Only the finite reviewed local Remux families are available.');
+  need(!own(value, 'verificationMethod') || ['packet-identity-v1', 'complete-native-v1'].includes(value.verificationMethod),
+    'Only a main-reviewed Remux verification method is available.');
+  need(!PACKET_ROUTES[value.id] || !own(value, 'verificationMethod') || value.verificationMethod === 'packet-identity-v1',
+    'Every current production route uses the fast verifier.', 'REMUX_VERIFICATION_METHOD');
   need(typeof value.allowAncillary === 'boolean' && (!own(value, 'allowRotation90') || typeof value.allowRotation90 === 'boolean'), 'Route options must be explicit booleans.');
   need(!value.allowAncillary || value.inputFamily === 'matroska' && value.target === 'matroska', 'Ancillary collection is available only for reviewed Matroska-to-Matroska routes.');
   if (own(value, 'audio')) need(value.audio === 'explicitly-omitted-only' && value.inputFamily === 'matroska' && value.target === 'mp4',
@@ -88,7 +107,9 @@ function policy(value) {
   return freeze({ id: id(value.id, 'Route policy'), inputFamily: value.inputFamily, target: value.target, evidenceIds,
     allowAncillary: value.allowAncillary, runtimeIdentity: digest(value.runtimeIdentity, 'Qualified paired runtime'),
     allowRotation90: value.allowRotation90 === true, ...(own(value, 'audio') ? { audio: value.audio } : {}),
-    ...(own(value, 'sourceEnvelope') ? { sourceEnvelope: value.sourceEnvelope } : {}) });
+    ...(own(value, 'sourceEnvelope') ? { sourceEnvelope: value.sourceEnvelope } : {}),
+    verificationMethod: value.verificationMethod || (PACKET_ROUTES[value.id] === value.inputFamily + ':' + value.target
+      ? 'packet-identity-v1' : 'complete-native-v1') });
 }
 function ratio(value, separator = '/') {
   const parts = typeof value === 'string' && value.split(separator);
@@ -98,7 +119,70 @@ function ratio(value, separator = '/') {
 function positiveTime(value, label) {
   need(value?.state === 'known' && /^-?\d{1,40}$/.test(value.value?.numerator) && /^[1-9]\d{0,39}$/.test(value.value?.denominator), `Known ${label} is required.`, REQUIRED);
   const n = BigInt(value.value.numerator), d = BigInt(value.value.denominator);
-  need(n > 0n && n <= 120n * d, `${label} must be positive and at most120 seconds.`, REQUIRED);
+  need(n > 0n && n <= BigInt(Number.MAX_SAFE_INTEGER) * d, `${label} must be positive and exactly addressable.`, REQUIRED);
+  return { n, d };
+}
+
+// These are main-derived cost bounds, not qualification from duration or size.
+// Configuration bindings still use the legacy budget, so ordinary/range callers
+// and preparation remain unchanged. Only a genuine selection exposes this
+// immutable actual budget. All arithmetic refuses before losing integer precision.
+function deriveRemuxBudget(source, sourceBytes, selectedIndexes = null, pcmIndexes = selectedIndexes) {
+  const t = positiveTime(source.mediaEvidence.container.durationSeconds, 'container duration');
+  const seconds = Number((t.n + t.d - 1n) / t.d);
+  need(typeof sourceBytes === 'string' && /^[1-9]\d{0,19}$/.test(sourceBytes)
+    && BigInt(sourceBytes) <= BigInt(Number.MAX_SAFE_INTEGER), 'Exact positive source bytes are required.', 'REMUX_PROPORTIONAL_BUDGET');
+  const bytes = Number(sourceBytes);
+  const exact = value => { need(Number.isSafeInteger(value) && value > 0, 'Remux proportional budget overflow.', 'REMUX_PROPORTIONAL_BUDGET'); return value; };
+  let records = 0, pcm = 0;
+  need(Array.isArray(source.streams) && source.streams.length > 0 && source.streams.length <= 32,
+    'Remux budgets require a bounded complete stream set.', 'REMUX_PROPORTIONAL_BUDGET');
+  for (const s of source.streams.filter(s => selectedIndexes === null || selectedIndexes.includes(s.index))) {
+    if (s.codec_type === 'video') records = exact(records + exact((seconds + 2) * 60) + 4096);
+    else if (s.codec_type === 'audio') {
+      const rate = Number(s.sample_rate), channels = s.channels;
+      need(Number.isSafeInteger(rate) && rate > 0 && rate <= 768000,
+        'Known bounded sample rate is required for packet accounting.', 'REMUX_PROPORTIONAL_BUDGET');
+      // AAC-LC access units are 960/1024 samples; 512 provides conservative
+      // headroom for priming/tail and decoder segmentation. PCM can segment at
+      // every sample and receives that larger bound. No frame is sampled away.
+      const divisor = s.codec_name === 'aac' && s.profile === 'LC' ? 512 : 1;
+      records = exact(records + Math.ceil(exact((seconds + 2) * rate) / divisor) + 4096);
+      // Omitted audio is still encountered by the packet traversal but is never
+      // decoded. Only retained streams spend PCM or require a native layout.
+      if (pcmIndexes === null || pcmIndexes.includes(s.index)) {
+        need([1, 2].includes(channels), 'Known mono/stereo layout is required for a complete decode budget.', 'REMUX_PROPORTIONAL_BUDGET');
+        pcm = exact(pcm + exact((seconds + 2) * rate * channels * 8));
+      }
+    } else if (s.codec_type === 'subtitle') records = exact(records + bytes);
+  }
+  const maxRecords = Math.max(BUDGET.maxRecords, records), streams = source.streams.length;
+  const maxPcmBytes = Math.max(BUDGET.maxPcmBytes, pcm);
+  const maxTextBytes = Math.max(BUDGET.maxFrameBytes, exact(maxRecords * 2048));
+  // Both sides: raw JSON/framehash/packet evidence + 512-byte timeline rows;
+  // fixed-window PCM digests (160 bytes/MiB), per-stream header headroom and
+  // four retained closed key clips (64MiB packets + <=8MiB parameters each).
+  const maxSpoolBytes = exact(32 * MiB + 384 * MiB + exact(maxRecords * 2 * 3072)
+    + Math.ceil(maxPcmBytes / MiB) * 320 + streams * 8 * MiB);
+  need(maxSpoolBytes + 1024 ** 3 <= EVIDENCE_SANITY_BYTES,
+    'Derived retained evidence exceeds the 64TiB accounting sanity bound.', 'REMUX_PROPORTIONAL_BUDGET');
+  const timeoutMs = Math.max(BUDGET.timeoutMs, exact(60000 + seconds * 6000 + Math.ceil(bytes / (8 * MiB)) * 1000));
+  const executionBudgetMs = Math.max(EXECUTION_MS, exact(120000 + seconds * 24000 + Math.ceil(bytes / (8 * MiB)) * 4000));
+  const maxOutputBytes = exact(bytes + Math.ceil(bytes / 4) + 16 * MiB + exact(maxRecords * 128));
+  // Parameter-only Annex-B output can grow length prefixes (<=4x file bytes)
+  // and inject admitted initialization before random-access units. Account for
+  // both complete scans without retaining their stdout. Missing probe lengths
+  // receive the existing 8MiB per-header sanity ceiling, never a smaller cap.
+  const parameterHeaders = source.streams.filter(s => s.codec_type === 'video').reduce((sum, s) => {
+    const n = Number(s.extradata_size); return exact(sum + (Number.isSafeInteger(n) && n > 0 && n <= 8 * MiB ? n : 8 * MiB) + 16);
+  }, 0);
+  const parameterPipeBytes = exact(8 * maxOutputBytes + exact(2 * maxRecords * parameterHeaders));
+  const pipeBytes = exact(maxSpoolBytes + maxPcmBytes * 2 + parameterPipeBytes + 16 * MiB + Math.ceil(executionBudgetMs / 100) * 2048);
+  return freeze({ budget: { sourceDecode: 'complete', timeoutMs, maxFrameBytes: BUDGET.maxFrameBytes,
+    maxPcmBytes, maxRecords, maxSpoolBytes, maxTextBytes, maxDurationSeconds: exact(seconds + 2),
+    maxSourceBytes: bytes, maxOutputBytes }, executionBudgetMs,
+    resources: { pipeBytes, evidenceBytes: pipeBytes, maxChildren: Math.max(64, 8 + streams * 8), stallMs: 120000,
+      outputReserveBytes: exact(maxOutputBytes + 64 * MiB), evidenceReserveBytes: maxSpoolBytes } });
 }
 function geometry(evidence, route) {
   const g = evidence?.geometry; need(g && !g.issues?.length, 'Complete unambiguous source geometry is required.', REQUIRED);
@@ -174,6 +258,12 @@ function sourcePolicy(assessment, source, identity, route) {
   need(videos.length === 1 && videos[0].index === assessment.expectedOutput.selectedVideoInputIndex && Number(videos[0].disposition?.attached_pic || 0) === 0,
     'The single primary video must remain mapped.', REQUIRED);
   const video = videos[0], ve = source.mediaEvidence.streams.find(item => item.index === video.index);
+  // Root's explicit singleton policy has no selection effect only when the
+  // source AND actual output contain one track of that type. Output validation
+  // checks the latter and emits the single disclosed normalization warning.
+  need(!(route.inputFamily === 'matroska' && route.target === 'mp4') || Number(video.disposition?.default || 0) === 1
+    || qualifiedSingletonDefault(source, route.inputFamily, route.target, 'video'),
+  'MP4 cannot preserve this non-singleton default disposition with the qualified muxer.', 'REMUX_DEFAULT_DISPOSITION_UNREPRESENTABLE');
   need(video.codec_name === 'h264' && video.pix_fmt === 'yuv420p' && video.field_order === 'progressive'
     && Number.isSafeInteger(video.width) && Number.isSafeInteger(video.height) && video.width > 0 && video.height > 0
     && video.width <= 1920 && video.height <= 1920 && video.width * video.height <= 1920 * 1080,
@@ -203,7 +293,7 @@ function sourcePolicy(assessment, source, identity, route) {
   need(ancillary.every(stream => stream.codec_type === 'subtitle' && ['subrip', 'ass'].includes(stream.codec_name)
     || stream.codec_type === 'attachment' && stream.codec_name === 'ttf'), 'Only the measured SubRip/ASS coded events and TTF attachment payload representation are in this ancillary subset.', REQUIRED);
   need(!assessment.expectedOutput.auxiliaryStreams.chapterCarrierQualificationRequired, 'MP4/MOV chapter carriers remain unqualified.', REQUIRED);
-  return freeze({ id: route.id, inputFamily: route.inputFamily, target: route.target, maximumSourceBytes: Number(MAX_BYTES), maximumDurationSeconds: 120,
+  return freeze({ id: route.id, inputFamily: route.inputFamily, target: route.target, maximumSourceBytes: null, maximumDurationSeconds: null,
     videoInputIndex: video.index, audioInputIndexes: audio.map(stream => stream.index), ancillary: ancillary.length > 0 || source.chapters.length > 0 });
 }
 
@@ -231,6 +321,7 @@ class RemuxOperations {
     need(route && route.runtimeIdentity === this.#runtime,
       'No reviewed main-private route applies to this Remux source, target and exact paired runtime.', REQUIRED);
     const facts = sourcePolicy(options.assessment, source, identity, route), epoch = this.#epoch;
+    const costs = deriveRemuxAssessmentBudget(options.assessment, identity.size, route.verificationMethod);
     const args = buildRemuxQualificationArgs({ assessment: options.assessment, input: options.input, output: options.output, outputId: options.outputId });
     const outputId = options.outputId.toLowerCase();
     need(!this.#outputIds.has(outputId), 'Every prepare requires a fresh output identity; cancelled or superseded output identities cannot be reused.');
@@ -248,11 +339,12 @@ class RemuxOperations {
     } });
     const innerPlan = validator.prepare({ assessment: options.assessment, runtimeIdentity: this.#runtime, cellId: route.id, outputId: options.outputId });
     const sourceProbeFingerprint = remuxProbeFingerprint(source), contract = freeze({ operation: 'remux', range: { kind: 'full' }, target: request.target, request });
-    const description = { operation: 'remux', compatibilityPath: false, args, contract, expectedOutput: options.assessment.expectedOutput,
+    const description = { operation: 'remux', compatibilityPath: false, verificationMethod: route.verificationMethod,
+      verificationClaim: remuxVerificationDescription(route.verificationMethod), args, contract, expectedOutput: options.assessment.expectedOutput,
       sourceProbeFingerprint, runtimeIdentity: this.#runtime };
     const plan = freeze({ ...description, planFingerprint: hash({ ...description, sourceIdentity: identity, outputId: options.outputId.toLowerCase(),
       policyIdentity: this.#policyIdentity, route, epoch }) });
-    this.#plans.set(plan, { epoch, request, identity: freeze(identity), sourceProbeFingerprint, route, facts, validator, innerPlan,
+    this.#plans.set(plan, { epoch, request, identity: freeze(identity), sourceProbeFingerprint, route, facts, costs, validator, innerPlan,
       assessment: options.assessment, input: options.input, outputId: options.outputId.toLowerCase(), invocationOutput: null, selected: false });
     this.#outputIds.add(outputId); this.#latest.set(request.fileId, plan); return plan;
   }
@@ -268,7 +360,8 @@ class RemuxOperations {
   select(options) {
     try {
       const state = this.#bindings(options), token = Object.freeze({});
-      const result = freeze({ controlsRequired: true, remux: true, budget: { ...BUDGET }, executionBudgetMs: EXECUTION_MS,
+      const result = freeze({ controlsRequired: true, remux: true, ...state.costs, verificationMethod: state.route.verificationMethod,
+        verificationClaim: remuxVerificationDescription(state.route.verificationMethod),
         evidenceIds: state.route.evidenceIds, policyIdentity: this.#policyIdentity,
         qualification: { status: 'verified', operation: 'remux', runtimeIdentity: this.#runtime, inputFamily: state.route.inputFamily,
           target: state.route.target, cellId: state.route.id, evidenceId: state.route.evidenceIds[0], maxTimestampError: TIMING, maxChapterError: TIMING }, sourcePolicy: state.facts });
@@ -294,6 +387,8 @@ class RemuxOperations {
     const { getCollectedRemuxEvidence, getCollectedMovRepresentation } = require('./remux-evidence.cjs');
     const bindings = { assessment: state.assessment, runtimeIdentity: this.#runtime, outputId: state.outputId };
     const essence = getCollectedRemuxEvidence(collectorReceipt, bindings), collectedMov = getCollectedMovRepresentation(collectorReceipt, bindings);
+    need(essence.verificationMethod === state.route.verificationMethod,
+      'Collected verification method differs from the main-reviewed route.', 'REMUX_VERIFICATION_METHOD');
     // The collector's own observation is the MOV representation; a caller may
     // pass only that same receipt, never a different one in its place.
     need(!own(optional, 'movRepresentationReceipt') || collectedMov !== null && optional.movRepresentationReceipt === collectedMov,
@@ -343,4 +438,4 @@ class RemuxOperations {
   invalidate() { this.#epoch++; this.#latest.clear(); }
 }
 
-module.exports = { RemuxOperations, fingerprintRemuxSourceIdentity };
+module.exports = { RemuxOperations, fingerprintRemuxSourceIdentity, deriveRemuxBudget, deriveRemuxAssessmentBudget };

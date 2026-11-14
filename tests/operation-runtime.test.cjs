@@ -16,9 +16,58 @@ const GPU = { adapterIdentity: UUID, driverVersion: '581.80' };
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const turn = () => new Promise(resolve => setImmediate(resolve));
 const success = { stdout: '', stderr: '', stderrCapture: { totalBytes: 0, truncated: false }, exitCode: 0 };
+function remuxAssessment() {
+  return require('../src/remux-contract.cjs').assessRemux({ sourceFingerprint: 'b'.repeat(64), probe: {
+    streams: [{ index: 0, codec_type: 'video', codec_name: 'h264', width: 2, height: 2, pix_fmt: 'yuv420p',
+      color_primaries: 'bt709', color_transfer: 'bt709', color_space: 'bt709', color_range: 'tv', sample_aspect_ratio: '1:1',
+      time_base: '1/1000', duration: '2', tags: {}, disposition: {} }], format: { format_name: 'matroska,webm',
+      duration: '2', nb_streams: 1, nb_programs: 0, nb_stream_groups: 0, tags: {} }, chapters: [], programs: [], stream_groups: [] },
+    request: { fileId: 'owned-remux', identityRevision: 0, draftRevision: 0, operation: 'remux', target: 'matroska', range: null, omissionRequestIds: [] } });
+}
+const until = async predicate => { const end = Date.now() + 5000; while (!predicate()) { assert.ok(Date.now() < end, 'owned fake failed to reach its boundary'); await turn(); } };
 function child() {
   const owned = new EventEmitter(); owned.kills = 0; owned.kill = () => { owned.kills++; }; return owned;
 }
+
+test('genuine remux group owns at most two children, accounts both and rejects foreign, closed, ordinary/range and third-child borrowing', async t => {
+  const pending = [];
+  const h = await fixture(t, { run: (_file, _argv, options) => new Promise((resolve, reject) => {
+    const owned = child(); let done = false;
+    const settle = (error = null) => { if (done) return; done = true; owned.emit('close', error ? 1 : 0, null); error ? reject(error) : resolve({ ...success }); };
+    owned.kill = () => setImmediate(() => settle(Object.assign(Error('cancelled'), { code: 'CANCELLED' })));
+    options.onChild(owned); pending.push({ owned, settle });
+  }) }), token = await h.observe(), assessment = remuxAssessment();
+  assert.throws(() => h.observer.createRemuxGroup(token, structuredClone(assessment)), { code: 'INVALID_REMUX_RUNTIME_GROUP' });
+  assert.throws(() => h.observer.createRemuxGroup({}, assessment), { code: 'OPERATION_RUNTIME_STALE' });
+  const group = h.observer.createRemuxGroup(token, assessment);
+  await assert.rejects(h.observer.invokeRemux({}, 'ffmpeg', []), { code: 'INVALID_REMUX_RUNTIME_GROUP' });
+  const a = h.observer.invokeRemux(group, 'ffprobe', ['source']), b = h.observer.invokeRemux(group, 'ffprobe', ['output']);
+  await until(() => pending.length === 2);
+  await assert.rejects(h.observer.invokeRemux(group, 'ffmpeg', ['third']), { code: 'REMUX_RUNTIME_CHILD_LIMIT' });
+  for (const argv of [['ordinary'], ['range', '-t', '1']]) await assert.rejects(h.observer.invoke(token, 'ffmpeg', argv), { code: 'OPERATION_RUNTIME_BUSY' });
+  await assert.rejects(h.observe(), { code: 'OPERATION_RUNTIME_BUSY' });
+  assert.throws(() => h.observer.createRemuxGroup(token, assessment), { code: 'OPERATION_RUNTIME_BUSY' });
+  pending.forEach(p => p.settle()); await Promise.all([a, b]);
+  const receipt = await h.observer.closeRemuxGroup(group);
+  assert.deepEqual([receipt.started, receipt.completed, receipt.live, receipt.childrenStarted, receipt.childrenClosed, receipt.liveChildren, receipt.peakChildren], [2, 2, 0, 2, 2, 0, 2]);
+  await assert.rejects(h.observer.invokeRemux(group, 'ffmpeg', []), { code: 'INVALID_REMUX_RUNTIME_GROUP' });
+});
+
+for (const mode of ['cancel', 'failure']) test(`remux group ${mode} stops its sibling and drains both actual close events`, async t => {
+  const pending = [], controller = new AbortController();
+  const h = await fixture(t, { run: (_file, _argv, options) => new Promise((resolve, reject) => {
+    const owned = child(); let done = false;
+    const settle = (error = null) => { if (done) return; done = true; owned.emit('close', error ? 1 : 0, null); error ? reject(error) : resolve({ ...success }); };
+    owned.kill = () => setImmediate(() => settle(Object.assign(Error('cancelled'), { code: 'CANCELLED' })));
+    options.onChild(owned); pending.push({ owned, settle });
+  }) }), token = await h.observe(), group = h.observer.createRemuxGroup(token, remuxAssessment());
+  const work = Promise.allSettled([h.observer.invokeRemux(group, 'ffprobe', ['source'], { signal: controller.signal }),
+    h.observer.invokeRemux(group, 'ffmpeg', ['output'], { signal: controller.signal })]);
+  await until(() => pending.length === 2);
+  if (mode === 'cancel') controller.abort(); else pending[0].settle(Object.assign(Error('bad stream'), { code: 'TOOL_FAILED' }));
+  assert.ok((await work).every(r => r.status === 'rejected'));
+  const receipt = await h.observer.closeRemuxGroup(group); assert.equal(receipt.liveChildren, 0); assert.equal(receipt.childrenClosed, 2); assert.equal(receipt.live, 0);
+});
 async function fixture(t, options = {}) {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'operation-runtime-test-'));
   const runtime = { ffmpeg: path.join(root, 'ffmpeg.exe'), ffprobe: path.join(root, 'ffprobe.exe') };
@@ -26,7 +75,7 @@ async function fixture(t, options = {}) {
   for (const name of Object.keys(runtime)) await fs.writeFile(runtime[name], bytes[name], { flag: 'wx' });
   const pins = Object.fromEntries(Object.keys(runtime).map(name => [name, { sizeBytes: bytes[name].length, sha256: sha(bytes[name]) }]));
   const calls = [], state = { now: 1000, gpuCalls: 0, gpu: { ...GPU }, gpuError: null };
-  const observer = new OperationRuntimeObserver({ runtime, pins, now: () => state.now,
+  const observer = new (options.Observer || OperationRuntimeObserver)({ runtime, pins, now: () => state.now,
     observeNvidia: async ({ signal }) => { assert.ok(signal === undefined || signal instanceof AbortSignal); state.gpuCalls++;
       if (state.gpuError) throw state.gpuError; return typeof state.gpu === 'function' ? state.gpu(state.gpuCalls) : state.gpu; },
     run: options.run || (async (executable, argv, runOptions) => {
@@ -256,4 +305,104 @@ test('all concurrent close callers await the supplied active child close before 
   await turn(); assert.equal(closed, 0); assert.ok(owned.kills >= 1);
   owned.emit('close', null, 'SIGTERM');
   await assert.rejects(work, { code: 'OPERATION_RUNTIME_STALE' }); await Promise.all([first, second]); assert.equal(closed, 2);
+});
+
+async function groupBoundary(t, Observer = OperationRuntimeObserver, mode = 'limit') {
+  const pending = [], errors = [], works = [];
+  const h = await fixture(t, { Observer, run: (_file, _argv, options) => new Promise((resolve, reject) => {
+    const owned = child(); let done = false;
+    const settle = error => { if (done) return; done = true; owned.emit('close', error ? 1 : 0, null); error ? reject(error) : resolve(success); };
+    owned.kill = () => { owned.kills++; setImmediate(() => settle(Object.assign(Error('cancelled'), { code: 'CANCELLED' }))); };
+    options.onChild(owned); pending.push({ owned, settle });
+  }) }), token = await h.observe();
+  if (mode === 'brand') { assert.throws(() => h.observer.createRemuxGroup(token, structuredClone(remuxAssessment())), { code: 'INVALID_REMUX_RUNTIME_GROUP' }); return; }
+  const group = h.observer.createRemuxGroup(token, remuxAssessment());
+  const launch = promise => { works.push(promise.catch(error => { errors.push(error.code); })); };
+  try {
+    launch(h.observer.invokeRemux(group, 'ffprobe', ['source'])); launch(h.observer.invokeRemux(group, 'ffprobe', ['output']));
+    await until(() => pending.length === 2);
+    if (mode === 'failure') {
+      pending[0].settle(Object.assign(Error('bad packets'), { code: 'TOOL_FAILED' }));
+      await until(() => errors.length > 0); await turn();
+      assert.ok(pending[1].owned.kills > 0, 'first admitted failure must stop its sibling');
+    } else {
+      if (mode === 'ordinary') launch(h.observer.invoke(token, 'ffmpeg', ['ordinary', '-t', '1']));
+      else launch(h.observer.invokeRemux(group, 'ffmpeg', ['third']));
+      await turn(); await turn();
+      assert.deepEqual(errors, [mode === 'ordinary' ? 'OPERATION_RUNTIME_BUSY' : 'REMUX_RUNTIME_CHILD_LIMIT']);
+      assert.equal(pending.length, 2);
+    }
+  } finally {
+    // A deliberately widened mutant may have admitted an ordinary invocation;
+    // settle its injected child too, without depending on the broken group.
+    pending.forEach(item => item.settle(Object.assign(Error('test drain'), { code: 'CANCELLED' })));
+    await h.observer.close(); await h.observer.closeRemuxGroup(group); await Promise.all(works);
+  }
+  const receipt = h.observer.remuxGroupSnapshot(group);
+  assert.equal(receipt.childrenStarted, 2); assert.equal(receipt.childrenClosed, 2); assert.equal(receipt.liveChildren, 0);
+  assert.equal(receipt.live, 0); assert.equal(receipt.completed, 2);
+}
+
+test('remux group capability, width, ordinary isolation, sibling stop and accounting mutants are killed', async t => {
+  const filename = require.resolve('../src/operation-runtime.cjs'), source = await fs.readFile(filename, 'utf8'), Module = require('node:module');
+  for (const [name, before, after, mode] of [
+    ['brand', "require('./remux-contract.cjs').getRemuxAssessmentSource(assessment);", '', 'brand'],
+    ['two', 'group.active.size >= 2', 'group.active.size >= 3', 'limit'],
+    ['ordinary', 'this.#active || this.#remuxGroup)\n      fail(group', 'this.#active)\n      fail(group', 'ordinary'],
+    ['sibling stop', 'group.failure = error; group.controller.abort();', 'group.failure = error;', 'failure'],
+    ['account both starts', 'group.childrenStarted++;', '', 'limit'],
+    ['account both closes', 'group.childrenClosed++;', '', 'limit'],
+  ]) await t.test(name, async sub => {
+    assert.ok(source.includes(before), `missing mutant ${name}`);
+    const unit = new Module(filename, module); unit.filename = filename; unit.paths = module.paths; unit._compile(source.replace(before, after), filename);
+    await assert.rejects(groupBoundary(sub, unit.exports.OperationRuntimeObserver, mode), assert.AssertionError);
+  });
+});
+
+test('duplicate live child handles cannot count as two independently owned remux children', async t => {
+  const owned = child(); let calls = 0, finish;
+  const h = await fixture(t, { run: (_file, _argv, options) => {
+    if (++calls === 2) { options.onChild(owned); return Promise.resolve(success); }
+    return new Promise(resolve => { finish = () => { owned.emit('close', 0, null); resolve(success); };
+      owned.kill = () => setImmediate(finish); options.onChild(owned); });
+  } }), token = await h.observe(), group = h.observer.createRemuxGroup(token, remuxAssessment());
+  const a = h.observer.invokeRemux(group, 'ffmpeg', ['a']);
+  await until(() => calls === 1);
+  const b = h.observer.invokeRemux(group, 'ffmpeg', ['b']);
+  const settled = await Promise.allSettled([a, b]); assert.ok(settled.every(value => value.status === 'rejected'));
+  const receipt = await h.observer.closeRemuxGroup(group);
+  assert.equal(receipt.childrenStarted, 1); assert.equal(receipt.childrenClosed, 1); assert.equal(receipt.liveChildren, 0);
+});
+
+test('group close waits for runner sink drainage even after both children close', async t => {
+  const pending = [];
+  const h = await fixture(t, { run: (_file, _argv, options) => new Promise(resolve => {
+    const owned = child(); options.onChild(owned); pending.push({ owned, drain: () => resolve(success) });
+  }) }), token = await h.observe(), group = h.observer.createRemuxGroup(token, remuxAssessment());
+  const work = Promise.allSettled([h.observer.invokeRemux(group, 'ffmpeg', ['a']), h.observer.invokeRemux(group, 'ffprobe', ['b'])]);
+  await until(() => pending.length === 2); pending.forEach(item => item.owned.emit('close', 0, null));
+  let closed = false; const closing = h.observer.closeRemuxGroup(group).then(() => { closed = true; });
+  await turn(); assert.equal(closed, false); assert.equal(h.observer.remuxGroupSnapshot(group).live, 2);
+  pending.forEach(item => item.drain()); await work; await closing;
+  assert.equal(closed, true); assert.equal(h.observer.remuxGroupSnapshot(group).live, 0);
+});
+
+async function ordinaryCannotGrantGroup(t, Observer = OperationRuntimeObserver, argv = ['ordinary']) {
+  let owned, finish;
+  const h = await fixture(t, { Observer, run: (_file, _argv, options) => new Promise(resolve => {
+    owned = child(); finish = () => { owned.emit('close', 0, null); resolve(success); }; owned.kill = () => setImmediate(finish); options.onChild(owned);
+  }) }), token = await h.observe(), work = h.observer.invoke(token, 'ffmpeg', argv);
+  try {
+    await until(() => owned);
+    await assert.rejects(h.observer.invoke(token, 'ffprobe', ['second']), { code: 'OPERATION_RUNTIME_BUSY' });
+    assert.throws(() => h.observer.createRemuxGroup(token, remuxAssessment()), { code: 'OPERATION_RUNTIME_BUSY' });
+  } finally { finish(); await work; }
+}
+test('ordinary and range invocations keep one child and cannot lend an occupied observer to a remux group (mutant killed)', async t => {
+  await ordinaryCannotGrantGroup(t); await ordinaryCannotGrantGroup(t, undefined, ['range', '-ss', '1', '-t', '1']);
+  const filename = require.resolve('../src/operation-runtime.cjs'), source = await fs.readFile(filename, 'utf8'), Module = require('node:module');
+  const before = "if (this.#active || this.#remuxGroup) fail('OPERATION_RUNTIME_BUSY', 'An operation already owns this runtime.');";
+  assert.ok(source.includes(before)); const unit = new Module(filename, module); unit.filename = filename; unit.paths = module.paths;
+  unit._compile(source.replace(before, "if (this.#remuxGroup) fail('OPERATION_RUNTIME_BUSY', 'An operation already owns this runtime.');"), filename);
+  await assert.rejects(ordinaryCannotGrantGroup(t, unit.exports.OperationRuntimeObserver), assert.AssertionError);
 });

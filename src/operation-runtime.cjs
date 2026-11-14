@@ -75,6 +75,7 @@ function parseNvidiaObservation(stdout) {
 class OperationRuntimeObserver {
   #runtime; #pins; #observeNvidia; #run; #now; #hashAge; #hashCalls;
   #pair = null; #epoch = 0; #tokens = new WeakMap(); #tail = Promise.resolve(); #closed = false; #closing = null; #active = null;
+  #remuxGroup = null; #remuxGroups = new WeakMap();
   constructor(options) {
     const keys = ['runtime', 'pins', 'observeNvidia', 'run', 'now', 'maxHashAgeMs', 'maxInvocationsBetweenHashes'];
     record(options, keys, ['runtime', 'pins']); record(options.runtime, TOOLS); record(options.pins, TOOLS);
@@ -188,7 +189,7 @@ class OperationRuntimeObserver {
     if (!['CPU', 'NVIDIA'].includes(options.hardware)) fail('INVALID_OPERATION_RUNTIME', 'Only CPU or an exactly observed NVIDIA environment is supported.');
     return this.#serial(async () => {
       if (this.#closed) fail('OPERATION_RUNTIME_STALE', 'Runtime observer is closed.');
-      if (this.#active) fail('OPERATION_RUNTIME_BUSY', 'An owned runtime child is still active.');
+      if (this.#active || this.#remuxGroup) fail('OPERATION_RUNTIME_BUSY', 'An owned runtime child is still active.');
       interrupted(options.signal);
       if (!this.#pair) await this.#openPair(options.signal); else await this.#checkPair(options.signal);
       let environment;
@@ -219,7 +220,42 @@ class OperationRuntimeObserver {
     });
   }
   invalidate(token, diagnosticReason) { const observed = this.#token(token); observed.invalidated = reason(diagnosticReason); }
+  createRemuxGroup(token, assessment) {
+    this.#token(token);
+    // JSON/IPC objects and ordinary/range plans cannot create this capability.
+    // It grants bounded invocation concurrency only, never file publication.
+    try { require('./remux-contract.cjs').getRemuxAssessmentSource(assessment); }
+    catch (cause) { fail('INVALID_REMUX_RUNTIME_GROUP', 'A genuine main-owned Full Remux assessment is required.', { cause }); }
+    if (assessment.request.operation !== 'remux' || assessment.request.range !== null) fail('INVALID_REMUX_RUNTIME_GROUP', 'Only Full Remux may own a two-child group.');
+    if (this.#active || this.#remuxGroup) fail('OPERATION_RUNTIME_BUSY', 'An operation already owns this runtime.');
+    const capability = Object.freeze({}), group = { token, controller: new AbortController(), active: new Set(), closed: false,
+      started: 0, completed: 0, peak: 0, failure: null, children: new Set(), peakChildren: 0, childrenStarted: 0, childrenClosed: 0 };
+    this.#remuxGroups.set(capability, group); this.#remuxGroup = group; return capability;
+  }
+  remuxGroupSnapshot(capability) {
+    const group = this.#remuxGroups.get(capability);
+    if (!group) fail('INVALID_REMUX_RUNTIME_GROUP', 'A genuine local Remux runtime group is required.');
+    return freeze({ version: 1, limit: 2, started: group.started, completed: group.completed, live: group.active.size,
+      peak: group.peak, closed: group.closed, failureCode: group.failure?.code || null, childrenStarted: group.childrenStarted,
+      childrenClosed: group.childrenClosed, liveChildren: group.children.size, peakChildren: group.peakChildren });
+  }
+  async closeRemuxGroup(capability) {
+    const group = this.#remuxGroups.get(capability);
+    if (!group) fail('INVALID_REMUX_RUNTIME_GROUP', 'A genuine local Remux runtime group is required.');
+    group.closed = true; group.controller.abort();
+    await Promise.allSettled([...group.active].map(active => active.done));
+    if (this.#remuxGroup === group) this.#remuxGroup = null;
+    return this.remuxGroupSnapshot(capability);
+  }
+  invokeRemux(capability, tool, argv, options = {}) {
+    const group = this.#remuxGroups.get(capability);
+    if (!group || this.#remuxGroup !== group || group.closed || group.failure) return Promise.reject(new ToolError('INVALID_REMUX_RUNTIME_GROUP', 'The genuine Remux runtime group is absent, failed or closed.'));
+    return this.#invoke(group.token, tool, argv, options, group);
+  }
   async invoke(token, tool, argv, options = {}) {
+    return this.#invoke(token, tool, argv, options);
+  }
+  async #invoke(token, tool, argv, options = {}, group = null) {
     const allowed = ['signal', 'timeoutMs', 'stdoutLimit', 'stderrLimit', 'onChild', 'onProgress', 'onStdoutChunk', 'onOutputBytes', 'input'];
     record(options, allowed, []); signalValue(options.signal);
     if (!TOOLS.includes(tool) || !Array.isArray(argv) || argv.length > 8192
@@ -234,9 +270,13 @@ class OperationRuntimeObserver {
     if (argumentBytes > 1024 * 1024 || options.onChild !== undefined && typeof options.onChild !== 'function'
         || options.onOutputBytes !== undefined && typeof options.onOutputBytes !== 'function') fail('INVALID_OPERATION_RUNTIME', 'Runtime invocation arguments or callbacks are invalid.');
     this.#token(token);
-    if (this.#active) fail('OPERATION_RUNTIME_BUSY', 'An owned runtime invocation is already active.');
-    const controller = new AbortController(), signal = options.signal ? AbortSignal.any([options.signal, controller.signal]) : controller.signal;
-    const active = { controller, done: null }; this.#active = active;
+    if (group ? group.active.size >= 2 : this.#active || this.#remuxGroup)
+      fail(group ? 'REMUX_RUNTIME_CHILD_LIMIT' : 'OPERATION_RUNTIME_BUSY', 'The main-owned runtime child limit is already in use.');
+    const controller = new AbortController(), signals = [controller.signal, ...(options.signal ? [options.signal] : []), ...(group ? [group.controller.signal] : [])];
+    const signal = signals.length === 1 ? signals[0] : AbortSignal.any(signals);
+    const active = { controller, done: null };
+    if (group) { group.active.add(active); group.started++; group.peak = Math.max(group.peak, group.active.size); }
+    else this.#active = active;
     const work = (async () => {
       let child, childClose, closePromise, primary, result, postError;
       const stop = () => { try { child?.kill(); } catch { /* retain actual ownership until close */ } };
@@ -244,8 +284,10 @@ class OperationRuntimeObserver {
         await this.requireCurrent(token, { signal });
         this.#pair.invocations++;
         result = await this.#run(this.#runtime[tool], argv.slice(), { ...options, signal, onChild: owned => {
-          if (child || !owned || typeof owned.once !== 'function' || typeof owned.kill !== 'function') fail('OPERATION_RUNTIME_CHILD_INVALID', 'Runner supplied an invalid or duplicate child handle.');
-          child = owned; closePromise = new Promise(resolve => { owned.once('close', (code, exitSignal) => { childClose = { code, signal: exitSignal }; resolve(); }); });
+          if (child || !owned || typeof owned.once !== 'function' || typeof owned.kill !== 'function' || group?.children.has(owned)) fail('OPERATION_RUNTIME_CHILD_INVALID', 'Runner supplied an invalid or duplicate child handle.');
+          if (group) { group.children.add(owned); group.childrenStarted++; group.peakChildren = Math.max(group.peakChildren, group.children.size); }
+          child = owned; closePromise = new Promise(resolve => { owned.once('close', (code, exitSignal) => {
+            childClose = { code, signal: exitSignal }; if (group) { group.children.delete(owned); group.childrenClosed++; } resolve(); }); });
           signal.addEventListener('abort', stop, { once: true }); if (signal.aborted) stop(); options.onChild?.(owned);
         } });
         if (!child) fail('OPERATION_RUNTIME_CHILD_UNOBSERVED', 'A successful runner result without an observed child cannot establish invocation closure.');
@@ -281,12 +323,22 @@ class OperationRuntimeObserver {
     })();
     active.done = work;
     try { return await work; }
-    finally { if (this.#active === active) this.#active = null; }
+    catch (error) {
+      if (group && !group.failure) { group.failure = error; group.controller.abort(); }
+      throw error;
+    } finally {
+      if (group) { group.active.delete(active); group.completed++; }
+      else if (this.#active === active) this.#active = null;
+    }
   }
   async close() {
     if (this.#closing) return this.#closing;
     this.#closed = true;
     this.#closing = (async () => {
+      if (this.#remuxGroup) {
+        const group = this.#remuxGroup; group.closed = true; group.controller.abort();
+        await Promise.allSettled([...group.active].map(active => active.done)); this.#remuxGroup = null;
+      }
       if (this.#active) { this.#active.controller.abort(); try { await this.#active.done; } catch { /* close still owns file-handle cleanup */ } }
       await this.#serial(() => this.#dropPair());
     })();

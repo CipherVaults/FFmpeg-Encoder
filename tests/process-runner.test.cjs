@@ -13,6 +13,75 @@ function fakeChild() {
   return child;
 }
 
+function auxiliaryChild() {
+  const child = fakeChild(); child.stdout = new PassThrough(); child.stdio = [null, child.stdout, child.stderr, new PassThrough()]; return child;
+}
+test('optional auxiliary streaming keeps stdout/diagnostics separate, accounts all bytes and awaits both consumers after close', async () => {
+  const child = auxiliaryChild(), observed = [], received = []; let release, finished = false;
+  const pending = new Promise(resolve => { release = resolve; });
+  const work = runTool('fixed.exe', ['pipe:3'], { spawnImpl: (exe, args, options) => {
+    assert.deepEqual(options.stdio, ['ignore', 'pipe', 'pipe', 'pipe']); return child;
+  }, onStdoutChunk: async (b, pipe) => { if (pipe === 3) await pending; received.push(b.toString()); },
+    stdoutLimit: 100, onOutputBytes: r => observed.push(r) }).then(r => { finished = true; return r; });
+  child.stdout.write('hashes'); child.stdio[3].write('parameters'); child.emit('close', 0);
+  await new Promise(resolve => setImmediate(resolve)); assert.equal(finished, false); release();
+  const result = await work; assert.deepEqual(received, ['hashes', 'parameters']);
+  assert.deepEqual(result.auxCapture, { totalBytes: 10, truncated: false, streamed: true });
+  assert.equal(result.stderr, ''); assert.equal(result.stderrCapture.totalBytes, 0); assert.equal(result.stdout, '');
+  assert.deepEqual(observed, [{ stream: 'stdout', bytes: 6 }, { stream: 'stderr', bytes: 10 }]);
+});
+test('auxiliary limits/modes refuse before spawn, or kill and await close on overflow; ordinary stdio stays unchanged', async () => {
+  for (const options of [{}, { onStdoutChunk: true }, ...[-1, NaN, Infinity, 1.5].map(stdoutLimit => ({ onStdoutChunk() {}, stdoutLimit }))]) {
+    let spawned = false; await assert.rejects(runTool('fixed.exe', ['pipe:3'], { ...options, spawnImpl: () => { spawned = true; return auxiliaryChild(); } })); assert.equal(spawned, false);
+  }
+  const child = auxiliaryChild(); let finished = false;
+  const work = runTool('fixed.exe', ['pipe:3'], { spawnImpl: () => child, onStdoutChunk() {}, stdoutLimit: 1 }).finally(() => { finished = true; });
+  const refused = assert.rejects(work, { code: 'OUTPUT_LIMIT' }); child.stdio[3].write('too large');
+  assert.equal(child.kills, 1); await Promise.resolve(); assert.equal(finished, false); child.emit('close', 0); await refused;
+  const plain = fakeChild(); const ordinary = runTool('fixed.exe', [], { spawnImpl: (exe, args, options) => { assert.equal(options.stdio.length, 3); return plain; } });
+  plain.emit('close', 0); assert.equal(Object.hasOwn(await ordinary, 'auxCapture'), false);
+});
+test('auxiliary consumer failures, pipe errors and cancellation retain ownership and never look complete', async () => {
+  for (const action of ['sink', 'pipe', 'cancel', 'missing']) {
+    const child = auxiliaryChild(), controller = new AbortController(); if (action === 'missing') delete child.stdio[3];
+    const work = runTool('fixed.exe', ['pipe:3'], { signal: controller.signal, spawnImpl: () => child,
+      onStdoutChunk: async (bytes, pipe) => { if (action === 'sink' && pipe === 3) throw Object.assign(Error('refused SPS'), { code: 'REMUX_H264_SPS_CHANGED' }); } });
+    const code = { sink: 'STDOUT_SINK_FAILED', pipe: 'PIPE_FAILED', cancel: 'CANCELLED', missing: 'PIPE_FAILED' }[action];
+    const refused = assert.rejects(work, { code });
+    if (action === 'sink') child.stdio[3].write('data'); if (action === 'pipe') child.stdio[3].emit('error', Error('owned pipe failed'));
+    if (action === 'cancel') controller.abort();
+    await new Promise(resolve => setImmediate(resolve)); assert.ok(child.kills > 0); child.emit('close', 0); await refused;
+  }
+});
+test('auxiliary byte ceiling guard-removal mutant is killed by its own negative', async () => {
+  const fs = require('node:fs'), path = require('node:path'), Module = require('node:module');
+  const file = path.resolve(__dirname, '../src/process-runner.cjs'), source = fs.readFileSync(file, 'utf8'), guard = 'auxBytes > auxLimit';
+  assert.equal(source.split(guard).length, 2); const compiled = new Module(file, module); compiled.filename = file; compiled.paths = Module._nodeModulePaths(path.dirname(file));
+  compiled._compile(source.replace(guard, 'false'), file);
+  const negative = async api => { const child = auxiliaryChild(); const work = api.runTool('fixed.exe', ['pipe:3'], { spawnImpl: () => child,
+    onStdoutChunk() {}, stdoutLimit: 1 }); const refused = assert.rejects(work, { code: 'OUTPUT_LIMIT' });
+    child.stdio[3].write('excess'); child.emit('close', 0); await refused; };
+  await negative({ runTool }); await assert.rejects(negative(compiled.exports), { code: 'ERR_ASSERTION' });
+});
+
+test('long proportional timeouts do not overflow Node timers and still await owned close', async t => {
+  t.mock.timers.enable({ apis: ['setTimeout', 'Date'], now: 0 });
+  const child = fakeChild(); let settled = false;
+  const work = runTool('fixed.exe', [], { timeoutMs: 2147483647 + 50, spawnImpl: () => child }).finally(() => { settled = true; });
+  const rejected = assert.rejects(work, { code: 'TIMEOUT' });
+  t.mock.timers.tick(2147483647); assert.equal(child.kills, 0);
+  t.mock.timers.tick(49); assert.equal(child.kills, 0);
+  t.mock.timers.tick(1); assert.equal(child.kills, 1); assert.equal(settled, false);
+  child.emit('close', 0); await rejected;
+});
+test('invalid and overflowing timeout budgets fail before spawning', async () => {
+  for (const timeoutMs of [-1, 0.5, NaN, Infinity, '100', Number.MAX_SAFE_INTEGER]) {
+    let spawned = false;
+    await assert.rejects(runTool('fixed.exe', [], { timeoutMs, spawnImpl: () => { spawned = true; return fakeChild(); } }), { code: 'INVALID_LIMIT' });
+    assert.equal(spawned, false);
+  }
+});
+
 test('explicit pipe accounting observes progress and truncated stderr bytes independently of text retention', async () => {
   const child = fakeChild(), observed = [];
   const promise = runTool('fixed.exe', [], { spawnImpl: () => child, onProgress() {},

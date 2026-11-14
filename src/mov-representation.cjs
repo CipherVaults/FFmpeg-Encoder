@@ -12,7 +12,7 @@ const { ToolError } = require('./process-runner.cjs');
 const { assertOrdinaryPath } = require('./candidate-runtime.cjs');
 
 const receipts = new WeakMap();
-const LIMITS = Object.freeze({ fileBytes: 64n * 1024n ** 3n, atoms: 2048, depth: 4, tracks: 64, metadataBytes: 8 * 1024 * 1024 });
+const LIMITS = Object.freeze({ atoms: 2048, depth: 4, tracks: 64, metadataBytes: 8 * 1024 * 1024 });
 const HASH = /^[a-f0-9]{64}$/;
 const FIELDS = ['dev', 'ino', 'size', 'nlink', 'mtimeNs', 'ctimeNs', 'birthtimeNs'];
 const fail = message => { throw new ToolError('MOV_REPRESENTATION_UNVERIFIED', message); };
@@ -26,9 +26,17 @@ function trackId(value) {
   const id = BigInt(value); check(id > 0n && id <= 0xffffffffn, 'Invalid MOV track ID.'); return Number(id);
 }
 
-async function observeMovRepresentation({ outputId, outputProbe, fileReceipt, signal } = {}) {
+function safeMovFileBytes(value) {
+  check(typeof value === 'bigint' && value > 0n && value <= BigInt(Number.MAX_SAFE_INTEGER), 'MOV file size exceeds exact local-file addressing.');
+  return Number(value);
+}
+async function observeMovRepresentation({ outputId, outputProbe, fileReceipt, signal, onProgress } = {}) {
   const cancelled = () => { if (signal?.aborted) throw new ToolError('CANCELLED', 'MOV representation observation cancelled.'); };
   cancelled();
+  check(onProgress === undefined || typeof onProgress === 'function', 'MOV progress must be a main-owned callback.');
+  let lastProgress = 0;
+  const progress = (completed, total) => { cancelled(); const now = Date.now(); if (now - lastProgress < 150 && completed !== total) return;
+    lastProgress = now; onProgress?.(Object.freeze({ completed, total })); };
   check(typeof outputId === 'string' && /^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i.test(outputId), 'A current output ID is required.');
   check(fileReceipt && typeof fileReceipt.path === 'string' && path.isAbsolute(fileReceipt.path)
     && HASH.test(fileReceipt.sha256) && Number.isSafeInteger(fileReceipt.bytes) && fileReceipt.bytes > 0
@@ -47,16 +55,18 @@ async function observeMovRepresentation({ outputId, outputProbe, fileReceipt, si
   const handle = await fs.open(fileReceipt.path, 'r');
   try {
     const before = await handle.stat({ bigint: true });
-    check(before.isFile() && before.nlink === 1n && before.size <= LIMITS.fileBytes && same(namedBefore, before)
+    safeMovFileBytes(before.size);
+    check(before.isFile() && before.nlink === 1n && same(namedBefore, before)
       && Number(before.size) === fileReceipt.bytes && FIELDS.every(key => String(before[key]) === fileReceipt.identity[key]),
     'MOV output differs from its retained owned-file receipt.');
     let atomCount = 0, metadataBytes = 0;
     async function read(position, length) {
       cancelled(); check(Number.isSafeInteger(position) && position >= 0 && Number.isSafeInteger(length) && length >= 0
-        && position + length <= Number(before.size), 'MOV read lies outside the retained file.');
+        && Number.isSafeInteger(position + length) && position + length <= Number(before.size), 'MOV read lies outside the retained file.');
       metadataBytes += length; check(metadataBytes <= LIMITS.metadataBytes, 'MOV metadata observation exceeded its byte bound.');
       const bytes = Buffer.alloc(length); let offset = 0;
-      while (offset < length) { const value = await handle.read(bytes, offset, length - offset, position + offset); check(value.bytesRead > 0, 'Incomplete MOV atom read.'); offset += value.bytesRead; }
+      while (offset < length) { cancelled(); const value = await handle.read(bytes, offset, length - offset, position + offset); check(value.bytesRead > 0, 'Incomplete MOV atom read.'); offset += value.bytesRead; }
+      progress(metadataBytes, LIMITS.metadataBytes);
       return bytes;
     }
     async function children(start, end, depth) {
@@ -101,7 +111,7 @@ async function observeMovRepresentation({ outputId, outputProbe, fileReceipt, si
     while (position < Number(before.size)) {
       cancelled(); const count = Math.min(buffer.length, Number(before.size) - position);
       const { bytesRead } = await handle.read(buffer, 0, count, position); check(bytesRead > 0, 'Incomplete MOV output seal.');
-      hash.update(buffer.subarray(0, bytesRead)); position += bytesRead;
+      hash.update(buffer.subarray(0, bytesRead)); position += bytesRead; progress(position, Number(before.size));
     }
     const sha256 = hash.digest('hex'); check(sha256 === fileReceipt.sha256, 'MOV output content differs from its sealed receipt.');
     await assertOrdinaryPath(fileReceipt.path);
@@ -118,4 +128,4 @@ function getMovRepresentation(receipt, { outputId, outputEvidenceFingerprint, ou
   check(value && value.outputId === outputId && value.outputEvidenceFingerprint === outputEvidenceFingerprint && value.outputSha256 === outputSha256,
     'A genuine matching main-owned MOV observation receipt is required.'); return value;
 }
-module.exports = { observeMovRepresentation, getMovRepresentation };
+module.exports = { observeMovRepresentation, getMovRepresentation, safeMovFileBytes };

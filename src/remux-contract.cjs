@@ -401,4 +401,13 @@ function getRemuxAssessmentSource(assessment) {
   return freeze(structuredClone(state.probe));
 }
 
-module.exports = { REMUX_CONTRACT_VERSION, REMUX_TARGETS: TARGETS, validateRemuxRequest, assessRemux, buildRemuxQualificationArgs, getRemuxAssessmentSource };
+function remuxVerificationDescription(method) {
+  if (!['packet-identity-v1', 'complete-native-v1'].includes(method)) fail('REMUX_VERIFICATION_METHOD', 'Unknown main-selected Remux verification method.');
+  const deep = method === 'complete-native-v1';
+  return freeze({ version: 1, method, statement: deep
+    ? 'Every retained video frame and audio sample decoded and compared completely.'
+    : 'Output packets identical to source; every header validated; start and end decoded.',
+  interiorVideoDecoded: deep, completeAudioDecoded: true });
+}
+module.exports = { REMUX_CONTRACT_VERSION, REMUX_TARGETS: TARGETS, validateRemuxRequest, assessRemux, buildRemuxQualificationArgs, getRemuxAssessmentSource,
+  remuxVerificationDescription };

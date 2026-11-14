@@ -138,7 +138,7 @@ function regularSingleFile(stat) {
   return stat?.isFile() && !stat.isSymbolicLink() && reliable(stat) && stat.nlink === 1n;
 }
 
-async function hashBoundFile(file, { expected, signal } = {}) {
+async function hashBoundFile(file, { expected, signal, onProgress, progressStage } = {}) {
   checkCopyCancellation(signal);
   const before = await statOrAbsent(file);
   if (!regularSingleFile(before) || (expected && !sameContent(expected, before))) {
@@ -162,6 +162,7 @@ async function hashBoundFile(file, { expected, signal } = {}) {
       if (!bytesRead) throw failure('COPY_VERIFICATION_CHANGED', 'A completed file became shorter during copy verification.');
       digest.update(buffer.subarray(0, bytesRead));
       position += bytesRead;
+      onProgress?.(Object.freeze({ stage: progressStage, completed: position, total: size }));
     }
     checkCopyCancellation(signal);
     const after = await handle.stat({ bigint: true });
@@ -172,6 +173,49 @@ async function hashBoundFile(file, { expected, signal } = {}) {
     }
     return { hash: digest.digest('hex'), stat: named, canonical };
   } finally { await handle.close(); }
+}
+
+// Opt-in main-owned remux path. Keep native COPYFILE_EXCL for every existing
+// caller; this bounded copy reports actual writes and polls cancellation. An
+// uncertain newly-created destination is retained, never deleted or approved.
+async function copyWithProgress(file, destination, expected, signal, onProgress) {
+  const source = await fs.open(file, 'r'); let output, created = false, primary;
+  try {
+    const before = await source.stat({ bigint: true });
+    if (!regularSingleFile(before) || !sameContent(before, expected)) throw failure('COPY_VERIFICATION_CHANGED', 'The validated copy source changed.');
+    const size = Number(before.size);
+    if (!Number.isSafeInteger(size)) throw failure('COPY_VERIFICATION_LIMIT', 'The completed file is too large for safe copy offsets.');
+    checkCopyCancellation(signal); output = await fs.open(destination, 'wx+'); created = true;
+    const bound = await output.stat({ bigint: true });
+    if (!regularSingleFile(bound) || bound.size !== 0n) throw failure('COPY_VERIFICATION_CHANGED', 'The exclusive copy destination is not an ordinary empty file.');
+    const buffer = Buffer.alloc(COPY_VERIFY_BYTES); let position = 0;
+    while (position < size) {
+      checkCopyCancellation(signal);
+      const { bytesRead } = await source.read(buffer, 0, Math.min(buffer.length, size - position), position);
+      if (!bytesRead) throw failure('COPY_VERIFICATION_CHANGED', 'The validated copy source became shorter.');
+      for (let written = 0; written < bytesRead;) {
+        checkCopyCancellation(signal);
+        const { bytesWritten } = await output.write(buffer, written, bytesRead - written, position + written);
+        if (!Number.isSafeInteger(bytesWritten) || bytesWritten <= 0 || bytesWritten > bytesRead - written) throw failure('COPY_VERIFICATION_CHANGED', 'The exclusive copy write made no valid progress.');
+        written += bytesWritten;
+        onProgress(Object.freeze({ stage: 'publication-copy', completed: position + written, total: size }));
+      }
+      position += bytesRead;
+    }
+    checkCopyCancellation(signal);
+    const after = await source.stat({ bigint: true }), copied = await output.stat({ bigint: true }), named = await statOrAbsent(destination);
+    if (!sameContent(before, after) || !regularSingleFile(copied) || !regularSingleFile(named) || !sameObject(bound, copied)
+        || !sameContent(copied, named) || copied.size !== before.size) throw failure('COPY_VERIFICATION_CHANGED', 'The exclusive copy changed while writing.');
+  } catch (error) {
+    primary = error;
+  } finally {
+    const closes = await Promise.allSettled([output?.close(), source.close()]);
+    primary ||= closes.find(result => result.status === 'rejected')?.reason;
+  }
+  if (primary) {
+    if (created) throw failure('PUBLICATION_UNCERTAIN', 'The incomplete exclusive copy was retained without publication approval.', primary);
+    throw primary;
+  }
 }
 
 async function sameCopiedDestination(record) {
@@ -280,7 +324,8 @@ async function cleanupStage(stage, { protectedIdentities = new Set() } = {}) {
   return { retained: false };
 }
 
-async function publishOutput(stage, destination, { signal, link = fs.link, atomicOnly = false } = {}) {
+async function publishOutput(stage, destination, { signal, link = fs.link, atomicOnly = false, onProgress } = {}) {
+  if (onProgress !== undefined && typeof onProgress !== 'function') throw failure('INVALID_PUBLICATION_PROGRESS', 'Publication progress requires a main-owned callback.');
   const record = recordOf(stage);
   if (record.retentionReason && !record.validated) {
     throw failure('STAGE_NOT_VALIDATED', 'A retained evidence-incomplete output cannot be published before successful validation.');
@@ -328,7 +373,8 @@ async function publishOutput(stage, destination, { signal, link = fs.link, atomi
   await requireSealed(stage, record);
   if (signal?.aborted) throw failure('CANCELLED', 'Encoding cancelled before publication.');
   try {
-    await fs.copyFile(stage.file, destination, constants.COPYFILE_EXCL);
+    if (onProgress) await copyWithProgress(stage.file, destination, record.sealed, signal, onProgress);
+    else await fs.copyFile(stage.file, destination, constants.COPYFILE_EXCL);
   } catch (error) {
     if (error.code === 'EEXIST') return false;
     throw error;
@@ -341,8 +387,8 @@ async function publishOutput(stage, destination, { signal, link = fs.link, atomi
   // unchecked copy or discarding the sole validated staging file.
   try {
     await requireSealed(stage, record);
-    const staged = await hashBoundFile(stage.file, { expected: record.sealed, signal });
-    const copied = await hashBoundFile(destination, { signal });
+    const staged = await hashBoundFile(stage.file, { expected: record.sealed, signal, onProgress, progressStage: 'publication-hash-source' });
+    const copied = await hashBoundFile(destination, { signal, onProgress, progressStage: 'publication-hash-destination' });
     await requireSealed(stage, record);
     if (copied.stat.size !== record.sealed.size || staged.hash !== copied.hash) {
       throw failure('COPY_CONTENT_MISMATCH', 'The copied destination does not contain the validated output bytes.');

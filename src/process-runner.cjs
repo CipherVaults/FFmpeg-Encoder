@@ -95,6 +95,10 @@ function runTool(executable, args, options = {}) {
     stderrLimit = 256 * 1024, onProgress, onStdoutChunk, onOutputBytes, spawnImpl = spawn, onChild, input,
   } = options;
   const streaming = typeof onStdoutChunk === 'function';
+  // FD3 is an explicit main-built output endpoint. Reuse the existing owned
+  // binary callback with a pipe number, so runtime option admission stays exact.
+  // Old callers have three stdio slots and receive the same single argument.
+  const auxiliary = Array.isArray(args) && args.includes('pipe:3'), auxLimit = stdoutLimit;
   const beforeSpawnError = (code, message) => Promise.reject(new ToolError(code, message, {
     stderr: '', stderrCapture: { totalBytes: 0, truncated: false },
     ...(streaming ? { stdoutCapture: { totalBytes: 0, truncated: false, streamed: true } } : {}),
@@ -103,11 +107,15 @@ function runTool(executable, args, options = {}) {
   if ((onStdoutChunk !== undefined && !streaming) || (streaming && onProgress !== undefined)) {
     return beforeSpawnError('INVALID_OUTPUT_MODE', 'Binary stdout streaming requires a function and cannot also parse progress.');
   }
+  if (auxiliary && !streaming) return beforeSpawnError('INVALID_OUTPUT_MODE', 'An auxiliary binary pipe requires streamed stdout.');
   if (!Number.isSafeInteger(stdoutLimit) || stdoutLimit < 0) {
     return beforeSpawnError('INVALID_LIMIT', 'Tool stdout limit must be a non-negative integer.');
   }
   if (!Number.isSafeInteger(stderrLimit) || stderrLimit < 0) {
     return beforeSpawnError('INVALID_LIMIT', 'Tool stderr limit must be a non-negative integer.');
+  }
+  if (!Number.isSafeInteger(timeoutMs) || timeoutMs < 0 || !Number.isSafeInteger(Date.now() + timeoutMs)) {
+    return beforeSpawnError('INVALID_LIMIT', 'Tool timeout must be non-negative and exactly representable.');
   }
   if (input !== undefined && typeof input !== 'string' && !Buffer.isBuffer(input)) {
     return beforeSpawnError('INVALID_INPUT', 'Tool input must be text or bytes.');
@@ -127,6 +135,7 @@ function runTool(executable, args, options = {}) {
     let stderrBytes = 0;
     let outputBytes = 0;
     let deliveredBytes = 0;
+    let auxBytes = 0, auxDelivered = 0;
     let pendingSinks = 0;
     let sinkTail = Promise.resolve();
     let timeout;
@@ -149,6 +158,7 @@ function runTool(executable, args, options = {}) {
       const capture = streaming ? { stdoutCapture: {
         totalBytes: outputBytes, truncated: outputBytes !== deliveredBytes, streamed: true,
       } } : {};
+      if (auxiliary) capture.auxCapture = { totalBytes: auxBytes, truncated: auxBytes !== auxDelivered, streamed: true };
       if (failure) {
         Object.assign(failure, { stderr, stderrCapture, exitCode: closeCode, exitSignal: closeSignal, ...capture });
         reject(failure);
@@ -176,11 +186,13 @@ function runTool(executable, args, options = {}) {
       // the terminated child's pipe. Leaving a real Readable paused can prevent close.
       if (streaming && pendingSinks === 0) {
         try { child?.stdout?.resume?.(); } catch { /* owned child is already stopping */ }
+        try { child?.stdio?.[3]?.resume?.(); } catch { /* owned child is already stopping */ }
       }
     };
     const abort = () => stop(new ToolError('CANCELLED', 'Operation cancelled.'));
     try {
-      child = spawnImpl(executable, args, { windowsHide: true, shell: false, stdio: [input === undefined ? 'ignore' : 'pipe', 'pipe', 'pipe'] });
+      const stdio = [input === undefined ? 'ignore' : 'pipe', 'pipe', 'pipe']; if (auxiliary) stdio.push('pipe');
+      child = spawnImpl(executable, args, { windowsHide: true, shell: false, stdio });
     } catch (error) {
       reject(new ToolError('SPAWN_FAILED', `Could not launch the bundled media tool: ${error.message}`, {
         cause: error, stderr: '', stderrCapture: { totalBytes: 0, truncated: false },
@@ -193,7 +205,7 @@ function runTool(executable, args, options = {}) {
     });
     // A helper may close stdin early or a captured pipe may fail. These are
     // owned-process failures: terminate, then retain ownership through close.
-    for (const stream of [child.stdin, child.stdout, child.stderr]) {
+    for (const stream of [child.stdin, child.stdout, child.stderr, ...(auxiliary ? [child.stdio?.[3]] : [])]) {
       stream?.on('error', error => stop(new ToolError('PIPE_FAILED', 'Media tool pipe failed.', { cause: error })));
     }
     child.stdout.on('data', chunk => {
@@ -225,7 +237,7 @@ function runTool(executable, args, options = {}) {
               } finally {
                 pendingSinks--;
                 if (pendingSinks === 0 && !closed) {
-                  try { child.stdout.resume(); }
+                  try { child.stdout.resume(); if (auxiliary) child.stdio[3].resume(); }
                   catch (error) { stop(new ToolError('PIPE_FAILED', 'Could not resume binary output.', { cause: error })); }
                 }
                 settle();
@@ -236,6 +248,34 @@ function runTool(executable, args, options = {}) {
         }
       } catch (error) { stop(error); }
     });
+    if (auxiliary) {
+      const pipe = child.stdio?.[3];
+      if (!pipe || typeof pipe.pause !== 'function' || typeof pipe.resume !== 'function') {
+        stop(new ToolError('PIPE_FAILED', 'Auxiliary output requires an owned backpressure-capable pipe.'));
+      } else pipe.on('data', chunk => {
+        try {
+          auxBytes += Buffer.byteLength(chunk);
+          // Aggregate accounting uses the existing stderr bucket, while actual
+          // diagnostic capture remains separate and strict. No old caller has
+          // this pipe; its argv, stdio shape and captures remain byte-identical.
+          onOutputBytes?.({ stream: 'stderr', bytes: Buffer.byteLength(chunk) });
+          if (auxBytes > auxLimit) { stop(new ToolError('OUTPUT_LIMIT', 'Auxiliary media output exceeded its byte limit.')); return; }
+          if (failure) return;
+          pipe.pause(); const bytes = Buffer.from(chunk); pendingSinks++;
+          sinkTail = sinkTail.then(async () => {
+            try { if (!failure) { await onStdoutChunk(bytes, 3); auxDelivered += bytes.length; } }
+            catch (error) { stop(new ToolError('STDOUT_SINK_FAILED', 'Auxiliary output consumer failed.', { cause: error })); }
+            finally {
+              pendingSinks--;
+              if (pendingSinks === 0 && !closed) {
+                try { child.stdout.resume(); pipe.resume(); } catch (error) { stop(new ToolError('PIPE_FAILED', 'Could not resume owned output.', { cause: error })); }
+              }
+              settle();
+            }
+          });
+        } catch (error) { stop(error); }
+      });
+    }
     child.stderr.on('data', chunk => {
       const bytes = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
       stderrBytes += bytes.length;
@@ -263,8 +303,16 @@ function runTool(executable, args, options = {}) {
     signal?.addEventListener('abort', abort, { once: true });
     if (signal?.aborted) abort();
     if (timeoutMs > 0) {
-      timeout = setTimeout(() => stop(new ToolError('TIMEOUT', 'Media operation exceeded its time limit.')), timeoutMs);
-      timeout.unref();
+      // A proportional long-stream budget can exceed Node's signed-32-bit
+      // timer delay. Schedule it in slices rather than accidentally timing out
+      // after 1ms. Existing finite short deadlines retain the same behavior.
+      const deadline = Date.now() + timeoutMs;
+      const arm = () => {
+        const remaining = deadline - Date.now();
+        if (remaining <= 0) { stop(new ToolError('TIMEOUT', 'Media operation exceeded its time limit.')); return; }
+        timeout = setTimeout(arm, Math.min(remaining, 2147483647)); timeout.unref();
+      };
+      arm();
     }
     try { onChild?.(child); }
     catch (error) { stop(new ToolError('SPAWN_FAILED', 'Media tool ownership callback failed.', { cause: error })); }

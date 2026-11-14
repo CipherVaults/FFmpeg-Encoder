@@ -212,3 +212,12 @@ Changes to the plan in §6:
 - **Logo (R07).** Codex job `logo-1` (receipt under `artifacts/v0.7/codex/`) delivered six original candidates in `assets/logo-candidates-2026-11-14/`. Each uses only the `--text` and `--orange` tokens of the two themes, with separate dark and light treatments. Codex ranks Gauge first and Witness second. Root's theme-fit check (rendered review images, both themes): all six fit; Witness reads as a generic checkbox, and the marks have no background tile, so a selected mark needs a tile or a per-background treatment for the Windows taskbar at packaging. Selection is Ahmed's gate; the shipped icon is unchanged.
 - **Leftover.** The job left a small Electron cache folder `.qa-electron-state` inside the candidates folder; it is not committed.
 - **MP3 to MP4.** Root's method: exact stream copy of MP3 into MP4 (no re-encode), with a stated compatibility note; re-encode to AAC is part of Q2k.
+
+### Q2j part 1 notes (TS to MP4; Codex-built, two Codex reviews, root-decided) — November 14, 2026
+
+- **What.** Sixth route `full-remux-mpegts-mp4-v1`; policy id `full-remux-v6:2026-11-14:packet-identity-transport`. Codex jobs `q2j-ts-1` to `q2j-ts-5`; briefs in `artifacts/v0.7/milestone-q/q2j/`.
+- **Root decisions.** (1) Edit `segment_duration` is quantised by the movie timescale; the check follows the pinned muxer's exact rule (ceil for spans, floor for empty-edit delays), no tolerance. (2) A source whose own playback controls are not plain is refused, never normalised. (3) Combining the repeated traversals is deferred to the optimization pass; the receipt reports the real count.
+- **Review 1 findings (all fixed but the deferred one).** Edit-list rate not verified (high); PCR not inspected; NAL count bound applied after allocation; a harness test depending on unfilled pins; more than one traversal per side (deferred).
+- **Review 3 findings (all fixed).** Source-side playback rate lost on ISO routes (high); track/movie volume, flags and rate unchecked (high); `tkhd` duration rule too strict for unusual timescales; `mvhd`/`mdhd` durations unchecked.
+- **Proofs.** Fixtures `8ca99b73`; qualification `1865c531`; earlier-byte runs `1c8c571e`, `23e999a9`, `16477e14`; final-byte normal-service runs `880ff036` (TS) and `17e16f69` (existing routes). Receipt `q2j-ts-full-root`.
+- **Limits.** First envelope only (H.264, AAC-LC 48 kHz mono/stereo, single program). Fixtures are generated, not captured from a real broadcast or capture device. The last fix round is not yet independently re-reviewed.

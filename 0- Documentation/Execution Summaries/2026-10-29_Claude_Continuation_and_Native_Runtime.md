@@ -830,3 +830,11 @@ The design decisions are in record 37's new "C4 amendments" section.
 - **Root proofs on the final bytes.** Qualification `c020cf60`, normal-service `aa9cd74a`, receipt `q2o-full-final` (2925 pass, the same 5 parked failures). Failed receipt `q2o-full` (one stale policy-id pin) is retained.
 - **Commit** `bc7d299`.
 - **Guard block.** The project guard refused one of root's commands because a brief named the owner's personal media folder beside the word "delete". Root rewrote the brief to point at the existing rule and left the guard unchanged.
+
+## Slice Q2j part 1: MPEG-TS to MP4, and native playback controls on all MP4/MOV routes — November 14 (Cairo)
+
+- **Outcome.** TS files inside the first envelope remux to MP4 with no length limit and a seconds-long check; every MP4/MOV output now also has its edit lists, rates, volumes, flags, matrix and stored durations verified, and ISO sources with non-plain playback controls are refused before Ready.
+- **Executors.** Codex (GPT-6.1 Sol, xhigh) wrote code and tests in five jobs and reviewed in two fresh sessions; root (Claude Fable 5.2, Low) wrote the briefs, made the three decisions in record 47, ran all owned-media proofs and the final suite, and committed.
+- **Evidence.** Fixtures `8ca99b73`; qualification `1865c531`; final-byte normal service `880ff036` and `17e16f69`; receipt `q2j-ts-full-root` (3017 tests, 3007 pass, same 5 parked failures, 5 skipped). Failed review receipt `q2j-review-2` retained.
+- **Measured.** Verification 2.1–2.3 s (short TS), 17.5 s (20-minute TS); existing routes 3.1–13.8 s as before.
+- **Not done.** Third review of the last fix round; single-traversal optimisation; wider TS shapes; MP3 to MP4 (part 2).

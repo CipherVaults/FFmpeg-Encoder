@@ -15,10 +15,22 @@
 // ISOBMFF->MOV (record 47 Q2e) admits only one H.264 video plus one 48 kHz
 // stereo AAC-LC track, with no chapters: constant 30/60 fps (fresh run 7a7f87a2)
 // or genuinely variable cadence up to 60 fps that stays variable on the output
-// (record 47 Q2g, envelope v2, fresh run d252713e). Other MOV shapes, TS and HDR
-// remain unqualified.
+// (record 47 Q2g, envelope v2, fresh run d252713e).
+// MPEG-TS->MP4 (record 47 Q2j) admits one program, one progressive 8-bit 4:2:0
+// BT.709 SDR H.264 video and zero or one 48 kHz mono/stereo AAC-LC ADTS track,
+// with complete head framing, stable parameters/clocks and no extra streams.
+// Source PTS/DTS and A/V offsets stay exact; Annex B/ADTS canonicalisation and
+// bounded boundary decodes verify preservation without decoding the interior.
+// Fresh run 1865c531 proves A/V, video-only, nonzero start, 20 minutes and the
+// two-audio/cut-head refusals. All five earlier routes pass normal run 16477e14.
+// Other MOV/TS shapes and HDR remain unqualified.
 const runtimeIdentity = '56006c748ed2ee641597cd57e0874c11a86e52e6f634879afc503adb943f99d6';
 const REMUX_POLICIES = Object.freeze([
+  { id: 'full-remux-mpegts-mp4-v1', inputFamily: 'mpegts', target: 'mp4', allowAncillary: false,
+    sourceEnvelope: 'h264-adts-lc-48k-v1',
+    evidenceIds: ['1865c531-2809-4170-870e-29f56dfc97a3:ts-mp4', '1865c531-2809-4170-870e-29f56dfc97a3:ts-video-mp4',
+      '1865c531-2809-4170-870e-29f56dfc97a3:ts-offset-mp4', '1865c531-2809-4170-870e-29f56dfc97a3:ts-long-mp4',
+      '1865c531-2809-4170-870e-29f56dfc97a3:ts-refused', '1865c531-2809-4170-870e-29f56dfc97a3:ts-refused-cut'] },
   { id: 'full-remux-isobmff-matroska-v1', inputFamily: 'isobmff', target: 'matroska', allowAncillary: false,
     evidenceIds: ['84349ace-ed8c-4a88-a852-9856df0adee4:E-mkv', 'a01184cc-cbf2-40ad-a475-559eb965109c:B-video-mkv',
       'd81cefc5-3b90-49b1-b2e7-5862d3052556:D-mkv', 'c020cf60-8664-483a-918c-e90d9b6dc35d:mp4-mkv'] },
@@ -38,5 +50,5 @@ const REMUX_POLICIES = Object.freeze([
       'd252713e-6629-4627-a176-1653355a3e23:vfr-mov-mov', 'd252713e-6629-4627-a176-1653355a3e23:cfr-mp4-mov',
       'c020cf60-8664-483a-918c-e90d9b6dc35d:mp4-mov', 'c020cf60-8664-483a-918c-e90d9b6dc35d:vfr-mp4-mov', 'c020cf60-8664-483a-918c-e90d9b6dc35d:vfr-mov-mov', 'c020cf60-8664-483a-918c-e90d9b6dc35d:cfr-mp4-mov'] },
 ].map(value => Object.freeze({ ...value, runtimeIdentity, allowRotation90: false, verificationMethod: 'packet-identity-v1', evidenceIds: Object.freeze(value.evidenceIds) })));
-const REMUX_POLICY_ID = 'full-remux-v5:2026-11-14:packet-identity-headers';
+const REMUX_POLICY_ID = 'full-remux-v6:2026-11-14:packet-identity-transport';
 module.exports = { REMUX_POLICIES, REMUX_POLICY_ID };

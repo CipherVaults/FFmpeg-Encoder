@@ -105,9 +105,13 @@ test('unlisted main routes retain complete decoding while reviewed stream-copy r
   required(() => owner.select({ ...bindings, verificationMethod: 'complete-native-v1' }));
 });
 
-test('all five production policy ids select packet admission without renderer method authority; future conversion routes retain complete decoding', () => {
-  assert.equal(REMUX_POLICIES.length, 5);
-  for (const route of REMUX_POLICIES) {
+test('six evidenced production policies require packet admission; legacy route selection retains the future conversion fallback', () => {
+  assert.equal(REMUX_POLICIES.length, 6);
+  assert.equal(REMUX_POLICIES.filter(route => route.evidenceIds.length).length, 6);
+  assert.ok(REMUX_POLICIES.every(route => route.verificationMethod === 'packet-identity-v1'));
+  // Generated TS preparation/selection exercises the sixth production route in
+  // remux-transport.test.cjs; these synthetic source fixtures predate transport.
+  for (const route of REMUX_POLICIES.filter(route => route.inputFamily !== 'mpegts')) {
     const h = fixture({ family: route.inputFamily, target: route.target,
       policy: { ...route, runtimeIdentity: RUNTIME, verificationMethod: 'packet-identity-v1' }, ...(route.audio ? { omit: [2] } : {}),
       noPrepare: true });
@@ -681,8 +685,10 @@ async function collected(t, { offset = 0, contentChanged = false, metadataChange
   const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'remux-owner-test-'));
   t.after(async () => { assert.equal(path.dirname(directory), os.tmpdir()); assert.match(path.basename(directory), /^remux-owner-test-/); await fs.rm(directory, { recursive: true, force: true }); });
   const input = path.join(directory, 'source.inert'), output = path.join(directory, 'output.inert'), stageDirectory = path.join(directory, 'evidence');
-  await fs.writeFile(input, 'source inert fixture'); await fs.writeFile(output, mov ? movFixture([{ id: 1 }]) : 'output inert fixture'); await fs.mkdir(stageDirectory);
+  const nativeSourceProbe = source({ audio: false });
+  await fs.writeFile(input, require('./helpers/mov-fixture.cjs').playbackFixture(nativeSourceProbe)); await fs.writeFile(output, mov ? movFixture([{ id: 1 }]) : 'output inert fixture'); await fs.mkdir(stageDirectory);
   const identity = await readSourceIdentity(input), p = source({ audio: false, family: route?.inputFamily }); p.format.size = identity.size;
+  p.streams[0].id = '1';
   Object.assign(p.streams[0], { width: 2, height: 2, display_aspect_ratio: '1:1', avg_frame_rate: '1/1', r_frame_rate: '1/1', time_base: '1/1000', duration_ts: 2000 });
   // MOV declares stream titles differently; this check is about track languages only.
   const targetName = route?.target || (mov ? 'mov' : 'matroska');
@@ -690,8 +696,10 @@ async function collected(t, { offset = 0, contentChanged = false, metadataChange
   const h = fixture({ probe: p, identity, target: targetName, ...(route ? { policy: { ...route, runtimeIdentity: RUNTIME } } : {}) }),
     selection = h.owner.select(h.bindings); h.owner.requireCurrent(selection, h.bindings);
   h.owner.resolveInvocation(h.plan, { output });
-  const target = clone(p); target.format.format_name = targetName === 'matroska' ? 'matroska,webm' : 'mov,mp4,m4a,3gp,3g2,mj2'; if (mov) target.streams[0].id = '0x1'; target.format.tags = { ...target.format.tags, [MARKER_KEY]: '1', [OUTPUT_ID_KEY]: OUTPUT_ID };
+  const target = clone(p); target.format.format_name = targetName === 'matroska' ? 'matroska,webm' : 'mov,mp4,m4a,3gp,3g2,mj2'; if (targetName !== 'matroska') target.streams[0].id = '0x1'; target.format.tags = { ...target.format.tags, [MARKER_KEY]: '1', [OUTPUT_ID_KEY]: OUTPUT_ID };
   const pts = variable ? [0, 500, 1500] : [0, 1000], duration = variable ? 500 : 1000;
+  if (targetName !== 'matroska') await fs.writeFile(output, require('./helpers/mov-fixture.cjs').timedFixture([
+    { id: 1, scale: 1000, pts, durations: pts.map(() => duration) }]));
   const run = async (executable, args, options) => {
     const isOutput = args[args.indexOf('-i') + 1] === output; let bytes;
     if (args.includes('-show_frames')) bytes = Buffer.from(JSON.stringify({ frames: pts.map(pts => ({ media_type: 'video', stream_index: 0,

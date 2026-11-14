@@ -18,6 +18,17 @@ const FIXTURES = Object.freeze([
   Object.freeze({ id: 'LONG_MKV', name: 'long-1080p30-video.mkv', seconds: 1200, target: 'matroska', audio: false, maxBytes: 256 * MiB }),
   Object.freeze({ id: 'LARGE_MP4', name: 'large-1080p30-aac.mp4', seconds: 180, target: 'mp4', audio: true, minBytes: 600 * MiB, maxBytes: 800 * MiB }),
 ]);
+// Separate manifest: existing pinned Q2i fixtures and reports stay unchanged.
+// Root explicitly generates a fresh TS manifest and fills the smoke pins.
+const TS_FIXTURES = Object.freeze([
+  { id: 'TS_AV', name: 'ts-av.ts', seconds: 8, target: 'mpegts', audio: true, maxBytes: 16 * MiB },
+  { id: 'TS_VIDEO', name: 'ts-video.ts', seconds: 8, target: 'mpegts', audio: false, maxBytes: 16 * MiB },
+  { id: 'TS_OFFSET', name: 'ts-offset.ts', seconds: 8, target: 'mpegts', audio: true, offset: 4, maxBytes: 16 * MiB },
+  { id: 'TS_LONG', name: 'ts-long.ts', seconds: 1200, target: 'mpegts', audio: true, maxBytes: 256 * MiB },
+  { id: 'TS_TWO_AUDIO', name: 'ts-two-audio.ts', seconds: 8, target: 'mpegts', audio: true, twoAudio: true, maxBytes: 16 * MiB },
+  { id: 'TS_CUT', name: 'ts-cut-mid-gop.ts', seconds: 8, target: 'mpegts', audio: true, cut: true, maxBytes: 16 * MiB },
+].map(Object.freeze));
+const TS_LIMITS = Object.freeze({ ...LIMITS, totalMs: 20 * 60000, maxChildren: 11 });
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const stamp = stat => Object.fromEntries(['dev', 'ino', 'size', 'nlink', 'mtimeNs', 'ctimeNs', 'birthtimeNs'].map(key => [key, String(stat[key])]));
 const same = (a, b) => a.dev !== 0n && a.ino !== 0n && JSON.stringify(stamp(a)) === JSON.stringify(stamp(b));
@@ -29,12 +40,13 @@ function requireSpace(d, f, limits, remaining = limits.forecastBytes) {
   assert.ok(f.bavail * f.bsize >= BigInt(remaining + limits.marginBytes), 'F: forecast plus margin required.');
 }
 function generationArgs(spec, output) {
-  assert.ok(FIXTURES.includes(spec), 'Only a frozen fixture specification may generate.');
+  assert.ok(FIXTURES.includes(spec) || TS_FIXTURES.includes(spec) && !spec.cut, 'Only a frozen fixture specification may generate.');
   assert.ok(path.isAbsolute(output) && path.basename(output) === spec.name, 'Exact owned fixture output required.');
   const args = ['-hide_banner', '-nostdin', '-loglevel', 'warning', '-nostats', '-n', '-f', 'lavfi', '-i',
     `color=c=0x406080:size=1920x1080:rate=30:duration=${spec.seconds}`];
   if (spec.audio) args.push('-f', 'lavfi', '-i', `aevalsrc=0.18*sin(2*PI*(440*t+0.5*t*t))|0.18*sin(2*PI*(659*t+0.7*t*t)):s=48000:c=stereo:d=${spec.seconds}`);
   args.push('-map', '0:v:0'); if (spec.audio) args.push('-map', '1:a:0');
+  if (spec.twoAudio) args.push('-map', '1:a:0');
   args.push('-map_metadata', '-1', '-map_chapters', '-1', '-vf', 'setsar=1,setparams=range=limited:color_primaries=bt709:color_trc=bt709:colorspace=bt709',
     '-c:v', 'libx264', '-preset:v', 'ultrafast', '-threads:v', '2', '-profile:v', 'high', '-pix_fmt:v', '+yuv420p',
     '-x264-params', 'keyint=60:min-keyint=60:scenecut=0:bframes=2:8x8dct=1:cabac=1:open-gop=0' + (spec.minBytes ? ':nal-hrd=cbr:filler=1' : ''),
@@ -44,9 +56,24 @@ function generationArgs(spec, output) {
   if (spec.audio) args.push('-c:a', 'aac', '-profile:a', 'aac_low', '-b:a', '192k', '-ar:a', '48000', '-channel_layout:a', 'stereo');
   else args.push('-an', '-metadata:s:v:0', 'vendor_id=FFMP');
   if (spec.target === 'mp4') args.push('-video_track_timescale', '30000', '-movflags', '+faststart');
+  if (spec.offset) args.push('-output_ts_offset', String(spec.offset));
   args.push('-t', String(spec.seconds), '-fs', String(spec.maxBytes), '-f', spec.target, output); return Object.freeze(args);
 }
 function assessFixture(raw, spec, bytes) {
+  if (TS_FIXTURES.includes(spec)) {
+    const p = normalizeProbe(raw);
+    assert.equal(p.format.format_name, 'mpegts'); assert.equal(p.programs.length, 1); assert.equal(p.stream_groups.length, 0);
+    assert.ok(Number.isSafeInteger(bytes) && bytes > 0 && bytes < spec.maxBytes);
+    assert.equal(p.streams.length, spec.twoAudio ? 3 : spec.audio ? 2 : 1);
+    if (!spec.cut) {
+      const reasons = require('../src/remux-transport.cjs').transportSourceReasons(p, 'mp4');
+      assert.deepEqual(reasons.map(r => r.code), spec.twoAudio ? ['REMUX_TS_AUDIO_COUNT'] : []);
+      assert.ok(Number(p.format.duration) >= spec.seconds && Number(p.format.duration) <= spec.seconds + 0.2);
+      if (spec.offset) assert.ok(Number(p.format.start_time) >= spec.offset);
+    }
+    return { scope: 'generated-source-metadata-only', seconds: spec.seconds, bytes, completeDecodeProven: false,
+      expectedRefusal: spec.cut ? 'REMUX_TS_HEAD_NOT_KEYFRAME' : spec.twoAudio ? 'REMUX_TS_AUDIO_COUNT' : null };
+  }
   assert.ok(FIXTURES.includes(spec)); const p = normalizeProbe(raw), video = p.streams.filter(s => s.codec_type === 'video');
   assert.ok(Number.isSafeInteger(bytes) && bytes >= (spec.minBytes || 1) && bytes < spec.maxBytes, 'Fixture byte envelope, including >=600MiB, is required.');
   assert.equal(p.streams.length, spec.audio ? 2 : 1); assert.equal(video.length, 1);
@@ -343,18 +370,23 @@ function createOwnedSession({ kind, limits, dependencies = {} }) {
 }
 function createFixtures(dependencies = {}) {
   return async argv => {
-    assert.deepEqual(argv, ['--run-owned-fixtures'], 'Explicit root-only fixture flag; no extra arguments.');
+    const transport = argv.length === 1 && argv[0] === '--run-owned-ts-fixtures';
+    if (!transport) assert.deepEqual(argv, ['--run-owned-fixtures'], 'Explicit root-only fixture flag; no extra arguments.');
     const sessionFactory = dependencies.createOwnedSession || createOwnedSession;
-    const session = sessionFactory({ kind: 'fixtures', limits: LIMITS, dependencies });
+    const session = sessionFactory({ kind: 'fixtures', limits: transport ? TS_LIMITS : LIMITS, dependencies });
     try {
       await session.open();
-      for (const spec of FIXTURES) {
+      for (const spec of transport ? TS_FIXTURES : FIXTURES) {
         const output = path.join(session.owned, spec.name), entry = { id: spec.id, output, seconds: spec.seconds, status: 'generating' };
         session.report.cases.push(entry);
-        await session.run(session.runtime.ffmpeg, generationArgs(spec, output), { stdoutLimit: MiB, stderrLimit: MiB });
+        if (spec.cut) {
+          const source = session.report.cases.find(c => c.id === 'TS_AV'); assert.equal(source.status, 'passed-generated-metadata');
+          entry.cut = await cutTransportFixture(source.output, output, source.file, { io: session.io, signal: session.controller.signal });
+        } else await session.run(session.runtime.ffmpeg, generationArgs(spec, output), { stdoutLimit: MiB, stderrLimit: MiB });
         const result = await session.run(session.runtime.ffprobe, ['-v', 'warning', '-protocol_whitelist', 'file', '-show_format', '-show_streams',
           '-show_chapters', '-show_programs', '-show_stream_groups', '-show_data_hash', 'sha256', '-of', 'json', output], { stdoutLimit: 2 * MiB, stderrLimit: 256 * 1024 });
-        assert.equal(result.stderr, ''); assert.equal(result.stderrCapture?.truncated, false);
+        if (!spec.cut) assert.equal(result.stderr, '');
+        assert.equal(result.stderrCapture?.truncated, false);
         entry.file = await (dependencies.hashFile || hashFile)(output, { io: session.io, signal: session.controller.signal });
         entry.observation = assessFixture(parseProbeJson(result.stdout, 'Long generated fixture'), spec, entry.file.bytes);
         entry.status = 'passed-generated-metadata'; await session.save();
@@ -365,8 +397,23 @@ function createFixtures(dependencies = {}) {
     return session.report;
   };
 }
+async function cutTransportFixture(source, output, expected, { io = fs, signal } = {}) {
+  // TS_AV is a small generated fixture. Keep its SDT/PAT/PMT prefix, then
+  // begin at the second video PES (a non-IDR picture). Never alter the source.
+  const pin = await hashFile(source, { io, signal }); assert.equal(pin.sha256, expected.sha256);
+  const bytes = await readBoundedFile(source, 16 * MiB, { io, signal }); let first = -1, second = -1;
+  for (let at = 0; at + 188 <= bytes.length; at += 188) {
+    const b = bytes.subarray(at, at + 188); assert.equal(b[0], 71);
+    if (((b[1] & 31) << 8 | b[2]) !== 256 || !(b[1] & 64)) continue;
+    if (first < 0) first = at; else { second = at; break; }
+  }
+  assert.ok(first >= 376 && second > first); const cut = Buffer.concat([bytes.subarray(0, first), bytes.subarray(second)]);
+  const handle = await io.open(output, 'wx'); try { await handle.writeFile(cut); await handle.sync(); } finally { await handle.close(); }
+  assert.equal((await hashFile(source, { io, signal })).sha256, expected.sha256);
+  return { removedTransportBytes: second - first, firstVideoPes: first, resumedVideoPes: second, operation: 'generated-cut-before-second-video-pes' };
+}
 module.exports = { createFixtures, createOwnedSession, generationArgs, assessFixture, requireSpace, hashFile, readBoundedFile, copyPinnedFile, ownedBytes,
-  ROOT, OWNED, FIXTURES, LIMITS, sha, fault, MAX_OWNED_SCAN_ATTEMPTS };
+  ROOT, OWNED, FIXTURES, TS_FIXTURES, TS_LIMITS, LIMITS, cutTransportFixture, sha, fault, MAX_OWNED_SCAN_ATTEMPTS };
 if (require.main === module) createFixtures()(process.argv.slice(2)).then(report => {
   console.log(JSON.stringify({ id: report.id, status: report.status, report: path.join(report.directory, 'report.json'), failure: report.failure }));
   if (report.status !== 'passed-owned-fixtures') process.exitCode = 1;

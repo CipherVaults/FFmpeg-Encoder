@@ -257,6 +257,7 @@ function transport() {
   const probe = source();
   probe.format.format_name = 'mpegts'; probe.format.tags = {};
   probe.format.nb_programs = 1; probe.streams[0].id = '0x100'; probe.streams[1].id = '0x101';
+  probe.streams[0].field_order = 'progressive'; probe.streams[1].profile = 'LC'; probe.streams[1].codec_tag_string = '[15][0][0][0]';
   probe.programs = [{ program_id: 1, program_num: 1, nb_streams: 2, pmt_pid: 4096, pcr_pid: 256, streams: [{ index: 0 }, { index: 2 }] }];
   return probe;
 }
@@ -274,7 +275,7 @@ test('TS unknown program, multiple programs, unresolved membership and service m
   for (const [change, code] of [[probe => { probe.programs = []; probe.format.nb_programs = 0; }, 'REMUX_PROGRAM_UNKNOWN'],
     [probe => { probe.programs[0].streams.pop(); probe.programs[0].nb_streams = 1; }, 'REMUX_PROGRAM_UNKNOWN'],
     [probe => { probe.programs.push({ ...clone(probe.programs[0]), program_id: 2 }); probe.format.nb_programs = 2; }, 'REMUX_PROGRAM_UNQUALIFIED'],
-    [probe => { probe.programs[0].tags = { service_name: 'Do not lose this', service_provider: 'Provider' }; }, 'REMUX_PROGRAM_METADATA_UNREPRESENTABLE']]) {
+    [probe => { probe.programs[0].tags = { unknown_service_metadata: 'Do not lose this' }; }, 'REMUX_PROGRAM_METADATA_UNREPRESENTABLE']]) {
     const probe = transport(); change(probe); assert.ok(issue(assess(probe), code), code);
   }
 });

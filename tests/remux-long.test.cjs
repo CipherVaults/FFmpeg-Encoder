@@ -170,6 +170,7 @@ test('complete fake long-file acquisition spools and compares a million packets 
   const sourcePath = path.join(root, 'source'), outputPath = path.join(root, 'output'), stageDirectory = path.join(root, 'evidence');
   await fs.writeFile(sourcePath, 'owned fake source'); await fs.writeFile(outputPath, 'owned fake output'); await fs.mkdir(stageDirectory);
   const p = probe(); p.streams[0].width = p.streams[0].height = 2;
+  await fs.writeFile(sourcePath, require('./helpers/mov-fixture.cjs').playbackFixture(p));
   const request = { fileId: 'fake', identityRevision: 0, draftRevision: 0, operation: 'remux', target: 'matroska', range: null, omissionRequestIds: [] };
   const assessment = assessRemux({ request, probe: p, sourceFingerprint: 'a'.repeat(64) });
   const out = structuredClone(p); out.format.format_name = 'matroska,webm';

@@ -7,6 +7,7 @@ const { normalizeProbe } = require('./inspection.cjs');
 const { streamCreationTimeAlias, STREAM_CREATION_TIME_ALIAS } = require('./media.cjs');
 const { provenanceArgs, classifyMarker, MARKER_KEY, OUTPUT_ID_KEY, GENERATION_KEY } = require('./provenance.cjs');
 const { REMUX_METADATA_POLICY, classifyRemuxMetadataTag } = require('./remux-metadata-policy.cjs');
+const { transportSourceReasons } = require('./remux-transport.cjs');
 
 // Pure main-side planning only. A table entry is a candidate for qualification,
 // not evidence that a muxer preserved the requested media. This module runs no
@@ -223,6 +224,8 @@ function assessRemux(options) {
   const blockers = [], decisionsNeeded = [], qualifications = [];
   const addBlocker = (code, message, streamIndex = null) => blockers.push({ code, message, streamIndex });
   const family = sourceFamily(probe);
+  if (family === 'mpegts') blockers.push(...transportSourceReasons(probe, request.target));
+  if (family === 'mpegts' && request.omissionRequestIds.length) addBlocker('REMUX_TS_OMISSION', 'This TS route preserves every admitted stream; stream omissions are unsupported.');
   if (!family) addBlocker('REMUX_CONTAINER_UNKNOWN', 'The inspected container is outside the bounded local remux input set.');
   const evidence = probe.mediaEvidence;
   const relationships = evidence.container.relationships;
@@ -233,7 +236,7 @@ function assessRemux(options) {
   if (programs.length > 1 || programs.length && family !== 'mpegts') addBlocker('REMUX_PROGRAM_UNQUALIFIED', 'Only a fully known single transport program is a remux qualification candidate.');
   if (family === 'mpegts' && (programs.length !== 1 || programs[0]?.state !== 'known'
       || programs[0].streamIndexes.length !== probe.streams.length)) addBlocker('REMUX_PROGRAM_UNKNOWN', 'TS requires one known program containing every admitted elementary stream.');
-  if (programs.length && Object.keys(probe.programs?.[0]?.tags || {}).length) {
+  if (programs.length && Object.keys(probe.programs?.[0]?.tags || {}).some(key => !['service_name', 'service_provider'].includes(key))) {
     addBlocker('REMUX_PROGRAM_METADATA_UNREPRESENTABLE', 'Program/service metadata has no implemented equivalent representation in this target. Retain the source or use a qualified alternative; do not silently discard it.');
   }
 
@@ -269,7 +272,7 @@ function assessRemux(options) {
     let metadata = null;
     try {
       metadata = tagContract(stream.tags, { target: request.target, stream });
-      if (family === 'matroska' && request.target === 'mp4' || family === 'isobmff' && request.target === 'mov') {
+      if (['matroska', 'mpegts'].includes(family) && request.target === 'mp4' || family === 'isobmff' && request.target === 'mov') {
         // The contract already names native track fields through its neutral
         // defaults (language and the type's handler label). Declare exact source
         // preservation for those same fields, without adding output allowances
@@ -299,7 +302,14 @@ function assessRemux(options) {
   const selected = videos.length === 1 ? videos[0] : defaults.length === 1 ? defaults[0] : null;
   if (!selected) addBlocker(videos.length ? 'REMUX_SELECTED_VIDEO_AMBIGUOUS' : 'REMUX_NO_VIDEO', 'A single primary video must be identifiable; all admitted alternate streams still remain mapped.');
   let globalMetadata = null;
-  try { globalMetadata = tagContract(probe.format.tags, { target: request.target, container: true }); }
+  try {
+    const tags = { ...probe.format.tags };
+    if (family === 'mpegts') for (const [key, value] of Object.entries(probe.programs[0]?.tags || {})) {
+      if (Object.hasOwn(tags, key) && tags[key] !== value) fail('REMUX_TS_SERVICE_METADATA', 'TS program and container labels conflict.');
+      tags[key] = value;
+    }
+    globalMetadata = tagContract(tags, { target: request.target, container: true });
+  }
   catch (error) { addBlocker(error.code || 'REMUX_METADATA_AMBIGUOUS', error.message); }
   const chapters = probe.chapters.map((chapter, index) => {
     try {
@@ -375,6 +385,7 @@ function buildRemuxQualificationArgs(options) {
     '-protocol_whitelist', 'file,pipe', '-format_whitelist', 'mov,matroska,webm,avi,mpegts', '-copyts', '-i', input];
   for (const stream of assessment.expectedOutput.streams) args.push('-map', `0:${stream.inputIndex}`);
   args.push('-map_metadata', '0', '-map_chapters', '0', '-c', 'copy');
+  if (assessment.inputFamily === 'mpegts') for (const [key, value] of Object.entries(probe.programs[0]?.tags || {})) args.push('-metadata', `${key}=${value}`);
   for (const stream of assessment.expectedOutput.streams) {
     args.push(`-map_metadata:s:${stream.outputIndex}`, `0:s:${stream.inputIndex}`, `-disposition:${stream.outputIndex}`, stream.disposition.join('+') || '0');
     if (stream.metadata.creationAlias !== null) args.push(`-metadata:s:${stream.outputIndex}`, `${STREAM_CREATION_TIME_ALIAS}=${stream.metadata.creationAlias}`);
@@ -383,6 +394,9 @@ function buildRemuxQualificationArgs(options) {
     for (const [key, value] of writes) args.push(`-metadata:s:${stream.outputIndex}`, `${key}=${value}`);
   }
   for (const change of assessment.expectedOutput.bitstream) args.push(`-bsf:${change.outputIndex}`, change.filter);
+  // TS keeps its complete native clocks, including common non-zero start.
+  // A 90 kHz video timescale prevents an independent video clock rescale.
+  if (assessment.inputFamily === 'mpegts') args.push('-video_track_timescale', '90000', '-movie_timescale', '90000', '-use_editlist', '1');
   // A copied old encode description must not be advertised as a new remux's
   // configuration. Clear original casing too, then write the existing v1 marker.
   for (const key of Object.keys(probe.format.tags || {})) if (APPLICATION_TAGS.includes(key.toUpperCase())) args.push('-metadata', `${key}=`);
@@ -401,9 +415,12 @@ function getRemuxAssessmentSource(assessment) {
   return freeze(structuredClone(state.probe));
 }
 
-function remuxVerificationDescription(method) {
+function remuxVerificationDescription(method, inputFamily = null) {
   if (!['packet-identity-v1', 'complete-native-v1'].includes(method)) fail('REMUX_VERIFICATION_METHOD', 'Unknown main-selected Remux verification method.');
   const deep = method === 'complete-native-v1';
+  if (inputFamily === 'mpegts' && !deep) return freeze({ version: 1, method,
+    statement: 'Every ordered AVC NAL and raw AAC frame preserved; source clocks kept exactly; every header validated; start and end decoded.',
+    interiorVideoDecoded: false, completeAudioDecoded: false });
   return freeze({ version: 1, method, statement: deep
     ? 'Every retained video frame and audio sample decoded and compared completely.'
     : 'Output packets identical to source; every header validated; start and end decoded.',

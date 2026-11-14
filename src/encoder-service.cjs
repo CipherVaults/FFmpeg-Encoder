@@ -46,6 +46,7 @@ const { prepareEncodePreservation, requireEncodePreservation, setEncodePreservat
 
 const BUSY = new Set(['checking', 'native-checking', 'preparing', 'running', 'cancelling']);
 const EXTENSIONS = new Set(['.mp4', '.mkv', '.mov', '.avi', '.webm']);
+const REMUX_EXTENSIONS = new Set([...EXTENSIONS, '.ts']);
 const fail = (code, message) => Object.assign(new Error(message), { code });
 const clone = value => structuredClone(value);
 const OUTPUT_PLACEHOLDER = '<temporary output assigned at start>';
@@ -906,7 +907,7 @@ class EncoderService extends EventEmitter {
       let probe = inspection?.probe;
       item.inspectionMethod = inspection ? 'reused' : 'fresh';
       if (inspection) { onStage({ stage: 'reused' }); progress.reused++; }
-      else if (this.inspect === inspectInput) probe = await inspectMetadata(file, { ffprobe: this.ffprobe, signal, run: this.run, onStage });
+      else if (this.inspect === inspectInput) probe = await inspectMetadata(file, { ffprobe: this.ffprobe, signal, run: this.run, onStage, remux: preparedPlan.operation === 'remux' });
       else { inspection = await this.inspect(file, { ffprobe: this.ffprobe, signal, run: this.run, onStage }); probe = inspection.probe; }
       notCancelled(signal);
       assertIdentityMatches(identity, await readFileStamp(file), { stage: 'after-metadata-inspection', message: 'Source identity changed during metadata inspection.' });
@@ -1240,7 +1241,7 @@ class EncoderService extends EventEmitter {
         if (native) await requireNativeOutputFolder(this.plan.output);
         await this.initializeInspectionCache(signal);
         const files = (await fs.readdir(input.path, { withFileTypes: true }))
-          .filter(entry => (entry.isFile() || entry.isSymbolicLink()) && EXTENSIONS.has(path.extname(entry.name).toLowerCase()))
+          .filter(entry => (entry.isFile() || entry.isSymbolicLink()) && (operation === 'remux' ? REMUX_EXTENSIONS : EXTENSIONS).has(path.extname(entry.name).toLowerCase()))
           .sort((a, b) => a.name.localeCompare(b.name, 'en', { numeric: false }) || a.name.localeCompare(b.name));
         if (!files.length) throw fail('NO_INPUTS', 'No supported top-level video files were found.');
         await this.captureBaseline(files, signal);
@@ -1962,6 +1963,7 @@ class EncoderService extends EventEmitter {
               remuxGroup = this.operationRuntime.createRemuxGroup(entry.operationRuntimeToken, entry.remuxAssessment);
             }
             const evidence = entry.remux ? await collectRemuxEvidence({ assessment: entry.remuxAssessment,
+              transportPreparation: entry.transportPreparation,
               runtimeIdentity: this.runtimeIdentity, outputId: entry.outputId, sourceProbe: entry.inspection.probe,
               outputProbe, sourcePath: entry.file, outputPath: stage.file, stageDirectory: evidenceDirectory,
               ffmpeg: this.ffmpeg, ffprobe: this.ffprobe, run, signal: jobSignal, budget: qualified.budget, verificationMethod: qualified.verificationMethod, maxConcurrentChildren: remuxGroup ? 2 : 1,

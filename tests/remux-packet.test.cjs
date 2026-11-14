@@ -45,12 +45,13 @@ async function setup(t, { mutatePackets, mutateSource, mutateOutput, mutateHeade
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'remux-packet-'));
   t.after(async () => { assert.equal(path.dirname(root), os.tmpdir()); assert.ok(path.basename(root).startsWith('remux-packet-')); await fs.rm(root, { recursive: true, force: true }); });
   const sourcePath = path.join(root, 'source.inert'), outputPath = path.join(root, 'output.inert');
-  await fs.writeFile(sourcePath, Buffer.alloc(16384, 1)); await fs.writeFile(outputPath, Buffer.alloc(16384, 2));
+  await fs.writeFile(outputPath, Buffer.alloc(16384, 2));
   const probe = source();
   for (const stream of probe.streams) {
     const data = admission.extra(stream); stream.extradata_size = data.length; stream.extradata_hash = 'SHA256:' + admission.hash(data);
   }
   mutateSource?.(probe); probe.format.nb_streams = probe.streams.length;
+  await fs.writeFile(sourcePath, require('./helpers/mov-fixture.cjs').playbackFixture(probe, 16384));
   const request = { fileId: 'packet', identityRevision: 0, draftRevision: 0, operation: 'remux', target: 'matroska', range: null, omissionRequestIds: [] };
   const assessment = assessRemux({ request, probe, sourceFingerprint: HASH }); assert.equal(assessment.status, 'qualification-required');
   const output = clone(probe); output.streams.forEach((s, i) => { s.index = i; s.codec_tag_string = '[0][0][0][0]'; if (s.codec_type === 'video') s.time_base = '1/1000'; });

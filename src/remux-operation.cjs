@@ -19,6 +19,7 @@ const BINDINGS = ['plan', 'settings', 'sourceIdentity', 'sourceProbeFingerprint'
 const BUDGET = Object.freeze({ sourceDecode: 'complete', timeoutMs: 120000, maxFrameBytes: 8 * 1024 * 1024,
   maxPcmBytes: 128 * 1024 * 1024, maxRecords: 20000, maxSpoolBytes: 32 * 1024 * 1024 });
 const TIMING = Object.freeze({ numerator: '1', denominator: '500' });
+const TRANSPORT_TIMING = Object.freeze({ numerator: '0', denominator: '1' });
 const EXECUTION_MS = 600000;
 const MiB = 1024 * 1024, EVIDENCE_SANITY_BYTES = 64 * 1024 ** 4;
 // Root's Q2o decision: these existing main-owned routes use complete compressed
@@ -27,6 +28,7 @@ const PACKET_ROUTES = Object.freeze({
   'full-remux-isobmff-matroska-v1': 'isobmff:matroska', 'full-remux-isobmff-mp4-v1': 'isobmff:mp4',
   'full-remux-matroska-matroska-v1': 'matroska:matroska', 'full-remux-matroska-mp4-v1': 'matroska:mp4',
   'full-remux-isobmff-mov-v1': 'isobmff:mov',
+  'full-remux-mpegts-mp4-v1': 'mpegts:mp4',
 });
 const own = (value, key) => Object.hasOwn(value, key);
 const plain = value => value && typeof value === 'object' && !Array.isArray(value)
@@ -90,7 +92,7 @@ function deriveRemuxAssessmentBudget(assessment, sourceBytes, verificationMethod
 function policy(value) {
   const fields = ['id', 'inputFamily', 'target', 'evidenceIds', 'allowAncillary', 'runtimeIdentity', 'allowRotation90', 'audio', 'sourceEnvelope', 'verificationMethod'];
   record(value, fields, fields.slice(0, 6), 'Main-reviewed Remux route policy');
-  need(['isobmff', 'matroska'].includes(value.inputFamily) && ['matroska', 'mp4', 'mov'].includes(value.target), 'Only the finite reviewed local Remux families are available.');
+  need(['isobmff', 'matroska', 'mpegts'].includes(value.inputFamily) && ['matroska', 'mp4', 'mov'].includes(value.target), 'Only the finite reviewed local Remux families are available.');
   need(!own(value, 'verificationMethod') || ['packet-identity-v1', 'complete-native-v1'].includes(value.verificationMethod),
     'Only a main-reviewed Remux verification method is available.');
   need(!PACKET_ROUTES[value.id] || !own(value, 'verificationMethod') || value.verificationMethod === 'packet-identity-v1',
@@ -99,11 +101,13 @@ function policy(value) {
   need(!value.allowAncillary || value.inputFamily === 'matroska' && value.target === 'matroska', 'Ancillary collection is available only for reviewed Matroska-to-Matroska routes.');
   if (own(value, 'audio')) need(value.audio === 'explicitly-omitted-only' && value.inputFamily === 'matroska' && value.target === 'mp4',
     'The explicitly-omitted-only audio policy is available only for reviewed Matroska-to-MP4 routes.');
-  if (own(value, 'sourceEnvelope')) need(['h264-aac-lc-48k-stereo-v1', 'h264-aac-lc-48k-stereo-v2'].includes(value.sourceEnvelope)
+  const transport = value.inputFamily === 'mpegts' && value.target === 'mp4' && value.sourceEnvelope === 'h264-adts-lc-48k-v1';
+  need(value.inputFamily !== 'mpegts' || transport && value.verificationMethod === 'packet-identity-v1' && value.allowRotation90 !== true, 'TS requires its explicit unrotated fast transport envelope.');
+  if (own(value, 'sourceEnvelope')) need(transport || ['h264-aac-lc-48k-stereo-v1', 'h264-aac-lc-48k-stereo-v2'].includes(value.sourceEnvelope)
     && value.inputFamily === 'isobmff' && value.target === 'mov' && value.allowRotation90 !== true,
   'The measured H264/AAC source envelope is available only for unrotated ISOBMFF-to-MOV routes.');
   const evidenceIds = list(value.evidenceIds, 32, 'Retained route evidence').map(item => id(item, 'Retained route evidence'));
-  need(evidenceIds.length > 0 && new Set(evidenceIds).size === evidenceIds.length, 'A reviewed route needs unique retained evidence IDs.');
+  need((evidenceIds.length > 0 || transport) && new Set(evidenceIds).size === evidenceIds.length, 'A reviewed route needs unique retained evidence IDs.');
   return freeze({ id: id(value.id, 'Route policy'), inputFamily: value.inputFamily, target: value.target, evidenceIds,
     allowAncillary: value.allowAncillary, runtimeIdentity: digest(value.runtimeIdentity, 'Qualified paired runtime'),
     allowRotation90: value.allowRotation90 === true, ...(own(value, 'audio') ? { audio: value.audio } : {}),
@@ -234,7 +238,7 @@ function sourcePolicy(assessment, source, identity, route) {
     .every(stream => assessment.expectedOutput.omittedStreams.some(item => item.inputIndex === stream.index
       && item.codecType === 'audio' && item.action === 'explicitly-omitted' && assessment.request.omissionRequestIds.includes(item.decisionId))),
   'Matroska-to-MP4 requires a current explicit omission decision for every audio stream; audio preservation is not qualified.', 'REMUX_AUDIO_OMISSION_REQUIRED');
-  if (assessment.inputFamily === 'matroska' && assessment.target === 'mp4'
+  if (['matroska', 'mpegts'].includes(assessment.inputFamily) && assessment.target === 'mp4'
     || assessment.inputFamily === 'isobmff' && assessment.target === 'mov') {
     for (const stream of assessment.expectedOutput.streams) {
       const metadata = stream.metadata;
@@ -243,12 +247,12 @@ function sourcePolicy(assessment, source, identity, route) {
           || metadata.allowedAdditions.some(addition => addition.key.toLowerCase() === item.normalizedKey
             && addition.match === 'exact' && addition.value === metadata.preserved[item.key]),
         assessment.target === 'mp4'
-          ? `Matroska-to-MP4 cannot preserve required track tag '${item.key}' on stream ${stream.inputIndex}; no MP4 representation is declared.`
+          ? `${route.inputFamily === 'mpegts' ? 'MPEG-TS' : 'Matroska'}-to-MP4 cannot preserve required track tag '${item.key}' on stream ${stream.inputIndex}; no MP4 representation is declared.`
           : `ISOBMFF-to-MOV cannot preserve required track tag '${item.key}' on stream ${stream.inputIndex}; no MOV representation is declared.`,
         'REMUX_TRACK_TAG_UNREPRESENTABLE');
     }
   }
-  need(source.mediaEvidence.container.relationships.state === 'known' && source.programs.length === 0 && source.stream_groups.length === 0
+  need(source.mediaEvidence.container.relationships.state === 'known' && (route.inputFamily === 'mpegts' ? source.programs.length === 1 : source.programs.length === 0) && source.stream_groups.length === 0
     && source.streams.every(stream => stream.codec_type !== 'data'), 'Programs, unknown relationships, groups and timed data/timecode remain unqualified.', REQUIRED);
   need(source.format.size === identity.size, 'Observed source size must match the current exact source identity.', REQUIRED);
   positiveTime(source.mediaEvidence.container.durationSeconds, 'container duration');
@@ -321,6 +325,7 @@ class RemuxOperations {
     need(route && route.runtimeIdentity === this.#runtime,
       'No reviewed main-private route applies to this Remux source, target and exact paired runtime.', REQUIRED);
     const facts = sourcePolicy(options.assessment, source, identity, route), epoch = this.#epoch;
+    need(route.evidenceIds.length > 0, 'MPEG-TS to MP4 awaits measured route evidence; Start is disabled.', REQUIRED);
     const costs = deriveRemuxAssessmentBudget(options.assessment, identity.size, route.verificationMethod);
     const args = buildRemuxQualificationArgs({ assessment: options.assessment, input: options.input, output: options.output, outputId: options.outputId });
     const outputId = options.outputId.toLowerCase();
@@ -333,14 +338,14 @@ class RemuxOperations {
       // policy merely because a future contract adds its name to this list.
       need(binding.requirementIds.every(requirement => /^(?:codec:|dispositions:|track-tags:|side-data:)/.test(requirement)
         || ['media-content-and-timeline', 'chapters-and-container-tags', `provenance:${route.target}`,
-          'publication-and-lifecycle', 'mov-family-metadata-mode'].includes(requirement)), 'This route contains an unreviewed qualification requirement.', REQUIRED);
+          'publication-and-lifecycle', 'mov-family-metadata-mode', ...(route.inputFamily === 'mpegts' ? ['transport-timestamps-and-framing'] : [])].includes(requirement)), 'This route contains an unreviewed qualification requirement.', REQUIRED);
       return { status: 'verified', runtimeIdentity: this.#runtime, operation: 'remux', inputFamily: route.inputFamily, target: route.target,
-        cellId: route.id, evidenceId: route.evidenceIds[0], requirementIds: [...binding.requirementIds], maxTimestampError: TIMING, maxChapterError: TIMING };
+        cellId: route.id, evidenceId: route.evidenceIds[0], requirementIds: [...binding.requirementIds], maxTimestampError: route.inputFamily === 'mpegts' ? TRANSPORT_TIMING : TIMING, maxChapterError: TIMING };
     } });
     const innerPlan = validator.prepare({ assessment: options.assessment, runtimeIdentity: this.#runtime, cellId: route.id, outputId: options.outputId });
     const sourceProbeFingerprint = remuxProbeFingerprint(source), contract = freeze({ operation: 'remux', range: { kind: 'full' }, target: request.target, request });
     const description = { operation: 'remux', compatibilityPath: false, verificationMethod: route.verificationMethod,
-      verificationClaim: remuxVerificationDescription(route.verificationMethod), args, contract, expectedOutput: options.assessment.expectedOutput,
+      verificationClaim: remuxVerificationDescription(route.verificationMethod, route.inputFamily), args, contract, expectedOutput: options.assessment.expectedOutput,
       sourceProbeFingerprint, runtimeIdentity: this.#runtime };
     const plan = freeze({ ...description, planFingerprint: hash({ ...description, sourceIdentity: identity, outputId: options.outputId.toLowerCase(),
       policyIdentity: this.#policyIdentity, route, epoch }) });
@@ -361,10 +366,10 @@ class RemuxOperations {
     try {
       const state = this.#bindings(options), token = Object.freeze({});
       const result = freeze({ controlsRequired: true, remux: true, ...state.costs, verificationMethod: state.route.verificationMethod,
-        verificationClaim: remuxVerificationDescription(state.route.verificationMethod),
+        verificationClaim: remuxVerificationDescription(state.route.verificationMethod, state.route.inputFamily),
         evidenceIds: state.route.evidenceIds, policyIdentity: this.#policyIdentity,
         qualification: { status: 'verified', operation: 'remux', runtimeIdentity: this.#runtime, inputFamily: state.route.inputFamily,
-          target: state.route.target, cellId: state.route.id, evidenceId: state.route.evidenceIds[0], maxTimestampError: TIMING, maxChapterError: TIMING }, sourcePolicy: state.facts });
+          target: state.route.target, cellId: state.route.id, evidenceId: state.route.evidenceIds[0], maxTimestampError: state.route.inputFamily === 'mpegts' ? TRANSPORT_TIMING : TIMING, maxChapterError: TIMING }, sourcePolicy: state.facts });
       state.selected = true; this.#selections.set(token, { epoch: this.#epoch, plan: options.plan, result }); return token;
     } catch (error) { throw new ToolError(REQUIRED, error.message); }
   }

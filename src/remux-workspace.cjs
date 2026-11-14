@@ -6,7 +6,9 @@ const { randomUUID, createHash } = require('node:crypto');
 const path = require('node:path');
 const { assessRemux, getRemuxAssessmentSource } = require('./remux-contract.cjs');
 const { remuxProbeFingerprint } = require('./remux-validation.cjs');
-const { fingerprintRemuxSourceIdentity } = require('./remux-operation.cjs');
+const { fingerprintRemuxSourceIdentity, deriveRemuxAssessmentBudget } = require('./remux-operation.cjs');
+const { prepareTransport } = require('./remux-transport-evidence.cjs');
+const { observeRemuxSourcePlayback } = require('./remux-edit-lists.cjs');
 const { readSourceIdentity, sameIdentity } = require('./source-identity.cjs');
 const { normalizeProbe } = require('./inspection.cjs');
 const OUTPUT_PLACEHOLDER = '<temporary output assigned at start>';
@@ -69,7 +71,7 @@ async function prepareRemuxItem(item, { file, destination, probe, identity, mark
   // omission. Do not offer a button that falsely promises to resolve them.
   const unsafeRelationships = assessment.blockers.some(value => /RELATIONSHIP|PROGRAM|GROUP/.test(value.code));
   for (const stream of source.streams) {
-    if (unsafeRelationships || stream.index === primary || !['audio', 'subtitle', 'attachment'].includes(stream.codec_type)) continue;
+    if (assessment.inputFamily === 'mpegts' || unsafeRelationships || stream.index === primary || !['audio', 'subtitle', 'attachment'].includes(stream.codec_type)) continue;
     const fingerprint = hash(stream);
     const approved = [...this.plan.remuxGrants.values()].find(grant => grant.fileId === item.id && grant.streamIndex === stream.index);
     const candidate = { id: approved?.id || randomUUID(), fileId: item.id, planId: this.plan.id, draftId: this.plan.draft.id,
@@ -108,15 +110,33 @@ async function prepareRemuxItem(item, { file, destination, probe, identity, mark
   let operationPlan;
   try { operationPlan = this.remuxOperations.prepare({ assessment, input: file, output: destination, outputId, sourceIdentity: identity, request }); }
   catch (error) { item.remux.status = 'blocked'; item.remux.blockers = [{ code: error.code, message: error.message, streamIndex: null }]; throw error; }
-  const operationRuntimeToken = await this.operationRuntime.observe({ hardware: 'CPU', signal });
-  const observed = this.operationRuntime.snapshot(operationRuntimeToken);
-  if (observed.runtimeIdentity !== this.runtimeIdentity) throw fail('OPERATION_RUNTIME_STALE', 'The current Remux runtime differs from the prepared pair.');
+  // Metadata workers may prepare two files concurrently. Serialize only the
+  // runtime-owned admission step, so one file's TS scan cannot collide with
+  // another file's runtime observation. No renderer-selected runner is used.
+  const admission = (this.remuxPreparationTail || Promise.resolve()).catch(() => {}).then(async () => {
+    if (signal?.aborted) throw fail('CANCELLED', 'Remux preparation cancelled.');
+    const operationRuntimeToken = await this.operationRuntime.observe({ hardware: 'CPU', signal });
+    const observed = this.operationRuntime.snapshot(operationRuntimeToken);
+    if (observed.runtimeIdentity !== this.runtimeIdentity) throw fail('OPERATION_RUNTIME_STALE', 'The current Remux runtime differs from the prepared pair.');
+    if (assessment.inputFamily === 'isobmff') await observeRemuxSourcePlayback({ file, probe: source, identity, signal,
+      selectedIndexes: assessment.expectedOutput.streams.map(s => s.inputIndex),
+      ...deriveRemuxAssessmentBudget(assessment, identity.size, operationPlan.verificationMethod).budget });
+    const transportPreparation = assessment.inputFamily === 'mpegts' ? await prepareTransport({ file, probe: source, identity, ffprobe: this.ffprobe,
+      run: typeof this.operationRuntime.invoke === 'function'
+        ? (_file, args, options) => this.operationRuntime.invoke(operationRuntimeToken, 'ffprobe', args, options) : this.run,
+      signal, budget: deriveRemuxAssessmentBudget(assessment, identity.size, 'packet-identity-v1').budget }) : null;
+    return { operationRuntimeToken, transportPreparation };
+  });
+  this.remuxPreparationTail = admission.then(() => {}, () => {});
+  let operationRuntimeToken, transportPreparation;
+  try { ({ operationRuntimeToken, transportPreparation } = await admission); }
+  catch (error) { item.remux.status = 'blocked'; item.remux.blockers = [{ code: error.code, message: error.message, streamIndex: null }]; throw error; }
   const qualificationBindings = { plan: operationPlan, settings: null, sourceIdentity: identity,
     sourceProbeFingerprint: remuxProbeFingerprint(source), runtimeIdentity: this.runtimeIdentity,
     environment: null, budget: this.operationEvidenceBudget, executionBudgetMs: this.operationDeadlineMs };
   const qualificationSelection = this.remuxOperations.select(qualificationBindings);
   this.plan.entries.set(item.id, { remux: true, remuxOwner: this.plan, preparedPlanId: this.plan.id,
-    remuxRequest: request, remuxAssessment: assessment, file, destination, inspection, fingerprint: identity,
+    remuxRequest: request, remuxAssessment: assessment, transportPreparation, file, destination, inspection, fingerprint: identity,
     overridden: this.plan.overrides.has(item.id), reencodeAuthorized: item.reencodeAuthorized,
     sourceOutputId: marker.outputId || indexed?.outputId, outputId, operationPlan,
     preparedArgs: Object.freeze([...operationPlan.args.slice(0, -1), OUTPUT_PLACEHOLDER]),

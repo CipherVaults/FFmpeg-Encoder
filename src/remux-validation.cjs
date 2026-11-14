@@ -157,7 +157,7 @@ function qualifiedSingletonDefault(source, inputFamily, target, codecType) {
   // Root's disclosed normalization is currently proved for the owned long
   // Matroska->MP4 video. ISO/MOV and audio normalizations remain strict until
   // an owned fixture demonstrates them; the three Q2d videos already default.
-  return inputFamily === 'matroska' && target === 'mp4' && codecType === 'video'
+  return (inputFamily === 'matroska' && codecType === 'video' || inputFamily === 'mpegts' && ['video', 'audio'].includes(codecType)) && target === 'mp4'
     && source.streams.filter(stream => stream.codec_type === codecType).length === 1;
 }
 function singletonDefaultWarning(source, output, assessment, stream, after) {
@@ -197,7 +197,7 @@ function verifyQualification(receipt, policy) {
   return { timestamp, chapter };
 }
 
-function verifyDecode(recordValue, type, label, method = 'complete-native-v1', semanticAudio = false) {
+function verifyDecode(recordValue, type, label, method = 'complete-native-v1', semanticAudio = false, transport = false) {
   const fields = ['complete', 'exitCode', 'stderrComplete', 'errors', 'representation', 'contentSha256', 'metadataSha256', 'unitCount', 'firstPts', 'endPts'];
   record(recordValue, [...fields, 'cadence', 'decoderParametersSha256', 'decodedWindows', 'pcm', 'admission', 'audioTrim'], label, fields);
   check(recordValue.complete === true && recordValue.exitCode === 0 && recordValue.stderrComplete === true
@@ -211,12 +211,12 @@ function verifyDecode(recordValue, type, label, method = 'complete-native-v1', s
     if (['video', 'audio'].includes(type)) {
       const admission = recordValue.admission;
       record(admission, type === 'video' ? ['version', 'complete', 'kind', 'configurationSha256', 'parameterSets', 'seiUnits', 'scannedBytes', 'headerSyntax']
-        : ['version', 'complete', 'kind', 'configurationSha256', 'nativeStartFrames'], `${label} compressed admission`);
+        : transport ? ['version', 'complete', 'kind', 'configurationSha256', 'frames'] : ['version', 'complete', 'kind', 'configurationSha256', 'nativeStartFrames'], `${label} compressed admission`);
       check(admission.version === 1 && admission.complete === true && HASH.test(admission.configurationSha256)
-        && admission.kind === (type === 'video' ? 'h264-parameter-sei-v1' : 'aac-lc-packet-and-frozen-pcm-v1'), `${label}: complete compressed admission is required.`);
-      for (const key of type === 'video' ? ['parameterSets', 'seiUnits', 'scannedBytes'] : ['nativeStartFrames'])
+        && admission.kind === (type === 'video' ? 'h264-parameter-sei-v1' : transport ? 'aac-lc-adts-payload-v1' : 'aac-lc-packet-and-frozen-pcm-v1'), `${label}: complete compressed admission is required.`);
+      for (const key of type === 'video' ? ['parameterSets', 'seiUnits', 'scannedBytes'] : transport ? ['frames'] : ['nativeStartFrames'])
         check(Number.isSafeInteger(admission[key]) && admission[key] >= (key === 'nativeStartFrames' ? 1 : 0), `${label}: admission coverage is invalid.`);
-      if (type === 'audio') check(admission.nativeStartFrames <= 256, `${label}: admission exceeds the native audio window.`);
+      if (type === 'audio') check(transport ? String(admission.frames) === recordValue.unitCount : admission.nativeStartFrames <= 256, `${label}: admission coverage is incomplete.`);
       else {
         const syntax = admission.headerSyntax;
         record(syntax, ['version', 'complete', 'method', 'nalUnits', 'sliceHeaders', 'fillerBytes', 'interiorDecoded'], `${label} complete header syntax`);
@@ -233,7 +233,7 @@ function verifyDecode(recordValue, type, label, method = 'complete-native-v1', s
         check(Number.isSafeInteger(window.keyPacketIndex) && window.keyPacketIndex >= 0 && window.frameCount === 1
           && HASH.test(window.sha256), `${label}: bounded native keyframe decode proof is incomplete.`);
       }
-    } else if (type === 'audio') {
+    } else if (type === 'audio' && !transport) {
       record(recordValue.pcm, ['bytes', 'samples', 'sha256'], `${label} complete PCM`);
       check(Number.isSafeInteger(recordValue.pcm.bytes) && recordValue.pcm.bytes > 0 && HASH.test(recordValue.pcm.sha256)
         && count(recordValue.pcm.samples, `${label} native samples`, false) > 0n, `${label}: complete PCM proof is required.`);
@@ -247,6 +247,7 @@ function verifyDecode(recordValue, type, label, method = 'complete-native-v1', s
           && coded - leading - trailing === count(recordValue.pcm.samples, `${label} native samples`, false), `${label}: effective trim and complete PCM samples disagree.`);
       } else check(!own(recordValue, 'audioTrim'), `${label}: same-family trim representation must remain exact.`);
     }
+    if (transport) check(!own(recordValue, 'pcm') && !own(recordValue, 'audioTrim'), `${label}: transport identity must not claim interior audio decoding or inferred trim.`);
     if (type !== 'audio') check(!own(recordValue, 'audioTrim'), `${label}: only copied cross-family audio has semantic trim.`);
   } else check(!own(recordValue, 'decoderParametersSha256') && !own(recordValue, 'decodedWindows') && !own(recordValue, 'pcm') && !own(recordValue, 'admission') && !own(recordValue, 'audioTrim'), `${label}: packet proof cannot replace native decoding.`);
   const units = count(recordValue.unitCount, `${label} unit count`, type === 'subtitle');
@@ -341,7 +342,7 @@ function createRemuxValidator({ requireQualification } = {}) {
       record(evidence, [...evidenceFields, 'outputFileSha256', 'verificationMethod', 'verificationClaim'], 'Complete remux essence evidence', evidenceFields);
       verificationMethod = evidence.verificationMethod ?? 'complete-native-v1';
       check(['packet-identity-v1', 'complete-native-v1'].includes(verificationMethod), 'Unknown Remux verification method.');
-      check(verificationMethod !== 'packet-identity-v1' || isDeepStrictEqual(evidence.verificationClaim, remuxVerificationDescription(verificationMethod)),
+      check(verificationMethod !== 'packet-identity-v1' || isDeepStrictEqual(evidence.verificationClaim, remuxVerificationDescription(verificationMethod, assessment.inputFamily)),
         'Fast verification must disclose complete header checks and the absence of interior video decoding.');
       check(evidence.version === VERSION && evidence.complete === true && ['runtimeIdentity', 'sourceFingerprint', 'sourceEvidenceFingerprint', 'outputId'].every(key => evidence[key] === plan[key])
         && evidence.outputEvidenceFingerprint === hash(output) && (!own(evidence, 'outputFileSha256') || HASH.test(evidence.outputFileSha256)),
@@ -411,8 +412,9 @@ function createRemuxValidator({ requireQualification } = {}) {
         const stream = expected.streams.find(candidate => candidate.inputIndex === item.inputIndex && candidate.outputIndex === item.outputIndex && candidate.codecType === item.codecType);
         check(stream && !seen.has(item.outputIndex), 'Stream essence evidence is duplicated, unmapped or has changed type.'); seen.add(item.outputIndex);
         const label = `Stream ${item.inputIndex} → ${item.outputIndex}`;
-        const semanticAudio = item.codecType === 'audio' && assessment.inputFamily !== (assessment.target === 'matroska' ? 'matroska' : 'isobmff');
-        const before = verifyDecode(item.source, item.codecType, `${label} source`, verificationMethod, semanticAudio), after = verifyDecode(item.output, item.codecType, `${label} output`, verificationMethod, semanticAudio);
+        const transport = assessment.inputFamily === 'mpegts';
+        const semanticAudio = !transport && item.codecType === 'audio' && assessment.inputFamily !== (assessment.target === 'matroska' ? 'matroska' : 'isobmff');
+        const before = verifyDecode(item.source, item.codecType, `${label} source`, verificationMethod, semanticAudio, transport), after = verifyDecode(item.output, item.codecType, `${label} output`, verificationMethod, semanticAudio, transport);
         if (verificationMethod === 'packet-identity-v1' && item.codecType !== 'attachment') {
           if (item.source.decoderParametersSha256 !== item.output.decoderParametersSha256
             || !isDeepStrictEqual(item.source.decodedWindows, item.output.decodedWindows) || !isDeepStrictEqual(item.source.pcm, item.output.pcm))
@@ -435,16 +437,18 @@ function createRemuxValidator({ requireQualification } = {}) {
         if (item.codecType === 'attachment') { check(item.timestamps === null, 'Attachments cannot invent a packet timeline.'); continue; }
         record(item.timestamps, ['complete', 'comparedUnits', 'maxPtsError', 'maxDurationError'], 'Complete timestamp comparison');
         check(item.timestamps.complete === true && count(item.timestamps.comparedUnits, 'Compared units') === before.units, `${label}: per-unit timestamp comparison is incomplete.`);
-        for (const field of ['maxPtsError', 'maxDurationError']) if (greater(rational(item.timestamps[field], `${label} ${field}`, true), tolerance.timestamp)) errors.push(`${label}: ${field} exceeds its measured cell tolerance.`);
+        for (const field of ['maxPtsError', 'maxDurationError']) if (greater(rational(item.timestamps[field], `${label} ${field}`, true), transport ? { n: 0n, d: 1n } : tolerance.timestamp)) errors.push(`${label}: ${field} exceeds its measured cell tolerance.`);
         if (before.first && after.first) {
           if (greater(absolute(difference(before.first, after.first)), tolerance.timestamp) || greater(absolute(difference(before.end, after.end)), tolerance.timestamp)) errors.push(`${label}: complete interval or source A/V offset changed.`);
         }
       }
     } catch (error) { errors.push(error.message || 'Remux validation failed.'); }
     return freeze({ valid: errors.length === 0, errors, warnings, version: VERSION, operation: 'remux', target: plan.target, verificationMethod,
-      verificationClaim: ['packet-identity-v1', 'complete-native-v1'].includes(verificationMethod) ? remuxVerificationDescription(verificationMethod) : null,
+      verificationClaim: ['packet-identity-v1', 'complete-native-v1'].includes(verificationMethod) ? remuxVerificationDescription(verificationMethod, assessment.inputFamily) : null,
       qualificationEvidenceId: plan.qualificationEvidenceId,
-      contentClaim: verificationMethod === 'packet-identity-v1'
+      contentClaim: verificationMethod === 'packet-identity-v1' && assessment.inputFamily === 'mpegts'
+        ? 'Complete ordered AVC NAL/raw AAC frame identity, exact source clocks, complete header checks and bounded video boundary decoding.'
+        : verificationMethod === 'packet-identity-v1'
         ? 'Complete ordered compressed packet and decoder-parameter identity, bounded native video decoding and complete PCM preservation.'
         : 'Complete qualified native essence and declared semantic preservation; container and framed packet bytes may differ.' });
   }

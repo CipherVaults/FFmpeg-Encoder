@@ -9,7 +9,7 @@ const { randomUUID } = require('node:crypto');
 const { EncoderService } = require('../src/encoder-service.cjs');
 const { RemuxOperations } = require('../src/remux-operation.cjs');
 const { EVIDENCE_BUDGET } = require('../src/operation-controls.cjs');
-const { fixture: movFixture } = require('./helpers/mov-fixture.cjs');
+const { timedFixture } = require('./helpers/mov-fixture.cjs');
 const { MARKER_KEY, OUTPUT_ID_KEY } = require('../src/provenance.cjs');
 
 // Preparation/authority tests use owned inert bytes and injected media facts.
@@ -32,10 +32,10 @@ async function harness(t, { target = 'matroska', count = 1, explicitAudio = fals
   sourceEnvelope = 'h264-aac-lc-48k-stereo-v1', verificationMethod = 'complete-native-v1', Service = EncoderService, change = () => {} } = {}) {
   await fs.mkdir(parent, { recursive: true }); const root = await fs.mkdtemp(path.join(parent, 'run-'));
   const input = path.join(root, 'input'), output = path.join(root, 'output'); await fs.mkdir(input); await fs.mkdir(output);
-  for (let i = 0; i < count; i++) await fs.writeFile(path.join(input, `source-${i}.mkv`), 'Owned inert source bytes ' + randomUUID());
+  for (let i = 0; i < count; i++) await fs.writeFile(path.join(input, `source-${i}.mkv`), require('./helpers/mov-fixture.cjs').playbackFixture(probe()));
   const service = new Service({ ffmpeg: path.join(root, 'dummy-ffmpeg'), ffprobe: path.join(root, 'dummy-ffprobe'), stateDir: path.join(root, 'state'),
     inspect: async file => { const value = probe(); if (mov) value.format.format_name = 'mov,mp4,m4a,3gp,3g2,mj2';
-      Object.assign(value.streams[0].tags, videoTags); change(value); value.format.size = String((await fs.stat(file)).size); return { probe: value, duration: 2, summary: {} }; }, capabilities: async () => { throw new Error('Remux must not initialize encoders'); },
+      Object.assign(value.streams[0].tags, videoTags); change(value); value.streams.forEach(s => { s.id = String(s.index + 1); }); value.format.size = String((await fs.stat(file)).size); return { probe: value, duration: 2, summary: {} }; }, capabilities: async () => { throw new Error('Remux must not initialize encoders'); },
     inspectionCache: null, storageEligibility: { check: async () => ({ eligible: false, reason: 'Synthetic storage observation' }) },
     runtimeIdentity: RUNTIME, operationRuntime: { observe: async () => Object.freeze({}), snapshot: () => ({ runtimeIdentity: RUNTIME, environment: null }), close: async () => {} },
     operationStorage: () => { throw new Error('No execution storage should open during preparation'); },
@@ -140,7 +140,11 @@ async function cadenceJob(t, { sourceVariable = false, outputVariable = false, i
   const run = async (executable, args, options = {}) => {
     let bytes = Buffer.alloc(0), auxBytes = 0;
     if (args.includes('-progress') && args.includes('-c') && args[args.indexOf('-c') + 1] === 'copy') {
-      await fs.writeFile(args.at(-1), movFixture([{ id: 1 }, { id: 2 }]));
+      // Native edits describe the source interval. Independent injected output
+      // frame faults below continue to exercise the cadence/timestamp validator.
+      await fs.writeFile(args.at(-1), timedFixture([
+        { id: 1, scale: 30000, pts: timestamps(sourceVariable), durations: timestamps(sourceVariable).map(() => step) },
+        { id: 2, scale: 48000, pts: [0], durations: [4] }]));
       if (cancelStage === 'copy') void service.cancelCurrent();
     } else if (args.includes('-show_format')) {
       outputProbe = structuredClone(entry.inspection.probe);

@@ -73,7 +73,7 @@ test('all proof flags/modes/cases and ROOT_FILL pins fail before any I/O when in
   assert.equal(ioCalls, 0);
   for (const mode of ['--normal', '--qualify']) assert.deepEqual(smoke.configuration(['--run-owned-remux', mode, '--cases', Object.keys(smoke.CASES).join(',')]).cases, Object.keys(smoke.CASES));
   assert.equal(smoke.routeOptions('--normal').remuxPolicies, REMUX_POLICIES); assert.equal(smoke.routeOptions('--normal').remuxPolicyIdentity, REMUX_POLICY_ID);
-  const qualify = smoke.routeOptions('--qualify'); assert.equal(qualify.remuxPolicies.length, 5); assert.ok(qualify.remuxPolicies.every(p => p.id.startsWith('q2o-packet-lab:')));
+  const qualify = smoke.routeOptions('--qualify'); assert.equal(qualify.remuxPolicies.length, 6); assert.ok(qualify.remuxPolicies.every(p => p.id.startsWith('q2o-packet-lab:')));
   assert.ok(qualify.remuxPolicies.every(p => p.verificationMethod === 'packet-identity-v1'));
   assert.throws(() => smoke.routeOptions('--auto'));
 });
@@ -346,13 +346,13 @@ test('long smoke wires all routes and cancellations, continues safe failed verdi
       hashFile: async file => { assert.ok(files.has(file));
         if (scenario.unsafe === 'source' && activeService.item.status === 'failed' && file === activeService.file) return { ...files.get(file), sha256: '0'.repeat(64) };
         return files.get(file); },
-    })(['--run-owned-remux', mode, '--cases', Object.keys(smoke.CASES).join(',')]);
+    })(['--run-owned-remux', mode, '--cases', Object.keys(smoke.CASES).filter(name => !name.startsWith('ts-')).join(',')]);
     assert.ok(activeService); assert.equal(report.status, scenario.failure ? 'failed-retained' : 'passed-owned-long-remux', JSON.stringify(report.failure));
     assert.equal(report.acceptedStarts, scenario.unsafe ? 1 : scenario.failure === 'preparing' ? 13 : 14); assert.equal(report.cases.length, 14);
     assert.equal(report.cases.filter(c => c.status === 'passed-complete-verified-remux').length, scenario.unsafe ? 0 : scenario.failure ? 11 : 12);
     assert.equal(report.cases.filter(c => c.status === 'passed-preservation-refusal' && c.noPublication).length, 0);
     assert.equal(report.cases.filter(c => c.status === 'passed-live-cancellation' && c.noPublication).length, scenario.unsafe ? 0 : 2);
-    assert.equal(calls.length, scenario.unsafe ? 8 : scenario.failure === 'preparing' ? 91 : 99); assert.equal(controls.remuxPolicies.length, 5);
+    assert.equal(calls.length, scenario.unsafe ? 8 : scenario.failure === 'preparing' ? 91 : 99); assert.equal(controls.remuxPolicies.length, 6);
     if (scenario.copyGrowth) assert.equal(report.cases.find(c => c.label === 'cancel-copy').cancelObserved.observation, 'owned-stage-growth');
     if (scenario.timingGap) {
       const negative = () => assert.ok(report.cases.find(c => c.label === 'large-mp4').verificationMs >= 60, 'The post-copy verification clock must include setup before the packet child.');

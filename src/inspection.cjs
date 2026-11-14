@@ -161,7 +161,7 @@ function pixelLayout(format) {
   return packed ? { depth: Number(packed[2]), chroma: packed[1] === '0' ? '420' : '422', alpha: false } : null;
 }
 
-async function inspectMetadata(file, { ffprobe, signal, run = runTool, onStage } = {}) {
+async function inspectMetadata(file, { ffprobe, signal, run = runTool, onStage, remux = false } = {}) {
   ensureNotCancelled(signal);
   if (typeof file !== 'string' || !file || typeof ffprobe !== 'string' || !ffprobe) {
     throw new ToolError('INVALID_INSPECTION', 'Inspection requires an input file and the bundled ffprobe.');
@@ -170,6 +170,7 @@ async function inspectMetadata(file, { ffprobe, signal, run = runTool, onStage }
   // boundary: media playlists cannot turn this local inspector into a network client.
   onStage?.({ stage: 'metadata' });
   ensureNotCancelled(signal);
+  if (remux) await require('./remux-transport.cjs').inspectTransportHead(file, signal);
   const result = await run(ffprobe, [
     '-v', 'error', '-protocol_whitelist', 'file,pipe', '-format_whitelist', 'mov,matroska,webm,avi,mpegts', '-show_streams', '-show_format', '-show_chapters', '-show_programs', '-show_stream_groups',
     '-show_data_hash', 'sha256', '-of', 'json', '-i', file,

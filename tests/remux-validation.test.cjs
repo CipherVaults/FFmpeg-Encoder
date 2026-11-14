@@ -589,9 +589,10 @@ test('duplicate/unmapped essence streams cannot substitute for an omitted stream
 
 test('packet-framing differences are not used as a proxy for decoded content loss', () => {
   const probe = source(); probe.format.format_name = 'mpegts'; probe.format.tags = {}; probe.format.nb_programs = 1;
+  probe.streams[1].codec_tag_string = '[15][0][0][0]';
   probe.streams[0].id = '0x100'; probe.streams[1].id = '0x101';
   probe.programs = [{ program_id: 1, program_num: 1, nb_streams: 2, pmt_pid: 4096, pcr_pid: 256, streams: [{ index: 0 }, { index: 2 }] }];
-  const s = setup({ probe }); assert.equal(s.assessment.expectedOutput.bitstream[0].filter, 'aac_adtstoasc');
+  const s = setup({ probe, target: 'mp4' }); assert.equal(s.assessment.expectedOutput.bitstream[0].filter, 'aac_adtstoasc');
   assert.equal(s.validate().valid, true); // Complete native evidence matches; no framed packet hash is required.
 });
 

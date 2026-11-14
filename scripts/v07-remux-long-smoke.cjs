@@ -9,9 +9,11 @@ const { FAMILIES, POLICY_ID } = require('../src/operation-catalog.cjs');
 const { REMUX_POLICIES, REMUX_POLICY_ID } = require('../src/remux-catalog.cjs');
 const vfrProof = require('./v07-remux-mov-vfr-smoke.cjs');
 const mkvProof = require('./v07-remux-mkv-mp4-smoke.cjs');
-const { createOwnedSession, copyPinnedFile, hashFile, readBoundedFile, ROOT, OWNED, FIXTURES, sha, fault } = require('./v07-remux-long-fixtures.cjs');
+const { createOwnedSession, copyPinnedFile, hashFile, readBoundedFile, ROOT, OWNED, FIXTURES, TS_FIXTURES, sha, fault } = require('./v07-remux-long-fixtures.cjs');
 const FIXTURE_ID = 'b29f31e5-bdd1-4f02-afe5-7d0f293ef39f';
 const FIXTURE_REPORT_SHA = '133b550b5ec2158caeef0e041c3a91238056a20e947f866793fb1df72c0cfaf5';
+const TS_FIXTURE_ID = '8ca99b73-60ee-474d-a503-10f732367f21';
+const TS_FIXTURE_REPORT_SHA = '6f3903840f56245a8bbc9582b4a2d3e23a7803ca9d7bfdb43ad5f65055f5b0db';
 const MiB = 1024 ** 2, GiB = 1024 ** 3;
 const LIMITS = Object.freeze({ totalMs: 4 * 60 * 60000, childMs: 90 * 60000, forecastBytes: 8 * GiB,
   maxChildren: 512, maxStarts: 14, verificationMs: 60000, minimumDFreeBytes: 25 * GiB, marginBytes: 512 * MiB, reportBytes: 32 * MiB });
@@ -27,6 +29,12 @@ const LEGACY = Object.freeze({
     file: path.join(OWNED, 'outputs', 'q2d-mkv-mp4-' + MKV_REPORT_ID, 'output-bframe-seed-mkv/B-1280x720-30fps_Remux-MKV.mkv') }),
 });
 const CASES = Object.freeze({
+  'ts-mp4': Object.freeze({ fixture: 'TS_AV', target: 'mp4' }),
+  'ts-video-mp4': Object.freeze({ fixture: 'TS_VIDEO', target: 'mp4' }),
+  'ts-offset-mp4': Object.freeze({ fixture: 'TS_OFFSET', target: 'mp4' }),
+  'ts-long-mp4': Object.freeze({ fixture: 'TS_LONG', target: 'mp4' }),
+  'ts-refused': Object.freeze({ fixture: 'TS_TWO_AUDIO', target: 'mp4', refusal: 'REMUX_TS_AUDIO_COUNT', also: 'ts-refused-cut' }),
+  'ts-refused-cut': Object.freeze({ fixture: 'TS_CUT', target: 'mp4', refusal: 'REMUX_TS_HEAD_NOT_KEYFRAME' }),
   'mp4-mkv': Object.freeze({ fixture: 'LONG_MP4', target: 'matroska' }),
   'mp4-mp4': Object.freeze({ fixture: 'LONG_MP4', target: 'mp4' }),
   'mp4-mov': Object.freeze({ fixture: 'LONG_MP4', target: 'mov' }),
@@ -47,6 +55,12 @@ const CASES = Object.freeze({
 // Prospective exact expectations, never learned from the run under test. A new
 // warning keeps the report FAILED for root review; no post-run wildcard grant.
 const EXPECTED_WARNINGS = Object.freeze({
+  ...Object.fromEntries(['ts-mp4', 'ts-video-mp4', 'ts-offset-mp4', 'ts-long-mp4'].map(label => [label, Object.freeze([
+    { code: 'REMUX_SINGLETON_DEFAULT_MARKED', key: 'disposition.default',
+      message: 'Stream 0 → 0: the MP4 target marks this sole video track as default; it has no track-selection effect.' },
+    ...(label === 'ts-video-mp4' ? [] : [{ code: 'REMUX_SINGLETON_DEFAULT_MARKED', key: 'disposition.default',
+      message: 'Stream 1 → 1: the MP4 target marks this sole audio track as default; it has no track-selection effect.' }]),
+  ])])),
   // LONG_MP4 carries no vendor_id tag (fixture report b29f31e5 probe: language,
   // handler_name, encoder only), so nothing descriptive can be lost to Matroska.
   // Failed run bb1a7617 retained: it pinned the MOV-source precedent by mistake.
@@ -72,7 +86,7 @@ function requirePins(id, reportSha) {
 }
 function routeOptions(mode) {
   assert.ok(['--qualify', '--normal'].includes(mode));
-  assert.equal(REMUX_POLICIES.length, 5); assert.equal(new Set(REMUX_POLICIES.map(p => p.inputFamily + ':' + p.target)).size, 5);
+  assert.equal(REMUX_POLICIES.length, 6); assert.equal(new Set(REMUX_POLICIES.map(p => p.inputFamily + ':' + p.target)).size, 6);
   if (mode === '--normal') return { remuxPolicies: REMUX_POLICIES, remuxPolicyIdentity: REMUX_POLICY_ID };
   return { remuxPolicies: REMUX_POLICIES.map(route => ({ ...route, id: 'q2o-packet-lab:' + route.id,
     verificationMethod: 'packet-identity-v1',
@@ -100,6 +114,18 @@ function requirePerformance(record) {
   assert.ok(Number.isSafeInteger(record.copyMs) && record.copyMs >= 0 && Number.isSafeInteger(record.verificationMs)
     && record.verificationMs >= 0 && record.verificationMs <= LIMITS.verificationMs, 'Packet verification exceeded the prospective 60s ceiling.');
   const calls = record.evidence.invocations;
+  if (record.label?.startsWith('ts-')) {
+    assert.equal(record.evidence.readAccounting.completeOperations.filter(c => c.side === 'source').length, 2);
+    assert.equal(record.evidence.readAccounting.completeOperations.filter(c => c.side === 'output').length, 3);
+    assert.equal(record.evidence.readAccounting.partialOperations.filter(c => c.operation === 'native-edit-list-metadata').length, 1);
+    assert.equal(record.evidence.transport.rule, 'keep-source-clocks-exactly'); assert.deepEqual(record.evidence.transport.nalMovements, []);
+    assert.equal(calls.filter(c => c.args.includes('-show_packets')).length, 1, 'The source pass was completed during preparation.');
+    assert.ok(calls.every(c => !c.args.includes('-show_frames') && !c.args.some(a => /^pcm_/.test(a))));
+    assert.equal(calls.filter(c => c.args.includes('rawvideo')).length, 2);
+    assert.ok(calls.filter(c => c.args.includes('rawvideo')).every(c => c.args.every((a, i) => a !== '-frames:v' || c.args[i + 1] === '1')));
+    assert.equal(calls.filter(c => c.args.includes('h264_mp4toannexb,filter_units=remove_types=12,h264_metadata')).length, 1);
+    return;
+  }
   assert.equal(calls.filter(c => c.args.includes('-show_packets')).length, 2, 'One complete packet pass per file.');
   assert.ok(calls.every(c => (!c.args.includes('-show_frames') || c.args.includes('-read_intervals') && c.label?.endsWith('-audio-admission')) && (!c.args.includes('rawvideo')
     || c.args.includes('-frames:v') && c.args.every((arg, index) => arg !== '-frames:v' || c.args[index + 1] === '1'))), 'No unbounded native video decoding.');
@@ -150,12 +176,12 @@ function legacySource(bytes, label, digest = sha) {
   assert.equal(entry.bytes, expected.bytes); assert.equal(entry.sha256, expected.sha256);
   return { file: expected.file, bytes: expected.bytes, sha256: expected.sha256, proof: { reportSha256: MKV_REPORT_SHA } };
 }
-function fixtureSources(bytes, pins) {
+function fixtureSources(bytes, pins, specifications = FIXTURES) {
   requirePins(pins.id, pins.sha256); assert.ok(Buffer.isBuffer(bytes) && bytes.length <= 2 * MiB); assert.equal(sha(bytes), pins.sha256, 'Pinned fixture report changed.');
   const report = JSON.parse(bytes.toString('utf8')); assert.equal(report.id, pins.id); assert.equal(report.status, 'passed-owned-fixtures');
   assert.equal(report.liveChildren, 0); assert.equal(report.leaseReleased, true); assert.deepEqual(report.closureFailures, []);
-  assert.equal(report.cases.length, FIXTURES.length); const result = new Map();
-  for (const spec of FIXTURES) {
+  assert.equal(report.cases.length, specifications.length); const result = new Map();
+  for (const spec of specifications) {
     const matches = report.cases.filter(c => c.id === spec.id); assert.equal(matches.length, 1); const entry = matches[0];
     const file = path.join(OWNED, 'fixtures', 'remux-long-' + pins.id, spec.name);
     assert.equal(entry.output, file); assert.equal(entry.status, 'passed-generated-metadata');
@@ -168,7 +194,7 @@ function fixtureSources(bytes, pins) {
 }
 function requireStart(count) { assert.ok(Number.isSafeInteger(count) && count >= 0 && count < LIMITS.maxStarts, 'Prospective Start ceiling.'); }
 function requireRefusal(label, result) {
-  assert.equal(CASES[label]?.refusal, 'REMUX_DEFAULT_DISPOSITION_UNREPRESENTABLE');
+  assert.ok(['REMUX_DEFAULT_DISPOSITION_UNREPRESENTABLE', 'REMUX_TS_AUDIO_COUNT', 'REMUX_TS_HEAD_NOT_KEYFRAME'].includes(CASES[label]?.refusal));
   assert.equal(result.status, 'unsupported'); assert.equal(result.reasonCode, CASES[label].refusal);
   assert.notEqual(result.outputDisposition?.published, true);
 }
@@ -183,6 +209,9 @@ function createSmoke(dependencies = {}) {
   return async argv => {
     const config = configuration(argv), pins = dependencies.pins || { id: FIXTURE_ID, sha256: FIXTURE_REPORT_SHA };
     requirePins(pins.id, pins.sha256);
+    const hasTransport = config.cases.some(name => name.startsWith('ts-'));
+    const tsPins = dependencies.tsPins || { id: TS_FIXTURE_ID, sha256: TS_FIXTURE_REPORT_SHA };
+    if (hasTransport) requirePins(tsPins.id, tsPins.sha256);
     const session = (dependencies.createOwnedSession || createOwnedSession)({ kind: 'smoke', limits: LIMITS, dependencies });
     const Service = dependencies.EncoderService || EncoderService, controlsFactory = dependencies.createOperationControls || createOperationControls;
     const copy = dependencies.copyPinnedFile || copyPinnedFile, hash = dependencies.hashFile || hashFile;
@@ -196,9 +225,17 @@ function createSmoke(dependencies = {}) {
     };
     try {
       await session.open();
-      const reportPath = path.join(ROOT, 'artifacts/v0.7/q2i/fixtures', pins.id, 'report.json');
-      const reportBytes = await (dependencies.readFixtureReport || readBoundedFile)(reportPath, 2 * MiB, { io: session.io, signal: session.controller.signal });
-      const sources = fixtureSources(reportBytes, pins);
+      const sources = new Map();
+      if (config.cases.some(name => !name.startsWith('ts-'))) {
+        const reportPath = path.join(ROOT, 'artifacts/v0.7/q2i/fixtures', pins.id, 'report.json');
+        const reportBytes = await (dependencies.readFixtureReport || readBoundedFile)(reportPath, 2 * MiB, { io: session.io, signal: session.controller.signal });
+        for (const [key, value] of fixtureSources(reportBytes, pins)) sources.set(key, value);
+      }
+      if (hasTransport) {
+        const tsReportPath = path.join(ROOT, 'artifacts/v0.7/q2i/fixtures', tsPins.id, 'report.json');
+        const tsBytes = await (dependencies.readFixtureReport || readBoundedFile)(tsReportPath, 2 * MiB, { io: session.io, signal: session.controller.signal });
+        for (const [key, value] of fixtureSources(tsBytes, tsPins, TS_FIXTURES)) sources.set(key, value);
+      }
       const stateDir = path.join(session.owned, 'state'); await session.io.mkdir(stateDir);
       const controls = controlsFactory({ runtime: session.runtime, stateDir, families: FAMILIES, policyIdentity: POLICY_ID, ...routeOptions(config.mode) });
       if (typeof controls.operationStorage === 'function') {
@@ -266,7 +303,8 @@ function createSmoke(dependencies = {}) {
       service = new Service({ ffmpeg: session.runtime.ffmpeg, ffprobe: session.runtime.ffprobe, stateDir, inspectionWorkers: 1,
         runtimeIdentity: FAMILIES[0].runtimeIdentity, run, ...controls }); await service.initializeDiagnostics();
       session.controller.signal.addEventListener('abort', () => { void service.cancelCurrent(); }, { once: true });
-      for (const label of config.cases) report.cases.push({ label, ...CASES[label], status: 'pending', copyMs: 0, verificationMs: 0, wallMs: 0,
+      const expanded = [...new Set(config.cases.flatMap(label => [label, ...(CASES[label].also ? [CASES[label].also] : [])]))];
+      for (const label of expanded) report.cases.push({ label, ...CASES[label], status: 'pending', copyMs: 0, verificationMs: 0, wallMs: 0,
         bytesRead: null, peakRssBytes: process.memoryUsage().rss });
       for (const record of report.cases) {
         const label = record.label, spec = CASES[label]; let original, file;

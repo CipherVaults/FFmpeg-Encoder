@@ -13,6 +13,7 @@ const { classifyColor } = require('./media.cjs');
 const { observeMovRepresentation } = require('./mov-representation.cjs');
 const { projectRequiredRemuxTags } = require('./remux-metadata-policy.cjs');
 const { deriveRemuxAssessmentBudget } = require('./remux-operation.cjs');
+const { observeRemuxEditLists, remuxEditInterval, observeRemuxSourcePlayback } = require('./remux-edit-lists.cjs');
 const { TextDecoder } = require('node:util');
 const { setImmediate: yieldIO } = require('node:timers/promises');
 
@@ -687,7 +688,7 @@ async function* packetDecodeClock(input, { allowPrefix, signal } = {}) {
   }
   need(prefix.length === 0, 'No concrete DTS anchors the leading reorder prefix.', 'REMUX_PACKET_DTS');
 }
-async function compareRemuxPackets(beforeCount, afterCount, sourceRows, outputRows, { signal, sourcePrefix = false, outputPrefix = false, audioTrim = null } = {}) {
+async function compareRemuxPackets(beforeCount, afterCount, sourceRows, outputRows, { signal, sourcePrefix = false, outputPrefix = false, audioTrim = null, exactTiming = false } = {}) {
   const a = packetDecodeClock(sourceRows, { allowPrefix: sourcePrefix, signal }), b = packetDecodeClock(outputRows, { allowPrefix: outputPrefix, signal });
   let count = 0, ptsError = rational(0), durationError = rational(0), dtsError = rational(0);
   const exact = (row, field) => rational(row[field].numerator, row[field].denominator);
@@ -708,6 +709,7 @@ async function compareRemuxPackets(beforeCount, afterCount, sourceRows, outputRo
       for (const field of ['pts', 'dts', 'duration']) {
         if (ar[field].numerator === br[field].numerator && ar[field].denominator === br[field].denominator) continue;
         const error = abs(sub(exact(ar, field), exact(br, field)));
+        need(!exactTiming || error.n === 0n, `Transport packet ${field} changed` + at, 'REMUX_TS_PACKET_IDENTITY');
         need(!greater(error, PACKET_TOLERANCE), `Packet ${field} exceeds 1/500s` + at, 'REMUX_PACKET_TIMING');
         if (field === 'pts' && greater(error, ptsError)) ptsError = error;
         if (field === 'dts' && greater(error, dtsError)) dtsError = error;
@@ -953,7 +955,9 @@ async function collectRemuxEvidence(options) {
     && outputBefore.size <= BigInt(budget.maxOutputBytes), 'Selected file exceeds its source-derived source/output policy.', 'REMUX_EVIDENCE_LIMIT');
   const directory = await fs.mkdtemp(path.join(stageDirectory, 'remux-evidence-')), directoryBefore = await binding(directory, true);
   let spoolBytes = 0, active = 0; const owned = [];
-  const receipt = { version: 1, status: 'collecting', verificationMethod, verificationClaim: remuxVerificationDescription(verificationMethod),
+  const transport = assessment.inputFamily === 'mpegts';
+  need(!transport || verificationMethod === 'packet-identity-v1', 'TS requires compressed packet identity.', 'REMUX_VERIFICATION_METHOD');
+  const receipt = { version: 1, status: 'collecting', verificationMethod, verificationClaim: remuxVerificationDescription(verificationMethod, assessment.inputFamily),
     scope: verificationMethod === 'packet-identity-v1' ? 'complete-compressed-remux-identity-and-timeline' : 'complete-native-remux-essence-and-timeline', directory,
     runtimeIdentity, outputId: outputId.toLowerCase(), sourcePath, outputPath, sourceProbeFingerprint, outputProbeFingerprint,
     sourceBefore: stamp(sourceBefore), outputBefore: stamp(outputBefore), sourceAfter: null, outputAfter: null,
@@ -1342,6 +1346,52 @@ async function collectRemuxEvidence(options) {
     const primary = failures.find(result => result.reason?.code !== 'CANCELLED') || failures[0];
     if (primary) throw primary.reason;
   }
+  async function collectTransportSides() {
+    const { getTransportPreparation, scanTransportPackets } = require('./remux-transport-evidence.cjs');
+    const prepared = getTransportPreparation(options.transportPreparation, sourcePath, sourceProbe, stamp(sourceBefore));
+    const scanned = await scanTransportPackets({ file: outputPath, probe: outputProbe, source: false, sourceAdmission: prepared.admitted,
+      budget, signal, invoke: (args, maximum, sink) => invoke('output-all-packets', ffprobe, args, maximum, false, null, sink) });
+    for (const mapping of mappings) {
+      const before = prepared.entries.get(mapping.inputIndex), after = scanned.entries.get(mapping.outputIndex);
+      need(before && after && before.count === after.count, 'Transport packet count changed.', 'REMUX_PACKET_COUNT');
+      need(after.record.decoderParametersSha256 === before.record.decoderParametersSha256,
+        'Transport decoder parameters changed.', 'REMUX_CODEC_PARAMETERS');
+      need(before.record.contentSha256 === after.record.contentSha256,
+        'Ordered AVC NALs or raw AAC frame payload changed, disappeared or moved.', 'REMUX_PACKET_PAYLOAD');
+      need(before.record.metadataSha256 === after.record.metadataSha256,
+        'Exact packet clocks, duration, key flag, side metadata or A/V offset changed.', 'REMUX_TS_PACKET_IDENTITY');
+      // The rolling transcript contains every exact-rational row in decode
+      // order, including its per-packet canonical payload hash and key flag.
+      // Equal complete transcripts avoid a second source demux or unbounded
+      // in-memory row list. The preparation token is main-private and stamped.
+      const pair = [structuredClone(before), after];
+      for (let i = 0; i < pair.length; i++) {
+        const side = i ? 'output' : 'source', entry = pair[i];
+        entry.family = i ? 'isobmff' : 'mpegts'; entry.inferredDts = 0; entry.observedBFrames = entry.header?.has_b_frames || 0;
+        entry.bytes = before.bytes;
+        if (mapping.codecType === 'video') {
+          entry.windowClips = {};
+          for (const position of ['start', 'end']) {
+            const writer = await spool(side + '-' + mapping.outputIndex + '-window-' + position + '.h264');
+            try { await writer.write(Buffer.from(position === 'start' ? entry.firstClip : entry.lastClip)); entry.windowClips[position] = await writer.finish(); }
+            finally { await writer.close(); }
+          }
+        }
+        collections[side].set(i ? mapping.outputIndex : mapping.inputIndex, entry);
+      }
+      collections.source.get(mapping.inputIndex).packetComparison = { complete: true, comparedUnits: String(before.count),
+        maxPtsError: encoded(rational(0)), maxDurationError: encoded(rational(0)), maxDtsError: encoded(rational(0)) };
+    }
+    // Canonical byte identity above proves the very same ordered NAL sequence
+    // on both sides. Validate all output slice headers in CBS without decoding
+    // interior frames; the existing keyframe-window decoder follows below.
+    const video = mappings.find(m => m.codecType === 'video');
+    await invoke('output-' + video.outputIndex + '-complete-parameters', ffmpeg, [...ffmpegArgs(outputPath, video.outputIndex),
+      '-an', '-sn', '-dn', '-copyinkf', '-c:v', 'copy', '-bsf:v', ['h264_mp4toannexb', 'filter_units=remove_types=12', 'h264_metadata'].join(','), '-f', 'null', '-'],
+    1024, true);
+    receipt.transport = { rule: 'keep-source-clocks-exactly', nalMovements: [], strippedFraming: ['annex-b-start-codes', 'seven-byte-adts-header'],
+      sampleDescription: 'byte-identical-sps-pps-and-adts-asc', headDroppedPackets: 0 };
+  }
   async function collectCodecAdmission() {
     const boundCodecBytes = new Map();
     await eachSide(async (side, file, media) => {
@@ -1585,7 +1635,7 @@ async function collectRemuxEvidence(options) {
         need(a.keyPacketIndex === b.keyPacketIndex && a.frameCount === b.frameCount && a.sha256 === b.sha256,
           'Bounded native decode differs at the ' + position + ' keyframe.', 'REMUX_PACKET_WINDOW');
       }
-    } else if (type === 'audio') {
+    } else if (type === 'audio' && !transport) {
       await eachSide(async (side, file) => {
         const collected = side === 'source' ? before : after;
         const stream = collected.stream, representation = pcmRepresentation(stream), sink = await pcmSink(side + '-' + stream.index);
@@ -1614,6 +1664,8 @@ async function collectRemuxEvidence(options) {
   }
   try {
     if (verificationMethod === 'packet-identity-v1') {
+      if (transport) await collectTransportSides();
+      else {
       await collectPacketSides();
       for (const mapping of mappings) if (mapping.codecType !== 'attachment') {
         const before = collections.source.get(mapping.inputIndex), after = collections.output.get(mapping.outputIndex);
@@ -1640,6 +1692,7 @@ async function collectRemuxEvidence(options) {
           collected.record.audioTrim = trim;
           collected.record.metadataSha256 = sha(collected.record.decoderParametersSha256 + ':' + collected.sideHash + ':' + JSON.stringify(trim));
         }
+      }
       }
     }
     else for (const [side, file, media] of [['source', sourcePath, source], ['output', outputPath, output]]) {
@@ -1708,7 +1761,7 @@ async function collectRemuxEvidence(options) {
         } finally { await builder.close(); }
       }
     }
-    const essence = { version: 1, verificationMethod, verificationClaim: remuxVerificationDescription(verificationMethod), runtimeIdentity, sourceFingerprint: assessment.sourceFingerprint,
+    const essence = { version: 1, verificationMethod, verificationClaim: remuxVerificationDescription(verificationMethod, assessment.inputFamily), runtimeIdentity, sourceFingerprint: assessment.sourceFingerprint,
       sourceEvidenceFingerprint: assessment.sourceEvidenceFingerprint, outputId: outputId.toLowerCase(),
       outputEvidenceFingerprint: outputProbeFingerprint, complete: true, streams: [] };
     for (const mapping of mappings) {
@@ -1731,7 +1784,7 @@ async function collectRemuxEvidence(options) {
         contentIdentical: before.record.contentSha256 === after.record.contentSha256,
         metadataIdentical: before.record.metadataSha256 === after.record.metadataSha256,
         evidenceKind: before.kind || (verificationMethod === 'packet-identity-v1' ? 'packet-identity-' + mapping.codecType : `complete-native-${mapping.codecType}`),
-        ...(mapping.codecType === 'audio' ? { pcmWindows: await comparePcmWindows(before, after) } : {}) });
+        ...(mapping.codecType === 'audio' && !transport ? { pcmWindows: await comparePcmWindows(before, after) } : {}) });
     }
     // A full output seal also binds MOV representation receipts. Hash from an
     // open stable handle and prove both the name and handle stayed unchanged.
@@ -1745,6 +1798,21 @@ async function collectRemuxEvidence(options) {
       need(same(outputBefore, await handle.stat({ bigint: true })), 'Output changed during full seal.', 'REMUX_EVIDENCE_CHANGED');
     } finally { await handle.close(); }
     essence.outputFileSha256 = hash.digest('hex'); await paths();
+    // Preparation rejects source controls before Ready. Inspect them again at
+    // collection under this job's unchanged identity, including ISO->Matroska.
+    const sourcePlayback = assessment.inputFamily === 'isobmff' ? await observeRemuxSourcePlayback({ file: sourcePath, probe: source,
+      identity: { canonicalPath: sourcePath, ...stamp(sourceBefore) }, selectedIndexes: mappings.map(m => m.inputIndex),
+      maxRecords: budget.maxRecords, timeoutMs: budget.timeoutMs, signal, onProgress: value => progress('source-playback-controls', value.completed, value.total) }) : null;
+    if (sourcePlayback) receipt.sourcePlayback = sourcePlayback;
+    if (['mp4', 'mov'].includes(assessment.target)) {
+      receipt.nativeEditLists = await observeRemuxEditLists({ outputProbe, signal, maxRecords: budget.maxRecords, exact: transport,
+        fileReceipt: { path: outputPath, sha256: essence.outputFileSha256, bytes: Number(outputBefore.size), identity: stamp(outputBefore) },
+        intervals: mappings.map(m => ({ outputIndex: m.outputIndex,
+          ...remuxEditInterval(collections.source.get(m.inputIndex).record, source.streams.find(s => s.index === m.inputIndex)),
+          ...(sourcePlayback ? { sourceControls: sourcePlayback.tracks.find(t => t.outputIndex === m.inputIndex).controls } : {}) })),
+        onProgress: value => progress('native-edit-lists', value.completed, value.total) });
+      await paths();
+    }
     // A MOV target's unspecified track languages are read from the sealed
     // owned file itself (record 47, Q1e). The branded receipt stays private to
     // main; the persisted receipt keeps only a bounded description of it.
@@ -1765,6 +1833,28 @@ async function collectRemuxEvidence(options) {
     receipt.ioBytes = { packetPayload: String(receipt.comparisons.reduce((n, c) => n + 2n * BigInt(c.packetPayloadBytes || 0), 0n)),
       outputSeal: Number(outputBefore.size), movSeal: assessment.target === 'mov' ? Number(outputBefore.size) : 0,
       physicalMediaReads: null };
+    // Logical complete-file operations are not physical disk passes. A tool
+    // can seek/re-read internally; copying and initial inspection are outside
+    // this collector. Preserve the extra TS integrity/probe work from prepare.
+    const completeOperations = transport ? [{ side: 'source', operation: 'transport-integrity', bytesRead: Number(sourceBefore.size) },
+      { side: 'source', operation: 'packet-probe-during-preparation' }] : [];
+    const partialOperations = [];
+    if (sourcePlayback) partialOperations.push({ side: 'source', operation: 'native-source-playback-metadata', bytesRead: sourcePlayback.metadataBytesRead,
+      preparationRead: 'Normal-service preparation separately inspects ISO source metadata; those preparation metadata bytes are unmeasured here.' });
+    for (const call of receipt.invocations) {
+      const input = call.args[call.args.indexOf('-i') + 1], side = input === sourcePath ? 'source' : input === outputPath ? 'output' : null;
+      if (!side) continue;
+      if (call.args.includes('-show_packets') || call.label.endsWith('-complete-parameters') || call.label.endsWith('-native-audio')
+        || call.label.endsWith('-native-video') || call.args.includes('-show_frames') && !call.args.includes('-read_intervals'))
+        completeOperations.push({ side, operation: call.label });
+      else partialOperations.push({ side, operation: call.label, toolInternalReads: 'unmeasured' });
+    }
+    completeOperations.push({ side: 'output', operation: 'output-seal', bytesRead: Number(outputBefore.size) });
+    if (assessment.target === 'mov') completeOperations.push({ side: 'output', operation: 'mov-representation-reseal', bytesRead: Number(outputBefore.size) });
+    if (receipt.nativeEditLists) partialOperations.push({ side: 'output', operation: 'native-edit-list-metadata', bytesRead: receipt.nativeEditLists.metadataBytesRead });
+    receipt.readAccounting = { scope: 'Logical verification operations including TS preparation; excludes copying and initial inspection. ISO preparation metadata reads are separately noted and unmeasured here. Tool-internal seeks/re-reads are unmeasured.',
+      completeOperations, partialOperations, capturedClipDecodeOperations: receipt.invocations.filter(c => c.args.includes('rawvideo') && c.args.includes('-frames:v')).length,
+      physicalIOBytes: null };
     receipt.status = 'completed'; await persist('receipt.json', Buffer.from(JSON.stringify(receipt, null, 2)), 0);
     await paths(); for (const item of owned) await unchanged(item.file, item.stat);
     const result = freeze(receipt); receipts.set(result, { assessment, runtimeIdentity, outputId: outputId.toLowerCase(), essence, movRepresentation }); return result;

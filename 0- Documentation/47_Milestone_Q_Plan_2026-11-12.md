@@ -221,3 +221,33 @@ Changes to the plan in §6:
 - **Review 3 findings (all fixed).** Source-side playback rate lost on ISO routes (high); track/movie volume, flags and rate unchecked (high); `tkhd` duration rule too strict for unusual timescales; `mvhd`/`mdhd` durations unchecked.
 - **Proofs.** Fixtures `8ca99b73`; qualification `1865c531`; earlier-byte runs `1c8c571e`, `23e999a9`, `16477e14`; final-byte normal-service runs `880ff036` (TS) and `17e16f69` (existing routes). Receipt `q2j-ts-full-root`.
 - **Limits.** First envelope only (H.264, AAC-LC 48 kHz mono/stereo, single program). Fixtures are generated, not captured from a real broadcast or capture device. The last fix round is not yet independently re-reviewed.
+
+### Q2j part 1 third review and fix (November 14, 2026, afternoon)
+
+- **Review `q2j-review-4` (eight findings, all fixed by `q2j-ts-6`).** High: VFR with B-frames refused; track flags forced to 3; `tkhd` width/height unchecked; `smhd.balance` unchecked. Medium: omitted tracks tripping the track-kind guard; `stz2` refused; fragmented MP4 refused with a misleading message; source duration contradictions normalised silently.
+- **Root's guiding rule.** The source-side native check may refuse a file only for a playback control the remux would not carry, never because its atoms are laid out differently from what the pinned muxer writes. Preserve-and-compare is preferred to forcing neutral values.
+- **Result.** New `src/remux-fragments.cjs`; admitted flags, layer and alternate group are preserved in the owned stage before sealing and compared afterwards; new codes `REMUX_TRACK_GEOMETRY_UNSUPPORTED`, `REMUX_SOUND_BALANCE_UNSUPPORTED`, `REMUX_SAMPLE_TABLE_UNVERIFIED`, `REMUX_SOURCE_FRAGMENT_UNVERIFIED`, `REMUX_SOURCE_DURATION_UNVERIFIED`, `REMUX_PLAYBACK_WRITE_UNVERIFIED`, `STAGE_ALREADY_SEALED`. Round-trip corpus test `tests/remux-roundtrip.test.cjs`. Fragmented AAC keeps its earlier refusal.
+- **Proof.** Normal service on the fixed bytes: TS `bb38424a`, existing 14 cases `c7d86a40`. Receipt `q2j-fix6-full-root`: 3049 tests, 3039 pass, the same 5 parked failures, 5 skipped. Codex audit: 221 saved outputs and 129 ISO source admissions still pass.
+- **Limit.** This fix round has not been independently re-reviewed. Root's lesson: the earlier proofs and suite could not catch unwanted refusals because the test files did not include those layouts.
+
+## 10. Owner decisions — November 14, 2026 (afternoon)
+
+Ahmed's words are quoted; the rest is root's reading.
+
+- **Quota and roles.** "you have full authority to use 100% of Codex's quota, and yours". "keep pushing the effort on Codex ... I need you to stay as a planner and coordinator for Codex's work, but Codex needs to do as much work as it can be done ... I have still a reset for the entire week I will use." Root does not take code work onto Claude when the Codex gate refuses a job; it tells Ahmed.
+- **Logo (R07).** "I agree with your recommendation. Gauge". The amber square stays the same in both themes; "shift the white part to be black ones ... keep the yellow square as it is, and when it's in the dark mode it's a white one? no backgrounds". Windows icon (a single fixed image): show an outlined and a mid-tone option on light and dark taskbars; "We will use possibly the outlined, but no harm in seeing both."
+- **QD1** accepted (untouched audio lands on its packet edges; the exact difference is shown). **QD2** cut a crossing subtitle line to the trim and list the changed lines. **QD3** refuse ASS subtitles on a resize for now.
+- **QD4 reversed from root's recommendation.** "I need that. And the 4K is critical ... to downscale, let's say, from 4K to 1440p, or from 4K even to full HD ... That's even the core reason for why we are doing this regarding the scaling. Even if it takes several gigabytes of test files, use one of the hard drives ... You will have hundreds of gigabytes like that to test with." 4K and 1440p source cells are critical 0.7 work. Test media goes in the project-owned folder on F:; the personal media rule is unchanged.
+- **Source playback controls.** Agreed: refuse, never normalise.
+- **Record 46 owner points.** O1 yes. O2 yes. O3 keep refusing. O4: "we could use the [cheaper] check primarily and assess the pros and cons ... we don't need to hog the time significantly just because we are out of cautious"; root: the cheaper check becomes the AMD/Intel default, and the full-decode timings and what each check would catch are reported when hardware results exist. O5: "no, I don't think I need extra checks." O6: the untested mark is only a clear label where the user chooses Intel or AMD encoding; hardware testing stays as decided (H1). O7 not now; "HDR is not to be implemented at all right now for anything." O8 left to root: acknowledged, today's disclosure stays and the AMD producer question remains open until hardware exists. O9 accept. O10 later.
+
+## 11. Evaluation rule adopted — November 14, 2026
+
+Ahmed asked root to study Anthropic's "Building strong safety evaluations" (published November 13, 2026; root read a fetched summary, not the full text) and use it with Codex. It concerns AI model evaluations; these parts transfer and now bind every slice:
+
+1. **State the claim first.** Each brief opens with one sentence saying what must be true for the user; tests and reviews are judged against that claim, not against "the suite passes".
+2. **Both directions.** Each feature has a must-refuse set and a must-accept set of ordinary files in varied layouts; a slice is not done until both pass.
+3. **Check the checker.** On a sample of files the fast verification verdict is compared with an independent full decode comparison, as a test-time tool only.
+4. **Reviews ask both questions:** which bad file gets through, and which good file is refused. The reviewer is a fresh session, never the author.
+5. **Real files beside generated ones** where they exist; say plainly when fixtures are only generated.
+6. **Already in force and kept:** verdicts pinned before a run, tolerances never widened, failed receipts retained, limits reported.

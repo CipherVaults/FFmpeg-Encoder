@@ -255,3 +255,7 @@ For each vendor:
 - O8: acknowledged / discuss later
 - O9: accept / reject
 - O10: later
+
+## Owner answers — November 14, 2026
+
+Ahmed answered O1–O10 on November 14, 2026; his words and root's reading are in [record 47 section 10](47_Milestone_Q_Plan_2026-11-12.md). In short: O1 yes, O2 yes, O3 keep, O4 cheaper check as the default with a later comparison, O5 no, O6 the mark is only a label and hardware testing stays as decided, O7 not now (no HDR), O8 acknowledged (root's choice at Ahmed's request), O9 accept, O10 later.

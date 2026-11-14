@@ -149,6 +149,7 @@ const NATIVE_MESSAGES = freeze(Object.assign(Object.create(null), {
   STAGE_CHANGED: 'The work file changed while the job was running.',
   STAGE_IDENTITY_UNAVAILABLE: 'The work file could not be identified.',
   STAGE_NOT_SEALED: 'The work file was not finished.',
+  STAGE_ALREADY_SEALED: 'The finished work file cannot be changed.',
   STAGE_NOT_VALIDATED: 'The work file was not validated.',
   // Device evidence on the native job's call path (backend-observation.cjs, backend-capabilities.cjs).
   PROBE_MODE_MISMATCH: 'The device reported different encoder settings from the ones requested, so the result was not used.',

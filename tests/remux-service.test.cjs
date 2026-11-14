@@ -32,7 +32,7 @@ async function harness(t, { target = 'matroska', count = 1, explicitAudio = fals
   sourceEnvelope = 'h264-aac-lc-48k-stereo-v1', verificationMethod = 'complete-native-v1', Service = EncoderService, change = () => {} } = {}) {
   await fs.mkdir(parent, { recursive: true }); const root = await fs.mkdtemp(path.join(parent, 'run-'));
   const input = path.join(root, 'input'), output = path.join(root, 'output'); await fs.mkdir(input); await fs.mkdir(output);
-  for (let i = 0; i < count; i++) await fs.writeFile(path.join(input, `source-${i}.mkv`), require('./helpers/mov-fixture.cjs').playbackFixture(probe()));
+  for (let i = 0; i < count; i++) { const native = probe(); change(native); await fs.writeFile(path.join(input, `source-${i}.mkv`), require('./helpers/mov-fixture.cjs').playbackFixture(native)); }
   const service = new Service({ ffmpeg: path.join(root, 'dummy-ffmpeg'), ffprobe: path.join(root, 'dummy-ffprobe'), stateDir: path.join(root, 'state'),
     inspect: async file => { const value = probe(); if (mov) value.format.format_name = 'mov,mp4,m4a,3gp,3g2,mj2';
       Object.assign(value.streams[0].tags, videoTags); change(value); value.streams.forEach(s => { s.id = String(s.index + 1); }); value.format.size = String((await fs.stat(file)).size); return { probe: value, duration: 2, summary: {} }; }, capabilities: async () => { throw new Error('Remux must not initialize encoders'); },

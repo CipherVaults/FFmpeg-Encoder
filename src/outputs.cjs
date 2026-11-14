@@ -96,6 +96,21 @@ async function sealStage(stage) {
     record.sealed ||= after;
   } finally { await handle.close(); }
 }
+async function updateStagePlayback(stage, expected, update) {
+  const record = recordOf(stage);
+  if (record.sealed || record.published) throw failure('STAGE_ALREADY_SEALED', 'Playback controls can only be written before sealing.');
+  const before = await inspectStageFile(stage, record);
+  if (before.nlink !== 1n || PUBLICATION_STAMP_FIELDS.some(k => String(before[k]) !== expected[k]))
+    throw failure('STAGE_CHANGED', 'The owned output changed before playback preservation.');
+  const handle = await fs.open(stage.file, 'r+');
+  try {
+    if (!sameContent(before, await handle.stat({ bigint: true }))) throw failure('STAGE_CHANGED', 'Playback handle differs from the owned output.');
+    await update(handle);
+    const after = await handle.stat({ bigint: true }), named = await inspectStageFile(stage, record);
+    if (!sameObject(before, after) || before.size !== after.size || after.nlink !== 1n || !sameContent(after, named))
+      throw failure('STAGE_CHANGED', 'The output changed during playback preservation.');
+  } finally { await handle.close(); }
+}
 
 async function requireSealed(stage, record) {
   if (!record.sealed) throw failure('STAGE_NOT_SEALED', 'Bind the completed temporary output before validating and publishing it.');
@@ -406,4 +421,4 @@ async function publishOutput(stage, destination, { signal, link = fs.link, atomi
   return true;
 }
 
-module.exports = { exists, createStage, sealStage, markStageValidated, retainSealedStage, cleanupStage, publishOutput, readPublishedOutputIdentity };
+module.exports = { exists, createStage, sealStage, updateStagePlayback, markStageValidated, retainSealedStage, cleanupStage, publishOutput, readPublishedOutputIdentity };

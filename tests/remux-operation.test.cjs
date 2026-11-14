@@ -686,6 +686,7 @@ async function collected(t, { offset = 0, contentChanged = false, metadataChange
   t.after(async () => { assert.equal(path.dirname(directory), os.tmpdir()); assert.match(path.basename(directory), /^remux-owner-test-/); await fs.rm(directory, { recursive: true, force: true }); });
   const input = path.join(directory, 'source.inert'), output = path.join(directory, 'output.inert'), stageDirectory = path.join(directory, 'evidence');
   const nativeSourceProbe = source({ audio: false });
+  nativeSourceProbe.streams[0].width = nativeSourceProbe.streams[0].height = 2;
   await fs.writeFile(input, require('./helpers/mov-fixture.cjs').playbackFixture(nativeSourceProbe)); await fs.writeFile(output, mov ? movFixture([{ id: 1 }]) : 'output inert fixture'); await fs.mkdir(stageDirectory);
   const identity = await readSourceIdentity(input), p = source({ audio: false, family: route?.inputFamily }); p.format.size = identity.size;
   p.streams[0].id = '1';

@@ -32,7 +32,7 @@ function wide(type, b) {
   return r;
 }
 const q = (n, d = 1) => ({ numerator: String(n), denominator: String(d) });
-const raw = { streams: [{ index: 0, id: '1', codec_type: 'video', codec_name: 'h264' }, { index: 1, id: '2', codec_type: 'audio', codec_name: 'aac' }] };
+const raw = { streams: [{ index: 0, id: '1', codec_type: 'video', codec_name: 'h264', width: 2, height: 2 }, { index: 1, id: '2', codec_type: 'audio', codec_name: 'aac' }] };
 const nativeTracks = [{ id: 1, scale: 90000, pts: [6000, 9000], durations: [3000, 3000] }, { id: 2, scale: 48000, pts: [0], durations: [1024] }];
 const intervals = nativeTracks.map((t, i) => ({ outputIndex: i, firstPts: q(t.pts[0], t.scale), visibleStart: q(t.pts[0], t.scale),
   endPts: q(t.pts.at(-1) + t.durations.at(-1), t.scale), packetCount: String(t.pts.length) }));
@@ -46,7 +46,11 @@ test('native v0/v1 durations and controls reconcile exactly, including B-frame C
   const result = await inspect(t, b); assert.equal(result.tracks[0].trackDuration, '134');
   assert.equal(result.tracks[0].entries.reduce((n, e) => n + BigInt(e.duration), 0n), 133n);
   assert.deepEqual((await inspect(t, version1)).tracks, result.tracks);
-  await source(t, version1);
+  // Source semantics use the edit-defined duration; the output-only absolute
+  // end rule above is deliberately a separate assertion.
+  const nativeSource = transform(transform(version1, 'tkhd', 0, b => { b.writeBigUInt64BE(133n, 28); return b; }),
+    'mvhd', 0, b => { b.writeBigUInt64BE(133n, 24); return b; });
+  await source(t, nativeSource);
   for (const [type, offset, code] of [['tkhd', 28, 'REMUX_TRACK_DURATION_UNEXPECTED'], ['mvhd', 24, 'REMUX_MOVIE_DURATION_UNEXPECTED'], ['mdhd', 24, 'REMUX_MEDIA_DURATION_UNEXPECTED']])
     await assert.rejects(inspect(t, transform(version1, type, 0, b => { b.writeBigUInt64BE(b.readBigUInt64BE(offset) + 1n, offset); return b; })), { code });
   // Same decode duration with reordered presentation timestamps: mdhd follows
@@ -73,7 +77,7 @@ test('source v0/v1 rate, fractional, dwell and non-reproducible edit shapes fail
 test('source playback and native timeout/type guards have individual negatives', async t => {
   const original = timedFixture(nativeTracks);
   for (const [type, track, offset, width, value] of [['mvhd', 0, 20, 4, 131072], ['mvhd', 0, 24, 2, 0], ['mvhd', 0, 36, 4, 131072],
-    ['tkhd', 1, 36, 2, 0], ['tkhd', 0, 36, 2, 256], ['tkhd', 0, 1, 3, 2], ['tkhd', 0, 40, 4, 131072], ['tkhd', 0, 32, 2, 1], ['tkhd', 1, 34, 2, 2]]) {
+    ['tkhd', 1, 36, 2, 0], ['tkhd', 0, 36, 2, 256], ['tkhd', 0, 1, 3, 2], ['tkhd', 0, 40, 4, 131072]]) {
     await assert.rejects(source(t, transform(original, type, track, b => { b.writeUIntBE(value, offset, width); return b; })), { code: 'REMUX_SOURCE_PLAYBACK_UNSUPPORTED' });
   }
   await assert.rejects(source(t, original, { identity: {} }), { code: 'REMUX_SOURCE_PLAYBACK_UNVERIFIED' });
@@ -128,6 +132,9 @@ test('real service refuses native ISO playback mutants before Ready with a windo
     ['disabled', 'tkhd', 0, b => { b.writeUIntBE(2, 1, 3); return b; }, 'REMUX_SOURCE_PLAYBACK_UNSUPPORTED'],
     ['movie-rate', 'mvhd', 0, b => { b.writeUInt32BE(131072, 20); return b; }, 'REMUX_SOURCE_PLAYBACK_UNSUPPORTED'],
     ['muted', 'tkhd', 1, b => { b.writeUInt16BE(0, 36); return b; }, 'REMUX_SOURCE_PLAYBACK_UNSUPPORTED'],
+    ['width', 'tkhd', 0, b => { b.writeUInt32BE(32 * 65536, 76); return b; }, 'REMUX_TRACK_GEOMETRY_UNSUPPORTED'],
+    ['height', 'tkhd', 0, b => { b.writeUInt32BE(32 * 65536, 80); return b; }, 'REMUX_TRACK_GEOMETRY_UNSUPPORTED'],
+    ['balance', 'smhd', 0, b => { b.writeInt16BE(256, 4); return b; }, 'REMUX_SOUND_BALANCE_UNSUPPORTED'],
   ]) {
     const input = path.join(f.dir, name), output = path.join(f.dir, name + '-out'); await fs.mkdir(input); await fs.mkdir(output);
     await fs.writeFile(path.join(input, 'input.mp4'), transform(original, type, index, mutate));

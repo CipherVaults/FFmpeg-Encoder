@@ -137,11 +137,14 @@ test('complete verifier inspects sealed native video and audio edit rates beyond
 test('complete collector refuses every native playback-control and header-duration mutant', async t => {
   const cases = [
     ['audio track volume zero', 'tkhd', 1, 36, 2, 0, 'REMUX_OUTPUT_PLAYBACK_UNEXPECTED'],
-    ['audio track disabled', 'tkhd', 1, 1, 3, 2, 'REMUX_OUTPUT_PLAYBACK_UNEXPECTED'],
+    ['audio track disabled', 'tkhd', 1, 1, 3, 0, 'REMUX_OUTPUT_PLAYBACK_UNEXPECTED'],
     ['video track volume nonzero', 'tkhd', 0, 36, 2, 256, 'REMUX_OUTPUT_PLAYBACK_UNEXPECTED'],
     ['track layer', 'tkhd', 0, 32, 2, 1, 'REMUX_OUTPUT_PLAYBACK_UNEXPECTED'],
     ['audio alternate group', 'tkhd', 1, 34, 2, 2, 'REMUX_OUTPUT_PLAYBACK_UNEXPECTED'],
     ['track matrix', 'tkhd', 0, 40, 4, 131072, 'REMUX_OUTPUT_PLAYBACK_UNEXPECTED'],
+    ['video display width', 'tkhd', 0, 76, 4, 32 * 65536, 'REMUX_TRACK_GEOMETRY_UNSUPPORTED'],
+    ['video display height', 'tkhd', 0, 80, 4, 32 * 65536, 'REMUX_TRACK_GEOMETRY_UNSUPPORTED'],
+    ['audio balance', 'smhd', 0, 4, 2, 256, 'REMUX_SOUND_BALANCE_UNSUPPORTED'],
     ['movie volume zero', 'mvhd', 0, 24, 2, 0, 'REMUX_OUTPUT_PLAYBACK_UNEXPECTED'],
     ['movie rate 2.0', 'mvhd', 0, 20, 4, 131072, 'REMUX_OUTPUT_PLAYBACK_UNEXPECTED'],
     ['movie matrix', 'mvhd', 0, 36, 4, 131072, 'REMUX_OUTPUT_PLAYBACK_UNEXPECTED'],

@@ -1809,7 +1809,8 @@ async function collectRemuxEvidence(options) {
         fileReceipt: { path: outputPath, sha256: essence.outputFileSha256, bytes: Number(outputBefore.size), identity: stamp(outputBefore) },
         intervals: mappings.map(m => ({ outputIndex: m.outputIndex,
           ...remuxEditInterval(collections.source.get(m.inputIndex).record, source.streams.find(s => s.index === m.inputIndex)),
-          ...(sourcePlayback ? { sourceControls: sourcePlayback.tracks.find(t => t.outputIndex === m.inputIndex).controls } : {}) })),
+          ...(sourcePlayback ? { sourceControls: sourcePlayback.tracks.find(t => t.outputIndex === m.inputIndex).controls,
+            sourceDimensions: sourcePlayback.tracks.find(t => t.outputIndex === m.inputIndex).dimensions } : {}) })),
         onProgress: value => progress('native-edit-lists', value.completed, value.total) });
       await paths();
     }

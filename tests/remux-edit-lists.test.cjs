@@ -13,7 +13,7 @@ const tracks = [{ id: 1, scale: 90000, pts: [132000, 135000], durations: [3000, 
   { id: 2, scale: 48000, pts: [69376, 70400], durations: [1024, 1024] }];
 const intervals = tracks.map((t, i) => ({ outputIndex: i, firstPts: q(t.pts[0], t.scale), visibleStart: q(t.pts[0], t.scale),
   endPts: q(t.pts.at(-1) + t.durations.at(-1), t.scale), packetCount: String(t.pts.length) }));
-const probe = { streams: [{ index: 0, id: '0x1', codec_type: 'video', codec_name: 'h264' }, { index: 1, id: '0x2', codec_type: 'audio', codec_name: 'aac' }] };
+const probe = { streams: [{ index: 0, id: '0x1', codec_type: 'video', codec_name: 'h264', width: 2, height: 2 }, { index: 1, id: '0x2', codec_type: 'audio', codec_name: 'aac' }] };
 // Rebuild parent sizes as well: entry-count mutants remain valid native atoms.
 function transform(bytes, type, occurrence, change) {
   let seen = 0;
@@ -84,7 +84,7 @@ test('native metadata guards reject missing/malformed clocks, IDs, tables, seale
     ['stts', b => { b.writeUInt32BE(3, 8); return b; }],
     ['ctts', b => { b[0] = 2; return b; }],
     ['edts', () => Buffer.alloc(0)],
-  ]) await assert.rejects(inspect(t, transform(original, type, 0, edit)), { code: type === 'edts' ? 'REMUX_EDIT_LIST_UNEXPECTED' : 'REMUX_EDIT_LIST_UNVERIFIED' });
+  ]) await assert.rejects(inspect(t, transform(original, type, 0, edit)), { code: type === 'edts' ? 'REMUX_EDIT_LIST_UNEXPECTED' : type === 'stsz' ? 'REMUX_SAMPLE_TABLE_UNVERIFIED' : 'REMUX_EDIT_LIST_UNVERIFIED' });
   await assert.rejects(inspect(t, original, { outputProbe: { streams: [{ index: 0 }, { index: 1, id: '2' }] } }), { code: 'REMUX_EDIT_LIST_UNVERIFIED' });
   await assert.rejects(inspect(t, original, { outputProbe: { streams: [{ index: 0, id: '1' }, { index: 1, id: '1' }] } }), { code: 'REMUX_EDIT_LIST_UNVERIFIED' });
   await assert.rejects(inspect(t, original, { intervals: [] }), { code: 'REMUX_EDIT_LIST_UNVERIFIED' });
@@ -106,14 +106,14 @@ test('pinned muxer rounding is ceil(span), floor(positive delay), with exact med
       '-frames:v', String(frames), '-c:v', 'libx264', '-threads', '1', '-bf', '0', '-output_ts_offset', String(start / 90000),
       '-video_track_timescale', '90000', '-use_editlist', '1', '-f', 'mp4', file]);
     const bytes = await fs.readFile(file), fileReceipt = await writeFixture(t, bytes);
-    const r = await observeRemuxEditLists({ fileReceipt, outputProbe: { streams: [probe.streams[0]] }, maxRecords: 100,
+    const r = await observeRemuxEditLists({ fileReceipt, outputProbe: { streams: [{ ...probe.streams[0], width: 32, height: 32 }] }, maxRecords: 100,
       intervals: [{ outputIndex: 0, firstPts: q(start, 90000), visibleStart: q(start, 90000), endPts: q(start + frames * 3000, 90000), packetCount: String(frames) }] });
     const entries = r.tracks[0].entries; assert.equal(r.tracks[0].movieScale, '1000');
     assert.equal(entries.at(-1).duration, String(Math.ceil(frames * 1000 / 30)));
     if (start) assert.equal(entries[0].duration, String(Math.floor(start * 1000 / 90000)));
     // Off by one is refused even for a genuinely fractional expected span.
     const bad = transform(bytes, 'elst', 0, b => { const at = 8 + (b.readUInt32BE(4) - 1) * 12; b.writeUInt32BE(b.readUInt32BE(at) + 1, at); return b; });
-    await assert.rejects(observeRemuxEditLists({ fileReceipt: await writeFixture(t, bad), outputProbe: { streams: [probe.streams[0]] }, maxRecords: 100,
+    await assert.rejects(observeRemuxEditLists({ fileReceipt: await writeFixture(t, bad), outputProbe: { streams: [{ ...probe.streams[0], width: 32, height: 32 }] }, maxRecords: 100,
       intervals: [{ outputIndex: 0, firstPts: q(start, 90000), visibleStart: q(start, 90000), endPts: q(start + frames * 3000, 90000) }] }), { code: 'REMUX_EDIT_LIST_UNEXPECTED' });
   }
 });

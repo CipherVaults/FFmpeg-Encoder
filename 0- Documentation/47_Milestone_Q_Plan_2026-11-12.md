@@ -188,3 +188,15 @@ Changes to the plan in §6:
   - where a route would legitimately change packet bytes, the complete decoded comparison remains the method.
 - **Why this is not a weaker check.** A stream copy cannot change a picture without changing a packet or the codec parameters; identical packets and parameters decode to identical pictures. The timing, metadata, disposition and publication checks are unchanged.
 - The second proof run `9c1b8e43` was stopped by root when Ahmed decided this; it is incomplete and proves nothing.
+
+## 9. Q2o progress and owner decision — November 14, 2026
+
+- **Measured (root's qualification `0f1e9765`, 14 cases, all pinned verdicts reached, on the pre-review bytes).** Verification took 11.5–19.7 s for 20-minute files, 25.8 s for a 680 MB file and 12.6–15.0 s for 8-second fixtures; both cancel cases published nothing. Earlier failed proofs `bb1a7617`, `b4b16fc8` and `e3c45ff7` are retained; stopped run `9c1b8e43` proves nothing.
+- **Independent review `q2o-review-1`.** Packet identity held against 26 adversarial negatives; ordinary, Keep Source and range jobs are unchanged. Three findings: interior video slices were no longer validated (high); storage allowance and forecast disagreed for an omitted stream on long sources (high); the stall detector could fire during a progressing publication copy (medium).
+- **Root decisions.**
+  - Every NAL and slice header in the whole stream is validated without decoding, on source and output. Entropy-coded slice data cannot be proven decodable without decoding, so the fast method states exactly what it proved: output identical to source, every header validated, start and end decoded; the interior is not decoded.
+  - A sole track's default flag that the target muxer forces is published with a specific disclosed warning; with two or more tracks of that type, or any other disposition difference, the job is still refused.
+- **Ahmed, on root's proposal of an optional deep check:** "fast check always, Deep isn't practical at all, the point of a remux is to be quick, not taking hours like encoding."
+  - There is no user-facing deep verification. The complete-decode method stays only as internal code for a future route that changes packet bytes.
+  - Accepted consequence: a source already damaged in its interior is copied faithfully, damage included, without a refusal. The copy is never worse than the source.
+- **Speed targets given to Codex.** Fixed overhead at most 3 s per job and at most 6 s per GB. After follow-up 5: 20.1 s for the 680 MB file (29.6 s/GB by Codex's own run); targets not yet met.

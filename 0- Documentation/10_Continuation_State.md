@@ -1,3 +1,5 @@
+> **November 14, 2026 — newest addition.** Q2i+Q2o are still uncommitted in the working tree. Root's 14-case qualification `0f1e9765` passed; review `q2o-review-1` found three defects; Ahmed decided "fast check always" (record 47 §9). Codex follow-up 5 returned `needs_decision` for two more files; root allowed them and told Codex to remove the deep option (follow-up 6). After that: fresh review, root's qualification and normal-service proofs, catalog bump to a new policy id, full suite, commit.
+
 > **November 13, 2026 (night) — newest addition.** Ahmed: remux verification must take seconds, close to drive speed (record 47 §8). Measured: a 20-minute file verified in about 12.7 minutes with the decoded-frame method. Root stopped proof `9c1b8e43` and started slice Q2o: packet-identity verification on top of the uncommitted Q2i tree, via Codex. Q2i and Q2o will be reviewed, proven and committed together. Failed proof `bb1a7617` is retained.
 
 > **November 13, 2026 (late evening) — additions to the banner below.**

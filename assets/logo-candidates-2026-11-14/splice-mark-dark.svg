@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="FFmpeg Encoder — Splice mark">
+  <title>Splice</title>
+  <desc>A slanted, open cut separates two film-strip ends without losing their frame rhythm. Original candidate, November 14, 2026.</desc>
+  <path d="M24 56H144L88 200H24ZM48 88V168H72L104 88Z" fill="#edf0f4" fill-rule="evenodd"/>
+  <path d="M176 56H232V200H120ZM192 88L160 168H208V88Z" fill="#ffad42" fill-rule="evenodd"/>
+  <path d="M120 24H152V40H120ZM104 216H136V232H104Z" fill="#ffad42"/>
+</svg>

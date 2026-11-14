@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="96" viewBox="0 0 560 96" role="img" aria-label="FFmpeg Encoder — Witness lockup">
+  <title>Witness</title>
+  <desc>An open inspection frame closes through a check, making verification part of the frame itself. Original candidate, November 14, 2026.</desc>
+  <g transform="translate(0 4) scale(.34375)">
+  <path d="M56 40H184V72H72V184H184V160H216V184Q216 216 184 216H72Q40 216 40 184V72Q40 40 56 40Z" fill="#edf0f4"/>
+  <path d="M88 120L112 96L144 128L200 64L224 88L144 176Z" fill="#ffad42"/>
+  </g>
+  <text x="112" y="61" fill="#edf0f4" font-family="'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif" font-size="40" font-weight="600" letter-spacing="-.6">FFmpeg Encoder</text>
+</svg>

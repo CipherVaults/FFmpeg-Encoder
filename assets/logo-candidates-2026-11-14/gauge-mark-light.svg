@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="FFmpeg Encoder — Gauge mark">
+  <title>Gauge</title>
+  <desc>A large source frame steps down into a smaller, precisely aligned output. Original candidate, November 14, 2026.</desc>
+  <path d="M32 104V40H216V72H64V104ZM32 152H64V184H96V216H32Z" fill="#1c2925"/>
+  <path d="M112 104H224V216H112ZM144 136V184H192V136Z" fill="#176b5c" fill-rule="evenodd"/>
+  <path d="M88 104H104V120H88ZM88 144H104V160H88Z" fill="#1c2925"/>
+</svg>

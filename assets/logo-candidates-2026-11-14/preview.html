@@ -1,0 +1,992 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src 'none'; font-src 'none'; script-src 'none'; base-uri 'none'; form-action 'none'">
+<title>FFmpeg Encoder · six original logo candidates</title>
+<style>
+:root{--background:#101318;--surface:#181d24;--inset:#202630;--border:#343e4a;--text:#edf0f4;--muted:#b1bdcb;--orange:#ffad42;font-family:'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif;color:var(--text);background:var(--background);color-scheme:dark}
+*{box-sizing:border-box}body{margin:0}main{max-width:1568px;padding:56px 32px 48px;margin:auto}h1,h2,h3,p,figure{margin:0}h1{font-size:clamp(32px,4.5vw,64px);font-weight:600;line-height:1.08;letter-spacing:-.045em;margin:18px 0}h1 span{color:var(--orange)}
+.eyebrow,.micro{font-size:11px;line-height:1.5;letter-spacing:.1em;text-transform:uppercase;font-weight:600}.eyebrow{color:var(--orange)}.intro{max-width:760px;color:var(--muted);line-height:1.7;font-size:16px}.status{display:inline-block;margin-top:22px;border:1px solid var(--border);padding:9px 12px;border-radius:6px;color:var(--muted);font-size:13px}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin:28px 0 42px}a{color:var(--text);text-decoration:none;border:1px solid var(--border);border-radius:6px;padding:8px 14px;font-size:13px}a:hover,a:focus-visible{border-color:var(--orange);outline:2px solid var(--orange);outline-offset:2px}
+.concept{padding-top:26px;margin-bottom:32px;border-top:1px solid var(--border);scroll-margin-top:16px}.concept-heading{display:flex;gap:24px;align-items:center;margin:0 0 20px}.concept-heading .micro{color:var(--orange)}h2{font-size:30px;font-weight:600;letter-spacing:-.025em}.concept-heading p{max-width:530px;color:var(--muted);font-size:14px;line-height:1.65}.rank{margin-left:auto;white-space:nowrap;color:var(--muted);font-size:12px}
+.theme-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.theme{background:var(--surface);color:var(--text);padding:24px;border:1px solid var(--border);border-radius:12px;min-width:0}.theme.dark{--background:#101318;--surface:#181d24;--inset:#202630;--border:#343e4a;--text:#edf0f4;--muted:#b1bdcb;--orange:#ffad42;color-scheme:dark}.theme.light{--background:#f7f7f4;--surface:#ffffff;--inset:#f0f3f1;--border:#b9c5c0;--text:#1c2925;--muted:#4d6057;--orange:#176b5c;color-scheme:light}
+.panel-heading{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}h3{font-size:13px;font-weight:600}.surface-token{color:var(--muted);font-size:11px}.scale-row{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;margin:28px 0 24px;min-height:280px}.scale-row figure{display:flex;flex-direction:column;align-items:center;gap:12px;flex:none}.scale-row svg{display:block;flex:none}.scale-row figcaption{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}.scale-row figcaption span{font-size:9px;margin-left:2px}
+.secondary{display:grid;grid-template-columns:80px minmax(0,1fr);gap:16px;padding-top:18px;border-top:1px solid var(--border)}.secondary .micro{display:block;color:var(--muted);font-size:9px;margin-bottom:12px;letter-spacing:.06em}.mono-sample svg{display:block}.lockup-sample svg{display:block;max-width:100%;width:420px;height:auto;max-height:72px}
+.comparison{display:flex;align-items:center;gap:20px;margin-top:18px;padding-top:16px;border-top:1px solid var(--border);flex-wrap:wrap}.comparison>.micro{color:var(--muted);font-size:9px;letter-spacing:.05em}.comparison>div{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted)}.baseline-note{font-size:12px;line-height:1.7;color:var(--muted);max-width:480px}.optical-note{color:var(--muted);font-size:11px;margin-top:10px}footer{border-top:1px solid var(--border);padding-top:24px;font-size:12px;color:var(--muted);line-height:1.7}footer strong{color:var(--text);font-weight:500}
+@media(max-width:1330px){.theme-pair{grid-template-columns:1fr}.scale-row{min-height:0}.concept-heading{flex-wrap:wrap}.rank{margin-left:0}.concept-heading p{flex:1;min-width:260px}}
+@media(max-width:600px){main{padding:32px 16px}.theme{padding:18px}.concept-heading{gap:12px}.concept-heading p{flex-basis:100%;min-width:0}.rank{width:100%}.secondary{grid-template-columns:60px minmax(0,1fr);gap:8px}.scale-row{gap:12px}h1{font-size:38px}.surface-token{font-size:10px}}
+@media print{main{padding:16px}.concept{break-inside:avoid}.theme{print-color-adjust:exact;-webkit-print-color-adjust:exact}nav{display:none}}
+</style>
+</head>
+<body><main>
+<header><p class="eyebrow">FFmpeg Encoder / original artwork / 14 November 2026</p><h1>Careful work.<br><span>A clear signature.</span></h1><p class="intro">Six distinct directions for a tool that encodes, trims, resizes and remuxes video, then checks the result. Real theme colours. Real small sizes. The current Folded Frame sits beside each candidate.</p><p class="status">Candidates for Claude's theme review and Ahmed's selection · shipped icon remains unchanged</p></header>
+<nav aria-label="Concepts"><a href="#current">Current icon</a><a href="#gauge">Gauge</a><a href="#sleeve">Sleeve</a><a href="#splice">Splice</a><a href="#witness">Witness</a><a href="#lattice">Lattice</a><a href="#cadence">Cadence</a></nav>
+<article class="concept" id="current"><div class="concept-heading"><div><span class="micro">Comparison baseline</span><h2>Folded Frame</h2></div><p>The existing icon, included inline so this entire review works offline.</p></div><div class="theme-pair"><section class="theme dark" data-theme="dark" aria-label="Current icon on dark"><div class="panel-heading"><h3>Dark / amber</h3><span class="surface-token">--surface #181d24</span></div><div class="scale-row"><figure><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" role="img" aria-label="Current Folded Frame at 16 pixels" data-role="current">
+  <rect x="1" y="1" width="14" height="14" rx="3" fill="#172A33"/>
+  <path d="M5 4H8V6H6V10H8V12H5Q4 12 4 11V5Q4 4 5 4Z" fill="#F9F6EC"/>
+  <path d="M8 4H11Q12 4 12 5V7L10 5V6H8Z" fill="#F4B54C"/>
+  <path d="M10 5L12 7H10Z" fill="#D88D28"/>
+  <path d="M10 8H12V11Q12 12 11 12H8V10H10Z" fill="#50C7BC"/>
+</svg><figcaption>16<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="Current Folded Frame at 24 pixels" data-role="current">
+  <rect x="1" y="1" width="22" height="22" rx="5" fill="#172A33"/>
+  <path d="M7 5H12V7H7V17H12V19H7Q5 19 5 17V7Q5 5 7 5Z" fill="#F9F6EC"/>
+  <path d="M12 5H17Q19 5 19 7V11L17 9V7H12Z" fill="#F4B54C"/>
+  <path d="M17 9L19 11H17Z" fill="#D88D28"/>
+  <path d="M17 13H19V17Q19 19 17 19H12V17H17Z" fill="#50C7BC"/>
+</svg><figcaption>24<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" role="img" aria-label="Current Folded Frame at 32 pixels" data-role="current">
+  <rect x="1" y="1" width="30" height="30" rx="7" fill="#172A33"/>
+  <path d="M9 7H16V10H10V22H16V25H9Q7 25 7 23V9Q7 7 9 7Z" fill="#F9F6EC"/>
+  <path d="M16 7H23Q25 7 25 9V15L22 12V10H16Z" fill="#F4B54C"/>
+  <path d="M22 12L25 15H22Z" fill="#D88D28"/>
+  <path d="M22 17H25V23Q25 25 23 25H16V22H22Z" fill="#50C7BC"/>
+</svg><figcaption>32<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" role="img" aria-label="Current Folded Frame at 48 pixels" data-role="current">
+  <title>FFmpeg Encoder — Folded Frame</title>
+  <desc>An original ivory media frame with an amber folded corner and a teal output bracket on an ink rounded square.</desc>
+  <rect x="8" y="8" width="240" height="240" rx="52" fill="#172A33"/>
+  <path d="M76 54H136V78H80V178H136V202H76C64.954 202 56 193.046 56 182V74C56 62.954 64.954 54 76 54Z" fill="#F9F6EC"/>
+  <path d="M136 54H180C191.046 54 200 62.954 200 74V118L176 94V78H136Z" fill="#F4B54C"/>
+  <path d="M176 94L200 118H176Z" fill="#D88D28"/>
+  <path d="M176 134H200V182C200 193.046 191.046 202 180 202H136V178H176Z" fill="#50C7BC"/>
+</svg><figcaption>48<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 256 256" role="img" aria-label="Current Folded Frame at 128 pixels" data-role="current">
+  <title>FFmpeg Encoder — Folded Frame</title>
+  <desc>An original ivory media frame with an amber folded corner and a teal output bracket on an ink rounded square.</desc>
+  <rect x="8" y="8" width="240" height="240" rx="52" fill="#172A33"/>
+  <path d="M76 54H136V78H80V178H136V202H76C64.954 202 56 193.046 56 182V74C56 62.954 64.954 54 76 54Z" fill="#F9F6EC"/>
+  <path d="M136 54H180C191.046 54 200 62.954 200 74V118L176 94V78H136Z" fill="#F4B54C"/>
+  <path d="M176 94L200 118H176Z" fill="#D88D28"/>
+  <path d="M176 134H200V182C200 193.046 191.046 202 180 202H136V178H176Z" fill="#50C7BC"/>
+</svg><figcaption>128<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="Current Folded Frame at 256 pixels" data-role="current">
+  <title>FFmpeg Encoder — Folded Frame</title>
+  <desc>An original ivory media frame with an amber folded corner and a teal output bracket on an ink rounded square.</desc>
+  <rect x="8" y="8" width="240" height="240" rx="52" fill="#172A33"/>
+  <path d="M76 54H136V78H80V178H136V202H76C64.954 202 56 193.046 56 182V74C56 62.954 64.954 54 76 54Z" fill="#F9F6EC"/>
+  <path d="M136 54H180C191.046 54 200 62.954 200 74V118L176 94V78H136Z" fill="#F4B54C"/>
+  <path d="M176 94L200 118H176Z" fill="#D88D28"/>
+  <path d="M176 134H200V182C200 193.046 191.046 202 180 202H136V178H176Z" fill="#50C7BC"/>
+</svg><figcaption>256<span>px</span></figcaption></figure></div><p class="baseline-note">Folded Frame · current shipped geometry and colours, including its original optical sources at 16, 24 and 32 px. Comparison only.</p></section><section class="theme light" data-theme="light" aria-label="Current icon on light"><div class="panel-heading"><h3>Light / teal</h3><span class="surface-token">--surface #ffffff</span></div><div class="scale-row"><figure><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" role="img" aria-label="Current Folded Frame at 16 pixels" data-role="current">
+  <rect x="1" y="1" width="14" height="14" rx="3" fill="#172A33"/>
+  <path d="M5 4H8V6H6V10H8V12H5Q4 12 4 11V5Q4 4 5 4Z" fill="#F9F6EC"/>
+  <path d="M8 4H11Q12 4 12 5V7L10 5V6H8Z" fill="#F4B54C"/>
+  <path d="M10 5L12 7H10Z" fill="#D88D28"/>
+  <path d="M10 8H12V11Q12 12 11 12H8V10H10Z" fill="#50C7BC"/>
+</svg><figcaption>16<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="Current Folded Frame at 24 pixels" data-role="current">
+  <rect x="1" y="1" width="22" height="22" rx="5" fill="#172A33"/>
+  <path d="M7 5H12V7H7V17H12V19H7Q5 19 5 17V7Q5 5 7 5Z" fill="#F9F6EC"/>
+  <path d="M12 5H17Q19 5 19 7V11L17 9V7H12Z" fill="#F4B54C"/>
+  <path d="M17 9L19 11H17Z" fill="#D88D28"/>
+  <path d="M17 13H19V17Q19 19 17 19H12V17H17Z" fill="#50C7BC"/>
+</svg><figcaption>24<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" role="img" aria-label="Current Folded Frame at 32 pixels" data-role="current">
+  <rect x="1" y="1" width="30" height="30" rx="7" fill="#172A33"/>
+  <path d="M9 7H16V10H10V22H16V25H9Q7 25 7 23V9Q7 7 9 7Z" fill="#F9F6EC"/>
+  <path d="M16 7H23Q25 7 25 9V15L22 12V10H16Z" fill="#F4B54C"/>
+  <path d="M22 12L25 15H22Z" fill="#D88D28"/>
+  <path d="M22 17H25V23Q25 25 23 25H16V22H22Z" fill="#50C7BC"/>
+</svg><figcaption>32<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" role="img" aria-label="Current Folded Frame at 48 pixels" data-role="current">
+  <title>FFmpeg Encoder — Folded Frame</title>
+  <desc>An original ivory media frame with an amber folded corner and a teal output bracket on an ink rounded square.</desc>
+  <rect x="8" y="8" width="240" height="240" rx="52" fill="#172A33"/>
+  <path d="M76 54H136V78H80V178H136V202H76C64.954 202 56 193.046 56 182V74C56 62.954 64.954 54 76 54Z" fill="#F9F6EC"/>
+  <path d="M136 54H180C191.046 54 200 62.954 200 74V118L176 94V78H136Z" fill="#F4B54C"/>
+  <path d="M176 94L200 118H176Z" fill="#D88D28"/>
+  <path d="M176 134H200V182C200 193.046 191.046 202 180 202H136V178H176Z" fill="#50C7BC"/>
+</svg><figcaption>48<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 256 256" role="img" aria-label="Current Folded Frame at 128 pixels" data-role="current">
+  <title>FFmpeg Encoder — Folded Frame</title>
+  <desc>An original ivory media frame with an amber folded corner and a teal output bracket on an ink rounded square.</desc>
+  <rect x="8" y="8" width="240" height="240" rx="52" fill="#172A33"/>
+  <path d="M76 54H136V78H80V178H136V202H76C64.954 202 56 193.046 56 182V74C56 62.954 64.954 54 76 54Z" fill="#F9F6EC"/>
+  <path d="M136 54H180C191.046 54 200 62.954 200 74V118L176 94V78H136Z" fill="#F4B54C"/>
+  <path d="M176 94L200 118H176Z" fill="#D88D28"/>
+  <path d="M176 134H200V182C200 193.046 191.046 202 180 202H136V178H176Z" fill="#50C7BC"/>
+</svg><figcaption>128<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="Current Folded Frame at 256 pixels" data-role="current">
+  <title>FFmpeg Encoder — Folded Frame</title>
+  <desc>An original ivory media frame with an amber folded corner and a teal output bracket on an ink rounded square.</desc>
+  <rect x="8" y="8" width="240" height="240" rx="52" fill="#172A33"/>
+  <path d="M76 54H136V78H80V178H136V202H76C64.954 202 56 193.046 56 182V74C56 62.954 64.954 54 76 54Z" fill="#F9F6EC"/>
+  <path d="M136 54H180C191.046 54 200 62.954 200 74V118L176 94V78H136Z" fill="#F4B54C"/>
+  <path d="M176 94L200 118H176Z" fill="#D88D28"/>
+  <path d="M176 134H200V182C200 193.046 191.046 202 180 202H136V178H176Z" fill="#50C7BC"/>
+</svg><figcaption>256<span>px</span></figcaption></figure></div><p class="baseline-note">Folded Frame · current shipped geometry and colours, including its original optical sources at 16, 24 and 32 px. Comparison only.</p></section></div></article>
+<article class="concept" id="gauge" data-concept="gauge">
+  <div class="concept-heading"><div><span class="micro">Concept 01</span><h2>Gauge</h2></div><p>A large source frame steps down into a smaller, precisely aligned output.</p><span class="rank">Designer's rank 1 / 6</span></div>
+  <div class="theme-pair"><section class="theme dark" data-theme="dark" aria-label="Gauge on dark"><div class="panel-heading"><h3>Dark / amber</h3><span class="surface-token">--surface #181d24</span></div><div class="scale-row"><figure><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" role="img" aria-label="Gauge, dark, 16 pixels" data-role="candidate" data-size="16" data-source="optical">
+  <title>Gauge</title>
+  <desc>A large source frame steps down into a smaller, precisely aligned output. Original candidate, November 14, 2026.</desc>
+  <path d="M2 6V2H14V4H4V6ZM2 9H4V12H6V14H2Z" fill="#edf0f4"/>
+  <path d="M7 7H14V14H7ZM9 9V12H12V9Z" fill="#ffad42" fill-rule="evenodd"/>
+</svg>
+<figcaption>16<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" role="img" aria-label="Gauge, dark, 24 pixels" data-role="candidate" data-size="24" data-source="optical">
+  <title>Gauge</title>
+  <desc>A large source frame steps down into a smaller, precisely aligned output. Original candidate, November 14, 2026.</desc>
+  <path d="M2 6V2H14V4H4V6ZM2 9H4V12H6V14H2Z" fill="#edf0f4"/>
+  <path d="M7 7H14V14H7ZM9 9V12H12V9Z" fill="#ffad42" fill-rule="evenodd"/>
+</svg>
+<figcaption>24<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" role="img" aria-label="Gauge, dark, 32 pixels" data-role="candidate" data-size="32" data-source="master">
+  <title>Gauge</title>
+  <desc>A large source frame steps down into a smaller, precisely aligned output. Original candidate, November 14, 2026.</desc>
+  <path d="M32 104V40H216V72H64V104ZM32 152H64V184H96V216H32Z" fill="#edf0f4"/>
+  <path d="M112 104H224V216H112ZM144 136V184H192V136Z" fill="#ffad42" fill-rule="evenodd"/>
+  <path d="M88 104H104V120H88ZM88 144H104V160H88Z" fill="#edf0f4"/>
+</svg>
+<figcaption>32<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" role="img" aria-label="Gauge, dark, 48 pixels" data-role="candidate" data-size="48" data-source="master">
+  <title>Gauge</title>
+  <desc>A large source frame steps down into a smaller, precisely aligned output. Original candidate, November 14, 2026.</desc>
+  <path d="M32 104V40H216V72H64V104ZM32 152H64V184H96V216H32Z" fill="#edf0f4"/>
+  <path d="M112 104H224V216H112ZM144 136V184H192V136Z" fill="#ffad42" fill-rule="evenodd"/>
+  <path d="M88 104H104V120H88ZM88 144H104V160H88Z" fill="#edf0f4"/>
+</svg>
+<figcaption>48<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 256 256" role="img" aria-label="Gauge, dark, 128 pixels" data-role="candidate" data-size="128" data-source="master">
+  <title>Gauge</title>
+  <desc>A large source frame steps down into a smaller, precisely aligned output. Original candidate, November 14, 2026.</desc>
+  <path d="M32 104V40H216V72H64V104ZM32 152H64V184H96V216H32Z" fill="#edf0f4"/>
+  <path d="M112 104H224V216H112ZM144 136V184H192V136Z" fill="#ffad42" fill-rule="evenodd"/>
+  <path d="M88 104H104V120H88ZM88 144H104V160H88Z" fill="#edf0f4"/>
+</svg>
+<figcaption>128<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="Gauge, dark, 256 pixels" data-role="candidate" data-size="256" data-source="master">
+  <title>Gauge</title>
+  <desc>A large source frame steps down into a smaller, precisely aligned output. Original candidate, November 14, 2026.</desc>
+  <path d="M32 104V40H216V72H64V104ZM32 152H64V184H96V216H32Z" fill="#edf0f4"/>
+  <path d="M112 104H224V216H112ZM144 136V184H192V136Z" fill="#ffad42" fill-rule="evenodd"/>
+  <path d="M88 104H104V120H88ZM88 144H104V160H88Z" fill="#edf0f4"/>
+</svg>
+<figcaption>256<span>px</span></figcaption></figure></div><div class="secondary">
+    <div class="mono-sample"><span class="micro">Single colour</span><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" role="img" aria-label="Gauge, monochrome on dark" data-role="mono">
+  <title>Gauge</title>
+  <desc>A large source frame steps down into a smaller, precisely aligned output. Original candidate, November 14, 2026.</desc>
+  <path d="M32 104V40H216V72H64V104ZM32 152H64V184H96V216H32Z" fill="currentColor"/>
+  <path d="M112 104H224V216H112ZM144 136V184H192V136Z" fill="currentColor" fill-rule="evenodd"/>
+  <path d="M88 104H104V120H88ZM88 144H104V160H88Z" fill="currentColor"/>
+</svg>
+</div>
+    <div class="lockup-sample"><span class="micro">Live system text</span><svg data-role="lockup" xmlns="http://www.w3.org/2000/svg" width="560" height="96" viewBox="0 0 560 96" role="img" aria-label="FFmpeg Encoder — Gauge lockup">
+  <title>Gauge</title>
+  <desc>A large source frame steps down into a smaller, precisely aligned output. Original candidate, November 14, 2026.</desc>
+  <g transform="translate(0 4) scale(.34375)">
+  <path d="M32 104V40H216V72H64V104ZM32 152H64V184H96V216H32Z" fill="#edf0f4"/>
+  <path d="M112 104H224V216H112ZM144 136V184H192V136Z" fill="#ffad42" fill-rule="evenodd"/>
+  <path d="M88 104H104V120H88ZM88 144H104V160H88Z" fill="#edf0f4"/>
+  </g>
+  <text x="112" y="61" fill="#edf0f4" font-family="'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif" font-size="40" font-weight="600" letter-spacing="-.6">FFmpeg Encoder</text>
+</svg>
+</div>
+  </div>
+  <div class="comparison"><span class="micro">Side by side · 32 px</span><div><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" role="img" aria-label="Current Folded Frame at 32 pixels" data-role="current">
+  <rect x="1" y="1" width="30" height="30" rx="7" fill="#172A33"/>
+  <path d="M9 7H16V10H10V22H16V25H9Q7 25 7 23V9Q7 7 9 7Z" fill="#F9F6EC"/>
+  <path d="M16 7H23Q25 7 25 9V15L22 12V10H16Z" fill="#F4B54C"/>
+  <path d="M22 12L25 15H22Z" fill="#D88D28"/>
+  <path d="M22 17H25V23Q25 25 23 25H16V22H22Z" fill="#50C7BC"/>
+</svg><span>Current</span></div><div><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" role="img" aria-label="Gauge comparison" data-role="comparison-candidate">
+  <title>Gauge</title>
+  <desc>A large source frame steps down into a smaller, precisely aligned output. Original candidate, November 14, 2026.</desc>
+  <path d="M32 104V40H216V72H64V104ZM32 152H64V184H96V216H32Z" fill="#edf0f4"/>
+  <path d="M112 104H224V216H112ZM144 136V184H192V136Z" fill="#ffad42" fill-rule="evenodd"/>
+  <path d="M88 104H104V120H88ZM88 144H104V160H88Z" fill="#edf0f4"/>
+</svg>
+<span>Gauge</span></div></div></section><section class="theme light" data-theme="light" aria-label="Gauge on light"><div class="panel-heading"><h3>Light / teal</h3><span class="surface-token">--surface #ffffff</span></div><div class="scale-row"><figure><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" role="img" aria-label="Gauge, light, 16 pixels" data-role="candidate" data-size="16" data-source="optical">
+  <title>Gauge</title>
+  <desc>A large source frame steps down into a smaller, precisely aligned output. Original candidate, November 14, 2026.</desc>
+  <path d="M2 6V2H14V4H4V6ZM2 9H4V12H6V14H2Z" fill="#1c2925"/>
+  <path d="M7 7H14V14H7ZM9 9V12H12V9Z" fill="#176b5c" fill-rule="evenodd"/>
+</svg>
+<figcaption>16<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" role="img" aria-label="Gauge, light, 24 pixels" data-role="candidate" data-size="24" data-source="optical">
+  <title>Gauge</title>
+  <desc>A large source frame steps down into a smaller, precisely aligned output. Original candidate, November 14, 2026.</desc>
+  <path d="M2 6V2H14V4H4V6ZM2 9H4V12H6V14H2Z" fill="#1c2925"/>
+  <path d="M7 7H14V14H7ZM9 9V12H12V9Z" fill="#176b5c" fill-rule="evenodd"/>
+</svg>
+<figcaption>24<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" role="img" aria-label="Gauge, light, 32 pixels" data-role="candidate" data-size="32" data-source="master">
+  <title>Gauge</title>
+  <desc>A large source frame steps down into a smaller, precisely aligned output. Original candidate, November 14, 2026.</desc>
+  <path d="M32 104V40H216V72H64V104ZM32 152H64V184H96V216H32Z" fill="#1c2925"/>
+  <path d="M112 104H224V216H112ZM144 136V184H192V136Z" fill="#176b5c" fill-rule="evenodd"/>
+  <path d="M88 104H104V120H88ZM88 144H104V160H88Z" fill="#1c2925"/>
+</svg>
+<figcaption>32<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" role="img" aria-label="Gauge, light, 48 pixels" data-role="candidate" data-size="48" data-source="master">
+  <title>Gauge</title>
+  <desc>A large source frame steps down into a smaller, precisely aligned output. Original candidate, November 14, 2026.</desc>
+  <path d="M32 104V40H216V72H64V104ZM32 152H64V184H96V216H32Z" fill="#1c2925"/>
+  <path d="M112 104H224V216H112ZM144 136V184H192V136Z" fill="#176b5c" fill-rule="evenodd"/>
+  <path d="M88 104H104V120H88ZM88 144H104V160H88Z" fill="#1c2925"/>
+</svg>
+<figcaption>48<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 256 256" role="img" aria-label="Gauge, light, 128 pixels" data-role="candidate" data-size="128" data-source="master">
+  <title>Gauge</title>
+  <desc>A large source frame steps down into a smaller, precisely aligned output. Original candidate, November 14, 2026.</desc>
+  <path d="M32 104V40H216V72H64V104ZM32 152H64V184H96V216H32Z" fill="#1c2925"/>
+  <path d="M112 104H224V216H112ZM144 136V184H192V136Z" fill="#176b5c" fill-rule="evenodd"/>
+  <path d="M88 104H104V120H88ZM88 144H104V160H88Z" fill="#1c2925"/>
+</svg>
+<figcaption>128<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="Gauge, light, 256 pixels" data-role="candidate" data-size="256" data-source="master">
+  <title>Gauge</title>
+  <desc>A large source frame steps down into a smaller, precisely aligned output. Original candidate, November 14, 2026.</desc>
+  <path d="M32 104V40H216V72H64V104ZM32 152H64V184H96V216H32Z" fill="#1c2925"/>
+  <path d="M112 104H224V216H112ZM144 136V184H192V136Z" fill="#176b5c" fill-rule="evenodd"/>
+  <path d="M88 104H104V120H88ZM88 144H104V160H88Z" fill="#1c2925"/>
+</svg>
+<figcaption>256<span>px</span></figcaption></figure></div><div class="secondary">
+    <div class="mono-sample"><span class="micro">Single colour</span><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" role="img" aria-label="Gauge, monochrome on light" data-role="mono">
+  <title>Gauge</title>
+  <desc>A large source frame steps down into a smaller, precisely aligned output. Original candidate, November 14, 2026.</desc>
+  <path d="M32 104V40H216V72H64V104ZM32 152H64V184H96V216H32Z" fill="currentColor"/>
+  <path d="M112 104H224V216H112ZM144 136V184H192V136Z" fill="currentColor" fill-rule="evenodd"/>
+  <path d="M88 104H104V120H88ZM88 144H104V160H88Z" fill="currentColor"/>
+</svg>
+</div>
+    <div class="lockup-sample"><span class="micro">Live system text</span><svg data-role="lockup" xmlns="http://www.w3.org/2000/svg" width="560" height="96" viewBox="0 0 560 96" role="img" aria-label="FFmpeg Encoder — Gauge lockup">
+  <title>Gauge</title>
+  <desc>A large source frame steps down into a smaller, precisely aligned output. Original candidate, November 14, 2026.</desc>
+  <g transform="translate(0 4) scale(.34375)">
+  <path d="M32 104V40H216V72H64V104ZM32 152H64V184H96V216H32Z" fill="#1c2925"/>
+  <path d="M112 104H224V216H112ZM144 136V184H192V136Z" fill="#176b5c" fill-rule="evenodd"/>
+  <path d="M88 104H104V120H88ZM88 144H104V160H88Z" fill="#1c2925"/>
+  </g>
+  <text x="112" y="61" fill="#1c2925" font-family="'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif" font-size="40" font-weight="600" letter-spacing="-.6">FFmpeg Encoder</text>
+</svg>
+</div>
+  </div>
+  <div class="comparison"><span class="micro">Side by side · 32 px</span><div><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" role="img" aria-label="Current Folded Frame at 32 pixels" data-role="current">
+  <rect x="1" y="1" width="30" height="30" rx="7" fill="#172A33"/>
+  <path d="M9 7H16V10H10V22H16V25H9Q7 25 7 23V9Q7 7 9 7Z" fill="#F9F6EC"/>
+  <path d="M16 7H23Q25 7 25 9V15L22 12V10H16Z" fill="#F4B54C"/>
+  <path d="M22 12L25 15H22Z" fill="#D88D28"/>
+  <path d="M22 17H25V23Q25 25 23 25H16V22H22Z" fill="#50C7BC"/>
+</svg><span>Current</span></div><div><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" role="img" aria-label="Gauge comparison" data-role="comparison-candidate">
+  <title>Gauge</title>
+  <desc>A large source frame steps down into a smaller, precisely aligned output. Original candidate, November 14, 2026.</desc>
+  <path d="M32 104V40H216V72H64V104ZM32 152H64V184H96V216H32Z" fill="#1c2925"/>
+  <path d="M112 104H224V216H112ZM144 136V184H192V136Z" fill="#176b5c" fill-rule="evenodd"/>
+  <path d="M88 104H104V120H88ZM88 144H104V160H88Z" fill="#1c2925"/>
+</svg>
+<span>Gauge</span></div></div></section></div>
+  <p class="optical-note">16 &amp; 24 px use the dedicated optical drawing. 32–256 px use the 256-grid master. See NOTES.md for tradeoffs.</p>
+</article>
+<article class="concept" id="sleeve" data-concept="sleeve">
+  <div class="concept-heading"><div><span class="micro">Concept 02</span><h2>Sleeve</h2></div><p>An open wrapping sleeve changes the container while a central media core stays intact.</p><span class="rank">Designer's rank 4 / 6</span></div>
+  <div class="theme-pair"><section class="theme dark" data-theme="dark" aria-label="Sleeve on dark"><div class="panel-heading"><h3>Dark / amber</h3><span class="surface-token">--surface #181d24</span></div><div class="scale-row"><figure><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" role="img" aria-label="Sleeve, dark, 16 pixels" data-role="candidate" data-size="16" data-source="optical">
+  <title>Sleeve</title>
+  <desc>An open wrapping sleeve changes the container while a central media core stays intact. Original candidate, November 14, 2026.</desc>
+  <path d="M2 4L8 1L14 4V6L8 3L4 5V10L6 11V13L2 11Z" fill="#edf0f4"/>
+  <path d="M14 7V12L8 15V13L12 11V6Z" fill="#ffad42"/>
+  <path d="M6 7H10V10H6Z" fill="#ffad42"/>
+</svg>
+<figcaption>16<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" role="img" aria-label="Sleeve, dark, 24 pixels" data-role="candidate" data-size="24" data-source="optical">
+  <title>Sleeve</title>
+  <desc>An open wrapping sleeve changes the container while a central media core stays intact. Original candidate, November 14, 2026.</desc>
+  <path d="M2 4L8 1L14 4V6L8 3L4 5V10L6 11V13L2 11Z" fill="#edf0f4"/>
+  <path d="M14 7V12L8 15V13L12 11V6Z" fill="#ffad42"/>
+  <path d="M6 7H10V10H6Z" fill="#ffad42"/>
+</svg>
+<figcaption>24<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" role="img" aria-label="Sleeve, dark, 32 pixels" data-role="candidate" data-size="32" data-source="master">
+  <title>Sleeve</title>
+  <desc>An open wrapping sleeve changes the container while a central media core stays intact. Original candidate, November 14, 2026.</desc>
+  <path d="M32 72L128 24L224 72V104L128 56L64 88V168L96 184V220L32 188Z" fill="#edf0f4"/>
+  <path d="M224 116V188L128 236V200L192 168V100Z" fill="#ffad42"/>
+  <path d="M88 104H160V160H88Z" fill="#ffad42"/>
+</svg>
+<figcaption>32<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" role="img" aria-label="Sleeve, dark, 48 pixels" data-role="candidate" data-size="48" data-source="master">
+  <title>Sleeve</title>
+  <desc>An open wrapping sleeve changes the container while a central media core stays intact. Original candidate, November 14, 2026.</desc>
+  <path d="M32 72L128 24L224 72V104L128 56L64 88V168L96 184V220L32 188Z" fill="#edf0f4"/>
+  <path d="M224 116V188L128 236V200L192 168V100Z" fill="#ffad42"/>
+  <path d="M88 104H160V160H88Z" fill="#ffad42"/>
+</svg>
+<figcaption>48<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 256 256" role="img" aria-label="Sleeve, dark, 128 pixels" data-role="candidate" data-size="128" data-source="master">
+  <title>Sleeve</title>
+  <desc>An open wrapping sleeve changes the container while a central media core stays intact. Original candidate, November 14, 2026.</desc>
+  <path d="M32 72L128 24L224 72V104L128 56L64 88V168L96 184V220L32 188Z" fill="#edf0f4"/>
+  <path d="M224 116V188L128 236V200L192 168V100Z" fill="#ffad42"/>
+  <path d="M88 104H160V160H88Z" fill="#ffad42"/>
+</svg>
+<figcaption>128<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="Sleeve, dark, 256 pixels" data-role="candidate" data-size="256" data-source="master">
+  <title>Sleeve</title>
+  <desc>An open wrapping sleeve changes the container while a central media core stays intact. Original candidate, November 14, 2026.</desc>
+  <path d="M32 72L128 24L224 72V104L128 56L64 88V168L96 184V220L32 188Z" fill="#edf0f4"/>
+  <path d="M224 116V188L128 236V200L192 168V100Z" fill="#ffad42"/>
+  <path d="M88 104H160V160H88Z" fill="#ffad42"/>
+</svg>
+<figcaption>256<span>px</span></figcaption></figure></div><div class="secondary">
+    <div class="mono-sample"><span class="micro">Single colour</span><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" role="img" aria-label="Sleeve, monochrome on dark" data-role="mono">
+  <title>Sleeve</title>
+  <desc>An open wrapping sleeve changes the container while a central media core stays intact. Original candidate, November 14, 2026.</desc>
+  <path d="M32 72L128 24L224 72V104L128 56L64 88V168L96 184V220L32 188Z" fill="currentColor"/>
+  <path d="M224 116V188L128 236V200L192 168V100Z" fill="currentColor"/>
+  <path d="M88 104H160V160H88Z" fill="currentColor"/>
+</svg>
+</div>
+    <div class="lockup-sample"><span class="micro">Live system text</span><svg data-role="lockup" xmlns="http://www.w3.org/2000/svg" width="560" height="96" viewBox="0 0 560 96" role="img" aria-label="FFmpeg Encoder — Sleeve lockup">
+  <title>Sleeve</title>
+  <desc>An open wrapping sleeve changes the container while a central media core stays intact. Original candidate, November 14, 2026.</desc>
+  <g transform="translate(0 4) scale(.34375)">
+  <path d="M32 72L128 24L224 72V104L128 56L64 88V168L96 184V220L32 188Z" fill="#edf0f4"/>
+  <path d="M224 116V188L128 236V200L192 168V100Z" fill="#ffad42"/>
+  <path d="M88 104H160V160H88Z" fill="#ffad42"/>
+  </g>
+  <text x="112" y="61" fill="#edf0f4" font-family="'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif" font-size="40" font-weight="600" letter-spacing="-.6">FFmpeg Encoder</text>
+</svg>
+</div>
+  </div>
+  <div class="comparison"><span class="micro">Side by side · 32 px</span><div><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" role="img" aria-label="Current Folded Frame at 32 pixels" data-role="current">
+  <rect x="1" y="1" width="30" height="30" rx="7" fill="#172A33"/>
+  <path d="M9 7H16V10H10V22H16V25H9Q7 25 7 23V9Q7 7 9 7Z" fill="#F9F6EC"/>
+  <path d="M16 7H23Q25 7 25 9V15L22 12V10H16Z" fill="#F4B54C"/>
+  <path d="M22 12L25 15H22Z" fill="#D88D28"/>
+  <path d="M22 17H25V23Q25 25 23 25H16V22H22Z" fill="#50C7BC"/>
+</svg><span>Current</span></div><div><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" role="img" aria-label="Sleeve comparison" data-role="comparison-candidate">
+  <title>Sleeve</title>
+  <desc>An open wrapping sleeve changes the container while a central media core stays intact. Original candidate, November 14, 2026.</desc>
+  <path d="M32 72L128 24L224 72V104L128 56L64 88V168L96 184V220L32 188Z" fill="#edf0f4"/>
+  <path d="M224 116V188L128 236V200L192 168V100Z" fill="#ffad42"/>
+  <path d="M88 104H160V160H88Z" fill="#ffad42"/>
+</svg>
+<span>Sleeve</span></div></div></section><section class="theme light" data-theme="light" aria-label="Sleeve on light"><div class="panel-heading"><h3>Light / teal</h3><span class="surface-token">--surface #ffffff</span></div><div class="scale-row"><figure><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" role="img" aria-label="Sleeve, light, 16 pixels" data-role="candidate" data-size="16" data-source="optical">
+  <title>Sleeve</title>
+  <desc>An open wrapping sleeve changes the container while a central media core stays intact. Original candidate, November 14, 2026.</desc>
+  <path d="M2 4L8 1L14 4V6L8 3L4 5V10L6 11V13L2 11Z" fill="#1c2925"/>
+  <path d="M14 7V12L8 15V13L12 11V6Z" fill="#176b5c"/>
+  <path d="M6 7H10V10H6Z" fill="#176b5c"/>
+</svg>
+<figcaption>16<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" role="img" aria-label="Sleeve, light, 24 pixels" data-role="candidate" data-size="24" data-source="optical">
+  <title>Sleeve</title>
+  <desc>An open wrapping sleeve changes the container while a central media core stays intact. Original candidate, November 14, 2026.</desc>
+  <path d="M2 4L8 1L14 4V6L8 3L4 5V10L6 11V13L2 11Z" fill="#1c2925"/>
+  <path d="M14 7V12L8 15V13L12 11V6Z" fill="#176b5c"/>
+  <path d="M6 7H10V10H6Z" fill="#176b5c"/>
+</svg>
+<figcaption>24<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" role="img" aria-label="Sleeve, light, 32 pixels" data-role="candidate" data-size="32" data-source="master">
+  <title>Sleeve</title>
+  <desc>An open wrapping sleeve changes the container while a central media core stays intact. Original candidate, November 14, 2026.</desc>
+  <path d="M32 72L128 24L224 72V104L128 56L64 88V168L96 184V220L32 188Z" fill="#1c2925"/>
+  <path d="M224 116V188L128 236V200L192 168V100Z" fill="#176b5c"/>
+  <path d="M88 104H160V160H88Z" fill="#176b5c"/>
+</svg>
+<figcaption>32<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" role="img" aria-label="Sleeve, light, 48 pixels" data-role="candidate" data-size="48" data-source="master">
+  <title>Sleeve</title>
+  <desc>An open wrapping sleeve changes the container while a central media core stays intact. Original candidate, November 14, 2026.</desc>
+  <path d="M32 72L128 24L224 72V104L128 56L64 88V168L96 184V220L32 188Z" fill="#1c2925"/>
+  <path d="M224 116V188L128 236V200L192 168V100Z" fill="#176b5c"/>
+  <path d="M88 104H160V160H88Z" fill="#176b5c"/>
+</svg>
+<figcaption>48<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 256 256" role="img" aria-label="Sleeve, light, 128 pixels" data-role="candidate" data-size="128" data-source="master">
+  <title>Sleeve</title>
+  <desc>An open wrapping sleeve changes the container while a central media core stays intact. Original candidate, November 14, 2026.</desc>
+  <path d="M32 72L128 24L224 72V104L128 56L64 88V168L96 184V220L32 188Z" fill="#1c2925"/>
+  <path d="M224 116V188L128 236V200L192 168V100Z" fill="#176b5c"/>
+  <path d="M88 104H160V160H88Z" fill="#176b5c"/>
+</svg>
+<figcaption>128<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="Sleeve, light, 256 pixels" data-role="candidate" data-size="256" data-source="master">
+  <title>Sleeve</title>
+  <desc>An open wrapping sleeve changes the container while a central media core stays intact. Original candidate, November 14, 2026.</desc>
+  <path d="M32 72L128 24L224 72V104L128 56L64 88V168L96 184V220L32 188Z" fill="#1c2925"/>
+  <path d="M224 116V188L128 236V200L192 168V100Z" fill="#176b5c"/>
+  <path d="M88 104H160V160H88Z" fill="#176b5c"/>
+</svg>
+<figcaption>256<span>px</span></figcaption></figure></div><div class="secondary">
+    <div class="mono-sample"><span class="micro">Single colour</span><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" role="img" aria-label="Sleeve, monochrome on light" data-role="mono">
+  <title>Sleeve</title>
+  <desc>An open wrapping sleeve changes the container while a central media core stays intact. Original candidate, November 14, 2026.</desc>
+  <path d="M32 72L128 24L224 72V104L128 56L64 88V168L96 184V220L32 188Z" fill="currentColor"/>
+  <path d="M224 116V188L128 236V200L192 168V100Z" fill="currentColor"/>
+  <path d="M88 104H160V160H88Z" fill="currentColor"/>
+</svg>
+</div>
+    <div class="lockup-sample"><span class="micro">Live system text</span><svg data-role="lockup" xmlns="http://www.w3.org/2000/svg" width="560" height="96" viewBox="0 0 560 96" role="img" aria-label="FFmpeg Encoder — Sleeve lockup">
+  <title>Sleeve</title>
+  <desc>An open wrapping sleeve changes the container while a central media core stays intact. Original candidate, November 14, 2026.</desc>
+  <g transform="translate(0 4) scale(.34375)">
+  <path d="M32 72L128 24L224 72V104L128 56L64 88V168L96 184V220L32 188Z" fill="#1c2925"/>
+  <path d="M224 116V188L128 236V200L192 168V100Z" fill="#176b5c"/>
+  <path d="M88 104H160V160H88Z" fill="#176b5c"/>
+  </g>
+  <text x="112" y="61" fill="#1c2925" font-family="'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif" font-size="40" font-weight="600" letter-spacing="-.6">FFmpeg Encoder</text>
+</svg>
+</div>
+  </div>
+  <div class="comparison"><span class="micro">Side by side · 32 px</span><div><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" role="img" aria-label="Current Folded Frame at 32 pixels" data-role="current">
+  <rect x="1" y="1" width="30" height="30" rx="7" fill="#172A33"/>
+  <path d="M9 7H16V10H10V22H16V25H9Q7 25 7 23V9Q7 7 9 7Z" fill="#F9F6EC"/>
+  <path d="M16 7H23Q25 7 25 9V15L22 12V10H16Z" fill="#F4B54C"/>
+  <path d="M22 12L25 15H22Z" fill="#D88D28"/>
+  <path d="M22 17H25V23Q25 25 23 25H16V22H22Z" fill="#50C7BC"/>
+</svg><span>Current</span></div><div><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" role="img" aria-label="Sleeve comparison" data-role="comparison-candidate">
+  <title>Sleeve</title>
+  <desc>An open wrapping sleeve changes the container while a central media core stays intact. Original candidate, November 14, 2026.</desc>
+  <path d="M32 72L128 24L224 72V104L128 56L64 88V168L96 184V220L32 188Z" fill="#1c2925"/>
+  <path d="M224 116V188L128 236V200L192 168V100Z" fill="#176b5c"/>
+  <path d="M88 104H160V160H88Z" fill="#176b5c"/>
+</svg>
+<span>Sleeve</span></div></div></section></div>
+  <p class="optical-note">16 &amp; 24 px use the dedicated optical drawing. 32–256 px use the 256-grid master. See NOTES.md for tradeoffs.</p>
+</article>
+<article class="concept" id="splice" data-concept="splice">
+  <div class="concept-heading"><div><span class="micro">Concept 03</span><h2>Splice</h2></div><p>A slanted, open cut separates two film-strip ends without losing their frame rhythm.</p><span class="rank">Designer's rank 3 / 6</span></div>
+  <div class="theme-pair"><section class="theme dark" data-theme="dark" aria-label="Splice on dark"><div class="panel-heading"><h3>Dark / amber</h3><span class="surface-token">--surface #181d24</span></div><div class="scale-row"><figure><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" role="img" aria-label="Splice, dark, 16 pixels" data-role="candidate" data-size="16" data-source="optical">
+  <title>Splice</title>
+  <desc>A slanted, open cut separates two film-strip ends without losing their frame rhythm. Original candidate, November 14, 2026.</desc>
+  <path d="M1 4H9L6 13H1ZM3 6V11H4L6 6Z" fill="#edf0f4" fill-rule="evenodd"/>
+  <path d="M11 4H15V13H8ZM12 6L10 11H13V6Z" fill="#ffad42" fill-rule="evenodd"/>
+</svg>
+<figcaption>16<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" role="img" aria-label="Splice, dark, 24 pixels" data-role="candidate" data-size="24" data-source="optical">
+  <title>Splice</title>
+  <desc>A slanted, open cut separates two film-strip ends without losing their frame rhythm. Original candidate, November 14, 2026.</desc>
+  <path d="M1 4H9L6 13H1ZM3 6V11H4L6 6Z" fill="#edf0f4" fill-rule="evenodd"/>
+  <path d="M11 4H15V13H8ZM12 6L10 11H13V6Z" fill="#ffad42" fill-rule="evenodd"/>
+</svg>
+<figcaption>24<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" role="img" aria-label="Splice, dark, 32 pixels" data-role="candidate" data-size="32" data-source="master">
+  <title>Splice</title>
+  <desc>A slanted, open cut separates two film-strip ends without losing their frame rhythm. Original candidate, November 14, 2026.</desc>
+  <path d="M24 56H144L88 200H24ZM48 88V168H72L104 88Z" fill="#edf0f4" fill-rule="evenodd"/>
+  <path d="M176 56H232V200H120ZM192 88L160 168H208V88Z" fill="#ffad42" fill-rule="evenodd"/>
+  <path d="M120 24H152V40H120ZM104 216H136V232H104Z" fill="#ffad42"/>
+</svg>
+<figcaption>32<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" role="img" aria-label="Splice, dark, 48 pixels" data-role="candidate" data-size="48" data-source="master">
+  <title>Splice</title>
+  <desc>A slanted, open cut separates two film-strip ends without losing their frame rhythm. Original candidate, November 14, 2026.</desc>
+  <path d="M24 56H144L88 200H24ZM48 88V168H72L104 88Z" fill="#edf0f4" fill-rule="evenodd"/>
+  <path d="M176 56H232V200H120ZM192 88L160 168H208V88Z" fill="#ffad42" fill-rule="evenodd"/>
+  <path d="M120 24H152V40H120ZM104 216H136V232H104Z" fill="#ffad42"/>
+</svg>
+<figcaption>48<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 256 256" role="img" aria-label="Splice, dark, 128 pixels" data-role="candidate" data-size="128" data-source="master">
+  <title>Splice</title>
+  <desc>A slanted, open cut separates two film-strip ends without losing their frame rhythm. Original candidate, November 14, 2026.</desc>
+  <path d="M24 56H144L88 200H24ZM48 88V168H72L104 88Z" fill="#edf0f4" fill-rule="evenodd"/>
+  <path d="M176 56H232V200H120ZM192 88L160 168H208V88Z" fill="#ffad42" fill-rule="evenodd"/>
+  <path d="M120 24H152V40H120ZM104 216H136V232H104Z" fill="#ffad42"/>
+</svg>
+<figcaption>128<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="Splice, dark, 256 pixels" data-role="candidate" data-size="256" data-source="master">
+  <title>Splice</title>
+  <desc>A slanted, open cut separates two film-strip ends without losing their frame rhythm. Original candidate, November 14, 2026.</desc>
+  <path d="M24 56H144L88 200H24ZM48 88V168H72L104 88Z" fill="#edf0f4" fill-rule="evenodd"/>
+  <path d="M176 56H232V200H120ZM192 88L160 168H208V88Z" fill="#ffad42" fill-rule="evenodd"/>
+  <path d="M120 24H152V40H120ZM104 216H136V232H104Z" fill="#ffad42"/>
+</svg>
+<figcaption>256<span>px</span></figcaption></figure></div><div class="secondary">
+    <div class="mono-sample"><span class="micro">Single colour</span><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" role="img" aria-label="Splice, monochrome on dark" data-role="mono">
+  <title>Splice</title>
+  <desc>A slanted, open cut separates two film-strip ends without losing their frame rhythm. Original candidate, November 14, 2026.</desc>
+  <path d="M24 56H144L88 200H24ZM48 88V168H72L104 88Z" fill="currentColor" fill-rule="evenodd"/>
+  <path d="M176 56H232V200H120ZM192 88L160 168H208V88Z" fill="currentColor" fill-rule="evenodd"/>
+  <path d="M120 24H152V40H120ZM104 216H136V232H104Z" fill="currentColor"/>
+</svg>
+</div>
+    <div class="lockup-sample"><span class="micro">Live system text</span><svg data-role="lockup" xmlns="http://www.w3.org/2000/svg" width="560" height="96" viewBox="0 0 560 96" role="img" aria-label="FFmpeg Encoder — Splice lockup">
+  <title>Splice</title>
+  <desc>A slanted, open cut separates two film-strip ends without losing their frame rhythm. Original candidate, November 14, 2026.</desc>
+  <g transform="translate(0 4) scale(.34375)">
+  <path d="M24 56H144L88 200H24ZM48 88V168H72L104 88Z" fill="#edf0f4" fill-rule="evenodd"/>
+  <path d="M176 56H232V200H120ZM192 88L160 168H208V88Z" fill="#ffad42" fill-rule="evenodd"/>
+  <path d="M120 24H152V40H120ZM104 216H136V232H104Z" fill="#ffad42"/>
+  </g>
+  <text x="112" y="61" fill="#edf0f4" font-family="'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif" font-size="40" font-weight="600" letter-spacing="-.6">FFmpeg Encoder</text>
+</svg>
+</div>
+  </div>
+  <div class="comparison"><span class="micro">Side by side · 32 px</span><div><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" role="img" aria-label="Current Folded Frame at 32 pixels" data-role="current">
+  <rect x="1" y="1" width="30" height="30" rx="7" fill="#172A33"/>
+  <path d="M9 7H16V10H10V22H16V25H9Q7 25 7 23V9Q7 7 9 7Z" fill="#F9F6EC"/>
+  <path d="M16 7H23Q25 7 25 9V15L22 12V10H16Z" fill="#F4B54C"/>
+  <path d="M22 12L25 15H22Z" fill="#D88D28"/>
+  <path d="M22 17H25V23Q25 25 23 25H16V22H22Z" fill="#50C7BC"/>
+</svg><span>Current</span></div><div><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" role="img" aria-label="Splice comparison" data-role="comparison-candidate">
+  <title>Splice</title>
+  <desc>A slanted, open cut separates two film-strip ends without losing their frame rhythm. Original candidate, November 14, 2026.</desc>
+  <path d="M24 56H144L88 200H24ZM48 88V168H72L104 88Z" fill="#edf0f4" fill-rule="evenodd"/>
+  <path d="M176 56H232V200H120ZM192 88L160 168H208V88Z" fill="#ffad42" fill-rule="evenodd"/>
+  <path d="M120 24H152V40H120ZM104 216H136V232H104Z" fill="#ffad42"/>
+</svg>
+<span>Splice</span></div></div></section><section class="theme light" data-theme="light" aria-label="Splice on light"><div class="panel-heading"><h3>Light / teal</h3><span class="surface-token">--surface #ffffff</span></div><div class="scale-row"><figure><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" role="img" aria-label="Splice, light, 16 pixels" data-role="candidate" data-size="16" data-source="optical">
+  <title>Splice</title>
+  <desc>A slanted, open cut separates two film-strip ends without losing their frame rhythm. Original candidate, November 14, 2026.</desc>
+  <path d="M1 4H9L6 13H1ZM3 6V11H4L6 6Z" fill="#1c2925" fill-rule="evenodd"/>
+  <path d="M11 4H15V13H8ZM12 6L10 11H13V6Z" fill="#176b5c" fill-rule="evenodd"/>
+</svg>
+<figcaption>16<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" role="img" aria-label="Splice, light, 24 pixels" data-role="candidate" data-size="24" data-source="optical">
+  <title>Splice</title>
+  <desc>A slanted, open cut separates two film-strip ends without losing their frame rhythm. Original candidate, November 14, 2026.</desc>
+  <path d="M1 4H9L6 13H1ZM3 6V11H4L6 6Z" fill="#1c2925" fill-rule="evenodd"/>
+  <path d="M11 4H15V13H8ZM12 6L10 11H13V6Z" fill="#176b5c" fill-rule="evenodd"/>
+</svg>
+<figcaption>24<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" role="img" aria-label="Splice, light, 32 pixels" data-role="candidate" data-size="32" data-source="master">
+  <title>Splice</title>
+  <desc>A slanted, open cut separates two film-strip ends without losing their frame rhythm. Original candidate, November 14, 2026.</desc>
+  <path d="M24 56H144L88 200H24ZM48 88V168H72L104 88Z" fill="#1c2925" fill-rule="evenodd"/>
+  <path d="M176 56H232V200H120ZM192 88L160 168H208V88Z" fill="#176b5c" fill-rule="evenodd"/>
+  <path d="M120 24H152V40H120ZM104 216H136V232H104Z" fill="#176b5c"/>
+</svg>
+<figcaption>32<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" role="img" aria-label="Splice, light, 48 pixels" data-role="candidate" data-size="48" data-source="master">
+  <title>Splice</title>
+  <desc>A slanted, open cut separates two film-strip ends without losing their frame rhythm. Original candidate, November 14, 2026.</desc>
+  <path d="M24 56H144L88 200H24ZM48 88V168H72L104 88Z" fill="#1c2925" fill-rule="evenodd"/>
+  <path d="M176 56H232V200H120ZM192 88L160 168H208V88Z" fill="#176b5c" fill-rule="evenodd"/>
+  <path d="M120 24H152V40H120ZM104 216H136V232H104Z" fill="#176b5c"/>
+</svg>
+<figcaption>48<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 256 256" role="img" aria-label="Splice, light, 128 pixels" data-role="candidate" data-size="128" data-source="master">
+  <title>Splice</title>
+  <desc>A slanted, open cut separates two film-strip ends without losing their frame rhythm. Original candidate, November 14, 2026.</desc>
+  <path d="M24 56H144L88 200H24ZM48 88V168H72L104 88Z" fill="#1c2925" fill-rule="evenodd"/>
+  <path d="M176 56H232V200H120ZM192 88L160 168H208V88Z" fill="#176b5c" fill-rule="evenodd"/>
+  <path d="M120 24H152V40H120ZM104 216H136V232H104Z" fill="#176b5c"/>
+</svg>
+<figcaption>128<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="Splice, light, 256 pixels" data-role="candidate" data-size="256" data-source="master">
+  <title>Splice</title>
+  <desc>A slanted, open cut separates two film-strip ends without losing their frame rhythm. Original candidate, November 14, 2026.</desc>
+  <path d="M24 56H144L88 200H24ZM48 88V168H72L104 88Z" fill="#1c2925" fill-rule="evenodd"/>
+  <path d="M176 56H232V200H120ZM192 88L160 168H208V88Z" fill="#176b5c" fill-rule="evenodd"/>
+  <path d="M120 24H152V40H120ZM104 216H136V232H104Z" fill="#176b5c"/>
+</svg>
+<figcaption>256<span>px</span></figcaption></figure></div><div class="secondary">
+    <div class="mono-sample"><span class="micro">Single colour</span><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" role="img" aria-label="Splice, monochrome on light" data-role="mono">
+  <title>Splice</title>
+  <desc>A slanted, open cut separates two film-strip ends without losing their frame rhythm. Original candidate, November 14, 2026.</desc>
+  <path d="M24 56H144L88 200H24ZM48 88V168H72L104 88Z" fill="currentColor" fill-rule="evenodd"/>
+  <path d="M176 56H232V200H120ZM192 88L160 168H208V88Z" fill="currentColor" fill-rule="evenodd"/>
+  <path d="M120 24H152V40H120ZM104 216H136V232H104Z" fill="currentColor"/>
+</svg>
+</div>
+    <div class="lockup-sample"><span class="micro">Live system text</span><svg data-role="lockup" xmlns="http://www.w3.org/2000/svg" width="560" height="96" viewBox="0 0 560 96" role="img" aria-label="FFmpeg Encoder — Splice lockup">
+  <title>Splice</title>
+  <desc>A slanted, open cut separates two film-strip ends without losing their frame rhythm. Original candidate, November 14, 2026.</desc>
+  <g transform="translate(0 4) scale(.34375)">
+  <path d="M24 56H144L88 200H24ZM48 88V168H72L104 88Z" fill="#1c2925" fill-rule="evenodd"/>
+  <path d="M176 56H232V200H120ZM192 88L160 168H208V88Z" fill="#176b5c" fill-rule="evenodd"/>
+  <path d="M120 24H152V40H120ZM104 216H136V232H104Z" fill="#176b5c"/>
+  </g>
+  <text x="112" y="61" fill="#1c2925" font-family="'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif" font-size="40" font-weight="600" letter-spacing="-.6">FFmpeg Encoder</text>
+</svg>
+</div>
+  </div>
+  <div class="comparison"><span class="micro">Side by side · 32 px</span><div><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" role="img" aria-label="Current Folded Frame at 32 pixels" data-role="current">
+  <rect x="1" y="1" width="30" height="30" rx="7" fill="#172A33"/>
+  <path d="M9 7H16V10H10V22H16V25H9Q7 25 7 23V9Q7 7 9 7Z" fill="#F9F6EC"/>
+  <path d="M16 7H23Q25 7 25 9V15L22 12V10H16Z" fill="#F4B54C"/>
+  <path d="M22 12L25 15H22Z" fill="#D88D28"/>
+  <path d="M22 17H25V23Q25 25 23 25H16V22H22Z" fill="#50C7BC"/>
+</svg><span>Current</span></div><div><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" role="img" aria-label="Splice comparison" data-role="comparison-candidate">
+  <title>Splice</title>
+  <desc>A slanted, open cut separates two film-strip ends without losing their frame rhythm. Original candidate, November 14, 2026.</desc>
+  <path d="M24 56H144L88 200H24ZM48 88V168H72L104 88Z" fill="#1c2925" fill-rule="evenodd"/>
+  <path d="M176 56H232V200H120ZM192 88L160 168H208V88Z" fill="#176b5c" fill-rule="evenodd"/>
+  <path d="M120 24H152V40H120ZM104 216H136V232H104Z" fill="#176b5c"/>
+</svg>
+<span>Splice</span></div></div></section></div>
+  <p class="optical-note">16 &amp; 24 px use the dedicated optical drawing. 32–256 px use the 256-grid master. See NOTES.md for tradeoffs.</p>
+</article>
+<article class="concept" id="witness" data-concept="witness">
+  <div class="concept-heading"><div><span class="micro">Concept 04</span><h2>Witness</h2></div><p>An open inspection frame closes through a check, making verification part of the frame itself.</p><span class="rank">Designer's rank 2 / 6</span></div>
+  <div class="theme-pair"><section class="theme dark" data-theme="dark" aria-label="Witness on dark"><div class="panel-heading"><h3>Dark / amber</h3><span class="surface-token">--surface #181d24</span></div><div class="scale-row"><figure><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" role="img" aria-label="Witness, dark, 16 pixels" data-role="candidate" data-size="16" data-source="optical">
+  <title>Witness</title>
+  <desc>An open inspection frame closes through a check, making verification part of the frame itself. Original candidate, November 14, 2026.</desc>
+  <path d="M3 2H11V4H4V12H12V10H14V13L13 14H3L2 13V3Z" fill="#edf0f4"/>
+  <path d="M5 7L7 5L9 7L13 3L15 5L9 11Z" fill="#ffad42"/>
+</svg>
+<figcaption>16<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" role="img" aria-label="Witness, dark, 24 pixels" data-role="candidate" data-size="24" data-source="optical">
+  <title>Witness</title>
+  <desc>An open inspection frame closes through a check, making verification part of the frame itself. Original candidate, November 14, 2026.</desc>
+  <path d="M3 2H11V4H4V12H12V10H14V13L13 14H3L2 13V3Z" fill="#edf0f4"/>
+  <path d="M5 7L7 5L9 7L13 3L15 5L9 11Z" fill="#ffad42"/>
+</svg>
+<figcaption>24<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" role="img" aria-label="Witness, dark, 32 pixels" data-role="candidate" data-size="32" data-source="master">
+  <title>Witness</title>
+  <desc>An open inspection frame closes through a check, making verification part of the frame itself. Original candidate, November 14, 2026.</desc>
+  <path d="M56 40H184V72H72V184H184V160H216V184Q216 216 184 216H72Q40 216 40 184V72Q40 40 56 40Z" fill="#edf0f4"/>
+  <path d="M88 120L112 96L144 128L200 64L224 88L144 176Z" fill="#ffad42"/>
+</svg>
+<figcaption>32<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" role="img" aria-label="Witness, dark, 48 pixels" data-role="candidate" data-size="48" data-source="master">
+  <title>Witness</title>
+  <desc>An open inspection frame closes through a check, making verification part of the frame itself. Original candidate, November 14, 2026.</desc>
+  <path d="M56 40H184V72H72V184H184V160H216V184Q216 216 184 216H72Q40 216 40 184V72Q40 40 56 40Z" fill="#edf0f4"/>
+  <path d="M88 120L112 96L144 128L200 64L224 88L144 176Z" fill="#ffad42"/>
+</svg>
+<figcaption>48<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 256 256" role="img" aria-label="Witness, dark, 128 pixels" data-role="candidate" data-size="128" data-source="master">
+  <title>Witness</title>
+  <desc>An open inspection frame closes through a check, making verification part of the frame itself. Original candidate, November 14, 2026.</desc>
+  <path d="M56 40H184V72H72V184H184V160H216V184Q216 216 184 216H72Q40 216 40 184V72Q40 40 56 40Z" fill="#edf0f4"/>
+  <path d="M88 120L112 96L144 128L200 64L224 88L144 176Z" fill="#ffad42"/>
+</svg>
+<figcaption>128<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="Witness, dark, 256 pixels" data-role="candidate" data-size="256" data-source="master">
+  <title>Witness</title>
+  <desc>An open inspection frame closes through a check, making verification part of the frame itself. Original candidate, November 14, 2026.</desc>
+  <path d="M56 40H184V72H72V184H184V160H216V184Q216 216 184 216H72Q40 216 40 184V72Q40 40 56 40Z" fill="#edf0f4"/>
+  <path d="M88 120L112 96L144 128L200 64L224 88L144 176Z" fill="#ffad42"/>
+</svg>
+<figcaption>256<span>px</span></figcaption></figure></div><div class="secondary">
+    <div class="mono-sample"><span class="micro">Single colour</span><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" role="img" aria-label="Witness, monochrome on dark" data-role="mono">
+  <title>Witness</title>
+  <desc>An open inspection frame closes through a check, making verification part of the frame itself. Original candidate, November 14, 2026.</desc>
+  <path d="M56 40H184V72H72V184H184V160H216V184Q216 216 184 216H72Q40 216 40 184V72Q40 40 56 40Z" fill="currentColor"/>
+  <path d="M88 120L112 96L144 128L200 64L224 88L144 176Z" fill="currentColor"/>
+</svg>
+</div>
+    <div class="lockup-sample"><span class="micro">Live system text</span><svg data-role="lockup" xmlns="http://www.w3.org/2000/svg" width="560" height="96" viewBox="0 0 560 96" role="img" aria-label="FFmpeg Encoder — Witness lockup">
+  <title>Witness</title>
+  <desc>An open inspection frame closes through a check, making verification part of the frame itself. Original candidate, November 14, 2026.</desc>
+  <g transform="translate(0 4) scale(.34375)">
+  <path d="M56 40H184V72H72V184H184V160H216V184Q216 216 184 216H72Q40 216 40 184V72Q40 40 56 40Z" fill="#edf0f4"/>
+  <path d="M88 120L112 96L144 128L200 64L224 88L144 176Z" fill="#ffad42"/>
+  </g>
+  <text x="112" y="61" fill="#edf0f4" font-family="'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif" font-size="40" font-weight="600" letter-spacing="-.6">FFmpeg Encoder</text>
+</svg>
+</div>
+  </div>
+  <div class="comparison"><span class="micro">Side by side · 32 px</span><div><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" role="img" aria-label="Current Folded Frame at 32 pixels" data-role="current">
+  <rect x="1" y="1" width="30" height="30" rx="7" fill="#172A33"/>
+  <path d="M9 7H16V10H10V22H16V25H9Q7 25 7 23V9Q7 7 9 7Z" fill="#F9F6EC"/>
+  <path d="M16 7H23Q25 7 25 9V15L22 12V10H16Z" fill="#F4B54C"/>
+  <path d="M22 12L25 15H22Z" fill="#D88D28"/>
+  <path d="M22 17H25V23Q25 25 23 25H16V22H22Z" fill="#50C7BC"/>
+</svg><span>Current</span></div><div><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" role="img" aria-label="Witness comparison" data-role="comparison-candidate">
+  <title>Witness</title>
+  <desc>An open inspection frame closes through a check, making verification part of the frame itself. Original candidate, November 14, 2026.</desc>
+  <path d="M56 40H184V72H72V184H184V160H216V184Q216 216 184 216H72Q40 216 40 184V72Q40 40 56 40Z" fill="#edf0f4"/>
+  <path d="M88 120L112 96L144 128L200 64L224 88L144 176Z" fill="#ffad42"/>
+</svg>
+<span>Witness</span></div></div></section><section class="theme light" data-theme="light" aria-label="Witness on light"><div class="panel-heading"><h3>Light / teal</h3><span class="surface-token">--surface #ffffff</span></div><div class="scale-row"><figure><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" role="img" aria-label="Witness, light, 16 pixels" data-role="candidate" data-size="16" data-source="optical">
+  <title>Witness</title>
+  <desc>An open inspection frame closes through a check, making verification part of the frame itself. Original candidate, November 14, 2026.</desc>
+  <path d="M3 2H11V4H4V12H12V10H14V13L13 14H3L2 13V3Z" fill="#1c2925"/>
+  <path d="M5 7L7 5L9 7L13 3L15 5L9 11Z" fill="#176b5c"/>
+</svg>
+<figcaption>16<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" role="img" aria-label="Witness, light, 24 pixels" data-role="candidate" data-size="24" data-source="optical">
+  <title>Witness</title>
+  <desc>An open inspection frame closes through a check, making verification part of the frame itself. Original candidate, November 14, 2026.</desc>
+  <path d="M3 2H11V4H4V12H12V10H14V13L13 14H3L2 13V3Z" fill="#1c2925"/>
+  <path d="M5 7L7 5L9 7L13 3L15 5L9 11Z" fill="#176b5c"/>
+</svg>
+<figcaption>24<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" role="img" aria-label="Witness, light, 32 pixels" data-role="candidate" data-size="32" data-source="master">
+  <title>Witness</title>
+  <desc>An open inspection frame closes through a check, making verification part of the frame itself. Original candidate, November 14, 2026.</desc>
+  <path d="M56 40H184V72H72V184H184V160H216V184Q216 216 184 216H72Q40 216 40 184V72Q40 40 56 40Z" fill="#1c2925"/>
+  <path d="M88 120L112 96L144 128L200 64L224 88L144 176Z" fill="#176b5c"/>
+</svg>
+<figcaption>32<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" role="img" aria-label="Witness, light, 48 pixels" data-role="candidate" data-size="48" data-source="master">
+  <title>Witness</title>
+  <desc>An open inspection frame closes through a check, making verification part of the frame itself. Original candidate, November 14, 2026.</desc>
+  <path d="M56 40H184V72H72V184H184V160H216V184Q216 216 184 216H72Q40 216 40 184V72Q40 40 56 40Z" fill="#1c2925"/>
+  <path d="M88 120L112 96L144 128L200 64L224 88L144 176Z" fill="#176b5c"/>
+</svg>
+<figcaption>48<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 256 256" role="img" aria-label="Witness, light, 128 pixels" data-role="candidate" data-size="128" data-source="master">
+  <title>Witness</title>
+  <desc>An open inspection frame closes through a check, making verification part of the frame itself. Original candidate, November 14, 2026.</desc>
+  <path d="M56 40H184V72H72V184H184V160H216V184Q216 216 184 216H72Q40 216 40 184V72Q40 40 56 40Z" fill="#1c2925"/>
+  <path d="M88 120L112 96L144 128L200 64L224 88L144 176Z" fill="#176b5c"/>
+</svg>
+<figcaption>128<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="Witness, light, 256 pixels" data-role="candidate" data-size="256" data-source="master">
+  <title>Witness</title>
+  <desc>An open inspection frame closes through a check, making verification part of the frame itself. Original candidate, November 14, 2026.</desc>
+  <path d="M56 40H184V72H72V184H184V160H216V184Q216 216 184 216H72Q40 216 40 184V72Q40 40 56 40Z" fill="#1c2925"/>
+  <path d="M88 120L112 96L144 128L200 64L224 88L144 176Z" fill="#176b5c"/>
+</svg>
+<figcaption>256<span>px</span></figcaption></figure></div><div class="secondary">
+    <div class="mono-sample"><span class="micro">Single colour</span><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" role="img" aria-label="Witness, monochrome on light" data-role="mono">
+  <title>Witness</title>
+  <desc>An open inspection frame closes through a check, making verification part of the frame itself. Original candidate, November 14, 2026.</desc>
+  <path d="M56 40H184V72H72V184H184V160H216V184Q216 216 184 216H72Q40 216 40 184V72Q40 40 56 40Z" fill="currentColor"/>
+  <path d="M88 120L112 96L144 128L200 64L224 88L144 176Z" fill="currentColor"/>
+</svg>
+</div>
+    <div class="lockup-sample"><span class="micro">Live system text</span><svg data-role="lockup" xmlns="http://www.w3.org/2000/svg" width="560" height="96" viewBox="0 0 560 96" role="img" aria-label="FFmpeg Encoder — Witness lockup">
+  <title>Witness</title>
+  <desc>An open inspection frame closes through a check, making verification part of the frame itself. Original candidate, November 14, 2026.</desc>
+  <g transform="translate(0 4) scale(.34375)">
+  <path d="M56 40H184V72H72V184H184V160H216V184Q216 216 184 216H72Q40 216 40 184V72Q40 40 56 40Z" fill="#1c2925"/>
+  <path d="M88 120L112 96L144 128L200 64L224 88L144 176Z" fill="#176b5c"/>
+  </g>
+  <text x="112" y="61" fill="#1c2925" font-family="'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif" font-size="40" font-weight="600" letter-spacing="-.6">FFmpeg Encoder</text>
+</svg>
+</div>
+  </div>
+  <div class="comparison"><span class="micro">Side by side · 32 px</span><div><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" role="img" aria-label="Current Folded Frame at 32 pixels" data-role="current">
+  <rect x="1" y="1" width="30" height="30" rx="7" fill="#172A33"/>
+  <path d="M9 7H16V10H10V22H16V25H9Q7 25 7 23V9Q7 7 9 7Z" fill="#F9F6EC"/>
+  <path d="M16 7H23Q25 7 25 9V15L22 12V10H16Z" fill="#F4B54C"/>
+  <path d="M22 12L25 15H22Z" fill="#D88D28"/>
+  <path d="M22 17H25V23Q25 25 23 25H16V22H22Z" fill="#50C7BC"/>
+</svg><span>Current</span></div><div><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" role="img" aria-label="Witness comparison" data-role="comparison-candidate">
+  <title>Witness</title>
+  <desc>An open inspection frame closes through a check, making verification part of the frame itself. Original candidate, November 14, 2026.</desc>
+  <path d="M56 40H184V72H72V184H184V160H216V184Q216 216 184 216H72Q40 216 40 184V72Q40 40 56 40Z" fill="#1c2925"/>
+  <path d="M88 120L112 96L144 128L200 64L224 88L144 176Z" fill="#176b5c"/>
+</svg>
+<span>Witness</span></div></div></section></div>
+  <p class="optical-note">16 &amp; 24 px use the dedicated optical drawing. 32–256 px use the 256-grid master. See NOTES.md for tradeoffs.</p>
+</article>
+<article class="concept" id="lattice" data-concept="lattice">
+  <div class="concept-heading"><div><span class="micro">Concept 05</span><h2>Lattice</h2></div><p>Two machined rails form an abstract FE monogram, with a shared central working line.</p><span class="rank">Designer's rank 5 / 6</span></div>
+  <div class="theme-pair"><section class="theme dark" data-theme="dark" aria-label="Lattice on dark"><div class="panel-heading"><h3>Dark / amber</h3><span class="surface-token">--surface #181d24</span></div><div class="scale-row"><figure><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" role="img" aria-label="Lattice, dark, 16 pixels" data-role="candidate" data-size="16" data-source="optical">
+  <title>Lattice</title>
+  <desc>Two machined rails form an abstract FE monogram, with a shared central working line. Original candidate, November 14, 2026.</desc>
+  <path d="M2 2H7V4H4V7H6V9H4V14H2Z" fill="#edf0f4"/>
+  <path d="M8 2H14V4H10V7H13V9H10V12H14V14H8Z" fill="#ffad42"/>
+</svg>
+<figcaption>16<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" role="img" aria-label="Lattice, dark, 24 pixels" data-role="candidate" data-size="24" data-source="optical">
+  <title>Lattice</title>
+  <desc>Two machined rails form an abstract FE monogram, with a shared central working line. Original candidate, November 14, 2026.</desc>
+  <path d="M2 2H7V4H4V7H6V9H4V14H2Z" fill="#edf0f4"/>
+  <path d="M8 2H14V4H10V7H13V9H10V12H14V14H8Z" fill="#ffad42"/>
+</svg>
+<figcaption>24<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" role="img" aria-label="Lattice, dark, 32 pixels" data-role="candidate" data-size="32" data-source="master">
+  <title>Lattice</title>
+  <desc>Two machined rails form an abstract FE monogram, with a shared central working line. Original candidate, November 14, 2026.</desc>
+  <path d="M40 40H120V72H72V112H104V144H72V216H40Z" fill="#edf0f4"/>
+  <path d="M136 40H216V72H168V112H200V144H168V184H216V216H136Z" fill="#ffad42"/>
+</svg>
+<figcaption>32<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" role="img" aria-label="Lattice, dark, 48 pixels" data-role="candidate" data-size="48" data-source="master">
+  <title>Lattice</title>
+  <desc>Two machined rails form an abstract FE monogram, with a shared central working line. Original candidate, November 14, 2026.</desc>
+  <path d="M40 40H120V72H72V112H104V144H72V216H40Z" fill="#edf0f4"/>
+  <path d="M136 40H216V72H168V112H200V144H168V184H216V216H136Z" fill="#ffad42"/>
+</svg>
+<figcaption>48<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 256 256" role="img" aria-label="Lattice, dark, 128 pixels" data-role="candidate" data-size="128" data-source="master">
+  <title>Lattice</title>
+  <desc>Two machined rails form an abstract FE monogram, with a shared central working line. Original candidate, November 14, 2026.</desc>
+  <path d="M40 40H120V72H72V112H104V144H72V216H40Z" fill="#edf0f4"/>
+  <path d="M136 40H216V72H168V112H200V144H168V184H216V216H136Z" fill="#ffad42"/>
+</svg>
+<figcaption>128<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="Lattice, dark, 256 pixels" data-role="candidate" data-size="256" data-source="master">
+  <title>Lattice</title>
+  <desc>Two machined rails form an abstract FE monogram, with a shared central working line. Original candidate, November 14, 2026.</desc>
+  <path d="M40 40H120V72H72V112H104V144H72V216H40Z" fill="#edf0f4"/>
+  <path d="M136 40H216V72H168V112H200V144H168V184H216V216H136Z" fill="#ffad42"/>
+</svg>
+<figcaption>256<span>px</span></figcaption></figure></div><div class="secondary">
+    <div class="mono-sample"><span class="micro">Single colour</span><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" role="img" aria-label="Lattice, monochrome on dark" data-role="mono">
+  <title>Lattice</title>
+  <desc>Two machined rails form an abstract FE monogram, with a shared central working line. Original candidate, November 14, 2026.</desc>
+  <path d="M40 40H120V72H72V112H104V144H72V216H40Z" fill="currentColor"/>
+  <path d="M136 40H216V72H168V112H200V144H168V184H216V216H136Z" fill="currentColor"/>
+</svg>
+</div>
+    <div class="lockup-sample"><span class="micro">Live system text</span><svg data-role="lockup" xmlns="http://www.w3.org/2000/svg" width="560" height="96" viewBox="0 0 560 96" role="img" aria-label="FFmpeg Encoder — Lattice lockup">
+  <title>Lattice</title>
+  <desc>Two machined rails form an abstract FE monogram, with a shared central working line. Original candidate, November 14, 2026.</desc>
+  <g transform="translate(0 4) scale(.34375)">
+  <path d="M40 40H120V72H72V112H104V144H72V216H40Z" fill="#edf0f4"/>
+  <path d="M136 40H216V72H168V112H200V144H168V184H216V216H136Z" fill="#ffad42"/>
+  </g>
+  <text x="112" y="61" fill="#edf0f4" font-family="'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif" font-size="40" font-weight="600" letter-spacing="-.6">FFmpeg Encoder</text>
+</svg>
+</div>
+  </div>
+  <div class="comparison"><span class="micro">Side by side · 32 px</span><div><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" role="img" aria-label="Current Folded Frame at 32 pixels" data-role="current">
+  <rect x="1" y="1" width="30" height="30" rx="7" fill="#172A33"/>
+  <path d="M9 7H16V10H10V22H16V25H9Q7 25 7 23V9Q7 7 9 7Z" fill="#F9F6EC"/>
+  <path d="M16 7H23Q25 7 25 9V15L22 12V10H16Z" fill="#F4B54C"/>
+  <path d="M22 12L25 15H22Z" fill="#D88D28"/>
+  <path d="M22 17H25V23Q25 25 23 25H16V22H22Z" fill="#50C7BC"/>
+</svg><span>Current</span></div><div><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" role="img" aria-label="Lattice comparison" data-role="comparison-candidate">
+  <title>Lattice</title>
+  <desc>Two machined rails form an abstract FE monogram, with a shared central working line. Original candidate, November 14, 2026.</desc>
+  <path d="M40 40H120V72H72V112H104V144H72V216H40Z" fill="#edf0f4"/>
+  <path d="M136 40H216V72H168V112H200V144H168V184H216V216H136Z" fill="#ffad42"/>
+</svg>
+<span>Lattice</span></div></div></section><section class="theme light" data-theme="light" aria-label="Lattice on light"><div class="panel-heading"><h3>Light / teal</h3><span class="surface-token">--surface #ffffff</span></div><div class="scale-row"><figure><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" role="img" aria-label="Lattice, light, 16 pixels" data-role="candidate" data-size="16" data-source="optical">
+  <title>Lattice</title>
+  <desc>Two machined rails form an abstract FE monogram, with a shared central working line. Original candidate, November 14, 2026.</desc>
+  <path d="M2 2H7V4H4V7H6V9H4V14H2Z" fill="#1c2925"/>
+  <path d="M8 2H14V4H10V7H13V9H10V12H14V14H8Z" fill="#176b5c"/>
+</svg>
+<figcaption>16<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" role="img" aria-label="Lattice, light, 24 pixels" data-role="candidate" data-size="24" data-source="optical">
+  <title>Lattice</title>
+  <desc>Two machined rails form an abstract FE monogram, with a shared central working line. Original candidate, November 14, 2026.</desc>
+  <path d="M2 2H7V4H4V7H6V9H4V14H2Z" fill="#1c2925"/>
+  <path d="M8 2H14V4H10V7H13V9H10V12H14V14H8Z" fill="#176b5c"/>
+</svg>
+<figcaption>24<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" role="img" aria-label="Lattice, light, 32 pixels" data-role="candidate" data-size="32" data-source="master">
+  <title>Lattice</title>
+  <desc>Two machined rails form an abstract FE monogram, with a shared central working line. Original candidate, November 14, 2026.</desc>
+  <path d="M40 40H120V72H72V112H104V144H72V216H40Z" fill="#1c2925"/>
+  <path d="M136 40H216V72H168V112H200V144H168V184H216V216H136Z" fill="#176b5c"/>
+</svg>
+<figcaption>32<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" role="img" aria-label="Lattice, light, 48 pixels" data-role="candidate" data-size="48" data-source="master">
+  <title>Lattice</title>
+  <desc>Two machined rails form an abstract FE monogram, with a shared central working line. Original candidate, November 14, 2026.</desc>
+  <path d="M40 40H120V72H72V112H104V144H72V216H40Z" fill="#1c2925"/>
+  <path d="M136 40H216V72H168V112H200V144H168V184H216V216H136Z" fill="#176b5c"/>
+</svg>
+<figcaption>48<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 256 256" role="img" aria-label="Lattice, light, 128 pixels" data-role="candidate" data-size="128" data-source="master">
+  <title>Lattice</title>
+  <desc>Two machined rails form an abstract FE monogram, with a shared central working line. Original candidate, November 14, 2026.</desc>
+  <path d="M40 40H120V72H72V112H104V144H72V216H40Z" fill="#1c2925"/>
+  <path d="M136 40H216V72H168V112H200V144H168V184H216V216H136Z" fill="#176b5c"/>
+</svg>
+<figcaption>128<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="Lattice, light, 256 pixels" data-role="candidate" data-size="256" data-source="master">
+  <title>Lattice</title>
+  <desc>Two machined rails form an abstract FE monogram, with a shared central working line. Original candidate, November 14, 2026.</desc>
+  <path d="M40 40H120V72H72V112H104V144H72V216H40Z" fill="#1c2925"/>
+  <path d="M136 40H216V72H168V112H200V144H168V184H216V216H136Z" fill="#176b5c"/>
+</svg>
+<figcaption>256<span>px</span></figcaption></figure></div><div class="secondary">
+    <div class="mono-sample"><span class="micro">Single colour</span><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" role="img" aria-label="Lattice, monochrome on light" data-role="mono">
+  <title>Lattice</title>
+  <desc>Two machined rails form an abstract FE monogram, with a shared central working line. Original candidate, November 14, 2026.</desc>
+  <path d="M40 40H120V72H72V112H104V144H72V216H40Z" fill="currentColor"/>
+  <path d="M136 40H216V72H168V112H200V144H168V184H216V216H136Z" fill="currentColor"/>
+</svg>
+</div>
+    <div class="lockup-sample"><span class="micro">Live system text</span><svg data-role="lockup" xmlns="http://www.w3.org/2000/svg" width="560" height="96" viewBox="0 0 560 96" role="img" aria-label="FFmpeg Encoder — Lattice lockup">
+  <title>Lattice</title>
+  <desc>Two machined rails form an abstract FE monogram, with a shared central working line. Original candidate, November 14, 2026.</desc>
+  <g transform="translate(0 4) scale(.34375)">
+  <path d="M40 40H120V72H72V112H104V144H72V216H40Z" fill="#1c2925"/>
+  <path d="M136 40H216V72H168V112H200V144H168V184H216V216H136Z" fill="#176b5c"/>
+  </g>
+  <text x="112" y="61" fill="#1c2925" font-family="'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif" font-size="40" font-weight="600" letter-spacing="-.6">FFmpeg Encoder</text>
+</svg>
+</div>
+  </div>
+  <div class="comparison"><span class="micro">Side by side · 32 px</span><div><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" role="img" aria-label="Current Folded Frame at 32 pixels" data-role="current">
+  <rect x="1" y="1" width="30" height="30" rx="7" fill="#172A33"/>
+  <path d="M9 7H16V10H10V22H16V25H9Q7 25 7 23V9Q7 7 9 7Z" fill="#F9F6EC"/>
+  <path d="M16 7H23Q25 7 25 9V15L22 12V10H16Z" fill="#F4B54C"/>
+  <path d="M22 12L25 15H22Z" fill="#D88D28"/>
+  <path d="M22 17H25V23Q25 25 23 25H16V22H22Z" fill="#50C7BC"/>
+</svg><span>Current</span></div><div><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" role="img" aria-label="Lattice comparison" data-role="comparison-candidate">
+  <title>Lattice</title>
+  <desc>Two machined rails form an abstract FE monogram, with a shared central working line. Original candidate, November 14, 2026.</desc>
+  <path d="M40 40H120V72H72V112H104V144H72V216H40Z" fill="#1c2925"/>
+  <path d="M136 40H216V72H168V112H200V144H168V184H216V216H136Z" fill="#176b5c"/>
+</svg>
+<span>Lattice</span></div></div></section></div>
+  <p class="optical-note">16 &amp; 24 px use the dedicated optical drawing. 32–256 px use the 256-grid master. See NOTES.md for tradeoffs.</p>
+</article>
+<article class="concept" id="cadence" data-concept="cadence">
+  <div class="concept-heading"><div><span class="micro">Concept 06</span><h2>Cadence</h2></div><p>A measured signal crosses a video frame, linking sound, timing and picture.</p><span class="rank">Designer's rank 6 / 6</span></div>
+  <div class="theme-pair"><section class="theme dark" data-theme="dark" aria-label="Cadence on dark"><div class="panel-heading"><h3>Dark / amber</h3><span class="surface-token">--surface #181d24</span></div><div class="scale-row"><figure><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" role="img" aria-label="Cadence, dark, 16 pixels" data-role="candidate" data-size="16" data-source="optical">
+  <title>Cadence</title>
+  <desc>A measured signal crosses a video frame, linking sound, timing and picture. Original candidate, November 14, 2026.</desc>
+  <path d="M2 5V2H14V5H12V4H4V5ZM2 11H4V12H12V11H14V14H2Z" fill="#edf0f4"/>
+  <path d="M1 7H4L6 4L9 10L11 6L13 7H15V9H12L9 15L6 9L5 9H1Z" fill="#ffad42"/>
+</svg>
+<figcaption>16<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" role="img" aria-label="Cadence, dark, 24 pixels" data-role="candidate" data-size="24" data-source="optical">
+  <title>Cadence</title>
+  <desc>A measured signal crosses a video frame, linking sound, timing and picture. Original candidate, November 14, 2026.</desc>
+  <path d="M2 5V2H14V5H12V4H4V5ZM2 11H4V12H12V11H14V14H2Z" fill="#edf0f4"/>
+  <path d="M1 7H4L6 4L9 10L11 6L13 7H15V9H12L9 15L6 9L5 9H1Z" fill="#ffad42"/>
+</svg>
+<figcaption>24<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" role="img" aria-label="Cadence, dark, 32 pixels" data-role="candidate" data-size="32" data-source="master">
+  <title>Cadence</title>
+  <desc>A measured signal crosses a video frame, linking sound, timing and picture. Original candidate, November 14, 2026.</desc>
+  <path d="M32 88V40H224V88H192V72H64V88ZM32 168H64V184H192V168H224V216H32Z" fill="#edf0f4"/>
+  <path d="M24 116H72L96 68L136 156L160 100L184 116H232V140H176L170 136L136 212L96 124L88 140H24Z" fill="#ffad42"/>
+</svg>
+<figcaption>32<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" role="img" aria-label="Cadence, dark, 48 pixels" data-role="candidate" data-size="48" data-source="master">
+  <title>Cadence</title>
+  <desc>A measured signal crosses a video frame, linking sound, timing and picture. Original candidate, November 14, 2026.</desc>
+  <path d="M32 88V40H224V88H192V72H64V88ZM32 168H64V184H192V168H224V216H32Z" fill="#edf0f4"/>
+  <path d="M24 116H72L96 68L136 156L160 100L184 116H232V140H176L170 136L136 212L96 124L88 140H24Z" fill="#ffad42"/>
+</svg>
+<figcaption>48<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 256 256" role="img" aria-label="Cadence, dark, 128 pixels" data-role="candidate" data-size="128" data-source="master">
+  <title>Cadence</title>
+  <desc>A measured signal crosses a video frame, linking sound, timing and picture. Original candidate, November 14, 2026.</desc>
+  <path d="M32 88V40H224V88H192V72H64V88ZM32 168H64V184H192V168H224V216H32Z" fill="#edf0f4"/>
+  <path d="M24 116H72L96 68L136 156L160 100L184 116H232V140H176L170 136L136 212L96 124L88 140H24Z" fill="#ffad42"/>
+</svg>
+<figcaption>128<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="Cadence, dark, 256 pixels" data-role="candidate" data-size="256" data-source="master">
+  <title>Cadence</title>
+  <desc>A measured signal crosses a video frame, linking sound, timing and picture. Original candidate, November 14, 2026.</desc>
+  <path d="M32 88V40H224V88H192V72H64V88ZM32 168H64V184H192V168H224V216H32Z" fill="#edf0f4"/>
+  <path d="M24 116H72L96 68L136 156L160 100L184 116H232V140H176L170 136L136 212L96 124L88 140H24Z" fill="#ffad42"/>
+</svg>
+<figcaption>256<span>px</span></figcaption></figure></div><div class="secondary">
+    <div class="mono-sample"><span class="micro">Single colour</span><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" role="img" aria-label="Cadence, monochrome on dark" data-role="mono">
+  <title>Cadence</title>
+  <desc>A measured signal crosses a video frame, linking sound, timing and picture. Original candidate, November 14, 2026.</desc>
+  <path d="M32 88V40H224V88H192V72H64V88ZM32 168H64V184H192V168H224V216H32Z" fill="currentColor"/>
+  <path d="M24 116H72L96 68L136 156L160 100L184 116H232V140H176L170 136L136 212L96 124L88 140H24Z" fill="currentColor"/>
+</svg>
+</div>
+    <div class="lockup-sample"><span class="micro">Live system text</span><svg data-role="lockup" xmlns="http://www.w3.org/2000/svg" width="560" height="96" viewBox="0 0 560 96" role="img" aria-label="FFmpeg Encoder — Cadence lockup">
+  <title>Cadence</title>
+  <desc>A measured signal crosses a video frame, linking sound, timing and picture. Original candidate, November 14, 2026.</desc>
+  <g transform="translate(0 4) scale(.34375)">
+  <path d="M32 88V40H224V88H192V72H64V88ZM32 168H64V184H192V168H224V216H32Z" fill="#edf0f4"/>
+  <path d="M24 116H72L96 68L136 156L160 100L184 116H232V140H176L170 136L136 212L96 124L88 140H24Z" fill="#ffad42"/>
+  </g>
+  <text x="112" y="61" fill="#edf0f4" font-family="'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif" font-size="40" font-weight="600" letter-spacing="-.6">FFmpeg Encoder</text>
+</svg>
+</div>
+  </div>
+  <div class="comparison"><span class="micro">Side by side · 32 px</span><div><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" role="img" aria-label="Current Folded Frame at 32 pixels" data-role="current">
+  <rect x="1" y="1" width="30" height="30" rx="7" fill="#172A33"/>
+  <path d="M9 7H16V10H10V22H16V25H9Q7 25 7 23V9Q7 7 9 7Z" fill="#F9F6EC"/>
+  <path d="M16 7H23Q25 7 25 9V15L22 12V10H16Z" fill="#F4B54C"/>
+  <path d="M22 12L25 15H22Z" fill="#D88D28"/>
+  <path d="M22 17H25V23Q25 25 23 25H16V22H22Z" fill="#50C7BC"/>
+</svg><span>Current</span></div><div><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" role="img" aria-label="Cadence comparison" data-role="comparison-candidate">
+  <title>Cadence</title>
+  <desc>A measured signal crosses a video frame, linking sound, timing and picture. Original candidate, November 14, 2026.</desc>
+  <path d="M32 88V40H224V88H192V72H64V88ZM32 168H64V184H192V168H224V216H32Z" fill="#edf0f4"/>
+  <path d="M24 116H72L96 68L136 156L160 100L184 116H232V140H176L170 136L136 212L96 124L88 140H24Z" fill="#ffad42"/>
+</svg>
+<span>Cadence</span></div></div></section><section class="theme light" data-theme="light" aria-label="Cadence on light"><div class="panel-heading"><h3>Light / teal</h3><span class="surface-token">--surface #ffffff</span></div><div class="scale-row"><figure><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" role="img" aria-label="Cadence, light, 16 pixels" data-role="candidate" data-size="16" data-source="optical">
+  <title>Cadence</title>
+  <desc>A measured signal crosses a video frame, linking sound, timing and picture. Original candidate, November 14, 2026.</desc>
+  <path d="M2 5V2H14V5H12V4H4V5ZM2 11H4V12H12V11H14V14H2Z" fill="#1c2925"/>
+  <path d="M1 7H4L6 4L9 10L11 6L13 7H15V9H12L9 15L6 9L5 9H1Z" fill="#176b5c"/>
+</svg>
+<figcaption>16<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" role="img" aria-label="Cadence, light, 24 pixels" data-role="candidate" data-size="24" data-source="optical">
+  <title>Cadence</title>
+  <desc>A measured signal crosses a video frame, linking sound, timing and picture. Original candidate, November 14, 2026.</desc>
+  <path d="M2 5V2H14V5H12V4H4V5ZM2 11H4V12H12V11H14V14H2Z" fill="#1c2925"/>
+  <path d="M1 7H4L6 4L9 10L11 6L13 7H15V9H12L9 15L6 9L5 9H1Z" fill="#176b5c"/>
+</svg>
+<figcaption>24<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" role="img" aria-label="Cadence, light, 32 pixels" data-role="candidate" data-size="32" data-source="master">
+  <title>Cadence</title>
+  <desc>A measured signal crosses a video frame, linking sound, timing and picture. Original candidate, November 14, 2026.</desc>
+  <path d="M32 88V40H224V88H192V72H64V88ZM32 168H64V184H192V168H224V216H32Z" fill="#1c2925"/>
+  <path d="M24 116H72L96 68L136 156L160 100L184 116H232V140H176L170 136L136 212L96 124L88 140H24Z" fill="#176b5c"/>
+</svg>
+<figcaption>32<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" role="img" aria-label="Cadence, light, 48 pixels" data-role="candidate" data-size="48" data-source="master">
+  <title>Cadence</title>
+  <desc>A measured signal crosses a video frame, linking sound, timing and picture. Original candidate, November 14, 2026.</desc>
+  <path d="M32 88V40H224V88H192V72H64V88ZM32 168H64V184H192V168H224V216H32Z" fill="#1c2925"/>
+  <path d="M24 116H72L96 68L136 156L160 100L184 116H232V140H176L170 136L136 212L96 124L88 140H24Z" fill="#176b5c"/>
+</svg>
+<figcaption>48<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 256 256" role="img" aria-label="Cadence, light, 128 pixels" data-role="candidate" data-size="128" data-source="master">
+  <title>Cadence</title>
+  <desc>A measured signal crosses a video frame, linking sound, timing and picture. Original candidate, November 14, 2026.</desc>
+  <path d="M32 88V40H224V88H192V72H64V88ZM32 168H64V184H192V168H224V216H32Z" fill="#1c2925"/>
+  <path d="M24 116H72L96 68L136 156L160 100L184 116H232V140H176L170 136L136 212L96 124L88 140H24Z" fill="#176b5c"/>
+</svg>
+<figcaption>128<span>px</span></figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="Cadence, light, 256 pixels" data-role="candidate" data-size="256" data-source="master">
+  <title>Cadence</title>
+  <desc>A measured signal crosses a video frame, linking sound, timing and picture. Original candidate, November 14, 2026.</desc>
+  <path d="M32 88V40H224V88H192V72H64V88ZM32 168H64V184H192V168H224V216H32Z" fill="#1c2925"/>
+  <path d="M24 116H72L96 68L136 156L160 100L184 116H232V140H176L170 136L136 212L96 124L88 140H24Z" fill="#176b5c"/>
+</svg>
+<figcaption>256<span>px</span></figcaption></figure></div><div class="secondary">
+    <div class="mono-sample"><span class="micro">Single colour</span><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256" role="img" aria-label="Cadence, monochrome on light" data-role="mono">
+  <title>Cadence</title>
+  <desc>A measured signal crosses a video frame, linking sound, timing and picture. Original candidate, November 14, 2026.</desc>
+  <path d="M32 88V40H224V88H192V72H64V88ZM32 168H64V184H192V168H224V216H32Z" fill="currentColor"/>
+  <path d="M24 116H72L96 68L136 156L160 100L184 116H232V140H176L170 136L136 212L96 124L88 140H24Z" fill="currentColor"/>
+</svg>
+</div>
+    <div class="lockup-sample"><span class="micro">Live system text</span><svg data-role="lockup" xmlns="http://www.w3.org/2000/svg" width="560" height="96" viewBox="0 0 560 96" role="img" aria-label="FFmpeg Encoder — Cadence lockup">
+  <title>Cadence</title>
+  <desc>A measured signal crosses a video frame, linking sound, timing and picture. Original candidate, November 14, 2026.</desc>
+  <g transform="translate(0 4) scale(.34375)">
+  <path d="M32 88V40H224V88H192V72H64V88ZM32 168H64V184H192V168H224V216H32Z" fill="#1c2925"/>
+  <path d="M24 116H72L96 68L136 156L160 100L184 116H232V140H176L170 136L136 212L96 124L88 140H24Z" fill="#176b5c"/>
+  </g>
+  <text x="112" y="61" fill="#1c2925" font-family="'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif" font-size="40" font-weight="600" letter-spacing="-.6">FFmpeg Encoder</text>
+</svg>
+</div>
+  </div>
+  <div class="comparison"><span class="micro">Side by side · 32 px</span><div><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" role="img" aria-label="Current Folded Frame at 32 pixels" data-role="current">
+  <rect x="1" y="1" width="30" height="30" rx="7" fill="#172A33"/>
+  <path d="M9 7H16V10H10V22H16V25H9Q7 25 7 23V9Q7 7 9 7Z" fill="#F9F6EC"/>
+  <path d="M16 7H23Q25 7 25 9V15L22 12V10H16Z" fill="#F4B54C"/>
+  <path d="M22 12L25 15H22Z" fill="#D88D28"/>
+  <path d="M22 17H25V23Q25 25 23 25H16V22H22Z" fill="#50C7BC"/>
+</svg><span>Current</span></div><div><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" role="img" aria-label="Cadence comparison" data-role="comparison-candidate">
+  <title>Cadence</title>
+  <desc>A measured signal crosses a video frame, linking sound, timing and picture. Original candidate, November 14, 2026.</desc>
+  <path d="M32 88V40H224V88H192V72H64V88ZM32 168H64V184H192V168H224V216H32Z" fill="#1c2925"/>
+  <path d="M24 116H72L96 68L136 156L160 100L184 116H232V140H176L170 136L136 212L96 124L88 140H24Z" fill="#176b5c"/>
+</svg>
+<span>Cadence</span></div></div></section></div>
+  <p class="optical-note">16 &amp; 24 px use the dedicated optical drawing. 32–256 px use the 256-grid master. See NOTES.md for tradeoffs.</p>
+</article>
+<footer><strong>Original artwork created in this job.</strong> Candidate geometry is hand-authored SVG; lockups use live system text. No raster artwork, downloaded fonts or network requests. The comparison icon retains its existing provenance and ISC licence. Theme colours come from ui/styles.css. NOTES.md records tokens, small-size decisions, weaknesses and the designer's ranking. Review candidates only; no app integration or owner acceptance is implied.</footer>
+</main></body></html>

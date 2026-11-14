@@ -7,7 +7,9 @@
 > - **Evidence.** `q2o-full-final` 2925 pass with the same 5 parked failures. Failed proofs `bb1a7617`, `b4b16fc8`, `e3c45ff7` and failed receipt `q2o-full` are retained. Three fresh Codex reviews (`q2o-review-1`–`3`, plus `q2i-review-1`); every finding fixed. The last one-line escape guard was read by root, not re-reviewed.
 > - **Open.** Speed is short of root's target (about 4 s fixed and 18 s per GB against 3 s and 6 s per GB); the rest is in-app bookkeeping for the optimization pass. The window does not show verification progress yet.
 > - **Owner decisions still to build (record 47 §7).** Codex designs the logo; trim and resize at any length (Q2n); Quick copy keeps every track; MP3→MP4.
-> - **Next:** the logo job and Q2j (TS→MP4, MP3→MP4), via Codex.
+> - **Logo candidates (R07, awaiting Ahmed).** Codex job `logo-1` produced six original concepts in `assets/logo-candidates-2026-11-14/` (Gauge, Sleeve, Splice, Witness, Lattice, Cadence; marks, 16 px drawings, mono, lockups, `preview.html`, `NOTES.md`). Root checked them against both themes from the rendered review images. Nothing is wired into the app; the shipped Folded Frame icon is unchanged until Ahmed selects.
+> - **MP3→MP4 method (root's choice, as Ahmed asked).** Exact copy of the MP3 audio into MP4, no re-encode; the app states that some Apple players do not play MP3 inside MP4. Re-encode to AAC belongs to the audio settings slice Q2k.
+> - **Next:** Q2j part 1 (TS→MP4) via Codex, brief `artifacts/v0.7/milestone-q/q2j/brief-work-1.md`; then Q2j part 2 (MP3→MP4), then Q2n.
 > - The banners below are history.
 
 > **November 14, 2026 — newest addition.** Q2i+Q2o are still uncommitted in the working tree. Root's 14-case qualification `0f1e9765` passed; review `q2o-review-1` found three defects; Ahmed decided "fast check always" (record 47 §9). Codex follow-up 5 returned `needs_decision` for two more files; root allowed them and told Codex to remove the deep option (follow-up 6). After that: fresh review, root's qualification and normal-service proofs, catalog bump to a new policy id, full suite, commit.

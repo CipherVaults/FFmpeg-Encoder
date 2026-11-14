@@ -206,3 +206,9 @@ Changes to the plan in §6:
 - All five routes use `packet-identity-v1`; policy id `full-remux-v5:2026-11-14:packet-identity-headers`. Proofs `c020cf60` and `aa9cd74a` on fixtures `b29f31e5` plus the Q2g and Q2d fixtures.
 - Measured on the final bytes: 3.0–4.9 s for 8-second files, 5.5–13.8 s for 20-minute files, about 12 s for 680 MB. Root's target of 3 s fixed and 6 s per GB is not met (about 4 s and 18 s per GB); the remainder is in-app bookkeeping, for the optimization pass.
 - Not done: verification progress in the window; child-process memory and hour-scale throughput are unmeasured.
+
+### Logo candidates and MP3 method notes (November 14, 2026)
+
+- **Logo (R07).** Codex job `logo-1` (receipt under `artifacts/v0.7/codex/`) delivered six original candidates in `assets/logo-candidates-2026-11-14/`. Each uses only the `--text` and `--orange` tokens of the two themes, with separate dark and light treatments. Codex ranks Gauge first and Witness second. Root's theme-fit check (rendered review images, both themes): all six fit; Witness reads as a generic checkbox, and the marks have no background tile, so a selected mark needs a tile or a per-background treatment for the Windows taskbar at packaging. Selection is Ahmed's gate; the shipped icon is unchanged.
+- **Leftover.** The job left a small Electron cache folder `.qa-electron-state` inside the candidates folder; it is not committed.
+- **MP3 to MP4.** Root's method: exact stream copy of MP3 into MP4 (no re-encode), with a stated compatibility note; re-encode to AAC is part of Q2k.

@@ -67,11 +67,11 @@ test('source v0/v1 rate, fractional, dwell and non-reproducible edit shapes fail
       body.writeUInt32BE(rate, 8 + (body.readUInt32BE(4) - 1) * (version ? 20 : 12) + (version ? 16 : 8)); return body; });
     await assert.rejects(source(t, changed), { code: 'REMUX_SOURCE_EDIT_UNSUPPORTED' });
   }
-  for (const change of [b => { b.writeUInt32BE(3, 4); return Buffer.concat([b, b.subarray(20)]); },
-    b => Buffer.concat([b.subarray(0, 8), b.subarray(20), b.subarray(8, 20)]),
-    b => { b.writeUInt32BE(b.readUInt32BE(20) - 1, 20); return b; },
-    b => { b.writeInt32BE(1, 24); return b; }])
-    await assert.rejects(source(t, transform(b, 'elst', 0, change)), { code: 'REMUX_SOURCE_EDIT_UNSUPPORTED' });
+  for (const [change,code] of [[b => { b.writeUInt32BE(3, 4); return Buffer.concat([b, b.subarray(20)]); },'REMUX_SOURCE_EDIT_PREROLL_UNVERIFIED'],
+    [b => Buffer.concat([b.subarray(0, 8), b.subarray(20), b.subarray(8, 20)]),'REMUX_SOURCE_EDIT_PREROLL_UNVERIFIED'],
+    [b => { b.writeUInt32BE(b.readUInt32BE(20) - 1, 20); return b; },'REMUX_SOURCE_EDIT_UNSUPPORTED'],
+    [b => { b.writeInt32BE(1, 24); return b; },'REMUX_SOURCE_EDIT_UNSUPPORTED']])
+    await assert.rejects(source(t, transform(b, 'elst', 0, change)), { code });
 });
 
 test('source playback and native timeout/type guards have individual negatives', async t => {
@@ -135,6 +135,7 @@ test('real service refuses native ISO playback mutants before Ready with a windo
     ['width', 'tkhd', 0, b => { b.writeUInt32BE(32 * 65536, 76); return b; }, 'REMUX_TRACK_GEOMETRY_UNSUPPORTED'],
     ['height', 'tkhd', 0, b => { b.writeUInt32BE(32 * 65536, 80); return b; }, 'REMUX_TRACK_GEOMETRY_UNSUPPORTED'],
     ['balance', 'smhd', 0, b => { b.writeInt16BE(256, 4); return b; }, 'REMUX_SOUND_BALANCE_UNSUPPORTED'],
+    ['aperture', 'trak', 0, b => { const a=Buffer.alloc(12);a.writeUInt32BE(64*65536,4);a.writeUInt32BE(72*65536,8);return Buffer.concat([b,atom('tapt',atom('clef',a))]); }, 'REMUX_TRACK_APERTURE_UNSUPPORTED'],
   ]) {
     const input = path.join(f.dir, name), output = path.join(f.dir, name + '-out'); await fs.mkdir(input); await fs.mkdir(output);
     await fs.writeFile(path.join(input, 'input.mp4'), transform(original, type, index, mutate));

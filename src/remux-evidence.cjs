@@ -1800,7 +1800,7 @@ async function collectRemuxEvidence(options) {
     essence.outputFileSha256 = hash.digest('hex'); await paths();
     // Preparation rejects source controls before Ready. Inspect them again at
     // collection under this job's unchanged identity, including ISO->Matroska.
-    const sourcePlayback = assessment.inputFamily === 'isobmff' ? await observeRemuxSourcePlayback({ file: sourcePath, probe: source,
+    const sourcePlayback = assessment.inputFamily === 'isobmff' ? await observeRemuxSourcePlayback({ file: sourcePath, probe: source, target: assessment.target,
       identity: { canonicalPath: sourcePath, ...stamp(sourceBefore) }, selectedIndexes: mappings.map(m => m.inputIndex),
       maxRecords: budget.maxRecords, timeoutMs: budget.timeoutMs, signal, onProgress: value => progress('source-playback-controls', value.completed, value.total) }) : null;
     if (sourcePlayback) receipt.sourcePlayback = sourcePlayback;

@@ -17,7 +17,6 @@ const greater = (a, b) => a.n * b.d > b.n * a.d;
 const IDENTITY_MATRIX = [65536, 0, 0, 0, 65536, 0, 0, 0, 1073741824];
 const matrix = (b, at) => Array.from({ length: 9 }, (_, i) => b.readInt32BE(at + i * 4));
 const equal = (a, b) => JSON.stringify(a) === JSON.stringify(b);
-const locations = new WeakMap();
 function scaled(value, scale, rounding = 'exact') {
   const n = value.n * scale;
   need(n >= 0n && (rounding !== 'exact' || n % value.d === 0n), 'The source interval cannot be represented exactly on the native movie/media clock.', 'REMUX_EDIT_LIST_UNEXPECTED');
@@ -43,7 +42,7 @@ function remuxEditInterval(record, stream) {
 }
 
 async function observeRemuxEditLists({ fileReceipt, outputProbe, intervals, maxRecords, exact = false, signal, onProgress,
-  sourceMode = false, controlsOnly = false, timeoutMs = 120000 } = {}) {
+  sourceMode = false, target = 'mp4', timeoutMs = 120000 } = {}) {
   const deadline = Date.now() + timeoutMs;
   // Keep source-derived time budgets proportional. A fixed upper limit here
   // would turn a long source's larger allowance into a length refusal.
@@ -52,7 +51,7 @@ async function observeRemuxEditLists({ fileReceipt, outputProbe, intervals, maxR
     need(Date.now() <= deadline, 'Native playback observation exceeded its deadline.', 'REMUX_NATIVE_TIMEOUT'); }; stop();
   const controlCode = sourceMode ? 'REMUX_SOURCE_PLAYBACK_UNSUPPORTED' : 'REMUX_OUTPUT_PLAYBACK_UNEXPECTED';
   const editCode = sourceMode ? 'REMUX_SOURCE_EDIT_UNSUPPORTED' : 'REMUX_EDIT_LIST_UNEXPECTED';
-  need(fileReceipt && typeof fileReceipt.path === 'string' && (sourceMode || controlsOnly || /^[a-f0-9]{64}$/.test(fileReceipt.sha256))
+  need(fileReceipt && typeof fileReceipt.path === 'string' && (sourceMode || /^[a-f0-9]{64}$/.test(fileReceipt.sha256))
     && Number.isSafeInteger(fileReceipt.bytes) && fileReceipt.bytes > 0 && fileReceipt.identity, 'A sealed native output-file receipt is required.');
   need(Number.isSafeInteger(maxRecords) && maxRecords > 0 && Number.isSafeInteger(maxRecords * 32 + 8 * 1024 ** 2), 'Native edit-list accounting overflow.');
   need(Array.isArray(intervals) && intervals.length > 0 && intervals.length <= 32 && intervals.length === outputProbe.streams.length, 'Exact native edit-list track coverage is required.');
@@ -94,8 +93,8 @@ async function observeRemuxEditLists({ fileReceipt, outputProbe, intervals, maxR
       'Movie playback must use rate 1.0, volume 1.0 and an identity matrix; Remux cannot normalise these controls.', controlCode);
     const traks = movieBoxes.filter(b => b.type === 'trak'); need(traks.length === trackIds.size, 'Native edit-list track set differs from the output.');
     const fragmented = sourceMode && (movieBoxes.some(b => b.type === 'mvex') || top.some(b => b.type === 'moof'));
-    const fragmentTiming = fragmented ? await require('./remux-fragments.cjs').fragmentCoverage({ top, movieBoxes, boxes, read, maxRecords }) : null;
-    const result = [], patches = [], seen = new Set(); let maximumTrackEnd = 0n;
+    const initialTiming = new Map();
+    const result = [], seen = new Set(); let maximumTrackEnd = 0n;
     for (const trak of traks) {
       const ts = await boxes(trak.body, trak.end, 2), tkhd = one(ts, 'tkhd'), mdia = one(ts, 'mdia');
       const th = await read(tkhd.body, Math.min(96, tkhd.end - tkhd.body)); need([0, 1].includes(th[0]) && th.length >= (th[0] ? 96 : 84), 'Invalid native track header.');
@@ -123,8 +122,20 @@ async function observeRemuxEditLists({ fileReceipt, outputProbe, intervals, maxR
           `Stream ${outputIndex}: tkhd.flags=${controls.flags} disables this copied track.`, controlCode);
         for (const [key, value] of [['volume', kind === 'audio' ? 256 : 0], ['matrix', IDENTITY_MATRIX]])
           need(equal(controls[key], value), `Stream ${outputIndex}: unsupported tkhd.${key}=${JSON.stringify(controls[key])}.`, controlCode);
-      } else for (const key of Object.keys(wanted)) need(equal(controls[key], wanted[key]) || controlsOnly && key === 'flags' && controls.flags === 3
-        && muxerFlags === 2 && outputProbe.streams.filter(s => s.codec_type === kind).length === 1,
+        const copied = outputProbe.streams.filter(s => intervals.find(i => i.outputIndex === s.index)?.selected !== false),
+          peers = copied.filter(s => s.codec_type === kind), predictedFlags = stream.disposition?.default === 0 && peers.length > 1 ? 2 : 3;
+        // There is deliberately no post-mux writable handle. Admit ISO controls
+        // only when movenc itself reproduces every admitted native value.
+        if (target === 'mp4' || target === 'mov') need(controls.flags === predictedFlags && controls.layer === 0
+          && controls.alternateGroup === (kind === 'audio' ? 1 : 0),
+          `Stream ${outputIndex}: ${target.toUpperCase()} cannot preserve tkhd.flags=${controls.flags}, layer=${controls.layer}, alternate_group=${controls.alternateGroup} without rewriting playback controls.`,
+          'REMUX_SOURCE_CONTROL_UNREPRESENTABLE');
+        else if (target === 'matroska') need([2, 3].includes(controls.flags) && controls.layer === 0
+          && controls.alternateGroup === (kind === 'audio' ? 1 : 0),
+          `Stream ${outputIndex}: Matroska cannot represent tkhd.flags=${controls.flags}, layer=${controls.layer}, alternate_group=${controls.alternateGroup}; only ordinary movie tracks and the common audio alternative group map to default/forced dispositions.`,
+          'REMUX_SOURCE_CONTROL_UNREPRESENTABLE');
+        else need(false, 'The native playback-control target is unknown.', 'REMUX_SOURCE_CONTROL_UNREPRESENTABLE');
+      } else for (const key of Object.keys(wanted)) need(equal(controls[key], wanted[key]),
         `Stream ${outputIndex}: tkhd.${key}=${JSON.stringify(controls[key])}; expected ${JSON.stringify(wanted[key])}.`, controlCode);
       const dimensions = { width: th.readUInt32BE(controlAt + 44), height: th.readUInt32BE(controlAt + 48) };
       const sar = /^\d{1,9}:\d{1,9}$/.test(stream.sample_aspect_ratio || '') ? stream.sample_aspect_ratio.split(':').map(BigInt) : [1n, 1n];
@@ -134,6 +145,20 @@ async function observeRemuxEditLists({ fileReceipt, outputProbe, intervals, maxR
         height: kind === 'video' ? stream.height * 65536 : 0 };
       need(equal(dimensions, geometry), `Stream ${outputIndex}: tkhd width/height ${dimensions.width}/${dimensions.height} differs from admitted display geometry ${geometry.width}/${geometry.height}.`,
         'REMUX_TRACK_GEOMETRY_UNSUPPORTED');
+      const apertures = ts.filter(b => b.type === 'tapt');
+      need(apertures.length <= 1, 'Duplicate track aperture geometry is not supported.', 'REMUX_TRACK_APERTURE_UNSUPPORTED');
+      if (apertures.length) {
+        const modes = await boxes(apertures[0].body, apertures[0].end, 3), names = new Set();
+        need(modes.length > 0 && modes.length <= 3, 'Track aperture modes could not be verified.', 'REMUX_TRACK_APERTURE_UNSUPPORTED');
+        for (const mode of modes) {
+          need(['clef', 'prof', 'enof'].includes(mode.type) && !names.has(mode.type) && mode.end - mode.body === 12,
+            'Malformed or unknown track aperture geometry is not supported.', 'REMUX_TRACK_APERTURE_UNSUPPORTED'); names.add(mode.type);
+          const a = await read(mode.body, 12);
+          need(a.readUInt32BE() === 0 && a.readUInt32BE(4) === dimensions.width && a.readUInt32BE(8) === dimensions.height,
+            `Stream ${outputIndex}: tapt.${mode.type} differs from the plain tkhd display geometry; aperture-mode preservation is not supported.`,
+            'REMUX_TRACK_APERTURE_UNSUPPORTED');
+        }
+      }
       const ms = await boxes(mdia.body, mdia.end, 3), mdhd = one(ms, 'mdhd'), minf = one(ms, 'minf');
       const h = await read(mdhd.body, Math.min(40, mdhd.end - mdhd.body)); need(h.length >= 24 && [0, 1].includes(h[0]), 'Invalid native media header.');
       const mediaScale = BigInt(h.readUInt32BE(h[0] ? 20 : 12)); need(mediaScale > 0n, 'Native media timescale must be positive.');
@@ -142,10 +167,6 @@ async function observeRemuxEditLists({ fileReceipt, outputProbe, intervals, maxR
       const mediaBoxes = await boxes(minf.body, minf.end, 4), stbl = one(mediaBoxes, 'stbl');
       if (kind === 'audio') { const smhd = one(mediaBoxes, 'smhd'), sound = await read(smhd.body, 8);
         need(smhd.end - smhd.body === 8 && sound.readInt16BE(4) === 0, `Stream ${outputIndex}: smhd.balance must be zero.`, 'REMUX_SOUND_BALANCE_UNSUPPORTED'); }
-      if (controlsOnly) {
-        patches.push({ outputIndex, flags: tkhd.body + 1, layer: tkhd.body + controlAt, alternateGroup: tkhd.body + controlAt + 2 });
-        result.push({ outputIndex, trackId: id, controls, dimensions }); continue;
-      }
       const samples = await boxes(stbl.body, stbl.end, 5), sizeTables = samples.filter(b => b.type === 'stsz' || b.type === 'stz2');
       need(sizeTables.length === 1, 'Exactly one stsz or stz2 sample-size table is required.', 'REMUX_SAMPLE_TABLE_UNVERIFIED');
       const sizeTable = sizeTables[0], sizes = await read(sizeTable.body, 12), sampleCount = sizes.readUInt32BE(8), width = sizes[7];
@@ -153,12 +174,11 @@ async function observeRemuxEditLists({ fileReceipt, outputProbe, intervals, maxR
         && (sizeTable.type === 'stsz' ? sizeTable.end - sizeTable.body === 12 + (sizes.readUInt32BE(4) ? 0 : sampleCount * 4)
           : sizes.readUIntBE(4, 3) === 0 && [4, 8, 16].includes(width) && sizeTable.end - sizeTable.body === 12 + Math.ceil(sampleCount * width / 8)),
         'Malformed or excessive native sample-size table.', fragmented ? 'REMUX_SOURCE_FRAGMENT_UNVERIFIED' : 'REMUX_SAMPLE_TABLE_UNVERIFIED');
-      need(!fragmented || sampleCount === 0, 'Hybrid flat/fragment sample coverage is not verified.', 'REMUX_SOURCE_FRAGMENT_UNVERIFIED');
       if (expected.packetCount !== undefined) need(BigInt(expected.packetCount) === BigInt(sampleCount), 'Native sample count differs from complete packet coverage.');
       async function* runs(box, composition = false) {
         const head = await read(box.body, 8), version = head[0], count = head.readUInt32BE(4);
         need((composition ? version === 0 || version === 1 : version === 0) && head.subarray(1, 4).every(b => b === 0)
-          && count > 0 && count <= maxRecords && box.end - box.body === 8 + count * 8, 'Invalid native timing run table.');
+          && count > 0 && count <= maxRecords && box.end - box.body === 8 + count * 8, 'Invalid native timing run table.', fragmented ? 'REMUX_SOURCE_FRAGMENT_UNVERIFIED' : undefined);
         let covered = 0;
         for (let i = 0; i < count;) {
           const amount = Math.min(512, count - i), chunk = await read(box.body + 8 + i * 8, amount * 8);
@@ -174,8 +194,7 @@ async function observeRemuxEditLists({ fileReceipt, outputProbe, intervals, maxR
       let d, c, clock = 0n, minimum = null, maximum = null;
       try {
         if (!sampleCount) {
-          const f = fragmentTiming?.get(id); need(f && f.count > 0, 'Fragment timing/sample coverage is unavailable.', 'REMUX_SOURCE_FRAGMENT_UNVERIFIED');
-          ({ clock, minimum, maximum } = f);
+          minimum = maximum = 0n;
         } else {
         d = await ds.next(); c = await cs.next();
         while (!d.done && !c.done) {
@@ -188,6 +207,8 @@ async function observeRemuxEditLists({ fileReceipt, outputProbe, intervals, maxR
         need(d.done && c.done && minimum !== null, 'Incomplete native timing coverage.');
         }
       } finally { await ds.return(); await cs.return(); }
+      if (fragmented) initialTiming.set(id, { count: sampleCount, clock, minimum: sampleCount ? minimum : null,
+        maximum: sampleCount ? maximum : null, endDts: clock });
       // mdhd is decode duration, the exact sum of every STTS run, including
       // B-frame reordering. It is not the maximum CTTS presentation endpoint.
       need(fragmented && mediaHeaderDuration === 0n || mediaHeaderDuration === clock, 'Native media duration differs from its complete sample timing.', 'REMUX_MEDIA_DURATION_UNEXPECTED');
@@ -207,6 +228,8 @@ async function observeRemuxEditLists({ fileReceipt, outputProbe, intervals, maxR
       const es = edts.length ? await boxes(edts[0].body, edts[0].end, 3) : [];
       need(!edts.length || es.length === 1 && es[0].type === 'elst', 'Only the source-offset edit list is permitted.', editCode);
       const elst = es[0], eh = edts.length ? await read(elst.body, 8) : Buffer.alloc(8), version = eh[0], count = eh.readUInt32BE(4);
+      if (sourceMode && count > 2) need(false,
+        'Multiple media edits require exact accounting for demuxer-repeated preroll; this edit layout is not verified.', 'REMUX_SOURCE_EDIT_PREROLL_UNVERIFIED');
       if (edts.length) need([0, 1].includes(version) && eh.subarray(1, 4).every(b => b === 0) && count > 0 && count <= 2
         && elst.end - elst.body === 8 + count * (version ? 20 : 12), 'Only one unity media edit, optionally preceded by one empty start edit, is supported.', editCode);
       const entries = [];
@@ -217,6 +240,8 @@ async function observeRemuxEditLists({ fileReceipt, outputProbe, intervals, maxR
       }
       let trackEnd;
       if (sourceMode) {
+        need(entries.length < 2 || entries[0].mediaTime === -1n,
+          'Consecutive media edits require exact accounting for demuxer-repeated preroll; this edit layout is not verified.', 'REMUX_SOURCE_EDIT_PREROLL_UNVERIFIED');
         const blank = entries.length === 2 ? entries[0] : null, media = entries.at(-1), trim = media ? media.mediaTime - minimum : 0n;
         need(!blank || blank.mediaTime === -1n && blank.duration > 0n, 'Only an initial empty edit can precede the media timeline.', editCode);
         need(!media || media.mediaTime >= 0n && trim >= 0n && trim < clock && (kind === 'audio' && stream.codec_name === 'aac' || trim === 0n),
@@ -256,58 +281,40 @@ async function observeRemuxEditLists({ fileReceipt, outputProbe, intervals, maxR
       }
       if (!sourceMode) need(duration === trackEnd, 'Native track duration differs from its independently rounded presentation end.', 'REMUX_TRACK_DURATION_UNEXPECTED');
       if (trackEnd > maximumTrackEnd) maximumTrackEnd = trackEnd;
-      patches.push({ outputIndex, flags: tkhd.body + 1, layer: tkhd.body + controlAt, alternateGroup: tkhd.body + controlAt + 2 });
       result.push({ outputIndex, trackId: id, controls, dimensions, movieScale: String(movieScale), mediaScale: String(mediaScale), trackDuration: String(duration),
         mediaDuration: String(mediaHeaderDuration), entries: entries.map(e => ({ duration: String(e.duration), mediaTime: String(e.mediaTime), rateInteger: 1, rateFraction: 0 })) });
     }
-    need(controlsOnly || sourceMode && fragmented && movieDuration === 0n || movieDuration === maximumTrackEnd,
+    if (fragmented) {
+      // moov duration/edit headers describe only the initial flat segment.
+      // Fragments extend it implicitly. Check that header against its own flat
+      // samples above, then reconcile the complete timeline without pretending
+      // the initial edit clips the subsequent fragments.
+      const coverage = await require('./remux-fragments.cjs').fragmentCoverage({ top, movieBoxes, boxes, read, maxRecords,
+        initial: initialTiming, trackIds: new Set(trackIds.keys()) });
+      for (const r of result.filter(r => r.selected !== false)) {
+        const f = coverage.get(r.trackId); need(f?.count > 0, 'Fragment timing/sample coverage is unavailable.', 'REMUX_SOURCE_FRAGMENT_UNVERIFIED');
+        r.fragmentCoverage = { samples: String(f.count), decodeDuration: String(f.clock), firstPts: String(f.minimum), endPts: String(f.maximum) };
+      }
+    }
+    need(sourceMode && fragmented && movieDuration === 0n || movieDuration === maximumTrackEnd,
       'Native movie duration differs from its track durations.', sourceMode ? 'REMUX_SOURCE_DURATION_UNVERIFIED' : 'REMUX_MOVIE_DURATION_UNEXPECTED');
     stop(); await assertOrdinaryPath(fileReceipt.path);
     const after = await handle.stat({ bigint: true }), namedAfter = await fs.lstat(fileReceipt.path, { bigint: true });
     need(FIELDS.every(k => before[k] === after[k] && after[k] === namedAfter[k]), 'Native file changed while its edit lists were inspected.');
     const receipt = { version: 1, complete: true, outputSha256: fileReceipt.sha256, identity: stamp(after), metadataBytesRead: bytesRead, tracks: result };
-    locations.set(receipt, patches); return receipt;
+    return receipt;
   } finally { await handle.close(); }
 }
-async function preserveRemuxSourceControls({ file, probe, identity, output, stage, mappings, maxRecords, timeoutMs, signal }) {
-  // Called only on the owned, closed copy BEFORE sealing/probing. Verification
-  // never repairs a mutant: the collector subsequently compares native bytes.
-  const admitted = await observeRemuxSourcePlayback({ file, probe, identity, selectedIndexes: mappings.map(m => m.inputIndex), maxRecords, timeoutMs, signal });
-  const outputProbe = { streams: mappings.map(m => ({ ...probe.streams.find(s => s.index === m.inputIndex), index: m.outputIndex, id: String(m.outputIndex + 1) })) };
-  const stat = await fs.lstat(output, { bigint: true });
-  need(output !== file && !(String(stat.dev) === identity.dev && String(stat.ino) === identity.ino), 'Playback preservation cannot write a source.', 'REMUX_PLAYBACK_WRITE_UNVERIFIED');
-  const observed = await observeRemuxEditLists({ fileReceipt: { path: output, bytes: Number(stat.size), identity: stamp(stat) }, outputProbe,
-    intervals: mappings.map(m => ({ outputIndex: m.outputIndex })), maxRecords, timeoutMs, signal, controlsOnly: true });
-  const writes = [];
-  for (const mapping of mappings) {
-    const source = admitted.tracks.find(t => t.outputIndex === mapping.inputIndex), target = observed.tracks.find(t => t.outputIndex === mapping.outputIndex),
-      at = locations.get(observed).find(t => t.outputIndex === mapping.outputIndex);
-    for (const [key, width] of [['flags', 3], ['layer', 2], ['alternateGroup', 2]]) if (source.controls[key] !== target.controls[key])
-      writes.push({ at: at[key], width, key, value: source.controls[key] });
-  }
-  if (!writes.length) return { changed: false };
-  need(stage?.file === output, 'Playback writes require the matching owned stage.', 'REMUX_PLAYBACK_WRITE_UNVERIFIED');
-  await require('./outputs.cjs').updateStagePlayback(stage, observed.identity, async handle => {
-    for (const w of writes) { if (signal?.aborted) throw new ToolError('CANCELLED', 'Playback preservation cancelled.');
-      const bytes = Buffer.alloc(w.width); if (w.key === 'flags') bytes.writeUIntBE(w.value, 0, w.width); else bytes.writeInt16BE(w.value);
-      need((await handle.write(bytes, 0, bytes.length, w.at)).bytesWritten === bytes.length, 'Incomplete playback-control write.', 'REMUX_PLAYBACK_WRITE_UNVERIFIED'); }
-    await handle.sync(); await assertOrdinaryPath(output);
-    const after = await handle.stat({ bigint: true }), named = await fs.lstat(output, { bigint: true });
-    need(['dev', 'ino', 'size', 'nlink', 'birthtimeNs'].every(k => after[k] === stat[k]) && FIELDS.every(k => after[k] === named[k]),
-      'The output identity changed during playback preservation.', 'REMUX_PLAYBACK_WRITE_UNVERIFIED');
-  });
-  return { changed: true };
-}
-async function observeRemuxSourcePlayback({ file, probe, identity, selectedIndexes = probe.streams.map(s => s.index), maxRecords, signal, timeoutMs, onProgress }) {
+async function observeRemuxSourcePlayback({ file, probe, identity, selectedIndexes = probe.streams.map(s => s.index), target = 'mp4', maxRecords, signal, timeoutMs, onProgress }) {
   try {
     const stat = await fs.lstat(file, { bigint: true });
     need(identity && file === identity.canonicalPath && FIELDS.filter(k => k !== 'nlink').every(k => String(stat[k]) === identity[k]),
       'The ISO source changed before playback inspection.', 'REMUX_SOURCE_PLAYBACK_UNVERIFIED');
     return await observeRemuxEditLists({ fileReceipt: { path: file, bytes: Number(stat.size), identity: stamp(stat) }, outputProbe: probe,
-      intervals: probe.streams.map(s => ({ outputIndex: s.index, selected: selectedIndexes.includes(s.index) })), maxRecords, sourceMode: true, signal, timeoutMs, onProgress });
+      intervals: probe.streams.map(s => ({ outputIndex: s.index, selected: selectedIndexes.includes(s.index) })), maxRecords, sourceMode: true, target, signal, timeoutMs, onProgress });
   } catch (error) {
-    if (error.code === 'CANCELLED' || /^REMUX_SOURCE_/.test(error.code || '') || ['REMUX_TRACK_GEOMETRY_UNSUPPORTED','REMUX_SOUND_BALANCE_UNSUPPORTED','REMUX_SAMPLE_TABLE_UNVERIFIED'].includes(error.code)) throw error;
+    if (error.code === 'CANCELLED' || /^REMUX_SOURCE_/.test(error.code || '') || ['REMUX_TRACK_GEOMETRY_UNSUPPORTED','REMUX_TRACK_APERTURE_UNSUPPORTED','REMUX_SOUND_BALANCE_UNSUPPORTED','REMUX_SAMPLE_TABLE_UNVERIFIED'].includes(error.code)) throw error;
     throw new ToolError('REMUX_SOURCE_PLAYBACK_UNVERIFIED', 'The source native playback controls could not be verified: ' + error.message);
   }
 }
-module.exports = { observeRemuxEditLists, remuxEditInterval, observeRemuxSourcePlayback, preserveRemuxSourceControls };
+module.exports = { observeRemuxEditLists, remuxEditInterval, observeRemuxSourcePlayback };

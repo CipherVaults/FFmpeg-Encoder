@@ -40,7 +40,7 @@ async function audit({ read = fsp.readFile, stat = fsp.stat, hashFile = async fi
       const sourceProbe = await probe(sourcePath);
       let sourcePlayback = null;
       if (sourceProbe.format?.format_name.split(',').includes('mov')) sourcePlayback = await observeRemuxSourcePlayback({ file: sourcePath,
-        probe: sourceProbe, identity: await readSourceIdentity(sourcePath), selectedIndexes: c.evidence.essenceEvidence.streams.map(s => s.inputIndex),
+        probe: sourceProbe, target: c.target, identity: await readSourceIdentity(sourcePath), selectedIndexes: c.evidence.essenceEvidence.streams.map(s => s.inputIndex),
         maxRecords: c.evidence.budget.maxRecords });
       const outputProbe = await probe(file);
       const intervals = [];

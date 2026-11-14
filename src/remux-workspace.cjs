@@ -118,7 +118,7 @@ async function prepareRemuxItem(item, { file, destination, probe, identity, mark
     const operationRuntimeToken = await this.operationRuntime.observe({ hardware: 'CPU', signal });
     const observed = this.operationRuntime.snapshot(operationRuntimeToken);
     if (observed.runtimeIdentity !== this.runtimeIdentity) throw fail('OPERATION_RUNTIME_STALE', 'The current Remux runtime differs from the prepared pair.');
-    if (assessment.inputFamily === 'isobmff') await observeRemuxSourcePlayback({ file, probe: source, identity, signal,
+    if (assessment.inputFamily === 'isobmff') await observeRemuxSourcePlayback({ file, probe: source, identity, signal, target: assessment.target,
       selectedIndexes: assessment.expectedOutput.streams.map(s => s.inputIndex),
       ...deriveRemuxAssessmentBudget(assessment, identity.size, operationPlan.verificationMethod).budget });
     const transportPreparation = assessment.inputFamily === 'mpegts' ? await prepareTransport({ file, probe: source, identity, ffprobe: this.ffprobe,

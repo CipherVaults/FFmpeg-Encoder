@@ -1927,11 +1927,6 @@ class EncoderService extends EventEmitter {
           if (entry.vendor) vendorGuard('encode-exit', encodeResult.exitCode === 0, 'VENDOR_ENCODE_FAILED');
           setJobStage('output-validation');
           await this.recordIncident({ stage: 'invocation', reason: entry.remux ? 'REMUX_CLOSED' : 'ENCODE_CLOSED', fileId: item.id, invocationId, ...diagnosticStderr(encodeResult), context: { exitCode: 0 } });
-          if (entry.remux && entry.remuxAssessment.inputFamily === 'isobmff' && ['mp4', 'mov'].includes(entry.remuxAssessment.target)) {
-            await require('./remux-edit-lists.cjs').preserveRemuxSourceControls({ file: entry.file, probe: entry.inspection.probe,
-              identity: entry.fingerprint, output: stage.file, stage, mappings: entry.remuxAssessment.expectedOutput.streams,
-              maxRecords: qualified.budget.maxRecords, timeoutMs: qualified.budget.timeoutMs, signal: jobSignal });
-          }
           await sealStage(stage);
           if (protectedReceipt) {
             await retainSealedStage(stage, 'The encoder closed successfully, but changed-operation evidence or publication is incomplete. These bytes are retained without validation authority.');

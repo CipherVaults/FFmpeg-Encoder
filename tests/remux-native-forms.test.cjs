@@ -1,9 +1,8 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs/promises');
 const {atom,timedFixture,writeFixture}=require('./helpers/mov-fixture.cjs');
-const {observeRemuxSourcePlayback,preserveRemuxSourceControls}=require('../src/remux-edit-lists.cjs');
+const {observeRemuxSourcePlayback}=require('../src/remux-edit-lists.cjs');
 const {readSourceIdentity}=require('../src/source-identity.cjs');
-const {createStage,sealStage,updateStagePlayback,cleanupStage}=require('../src/outputs.cjs');
 function rewrite(bytes,type,change,ordinal=0){let seen=0;function visit(b){const out=[];for(let at=0;at<b.length;){const n=b.readUInt32BE(at),name=b.toString('ascii',at+4,at+8);let body=Buffer.from(b.subarray(at+8,at+n)),tag=name;
   if(name===type&&seen++===ordinal){const r=change(body);body=r.body||r;tag=r.type||tag;}else if(['moov','trak','mdia','minf','stbl','edts','mvex','moof','traf'].includes(name))body=visit(body);
   out.push(atom(tag,body));at+=n;}return Buffer.concat(out);}return visit(bytes);}
@@ -35,10 +34,14 @@ test('source v0/v1 display geometry and sound balance cannot be rewritten silent
   for(const version of [0,1])for(const offset of [76,80])await assert.rejects(inspect(t,rewrite(bytes(),'tkhd',b=>{if(version)b=widen('tkhd',b);b.writeUInt32BE(65536,offset+(version?12:0));return b;})),{code:'REMUX_TRACK_GEOMETRY_UNSUPPORTED'});
   await assert.rejects(inspect(t,rewrite(bytes(),'smhd',b=>{b.writeInt16BE(256,4);return b;})),{code:'REMUX_SOUND_BALANCE_UNSUPPORTED'});
 });
-test('enabled flag variants, alternate audio and explicit omissions follow admitted source semantics',async t=>{
-  for(const flag of [1,7,15])assert.equal((await inspect(t,rewrite(bytes(),'tkhd',b=>{b.writeUIntBE(flag,1,3);return b;}))).tracks[0].controls.flags,flag);
+test('non-reproducible controls refuse per target, while default/alternative dispositions and omissions map explicitly',async t=>{
+  for(const target of ['mp4','mov','matroska'])for(const flag of [1,7,15])await assert.rejects(inspect(t,rewrite(bytes(),'tkhd',b=>{b.writeUIntBE(flag,1,3);return b;}),{target}),{code:'REMUX_SOURCE_CONTROL_UNREPRESENTABLE'});
   const alternate=rewrite(bytes(),'tkhd',b=>{b.writeUIntBE(2,1,3);return b;},1),p=structuredClone(raw);p.streams[1].disposition.default=0;
-  await inspect(t,alternate,{probe:p});await assert.rejects(inspect(t,alternate),e=>e.code==='REMUX_SOURCE_PLAYBACK_UNSUPPORTED'&&e.message.includes('tkhd.flags=2'));
+  await inspect(t,alternate,{probe:p,target:'matroska'});
+  await assert.rejects(inspect(t,alternate,{probe:p,target:'mp4'}),{code:'REMUX_SOURCE_CONTROL_UNREPRESENTABLE'});
+  await assert.rejects(inspect(t,alternate),e=>e.code==='REMUX_SOURCE_PLAYBACK_UNSUPPORTED'&&e.message.includes('tkhd.flags=2'));
+  for(const target of ['mp4','mov','matroska'])for(const [offset,value]of [[32,2],[34,0]])await assert.rejects(inspect(t,rewrite(bytes(),'tkhd',b=>{b.writeUInt16BE(value,offset);return b;},1),{target}),{code:'REMUX_SOURCE_CONTROL_UNREPRESENTABLE'});
+  await assert.rejects(inspect(t,bytes(),{target:'unknown'}),{code:'REMUX_SOURCE_CONTROL_UNREPRESENTABLE'});
   const omitted=structuredClone(raw);omitted.streams[1].codec_type='subtitle';omitted.streams[1].codec_name='mov_text';
   await inspect(t,bytes(),{probe:omitted,selectedIndexes:[0]});
   await assert.rejects(inspect(t,bytes(),{probe:omitted,selectedIndexes:[0,1]}),{code:'REMUX_SOURCE_PLAYBACK_UNSUPPORTED'});
@@ -65,19 +68,73 @@ test('bounded fragment timing admits empty moov and rejects unverifiable fragmen
     ['stsz',h=>{h.writeUInt32BE(1,8);return h;}],['traf',h=>Buffer.concat([h,atom('tfhd',Buffer.alloc(8))])]
   ])await assert.rejects(inspect(t,rewrite(b,type,change),{probe}),{code:'REMUX_SOURCE_FRAGMENT_UNVERIFIED'});
 });
-test('playback writes require a genuine unsealed stage and unchanged identity',async t=>{
-  const f=await writeFixture(t,bytes()),folder=require('node:path').dirname(f.path),stage=await createStage(folder);await fs.writeFile(stage.file,bytes());
-  try{
-    const s=await fs.stat(stage.file,{bigint:true}),expected=Object.fromEntries(['dev','ino','size','mtimeNs','ctimeNs','birthtimeNs'].map(k=>[k,String(s[k])]));
-    await assert.rejects(updateStagePlayback({...stage},expected,()=>{}),{code:'INVALID_STAGE'});
-    await assert.rejects(updateStagePlayback(stage,{...expected,ino:'0'},()=>{}),{code:'STAGE_CHANGED'});
-    await sealStage(stage);await assert.rejects(updateStagePlayback(stage,expected,()=>{}),{code:'STAGE_ALREADY_SEALED'});
-  }finally{await cleanupStage(stage);}
-  await assert.rejects(preserveRemuxSourceControls({file:f.path,probe:raw,identity:await readSourceIdentity(f.path),output:f.path,
-    mappings:[{inputIndex:0,outputIndex:0},{inputIndex:1,outputIndex:1}],maxRecords:100}),{code:'REMUX_PLAYBACK_WRITE_UNVERIFIED'});
-  const changed=await writeFixture(t,rewrite(bytes(),'tkhd',b=>{b.writeUIntBE(7,1,3);return b;})),owned=await createStage(folder);await fs.writeFile(owned.file,bytes());
-  const options={file:changed.path,probe:raw,identity:await readSourceIdentity(changed.path),output:owned.file,mappings:[{inputIndex:0,outputIndex:0},{inputIndex:1,outputIndex:1}],maxRecords:100};
-  try{await assert.rejects(preserveRemuxSourceControls(options),{code:'REMUX_PLAYBACK_WRITE_UNVERIFIED'});
-    await assert.rejects(preserveRemuxSourceControls({...options,stage:{...owned}}),{code:'INVALID_STAGE'});
-  }finally{await sealStage(owned);await cleanupStage(owned);}
+test('playback inspection cannot open a writable handle or expose a stage writer',async t=>{
+  assert.equal(require('../src/outputs.cjs').updateStagePlayback,undefined);
+  assert.equal(require('../src/remux-edit-lists.cjs').preserveRemuxSourceControls,undefined);
+  const f=await writeFixture(t,bytes()),identity=await readSourceIdentity(f.path),open=fs.open;
+  t.mock.method(fs,'open',async(file,flags,...rest)=>{assert.equal(flags,'r');return open(file,flags,...rest);});
+  await observeRemuxSourcePlayback({file:f.path,probe:raw,identity,maxRecords:100});
+  assert.deepEqual(await fs.readFile(f.path),bytes());
+});
+
+test('substituted registered input, hard link and foreign inode can never become writable playback targets',async t=>{
+  const a=await writeFixture(t,bytes()),b=await writeFixture(t,bytes()),before=await fs.readFile(b.path),old=await readSourceIdentity(a.path);
+  for(const hardLink of [false,true]){
+    await fs.unlink(a.path);if(hardLink)await fs.link(b.path,a.path);else await fs.copyFile(b.path,a.path);
+    await assert.rejects(observeRemuxSourcePlayback({file:a.path,probe:raw,identity:old,maxRecords:100}),{code:'REMUX_SOURCE_PLAYBACK_UNVERIFIED'});
+    assert.deepEqual(await fs.readFile(b.path),before);assert.deepEqual(await fs.readFile(a.path),before);
+  }
+  assert.equal(require('../src/outputs.cjs').updateStagePlayback,undefined);
+});
+
+test('aperture modes must each equal plain track geometry, including malformed and duplicate modes',async t=>{
+  const mode=(name,width=2*65536)=>{const h=Buffer.alloc(12);h.writeUInt32BE(width,4);h.writeUInt32BE(2*65536,8);return atom(name,h);};
+  const withModes=modes=>rewrite(bytes(),'trak',h=>Buffer.concat([h,atom('tapt',Buffer.concat(modes))]));
+  await inspect(t,withModes(['clef','prof','enof'].map(n=>mode(n))));
+  for(const name of ['clef','prof','enof'])await assert.rejects(inspect(t,withModes([mode(name,65536)])),{code:'REMUX_TRACK_APERTURE_UNSUPPORTED'});
+  for(const modes of [[],[mode('clef'),mode('clef')],[mode('nope')],[atom('clef',Buffer.alloc(8))]])
+    await assert.rejects(inspect(t,withModes(modes)),{code:'REMUX_TRACK_APERTURE_UNSUPPORTED'});
+  await assert.rejects(inspect(t,rewrite(withModes([mode('clef')]),'trak',h=>Buffer.concat([h,atom('tapt',mode('clef'))]))),{code:'REMUX_TRACK_APERTURE_UNSUPPORTED'});
+});
+
+test('contiguous unity media edits name unverified repeated preroll rather than inventing an empty edit',async t=>{
+  const b=timedFixture([{id:1,scale:90000,pts:[0,3000],durations:[3000,3000]}],{movieScale:90000});
+  const split=rewrite(b,'elst',()=>{const h=Buffer.alloc(32);h.writeUInt32BE(2,4);for(let i=0;i<2;i++){h.writeUInt32BE(3000,8+i*12);h.writeInt32BE(i*3000,12+i*12);h.writeInt16BE(1,16+i*12);}return h;});
+  await assert.rejects(inspect(t,split,{probe:{streams:[raw.streams[0]]}}),e=>e.code==='REMUX_SOURCE_EDIT_PREROLL_UNVERIFIED'&&e.message.includes('preroll'));
+});
+
+test('missing fragment clocks infer continuous ends and hybrid sample counts remain cumulative',async t=>{
+  const probe={streams:[raw.streams[0]]};let b=fragmented();
+  assert.equal((await inspect(t,rewrite(b,'tfdt',h=>({type:'free',body:h})),{probe})).tracks[0].fragmentCoverage.samples,'2');
+  b=rewrite(b,'stsz',h=>{h.writeUInt32BE(1,8);return h;});
+  for(const type of ['stts','ctts'])b=rewrite(b,type,()=>{const h=Buffer.alloc(16);h.writeUInt32BE(1,4);h.writeUInt32BE(1,8);h.writeUInt32BE(type==='stts'?3000:0,12);return h;});
+  for(const type of ['mvhd','tkhd','mdhd'])b=rewrite(b,type,h=>{h.writeUInt32BE(type==='mdhd'?3000:8000,type==='tkhd'?20:16);return h;});
+  await assert.rejects(inspect(t,b,{probe}),{code:'REMUX_SOURCE_FRAGMENT_UNVERIFIED'});
+  b=rewrite(b,'tfdt',h=>{h.writeUInt32BE(3000,4);return h;});
+  for(const v of [b,rewrite(b,'tfdt',h=>({type:'free',body:h}))]){
+    const r=await inspect(t,v,{probe});assert.equal(r.tracks[0].fragmentCoverage.samples,'3');assert.equal(r.tracks[0].fragmentCoverage.decodeDuration,'9000');
+    await assert.rejects(inspect(t,v,{probe,maxRecords:2}),{code:'REMUX_SOURCE_FRAGMENT_UNVERIFIED'});
+  }
+  await assert.rejects(inspect(t,rewrite(b,'tfdt',h=>{h.writeUInt32BE(3001,4);return h;}),{probe}),{code:'REMUX_SOURCE_FRAGMENT_UNVERIFIED'});
+});
+
+test('constant trun counts aggregate in bounded work and poll real cancellation/deadlines',async t=>{
+  const {fragmentCoverage}=require('../src/remux-fragments.cjs'),{ToolError}=require('../src/process-runner.cjs');
+  const b=rewrite(fragmented(),'trun',h=>{h.writeUInt32BE(5000000,4);return h;}),trun=b.indexOf(Buffer.from('trun'))+4;
+  const boxes=async(start,end)=>{const out=[];for(let at=start;at<end;){const n=b.readUInt32BE(at);out.push({type:b.toString('ascii',at+4,at+8),body:at+8,end:at+n});at+=n;}return out;};
+  const top=await boxes(0,b.length),moov=top.find(x=>x.type==='moov'),movieBoxes=await boxes(moov.body,moov.end);
+  for(const code of [null,'CANCELLED','REMUX_NATIVE_TIMEOUT']){
+    let pending=false,reads=0;
+    const read=async(at,n)=>{reads++;if(pending)throw new ToolError(code,'Synthetic deadline/cancellation at a fragment yield.');
+      if(code&&at===trun&&n===8)setImmediate(()=>{pending=true;});return b.subarray(at,at+n);};
+    const run=()=>fragmentCoverage({top,movieBoxes,boxes,read,maxRecords:5000000,trackIds:new Set([1])});
+    if(code)await assert.rejects(run(),{code});else{let conversions=0;const bigint=BigInt,guard=t.mock.method(global,'BigInt',v=>{assert.ok(++conversions<30,'Default samples must aggregate without per-sample arithmetic.');return bigint(v);});
+      try{const r=await run();assert.equal(r.get(1).count,5000000);assert.equal(r.get(1).clock,15000000000n);}finally{guard.mock.restore();}}
+    assert.ok(reads<25,'A default-only run must not iterate per sample.');
+  }
+  const huge=0xffffffffffffffffn,wide=rewrite(b,'tfdt',()=>{const h=Buffer.alloc(12);h[0]=1;h.writeBigUInt64BE(huge,4);return h;});
+  const wideBoxes=async(start,end)=>{const out=[];for(let at=start;at<end;){const n=wide.readUInt32BE(at);out.push({type:wide.toString('ascii',at+4,at+8),body:at+8,end:at+n});at+=n;}return out;};
+  const wideTop=await wideBoxes(0,wide.length),movie=wideTop.find(b=>b.type==='moov');
+  await assert.rejects(fragmentCoverage({top:wideTop,movieBoxes:await wideBoxes(movie.body,movie.end),boxes:wideBoxes,read:async(at,n)=>wide.subarray(at,at+n),maxRecords:5000001,
+    initial:new Map([[1,{count:1,clock:huge,minimum:0n,maximum:huge,endDts:huge}]])}),e=>e.code==='REMUX_SOURCE_FRAGMENT_UNVERIFIED'&&/overflows/.test(e.message));
 });

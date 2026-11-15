@@ -280,16 +280,16 @@ test('PCR base/extension are monotonic, bounded and tied to the declared PID and
   const pcr=(base,extension=0,pid=256)=>{const b=Buffer.alloc(188,255);b.set([71,pid>>8,pid&255,32,183,16]);const v=BigInt(base);
     b[6]=Number(v>>25n);b[7]=Number(v>>17n&255n);b[8]=Number(v>>9n&255n);b[9]=Number(v>>1n&255n);
     b[10]=Number(v&1n)*128+126+(extension>>8);b[11]=extension&255;return b;};
-  const check=createTransportIntegrity(streams,programs);check.push(pcr(90000,1));check.push(pcr(90000,299));check.push(pcr(90001));check.push(pcr(180001));
+  const check=createTransportIntegrity(streams,programs,{packetSize:188});check.push(pcr(90000,1));check.push(pcr(90000,299));check.push(pcr(90001));check.push(pcr(180001));
   for(const [values,code] of [
     [[pcr(90000),pcr(89999)],'REMUX_TS_PCR_BACKWARDS'],[[pcr(90000),pcr(180001)],'REMUX_TS_PCR_DISCONTINUITY'],
     [[pcr(8589934591n,299),pcr(0)],'REMUX_TS_PCR_WRAP'],[[pcr(90000,300)],'REMUX_TS_PCR_INVALID'],
     [[pcr(90000,0,257)],'REMUX_TS_PCR_PID'],
-  ])assert.throws(()=>{const c=createTransportIntegrity(streams,programs);for(const b of values)c.push(b);},{code});
-  const bad=pcr(90000);bad[10]&=~2;assert.throws(()=>createTransportIntegrity(streams,programs).push(bad),{code:'REMUX_TS_PCR_INVALID'});
+  ])assert.throws(()=>{const c=createTransportIntegrity(streams,programs,{packetSize:188});for(const b of values)c.push(b);},{code});
+  const bad=pcr(90000);bad[10]&=~2;assert.throws(()=>createTransportIntegrity(streams,programs,{packetSize:188}).push(bad),{code:'REMUX_TS_PCR_INVALID'});
   assert.throws(()=>createTransportIntegrity(streams,[{pmt_pid:4096,pcr_pid:8191}]),{code:'REMUX_TS_PCR_PID'});
   const pes=Buffer.alloc(188,255);pes.set([71,65,0,16,0,0,1,224,0,0,128,128,5,33,0,1,0,1]);
-  const mismatch=createTransportIntegrity(streams,programs);mismatch.push(pcr(1800000));
+  const mismatch=createTransportIntegrity(streams,programs,{packetSize:188});mismatch.push(pcr(1800000));
   assert.throws(()=>mismatch.push(pes),{code:'REMUX_TS_PCR_PES_MISMATCH'});
   const table=(pid,id)=>{const b=Buffer.alloc(188,255);b.set([71,64|(pid>>8),pid&255,16,0,id,176,id===2?13:9,0,1,193,0,0]);if(id===2)b.set([225,0,240,0,0,0,0,0],13);else b.fill(0,13,17);return b;};
   const missing=createTransportIntegrity(streams,programs);missing.push(Buffer.concat([table(0,0),table(4096,2),pes]));
@@ -336,9 +336,9 @@ test('raw program-table and partial audio head guards refuse their own mutants',
   const streams=[{id:'0x100',codec_type:'video'}],programs=[{pmt_pid:4096,pcr_pid:256}];
   const table=(pid,id,cc=0)=>{const b=Buffer.alloc(188,255);b.set([71,64|(pid>>8),pid&255,16|cc,0,id,176,id===2?13:9,0,1,193,0,0]);if(id===2)b.set([225,0,240,0,0,0,0,0],13);else b.fill(0,13,17);return b;};
   assert.throws(()=>createTransportIntegrity(streams,[{pmt_pid:256}]),{code:'REMUX_TS_PROGRAM'});
-  const check=createTransportIntegrity(streams,programs);check.push(table(0,0));check.push(table(4096,2));
+  const check=createTransportIntegrity(streams,programs,{packetSize:188});check.push(table(0,0));check.push(table(4096,2));
   const changed=table(4096,2,1);changed[10]=195;assert.throws(()=>check.push(changed),{code:'REMUX_TS_PROGRAM_CHANGED'});
-  const bad=table(0,0);bad[4]=255;assert.throws(()=>createTransportIntegrity(streams,programs).push(bad),{code:'REMUX_TS_PSI'});
+  const bad=table(0,0);bad[4]=255;assert.throws(()=>createTransportIntegrity(streams,programs,{packetSize:188}).push(bad),{code:'REMUX_TS_PSI'});
   const pes=Buffer.alloc(188,255);pes.set([71,65,0,16,0,0,1,192,0,0,128,128,5,33,0,1,0,1]);
   assert.throws(()=>createTransportIntegrity([{id:'0x100',codec_type:'audio'}]).push(pes),{code:'REMUX_TS_PARTIAL_AUDIO_HEAD'});
   const malformed=Buffer.from(pes);malformed[6]=0;assert.throws(()=>createTransportIntegrity([{id:'0x100'}]).push(malformed),{code:'REMUX_TS_PES'});

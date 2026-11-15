@@ -700,7 +700,7 @@ async function collected(t, { offset = 0, contentChanged = false, metadataChange
   const target = clone(p); target.format.format_name = targetName === 'matroska' ? 'matroska,webm' : 'mov,mp4,m4a,3gp,3g2,mj2'; if (targetName !== 'matroska') target.streams[0].id = '0x1'; target.format.tags = { ...target.format.tags, [MARKER_KEY]: '1', [OUTPUT_ID_KEY]: OUTPUT_ID };
   const pts = variable ? [0, 500, 1500] : [0, 1000], duration = variable ? 500 : 1000;
   if (targetName !== 'matroska') await fs.writeFile(output, require('./helpers/mov-fixture.cjs').timedFixture([
-    { id: 1, scale: 1000, pts, durations: pts.map(() => duration) }]));
+    { id: 1, language:require('./helpers/mov-fixture.cjs').isoLanguageCode(target.streams[0].tags?.language),scale: 1000, pts, durations: pts.map(() => duration) }]));
   else await fs.writeFile(output,require('./helpers/matroska-fixture.cjs').matroskaFixture(target));
   const run = async (executable, args, options) => {
     const isOutput = args[args.indexOf('-i') + 1] === output; let bytes;
@@ -754,7 +754,7 @@ test('complete receipts cannot weaken native content, metadata or fixed timing v
 test("a MOV remux validates with the collector's own MOV observation and refuses any other representation receipt", async t => {
   const h = await collected(t, { mov: true });
   const own = getCollectedMovRepresentation(h.receipt, { assessment: h.assessment, runtimeIdentity: RUNTIME, outputId: OUTPUT_ID });
-  assert.equal(own.tracks[0].languageCode, 32767);
+  assert.equal(own.tracks[0].languageCode, require('./helpers/mov-fixture.cjs').isoLanguageCode(h.target.streams[0].tags.language));
   const result = h.owner.validate(h.plan, h.target, h.receipt);
   assert.equal(result.valid, true, result.errors?.join('; '));
   assert.equal(h.owner.validate(h.plan, h.target, h.receipt, { movRepresentationReceipt: own }).valid, true);

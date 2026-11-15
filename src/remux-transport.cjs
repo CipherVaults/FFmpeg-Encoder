@@ -26,6 +26,7 @@ function inspectTransportDescriptors(bytes, streams) {
     for(let at=start;at<limit;){
       need(at+2<=limit,code,'Truncated PMT descriptor header.');const tag=bytes[at],length=bytes[at+1],next=at+2+length;
       need(next<=limit,code,'PMT descriptor payload exceeds its loop.');
+      need(rules.some(r=>r.tag===tag),'REMUX_TS_DESCRIPTOR_UNCLASSIFIED','TS descriptor 0x'+tag.toString(16)+': its playback interpretation has no inventory row.');
       for(const r of rules.filter(r=>r.tag===tag)){
         need(!seen.has(tag),r.code,'TS '+r.field+': duplicate presentation descriptor.');seen.add(tag);
         if(r.check==='ts-absent')need(false,r.code,'TS '+r.field+': this presentation/selection control cannot be carried by MP4.');
@@ -192,7 +193,7 @@ function transportClock(stream) {
 
 // Raw transport checks complement demuxed packet checks: a demuxer may repair
 // continuity/wrap or discard a partial PES before reporting any access units.
-function createTransportIntegrity(streams, programs = null) {
+function createTransportIntegrity188(streams, programs = null) {
   const selected = new Set(streams.map(s => Number(s.id))), clocks = new Map(), counters = new Map(), started = new Set();
   const audioPids = new Set(streams.filter(s => s.codec_type === 'audio').map(s => Number(s.id)));
   const tables = new Map();
@@ -207,7 +208,15 @@ function createTransportIntegrity(streams, programs = null) {
   }
   need(selected.size === streams.length && [...selected].every(n => Number.isInteger(n) && n >= 32 && n < 8191),
     'REMUX_TS_PID', 'Every admitted TS elementary stream needs a known distinct PID.');
-  let tail = Buffer.alloc(0), count = 0;
+  let tail = Buffer.alloc(0), count = 0,randomAccessCount=0;
+  const access=new Map(),videoPids=new Set(streams.filter(s=>s.codec_type==='video').map(s=>Number(s.id)));
+  function finishAccess(pid){const entry=access.get(pid);if(!entry)return;access.delete(pid);const data=Buffer.concat(entry.parts);
+    if(entry.expected!==null)need(entry.bytes===entry.expected,'REMUX_TS_RANDOM_ACCESS','Random-access PES is incomplete.');
+    if(videoPids.has(pid)){const picture=transportNals(data,'annexb').find(n=>(n[0]&31)>=1&&(n[0]&31)<=5);need(picture&&(picture[0]&31)===5,'REMUX_TS_RANDOM_ACCESS','Random-access indicator does not lead to an independent AVC IDR picture.');}
+    else need(audioPids.has(pid)&&data.length>=7&&data[0]===255&&(data[1]&246)===240,'REMUX_TS_RANDOM_ACCESS','Random-access audio does not begin on an aligned ADTS frame.');
+    randomAccessCount++;
+  }
+  function accessBytes(pid,data){const entry=access.get(pid);if(!entry)return;const take=entry.expected===null?data.length:Math.min(data.length,entry.expected-entry.bytes);need(entry.bytes+take<=MAX_PACKET,'REMUX_TS_RANDOM_ACCESS','Random-access PES exceeds its explicit complete-packet budget.');if(take){entry.parts.push(Buffer.from(data.subarray(0,take)));entry.bytes+=take;}if(entry.expected!==null&&entry.bytes===entry.expected)finishAccess(pid);}
   function section(table, data) {
     for (let at = 0; at < data.length;) {
       if (!table.used && data[at] === 255) { need(data.subarray(at).every(b => b === 255), 'REMUX_TS_PSI', 'Invalid TS program-table stuffing.'); return; }
@@ -238,11 +247,13 @@ function createTransportIntegrity(streams, programs = null) {
         const b = bytes.subarray(at, at + 188); count++;
         need(b[0] === 71 && !(b[1] & 128) && !(b[3] & 192) && (b[3] & 48),
           'REMUX_TS_FRAMING', 'TS contains an invalid, encrypted or damaged 188-byte transport packet.');
-        const pid = ((b[1] & 31) << 8) | b[2], mode = (b[3] >> 4) & 3, cc = b[3] & 15; let payload = 4;
+        const pid = ((b[1] & 31) << 8) | b[2], mode = (b[3] >> 4) & 3, cc = b[3] & 15; let payload = 4,random=false;
         if (mode & 2) {
           const length = b[4]; payload = 5 + length;
           need(payload <= 188 && (mode !== 2 || payload === 188), 'REMUX_TS_FRAMING', 'Invalid TS adaptation field length.');
           need(!length || !(b[5] & 128), 'REMUX_TS_DISCONTINUITY', 'TS declares a transport discontinuity.');
+          random=length>0&&!!(b[5]&64);
+          if(random)need(selected.has(pid)&&(mode&1)&&!!(b[1]&64),'REMUX_TS_RANDOM_ACCESS','Random-access indicator has no aligned selected PES payload.');
           if (length && (b[5] & 16)) {
             need(length >= 7 && (b[10] & 126) === 126, 'REMUX_TS_PCR_INVALID', 'TS has a truncated PCR or invalid reserved PCR bits.');
             const base = BigInt(b[6]) * 33554432n + BigInt(b[7]) * 131072n + BigInt(b[8]) * 512n + BigInt(b[9]) * 2n + BigInt(b[10] >> 7);
@@ -278,10 +289,16 @@ function createTransportIntegrity(streams, programs = null) {
         need(started.has(pid) || start, 'REMUX_TS_PARTIAL_HEAD', 'The TS cut begins inside an elementary-stream PES packet.');
         const first = !started.has(pid); started.add(pid);
         if (start) {
+          finishAccess(pid);
           const p = b.subarray(payload);
           need(p.length >= 14 && p[0] === 0 && p[1] === 0 && p[2] === 1 && (p[6] & 192) === 128
             && (p[7] & 192) >= 128 && p[8] >= ((p[7] & 64) ? 10 : 5) && 9 + p[8] <= p.length,
           'REMUX_TS_PES', 'A TS PES header is missing timestamps, split or malformed.');
+          need(!(p[6]&48),'REMUX_TS_PES_ENCRYPTED','PES-level scrambling has no admitted clear packet interpretation.');
+          need(!(p[7]&8),'REMUX_TS_PES_TRICK_MODE','PES trick-mode seeking controls have no verified MP4 mapping.');
+          need(!(p[7]&63),'REMUX_TS_PES_OPTIONAL','Optional ESCR/rate/copy/CRC/extension controls have no proved native target mapping.');
+          const headerBytes=p[7]&64?10:5;
+          need((p[9]>>4)===(p[7]&64?3:2)&&(!(p[7]&64)||(p[14]>>4)===1)&&p.subarray(9+headerBytes,9+p[8]).every(v=>v===255),'REMUX_TS_PES','PES timestamp prefixes or header stuffing are not the declared native form.');
           const pts = timestamp(p.subarray(9)), dts = p[7] & 64 ? timestamp(p.subarray(14)) : pts;
           if (lastPcr !== null) need(dts * 300n >= lastPcr - PCR_PES_DISTANCE && dts * 300n <= lastPcr + PCR_PES_DISTANCE,
             'REMUX_TS_PCR_PES_MISMATCH', 'TS PES decode timestamps differ from PCR by more than ten seconds.');
@@ -294,17 +311,28 @@ function createTransportIntegrity(streams, programs = null) {
           need(previous === undefined || dts >= previous, previous !== undefined && previous - dts > 4294967296n
             ? 'REMUX_TS_TIMESTAMP_WRAP' : 'REMUX_TS_DTS_BACKWARDS', 'Native TS decode timestamps wrap or run backwards.');
           clocks.set(pid, dts);
-        }
+          if(random){const length=p.readUInt16BE(4);need(!length||length>=3+p[8],'REMUX_TS_RANDOM_ACCESS','Random-access PES length is invalid.');access.set(pid,{parts:[],bytes:0,expected:length?length-3-p[8]:null});accessBytes(pid,p.subarray(9+p[8]));}
+        }else accessBytes(pid,b.subarray(payload));
       }
       tail = Buffer.from(bytes.subarray(at));
     },
     finish() {
+      for(const pid of [...access.keys()])finishAccess(pid);
       need(count > 0 && tail.length === 0 && started.size === selected.size, 'REMUX_TS_FRAMING', 'TS is truncated or lacks an admitted elementary stream.');
       need([...tables.values()].every(t => t.hash && t.used === 0), 'REMUX_TS_PSI', 'TS lacks complete stable PAT/PMT program tables.');
       need(pcrPid === null || pcrCount > 0, 'REMUX_TS_PCR_MISSING', 'No PCR was found on the declared program PCR PID.');
-      return { packets: count, pcrCount };
+      return { packets: count, pcrCount,randomAccessCount };
     },
   };
+}
+function transportFraming(bytes,final=false){const candidates=[];for(const size of [188,192,204]){const offset=size===192?4:0;if(final&&bytes.length%size)continue;const n=Math.floor(bytes.length/size);if(n<(final?1:3))continue;let good=true;for(let i=0;i<Math.min(n,3);i++)if(bytes[offset+i*size]!==71)good=false;if(good)candidates.push({size,offset});}return candidates.length===1?candidates[0]:null;}
+function createTransportIntegrity(streams,programs=null,{packetSize=programs===null?188:null}={}){
+  need(packetSize===null||[188,192,204].includes(packetSize),'REMUX_TS_FRAMING','Unknown native transport packet framing.');const core=createTransportIntegrity188(streams,programs);let framing=packetSize?{size:packetSize,offset:packetSize===192?4:0}:null,tail=Buffer.alloc(0);
+  function drain(final=false){if(!framing){if(!final&&tail.length<612)return;framing=transportFraming(tail,final);need(framing,'REMUX_TS_FRAMING','Transport framing is truncated, ambiguous or unclassified.');}
+    need(framing.size!==192,'REMUX_TS_M2TS_ARRIVAL_CONTROL','M2TS copy/arrival timestamp controls have no verified native target mapping.');
+    need(framing.size!==204,'REMUX_TS_RS204_PARITY','RS204 outer error-correction parity has no verified native interpretation.');
+    let at=0;for(;at+framing.size<=tail.length;at+=framing.size)core.push(tail.subarray(at+framing.offset,at+framing.offset+188));tail=Buffer.from(tail.subarray(at));}
+  return{push(chunk){need(Buffer.isBuffer(chunk),'REMUX_TS_FRAMING','Transport input must be bytes.');tail=tail.length?Buffer.concat([tail,chunk]):chunk;drain();},finish(){drain(true);need(!tail.length,'REMUX_TS_FRAMING','Native transport wrapper is truncated.');return{...core.finish(),packetSize:framing.size};}};
 }
 async function inspectTransportHead(file, signal) {
   const fs = require('node:fs/promises'), handle = await fs.open(file, 'r'), buffer = Buffer.alloc(188 * 512);

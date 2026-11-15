@@ -1,0 +1,4 @@
+'use strict';
+// QuickTime numeric language facts, pinned to FFmpeg 946fcce07b/libavformat/isom.c.
+// Source SHA-256: 6f78867fa7691b8e3a5ad5815309a626e67bd6128848ed65bb85f84f255013d7
+module.exports=Object.freeze(["eng","fra","ger","ita","dut","sve","spa","dan","por","nor","heb","jpn","ara","fin","gre","ice","mlt","tur","chi","urd","hin","tha","kor","lit","pol","hun","est","lav","smi","per","rus","chi","","iri","alb","ron","ces","slk","slv","yid","mac","bul","ukr","bel","uzb","kaz","aze","aze","arm","geo","mol","kir","tgk","tuk","mon","","pus","kur","kas","snd","tib","nep","san","mar","ben","asm","guj","ori","mal","kan","tam","tel","sin","bur","khm","lao","vie","ind","tgl","may","may","amh","tir","orm","som","swa","kin","run","nya","mlg","epo","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","wel","baq","cat","lat","que","grn","aym","tat","uig","dzo","jav"]);

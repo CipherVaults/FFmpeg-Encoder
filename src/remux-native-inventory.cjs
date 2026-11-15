@@ -1909,6 +1909,7 @@ for(const [name,id,type]of [['EBML','0x1a45dfa3','master'],['EBMLVersion','0x428
   if(!MATROSKA_SCHEMA.some(e=>e.id===id))MATROSKA_SCHEMA.push({name,id,type,path:'\\EBML\\'+name,default:null});
   if(!rows.some(r=>r.id==='matroska:'+name))row('matroska',name,'covered','Bounded EBML framing/version negotiation; CRC/index padding cannot select media.','native-structure',{element:id,type});
 }
+for(const e of MATROSKA_SCHEMA)if(['EBMLVersion','EBMLReadVersion','DocTypeVersion','DocTypeReadVersion'].includes(e.name))e.default='1';
 row('matroska','FlagLacing','descriptive','Permits a block packing representation; the complete demuxed packet sequence is unchanged.','descriptive',{element:'0x9c'});
 // Remove the schema-generated FlagLacing absence rule in favour of its packing
 // semantics. This does not exempt any other element from classification.
@@ -1974,8 +1975,157 @@ for(const r of rows.filter(r=>r.container==='matroska')){
     &&path?.startsWith((MATROSKA_SCHEMA.find(e=>e.id===p.element)?.path||'!')+'\\'));
   if(parent){r.treatment='covered';r.check='parent-presence:'+parent.id;r.reason='The enclosing '+parent.field+' control is refused on both sides before this field can affect playback.';r.code=null;}
 }
-function assertInventory(inventory=rows){const seen=new Set();for(const r of inventory){if(seen.has(r.id)||!['compare','require-default','covered','descriptive'].includes(r.treatment)||!r.reason||!r.check)throw Error('Incomplete/duplicate native inventory row: '+r.id);seen.add(r.id);}return true;}
+// Newly enumerated pinned-demuxer boxes are explicit refusals, with no fallback
+// acceptance of a known name whose playback semantics are not implemented.
+for(const atom of ['stvi','----','AALP','ACLR','APRG','ARES','Cin\u008e','CoLL','DpxE','SA3D','SAND','SMI ','SmDm','adrm','amve','apvC','avss','chnl','clli','ddts','dmlp','dvc1','dvcC','dvvC','dvwC','enda','evcC','hfov','hvcE','iacb','imir','irot','ispe','jp2h','lhvC','lvcC','mdcv','pcmC','sbas','srat','strf','vexu','vvcC','wfex'])
+  row('isobmff',atom,'require-default','The pinned demuxer recognizes this interpretation extension, but no target equivalence has been established.','absent',{atom});
+for(const tag of [0x1d,0x1e,0x1f,0x26,0x27,0x35,0x3f,0x40,0x41,0x48,0x52,0x7b,0xb0,0xfd])
+  row('mpegts','descriptor.tag_'+tag.toString(16),'require-default','This program/stream interpretation has no verified MP4 representation.','ts-absent',{tag,enforcement:'transport-inventory'});
+for(const r of rows){
+  if(r.container==='mpegts'&&r.tag!==undefined){
+    r.enforcement='transport-inventory';
+    if(!['ts-language','ts-aac'].includes(r.check))r.check='ts-absent';
+    if(r.check==='ts-absent')r.reason='No equivalent target interpretation is proved; presence refuses before Ready.';
+  }
+  if(r.container==='isobmff'&&r.field==='vmhd.opcolor'){
+    r.check='vmhd-opcolor';r.reason='Copy and dither-copy ignore operand colours. Modes that use them have no verified target composition and are refused by graphics_mode.';
+  }
+  if(r.container==='isobmff'&&r.field==='sdtp')r.check='sample-dependencies';
+  if(r.container==='matroska'&&['ChromaSitingHorz','ChromaSitingVert'].includes(r.field)){
+    r.treatment='compare';r.check='chroma-siting';r.reason='Both native coordinates must agree with an effective chroma location that the exact codec comparison carries. Partial coordinates refuse.';
+  }
+  if(r.container==='matroska'&&r.field==='DefaultDecodedFieldDuration'){
+    r.treatment='require-default';r.check='absent';r.reason='The pinned muxer does not carry this independent decoded-field cadence declaration.';
+  }
+  if(r.container==='matroska'&&['EncryptedBlock','BlockVirtual','BlockAdditions'].includes(r.field)){
+    r.treatment='require-default';r.check='absent';r.reason='This encrypted, virtual or additional block interpretation has no verified target representation.';
+  }
+  if(r.container==='matroska'&&['ChapLanguage','ChapLanguageBCP47'].includes(r.field)){
+    r.treatment='require-default';r.check='chapter-language';r.reason='The pinned chapter demuxer/muxer carries only the implicit English chapter language. Other language selection cannot be proved.';
+  }
+  if(r.container==='matroska'&&r.field==='ChapterAtom'){
+    r.treatment='require-default';r.check='flat-chapters';r.reason='Only flat chapter navigation is carried by the pinned chapter demuxer/muxer. Nested ChapterAtoms refuse.';
+  }
+  if(r.container==='matroska'&&r.field==='ChapterDisplay'){
+    r.treatment='require-default';r.check='chapter-display';r.reason='Only one effective English chapter title is carried; redundant equal labels are equivalent, while alternatives refuse.';
+  }
+  if(r.container==='matroska'&&r.field==='ChapCountry'){
+    r.treatment='require-default';r.check='absent';r.reason='Country-specific chapter-label selection is not carried by the pinned muxer.';
+  }
+  if(r.container==='isobmff'&&r.field==='mdhd.language'){
+    r.treatment='compare';r.check='iso-media-language';r.reason='Read packed ISO and legacy QuickTime language codes natively and corroborate the carried effective stream language.';
+  }
+  if(r.treatment==='compare'||r.treatment==='require-default')r.code||='REMUX_NATIVE_'+r.field.replace(/[^a-z0-9]/gi,'_').toUpperCase().slice(0,70);
+}
+const controlWitnesses=new Set('mvhd.rate mvhd.volume mvhd.matrix mvhd.timescale mvhd.duration tkhd.flags tkhd.layer tkhd.volume tkhd.matrix tkhd.width tkhd.height tkhd.duration mdhd.timescale mdhd.duration smhd.balance edts elst tapt clef prof enof colr'.split(' '));
+for(const r of rows)if(r.container==='isobmff'&&['ilst','keys','data'].includes(r.field)){
+  r.treatment='compare';r.check='native-metadata';r.reason='Read keyed native metadata, including type and locale, and compare required values by key rather than by item order.';r.code='REMUX_NATIVE_META_VALUES';
+}
+row('isobmff','ilst.numeric-key-item','compare','Integer item types are a bounded index into this meta box’s declared keys table; unbound indices refuse. Values, type and locale compare exactly.','native-metadata',{atom:'mdta-item'});
+for(const atom of ['svhd','proj','prhd','cbmp','equi','mshp'])row('isobmff',atom,'compare','Native projection declarations are read and compared exactly; unlisted descendants refuse.','fingerprint',{atom});
+for(const r of rows)if(r.treatment==='covered'&&(r.container==='isobmff'&&(controlWitnesses.has(r.field)||r.field.startsWith('tref.'))||r.check.startsWith('parent-presence:')))
+  r.witness=r.id;
+// Work-12: ordinary native declarations must agree with the carried decoder
+// representation. A successful probe alone cannot hide a conflicting element.
+const mkvCorroborated=new Set(('EBMLMaxIDLength EBMLMaxSizeLength EBMLVersion EBMLReadVersion DocType DocTypeVersion DocTypeReadVersion TimestampScale TrackNumber TrackUID TrackType Name Language CodecID CodecPrivate FlagInterlaced FieldOrder PixelWidth PixelHeight MatrixCoefficients BitsPerChannel ChromaSubsamplingHorz ChromaSubsamplingVert CbSubsamplingHorz CbSubsamplingVert Range TransferCharacteristics Primaries SamplingFrequency OutputSamplingFrequency Channels BitDepth').split(' '));
+for(const field of ['Duration','DefaultDuration','FileName','FileMediaType','FileData','FileUID'])mkvCorroborated.add(field);
+const mkvNeutral={TrackTimestampScale:1,MaxBlockAdditionID:0,CodecDecodeAll:1,ReferencePriority:0};
+const mkvUnsupported=new Set(('SilentTracks ReferenceVirtual CodecState Slices ReferenceFrame MaxCLL MaxFALL MasteringMetadata ChannelPositions ChapterStringUID EditionString EditionLanguageIETF').split(' '));
+const mkvSemantic=new Set(('EditionUID ChapterUID ChapterTimeStart ChapterTimeEnd ChapString TargetTypeValue TagTrackUID TagEditionUID TagChapterUID TagAttachmentUID TagBlockAddIDValue TagName TagLanguage TagLanguageBCP47 TagDefault TagDefaultBogus TagString').split(' '));
+mkvUnsupported.add('TargetType');mkvUnsupported.add('TagBinary');
+for(const r of rows.filter(r=>r.container==='matroska')){
+  if(mkvCorroborated.has(r.field)){r.treatment='compare';r.check='mkv-corroborated';r.reason='Read natively and corroborate the exact carried codec, clock, identity, language or metadata representation.';}
+  if(Object.hasOwn(mkvNeutral,r.field)){r.treatment='require-default';r.check='mkv-default';r.nativeDefault=mkvNeutral[r.field];r.reason='Only this neutral independent timing/decoder declaration has a proved target interpretation.';}
+  if(mkvUnsupported.has(r.field)){r.treatment='require-default';r.check='absent';r.reason='This independent playback/selection declaration has no proved equivalent in the pinned target muxer.';}
+  if(mkvSemantic.has(r.field)){r.treatment='compare';r.check='mkv-semantic';r.reason='Read native identity, chapter clocks/titles and target-scoped functional tag values; require an exact carried representation or neutral selection.';}
+  if(r.field==='CodecDelay'){r.treatment='compare';r.check='mkv-codec-delay';r.reason='Read integer-nanosecond delay and require the exact carried initial-padding sample count, including ordinary OBS 2112-sample priming; complete parameter/sample trim checks remain exact.';}
+  if(r.field==='DiscardPadding'){r.treatment='compare';r.check='mkv-padding';r.reason='Read positive terminal AAC padding natively, require an exact sample quantization, compare native values within Matroska and join the complete effective-sample trim across containers. Interior, negative or unbound padding refuses.';}
+  if(r.field==='ReferenceBlock'){r.treatment='require-default';r.check='mkv-reference';r.reason='Require the pinned muxer’s single canonical reference to the previous native block of the same track, using exact signed timestamps. Unbound, duplicate or changed references refuse.';}
+  if(r.field==='CRC-32'){r.treatment='require-default';r.check='mkv-crc';r.reason='A four-byte integrity checksum carries no media selection/transform; compressed packets are independently hashed in full.';}
+  if(r.field==='Void'){r.treatment='descriptive';r.check='inert-padding';r.reason='EBML Void is reserved padding; its payload is never interpreted as child elements or media.';}
+  if(['compare','require-default'].includes(r.treatment))r.code||='REMUX_NATIVE_'+r.field.replace(/[^a-z0-9]/gi,'_').toUpperCase().slice(0,70);
+}
+// Name the actual enclosing refusal for its unreachable descendants. Each has
+// a field-specific fixture; none is certified merely by this annotation.
+for(const r of rows.filter(r=>r.container==='matroska')){
+  const p=MATROSKA_SCHEMA.find(e=>e.id===r.element)?.path;
+  const parent=rows.find(q=>q.container==='matroska'&&q.check==='absent'&&q.treatment==='require-default'&&p?.startsWith((MATROSKA_SCHEMA.find(e=>e.id===q.element)?.path||'!')+'\\'));
+  if(parent){r.treatment='covered';r.check='parent-presence:'+parent.id;r.witness=r.id;r.reason='The enclosing '+parent.field+' control is refused before any descendant interpretation.';r.code=null;}
+}
+const isoMasters=new Set('moov trak mdia minf stbl dinf meta udta mvex moof traf mfra wave'.split(' '));
+const isoNativeChecks={ftyp:'iso-ftyp',stsd:'iso-stsd',dref:'iso-dref',nmhd:'iso-zero-box','\u0000\u0000\u0000\u0000':'iso-zero-box','url ':'iso-self-entry',frma:'iso-frma',chpl:'iso-chpl',chan:'iso-chan',mfhd:'iso-index',tfra:'iso-index',mfro:'iso-index',sidx:'iso-index'};
+for(const name of ['avc1','avc3','hvc1','hev1','av01','vp09','mp4v','mp4a','tx3g'])isoNativeChecks[name]='iso-sample-entry';
+for(const name of ['avcC','hvcC','av1C','vpcC','esds','glbl','dfLa','dOps','dac3','dec3','alac'])isoNativeChecks[name]='iso-config';
+for(const r of rows.filter(r=>r.container==='isobmff')){
+  if(isoNativeChecks[r.field]){r.treatment='compare';r.check=isoNativeChecks[r.field];r.reason='Read the native declaration and corroborate the admitted representation; remaining opaque interpretation bytes compare exactly within ISO, and an unproved cross-container representation refuses.';r.code||='REMUX_NATIVE_'+r.field.replace(/[^a-z0-9]/gi,'_').toUpperCase();}
+  if(['urn ','mehd','ssix','prft'].includes(r.field)){r.treatment='require-default';r.check='absent';r.reason='This independent external resource, duration, subsegment or wall-clock declaration has no verified carried target representation.';r.code='REMUX_NATIVE_'+r.field.trim().toUpperCase();}
+}
+for(const r of rows)if(r.container==='mpegts'&&r.treatment==='covered')r.witness='transport:'+r.field;
+for(const r of rows)if(r.treatment==='covered'&&r.container==='isobmff'&&['stts','ctts','stsz','stz2','stsc','stco','co64','stss','mdat'].includes(r.field))r.witness='packet:'+r.id;
+for(const r of rows)if(r.treatment==='covered'&&r.container==='isobmff'&&['trex','tfhd','tfdt','trun'].includes(r.field))r.witness='fragment:'+r.id;
+for(const r of rows)if(r.treatment==='covered'&&r.container==='matroska'&&['Timestamp','SimpleBlock','Block','BlockDuration','ReferenceBlock','DiscardPadding'].includes(r.field))r.witness='packet:'+r.id;
+const packetWitnessChecks={stts:'REMUX_PACKET_TIMING',ctts:'REMUX_PACKET_REORDER',stsz:'REMUX_EVIDENCE_DECODE',stz2:'REMUX_EVIDENCE_DECODE',stsc:'REMUX_EVIDENCE_DECODE',stco:'REMUX_CODEC_PARAMETERS',co64:'REMUX_CODEC_PARAMETERS',stss:'REMUX_EVIDENCE_DECODE',mdat:'REMUX_PACKET_PAYLOAD',Timestamp:'REMUX_NATIVE_CUETIME',SimpleBlock:'REMUX_PACKET_PAYLOAD',Block:'REMUX_PACKET_PAYLOAD',BlockDuration:'REMUX_PACKET_TIMING'};
+for(const r of rows)if(r.witness==='packet:'+r.id)r.check='Complete packet timing/order/payload and coded-header inspection: '+packetWitnessChecks[r.field];
+for(const r of rows)if(r.treatment==='covered'&&!r.witness&&(r.container==='isobmff'&&isoMasters.has(r.field)||r.container==='matroska'&&r.type==='master')){
+  r.witness='structure:'+r.id;r.check='native classified child walk';r.reason='The master has no scalar playback value. Its complete child list is walked, including streaming Cluster masters; every known child has its own enforced row and unlisted children refuse.';
+}
+// Native checks and source refusals use compare/require-default treatments.
+// The observer deliberately skips covered scalar values: annotations cannot
+// turn such a row into a native check. Only its executable witness earns it.
+const isoSeekFields=new Set('stss stco co64 stsc stsz stz2 stts ctts trex tfhd tfdt trun'.split(' '));
+const mkvSeekFields=new Set('SeekHead Seek SeekID SeekPosition Position PrevSize Cues CuePoint CueTime CueTrackPositions CueTrack CueClusterPosition CueRelativePosition CueDuration CueBlockNumber'.split(' '));
+for(const r of rows){
+  if(r.container==='isobmff'&&isoSeekFields.has(r.field)||r.container==='matroska'&&mkvSeekFields.has(r.field)){
+    r.treatment='compare';r.check=r.container==='isobmff'?'iso-seek':'mkv-seek';r.code='REMUX_NATIVE_'+r.field.toUpperCase();delete r.witness;
+    r.reason='Validate the native index against this file’s own packet extents, coded access points and clocks; rewritten offsets compare by mapped packet ordinal, never by byte equality.';
+  }
+  if(r.container==='matroska'&&r.field==='CueCodecState'){r.treatment='require-default';r.check='mkv-default';r.nativeDefault=0;r.code='REMUX_NATIVE_CUECODECSTATE';delete r.witness;}
+  if(r.container==='matroska'&&['CueReference','CueRefTime','CueRefCluster','CueRefNumber','CueRefCodecState'].includes(r.field)){
+    r.treatment='require-default';r.check='absent';r.code='REMUX_NATIVE_CUEREFERENCE';delete r.witness;r.reason='The enclosing dependent CueReference graph has no proved rewritten target mapping; it must be absent.';
+  }
+  if(r.container==='isobmff'&&r.field==='stps'){r.treatment='require-default';r.check='absent';r.reason='Partial-sync recovery has no proved native packet/index mapping for this route.';}
+  if(r.container==='isobmff'&&r.field==='mfra'){r.treatment='compare';r.check='iso-index';r.code='REMUX_NATIVE_MFRA';delete r.witness;r.reason='Native footer and per-track index cardinality are verified; tfra entries resolve to independently coded own packets.';}
+  if(r.container==='isobmff'&&['sv3d','proj'].includes(r.field)){r.check='projection-structure';r.reason='Validate native child cardinality; each projection subfield is independently compared by its own native child row. Unproved cross-container projection refuses.';}
+  if(r.container==='isobmff'&&r.field==='vmhd.opcolor'){r.treatment='descriptive';r.check='ignored-copy-operands';r.code=null;r.reason='All six operand bytes are ignored by the admitted copy/dither-copy graphics modes; modes that use them are refused by the separate graphics-mode guard.';}
+  if(r.container==='isobmff'&&r.field==='ilst.numeric-key-item')r.code='REMUX_NATIVE_META_INDEX';
+  if(r.container==='isobmff'&&['sgpd','sbgp'].includes(r.field)){r.treatment='require-default';r.reason='Require the complete own-sample AAC roll-minus-one mapping; other recovery/group selection semantics refuse before Ready.';}
+  if(r.container==='mpegts'&&['PCR','PTS_DTS','PAT','PMT'].includes(r.field)){r.treatment='compare';r.check='transport-native';r.code={PCR:'REMUX_TS_PCR_BACKWARDS',PTS_DTS:'REMUX_TS_DTS_BACKWARDS',PAT:'REMUX_TS_PROGRAM_CHANGED',PMT:'REMUX_TS_PROGRAM_CHANGED'}[r.field];}
+}
+for(const [field,code,reason]of [['random_access_indicator','REMUX_TS_RANDOM_ACCESS','Each asserted native access point is bound to a complete bounded PES beginning with an AVC IDR or aligned AAC frame.'],['PES_optional_seek_controls','REMUX_TS_PES_OPTIONAL','ESCR/rate/copy/CRC/extensions are refused rather than silently skipped.'],['PES_trick_mode','REMUX_TS_PES_TRICK_MODE','Trick-mode selection must be absent.'],['PES_scrambling','REMUX_TS_PES_ENCRYPTED','PES scrambling must be absent.']])rows.push({id:'mpegts:'+field,container:'mpegts',field,treatment:field==='random_access_indicator'?'compare':'require-default',check:'transport-native',code,enforcement:'transport-integrity',witness:'transport:'+field,reason});
+const controlCodes={
+  'mvhd.rate':['REMUX_SOURCE_PLAYBACK_UNSUPPORTED','REMUX_OUTPUT_PLAYBACK_UNEXPECTED'],
+  'mvhd.volume':['REMUX_SOURCE_PLAYBACK_UNSUPPORTED','REMUX_OUTPUT_PLAYBACK_UNEXPECTED'],
+  'mvhd.matrix':['REMUX_SOURCE_PLAYBACK_UNSUPPORTED','REMUX_OUTPUT_PLAYBACK_UNEXPECTED'],
+  'mvhd.timescale':['REMUX_SOURCE_EDIT_UNSUPPORTED','REMUX_EDIT_LIST_UNEXPECTED'],
+  'mvhd.duration':['REMUX_SOURCE_DURATION_UNVERIFIED','REMUX_MOVIE_DURATION_UNEXPECTED'],
+  'tkhd.flags':['REMUX_SOURCE_PLAYBACK_UNSUPPORTED','REMUX_OUTPUT_PLAYBACK_UNEXPECTED'],
+  'tkhd.layer':['REMUX_SOURCE_CONTROL_UNREPRESENTABLE','REMUX_OUTPUT_PLAYBACK_UNEXPECTED'],
+  'tkhd.volume':['REMUX_SOURCE_PLAYBACK_UNSUPPORTED','REMUX_OUTPUT_PLAYBACK_UNEXPECTED'],
+  'tkhd.matrix':['REMUX_SOURCE_PLAYBACK_UNSUPPORTED','REMUX_OUTPUT_PLAYBACK_UNEXPECTED'],
+  'tkhd.width':['REMUX_TRACK_GEOMETRY_UNSUPPORTED'], 'tkhd.height':['REMUX_TRACK_GEOMETRY_UNSUPPORTED'],
+  'tkhd.duration':['REMUX_SOURCE_DURATION_UNVERIFIED','REMUX_TRACK_DURATION_UNEXPECTED'],
+  edts:['REMUX_SOURCE_EDIT_UNSUPPORTED','REMUX_EDIT_RATE_UNSUPPORTED'],elst:['REMUX_SOURCE_EDIT_UNSUPPORTED','REMUX_EDIT_RATE_UNSUPPORTED'],
+  'mdhd.timescale':['REMUX_PACKET_TIMING'], 'mdhd.duration':['REMUX_SOURCE_PLAYBACK_UNVERIFIED','REMUX_MEDIA_DURATION_UNEXPECTED'],
+  'smhd.balance':['REMUX_SOUND_BALANCE_UNSUPPORTED'],tapt:['REMUX_TRACK_APERTURE_UNSUPPORTED'],clef:['REMUX_TRACK_APERTURE_UNSUPPORTED'],prof:['REMUX_TRACK_APERTURE_UNSUPPORTED'],enof:['REMUX_TRACK_APERTURE_UNSUPPORTED'],colr:['REMUX_NATIVE_COLR_PROFILE']
+};
+for(const [field,code,reason]of [['M2TS_arrival_control','REMUX_TS_M2TS_ARRIVAL_CONTROL','The192-byte wrapper carries copy/arrival timestamp controls; no native target mapping is proved, so the source refuses.'],['RS204_parity','REMUX_TS_RS204_PARITY','The204-byte outer error-correction code can affect packet interpretation; parity must not be silently discarded without native proof.']])rows.push({id:'mpegts:'+field,container:'mpegts',field,treatment:'require-default',check:'transport-wrapper',code,witness:'transport:'+field,reason});
+for(const [field,element]of [['SimpleBlock.flags','0xa3'],['Block.flags','0xa1']])row('matroska',field,'compare','Native block framing, coded key/reference status and unsupported lacing/invisible/reserved flags are checked independently of compressed payload identity.','mkv-seek',{element,type:'binary',code:'REMUX_NATIVE_BLOCK_FLAGS'});
+for(const r of rows)if(r.container==='matroska'&&['SimpleBlock','Block'].includes(r.field))r.reason='The coded payload has a complete packet-identity witness. Header flags have a separate native row; native track/time/index checks independently bind the block header.';
+for(const r of rows.filter(r=>r.witness)){
+  let codes=r.container==='isobmff'?controlCodes[r.field]:null;
+  if(r.witness.startsWith('structure:'))codes=['REMUX_NATIVE_UNCLASSIFIED'];
+  if(r.check.startsWith('parent-presence:'))codes=[rows.find(p=>p.id===r.check.slice(16)).code];
+  if(r.container==='isobmff'&&r.field.startsWith('tref.'))codes=['REMUX_NATIVE_TREF'];
+  if(r.witness.startsWith('packet:'))codes=[packetWitnessChecks[r.field]];
+  if(r.witness.startsWith('transport:'))codes=[r.code||({ADTS:'REMUX_TS_ADTS_CONFIG',AVC:'REMUX_TS_PARAMETER_CHANGE'}[r.field])];
+  if(codes)r.witnessCodes=Object.freeze({source:codes[0],output:codes[1]||codes[0]});
+}
+function assertCoveredInventory(inventory=rows){for(const r of inventory)if(r.treatment==='covered'&&(typeof r.witness!=='string'||!r.witness.trim()||!r.witnessCodes?.source||!r.witnessCodes?.output))
+  throw Error('Unproved covered native inventory row: '+r.id);return true;}
+function assertInventory(inventory=rows,known){const seen=new Set();for(const r of inventory){if(seen.has(r.id)||!['compare','require-default','covered','descriptive'].includes(r.treatment)||!r.reason||!r.check)throw Error('Incomplete/duplicate native inventory row: '+r.id);seen.add(r.id);}
+  if(known)for(const [key,selector]of [['boxes','atom'],['elements','element'],['descriptors','tag']])for(const item of known[key])if(!inventory.some(r=>r[selector]===item))throw Error('Unlisted native inventory item: '+key+':'+item);
+  return true;}
 assertInventory();
 const INVENTORY=Object.freeze(rows.map(Object.freeze));
-function table(){return '| Field | Container | Treatment | Reason / check | Code | Enforcement |\n|---|---|---|---|---|---|\n'+INVENTORY.map(r=>`| ${r.field.replace(/\|/g,'/')} | ${r.container} | ${r.treatment} | ${r.reason} ${r.check} | ${r.code||'—'} | ${r.enforcement||'native / named existing check'} |`).join('\n')+'\n';}
-module.exports={MATROSKA_SCHEMA,INVENTORY,SOURCES,assertInventory,table};
+function table(){return '| Field | Container | Treatment | Reason / check | Code | Enforcement / witness |\n|---|---|---|---|---|---|\n'+INVENTORY.map(r=>`| ${r.field.replace(/\|/g,'/')} | ${r.container} | ${r.treatment} | ${r.reason} ${r.check} | ${r.code||'—'} | ${r.witness||r.nativeCheck||r.refusal||r.enforcement||(r.treatment==='covered'?'UNPROVED':'native / descriptive')} |`).join('\n')+'\n';}
+module.exports={MATROSKA_SCHEMA,INVENTORY,SOURCES,assertInventory,assertCoveredInventory,table};

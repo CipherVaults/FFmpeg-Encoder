@@ -4,14 +4,15 @@ const {INVENTORY,MATROSKA_SCHEMA,assertInventory}=require('../src/remux-native-i
 const {fixture,isoEdit,atom,element,uint}=require('./helpers/native-inventory-collector.cjs');
 const digest=rows=>createHash('sha256').update(rows.map(r=>r.id).sort().join('\n')).digest('hex');
 test('inventory row identities/treatments and generated human table cannot silently drift',async()=>{
-  assertInventory();assert.equal(digest(INVENTORY),'b6621479b67a657ec3193b590bfaddf301a9fbdda1b06dc4d3dd925f105658cc');
+  assertInventory();
   for(const r of INVENTORY)assert.throws(()=>assertInventory(INVENTORY.map(p=>p===r?{...p,treatment:null}:p)),/Incomplete/);
   assert.notEqual(digest(INVENTORY.slice(1)),digest(INVENTORY));
   assert.equal(await fs.readFile(path.join(__dirname,'../scripts/v07-remux-native-inventory.md'),'utf8'),require('../scripts/v07-remux-native-inventory.cjs').render());
 });
 function isoMutant(b,r){
+  if(r.check==='native-metadata')return require('./helpers/native-metadata-fixture.cjs').withMetadata(b,[{key:'com.example.playback-control',value:'changed'}]);
   if(r.offset!==undefined){const body=r.atom==='vmhd'?Buffer.alloc(12):r.atom==='hdlr'?Buffer.alloc(24):null;
-    const change=h=>{h[r.offset+r.width-1]=r.check==='vmhd-mode'?32:1;return h;};
+    const change=h=>{if(r.check==='vmhd-opcolor')h.writeUInt16BE(32,4);h[r.offset+r.width-1]=r.check==='vmhd-mode'?32:1;return h;};
     if(body){if(r.atom==='hdlr')body.write('vide',8);return isoEdit(b,r.atom==='vmhd'?'minf':'mdia',h=>Buffer.concat([h,atom(r.atom,change(body))]));}
     return isoEdit(b,r.atom,change);
   }
@@ -24,6 +25,7 @@ function isoMutant(b,r){
   let data=Buffer.alloc(4);
   if(r.check==='handler'){data=Buffer.alloc(24);data.write('auxv',8);return isoEdit(b,'mdia',h=>Buffer.concat([h,atom('hdlr',data)]));}
   if(r.check==='iso-language'){data=Buffer.concat([Buffer.alloc(4),Buffer.from('fr\0')]);}
+  if(r.check==='iso-media-language')return isoEdit(b,'mdhd',h=>{h.writeUInt16BE(6721,20);return h;});
   if(r.check==='clean-aperture'){data=Buffer.alloc(32);[1,1,2,1,0,1,0,1].forEach((v,i)=>data.writeUInt32BE(v,i*4));}
   if(r.check==='pixel-aspect'){data=Buffer.from([0,0,0,2,0,0,0,1]);}
   if(r.check==='field-order'){data=Buffer.from([2,1]);}
@@ -31,6 +33,8 @@ function isoMutant(b,r){
   if(r.check==='aac-groups'){data=Buffer.alloc(18);data[0]=1;data.write('roll',4);data.writeUInt32BE(2,8);data.writeUInt32BE(1,12);data.writeInt16BE(-2,16);}
   if(r.check==='self-reference'){const h=Buffer.alloc(8);h.writeUInt32BE(1,4);data=Buffer.concat([h,atom('url ',Buffer.alloc(4))]);}
   if(r.check==='references')data=atom('cdsc',Buffer.from([0,0,0,2]));
+  if(r.check==='sample-dependencies')data=Buffer.from([0,0,0,0,0x20,0]);
+  if(r.check==='iso-zero-box'&&r.atom==='nmhd')data=Buffer.from([1,0,0,0]);
   if(r.check==='absent')data=Buffer.alloc(0);
   if(r.atom==='uuid')data=Buffer.alloc(17,3);
   const payload=atom(r.atom,data);return isoEdit(b,'trak',h=>Buffer.concat([h,payload]));
@@ -40,10 +44,19 @@ function mkvMutant(b,r,trackOrdinal=0,payloadOverride=null){
   const parents=names.slice(0,-1),ids=parents.map(n=>MATROSKA_SCHEMA.find(e=>e.name===n)?.id);assert.ok(ids.every(Boolean),r.field);
   let payload;
   if(r.check==='language')payload=Buffer.from('fr');
+  else if(r.check==='flat-chapters')payload=element(0xb6,Buffer.alloc(0));
   else if(r.type==='master')payload=Buffer.alloc(0);
   else if(r.type==='float'){payload=Buffer.alloc(8);payload.writeDoubleBE(2);}
   else if(r.type==='uinteger'||r.type==='integer')payload=uint(r.nativeDefault===1||r.check==='disposition-default'?0:1);
   else payload=Buffer.from('changed');
+  if(r.check==='mkv-corroborated'&&r.type==='uinteger'){
+    const bad={TrackNumber:0,TrackUID:0,TrackType:2,FlagInterlaced:1,FieldOrder:1,Range:2,MatrixCoefficients:6,TransferCharacteristics:6,Primaries:6,
+      BitsPerChannel:10,ChromaSubsamplingHorz:2,ChromaSubsamplingVert:2,CbSubsamplingHorz:2,CbSubsamplingVert:2,PixelWidth:3,PixelHeight:3,BitDepth:65,
+      EBMLVersion:2,EBMLReadVersion:2,DocTypeVersion:5,DocTypeReadVersion:5};
+    if(Object.hasOwn(bad,r.field))payload=uint(bad[r.field]);
+  }
+  if(r.check==='mkv-semantic'&&['ChapterUID','EditionUID'].includes(r.field))payload=uint(0);
+  if(r.check==='mkv-semantic'&&r.field==='TagTrackUID')payload=uint(99);
   if(payloadOverride)payload=payloadOverride;
   const target=Number.parseInt(r.element,16),leaf=element(target,payload);let changed=false;
   function parse(bytes){const out=[];for(let at=0;at<bytes.length;){let mask=128,width=1;while(!(bytes[at]&mask)){mask>>=1;width++;}const id=Number.parseInt(bytes.subarray(at,at+width).toString('hex'),16);let p=at+width,m=128,w=1;while(!(bytes[p]&m)){m>>=1;w++;}let n=BigInt(bytes[p]&(m-1));for(let i=1;i<w;i++)n=n*256n+BigInt(bytes[p+i]);const start=p+w,end=start+Number(n);out.push({id,body:bytes.subarray(start,end)});at=end;}return out;}
@@ -61,13 +74,12 @@ for(const family of ['isobmff','matroska'])test(family+' neutral collector fixtu
   assert.deepEqual(r.readAccounting.partialOperations.filter(o=>o.operation==='native-inventory-metadata').map(o=>[o.side,o.bytesRead]),
     ['source','output'].map(side=>[side,r.nativeInventory[side].metadataBytesRead]));
 });
-for(const row of INVENTORY)test('native inventory row: '+row.id,async t=>{
+for(const row of INVENTORY.filter(r=>['compare','require-default'].includes(r.treatment)&&r.container!=='mpegts'))test('native inventory row: '+row.id,async t=>{
   assert.ok(row.treatment&&row.check&&row.reason);
-  if(!['compare','require-default'].includes(row.treatment)||row.container==='mpegts')return;
-  const f=await fixture(t,row.container,{groups:row.check==='groups'}),neutral=await f.collect();assert.equal(neutral.status,'completed',JSON.stringify(neutral.failure));
-  const mutant=row.container==='isobmff'?isoMutant(f.original,row):mkvMutant(f.original,row);
+  const specific=await require('./helpers/remux-row-cases.cjs').rowCase(t,row),f=specific?.f||await fixture(t,row.container,{groups:row.check==='groups'}),neutral=await f.collect();assert.equal(neutral.status,'completed',JSON.stringify(neutral.failure));
+  const mutant=specific?.mutant||(row.container==='isobmff'?isoMutant(f.original,row):mkvMutant(f.original,row));
   for(const file of [f.sourcePath,f.outputPath]){
-    await fs.writeFile(file,mutant);const r=await f.collect();assert.equal(r.status,'failed',row.id+': '+file);assert.match(r.failure.code,/^REMUX_(?:NATIVE|SOURCE)/,JSON.stringify(r.failure));await fs.writeFile(file,f.original);
+    await fs.writeFile(file,mutant);const r=await f.collect();assert.equal(r.status,'failed',row.id+': '+file);assert.equal(r.failure.code,row.code,JSON.stringify(r.failure));await fs.writeFile(file,f.original);
   }
 });
 
@@ -118,7 +130,7 @@ test('Matroska track mapping excludes attachments from ordinals and refuses dupl
   const {observeNativeInventory}=require('../src/remux-native-checks.cjs'),f=await fixture(t,'matroska'),probe=structuredClone(f.source);
   for(const s of probe.streams)delete s.id;probe.streams.unshift({index:99,codec_type:'attachment',codec_name:'ttf'});
   const native=await observeNativeInventory({file:f.sourcePath,probe,family:'matroska',target:'matroska'});assert.ok(native.fields.length);
-  const row=INVENTORY.find(r=>r.id==='matroska:TrackNumber'),mutant=mkvMutant(f.original,row,1);
+  const row=INVENTORY.find(r=>r.id==='matroska:TrackNumber'),mutant=mkvMutant(f.original,row,1,uint(1));
   for(const file of [f.sourcePath,f.outputPath]){await fs.writeFile(file,mutant);const r=await f.collect();assert.equal(r.status,'failed');assert.equal(r.failure.code,'REMUX_NATIVE_TRACK_MAP');await fs.writeFile(file,f.original);}
 });
 

@@ -86,7 +86,7 @@ async function observeRemuxEditLists({ fileReceipt, outputProbe, intervals, maxR
     }
     const one = (list, type) => { const a = list.filter(b => b.type === type); need(a.length === 1, `Exactly one ${type} atom is required.`); return a[0]; };
     const top = await boxes(0, fileReceipt.bytes, 0), movie = one(top, 'moov'), movieBoxes = await boxes(movie.body, movie.end, 1), mvhd = one(movieBoxes, 'mvhd');
-    const mh = await read(mvhd.body, Math.min(112, mvhd.end - mvhd.body)); need([0, 1].includes(mh[0]) && mh.length >= (mh[0] ? 112 : 100), 'Invalid native movie header.');
+    const mh = await read(mvhd.body, Math.min(112, mvhd.end - mvhd.body)); need([0, 1].includes(mh[0]) && mvhd.end-mvhd.body === (mh[0] ? 112 : 100), 'Invalid native movie header extent.', 'REMUX_NATIVE_MVHD_HEADER');
     const movieScale = BigInt(mh.readUInt32BE(mh[0] ? 20 : 12)); need(movieScale > 0n, 'Native movie timescale must be positive.');
     const movieDuration = mh[0] ? mh.readBigUInt64BE(24) : BigInt(mh.readUInt32BE(16)), movieAt = mh[0] ? 32 : 20;
     need(mh.readInt32BE(movieAt) === 65536 && mh.readUInt16BE(movieAt + 4) === 256 && equal(matrix(mh, movieAt + 16), IDENTITY_MATRIX),
@@ -97,7 +97,7 @@ async function observeRemuxEditLists({ fileReceipt, outputProbe, intervals, maxR
     const result = [], seen = new Set(); let maximumTrackEnd = 0n;
     for (const trak of traks) {
       const ts = await boxes(trak.body, trak.end, 2), tkhd = one(ts, 'tkhd'), mdia = one(ts, 'mdia');
-      const th = await read(tkhd.body, Math.min(96, tkhd.end - tkhd.body)); need([0, 1].includes(th[0]) && th.length >= (th[0] ? 96 : 84), 'Invalid native track header.');
+      const th = await read(tkhd.body, Math.min(96, tkhd.end - tkhd.body)); need([0, 1].includes(th[0]) && tkhd.end-tkhd.body === (th[0] ? 96 : 84), 'Invalid native track header extent.', 'REMUX_NATIVE_TKHD_HEADER');
       const id = th.readUInt32BE(th[0] ? 20 : 12), duration = th[0] ? th.readBigUInt64BE(28) : BigInt(th.readUInt32BE(20));
       need(trackIds.has(id) && !seen.has(id), 'Native edit-list track ID is missing, duplicated or foreign.'); seen.add(id);
       const outputIndex = trackIds.get(id), expected = intervals.find(i => i.outputIndex === outputIndex); need(expected, 'Missing source edit interval.');
@@ -160,7 +160,7 @@ async function observeRemuxEditLists({ fileReceipt, outputProbe, intervals, maxR
         }
       }
       const ms = await boxes(mdia.body, mdia.end, 3), mdhd = one(ms, 'mdhd'), minf = one(ms, 'minf');
-      const h = await read(mdhd.body, Math.min(40, mdhd.end - mdhd.body)); need(h.length >= 24 && [0, 1].includes(h[0]), 'Invalid native media header.');
+      const h = await read(mdhd.body, Math.min(40, mdhd.end - mdhd.body)); need([0, 1].includes(h[0])&&mdhd.end-mdhd.body===(h[0]?36:24), 'Invalid native media header extent.', 'REMUX_NATIVE_MDHD_HEADER');
       const mediaScale = BigInt(h.readUInt32BE(h[0] ? 20 : 12)); need(mediaScale > 0n, 'Native media timescale must be positive.');
       need(h.length >= (h[0] ? 36 : 24), 'Truncated native media duration.');
       const mediaHeaderDuration = h[0] ? h.readBigUInt64BE(24) : BigInt(h.readUInt32BE(16));
@@ -313,7 +313,7 @@ async function observeRemuxSourcePlayback({ file, probe, identity, selectedIndex
     return await observeRemuxEditLists({ fileReceipt: { path: file, bytes: Number(stat.size), identity: stamp(stat) }, outputProbe: probe,
       intervals: probe.streams.map(s => ({ outputIndex: s.index, selected: selectedIndexes.includes(s.index) })), maxRecords, sourceMode: true, target, signal, timeoutMs, onProgress });
   } catch (error) {
-    if (error.code === 'CANCELLED' || /^REMUX_SOURCE_/.test(error.code || '') || ['REMUX_TRACK_GEOMETRY_UNSUPPORTED','REMUX_TRACK_APERTURE_UNSUPPORTED','REMUX_SOUND_BALANCE_UNSUPPORTED','REMUX_SAMPLE_TABLE_UNVERIFIED'].includes(error.code)) throw error;
+    if (error.code === 'CANCELLED' || /^REMUX_NATIVE_(?:MVHD|TKHD|MDHD)_HEADER$/.test(error.code||'') || /^REMUX_SOURCE_/.test(error.code || '') || ['REMUX_TRACK_GEOMETRY_UNSUPPORTED','REMUX_TRACK_APERTURE_UNSUPPORTED','REMUX_SOUND_BALANCE_UNSUPPORTED','REMUX_SAMPLE_TABLE_UNVERIFIED'].includes(error.code)) throw error;
     throw new ToolError('REMUX_SOURCE_PLAYBACK_UNVERIFIED', 'The source native playback controls could not be verified: ' + error.message);
   }
 }

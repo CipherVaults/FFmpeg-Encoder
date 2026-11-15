@@ -12,6 +12,12 @@ function atom(type, bytes, { extended = false, zero = false } = {}) {
   if (extended) header.writeBigUInt64BE(BigInt(bytes.length + header.length), 8);
   return Buffer.concat([header, bytes]);
 }
+function isoLanguageCode(value){
+  if(!value||value==='und')return 32767;
+  const aliases={en:'eng',fr:'fra',de:'deu',es:'spa',ar:'ara',ja:'jpn',zh:'zho',sv:'swe',pt:'por',ru:'rus'};
+  const code=aliases[value]||value;if(!/^[a-z]{3}$/.test(code))throw Error('Fixture requires an explicit packed ISO language: '+value);
+  return ((code.charCodeAt(0)-96)<<10)|((code.charCodeAt(1)-96)<<5)|(code.charCodeAt(2)-96);
+}
 function fixture(tracks, { extended = false, zero = false, brand = 'qt  ' } = {}) {
   const ftyp = atom('ftyp', Buffer.concat([Buffer.from(brand), Buffer.alloc(4)]), { extended });
   const traks = tracks.map(({ id, language = 32767, version = 0 }) => {
@@ -65,9 +71,9 @@ function playbackFixture(probe, paddedBytes = 0) {
   if((probe.format?.format_name||'').split(',').includes('matroska'))return require('./matroska-fixture.cjs').matroskaFixture(probe,paddedBytes);
   const tracks = probe.streams.filter(s => ['video', 'audio'].includes(s.codec_type)).map(s => {
     s.id ||= String(s.index + 1);
-    return { id: Number(BigInt(s.id)), kind: s.codec_type, width: s.width, height: s.height, scale: 48000, pts: [0], durations: [48000] };
+    return { id: Number(BigInt(s.id)), kind: s.codec_type, width: s.width, height: s.height, language:isoLanguageCode(s.tags?.language),scale: 48000, pts: [0], durations: [48000] };
   });
   const bytes = timedFixture(tracks);
   return paddedBytes ? Buffer.concat([bytes, atom('mdat', Buffer.alloc(paddedBytes - bytes.length - 8))]) : bytes;
 }
-module.exports = { atom, fixture, timedFixture, playbackFixture, writeFixture };
+module.exports = { atom, fixture, timedFixture, playbackFixture, writeFixture, isoLanguageCode };

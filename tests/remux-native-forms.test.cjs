@@ -11,6 +11,11 @@ const raw={streams:[{index:0,id:'1',codec_type:'video',codec_name:'h264',width:2
 const bytes=()=>timedFixture([{id:1,scale:90000,pts:[0,3000],durations:[3000,3000]},{id:2,scale:48000,pts:[0],durations:[1024]}]);
 async function inspect(t,b,extra={}){const f=await writeFixture(t,b);return observeRemuxSourcePlayback({file:f.path,probe:raw,identity:await readSourceIdentity(f.path),maxRecords:100,...extra});}
 function widen(type,b){const r=Buffer.alloc(b.length+12);b.copy(r,1,1,4);r[0]=1;if(type==='tkhd'){b.copy(r,20,12,20);r.writeBigUInt64BE(BigInt(b.readUInt32BE(20)),28);b.copy(r,36,24);}else{b.copy(r,20,12,16);r.writeBigUInt64BE(BigInt(b.readUInt32BE(16)),24);b.copy(r,32,20);}return r;}
+test('every capped fixed playback header proves its full v0/v1 extent, refusing an otherwise unseen suffix',async t=>{
+  for(const version of [0,1]){let good=bytes();if(version)for(const type of ['mvhd','tkhd','mdhd'])good=rewrite(good,type,b=>widen(type,b));await inspect(t,good);
+    for(const type of ['mvhd','tkhd','mdhd'])await assert.rejects(inspect(t,rewrite(good,type,b=>Buffer.concat([b,Buffer.from([1])]))),{code:'REMUX_NATIVE_'+type.toUpperCase()+'_HEADER'});
+  }
+});
 test('source tkhd/mvhd duration contradictions are rejected in versions 0 and 1',async t=>{
   for(const type of ['tkhd','mvhd'])for(const version of [0,1]){
     const bad=rewrite(bytes(),type,b=>{if(version)b=widen(type,b);if(version)b.writeBigUInt64BE(1n,type==='tkhd'?28:24);else b.writeUInt32BE(1,type==='tkhd'?20:16);return b;});

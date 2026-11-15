@@ -1806,6 +1806,15 @@ async function collectRemuxEvidence(options) {
     essence.outputFileSha256 = hash.digest('hex'); await paths();
     // Preparation rejects source controls before Ready. Inspect them again at
     // collection under this job's unchanged identity, including ISO->Matroska.
+    // A container padding declaration is independent of a decoder deciding to
+    // ignore an interior trim. Native admission proves a terminal AAC block;
+    // crossing containers additionally binds its exact samples to the complete
+    // packet/PCM trim proof. No new timing tolerance is introduced here.
+    if(assessment.inputFamily!==outputFamily)for(const [native,side]of [[nativeSource,'source'],[nativeOutput,'output']]){
+      for(const p of native.fields.find(f=>f.id==='matroska:DiscardPadding')?.values||[]){
+        need(collections[side].get(p.index)?.record.audioTrim?.trailingSamples===p.value,'Native terminal Matroska padding lacks an identical complete effective AAC trim.','REMUX_NATIVE_DISCARDPADDING');
+      }
+    }
     const sourcePlayback = assessment.inputFamily === 'isobmff' ? await observeRemuxSourcePlayback({ file: sourcePath, probe: source, target: assessment.target,
       identity: { canonicalPath: sourcePath, ...stamp(sourceBefore) }, selectedIndexes: mappings.map(m => m.inputIndex),
       maxRecords: budget.maxRecords, timeoutMs: budget.timeoutMs, signal, onProgress: value => progress('source-playback-controls', value.completed, value.total) }) : null;

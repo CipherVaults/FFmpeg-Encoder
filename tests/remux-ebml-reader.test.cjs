@@ -14,7 +14,7 @@ test('unknown Cluster boundaries use schema levels and find metadata before, bet
   const display=element(0x80,element(0x85,Buffer.from('Owned chapter'))),
     chapter=element(0x1043a770,element(0x45b9,element(0xb6,Buffer.concat([element(0x73c4,uint(1)),element(0x91,uint(0)),display]))));
   const parts=[element(0x1549a966,Buffer.alloc(0)),cluster([block]),element(0x1654ae6b,Buffer.alloc(0)),element(0x114d9b74,Buffer.alloc(0)),
-    cluster([element(0xec,Buffer.alloc(2)),element(0xbf,Buffer.alloc(4)),element(0xa0,element(0xa1,Buffer.from([1,2,3])))]),
+    cluster([element(0xec,Buffer.alloc(2)),element(0xbf,Buffer.alloc(4)),element(0xa0,element(0xa1,Buffer.from([0x81,0,0,0,255])))]),
     chapter,
     element(0x1941a469,Buffer.alloc(0)),
     element(0x1254c367,element(0x7373,element(0x67c8,Buffer.concat([element(0x45a3,Buffer.from('TITLE')),element(0x4487,Buffer.from('Owned'))])))),
@@ -22,20 +22,38 @@ test('unknown Cluster boundaries use schema levels and find metadata before, bet
   for(const unknown of [false,true]){
     const r=await inspect(await owned(t,streamingFile(parts,unknown)));
     assert.deepEqual(r.nodes.map(n=>n.name),['EBML','DocType','Segment','Info','Cluster','Tracks','SeekHead','Cluster','Chapters','EditionEntry','ChapterAtom','ChapterUID','ChapterTimeStart','ChapterDisplay','ChapString','Attachments','Tags','Tag','SimpleTag','TagName','TagString','Cues','SeekHead']);
-    assert.equal(r.stats.unknownClusters,2);assert.equal(r.stats.blockBytesSkipped,8);assert.equal(r.stats.clusterChildren,7);
+    assert.equal(r.stats.unknownClusters,2);assert.equal(r.stats.blockBytesSkipped,2);assert.equal(r.stats.blockHeaderBytesRead,8);assert.equal(r.stats.clusterChildren,7);
     const c=r.nodes.filter(n=>n.name==='Cluster');assert.equal(c[0].end,r.nodes.find(n=>n.name==='Tracks').body-5);
   }
 });
 
-test('block, BlockAdditions and EncryptedBlock contents are never read or scanned for fake boundaries',async t=>{
+test('block payloads are never read or scanned for fake boundaries',async t=>{
   const fake=Buffer.concat([element(0x1654ae6b,Buffer.alloc(0)),Buffer.from([0,255,0,255])]);
-  const bytes=streamingFile([cluster([element(0xa3,fake),element(0xa0,Buffer.concat([element(0xa1,fake),element(0x75a1,fake)])),element(0xaf,fake)]),element(0x1254c367,Buffer.alloc(0))]);
+  const bytes=streamingFile([cluster([element(0xa3,Buffer.concat([Buffer.from([0x81,0,0,0x80]),fake])),element(0xa0,element(0xa1,Buffer.concat([Buffer.from([0x81,0,0,0]),fake])))]),element(0x1254c367,Buffer.alloc(0))]);
   const file=await owned(t,bytes),reads=[],open=fs.open;
   const mock=t.mock.method(fs,'open',async(...args)=>{const h=await open(...args),read=h.read.bind(h);h.read=async(b,o,n,p)=>{reads.push([p,p+n]);return read(b,o,n,p);};return h;});
   let r;try{r=await inspect(file);}finally{mock.mock.restore();}
   let at=-1,found=0;while((at=bytes.indexOf(fake,at+1))!==-1){found++;assert.ok(reads.every(([a,b])=>b<=at||a>=at+fake.length),JSON.stringify({at,reads}));}
-  assert.equal(found,4);assert.equal(r.stats.blockBytesSkipped,4*fake.length);assert.equal(r.nodes.filter(n=>n.name==='Tracks').length,0);
+  assert.equal(found,2);assert.equal(r.stats.blockBytesSkipped,2*fake.length);assert.equal(r.nodes.filter(n=>n.name==='Tracks').length,0);
   assert.equal(r.nodes.at(-1).name,'Tags');
+});
+
+test('finite and unknown Clusters refuse unlisted IDs and unsupported block interpretations, with ordinary neighbours admitted',async t=>{
+  const unknownElement=require('./helpers/ebml-fixture.cjs').unknownElement;
+  for(const unknown of [false,true]){
+    const wrap=payload=>streamingFile([unknown?unknownElement(0x1f43b675,payload):element(0x1f43b675,payload)]);
+    await inspect(await owned(t,wrap(block)));
+    for(const [payload,code]of [[element(0x4abc,Buffer.alloc(0)),'REMUX_NATIVE_UNCLASSIFIED'],[element(0xaf,Buffer.alloc(0)),'REMUX_NATIVE_ENCRYPTEDBLOCK'],
+      [element(0xa0,element(0x75a1,Buffer.alloc(0))),'REMUX_NATIVE_BLOCKADDITIONS']])
+      await assert.rejects(inspect(await owned(t,wrap(payload))),{code});
+  }
+});
+test('native block framing and track-count guards have accepted neighbours without reading coded bytes',async t=>{
+  const blocks=n=>Array.from({length:n},(_,i)=>element(0xa3,Buffer.from([128+i+1,0,0,128,255])));
+  await inspect(await owned(t,streamingFile([cluster(blocks(32))])));
+  await assert.rejects(inspect(await owned(t,streamingFile([cluster(blocks(33))]))),{code:'REMUX_NATIVE_TRACK_MAP'});
+  for(const body of [Buffer.from([0,0,0,0,255]),Buffer.from([128,0,0,128,255]),Buffer.from([129,0,0])])
+    await assert.rejects(inspect(await owned(t,streamingFile([cluster([element(0xa3,body)])]))),{code:'REMUX_NATIVE_BLOCK'});
 });
 
 test('each EBML shape/cap refusal has a specific code',async t=>{
@@ -82,9 +100,13 @@ test('cancellation and deadline are observed during the header walk, with the ha
 test('a near-cap long synthetic walk retains metadata only, with measured cost',async t=>{
   const maxRecords=20000,limit=ebmlLimits(maxRecords),count=limit.elements-5,
     file=await owned(t,streamingFile([cluster(Array(count).fill(block))]));
-  const start=performance.now(),r=await inspect(file,{maxRecords}),elapsedMs=performance.now()-start;
+  // This case isolates the element/header-count boundary. Use the separately
+  // tested read-only census backend so thread-pool scheduling of hundreds of
+  // thousands of tiny reads cannot substitute a deadline failure. The deadline
+  // and cancellation cases below retain their own ordinary-I/O checks.
+  const start=performance.now(),r=await require('../scripts/v07-remux-admission-io.cjs').metadataIo(file,()=>inspect(file,{maxRecords})),elapsedMs=performance.now()-start;
   assert.equal(r.stats.elements,limit.elements);assert.equal(r.stats.unknownClusters,1);assert.equal(r.nodes.length,4);
-  assert.ok(r.stats.headerBytes<=limit.headerBytes);assert.equal(r.stats.blockBytesSkipped,count*5);
+  assert.ok(r.stats.headerBytes<=limit.headerBytes);assert.equal(r.stats.blockBytesSkipped,count);assert.equal(r.stats.blockHeaderBytesRead,count*4);
   t.diagnostic(JSON.stringify({synthetic:true,blocks:count,...r.stats,elapsedMs}));
 });
 
@@ -96,7 +118,8 @@ test('full collector finds and compares a playback control after an unknown Clus
     if(!video)return tracks.body.subarray(h.at,h.end);
     return element(0xae,Buffer.concat([entry.subarray(0,video.at),element(0xe0,Buffer.concat([entry.subarray(video.body,video.end),element(0x54cc,uint(1))])),entry.subarray(video.end)]));
   })));
-  const make=track=>Buffer.concat([segmentParts(f.original).prefix,unknownElement(0x18538067,Buffer.concat([info.bytes,cluster([block]),track]),8)]);
+  const validBlock=element(0xa3,Buffer.from([0x81,0,0,0x80,0,0,0,1,0x65]));
+  const make=track=>Buffer.concat([segmentParts(f.original).prefix,unknownElement(0x18538067,Buffer.concat([info.bytes,cluster([validBlock]),track]),8)]);
   const neutral=make(tracks.bytes),mutant=make(changedTracks);
   await fs.writeFile(f.sourcePath,neutral);await fs.writeFile(f.outputPath,neutral);assert.equal((await f.collect()).status,'completed');
   for(const file of [f.sourcePath,f.outputPath]){

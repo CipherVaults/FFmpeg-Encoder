@@ -34,11 +34,11 @@ function packets(stream, side) {
   if (stream.codec_type === 'attachment') return [];
   if (stream.codec_type === 'subtitle') return [{ codec_type: 'subtitle', stream_index: stream.index, pts: 1000, dts: 1000,
     duration: 1000, size: '5', flags: 'K__', data_hash: 'SHA256:' + sha('subtitle') }];
-  const video = stream.codec_type === 'video', grid = video ? [0, 3, 1, 2, 4, 5] : [0, 1, 2, 3];
+  const video = stream.codec_type === 'video', grid = video ? [0, 3, 1, 2, 4, 5] : [0, 1, 2, 3],coarse=side==='output'||stream.time_base==='1/1000';
   return grid.map((unit, i) => ({ codec_type: stream.codec_type, stream_index: stream.index,
-    pts: video ? side === 'output' ? Math.round(unit * 1000 / 30) : unit * 1000 : unit * 1024,
-    ...(video && side === 'output' && i < 2 ? {} : { dts: video ? side === 'output' ? Math.round((i - 2) * 1000 / 30) : (i - 2) * 1000 : unit * 1024 }),
-    duration: video ? side === 'output' ? 33 : 1000 : 1024, size: String(video ? admission.packet(i).length : 8),
+    pts: video ? coarse ? Math.round(unit * 1000 / 30) : unit * 1000 : unit * 1024,
+    ...(video && side === 'output' && i < 2 ? {} : { dts: video ? coarse ? Math.round((i - 2) * 1000 / 30) : (i - 2) * 1000 : unit * 1024 }),
+    duration: video ? coarse ? 33 : 1000 : 1024, size: String(video ? admission.packet(i).length : 8),
     flags: video && ![0, 4].includes(i) ? '___' : 'K__', data_hash: 'SHA256:' + (video ? admission.hash(admission.packet(i)) : sha(stream.codec_type + ':' + i)) }));
 }
 async function setup(t, { mutatePackets, mutateSource, mutateOutput, mutateHeaders, mutateNals, mutateAudioFrames, mutateRawPackets, mutateCodedHashes, extradata, window, pcm, abortAt, diagnostics, changeCapture, maxConcurrentChildren = 1, validatorApi = { createRemuxValidator }, api = { collectRemuxEvidence } } = {}) {
@@ -632,6 +632,7 @@ test('packet/header JSON keeps strict companion sections, stream coverage and 32
 
 const ancillary = p => {
   p.format.format_name = 'matroska,webm';
+  p.streams.find(s=>s.codec_type==='video').time_base='1/1000';
   p.streams.push({ index: 3, codec_type: 'attachment', codec_name: 'ttf', codec_tag_string: '[0][0][0][0]', extradata_size: 64,
     extradata_hash: 'SHA256:' + sha('ttf'), tags: { filename: 'owned.ttf', mimetype: 'application/x-truetype-font' } },
   { index: 4, codec_type: 'subtitle', codec_name: 'subrip', codec_tag_string: '[0][0][0][0]', time_base: '1/1000', tags: { language: 'eng' }, disposition: { default: 0 } });

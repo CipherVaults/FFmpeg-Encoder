@@ -39,13 +39,20 @@ async function harness(t, inspect, { run } = {}) {
 test('two real owned children overlap while preview and plan keep deterministic source order', async t => {
   let active = 0; let maximum = 0;
   const completed = []; const children = [];
+  const firstStarted = deferred(); let firstChild;
   const h = await harness(t, async (file, options) => {
     const name = path.basename(file);
-    await runTool(process.execPath, ['-e', `setTimeout(()=>{},${name === 'a.mp4' ? 250 : 30})`], {
+    if (name === 'b.mp4') await firstStarted.promise;
+    // Child startup can exceed the old 250ms/30ms timer difference under
+    // load. Hold the actual first child on IPC until the second child closes;
+    // completion is deliberately out of order without a scheduling assumption.
+    await runTool(process.execPath, ['-e', name === 'a.mp4' ? "process.on('message',()=>process.disconnect())" : ''], {
       signal: options.signal,
-      onChild: child => { children.push(child); active++; maximum = Math.max(active, maximum); child.once('close', () => { active--; }); },
+      ...(name === 'a.mp4' ? { spawnImpl: (executable, args, spawnOptions) => require('node:child_process').spawn(executable, args, { ...spawnOptions, stdio: [...spawnOptions.stdio, 'ipc'] }) } : {}),
+      onChild: child => { children.push(child); active++; maximum = Math.max(active, maximum); child.once('close', () => { active--; }); if (name === 'a.mp4') { firstChild = child; firstStarted.resolve(); } },
     });
     completed.push(name);
+    if (name === 'b.mp4') firstChild.send('release');
     return inspected();
   });
   const result = await h.prepare();

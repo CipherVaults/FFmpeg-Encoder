@@ -679,20 +679,22 @@ test('cancellation retains an unbranded failure receipt without accepting partia
 
 test('a MOV target collection reads track languages from the sealed owned output and keeps the branded receipt private', async t => {
   const ids = changed => { changed.streams[0].id = '0x1'; changed.streams[1].id = '0x2'; };
-  const s = await setup(t, { target: 'mov', changeOutput: ids, outputBytes: movFixture([{ id: 1 }, { id: 2, language: 0 }]) });
+  const s = await setup(t, { target: 'mov', changeOutput: ids, outputBytes: movFixture([{ id: 1 }, { id: 2, language: 32767 }]) });
   const receipt = await s.collect();
   assert.equal(receipt.status, 'completed', JSON.stringify(receipt.failure));
   const bindings = { assessment: s.assessment, runtimeIdentity: RUNTIME, outputId: OUTPUT_ID };
   const mov = getCollectedMovRepresentation(receipt, bindings), value = evidence(s, receipt);
-  assert.deepEqual(mov.tracks.map(track => [track.outputIndex, track.trackId, track.languageCode]), [[0, 1, 32767], [1, 2, 0]]);
+  assert.deepEqual(mov.tracks.map(track => [track.outputIndex, track.trackId, track.languageCode]), [[0, 1, 32767], [1, 2, 32767]]);
   assert.equal(mov.outputSha256, value.outputFileSha256);
   assert.equal(getMovRepresentation(mov, { outputId: OUTPUT_ID, outputEvidenceFingerprint: value.outputEvidenceFingerprint, outputSha256: value.outputFileSha256 }), mov);
   // The persisted and returned receipt carries a bounded description, not the branded object.
   assert.notEqual(receipt.movRepresentation, mov);
-  assert.deepEqual(receipt.movRepresentation, { kind: 'owned-mov-mdhd-language', tracks: [{ outputIndex: 0, trackId: 1, languageCode: 32767 }, { outputIndex: 1, trackId: 2, languageCode: 0 }] });
+  assert.deepEqual(receipt.movRepresentation, { kind: 'owned-mov-mdhd-language', tracks: [{ outputIndex: 0, trackId: 1, languageCode: 32767 }, { outputIndex: 1, trackId: 2, languageCode: 32767 }] });
   assert.deepEqual(JSON.parse(await fs.readFile(path.join(receipt.directory, 'receipt.json'), 'utf8')).movRepresentation, receipt.movRepresentation);
   assert.throws(() => getCollectedMovRepresentation(clone(receipt), bindings), /genuine/);
   assert.throws(() => getCollectedMovRepresentation(receipt, { ...bindings, runtimeIdentity: 'f'.repeat(64) }), /genuine/);
+  const changed=await setup(t,{target:'mov',changeOutput:ids,outputBytes:movFixture([{id:1},{id:2,language:0}])});
+  assert.equal((await changed.collect()).failure.code,'REMUX_NATIVE_MDHD_LANGUAGE','A missing probe tag must not conceal native English');
 });
 
 test('unreadable MOV output fails native collection; other targets obtain no MOV language receipt', async t => {

@@ -74,9 +74,9 @@ test('native versions 0/1 describe the same exact edits', async t => {
 
 test('native metadata guards reject missing/malformed clocks, IDs, tables, sealed identity and cancellation', async t => {
   const original = timedFixture(tracks, { movieScale: 90000 });
-  for (const [type, edit] of [
+  for (const [type, edit, code] of [
     ['mvhd', b => { b.writeUInt32BE(0, 12); return b; }],
-    ['tkhd', b => { b[0] = 1; return b.subarray(0, 32); }],
+    ['tkhd', b => { b[0] = 1; return b.subarray(0, 32); }, 'REMUX_NATIVE_TKHD_HEADER'],
     ['tkhd', b => { b.writeUInt32BE(3, 12); return b; }],
     ['mdhd', b => { b.writeUInt32BE(0, 12); return b; }],
     ['stsz', b => { b.writeUInt32BE(101, 8); return b; }],
@@ -84,7 +84,7 @@ test('native metadata guards reject missing/malformed clocks, IDs, tables, seale
     ['stts', b => { b.writeUInt32BE(3, 8); return b; }],
     ['ctts', b => { b[0] = 2; return b; }],
     ['edts', () => Buffer.alloc(0)],
-  ]) await assert.rejects(inspect(t, transform(original, type, 0, edit)), { code: type === 'edts' ? 'REMUX_EDIT_LIST_UNEXPECTED' : type === 'stsz' ? 'REMUX_SAMPLE_TABLE_UNVERIFIED' : 'REMUX_EDIT_LIST_UNVERIFIED' });
+  ]) await assert.rejects(inspect(t, transform(original, type, 0, edit)), { code: code || (type === 'edts' ? 'REMUX_EDIT_LIST_UNEXPECTED' : type === 'stsz' ? 'REMUX_SAMPLE_TABLE_UNVERIFIED' : 'REMUX_EDIT_LIST_UNVERIFIED') });
   await assert.rejects(inspect(t, original, { outputProbe: { streams: [{ index: 0 }, { index: 1, id: '2' }] } }), { code: 'REMUX_EDIT_LIST_UNVERIFIED' });
   await assert.rejects(inspect(t, original, { outputProbe: { streams: [{ index: 0, id: '1' }, { index: 1, id: '1' }] } }), { code: 'REMUX_EDIT_LIST_UNVERIFIED' });
   await assert.rejects(inspect(t, original, { intervals: [] }), { code: 'REMUX_EDIT_LIST_UNVERIFIED' });

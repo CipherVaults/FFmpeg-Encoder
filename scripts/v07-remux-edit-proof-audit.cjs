@@ -23,17 +23,34 @@ const reports = [
 ];
 const fields = ['dev', 'ino', 'size', 'nlink', 'mtimeNs', 'ctimeNs', 'birthtimeNs'];
 const stamp = s => Object.fromEntries(fields.map(k => [k, String(s[k])]));
+// Independent expected selection, captured from the retained proof set. Never
+// infer completeness from the same filtered cases that the audit will check.
+const EXPECTED_CASES = require('./v07-remux-proof-cases.json');
 async function audit({ read = fsp.readFile, stat = fsp.stat, hashFile = async file => {
   const hash = createHash('sha256'); for await (const bytes of fs.createReadStream(file)) hash.update(bytes); return hash.digest('hex');
 }, run = runTool, observe = observeRemuxEditLists } = {}) {
-  const checked = [], unavailable = [], { ffprobe } = require('../src/candidate-runtime.cjs').resolveCandidateRuntime({ root: path.resolve(__dirname, '..') });
+  const checked = [], unavailable = [], failures = [], { ffprobe } = require('../src/candidate-runtime.cjs').resolveCandidateRuntime({ root: path.resolve(__dirname, '..') });
   async function probe(file, extra = []) {
     return JSON.parse((await run(ffprobe, ['-v', 'error', '-protocol_whitelist', 'file,pipe',
-      ...extra, '-show_streams', '-show_format', '-of', 'json', '-i', file], { timeoutMs: 30000, stdoutLimit: 8 * 1024 ** 2 })).stdout);
+      ...extra, '-show_streams', '-show_format', '-show_chapters', '-show_programs', '-show_stream_groups', '-show_data_hash', 'sha256', '-of', 'json', '-i', file], { timeoutMs: 30000, stdoutLimit: 8 * 1024 ** 2 })).stdout);
   }
   for (const relative of reports) {
-    const report = JSON.parse(await read(path.resolve(__dirname, '../artifacts/v0.7', relative, 'report.json'), 'utf8'));
-    for (const c of report.cases.filter(c => ['mp4', 'mov'].includes(c.target) && c.output && c.evidence?.status === 'completed')) {
+    let report;
+    try {report=JSON.parse(await read(path.resolve(__dirname, '../artifacts/v0.7', relative, 'report.json'), 'utf8'));}
+    catch(error){failures.push('Missing or unreadable expected report: '+relative+': '+error.message);continue;}
+    const expected = EXPECTED_CASES[relative];
+    if (!expected?.length || !Array.isArray(report?.cases)) { failures.push('Missing expected selection: '+relative); continue; }
+    const selected=[];
+    for(const wanted of expected) {
+      const matches=report.cases.filter(c=>c?.label===wanted.label);
+      if(matches.length!==1 || matches[0].target!==wanted.target || !matches[0].output?.file || matches[0].evidence?.status!=='completed')
+        failures.push('Missing or incomplete expected case: '+relative+':'+wanted.label);
+      else selected.push(matches[0]);
+    }
+    for(const c of report.cases.filter(c=>['mp4','mov'].includes(c?.target)&&c.output&&c.evidence?.status==='completed'))
+      if(!expected.some(e=>e.label===c.label&&e.target===c.target)) failures.push('Unlisted proof case: '+relative+':'+c.label);
+    for (const c of selected) {
+      try{
       const file = c.output.file; let before;
       try { before = await stat(file, { bigint: true }); } catch (error) { if (error.code !== 'ENOENT') throw error; unavailable.push(relative + ':' + c.label); continue; }
       if (Number(before.size) !== c.output.bytes || await hashFile(file) !== c.output.sha256) throw Error('Saved output changed: ' + file);
@@ -70,10 +87,15 @@ async function audit({ read = fsp.readFile, stat = fsp.stat, hashFile = async fi
         outputProbe, intervals, maxRecords: c.evidence.budget.maxRecords, exact: c.label.startsWith('ts-') });
       if (fields.some(k => String(before[k]) !== String(native.identity[k]))) throw Error('Saved output changed during native observation: ' + file);
       checked.push({ report: relative, label: c.label, sha256: c.output.sha256, sourcePlaybackChecked: sourcePlayback !== null, tracks: native.tracks });
+      }catch(error){failures.push(relative+':'+c.label+': '+(error.code||'AUDIT')+': '+error.message);}
     }
   }
-  return { status: 'passed', rounding: { mediaSpan: 'ceil to mvhd ticks', positiveEmptyDelay: 'floor to mvhd ticks', mediaTime: 'exact mdhd ticks',
+  if(!checked.length) failures.push('No saved proof cases were checked.');
+  if(unavailable.length) failures.push('Expected output files are absent: '+unavailable.join(', '));
+  return { status: failures.length?'failed':'passed', failures, rounding: { mediaSpan: 'ceil to mvhd ticks', positiveEmptyDelay: 'floor to mvhd ticks', mediaTime: 'exact mdhd ticks',
     trackDuration: 'ceil absolute presentation end to mvhd ticks', movieDuration: 'maximum independently rounded track end', mediaDuration: 'exact sum of STTS decode durations', tickTolerance: 0 }, checked, unavailable };
 }
-if (require.main === module) audit().then(r => process.stdout.write(JSON.stringify(r, null, 2) + '\n')).catch(e => { process.stderr.write((e.stack || String(e)) + '\n'); process.exitCode = 1; });
-module.exports = { audit, reports };
+async function cli(options){let result;try{result=await audit(options);}catch(e){result={status:'failed',failures:[e.message],checked:[],unavailable:[]};}
+  process.stdout.write(JSON.stringify(result,null,2)+'\n');if(result.status!=='passed')process.exitCode=1;return result;}
+if (require.main === module) cli();
+module.exports = { audit, reports, EXPECTED_CASES, cli };

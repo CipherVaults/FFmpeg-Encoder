@@ -260,3 +260,9 @@ Ahmed asked root to study Anthropic's "Building strong safety evaluations" (publ
 - **Refused rather than supported (candidates for later work):** sources needing track flags, layers or alternate groups the muxer would change; non-neutral `tapt`; several media edits; fragmented AAC.
 - **Logo (R07) final.** Ahmed: "Mid-tone" for the Windows icon, after seeing both options (commit `5f8c020`). In-app: amber square fixed, frame part follows the theme, no background. Wiring into the app is a queued Codex job; Ahmed sees the running app before the shipped icon is replaced.
 - **Effort.** Ahmed: "the Max may be only offering a diminishing returns of 5-7% improvement in benchmarks ... while costing ~67% more." Default stays xhigh. He used the full weekly Codex reset and said to push Codex as much as wanted; earlier: use the remaining quota fully and do not ask for an early reset.
+
+## 12. Owner decisions and root rules — November 15, 2026
+
+- **Seeking is playback** (root, from review 8). A field a player uses to seek cannot be descriptive or covered by sequential packet identity. TS sources: same presented frame after accurate seeking; indexed sources: same first decoded packet.
+- **Codex runs the builds and tests** (Ahmed: "is it absolutely necessary for you to actually make these builds yourself and tests? Can't you actually let Codex to handle this over … your quota is the bottleneck here"). Root checks the receipts' hashes against the committed bytes.
+- **Blue handoff** (Ahmed: "I think it's best now to shift to Codex directly"). Development moves to a Codex lead session; [record 50](50_Blue_Handoff_Claude_to_Codex_2026-11-15.md) holds the state, rules and next actions. The Q order in §6–§10 is unchanged.

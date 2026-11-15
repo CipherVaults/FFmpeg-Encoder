@@ -1,3 +1,66 @@
+# 📘 Session: November 14 (afternoon) – November 15, 2026 — FFmpeg Encoder — Q2j part 1: TS to MP4 and the playback-field list; Blue handoff to Codex
+
+## 🤖 Models, Effort, Roles and Provenance
+- **Root:** Claude Fable 5.2 (Max, then the levels Ahmed set) until November 15 midday, then Claude Opus 5.5 after Ahmed switched the model. Root wrote the briefs and decisions, checked evidence, committed, and wrote the records.
+- **Codex:** GPT-6.1 Sol at xhigh. Work jobs `q2j-ts-5` to `q2j-ts-14` (one session from `q2j-ts-8`), fresh review sessions `q2j-review-4` to `q2j-review-8b`, logo job for the Gauge set.
+- **Workflows and agents:** none in this project after November 14.
+- **Shared conversation:** the same Claude thread also opened and later paused PBS 1.2 in its own folder (`D:\Claude's Projects\The AI PBS`); that work is recorded there, not here.
+- **Provenance:** live tool results, `/evidence-run` receipts, Codex receipts under `artifacts/v0.7/codex/`, proof reports and Git.
+
+## 🕒 Time
+November 14, afternoon, to November 15, about 18:00 Cairo. Claude's 5-hour limit cut the session twice; state was committed before each cut.
+
+## 🎯 Session Goal
+Finish Q2j part 1 (TS to MP4, plus playback checks on every MP4/MOV route) until an independent review finds it sound, then hand development to Codex.
+
+## 🛠️ Actions Taken
+- Committed `1d9f9c0` (TS to MP4), then fixes from four reviews: `4507132`, `32294ed`, `29081e4` (the declared field list), `4df3389` (every field provable, including seeking).
+- Committed the Gauge logo set `5f8c020` (not wired in).
+- Ran the real-file admission comparison over 1,703 personal files (read-only): no change.
+- Wrote record 50 (Blue handoff) and brought Current State, Continuation, tracker 25 (Q07, Q08), the Execution Index and Summary, record 47 and `AGENTS.md` up to date.
+
+## 🧠 Key Insights
+- Patching one field per review did not converge; one declared list with an executable treatment per row did.
+- "Covered by another check" is an argument until a test shows that check failing when the field changes.
+- Sequential packet identity does not prove seeking: a broken seek index passed every packet check.
+- A test that accepts any refusal can pass with its own guard removed.
+
+## 📌 Decisions Made
+- Ahmed: Gauge logo, Mid-tone Windows icon; 4K and 1440p sources are critical 0.7 work; Codex at xhigh, Max only when xhigh fails; "is it absolutely necessary for you to actually make these builds yourself and tests? Can't you actually let Codex to handle this over"; "I think it's best now to shift to Codex directly"; "write it yourself if possible"; PBS 1.2 stays paused and this project keeps PBS 1.1 records.
+- Root: no row covered by argument; unlisted fields refuse; seeking is playback; the TS seeking rule; refuse rather than normalise unusual source playback controls; remove the write into finished files.
+
+## ⚠️ Difficulties / Friction
+- Claude's quota ran short repeatedly; Ahmed moved tests and then the lead role to Codex.
+- A Codex review ran nothing because a Codex helper program had been removed by sandboxed PBS runs; root restored it from the installed copy and reran.
+- A root full-suite run had one extra failure: a 50-second test timed out while four other jobs loaded the machine.
+
+## 🔧 Adjustments Made
+- Codex runs the proof suites; root checks the receipts' hashes against the committed bytes instead of re-running.
+- The two full suites run one after the other.
+
+## ❌ Mistakes / Risks Noted
+- Root briefly overwrote a small ignore file in the PBS folder and restored it before committing (not this repository).
+- Risk: `4df3389` has not been independently reviewed after review 8, and the full real-file comparison has not run on its final code.
+- Risk: `REMUX_POLICY_ID` did not change although admission and validation changed.
+
+## 📍 Current Position
+HEAD `4df3389` plus this records commit, pushed to `codex/v0.7-candidate`. Claude has stopped; the next writer is the Codex lead session (record 50).
+
+## 🔜 Next Steps
+Record 50 §4: review 9, the full real-file comparison, the policy-id decision; then MP3→MP4, the Gauge logo wiring, Q2n with 4K and 1440p sources, Q2k, Q2l, Q2m, Q2h, Q2f, the optimization pass; then R, S and packaging.
+
+## ❓ Open Questions
+- Whether `REMUX_POLICY_ID` must change for `29081e4`/`4df3389` (the Codex lead's technical call).
+- The Q2k default awaits measured numbers for Ahmed.
+
+## 🧾 Session Outcome
+TS to MP4 works, and the remux check now has a provable treatment for every declared playback field, seeking included. Development is ready to move to Codex.
+
+## 🔍 Confidence Level
+Medium-high for the committed check: the receipts are hash-bound and four reviews shaped it, but the last round is unreviewed and the full real-file comparison is not yet on the final code.
+
+---
+
 # 📘 Session: November 13 (evening) – November 14, 2026 — FFmpeg Encoder — remux at any length, verified in seconds; roadmap artifact
 
 ## 🤖 Models, Effort, Roles and Provenance

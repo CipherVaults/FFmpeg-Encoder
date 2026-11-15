@@ -1,4 +1,10 @@
-> **Current working arrangement — October 31, 2026 (Cairo): development ACTIVE; Codex is a teammate under Claude's lead ([record 40](0-%20Documentation/40_Codex_Teammate_Arrangement_2026-10-31.md)).** Ahmed lifted the October 31 morning pause. Every pause or stop order dated before this banner is history, whether it is in the banners below, a record, a Codex thread or a memory.
+> **Current — November 15, 2026 (Cairo): BLUE HANDOFF. Development moves from Claude to Codex as lead ([record 50](0-%20Documentation/50_Blue_Handoff_Claude_to_Codex_2026-11-15.md)).** Ahmed: "I think it's best now to shift to Codex directly", with Blue (ChatGPT) coordinating the move.
+> - **Until the Codex lead session starts, nobody writes to this checkout.** Claude stopped after committing `4df3389` and these records.
+> - **Incoming Codex lead:** read record 50, then the top of `0- Documentation/10_Continuation_State.md`, then run `node .claude/skills/reentry-check/reentry-check.cjs`. Record 50 §4 has the exact next actions; its §6 lists the rules that still hold.
+> - **Roles.** Codex lead: scheduler, integrator, committer, writer of records and Notion. Codex workers and fresh-session reviewers under it never commit. Ahmed: owner and acceptance. The October 31 banner below described Codex as a worker under Claude; that role split is now history.
+> - **Unchanged:** scope, order and hard limits (record 35), the personal-media rule, the evidence and record rules, one writer at a time. Records stay in the PBS 1.1 form; PBS 1.2 is paused elsewhere and is not adopted here.
+
+> **History — October 31, 2026 (Cairo): development ACTIVE; Codex is a teammate under Claude's lead ([record 40](0-%20Documentation/40_Codex_Teammate_Arrangement_2026-10-31.md)).** Ahmed lifted the October 31 morning pause. Every pause or stop order dated before this banner is history, whether it is in the banners below, a record, a Codex thread or a memory.
 > - **Folder.** Work only in `D:\Claude's Projects\FFmpeg Encoder`. `D:\Codex Projects\FFmpeg Encoder` is an October 26 archive; never use it.
 > - **Roles.**
 >   - Claude Code is root. It writes the briefs, reviews every change and re-runs the evidence, and it commits, pushes, writes the PBS records and updates Notion.

@@ -71,3 +71,22 @@ test('Full resize budgets all observed source extent without a caller-selected i
   for (const patch of [{ sourceExtentUs: 0 }, { sourceExtentUs: Number.MAX_SAFE_INTEGER }, { sourceBytes: '9007199254740991' }])
     assert.throws(() => deriveCfrFullResizeFlacResources({ ...options, ...patch }), { code: 'OPERATION_RESOURCE_CAPACITY' });
 });
+
+
+test('separate 1440p Full policy charges four 720p pixel equivalents without changing byte budgets', () => {
+  const { FULL_1440_RESIZE_FAMILY_ID, FULL_1440_RESIZE_RESOURCE_POLICY, deriveCfrFull1440ResizeFlacResources,
+    deriveCfrFullResizeFlacResources } = require('../src/operation-resource-budget.cjs');
+  assert.equal(FULL_1440_RESIZE_FAMILY_ID, 'cfr-sdr-full-1440-to720-flac-v1');
+  assert.equal(FULL_1440_RESIZE_RESOURCE_POLICY, 'cfr1440p30-full-to720p-flac-resources-v1');
+  const options = { sourceExtentUs: 7217000, sourceBytes: '10000000' };
+  const old = deriveCfrFullResizeFlacResources(options), next = deriveCfrFull1440ResizeFlacResources(options);
+  assert.equal(next.budget.timeoutMs - old.budget.timeoutMs, 8 * 2 * (6000 - 3375));
+  assert.equal(next.executionBudgetMs - old.executionBudgetMs, 8 * 4 * (6000 - 3375));
+  assert.deepEqual(next.resources, old.resources);
+  assert.deepEqual({ ...next.budget, timeoutMs: old.budget.timeoutMs }, old.budget);
+  assert.deepEqual(next, deriveCfrFull1440ResizeFlacResources({ ...options, selectedExtentUs: 1 }));
+  assert.ok(Object.isFrozen(next) && Object.isFrozen(next.budget));
+  for (const patch of [{ sourceExtentUs: 0 }, { sourceExtentUs: Infinity }, { sourceExtentUs: 1.5 },
+    { sourceExtentUs: Number.MAX_SAFE_INTEGER }, { sourceBytes: '9007199254740991' }])
+    assert.throws(() => deriveCfrFull1440ResizeFlacResources({ ...options, ...patch }), { code: 'OPERATION_RESOURCE_CAPACITY' });
+});

@@ -1,6 +1,6 @@
 'use strict';
-// Developer-only, main-owned composition. No application/renderer route imports
-// this module. A pending receipt cannot create a service or family catalog.
+// Main-owned developer composition and helpers reused by the qualified app catalog.
+// A new variant is not app authority; pending receipts cannot create a service/catalog.
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const { createHash } = require('node:crypto');
@@ -11,7 +11,7 @@ const { describeEncodeOperationSource } = require('../src/encode-operation.cjs')
 const { OperationRuntimeObserver } = require('../src/operation-runtime.cjs');
 const { openEvidenceStorage } = require('../src/operation-storage.cjs');
 const { failedVendorCapabilities } = require('../src/vendor-capabilities.cjs');
-const { deriveCfrFlacResources, FAMILY_ID, RESOURCE_POLICY, deriveCfrResizeFlacResources, RESIZE_FAMILY_ID, RESIZE_RESOURCE_POLICY, FULL_RESIZE_FAMILY_ID, FULL_RESIZE_RESOURCE_POLICY, deriveCfrFullResizeFlacResources } = require('../src/operation-resource-budget.cjs');
+const { deriveCfrFlacResources, FAMILY_ID, RESOURCE_POLICY, deriveCfrResizeFlacResources, RESIZE_FAMILY_ID, RESIZE_RESOURCE_POLICY, FULL_RESIZE_FAMILY_ID, FULL_RESIZE_RESOURCE_POLICY, deriveCfrFullResizeFlacResources, FULL_1440_RESIZE_FAMILY_ID, FULL_1440_RESIZE_RESOURCE_POLICY, deriveCfrFull1440ResizeFlacResources } = require('../src/operation-resource-budget.cjs');
 const { frozenQualifications } = require('../scripts/v07-sdr-flac-range-calibration.cjs');
 const { PINS, RUNTIME_ID, verifyAv1Tool } = require('./runtime-av1.cjs');
 const { createAv1ProportionalRunner } = require('./runtime-av1-operation.cjs');
@@ -70,30 +70,31 @@ function assertProportionalReceipt(bytes, expectedSha, config) {
     && report.resourcePolicy === config.resourcePolicy && report.publicationAuthorized === false && report.catalogActivated === false
     && same(report.settings, SETTINGS) && !report.failure && !report.closeFailure,
   'A successful matching pre-catalog calibration is required.');
-  if (config.resize) need(same(report.geometry, { sourceWidth: 1920, sourceHeight: 1080, resolution: '720', outputWidth: 1280, outputHeight: 720 }),
-    'Resize calibration must prove 1080p to 720p geometry.');
+  if (config.resize) need(same(report.geometry, { sourceWidth: config.sourceWidth, sourceHeight: config.sourceHeight, resolution: '720', outputWidth: 1280, outputHeight: 720 }),
+    'Resize calibration must prove its exact fixed source to 720p geometry.');
   need(report.census?.spawned > 0 && report.census.spawned === report.census.closed
     && report.census.live === 0 && report.census.maximum === 1, 'Calibration children must all be closed without overlap.');
-  const sourceIds = config.full ? ['full-long-pattern', 'full-heldout-tail'] : ['long-pattern', 'heldout-flipped'];
+  const sourceIds = config.full1440 ? ['full-1440-pattern', 'full-1440-heldout-tail'] : config.full ? ['full-long-pattern', 'full-heldout-tail'] : ['long-pattern', 'heldout-flipped'];
   const cases = config.full ? [
-    { id: 'full-long', sourceId: sourceIds[0], range: null },
-    { id: 'full-heldout-audio-tail', sourceId: sourceIds[1], range: null },
+    { id: config.full1440 ? 'full-1440' : 'full-long', sourceId: sourceIds[0], range: null },
+    { id: config.full1440 ? 'full-1440-heldout-audio-tail' : 'full-heldout-audio-tail', sourceId: sourceIds[1], range: null },
   ] : CASES;
   need(Array.isArray(report.sources) && report.sources.length === 2 && Array.isArray(report.cases) && report.cases.length === cases.length,
     'Both long and independent held-out sources and all expected cases are required.');
   for (const [index, id] of sourceIds.entries()) {
     const source = report.sources[index];
-    need(source?.id === id && source.sourceExtentUs === (index === 0 ? 150000000 : config.full ? 43217000 : 11000000)
+    need(source?.id === id && source.sourceExtentUs === (config.full1440 ? (index === 0 ? 12000000 : 7217000) : index === 0 ? 150000000 : config.full ? 43217000 : 11000000)
       && /^[a-f0-9]{64}$/.test(source.sha256) && typeof source.identity?.size === 'string', 'Calibration source record is incomplete.');
     assertQualifiedClocks(source.probe);
     if (config.resize) {
       const video = source.probe.streams.find(stream => stream.codec_type === 'video');
-      need(video.width === 1920 && video.height === 1080 && video.sample_aspect_ratio === '1:1'
-        && video.display_aspect_ratio === '16:9', 'Resize calibration requires square-pixel 1080p source geometry.');
+      need(video.width === config.sourceWidth && video.height === config.sourceHeight && video.sample_aspect_ratio === '1:1'
+        && video.display_aspect_ratio === '16:9', 'Resize calibration requires its fixed square-pixel source geometry.');
     }
     if (config.full) {
       const video = source.probe.streams.find(stream => stream.codec_type === 'video'), audio = source.probe.streams.find(stream => stream.codec_type === 'audio');
-      const videoUs = index === 0 ? 150000000 : 43100000, audioUs = index === 0 ? 150000000 : 43217000;
+      const videoUs = config.full1440 ? (index === 0 ? 12000000 : 7100000) : index === 0 ? 150000000 : 43100000,
+        audioUs = config.full1440 ? (index === 0 ? 12000000 : 7217000) : index === 0 ? 150000000 : 43217000;
       need(Number(video.duration) * 1000000 === videoUs && Number(audio.duration) * 1000000 === audioUs
         && Number(source.probe.format?.duration) * 1000000 === source.sourceExtentUs
         && Number(video.duration_ts) === videoUs * 15360 / 1000000 && Number(audio.duration_ts) === audioUs * 48000 / 1000000
@@ -115,8 +116,8 @@ function assertProportionalReceipt(bytes, expectedSha, config) {
     const count = rate => Math.ceil(end * rate / 1000000) - Math.ceil(start * rate / 1000000);
     const resources = config.full ? config.derive({ sourceExtentUs: source.sourceExtentUs, sourceBytes: source.identity.size })
       : config.derive({ sourceExtentUs: source.sourceExtentUs, selectedExtentUs: end - start, sourceBytes: source.identity.size });
-    const videoFrames = config.full ? (i === 0 ? 4500 : 1293) : count(30);
-    const audioSamples = config.full ? (i === 0 ? 7200000 : 2074416) : count(48000);
+    const videoFrames = config.full1440 ? (i === 0 ? 360 : 213) : config.full ? (i === 0 ? 4500 : 1293) : count(30);
+    const audioSamples = config.full1440 ? (i === 0 ? 576000 : 346416) : config.full ? (i === 0 ? 7200000 : 2074416) : count(48000);
     if (config.full) need(row.validation.timing?.timeline === 'source-timestamps'
       && row.validation.timing.requested === null && row.validation.timing.resolved === null,
     'Full calibration must not invent a resolved interval or rebase source timestamps.');
@@ -155,7 +156,7 @@ async function createProportionalService({ stateDir, onChild } = {}, config) {
     operationStorage: () => openEvidenceStorage({ root: path.join(stateDir, 'operation-evidence') }),
   });
 }
-// Only trusted main modules call this factory. It chooses one of three fixed
+// Only trusted main modules call this factory. It chooses one of four fixed
 // families; no config reaches IPC, renderer, CLI or environment variables.
 function createProportionalServiceFactory(configuration) {
   const keys = ['kind', 'report', 'reportSha'];
@@ -164,14 +165,14 @@ function createProportionalServiceFactory(configuration) {
     && keys.every(key => Object.hasOwn(Object.getOwnPropertyDescriptor(configuration, key) || {}, 'value')),
   'A complete inert main-owned service configuration is required.');
   const { kind, report, reportSha } = configuration;
-  need(['keep720', 'resize1080to720', 'fullResize1080to720'].includes(kind) && typeof report === 'string' && path.isAbsolute(report)
+  need(['keep720', 'resize1080to720', 'fullResize1080to720', 'fullResize1440to720'].includes(kind) && typeof report === 'string' && path.isAbsolute(report)
     && (reportSha === null || typeof reportSha === 'string' && /^[a-f0-9]{64}$/.test(reportSha)),
   'A fixed variant and exact or pending receipt are required.');
-  const full = kind === 'fullResize1080to720', resize = kind !== 'keep720';
-  const config = Object.freeze({ report, reportSha, resize, full,
-    familyId: full ? FULL_RESIZE_FAMILY_ID : resize ? RESIZE_FAMILY_ID : FAMILY_ID, resourcePolicy: full ? FULL_RESIZE_RESOURCE_POLICY : resize ? RESIZE_RESOURCE_POLICY : RESOURCE_POLICY,
-    derive: full ? deriveCfrFullResizeFlacResources : resize ? deriveCfrResizeFlacResources : deriveCfrFlacResources,
-    policyIdentity: full ? 'blue-linux-full-resize-clock-qualified-v1' : resize ? 'blue-linux-resize-clock-qualified-v1' : 'blue-linux-long-range-clock-qualified-v1' });
+  const full1440 = kind === 'fullResize1440to720', full = full1440 || kind === 'fullResize1080to720', resize = kind !== 'keep720';
+  const config = Object.freeze({ report, reportSha, resize, full, full1440, sourceWidth: full1440 ? 2560 : 1920, sourceHeight: full1440 ? 1440 : 1080,
+    familyId: full1440 ? FULL_1440_RESIZE_FAMILY_ID : full ? FULL_RESIZE_FAMILY_ID : resize ? RESIZE_FAMILY_ID : FAMILY_ID, resourcePolicy: full1440 ? FULL_1440_RESIZE_RESOURCE_POLICY : full ? FULL_RESIZE_RESOURCE_POLICY : resize ? RESIZE_RESOURCE_POLICY : RESOURCE_POLICY,
+    derive: full1440 ? deriveCfrFull1440ResizeFlacResources : full ? deriveCfrFullResizeFlacResources : resize ? deriveCfrResizeFlacResources : deriveCfrFlacResources,
+    policyIdentity: full1440 ? 'blue-linux-full-1440-resize-clock-qualified-v1' : full ? 'blue-linux-full-resize-clock-qualified-v1' : resize ? 'blue-linux-resize-clock-qualified-v1' : 'blue-linux-long-range-clock-qualified-v1' });
   return Object.freeze({ createService: options => createProportionalService(options, config),
     assertReceipt: (bytes, expectedSha = config.reportSha) => assertProportionalReceipt(bytes, expectedSha, config) });
 }

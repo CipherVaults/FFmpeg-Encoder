@@ -51,3 +51,22 @@ test('non-round fixture durations get a positive integer deadline without relaxi
   assert.throws(() => fixtureTimeoutMs(Infinity, 1920, 1080));
   assert.throws(() => fixtureTimeoutMs(1e9, 1920, 1080));
 });
+
+
+test('1440p Full calibration has a distinct fixed short matrix and independent audio-tail counts', () => {
+  const { sourcesForCampaign, selectedCounts, fixtureTimeoutMs } = require('./workbench-long-range-calibration.cjs');
+  const next = campaign('fullResize1440to720'), old = campaign('fullResize1080to720');
+  assert.equal(next.width, 2560); assert.equal(next.height, 1440); assert.equal(next.resolution, '720');
+  assert.equal(next.familyId, 'cfr-sdr-full-1440-to720-flac-v1');
+  assert.equal(next.resourcePolicy, 'cfr1440p30-full-to720p-flac-resources-v1');
+  assert.notEqual(next.derive, old.derive); assert.notEqual(next.label, old.label);
+  const sources = sourcesForCampaign('fullResize1440to720');
+  assert.deepEqual(sources.map(s => s.cases[0].range), [null, null]);
+  assert.deepEqual(selectedCounts(next, sources[0], null, 12000000), { frames: 360, samples: 576000 });
+  assert.deepEqual(selectedCounts(next, sources[1], null, 7217000), { frames: 213, samples: 346416 });
+  assert.notEqual(sources[0].flip, sources[1].flip); assert.notEqual(sources[0].frequency, sources[1].frequency);
+  assert.equal(fixtureTimeoutMs(7.217, 2560, 1440), 116604);
+  sources[0].seconds = 500; assert.equal(sourcesForCampaign('fullResize1440to720')[0].seconds, 12);
+  assert.equal(sourcesForCampaign('fullResize1080to720')[0].seconds, 150);
+  assert.equal(campaign().width, 1280);
+});

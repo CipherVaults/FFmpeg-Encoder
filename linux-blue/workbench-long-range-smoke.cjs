@@ -13,12 +13,15 @@ const { classifyMarker } = require('../src/provenance.cjs');
 const { count } = require('./workbench-long-range-calibration.cjs');
 const SETTINGS = Object.freeze({ profileId: 'h265-cpu', preset: 'slow', quality: 25 });
 function smokeProfile(kind = 'keep720') {
-  assert.ok(['keep720', 'resize1080to720', 'fullResize1080to720'].includes(kind), 'Unknown developer service campaign');
-  const full = kind === 'fullResize1080to720', resize = kind !== 'keep720';
-  return Object.freeze({ label: full ? 'full-resize-service-' : resize ? 'resize-service-' : 'long-range-service-', full,
-    width: resize ? 1920 : 1280, height: resize ? 1080 : 720, resolution: resize ? '720' : 'source',
-    passedStatus: full ? 'passed-developer-full-resize-service-proof' : resize ? 'passed-developer-resize-service-proof' : 'passed-developer-long-range-service-proof',
-    scope: full ? 'Developer-only 1080p30→720p SDR H264/PCM QuickTime Full to H265 CPU slow25 precision-FLAC with complete audio tails; not arbitrary real-media orientation, pixel quality or native acceptance.'
+  assert.ok(['keep720', 'resize1080to720', 'fullResize1080to720', 'fullResize1440to720'].includes(kind), 'Unknown developer service campaign');
+  const full1440 = kind === 'fullResize1440to720', full = full1440 || kind === 'fullResize1080to720', resize = kind !== 'keep720';
+  return Object.freeze({ label: full1440 ? 'full-1440-service-' : full ? 'full-resize-service-' : resize ? 'resize-service-' : 'long-range-service-', full, full1440,
+    longVideoUs: full1440 ? 12000000 : 150000000, tailVideoUs: full1440 ? 7100000 : 43100000, tailAudioUs: full1440 ? 7217000 : 43217000,
+    freshVideoUs: full1440 ? 4000000 : 10000000, freshAudioUs: full1440 ? 4117000 : full ? 10117000 : 10000000,
+    deadlineMs: full1440 ? 15 * 60000 : 45 * 60000, maxChildren: full1440 ? 220 : Infinity,
+    width: full1440 ? 2560 : resize ? 1920 : 1280, height: full1440 ? 1440 : resize ? 1080 : 720, resolution: resize ? '720' : 'source',
+    passedStatus: full1440 ? 'passed-developer-full-1440-service-proof' : full ? 'passed-developer-full-resize-service-proof' : resize ? 'passed-developer-resize-service-proof' : 'passed-developer-long-range-service-proof',
+    scope: full1440 ? 'Developer-only 1440p30→720p SDR H264/PCM QuickTime Full to H265 CPU slow25 precision-FLAC with complete audio tails; short proof only, not arbitrary duration, orientation, pixel quality or native acceptance.' : full ? 'Developer-only 1080p30→720p SDR H264/PCM QuickTime Full to H265 CPU slow25 precision-FLAC with complete audio tails; not arbitrary real-media orientation, pixel quality or native acceptance.'
       : resize ? 'Developer-only 1080p30→720p SDR H264/PCM QuickTime range to H265 CPU slow25 precision-FLAC; not Full resize, arbitrary real-media orientation, pixel quality or native acceptance.'
       : 'Developer-only 720p30 SDR H264/PCM QuickTime to H265 CPU slow25 precision-FLAC; not any-length or resize completion.' });
 }
@@ -40,8 +43,9 @@ async function selectCaseFolders(service, inputPath, outputPath) {
 }
 async function runServiceCampaign(kind) {
   const config = smokeProfile(kind);
-  const composition = config.full ? require('./workbench-full-resize-service.cjs') : config.resolution === '720' ? require('./workbench-resize-service.cjs') : longComposition;
-  const createService = config.full ? composition.createFullResizeService : config.resolution === '720' ? composition.createResizeService : composition.createLongRangeService;
+  const composition = config.full1440 ? require('./workbench-full-1440-service.cjs') : config.full ? require('./workbench-full-resize-service.cjs') : config.resolution === '720' ? require('./workbench-resize-service.cjs') : longComposition;
+  const createService = config.full1440 ? composition.createFull1440Service : config.full ? composition.createFullResizeService : config.resolution === '720' ? composition.createResizeService : composition.createLongRangeService;
+  if (config.full1440) assert.match(composition.REPORT_SHA || '', /^[a-f0-9]{64}$/, 'The new calibration is still pending');
   const space = await fs.statfs(__dirname, { bigint: true });
   assert.ok(space.bavail * space.bsize > 27n * 1024n ** 3n, 'Storage floor plus campaign allocation');
   const root = await fs.mkdtemp(path.join(__dirname, 'artifacts', config.label));
@@ -51,10 +55,11 @@ async function runServiceCampaign(kind) {
     census: { spawned: 0, closed: 0, live: 0, maximum: 0, encodes: 0 } };
   const controller = new AbortController();
   let service, cancellation, cancelMode = null, activeSource = null, cancellationObserved = null;
-  const timer = setTimeout(() => { controller.abort(); if (service) cancellation = service.cancelCurrent(); }, 45 * 60000);
+  const timer = setTimeout(() => { controller.abort(); if (service) cancellation = service.cancelCurrent(); }, config.deadlineMs);
   const onChild = child => {
     const c = report.census; c.spawned++; c.live++; c.maximum = Math.max(c.maximum, c.live);
     child.once('close', () => { c.closed++; c.live--; });
+    if (c.spawned > config.maxChildren) { controller.abort(); if (service) cancellation = service.cancelCurrent(); }
     if (child.spawnargs.includes('-progress') && /[/\\]\.ffmpeg-encoder-[^/\\]+[/\\]encoded\.mkv$/.test(child.spawnargs.at(-1))) c.encodes++;
     if (cancelMode === 'evidence' && isSourceEvidence(child, activeSource)) {
       child.stdout.once('data', chunk => {
@@ -75,25 +80,25 @@ async function runServiceCampaign(kind) {
     assert.equal(createHash('sha256').update(bytes).digest('hex'), composition.REPORT_SHA);
     const calibration = JSON.parse(bytes);
     assert.equal(calibration.status, 'passed-pre-catalog-calibration');
-    const long = calibration.sources.find(row => row.id === (config.full ? 'full-long-pattern' : 'long-pattern'));
+    const long = calibration.sources.find(row => row.id === (config.full1440 ? 'full-1440-pattern' : config.full ? 'full-long-pattern' : 'long-pattern'));
     assert.equal(await hashFile(long.path), long.sha256);
     const longInput = path.join(root, 'long-input'); await fs.mkdir(longInput);
     const longSource = path.join(longInput, 'different-name-long-source.mov');
     await fs.copyFile(long.path, longSource, fs.constants.COPYFILE_EXCL);
     assert.equal(await hashFile(longSource), long.sha256);
-    report.sources.push({ id: 'long-copy', path: longSource, original: long.path, sha256: long.sha256, extentUs: 150000000 });
+    report.sources.push({ id: 'long-copy', path: longSource, original: long.path, sha256: long.sha256, extentUs: config.longVideoUs });
 
-    const sourceMeta = { long: { input: longInput, path: longSource, videoUs: 150000000, audioUs: 150000000 } };
+    const sourceMeta = { long: { input: longInput, path: longSource, videoUs: config.longVideoUs, audioUs: config.longVideoUs } };
     if (config.full) {
-      const tail = calibration.sources.find(row => row.id === 'full-heldout-tail');
+      const tail = calibration.sources.find(row => row.id === (config.full1440 ? 'full-1440-heldout-tail' : 'full-heldout-tail'));
       assert.equal(await hashFile(tail.path), tail.sha256);
       const input = path.join(root, 'tail-input'); await fs.mkdir(input);
       const source = path.join(input, 'different-name-audio-tail.mov');
       await fs.copyFile(tail.path, source, fs.constants.COPYFILE_EXCL);
       assert.equal(await hashFile(source), tail.sha256);
-      sourceMeta.tail = { input, path: source, videoUs: 43100000, audioUs: 43217000 };
+      sourceMeta.tail = { input, path: source, videoUs: config.tailVideoUs, audioUs: config.tailAudioUs };
       report.sources.push({ id: 'calibrated-tail-copy', path: source, original: tail.path, sha256: tail.sha256,
-        extentUs: 43217000, videoUs: 43100000, audioUs: 43217000 });
+        extentUs: config.tailAudioUs, videoUs: config.tailVideoUs, audioUs: config.tailAudioUs });
     }
 
     // Fresh content was not present in the pinned calibration report. A genuine
@@ -101,18 +106,18 @@ async function runServiceCampaign(kind) {
     const freshInput = path.join(root, 'fresh-input'); await fs.mkdir(freshInput);
     const freshSource = path.join(freshInput, 'fresh-vflip-997.mov');
     await run(PINS.ffmpeg.path, ['-hide_banner', '-nostdin', '-v', 'error', '-n',
-      '-f', 'lavfi', '-i', `testsrc2=size=${config.width}x${config.height}:rate=30:duration=10`,
-      '-f', 'lavfi', '-i', `aevalsrc=0.18*sin(2*PI*(997*t+7*t*t))|0.18*sin(2*PI*(1216*t+9*t*t)):s=48000:c=stereo:d=${config.full ? '10.117' : '10'}`,
+      '-f', 'lavfi', '-i', `testsrc2=size=${config.width}x${config.height}:rate=30:duration=${config.freshVideoUs / 1e6}`,
+      '-f', 'lavfi', '-i', `aevalsrc=0.18*sin(2*PI*(997*t+7*t*t))|0.18*sin(2*PI*(1216*t+9*t*t)):s=48000:c=stereo:d=${config.freshAudioUs / 1e6}`,
       '-map', '0:v:0', '-map', '1:a:0', '-map_metadata', '-1', '-map_chapters', '-1',
       '-vf', 'vflip,setsar=1,setparams=range=limited:color_primaries=bt709:color_trc=bt709:colorspace=bt709',
       '-c:v:0', 'libx264', '-preset:v:0', 'veryfast', '-crf:v:0', '23', '-profile:v:0', 'high', '-pix_fmt:v:0', '+yuv420p',
       '-x264-params', 'keyint=60:min-keyint=60:scenecut=0:bframes=3:b-adapt=0:open-gop=0',
       '-fps_mode:v:0', 'passthrough', '-color_primaries:v:0', 'bt709', '-color_trc:v:0', 'bt709', '-colorspace:v:0', 'bt709', '-color_range:v:0', 'tv',
-      '-c:a:0', 'pcm_s16le', '-sample_fmt:a:0', 's16', '-ar:a:0', '48000', '-channel_layout:a:0', 'stereo', '-t', config.full ? '10.117' : '10', '-movflags', '+faststart', '-f', 'mov', freshSource]);
+      '-c:a:0', 'pcm_s16le', '-sample_fmt:a:0', 's16', '-ar:a:0', '48000', '-channel_layout:a:0', 'stereo', '-t', String(config.freshAudioUs / 1e6), '-movflags', '+faststart', '-f', 'mov', freshSource]);
     const freshHash = await hashFile(freshSource);
     assert.ok(calibration.sources.every(row => row.sha256 !== freshHash));
-    report.sources.push({ id: 'fresh-heldout', path: freshSource, sha256: freshHash, extentUs: config.full ? 10117000 : 10000000 });
-    sourceMeta.fresh = { input: freshInput, path: freshSource, videoUs: 10000000, audioUs: config.full ? 10117000 : 10000000 };
+    report.sources.push({ id: 'fresh-heldout', path: freshSource, sha256: freshHash, extentUs: config.freshAudioUs });
+    sourceMeta.fresh = { input: freshInput, path: freshSource, videoUs: config.freshVideoUs, audioUs: config.freshAudioUs };
     service = await createService({ stateDir, onChild });
     service.on('update', snapshot => {
       const p = snapshot.progress;
@@ -134,6 +139,7 @@ async function runServiceCampaign(kind) {
       const qualified = service.operationQualifications.requireCurrent(entry.qualificationSelection, {
         ...entry.qualificationBindings, budget: service.operationEvidenceBudget, executionBudgetMs: service.operationDeadlineMs });
       assert.equal(isProportionalFamilySelection(qualified), true); assert.equal(qualified.proportional, true);
+      if (config.full1440) assert.equal(qualified.sourcePolicy.id, 'cfr-sdr-full-1440-to720-flac-v1');
       if (config.resolution === '720') {
         const orientation = entry.operationPlan.expectedOutput.orientationQualification;
         assert.ok(orientation, 'Owned generated source absence must use the genuine family orientation qualification');
@@ -149,6 +155,7 @@ async function runServiceCampaign(kind) {
       activeSource = sourceMeta[prepared.which].path;
       const started = Date.now(); service.startBatch({ planId: prepared.plan.planId, fileIds: [prepared.plan.items[0].id] });
       await service.taskPromise; if (cancellation) { await cancellation; cancellation = null; }
+      assert.equal(controller.signal.aborted, false, 'Campaign deadline or child limit exceeded');
       assert.equal(report.census.live, 0); assert.equal(service.busy, false);
       prepared.elapsedMs = Date.now() - started; assert.ok(prepared.elapsedMs <= prepared.limits.executionBudgetMs);
       return service.snapshot().items[0];
@@ -197,9 +204,9 @@ async function runServiceCampaign(kind) {
         orientationQualification: entry.operationPlan.expectedOutput.orientationQualification });
     }
     if (config.full) {
-      await publish('full-long', 'long', null);
-      await publish('full-calibrated-audio-tail', 'tail', null);
-      await publish('fresh-independent-full-audio-tail', 'fresh', null);
+      await publish(config.full1440 ? 'full-1440' : 'full-long', 'long', null);
+      await publish(config.full1440 ? 'full-1440-calibrated-audio-tail' : 'full-calibrated-audio-tail', 'tail', null);
+      await publish(config.full1440 ? 'fresh-independent-full-1440-audio-tail' : 'fresh-independent-full-audio-tail', 'fresh', null);
     } else {
       await publish('long-late-forty', 'long', { startUs: 100000000, endUs: 140000000 });
       await publish('long-open-end', 'long', { startUs: 130000000 });
@@ -214,7 +221,10 @@ async function runServiceCampaign(kind) {
       await assert.rejects(fs.stat(p.destination), { code: 'ENOENT' });
       assert.notEqual(item.outputDisposition?.published, true);
       if (mode === 'encode') assert.equal(item.cleanup.retained, true);
-      else assert.equal(item.outputDisposition.kind, 'retained-unverified');
+      else {
+        assert.equal(item.outputDisposition.kind, 'retained-unverified');
+        if (config.full1440) { assert.equal(item.outputDisposition.validationCurrent, false); assert.equal(item.cleanup.retained, true); }
+      }
       report.cases.push({ case: `real-${mode}-cancelled-no-publication`, status: 'passed', item, observed: cancellationObserved });
       await publish(`fresh-success-after-${mode}-cancel`, 'fresh', config.full ? null : { startUs: 1013000, endUs: 3087000 });
     }

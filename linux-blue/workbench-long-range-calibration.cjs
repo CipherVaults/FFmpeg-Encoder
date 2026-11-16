@@ -9,7 +9,8 @@ const { createHash, randomUUID } = require('node:crypto');
 const { PINS, RUNTIME_ID, createAv1ProportionalRunner } = require('./runtime-av1-operation.cjs');
 const { deriveCfrFlacResources, FAMILY_ID, RESOURCE_POLICY, deriveCfrResizeFlacResources,
   RESIZE_FAMILY_ID, RESIZE_RESOURCE_POLICY, FULL_RESIZE_FAMILY_ID, FULL_RESIZE_RESOURCE_POLICY,
-  deriveCfrFullResizeFlacResources } = require('../src/operation-resource-budget.cjs');
+  deriveCfrFullResizeFlacResources, FULL_1440_RESIZE_FAMILY_ID, FULL_1440_RESIZE_RESOURCE_POLICY,
+  deriveCfrFull1440ResizeFlacResources } = require('../src/operation-resource-budget.cjs');
 const { inspectInput, inspectMetadata } = require('../src/inspection.cjs');
 const { resolveFileRequest } = require('../src/operation-contract.cjs');
 const { buildEncodeOperation, fingerprintEncodeSource, withEncodeOperationTelemetry, resolveEncodeOperationInvocation,
@@ -37,18 +38,28 @@ const FULL_SOURCES = Object.freeze([
   { id: 'full-heldout-tail', seconds: 43.1, audioSeconds: 43.217, flip: true, frequency: 557,
     cases: [{ id: 'full-heldout-audio-tail', range: null }] },
 ]);
+// The higher-resolution qualification varies only input pixel workload. Long
+// extent arithmetic was already proved separately; do not repeat a 150s campaign
+// merely to qualify this distinct geometry. A second content/audio-tail shape
+// still has independently frozen clocks, counts and timing before encoding.
+const FULL_1440_SOURCES = Object.freeze([
+  { id: 'full-1440-pattern', seconds: 12, audioSeconds: 12, flip: false, frequency: 683,
+    cases: [{ id: 'full-1440', range: null }] },
+  { id: 'full-1440-heldout-tail', seconds: 7.1, audioSeconds: 7.217, flip: true, frequency: 907,
+    cases: [{ id: 'full-1440-heldout-audio-tail', range: null }] },
+]);
 // Fixed, main-owned developer campaigns, not a caller-supplied geometry,
 // runtime or qualification channel. Each has its own retained report namespace.
 function campaign(kind = 'keep720') {
-  assert.ok(['keep720', 'resize1080to720', 'fullResize1080to720'].includes(kind), 'Unknown developer calibration campaign');
-  const full = kind === 'fullResize1080to720', resize = kind !== 'keep720';
-  return Object.freeze({ label: full ? 'full-resize-calibration-' : resize ? 'resize-calibration-' : 'long-range-calibration-', full,
-    width: resize ? 1920 : 1280, height: resize ? 1080 : 720, resolution: resize ? '720' : 'source',
-    familyId: full ? FULL_RESIZE_FAMILY_ID : resize ? RESIZE_FAMILY_ID : FAMILY_ID,
-    resourcePolicy: full ? FULL_RESIZE_RESOURCE_POLICY : resize ? RESIZE_RESOURCE_POLICY : RESOURCE_POLICY,
-    derive: full ? deriveCfrFullResizeFlacResources : resize ? deriveCfrResizeFlacResources : deriveCfrFlacResources });
+  assert.ok(['keep720', 'resize1080to720', 'fullResize1080to720', 'fullResize1440to720'].includes(kind), 'Unknown developer calibration campaign');
+  const high1440 = kind === 'fullResize1440to720', full = high1440 || kind === 'fullResize1080to720', resize = kind !== 'keep720';
+  return Object.freeze({ label: high1440 ? 'full-1440-calibration-' : full ? 'full-resize-calibration-' : resize ? 'resize-calibration-' : 'long-range-calibration-', full,
+    width: high1440 ? 2560 : resize ? 1920 : 1280, height: high1440 ? 1440 : resize ? 1080 : 720, resolution: resize ? '720' : 'source',
+    familyId: high1440 ? FULL_1440_RESIZE_FAMILY_ID : full ? FULL_RESIZE_FAMILY_ID : resize ? RESIZE_FAMILY_ID : FAMILY_ID,
+    resourcePolicy: high1440 ? FULL_1440_RESIZE_RESOURCE_POLICY : full ? FULL_RESIZE_RESOURCE_POLICY : resize ? RESIZE_RESOURCE_POLICY : RESOURCE_POLICY,
+    derive: high1440 ? deriveCfrFull1440ResizeFlacResources : full ? deriveCfrFullResizeFlacResources : resize ? deriveCfrResizeFlacResources : deriveCfrFlacResources });
 }
-function sourcesForCampaign(kind) { return structuredClone(campaign(kind).full ? FULL_SOURCES : SOURCES); }
+function sourcesForCampaign(kind) { const config = campaign(kind); return structuredClone(kind === 'fullResize1440to720' ? FULL_1440_SOURCES : config.full ? FULL_SOURCES : SOURCES); }
 function selectedCounts(config, spec, range, sourceExtentUs) {
   if (config.full) {
     assert.equal(range, null, 'Full is not a zero-to-end interval');

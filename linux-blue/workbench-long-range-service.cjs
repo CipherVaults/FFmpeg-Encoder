@@ -11,7 +11,7 @@ const { describeEncodeOperationSource } = require('../src/encode-operation.cjs')
 const { OperationRuntimeObserver } = require('../src/operation-runtime.cjs');
 const { openEvidenceStorage } = require('../src/operation-storage.cjs');
 const { failedVendorCapabilities } = require('../src/vendor-capabilities.cjs');
-const { deriveCfrFlacResources, FAMILY_ID, RESOURCE_POLICY, deriveCfrResizeFlacResources, RESIZE_FAMILY_ID, RESIZE_RESOURCE_POLICY } = require('../src/operation-resource-budget.cjs');
+const { deriveCfrFlacResources, FAMILY_ID, RESOURCE_POLICY, deriveCfrResizeFlacResources, RESIZE_FAMILY_ID, RESIZE_RESOURCE_POLICY, FULL_RESIZE_FAMILY_ID, FULL_RESIZE_RESOURCE_POLICY, deriveCfrFullResizeFlacResources } = require('../src/operation-resource-budget.cjs');
 const { frozenQualifications } = require('../scripts/v07-sdr-flac-range-calibration.cjs');
 const { PINS, RUNTIME_ID, verifyAv1Tool } = require('./runtime-av1.cjs');
 const { createAv1ProportionalRunner } = require('./runtime-av1-operation.cjs');
@@ -74,11 +74,16 @@ function assertProportionalReceipt(bytes, expectedSha, config) {
     'Resize calibration must prove 1080p to 720p geometry.');
   need(report.census?.spawned > 0 && report.census.spawned === report.census.closed
     && report.census.live === 0 && report.census.maximum === 1, 'Calibration children must all be closed without overlap.');
-  need(Array.isArray(report.sources) && report.sources.length === 2 && Array.isArray(report.cases) && report.cases.length === 3,
-    'Both long and independent held-out sources and all three cases are required.');
-  for (const [index, id] of ['long-pattern', 'heldout-flipped'].entries()) {
+  const sourceIds = config.full ? ['full-long-pattern', 'full-heldout-tail'] : ['long-pattern', 'heldout-flipped'];
+  const cases = config.full ? [
+    { id: 'full-long', sourceId: sourceIds[0], range: null },
+    { id: 'full-heldout-audio-tail', sourceId: sourceIds[1], range: null },
+  ] : CASES;
+  need(Array.isArray(report.sources) && report.sources.length === 2 && Array.isArray(report.cases) && report.cases.length === cases.length,
+    'Both long and independent held-out sources and all expected cases are required.');
+  for (const [index, id] of sourceIds.entries()) {
     const source = report.sources[index];
-    need(source?.id === id && source.sourceExtentUs === (index === 0 ? 150000000 : 11000000)
+    need(source?.id === id && source.sourceExtentUs === (index === 0 ? 150000000 : config.full ? 43217000 : 11000000)
       && /^[a-f0-9]{64}$/.test(source.sha256) && typeof source.identity?.size === 'string', 'Calibration source record is incomplete.');
     assertQualifiedClocks(source.probe);
     if (config.resize) {
@@ -86,27 +91,43 @@ function assertProportionalReceipt(bytes, expectedSha, config) {
       need(video.width === 1920 && video.height === 1080 && video.sample_aspect_ratio === '1:1'
         && video.display_aspect_ratio === '16:9', 'Resize calibration requires square-pixel 1080p source geometry.');
     }
+    if (config.full) {
+      const video = source.probe.streams.find(stream => stream.codec_type === 'video'), audio = source.probe.streams.find(stream => stream.codec_type === 'audio');
+      const videoUs = index === 0 ? 150000000 : 43100000, audioUs = index === 0 ? 150000000 : 43217000;
+      need(Number(video.duration) * 1000000 === videoUs && Number(audio.duration) * 1000000 === audioUs
+        && Number(source.probe.format?.duration) * 1000000 === source.sourceExtentUs
+        && Number(video.duration_ts) === videoUs * 15360 / 1000000 && Number(audio.duration_ts) === audioUs * 48000 / 1000000
+        && video.codec_name === 'h264' && video.profile === 'High' && audio.codec_name === 'pcm_s16le'
+        && audio.sample_fmt === 's16' && audio.sample_rate === '48000' && audio.channels === 2 && audio.channel_layout === 'stereo',
+      'Full calibration must retain actual complete video and audio-tail source extents.');
+    }
     const expected = frozenQualifications(`${path.basename(path.dirname(config.report))}:${id}`, RUNTIME_ID, source.probe);
     need(same(source.frozen, expected), 'Qualifications must equal the before-encode clock-derived bounds, not fitted output errors.');
   }
   need(report.sources[0].sha256 !== report.sources[1].sha256, 'Held-out source must be independent.');
-  for (let i = 0; i < CASES.length; i++) {
-    const spec = CASES[i], row = report.cases[i], source = report.sources.find(s => s.id === spec.sourceId);
+  for (let i = 0; i < cases.length; i++) {
+    const spec = cases[i], row = report.cases[i], source = report.sources.find(s => s.id === spec.sourceId);
     need(row?.id === spec.id && row.sourceId === spec.sourceId && same(row.range, spec.range)
       && row.status === 'passed' && row.validation?.valid === true, 'Every expected calibration case must have passed strict validation.');
-    if (config.resize) need(row.completeSource?.video?.properties?.policy === RESIZE_FAMILY_ID,
+    if (config.resize) need(row.completeSource?.video?.properties?.policy === config.familyId,
       'Resize evidence must belong to the distinct resize family.');
-    const start = spec.range.startUs, end = spec.range.endUs ?? source.sourceExtentUs;
+    const start = config.full ? 0 : spec.range.startUs, end = config.full ? source.sourceExtentUs : spec.range.endUs ?? source.sourceExtentUs;
     const count = rate => Math.ceil(end * rate / 1000000) - Math.ceil(start * rate / 1000000);
-    const resources = config.derive({ sourceExtentUs: source.sourceExtentUs, selectedExtentUs: end - start, sourceBytes: source.identity.size });
+    const resources = config.full ? config.derive({ sourceExtentUs: source.sourceExtentUs, sourceBytes: source.identity.size })
+      : config.derive({ sourceExtentUs: source.sourceExtentUs, selectedExtentUs: end - start, sourceBytes: source.identity.size });
+    const videoFrames = config.full ? (i === 0 ? 4500 : 1293) : count(30);
+    const audioSamples = config.full ? (i === 0 ? 7200000 : 2074416) : count(48000);
+    if (config.full) need(row.validation.timing?.timeline === 'source-timestamps'
+      && row.validation.timing.requested === null && row.validation.timing.resolved === null,
+    'Full calibration must not invent a resolved interval or rebase source timestamps.');
     need(same(row.resources, resources) && Number.isSafeInteger(row.pipeBytes) && row.pipeBytes > 0
       && row.pipeBytes <= resources.resources.pipeBytes && Number.isSafeInteger(row.elapsedMs) && row.elapsedMs >= 0
       && row.elapsedMs <= resources.executionBudgetMs, 'Case resources must match the frozen source-derived policy.');
-    need(row.frames === count(30) && row.samples === count(48000)
+    need(row.frames === videoFrames && row.samples === audioSamples
       && /^[a-f0-9]{64}$/.test(row.pcmIdentity?.sourceHash) && row.pcmIdentity.sourceHash === row.pcmIdentity.outputHash
-      && row.completeSource?.video?.frames === source.sourceExtentUs * 30 / 1000000
+      && row.completeSource?.video?.frames === (config.full ? videoFrames : source.sourceExtentUs * 30 / 1000000)
       && row.completeSource?.audio?.length === 1
-      && String(row.completeSource.audio[0].sampleCount) === String(source.sourceExtentUs * 48000 / 1000000),
+      && String(row.completeSource.audio[0].sampleCount) === String(config.full ? audioSamples : source.sourceExtentUs * 48000 / 1000000),
     'Full-source and selected decoded PCM/frame evidence is required.');
   }
   return report;
@@ -134,7 +155,7 @@ async function createProportionalService({ stateDir, onChild } = {}, config) {
     operationStorage: () => openEvidenceStorage({ root: path.join(stateDir, 'operation-evidence') }),
   });
 }
-// Only trusted main modules call this factory. It chooses one of two fixed
+// Only trusted main modules call this factory. It chooses one of three fixed
 // families; no config reaches IPC, renderer, CLI or environment variables.
 function createProportionalServiceFactory(configuration) {
   const keys = ['kind', 'report', 'reportSha'];
@@ -143,14 +164,14 @@ function createProportionalServiceFactory(configuration) {
     && keys.every(key => Object.hasOwn(Object.getOwnPropertyDescriptor(configuration, key) || {}, 'value')),
   'A complete inert main-owned service configuration is required.');
   const { kind, report, reportSha } = configuration;
-  need(['keep720', 'resize1080to720'].includes(kind) && typeof report === 'string' && path.isAbsolute(report)
+  need(['keep720', 'resize1080to720', 'fullResize1080to720'].includes(kind) && typeof report === 'string' && path.isAbsolute(report)
     && (reportSha === null || typeof reportSha === 'string' && /^[a-f0-9]{64}$/.test(reportSha)),
   'A fixed variant and exact or pending receipt are required.');
-  const resize = kind === 'resize1080to720';
-  const config = Object.freeze({ report, reportSha, resize,
-    familyId: resize ? RESIZE_FAMILY_ID : FAMILY_ID, resourcePolicy: resize ? RESIZE_RESOURCE_POLICY : RESOURCE_POLICY,
-    derive: resize ? deriveCfrResizeFlacResources : deriveCfrFlacResources,
-    policyIdentity: resize ? 'blue-linux-resize-clock-qualified-v1' : 'blue-linux-long-range-clock-qualified-v1' });
+  const full = kind === 'fullResize1080to720', resize = kind !== 'keep720';
+  const config = Object.freeze({ report, reportSha, resize, full,
+    familyId: full ? FULL_RESIZE_FAMILY_ID : resize ? RESIZE_FAMILY_ID : FAMILY_ID, resourcePolicy: full ? FULL_RESIZE_RESOURCE_POLICY : resize ? RESIZE_RESOURCE_POLICY : RESOURCE_POLICY,
+    derive: full ? deriveCfrFullResizeFlacResources : resize ? deriveCfrResizeFlacResources : deriveCfrFlacResources,
+    policyIdentity: full ? 'blue-linux-full-resize-clock-qualified-v1' : resize ? 'blue-linux-resize-clock-qualified-v1' : 'blue-linux-long-range-clock-qualified-v1' });
   return Object.freeze({ createService: options => createProportionalService(options, config),
     assertReceipt: (bytes, expectedSha = config.reportSha) => assertProportionalReceipt(bytes, expectedSha, config) });
 }

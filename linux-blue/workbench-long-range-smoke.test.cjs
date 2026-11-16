@@ -29,3 +29,11 @@ test('each case receives current single-role folder tokens rather than stale pri
   assert.equal(second.outputFolderId, roles.get('output').id);
   assert.equal(roles.get('input').path, '/owned/fresh');
 });
+
+test('Full resize has a separate fixed status and scope without changing range defaults', () => {
+  const full = smokeProfile('fullResize1080to720'), range = smokeProfile('resize1080to720');
+  assert.equal(full.full, true); assert.equal(range.full, false); assert.equal(smokeProfile().full, false);
+  assert.equal(full.resolution, '720'); assert.equal(full.width, 1920);
+  assert.equal(full.passedStatus, 'passed-developer-full-resize-service-proof');
+  assert.notEqual(full.label, range.label); assert.match(full.scope, /complete audio tails/);
+});

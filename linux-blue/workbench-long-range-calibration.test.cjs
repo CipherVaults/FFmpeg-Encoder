@@ -28,3 +28,26 @@ test('campaign crosses both legacy duration ceilings and uses an independently g
   assert.equal(SOURCES[0].cases[1].range.endUs, undefined);
   assert.notEqual(SOURCES[0].flip, SOURCES[1].flip); assert.notEqual(SOURCES[0].frequency, SOURCES[1].frequency);
 });
+
+test('Full resize keeps null requests and independently counts a longer complete audio tail', () => {
+  const { sourcesForCampaign, selectedCounts } = require('./workbench-long-range-calibration.cjs');
+  const full = campaign('fullResize1080to720'), sources = sourcesForCampaign('fullResize1080to720');
+  assert.equal(full.full, true); assert.equal(full.familyId, 'cfr-sdr-full-resize-flac-v1');
+  assert.equal(full.resourcePolicy, 'cfr1080p30-full-to720p-flac-resources-v1');
+  assert.notEqual(full.derive, campaign('resize1080to720').derive);
+  assert.deepEqual(sources.map(s => s.cases[0].range), [null, null]);
+  assert.deepEqual(selectedCounts(full, sources[0], null, 150000000), { frames: 4500, samples: 7200000 });
+  assert.deepEqual(selectedCounts(full, sources[1], null, 43217000), { frames: 1293, samples: 2074416 });
+  assert.throws(() => selectedCounts(full, sources[1], { startUs: 0 }, 43217000));
+  sources[0].seconds = 1; assert.equal(sourcesForCampaign('fullResize1080to720')[0].seconds, 150);
+  assert.equal(sourcesForCampaign('keep720')[0].cases[0].range.startUs, 100000000);
+});
+
+test('non-round fixture durations get a positive integer deadline without relaxing runner guards', () => {
+  const { fixtureTimeoutMs } = require('./workbench-long-range-calibration.cjs');
+  assert.equal(fixtureTimeoutMs(150, 1920, 1080), 1042500);
+  assert.equal(fixtureTimeoutMs(43.217, 1920, 1080), 321715);
+  assert.equal(fixtureTimeoutMs(11, 1280, 720), 63000);
+  assert.throws(() => fixtureTimeoutMs(Infinity, 1920, 1080));
+  assert.throws(() => fixtureTimeoutMs(1e9, 1920, 1080));
+});

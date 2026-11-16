@@ -8,7 +8,8 @@ const assert = require('node:assert/strict');
 const { createHash, randomUUID } = require('node:crypto');
 const { PINS, RUNTIME_ID, createAv1ProportionalRunner } = require('./runtime-av1-operation.cjs');
 const { deriveCfrFlacResources, FAMILY_ID, RESOURCE_POLICY, deriveCfrResizeFlacResources,
-  RESIZE_FAMILY_ID, RESIZE_RESOURCE_POLICY } = require('../src/operation-resource-budget.cjs');
+  RESIZE_FAMILY_ID, RESIZE_RESOURCE_POLICY, FULL_RESIZE_FAMILY_ID, FULL_RESIZE_RESOURCE_POLICY,
+  deriveCfrFullResizeFlacResources } = require('../src/operation-resource-budget.cjs');
 const { inspectInput, inspectMetadata } = require('../src/inspection.cjs');
 const { resolveFileRequest } = require('../src/operation-contract.cjs');
 const { buildEncodeOperation, fingerprintEncodeSource, withEncodeOperationTelemetry, resolveEncodeOperationInvocation,
@@ -30,16 +31,33 @@ const SOURCES = Object.freeze([
     { id: 'heldout-nonaligned', range: { startUs: 413000, endUs: 8621000 } },
   ] },
 ]);
-// Two fixed, main-owned developer campaigns, not a caller-supplied geometry,
+const FULL_SOURCES = Object.freeze([
+  { id: 'full-long-pattern', seconds: 150, audioSeconds: 150, flip: false, frequency: 440,
+    cases: [{ id: 'full-long', range: null }] },
+  { id: 'full-heldout-tail', seconds: 43.1, audioSeconds: 43.217, flip: true, frequency: 557,
+    cases: [{ id: 'full-heldout-audio-tail', range: null }] },
+]);
+// Fixed, main-owned developer campaigns, not a caller-supplied geometry,
 // runtime or qualification channel. Each has its own retained report namespace.
 function campaign(kind = 'keep720') {
-  assert.ok(['keep720', 'resize1080to720'].includes(kind), 'Unknown developer calibration campaign');
-  const resize = kind === 'resize1080to720';
-  return Object.freeze({ label: resize ? 'resize-calibration-' : 'long-range-calibration-',
+  assert.ok(['keep720', 'resize1080to720', 'fullResize1080to720'].includes(kind), 'Unknown developer calibration campaign');
+  const full = kind === 'fullResize1080to720', resize = kind !== 'keep720';
+  return Object.freeze({ label: full ? 'full-resize-calibration-' : resize ? 'resize-calibration-' : 'long-range-calibration-', full,
     width: resize ? 1920 : 1280, height: resize ? 1080 : 720, resolution: resize ? '720' : 'source',
-    familyId: resize ? RESIZE_FAMILY_ID : FAMILY_ID, resourcePolicy: resize ? RESIZE_RESOURCE_POLICY : RESOURCE_POLICY,
-    derive: resize ? deriveCfrResizeFlacResources : deriveCfrFlacResources });
+    familyId: full ? FULL_RESIZE_FAMILY_ID : resize ? RESIZE_FAMILY_ID : FAMILY_ID,
+    resourcePolicy: full ? FULL_RESIZE_RESOURCE_POLICY : resize ? RESIZE_RESOURCE_POLICY : RESOURCE_POLICY,
+    derive: full ? deriveCfrFullResizeFlacResources : resize ? deriveCfrResizeFlacResources : deriveCfrFlacResources });
 }
+function sourcesForCampaign(kind) { return structuredClone(campaign(kind).full ? FULL_SOURCES : SOURCES); }
+function selectedCounts(config, spec, range, sourceExtentUs) {
+  if (config.full) {
+    assert.equal(range, null, 'Full is not a zero-to-end interval');
+    return { frames: count(0, micros(spec.seconds), 30), samples: count(0, micros(spec.audioSeconds), 48000) };
+  }
+  const start = range.startUs || 0, end = range.endUs ?? sourceExtentUs;
+  return { frames: count(start, end, 30), samples: count(start, end, 48000) };
+}
+
 async function fileHash(file) {
   const hash = createHash('sha256');
   for await (const chunk of createReadStream(file)) hash.update(chunk);
@@ -53,11 +71,16 @@ function micros(value) {
 }
 const count = (start, end, rate) => Number((BigInt(end) * BigInt(rate) + 999999n) / 1000000n
   - (BigInt(start) * BigInt(rate) + 999999n) / 1000000n);
+function fixtureTimeoutMs(seconds, width, height) {
+  const timeout = Math.ceil(30000 + seconds * 3000 * width * height / (1280 * 720));
+  assert.ok(Number.isSafeInteger(timeout) && timeout > 0 && timeout <= 2147483647);
+  return timeout;
+}
 const errorRecord = error => ({ code: error.code, message: error.message,
   ...(error.evidenceDirectory ? { evidenceDirectory: error.evidenceDirectory } : {}),
   ...(error.cause ? { cause: { code: error.cause.code, message: error.cause.message } } : {}) });
 async function runCampaign(kind) {
-  const config = campaign(kind), sources = structuredClone(SOURCES);
+  const config = campaign(kind), sources = sourcesForCampaign(kind);
   assert.equal(typeof config.derive, 'function', 'The matching reviewed resource planner is required');
   const space = await fs.statfs(__dirname, { bigint: true });
   assert.ok(space.bavail * space.bsize > 25n * 1024n ** 3n + 2n * 1024n ** 3n, 'Retain storage floor plus campaign allocation');
@@ -94,25 +117,29 @@ async function runCampaign(kind) {
   };
   try {
     for (const spec of sources) {
+      const audioSeconds = spec.audioSeconds ?? spec.seconds, maximumSeconds = Math.max(spec.seconds, audioSeconds);
       const source = path.join(root, `${spec.id}.mov`);
       await run(PINS.ffmpeg.path, ['-hide_banner', '-nostdin', '-v', 'error', '-n',
         '-f', 'lavfi', '-i', `testsrc2=size=${config.width}x${config.height}:rate=30:duration=${spec.seconds}`,
-        '-f', 'lavfi', '-i', `aevalsrc=0.18*sin(2*PI*(${spec.frequency}*t+5.5*t*t))|0.18*sin(2*PI*(${spec.frequency + 219}*t+6.5*t*t)):s=48000:c=stereo:d=${spec.seconds}`,
+        '-f', 'lavfi', '-i', `aevalsrc=0.18*sin(2*PI*(${spec.frequency}*t+5.5*t*t))|0.18*sin(2*PI*(${spec.frequency + 219}*t+6.5*t*t)):s=48000:c=stereo:d=${audioSeconds}`,
         '-map', '0:v:0', '-map', '1:a:0', '-map_metadata', '-1', '-map_chapters', '-1',
         '-vf', `${spec.flip ? 'hflip,' : ''}setsar=1,setparams=range=limited:color_primaries=bt709:color_trc=bt709:colorspace=bt709`,
         '-c:v:0', 'libx264', '-preset:v:0', 'veryfast', '-crf:v:0', '23', '-profile:v:0', 'high', '-pix_fmt:v:0', '+yuv420p',
         '-x264-params', 'keyint=60:min-keyint=60:scenecut=0:bframes=3:b-adapt=0:open-gop=0',
         '-fps_mode:v:0', 'passthrough', '-color_primaries:v:0', 'bt709', '-color_trc:v:0', 'bt709',
         '-colorspace:v:0', 'bt709', '-color_range:v:0', 'tv', '-c:a:0', 'pcm_s16le', '-sample_fmt:a:0', 's16',
-        '-ar:a:0', '48000', '-channel_layout:a:0', 'stereo', '-t', String(spec.seconds), '-movflags', '+faststart', '-f', 'mov', source],
-      { timeoutMs: 30000 + spec.seconds * 3000 * config.width * config.height / (1280 * 720) });
+        '-ar:a:0', '48000', '-channel_layout:a:0', 'stereo', '-t', String(maximumSeconds), '-movflags', '+faststart', '-f', 'mov', source],
+      { timeoutMs: fixtureTimeoutMs(maximumSeconds, config.width, config.height) });
       const sourceHash = await fileHash(source), sourceIdentity = await readSourceIdentity(source);
       const inspection = await inspectInput(source, { ffprobe: PINS.ffprobe.path, signal: controller.signal, run });
       assert.equal(inspection.color.classification, 'sdr'); assert.equal(inspection.color.supported, true);
       const sourceVideo = inspection.probe.streams.find(s => s.codec_type === 'video');
       assert.equal(sourceVideo.width, config.width); assert.equal(sourceVideo.height, config.height);
       const observed = [inspection.probe.format.duration, ...inspection.probe.streams.map(s => s.duration)].map(micros);
-      assert.ok(observed.every(value => value === spec.seconds * 1000000));
+      const sourceAudio = inspection.probe.streams.find(s => s.codec_type === 'audio');
+      assert.equal(micros(sourceVideo.duration), micros(spec.seconds));
+      assert.equal(micros(sourceAudio.duration), micros(audioSeconds));
+      assert.equal(micros(inspection.probe.format.duration), micros(maximumSeconds));
       const sourceExtentUs = Math.max(...observed);
       const frozen = frozenQualifications(`${path.basename(root)}:${spec.id}`, RUNTIME_ID, inspection.probe);
       await fs.writeFile(path.join(root, `${spec.id}-frozen-before-encode.json`), JSON.stringify(frozen, null, 2), { flag: 'wx' });
@@ -121,8 +148,9 @@ async function runCampaign(kind) {
       const runtimeVersion = (await run(PINS.ffmpeg.path, ['-version'])).stdout.split('\n')[0];
       const profile = PROFILES.find(row => row.id === SETTINGS.profileId), recipe = describeRecipe(SETTINGS);
       for (const requestSpec of spec.cases) {
-        const start = requestSpec.range.startUs || 0, end = requestSpec.range.endUs ?? sourceExtentUs;
-        const resources = config.derive({ sourceExtentUs, selectedExtentUs: end - start, sourceBytes: sourceIdentity.size });
+        const expectedCounts = selectedCounts(config, spec, requestSpec.range, sourceExtentUs);
+        const resources = config.full ? config.derive({ sourceExtentUs, sourceBytes: sourceIdentity.size })
+          : config.derive({ sourceExtentUs, selectedExtentUs: (requestSpec.range.endUs ?? sourceExtentUs) - (requestSpec.range.startUs || 0), sourceBytes: sourceIdentity.size });
         const directory = path.join(root, requestSpec.id); await fs.mkdir(directory);
         const stage = activeStage = await createStage(directory);
         const request = resolveFileRequest({ fileId: requestSpec.id, identityRevision: 1, draftRevision: 1,
@@ -138,6 +166,11 @@ async function runCampaign(kind) {
         const plan = withEncodeOperationTelemetry(buildEncodeOperation({ input: source, output: path.join(directory, 'prepared.mkv'),
           settings: SETTINGS, inspection, request, runtimeIdentity: RUNTIME_ID, outputId: randomUUID(), generationDescription,
           ...(orientation ? { identityOrientationQualification: orientation } : {}) }));
+        if (config.full) {
+          assert.equal(plan.contract.range.kind, 'full'); assert.equal(plan.contract.range.requested, null);
+          assert.equal(plan.contract.range.resolved, undefined); assert.equal(plan.contract.range.timestampMapping, 'preserve-source');
+          assert.ok(!plan.expectedOutput.filters.video.some(filter => /(?:^|,)(?:trim|setpts)=/.test(filter)), 'Full must not trim or rebase video');
+        }
         const entry = activeCase = { id: requestSpec.id, sourceId: spec.id, range: requestSpec.range,
           resources, pipeBytes: 0, status: 'encoding', planFingerprint: plan.planFingerprint, startedAt: Date.now(),
           geometry: plan.expectedOutput.geometry, videoFilters: plan.expectedOutput.filters.video,
@@ -170,11 +203,11 @@ async function runCampaign(kind) {
         entry.validation = validateEncodeOperationOutput(plan, outputProbe, { qualification: frozen.qualification, decodedEvidence: collection.decodedEvidence });
         assert.equal(entry.validation.valid, true, entry.validation.errors.join('; '));
         const video = collection.decodedEvidence.video, audio = collection.decodedEvidence.audio[0];
-        assert.equal(video.sourceFrameCount, count(start, end, 30)); assert.equal(video.outputFrameCount, video.sourceFrameCount);
-        assert.equal(audio.sourceSampleCount, count(start, end, 48000)); assert.equal(audio.outputSampleCount, audio.sourceSampleCount);
+        assert.equal(video.sourceFrameCount, expectedCounts.frames); assert.equal(video.outputFrameCount, video.sourceFrameCount);
+        assert.equal(audio.sourceSampleCount, expectedCounts.samples); assert.equal(audio.outputSampleCount, audio.sourceSampleCount);
         assert.equal(audio.pcmIdentity.sourceHash, audio.pcmIdentity.outputHash);
-        assert.equal(collection.completeSource.video.frames, spec.seconds * 30);
-        assert.equal(Number(collection.completeSource.audio[0].sampleCount), spec.seconds * 48000);
+        assert.equal(collection.completeSource.video.frames, count(0, micros(spec.seconds), 30));
+        assert.equal(Number(collection.completeSource.audio[0].sampleCount), count(0, micros(audioSeconds), 48000));
         entry.frames = video.sourceFrameCount; entry.samples = audio.sourceSampleCount; entry.pcmIdentity = audio.pcmIdentity;
         entry.completeSource = collection.completeSource;
         await run(PINS.ffmpeg.path, ['-hide_banner', '-nostdin', '-v', 'error', '-xerror', '-i', stage.file, '-map', '0', '-f', 'null', '-'], { timeoutMs: resources.budget.timeoutMs });
@@ -205,4 +238,4 @@ async function runCampaign(kind) {
 }
 const main = () => runCampaign('keep720');
 if (require.main === module) main().catch(error => { console.error(error); process.exitCode = 1; });
-module.exports = { main, runCampaign, campaign, micros, count, SOURCES };
+module.exports = { main, runCampaign, campaign, sourcesForCampaign, selectedCounts, fixtureTimeoutMs, micros, count, SOURCES, FULL_SOURCES };

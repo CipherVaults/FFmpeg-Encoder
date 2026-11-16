@@ -38,3 +38,21 @@ test('forecasts round conservatively and fail capacity rather than clamp or disa
     { sourceBytes: '9007199254740991' }])
     assert.throws(() => make(patch), { code: 'OPERATION_RESOURCE_CAPACITY' });
 });
+
+test('1080p resize charges pixel-derived decode and scaling time but not PCM or record bytes', () => {
+  const { deriveCfrResizeFlacResources, RESIZE_RESOURCE_POLICY, RESIZE_FAMILY_ID } = require('../src/operation-resource-budget.cjs');
+  const options = { sourceExtentUs: 150000000, selectedExtentUs: 40000000, sourceBytes: '100000000' };
+  const base = make(), resized = deriveCfrResizeFlacResources(options);
+  assert.equal(RESIZE_RESOURCE_POLICY, 'cfr1080p30-to720p-flac-resources-v1');
+  assert.equal(RESIZE_FAMILY_ID, 'cfr-sdr-range-resize-flac-v1');
+  const extra = 150 * (3375 - 1500) + 40 * 3375;
+  assert.equal(resized.budget.timeoutMs, base.budget.timeoutMs + extra);
+  assert.equal(resized.executionBudgetMs, base.executionBudgetMs + 2 * extra);
+  assert.deepEqual(resized.resources, base.resources);
+  assert.deepEqual({ ...resized.budget, timeoutMs: base.budget.timeoutMs }, base.budget);
+  assert.ok(Object.isFrozen(resized) && Object.isFrozen(resized.budget));
+  const fractional = deriveCfrResizeFlacResources({ ...options, sourceExtentUs: 150000001, selectedExtentUs: 40000001 });
+  assert.equal(fractional.budget.timeoutMs - resized.budget.timeoutMs, 3375 + 3375 + 15000);
+  for (const patch of [{ selectedExtentUs: 150000001 }, { sourceBytes: '9007199254740991' }, { sourceExtentUs: Number.MAX_SAFE_INTEGER }])
+    assert.throws(() => deriveCfrResizeFlacResources({ ...options, ...patch }), { code: 'OPERATION_RESOURCE_CAPACITY' });
+});

@@ -4,6 +4,8 @@
 // Streaming keeps memory bounded independently of total permitted byte counts.
 const RESOURCE_POLICY = 'cfr720p30-flac-resources-v1';
 const FAMILY_ID = 'cfr-sdr-range-flac-v2';
+const RESIZE_FAMILY_ID = 'cfr-sdr-range-resize-flac-v1';
+const RESIZE_RESOURCE_POLICY = 'cfr1080p30-to720p-flac-resources-v1';
 const MiB = 1024n * 1024n, TIMER = 2147483647n;
 const fault = message => { throw Object.assign(new Error(message), { code: 'OPERATION_RESOURCE_CAPACITY' }); };
 const ceil = (n, d) => (n + d - 1n) / d;
@@ -15,7 +17,7 @@ function number(value, label, maximum = BigInt(Number.MAX_SAFE_INTEGER)) {
   if (value <= 0n || value > maximum) fault(`${label} exceeds the current resource capacity; no truncation or fallback is permitted.`);
   return Number(value);
 }
-function deriveCfrFlacResources({ sourceExtentUs, selectedExtentUs, sourceBytes }) {
+function deriveResources({ sourceExtentUs, selectedExtentUs, sourceBytes }, resize) {
   const source = integer(sourceExtentUs, 'Source extent'), selected = integer(selectedExtentUs, 'Selected extent');
   if (selected > source) fault('Selected extent exceeds source extent.');
   if (typeof sourceBytes !== 'string' || !/^[1-9]\d{0,18}$/.test(sourceBytes)) fault('Exact positive source size is required.');
@@ -41,8 +43,15 @@ function deriveCfrFlacResources({ sourceExtentUs, selectedExtentUs, sourceBytes 
   number(reserve, 'Evidence reservation', 1024n * MiB - 65536n);
   number(telemetryBytes, 'Telemetry bytes', 256n * MiB);
   number(selectedRecords, 'Telemetry records', 10000000n);
-  const timeoutMs = number(30000n + sourceSeconds * 1500n + selectedSeconds * 15000n + 2n * ioMs, 'Child deadline', TIMER);
-  const executionBudgetMs = number(60000n + sourceSeconds * 3000n + selectedSeconds * 30000n + 8n * ioMs, 'Operation deadline', TIMER);
+  // Fixed 1080p input has 9/4 the pixels of 720p. Charge complete source
+  // decoding at that ratio and add selected scaling at 1500 ms per 720p-
+  // equivalent source second. Output encoding stays 720p. These are frozen
+  // conservative scheduling allowances, NOT measured hardware throughput.
+  // Aggregate CPU allowances are twice per-child, as in the original policy.
+  const decodeMs = sourceSeconds * (resize ? 3375n : 1500n);
+  const scaleMs = resize ? selectedSeconds * 3375n : 0n;
+  const timeoutMs = number(30000n + decodeMs + scaleMs + selectedSeconds * 15000n + 2n * ioMs, 'Child deadline', TIMER);
+  const executionBudgetMs = number(60000n + 2n * (decodeMs + scaleMs) + selectedSeconds * 30000n + 8n * ioMs, 'Operation deadline', TIMER);
   // Five frame/packet passes plus margin, and both complete PCM streams.
   const evidenceBytes = 7n * frameBytes + sourcePcm + outputPcm;
   const budget = Object.freeze({ sourceDecode: 'complete', timeoutMs,
@@ -54,4 +63,6 @@ function deriveCfrFlacResources({ sourceExtentUs, selectedExtentUs, sourceBytes 
     telemetryBytes: number(telemetryBytes, 'Telemetry bytes'), telemetryRecords: number(selectedRecords, 'Telemetry records') });
   return Object.freeze({ budget, resources, executionBudgetMs });
 }
-module.exports = { RESOURCE_POLICY, FAMILY_ID, deriveCfrFlacResources };
+function deriveCfrFlacResources(options) { return deriveResources(options, false); }
+function deriveCfrResizeFlacResources(options) { return deriveResources(options, true); }
+module.exports = { RESOURCE_POLICY, FAMILY_ID, deriveCfrFlacResources, RESIZE_RESOURCE_POLICY, RESIZE_FAMILY_ID, deriveCfrResizeFlacResources };

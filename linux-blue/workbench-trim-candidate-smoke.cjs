@@ -9,8 +9,12 @@ const { PINS, createCandidateRunner } = require('./runtime-candidate.cjs');
 const { SETTINGS, SPECS } = require('./workbench-flac-calibration.cjs');
 const { classifyMarker } = require('../src/provenance.cjs');
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
-async function smoke() {
-  const root = await fs.mkdtemp(path.join(__dirname, 'artifacts', 'trim-service-candidate-'));
+async function smoke({ createService = createTrimCandidateService, reportFile = REPORT,
+  reportSha = REPORT_SHA, pins = PINS, createRunner = createCandidateRunner,
+  artifactLabel = 'trim-service-candidate-' } = {}) {
+  // Trusted developer composition only, not a CLI/IPC configuration channel.
+  assert.ok(['trim-service-candidate-', 'trim-service-av1-'].includes(artifactLabel));
+  const root = await fs.mkdtemp(path.join(__dirname, 'artifacts', artifactLabel));
   const input = path.join(root, 'input'), stateDir = path.join(root, 'state');
   await fs.mkdir(input); await fs.mkdir(stateDir);
   const report = { root, status: 'preparing', cases: [], appRuntimeChanged: false,
@@ -24,15 +28,15 @@ async function smoke() {
       c.encodes++;
     }
   };
-  const run = createCandidateRunner({ onChild });
+  const run = createRunner({ onChild });
   const source = path.join(input, 'calibrated-synthetic.mov');
   try {
-    const retainedBytes = await fs.readFile(REPORT); assert.equal(sha(retainedBytes), REPORT_SHA);
+    const retainedBytes = await fs.readFile(reportFile); assert.equal(sha(retainedBytes), reportSha);
     const retained = JSON.parse(retainedBytes);
-    const original = path.join(path.dirname(REPORT), 'synthetic-720p30.mov');
+    const original = path.join(path.dirname(reportFile), 'synthetic-720p30.mov');
     const bytes = await fs.readFile(original); assert.equal(sha(bytes), retained.source.sha256);
     await fs.writeFile(source, bytes, { flag: 'wx' }); report.sourceHash = sha(bytes);
-    service = await createTrimCandidateService({ stateDir, source, onChild });
+    service = await createService({ stateDir, source, onChild });
     service.on('update', snapshot => {
       const progress = snapshot.progress;
       if (cancelNext && report.census.live === 1 && progress?.stage === 'encoding'
@@ -76,9 +80,9 @@ async function smoke() {
       assert.equal(evidence.decodedEvidence.audio[0].outputSampleCount, selectedSamples);
       assert.equal(entry.telemetryValidation.valid, true);
       assert.equal(evidence.decodedEvidence.audio[0].pcmIdentity.sourceHash, evidence.decodedEvidence.audio[0].pcmIdentity.outputHash);
-      const probe = JSON.parse((await run(PINS.ffprobe.path, ['-v', 'error', '-show_format', '-show_streams', '-of', 'json', prepared.destination], { timeoutMs: 30000 })).stdout);
+      const probe = JSON.parse((await run(pins.ffprobe.path, ['-v', 'error', '-show_format', '-show_streams', '-of', 'json', prepared.destination], { timeoutMs: 30000 })).stdout);
       assert.equal(classifyMarker(probe).kind, 'generated');
-      await run(PINS.ffmpeg.path, ['-hide_banner', '-nostdin', '-v', 'error', '-xerror', '-i', prepared.destination, '-map', '0', '-f', 'null', '-'], { timeoutMs: 120000 });
+      await run(pins.ffmpeg.path, ['-hide_banner', '-nostdin', '-v', 'error', '-xerror', '-i', prepared.destination, '-map', '0', '-f', 'null', '-'], { timeoutMs: 120000 });
       report.cases.push({ case: label, status: 'passed', item, evidenceDirectory: evidence.directory,
         sourceFrames: 120, sourceSamples: 192000, selectedFrames, selectedSamples,
         telemetry: entry.telemetryValidation, pcmIdentity: evidence.decodedEvidence.audio[0].pcmIdentity });

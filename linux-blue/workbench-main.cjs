@@ -2,11 +2,12 @@
 
 // Explicit experimental entry. The original Windows launcher and every UI,
 // preload, IPC, media and settings module are reused without modifying them.
-const { app, BrowserWindow, dialog, ipcMain, session, protocol, nativeTheme } = require('electron');
+const { app, BrowserWindow, dialog, ipcMain, session, protocol, nativeTheme, shell } = require('electron');
 const { mkdirSync } = require('node:fs');
 const path = require('node:path');
 const { createWorkbenchService } = require('./workbench-service.cjs');
 const { AppearanceSettings } = require('../src/appearance.cjs');
+const { OutputAccess } = require('../src/output-access.cjs');
 const { registerIpc } = require('../src/ipc.cjs');
 const { ENTRY_URL, resolveAsset, registerLocalProtocol } = require('../src/local-protocol.cjs');
 
@@ -23,7 +24,7 @@ for (const [name, child] of [['userData', 'electron-state'], ['sessionData', 'el
   mkdirSync(directory, { recursive: true, mode: 0o700 });
   app.setPath(name, directory);
 }
-const title = 'FFmpeg Encoder · Linux preview · Inspection and settings only';
+const title = 'FFmpeg Encoder · Linux CPU preview · Full SDR · 30-minute limit per file';
 const census = { spawned: 0, closed: 0, live: 0, maximum: 0 };
 let window, service, appearance, unregister;
 let closing = false, closed = false, closePromise, startupPromise, appearanceFailed = false, failed = false;
@@ -68,7 +69,9 @@ function close() {
 async function launch() {
   await app.whenReady();
   if (closing) return;
-  service = await createWorkbenchService({ stateDir, onChild(child) {
+  service = await createWorkbenchService({ stateDir,
+    outputAccess: new OutputAccess({ openPath: file => shell.openPath(file), showItemInFolder: file => shell.showItemInFolder(file) }),
+    onChild(child) {
     census.spawned++; census.live++; census.maximum = Math.max(census.maximum, census.live);
     child.once('close', () => { census.closed++; census.live--; });
   } });
@@ -119,7 +122,7 @@ async function launch() {
   await window.loadURL(ENTRY_URL);
   const preferences = window.webContents.getLastWebPreferences();
   console.log('LINUX_WORKBENCH_READY', JSON.stringify({ electron: process.versions.electron,
-    mode: 'inspection-and-settings', sandbox: preferences.sandbox,
+    mode: 'ordinary-cpu-full-sdr', sandbox: preferences.sandbox,
     contextIsolation: preferences.contextIsolation, nodeIntegration: preferences.nodeIntegration,
     originalUi: true, originalPreload: true }));
 }

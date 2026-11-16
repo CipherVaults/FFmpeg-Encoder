@@ -5,12 +5,22 @@ const { createHash } = require('node:crypto');
 const { EncoderService } = require('../src/encoder-service.cjs');
 const { runTool, ToolError } = require('../src/process-runner.cjs');
 const { failedVendorCapabilities } = require('../src/vendor-capabilities.cjs');
+const { PROFILES } = require('../src/media.cjs');
 const { PINS, verifyTool } = require('./runtime.cjs');
 
-const START_MESSAGE = 'Linux workbench preview: inspection and settings are available. Encoding is not enabled until the ordinary service execution and publication path has been qualified on Linux.';
+const START_MESSAGE = 'Linux CPU preview supports only SDR Full, Keep source, copied audio to a distinct folder. Changed operations, GPU, HDR and Remux remain unavailable.';
+const ENCODE_LIMIT_MS = 30 * 60 * 1000;
 const CPU_ENCODERS = new Set(['copy', 'ffv1', 'libx264', 'libx265', 'libsvtav1']);
 const OPTION_KEYS = new Set(['signal', 'timeoutMs', 'stdoutLimit', 'stderrLimit', 'onProgress']);
 const refusal = (code, message) => new ToolError(code, message);
+
+function ordinaryEncodeInvocation(kind, args, options) {
+  return kind === 'ffmpeg' && typeof options.onProgress === 'function'
+    && args.includes('-n') && args.includes('-nostdin') && args.includes('-i')
+    && args[args.indexOf('-progress') + 1] === 'pipe:1'
+    && args[args.indexOf('-f') + 1] === 'matroska'
+    && PROFILES.some(profile => profile.hardware === 'CPU' && args[args.indexOf('-c:v:0') + 1] === profile.encoder);
+}
 
 function validateInvocation(executable, args, options) {
   const kind = Object.keys(PINS).find(key => PINS[key].path === executable);
@@ -21,9 +31,10 @@ function validateInvocation(executable, args, options) {
   if (!options || Object.getPrototypeOf(options) !== Object.prototype || Reflect.ownKeys(options).some(key => !OPTION_KEYS.has(key))
       || (options.signal !== undefined && !(options.signal instanceof AbortSignal))
       || (options.onProgress !== undefined && typeof options.onProgress !== 'function')) {
-    throw refusal('LINUX_WORKBENCH_OPTIONS', 'Only bounded inspection and capability options are supported.');
+      throw refusal('LINUX_WORKBENCH_OPTIONS', 'Only bounded workbench options are supported.');
   }
   for (const [key, limit] of [['timeoutMs', 60000], ['stdoutLimit', 16 * 1024 * 1024], ['stderrLimit', 256 * 1024]]) {
+    if (key === 'timeoutMs' && options[key] === 0 && ordinaryEncodeInvocation(kind, args, options)) continue;
     if (options[key] !== undefined && (!Number.isSafeInteger(options[key]) || options[key] <= 0 || options[key] > limit)) {
       throw refusal('LINUX_WORKBENCH_OPTIONS', 'Inspection and capability limits must remain positive and bounded.');
     }
@@ -47,22 +58,56 @@ function createWorkbenchRunner({ verify = verifyTool, execute = runTool, onChild
     const kind = validateInvocation(executable, args, options);
     await verify(kind);
     if (options.signal?.aborted) throw refusal('CANCELLED', 'Operation cancelled.');
-    return execute(executable, args, { timeoutMs: 30000, stdoutLimit: 16 * 1024 * 1024,
-      stderrLimit: 256 * 1024, ...options, onChild,
+    const encoding = ordinaryEncodeInvocation(kind, args, options);
+    let ended = false;
+    const result = await execute(executable, args, { timeoutMs: 30000, stdoutLimit: 16 * 1024 * 1024,
+      stderrLimit: 256 * 1024, ...options,
+      // Original ordinary service requests unlimited time. Linux makes that
+      // request a documented 30-minute-per-file ceiling, never an unlimited job.
+      ...(options.timeoutMs === 0 ? { timeoutMs: ENCODE_LIMIT_MS } : {}), onChild,
+      ...(encoding ? { onProgress(record) { ended ||= record.ended === true; options.onProgress(record); } } : {}),
       // Apply the shared runner's total-output budget even for progress mode.
       onOutputBytes() {} });
+    if (encoding && (result.exitCode !== 0 || !ended)) {
+      throw refusal('LINUX_WORKBENCH_INCOMPLETE', 'The CPU encode closed without confirmed terminal progress. No output is approved.');
+    }
+    return result;
   };
 }
 
 class LinuxWorkbenchService extends EncoderService {
-  startBatch() { throw refusal('LINUX_WORKBENCH_EXECUTION_PENDING', START_MESSAGE); }
+  startBatch(request) {
+    this.requireIdle();
+    const plan = this.plan;
+    // Superclass still owns request shape, stale plan and selection validation.
+    if (!plan || !Array.isArray(request?.fileIds) || !request.fileIds.length) return super.startBatch(request);
+    const profile = PROFILES.find(row => row.id === plan.settings?.profileId);
+    if (plan.operation !== 'encode' || plan.sameFolder || profile?.hardware !== 'CPU') {
+      throw refusal('LINUX_WORKBENCH_ROUTE_UNAVAILABLE', START_MESSAGE);
+    }
+    for (const fileId of request.fileIds) {
+      const entry = plan.entries.get(fileId), operation = entry?.operationPlan;
+      const contract = operation?.contract, effective = contract?.request;
+      if (!entry || operation?.compatibilityPath !== true || operation.instrumentation
+          || operation.qualificationRequirements?.length !== 0
+          || ['native', 'vendor', 'remux', 'hdr', 'encodePreservation'].some(key => entry[key])
+          || entry.inspection?.color?.classification !== 'sdr' || entry.inspection.color.supported !== true
+          || effective?.operation !== 'encode' || effective.target !== 'matroska'
+          || effective.range !== null || effective.resolution !== 'source' || effective.audioPolicy !== 'copy'
+          || !['preserve', 'sdr'].includes(effective.hdrPolicy)
+          || effective.omissionRequestIds?.length !== 0 || contract.omissionRequests?.ids?.length !== 0) {
+        throw refusal('LINUX_WORKBENCH_ROUTE_UNAVAILABLE', START_MESSAGE);
+      }
+    }
+    return super.startBatch(request);
+  }
 }
 
-async function createWorkbenchService({ stateDir, onChild } = {}) {
+async function createWorkbenchService({ stateDir, onChild, outputAccess } = {}) {
   await verifyTool('ffmpeg'); await verifyTool('ffprobe');
   const runtimeIdentity = createHash('sha256').update(JSON.stringify(Object.values(PINS))).digest('hex');
   return new LinuxWorkbenchService({ ffmpeg: PINS.ffmpeg.path, ffprobe: PINS.ffprobe.path,
-    stateDir, runtimeIdentity, inspectionWorkers: 1, run: createWorkbenchRunner({ onChild }),
+    stateDir, runtimeIdentity, outputAccess, inspectionWorkers: 1, run: createWorkbenchRunner({ onChild }),
     // Do not run Windows DXGI or invent Linux adapter/device qualification.
     vendorCapabilities: async () => ({ profiles: failedVendorCapabilities('VENDOR_DISCOVERY_INCOMPLETE'), bindings: new Map() }),
     // No changed-operation/native/remux/HDR controls or storage eligibility
@@ -70,4 +115,4 @@ async function createWorkbenchService({ stateDir, onChild } = {}) {
   });
 }
 
-module.exports = { createWorkbenchRunner, createWorkbenchService, LinuxWorkbenchService, validateInvocation, START_MESSAGE };
+module.exports = { createWorkbenchRunner, createWorkbenchService, LinuxWorkbenchService, validateInvocation, START_MESSAGE, ENCODE_LIMIT_MS };

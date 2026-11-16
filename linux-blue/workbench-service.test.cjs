@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const { PINS } = require('./runtime.cjs');
-const { createWorkbenchRunner, LinuxWorkbenchService, START_MESSAGE } = require('./workbench-service.cjs');
+const { createWorkbenchRunner, LinuxWorkbenchService, START_MESSAGE, ENCODE_LIMIT_MS } = require('./workbench-service.cjs');
 const { StorageEligibility } = require('../src/storage-eligibility.cjs');
 
 function harness() {
@@ -69,13 +69,46 @@ test('progress and child observers remain main-owned and preserve process settle
   assert.equal(await run(PINS.ffmpeg.path, [], { onProgress: value => observed.push(value) }), 'closed');
   assert.deepEqual(observed, [child, progress]);
 });
-test('original service remains the implementation, but media Start is explicitly refused before mutation', () => {
+test('original service rejects stale Start and Linux refuses unqualified routes before mutation', () => {
   const service = new LinuxWorkbenchService({ ffmpeg: PINS.ffmpeg.path, ffprobe: PINS.ffprobe.path,
     stateDir: path.join(__dirname, 'artifacts', 'workbench-unit-state') });
   const before = service.snapshot();
-  assert.throws(() => service.startBatch({}), { code: 'LINUX_WORKBENCH_EXECUTION_PENDING', message: START_MESSAGE });
+  assert.throws(() => service.startBatch({ planId: '00000000-0000-0000-0000-000000000000', fileIds: [] }), { code: 'STALE_PLAN' });
   assert.deepEqual(service.snapshot(), before);
   assert.equal(service.remuxOperations, null); assert.equal(service.hdrOperations, null);
+  service.plan = { operation: 'remux', settings: { profileId: 'h264-cpu' } };
+  assert.throws(() => service.startBatch({ fileIds: ['x'] }), { code: 'LINUX_WORKBENCH_ROUTE_UNAVAILABLE', message: START_MESSAGE });
+  const request = { operation: 'encode', target: 'matroska', range: null, resolution: 'source', audioPolicy: 'copy', hdrPolicy: 'preserve', omissionRequestIds: [] };
+  const ordinary = { inspection: { color: { classification: 'sdr', supported: true } }, operationPlan: {
+    compatibilityPath: true, qualificationRequirements: [], contract: { request, omissionRequests: { ids: [] } } } };
+  service.plan = { operation: 'encode', sameFolder: false, settings: { profileId: 'h264-cpu' }, entries: new Map() };
+  for (const patch of [{ range: { startUs: 0, endUs: 1 } }, { resolution: '720' }, { audioPolicy: 'aac' }, { hdrPolicy: 'tone-map' }]) {
+    service.plan.entries.set('x', { ...ordinary, operationPlan: { ...ordinary.operationPlan,
+      contract: { ...ordinary.operationPlan.contract, request: { ...request, ...patch } } } });
+    assert.throws(() => service.startBatch({ fileIds: ['x'] }), { code: 'LINUX_WORKBENCH_ROUTE_UNAVAILABLE' });
+  }
+  for (const flag of ['vendor', 'native', 'hdr', 'remux', 'encodePreservation']) {
+    service.plan.entries.set('x', { ...ordinary, [flag]: {} });
+    assert.throws(() => service.startBatch({ fileIds: ['x'] }), { code: 'LINUX_WORKBENCH_ROUTE_UNAVAILABLE' });
+  }
+});
+
+const encodeArgs = ['-nostdin', '-n', '-i', '/synthetic.mkv', '-c:v:0', 'libx264', '-progress', 'pipe:1', '-f', 'matroska', '/stage.mkv'];
+test('ordinary unlimited request becomes a fixed 30-minute ceiling with terminal progress required', async () => {
+  let seen, progress;
+  const run = createWorkbenchRunner({ verify: async () => {}, execute: async (_file, _args, options) => {
+    seen = options; options.onProgress({ ended: true }); return { exitCode: 0 }; } });
+  await run(PINS.ffmpeg.path, encodeArgs, { timeoutMs: 0, onProgress: value => { progress = value; } });
+  assert.equal(seen.timeoutMs, ENCODE_LIMIT_MS); assert.equal(seen.timeoutMs, 1800000); assert.equal(progress.ended, true);
+  const incomplete = createWorkbenchRunner({ verify: async () => {}, execute: async () => ({ exitCode: 0 }) });
+  await assert.rejects(incomplete(PINS.ffmpeg.path, encodeArgs, { timeoutMs: 0, onProgress() {} }), { code: 'LINUX_WORKBENCH_INCOMPLETE' });
+  await assert.rejects(run(PINS.ffmpeg.path, ['-version'], { timeoutMs: 0, onProgress() {} }), { code: 'LINUX_WORKBENCH_OPTIONS' });
+});
+test('encode cancellation, timeout and process errors stay failures after the runner closes', async () => {
+  for (const code of ['CANCELLED', 'TIMEOUT', 'TOOL_FAILED']) {
+    const run = createWorkbenchRunner({ verify: async () => {}, execute: async () => { throw Object.assign(new Error(code), { code }); } });
+    await assert.rejects(run(PINS.ffmpeg.path, encodeArgs, { timeoutMs: 0, onProgress() {} }), { code });
+  }
 });
 test('Linux composition does not grant persistent inspection reuse', async () => {
   assert.equal((await new StorageEligibility().check('/tmp/example', {})).eligible, false);

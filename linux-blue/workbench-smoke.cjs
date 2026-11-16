@@ -52,7 +52,7 @@ async function smoke() {
     assert.equal(plan.items.length, 1); assert.equal(plan.items[0].status, 'ready', plan.items[0].reason);
     assert.equal(plan.preparation.inspected, 1); assert.equal(plan.preparation.reused, 0);
     const count = census.spawned;
-    assert.throws(() => service.startBatch({ planId: plan.planId, fileIds: [plan.items[0].id] }), { code: 'LINUX_WORKBENCH_EXECUTION_PENDING' });
+    assert.throws(() => service.startBatch({ planId: '00000000-0000-0000-0000-000000000000', fileIds: [plan.items[0].id] }), { code: 'STALE_PLAN' });
     assert.equal(census.spawned, count); assert.deepEqual(await fs.readdir(output), []);
     await assert.rejects(service.prepareRemuxBatch({ inputFolderId: inFolder.id, outputFolderId: outFolder.id, target: 'matroska' }), { code: 'REMUX_CONTROLS_UNAVAILABLE' });
     const repeat = await service.prepareBatch(request);
@@ -75,7 +75,7 @@ async function smoke() {
     passed = true;
     console.log(JSON.stringify({ passed, scope: 'actual-workbench-service-inspection-and-settings',
       cpu: cpu.map(row => ({ id: row.id, supportedBitDepths: row.supportedBitDepths })),
-      gpuUntested: true, startRefused: true, remuxRefused: true, sameFolderRefused: true,
+      gpuUntested: true, staleStartRefused: true, remuxRefused: true, sameFolderRefused: true,
       freshInspectionRepeated: true, appearancePersistence: true, actualCancellation: true,
       sourceUnchanged: true, outputUnchanged: true, versions: capabilities.versions, census, artifactDirectory: root }, null, 2));
   } finally {

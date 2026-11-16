@@ -1,5 +1,5 @@
 'use strict';
-// Admission seam only. Not imported by an application factory or entry point.
+// Main-only whole-batch admission for the explicit qualified AV1 composition.
 // It does not create receipts, runtime observations, runners or qualifications.
 const { EncoderService } = require('../src/encoder-service.cjs');
 const { PROFILES } = require('../src/media.cjs');

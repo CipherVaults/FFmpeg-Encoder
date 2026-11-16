@@ -10,7 +10,7 @@ const { createWorkbenchService } = require('./workbench-service.cjs');
 const { selectWorkbenchRuntime } = require('./workbench-runtime-choice.cjs');
 const runtimeChoice = selectWorkbenchRuntime(process.argv);
 const createService = runtimeChoice === 'baseline' ? createWorkbenchService
-  : require('./workbench-av1-service.cjs').createAv1WorkbenchService;
+  : require('./workbench-av1-service.cjs').createQualifiedAv1WorkbenchService;
 const { AppearanceSettings } = require('../src/appearance.cjs');
 const { OutputAccess } = require('../src/output-access.cjs');
 const { registerIpc } = require('../src/ipc.cjs');
@@ -31,7 +31,7 @@ for (const [name, child] of [['userData', 'electron-state'], ['sessionData', 'el
   app.setPath(name, directory);
 }
 let title = 'FFmpeg Encoder · Linux CPU preview · Full SDR · 30-minute encode limit';
-if (runtimeChoice !== 'baseline') title += ' · FFmpeg 9.0.2 AV1 experiment';
+if (runtimeChoice !== 'baseline') title = 'FFmpeg Encoder · Linux CPU preview · FFmpeg 9.0.2 AV1 · ordinary encode limit 30 minutes';
 const census = { spawned: 0, closed: 0, live: 0, maximum: 0 };
 let window, service, appearance, unregister;
 let closing = false, closed = false, closePromise, startupPromise, appearanceFailed = false, failed = false;
@@ -84,7 +84,8 @@ async function launch() {
   } });
   if (closing) { beginClose(); return; }
   title += service.linuxRemuxStatus.available ? ' · Remux ≤60s: MKV video / MP4 AAC'
-    : runtimeChoice === 'baseline' ? ' · Remux unavailable (source mismatch)' : ' · Remux/trim not yet qualified';
+    : runtimeChoice === 'baseline' ? ' · Remux unavailable (source mismatch)' : ' · Remux unavailable';
+  if (service.linuxQualifiedEncodeStatus?.available) title += ' · H265 FLAC range/resize: per-file eligibility';
   await service.initializeDiagnostics();
   appearance = new AppearanceSettings({ directory: stateDir });
   const initial = await appearance.load();
@@ -132,7 +133,8 @@ async function launch() {
   const preferences = window.webContents.getLastWebPreferences();
   console.log('LINUX_WORKBENCH_READY', JSON.stringify({ electron: process.versions.electron,
     runtimeChoice, runtimeIdentity: service.runtimeIdentity,
-    mode: 'ordinary-cpu-full-sdr', remuxAvailable: service.linuxRemuxStatus.available, sandbox: preferences.sandbox,
+    mode: service.linuxQualifiedEncodeStatus?.available ? 'qualified-cpu-sdr' : 'ordinary-cpu-full-sdr',
+    qualifiedFamilies: service.linuxQualifiedEncodeStatus?.familyIds || [], remuxAvailable: service.linuxRemuxStatus.available, sandbox: preferences.sandbox,
     contextIsolation: preferences.contextIsolation, nodeIntegration: preferences.nodeIntegration,
     originalUi: true, originalPreload: true }));
 }

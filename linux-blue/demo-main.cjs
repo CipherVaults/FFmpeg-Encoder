@@ -9,6 +9,7 @@ const { createSyntheticService } = require('./synthetic-service.cjs');
 const { createDemoController } = require('./demo-controller.cjs');
 const { registerDemoIpc } = require('./demo-ipc.cjs');
 const { verifyTool } = require('./runtime.cjs');
+const { preflightOutputFolder } = require('./output-preflight.cjs');
 app.enableSandbox();
 app.disableHardwareAcceleration();
 const parent = path.join(__dirname, 'artifacts', 'desktop-demo');
@@ -22,6 +23,10 @@ async function launchDemo({ onChild, show = true } = {}) {
   await fs.mkdir(parent, { recursive: true, mode: 0o700 });
   await app.whenReady();
   await verifyTool('ffmpeg'); await verifyTool('ffprobe');
+  const storage = await preflightOutputFolder(parent);
+  console.log('LINUX_DEMO_OUTPUT_PREFLIGHT', JSON.stringify({ passed: storage.passed,
+    atomicPublication: storage.atomicPublication, collisionPreserved: storage.collisionPreserved,
+    persistentReuse: storage.persistentReuse }));
   const census = { spawned: 0, closed: 0, live: 0, maximum: 0 };
   const controller = await createDemoController({ createService: createSyntheticService,
     source: process.env.LINUX_BLUE_SYNTHETIC_FIXTURE, parent, onChild(child) {

@@ -4,10 +4,12 @@ const { acceptCpuSettings, cpuChoices } = require('./ui-policy.cjs');
 const error = code => Object.assign(new Error(code), { code });
 const terminalError = code => ['CANCELLED', 'SYNTHETIC_OUTPUT_EXISTS', 'PUBLICATION_UNCERTAIN'].includes(code) ? code : 'JOB_FAILED';
 
-async function createDemoController({ createService, source, parent, onChild }) {
+async function createDemoController({ createService, source, parent, onChild, selectSource, inspectSource }) {
   let closing = false, pending = null;
+  let inspection = null;
+  let sourceState = { phase: 'empty', report: null, errorCode: null };
   let state = { phase: 'idle', jobId: 0, profileId: null, frame: 0, errorCode: null, publication: 'none' };
-  const snapshot = () => ({ ...state });
+  const snapshot = () => ({ ...state, inspection: { ...sourceState, busy: Boolean(inspection) } });
   const service = await createService({ source, parent, onChild, onProgress(value) {
     if (!['running', 'validating'].includes(state.phase)) return;
     if (Number.isFinite(value.frame)) state.frame = Math.min(12, Math.max(0, Math.floor(value.frame)));
@@ -15,7 +17,7 @@ async function createDemoController({ createService, source, parent, onChild }) 
   } });
   function start(request) {
     if (closing) throw error('DEMO_CLOSED');
-    if (pending) throw error('DEMO_BUSY');
+    if (pending || inspection) throw error('DEMO_BUSY');
     const settings = acceptCpuSettings(request);
     state = { phase: 'running', jobId: state.jobId + 1, profileId: settings.profileId, frame: 0, errorCode: null, publication: 'none' };
     // Start synchronously so an immediately following cancel sees the same job.
@@ -34,8 +36,37 @@ async function createDemoController({ createService, source, parent, onChild }) 
   }
   async function cancel() {
     if (closing) throw error('DEMO_CLOSED');
+    if (inspection) {
+      const active = inspection; active.abort.abort();
+      // Native pickers have their own Cancel button. Do not wait for dismissal.
+      // Keep admission locked until a late selection has been ignored.
+      if (!active.selecting) await active.task;
+      return snapshot();
+    }
     const job = pending;
     if (job) { state.phase = 'cancelling'; await service.cancel(); await job; }
+    return snapshot();
+  }
+  function inspect() {
+    if (closing) throw error('DEMO_CLOSED');
+    if (pending || inspection) throw error('DEMO_BUSY');
+    if (typeof selectSource !== 'function' || typeof inspectSource !== 'function') throw error('DEMO_FAILED');
+    const active = { abort: new AbortController(), selecting: true, task: null };
+    inspection = active; sourceState = { phase: 'choosing', report: null, errorCode: null };
+    active.task = (async () => {
+      try {
+        const selected = await selectSource(); active.selecting = false;
+        if (closing) return;
+        if (!selected || active.abort.signal.aborted) { sourceState.phase = 'cancelled'; return; }
+        sourceState.phase = 'inspecting';
+        const report = await inspectSource(selected, { signal: active.abort.signal, onChild });
+        if (!closing) sourceState = active.abort.signal.aborted ? { phase: 'cancelled', report: null, errorCode: null }
+          : { phase: 'ready', report, errorCode: null };
+      } catch (failure) {
+        if (!closing) sourceState = { phase: active.abort.signal.aborted ? 'cancelled' : 'failed', report: null,
+          errorCode: active.abort.signal.aborted ? null : ['SOURCE_PATH', 'SOURCE_CHANGED', 'SOURCE_REPORT', 'TIMEOUT'].includes(failure?.code) ? failure.code : 'INSPECTION_FAILED' };
+      } finally { if (inspection === active) inspection = null; }
+    })();
     return snapshot();
   }
   let closure;
@@ -43,10 +74,17 @@ async function createDemoController({ createService, source, parent, onChild }) 
     if (!closure) {
       closing = true;
       state.phase = 'closing';
-      closure = (async () => { await service.close(); await pending; state.phase = 'closed'; })();
+      inspection?.abort.abort();
+      closure = (async () => {
+        await service.close(); await pending;
+        // A picker has no owned child. Window destruction dismisses it; late
+        // results are ignored. A launched probe must drain before destruction.
+        if (inspection && !inspection.selecting) await inspection.task;
+        state.phase = 'closed';
+      })();
     }
     return closure;
   }
-  return Object.freeze({ start, cancel, close, snapshot, choices: cpuChoices });
+  return Object.freeze({ start, cancel, close, snapshot, inspect, choices: cpuChoices });
 }
 module.exports = { createDemoController };

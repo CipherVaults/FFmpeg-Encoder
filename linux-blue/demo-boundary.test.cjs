@@ -24,7 +24,7 @@ test('start is exclusive; progress never becomes publication and snapshot is det
   const snapshot = f.c.snapshot(); snapshot.phase = 'forged';
   f.resolve({ published: true, destination: '/private-output', cleanup: { reason: '/private-path' } }); await turn();
   assert.equal(f.c.snapshot().phase, 'completed');
-  assert.deepEqual(Object.keys(f.c.snapshot()).sort(), ['errorCode', 'frame', 'jobId', 'phase', 'profileId', 'publication']);
+  assert.deepEqual(Object.keys(f.c.snapshot()).sort(), ['errorCode', 'frame', 'inspection', 'jobId', 'phase', 'profileId', 'publication']);
   assert(!JSON.stringify(f.c.snapshot()).includes('/private'));
 });
 test('bad renderer settings cannot start a service job', async () => {
@@ -72,12 +72,12 @@ function ipcFixture() {
   const handlers = new Map(); let destroyed = false, calls = 0;
   const frame = { url: 'file:///owned/demo.html' }, contents = { mainFrame: frame };
   const window = { webContents: contents, isDestroyed: () => destroyed };
-  const controller = Object.fromEntries(['choices', 'snapshot', 'start', 'cancel'].map(name => [name, async () => { calls++; if (name === 'cancel') throw Object.assign(new Error('/private/system/error'), { code: 'OS_ERROR' }); return name; }]));
+  const controller = Object.fromEntries(['choices', 'snapshot', 'start', 'cancel', 'inspect'].map(name => [name, async () => { calls++; if (name === 'cancel') throw Object.assign(new Error('/private/system/error'), { code: 'OS_ERROR' }); return name; }]));
   const unregister = registerDemoIpc({ ipcMain: { handle: (name, fn) => handlers.set(name, fn), removeHandler: name => handlers.delete(name) }, window, entryUrl: frame.url, controller });
   return { handlers, frame, contents, calls: () => calls, destroy: () => { destroyed = true; }, unregister, event: () => ({ sender: contents, senderFrame: frame }) };
 }
-test('IPC exposes exactly four methods and accepts only its main frame', async () => {
-  const f = ipcFixture(); assert.equal(f.handlers.size, 4);
+test('IPC exposes exactly five methods and accepts only its main frame', async () => {
+  const f = ipcFixture(); assert.equal(f.handlers.size, 5);
   assert.deepEqual(await f.handlers.get('linux-demo:start')(f.event(), settings()), { ok: true, value: 'start' });
   assert.equal(f.calls(), 1); f.unregister(); assert.equal(f.handlers.size, 0);
 });
@@ -94,7 +94,7 @@ test('foreign contents, subframes, navigated URL and destroyed window cannot inv
 });
 test('IPC rejects surplus and missing arguments; raw service errors are not transmitted', async () => {
   const f = ipcFixture();
-  for (const [name, args] of [['start', []], ['start', [settings(), 'extra']], ['state', ['extra']], ['cancel', ['extra']], ['choices', ['extra']]]) {
+  for (const [name, args] of [['start', []], ['start', [settings(), 'extra']], ['state', ['extra']], ['cancel', ['extra']], ['choices', ['extra']], ['inspect', ['/renderer-path']]]) {
     assert.equal((await f.handlers.get(`linux-demo:${name}`)(f.event(), ...args)).error.code, 'INVALID_REQUEST');
   }
   assert.equal(f.calls(), 0);

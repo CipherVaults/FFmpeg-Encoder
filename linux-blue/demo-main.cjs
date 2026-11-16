@@ -1,6 +1,6 @@
 'use strict';
 // Separate opt-in entry. The Windows main/preload/runtime paths stay untouched.
-const { app, BrowserWindow, ipcMain, session } = require('electron');
+const { app, BrowserWindow, ipcMain, session, dialog } = require('electron');
 const fs = require('node:fs/promises');
 const { mkdirSync } = require('node:fs');
 const path = require('node:path');
@@ -10,6 +10,7 @@ const { createDemoController } = require('./demo-controller.cjs');
 const { registerDemoIpc } = require('./demo-ipc.cjs');
 const { verifyTool } = require('./runtime.cjs');
 const { preflightOutputFolder } = require('./output-preflight.cjs');
+const { inspectSource } = require('./source-inspection.cjs');
 app.enableSandbox();
 app.disableHardwareAcceleration();
 const parent = path.join(__dirname, 'artifacts', 'desktop-demo');
@@ -28,8 +29,14 @@ async function launchDemo({ onChild, show = true } = {}) {
     atomicPublication: storage.atomicPublication, collisionPreserved: storage.collisionPreserved,
     persistentReuse: storage.persistentReuse }));
   const census = { spawned: 0, closed: 0, live: 0, maximum: 0 };
+  let window;
   const controller = await createDemoController({ createService: createSyntheticService,
-    source: process.env.LINUX_BLUE_SYNTHETIC_FIXTURE, parent, onChild(child) {
+    source: process.env.LINUX_BLUE_SYNTHETIC_FIXTURE, parent, inspectSource,
+    async selectSource() {
+      const result = await dialog.showOpenDialog(window, { title: 'Inspect Matroska information only',
+        buttonLabel: 'Inspect only', filters: [{ name: 'Matroska / WebM', extensions: ['mkv', 'webm'] }], properties: ['openFile'] });
+      return result.canceled || result.filePaths.length !== 1 ? null : result.filePaths[0];
+    }, onChild(child) {
       census.spawned++; census.live++; census.maximum = Math.max(census.maximum, census.live);
       child.once('close', () => { census.closed++; census.live--; });
       onChild?.(child);
@@ -41,7 +48,7 @@ async function launchDemo({ onChild, show = true } = {}) {
   isolated.setPermissionCheckHandler(() => false);
   isolated.setDevicePermissionHandler(() => false);
   isolated.webRequest.onBeforeRequest((details, callback) => callback({ cancel: !allowed.has(details.url) }));
-  const window = new BrowserWindow({ width: 900, height: 680, minWidth: 720, minHeight: 580, show,
+  window = new BrowserWindow({ width: 900, height: 820, minWidth: 720, minHeight: 680, show,
     title: 'Blue Linux · Synthetic CPU Demo', autoHideMenuBar: true, backgroundColor: '#101a27',
     webPreferences: { session: isolated, preload: path.join(__dirname, 'demo-preload.cjs'),
       sandbox: true, contextIsolation: true, nodeIntegration: false, nodeIntegrationInWorker: false,

@@ -8,7 +8,7 @@ const { PROFILES } = require('../src/media.cjs');
 const { PINS, verifyTool } = require('./runtime.cjs');
 const { createRemuxControls, RUNTIME_ID } = require('./workbench-remux.cjs');
 
-const START_MESSAGE = 'Linux CPU preview supports only SDR Full, Keep source, copied audio to a distinct folder. Changed encodes, GPU and HDR remain unavailable. Remux requires the separate verified video-only MP4-to-MKV preview.';
+const START_MESSAGE = 'Linux CPU preview supports only SDR Full, Keep source, copied audio to a distinct folder. Changed encodes, GPU and HDR remain unavailable. Remux requires the separate verified MP4 preview (video-only to MKV, retained AAC to MP4).';
 const ENCODE_LIMIT_MS = 30 * 60 * 1000;
 const CPU_ENCODERS = new Set(['copy', 'ffv1', 'libx264', 'libx265', 'libsvtav1']);
 const OPTION_KEYS = new Set(['signal', 'timeoutMs', 'stdoutLimit', 'stderrLimit', 'onProgress']);
@@ -90,7 +90,7 @@ class LinuxWorkbenchService extends EncoderService {
       for (const fileId of request.fileIds) {
         const entry = plan.entries.get(fileId);
         if (!entry?.remux || entry.native || entry.hdr || entry.vendor || entry.encodePreservation
-            || entry.operationPlan?.contract?.request?.target !== 'matroska'
+            || !['matroska', 'mp4'].includes(entry.operationPlan?.contract?.request?.target)
             || entry.remuxRequest?.omissionRequestIds.length !== 0) {
           throw refusal('LINUX_WORKBENCH_ROUTE_UNAVAILABLE', START_MESSAGE);
         }

@@ -21,7 +21,7 @@ const SOURCE_PINS = Object.freeze({
 const BUDGET = Object.freeze({ sourceDecode: 'complete', timeoutMs: 120000,
   maxFrameBytes: 8 * 1024 * 1024, maxPcmBytes: 128 * 1024 * 1024,
   maxRecords: 20000, maxSpoolBytes: 32 * 1024 * 1024 });
-const POLICY_ID = 'blue-linux-remux-short-preview-v1';
+const POLICY_ID = 'blue-linux-remux-short-preview-v2';
 const fail = (code, message) => { throw new ToolError(code, message); };
 async function checkRemuxSources(root = path.resolve(__dirname, '..')) {
   const missing = [];
@@ -35,16 +35,23 @@ async function checkRemuxSources(root = path.resolve(__dirname, '..')) {
 }
 function requirePreviewSource(assessment, input) {
   const source = getRemuxAssessmentSource(assessment);
+  const audio = source.streams.filter(stream => stream.codec_type === 'audio');
+  const retainedAac = assessment.target === 'mp4' && audio.length === 1
+    && audio[0].codec_name === 'aac' && audio[0].profile === 'LC'
+    && audio[0].sample_fmt === 'fltp' && ['44100', '48000'].includes(audio[0].sample_rate)
+    && (audio[0].channels === 1 && audio[0].channel_layout === 'mono'
+      || audio[0].channels === 2 && audio[0].channel_layout === 'stereo');
+  const videoOnlyMkv = assessment.target === 'matroska' && audio.length === 0;
   // Add a deliberately small Linux envelope on top of all shared native checks.
-  if (typeof input !== 'string' || path.extname(input).toLowerCase() !== '.mp4' || assessment.inputFamily !== 'isobmff' || assessment.target !== 'matroska'
+  // AAC-to-MKV is intentionally refused: retained evidence lost priming/timing.
+  if (typeof input !== 'string' || path.extname(input).toLowerCase() !== '.mp4' || assessment.inputFamily !== 'isobmff' || !(videoOnlyMkv || retainedAac)
       || assessment.request.omissionRequestIds.length || source.chapters.length
-      || source.streams.length !== 1
+      || source.streams.length !== 1 + audio.length
       || source.streams.some(s => !['video', 'audio'].includes(s.codec_type))
       || source.streams.filter(s => s.codec_type === 'video').length !== 1
-      || source.streams.some(s => s.codec_type !== 'video')
       || !(Number(source.format.duration) > 0 && Number(source.format.duration) <= 60)
       || !(Number(source.format.size) > 0 && Number(source.format.size) <= 128 * 1024 * 1024)) {
-    fail('LINUX_REMUX_ENVELOPE', 'Linux Remux preview requires Full MP4 to MKV, exactly one H.264 video and no audio, no omissions/chapters, up to 60 seconds and 128 MiB.');
+    fail('LINUX_REMUX_ENVELOPE', 'Linux Remux preview requires Full MP4 input: video-only to MKV, or one retained AAC-LC 44.1/48kHz mono/stereo track to MP4. No omissions/chapters; up to 60 seconds and 128 MiB.');
   }
   // Shared sourcePolicy independently enforces SDR H264, geometry, cadence,
   // audio formats, relationships, orientation and native admission.
@@ -83,6 +90,9 @@ async function createRemuxControls({ stateDir, onChild } = {}) {
     remuxOperations: new PreviewRemuxOperations({ runtimeIdentity: RUNTIME_ID, policyIdentity: POLICY_ID,
       policies: [{ id: 'blue-linux-isobmff-matroska-preview-v1', inputFamily: 'isobmff', target: 'matroska',
         runtimeIdentity: RUNTIME_ID, evidenceIds: ['blue-linux-remux-2JIh4F:reviewed-video-and-lifecycle'],
+        allowAncillary: false, allowRotation90: false, verificationMethod: 'packet-identity-v1' },
+      { id: 'blue-linux-isobmff-mp4-aac-preview-v1', inputFamily: 'isobmff', target: 'mp4',
+        runtimeIdentity: RUNTIME_ID, evidenceIds: ['blue-linux-aac-u50FPp:reviewed-four-formats-and-cancel'],
         allowAncillary: false, allowRotation90: false, verificationMethod: 'packet-identity-v1' }] }),
     operationRuntime: runtime, operationEvidenceBudget: BUDGET, operationDeadlineMs: 600000,
     operationStorage: () => openEvidenceStorage({ root: path.join(stateDir, 'operation-evidence') }),

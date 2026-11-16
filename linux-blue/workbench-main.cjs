@@ -76,7 +76,7 @@ async function launch() {
     child.once('close', () => { census.closed++; census.live--; });
   } });
   if (closing) { beginClose(); return; }
-  title += service.linuxRemuxStatus.available ? ' · Remux: video-only MP4→MKV ≤60s' : ' · Remux unavailable (source mismatch)';
+  title += service.linuxRemuxStatus.available ? ' · Remux ≤60s: MKV video / MP4 AAC' : ' · Remux unavailable (source mismatch)';
   await service.initializeDiagnostics();
   appearance = new AppearanceSettings({ directory: stateDir });
   const initial = await appearance.load();

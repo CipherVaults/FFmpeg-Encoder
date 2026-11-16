@@ -79,7 +79,7 @@ test('evidence boundary refuses wrong tools/unbounded time and preserves termina
   }
 });
 
-test('bounded preview refuses audio, chapters, omissions, other containers/targets and larger sources', () => {
+test('bounded preview permits reviewed AAC-to-MP4 only and refuses unsupported shapes', () => {
   const { assessRemux } = require('../src/remux-contract.cjs');
   const { requirePreviewSource } = require('./workbench-remux.cjs');
   // Synthetic metadata facts only; no file/media equivalence is inferred.
@@ -91,7 +91,7 @@ test('bounded preview refuses audio, chapters, omissions, other containers/targe
     format: { format_name: 'mov,mp4,m4a,3gp,3g2,mj2', duration: '1', size: '91154', nb_streams: 1,
       nb_programs: 0, nb_stream_groups: 0, tags: {} }, chapters: [], programs: [], stream_groups: [] };
   function assessment(change = () => {}, requestChange = {}) {
-    const value = structuredClone(probe); change(value);
+    const value = structuredClone(probe); change(value); value.format.nb_streams = value.streams.length;
     return assessRemux({ probe: value, sourceFingerprint: 'a'.repeat(64), request: {
       fileId: 'synthetic', identityRevision: 0, draftRevision: 0, operation: 'remux', target: 'matroska',
       range: null, omissionRequestIds: [], ...requestChange } });
@@ -106,6 +106,19 @@ test('bounded preview refuses audio, chapters, omissions, other containers/targe
     assert.throws(() => requirePreviewSource(assessment(change), '/synthetic.mp4'));
   }
   assert.throws(() => requirePreviewSource(assessment(() => {}, { target: 'mp4' }), '/synthetic.mp4'));
+  const audio = { index: 1, codec_type: 'audio', codec_name: 'aac', profile: 'LC', sample_fmt: 'fltp',
+    sample_rate: '48000', channels: 1, channel_layout: 'mono', tags: {}, disposition: { default: 1 } };
+  for (const sample_rate of ['44100', '48000']) for (const [channels, channel_layout] of [[1, 'mono'], [2, 'stereo']]) {
+    const eligible = assessment(p => p.streams.push({ ...audio, sample_rate, channels, channel_layout }), { target: 'mp4' });
+    assert.equal(eligible.blockers.length, 0, JSON.stringify(eligible.blockers));
+    assert.doesNotThrow(() => requirePreviewSource(eligible, '/synthetic.mp4'));
+  }
+  for (const patch of [{ sample_rate: '96000' }, { profile: 'HE-AAC' }, { codec_name: 'mp3' },
+    { channels: 6, channel_layout: '5.1' }, { channels: 2, channel_layout: 'mono' }]) {
+    assert.throws(() => requirePreviewSource(assessment(p => p.streams.push({ ...audio, ...patch }), { target: 'mp4' }), '/synthetic.mp4'));
+  }
+  assert.throws(() => requirePreviewSource(assessment(p => p.streams.push(audio, { ...audio, index: 2 }), { target: 'mp4' }), '/synthetic.mp4'));
+
   assert.throws(() => requirePreviewSource(assessment(() => {}, { omissionRequestIds: ['not-a-grant'] }), '/synthetic.mp4'));
 });
 

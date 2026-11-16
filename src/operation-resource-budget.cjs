@@ -6,6 +6,8 @@ const RESOURCE_POLICY = 'cfr720p30-flac-resources-v1';
 const FAMILY_ID = 'cfr-sdr-range-flac-v2';
 const RESIZE_FAMILY_ID = 'cfr-sdr-range-resize-flac-v1';
 const RESIZE_RESOURCE_POLICY = 'cfr1080p30-to720p-flac-resources-v1';
+const FULL_RESIZE_FAMILY_ID = 'cfr-sdr-full-resize-flac-v1';
+const FULL_RESIZE_RESOURCE_POLICY = 'cfr1080p30-full-to720p-flac-resources-v1';
 const MiB = 1024n * 1024n, TIMER = 2147483647n;
 const fault = message => { throw Object.assign(new Error(message), { code: 'OPERATION_RESOURCE_CAPACITY' }); };
 const ceil = (n, d) => (n + d - 1n) / d;
@@ -65,4 +67,10 @@ function deriveResources({ sourceExtentUs, selectedExtentUs, sourceBytes }, resi
 }
 function deriveCfrFlacResources(options) { return deriveResources(options, false); }
 function deriveCfrResizeFlacResources(options) { return deriveResources(options, true); }
-module.exports = { RESOURCE_POLICY, FAMILY_ID, deriveCfrFlacResources, RESIZE_RESOURCE_POLICY, RESIZE_FAMILY_ID, deriveCfrResizeFlacResources };
+// Full has no invented interval: every source stream is processed to its own
+// end. The selector supplies the maximum observed video/audio/container extent
+// as both decoding and output workload, conservatively including audio tails.
+function deriveCfrFullResizeFlacResources({ sourceExtentUs, sourceBytes }) {
+  return deriveResources({ sourceExtentUs, selectedExtentUs: sourceExtentUs, sourceBytes }, true);
+}
+module.exports = { FULL_RESIZE_FAMILY_ID, FULL_RESIZE_RESOURCE_POLICY, deriveCfrFullResizeFlacResources, RESOURCE_POLICY, FAMILY_ID, deriveCfrFlacResources, RESIZE_RESOURCE_POLICY, RESIZE_FAMILY_ID, deriveCfrResizeFlacResources };

@@ -56,3 +56,18 @@ test('1080p resize charges pixel-derived decode and scaling time but not PCM or 
   for (const patch of [{ selectedExtentUs: 150000001 }, { sourceBytes: '9007199254740991' }, { sourceExtentUs: Number.MAX_SAFE_INTEGER }])
     assert.throws(() => deriveCfrResizeFlacResources({ ...options, ...patch }), { code: 'OPERATION_RESOURCE_CAPACITY' });
 });
+
+test('Full resize budgets all observed source extent without a caller-selected interval', () => {
+  const { FULL_RESIZE_FAMILY_ID, FULL_RESIZE_RESOURCE_POLICY, deriveCfrFullResizeFlacResources, deriveCfrResizeFlacResources } = require('../src/operation-resource-budget.cjs');
+  assert.equal(FULL_RESIZE_FAMILY_ID, 'cfr-sdr-full-resize-flac-v1');
+  assert.equal(FULL_RESIZE_RESOURCE_POLICY, 'cfr1080p30-full-to720p-flac-resources-v1');
+  const options = { sourceExtentUs: 151250000, sourceBytes: '100000000' };
+  const full = deriveCfrFullResizeFlacResources(options);
+  assert.deepEqual(full, deriveCfrResizeFlacResources({ ...options, selectedExtentUs: options.sourceExtentUs }));
+  assert.deepEqual(full, deriveCfrFullResizeFlacResources({ ...options, selectedExtentUs: 1 }));
+  assert.equal(full.budget.maxPcmBytes, 151.25 * 48000 * 4 + 192000);
+  assert.ok(full.resources.telemetryRecords >= 151.25 * 256);
+  assert.ok(Object.isFrozen(full) && Object.isFrozen(full.resources));
+  for (const patch of [{ sourceExtentUs: 0 }, { sourceExtentUs: Number.MAX_SAFE_INTEGER }, { sourceBytes: '9007199254740991' }])
+    assert.throws(() => deriveCfrFullResizeFlacResources({ ...options, ...patch }), { code: 'OPERATION_RESOURCE_CAPACITY' });
+});

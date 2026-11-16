@@ -75,6 +75,19 @@ function createWorkbenchRunner({ verify = verifyTool, execute = runTool, onChild
   };
 }
 
+// Shared admission predicate only; superclass owns currentness and execution.
+function isOrdinaryWorkbenchEntry(entry) {
+  const operation = entry?.operationPlan, contract = operation?.contract, effective = contract?.request;
+  return !(!entry || operation?.compatibilityPath !== true || operation.instrumentation
+          || operation.qualificationRequirements?.length !== 0
+          || ['native', 'vendor', 'remux', 'hdr', 'encodePreservation'].some(key => entry[key])
+          || entry.inspection?.color?.classification !== 'sdr' || entry.inspection.color.supported !== true
+          || effective?.operation !== 'encode' || effective.target !== 'matroska'
+          || effective.range !== null || effective.resolution !== 'source' || effective.audioPolicy !== 'copy'
+          || !['preserve', 'sdr'].includes(effective.hdrPolicy)
+          || effective.omissionRequestIds?.length !== 0 || contract.omissionRequests?.ids?.length !== 0);
+}
+
 class LinuxWorkbenchService extends EncoderService {
   async prepareRemuxBatch(request) {
     if (!this.remuxOperations) throw refusal('REMUX_CONTROLS_UNAVAILABLE',
@@ -102,16 +115,7 @@ class LinuxWorkbenchService extends EncoderService {
       throw refusal('LINUX_WORKBENCH_ROUTE_UNAVAILABLE', START_MESSAGE);
     }
     for (const fileId of request.fileIds) {
-      const entry = plan.entries.get(fileId), operation = entry?.operationPlan;
-      const contract = operation?.contract, effective = contract?.request;
-      if (!entry || operation?.compatibilityPath !== true || operation.instrumentation
-          || operation.qualificationRequirements?.length !== 0
-          || ['native', 'vendor', 'remux', 'hdr', 'encodePreservation'].some(key => entry[key])
-          || entry.inspection?.color?.classification !== 'sdr' || entry.inspection.color.supported !== true
-          || effective?.operation !== 'encode' || effective.target !== 'matroska'
-          || effective.range !== null || effective.resolution !== 'source' || effective.audioPolicy !== 'copy'
-          || !['preserve', 'sdr'].includes(effective.hdrPolicy)
-          || effective.omissionRequestIds?.length !== 0 || contract.omissionRequests?.ids?.length !== 0) {
+      if (!isOrdinaryWorkbenchEntry(plan.entries.get(fileId))) {
         throw refusal('LINUX_WORKBENCH_ROUTE_UNAVAILABLE', START_MESSAGE);
       }
     }
@@ -134,4 +138,4 @@ async function createWorkbenchService({ stateDir, onChild, outputAccess } = {}) 
   return service;
 }
 
-module.exports = { createWorkbenchRunner, createWorkbenchService, LinuxWorkbenchService, validateInvocation, START_MESSAGE, ENCODE_LIMIT_MS };
+module.exports = { isOrdinaryWorkbenchEntry, createWorkbenchRunner, createWorkbenchService, LinuxWorkbenchService, validateInvocation, START_MESSAGE, ENCODE_LIMIT_MS };

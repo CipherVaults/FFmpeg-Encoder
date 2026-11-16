@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'none'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blue Linux · Synthetic CPU Demo</title><link rel="stylesheet" href="demo.css"></head>
+<body><main>
+<header><span class="eyebrow">BLUE LINUX / LOCAL EXPERIMENT</span><h1>One tiny fixture.<br>Three CPU encoders.</h1><p class="lead">A sandboxed desktop boundary for the existing synthetic-only service.</p></header>
+<section class="fixture"><span class="badge">SYNTHETIC ONLY</span><p>320 × 180 · 12 frames · BT.709 SDR · stereo PCM<br><small>No personal media, GPU or Windows qualification.</small></p></section>
+<form id="settings"><div class="fields"><label>CPU codec<select id="profile" disabled></select></label><label>Preset<select id="preset" disabled></select></label><label>Quality<input id="quality" type="number" step="1" disabled></label></div>
+<div class="actions"><button id="start" type="submit" disabled>Encode synthetic fixture</button><button id="cancel" type="button" class="secondary" disabled>Cancel job</button></div></form>
+<section class="status" aria-live="polite"><div class="status-line"><strong id="phase">Preparing trusted fixture…</strong><span id="frames">0 / 12 frames</span></div><progress id="progress" max="12" value="0"></progress><p id="detail">Main owns all paths, tool pins and output publication.</p><p id="error" role="alert"></p></section>
+<footer>One job at a time. Existing outputs are never replaced.<br>Closing waits for owned children to stop. Outputs stay in a private test directory.</footer>
+</main><script src="demo-renderer.js"></script></body></html>

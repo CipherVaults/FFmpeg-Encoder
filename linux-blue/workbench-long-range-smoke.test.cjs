@@ -1,7 +1,15 @@
 'use strict';
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { isSourceEvidence, selectCaseFolders } = require('./workbench-long-range-smoke.cjs');
+const { isSourceEvidence, selectCaseFolders, smokeProfile } = require('./workbench-long-range-smoke.cjs');
+test('service campaign geometry and publication status stay separate and main-owned', () => {
+  const keep = smokeProfile(), resize = smokeProfile('resize1080to720');
+  assert.equal(keep.width, 1280); assert.equal(keep.resolution, 'source');
+  assert.equal(resize.width, 1920); assert.equal(resize.height, 1080); assert.equal(resize.resolution, '720');
+  assert.notEqual(keep.label, resize.label); assert.notEqual(keep.passedStatus, resize.passedStatus);
+  assert.ok(Object.isFrozen(keep) && Object.isFrozen(resize));
+  assert.throws(() => smokeProfile('../other'));
+});
 test('evidence cancellation observes only the active source full-frame decode', () => {
   const source = '/owned/current.mov';
   const child = (...args) => ({ spawnargs: ['/fixed/ffprobe', ...args] });

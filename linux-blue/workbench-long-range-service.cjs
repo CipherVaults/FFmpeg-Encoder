@@ -11,7 +11,7 @@ const { describeEncodeOperationSource } = require('../src/encode-operation.cjs')
 const { OperationRuntimeObserver } = require('../src/operation-runtime.cjs');
 const { openEvidenceStorage } = require('../src/operation-storage.cjs');
 const { failedVendorCapabilities } = require('../src/vendor-capabilities.cjs');
-const { deriveCfrFlacResources, FAMILY_ID, RESOURCE_POLICY } = require('../src/operation-resource-budget.cjs');
+const { deriveCfrFlacResources, FAMILY_ID, RESOURCE_POLICY, deriveCfrResizeFlacResources, RESIZE_FAMILY_ID, RESIZE_RESOURCE_POLICY } = require('../src/operation-resource-budget.cjs');
 const { frozenQualifications } = require('../scripts/v07-sdr-flac-range-calibration.cjs');
 const { PINS, RUNTIME_ID, verifyAv1Tool } = require('./runtime-av1.cjs');
 const { createAv1ProportionalRunner } = require('./runtime-av1-operation.cjs');
@@ -62,14 +62,16 @@ class ClockQualifiedFamilySelector extends OperationFamilySelector {
 }
 // Pure validator accepts a digest only for deterministic testing. The service
 // below never accepts a caller-selected receipt, digest, runtime or policy.
-function assertLongRangeReceipt(bytes, expectedSha = REPORT_SHA) {
+function assertProportionalReceipt(bytes, expectedSha, config) {
   need(typeof expectedSha === 'string' && /^[a-f0-9]{64}$/.test(expectedSha), 'Long-range qualification receipt is pending.');
   need(sha(bytes) === expectedSha, 'The exact reviewed long-range receipt is required.');
   let report; try { report = JSON.parse(bytes); } catch { need(false, 'Invalid long-range receipt JSON.'); }
   need(report?.status === 'passed-pre-catalog-calibration' && report.runtimeIdentity === RUNTIME_ID
-    && report.resourcePolicy === RESOURCE_POLICY && report.publicationAuthorized === false && report.catalogActivated === false
+    && report.resourcePolicy === config.resourcePolicy && report.publicationAuthorized === false && report.catalogActivated === false
     && same(report.settings, SETTINGS) && !report.failure && !report.closeFailure,
   'A successful matching pre-catalog calibration is required.');
+  if (config.resize) need(same(report.geometry, { sourceWidth: 1920, sourceHeight: 1080, resolution: '720', outputWidth: 1280, outputHeight: 720 }),
+    'Resize calibration must prove 1080p to 720p geometry.');
   need(report.census?.spawned > 0 && report.census.spawned === report.census.closed
     && report.census.live === 0 && report.census.maximum === 1, 'Calibration children must all be closed without overlap.');
   need(Array.isArray(report.sources) && report.sources.length === 2 && Array.isArray(report.cases) && report.cases.length === 3,
@@ -79,7 +81,12 @@ function assertLongRangeReceipt(bytes, expectedSha = REPORT_SHA) {
     need(source?.id === id && source.sourceExtentUs === (index === 0 ? 150000000 : 11000000)
       && /^[a-f0-9]{64}$/.test(source.sha256) && typeof source.identity?.size === 'string', 'Calibration source record is incomplete.');
     assertQualifiedClocks(source.probe);
-    const expected = frozenQualifications(`${path.basename(path.dirname(REPORT))}:${id}`, RUNTIME_ID, source.probe);
+    if (config.resize) {
+      const video = source.probe.streams.find(stream => stream.codec_type === 'video');
+      need(video.width === 1920 && video.height === 1080 && video.sample_aspect_ratio === '1:1'
+        && video.display_aspect_ratio === '16:9', 'Resize calibration requires square-pixel 1080p source geometry.');
+    }
+    const expected = frozenQualifications(`${path.basename(path.dirname(config.report))}:${id}`, RUNTIME_ID, source.probe);
     need(same(source.frozen, expected), 'Qualifications must equal the before-encode clock-derived bounds, not fitted output errors.');
   }
   need(report.sources[0].sha256 !== report.sources[1].sha256, 'Held-out source must be independent.');
@@ -87,9 +94,11 @@ function assertLongRangeReceipt(bytes, expectedSha = REPORT_SHA) {
     const spec = CASES[i], row = report.cases[i], source = report.sources.find(s => s.id === spec.sourceId);
     need(row?.id === spec.id && row.sourceId === spec.sourceId && same(row.range, spec.range)
       && row.status === 'passed' && row.validation?.valid === true, 'Every expected calibration case must have passed strict validation.');
+    if (config.resize) need(row.completeSource?.video?.properties?.policy === RESIZE_FAMILY_ID,
+      'Resize evidence must belong to the distinct resize family.');
     const start = spec.range.startUs, end = spec.range.endUs ?? source.sourceExtentUs;
     const count = rate => Math.ceil(end * rate / 1000000) - Math.ceil(start * rate / 1000000);
-    const resources = deriveCfrFlacResources({ sourceExtentUs: source.sourceExtentUs, selectedExtentUs: end - start, sourceBytes: source.identity.size });
+    const resources = config.derive({ sourceExtentUs: source.sourceExtentUs, selectedExtentUs: end - start, sourceBytes: source.identity.size });
     need(same(row.resources, resources) && Number.isSafeInteger(row.pipeBytes) && row.pipeBytes > 0
       && row.pipeBytes <= resources.resources.pipeBytes && Number.isSafeInteger(row.elapsedMs) && row.elapsedMs >= 0
       && row.elapsedMs <= resources.executionBudgetMs, 'Case resources must match the frozen source-derived policy.');
@@ -102,9 +111,9 @@ function assertLongRangeReceipt(bytes, expectedSha = REPORT_SHA) {
   }
   return report;
 }
-async function createLongRangeService({ stateDir, onChild } = {}) {
-  need(REPORT_SHA !== null, 'Long-range qualification receipt is pending.');
-  const report = assertLongRangeReceipt(await fs.readFile(REPORT));
+async function createProportionalService({ stateDir, onChild } = {}, config) {
+  need(config.reportSha !== null, 'Long-range qualification receipt is pending.');
+  const report = assertProportionalReceipt(await fs.readFile(config.report), config.reportSha, config);
   need(sha(await fs.readFile(path.resolve(__dirname, '../src/operation-runtime.cjs'))) === OBSERVER_SHA,
     'The exact reviewed runtime observer is required; no parity fallback.');
   await verifyAv1Tool('ffmpeg'); await verifyAv1Tool('ffprobe');
@@ -114,8 +123,8 @@ async function createLongRangeService({ stateDir, onChild } = {}) {
     pins: Object.fromEntries(Object.entries(PINS).map(([kind, pin]) => [kind, { sizeBytes: pin.size, sha256: pin.sha256 }])), run,
   });
   const { qualification, timingQualification } = report.sources[0].frozen;
-  const operationQualifications = new ClockQualifiedFamilySelector({ policyIdentity: 'blue-linux-long-range-clock-qualified-v1', families: [{
-    id: FAMILY_ID, runtimeIdentity: RUNTIME_ID, environment: null, settings: SETTINGS, resourcePolicy: RESOURCE_POLICY,
+  const operationQualifications = new ClockQualifiedFamilySelector({ policyIdentity: config.policyIdentity, families: [{
+    id: config.familyId, runtimeIdentity: RUNTIME_ID, environment: null, settings: SETTINGS, resourcePolicy: config.resourcePolicy,
     qualification, timingQualification, evidenceIds: report.sources.flatMap(s => [s.frozen.qualification.evidenceId, s.frozen.timingQualification.evidenceId]),
   }] });
   return new CandidateTrimService({ ffmpeg: PINS.ffmpeg.path, ffprobe: PINS.ffprobe.path, stateDir,
@@ -125,5 +134,27 @@ async function createLongRangeService({ stateDir, onChild } = {}) {
     operationStorage: () => openEvidenceStorage({ root: path.join(stateDir, 'operation-evidence') }),
   });
 }
+// Only trusted main modules call this factory. It chooses one of two fixed
+// families; no config reaches IPC, renderer, CLI or environment variables.
+function createProportionalServiceFactory(configuration) {
+  const keys = ['kind', 'report', 'reportSha'];
+  need(configuration && Object.getPrototypeOf(configuration) === Object.prototype
+    && Reflect.ownKeys(configuration).length === keys.length
+    && keys.every(key => Object.hasOwn(Object.getOwnPropertyDescriptor(configuration, key) || {}, 'value')),
+  'A complete inert main-owned service configuration is required.');
+  const { kind, report, reportSha } = configuration;
+  need(['keep720', 'resize1080to720'].includes(kind) && typeof report === 'string' && path.isAbsolute(report)
+    && (reportSha === null || typeof reportSha === 'string' && /^[a-f0-9]{64}$/.test(reportSha)),
+  'A fixed variant and exact or pending receipt are required.');
+  const resize = kind === 'resize1080to720';
+  const config = Object.freeze({ report, reportSha, resize,
+    familyId: resize ? RESIZE_FAMILY_ID : FAMILY_ID, resourcePolicy: resize ? RESIZE_RESOURCE_POLICY : RESOURCE_POLICY,
+    derive: resize ? deriveCfrResizeFlacResources : deriveCfrFlacResources,
+    policyIdentity: resize ? 'blue-linux-resize-clock-qualified-v1' : 'blue-linux-long-range-clock-qualified-v1' });
+  return Object.freeze({ createService: options => createProportionalService(options, config),
+    assertReceipt: (bytes, expectedSha = config.reportSha) => assertProportionalReceipt(bytes, expectedSha, config) });
+}
+const original = createProportionalServiceFactory({ kind: 'keep720', report: REPORT, reportSha: REPORT_SHA });
+const createLongRangeService = original.createService, assertLongRangeReceipt = original.assertReceipt;
 module.exports = { createLongRangeService, assertLongRangeReceipt, assertQualifiedClocks, ClockQualifiedFamilySelector,
-  REPORT, REPORT_SHA, CLOCKS, clockGuardedRunner };
+  REPORT, REPORT_SHA, CLOCKS, clockGuardedRunner, createProportionalServiceFactory };

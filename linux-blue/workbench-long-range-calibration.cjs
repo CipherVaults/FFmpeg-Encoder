@@ -7,10 +7,11 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 const { createHash, randomUUID } = require('node:crypto');
 const { PINS, RUNTIME_ID, createAv1ProportionalRunner } = require('./runtime-av1-operation.cjs');
-const { deriveCfrFlacResources, FAMILY_ID, RESOURCE_POLICY } = require('../src/operation-resource-budget.cjs');
+const { deriveCfrFlacResources, FAMILY_ID, RESOURCE_POLICY, deriveCfrResizeFlacResources,
+  RESIZE_FAMILY_ID, RESIZE_RESOURCE_POLICY } = require('../src/operation-resource-budget.cjs');
 const { inspectInput, inspectMetadata } = require('../src/inspection.cjs');
 const { resolveFileRequest } = require('../src/operation-contract.cjs');
-const { buildEncodeOperation, withEncodeOperationTelemetry, resolveEncodeOperationInvocation,
+const { buildEncodeOperation, fingerprintEncodeSource, withEncodeOperationTelemetry, resolveEncodeOperationInvocation,
   validateEncodeOperationTelemetry, validateEncodeOperationOutput } = require('../src/encode-operation.cjs');
 const { createOperationTelemetry, assertTelemetryReady, collectOperationTelemetry, closeOperationTelemetry } = require('../src/operation-telemetry.cjs');
 const { collectOperationEvidence } = require('../src/operation-evidence.cjs');
@@ -29,6 +30,16 @@ const SOURCES = Object.freeze([
     { id: 'heldout-nonaligned', range: { startUs: 413000, endUs: 8621000 } },
   ] },
 ]);
+// Two fixed, main-owned developer campaigns, not a caller-supplied geometry,
+// runtime or qualification channel. Each has its own retained report namespace.
+function campaign(kind = 'keep720') {
+  assert.ok(['keep720', 'resize1080to720'].includes(kind), 'Unknown developer calibration campaign');
+  const resize = kind === 'resize1080to720';
+  return Object.freeze({ label: resize ? 'resize-calibration-' : 'long-range-calibration-',
+    width: resize ? 1920 : 1280, height: resize ? 1080 : 720, resolution: resize ? '720' : 'source',
+    familyId: resize ? RESIZE_FAMILY_ID : FAMILY_ID, resourcePolicy: resize ? RESIZE_RESOURCE_POLICY : RESOURCE_POLICY,
+    derive: resize ? deriveCfrResizeFlacResources : deriveCfrFlacResources });
+}
 async function fileHash(file) {
   const hash = createHash('sha256');
   for await (const chunk of createReadStream(file)) hash.update(chunk);
@@ -45,11 +56,14 @@ const count = (start, end, rate) => Number((BigInt(end) * BigInt(rate) + 999999n
 const errorRecord = error => ({ code: error.code, message: error.message,
   ...(error.evidenceDirectory ? { evidenceDirectory: error.evidenceDirectory } : {}),
   ...(error.cause ? { cause: { code: error.cause.code, message: error.cause.message } } : {}) });
-async function main() {
+async function runCampaign(kind) {
+  const config = campaign(kind), sources = structuredClone(SOURCES);
+  assert.equal(typeof config.derive, 'function', 'The matching reviewed resource planner is required');
   const space = await fs.statfs(__dirname, { bigint: true });
   assert.ok(space.bavail * space.bsize > 25n * 1024n ** 3n + 2n * 1024n ** 3n, 'Retain storage floor plus campaign allocation');
-  const root = await fs.mkdtemp(path.join(__dirname, 'artifacts', 'long-range-calibration-'));
-  const report = { root, status: 'preparing', runtimeIdentity: RUNTIME_ID, resourcePolicy: RESOURCE_POLICY,
+  const root = await fs.mkdtemp(path.join(__dirname, 'artifacts', config.label));
+  const report = { root, status: 'preparing', runtimeIdentity: RUNTIME_ID, resourcePolicy: config.resourcePolicy,
+    geometry: { sourceWidth: config.width, sourceHeight: config.height, resolution: config.resolution, outputWidth: 1280, outputHeight: 720 },
     publicationAuthorized: false, catalogActivated: false, settings: SETTINGS, sources: [], cases: [],
     census: { spawned: 0, closed: 0, live: 0, maximum: 0 }, totalPipeBytes: 0 };
   const controller = new AbortController(), timer = setTimeout(() => controller.abort(), 30 * 60000);
@@ -79,10 +93,10 @@ async function main() {
     return result;
   };
   try {
-    for (const spec of SOURCES) {
+    for (const spec of sources) {
       const source = path.join(root, `${spec.id}.mov`);
       await run(PINS.ffmpeg.path, ['-hide_banner', '-nostdin', '-v', 'error', '-n',
-        '-f', 'lavfi', '-i', `testsrc2=size=1280x720:rate=30:duration=${spec.seconds}`,
+        '-f', 'lavfi', '-i', `testsrc2=size=${config.width}x${config.height}:rate=30:duration=${spec.seconds}`,
         '-f', 'lavfi', '-i', `aevalsrc=0.18*sin(2*PI*(${spec.frequency}*t+5.5*t*t))|0.18*sin(2*PI*(${spec.frequency + 219}*t+6.5*t*t)):s=48000:c=stereo:d=${spec.seconds}`,
         '-map', '0:v:0', '-map', '1:a:0', '-map_metadata', '-1', '-map_chapters', '-1',
         '-vf', `${spec.flip ? 'hflip,' : ''}setsar=1,setparams=range=limited:color_primaries=bt709:color_trc=bt709:colorspace=bt709`,
@@ -91,10 +105,12 @@ async function main() {
         '-fps_mode:v:0', 'passthrough', '-color_primaries:v:0', 'bt709', '-color_trc:v:0', 'bt709',
         '-colorspace:v:0', 'bt709', '-color_range:v:0', 'tv', '-c:a:0', 'pcm_s16le', '-sample_fmt:a:0', 's16',
         '-ar:a:0', '48000', '-channel_layout:a:0', 'stereo', '-t', String(spec.seconds), '-movflags', '+faststart', '-f', 'mov', source],
-      { timeoutMs: 30000 + spec.seconds * 3000 });
+      { timeoutMs: 30000 + spec.seconds * 3000 * config.width * config.height / (1280 * 720) });
       const sourceHash = await fileHash(source), sourceIdentity = await readSourceIdentity(source);
       const inspection = await inspectInput(source, { ffprobe: PINS.ffprobe.path, signal: controller.signal, run });
       assert.equal(inspection.color.classification, 'sdr'); assert.equal(inspection.color.supported, true);
+      const sourceVideo = inspection.probe.streams.find(s => s.codec_type === 'video');
+      assert.equal(sourceVideo.width, config.width); assert.equal(sourceVideo.height, config.height);
       const observed = [inspection.probe.format.duration, ...inspection.probe.streams.map(s => s.duration)].map(micros);
       assert.ok(observed.every(value => value === spec.seconds * 1000000));
       const sourceExtentUs = Math.max(...observed);
@@ -106,19 +122,27 @@ async function main() {
       const profile = PROFILES.find(row => row.id === SETTINGS.profileId), recipe = describeRecipe(SETTINGS);
       for (const requestSpec of spec.cases) {
         const start = requestSpec.range.startUs || 0, end = requestSpec.range.endUs ?? sourceExtentUs;
-        const resources = deriveCfrFlacResources({ sourceExtentUs, selectedExtentUs: end - start, sourceBytes: sourceIdentity.size });
+        const resources = config.derive({ sourceExtentUs, selectedExtentUs: end - start, sourceBytes: sourceIdentity.size });
         const directory = path.join(root, requestSpec.id); await fs.mkdir(directory);
         const stage = activeStage = await createStage(directory);
         const request = resolveFileRequest({ fileId: requestSpec.id, identityRevision: 1, draftRevision: 1,
-          operation: 'encode', overrides: { range: requestSpec.range, resolution: 'source', audioPolicy: 'precision-flac' } });
+          operation: 'encode', overrides: { range: requestSpec.range, resolution: config.resolution, audioPolicy: 'precision-flac' } });
         const generationDescription = generationDescriptionOf({ version: 1, profileId: profile.id, codec: profile.codec,
           backend: profile.hardware, encoder: profile.encoder, preset: SETTINGS.preset, qualityMode: recipe.qualityMode,
           quality: 25, bitDepth: 8, encoderArgs: recipe.args, appVersion: require('../package.json').version,
           runtimeVersion, createdAt: new Date().toISOString() });
+        const geometry = inspection.probe.mediaEvidence.streams.find(s => s.index === sourceVideo.index).geometry;
+        const orientation = config.resolution === '720' && geometry.rotationSource === 'not-reported'
+          ? { evidenceId: `${path.basename(root)}:${spec.id}:owned-test-signal-identity`, runtimeIdentity: RUNTIME_ID,
+            sourceEvidenceFingerprint: fingerprintEncodeSource(inspection.probe), videoIndex: sourceVideo.index } : null;
         const plan = withEncodeOperationTelemetry(buildEncodeOperation({ input: source, output: path.join(directory, 'prepared.mkv'),
-          settings: SETTINGS, inspection, request, runtimeIdentity: RUNTIME_ID, outputId: randomUUID(), generationDescription }));
+          settings: SETTINGS, inspection, request, runtimeIdentity: RUNTIME_ID, outputId: randomUUID(), generationDescription,
+          ...(orientation ? { identityOrientationQualification: orientation } : {}) }));
         const entry = activeCase = { id: requestSpec.id, sourceId: spec.id, range: requestSpec.range,
-          resources, pipeBytes: 0, status: 'encoding', planFingerprint: plan.planFingerprint, startedAt: Date.now() };
+          resources, pipeBytes: 0, status: 'encoding', planFingerprint: plan.planFingerprint, startedAt: Date.now(),
+          geometry: plan.expectedOutput.geometry, videoFilters: plan.expectedOutput.filters.video,
+          identityOrientationInterpretation: orientation ? { ...orientation,
+            basis: 'Owned unrotated test-signal construction with unchanged independently hashed source; no rotation tag is fabricated.' } : null };
         caseController = new AbortController();
         caseTimer = setTimeout(() => caseController.abort(), resources.executionBudgetMs);
         report.cases.push(entry);
@@ -133,12 +157,15 @@ async function main() {
         await closeOperationTelemetry(telemetry, { childClosed: true }); activeTelemetry = null;
         const outputProbe = await inspectMetadata(stage.file, { ffprobe: PINS.ffprobe.path, signal: controller.signal, run });
         for (const stream of outputProbe.streams) assert.equal(stream.time_base, frozen.expectedOutputTimeBase);
+        const outputVideo = outputProbe.streams.find(s => s.codec_type === 'video');
+        assert.equal(outputVideo.width, 1280); assert.equal(outputVideo.height, 720);
+        assert.equal(outputVideo.sample_aspect_ratio, '1:1'); assert.equal(outputVideo.display_aspect_ratio, '16:9');
         entry.status = 'collecting-evidence';
         const collection = await collectOperationEvidence({ plan, sourceProbe: inspection.probe, outputProbe,
           sourcePath: source, outputPath: stage.file, stageDirectory: directory,
           ffmpeg: PINS.ffmpeg.path, ffprobe: PINS.ffprobe.path, run, signal: controller.signal,
           budget: resources.budget, timingQualification: frozen.timingQualification,
-          sourcePolicy: { id: FAMILY_ID, rate: 30, maximumExtentUs: sourceExtentUs } });
+          sourcePolicy: { id: config.familyId, rate: 30, maximumExtentUs: sourceExtentUs } });
         entry.telemetry = validateEncodeOperationTelemetry(plan, telemetryEvidence, collection);
         entry.validation = validateEncodeOperationOutput(plan, outputProbe, { qualification: frozen.qualification, decodedEvidence: collection.decodedEvidence });
         assert.equal(entry.validation.valid, true, entry.validation.errors.join('; '));
@@ -176,5 +203,6 @@ async function main() {
     failure: report.failure, closeFailure: report.closeFailure }, null, 2));
   return report;
 }
+const main = () => runCampaign('keep720');
 if (require.main === module) main().catch(error => { console.error(error); process.exitCode = 1; });
-module.exports = { main, micros, count, SOURCES };
+module.exports = { main, runCampaign, campaign, micros, count, SOURCES };

@@ -6,15 +6,24 @@ An experimental Linux development fork of FFmpeg Encoder. It follows the origina
 
 ## What works so far
 
-The isolated Linux demo has been tested on Linux x64 with Electron 44.7.0 and the explicitly pinned Debian FFmpeg/ffprobe 7.1.5 executables:
+### Original application workbench
 
-- Synthetic H.264, H.265 and AV1 CPU encoding through a sandboxed desktop UI.
-- Editable CPU settings, one job at a time, cancellation and orderly close.
-- Validation before output publication and refusal to overwrite existing files.
-- A temporary-output preflight that checks exclusive publication and collision preservation.
-- A native picker and read-only MP4-family and Matroska/WebM metadata display. Inspecting a selected file does **not** authorize encoding it; Encode still uses the known synthetic fixture.
+The original six-tab workbench, dark amber and paper-light teal themes, settings, inspection and shared encoding service now run through a separate Linux entry point. On the reviewed Linux x64 host with Electron 44.7.0 and pinned Debian FFmpeg/ffprobe 7.1.5:
 
-The small demo is a development test surface, not the completed original application or its final Linux interface. These are bounded results on synthetic media and one host, not general codec quality, hostile-media qualification or whole-app acceptance. The published MP4 inspection checkpoint at `7ea4b0b6` records **199 passing focused tests, 0 failures and 9 Windows-only skips**. Test counts in earlier reports describe their own checkpoints, not additional non-overlapping coverage. No GitHub CI pass is claimed.
+- H.264, H.265 and AV1 CPU jobs use the existing ordinary SDR plan: Full range, source geometry, Matroska output, copied audio, no omissions and **distinct input/output folders**.
+- Each file has an explicit **30-minute encode limit**. Cancellation drains the child process; successful completion requires terminal progress, validation and protected publication.
+- Source-change refusal, existing-output protection, publication collisions and retained uncertain/completed outcomes were exercised.
+- The original UI completed Prepare → Start → Succeeded for H.265, and Show in folder selected the output in the Linux file manager. OS playback/Open output was not tested.
+
+The [CPU workbench checkpoint](linux-blue/WORKBENCH_CPU_CHECKPOINT.md) at `1d7eb260` records **12 focused passes** and **219 shared regression passes with one preserved inherited failure**. The latter is a Linux test-fixture inode-reuse interaction that reaches source protection earlier than the test expects; the guard was not weakened, and a new held-source regression proves the intended missing-source behavior. This is **not a green full suite**.
+
+Real ordinary-service smoke evidence covers three codecs on one generated **8-bit**, 12-frame SDR source, with full decode and copied-audio hash checks. Separate startup capability checks cover 8/10-bit availability; they are not equivalent to an ordinary 10-bit media campaign. Existing product validation is not a newly installed always-on full-decode/audio-hash verifier.
+
+### Earlier synthetic test surface
+
+The smaller `demo-main.cjs` interface remains a development harness, not the original application or final Linux design. Its existing evidence covers synthetic CPU encodes, cancellation/close, no-overwrite output and temporary-output preflight, plus read-only MP4-family and Matroska/WebM information. In **that harness**, inspecting a file does not select it for encoding: Encode still uses the known synthetic fixture.
+
+Its MP4 checkpoint at `7ea4b0b6` recorded 199 focused passes and 9 Windows-only skips. Historical counts overlap and must not be added together. Neither lane establishes general codec quality, hostile-media qualification, whole-app acceptance or a GitHub CI pass.
 
 ## Start here
 
@@ -24,6 +33,8 @@ The small demo is a development test surface, not the completed original applica
 
 | Area | Evidence and continuation |
 | --- | --- |
+| Original workbench orientation | [Workbench preview checkpoint](linux-blue/WORKBENCH_PREVIEW_CHECKPOINT.md) |
+| Ordinary CPU workbench execution | [CPU workbench checkpoint](linux-blue/WORKBENCH_CPU_CHECKPOINT.md) |
 | Synthetic desktop | [Desktop demo checkpoint](linux-blue/DESKTOP_DEMO_CHECKPOINT.md) |
 | Temporary output | [Output preflight checkpoint](linux-blue/OUTPUT_PREFLIGHT_CHECKPOINT.md) |
 | Read-only source information | [Source inspection checkpoint](linux-blue/SOURCE_INSPECTION_CHECKPOINT.md) |
@@ -37,7 +48,15 @@ The original product records retain Windows history and requirements. Their Wind
 
 **A fresh checkout has not yet been verified end-to-end.** The owner added the recovery-kit runtime, pilot and tests to this branch in commit `4e9d117`. Their bytes matched the delivered kit. That closes the recorded missing-runtime-file gap, but not the complete setup/recovery check.
 
-The desktop demo still requires its known synthetic fixture, a compatible reviewed runtime and a GUI-capable environment. The generated fixture, FFmpeg/Electron binaries, installed dependencies and raw local receipts are not supplied as a complete ready-to-run bundle. Do not substitute arbitrary media for the fixture or weaken executable pins/sandboxing to get a successful launch.
+The **original workbench** uses the reviewed installed Electron executable:
+
+```sh
+electron linux-blue/workbench-main.cjs
+```
+
+This command assumes a matching reviewed Linux runtime and a GUI-capable environment; it is not a fresh-machine provisioning recipe. The published `workbench-smoke.cjs` and `workbench-execution-smoke.cjs` generate their own synthetic media on a matching host. The older synthetic demo separately requires its exact external fixture.
+
+FFmpeg/Electron binaries, installed dependencies, generated media and raw local receipts are not a complete ready-to-run bundle in GitHub. Do not weaken executable pins or sandboxing to make another host pass. Two older remote remux dependencies remain unsynchronized and unused by the current CPU route; this is not complete project/PC recovery.
 
 For the lightweight CPU settings check, run from the repository root with Node:
 
@@ -47,11 +66,11 @@ node --test linux-blue/ui-policy.test.cjs
 
 This tests settings validation only. See the linked checkpoint reports for exact larger test commands and prerequisites; a prior local pass does not prove a new checkout passes.
 
-The tested demo entry is `linux-blue/demo-main.cjs`. Its qualified local launch supplies `LINUX_BLUE_SYNTHETIC_FIXTURE` and an already reviewed Electron executable, as documented in the desktop checkpoint. **Do not use `npm start` as the Linux demo launcher:** the original application entry remains Windows-oriented.
+The earlier synthetic demo entry is `linux-blue/demo-main.cjs`. Its qualified local launch supplies `LINUX_BLUE_SYNTHETIC_FIXTURE` and an already reviewed Electron executable, as documented in the desktop checkpoint. **Do not use `npm start` as either Linux launcher:** the original application entry remains Windows-oriented.
 
 ## What remains outside the claim
 
-- Encoding arbitrary selected media, production batch parity and persistent recovery.
+- General media/fidelity qualification, changed operations, remux, same-folder reuse and persistent recovery. Only the bounded ordinary CPU route described above is enabled.
 - NVIDIA/AMD/Intel hardware qualification, Windows integration and HDR acceptance.
 - Installers, portable distribution, complete dependency provisioning and release acceptance.
 - A verified fresh-clone recovery of the complete working environment.

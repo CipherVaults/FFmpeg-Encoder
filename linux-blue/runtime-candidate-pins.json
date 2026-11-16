@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "version": "9.0.2",
+  "purpose": "Workspace-only pre-activation CPU trim qualification; not the app runtime",
+  "source": "https://ffmpeg.org/releases/ffmpeg-9.0.2.tar.xz",
+  "sourceSha256": "8c3850283eb25fa026482078a04051e0be17347b09ef81a0849bec15a96e002e",
+  "sourceSignatureFingerprint": "FCF986EA15E6E293A5644F10B4322F04D67658D8",
+  "tools": {
+    "ffmpeg": { "size": 46155144, "sha256": "49cb28e84a2fe48a528a04316abe016ea85bd2d55289c020bf961caf46743f62" },
+    "ffprobe": { "size": 45937928, "sha256": "2944be01b51a7bc5dd232310f3b033e70cc702a99789393584c90dc627538c02" }
+  }
+}

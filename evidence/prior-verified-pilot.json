@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 1,
+  "result": "PASSED",
+  "scope": "Linux component compatibility on one tiny synthetic SDR corpus, not application or release qualification",
+  "sourceCommit": "1b9838a0c4a9379ef36032ddea4c422e66aaea9b",
+  "sourceSnapshotSha256": "24cbe9a2d416e7d3957b00181e9898a7eb965fa70490b69ed31a16cf02057b3b",
+  "selectedTests": {
+    "total": 88,
+    "passed": 88,
+    "failed": 0,
+    "skipped": 0
+  },
+  "node": "v24.22.1",
+  "runtime": {
+    "ffmpeg": {
+      "path": "/usr/bin/ffmpeg",
+      "size": 366984,
+      "sha256": "e8a8d46f5225f3062cec7c07fb145d58ae73c603cb740dcd5bad34bfb54e455a"
+    },
+    "ffprobe": {
+      "path": "/usr/bin/ffprobe",
+      "size": 206504,
+      "sha256": "cefc5f81c0b18429cdbf8fa5a89e1e9c759235e10f93f9b329ff1b2fdff26f46"
+    }
+  },
+  "cases": [
+    {
+      "profileId": "h264-cpu",
+      "settings": {
+        "profileId": "h264-cpu",
+        "preset": "slower",
+        "quality": 24
+      },
+      "outputBytes": 90410,
+      "outputSha256": "3ced6c0b39c4c30e011426246a29993531c82df80c6d0579bb625479a6029e8d",
+      "frameCount": 12,
+      "audioPayloadPreserved": true,
+      "fullDecode": true
+    },
+    {
+      "profileId": "h265-cpu",
+      "settings": {
+        "profileId": "h265-cpu",
+        "preset": "slow",
+        "quality": 25
+      },
+      "outputBytes": 95151,
+      "outputSha256": "28087faecd754ae23b8ff884e8fab857036213688ea87d70da8f962ad958c60a",
+      "frameCount": 12,
+      "audioPayloadPreserved": true,
+      "fullDecode": true
+    },
+    {
+      "profileId": "av1-cpu",
+      "settings": {
+        "profileId": "av1-cpu",
+        "preset": "6",
+        "quality": 32
+      },
+      "outputBytes": 89628,
+      "outputSha256": "2b841c9bd930eb08fc1c9cf69e732ddadcf4e8b725a33af8c13448e5390a5212",
+      "frameCount": 12,
+      "audioPayloadPreserved": true,
+      "fullDecode": true
+    }
+  ],
+  "children": {
+    "spawned": 20,
+    "closed": 20,
+    "maximumLive": 1,
+    "liveAtEnd": 0
+  },
+  "sourceUnchanged": true,
+  "overwriteRefusal": {
+    "status": "PASSED",
+    "existingOutputUnchanged": true,
+    "runtimeExitCode": 0,
+    "terminalProgress": false,
+    "note": "A zero exit can be an overwrite refusal, not a completed encode."
+  },
+  "activeCancellation": "PASSED: progress observed, cancellation rejected after close, child absent",
+  "rawReceiptSha256": "b4568d8a2e7c9b0618e69dc011d557ce9312f0ed1b48f619702216aea9e3592b",
+  "preliminaryRuns": [
+    {
+      "run": "cpu-pilot-LoFLd2",
+      "status": "FAILED",
+      "cases": 0,
+      "children": {
+        "spawned": 6,
+        "closed": 6,
+        "maximumLive": 1,
+        "liveAtEnd": 0
+      },
+      "failure": "Input color evidence is ambiguous or unsupported.",
+      "receiptSha256": "aaeade75bc775448754206d79f9a0f4e599581392d8ef99771b1db54dfc6fd95"
+    },
+    {
+      "run": "cpu-pilot-YXv0uU",
+      "status": "FAILED",
+      "cases": 0,
+      "children": {
+        "spawned": 6,
+        "closed": 6,
+        "maximumLive": 1,
+        "liveAtEnd": 0
+      },
+      "failure": "Input color evidence is ambiguous or unsupported.",
+      "receiptSha256": "b00acde2163ec56fa4a9c2365790e579bae2ac387f04281219710a9dd63b4e1f"
+    },
+    {
+      "run": "cpu-pilot-jOBbaG",
+      "status": "PASSED",
+      "cases": 3,
+      "children": {
+        "spawned": 20,
+        "closed": 20,
+        "maximumLive": 1,
+        "liveAtEnd": 0
+      },
+      "failure": null,
+      "receiptSha256": "dabf0cfa826411932924fbb3e6103b7cf4c1641a0b32553196c61a899b8caf5b"
+    },
+    {
+      "run": "cpu-pilot-wEigNL",
+      "status": "FAILED",
+      "cases": 1,
+      "children": {
+        "spawned": 11,
+        "closed": 11,
+        "maximumLive": 1,
+        "liveAtEnd": 0
+      },
+      "failure": "Missing expected rejection.",
+      "receiptSha256": "437bef4881f806e505fce30eb7d89210307aeef35a1d4b2e418854032aa39597"
+    }
+  ],
+  "limits": [
+    "No Windows, NVIDIA, AMD, Intel, UI, service, packaging, HDR or representative-quality claim",
+    "System FFmpeg is dynamically linked; only executables are hash-bound, not a release-pinned library closure",
+    "No production qualification catalog or policy is changed"
+  ],
+  "sourceFiles": [
+    {
+      "path": "linux-blue/runtime.cjs",
+      "bytes": 5005,
+      "sha256": "0ddd5026996fa23e8122e359c340b08ff84a2786f56362099b38eaf8927331c8"
+    },
+    {
+      "path": "linux-blue/runtime.test.cjs",
+      "bytes": 3959,
+      "sha256": "77e5a2a83a5a9ef7ef9334d6e01d90f6ac3b66aa4ba87f177ce7b102c267d446"
+    },
+    {
+      "path": "linux-blue/pilot.cjs",
+      "bytes": 10284,
+      "sha256": "a6bee4709eeb8f0d91c5b524c064c5be03d68a0c93b837de7adfc00a85d9b0c8"
+    },
+    {
+      "path": "src/media.cjs",
+      "bytes": 24420,
+      "sha256": "4aaf7227e43b8ba10134fa1e34d15be7362eb5195d001eb1cfc629b66c677e66"
+    },
+    {
+      "path": "src/process-runner.cjs",
+      "bytes": 16953,
+      "sha256": "257ae0ce717d086635a133535df9a73afd2609b83ad231ea8ed0798b3596395c"
+    },
+    {
+      "path": "src/container-clock.cjs",
+      "bytes": 13353,
+      "sha256": "b823f1e41c4cca19a0b06d82dadf1941f4e0a0326b6d16bd910691c702763857"
+    }
+  ]
+}

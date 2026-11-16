@@ -108,3 +108,31 @@ Final focused wiring identities (SHA256):
 - `workbench-av1-admission.cjs`: `20899a813ef101b0c7b7d25a14c4653b5fce3a0d71baa749c66be840752cf7e7`
 - `workbench-av1-service.test.cjs`: `5b430cc610dd6e3c4d16a26084e3eb38e9cc494ae054d8d49c571ad30a1787bb`
 - `workbench-qualified-encode-controls.test.cjs`: `c885c4ce00556c108118d13324c2c369748d22d047a8517cbfb5e32b420f97f3`
+
+
+## Four-family 1440p extension and dependency isolation
+
+The bounded independent diff review caught and corrected an eager fourth-service
+import that could break the preserved three-family route. The fourth module now
+loads only on the four-family builder path; a throwing-dependency regression
+proves old construction remains independent while new construction fails closed.
+Exact receipt pins, before-read pending gates, private current selector authority,
+fixed pair, ordinary/proportional runner separation and whole-batch preflight
+remain. No renderer API, arbitrary path/argument channel or network export was added.
+
+Independent terminal review accepted the 18-case composed receipt
+`1b48c726c8c5de0923c9c1533ee0ec4a5907e411c3109c90d8c4fe0d534b7d1e`,
+all 34 frozen source identities and six media hashes, 236/236 closed children,
+forged/stale zero-child refusal, active cancellations and collision protection.
+Main then changed only its explicit AV1 selector to the four-family factory;
+59/59 wiring checks passed. Factory/controls executable bodies did not change
+after media proof. The previous native, filesystem-race, parser and full-repository
+review limitations still apply. This is not an automated security scan.
+
+Final focused wiring identities (SHA256):
+- `workbench-main.cjs`: `0c2cc197e9d2f737cf04b3f15879410554bc40222c5822ba79043a02ae7f3bb5`
+- `workbench-av1-service.cjs`: `3e3194ad1192add569d93f230d2891dc339c6215b7ee5095a2f9523950679db9`
+- `workbench-av1-admission.cjs`: `0922c276755c7791cbcaa314b95990bba8634e8dc33302ee23baadb2b0c0dc53`
+- `workbench-qualified-encode-controls.cjs`: `9b4e3af77a0ffc9125ec61eb39d6383b7666bccbb3cdd69ad4a02f12ff89d9c7`
+- `workbench-av1-service.test.cjs`: `6079eec204ed3e0b15970089018a06ac42e0072b1fc06b67d8192d35349036a6`
+- `workbench-qualified-encode-controls.test.cjs`: `18b69949fa9f5894556a74e11e8b0c7a2625022df397ab9388515730fe874ac1`

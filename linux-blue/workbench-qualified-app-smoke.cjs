@@ -6,9 +6,9 @@ const { createReadStream } = require('node:fs');
 const path = require('node:path');
 const assert = require('node:assert/strict');
 const { createHash } = require('node:crypto');
-const { createQualifiedAv1WorkbenchService } = require('./workbench-av1-service.cjs');
+const { createQualifiedAv1WorkbenchService, create1440QualifiedAv1WorkbenchService } = require('./workbench-av1-service.cjs');
 const { PINS, RUNTIME_ID, createAv1ProportionalRunner } = require('./runtime-av1-operation.cjs');
-const { FAMILY_ID, RESIZE_FAMILY_ID, FULL_RESIZE_FAMILY_ID } = require('../src/operation-resource-budget.cjs');
+const { FAMILY_ID, RESIZE_FAMILY_ID, FULL_RESIZE_FAMILY_ID, FULL_1440_RESIZE_FAMILY_ID } = require('../src/operation-resource-budget.cjs');
 const { isProportionalFamilySelection } = require('../src/operation-family.cjs');
 const { operationCostLimits } = require('../src/encoder-service.cjs');
 const { PROFILES } = require('../src/media.cjs');
@@ -20,16 +20,27 @@ const SOURCES = Object.freeze([
   Object.freeze({ id: 'keep', width: 1280, height: 720, videoUs: 6000000, audioUs: 6000000 }),
   Object.freeze({ id: 'resize', width: 1920, height: 1080, videoUs: 6000000, audioUs: 6117000 }),
 ]);
+const SOURCE_1440 = Object.freeze({ id: 'full1440', width: 2560, height: 1440, videoUs: 3000000, audioUs: 3117000 });
+const CHANGE_1440 = Object.freeze({ id: 'full-1440-tail', source: 'full1440', family: FULL_1440_RESIZE_FAMILY_ID, range: null, resolution: '720' });
+function campaignProfile(kind = 'three') {
+  assert.ok(['three', 'four1440'].includes(kind), 'Only fixed composed-app campaign variants');
+  const fourth = kind === 'four1440';
+  return Object.freeze({ fourth, label: fourth ? 'qualified-1440-app-service-' : 'qualified-app-service-',
+    sources: Object.freeze(fourth ? [...SOURCES, SOURCE_1440] : [...SOURCES]),
+    changes: Object.freeze(fourth ? [...CHANGED, CHANGE_1440] : [...CHANGED]),
+    familyIds: Object.freeze([FAMILY_ID, RESIZE_FAMILY_ID, FULL_RESIZE_FAMILY_ID, ...(fourth ? [FULL_1440_RESIZE_FAMILY_ID] : [])]),
+    passedStatus: fourth ? 'passed-composed-1440-av1-workbench-service-proof' : 'passed-composed-av1-workbench-service-proof' });
+}
 const RANGE = Object.freeze({ startUs: 613000, endUs: 3721000 });
 const CHANGED = Object.freeze([
   Object.freeze({ id: 'keep-range', source: 'keep', family: FAMILY_ID, range: RANGE, resolution: 'source' }),
   Object.freeze({ id: 'resize-range', source: 'resize', family: RESIZE_FAMILY_ID, range: RANGE, resolution: '720' }),
   Object.freeze({ id: 'resize-full-tail', source: 'resize', family: FULL_RESIZE_FAMILY_ID, range: null, resolution: '720' }),
 ]);
-function assertReady(service) {
+function assertReady(service, kind = 'three') {
   assert.equal(service.runtimeIdentity, RUNTIME_ID);
   assert.equal(service.linuxQualifiedEncodeStatus?.available, true, 'Qualified app controls are not activated; no media proof may start');
-  assert.deepEqual([...service.linuxQualifiedEncodeStatus.familyIds].sort(), [FAMILY_ID, RESIZE_FAMILY_ID, FULL_RESIZE_FAMILY_ID].sort());
+  assert.deepEqual([...service.linuxQualifiedEncodeStatus.familyIds].sort(), [...campaignProfile(kind).familyIds].sort());
   assert.equal(service.linuxRemuxStatus?.available, false); assert.equal(service.remuxOperations, null);
   assert.equal(service.hdrOperations, null);
 }
@@ -47,7 +58,7 @@ const MIXED_INPUTS = Object.freeze([
   Object.freeze({ name: 'changed.mov', source: 'keep' }),
 ]);
 function generationArgs(spec, destination) {
-  assert.ok(SOURCES.includes(spec), 'Only fixed owned fixtures');
+  assert.ok((SOURCES.includes(spec) || spec === SOURCE_1440), 'Only fixed owned fixtures');
   return ['-hide_banner', '-nostdin', '-v', 'error', '-n', '-f', 'lavfi', '-i',
     `testsrc2=size=${spec.width}x${spec.height}:rate=30:duration=${spec.videoUs / 1e6}`,
     '-f', 'lavfi', '-i', `aevalsrc=0.18*sin(2*PI*(661*t+5.5*t*t))|0.18*sin(2*PI*(887*t+6.5*t*t)):s=48000:c=stereo:d=${spec.audioUs / 1e6}`,
@@ -61,9 +72,10 @@ function generationArgs(spec, destination) {
 }
 async function hashFile(file) { const hash = createHash('sha256'); for await (const b of createReadStream(file)) hash.update(b); return hash.digest('hex'); }
 const count = (start, end, rate) => Number((BigInt(end) * BigInt(rate) + 999999n) / 1000000n - (BigInt(start) * BigInt(rate) + 999999n) / 1000000n);
-async function main() {
+async function main(kind = 'three') {
+  const campaign = campaignProfile(kind);
   const space = await fs.statfs(__dirname, { bigint: true }); assert.ok(space.bavail * space.bsize > 27n * 1024n ** 3n);
-  const root = await fs.mkdtemp(path.join(__dirname, 'artifacts', 'qualified-app-service-'));
+  const root = await fs.mkdtemp(path.join(__dirname, 'artifacts', campaign.label));
   const stateDir = path.join(root, 'state'); await fs.mkdir(stateDir);
   const report = { root, status: 'preparing', runtimeIdentity: RUNTIME_ID, nativeWindowTested: false, cases: [], sources: [],
     census: { spawned: 0, closed: 0, live: 0, maximum: 0, encodes: 0 },
@@ -97,9 +109,11 @@ async function main() {
     return hash.digest('hex');
   };
   try {
-    service = await createQualifiedAv1WorkbenchService({ stateDir, onChild, outputAccess: new OutputAccess({
-      openPath() { assert.fail('Do not open desktop applications'); }, showItemInFolder() { assert.fail('Do not reveal desktop files'); } }) });
-    assertReady(service); // Must precede capabilities or generation children.
+    const outputAccess = new OutputAccess({
+      openPath() { assert.fail('Do not open desktop applications'); }, showItemInFolder() { assert.fail('Do not reveal desktop files'); } });
+    service = campaign.fourth ? await create1440QualifiedAv1WorkbenchService({ stateDir, onChild, outputAccess })
+      : await createQualifiedAv1WorkbenchService({ stateDir, onChild, outputAccess });
+    assertReady(service, kind); // Must precede capabilities or generation children.
     service.on('update', snapshot => {
       const p = snapshot.progress;
       if (cancelMode === 'encode' && report.census.live === 1 && p?.stage === 'encoding' && p.frame > 0 && p.ended === false) {
@@ -109,7 +123,7 @@ async function main() {
     await service.initializeDiagnostics(); report.capabilities = await service.getCapabilities();
     for (const profile of report.capabilities.profiles.filter(p => p.hardware === 'CPU')) assert.equal(profile.available, true);
     const inputs = {};
-    for (const spec of SOURCES) {
+    for (const spec of campaign.sources) {
       const input = path.join(root, spec.id); await fs.mkdir(input); const source = path.join(input, `${spec.id}.mov`);
       await run(PINS.ffmpeg.path, generationArgs(spec, source));
       const p = JSON.parse((await run(PINS.ffprobe.path, ['-v', 'error', '-show_streams', '-show_format', '-of', 'json', source])).stdout);
@@ -213,7 +227,7 @@ async function main() {
     report.cases.push({ case: 'ordinary-mov-layout-loss-refused', status: 'passed', unsupportedConversion: true, ...refused });
     for (const profile of PROFILES.filter(p => p.hardware === 'CPU')) await publish(`ordinary-${profile.id}`, 'ordinary',
       { profileId: profile.id, preset: profile.defaultPreset, quality: profile.quality.default });
-    for (const spec of CHANGED) await publish(spec.id, spec.source, SETTINGS, spec);
+    for (const spec of campaign.changes) await publish(spec.id, spec.source, SETTINGS, spec);
     await publish('mixed-ordinary-and-range', 'mixed', SETTINGS, CHANGED[0]);
     for (const kind of ['forged-family', 'forged-runtime', 'stale-family']) {
       const p = await prepare(kind, 'mixed', SETTINGS, CHANGED[0]);
@@ -248,7 +262,7 @@ async function main() {
     assert.equal(result.items[0].status, 'skipped'); assert.equal(report.census.encodes, prior);
     assert.equal(await fs.readFile(destination, 'utf8'), 'owned collision sentinel'); report.cases.push({ case: 'collision', status: 'passed', ...result });
     for (const source of report.sources) { assert.equal(await hashFile(source.path), source.sha256); assert.deepEqual(await readSourceIdentity(source.path), source.identity); }
-    report.status = 'passed-composed-av1-workbench-service-proof';
+    report.status = campaign.passedStatus;
   } catch (error) {
     report.status = 'failed-retained'; report.failure = { code: error.code, message: error.message, stack: error.stack }; process.exitCode = 1;
     if (service) report.failedSnapshot = service.snapshot();
@@ -266,4 +280,4 @@ async function main() {
   return report;
 }
 if (require.main === module) main().catch(error => { console.error(error); process.exitCode = 1; });
-module.exports = { main, SOURCES, CHANGED, RANGE, assertReady, generationArgs, ordinaryGenerationArgs, MIXED_INPUTS, count };
+module.exports = { main, SOURCES, CHANGED, RANGE, assertReady, generationArgs, ordinaryGenerationArgs, MIXED_INPUTS, SOURCE_1440, CHANGE_1440, campaignProfile, count };

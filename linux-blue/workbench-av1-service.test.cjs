@@ -42,7 +42,7 @@ test('qualified wiring keeps separate runner and options while main selects it o
   assert.match(qualified,/run: createAv1Runner\(\{ onChild \}\)/);assert.match(qualified,/\.\.\.controls/);
   assert.match(qualified,/service\.linuxQualifiedEncodeStatus = status/);assert.doesNotMatch(qualified,/catch\s*\(|createAv1ProportionalRunner/);
   const main=await fs.readFile(path.join(__dirname,'workbench-main.cjs'),'utf8');
-  assert.match(main,/\.createQualifiedAv1WorkbenchService/);
+  assert.match(main,/\.create1440QualifiedAv1WorkbenchService/);
   assert.match(main,/runtimeChoice === 'baseline' \? createWorkbenchService/);
 });
 
@@ -55,7 +55,7 @@ test('main runtime selection keeps the baseline lazy and reports qualified scope
   for (const runtimeChoice of ['baseline', '9.0.2-av1']) {
     let imports = 0;
     const selected = vm.runInNewContext(expression, { runtimeChoice, createWorkbenchService: baseline,
-      require(name) { imports++; assert.equal(name, './workbench-av1-service.cjs'); return { createQualifiedAv1WorkbenchService: qualified }; } });
+      require(name) { imports++; assert.equal(name, './workbench-av1-service.cjs'); return { create1440QualifiedAv1WorkbenchService: qualified }; } });
     assert.equal(selected, runtimeChoice === 'baseline' ? baseline : qualified);
     assert.equal(imports, runtimeChoice === 'baseline' ? 0 : 1);
   }
@@ -66,4 +66,16 @@ test('main runtime selection keeps the baseline lazy and reports qualified scope
     'closeAdmission()', 'closeOperationResources()', 'closeDiagnostics', "require('../src/ipc.cjs')"])
     assert.ok(source.includes(guard), guard);
   assert.doesNotMatch(source, /no-sandbox|disable-web-security/);
+});
+
+test('1440 factory keeps enduring pending controls gate after explicit main activation',async()=>{
+  const controlsFile=path.join(__dirname,'workbench-qualified-encode-controls.cjs'),factoryFile=path.join(__dirname,'workbench-av1-service.cjs');
+  function load(source,file,override){const module={exports:{}},real=createRequire(file);
+    vm.runInThisContext(`(function(require,module,exports,__dirname){${source}\n})`,{filename:file})(n=>Object.hasOwn(override,n)?override[n]:real(n),module,module.exports,__dirname);return module.exports;}
+  const controls=load(await fs.readFile(controlsFile,'utf8'),controlsFile,{'./workbench-full-1440-service.cjs':{REPORT_SHA:null}});
+  const factory=load(await fs.readFile(factoryFile,'utf8'),factoryFile,{'./workbench-qualified-encode-controls.cjs':controls});
+  const original=fs.readFile;let reads=0;fs.readFile=async()=>{reads++;assert.fail('No reads');};
+  try {await assert.rejects(factory.create1440QualifiedAv1WorkbenchService({stateDir:'/not-created',onChild(){assert.fail('child');}}),/1440.*pending/);}
+  finally{fs.readFile=original;}assert.equal(reads,0);
+  const main=await fs.readFile(path.join(__dirname,'workbench-main.cjs'),'utf8');assert.ok(main.includes('create1440QualifiedAv1WorkbenchService'));
 });

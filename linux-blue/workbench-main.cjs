@@ -10,7 +10,7 @@ const { createWorkbenchService } = require('./workbench-service.cjs');
 const { selectWorkbenchRuntime } = require('./workbench-runtime-choice.cjs');
 const runtimeChoice = selectWorkbenchRuntime(process.argv);
 const createService = runtimeChoice === 'baseline' ? createWorkbenchService
-  : require('./workbench-av1-service.cjs').createQualifiedAv1WorkbenchService;
+  : require('./workbench-av1-service.cjs').create1440QualifiedAv1WorkbenchService;
 const { AppearanceSettings } = require('../src/appearance.cjs');
 const { OutputAccess } = require('../src/output-access.cjs');
 const { registerIpc } = require('../src/ipc.cjs');

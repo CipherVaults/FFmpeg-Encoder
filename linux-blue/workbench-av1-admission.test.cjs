@@ -12,7 +12,7 @@ const { OperationFamilySelector } = require('../src/operation-family.cjs');
 const { buildEncodeOperation, withEncodeOperationTelemetry, fingerprintEncodeSource } = require('../src/encode-operation.cjs');
 const { resolveFileRequest } = require('../src/operation-contract.cjs');
 const { classifyColor } = require('../src/media.cjs');
-const { FAMILY_ID, RESOURCE_POLICY, RESIZE_FAMILY_ID, RESIZE_RESOURCE_POLICY, FULL_RESIZE_FAMILY_ID, FULL_RESIZE_RESOURCE_POLICY } = require('../src/operation-resource-budget.cjs');
+const { FAMILY_ID, RESOURCE_POLICY, RESIZE_FAMILY_ID, RESIZE_RESOURCE_POLICY, FULL_RESIZE_FAMILY_ID, FULL_RESIZE_RESOURCE_POLICY, FULL_1440_RESIZE_FAMILY_ID, FULL_1440_RESIZE_RESOURCE_POLICY } = require('../src/operation-resource-budget.cjs');
 const { frozenQualifications } = require('../scripts/v07-sdr-flac-range-calibration.cjs');
 const { PINS, RUNTIME_ID } = require('./runtime-av1.cjs');
 const SETTINGS = { profileId: 'h265-cpu', preset: 'slow', quality: 25 };
@@ -24,7 +24,7 @@ test.before(async () => {
 });
 test.after(async () => observer?.close());
 function probe(width = 1280) { return { streams: [
-  { index: 0, codec_type: 'video', codec_name: 'h264', profile: 'High', width, height: width === 1280 ? 720 : 1080,
+  { index: 0, codec_type: 'video', codec_name: 'h264', profile: 'High', width, height: width === 1280 ? 720 : width === 2560 ? 1440 : 1080,
     pix_fmt: 'yuv420p', field_order: 'progressive', sample_aspect_ratio: '1:1', display_aspect_ratio: '16:9',
     avg_frame_rate: '30/1', r_frame_rate: '30/1', time_base: '1/15360', start_pts: 0, start_time: '0', duration: '150', duration_ts: 2304000,
     color_transfer: 'bt709', color_primaries: 'bt709', color_space: 'bt709', color_range: 'tv', chroma_location: 'left', tags: { rotate: '0' } },
@@ -32,19 +32,19 @@ function probe(width = 1280) { return { streams: [
     time_base: '1/48000', start_pts: 0, start_time: '0', duration: '150', duration_ts: 7200000 } ],
   format: { format_name: 'mov,mp4,m4a,3gp,3g2,mj2', duration: '150', start_time: '0', size: '100000000', tags: { major_brand: 'qt  ' }, nb_streams: 2, nb_programs: 0, nb_stream_groups: 0 },
   chapters: [], programs: [], stream_groups: [] }; }
-function selector() {
+function selector(include1440=false) {
   const q = frozenQualifications('synthetic-admission-only', RUNTIME_ID, probe());
   return new OperationFamilySelector({ policyIdentity: 'synthetic-admission-only', families:
-    [[FAMILY_ID,RESOURCE_POLICY],[RESIZE_FAMILY_ID,RESIZE_RESOURCE_POLICY],[FULL_RESIZE_FAMILY_ID,FULL_RESIZE_RESOURCE_POLICY]].map(([id,resourcePolicy]) => ({
+    [[FAMILY_ID,RESOURCE_POLICY],[RESIZE_FAMILY_ID,RESIZE_RESOURCE_POLICY],[FULL_RESIZE_FAMILY_ID,FULL_RESIZE_RESOURCE_POLICY],...(include1440?[[FULL_1440_RESIZE_FAMILY_ID,FULL_1440_RESIZE_RESOURCE_POLICY]]:[])].map(([id,resourcePolicy]) => ({
       id,resourcePolicy, settings:SETTINGS,runtimeIdentity:RUNTIME_ID,environment:null,qualification:q.qualification,timingQualification:q.timingQualification,
       evidenceIds:[q.qualification.evidenceId,q.timingQualification.evidenceId] })) });
 }
 function ordinary() { return { inspection: { color: { classification:'sdr',supported:true } }, operationPlan: { compatibilityPath:true,
   qualificationRequirements:[], contract: { request: { operation:'encode',target:'matroska',range:null,resolution:'source',audioPolicy:'copy',hdrPolicy:'preserve',omissionRequestIds:[] }, omissionRequests:{ids:[]} } } }; }
 function qualified(sel, kind=FAMILY_ID) {
-  const source=probe(kind===FAMILY_ID?1280:1920), inspection={probe:source,color:classifyColor(source),duration:150};
+  const source=probe(kind===FAMILY_ID?1280:kind===FULL_1440_RESIZE_FAMILY_ID?2560:1920), inspection={probe:source,color:classifyColor(source),duration:150};
   const identity={canonicalPath:path.resolve('/synthetic-admission/source.mov'),dev:'1',ino:'2',size:'100000000',mtimeNs:'1',ctimeNs:'2',birthtimeNs:'1',sparseDigest:`sha256-sparse-v1:${'b'.repeat(64)}`};
-  const request=resolveFileRequest({fileId:randomUUID(),identityRevision:1,draftRevision:1,operation:'encode',overrides:{range:kind===FULL_RESIZE_FAMILY_ID?null:{startUs:100000000,endUs:140000000},resolution:kind===FAMILY_ID?'source':'720',audioPolicy:'precision-flac'}});
+  const request=resolveFileRequest({fileId:randomUUID(),identityRevision:1,draftRevision:1,operation:'encode',overrides:{range:[FULL_RESIZE_FAMILY_ID,FULL_1440_RESIZE_FAMILY_ID].includes(kind)?null:{startUs:100000000,endUs:140000000},resolution:kind===FAMILY_ID?'source':'720',audioPolicy:'precision-flac'}});
   const plan=withEncodeOperationTelemetry(buildEncodeOperation({input:identity.canonicalPath,output:path.resolve('/synthetic-admission/output.mkv'),settings:SETTINGS,inspection,request,runtimeIdentity:RUNTIME_ID}));
   const bindings={plan,settings:SETTINGS,sourceIdentity:identity,sourceProbeFingerprint:fingerprintEncodeSource(source),runtimeIdentity:RUNTIME_ID,environment:null,budget:null,executionBudgetMs:120000};
   return {inspection,fingerprint:identity,operationPlan:plan,qualificationBindings:bindings,qualificationSelection:sel.select(bindings),operationRuntimeToken:runtimeToken};
@@ -99,4 +99,14 @@ test('a revoked genuine observer token refuses before superclass mutation', asyn
   const {s,request}=service([ordinary(),e],sel);
   assert.throws(()=>s.startBatch(request),{code:'OPERATION_RUNTIME_STALE'});
   assert.equal(s.started,undefined);assert.ok(s.state.items.every(i=>i.status==='ready'));
+});
+
+test('fourth family requires its own genuine catalog and current token, old three cannot issue it',()=>{
+  assert.throws(()=>qualified(selector(),FULL_1440_RESIZE_FAMILY_ID));
+  const sel=selector(true),e=qualified(sel,FULL_1440_RESIZE_FAMILY_ID),x=service([ordinary(),e],sel);
+  x.s.startBatch(x.request);assert.deepEqual(x.s.started,x.request.fileIds);
+  for(const stale of [false,true]) {const q=selector(true),entry=qualified(q,FULL_1440_RESIZE_FAMILY_ID);
+    if(stale)q.invalidate('1440 stale');else entry.qualificationSelection={};
+    const y=service([ordinary(),entry],q);assert.throws(()=>y.s.startBatch(y.request));assert.equal(y.s.started,undefined);
+  }
 });

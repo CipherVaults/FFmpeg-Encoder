@@ -20,6 +20,15 @@ async function createAv1WorkbenchService({ stateDir, onChild, outputAccess } = {
 async function createQualifiedAv1WorkbenchService({ stateDir, onChild, outputAccess } = {}) {
   const { createQualifiedEncodeControls } = require('./workbench-qualified-encode-controls.cjs');
   const { controls, status } = await createQualifiedEncodeControls({ stateDir, onChild });
+  return constructQualifiedService({ stateDir, onChild, outputAccess }, controls, status);
+}
+// Four-family entry selected by explicit AV1 main after independent composed proof.
+async function create1440QualifiedAv1WorkbenchService({ stateDir, onChild, outputAccess } = {}) {
+  const { create1440QualifiedEncodeControls } = require('./workbench-qualified-encode-controls.cjs');
+  const { controls, status } = await create1440QualifiedEncodeControls({ stateDir, onChild });
+  return constructQualifiedService({ stateDir, onChild, outputAccess }, controls, status);
+}
+function constructQualifiedService({ stateDir, onChild, outputAccess }, controls, status) {
   const { Av1WorkbenchAdmissionService } = require('./workbench-av1-admission.cjs');
   const service = new Av1WorkbenchAdmissionService({ ffmpeg: PINS.ffmpeg.path, ffprobe: PINS.ffprobe.path,
     stateDir, runtimeIdentity: RUNTIME_ID, outputAccess, inspectionWorkers: 1,
@@ -34,4 +43,4 @@ async function createQualifiedAv1WorkbenchService({ stateDir, onChild, outputAcc
     reason: 'Remux is not qualified for this AV1 runtime. Qualified CPU H265 SDR FLAC operations have separate per-file eligibility; ordinary CPU encoding remains available.' });
   return service;
 }
-module.exports = { createAv1WorkbenchService, createQualifiedAv1WorkbenchService };
+module.exports = { create1440QualifiedAv1WorkbenchService, createAv1WorkbenchService, createQualifiedAv1WorkbenchService };

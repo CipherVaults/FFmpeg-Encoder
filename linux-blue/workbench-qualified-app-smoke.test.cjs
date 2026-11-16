@@ -4,7 +4,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs/promises');
 const path = require('node:path');
-const { SOURCES, CHANGED, assertReady, generationArgs, ordinaryGenerationArgs, MIXED_INPUTS, count } = require('./workbench-qualified-app-smoke.cjs');
+const { SOURCES, CHANGED, assertReady, generationArgs, ordinaryGenerationArgs, MIXED_INPUTS, SOURCE_1440, CHANGE_1440, campaignProfile, count } = require('./workbench-qualified-app-smoke.cjs');
 const { RUNTIME_ID } = require('./runtime-av1.cjs');
 const { FAMILY_ID, RESIZE_FAMILY_ID, FULL_RESIZE_FAMILY_ID } = require('../src/operation-resource-budget.cjs');
 test('readiness fails closed unless actual factory exposes all qualified controls and no Remux/HDR', () => {
@@ -32,7 +32,7 @@ test('campaign invokes actual existing app factory and preserves authority bound
   const source=await fs.readFile(path.join(__dirname,'workbench-qualified-app-smoke.cjs'),'utf8');
   assert.match(source,/require\('\.\/workbench-av1-service\.cjs'\)/);
   assert.match(source,/await createQualifiedAv1WorkbenchService\(/);
-  assert.ok(source.indexOf('assertReady(service);')<source.indexOf('report.capabilities = await service.getCapabilities()'));
+  assert.ok(source.indexOf('assertReady(service, kind);')<source.indexOf('report.capabilities = await service.getCapabilities()'));
   assert.doesNotMatch(source,/CandidateTrimService|createQualifiedEncodeControls|new OperationFamilySelector|new OperationRuntimeObserver|\.execute\s*=/);
   for (const name of ['mixed-ordinary-and-range','forged-family','forged-runtime','stale-family','unsupported-setting-per-file','collision']) assert.ok(source.includes(name));
   assert.match(source,/closeOperationResources\(\)/);assert.match(source,/closeDiagnostics\(/);
@@ -56,4 +56,21 @@ test('ordinary fixture matches previously accepted Matroska FFV1 PCM generation;
   assert.match(source, /audio channel_layout changed/);
   assert.match(source, /fs.stat\(layoutLoss.destinations.get\(refusedItem.id\)\)/);
   assert.match(source, /refusedItem.outputDisposition\?\.published, true/);
+});
+
+test('fourth campaign is fixed, adds independent 1440 Full tail and preserves default three cases',async()=>{
+  const old=campaignProfile(),four=campaignProfile('four1440');
+  assert.equal(old.fourth,false);assert.deepEqual(old.sources,SOURCES);assert.deepEqual(old.changes,CHANGED);assert.equal(old.familyIds.length,3);
+  assert.equal(four.familyIds.length,4);assert.equal(four.sources.at(-1),SOURCE_1440);assert.equal(four.changes.at(-1),CHANGE_1440);
+  assert.equal(CHANGE_1440.range,null);assert.deepEqual([SOURCE_1440.width,SOURCE_1440.height],[2560,1440]);
+  assert.equal(count(0,SOURCE_1440.videoUs,30),90);assert.equal(count(0,SOURCE_1440.audioUs,48000),149616);
+  assert.ok(generationArgs(SOURCE_1440,'/owned/1440.mov').some(a=>a.includes('2560x1440:rate=30:duration=3')));
+  assert.throws(()=>campaignProfile({fourth:true}));assert.notEqual(four.passedStatus,old.passedStatus);
+  const service={runtimeIdentity:RUNTIME_ID,linuxQualifiedEncodeStatus:{available:true,familyIds:four.familyIds},linuxRemuxStatus:{available:false},remuxOperations:null,hdrOperations:null};
+  assertReady(service,'four1440');assert.throws(()=>assertReady(service));assert.throws(()=>assertReady({...service,linuxQualifiedEncodeStatus:{available:true,familyIds:old.familyIds}},'four1440'));
+  const source=await fs.readFile(path.join(__dirname,'workbench-qualified-app-smoke.cjs'),'utf8');
+  assert.match(source,/await create1440QualifiedAv1WorkbenchService/);assert.match(source,/for \(const spec of campaign.changes\)/);
+  const main=await fs.readFile(path.join(__dirname,'workbench-main.cjs'),'utf8');assert.ok(main.includes('create1440QualifiedAv1WorkbenchService'));
+  const wrapper=await fs.readFile(path.join(__dirname,'workbench-qualified-1440-app-smoke.cjs'),'utf8');assert.match(wrapper,/runComposedCampaign\('four1440'\)/);
+  assert.equal(typeof require('./workbench-qualified-1440-app-smoke.cjs').main,'function');
 });

@@ -6,7 +6,7 @@ const { PROFILES } = require('../src/media.cjs');
 const { OperationFamilySelector, isProportionalFamilySelection } = require('../src/operation-family.cjs');
 const { fingerprintEncodeSource } = require('../src/encode-operation.cjs');
 const { OperationRuntimeObserver } = require('../src/operation-runtime.cjs');
-const { FAMILY_ID, RESIZE_FAMILY_ID, FULL_RESIZE_FAMILY_ID } = require('../src/operation-resource-budget.cjs');
+const { FAMILY_ID, RESIZE_FAMILY_ID, FULL_RESIZE_FAMILY_ID, FULL_1440_RESIZE_FAMILY_ID } = require('../src/operation-resource-budget.cjs');
 const { isOrdinaryWorkbenchEntry } = require('./workbench-service.cjs');
 const { RUNTIME_ID, PINS } = require('./runtime-av1.cjs');
 const fail = message => { throw Object.assign(new Error(message), { code: 'LINUX_AV1_ADMISSION' }); };
@@ -41,7 +41,7 @@ function requireQualifiedEntry(service, entry) {
   if (service.operationQualifications.requireCurrent(entry.qualificationSelection, bindings) !== qualified)
     fail('The selector must return its own current qualification.');
   if (!isProportionalFamilySelection(qualified) || qualified.controlsRequired !== true
-      || ![FAMILY_ID, RESIZE_FAMILY_ID, FULL_RESIZE_FAMILY_ID].includes(qualified.sourcePolicy?.id))
+      || ![FAMILY_ID, RESIZE_FAMILY_ID, FULL_RESIZE_FAMILY_ID, FULL_1440_RESIZE_FAMILY_ID].includes(qualified.sourcePolicy?.id))
     fail('Only the independently qualified proportional families may start.');
 }
 class Av1WorkbenchAdmissionService extends EncoderService {

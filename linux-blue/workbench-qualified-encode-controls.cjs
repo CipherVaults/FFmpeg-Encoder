@@ -1,5 +1,5 @@
 'use strict';
-// Main-only controls builder, deliberately not wired into any application.
+// Main-only controls: preserved three-family fallback plus qualified four-family app.
 // Ordinary inspection/compatibility execution must retain its separate runner.
 const fs = require('node:fs/promises');
 const path = require('node:path');
@@ -12,9 +12,11 @@ const { OperationRuntimeObserver } = require('../src/operation-runtime.cjs');
 const { openEvidenceStorage } = require('../src/operation-storage.cjs');
 const { PINS, RUNTIME_ID, verifyAv1Tool } = require('./runtime-av1.cjs');
 const { createAv1ProportionalRunner } = require('./runtime-av1-operation.cjs');
-const { FAMILY_ID, RESOURCE_POLICY, RESIZE_FAMILY_ID, RESIZE_RESOURCE_POLICY, FULL_RESIZE_FAMILY_ID, FULL_RESIZE_RESOURCE_POLICY } = require('../src/operation-resource-budget.cjs');
+const { FAMILY_ID, RESOURCE_POLICY, RESIZE_FAMILY_ID, RESIZE_RESOURCE_POLICY, FULL_RESIZE_FAMILY_ID, FULL_RESIZE_RESOURCE_POLICY, FULL_1440_RESIZE_FAMILY_ID, FULL_1440_RESIZE_RESOURCE_POLICY } = require('../src/operation-resource-budget.cjs');
 const OBSERVER_SHA = '177f139bc1913051f9754673a21dd2ecb60f5dcba38f91785f84ab56d8159b1c';
 const SERVICE_PROOFS = Object.freeze({
+  fullResize1440to720: Object.freeze({ report: path.join(__dirname, 'artifacts', 'full-1440-service-QbU79l', 'report.json'),
+    sha256: '44b2dda7486b274e5afd94b4bdb69c757667b4ba02261e131e5a97152d816be5' }),
   keep720: Object.freeze({ report: path.join(__dirname, 'artifacts', 'long-range-service-eQZdcB', 'report.json'),
     sha256: '6d0d49b83ec5bf01a5c5aca977f412e83a8205dd6ad1e43ee558e5a5701e8039' }),
   resize1080to720: Object.freeze({ report: path.join(__dirname, 'artifacts', 'resize-service-BbTuXB', 'report.json'),
@@ -25,7 +27,7 @@ const SERVICE_PROOFS = Object.freeze({
 const SETTINGS = Object.freeze({ profileId: 'h265-cpu', preset: 'slow', quality: 25 });
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 function need(ok, message) { if (!ok) throw Object.assign(new Error(message), { code: 'LINUX_QUALIFIED_CONTROLS' }); }
-const casesFor = full => [...(full ? ['full-long', 'full-calibrated-audio-tail', 'fresh-independent-full-audio-tail']
+const casesFor = (full, full1440) => [...(full1440 ? ['full-1440', 'full-1440-calibrated-audio-tail', 'fresh-independent-full-1440-audio-tail'] : full ? ['full-long', 'full-calibrated-audio-tail', 'fresh-independent-full-audio-tail']
   : ['long-late-forty', 'long-open-end', 'fresh-independent-nonaligned']), 'real-encode-cancelled-no-publication',
   'fresh-success-after-encode-cancel', 'real-evidence-cancelled-no-publication', 'fresh-success-after-evidence-cancel', 'existing-output-preserved'];
 // Pure receipt-checking seam only. It cannot construct controls or replace the
@@ -34,19 +36,21 @@ function assertServiceProof(bytes, kind, expectedSha, evidenceIds) {
   need(Object.hasOwn(SERVICE_PROOFS, kind) && typeof expectedSha === 'string' && /^[a-f0-9]{64}$/.test(expectedSha), 'Service proof is pending or unknown.');
   need(sha(bytes) === expectedSha, 'Exact accepted service proof bytes are required.');
   let report; try { report = JSON.parse(bytes); } catch { need(false, 'Invalid service proof JSON.'); }
-  const full = kind === 'fullResize1080to720', resized = kind !== 'keep720';
-  const status = full ? 'passed-developer-full-resize-service-proof' : resized ? 'passed-developer-resize-service-proof' : 'passed-developer-long-range-service-proof';
+  const full1440 = kind === 'fullResize1440to720', full = full1440 || kind === 'fullResize1080to720', resized = kind !== 'keep720';
+  const status = full1440 ? 'passed-developer-full-1440-service-proof' : full ? 'passed-developer-full-resize-service-proof' : resized ? 'passed-developer-resize-service-proof' : 'passed-developer-long-range-service-proof';
   need(report?.status === status && report.appActivated === false && !report.failure && !report.closureFailure
     && report.census?.spawned > 0 && report.census.spawned === report.census.closed && report.census.live === 0
     && report.census.maximum === 1 && report.census.encodes === 7, 'A settled successful service proof is required.');
-  if (resized) need(same(report.geometry, { sourceWidth: 1920, sourceHeight: 1080, resolution: '720', outputWidth: 1280, outputHeight: 720 }), 'Service proof geometry differs.');
-  const names = casesFor(full);
+  if (resized) need(same(report.geometry, { sourceWidth: full1440 ? 2560 : 1920, sourceHeight: full1440 ? 1440 : 1080, resolution: '720', outputWidth: 1280, outputHeight: 720 }), 'Service proof geometry differs.');
+  const names = casesFor(full, full1440);
   need(Array.isArray(report.cases) && report.cases.length === names.length && report.cases.every((row, i) => row.case === names[i] && row.status === 'passed'), 'Every expected service lifecycle case must pass.');
   need(Array.isArray(evidenceIds) && evidenceIds.length === 4 && new Set(evidenceIds).size === 4, 'Exact retained calibration identities are required.');
   for (const [i, row] of report.cases.entries()) {
     const item = row.item;
     if ([0, 1, 2, 4, 6].includes(i)) {
       const a = row.accounting, l = row.limits, pcm = row.pcmIdentity;
+      if (full1440) need(row.frames === (i === 0 ? 360 : i === 1 ? 213 : 120)
+        && row.samples === (i === 0 ? 576000 : i === 1 ? 346416 : 197616), '1440 service proof must retain its complete video/audio-tail counts.');
       need(item?.status === 'success' && item.outputDisposition?.published === true && item.sourceAssessment?.kind === 'unchanged'
         && item.operationRequest?.resolution === (resized ? '720' : 'source') && item.operationRequest.audioPolicy === 'precision-flac'
         && a?.status === 'completed' && a.failure === null && same(a.evidenceIds, evidenceIds) && a.sourceIdentityDisposition === 'unchanged'
@@ -78,7 +82,11 @@ function assertServiceProof(bytes, kind, expectedSha, evidenceIds) {
   }
   return report;
 }
-async function createQualifiedEncodeControls({ stateDir, onChild } = {}) {
+async function buildQualifiedEncodeControls({ stateDir, onChild } = {}, include1440) {
+  // The fourth composition must not become a dependency of the preserved three-family route.
+  const full1440 = include1440 ? require('./workbench-full-1440-service.cjs') : null;
+  if (include1440) need(full1440.REPORT_SHA !== null && SERVICE_PROOFS.fullResize1440to720.report !== null
+    && SERVICE_PROOFS.fullResize1440to720.sha256 !== null, '1440 calibration and actual service qualification are pending.');
   // This first gate deliberately precedes ALL receipt/runtime/storage reads.
   need(full.REPORT_SHA !== null && SERVICE_PROOFS.fullResize1080to720.report !== null
     && SERVICE_PROOFS.fullResize1080to720.sha256 !== null, 'Full calibration and actual service qualification are pending.');
@@ -88,6 +96,7 @@ async function createQualifiedEncodeControls({ stateDir, onChild } = {}) {
     ['resize1080to720', resize, resize.assertResizeReceipt, RESIZE_FAMILY_ID, RESIZE_RESOURCE_POLICY],
     ['fullResize1080to720', full, full.assertFullResizeReceipt, FULL_RESIZE_FAMILY_ID, FULL_RESIZE_RESOURCE_POLICY],
   ];
+  if (include1440) definitions.push(['fullResize1440to720', full1440, full1440.assertFull1440Receipt, FULL_1440_RESIZE_FAMILY_ID, FULL_1440_RESIZE_RESOURCE_POLICY]);
   const families = [];
   for (const [kind, module, validate, id, resourcePolicy] of definitions) {
     const calibration = validate(await fs.readFile(module.REPORT));
@@ -100,7 +109,7 @@ async function createQualifiedEncodeControls({ stateDir, onChild } = {}) {
   }
   need(sha(await fs.readFile(path.resolve(__dirname, '../src/operation-runtime.cjs'))) === OBSERVER_SHA, 'Exact reviewed observer bytes are required.');
   await verifyAv1Tool('ffmpeg'); await verifyAv1Tool('ffprobe');
-  const operationQualifications = new keep.ClockQualifiedFamilySelector({ policyIdentity: 'blue-linux-qualified-encode-v1', families });
+  const operationQualifications = new keep.ClockQualifiedFamilySelector({ policyIdentity: include1440 ? 'blue-linux-qualified-encode-1440-v1' : 'blue-linux-qualified-encode-v1', families });
   const operationRuntime = new OperationRuntimeObserver({
     runtime: Object.fromEntries(Object.entries(PINS).map(([kind, pin]) => [kind, pin.path])),
     pins: Object.fromEntries(Object.entries(PINS).map(([kind, pin]) => [kind, { sizeBytes: pin.size, sha256: pin.sha256 }])),
@@ -111,4 +120,7 @@ async function createQualifiedEncodeControls({ stateDir, onChild } = {}) {
   status: Object.freeze({ available: true, runtimeIdentity: RUNTIME_ID, familyIds: Object.freeze(families.map(f => f.id)),
     scope: 'Qualified CPU H265 slow25 SDR FLAC families only; ordinary CPU runner remains separate.' }) };
 }
-module.exports = { createQualifiedEncodeControls, assertServiceProof, SERVICE_PROOFS };
+// Fixed main-owned exports, never caller-selected families or receipt paths.
+const createQualifiedEncodeControls = options => buildQualifiedEncodeControls(options, false);
+const create1440QualifiedEncodeControls = options => buildQualifiedEncodeControls(options, true);
+module.exports = { create1440QualifiedEncodeControls, createQualifiedEncodeControls, assertServiceProof, SERVICE_PROOFS };

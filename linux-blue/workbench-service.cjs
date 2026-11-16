@@ -22,8 +22,8 @@ function ordinaryEncodeInvocation(kind, args, options) {
     && PROFILES.some(profile => profile.hardware === 'CPU' && args[args.indexOf('-c:v:0') + 1] === profile.encoder);
 }
 
-function validateInvocation(executable, args, options) {
-  const kind = Object.keys(PINS).find(key => PINS[key].path === executable);
+function validateInvocation(executable, args, options, pins = PINS) {
+  const kind = Object.keys(pins).find(key => pins[key].path === executable);
   if (!kind) throw refusal('LINUX_WORKBENCH_TOOL', 'Only the two fixed Linux tools are allowed.');
   if (!Array.isArray(args) || args.length > 512 || args.some(arg => typeof arg !== 'string' || arg.length > 16384 || arg.includes('\0'))) {
     throw refusal('LINUX_WORKBENCH_ARGUMENTS', 'Expected bounded, main-owned tool arguments.');
@@ -53,9 +53,9 @@ function validateInvocation(executable, args, options) {
 
 // Dependency seams are main-only and used by the unit tests; no IPC exposes
 // executable selection, run options, verifier replacement or process handles.
-function createWorkbenchRunner({ verify = verifyTool, execute = runTool, onChild } = {}) {
+function createWorkbenchRunner({ verify = verifyTool, execute = runTool, onChild, pins = PINS } = {}) {
   return async (executable, args, options = {}) => {
-    const kind = validateInvocation(executable, args, options);
+    const kind = validateInvocation(executable, args, options, pins);
     await verify(kind);
     if (options.signal?.aborted) throw refusal('CANCELLED', 'Operation cancelled.');
     const encoding = ordinaryEncodeInvocation(kind, args, options);
@@ -78,7 +78,7 @@ function createWorkbenchRunner({ verify = verifyTool, execute = runTool, onChild
 class LinuxWorkbenchService extends EncoderService {
   async prepareRemuxBatch(request) {
     if (!this.remuxOperations) throw refusal('REMUX_CONTROLS_UNAVAILABLE',
-      'Linux Remux is unavailable: this checkout lacks the reviewed local dependency bytes. CPU encoding remains available. See WORKBENCH_REMUX_CHECKPOINT.md.');
+      this.linuxRemuxStatus?.reason || 'Linux Remux is unavailable: this checkout lacks the reviewed local dependency bytes. CPU encoding remains available. See WORKBENCH_REMUX_CHECKPOINT.md.');
     return super.prepareRemuxBatch(request);
   }
   startBatch(request) {

@@ -1,11 +1,16 @@
 'use strict';
 
-// Explicit experimental entry. The original Windows launcher and every UI,
-// preload, IPC, media and settings module are reused without modifying them.
+// Explicit experimental entry. The original Windows launcher is untouched.
+// Reuse the shared workbench, preload, IPC, media and settings architecture;
+// approved Linux UI changes do not create a second product shell.
 const { app, BrowserWindow, dialog, ipcMain, session, protocol, nativeTheme, shell } = require('electron');
 const { mkdirSync } = require('node:fs');
 const path = require('node:path');
 const { createWorkbenchService } = require('./workbench-service.cjs');
+const { selectWorkbenchRuntime } = require('./workbench-runtime-choice.cjs');
+const runtimeChoice = selectWorkbenchRuntime(process.argv);
+const createService = runtimeChoice === 'baseline' ? createWorkbenchService
+  : require('./workbench-av1-service.cjs').createAv1WorkbenchService;
 const { AppearanceSettings } = require('../src/appearance.cjs');
 const { OutputAccess } = require('../src/output-access.cjs');
 const { registerIpc } = require('../src/ipc.cjs');
@@ -17,7 +22,8 @@ protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: {
   standard: true, secure: true, supportFetchAPI: true, corsEnabled: true,
 } }]);
 const root = path.resolve(__dirname, '..');
-const stateDir = path.join(__dirname, 'artifacts', 'workbench-preview');
+const stateDir = runtimeChoice === 'baseline' ? path.join(__dirname, 'artifacts', 'workbench-preview')
+  : path.join(__dirname, 'artifacts', 'workbench-av1-preview');
 mkdirSync(stateDir, { recursive: true, mode: 0o700 });
 for (const [name, child] of [['userData', 'electron-state'], ['sessionData', 'electron-session']]) {
   const directory = path.join(stateDir, child);
@@ -25,6 +31,7 @@ for (const [name, child] of [['userData', 'electron-state'], ['sessionData', 'el
   app.setPath(name, directory);
 }
 let title = 'FFmpeg Encoder · Linux CPU preview · Full SDR · 30-minute encode limit';
+if (runtimeChoice !== 'baseline') title += ' · FFmpeg 9.0.2 AV1 experiment';
 const census = { spawned: 0, closed: 0, live: 0, maximum: 0 };
 let window, service, appearance, unregister;
 let closing = false, closed = false, closePromise, startupPromise, appearanceFailed = false, failed = false;
@@ -69,14 +76,15 @@ function close() {
 async function launch() {
   await app.whenReady();
   if (closing) return;
-  service = await createWorkbenchService({ stateDir,
+  service = await createService({ stateDir,
     outputAccess: new OutputAccess({ openPath: file => shell.openPath(file), showItemInFolder: file => shell.showItemInFolder(file) }),
     onChild(child) {
     census.spawned++; census.live++; census.maximum = Math.max(census.maximum, census.live);
     child.once('close', () => { census.closed++; census.live--; });
   } });
   if (closing) { beginClose(); return; }
-  title += service.linuxRemuxStatus.available ? ' · Remux ≤60s: MKV video / MP4 AAC' : ' · Remux unavailable (source mismatch)';
+  title += service.linuxRemuxStatus.available ? ' · Remux ≤60s: MKV video / MP4 AAC'
+    : runtimeChoice === 'baseline' ? ' · Remux unavailable (source mismatch)' : ' · Remux/trim not yet qualified';
   await service.initializeDiagnostics();
   appearance = new AppearanceSettings({ directory: stateDir });
   const initial = await appearance.load();
@@ -96,7 +104,7 @@ async function launch() {
   local.webRequest.onBeforeRequest((details, callback) => callback({ cancel: !resolveAsset(details.url, details.method) }));
   window = new BrowserWindow({ width: 1100, height: 800, minWidth: 640, minHeight: 480,
     backgroundColor: background(initial.theme), title, autoHideMenuBar: true,
-    icon: path.join(root, 'assets', 'app-icon', 'app-icon-256.png'),
+    icon: path.join(root, 'assets', 'logo-gauge-2026-11-14', 'gauge-win-midtone-256.png'),
     webPreferences: { preload: path.join(root, 'preload.js'), session: local,
       sandbox: true, contextIsolation: true, nodeIntegration: false, nodeIntegrationInWorker: false,
       webSecurity: true, allowRunningInsecureContent: false, webviewTag: false, devTools: false } });
@@ -123,6 +131,7 @@ async function launch() {
   await window.loadURL(ENTRY_URL);
   const preferences = window.webContents.getLastWebPreferences();
   console.log('LINUX_WORKBENCH_READY', JSON.stringify({ electron: process.versions.electron,
+    runtimeChoice, runtimeIdentity: service.runtimeIdentity,
     mode: 'ordinary-cpu-full-sdr', remuxAvailable: service.linuxRemuxStatus.available, sandbox: preferences.sandbox,
     contextIsolation: preferences.contextIsolation, nodeIntegration: preferences.nodeIntegration,
     originalUi: true, originalPreload: true }));

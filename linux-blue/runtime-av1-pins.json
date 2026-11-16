@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "version": "9.0.2",
+  "purpose": "Explicit ordinary CPU workbench experiment; not a packaged or default runtime",
+  "source": "https://ffmpeg.org/releases/ffmpeg-9.0.2.tar.xz",
+  "sourceSha256": "8c3850283eb25fa026482078a04051e0be17347b09ef81a0849bec15a96e002e",
+  "sourceSignatureFingerprint": "FCF986EA15E6E293A5644F10B4322F04D67658D8",
+  "tools": {
+    "ffmpeg": {
+      "size": 46171752,
+      "sha256": "870b5e8ddbd3beea2115b7852e37b87f5466a841a6edad377dae74fe1f31f2e4"
+    },
+    "ffprobe": {
+      "size": 45962728,
+      "sha256": "2cb894a97afb75e451279550c16d7361f2dfb3571b91722d019e329b2b0bff07"
+    }
+  },
+  "codecDependencies": [
+    {
+      "path": "/usr/lib/x86_64-linux-gnu/libSvtAv1Enc.so.2.3.0",
+      "sonamePath": "/usr/lib/x86_64-linux-gnu/libSvtAv1Enc.so.2",
+      "size": 7984736,
+      "sha256": "48713dd9caf08909462bad0274cc9d9b249ccf836a9be72fd731f8d8096c4d35"
+    },
+    {
+      "path": "/usr/lib/x86_64-linux-gnu/libdav1d.so.7.0.0",
+      "sonamePath": "/usr/lib/x86_64-linux-gnu/libdav1d.so.7",
+      "size": 1746880,
+      "sha256": "1d7a4182344230d5f4cf9f58bf4485da2801c411e9c9fd6d8471460c75ae8fbf"
+    }
+  ]
+}

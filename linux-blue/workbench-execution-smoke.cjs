@@ -4,8 +4,14 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const assert = require('node:assert/strict');
 const { createHash } = require('node:crypto');
-const { createWorkbenchService, createWorkbenchRunner } = require('./workbench-service.cjs');
-const { PINS } = require('./runtime.cjs');
+const { selectWorkbenchRuntime } = require('./workbench-runtime-choice.cjs');
+const runtimeChoice = selectWorkbenchRuntime(process.argv);
+const { createWorkbenchService, createWorkbenchRunner } = runtimeChoice === 'baseline'
+  ? require('./workbench-service.cjs') : {
+    createWorkbenchService: require('./workbench-av1-service.cjs').createAv1WorkbenchService,
+    createWorkbenchRunner: require('./runtime-av1.cjs').createAv1Runner,
+  };
+const { PINS } = runtimeChoice === 'baseline' ? require('./runtime.cjs') : require('./runtime-av1.cjs');
 const { PROFILES } = require('../src/media.cjs');
 const { classifyMarker } = require('../src/provenance.cjs');
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -30,6 +36,7 @@ async function smoke() {
   };
   const run = createWorkbenchRunner({ onChild });
   const results = [];
+  let capabilities, summary;
   try {
     await run(PINS.ffmpeg.path, ['-hide_banner', '-nostdin', '-v', 'error', '-n', '-f', 'lavfi', '-i',
       'testsrc2=size=320x180:rate=30,format=yuv420p,setparams=range=limited:color_primaries=bt709:color_trc=bt709:colorspace=bt709',
@@ -37,7 +44,17 @@ async function smoke() {
       '-pix_fmt', '+yuv420p', '-c:a', 'pcm_s16le', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-colorspace', 'bt709', '-color_range', 'tv', source]);
     const originalBytes = await fs.readFile(source), originalHash = digest(originalBytes);
     service = await createWorkbenchService({ stateDir, onChild }); await service.initializeDiagnostics();
-    await service.getCapabilities();
+    capabilities = await service.getCapabilities();
+    const cpu = capabilities.profiles.filter(profile => profile.hardware === 'CPU');
+    assert.equal(cpu.length, 3);
+    for (const profile of cpu) {
+      assert.equal(profile.available, true, JSON.stringify(profile));
+      assert.deepEqual(profile.supportedBitDepths, [8, 10]);
+    }
+    if (runtimeChoice !== 'baseline') {
+      assert.equal(service.remuxOperations, null); assert.equal(service.operationQualifications, null);
+      assert.equal(service.linuxRemuxStatus.available, false);
+    }
     const inFolder = await service.registerFolder(input, 'input');
     async function prepare(name, profileId = 'h264-cpu', overrides) {
       const output = path.join(root, name); await fs.mkdir(output);
@@ -126,12 +143,18 @@ async function smoke() {
     results.push({ case: 'changed-operation-refused', passed: true });
     assert.equal(await sha(source), originalHash); assert.equal(census.spawned, census.closed); assert.equal(census.maximum, 1);
     passed = true;
-    console.log(JSON.stringify({ passed, results, census, sourceHash: originalHash,
-      limits: 'Bounded synthetic ordinary CPU proof; not general fidelity, GPU, changed-operation or release qualification.', artifactDirectory: root }, null, 2));
+    summary = { passed, runtimeChoice, results, census, sourceHash: originalHash,
+      limits: 'Bounded synthetic ordinary CPU proof; cancellation at encode-child spawn, not an active-frame cancellation proof. Not general fidelity, GPU, changed-operation or release qualification.', artifactDirectory: root };
   } finally {
-    service?.closeAdmission(); await service?.cancelCurrent(); await service?.closeOperationResources();
-    if (service) assert.equal((await service.closeDiagnostics(passed ? 'completed' : 'failed')).persisted, true);
+    try {
+      service?.closeAdmission(); await service?.cancelCurrent(); await service?.closeOperationResources();
+      if (service) assert.equal((await service.closeDiagnostics(passed ? 'completed' : 'failed')).persisted, true);
+      assert.equal(census.live, 0); assert.equal(census.spawned, census.closed);
+    } catch (error) { passed = false; throw error; }
+    finally { await fs.writeFile(path.join(root, 'report.json'), JSON.stringify({ passed, runtimeChoice,
+      runtimeIdentity: service?.runtimeIdentity, capabilities, results, census }, null, 2)); }
     if (!passed) console.error(JSON.stringify({ passed, census, results, artifactDirectory: root }));
   }
+  console.log(JSON.stringify(summary, null, 2));
 }
 smoke().catch(error => { console.error(error); process.exitCode = 1; });

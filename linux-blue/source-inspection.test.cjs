@@ -20,12 +20,42 @@ test('bounded metadata drops tags and paths; nested report is frozen and never g
   assert(Object.isFrozen(result)); assert(Object.isFrozen(result.streams)); assert(Object.isFrozen(result.streams[0]));
   assert(!JSON.stringify(result).includes('private')); assert(!JSON.stringify(result).includes('/secret'));
 });
-test('malformed, huge, non-Matroska, excessive and duplicate-stream reports refuse', () => {
+test('malformed, huge, unexpected-format, excessive and duplicate-stream reports refuse', () => {
   const data = JSON.parse(report().stdout);
   for (const text of ['null', '{', 'x'.repeat(65537), '{}', JSON.stringify({ ...data, format: { format_name: 'hls' } }),
     JSON.stringify({ ...data, streams: Array(33).fill(data.streams[0]) }), JSON.stringify({ ...data, streams: [data.streams[0], data.streams[0]] })]) {
     assert.throws(() => summarize(text, 123), { code: 'SOURCE_REPORT' });
   }
+});
+test('MP4 summary is format-bound, sanitized and never an encoding grant', () => {
+  const data = JSON.parse(report().stdout); data.format.format_name = 'mov,mp4,m4a,3gp,3g2,mj2';
+  const text = JSON.stringify(data), result = summarize(text, 123, 'mp4');
+  assert.equal(result.container, 'MP4 / MOV family'); assert.equal(result.scope, 'read-only-container-observation');
+  assert.equal(result.encodeAllowed, false); assert(!JSON.stringify(result).includes('/secret'));
+  assert.throws(() => summarize(text, 123, 'matroska'), { code: 'SOURCE_REPORT' });
+  assert.throws(() => summarize(report().stdout, 123, 'mp4'), { code: 'SOURCE_REPORT' });
+  for (const format of ['__proto__', 'hls', {}, null]) assert.throws(() => summarize(text, 123, format), { code: 'SOURCE_REPORT' });
+});
+test('MP4 selects only fixed MOV arguments with external tracks and absolute references disabled', async t => {
+  const { dir } = await fixture(t); const source = path.join(dir, 'synthetic.MP4'); await fs.writeFile(source, 'test-only-bytes');
+  const result = await inspectSource(source, { run: async (kind, args, options) => {
+    assert.equal(kind, 'ffprobe'); assert.equal(options.timeoutMs, 10000);
+    for (const [key, value] of [['-f', 'mov'], ['-format_whitelist', 'mov,mp4,m4a,3gp,3g2,mj2'], ['-protocol_whitelist', 'file'], ['-enable_drefs', '0'], ['-use_absolute_path', '0']]) {
+      assert.equal(args.filter(arg => arg === key).length, 1); assert.equal(args[args.indexOf(key) + 1], value);
+    }
+    assert(!args.includes(source)); const data = JSON.parse(report().stdout); data.format.format_name = 'mov,mp4,m4a,3gp,3g2,mj2'; return { stdout: JSON.stringify(data) };
+  } });
+  assert.equal(result.container, 'MP4 / MOV family'); assert.equal(result.encodeAllowed, false);
+});
+test('Matroska profile does not receive MOV-specific switches', async t => {
+  const { source } = await fixture(t); const result = await inspectSource(source, { run: async (_kind, args) => {
+    assert(!args.includes('-enable_drefs')); assert(!args.includes('-use_absolute_path')); return report();
+  } }); assert.equal(result.container, 'Matroska / WebM');
+});
+test('unsupported containers still refuse before launching, including MOV and playlists', async t => {
+  const { dir } = await fixture(t); let launches = 0;
+  for (const suffix of ['mov', 'm4a', 'm3u8', 'avi']) await assert.rejects(inspectSource(path.join(dir, `source.${suffix}`), { run: async () => { launches++; return report(); } }), { code: 'SOURCE_PATH' });
+  assert.equal(launches, 0);
 });
 test('unavailable and malformed numeric/codec metadata remains unknown, not fabricated', () => {
   const data = JSON.parse(report().stdout); Object.assign(data.streams[0], { codec_name: '<script>', width: -1, height: 1e9, pix_fmt: '/private/path', avg_frame_rate: '0/0' });

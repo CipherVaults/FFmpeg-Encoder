@@ -9,10 +9,10 @@ function controls() {
 }
 function show(snapshot) {
   inspection = snapshot.inspection;
-  const sourceLabels = { empty: 'No source inspected.', choosing: 'Choose one local Matroska file. Cancel in the dialog to go back.', inspecting: 'Reading bounded source information…', ready: 'Source information only. Encode still uses the synthetic fixture.', cancelled: 'Inspection cancelled. No source selected for encoding.', failed: `Inspection refused (${inspection.errorCode}). No source selected for encoding.` };
+  const sourceLabels = { empty: 'No source inspected.', choosing: 'Choose one local MP4, Matroska or WebM file. Cancel in the dialog to go back.', inspecting: 'Reading bounded source information…', ready: 'Source information only. Encode still uses the synthetic fixture.', cancelled: 'Inspection cancelled. No source selected for encoding.', failed: `Inspection refused (${inspection.errorCode}). No source selected for encoding.` };
   $('source-status').textContent = sourceLabels[inspection.phase] || 'Source information unavailable.';
   const report = inspection.report;
-  $('source-info').textContent = report ? [`${report.bytes.toLocaleString()} bytes · ${report.durationSeconds === null ? 'unknown duration' : `${report.durationSeconds} seconds (reported)`}`,
+  $('source-info').textContent = report ? [`${report.container} · ${report.bytes.toLocaleString()} bytes · ${report.durationSeconds === null ? 'unknown duration' : `${report.durationSeconds} seconds (reported)`}`,
     ...report.streams.map(stream => `#${stream.index} ${stream.type}: ${stream.codec || 'unknown codec'}${stream.type === 'video' ? ` · ${stream.width ?? '?'} × ${stream.height ?? '?'} · ${stream.frameRate || '?'} fps · ${stream.pixelFormat || '?'}` : stream.type === 'audio' ? ` · ${stream.sampleRate ?? '?'} Hz · ${stream.channels ?? '?'} channels` : ''}`)].join('\n') : '';
   phase = snapshot.phase; $('phase').textContent = labels[phase] || 'Unavailable';
   $('progress').value = snapshot.frame; $('frames').textContent = `${snapshot.frame} / 12 frames`;

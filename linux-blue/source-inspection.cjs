@@ -7,17 +7,24 @@ const { runFixedTool } = require('./runtime.cjs');
 const failure = code => Object.assign(new Error(code), { code });
 const same = (a, b) => ['dev', 'ino', 'size', 'mtimeNs', 'ctimeNs', 'mode', 'uid'].every(key => a[key] === b[key]);
 const cancelled = signal => { if (signal?.aborted) throw failure('CANCELLED'); };
+// Fixed main-owned profiles, not caller-supplied demuxers or FFprobe options.
+const FORMATS = Object.freeze({
+  matroska: Object.freeze({ name: 'matroska,webm', demuxer: 'matroska', label: 'Matroska / WebM', options: Object.freeze([]) }),
+  mp4: Object.freeze({ name: 'mov,mp4,m4a,3gp,3g2,mj2', demuxer: 'mov', label: 'MP4 / MOV family',
+    options: Object.freeze(['-enable_drefs', '0', '-use_absolute_path', '0']) })
+});
 const token = value => typeof value === 'string' && /^[a-zA-Z0-9_.,-]{1,64}$/.test(value) ? value : null;
 const number = (value, max, integer = false) => {
   if (typeof value !== 'number' && !(typeof value === 'string' && /^\d+(?:\.\d+)?$/.test(value))) return null;
   const result = Number(value);
   return Number.isFinite(result) && result >= 0 && result <= max && (!integer || Number.isSafeInteger(result)) ? result : null;
 };
-function summarize(stdout, bytes) {
+function summarize(stdout, bytes, format = 'matroska') {
+  if (typeof format !== 'string' || !Object.hasOwn(FORMATS, format)) throw failure('SOURCE_REPORT');
   if (typeof stdout !== 'string' || Buffer.byteLength(stdout) > 65536) throw failure('SOURCE_REPORT');
   let data;
   try { data = JSON.parse(stdout); } catch { throw failure('SOURCE_REPORT'); }
-  if (!data || data.format?.format_name !== 'matroska,webm' || !Array.isArray(data.streams)
+  if (!data || data.format?.format_name !== FORMATS[format].name || !Array.isArray(data.streams)
       || !data.streams.length || data.streams.length > 32) throw failure('SOURCE_REPORT');
   const streams = data.streams.map(stream => {
     if (!stream || typeof stream !== 'object' || !['video', 'audio', 'subtitle', 'attachment', 'data'].includes(stream.codec_type)
@@ -28,12 +35,14 @@ function summarize(stdout, bytes) {
       ...(stream.codec_type === 'audio' ? { sampleRate: number(stream.sample_rate, 768000, true), channels: number(stream.channels, 64, true) } : {}) });
   });
   if (new Set(streams.map(stream => stream.index)).size !== streams.length) throw failure('SOURCE_REPORT');
-  return Object.freeze({ scope: 'read-only-matroska-observation', encodeAllowed: false,
+  return Object.freeze({ scope: 'read-only-container-observation', container: FORMATS[format].label, encodeAllowed: false,
     bytes, durationSeconds: number(data.format.duration, 315576000), streams: Object.freeze(streams) });
 }
 async function inspectSource(source, { signal, onChild, run = runFixedTool } = {}) {
   if (process.platform !== 'linux' || typeof source !== 'string' || !path.isAbsolute(source)
-      || source.includes('\0') || path.normalize(source) !== source || !/\.(mkv|webm)$/i.test(source)) throw failure('SOURCE_PATH');
+      || source.includes('\0') || path.normalize(source) !== source || !/\.(mkv|webm|mp4)$/i.test(source)) throw failure('SOURCE_PATH');
+  const format = /\.mp4$/i.test(source) ? 'mp4' : 'matroska';
+  const profile = FORMATS[format];
   cancelled(signal);
   const before = await fs.lstat(source, { bigint: true });
   if (!before.isFile() || before.isSymbolicLink() || before.size <= 0n || before.size > 64n * 1024n ** 3n
@@ -47,7 +56,7 @@ async function inspectSource(source, { signal, onChild, run = runFixedTool } = {
     // Use our held descriptor, not a later pathname replacement. No FD or path
     // comes from the renderer; the child cannot choose another demuxer/protocol.
     const result = await run('ffprobe', ['-v', 'error', '-max_alloc', '16777216', '-threads', '1',
-      '-protocol_whitelist', 'file', '-format_whitelist', 'matroska,webm', '-f', 'matroska',
+      '-protocol_whitelist', 'file', '-format_whitelist', profile.name, '-f', profile.demuxer, ...profile.options,
       '-probesize', '1048576', '-analyzeduration', '1000000', '-max_streams', '32',
       '-show_entries', 'format=format_name,duration:stream=index,codec_type,codec_name,width,height,pix_fmt,avg_frame_rate,sample_rate,channels',
       '-of', 'json', '-i', `/proc/${process.pid}/fd/${handle.fd}`], { signal, onChild, timeoutMs: 10000 });
@@ -55,7 +64,7 @@ async function inspectSource(source, { signal, onChild, run = runFixedTool } = {
     const after = await handle.stat({ bigint: true });
     const named = await fs.lstat(source, { bigint: true });
     if (!same(opened, after) || !same(opened, named) || await fs.realpath(source) !== source) throw failure('SOURCE_CHANGED');
-    return summarize(result.stdout, Number(opened.size));
+    return summarize(result.stdout, Number(opened.size), format);
   } finally { await handle.close(); }
 }
 module.exports = { inspectSource, summarize };

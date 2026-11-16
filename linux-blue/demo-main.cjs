@@ -33,8 +33,8 @@ async function launchDemo({ onChild, show = true } = {}) {
   const controller = await createDemoController({ createService: createSyntheticService,
     source: process.env.LINUX_BLUE_SYNTHETIC_FIXTURE, parent, inspectSource,
     async selectSource() {
-      const result = await dialog.showOpenDialog(window, { title: 'Inspect Matroska information only',
-        buttonLabel: 'Inspect only', filters: [{ name: 'Matroska / WebM', extensions: ['mkv', 'webm'] }], properties: ['openFile'] });
+      const result = await dialog.showOpenDialog(window, { title: 'Inspect video information only',
+        buttonLabel: 'Inspect only', filters: [{ name: 'MP4 / Matroska / WebM', extensions: ['mp4', 'mkv', 'webm'] }], properties: ['openFile'] });
       return result.canceled || result.filePaths.length !== 1 ? null : result.filePaths[0];
     }, onChild(child) {
       census.spawned++; census.live++; census.maximum = Math.max(census.maximum, census.live);

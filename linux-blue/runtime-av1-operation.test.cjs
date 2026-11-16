@@ -1,7 +1,7 @@
 'use strict';
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { PINS, RUNTIME_ID, createAv1OperationRunner } = require('./runtime-av1-operation.cjs');
+const { PINS, RUNTIME_ID, createAv1OperationRunner, createAv1ProportionalRunner, PROPORTIONAL_LIMITS } = require('./runtime-av1-operation.cjs');
 function fake({ result, error, verify } = {}) {
   const events = [];
   const run = createAv1OperationRunner({ verify: verify || (async kind => events.push(`verify:${kind}`)),
@@ -115,4 +115,27 @@ test('process results are not promoted to operation or publication acceptance', 
   const result = { exitCode: 3, stderr: 'failed' }, h = fake({ result });
   assert.equal(await h.run(PINS.ffmpeg.path, [], { timeoutMs: 1 }), result);
   assert.deepEqual(h.events, ['verify:ffmpeg', 'execute', 'verify:ffmpeg']);
+});
+test('separate proportional runner accepts bounded derived resources without widening the original runner', async () => {
+  const events = [], options = { timeoutMs: 120001, stdoutLimit: 128 * 1024 * 1024 + 1, onProgress() {} };
+  const execute = async (_file, _args, actual) => {
+    events.push('execute'); assert.equal(actual.timeoutMs, options.timeoutMs);
+    assert.equal(actual.stdoutLimit, options.stdoutLimit); assert.equal(typeof actual.onOutputBytes, 'function');
+    return { exitCode: 0 };
+  };
+  const run = createAv1ProportionalRunner({ verify: async kind => events.push(kind), execute });
+  await run(PINS.ffmpeg.path, ['-c:v:0', 'libx265'], options);
+  assert.deepEqual(events, ['ffmpeg', 'execute', 'ffmpeg']);
+  await assert.rejects(createAv1OperationRunner({ verify: async () => {}, execute })(PINS.ffmpeg.path, [], options),
+    { code: 'LINUX_AV1_OPERATION_OPTIONS' });
+  assert.deepEqual(PROPORTIONAL_LIMITS, { timeoutMs: 2147483647, stdoutLimit: 1024 * 1024 * 1024, stderrLimit: 256 * 1024 });
+});
+test('proportional runner still refuses unbounded resources and unknown options before launch', async () => {
+  let launches = 0;
+  const run = createAv1ProportionalRunner({ verify: async () => {}, execute: async () => { launches++; } });
+  for (const options of [{ timeoutMs: 0 }, { timeoutMs: 2147483648 }, { timeoutMs: Infinity },
+    { timeoutMs: 1, stdoutLimit: 1024 * 1024 * 1024 + 1 }, { timeoutMs: 1, stderrLimit: 256 * 1024 + 1 },
+    { timeoutMs: 1, env: {} }, { timeoutMs: 1, resourcePolicy: 'untrusted' }])
+    await assert.rejects(run(PINS.ffmpeg.path, [], options), { code: 'LINUX_AV1_OPERATION_OPTIONS' });
+  assert.equal(launches, 0);
 });

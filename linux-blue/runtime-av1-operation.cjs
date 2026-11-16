@@ -8,9 +8,13 @@ const KEYS = new Set(['signal', 'timeoutMs', 'stdoutLimit', 'stderrLimit',
   'onProgress', 'onStdoutChunk', 'onOutputBytes', 'onChild']);
 const CALLBACKS = ['onProgress', 'onStdoutChunk', 'onOutputBytes', 'onChild'];
 const CPU_ENCODERS = new Set(['copy', 'ffv1', 'libx264', 'libx265', 'libsvtav1']);
+const FIXED_LIMITS = Object.freeze({ timeoutMs: 120000, stdoutLimit: 128 * 1024 * 1024, stderrLimit: 256 * 1024 });
+// Separate main-only route for authentic per-source family resources. These
+// are structural timer/capture ceilings, not a media-duration qualification.
+const PROPORTIONAL_LIMITS = Object.freeze({ timeoutMs: 2147483647, stdoutLimit: 1024 * 1024 * 1024, stderrLimit: 256 * 1024 });
 const fail = (code, message) => { throw new ToolError(code, message); };
 
-function validate(executable, args, options) {
+function validate(executable, args, options, limits) {
   const kind = ['ffmpeg', 'ffprobe'].find(key => executable === PINS[key].path);
   if (!kind || !Array.isArray(args) || args.length > 512)
     fail('LINUX_AV1_OPERATION_INVOCATION', 'Evidence requires fixed tool paths and bounded main-owned arguments.');
@@ -26,7 +30,7 @@ function validate(executable, args, options) {
     fail('LINUX_AV1_OPERATION_OPTIONS', 'Only main-owned bounded evidence options are supported.');
   if (options.signal !== undefined && !(options.signal instanceof AbortSignal))
     fail('LINUX_AV1_OPERATION_OPTIONS', 'Expected an AbortSignal.');
-  for (const [key, limit] of [['timeoutMs', 120000], ['stdoutLimit', 128 * 1024 * 1024], ['stderrLimit', 256 * 1024]]) {
+  for (const [key, limit] of Object.entries(limits)) {
     if ((key === 'timeoutMs' && options[key] === undefined) || (options[key] !== undefined
         && (!Number.isSafeInteger(options[key]) || options[key] <= 0 || options[key] > limit)))
       fail('LINUX_AV1_OPERATION_OPTIONS', 'Evidence child budgets must be positive and bounded.');
@@ -44,11 +48,11 @@ function validate(executable, args, options) {
   return kind;
 }
 
-function createAv1OperationRunner({ onChild, verify = verifyAv1Tool, execute = runTool } = {}) {
+function createRunner(limits, { onChild, verify = verifyAv1Tool, execute = runTool } = {}) {
   if (onChild !== undefined && typeof onChild !== 'function')
     fail('LINUX_AV1_OPERATION_OPTIONS', 'Expected a main-owned child observer.');
   return async (executable, args, options = {}) => {
-    const kind = validate(executable, args, options);
+    const kind = validate(executable, args, options, limits);
     // Freeze invocation values before asynchronous verification. The injectable
     // verifier/runner are test seams, not application or IPC inputs.
     args = [...args]; options = { ...options };
@@ -79,4 +83,6 @@ function createAv1OperationRunner({ onChild, verify = verifyAv1Tool, execute = r
     return result;
   };
 }
-module.exports = { PINS, RUNTIME_ID, createAv1OperationRunner };
+function createAv1OperationRunner(options) { return createRunner(FIXED_LIMITS, options); }
+function createAv1ProportionalRunner(options) { return createRunner(PROPORTIONAL_LIMITS, options); }
+module.exports = { PINS, RUNTIME_ID, createAv1OperationRunner, createAv1ProportionalRunner, PROPORTIONAL_LIMITS };

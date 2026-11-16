@@ -24,7 +24,7 @@ for (const [name, child] of [['userData', 'electron-state'], ['sessionData', 'el
   mkdirSync(directory, { recursive: true, mode: 0o700 });
   app.setPath(name, directory);
 }
-const title = 'FFmpeg Encoder · Linux CPU preview · Full SDR · 30-minute limit per file';
+let title = 'FFmpeg Encoder · Linux CPU preview · Full SDR · 30-minute encode limit';
 const census = { spawned: 0, closed: 0, live: 0, maximum: 0 };
 let window, service, appearance, unregister;
 let closing = false, closed = false, closePromise, startupPromise, appearanceFailed = false, failed = false;
@@ -76,6 +76,7 @@ async function launch() {
     child.once('close', () => { census.closed++; census.live--; });
   } });
   if (closing) { beginClose(); return; }
+  title += service.linuxRemuxStatus.available ? ' · Remux: video-only MP4→MKV ≤60s' : ' · Remux unavailable (source mismatch)';
   await service.initializeDiagnostics();
   appearance = new AppearanceSettings({ directory: stateDir });
   const initial = await appearance.load();
@@ -122,7 +123,7 @@ async function launch() {
   await window.loadURL(ENTRY_URL);
   const preferences = window.webContents.getLastWebPreferences();
   console.log('LINUX_WORKBENCH_READY', JSON.stringify({ electron: process.versions.electron,
-    mode: 'ordinary-cpu-full-sdr', sandbox: preferences.sandbox,
+    mode: 'ordinary-cpu-full-sdr', remuxAvailable: service.linuxRemuxStatus.available, sandbox: preferences.sandbox,
     contextIsolation: preferences.contextIsolation, nodeIntegration: preferences.nodeIntegration,
     originalUi: true, originalPreload: true }));
 }

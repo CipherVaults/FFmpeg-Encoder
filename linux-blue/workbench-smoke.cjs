@@ -54,7 +54,11 @@ async function smoke() {
     const count = census.spawned;
     assert.throws(() => service.startBatch({ planId: '00000000-0000-0000-0000-000000000000', fileIds: [plan.items[0].id] }), { code: 'STALE_PLAN' });
     assert.equal(census.spawned, count); assert.deepEqual(await fs.readdir(output), []);
-    await assert.rejects(service.prepareRemuxBatch({ inputFolderId: inFolder.id, outputFolderId: outFolder.id, target: 'matroska' }), { code: 'REMUX_CONTROLS_UNAVAILABLE' });
+    const remuxRequest = { inputFolderId: inFolder.id, outputFolderId: outFolder.id, target: 'matroska' };
+    if (service.linuxRemuxStatus.available) {
+      const remux = await service.prepareRemuxBatch(remuxRequest);
+      assert.equal(remux.items[0].status, 'unsupported'); // FFV1/PCM MKV is outside the Linux preview.
+    } else await assert.rejects(service.prepareRemuxBatch(remuxRequest), { code: 'REMUX_CONTROLS_UNAVAILABLE' });
     const repeat = await service.prepareBatch(request);
     assert.equal(repeat.preparation.inspected, 1); assert.equal(repeat.preparation.reused, 0);
     const same = await service.registerFolder(input, 'output');

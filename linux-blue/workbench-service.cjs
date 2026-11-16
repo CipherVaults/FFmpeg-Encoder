@@ -1,14 +1,14 @@
 'use strict';
 
 // Opt-in Linux composition of the existing workbench, not a second encoder.
-const { createHash } = require('node:crypto');
 const { EncoderService } = require('../src/encoder-service.cjs');
 const { runTool, ToolError } = require('../src/process-runner.cjs');
 const { failedVendorCapabilities } = require('../src/vendor-capabilities.cjs');
 const { PROFILES } = require('../src/media.cjs');
 const { PINS, verifyTool } = require('./runtime.cjs');
+const { createRemuxControls, RUNTIME_ID } = require('./workbench-remux.cjs');
 
-const START_MESSAGE = 'Linux CPU preview supports only SDR Full, Keep source, copied audio to a distinct folder. Changed operations, GPU, HDR and Remux remain unavailable.';
+const START_MESSAGE = 'Linux CPU preview supports only SDR Full, Keep source, copied audio to a distinct folder. Changed encodes, GPU and HDR remain unavailable. Remux requires the separate verified video-only MP4-to-MKV preview.';
 const ENCODE_LIMIT_MS = 30 * 60 * 1000;
 const CPU_ENCODERS = new Set(['copy', 'ffv1', 'libx264', 'libx265', 'libsvtav1']);
 const OPTION_KEYS = new Set(['signal', 'timeoutMs', 'stdoutLimit', 'stderrLimit', 'onProgress']);
@@ -76,11 +76,27 @@ function createWorkbenchRunner({ verify = verifyTool, execute = runTool, onChild
 }
 
 class LinuxWorkbenchService extends EncoderService {
+  async prepareRemuxBatch(request) {
+    if (!this.remuxOperations) throw refusal('REMUX_CONTROLS_UNAVAILABLE',
+      'Linux Remux is unavailable: this checkout lacks the reviewed local dependency bytes. CPU encoding remains available. See WORKBENCH_REMUX_CHECKPOINT.md.');
+    return super.prepareRemuxBatch(request);
+  }
   startBatch(request) {
     this.requireIdle();
     const plan = this.plan;
     // Superclass still owns request shape, stale plan and selection validation.
     if (!plan || !Array.isArray(request?.fileIds) || !request.fileIds.length) return super.startBatch(request);
+    if (plan.operation === 'remux' && this.remuxOperations && !plan.sameFolder) {
+      for (const fileId of request.fileIds) {
+        const entry = plan.entries.get(fileId);
+        if (!entry?.remux || entry.native || entry.hdr || entry.vendor || entry.encodePreservation
+            || entry.operationPlan?.contract?.request?.target !== 'matroska'
+            || entry.remuxRequest?.omissionRequestIds.length !== 0) {
+          throw refusal('LINUX_WORKBENCH_ROUTE_UNAVAILABLE', START_MESSAGE);
+        }
+      }
+      return super.startBatch(request);
+    }
     const profile = PROFILES.find(row => row.id === plan.settings?.profileId);
     if (plan.operation !== 'encode' || plan.sameFolder || profile?.hardware !== 'CPU') {
       throw refusal('LINUX_WORKBENCH_ROUTE_UNAVAILABLE', START_MESSAGE);
@@ -105,14 +121,17 @@ class LinuxWorkbenchService extends EncoderService {
 
 async function createWorkbenchService({ stateDir, onChild, outputAccess } = {}) {
   await verifyTool('ffmpeg'); await verifyTool('ffprobe');
-  const runtimeIdentity = createHash('sha256').update(JSON.stringify(Object.values(PINS))).digest('hex');
-  return new LinuxWorkbenchService({ ffmpeg: PINS.ffmpeg.path, ffprobe: PINS.ffprobe.path,
-    stateDir, runtimeIdentity, outputAccess, inspectionWorkers: 1, run: createWorkbenchRunner({ onChild }),
+  const remux = await createRemuxControls({ stateDir, onChild });
+  const service = new LinuxWorkbenchService({ ffmpeg: PINS.ffmpeg.path, ffprobe: PINS.ffprobe.path,
+    stateDir, runtimeIdentity: RUNTIME_ID, outputAccess, inspectionWorkers: 1, run: createWorkbenchRunner({ onChild }),
     // Do not run Windows DXGI or invent Linux adapter/device qualification.
     vendorCapabilities: async () => ({ profiles: failedVendorCapabilities('VENDOR_DISCOVERY_INCOMPLETE'), bindings: new Map() }),
-    // No changed-operation/native/remux/HDR controls or storage eligibility
-    // overrides. Those existing gates stay closed; fresh inspection still works.
+    // Only this reviewed remux preview is composed. No Windows catalogs,
+    // native/HDR/changed-encode controls or storage eligibility overrides.
+    ...remux.controls,
   });
+  service.linuxRemuxStatus = remux.status;
+  return service;
 }
 
 module.exports = { createWorkbenchRunner, createWorkbenchService, LinuxWorkbenchService, validateInvocation, START_MESSAGE, ENCODE_LIMIT_MS };

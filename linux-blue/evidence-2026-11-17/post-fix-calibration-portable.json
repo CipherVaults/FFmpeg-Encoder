@@ -1,0 +1,1811 @@
+{
+  "schemaVersion": 1,
+  "recordKind": "Portable semantic archive of fresh post-fix Keep720 calibration",
+  "testedSourceCommit": "77331ff44adf1dbf06b7249396b84f6fbce75d5d",
+  "originalRawReport": {
+    "projectRelativePath": "linux-blue/artifacts/candidate-keep720-calibration-lgtLE3/report.json",
+    "bytes": 55953,
+    "sha256": "e93c017c288712e652e7a3ad19b67803a6c5f28fd584f9fa49d5ec479034b96f"
+  },
+  "transformation": {
+    "rule": "Only string values beginning with the original project root plus slash are replaced with project:// plus the same project-relative suffix. Original machine-specific root mapping is excluded.",
+    "transformedStringCount": 8,
+    "allOtherKeysTypesAndValuesUnchanged": true
+  },
+  "authority": {
+    "rawReportByteRestoration": false,
+    "rawFactoryGateSubstitute": false,
+    "productionActivation": false,
+    "catalogActivation": false,
+    "publicationAuthority": false
+  },
+  "limits": [
+    "This is semantic preservation, not original raw bytes. The exact original report and runtime files remain local, separate from source backup.",
+    "Actual three-case calibration tested77331ff; it is not a new normal-service consumer proof or native GUI test.",
+    "All21collector children retained empty untruncated stderr; other successful-child stderr is not individually retained, so target encode/fixture/decode diagnostics cannot be called clean and prior x265 warnings remain unresolved.",
+    "Independent audit checks saved artifacts and pure calculations, not another media decode. Some full-output hashes were first established during audit, not earlier baselines.",
+    "Fresh source-bound capsule binding remains a separately reviewed code step; this record does not authorize opening it."
+  ],
+  "report": {
+    "root": "project://linux-blue/artifacts/candidate-keep720-calibration-lgtLE3",
+    "status": "passed-pre-catalog-calibration",
+    "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+    "resourcePolicy": "cfr720p30-flac-resources-v1",
+    "geometry": {
+      "sourceWidth": 1280,
+      "sourceHeight": 720,
+      "resolution": "source",
+      "outputWidth": 1280,
+      "outputHeight": 720
+    },
+    "publicationAuthorized": false,
+    "catalogActivated": false,
+    "candidateRuntime": true,
+    "boundsClassification": "preregistered-clock-derived-acceptance-bounds; measured only by this campaign, never automatic catalog authority",
+    "settings": {
+      "profileId": "h265-cpu",
+      "preset": "slow",
+      "quality": 25
+    },
+    "sources": [
+      {
+        "id": "long-pattern",
+        "path": "project://linux-blue/artifacts/candidate-keep720-calibration-lgtLE3/long-pattern.mov",
+        "sha256": "b2adc00b3f7e4a2f459023c9dfe484451b8eedfdd3c5114542abc413b3ca893b",
+        "identity": {
+          "canonicalPath": "project://linux-blue/artifacts/candidate-keep720-calibration-lgtLE3/long-pattern.mov",
+          "dev": "27",
+          "ino": "2122881",
+          "size": "81474226",
+          "mtimeNs": "1794935544641073799",
+          "ctimeNs": "1794935544641073799",
+          "birthtimeNs": "1794935534276874799",
+          "sparseDigest": "sha256-sparse-v1:e5d8ce0c9faca3c946e010fefc6fbb58e5d1b975aac75e87b72e0c2555e86c2b"
+        },
+        "sourceExtentUs": 150000000,
+        "probe": {
+          "streams": [
+            {
+              "index": 0,
+              "id": "0x1",
+              "codec_type": "video",
+              "codec_name": "h264",
+              "profile": "High",
+              "codec_tag_string": "avc1",
+              "codec_tag": "0x31637661",
+              "level": 31,
+              "width": 1280,
+              "height": 720,
+              "coded_width": 1280,
+              "coded_height": 720,
+              "sample_aspect_ratio": "1:1",
+              "display_aspect_ratio": "16:9",
+              "field_order": "progressive",
+              "pix_fmt": "yuv420p",
+              "color_transfer": "bt709",
+              "color_primaries": "bt709",
+              "color_space": "bt709",
+              "color_range": "tv",
+              "chroma_location": "left",
+              "avg_frame_rate": "30/1",
+              "r_frame_rate": "30/1",
+              "time_base": "1/15360",
+              "start_pts": 0,
+              "start_time": "0.000000",
+              "duration_ts": 2304000,
+              "duration": "150.000000",
+              "nb_frames": "4500",
+              "bit_rate": "2801918",
+              "bits_per_raw_sample": "8",
+              "extradata_size": 47,
+              "extradata_hash": "SHA256:ddbeab61a69e66531ca47d1fcfea3c40052b2f85c58cae0712269023d744b4a1",
+              "tags": {
+                "handler_name": "VideoHandler",
+                "vendor_id": "FFMP",
+                "encoder": "Lavc63.1.102 libx264"
+              },
+              "disposition": {
+                "default": 1,
+                "dub": 0,
+                "original": 0,
+                "comment": 0,
+                "lyrics": 0,
+                "karaoke": 0,
+                "forced": 0,
+                "hearing_impaired": 0,
+                "visual_impaired": 0,
+                "clean_effects": 0,
+                "attached_pic": 0,
+                "timed_thumbnails": 0,
+                "non_diegetic": 0,
+                "captions": 0,
+                "descriptions": 0,
+                "metadata": 0,
+                "dependent": 0,
+                "still_image": 0,
+                "multilayer": 0
+              }
+            },
+            {
+              "index": 1,
+              "id": "0x2",
+              "codec_type": "audio",
+              "codec_name": "pcm_s16le",
+              "codec_tag_string": "sowt",
+              "codec_tag": "0x74776f73",
+              "avg_frame_rate": "0/0",
+              "r_frame_rate": "0/0",
+              "time_base": "1/48000",
+              "start_pts": 0,
+              "start_time": "0.000000",
+              "duration_ts": 7200000,
+              "duration": "150.000000",
+              "nb_frames": "7200000",
+              "bit_rate": "1536000",
+              "sample_fmt": "s16",
+              "sample_rate": "48000",
+              "channels": 2,
+              "channel_layout": "stereo",
+              "bits_per_sample": 16,
+              "initial_padding": 0,
+              "tags": {
+                "handler_name": "SoundHandler",
+                "vendor_id": "[0][0][0][0]"
+              },
+              "disposition": {
+                "default": 1,
+                "dub": 0,
+                "original": 0,
+                "comment": 0,
+                "lyrics": 0,
+                "karaoke": 0,
+                "forced": 0,
+                "hearing_impaired": 0,
+                "visual_impaired": 0,
+                "clean_effects": 0,
+                "attached_pic": 0,
+                "timed_thumbnails": 0,
+                "non_diegetic": 0,
+                "captions": 0,
+                "descriptions": 0,
+                "metadata": 0,
+                "dependent": 0,
+                "still_image": 0,
+                "multilayer": 0
+              }
+            }
+          ],
+          "format": {
+            "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+            "duration": "150.000000",
+            "start_time": "0.000000",
+            "bit_rate": "4345292",
+            "size": "81474226",
+            "nb_streams": 2,
+            "nb_programs": 0,
+            "nb_stream_groups": 0,
+            "probe_score": 100,
+            "tags": {
+              "major_brand": "qt  ",
+              "minor_version": "512",
+              "compatible_brands": "qt  ",
+              "encoder": "Lavf63.1.102"
+            }
+          },
+          "chapters": [],
+          "programs": [],
+          "stream_groups": [],
+          "mediaEvidence": {
+            "version": 2,
+            "streams": [
+              {
+                "index": 0,
+                "identity": {
+                  "containerStreamId": {
+                    "state": "known",
+                    "value": "1"
+                  }
+                },
+                "codec": {
+                  "name": {
+                    "state": "known",
+                    "value": "h264"
+                  },
+                  "type": {
+                    "state": "known",
+                    "value": "video"
+                  },
+                  "profile": {
+                    "state": "known",
+                    "value": "High"
+                  },
+                  "tag": {
+                    "state": "known",
+                    "value": "avc1"
+                  },
+                  "tagValue": {
+                    "state": "known",
+                    "value": "0x31637661"
+                  },
+                  "level": {
+                    "state": "known",
+                    "value": "31"
+                  },
+                  "bitrate": {
+                    "state": "known",
+                    "value": "2801918"
+                  }
+                },
+                "geometry": {
+                  "width": {
+                    "state": "known",
+                    "value": "1280"
+                  },
+                  "height": {
+                    "state": "known",
+                    "value": "720"
+                  },
+                  "sampleAspectRatio": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "1",
+                      "denominator": "1"
+                    }
+                  },
+                  "displayAspectRatio": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "16",
+                      "denominator": "9"
+                    }
+                  },
+                  "rotationDegrees": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "rotationSource": "not-reported",
+                  "displayMatrix": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "legacyRotationDegrees": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "fieldOrder": {
+                    "state": "known",
+                    "value": "progressive"
+                  }
+                },
+                "timeline": {
+                  "timeBase": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "1",
+                      "denominator": "15360"
+                    }
+                  },
+                  "startPts": {
+                    "state": "known",
+                    "value": "0"
+                  },
+                  "durationTicks": {
+                    "state": "known",
+                    "value": "2304000"
+                  },
+                  "startSeconds": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "0",
+                      "denominator": "1"
+                    }
+                  },
+                  "durationSeconds": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "150",
+                      "denominator": "1"
+                    }
+                  },
+                  "averageFrameRate": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "30",
+                      "denominator": "1"
+                    }
+                  },
+                  "nominalFrameRate": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "30",
+                      "denominator": "1"
+                    }
+                  },
+                  "frameCount": {
+                    "state": "known",
+                    "value": "4500"
+                  }
+                },
+                "audio": {
+                  "sampleFormat": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "sampleRate": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "channels": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "channelLayout": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "bitsPerSample": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "bitsPerRawSample": {
+                    "state": "known",
+                    "value": "8"
+                  },
+                  "initialPadding": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "trailingPadding": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  }
+                },
+                "color": {
+                  "pixelFormat": {
+                    "state": "known",
+                    "value": "yuv420p"
+                  },
+                  "transfer": {
+                    "state": "known",
+                    "value": "bt709"
+                  },
+                  "primaries": {
+                    "state": "known",
+                    "value": "bt709"
+                  },
+                  "matrix": {
+                    "state": "known",
+                    "value": "bt709"
+                  },
+                  "range": {
+                    "state": "known",
+                    "value": "tv"
+                  },
+                  "chromaLocation": {
+                    "state": "known",
+                    "value": "left"
+                  }
+                },
+                "hdr": {
+                  "coverage": "stream-metadata-only",
+                  "entries": []
+                }
+              },
+              {
+                "index": 1,
+                "identity": {
+                  "containerStreamId": {
+                    "state": "known",
+                    "value": "2"
+                  }
+                },
+                "codec": {
+                  "name": {
+                    "state": "known",
+                    "value": "pcm_s16le"
+                  },
+                  "type": {
+                    "state": "known",
+                    "value": "audio"
+                  },
+                  "profile": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "tag": {
+                    "state": "known",
+                    "value": "sowt"
+                  },
+                  "tagValue": {
+                    "state": "known",
+                    "value": "0x74776f73"
+                  },
+                  "level": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "bitrate": {
+                    "state": "known",
+                    "value": "1536000"
+                  }
+                },
+                "geometry": {
+                  "width": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "height": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "sampleAspectRatio": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "displayAspectRatio": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "rotationDegrees": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "rotationSource": "not-reported",
+                  "displayMatrix": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "legacyRotationDegrees": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "fieldOrder": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  }
+                },
+                "timeline": {
+                  "timeBase": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "1",
+                      "denominator": "48000"
+                    }
+                  },
+                  "startPts": {
+                    "state": "known",
+                    "value": "0"
+                  },
+                  "durationTicks": {
+                    "state": "known",
+                    "value": "7200000"
+                  },
+                  "startSeconds": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "0",
+                      "denominator": "1"
+                    }
+                  },
+                  "durationSeconds": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "150",
+                      "denominator": "1"
+                    }
+                  },
+                  "averageFrameRate": {
+                    "state": "unknown",
+                    "reason": "zero-over-zero"
+                  },
+                  "nominalFrameRate": {
+                    "state": "unknown",
+                    "reason": "zero-over-zero"
+                  },
+                  "frameCount": {
+                    "state": "known",
+                    "value": "7200000"
+                  }
+                },
+                "audio": {
+                  "sampleFormat": {
+                    "state": "known",
+                    "value": "s16"
+                  },
+                  "sampleRate": {
+                    "state": "known",
+                    "value": "48000"
+                  },
+                  "channels": {
+                    "state": "known",
+                    "value": "2"
+                  },
+                  "channelLayout": {
+                    "state": "known",
+                    "value": "stereo"
+                  },
+                  "bitsPerSample": {
+                    "state": "known",
+                    "value": "16"
+                  },
+                  "bitsPerRawSample": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "initialPadding": {
+                    "state": "known",
+                    "value": "0"
+                  },
+                  "trailingPadding": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  }
+                },
+                "color": {
+                  "pixelFormat": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "transfer": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "primaries": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "matrix": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "range": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "chromaLocation": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  }
+                },
+                "hdr": {
+                  "coverage": "stream-metadata-only",
+                  "entries": []
+                }
+              }
+            ],
+            "container": {
+              "name": {
+                "state": "known",
+                "value": "mov,mp4,m4a,3gp,3g2,mj2"
+              },
+              "startSeconds": {
+                "state": "known",
+                "value": {
+                  "numerator": "0",
+                  "denominator": "1"
+                }
+              },
+              "durationSeconds": {
+                "state": "known",
+                "value": {
+                  "numerator": "150",
+                  "denominator": "1"
+                }
+              },
+              "bitrate": {
+                "state": "known",
+                "value": "4345292"
+              },
+              "size": {
+                "state": "known",
+                "value": "81474226"
+              },
+              "programs": {
+                "state": "known",
+                "reportedCount": {
+                  "state": "known",
+                  "value": "0"
+                },
+                "issues": [],
+                "value": []
+              },
+              "streamGroups": {
+                "state": "known",
+                "reportedCount": {
+                  "state": "known",
+                  "value": "0"
+                },
+                "issues": [],
+                "value": []
+              },
+              "relationships": {
+                "state": "known",
+                "reportedStreamCount": {
+                  "state": "known",
+                  "value": "2"
+                },
+                "observedStreamCount": 2,
+                "issues": []
+              }
+            }
+          }
+        },
+        "frozen": {
+          "frozenBeforeEncode": true,
+          "expectedOutputTimeBase": "1/1000",
+          "derivation": {
+            "sourceVideoTimeBase": "1/15360",
+            "sourceAudioTimeBase": "1/48000",
+            "outputTimeBaseHypothesis": "1/1000",
+            "video": "source video tick + fixed output tick + one microsecond representation allowance",
+            "audioInterior": "source audio tick + one source sample + fixed output tick",
+            "audioEndpoint": "audio interior quantization only; FLAC adds no coding tail",
+            "containerDuration": "end-timestamp: max decoded video/audio output end; duration bound = video bound + ceil(one sample)",
+            "sampleCount": "zero: complete selected canonical s16le PCM byte/hash/sample identity",
+            "noObservedCandidateErrorUsed": true
+          },
+          "qualification": {
+            "evidenceId": "candidate-keep720-calibration-lgtLE3:long-pattern:endpoints",
+            "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+            "containerDuration": "end-timestamp",
+            "tolerances": {
+              "videoTimestampUs": 1067,
+              "audioTimestampUs": 1042,
+              "avSyncUs": 2109,
+              "durationUs": 1088,
+              "sampleCount": 0
+            }
+          },
+          "timingQualification": {
+            "evidenceId": "candidate-keep720-calibration-lgtLE3:long-pattern:interior",
+            "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+            "videoDurationUs": 1067,
+            "audioTimelineUs": 1042,
+            "aac": null
+          }
+        }
+      },
+      {
+        "id": "heldout-flipped",
+        "path": "project://linux-blue/artifacts/candidate-keep720-calibration-lgtLE3/heldout-flipped.mov",
+        "sha256": "0c9512943bb2b0bf542f261b5542389324055de4c77e529e36896e21ed156194",
+        "identity": {
+          "canonicalPath": "project://linux-blue/artifacts/candidate-keep720-calibration-lgtLE3/heldout-flipped.mov",
+          "dev": "27",
+          "ino": "2124951",
+          "size": "5990090",
+          "mtimeNs": "1794935710720720076",
+          "ctimeNs": "1794935710720720076",
+          "birthtimeNs": "1794935709768232893",
+          "sparseDigest": "sha256-sparse-v1:5c64792ded61f0e30a644dd278001c29fdb60c5b57c53f06e83f6c214a6445a2"
+        },
+        "sourceExtentUs": 11000000,
+        "probe": {
+          "streams": [
+            {
+              "index": 0,
+              "id": "0x1",
+              "codec_type": "video",
+              "codec_name": "h264",
+              "profile": "High",
+              "codec_tag_string": "avc1",
+              "codec_tag": "0x31637661",
+              "level": 31,
+              "width": 1280,
+              "height": 720,
+              "coded_width": 1280,
+              "coded_height": 720,
+              "sample_aspect_ratio": "1:1",
+              "display_aspect_ratio": "16:9",
+              "field_order": "progressive",
+              "pix_fmt": "yuv420p",
+              "color_transfer": "bt709",
+              "color_primaries": "bt709",
+              "color_space": "bt709",
+              "color_range": "tv",
+              "chroma_location": "left",
+              "avg_frame_rate": "30/1",
+              "r_frame_rate": "30/1",
+              "time_base": "1/15360",
+              "start_pts": 0,
+              "start_time": "0.000000",
+              "duration_ts": 168960,
+              "duration": "11.000000",
+              "nb_frames": "330",
+              "bit_rate": "2812181",
+              "bits_per_raw_sample": "8",
+              "extradata_size": 47,
+              "extradata_hash": "SHA256:ddbeab61a69e66531ca47d1fcfea3c40052b2f85c58cae0712269023d744b4a1",
+              "tags": {
+                "handler_name": "VideoHandler",
+                "vendor_id": "FFMP",
+                "encoder": "Lavc63.1.102 libx264"
+              },
+              "disposition": {
+                "default": 1,
+                "dub": 0,
+                "original": 0,
+                "comment": 0,
+                "lyrics": 0,
+                "karaoke": 0,
+                "forced": 0,
+                "hearing_impaired": 0,
+                "visual_impaired": 0,
+                "clean_effects": 0,
+                "attached_pic": 0,
+                "timed_thumbnails": 0,
+                "non_diegetic": 0,
+                "captions": 0,
+                "descriptions": 0,
+                "metadata": 0,
+                "dependent": 0,
+                "still_image": 0,
+                "multilayer": 0
+              }
+            },
+            {
+              "index": 1,
+              "id": "0x2",
+              "codec_type": "audio",
+              "codec_name": "pcm_s16le",
+              "codec_tag_string": "sowt",
+              "codec_tag": "0x74776f73",
+              "avg_frame_rate": "0/0",
+              "r_frame_rate": "0/0",
+              "time_base": "1/48000",
+              "start_pts": 0,
+              "start_time": "0.000000",
+              "duration_ts": 528000,
+              "duration": "11.000000",
+              "nb_frames": "528000",
+              "bit_rate": "1536000",
+              "sample_fmt": "s16",
+              "sample_rate": "48000",
+              "channels": 2,
+              "channel_layout": "stereo",
+              "bits_per_sample": 16,
+              "initial_padding": 0,
+              "tags": {
+                "handler_name": "SoundHandler",
+                "vendor_id": "[0][0][0][0]"
+              },
+              "disposition": {
+                "default": 1,
+                "dub": 0,
+                "original": 0,
+                "comment": 0,
+                "lyrics": 0,
+                "karaoke": 0,
+                "forced": 0,
+                "hearing_impaired": 0,
+                "visual_impaired": 0,
+                "clean_effects": 0,
+                "attached_pic": 0,
+                "timed_thumbnails": 0,
+                "non_diegetic": 0,
+                "captions": 0,
+                "descriptions": 0,
+                "metadata": 0,
+                "dependent": 0,
+                "still_image": 0,
+                "multilayer": 0
+              }
+            }
+          ],
+          "format": {
+            "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+            "duration": "11.000000",
+            "start_time": "0.000000",
+            "bit_rate": "4356429",
+            "size": "5990090",
+            "nb_streams": 2,
+            "nb_programs": 0,
+            "nb_stream_groups": 0,
+            "probe_score": 100,
+            "tags": {
+              "major_brand": "qt  ",
+              "minor_version": "512",
+              "compatible_brands": "qt  ",
+              "encoder": "Lavf63.1.102"
+            }
+          },
+          "chapters": [],
+          "programs": [],
+          "stream_groups": [],
+          "mediaEvidence": {
+            "version": 2,
+            "streams": [
+              {
+                "index": 0,
+                "identity": {
+                  "containerStreamId": {
+                    "state": "known",
+                    "value": "1"
+                  }
+                },
+                "codec": {
+                  "name": {
+                    "state": "known",
+                    "value": "h264"
+                  },
+                  "type": {
+                    "state": "known",
+                    "value": "video"
+                  },
+                  "profile": {
+                    "state": "known",
+                    "value": "High"
+                  },
+                  "tag": {
+                    "state": "known",
+                    "value": "avc1"
+                  },
+                  "tagValue": {
+                    "state": "known",
+                    "value": "0x31637661"
+                  },
+                  "level": {
+                    "state": "known",
+                    "value": "31"
+                  },
+                  "bitrate": {
+                    "state": "known",
+                    "value": "2812181"
+                  }
+                },
+                "geometry": {
+                  "width": {
+                    "state": "known",
+                    "value": "1280"
+                  },
+                  "height": {
+                    "state": "known",
+                    "value": "720"
+                  },
+                  "sampleAspectRatio": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "1",
+                      "denominator": "1"
+                    }
+                  },
+                  "displayAspectRatio": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "16",
+                      "denominator": "9"
+                    }
+                  },
+                  "rotationDegrees": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "rotationSource": "not-reported",
+                  "displayMatrix": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "legacyRotationDegrees": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "fieldOrder": {
+                    "state": "known",
+                    "value": "progressive"
+                  }
+                },
+                "timeline": {
+                  "timeBase": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "1",
+                      "denominator": "15360"
+                    }
+                  },
+                  "startPts": {
+                    "state": "known",
+                    "value": "0"
+                  },
+                  "durationTicks": {
+                    "state": "known",
+                    "value": "168960"
+                  },
+                  "startSeconds": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "0",
+                      "denominator": "1"
+                    }
+                  },
+                  "durationSeconds": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "11",
+                      "denominator": "1"
+                    }
+                  },
+                  "averageFrameRate": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "30",
+                      "denominator": "1"
+                    }
+                  },
+                  "nominalFrameRate": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "30",
+                      "denominator": "1"
+                    }
+                  },
+                  "frameCount": {
+                    "state": "known",
+                    "value": "330"
+                  }
+                },
+                "audio": {
+                  "sampleFormat": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "sampleRate": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "channels": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "channelLayout": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "bitsPerSample": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "bitsPerRawSample": {
+                    "state": "known",
+                    "value": "8"
+                  },
+                  "initialPadding": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "trailingPadding": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  }
+                },
+                "color": {
+                  "pixelFormat": {
+                    "state": "known",
+                    "value": "yuv420p"
+                  },
+                  "transfer": {
+                    "state": "known",
+                    "value": "bt709"
+                  },
+                  "primaries": {
+                    "state": "known",
+                    "value": "bt709"
+                  },
+                  "matrix": {
+                    "state": "known",
+                    "value": "bt709"
+                  },
+                  "range": {
+                    "state": "known",
+                    "value": "tv"
+                  },
+                  "chromaLocation": {
+                    "state": "known",
+                    "value": "left"
+                  }
+                },
+                "hdr": {
+                  "coverage": "stream-metadata-only",
+                  "entries": []
+                }
+              },
+              {
+                "index": 1,
+                "identity": {
+                  "containerStreamId": {
+                    "state": "known",
+                    "value": "2"
+                  }
+                },
+                "codec": {
+                  "name": {
+                    "state": "known",
+                    "value": "pcm_s16le"
+                  },
+                  "type": {
+                    "state": "known",
+                    "value": "audio"
+                  },
+                  "profile": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "tag": {
+                    "state": "known",
+                    "value": "sowt"
+                  },
+                  "tagValue": {
+                    "state": "known",
+                    "value": "0x74776f73"
+                  },
+                  "level": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "bitrate": {
+                    "state": "known",
+                    "value": "1536000"
+                  }
+                },
+                "geometry": {
+                  "width": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "height": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "sampleAspectRatio": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "displayAspectRatio": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "rotationDegrees": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "rotationSource": "not-reported",
+                  "displayMatrix": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "legacyRotationDegrees": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "fieldOrder": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  }
+                },
+                "timeline": {
+                  "timeBase": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "1",
+                      "denominator": "48000"
+                    }
+                  },
+                  "startPts": {
+                    "state": "known",
+                    "value": "0"
+                  },
+                  "durationTicks": {
+                    "state": "known",
+                    "value": "528000"
+                  },
+                  "startSeconds": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "0",
+                      "denominator": "1"
+                    }
+                  },
+                  "durationSeconds": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "11",
+                      "denominator": "1"
+                    }
+                  },
+                  "averageFrameRate": {
+                    "state": "unknown",
+                    "reason": "zero-over-zero"
+                  },
+                  "nominalFrameRate": {
+                    "state": "unknown",
+                    "reason": "zero-over-zero"
+                  },
+                  "frameCount": {
+                    "state": "known",
+                    "value": "528000"
+                  }
+                },
+                "audio": {
+                  "sampleFormat": {
+                    "state": "known",
+                    "value": "s16"
+                  },
+                  "sampleRate": {
+                    "state": "known",
+                    "value": "48000"
+                  },
+                  "channels": {
+                    "state": "known",
+                    "value": "2"
+                  },
+                  "channelLayout": {
+                    "state": "known",
+                    "value": "stereo"
+                  },
+                  "bitsPerSample": {
+                    "state": "known",
+                    "value": "16"
+                  },
+                  "bitsPerRawSample": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "initialPadding": {
+                    "state": "known",
+                    "value": "0"
+                  },
+                  "trailingPadding": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  }
+                },
+                "color": {
+                  "pixelFormat": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "transfer": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "primaries": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "matrix": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "range": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "chromaLocation": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  }
+                },
+                "hdr": {
+                  "coverage": "stream-metadata-only",
+                  "entries": []
+                }
+              }
+            ],
+            "container": {
+              "name": {
+                "state": "known",
+                "value": "mov,mp4,m4a,3gp,3g2,mj2"
+              },
+              "startSeconds": {
+                "state": "known",
+                "value": {
+                  "numerator": "0",
+                  "denominator": "1"
+                }
+              },
+              "durationSeconds": {
+                "state": "known",
+                "value": {
+                  "numerator": "11",
+                  "denominator": "1"
+                }
+              },
+              "bitrate": {
+                "state": "known",
+                "value": "4356429"
+              },
+              "size": {
+                "state": "known",
+                "value": "5990090"
+              },
+              "programs": {
+                "state": "known",
+                "reportedCount": {
+                  "state": "known",
+                  "value": "0"
+                },
+                "issues": [],
+                "value": []
+              },
+              "streamGroups": {
+                "state": "known",
+                "reportedCount": {
+                  "state": "known",
+                  "value": "0"
+                },
+                "issues": [],
+                "value": []
+              },
+              "relationships": {
+                "state": "known",
+                "reportedStreamCount": {
+                  "state": "known",
+                  "value": "2"
+                },
+                "observedStreamCount": 2,
+                "issues": []
+              }
+            }
+          }
+        },
+        "frozen": {
+          "frozenBeforeEncode": true,
+          "expectedOutputTimeBase": "1/1000",
+          "derivation": {
+            "sourceVideoTimeBase": "1/15360",
+            "sourceAudioTimeBase": "1/48000",
+            "outputTimeBaseHypothesis": "1/1000",
+            "video": "source video tick + fixed output tick + one microsecond representation allowance",
+            "audioInterior": "source audio tick + one source sample + fixed output tick",
+            "audioEndpoint": "audio interior quantization only; FLAC adds no coding tail",
+            "containerDuration": "end-timestamp: max decoded video/audio output end; duration bound = video bound + ceil(one sample)",
+            "sampleCount": "zero: complete selected canonical s16le PCM byte/hash/sample identity",
+            "noObservedCandidateErrorUsed": true
+          },
+          "qualification": {
+            "evidenceId": "candidate-keep720-calibration-lgtLE3:heldout-flipped:endpoints",
+            "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+            "containerDuration": "end-timestamp",
+            "tolerances": {
+              "videoTimestampUs": 1067,
+              "audioTimestampUs": 1042,
+              "avSyncUs": 2109,
+              "durationUs": 1088,
+              "sampleCount": 0
+            }
+          },
+          "timingQualification": {
+            "evidenceId": "candidate-keep720-calibration-lgtLE3:heldout-flipped:interior",
+            "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+            "videoDurationUs": 1067,
+            "audioTimelineUs": 1042,
+            "aac": null
+          }
+        }
+      }
+    ],
+    "cases": [
+      {
+        "id": "late-forty-seconds",
+        "sourceId": "long-pattern",
+        "range": {
+          "startUs": 100000000,
+          "endUs": 140000000
+        },
+        "resources": {
+          "budget": {
+            "sourceDecode": "complete",
+            "timeoutMs": 857430,
+            "maxFrameBytes": 59801600,
+            "maxPcmBytes": 28992000,
+            "maxRecords": 58400,
+            "maxSpoolBytes": 18350080
+          },
+          "resources": {
+            "pipeBytes": 472252416,
+            "evidenceBytes": 455475200,
+            "maxChildren": 64,
+            "evidenceReserveBytes": 40894464,
+            "stallMs": null,
+            "telemetryBytes": 2883584,
+            "telemetryRecords": 11264
+          },
+          "executionBudgetMs": 1719720
+        },
+        "pipeBytes": 39275072,
+        "status": "passed",
+        "planFingerprint": "8aba66e15b064f9f5e9b624676617bd0aca8f22dc065f0864ee0b22400c6d82a",
+        "startedAt": 1794935546060,
+        "geometry": {
+          "requested": "source",
+          "filterRequired": false,
+          "mode": "preserve-source",
+          "source": {
+            "width": 1280,
+            "height": 720
+          },
+          "output": {
+            "width": 1280,
+            "height": 720,
+            "sampleAspectRatio": {
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "orientation": "preserve-source"
+          },
+          "qualification": "existing-source-path",
+          "notices": [
+            "Source SAR and orientation remain source-owned; no values are invented."
+          ]
+        },
+        "videoFilters": [
+          "settb=expr=1/15360",
+          "trim=start_pts=1536000:end_pts=2150400",
+          "setpts=PTS-(1536000)"
+        ],
+        "identityOrientationInterpretation": null,
+        "telemetry": {
+          "valid": true,
+          "scope": "encoder-input-count-and-timeline-only",
+          "streams": [
+            {
+              "outputIndex": 0,
+              "kind": "video",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            },
+            {
+              "outputIndex": 1,
+              "kind": "audio",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            }
+          ],
+          "doesNotEstablish": [
+            "video-pixel-identity",
+            "lossless-audio-identity",
+            "last-video-frame-duration",
+            "output-or-publication-validity"
+          ]
+        },
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": [],
+          "validation": "decoded-operation-contract",
+          "qualificationEvidenceId": "candidate-keep720-calibration-lgtLE3:long-pattern:endpoints",
+          "timing": {
+            "timeline": "request-relative",
+            "requested": {
+              "startUs": 100000000,
+              "endUs": 140000000
+            },
+            "resolved": {
+              "startUs": 100000000,
+              "endUs": 140000000
+            },
+            "video": {
+              "startUs": 100000000,
+              "endUs": 140000000,
+              "frames": 1200,
+              "outputStartUs": 0,
+              "outputEndUs": 40000000
+            },
+            "audio": [
+              {
+                "inputIndex": 1,
+                "mode": "precision-flac",
+                "startUs": 100000000,
+                "endUs": 140000000,
+                "outputStartUs": 0,
+                "outputEndUs": 39999667,
+                "encoderDelaySamples": 0,
+                "discardPaddingSamples": 0,
+                "sampleCountDifference": 0
+              }
+            ]
+          }
+        },
+        "frames": 1200,
+        "samples": 1920000,
+        "pcmIdentity": {
+          "algorithm": "sha256",
+          "format": "s16le-interleaved",
+          "sourceHash": "557362ddcf7724e009cd0b1df44c19e9960e08eeea2e8cfa04c9e77857770f44",
+          "outputHash": "557362ddcf7724e009cd0b1df44c19e9960e08eeea2e8cfa04c9e77857770f44",
+          "sourceBytes": 7680000,
+          "outputBytes": 7680000
+        },
+        "completeSource": {
+          "video": {
+            "frames": 4500,
+            "firstTime": {
+              "n": "0",
+              "d": "15360"
+            },
+            "endTime": {
+              "n": "35389440000",
+              "d": "235929600"
+            },
+            "maximumNominalCadenceErrorUs": 0,
+            "maximumNominalDurationErrorUs": 0,
+            "maximumNominalPhaseErrorUs": 0,
+            "properties": {
+              "policy": "cfr-sdr-range-flac-v2",
+              "sampleAspectRatio": "1:1",
+              "chromaLocation": "left",
+              "sideDataPolicy": "h26x-unregistered-sei-only",
+              "framesChecked": 4500
+            }
+          },
+          "audio": [
+            {
+              "inputIndex": 1,
+              "sampleCount": "7200000",
+              "firstTime": {
+                "n": "0",
+                "d": "48000"
+              },
+              "endTime": {
+                "n": "345600000000",
+                "d": "2304000000"
+              },
+              "gaps": 0
+            }
+          ]
+        },
+        "elapsedMs": 103706,
+        "output": "project://linux-blue/artifacts/candidate-keep720-calibration-lgtLE3/late-forty-seconds/.ffmpeg-encoder-HSXEmO/encoded.mkv"
+      },
+      {
+        "id": "late-open-end",
+        "sourceId": "long-pattern",
+        "range": {
+          "startUs": 130000000
+        },
+        "resources": {
+          "budget": {
+            "sourceDecode": "complete",
+            "timeoutMs": 557430,
+            "maxFrameBytes": 59801600,
+            "maxPcmBytes": 28992000,
+            "maxRecords": 58400,
+            "maxSpoolBytes": 10485760
+          },
+          "resources": {
+            "pipeBytes": 468412416,
+            "evidenceBytes": 451635200,
+            "maxChildren": 64,
+            "evidenceReserveBytes": 30408704,
+            "stallMs": null,
+            "telemetryBytes": 1572864,
+            "telemetryRecords": 6144
+          },
+          "executionBudgetMs": 1119720
+        },
+        "pipeBytes": 35297501,
+        "status": "passed",
+        "planFingerprint": "bf2d4449e5d87465d53f08700b656c9e272902c810734ca3842b1a909cbac658",
+        "startedAt": 1794935649793,
+        "geometry": {
+          "requested": "source",
+          "filterRequired": false,
+          "mode": "preserve-source",
+          "source": {
+            "width": 1280,
+            "height": 720
+          },
+          "output": {
+            "width": 1280,
+            "height": 720,
+            "sampleAspectRatio": {
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "orientation": "preserve-source"
+          },
+          "qualification": "existing-source-path",
+          "notices": [
+            "Source SAR and orientation remain source-owned; no values are invented."
+          ]
+        },
+        "videoFilters": [
+          "settb=expr=1/15360",
+          "trim=start_pts=1996800:end_pts=2304000",
+          "setpts=PTS-(1996800)"
+        ],
+        "identityOrientationInterpretation": null,
+        "telemetry": {
+          "valid": true,
+          "scope": "encoder-input-count-and-timeline-only",
+          "streams": [
+            {
+              "outputIndex": 0,
+              "kind": "video",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            },
+            {
+              "outputIndex": 1,
+              "kind": "audio",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            }
+          ],
+          "doesNotEstablish": [
+            "video-pixel-identity",
+            "lossless-audio-identity",
+            "last-video-frame-duration",
+            "output-or-publication-validity"
+          ]
+        },
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": [],
+          "validation": "decoded-operation-contract",
+          "qualificationEvidenceId": "candidate-keep720-calibration-lgtLE3:long-pattern:endpoints",
+          "timing": {
+            "timeline": "request-relative",
+            "requested": {
+              "startUs": 130000000,
+              "endUs": null
+            },
+            "resolved": {
+              "startUs": 130000000,
+              "endUs": 150000000
+            },
+            "video": {
+              "startUs": 130000000,
+              "endUs": 150000000,
+              "frames": 600,
+              "outputStartUs": 0,
+              "outputEndUs": 20000000
+            },
+            "audio": [
+              {
+                "inputIndex": 1,
+                "mode": "precision-flac",
+                "startUs": 130000000,
+                "endUs": 150000000,
+                "outputStartUs": 0,
+                "outputEndUs": 20000333,
+                "encoderDelaySamples": 0,
+                "discardPaddingSamples": 0,
+                "sampleCountDifference": 0
+              }
+            ]
+          }
+        },
+        "frames": 600,
+        "samples": 960000,
+        "pcmIdentity": {
+          "algorithm": "sha256",
+          "format": "s16le-interleaved",
+          "sourceHash": "ae9f20e1d3b792afffa53935066412e267063ecbf70c5b2d396dbf32fda1b81b",
+          "outputHash": "ae9f20e1d3b792afffa53935066412e267063ecbf70c5b2d396dbf32fda1b81b",
+          "sourceBytes": 3840000,
+          "outputBytes": 3840000
+        },
+        "completeSource": {
+          "video": {
+            "frames": 4500,
+            "firstTime": {
+              "n": "0",
+              "d": "15360"
+            },
+            "endTime": {
+              "n": "35389440000",
+              "d": "235929600"
+            },
+            "maximumNominalCadenceErrorUs": 0,
+            "maximumNominalDurationErrorUs": 0,
+            "maximumNominalPhaseErrorUs": 0,
+            "properties": {
+              "policy": "cfr-sdr-range-flac-v2",
+              "sampleAspectRatio": "1:1",
+              "chromaLocation": "left",
+              "sideDataPolicy": "h26x-unregistered-sei-only",
+              "framesChecked": 4500
+            }
+          },
+          "audio": [
+            {
+              "inputIndex": 1,
+              "sampleCount": "7200000",
+              "firstTime": {
+                "n": "0",
+                "d": "48000"
+              },
+              "endTime": {
+                "n": "345600000000",
+                "d": "2304000000"
+              },
+              "gaps": 0
+            }
+          ]
+        },
+        "elapsedMs": 59932,
+        "output": "project://linux-blue/artifacts/candidate-keep720-calibration-lgtLE3/late-open-end/.ffmpeg-encoder-cJf5yT/encoded.mkv"
+      },
+      {
+        "id": "heldout-nonaligned",
+        "sourceId": "heldout-flipped",
+        "range": {
+          "startUs": 413000,
+          "endUs": 8621000
+        },
+        "resources": {
+          "budget": {
+            "sourceDecode": "complete",
+            "timeoutMs": 181680,
+            "maxFrameBytes": 23363584,
+            "maxPcmBytes": 2304000,
+            "maxRecords": 22816,
+            "maxSpoolBytes": 6160384
+          },
+          "resources": {
+            "pipeBytes": 184394240,
+            "evidenceBytes": 167617024,
+            "maxChildren": 64,
+            "evidenceReserveBytes": 24641536,
+            "stallMs": null,
+            "telemetryBytes": 851968,
+            "telemetryRecords": 3328
+          },
+          "executionBudgetMs": 363720
+        },
+        "pipeBytes": 3979108,
+        "status": "passed",
+        "planFingerprint": "8468e25077bf74eeace8750012036fe6bbc040bb9571da582f82b8472ecfb75c",
+        "startedAt": 1794935711908,
+        "geometry": {
+          "requested": "source",
+          "filterRequired": false,
+          "mode": "preserve-source",
+          "source": {
+            "width": 1280,
+            "height": 720
+          },
+          "output": {
+            "width": 1280,
+            "height": 720,
+            "sampleAspectRatio": {
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "orientation": "preserve-source"
+          },
+          "qualification": "existing-source-path",
+          "notices": [
+            "Source SAR and orientation remain source-owned; no values are invented."
+          ]
+        },
+        "videoFilters": [
+          "settb=expr=1/15360",
+          "trim=start_pts=6344:end_pts=132419",
+          "setpts=PTS-(6344)"
+        ],
+        "identityOrientationInterpretation": null,
+        "telemetry": {
+          "valid": true,
+          "scope": "encoder-input-count-and-timeline-only",
+          "streams": [
+            {
+              "outputIndex": 0,
+              "kind": "video",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            },
+            {
+              "outputIndex": 1,
+              "kind": "audio",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            }
+          ],
+          "doesNotEstablish": [
+            "video-pixel-identity",
+            "lossless-audio-identity",
+            "last-video-frame-duration",
+            "output-or-publication-validity"
+          ]
+        },
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": [],
+          "validation": "decoded-operation-contract",
+          "qualificationEvidenceId": "candidate-keep720-calibration-lgtLE3:heldout-flipped:endpoints",
+          "timing": {
+            "timeline": "request-relative",
+            "requested": {
+              "startUs": 413000,
+              "endUs": 8621000
+            },
+            "resolved": {
+              "startUs": 413000,
+              "endUs": 8621000
+            },
+            "video": {
+              "startUs": 433333,
+              "endUs": 8633333,
+              "frames": 246,
+              "outputStartUs": 20000,
+              "outputEndUs": 8220000
+            },
+            "audio": [
+              {
+                "inputIndex": 1,
+                "mode": "precision-flac",
+                "startUs": 413000,
+                "endUs": 8621000,
+                "outputStartUs": 0,
+                "outputEndUs": 8208000,
+                "encoderDelaySamples": 0,
+                "discardPaddingSamples": 0,
+                "sampleCountDifference": 0
+              }
+            ]
+          }
+        },
+        "frames": 246,
+        "samples": 393984,
+        "pcmIdentity": {
+          "algorithm": "sha256",
+          "format": "s16le-interleaved",
+          "sourceHash": "2df057e2c484e1762af4ef62eac53af4237b7b63fe83690918552b0aa3fdc8a6",
+          "outputHash": "2df057e2c484e1762af4ef62eac53af4237b7b63fe83690918552b0aa3fdc8a6",
+          "sourceBytes": 1575936,
+          "outputBytes": 1575936
+        },
+        "completeSource": {
+          "video": {
+            "frames": 330,
+            "firstTime": {
+              "n": "0",
+              "d": "15360"
+            },
+            "endTime": {
+              "n": "2595225600",
+              "d": "235929600"
+            },
+            "maximumNominalCadenceErrorUs": 0,
+            "maximumNominalDurationErrorUs": 0,
+            "maximumNominalPhaseErrorUs": 0,
+            "properties": {
+              "policy": "cfr-sdr-range-flac-v2",
+              "sampleAspectRatio": "1:1",
+              "chromaLocation": "left",
+              "sideDataPolicy": "h26x-unregistered-sei-only",
+              "framesChecked": 330
+            }
+          },
+          "audio": [
+            {
+              "inputIndex": 1,
+              "sampleCount": "528000",
+              "firstTime": {
+                "n": "0",
+                "d": "48000"
+              },
+              "endTime": {
+                "n": "25344000000",
+                "d": "2304000000"
+              },
+              "gaps": 0
+            }
+          ]
+        },
+        "elapsedMs": 20922,
+        "output": "project://linux-blue/artifacts/candidate-keep720-calibration-lgtLE3/heldout-nonaligned/.ffmpeg-encoder-fy7JEM/encoded.mkv"
+      }
+    ],
+    "census": {
+      "spawned": 42,
+      "closed": 42,
+      "live": 0,
+      "maximum": 1
+    },
+    "totalPipeBytes": 78859184
+  }
+}

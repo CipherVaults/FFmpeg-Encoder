@@ -1,0 +1,837 @@
+{
+  "schema": 1,
+  "checkpoint": "012",
+  "statusAtRecordCreation": "Reviewed source and evidence; not yet committed or published. Final identities belong to external publication receipt.",
+  "leadConfiguration": "GPT-6 Astra / Ultra, explicitly configured; not backend telemetry",
+  "baseCommit": "77331ff44adf1dbf06b7249396b84f6fbce75d5d",
+  "previousPublication": {
+    "local": "77331ff44adf1dbf06b7249396b84f6fbce75d5d",
+    "notion": "https://app.notion.com/p/41bbd7ade63b8151985ad8a60d0e4a2d",
+    "sourceFiles": 524,
+    "historyCommits": 11,
+    "github": "7e1074b443f9e4957eb2c4e79a39808cbb571d28",
+    "githubParent": "c2046b05e5cb7ba495e15dcfe88f3bcb441ad814",
+    "githubTree": "cf8160b3d2a3015fb2c4183ed1c8cf7dda64aef6",
+    "githubVerifiedAt": "2026-11-17T17:13:16.115775Z",
+    "treeCounts": {
+      "total": 906,
+      "unchanged": 900,
+      "modified": 4,
+      "new": 2,
+      "deleted": 0
+    }
+  },
+  "source": [
+    {
+      "path": "linux-blue/candidate-keep720-service.cjs",
+      "bytes": 22262,
+      "sha256": "ec3f75785829464193cf6538e6bd10b62eef02a7d3a4e7f49a222c5970afb5e6",
+      "gitBlob": "d11e7e635c2f8e975c38f51470529712e6349443"
+    }
+  ],
+  "patch": {
+    "bytes": 3682,
+    "sha256": "67fd248ae13868813b4adee8031d74cd6f9900e22e63e3ed092a2fc41d98cde6"
+  },
+  "capsuleHandoff": {
+    "base": "77331ff44adf1dbf06b7249396b84f6fbce75d5d",
+    "closureFiles": 97,
+    "closureMethod": "Literal relative require traversal exact97, no missing or extra map entries; all97 current bytes matched immutable commit",
+    "onlyProducerChanged": "src/encoder-service.cjs",
+    "producerSha256": "5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7",
+    "freshReportSha256": "e93c017c288712e652e7a3ad19b67803a6c5f28fd584f9fa49d5ec479034b96f",
+    "auditSha256": "0f0e147edf401cab17df5c7452033a20b63d6b2dba35dd9ae4f900bd07b26def",
+    "liveReadOnlyProducerAndReceiptChecks": "passed; no runtime open",
+    "tests": "20261117T171920Z_fresh-capsule-candidate-workbench:158/159; preserved missing-source diagnostic failure",
+    "scope": "New evidence capsule only; no lifecycle/default/runtime/family/resource changes; changed normal-service consumer path remains unproved by calibration",
+    "mediaExecuted": false
+  },
+  "calibration": {
+    "testedCommit": "77331ff44adf1dbf06b7249396b84f6fbce75d5d",
+    "trackedFilesFrozen": 524,
+    "rawReport": {
+      "path": "linux-blue/artifacts/candidate-keep720-calibration-lgtLE3/report.json",
+      "bytes": 55953,
+      "sha256": "e93c017c288712e652e7a3ad19b67803a6c5f28fd584f9fa49d5ec479034b96f"
+    },
+    "outerStartedAt": "2026-11-17T17:12:11.663Z",
+    "outerFinishedAt": "2026-11-17T17:15:33.094Z",
+    "outerDurationMs": 201431,
+    "exitCode": 0,
+    "signal": null,
+    "spawnError": null,
+    "innerStartedAt": "2026-11-17T17:12:11.739Z",
+    "innerFinishedAt": "2026-11-17T17:15:33.083Z",
+    "status": "passed-pre-catalog-calibration",
+    "casesPassed": 3,
+    "spawned": 42,
+    "closed": 42,
+    "live": 0,
+    "maxConcurrency": 1,
+    "cases": [
+      {
+        "range": "100–140 seconds",
+        "frames": 1200,
+        "samples": 1920000,
+        "durationMs": 103706
+      },
+      {
+        "range": "130 seconds to end",
+        "frames": 600,
+        "samples": 960000,
+        "durationMs": 59932
+      },
+      {
+        "range": "held-out 0.413–8.621 seconds",
+        "frames": 246,
+        "samples": 393984,
+        "durationMs": 20922
+      }
+    ],
+    "completeSources": [
+      {
+        "durationSeconds": 150,
+        "frames": 4500,
+        "samples": 7200000
+      },
+      {
+        "durationSeconds": 11,
+        "frames": 330,
+        "samples": 528000
+      }
+    ],
+    "runtimePair": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+    "manifestSha256": "a957385be8d57874dfd5e88a9cbf137ecbe9311ebccc5e25280e6e52b72a511c",
+    "launcherSha256": "026ce417eb589e9df6ee526aaba7d5ea61b431756969575cae2eeb576f1e06f7",
+    "outerLauncherSha256": "d8bc3b5a4ea2232e0f172505c7306818cf39e1cca3b8aefc0c2f8e09c3c3b91f",
+    "planSha256": "938e4f6c5964e3d00d71bceec1aa8b1863b26d8e2ce60236356ac0428255d469",
+    "approvalSha256": "ade625121a08c64ee1943de4a82d41350f6e898fae4123d8bb2568f41a303a1f",
+    "attempts": 1,
+    "bounds": {
+      "children": 160,
+      "concurrency": 1,
+      "abortRequestMs": 1800000,
+      "minimumFreeBytesBeforeEachChild": 28991029248,
+      "hardMidWriteCap": false,
+      "guaranteedExitDeadline": false
+    },
+    "completion": {
+      "bytes": 61732,
+      "sha256": "b9456c5486b61e47cf6ab1c817d21a6fb3c7c3cb911bf000ec93a1542a5179a1"
+    },
+    "outerCompletion": {
+      "bytes": 339,
+      "sha256": "76715aab505e24da33c21555d9cd932ac9ba66e71a475c1a334e5f1f5787c970"
+    },
+    "audit": {
+      "bytes": 226522,
+      "sha256": "0f0e147edf401cab17df5c7452033a20b63d6b2dba35dd9ae4f900bd07b26def"
+    },
+    "auditCoverage": {
+      "trackedSourceFiles": 524,
+      "runtimeAndDependencies": 9,
+      "sources": 2,
+      "spools": 9,
+      "outputs": 3,
+      "resourceEnvelopes": 3,
+      "collectorChildren": 21
+    },
+    "stderrEvidence": "21 collector children empty and untruncated; other successful-child stderr not individually retained, so target/fixture/full-decode diagnostics not qualified clean. Outer stderr empty is not all-child evidence.",
+    "sourceRechecks": [
+      "2026-11-17T17:16:06.045677Z",
+      "2026-11-17T17:18:19.105915Z"
+    ],
+    "oldReportSha256": "1feb0f2958c78cc73683c70fed08835d1e61b98462e8b30e0127f95b5cf350ab",
+    "auditLimits": [
+      "No additional media execution or re-decode",
+      "Some complete-output hashes first established by audit, not prior historical baselines",
+      "Saved streaming assertions distinguished from retained bytes",
+      "No cryptographic chronology proof",
+      "Calibration is not the changed normal-service consumer path"
+    ]
+  },
+  "portableEvidence": {
+    "path": "linux-blue/evidence-2026-11-17/post-fix-calibration-portable.json",
+    "bytes": 60863,
+    "sha256": "e030ad3d33c954f08e8e410a33c4bb2b0d2553edcbe524aee8f4e3d55792c0b2",
+    "transformedStrings": 8,
+    "transformation": "Known project-root prefix changed to project://; every other report key, type and value retained",
+    "rootMappingIncluded": false,
+    "canRestoreRawReport": false,
+    "factoryAuthority": false,
+    "activationAuthority": false
+  },
+  "tests": [
+    {
+      "evidenceDirectory": "artifacts/v0.7/evidence/20261117T171920Z_fresh-capsule-candidate-workbench",
+      "receiptIdentity": {
+        "bytes": 3239,
+        "sha256": "e86a172c9b2c6806fbca95e117b6b02b602f195882f9b291c2c9694b7ce2dba2"
+      },
+      "receipt": {
+        "schema": 1,
+        "label": "fresh-capsule-candidate-workbench",
+        "startedAt": "2026-11-17T17:19:20.666Z",
+        "durationMs": 7580.302,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "77331ff44adf1dbf06b7249396b84f6fbce75d5d",
+        "dirtyPaths": 109,
+        "command": [
+          "node",
+          "--test",
+          "linux-blue/candidate-keep720-service.test.cjs",
+          "linux-blue/candidate-workbench.test.cjs",
+          "linux-blue/candidate-workbench-renderer.test.cjs",
+          "tests/encoder-service.test.cjs",
+          "tests/output-access.test.cjs",
+          "tests/main-lifecycle.test.cjs",
+          "tests/operation-proportional-service.test.cjs"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 159,
+          "suites": 0,
+          "pass": 158,
+          "fail": 1,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "linux-blue/candidate-keep720-service.test.cjs",
+              "bytes": 22177,
+              "sha256": "8b9445ea950613c87b1f86339fcb623f41a06e7fd009740f642b7fd57b71a3b5"
+            },
+            {
+              "file": "linux-blue/candidate-workbench.test.cjs",
+              "bytes": 8467,
+              "sha256": "37ccbf2923794c429b7a90addf3240c5b2b991fe3f01089fec5726b79a8fdbed"
+            },
+            {
+              "file": "linux-blue/candidate-workbench-renderer.test.cjs",
+              "bytes": 12411,
+              "sha256": "8d063110140b4f8bd5d06bf48b50212a9eed8a8371933c6638c1390578da79fb"
+            },
+            {
+              "file": "tests/encoder-service.test.cjs",
+              "bytes": 92154,
+              "sha256": "2396154103fddf41bc00d10cdaf927871332e78c41c22e620b51eca0f4568208"
+            },
+            {
+              "file": "tests/output-access.test.cjs",
+              "bytes": 18285,
+              "sha256": "ed3bbf5f7e1303432cf1b13a87052b0cb6f6a361960b71c5abf792d7647aa047"
+            },
+            {
+              "file": "tests/main-lifecycle.test.cjs",
+              "bytes": 31441,
+              "sha256": "fb9a0e69ab48fd81d2e061fff54adcf44625b9546ac2bf8d05b0117a7a1f9ccb"
+            },
+            {
+              "file": "tests/operation-proportional-service.test.cjs",
+              "bytes": 12166,
+              "sha256": "a955accf9d0309d2c643393d79009898d81653f4f8223a2366247025d68a1d3a"
+            }
+          ],
+          "covers": [
+            {
+              "file": "linux-blue/candidate-keep720-service.cjs",
+              "bytes": 22262,
+              "sha256": "ec3f75785829464193cf6538e6bd10b62eef02a7d3a4e7f49a222c5970afb5e6"
+            },
+            {
+              "file": "linux-blue/candidate-workbench.cjs",
+              "bytes": 5971,
+              "sha256": "bb4d47ba6a4e829100aff990dd043de90db753cb3206f8a329ea27da12048011"
+            },
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158909,
+              "sha256": "5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7"
+            },
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 49171,
+              "sha256": "8194bcf01f27cb9d9bb6fc5680ca3aa8e08f0638dd0dc02d75964fdc5e750ecb"
+            },
+            {
+              "file": "src/operation-evidence.cjs",
+              "bytes": 53077,
+              "sha256": "9a359914f1ddc1a59cdfc651b2f82e67e7eac3d4d54562d0c19dca2c0ff7714e"
+            },
+            {
+              "file": "src/output-access.cjs",
+              "bytes": 12629,
+              "sha256": "52e5ab6793ce5ea493fcc922d49dad3d25202cff50aaaca953a919bb5b1d8d0c"
+            }
+          ]
+        }
+      },
+      "stdout": {
+        "bytes": 18410,
+        "sha256": "16437044602b76c0b22f296cbae20bc2d82a9c0dd85133e4347004d8c03f5e6d"
+      },
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "evidenceDirectory": "artifacts/v0.7/evidence/20261117T172100Z_fresh-capsule-lead-affected",
+      "receiptIdentity": {
+        "bytes": 4225,
+        "sha256": "e0f7766ce8a1e8b78e1d5baa35a678500e9bc212406f22fd6db94d91af555d59"
+      },
+      "receipt": {
+        "schema": 1,
+        "label": "fresh-capsule-lead-affected",
+        "startedAt": "2026-11-17T17:21:00.998Z",
+        "durationMs": 12676.75,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "77331ff44adf1dbf06b7249396b84f6fbce75d5d",
+        "dirtyPaths": 109,
+        "command": [
+          "node",
+          "--test",
+          "linux-blue/candidate-keep720-service.test.cjs",
+          "linux-blue/candidate-workbench.test.cjs",
+          "linux-blue/candidate-workbench-renderer.test.cjs",
+          "linux-blue/candidate-calibration-runtime.test.cjs",
+          "linux-blue/workbench-long-range-calibration.test.cjs",
+          "tests/encoder-service.test.cjs",
+          "tests/output-access.test.cjs",
+          "tests/main-lifecycle.test.cjs",
+          "tests/remux-service.test.cjs",
+          "tests/native-file-service.test.cjs",
+          "tests/operation-proportional-service.test.cjs",
+          "tests/ui-workbench.test.cjs",
+          "tests/ipc.test.cjs"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 284,
+          "suites": 0,
+          "pass": 283,
+          "fail": 1,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "linux-blue/candidate-keep720-service.test.cjs",
+              "bytes": 22177,
+              "sha256": "8b9445ea950613c87b1f86339fcb623f41a06e7fd009740f642b7fd57b71a3b5"
+            },
+            {
+              "file": "linux-blue/candidate-workbench.test.cjs",
+              "bytes": 8467,
+              "sha256": "37ccbf2923794c429b7a90addf3240c5b2b991fe3f01089fec5726b79a8fdbed"
+            },
+            {
+              "file": "linux-blue/candidate-workbench-renderer.test.cjs",
+              "bytes": 12411,
+              "sha256": "8d063110140b4f8bd5d06bf48b50212a9eed8a8371933c6638c1390578da79fb"
+            },
+            {
+              "file": "linux-blue/candidate-calibration-runtime.test.cjs",
+              "bytes": 6189,
+              "sha256": "e64958d684801ae8e53d08623b77f92777f81f7475b30af1d3e7e88111a1a4ba"
+            },
+            {
+              "file": "linux-blue/workbench-long-range-calibration.test.cjs",
+              "bytes": 14134,
+              "sha256": "c99d1fa7b224b3864c41d6e3a556f7cdd1f48f6b3d49630b0d7d10556441ba0d"
+            },
+            {
+              "file": "tests/encoder-service.test.cjs",
+              "bytes": 92154,
+              "sha256": "2396154103fddf41bc00d10cdaf927871332e78c41c22e620b51eca0f4568208"
+            },
+            {
+              "file": "tests/output-access.test.cjs",
+              "bytes": 18285,
+              "sha256": "ed3bbf5f7e1303432cf1b13a87052b0cb6f6a361960b71c5abf792d7647aa047"
+            },
+            {
+              "file": "tests/main-lifecycle.test.cjs",
+              "bytes": 31441,
+              "sha256": "fb9a0e69ab48fd81d2e061fff54adcf44625b9546ac2bf8d05b0117a7a1f9ccb"
+            },
+            {
+              "file": "tests/remux-service.test.cjs",
+              "bytes": 38948,
+              "sha256": "82c242a5e5366d0d68116b0d3e9e0a83b6a25fb910512c451ae809a9dd723b43"
+            },
+            {
+              "file": "tests/native-file-service.test.cjs",
+              "bytes": 26367,
+              "sha256": "034b388bd0cdc6d85794155b77a3c207fe3e45a2249a4d57e73dcff5d86c5cec"
+            },
+            {
+              "file": "tests/operation-proportional-service.test.cjs",
+              "bytes": 12166,
+              "sha256": "a955accf9d0309d2c643393d79009898d81653f4f8223a2366247025d68a1d3a"
+            },
+            {
+              "file": "tests/ui-workbench.test.cjs",
+              "bytes": 102282,
+              "sha256": "f23ab6ee9d8ccc3dd1e86ba3a17c7c334cc6f295dbb98d7d6d6f411fd2fde936"
+            },
+            {
+              "file": "tests/ipc.test.cjs",
+              "bytes": 14076,
+              "sha256": "210aacdb63fdf978ab86d1881528b9f2214f232f3260c520f62af9882d1d5635"
+            }
+          ],
+          "covers": [
+            {
+              "file": "linux-blue/candidate-keep720-service.cjs",
+              "bytes": 22262,
+              "sha256": "ec3f75785829464193cf6538e6bd10b62eef02a7d3a4e7f49a222c5970afb5e6"
+            },
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158909,
+              "sha256": "5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7"
+            },
+            {
+              "file": "linux-blue/candidate-workbench.cjs",
+              "bytes": 5971,
+              "sha256": "bb4d47ba6a4e829100aff990dd043de90db753cb3206f8a329ea27da12048011"
+            },
+            {
+              "file": "ui/renderer.js",
+              "bytes": 149032,
+              "sha256": "90216c4dd4f7a90e5cedb4975521b1f1d78266acf6e58dc468630438c56d0362"
+            }
+          ]
+        }
+      },
+      "stdout": {
+        "bytes": 33688,
+        "sha256": "2ff1cef72f95ee78bc69f67e3ea1c375d06233fb503ebb1f9406d17a75f38318"
+      },
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "evidenceDirectory": "artifacts/v0.7/evidence/20261117T172113Z_fresh-capsule-lead-linux",
+      "receiptIdentity": {
+        "bytes": 8125,
+        "sha256": "db488bcbbebba4f30bcfd09fa9b11b3eea56745561e23eaad994af07d08234f5"
+      },
+      "receipt": {
+        "schema": 1,
+        "label": "fresh-capsule-lead-linux",
+        "startedAt": "2026-11-17T17:21:13.761Z",
+        "durationMs": 1408.713,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "77331ff44adf1dbf06b7249396b84f6fbce75d5d",
+        "dirtyPaths": 109,
+        "command": [
+          "node",
+          "--test",
+          "linux-blue/candidate-calibration-runtime.test.cjs",
+          "linux-blue/candidate-keep720-service.test.cjs",
+          "linux-blue/candidate-workbench-renderer.test.cjs",
+          "linux-blue/candidate-workbench.test.cjs",
+          "linux-blue/demo-boundary.test.cjs",
+          "linux-blue/output-preflight.test.cjs",
+          "linux-blue/runtime-av1-operation.test.cjs",
+          "linux-blue/runtime-av1.test.cjs",
+          "linux-blue/runtime-candidate.test.cjs",
+          "linux-blue/runtime.test.cjs",
+          "linux-blue/source-inspection-boundary.test.cjs",
+          "linux-blue/source-inspection.test.cjs",
+          "linux-blue/synthetic-service.test.cjs",
+          "linux-blue/ui-policy.test.cjs",
+          "linux-blue/workbench-av1-admission.test.cjs",
+          "linux-blue/workbench-av1-service.test.cjs",
+          "linux-blue/workbench-av1-trim.test.cjs",
+          "linux-blue/workbench-execution.test.cjs",
+          "linux-blue/workbench-full-1440-service.test.cjs",
+          "linux-blue/workbench-full-resize-service.test.cjs",
+          "linux-blue/workbench-long-range-calibration.test.cjs",
+          "linux-blue/workbench-long-range-service.test.cjs",
+          "linux-blue/workbench-long-range-smoke.test.cjs",
+          "linux-blue/workbench-qualified-app-smoke.test.cjs",
+          "linux-blue/workbench-qualified-encode-controls.test.cjs",
+          "linux-blue/workbench-remux.test.cjs",
+          "linux-blue/workbench-resize-service.test.cjs",
+          "linux-blue/workbench-service.test.cjs",
+          "linux-blue/workbench-trim-candidate.test.cjs"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 208,
+          "suites": 0,
+          "pass": 181,
+          "fail": 27,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "linux-blue/candidate-calibration-runtime.test.cjs",
+              "bytes": 6189,
+              "sha256": "e64958d684801ae8e53d08623b77f92777f81f7475b30af1d3e7e88111a1a4ba"
+            },
+            {
+              "file": "linux-blue/candidate-keep720-service.test.cjs",
+              "bytes": 22177,
+              "sha256": "8b9445ea950613c87b1f86339fcb623f41a06e7fd009740f642b7fd57b71a3b5"
+            },
+            {
+              "file": "linux-blue/candidate-workbench-renderer.test.cjs",
+              "bytes": 12411,
+              "sha256": "8d063110140b4f8bd5d06bf48b50212a9eed8a8371933c6638c1390578da79fb"
+            },
+            {
+              "file": "linux-blue/candidate-workbench.test.cjs",
+              "bytes": 8467,
+              "sha256": "37ccbf2923794c429b7a90addf3240c5b2b991fe3f01089fec5726b79a8fdbed"
+            },
+            {
+              "file": "linux-blue/demo-boundary.test.cjs",
+              "bytes": 7127,
+              "sha256": "768fc77bce010c54f32b8664234628e4709931fb72cd585282fa807df33d3cea"
+            },
+            {
+              "file": "linux-blue/output-preflight.test.cjs",
+              "bytes": 6545,
+              "sha256": "027a7429f628413b969a8852a7a2f0172e88c8d76016d64cc86d17be2710a16e"
+            },
+            {
+              "file": "linux-blue/runtime-av1-operation.test.cjs",
+              "bytes": 9656,
+              "sha256": "13956585833345e0cc6a4b78a1c71b1cc32d82fb7879bf970c762240aa96e02f"
+            },
+            {
+              "file": "linux-blue/runtime-av1.test.cjs",
+              "bytes": 5453,
+              "sha256": "dfe653474ad3a616e57797b061626c7462a7236dd6ca807db11e3fbfda194118"
+            },
+            {
+              "file": "linux-blue/runtime-candidate.test.cjs",
+              "bytes": 3699,
+              "sha256": "5512a93d8abcb841514dd9b3956f4ce2cb7da6f705161d64d70aea198584bb19"
+            },
+            {
+              "file": "linux-blue/runtime.test.cjs",
+              "bytes": 3959,
+              "sha256": "77e5a2a83a5a9ef7ef9334d6e01d90f6ac3b66aa4ba87f177ce7b102c267d446"
+            },
+            {
+              "file": "linux-blue/source-inspection-boundary.test.cjs",
+              "bytes": 6470,
+              "sha256": "e3af4733bf7bc72bb437cd2ccb86b8ea69371bf2cbea63e10347a9f5049e1cdd"
+            },
+            {
+              "file": "linux-blue/source-inspection.test.cjs",
+              "bytes": 8961,
+              "sha256": "b48e38a1dca45a04cddc8ff3a9e7c02d9f314b06cd8ba484749c381269d8618f"
+            },
+            {
+              "file": "linux-blue/synthetic-service.test.cjs",
+              "bytes": 5647,
+              "sha256": "be889555ea44c4d293c33e2cfc8c84a1a84ca8d96d426b505ccbf01811530e7c"
+            },
+            {
+              "file": "linux-blue/ui-policy.test.cjs",
+              "bytes": 5165,
+              "sha256": "587aecaed6fb0b547fcff7668a854acf561fb9c07147fec0f4bcb86f51fed8df"
+            },
+            {
+              "file": "linux-blue/workbench-av1-admission.test.cjs",
+              "bytes": 10085,
+              "sha256": "9df61cceaf1f8bd6c334d5754be4c79b2cef4334ba45b39a1612ff8cea60968e"
+            },
+            {
+              "file": "linux-blue/workbench-av1-service.test.cjs",
+              "bytes": 6755,
+              "sha256": "6079eec204ed3e0b15970089018a06ac42e0072b1fc06b67d8192d35349036a6"
+            },
+            {
+              "file": "linux-blue/workbench-av1-trim.test.cjs",
+              "bytes": 2647,
+              "sha256": "08cc9f46160c517f880aa81d1caf9bec8892308801bfd62361c96fe4a93affaf"
+            },
+            {
+              "file": "linux-blue/workbench-execution.test.cjs",
+              "bytes": 4083,
+              "sha256": "570fd4f1918fed21bbfd30164f7847d164bb3209310108b66244a76559e0919b"
+            },
+            {
+              "file": "linux-blue/workbench-full-1440-service.test.cjs",
+              "bytes": 5963,
+              "sha256": "2a3127ff0f81a44f6f640c98817e2d4ee5cb099c058e4d292a1e16f13c0bf86e"
+            },
+            {
+              "file": "linux-blue/workbench-full-resize-service.test.cjs",
+              "bytes": 5137,
+              "sha256": "8affd468c14fba60c98dc3ea734a96e1d502d61382afa5170d06f7b3a782239c"
+            },
+            {
+              "file": "linux-blue/workbench-long-range-calibration.test.cjs",
+              "bytes": 14134,
+              "sha256": "c99d1fa7b224b3864c41d6e3a556f7cdd1f48f6b3d49630b0d7d10556441ba0d"
+            },
+            {
+              "file": "linux-blue/workbench-long-range-service.test.cjs",
+              "bytes": 10678,
+              "sha256": "823948d7ac18bc5732e3297985b9261411188dafbf32a4c24a64871eaef07fb6"
+            },
+            {
+              "file": "linux-blue/workbench-long-range-smoke.test.cjs",
+              "bytes": 5860,
+              "sha256": "3bf94d7768613312fe50ef1959b7da17da400caa7dbd2c00cad976ad3b3fcf13"
+            },
+            {
+              "file": "linux-blue/workbench-qualified-app-smoke.test.cjs",
+              "bytes": 6469,
+              "sha256": "c85541320584cb5a19eacda7b130bc71a0e33923b3dc9f2b4b5e0b3601cc6993"
+            },
+            {
+              "file": "linux-blue/workbench-qualified-encode-controls.test.cjs",
+              "bytes": 11188,
+              "sha256": "18b69949fa9f5894556a74e11e8b0c7a2625022df397ab9388515730fe874ac1"
+            },
+            {
+              "file": "linux-blue/workbench-remux.test.cjs",
+              "bytes": 9956,
+              "sha256": "0a44f52c0bbd345661c5330cd1aa230b35a509b298dac4e7b19642ba7ec19d47"
+            },
+            {
+              "file": "linux-blue/workbench-resize-service.test.cjs",
+              "bytes": 5387,
+              "sha256": "2190e0461ca93177bc8770c0488e7ffd61b6d6e49f9d6f2beaeb485513691d04"
+            },
+            {
+              "file": "linux-blue/workbench-service.test.cjs",
+              "bytes": 8616,
+              "sha256": "ec4af779d98a510ba2fb45bc0d97f4213f2451e5b93dc0b557ba2d14c2a3eee6"
+            },
+            {
+              "file": "linux-blue/workbench-trim-candidate.test.cjs",
+              "bytes": 6983,
+              "sha256": "c4550f213c0dd33bf11c518f5ee7c3d34f9bb5a144a5ca38ba77bdaec00bd2b1"
+            }
+          ],
+          "covers": [
+            {
+              "file": "linux-blue/candidate-keep720-service.cjs",
+              "bytes": 22262,
+              "sha256": "ec3f75785829464193cf6538e6bd10b62eef02a7d3a4e7f49a222c5970afb5e6"
+            },
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158909,
+              "sha256": "5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7"
+            },
+            {
+              "file": "linux-blue/candidate-workbench.cjs",
+              "bytes": 5971,
+              "sha256": "bb4d47ba6a4e829100aff990dd043de90db753cb3206f8a329ea27da12048011"
+            },
+            {
+              "file": "ui/renderer.js",
+              "bytes": 149032,
+              "sha256": "90216c4dd4f7a90e5cedb4975521b1f1d78266acf6e58dc468630438c56d0362"
+            }
+          ]
+        }
+      },
+      "stdout": {
+        "bytes": 50631,
+        "sha256": "4687766182bd0505d6823f21a7b895840b6a0b673682fccc642e7ae05aa59384"
+      },
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "independentFocused": {
+    "tests": 20,
+    "pass": 20,
+    "fail": 0,
+    "log": {
+      "bytes": 2313,
+      "sha256": "9ca6d904fe69c3bcad789f0d0087b8271d361a908ab99fe4d85d20dfa8704636"
+    },
+    "scope": "candidate service, workbench and renderer; source/report validators exercised without runtime opening"
+  },
+  "broadComparison": {
+    "previous": "20261117T163622Z_candidate-workbench-lead-linux",
+    "current": "20261117T172113Z_fresh-capsule-lead-linux",
+    "normalizedDiagnosticLines": [
+      "✖ 1440 composition pins the independently accepted complete calibration bytes",
+      "✖ 1440 is fixed main-only fourth variant without app activation or geometry override",
+      "✖ 1440 pure receipt schema retains full extents, independent source and exact family resources",
+      "✖ 1440 service validator has distinct status, geometry, lifecycle and complete tail counts",
+      "✖ Full composition pins the independently reviewed completed calibration",
+      "✖ Full receipt requires complete distinct source extents, family and null interval",
+      "✖ a revoked genuine observer token refuses before superclass mutation",
+      "✖ accepted exact fourth proof constructs four-family factory without children and keeps three-family app separate",
+      "✖ accepted exact proofs construct real qualified factory without capabilities or child execution",
+      "✖ active cancellation drains before restart; progress-time collision never overwrites",
+      "✖ caller fixture swap after capture cannot redirect child reads",
+      "✖ close drains an active child and permanently closes admission",
+      "✖ exact successful Keep Source, resize and Full service proofs match their own calibrations",
+      "✖ failing tests:",
+      "✖ forged successful labels cannot replace lifecycle, source, accounting or geometry evidence",
+      "✖ forged/stale family and runtime tokens refuse the whole batch without state mutation",
+      "✖ fourth family requires its own genuine catalog and current token, old three cannot issue it",
+      "✖ genuine KeepSource, range resize and Full resize tokens coexist with ordinary H265 in one preflight",
+      "✖ ordinary three-codec paths retain baseline predicate and reach superclass admission",
+      "✖ original factory remains ordinary-only and forwards state/output access without spawning",
+      "✖ pending, missing or changed digests cannot authorize a receipt",
+      "✖ resize receipt binds independently verified bytes while explicit pending factories stay closed",
+      "✖ resize receipt independently binds geometry, policy, clocks, resources and all evidence",
+      "✖ reviewed local dependency gate succeeds and absent/symlinked dependencies fail closed",
+      "✖ stale plans and invalid selections retain superclass refusal before any start",
+      "✖ synthetic staged service: codecs, exclusive publication, admission and child balance",
+      "✖ three-family controls import and real construction do not load unavailable inactive 1440 composition",
+      "✖ unsupported route, omissions, settings and separate-folder rules cannot partially start"
+    ],
+    "diagnosticLineCount": 28,
+    "failedTestCount": 27,
+    "exactDiagnosticSetsEqual": true,
+    "note": "Wrapper diagnostic line included; eight additional source-gate failures in checkpoint011 are resolved by fresh audited capsule. No original failure removed or rebaselined."
+  },
+  "knownAffectedFailure": "Missing-source diagnostic expected SOURCE_CHECK_INCOMPLETE, observed PROTECTED_SOURCE; unchanged, previously intermittent, cause not established.",
+  "electronVersionPreflight": {
+    "startedAt": "2026-11-17T17:19:01Z",
+    "version": "v44.7.0",
+    "exitCode": 0,
+    "files": {
+      "exit.txt": {
+        "bytes": 2,
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+      },
+      "library-cache.txt": {
+        "bytes": 178179,
+        "sha256": "66b04581179c00a7486b79990681e6fca4d84bfde38ca20afcab5bac42808b1e"
+      },
+      "start.txt": {
+        "bytes": 21,
+        "sha256": "8340a2806db9b3bfd63f7b01a53bf7ed96cb7132e62b715b5e61fa1a77aeebbe"
+      },
+      "stderr.txt": {
+        "bytes": 161,
+        "sha256": "c79321416f623ed1e4b0985b2a34113d746f366252f11094cac2f9b54412bc41"
+      },
+      "stdout.txt": {
+        "bytes": 8,
+        "sha256": "b129278d6d091b3797eafddb62e57b9ae99031ff8f9a398b61bc354498b0014a"
+      }
+    },
+    "diagnostic": "Missing /run/dbus/system_bus_socket; retained 161-byte stderr",
+    "securityWeakeningFlags": false,
+    "workbenchLaunched": false,
+    "runtimeOpened": false,
+    "limits": "Version/executable loading only, not sandboxed renderer, GUI, GPU, native media or Windows qualification; no system changes or warning suppression."
+  },
+  "nextNormalService": {
+    "plan": {
+      "status": "PREPARED ONLY; APPROVED_CHECKPOINT.json deliberately absent; no execution",
+      "purpose": "Fresh normal-service proof after shared preparation lifecycle fix and independently audited fresh calibration. No same-service recovery promise.",
+      "launcherSha256": "2aef9b0aa6dc2fc689e73a5f17757e5eb24c6bfd446ccb44ea24e94399cd1758",
+      "outerLauncherSha256": "3753b44ad078866a3a9db9f7092ef2c87f36900eb95bdbe5f2bd0beac46be4f2",
+      "manifestSha256": "a957385be8d57874dfd5e88a9cbf137ecbe9311ebccc5e25280e6e52b72a511c",
+      "gate": {
+        "checkpointNumber": "012",
+        "scope": "one-post-fix-keep720-normal-service-proof",
+        "required": [
+          "exact immutable commit and all tracked source hashes",
+          "notionRestoreVerified true",
+          "independentLaunchReviewApproved true",
+          "exact launcherSha256 outerLauncherSha256 planSha256",
+          "new explicit one-run lead authorization"
+        ],
+        "capsuleSha256": "ec3f75785829464193cf6538e6bd10b62eef02a7d3a4e7f49a222c5970afb5e6"
+      },
+      "calibration": {
+        "path": "linux-blue/artifacts/candidate-keep720-calibration-lgtLE3/report.json",
+        "bytes": 55953,
+        "sha256": "e93c017c288712e652e7a3ad19b67803a6c5f28fd584f9fa49d5ec479034b96f"
+      },
+      "cases": [
+        "Owned copy of fresh long150s source,130–132s publication",
+        "Fresh independent8s vflip/chirp source,0.613–2.721s publication",
+        "Sentinel created AFTER preparation; skipped, unchanged, no new progress-bearing child",
+        "Cancel only on observed live active encoding; no output publication; drain and close old session",
+        "NEW runtime handle and NEW service,1.013–1.513s recovery publication"
+      ],
+      "bounds": {
+        "maximumChildren": 180,
+        "maximumConcurrency": 1,
+        "abortRequestMs": 1800000,
+        "minimumFreeBytesBeforeEachChild": 28991029248,
+        "ownedArtifactAdmissionBytes": 2147483648,
+        "hardActiveWriteCap": false,
+        "hardProcessExitDeadline": false
+      },
+      "evidence": [
+        "Exclusive inner/outer attempt markers, no retries",
+        "Fresh owned-proof mkdtemp and full report, no old artifacts overwritten",
+        "Per-invocation diagnostics capture actual runTool result/error stderr plus totalBytes/truncated metadata, args/pid/close; actual children require known capture",
+        "Original telemetry/storage/nooverwrite/PCM/complete-source/full-decode assertions unchanged",
+        "Full source and raw report hash recheck after closure, exact pair/seven dependency recheck",
+        "Outer stdout/stderr/exit/signal/walltime hashes",
+        "Too-fast missed cancellation is failure, not retry"
+      ],
+      "boundaries": [
+        "No run during preparation, no runtime opening",
+        "No production maps/pins/defaults changes; no Electron/native work",
+        "New outputs only in owned helper root",
+        "Warnings retained, not suppressed; bounded stderr tail explicitly labelled if truncated",
+        "SameServiceRecoveryProven remains false"
+      ]
+    },
+    "planIdentity": {
+      "bytes": 2888,
+      "sha256": "b8afe8d0859e6f22b21d70d8818a37ae1061a97cdec2e5c96ea69aacc24cf1df"
+    },
+    "independentReview": "GO after immutable012 + verified Notion source gate and explicit one-run lead authorization",
+    "approvalPresent": false,
+    "executed": false
+  },
+  "excluded": [
+    "Original raw report/media/spools/child logs",
+    "Runtime pair/dependencies/Electron binaries and caches",
+    "Private helper paths and root mapping",
+    "Historical unreviewed Planning/executor documents",
+    "Unrecovered terminal-unknown old 35-file payload"
+  ],
+  "qualificationLimits": [
+    "Normal-service consumer on new source unrun",
+    "Native workbench not opened",
+    "No production/default/catalog activation",
+    "No same-service recovery or evidence-phase cancellation proof",
+    "Inherited 27 broad failures unresolved",
+    "Historical reentry/phase scripts still fail old Windows branch/remote profile and pre-existing excluded hooks drift; not rerun or rebaselined",
+    "Formal Security Cloud deferred; scoped manual review is not that scan",
+    "Packaging and owner acceptance pending"
+  ]
+}

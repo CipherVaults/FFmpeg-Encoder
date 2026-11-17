@@ -15,14 +15,17 @@ const { openEvidenceStorage } = require('../src/operation-storage.cjs');
 const { failedVendorCapabilities } = require('../src/vendor-capabilities.cjs');
 const { FAMILY_ID, RESOURCE_POLICY, deriveCfrFlacResources } = require('../src/operation-resource-budget.cjs');
 const RUNTIME_ID = '1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9';
-const REPORT = path.join(__dirname, 'artifacts/candidate-keep720-calibration-g1p64G/report.json');
-const REPORT_SHA = '1feb0f2958c78cc73683c70fed08835d1e61b98462e8b30e0127f95b5cf350ab';
+const REPORT = path.join(__dirname, 'artifacts/candidate-keep720-calibration-lgtLE3/report.json');
+const REPORT_SHA = 'e93c017c288712e652e7a3ad19b67803a6c5f28fd584f9fa49d5ec479034b96f';
 const REPORT_BYTES = 55953;
 const SETTINGS = Object.freeze({ profileId: 'h265-cpu', preset: 'slow', quality: 25 });
 const sha = b => createHash('sha256').update(b).digest('hex');
 const need = (ok, message) => { if (!ok) throw Object.assign(new Error(message), { code: 'CANDIDATE_KEEP720_SERVICE_SCOPE' }); };
 // Complete literal relative-import closure rooted at the calibration producer,
-// from immutable 54ee143. This excludes separately reviewed new composition code.
+// from immutable 77331ff. Fresh saved-output audit SHA256:
+// 0f0e147edf401cab17df5c7452033a20b63d6b2dba35dd9ae4f900bd07b26def.
+// This is a new capsule, not old-evidence compatibility or service activation.
+// It excludes separately reviewed composition code.
 const PRODUCERS = Object.freeze({
   "linux-blue/workbench-long-range-calibration.cjs": "002cb7974a6e55c6b2ee5e58e29218dd1a07e84853c417615cc40629770a8a80",
   "linux-blue/runtime-av1-operation.cjs": "f664ec1a79ac95683bdb062633e454259dab25e8bfa00fecae7f8ed39dc921cc",
@@ -40,7 +43,7 @@ const PRODUCERS = Object.freeze({
   "src/backend-adapters.cjs": "7fbd1b2df2a0261e9d9b0457d224c4c3c77bfd2a4e16b497f8fb339d542847aa",
   "src/vendor-profiles.cjs": "cc194f022665aa729410060804de2021175f0e87bd394fc18e4b3c47716cf65d",
   "linux-blue/workbench-service.cjs": "1f8ef2673fb3e0ea6d4cdbd8d7e726fee72d94dd9d54120d9cd7e9877fb52c80",
-  "src/encoder-service.cjs": "9db5757ead17e1b859dd89e85fb412c4d2e88a9edba8728896ae30b585733e26",
+  "src/encoder-service.cjs": "5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7",
   "src/encoder-catalog.cjs": "1fd039577d83fbb35c8424d098fa06056822f538ae65e6b855c3021aab314cf2",
   "src/vendor-encode.cjs": "4ace2e31776981382f86fa742f5caca2a8874314c61bf9d6ea1cde069980dd74",
   "src/vendor-execution.cjs": "4f9d08432499e3840e7b6c867f5b965c4466d58e8644a84d9655fcb323342f78",
@@ -277,7 +280,7 @@ async function createCandidateKeep720Service(options) {
       pins: Object.fromEntries(Object.entries(candidate.pins).map(([k, v]) => [k, { sizeBytes: v.size, sha256: v.sha256 }])), run,
     });
     const { qualification, timingQualification } = report.sources[0].frozen;
-    const selector = new ClockQualifiedFamilySelector({ policyIdentity: 'candidate-keep720-normal-service-54ee143', families: [{
+    const selector = new ClockQualifiedFamilySelector({ policyIdentity: 'candidate-keep720-normal-service-77331ff', families: [{
       id: FAMILY_ID, resourcePolicy: RESOURCE_POLICY, runtimeIdentity: RUNTIME_ID, environment: null, settings: SETTINGS,
       qualification, timingQualification, evidenceIds: report.sources.flatMap(s => [s.frozen.qualification.evidenceId, s.frozen.timingQualification.evidenceId]),
     }] });

@@ -1,3 +1,354 @@
+# 📘 Session: November 17, 2026 — FFmpeg Encoder — Build the closed Full-copy source foundation and a fail-first calibration harness without borrowing FLAC qualification
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model / effort attribution | Evidence basis and boundary |
+|---|---|---|
+| Engineering lead | GPT-6 Astra / Ultra, recorded assignment, not independent backend attestation | Owns scope, exact integration, final source tests and preservation. No recorded configuration proves runtime qualification. |
+| Foundation source worker | Not independently established here | Seven-file isolated source proposal and retained red/intermediate/final logs. The original reported 248-test invocation, exact path list, cwd and contemporaneous Node version are not independently retained. |
+| Foundation independent reviewer | Not independently established here | Reads all three production diffs/four new tests and runs an explicitly retained twelve-path command: 139 pure/injected tests. Does not silently adopt the worker’s 248-test attribution. |
+| Harness source worker / independent reviewer | Not independently established here | Two-file V1/V2 proposal; 68 then 69 pure/injected checks; independently found and reproduced missing derived diagnostic deadline. Exact review/test identities remain separate from a media run. |
+| Preservation / mirror | Not independently established here | Owns source ZIP/full-history download/restore and unabridged native record verification, followed by exact intended remote delta verification. |
+| Documentation | Blue documentation contributor; model/effort not independently established here | Reads proposals and evidence, drafts outside the checkout, and owns only a later explicitly released Session prepend. No code, media, native, Git or publication actions. |
+
+**Record basis:** This source milestone follows two stopped popup diagnostics without pretending they observed or fixed the popup. It builds the next bounded whole-file 1080p30-to-720p copied-AAC lane using the existing family, resource, collector and service boundaries. The prior 951,195-byte Session is preserved byte-exact, including the original diagnostic cutoffs and unresolved visual issue. Proposed source capabilities and synthetic tests are not measured AAC qualification.
+
+## 🕒 Time
+
+- Date: November 17, 2026. Explicit saved times below are UTC; independent record times are not reconstructed from local filesystem display time.
+- Active-work start and total active working time: Not measured. Isolated work overlapped predecessor preservation; no start is invented from test duration or a later file timestamp.
+- Foundation handoff: 20:42:51.122742 UTC, based on immutable 019 `e0b5d35055afaeff841bd3fe695c0400e6e7b2d5` in its own clone.
+- Foundation independent review: 20:45:01.877685 UTC, scoped source acceptance after 139 pure/injected checks.
+- Harness V1 independent review: 21:10:55.195379 UTC. The existing 68 tests pass, but the independent 17 ms deadline reproducer identifies a medium-severity implementation omission and requests a fix before any actual campaign.
+- Harness V2 independent review: 21:12:48.429039 UTC. The narrow timeout forwarding correction and one new test are verified; 69 checks pass without actual child/media execution.
+- Predecessor publication receipt: 21:57:05.211778 UTC, local 021 `54e4fff198af80495d359d4967bd6981360eaf8e`, twenty-one commits and 559 source files. Independent downloaded Notion restoration subsequently completed before source integration; GitHub verification completed at 22:06:43.979294 UTC, after integration. Local archive creation alone was not used as a remote-backup claim.
+- Actual integration: 22:05:53.933260 UTC after both predecessor Notion restore gates, onto immutable 021. Focused tests started 22:06:10.481 UTC, service parity 22:06:44.069 and broad Linux 22:07:27.665. Their durations are reported below, not active-work time.
+- Final source record: Structured owning receipt dated 22:10:51.239219 UTC, with later final Current/execution cutoff explicitly retaining helper V2 preparation-only/final review pending. 022 commit/Notion/GitHub remain unperformed at this cutoff; no future helper result is backfilled.
+- Session type: Closed-factory source foundation and developer calibration harness, not actual AAC calibration, service publication, native journey, product activation or performance proof.
+- Project stage / focus: Linux 0.7, non-HDR work first. Preserve the existing shell/theme/defaults and proceed with the smallest source slice that can retain an honest early failure when real copied-AAC priming/padding does not fit the strict contract.
+- Contributors: Ahmed retains product ownership and acceptance. Lead, isolated source workers, independent reviewers, mirror and documentation have separate ownership.
+- Reason for summary: Preserve the exact new family/resource distinction, fail-first diagnostics, provenance gaps, caught omission and next evidence gate without laundering isolated tests into media acceptance.
+
+## 🎯 Session Goal
+
+Add a distinct proportional whole-file 1080p30-to-720p SDR family with copied AAC, while reusing the canonical operation contract, private family/plan binding, resource ownership, existing copied-audio collection and shared validators. Keep it unavailable through current production factories/catalogs/defaults until fresh source-bound evidence supports a separately reviewed composition.
+
+The companion developer harness should generate and inspect a finite preregistered set only after a later exact authorization. Its first duty is to expose actual AAC metadata/decoded extent, priming, padding or timestamp disagreement and retain the failure before any target encode. It must not fabricate completed collector authority, borrow the measured FLAC one-tick model, fit tolerances to a failed observation or reactivate historical capsules by changing pins alone.
+
+This source work does not resolve the earlier popup rendering issue. Neither stopped diagnostic reached either popup. No further native attempt is part of this milestone; retain that unresolved issue while advancing an independent engineering lane.
+
+## 🛠️ Actions Taken
+
+### 1. Preserve predecessor continuity without rewriting its dated records
+
+Checkpoint 021 local commit is `54e4fff198af80495d359d4967bd6981360eaf8e`, tree `e1621b940ec80210b1a6910f88d02cdf19f3a0d3`, sole local parent `89c57821100a1859de522df33cb7e93d4b03fc7e`. It contains 559 files and twenty-one commits. Its five-path change records both stopped popup diagnostics, independent audits and reconciliation, with no source/test delta, raw media/runtime payload or visual acceptance.
+
+The exact 951,195-byte Session has SHA `076064d4962d7a0c2e049f63dccd634e7cfb73e49ab1933535eab46114e28963`. Its predecessor 885,468 bytes remain exact. This editor independently copied and hashed the entire new 021 body outside the checkout before beginning this draft; later new work must prepend, not rewrite it.
+
+A later local preparation call returned `aborted by user after 2192.4s`. The external 021 publication receipt limits its scope to local freeze/publication-script preparation and a read-only GitHub base-tree fetch, with no commit or remote mutation in that interrupted command. After workspace-write access returned, all four owning records and released Session remained exact, while the four intended script/base/message files were absent. Ordinary permitted tools recreated those once. The record does not infer a reviewer denial, project cancellation, data loss, a media retry or permission bypass. This is publication continuity after the diagnostic record cutoff, not a retroactive change to the 21:16 record.
+
+Local 021 ZIP is 3,516,516 bytes/SHA `42f88be35f9ff7fd329f513625248bc84a052e0474a35c1a6bf7d0d7e97d2e7d`; bundle 3,350,560 bytes/SHA `ca63d11cea791427688ef5fb3a8c8149a4808172b797574a796045f50cb14cbe`. The preparation receipt verifies the ZIP against all 559 committed files and the bundle against the sole branch/full twenty-one-commit history. Those local checks alone did not prove Notion download/restore or remote publication. The subsequent [021 Notion checkpoint](https://app.notion.com/p/41bbd7ade63b81d8b4ccecaebd72257d) independently restored all 559 source files and the full twenty-one-commit bundle. Its [native full Session](https://app.notion.com/p/41bbd7ade63b81038190d8ea570ae297) was fetched in four ordered unabridged chunks, with all twenty-one headings and the historical ending/no truncation metadata. Exact Markdown remains in ZIP/bundle; native formatting is not claimed byte-identical.
+
+The final 021 verification maps local 54e4fff to remote `0408e2c62c09393a1312fe9a030e17085b5d7d92`, actual sole parent `8029c6b71f1d89e2af80accc95e7544b311d5df6`, tree `9c65df8636412925a45ba0278ab40483176c7758`. At 22:06:43.979294 UTC, five changed-file contents and ancestry/tree/fresh ref were verified: 941 total, 936 unchanged, two modified, three new and zero deleted. Both Notion restore gates preceded 22:05:53.933260 integration; remote verification finished afterward, so it is not misreported as the integration launch gate. This publication contains only 021, not the later nine-file source integration.
+
+A separate environment restart preceded source/GitHub mutation. After recovery, a local request reload had a quoting error and the internal request store was gone; both attempts stopped before mutation. Exact large request bytes were then read in bounded chunks and submitted once. No repeated remote mutation or alternate route around a denial is claimed. These preparation events are separate from the earlier 2,192.4-second interrupted call, and neither justifies rewriting dated 021 source records.
+
+### 2. Review the exact seven-file foundation rather than generalize a proportional-FLAC flag
+
+Frozen foundation patch is 63,902 bytes/SHA `fff6b8cb6f9f28b9597b079cec5746b60e58b1392a5162858e504b91f2e4815c`. The proposal changes only three existing production modules and adds four tests:
+
+- `src/operation-resource-budget.cjs`: 7,854 bytes/SHA `1914192dc877344b94bb6786a831e07b6e8b9704ee31c0a63fd225db426e5926`.
+- `src/operation-family.cjs`: 51,530 bytes/SHA `c981fe49e8f67b674cd23eda6b6424ee031b022bbf1a90dfe2cb2b5d51f99f65`.
+- `src/operation-evidence.cjs`: 53,255 bytes/SHA `9b680168395be354b8261bd4aa6624c1484daeecab424fd5278db55fa3aba9b9`.
+- `tests/operation-resource-full-copy.test.cjs`: 1,714 bytes/SHA `7a3f0c4735fe519c8ff637712fa7194a112601c11a256f78112730c872bf7ac6`.
+- `tests/operation-family-full-copy-proportional.test.cjs`: 10,512 bytes/SHA `519e467bf4d97b4a383cd037fa9c77939370a15d9d2c40874e55ce288d93445b`.
+- `tests/operation-evidence-full-copy-proportional.test.cjs`: 17,989 bytes/SHA `56798a0988027fbf952933273785160461eb0f9e4d5dde4d1e02ff6106ed4bbc`.
+- `tests/operation-full-copy-proportional-service.test.cjs`: 12,956 bytes/SHA `54370a7b5709df9984b0b57018fda2d447f39b1026376851724df4fa3bd3353f`.
+
+The new fixed family is `cfr-sdr-full-resize-copy-v1`, with resource policy `cfr1080p30-full-to720-copy-resources-v1`. Proportional resource membership and proportional-FLAC audio dispatch are now separate predicates. A Full-copy selection obtains derived resource authority but still uses AAC-copy qualification, packet/header/padding checks and copied-audio schema, never FLAC source/audio handling just because the resources are proportional.
+
+Scope remains exact: CPU HEVC settings; 1920×1080 progressive square-pixel 30 fps SDR H.264 High source; AAC-LC 48 kHz stereo; whole-file null range, 720 target and copied audio in Matroska with no omissions. Source clocks are exactly 1/15360 video and 1/48000 audio. Unsupported range, geometry, rate, color, orientation, source audio or qualification substitution must refuse. Orientation absence can receive only the exact existing family-bound qualification, not a generic missing-orientation bypass.
+
+Private WeakMap/epoch and exact-plan/reference identity remain the authority. Publicly copied flags/descriptors, borrowed plans, forged results, stale token/source or cross-family data cannot become current selection or resource permission. Historical collected receipts after invalidation remain records, not reusable authority.
+
+### 3. Derive whole-source resources without claiming arbitrary duration
+
+The family takes the maximum video/audio/container extent and exact source size for its forecast. Full-copy’s selected extent equals the entire source, not a range interval or fixed ten-to-thirty-one-second window. BigInt arithmetic, integer/overflow/positive-size checks and existing structural limits remain in force.
+
+The forecast conservatively charges nine complete frame-sized collector streams: two video frame scans, two audio frame scans, output padding, two packet scans and two headers. It does not charge or claim copied-AAC PCM hash identity. Existing telemetry, pipe, storage/reservation and child boundaries still apply. Nine collector calls are not the whole operation’s process count and do not create a literal nine-child global ceiling; inspection, encode and output probing are separate.
+
+Synthetic resource tests cover 1, 8, 150 and 1,800 seconds. A 3,600-second conservative reservation exceeds the unchanged structural capacity and explicitly refuses. The worker initially tried it as a positive, then changed the positive arithmetic case to 1,800 seconds and added a one-hour refusal test. No cap or coefficient was expanded to turn that failure green, and neither arithmetic case establishes actual long-media performance or any-length acceptance.
+
+The original whole-file copied-audio family retains its ten-to-thirty-one-second bounds. The new family removes those short-window bounds only within its exact closed-factory proportional scope. Separate precise failure language preserves legacy measured-FLAC diagnostics rather than implying those historical tests were changed.
+
+### 4. Keep copied-audio evidence and strict source admission distinct from FLAC
+
+Existing copy collection is reused instead of a parallel validator. Successful injected collection performs the nine genuine collector paths, with packet payload order, codec header and padding seals plus decoded source/output sample counts and timeline evidence. Video-only encoder telemetry is checked against the actual operation; it is not an audio-copy identity receipt.
+
+Source decoded video/audio must begin at zero, remain continuous and satisfy the fixed complete-source shape. For this new Full-copy family, metadata and decoded endpoints must be exactly equal. The measured FLAC one-tick allowance is not imported. Copied AAC’s actual priming/padding representation remains unresolved; even a synthetically valid descriptor does not establish real media acceptance.
+
+The positive collector fixture is one second. A 150-second collection test exercises admission then deliberately stops, and the 1,800-second family case is arithmetic/synthetic only. Injected base-service coverage exercises real shared selection, reservation/deadline and byte/record/pipe/storage/currentness paths, then stops at a deliberate collector fault. It does not establish successful normal-service output publication. No genuine AAC encode/decode or native action occurred in those tests.
+
+### 5. Preserve the foundation’s red path, limited provenance and independent command
+
+The final frozen source hashes above identify only the final proposal, not every intermediate failing iteration; intermediate source hashes were not retained. The original collector red run had zero pass/sixteen failures before production edits. The first intermediate run was fifteen pass/one failure because a truncated source correctly refused earlier as `OPERATION_EVIDENCE_MEMBERSHIP`; the test was corrected to the actual refusal boundary, preserving the original red. A later thirty-one pass/two failures exposed the over-capacity 3,600-second positive case; the unchanged-cap correction is recorded above. Two diagnostic-text compatibility failures were retained and corrected by restoring existing measured-clock/proportional-FLAC wording, not editing legacy expectations.
+
+Worker handoff reports final focused 38/38 and affected 248/248, with final retained logs. The same new tests on immutable 019 produced two pass/thirty-six failures. Legacy family baseline and patched runs each had thirty-three tests, eight pass/twenty-five fail with exactly matching failure labels attributable to the retained Linux-host Windows-path fixture limitations. The independent reviewer read that matched-baseline receipt but did not rerun those twenty-five failures.
+
+`COMMAND_PROVENANCE_CLARIFICATION.json` explicitly says the original 248-test command and exact path list are not retained in a standalone receipt. Historical work used an isolated clone, but its original cwd is not independently recorded. A current read-only Node v24.22.1 observation is not retroactive proof of that invocation. Do not reconstruct a plausible command and present it as logged; lead final regression must have its own actual command and result.
+
+The independent foundation command is retained: `node --test` across the four new resource/family/evidence/service tests plus the existing resource-budget, proportional and resize family/evidence/service suites, twelve explicit paths total. In its recorded isolated cwd it passed 139/139 with exit zero, stdout SHA `85212d7b495e6b628b2a88b9e7455e330107a904a696b4e4b68fd3d4a82f3beb` and empty stderr. It used synthetic data/nonexecutable tools/EventEmitter children, not actual media. This is a stronger attributable source check than inventing the missing 248-command provenance, not a reason to discard its honest reported count.
+
+The scoped independent review found no source blocker. It followed private selection/revocation, complete copied evidence, resource bounds and preservation of historical family behavior. Security-diff methodology was consulted, but a referenced preflight resource was unavailable; no durable Security Cloud scan, completed preflight, SARIF, blanket security clearance or exhaustive fuzzing is claimed.
+
+### 6. Build a standalone fail-first developer calibration harness
+
+The companion harness imports without launching, has no CLI or production factory, and accepts only a genuine existing candidate-calibration runtime handle through its private validator. Forged handles or arbitrary caller qualification are rejected before creating artifacts. There is no catalog/default/UI activation, old capsule repin or new production receipt authority.
+
+Its preregistered cases are short eight-second MP4, long 150-second MOV and independently distinct eleven-second held-out MP4, with different audio patterns and a flipped held-out image. These are proposed future generated fixtures, not actual sources already qualified by this milestone. CPU HEVC slow quality 25 and 1080p30-to-720 whole-file copied-AAC are fixed, not caller-selected experimental expansion.
+
+The frozen qualification is labelled `preregistered-unmeasured; not production qualification`. It uses 1/15360 source video, 1/48000 source audio and 1/1000 output clocks; fixed microsecond tolerances are video timestamp 1,067, audio timestamp 1,042, A/V sync 2,109 and duration 1,088, with exact copied sample count zero tolerance. The copy container model is end-plus-observed codec delay. No fitted shift or terminal coding allowance is introduced. These values state the experiment’s acceptance criteria, not measured success.
+
+Independent source and output diagnostics retain four raw streams each: video frames, audio frames, packets and header. Rational arithmetic records first/end/sample/packet facts, exact field shape, cadence, continuity and metadata relationships. Their explicit `collectorAuthority:false` prevents pretending these observations are the canonical completed operation collection. Source admission requires exact zero-origin complete metadata/decoded endpoints before target encode. A discrepancy must persist as `failed-retained` and stop before target or case two, not be silently truncated or fitted away.
+
+For a future passing case, the harness still requires genuine selector currentness, target telemetry, output probing/diagnostics, the existing nine-call collector, canonical telemetry/output validation, final source rehash and runtime closure. Its retained sealed developer stage is never published. The future passing three-case/post-output branch was not end-to-end executed by the new tests; review and fail-first coverage cannot be relabelled as successful real service publication.
+
+### 7. Bound diagnostics, retain failed artifacts and verify report persistence
+
+The harness keeps 128 serial children, a thirty-minute abort request, 480-second case ceilings, 300-second child ceiling and a 180-second generation allowance, each reduced by applicable derived/remaining budgets. It checks 27 GiB free space and a 2 GiB owned admission bound before children, limits individual files to 512 MiB and report bytes to 32 MiB. These are point checks and software requests, not hard OS storage quotas, guaranteed process exit or arbitrary-duration qualification.
+
+Each diagnostic stream is independently byte/record capped. A rejected chunk is retained only up to the frozen byte ceiling; partial-file facts survive the failure. Source/output diagnostics add their own bounded stream costs instead of disappearing into the nine production collector passes. Every actual-child success path requires a known complete, untruncated stderr capture matched to closed-child accounting. Child/diagnostic records and failure-save problems remain distinct.
+
+The final report is created exclusively, reread byte-exact, parsed and compared to the in-memory object before its persisted hash is returned and a completion file is written. An existing report cannot be overwritten with a fabricated pass. Runtime draining/closure, final exact pins/source receipts and census reconciliation can turn status into failed-retained. Partial or unsealed output is not deleted to make the experiment appear clean.
+
+The passing injected test removes only its own newly created synthetic root; the failed intermediate root is retained. No blanket cleanup, old evidence mutation or authoritative artifact write is part of the isolated source work. Original V1 and intermediate logs remain even when V2 passes.
+
+### 8. Find and fix the derived diagnostic deadline despite green V1 tests
+
+Harness V1 patch is 37,046 bytes/SHA `220f8a12caf6d365f15054d0a60fb8f986465522f8c1d62032aba92c03f9740a`; production 27,637 bytes/SHA `5b1c034c272ce41a5328a5e5341aa8468ecadc6735f5af549df8fb23a53507a8`, test 8,991 bytes/SHA `f7330bd3bd70033414aa9ed8e4e5aad1c4ef810ef15b6c33700b0c2a12cede85`. Worker and independent retained seven-path command each passed 68 pure/injected tests. Initial missing-harness red and synthetic complete-stderr/PID-serialization failures remain; nullable PID and explicit synthetic capture metadata corrected those test-harness assumptions without claiming real child execution.
+
+Independent V1 review nevertheless found `scanDiagnostics` omitted `budget.timeoutMs` from the `run` options. The outer wrapper then used its fixed 300,000 ms ceiling reduced only by case/overall remaining time, not a shorter derived diagnostic deadline. The reviewer’s exact 17 ms injected budget reproducer observed `timeoutMs` undefined, with a throwing callback before any child. Green regression alone was not sufficient approval to run the real experiment.
+
+The worker added one production option property, `timeoutMs: budget.timeoutMs`, and one narrow injected regression. The red on V1 failed `undefined !== 17`; V2 forwards exactly 17. The wrapper continues taking the minimum of that supplied derived budget, 300,000 ms and remaining case/overall time. No budget coefficient, tolerance, prerequisite foundation byte or successful-media criterion changed.
+
+Final V2 patch is 37,598 bytes/SHA `cb1b9972e44d355a0ba22205de8a08b6b17684e0c7c4e6bf85831afccf2d8b80`. Production is 27,666 bytes/SHA `12aff9c8c7f2d58a0c1e2c64299c456918a965c16a41f35a28a6b3da0e1e228a`; test is 9,509 bytes/SHA `b9e1d06498959f59b6f0730cf364275629ab54b2a8f2fa9ffc161299f876e086`. Worker and independent command each pass 69, with unchanged seven prerequisite hashes. Reviewer separately preserves the original reproducer and passes a V2 assertion of the forwarded 17 ms. Again, no child executes in that deadline test.
+
+The inherited V2 handoff prose still says seven new tests. The actual V2 source has eight new tests and 69 total checks. This record corrects that attribution explicitly without rewriting the immutable handoff or turning a wording discrepancy into a production defect.
+
+### 9. Integrate only reviewed bytes and measure the actual source regression
+
+The lead integrated exactly the reviewed seven-file foundation and two-file V2 harness at 22:05:53.933260 UTC on local 021 after both source/history restore gates. Integration receipt is 2,397 bytes/SHA `8a9e4334d23a4b47940b8679a46413feff41531572745dbb638843cbf1e41553`. Its original “tests pending” status is a dated integration boundary, not a reason to rewrite it after tests. All nine length/SHA identities were verified before/after integration. Three existing shared production paths changed and six source/test paths were added; no renderer, HTML/CSS/Gauge, main, IPC/preload, defaults, runtime pins, catalog or Windows-main bytes changed. Combined staged source patch is 101,816 bytes/SHA `a7b58aa330ffcdd91f0b600cebd032a7f78d9ed3cdd6d62a923a6b357e0e830c`.
+
+The project evidence runner preserved real command/path lists, Node v24.22.1, source/test hashes, exit/status and before/after byte stability. All three lead runs show no source bytes changed during execution. Its dirty-path count includes pre-existing untracked reconstruction material, not just the exact nine-path source delta. Read actual scope/manifest rather than treating every untracked historical path as part of this checkpoint.
+
+- **Focused:** `20261117T220610Z_checkpoint022-full-copy-focused`, start 22:06:10.481 UTC, 2,754.584 ms, exit 0, 170/170. The retained fifteen-path `node --test` command combines the four new foundation suites, existing resource/proportional/resize family/evidence/service suites, and candidate Full-copy/runtime/long-range harness suites.
+- **Service/runner parity:** `20261117T220644Z_checkpoint022-service-parity`, start 22:06:44.069 UTC, 6,939.008 ms, exit 1, 125/126. Exact command is `node --test tests/encoder-service.test.cjs tests/process-runner.test.cjs`. The old missing-source assertion at encoder-service test line 687 still receives actual `PROTECTED_SOURCE` instead of expected `SOURCE_CHECK_INCOMPLETE`; the expectation was not weakened or rebaselined.
+- **Broad Linux:** `20261117T220727Z_checkpoint022-linux-broad`, start 22:07:27.665 UTC, 1,558.938 ms, exit 1, 200/245 with 45 failures. The retained explicit thirty-three-path command, not an invented wildcard expansion, binds that result. All prior 35 failing cases remain, plus ten additional resize-service failures.
+
+Independent integrated review is 18,118 bytes/SHA `5ded1d9a94d4e6df9cee13f4dec8e2dc2761fbd8e37121d99a44872ce90a70a6`. It matches all nine final authoritative identities and reruns the exact seven-path harness/foundation command in the authoritative checkout: 69/69, Node v24.22.1, stdout SHA `6722a4c034c1b2c5a255e5059005e7093fc65e9d416edddc682b669f51163d03`, empty stderr. These overlap the lead and earlier isolated tests; do not sum them into a unique total. Its initial checkedAt field predates the subsequently appended broad reconciliation, so that field is not proof that later broad output was already available at the initial check.
+
+Each of the ten new broad failures was examined, not dismissed merely because a count rose. The unchanged resize producer gate rejects the changed family before service creation/report reading; resource-budget and operation-evidence pins are also stale. Eight names overlap older Keep720 cases but now also occur in resize tests; final matching preserves multiplicity and file-qualified details. The two additional resize-specific cases are exact genuine resize selection and report-path replacement/canonical-alias closure.
+
+One report cleanup assertion expects one close but observes zero because the gate refused before the report was opened: no descriptor was created on that path. The path-replacement test gets producer refusal before its intended replacement error. This identifies an earlier fail-closed boundary, not a descriptor leak, and does not prove the downstream report/lifecycle/currentness/UI assertions on the new source. All 45 failures remain red. The old 27 historical failures, eight Keep720 source refusals and ten newly added resize refusals remain distinct from the separate service mismatch.
+
+The review’s first unindented/set-only extraction undercounted nested failure lines and was discarded. Final extraction strips indentation/timing, preserves multiplicity and reconciles detailed file-qualified blocks; no empty or undercounted comparison is presented as parity. The scoped reviewer finds no blocker to preserving this bounded source milestone, while explicitly saying the broad suite remains red and the existing resize route is unusable until genuine new qualification.
+
+The current candidate resize service’s unchanged producer map must refuse newly changed shared family/evidence/resource source. The isolated and integrated refusal is `CANDIDATE_RESIZE_SERVICE_SCOPE`, with “Calibration producer changed: src/operation-family.cjs.” Do not treat a source test pass as current candidate usability, update old producer pins to match new bytes, or use historical raw FLAC reports as Full-copy evidence. The actual ten added failures above are retained in final lead/independent receipts. Current developer resize preview is unavailable; earlier immutable native success is historical evidence, not authority for these changed bytes.
+
+No successful unit suite can resolve actual AAC priming/padding, long-media resource/performance, normal-service publication/cancellation or native workflow acceptance. Keep these evidence layers separate after source integration as well as before it.
+
+### 10. Preserve the coherent source checkpoint before a separately gated experiment
+
+Final owning records are [Current](CURRENT_STATE.md), [Full-copy source execution](2026-11-17_Full_Copy_Source_Foundation.md) and [structured receipts](2026-11-17_Full_Copy_Source_Foundation_Receipts.json). Current is 7,182 bytes/SHA `6406cb3d86fa1c40b0fa89e33eeafd0643b1fee2e172247850263ead68a1eb0a`; execution 14,629 bytes/SHA `67cd296f3464d1678c0506b5779fc0a7c18c1411d8801c97f6a681cf85704087`; receipts 41,706 bytes/SHA `0a899da32dba8a620bd0168eef9aba7ba0cbb241106b4abb5292017a2285b70c`. Lead owns those records and actual integration/test evidence; this editor has explicit write release only for the final Session prepend.
+
+A lead attempt to update Current using duplicate delete/add entries in one apply_patch stopped before writes. An ordinary safe write then saved the record. This was a local document-editing mistake, not source/test failure or lost history. Final hashes, not a failed edit invocation, establish what exists.
+
+The coherent 022 scope is thirteen paths: nine source/test and four PBS records. Six new source/test plus two new execution/receipt files add eight paths, yielding 567 source files/twenty-two commits after the intended commit. No portable media record is added because no media ran. Raw reviews/logs, private workspace-root mappings, runtime binaries/media, original raw calibration files, profiles and future approvals remain outside source publication. Sanitized selected findings and original supporting hashes do not make excluded raw artifacts restorable from the source ZIP.
+
+Separate future launcher preparation does not alter this source cutoff. V1 syntax passed but independent review found missing final persisted-byte/hash/JSON readback for launcher/outer completion records. Helper-only V2 is prepared with four passing file-only tests; an initial cross-VM prototype comparison mismatch is retained. Final independent helper review remains pending in these owning records, with no approval gate or runtime/media execution. This is a second preparation-layer readback issue, not the already-fixed in-repository harness diagnostic-timeout bug. Do not wait for future helper results, mislabel file-only tests as media, or backfill their later outcome into this cutoff. The original 951,195 bytes and correction receipt remain exact. No source tests, original failure artifacts or prior media histories are rewritten to fit the new narrative.
+
+The required order is coherent Git source checkpoint, immediate independently downloaded/restored Notion source and complete history/unabridged readable records, then exact GitHub contents/parent/tree/ref verification. Actual local/Notion/remote identities are recorded after completion, not predicted inside the commit that will create them. A prepared harness and conditional review are not an exact immutable-source launch grant.
+
+## 🧠 Key Insights
+
+### Resource scaling is not audio identity
+
+Adding a proportional family ID cannot mean “use FLAC everywhere.” The split between resource membership and FLAC dispatch preserves copied-AAC packet/header/padding and decoded timeline requirements while reusing the same private resource/plan authority.
+
+### A source-exposing failure is an intended calibration result
+
+AAC metadata and decoded extents may disagree because of real priming/padding representation. A fail-first experiment that retains that evidence before target encode is useful progress; relaxing the contract to make the first fixture pass would hide the very uncertainty the experiment is meant to measure.
+
+### A green suite can omit a material resource path
+
+The V1 68-test result did not cover forwarding the derived diagnostic deadline. The independent 17 ms reproducer exposed the omission without a real child; a one-property fix and one focused test closed it without inflating budgets.
+
+### Independent provenance matters more than aggregating the largest number
+
+The retained 139-test command/cwd is attributable. The worker’s 248-result logs are useful but their exact original invocation is missing. Keep both honestly scoped instead of synthesizing a command or claiming the independent reviewer ran 248.
+
+### Synthetic duration and collector counts are not full-operation capacity
+
+One-second positive collection, 150-second admission stop and 1,800-second arithmetic cover different paths. Nine collector streams are not nine total children, and one-hour capacity refusal remains real. Neither supports arbitrary-duration or performance claims.
+
+## 📌 Decisions Made
+
+1. **Fixed scope:** Add only the reviewed distinct Full-copy foundation and developer harness, reusing existing code and guards. No UI/theme/default/catalog or Windows-main activation.
+2. **Strict source criterion:** Preserve exact synthetic metadata/decoded endpoints and unresolved AAC priming/padding. No borrowed FLAC clock tolerance or fitted observation.
+3. **Bounded resources:** Retain unchanged structural limits and explicit 3,600-second refusal. Do not expand caps merely to keep a positive test.
+4. **Correct the missed diagnostic deadline before a real run:** Forward frozen derived timeout through the existing minimum-clamp wrapper; preserve V1 red/review and unchanged prerequisite bytes.
+5. **Honest attribution:** V2 has eight new tests/69 total; worker 248 lacks original command/cwd/version proof. Independent 139 is a separately retained command, not a replacement history.
+6. **Fail closed after source changes:** Leave historical producer maps/raw reports unchanged. Current candidate usability requires new evidence and a separately reviewed source-bound composition.
+7. **Separate successor evidence:** No actual runtime/AAC/native campaign, general product acceptance or popup finding follows from this source checkpoint. An actual finite experiment needs source preservation and its own explicit gate.
+
+## ⚠️ Difficulties / Friction
+
+The broad “proportional” predicate previously conflated resource derivation with FLAC-specific dispatch; blindly reusing it would misclassify copied AAC. The source change separates that semantic boundary rather than inserting a parallel collection system.
+
+Early tests exposed a legitimate earlier membership refusal, an over-capacity one-hour forecast and compatibility diagnostic wording. Each was retained and corrected narrowly. The new harness initially lacked complete synthetic stderr metadata and serializable undefined PID handling; explicit test fixtures/nullable PID corrected those without inventing real child behavior.
+
+A more consequential omission survived all 68 V1 tests: independent diagnostic scans ignored the shorter derived deadline. Static review plus the exact injected 17 ms check blocked a real campaign until V2. This is an implementation error, not merely an attribution nit.
+
+The worker’s 248-test command provenance was not retained, and V2 handoff text inherited “seven” despite an eighth test. Preserve those limits visibly. Later predecessor publication preparation stalled and returned an aborted result; its exact scoped external receipt records the reconciliation without altering older dated documents.
+
+The actual broad suite increases from 35 to 45 failures because the old resize producer closure rejects changed source before downstream tests. The reviewer’s initial parser undercounted nested names; detailed multiplicity reconciliation replaced it. These are visible integration/review costs, not grounds to repin historical evidence or claim every check green. Separate future-helper readback and cross-VM file-test mistakes remain preparation only. The original popup remains unresolved, but another native launch is not necessary to complete this independent source milestone.
+
+## 🔧 Adjustments Made
+
+### 1. Separate proportional resources from FLAC dispatch
+
+- Shifted from: Treating every proportional selection as FLAC-specific audio handling.
+- To: A distinct Full-copy ID/resource policy with separate proportional-resource and proportional-FLAC predicates, reusing copied-AAC evidence paths.
+- Because: Resource authority and audio qualification are different contracts.
+- Consequence: The new family cannot gain copied-audio validity from a FLAC qualification or fabricate PCM identity.
+
+### 2. Respect the unchanged structural capacity
+
+- Shifted from: A synthetic 3,600-second positive forecast expectation.
+- To: A 1,800-second positive arithmetic case plus explicit 3,600-second capacity refusal.
+- Because: The conservative forecast exceeded existing structural bounds.
+- Consequence: Tests describe actual capacity instead of widening a limit or promising any-length support.
+
+### 3. Forward the derived deadline through the existing runner
+
+- Shifted from: Diagnostics relying on only the 300-second ceiling and remaining case/overall time.
+- To: `timeoutMs: budget.timeoutMs`, still clamped by all existing outer limits.
+- Because: Independent 17 ms injection proved V1 omitted the derived timeout despite 68 passing tests.
+- Consequence: One narrow production property and one test close the omission; no coefficient/tolerance expansion or real child execution.
+
+### 4. Report evidence at its actual attribution boundary
+
+- Shifted from: Potentially treating the largest worker total or inherited handoff sentence as complete command provenance.
+- To: Separately report worker 248 with missing original command/cwd/version, independent retained 139, and actual V2 eight new/69 total.
+- Because: Logs and current observations do not reconstruct historical invocations.
+- Consequence: Later lead tests need their own exact command, source identity and receipt; immutable prior handoffs remain intact.
+
+## ❌ Mistakes / Risks Noted
+
+### 1. Missing diagnostic derived timeout
+
+- What happened or could happen: V1 omitted `budget.timeoutMs` when invoking raw diagnostic scans.
+- Actual impact: A 17 ms injected budget forwarded undefined; a real scan could have used a longer fixed/remaining deadline. No real media campaign ran under this proposal.
+- Potential impact: Resource/time guarantees could be weaker than the selected derived budget even while the outer ceiling remained bounded.
+- Correction / current status: V2 forwards the exact value and preserves minimum clamping; independent reproducer and 69-test command pass.
+- Failure Intelligence: Retain V1 review, independent no-child reproduction, worker red `undefined !== 17`, V2 patch and final check. Green regression must not substitute for path-specific budget review.
+
+### 2. Synthetic copied-AAC contract could be mistaken for measured qualification
+
+- What happened or could happen: Exact synthetic zero-origin/end equality and preregistered tolerances may not match real AAC priming/padding.
+- Actual impact: No genuine AAC result exists in this source milestone; the harness is designed to retain an early refusal before target.
+- Potential impact: Borrowed FLAC allowances or tolerance fitting could hide an incorrect source/audio model and falsely activate a family.
+- Correction / current status: Keep strict diagnostics, separate packet/header/padding and timeline facts, unchanged historical pins and explicit unmeasured classification.
+- Failure Intelligence: Future actual disagreement must remain evidence, not a reason to discard raw diagnostics or retrofit acceptance silently.
+
+### 3. Overstated source-test provenance or test count
+
+- What happened or could happen: Original worker 248 command/cwd/version is not retained; V2 handoff still says seven new tests.
+- Actual impact: Attribution is limited, while frozen patch identities and independent commands remain available.
+- Potential impact: Invented invocation details or merged counts could mislead later reproduction/review.
+- Correction / current status: Retain clarification; report independent 139 separately and actual V2 eight new/69 total. Final lead commands/path lists, Node v24.22.1 and stable before/after hashes are independently retained, rather than retroactively assigned to the earlier worker run.
+- Failure Intelligence: Capture command, cwd, version, source hashes and stdout/stderr/exit contemporaneously for new lead tests; do not recreate missing history as if observed.
+
+### 4. Capacity or successful-service claims from synthetic coverage
+
+- What happened or could happen: One-second collection, 150-second deliberate stop and half-hour arithmetic could be flattened into long-media or publication success.
+- Actual impact: One-hour conservative reservation refuses at unchanged capacity; the successful full campaign/post-output branch is not end-to-end covered by the new tests.
+- Potential impact: Arbitrary duration, throughput, full service publication or native claims would exceed evidence.
+- Correction / current status: Keep durations and execution layers separate; nine collector calls are not a total child ceiling; later actual campaign/service/native proof needs distinct records.
+- Failure Intelligence: Preserve exact 3,600-second refusal and original intermediate failures; no cap expansion or relabelled synthetic media proof.
+
+### 5. Historical producer reactivation after shared-source change
+
+- What happened or could happen: New family/resource/evidence bytes invalidate an existing candidate’s exact producer closure.
+- Actual impact: The integrated resize service refuses with `CANDIDATE_RESIZE_SERVICE_SCOPE`; ten additional broad failures are individually reconciled and the current developer preview is unavailable.
+- Potential impact: Updating pins alone would allow unqualified source under historical media evidence.
+- Correction / current status: Leave old maps/raw reports untouched and require fresh exact-source evidence/capsule work separately.
+- Failure Intelligence: Treat expected producer refusal as an integration cost to report, not a nuisance to suppress or automatically rebaseline.
+
+## 📍 Current Position
+
+**As of:** Final source/test reconciliation and saved owning records: integration 22:05:53.933260 UTC, structured receipt dated 22:10:51.239219 UTC, final Current/execution holding helper V2 at prepared/four file-only checks/final independent review pending. No 022 commit/Notion/GitHub or actual campaign exists at this cutoff.
+
+**Before this session:** Range-resize source/service/native evidence existed within its exact limits; two stopped popup diagnostics were recorded without a popup finding. Full-copy source and harness were isolated proposals; actual copied-AAC priming/padding remained unmeasured.
+
+**After this session:** Exactly nine reviewed source/test files are integrated. Lead focused 170/170 and integrated independent 69/69 pass; service parity is 125/126 and broad Linux 200/245 with all 45 failures retained. The ten added resize failures stop at unchanged producer refusal, not reached downstream behavior. Full-copy source/harness exists, but genuine AAC qualification and a runnable current resize/Full preview do not follow.
+
+**Current standing:** Bounded source foundation/harness is integrated and independently reviewed, with the V1 deadline omission corrected. The current resize developer preview is unavailable until new qualification; older native results retain their original immutable source. No actual Full-copy AAC qualification, successful three-case campaign, Full-copy service/native result, product activation or resolved popup claim.
+
+**Live owner / continuation anchor:** Lead owns exact integration/tests/Current/execution/receipts and subsequent checkpoint; independent reviewers own bounded source/test findings; mirror owns restoration/publication; documentation owns only the now-released Session prepend. Re-enter through [Current](CURRENT_STATE.md), [execution](2026-11-17_Full_Copy_Source_Foundation.md) and [receipts](2026-11-17_Full_Copy_Source_Foundation_Receipts.json), not a stale proposal status or presumed media success.
+
+## 🔜 Next Steps
+
+1. **First exact re-entry: preserve the thirteen-path 022 source checkpoint.** Responsible: lead, documentation and mirror. Recheck exact final nine-source identities and owning records, preserve the complete 951,195-byte prior Session/correction receipt, and retain all final failure/provenance evidence. Expected 567 files/twenty-two commits. No further runtime result is needed to close this source milestone.
+2. **Complete the real preservation chain:** Coherent Git commit, immediately independently downloaded/restored Notion source/full-history/unabridged readable content, then exact intended GitHub delta/sole-parent/tree/fresh-ref verification. Record actual identities afterward. Do not call local-only or uploaded-but-unrestored work backed up.
+3. **Finish future helper review separately:** Responsible: helper worker/reviewer and lead. Verify the prepared V2 completion readback correction without modifying frozen source or confusing four file-only checks with runtime proof. Bind the actual new immutable source/full-tree and both restoration receipts, exact tools/dependencies and exclusive one-attempt gate only after that work completes.
+4. **Only then run a separately authorized finite Full-copy calibration.** Preserve fixed preregistered cases and criteria. Stop on the first strict source/AAC discrepancy before target/later cases; retain raw diagnostics rather than tune, skip or regenerate. Independently audit all saved source/artifact/runtime/report/census identities before deciding any new source-bound family/service qualification. No actual campaign is granted by this summary or synthetic checks.
+5. Keep popup investigation deferred, theme/Gauge/defaults/ArchiveCQ29 and Windows corrections intact, non-HDR order and benchmark pause. The roadmap’s any-length finish line is not silently reduced to these finite experiments; 1440p/4K remain within 0.7. Real Remux/seek, HDR expansion, packaging, native performance and owner acceptance remain distinct unfinished work.
+
+**Do not reopen / repeat:** Do not erase V1/red logs, invent worker invocation provenance, fold all test totals together, fit AAC tolerances after observing a failure, reinterpret copied AAC as FLAC, repin old producer maps/raw reports, relaunch native UI or rewrite prior summaries to hide the publication interruption.
+
+**Continuation boundary:** This record is a source milestone, not a live calibration or activation grant. Source/test integration and reconciliation are complete; 022 preservation remains pending, future helper final review is pending and no actual runtime/media gate has been issued. Future AAC/runtime/media/service/native actions require their own precise scope, actual evidence and dated outcome.
+
+## ❓ Open Questions
+
+### How does genuine AAC priming/padding appear against the strict source endpoint criterion?
+
+- Known: Synthetic fixtures pass exact metadata/decoded equality; no measured real source is supplied by this milestone.
+- Needed from: A separately reviewed and authorized finite actual campaign with complete raw source diagnostics and retained early failure if present.
+- Blocks: Real Full-copy qualification and any subsequent runtime-bound factory/service/native activation, not source preservation.
+
+### Does the successful post-output branch behave as intended with actual media?
+
+- Known: Fail-first injected campaign, diagnostics, refusal/persistence and separate canonical collector paths are tested; three-case post-output success is not end-to-end executed by the new tests.
+- Needed from: Later exact-source actual output/collector/telemetry/closure evidence and independent saved-output audit, without tolerance fitting.
+- Blocks: Successful calibration/publication or general quality/performance claims, not the bounded reviewed source milestone.
+
+### What capacity can later work justify without weakening existing limits?
+
+- Known: Synthetic half-hour arithmetic passes; conservative one-hour reservation refuses. Neither is a real duration/throughput measurement.
+- Needed from: Separately scoped resource/performance evidence and design review if the agreed product target later requires broader capacity.
+- Blocks: Any-length/long-media/performance claims; does not justify changing current caps merely for a green test.
+
+## 🧾 Session Outcome
+
+Exactly the reviewed nine-file source slice is integrated, with a distinct closed Full-copy resource/family/collector path plus a fail-first developer calibration harness. Lead focused 170/170 and integrated independent 69/69 pass; service 125/126 and broad 200/245 remain red. All prior 35 broad failures are retained and ten added resize failures are individually attributed to the unchanged exact-source gate, with downstream assertions unreached. The independent 17 ms deadline omission was found and fixed narrowly; original evidence and provenance gaps remain visible. No actual AAC/media/native qualification or popup finding follows from these source checks.
+
+The complete prior 951,195-byte Session stays an exact suffix. Actual integration/test identities are recorded here. New 022 commit/restoration/remote identities will be verified after this coherent source milestone is saved, without backdating preservation or crediting future calibration results.
+
+## 🔍 Confidence Level
+
+**High for the bounded reviewed proposal identities and deadline correction.** Exact frozen source/patch hashes, independent retained commands and V1/V2 reproducer evidence distinguish the source changes and fixed omission.
+
+**Bounded for historical worker attribution.** Reported 248 passing tests have retained output but no original standalone command/cwd/version provenance. Current observations and likely invocations do not repair that missing historical record.
+
+**Not established for actual AAC qualification, successful media campaign or product acceptance.** Synthetic source/collector/service tests and static review do not measure real priming/padding, arbitrary duration, target-platform performance or native behavior.
+
+**Why:** Confidence is assigned separately to exact source bytes, private authority/resource semantics, executed synthetic tests, captured provenance and future actual evidence.
+
+**Not higher because:** Successful three-case post-output execution remains untested end-to-end; real AAC endpoint mapping is unresolved; structural capacity still refuses some durations; scoped manual review is not exhaustive security clearance. Integrated checks improve confidence in exact current source bytes, not in unexecuted media. The deliberate current-preview refusal and all 45 broad failures remain visible rather than being converted into general readiness.
+
+---
+
 # 📘 Session: November 17, 2026 — FFmpeg Encoder — Close two stopped popup diagnostics without changing protected output or claiming a visual finding
 
 ## 🤖 Models, Effort, Roles and Provenance

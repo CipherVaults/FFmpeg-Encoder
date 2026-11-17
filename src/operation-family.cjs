@@ -13,10 +13,12 @@ const { resolveTimeRange, resolveAudio, resolveGeometry } = require('./operation
 const { assertEncodeOperationPlan, describeEncodeOperationSource, fingerprintEncodeSource } = require('./encode-operation.cjs');
 
 const { FAMILY_ID: PROPORTIONAL, RESOURCE_POLICY, deriveCfrFlacResources,
-  RESIZE_FAMILY_ID: RESIZE_PROPORTIONAL, RESIZE_RESOURCE_POLICY, deriveCfrResizeFlacResources } = require('./operation-resource-budget.cjs');
-// Two fixed main-owned range policies, never caller-selected coefficients.
-const proportionalId = id => id === PROPORTIONAL || id === RESIZE_PROPORTIONAL;
-const resourcePolicy = id => id === RESIZE_PROPORTIONAL ? RESIZE_RESOURCE_POLICY : RESOURCE_POLICY;
+  RESIZE_FAMILY_ID: RESIZE_PROPORTIONAL, RESIZE_RESOURCE_POLICY, deriveCfrResizeFlacResources,
+  FULL_COPY_FAMILY_ID: FULL_COPY_PROPORTIONAL, FULL_COPY_RESOURCE_POLICY, deriveCfrFullResizeCopyResources } = require('./operation-resource-budget.cjs');
+// Fixed main-owned resource policies; proportional resources do not imply FLAC audio.
+const proportionalId = id => id === PROPORTIONAL || id === RESIZE_PROPORTIONAL || id === FULL_COPY_PROPORTIONAL;
+const proportionalFlacId = id => id === PROPORTIONAL || id === RESIZE_PROPORTIONAL;
+const resourcePolicy = id => id === FULL_COPY_PROPORTIONAL ? FULL_COPY_RESOURCE_POLICY : id === RESIZE_PROPORTIONAL ? RESIZE_RESOURCE_POLICY : RESOURCE_POLICY;
 const proportionalResults = new WeakMap();
 // A result's private issuing epoch and plan identity, never a public flag, carry
 // resource authority. Callers must still requireCurrent at the normal boundary;
@@ -152,13 +154,13 @@ function family(value) {
   const proportional = id && own(id, 'value') && proportionalId(id.value);
   const keys = ['id', 'evidenceIds', 'runtimeIdentity', 'environment', 'settings', 'qualification', 'timingQualification', ...(proportional ? ['resourcePolicy'] : ['budget', 'executionBudgetMs'])]; record(value, keys);
   need(proportional || FAMILY_IDS.includes(value.id), 'Only the fixed SDR AAC-range, FLAC-range and whole-file copied-audio family schemas are implemented.');
-  const full = value.id === FULL, flac = value.id === FLAC || proportional;
-  if (proportional) need(value.resourcePolicy === resourcePolicy(value.id), 'Only the fixed proportional FLAC resource policy is supported.');
+  const full = value.id === FULL || value.id === FULL_COPY_PROPORTIONAL, flac = value.id === FLAC || proportionalFlacId(value.id);
+  if (proportional) need(value.resourcePolicy === resourcePolicy(value.id), 'Only the exact family-specific proportional resource policy is supported.');
   const evidenceIds = list(value.evidenceIds, 32, 'Family provenance').map(item => identity(item, 'Retained family evidence'));
   need(evidenceIds.length > 0 && new Set(evidenceIds).size === evidenceIds.length, 'Family provenance needs unique retained evidence identities.');
   const runtimeIdentity = digest(value.runtimeIdentity, 'Paired runtime'), config = settings(value.settings);
   need(config.profileId !== 'h265-cpu' || value.environment === null, 'The trusted CPU family must explicitly store a null environment.');
-  if (proportional) need(config.profileId === 'h265-cpu', 'The proportional FLAC family is CPU-only.');
+  if (proportional) need(config.profileId === 'h265-cpu', 'The proportional family is CPU-only.');
   const endpoint = qualification(value.qualification, runtimeIdentity), timing = timingQualification(value.timingQualification, runtimeIdentity, full || flac);
   // The packet clock is the precision-AAC model; the copy clock belongs only to copied audio.
   need(full ? endpoint.containerDuration === 'matroska-copy-end-plus-codec-delay' && endpoint.tolerances.sampleCount === 0
@@ -294,17 +296,17 @@ function rangeScope(request, facts, contract, flac = false, proportional = false
     : 'The canonical audio contract must retain 48 kHz stereo at the measured layout-default 320 kb/s AAC policy.');
   return Object.fromEntries(['range', 'resolution', 'target', 'hdrPolicy', 'audioPolicy', 'aacBitrateKbps', 'omissionRequestIds'].map(key => [key, structuredClone(request[key])]));
 }
-function fullScope(request, facts, contract) {
+function fullScope(request, facts, contract, proportional = false) {
   need(request.operation === 'encode' && request.target === 'matroska' && ['preserve', 'sdr'].includes(request.hdrPolicy)
     && request.audioPolicy === 'copy' && request.aacBitrateKbps === null
     && Array.isArray(request.omissionRequestIds) && request.omissionRequestIds.length === 0, 'Only SDR Matroska whole-file encoding with copied audio and no omissions belongs to this family.');
   need(request.resolution === '720' && facts.width === 1920 && facts.rate === 30, 'Only 1080p30 to 720p belongs to the whole-file copied-audio family.');
   const range = contract?.range || resolveTimeRange(facts.videoEvidence, request.range);
   need(range.kind === 'full' && request.range === null, 'The whole-file copied-audio family encodes the whole file only.');
-  fullExtents(facts.extents.video, facts.extents.audio, 'reported');
-  need(compare(facts.extents.container, rat(FULL_MAX_SECONDS)) <= 0n
+  fullExtents(facts.extents.video, facts.extents.audio, 'reported', proportional);
+  need((proportional || compare(facts.extents.container, rat(FULL_MAX_SECONDS)) <= 0n)
     && compare(minus(facts.extents.container, maximum(facts.extents.video, facts.extents.audio)), AAC_FRAME) <= 0n,
-  'The reported container must not run past its streams by more than one AAC frame, within 31 seconds.');
+  proportional ? 'The reported Full-copy container must not run past its streams by more than one AAC frame.' : 'The reported container must not run past its streams by more than one AAC frame, within 31 seconds.');
   const audio = contract?.audio || resolveAudio([facts.audioEvidence], { target: request.target, range, audioPolicy: request.audioPolicy, aacBitrateKbps: request.aacBitrateKbps });
   need(audio.streams.length === 1 && audio.streams[0].index === facts.audioIndex && audio.streams[0].mode === 'copy' && audio.streams[0].codec === 'aac',
     'The canonical audio contract must copy exactly the one AAC source stream.');
@@ -312,23 +314,23 @@ function fullScope(request, facts, contract) {
 }
 function maximum(a, b) { return compare(a, b) >= 0n ? a : b; }
 // Whole-file copied-audio extents, from metadata or from the decoded source.
-function fullExtents(video, audio, label) {
+function fullExtents(video, audio, label, proportional = false) {
   for (const [value, name] of [[video, 'video'], [audio, 'audio']]) {
-    need(compare(value, rat(FULL_MIN_SECONDS)) >= 0n && compare(value, rat(FULL_MAX_SECONDS)) <= 0n, `The ${label} ${name} must last 10 to 31 seconds for the whole-file copied-audio family.`);
+    need(proportional ? value.n > 0n : compare(value, rat(FULL_MIN_SECONDS)) >= 0n && compare(value, rat(FULL_MAX_SECONDS)) <= 0n, proportional ? `The ${label} ${name} must have a positive complete extent.` : `The ${label} ${name} must last 10 to 31 seconds for the whole-file copied-audio family.`);
   }
   need(compare(absolute(minus(audio, video)), AAC_FRAME) <= 0n, `The ${label} audio must end within one AAC frame of the video for the whole-file copied-audio family.`);
 }
 function requestScope(request, facts, contract, id = FAMILY) {
-  const audio = facts.sourceAudio, proportional = proportionalId(id), flac = id === FLAC || proportional;
+  const audio = facts.sourceAudio, proportional = proportionalId(id), fullCopy = id === FULL_COPY_PROPORTIONAL, flac = id === FLAC || proportionalFlacId(id);
   if (proportional) {
-    need(facts.rate === 30 && (id === RESIZE_PROPORTIONAL
+    need(facts.rate === 30 && (id === RESIZE_PROPORTIONAL || fullCopy
       ? facts.width === 1920 && request.resolution === '720'
       : facts.width === 1280 && request.resolution === 'source'),
-    'Only the exact proportional 720p30 Keep Source or 1080p30 to720p range belongs to its respective family.');
+    'Only the exact proportional 720p30 Keep Source range or1080p30 to720p range/Full-copy tuple belongs to its respective family.');
     // The core contract carries the measured clock boundary too; a caller must
     // not obtain a broader branded family by omitting the Linux composition.
     need(compare(facts.videoTick, rat(1n, 15360n)) === 0n && compare(facts.audioTick, rat(1n, 48000n)) === 0n,
-      'The proportional FLAC family requires its measured video and audio clocks.');
+      fullCopy ? 'The closed Full-copy contract requires its exact synthetic video and audio clocks; measured qualification is pending.' : 'The proportional FLAC family requires its measured video and audio clocks.');
   }
   // The PCM endpoint evidence was measured in QuickTime, not MP4-branded
   // files sharing the MOV demuxer. Preserve the exact brand, including spaces.
@@ -340,7 +342,7 @@ function requestScope(request, facts, contract, id = FAMILY) {
       : audio.codec_name === 'aac' && audio.profile === 'LC' && audio.sample_fmt === 'fltp'),
   flac ? 'Only 48 kHz stereo pcm_s16le/s16 source audio belongs to the precision-FLAC range family.'
     : 'Only 48 kHz stereo AAC LC/fltp source audio belongs to this family.');
-  return id === FULL ? fullScope(request, facts, contract) : rangeScope(request, facts, contract, flac, proportional);
+  return id === FULL || fullCopy ? fullScope(request, facts, contract, fullCopy) : rangeScope(request, facts, contract, flac, proportional);
 }
 const BINDINGS = ['plan', 'settings', 'sourceIdentity', 'sourceProbeFingerprint', 'runtimeIdentity', 'environment', 'budget', 'executionBudgetMs'];
 function bindings(value, familyId, scopeOnly = false) {
@@ -364,8 +366,8 @@ function forFamily(base, familyId) {
   const request = requestScope(base.plan.contract.request, base.facts, base.plan.contract, familyId);
   if (proportionalId(familyId)) {
     const sourceExtentUs = extentUs(maximum(maximum(base.facts.extents.video, base.facts.extents.audio), base.facts.extents.container));
-    const interval = base.plan.contract.range.resolved, selectedExtentUs = interval.endUs - interval.startUs;
-    const derive = familyId === RESIZE_PROPORTIONAL ? deriveCfrResizeFlacResources : deriveCfrFlacResources;
+    const interval = base.plan.contract.range.resolved, selectedExtentUs = familyId === FULL_COPY_PROPORTIONAL ? sourceExtentUs : interval.endUs - interval.startUs;
+    const derive = familyId === FULL_COPY_PROPORTIONAL ? deriveCfrFullResizeCopyResources : familyId === RESIZE_PROPORTIONAL ? deriveCfrResizeFlacResources : deriveCfrFlacResources;
     const derived = derive({ sourceExtentUs, selectedExtentUs, sourceBytes: base.state.sourceIdentity.size });
     return { plan: base.plan, facts: base.facts, sourcePolicy: { id: familyId, rate: base.facts.rate, maximumExtentUs: sourceExtentUs },
       state: { ...base.state, familyId, request, resourcePolicy: resourcePolicy(familyId), sourceExtentUs, selectedExtentUs,
@@ -540,8 +542,13 @@ class OperationFamilySelector {
         : `Complete decoded audio must start at zero and end within ${seconds} seconds.`);
       need(compare(absolute(minus(audioEnd, rat(samples, 48000n))), facts.audioTick) <= 0n, 'Complete source samples and decoded audio extent disagree beyond one observed audio tick.');
       // Metadata admitted the whole-file job; the decoded source must keep the same measured shape.
-      if (full) fullExtents(end, audioEnd, 'decoded');
-      if (proportional) need(compare(absolute(minus(end, facts.extents.video)), facts.videoTick) <= 0n
+      if (full || selected.state.familyId === FULL_COPY_PROPORTIONAL) fullExtents(end, audioEnd, 'decoded', selected.state.familyId === FULL_COPY_PROPORTIONAL);
+      // Closed-factory Full-copy synthetic contract intentionally admits NO
+      // metadata/decoded duration discrepancy. Real AAC priming/padding mapping
+      // remains unqualified; do not borrow the FLAC one-tick model.
+      if (selected.state.familyId === FULL_COPY_PROPORTIONAL) need(compare(end, facts.extents.video) === 0n
+        && compare(audioEnd, facts.extents.audio) === 0n, 'Full copy requires exact synthetic metadata/decoded extents; AAC priming/padding qualification remains pending.');
+      else if (proportional) need(compare(absolute(minus(end, facts.extents.video)), facts.videoTick) <= 0n
         && compare(absolute(minus(audioEnd, facts.extents.audio)), facts.audioTick) <= 0n,
       'Complete proportional collection must cover the observed whole source, not only the selected range.');
       return true;

@@ -6,7 +6,7 @@ const { createHash } = require('node:crypto');
 const { ToolError } = require('./process-runner.cjs');
 const { normalizeProbe } = require('./inspection.cjs');
 const { assertProportionalCollectionSelection, verifyProportionalCollectedSource } = require('./operation-family.cjs');
-const { FAMILY_ID: PROPORTIONAL, RESIZE_FAMILY_ID: RESIZE_PROPORTIONAL } = require('./operation-resource-budget.cjs');
+const { FAMILY_ID: PROPORTIONAL, RESIZE_FAMILY_ID: RESIZE_PROPORTIONAL, FULL_COPY_FAMILY_ID: FULL_COPY_PROPORTIONAL } = require('./operation-resource-budget.cjs');
 
 // Main-only evidence acquisition, not a capability cell or publication grant.
 // This first complete path deliberately reads source decoded timing. Main must
@@ -228,9 +228,9 @@ async function collectOperationEvidence(options) {
   if (sourceProperties) {
     exact(sourcePolicy, ['id', 'rate', 'maximumExtentUs'], 'Decoded source policy');
     // Record 47 Q2b: the whole-file copied-audio family uses the same SDR source checks at 30 fps only.
-    need((approvedSource && [PROPORTIONAL, RESIZE_PROPORTIONAL].includes(sourcePolicy.id)) || ((['short-sdr-range-v1', 'short-sdr-range-flac-v1'].includes(sourcePolicy.id) && [30, 60].includes(sourcePolicy.rate)
+    need((approvedSource && [PROPORTIONAL, RESIZE_PROPORTIONAL, FULL_COPY_PROPORTIONAL].includes(sourcePolicy.id)) || ((['short-sdr-range-v1', 'short-sdr-range-flac-v1'].includes(sourcePolicy.id) && [30, 60].includes(sourcePolicy.rate)
       || sourcePolicy.id === 'full-sdr-resize-copy-v1' && sourcePolicy.rate === 30)
-      && sourcePolicy.maximumExtentUs === 120000000), 'Only bounded legacy policies or a privately bound proportional FLAC policy are implemented.');
+      && sourcePolicy.maximumExtentUs === 120000000), 'Only bounded legacy policies or a privately bound proportional FLAC policy or Full-copy policy are implemented.');
   }
   const packetClock = own(options, 'containerClockPolicy');
   if (packetClock) need(sourceProperties && sourcePolicy.id === 'short-sdr-range-v1' && options.containerClockPolicy === CONTAINER_CLOCK,

@@ -1,0 +1,318 @@
+{
+  "schema": 1,
+  "checkpoint": "013",
+  "statusAtRecordCreation": "Docs/evidence-only working tree on immutable012; not yet committed or published.",
+  "testedCommit": "eaa2d849e3eb1d97c381e03fc6c5e11d2b3bb0a8",
+  "productionSourceChanged": false,
+  "newUnitOrBroadTestsRun": false,
+  "priorPublication": {
+    "local": "eaa2d849e3eb1d97c381e03fc6c5e11d2b3bb0a8",
+    "notion": "https://app.notion.com/p/41bbd7ade63b8180a312e2bebbd0b54e",
+    "nativeSession": "https://app.notion.com/p/41bbd7ade63b8147a60cf694145d50d4",
+    "files": 527,
+    "commits": 12,
+    "fullSourceRestore": true,
+    "fullBundleClone": true,
+    "unabridgedNativeSessionBytes": 395269,
+    "github": "03fea7eea809a0746b5e253b986378865ceb6748",
+    "githubParent": "7e1074b443f9e4957eb2c4e79a39808cbb571d28",
+    "githubTree": "869c1e5dae3028bb6c3a77d16ecb35378bed4c3b",
+    "githubVerifiedAt": "2026-11-17T17:36:53.778797+00:00",
+    "treeProof": {
+      "baseTree": "cf8160b3d2a3015fb2c4183ed1c8cf7dda64aef6",
+      "newTree": "869c1e5dae3028bb6c3a77d16ecb35378bed4c3b",
+      "total": 909,
+      "unchanged": 903,
+      "modified": 3,
+      "new": 3,
+      "deleted": 0,
+      "allExpectedPathsAndBlobsVerified": true
+    }
+  },
+  "campaign": {
+    "rawReport": {
+      "bytes": 279008,
+      "sha256": "694743213048f2d06fe4b14b58102438063aba15114c7dac740a0ea964100b55"
+    },
+    "outer": {
+      "startedAt": "2026-11-17T17:35:47.164Z",
+      "endedAt": "2026-11-17T17:36:40.723Z",
+      "elapsedMs": 53559,
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdoutSha256": "5e7d64b376a5e2952e388f63a1879fdda43ff843b13639151c4e9870d9063ef1",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "innerElapsedMs": 51465,
+    "innerFinishedAt": "2026-11-17T17:36:40.708Z",
+    "explicitInnerStartFieldPresent": false,
+    "status": "passed-developer-candidate-normal-service-proof",
+    "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+    "calibrationSha256": "e93c017c288712e652e7a3ad19b67803a6c5f28fd584f9fa49d5ec479034b96f",
+    "census": {
+      "spawned": 119,
+      "closed": 119,
+      "live": 0,
+      "maximum": 1,
+      "encodes": 28
+    },
+    "publishedOutputs": 3,
+    "cases": [
+      {
+        "name": "late-long-service-publication",
+        "status": "passed",
+        "elapsedMs": 21230,
+        "frames": 60,
+        "samples": 96000,
+        "outputSha256": "45b49927e01ab96d60b6205d1887aa9df6ad26a4ee18cf2763ddceec8eecbcdd"
+      },
+      {
+        "name": "fresh-independent-service-publication",
+        "status": "passed",
+        "elapsedMs": 7146,
+        "frames": 63,
+        "samples": 101184,
+        "outputSha256": "024e331522c1d4194a12df54ca0e6e01a9a65ef5eea2f74a115e7922ba8a6e07"
+      },
+      {
+        "name": "collision-preserved",
+        "status": "passed",
+        "sha256": "541e7f3289bcf1fd9b36608330013a775380c53fbf579763a9c3e0445b8368b2",
+        "encodesBefore": 14,
+        "encodesAfter": 14
+      },
+      {
+        "name": "real-encode-cancellation",
+        "status": "passed",
+        "observed": {
+          "childLive": true,
+          "progress": {
+            "seconds": 0.149333,
+            "fps": 7,
+            "speed": 0.149,
+            "bytes": 4002,
+            "frame": 7,
+            "ended": false,
+            "fileId": "79552df6-4118-4c11-b9b5-b9f5732291ad",
+            "stage": "encoding",
+            "duration": 7,
+            "percent": 2.1333285714285712,
+            "etaSeconds": 45.97763087248322
+          }
+        },
+        "sameServiceRetryPermitted": false
+      },
+      {
+        "name": "fresh-instance-recovery-publication",
+        "status": "passed",
+        "elapsedMs": 3197,
+        "frames": 15,
+        "samples": 24000,
+        "outputSha256": "731c6cbd97651e65846669c102a2bfc2508d5d1ca3359b71b55ce265c9684416"
+      }
+    ],
+    "closures": [
+      {
+        "admissionClosed": true,
+        "busy": false,
+        "errors": []
+      },
+      {
+        "admissionClosed": true,
+        "busy": false,
+        "errors": []
+      }
+    ],
+    "postCloseSourceHashCount": 527,
+    "postCloseIdentityChecked": true,
+    "ownedBytesAtClose": "88526391",
+    "artifactCount": 290,
+    "bounds": {
+      "maximumChildren": 180,
+      "maximumConcurrency": 1,
+      "abortRequestMs": 1800000,
+      "minimumFreeBytes": "28991029248",
+      "ownedArtifactAdmissionBytes": "2147483648"
+    },
+    "attempts": 1,
+    "appActivated": false,
+    "sameServiceRecoveryProven": false,
+    "artifacts": {
+      "launch-service.cjs": {
+        "bytes": 26242,
+        "sha256": "2aef9b0aa6dc2fc689e73a5f17757e5eb24c6bfd446ccb44ea24e94399cd1758"
+      },
+      "run-once.cjs": {
+        "bytes": 2446,
+        "sha256": "3753b44ad078866a3a9db9f7092ef2c87f36900eb95bdbe5f2bd0beac46be4f2"
+      },
+      "CAMPAIGN_PLAN.json": {
+        "bytes": 2888,
+        "sha256": "b8afe8d0859e6f22b21d70d8818a37ae1061a97cdec2e5c96ea69aacc24cf1df"
+      },
+      "APPROVED_CHECKPOINT.json": {
+        "bytes": 58703,
+        "sha256": "6b1eb2bcf80f36e62512bba9845dfccc840cc965a920b3b715a9e2314384ec6b"
+      },
+      "COMPLETION.json": {
+        "bytes": 485,
+        "sha256": "febfc4294ce8cc3706cb3c290f7c7d2d153d1c411e7d674de0d71799b958ca28"
+      },
+      "OUTER_COMPLETION.json": {
+        "bytes": 338,
+        "sha256": "6848b0715587a7bda50babba287b94e234b30baa7825ed2f58f0d7a6f393c8d1"
+      },
+      "campaign.stdout.log": {
+        "bytes": 318,
+        "sha256": "5e7d64b376a5e2952e388f63a1879fdda43ff843b13639151c4e9870d9063ef1"
+      },
+      "campaign.stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "sourceFreezeRelease": {
+      "atUtc": "2026-11-17T17:39:33.370954+00:00",
+      "commit": "eaa2d849e3eb1d97c381e03fc6c5e11d2b3bb0a8",
+      "sourceFilesVerified": 527,
+      "audit": {
+        "bytes": 201883,
+        "sha256": "1f770cf3f00efae739b2d26ce2a71688b746b19bae1b6301d122c73c190ba074"
+      },
+      "sourceFreezeReleasedFor": "Docs/evidence only; no production code change or native execution authorized by this release",
+      "qualification": "Independent saved-output audit passed; bounded normal-service fivecases, no native/same-service/generalactivation proof"
+    }
+  },
+  "diagnostics": {
+    "actualChildren": 119,
+    "knownCaptures": 119,
+    "truncated": 0,
+    "empty": 103,
+    "nonempty": 16,
+    "codecOptionWarningChildren": 16,
+    "cpuMaskThreadpoolWarningChildren": 8,
+    "byteDistribution": {
+      "0": 103,
+      "167": 4,
+      "335": 4,
+      "499": 3,
+      "1181": 2,
+      "1182": 2,
+      "1232": 1
+    },
+    "successfulTargets": {
+      "children": [
+        39,
+        55,
+        109
+      ],
+      "bytesEach": 499,
+      "warnings": "Duplicate codec options and x265 CPU-mask/thread-pool diagnostics remain; not suppressed or resolved."
+    },
+    "cancelledTarget": {
+      "child": 75,
+      "bytes": 1232,
+      "errorCode": "CANCELLED",
+      "closeCode": null,
+      "closeSignal": "SIGKILL",
+      "additionalDiagnostics": "Packet/NAL/demux interruption diagnostics",
+      "gracefulTerminationClaim": false
+    },
+    "collectorChildren": {
+      "count": 21,
+      "stderrBytes": 0,
+      "truncated": false
+    },
+    "allDiagnosticFilesMatchReportRows": true,
+    "outerStderrEmptyDoesNotMeanAllChildrenClean": true
+  },
+  "independentAudit": {
+    "bytes": 201883,
+    "sha256": "1f770cf3f00efae739b2d26ce2a71688b746b19bae1b6301d122c73c190ba074",
+    "verifiedAt": "2026-11-17T17:39:03.353229+00:00",
+    "disposition": "PASS, saved-output consistency audit",
+    "coverage": {
+      "trackedSources": 527,
+      "runtimeAndDependencies": 9,
+      "retainedArtifacts": 290,
+      "diagnosticFiles": 119,
+      "publishedOutputs": 3,
+      "caseCount": 5
+    },
+    "limits": [
+      "No runtime opening or media re-decode",
+      "Saved records corroborate reviewed execution, not cryptographic chronology",
+      "Retained streaming assertions do not imply all original stream bytes remain",
+      "No same-service recovery, evidence-phase cancellation, native GUI or production activation qualification"
+    ]
+  },
+  "portable": {
+    "path": "linux-blue/evidence-2026-11-17/post-fix-normal-service-portable.json",
+    "bytes": 265931,
+    "sha256": "1960e88c59b3317a78c562cd0a65dc6772823c19165d5372d8a9e57d45d56120",
+    "transformedStrings": 284,
+    "counts": {
+      "proof://": 164,
+      "project://": 1,
+      "runtime-build://": 119
+    },
+    "reportOtherwiseRecursivelyIdentical": true,
+    "inverseMappingIncluded": false,
+    "rawRestoration": false,
+    "factoryAuthority": false
+  },
+  "inheritedTests": {
+    "sourceCheckpoint": "012",
+    "affected": {
+      "pass": 283,
+      "total": 284,
+      "failure": "SOURCE_CHECK_INCOMPLETE expected, PROTECTED_SOURCE observed; old intermittent diagnostic mismatch"
+    },
+    "independentFocused": {
+      "pass": 20,
+      "total": 20
+    },
+    "broadLinux": {
+      "pass": 181,
+      "total": 208,
+      "fail": 27,
+      "originalDiagnosticSetRetained": true
+    },
+    "rerunInThisDocsOnlyStep": false,
+    "historicalReentryPhase": "Old Windows branch/profile and excluded-hook drift failures remain; not rerun or rebaselined",
+    "formalSecurityCloud": "Deferred; manual bounded review is not a repository-wide scan"
+  },
+  "nativePlan": {
+    "status": "Prepared only, no restoration or app launch",
+    "markdown": {
+      "bytes": 7438,
+      "sha256": "f40daa1b99106d0ece8abac9373370fc45e05d324bb4abe48cf3bdc2b0ff2d57"
+    },
+    "structuredPlan": {
+      "bytes": 5859,
+      "sha256": "eb3966063ee88aaea380ae977f93a64a1495efb2dfd756640d410920604bd7d1"
+    },
+    "firstJourney": "Initial Full-shaped draft is inspection-only, unsupported and Start-disabled; then range is first runnable operation. One finite 2.108-second encode, not a Full encode or batch-range bypass.",
+    "optionalCancellation": "Separately gated; not authorized by this plan record.",
+    "existingVersionPreflight": "Electron44.7.0 --version passed with161-byte missing-system-D-Bus warning, not native app qualification.",
+    "limits": "Native app does not inherit the service harness external180-child hard gate. No --no-sandbox or security setting workaround.",
+    "independentReview": "GO for separately authorized Journey A after actual checkpoint013/full-tree Notion gate and desktop-visible preflight. No blocking plan defect; executor-visible identities do not establish live desktop readiness.",
+    "futureGateMustUseActual013Head": true
+  },
+  "excluded": [
+    "Raw media and original report/diagnostic files",
+    "Runtime, dependencies and Electron payloads",
+    "Machine-private absolute root mapping",
+    "Unreviewed historical Planning/executor source",
+    "Terminal-unknown unrecovered old35-file request"
+  ],
+  "remaining": [
+    "Native workbench journey",
+    "Same-service and evidence-phase cancellation",
+    "Inherited unit/broad failures",
+    "Native threading/performance and wider geometry/audio/container coverage",
+    "Independent runtime/raw artifact restoration",
+    "Packaging, release and owner acceptance"
+  ]
+}

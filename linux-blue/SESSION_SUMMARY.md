@@ -1,3 +1,324 @@
+# 📘 Session: November 17, 2026 — FFmpeg Encoder — Prove the corrected candidate through the real normal-service journey while retaining every child diagnostic
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model or tool identity | Effort setting | Evidence basis and verification limit |
+|---|---|---|---|
+| Engineering lead / integrator | GPT-6 Astra, recorded lead configuration | Ultra, recorded assignment | Preserved the fresh capsule checkpoint, authorized one bounded post-fix service run, kept the complete tracked-source freeze and coordinated the next evidence/native boundary. Configuration is not independently observed backend, billing or performance telemetry. |
+| Normal-service execution contributor | Not separately established in this record | Not separately established | Executed the reviewed five-case campaign once using the actual candidate factory and ordinary service path, retained all 119 child diagnostic captures and closed both owned sessions. This is not an Electron renderer or native workbench run. |
+| Independent saved-output auditor | Not separately established in this record | Not separately established | Rehashed all 527 source files, nine runtime/dependency identities, 290 artifacts and all 119 diagnostic files/rows; checked cases, PCM/telemetry/resources, collision/cancellation and two-session closure. Saved-output consistency review only, with no runtime/media opening or independent re-decode. |
+| Native journey preparation contributor | Not separately established in this record | Not separately established | Prepared a separately bounded future native journey only. No restoration, workbench launch or native media result is implied by a plan. |
+| Documentation editor | Blue documentation contributor; model not independently established here | Not separately established | Read the raw service report, child stderr/census, prior publication and current receipts; prepared this entry outside the source freeze. No tests, media, runtime, native setup or Git publication were performed by this documentation role. |
+
+**Record basis:** Contemporaneous follow-up to checkpoint 012's fresh calibration and capsule. That entry explicitly stopped before a real normal-service run on the corrected preparation source. This session records the later separately authorized actual run, not a revision of the old checkpoint 009 proof. The prior 395,269-byte cumulative summary remains exact as the historical suffix. Completed source preservation, completed service execution, saved-output audit and future native work are separate evidence states.
+
+## 🕒 Time
+
+- Date / date range: November 17, 2026, Africa/Cairo UTC+2.
+- Start: Preparation followed checkpoint 012's local commit and verified Notion restoration. Exact active-work start was not measured.
+- Continuation: Complete source preservation; one bounded five-case service campaign under a frozen 527-file tree; independent saved-output review; portable evidence and documentation; separate native-journey preparation only.
+- Actual outer campaign interval: 17:35:47.164–17:36:40.723 UTC / 19:35:47.164–19:36:40.723 Cairo, 53,559 ms, exit 0, no signal or spawn error.
+- Inner attempt / report clocks: The inner exclusive attempt marker is 17:35:49.241 UTC / 19:35:49.241 Cairo. The report finishes at 17:36:40.708 UTC and records 51,465 ms. That internal measurement differs from the outer 53,559 ms and is not rounded into the same clock or a total-session duration.
+- Publication chronology: Checkpoint 012's original-ancestry GitHub verification completed at 17:36:53.778797 UTC / 19:36:53.778797 Cairo, after this campaign's outer finish. Its local checkpoint, verified Notion restoration and reviewed one-run gate preceded execution; the later GitHub receipt preserves the source, not this subsequent service outcome.
+- Audit / release: Independent saved-output audit verified 17:39:03.353229 UTC / 19:39:03.353229 Cairo. After separately rechecking all 527 tracked files, the lead released the freeze for documentation only at 17:39:33.370954 UTC / 19:39:33.370954 Cairo.
+- End / stopping point: The actual five-case service campaign, independent saved-output audit and docs-only source release are complete. Native Journey A has a conditional independent plan GO but no restoration or app launch; checkpoint 013 preservation is next. Exact documentation finish/active-work total is not measured.
+- Session type: Real developer-only service/media proof, full diagnostic retention, saved-output audit and continuity, with native planning but no native execution.
+- Project stage: Linux 0.7 precise range Encode integration after the shared preparation-receipt correction and fresh capsule qualification. Not whole milestone completion, release acceptance or production rollout.
+- Main focus: Establish actual output/collision/active-cancellation/fresh-instance recovery behavior for the corrected source, without hiding retained warnings or treating the result as native UI acceptance.
+- Contributors: Ahmed retains product ownership/acceptance; engineering, execution, audit, planning and documentation roles are separated above.
+- Model / effort: Known configuration or unknown by role above; contributor identity is not inferred from the lead's selection.
+- Active working time: Not measured. Parallel publication, launch overhead, case elapsed times, audit and documentation are not added into an invented active-hours figure.
+- Reason for summary: Preserve a meaningful real-service evidence milestone and the exact next native boundary before another coherent checkpoint.
+
+## 🎯 Session Goal
+
+The preceding checkpoint deliberately stopped short of a claim that the changed ordinary service worked with real media. It had new three-case calibration on the corrected producer source, a reviewed capsule bound to that exact raw report and passing pure gates. It did not yet exercise actual service publication, a newly appearing output collision, active encoding cancellation or fresh-instance recovery on the post-fix source. Those gaps could not be closed by the older five-case service proof because that proof belonged to an earlier source epoch.
+
+The goal was therefore one bounded real normal-service campaign on immutable checkpoint 012, followed by independent saved-output review and honest preservation. It was not to change code, broaden geometry/audio/defaults, activate the candidate for users or bypass the native workbench. An additional evidence goal was explicit from the start: retain diagnostics for every actual child so the earlier calibration's successful non-collector stderr gap would not be repeated.
+
+The session aimed to:
+
+- Preserve the new source/capsule checkpoint in the established Git → verified Notion → verified original-ancestry GitHub workflow, recording the actual asynchronous timing.
+- Exercise three real publications, a sentinel collision introduced after preparation, observed live-encoding cancellation and recovery only after drainage/closure with a new handle and new service.
+- Retain actual child stderr, total-byte/truncation metadata, invocation identity and closure, including cancellation errors, rather than interpreting empty outer stderr as all-child cleanliness.
+- Independently audit the saved evidence and exact source/runtime/report binding before describing the service step as established.
+- Prepare the next native journey without claiming that preparation, runtime restoration, a GUI launch or native acceptance has already happened.
+
+The intended stopping point is a source-bound, audited bounded service proof ready for preservation and a separately reviewed native plan. Same-service recovery, evidence-phase cancellation, general media behavior and production acceptance remain outside that target.
+
+## 🛠️ Actions Taken
+
+### 1. Preserve checkpoint 012 and keep its source receipt distinct from the later service proof
+
+The tested checkpoint is local `eaa2d849e3eb1d97c381e03fc6c5e11d2b3bb0a8`, tree `4a75724c654f670b23f43bda5aac764b66329506`, parent `77331ff44adf1dbf06b7249396b84f6fbce75d5d`. Its explicit six-path delta contains the fresh capsule and the associated current, session, execution, receipt and portable-calibration records. The source ZIP contains 527 tracked files and the complete named-branch history bundle contains twelve local commits.
+
+The [checkpoint 012 Notion backup](https://app.notion.com/p/41bbd7ade63b8180a312e2bebbd0b54e) was restored and verified, including the complete bundle clone. Source ZIP SHA-256 is `6189dad59ec697d4028d0f1a43697be4a9414971344159a098ef538a457663e0`; bundle SHA-256 is `e71f57dc410f2cb8d6f4d480b7ad8369fa2233b6a4094d0e494e1932f6e2f432`. The [native readable summary](https://app.notion.com/p/41bbd7ade63b8147a60cf694145d50d4) was fetched unabridged. Its exact 395,269-byte source has SHA-256 `248bedcb76aab98cef99ae6a7678de7076a9d3297da3dd12b84ad9ce37288cca`.
+
+The remote source update is `03fea7eea809a0746b5e253b986378865ceb6748` on `CipherVaults/FFmpeg-Encoder-Blue-Linux`, branch `blue/linux-development`, sole parent `7e1074b443f9e4957eb2c4e79a39808cbb571d28`, tree `869c1e5dae3028bb6c3a77d16ecb35378bed4c3b`. Exact changed-file bytes/SHA/Git blobs, the actual parent/tree and fresh branch ref matched. The remote tree contains 909 files: 903 unchanged, three modified, three new and zero deleted.
+
+GitHub verification finished after the service run, not before. The run gate had already required the immutable local source, verified Notion restore, independent launcher review and an explicit one-attempt release. The remote source checkpoint does not contain or attest to the later raw service report. This chronology preserves what each receipt actually establishes instead of moving a publication time to make the story simpler.
+
+### 2. Release one reviewed real-service run and freeze all 527 tracked files
+
+The next launcher that was only prepared at checkpoint 012's cutoff later received explicit execution approval for this campaign. The one-attempt approval is dated 17:35:18.723554 UTC / 19:35:18.723554 Cairo. The approved launcher SHA-256 remained `2aef9b0aa6dc2fc689e73a5f17757e5eb24c6bfd446ccb44ea24e94399cd1758`, outer launcher `3753b44ad078866a3a9db9f7092ef2c87f36900eb95bdbe5f2bd0beac46be4f2`, and plan `b8afe8d0859e6f22b21d70d8818a37ae1061a97cdec2e5c96ea69aacc24cf1df`. The source-bound capsule remained `ec3f75785829464193cf6538e6bd10b62eef02a7d3a4e7f49a222c5970afb5e6`.
+
+The live factory consumed the exact fresh 55,953-byte calibration report, SHA-256 `e93c017c288712e652e7a3ad19b67803a6c5f28fd584f9fa49d5ec479034b96f`, with its 97-file producer closure. The genuine runtime identity stayed `1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9`; exact pair and seven listed dependency checks remained required. The portable calibration archive was not substituted for original raw bytes.
+
+Every tracked source/document byte was frozen while execution and audit determined applicability. The documentation draft stayed outside the checkout. The launcher used exclusive inner/outer attempt markers and a fresh owned proof directory. This was one attempt with no automatic retry. A too-fast missed cancellation would have failed the intended case rather than silently becoming permission to try again.
+
+The reviewed campaign envelope was 180 children, concurrency one, a 30-minute abort request, 27 GiB before each child and 2 GiB owned-artifact admission. These remained admission/abort controls, not hard active-write enforcement or a guaranteed process-exit deadline. Existing per-case source-derived resources, telemetry/storage/PCM assertions and no-overwrite behavior were retained; the harness did not loosen them to obtain a pass.
+
+### 3. Exercise actual ordinary-service publication on the changed source
+
+The new original report is retained under `post-fix-normal-service-proof-20261117/owned-proof-3RnT1H/report.json`: 279,008 bytes, SHA-256 `694743213048f2d06fe4b14b58102438063aba15114c7dac740a0ea964100b55`. Status is `passed-developer-candidate-normal-service-proof`, `appActivated` is false and `sameServiceRecoveryProven` is false. This is an actual service/media result, not the injected positive composition tests from preceding source checkpoints.
+
+The long input is an owned, differently named copy of the fresh calibration's 150-second source, full SHA-256 `b2adc00b3f7e4a2f459023c9dfe484451b8eedfdd3c5114542abc413b3ca893b`. A separate eight-second flipped/chirp fixture was generated for the independent service input, SHA-256 `882bbbd151ea501205a57f8cae33416cbddbb2757c02efffe4fa73b6753091cb`. Independence here means a separate generated source in the reviewed fixture design, not an unseen broad production dataset.
+
+| Real publication | Selection | Video frames | Audio samples | Matching selected PCM bytes per side | Observed result |
+|---|---|---:|---:|---:|---|
+| Late long-source publication | 130–132 seconds of the owned 150-second source | 60 | 96,000 | 384,000 | Completed publication and retained evidence |
+| Fresh independent publication | 0.613–2.721 seconds of the new eight-second source | 63 | 101,184 | 404,736 | Completed publication and retained evidence |
+| Fresh-instance recovery publication | 1.013–1.513 seconds of the new source, using a new handle and service after old closure | 15 | 24,000 | 96,000 | Completed publication and retained evidence |
+
+The output full SHA-256 values are respectively `45b49927e01ab96d60b6205d1887aa9df6ad26a4ee18cf2763ddceec8eecbcdd`, `024e331522c1d4194a12df54ca0e6e01a9a65ef5eea2f74a115e7922ba8a6e07` and `731c6cbd97651e65846669c102a2bfc2508d5d1ca3359b71b55ce265c9684416`. These are three published outputs, not 28 output encodes.
+
+For each publication, source/output selected PCM hashes matched: `7acabaca200ee56c036bdc013dee5b0bb10493138984e87f3313a97e7658f355`, `707e310c31c5ac4c472d86447038d040d9357776d042704120af065e8adfe413` and `08b3888935637042f5a7d82a6da202c162f7ef9d4bdea851ac721d902845df33`. The report's telemetry validates encoder-input counts/timing within its stated scope; it explicitly does not itself establish pixel identity, audio identity, final-frame duration or publication validity. Those separate assertions are not collapsed into one “telemetry passed” label.
+
+Recorded case elapsed values are 21,230 ms, 7,146 ms and 3,197 ms. Their sum is not the complete campaign duration because the run also contains capability checks, preparation, collision, cancellation, closure and other work. Operation accounting reports completed evidence with unchanged source identity for all three publications. Resource limits and evidence reservations are retained; a diagnostic reservation is not a hard disk-write cap or proof that streamed stdout equals disk usage.
+
+### 4. Observe no-overwrite after preparation and real active-encoding cancellation
+
+For the collision case, the sentinel appeared after preparation at the expected destination. The service reported `skipped` with “Output appeared since preview.” The retained sentinel SHA-256 remained `541e7f3289bcf1fd9b36608330013a775380c53fbf579763a9c3e0445b8368b2`. The progress-bearing child count was 14 before and 14 after this attempt. The observation establishes this after-prepare collision refusal, not a claim that no inspection or other work could ever occur in a skipped case.
+
+The cancellation case waited for actual live encoding. The observed record shows `childLive: true`, frame 7, encoded time 0.149333 seconds, stage `encoding` and `ended: false`. Child 75 ultimately closed with `SIGKILL` and runner code `CANCELLED`; this is not a graceful termination claim. Cancellation therefore did not accidentally test an already completed job or only an idle service. The item became `cancelled`, reason code `CANCELLED`, with no published destination from that attempt.
+
+The incomplete temporary artifact was retained for safety because it was never identity-bound. The report explicitly says the temporary directory was retained. It would be wrong to turn “no published output” into “all temporary files removed” or to claim cleanup erased material that the safety policy intentionally preserved. The retained interrupted child diagnostics are discussed below.
+
+After cancellation, the old session was drained and closed. The report records two closure states with admission closed, not busy and empty closure-error lists. Recovery was then performed with a new runtime handle and a new service, producing the third publication. `sameServiceRetryPermitted` and the overall `sameServiceRecoveryProven` remain false. This bounded run does not prove same-instance recovery, evidence-phase cancellation or arbitrary repeated cancellation under overlapping work.
+
+### 5. Close the entire child set and retain complete diagnostic metadata
+
+The campaign spawned and closed 119 children, maximum one live concurrently and final live count zero. `census.encodes` equals 28 because it counts every progress-bearing child, including capability/other progress invocations; it is not the number of published outputs or target jobs. The owned artifact census reports 88,526,391 bytes at close and 290 retained artifact entries. This is the recorded pre-report close inventory, not an invented total after all later audit/portable documents were added.
+
+Every one of the 119 child entries has known stderr capture, with zero marked truncated. Of those captures, 103 are empty and 16 nonempty. The outer stderr remains empty, but the per-child records make its limited meaning visible. Unlike the preceding calibration, successful non-collector diagnostics are not assumed missing or clean: their actual retained content is available.
+
+The three successful target encodes each contain 499 bytes of stderr: duplicate codec-option warnings for HEVC/FLAC, x265 “Failed to genrate CPU mask” and no-thread-pool warnings for WPP/lookahead slices. The cancelled target child contains 1,232 bytes, including those messages plus interrupted demux/H.264 packet/NAL/partial-file diagnostics. Its termination is part of the observed active-cancel case, not a clean successful encode exit.
+
+The remaining nonempty captures are capability/probe invocations in the two service instances: four H.264 codec-option warnings at 167 bytes, four H.265 codec-option/CPU-mask/thread-pool captures at 335 bytes and four SVT-AV1 captures at 1,181/1,182 bytes containing codec-option messages and encoder informational output. Across the complete census, all 16 nonempty children have codec-option messages and eight have CPU-mask/thread-pool diagnostics. Their presence does not activate AV1 or broaden the claimed H.265/FLAC service family. Nonempty stderr is reported as its actual content, not automatically equated with failed output and not discarded because exit was zero.
+
+The old read-only warning diagnosis remains bounded: the global-copy/specific-codec argv pattern explains the duplicate codec selection messages under inspected FFmpeg handling, while missing topology visibility is a strong mechanism for the x265/libnuma issue but not independently proven as the sole cause. This run establishes recurrence of the diagnostics with full capture. It does not establish that native threading/performance is healthy or provide the missing exact-source/child-trace causal proof. No warning suppression, thread-pool workaround, sysfs change or runtime repin was used.
+
+The outer completion receipt is 338 bytes, SHA-256 `6848b0715587a7bda50babba287b94e234b30baa7825ed2f58f0d7a6f393c8d1`. The compact completion receipt is 485 bytes, SHA-256 `febfc4294ce8cc3706cb3c290f7c7d2d153d1c411e7d674de0d71799b958ca28`. The raw report records 527 post-close source hashes checked and post-close identity verification true. Independent verification is recorded separately, not inferred solely from those producer assertions.
+
+### 6. Independently audit the retained proof before releasing source documentation
+
+The independent read-only saved-output audit is 201,883 bytes, SHA-256 `1f770cf3f00efae739b2d26ce2a71688b746b19bae1b6301d122c73c190ba074`, verified at 17:39:03.353229 UTC. It reports PASS for saved-output consistency and the narrow service proof. It checked all 527 immutable/current/gate source hashes, nine runtime/dependency identities, exact calibration/report/helper/approval identities, all 290 retained artifacts and all 119 child diagnostic files against the report rows. Every diagnostic row matched its saved file.
+
+The audit checked both owned sources, the three outputs, the preserved 68-byte sentinel and the cancelled artifact/non-publication evidence. Complete-source records contain 4,500 frames / 7,200,000 samples for the 150-second source and 240 frames / 384,000 samples for the eight-second source. It checked selected counts, PCM equality, resource envelopes, storage reservations and telemetry, with seven collector children per successful publication, 21 total. All 21 collector stderr captures were empty and untruncated. That narrower fact coexists with the separately retained non-collector warnings.
+
+The audit also corroborates two distinct session directories, closed admission, drained ownership and the fresh-instance recovery sequence through the reviewed launcher and saved records. It does not reconstruct private process handles from JSON. Pre/post source and artifact hashes plus event ordering corroborate control flow, but do not constitute cryptographic chronology or atomic loaded-image attestation. PCM/full-source streamed assertions are validated as saved evidence; no second independent media decode was run.
+
+The interrupted child records do not establish persistent corruption of the original input. The source hashes, other output evidence and exact cancellation context remain separate facts; the audit retains the packet/NAL/demux messages rather than recasting them as either a clean run or a proven source-corruption incident. It likewise does not clear CPU-mask/thread-pool warnings, same-service recovery, evidence-phase cancellation, general media/family behavior or platform acceptance.
+
+The lead then independently rechecked all 527 tracked bytes and issued `lead-post-audit-release.json` at 17:39:33.370954 UTC. This released only documentation/evidence work. It did not authorize a production code change, runtime restoration or native application execution.
+
+### 7. Preserve a semantic report without presenting it as a new factory gate
+
+The complete portable report is 265,931 bytes, SHA-256 `1960e88c59b3317a78c562cd0a65dc6772823c19165d5372d8a9e57d45d56120`. Its transformation changes 284 known-root string values: 164 proof-root substitutions, one project-root substitution and 119 runtime-build-root substitutions. Independent recursive comparison verified every other report key, type and value unchanged. The full warning text, capture metadata and case/report structure remain present; this is not an abridged selection of successful results.
+
+The original root mapping is excluded. The portable record explicitly denies exact raw-report restoration, replacement of raw factory evidence, runtime restoration, activation authority, native qualification and same-service recovery. Its original raw identity remains separately recorded at 279,008 bytes/SHA `694743213048f2d06fe4b14b58102438063aba15114c7dac740a0ea964100b55`. A correct semantic archive is useful preservation but is not reversible original-byte backup or a runnable environment.
+
+The lead-owned [post-fix normal-service execution record](2026-11-17_Post_Fix_Normal_Service_Proof.md), [compact evidence receipts](2026-11-17_Post_Fix_Normal_Service_Proof_Receipts.json) and [portable full report](evidence-2026-11-17/post-fix-normal-service-portable.json) separate readable/preservable evidence from local original raw bytes. A portable transformed record cannot restore the exact raw report or manufacture a live runtime token. The calibration factory still requires its own exact original calibration artifact, not this service report or either portable archive.
+
+No source implementation changed during this evidence-only step. The latest source-test results remain checkpoint 012's worker 158/159, independent focused 20/20, lead affected 283/284 and broad 181/208 with the original 27 failures. They were not rerun for this service evidence step and are not relabelled as fresh green tests. The intermittent missing-source diagnostic comparison and historical reentry/profile/toolkit limitations remain unresolved. Formal Security Cloud scanning remains deferred; these scoped manual source/evidence reviews are not a repository-wide security clearance.
+
+### 8. Prepare the native journey without silently starting it
+
+The separate `native-workbench-proof-20261117/PLAN.md` and `NATIVE_PLAN.json` are prepared only. Their SHA-256 identities are `f40daa1b99106d0ece8abac9373370fc45e05d324bb4abe48cf3bdc2b0ff2d57` and `eb3966063ee88aaea380ae977f93a64a1495efb2dfd756640d410920604bd7d1`. Independent review found no blocking plan defect and gave conditional GO for a separately authorized Journey A after actual checkpoint 013/full-tree Notion restoration and live desktop-visible preflight. The historical `eaa2d84` plan label is not the future source gate: that gate must use the actual then-approved 013 HEAD and all its tracked files.
+
+The plan reuses the existing supported cloud Xfce desktop/terminal, pinned Electron and original workbench shell/theme. It calls the explicit main script with `--blue-runtime=9.0.2-keep720-candidate`, not `electron .` or the Windows main entry. Exact binary copies into the main-owned fixed ignored restoration path, listed dependencies, raw calibration and desktop-side identity checks remain future gated setup. Existing restoration/state files must be inventoried and reconciled rather than overwritten or deleted. No copies, restoration, runtime opening or native app launch have been performed by this preparation.
+
+The UI sequencing constraint is explicit: the per-file editor requires an initial draft. The first normal Prepare is therefore Full-shaped inspection-only, unsupported/unselectable and Start-disabled. The finite range must be the first *runnable* operation; it cannot truthfully be said to precede draft creation. The proposed Journey A uses the real folder pickers and original per-file editor to set 0.613–2.721 seconds, source resolution and precision FLAC, then attempts exactly one finite 2.108-second publication. It does not start a Full job or inject a batch range/renderer command to bypass the UI.
+
+Native acceptance must observe the actual original shell, explicit experimental candidate/scope, sandbox/context-isolation/node-integration posture, real reprepare/ready state, progress, output authority and normal closure. Optional Show in folder is bounded to the genuine output token; opening a media player is not silently included. The source/test/service proof does not answer those UI questions.
+
+Journey B, active native cancellation and close/relaunch, is optional and separately gated after Journey A closure/audit. If the live cancellation window is missed, it is not proven and cannot trigger an automatic retry or larger fixture. A fresh app process is the recovery boundary; no old token/service revival is implied. The native application does not inherit the service harness's external 180-child admission limiter. Its disk checks/owned-size allowance and supervisory abort request also are not continuous-write or hard-exit caps.
+
+The plan forbids security-relaxing flags, guessed display values, loader overrides, injected IPC/devtools, setuid/chmod workarounds and quiet warning suppression. A sandbox/display/identity failure is a stopping observation, not permission to bypass it. An independent plan GO is preparation review, not execution authorization or live desktop readiness evidence.
+
+At this stopping point, the prior Electron `--version` result remains the latest actual Electron invocation established by these records: v44.7.0/exit 0 with the retained missing-D-Bus diagnostic. This session's service/media campaign ran outside Electron. No new window, sandboxed renderer, native dialog, UI output action or native workbench media result is claimed. A plan, restoration design or supported desktop observation does not substitute for those actions.
+
+### 9. Keep the next preservation handoff explicit
+
+The prior twelve full sessions remain byte-exact beneath this new entry; the original structure-correction receipt and older reports/archives are not rewritten. The documentation role waits outside the checkout through the source freeze and writes only the released cumulative Session path. The lead owns Current, the new execution/receipt records, portable evidence and all staging/publication. The explicit five-path scope is those four records plus this Session; the expected next archive has 530 files and thirteen local commits, not a claim that it has already been created.
+
+Checkpoint 013's commit, verified Notion restoration and original-ancestry GitHub publication are not yet completed at this summary cutoff. They remain the next coherent preservation boundary. Checkpoint 012 is already preserved, but that success does not automatically include this new local service report or subsequent documentation. Raw media, binary/runtime dependencies, spools and helper logs remain local unless separately preserved; source backup must not be described as a runnable runtime/media backup.
+
+## 🧠 Key Insights
+
+### Actual consumer execution closes a different gap from calibration
+
+The fresh calibration established the producer/evidence path on the corrected source; this campaign exercised actual ordinary service preparation, output publication, collision refusal, observed active cancellation and fresh-instance recovery using the newly bound capsule. That is a material advance over pure validators and injected factory tests. It still does not establish native renderer behavior or general release quality. The value is in naming the additional path actually tested, not broadening the claim until the distinction disappears.
+
+### Better diagnostic retention can strengthen evidence without producing clean stderr
+
+The deliberate capture improvement did not make warnings vanish. It made them countable and inspectable across all 119 children: 103 empty, 16 nonempty, none unknown or truncated. This is better evidence precisely because the result includes the target x265/codec warnings and interruption diagnostics rather than letting an empty outer stderr file hide them. A successful bounded output proof and unresolved diagnostic/performance uncertainty can both be true.
+
+### No publication and no retained artifacts are different cancellation outcomes
+
+The cancelled attempt did not publish the destination, but its incomplete temporary artifact remained because it lacked the identity binding required for safe deletion. The intended safety property is not “clean up everything at any cost.” It is refusal to publish incomplete output, drainage/closure and conservative treatment of unbound temporary files. Recovery was proven in a new owner/service, not by reviving the cancelled one.
+
+### Preservation and execution have separate clocks
+
+The local/Notion source gate preceded the campaign, while original-ancestry GitHub verification completed afterward. The later source receipt does not retroactively establish a service outcome before it happened, nor does it make the raw local report remotely backed up. Keeping those clocks separate prevents a plausible but inaccurate narrative of what was recoverable and tested at each point.
+
+## 📌 Decisions Made
+
+- Confirmed — The engineering lead authorized one bounded five-case service campaign only after the immutable 012 source, verified Notion restore and independent launcher gates. The earlier prepared-only status remains unchanged in its historical entry.
+- Confirmed — The execution used the actual newly bound candidate and ordinary service path with existing resource/telemetry/storage/PCM/no-overwrite criteria. No source/default/catalog/runtime changes were bundled with the proof.
+- Confirmed — All actual child stderr and byte/truncation metadata were retained, including successful warnings and cancellation errors. The lead's evidence standard is not satisfied by empty outer stderr alone.
+- Confirmed — Recovery uses a new runtime handle and new service after old drainage/closure. The incomplete temporary artifact is retained where safety identity is absent; same-service recovery remains outside the accepted claim.
+- Confirmed — After the independent saved-output audit passed and all 527 source files were rechecked, the engineering lead released documentation/evidence only. The accepted scope is the bounded five-case service result with its saved-record limits, not native execution or production clearance.
+- Confirmed — Source tests retain their prior checkpoint 012 attribution and failures; no rerun or all-green claim is invented for this evidence-only session.
+- Deferred — The native journey remains a separately reviewed bounded step. Preparation alone does not authorize restoration, a workbench launch, sandbox changes or native media.
+- Deferred — Production/default/catalog activation, general geometry/audio/container coverage, GPU/Windows acceptance, packaging and owner release acceptance remain outside this service proof.
+
+## ⚠️ Difficulties / Friction
+
+The active-cancellation case had to observe a genuinely live encoder before requesting cancellation. A completed or idle job would not answer the intended question. This run captured frame 7 and an unfinished live child, so the bounded case was exercised without retry; that does not establish every later cancellation phase or timing window.
+
+The retained warnings are meaningful friction, not cosmetic noise. All three successful target encodes again emitted the codec/x265 messages, and the cancelled child emitted additional interrupted-input diagnostics. The scoped functional result can stand while exact native causality and performance remain unresolved. Suppressing stderr or altering pools/topology would have changed the question instead of answering it.
+
+Cancellation deliberately retained an unbound temporary artifact. That can look less tidy than deletion, but it is the observed conservative behavior and must be documented accurately. The next native experience will still need clear user-visible handling of cancellation/relaunch; this headless service proof does not establish what the renderer shows.
+
+Raw reports, media and runtime prerequisites remain local. Readable portable preservation is useful, but exact path-bound/runtime authority cannot be recreated from that semantic copy. The next source mirror must preserve the full report meaning and current limits without promising that another machine can immediately launch the candidate.
+
+The native boundary is still real despite a supported desktop and a prior successful version command. No window, sandbox, native output access or real UI journey was exercised in this campaign. The project should move to a bounded native check after preservation, not call the app usable because the service layer now has a successful run.
+
+## 🔧 Adjustments Made
+
+- Shifted from: Fresh calibration/capsule plus pure/injected positive checks, with actual post-fix service behavior unproven.
+  - To: One actual source-bound five-case normal-service campaign with three publications, after-prepare collision refusal, active encoding cancellation and fresh-instance recovery.
+  - Because: The completed source checkpoint and explicit one-attempt gate allowed the next missing consumer path to be exercised.
+  - Consequence: The record can now claim the bounded actual service journey, but not native renderer acceptance or general product rollout.
+
+- Shifted from: The calibration harness's missing successful non-collector stderr evidence.
+  - To: Known, untruncated diagnostic capture for all 119 actual service-campaign children.
+  - Because: The next launcher was deliberately prepared to retain stderr and byte/truncation metadata for every invocation, including errors.
+  - Consequence: The 16 nonempty captures and recurring target warnings are explicit; the evidence gap narrows without falsely clearing the warnings.
+
+- Shifted from: Active cancellation and fresh-instance recovery on the corrected source remained unproven.
+  - To: Observed live frame/time, no destination publication, retained incomplete unbound temporary artifact, old session closure and a new handle/service recovery publication.
+  - Because: This run reached actual live encoding before cancellation and retained the distinct cancellation, artifact, closure and recovery states. Deletion or same-service reuse cannot be assumed from the cancellation label.
+  - Consequence: The continuation contract remains close/relaunch, with same-service and evidence-phase cancellation unproved.
+
+- Shifted from: Checkpoint 012's prepared-but-unapproved service plan.
+  - To: A later explicitly authorized completed attempt and a separate future native plan.
+  - Because: New execution/closure evidence exists only after that later release.
+  - Consequence: This new dated entry records the transition while preserving the complete prior summary unchanged.
+
+## ❌ Mistakes / Risks Noted
+
+### Successful output could be misreported as warning-free execution
+
+- What happened or could happen: Actual three successful target encodes retained 499-byte warnings each, and 16 of 119 child stderr captures were nonempty. A reporting risk is collapsing this to the empty outer stderr result.
+- Actual impact: The diagnostics recur and remain available for inspection. No failed publication is established for the three successful outputs.
+- Potential impact: Hiding the warnings could overstate native threading/performance or obscure a later reliability issue.
+- Correction / current status: Every capture is known and untruncated; the exact census and warning categories are retained. No suppression, topology change or causal clearance is claimed.
+- Failure Intelligence: Retain recurrence and capture completeness in the linked execution/receipts and this session. The earlier warning diagnosis remains the reference; no duplicate incident is needed merely to repeat it.
+
+### Active cancellation does not establish universal cleanup or same-service recovery
+
+- What happened or could happen: Actual live encoding cancellation left no published output but retained the incomplete temporary artifact because it was not identity-bound. Recovery used a new handle and new service.
+- Actual impact: The intended destination was not published; the temporary artifact remains. Both owned sessions closed with no reported closure errors.
+- Potential impact: Describing this as “all files cleaned” or “retry works” could lead to unsafe deletion or reuse of a closed owner.
+- Correction / current status: The record preserves retained-artifact status, observed live frame/time and explicit fresh-instance recovery. Same-service and evidence-phase cancellation remain unproved.
+- Failure Intelligence: This is expected conservative behavior and a bounded coverage limit, not a newly established cleanup defect; retain it with the actual case evidence.
+
+### The 28 progress-bearing invocations are not 28 published outputs
+
+- What happened or could happen: Actual `census.encodes` includes every progress-bearing child, including capability work. The field name could be mistaken for a target-publication total.
+- Actual impact: There are three successful publications, one collision skip and one cancelled target case; total children are 119.
+- Potential impact: Inflated output/test counts would make the evidence appear broader than it is.
+- Correction / current status: The summary and receipts distinguish progress-bearing child count, target cases and actual publications.
+- Failure Intelligence: A reporting distinction is sufficient; no separate incident file is warranted.
+
+### Saved-output review and portable preservation have finite authority
+
+- What happened or could happen: A risk is treating saved-record checks as a second decode or treating a transformed portable report as original raw/runtime authority.
+- Actual impact: Independent review rehashed saved artifacts/diagnostics and checked retained assertions; no independent decode occurred. The portable record transforms 284 root strings and excludes the inverse mapping.
+- Potential impact: Applicability, byte restoration and cryptographic chronology could be overstated, or a later source-only restore incorrectly called runnable.
+- Correction / current status: The audit explicitly limits chronology/loaded-image/private-handle claims. The portable report preserves complete semantics and warnings while denying raw restoration, factory substitution and activation authority.
+- Failure Intelligence: Audit/portable limits belong in the execution/receipt and continuity records, not a fabricated lost-evidence incident.
+
+### Prior regression failures and unrun native behavior remain separate limitations
+
+- What happened or could happen: The actual source-test baseline still contains the old affected mismatch and 27 broad failures; no new unit/regression suite was executed for this evidence-only step. Native work remains planned.
+- Actual impact: A bounded service result is available, but an all-green suite or usable native app is not established.
+- Potential impact: Treating this milestone as release completion could skip unresolved source/platform checks or acceptance.
+- Correction / current status: Prior tests retain their original checkpoint attribution; native/main-renderer behavior, performance, broader operation families and release acceptance remain gated.
+- Failure Intelligence: Retain existing baseline and platform limitations in current records; this successful campaign does not create or erase their historical incidents.
+
+### Resource admission is not a hard active-write or process-exit cap
+
+- What happened or could happen: Existing bounded controls check free space/owned-size before work and request abort after a limit; they cannot guarantee active-write size or final process exit time.
+- Actual impact: This attempt completed in 53,559 ms, below its configured envelope, with all 119 children closed and no live children.
+- Potential impact: A different future run could exceed an admission-time forecast or take longer to drain after abort.
+- Correction / current status: Keep the precise controls/limits and require independent review of any new native campaign rather than carrying over a hard-guarantee claim.
+- Failure Intelligence: Known operating limitation, not an observed runaway or disk-exhaustion event here.
+
+## 📍 Current Position
+
+**As of:** The completed campaign ending 17:36:40.723 UTC, checkpoint 012 GitHub verification at 17:36:53.778797 UTC, independent audit at 17:39:03.353229 UTC and documentation-only release at 17:39:33.370954 UTC. Later native planning has conditional independent GO only; no restoration or app launch occurred before this cutoff.
+
+**Before this session:** Checkpoint 012 had fresh calibration and an exact reviewed capsule, but its real normal-service consumer remained unrun on the corrected preparation source. The prior successful service proof belonged to old source. The next five-case plan was prepared and independently reviewed but not yet approved at that dated cutoff; Electron had only the separately recorded version preflight.
+
+**After this session:** Checkpoint 012 is fully preserved through Notion restore and original-ancestry GitHub verification. The later one-attempt actual post-fix service campaign passed five cases with three publications, collision preservation, live encoding cancellation and fresh-instance recovery. All 119 children closed, max concurrency one, final live count zero; stderr capture is known/untruncated for every child, with 103 empty and 16 nonempty captures. Independent saved-output audit passed all 527 source, nine runtime/dependency, 290 artifact and 119 diagnostic checks; the lead rechecked source and released docs only. The full portable report is prepared with explicit non-authority flags, and native Journey A has conditional plan GO but remains unexecuted.
+
+**Current standing:** The post-fix candidate has a bounded actual service proof ready for checkpoint 013 preservation; the next native workbench journey still requires the new immutable/full-tree Notion gate, live desktop preflight and explicit execution release. No source code changed or new unit/broad suite ran in this evidence-only step.
+
+**Live owner / continuation anchor:** The engineering lead owns the new current-state, execution/receipt/portable records, exact checkpoint preservation and native continuation gate. Read [CURRENT_STATE.md](CURRENT_STATE.md), the [post-fix service execution record](2026-11-17_Post_Fix_Normal_Service_Proof.md) and its receipts. This is a dated snapshot; later native activity, if any, must be established from its own receipts rather than assumed from this entry.
+
+## 🔜 Next Steps
+
+1. **First re-entry:** Read the current-state and new post-fix normal-service execution/receipt records, verify the raw report/audit and immutable source binding, and check whether checkpoint 013's local/Notion/GitHub preservation actually completed. At this summary cutoff it has not; do not infer it from a queued handoff.
+2. The lead should freeze an explicit coherent evidence/documentation checkpoint, restore and independently verify every tracked file and the complete history bundle through Notion, and fetch the entire native cumulative summary unabridged before publishing/verifying the intended original-ancestry GitHub delta.
+3. After that preservation, the lead should revalidate the independently reviewed native Journey A against the actual 013 HEAD/full tracked tree and current desktop-visible identities. Obtain the explicit finite setup/launch release, restore only exact reviewed binaries through the fixed main-owned path if still needed, and inventory existing state without overwrite. In the original UI, confirm the initial Full-shaped draft is inspection-only and Start-disabled, then make the range the first runnable operation and attempt one 2.108-second encode. Stop on unsafe startup requirements, identity mismatch or runnable Full state; do not inject ranges or weaken security. Optional cancellation/relaunch is separately gated after Journey A closure/audit, not included automatically.
+4. Preserve and investigate newly observed native limitations if they arise without bypassing security or suppressing warnings. Continue independent in-scope Linux 0.7 work if native setup is blocked; keep the existing shell/theme and settled source/default/Windows decisions intact.
+5. Keep release, packaging, production activation and acceptance separate from this bounded proof. Broader geometry/audio/container and platform work, same-service recovery and evidence-phase cancellation must acquire their own evidence rather than inheriting this pass.
+
+**Do not reopen / repeat:** Do not rerun the completed service campaign merely to get quieter stderr, overwrite prior raw reports or historical summaries, delete the unbound temporary artifact to make cleanup look neater, repin source/runtime, suppress x265 warnings, relax native security, or replace exact raw prerequisites with portable copies. Do not relabel checkpoint 012's tests as newly run or green, and do not infer 28 publications from the progress-child field.
+
+**Continuation boundary:** The completed service proof can be preserved under the existing project direction. Checkpoint 013 local commit/Notion/GitHub are still next work at this cutoff. Native Journey A has conditional plan GO but no restoration, runtime opening or app launch authorization from this document; use the actual new source/restore/preflight gate and explicit finite release. Optional native cancellation, broader families, same-service recovery and production acceptance remain separate.
+
+## ❓ Open Questions
+
+- Will the existing workbench correctly present and execute this candidate through native main/renderer/output access using the intended security posture? Needed from: A separately authorized bounded native journey after source preservation. Blocks: Native app acceptance, not the already observed service result.
+- How do the recurring x265 CPU-mask/thread-pool diagnostics affect native threading/performance in the target environment? Needed from: Appropriate native diagnostic/trace and bounded performance evidence. Blocks: General performance and sole-cause qualification, not the narrow saved output/PCM findings.
+- Does cancellation during evidence collection have the same safe drainage/publication behavior, and is same-service recovery desirable or supportable? Needed from: Separately scoped source/design decisions and tests, not this active-encoding/fresh-instance case. Blocks: Those broader lifecycle claims only.
+- How will exact runtime/raw-report prerequisites be restored and verified on a future machine? Needed from: A bounded artifact-restoration arrangement that preserves exact identities. Blocks: Live factory use after source-only recovery; portable evidence alone cannot satisfy it.
+- What remains behind the old intermittent missing-source diagnostic mismatch and the 27 inherited broad failures? Needed from: Focused future source/baseline investigation. Blocks: An all-green regression claim; those failures are not repaired by running this campaign.
+
+These are engineering evidence/continuation questions, not a request that Ahmed repeat an already settled routine choice. The lead can continue within the agreed project authority while surfacing any newly consequential permission or reserved acceptance decision when it is actually encountered.
+
+## 🧾 Session Outcome
+
+The corrected source and fresh capsule now have a real ordinary-service journey rather than only calibration and injected positive tests. One bounded attempt completed three publications, preserved an after-prepare collision, cancelled observed live encoding without publishing the target and recovered only after closure with a new runtime handle and service. All 119 children closed.
+
+The diagnostic improvement is substantive: every child stderr capture is known and untruncated. It shows the familiar target warnings still recur, rather than allowing a clean outer log to imply they disappeared. The incomplete cancelled artifact remains intentionally retained, and no same-service/native acceptance is claimed. Independent saved-output audit passed, and the source remained exact through the lead's docs-only release. The full semantic report and owner-format continuity are ready for coherent checkpoint 013 preservation. Native Journey A is independently reviewed preparation, not completed setup or an app result; it is the next separate gate after backup.
+
+## 🔍 Confidence Level
+
+**Recorded five-case normal-service execution on immutable checkpoint 012:** High for the actual observed bounded outcomes, with the final saved-output audit recorded above.
+
+**Native workbench, general performance, broader lifecycle and production readiness:** Not established by this session; no positive qualification rating is assigned to unexecuted scope.
+
+**Why:** Exact source/capsule/raw-calibration/runtime gates, exclusive attempt markers, the complete raw report, source/output hashes, per-invocation diagnostics, observed live cancellation and closed-child census support a concrete result rather than a planned or mocked one. Independent saved-output audit rehashed all 527 source files, nine tool/dependency files, 290 artifacts and 119 diagnostic files/rows, and checked source/output/case/resource/PCM/closure consistency without changing the source. The lead's separate full-tree recheck supports the documentation release. Prior history remains exact rather than being reconstructed from memory.
+
+**Not higher because:** The fixtures and operation family are narrow; this is not general pixel/fidelity or platform qualification. Recurring codec/x265 warnings and native performance remain unresolved. Same-service and evidence-phase cancellation were not tested. Saved records do not supply cryptographic chronology or recreate live authority, and source/portable preservation does not automatically restore raw/runtime/media prerequisites. The old regression failures persist and no Electron workbench launch occurred.
+
+---
+
 # 📘 Session: November 17, 2026 — FFmpeg Encoder — Requalify the corrected preparation source and bind a fresh candidate capsule without claiming service or native acceptance
 
 ## 🤖 Models, Effort, Roles and Provenance

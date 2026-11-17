@@ -1,3 +1,130 @@
+# 📘 Session: November 17, 2026 — FFmpeg Encoder — Prepare independently verified candidate runtime calibration
+
+## 🤖 Models, Effort, Roles and Provenance
+
+Ahmed remains product owner and acceptance authority. The lead was configured as GPT-6 Astra Ultra. A bounded source worker owned only the candidate adapter and long-range calibration files; a separate runtime worker acquired and built identified official inputs outside the repository. Independent review checked the input/build receipts, the immutable source patch and focused regression behavior. The lead integrated the work and repeated final tests. These roles describe current work, not the identity or output of historical contributors.
+
+The source changes are newly authored reconstruction work. The custom runtime is a new candidate build, not recovery of the vanished binary bytes. Source publication will include four reviewed code/test files and these new continuity records, not runtime executables, packages, source archives, machine paths, raw acquisition/build logs or personal media. The original Windows snapshot and excluded historical records remain unchanged.
+
+## 🕒 Time
+
+November 17, 2026. Candidate source evidence includes the cancellation correction at 15:05:20 UTC, wider regression at 15:05:34 UTC, final retained-diagnostic test at 15:10:41 UTC and lead final runs at 15:11:34–37 UTC. The independent final focused repeat followed the diagnostic correction. These are receipt timestamps, not a claim about continuous effort or a completed publication time.
+
+## 🎯 Session Goal
+
+Move from the newly bound proportional collector toward real evidence without pretending that old missing reports or runtime identities had been recovered. The immediate source goal was a developer-only, privately issued candidate runtime handle and a Keep720 calibration route using the exact genuine final telemetry-enabled plan and collector selection. The independent runtime goal was to reconstruct a legitimate toolchain from verified official inputs, identify its actual output and dependencies, and stop before media execution.
+
+This is primarily a prerequisite for Q2n usable trim/whole-file resize, not completion of all milestone Q or a claim that the current work is Remux. The current narrow family is CPU 720p30 precision-FLAC range Encode. Q2j Remux/container seeking and exact MP3-to-MP4 remains a separate unfinished lane. Other audio, multitrack, subtitle/chapter, Quick Copy and final product/native/package work remains separately scoped.
+
+## 🛠️ Actions Taken
+
+### 1. Establish the last genuinely backed-up continuation point
+
+Checkpoint 005 is local `9d00ddebcd0ba40d36fa788abf768e6825fab4bf`. Its [Notion checkpoint](https://app.notion.com/p/41bbd7ade63b8120b726c34528de4259) independently restored the source ZIP and cloned the full five-commit bundle with all 501 file hashes matching. The source ZIP SHA-256 is `b20ccf1d0d557da8d4261dfa8dc675de44dee3909625cf73b2de93e4b1ce1690`; the bundle SHA-256 is `522b28b53b8be4374fd5c3282616e0aded62e25331c67d1e5826f4b9aee0b6ee`.
+
+Its reviewed ten-file delta was published on original remote ancestry as `591b6d149396efbca4b89a97792e6cb9c17080c6`, sole parent `39b8d6e528ccb2944e91453de7c2bf2dc561d953`. Fresh branch/parent/tree and all changed file bytes were checked. The complete remote tree had 883 files: 873 unchanged, seven modified, three new and none deleted. That completed publication does not include the new source described below. Local reconstruction ancestry is still deliberately different from the original remote history.
+
+### 2. Acquire and inspect legitimate new runtime inputs
+
+The official FFmpeg 9.0.2 source archive was hash-identified and its detached signature verified against the official release key fingerprint `FCF986EA15E6E293A5644F10B4322F04D67658D8`. The signature was valid; local key trust was not promoted or misrepresented as established personal trust. The source archive SHA-256 is `8c3850283eb25fa026482078a04051e0be17347b09ef81a0849bec15a96e002e`. Inspection also confirmed that this source preserves frame duration in setpts unless strip_fps is requested, rather than inferring behavior from the version label alone.
+
+Five official Debian development packages supplied x264, x265, NUMA, SVT-AV1 and dav1d build prerequisites. Their exact hashes were checked against freshly saved official package metadata. Archive member inspection preceded extraction; independent verification matched all 10,448 regular files and exact symlink targets, with no unsafe traversal, hardlinks or special-file extraction. Package scripts were not run and no machine-global package installation occurred. A transient HTTP 503 was retried at the same official endpoints; it was not a reviewer denial or a bypass through a different destination.
+
+### 3. Build and independently identify a candidate, without activation
+
+The build used a new out-of-tree directory and owned codec/pkg-config metadata. The first configure attempt failed because bare static archive paths appeared before the compiler's test object. The correction changed only owned link metadata to explicit archive selection through the reviewed owned library directory. The original inputs remained unchanged. The first configure's temporary probes were automatically cleaned by configure; subsequent probes were directed into an owned temporary directory. The failed attempt and compiler warnings remain retained rather than erased.
+
+The successful build used four compilation jobs and disabled network support, autodetection, shared FFmpeg libraries, ffplay, documentation, debug and x86 assembly. GPL codec support was enabled. It is not a fully static binary: x264, x265 and NUMA came from explicit static archives; SVT-AV1 and dav1d resolve dynamically to the audited matching installed libraries. No RPATH/RUNPATH, global loader configuration, installation or production runtime pin was introduced. A network-disabled FFmpeg build is not a general execution sandbox.
+
+The new exact pair identity is `1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9`. FFmpeg is 46,175,848 bytes, SHA-256 `ae5b2e8b48ad0e9b51b89ebab000ebcfc0b76a09b8cb80c88e18fddcc5d9e8ba`; ffprobe is 45,962,728 bytes, SHA-256 `923dab8640da8804c445418b6e2efe4b395665bdb9d4cfc84f6a244ed0fb156b`. Seven bounded version/build-configuration/codec/protocol inventory calls passed, and an independent repeat matched their output hashes. This proves identified build/inventory behavior only. No media calibration, installation, historical report substitution or production activation occurred.
+
+### 4. Add a privately issued main-owned candidate handle
+
+The new `candidate-calibration-runtime.cjs` accepts an explicit inert manifest identifying the exact FFmpeg/ffprobe pair and up to 32 listed dependencies. It validates canonical paths, bounded sizes, hashes and optional soname targets; observes the pair through the existing runtime observer; and checks dependencies before and after owned child calls. Copied public objects cannot become handles because issuance is recorded privately in a WeakMap.
+
+The runner fixes executable selection to that pair, snapshots inert bounded argv and options before awaiting verification, requires bounded child budgets and observes normal child ownership. Common hardware options and non-CPU video encoders refuse. This is a main-owned developer seam, not a general FFmpeg argv sandbox or authority for arbitrary untrusted callers. It adds no CLI, environment, renderer, IPC or production-factory route. Explicit dependency checks verify only the supplied list; they do not discover the complete loader closure or prove general dependency isolation.
+
+Cancellation needed a distinct settlement path. The runtime observer intentionally invalidates a cancelled campaign token, so reusing that token with the already aborted signal mislabeled cancellation as an integrity failure. The correction performs a fresh temporary observation solely to verify settlement, never replacing or reviving the original campaign token. Unchanged bytes preserve the original CANCELLED result; a real post-invocation integrity failure retains both causes. Later calls with the invalidated campaign still refuse.
+
+### 5. Bind candidate Keep720 calibration to the actual final plan
+
+`runCandidateKeep720Campaign` accepts only the genuine verified handle and only the existing Keep720 campaign. The historical entry points, resize/full variants, production pins and catalog remain untouched. Candidate artifacts receive a distinct prefix. A closed or copied handle refuses before campaign directory creation.
+
+For each candidate case, the helper validates an inert source identity, checks fresh source identity and current runtime, derives frozen clock bounds, and selects the final telemetry-enabled plan through `OperationFamilySelector`. The exact issued budget, timing qualification and source-policy references reach the proportional collector. The independently forecast resource envelope must match the issued resources. Runtime, source and selection are rechecked around child work; the case invalidates its selection on closure.
+
+The descriptor expressly identifies its bounds as preregistered clock-derived acceptance limits, not a measured production qualification. The long 150-second source, late 40-second selection, open-ended selection and independent 11-second held-out source remain unchanged. No observed result can silently widen the frozen criteria. Preparation still retains the existing storage floor, child count, sequential census and campaign deadline.
+
+### 6. Preserve compound failures and reconcile final tests
+
+Independent review found that the adapter correctly retained a failed child plus changed dependency, but the long-campaign report serializer dropped `postVerificationFailure`. The fix preserves only shallow own-data strings, with code capped at 128 characters and message at 2,048, without recursively traversing arbitrary diagnostic graphs or evaluating getters for the added diagnostic. A campaign-level test changes an actual listed temporary dependency after an injected failed child and confirms that the saved report retains both errors, balanced census and false authority flags.
+
+Final focused worker tests passed 18/18 and an independent final repeat passed 18/18. The lead aggregate passed 87/87. The fresh all-Linux run passed 161 and failed 27 of 188, with no skips or cancellations. Its same 27 failing names match checkpoint 005's 150/177 broad run; eleven newly added tests account for the larger passing total. The regression is still failed, and failure-name parity cannot qualify masked branches.
+
+The earlier wider candidate regression had 76 passes and 25 failures out of 101. An independent disposable Git archive of exact checkpoint 005 established that all 25 failure blocks match after only repository-path and timing normalization, including names, locations, messages, codes and stacks. They are the inherited Linux execution of Windows absolute-path fixtures in legacy family tests. The common old-test command had 66/91 passing on the parent and 71/96 on the updated tree, excluding the new candidate runtime test; those totals differ because new cases were added to the existing calibration test file. A separate isolated test-only path adapter again passed all 33 legacy family tests. It changed no application source and does not constitute Windows-native testing.
+
+## 🧠 Key Insights
+
+A new binary with the same upstream version is a new evidence identity. Source provenance, signature verification, build success and codec inventory are useful prerequisites, but none recovers old binary hashes or makes old media reports apply to the new pair. Fresh media evidence must join the new runtime, current source, exact plan and retained outputs.
+
+Experimental acquisition also differs from activation. A main-owned preregistered calibration descriptor can legitimately acquire evidence while retaining false publication/catalog flags; it cannot be treated as a measured production family merely because it uses the same selector. Genuine plan binding and frozen independent bounds keep that distinction enforceable.
+
+Failure reporting belongs in the integrity design. If child failure and changed runtime/dependency occur together, losing either diagnostic obscures why evidence is unusable. Cancellation similarly needs settlement verification without restoring authority to the cancelled job.
+
+## 📌 Decisions Made
+
+The next source checkpoint contains only the four candidate/calibration code and test files plus four new/current PBS records. Runtime artifacts and raw machine-specific records remain local and excluded. Before any real short or long campaign, this source must be committed and its Notion source restored/hash-verified. The planned first real experiment uses the existing short four-second calibration seam, followed only on reviewed evidence by the genuine longer Keep720 campaign.
+
+Production factories, historical source/runtime pins, report hashes, resource coefficients, defaults, ArchiveCQ29, benchmark, HDR scope and accepted releases remain unchanged. A new candidate does not silently upgrade the production dependency. The old 35-file submission remains terminal-unknown and is not retried or rerouted through this new delta. Git → immediate verified Notion → ancestry-preserving permitted GitHub remains the cadence.
+
+## ⚠️ Difficulties / Friction
+
+The missing custom runtime could not be solved by downloading source alone: verified dependencies, exact linkage and a newly identified build were required. Static versus dynamic closure mattered, especially because an owned linker input can still lead to a system-resolved shared library at execution. The report now states that distinction rather than claiming fully static isolation.
+
+The first cancellation test failed before the settlement correction. The final diagnostic review found an observability gap after the initial focused pass. Those are retained development failures, not hidden retries. The wider fixture-path failures also required actual parent comparison rather than assuming they were inherited from their count.
+
+## 🔧 Adjustments Made
+
+Runtime work was separated from production pin changes and kept outside the repository. Candidate calibration gained a branded, current handle instead of an arbitrary path override. Selection moved to the final instrumented plan and passes the original issued collector references rather than recreating policy-shaped objects.
+
+Cancellation settlement gained a temporary observation that cannot renew the campaign token. Campaign reporting gained bounded secondary diagnostics. Verification expanded to exact parent failure-block comparison and a fresh broad Linux rerun while preserving explicit unresolved failures.
+
+## ❌ Mistakes / Risks Noted
+
+The initial static-link configure ordering was wrong and was corrected only in owned metadata. The first cancellation implementation reused an invalidated/aborted observation context and failed one of 17 focused checks. The first campaign error serializer lost the secondary settlement diagnostic. Each issue was corrected before this source checkpoint; earlier receipts remain available and are not described as passing final-source evidence.
+
+The candidate campaign's injected tests deliberately stop at the first fixture runner. They do not exercise a complete successful media campaign. Pair/listed-dependency hashing is not automatic loader-closure discovery, and CPU argv filtering is not a security sandbox. Source-family positive device/inode assumptions remain a separate existing portability boundary. Stat matching alone is not fresh content identity. A signed source archive does not establish release fitness of a locally configured executable.
+
+## 📍 Current Position
+
+Checkpoint 005 is the latest fully verified Git/Notion/GitHub continuation point. The new four-file source delta is independently reviewed and has fresh final evidence, but this pre-commit entry does not claim its new publication has happened. A subsequent receipt will own its exact local commit, Notion archive/bundle hashes and remote ancestry mapping.
+
+The new runtime pair has been built and independently identified for candidate inventory use. It is not installed, selected by the application or media-qualified. The candidate route can now be reviewed and exercised without rewriting old pins or pretending missing reports exist. The all-Linux regression remains 161/188 passing with 27 failures.
+
+## 🔜 Next Steps
+
+1. Read this entry, Current State, the candidate execution report and compact receipts; verify the final four-file patch and intended eight-path stage before committing. Preserve this entire earlier session history unchanged beneath the new entry.
+2. Commit the coherent source/test/PBS step, immediately verify the Notion source archive and complete bundle restoration, then publish only the reviewed delta on the expected original GitHub parent without force. Record actual outcomes separately.
+3. Independently finalize the explicit new-runtime manifest using actual loaded dependency paths. Run one bounded short synthetic calibration only after the source mirror gate; retain raw report, media, source/runtime hashes, census, failed attempts and fixed preregistered acceptance criteria. Do not upgrade production pins from build success.
+4. If short evidence is valid, review and run the longer genuine-selection Keep720 campaign. Stop for a concrete failed contract or unsafe condition rather than weakening policy. Fresh factory/service activation requires its own source/evidence review and checkpoint.
+5. Continue the agreed 0.7 plan across the other Q lanes, product integration and applicable platform/native checks. Packaging remains last; Ahmed retains final acceptance.
+
+## ❓ Open Questions
+
+Will the new build satisfy the exact short and long media contracts with current source and unchanged clock criteria? Are there further runtime, source-identity or collector integration gaps revealed only by real media? These remain experiments to perform, not answered by injected tests or inventory output.
+
+What exact successful evidence set will support a later deliberate factory activation, and which inherited broad failures remain after that closure? The current checkpoint makes that investigation possible without treating all Q work as complete or silently broadening the supported family.
+
+## 🧾 Session Outcome
+
+The useful result is a reviewed route from independently identified runtime inputs to bounded candidate calibration, with genuine plan/collector binding, cancellation-safe settlement diagnostics and an honest test baseline. A legitimate newly built pair is available locally for the next experiment. Neither source code nor a successful build is being presented as real-media qualification or production activation.
+
+## 🔍 Confidence Level
+
+High for exact patch identity, final focused/lead test counts, independent 25-failure parent parity and the completed checkpoint 005 restoration/publication. Runtime source signatures, package hashes, build output identities and repeated inventory are directly supported within that limited scope. Confidence remains intentionally limited for a full successful candidate campaign, media fidelity, runtime deployment isolation, native Windows/GPU/UI behavior, packaging and release acceptance. No new source backup is asserted until its own restore receipt succeeds.
+
+---
+
+
 # 📘 Session: November 17, 2026 — FFmpeg Encoder — Bind proportional collection and close the final revocation gap
 
 ## 🤖 Models, Effort, Roles and Provenance

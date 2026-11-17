@@ -1,44 +1,48 @@
 # Linux 0.7: current development state
 
-Updated November 17, 2026, after bounded proportional collector integration and final close-time revocation correction. Read the newest [Linux session](SESSION_SUMMARY.md), [collector execution report](2026-11-17_Proportional_Collector_Binding.md) and [compact receipts](2026-11-17_Proportional_Collector_Receipts.json).
+Updated November 17, 2026, after candidate-runtime/calibration source review and final 15:11 UTC checks. Read the newest [full session](SESSION_SUMMARY.md), [execution report](2026-11-17_Candidate_Calibration.md) and [compact receipts](2026-11-17_Candidate_Calibration_Receipts.json).
 
 ## Verified continuation point
 
-The preceding completed checkpoint is local `f1e63be1ebafd07df7d65a4c2c8ac919e8f5734a`, containing the real service/storage/telemetry tests. Its [Notion checkpoint](https://app.notion.com/p/41bbd7ade63b81f69305d2e086967a4a) has a downloaded/restored 498-file source ZIP and downloaded/cloned four-commit Git bundle, with every file matching exact local HEAD. Source ZIP SHA-256: `74043cd58b21cd3a25222e2dea8594007ccbab64fd4bbf25f07278a4b323ed78`; inner bundle SHA-256: `fd6ef5bacd6c915163f8bf7c9c0b90b6e60acc6345a5c3b01d57355a12d6e10d`.
+Checkpoint 005 is local `9d00ddebcd0ba40d36fa788abf768e6825fab4bf`. Its [Notion checkpoint](https://app.notion.com/p/41bbd7ade63b8120b726c34528de4259) independently restored all 501 source files and cloned the full five-commit bundle with exact HEAD/tree/file hashes. Source ZIP SHA-256: `b20ccf1d0d557da8d4261dfa8dc675de44dee3909625cf73b2de93e4b1ce1690`; inner bundle: `522b28b53b8be4374fd5c3282616e0aded62e25331c67d1e5826f4b9aee0b6ee`.
 
-The corresponding GitHub checkpoint is `39b8d6e528ccb2944e91453de7c2bf2dc561d953` on `CipherVaults/FFmpeg-Encoder-Blue-Linux`, branch `blue/linux-development`, with sole parent `5d3a636276d3028a03523a60b8f75c18944bffc3`. Five files were read back exactly; full remote tree: 880 files, 875 unchanged, 2 modified, 3 new, zero deleted. The update used the expected previous SHA without force. Local reconstruction and original remote ancestry remain deliberately distinct.
+Verified remote `591b6d149396efbca4b89a97792e6cb9c17080c6` on `CipherVaults/FFmpeg-Encoder-Blue-Linux`, branch `blue/linux-development`, has sole parent `39b8d6e528ccb2944e91453de7c2bf2dc561d953`. All ten changed files were read back exactly; remote tree 883 files, 873 unchanged, seven modified, three new, zero deleted. Publication used the expected SHA and no force. Local reconstructed and original remote histories intentionally differ.
 
-The [proportional contract checkpoint](https://app.notion.com/p/41bbd7ade63b81e093a9cd6bfd30961e) and earlier source/inode checkpoints remain intact. These are selected source/history backups, not recovery of the disappeared volume, excluded records or missing unpublished corrections. The old 35-file submission remains terminal-unknown and is not replayed.
+Earlier checkpoints remain intact. This is selected-source/history preservation, not recovery of the disappeared workspace or missing latest unpublished changes. The old 35-file submission remains terminal-unknown and has not been replayed or rerouted.
 
-## New app-code integration
+## New bounded source work
 
-Only the existing non-resize CPU 720p30 precision-FLAC proportional family is extended into collection. A private assertion binds the current issuing epoch, exact genuine plan, source path/probe and original frozen budget, timing qualification and source policy. The service uses it after source rechecks and before encoding, then passes the genuine selection to the collector. A public flag, cloned result, borrowed plan or enlarged budget cannot grant collection authority.
+A developer-only runtime adapter privately issues an exact verified pair/listed-dependency handle. It rejects copied or closed handles, fixes executable choice, snapshots bounded inert argv/options, checks identity around owned calls and preserves child ownership. Cancellation settlement checks do not revive the cancelled campaign token. A failed child plus changed dependency keeps both causes, and the campaign now saves the bounded secondary diagnostic.
 
-The collector compares its actual initial source stamp with the privately issued identity, including ctime, before creating an evidence directory or invoking children. It rechecks bindings across awaited directory observations and after final spool-handle closure. Its completed-source verification reuses the selector's private verifier, so a truncated whole source cannot complete this direct proportional collector path. The service retains its existing separate verifier.
+The new Keep720 candidate entry uses the final telemetry-enabled plan and genuine proportional selection, with exact issued budget/timing/policy references. Fresh source/runtime checks and independent resource agreement precede collection. Clock-derived bounds stay preregistered, not retrospectively fitted or treated as measured production qualification. Existing long/late/open-ended and held-out cases remain unchanged.
 
-A finalization race found in independent review was corrected before this checkpoint: revocation during awaited handle closure now rejects with an explicit diagnostic. A previously saved completed receipt can remain historical collection evidence, but its publication and qualification flags are false, and it is not current authority after revocation. Existing ctime-only changes during collection remain warning-bearing observations; stale initial ctime is refused.
+No CLI, environment, renderer or IPC activation was added. CPU option filtering is not a general argv sandbox. Explicit dependency hashing is not automatic full loader-closure discovery. Existing production factories, retained report/source/runtime pins, defaults, coefficients and other campaign families remain unchanged.
+
+## Separate newly built runtime
+
+A new FFmpeg 9.0.2 pair was built outside the repository from signed official source and five hash-verified official Debian development packages, with independent source/archive/build inspection. Pair identity: `1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9`. Seven bounded inventory calls were independently repeated with matching output hashes. No media, installation, production pin change or catalog activation occurred.
+
+This is not recovery of the old binary hashes and not fully static: x264/x265/NUMA are selected static archives, while SVT-AV1/dav1d resolve to audited system shared libraries. Failed initial configure and compiler warnings remain retained. Runtime binaries, packages, extracted source and raw logs are outside this source checkpoint. Build/inventory success grants no media or deployment qualification.
 
 ## Exact final evidence
 
-Lead rerun `20261117T144523Z_proportional-collector-lead-final`: **123/123 passed**, covering new collector/family/service paths and existing evidence, storage, telemetry and resource-budget behavior. Isolated path-adapted legacy family rerun: **33/33 passed**. Independent final collector repeat: **10/10 passed**. The earlier worker 31/31 and 85/85 suites are separately recorded, not added into an inflated total.
+- Final focused worker and independent repeat: 18/18 each, separate runs.
+- Lead final aggregate `20261117T151134Z_candidate-calibration-lead-final`: 87/87 passed.
+- Broad Linux `20261117T151136Z_candidate-calibration-lead-linux`: 161 passed, 27 failed of 188, no skips. Same 27 failing names as checkpoint 005; regression remains failed.
+- Isolated test-only path-adapted legacy run: 33/33 passed, not Windows-native evidence.
+- Earlier wider run 76/101 with 25 failures was independently reconciled against an exact parent Git archive. All 25 normalized failure blocks match inherited Windows absolute-path fixture failures, including names, locations, codes and stacks. This is parity, not an all-pass claim or deeper masked-branch qualification.
 
-Fresh broad Linux rerun `20261117T144525Z_proportional-collector-lead-linux`: **150 passed, 27 failed of 177**, no skips. The same 27 test names failed in the preceding broad run. This remains a failed regression with missing fixture/runtime/evidence and source-gate issues; matching names do not prove masked branches or full compatibility.
+The injected candidate campaign deliberately stops at its first fixture child. No full successful candidate campaign or actual media has been run here. The cancellation 16/17 failure, missing saved diagnostic and build configure failure are preserved with their corrections. Full cumulative sessions remain intact. Manual independent scoped security/source review is not a Security Cloud or whole-repository scan.
 
-The positive collector control completes actual parsing, exact selected PCM comparison and whole-source checks for injected 1-second source / 0.5-second selection data. A 150-second source test proves genuine admission beyond the legacy ceiling, then deliberately stops at its first runner call; it is not complete long-media evidence. Service telemetry tests now reach an explicit `SYNTHETIC_COLLECTOR_STOP` after their fake encode/probe, not the earlier production unsupported-policy refusal. No media is published by those tests.
+## Scope and remaining gates
 
-Failed development and red tests remain retained: missing API, implementation placement error, direct-collector whole-source omission, changed expected service boundary, and the final close-await revocation case. Each correction and test's source hashes are in the receipts and detailed session.
+This mainly advances Q2n trim/resize prerequisites through one CPU non-resize 720p30 precision-FLAC range Encode path. It is not all Q and not the separate Q2j Remux/container/MP3 lane. Other audio, multitrack, subtitle/chapter, Quick Copy, product integration and platform acceptance remain unfinished. Positive source dev/inode assumptions remain a separate known Linux boundary; current stat alone is not fresh byte identity.
 
-## Unchanged gates and limits
+Preserve original theme, shared architecture, narrow main/preload boundary and Windows corrections. No actual Windows, GPU, GUI, package or release qualification is claimed. HDR expansion remains deferred; ArchiveCQ29, defaults, benchmark and accepted releases remain unchanged. Packaging stays last, and Ahmed retains acceptance.
 
-No retained report, runtime/source pin, resource coefficient, default, catalog or production factory gate changed. Actual factories remain closed by missing exact reports, unavailable custom runtime and exact observer-source requirements. Collector integration is not activation authority. Branding and stat matching do not independently prove fresh source bytes or runtime integrity; normal service freshness checks remain mandatory.
+## Next bounded actions
 
-Legacy collector calls retain their interfaces and behavior. Proportional AAC, resize, full and 1440 families remain unsupported by this new shared route. The existing positive device/inode assumption for source-family identities remains a separate Linux portability question, not silently coerced or broadened here.
-
-No actual FFmpeg media, UI, native Windows, GPU, packaging or release qualification occurred in this milestone. Earlier CPU media proof belongs to the [baseline source report](reconstruction-2026-11-17/EXECUTION_REPORT.md). Portable path-adapted tests are not Windows-native acceptance. Continue the agreed non-HDR 0.7 plan, preserving original design, shared architecture, Windows work and newer 1440p/4K scope; packaging remains last.
-
-## Next bounded work
-
-1. Preserve this reviewed code/test/PBS checkpoint in local Git, immediately verify Notion source/full-history restoration, then publish the exact reviewed delta on original GitHub ancestry. Final hashes and statuses belong to its external receipt; this pre-commit record does not claim a completed new cycle.
-2. Independently verify the legitimate missing-runtime build/requalification path from official sources and local prerequisites. Keep old binary pins and historical reports intact; a new build is not recovery of the exact vanished binaries or automatic evidence equivalence.
-3. Establish fresh runtime-bound calibration and real service evidence for this same narrow route only after the separate runtime and evidence design is reviewed. Keep any new candidates explicitly separate until qualification justifies a deliberate activation change.
-4. Continue remaining 0.7 shared/app work and platform-specific qualification without weakening source protection, exact-copy/audio semantics, resource ownership or publication checks. Do not use synthetic receipts to fill historical proof gaps.
+1. Commit only the reviewed four source/test and four PBS paths. Immediately restore/hash-verify the Notion source ZIP and complete bundle, then publish the reviewed delta on expected original GitHub ancestry. This pre-commit record does not claim that new cycle is complete; its later receipt owns the actual hashes and status.
+2. Finalize an explicit candidate manifest using actual loaded dependency paths and run one bounded short synthetic calibration after the source mirror gate. Retain fixed pre-encode criteria, report/media identities, failures and child census. No report or pin substitution.
+3. Review that result before the longer genuine-selection Keep720 campaign. Full real-media/normal-service evidence and deliberate factory activation remain separate reviewed steps.
+4. Continue other agreed non-HDR 0.7 lanes and platform testing without converting these developer experiments into production authority.

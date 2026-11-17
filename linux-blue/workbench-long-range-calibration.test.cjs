@@ -70,3 +70,108 @@ test('1440p Full calibration has a distinct fixed short matrix and independent a
   assert.equal(sourcesForCampaign('fullResize1080to720')[0].seconds, 150);
   assert.equal(campaign().width, 1280);
 });
+
+const fs = require('node:fs/promises');
+const os = require('node:os');
+const path = require('node:path');
+const { createHash } = require('node:crypto');
+const { EventEmitter } = require('node:events');
+const { openCandidateCalibrationRuntime } = require('./candidate-calibration-runtime.cjs');
+const { prepareCandidateKeep720Case, runCandidateKeep720Campaign } = require('./workbench-long-range-calibration.cjs');
+const { readSourceIdentity } = require('../src/source-identity.cjs');
+const { buildEncodeOperation, withEncodeOperationTelemetry } = require('../src/encode-operation.cjs');
+const { resolveFileRequest } = require('../src/operation-contract.cjs');
+const { classifyColor } = require('../src/media.cjs');
+const { assertProportionalCollectionSelection } = require('../src/operation-family.cjs');
+const { deriveCfrFlacResources } = require('../src/operation-resource-budget.cjs');
+const digest = value => createHash('sha256').update(value).digest('hex');
+function candidateProbe(size) {
+  return { streams: [{ index: 0, codec_type: 'video', codec_name: 'h264', profile: 'High', width: 1280, height: 720,
+    pix_fmt: 'yuv420p', sample_aspect_ratio: '1:1', display_aspect_ratio: '16:9', field_order: 'progressive', avg_frame_rate: '30/1', r_frame_rate: '30/1',
+    color_transfer: 'bt709', color_primaries: 'bt709', color_space: 'bt709', color_range: 'tv', chroma_location: 'left', time_base: '1/15360',
+    start_pts: 0, start_time: '0', duration_ts: 2304000, duration: '150', disposition: { default: 1 } },
+  { index: 1, codec_type: 'audio', codec_name: 'pcm_s16le', sample_fmt: 's16', sample_rate: '48000', channels: 2, channel_layout: 'stereo',
+    time_base: '1/48000', start_pts: 0, start_time: '0', duration_ts: 7200000, duration: '150', disposition: { default: 1 } }],
+  format: { format_name: 'mov,mp4,m4a,3gp,3g2,mj2', start_time: '0', duration: '150', size: String(size), nb_streams: 2,
+    nb_programs: 0, nb_stream_groups: 0, tags: { major_brand: 'qt  ' } }, chapters: [], programs: [], stream_groups: [] };
+}
+async function candidateFixture(t, execute) {
+  const parent = await fs.realpath(os.tmpdir()), root = await fs.mkdtemp(path.join(parent, 'ffmpeg-candidate-case-'));
+  let runtime; t.after(async () => { await runtime?.close(); assert.equal(await fs.realpath(root), root); await fs.rm(root, { recursive: true }); });
+  const pins = {};
+  for (const k of ['ffmpeg', 'ffprobe']) { const data = Buffer.from('non-executable fixture ' + k); pins[k] = { path: path.join(root, k), size: data.length, sha256: digest(data) }; await fs.writeFile(pins[k].path, data); }
+  const runtimeIdentity = digest(JSON.stringify(['ffmpeg', 'ffprobe'].map(k => ({ sizeBytes: pins[k].size, sha256: pins[k].sha256 }))));
+  const dependency = { path: path.join(root, 'codec.fixture'), size: 5, sha256: digest('codec') };
+  await fs.writeFile(dependency.path, 'codec');
+  runtime = await openCandidateCalibrationRuntime({ pins, runtimeIdentity, dependencies: [dependency] }, { execute: execute || (async () => { throw new Error('No process expected'); }) });
+  const source = path.join(root, 'source.fixture'); await fs.writeFile(source, 'synthetic source bytes');
+  const sourceIdentity = await readSourceIdentity(source), probe = candidateProbe(sourceIdentity.size);
+  const makePlan = (range = { startUs: 100000000, endUs: 140000000 }, resolution = 'source') => withEncodeOperationTelemetry(buildEncodeOperation({
+    input: source, output: path.join(root, 'output.mkv'), settings: { profileId: 'h265-cpu', preset: 'slow', quality: 25 }, runtimeIdentity,
+    inspection: { probe, color: classifyColor(probe), duration: 150 },
+    request: resolveFileRequest({ fileId: 'synthetic', identityRevision: 1, draftRevision: 1, operation: 'encode', overrides: { range, resolution, audioPolicy: 'precision-flac' } }) }));
+  return { root, source, runtime, dependency, probe, makePlan, options: { verifiedRuntime: runtime, plan: makePlan(), sourceIdentity, evidenceId: 'synthetic-preregistered-only' } };
+}
+test('candidate case binds final instrumented plan and identical approved collection objects', async t => {
+  const h = await candidateFixture(t), selected = await prepareCandidateKeep720Case(h.options), q = selected.selection;
+  assert.match(selected.boundsClassification, /not measured production qualification/);
+  assert.deepEqual(selected.resources, deriveCfrFlacResources({ sourceExtentUs: 150000000, selectedExtentUs: 40000000, sourceBytes: h.options.sourceIdentity.size }));
+  const collection = { plan: h.options.plan, sourcePath: h.source, sourceProbe: h.probe, budget: q.budget, timingQualification: q.timingQualification, sourcePolicy: q.sourcePolicy };
+  assert.doesNotThrow(() => assertProportionalCollectionSelection(q, collection));
+  for (const changed of [{ plan: h.makePlan() }, { budget: { ...q.budget } }, { sourcePolicy: { ...q.sourcePolicy } }])
+    assert.throws(() => assertProportionalCollectionSelection(q, { ...collection, ...changed }));
+  assert.equal(await selected.requireCurrent(), q); selected.close(); await assert.rejects(selected.requireCurrent());
+});
+test('candidate case refuses stale source and closed runtime without widening other families', async t => {
+  const h = await candidateFixture(t), selected = await prepareCandidateKeep720Case(h.options);
+  await fs.appendFile(h.source, 'changed'); await assert.rejects(selected.requireCurrent());
+  await assert.rejects(prepareCandidateKeep720Case(h.options));
+  await h.runtime.close(); await assert.rejects(prepareCandidateKeep720Case(h.options));
+});
+test('copied candidate and accessor fields refuse before campaign filesystem effects', async t => {
+  const h = await candidateFixture(t); let writes = 0, reads = 0;
+  t.mock.method(fs, 'mkdtemp', async () => { writes++; throw new Error('Unexpected directory creation'); });
+  await assert.rejects(runCandidateKeep720Campaign({ verifiedRuntime: { ...h.runtime } }));
+  await h.runtime.close(); await assert.rejects(runCandidateKeep720Campaign({ verifiedRuntime: h.runtime }));
+  const request = Object.defineProperty({}, 'verifiedRuntime', { enumerable: true, get() { reads++; return h.runtime; } });
+  await assert.rejects(runCandidateKeep720Campaign(request)); assert.equal(reads, 0); assert.equal(writes, 0);
+});
+test('valid candidate campaign reaches only injected fixture runner and retains failure without catalog authority', async t => {
+  let calls = 0; const h = await candidateFixture(t, async (file, args, options) => {
+    calls++; assert.ok(args.includes('lavfi')); const child = new EventEmitter(); child.kill = () => {}; options.onChild(child); child.emit('close', 1, null);
+    throw Object.assign(new Error('Deliberate stop before any generated media.'), { code: 'SYNTHETIC_FIXTURE_STOP' });
+  });
+  const mkdtemp = fs.mkdtemp; t.mock.method(fs, 'mkdtemp', prefix => {
+    assert.ok(prefix.endsWith('candidate-keep720-calibration-')); return mkdtemp(path.join(h.root, 'campaign-'));
+  });
+  t.mock.method(fs, 'statfs', async () => ({ bavail: 100n * 1024n ** 3n, bsize: 1n }));
+  const report = await runCandidateKeep720Campaign({ verifiedRuntime: h.runtime });
+  assert.equal(calls, 1); assert.equal(report.status, 'failed-retained'); assert.equal(report.failure.code, 'SYNTHETIC_FIXTURE_STOP');
+  assert.deepEqual(report.census, { spawned: 1, closed: 1, live: 0, maximum: 1 });
+  assert.equal(report.catalogActivated, false); assert.equal(report.publicationAuthorized, false); assert.equal(report.cases.length, 0);
+  await assert.rejects(h.runtime.requireCurrent());
+});
+
+test('candidate campaign saves child failure and bounded settlement dependency diagnostic', async t => {
+  let calls = 0;
+  const h = await candidateFixture(t, async (file, args, options) => {
+    calls++; const child = new EventEmitter(); child.kill = () => {}; options.onChild(child);
+    await fs.appendFile(h.dependency.path, 'changed'); child.emit('close', 1, null);
+    throw Object.assign(new Error('Injected child failure before media generation'), { code: 'SYNTHETIC_FIXTURE_STOP' });
+  });
+  const mkdtemp = fs.mkdtemp;
+  t.mock.method(fs, 'mkdtemp', prefix => {
+    assert.ok(prefix.endsWith('candidate-keep720-calibration-')); return mkdtemp(path.join(h.root, 'campaign-'));
+  });
+  t.mock.method(fs, 'statfs', async () => ({ bavail: 100n * 1024n ** 3n, bsize: 1n }));
+  const report = await runCandidateKeep720Campaign({ verifiedRuntime: h.runtime });
+  const saved = JSON.parse(await fs.readFile(path.join(report.root, 'report.json'), 'utf8'));
+  assert.equal(calls, 1); assert.equal(saved.status, 'failed-retained');
+  assert.equal(saved.failure.code, 'CANDIDATE_CALIBRATION_CHANGED_AFTER_FAILURE');
+  assert.equal(saved.failure.cause.code, 'SYNTHETIC_FIXTURE_STOP');
+  assert.deepEqual(saved.failure.postVerificationFailure, {
+    code: 'CANDIDATE_CALIBRATION_RUNTIME', message: 'Listed candidate dependency changed path or size.' });
+  assert.deepEqual(saved.failure, report.failure);
+  assert.deepEqual(saved.census, { spawned: 1, closed: 1, live: 0, maximum: 1 });
+  assert.equal(saved.catalogActivated, false); assert.equal(saved.publicationAuthorized, false);
+});

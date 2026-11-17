@@ -1,3 +1,374 @@
+# 📘 Session: November 17, 2026 — FFmpeg Encoder — Verify one native resize publication and reveal while retaining the popup defect and evidence limits
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model or tool identity | Effort setting | Evidence basis and verification limit |
+|---|---|---|---|
+| Engineering lead / one-run gate owner | GPT-6 Astra, recorded lead configuration | Ultra, recorded assignment | Owns preservation acceptance, exact-source freeze, bounded native authorization and disposition. Configuration is not backend/performance attestation. |
+| Native desktop executor | Not separately established here | Not separately established | Uses supported global Sky controls and observed current UI. Actual launch/UI/closure status must follow retained evidence, not the delegated command alone. |
+| Independent helper/source reviewer | Not separately established here | Not separately established | Reviewed the frozen native supervisor and the corrected authorizer statically. Syntax/review is not execution approval, publication or a desktop result. |
+| Independent saved-output auditor | Not separately established here | Not separately established | Read-only audit verified retained source/runtime/input/output identities, complete local collector/spools/telemetry and publication records. It did not run another probe/decode/UI action or independently replay CUA screenshots. |
+| Preservation / mirror role | Not separately established here | Not separately established | Independently restores exact source/full history and fetches the unabridged native Session; verifies expected-parent remote bytes and ancestry. Source-only archives do not restore ignored runtime/raw-report/media authority. |
+| Documentation editor | Blue documentation contributor; model not independently established here | Not separately established | Reads original and corrected preparation, actual preflight, prior preservation and later actual outcome/audit records. Drafts outside the frozen checkout and owns only the explicitly released Session prepend. |
+
+**Record basis:** Source checkpoint 019 separately added the fixed resize workbench consumer and was reviewed/tested without native execution. This session follows its actual preserved source into a bounded native proof, with outcome left to observed evidence. All 824,546 previous Session bytes are retained exactly, including dated historical statements that native execution was then absent. No later result is backdated into the source record.
+
+## 🕒 Time
+
+- Date / date range: November 17, 2026. Explicit receipt timestamps here are UTC; Cairo civil time is UTC+2. Native diagnostics, operator observations, outer wall time and monotonic duration must retain their actual domains rather than inherit a prior campaign's alignment or discrepancy.
+- Start: Exact active-work start not measured. The first retained blocked desktop preflight is 20:18:50.474896 UTC; it is not a launch or coding-start timestamp.
+- Predecessor preservation: 019 source/full bundle restoration preceded the native authorization path. GitHub verification is exactly 20:21:26.934679 UTC; any later actual gate/attempt must be compared with its own timestamps.
+- Actual desktop preflight: 20:21:17.485144 UTC, one verified read-only printf established DISPLAY=:0. The earlier no-input preflight remained separately preserved as blocked.
+- Authorization / actual attempt: Actual one-run gate created 20:23:32.757701 UTC; attempt Python clock 20:23:34.209607 UTC and date clock 20:23:34.210910197Z; process PID 4466 receipt 20:23:34.501853 UTC. These are startup facts, not encode completion or UI outcome.
+- End / stopping point: Outer process closed normally at 20:30:46.526855 UTC; operator outcome recorded 20:31:35.794202 UTC. Independent saved-output audit passed, then lead reconciled/released the freeze at 20:35:35.025527 UTC. Final owning receipts are dated 20:41:28.221555 UTC; 020 commit/restoration/publication remain pending at that cutoff.
+- Session type: Bounded native developer-workbench qualification and evidence/preservation, not product default activation or broad performance testing.
+- Project stage: Linux 0.7 fixed 1080p30-to-720p precise range/FLAC UI journey on preserved 019 source, after accepted calibration and five-case standalone-service proof.
+- Main focus: Genuine original UI inspection-only state, normal explicit per-file editing, one protected publication/reveal and actual lifecycle/evidence limitations, subject to the recorded one-run gate.
+- Contributors: Ahmed retains product ownership and release acceptance; lead, operator, independent review/audit, mirror and documentation duties remain distinct.
+- Model / effort: Only established lead configuration is stated; unknown roles are not silently attributed the same backend or effort.
+- Active working time: Not measured. A manual native journey's whole elapsed duration is not an encode performance benchmark.
+- Reason for summary: Preserve the actual native outcome and all preparation/input/evidence mistakes, not substitute a plan, source-test result or process exit for acceptance.
+
+## 🎯 Session Goal
+
+Source checkpoint 019 made the fixed developer resize service available through an explicit main-owned `--blue-runtime=9.0.2-resize-candidate` route. Its passing injected/source tests did not establish that an actual sandboxed Electron session could preserve initial inspection-only authority, accept the ordinary per-file range/720/Precision FLAC edit, publish one real resized output and reveal it through the genuine OutputAccess path.
+
+The bounded goal is to test precisely that existing UI path on the independently preserved 019 bytes and exact local runtime/dependencies/raw report/Electron/input. Use one original-UI launch and the reviewed finite journey; respect the fixed clean named state rather than clear or migrate it. Do not change source, defaults, style, security settings, runtime pins or historical Keep720 evidence to make the journey pass. The meaningful finish line is the observed outcome plus independent saved-output evidence and actual closure, not a successful supervisor exit alone.
+
+No player/playback, cancellation/relaunch retry, other geometry/audio, general scaler quality, native performance or product release is implied. A later Full-copy design was separately advanced to an isolated closed-factory source assignment after release. That work remains outside this evidence-only checkpoint and does not authorize live media, a new capsule, UI/default activation or AAC qualification.
+
+## 🛠️ Actions Taken
+
+### 1. Verify and preserve the exact 019 workbench source before native action
+
+Local checkpoint `e0b5d35055afaeff841bd3fe695c0400e6e7b2d5` has tree `4019c772500a08cf9c4d30a6ead14e55cd6dc983`, parent `ca99ae65fc3b910c6dbd397ceba6cf869002379e`, 553 source files and nineteen local commits. Its thirteen explicit changed paths comprise nine source/tests and four PBS records. This is the tested/reviewed workbench consumer; earlier standalone-service execution on `db2fa5e` is not retroactively relabelled as a native 019 run.
+
+[Notion checkpoint 019](https://app.notion.com/p/41bbd7ade63b8143bc57c38f0c32fc5e) independently restored all source and full history. Source ZIP is 3,420,653 bytes/SHA `793b727d68ca60e905884c9fc2e4f605c5eaded32e799080f2f2f74d9a9a6820`; bundle is 3,256,519 bytes/SHA `54244cd4f7d463763444ffa70fe5fe390ab254b0a1fc543234b1f2c3fbb4fef5`; history ZIP SHA is `c8e5fe487a84e4581edf23f396bb3e1d531280a1e8d07316970107e7230e8e2d`. The [native readable Session](https://app.notion.com/p/41bbd7ade63b81bc984fc54d98aa9b2a) was fetched as four ordered unabridged chunks on one page, all nineteen headings and historical ending, without truncation metadata. Native formatting is not byte identity; the ZIP/bundle preserve exact 824,546-byte Markdown SHA `8417d7b884b6575e4075b4759a99fbf27342e60260392cbd7b76d30224d51298`.
+
+Remote `82ed88f67bf211fb0f09d25192e390ddb718cee1` on the intended `blue/linux-development` branch has sole parent `72ebaabb43033cef4ec007732a95e0df7ddb7676` and tree `b5dc3a927d2c390b4c579ec983bb4b795f8f9cdb`. Thirteen changed contents/Git blobs, actual sole parent/tree and fresh ref were verified at 20:21:26.934679 UTC. The tree has 935 files: 922 unchanged, eight modified, five new, zero deleted. Unselected remote ancestry/files remain preserved. This is actual completed 019 preservation, not an assumption that an uploaded archive or local commit was already a verified backup.
+
+### 2. Keep the native supervisor and one-run authorizer separate
+
+The frozen supervisor `launch-resize.py` is 6,545 bytes/SHA `456f0c52a1cad223dba50dffa47023aabb302c5b95cb35be79ca714a3fd4775b`; the 10,027-byte human plan SHA is `a00e4f2a29ea4a440f28d0b12ed5d884c68a8edf22c108bfd9693add847d2bc2`; 6,015-byte native plan SHA is `f83c0dae92d957a7736c0ef233af83cfb35ed9eb9a28741d6561bec8e6641ca3`. Independent prepared review is 2,922 bytes/SHA `c98e844dcd11d06836c433c6e240a0a2a42bd3bbd466c4b5e3631e5352a83d98`. It provides conditional GO only after actual source/full-history restoration and current desktop prerequisites. At that preparation stage only `ast.parse` ran, not the supervisor or runtime.
+
+The supervisor requires the exact gate, source tree/current files, helper/plan, pair/seven dependency identities, original raw calibration, Electron and fixture. It verifies original/current source bytes pre/post, prohibits loader overrides and requires the existing DISPLAY=:0 rather than injecting one. Named resize state and attempt/input/output/log paths must be absent before exclusive creation. It copies only the owned audited input, uses fixed launch argv and refuses silent replay or profile clearing.
+
+Its process supervision is deliberately narrower than proof acceptance. A 30-minute timeout sends one SIGTERM request, then waits; it is not a hard exit deadline or forced-kill/relaunch permission. Free-space and owned-input/output admission are point checks, not active-write or per-child disk limits. The native observer is a census, not the standalone harness's child cap. Top-level stdout/stderr hashes do not prove full child stderr, successful publication, actual visual geometry or OS reveal. Prelaunch failures before its try block can leave exclusive attempt/copy artifacts without a normal outer completion, which must be retained and classified rather than silently retried.
+
+A separate authorizer binds the actual immutable 019 HEAD/tree/all 553 Git/current/Notion file identities and actual both-restored receipt, exact helper/review/plan, current desktop evidence, clean named state, fixed assets/soname targets and disk admission. The truth of restoration/desktop attestations must be independently established; a JSON boolean is not self-authenticating authority. Its eventual gate must be created exclusively for one reviewed visible journey.
+
+### 3. Correct the optimization guard before any authorizer execution
+
+Authorizer V1 used an assertion to require `__debug__`, zero optimization flags and no PYTHONOPTIMIZE. Independent review correctly identified that this guard itself disappears when Python optimizes assertions. That would undermine the intended precondition for later assert-based gates. The original V1 is retained unexecuted, 4,456 bytes/SHA `6534e1b151e8f9af1256a2e4bc353fa88108d4772a9c585b28f9b671dfcf6603`.
+
+V2 replaces that assertion with an explicit non-assert conditional raising RuntimeError before any gate logic when optimization is enabled. It also parses an aware desktop `checkedAtUtc` timestamp and requires age between -5 and 300 seconds at authorization. V2 is 4,841 bytes/SHA `055db7952f912dfcd8e49dea219ef5d18823db6390fa05db380150ffee1fcf20`; the 1,038-byte narrow review SHA is `d560dbbf24a2931791ad3479a3bc81cbab23ac8363a0b8874e6867c801bc472e`. The review accepted the corrections statically with `ast.parse` only, not a success-path execution, gate creation or native launch.
+
+The five-minute freshness bound applies at the authorizer check, not continuously throughout a later desktop session. The fixed launcher still uses assertions and must be invoked with ordinary Python without -O/-OO/PYTHONOPTIMIZE in the verified environment. No source/application behavior changed for this helper-only correction, and the frozen launcher hash stayed unchanged. Later actual invocation and results are separate evidence below.
+
+### 4. Preserve the initial blocked desktop preflight instead of inferring DISPLAY from old scrollback
+
+At 20:18:50.474896 UTC, the read-only preflight recorded blocked status. Fresh Sky inventory/screenshot showed an idle focused Xfce Terminal with old A3 exit output, Chromium behind it and no observed workbench window or user interaction. Global Sky press_key/click APIs were available, and the named resize state was absent. However, the headless executor's process namespace did not expose the desktop Terminal process or a fresh DISPLAY value. Historical terminal output showing :0 was not accepted as current environment proof.
+
+The original blocked preflight is retained as 1,529 bytes/SHA `7f5513f3de97f77ec4aa9755990c04d5c0fbeb601ac6c9f64289a14f9f2cafec`. No keys, focus change, app launch, input copy or profile creation occurred in that no-input inspection. Absence of an Electron/FFmpeg process in the executor namespace is not a universal process-absence claim because the desktop namespace may differ. An API being available is likewise not a fresh successful typing test.
+
+Lead then allowed one harmless read-only terminal printf to verify the actual desktop environment. The initial unexecuted entry had lowercase letters; it was cleared using Control_L+u, corrected with explicit Shift_L letter chords, fully checked visibly and only then submitted. The single executed command printed `RESIZE_PREFLIGHT_DISPLAY=:0`. No app launch, copy, profile creation or other shell action was bundled into that preflight.
+
+The ready preflight is dated 20:21:17.485144 UTC, 1,297 bytes/SHA `342db83205c101a24309f0e56c60a9bef95b1f8259b3bc1e7a15d7187540b107`. It retains source `e0b5d35`, actual :0, global Sky availability, no observed competing native app, absent resize state and the executor/desktop process-visibility limitation. Screenshots are CUA conversation observations, not standalone archived image files. No profile/cache/token contents were inspected. One successful verified terminal input does not prove future picker/editor behavior or future absence of human activity.
+
+### 5. Execute the one exact conditional launch and verify secure startup without claiming the journey finished
+
+The desktop worker executed the exact authorizer followed by `&&` and fixed launcher once, with no retry. The authorizer created the 65,096-byte one-run gate at 20:23:32.757701 UTC, SHA `9659ea6cd913e635abf9829f3a96b20cec9d93dbb0e7deba12019d8c9f9c51a4`, binding actual 019 `e0b5d35`, its tree/all 553 source hashes, both restored Notion gates, exact helper/review/plan, preflight SHA `342db832…` and Python assertions enabled. This is an actual checked gate, not the earlier conditional static review. The 20:21:26.934679 UTC remote verification preceded this gate/attempt, unlike earlier standalone-service publication overlaps.
+
+The 518-byte exclusive `ATTEMPT_STARTED.json`, SHA `532cd2c58a743876babb7d377a5c372503e9104a47528fcb8ade30b47d4e11ec`, records exact Electron/workbench/resize-option argv, all 553 sources, Python 20:23:34.209607 UTC, date 20:23:34.210910197Z and existing DISPLAY=:0. The 68-byte PID receipt SHA `b26a41d67a197e4c6f6d7bf7f9283c101554d5290baf7416d13dbe816c8d4041` records process 4466 at 20:23:34.501853 UTC. The two initial wall-clock observations are retained individually, not merged into a claimed universal diagnostic clock.
+
+Actual stdout reports `LINUX_WORKBENCH_READY` with Electron 44.7.0, runtime choice 9.0.2-resize-candidate, pair identity 1980b0c…, mode developer-resize-range, sandbox true/contextIsolation true/nodeIntegration false, original UI/preload true. Qualified families is empty and Remux unavailable, consistent with the nonproduction developer route. This records the actual process’s startup/security declarations, not an independent proof of sandbox enforcement or that all later picker/editor/output steps succeeded.
+
+The initial top-level stderr observation found missing D-Bus socket and SSL handshake/net_error-202 diagnostics while the process was still live. Final capture later confirms 620 bytes/SHA `694b81a2d09de2e29d35af9aa1ece1e5bb894ac859778cdd97ae7c3174b54ac0`, containing three missing-system-D-Bus messages and one SSL handshake failure. This is not empty stderr, nor a demonstrated cause of the popup rendering defect. No warning was suppressed or security setting changed. The source gate remained frozen through independent audit; no documentation/source edits occurred during the run.
+
+### 6. Record the actual original-UI journey and any operator/application failures
+
+The operator’s 12,357-byte `JOURNEY_OUTCOME.json`, SHA `742eb9b3e9f57537d90c0211c34603fc7bbf6bc7c7a6b1829700c9ce9d047b25`, is dated 20:31:35.794202 UTC. It records exactly one launch, one input folder picker and one output folder picker. The actual initial Full item displayed Unsupported with checkbox and Start disabled and the explicit inspection-only instruction to choose a per-file range, 720p and Precision FLAC. The regular draft/editor remained usable; inspection was not silently promoted into runnable Full authority.
+
+The operator used the existing per-file editor to set .613–2.721 seconds, 720 resolution, Precision FLAC, H265 CPU, slow, quality 25. The resolution dropdown popup painted visually corrupted. This is a real observed visual defect with unknown cause, not clean visual QA or an assumed app/Electron/GPU fault. Documented global 7+Return selected 720p, and the resulting visible field value was explicitly checked before the sole Apply. No hidden DOM/IPC/API mutation or source/settings patch supplied the value. The keyboard selection was within the existing visible control, not a second launch or encode retry.
+
+After one Apply, the genuine prepared row could be selected and the operator clicked Start exactly once. Observed states were Waiting/In progress, Validating output/Processing and Completed/Succeeded. No intermediate numeric encoding percentage was sampled. This proves only those observed status transitions, not a measured smooth/accurate numeric progress display or performance.
+
+One Show-in-folder action returned the platform-neutral feedback “Show-in-folder request sent to your file manager.” Thunar selected `native-resize-fixture_H265-CPU.mkv`, 586,866 bytes. The separate saved `OUTPUT_ACTION_DISPATCHED` reveal event can corroborate dispatch, but actual selected-file appearance is the operator’s CUA observation. No player was opened and playback/audio listening were not tested. Screenshots remain in the CUA transcript only; no portable standalone screenshots are claimed.
+
+The published file’s first full SHA-256 was established after native close: `07230e60b600505cb38f51df2cee2c1a7364baccb20a3224796b316222e07006`. It was not a campaign-recorded prepublication full hash and must not be described as one. Later independent matching can verify current bytes and saved identity/provenance, not manufacture an earlier cryptographic attestation.
+
+Normal UI closure produced exit 0, no abort request, no failure and post-close identity checks true. The 560-byte `OUTER_COMPLETION.json` SHA `501d92fa4a6e30627828fbf028892a2b35eca9864e21e4c466c6751160e63199` spans 20:23:34.501853–20:30:46.526855 UTC with monotonic 432.0250262020054 seconds. That is the entire manually operated journey, including navigation/editing, not encoding time or an encode benchmark. Final stdout 436 bytes/SHA `c160855073bd7d3687c131ef1d6bf69a8ea6dac14644960408949b829a6dd819` reports 42 owned tool children spawned/42 closed/live 0/maximum 1/failures 0. This census is not every Electron descendant and does not establish every child’s complete diagnostics.
+
+The operator retained point checks before Prepare, Apply and Start: free bytes 59,160,829,952; 59,160,776,704; 59,160,764,416 respectively, with owned input 6,672,071 bytes at each point. These actual observations exceed the stated admission floor but are not continuous or per-child/write-cap measurements. The input original and owned copy remain preserved; no profile/cache/token/preferences stores were read or imported into the retained evidence.
+
+The actual output/collector details were subsequently independently audited as described below, with their limits retained. No extra FFprobe/decode/runtime invocation, cancellation/relaunch, second encode, other family, default/security change or player action followed the finite journey.
+
+### 7. Reconcile saved evidence, diagnostics, clock domains and independent audit
+
+Independent `INDEPENDENT_NATIVE_AUDIT.json` is 38,853 bytes/SHA `66855eb63660439143d40c14c9663f7b03fff2181854534678a70158148fd96f`. Its bounded disposition passed: actual source/runtime/input/output identities and retained evidence reconcile, while native popup visual quality, general product behavior and evidence gaps remain explicitly unaccepted. Audit used saved Git/file hashes, structured records, spool rows/sample totals, telemetry, storage/provenance and actual clock conversion only. It performed no additional runtime/media/FFprobe/decode/UI execution and did not read raw profile/cache/token/preferences stores.
+
+All 553 frozen source files match immutable `e0b5d35`, actual gate and restored source. The exact pair/seven dependencies, original build pair, Electron, original raw resize report, original independent fixture and owned fixture match their specified identities. Forty-two retained allowed evidence files total 140,270 bytes and match originals; they are only diagnostics-v1, operation-evidence and provenance-v1 artifacts. This is not a copy of the whole Electron state/profile or a claim that all its excluded data was inspected.
+
+**Initial inspection and actual reprepare.** One fresh diagnostic session has 21 events. Initial `FILE_INSPECTED` can internally record base ready before the workbench demotes its current row. Actual final `PREPARATION_FINISHED` is Unsupported, and no Full encode is recorded. Root phase ready means inspection completed, not that the unsupported row is runnable. Real per-file draft reprepare and one Start then produced the exact requested/resolved operation: range 613,000–2,721,000 microseconds, 720 downscale, H265 CPU/slow/25 and Precision FLAC at 48 kHz stereo. This actual finite native path is no longer just 019's injected preparation model; it still does not establish every asynchronous preparation/cancellation path.
+
+**Decoded counts, timelines and PCM.** Complete-source saved scans cover 240 video frames and 384,000 audio samples across the eight-second source. Selected/output video counts are 63/63; selected/output audio sample counts 101,184/101,184. Both streamed s16le-interleaved PCM captures are 404,736 bytes with equal SHA `707e310c31c5ac4c472d86447038d040d9357776d042704120af065e8adfe413`. These hashes were captured during the native service's collection, not recomputed by independent re-decoding now. Full decoded PCM buffers are not retained.
+
+Selected-video spool has 63 rows, selected-audio 100 rows and output-audio 372 rows. Source video extent 633,333–2,733,333 microseconds corresponds to output 20,000–2,120,000; audio source 613,000–2,721,000 corresponds to output 0–2,107,667. Saved sample-count difference, decoder-delay/discard-padding and unmatched source/output sample tails are zero. Video duration and audio elapsed-clock maximum error are 334 microseconds, within the fixed 1,067/1,042 microsecond tolerances. There is no fitted shift. Timeline comparison's `contentIdentity:false` is not a contradiction of separately captured PCM equality; timing comparison and content hashes are different evidence.
+
+**Geometry and output authority.** Saved resolved operation, reviewed service validator acceptance and collector checks support 1280×720 square-SAR output for this request. A separately retained full output probe JSON is absent; there was no fresh independent probe/decode to replace it. Scaling is not pixel identity, subjective visual quality or general geometry qualification. The 586,866-byte container's full SHA was first established by the operator after close and is now independently matched. A different container SHA from the prior standalone-service output does not by itself imply a PCM mismatch or defect.
+
+**Telemetry and resource accounting.** Input telemetry has 63 video records and 372 audio records totalling 101,184 samples, with zero unknown input records. Its scope is input counts/timing only; it cannot independently establish video pixels, lossless audio, last video frame duration, final output validity or publication. Seven collector invocations and ten operation-accounted children are different scopes from 42 total owned tool children. Operation accounting retains 2,123,166 stdout bytes and 499 stderr bytes. Collector receipt, all three spools and input telemetry were independently checked, with completed storage/no violations and no remaining reservation. Storage observations remain diagnostic bounded-point accounting, not a hard write cap.
+
+**Publication, reveal and ctime.** Saved records include output checked/published, job disposition, one output action dispatch and session end. Publication journal ctime is 1,794,947,409,616,565,563 ns; current post-cleanup ctime 1,794,947,409,644,804,140 ns, a 28,238,577 ns (28.238577 ms) difference. Other checked dev/inode/size/mtime and current full hash match. The journal stamp preceded owned-stage cleanup; OutputAccess obtains a fresh identity after cleanup. Do not say every journal timestamp equals current state or that the full hash was present in that journal. A serialized audit/provenance record does not recreate a live private OutputAccess grant. Saved reveal dispatch corroborates dispatch; selected Thunar file and neutral UI feedback remain actual operator CUA observations, not playback evidence.
+
+**Warnings, truncation and clocks.** Target stderr is 499 bytes/SHA `a65e44000a74ca58726d55b1419ac126e924738e039d83865faf7fc9f390e65d`, retained untruncated for that target. It contains duplicate codec-option warnings, x265 CPU-mask error and no-thread-pool warnings. No all-42-child stderr completeness/cleanliness follows from this capture or the census; the independent audit does not erase known topology/performance limits. Four diagnostic contexts are truncated: sequences 6 and 9 FILE_INSPECTED, 13 OPERATION_EVIDENCE_COLLECTED and 17 JOB_DISPOSITION. Complete local collector/spools/telemetry were audited separately; do not silently present truncated event summaries as full records.
+
+Actual first event epoch 1,794,947,014,948 ms converts to 20:23:34.948 UTC; last 1,794,947,444,814 converts to 20:30:44.814 UTC. Both lie within this run's outer interval. There is no inherited two-hour discrepancy in these converted event fields. Top-level log display stamps and filesystem presentation remain their own domains; this alignment does not claim universal clock synchronization. The whole 432.025-second manual journey remains distinct from any saved batch duration and is not an encode benchmark.
+
+The native supervisor did not separately hash publication or retain every child's stderr. The operator first established the full output hash after close, and the independent audit matched it. Saved collector/service evidence, current hash and fresh-session provenance remain separately attributed. No full output probe was independently retained or reconstructed by a new probe. Historical warnings are not cleared, CUA-only observations are not portable screenshots, and only this run's actual converted clocks support its chronology.
+
+### 8. Recheck the full frozen source and release only actual verified documentation scope
+
+Lead `LEAD_RELEASE.json` is 2,304 bytes/SHA `fc2e527faa2355a0cb32b1f37cd05b149c3322aa266f575f4385ca0bfb262956`, dated 20:35:35.025527 UTC. It independently reconciles all 553 immutable/current source bytes, both restored Notion gates, audit/outcome, exact launcher/plan/gate/log hashes, pair/seven dependencies and original build pair, Electron/raw report/original and owned fixtures, 42 retained files/140,270 bytes and published output. Only after that actual check was the source/documentation freeze released. No run remained active; the lead then authorized this evidence-only five-path checkpoint and a separate isolated source successor.
+
+The new checkpoint changes Current and Session and adds execution, structured receipts and portable evidence: three new files, expected 556 source files/twenty local commits. It changes no production or test source, runtime pins, defaults, theme or Windows entry. Unit/broad suites were not rerun for 020. Last actual 019 source results remain 164/164 focused, 125/126 service parity with the known actual PROTECTED_SOURCE versus expected SOURCE_CHECK_INCOMPLETE diagnostic mismatch, and 202/237 broad with the same 35 failures. Those inherited results must not be labelled newly run or globally green; old Keep720 exact producer refusal remains intentional.
+
+All 553 tracked source bytes, exact runtime/dependencies, original raw report/fixture and actual output/audit identities remained frozen until that reconciliation. No Session update occurred during the native source gate. The eventual new entry must preserve all 824,546 prior bytes, original correction receipt and historical native/service distinctions. Any later code fix or successor implementation needs its own exact patch/review/tests/source identity; it is not implicitly part of this native run.
+
+### 9. Record successor discussion only to the extent actually decided
+
+After the native source freeze was actually released, the lead authorized isolated Q2n [whole-file resize with copied audio] source work, still closed-factory/synthetic and outside 020. The revised design is 10,621 bytes/SHA `4108ec8bf8a43dbcc5474439c7cda1aa04e126b7fe96cf76c7d3da8ae730d2e3`. It requires separate copied-AAC packet/header/padding/decoded-timeline semantics and a nine-collector-pass model, not reused Precision FLAC resource or content authority. AAC metadata versus decoded priming/padding is a real future qualification boundary. Existing legacy short Full-copy guards and current FLAC policies must remain unchanged. Isolated implementation progress is not authoritative integration, real AAC/media qualification, a new evidence capsule or native/default/catalog activation.
+
+The exact popup supplement is 1,909 bytes/SHA `f6c9cd476e5666765091d03b2529a7d25a479e9a798f0368389743e2bbb0fe0b`. It describes two existing CUA screenshots: the open Resolution menu's upper area was black/unlabelled, lower area pale blue with thin dark/text-like streaks; individual option names/rows could not be reliably read. It does not establish wrong option order or row coordinates. Closed Keep source and later 720p labels, surrounding page fields and the Audio popup were readable. This narrows the observed defect to the open Resolution popup, not all controls or the whole page layout.
+
+Read-only source review found no concrete 019 change explaining the defect. The standard select/editor construction, value handling, HTML and CSS are unchanged. Theme colors and scrolling-table placement remain hypotheses, not demonstrated causes; unchanged code does not prove an environment fault or rule out a preexisting issue. No retheme, GPU/rendering switch, security weakening or speculative source patch was made.
+
+A separate popup reproduction helper was prepared outside the checkout after this result; independent review was next at the owning-record cutoff, with no launch grant. A fresh service has no live per-file draft, so the plan was honestly expanded to one inspection-only Prepare, then open Resolution and Audio and Escape without changing values, Apply, Start, target encode, reveal or player. It must reconcile/reuse the known fixed 019 state/profile through the normal app rather than clear, silently replace or read private stores. Startup capability media/probes are real runtime work and must be disclosed even though no target encode is planned. Actual 020 preservation, final helper review, immutable gate and current desktop preflight still precede any such diagnostic launch. Do not delay 020 waiting for its future result.
+
+At the initial assignment the Full-copy design was read-only/conditional; after release only its separate isolated closed-factory source slice was authorized. No completed authoritative implementation, calibration, service proof or native activation is claimed here. Preserve non-HDR order, existing defaults/ArchiveCQ29/Windows corrections and benchmark pause, with broader HDR/package/release acceptance separate. Do not delay this milestone's evidence handoff waiting for unrelated future engineering.
+
+### 10. Prepare coherent preservation with actual outcome boundaries
+
+Final owning records are [Native Resize Journey execution](2026-11-17_Native_Resize_Journey.md), [structured receipts](2026-11-17_Native_Resize_Journey_Receipts.json), [portable outcome/audit](evidence-2026-11-17/native-resize-journey-portable.json) and [Current](CURRENT_STATE.md). Current is 6,734 bytes/SHA `ee44a69355c08b251cac0c64ecccb2689bf8a8b1547f3ec50958013f6612a7b0`; execution 17,149 bytes/SHA `269a0f34a0c27726bfc4211d491fb38657d12e2a4defd18fdff1876a2a4a96ff`; receipts 20,342 bytes/SHA `72dedba1f3b87634b41717b79ad84e8854c161441fb5b1d40c4f3f5fb0af191b`. The lead saved these and explicitly released only Session for this editor; other file ownership remains unchanged.
+
+The full four-report portable archive is 63,079 bytes/SHA `24d34b0632b8a33d2047c18abd4caad412bbc4368f3b90a00d0adb73463ad106`. Independent mirror review verified exactly thirteen known-root string transformations: proof five, project six and support two. All other keys/types/values remain unchanged. It preserves outcome, final audit, popup clarification and lead release, not raw runtime/media/probe/spool/log/approval payloads or an inverse private-path mapping. It grants no live runtime authority, no general native/visual acceptance and cannot restore omitted executable/raw-input/state prerequisites.
+
+020 remains uncommitted/unrestored/unpublished at the dated owning-record cutoff. The lead/mirror must complete actual local Git, immediate independently downloaded/restored Notion source/full twenty-commit bundle and unabridged native records, then intended expected-parent non-force remote contents/tree/ref verification. Those later receipts own final checkpoint identities. The full previous 824,546-byte Session and original correction receipt remain exact; no dated old record is rewritten to make this later native outcome appear earlier.
+
+The eventual coherent checkpoint must contain only the agreed source/PBS/evidence paths, with no private profile/cache/token data, raw binary/media upload or hidden helper authority. Exact archive/full-history restoration and unabridged native records follow local commit, then actual intended remote parent/tree/content/ref verification. Publication not yet completed at a dated record cutoff must remain pending rather than retroactively presented as a run prerequisite.
+
+## 🧠 Key Insights
+
+### A safety precondition must survive the mode it is guarding against
+
+An assertion forbidding optimized Python vanishes under that same optimization. Explicit non-assert rejection before later assert-based gates is the appropriate narrow helper fix. Static acceptance closes that source defect but does not establish that all later real gate inputs are true or that a launch happened.
+
+### The headless executor's environment is not the desktop's current environment
+
+Fresh Sky inventory can show an available terminal while the command tool lacks its DISPLAY/process visibility. Old terminal scrollback is not current proof. One scoped read-only terminal check resolves the missing fact without pretending the headless limitation means no desktop exists or granting a broader native test.
+
+### An input correction before Return is not an executed failed command
+
+The lowercase preflight entry was cleared before submission. The record should preserve that operator adjustment, but not invent an extra shell execution, native attempt or application failure. Only the single verified printf and its actual output establish the current environment fact.
+
+### Preservation, launch, UI outcome and audit are separate evidence stages
+
+A restored source archive proves recoverability; a gate proves checked authorization prerequisites; a supervisor can prove actual process closure; UI observations prove visible behavior; an independent saved-output audit checks only actual retained artifacts. None substitutes for another, and native evidence may be narrower than standalone service-harness evidence.
+
+### A successful native path can coexist with a real visual defect
+
+The actual per-file request, publication and file-manager reveal succeeded, while the Resolution popup visibly painted unreadably. A verified keyboard selection allowed the one finite test to continue, but did not repair the rendering defect or prove its cause. Functional acceptance and visual-clean acceptance must remain separate.
+
+### Complete local evidence matters when diagnostic summaries truncate
+
+Four event contexts were truncated, but the complete local collector receipt, spools and telemetry were independently available. Keeping the full retained artifacts supports narrower count/timing/PCM conclusions without inventing missing probe data or claiming every event/child diagnostic was complete.
+
+### Current output identity is not identical to historical publication stamps
+
+A small ctime change after stage cleanup can coexist with matching inode/size/mtime and current full hash. The actual OutputAccess uses fresh post-cleanup identity; a saved journal or audit does not recreate a private action grant. The first full hash's post-close timing remains explicit rather than retroactively upgraded into campaign-time provenance.
+
+## 📌 Decisions Made
+
+1. **Confirmed: preserve 019 completely before its actual native test.** Exact source/full history/readable records and intended remote bytes are verified. The native freeze binds the actual 553-file consumer, not an earlier service source or prospective label.
+2. **Confirmed: use the exact existing fixed developer route and local assets.** No download, runtime fallback, old Keep720 repin, baseline/default change or security weakening is introduced.
+3. **Confirmed: correct the authorizer before execution.** V1 optimization guard is preserved unexecuted; explicit non-assert V2 rejection and a fresh desktop timestamp bound are statically reviewed. Launcher assertions remain enabled.
+4. **Confirmed: treat unknown desktop DISPLAY as a real missing prerequisite.** Preserve initial blocked observation and use only the narrowly authorized read-only printf to establish current :0. One verified key sequence is not picker success.
+5. **Bounded authorization: one exact original-UI Journey A only if all actual gates pass.** Operator/current environment checks remain necessary. No hidden IPC, player, cancellation retry, second encode or force-kill-as-normal-close claim is permitted.
+6. **Confirmed: accept only the bounded functional native result and preserve its defects/limits.** The real range/720/FLAC publication, saved count/PCM evidence, one reveal and closure are supported. Popup painting, missing independent full output probe, truncated contexts, incomplete all-child stderr and no player/performance/same-service proof remain explicit. Freeze release follows actual full reconciliation, not process exit alone.
+7. **Confirmed separate successor, deferred qualification:** After release, isolated closed-factory Full-copy source work may proceed under its own ownership/review; no completed integration/live qualification is included here. Prepare the exact inspection-only popup reproduction without a launch grant. Broad native/performance/product acceptance, new family/capsule/default activation remain deferred.
+
+## ⚠️ Difficulties / Friction
+
+The authorizer's initial assertion-only optimization guard was self-defeating under the mode it intended to forbid. Independent review found it before execution, and the narrow fix changes only helper logic outside the source checkpoint. Its correction must not be misreported as a native application defect or a production source change.
+
+The initial executor could not establish current desktop DISPLAY without input, although Sky showed an idle terminal and old :0 evidence. The distinction required a fresh read-only check instead of relying on stale scrollback or claiming all native environments unavailable. The first typed printf string needed a pre-submission case correction, which remained separate from actual command execution.
+
+Native evidence capture is inherently different from the earlier standalone-service harness: top-level logs and census alone cannot imply all per-child diagnostics or saved output probe/hash fields. Operator observations may exist only in CUA context. Any current limitations must be retained rather than hidden by a green process-exit line.
+
+The actual resolution dropdown visibly painted corrupted. The operator selected 720 through documented global keys and visibly checked it before the sole Apply; the underlying cause is unresolved. Successful functional publication does not erase this visual defect or establish clean UI quality. No numeric intermediate percentage was sampled, and reveal was verified in Thunar rather than player playback.
+
+The outer process retained D-Bus and SSL diagnostics, and the saved target encode diagnostic retains 499 bytes of familiar codec-option/x265 warnings. Complete native child stderr cannot be inferred from 42 closed children. Independent audit separated full collector evidence from truncated event summaries and retained the exact remaining limits.
+
+## 🔧 Adjustments Made
+
+### 1. Replace a disappearing optimization guard before running the authorizer
+
+- Shifted from: V1 assertion requiring nonoptimized Python, which itself would disappear under -O.
+- To: Explicit non-assert conditional RuntimeError before all gate logic, plus aware desktop timestamp age between -5 and 300 seconds.
+- Because: The guard must remain effective under the forbidden mode, and desktop state should not rely on an indefinitely old observation.
+- Consequence: V1 stays preserved/unexecuted; statically accepted V2 does not create a gate or launch. The frozen launcher and app source remain unchanged.
+
+### 2. Resolve a genuine desktop environment unknown with one bounded observation
+
+- Shifted from: Read-only preflight blocked on absent fresh DISPLAY proof in the executor namespace, despite a visible terminal.
+- To: One specifically allowed, visually verified read-only terminal printf using documented global Sky keys.
+- Because: Desktop and executor namespaces differ, and old scrollback is not current evidence.
+- Consequence: Actual :0 is recorded without native launch, fixture copy or profile creation; subsequent launch still requires all fresh gates.
+
+### 3. Correct terminal character case before execution rather than count a failed command
+
+- Shifted from: An unexecuted initial entry with lowercase letters.
+- To: Clear the line, type explicit Shift_L letter chords, verify the complete command and submit once.
+- Because: The intended environment variable/check had to match exactly before any shell action.
+- Consequence: One actual printf ran; no extra native attempt or app defect is inferred, and future picker input still requires its own observations.
+
+### 4. Use the visible resolution control’s keyboard selection after corrupted popup painting
+
+- Shifted from: A resolution dropdown popup that visibly rendered corrupted during the one actual journey.
+- To: Documented global 7+Return and explicit visible 720p verification before the sole Apply.
+- Because: The existing UI value needed to be unambiguous without hidden IPC/DOM mutation, source changes or a second attempt.
+- Consequence: The intended finite request proceeded once, but popup visual quality and root cause remain unresolved. Functional success is not clean visual QA.
+
+## ❌ Mistakes / Risks Noted
+
+### 1. An assertion-only optimization guard can disable its own protection
+
+- What happened or could happen: V1 used assert to forbid optimization although optimized Python removes assertions.
+- Actual impact: Independent static review caught this before authorizer execution; no V1 gate or launch occurred.
+- Potential impact: The later assert-based source/environment gates could be bypassed if a launcher were invoked under optimization without an effective outer rejection.
+- Correction / current status: V2 uses explicit non-assert raise and adds a fresh aware desktop timestamp bound; static review passed, with actual execution separately evidenced.
+- Failure Intelligence: Retain V1/V2 and review in this Session/evidence; a protective precondition must remain operative in the failure mode it blocks.
+
+### 2. Inferring fresh desktop state from another namespace or old terminal output
+
+- What happened or could happen: The executor lacked DISPLAY and did not see the desktop terminal, while old scrollback showed :0.
+- Actual impact: Initial preflight was honestly blocked; no native action occurred under that incomplete evidence.
+- Potential impact: A false ready state could launch into an unknown display/session or overlook competing activity.
+- Correction / current status: One allowed fresh printf established actual :0; current Sky observations and namespace limits remain recorded. Freshness is bounded only at authorization, not continuous.
+- Failure Intelligence: Preserve the blocked check and actual subsequent observation; do not generalize executor invisibility to all environments or historical scrollback to current state.
+
+### 3. Misclassifying an unexecuted input correction as an extra attempt
+
+- What happened or could happen: The first preflight entry used lowercase letters, then was cleared before Return.
+- Actual impact: No command ran until the corrected full string was visibly verified. Exactly one read-only printf is reported.
+- Potential impact: Inflated attempt counts or fictional app failures would obscure actual execution chronology and one-run scope.
+- Correction / current status: Original/corrected input sequence is explicitly separated from actual execution; no hidden fallback or per-window typing is claimed.
+- Failure Intelligence: Count submitted actions and observed results, not every transient terminal edit, while preserving meaningful operator mistakes.
+
+### 4. Treating process supervision as proof of publication or complete diagnostics
+
+- What happened or could happen: A zero exit/top-level stderr hash/census could be mistaken for a successful native output and complete child diagnostics.
+- Actual impact: The actual target has a complete retained 499-byte warning capture, four diagnostic contexts truncate, and 42 owned tool children close. Complete local collector/spools/telemetry support the audited narrow result, but no complete 42-child stderr census or independent full output probe exists.
+- Potential impact: Missing/truncated evidence, unpublished or wrong output and warning-bearing children could be hidden by an overbroad pass label.
+- Correction / current status: Actual UI, source/output identities, saved collector/service evidence, child diagnostic limits and independent audit were separately reconciled. No new decode is added under the audit.
+- Failure Intelligence: Keep process closure, UI observation, output identity, PCM/geometry acceptance and diagnostic completeness as distinct claims with their own limits.
+
+### 5. Treating the one-run gate as a hard runtime/storage safety cap
+
+- What happened or could happen: Thirty-minute SIGTERM supervision and 27 GiB/2 GiB point admission might be described as hard exit, per-child disk or active-write enforcement.
+- Actual impact: The plan explicitly has no hard child cap, per-child free-space guard, hard write cap or hard exit deadline; actual observed usage/closure remains to be recorded.
+- Potential impact: Unbounded shutdown waiting or excluded profile/cache/log growth could exceed an assumed cap.
+- Correction / current status: Operator major-action checks and supervisor pre/post checks retain their real scope; no force kill/retry/cleanup is silently substituted.
+- Failure Intelligence: Name controls as implemented, not as desirable guarantees. Report abort/failure as incomplete even when later identities match.
+
+### 6. A functionally completed encode could conceal an actual visual defect
+
+- What happened or could happen: The native resolution popup painted corrupted during request editing.
+- Actual impact: The operator could select 720 using documented global keys and visibly verify the field before one Apply; no hidden API or second encode was used.
+- Potential impact: Ambiguous options could mislead a person or prevent reliable editing in other environments, despite one successful selection.
+- Correction / current status: The defect is preserved with unknown cause and CUA-only visual evidence. No code fix, rerun or environment/security change is implied.
+- Failure Intelligence: Keep functional request verification separate from visual QA; investigate proportionately later without claiming the working keyboard selection repaired the popup.
+
+### 7. A post-close full hash could be misreported as campaign-time provenance
+
+- What happened or could happen: The first full output SHA was computed after close, unlike earlier standalone reports that retained original output hashes.
+- Actual impact: Current 586,866-byte output hash is known after the journey; earlier in-runprovenanceusesactual saved identity/events ratherthan thisfull hash.
+- Potential impact: Backdating thathash would overstatehistoricalintegrity or hide evidence-capturelimits.
+- Correction / current status: Preserve first-establishment timing and the completed independent saved-audit match without fresh decode. No general cryptographic chronology claim follows.
+- Failure Intelligence: State which facts were captured during execution and which were first established later; retain both without rewriting history.
+
+## 📍 Current Position
+
+**As of:** Final owning receipts dated 20:41:28.221555 UTC, after actual native closure, independent saved-output audit and lead 20:35:35.025527 UTC source release. 020 publication is pending; separate Full-copy source and popup-helper preparation are outside this evidence-only result.
+
+**Before this session:** 019's explicit developer resize workbench source was preserved and source-tested, with 164 focused passes and unchanged shared/broad failure limits. Accepted calibration and five-case standalone-service proof existed, but actual native resize UI/publication/reveal had not been demonstrated. The native helper was prepared with conditional GO only.
+
+**After this session:** One original-UI native journey on immutable e0b5d35 performed the explicit per-file range/720/Precision FLAC request, published the 586,866-byte output, revealed it in Thunar and closed normally with 42/42 owned tool children. Independent saved evidence supports 63 frames/101,184 samples and equal PCM, with full source coverage. The actual popup painting defect, 499-byte target warnings, four truncated contexts, post-close first output hash and missing independent full output probe remain recorded. All source/runtime/retained-evidence identities were reconciled before release; no app/test source changed.
+
+**Current standing:** Bounded functional native resize and reveal supported, not visual-clean/general native/product acceptance. The output identity and saved evidence are verified within their recorded limits, not a fresh independent decode/pixel-quality test. Native cancellation/relaunch, same-service recovery, player playback, generic geometry/audio/hardware performance and owner release acceptance are separate. Historical source/test failures and old Keep720 refusal remain unchanged.
+
+**Live owner / continuation anchor:** Lead owns native gate/source freeze/reconciliation and final coherent checkpoint; desktop worker owns only the bounded actual journey; independent auditor owns saved-output review; mirror owns preservation. Documentation owns the explicitly released Session-only prepend. Re-entry must use actual final owning records and exact source/audit identities, use the completed bounded result and its limitations rather than an outdated draft or planned successor.
+
+## 🔜 Next Steps
+
+1. **First precise re-entry: preserve the evidence-only five-path 020 checkpoint.** Responsible: lead, documentation and mirror. Verify unchanged final owning hashes, full prior Session suffix and exact outcome/audit/release/portable identities. Stage only Current, Session, execution, receipts and portable evidence; no production/test/media/private-state payload. Expected 556 files/twenty commits, then independently restore source/full history before further native work.
+2. Preserve exact prior Session/history and coherent actual outcome records through Git→independently restored Notion source/full history/unabridged native record→verified intended remote delta. Do not call local-only or uploaded-but-unrestored work backed up.
+3. **Advance the separately authorized isolated closed-factory Full-copy source slice under independent review.** Responsible: lead/source worker/reviewer. Keep copied-AAC packet/header/padding/timeline and nine-pass resource semantics separate from FLAC, retain legacy guards, and do not repin old reports or run media/capsule/UI/default activation under source-only authority. Actual integration/tests belong to a later source checkpoint.
+4. **Finish reviewing the separate popup diagnostic helper before any exact launch grant.** Responsible: lead/operator/reviewer after verified 020 restore. One inspection-only Prepare is required to reach a live draft, then unchanged Resolution/Audio open+Escape only; no value change/Apply/Start/target encode/reveal/player. Reconcile known fixed state/profile without clearing or raw private reads, disclose startup runtime/probe work and refresh desktop readiness.
+5. Retain broad release/performance/geometry/audio/other-cancellation/owner acceptance boundaries, non-HDR order, ArchiveCQ29/defaults, Windows corrections and benchmark pause. 1440p/4K remain within 0.7; actual Remux/seek work is a separate unfinished lane, not completed by this resize result. HDR expansion/packaging remain deferred.
+
+**Do not reopen / repeat:** Do not rerun the one-shot native test automatically; do not clear profile or attempt artifacts; do not use hidden UI channels, unsupported typing, fallback runtimes or security flags; do not repin old evidence; do not overwrite historical Session/correction records; do not call screenshot-only observations portable images or saved audit a re-decode.
+
+**Continuation boundary:** This record stops at the accepted narrow native outcome and evidence/PBS handoff before verified 020 commit/Notion/GitHub. It does not authorize another launch. Separate popup preparation/isolated Full-copy source may continue within their explicit scopes; any actual diagnostic launch, source integration or media qualification needs its own reviewed identity/gate/result and dated record.
+
+## ❓ Open Questions
+
+### What causes the Resolution popup overpainting, and does an exact bounded reproduction clarify it?
+
+- Known: Two CUA screenshots show unreadable open Resolution options while closed labels, adjacent UI and the Audio popup remain legible. Keyboard selection produced a verified 720 value. Static review found no concrete 019 code cause; unchanged editor/HTML/CSS does not prove an environment explanation.
+- Needed from: The separately prepared/reviewed inspection-only diagnostic on preserved source and known fixed state, with fresh desktop evidence and explicit one-run authorization if granted. No speculative retheme/GPU/security switch follows.
+- Blocks: Clean visual acceptance/root-cause claim, not preservation of the completed functional native result.
+
+### Which product-level qualities remain beyond a bounded native resize result?
+
+- Known: One fixed source/range/codec/preset/audio path cannot establish general scaler quality, all geometry, native throughput, same-session recovery, player playback or owner release acceptance.
+- Needed from: Later proportionate qualification and explicit product acceptance within the preserved scope.
+- Blocks: Broad product/native-performance claims, not preservation of the bounded actual outcome.
+
+### How will copied-AAC Full qualification establish priming/padding and packet authority without borrowing FLAC evidence?
+
+- Known: The successor is only an isolated closed-factory source assignment. Its design separates copied packet/header/padding/decoded-timeline and nine-pass resources from the current range/FLAC path; no real AAC qualification exists here.
+- Needed from: Independent source review and exact tests, then a separately reviewed fresh media/calibration/service sequence if later authorized.
+- Blocks: Any new Full-copy live capsule/service/UI claim, not the current resize evidence checkpoint.
+
+## 🧾 Session Outcome
+
+One actual native resize Journey A on exact 019 source completed initial inspection-only handling, ordinary explicit range/720/Precision FLAC editing, one publication, one genuine reveal and normal close. Independent retained-evidence audit and lead full reconciliation passed, supporting 63 frames/101,184 samples and equal streamed PCM for the bounded request. No production/test code changed.
+
+The Resolution popup painting defect remains unresolved despite verified keyboard selection; diagnostics, truncated summaries, absent independent output probe, post-close full hash timing, CUA-only observations and native/performance limits are explicit. Neither the later Full-copy source assignment nor popup diagnostic preparation is presented as completed qualification or another executed journey.
+
+The complete 824,546-byte previous Session must remain an exact suffix, and 019/earlier native/service proof must retain its original source/time/authority. Any 20th checkpoint publication remains an actual later receipt, not an inferred result of preparing this text.
+
+## 🔍 Confidence Level
+
+**High for the preserved 019 source and recorded preparation correction.** Exact source/full-history/native-readable/remote verification is retained; V1's disappearing optimization guard was statically corrected and preserved before execution.
+
+**High for the narrow observed desktop preflight, bounded in time/scope.** The ready receipt records one verified printf with actual :0, not a launch or picker/editor result; namespace, screenshot-only and future-user-activity limits remain explicit.
+
+**High for the bounded saved functional result and source/evidence identities.** The actual one-run gate/attempt, request, full source/input evidence, 63-frame/101,184-sample PCM equality, publication/current output hash, 42/42 owned closure and 553 source reconciliation are independently supported. Hash establishment timing, journal ctime difference and capture scope remain explicit.
+
+**Bounded for actual visible behavior.** The operator observed original UI states, the corrupted popup, verified 720 label and Thunar selection; these are CUA-only observations rather than independently replayed portable screenshots. Logged security flags are not independent OS sandbox-enforcement proof.
+
+**Unresolved for popup cause and clean visual quality.** Unchanged source/editor/style narrows speculative regression attribution but does not prove a particular environment/compositor cause. No corrective code or diagnostic relaunch has been accepted here.
+
+**Not established for broad product/performance acceptance.** Exact assets and one finite functional journey cannot establish general quality, hardware behavior, unsupported routes or release acceptance.
+
+**Why:** Confidence must be divided by actual source/preservation, gate, process/UI and saved-output evidence, with failure/correction chronology retained rather than collapsed into a pass label.
+
+**Not higher because:** Native captures may omit complete child stderr or a separately saved output probe, observations can remain CUA-only, and no independent fresh decode/general quality/performance experiment is authorized by this finite proof.
+
+---
+
 # 📘 Session: November 17, 2026 — FFmpeg Encoder — Add an explicit developer resize workbench route without changing defaults or claiming native acceptance
 
 ## 🤖 Models, Effort, Roles and Provenance

@@ -1,0 +1,1496 @@
+{
+  "schema": "ffmpeg-native-resize-archival-portable-v1",
+  "purpose": "Exact structured saved native outcome/audit/observation/reconciliation with known root prefixes removed. Archival evidence only, never runtime admission or raw-artifact restoration.",
+  "testedCommit": "e0b5d35055afaeff841bd3fe695c0400e6e7b2d5",
+  "originals": [
+    {
+      "role": "journey",
+      "filename": "JOURNEY_OUTCOME.json",
+      "bytes": 12357,
+      "sha256": "742eb9b3e9f57537d90c0211c34603fc7bbf6bc7c7a6b1829700c9ce9d047b25"
+    },
+    {
+      "role": "independentAudit",
+      "filename": "INDEPENDENT_NATIVE_AUDIT.json",
+      "bytes": 38853,
+      "sha256": "66855eb63660439143d40c14c9663f7b03fff2181854534678a70158148fd96f"
+    },
+    {
+      "role": "popupObservation",
+      "filename": "RESOLUTION_POPUP_OBSERVATION.json",
+      "bytes": 1909,
+      "sha256": "f6c9cd476e5666765091d03b2529a7d25a479e9a798f0368389743e2bbb0fe0b"
+    },
+    {
+      "role": "leadRelease",
+      "filename": "LEAD_RELEASE.json",
+      "bytes": 2304,
+      "sha256": "fc2e527faa2355a0cb32b1f37cd05b149c3322aa266f575f4385ca0bfb262956"
+    }
+  ],
+  "transform": {
+    "kind": "Known absolute root prefix-only replacements in string values; all other keys/types/values unchanged.",
+    "count": 13,
+    "byAlias": {
+      "proof://": 5,
+      "project://": 6,
+      "support://": 2
+    },
+    "inverseMappingIncluded": false,
+    "originalRawReportsRestorable": false
+  },
+  "authority": {
+    "runtimeAdmission": false,
+    "factoryReceiptSubstitute": false,
+    "nativeGeneralQualification": false,
+    "productionActivation": false,
+    "visualCleanAcceptance": false,
+    "sameServiceRecovery": false
+  },
+  "limits": [
+    "One visible range/720/Precision FLAC native publication and reveal; no player/cancellation/relaunch/Full or other geometry.",
+    "Full output hash first established after close; no independently retained full output probe or fresh re-decode. Geometry supported by saved service validation and collector acceptance.",
+    "Resolution popup was unreadable/overpainted; keyboard720 selected and visibly checked. Cause unknown, unchanged editor/CSS does not prove an environment cause. Screenshots remain CUA-only.",
+    "Only owned42-tool census, not OS-wide process proof; target499-byte warnings retained but no complete42-child stderr census. Four event contexts truncated; full collector receipt retained locally.",
+    "Measured actual event epochs align with this outer interval; do not inherit an earlier two-hour discrepancy.432.025-second manual journey is not encode timing.",
+    "Raw media/probes/spools/logs, runtime libraries/binaries, approvals, profile/cache/token/preferences stores and private inverse mappings are excluded. This structured archive cannot replace them."
+  ],
+  "reports": {
+    "journey": {
+      "status": "Observed native resize publication, reveal and normal close; independent saved audit pending",
+      "sourceCommit": "e0b5d35055afaeff841bd3fe695c0400e6e7b2d5",
+      "sourceFilesPostChecked": 553,
+      "checkedAtUtc": "2026-11-17T20:31:35.794202+00:00",
+      "launchCount": 1,
+      "pickerCount": {
+        "input": 1,
+        "output": 1
+      },
+      "initialFull": {
+        "status": "Unsupported",
+        "checkboxDisabled": true,
+        "startDisabled": true,
+        "notice": "Inspection only: choose a per-file range,720p and precision FLAC; Full not qualified"
+      },
+      "request": {
+        "startUs": 613000,
+        "endUs": 2721000,
+        "resolution": "720",
+        "audioPolicy": "precision-flac",
+        "profileId": "h265-cpu",
+        "preset": "slow",
+        "quality": 25
+      },
+      "applyCount": 1,
+      "startCount": 1,
+      "observedStates": [
+        "Waiting/In progress",
+        "Validating output/Processing",
+        "Completed/Succeeded"
+      ],
+      "numericEncodingProgressObserved": false,
+      "reveal": {
+        "count": 1,
+        "feedback": "Show-in-folder request sent to your file manager.",
+        "fileManager": "Thunar",
+        "selectedName": "native-resize-fixture_H265-CPU.mkv",
+        "selectedBytes": 586866,
+        "playerOpened": false
+      },
+      "output": {
+        "path": "proof://owned-output/native-resize-fixture_H265-CPU.mkv",
+        "bytes": 586866,
+        "sha256": "07230e60b600505cb38f51df2cee2c1a7364baccb20a3224796b316222e07006",
+        "hashTiming": "First full output hash established after native close, not during encode"
+      },
+      "outer": {
+        "exitCode": 0,
+        "abortRequested": false,
+        "failure": null,
+        "postCloseIdentitiesVerified": true,
+        "startedUTC": "2026-11-17T20:23:34.501853+00:00",
+        "endedUTC": "2026-11-17T20:30:46.526855+00:00",
+        "monotonicElapsedSeconds": 432.0250262020054,
+        "stdoutSha256": "c160855073bd7d3687c131ef1d6bf69a8ea6dac14644960408949b829a6dd819",
+        "stderrSha256": "694b81a2d09de2e29d35af9aa1ece1e5bb894ac859778cdd97ae7c3174b54ac0",
+        "qualification": "Process closure receipt only; UI and publication outcome require observed evidence and independent saved audit."
+      },
+      "census": {
+        "spawned": 42,
+        "closed": 42,
+        "live": 0,
+        "maximum": 1,
+        "failures": 0
+      },
+      "evidenceFiles": [
+        {
+          "path": "diagnostics-v1/events/0998a892-6fc3-4638-baed-2703c4b32894.json",
+          "bytes": 824,
+          "sha256": "ffaddb3eb06e9287494cb59c51dc70f790c3f649f2a2506d498758a2dc17a505"
+        },
+        {
+          "path": "diagnostics-v1/events/1708a2e8-a3e1-4a6a-9c51-4804f2eb3ffd.json",
+          "bytes": 718,
+          "sha256": "f5d751367615e81edcb17075efe21b491fa7de93c34babc1a219e3ffe0a6ff8f"
+        },
+        {
+          "path": "diagnostics-v1/events/1acd947f-8eae-4d8e-b3ce-548fba5f2ebd.json",
+          "bytes": 388,
+          "sha256": "fbeecc7fbfc14ae1c083ffe6ad6bebacfbb7d3f0157df923dbf81a56118ee21c"
+        },
+        {
+          "path": "diagnostics-v1/events/2c00d6b6-5149-4906-aea7-4254d5bdd322.json",
+          "bytes": 1997,
+          "sha256": "aa156144612ba2d946f4bf5897363045b422102099d44a4705d700872cfa7cbd"
+        },
+        {
+          "path": "diagnostics-v1/events/4a13762f-ac00-4578-b19c-d01a619f0b60.json",
+          "bytes": 501,
+          "sha256": "cfa35fe45167dddfd37146201b66ce950d046f2f750d559bce8f258d0b4692f0"
+        },
+        {
+          "path": "diagnostics-v1/events/4a55e1bf-408a-4abd-bb8a-45213c4cfaa2.json",
+          "bytes": 533,
+          "sha256": "1c392a1e0f05e87cd7b514e1d8428525234e75557c062d7682d37f1c6b023487"
+        },
+        {
+          "path": "diagnostics-v1/events/56af7c77-7716-4731-bf7b-ca66c0328b96.json",
+          "bytes": 577,
+          "sha256": "aed106db5725a34a2435f7baa82bb6ed05493309e5cfa0bdc6143500fae58e21"
+        },
+        {
+          "path": "diagnostics-v1/events/a0562eda-0493-432d-95d2-f5a86487e502.json",
+          "bytes": 816,
+          "sha256": "ccebd3617c3bdd8a4ef930c80a5b541bdb31132fa6375f89259df9cd44c96acc"
+        },
+        {
+          "path": "diagnostics-v1/events/a9fa5d9c-98e6-4f7a-800f-86447d5a8671.json",
+          "bytes": 1880,
+          "sha256": "961c0e3dbb0bb0c46b9536a8b2152448f66221c7993ab514f7f7bc503c5399c6"
+        },
+        {
+          "path": "diagnostics-v1/events/ac8177fe-582a-41e7-8b07-bbc4c12213ab.json",
+          "bytes": 1737,
+          "sha256": "944d8e0e1e7a6376b38327cd557239658b182ec81f9a880bed10b26926ed7f4c"
+        },
+        {
+          "path": "diagnostics-v1/events/acac2857-21d5-4cf1-8615-504347caf698.json",
+          "bytes": 480,
+          "sha256": "2b52567fa6f77237e20db137486feaf7111c4e044797459174eea7eeb1fbbcb4"
+        },
+        {
+          "path": "diagnostics-v1/events/b55d55a6-c986-4f93-80bc-fe9011428c75.json",
+          "bytes": 499,
+          "sha256": "25e0696e5f89c4198568f8fb1a4ddd34b79d686c0f65e1d749cb4818215af583"
+        },
+        {
+          "path": "diagnostics-v1/events/c35602fd-b66a-4e07-a318-4aa37b7f8722.json",
+          "bytes": 775,
+          "sha256": "508f237532ddf6bfc870e3c2feb492d0bf7a016e21980965d6c43046e00b4353"
+        },
+        {
+          "path": "diagnostics-v1/events/c7c1fe3e-7d71-4989-b930-46c39775e472.json",
+          "bytes": 5513,
+          "sha256": "d7c80d4fedc3faf4cd2b1120130cbace1c0beb98c76b070ad5cb37e69fff3bbd"
+        },
+        {
+          "path": "diagnostics-v1/events/ce04ef21-c48c-4b31-8b4e-c0ca7f83a79d.json",
+          "bytes": 1197,
+          "sha256": "cae6c8f38373b76ca7e23b35651955a59baeb56e24e1ffd6fe7ad862bcb26e99"
+        },
+        {
+          "path": "diagnostics-v1/events/cf7d24c4-7586-4faa-a6cf-2870d858cdcd.json",
+          "bytes": 1539,
+          "sha256": "611bc6fa42fe07fa18668b0ebb331925b5466b5f45e71b13454a7cbc5c3d2ad4"
+        },
+        {
+          "path": "diagnostics-v1/events/d6c8481e-344d-4db8-a054-63bfcda92122.json",
+          "bytes": 464,
+          "sha256": "4ad3688afdb5d03cb94e5e085dc7760072418dcdb565d96a9f7964e623772913"
+        },
+        {
+          "path": "diagnostics-v1/events/e5a9e25d-1306-4c2b-a6a7-7fe6fcb62c21.json",
+          "bytes": 11843,
+          "sha256": "ed3b916826b8986db3a05ab547d31d0e19b299a28abc2a201094e2c1dda78f7a"
+        },
+        {
+          "path": "diagnostics-v1/events/ea61664d-a2fc-423b-91f5-476a1a7f2e83.json",
+          "bytes": 3011,
+          "sha256": "b83beda8bfba90e79961865699f5db7f7e40c454e6a053462a431d796e9b4af9"
+        },
+        {
+          "path": "diagnostics-v1/events/ecb94550-3a7a-4835-a0be-cdf5d39efa4f.json",
+          "bytes": 1997,
+          "sha256": "292ccf5f588cf1f3cef610d80cf699742673d2985d554cca9542a9f36fb20ee2"
+        },
+        {
+          "path": "diagnostics-v1/events/fd17a917-c425-43ef-840d-e7e0f5dcedf4.json",
+          "bytes": 361,
+          "sha256": "43e6db6a1a26596462a8be6f678fe093e27f71989d7638d9e1e277ea4e5b55fc"
+        },
+        {
+          "path": "diagnostics-v1/stderr/1708a2e8-a3e1-4a6a-9c51-4804f2eb3ffd.txt",
+          "bytes": 499,
+          "sha256": "a65e44000a74ca58726d55b1419ac126e924738e039d83865faf7fc9f390e65d"
+        },
+        {
+          "path": "operation-evidence/.storage-ledger.json",
+          "bytes": 1572,
+          "sha256": "39d77f23b69eee6bc7b9c4b97a7169c45426e8b75f55bf554e7d8835e75c98fc"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/encoder-input-receipt.json",
+          "bytes": 6289,
+          "sha256": "f22b24be991b6897cc8d8f129637bfdf48bff80e16fc8d260efb886a716f257f"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/encoder-telemetry-QlS0Ts/stream-0.tsv",
+          "bytes": 2866,
+          "sha256": "1ab0798ab5afca699909d5fee8ab94561f80970fe3233139969880f83e0b2e75"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/encoder-telemetry-QlS0Ts/stream-1.tsv",
+          "bytes": 21230,
+          "sha256": "f0c480267f60cf357085aaedea558f52382f3da2b955a17d0b5644aa0ac32044"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/operation-evidence-h6RM3e/child-1.json",
+          "bytes": 1280,
+          "sha256": "ad8ee10d0b38967fa77f27691506de55703f52e559266583ae4d5421a2fba8c7"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/operation-evidence-h6RM3e/child-2.json",
+          "bytes": 1239,
+          "sha256": "216487ea59e4b03088f87b8fc0e0bf0b4d33c54459e5dbaee4048373673f69a7"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/operation-evidence-h6RM3e/child-3.json",
+          "bytes": 1232,
+          "sha256": "b6ba6e3b49c78fd5465b614372e1e765db73006cda464708ce3068ffa262a2f8"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/operation-evidence-h6RM3e/child-4.json",
+          "bytes": 1242,
+          "sha256": "2ef9ca68719e9ab019fb17102aad0101f79669b33f52c742f7e5664842018aba"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/operation-evidence-h6RM3e/child-5.json",
+          "bytes": 1113,
+          "sha256": "9e027063c94f53497cc542e86fb6b7f56a277d31cc9a9a30d7255ce936ad11ac"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/operation-evidence-h6RM3e/child-6.json",
+          "bytes": 1064,
+          "sha256": "adf2a01b336571ff7e66ce98df7fff96f2b84d8518e27393464a808f8b5747aa"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/operation-evidence-h6RM3e/child-7.json",
+          "bytes": 1073,
+          "sha256": "f40555bd3ed66b810fbc0610330a918d6846cc76f8a19205d9d223a5e7fa93ac"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/operation-evidence-h6RM3e/output-audio-1.jsonl",
+          "bytes": 24316,
+          "sha256": "6a68c090876b5903290f46e43b33871c1ce1dc375be2593331a5e120227ad7af"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/operation-evidence-h6RM3e/receipt.json",
+          "bytes": 16963,
+          "sha256": "ef9c170b7a6ea9f0e05408e1181a77c97898001921c3d768c1ced97a3e27fa7a"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/operation-evidence-h6RM3e/selected-audio-1.jsonl",
+          "bytes": 10945,
+          "sha256": "f329c03b2acc5de832638c9f1435b606abdbe2b950fdde9e72fcbefdb7b06cee"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/operation-evidence-h6RM3e/selected-video.jsonl",
+          "bytes": 4409,
+          "sha256": "12d8692546152e41ae5704254b9b26d98ed4e41ab0ec858265f3b4a9eba4ecde"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/operation-evidence-h6RM3e/start.json",
+          "bytes": 2270,
+          "sha256": "e23da46152676430a4f2819f3f30028fc0c0a7589d2064ed17050730f17918c7"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/storage-final.json",
+          "bytes": 879,
+          "sha256": "8a855eeef6786c9991cf3ec55f1db78d15b3fc40e5847fd1970902f1cd42a076"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/storage-reservation.json",
+          "bytes": 175,
+          "sha256": "89501b4c1b2486d7eb0f5134ba51c32f59e96b5e1aca4fa3b0961c80ad3fe64a"
+        },
+        {
+          "path": "provenance-v1/f14fa62f-fc35-424c-8112-633c1f0c981c.intent.json",
+          "bytes": 1295,
+          "sha256": "051cb33d0f47cc57cf4080c1d45588fbc8899828d2fb13b5a166b2e095980d9e"
+        },
+        {
+          "path": "provenance-v1/f14fa62f-fc35-424c-8112-633c1f0c981c.published.json",
+          "bytes": 669,
+          "sha256": "4c7c36b8060e94bece1c47a400c4697e121fffbb1619f277f4afd203aac3efbc"
+        }
+      ],
+      "pointStorageChecks": [
+        {
+          "stage": "beforePrepare",
+          "free": 59160829952,
+          "owned": 6672071
+        },
+        {
+          "stage": "beforeApply",
+          "free": 59160776704,
+          "owned": 6672071
+        },
+        {
+          "stage": "beforeStart",
+          "free": 59160764416,
+          "owned": 6672071
+        }
+      ],
+      "screenshots": "CUA transcript only; no standalone screenshots claimed",
+      "limitations": [
+        "No extra ffprobe/decode/runtime invocation after native journey; retained collector evidence needs independent audit.",
+        "No native cancellation/relaunch/same-service proof or player playback.",
+        "No numeric intermediate encode progress sampled.",
+        "Resolution popup rendering was visually corrupted; global7+Return selected720p, visibly verified before Apply.",
+        "Per-child complete stderr not guaranteed by native observer; top-level fullstderr and native diagnostic artifacts retained, warnings not suppressed.",
+        "Electron profile/cache/token/preferences stores excluded from retained evidence and not read.",
+        "Source UI/native evidence applies only to this fixed one-range input and exact checkpoint/runtime; not production activation/visual scaler quality."
+      ]
+    },
+    "independentAudit": {
+      "disposition": "PASS bounded native publication/reveal saved evidence, WITH unresolved visual popup defect and diagnostic completeness limits. Recommend parent release source/docs freeze after reconciliation, not visual-clean/native-general acceptance.",
+      "commit": "e0b5d35055afaeff841bd3fe695c0400e6e7b2d5",
+      "sourceFilesVerified": 553,
+      "outcomeSHA256": "742eb9b3e9f57537d90c0211c34603fc7bbf6bc7c7a6b1829700c9ce9d047b25",
+      "helperHashes": {
+        "APPROVED_JOURNEY_A.json": "9659ea6cd913e635abf9829f3a96b20cec9d93dbb0e7deba12019d8c9f9c51a4",
+        "launch-resize.py": "456f0c52a1cad223dba50dffa47023aabb302c5b95cb35be79ca714a3fd4775b",
+        "NATIVE_PLAN.json": "f83c0dae92d957a7736c0ef233af83cfb35ed9eb9a28741d6561bec8e6641ca3",
+        "PLAN.md": "a00e4f2a29ea4a440f28d0b12ed5d884c68a8edf22c108bfd9693add847d2bc2",
+        "OUTER_COMPLETION.json": "501d92fa4a6e30627828fbf028892a2b35eca9864e21e4c466c6751160e63199",
+        "app.stdout.log": "c160855073bd7d3687c131ef1d6bf69a8ea6dac14644960408949b829a6dd819",
+        "app.stderr.log": "694b81a2d09de2e29d35af9aa1ece1e5bb894ac859778cdd97ae7c3174b54ac0"
+      },
+      "identitiesVerified": [
+        {
+          "path": "project://linux-blue/artifacts/candidate-runtime-1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9/ffmpeg",
+          "bytes": 46175848,
+          "sha256": "ae5b2e8b48ad0e9b51b89ebab000ebcfc0b76a09b8cb80c88e18fddcc5d9e8ba"
+        },
+        {
+          "path": "project://linux-blue/artifacts/candidate-runtime-1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9/ffprobe",
+          "bytes": 45962728,
+          "sha256": "923dab8640da8804c445418b6e2efe4b395665bdb9d4cfc84f6a244ed0fb156b"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libm.so.6",
+          "bytes": 977112,
+          "sha256": "6d567d53e895273ca14a1f9dc164fc6c8d39aed2f60aa46a733c2784228915f3"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libdav1d.so.7.0.0",
+          "bytes": 1746880,
+          "sha256": "1d7a4182344230d5f4cf9f58bf4485da2801c411e9c9fd6d8471460c75ae8fbf"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libSvtAv1Enc.so.2.3.0",
+          "bytes": 7984736,
+          "sha256": "48713dd9caf08909462bad0274cc9d9b249ccf836a9be72fd731f8d8096c4d35"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libgcc_s.so.1",
+          "bytes": 182856,
+          "sha256": "30c61ab012a4241bed033725a09b61f5fdd3bb7df95ee852d0b096520524c7af"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.33",
+          "bytes": 2497768,
+          "sha256": "972bb2a18b71140dab0240f8a1f68ab3fb1d56bcd4c4f824a91b70888faf5a00"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "bytes": 1995216,
+          "sha256": "9792e3cbb541c8f44c7acf5f14f4022ea62998ecc787d326bed4d8b6547dfd92"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+          "bytes": 225672,
+          "sha256": "c8438e4fde1934e61c88311633f00949ff645d5c04cdb8671fa3d78164d2f307"
+        },
+        {
+          "path": "support://electron-44.7.0-setup/node_modules/electron/dist/electron",
+          "bytes": 228605256,
+          "sha256": "10a14d05c6ff4f94075cfb3eeb6ed6571be33ebcc08cbd675b5ce9ff84706564"
+        },
+        {
+          "path": "project://linux-blue/artifacts/candidate-resize1080to720-calibration-3JE2RQ/report.json",
+          "bytes": 125887,
+          "sha256": "3fc9a4678890da318728f2c8b44ac7c6b4fe345ccd271b7f1064928f63eb1317"
+        },
+        {
+          "path": "support://resize-normal-service-proof-20261117/owned-proof-zSa57P/fresh-input/fresh-vflip-997.mov",
+          "bytes": 6672071,
+          "sha256": "a45ca66b173cb60c4ee4d34d8c5880df174ab8ee0c2b9107bfe268a6ff4c6fc2"
+        }
+      ],
+      "retainedFiles": [
+        {
+          "path": "diagnostics-v1/events/0998a892-6fc3-4638-baed-2703c4b32894.json",
+          "bytes": 824,
+          "sha256": "ffaddb3eb06e9287494cb59c51dc70f790c3f649f2a2506d498758a2dc17a505"
+        },
+        {
+          "path": "diagnostics-v1/events/1708a2e8-a3e1-4a6a-9c51-4804f2eb3ffd.json",
+          "bytes": 718,
+          "sha256": "f5d751367615e81edcb17075efe21b491fa7de93c34babc1a219e3ffe0a6ff8f"
+        },
+        {
+          "path": "diagnostics-v1/events/1acd947f-8eae-4d8e-b3ce-548fba5f2ebd.json",
+          "bytes": 388,
+          "sha256": "fbeecc7fbfc14ae1c083ffe6ad6bebacfbb7d3f0157df923dbf81a56118ee21c"
+        },
+        {
+          "path": "diagnostics-v1/events/2c00d6b6-5149-4906-aea7-4254d5bdd322.json",
+          "bytes": 1997,
+          "sha256": "aa156144612ba2d946f4bf5897363045b422102099d44a4705d700872cfa7cbd"
+        },
+        {
+          "path": "diagnostics-v1/events/4a13762f-ac00-4578-b19c-d01a619f0b60.json",
+          "bytes": 501,
+          "sha256": "cfa35fe45167dddfd37146201b66ce950d046f2f750d559bce8f258d0b4692f0"
+        },
+        {
+          "path": "diagnostics-v1/events/4a55e1bf-408a-4abd-bb8a-45213c4cfaa2.json",
+          "bytes": 533,
+          "sha256": "1c392a1e0f05e87cd7b514e1d8428525234e75557c062d7682d37f1c6b023487"
+        },
+        {
+          "path": "diagnostics-v1/events/56af7c77-7716-4731-bf7b-ca66c0328b96.json",
+          "bytes": 577,
+          "sha256": "aed106db5725a34a2435f7baa82bb6ed05493309e5cfa0bdc6143500fae58e21"
+        },
+        {
+          "path": "diagnostics-v1/events/a0562eda-0493-432d-95d2-f5a86487e502.json",
+          "bytes": 816,
+          "sha256": "ccebd3617c3bdd8a4ef930c80a5b541bdb31132fa6375f89259df9cd44c96acc"
+        },
+        {
+          "path": "diagnostics-v1/events/a9fa5d9c-98e6-4f7a-800f-86447d5a8671.json",
+          "bytes": 1880,
+          "sha256": "961c0e3dbb0bb0c46b9536a8b2152448f66221c7993ab514f7f7bc503c5399c6"
+        },
+        {
+          "path": "diagnostics-v1/events/ac8177fe-582a-41e7-8b07-bbc4c12213ab.json",
+          "bytes": 1737,
+          "sha256": "944d8e0e1e7a6376b38327cd557239658b182ec81f9a880bed10b26926ed7f4c"
+        },
+        {
+          "path": "diagnostics-v1/events/acac2857-21d5-4cf1-8615-504347caf698.json",
+          "bytes": 480,
+          "sha256": "2b52567fa6f77237e20db137486feaf7111c4e044797459174eea7eeb1fbbcb4"
+        },
+        {
+          "path": "diagnostics-v1/events/b55d55a6-c986-4f93-80bc-fe9011428c75.json",
+          "bytes": 499,
+          "sha256": "25e0696e5f89c4198568f8fb1a4ddd34b79d686c0f65e1d749cb4818215af583"
+        },
+        {
+          "path": "diagnostics-v1/events/c35602fd-b66a-4e07-a318-4aa37b7f8722.json",
+          "bytes": 775,
+          "sha256": "508f237532ddf6bfc870e3c2feb492d0bf7a016e21980965d6c43046e00b4353"
+        },
+        {
+          "path": "diagnostics-v1/events/c7c1fe3e-7d71-4989-b930-46c39775e472.json",
+          "bytes": 5513,
+          "sha256": "d7c80d4fedc3faf4cd2b1120130cbace1c0beb98c76b070ad5cb37e69fff3bbd"
+        },
+        {
+          "path": "diagnostics-v1/events/ce04ef21-c48c-4b31-8b4e-c0ca7f83a79d.json",
+          "bytes": 1197,
+          "sha256": "cae6c8f38373b76ca7e23b35651955a59baeb56e24e1ffd6fe7ad862bcb26e99"
+        },
+        {
+          "path": "diagnostics-v1/events/cf7d24c4-7586-4faa-a6cf-2870d858cdcd.json",
+          "bytes": 1539,
+          "sha256": "611bc6fa42fe07fa18668b0ebb331925b5466b5f45e71b13454a7cbc5c3d2ad4"
+        },
+        {
+          "path": "diagnostics-v1/events/d6c8481e-344d-4db8-a054-63bfcda92122.json",
+          "bytes": 464,
+          "sha256": "4ad3688afdb5d03cb94e5e085dc7760072418dcdb565d96a9f7964e623772913"
+        },
+        {
+          "path": "diagnostics-v1/events/e5a9e25d-1306-4c2b-a6a7-7fe6fcb62c21.json",
+          "bytes": 11843,
+          "sha256": "ed3b916826b8986db3a05ab547d31d0e19b299a28abc2a201094e2c1dda78f7a"
+        },
+        {
+          "path": "diagnostics-v1/events/ea61664d-a2fc-423b-91f5-476a1a7f2e83.json",
+          "bytes": 3011,
+          "sha256": "b83beda8bfba90e79961865699f5db7f7e40c454e6a053462a431d796e9b4af9"
+        },
+        {
+          "path": "diagnostics-v1/events/ecb94550-3a7a-4835-a0be-cdf5d39efa4f.json",
+          "bytes": 1997,
+          "sha256": "292ccf5f588cf1f3cef610d80cf699742673d2985d554cca9542a9f36fb20ee2"
+        },
+        {
+          "path": "diagnostics-v1/events/fd17a917-c425-43ef-840d-e7e0f5dcedf4.json",
+          "bytes": 361,
+          "sha256": "43e6db6a1a26596462a8be6f678fe093e27f71989d7638d9e1e277ea4e5b55fc"
+        },
+        {
+          "path": "diagnostics-v1/stderr/1708a2e8-a3e1-4a6a-9c51-4804f2eb3ffd.txt",
+          "bytes": 499,
+          "sha256": "a65e44000a74ca58726d55b1419ac126e924738e039d83865faf7fc9f390e65d"
+        },
+        {
+          "path": "operation-evidence/.storage-ledger.json",
+          "bytes": 1572,
+          "sha256": "39d77f23b69eee6bc7b9c4b97a7169c45426e8b75f55bf554e7d8835e75c98fc"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/encoder-input-receipt.json",
+          "bytes": 6289,
+          "sha256": "f22b24be991b6897cc8d8f129637bfdf48bff80e16fc8d260efb886a716f257f"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/encoder-telemetry-QlS0Ts/stream-0.tsv",
+          "bytes": 2866,
+          "sha256": "1ab0798ab5afca699909d5fee8ab94561f80970fe3233139969880f83e0b2e75"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/encoder-telemetry-QlS0Ts/stream-1.tsv",
+          "bytes": 21230,
+          "sha256": "f0c480267f60cf357085aaedea558f52382f3da2b955a17d0b5644aa0ac32044"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/operation-evidence-h6RM3e/child-1.json",
+          "bytes": 1280,
+          "sha256": "ad8ee10d0b38967fa77f27691506de55703f52e559266583ae4d5421a2fba8c7"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/operation-evidence-h6RM3e/child-2.json",
+          "bytes": 1239,
+          "sha256": "216487ea59e4b03088f87b8fc0e0bf0b4d33c54459e5dbaee4048373673f69a7"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/operation-evidence-h6RM3e/child-3.json",
+          "bytes": 1232,
+          "sha256": "b6ba6e3b49c78fd5465b614372e1e765db73006cda464708ce3068ffa262a2f8"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/operation-evidence-h6RM3e/child-4.json",
+          "bytes": 1242,
+          "sha256": "2ef9ca68719e9ab019fb17102aad0101f79669b33f52c742f7e5664842018aba"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/operation-evidence-h6RM3e/child-5.json",
+          "bytes": 1113,
+          "sha256": "9e027063c94f53497cc542e86fb6b7f56a277d31cc9a9a30d7255ce936ad11ac"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/operation-evidence-h6RM3e/child-6.json",
+          "bytes": 1064,
+          "sha256": "adf2a01b336571ff7e66ce98df7fff96f2b84d8518e27393464a808f8b5747aa"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/operation-evidence-h6RM3e/child-7.json",
+          "bytes": 1073,
+          "sha256": "f40555bd3ed66b810fbc0610330a918d6846cc76f8a19205d9d223a5e7fa93ac"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/operation-evidence-h6RM3e/output-audio-1.jsonl",
+          "bytes": 24316,
+          "sha256": "6a68c090876b5903290f46e43b33871c1ce1dc375be2593331a5e120227ad7af"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/operation-evidence-h6RM3e/receipt.json",
+          "bytes": 16963,
+          "sha256": "ef9c170b7a6ea9f0e05408e1181a77c97898001921c3d768c1ced97a3e27fa7a"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/operation-evidence-h6RM3e/selected-audio-1.jsonl",
+          "bytes": 10945,
+          "sha256": "f329c03b2acc5de832638c9f1435b606abdbe2b950fdde9e72fcbefdb7b06cee"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/operation-evidence-h6RM3e/selected-video.jsonl",
+          "bytes": 4409,
+          "sha256": "12d8692546152e41ae5704254b9b26d98ed4e41ab0ec858265f3b4a9eba4ecde"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/operation-evidence-h6RM3e/start.json",
+          "bytes": 2270,
+          "sha256": "e23da46152676430a4f2819f3f30028fc0c0a7589d2064ed17050730f17918c7"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/storage-final.json",
+          "bytes": 879,
+          "sha256": "8a855eeef6786c9991cf3ec55f1db78d15b3fc40e5847fd1970902f1cd42a076"
+        },
+        {
+          "path": "operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/storage-reservation.json",
+          "bytes": 175,
+          "sha256": "89501b4c1b2486d7eb0f5134ba51c32f59e96b5e1aca4fa3b0961c80ad3fe64a"
+        },
+        {
+          "path": "provenance-v1/f14fa62f-fc35-424c-8112-633c1f0c981c.intent.json",
+          "bytes": 1295,
+          "sha256": "051cb33d0f47cc57cf4080c1d45588fbc8899828d2fb13b5a166b2e095980d9e"
+        },
+        {
+          "path": "provenance-v1/f14fa62f-fc35-424c-8112-633c1f0c981c.published.json",
+          "bytes": 669,
+          "sha256": "4c7c36b8060e94bece1c47a400c4697e121fffbb1619f277f4afd203aac3efbc"
+        }
+      ],
+      "runtimeReady": {
+        "electron": "44.7.0",
+        "runtimeChoice": "9.0.2-resize-candidate",
+        "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+        "mode": "developer-resize-range",
+        "qualifiedFamilies": [],
+        "remuxAvailable": false,
+        "sandbox": true,
+        "contextIsolation": true,
+        "nodeIntegration": false,
+        "originalUi": true,
+        "originalPreload": true
+      },
+      "ownedCensus": {
+        "spawned": 42,
+        "closed": 42,
+        "live": 0,
+        "maximum": 1,
+        "failures": 0
+      },
+      "session": {
+        "id": "9924dabd-6a77-47e1-bb08-bbad3ec721b4",
+        "events": 21,
+        "eventReasons": [
+          "SESSION_STARTED",
+          "CAPABILITY_STARTED",
+          "RUNTIME_IDENTIFIED",
+          "CAPABILITY_FINISHED",
+          "PROVENANCE_RECOVERY_FINISHED",
+          "PREPARATION_STARTED",
+          "FILE_INSPECTED",
+          "PREPARATION_FINISHED",
+          "DRAFT_REPREPARATION_STARTED",
+          "FILE_INSPECTED",
+          "DRAFT_REPREPARATION_FINISHED",
+          "ENCODE_STARTED",
+          "ENCODE_CLOSED",
+          "OPERATION_EVIDENCE_COLLECTED",
+          "OUTPUT_CHECKED",
+          "SOURCE_ASSESSED",
+          "OUTPUT_PUBLISHED",
+          "JOB_DISPOSITION",
+          "BATCH_FINISHED",
+          "OUTPUT_ACTION_DISPATCHED",
+          "SESSION_ENDED"
+        ]
+      },
+      "fullInspection": {
+        "id": "0998a892-6fc3-4638-baed-2703c4b32894",
+        "sessionId": "9924dabd-6a77-47e1-bb08-bbad3ec721b4",
+        "sequence": 7,
+        "at": 1794947160627,
+        "type": "event",
+        "stage": "preparation",
+        "reason": "PREPARATION_FINISHED",
+        "severity": "info",
+        "batchId": "60d45e0c-8829-46de-8a75-203498aa6d24",
+        "planId": "a6023bdd-cd1b-4bd7-8407-0ccaac96112e",
+        "message": "",
+        "messageTruncated": false,
+        "context": {
+          "items": [
+            {
+              "id": "18438c42-99b3-441b-975d-8f24f3108ec6",
+              "status": "unsupported",
+              "reason": "Inspection only: choose a per-file range, 720p and precision FLAC, then Apply. Full is not qualified in this developer preview."
+            }
+          ],
+          "phase": "ready",
+          "counts": {
+            "success": 0,
+            "failed": 1,
+            "skipped": 0,
+            "cancelled": 0,
+            "unprocessed": 0
+          }
+        },
+        "contextTruncated": false
+      },
+      "job": {
+        "name": "native-resize-fixture.mov",
+        "outputName": "native-resize-fixture_H265-CPU.mkv",
+        "settings": {
+          "profileId": "h265-cpu",
+          "preset": "slow",
+          "quality": 25
+        },
+        "operation": {
+          "requested": {
+            "operation": "encode",
+            "target": "matroska",
+            "resolution": "720",
+            "hdrPolicy": "preserve",
+            "range": {
+              "startUs": 613000,
+              "endUs": 2721000
+            },
+            "audioPolicy": "precision-flac",
+            "aacBitrateKbps": null
+          },
+          "resolved": {
+            "operation": "encode",
+            "target": "matroska",
+            "timestampPolicy": "subtract-common-start-quantized-per-stream",
+            "geometry": {
+              "requested": "720",
+              "mode": "downscale",
+              "filterRequired": true,
+              "output": {
+                "width": 1280,
+                "height": 720,
+                "sampleAspectRatio": {
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              }
+            },
+            "range": {
+              "kind": "range",
+              "requested": {
+                "startUs": 613000,
+                "endUs": 2721000
+              },
+              "resolved": {
+                "startUs": 613000,
+                "endUs": 2721000
+              },
+              "sourceOrigin": {
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "sourceDuration": {
+                "numerator": "8",
+                "denominator": "1"
+              },
+              "absoluteStart": {
+                "numerator": "613",
+                "denominator": "1000"
+              },
+              "absoluteEnd": {
+                "numerator": "2721",
+                "denominator": "1000"
+              },
+              "timestampMapping": "subtract-one-common-absolute-start"
+            },
+            "audio": {
+              "policy": "precision-flac",
+              "noResampling": true,
+              "noDownmix": true,
+              "noIndependentTimestampZeroing": true,
+              "streams": [
+                {
+                  "index": 1,
+                  "mode": "precision-flac",
+                  "codec": "flac",
+                  "sampleRate": 48000,
+                  "channels": 2,
+                  "channelLayout": "stereo",
+                  "bitrateKbps": null,
+                  "timestampMapping": "subtract-one-common-absolute-start",
+                  "sampleRepresentation": "preserve-integer-decoded-pcm"
+                }
+              ]
+            },
+            "color": {
+              "classification": "sdr",
+              "supported": true,
+              "transfer": "bt709",
+              "videoIndex": 0
+            }
+          }
+        },
+        "status": "success",
+        "outcome": "saved",
+        "outputDisposition": {
+          "kind": "published",
+          "published": true,
+          "file": "proof://owned-output/native-resize-fixture_H265-CPU.mkv"
+        },
+        "cleanup": null,
+        "warnings": null,
+        "sourceIdentityDiagnostic": null,
+        "evidenceStorage": {
+          "schema": 1,
+          "observation": "complete",
+          "consistency": "bounded-point-observations",
+          "observationAttempts": 1,
+          "maxObservationAttempts": 3,
+          "usedBytes": 100376,
+          "reservedBytes": 0,
+          "projectedBytes": 165912,
+          "capBytes": 1073741824,
+          "metadataHeadroomBytes": 65536,
+          "entries": 22,
+          "freeBytes": 59159953408,
+          "minFreeBytes": 26843545600,
+          "overCap": false,
+          "overAdmissionCap": false,
+          "lowFree": false,
+          "jobs": [],
+          "leaseRecovery": "none",
+          "ledgerState": "reconciled",
+          "startupLedgerState": "missing-reconciled",
+          "directorySync": "synced",
+          "hardWriteCap": false,
+          "final": {
+            "id": "job-4bdf5503-e067-43fd-a522-b7c1014956f1",
+            "status": "completed",
+            "recordPersisted": true,
+            "violations": [],
+            "retained": true
+          }
+        },
+        "evidenceWarning": null
+      },
+      "outputValidation": {
+        "id": "ce04ef21-c48c-4b31-8b4e-c0ca7f83a79d",
+        "sessionId": "9924dabd-6a77-47e1-bb08-bbad3ec721b4",
+        "sequence": 14,
+        "at": 1794947409582,
+        "type": "event",
+        "stage": "validation",
+        "reason": "OUTPUT_CHECKED",
+        "severity": "info",
+        "batchId": "1e5999aa-b13e-4876-854c-2a535d0fd107",
+        "planId": "5d59278c-04b0-42a0-b07e-c1f636e5bbc3",
+        "fileId": "18438c42-99b3-441b-975d-8f24f3108ec6",
+        "invocationId": "342329d5-6230-4203-a5e4-ac6fc041ed7b",
+        "context": {
+          "validation": {
+            "valid": true,
+            "errors": [],
+            "warnings": [],
+            "validation": "decoded-operation-contract",
+            "qualificationEvidenceId": "candidate-resize1080to720-calibration-3JE2RQ:long-pattern:endpoints",
+            "timing": {
+              "timeline": "request-relative",
+              "requested": {
+                "startUs": 613000,
+                "endUs": 2721000
+              },
+              "resolved": {
+                "startUs": 613000,
+                "endUs": 2721000
+              },
+              "video": {
+                "startUs": 633333,
+                "endUs": 2733333,
+                "frames": 63,
+                "outputStartUs": 20000,
+                "outputEndUs": 2120000
+              },
+              "audio": [
+                {
+                  "inputIndex": 1,
+                  "mode": "precision-flac",
+                  "startUs": 613000,
+                  "endUs": 2721000,
+                  "outputStartUs": 0,
+                  "outputEndUs": 2107667,
+                  "encoderDelaySamples": 0,
+                  "discardPaddingSamples": 0,
+                  "sampleCountDifference": 0
+                }
+              ]
+            }
+          }
+        },
+        "contextTruncated": false
+      },
+      "output": {
+        "path": "proof://owned-output/native-resize-fixture_H265-CPU.mkv",
+        "bytes": 586866,
+        "sha256": "07230e60b600505cb38f51df2cee2c1a7364baccb20a3224796b316222e07006",
+        "hashTiming": "First full output hash established after native close, not during encode"
+      },
+      "completeSource": {
+        "video": {
+          "frames": 240,
+          "firstTime": {
+            "n": "0",
+            "d": "15360"
+          },
+          "endTime": {
+            "n": "1887436800",
+            "d": "235929600"
+          },
+          "maximumNominalCadenceErrorUs": 0,
+          "maximumNominalDurationErrorUs": 0,
+          "maximumNominalPhaseErrorUs": 0,
+          "properties": {
+            "policy": "cfr-sdr-range-resize-flac-v1",
+            "sampleAspectRatio": "1:1",
+            "chromaLocation": "left",
+            "sideDataPolicy": "h26x-unregistered-sei-only",
+            "framesChecked": 240
+          }
+        },
+        "audio": [
+          {
+            "inputIndex": 1,
+            "sampleCount": "384000",
+            "firstTime": {
+              "n": "0",
+              "d": "48000"
+            },
+            "endTime": {
+              "n": "18432000000",
+              "d": "2304000000"
+            },
+            "gaps": 0
+          }
+        ]
+      },
+      "decodedEvidence": {
+        "video": {
+          "sourceFrameCount": 63,
+          "outputFrameCount": 63,
+          "comparedFrames": 63,
+          "firstSourcePtsUs": 633333,
+          "lastSourcePtsUs": 2700000,
+          "lastSourceDurationUs": 33333,
+          "firstOutputPtsUs": 20000,
+          "lastOutputPtsUs": 2087000,
+          "lastOutputDurationUs": 33000,
+          "maxRebasedTimestampErrorUs": 334
+        },
+        "audio": [
+          {
+            "inputIndex": 1,
+            "sourceSampleCount": 101184,
+            "outputSampleCount": 101184,
+            "firstSourcePtsUs": 613000,
+            "lastSourceEndUs": 2721000,
+            "firstOutputPtsUs": 0,
+            "lastOutputEndUs": 2107667,
+            "encoderDelaySamples": 0,
+            "discardPaddingSamples": 0,
+            "pcmIdentity": {
+              "algorithm": "sha256",
+              "format": "s16le-interleaved",
+              "sourceHash": "707e310c31c5ac4c472d86447038d040d9357776d042704120af065e8adfe413",
+              "outputHash": "707e310c31c5ac4c472d86447038d040d9357776d042704120af065e8adfe413",
+              "sourceBytes": 404736,
+              "outputBytes": 404736
+            }
+          }
+        ]
+      },
+      "timelineComparisons": {
+        "video": {
+          "comparedFrames": 63,
+          "maximumDurationErrorUs": 334,
+          "toleranceUs": 1067
+        },
+        "audio": [
+          {
+            "inputIndex": 1,
+            "mode": "precision-flac",
+            "selectedSourceGaps": 0,
+            "unmatchedSourceTailSamples": 0,
+            "unmatchedOutputTailSamples": 0,
+            "comparedSamples": 101184,
+            "intersectedSpans": 465,
+            "maximumElapsedClockErrorUs": 334,
+            "toleranceUs": 1042,
+            "alignment": "sample ordinal after decoder-signalled skip; source minus the shared requested origin; no fitted shift",
+            "contentIdentity": false
+          }
+        ]
+      },
+      "spools": [
+        {
+          "name": "selected-video.jsonl",
+          "rows": 63,
+          "sha256": "12d8692546152e41ae5704254b9b26d98ed4e41ab0ec858265f3b4a9eba4ecde"
+        },
+        {
+          "name": "selected-audio-1.jsonl",
+          "rows": 100,
+          "sha256": "f329c03b2acc5de832638c9f1435b606abdbe2b950fdde9e72fcbefdb7b06cee"
+        },
+        {
+          "name": "output-audio-1.jsonl",
+          "rows": 372,
+          "sha256": "6a68c090876b5903290f46e43b33871c1ce1dc375be2593331a5e120227ad7af"
+        }
+      ],
+      "collectorChildren": 7,
+      "operationAccounting": {
+        "directory": "project://linux-blue/artifacts/workbench-resize-candidate-preview/operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/operation-evidence-h6RM3e",
+        "planFingerprint": "b28fa115cc7bd9ac641ea2075202d451c4987cba94d16aa09c2109da4251e67c",
+        "evidenceIds": [
+          "candidate-resize1080to720-calibration-3JE2RQ:long-pattern:endpoints",
+          "candidate-resize1080to720-calibration-3JE2RQ:long-pattern:interior",
+          "candidate-resize1080to720-calibration-3JE2RQ:heldout-flipped:endpoints",
+          "candidate-resize1080to720-calibration-3JE2RQ:heldout-flipped:interior"
+        ],
+        "status": "completed",
+        "scope": "complete-decoded-timing-and-selected-flac-pcm",
+        "failure": null,
+        "children": 10,
+        "streamedBytes": 2111109,
+        "pipeBytes": {
+          "stdout": 2123166,
+          "stderr": 499
+        },
+        "telemetryValidation": {
+          "valid": true,
+          "scope": "encoder-input-count-and-timeline-only",
+          "streams": [
+            {
+              "outputIndex": 0,
+              "kind": "video",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            },
+            {
+              "outputIndex": 1,
+              "kind": "audio",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            }
+          ],
+          "doesNotEstablish": [
+            "video-pixel-identity",
+            "lossless-audio-identity",
+            "last-video-frame-duration",
+            "output-or-publication-validity"
+          ]
+        },
+        "sourceIdentityDisposition": "unchanged"
+      },
+      "telemetry": {
+        "schema": 1,
+        "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+        "planFingerprint": "b28fa115cc7bd9ac641ea2075202d451c4987cba94d16aa09c2109da4251e67c",
+        "completion": {
+          "childClosed": true,
+          "exitCode": 0,
+          "cancelled": false
+        },
+        "streams": [
+          {
+            "path": "project://linux-blue/artifacts/workbench-resize-candidate-preview/operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/encoder-telemetry-QlS0Ts/stream-0.tsv",
+            "identity": {
+              "dev": "27",
+              "ino": "2231689",
+              "birthtimeNs": "1794947401942579020",
+              "size": "2866",
+              "mtimeNs": "1794947404815477442",
+              "ctimeNs": "1794947404815477442",
+              "nlink": "1"
+            },
+            "summary": {
+              "schema": 1,
+              "scope": "encoder-input-statistics",
+              "stream": {
+                "outputIndex": 0,
+                "kind": "video"
+              },
+              "bytes": 2866,
+              "records": "63",
+              "sampleCount": null,
+              "first": {
+                "n": "0",
+                "inputFrame": "19",
+                "timeBase": {
+                  "numerator": "1",
+                  "denominator": "15360"
+                },
+                "pts": "312",
+                "time": {
+                  "numerator": "13",
+                  "denominator": "640"
+                },
+                "inputTimeBase": {
+                  "numerator": "1",
+                  "denominator": "15360"
+                },
+                "inputPts": "9728",
+                "inputTime": {
+                  "numerator": "19",
+                  "denominator": "30"
+                }
+              },
+              "last": {
+                "n": "62",
+                "inputFrame": "81",
+                "timeBase": {
+                  "numerator": "1",
+                  "denominator": "15360"
+                },
+                "pts": "32056",
+                "time": {
+                  "numerator": "4007",
+                  "denominator": "1920"
+                },
+                "inputTimeBase": {
+                  "numerator": "1",
+                  "denominator": "15360"
+                },
+                "inputPts": "41472",
+                "inputTime": {
+                  "numerator": "27",
+                  "denominator": "10"
+                }
+              },
+              "unknownInputRecords": "0",
+              "repeatedPts": "0",
+              "backwardsPts": "0",
+              "audioDiscontinuities": "0",
+              "minPtsDelta": {
+                "numerator": "1",
+                "denominator": "30"
+              },
+              "maxPtsDelta": {
+                "numerator": "1",
+                "denominator": "30"
+              },
+              "hashes": {
+                "algorithm": "sha256",
+                "raw": "1ab0798ab5afca699909d5fee8ab94561f80970fe3233139969880f83e0b2e75",
+                "canonicalRecords": "16bd20ae0fa2a02db01643addda0847446c2b9bcc2c2feb330532b9bff70d36d",
+                "orderedPts": "f5d7e2633005c0b4cc90e3e0667c16f2b6b8c404b23f3fbc5da3323789b6b523",
+                "contentHash": false
+              },
+              "videoDurationAvailable": false,
+              "completeOutputValidation": false
+            }
+          },
+          {
+            "path": "project://linux-blue/artifacts/workbench-resize-candidate-preview/operation-evidence/job-4bdf5503-e067-43fd-a522-b7c1014956f1/encoder-telemetry-QlS0Ts/stream-1.tsv",
+            "identity": {
+              "dev": "27",
+              "ino": "2231690",
+              "birthtimeNs": "1794947401944881390",
+              "size": "21230",
+              "mtimeNs": "1794947403475451371",
+              "ctimeNs": "1794947403475451371",
+              "nlink": "1"
+            },
+            "summary": {
+              "schema": 1,
+              "scope": "encoder-input-statistics",
+              "stream": {
+                "outputIndex": 1,
+                "kind": "audio",
+                "sampleRate": 48000
+              },
+              "bytes": 21230,
+              "records": "372",
+              "sampleCount": "101184",
+              "first": {
+                "n": "0",
+                "inputFrame": "28",
+                "timeBase": {
+                  "numerator": "1",
+                  "denominator": "48000"
+                },
+                "pts": "0",
+                "time": {
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "inputTimeBase": {
+                  "numerator": "1",
+                  "denominator": "48000"
+                },
+                "inputPts": "28672",
+                "inputTime": {
+                  "numerator": "224",
+                  "denominator": "375"
+                },
+                "sampleOffset": "0",
+                "samples": "272",
+                "endTime": {
+                  "numerator": "17",
+                  "denominator": "3000"
+                }
+              },
+              "last": {
+                "n": "371",
+                "inputFrame": "127",
+                "timeBase": {
+                  "numerator": "1",
+                  "denominator": "48000"
+                },
+                "pts": "100912",
+                "time": {
+                  "numerator": "6307",
+                  "denominator": "3000"
+                },
+                "inputTimeBase": {
+                  "numerator": "1",
+                  "denominator": "48000"
+                },
+                "inputPts": "130048",
+                "inputTime": {
+                  "numerator": "1016",
+                  "denominator": "375"
+                },
+                "sampleOffset": "100912",
+                "samples": "272",
+                "endTime": {
+                  "numerator": "527",
+                  "denominator": "250"
+                }
+              },
+              "unknownInputRecords": "0",
+              "repeatedPts": "0",
+              "backwardsPts": "0",
+              "audioDiscontinuities": "0",
+              "minPtsDelta": {
+                "numerator": "17",
+                "denominator": "3000"
+              },
+              "maxPtsDelta": {
+                "numerator": "17",
+                "denominator": "3000"
+              },
+              "hashes": {
+                "algorithm": "sha256",
+                "raw": "f0c480267f60cf357085aaedea558f52382f3da2b955a17d0b5644aa0ac32044",
+                "canonicalRecords": "edb527544d00d921d57efbb63c9f8a16a1d38301794f04cc29861c16f005ee4b",
+                "orderedPts": "10ae24742c56f860db06934df05b59ae50a1137c1a07b72f73ae9f4627c43d49",
+                "contentHash": false
+              },
+              "videoDurationAvailable": false,
+              "completeOutputValidation": false
+            }
+          }
+        ],
+        "scope": "encoder-input-statistics-only",
+        "publicationAuthorized": false,
+        "limitations": [
+          "Not a decoded-content hash or output validity proof.",
+          "Input correspondence can be unknown after filtering.",
+          "No video last-frame duration in stats_enc_pre.",
+          "Read budgets bound memory and accepted evidence; the caller must separately budget disk growth while encoding."
+        ]
+      },
+      "storage": {
+        "schema": 1,
+        "id": "job-4bdf5503-e067-43fd-a522-b7c1014956f1",
+        "status": "completed",
+        "retained": true,
+        "observation": "complete",
+        "observedBeforeRecord": {
+          "schema": 1,
+          "observation": "complete",
+          "consistency": "bounded-point-observations",
+          "observationAttempts": 1,
+          "maxObservationAttempts": 3,
+          "usedBytes": 98776,
+          "reservedBytes": 33456726,
+          "projectedBytes": 33621038,
+          "capBytes": 1073741824,
+          "metadataHeadroomBytes": 65536,
+          "entries": 21,
+          "freeBytes": 59159953408,
+          "minFreeBytes": 26843545600,
+          "overCap": false,
+          "overAdmissionCap": false,
+          "lowFree": false,
+          "jobs": [
+            {
+              "id": "job-4bdf5503-e067-43fd-a522-b7c1014956f1",
+              "actualBytes": 97706,
+              "reservedBytes": 33554432,
+              "remainingBytes": 33456726,
+              "overReservation": false
+            }
+          ],
+          "leaseRecovery": "none",
+          "ledgerState": "reconciled",
+          "startupLedgerState": "missing-reconciled",
+          "directorySync": "synced",
+          "hardWriteCap": false
+        },
+        "violations": [],
+        "authority": "diagnostic-only",
+        "hardWriteCap": false
+      },
+      "reservation": {
+        "schema": 1,
+        "id": "job-4bdf5503-e067-43fd-a522-b7c1014956f1",
+        "reservedBytes": 33554432,
+        "forecastBytes": 21495808,
+        "authority": "diagnostic-only",
+        "streamedStdoutIsDiskUsage": false
+      },
+      "provenance": {
+        "namespace": "provenance-v1",
+        "version": 1,
+        "kind": "published",
+        "outputId": "f14fa62f-fc35-424c-8112-633c1f0c981c",
+        "outputIdentity": {
+          "canonicalPath": "proof://owned-output/native-resize-fixture_H265-CPU.mkv",
+          "dev": "27",
+          "ino": "2231692",
+          "size": "586866",
+          "mtimeNs": "1794947406587511874",
+          "ctimeNs": "1794947409616565563",
+          "birthtimeNs": "1794947402063423901",
+          "sparseDigest": "sha256-sparse-v1:aedba4859a01db2a3f1a04defb88656b6e03e54d7703b9dcf033bd407b5238f3"
+        },
+        "createdAt": "2026-11-17T20:30:09.633Z",
+        "checksum": "fd9d3d15b4a0b5262a8ff1731843fd34eb083b02b91c6716a7b734c96edcb915"
+      },
+      "postCleanupIdentity": {
+        "currentCtimeNs": "1794947409644804140",
+        "journalCtimeNs": "1794947409616565563",
+        "deltaNs": 28238577,
+        "qualification": "Journal publication stamp precedes stage cleanup; service obtains fresh identity after cleanup for OutputAccess. Same dev/ino/size/mtime and full output hash verified, not equality of every journal stamp."
+      },
+      "targetStderr": {
+        "bytes": 499,
+        "sha256": "a65e44000a74ca58726d55b1419ac126e924738e039d83865faf7fc9f390e65d",
+        "text": "[vost#0:0 @ 0x55952943cb80] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx265' will be used.\n[aost#0:1 @ 0x559529507440] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 1, only the last option '-codec:a:0 flac' will be used.\nx265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n",
+        "qualification": "Retained target text, not complete per-child stderr census. Native observer supplies closure counts, not all42 stderr captures."
+      },
+      "truncationMarkers": [
+        {
+          "path": "/6/contextTruncated",
+          "value": true
+        },
+        {
+          "path": "/9/contextTruncated",
+          "value": true
+        },
+        {
+          "path": "/13/contextTruncated",
+          "value": true
+        },
+        {
+          "path": "/17/contextTruncated",
+          "value": true
+        }
+      ],
+      "outer": {
+        "exitCode": 0,
+        "abortRequested": false,
+        "failure": null,
+        "postCloseIdentitiesVerified": true,
+        "startedUTC": "2026-11-17T20:23:34.501853+00:00",
+        "endedUTC": "2026-11-17T20:30:46.526855+00:00",
+        "monotonicElapsedSeconds": 432.0250262020054,
+        "stdoutSha256": "c160855073bd7d3687c131ef1d6bf69a8ea6dac14644960408949b829a6dd819",
+        "stderrSha256": "694b81a2d09de2e29d35af9aa1ece1e5bb894ac859778cdd97ae7c3174b54ac0",
+        "qualification": "Process closure receipt only; UI and publication outcome require observed evidence and independent saved audit."
+      },
+      "clock": {
+        "firstEventEpochMs": 1794947014948,
+        "firstEventUnixUTC": "2026-11-17T20:23:34.948000+00:00",
+        "lastEventEpochMs": 1794947444814,
+        "lastEventUnixUTC": "2026-11-17T20:30:44.814000+00:00",
+        "qualification": "Compare actual converted epochs with outer UTC below; manual journey elapsed is not encode duration."
+      },
+      "operatorOnly": {
+        "visualStates": [
+          "Waiting/In progress",
+          "Validating output/Processing",
+          "Completed/Succeeded"
+        ],
+        "reveal": {
+          "count": 1,
+          "feedback": "Show-in-folder request sent to your file manager.",
+          "fileManager": "Thunar",
+          "selectedName": "native-resize-fixture_H265-CPU.mkv",
+          "selectedBytes": 586866,
+          "playerOpened": false
+        },
+        "numericProgressObserved": false,
+        "popup": "Resolution popup painted corrupted; operator global7+Return then visually verified720 before sole Apply. Cause unknown; not visual-clean acceptance. CUA transcript only, no standalone screenshots independently audited."
+      },
+      "limits": [
+        "No runtime/media/ffprobe/redecode/UI actions. No profile/cache/token/preference reads.",
+        "1280x720 geometry supported by saved resolved operation, reviewed validator acceptance and collector checks, not an independently retained full output probe JSON.",
+        "Output fullSHA first established by operator afterclose, now independently verified; differs from prior service output without implying failed PCM identity.",
+        "Full source scans/PCM hashes are saved streamed evidence, not independent re-decode or pixel/quality proof.",
+        "Initial FILE_INSPECTED can record base ready before workbench demotion; actual final preparation receipt is unsupported and no Full encode recorded.",
+        "Reveal dispatch saved; actual Thunar selection and neutral feedback are operator CUA observations, not playback proof.",
+        "42/42 is owned toolchild census only, not OS-wide process closure. Full top-level stderr retained, no all-child clean/completeness claim.",
+        "No native cancellation/relaunch/same-service retry, Full, broader geometry or production activation. Native popup defect remains follow-up."
+      ]
+    },
+    "popupObservation": {
+      "scope": "Read-only clarification from existing CUA screenshots; no new UI/native/source actions",
+      "observed": [
+        "The open Resolution select popup extended below the closed field. Its upper option area appeared as a black rectangle with no legible option labels. The lower area was pale blue with repeated thin dark diagonal/horizontal strokes or text-like fragments instead of readable rows.",
+        "The same malformed popup remained visible in two successive screenshots. Individual option names and row boundaries could not be reliably read; no definite wrong option order or wrong row coordinates was established.",
+        "The closed Resolution field before opening clearly read Keep source resolution. After global key7 then Return it clearly read720p; the exact selected value was visually verified before Apply.",
+        "Adjacent ordinary page fields, labels, time inputs, buttons and surrounding layout remained readable in those screenshots. The Audio policy select popup subsequently rendered readable Copy where qualified / Precision AAC / Precision FLAC choices.",
+        "This observation concerns the open Resolution popup rendering, not evidence that the underlying page layout or all select controls were corrupted."
+      ],
+      "workaround": "Documented global Sky.press_key7 then Return while the Resolution select was focused; no script/eval/hidden IPC. Closed720p label verified, then Precision FLAC selected visibly and exact range checked before oneApply.",
+      "limits": [
+        "Screenshots exist only in CUA transcript; no standalone screenshot artifact claimed.",
+        "No cause, renderer/compositor/driver attribution or source regression inferred. HTML/CSS unchanged is context, not proof of origin.",
+        "Native functional selection succeeded, but this is not clean visual QA or a fix of the popup defect.",
+        "No fresh reproduction or alternate rendering experiment performed."
+      ]
+    },
+    "leadRelease": {
+      "atUtc": "2026-11-17T20:35:35.025527+00:00",
+      "testedCommit": "e0b5d35055afaeff841bd3fe695c0400e6e7b2d5",
+      "sourceFilesVerified": 553,
+      "notionSourceAndBundleVerified": true,
+      "auditSHA256": "66855eb63660439143d40c14c9663f7b03fff2181854534678a70158148fd96f",
+      "outcomeSHA256": "742eb9b3e9f57537d90c0211c34603fc7bbf6bc7c7a6b1829700c9ce9d047b25",
+      "helperHashesVerified": {
+        "APPROVED_JOURNEY_A.json": "9659ea6cd913e635abf9829f3a96b20cec9d93dbb0e7deba12019d8c9f9c51a4",
+        "launch-resize.py": "456f0c52a1cad223dba50dffa47023aabb302c5b95cb35be79ca714a3fd4775b",
+        "NATIVE_PLAN.json": "f83c0dae92d957a7736c0ef233af83cfb35ed9eb9a28741d6561bec8e6641ca3",
+        "PLAN.md": "a00e4f2a29ea4a440f28d0b12ed5d884c68a8edf22c108bfd9693add847d2bc2",
+        "OUTER_COMPLETION.json": "501d92fa4a6e30627828fbf028892a2b35eca9864e21e4c466c6751160e63199",
+        "app.stdout.log": "c160855073bd7d3687c131ef1d6bf69a8ea6dac14644960408949b829a6dd819",
+        "app.stderr.log": "694b81a2d09de2e29d35af9aa1ece1e5bb894ac859778cdd97ae7c3174b54ac0"
+      },
+      "runtimeAndSourceIdentitiesVerified": true,
+      "originalBuildPairAlsoVerified": true,
+      "ownedFixtureVerified": true,
+      "retainedEvidenceFilesVerified": 42,
+      "retainedEvidenceBytes": 140270,
+      "output": {
+        "path": "proof://owned-output/native-resize-fixture_H265-CPU.mkv",
+        "bytes": 586866,
+        "sha256": "07230e60b600505cb38f51df2cee2c1a7364baccb20a3224796b316222e07006",
+        "hashTiming": "First full output hash established after native close, not during encode"
+      },
+      "ownedCensus": {
+        "spawned": 42,
+        "closed": 42,
+        "live": 0,
+        "maximum": 1,
+        "failures": 0
+      },
+      "sourceDocsFreezeReleased": true,
+      "qualification": "Bounded native range-resize publication and reveal supported. No independent output probe/redecode/pixel quality, native cancellation or visual-clean acceptance. Resolution popup issue unresolved; no speculative style/security changes.",
+      "next": "Preserve evidence-only020. Begin isolated closed-factory Full-copy source slice after this release, with no media/native run or old-report repin; preserve current native source checkpoint19. Separate no-encode UI reproduction can be planned, not automatically repeated."
+    }
+  }
+}

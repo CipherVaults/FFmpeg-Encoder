@@ -1,0 +1,481 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-11-17T20:41:28.221555+00:00",
+  "scope": "Evidence-only020: one native resize Journey A on immutable019, saved audit and reconciliation. No production/test source delta.",
+  "testedCommit": "e0b5d35055afaeff841bd3fe695c0400e6e7b2d5",
+  "testedFiles": 553,
+  "artifacts": [
+    {
+      "file": "native-resize-journey-preparation-20261117/JOURNEY_OUTCOME.json",
+      "bytes": 12357,
+      "sha256": "742eb9b3e9f57537d90c0211c34603fc7bbf6bc7c7a6b1829700c9ce9d047b25"
+    },
+    {
+      "file": "native-resize-journey-preparation-20261117/INDEPENDENT_NATIVE_AUDIT.json",
+      "bytes": 38853,
+      "sha256": "66855eb63660439143d40c14c9663f7b03fff2181854534678a70158148fd96f"
+    },
+    {
+      "file": "native-resize-journey-preparation-20261117/RESOLUTION_POPUP_OBSERVATION.json",
+      "bytes": 1909,
+      "sha256": "f6c9cd476e5666765091d03b2529a7d25a479e9a798f0368389743e2bbb0fe0b"
+    },
+    {
+      "file": "native-resize-journey-preparation-20261117/LEAD_RELEASE.json",
+      "bytes": 2304,
+      "sha256": "fc2e527faa2355a0cb32b1f37cd05b149c3322aa266f575f4385ca0bfb262956"
+    },
+    {
+      "file": "native-resize-journey-preparation-20261117/OUTER_COMPLETION.json",
+      "bytes": 560,
+      "sha256": "501d92fa4a6e30627828fbf028892a2b35eca9864e21e4c466c6751160e63199"
+    },
+    {
+      "file": "native-resize-journey-preparation-20261117/ATTEMPT_STARTED.json",
+      "bytes": 518,
+      "sha256": "532cd2c58a743876babb7d377a5c372503e9104a47528fcb8ade30b47d4e11ec"
+    },
+    {
+      "file": "native-resize-journey-preparation-20261117/APP_PID.json",
+      "bytes": 68,
+      "sha256": "b26a41d67a197e4c6f6d7bf7f9283c101554d5290baf7416d13dbe816c8d4041"
+    },
+    {
+      "file": "native-resize-journey-preparation-20261117/APPROVED_JOURNEY_A.json",
+      "bytes": 65096,
+      "sha256": "9659ea6cd913e635abf9829f3a96b20cec9d93dbb0e7deba12019d8c9f9c51a4"
+    },
+    {
+      "file": "native-resize-journey-preparation-20261117/launch-resize.py",
+      "bytes": 6545,
+      "sha256": "456f0c52a1cad223dba50dffa47023aabb302c5b95cb35be79ca714a3fd4775b"
+    },
+    {
+      "file": "native-resize-journey-preparation-20261117/NATIVE_PLAN.json",
+      "bytes": 6015,
+      "sha256": "f83c0dae92d957a7736c0ef233af83cfb35ed9eb9a28741d6561bec8e6641ca3"
+    },
+    {
+      "file": "native-resize-journey-preparation-20261117/PLAN.md",
+      "bytes": 10027,
+      "sha256": "a00e4f2a29ea4a440f28d0b12ed5d884c68a8edf22c108bfd9693add847d2bc2"
+    },
+    {
+      "file": "native-resize-journey-preparation-20261117/INDEPENDENT_PREPARED_REVIEW.json",
+      "bytes": 2922,
+      "sha256": "c98e844dcd11d06836c433c6e240a0a2a42bd3bbd466c4b5e3631e5352a83d98"
+    },
+    {
+      "file": "native-resize-journey-preparation-20261117/AUTHORIZER_REVIEW-v2.json",
+      "bytes": 1038,
+      "sha256": "d560dbbf24a2931791ad3479a3bc81cbab23ac8363a0b8874e6867c801bc472e"
+    },
+    {
+      "file": "native-resize-journey-preparation-20261117/DESKTOP_PREFLIGHT-initial-blocked.json",
+      "bytes": 1529,
+      "sha256": "7f5513f3de97f77ec4aa9755990c04d5c0fbeb601ac6c9f64289a14f9f2cafec"
+    },
+    {
+      "file": "native-resize-journey-preparation-20261117/DESKTOP_PREFLIGHT.json",
+      "bytes": 1297,
+      "sha256": "342db83205c101a24309f0e56c60a9bef95b1f8259b3bc1e7a15d7187540b107"
+    },
+    {
+      "file": "authorize-native-resize019-v1-superseded.py",
+      "bytes": 4456,
+      "sha256": "6534e1b151e8f9af1256a2e4bc353fa88108d4772a9c585b28f9b671dfcf6603"
+    },
+    {
+      "file": "authorize-native-resize019.py",
+      "bytes": 4841,
+      "sha256": "055db7952f912dfcd8e49dea219ef5d18823db6390fa05db380150ffee1fcf20"
+    },
+    {
+      "file": "github-publication-82ed88f-verification.json",
+      "bytes": 3748,
+      "sha256": "ea88a02deb691361b0bced34995ff7fadfcc25707496595111c372f0552804fc"
+    },
+    {
+      "file": "full-resize-copy-design-20261117/DESIGN-v2.md",
+      "bytes": 10621,
+      "sha256": "4108ec8bf8a43dbcc5474439c7cda1aa04e126b7fe96cf76c7d3da8ae730d2e3"
+    },
+    {
+      "file": "native-resize-portable-draft.json",
+      "bytes": 63079,
+      "sha256": "24d34b0632b8a33d2047c18abd4caad412bbc4368f3b90a00d0adb73463ad106"
+    }
+  ],
+  "portable": {
+    "path": "evidence-2026-11-17/native-resize-journey-portable.json",
+    "bytes": 63079,
+    "sha256": "24d34b0632b8a33d2047c18abd4caad412bbc4368f3b90a00d0adb73463ad106",
+    "reports": 4,
+    "rootPrefixSubstitutions": 13,
+    "byAlias": {
+      "proof": 5,
+      "project": 6,
+      "support": 2
+    },
+    "otherDataUnchanged": true,
+    "rawRestoration": false,
+    "runtimeAuthority": false
+  },
+  "publication019": {
+    "verifiedAtUtc": "2026-11-17T20:21:26.934679+00:00",
+    "localCommit": "e0b5d35055afaeff841bd3fe695c0400e6e7b2d5",
+    "remoteCommit": "82ed88f67bf211fb0f09d25192e390ddb718cee1",
+    "remoteParent": "72ebaabb43033cef4ec007732a95e0df7ddb7676",
+    "remoteTree": "b5dc3a927d2c390b4c579ec983bb4b795f8f9cdb",
+    "branch": "blue/linux-development",
+    "verifiedFiles": [
+      {
+        "path": "linux-blue/2026-11-17_Resize_Developer_Workbench.md",
+        "bytes": 14869,
+        "sha256": "f7086d0ca742ae6376d75cd30481f231ad06ca5696e75c390d1d2ec7bb61db5b",
+        "gitBlob": "236266242f277ea5f743a5fc8b5f7b3195011ac7"
+      },
+      {
+        "path": "linux-blue/2026-11-17_Resize_Developer_Workbench_Receipts.json",
+        "bytes": 56666,
+        "sha256": "e3c0ff6074b34e80096159876b5503d08f35059f964cda3ce89e0ae74574f81b",
+        "gitBlob": "a40ab78048e3fa85d71c7b9966505106b51da234"
+      },
+      {
+        "path": "linux-blue/CURRENT_STATE.md",
+        "bytes": 6498,
+        "sha256": "67a953705b5577d5c205d95faf9a66797dd589c09ee9aa8fbce2083a071d0c57",
+        "gitBlob": "b1a3f216837a2ff14ed9480fb709993975f3656e"
+      },
+      {
+        "path": "linux-blue/SESSION_SUMMARY.md",
+        "bytes": 824546,
+        "sha256": "8417d7b884b6575e4075b4759a99fbf27342e60260392cbd7b76d30224d51298",
+        "gitBlob": "c15377d90795c9efdae46590f1e23ed571bf3c82"
+      },
+      {
+        "path": "linux-blue/candidate-resize-service.cjs",
+        "bytes": 25086,
+        "sha256": "f0d088cd7d2ef0e3e8030dcc9afa2abbed2ca63d6331e172d1c19943392df41a",
+        "gitBlob": "f80dd906b4b854cad2cd967aad1c6b68c95b4736"
+      },
+      {
+        "path": "linux-blue/candidate-resize-service.test.cjs",
+        "bytes": 28279,
+        "sha256": "d444d6dcd98e366fcc456b54fb329fd9b86f9cd538503318db91aa123e960236",
+        "gitBlob": "79d2efdaa1e0c5c6515521b856ad54203d07cd7a"
+      },
+      {
+        "path": "linux-blue/candidate-resize-workbench-renderer.test.cjs",
+        "bytes": 12555,
+        "sha256": "468b26867b06e28149316baa484f398de1c8acfef7ec4f379d1881c1ef59f0bb",
+        "gitBlob": "c9a1e70ce81d7728ce319570274cb18d383a8347"
+      },
+      {
+        "path": "linux-blue/candidate-resize-workbench.cjs",
+        "bytes": 5997,
+        "sha256": "fe67afb34aa3ca47a5edebd92bb7caa2f45121aa7408c2f7d0bdd55a8995d452",
+        "gitBlob": "b726b607fdc4ec2340694ccf63defe30f2e77bd6"
+      },
+      {
+        "path": "linux-blue/candidate-resize-workbench.test.cjs",
+        "bytes": 9551,
+        "sha256": "817cda905e20b2ae4cdb4d2bf8b6c367eebe6a9d816dd99f0866178ce0a799a1",
+        "gitBlob": "3e08e402038ebe791fce28e2cd14a50e4e3979b1"
+      },
+      {
+        "path": "linux-blue/runtime-av1.test.cjs",
+        "bytes": 5952,
+        "sha256": "e5bc4a5d1f7644db79f58d27b036a821eb6a3d1ba8988959ceb47e01d6284b40",
+        "gitBlob": "7b62d2c4b2a0b639c3545db7a38c5934df385bc9"
+      },
+      {
+        "path": "linux-blue/workbench-main.cjs",
+        "bytes": 9642,
+        "sha256": "92ecee117209485228b2c95d4767b132a671de1b1141a4e054f82a2e0551f411",
+        "gitBlob": "7aa87edc5da6fe5b6b0238a629cf6ec6f9d5d57e"
+      },
+      {
+        "path": "linux-blue/workbench-runtime-choice.cjs",
+        "bytes": 839,
+        "sha256": "36013c00d7566fc18c9af747291bf4f8d67219e09ced10296524f738af4e5b6b",
+        "gitBlob": "949650fa14cfa5395c95aaeabddda41b80e4344a"
+      },
+      {
+        "path": "ui/renderer.js",
+        "bytes": 149098,
+        "sha256": "d669ed1224683d432fbbb633000b5b5cf3032028339b841091e86452b56681c8",
+        "gitBlob": "2f365574cb27f5de5be49519d2d9aaced2c00f75"
+      }
+    ],
+    "treeCounts": {
+      "sha": "b5dc3a927d2c390b4c579ec983bb4b795f8f9cdb",
+      "totalFiles": 935,
+      "unchanged": 922,
+      "modified": 8,
+      "new": 5,
+      "deleted": 0,
+      "allExpectedBytesAndPreservedBase": true
+    },
+    "freshRefVerified": true,
+    "actualSoleParentVerified": true,
+    "allReadbackBytesVerified": true
+  },
+  "runtimeReady": {
+    "electron": "44.7.0",
+    "runtimeChoice": "9.0.2-resize-candidate",
+    "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+    "mode": "developer-resize-range",
+    "qualifiedFamilies": [],
+    "remuxAvailable": false,
+    "sandbox": true,
+    "contextIsolation": true,
+    "nodeIntegration": false,
+    "originalUi": true,
+    "originalPreload": true
+  },
+  "outer": {
+    "exitCode": 0,
+    "abortRequested": false,
+    "failure": null,
+    "postCloseIdentitiesVerified": true,
+    "startedUTC": "2026-11-17T20:23:34.501853+00:00",
+    "endedUTC": "2026-11-17T20:30:46.526855+00:00",
+    "monotonicElapsedSeconds": 432.0250262020054,
+    "stdoutSha256": "c160855073bd7d3687c131ef1d6bf69a8ea6dac14644960408949b829a6dd819",
+    "stderrSha256": "694b81a2d09de2e29d35af9aa1ece1e5bb894ac859778cdd97ae7c3174b54ac0",
+    "qualification": "Process closure receipt only; UI and publication outcome require observed evidence and independent saved audit."
+  },
+  "ownedCensus": {
+    "spawned": 42,
+    "closed": 42,
+    "live": 0,
+    "maximum": 1,
+    "failures": 0
+  },
+  "visibleWorkflow": {
+    "launches": 1,
+    "pickers": {
+      "input": 1,
+      "output": 1
+    },
+    "initialFull": {
+      "status": "Unsupported",
+      "checkboxDisabled": true,
+      "startDisabled": true,
+      "notice": "Inspection only: choose a per-file range,720p and precision FLAC; Full not qualified"
+    },
+    "request": {
+      "startUs": 613000,
+      "endUs": 2721000,
+      "resolution": "720",
+      "audioPolicy": "precision-flac",
+      "profileId": "h265-cpu",
+      "preset": "slow",
+      "quality": 25
+    },
+    "applyCount": 1,
+    "startCount": 1,
+    "observedStates": [
+      "Waiting/In progress",
+      "Validating output/Processing",
+      "Completed/Succeeded"
+    ],
+    "numericProgressObserved": false,
+    "reveal": {
+      "count": 1,
+      "feedback": "Show-in-folder request sent to your file manager.",
+      "fileManager": "Thunar",
+      "selectedName": "native-resize-fixture_H265-CPU.mkv",
+      "selectedBytes": 586866,
+      "playerOpened": false
+    }
+  },
+  "output": {
+    "bytes": 586866,
+    "sha256": "07230e60b600505cb38f51df2cee2c1a7364baccb20a3224796b316222e07006",
+    "hashTiming": "First full output hash established after native close, not during encode"
+  },
+  "completeSource": {
+    "video": {
+      "frames": 240,
+      "firstTime": {
+        "n": "0",
+        "d": "15360"
+      },
+      "endTime": {
+        "n": "1887436800",
+        "d": "235929600"
+      },
+      "maximumNominalCadenceErrorUs": 0,
+      "maximumNominalDurationErrorUs": 0,
+      "maximumNominalPhaseErrorUs": 0,
+      "properties": {
+        "policy": "cfr-sdr-range-resize-flac-v1",
+        "sampleAspectRatio": "1:1",
+        "chromaLocation": "left",
+        "sideDataPolicy": "h26x-unregistered-sei-only",
+        "framesChecked": 240
+      }
+    },
+    "audio": [
+      {
+        "inputIndex": 1,
+        "sampleCount": "384000",
+        "firstTime": {
+          "n": "0",
+          "d": "48000"
+        },
+        "endTime": {
+          "n": "18432000000",
+          "d": "2304000000"
+        },
+        "gaps": 0
+      }
+    ]
+  },
+  "decodedEvidence": {
+    "video": {
+      "sourceFrameCount": 63,
+      "outputFrameCount": 63,
+      "comparedFrames": 63,
+      "firstSourcePtsUs": 633333,
+      "lastSourcePtsUs": 2700000,
+      "lastSourceDurationUs": 33333,
+      "firstOutputPtsUs": 20000,
+      "lastOutputPtsUs": 2087000,
+      "lastOutputDurationUs": 33000,
+      "maxRebasedTimestampErrorUs": 334
+    },
+    "audio": [
+      {
+        "inputIndex": 1,
+        "sourceSampleCount": 101184,
+        "outputSampleCount": 101184,
+        "firstSourcePtsUs": 613000,
+        "lastSourceEndUs": 2721000,
+        "firstOutputPtsUs": 0,
+        "lastOutputEndUs": 2107667,
+        "encoderDelaySamples": 0,
+        "discardPaddingSamples": 0,
+        "pcmIdentity": {
+          "algorithm": "sha256",
+          "format": "s16le-interleaved",
+          "sourceHash": "707e310c31c5ac4c472d86447038d040d9357776d042704120af065e8adfe413",
+          "outputHash": "707e310c31c5ac4c472d86447038d040d9357776d042704120af065e8adfe413",
+          "sourceBytes": 404736,
+          "outputBytes": 404736
+        }
+      }
+    ]
+  },
+  "timelineComparisons": {
+    "video": {
+      "comparedFrames": 63,
+      "maximumDurationErrorUs": 334,
+      "toleranceUs": 1067
+    },
+    "audio": [
+      {
+        "inputIndex": 1,
+        "mode": "precision-flac",
+        "selectedSourceGaps": 0,
+        "unmatchedSourceTailSamples": 0,
+        "unmatchedOutputTailSamples": 0,
+        "comparedSamples": 101184,
+        "intersectedSpans": 465,
+        "maximumElapsedClockErrorUs": 334,
+        "toleranceUs": 1042,
+        "alignment": "sample ordinal after decoder-signalled skip; source minus the shared requested origin; no fitted shift",
+        "contentIdentity": false
+      }
+    ]
+  },
+  "telemetry": {
+    "videoRecords": 63,
+    "audioRecords": 372,
+    "audioSamples": 101184,
+    "unknownInputRecords": 0,
+    "scope": "Encoder input counts/timing only; not by itself output, publication or pixel/audio-content proof."
+  },
+  "evidence": {
+    "retainedFiles": 42,
+    "retainedBytes": 140270,
+    "diagnosticEvents": 21,
+    "diagnosticSession": "9924dabd-6a77-47e1-bb08-bbad3ec721b4",
+    "truncatedContextSequences": [
+      6,
+      9,
+      13,
+      17
+    ],
+    "collectorChildren": 7,
+    "operationAccountedChildren": 10,
+    "operationStdoutBytes": 2123166,
+    "operationStderrBytes": 499,
+    "targetStderrBytes": 499,
+    "targetStderrSHA256": "a65e44000a74ca58726d55b1419ac126e924738e039d83865faf7fc9f390e65d",
+    "fullChildStderrCensus": false
+  },
+  "postCleanupIdentity": {
+    "currentCtimeNs": "1794947409644804140",
+    "journalCtimeNs": "1794947409616565563",
+    "deltaNs": 28238577,
+    "qualification": "Journal publication stamp precedes stage cleanup; service obtains fresh identity after cleanup for OutputAccess. Same dev/ino/size/mtime and full output hash verified, not equality of every journal stamp."
+  },
+  "clock": {
+    "firstEventEpochMs": 1794947014948,
+    "firstEventUnixUTC": "2026-11-17T20:23:34.948000+00:00",
+    "lastEventEpochMs": 1794947444814,
+    "lastEventUnixUTC": "2026-11-17T20:30:44.814000+00:00",
+    "qualification": "Compare actual converted epochs with outer UTC below; manual journey elapsed is not encode duration."
+  },
+  "popup": {
+    "scope": "Read-only clarification from existing CUA screenshots; no new UI/native/source actions",
+    "observed": [
+      "The open Resolution select popup extended below the closed field. Its upper option area appeared as a black rectangle with no legible option labels. The lower area was pale blue with repeated thin dark diagonal/horizontal strokes or text-like fragments instead of readable rows.",
+      "The same malformed popup remained visible in two successive screenshots. Individual option names and row boundaries could not be reliably read; no definite wrong option order or wrong row coordinates was established.",
+      "The closed Resolution field before opening clearly read Keep source resolution. After global key7 then Return it clearly read720p; the exact selected value was visually verified before Apply.",
+      "Adjacent ordinary page fields, labels, time inputs, buttons and surrounding layout remained readable in those screenshots. The Audio policy select popup subsequently rendered readable Copy where qualified / Precision AAC / Precision FLAC choices.",
+      "This observation concerns the open Resolution popup rendering, not evidence that the underlying page layout or all select controls were corrupted."
+    ],
+    "workaround": "Documented global Sky.press_key7 then Return while the Resolution select was focused; no script/eval/hidden IPC. Closed720p label verified, then Precision FLAC selected visibly and exact range checked before oneApply.",
+    "limits": [
+      "Screenshots exist only in CUA transcript; no standalone screenshot artifact claimed.",
+      "No cause, renderer/compositor/driver attribution or source regression inferred. HTML/CSS unchanged is context, not proof of origin.",
+      "Native functional selection succeeded, but this is not clean visual QA or a fix of the popup defect.",
+      "No fresh reproduction or alternate rendering experiment performed."
+    ]
+  },
+  "release": {
+    "atUtc": "2026-11-17T20:35:35.025527+00:00",
+    "sourceDocsFreezeReleased": true,
+    "sourceFilesVerified": 553,
+    "retainedEvidenceFilesVerified": 42,
+    "runtimeAndSourceIdentitiesVerified": true
+  },
+  "inheritedTestsNotRerun": {
+    "focused": "164/164 on019 integration",
+    "serviceParity": "125/126 old diagnostic mismatch",
+    "linux": "202/237 same35 failures"
+  },
+  "next": {
+    "preservation": "Five evidence/PBS paths,556files/20commits expected; Git then immediate verified Notion source/full bundle/native records then GitHub.",
+    "isolatedCode": "Closed-factory Full1080-to720 copied-AAC family/resources/collector tests authorized in separate019 clone. No current media/calibration/capsule/pin/UI activation. Nine-copy-collector-child design and AAC priming/metadata boundary remain explicit.",
+    "popupDiagnostic": "Preparation only for a separate exact per-file visual reproduction after020 preservation: one inspection-only Prepare required because fresh service has no live plan; open Resolution/Audio and Escape, no value change/Apply/Start/target encode/reveal/player. Reconcile existing fixed019 profile/state without clearing or raw profile reads; disclose startup capability media/probe work. No launch grant yet."
+  },
+  "limitations": [
+    "This audit performs no additional runtime/media/ffprobe/redecode/UI action; the preceding actual native journey did run.",
+    "Runtime security flags are saved declarations plus reviewed source configuration, not independent OS sandbox enforcement proof.",
+    "Geometry is supported by saved resolved operation/validator/collector acceptance, not a separately retained full output probe or fresh independent decode.",
+    "Full output hash was first established after native close and then independently matched; differing full container hash from service proof does not imply PCM mismatch.",
+    "CUA-only screenshots/visible feedback/Thunar selection and popup appearance are operator observations, not independently replayed pixel evidence or player verification.",
+    "Resolution popup overpainting remains unresolved; closed labels and audio popup were readable. Static unchanged editor/HTML/CSS does not establish an environment cause or rule out a preexisting issue.",
+    "Initial FILE_INSPECTED can record base ready before workbench demotion; final PREPARATION_FINISHED is unsupported and no Full encoding was recorded.",
+    "Four contexts are truncated; full local collector receipt/spools and input telemetry were inspected separately. Native owned-tool census does not prove complete stderr or OS-wide closure.",
+    "Selected PCM equality is captured streamed evidence, not retained full PCM buffers or independent re-decode; scaling is not pixel identity or general visual quality.",
+    "Point space/storage observations and30-minute SIGTERM request are not hard writes/exit guarantees. Wholemanualjourney432.025seconds is not encode benchmarking.",
+    "No native cancellation/relaunch/same-service retry,Full/othergeometry,hardware performance,catalog/default activation or owner acceptance. Formal SecurityCloud remains deferred.",
+    "Source archive excludes rawmedia/runtime/libraries/probes/spools/childlogs/approvals/private mapping/profile/cache/token/preferences; portable reports cannot restore their authority."
+  ]
+}

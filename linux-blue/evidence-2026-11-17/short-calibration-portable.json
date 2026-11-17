@@ -1,0 +1,1024 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Portable archival record of newly generated synthetic calibration evidence; not the original byte-identical report or a factory admission artifact",
+  "testedSourceCommit": "54ee143efed8a05b70520d278dd966ec5b0dda78",
+  "originalReport": {
+    "projectRelativePath": "linux-blue/artifacts/flac-candidate-YJ0MBJ/report.json",
+    "bytes": 29657,
+    "sha256": "6143eb2f58fbdc047bb490b437a08b69c763dd8bb5f267885a25c62960108684",
+    "preservedUnchangedLocally": true
+  },
+  "transformation": {
+    "version": 1,
+    "method": "Recursively replace project/runtime workspace path prefixes only in string values; preserve all keys, numeric values, arrays, non-path identity values, measurements and authority flags; path-bearing identity/probe values are deliberately transformed",
+    "projectPrefix": "project:// refers to a path relative to the project source root",
+    "runtimePrefix": "candidate-runtime:// refers to a path relative to the separately built candidate runtime root",
+    "changedStringCount": 6,
+    "originalMachinePrefixesExcluded": true,
+    "reversibleWithoutExternalMapping": false
+  },
+  "authority": {
+    "publicationAuthorized": false,
+    "catalogActivated": false,
+    "qualificationGranted": false,
+    "maySatisfyExistingPinnedReportGate": false
+  },
+  "retentionLimits": [
+    "Does not restore raw machine-absolute report bytes, binary tools, media outputs or streamed PCM bytes",
+    "Original report hash is provenance, not the hash of this transformed object",
+    "Independent saved-output audit did not rerun decoding or establish general pixel quality",
+    "Any future service qualification must deliberately review this record and its producer/runtime scope, not substitute this for an old pinned receipt"
+  ],
+  "report": {
+    "root": "project://linux-blue/artifacts/flac-candidate-YJ0MBJ",
+    "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+    "status": "passed-calibration-only",
+    "settings": {
+      "profileId": "h265-cpu",
+      "preset": "slow",
+      "quality": 25
+    },
+    "sourceEnvelope": "Synthetic QuickTime H264 High 720p30 SDR, PCM16 stereo48k, four seconds; original geometry",
+    "publicationAuthorized": false,
+    "catalogActivated": false,
+    "cases": [
+      {
+        "label": "head-half-second",
+        "range": {
+          "startUs": 0,
+          "endUs": 500000
+        },
+        "planFingerprint": "4a124f975cf29de2949fd4a86f52d444db321e5cfa4462ad302e736a1472e4fa",
+        "status": "passed",
+        "telemetry": {
+          "valid": true,
+          "scope": "encoder-input-count-and-timeline-only",
+          "streams": [
+            {
+              "outputIndex": 0,
+              "kind": "video",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            },
+            {
+              "outputIndex": 1,
+              "kind": "audio",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            }
+          ],
+          "doesNotEstablish": [
+            "video-pixel-identity",
+            "lossless-audio-identity",
+            "last-video-frame-duration",
+            "output-or-publication-validity"
+          ]
+        },
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": [],
+          "validation": "decoded-operation-contract",
+          "qualificationEvidenceId": "flac-candidate-YJ0MBJ:endpoints",
+          "timing": {
+            "timeline": "request-relative",
+            "requested": {
+              "startUs": 0,
+              "endUs": 500000
+            },
+            "resolved": {
+              "startUs": 0,
+              "endUs": 500000
+            },
+            "video": {
+              "startUs": 0,
+              "endUs": 500000,
+              "frames": 15,
+              "outputStartUs": 0,
+              "outputEndUs": 500000
+            },
+            "audio": [
+              {
+                "inputIndex": 1,
+                "mode": "precision-flac",
+                "startUs": 0,
+                "endUs": 500000,
+                "outputStartUs": 0,
+                "outputEndUs": 500333,
+                "encoderDelaySamples": 0,
+                "discardPaddingSamples": 0,
+                "sampleCountDifference": 0
+              }
+            ]
+          }
+        },
+        "pcmIdentity": {
+          "algorithm": "sha256",
+          "format": "s16le-interleaved",
+          "sourceHash": "79396f52b54a3484f61ba2edbfb252c59ed33138dcd1147668a3df818e2be076",
+          "outputHash": "79396f52b54a3484f61ba2edbfb252c59ed33138dcd1147668a3df818e2be076",
+          "sourceBytes": 96000,
+          "outputBytes": 96000
+        },
+        "samples": 24000,
+        "completeSource": {
+          "video": {
+            "frames": 120,
+            "firstTime": {
+              "n": "0",
+              "d": "15360"
+            },
+            "endTime": {
+              "n": "943718400",
+              "d": "235929600"
+            },
+            "maximumNominalCadenceErrorUs": 0,
+            "maximumNominalDurationErrorUs": 0,
+            "maximumNominalPhaseErrorUs": 0,
+            "properties": {
+              "policy": "short-sdr-range-flac-v1",
+              "sampleAspectRatio": "1:1",
+              "chromaLocation": "left",
+              "sideDataPolicy": "h26x-unregistered-sei-only",
+              "framesChecked": 120
+            }
+          },
+          "audio": [
+            {
+              "inputIndex": 1,
+              "sampleCount": "192000",
+              "firstTime": {
+                "n": "0",
+                "d": "48000"
+              },
+              "endTime": {
+                "n": "9216000000",
+                "d": "2304000000"
+              },
+              "gaps": 0
+            }
+          ]
+        },
+        "output": "project://linux-blue/artifacts/flac-candidate-YJ0MBJ/head-half-second/.ffmpeg-encoder-LXS9EC/encoded.mkv"
+      },
+      {
+        "label": "nonaligned-interior",
+        "range": {
+          "startUs": 1013000,
+          "endUs": 3087000
+        },
+        "planFingerprint": "4df9cf093196213236a562514fc3c0d1004e122e4b68405fc7761bf0ca2516ef",
+        "status": "passed",
+        "telemetry": {
+          "valid": true,
+          "scope": "encoder-input-count-and-timeline-only",
+          "streams": [
+            {
+              "outputIndex": 0,
+              "kind": "video",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            },
+            {
+              "outputIndex": 1,
+              "kind": "audio",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            }
+          ],
+          "doesNotEstablish": [
+            "video-pixel-identity",
+            "lossless-audio-identity",
+            "last-video-frame-duration",
+            "output-or-publication-validity"
+          ]
+        },
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": [],
+          "validation": "decoded-operation-contract",
+          "qualificationEvidenceId": "flac-candidate-YJ0MBJ:endpoints",
+          "timing": {
+            "timeline": "request-relative",
+            "requested": {
+              "startUs": 1013000,
+              "endUs": 3087000
+            },
+            "resolved": {
+              "startUs": 1013000,
+              "endUs": 3087000
+            },
+            "video": {
+              "startUs": 1033333,
+              "endUs": 3100000,
+              "frames": 62,
+              "outputStartUs": 20000,
+              "outputEndUs": 2087000
+            },
+            "audio": [
+              {
+                "inputIndex": 1,
+                "mode": "precision-flac",
+                "startUs": 1013000,
+                "endUs": 3087000,
+                "outputStartUs": 0,
+                "outputEndUs": 2074000,
+                "encoderDelaySamples": 0,
+                "discardPaddingSamples": 0,
+                "sampleCountDifference": 0
+              }
+            ]
+          }
+        },
+        "pcmIdentity": {
+          "algorithm": "sha256",
+          "format": "s16le-interleaved",
+          "sourceHash": "dae553f222b2b037d0a4abb01473096d57348165adcf307ea1e3782cc39ab6ed",
+          "outputHash": "dae553f222b2b037d0a4abb01473096d57348165adcf307ea1e3782cc39ab6ed",
+          "sourceBytes": 398208,
+          "outputBytes": 398208
+        },
+        "samples": 99552,
+        "completeSource": {
+          "video": {
+            "frames": 120,
+            "firstTime": {
+              "n": "0",
+              "d": "15360"
+            },
+            "endTime": {
+              "n": "943718400",
+              "d": "235929600"
+            },
+            "maximumNominalCadenceErrorUs": 0,
+            "maximumNominalDurationErrorUs": 0,
+            "maximumNominalPhaseErrorUs": 0,
+            "properties": {
+              "policy": "short-sdr-range-flac-v1",
+              "sampleAspectRatio": "1:1",
+              "chromaLocation": "left",
+              "sideDataPolicy": "h26x-unregistered-sei-only",
+              "framesChecked": 120
+            }
+          },
+          "audio": [
+            {
+              "inputIndex": 1,
+              "sampleCount": "192000",
+              "firstTime": {
+                "n": "0",
+                "d": "48000"
+              },
+              "endTime": {
+                "n": "9216000000",
+                "d": "2304000000"
+              },
+              "gaps": 0
+            }
+          ]
+        },
+        "output": "project://linux-blue/artifacts/flac-candidate-YJ0MBJ/nonaligned-interior/.ffmpeg-encoder-0xRcn4/encoded.mkv"
+      },
+      {
+        "label": "held-out-open-end",
+        "range": {
+          "startUs": 2000000
+        },
+        "planFingerprint": "66dcf1d5e2181b117f90c564f24778bb64d5f80c5780a59eb7c92ac7cf56373a",
+        "status": "passed",
+        "telemetry": {
+          "valid": true,
+          "scope": "encoder-input-count-and-timeline-only",
+          "streams": [
+            {
+              "outputIndex": 0,
+              "kind": "video",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            },
+            {
+              "outputIndex": 1,
+              "kind": "audio",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            }
+          ],
+          "doesNotEstablish": [
+            "video-pixel-identity",
+            "lossless-audio-identity",
+            "last-video-frame-duration",
+            "output-or-publication-validity"
+          ]
+        },
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": [],
+          "validation": "decoded-operation-contract",
+          "qualificationEvidenceId": "flac-candidate-YJ0MBJ:endpoints",
+          "timing": {
+            "timeline": "request-relative",
+            "requested": {
+              "startUs": 2000000,
+              "endUs": null
+            },
+            "resolved": {
+              "startUs": 2000000,
+              "endUs": 4000000
+            },
+            "video": {
+              "startUs": 2000000,
+              "endUs": 4000000,
+              "frames": 60,
+              "outputStartUs": 0,
+              "outputEndUs": 2000000
+            },
+            "audio": [
+              {
+                "inputIndex": 1,
+                "mode": "precision-flac",
+                "startUs": 2000000,
+                "endUs": 4000000,
+                "outputStartUs": 0,
+                "outputEndUs": 2000333,
+                "encoderDelaySamples": 0,
+                "discardPaddingSamples": 0,
+                "sampleCountDifference": 0
+              }
+            ]
+          }
+        },
+        "pcmIdentity": {
+          "algorithm": "sha256",
+          "format": "s16le-interleaved",
+          "sourceHash": "51ebc1328c4959e185cfe6c2466365ca83c9a1214cbe7ab81847c00d0cbffd71",
+          "outputHash": "51ebc1328c4959e185cfe6c2466365ca83c9a1214cbe7ab81847c00d0cbffd71",
+          "sourceBytes": 384000,
+          "outputBytes": 384000
+        },
+        "samples": 96000,
+        "completeSource": {
+          "video": {
+            "frames": 120,
+            "firstTime": {
+              "n": "0",
+              "d": "15360"
+            },
+            "endTime": {
+              "n": "943718400",
+              "d": "235929600"
+            },
+            "maximumNominalCadenceErrorUs": 0,
+            "maximumNominalDurationErrorUs": 0,
+            "maximumNominalPhaseErrorUs": 0,
+            "properties": {
+              "policy": "short-sdr-range-flac-v1",
+              "sampleAspectRatio": "1:1",
+              "chromaLocation": "left",
+              "sideDataPolicy": "h26x-unregistered-sei-only",
+              "framesChecked": 120
+            }
+          },
+          "audio": [
+            {
+              "inputIndex": 1,
+              "sampleCount": "192000",
+              "firstTime": {
+                "n": "0",
+                "d": "48000"
+              },
+              "endTime": {
+                "n": "9216000000",
+                "d": "2304000000"
+              },
+              "gaps": 0
+            }
+          ]
+        },
+        "output": "project://linux-blue/artifacts/flac-candidate-YJ0MBJ/held-out-open-end/.ffmpeg-encoder-C4Q8Nn/encoded.mkv"
+      }
+    ],
+    "census": {
+      "spawned": 34,
+      "closed": 34,
+      "live": 0,
+      "maximum": 1
+    },
+    "source": {
+      "path": "project://linux-blue/artifacts/flac-candidate-YJ0MBJ/synthetic-720p30.mov",
+      "sha256": "9a4124b659fd2f73780a6853db011846a2f6aab44a5a31f22d8867fd524aae0b",
+      "identity": {
+        "canonicalPath": "project://linux-blue/artifacts/flac-candidate-YJ0MBJ/synthetic-720p30.mov",
+        "dev": "27",
+        "ino": "2114678",
+        "size": "2172021",
+        "mtimeNs": "1794928860936421249",
+        "ctimeNs": "1794928860936421249",
+        "birthtimeNs": "1794928860535271639",
+        "sparseDigest": "sha256-sparse-v1:9a869d1ee8615dd5d37ae186a34b0c999fc31b24761e3874500fe2b79739053b"
+      },
+      "probe": {
+        "streams": [
+          {
+            "index": 0,
+            "id": "0x1",
+            "codec_type": "video",
+            "codec_name": "h264",
+            "profile": "High",
+            "codec_tag_string": "avc1",
+            "codec_tag": "0x31637661",
+            "level": 31,
+            "width": 1280,
+            "height": 720,
+            "coded_width": 1280,
+            "coded_height": 720,
+            "sample_aspect_ratio": "1:1",
+            "display_aspect_ratio": "16:9",
+            "field_order": "progressive",
+            "pix_fmt": "yuv420p",
+            "color_transfer": "bt709",
+            "color_primaries": "bt709",
+            "color_space": "bt709",
+            "color_range": "tv",
+            "chroma_location": "left",
+            "avg_frame_rate": "30/1",
+            "r_frame_rate": "30/1",
+            "time_base": "1/15360",
+            "start_pts": 0,
+            "start_time": "0.000000",
+            "duration_ts": 61440,
+            "duration": "4.000000",
+            "nb_frames": "120",
+            "bit_rate": "2798160",
+            "bits_per_raw_sample": "8",
+            "extradata_size": 47,
+            "extradata_hash": "SHA256:ddbeab61a69e66531ca47d1fcfea3c40052b2f85c58cae0712269023d744b4a1",
+            "tags": {
+              "handler_name": "VideoHandler",
+              "vendor_id": "FFMP",
+              "encoder": "Lavc63.1.102 libx264"
+            },
+            "disposition": {
+              "default": 1,
+              "dub": 0,
+              "original": 0,
+              "comment": 0,
+              "lyrics": 0,
+              "karaoke": 0,
+              "forced": 0,
+              "hearing_impaired": 0,
+              "visual_impaired": 0,
+              "clean_effects": 0,
+              "attached_pic": 0,
+              "timed_thumbnails": 0,
+              "non_diegetic": 0,
+              "captions": 0,
+              "descriptions": 0,
+              "metadata": 0,
+              "dependent": 0,
+              "still_image": 0,
+              "multilayer": 0
+            }
+          },
+          {
+            "index": 1,
+            "id": "0x2",
+            "codec_type": "audio",
+            "codec_name": "pcm_s16le",
+            "codec_tag_string": "sowt",
+            "codec_tag": "0x74776f73",
+            "avg_frame_rate": "0/0",
+            "r_frame_rate": "0/0",
+            "time_base": "1/48000",
+            "start_pts": 0,
+            "start_time": "0.000000",
+            "duration_ts": 192000,
+            "duration": "4.000000",
+            "nb_frames": "192000",
+            "bit_rate": "1536000",
+            "sample_fmt": "s16",
+            "sample_rate": "48000",
+            "channels": 2,
+            "channel_layout": "stereo",
+            "bits_per_sample": 16,
+            "initial_padding": 0,
+            "tags": {
+              "handler_name": "SoundHandler",
+              "vendor_id": "[0][0][0][0]"
+            },
+            "disposition": {
+              "default": 1,
+              "dub": 0,
+              "original": 0,
+              "comment": 0,
+              "lyrics": 0,
+              "karaoke": 0,
+              "forced": 0,
+              "hearing_impaired": 0,
+              "visual_impaired": 0,
+              "clean_effects": 0,
+              "attached_pic": 0,
+              "timed_thumbnails": 0,
+              "non_diegetic": 0,
+              "captions": 0,
+              "descriptions": 0,
+              "metadata": 0,
+              "dependent": 0,
+              "still_image": 0,
+              "multilayer": 0
+            }
+          }
+        ],
+        "format": {
+          "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+          "duration": "4.000000",
+          "start_time": "0.000000",
+          "bit_rate": "4344042",
+          "size": "2172021",
+          "nb_streams": 2,
+          "nb_programs": 0,
+          "nb_stream_groups": 0,
+          "probe_score": 100,
+          "tags": {
+            "major_brand": "qt  ",
+            "minor_version": "512",
+            "compatible_brands": "qt  ",
+            "encoder": "Lavf63.1.102"
+          }
+        },
+        "chapters": [],
+        "programs": [],
+        "stream_groups": [],
+        "mediaEvidence": {
+          "version": 2,
+          "streams": [
+            {
+              "index": 0,
+              "identity": {
+                "containerStreamId": {
+                  "state": "known",
+                  "value": "1"
+                }
+              },
+              "codec": {
+                "name": {
+                  "state": "known",
+                  "value": "h264"
+                },
+                "type": {
+                  "state": "known",
+                  "value": "video"
+                },
+                "profile": {
+                  "state": "known",
+                  "value": "High"
+                },
+                "tag": {
+                  "state": "known",
+                  "value": "avc1"
+                },
+                "tagValue": {
+                  "state": "known",
+                  "value": "0x31637661"
+                },
+                "level": {
+                  "state": "known",
+                  "value": "31"
+                },
+                "bitrate": {
+                  "state": "known",
+                  "value": "2798160"
+                }
+              },
+              "geometry": {
+                "width": {
+                  "state": "known",
+                  "value": "1280"
+                },
+                "height": {
+                  "state": "known",
+                  "value": "720"
+                },
+                "sampleAspectRatio": {
+                  "state": "known",
+                  "value": {
+                    "numerator": "1",
+                    "denominator": "1"
+                  }
+                },
+                "displayAspectRatio": {
+                  "state": "known",
+                  "value": {
+                    "numerator": "16",
+                    "denominator": "9"
+                  }
+                },
+                "rotationDegrees": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                },
+                "rotationSource": "not-reported",
+                "displayMatrix": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                },
+                "legacyRotationDegrees": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                },
+                "fieldOrder": {
+                  "state": "known",
+                  "value": "progressive"
+                }
+              },
+              "timeline": {
+                "timeBase": {
+                  "state": "known",
+                  "value": {
+                    "numerator": "1",
+                    "denominator": "15360"
+                  }
+                },
+                "startPts": {
+                  "state": "known",
+                  "value": "0"
+                },
+                "durationTicks": {
+                  "state": "known",
+                  "value": "61440"
+                },
+                "startSeconds": {
+                  "state": "known",
+                  "value": {
+                    "numerator": "0",
+                    "denominator": "1"
+                  }
+                },
+                "durationSeconds": {
+                  "state": "known",
+                  "value": {
+                    "numerator": "4",
+                    "denominator": "1"
+                  }
+                },
+                "averageFrameRate": {
+                  "state": "known",
+                  "value": {
+                    "numerator": "30",
+                    "denominator": "1"
+                  }
+                },
+                "nominalFrameRate": {
+                  "state": "known",
+                  "value": {
+                    "numerator": "30",
+                    "denominator": "1"
+                  }
+                },
+                "frameCount": {
+                  "state": "known",
+                  "value": "120"
+                }
+              },
+              "audio": {
+                "sampleFormat": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                },
+                "sampleRate": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                },
+                "channels": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                },
+                "channelLayout": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                },
+                "bitsPerSample": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                },
+                "bitsPerRawSample": {
+                  "state": "known",
+                  "value": "8"
+                },
+                "initialPadding": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                },
+                "trailingPadding": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                }
+              },
+              "color": {
+                "pixelFormat": {
+                  "state": "known",
+                  "value": "yuv420p"
+                },
+                "transfer": {
+                  "state": "known",
+                  "value": "bt709"
+                },
+                "primaries": {
+                  "state": "known",
+                  "value": "bt709"
+                },
+                "matrix": {
+                  "state": "known",
+                  "value": "bt709"
+                },
+                "range": {
+                  "state": "known",
+                  "value": "tv"
+                },
+                "chromaLocation": {
+                  "state": "known",
+                  "value": "left"
+                }
+              },
+              "hdr": {
+                "coverage": "stream-metadata-only",
+                "entries": []
+              }
+            },
+            {
+              "index": 1,
+              "identity": {
+                "containerStreamId": {
+                  "state": "known",
+                  "value": "2"
+                }
+              },
+              "codec": {
+                "name": {
+                  "state": "known",
+                  "value": "pcm_s16le"
+                },
+                "type": {
+                  "state": "known",
+                  "value": "audio"
+                },
+                "profile": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                },
+                "tag": {
+                  "state": "known",
+                  "value": "sowt"
+                },
+                "tagValue": {
+                  "state": "known",
+                  "value": "0x74776f73"
+                },
+                "level": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                },
+                "bitrate": {
+                  "state": "known",
+                  "value": "1536000"
+                }
+              },
+              "geometry": {
+                "width": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                },
+                "height": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                },
+                "sampleAspectRatio": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                },
+                "displayAspectRatio": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                },
+                "rotationDegrees": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                },
+                "rotationSource": "not-reported",
+                "displayMatrix": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                },
+                "legacyRotationDegrees": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                },
+                "fieldOrder": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                }
+              },
+              "timeline": {
+                "timeBase": {
+                  "state": "known",
+                  "value": {
+                    "numerator": "1",
+                    "denominator": "48000"
+                  }
+                },
+                "startPts": {
+                  "state": "known",
+                  "value": "0"
+                },
+                "durationTicks": {
+                  "state": "known",
+                  "value": "192000"
+                },
+                "startSeconds": {
+                  "state": "known",
+                  "value": {
+                    "numerator": "0",
+                    "denominator": "1"
+                  }
+                },
+                "durationSeconds": {
+                  "state": "known",
+                  "value": {
+                    "numerator": "4",
+                    "denominator": "1"
+                  }
+                },
+                "averageFrameRate": {
+                  "state": "unknown",
+                  "reason": "zero-over-zero"
+                },
+                "nominalFrameRate": {
+                  "state": "unknown",
+                  "reason": "zero-over-zero"
+                },
+                "frameCount": {
+                  "state": "known",
+                  "value": "192000"
+                }
+              },
+              "audio": {
+                "sampleFormat": {
+                  "state": "known",
+                  "value": "s16"
+                },
+                "sampleRate": {
+                  "state": "known",
+                  "value": "48000"
+                },
+                "channels": {
+                  "state": "known",
+                  "value": "2"
+                },
+                "channelLayout": {
+                  "state": "known",
+                  "value": "stereo"
+                },
+                "bitsPerSample": {
+                  "state": "known",
+                  "value": "16"
+                },
+                "bitsPerRawSample": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                },
+                "initialPadding": {
+                  "state": "known",
+                  "value": "0"
+                },
+                "trailingPadding": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                }
+              },
+              "color": {
+                "pixelFormat": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                },
+                "transfer": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                },
+                "primaries": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                },
+                "matrix": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                },
+                "range": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                },
+                "chromaLocation": {
+                  "state": "unknown",
+                  "reason": "not-reported"
+                }
+              },
+              "hdr": {
+                "coverage": "stream-metadata-only",
+                "entries": []
+              }
+            }
+          ],
+          "container": {
+            "name": {
+              "state": "known",
+              "value": "mov,mp4,m4a,3gp,3g2,mj2"
+            },
+            "startSeconds": {
+              "state": "known",
+              "value": {
+                "numerator": "0",
+                "denominator": "1"
+              }
+            },
+            "durationSeconds": {
+              "state": "known",
+              "value": {
+                "numerator": "4",
+                "denominator": "1"
+              }
+            },
+            "bitrate": {
+              "state": "known",
+              "value": "4344042"
+            },
+            "size": {
+              "state": "known",
+              "value": "2172021"
+            },
+            "programs": {
+              "state": "known",
+              "reportedCount": {
+                "state": "known",
+                "value": "0"
+              },
+              "issues": [],
+              "value": []
+            },
+            "streamGroups": {
+              "state": "known",
+              "reportedCount": {
+                "state": "known",
+                "value": "0"
+              },
+              "issues": [],
+              "value": []
+            },
+            "relationships": {
+              "state": "known",
+              "reportedStreamCount": {
+                "state": "known",
+                "value": "2"
+              },
+              "observedStreamCount": 2,
+              "issues": []
+            }
+          }
+        }
+      }
+    },
+    "frozen": {
+      "frozenBeforeEncode": true,
+      "expectedOutputTimeBase": "1/1000",
+      "derivation": {
+        "sourceVideoTimeBase": "1/15360",
+        "sourceAudioTimeBase": "1/48000",
+        "outputTimeBaseHypothesis": "1/1000",
+        "video": "source video tick + fixed output tick + one microsecond representation allowance",
+        "audioInterior": "source audio tick + one source sample + fixed output tick",
+        "audioEndpoint": "audio interior quantization only; FLAC adds no coding tail",
+        "containerDuration": "end-timestamp: max decoded video/audio output end; duration bound = video bound + ceil(one sample)",
+        "sampleCount": "zero: complete selected canonical s16le PCM byte/hash/sample identity",
+        "noObservedCandidateErrorUsed": true
+      },
+      "qualification": {
+        "evidenceId": "flac-candidate-YJ0MBJ:endpoints",
+        "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+        "containerDuration": "end-timestamp",
+        "tolerances": {
+          "videoTimestampUs": 1067,
+          "audioTimestampUs": 1042,
+          "avSyncUs": 2109,
+          "durationUs": 1088,
+          "sampleCount": 0
+        }
+      },
+      "timingQualification": {
+        "evidenceId": "flac-candidate-YJ0MBJ:interior",
+        "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+        "videoDurationUs": 1067,
+        "audioTimelineUs": 1042,
+        "aac": null
+      }
+    }
+  }
+}

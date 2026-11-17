@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-11-17T15:38:14.251598+00:00",
+  "purpose": "Owner-requested correction of the live cumulative FFmpeg session record to the supplied full single-project structure, with dated history and original substantive paragraphs retained.",
+  "ownerRequestDate": "2026-11-17",
+  "methodology": "PBS 1.1 single-project H1 session / H2 core / H3 detail; exact owner-supplied template governs this correction. Blue examples supply writing method only, not FFmpeg facts or authority.",
+  "sourceCheckpoint": "54ee143efed8a05b70520d278dd966ec5b0dda78",
+  "sourcePath": "linux-blue/SESSION_SUMMARY.md",
+  "sourceBytes": 99752,
+  "sourceSha256": "6fd08a7d840eab4f8be44230f8a950c517b0d454dc7ca29d9ca3fbedb3141ee4",
+  "correctedPath": "linux-blue/SESSION_SUMMARY.md",
+  "correctedBytes": 185158,
+  "correctedSha256": "f1e36508ef828e82ea8371753e51ee1a765e617b7df05ad9f72f56d0453e9455",
+  "entries": {
+    "newCurrentEntry": 1,
+    "correctedHistoricalEntries": 6,
+    "total": 7,
+    "order": "Newest first; historical order unchanged; each historical cutoff retained."
+  },
+  "preservation": {
+    "originalSubstantiveParagraphs": 236,
+    "allOriginalSubstantiveParagraphsRetained": true,
+    "wholeHistoricalBodiesByteIdentical": false,
+    "reason": "Explicitly authorized structure correction adds fields and dated clarifications; old complete bytes remain in checkpoint 006 and earlier immutable archives.",
+    "historicalReconstructionSessionUnchanged": true,
+    "historicalReconstructionSessionSha256": "c911d89dedb100ae1631dad89cd083ca1a859ad85db0f27b3c03f035485375ce",
+    "priorNotionCheckpointPagesRewritten": false,
+    "priorGitHistoryRewritten": false,
+    "perEntry": [
+      {
+        "originalOrder": 1,
+        "title": "# 📘 Session: November 17, 2026 — FFmpeg Encoder — Prepare independently verified candidate runtime calibration",
+        "originalBytes": 19568,
+        "originalSha256": "c0ab53150e1fcc443a89ea43aadbc17e30d5125aef324f1625c9d4ca2ebb97f6",
+        "correctedBytes": 28772,
+        "correctedSha256": "4d2016df0096f8e105105499d4152c3a373cc68c88d2aa45845e439e425a19bf",
+        "originalSubstantiveParagraphs": 39,
+        "originalSubstantiveParagraphsRetained": true,
+        "originalCutoffPreserved": true
+      },
+      {
+        "originalOrder": 2,
+        "title": "# 📘 Session: November 17, 2026 — FFmpeg Encoder — Bind proportional collection and close the final revocation gap",
+        "originalBytes": 14900,
+        "originalSha256": "04ad4e1660282293012674836ba161fe2d4553d99716ffe0051a735b3e315d38",
+        "correctedBytes": 23800,
+        "correctedSha256": "61cec1b9251e0bae060a07bbcdcf285ac39518f64e917d787a192a3f73b038c3",
+        "originalSubstantiveParagraphs": 44,
+        "originalSubstantiveParagraphsRetained": true,
+        "originalCutoffPreserved": true
+      },
+      {
+        "originalOrder": 3,
+        "title": "# 📘 Session: November 17, 2026 — FFmpeg Encoder — Execute the proportional service resource boundaries without activating media",
+        "originalBytes": 12945,
+        "originalSha256": "5be5843da439d694918cabcd008c445f3402cf4106e955d0da9e80e0462a6475",
+        "correctedBytes": 21570,
+        "correctedSha256": "eed115727b9e7efdc097de45cfdcf2f972ca49b22b3adc0301026b99c6018456",
+        "originalSubstantiveParagraphs": 37,
+        "originalSubstantiveParagraphsRetained": true,
+        "originalCutoffPreserved": true
+      },
+      {
+        "originalOrder": 4,
+        "title": "# 📘 Session: November 17, 2026 — FFmpeg Encoder — Branded proportional FLAC resources and a closed activation boundary",
+        "originalBytes": 16386,
+        "originalSha256": "52a08441c3c9687522ed22aa733834fc6634c758c3c6ef8e7ec0f980d3e3d37f",
+        "correctedBytes": 25187,
+        "correctedSha256": "9d6d53dd1f854bcffda536fe30342eefb6e9b4289cc0aca9caf9c2868a585bf1",
+        "originalSubstantiveParagraphs": 43,
+        "originalSubstantiveParagraphsRetained": true,
+        "originalCutoffPreserved": true
+      },
+      {
+        "originalOrder": 5,
+        "title": "# 📘 Session: November 17, 2026 — FFmpeg Encoder — Restore Linux runtime identity admission without opening unqualified routes",
+        "originalBytes": 11260,
+        "originalSha256": "78304221b1e61f076c1938afe3fa2fa25f425f3398845cfed0d914a7394a7317",
+        "correctedBytes": 19141,
+        "correctedSha256": "59e765553a8e1eab84fad82525c8eda5cb13937187b22976d3c63dbc70d35ab2",
+        "originalSubstantiveParagraphs": 28,
+        "originalSubstantiveParagraphsRetained": true,
+        "originalCutoffPreserved": true
+      },
+      {
+        "originalOrder": 6,
+        "title": "# 📘 Session: November 17, 2026 — FFmpeg Encoder — Surviving-source reconstruction, continuity and bounded component verification",
+        "originalBytes": 24693,
+        "originalSha256": "c911d89dedb100ae1631dad89cd083ca1a859ad85db0f27b3c03f035485375ce",
+        "correctedBytes": 34416,
+        "correctedSha256": "cefb4c57e7797dd2cb7bc5826db8c85004f9f21355091b09ae7bbe0b33305a55",
+        "originalSubstantiveParagraphs": 45,
+        "originalSubstantiveParagraphsRetained": true,
+        "originalCutoffPreserved": true
+      }
+    ]
+  },
+  "checks": {
+    "sevenEntriesExactCoreHeadingIdentityOrderAndLevels": true,
+    "roleSpecificProvenanceAndRecordBasis": true,
+    "explicitKnownUnknownTimeAndCairoOffset": true,
+    "beforeAfterStandingContinuationConfidenceFields": true,
+    "originalParagraphSubstringPreservation": true,
+    "independentContentReview": "Completed: historical additions and newest media session reviewed read-only; identified attribution, premature-publication wording, evolved-goal and cleanup-impact issues corrected before save.",
+    "links": "All 10 distinct local owning-document links resolve in the final working tree, including the new media execution/receipt companions and this correction receipt.",
+    "nativeNotionRenderingOrReadback": "Not performed by this editor; belongs to subsequent mirror verification.",
+    "ownerAcceptance": "Not claimed."
+  },
+  "writingSources": [
+    {
+      "name": "Pasted text(20261117-152325).txt",
+      "sha256": "da1a7b8091954a524065506db692eb5d62200f529d7f9feaef4fe8442bd43b73",
+      "readScope": "Read for this correction; no unrelated project content copied."
+    },
+    {
+      "name": "SKILL.md",
+      "sha256": "c2785fda66c13864d617a0464ef934da7f969eb9177773764597ff9d407e614c",
+      "readScope": "Read for this correction; no unrelated project content copied."
+    },
+    {
+      "name": "write-session-summaries.md",
+      "sha256": "5e0fe2a7c04884dd310704322bf8743dd28d65e36df1c6a191390ca467e5d91a",
+      "readScope": "Read for this correction; no unrelated project content copied."
+    },
+    {
+      "name": "session-format-profiles.md",
+      "sha256": "a53c3bc816a0fb7900ea5a75b838107853aba1de9f4768180d7ab861decde44a",
+      "readScope": "Read for this correction; no unrelated project content copied."
+    },
+    {
+      "name": "03_Blue's_SESSION_SUMMARY [November 15, 2026] revision06(1).md",
+      "sha256": "2c1a2159f63987655bc1b075b88acba506a568abf5fa561f9b52d8f939880a39",
+      "readScope": "Relevant full skill/guides/template; selected substantive Blue project and documentation-correction examples, not the entire cumulative Blue archive."
+    }
+  ],
+  "notionMethodReference": "https://app.notion.com/p/3fabd7ade63b8130a7d2f8092ca52811",
+  "mediaEvidenceBoundary": "Short and long calibration remain bound to immutable checkpoint 006 and their original reports/audits. Later documentation edits are not retroactively called tested producer bytes. No new media execution or application code change was made by this editor.",
+  "publication": "Prepared and saved source records only. A subsequent verified checkpoint receipt owns local commit, Notion restoration/readback and GitHub publication; none is predicted here."
+}

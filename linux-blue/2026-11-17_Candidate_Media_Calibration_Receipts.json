@@ -1,0 +1,1988 @@
+{
+  "schema": 1,
+  "classification": "Sanitized checkpoint007 actual-media evidence record, not a qualification artifact or activation grant",
+  "testedCommit": "54ee143efed8a05b70520d278dd966ec5b0dda78",
+  "runtime": {
+    "pins": {
+      "ffmpeg": {
+        "path": "guidance/runtime-candidate-build-20261117/build/ffmpeg",
+        "size": 46175848,
+        "sha256": "ae5b2e8b48ad0e9b51b89ebab000ebcfc0b76a09b8cb80c88e18fddcc5d9e8ba"
+      },
+      "ffprobe": {
+        "path": "guidance/runtime-candidate-build-20261117/build/ffprobe",
+        "size": 45962728,
+        "sha256": "923dab8640da8804c445418b6e2efe4b395665bdb9d4cfc84f6a244ed0fb156b"
+      }
+    },
+    "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+    "dependencies": [
+      {
+        "path": "libm.so.6",
+        "sonamePath": "libm.so.6",
+        "size": 977112,
+        "sha256": "6d567d53e895273ca14a1f9dc164fc6c8d39aed2f60aa46a733c2784228915f3"
+      },
+      {
+        "path": "libdav1d.so.7.0.0",
+        "sonamePath": "libdav1d.so.7",
+        "size": 1746880,
+        "sha256": "1d7a4182344230d5f4cf9f58bf4485da2801c411e9c9fd6d8471460c75ae8fbf"
+      },
+      {
+        "path": "libSvtAv1Enc.so.2.3.0",
+        "sonamePath": "libSvtAv1Enc.so.2",
+        "size": 7984736,
+        "sha256": "48713dd9caf08909462bad0274cc9d9b249ccf836a9be72fd731f8d8096c4d35"
+      },
+      {
+        "path": "libgcc_s.so.1",
+        "sonamePath": "libgcc_s.so.1",
+        "size": 182856,
+        "sha256": "30c61ab012a4241bed033725a09b61f5fdd3bb7df95ee852d0b096520524c7af"
+      },
+      {
+        "path": "libstdc++.so.6.0.33",
+        "sonamePath": "libstdc++.so.6",
+        "size": 2497768,
+        "sha256": "972bb2a18b71140dab0240f8a1f68ab3fb1d56bcd4c4f824a91b70888faf5a00"
+      },
+      {
+        "path": "libc.so.6",
+        "sonamePath": "libc.so.6",
+        "size": 1995216,
+        "sha256": "9792e3cbb541c8f44c7acf5f14f4022ea62998ecc787d326bed4d8b6547dfd92"
+      },
+      {
+        "path": "ld-linux-x86-64.so.2",
+        "sonamePath": "ld-linux-x86-64.so.2",
+        "size": 225672,
+        "sha256": "c8438e4fde1934e61c88311633f00949ff645d5c04cdb8671fa3d78164d2f307"
+      }
+    ]
+  },
+  "runtimeDependencyLimit": "Seven explicitly audited actual-loaded dependencies; not rediscovered closure per invocation or atomic image immutability. Basenames replace machine paths.",
+  "campaigns": [
+    {
+      "kind": "short",
+      "report": {
+        "path": "linux-blue/artifacts/flac-candidate-YJ0MBJ/report.json",
+        "bytes": 29657,
+        "sha256": "6143eb2f58fbdc047bb490b437a08b69c763dd8bb5f267885a25c62960108684"
+      },
+      "completion": {
+        "path": "guidance/short-candidate-campaign-plan-20261117/completion-1794928876309-6.json",
+        "bytes": 31820,
+        "sha256": "31581e0416ff9de169fa5aa5391129fd7a6fa849c2c3ee04175b853da457b460"
+      },
+      "independentAudit": {
+        "path": "guidance/short-candidate-campaign-plan-20261117/independent-saved-output-audit.json",
+        "bytes": 82376,
+        "sha256": "12d9ada6d4f466e1188e3f855811f54cab26b9e554b4b911312b769912758e23"
+      },
+      "sourceGate": {
+        "path": "guidance/short-candidate-campaign-plan-20261117/APPROVED_CHECKPOINT.json",
+        "bytes": 31022,
+        "sha256": "a3be63c120c9ea0e40b70ddbeb2b39abb865d4b01f632643e0c0f64d6b0c8d27"
+      },
+      "sourceGateCount": 279,
+      "auditedProducerHashesMatchImmutableTestedCommit": true,
+      "status": "passed-calibration-only",
+      "exitCode": 0,
+      "census": {
+        "spawned": 34,
+        "closed": 34,
+        "live": 0,
+        "maximum": 1
+      },
+      "elapsedMs": 16293,
+      "campaignAbortMs": 600000,
+      "maximumChildren": 100,
+      "heldoutMeaning": "Later range of same4s generated source, not independent source",
+      "sources": [
+        {
+          "path": "linux-blue/artifacts/flac-candidate-YJ0MBJ/synthetic-720p30.mov",
+          "bytes": 2172021,
+          "sha256": "9a4124b659fd2f73780a6853db011846a2f6aab44a5a31f22d8867fd524aae0b",
+          "id": "synthetic-720p30",
+          "frames": 120,
+          "samples": "192000"
+        }
+      ],
+      "cases": [
+        {
+          "id": "head-half-second",
+          "sourceId": "synthetic-720p30",
+          "range": {
+            "startUs": 0,
+            "endUs": 500000
+          },
+          "status": "passed",
+          "frames": 15,
+          "samples": 24000,
+          "pcmIdentity": {
+            "algorithm": "sha256",
+            "format": "s16le-interleaved",
+            "sourceHash": "79396f52b54a3484f61ba2edbfb252c59ed33138dcd1147668a3df818e2be076",
+            "outputHash": "79396f52b54a3484f61ba2edbfb252c59ed33138dcd1147668a3df818e2be076",
+            "sourceBytes": 96000,
+            "outputBytes": 96000
+          },
+          "telemetry": {
+            "valid": true,
+            "scope": "encoder-input-count-and-timeline-only",
+            "streams": [
+              {
+                "outputIndex": 0,
+                "kind": "video",
+                "unknownInputRecords": "0",
+                "correspondence": "reported-input-and-independent-selected-source"
+              },
+              {
+                "outputIndex": 1,
+                "kind": "audio",
+                "unknownInputRecords": "0",
+                "correspondence": "reported-input-and-independent-selected-source"
+              }
+            ],
+            "doesNotEstablish": [
+              "video-pixel-identity",
+              "lossless-audio-identity",
+              "last-video-frame-duration",
+              "output-or-publication-validity"
+            ]
+          },
+          "telemetryFiles": [
+            {
+              "path": "linux-blue/artifacts/flac-candidate-YJ0MBJ/head-half-second/encoder-telemetry-jup21k/stream-0.tsv",
+              "bytes": 632,
+              "sha256": "04fe925fb090d27dce94dba2f784fb242e3fa8e727adeaa7c5924961d642419b",
+              "lineCount": 15
+            },
+            {
+              "path": "linux-blue/artifacts/flac-candidate-YJ0MBJ/head-half-second/encoder-telemetry-jup21k/stream-1.tsv",
+              "bytes": 1308,
+              "sha256": "3cee4e8849ada5a70a147dad101af7af030a07bef2a67bfabd34ce8431dbc161",
+              "lineCount": 24
+            }
+          ],
+          "validation": {
+            "valid": true,
+            "errors": [],
+            "warnings": [],
+            "validation": "decoded-operation-contract",
+            "qualificationEvidenceId": "flac-candidate-YJ0MBJ:endpoints",
+            "timing": {
+              "timeline": "request-relative",
+              "requested": {
+                "startUs": 0,
+                "endUs": 500000
+              },
+              "resolved": {
+                "startUs": 0,
+                "endUs": 500000
+              },
+              "video": {
+                "startUs": 0,
+                "endUs": 500000,
+                "frames": 15,
+                "outputStartUs": 0,
+                "outputEndUs": 500000
+              },
+              "audio": [
+                {
+                  "inputIndex": 1,
+                  "mode": "precision-flac",
+                  "startUs": 0,
+                  "endUs": 500000,
+                  "outputStartUs": 0,
+                  "outputEndUs": 500333,
+                  "encoderDelaySamples": 0,
+                  "discardPaddingSamples": 0,
+                  "sampleCountDifference": 0
+                }
+              ]
+            }
+          },
+          "completeSource": {
+            "video": {
+              "frames": 120,
+              "firstTime": {
+                "n": "0",
+                "d": "15360"
+              },
+              "endTime": {
+                "n": "943718400",
+                "d": "235929600"
+              },
+              "maximumNominalCadenceErrorUs": 0,
+              "maximumNominalDurationErrorUs": 0,
+              "maximumNominalPhaseErrorUs": 0,
+              "properties": {
+                "policy": "short-sdr-range-flac-v1",
+                "sampleAspectRatio": "1:1",
+                "chromaLocation": "left",
+                "sideDataPolicy": "h26x-unregistered-sei-only",
+                "framesChecked": 120
+              }
+            },
+            "audio": [
+              {
+                "inputIndex": 1,
+                "sampleCount": "192000",
+                "firstTime": {
+                  "n": "0",
+                  "d": "48000"
+                },
+                "endTime": {
+                  "n": "9216000000",
+                  "d": "2304000000"
+                },
+                "gaps": 0
+              }
+            ]
+          },
+          "collector": {
+            "receipt": {
+              "path": "linux-blue/artifacts/flac-candidate-YJ0MBJ/head-half-second/operation-evidence-Z0NOkT/receipt.json",
+              "bytes": 16128,
+              "sha256": "fabd50e2200468b209e9a24335380d74f17d423ce01d0f80341652abe060c48d"
+            },
+            "status": "completed",
+            "completedChildren": 7,
+            "allCompleted": true,
+            "invocations": [
+              {
+                "label": "source-video-frames",
+                "status": "completed",
+                "capture": {
+                  "bytes": 28770,
+                  "records": 120,
+                  "sha256": "3da0021033b72f70352de2d873d273e36e63c49b345194c3ce3c7666d4bdebd1"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 440
+              },
+              {
+                "label": "output-video-frames",
+                "status": "completed",
+                "capture": {
+                  "bytes": 2876,
+                  "records": 15,
+                  "sha256": "ee4ec5788ad66962514f819b958a88ce6960fdaf515aad9f0bfe2a6d1004a673"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 123
+              },
+              {
+                "label": "source-audio-1-frames",
+                "status": "completed",
+                "capture": {
+                  "bytes": 23763,
+                  "records": 188,
+                  "sha256": "0d7fc34af0b201e5b251214470e629d96b1d99f3c76d1a5e35e37d7baafdd549"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 65
+              },
+              {
+                "label": "output-audio-1-frames",
+                "status": "completed",
+                "capture": {
+                  "bytes": 2920,
+                  "records": 24,
+                  "sha256": "55379de8a7a195ad10eb7ed9962abf77afe67cba720524168b7ec5981d3c28f2"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 59
+              },
+              {
+                "label": "output-audio-1-padding",
+                "status": "completed",
+                "capture": {
+                  "bytes": 528,
+                  "records": 24,
+                  "sha256": "23ca36acf396c4012484c98dde0c1472636d40aa7faffff93d8df88d3ed2cc5d"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 91
+              },
+              {
+                "label": "source-audio-1-pcm",
+                "status": "completed",
+                "capture": {
+                  "bytes": 768000,
+                  "selectedBytes": 96000,
+                  "sha256": "79396f52b54a3484f61ba2edbfb252c59ed33138dcd1147668a3df818e2be076"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 58
+              },
+              {
+                "label": "output-audio-1-pcm",
+                "status": "completed",
+                "capture": {
+                  "bytes": 96000,
+                  "selectedBytes": 96000,
+                  "sha256": "79396f52b54a3484f61ba2edbfb252c59ed33138dcd1147668a3df818e2be076"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 78
+              }
+            ],
+            "budget": {
+              "sourceDecode": "complete",
+              "timeoutMs": 120000,
+              "maxFrameBytes": 8388608,
+              "maxPcmBytes": 134217728,
+              "maxRecords": 20000,
+              "maxSpoolBytes": 33554432
+            },
+            "spools": [
+              {
+                "path": "linux-blue/artifacts/flac-candidate-YJ0MBJ/head-half-second/operation-evidence-Z0NOkT/selected-video.jsonl",
+                "bytes": 1031,
+                "sha256": "c5ea5e38a39e8e8b1699ce48476cb82ea25d3a6d99302ae61708655d66340957",
+                "status": "sealed"
+              },
+              {
+                "path": "linux-blue/artifacts/flac-candidate-YJ0MBJ/head-half-second/operation-evidence-Z0NOkT/selected-audio-1.jsonl",
+                "bytes": 2549,
+                "sha256": "1746fcc8ada736b4c71ba20d449ee64cef942fc52b0c1397ed7c8ee6e7ee7a5c",
+                "status": "sealed"
+              },
+              {
+                "path": "linux-blue/artifacts/flac-candidate-YJ0MBJ/head-half-second/operation-evidence-Z0NOkT/output-audio-1.jsonl",
+                "bytes": 1564,
+                "sha256": "a97bf74642543d8bda8030331a3b4a730d11d1f8520fff03cb7160733d8623e4",
+                "status": "sealed"
+              }
+            ],
+            "timelineComparisons": {
+              "video": {
+                "comparedFrames": 15,
+                "maximumDurationErrorUs": 334,
+                "toleranceUs": 1067
+              },
+              "audio": [
+                {
+                  "inputIndex": 1,
+                  "mode": "precision-flac",
+                  "selectedSourceGaps": 0,
+                  "unmatchedSourceTailSamples": 0,
+                  "unmatchedOutputTailSamples": 0,
+                  "comparedSamples": 24000,
+                  "intersectedSpans": 24,
+                  "maximumElapsedClockErrorUs": 334,
+                  "toleranceUs": 1042,
+                  "alignment": "sample ordinal after decoder-signalled skip; source minus the shared requested origin; no fitted shift",
+                  "contentIdentity": false
+                }
+              ]
+            }
+          },
+          "output": {
+            "path": "linux-blue/artifacts/flac-candidate-YJ0MBJ/head-half-second/.ffmpeg-encoder-LXS9EC/encoded.mkv",
+            "bytes": 199281,
+            "sha256": "3a30333e10f8a8d673a573c58915066c0217cbb2327c38c45eeb7b134c157e0e"
+          },
+          "actualVsBounds": {
+            "elapsedMs": null,
+            "aggregatePipeBytes": null,
+            "limitation": "Short harness does not persist per-case elapsed or aggregate pipe totals; collector per-child capture/elapsed and campaign elapsed retained."
+          }
+        },
+        {
+          "id": "nonaligned-interior",
+          "sourceId": "synthetic-720p30",
+          "range": {
+            "startUs": 1013000,
+            "endUs": 3087000
+          },
+          "status": "passed",
+          "frames": 62,
+          "samples": 99552,
+          "pcmIdentity": {
+            "algorithm": "sha256",
+            "format": "s16le-interleaved",
+            "sourceHash": "dae553f222b2b037d0a4abb01473096d57348165adcf307ea1e3782cc39ab6ed",
+            "outputHash": "dae553f222b2b037d0a4abb01473096d57348165adcf307ea1e3782cc39ab6ed",
+            "sourceBytes": 398208,
+            "outputBytes": 398208
+          },
+          "telemetry": {
+            "valid": true,
+            "scope": "encoder-input-count-and-timeline-only",
+            "streams": [
+              {
+                "outputIndex": 0,
+                "kind": "video",
+                "unknownInputRecords": "0",
+                "correspondence": "reported-input-and-independent-selected-source"
+              },
+              {
+                "outputIndex": 1,
+                "kind": "audio",
+                "unknownInputRecords": "0",
+                "correspondence": "reported-input-and-independent-selected-source"
+              }
+            ],
+            "doesNotEstablish": [
+              "video-pixel-identity",
+              "lossless-audio-identity",
+              "last-video-frame-duration",
+              "output-or-publication-validity"
+            ]
+          },
+          "telemetryFiles": [
+            {
+              "path": "linux-blue/artifacts/flac-candidate-YJ0MBJ/nonaligned-interior/encoder-telemetry-25mPTk/stream-0.tsv",
+              "bytes": 2821,
+              "sha256": "2c50a00d478d44b43b6cad363f8b03087cdc7c54b0aab51f318cb07ae54d1a5f",
+              "lineCount": 62
+            },
+            {
+              "path": "linux-blue/artifacts/flac-candidate-YJ0MBJ/nonaligned-interior/encoder-telemetry-25mPTk/stream-1.tsv",
+              "bytes": 10795,
+              "sha256": "bd9911c27027ff897042e2a64aa3b5841751bfa1894d6d325e4f2c49acf38d58",
+              "lineCount": 189
+            }
+          ],
+          "validation": {
+            "valid": true,
+            "errors": [],
+            "warnings": [],
+            "validation": "decoded-operation-contract",
+            "qualificationEvidenceId": "flac-candidate-YJ0MBJ:endpoints",
+            "timing": {
+              "timeline": "request-relative",
+              "requested": {
+                "startUs": 1013000,
+                "endUs": 3087000
+              },
+              "resolved": {
+                "startUs": 1013000,
+                "endUs": 3087000
+              },
+              "video": {
+                "startUs": 1033333,
+                "endUs": 3100000,
+                "frames": 62,
+                "outputStartUs": 20000,
+                "outputEndUs": 2087000
+              },
+              "audio": [
+                {
+                  "inputIndex": 1,
+                  "mode": "precision-flac",
+                  "startUs": 1013000,
+                  "endUs": 3087000,
+                  "outputStartUs": 0,
+                  "outputEndUs": 2074000,
+                  "encoderDelaySamples": 0,
+                  "discardPaddingSamples": 0,
+                  "sampleCountDifference": 0
+                }
+              ]
+            }
+          },
+          "completeSource": {
+            "video": {
+              "frames": 120,
+              "firstTime": {
+                "n": "0",
+                "d": "15360"
+              },
+              "endTime": {
+                "n": "943718400",
+                "d": "235929600"
+              },
+              "maximumNominalCadenceErrorUs": 0,
+              "maximumNominalDurationErrorUs": 0,
+              "maximumNominalPhaseErrorUs": 0,
+              "properties": {
+                "policy": "short-sdr-range-flac-v1",
+                "sampleAspectRatio": "1:1",
+                "chromaLocation": "left",
+                "sideDataPolicy": "h26x-unregistered-sei-only",
+                "framesChecked": 120
+              }
+            },
+            "audio": [
+              {
+                "inputIndex": 1,
+                "sampleCount": "192000",
+                "firstTime": {
+                  "n": "0",
+                  "d": "48000"
+                },
+                "endTime": {
+                  "n": "9216000000",
+                  "d": "2304000000"
+                },
+                "gaps": 0
+              }
+            ]
+          },
+          "collector": {
+            "receipt": {
+              "path": "linux-blue/artifacts/flac-candidate-YJ0MBJ/nonaligned-interior/operation-evidence-qUzOAh/receipt.json",
+              "bytes": 16197,
+              "sha256": "e73ec5f70a2f9ed73018a5418e39ab64a428f7d25d3b1452280bb7280b5ee0f4"
+            },
+            "status": "completed",
+            "completedChildren": 7,
+            "allCompleted": true,
+            "invocations": [
+              {
+                "label": "source-video-frames",
+                "status": "completed",
+                "capture": {
+                  "bytes": 28770,
+                  "records": 120,
+                  "sha256": "3da0021033b72f70352de2d873d273e36e63c49b345194c3ce3c7666d4bdebd1"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 388
+              },
+              {
+                "label": "output-video-frames",
+                "status": "completed",
+                "capture": {
+                  "bytes": 11933,
+                  "records": 62,
+                  "sha256": "bce855b7c3eb09abb41b7f90bd0ba4832c888085861bd32d0d11bcbfe57837e1"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 384
+              },
+              {
+                "label": "source-audio-1-frames",
+                "status": "completed",
+                "capture": {
+                  "bytes": 23763,
+                  "records": 188,
+                  "sha256": "0d7fc34af0b201e5b251214470e629d96b1d99f3c76d1a5e35e37d7baafdd549"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 64
+              },
+              {
+                "label": "output-audio-1-frames",
+                "status": "completed",
+                "capture": {
+                  "bytes": 22955,
+                  "records": 189,
+                  "sha256": "12a780aa2860b17d8a708d8e63de63430b26757d1eaf5f53b6b8fd63dbbc0b7a"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 76
+              },
+              {
+                "label": "output-audio-1-padding",
+                "status": "completed",
+                "capture": {
+                  "bytes": 4158,
+                  "records": 189,
+                  "sha256": "06f25b01f205bb68575640f27dc827c5a2c85b4d1d4134e5915ff1a4b00d8bf0"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 49
+              },
+              {
+                "label": "source-audio-1-pcm",
+                "status": "completed",
+                "capture": {
+                  "bytes": 768000,
+                  "selectedBytes": 398208,
+                  "sha256": "dae553f222b2b037d0a4abb01473096d57348165adcf307ea1e3782cc39ab6ed"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 65
+              },
+              {
+                "label": "output-audio-1-pcm",
+                "status": "completed",
+                "capture": {
+                  "bytes": 398208,
+                  "selectedBytes": 398208,
+                  "sha256": "dae553f222b2b037d0a4abb01473096d57348165adcf307ea1e3782cc39ab6ed"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 57
+              }
+            ],
+            "budget": {
+              "sourceDecode": "complete",
+              "timeoutMs": 120000,
+              "maxFrameBytes": 8388608,
+              "maxPcmBytes": 134217728,
+              "maxRecords": 20000,
+              "maxSpoolBytes": 33554432
+            },
+            "spools": [
+              {
+                "path": "linux-blue/artifacts/flac-candidate-YJ0MBJ/nonaligned-interior/operation-evidence-qUzOAh/selected-video.jsonl",
+                "bytes": 4340,
+                "sha256": "59e2c07418e59361522a6808b87c70e636c8cb5bd808fd4f75b9c0fbb4e12c07",
+                "status": "sealed"
+              },
+              {
+                "path": "linux-blue/artifacts/flac-candidate-YJ0MBJ/nonaligned-interior/operation-evidence-qUzOAh/selected-audio-1.jsonl",
+                "bytes": 10760,
+                "sha256": "715613df2a173887d3faedc7cd76c1a7165b7682eb3964cadcc4a218c70eb7b0",
+                "status": "sealed"
+              },
+              {
+                "path": "linux-blue/artifacts/flac-candidate-YJ0MBJ/nonaligned-interior/operation-evidence-qUzOAh/output-audio-1.jsonl",
+                "bytes": 12349,
+                "sha256": "a56008230c1b107ca3bf1d3666afb15b3bcaa941728263dcb1b1c3abba93fe8f",
+                "status": "sealed"
+              }
+            ],
+            "timelineComparisons": {
+              "video": {
+                "comparedFrames": 62,
+                "maximumDurationErrorUs": 334,
+                "toleranceUs": 1067
+              },
+              "audio": [
+                {
+                  "inputIndex": 1,
+                  "mode": "precision-flac",
+                  "selectedSourceGaps": 0,
+                  "unmatchedSourceTailSamples": 0,
+                  "unmatchedOutputTailSamples": 0,
+                  "comparedSamples": 99552,
+                  "intersectedSpans": 283,
+                  "maximumElapsedClockErrorUs": 0,
+                  "toleranceUs": 1042,
+                  "alignment": "sample ordinal after decoder-signalled skip; source minus the shared requested origin; no fitted shift",
+                  "contentIdentity": false
+                }
+              ]
+            }
+          },
+          "output": {
+            "path": "linux-blue/artifacts/flac-candidate-YJ0MBJ/nonaligned-interior/.ffmpeg-encoder-0xRcn4/encoded.mkv",
+            "bytes": 822916,
+            "sha256": "1567a717fabc6cb120601d71471876ac91fdc0555c1570b76e2c8695da01e02a"
+          },
+          "actualVsBounds": {
+            "elapsedMs": null,
+            "aggregatePipeBytes": null,
+            "limitation": "Short harness does not persist per-case elapsed or aggregate pipe totals; collector per-child capture/elapsed and campaign elapsed retained."
+          }
+        },
+        {
+          "id": "held-out-open-end",
+          "sourceId": "synthetic-720p30",
+          "range": {
+            "startUs": 2000000
+          },
+          "status": "passed",
+          "frames": 60,
+          "samples": 96000,
+          "pcmIdentity": {
+            "algorithm": "sha256",
+            "format": "s16le-interleaved",
+            "sourceHash": "51ebc1328c4959e185cfe6c2466365ca83c9a1214cbe7ab81847c00d0cbffd71",
+            "outputHash": "51ebc1328c4959e185cfe6c2466365ca83c9a1214cbe7ab81847c00d0cbffd71",
+            "sourceBytes": 384000,
+            "outputBytes": 384000
+          },
+          "telemetry": {
+            "valid": true,
+            "scope": "encoder-input-count-and-timeline-only",
+            "streams": [
+              {
+                "outputIndex": 0,
+                "kind": "video",
+                "unknownInputRecords": "0",
+                "correspondence": "reported-input-and-independent-selected-source"
+              },
+              {
+                "outputIndex": 1,
+                "kind": "audio",
+                "unknownInputRecords": "0",
+                "correspondence": "reported-input-and-independent-selected-source"
+              }
+            ],
+            "doesNotEstablish": [
+              "video-pixel-identity",
+              "lossless-audio-identity",
+              "last-video-frame-duration",
+              "output-or-publication-validity"
+            ]
+          },
+          "telemetryFiles": [
+            {
+              "path": "linux-blue/artifacts/flac-candidate-YJ0MBJ/held-out-open-end/encoder-telemetry-ZH0C1l/stream-0.tsv",
+              "bytes": 2746,
+              "sha256": "f2f09c29e8dde7edd32e0ac83e1e801fa54f442ab22a8d0291c372baa9de2394",
+              "lineCount": 60
+            },
+            {
+              "path": "linux-blue/artifacts/flac-candidate-YJ0MBJ/held-out-open-end/encoder-telemetry-ZH0C1l/stream-1.tsv",
+              "bytes": 21881,
+              "sha256": "9a40cebb1178f15a6fa164facfc0e19a6481db997b1318960a45f4a05e7304e2",
+              "lineCount": 375
+            }
+          ],
+          "validation": {
+            "valid": true,
+            "errors": [],
+            "warnings": [],
+            "validation": "decoded-operation-contract",
+            "qualificationEvidenceId": "flac-candidate-YJ0MBJ:endpoints",
+            "timing": {
+              "timeline": "request-relative",
+              "requested": {
+                "startUs": 2000000,
+                "endUs": null
+              },
+              "resolved": {
+                "startUs": 2000000,
+                "endUs": 4000000
+              },
+              "video": {
+                "startUs": 2000000,
+                "endUs": 4000000,
+                "frames": 60,
+                "outputStartUs": 0,
+                "outputEndUs": 2000000
+              },
+              "audio": [
+                {
+                  "inputIndex": 1,
+                  "mode": "precision-flac",
+                  "startUs": 2000000,
+                  "endUs": 4000000,
+                  "outputStartUs": 0,
+                  "outputEndUs": 2000333,
+                  "encoderDelaySamples": 0,
+                  "discardPaddingSamples": 0,
+                  "sampleCountDifference": 0
+                }
+              ]
+            }
+          },
+          "completeSource": {
+            "video": {
+              "frames": 120,
+              "firstTime": {
+                "n": "0",
+                "d": "15360"
+              },
+              "endTime": {
+                "n": "943718400",
+                "d": "235929600"
+              },
+              "maximumNominalCadenceErrorUs": 0,
+              "maximumNominalDurationErrorUs": 0,
+              "maximumNominalPhaseErrorUs": 0,
+              "properties": {
+                "policy": "short-sdr-range-flac-v1",
+                "sampleAspectRatio": "1:1",
+                "chromaLocation": "left",
+                "sideDataPolicy": "h26x-unregistered-sei-only",
+                "framesChecked": 120
+              }
+            },
+            "audio": [
+              {
+                "inputIndex": 1,
+                "sampleCount": "192000",
+                "firstTime": {
+                  "n": "0",
+                  "d": "48000"
+                },
+                "endTime": {
+                  "n": "9216000000",
+                  "d": "2304000000"
+                },
+                "gaps": 0
+              }
+            ]
+          },
+          "collector": {
+            "receipt": {
+              "path": "linux-blue/artifacts/flac-candidate-YJ0MBJ/held-out-open-end/operation-evidence-A1cBS5/receipt.json",
+              "bytes": 16168,
+              "sha256": "580d42e4cedfa287d6a775f745966ed99c86021bb18a9c23d6b1fe3a72d20112"
+            },
+            "status": "completed",
+            "completedChildren": 7,
+            "allCompleted": true,
+            "invocations": [
+              {
+                "label": "source-video-frames",
+                "status": "completed",
+                "capture": {
+                  "bytes": 28770,
+                  "records": 120,
+                  "sha256": "3da0021033b72f70352de2d873d273e36e63c49b345194c3ce3c7666d4bdebd1"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 626
+              },
+              {
+                "label": "output-video-frames",
+                "status": "completed",
+                "capture": {
+                  "bytes": 11546,
+                  "records": 60,
+                  "sha256": "c0e79588e2ba683c68d94c850f28373d9183a1a0678d97532af92828cebafab3"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 369
+              },
+              {
+                "label": "source-audio-1-frames",
+                "status": "completed",
+                "capture": {
+                  "bytes": 23763,
+                  "records": 188,
+                  "sha256": "0d7fc34af0b201e5b251214470e629d96b1d99f3c76d1a5e35e37d7baafdd549"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 63
+              },
+              {
+                "label": "output-audio-1-frames",
+                "status": "completed",
+                "capture": {
+                  "bytes": 45166,
+                  "records": 375,
+                  "sha256": "fb9647372b4237148008b0382b330ab527b54f0e3515264fcb9cd7cf1c8f7c25"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 74
+              },
+              {
+                "label": "output-audio-1-padding",
+                "status": "completed",
+                "capture": {
+                  "bytes": 8250,
+                  "records": 375,
+                  "sha256": "3b01dbe4cdab4c216c7cb682da83ee463a5539a7cfdff6f62d6c43b615c6422c"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 52
+              },
+              {
+                "label": "source-audio-1-pcm",
+                "status": "completed",
+                "capture": {
+                  "bytes": 768000,
+                  "selectedBytes": 384000,
+                  "sha256": "51ebc1328c4959e185cfe6c2466365ca83c9a1214cbe7ab81847c00d0cbffd71"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 67
+              },
+              {
+                "label": "output-audio-1-pcm",
+                "status": "completed",
+                "capture": {
+                  "bytes": 384000,
+                  "selectedBytes": 384000,
+                  "sha256": "51ebc1328c4959e185cfe6c2466365ca83c9a1214cbe7ab81847c00d0cbffd71"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 57
+              }
+            ],
+            "budget": {
+              "sourceDecode": "complete",
+              "timeoutMs": 120000,
+              "maxFrameBytes": 8388608,
+              "maxPcmBytes": 134217728,
+              "maxRecords": 20000,
+              "maxSpoolBytes": 33554432
+            },
+            "spools": [
+              {
+                "path": "linux-blue/artifacts/flac-candidate-YJ0MBJ/held-out-open-end/operation-evidence-A1cBS5/selected-video.jsonl",
+                "bytes": 4200,
+                "sha256": "1f147d01e85bba8de475dc49e221634cdf52ff64ec95c57b82f239a5375a781d",
+                "status": "sealed"
+              },
+              {
+                "path": "linux-blue/artifacts/flac-candidate-YJ0MBJ/held-out-open-end/operation-evidence-A1cBS5/selected-audio-1.jsonl",
+                "bytes": 10519,
+                "sha256": "cd2c4df46d2fe7fd42010d9a45bdf9bf89237fb4e3e3749f2b2ea7a27ee6c9e2",
+                "status": "sealed"
+              },
+              {
+                "path": "linux-blue/artifacts/flac-candidate-YJ0MBJ/held-out-open-end/operation-evidence-A1cBS5/output-audio-1.jsonl",
+                "bytes": 24495,
+                "sha256": "8328053f4df9124b99b3f54d520375e6639dae6968662b90244124b0850c09b7",
+                "status": "sealed"
+              }
+            ],
+            "timelineComparisons": {
+              "video": {
+                "comparedFrames": 60,
+                "maximumDurationErrorUs": 334,
+                "toleranceUs": 1067
+              },
+              "audio": [
+                {
+                  "inputIndex": 1,
+                  "mode": "precision-flac",
+                  "selectedSourceGaps": 0,
+                  "unmatchedSourceTailSamples": 0,
+                  "unmatchedOutputTailSamples": 0,
+                  "comparedSamples": 96000,
+                  "intersectedSpans": 375,
+                  "maximumElapsedClockErrorUs": 334,
+                  "toleranceUs": 1042,
+                  "alignment": "sample ordinal after decoder-signalled skip; source minus the shared requested origin; no fitted shift",
+                  "contentIdentity": false
+                }
+              ]
+            }
+          },
+          "output": {
+            "path": "linux-blue/artifacts/flac-candidate-YJ0MBJ/held-out-open-end/.ffmpeg-encoder-C4Q8Nn/encoded.mkv",
+            "bytes": 849567,
+            "sha256": "a9fb1f7075aed4cfad18cd3e93671a1f0c1be65b1f31b7fa066965a0354c1b90"
+          },
+          "actualVsBounds": {
+            "elapsedMs": null,
+            "aggregatePipeBytes": null,
+            "limitation": "Short harness does not persist per-case elapsed or aggregate pipe totals; collector per-child capture/elapsed and campaign elapsed retained."
+          }
+        }
+      ]
+    },
+    {
+      "kind": "long",
+      "report": {
+        "path": "linux-blue/artifacts/candidate-keep720-calibration-g1p64G/report.json",
+        "bytes": 55953,
+        "sha256": "1feb0f2958c78cc73683c70fed08835d1e61b98462e8b30e0127f95b5cf350ab"
+      },
+      "completion": {
+        "path": "guidance/long-candidate-campaign-plan-20261117/completion-1794929387313-6.json",
+        "bytes": 34667,
+        "sha256": "860b8ba819f2bb288f9887ce821b3f7d80b5781756bcb7f54ad379c98c017ea7"
+      },
+      "independentAudit": {
+        "path": "guidance/long-candidate-campaign-plan-20261117/independent-saved-output-audit.json",
+        "bytes": 124877,
+        "sha256": "a51874bae8bfb7d4e3d7a345e6538147408a39ce26a388c87201fa4855e3de21"
+      },
+      "sourceGate": {
+        "path": "guidance/long-candidate-campaign-plan-20261117/APPROVED_CHECKPOINT.json",
+        "bytes": 31133,
+        "sha256": "1f0c7e8a9ccaa13eb9d3be8560159e89cff006e35c203e798369d46a92983e75"
+      },
+      "sourceGateCount": 279,
+      "auditedProducerHashesMatchImmutableTestedCommit": true,
+      "status": "passed-pre-catalog-calibration",
+      "exitCode": 0,
+      "census": {
+        "spawned": 42,
+        "closed": 42,
+        "live": 0,
+        "maximum": 1
+      },
+      "elapsedMs": 197257,
+      "campaignAbortMs": 1800000,
+      "maximumChildren": 160,
+      "heldoutMeaning": "Independent11s flipped content/audio source plus150s source",
+      "sources": [
+        {
+          "path": "linux-blue/artifacts/candidate-keep720-calibration-g1p64G/long-pattern.mov",
+          "bytes": 81474226,
+          "sha256": "b2adc00b3f7e4a2f459023c9dfe484451b8eedfdd3c5114542abc413b3ca893b",
+          "id": "long-pattern",
+          "frames": 4500,
+          "samples": "7200000"
+        },
+        {
+          "path": "linux-blue/artifacts/candidate-keep720-calibration-g1p64G/heldout-flipped.mov",
+          "bytes": 5990090,
+          "sha256": "0c9512943bb2b0bf542f261b5542389324055de4c77e529e36896e21ed156194",
+          "id": "heldout-flipped",
+          "frames": 330,
+          "samples": "528000"
+        }
+      ],
+      "cases": [
+        {
+          "id": "late-forty-seconds",
+          "sourceId": "long-pattern",
+          "range": {
+            "startUs": 100000000,
+            "endUs": 140000000
+          },
+          "status": "passed",
+          "frames": 1200,
+          "samples": 1920000,
+          "pcmIdentity": {
+            "algorithm": "sha256",
+            "format": "s16le-interleaved",
+            "sourceHash": "557362ddcf7724e009cd0b1df44c19e9960e08eeea2e8cfa04c9e77857770f44",
+            "outputHash": "557362ddcf7724e009cd0b1df44c19e9960e08eeea2e8cfa04c9e77857770f44",
+            "sourceBytes": 7680000,
+            "outputBytes": 7680000
+          },
+          "telemetry": {
+            "valid": true,
+            "scope": "encoder-input-count-and-timeline-only",
+            "streams": [
+              {
+                "outputIndex": 0,
+                "kind": "video",
+                "unknownInputRecords": "0",
+                "correspondence": "reported-input-and-independent-selected-source"
+              },
+              {
+                "outputIndex": 1,
+                "kind": "audio",
+                "unknownInputRecords": "0",
+                "correspondence": "reported-input-and-independent-selected-source"
+              }
+            ],
+            "doesNotEstablish": [
+              "video-pixel-identity",
+              "lossless-audio-identity",
+              "last-video-frame-duration",
+              "output-or-publication-validity"
+            ]
+          },
+          "telemetryFiles": [
+            {
+              "path": "linux-blue/artifacts/candidate-keep720-calibration-g1p64G/late-forty-seconds/encoder-telemetry-2JjFlC/stream-0.tsv",
+              "bytes": 61450,
+              "sha256": "06b7fc322f4e6b576a5849072337085810f48bddf626a5500dbe9c8001310088",
+              "lineCount": 1200
+            },
+            {
+              "path": "linux-blue/artifacts/candidate-keep720-calibration-g1p64G/late-forty-seconds/encoder-telemetry-2JjFlC/stream-1.tsv",
+              "bytes": 240611,
+              "sha256": "351b4a1040f32afd6c629bf35957a6acb89584f96ff1ef600fbdd23bf05ecdca",
+              "lineCount": 3750
+            }
+          ],
+          "validation": {
+            "valid": true,
+            "errors": [],
+            "warnings": [],
+            "validation": "decoded-operation-contract",
+            "qualificationEvidenceId": "candidate-keep720-calibration-g1p64G:long-pattern:endpoints",
+            "timing": {
+              "timeline": "request-relative",
+              "requested": {
+                "startUs": 100000000,
+                "endUs": 140000000
+              },
+              "resolved": {
+                "startUs": 100000000,
+                "endUs": 140000000
+              },
+              "video": {
+                "startUs": 100000000,
+                "endUs": 140000000,
+                "frames": 1200,
+                "outputStartUs": 0,
+                "outputEndUs": 40000000
+              },
+              "audio": [
+                {
+                  "inputIndex": 1,
+                  "mode": "precision-flac",
+                  "startUs": 100000000,
+                  "endUs": 140000000,
+                  "outputStartUs": 0,
+                  "outputEndUs": 39999667,
+                  "encoderDelaySamples": 0,
+                  "discardPaddingSamples": 0,
+                  "sampleCountDifference": 0
+                }
+              ]
+            }
+          },
+          "completeSource": {
+            "video": {
+              "frames": 4500,
+              "firstTime": {
+                "n": "0",
+                "d": "15360"
+              },
+              "endTime": {
+                "n": "35389440000",
+                "d": "235929600"
+              },
+              "maximumNominalCadenceErrorUs": 0,
+              "maximumNominalDurationErrorUs": 0,
+              "maximumNominalPhaseErrorUs": 0,
+              "properties": {
+                "policy": "cfr-sdr-range-flac-v2",
+                "sampleAspectRatio": "1:1",
+                "chromaLocation": "left",
+                "sideDataPolicy": "h26x-unregistered-sei-only",
+                "framesChecked": 4500
+              }
+            },
+            "audio": [
+              {
+                "inputIndex": 1,
+                "sampleCount": "7200000",
+                "firstTime": {
+                  "n": "0",
+                  "d": "48000"
+                },
+                "endTime": {
+                  "n": "345600000000",
+                  "d": "2304000000"
+                },
+                "gaps": 0
+              }
+            ]
+          },
+          "collector": {
+            "receipt": {
+              "path": "linux-blue/artifacts/candidate-keep720-calibration-g1p64G/late-forty-seconds/operation-evidence-qov4Vz/receipt.json",
+              "bytes": 16450,
+              "sha256": "5a7a4a8fe2ace46ee5859de2adc607e417c984e8a31f08c22539acf2a048b415"
+            },
+            "status": "completed",
+            "completedChildren": 7,
+            "allCompleted": true,
+            "invocations": [
+              {
+                "label": "source-video-frames",
+                "status": "completed",
+                "capture": {
+                  "bytes": 1082440,
+                  "records": 4500,
+                  "sha256": "8b91742e00e345874a1e317e37fcdc97e50d13bf9187d8eb4613b463dc1fb6f9"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 14126
+              },
+              {
+                "label": "output-video-frames",
+                "status": "completed",
+                "capture": {
+                  "bytes": 232466,
+                  "records": 1200,
+                  "sha256": "64bf0d458967970e42bc8cd790ac0a4160c72d1f48c9c05563a3fbb175e7c0a7"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 6323
+              },
+              {
+                "label": "source-audio-1-frames",
+                "status": "completed",
+                "capture": {
+                  "bytes": 899006,
+                  "records": 7032,
+                  "sha256": "fc3f3a3bc011af2b26c9c69c6e0a03c1d370b36d627fbf2571bab99bdd125717"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 260
+              },
+              {
+                "label": "output-audio-1-frames",
+                "status": "completed",
+                "capture": {
+                  "bytes": 460207,
+                  "records": 3750,
+                  "sha256": "51ba376d79d1fd887e04cd83a3ff3252d5df2418848f5e5d49a6146c9186243d"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 276
+              },
+              {
+                "label": "output-audio-1-padding",
+                "status": "completed",
+                "capture": {
+                  "bytes": 82500,
+                  "records": 3750,
+                  "sha256": "eeaf8008c4218427124d4166d65d0d5a213dfdb3ee3ae0abc8af9b46ebb924a1"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 110
+              },
+              {
+                "label": "source-audio-1-pcm",
+                "status": "completed",
+                "capture": {
+                  "bytes": 28800000,
+                  "selectedBytes": 7680000,
+                  "sha256": "557362ddcf7724e009cd0b1df44c19e9960e08eeea2e8cfa04c9e77857770f44"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 467
+              },
+              {
+                "label": "output-audio-1-pcm",
+                "status": "completed",
+                "capture": {
+                  "bytes": 7680000,
+                  "selectedBytes": 7680000,
+                  "sha256": "557362ddcf7724e009cd0b1df44c19e9960e08eeea2e8cfa04c9e77857770f44"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 207
+              }
+            ],
+            "budget": {
+              "sourceDecode": "complete",
+              "timeoutMs": 857430,
+              "maxFrameBytes": 59801600,
+              "maxPcmBytes": 28992000,
+              "maxRecords": 58400,
+              "maxSpoolBytes": 18350080
+            },
+            "spools": [
+              {
+                "path": "linux-blue/artifacts/candidate-keep720-calibration-g1p64G/late-forty-seconds/operation-evidence-qov4Vz/selected-video.jsonl",
+                "bytes": 86400,
+                "sha256": "ad24d021da0388088855a49815e945d9bd9e120089a1c41ee0a40f5e925e3305",
+                "status": "sealed"
+              },
+              {
+                "path": "linux-blue/artifacts/candidate-keep720-calibration-g1p64G/late-forty-seconds/operation-evidence-qov4Vz/selected-audio-1.jsonl",
+                "bytes": 218398,
+                "sha256": "a048867459116e98e592b028fcbc155285b497c8d24f523e70167deb33dc1ec9",
+                "status": "sealed"
+              },
+              {
+                "path": "linux-blue/artifacts/candidate-keep720-calibration-g1p64G/late-forty-seconds/operation-evidence-qov4Vz/output-audio-1.jsonl",
+                "bytes": 255533,
+                "sha256": "55f01622aa49c90a195f8c3a5cd50f62027e2b0e5770273a13be276f0a6a127a",
+                "status": "sealed"
+              }
+            ],
+            "timelineComparisons": {
+              "video": {
+                "comparedFrames": 1200,
+                "maximumDurationErrorUs": 334,
+                "toleranceUs": 1067
+              },
+              "audio": [
+                {
+                  "inputIndex": 1,
+                  "mode": "precision-flac",
+                  "selectedSourceGaps": 0,
+                  "unmatchedSourceTailSamples": 0,
+                  "unmatchedOutputTailSamples": 0,
+                  "comparedSamples": 1920000,
+                  "intersectedSpans": 3750,
+                  "maximumElapsedClockErrorUs": 334,
+                  "toleranceUs": 1042,
+                  "alignment": "sample ordinal after decoder-signalled skip; source minus the shared requested origin; no fitted shift",
+                  "contentIdentity": false
+                }
+              ]
+            }
+          },
+          "output": {
+            "path": "linux-blue/artifacts/candidate-keep720-calibration-g1p64G/late-forty-seconds/.ffmpeg-encoder-CAr8O2/encoded.mkv",
+            "bytes": 16425715,
+            "sha256": "ad465baa90e15720b5fd1ea1909346314b8b23b559ef3e1079f230865a14a043"
+          },
+          "resources": {
+            "budget": {
+              "sourceDecode": "complete",
+              "timeoutMs": 857430,
+              "maxFrameBytes": 59801600,
+              "maxPcmBytes": 28992000,
+              "maxRecords": 58400,
+              "maxSpoolBytes": 18350080
+            },
+            "resources": {
+              "pipeBytes": 472252416,
+              "evidenceBytes": 455475200,
+              "maxChildren": 64,
+              "evidenceReserveBytes": 40894464,
+              "stallMs": null,
+              "telemetryBytes": 2883584,
+              "telemetryRecords": 11264
+            },
+            "executionBudgetMs": 1719720
+          },
+          "actualVsBounds": {
+            "elapsedMs": 103740,
+            "executionBudgetMs": 1719720,
+            "pipeBytes": 39274658,
+            "pipeByteLimit": 472252416,
+            "independentlyRederivedExact": true
+          }
+        },
+        {
+          "id": "late-open-end",
+          "sourceId": "long-pattern",
+          "range": {
+            "startUs": 130000000
+          },
+          "status": "passed",
+          "frames": 600,
+          "samples": 960000,
+          "pcmIdentity": {
+            "algorithm": "sha256",
+            "format": "s16le-interleaved",
+            "sourceHash": "ae9f20e1d3b792afffa53935066412e267063ecbf70c5b2d396dbf32fda1b81b",
+            "outputHash": "ae9f20e1d3b792afffa53935066412e267063ecbf70c5b2d396dbf32fda1b81b",
+            "sourceBytes": 3840000,
+            "outputBytes": 3840000
+          },
+          "telemetry": {
+            "valid": true,
+            "scope": "encoder-input-count-and-timeline-only",
+            "streams": [
+              {
+                "outputIndex": 0,
+                "kind": "video",
+                "unknownInputRecords": "0",
+                "correspondence": "reported-input-and-independent-selected-source"
+              },
+              {
+                "outputIndex": 1,
+                "kind": "audio",
+                "unknownInputRecords": "0",
+                "correspondence": "reported-input-and-independent-selected-source"
+              }
+            ],
+            "doesNotEstablish": [
+              "video-pixel-identity",
+              "lossless-audio-identity",
+              "last-video-frame-duration",
+              "output-or-publication-validity"
+            ]
+          },
+          "telemetryFiles": [
+            {
+              "path": "linux-blue/artifacts/candidate-keep720-calibration-g1p64G/late-open-end/encoder-telemetry-3KRoKa/stream-0.tsv",
+              "bytes": 30270,
+              "sha256": "9814d72b8d671bdf338f3b861ff01f1f11ed199e75e58712ba687d4aacbfb2fa",
+              "lineCount": 600
+            },
+            {
+              "path": "linux-blue/artifacts/candidate-keep720-calibration-g1p64G/late-open-end/encoder-telemetry-3KRoKa/stream-1.tsv",
+              "bytes": 235155,
+              "sha256": "fe1cee17b659b8db0ba22f3b91d7b35bf3d4b2b41fda05d18fb94f1c28833068",
+              "lineCount": 3750
+            }
+          ],
+          "validation": {
+            "valid": true,
+            "errors": [],
+            "warnings": [],
+            "validation": "decoded-operation-contract",
+            "qualificationEvidenceId": "candidate-keep720-calibration-g1p64G:long-pattern:endpoints",
+            "timing": {
+              "timeline": "request-relative",
+              "requested": {
+                "startUs": 130000000,
+                "endUs": null
+              },
+              "resolved": {
+                "startUs": 130000000,
+                "endUs": 150000000
+              },
+              "video": {
+                "startUs": 130000000,
+                "endUs": 150000000,
+                "frames": 600,
+                "outputStartUs": 0,
+                "outputEndUs": 20000000
+              },
+              "audio": [
+                {
+                  "inputIndex": 1,
+                  "mode": "precision-flac",
+                  "startUs": 130000000,
+                  "endUs": 150000000,
+                  "outputStartUs": 0,
+                  "outputEndUs": 20000333,
+                  "encoderDelaySamples": 0,
+                  "discardPaddingSamples": 0,
+                  "sampleCountDifference": 0
+                }
+              ]
+            }
+          },
+          "completeSource": {
+            "video": {
+              "frames": 4500,
+              "firstTime": {
+                "n": "0",
+                "d": "15360"
+              },
+              "endTime": {
+                "n": "35389440000",
+                "d": "235929600"
+              },
+              "maximumNominalCadenceErrorUs": 0,
+              "maximumNominalDurationErrorUs": 0,
+              "maximumNominalPhaseErrorUs": 0,
+              "properties": {
+                "policy": "cfr-sdr-range-flac-v2",
+                "sampleAspectRatio": "1:1",
+                "chromaLocation": "left",
+                "sideDataPolicy": "h26x-unregistered-sei-only",
+                "framesChecked": 4500
+              }
+            },
+            "audio": [
+              {
+                "inputIndex": 1,
+                "sampleCount": "7200000",
+                "firstTime": {
+                  "n": "0",
+                  "d": "48000"
+                },
+                "endTime": {
+                  "n": "345600000000",
+                  "d": "2304000000"
+                },
+                "gaps": 0
+              }
+            ]
+          },
+          "collector": {
+            "receipt": {
+              "path": "linux-blue/artifacts/candidate-keep720-calibration-g1p64G/late-open-end/operation-evidence-c2AkhM/receipt.json",
+              "bytes": 16393,
+              "sha256": "b05527de5a37a2d87fd4f8a99a8f7a4efcd075cb36c51a603a5fbf04d72c060d"
+            },
+            "status": "completed",
+            "completedChildren": 7,
+            "allCompleted": true,
+            "invocations": [
+              {
+                "label": "source-video-frames",
+                "status": "completed",
+                "capture": {
+                  "bytes": 1082440,
+                  "records": 4500,
+                  "sha256": "8b91742e00e345874a1e317e37fcdc97e50d13bf9187d8eb4613b463dc1fb6f9"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 13851
+              },
+              {
+                "label": "output-video-frames",
+                "status": "completed",
+                "capture": {
+                  "bytes": 116066,
+                  "records": 600,
+                  "sha256": "e1fe1feda16367f0b7d34c331d6dcd259cf308ce4fe18e60e027965c59db3c25"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 3135
+              },
+              {
+                "label": "source-audio-1-frames",
+                "status": "completed",
+                "capture": {
+                  "bytes": 899006,
+                  "records": 7032,
+                  "sha256": "fc3f3a3bc011af2b26c9c69c6e0a03c1d370b36d627fbf2571bab99bdd125717"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 209
+              },
+              {
+                "label": "output-audio-1-frames",
+                "status": "completed",
+                "capture": {
+                  "bytes": 455416,
+                  "records": 3750,
+                  "sha256": "67ff4d0a18aaa52dcfb290657fa4526e475143ff4edd58a7eee4c91afcc2b00a"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 236
+              },
+              {
+                "label": "output-audio-1-padding",
+                "status": "completed",
+                "capture": {
+                  "bytes": 82500,
+                  "records": 3750,
+                  "sha256": "eeaf8008c4218427124d4166d65d0d5a213dfdb3ee3ae0abc8af9b46ebb924a1"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 106
+              },
+              {
+                "label": "source-audio-1-pcm",
+                "status": "completed",
+                "capture": {
+                  "bytes": 28800000,
+                  "selectedBytes": 3840000,
+                  "sha256": "ae9f20e1d3b792afffa53935066412e267063ecbf70c5b2d396dbf32fda1b81b"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 382
+              },
+              {
+                "label": "output-audio-1-pcm",
+                "status": "completed",
+                "capture": {
+                  "bytes": 3840000,
+                  "selectedBytes": 3840000,
+                  "sha256": "ae9f20e1d3b792afffa53935066412e267063ecbf70c5b2d396dbf32fda1b81b"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 199
+              }
+            ],
+            "budget": {
+              "sourceDecode": "complete",
+              "timeoutMs": 557430,
+              "maxFrameBytes": 59801600,
+              "maxPcmBytes": 28992000,
+              "maxRecords": 58400,
+              "maxSpoolBytes": 10485760
+            },
+            "spools": [
+              {
+                "path": "linux-blue/artifacts/candidate-keep720-calibration-g1p64G/late-open-end/operation-evidence-c2AkhM/selected-video.jsonl",
+                "bytes": 43200,
+                "sha256": "f9b93cc55e8005045522e700b98819c5e10180bf2b48663ced8423b66d5455e2",
+                "status": "sealed"
+              },
+              {
+                "path": "linux-blue/artifacts/candidate-keep720-calibration-g1p64G/late-open-end/operation-evidence-c2AkhM/selected-audio-1.jsonl",
+                "bytes": 108808,
+                "sha256": "2cd37b43f3ce7e222f2e0c4198c37e69158d5d65a991e0f0cc2a09a428047889",
+                "status": "sealed"
+              },
+              {
+                "path": "linux-blue/artifacts/candidate-keep720-calibration-g1p64G/late-open-end/operation-evidence-c2AkhM/output-audio-1.jsonl",
+                "bytes": 252479,
+                "sha256": "c51d920102b76336c2724bba3999503f6def0afb735e9d2ac76e4ada53bbb0c7",
+                "status": "sealed"
+              }
+            ],
+            "timelineComparisons": {
+              "video": {
+                "comparedFrames": 600,
+                "maximumDurationErrorUs": 334,
+                "toleranceUs": 1067
+              },
+              "audio": [
+                {
+                  "inputIndex": 1,
+                  "mode": "precision-flac",
+                  "selectedSourceGaps": 0,
+                  "unmatchedSourceTailSamples": 0,
+                  "unmatchedOutputTailSamples": 0,
+                  "comparedSamples": 960000,
+                  "intersectedSpans": 3750,
+                  "maximumElapsedClockErrorUs": 334,
+                  "toleranceUs": 1042,
+                  "alignment": "sample ordinal after decoder-signalled skip; source minus the shared requested origin; no fitted shift",
+                  "contentIdentity": false
+                }
+              ]
+            }
+          },
+          "output": {
+            "path": "linux-blue/artifacts/candidate-keep720-calibration-g1p64G/late-open-end/.ffmpeg-encoder-t6jkW2/encoded.mkv",
+            "bytes": 8462815,
+            "sha256": "c8b751727ee7673d81d38f5e08a5ca3bd06429f1e09ba556b1178a9c32d62362"
+          },
+          "resources": {
+            "budget": {
+              "sourceDecode": "complete",
+              "timeoutMs": 557430,
+              "maxFrameBytes": 59801600,
+              "maxPcmBytes": 28992000,
+              "maxRecords": 58400,
+              "maxSpoolBytes": 10485760
+            },
+            "resources": {
+              "pipeBytes": 468412416,
+              "evidenceBytes": 451635200,
+              "maxChildren": 64,
+              "evidenceReserveBytes": 30408704,
+              "stallMs": null,
+              "telemetryBytes": 1572864,
+              "telemetryRecords": 6144
+            },
+            "executionBudgetMs": 1119720
+          },
+          "actualVsBounds": {
+            "elapsedMs": 59247,
+            "executionBudgetMs": 1119720,
+            "pipeBytes": 35297295,
+            "pipeByteLimit": 468412416,
+            "independentlyRederivedExact": true
+          }
+        },
+        {
+          "id": "heldout-nonaligned",
+          "sourceId": "heldout-flipped",
+          "range": {
+            "startUs": 413000,
+            "endUs": 8621000
+          },
+          "status": "passed",
+          "frames": 246,
+          "samples": 393984,
+          "pcmIdentity": {
+            "algorithm": "sha256",
+            "format": "s16le-interleaved",
+            "sourceHash": "2df057e2c484e1762af4ef62eac53af4237b7b63fe83690918552b0aa3fdc8a6",
+            "outputHash": "2df057e2c484e1762af4ef62eac53af4237b7b63fe83690918552b0aa3fdc8a6",
+            "sourceBytes": 1575936,
+            "outputBytes": 1575936
+          },
+          "telemetry": {
+            "valid": true,
+            "scope": "encoder-input-count-and-timeline-only",
+            "streams": [
+              {
+                "outputIndex": 0,
+                "kind": "video",
+                "unknownInputRecords": "0",
+                "correspondence": "reported-input-and-independent-selected-source"
+              },
+              {
+                "outputIndex": 1,
+                "kind": "audio",
+                "unknownInputRecords": "0",
+                "correspondence": "reported-input-and-independent-selected-source"
+              }
+            ],
+            "doesNotEstablish": [
+              "video-pixel-identity",
+              "lossless-audio-identity",
+              "last-video-frame-duration",
+              "output-or-publication-validity"
+            ]
+          },
+          "telemetryFiles": [
+            {
+              "path": "linux-blue/artifacts/candidate-keep720-calibration-g1p64G/heldout-nonaligned/encoder-telemetry-dRXe6C/stream-0.tsv",
+              "bytes": 11697,
+              "sha256": "59861d740173ea027a83e98a57b2927cef95cd4f6aa8c84aa5bfa6c2beb82712",
+              "lineCount": 246
+            },
+            {
+              "path": "linux-blue/artifacts/candidate-keep720-calibration-g1p64G/heldout-nonaligned/encoder-telemetry-dRXe6C/stream-1.tsv",
+              "bytes": 35956,
+              "sha256": "17026ebef25abdbc9483a122840f2b37788da017758acba7964def4d076674eb",
+              "lineCount": 601
+            }
+          ],
+          "validation": {
+            "valid": true,
+            "errors": [],
+            "warnings": [],
+            "validation": "decoded-operation-contract",
+            "qualificationEvidenceId": "candidate-keep720-calibration-g1p64G:heldout-flipped:endpoints",
+            "timing": {
+              "timeline": "request-relative",
+              "requested": {
+                "startUs": 413000,
+                "endUs": 8621000
+              },
+              "resolved": {
+                "startUs": 413000,
+                "endUs": 8621000
+              },
+              "video": {
+                "startUs": 433333,
+                "endUs": 8633333,
+                "frames": 246,
+                "outputStartUs": 20000,
+                "outputEndUs": 8220000
+              },
+              "audio": [
+                {
+                  "inputIndex": 1,
+                  "mode": "precision-flac",
+                  "startUs": 413000,
+                  "endUs": 8621000,
+                  "outputStartUs": 0,
+                  "outputEndUs": 8208000,
+                  "encoderDelaySamples": 0,
+                  "discardPaddingSamples": 0,
+                  "sampleCountDifference": 0
+                }
+              ]
+            }
+          },
+          "completeSource": {
+            "video": {
+              "frames": 330,
+              "firstTime": {
+                "n": "0",
+                "d": "15360"
+              },
+              "endTime": {
+                "n": "2595225600",
+                "d": "235929600"
+              },
+              "maximumNominalCadenceErrorUs": 0,
+              "maximumNominalDurationErrorUs": 0,
+              "maximumNominalPhaseErrorUs": 0,
+              "properties": {
+                "policy": "cfr-sdr-range-flac-v2",
+                "sampleAspectRatio": "1:1",
+                "chromaLocation": "left",
+                "sideDataPolicy": "h26x-unregistered-sei-only",
+                "framesChecked": 330
+              }
+            },
+            "audio": [
+              {
+                "inputIndex": 1,
+                "sampleCount": "528000",
+                "firstTime": {
+                  "n": "0",
+                  "d": "48000"
+                },
+                "endTime": {
+                  "n": "25344000000",
+                  "d": "2304000000"
+                },
+                "gaps": 0
+              }
+            ]
+          },
+          "collector": {
+            "receipt": {
+              "path": "linux-blue/artifacts/candidate-keep720-calibration-g1p64G/heldout-nonaligned/operation-evidence-p6VGrY/receipt.json",
+              "bytes": 16430,
+              "sha256": "2ba759854ec76c2e56d61d6125fc9f351198d42ad93dc8c7df31b3b0d97be2e3"
+            },
+            "status": "completed",
+            "completedChildren": 7,
+            "allCompleted": true,
+            "invocations": [
+              {
+                "label": "source-video-frames",
+                "status": "completed",
+                "capture": {
+                  "bytes": 79094,
+                  "records": 330,
+                  "sha256": "988efbcffe4805dadcc7ebbefcc4d7ef564de3dfe36e7a1d83141b699229cc58"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 1108
+              },
+              {
+                "label": "output-video-frames",
+                "status": "completed",
+                "capture": {
+                  "bytes": 47445,
+                  "records": 246,
+                  "sha256": "4d1261e2584ddd219b52604b9b73c337e4ab130b9c1efad9f6b3977d20e839d3"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 1337
+              },
+              {
+                "label": "source-audio-1-frames",
+                "status": "completed",
+                "capture": {
+                  "bytes": 65419,
+                  "records": 516,
+                  "sha256": "e9273b3d6db3d01eaf7221b3e6326914b326a667b4e85fa1241c2b5138add28e"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 110
+              },
+              {
+                "label": "output-audio-1-frames",
+                "status": "completed",
+                "capture": {
+                  "bytes": 73238,
+                  "records": 601,
+                  "sha256": "72f1661dbce46e03669a38365c7308251605f7dff088fae1dac8e2ca90925b53"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 105
+              },
+              {
+                "label": "output-audio-1-padding",
+                "status": "completed",
+                "capture": {
+                  "bytes": 13222,
+                  "records": 601,
+                  "sha256": "2504ca1523e82b005ea5e57fbd8d884915c943365a77eb01889f0a8d8714cbda"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 89
+              },
+              {
+                "label": "source-audio-1-pcm",
+                "status": "completed",
+                "capture": {
+                  "bytes": 2112000,
+                  "selectedBytes": 1575936,
+                  "sha256": "2df057e2c484e1762af4ef62eac53af4237b7b63fe83690918552b0aa3fdc8a6"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 104
+              },
+              {
+                "label": "output-audio-1-pcm",
+                "status": "completed",
+                "capture": {
+                  "bytes": 1575936,
+                  "selectedBytes": 1575936,
+                  "sha256": "2df057e2c484e1762af4ef62eac53af4237b7b63fe83690918552b0aa3fdc8a6"
+                },
+                "stderrBytes": 0,
+                "elapsedMs": 107
+              }
+            ],
+            "budget": {
+              "sourceDecode": "complete",
+              "timeoutMs": 181680,
+              "maxFrameBytes": 23363584,
+              "maxPcmBytes": 2304000,
+              "maxRecords": 22816,
+              "maxSpoolBytes": 6160384
+            },
+            "spools": [
+              {
+                "path": "linux-blue/artifacts/candidate-keep720-calibration-g1p64G/heldout-nonaligned/operation-evidence-p6VGrY/selected-video.jsonl",
+                "bytes": 17276,
+                "sha256": "1f3a8bf2ee50d1dc0ca0408d939eed8b13bebc32458e4717c7fc9b98e4c90a83",
+                "status": "sealed"
+              },
+              {
+                "path": "linux-blue/artifacts/candidate-keep720-calibration-g1p64G/heldout-nonaligned/operation-evidence-p6VGrY/selected-audio-1.jsonl",
+                "bytes": 43158,
+                "sha256": "438b68ebb7683c320e0da04ca21b04ab4ec9d170a5798e0b062805fae47b811d",
+                "status": "sealed"
+              },
+              {
+                "path": "linux-blue/artifacts/candidate-keep720-calibration-g1p64G/heldout-nonaligned/operation-evidence-p6VGrY/output-audio-1.jsonl",
+                "bytes": 40011,
+                "sha256": "2499307753467a8be0a3245503fc03d685c590a48e7eccc5c37525978210343f",
+                "status": "sealed"
+              }
+            ],
+            "timelineComparisons": {
+              "video": {
+                "comparedFrames": 246,
+                "maximumDurationErrorUs": 334,
+                "toleranceUs": 1067
+              },
+              "audio": [
+                {
+                  "inputIndex": 1,
+                  "mode": "precision-flac",
+                  "selectedSourceGaps": 0,
+                  "unmatchedSourceTailSamples": 0,
+                  "unmatchedOutputTailSamples": 0,
+                  "comparedSamples": 393984,
+                  "intersectedSpans": 976,
+                  "maximumElapsedClockErrorUs": 334,
+                  "toleranceUs": 1042,
+                  "alignment": "sample ordinal after decoder-signalled skip; source minus the shared requested origin; no fitted shift",
+                  "contentIdentity": false
+                }
+              ]
+            }
+          },
+          "output": {
+            "path": "linux-blue/artifacts/candidate-keep720-calibration-g1p64G/heldout-nonaligned/.ffmpeg-encoder-vI6MBY/encoded.mkv",
+            "bytes": 3318636,
+            "sha256": "3bb22ef9de9fd8a7df6a982a4f0b0d8c261d5ec1f4aa1d10d0d55deceb33042f"
+          },
+          "resources": {
+            "budget": {
+              "sourceDecode": "complete",
+              "timeoutMs": 181680,
+              "maxFrameBytes": 23363584,
+              "maxPcmBytes": 2304000,
+              "maxRecords": 22816,
+              "maxSpoolBytes": 6160384
+            },
+            "resources": {
+              "pipeBytes": 184394240,
+              "evidenceBytes": 167617024,
+              "maxChildren": 64,
+              "evidenceReserveBytes": 24641536,
+              "stallMs": null,
+              "telemetryBytes": 851968,
+              "telemetryRecords": 3328
+            },
+            "executionBudgetMs": 363720
+          },
+          "actualVsBounds": {
+            "elapsedMs": 20018,
+            "executionBudgetMs": 363720,
+            "pipeBytes": 3978909,
+            "pipeByteLimit": 184394240,
+            "independentlyRederivedExact": true
+          }
+        }
+      ]
+    }
+  ],
+  "earlierTests": {
+    "classification": "Earlier checkpoint006 evidence only; no tests rerun after006 for this documentation milestone",
+    "focusedPassed": 87,
+    "adapterPassed": 18,
+    "broadPassed": 161,
+    "broadFailed": 27,
+    "notAllGreen": true,
+    "legacyPathAdaptedPassed": 33
+  },
+  "limits": [
+    "No production catalog/pin/default activation, normal-service publication, cancellation/deadline-exhaustion, GUI/native Windows, generic quality or arbitrary-media proof.",
+    "CPU HEVC slow quality25, non-resize720p30SDR, precisionFLAC only; no HDR/GPU/AV1-media/full/resize qualification.",
+    "27GiB admission before each child is not a hard active-write disk cap or continuous storage monitor.",
+    "Preregistered clock bounds and resource coefficients unchanged after observing outcomes.",
+    "Raw artifacts remain local unless separately backed up; transformed portable reports are documentation only, not original hash-matching qualification artifacts."
+  ],
+  "publicationAuthorized": false,
+  "catalogActivated": false,
+  "leadGateRelease": {
+    "artifact": {
+      "path": "guidance/long-candidate-campaign-plan-20261117/lead-postrun-gate-release.json",
+      "bytes": 647,
+      "sha256": "a15378d7c4a19705e7f3364272fb85fbde646724a79122b9bfad36b362c373bc"
+    },
+    "record": {
+      "verifiedAtUtc": "2026-11-17T15:30:35.520622+00:00",
+      "reportSha256": "1feb0f2958c78cc73683c70fed08835d1e61b98462e8b30e0127f95b5cf350ab",
+      "completionSha256": "860b8ba819f2bb288f9887ce821b3f7d80b5781756bcb7f54ad379c98c017ea7",
+      "all279SourceHashesMatch": true,
+      "sourceGateReleasedAfterObservedCompletion": true,
+      "summaryEditorMayNowModifyOnlySessionRecord": "Owner-requested structure correction, not code or retrospective media alteration",
+      "census": {
+        "spawned": 42,
+        "closed": 42,
+        "live": 0,
+        "maximum": 1
+      },
+      "limits": "Independent saved-output audit pending; no activation or normal-service publication claim"
+    }
+  },
+  "recordedAtUtc": "2026-11-17T15:37:31.614572+00:00",
+  "parentLocalCommit": "54ee143efed8a05b70520d278dd966ec5b0dda78",
+  "parentRemoteCommit": "11bce729aed4a261c87e6cdd213f29c1f9efe2d0",
+  "portableArchivalRecords": [
+    {
+      "path": "linux-blue/evidence-2026-11-17/short-calibration-portable.json",
+      "bytes": 33129,
+      "sha256": "bd1c1b17aeb8733c180ad1bfa96ed37ede5425e5b7eec3911b0ca1ca040ab69e",
+      "scopeReview": "Exact original data comparison passed; only6short/8long pathbearing strings transformed; not originalbyteidentity or factoryauthority"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-17/long-calibration-portable.json",
+      "bytes": 60916,
+      "sha256": "153104f1401e5f7cafe43625c798f79e630e5aad32ebaeade65e25667447e9af",
+      "scopeReview": "Exact original data comparison passed; only6short/8long pathbearing strings transformed; not originalbyteidentity or factoryauthority"
+    }
+  ],
+  "publicationStatus": "Pre-commit record; later external checkpoint receipt owns Git/Notion/GitHub result.",
+  "pathSemantics": "project-relative source/media paths and guidance-relative local receipt identifiers; raw artifacts, tools and media not included unless explicitly named portable archival records. System dependency paths reduced to basenames."
+}

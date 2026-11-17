@@ -1,3 +1,222 @@
+# 📘 Session: November 17, 2026 — FFmpeg Encoder — Prepare a genuinely gated normal-service proof and close cancellation admission safely
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model or tool identity | Effort setting | Evidence basis and verification limit |
+|---|---|---|---|
+| Engineering lead / integrator | GPT-6 Astra, recorded lead configuration | Ultra, recorded assignment | Chose the bounded service-composition step, integrated the reviewed patch and ran final affected and broad suites. Configuration does not independently verify backend identity, billing or performance. |
+| Source implementation contributor | Not separately established in this record | Not separately established | Authored the new developer-only service composition/tests and shared receipt-validation extraction; returned an immutable v2 patch and retained red/green evidence. |
+| Independent source reviewer | Not separately established in this record | Not separately established | Identified the cancellation-admission and cleanup-error issues, reviewed v2, repeated 35/35 final checks and compared the immutable parent’s legacy failure with the changed source. This is bounded source/test review, not actual service/media qualification. |
+| Documentation editor | Blue documentation contributor; model not independently established here | Not separately established | Read the actual v2 handoff, affected source, checkpoint-007 publication receipt and lead’s exact final evidence; added this entry without changing the previous 185,158-byte history. Did not run the engineering tests described below. |
+
+**Record basis:** Contemporaneous engineering continuation after checkpoint 007. The final source patch, inspected implementation and attributed lead/reviewer results support this account. Evidence includes worker red/green runs at 15:50:55 and 15:51:07 UTC and lead final runs beginning at 15:52:40 and 15:52:42 UTC. No actual new normal-service or media execution occurred in this work block. Earlier successful media remains calibration evidence on checkpoint `54ee143`, not a test of this new composition. This entry follows the owner’s supplied single-project structure; its later checkpoint publication is not predicted.
+
+## 🕒 Time
+
+- Date / date range: November 17, 2026, Africa/Cairo UTC+2.
+- Start: After checkpoint 007; exact implementation start not recorded.
+- Continuation: Initial composition/test work, v1 independent review, two red regressions, v2 correction, independent final repeat and lead final verification.
+- End / stopping point: After final lead source checks beginning at 15:52:40 and 15:52:42 UTC / 17:52:40 and 17:52:42 Cairo, with completed independent final review and the subsequent documentation handoff. The last recorded run lasted about 1.1 seconds; those clock labels are run starts, not a measured session end. The reviewer’s exact finish time is not established here.
+- Session type: Developer-only service implementation, lifecycle correction, tests, independent review and continuity.
+- Project stage: Linux 0.7, narrow CPU KeepSource720 precision-FLAC range-Encode prerequisites. Not whole-Q or release closure.
+- Main focus: Connect reviewed calibration to a real EncoderService composition without replacing production trust gates or claiming cancellation recovery that the lifecycle cannot support.
+- Contributors: Ahmed retains product ownership/acceptance; lead, implementation contributor, independent reviewer and documentation editor have the roles above.
+- Model / effort: Recorded or unknown by role above; no inherited identity inference.
+- Active working time: Not measured. Receipt timestamps are not an active-hours total.
+- Reason for summary: Preserve the reviewed source boundary and exact next actual-service experiment before a new Git → Notion → GitHub checkpoint.
+
+## 🎯 Session Goal
+
+The short and long calibration campaigns answered whether the selected new runtime could satisfy a narrow generated-media contract. They did not prove that normal application service preparation, Start, storage, publication or cancellation worked with that candidate. The intended next step was therefore not another calibration or a production pin update. It was a developer-only composition that could exercise the existing real service under explicit evidence and runtime gates.
+
+The initial goal was to make that composition reviewable and testable while keeping old factories, defaults and catalog behavior unchanged. Independent review later exposed two concrete lifecycle problems in the first version: admission closed too late during cancellation, and one cleanup error could hide another. Those corrections became requirements during the work; they were not retroactively presented as discoveries already resolved at its start.
+
+The session aimed to:
+
+- Admit only a genuine candidate handle with the exact reviewed runtime/dependency identity and original long-calibration report.
+- Bind that report to its immutable producer closure and reuse the real service/selector/evidence-storage contracts.
+- Preserve cancellation invalidation and require fresh-instance recovery rather than silently reviving a stale token.
+- Finish a reviewed, tested source checkpoint before any actual normal-service experiment.
+
+## 🛠️ Actions Taken
+
+### 1. Establish what the preceding checkpoint actually preserved
+
+Checkpoint 007 is local `f352cac682f52f01c9ffddf076d9445d178d8da0`. Its [Notion checkpoint](https://app.notion.com/p/41bbd7ade63b8138a2a6ddb682306d0c) restored all 510 source files exactly and cloned the complete seven-commit bundle. The [full corrected session page](https://app.notion.com/p/41bbd7ade63b817e8fafd1dc1f7c5271) was read back unabridged, with all seven prior sessions and the final ending present. The earlier summary-correction request therefore reached a verified readable and source-restorable destination, not merely a local draft.
+
+GitHub publication was independently verified as `74a82817b57ad929be56e9137e4e7dda3086097d`, sole parent `11bce729aed4a261c87e6cdd213f29c1f9efe2d0`, on the existing private Linux branch. Seven changed files were checked, 885 remained unchanged and none were deleted. The preservation cycle completed at 15:45:27 UTC. This result belongs to checkpoint 007. None of the new service code described below is thereby committed or backed up.
+
+### 2. Gate a developer-only service against exact original evidence
+
+The patch adds `candidate-keep720-service.cjs` and its test, and extracts a runtime-parameterized receipt-validation helper from `workbench-long-range-service.cjs`. The historical wrapper continues to use its original pinned behavior. The new composition is main-owned and not imported into the app, renderer, CLI or ordinary production factory route.
+
+Admission requires a genuine candidate runtime handle for pair identity `1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9` and the exact seven inspected dependency records. The factory rejects loader overrides, checks runtime currentness around awaited work, and verifies the 97-file literal-relative CommonJS producer closure against immutable `54ee143`. This closure describes the old calibration producers, not the newly authored composition itself; the new files have their own reviewed patch identity.
+
+The factory reads only the original 55,953-byte long-calibration report at its fixed canonical, non-symlink path. It opens an ordinary single-link file, bounds positioned reads, compares before/after identity stamps and requires SHA-256 `1feb0f2958c78cc73683c70fed08835d1e61b98462e8b30e0127f95b5cf350ab`. The transformed portable archival JSON is deliberately not a substitute. A pure caller-selected digest seam supports tests; the live factory still uses the fixed original digest and path.
+
+That distinction preserves the project’s earlier evidence decision: a portable record can explain and preserve the result without impersonating the raw artifact required to grant a live operation. Missing the original report remains a real prerequisite failure, not a reason to accept a similar-looking JSON object.
+
+### 3. Reuse the normal service without opening production scope
+
+The new factory composes the existing candidate trim service with a current runtime observer, clock-qualified family selector, genuine proportional resources, telemetry and normal evidence storage. The selected family remains CPU HEVC slow/quality 25, original 720p geometry and precision-FLAC range output. Its qualification and timing records come from the reviewed long report; telemetry validity and the exact two reported input streams are checked rather than assumed.
+
+Tool execution stays behind the genuine candidate runner with repeated loader/currentness checks. Inspection is single-worker and vendor capability discovery remains explicitly incomplete instead of implying GPU support. There is no catalog/default change, historical report/pin replacement, broader resize family or automatic application activation.
+
+Positive factory construction in the tests is VM-injected. It proves the composition logic under controlled dependencies, not that the fixed original report, genuine runtime and normal service have already been opened successfully together in a live operation. The next real campaign remains necessary.
+
+### 4. Reproduce and fix the cancellation-admission race
+
+In v1, the cancellation path could await superclass work before closing new admission. A pending preference write or terminal callback can yield; keeping admission open during that interval leaves a timing window for another action. Independent review required the property to hold at the synchronous call boundary, not only after `cancelCurrent()` eventually resolves.
+
+The regression was retained in the 15:50:55 UTC red run, which had eight passes and two intended failures across the cancellation/cleanup controls. V2 calls `closeAdmission()` before returning or awaiting the superclass cancellation work. The final tests specifically cover pending saved-write drainage, so the fix is more than moving a comment or relying on the ordinary fast path.
+
+The resulting lifecycle is explicit: request cancellation, drain the operation, close resources, then open a fresh candidate handle **and** a fresh service for a recovery attempt. Idle cancellation does not by itself always revoke an externally held candidate token; closing this service’s admission and later resource closure are distinct actions. The code must not claim same-service recovery or revive the old handle merely to reuse a convenient smoke test.
+
+### 5. Preserve both resource-closure failures
+
+The first closure sequence could mask one failure with another. V2 attempts the base service cleanup and candidate close independently. If one fails, it rethrows that original error. If both fail, it raises an `AggregateError` containing the base failure first and the candidate failure second.
+
+This preserves diagnostic meaning without turning a failed close into success. It also avoids an unsafe inference: reaching the second cleanup attempt does not prove that the first resource actually closed. Tests cover both failure ordering and the single-error identity, while actual OS-child drainage and media cancellation remain future measured evidence.
+
+### 6. Reconcile final tests, unchanged failures and the source handoff
+
+The final v2 patch is SHA-256 `d65a081ad1f6ba4f66896171cdb4e5e177c05bc3097703a2aa772709750451c7`. Only three code/test paths are included. The final worker green run at 15:51:07 UTC passed 35/35; an independent final repeat also passed 35/35 with no blocking review finding. The earlier 33/33 result belongs to v1, not the corrected final source.
+
+Lead receipt `20261117T155240Z_candidate-service-lead-final` passed 97/97. The separate broad Linux receipt `20261117T155242Z_candidate-service-lead-linux` had 171 passes and 27 failures out of 198. Its normalized failure-diagnostic set exactly matches the preceding 161-pass/27-failure run; wrapper diagnostic entries are not extra failed tests. Ten additional passing tests and an unchanged failure-name set do not make the broad suite green or prove masked branches.
+
+The legacy comparison was independently repeated on immutable parent `f352cac` and the changed tree: both passed four of five, with the same missing historical long-range report `ENOENT`. That is inherited-failure parity, not a resolved report dependency or a claim that the blocked branch succeeded. The worker’s early legacy result and its cause remain retained.
+
+The lead also reran the historical re-entry and pre-stage phase checks. They did not pass wholesale: the old Windows-branch/local-remote and unavailable-baseline assumptions do not describe this reconstruction, and a pre-existing `.codex/hooks.json` toolkit drift remained. The re-entry check did confirm an empty index, no Planning stage and the 43-row requirement inventory. No hook repair, rebaseline or claim that those historical scripts were green was made; the actual reconstruction manifest and explicit staged-scope checks remain necessary.
+
+The full prior 185,158-byte cumulative summary is preserved as the exact suffix beneath this new entry. The earlier correction receipt and historical archives are not rewritten. New [execution](2026-11-17_Candidate_Keep720_Service.md) and [receipt](2026-11-17_Candidate_Keep720_Service_Receipts.json) owners hold the scoped source/test evidence; the next preservation cycle must verify its own actual outcomes.
+
+## 🧠 Key Insights
+
+### Evidence authenticity and application usability are separate gates
+
+The raw-report and 97-producer checks make the new composition depend on the evidence it claims to consume, rather than on a portable description of that evidence. They still do not prove a useful normal-service job. The practical path is to preserve this reviewed source, then observe prepare/Start, storage, publication and cancellation using the real runtime in one bounded experiment. Replacing old pins would skip rather than answer those questions.
+
+### Cancellation has an admission boundary before it has a completion result
+
+It is not enough for a cancelled service to reject new work eventually. If cancellation awaits saved state or callbacks, admission must already be closed during that wait. The reproduced race made this temporal contract explicit. That conclusion is supported by the tested synchronous boundary; it is not yet evidence of every real process-drainage case.
+
+### Honest recovery can require a new instance
+
+When active cancellation invalidates the candidate token, that stale-token result is a safety property, not a nuisance to work around. A fresh-service recovery test can show that work resumes safely after full closure, while same-service recovery remains a different and unproven contract. This narrower description is more useful than making a broad retry promise that the composition does not implement.
+
+## 📌 Decisions Made
+
+- **Confirmed technical choice by the lead:** Build a developer-only normal-service composition with exact new runtime/dependencies, original report and immutable calibration producer gates; leave production factories, pins and catalog untouched.
+- **Confirmed after independent review:** Close admission synchronously before superclass cancellation can yield; explicitly require cancel → drain → resource close → fresh handle and fresh service for recovery.
+- **Confirmed after reproduced cleanup failure:** Preserve both base-service and candidate-close failures in ordered `AggregateError`, retaining the original error object for a single failure.
+- **Rejected:** Substitute transformed portable archival JSON for the original raw report, or treat VM-positive construction and inherited legacy failure parity as live media qualification.
+- **Deferred pending source preservation and review:** One actual normal-service experiment. The intended next scope is a late two-second range on the 150-second source, a separate eight-second held-out source, collision protection, active encoding cancellation and fresh-instance recovery.
+- **Unchanged owner boundaries:** No default/ArchiveCQ29/benchmark changes, HDR expansion, public release or hardware/platform acceptance. Packaging remains last; Ahmed retains acceptance.
+
+## ⚠️ Difficulties / Friction
+
+The historical service harness was tied to older reports and runtime identities that are not available here. Reusing its shape without respecting those gates would be easy but misleading. The new composition therefore reuses validated service behavior while giving its candidate evidence an explicit separate identity.
+
+The cancellation race and double-cleanup failure were subtle because ordinary success paths can pass while lifecycle behavior remains wrong. Tests had to model an awaited preference write and two simultaneous cleanup failures, not merely assert that cancellation returns or that one `close()` was called.
+
+Broad Linux still contains 27 failures and the legacy test still cannot reach a path requiring the missing old report. Those limitations do not block every bounded new source improvement, but they constrain how far confidence can be generalized. No fresh media run was used to conceal or overwrite the missing historical evidence.
+
+## 🔧 Adjustments Made
+
+- Shifted from: Closing cancellation admission only after asynchronous superclass work could run.
+  - To: Calling `closeAdmission()` synchronously before that work yields.
+  - Because: Independent review and a red regression exposed a pending-write admission window.
+  - Consequence: The cancellation boundary is enforced immediately; recovery still needs complete closure and fresh instances.
+- Shifted from: A closure sequence in which one cleanup error could mask another.
+  - To: Attempting both closures and preserving ordered combined failures, or the original single error.
+  - Because: Diagnostic loss would hide which resources failed to close.
+  - Consequence: A failed cleanup remains failed with both causes visible instead of being mislabeled or overwritten.
+- Shifted from: A calibration-only harness with no new candidate normal-service composition.
+  - To: A separately gated normal-service composition and a still-unperformed real service proof.
+  - Because: Calibration does not exercise the application publication/cancellation lifecycle.
+  - Consequence: The next experiment has a precise consumer-level question without broadening production authority.
+
+## ❌ Mistakes / Risks Noted
+
+### The initial cancellation and closure implementation left real source-level gaps
+
+- What happened: V1 had the synchronous admission window and could mask a cleanup failure.
+- Actual impact: Two intended regressions failed in the retained 8/10 red run. No actual new normal-service job, media corruption or user-file impact is established in this work block.
+- Potential impact: A concurrent action could be admitted while cancellation was draining, or an operator could lose the first cleanup cause and misjudge the resource state.
+- Correction / current status: V2 closes admission before awaiting superclass work and preserves ordered cleanup errors; final worker and independent 35/35 plus lead 97/97 pass on the corrected source.
+- Failure Intelligence: The defects and prevention controls are retained in this session and its execution/test receipts. No separate production incident is claimed; actual process behavior remains an experiment to perform.
+
+### Recovery and evidence could be overstated
+
+- What could happen: Idle cancellation could be described as universal external-token revocation, fresh-instance recovery as same-service retry, or a transformed archive as the exact raw qualification input.
+- Actual impact: No such promotion is accepted in this checkpoint; the live factory fixes the original report identity and the lifecycle explicitly requires closure and fresh instances.
+- Potential impact: A future worker could bypass a stale-token or missing-evidence boundary to make a test pass.
+- Correction / current status: Preserve those distinctions in the next launcher, tests and report. Do not silently broaden a failing or unavailable contract.
+- Failure Intelligence: This is an unresolved interpretation/integration risk, not an observed deployed incident.
+
+## 📍 Current Position
+
+**As of:** November 17, 2026, after final lead verification and at the subsequent source/documentation handoff. The final broad run began at 15:52:42 UTC / 17:52:42 Cairo and lasted about 1.1 seconds; the handoff’s exact clock time is not recorded here.
+
+**Before this session:**
+
+- Checkpoint 007’s media/documentation milestone was fully preserved. Actual calibration existed for the new candidate, but no normal-service composition or new-runtime service lifecycle proof existed.
+
+**After this session:**
+
+- A three-path developer-only composition and test patch is implemented, independently reviewed and verified by the final focused/lead tests.
+- Cancellation admission and compound cleanup diagnostics were corrected after retained red evidence.
+- Broad Linux remains 171/198 passing with 27 failures; immutable-parent legacy parity remains four of five with the same missing-report failure.
+- Positive composition remains VM-injected only. No actual new service/media execution, production activation, native platform proof or release acceptance occurred.
+- The new source and this entry are ready for checkpoint 008, but its commit, Notion restore and GitHub publication have not yet been established in this record.
+
+**Current standing:**
+
+The exact reviewed candidate service is ready to be preserved and then tested through one bounded real normal-service campaign; its successful operation and recovery remain unproven.
+
+**Live owner / continuation anchor:** [CURRENT_STATE.md](CURRENT_STATE.md), then [Candidate Keep720 Service](2026-11-17_Candidate_Keep720_Service.md) and its [receipts](2026-11-17_Candidate_Keep720_Service_Receipts.json). Older media remains bound to `54ee143`, and this dated snapshot does not replace later live outcomes.
+
+## 🔜 Next Steps
+
+1. Read Current State and the new execution/receipt owners; verify the v2 patch and exact three code paths, retained original long report, genuine runtime/dependencies and intended documentation stage. Preserve all prior session bytes and the correction receipt.
+2. The lead should commit this coherent source/test/PBS checkpoint, immediately verify Notion source/full-history restoration, then publish the permitted delta on expected original GitHub ancestry. Record the actual result rather than anticipating it in this pre-publication entry.
+3. Only after the source mirror, finalize and independently review the bounded real-service launcher: late two-second trim on the 150-second source; a separately generated eight-second held-out source; output-collision protection; cancellation after actual encoding activity; complete drainage/closure; then recovery with a fresh handle and fresh service.
+4. Execute that approved bounded scope with private owned outputs and prospectively fixed resource/child limits. Preserve any failed case, original inputs, census and actual publication/collision results. Do not label it a longer service campaign or same-service recovery.
+5. Choose subsequent work from that result and the unchanged non-HDR product/platform plan. A failed contract needs investigation, not a widened criterion or replacement historical report.
+
+**Do not reopen / repeat:** Do not rerun the completed calibration just to inflate evidence, mutate its raw report, substitute the portable archive, replay the terminal-unknown historical payload, change production/default/benchmark pins or rewrite the prior seven sessions.
+
+**Continuation boundary:** The existing development direction permits this scoped next proof after its preservation and review gates. It does not grant production activation, arbitrary long-service coverage, HDR/GPU/native qualification or acceptance. A cancelled service is not reused; fresh-instance recovery is the stated boundary.
+
+## ❓ Open Questions
+
+- Does the exact real normal-service composition successfully prepare, encode, validate and publish the bounded cases while preserving source and output ownership? — Needed from: the next reviewed actual-service campaign. Blocks: a live-service success claim.
+- Does cancellation after observed encoding activity drain and close every owned resource, and can new instances recover safely? — Needed from: real lifecycle/census evidence. Blocks: actual cancellation and fresh-instance recovery claims; same-service recovery remains outside scope.
+- Will the fixed original report and all runtime/producer dependencies remain available at future re-entry? — Needed from: fresh exact-identity checks and explicitly scoped evidence recovery. Blocks: factory admission if missing; the portable archive cannot substitute.
+- Which inherited broad failures matter for later user-facing readiness? — Needed from: classified exact-source triage and applicable platform evidence. Blocks: a broader readiness claim, not preservation of this reviewed patch.
+
+## 🧾 Session Outcome
+
+This session created the missing bridge between narrow calibration and a testable real service without pretending that the bridge had already been crossed. The source now demands genuine runtime authority, original evidence and immutable producer identity before composing the existing service. Review also improved its lifecycle contract: cancellation closes admission immediately, cleanup preserves every failure, and recovery honestly starts with new instances.
+
+The practical result is a smaller and clearer next experiment. The project can preserve this exact reviewed implementation and then observe real service publication, collisions and active cancellation under bounded conditions. Existing media evidence, unresolved failures, production gates and accepted history remain intact rather than being reinterpreted to make the milestone look finished.
+
+## 🔍 Confidence Level
+
+**Exact source composition, synchronous admission closure and cleanup diagnostics: High within reviewed injected/pure coverage.**
+
+**Why:** Immutable v2 patch, retained 8/10 red regressions, final worker and independent 35/35, lead 97/97 and inspected fixed evidence/runtime/producer gates support the narrow source claims.
+
+**Not higher because:** The positive factory test is VM-injected; no real candidate service has yet run. The seven dependency records are an explicit inventory, not automatic loader-closure discovery, and the runner is not a general sandbox. Broad Linux and the old-report legacy path still fail.
+
+**History preservation and preceding checkpoint publication: High within the verified records.**
+
+**Why:** Checkpoint-007 source/bundle and full native summary were restored/read back; its GitHub delta and ancestry were verified. This addition preserves the entire previous cumulative file byte-for-byte as its suffix.
+
+**Not higher because:** Those receipts do not establish checkpoint 008’s publication or back up its new source before that cycle succeeds. No owner acceptance, hardware qualification or completed service experiment is inferred.
+
+---
+
 # 📘 Session: November 17, 2026 — FFmpeg Encoder — Real short and long trim calibration, preserved boundaries and faithful session memory
 
 ## 🤖 Models, Effort, Roles and Provenance

@@ -35,10 +35,10 @@ function assertQualifiedClocks(probe) {
 }
 // Inspect the same complete metadata bytes the service will parse. This does
 // not replace its duplicate-key/schema checks or accept a failed child result.
-function clockGuardedRunner(invoke) {
+function clockGuardedRunner(invoke, ffprobePath = PINS.ffprobe.path) {
   return async (executable, args, options) => {
     const result = await invoke(executable, args, options);
-    if (!options?.onStdoutChunk && executable === PINS.ffprobe.path && args.includes('-show_format') && args.includes('-show_streams') && result.exitCode === 0) {
+    if (!options?.onStdoutChunk && executable === ffprobePath && args.includes('-show_format') && args.includes('-show_streams') && result.exitCode === 0) {
       let metadata; try { metadata = JSON.parse(result.stdout); } catch { need(false, 'Output metadata must be valid JSON.'); }
       if (metadata?.format?.format_name === 'matroska,webm')
         need(Array.isArray(metadata.streams) && metadata.streams.length > 0
@@ -63,10 +63,14 @@ class ClockQualifiedFamilySelector extends OperationFamilySelector {
 // Pure validator accepts a digest only for deterministic testing. The service
 // below never accepts a caller-selected receipt, digest, runtime or policy.
 function assertProportionalReceipt(bytes, expectedSha, config) {
+  return assertProportionalReceiptForRuntime(bytes, expectedSha, config, RUNTIME_ID);
+}
+// Pure validation only; this creates no runtime, selector or service authority.
+function assertProportionalReceiptForRuntime(bytes, expectedSha, config, expectedRuntimeIdentity) {
   need(typeof expectedSha === 'string' && /^[a-f0-9]{64}$/.test(expectedSha), 'Long-range qualification receipt is pending.');
   need(sha(bytes) === expectedSha, 'The exact reviewed long-range receipt is required.');
   let report; try { report = JSON.parse(bytes); } catch { need(false, 'Invalid long-range receipt JSON.'); }
-  need(report?.status === 'passed-pre-catalog-calibration' && report.runtimeIdentity === RUNTIME_ID
+  need(report?.status === 'passed-pre-catalog-calibration' && report.runtimeIdentity === expectedRuntimeIdentity
     && report.resourcePolicy === config.resourcePolicy && report.publicationAuthorized === false && report.catalogActivated === false
     && same(report.settings, SETTINGS) && !report.failure && !report.closeFailure,
   'A successful matching pre-catalog calibration is required.');
@@ -102,7 +106,7 @@ function assertProportionalReceipt(bytes, expectedSha, config) {
         && audio.sample_fmt === 's16' && audio.sample_rate === '48000' && audio.channels === 2 && audio.channel_layout === 'stereo',
       'Full calibration must retain actual complete video and audio-tail source extents.');
     }
-    const expected = frozenQualifications(`${path.basename(path.dirname(config.report))}:${id}`, RUNTIME_ID, source.probe);
+    const expected = frozenQualifications(`${path.basename(path.dirname(config.report))}:${id}`, expectedRuntimeIdentity, source.probe);
     need(same(source.frozen, expected), 'Qualifications must equal the before-encode clock-derived bounds, not fitted output errors.');
   }
   need(report.sources[0].sha256 !== report.sources[1].sha256, 'Held-out source must be independent.');
@@ -179,4 +183,4 @@ function createProportionalServiceFactory(configuration) {
 const original = createProportionalServiceFactory({ kind: 'keep720', report: REPORT, reportSha: REPORT_SHA });
 const createLongRangeService = original.createService, assertLongRangeReceipt = original.assertReceipt;
 module.exports = { createLongRangeService, assertLongRangeReceipt, assertQualifiedClocks, ClockQualifiedFamilySelector,
-  REPORT, REPORT_SHA, CLOCKS, clockGuardedRunner, createProportionalServiceFactory };
+  REPORT, REPORT_SHA, CLOCKS, clockGuardedRunner, createProportionalServiceFactory, assertProportionalReceiptForRuntime };

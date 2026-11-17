@@ -1,6 +1,6 @@
 'use strict';
 
-// Main-only applicability for one deliberately finite input family. Retained
+// Main-only applicability for explicitly measured source families. Retained
 // qualification belongs to the trusted catalog, while every issued selection
 // separately binds a genuine plan and the current file's complete identity.
 // Metadata admits collection only; complete decoded source evidence is required
@@ -11,6 +11,16 @@ const { validateSettings, selectVideo } = require('./media.cjs');
 const { normalizeProbe } = require('./inspection.cjs');
 const { resolveTimeRange, resolveAudio, resolveGeometry } = require('./operation-contract.cjs');
 const { assertEncodeOperationPlan, describeEncodeOperationSource, fingerprintEncodeSource } = require('./encode-operation.cjs');
+
+const { FAMILY_ID: PROPORTIONAL, RESOURCE_POLICY, deriveCfrFlacResources } = require('./operation-resource-budget.cjs');
+const proportionalResults = new WeakMap();
+// A result's private issuing epoch and plan identity, never a public flag, carry
+// resource authority. Callers must still requireCurrent at the normal boundary;
+// the brand alone is not a fresh source/runtime observation or media qualification.
+function isProportionalFamilySelection(result, plan) {
+  const issued = result && typeof result === 'object' ? proportionalResults.get(result) : null;
+  return !!issued && issued.current() && (plan === undefined || plan === issued.plan);
+}
 
 const FAMILY = 'short-sdr-range-v1', MAX_EXTENT_US = 120000000, MAX_BYTES = 512 * 1024 * 1024;
 // Record 47 Q2b: whole-file 1080p30 -> 720p with copied audio. The first cells
@@ -110,13 +120,17 @@ function timingQualification(value, runtimeIdentity, lossless = false) {
       discardPaddingSamples: integer(value.aac.discardPaddingSamples, 'AAC discard padding', 0, 1048576) } };
 }
 function family(value) {
-  const keys = ['id', 'evidenceIds', 'runtimeIdentity', 'environment', 'settings', 'qualification', 'timingQualification', 'budget', 'executionBudgetMs']; record(value, keys);
-  need(FAMILY_IDS.includes(value.id), 'Only the fixed SDR AAC-range, FLAC-range and whole-file copied-audio family schemas are implemented.');
-  const full = value.id === FULL, flac = value.id === FLAC;
+  const id = plain(value) && Object.getOwnPropertyDescriptor(value, 'id');
+  const proportional = id && own(id, 'value') && id.value === PROPORTIONAL;
+  const keys = ['id', 'evidenceIds', 'runtimeIdentity', 'environment', 'settings', 'qualification', 'timingQualification', ...(proportional ? ['resourcePolicy'] : ['budget', 'executionBudgetMs'])]; record(value, keys);
+  need(proportional || FAMILY_IDS.includes(value.id), 'Only the fixed SDR AAC-range, FLAC-range and whole-file copied-audio family schemas are implemented.');
+  const full = value.id === FULL, flac = value.id === FLAC || proportional;
+  if (proportional) need(value.resourcePolicy === RESOURCE_POLICY, 'Only the fixed proportional FLAC resource policy is supported.');
   const evidenceIds = list(value.evidenceIds, 32, 'Family provenance').map(item => identity(item, 'Retained family evidence'));
   need(evidenceIds.length > 0 && new Set(evidenceIds).size === evidenceIds.length, 'Family provenance needs unique retained evidence identities.');
   const runtimeIdentity = digest(value.runtimeIdentity, 'Paired runtime'), config = settings(value.settings);
   need(config.profileId !== 'h265-cpu' || value.environment === null, 'The trusted CPU family must explicitly store a null environment.');
+  if (proportional) need(config.profileId === 'h265-cpu', 'The proportional FLAC family is CPU-only.');
   const endpoint = qualification(value.qualification, runtimeIdentity), timing = timingQualification(value.timingQualification, runtimeIdentity, full || flac);
   // The packet clock is the precision-AAC model; the copy clock belongs only to copied audio.
   need(full ? endpoint.containerDuration === 'matroska-copy-end-plus-codec-delay' && endpoint.tolerances.sampleCount === 0
@@ -137,7 +151,8 @@ function family(value) {
   }
   need([endpoint.evidenceId, timing.evidenceId].every(id => evidenceIds.includes(id)), 'Both measured qualifications must belong to retained family provenance.');
   return freeze({ id: value.id, evidenceIds, runtimeIdentity, environment: environment(value.environment, config, runtimeIdentity), settings: config,
-    qualification: endpoint, timingQualification: timing, budget: budget(value.budget), executionBudgetMs: integer(value.executionBudgetMs, 'Execution budget', 1, 1800000) });
+    qualification: endpoint, timingQualification: timing, ...(proportional ? { resourcePolicy: RESOURCE_POLICY }
+      : { budget: budget(value.budget), executionBudgetMs: integer(value.executionBudgetMs, 'Execution budget', 1, 1800000) }) });
 }
 function rational(value, short = false) {
   record(value, short ? ['n', 'd'] : ['numerator', 'denominator']); const n = short ? value.n : value.numerator, d = short ? value.d : value.denominator;
@@ -150,7 +165,15 @@ const absolute = value => ({ n: value.n < 0n ? -value.n : value.n, d: value.d })
 const rat = (n, d = 1n) => ({ n, d });
 function known(value, label) { need(value?.state === 'known', `Known ${label} is required.`); return value.value; }
 function observedRational(value, label) { return rational(known(value, label)); }
-function positiveExtent(value, label) { const result = observedRational(value, label); need(result.n > 0n && compare(result, rat(120n)) <= 0n, `${label} must be positive and at most 120 seconds.`); return result; }
+function positiveExtent(value, label, proportional = false) {
+  const result = observedRational(value, label), limit = proportional ? rat(BigInt(Number.MAX_SAFE_INTEGER), 1000000n) : rat(120n);
+  need(result.n > 0n && compare(result, limit) <= 0n, proportional ? `${label} must be positive and within exact microsecond capacity.` : `${label} must be positive and at most 120 seconds.`); return result;
+}
+function extentUs(value) {
+  const result = (value.n * 1000000n + value.d - 1n) / value.d;
+  need(result > 0n && result <= BigInt(Number.MAX_SAFE_INTEGER), 'Source extent exceeds exact microsecond capacity.');
+  return Number(result);
+}
 function orientation(geometry) {
   const rotation = geometry.rotationDegrees, legacy = geometry.legacyRotationDegrees, matrix = geometry.displayMatrix;
   need(!geometry.issues?.length && [rotation, legacy, matrix].every(value => value && value.state !== 'malformed'), 'Source orientation must be complete and unambiguous.');
@@ -165,10 +188,10 @@ function orientation(geometry) {
   }
   return 'identity';
 }
-function timeline(stream) {
+function timeline(stream, proportional = false) {
   const value = stream.timeline, timeBase = observedRational(value.timeBase, 'stream time base'); need(timeBase.n > 0n, 'Stream time base must be positive.');
   need(known(value.startPts, 'stream start ticks') === '0' && observedRational(value.startSeconds, 'stream start').n === 0n, 'Every source stream must have an explicit zero origin.');
-  const duration = positiveExtent(value.durationSeconds, 'Stream duration'), ticks = exactInteger(known(value.durationTicks, 'stream duration ticks'), 'Duration ticks', 1n, 9223372036854775807n);
+  const duration = positiveExtent(value.durationSeconds, 'Stream duration', proportional), ticks = exactInteger(known(value.durationTicks, 'stream duration ticks'), 'Duration ticks', 1n, 9223372036854775807n);
   need(compare(absolute(minus(duration, rat(ticks * timeBase.n, timeBase.d))), rat(1n, 1000000n)) <= 0n, 'Stream duration ticks and seconds must agree within reported decimal precision.');
   return { timeBase, duration };
 }
@@ -187,7 +210,7 @@ function streamSideData(video, audio) {
   // entries and any legacy representation. Unknown original side-data fields
   // remain in normalizeProbe and are refused here, rather than silently ignored.
 }
-function sourceFacts(probe, actualBytes) {
+function sourceFacts(probe, actualBytes, proportional = false) {
   need(probe.streams.length === 2 && probe.chapters.length === 0 && Array.isArray(probe.programs) && !probe.programs.length
     && Array.isArray(probe.stream_groups) && !probe.stream_groups.length, 'The family requires exactly one video and one audio stream with no chapters, programs or groups.');
   const video = probe.streams.find(item => item.codec_type === 'video'), audio = probe.streams.find(item => item.codec_type === 'audio');
@@ -207,22 +230,22 @@ function sourceFacts(probe, actualBytes) {
   need(container.relationships.state === 'known' && known(container.relationships.reportedStreamCount, 'stream count') === '2'
     && known(container.programs.reportedCount, 'program count') === '0' && known(container.streamGroups.reportedCount, 'stream group count') === '0', 'Source relationships must explicitly establish the complete two-stream layout.');
   need(observedRational(container.startSeconds, 'container start').n === 0n, 'Container origin must explicitly be zero.');
-  const containerExtent = positiveExtent(container.durationSeconds, 'Container duration');
-  const reportedBytes = exactInteger(known(container.size, 'container byte size'), 'Container byte size', 1n, BigInt(MAX_BYTES));
-  if (actualBytes !== undefined) need(actualBytes > 0n && actualBytes <= BigInt(MAX_BYTES) && reportedBytes === actualBytes, 'The actual current source size must match the bounded observed container size.');
+  const containerExtent = positiveExtent(container.durationSeconds, 'Container duration', proportional);
+  const reportedBytes = exactInteger(known(container.size, 'container byte size'), 'Container byte size', 1n, BigInt(proportional ? Number.MAX_SAFE_INTEGER : MAX_BYTES));
+  if (actualBytes !== undefined) need(actualBytes > 0n && actualBytes <= BigInt(proportional ? Number.MAX_SAFE_INTEGER : MAX_BYTES) && reportedBytes === actualBytes, 'The actual current source size must match the bounded observed container size.');
   const ve = media.streams.find(item => item.index === video.index), ae = media.streams.find(item => item.index === audio.index);
   need(compare(observedRational(ve.geometry.sampleAspectRatio, 'sample aspect ratio'), rat(1n)) === 0n
     && compare(observedRational(ve.geometry.displayAspectRatio, 'display aspect ratio'), rat(16n, 9n)) === 0n, 'Only explicit square-pixel 16:9 geometry belongs to this family.');
   need(['color_transfer', 'color_primaries', 'color_space'].every(key => video[key] === 'bt709') && video.color_range === 'tv' && video.chroma_location === 'left'
     && !ve.hdr.entries.length && !ae.hdr.entries.length, 'Explicit BT709 limited-range SDR without reported HDR metadata is required.');
-  const videoTimeline = timeline(ve), audioTimeline = timeline(ae), rate = Number(video.avg_frame_rate.split('/')[0]);
+  const videoTimeline = timeline(ve, proportional), audioTimeline = timeline(ae, proportional), rate = Number(video.avg_frame_rate.split('/')[0]);
   need(compare(videoTimeline.timeBase, rat(1n, BigInt(rate))) <= 0n && compare(audioTimeline.timeBase, rat(1n, 48000n)) <= 0n, 'Observed source timestamp ticks must resolve the nominal video period and audio samples.');
   return { rate, width: video.width, videoIndex: video.index, audioIndex: audio.index, sourceAudio: audio,
     majorBrand: probe.format.tags?.major_brand, videoTick: videoTimeline.timeBase,
     audioTick: audioTimeline.timeBase, orientation: orientation(ve.geometry), videoEvidence: ve, audioEvidence: ae,
     extents: { video: videoTimeline.duration, audio: audioTimeline.duration, container: containerExtent } };
 }
-function rangeScope(request, facts, contract, flac = false) {
+function rangeScope(request, facts, contract, flac = false, proportional = false) {
   const policy = flac ? 'precision-flac' : 'precision-aac';
   need(request.operation === 'encode' && request.target === 'matroska' && ['preserve', 'sdr'].includes(request.hdrPolicy)
     && request.audioPolicy === policy && request.aacBitrateKbps === null
@@ -233,7 +256,7 @@ function rangeScope(request, facts, contract, flac = false) {
   const range = contract?.range || resolveTimeRange(facts.videoEvidence, request.range);
   need(range.kind === 'range' && range.resolved && Number.isSafeInteger(range.resolved.startUs) && Number.isSafeInteger(range.resolved.endUs), 'A resolved bounded range is required.');
   const span = range.resolved.endUs - range.resolved.startUs;
-  need(range.resolved.startUs >= 0 && span >= 500000 && span <= 30000000 && range.resolved.endUs <= MAX_EXTENT_US, 'The resolved range must retain 0.5 to 30 seconds within the bounded source.');
+  need(range.resolved.startUs >= 0 && span >= 500000 && (proportional || span <= 30000000) && range.resolved.endUs <= (proportional ? extentUs(facts.extents.video) : MAX_EXTENT_US), proportional ? 'The resolved range must retain at least 0.5 seconds within the complete source.' : 'The resolved range must retain 0.5 to 30 seconds within the bounded source.');
   const audio = contract?.audio || resolveAudio([facts.audioEvidence], { target: request.target, range, audioPolicy: request.audioPolicy, aacBitrateKbps: request.aacBitrateKbps });
   need(audio.streams.length === 1 && audio.streams[0].index === facts.audioIndex && audio.streams[0].mode === policy
     && audio.streams[0].sampleRate === 48000 && audio.streams[0].channels === 2 && audio.streams[0].channelLayout === 'stereo'
@@ -268,7 +291,14 @@ function fullExtents(video, audio, label) {
   need(compare(absolute(minus(audio, video)), AAC_FRAME) <= 0n, `The ${label} audio must end within one AAC frame of the video for the whole-file copied-audio family.`);
 }
 function requestScope(request, facts, contract, id = FAMILY) {
-  const audio = facts.sourceAudio, flac = id === FLAC;
+  const audio = facts.sourceAudio, proportional = id === PROPORTIONAL, flac = id === FLAC || proportional;
+  if (proportional) {
+    need(facts.width === 1280 && facts.rate === 30 && request.resolution === 'source', 'Only proportional 720p30 Keep Source is implemented.');
+    // The core contract carries the measured clock boundary too; a caller must
+    // not obtain a broader branded family by omitting the Linux composition.
+    need(compare(facts.videoTick, rat(1n, 15360n)) === 0n && compare(facts.audioTick, rat(1n, 48000n)) === 0n,
+      'The proportional FLAC family requires its measured video and audio clocks.');
+  }
   // The PCM endpoint evidence was measured in QuickTime, not MP4-branded
   // files sharing the MOV demuxer. Preserve the exact brand, including spaces.
   need(!flac || facts.majorBrand === 'qt  ', 'The precision-FLAC range family requires the measured QuickTime major brand qt  .');
@@ -279,10 +309,10 @@ function requestScope(request, facts, contract, id = FAMILY) {
       : audio.codec_name === 'aac' && audio.profile === 'LC' && audio.sample_fmt === 'fltp'),
   flac ? 'Only 48 kHz stereo pcm_s16le/s16 source audio belongs to the precision-FLAC range family.'
     : 'Only 48 kHz stereo AAC LC/fltp source audio belongs to this family.');
-  return id === FULL ? fullScope(request, facts, contract) : rangeScope(request, facts, contract, flac);
+  return id === FULL ? fullScope(request, facts, contract) : rangeScope(request, facts, contract, flac, proportional);
 }
 const BINDINGS = ['plan', 'settings', 'sourceIdentity', 'sourceProbeFingerprint', 'runtimeIdentity', 'environment', 'budget', 'executionBudgetMs'];
-function bindings(value, familyId) {
+function bindings(value, familyId, scopeOnly = false) {
   record(value, BINDINGS, BINDINGS.filter(key => key !== 'environment'), 'Main-owned family admission');
   const config = settings(value.settings), source = sourceIdentity(value.sourceIdentity), fingerprint = digest(value.sourceProbeFingerprint, 'Source probe fingerprint');
   const plan = assertEncodeOperationPlan(value.plan, { settings: config, sourceProbeFingerprint: fingerprint, sourcePath: source.canonicalPath });
@@ -290,15 +320,25 @@ function bindings(value, familyId) {
   need(!plan.compatibilityPath && plan.runtimeIdentity === runtimeIdentity && plan.expectedOutput?.operation === 'encode'
     && plan.expectedOutput.color?.supported === true && plan.expectedOutput.color.classification === 'sdr', 'A genuine matching changed SDR Encode plan is required.');
   // Without a family id this only gathers facts; the scope is that family's own.
-  const facts = sourceFacts(describeEncodeOperationSource(plan), BigInt(source.size));
+  const proportional = familyId === PROPORTIONAL;
+  if (proportional && !scopeOnly) need(value.budget === null, 'Proportional selection derives its budget; caller overrides are forbidden.');
+  const facts = sourceFacts(describeEncodeOperationSource(plan), BigInt(source.size), proportional);
   const base = { plan, facts, sourcePolicy: { id: null, rate: facts.rate, maximumExtentUs: MAX_EXTENT_US }, state: { planFingerprint: digest(plan.planFingerprint, 'Plan fingerprint'), settings: config, sourceIdentity: source,
     sourceProbeFingerprint: fingerprint, runtimeIdentity, environment: environment(value.environment, config, runtimeIdentity), familyId: null, request: null,
-    budget: budget(value.budget), executionBudgetMs: integer(value.executionBudgetMs, 'Execution budget', 1, 1800000) } };
+    budget: proportional || scopeOnly ? null : budget(value.budget), executionBudgetMs: scopeOnly ? 0 : integer(value.executionBudgetMs, 'Execution budget', 1, 1800000) } };
   return familyId === undefined ? base : forFamily(base, familyId);
 }
 // Binds one family's own scope to bindings already read once; options are never re-read.
 function forFamily(base, familyId) {
   const request = requestScope(base.plan.contract.request, base.facts, base.plan.contract, familyId);
+  if (familyId === PROPORTIONAL) {
+    const sourceExtentUs = extentUs(maximum(maximum(base.facts.extents.video, base.facts.extents.audio), base.facts.extents.container));
+    const interval = base.plan.contract.range.resolved, selectedExtentUs = interval.endUs - interval.startUs;
+    const derived = deriveCfrFlacResources({ sourceExtentUs, selectedExtentUs, sourceBytes: base.state.sourceIdentity.size });
+    return { plan: base.plan, facts: base.facts, sourcePolicy: { id: familyId, rate: base.facts.rate, maximumExtentUs: sourceExtentUs },
+      state: { ...base.state, familyId, request, resourcePolicy: RESOURCE_POLICY, sourceExtentUs, selectedExtentUs,
+        inputBudget: base.state.budget, inputExecutionBudgetMs: base.state.executionBudgetMs, ...derived } };
+  }
   return { plan: base.plan, facts: base.facts, sourcePolicy: { ...base.sourcePolicy, id: familyId }, state: { ...base.state, familyId, request } };
 }
 // The refusal that names the family the request was aimed at (whole file or range).
@@ -338,18 +378,26 @@ class OperationFamilySelector {
     return checked(REQUIRED, () => {
       record(options, BINDINGS, ['plan'], 'Main-owned family selection'); const plan = assertEncodeOperationPlan(options.plan);
       if (plan.compatibilityPath) return null;
-      const base = bindings(options), matches = this.#families.filter(item => item.runtimeIdentity === base.state.runtimeIdentity
-        && same(item.settings, base.state.settings) && same(item.environment, base.state.environment));
-      // Each family admits only its own request scope; exactly one may apply.
-      const reasons = new Map();
-      const admitted = matches.filter(item => { try { requestScope(base.plan.contract.request, base.facts, base.plan.contract, item.id); return true; } catch (error) { reasons.set(item.id, error.message); return false; } });
+      const config = settings(options.settings), runtimeIdentity = digest(options.runtimeIdentity, 'Paired runtime');
+      const device = environment(options.environment, config, runtimeIdentity);
+      const matches = this.#families.filter(item => item.runtimeIdentity === runtimeIdentity
+        && same(item.settings, config) && same(item.environment, device));
+      // Each exact catalog candidate applies its own bounds; legacy metadata is
+      // never globally widened merely because another proportional family exists.
+      const reasons = new Map(), admitted = [];
+      for (const item of matches) {
+        try { bindings(options, item.id, true); admitted.push(item); }
+        catch (error) { if (error.code === 'INVALID_ENCODE_OPERATION') throw error; reasons.set(item.id, error.message); }
+      }
       if (admitted.length > 1) throw new ToolError(AMBIGUOUS, 'More than one measured family admits this exact job; nothing was selected.');
-      need(admitted.length === 1, preferredReason(reasons, base.plan.contract.request) || 'No trusted measured family and exact complete execution budget apply to this current job.');
-      const selected = admitted[0], current = forFamily(base, selected.id);
-      need(same(selected.budget, current.state.budget) && selected.executionBudgetMs === current.state.executionBudgetMs, 'No trusted measured family and exact complete execution budget apply to this current job.');
+      need(admitted.length === 1, preferredReason(reasons, plan.contract.request) || 'No trusted measured family and exact complete execution budget apply to this current job.');
+      const selected = admitted[0], current = bindings(options, selected.id), proportional = selected.id === PROPORTIONAL;
+      need(proportional || same(selected.budget, current.state.budget) && selected.executionBudgetMs === current.state.executionBudgetMs, 'No trusted measured family and exact complete execution budget apply to this current job.');
       const token = Object.freeze({}), result = freeze({ qualification: selected.qualification, timingQualification: selected.timingQualification,
-        budget: selected.budget, evidenceIds: selected.evidenceIds, executionBudgetMs: selected.executionBudgetMs, policyIdentity: this.#policy,
-        controlsRequired: true, sourcePolicy: current.sourcePolicy });
+        budget: current.state.budget, evidenceIds: selected.evidenceIds, executionBudgetMs: current.state.executionBudgetMs, policyIdentity: this.#policy,
+        controlsRequired: true, sourcePolicy: current.sourcePolicy,
+        ...(proportional ? { proportional: true, resourcePolicy: RESOURCE_POLICY, resources: current.state.resources } : {}) });
+      if (proportional) { const epoch = this.#epoch; proportionalResults.set(result, { plan: current.plan, current: () => this.#epoch === epoch }); }
       this.#selections.set(token, { epoch: this.#epoch, plan: current.plan, state: freeze(current.state), facts: current.facts, result }); return token;
     });
   }
@@ -428,15 +476,19 @@ class OperationFamilySelector {
       need(evidence.schema === 1 && evidence.status === 'completed' && evidence.runtimeIdentity === selected.state.runtimeIdentity
         && evidence.planFingerprint === selected.state.planFingerprint && evidence.sourcePath === selected.state.sourceIdentity.canonicalPath, 'Complete source collection must bind this exact plan, runtime and source path.');
       record(evidence.completeSource, ['video', 'audio']);
-      const video = evidence.completeSource.video, facts = selected.facts, full = selected.state.familyId === FULL, seconds = full ? FULL_MAX_SECONDS : 120n;
+      const video = evidence.completeSource.video, facts = selected.facts, full = selected.state.familyId === FULL, proportional = selected.state.familyId === PROPORTIONAL;
+      const seconds = full ? FULL_MAX_SECONDS : 120n, limit = proportional ? rat(BigInt(selected.state.sourceExtentUs), 1000000n) : rat(seconds);
+      const countLimit = rate => (limit.n * rate + limit.d - 1n) / limit.d;
       record(video, ['frames', 'firstTime', 'endTime', 'maximumNominalCadenceErrorUs', 'maximumNominalDurationErrorUs', 'maximumNominalPhaseErrorUs', 'properties']);
-      integer(video.frames, 'Complete video frames', 1, Number(seconds) * facts.rate);
+      integer(video.frames, 'Complete video frames', 1, Number(countLimit(BigInt(facts.rate))));
       record(video.properties, ['policy', 'sampleAspectRatio', 'chromaLocation', 'sideDataPolicy', 'framesChecked']);
       need(video.properties.policy === selected.state.familyId && video.properties.sampleAspectRatio === '1:1' && video.properties.chromaLocation === 'left'
         && video.properties.sideDataPolicy === 'h26x-unregistered-sei-only' && video.properties.framesChecked === video.frames,
       'Every complete source video frame must receive the exact qualified SAR, chroma and side-data checks.');
       const first = rational(video.firstTime, true), end = rational(video.endTime, true);
-      need(first.n === 0n && end.n > 0n && compare(end, rat(seconds)) <= 0n, `Complete decoded video must start at zero and end within ${seconds} seconds.`);
+      need(first.n === 0n && end.n > 0n && compare(end, limit) <= 0n, proportional
+        ? 'Complete decoded video must start at zero and end within the source-derived extent.'
+        : `Complete decoded video must start at zero and end within ${seconds} seconds.`);
       for (const key of ['maximumNominalCadenceErrorUs', 'maximumNominalDurationErrorUs', 'maximumNominalPhaseErrorUs']) {
         integer(video[key], key); need(BigInt(video[key]) * facts.videoTick.d <= facts.videoTick.n * 1000000n, 'Complete source video is not CFR within its one observed source timestamp tick.');
       }
@@ -444,15 +496,20 @@ class OperationFamilySelector {
       const audio = list(evidence.completeSource.audio, 1, 'Complete source audio'); need(audio.length === 1, 'Exactly one complete source audio stream is required.');
       record(audio[0], ['inputIndex', 'sampleCount', 'firstTime', 'endTime', 'gaps']);
       need(audio[0].inputIndex === facts.audioIndex && audio[0].gaps === 0, 'Complete source audio must name the original stream and contain no gaps.');
-      const samples = exactInteger(audio[0].sampleCount, 'Complete source sample count', 1n, seconds * 48000n);
+      const samples = exactInteger(audio[0].sampleCount, 'Complete source sample count', 1n, countLimit(48000n));
       const audioFirst = rational(audio[0].firstTime, true), audioEnd = rational(audio[0].endTime, true);
-      need(audioFirst.n === 0n && audioEnd.n > 0n && compare(audioEnd, rat(seconds)) <= 0n, `Complete decoded audio must start at zero and end within ${seconds} seconds.`);
+      need(audioFirst.n === 0n && audioEnd.n > 0n && compare(audioEnd, limit) <= 0n, proportional
+        ? 'Complete decoded audio must start at zero and end within the source-derived extent.'
+        : `Complete decoded audio must start at zero and end within ${seconds} seconds.`);
       need(compare(absolute(minus(audioEnd, rat(samples, 48000n))), facts.audioTick) <= 0n, 'Complete source samples and decoded audio extent disagree beyond one observed audio tick.');
       // Metadata admitted the whole-file job; the decoded source must keep the same measured shape.
       if (full) fullExtents(end, audioEnd, 'decoded');
+      if (proportional) need(compare(absolute(minus(end, facts.extents.video)), facts.videoTick) <= 0n
+        && compare(absolute(minus(audioEnd, facts.extents.audio)), facts.audioTick) <= 0n,
+      'Complete proportional collection must cover the observed whole source, not only the selected range.');
       return true;
     });
   }
 }
 
-module.exports = { OperationFamilySelector };
+module.exports = { OperationFamilySelector, isProportionalFamilySelection };

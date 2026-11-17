@@ -14,6 +14,7 @@ const catalogSettings = request => { const resolved = resolveCatalogSettings(req
 const { encodeOutputName } = require('./operation-names.cjs');
 const { buildEncodeOperation, validateEncodeOperationOutput, fingerprintEncodeSource, withEncodeOperationTelemetry,
   resolveEncodeOperationInvocation, validateEncodeOperationTelemetry } = require('./encode-operation.cjs');
+const { isProportionalFamilySelection } = require('./operation-family.cjs');
 const { collectOperationEvidence } = require('./operation-evidence.cjs');
 const { createOperationTelemetry, assertTelemetryReady, collectOperationTelemetry, closeOperationTelemetry } = require('./operation-telemetry.cjs');
 const { runTool, isSharedToolFailure, boundedToolStderr } = require('./process-runner.cjs');
@@ -50,11 +51,18 @@ const REMUX_EXTENSIONS = new Set([...EXTENSIONS, '.ts']);
 const fail = (code, message) => Object.assign(new Error(message), { code });
 const clone = value => structuredClone(value);
 const OUTPUT_PLACEHOLDER = '<temporary output assigned at start>';
-// Defaults are intentionally unchanged for ordinary/Full/range encode. Only a
-// genuine main-private Remux selection supplies proportional execution limits.
+// Ordinary/legacy encode defaults remain unchanged. Main-private Remux or a
+// genuine plan-bound proportional encode selection supplies its own limits.
 const LEGACY_OPERATION_COSTS = Object.freeze({ pipeBytes: 256 * 1024 * 1024, evidenceBytes: 256 * 1024 * 1024,
   maxChildren: 64, evidenceReserveBytes: 32 * 1024 * 1024, stallMs: null });
 function operationCostLimits(entry, qualified) {
+  // Inspect only the presence of a claim; never invoke a forged flag getter.
+  const proportionalClaim = qualified && ['object', 'function'].includes(typeof qualified) && 'proportional' in qualified;
+  if (proportionalClaim) {
+    if (entry.remux || entry.hdr || !entry.operationPlan || !isProportionalFamilySelection(qualified, entry.operationPlan))
+      throw fail('OPERATION_PROPORTIONAL_BUDGET', 'Only this encode plan\'s genuine current proportional selection supplies resources.');
+    return { ...qualified.resources, executionBudgetMs: qualified.executionBudgetMs };
+  }
   if (!entry.remux) return { ...LEGACY_OPERATION_COSTS, executionBudgetMs: qualified?.executionBudgetMs ?? null };
   if (!qualified || qualified.remux !== true || !qualified.resources) throw fail('REMUX_PROPORTIONAL_BUDGET', 'A genuine source-derived Remux selection is required.');
   return { ...qualified.resources, executionBudgetMs: qualified.executionBudgetMs };
@@ -1897,7 +1905,7 @@ class EncoderService extends EventEmitter {
             if (!storageReservation || !entry.operationRuntimeToken) throw fail('OPERATION_CONTROLS_UNAVAILABLE', 'Instrumented operations require current runtime and admitted evidence storage.');
             telemetry = await createOperationTelemetry({ stageDirectory: storageReservation.directory, runtimeIdentity: this.runtimeIdentity,
               planFingerprint: entry.operationPlan.planFingerprint, streams: entry.operationPlan.instrumentation.streams,
-              maxBytes: 4 * 1024 * 1024, maxRecords: 20000 });
+              maxBytes: costLimits.telemetryBytes ?? 4 * 1024 * 1024, maxRecords: costLimits.telemetryRecords ?? 20000 });
             await assertTelemetryReady(telemetry);
             args.splice(0, args.length, ...(entry.hdr
               ? this.hdrOperations.resolveInvocation(entry.operationPlan, { output: stage.file, telemetry })

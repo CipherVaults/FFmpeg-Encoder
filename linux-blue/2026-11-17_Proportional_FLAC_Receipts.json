@@ -1,0 +1,1100 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-11-17T14:20:09.706876+00:00",
+  "parentLocalCommit": "0c5d9d2fa05f68a27b1e3ed776c268c2ed0a5cf8",
+  "parentRemoteCommit": "acbc83f13d8c555056a633a4c63e0606cd6b8579",
+  "patchSha256": "c35704a638a34f822663ee42b599c1cb1463506533c1df44cb546d72611cff0e",
+  "sourceFiles": [
+    {
+      "path": "src/operation-family.cjs",
+      "bytes": 47198,
+      "sha256": "e1d665aa380ffb5ed8e81e6bba2c50ff10e4cb9e748cb16e8d21ef612f39007d",
+      "gitBlob": "e8feb9c6801913c344e08d6bd146dcd6971e5a7c"
+    },
+    {
+      "path": "src/encoder-service.cjs",
+      "bytes": 158086,
+      "sha256": "89fdd557093eb191157f3fedb7ad48609957f5d4ead82084327b44f739b6fd2f",
+      "gitBlob": "fd27bc938024ce14a07ad13479dee49eb74567a4"
+    },
+    {
+      "path": "tests/operation-family-proportional.test.cjs",
+      "bytes": 16420,
+      "sha256": "c56f2adc3f2a77c018bf89a2c263c871cc2d76d3c4780c546a5bf4c609290226",
+      "gitBlob": "e874bf4dd6891b3fb9fa67fb9ed1c0bae002ffee"
+    }
+  ],
+  "independentReview": {
+    "scope": "All 3 changed files and affected service/collector/factory paths, then final clock/diagnostic/rounding delta",
+    "disposition": "no blocking issue for bounded contract checkpoint",
+    "reviewerExecutedFinalPureTests": {
+      "passed": 12,
+      "failed": 0
+    },
+    "limits": "Not a formal Security Cloud scan. Reviewer did not independently repeat the broad suite or native Windows tests."
+  },
+  "baselineComparison": {
+    "commit": "0c5d9d2fa05f68a27b1e3ed776c268c2ed0a5cf8",
+    "committedFilesVerifiedUnchangedInBaselineArchive": 492,
+    "nativeLinux": {
+      "baseline": {
+        "passed": 59,
+        "failed": 25,
+        "total": 84
+      },
+      "patch": {
+        "passed": 59,
+        "failed": 25,
+        "total": 84
+      },
+      "sameFailureLocations": true,
+      "cause": "unchanged Windows absolute-path fixtures rejected on Linux; masks deeper branches and is not full compatibility proof"
+    },
+    "testOnlyPathAdapted": {
+      "baseline": {
+        "passed": 33,
+        "failed": 0
+      },
+      "finalPatch": {
+        "passed": 33,
+        "failed": 0
+      },
+      "nativeWindowsQualification": false
+    }
+  },
+  "testOnlyAdapter": {
+    "sha256": "a61debcd1b66ed4428935cee591d4c6a251b1a1f72ce1de1f83ad3e906302583",
+    "source": "'use strict';\n// TEST PROCESS ONLY: recognize historical Windows absolute fixture strings in\n// pure in-memory family tests running on Linux. No production source changed.\nconst path = require('node:path');\nconst original = path.isAbsolute;\npath.isAbsolute = value => original(value) || path.win32.isAbsolute(value);\n",
+    "usage": "Save unchanged to an owned temporary .cjs path. Set NODE_OPTIONS=--require=<absolute adapter path> only for the isolated test command. Do not install or apply to production.",
+    "evidenceNote": "The legacy evidence wrapper does not record NODE_OPTIONS; this supplemental record identifies the explicitly used adapter and its exact bytes."
+  },
+  "receipts": [
+    {
+      "label": "20261117T140631Z_proportional-family-first-focused",
+      "originalReceiptSha256": "8daf417fddf913bb8268d89880806c241a75eeec2912de0cd9ca2c4b17c494da",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-family-first-focused",
+        "startedAt": "2026-11-17T14:06:31.682Z",
+        "durationMs": 446.772,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "0c5d9d2fa05f68a27b1e3ed776c268c2ed0a5cf8",
+        "dirtyPaths": 111,
+        "command": [
+          "node",
+          "--test",
+          "tests/operation-family-proportional.test.cjs"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 10,
+          "suites": 0,
+          "pass": 1,
+          "fail": 9,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/operation-family-proportional.test.cjs",
+              "bytes": 14776,
+              "sha256": "eec1e26c07724be52c677ab984e4d048a83c6611b9a55a33a301f40c558055a5"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 46442,
+              "sha256": "d0311bbb353f28349ffce40e04b743a9c57b5449bf22cb7bcd47488be1469bd8"
+            },
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 157905,
+              "sha256": "c82d60032cfe427816837e884abdf6ece639545a633721e66eed24e90878c4ca"
+            },
+            {
+              "file": "src/operation-resource-budget.cjs",
+              "bytes": 7168,
+              "sha256": "b60f0fe312e79c6f1b15e717f0cb4a7925fba132ca62b8aa753aa5a3ef51accd"
+            },
+            {
+              "file": "src/operation-evidence.cjs",
+              "bytes": 51137,
+              "sha256": "42064563f9fc62d6e88d1e868b3a01cdab0b33044f3caa0de3d3fc49b0f622fb"
+            }
+          ]
+        }
+      },
+      "context": "working implementation before final clock restriction"
+    },
+    {
+      "label": "20261117T140718Z_proportional-family-existing-regression",
+      "originalReceiptSha256": "6d74b0610a1e836e64bc87bd020174e2761d4e00f5a055a355cda2a89def2bcf",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-family-existing-regression",
+        "startedAt": "2026-11-17T14:07:18.369Z",
+        "durationMs": 701.989,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "0c5d9d2fa05f68a27b1e3ed776c268c2ed0a5cf8",
+        "dirtyPaths": 111,
+        "command": [
+          "node",
+          "--test",
+          "tests/operation-family.test.cjs",
+          "tests/operation-resource-budget.test.cjs",
+          "tests/operation-runtime.test.cjs",
+          "linux-blue/workbench-service.test.cjs"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 84,
+          "suites": 0,
+          "pass": 59,
+          "fail": 25,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/operation-family.test.cjs",
+              "bytes": 59721,
+              "sha256": "068cd6add5dd9d8ad5e8cfafd7c9b031f939f8227916f6cfce53217b3e8c0e0f"
+            },
+            {
+              "file": "tests/operation-resource-budget.test.cjs",
+              "bytes": 8542,
+              "sha256": "9eb1674ec8909c2413d648bbfe1fe95bc32fa4ef87b11b17ae6b1dc6bee08cb0"
+            },
+            {
+              "file": "tests/operation-runtime.test.cjs",
+              "bytes": 30865,
+              "sha256": "55348ffafb3e00398edf1222564648bd7314f8b6602c48a525c0ed6b1f67dc34"
+            },
+            {
+              "file": "linux-blue/workbench-service.test.cjs",
+              "bytes": 8616,
+              "sha256": "ec4af779d98a510ba2fb45bc0d97f4213f2451e5b93dc0b557ba2d14c2a3eee6"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 46442,
+              "sha256": "d0311bbb353f28349ffce40e04b743a9c57b5449bf22cb7bcd47488be1469bd8"
+            },
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158091,
+              "sha256": "76ad107600f4154217962e5f3e3b487cd5aa4dd8623b068c9d614a89c88281a2"
+            },
+            {
+              "file": "src/operation-resource-budget.cjs",
+              "bytes": 7168,
+              "sha256": "b60f0fe312e79c6f1b15e717f0cb4a7925fba132ca62b8aa753aa5a3ef51accd"
+            }
+          ]
+        }
+      },
+      "context": "working implementation before final clock restriction"
+    },
+    {
+      "label": "20261117T140733Z_proportional-family-baseline-regression",
+      "originalReceiptSha256": "5f2bfd261482f7328a4a05f653930430ecd3f30b663df82a2b45b3c065046bf2",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-family-baseline-regression",
+        "startedAt": "2026-11-17T14:07:33.210Z",
+        "durationMs": 662.846,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "",
+        "dirtyPaths": 0,
+        "command": [
+          "node",
+          "--test",
+          "tests/operation-family.test.cjs",
+          "tests/operation-resource-budget.test.cjs",
+          "tests/operation-runtime.test.cjs",
+          "linux-blue/workbench-service.test.cjs"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 84,
+          "suites": 0,
+          "pass": 59,
+          "fail": 25,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/operation-family.test.cjs",
+              "bytes": 59721,
+              "sha256": "068cd6add5dd9d8ad5e8cfafd7c9b031f939f8227916f6cfce53217b3e8c0e0f"
+            },
+            {
+              "file": "tests/operation-resource-budget.test.cjs",
+              "bytes": 8542,
+              "sha256": "9eb1674ec8909c2413d648bbfe1fe95bc32fa4ef87b11b17ae6b1dc6bee08cb0"
+            },
+            {
+              "file": "tests/operation-runtime.test.cjs",
+              "bytes": 30865,
+              "sha256": "55348ffafb3e00398edf1222564648bd7314f8b6602c48a525c0ed6b1f67dc34"
+            },
+            {
+              "file": "linux-blue/workbench-service.test.cjs",
+              "bytes": 8616,
+              "sha256": "ec4af779d98a510ba2fb45bc0d97f4213f2451e5b93dc0b557ba2d14c2a3eee6"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 42180,
+              "sha256": "8d46658971df607180dba68c9412d6ebd74aeea68321643c30e4f610566e20aa"
+            },
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 157373,
+              "sha256": "11fdd943ab162b09c77b056b2efb6df36cf796df327196aaf43e204347e9cf85"
+            },
+            {
+              "file": "src/operation-resource-budget.cjs",
+              "bytes": 7168,
+              "sha256": "b60f0fe312e79c6f1b15e717f0cb4a7925fba132ca62b8aa753aa5a3ef51accd"
+            }
+          ]
+        }
+      },
+      "context": "baseline archive source"
+    },
+    {
+      "label": "20261117T140915Z_proportional-family-baseline-path-adapted",
+      "originalReceiptSha256": "28fbe95a6ca9a050d7df4444132ce6660ca1e82d72ff7c0f25272c23f8019062",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-family-baseline-path-adapted",
+        "startedAt": "2026-11-17T14:09:15.279Z",
+        "durationMs": 555.063,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "",
+        "dirtyPaths": 0,
+        "command": [
+          "node",
+          "--test",
+          "tests/operation-family.test.cjs"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 33,
+          "suites": 0,
+          "pass": 33,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/operation-family.test.cjs",
+              "bytes": 59721,
+              "sha256": "068cd6add5dd9d8ad5e8cfafd7c9b031f939f8227916f6cfce53217b3e8c0e0f"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 42180,
+              "sha256": "8d46658971df607180dba68c9412d6ebd74aeea68321643c30e4f610566e20aa"
+            }
+          ]
+        }
+      },
+      "context": "baseline archive source"
+    },
+    {
+      "label": "20261117T141508Z_proportional-core-clocks-before-fix",
+      "originalReceiptSha256": "c44d8aac2316480acfb64b7a1fd5447512e8fc499745fc49a0069b4ef3db39d6",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-core-clocks-before-fix",
+        "startedAt": "2026-11-17T14:15:08.670Z",
+        "durationMs": 482.622,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "0c5d9d2fa05f68a27b1e3ed776c268c2ed0a5cf8",
+        "dirtyPaths": 111,
+        "command": [
+          "node",
+          "--test",
+          "tests/operation-family-proportional.test.cjs"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 12,
+          "suites": 0,
+          "pass": 11,
+          "fail": 1,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/operation-family-proportional.test.cjs",
+              "bytes": 16420,
+              "sha256": "c56f2adc3f2a77c018bf89a2c263c871cc2d76d3c4780c546a5bf4c609290226"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 46596,
+              "sha256": "6d7af66527030ad86774d7c5d4c893c6808a1acd1da8a7e0354ac83c47f77f8d"
+            },
+            {
+              "file": "src/operation-resource-budget.cjs",
+              "bytes": 7168,
+              "sha256": "b60f0fe312e79c6f1b15e717f0cb4a7925fba132ca62b8aa753aa5a3ef51accd"
+            },
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158086,
+              "sha256": "89fdd557093eb191157f3fedb7ad48609957f5d4ead82084327b44f739b6fd2f"
+            }
+          ]
+        }
+      },
+      "context": "red test before core clock restriction"
+    },
+    {
+      "label": "20261117T141608Z_proportional-contract-final-reviewed",
+      "originalReceiptSha256": "8a5bed292e09334ba00621000ff4c03029a655b4dd816e22fb8ace55ec2bf69f",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-contract-final-reviewed",
+        "startedAt": "2026-11-17T14:16:08.074Z",
+        "durationMs": 35843.862,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "0c5d9d2fa05f68a27b1e3ed776c268c2ed0a5cf8",
+        "dirtyPaths": 111,
+        "command": [
+          "node",
+          "--test",
+          "tests/operation-family-proportional.test.cjs",
+          "tests/operation-resource-budget.test.cjs",
+          "tests/remux-long.test.cjs",
+          "linux-blue/workbench-service.test.cjs"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 42,
+          "suites": 0,
+          "pass": 42,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/operation-family-proportional.test.cjs",
+              "bytes": 16420,
+              "sha256": "c56f2adc3f2a77c018bf89a2c263c871cc2d76d3c4780c546a5bf4c609290226"
+            },
+            {
+              "file": "tests/operation-resource-budget.test.cjs",
+              "bytes": 8542,
+              "sha256": "9eb1674ec8909c2413d648bbfe1fe95bc32fa4ef87b11b17ae6b1dc6bee08cb0"
+            },
+            {
+              "file": "tests/remux-long.test.cjs",
+              "bytes": 18805,
+              "sha256": "50a9af4d27eabf1ce7f0f0bc64a7c6802326fa046211e65224a3766195887612"
+            },
+            {
+              "file": "linux-blue/workbench-service.test.cjs",
+              "bytes": 8616,
+              "sha256": "ec4af779d98a510ba2fb45bc0d97f4213f2451e5b93dc0b557ba2d14c2a3eee6"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 47198,
+              "sha256": "e1d665aa380ffb5ed8e81e6bba2c50ff10e4cb9e748cb16e8d21ef612f39007d"
+            },
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158086,
+              "sha256": "89fdd557093eb191157f3fedb7ad48609957f5d4ead82084327b44f739b6fd2f"
+            },
+            {
+              "file": "src/operation-resource-budget.cjs",
+              "bytes": 7168,
+              "sha256": "b60f0fe312e79c6f1b15e717f0cb4a7925fba132ca62b8aa753aa5a3ef51accd"
+            },
+            {
+              "file": "src/operation-evidence.cjs",
+              "bytes": 51137,
+              "sha256": "42064563f9fc62d6e88d1e868b3a01cdab0b33044f3caa0de3d3fc49b0f622fb"
+            }
+          ]
+        }
+      },
+      "context": "final exact source"
+    },
+    {
+      "label": "20261117T141644Z_proportional-contract-final-legacy-adapted",
+      "originalReceiptSha256": "7d9a0fd3dc5290f9bf0db1ce9530c0eaa6375f16318a349732f251bd027dc588",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-contract-final-legacy-adapted",
+        "startedAt": "2026-11-17T14:16:44.018Z",
+        "durationMs": 934.712,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "0c5d9d2fa05f68a27b1e3ed776c268c2ed0a5cf8",
+        "dirtyPaths": 111,
+        "command": [
+          "node",
+          "--test",
+          "tests/operation-family.test.cjs"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 33,
+          "suites": 0,
+          "pass": 33,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/operation-family.test.cjs",
+              "bytes": 59721,
+              "sha256": "068cd6add5dd9d8ad5e8cfafd7c9b031f939f8227916f6cfce53217b3e8c0e0f"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 47198,
+              "sha256": "e1d665aa380ffb5ed8e81e6bba2c50ff10e4cb9e748cb16e8d21ef612f39007d"
+            },
+            {
+              "file": "src/operation-resource-budget.cjs",
+              "bytes": 7168,
+              "sha256": "b60f0fe312e79c6f1b15e717f0cb4a7925fba132ca62b8aa753aa5a3ef51accd"
+            }
+          ]
+        }
+      },
+      "context": "final exact source"
+    },
+    {
+      "label": "20261117T141645Z_proportional-contract-final-linux",
+      "originalReceiptSha256": "b87d9880a3bd4eae7c997e015344f519952895f6f3da61fadfada9fc420751a5",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-contract-final-linux",
+        "startedAt": "2026-11-17T14:16:45.038Z",
+        "durationMs": 923.387,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "0c5d9d2fa05f68a27b1e3ed776c268c2ed0a5cf8",
+        "dirtyPaths": 111,
+        "command": [
+          "node",
+          "--test",
+          "linux-blue/demo-boundary.test.cjs",
+          "linux-blue/output-preflight.test.cjs",
+          "linux-blue/runtime-av1-operation.test.cjs",
+          "linux-blue/runtime-av1.test.cjs",
+          "linux-blue/runtime-candidate.test.cjs",
+          "linux-blue/runtime.test.cjs",
+          "linux-blue/source-inspection-boundary.test.cjs",
+          "linux-blue/source-inspection.test.cjs",
+          "linux-blue/synthetic-service.test.cjs",
+          "linux-blue/ui-policy.test.cjs",
+          "linux-blue/workbench-av1-admission.test.cjs",
+          "linux-blue/workbench-av1-service.test.cjs",
+          "linux-blue/workbench-av1-trim.test.cjs",
+          "linux-blue/workbench-execution.test.cjs",
+          "linux-blue/workbench-full-1440-service.test.cjs",
+          "linux-blue/workbench-full-resize-service.test.cjs",
+          "linux-blue/workbench-long-range-calibration.test.cjs",
+          "linux-blue/workbench-long-range-service.test.cjs",
+          "linux-blue/workbench-long-range-smoke.test.cjs",
+          "linux-blue/workbench-qualified-app-smoke.test.cjs",
+          "linux-blue/workbench-qualified-encode-controls.test.cjs",
+          "linux-blue/workbench-remux.test.cjs",
+          "linux-blue/workbench-resize-service.test.cjs",
+          "linux-blue/workbench-service.test.cjs",
+          "linux-blue/workbench-trim-candidate.test.cjs"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 177,
+          "suites": 0,
+          "pass": 150,
+          "fail": 27,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "linux-blue/demo-boundary.test.cjs",
+              "bytes": 7127,
+              "sha256": "768fc77bce010c54f32b8664234628e4709931fb72cd585282fa807df33d3cea"
+            },
+            {
+              "file": "linux-blue/output-preflight.test.cjs",
+              "bytes": 6545,
+              "sha256": "027a7429f628413b969a8852a7a2f0172e88c8d76016d64cc86d17be2710a16e"
+            },
+            {
+              "file": "linux-blue/runtime-av1-operation.test.cjs",
+              "bytes": 9656,
+              "sha256": "13956585833345e0cc6a4b78a1c71b1cc32d82fb7879bf970c762240aa96e02f"
+            },
+            {
+              "file": "linux-blue/runtime-av1.test.cjs",
+              "bytes": 5177,
+              "sha256": "fe43507ecf66f95e86aca902d27ccf25ab9334b5163ccaae92b09f147eef1d38"
+            },
+            {
+              "file": "linux-blue/runtime-candidate.test.cjs",
+              "bytes": 3699,
+              "sha256": "5512a93d8abcb841514dd9b3956f4ce2cb7da6f705161d64d70aea198584bb19"
+            },
+            {
+              "file": "linux-blue/runtime.test.cjs",
+              "bytes": 3959,
+              "sha256": "77e5a2a83a5a9ef7ef9334d6e01d90f6ac3b66aa4ba87f177ce7b102c267d446"
+            },
+            {
+              "file": "linux-blue/source-inspection-boundary.test.cjs",
+              "bytes": 6470,
+              "sha256": "e3af4733bf7bc72bb437cd2ccb86b8ea69371bf2cbea63e10347a9f5049e1cdd"
+            },
+            {
+              "file": "linux-blue/source-inspection.test.cjs",
+              "bytes": 8961,
+              "sha256": "b48e38a1dca45a04cddc8ff3a9e7c02d9f314b06cd8ba484749c381269d8618f"
+            },
+            {
+              "file": "linux-blue/synthetic-service.test.cjs",
+              "bytes": 5647,
+              "sha256": "be889555ea44c4d293c33e2cfc8c84a1a84ca8d96d426b505ccbf01811530e7c"
+            },
+            {
+              "file": "linux-blue/ui-policy.test.cjs",
+              "bytes": 5165,
+              "sha256": "587aecaed6fb0b547fcff7668a854acf561fb9c07147fec0f4bcb86f51fed8df"
+            },
+            {
+              "file": "linux-blue/workbench-av1-admission.test.cjs",
+              "bytes": 10085,
+              "sha256": "9df61cceaf1f8bd6c334d5754be4c79b2cef4334ba45b39a1612ff8cea60968e"
+            },
+            {
+              "file": "linux-blue/workbench-av1-service.test.cjs",
+              "bytes": 6755,
+              "sha256": "6079eec204ed3e0b15970089018a06ac42e0072b1fc06b67d8192d35349036a6"
+            },
+            {
+              "file": "linux-blue/workbench-av1-trim.test.cjs",
+              "bytes": 2647,
+              "sha256": "08cc9f46160c517f880aa81d1caf9bec8892308801bfd62361c96fe4a93affaf"
+            },
+            {
+              "file": "linux-blue/workbench-execution.test.cjs",
+              "bytes": 4083,
+              "sha256": "570fd4f1918fed21bbfd30164f7847d164bb3209310108b66244a76559e0919b"
+            },
+            {
+              "file": "linux-blue/workbench-full-1440-service.test.cjs",
+              "bytes": 5963,
+              "sha256": "2a3127ff0f81a44f6f640c98817e2d4ee5cb099c058e4d292a1e16f13c0bf86e"
+            },
+            {
+              "file": "linux-blue/workbench-full-resize-service.test.cjs",
+              "bytes": 5137,
+              "sha256": "8affd468c14fba60c98dc3ea734a96e1d502d61382afa5170d06f7b3a782239c"
+            },
+            {
+              "file": "linux-blue/workbench-long-range-calibration.test.cjs",
+              "bytes": 5013,
+              "sha256": "f87d01834f3d8ee135c246bed32475e54d46abd9a664f9128385e136abc8e9a2"
+            },
+            {
+              "file": "linux-blue/workbench-long-range-service.test.cjs",
+              "bytes": 10678,
+              "sha256": "823948d7ac18bc5732e3297985b9261411188dafbf32a4c24a64871eaef07fb6"
+            },
+            {
+              "file": "linux-blue/workbench-long-range-smoke.test.cjs",
+              "bytes": 5860,
+              "sha256": "3bf94d7768613312fe50ef1959b7da17da400caa7dbd2c00cad976ad3b3fcf13"
+            },
+            {
+              "file": "linux-blue/workbench-qualified-app-smoke.test.cjs",
+              "bytes": 6469,
+              "sha256": "c85541320584cb5a19eacda7b130bc71a0e33923b3dc9f2b4b5e0b3601cc6993"
+            },
+            {
+              "file": "linux-blue/workbench-qualified-encode-controls.test.cjs",
+              "bytes": 11188,
+              "sha256": "18b69949fa9f5894556a74e11e8b0c7a2625022df397ab9388515730fe874ac1"
+            },
+            {
+              "file": "linux-blue/workbench-remux.test.cjs",
+              "bytes": 9956,
+              "sha256": "0a44f52c0bbd345661c5330cd1aa230b35a509b298dac4e7b19642ba7ec19d47"
+            },
+            {
+              "file": "linux-blue/workbench-resize-service.test.cjs",
+              "bytes": 5387,
+              "sha256": "2190e0461ca93177bc8770c0488e7ffd61b6d6e49f9d6f2beaeb485513691d04"
+            },
+            {
+              "file": "linux-blue/workbench-service.test.cjs",
+              "bytes": 8616,
+              "sha256": "ec4af779d98a510ba2fb45bc0d97f4213f2451e5b93dc0b557ba2d14c2a3eee6"
+            },
+            {
+              "file": "linux-blue/workbench-trim-candidate.test.cjs",
+              "bytes": 6983,
+              "sha256": "c4550f213c0dd33bf11c518f5ee7c3d34f9bb5a144a5ca38ba77bdaec00bd2b1"
+            }
+          ],
+          "covers": [
+            {
+              "file": "linux-blue/demo-boundary.test.cjs",
+              "bytes": 7127,
+              "sha256": "768fc77bce010c54f32b8664234628e4709931fb72cd585282fa807df33d3cea"
+            },
+            {
+              "file": "linux-blue/demo-controller.cjs",
+              "bytes": 4909,
+              "sha256": "4af0445ba7dcdb8879fa0b6b1eb453198acf6289313a9ae5bc930dd2402c7322"
+            },
+            {
+              "file": "linux-blue/demo-ipc.cjs",
+              "bytes": 1711,
+              "sha256": "d7377f600a4517170830a36656236dee0b476d43616c5a410fce414fa9a3b944"
+            },
+            {
+              "file": "linux-blue/demo-main.cjs",
+              "bytes": 5408,
+              "sha256": "fed290ef148bf59603051d199e6e2c0afde89fa8130a48306ec957dd9f66f229"
+            },
+            {
+              "file": "linux-blue/demo-preload.cjs",
+              "bytes": 438,
+              "sha256": "6c7c1438c5376f5df41a1f62398c01f33de22864c2b3a2f465b1952eba90c836"
+            },
+            {
+              "file": "linux-blue/output-preflight.cjs",
+              "bytes": 4708,
+              "sha256": "8d7c9e3d7de0b5248e38cf4481a8be166cefab801aca808c2f8f4a23b96f7ad2"
+            },
+            {
+              "file": "linux-blue/output-preflight.test.cjs",
+              "bytes": 6545,
+              "sha256": "027a7429f628413b969a8852a7a2f0172e88c8d76016d64cc86d17be2710a16e"
+            },
+            {
+              "file": "linux-blue/pilot.cjs",
+              "bytes": 10284,
+              "sha256": "a6bee4709eeb8f0d91c5b524c064c5be03d68a0c93b837de7adfc00a85d9b0c8"
+            },
+            {
+              "file": "linux-blue/runtime-av1-operation.cjs",
+              "bytes": 5507,
+              "sha256": "f664ec1a79ac95683bdb062633e454259dab25e8bfa00fecae7f8ed39dc921cc"
+            },
+            {
+              "file": "linux-blue/runtime-av1-operation.test.cjs",
+              "bytes": 9656,
+              "sha256": "13956585833345e0cc6a4b78a1c71b1cc32d82fb7879bf970c762240aa96e02f"
+            },
+            {
+              "file": "linux-blue/runtime-av1.cjs",
+              "bytes": 3480,
+              "sha256": "f4e905f1e15fb86b0d20d9bde941d5e6c8ac2a0bb7b72adff41f056aef2e1e27"
+            },
+            {
+              "file": "linux-blue/runtime-av1.test.cjs",
+              "bytes": 5177,
+              "sha256": "fe43507ecf66f95e86aca902d27ccf25ab9334b5163ccaae92b09f147eef1d38"
+            },
+            {
+              "file": "linux-blue/runtime-candidate.cjs",
+              "bytes": 4072,
+              "sha256": "6958cdb86854d0e57fddd7cf8e793a7e944cbe600001338600a3953e610ad33e"
+            },
+            {
+              "file": "linux-blue/runtime-candidate.test.cjs",
+              "bytes": 3699,
+              "sha256": "5512a93d8abcb841514dd9b3956f4ce2cb7da6f705161d64d70aea198584bb19"
+            },
+            {
+              "file": "linux-blue/runtime.cjs",
+              "bytes": 5005,
+              "sha256": "0ddd5026996fa23e8122e359c340b08ff84a2786f56362099b38eaf8927331c8"
+            },
+            {
+              "file": "linux-blue/runtime.test.cjs",
+              "bytes": 3959,
+              "sha256": "77e5a2a83a5a9ef7ef9334d6e01d90f6ac3b66aa4ba87f177ce7b102c267d446"
+            },
+            {
+              "file": "linux-blue/source-inspection-boundary.test.cjs",
+              "bytes": 6470,
+              "sha256": "e3af4733bf7bc72bb437cd2ccb86b8ea69371bf2cbea63e10347a9f5049e1cdd"
+            },
+            {
+              "file": "linux-blue/source-inspection.cjs",
+              "bytes": 5351,
+              "sha256": "2710ee0050743cc3d9758828dcade8c350e533e00cde3e26ab2f607d91e5df54"
+            },
+            {
+              "file": "linux-blue/source-inspection.test.cjs",
+              "bytes": 8961,
+              "sha256": "b48e38a1dca45a04cddc8ff3a9e7c02d9f314b06cd8ba484749c381269d8618f"
+            },
+            {
+              "file": "linux-blue/synthetic-service.cjs",
+              "bytes": 8462,
+              "sha256": "67720b8afa1c471aaabd1f6d17b4ad536a3fdd09514bad9506b0f3a80530c697"
+            },
+            {
+              "file": "linux-blue/synthetic-service.test.cjs",
+              "bytes": 5647,
+              "sha256": "be889555ea44c4d293c33e2cfc8c84a1a84ca8d96d426b505ccbf01811530e7c"
+            },
+            {
+              "file": "linux-blue/ui-policy.cjs",
+              "bytes": 2111,
+              "sha256": "b1a1249d1b1cf346fad9fb5a2f66f66031a575f8e7bf929e35e8751a905c7c73"
+            },
+            {
+              "file": "linux-blue/ui-policy.test.cjs",
+              "bytes": 5165,
+              "sha256": "587aecaed6fb0b547fcff7668a854acf561fb9c07147fec0f4bcb86f51fed8df"
+            },
+            {
+              "file": "linux-blue/workbench-aac-remux-smoke.cjs",
+              "bytes": 7618,
+              "sha256": "9c5fdd86ad199641da3bcc4feefa13f9f5cad7d291e30546a2addf883a15d432"
+            },
+            {
+              "file": "linux-blue/workbench-av1-admission.cjs",
+              "bytes": 5313,
+              "sha256": "0922c276755c7791cbcaa314b95990bba8634e8dc33302ee23baadb2b0c0dc53"
+            },
+            {
+              "file": "linux-blue/workbench-av1-admission.test.cjs",
+              "bytes": 10085,
+              "sha256": "9df61cceaf1f8bd6c334d5754be4c79b2cef4334ba45b39a1612ff8cea60968e"
+            },
+            {
+              "file": "linux-blue/workbench-av1-calibration.cjs",
+              "bytes": 816,
+              "sha256": "aa44d2242942353f3d041e7c3af3411d365806e6ab728f0914eb1ae64caa143e"
+            },
+            {
+              "file": "linux-blue/workbench-av1-service.cjs",
+              "bytes": 3396,
+              "sha256": "3e3194ad1192add569d93f230d2891dc339c6215b7ee5095a2f9523950679db9"
+            },
+            {
+              "file": "linux-blue/workbench-av1-service.test.cjs",
+              "bytes": 6755,
+              "sha256": "6079eec204ed3e0b15970089018a06ac42e0072b1fc06b67d8192d35349036a6"
+            },
+            {
+              "file": "linux-blue/workbench-av1-trim-smoke.cjs",
+              "bytes": 752,
+              "sha256": "2ef094e0b2e71c9ce1e3f76965a96702c3015dc23dca2de3e471208c9ad74959"
+            },
+            {
+              "file": "linux-blue/workbench-av1-trim.cjs",
+              "bytes": 1279,
+              "sha256": "af8f1df9d7984b7d88cc320e3cf923033c004ecadd3af25781b2e2c738d8d64a"
+            },
+            {
+              "file": "linux-blue/workbench-av1-trim.test.cjs",
+              "bytes": 2647,
+              "sha256": "08cc9f46160c517f880aa81d1caf9bec8892308801bfd62361c96fe4a93affaf"
+            },
+            {
+              "file": "linux-blue/workbench-execution-smoke.cjs",
+              "bytes": 11050,
+              "sha256": "74d3a0093ee722bd26d86cf10e2979e1ad3cd391de2fa071c2e4bd24fffbedd6"
+            },
+            {
+              "file": "linux-blue/workbench-execution.test.cjs",
+              "bytes": 4083,
+              "sha256": "570fd4f1918fed21bbfd30164f7847d164bb3209310108b66244a76559e0919b"
+            },
+            {
+              "file": "linux-blue/workbench-flac-calibration.cjs",
+              "bytes": 11319,
+              "sha256": "059cbfd0edbcc4ffdae0c0174669b28e097b4f5e748ca12dacb1302f6285c0c4"
+            },
+            {
+              "file": "linux-blue/workbench-flac-candidate.cjs",
+              "bytes": 630,
+              "sha256": "f868e9a92abdd565f132341819e5e3d2958673d8ff827ee2a8219bb430362a0a"
+            },
+            {
+              "file": "linux-blue/workbench-full-1440-calibration.cjs",
+              "bytes": 437,
+              "sha256": "785fa695e09a3be60dcbfd4b015ecb14d4f9082258056cacc0dda7f37f8bb5fe"
+            },
+            {
+              "file": "linux-blue/workbench-full-1440-service.cjs",
+              "bytes": 801,
+              "sha256": "ec9417c0b6464ba005d2ab358f8395113f45f676a4d8b49e7fc6650592c56252"
+            },
+            {
+              "file": "linux-blue/workbench-full-1440-service.test.cjs",
+              "bytes": 5963,
+              "sha256": "2a3127ff0f81a44f6f640c98817e2d4ee5cb099c058e4d292a1e16f13c0bf86e"
+            },
+            {
+              "file": "linux-blue/workbench-full-1440-smoke.cjs",
+              "bytes": 356,
+              "sha256": "b317f2f9e14f573813d929294d5ce7074b8ea7af8b5f6765435e44688cc241cc"
+            },
+            {
+              "file": "linux-blue/workbench-full-resize-calibration.cjs",
+              "bytes": 443,
+              "sha256": "7bc618d9b71f11625b620f76994dbc90a39a7c7983f57d261859973a8e2e71bc"
+            },
+            {
+              "file": "linux-blue/workbench-full-resize-service.cjs",
+              "bytes": 818,
+              "sha256": "8fd108ddec128afc7cdd5a6ac5f849f4bdb37026feae37b8af11dbad8650cd5b"
+            },
+            {
+              "file": "linux-blue/workbench-full-resize-service.test.cjs",
+              "bytes": 5137,
+              "sha256": "8affd468c14fba60c98dc3ea734a96e1d502d61382afa5170d06f7b3a782239c"
+            },
+            {
+              "file": "linux-blue/workbench-full-resize-smoke.cjs",
+              "bytes": 363,
+              "sha256": "422f7f1e27ca6fa7b895848e184373d0d22ce7a1d2181a5f9b8abe80148e08f5"
+            },
+            {
+              "file": "linux-blue/workbench-long-range-calibration.cjs",
+              "bytes": 20574,
+              "sha256": "97707a7167024979792aa4ba3bf5454cfc221c0b42831e87f87f3088642266dc"
+            },
+            {
+              "file": "linux-blue/workbench-long-range-calibration.test.cjs",
+              "bytes": 5013,
+              "sha256": "f87d01834f3d8ee135c246bed32475e54d46abd9a664f9128385e136abc8e9a2"
+            },
+            {
+              "file": "linux-blue/workbench-long-range-service.cjs",
+              "bytes": 15553,
+              "sha256": "cf8f60ce3a3f5282e51b8632dc45804597dbf45af747af295b56ec62d495ce44"
+            },
+            {
+              "file": "linux-blue/workbench-long-range-service.test.cjs",
+              "bytes": 10678,
+              "sha256": "823948d7ac18bc5732e3297985b9261411188dafbf32a4c24a64871eaef07fb6"
+            },
+            {
+              "file": "linux-blue/workbench-long-range-smoke.cjs",
+              "bytes": 21565,
+              "sha256": "72cb6a9ed023a2d79d483a4e9c6309ae2b8dc412f3332c4d0865f94c6364c23b"
+            },
+            {
+              "file": "linux-blue/workbench-long-range-smoke.test.cjs",
+              "bytes": 5860,
+              "sha256": "3bf94d7768613312fe50ef1959b7da17da400caa7dbd2c00cad976ad3b3fcf13"
+            },
+            {
+              "file": "linux-blue/workbench-main.cjs",
+              "bytes": 8362,
+              "sha256": "0c2cc197e9d2f737cf04b3f15879410554bc40222c5822ba79043a02ae7f3bb5"
+            },
+            {
+              "file": "linux-blue/workbench-qualified-1440-app-smoke.cjs",
+              "bytes": 346,
+              "sha256": "2bcbb62f2026ff99bee9d875339968453162092249c9dd377cfdc1a2ab18b1ec"
+            },
+            {
+              "file": "linux-blue/workbench-qualified-app-smoke.cjs",
+              "bytes": 24088,
+              "sha256": "531f8a5936d2a3564a73ae3447f412f55063da0b08fe0155773720cae3fb4905"
+            },
+            {
+              "file": "linux-blue/workbench-qualified-app-smoke.test.cjs",
+              "bytes": 6469,
+              "sha256": "c85541320584cb5a19eacda7b130bc71a0e33923b3dc9f2b4b5e0b3601cc6993"
+            },
+            {
+              "file": "linux-blue/workbench-qualified-encode-controls.cjs",
+              "bytes": 11995,
+              "sha256": "9b4e3af77a0ffc9125ec61eb39d6383b7666bccbb3cdd69ad4a02f12ff89d9c7"
+            },
+            {
+              "file": "linux-blue/workbench-qualified-encode-controls.test.cjs",
+              "bytes": 11188,
+              "sha256": "18b69949fa9f5894556a74e11e8b0c7a2625022df397ab9388515730fe874ac1"
+            },
+            {
+              "file": "linux-blue/workbench-remux-smoke.cjs",
+              "bytes": 7127,
+              "sha256": "55a6684333db5c9ed298838721d76c1118f664736a4cc4c99d5da054a299f09f"
+            },
+            {
+              "file": "linux-blue/workbench-remux.cjs",
+              "bytes": 7108,
+              "sha256": "6a6cbf2a009a6ad48f6359e15d6c2432e615623c3b799df6dc29eb0eae4b4e2a"
+            },
+            {
+              "file": "linux-blue/workbench-remux.test.cjs",
+              "bytes": 9956,
+              "sha256": "0a44f52c0bbd345661c5330cd1aa230b35a509b298dac4e7b19642ba7ec19d47"
+            },
+            {
+              "file": "linux-blue/workbench-resize-calibration.cjs",
+              "bytes": 435,
+              "sha256": "d3b536a7a7a243efe99e0e8980d266775d32de5700b8658e16572dcc595f9e26"
+            },
+            {
+              "file": "linux-blue/workbench-resize-service.cjs",
+              "bytes": 789,
+              "sha256": "c39b373dbf72e13fc890127005e763c2cf3fb9ca49b5ae1552732fe38df3dd41"
+            },
+            {
+              "file": "linux-blue/workbench-resize-service.test.cjs",
+              "bytes": 5387,
+              "sha256": "2190e0461ca93177bc8770c0488e7ffd61b6d6e49f9d6f2beaeb485513691d04"
+            },
+            {
+              "file": "linux-blue/workbench-resize-smoke.cjs",
+              "bytes": 355,
+              "sha256": "b03dfae713fed5ba497a284228a61d52fc1dca3befd5a4b7e8a81bb16f781020"
+            },
+            {
+              "file": "linux-blue/workbench-runtime-choice.cjs",
+              "bytes": 633,
+              "sha256": "fd7c762611c461ccaab1cead02a7b802c9665a9e299efd13e04fb207bac4b8c2"
+            },
+            {
+              "file": "linux-blue/workbench-service.cjs",
+              "bytes": 8566,
+              "sha256": "1f8ef2673fb3e0ea6d4cdbd8d7e726fee72d94dd9d54120d9cd7e9877fb52c80"
+            },
+            {
+              "file": "linux-blue/workbench-service.test.cjs",
+              "bytes": 8616,
+              "sha256": "ec4af779d98a510ba2fb45bc0d97f4213f2451e5b93dc0b557ba2d14c2a3eee6"
+            },
+            {
+              "file": "linux-blue/workbench-smoke.cjs",
+              "bytes": 6541,
+              "sha256": "2855f03a07056a27056d0df70187d03cda1d91b8702c3481845fb05b7ddc0fab"
+            },
+            {
+              "file": "linux-blue/workbench-trim-candidate-smoke.cjs",
+              "bytes": 9988,
+              "sha256": "bd0d94a91654f7e1d226f329020dab7db322f285e1ec42031bb11657334ca4d0"
+            },
+            {
+              "file": "linux-blue/workbench-trim-candidate.cjs",
+              "bytes": 9967,
+              "sha256": "6e68df2eb93ddda8282b0a7cec8d6dbedff00871222a1f58ed7bc7e0a6d0c10f"
+            },
+            {
+              "file": "linux-blue/workbench-trim-candidate.test.cjs",
+              "bytes": 6983,
+              "sha256": "c4550f213c0dd33bf11c518f5ee7c3d34f9bb5a144a5ca38ba77bdaec00bd2b1"
+            },
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 47198,
+              "sha256": "e1d665aa380ffb5ed8e81e6bba2c50ff10e4cb9e748cb16e8d21ef612f39007d"
+            },
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158086,
+              "sha256": "89fdd557093eb191157f3fedb7ad48609957f5d4ead82084327b44f739b6fd2f"
+            },
+            {
+              "file": "src/operation-evidence.cjs",
+              "bytes": 51137,
+              "sha256": "42064563f9fc62d6e88d1e868b3a01cdab0b33044f3caa0de3d3fc49b0f622fb"
+            },
+            {
+              "file": "src/operation-runtime.cjs",
+              "bytes": 24676,
+              "sha256": "95285842847006e2fbcad43d46bbca7bc3823c3378fdc33a755ee82398681b79"
+            }
+          ]
+        }
+      },
+      "context": "final exact source"
+    }
+  ],
+  "qualificationLimits": [
+    "Only one CPU 720p30 non-resize precision-FLAC proportional family contract is added; other proportional variants remain unsupported.",
+    "Collector rejection happens after encode in the service lifecycle; it is not a universal pre-encode gate. Unchanged production factory report/source/runtime gates currently prevent activation.",
+    "Source/resource routing reaches telemetry in source, but an executed service-to-telemetry enforcement test remains pending before activation.",
+    "Brand validity alone is not source/runtime freshness. Existing requireCurrent call sequence remains mandatory.",
+    "No actual media/UI/native Windows/GPU/runtime provisioning or release qualification from these tests."
+  ]
+}

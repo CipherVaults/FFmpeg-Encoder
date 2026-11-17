@@ -1,3 +1,131 @@
+# 📘 Session: November 17, 2026 — FFmpeg Encoder — Branded proportional FLAC resources and a closed activation boundary
+
+## 🤖 Models, Effort, Roles and Provenance
+
+Ahmed remains product owner and acceptance authority. The engineering lead was configured as GPT-6 Astra Ultra. Implementation, integration and independent review were kept distinct; the reviewer did not author the patch. This entry records a bounded new implementation from surviving source contracts, not recovery of an unknown historical payload.
+
+Evidence consists of the final immutable three-file patch, focused and broader test receipts, parent-versus-change legacy comparisons, source inspection of affected consumers and an independent final 12-test repeat. Synthetic tests are identified as such. Reported broader runs are not relabeled as independently repeated tests. The previous Git → Notion → GitHub preservation cycle is complete; this entry does not claim the new patch has already completed that cycle.
+
+## 🕒 Time
+
+November 17, 2026, through the final reviewed test sequence beginning 14:16:08 UTC, the legacy-adapted run at 14:16:44 UTC and broad Linux run at 14:16:45 UTC, followed by independent final delta review. These timestamps identify evidence runs, not continuous active effort or an invented session start. Later commit and publication identities belong to the checkpoint receipt.
+
+## 🎯 Session Goal
+
+Close a useful piece of the reconstructed Linux source gap without pretending to restore missing historical corrections or qualify long-range media operations. The chosen step was one narrow proportional precision-FLAC family: derive resources from a genuine source-bound plan, preserve legacy behavior and carry that authority safely into the service.
+
+The stopping condition was a coherent reviewed source contract with meaningful positive and negative tests. It was not a working long-range UI, a newly activated catalog, regenerated historical proof or broad platform qualification. Scope stayed deliberately smaller than the set of proportional resource formulas present in the surviving source.
+
+## 🛠️ Actions Taken
+
+### 1. Trace the missing integration before changing admission
+
+Inspection showed that the surviving resource-budget module already had deterministic forecast functions, but the family selector still admitted only fixed legacy schemas and budgets. Its common metadata checks imposed 120-second source and 30-second selected-range ceilings before a proportional candidate could be evaluated. The evidence collector also recognized only legacy policies, and the service returned legacy aggregate limits for non-remux operations.
+
+The long-range composition supplied a proportional resource-policy descriptor and a null fixed evidence budget, which the legacy selector could not accept. This was not solved by adding a family ID to an allowlist: metadata scope, source binding, derived resources, currentness, complete-source validation and consumer routing had to agree. Separately, actual production factories required missing retained reports, exact historical observer bytes and their pinned runtime. Those activation gates were left untouched.
+
+### 2. Implement one genuine, source-derived selection contract
+
+The new branch is only `cfr-sdr-range-flac-v2`, paired with `cfr720p30-flac-resources-v1`. It is limited to CPU HEVC slow/quality 25, non-resize 720p30 Keep Source, SDR and the strict precision-FLAC source/request shape. Candidate-specific validation keeps legacy bounds intact rather than replacing them with a globally broader duration allowance.
+
+The selector derives resources from the genuine plan's interval, complete source extent and exact source size. It includes the maximum observed video/audio/container extent, converts that extent upward to microseconds and preserves resource-capacity refusal. Selected duration cannot substitute for complete decoding cost. It binds the source, probe, plan, runtime, settings, input budget/deadline and resulting derived state for later currentness checks.
+
+A module-private WeakMap authenticates the frozen result by issuing epoch and exact plan identity. The public `proportional` flag is descriptive only. Clones, spreads, inherited copies, foreign plans and invalidated epochs do not inherit resource authority. Source freshness still requires `requireCurrent()` at the normal boundaries; the brand is not a substitute for checking a changed file or runtime.
+
+### 3. Route resources without opening the collector or factories
+
+The service's resource function now accepts proportional limits only from a genuine current result for the exact encode plan. Remux and HDR remain separate. Derived values flow to the existing reservation, aggregate byte accounting, child/deadline limits and telemetry configuration. Legacy fallback values remain unchanged for ordinary and legacy operations.
+
+The collector was not extended to accept the new policy, and no calibration receipt, runtime pin, observer-source pin or production factory gate changed. This prevents a source-contract checkpoint from silently becoming an activation claim. However, the collector is reached after encoding: its refusal is not a universal pre-encode interlock. Current production factory gates, rather than that collector test alone, are what keep the actual unavailable long-range composition closed.
+
+### 4. Use failures to refine the tests and core clock boundary
+
+The initial schema-fixture run had 1 pass and 9 failures. The fixture was corrected without a production-code change for those failures. Subsequent tests exercised genuine late, long, open-ended and independent nonaligned ranges; exact resource derivation; false authority; changed source bindings; invalidation; complete-source receipts; and legacy limits.
+
+Review identified a substantive admission gap: the Linux wrapper checked measured clocks, but a direct core-selector caller could otherwise obtain a broader branded family. A direct wrong-clock test was red with 11 passes and 1 failure. The core now requires exact rational video 1/15360 and audio 1/48000 clocks for this proportional family. This restriction belongs in the core contract because resource authority must not depend on callers choosing a particular wrapper.
+
+Review also corrected diagnostics that still described a 120-second bound while enforcing a derived extent. The rounding test now includes 150.0000001 seconds, which must round upward to 150000001 microseconds; 150.000001 alone had not exercised fractional-microsecond rounding. These changes improved the actual boundary and its explanation without loosening tolerances or changing requested media intervals.
+
+### 5. Verify the final source and preserve non-passing evidence
+
+The final immutable patch is SHA-256 `c35704a638a34f822663ee42b599c1cb1463506533c1df44cb546d72611cff0e`, based on local parent `0c5d9d2`. Final focused verification passed 42/42. The test-only adapted legacy run passed 33/33. The broad Linux run remained failed: 150 passes and 27 failures out of 177. These counts describe distinct suites and cannot be summed into a universal pass count.
+
+Unadapted legacy comparison produced 59 passes and 25 failures out of 84 on both parent and changed source, with identical failure locations. Those early Windows-path failures on Linux mask later behavior, so parity was not treated as sufficient. A separate path-only adapter passed 33/33 on both source versions while leaving original test files unchanged. This is stronger portable regression evidence, not native Windows qualification.
+
+Independent final review inspected all changed files and affected consumers, followed forged/borrowed/stale authority attempts and reran the final pure/injected proportional tests: 12/12 passed. No blocking issue remained. Service-to-telemetry enforcement is still supported by wiring inspection and assertions, not by an executed integration test through that sink.
+
+## 🧠 Key Insights
+
+A resource formula is not execution authority. It becomes useful only when a genuine plan, exact source and current selection bind its inputs, and downstream consumers enforce the resulting limits. Private branding stops serialized or copied result shapes from borrowing those limits; it does not eliminate the separate requirement to recheck freshness.
+
+The clock review demonstrated why restrictions that define a measured family belong at its core admission boundary. A wrapper can add constraints, but omitting that wrapper must not produce a broader authoritative result. Exact rational comparison preserves the intended clock value without introducing floating-point tolerance.
+
+A closed collector and closed production factory are different facts. The first limits evidence acceptance after encoding; the second currently blocks actual composition before use. Honest status must preserve that distinction, especially when intermediate source improvements make a previously failing selector test pass.
+
+## 📌 Decisions Made
+
+The lead chose one non-resize precision-FLAC family as the coherent next application-source step. Proportional AAC, resize, whole-file and 1440 variants remain outside this patch. Fixed resource coefficients, legacy behavior, runtime/pins, defaults and factory activation requirements were preserved.
+
+Review required exact measured clocks in the core rather than relying only on the Linux wrapper. The team also retained mandatory `requireCurrent()` checks, corrected misleading extent diagnostics and strengthened rounding coverage. No synthetic result was promoted into measured qualification, and no missing historical report was regenerated or substituted.
+
+The established checkpoint order remains local Git, immediate verified Notion source mirror, then permitted GitHub publication. The preceding cycle's remote checkpoint `acbc83f` was verified; this new patch's commit and publication are not asserted at the session cutoff.
+
+## ⚠️ Difficulties / Friction
+
+The surviving source contained proportional resource definitions and Linux consumers without the corresponding shared selector integration. That asymmetry made a superficial schema fix tempting but insufficient. The implementation had to preserve old families while introducing distinct new authority and resource paths.
+
+Legacy tests use Windows-style paths that fail early on Linux. Identical failures could conceal a real regression, so the comparison needed explicit qualification and a separate path-only adaptation. The broad Linux suite also retained 27 failures, preventing an all-green claim despite passing targeted tests.
+
+## 🔧 Adjustments Made
+
+The implementation moved from wrapper-dependent clock restrictions to a core-enforced measured family. Review shifted rounding coverage from an exact-microsecond example to a genuinely fractional one and separated derived-extent diagnostics from the legacy 120-second text.
+
+The completion claim was narrowed to source-contract readiness. Telemetry routing was retained, but the missing executed sink-enforcement test was recorded as a prerequisite before activation. The collector's refusal was explicitly described as post-encode rather than used to claim that no encode could occur under any independently assembled service.
+
+## ❌ Mistakes / Risks Noted
+
+The initial schema fixture was wrong and was corrected transparently. The core originally relied on a composition wrapper for clock specificity; the red test and exact core guard closed that gap before checkpointing. The first rounding example did not test the subtle case its description implied; the final example now does.
+
+Remaining risks include assuming a private brand proves current source bytes, treating path-adapted tests as Windows validation, treating an unchanged broad failure count as a clean regression result, or mistaking post-encode collector rejection for a universal launch guard. Descriptor/getter tests do not guarantee freedom from arbitrary in-process Proxy side effects. These limits stay explicit rather than hidden behind passing focused tests.
+
+## 📍 Current Position
+
+The source now contains a reviewed, tested proportional FLAC selection/resource contract and service routing for one precise family. The final source changes are confined to `src/operation-family.cjs`, `src/encoder-service.cjs` and the new proportional test file. No new media run, GUI test, runtime installation, default change or pin update occurred.
+
+The published execution narrative is `linux-blue/2026-11-17_Proportional_FLAC_Contract.md`; compact evidence belongs in `linux-blue/2026-11-17_Proportional_FLAC_Receipts.json`. Current State owns the immediate continuation point. Raw test logs are retained locally and are not implicitly included with every published checkpoint.
+
+At this cutoff, the new commit, Notion mirror and push have not been reported complete. Actual production factory gates remain closed and unchanged. Collector integration and executed telemetry enforcement remain unfinished; broad Linux regression remains 150/177 passing with 27 failures. The prior completed preservation cycle does not automatically back up this new source.
+
+## 🔜 Next Steps
+
+First reconcile the final patch, execution record and compact receipts, then complete and verify the intended Git → Notion → GitHub checkpoint cycle within the reviewed scope. Do not claim completion from a proposed commit message or upload attempt.
+
+The safest next engineering action is an injected service-level test that observes exact derived storage/runner/telemetry limits and proves exhaustion handling without activating media execution. Then design the collector integration as a separately reviewed genuine-selection/plan/source/budget binding, with complete-source validation and unchanged legacy request behavior. Keep report/source/runtime gates closed throughout.
+
+Only after those prerequisites and applicable retained evidence are resolved should actual changed-operation qualification be considered. Missing 9.0.2 runtime and historical reports are separate blockers, not permission to lower checks or fill receipts from synthetic fixtures. Earlier unknown publication/review scopes remain outside this patch.
+
+## ❓ Open Questions
+
+Can an executed injected service test demonstrate enforcement at every resource sink, especially telemetry, rather than only correct values and source wiring? The next engineering check should answer that before activation.
+
+What reviewed collector interface will bind genuine selection and exact budget without weakening its existing calibration or legacy paths? Which missing reports/runtime evidence can legitimately be recovered or newly established under a separately scoped qualification effort? Neither question was answered by this source-contract checkpoint.
+
+The 27 broad Linux failures still need classified follow-through. Native Windows behavior and real-media fidelity remain untested here, not assumed from the portable contract tests.
+
+## 🧾 Session Outcome
+
+A previously missing shared contract is now implemented for one narrowly defined proportional FLAC family, with authenticated resource authority, exact source-derived forecasting and currentness checks. Review tightened the core clock boundary and improved diagnostic and rounding accuracy. Focused tests passed while broader failures and activation limits remained visible.
+
+This is useful application-source progress without a false claim of recovered historical work, active long-range service or complete 0.7 qualification. The next developer has a concrete tested contract, explicit evidence owners and a bounded integration task, rather than an instruction to bypass missing proof.
+
+## 🔍 Confidence Level
+
+High in the reviewed patch's narrow authority/resource behavior and the independently repeated 12-test controls, supported by the final 42-test focused result and explicit parent comparisons. Confidence in legacy compatibility is bounded by portable adaptation and the absence of native Windows execution.
+
+Confidence does not extend to executed telemetry enforcement, newly enabled collector behavior, real media, unavailable runtime/vendor paths, GUI behavior or release acceptance. The broad Linux suite is still failed. Publication confidence for this new source must come from the later verified checkpoint receipt, not from this narrative.
+
+---
+
 # 📘 Session: November 17, 2026 — FFmpeg Encoder — Restore Linux runtime identity admission without opening unqualified routes
 
 ## 🤖 Models, Effort, Roles and Provenance

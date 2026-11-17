@@ -1,0 +1,1956 @@
+{
+  "schema": 1,
+  "checkpoint": "014",
+  "purpose": "Non-authoritative portable saved native outcome and independent-audit records for three bounded attempts; originals remain local and unchanged.",
+  "transform": "Only two known local-root prefixes are replaced with project:// and evidence://; no keys/types/other values changed. The private root mapping is excluded.",
+  "authority": {
+    "restoresRawRecords": false,
+    "restoresRuntimeOrMedia": false,
+    "restoresOutputAccess": false,
+    "productionActivation": false,
+    "newExecutionPermission": false
+  },
+  "limitations": [
+    "Saved-output audit did not independently re-decode media; CUA visual observations are not portable screenshots or independently replayed GUI evidence.",
+    "Original pending/working statuses inside individual raw records remain historical. Later audit status does not rewrite those originals.",
+    "Native source is c270331; later platform-neutral wording fix has source tests only, not another native launch.",
+    "All raw native logs, media, runtime, profile/cache/token/preferences and local root mapping remain excluded.",
+    "Warnings, distinct clock domains, truncated diagnostic context and ctime-only provenance difference are retained. No native cancellation, player, platform-wide, Windows or release qualification."
+  ],
+  "records": {
+    "a1Outcome": {
+      "original": {
+        "logicalPath": "evidence://native-workbench-proof-20261117/JOURNEY_A_OUTCOME.json",
+        "bytes": 2954,
+        "sha256": "5bc2b5dc7f0064c2404c1c8c16a48c49ccdef404102a07a66964f2756d9f4431"
+      },
+      "data": {
+        "status": "blocked-before-input-selection; native-startup-and-normal-close-observed",
+        "commit": "c270331a001eb57aed07a6395d24d061e6ca177d",
+        "sourceHashesRechecked": 530,
+        "sourceMismatches": [],
+        "outer": {
+          "exitCode": 0,
+          "at": "2026-11-17T17:56:03.304884+00:00"
+        },
+        "census": {
+          "spawned": 28,
+          "closed": 28,
+          "live": 0,
+          "maximum": 1,
+          "failures": 0
+        },
+        "bounds": "One app launch, zero Prepare/Start actions, zero target encodes or publications. Startup capability probes account for owned children. JourneyB not attempted.",
+        "observations": [
+          "Original Gauge/theme/shell and experimental Keep720 slow25/FLAC/NUMA notice visible",
+          "READY log sandbox true, contextIsolation true, nodeIntegration false, exact runtimeIdentity, qualifiedFamilies empty",
+          "Native input folder dialog opened twice within same launch; typed approved path and confirmed; app still showed No folder selected",
+          "Second dialog navigation had autocomplete uncertainty; subsequent input on stale dialog failed X11 BadWindow. No hidden IPC or arbitrary path grant",
+          "No proof whether picker cancellation/navigation handling or app integration caused absence of selection. Do not label confirmed app defect",
+          "Normal window close removed app; CLOSED log balanced28children, zero failures; outerexit0"
+        ],
+        "rawLogs": {
+          "app.stdout.log": {
+            "bytes": 438,
+            "sha256": "bf4b1af97615f00a9cd61b942ec0fef765aa3cd9189ca5c60d8c7852aeeb1cec"
+          },
+          "app.stderr.log": {
+            "bytes": 845,
+            "sha256": "94fc030bd83eacc40cbda9412ab6c22f75c9591691ce09c957acc92332d54816"
+          },
+          "OUTER_COMPLETION.json": {
+            "bytes": 57,
+            "sha256": "90eacf92bd66acc956407730b84c1248dc2a4b18493fd1fc38d91290d2794f99"
+          },
+          "DESKTOP_PREFLIGHT.json": {
+            "bytes": 230,
+            "sha256": "fb18ab2bcbe6c6f95bcc634fc75e830f05b19eb91794a1e390618cfa9b718092"
+          },
+          "RESTORATION_RECEIPT.json": {
+            "bytes": 761,
+            "sha256": "289ca3311a86dde71d1403880ab517db8f366dfa15391d2abf3b46e77623267f"
+          }
+        },
+        "warnings": [
+          "Missing system D-Bus socket",
+          "SSL handshake failure net_error -202; no security bypass"
+        ],
+        "postChecks": {
+          "runtimeAndDependencies": true,
+          "rawCalibrationReport": true,
+          "originalAndOwnedFixture": true,
+          "ownedOutputEmpty": true
+        },
+        "screenshots": "Actual startup, picker interactions, no-selection state and close were emitted into CUA conversation record; no standalone screenshot files were saved. Do not claim a portable screenshot archive.",
+        "retainedDiagnostics": "retained-service-diagnostics copied only from diagnostics-v1; Electron state/session profile, cookies/token/cache databases excluded and not inspected",
+        "limits": [
+          "Initial unsupported Full-shaped draft not reached",
+          "Range editing/readiness/native encode/output action not reached",
+          "No relaunch/retry/native cancellation",
+          "No source/security changes"
+        ]
+      }
+    },
+    "a1Audit": {
+      "original": {
+        "logicalPath": "evidence://native-workbench-proof-20261117/INDEPENDENT_JOURNEY_A_AUDIT.json",
+        "bytes": 7283,
+        "sha256": "6a0acae9d40bac64a0e188c936afe170c8bc62653bb592c979f57bd52afdbf5f"
+      },
+      "data": {
+        "status": "PASS bounded saved-artifact audit; native journey incomplete, picker cause unknown",
+        "checkedAtUtc": "2026-11-17T17:59:42.985257+00:00",
+        "outcomeSHA256": "5bc2b5dc7f0064c2404c1c8c16a48c49ccdef404102a07a66964f2756d9f4431",
+        "commit": "c270331a001eb57aed07a6395d24d061e6ca177d",
+        "sourceCount": 530,
+        "sourceCurrentAndCommitAndGateEqual": true,
+        "gateSHA256": "f08df0dd14494a3fe096eb9aba0474c2ff05cb3102941ca664a2be2c0ef09b60",
+        "notionRestore": "gate records verified restore; not independently downloaded in this audit",
+        "runtimeFiles": [
+          {
+            "name": "ffmpeg",
+            "sha256": "ae5b2e8b48ad0e9b51b89ebab000ebcfc0b76a09b8cb80c88e18fddcc5d9e8ba",
+            "bytes": 46175848,
+            "role": "path"
+          },
+          {
+            "name": "ffmpeg",
+            "sha256": "ae5b2e8b48ad0e9b51b89ebab000ebcfc0b76a09b8cb80c88e18fddcc5d9e8ba",
+            "bytes": 46175848,
+            "role": "originalBuildPath"
+          },
+          {
+            "name": "ffprobe",
+            "sha256": "923dab8640da8804c445418b6e2efe4b395665bdb9d4cfc84f6a244ed0fb156b",
+            "bytes": 45962728,
+            "role": "path"
+          },
+          {
+            "name": "ffprobe",
+            "sha256": "923dab8640da8804c445418b6e2efe4b395665bdb9d4cfc84f6a244ed0fb156b",
+            "bytes": 45962728,
+            "role": "originalBuildPath"
+          },
+          {
+            "name": "libm.so.6",
+            "sha256": "6d567d53e895273ca14a1f9dc164fc6c8d39aed2f60aa46a733c2784228915f3",
+            "bytes": 977112,
+            "role": "dependency"
+          },
+          {
+            "name": "libdav1d.so.7.0.0",
+            "sha256": "1d7a4182344230d5f4cf9f58bf4485da2801c411e9c9fd6d8471460c75ae8fbf",
+            "bytes": 1746880,
+            "role": "dependency"
+          },
+          {
+            "name": "libSvtAv1Enc.so.2.3.0",
+            "sha256": "48713dd9caf08909462bad0274cc9d9b249ccf836a9be72fd731f8d8096c4d35",
+            "bytes": 7984736,
+            "role": "dependency"
+          },
+          {
+            "name": "libgcc_s.so.1",
+            "sha256": "30c61ab012a4241bed033725a09b61f5fdd3bb7df95ee852d0b096520524c7af",
+            "bytes": 182856,
+            "role": "dependency"
+          },
+          {
+            "name": "libstdc++.so.6.0.33",
+            "sha256": "972bb2a18b71140dab0240f8a1f68ab3fb1d56bcd4c4f824a91b70888faf5a00",
+            "bytes": 2497768,
+            "role": "dependency"
+          },
+          {
+            "name": "libc.so.6",
+            "sha256": "9792e3cbb541c8f44c7acf5f14f4022ea62998ecc787d326bed4d8b6547dfd92",
+            "bytes": 1995216,
+            "role": "dependency"
+          },
+          {
+            "name": "ld-linux-x86-64.so.2",
+            "sha256": "c8438e4fde1934e61c88311633f00949ff645d5c04cdb8671fa3d78164d2f307",
+            "bytes": 225672,
+            "role": "dependency"
+          }
+        ],
+        "electron": {
+          "bytes": 228605256,
+          "sha256": "10a14d05c6ff4f94075cfb3eeb6ed6571be33ebcc08cbd675b5ce9ff84706564"
+        },
+        "rawReport": {
+          "bytes": 55953,
+          "sha256": "e93c017c288712e652e7a3ad19b67803a6c5f28fd584f9fa49d5ec479034b96f"
+        },
+        "fixtureOriginalAndCopySHA256": "882bbbd151ea501205a57f8cae33416cbddbb2757c02efffe4fa73b6753091cb",
+        "ownedOutputEmpty": true,
+        "ready": {
+          "electron": "44.7.0",
+          "runtimeChoice": "9.0.2-keep720-candidate",
+          "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+          "mode": "developer-keep720-range",
+          "qualifiedFamilies": [],
+          "remuxAvailable": false,
+          "sandbox": true,
+          "contextIsolation": true,
+          "nodeIntegration": false,
+          "originalUi": true,
+          "originalPreload": true
+        },
+        "census": {
+          "spawned": 28,
+          "closed": 28,
+          "live": 0,
+          "maximum": 1,
+          "failures": 0
+        },
+        "outerExitCode": 0,
+        "diagnostics": [
+          {
+            "sequence": 0,
+            "reason": "SESSION_STARTED",
+            "stage": "startup",
+            "at": 1794937896152,
+            "file": "ff52be4c-6870-4771-bbfc-bbee37057eed.json",
+            "sha256": "458c4a55ced3c8b91cc6d704626f605f3f65cb7f95de0b905d910bf7e27b14fa"
+          },
+          {
+            "sequence": 1,
+            "reason": "CAPABILITY_STARTED",
+            "stage": "capability",
+            "at": 1794937896353,
+            "file": "88114f8c-1238-4b48-8cf1-baa8b32758fb.json",
+            "sha256": "8d6c6f6e3adfa794eb03649467dbc43fa0ff3cf1e98f4f5917e8cf4d3c5befae"
+          },
+          {
+            "sequence": 2,
+            "reason": "RUNTIME_IDENTIFIED",
+            "stage": "capability",
+            "at": 1794937900665,
+            "file": "d37795f3-7180-479b-9730-983f980e1d58.json",
+            "sha256": "4041db15985fa83c22186f70c8c5c757468f4b3821806e54d0c6db28f425e4f0"
+          },
+          {
+            "sequence": 3,
+            "reason": "CAPABILITY_FINISHED",
+            "stage": "capability",
+            "at": 1794937900672,
+            "file": "275b35c4-f12d-4241-b402-6738a7d2caa5.json",
+            "sha256": "d996c0a07a42bd711294f084010be0b1cec5e38fcc05763117ca378f25bdfa9c"
+          },
+          {
+            "sequence": 4,
+            "reason": "PROVENANCE_RECOVERY_FINISHED",
+            "stage": "recovery",
+            "at": 1794937900678,
+            "file": "90f7dfa6-e992-484c-a9c3-b9930f74c54f.json",
+            "sha256": "e9b278a4d39f41312a8476d301818d8488962631ab2f058af1cad70e9af5419a"
+          },
+          {
+            "sequence": 5,
+            "reason": "SESSION_ENDED",
+            "stage": "shutdown",
+            "at": 1794938163185,
+            "file": "1a7cbb23-0907-4421-a45e-49a3023cbd65.json",
+            "sha256": "b89758999447c4607175ee0684486ba342b07f6afb406070d4b7c3a7f0e5ef5a"
+          }
+        ],
+        "warnings": [
+          "Missing system D-Bus socket",
+          "SSL handshake failure -202",
+          "X atom-cache portal.filetransfer and portal.files warnings; not proof of picker failure"
+        ],
+        "pickerRoute": [
+          "ui/renderer.js:2105-2109 calls named API, assigns only truthy result; 1903 renders absent folder as No folder selected",
+          "preload.js:2-9,32 unwraps encoder:input-folder envelope; errors throw",
+          "src/ipc.cjs:3-13 requireIdle, single-picker guard, native showOpenDialog(openDirectory); canceled returns null; otherwise registerFolder(filePaths[0])",
+          "src/ipc.cjs:55-73 authenticates exact WebContents/mainframe/entryURL and argcount; trusted errors record REQUEST_REJECTED",
+          "src/encoder-service.cjs:598-612 realpath+directory validation, main-owned role token, preference persistence, invalidate plan, returns id/path",
+          "linux-blue/workbench-main.cjs:119 installs shared IPC with actual Electron dialog"
+        ],
+        "inference": "Canceled native result is consistent with silent unchanged UI and no REQUEST_REJECTED; not proved. Successful registration returns a truthy object. No retained native canceled/filePaths result or screenshot files establish what either dialog returned. An app defect, portal failure or automation navigation failure cannot be assigned from these artifacts.",
+        "limits": [
+          "No runtime/media/desktop/test execution in audit; file identities are saved-byte checks, not loaded-image attestation.",
+          "Two picker openings and BadWindow come from operator narrative, not independently observed screenshots; no portable screenshot archive.",
+          "No Prepare/Start, range edit, target publication, output access or native cancellation proof. Startup probes did execute media capability checks, so do not claim zero media processes.",
+          "No Electron profile/cache/cookie/token-store inspection. Retained service event owner fields were not reproduced in this audit.",
+          "Gate/outer UTC timestamps differ by about two hours from Electron log wallclock and diagnostic epoch times; preserve both, do not claim synchronized wallclock chronology.",
+          "Only separately reviewed picker-only diagnostic next; no implicit retry authority."
+        ]
+      }
+    },
+    "a2Outcome": {
+      "original": {
+        "logicalPath": "evidence://native-workbench-journey-a2-20261117/JOURNEY_A2_OUTCOME.json",
+        "bytes": 5404,
+        "sha256": "ad431f75408eacb1edfce9ccd1991a02f6c3b6cc6e6a4849b5fd2c850fee887b"
+      },
+      "data": {
+        "status": "blocked-native-input-capability-no-registration-no-encode",
+        "commit": "c270331a001eb57aed07a6395d24d061e6ca177d",
+        "sourceCountPostVerified": 530,
+        "runtimeReportElectronAndFixturePostVerified": true,
+        "checkedIdentityPaths": [
+          "project://linux-blue/artifacts/candidate-runtime-1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9/ffmpeg",
+          "evidence://runtime-candidate-build-20261117/build/ffmpeg",
+          "project://linux-blue/artifacts/candidate-runtime-1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9/ffprobe",
+          "evidence://runtime-candidate-build-20261117/build/ffprobe",
+          "/usr/lib/x86_64-linux-gnu/libm.so.6",
+          "/usr/lib/x86_64-linux-gnu/libdav1d.so.7.0.0",
+          "/usr/lib/x86_64-linux-gnu/libSvtAv1Enc.so.2.3.0",
+          "/usr/lib/x86_64-linux-gnu/libgcc_s.so.1",
+          "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.33",
+          "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+          "evidence://electron-44.7.0-setup/node_modules/electron/dist/electron",
+          "project://linux-blue/artifacts/candidate-keep720-calibration-lgtLE3/report.json"
+        ],
+        "oneLaunch": true,
+        "launchMethod": "Freshly selected terminal documented typeCharacters exact Python command then Return, under prior explicit approval. Later Sky-only correction arrived after launch. Prior Sky type_text terminal failure sent nothing.",
+        "inputPickerOpenings": 1,
+        "outputPickerOpenings": 0,
+        "prepareClicks": 0,
+        "rangeApplications": 0,
+        "startClicks": 0,
+        "outputs": [],
+        "sequence": [
+          "Secure READY and candidate disclosure visible",
+          "Global Sky click Choose input folder",
+          "Fresh screenshot modal Select input video folder",
+          "Global Ctrl+L; later fresh screenshot confirms focused empty location field",
+          "Global Ctrl+A then sky.type_text approved parent path failed AT-SPI lookup; fresh screenshot confirms location remained empty",
+          "Global Cancel; app both No folder selected, Ready",
+          "Global normal window close; terminal JOURNEY_A2_EXIT 0 observed"
+        ],
+        "blocker": "AT-SPI provider with process ID 1893 is unavailable for X11 window 46137348; registry reported 2 provider connections with process IDs [1134, 1148] (up to 32 shown); 0 disconnected during lookup",
+        "noAppDefectEstablished": true,
+        "outer": {
+          "exitCode": 0,
+          "monotonicElapsedSeconds": 81.17957034299616,
+          "pythonUTC": "2026-11-17T18:10:54.570310+00:00"
+        },
+        "childCensus": {
+          "spawned": 28,
+          "closed": 28,
+          "live": 0,
+          "maximum": 1,
+          "failures": 0
+        },
+        "childScope": "startup capability probes, not target encodes",
+        "newSessionId": "46078405-fcd3-4691-9b8e-ea10c0d03d32",
+        "retainedDiagnosticCount": 12,
+        "newSessionEvents": [
+          {
+            "sequence": 0,
+            "at": 1794938973880,
+            "type": "session-start",
+            "reason": "SESSION_STARTED"
+          },
+          {
+            "sequence": 1,
+            "at": 1794938974049,
+            "type": "event",
+            "reason": "CAPABILITY_STARTED"
+          },
+          {
+            "sequence": 2,
+            "at": 1794938979016,
+            "type": "event",
+            "reason": "RUNTIME_IDENTIFIED"
+          },
+          {
+            "sequence": 3,
+            "at": 1794938979026,
+            "type": "event",
+            "reason": "CAPABILITY_FINISHED"
+          },
+          {
+            "sequence": 4,
+            "at": 1794938979039,
+            "type": "event",
+            "reason": "PROVENANCE_RECOVERY_FINISHED"
+          },
+          {
+            "sequence": 5,
+            "at": 1794939054525,
+            "type": "session-end",
+            "reason": "SESSION_ENDED"
+          }
+        ],
+        "clocks": {
+          "preflight": {
+            "pythonUTC": "2026-11-17T18:09:33.353518+00:00",
+            "dateUTC": "2026-11-17T18:09:33.355045260Z",
+            "nodeUTC": "2026-11-17T18:09:33.383Z",
+            "display": ":0"
+          },
+          "note": "Electron stderr text clock 20:09:33 versus Python/date/Node UTC 18:09:33; native diagnostic epochs retained separately; no clock changes or synchronized chronology inferred."
+        },
+        "screenshots": "Emitted in CUA transcript only; no standalone screenshot files claimed.",
+        "publication": false,
+        "profileCacheTokenDatabases": "Not read or copied; only diagnostics-v1 copied.",
+        "limits": "No retry, alternate picker input, output actions or security changes. Native range journey remains unproven.",
+        "evidenceHashes": {
+          "app.stderr.log": "68e0b52d9ac062b6cb025a858033a8716d6bf70d062d574e22a93714d679c21a",
+          "ATTEMPT_STARTED.json": "34143ea34e838227b556c087d383abb7ea664f432e8169f39174aff5fcc654a1",
+          "OUTER_COMPLETION.json": "297b581222f5a130105688bae722379a9ef997ba06d1a01270714914f657eed9",
+          "APPROVED_A2.json": "403e3ed6aabade7ec890da35ec4c27c2276098881eadc9623b047db70c721894",
+          "PLAN.md": "d520663c8f61421fef4a274bc914c9cfcf9188cdda95dffd60a9b41e185bf5ff",
+          "APP_PID.json": "7d04e9f703dbaf8b687b65a2ee634c3e7cfc2743e07ebdfe20d7efe82f402082",
+          "launch-a2.py": "669445afdf8ee7a6e7f24c24f2730737538868ab60383c8651385b1b30b994e5",
+          "DESKTOP_PREFLIGHT.json": "08a2abf2338aea8f4d55a673dec6fd5bc251ee140282fc04c7a45455823797de",
+          "app.stdout.log": "bf4b1af97615f00a9cd61b942ec0fef765aa3cd9189ca5c60d8c7852aeeb1cec"
+        }
+      }
+    },
+    "a2Audit": {
+      "original": {
+        "logicalPath": "evidence://native-workbench-journey-a2-20261117/INDEPENDENT_A2_AUDIT.json",
+        "bytes": 5843,
+        "sha256": "6892c9472bc34013b386141668184db7baf4fa7749ccc6a256d929117b1c8f54"
+      },
+      "data": {
+        "status": "PASS saved-byte and closure audit; native folder/encode journey remains blocked",
+        "outcomeSHA256": "ad431f75408eacb1edfce9ccd1991a02f6c3b6cc6e6a4849b5fd2c850fee887b",
+        "commit": "c270331a001eb57aed07a6395d24d061e6ca177d",
+        "sourceCount": 530,
+        "allCurrentGateCommitEqual": true,
+        "priorOutcomeAuditLogsAndSixEventsPreserved": true,
+        "originalAndRestoredPairSevenDependenciesElectronRawReportFixturesVerified": true,
+        "oldAndNewOutputsEmpty": true,
+        "newSessionEvents": [
+          {
+            "file": "05c82ccd-7ad4-4483-a800-5ffaa3a2abfd.json",
+            "sha256": "77abbee302ff56eddaab24d2a63630519bd402fa77740e002e695cf516543914",
+            "sessionId": "46078405-fcd3-4691-9b8e-ea10c0d03d32",
+            "sequence": 0,
+            "reason": "SESSION_STARTED",
+            "at": 1794938973880
+          },
+          {
+            "file": "8af3d129-8d97-481b-bcf1-0a9502e557a7.json",
+            "sha256": "d8381672ae31b06513cea963e4469dc2a8fdc01e4ef08e896e840af0ec3c5ee5",
+            "sessionId": "46078405-fcd3-4691-9b8e-ea10c0d03d32",
+            "sequence": 1,
+            "reason": "CAPABILITY_STARTED",
+            "at": 1794938974049
+          },
+          {
+            "file": "b30422c7-dc5f-4171-97b3-7394bcbebd79.json",
+            "sha256": "2a36d17bc5c4c6bf5a358e2b5c401ae97f93a4cab82fe4118128a8693f2757ac",
+            "sessionId": "46078405-fcd3-4691-9b8e-ea10c0d03d32",
+            "sequence": 2,
+            "reason": "RUNTIME_IDENTIFIED",
+            "at": 1794938979016
+          },
+          {
+            "file": "797dccd0-b157-466e-80f3-f5a72d69ed22.json",
+            "sha256": "49f3d2e98966c966aea73ac0035fc60c5e38767a60e4751f7f8c573c47acf495",
+            "sessionId": "46078405-fcd3-4691-9b8e-ea10c0d03d32",
+            "sequence": 3,
+            "reason": "CAPABILITY_FINISHED",
+            "at": 1794938979026
+          },
+          {
+            "file": "2cf7eb0a-2212-4a83-96d9-3d819c2a417e.json",
+            "sha256": "d42f1ca9b9f7fc2d9b5e1b39eecfb5cc57d1a727dfaa84521bc11b098e13a105",
+            "sessionId": "46078405-fcd3-4691-9b8e-ea10c0d03d32",
+            "sequence": 4,
+            "reason": "PROVENANCE_RECOVERY_FINISHED",
+            "at": 1794938979039
+          },
+          {
+            "file": "584dc9da-194c-4695-90d3-996b0a422012.json",
+            "sha256": "9857cfc5655f9fac59ceb035b046053d9f88d76aed91f4692c75cde48f3b3e75",
+            "sessionId": "46078405-fcd3-4691-9b8e-ea10c0d03d32",
+            "sequence": 5,
+            "reason": "SESSION_ENDED",
+            "at": 1794939054525
+          }
+        ],
+        "retainedTotalEvents": 12,
+        "census": {
+          "spawned": 28,
+          "closed": 28,
+          "live": 0,
+          "maximum": 1,
+          "failures": 0
+        },
+        "outer": {
+          "exitCode": 0,
+          "monotonicElapsedSeconds": 81.17957034299616,
+          "pythonUTC": "2026-11-17T18:10:54.570310+00:00"
+        },
+        "ready": {
+          "electron": "44.7.0",
+          "runtimeChoice": "9.0.2-keep720-candidate",
+          "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+          "mode": "developer-keep720-range",
+          "qualifiedFamilies": [],
+          "remuxAvailable": false,
+          "sandbox": true,
+          "contextIsolation": true,
+          "nodeIntegration": false,
+          "originalUi": true,
+          "originalPreload": true
+        },
+        "clocks": {
+          "preflight": {
+            "pythonUTC": "2026-11-17T18:09:33.353518+00:00",
+            "dateUTC": "2026-11-17T18:09:33.355045260Z",
+            "nodeUTC": "2026-11-17T18:09:33.383Z",
+            "display": ":0"
+          },
+          "note": "Electron stderr text clock 20:09:33 versus Python/date/Node UTC 18:09:33; native diagnostic epochs retained separately; no clock changes or synchronized chronology inferred."
+        },
+        "evidenceHashes": {
+          "app.stderr.log": "68e0b52d9ac062b6cb025a858033a8716d6bf70d062d574e22a93714d679c21a",
+          "ATTEMPT_STARTED.json": "34143ea34e838227b556c087d383abb7ea664f432e8169f39174aff5fcc654a1",
+          "OUTER_COMPLETION.json": "297b581222f5a130105688bae722379a9ef997ba06d1a01270714914f657eed9",
+          "APPROVED_A2.json": "403e3ed6aabade7ec890da35ec4c27c2276098881eadc9623b047db70c721894",
+          "PLAN.md": "d520663c8f61421fef4a274bc914c9cfcf9188cdda95dffd60a9b41e185bf5ff",
+          "APP_PID.json": "7d04e9f703dbaf8b687b65a2ee634c3e7cfc2743e07ebdfe20d7efe82f402082",
+          "launch-a2.py": "669445afdf8ee7a6e7f24c24f2730737538868ab60383c8651385b1b30b994e5",
+          "DESKTOP_PREFLIGHT.json": "08a2abf2338aea8f4d55a673dec6fd5bc251ee140282fc04c7a45455823797de",
+          "app.stdout.log": "bf4b1af97615f00a9cd61b942ec0fef765aa3cd9189ca5c60d8c7852aeeb1cec"
+        },
+        "storedEvidenceSupports": [
+          "Exact identities, secure configured startup, capability-only event sequence, normal session end and balanced owned-child census",
+          "81.17957034299616 seconds is saved outer monotonic duration; no cross-domain wallclock subtraction",
+          "No REQUEST_REJECTED in six new events; this alone cannot establish native picker result"
+        ],
+        "operatorObservationsNotIndependentlyReplayed": [
+          "One app launch via earlier approved fresh terminal typeCharacters before later correction",
+          "One input picker, empty location after Sky.type_text AT-SPI provider failure, no path sent, Cancel and normal close",
+          "No output picker/registration/Prepare/Start; no standalone screenshot archive"
+        ],
+        "conclusion": "No application defect established. The reported AT-SPI input failure is an automation capability blocker, not proof of native dialog cancellation or IPC defect. Source route remains unchanged. No target output exists; startup capability probes did execute children.",
+        "limits": [
+          "No desktop/runtime/media/test execution by auditor; saved hashes are not loaded-image attestation.",
+          "Notion restore approval is gate evidence, not independently downloaded again.",
+          "Electron profile/cache/token databases not inspected. Event owner fields omitted from audit.",
+          "Python/date/Node UTC and Electron/native diagnostic clocks retained separately; no synchronized chronology.",
+          "No authorization for new app launch or third attempt inferred. Separate harmless keyboard-capability check and explicitly reviewed gate required first."
+        ]
+      }
+    },
+    "a3Outcome": {
+      "original": {
+        "logicalPath": "evidence://native-workbench-journey-a3-20261117/JOURNEY_A3_OUTCOME.json",
+        "bytes": 17105,
+        "sha256": "3bb2ac0dd6035fdfde107f0fbce22024ee41b9c06f6f7ea52751e235b50116d5"
+      },
+      "data": {
+        "status": "native-journey-observed-success-pending-independent-saved-output-audit",
+        "commit": "c270331a001eb57aed07a6395d24d061e6ca177d",
+        "sourceCountPostVerified": 530,
+        "runtimeReportElectronOriginalAndOwnedFixturePostVerified": true,
+        "oneLaunch": true,
+        "inputMethod": "Only documented global Sky press_key for command/path/range text and global click/scroll. Exact command verified before Return. No type_text or per-window methods.",
+        "counts": {
+          "inputPickers": 1,
+          "outputPickers": 1,
+          "prepare": 1,
+          "rangeApply": 1,
+          "start": 1,
+          "reveal": 1,
+          "openOutput": 0
+        },
+        "sequence": [
+          "Both exact approved owned folders registered through parent path, visible child suggestion and Open.",
+          "Initial Full draft Unsupported; checkbox and Start disabled; explicit inspection-only notice.",
+          "Per-file single range0.613–2.721, Keep source, Precision FLAC verified before sole Apply.",
+          "Reprepared Ready; inspector exact settings verified; selected sole file.",
+          "Sole Start showed Waiting/In progress then Completed/Succeeded. Numeric intermediate progress not sampled.",
+          "Inspector reports video0.633333–2.733333 (63frames), audio0.613–2.721.",
+          "Single genuine Show in folder opened Thunar exact A3 owned-output with selected published file883743bytes. No player opened.",
+          "Closed Thunar then app normally; terminal JOURNEY_A3_EXIT0 observed."
+        ],
+        "uiFinding": {
+          "severity": "wording-platform mismatch",
+          "text": "Show-in-folder request sent to Windows.",
+          "actualPlatform": "Linux/Thunar",
+          "changed": false
+        },
+        "outer": {
+          "exitCode": 0,
+          "monotonicElapsedSeconds": 461.4502612809956,
+          "pythonUTC": "2026-11-17T18:26:55.122451+00:00"
+        },
+        "childCensus": {
+          "spawned": 42,
+          "closed": 42,
+          "live": 0,
+          "maximum": 1,
+          "failures": 0
+        },
+        "outputs": [
+          {
+            "path": "evidence://native-workbench-journey-a3-20261117/owned-output/fresh-vflip-997_H265-CPU.mkv",
+            "bytes": 883743,
+            "sha256": "a1ea7b04ca109513e402aa7a5bd4bcf2b19278f9ef89daf7ccf429f099050dd9"
+          }
+        ],
+        "sessionId": "fa7cddd9-dfa6-4d3d-80a1-d7e603921775",
+        "sessionEvents": [
+          {
+            "sequence": 0,
+            "at": 1794939554141,
+            "reason": "SESSION_STARTED"
+          },
+          {
+            "sequence": 1,
+            "at": 1794939554304,
+            "reason": "CAPABILITY_STARTED"
+          },
+          {
+            "sequence": 2,
+            "at": 1794939558224,
+            "reason": "RUNTIME_IDENTIFIED"
+          },
+          {
+            "sequence": 3,
+            "at": 1794939558234,
+            "reason": "CAPABILITY_FINISHED"
+          },
+          {
+            "sequence": 4,
+            "at": 1794939558243,
+            "reason": "PROVENANCE_RECOVERY_FINISHED"
+          },
+          {
+            "sequence": 5,
+            "at": 1794939747751,
+            "reason": "PREPARATION_STARTED"
+          },
+          {
+            "sequence": 6,
+            "at": 1794939748438,
+            "reason": "FILE_INSPECTED"
+          },
+          {
+            "sequence": 7,
+            "at": 1794939748447,
+            "reason": "PREPARATION_FINISHED"
+          },
+          {
+            "sequence": 8,
+            "at": 1794939889883,
+            "reason": "DRAFT_REPREPARATION_STARTED"
+          },
+          {
+            "sequence": 9,
+            "at": 1794939890771,
+            "reason": "FILE_INSPECTED"
+          },
+          {
+            "sequence": 10,
+            "at": 1794939890779,
+            "reason": "DRAFT_REPREPARATION_FINISHED"
+          },
+          {
+            "sequence": 11,
+            "at": 1794939964815,
+            "reason": "ENCODE_STARTED"
+          },
+          {
+            "sequence": 12,
+            "at": 1794939969652,
+            "reason": "ENCODE_CLOSED"
+          },
+          {
+            "sequence": 13,
+            "at": 1794939971933,
+            "reason": "OPERATION_EVIDENCE_COLLECTED"
+          },
+          {
+            "sequence": 14,
+            "at": 1794939971954,
+            "reason": "OUTPUT_CHECKED"
+          },
+          {
+            "sequence": 15,
+            "at": 1794939971975,
+            "reason": "SOURCE_ASSESSED"
+          },
+          {
+            "sequence": 16,
+            "at": 1794939972023,
+            "reason": "OUTPUT_PUBLISHED"
+          },
+          {
+            "sequence": 17,
+            "at": 1794939972067,
+            "reason": "JOB_DISPOSITION"
+          },
+          {
+            "sequence": 18,
+            "at": 1794939972074,
+            "reason": "BATCH_FINISHED"
+          },
+          {
+            "sequence": 19,
+            "at": 1794939992727,
+            "reason": "OUTPUT_ACTION_DISPATCHED"
+          },
+          {
+            "sequence": 20,
+            "at": 1794940014896,
+            "reason": "SESSION_ENDED"
+          }
+        ],
+        "copiedEvidence": {
+          "diagnostics-v1": [
+            {
+              "path": "stderr/04a1021e-74ef-4df4-9083-da9cc6d1ff50.txt",
+              "bytes": 499,
+              "sha256": "b2c8201ee33100ab63ea612f58c781a64169a3741a8fb14b4562f2f570a1ecdd"
+            },
+            {
+              "path": "events/797dccd0-b157-466e-80f3-f5a72d69ed22.json",
+              "bytes": 11843,
+              "sha256": "49f3d2e98966c966aea73ac0035fc60c5e38767a60e4751f7f8c573c47acf495"
+            },
+            {
+              "path": "events/f3a28076-1f49-4be4-a0ed-44400f10c72d.json",
+              "bytes": 499,
+              "sha256": "6a4b373724e46f5fddf1defd2cb42adae8ad120cc33a9d7db7cdd8e4588586e1"
+            },
+            {
+              "path": "events/d37795f3-7180-479b-9730-983f980e1d58.json",
+              "bytes": 480,
+              "sha256": "4041db15985fa83c22186f70c8c5c757468f4b3821806e54d0c6db28f425e4f0"
+            },
+            {
+              "path": "events/b995b7ea-575b-4411-8d33-564c878967f4.json",
+              "bytes": 480,
+              "sha256": "243266b23fb9daab5954a9b675fdb9d860e73071dec012a5a222db2754c79b37"
+            },
+            {
+              "path": "events/275b35c4-f12d-4241-b402-6738a7d2caa5.json",
+              "bytes": 11843,
+              "sha256": "d996c0a07a42bd711294f084010be0b1cec5e38fcc05763117ca378f25bdfa9c"
+            },
+            {
+              "path": "events/2cf7eb0a-2212-4a83-96d9-3d819c2a417e.json",
+              "bytes": 533,
+              "sha256": "d42f1ca9b9f7fc2d9b5e1b39eecfb5cc57d1a727dfaa84521bc11b098e13a105"
+            },
+            {
+              "path": "events/2e73a121-497b-4c33-8c5c-3a3b98fd29f4.json",
+              "bytes": 831,
+              "sha256": "816314c317f85913c8f850220c25864cb81e17066791aadcf50ba5cd20ff822d"
+            },
+            {
+              "path": "events/ff95b02a-51fd-47f9-ab41-d38fdc829843.json",
+              "bytes": 533,
+              "sha256": "4eefad913743fd2648c4f6cee87435b9d848727d5d1e22ac496bce1d8114bfd5"
+            },
+            {
+              "path": "events/2cf5cd2a-9577-4637-bf01-97865cf1ffff.json",
+              "bytes": 1978,
+              "sha256": "2449a994d07d4fe361575221c72779b664feb8339ce12810324be3cf00d3611b"
+            },
+            {
+              "path": "events/37370fde-3542-4b8e-8097-6d67c28067f5.json",
+              "bytes": 1849,
+              "sha256": "9ad5c22681518627cce0dbd2c485fe021c55ae84fb9536212d9fcc682797454c"
+            },
+            {
+              "path": "events/05c82ccd-7ad4-4483-a800-5ffaa3a2abfd.json",
+              "bytes": 464,
+              "sha256": "77abbee302ff56eddaab24d2a63630519bd402fa77740e002e695cf516543914"
+            },
+            {
+              "path": "events/5c4c4942-2ac6-49db-9271-ceb5cc6fdbf7.json",
+              "bytes": 5254,
+              "sha256": "2794d97c26fa9c20a9ff02c90d43a73ac73f7db0c9494225c8aa0561a552e43a"
+            },
+            {
+              "path": "events/74b6c6a4-4565-4699-b559-aeda0413f21d.json",
+              "bytes": 1691,
+              "sha256": "cf7c8051d83fe4de6d865d97884a02cd18ae9933219f8f7d7b409e6f9fe4d49b"
+            },
+            {
+              "path": "events/90f7dfa6-e992-484c-a9c3-b9930f74c54f.json",
+              "bytes": 533,
+              "sha256": "e9b278a4d39f41312a8476d301818d8488962631ab2f058af1cad70e9af5419a"
+            },
+            {
+              "path": "events/23410721-2b65-4c1b-ac76-90a1dab694f2.json",
+              "bytes": 11843,
+              "sha256": "430e3028e1123b549cb70f93f0a17dbfa1e9e0220a2a20c1c2743e696098a9b3"
+            },
+            {
+              "path": "events/08cca3fb-f870-495b-bb1e-0f75e9e30226.json",
+              "bytes": 1505,
+              "sha256": "6078c5259b3342941b04290e60aec6c6d01f088708f0ee76e55ff26ca766ee38"
+            },
+            {
+              "path": "events/9fbf0f46-0dd9-443a-94e3-e5898790612a.json",
+              "bytes": 501,
+              "sha256": "6dc611d2809d52f9d23051d932ce7444e356cf1c148fef1fa9c5c61ffb0f4b11"
+            },
+            {
+              "path": "events/31c31388-dc26-49b2-a851-13058eca4ee0.json",
+              "bytes": 464,
+              "sha256": "0379d2d69b2d4e3439fded84ecfcc5e23d17d31a440f47c05f73040c5c3795e5"
+            },
+            {
+              "path": "events/49be7a12-bce3-496c-a90e-ee0c6066cdd0.json",
+              "bytes": 361,
+              "sha256": "a6a609fb9375a57c0242b013ef755f292d340673e008425f2632a50667ae0569"
+            },
+            {
+              "path": "events/b30422c7-dc5f-4171-97b3-7394bcbebd79.json",
+              "bytes": 480,
+              "sha256": "2a36d17bc5c4c6bf5a358e2b5c401ae97f93a4cab82fe4118128a8693f2757ac"
+            },
+            {
+              "path": "events/1a7cbb23-0907-4421-a45e-49a3023cbd65.json",
+              "bytes": 360,
+              "sha256": "b89758999447c4607175ee0684486ba342b07f6afb406070d4b7c3a7f0e5ef5a"
+            },
+            {
+              "path": "events/adaa91b3-10e8-4159-9a5b-e070c14ab949.json",
+              "bytes": 799,
+              "sha256": "60ba8b84fcb1e0c1af73bddd30afe109014a97cdd80265340fb665c4a96e77d0"
+            },
+            {
+              "path": "events/407d595a-6a06-4ac3-aaa1-319060bb6b24.json",
+              "bytes": 3032,
+              "sha256": "0d376f3bc46de9af01e25e1a5caa800c820cc263f4af68d3fe53ad405a43f0e3"
+            },
+            {
+              "path": "events/88114f8c-1238-4b48-8cf1-baa8b32758fb.json",
+              "bytes": 388,
+              "sha256": "8d6c6f6e3adfa794eb03649467dbc43fa0ff3cf1e98f4f5917e8cf4d3c5befae"
+            },
+            {
+              "path": "events/04a1021e-74ef-4df4-9083-da9cc6d1ff50.json",
+              "bytes": 718,
+              "sha256": "fa7d8e93ca75826aa7b318fa820536ede21289baedf5363db67f61cfbba8353f"
+            },
+            {
+              "path": "events/09e60464-c2d5-41bc-802f-37b71d8d9378.json",
+              "bytes": 577,
+              "sha256": "613eb781288cdb6721bc5f5eab7cd73294fdc53d65b0bf921d24670ab72b2bc7"
+            },
+            {
+              "path": "events/1d07a719-3b73-4cd1-9188-6d335482507d.json",
+              "bytes": 1978,
+              "sha256": "7b98a1534d57a16ae06c3be096f4795f03f6c01ccd29fdcb498c819b3959544f"
+            },
+            {
+              "path": "events/8af3d129-8d97-481b-bcf1-0a9502e557a7.json",
+              "bytes": 388,
+              "sha256": "d8381672ae31b06513cea963e4469dc2a8fdc01e4ef08e896e840af0ec3c5ee5"
+            },
+            {
+              "path": "events/584dc9da-194c-4695-90d3-996b0a422012.json",
+              "bytes": 360,
+              "sha256": "9857cfc5655f9fac59ceb035b046053d9f88d76aed91f4692c75cde48f3b3e75"
+            },
+            {
+              "path": "events/d2f11bf1-9894-46c7-a70b-8964c411822b.json",
+              "bytes": 775,
+              "sha256": "730fb4cc0789d03289f501593a304aca411bc28fe9315d2fd35aec755169fa11"
+            },
+            {
+              "path": "events/e43c7eab-054a-4eb4-a8cd-0f6b6b2c40fd.json",
+              "bytes": 1189,
+              "sha256": "63a57419edaa0d002752e0967366d506b4e645d550358a5ed011527c00938319"
+            },
+            {
+              "path": "events/ff52be4c-6870-4771-bbfc-bbee37057eed.json",
+              "bytes": 464,
+              "sha256": "458c4a55ced3c8b91cc6d704626f605f3f65cb7f95de0b905d910bf7e27b14fa"
+            },
+            {
+              "path": "events/82aaba14-5061-4a2b-89c9-243e56e47c85.json",
+              "bytes": 388,
+              "sha256": "eba7a8d1ef2e622152610baf8a6c016b9284506e0950fe089cc1bcf2cf3daf94"
+            }
+          ],
+          "operation-evidence": [
+            {
+              "path": ".storage-ledger.json",
+              "bytes": 1572,
+              "sha256": "65bbe985e6bba25ebbd72cbf87ebec5ac8a6342b80b3fa5eed052732a81e6cdb"
+            },
+            {
+              "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/storage-reservation.json",
+              "bytes": 175,
+              "sha256": "1ce534d8919ca78827dbbcc00ce62d64824a170854b38ee80e1f1538b37c9694"
+            },
+            {
+              "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/encoder-input-receipt.json",
+              "bytes": 6291,
+              "sha256": "e7202934d7d4b35cda1a224b5420dbf1fd249cd6f4620945fbd0de7881a35e8a"
+            },
+            {
+              "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/storage-final.json",
+              "bytes": 879,
+              "sha256": "11a3504310283eb6a8dff8a45a69e2efb77d2e8dd39d40a146fd045d67ad972c"
+            },
+            {
+              "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/encoder-telemetry-OWAHV6/stream-0.tsv",
+              "bytes": 2866,
+              "sha256": "1ab0798ab5afca699909d5fee8ab94561f80970fe3233139969880f83e0b2e75"
+            },
+            {
+              "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/encoder-telemetry-OWAHV6/stream-1.tsv",
+              "bytes": 21230,
+              "sha256": "f0c480267f60cf357085aaedea558f52382f3da2b955a17d0b5644aa0ac32044"
+            },
+            {
+              "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/operation-evidence-oXKv0Z/child-5.json",
+              "bytes": 1107,
+              "sha256": "76d3b686e57e6842cbe2481737d99abe0614acb98873a2d9150d53a6d6617e21"
+            },
+            {
+              "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/operation-evidence-oXKv0Z/child-1.json",
+              "bytes": 1263,
+              "sha256": "269dd0d02733fb5172701427e27de5eaef477ac2f33c693f089f60405e8b9b9c"
+            },
+            {
+              "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/operation-evidence-oXKv0Z/output-audio-1.jsonl",
+              "bytes": 24316,
+              "sha256": "6a68c090876b5903290f46e43b33871c1ce1dc375be2593331a5e120227ad7af"
+            },
+            {
+              "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/operation-evidence-oXKv0Z/selected-video.jsonl",
+              "bytes": 4409,
+              "sha256": "12d8692546152e41ae5704254b9b26d98ed4e41ab0ec858265f3b4a9eba4ecde"
+            },
+            {
+              "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/operation-evidence-oXKv0Z/child-3.json",
+              "bytes": 1215,
+              "sha256": "5fd24caab9f0d10cd0457d17692f277920adbec4670b1e00d840f827d6993fe1"
+            },
+            {
+              "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/operation-evidence-oXKv0Z/child-2.json",
+              "bytes": 1233,
+              "sha256": "7aa411c65df391169d27d3bd6f232b01e20b989c8f5c4581140652f53ad11598"
+            },
+            {
+              "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/operation-evidence-oXKv0Z/start.json",
+              "bytes": 2239,
+              "sha256": "c73007f90ad97f0a3961d54b6ed0c69db3d6b2f86235608fed69aa01a48d2e80"
+            },
+            {
+              "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/operation-evidence-oXKv0Z/child-4.json",
+              "bytes": 1236,
+              "sha256": "7159707e839206b0de2bb526d9bea1d5eaf87cf5e779b9d8b76fde963151d751"
+            },
+            {
+              "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/operation-evidence-oXKv0Z/selected-audio-1.jsonl",
+              "bytes": 10945,
+              "sha256": "f329c03b2acc5de832638c9f1435b606abdbe2b950fdde9e72fcbefdb7b06cee"
+            },
+            {
+              "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/operation-evidence-oXKv0Z/receipt.json",
+              "bytes": 16853,
+              "sha256": "f848a4305440e858d873b7941082ec29be45ac7c5e890e044d4ed1e15277c3c8"
+            },
+            {
+              "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/operation-evidence-oXKv0Z/child-7.json",
+              "bytes": 1067,
+              "sha256": "55c76c13f4fca47b48ed9b2a0efe2191584b66aa7f5b32dc7ee8e9a12e49dc6c"
+            },
+            {
+              "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/operation-evidence-oXKv0Z/child-6.json",
+              "bytes": 1047,
+              "sha256": "fa8067bd58228c890e7a50e1db183918255637828c5e509949ca0a34eea262f1"
+            }
+          ],
+          "provenance-v1": [
+            {
+              "path": "84d60d20-1cad-4cd9-b8ea-550fa245399b.published.json",
+              "bytes": 657,
+              "sha256": "e62c11fae99e20f86f96872fd2a9fe921f313651a3c19a2cbcd40435d7cc221d"
+            },
+            {
+              "path": "84d60d20-1cad-4cd9-b8ea-550fa245399b.intent.json",
+              "bytes": 1266,
+              "sha256": "00d6b6e93b16bb3e48de4bab0002bfb693514b616b7af31bdd768bc72fc29b7d"
+            }
+          ]
+        },
+        "clockDomains": {
+          "desktop": {
+            "pythonUTC": "2026-11-17T18:19:13.629570+00:00",
+            "dateUTC": "2026-11-17T18:19:13.631184788Z",
+            "nodeUTC": "2026-11-17T18:19:13.663Z",
+            "display": ":0"
+          },
+          "note": "Native Electron stderr clock remains about two hours ahead; diagnostic epochs retained separately, no clock edits/synchronized chronology inference."
+        },
+        "screenshots": "Visible CUA transcript only, no standalone image files claimed.",
+        "excluded": "electron-state/electron-session/profile/cache/token databases not read or copied. localpreferences not copied.",
+        "limitations": [
+          "One short developer candidate journey, not production/platform-wide qualification.",
+          "No cancellation/relaunch Journey B.",
+          "No extra decode or encode after close.",
+          "Known NUMA/threading and duplicate-option diagnostics retained; no flags changed.",
+          "No source edits/commits/publication."
+        ],
+        "evidenceHashes": {
+          "app.stderr.log": "d7eaf84ae8b30f49217cb2c054fe2d43abc778d759222342fa738ef32296e849",
+          "launch-a3.py": "7c0a664d9489b482a7891ec8d2cae195ab996184a07d19d865b1a785a4b730d1",
+          "ATTEMPT_STARTED.json": "86dbf7268b33857387ef5bdc7bb103cec21b2738b8cc81f35d73c7d1329c2a24",
+          "APPROVED_A3.json": "2fa24a5900dca83f4df4d2ba0720b1aed9c28d48369bc6992ddc5ce7b9312adc",
+          "OUTER_COMPLETION.json": "4be637bfc99a02de35d714e8dcf60a1a1d9a6c841c9520868e590b8d3862cd31",
+          "PLAN.md": "9fe1a1fe366f2362d8282628375f35562d14f4a9bb9b2e0e96bce831da2f7149",
+          "APP_PID.json": "27a05f6f1f9a66c1ea7517641e031ac3cb877a6317f91e06a6f2cf9f3727027a",
+          "DESKTOP_PREFLIGHT.json": "1c249f56321e6339c18a66fa0b8d7b0d8f78ebc2089e135ed9ca99d60fab8062",
+          "app.stdout.log": "f6a17668c76124da6d817c25d21716b16a8293ba212cdada277512698e8fe9e4"
+        }
+      }
+    },
+    "a3Audit": {
+      "original": {
+        "logicalPath": "evidence://native-workbench-journey-a3-20261117/INDEPENDENT_A3_AUDIT_FINAL.json",
+        "bytes": 31524,
+        "sha256": "b9b39b1519962f50b0e81202625242a3a73140d99ebd3abbcef34cea33901980"
+      },
+      "data": {
+        "status": "PASS bounded native saved-evidence audit; one short developer journey, not platform-wide qualification",
+        "checkedAtUtc": "2026-11-17T18:31:13.968299+00:00",
+        "commit": "c270331a001eb57aed07a6395d24d061e6ca177d",
+        "sourceCount": 530,
+        "currentGateCommitAllEqual": true,
+        "outcomeSHA256": "3bb2ac0dd6035fdfde107f0fbce22024ee41b9c06f6f7ea52751e235b50116d5",
+        "sourceGateSHA256": "2fa24a5900dca83f4df4d2ba0720b1aed9c28d48369bc6992ddc5ce7b9312adc",
+        "runtimePairSevenDependenciesElectronRawReportFixtureVerified": true,
+        "output": {
+          "path": "evidence://native-workbench-journey-a3-20261117/owned-output/fresh-vflip-997_H265-CPU.mkv",
+          "bytes": 883743,
+          "sha256": "a1ea7b04ca109513e402aa7a5bd4bcf2b19278f9ef89daf7ccf429f099050dd9"
+        },
+        "newSessionId": "fa7cddd9-dfa6-4d3d-80a1-d7e603921775",
+        "newSessionEvents": [
+          {
+            "sequence": 0,
+            "reason": "SESSION_STARTED",
+            "at": 1794939554141,
+            "contextTruncated": false
+          },
+          {
+            "sequence": 1,
+            "reason": "CAPABILITY_STARTED",
+            "at": 1794939554304,
+            "contextTruncated": false
+          },
+          {
+            "sequence": 2,
+            "reason": "RUNTIME_IDENTIFIED",
+            "at": 1794939558224,
+            "contextTruncated": false
+          },
+          {
+            "sequence": 3,
+            "reason": "CAPABILITY_FINISHED",
+            "at": 1794939558234,
+            "contextTruncated": false
+          },
+          {
+            "sequence": 4,
+            "reason": "PROVENANCE_RECOVERY_FINISHED",
+            "at": 1794939558243,
+            "contextTruncated": false
+          },
+          {
+            "sequence": 5,
+            "reason": "PREPARATION_STARTED",
+            "at": 1794939747751,
+            "contextTruncated": false
+          },
+          {
+            "sequence": 6,
+            "reason": "FILE_INSPECTED",
+            "at": 1794939748438,
+            "contextTruncated": true
+          },
+          {
+            "sequence": 7,
+            "reason": "PREPARATION_FINISHED",
+            "at": 1794939748447,
+            "contextTruncated": false
+          },
+          {
+            "sequence": 8,
+            "reason": "DRAFT_REPREPARATION_STARTED",
+            "at": 1794939889883,
+            "contextTruncated": false
+          },
+          {
+            "sequence": 9,
+            "reason": "FILE_INSPECTED",
+            "at": 1794939890771,
+            "contextTruncated": true
+          },
+          {
+            "sequence": 10,
+            "reason": "DRAFT_REPREPARATION_FINISHED",
+            "at": 1794939890779,
+            "contextTruncated": false
+          },
+          {
+            "sequence": 11,
+            "reason": "ENCODE_STARTED",
+            "at": 1794939964815,
+            "contextTruncated": false
+          },
+          {
+            "sequence": 12,
+            "reason": "ENCODE_CLOSED",
+            "at": 1794939969652,
+            "contextTruncated": false
+          },
+          {
+            "sequence": 13,
+            "reason": "OPERATION_EVIDENCE_COLLECTED",
+            "at": 1794939971933,
+            "contextTruncated": true
+          },
+          {
+            "sequence": 14,
+            "reason": "OUTPUT_CHECKED",
+            "at": 1794939971954,
+            "contextTruncated": false
+          },
+          {
+            "sequence": 15,
+            "reason": "SOURCE_ASSESSED",
+            "at": 1794939971975,
+            "contextTruncated": false
+          },
+          {
+            "sequence": 16,
+            "reason": "OUTPUT_PUBLISHED",
+            "at": 1794939972023,
+            "contextTruncated": false
+          },
+          {
+            "sequence": 17,
+            "reason": "JOB_DISPOSITION",
+            "at": 1794939972067,
+            "contextTruncated": true
+          },
+          {
+            "sequence": 18,
+            "reason": "BATCH_FINISHED",
+            "at": 1794939972074,
+            "contextTruncated": false
+          },
+          {
+            "sequence": 19,
+            "reason": "OUTPUT_ACTION_DISPATCHED",
+            "at": 1794939992727,
+            "contextTruncated": false
+          },
+          {
+            "sequence": 20,
+            "reason": "SESSION_ENDED",
+            "at": 1794940014896,
+            "contextTruncated": false
+          }
+        ],
+        "prior12EventsPreserved": true,
+        "inventory": [
+          {
+            "category": "diagnostics-v1",
+            "path": "stderr/04a1021e-74ef-4df4-9083-da9cc6d1ff50.txt",
+            "bytes": 499,
+            "sha256": "b2c8201ee33100ab63ea612f58c781a64169a3741a8fb14b4562f2f570a1ecdd"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/797dccd0-b157-466e-80f3-f5a72d69ed22.json",
+            "bytes": 11843,
+            "sha256": "49f3d2e98966c966aea73ac0035fc60c5e38767a60e4751f7f8c573c47acf495"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/f3a28076-1f49-4be4-a0ed-44400f10c72d.json",
+            "bytes": 499,
+            "sha256": "6a4b373724e46f5fddf1defd2cb42adae8ad120cc33a9d7db7cdd8e4588586e1"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/d37795f3-7180-479b-9730-983f980e1d58.json",
+            "bytes": 480,
+            "sha256": "4041db15985fa83c22186f70c8c5c757468f4b3821806e54d0c6db28f425e4f0"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/b995b7ea-575b-4411-8d33-564c878967f4.json",
+            "bytes": 480,
+            "sha256": "243266b23fb9daab5954a9b675fdb9d860e73071dec012a5a222db2754c79b37"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/275b35c4-f12d-4241-b402-6738a7d2caa5.json",
+            "bytes": 11843,
+            "sha256": "d996c0a07a42bd711294f084010be0b1cec5e38fcc05763117ca378f25bdfa9c"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/2cf7eb0a-2212-4a83-96d9-3d819c2a417e.json",
+            "bytes": 533,
+            "sha256": "d42f1ca9b9f7fc2d9b5e1b39eecfb5cc57d1a727dfaa84521bc11b098e13a105"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/2e73a121-497b-4c33-8c5c-3a3b98fd29f4.json",
+            "bytes": 831,
+            "sha256": "816314c317f85913c8f850220c25864cb81e17066791aadcf50ba5cd20ff822d"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/ff95b02a-51fd-47f9-ab41-d38fdc829843.json",
+            "bytes": 533,
+            "sha256": "4eefad913743fd2648c4f6cee87435b9d848727d5d1e22ac496bce1d8114bfd5"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/2cf5cd2a-9577-4637-bf01-97865cf1ffff.json",
+            "bytes": 1978,
+            "sha256": "2449a994d07d4fe361575221c72779b664feb8339ce12810324be3cf00d3611b"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/37370fde-3542-4b8e-8097-6d67c28067f5.json",
+            "bytes": 1849,
+            "sha256": "9ad5c22681518627cce0dbd2c485fe021c55ae84fb9536212d9fcc682797454c"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/05c82ccd-7ad4-4483-a800-5ffaa3a2abfd.json",
+            "bytes": 464,
+            "sha256": "77abbee302ff56eddaab24d2a63630519bd402fa77740e002e695cf516543914"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/5c4c4942-2ac6-49db-9271-ceb5cc6fdbf7.json",
+            "bytes": 5254,
+            "sha256": "2794d97c26fa9c20a9ff02c90d43a73ac73f7db0c9494225c8aa0561a552e43a"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/74b6c6a4-4565-4699-b559-aeda0413f21d.json",
+            "bytes": 1691,
+            "sha256": "cf7c8051d83fe4de6d865d97884a02cd18ae9933219f8f7d7b409e6f9fe4d49b"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/90f7dfa6-e992-484c-a9c3-b9930f74c54f.json",
+            "bytes": 533,
+            "sha256": "e9b278a4d39f41312a8476d301818d8488962631ab2f058af1cad70e9af5419a"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/23410721-2b65-4c1b-ac76-90a1dab694f2.json",
+            "bytes": 11843,
+            "sha256": "430e3028e1123b549cb70f93f0a17dbfa1e9e0220a2a20c1c2743e696098a9b3"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/08cca3fb-f870-495b-bb1e-0f75e9e30226.json",
+            "bytes": 1505,
+            "sha256": "6078c5259b3342941b04290e60aec6c6d01f088708f0ee76e55ff26ca766ee38"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/9fbf0f46-0dd9-443a-94e3-e5898790612a.json",
+            "bytes": 501,
+            "sha256": "6dc611d2809d52f9d23051d932ce7444e356cf1c148fef1fa9c5c61ffb0f4b11"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/31c31388-dc26-49b2-a851-13058eca4ee0.json",
+            "bytes": 464,
+            "sha256": "0379d2d69b2d4e3439fded84ecfcc5e23d17d31a440f47c05f73040c5c3795e5"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/49be7a12-bce3-496c-a90e-ee0c6066cdd0.json",
+            "bytes": 361,
+            "sha256": "a6a609fb9375a57c0242b013ef755f292d340673e008425f2632a50667ae0569"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/b30422c7-dc5f-4171-97b3-7394bcbebd79.json",
+            "bytes": 480,
+            "sha256": "2a36d17bc5c4c6bf5a358e2b5c401ae97f93a4cab82fe4118128a8693f2757ac"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/1a7cbb23-0907-4421-a45e-49a3023cbd65.json",
+            "bytes": 360,
+            "sha256": "b89758999447c4607175ee0684486ba342b07f6afb406070d4b7c3a7f0e5ef5a"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/adaa91b3-10e8-4159-9a5b-e070c14ab949.json",
+            "bytes": 799,
+            "sha256": "60ba8b84fcb1e0c1af73bddd30afe109014a97cdd80265340fb665c4a96e77d0"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/407d595a-6a06-4ac3-aaa1-319060bb6b24.json",
+            "bytes": 3032,
+            "sha256": "0d376f3bc46de9af01e25e1a5caa800c820cc263f4af68d3fe53ad405a43f0e3"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/88114f8c-1238-4b48-8cf1-baa8b32758fb.json",
+            "bytes": 388,
+            "sha256": "8d6c6f6e3adfa794eb03649467dbc43fa0ff3cf1e98f4f5917e8cf4d3c5befae"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/04a1021e-74ef-4df4-9083-da9cc6d1ff50.json",
+            "bytes": 718,
+            "sha256": "fa7d8e93ca75826aa7b318fa820536ede21289baedf5363db67f61cfbba8353f"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/09e60464-c2d5-41bc-802f-37b71d8d9378.json",
+            "bytes": 577,
+            "sha256": "613eb781288cdb6721bc5f5eab7cd73294fdc53d65b0bf921d24670ab72b2bc7"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/1d07a719-3b73-4cd1-9188-6d335482507d.json",
+            "bytes": 1978,
+            "sha256": "7b98a1534d57a16ae06c3be096f4795f03f6c01ccd29fdcb498c819b3959544f"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/8af3d129-8d97-481b-bcf1-0a9502e557a7.json",
+            "bytes": 388,
+            "sha256": "d8381672ae31b06513cea963e4469dc2a8fdc01e4ef08e896e840af0ec3c5ee5"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/584dc9da-194c-4695-90d3-996b0a422012.json",
+            "bytes": 360,
+            "sha256": "9857cfc5655f9fac59ceb035b046053d9f88d76aed91f4692c75cde48f3b3e75"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/d2f11bf1-9894-46c7-a70b-8964c411822b.json",
+            "bytes": 775,
+            "sha256": "730fb4cc0789d03289f501593a304aca411bc28fe9315d2fd35aec755169fa11"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/e43c7eab-054a-4eb4-a8cd-0f6b6b2c40fd.json",
+            "bytes": 1189,
+            "sha256": "63a57419edaa0d002752e0967366d506b4e645d550358a5ed011527c00938319"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/ff52be4c-6870-4771-bbfc-bbee37057eed.json",
+            "bytes": 464,
+            "sha256": "458c4a55ced3c8b91cc6d704626f605f3f65cb7f95de0b905d910bf7e27b14fa"
+          },
+          {
+            "category": "diagnostics-v1",
+            "path": "events/82aaba14-5061-4a2b-89c9-243e56e47c85.json",
+            "bytes": 388,
+            "sha256": "eba7a8d1ef2e622152610baf8a6c016b9284506e0950fe089cc1bcf2cf3daf94"
+          },
+          {
+            "category": "operation-evidence",
+            "path": ".storage-ledger.json",
+            "bytes": 1572,
+            "sha256": "65bbe985e6bba25ebbd72cbf87ebec5ac8a6342b80b3fa5eed052732a81e6cdb"
+          },
+          {
+            "category": "operation-evidence",
+            "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/storage-reservation.json",
+            "bytes": 175,
+            "sha256": "1ce534d8919ca78827dbbcc00ce62d64824a170854b38ee80e1f1538b37c9694"
+          },
+          {
+            "category": "operation-evidence",
+            "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/encoder-input-receipt.json",
+            "bytes": 6291,
+            "sha256": "e7202934d7d4b35cda1a224b5420dbf1fd249cd6f4620945fbd0de7881a35e8a"
+          },
+          {
+            "category": "operation-evidence",
+            "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/storage-final.json",
+            "bytes": 879,
+            "sha256": "11a3504310283eb6a8dff8a45a69e2efb77d2e8dd39d40a146fd045d67ad972c"
+          },
+          {
+            "category": "operation-evidence",
+            "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/encoder-telemetry-OWAHV6/stream-0.tsv",
+            "bytes": 2866,
+            "sha256": "1ab0798ab5afca699909d5fee8ab94561f80970fe3233139969880f83e0b2e75"
+          },
+          {
+            "category": "operation-evidence",
+            "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/encoder-telemetry-OWAHV6/stream-1.tsv",
+            "bytes": 21230,
+            "sha256": "f0c480267f60cf357085aaedea558f52382f3da2b955a17d0b5644aa0ac32044"
+          },
+          {
+            "category": "operation-evidence",
+            "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/operation-evidence-oXKv0Z/child-5.json",
+            "bytes": 1107,
+            "sha256": "76d3b686e57e6842cbe2481737d99abe0614acb98873a2d9150d53a6d6617e21"
+          },
+          {
+            "category": "operation-evidence",
+            "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/operation-evidence-oXKv0Z/child-1.json",
+            "bytes": 1263,
+            "sha256": "269dd0d02733fb5172701427e27de5eaef477ac2f33c693f089f60405e8b9b9c"
+          },
+          {
+            "category": "operation-evidence",
+            "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/operation-evidence-oXKv0Z/output-audio-1.jsonl",
+            "bytes": 24316,
+            "sha256": "6a68c090876b5903290f46e43b33871c1ce1dc375be2593331a5e120227ad7af"
+          },
+          {
+            "category": "operation-evidence",
+            "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/operation-evidence-oXKv0Z/selected-video.jsonl",
+            "bytes": 4409,
+            "sha256": "12d8692546152e41ae5704254b9b26d98ed4e41ab0ec858265f3b4a9eba4ecde"
+          },
+          {
+            "category": "operation-evidence",
+            "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/operation-evidence-oXKv0Z/child-3.json",
+            "bytes": 1215,
+            "sha256": "5fd24caab9f0d10cd0457d17692f277920adbec4670b1e00d840f827d6993fe1"
+          },
+          {
+            "category": "operation-evidence",
+            "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/operation-evidence-oXKv0Z/child-2.json",
+            "bytes": 1233,
+            "sha256": "7aa411c65df391169d27d3bd6f232b01e20b989c8f5c4581140652f53ad11598"
+          },
+          {
+            "category": "operation-evidence",
+            "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/operation-evidence-oXKv0Z/start.json",
+            "bytes": 2239,
+            "sha256": "c73007f90ad97f0a3961d54b6ed0c69db3d6b2f86235608fed69aa01a48d2e80"
+          },
+          {
+            "category": "operation-evidence",
+            "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/operation-evidence-oXKv0Z/child-4.json",
+            "bytes": 1236,
+            "sha256": "7159707e839206b0de2bb526d9bea1d5eaf87cf5e779b9d8b76fde963151d751"
+          },
+          {
+            "category": "operation-evidence",
+            "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/operation-evidence-oXKv0Z/selected-audio-1.jsonl",
+            "bytes": 10945,
+            "sha256": "f329c03b2acc5de832638c9f1435b606abdbe2b950fdde9e72fcbefdb7b06cee"
+          },
+          {
+            "category": "operation-evidence",
+            "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/operation-evidence-oXKv0Z/receipt.json",
+            "bytes": 16853,
+            "sha256": "f848a4305440e858d873b7941082ec29be45ac7c5e890e044d4ed1e15277c3c8"
+          },
+          {
+            "category": "operation-evidence",
+            "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/operation-evidence-oXKv0Z/child-7.json",
+            "bytes": 1067,
+            "sha256": "55c76c13f4fca47b48ed9b2a0efe2191584b66aa7f5b32dc7ee8e9a12e49dc6c"
+          },
+          {
+            "category": "operation-evidence",
+            "path": "job-31cd16f1-1247-43dd-b832-c297d53b71f2/operation-evidence-oXKv0Z/child-6.json",
+            "bytes": 1047,
+            "sha256": "fa8067bd58228c890e7a50e1db183918255637828c5e509949ca0a34eea262f1"
+          },
+          {
+            "category": "provenance-v1",
+            "path": "84d60d20-1cad-4cd9-b8ea-550fa245399b.published.json",
+            "bytes": 657,
+            "sha256": "e62c11fae99e20f86f96872fd2a9fe921f313651a3c19a2cbcd40435d7cc221d"
+          },
+          {
+            "category": "provenance-v1",
+            "path": "84d60d20-1cad-4cd9-b8ea-550fa245399b.intent.json",
+            "bytes": 1266,
+            "sha256": "00d6b6e93b16bb3e48de4bab0002bfb693514b616b7af31bdd768bc72fc29b7d"
+          }
+        ],
+        "completeSource": {
+          "video": {
+            "frames": 240,
+            "firstTime": {
+              "n": "0",
+              "d": "15360"
+            },
+            "endTime": {
+              "n": "1887436800",
+              "d": "235929600"
+            },
+            "maximumNominalCadenceErrorUs": 0,
+            "maximumNominalDurationErrorUs": 0,
+            "maximumNominalPhaseErrorUs": 0,
+            "properties": {
+              "policy": "cfr-sdr-range-flac-v2",
+              "sampleAspectRatio": "1:1",
+              "chromaLocation": "left",
+              "sideDataPolicy": "h26x-unregistered-sei-only",
+              "framesChecked": 240
+            }
+          },
+          "audio": [
+            {
+              "inputIndex": 1,
+              "sampleCount": "384000",
+              "firstTime": {
+                "n": "0",
+                "d": "48000"
+              },
+              "endTime": {
+                "n": "18432000000",
+                "d": "2304000000"
+              },
+              "gaps": 0
+            }
+          ]
+        },
+        "decodedEvidence": {
+          "video": {
+            "sourceFrameCount": 63,
+            "outputFrameCount": 63,
+            "comparedFrames": 63,
+            "firstSourcePtsUs": 633333,
+            "lastSourcePtsUs": 2700000,
+            "lastSourceDurationUs": 33333,
+            "firstOutputPtsUs": 20000,
+            "lastOutputPtsUs": 2087000,
+            "lastOutputDurationUs": 33000,
+            "maxRebasedTimestampErrorUs": 334
+          },
+          "audio": [
+            {
+              "inputIndex": 1,
+              "sourceSampleCount": 101184,
+              "outputSampleCount": 101184,
+              "firstSourcePtsUs": 613000,
+              "lastSourceEndUs": 2721000,
+              "firstOutputPtsUs": 0,
+              "lastOutputEndUs": 2107667,
+              "encoderDelaySamples": 0,
+              "discardPaddingSamples": 0,
+              "pcmIdentity": {
+                "algorithm": "sha256",
+                "format": "s16le-interleaved",
+                "sourceHash": "707e310c31c5ac4c472d86447038d040d9357776d042704120af065e8adfe413",
+                "outputHash": "707e310c31c5ac4c472d86447038d040d9357776d042704120af065e8adfe413",
+                "sourceBytes": 404736,
+                "outputBytes": 404736
+              }
+            }
+          ]
+        },
+        "timelineComparisons": {
+          "video": {
+            "comparedFrames": 63,
+            "maximumDurationErrorUs": 334,
+            "toleranceUs": 1067
+          },
+          "audio": [
+            {
+              "inputIndex": 1,
+              "mode": "precision-flac",
+              "selectedSourceGaps": 0,
+              "unmatchedSourceTailSamples": 0,
+              "unmatchedOutputTailSamples": 0,
+              "comparedSamples": 101184,
+              "intersectedSpans": 465,
+              "maximumElapsedClockErrorUs": 334,
+              "toleranceUs": 1042,
+              "alignment": "sample ordinal after decoder-signalled skip; source minus the shared requested origin; no fitted shift",
+              "contentIdentity": false
+            }
+          ]
+        },
+        "telemetry": {
+          "streams": [
+            {
+              "schema": 1,
+              "scope": "encoder-input-statistics",
+              "stream": {
+                "outputIndex": 0,
+                "kind": "video"
+              },
+              "bytes": 2866,
+              "records": "63",
+              "sampleCount": null,
+              "first": {
+                "n": "0",
+                "inputFrame": "19",
+                "timeBase": {
+                  "numerator": "1",
+                  "denominator": "15360"
+                },
+                "pts": "312",
+                "time": {
+                  "numerator": "13",
+                  "denominator": "640"
+                },
+                "inputTimeBase": {
+                  "numerator": "1",
+                  "denominator": "15360"
+                },
+                "inputPts": "9728",
+                "inputTime": {
+                  "numerator": "19",
+                  "denominator": "30"
+                }
+              },
+              "last": {
+                "n": "62",
+                "inputFrame": "81",
+                "timeBase": {
+                  "numerator": "1",
+                  "denominator": "15360"
+                },
+                "pts": "32056",
+                "time": {
+                  "numerator": "4007",
+                  "denominator": "1920"
+                },
+                "inputTimeBase": {
+                  "numerator": "1",
+                  "denominator": "15360"
+                },
+                "inputPts": "41472",
+                "inputTime": {
+                  "numerator": "27",
+                  "denominator": "10"
+                }
+              },
+              "unknownInputRecords": "0",
+              "repeatedPts": "0",
+              "backwardsPts": "0",
+              "audioDiscontinuities": "0",
+              "minPtsDelta": {
+                "numerator": "1",
+                "denominator": "30"
+              },
+              "maxPtsDelta": {
+                "numerator": "1",
+                "denominator": "30"
+              },
+              "hashes": {
+                "algorithm": "sha256",
+                "raw": "1ab0798ab5afca699909d5fee8ab94561f80970fe3233139969880f83e0b2e75",
+                "canonicalRecords": "16bd20ae0fa2a02db01643addda0847446c2b9bcc2c2feb330532b9bff70d36d",
+                "orderedPts": "f5d7e2633005c0b4cc90e3e0667c16f2b6b8c404b23f3fbc5da3323789b6b523",
+                "contentHash": false
+              },
+              "videoDurationAvailable": false,
+              "completeOutputValidation": false
+            },
+            {
+              "schema": 1,
+              "scope": "encoder-input-statistics",
+              "stream": {
+                "outputIndex": 1,
+                "kind": "audio",
+                "sampleRate": 48000
+              },
+              "bytes": 21230,
+              "records": "372",
+              "sampleCount": "101184",
+              "first": {
+                "n": "0",
+                "inputFrame": "28",
+                "timeBase": {
+                  "numerator": "1",
+                  "denominator": "48000"
+                },
+                "pts": "0",
+                "time": {
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "inputTimeBase": {
+                  "numerator": "1",
+                  "denominator": "48000"
+                },
+                "inputPts": "28672",
+                "inputTime": {
+                  "numerator": "224",
+                  "denominator": "375"
+                },
+                "sampleOffset": "0",
+                "samples": "272",
+                "endTime": {
+                  "numerator": "17",
+                  "denominator": "3000"
+                }
+              },
+              "last": {
+                "n": "371",
+                "inputFrame": "127",
+                "timeBase": {
+                  "numerator": "1",
+                  "denominator": "48000"
+                },
+                "pts": "100912",
+                "time": {
+                  "numerator": "6307",
+                  "denominator": "3000"
+                },
+                "inputTimeBase": {
+                  "numerator": "1",
+                  "denominator": "48000"
+                },
+                "inputPts": "130048",
+                "inputTime": {
+                  "numerator": "1016",
+                  "denominator": "375"
+                },
+                "sampleOffset": "100912",
+                "samples": "272",
+                "endTime": {
+                  "numerator": "527",
+                  "denominator": "250"
+                }
+              },
+              "unknownInputRecords": "0",
+              "repeatedPts": "0",
+              "backwardsPts": "0",
+              "audioDiscontinuities": "0",
+              "minPtsDelta": {
+                "numerator": "17",
+                "denominator": "3000"
+              },
+              "maxPtsDelta": {
+                "numerator": "17",
+                "denominator": "3000"
+              },
+              "hashes": {
+                "algorithm": "sha256",
+                "raw": "f0c480267f60cf357085aaedea558f52382f3da2b955a17d0b5644aa0ac32044",
+                "canonicalRecords": "edb527544d00d921d57efbb63c9f8a16a1d38301794f04cc29861c16f005ee4b",
+                "orderedPts": "10ae24742c56f860db06934df05b59ae50a1137c1a07b72f73ae9f4627c43d49",
+                "contentHash": false
+              },
+              "videoDurationAvailable": false,
+              "completeOutputValidation": false
+            }
+          ],
+          "validation": {
+            "valid": true,
+            "scope": "encoder-input-count-and-timeline-only",
+            "streams": [
+              {
+                "outputIndex": 0,
+                "kind": "video",
+                "unknownInputRecords": "0",
+                "correspondence": "reported-input-and-independent-selected-source"
+              },
+              {
+                "outputIndex": 1,
+                "kind": "audio",
+                "unknownInputRecords": "0",
+                "correspondence": "reported-input-and-independent-selected-source"
+              }
+            ],
+            "doesNotEstablish": [
+              "video-pixel-identity",
+              "lossless-audio-identity",
+              "last-video-frame-duration",
+              "output-or-publication-validity"
+            ]
+          },
+          "spoolRowsIndependentlyCounted": true
+        },
+        "resources": {
+          "budget": {
+            "sourceDecode": "complete",
+            "timeoutMs": 87130,
+            "maxFrameBytes": 22577152,
+            "maxPcmBytes": 1728000,
+            "maxRecords": 22048,
+            "maxSpoolBytes": 3801088
+          },
+          "collectorInvocations": 7,
+          "allCollectorSavedChildRecordsEqual": true,
+          "operationChildrenAtEvidence": 10,
+          "streamedEvidenceBytes": 2110869,
+          "pipeBytes": {
+            "stdout": 2122857,
+            "stderr": 499
+          },
+          "reservation": {
+            "schema": 1,
+            "id": "job-31cd16f1-1247-43dd-b832-c297d53b71f2",
+            "reservedBytes": 33554432,
+            "forecastBytes": 21495808,
+            "authority": "diagnostic-only",
+            "streamedStdoutIsDiskUsage": false
+          },
+          "storageFinal": {
+            "schema": 1,
+            "id": "job-31cd16f1-1247-43dd-b832-c297d53b71f2",
+            "status": "completed",
+            "retained": true,
+            "observation": "complete",
+            "observedBeforeRecord": {
+              "schema": 1,
+              "observation": "complete",
+              "consistency": "bounded-point-observations",
+              "observationAttempts": 1,
+              "maxObservationAttempts": 3,
+              "usedBytes": 98562,
+              "reservedBytes": 33456940,
+              "projectedBytes": 33621038,
+              "capBytes": 1073741824,
+              "metadataHeadroomBytes": 65536,
+              "entries": 21,
+              "freeBytes": 59621089280,
+              "minFreeBytes": 26843545600,
+              "overCap": false,
+              "overAdmissionCap": false,
+              "lowFree": false,
+              "jobs": [
+                {
+                  "id": "job-31cd16f1-1247-43dd-b832-c297d53b71f2",
+                  "actualBytes": 97492,
+                  "reservedBytes": 33554432,
+                  "remainingBytes": 33456940,
+                  "overReservation": false
+                }
+              ],
+              "leaseRecovery": "none",
+              "ledgerState": "reconciled",
+              "startupLedgerState": "missing-reconciled",
+              "directorySync": "synced",
+              "hardWriteCap": false
+            },
+            "violations": [],
+            "authority": "diagnostic-only",
+            "hardWriteCap": false
+          },
+          "independentlyDerivedBounds": {
+            "timeoutMs": 87130,
+            "executionBudgetMs": 174520,
+            "evidenceBytes": 160364800,
+            "pipeBytes": 177142016,
+            "maxChildren": 64,
+            "telemetryRecords": 1792,
+            "telemetryBytes": 458752,
+            "evidenceReserveBytes": 21495808
+          },
+          "boundChecks": "Saved aggregate evidence/pipe, telemetry bytes/rows, storage forecast and per-child budget agree with current fixed formula for8s source/2.108s selection/4323665bytes; not a new hardware-throughput claim."
+        },
+        "stderr": {
+          "bytes": 499,
+          "sha256": "b2c8201ee33100ab63ea612f58c781a64169a3741a8fb14b4562f2f570a1ecdd",
+          "truncated": false,
+          "text": "[vost#0:0 @ 0x5562d343a0c0] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx265' will be used.\n[aost#0:1 @ 0x5562d35ed480] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 1, only the last option '-codec:a:0 flac' will be used.\nx265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n"
+        },
+        "outputValidation": {
+          "valid": true,
+          "errors": [],
+          "warnings": [],
+          "validation": "decoded-operation-contract",
+          "qualificationEvidenceId": "candidate-keep720-calibration-lgtLE3:long-pattern:endpoints",
+          "timing": {
+            "timeline": "request-relative",
+            "requested": {
+              "startUs": 613000,
+              "endUs": 2721000
+            },
+            "resolved": {
+              "startUs": 613000,
+              "endUs": 2721000
+            },
+            "video": {
+              "startUs": 633333,
+              "endUs": 2733333,
+              "frames": 63,
+              "outputStartUs": 20000,
+              "outputEndUs": 2120000
+            },
+            "audio": [
+              {
+                "inputIndex": 1,
+                "mode": "precision-flac",
+                "startUs": 613000,
+                "endUs": 2721000,
+                "outputStartUs": 0,
+                "outputEndUs": 2107667,
+                "encoderDelaySamples": 0,
+                "discardPaddingSamples": 0,
+                "sampleCountDifference": 0
+              }
+            ]
+          }
+        },
+        "sourceAssessment": "unchanged sparse-identity per service; current full source SHA independently rechecked",
+        "publication": {
+          "publishedEvent": true,
+          "provenanceChecksumsValid": true,
+          "currentOutputObjectSizeMtimeMatch": true,
+          "publishedJournalCtimeNs": "1794939972020472719",
+          "currentOutputCtimeNs": "1794939972034626247",
+          "ctimeInterpretation": "Journal is recorded before owned-stage cleanup; service reads fresh identity after cleanup before issuing ephemeral OutputAccess. Current ctime differs by 14153528ns; full output SHA and dev/ino/size/mtime match. This is not full journal-stamp equality or proof of unchanged bytes from ctime alone.",
+          "action": "reveal",
+          "actionDispatchRecorded": true
+        },
+        "census": {
+          "spawned": 42,
+          "closed": 42,
+          "live": 0,
+          "maximum": 1,
+          "failures": 0
+        },
+        "outer": {
+          "exitCode": 0,
+          "monotonicElapsedSeconds": 461.4502612809956,
+          "pythonUTC": "2026-11-17T18:26:55.122451+00:00"
+        },
+        "clockDomains": {
+          "desktop": {
+            "pythonUTC": "2026-11-17T18:19:13.629570+00:00",
+            "dateUTC": "2026-11-17T18:19:13.631184788Z",
+            "nodeUTC": "2026-11-17T18:19:13.663Z",
+            "display": ":0"
+          },
+          "note": "Native Electron stderr clock remains about two hours ahead; diagnostic epochs retained separately, no clock edits/synchronized chronology inference."
+        },
+        "limitations": [
+          "Saved byte hashes/records audited; no media re-decode or runtime execution, PCM hash equality is retained decode evidence not independently regenerated PCM.",
+          "Startup probes account for28 earlier children;42 total includes inspection/repreparation and job, not42 target encodes. Seven detailed collector child records plus10operation children at evidence are distinct counters.",
+          "OPERATION_EVIDENCE_COLLECTED context is truncated; full saved collector/telemetry receipts were checked. Do not claim every diagnostic context complete.",
+          "Show-in-folder dispatch is saved; actual Thunar visible selection, exact picker counts, unsupported Full display, range editing and UI wording are CUA/operator observations, not portable screenshots independently replayed.",
+          "OutputAccess is ephemeral main-private identity-bound authority; persisted provenance/receipt cannot recreate a token after restart. No player, native cancellation or same-service recovery proof.",
+          "No synchronized cross-domain chronology, hard native child-count cap, hard disk-write cap or guaranteed shutdown deadline claimed.",
+          "No profile/cache/token/preferences inspection. No production factory activation or broad native/platform acceptance."
+        ],
+        "uiFinding": {
+          "severity": "wording-platform mismatch",
+          "text": "Show-in-folder request sent to Windows.",
+          "actualPlatform": "Linux/Thunar",
+          "changed": false
+        },
+        "recommendation": "Release native source freeze after parent reconciliation; preserve all three attempts and qualify this one short developer native journey only. Continue separately reviewed E3 proposal and small wording fix, not a fourth launch.",
+        "auditCorrection": "Initial draft incorrectly required current ctime equal pre-cleanup publication journal; actual 14.153528ms ctime-only difference retained and explained from separate post-cleanup OutputAccess issue path. No source change or artifact rewrite."
+      }
+    }
+  },
+  "transformedStrings": 8,
+  "transformsByAlias": {
+    "project://": 3,
+    "evidence://": 5
+  }
+}

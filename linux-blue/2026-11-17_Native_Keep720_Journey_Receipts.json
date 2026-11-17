@@ -1,0 +1,905 @@
+{
+  "schema": 1,
+  "checkpoint": "014",
+  "statusAtRecordCreation": "Seven-path working checkpoint on c270331: two-file wording fix plus native evidence/PBS; not yet committed or published.",
+  "recordedAtUtc": "2026-11-17T18:40:48.342770+00:00",
+  "nativeTestedCommit": "c270331a001eb57aed07a6395d24d061e6ca177d",
+  "nativeSourceFiles": 530,
+  "priorPublication": {
+    "local": "c270331a001eb57aed07a6395d24d061e6ca177d",
+    "notion": "https://app.notion.com/p/41bbd7ade63b81df9204ed057d1eb770",
+    "nativeSession": "https://app.notion.com/p/41bbd7ade63b81edbcacee8ce7ecdcb3",
+    "files": 530,
+    "commits": 13,
+    "sourceRestore": true,
+    "bundleClone": true,
+    "nativeSessionBytes": 447923,
+    "github": "81a483c9729432c80dacf62159d6a2e29d784596",
+    "githubParent": "03fea7eea809a0746b5e253b986378865ceb6748",
+    "githubTree": "ffced75752249a8ffa85e8c06c145edbd4e52e2e",
+    "verifiedAtUtc": "2026-11-17T17:50:31.795452+00:00",
+    "treeCounts": {
+      "total": 912,
+      "unchanged": 907,
+      "modified": 2,
+      "new": 3,
+      "deleted": 0
+    }
+  },
+  "nativeAttempts": {
+    "A1": {
+      "scope": "Secure startup, ambiguous picker result; no registered folder, Prepare, Start or target encode. Not a demonstrated picker defect.",
+      "census": {
+        "spawned": 28,
+        "closed": 28,
+        "live": 0,
+        "maximum": 1
+      },
+      "exitCode": 0
+    },
+    "A2": {
+      "scope": "Secure startup; actual AT-SPI text capability failure; empty location confirmed and picker cancelled. No registered folder, Prepare, Start or target encode.",
+      "launchChronology": "A documented legacy terminal text-entry fallback was briefly approved and executed before the later Sky-only correction arrived. Subsequent A2 UI used global Sky; A3 used global Sky throughout.",
+      "census": {
+        "spawned": 28,
+        "closed": 28,
+        "live": 0,
+        "maximum": 1
+      },
+      "exitCode": 0,
+      "monotonicSeconds": 81.179570343
+    },
+    "A3": {
+      "scope": "One native developer Keep720 precise-range encode and one file-manager reveal, closed normally.",
+      "counts": {
+        "inputPickers": 1,
+        "outputPickers": 1,
+        "prepare": 1,
+        "rangeApply": 1,
+        "start": 1,
+        "reveal": 1,
+        "openOutput": 0
+      },
+      "sequence": [
+        "Both exact approved owned folders registered through parent path, visible child suggestion and Open.",
+        "Initial Full draft Unsupported; checkbox and Start disabled; explicit inspection-only notice.",
+        "Per-file single range0.613–2.721, Keep source, Precision FLAC verified before sole Apply.",
+        "Reprepared Ready; inspector exact settings verified; selected sole file.",
+        "Sole Start showed Waiting/In progress then Completed/Succeeded. Numeric intermediate progress not sampled.",
+        "Inspector reports video0.633333–2.733333 (63frames), audio0.613–2.721.",
+        "Single genuine Show in folder opened Thunar exact A3 owned-output with selected published file883743bytes. No player opened.",
+        "Closed Thunar then app normally; terminal JOURNEY_A3_EXIT0 observed."
+      ],
+      "census": {
+        "spawned": 42,
+        "closed": 42,
+        "live": 0,
+        "maximum": 1,
+        "failures": 0
+      },
+      "outer": {
+        "exitCode": 0,
+        "monotonicElapsedSeconds": 461.4502612809956,
+        "pythonUTC": "2026-11-17T18:26:55.122451+00:00"
+      },
+      "wholeJourneyIsNotEncodeBenchmark": true,
+      "output": {
+        "path": "evidence://native-workbench-journey-a3-20261117/owned-output/fresh-vflip-997_H265-CPU.mkv",
+        "bytes": 883743,
+        "sha256": "a1ea7b04ca109513e402aa7a5bd4bcf2b19278f9ef89daf7ccf429f099050dd9"
+      },
+      "uiFindingBeforeFix": {
+        "severity": "wording-platform mismatch",
+        "text": "Show-in-folder request sent to Windows.",
+        "actualPlatform": "Linux/Thunar",
+        "changed": false
+      },
+      "completeSource": {
+        "video": {
+          "frames": 240,
+          "firstTime": {
+            "n": "0",
+            "d": "15360"
+          },
+          "endTime": {
+            "n": "1887436800",
+            "d": "235929600"
+          },
+          "maximumNominalCadenceErrorUs": 0,
+          "maximumNominalDurationErrorUs": 0,
+          "maximumNominalPhaseErrorUs": 0,
+          "properties": {
+            "policy": "cfr-sdr-range-flac-v2",
+            "sampleAspectRatio": "1:1",
+            "chromaLocation": "left",
+            "sideDataPolicy": "h26x-unregistered-sei-only",
+            "framesChecked": 240
+          }
+        },
+        "audio": [
+          {
+            "inputIndex": 1,
+            "sampleCount": "384000",
+            "firstTime": {
+              "n": "0",
+              "d": "48000"
+            },
+            "endTime": {
+              "n": "18432000000",
+              "d": "2304000000"
+            },
+            "gaps": 0
+          }
+        ]
+      },
+      "decodedEvidence": {
+        "video": {
+          "sourceFrameCount": 63,
+          "outputFrameCount": 63,
+          "comparedFrames": 63,
+          "firstSourcePtsUs": 633333,
+          "lastSourcePtsUs": 2700000,
+          "lastSourceDurationUs": 33333,
+          "firstOutputPtsUs": 20000,
+          "lastOutputPtsUs": 2087000,
+          "lastOutputDurationUs": 33000,
+          "maxRebasedTimestampErrorUs": 334
+        },
+        "audio": [
+          {
+            "inputIndex": 1,
+            "sourceSampleCount": 101184,
+            "outputSampleCount": 101184,
+            "firstSourcePtsUs": 613000,
+            "lastSourceEndUs": 2721000,
+            "firstOutputPtsUs": 0,
+            "lastOutputEndUs": 2107667,
+            "encoderDelaySamples": 0,
+            "discardPaddingSamples": 0,
+            "pcmIdentity": {
+              "algorithm": "sha256",
+              "format": "s16le-interleaved",
+              "sourceHash": "707e310c31c5ac4c472d86447038d040d9357776d042704120af065e8adfe413",
+              "outputHash": "707e310c31c5ac4c472d86447038d040d9357776d042704120af065e8adfe413",
+              "sourceBytes": 404736,
+              "outputBytes": 404736
+            }
+          }
+        ]
+      },
+      "telemetry": {
+        "streams": [
+          {
+            "schema": 1,
+            "scope": "encoder-input-statistics",
+            "stream": {
+              "outputIndex": 0,
+              "kind": "video"
+            },
+            "bytes": 2866,
+            "records": "63",
+            "sampleCount": null,
+            "first": {
+              "n": "0",
+              "inputFrame": "19",
+              "timeBase": {
+                "numerator": "1",
+                "denominator": "15360"
+              },
+              "pts": "312",
+              "time": {
+                "numerator": "13",
+                "denominator": "640"
+              },
+              "inputTimeBase": {
+                "numerator": "1",
+                "denominator": "15360"
+              },
+              "inputPts": "9728",
+              "inputTime": {
+                "numerator": "19",
+                "denominator": "30"
+              }
+            },
+            "last": {
+              "n": "62",
+              "inputFrame": "81",
+              "timeBase": {
+                "numerator": "1",
+                "denominator": "15360"
+              },
+              "pts": "32056",
+              "time": {
+                "numerator": "4007",
+                "denominator": "1920"
+              },
+              "inputTimeBase": {
+                "numerator": "1",
+                "denominator": "15360"
+              },
+              "inputPts": "41472",
+              "inputTime": {
+                "numerator": "27",
+                "denominator": "10"
+              }
+            },
+            "unknownInputRecords": "0",
+            "repeatedPts": "0",
+            "backwardsPts": "0",
+            "audioDiscontinuities": "0",
+            "minPtsDelta": {
+              "numerator": "1",
+              "denominator": "30"
+            },
+            "maxPtsDelta": {
+              "numerator": "1",
+              "denominator": "30"
+            },
+            "hashes": {
+              "algorithm": "sha256",
+              "raw": "1ab0798ab5afca699909d5fee8ab94561f80970fe3233139969880f83e0b2e75",
+              "canonicalRecords": "16bd20ae0fa2a02db01643addda0847446c2b9bcc2c2feb330532b9bff70d36d",
+              "orderedPts": "f5d7e2633005c0b4cc90e3e0667c16f2b6b8c404b23f3fbc5da3323789b6b523",
+              "contentHash": false
+            },
+            "videoDurationAvailable": false,
+            "completeOutputValidation": false
+          },
+          {
+            "schema": 1,
+            "scope": "encoder-input-statistics",
+            "stream": {
+              "outputIndex": 1,
+              "kind": "audio",
+              "sampleRate": 48000
+            },
+            "bytes": 21230,
+            "records": "372",
+            "sampleCount": "101184",
+            "first": {
+              "n": "0",
+              "inputFrame": "28",
+              "timeBase": {
+                "numerator": "1",
+                "denominator": "48000"
+              },
+              "pts": "0",
+              "time": {
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "inputTimeBase": {
+                "numerator": "1",
+                "denominator": "48000"
+              },
+              "inputPts": "28672",
+              "inputTime": {
+                "numerator": "224",
+                "denominator": "375"
+              },
+              "sampleOffset": "0",
+              "samples": "272",
+              "endTime": {
+                "numerator": "17",
+                "denominator": "3000"
+              }
+            },
+            "last": {
+              "n": "371",
+              "inputFrame": "127",
+              "timeBase": {
+                "numerator": "1",
+                "denominator": "48000"
+              },
+              "pts": "100912",
+              "time": {
+                "numerator": "6307",
+                "denominator": "3000"
+              },
+              "inputTimeBase": {
+                "numerator": "1",
+                "denominator": "48000"
+              },
+              "inputPts": "130048",
+              "inputTime": {
+                "numerator": "1016",
+                "denominator": "375"
+              },
+              "sampleOffset": "100912",
+              "samples": "272",
+              "endTime": {
+                "numerator": "527",
+                "denominator": "250"
+              }
+            },
+            "unknownInputRecords": "0",
+            "repeatedPts": "0",
+            "backwardsPts": "0",
+            "audioDiscontinuities": "0",
+            "minPtsDelta": {
+              "numerator": "17",
+              "denominator": "3000"
+            },
+            "maxPtsDelta": {
+              "numerator": "17",
+              "denominator": "3000"
+            },
+            "hashes": {
+              "algorithm": "sha256",
+              "raw": "f0c480267f60cf357085aaedea558f52382f3da2b955a17d0b5644aa0ac32044",
+              "canonicalRecords": "edb527544d00d921d57efbb63c9f8a16a1d38301794f04cc29861c16f005ee4b",
+              "orderedPts": "10ae24742c56f860db06934df05b59ae50a1137c1a07b72f73ae9f4627c43d49",
+              "contentHash": false
+            },
+            "videoDurationAvailable": false,
+            "completeOutputValidation": false
+          }
+        ],
+        "validation": {
+          "valid": true,
+          "scope": "encoder-input-count-and-timeline-only",
+          "streams": [
+            {
+              "outputIndex": 0,
+              "kind": "video",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            },
+            {
+              "outputIndex": 1,
+              "kind": "audio",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            }
+          ],
+          "doesNotEstablish": [
+            "video-pixel-identity",
+            "lossless-audio-identity",
+            "last-video-frame-duration",
+            "output-or-publication-validity"
+          ]
+        },
+        "spoolRowsIndependentlyCounted": true
+      },
+      "resources": {
+        "budget": {
+          "sourceDecode": "complete",
+          "timeoutMs": 87130,
+          "maxFrameBytes": 22577152,
+          "maxPcmBytes": 1728000,
+          "maxRecords": 22048,
+          "maxSpoolBytes": 3801088
+        },
+        "collectorInvocations": 7,
+        "allCollectorSavedChildRecordsEqual": true,
+        "operationChildrenAtEvidence": 10,
+        "streamedEvidenceBytes": 2110869,
+        "pipeBytes": {
+          "stdout": 2122857,
+          "stderr": 499
+        },
+        "reservation": {
+          "schema": 1,
+          "id": "job-31cd16f1-1247-43dd-b832-c297d53b71f2",
+          "reservedBytes": 33554432,
+          "forecastBytes": 21495808,
+          "authority": "diagnostic-only",
+          "streamedStdoutIsDiskUsage": false
+        },
+        "storageFinal": {
+          "schema": 1,
+          "id": "job-31cd16f1-1247-43dd-b832-c297d53b71f2",
+          "status": "completed",
+          "retained": true,
+          "observation": "complete",
+          "observedBeforeRecord": {
+            "schema": 1,
+            "observation": "complete",
+            "consistency": "bounded-point-observations",
+            "observationAttempts": 1,
+            "maxObservationAttempts": 3,
+            "usedBytes": 98562,
+            "reservedBytes": 33456940,
+            "projectedBytes": 33621038,
+            "capBytes": 1073741824,
+            "metadataHeadroomBytes": 65536,
+            "entries": 21,
+            "freeBytes": 59621089280,
+            "minFreeBytes": 26843545600,
+            "overCap": false,
+            "overAdmissionCap": false,
+            "lowFree": false,
+            "jobs": [
+              {
+                "id": "job-31cd16f1-1247-43dd-b832-c297d53b71f2",
+                "actualBytes": 97492,
+                "reservedBytes": 33554432,
+                "remainingBytes": 33456940,
+                "overReservation": false
+              }
+            ],
+            "leaseRecovery": "none",
+            "ledgerState": "reconciled",
+            "startupLedgerState": "missing-reconciled",
+            "directorySync": "synced",
+            "hardWriteCap": false
+          },
+          "violations": [],
+          "authority": "diagnostic-only",
+          "hardWriteCap": false
+        },
+        "independentlyDerivedBounds": {
+          "timeoutMs": 87130,
+          "executionBudgetMs": 174520,
+          "evidenceBytes": 160364800,
+          "pipeBytes": 177142016,
+          "maxChildren": 64,
+          "telemetryRecords": 1792,
+          "telemetryBytes": 458752,
+          "evidenceReserveBytes": 21495808
+        },
+        "boundChecks": "Saved aggregate evidence/pipe, telemetry bytes/rows, storage forecast and per-child budget agree with current fixed formula for8s source/2.108s selection/4323665bytes; not a new hardware-throughput claim."
+      },
+      "stderr": {
+        "bytes": 499,
+        "sha256": "b2c8201ee33100ab63ea612f58c781a64169a3741a8fb14b4562f2f570a1ecdd",
+        "truncated": false,
+        "text": "[vost#0:0 @ 0x5562d343a0c0] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx265' will be used.\n[aost#0:1 @ 0x5562d35ed480] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 1, only the last option '-codec:a:0 flac' will be used.\nx265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n"
+      },
+      "outputValidation": {
+        "valid": true,
+        "errors": [],
+        "warnings": [],
+        "validation": "decoded-operation-contract",
+        "qualificationEvidenceId": "candidate-keep720-calibration-lgtLE3:long-pattern:endpoints",
+        "timing": {
+          "timeline": "request-relative",
+          "requested": {
+            "startUs": 613000,
+            "endUs": 2721000
+          },
+          "resolved": {
+            "startUs": 613000,
+            "endUs": 2721000
+          },
+          "video": {
+            "startUs": 633333,
+            "endUs": 2733333,
+            "frames": 63,
+            "outputStartUs": 20000,
+            "outputEndUs": 2120000
+          },
+          "audio": [
+            {
+              "inputIndex": 1,
+              "mode": "precision-flac",
+              "startUs": 613000,
+              "endUs": 2721000,
+              "outputStartUs": 0,
+              "outputEndUs": 2107667,
+              "encoderDelaySamples": 0,
+              "discardPaddingSamples": 0,
+              "sampleCountDifference": 0
+            }
+          ]
+        }
+      },
+      "publication": {
+        "publishedEvent": true,
+        "provenanceChecksumsValid": true,
+        "currentOutputObjectSizeMtimeMatch": true,
+        "publishedJournalCtimeNs": "1794939972020472719",
+        "currentOutputCtimeNs": "1794939972034626247",
+        "ctimeInterpretation": "Journal is recorded before owned-stage cleanup; service reads fresh identity after cleanup before issuing ephemeral OutputAccess. Current ctime differs by 14153528ns; full output SHA and dev/ino/size/mtime match. This is not full journal-stamp equality or proof of unchanged bytes from ctime alone.",
+        "action": "reveal",
+        "actionDispatchRecorded": true
+      },
+      "newSessionEvents": [
+        {
+          "sequence": 0,
+          "reason": "SESSION_STARTED",
+          "at": 1794939554141,
+          "contextTruncated": false
+        },
+        {
+          "sequence": 1,
+          "reason": "CAPABILITY_STARTED",
+          "at": 1794939554304,
+          "contextTruncated": false
+        },
+        {
+          "sequence": 2,
+          "reason": "RUNTIME_IDENTIFIED",
+          "at": 1794939558224,
+          "contextTruncated": false
+        },
+        {
+          "sequence": 3,
+          "reason": "CAPABILITY_FINISHED",
+          "at": 1794939558234,
+          "contextTruncated": false
+        },
+        {
+          "sequence": 4,
+          "reason": "PROVENANCE_RECOVERY_FINISHED",
+          "at": 1794939558243,
+          "contextTruncated": false
+        },
+        {
+          "sequence": 5,
+          "reason": "PREPARATION_STARTED",
+          "at": 1794939747751,
+          "contextTruncated": false
+        },
+        {
+          "sequence": 6,
+          "reason": "FILE_INSPECTED",
+          "at": 1794939748438,
+          "contextTruncated": true
+        },
+        {
+          "sequence": 7,
+          "reason": "PREPARATION_FINISHED",
+          "at": 1794939748447,
+          "contextTruncated": false
+        },
+        {
+          "sequence": 8,
+          "reason": "DRAFT_REPREPARATION_STARTED",
+          "at": 1794939889883,
+          "contextTruncated": false
+        },
+        {
+          "sequence": 9,
+          "reason": "FILE_INSPECTED",
+          "at": 1794939890771,
+          "contextTruncated": true
+        },
+        {
+          "sequence": 10,
+          "reason": "DRAFT_REPREPARATION_FINISHED",
+          "at": 1794939890779,
+          "contextTruncated": false
+        },
+        {
+          "sequence": 11,
+          "reason": "ENCODE_STARTED",
+          "at": 1794939964815,
+          "contextTruncated": false
+        },
+        {
+          "sequence": 12,
+          "reason": "ENCODE_CLOSED",
+          "at": 1794939969652,
+          "contextTruncated": false
+        },
+        {
+          "sequence": 13,
+          "reason": "OPERATION_EVIDENCE_COLLECTED",
+          "at": 1794939971933,
+          "contextTruncated": true
+        },
+        {
+          "sequence": 14,
+          "reason": "OUTPUT_CHECKED",
+          "at": 1794939971954,
+          "contextTruncated": false
+        },
+        {
+          "sequence": 15,
+          "reason": "SOURCE_ASSESSED",
+          "at": 1794939971975,
+          "contextTruncated": false
+        },
+        {
+          "sequence": 16,
+          "reason": "OUTPUT_PUBLISHED",
+          "at": 1794939972023,
+          "contextTruncated": false
+        },
+        {
+          "sequence": 17,
+          "reason": "JOB_DISPOSITION",
+          "at": 1794939972067,
+          "contextTruncated": true
+        },
+        {
+          "sequence": 18,
+          "reason": "BATCH_FINISHED",
+          "at": 1794939972074,
+          "contextTruncated": false
+        },
+        {
+          "sequence": 19,
+          "reason": "OUTPUT_ACTION_DISPATCHED",
+          "at": 1794939992727,
+          "contextTruncated": false
+        },
+        {
+          "sequence": 20,
+          "reason": "SESSION_ENDED",
+          "at": 1794940014896,
+          "contextTruncated": false
+        }
+      ],
+      "prior12EventsPreserved": true,
+      "clockDomains": {
+        "desktop": {
+          "pythonUTC": "2026-11-17T18:19:13.629570+00:00",
+          "dateUTC": "2026-11-17T18:19:13.631184788Z",
+          "nodeUTC": "2026-11-17T18:19:13.663Z",
+          "display": ":0"
+        },
+        "note": "Native Electron stderr clock remains about two hours ahead; diagnostic epochs retained separately, no clock edits/synchronized chronology inference."
+      },
+      "limitations": [
+        "Saved byte hashes/records audited; no media re-decode or runtime execution, PCM hash equality is retained decode evidence not independently regenerated PCM.",
+        "Startup probes account for28 earlier children;42 total includes inspection/repreparation and job, not42 target encodes. Seven detailed collector child records plus10operation children at evidence are distinct counters.",
+        "OPERATION_EVIDENCE_COLLECTED context is truncated; full saved collector/telemetry receipts were checked. Do not claim every diagnostic context complete.",
+        "Show-in-folder dispatch is saved; actual Thunar visible selection, exact picker counts, unsupported Full display, range editing and UI wording are CUA/operator observations, not portable screenshots independently replayed.",
+        "OutputAccess is ephemeral main-private identity-bound authority; persisted provenance/receipt cannot recreate a token after restart. No player, native cancellation or same-service recovery proof.",
+        "No synchronized cross-domain chronology, hard native child-count cap, hard disk-write cap or guaranteed shutdown deadline claimed.",
+        "No profile/cache/token/preferences inspection. No production factory activation or broad native/platform acceptance."
+      ]
+    }
+  },
+  "originalRecordIdentities": {
+    "a1Outcome": {
+      "logicalPath": "evidence://native-workbench-proof-20261117/JOURNEY_A_OUTCOME.json",
+      "bytes": 2954,
+      "sha256": "5bc2b5dc7f0064c2404c1c8c16a48c49ccdef404102a07a66964f2756d9f4431"
+    },
+    "a1Audit": {
+      "logicalPath": "evidence://native-workbench-proof-20261117/INDEPENDENT_JOURNEY_A_AUDIT.json",
+      "bytes": 7283,
+      "sha256": "6a0acae9d40bac64a0e188c936afe170c8bc62653bb592c979f57bd52afdbf5f"
+    },
+    "a2Outcome": {
+      "logicalPath": "evidence://native-workbench-journey-a2-20261117/JOURNEY_A2_OUTCOME.json",
+      "bytes": 5404,
+      "sha256": "ad431f75408eacb1edfce9ccd1991a02f6c3b6cc6e6a4849b5fd2c850fee887b"
+    },
+    "a2Audit": {
+      "logicalPath": "evidence://native-workbench-journey-a2-20261117/INDEPENDENT_A2_AUDIT.json",
+      "bytes": 5843,
+      "sha256": "6892c9472bc34013b386141668184db7baf4fa7749ccc6a256d929117b1c8f54"
+    },
+    "a3Outcome": {
+      "logicalPath": "evidence://native-workbench-journey-a3-20261117/JOURNEY_A3_OUTCOME.json",
+      "bytes": 17105,
+      "sha256": "3bb2ac0dd6035fdfde107f0fbce22024ee41b9c06f6f7ea52751e235b50116d5"
+    },
+    "a3Audit": {
+      "logicalPath": "evidence://native-workbench-journey-a3-20261117/INDEPENDENT_A3_AUDIT_FINAL.json",
+      "bytes": 31524,
+      "sha256": "b9b39b1519962f50b0e81202625242a3a73140d99ebd3abbcef34cea33901980"
+    }
+  },
+  "sourceFreezeRelease": {
+    "atUtc": "2026-11-17T18:37:37.839002+00:00",
+    "testedCommit": "c270331a001eb57aed07a6395d24d061e6ca177d",
+    "trackedFilesByteVerified": 530,
+    "auditSha256": "b9b39b1519962f50b0e81202625242a3a73140d99ebd3abbcef34cea33901980",
+    "outputBytes": 883743,
+    "outputSha256": "a1ea7b04ca109513e402aa7a5bd4bcf2b19278f9ef89daf7ccf429f099050dd9",
+    "release": "Only reviewed two-file wording fix and checkpoint014 PBS/evidence. No additional native launch or runtime/media execution. E3 proposal separately held until014 preservation."
+  },
+  "portable": {
+    "bytes": 84036,
+    "sha256": "903bbbbad00d274be94f766bab6828a0c16e78c1334ba391e51e622157607411",
+    "path": "evidence-2026-11-17/native-keep720-journey-portable.json",
+    "transformedStrings": 8,
+    "transformsByAlias": {
+      "project://": 3,
+      "evidence://": 5
+    },
+    "authority": {
+      "restoresRawRecords": false,
+      "restoresRuntimeOrMedia": false,
+      "restoresOutputAccess": false,
+      "productionActivation": false,
+      "newExecutionPermission": false
+    }
+  },
+  "wordingFix": {
+    "scope": [
+      "ui/renderer.js",
+      "tests/ui-workbench.test.cjs"
+    ],
+    "patch": {
+      "bytes": 2273,
+      "sha256": "f77b34f19b818d53678dfa3a72e9778438051db69e3a513f0350586d79564628"
+    },
+    "sourceFiles": [
+      {
+        "path": "ui/renderer.js",
+        "bytes": 149042,
+        "sha256": "1d11d0be05e36a0b5024ad5ec70d62d8c3ba4ae7b4110138398c200b11f44965",
+        "gitBlob": "e24df5bdfff6161bbddd55fb3588d7117c27c75a"
+      },
+      {
+        "path": "tests/ui-workbench.test.cjs",
+        "bytes": 103151,
+        "sha256": "a1967dc9797cc8a431c83ab12ac650c6133f7fbc1f44b804c717f175ea4b2ad4",
+        "gitBlob": "89a1869d3834cd6353276ade49c7f747eb72f9d3"
+      }
+    ],
+    "redPreserved": true,
+    "workerPass": 87,
+    "independentReview": {
+      "disposition": "No blocker: platform-neutral reveal feedback only; suitable for bounded wording checkpoint",
+      "at": "2026-11-17T18:36:57.486038+00:00",
+      "base": "c270331a001eb57aed07a6395d24d061e6ca177d",
+      "patchSHA256": "f77b34f19b818d53678dfa3a72e9778438051db69e3a513f0350586d79564628",
+      "verifiedSourceHashes": {
+        "ui/renderer.js": "1d11d0be05e36a0b5024ad5ec70d62d8c3ba4ae7b4110138398c200b11f44965",
+        "tests/ui-workbench.test.cjs": "a1967dc9797cc8a431c83ab12ac650c6133f7fbc1f44b804c717f175ea4b2ad4"
+      },
+      "verifiedWorkerEvidence": {
+        "final.stdout": "ea5b99f41b31818a4857a17f5213a3faeb9ecd4fd24be778d1b3a430c50f7ecd",
+        "final.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "red.exit": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "final.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "red.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "red.stdout": "c53f8465263bd8bf05013b03cf85c120db86f81f0b5829f76e8bedca676c7b65",
+        "final.patch": "f77b34f19b818d53678dfa3a72e9778438051db69e3a513f0350586d79564628"
+      },
+      "independent": {
+        "command": [
+          "node",
+          "--test",
+          "tests/ui-workbench.test.cjs"
+        ],
+        "pass": 67,
+        "fail": 0,
+        "skipped": 0,
+        "logs": {
+          "independent.stdout": "470d16882c913aa6ca8f5187c0d7dc58e78abf57e99120c01cd594e076b11fb2",
+          "independent.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "findings": [
+        "Exact patch matches isolated working diff and changes only two named files.",
+        "Production change is one feedback string after dispatched===true; token-only outputId/action payload unchanged.",
+        "Pending click suppression, current-row/request/token checks and stale completion handling unchanged.",
+        "Default-player wording retains Playback has not been verified.",
+        "Linux and Windows displayed-path regressions assert same neutral feedback and token-only request."
+      ],
+      "limits": [
+        "Renderer harness only; no native shell launch, playback, media or runtime proof.",
+        "No authoritative checkout changes; E3 proposal remains separate.",
+        "Manual scoped review, not formal security scan."
+      ]
+    },
+    "independentReviewOriginal": {
+      "bytes": 2361,
+      "sha256": "20fe88d201fb62664bb3489208be27847f610054c1cadcddcf83b32a9279c82b"
+    },
+    "leadFinal": {
+      "schema": 1,
+      "label": "native-reveal-wording-lead",
+      "startedAt": "2026-11-17T18:37:37.963Z",
+      "durationMs": 1078.768,
+      "node": "v24.22.1",
+      "platform": "linux",
+      "head": "c270331a001eb57aed07a6395d24d061e6ca177d",
+      "dirtyPaths": 110,
+      "command": [
+        "node",
+        "--test",
+        "tests/ui-workbench.test.cjs",
+        "linux-blue/candidate-workbench-renderer.test.cjs",
+        "tests/output-access.test.cjs"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "summary": {
+        "tests": 87,
+        "suites": 0,
+        "pass": 87,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "bytesChangedDuringRun": false,
+      "files": {
+        "tests": [
+          {
+            "file": "tests/ui-workbench.test.cjs",
+            "bytes": 103151,
+            "sha256": "a1967dc9797cc8a431c83ab12ac650c6133f7fbc1f44b804c717f175ea4b2ad4"
+          },
+          {
+            "file": "linux-blue/candidate-workbench-renderer.test.cjs",
+            "bytes": 12411,
+            "sha256": "8d063110140b4f8bd5d06bf48b50212a9eed8a8371933c6638c1390578da79fb"
+          },
+          {
+            "file": "tests/output-access.test.cjs",
+            "bytes": 18285,
+            "sha256": "ed3bbf5f7e1303432cf1b13a87052b0cb6f6a361960b71c5abf792d7647aa047"
+          }
+        ],
+        "covers": [
+          {
+            "file": "ui/renderer.js",
+            "bytes": 149042,
+            "sha256": "1d11d0be05e36a0b5024ad5ec70d62d8c3ba4ae7b4110138398c200b11f44965"
+          },
+          {
+            "file": "tests/ui-workbench.test.cjs",
+            "bytes": 103151,
+            "sha256": "a1967dc9797cc8a431c83ab12ac650c6133f7fbc1f44b804c717f175ea4b2ad4"
+          }
+        ]
+      }
+    },
+    "nativeRerunAfterFix": false
+  },
+  "inheritedChecks": {
+    "rerunHere": false,
+    "affected": {
+      "pass": 283,
+      "tests": 284,
+      "failure": "Old missing-source diagnostic mismatch; no rebaseline."
+    },
+    "broadLinux": {
+      "pass": 181,
+      "tests": 208,
+      "fail": 27
+    },
+    "historicalProfileLimits": "Windows-profile reentry/phase assumptions and excluded executor hooks remain unreconciled; formal Security Cloud deferred."
+  },
+  "failureTriage": {
+    "artifact": {
+      "bytes": 3916,
+      "sha256": "5e2f2b2245f9483f1a344d3e5580fa76449d66f41d3e9f54b5b354d1de7dd126"
+    },
+    "readOnlyNotNewTest": true,
+    "categories": {
+      "missingSyntheticFixture": 4,
+      "missingHistoricalAV1Runtime": 8,
+      "missingHistoricalReports": 13,
+      "staleCompositionAssertion": 1,
+      "correctRemuxProducerRefusal": 1
+    },
+    "qualification": "No new implementation defect established by these precondition failures; downstream behavior remains unexecuted."
+  },
+  "nextResizeProposal": {
+    "integrated": false,
+    "patch": {
+      "bytes": 54206,
+      "sha256": "5f8986f6440996e123d9bd0d28556c948431075fc900ad49c24fe390722ae640"
+    },
+    "handoff": {
+      "bytes": 14869,
+      "sha256": "6623a577f403c4f2daaa6b3f12bd1a5124c3a3cb8394bad7e1e8aea5118600ce"
+    },
+    "independentReview": {
+      "bytes": 3682,
+      "sha256": "8724531296fb6e5a7c26a482c895ca6572919c00b811b64cf779e54c72ea113a"
+    },
+    "workerNewTests": 25,
+    "workerCombinedTests": 125,
+    "independentCombinedTests": 125,
+    "orientationRepeatPass": 6,
+    "qualification": "Source-only isolated proposal. Integrating producer changes invalidates current exact candidate gate until fresh evidence. No resize media, capsule repin, native resize or catalog activation."
+  },
+  "excluded": [
+    "Runtime binaries and dependencies",
+    "Native and service raw logs/media/spools",
+    "Electron profile/cache/token/preferences",
+    "Private root mapping",
+    "Old terminal-unknown 35-file payload",
+    "Isolated E3 patch files"
+  ],
+  "remaining": [
+    "No native cancellation/relaunch Journey B, player/playback or general platform qualification.",
+    "Existing target stderr diagnostics retained; no warning clearance or threading performance claim.",
+    "Native evidence belongs to immutable c270331; wording fix source tests do not prove a second native journey.",
+    "Source backup cannot reconstruct raw runtime/calibration/OutputAccess authority.",
+    "Remux Q2j, broader geometry/audio/container work, Windows/GPU and final packaging/owner acceptance remain separate."
+  ]
+}

@@ -489,7 +489,20 @@ test('completed-output controls submit only a receipt token and fixed action, wi
   assert.equal(notice.getAttribute('role'), 'status'); assert.equal(notice.getAttribute('aria-live'), 'polite');
   await reveal.click();
   assert.deepEqual(h.calls.filter(call => call.name === 'openCompletedOutput').at(-1).args, [{ outputId: completedId, action: 'reveal' }]);
-  assert.match(notice.textContent, /request sent to Windows/);
+  assert.equal(notice.textContent, 'Show-in-folder request sent to your file manager.');
+});
+
+test('reveal feedback is platform neutral for Linux and Windows output paths', async () => {
+  for (const file of ['/owned/Source_H265-CPU.mkv', 'D:\\owned\\Source_H265-CPU.mkv']) {
+    const h = await harness({ openCompletedOutput: async () => ({ dispatched: true }) });
+    h.update(completedSnapshot([completedItem({ outputDisposition: { published: true, kind: 'published', file } })]));
+    const row = h.byId('batch-items').children[0];
+    await row.querySelector('[data-testid="completed-output-reveal"]').click();
+    assert.equal(row.querySelector('[data-testid="completed-output-notice"]').textContent,
+      'Show-in-folder request sent to your file manager.');
+    assert.deepEqual(h.calls.filter(call => call.name === 'openCompletedOutput').map(call => call.args),
+      [[{ outputId: completedId, action: 'reveal' }]]);
+  }
 });
 
 test('output failures and issuance warnings are visible text; fulfilled failure is never called success', async () => {

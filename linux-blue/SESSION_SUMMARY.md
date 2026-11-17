@@ -1,3 +1,399 @@
+# 📘 Session: November 17, 2026 — FFmpeg Encoder — Bring the exact candidate into the original native workbench and separate picker uncertainty from application proof
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model or tool identity | Effort setting | Evidence basis and verification limit |
+|---|---|---|---|
+| Engineering lead / integrator | GPT-6 Astra, recorded lead configuration | Ultra, recorded assignment | Preserved checkpoint 013, controlled exact source/native gates and scoped a separately authorized navigation-corrected attempt after the incomplete first journey. Configuration is not backend, billing or performance attestation. |
+| Native desktop executor | Not separately established in this record | Not separately established | Used the supported desktop and original Electron workbench, retained outcome/log/closure evidence and reported ambiguous native picker interaction. Actual UI observations are distinguished from saved log assertions and later independent file review. |
+| Independent native evidence / plan reviewer | Not separately established in this record | Not separately established | Audited saved identities, first-attempt logs/diagnostics and source without a new desktop/media/test execution; reviewed the separately bounded A2 plan. Later independently audited A2 closure and A3 output/telemetry/provenance, correcting an overly strict journal-ctime expectation against the actual post-cleanup identity path. Separate source review covered the narrow wording patch. |
+| Read-only next-slice contributor | Not separately established in this record | Not separately established | Inspected existing source/failure evidence and proposed a narrow E3 resize-family direction. A design note is not implementation, qualification, test execution or campaign authorization. |
+| Isolated source contributors | Not separately established in this record | Not separately established | One contributor prepared the actual two-file wording repair with retained red/green evidence; a separate E3 proposal was implemented and tested only in an isolated checkout. The lead integrated only the wording fix; E3 remains successor work. |
+| Documentation editor | Blue documentation contributor; model not independently established here | Not separately established | Read the actual prior publication, native plans/gates/outcome/audits and selected logs, drafted outside the checkout and preserved exact history. No desktop, runtime, media, test, source implementation or Git publication was executed by this role. |
+
+**Record basis:** Contemporaneous native follow-up to checkpoint 013's audited real normal-service proof. That service result did not establish an Electron window, picker/editor behavior or native output access. This entry records the next actual native observations, including an incomplete first attempt and a separately reviewed follow-up rather than treating either plan as success. The preceding 447,923-byte cumulative summary remains exact. Saved desktop observations, independently checked file artifacts, source authority and unexecuted design work have distinct evidence limits.
+
+## 🕒 Time
+
+- Date / date range: November 17, 2026. Outer authorization/launch/publication records use their explicit UTC labels; Cairo civil time is UTC+2. Native log/diagnostic clock values are retained separately as described below.
+- Start: Native preparation followed checkpoint 013 preservation. Exact active-work start was not measured. GitHub verification for that checkpoint completed at 17:50:31.795452 UTC / 19:50:31.795452 Cairo.
+- Continuation: Exact native prerequisites and owned fixtures were restored/verified; A1 opened the secure original workbench but did not register input; normal closure and saved-artifact audit followed; a separately reviewed A2 changed navigation procedure, not application code. A2 encountered a diagnosed text-input capability blocker and closed; a harmless keyboard check and separately reviewed A3 then completed the finite native journey. After saved-output audit and source-freeze release, only a platform-neutral feedback string/test fix was integrated.
+- A1 outer clock: Attempt marker 17:51:35.427704 UTC; outer completion 17:56:03.304884 UTC, exit 0. The first independent audit is dated 17:59:42.985257 UTC. These values describe their own saved clock domain, not synchronized native diagnostic epoch times.
+- A2 authorization: 18:04:33.451226 UTC / 20:04:33.451226 Cairo, a new explicit grant after the incomplete A1 was closed and audited. A2 desktop preflight records Python 18:09:33.353518 UTC, date 18:09:33.355045260 UTC and Node 18:09:33.383 UTC; outer close is 18:10:54.570310 UTC with 81.179570343 seconds monotonic elapsed. These are not an encode benchmark.
+- Clock limitation: Native Electron wallclock and diagnostic epoch records differ by about two hours from the outer UTC-labelled records. The A1 log begins near native 19:51:35 while its outer marker says 17:51:35 UTC. No clock/timezone setting was changed, no synthetic synchronization is assumed and no cross-domain duration is invented. Ordered events and actual process closure remain separate evidence.
+- End / stopping point: A3 finished at outer Python 18:26:55.122451 UTC with 461.450261281 seconds whole-journey monotonic elapsed, including manual navigation. The final A3 audit records 18:31:13.968299 UTC; the lead rechecked all 530 frozen source bytes/output and released at 18:37:37.839002 UTC. The integrated wording-test run began 18:37:37.963 UTC and lasted 1,078.768 ms. This entry stops before checkpoint 014 preservation or E3 integration; documentation finish/active time is not measured.
+- Session type: Bounded native setup/UI execution, operator-evidence review, separately gated follow-up, read-only next-slice planning and continuity.
+- Project stage: Linux 0.7 candidate native integration after fresh source-bound calibration and actual service proof, not production rollout or whole-project acceptance.
+- Main focus: Exercise the existing original workbench with exact candidate identities while preserving the distinction between actual secure startup, native navigation, range readiness and a completed target operation.
+- Contributors: Ahmed retains product ownership/acceptance; lead, desktop executor, independent reviewers, design and documentation roles are separated above.
+- Model / effort: Known configuration or unknown by role above; no attribution of one role's model to another.
+- Active working time: Not measured. Native/outer clocks, preparation, waiting, review and publication are not combined into a fabricated work total.
+- Reason for summary: Preserve meaningful native evidence, incomplete steps and any actual continuation decision before a new coherent checkpoint.
+
+## 🎯 Session Goal
+
+Checkpoint 013 established the corrected candidate through an actual bounded normal-service proof, including three publications, collision refusal, live cancellation and fresh-instance recovery. That was still outside Electron. The next intended step was one finite native Journey A through the original shell, genuine folder pickers, initial inspection-only draft, per-file range editor, target execution, output authority and normal closure, with exact source/runtime/security gates intact.
+
+The first native attempt advanced secure startup and normal closure but did not register an input folder. The interaction involved typed-path/autocomplete uncertainty and a stale window handle. Those observations did not establish an application defect or a portal failure. The session therefore evolved from completing the finite native journey to preserving the incomplete attempt, auditing the saved evidence and approving a specifically corrected operator procedure for one further attempt. A2 then exposed a concrete automation text-input limitation; a separately reviewed A3 completed the finite flow. That successful run revealed a genuine minor platform-wording defect, which justified a later isolated, reviewed two-file repair. None of these stages permitted automatic retries or security changes in response to the ambiguous first picker.
+
+The session aimed to:
+
+- Finish checkpoint 013 preservation and bind the native work to its exact 530 tracked files, verified pinned Electron, restored candidate pair, listed dependencies and original raw calibration.
+- Use the existing original UI/preload and security posture, not a replacement interface, hidden IPC, renderer injection, alternate runtime or baseline fallback.
+- Distinguish actual native startup, folder registration, draft/range readiness, target publication and closure rather than collapse them into “app tested.”
+- Preserve a failed/incomplete navigation attempt with its actual diagnostics and cause uncertainty; make any further attempt a new bounded reviewed scope.
+- Keep useful read-only next-slice planning separate from implemented/tested source and preserve the full owner-format history.
+
+The intended acceptance boundary stayed narrow: a developer-only native range journey, not generic Full/resize/AV1/HDR/GPU/Windows support, native cancellation parity or release acceptance.
+
+## 🛠️ Actions Taken
+
+### 1. Preserve checkpoint 013 before native execution
+
+The baseline is local `c270331a001eb57aed07a6395d24d061e6ca177d`, tree `ea7154c5fec5d7c3781a629b5915ec9edb754aa5`, parent `eaa2d849e3eb1d97c381e03fc6c5e11d2b3bb0a8`. Its five-path evidence/documentation delta changed no production source. The [checkpoint 013 Notion backup](https://app.notion.com/p/41bbd7ade63b81df9204ed057d1eb770) restored all 530 tracked files and cloned the full named-branch thirteen-commit local-history bundle.
+
+The source ZIP SHA-256 is `80ef2c246a2c27ac0729d75904523cbb3a66357fd6b3bd5447dd1d430f419352`; the bundle SHA-256 is `15b914feee31772deb0db3fa4386a4ae5903f787d9604a50b6503d9cb4ba12eb`. The [native readable cumulative summary](https://app.notion.com/p/41bbd7ade63b81edbcacee8ce7ecdcb3) was fetched unabridged. Its 447,923 source bytes have SHA-256 `7729cf0a150474e4266f3c9bba38802557315cf7e1fe54442763baf5df191919`.
+
+Original-ancestry publication reached `81a483c9729432c80dacf62159d6a2e29d784596` on `CipherVaults/FFmpeg-Encoder-Blue-Linux`, branch `blue/linux-development`, sole parent `03fea7eea809a0746b5e253b986378865ceb6748`, tree `ffced75752249a8ffa85e8c06c145edbd4e52e2e`. Exact changed bytes/SHA/Git blobs, actual parent/tree and fresh ref matched. The remote tree contains 912 files: 907 unchanged, two modified, three new and zero deleted. Verification time is exactly 17:50:31.795452 UTC, before A1's outer launch marker.
+
+This source/evidence preservation did not itself copy runtime/media into the source archive. The later explicit native setup below supplied actual local prerequisites; its separate receipts must not be inferred from a successful Notion restore alone.
+
+### 2. Restore and verify the approved native prerequisites without widening authority
+
+The native preflight checked the exact 530-file checkpoint from the supported desktop, inherited display `:0`, seven listed dependencies and the pinned Electron 44.7.0 executable, SHA-256 `10a14d05c6ff4f94075cfb3eeb6ed6571be33ebcc08cbd675b5ce9ff84706564`, 228,605,256 bytes. Its receipt is 230 bytes, SHA-256 `fb18ab2bcbe6c6f95bcc634fc75e830f05b19eb91794a1e390618cfa9b718092`.
+
+The reviewed FFmpeg and FFprobe were restored to the main-owned fixed ignored candidate path by exclusive ordinary copies, not symlink/hardlink substitution or arbitrary renderer/CLI authority. Their exact SHA-256 values remained `ae5b2e8b48ad0e9b51b89ebab000ebcfc0b76a09b8cb80c88e18fddcc5d9e8ba` and `923dab8640da8804c445418b6e2efe4b395665bdb9d4cfc84f6a244ed0fb156b`, with ordinary executable mode recorded as 0755. This was restoration of already approved binaries, not an unrequested runtime upgrade or security-mode change.
+
+The owned eight-second source copy retained SHA-256 `882bbbd151ea501205a57f8cae33416cbddbb2757c02efffe4fa73b6753091cb`. The original raw calibration remained 55,953 bytes with SHA-256 `e93c017c288712e652e7a3ad19b67803a6c5f28fd584f9fa49d5ec479034b96f`. `RESTORATION_RECEIPT.json` is 761 bytes, SHA-256 `289ca3311a86dde71d1403880ab517db8f366dfa15391d2abf3b46e77623267f`. It records the actual copies and fixture identity rather than treating the portable semantic report as factory evidence.
+
+The explicit argv used the pinned Electron executable, absolute `linux-blue/workbench-main.cjs` and `--blue-runtime=9.0.2-keep720-candidate`. It did not use `electron .`, `npm start`, the Windows main entry, a baseline/AV1 fallback, loader overrides, remote debugging, `--no-sandbox` or disabled web security. No source, runtime pin or security setting changed in this setup.
+
+### 3. Observe A1 secure original-workbench startup, then stop before input registration
+
+A1's retained `LINUX_WORKBENCH_READY` log identifies Electron 44.7.0, the exact candidate runtime `1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9`, developer Keep720 range mode, Remux unavailable, `sandbox: true`, `contextIsolation: true`, `nodeIntegration: false`, original UI and original preload. The empty `qualifiedFamilies` field is retained as emitted; it is not relabelled as production catalog activation.
+
+The executor observed the original Gauge/theme/shell and explicit experimental Keep720 slow-25/FLAC/NUMA notice. This is materially more than the preceding version-only preflight: a real original workbench window started with the intended configuration. It still does not prove that file selection, preparation or encoding works.
+
+The native input-folder dialog was opened twice within that single application process. The executor entered the approved path and attempted confirmation, but the main UI remained “No folder selected.” The second interaction had autocomplete/navigation uncertainty; subsequent input against a stale dialog handle failed with X11 `BadWindow`. No hidden IPC or arbitrary path grant was used to bypass the uncertain result.
+
+No Prepare or Start action occurred. The initial unsupported Full-shaped inspection-only draft was not reached, so neither per-file range editing/readiness nor a target encode, output publication or output action was tested. Startup capability probes did execute media-related children; “zero target encodes” is accurate, while “zero media processes” would not be.
+
+The outcome `JOURNEY_A_OUTCOME.json` is 2,954 bytes, SHA-256 `5bc2b5dc7f0064c2404c1c8c16a48c49ccdef404102a07a66964f2756d9f4431`. Its status is `blocked-before-input-selection; native-startup-and-normal-close-observed`. That remains the first attempt's result even if a later attempt progresses further.
+
+### 4. Close A1 normally and preserve the limited evidence rather than assign an unsupported cause
+
+Normal window close removed the application. `LINUX_WORKBENCH_CLOSED` reports 28 children spawned and 28 closed, maximum concurrency one, final live zero and failures zero. These were startup capability children, not target publications. The outer completion records exit 0 at 17:56:03.304884 UTC. The owned output directory remained empty, and postchecks retained all source/runtime/dependency/raw-report/fixture identities.
+
+The 438-byte stdout log has SHA-256 `bf4b1af97615f00a9cd61b942ec0fef765aa3cd9189ca5c60d8c7852aeeb1cec`; the 845-byte stderr log has SHA-256 `94fc030bd83eacc40cbda9412ab6c22f75c9591691ce09c957acc92332d54816`. Stderr retains missing system D-Bus socket messages, an SSL handshake failure `net_error -202`, and X atom-cache portal file-transfer/files warnings. There was no security bypass or suppression. Those messages do not establish that a particular portal error caused the picker result.
+
+Actual startup, picker, no-selection and close screenshots were emitted into the CUA conversation record. No standalone screenshot files were saved for A1. This is not a portable screenshot archive and the documentation/audit role must not claim independent visual inspection of nonexistent image files. Only retained service diagnostics were copied from `diagnostics-v1`; Electron state/session profile, cache, cookies and token databases were excluded and not inspected for publication.
+
+### 5. Independently audit A1 and inspect the picker route read-only
+
+`INDEPENDENT_JOURNEY_A_AUDIT.json` is 7,283 bytes, SHA-256 `6a0acae9d40bac64a0e188c936afe170c8bc62653bb592c979f57bd52afdbf5f`, checked at 17:59:42.985257 UTC. It passed the bounded saved-artifact audit while explicitly declaring the native journey incomplete and picker cause unknown.
+
+The auditor checked all 530 source/current/commit/gate identities, original and restored tool hashes, seven listed dependencies, Electron, raw calibration, original/owned fixture identity, empty output, READY/CLOSED/outer records and six retained service events. It did not run desktop, runtime, media or tests, and it did not independently download Notion in this audit; the gate recorded the prior verified restore. Saved file identity is not atomic loaded-image attestation.
+
+The read-only route inspection follows the actual renderer → preload → authenticated IPC → native `showOpenDialog(openDirectory)` → main-owned `registerFolder` path. A cancelled native result returns null, which is consistent with unchanged “No folder selected” and no `REQUEST_REJECTED`. Successful registration returns a truthy object after canonical directory validation, role-token creation, preferences and plan invalidation. However, the retained evidence contains no native `canceled`/`filePaths` result proving what either dialog returned.
+
+Therefore a cancelled/native-navigation result is a plausible explanation, not a proven one. An application defect, portal failure or automation focus/autocomplete failure cannot be assigned from these artifacts. The two picker openings and stale-handle event come from the executor narrative, not independent saved screenshots. This audit supports a specifically reviewed operator/navigation diagnostic, not an implicit retry or source fix.
+
+The audit also identified the approximately two-hour clock-domain discrepancy. Diagnostic epochs and native log wallclock remain exact evidence in their own domain; the outer UTC labels remain exact in theirs. Neither was silently converted to make cross-domain timestamps appear synchronized.
+
+### 6. Review and authorize A2 as a new bounded navigation procedure, not an automatic retry
+
+A2's `native-workbench-journey-a2-20261117/PLAN.md` is 5,996 bytes, SHA-256 `d520663c8f61421fef4a274bc914c9cfcf9188cdda95dffd60a9b41e185bf5ff`. It changes operator interaction, not application source, runtime identity or security. The lead's new `APPROVED_A2.json` is 60,989 bytes, SHA-256 `403e3ed6aabade7ec890da35ec4c27c2276098881eadc9623b047db70c721894`, authorized at 18:04:33.451226 UTC.
+
+The separate approval requires unchanged `c270331` and all 530 tracked hashes, verified Notion, exact Electron/tools/dependencies/raw calibration and a fresh supported-desktop preflight. It recognizes the closed first attempt's fixed persisted application state and reuses that known state without clearing/editing it. A2 is a new process with persisted state, not a pristine-state test. It excludes profile/cache/token inspection and preserves all old outcome/audit/event evidence.
+
+The corrected interaction uses fresh desktop screenshots and observed coordinates, literal full-path entry, confirmed location focus and settled parent-directory navigation before selecting the visible child directory. It forbids stale per-window handles, mixed window/desktop coordinates and typing through a disappearing modal. Input and output each get at most one picker opening; the application must display the exact chosen directory. Any uncertainty requires stopping and normal closure, not a third navigation attempt or injected path.
+
+Only after confirmed input/output registration may Prepare run once. The initial Full-shaped draft must remain inspection-only, unsupported and Start-disabled. The visible per-file editor may then apply exactly 0.613–2.721 seconds, Keep source and precision FLAC; only that eligible range may Start once, for at most one 2.108-second target encode. Full/resize/AV1/HDR, default reset, reencode, Journey B and automatic retry remain excluded. One Show in folder is conditional on a genuine successful output token; Open output/player is not allowed.
+
+A2 preserves the existing security posture and fixed argv, uses a new exclusive owned-output directory and retains new outer/diagnostic/outcome records separately. The prospective limits remain a 30-minute supervisory abort request, 27 GiB pre-action floor and 2 GiB owned-artifact admission, without an external native child hard gate, continuous write cap or guaranteed exit deadline. Native/outer clock observations may be recorded read-only but no clock/timezone/system setting is changed.
+
+Before an A2 process had launched, the supported `Sky.type_text` call could not identify the focused terminal text field and explicitly reported that it sent nothing. That was a tool/focus limitation, not an app launch failure or a consumed target-encode attempt. The lead read the fixed 2,782-byte `launch-a2.py`, SHA-256 `669445afdf8ee7a6e7f24c24f2730737538868ab60383c8651385b1b30b994e5`. A narrow conditional legacy-terminal `typeCharacters` allowance was briefly communicated. The executor later reported that this previously approved fresh-terminal launch had actually occurred before the later Sky-only correction reached it. An interim coordination message had believed the correction preceded launch; the final record uses the actual executed ordering rather than claiming no legacy input occurred. Subsequent A2 UI actions used global Sky. The later A3 route used only documented global Sky key events and fresh screenshots, with no per-window fallback. No security or application change followed from this launch-method correction.
+
+### 7. Record A2's actual outcome and independent audit
+
+A2 actually launched one process with the known persisted state. Its single input picker opened, global Ctrl+L/Ctrl+A reached a focused empty location field, but `Sky.type_text` failed because the relevant AT-SPI accessibility provider was unavailable. The executor observed that no path was sent and the location stayed empty. The dialog was cancelled and the app closed normally. There was no output picker, folder registration, Prepare, range application, Start or target output.
+
+`JOURNEY_A2_OUTCOME.json` is 5,404 bytes, SHA-256 `ad431f75408eacb1edfce9ccd1991a02f6c3b6cc6e6a4849b5fd2c850fee887b`. Status is `blocked-native-input-capability-no-registration-no-encode`. Its 28 startup children all closed, maximum one, final live zero and failures zero; exit was 0. The measured 81.179570343 seconds is the full app-attempt elapsed time. The diagnosed automation input-capability block is not an application picker/IPC defect.
+
+The 5,843-byte `INDEPENDENT_A2_AUDIT.json`, SHA-256 `6892c9472bc34013b386141668184db7baf4fa7749ccc6a256d929117b1c8f54`, passed saved-byte/closure checks: all 530 current/gate/commit hashes, original/restored pair, dependencies, Electron, raw calibration, fixture, empty outputs and preservation of A1's outcome/audit/logs/six events. It separated six new A2 events from the six older events rather than reporting all twelve as new. The launch method and empty picker observation remain executor/CUA evidence, not independently replayed screenshots. No new launch authority followed from this audit.
+
+### 8. Gate and complete A3 using global keyboard input
+
+A separate harmless terminal check using documented global key events demonstrated letters and a space with `echo skykeysok`. It did not establish picker navigation or range editing. Only after independent plan/helper review did the lead issue a new A3 gate at 18:18:20.176529 UTC, SHA-256 `2fa24a5900dca83f4df4d2ba0720b1aed9c28d48369bc6992ddc5ce7b9312adc`. It allowed at most one additional launch, one conditional 2.108-second range encode and no fourth launch if blocked. All 530 `c270331` source bytes and known persisted state remained frozen/preserved.
+
+A3's actual input method used only documented global `Sky.press_key` for command/path/range text plus global click/scroll. The exact command was verified before Return. No literal `type_text`, per-window fallback, hidden IPC or security workaround was used in A3. Its preflight records Python 18:19:13.629570 UTC, date 18:19:13.631184788 UTC and Node 18:19:13.663 UTC. Native Electron log/epoch values still retain their separate approximately two-hour-offset domain.
+
+The executor observed exactly one input picker and one output picker registering the approved owned directories. One initial Prepare displayed Unsupported, a disabled checkbox/Start and the explicit inspection-only Full notice. There was no Full encode. The original per-file editor applied 0.613–2.721 seconds, Keep source and Precision FLAC once, then reprepare became Ready with the exact settings. The sole selected file received one Start.
+
+The UI showed Waiting/In progress and then Completed/Succeeded. No numeric intermediate-progress sample was captured, so this is not a claim of validated progress percentages or ETA accuracy. The inspector reported the actual retained video boundary 0.633333–2.733333 seconds with 63 frames and audio 0.613–2.721 seconds; the requested range is not silently equated with frame-rounded video endpoints.
+
+One genuine Show in folder action opened Thunar with the exact published file selected. No player/Open output action occurred. Thunar and the workbench closed normally; actual outer exit was 0 and all 42 owned children closed, max concurrency one, live zero and failures zero. These are 42 total children including 28 startup capability probes, inspection/repreparation and the one job, not 42 target encodes. Journey B/native cancellation and same-service recovery were not attempted.
+
+The single output is 883,743 bytes with SHA-256 `a1ea7b04ca109513e402aa7a5bd4bcf2b19278f9ef89daf7ccf429f099050dd9`. `JOURNEY_A3_OUTCOME.json` is 17,105 bytes, SHA-256 `3bb2ac0dd6035fdfde107f0fbce22024ee41b9c06f6f7ea52751e235b50116d5`. Its original pending-audit status remains historical; the later final audit establishes the subsequent disposition. The whole manual journey's 461.450261281 seconds includes picker/navigation/operator time and is not an encode speed or performance benchmark.
+
+Actual pickers, Unsupported/Ready states, range editing, Thunar selection and the feedback wording are CUA/operator observations. Screenshots were emitted into that transcript; no portable screenshot archive or independent image replay is claimed. The saved `OUTPUT_ACTION_DISPATCHED` event independently supports reveal dispatch, not by itself visual Thunar selection.
+
+### 9. Audit A3, reconcile the ctime difference and release the tested source freeze
+
+The final independent audit is 31,524 bytes, SHA-256 `b9b39b1519962f50b0e81202625242a3a73140d99ebd3abbcef34cea33901980`. It passed the bounded native saved-evidence checks on immutable `c270331`, including all 530 source/current/gate hashes, exact runtime pair/seven dependencies/Electron/raw calibration/fixture and output identity. It checked all 54 copied diagnostic/evidence/provenance files, distinguishing 21 new A3 session events from twelve older A1/A2 events. No runtime/media execution or independent re-decode occurred during audit.
+
+Full saved collector evidence contains 63 selected/output video frames and 101,184 source/output audio samples; selected PCM is 404,736 bytes on each side with matching SHA-256 `707e310c31c5ac4c472d86447038d040d9357776d042704120af065e8adfe413`. Complete-source evidence covers 240 frames and 384,000 samples. These are checked retained decode/PCM assertions, not freshly regenerated samples in a second audit decode.
+
+The audit independently counted 63 video and 372 audio telemetry rows with zero unknown input. Telemetry remains input-count/timeline evidence, not pixel identity or output publication by itself. Recorded maximum video duration error was 334 μs within 1,067 μs; audio elapsed-clock error was 334 μs within 1,042 μs, with no unmatched selected tails and no fitted shift. The timing field's content-identity flag is not relabelled; separate PCM hashes supply the recorded audio identity evidence.
+
+Seven detailed collector child records and ten operation children at evidence collection are distinct from the 42 total application children. Resources matched the existing fixed formula for an eight-second source, 2.108-second selection and 4,323,665 input bytes: collector timeout 87,130 ms, execution budget 174,520 ms, evidence allowance 160,364,800 bytes, pipe allowance 177,142,016 bytes and telemetry bounds 1,792 records / 458,752 bytes. The storage reservation forecast and retained completed ledger were checked without claiming a hard active-write cap or measured hardware throughput.
+
+The target encode retained 499 untruncated stderr bytes, SHA-256 `b2c8201ee33100ab63ea612f58c781a64169a3741a8fb14b4562f2f570a1ecdd`: duplicate codec options, x265 CPU-mask error and thread-pool warnings. A valid output contract with no output-validation warnings does not erase process stderr. Four new-session event contexts were truncated: two `FILE_INSPECTED`, `OPERATION_EVIDENCE_COLLECTED` and `JOB_DISPOSITION`; the full saved collector receipt and telemetry evidence were checked separately. The record therefore does not call every diagnostic context complete.
+
+An initial audit expectation incorrectly required current output ctime to equal the pre-cleanup publication journal. The final audit preserves the actual values: journal ctime `1794939972020472719`, current ctime `1794939972034626247`, a difference of 14,153,528 ns / 14.153528 ms. Device, inode, size, mtime and full SHA match. Source inspection shows journal recording precedes owned-stage cleanup, and the service reads fresh post-cleanup identity before issuing the ephemeral OutputAccess grant. The correction was to the auditor's interpretation, not to source or artifact bytes. This is not full journal-stamp equality, and ctime alone is not proof of unchanged bytes. Persisted provenance cannot recreate a live private OutputAccess token after restart.
+
+The lead then independently rechecked all 530 tracked bytes and the output/audit identities at 18:37:37.839002 UTC. `LEAD_RELEASE.json` permits only the reviewed two-file wording fix and checkpoint 014 PBS/evidence. It does not authorize another native/media run. The native proof remains attributed to `c270331`, before that later renderer change.
+
+### 10. Fix only the platform wording actually observed
+
+A3 exposed a real minor UI defect: successful Linux/Thunar reveal feedback said “Show-in-folder request sent to Windows.” Unlike the uncertain A1 picker cause, this is an observed text/platform mismatch. The isolated worker first retained an expected failing test, then replaced one renderer feedback string with “Show-in-folder request sent to your file manager.” The existing completed-output expectation was updated and a regression added for Linux-style and Windows-style displayed paths.
+
+The reviewed patch is 2,273 bytes, SHA-256 `f77b34f19b818d53678dfa3a72e9778438051db69e3a513f0350586d79564628`, confined to `ui/renderer.js` and `tests/ui-workbench.test.cjs`. The token-only `{outputId, action}` request, pending-click suppression, current-row/request/token checks, stale-result handling and unverified-playback warning stay unchanged. No main, preload, IPC, output-identity policy, theme, runtime pin or default change is included.
+
+The worker's combined set passed 87/87; independent renderer review passed 67/67 and reported no scoped blocker. After the source freeze release, the lead integrated the exact patch and reran `node --test tests/ui-workbench.test.cjs linux-blue/candidate-workbench-renderer.test.cjs tests/output-access.test.cjs` through the evidence wrapper. `20261117T183737Z_native-reveal-wording-lead` records 87/87, no skips, exit 0, 1,078.768 ms and unchanged covered bytes. Final renderer SHA-256 is `1d11d0be05e36a0b5024ad5ec70d62d8c3ba4ae7b4110138398c200b11f44965`; test SHA-256 is `a1967dc9797cc8a431c83ab12ac650c6133f7fbc1f44b804c717f175ea4b2ad4`.
+
+A separate read-only application of the installed `codex-security:assess-patch-risk` rubric to that immutable wording patch produced `PATCH_RISK_PROVISIONAL.json`, SHA-256 `97694a25c284604e2cf49df642ea3280b8a0e79d9ba2ba0b62f3b27172d35cac`. Its advisory recommendation is `merge` with workflow label `human_review_required`, low impact/likelihood, partial regression protection and moderate confidence. Linked storage/schema resources failed and the validator helper was unavailable, so this is explicitly provisional manual assessment, not schema-validated skill output, automatic-merge clearance or a Security Cloud scan. It ran no additional tests or media and is separate from the independent source review and the lead's integration decision.
+
+No fourth native launch or native rerun of the new string occurred. The fix is source/renderer-harness tested; the actual native success belongs to the preceding immutable bytes. The shared renderer affects both platform interfaces, but a Windows-style path fixture is not Windows execution. Earlier affected 283/284 and broad 181/208 results were not rerun for this tiny change and remain inherited with their original failures.
+
+### 11. Keep causal triage and isolated E3 source work distinct from authoritative integration
+
+The independent read-only grouping is retained in `inherited-linux27-causal-triage.json`, 3,916 bytes, SHA-256 `5e2f2b2245f9483f1a344d3e5580fa76449d66f41d3e9f54b5b354d1de7dd126`, recorded at 18:08:40.374102 UTC. It transcribes a source/evidence review and retains the relevant current source identities; it is not a newly executed test suite.
+
+The 27 inherited broad failures group as four missing historical synthetic-fixture configuration cases, eight requiring the exact missing historical AV1 runtime, thirteen requiring missing historical calibration/service reports, one stale historical isolation assertion and one correct Remux hash-guard refusal because reconstructed sources differ from the required reviewed corrections. The displayed normalized output has 28 lines because a wrapper line is included, not 28 failed tests. The separate intermittent missing-source diagnostic mismatch is not part of this 27.
+
+The reviewer established no new genuine implementation defect from that set. This does not mean every downstream behavior is correct: several assertions were never reached because prerequisites failed first. The stale isolation assertion does not prove a three-family route actually loads the fourth composition, and the Remux guard must not be changed to accept different source merely to make the test green. No test, source edit, pin update, media execution or rebaseline was performed by this triage. Its priority recommendation is a confirmed native usability defect first; otherwise consider the bounded E3 proposal below.
+
+The separate read-only proposal `e3-range-resize-next-slice.md`, 8,420 bytes, SHA-256 `efee0627bc5ee7d3bcc6fc75a1422a111c85af01edebcb63930633f6315f80c4`, proposes one narrow genuine proportional 1080→720 SDR precision-FLAC range family. It explicitly defers to the native result/audit and any confirmed usability issue. It does not finish E3 or authorize source/media work merely by existing.
+
+The proposal reuses existing geometry/argv builders, proportional private authority, complete-source collection, storage/runner/telemetry routing and the existing resize resource formula. It does not propose a replacement pipeline or arbitrary plugin framework. Its prospective first scope is a fixed two-family dispatch with tests in the existing family/evidence helpers, not a candidate map/default/UI change. Missing historical resize calibration must not be resurrected by changing a report hash.
+
+The contemplated envelope is deliberately narrow: progressive 1920×1080 H.264/30 fps with explicit SDR/square-pixel/identity-orientation constraints, stereo 48 kHz PCM, exact range semantics and 1280×720 Matroska FLAC output. Missing orientation does not become blanket zero; Full, other geometry/rates, rotated/portrait, extra streams, AAC/HDR and general scaler quality remain outside the proposal. A changed producer closure would require a new qualification chain rather than silently carrying old evidence forward.
+
+The original read-only design itself performed no source edits, tests, runtime opening or media. Its test list was prospective at creation; later isolated source work is attributed separately below. Later, a separately isolated five-file source proposal was implemented and independently reviewed outside the authoritative checkout. Its patch is 54,206 bytes, SHA-256 `5f8986f6440996e123d9bd0d28556c948431075fc900ad49c24fe390722ae640`; handoff SHA-256 is `6623a577f403c4f2daaa6b3f12bd1a5124c3a3cb8394bad7e1e8aea5118600ce`. It contains 25 new tests; worker and independent combined checks passed 125/125, and a separate six-test orientation repeat passed. These are isolated source/injected-evidence tests, not resized-media or native qualification. A further isolated service-harness coverage addition is separate next-checkpoint work, not integrated or completed here.
+
+The lead's chosen next direction is to preserve checkpoint 014 first, then integrate the separately reviewed E3 scope only after exact base checks and affected validation. Shared producer changes will intentionally invalidate the current candidate gate until fresh resize evidence and a separately reviewed capsule exist. No old report may be repinned as if it covered new source. The isolated proposal is excluded from 014 and has not executed resize media or changed defaults/catalog/native behavior in the authoritative checkout.
+
+### 12. Preserve a dated handoff without altering prior checkpoints
+
+The lead-owned [native journey execution record](2026-11-17_Native_Keep720_Journey.md), [structured receipts](2026-11-17_Native_Keep720_Journey_Receipts.json) and [portable native records](evidence-2026-11-17/native-keep720-journey-portable.json) preserve the three attempts, final audit and later wording-fix attribution. The portable wrapper is 84,036 bytes, SHA-256 `903bbbbad00d274be94f766bab6828a0c16e78c1334ba391e51e622157607411`. It preserves all six outcome/audit JSON objects after only eight known-root substitutions: three `project://` and five `evidence://`. Independent recursive comparison verified all other keys/types/values. Original historical statuses remain intact rather than being rewritten to final success.
+
+The wrapper does not restore original raw bytes, runtime/media or ephemeral OutputAccess; it grants no new execution or production authority. Private root mappings, Electron profile/cache/token/preferences, raw media/log bundles and isolated E3 source are excluded. The exact seven-path checkpoint scope is the renderer/test, Current, Session, execution, receipt and portable record; the expected archive is 533 files and fourteen local commits, not an already-created backup claim.
+
+The lead owns Current, execution/receipts, any portable evidence, staging and publication; the documentation role owns only the released cumulative Session path. The prior thirteen sessions and original structure-correction receipt remain unchanged. This session's eventual checkpoint 014 commit, verified Notion restore and GitHub update are not yet completed at this record cutoff. Source records do not automatically include ignored raw media, runtime binaries, Electron profiles or CUA-only screenshots.
+
+The actual two-file wording change and its fresh 87/87 tests are separately established above; no other production change or broad rerun is implied by native work or the read-only triage. The latest inherited tests remain checkpoint 012's affected 283/284, independent focused 20/20 and broad 181/208 with 27 failures, plus the already documented intermittent diagnostic mismatch. Any causal triage may clarify those failures but cannot remove or rebaseline them without actual authorized changes and fresh checks.
+
+## 🧠 Key Insights
+
+### Secure native startup is useful evidence without being a complete journey
+
+A1 progressed from a version-only executable preflight to the actual original workbench with candidate mode, original UI/preload and intended security flags. Its normal closure also balanced every owned child. That is a meaningful native prerequisite result. The absence of input registration still prevents a claim about draft, range, target encoding or output actions. A precise partial result is more useful than either calling the whole app passed or dismissing all startup evidence because the next interaction stalled.
+
+### An ambiguous picker result is not an established source defect
+
+The route inspection shows how cancelled selection can leave the UI unchanged, but saved artifacts do not reveal the native dialog return value. Operator focus/autocomplete uncertainty and a stale handle are enough to justify a different observed interaction procedure; they are not enough to blame app code or a portal diagnostic. The chosen response preserves the first attempt and creates one specifically bounded follow-up instead of modifying code on speculation.
+
+### Persisted state and clock domains are part of the evidence boundary
+
+A2 deliberately reuses the known fixed state from A1 without clearing it. That preserves history but means it is not a clean-state startup test. Likewise, native diagnostic epochs and outer UTC labels cannot be fused just because the wallclock offset resembles a timezone. Explicit state/clock provenance prevents a neat narrative from claiming a stronger experiment than the one actually performed.
+
+### A reviewed next-slice design is a direction, not implementation authority
+
+The proposed resize family can reuse existing builders and resource machinery, but their existence does not qualify new geometry or resurrect missing old reports. Prospective red tests, private branding and fresh source-bound media gates remain work to do. Read-only planning advanced understanding while the live native source stayed frozen. Later isolated implementation/tests are real but remain outside the authoritative checkout and have no resized-media qualification.
+
+## 📌 Decisions Made
+
+- Confirmed — The engineering lead gated native execution on preserved checkpoint 013, exact 530-file source and verified desktop/runtime/raw-report identities, with original UI/preload/security posture retained.
+- Confirmed — A1's result is secure original-workbench startup and normal closure, blocked before input registration. The lead/reviewer retained zero Prepare/Start/target publications without pretending startup probes were zero media children.
+- Confirmed — The independent auditor left picker causality unknown. No source patch, portal fix, security bypass or warning suppression was adopted from an ambiguous result.
+- Confirmed — The lead authorized a new A2 scope only after A1 closure/audit and independent plan review, with corrected navigation, one picker per role, known persisted state, conditional one finite range encode and no automatic retry/Journey B.
+- Confirmed — After the separate harmless key-capability check and independent A3 review, the lead authorized one final bounded native launch. A3 completed the original finite flow; no fourth launch, player or Journey B followed. After final audit/source reconciliation, the lead integrated only the observed platform-neutral wording repair and its tests.
+- Confirmed direction / deferred integration — The lead chose the separately reviewed, isolated source-tested E3 proposal as next after checkpoint 014 preservation. Its 125/125 focused and six-test orientation results are not authoritative integration or resize-media evidence; source ownership, affected checks and fresh qualification gates remain required.
+- Deferred — Same-service recovery, native cancellation Journey B, broader operation/geometry/platform acceptance, production defaults/catalog, packaging and owner release acceptance remain outside the approved finite work.
+
+## ⚠️ Difficulties / Friction
+
+The first input picker did not produce a confirmed selected directory. Typing/autocomplete and a disappearing dialog made the operator observation uncertain, and stale-handle input returned `BadWindow`. The absence of a retained native return value or standalone screenshot files prevents an independent cause assignment. That uncertainty cost the intended range journey, but it did not justify changing code or weakening the native security posture.
+
+Native logs retained missing D-Bus, SSL handshake and portal atom-cache diagnostics. They should neither be silently suppressed nor treated as proof of the picker cause. The prior x265/topology/native-performance uncertainty also remains separate from successful startup.
+
+The two clock domains differ by approximately two hours. Using raw diagnostic epochs as if they were synchronized with outer UTC would create inaccurate timings. Keeping both record types explicit is less convenient but preserves the actual evidence.
+
+A new process does not mean pristine state: the first native session created known fixed state, and A2 is authorized to reuse it without clearing. Old and new service events must be separated by session identity instead of counting every copied event as part of the newest attempt. Profile/token caches remain outside evidence inspection/sharing.
+
+A2 narrowed the failure to the available text-input capability: the AT-SPI provider could not service the field, and no path was sent. The terminal fallback had executed before the later Sky-only correction arrived, so the record cannot claim Sky-only throughout A2. A3 then required a separate keyboard-only gate rather than quietly extending A2. The successful journey also revealed a genuine wording mismatch and an audit interpretation error around post-cleanup ctime; both were corrected narrowly, without changing media evidence or pretending the old picker cause was solved.
+
+## 🔧 Adjustments Made
+
+- Shifted from: The preceding checkpoint's actual normal-service proof plus version-only Electron preflight.
+  - To: A real original native workbench startup with intended candidate/security configuration and verified normal closure.
+  - Because: Exact checkpoint/restoration/desktop gates and a finite native release permitted the next consumer boundary to be attempted.
+  - Consequence: Startup and closure can be claimed natively; A1 did not reach input registration or target work.
+
+- Shifted from: A1's typed-path/autocomplete interaction and subsequent stale-dialog handle uncertainty.
+  - To: A2's explicitly reviewed fresh-screenshot desktop-coordinate procedure, literal parent-path navigation and visible child-folder selection.
+  - Because: The first attempt's saved evidence could not establish native folder return or blame app code.
+  - Consequence: One additional process and one picker per role were separately authorized; any remaining ambiguity stops the attempt rather than triggering another retry.
+
+- Shifted from: Before A1 had created the now-known persisted application state.
+  - To: Explicit reuse of known A1 persisted state for A2, without clearing or editing it.
+  - Because: The closed first attempt already produced fixed application state that must be preserved and disclosed.
+  - Consequence: A2 is not labelled pristine-state testing; retained diagnostics must distinguish prior/new sessions and exclude profile/token stores.
+
+- Shifted from: Earlier records exposed different native/outer clock values without established synchronization.
+  - To: Separate native log/epoch and outer UTC-labelled time domains with no assumed conversion.
+  - Because: Independent audit observed an approximately two-hour discrepancy.
+  - Consequence: The record preserves ordering and receipt values without fabricated cross-domain duration or changing clocks/settings.
+
+- Shifted from: A2's confirmed text-entry provider block, despite a live native window.
+  - To: A3's separately authorized global-keyboard route after a harmless terminal letters/space check.
+  - Because: Literal text entry could not address the field; the check established a different supported input capability but did not itself prove picker navigation.
+  - Consequence: One final bounded launch completed the finite UI flow, with no fourth launch or hidden path/IPC workaround.
+
+- Shifted from: The initial audit draft requiring current ctime equal the pre-cleanup journal.
+  - To: The observed 14.153528 ms ctime-only difference, preserved with matching other identity/hash fields and a separately read post-cleanup OutputAccess identity path.
+  - Because: Publication journaling precedes owned-stage cleanup; the live grant is issued from a fresh later identity.
+  - Consequence: The final audit corrected its expectation, not the source or output; no claim of full journal-stamp equality remains.
+
+- Shifted from: Actual Linux reveal feedback naming Windows.
+  - To: Platform-neutral “your file manager” feedback in one renderer string with Linux/Windows-path harness assertions.
+  - Because: A3's real Thunar action exposed a visible platform wording defect.
+  - Consequence: The exact two-file fix passed worker/independent/lead source checks; no native rerun or broader output-authority change was made.
+
+## ❌ Mistakes / Risks Noted
+
+### Ambiguous picker interaction and stale-window input in A1
+
+- What happened or could happen: Actual typed-path/autocomplete uncertainty left the main UI without an input selection; subsequent stale-dialog input returned X11 BadWindow.
+- Actual impact: A1 stopped before Prepare, range editing or target execution; no target output was published.
+- Potential impact: More unbounded clicking or hidden path injection could exceed the intended attempt or grant the wrong directory; blaming source without evidence could create an unnecessary patch.
+- Correction / current status: The first result is preserved. A2 changes navigation under a new explicit bounded approval, not app source or security. A2 later stopped on a confirmed automation text-input capability block; A3 succeeded under a separate global-key gate. Neither later fact establishes A1's exact native return or cause.
+- Failure Intelligence: Retain the operator/evidence failure and cause uncertainty in this session and native execution records; no confirmed application-defect incident is asserted.
+
+### Diagnostic messages could be mistaken for a proven picker cause
+
+- What happened or could happen: Actual logs include missing D-Bus, SSL handshake -202 and portal atom-cache messages; no native canceled/filePaths return is retained.
+- Actual impact: These warnings/errors are observable but their role in the no-selection outcome is unproven.
+- Potential impact: Treating correlation as cause could prompt a security bypass, portal/system change or unjustified “fixed” claim.
+- Correction / current status: Read-only route inspection preserves canceled-selection as a compatible but unproven explanation. No workaround or causal clearance was applied.
+- Failure Intelligence: Keep the exact logs and audit limits; no unsupported root-cause ticket or duplicate warning incident is needed.
+
+### Clock and screenshot evidence can be overstated
+
+- What happened or could happen: Actual native/outer clock discrepancy and CUA-only A1 screenshots limit independent chronology/visual review.
+- Actual impact: A1 has no standalone portable screenshot archive, and cross-domain times cannot be treated as synchronized.
+- Potential impact: Invented conversions or claimed screenshot preservation would overstate independently recoverable evidence.
+- Correction / current status: Both clock domains and screenshot destinations are explicitly labelled. No clock setting or screenshot-history reconstruction was attempted.
+- Failure Intelligence: A documentation/evidence boundary is retained here; no new source defect is alleged.
+
+### Known state reuse is not pristine testing and must not expose profile secrets
+
+- What happened or could happen: A2 reuses fixed persisted state created by the closed first attempt, and copied service diagnostics may contain prior-session events.
+- Actual impact: A2 cannot claim an empty-profile experiment. Old/new session evidence must remain distinct.
+- Potential impact: Counting old events as new could inflate coverage; copying profile/cache/token databases could expose irrelevant private state.
+- Correction / current status: No clearing/editing or profile-store inspection/sharing is authorized. Only scoped service diagnostics and verified identities are retained for the proof.
+- Failure Intelligence: This is an explicit controlled setup condition, not an observed data-loss or secret-disclosure incident.
+
+### Native execution does not inherit headless harness hard gates
+
+- What happened or could happen: The native application lacks the service harness's external 180-child admission hook; disk/abort controls remain prospective rather than hard active-write/exit guarantees.
+- Actual impact: A1 closed all 28 children with no live remainder; A2 also closed 28/28 and A3 closed 42/42, all with no live remainder and exit 0; those are observed outcomes, not universal caps.
+- Potential impact: A future native attempt could have different child/drainage behavior or exceed an admission-time estimate.
+- Correction / current status: Each native attempt requires its own bounded review, exact source/identity checks and observed closure; no hard resource guarantee is carried over by analogy.
+- Failure Intelligence: Known operational limitation, not an observed runaway or storage-exhaustion incident.
+
+### A read-only design or causal triage could be relabelled as fixed/tested source
+
+- What happened or could happen: The original E3 note and failure review propose/explain work; later E3 implementation/tests occur only in an isolated proposal, while the authoritative patch here is the separately reviewed wording fix.
+- Actual impact: The causal triage reran no suite. Isolated E3 tests passed but establish no authoritative integration or geometry/media qualification; the wording patch has its own distinct test evidence.
+- Potential impact: Reopening historical factories by map edits or declaring inherited failures resolved would bypass the evidence boundary.
+- Correction / current status: Proposal, actual decision, future ownership and fresh qualification gates remain separate; inherited tests/failures keep original attribution.
+- Failure Intelligence: Retain the design/triage disposition, not invented implementation results or incidents.
+
+### A2 launch-method coordination differed from the interim account
+
+- What happened or could happen: The previously approved terminal fallback actually launched A2 before the later Sky-only correction arrived; an interim coordination message had believed the correction arrived first.
+- Actual impact: A2 cannot be reported as global-Sky-only from launch. Subsequent UI used global Sky and the process stopped before input registration on the separate provider failure.
+- Potential impact: Keeping the interim account would conceal the actual method and make later capability comparisons misleading.
+- Correction / current status: The final outcome and this record preserve actual order; A3 used its own reviewed global-key-only route. No app defect or security change is attributed to this coordination mismatch.
+- Failure Intelligence: Retained here and in the native outcome/receipt chain; no separate source-defect incident is warranted.
+
+### Initial audit ctime equality expectation was too strict
+
+- What happened or could happen: The first audit interpretation treated the pre-cleanup journal ctime as necessarily equal to the current post-cleanup output ctime.
+- Actual impact: Final review found a 14.153528 ms ctime difference, with device/inode/size/mtime/full hash matching; it corrected the expectation against the actual fresh-identity OutputAccess path. Source and output bytes were not changed to satisfy the audit.
+- Potential impact: Ignoring the difference or weakening all identity checks would each obscure what the saved journal actually proves.
+- Correction / current status: Both timestamps and the unchanged fields are retained; no full-stamp equality or restorable ephemeral grant is claimed. The final audit passed within that explicit boundary.
+- Failure Intelligence: The mistaken audit expectation and correction are recorded in the final audit and this session, not invented as a production mutation incident.
+
+### Successful Linux reveal displayed Windows-specific feedback
+
+- What happened or could happen: The original shared renderer named Windows after A3's actual Linux/Thunar reveal.
+- Actual impact: The file-manager action succeeded, but its visible explanation named the wrong platform.
+- Potential impact: Misleading wording could make a correct cross-platform output action appear misrouted.
+- Correction / current status: Only the string and its regression tests changed; independent renderer 67/67 and final integrated 87/87 passed. No native rerun of the repaired string occurred. The separate patch-risk artifact is provisional because its schema/storage/validator resources were unavailable, not a formal scan.
+- Failure Intelligence: The actual defect, expected red and verified narrow source repair are preserved in the execution/receipt chain and this session; no separate incident document is required for this bounded wording issue.
+
+## 📍 Current Position
+
+**As of:** Final A3 saved-evidence audit on immutable c270331, lead full-source/output reconciliation at 18:37:37.839002 UTC and subsequent integrated wording tests starting 18:37:37.963 UTC. Checkpoint 014 preservation and authoritative E3 integration remain next work.
+
+**Before this session:** The corrected candidate had fresh calibration and audited actual normal-service proof, but no actual original native workbench journey. The pinned Electron version command was not app acceptance, and the native plan was prepared/conditional only.
+
+**After this session:** Checkpoint 013 is fully preserved in Notion/GitHub. A1 actually restored/verified native prerequisites, opened the original secured candidate workbench and closed normally with 28/28 children and exit 0, but no input registration/Prepare/Start/target output. Independent audit passed only that incomplete scope with picker cause unknown. A2 also closed securely but was blocked before registration by the text-input provider. A separately reviewed A3 completed both pickers, inspection-only Full draft, precise range reprepare, one publication, genuine Thunar reveal and normal 42/42 closure. Saved-output audit passed with exact timing/PCM/identity limits; after source release, the observed wording mismatch was fixed and passed 87/87 integrated source tests, without a native rerun.
+
+**Current standing:** One short original native developer journey is observed and saved-evidence audited on c270331; the later neutral wording repair is source-tested and ready for checkpoint 014 preservation. The isolated E3 proposal remains unintegrated and not media-qualified; no fourth Keep720 native launch or production acceptance is implied.
+
+**Live owner / continuation anchor:** The engineering lead owns the current-state, exact native execution/receipt records, publication and any next source/native gate. Read [CURRENT_STATE.md](CURRENT_STATE.md) and the [native journey execution record](2026-11-17_Native_Keep720_Journey.md) and its structured receipts. This section is a dated snapshot, not permission to assume later attempts or design work completed.
+
+## 🔜 Next Steps
+
+1. **First re-entry:** Read Current and the latest native execution/receipt/audit records; distinguish A1, A2 and A3, confirm the exact source/runtime/state/clock limits and check whether checkpoint 014's preservation actually completed. Do not assume queued publication or a prepared next-slice plan is finished work.
+2. The lead should preserve the explicit evidence/documentation scope with a coherent commit, verify every source file and the full-history bundle through Notion, fetch the entire cumulative native summary unabridged and then verify the intended original-ancestry GitHub delta.
+3. After verified checkpoint 014 preservation, the lead should check exact base hashes and patch applicability for the independently reviewed isolated E3 five-file proposal and any separately reviewed harness addition, then integrate only the authorized source scope and rerun affected tests. Document the intentional existing producer-gate refusal; do not repin old evidence. New bounded resize calibration, actual service qualification and any later native resize proof require their own exact-source/identity/resource/audit gates. Do not perform a fourth Keep720 native launch.
+4. Keep inherited failures, diagnostics, default/Windows/design decisions and prior evidence intact. Any changed producer closure requires a fresh reviewed qualification chain, not a hash edit to revive historical reports. Release/packaging/owner acceptance remain separate.
+
+**Do not reopen / repeat:** Do not overwrite A1/A2 evidence or prior summaries, erase known persisted state, inspect/share Electron profile/token databases, assume native clocks synchronize, claim CUA-only screenshots are archived files, blame an unproven picker cause, inject IPC/ranges, alter security settings or automatically retry. Do not call a prospective resize test/media campaign completed or change old producer pins to make historical factories pass.
+
+**Continuation boundary:** The seven-path native-evidence/wording checkpoint can proceed through Git → verified Notion → verified original-ancestry GitHub. Authoritative E3 integration waits for that preservation and its explicit source checks; fresh resize media/capsule/native qualification are separate later gates. The native gate allows no fourth launch, player, Journey B, same-service recovery or production/default/catalog activation. Owner release acceptance remains separate.
+
+## ❓ Open Questions
+
+- What did A1's native picker actually return, and was the missing selection due to navigation, cancellation, portal behavior or app integration? Needed from: Sufficient future explicit native-return/observational evidence if a confirmed defect remains, not inference from the old logs alone. Blocks: A definitive A1 cause claim; it does not erase the secure startup/closure evidence.
+- Will the platform-neutral feedback appear correctly on a later authorized native run? Needed from: Future actual native observation if that claim is needed. Blocks: A native rerun claim only; the bounded source/harness repair is already checked and does not justify a fourth launch.
+- How much native diagnostic/performance uncertainty remains around the recurring x265/topology messages? Needed from: Appropriate exact-source/trace and bounded platform evidence. Blocks: General performance or sole-cause claims, not a narrow record of observed UI/service outcomes.
+- Does the reviewed isolated E3 proposal and its separately developed harness addition satisfy exact base, ownership and affected-test checks for authoritative integration after preservation? Needed from: The lead's next source integration/review and actual validation of that chosen scope. Blocks: Claiming authoritative integration and new qualification; the direction has already been chosen, so it is not an unanswered product decision.
+- Can additional native cancellation/relaunch and broader operation/platform behavior be accepted? Needed from: Separately bounded source/design/test/native evidence and any reserved owner acceptance. Blocks: Those wider claims only; neither A1 nor a finite range journey supplies them automatically.
+
+## 🧾 Session Outcome
+
+The session moved from a real normal-service proof to one completed original native developer journey, while preserving two incomplete attempts rather than rewriting them as success. A1 established secure startup/closure but left picker cause unknown; A2 exposed a text-input capability block; separately gated A3 completed exact folder selection, non-runnable initial Full inspection, one precise Keep720/FLAC range, genuine file-manager reveal and safe closure. Independent saved-evidence review confirmed the output/count/PCM/resource/identity facts within their limits.
+
+The actual Linux feedback mismatch was repaired with a narrow shared-renderer string/test change after the native source freeze was reconciled, and integrated affected tests passed. The ctime audit expectation was corrected without changing output/source evidence. Warnings, clock domains, CUA-only visuals and inherited failures remain explicit. Checkpoint 014 is ready for coherent preservation; the separately tested isolated E3 proposal is next source work, not already integrated or media-qualified.
+
+## 🔍 Confidence Level
+
+**A1 original native startup, normal closure and incomplete-picker outcome:** High for the bounded saved-log/identity facts and the executor's explicitly attributed observations; cause remains unknown.
+
+**A2 and any further qualification:** High for the recorded A2 capability-block/closure and A3 bounded saved-output checks; actual visual states are explicitly attributed to CUA/operator observation. The later wording fix is source-tested, not natively rerun. No general native/platform, resize-media or release confidence is inferred.
+
+**Why:** Exact checkpoint preservation, desktop/restoration identities, READY/CLOSED/outer logs and independent saved-artifact audit support A1's narrow result. The route review explains what can and cannot follow from no selection without inventing a returned native result. A2's independent audit retained its exact no-target-work result. A3's 530-file source gate, one output hash, 54-file evidence inventory, 21 new events, saved 63-frame/101,184-sample PCM evidence, actual closure and final reconciled audit support the narrow success. The lead rechecked source/output before integrating only the reviewed two-file repair, which passed 87/87; visual Thunar/picker assertions remain operator observations rather than claimed independent image replay.
+
+**Not higher because:** A1 lacks a retained native canceled/filePaths result and standalone screenshot archive; native/outer timestamps are not synchronized, and saved hashes are not atomic loaded-image attestation. Known state reuse is not pristine testing, scoped manual review is not a formal repository security scan, inherited failures persist and the isolated E3 proposal is unintegrated and not media-qualified. Broader native lifecycle, operation/platform/performance and owner release acceptance require separate evidence.
+
+---
+
 # 📘 Session: November 17, 2026 — FFmpeg Encoder — Prove the corrected candidate through the real normal-service journey while retaining every child diagnostic
 
 ## 🤖 Models, Effort, Roles and Provenance

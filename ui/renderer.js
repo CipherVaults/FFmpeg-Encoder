@@ -1493,7 +1493,7 @@
       if (result?.dispatched !== true) throw new Error('The system did not confirm the output action.');
       entry.outputResult = action === 'open'
         ? 'Open request sent to your default player. Playback has not been verified.'
-        : 'Show-in-folder request sent to Windows.';
+        : 'Show-in-folder request sent to your file manager.';
     } catch (error) {
       if (!current()) return;
       entry.outputFailed = true;

@@ -106,7 +106,18 @@ const errorRecord = error => ({ code: error.code, message: error.message,
   ...(error.cause ? { cause: { code: error.cause.code, message: error.cause.message } } : {}) });
 // This local descriptor authorizes bounded experimental acquisition only. Its
 // clock-derived bounds are preregistered, not measured catalog qualification.
-async function prepareCandidateKeep720Case(options) {
+function candidateSelector(kind, evidenceId, runtimeIdentity, sourceProbe) {
+  assert.ok(['keep720', 'resize1080to720'].includes(kind), 'Fixed candidate range family required');
+  const config = campaign(kind), frozen = frozenQualifications(evidenceId, runtimeIdentity, sourceProbe);
+  const selector = new OperationFamilySelector({ policyIdentity: evidenceId, families: [{
+    id: config.familyId, resourcePolicy: config.resourcePolicy, runtimeIdentity, environment: null,
+    settings: SETTINGS, qualification: frozen.qualification, timingQualification: frozen.timingQualification,
+    evidenceIds: [frozen.qualification.evidenceId, frozen.timingQualification.evidenceId] }] });
+  return { selector, frozen };
+}
+const prepareCandidateKeep720Case = options => prepareCandidateCase('keep720', options);
+const prepareCandidateResize1080to720Case = options => prepareCandidateCase('resize1080to720', options);
+async function prepareCandidateCase(kind, options) {
   assert.ok(options && Object.getPrototypeOf(options) === Object.prototype);
   const keys = ['verifiedRuntime', 'plan', 'sourceIdentity', 'evidenceId'];
   assert.deepEqual(Reflect.ownKeys(options).sort(), [...keys].sort());
@@ -122,11 +133,7 @@ async function prepareCandidateKeep720Case(options) {
   const sourceIdentity = Object.freeze({ ...options.sourceIdentity });
   await runtime.requireCurrent();
   assert.deepEqual(await readSourceIdentity(sourceIdentity.canonicalPath), sourceIdentity, 'Candidate source changed before selection');
-  const frozen = frozenQualifications(evidenceId, runtime.runtimeIdentity, sourceProbe);
-  const selector = new OperationFamilySelector({ policyIdentity: evidenceId, families: [{
-    id: FAMILY_ID, resourcePolicy: RESOURCE_POLICY, runtimeIdentity: runtime.runtimeIdentity, environment: null,
-    settings: SETTINGS, qualification: frozen.qualification, timingQualification: frozen.timingQualification,
-    evidenceIds: [frozen.qualification.evidenceId, frozen.timingQualification.evidenceId] }] });
+  const { selector, frozen } = candidateSelector(kind, evidenceId, runtime.runtimeIdentity, sourceProbe);
   const bindings = { plan, sourceIdentity, sourceProbeFingerprint: fingerprintEncodeSource(sourceProbe),
     runtimeIdentity: runtime.runtimeIdentity, environment: null, settings: SETTINGS, budget: null, executionBudgetMs: 120000 };
   const token = selector.select(bindings), selection = selector.requireCurrent(token, bindings);
@@ -144,41 +151,72 @@ async function prepareCandidateKeep720Case(options) {
     close() { selector.invalidate('Developer calibration case closed.'); },
   });
 }
-async function runCandidateKeep720Campaign(options) {
+const runCandidateKeep720Campaign = options => runCandidateCampaign('keep720', options);
+const runCandidateResize1080to720Campaign = options => runCandidateCampaign('resize1080to720', options);
+async function runCandidateCampaign(kind, options) {
   assert.ok(options && Object.getPrototypeOf(options) === Object.prototype);
   assert.deepEqual(Reflect.ownKeys(options), ['verifiedRuntime']);
   assert.ok(Object.hasOwn(Object.getOwnPropertyDescriptor(options, 'verifiedRuntime'), 'value'));
   const runtime = requireCandidateCalibrationRuntime(options.verifiedRuntime);
-  try { await runtime.requireCurrent(); return await runConfiguredCampaign('keep720', runtime); }
-  finally { await runtime.close(); }
+  let report, failure;
+  try { await runtime.requireCurrent(); report = await runConfiguredCampaign(kind, runtime); }
+  catch (error) { failure = error; }
+  try { await runtime.close(); }
+  catch (error) {
+    if (report) {
+      report.status = 'failed-retained'; report.runtimeCloseFailure = errorRecord(error);
+      try { await fs.writeFile(path.join(report.root, 'report.json'), JSON.stringify(report, null, 2)); }
+      catch (saveError) { throw new AggregateError([error, saveError], 'Runtime closure and final report persistence failed'); }
+    } else if (failure) throw new AggregateError([failure, error], 'Candidate campaign and runtime closure failed');
+    else throw error;
+  }
+  if (failure) throw failure;
+  return report;
 }
 const runCampaign = kind => runConfiguredCampaign(kind, null);
 async function runConfiguredCampaign(kind, candidate) {
-  if (candidate) { requireCandidateCalibrationRuntime(candidate); assert.equal(kind, 'keep720'); await candidate.requireCurrent(); }
+  if (candidate) { requireCandidateCalibrationRuntime(candidate); assert.ok(['keep720', 'resize1080to720'].includes(kind)); await candidate.requireCurrent(); }
   const pins = candidate ? candidate.pins : PINS, runtimeIdentity = candidate ? candidate.runtimeIdentity : RUNTIME_ID;
   const config = campaign(kind), sources = sourcesForCampaign(kind);
   assert.equal(typeof config.derive, 'function', 'The matching reviewed resource planner is required');
   const space = await fs.statfs(__dirname, { bigint: true });
   assert.ok(space.bavail * space.bsize > 25n * 1024n ** 3n + 2n * 1024n ** 3n, 'Retain storage floor plus campaign allocation');
-  const root = await fs.mkdtemp(path.join(__dirname, 'artifacts', candidate ? 'candidate-keep720-calibration-' : config.label));
+  const root = await fs.mkdtemp(path.join(__dirname, 'artifacts', candidate ? `candidate-${kind}-calibration-` : config.label));
   const report = { root, status: 'preparing', runtimeIdentity, resourcePolicy: config.resourcePolicy,
     geometry: { sourceWidth: config.width, sourceHeight: config.height, resolution: config.resolution, outputWidth: 1280, outputHeight: 720 },
     publicationAuthorized: false, catalogActivated: false,
     ...(candidate ? { candidateRuntime: true, boundsClassification: 'preregistered-clock-derived-acceptance-bounds; measured only by this campaign, never automatic catalog authority' } : {}), settings: SETTINGS, sources: [], cases: [],
-    census: { spawned: 0, closed: 0, live: 0, maximum: 0 }, totalPipeBytes: 0 };
+    children: [], census: { spawned: 0, closed: 0, live: 0, maximum: 0 }, totalPipeBytes: 0 };
   const controller = new AbortController(), timer = setTimeout(() => controller.abort(), 30 * 60000);
+  let currentChildRecord;
   const invoke = (candidate ? candidate.createRunner : createAv1ProportionalRunner)({ onChild(child) {
     const c = report.census; c.spawned++; c.live++; c.maximum = Math.max(c.maximum, c.live);
-    child.once('close', () => { c.closed++; c.live--; });
+    const record = currentChildRecord;
+    if (record) {
+      record.stderr.available = Boolean(child.stderr?.on);
+      const chunks = record.chunks;
+      child.stderr?.on('data', bytes => {
+        const chunk = Buffer.from(bytes), room = 256 * 1024 - record.stderr.retainedBytes;
+        record.stderr.totalBytes += chunk.length;
+        if (room > 0) { const kept = Buffer.from(chunk.subarray(0, room)); chunks.push(kept); record.stderr.retainedBytes += kept.length; }
+        record.stderr.truncated = record.stderr.totalBytes > record.stderr.retainedBytes;
+      });
+    }
+    child.once('close', (code, signal) => { c.closed++; c.live--; if (record) { record.closed = true; record.exitCode = code; record.signal = signal; } });
   } });
   let activeTelemetry, activeStage, activeCase, activeSelection, caseController, caseTimer;
   const run = async (executable, args, options = {}) => {
     if (candidate) await candidate.requireCurrent();
     if (activeSelection) await activeSelection.requireCurrent();
     assert.ok(report.census.spawned < 160, 'Campaign child ceiling');
-    let ended = false;
+    const remaining = await fs.statfs(root, { bigint: true });
+    assert.ok(remaining.bavail * remaining.bsize >= 27n * 1024n ** 3n, 'Campaign free-space floor');
+    const record = currentChildRecord = { sequence: report.children.length + 1, executable, args: [...args], closed: false,
+      stderr: { available: false, totalBytes: 0, retainedBytes: 0, truncated: false }, chunks: [] };
+    report.children.push(record);
+    let ended = false, result, failure;
     const encoding = args.includes('-progress');
-    const result = await invoke(executable, args, { timeoutMs: 300000, stdoutLimit: 16 * 1024 * 1024,
+    try { result = await invoke(executable, args, { timeoutMs: 300000, stdoutLimit: 16 * 1024 * 1024,
       stderrLimit: 256 * 1024, ...options,
       signal: AbortSignal.any([controller.signal, ...(caseController ? [caseController.signal] : []), ...(options.signal ? [options.signal] : [])]),
       onOutputBytes(record) {
@@ -190,6 +228,17 @@ async function runConfiguredCampaign(kind, candidate) {
         options.onOutputBytes?.(record);
       },
       ...(encoding ? { onProgress(value) { ended ||= value.ended === true; options.onProgress?.(value); } } : {}) });
+    } catch (error) { failure = error; record.failure = errorRecord(error); }
+    finally {
+      currentChildRecord = null;
+      const bytes = Buffer.concat(record.chunks); delete record.chunks;
+      record.stderr.completeAtSave = record.closed && record.stderr.available;
+      record.stderr.sha256 = createHash('sha256').update(bytes).digest('hex');
+      record.stderr.path = path.join(root, `child-${String(record.sequence).padStart(3, '0')}.stderr`);
+      try { await fs.writeFile(record.stderr.path, bytes, { flag: 'wx' }); }
+      catch (error) { record.stderr.saveFailure = errorRecord(error); if (!failure) failure = error; }
+    }
+    if (failure) throw failure;
     assert.equal(result.exitCode, 0); assert.equal(report.census.live, 0);
     if (encoding) assert.equal(ended, true, 'Terminal progress required');
     return result;
@@ -242,11 +291,20 @@ async function runConfiguredCampaign(kind, candidate) {
         const orientation = config.resolution === '720' && geometry.rotationSource === 'not-reported'
           ? { evidenceId: `${path.basename(root)}:${spec.id}:owned-test-signal-identity`, runtimeIdentity,
             sourceEvidenceFingerprint: fingerprintEncodeSource(inspection.probe), videoIndex: sourceVideo.index } : null;
+        let orientationOptions = orientation ? { identityOrientationQualification: orientation } : {};
+        if (candidate && kind === 'resize1080to720') {
+          const prepared = candidateSelector(kind, `${path.basename(root)}:${spec.id}`, runtimeIdentity, inspection.probe);
+          try {
+            await candidate.requireCurrent();
+            assert.deepEqual(await readSourceIdentity(source), sourceIdentity);
+            orientationOptions = prepared.selector.orientationQualification({ inspection, request, runtimeIdentity, settings: SETTINGS });
+          } finally { prepared.selector.invalidate('Pre-plan orientation scope closed.'); }
+        }
         const plan = withEncodeOperationTelemetry(buildEncodeOperation({ input: source, output: path.join(directory, 'prepared.mkv'),
           settings: SETTINGS, inspection, request, runtimeIdentity, outputId: randomUUID(), generationDescription,
-          ...(orientation ? { identityOrientationQualification: orientation } : {}) }));
+          ...orientationOptions }));
         if (candidate) {
-          activeSelection = await prepareCandidateKeep720Case({ verifiedRuntime: candidate, plan, sourceIdentity,
+          activeSelection = await prepareCandidateCase(kind, { verifiedRuntime: candidate, plan, sourceIdentity,
             evidenceId: `${path.basename(root)}:${spec.id}` });
           assert.deepEqual(activeSelection.frozen, frozen, 'Preregistered bounds must not change after plan construction');
           assert.deepEqual(activeSelection.resources, resources, 'Independent forecast and issued limits must agree');
@@ -260,7 +318,7 @@ async function runConfiguredCampaign(kind, candidate) {
         const entry = activeCase = { id: requestSpec.id, sourceId: spec.id, range: requestSpec.range,
           resources, pipeBytes: 0, status: 'encoding', planFingerprint: plan.planFingerprint, startedAt: Date.now(),
           geometry: plan.expectedOutput.geometry, videoFilters: plan.expectedOutput.filters.video,
-          identityOrientationInterpretation: orientation ? { ...orientation,
+          identityOrientationInterpretation: orientationOptions.identityOrientationQualification ? { ...orientationOptions.identityOrientationQualification,
             basis: 'Owned unrotated test-signal construction with unchanged independently hashed source; no rotation tag is fabricated.' } : null };
         caseController = new AbortController();
         caseTimer = setTimeout(() => caseController.abort(), resources.executionBudgetMs);
@@ -287,6 +345,7 @@ async function runConfiguredCampaign(kind, candidate) {
           sourcePolicy: activeSelection ? activeSelection.selection.sourcePolicy : { id: config.familyId, rate: 30, maximumExtentUs: sourceExtentUs },
           ...(activeSelection ? { familySelection: activeSelection.selection } : {}) });
         entry.telemetry = validateEncodeOperationTelemetry(plan, telemetryEvidence, collection);
+        requireValidCampaignTelemetry(entry.telemetry);
         entry.validation = validateEncodeOperationOutput(plan, outputProbe, { qualification: frozen.qualification, decodedEvidence: collection.decodedEvidence });
         assert.equal(entry.validation.valid, true, entry.validation.errors.join('; '));
         const video = collection.decodedEvidence.video, audio = collection.decodedEvidence.audio[0];
@@ -318,6 +377,7 @@ async function runConfiguredCampaign(kind, candidate) {
     if (report.census.live || report.census.spawned !== report.census.closed || report.census.maximum > 1 || report.closeFailure) {
       report.status = 'failed-retained'; report.closeFailure ||= { message: 'Unbalanced or overlapping children' }; if (!candidate) process.exitCode = 1;
     }
+    report.diagnosticsComplete = report.children.every(row => row.closed && row.stderr.available && row.stderr.completeAtSave && !row.stderr.truncated && !row.stderr.saveFailure);
     await fs.writeFile(path.join(root, 'report.json'), JSON.stringify(report, null, 2));
   }
   console.log(JSON.stringify({ root, status: report.status, census: report.census, totalPipeBytes: report.totalPipeBytes,
@@ -325,6 +385,12 @@ async function runConfiguredCampaign(kind, candidate) {
     failure: report.failure, closeFailure: report.closeFailure }, null, 2));
   return report;
 }
+function requireValidCampaignTelemetry(result) {
+  assert.equal(result?.valid, true, 'Valid encoder telemetry required');
+  assert.ok(Array.isArray(result.streams) && result.streams.length === 2, 'Video and audio telemetry required');
+  assert.deepEqual(result.streams.map(row => row.kind).sort(), ['audio', 'video']);
+  for (const row of result.streams) assert.equal(String(row.unknownInputRecords), '0', 'Unknown telemetry input rows refused');
+}
 const main = () => runCampaign('keep720');
 if (require.main === module) main().catch(error => { console.error(error); process.exitCode = 1; });
-module.exports = { main, runCampaign, runCandidateKeep720Campaign, prepareCandidateKeep720Case, campaign, sourcesForCampaign, selectedCounts, fixtureTimeoutMs, micros, count, SOURCES, FULL_SOURCES };
+module.exports = { prepareCandidateResize1080to720Case, runCandidateResize1080to720Campaign, requireValidCampaignTelemetry, main, runCampaign, runCandidateKeep720Campaign, prepareCandidateKeep720Case, campaign, sourcesForCampaign, selectedCounts, fixtureTimeoutMs, micros, count, SOURCES, FULL_SOURCES };

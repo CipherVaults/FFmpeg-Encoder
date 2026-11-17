@@ -12,7 +12,11 @@ const { normalizeProbe } = require('./inspection.cjs');
 const { resolveTimeRange, resolveAudio, resolveGeometry } = require('./operation-contract.cjs');
 const { assertEncodeOperationPlan, describeEncodeOperationSource, fingerprintEncodeSource } = require('./encode-operation.cjs');
 
-const { FAMILY_ID: PROPORTIONAL, RESOURCE_POLICY, deriveCfrFlacResources } = require('./operation-resource-budget.cjs');
+const { FAMILY_ID: PROPORTIONAL, RESOURCE_POLICY, deriveCfrFlacResources,
+  RESIZE_FAMILY_ID: RESIZE_PROPORTIONAL, RESIZE_RESOURCE_POLICY, deriveCfrResizeFlacResources } = require('./operation-resource-budget.cjs');
+// Two fixed main-owned range policies, never caller-selected coefficients.
+const proportionalId = id => id === PROPORTIONAL || id === RESIZE_PROPORTIONAL;
+const resourcePolicy = id => id === RESIZE_PROPORTIONAL ? RESIZE_RESOURCE_POLICY : RESOURCE_POLICY;
 const proportionalResults = new WeakMap();
 // A result's private issuing epoch and plan identity, never a public flag, carry
 // resource authority. Callers must still requireCurrent at the normal boundary;
@@ -145,11 +149,11 @@ function timingQualification(value, runtimeIdentity, lossless = false) {
 }
 function family(value) {
   const id = plain(value) && Object.getOwnPropertyDescriptor(value, 'id');
-  const proportional = id && own(id, 'value') && id.value === PROPORTIONAL;
+  const proportional = id && own(id, 'value') && proportionalId(id.value);
   const keys = ['id', 'evidenceIds', 'runtimeIdentity', 'environment', 'settings', 'qualification', 'timingQualification', ...(proportional ? ['resourcePolicy'] : ['budget', 'executionBudgetMs'])]; record(value, keys);
   need(proportional || FAMILY_IDS.includes(value.id), 'Only the fixed SDR AAC-range, FLAC-range and whole-file copied-audio family schemas are implemented.');
   const full = value.id === FULL, flac = value.id === FLAC || proportional;
-  if (proportional) need(value.resourcePolicy === RESOURCE_POLICY, 'Only the fixed proportional FLAC resource policy is supported.');
+  if (proportional) need(value.resourcePolicy === resourcePolicy(value.id), 'Only the fixed proportional FLAC resource policy is supported.');
   const evidenceIds = list(value.evidenceIds, 32, 'Family provenance').map(item => identity(item, 'Retained family evidence'));
   need(evidenceIds.length > 0 && new Set(evidenceIds).size === evidenceIds.length, 'Family provenance needs unique retained evidence identities.');
   const runtimeIdentity = digest(value.runtimeIdentity, 'Paired runtime'), config = settings(value.settings);
@@ -175,7 +179,7 @@ function family(value) {
   }
   need([endpoint.evidenceId, timing.evidenceId].every(id => evidenceIds.includes(id)), 'Both measured qualifications must belong to retained family provenance.');
   return freeze({ id: value.id, evidenceIds, runtimeIdentity, environment: environment(value.environment, config, runtimeIdentity), settings: config,
-    qualification: endpoint, timingQualification: timing, ...(proportional ? { resourcePolicy: RESOURCE_POLICY }
+    qualification: endpoint, timingQualification: timing, ...(proportional ? { resourcePolicy: resourcePolicy(value.id) }
       : { budget: budget(value.budget), executionBudgetMs: integer(value.executionBudgetMs, 'Execution budget', 1, 1800000) }) });
 }
 function rational(value, short = false) {
@@ -315,9 +319,12 @@ function fullExtents(video, audio, label) {
   need(compare(absolute(minus(audio, video)), AAC_FRAME) <= 0n, `The ${label} audio must end within one AAC frame of the video for the whole-file copied-audio family.`);
 }
 function requestScope(request, facts, contract, id = FAMILY) {
-  const audio = facts.sourceAudio, proportional = id === PROPORTIONAL, flac = id === FLAC || proportional;
+  const audio = facts.sourceAudio, proportional = proportionalId(id), flac = id === FLAC || proportional;
   if (proportional) {
-    need(facts.width === 1280 && facts.rate === 30 && request.resolution === 'source', 'Only proportional 720p30 Keep Source is implemented.');
+    need(facts.rate === 30 && (id === RESIZE_PROPORTIONAL
+      ? facts.width === 1920 && request.resolution === '720'
+      : facts.width === 1280 && request.resolution === 'source'),
+    'Only the exact proportional 720p30 Keep Source or 1080p30 to720p range belongs to its respective family.');
     // The core contract carries the measured clock boundary too; a caller must
     // not obtain a broader branded family by omitting the Linux composition.
     need(compare(facts.videoTick, rat(1n, 15360n)) === 0n && compare(facts.audioTick, rat(1n, 48000n)) === 0n,
@@ -344,7 +351,7 @@ function bindings(value, familyId, scopeOnly = false) {
   need(!plan.compatibilityPath && plan.runtimeIdentity === runtimeIdentity && plan.expectedOutput?.operation === 'encode'
     && plan.expectedOutput.color?.supported === true && plan.expectedOutput.color.classification === 'sdr', 'A genuine matching changed SDR Encode plan is required.');
   // Without a family id this only gathers facts; the scope is that family's own.
-  const proportional = familyId === PROPORTIONAL;
+  const proportional = proportionalId(familyId);
   if (proportional && !scopeOnly) need(value.budget === null, 'Proportional selection derives its budget; caller overrides are forbidden.');
   const facts = sourceFacts(describeEncodeOperationSource(plan), BigInt(source.size), proportional);
   const base = { plan, facts, sourcePolicy: { id: null, rate: facts.rate, maximumExtentUs: MAX_EXTENT_US }, state: { planFingerprint: digest(plan.planFingerprint, 'Plan fingerprint'), settings: config, sourceIdentity: source,
@@ -355,12 +362,13 @@ function bindings(value, familyId, scopeOnly = false) {
 // Binds one family's own scope to bindings already read once; options are never re-read.
 function forFamily(base, familyId) {
   const request = requestScope(base.plan.contract.request, base.facts, base.plan.contract, familyId);
-  if (familyId === PROPORTIONAL) {
+  if (proportionalId(familyId)) {
     const sourceExtentUs = extentUs(maximum(maximum(base.facts.extents.video, base.facts.extents.audio), base.facts.extents.container));
     const interval = base.plan.contract.range.resolved, selectedExtentUs = interval.endUs - interval.startUs;
-    const derived = deriveCfrFlacResources({ sourceExtentUs, selectedExtentUs, sourceBytes: base.state.sourceIdentity.size });
+    const derive = familyId === RESIZE_PROPORTIONAL ? deriveCfrResizeFlacResources : deriveCfrFlacResources;
+    const derived = derive({ sourceExtentUs, selectedExtentUs, sourceBytes: base.state.sourceIdentity.size });
     return { plan: base.plan, facts: base.facts, sourcePolicy: { id: familyId, rate: base.facts.rate, maximumExtentUs: sourceExtentUs },
-      state: { ...base.state, familyId, request, resourcePolicy: RESOURCE_POLICY, sourceExtentUs, selectedExtentUs,
+      state: { ...base.state, familyId, request, resourcePolicy: resourcePolicy(familyId), sourceExtentUs, selectedExtentUs,
         inputBudget: base.state.budget, inputExecutionBudgetMs: base.state.executionBudgetMs, ...derived } };
   }
   return { plan: base.plan, facts: base.facts, sourcePolicy: { ...base.sourcePolicy, id: familyId }, state: { ...base.state, familyId, request } };
@@ -415,12 +423,12 @@ class OperationFamilySelector {
       }
       if (admitted.length > 1) throw new ToolError(AMBIGUOUS, 'More than one measured family admits this exact job; nothing was selected.');
       need(admitted.length === 1, preferredReason(reasons, plan.contract.request) || 'No trusted measured family and exact complete execution budget apply to this current job.');
-      const selected = admitted[0], current = bindings(options, selected.id), proportional = selected.id === PROPORTIONAL;
+      const selected = admitted[0], current = bindings(options, selected.id), proportional = proportionalId(selected.id);
       need(proportional || same(selected.budget, current.state.budget) && selected.executionBudgetMs === current.state.executionBudgetMs, 'No trusted measured family and exact complete execution budget apply to this current job.');
       const token = Object.freeze({}), result = freeze({ qualification: selected.qualification, timingQualification: selected.timingQualification,
         budget: current.state.budget, evidenceIds: selected.evidenceIds, executionBudgetMs: current.state.executionBudgetMs, policyIdentity: this.#policy,
         controlsRequired: true, sourcePolicy: current.sourcePolicy,
-        ...(proportional ? { proportional: true, resourcePolicy: RESOURCE_POLICY, resources: current.state.resources } : {}) });
+        ...(proportional ? { proportional: true, resourcePolicy: resourcePolicy(selected.id), resources: current.state.resources } : {}) });
       if (proportional) { const epoch = this.#epoch; proportionalResults.set(result, { plan: current.plan, sourceIdentity: freeze(current.state.sourceIdentity),
         sourceProbeFingerprint: current.state.sourceProbeFingerprint, verify: evidence => this.#verifyCollectedSource(token, evidence), current: () => this.#epoch === epoch }); }
       this.#selections.set(token, { epoch: this.#epoch, plan: current.plan, state: freeze(current.state), facts: current.facts, result }); return token;
@@ -447,10 +455,13 @@ class OperationFamilySelector {
     const runtimeIdentity = digest(options.runtimeIdentity, 'Paired runtime');
     const tuple = this.#families.filter(item => item.runtimeIdentity === runtimeIdentity && same(item.settings, config)); if (!tuple.length) return {};
     try {
-      const probe = normalizeProbe(options.inspection.probe), facts = sourceFacts(probe);
-      const selected = tuple.find(item => { try { requestScope(options.request, facts, undefined, item.id); return true; } catch { return false; } });
-      if (!selected) return {};
-      if (facts.orientation !== 'absent') return {};
+      const probe = normalizeProbe(options.inspection.probe);
+      let facts;
+      const selected = tuple.find(item => { try {
+        const candidate = sourceFacts(probe, undefined, proportionalId(item.id));
+        requestScope(options.request, candidate, undefined, item.id); facts = candidate; return true;
+      } catch { return false; } });
+      if (!selected || facts.orientation !== 'absent') return {};
       return freeze({ identityOrientationQualification: { evidenceId: selected.qualification.evidenceId, runtimeIdentity,
         sourceEvidenceFingerprint: fingerprintEncodeSource(probe), videoIndex: facts.videoIndex } });
     } catch { return {}; }
@@ -502,7 +513,7 @@ class OperationFamilySelector {
       need(evidence.schema === 1 && evidence.status === 'completed' && evidence.runtimeIdentity === selected.state.runtimeIdentity
         && evidence.planFingerprint === selected.state.planFingerprint && evidence.sourcePath === selected.state.sourceIdentity.canonicalPath, 'Complete source collection must bind this exact plan, runtime and source path.');
       record(evidence.completeSource, ['video', 'audio']);
-      const video = evidence.completeSource.video, facts = selected.facts, full = selected.state.familyId === FULL, proportional = selected.state.familyId === PROPORTIONAL;
+      const video = evidence.completeSource.video, facts = selected.facts, full = selected.state.familyId === FULL, proportional = proportionalId(selected.state.familyId);
       const seconds = full ? FULL_MAX_SECONDS : 120n, limit = proportional ? rat(BigInt(selected.state.sourceExtentUs), 1000000n) : rat(seconds);
       const countLimit = rate => (limit.n * rate + limit.d - 1n) / limit.d;
       record(video, ['frames', 'firstTime', 'endTime', 'maximumNominalCadenceErrorUs', 'maximumNominalDurationErrorUs', 'maximumNominalPhaseErrorUs', 'properties']);

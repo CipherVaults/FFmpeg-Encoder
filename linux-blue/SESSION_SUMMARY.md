@@ -1,3 +1,329 @@
+# 📘 Session: November 17, 2026 — FFmpeg Encoder — Extend the private proportional family to one resize route and close the genuine candidate calibration gap
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model or tool identity | Effort setting | Evidence basis and verification limit |
+|---|---|---|---|
+| Engineering lead / integrator | GPT-6 Astra, recorded lead configuration | Ultra, recorded assignment | Chose the bounded E3 continuation, separated isolated proposals from authoritative integration and retained exact-source qualification gates. Configuration is not backend or performance attestation. |
+| Isolated family/collector source contributor | Not separately established here | Not separately established | Prepared a five-file proposal against checkpoint 013, retained red/green and unchanged-legacy-failure evidence, and handed it off for independent review. Source tests used injected children/evidence, not actual resize media. |
+| Isolated calibration-harness contributor | Not separately established here | Not separately established | Prepared two additional source/test paths after the family proposal, retained failures, added bounded per-child diagnostic capture and corrected a specific negative-test coverage gap in V2. |
+| Independent source and launcher reviewers | Not separately established here | Not separately established | Independently reran scoped pure/injected source checks, examined exact patches and reviewed a finite prospective launcher. Manual scoped review is not Security Cloud, media qualification or run approval. |
+| Preservation / mirror role | Not separately established here | Not separately established | Owns exact source/full-history restoration and full native summary verification. Actual publication receipts, not a queued task, establish completed preservation. |
+| Documentation editor | Blue documentation contributor; model not independently established here | Not separately established | Read the actual proposals, reviews, retained test logs and preparation records; drafted outside the checkout and preserves exact history. No source implementation, tests, runtime, media, desktop or Git publication by this role. |
+
+**Record basis:** The preceding native milestone established one finite Keep720 journey on immutable checkpoint 013, followed by a separately source-tested wording fix in checkpoint 014. This entry follows the next reviewed source slice, not a fourth Keep720 native attempt or a claim that successful Keep720 evidence transfers to resize. Isolated preparation began while the native source was frozen; its actual chronology is preserved rather than assigning all work a fabricated post-014 start. The prior 514,996-byte cumulative body remains exact.
+
+## 🕒 Time
+
+- Date / date range: November 17, 2026, using each retained record's explicit UTC time; Cairo civil time is UTC+2. Native diagnostic clock limitations from the earlier session remain historical and are not used to time this source work.
+- Start: Exact active-work start was not measured. The family/collector proposal's independent review is dated 18:31:21.632789 UTC, while the native work was still separately being reconciled. That is a review timestamp, not the source author's start time.
+- Continuation: The independent five-file proposal remained outside the frozen checkout. A two-file genuine candidate resize harness was then prepared and reviewed, followed by a V2 test-only precision correction. The prospective launch review is dated 18:52:38.981588 UTC. Authoritative integration then followed actual checkpoint 014 restoration, not merely the existence of isolated green tests.
+- End / stopping point: Authoritative integration was recorded at 18:56:55.212692 UTC after verified checkpoint 014 source restoration. Final focused tests began 18:56:55.310 UTC (2,055.114 ms), service tests 18:56:57.439 UTC (7,503.371 ms) and broad Linux tests 18:57:05.019 UTC (1,329.177 ms). This session stops before checkpoint 015 preservation or any resize campaign; exact documentation finish/active time is not measured.
+- Session type: Bounded shared-family/collector source development, calibration-harness development, independent source review, prospective launch design and exact-source continuity.
+- Project stage: Linux 0.7 E3 proportional resize source slice, before genuine resize media calibration, service publication proof or native resize acceptance.
+- Main focus: Admit only the fixed 1080p30-to-720p precision-FLAC range under its own private plan/resource identity, then provide a genuine candidate calibration route with explicit diagnostic completeness.
+- Contributors: Product ownership and final acceptance stay with Ahmed; source, lead, review, preservation and documentation roles are distinguished above.
+- Model / effort: Known role configuration or explicitly unknown above; one role's identity is not attributed to others.
+- Active working time: Not measured. Test durations are individual retained executions, not total labor, throughput or resize performance.
+- Reason for summary: Preserve what changed in source, which red and independent checks support it, the deliberate invalidation of earlier producer-bound authority and the exact boundary before any future media run.
+
+## 🎯 Session Goal
+
+The narrow Keep720 chain had crossed real service and native-consumer boundaries, but the proportional resize family was still only a separately prepared direction. Existing geometry, evidence, storage and resource primitives did not by themselves make a genuine candidate resize route. A legacy resize helper depended on historical runtime/source policy, while the candidate calibration path accepted only Keep720. Using either historical reports or a caller-created policy to bridge that gap would confuse source compatibility with measured qualification.
+
+The goal was therefore a small, reviewable source extension: preserve the existing private authority machinery, select one fixed resize family with its distinct resource formula, acquire complete source evidence through the genuine selector, and close the two-file harness gap without activating a service factory or UI/default. The prior 014 source/native evidence stays immutable and usable as history, not reused to qualify changed shared producers.
+
+This work aims to:
+
+- Reuse existing operation builders, private selector epochs, complete-source checks, runner/storage/telemetry machinery and resource derivation rather than create a replacement pipeline or caller-configurable framework.
+- Keep the new envelope fixed at progressive 1920×1080 H.264/30 fps SDR square-pixel input, precise range, stereo 48 kHz integer PCM and 1280×720 precision-FLAC Matroska output, with exact clocks/settings/runtime binding.
+- Preserve legacy and Keep720 boundaries, including Full/AAC/other-rate/geometry refusals and source-bound interpretation of absent orientation rather than unconditional zero rotation.
+- Retain red evidence and test mistakes, distinguish direct coverage from guards that reject earlier, and keep existing legacy failures visible.
+- Make successful and failed child diagnostics available with explicit prefix/completeness status, and make final post-close report state authoritative rather than a pre-close console line.
+- Stop before resize media execution until actual source preservation, exact runtime/source checks, independent finite-plan review and a new explicit run authorization exist.
+
+## 🛠️ Actions Taken
+
+### 1. Preserve the actual predecessor and keep source ownership separate
+
+Checkpoint 014 is local `40391115b769dd30d4a986db1e1126fa2f4a8f29`. Its cumulative summary is 514,996 bytes, SHA-256 `0f1b9d84950d418eb4e1ff7e66b95cfad2fe332a624875f6232c9a14e458a567`. It contains the exact native-attempt history and later wording repair, not resize qualification. Its source restoration/publication status is owned by actual preservation receipts.
+
+The [checkpoint 014 Notion backup](https://app.notion.com/p/41bbd7ade63b813d8f67c1640a4c8fc3) was independently downloaded/restored against all 533 files. Its exact ZIP is 3,114,423 bytes, SHA-256 `25081e701fd1be14529fa3628d65317295012af01b54ca8693144e5df765380d`; the 2,977,495-byte named-branch full fourteen-commit bundle, SHA-256 `e5f80eb8d2968da5ca69c2de5728c3f6f4fb574515827798bbc7f5f1e1f03e9a`, was cloned/verified. The [native full cumulative summary](https://app.notion.com/p/41bbd7ade63b81cdbde0fc44b9c52b0e) was fetched unabridged with all fourteen sessions after a two-chunk upload. Source archive and readable native content are distinct checks, both completed.
+
+Original-ancestry GitHub publication reached `3bb31a785c6c3ace4f45fc4cc6ad4e136730f8bf` on `CipherVaults/FFmpeg-Encoder-Blue-Linux`, branch `blue/linux-development`, sole parent `81a483c9729432c80dacf62159d6a2e29d784596`, tree `801a67086131e85d609318696e6ee4e6c9ef6c2c`. The actual seven-path bytes/blobs, parent/tree and fresh ref were verified at 18:56:04.657418 UTC. The remote tree contains 915 files: 908 unchanged, four modified, three new, zero deleted. The verified source restoration and this GitHub receipt preceded the authoritative E3 integration receipt; full bundle/native-summary completion is also verified by this record cutoff. The new source work was not silently added to the old checkpoint.
+
+The family and harness proposals both cite base `c270331a001eb57aed07a6395d24d061e6ca177d`; this is their real isolated preparation base. Later 014 changed the renderer/test and records. It would be wrong to silently relabel the proposals as authored on 014 or assume compatibility from a similar branch name. Actual base-file identity and patch applicability must be checked before authoritative integration, and final integrated tests must be attributed to their own bytes.
+
+### 2. Extend only the fixed private proportional family and collection route
+
+The five-file proposal is `e3-resize-proposal-v1.patch`, SHA-256 `5f8986f6440996e123d9bd0d28556c948431075fc900ad49c24fe390722ae640`. Its handoff is 14,869 bytes, SHA-256 `6623a577f403c4f2daaa6b3f12bd1a5124c3a3cb8394bad7e1e8aea5118600ce`. Only `src/operation-family.cjs`, `src/operation-evidence.cjs` and three new resize-specific test files belong to that patch.
+
+The selector recognizes two fixed proportional IDs and chooses the resource policy by the actual family. The existing Keep720 family still requires 1280-wide 30 fps source with Keep Source resolution; the new family requires 1920-wide 30 fps source with requested 720 output. Both retain the existing exact video/audio clocks, source facts, changed genuine Encode plan, runtime, source identity and settings bindings. A caller cannot choose resource coefficients or supply a replacement budget to acquire proportional authority.
+
+Per-family selection derives source extent from verified video/audio/container facts and selected extent from the genuine resolved plan. Resize selects `deriveCfrResizeFlacResources` and its distinct fixed policy; Keep720 retains its existing derivation. The frozen result carries private plan/source/fingerprint/epoch currentness in the existing WeakMap-backed path. A public `proportional` flag or a lookalike object is not the authority. Complete collected source verification uses the selected proportional extent, while legacy family limits remain their own limits rather than becoming unlimited because one new family exists.
+
+The collector recognizes the new resize policy only alongside a privately approved proportional selection. It reuses existing complete-source, FLAC integer-PCM and binding checks instead of accepting an arbitrary policy object. Collection acquires evidence; it does not issue publication authority. In particular, a PCM difference can be acquired and then rejected by the existing canonical output validator. A test that observes collection completion must not claim that the output has thereby become publishable.
+
+The final proposed production hashes are `4453619d3f68d891bf7472a9dcfc919508b4dbb0533e0a07ee3b48461424ae3e` for the 49,891-byte family source and `8de2516179f3c80667004855ef720250b934fd7b816b170ac2be1b9c39179ef8` for the 53,166-byte evidence source. No encoder-service, resource formula, shared operation contract, runtime pin, capsule, catalog, UI/default or Windows entry source is changed by this proposal.
+
+### 3. Preserve exact orientation scope rather than treating missing metadata as identity
+
+The existing orientation qualification path formerly evaluated source facts with the legacy extent interpretation before choosing a family. The new code evaluates each exact candidate tuple with its own proportional/legacy bounds, then applies that family's request scope. Only a matching tuple with absent orientation can receive the source-fingerprint/video-index/runtime-bound identity-orientation interpretation.
+
+This supports the reviewed long proportional resize source without borrowing a legacy or Keep720 grant. It does not globally interpret absent orientation as zero rotation, and it does not waive explicit nonidentity metadata. Wrong geometry, Full, AAC, settings, 60 fps and mismatching source/runtime tuples remain refused. The interpretation is still tied to the actual source fingerprint and genuine plan path, not a portable permission that can be carried to another input.
+
+Independent review includes a durable six-test orientation repeat: five frozen core tests plus one independent assertion. The earlier independent assertion was originally only in tool output; saving and repeating it created a durable check without pretending the original already had a retained file. This is source-level scope evidence, not measured rotated-media or visual-quality acceptance.
+
+### 4. Keep the family proposal's red, corrected test mistakes and regression baseline
+
+The final exact three new test files were run against the unchanged baseline source before the proposal. That hash-bound red run contained 25 tests, one passing and 24 failing, exit 1. Its stdout SHA-256 is `7a62fc3696f57f99de98bcb31802e893dfbe05d7a4ab356fabb05f545110961c`. This is stronger red provenance than the earlier exploratory 15-case run, whose standalone initial test hash was not captured. The earlier log remains retained rather than substituted for the final exact-test baseline comparison.
+
+The early green attempt reached 14 passes and one test-regex failure because the existing builder emitted `setsar=(1/1)`. The fixture/assertion was corrected to the actual existing builder behavior; no production geometry builder was changed merely to satisfy the regex. The final new-test set passed 25/25. The combined new and existing proportional/resource/encode/contract set passed 125/125, with no skipped tests. These are pure/injected-child tests using EventEmitters and byte streams, not real FFmpeg or full media performance.
+
+Legacy comparison separately ran the same four old suites on baseline and patched source. Both were 73 passing / 25 failing of 98, and the exact failing labels matched. This preserves the known baseline rather than calling 125/125 an all-project green result. The old failures were neither deleted nor rebaselined, and downstream behavior not reached because an old prerequisite fails remains unknown. This 25-failure legacy set is not the same count as the earlier 27-failure broad Linux suite.
+
+The independent review `INDEPENDENT_REVIEW.json` is 3,682 bytes, SHA-256 `8724531296fb6e5a7c26a482c895ca6572919c00b811b64cf779e54c72ea113a`, dated 18:31:21.632789 UTC. It verified exact five-file identities, independently passed the 125-test combined command and repeated the six-test orientation check. It found no blocker for a bounded source checkpoint. Its scope is manual source/injected evidence review, not Security Cloud, authoritative integration, runtime opening, media execution or publication.
+
+### 5. Identify and close the genuine candidate resize harness gap
+
+The existing long-range harness already had fixed resize geometry and source construction, but its genuine candidate path required `kind === keep720`, hardcoded the Keep720 family/resource pair and called the Keep720 preparation helper. The legacy `runCampaign('resize1080to720')` path used historical pins and an unbranded source policy. Thus the five-file selector/collector proposal alone did not supply an acceptable real candidate campaign. Reusing a legacy path would bypass the very binding that the source slice intended to preserve.
+
+A separate two-file patch modifies only `linux-blue/workbench-long-range-calibration.cjs` and its focused test. V2 patch SHA-256 is `cf3276e535d099f6b7c06dc3003f0960080099fba8296aad458070b96bbca71e`; final handoff SHA-256 is `ca252619f4d69bec06a3c121f24faa62ee394e50f1e96fa761ff0361ed65a447`. The final production file is 31,633 bytes, SHA-256 `1e7a3425672f3662733370de2ee8babbaecea912db899556d7ad4a0bcbc66ee9`; V2 test is 20,580 bytes, SHA-256 `29d446ee25955525caf1f583f2be3f8bfc897205439f38ebeb806227c505b6cc`.
+
+The source adds explicit fixed resize preparation/campaign wrappers while retaining the Keep720 wrappers. Internal two-kind dispatch chooses an existing fixed campaign definition, not a caller-supplied family, executable, geometry or coefficient. The public campaign options remain one inert `verifiedRuntime` key with a genuine private runtime handle; plain option objects, accessor refusal, handle currentness and exact source identity remain enforced.
+
+Pre-plan resize orientation comes from the exact selector tuple and source fingerprint, with runtime/source currentness checked before use. The temporary orientation selector is invalidated afterward. Final-plan preparation issues a separate genuine resize selection and confirms the actual derived resources agree with the independently computed forecast. Currentness remains checked before encoding and each collector child. It uses the distinct candidate-resize1080to720 artifact namespace, not a Keep720 report renamed as resize evidence.
+
+The new path does not create a service capsule, activate a catalog, change default/UI selection or repin a historical report. Its frozen qualifications remain preregistered clock-derived acquisition bounds, not a measured qualification obtained by merely constructing the descriptor.
+
+### 6. Retain bounded child diagnostics and final close failures honestly
+
+Earlier campaigns could establish output/PCM success while successful-child warnings were not individually retained. The new harness listens to each owned child's stderr without replacing the caller's drain callbacks. Each row binds its sequence, executable/argv, close state/code/signal and diagnostic availability. It retains at most 256 KiB per child, counts total bytes and records retained length, SHA, path, truncation and `completeAtSave`. Failure and save failure are retained rather than inferred from empty launcher stderr.
+
+The listener captures its own child record so a later reset/current child cannot misattribute a postverification failure. If invocation settles before the child closes, `completeAtSave` remains false. Late counters can exceed the already saved prefix; they cannot retroactively make that file complete. A saved hash identifies the saved bytes, not missing later bytes. This is bounded observation, not an OS sandbox or guarantee that every failure path produces a complete transcript.
+
+Runtime closure is handled after campaign settlement. When a report exists, a close failure changes it to `failed-retained`, records the close error and attempts to persist the final state. If both campaign and close fail without a report, ordered failures are aggregated rather than masking the original. Report persistence can itself fail and is not promised under all filesystem errors.
+
+The existing console summary is emitted before the outer runtime close. Therefore a console `passed` line is provisional, not the final success authority. Consumers must use the final returned/persisted post-close report and actual closure evidence. The prospective external launcher explicitly requires deep equality of returned and saved report, closed balanced census and complete nontruncated diagnostics before allowing a clean success result. A provisional/failed raw report is preserved even when those external gates refuse success.
+
+Per-child free-space admission now checks the existing 27 GiB floor in the harness. The 160-child serial ceiling, 30-minute abort request and derived case/child budgets remain unchanged. The 2 GiB aggregate owned-artifact admission belongs to the separately reviewed launcher. None of these checks is a hard live-write cap or guaranteed process exit deadline.
+
+### 7. Correct a telemetry negative test that did not reach the intended branch
+
+The source now explicitly requires `telemetry.valid === true`, exactly one video and one audio stream, and zero unknown input rows in each. Earlier code computed telemetry validation but did not enforce that result in calibration acceptance. This is a narrow harness acceptance check, not a change to shared telemetry semantics or an excuse to relax canonical output validation.
+
+The first harness red captured three new tests before source edits: 12 passes and three failures of 15. Additional late/open-end and successful-stderr tests were added later and are not retroactively claimed as part of that original red. An early 14/15 run failed because a test constructed a source-resolution plan with a resize orientation grant; the test fixture's conditional was corrected, not the production builder. A subsequent combined set passed 48 tests, then the broader source/injected set passed 148/148.
+
+Independent V1 review also passed 148/148 and found no source blocker, but identified a precise coverage gap. The unknown-row negative supplied only one stream, so the earlier stream-count guard could reject before reaching the unknown-row assertion. This did not prove the unknown-row branch was broken; it proved the test did not establish the claim it was intended to cover.
+
+V2 adds an assertion with `valid: true` and exactly video/audio streams, then puts `unknownInputRecords = 1` on video and asserts the specific unknown-row refusal. Production and all five prerequisite files are unchanged. Worker and independent V2 focused checks passed 17/17. Those earlier isolated worker/independent 148/148 results belong to V1 test bytes, not a silently claimed full V2 rerun. The later actual integrated lead V2 148/148 is separately recorded below. The final V2 independent review SHA-256 is `b07c0c8152ebf77736822bb95fc6ba91c7629b832934a59350daa6e843bcf903`.
+
+Injected campaign tests intentionally stop at fixture generation or a later missing synthetic output. They do not establish a complete successful synthetic resize campaign, real media orientation, scaler quality or actual runtime closure behavior in this environment. The full real campaign orientation path was source-traced and supported by separate family tests, not executed end-to-end with resize media.
+
+### 8. Reconcile actual integration and final lead validation
+
+At 18:56:55.212692 UTC the lead integrated the exact reviewed five-file family/collector patch and V2 two-file harness patch onto the actual `4039111` checkout after verified 014 source restoration. The seven names are explicitly retained in `checkpoint015-integration-receipt.json`, 968 bytes, SHA-256 `7c3accf2e277f7fcb5fd47e25fa85e0302e5e19f86236e5df9009cff34ce4a74`. No source writer remained active after final validation. This is actual local working integration, not yet checkpoint 015 commit/backup or resize qualification.
+
+The final lead focused command in `20261117T185655Z_resize-source-lead-focused` covered the calibration harness, candidate runtime and new/existing proportional family/evidence/service/resource/encode/contract tests. It passed 148/148, no skipped tests, exit 0, in 2,055.114 ms. Its test snapshot contains the exact 20,580-byte V2 harness test SHA `29d446ee…`; unlike the earlier V1 148-test runs, this is an actual full integrated V2 rerun. The receipt reports no covered byte change during execution.
+
+The service/process-runner command in `20261117T185657Z_resize-source-lead-service` passed 125/126, exit 1, in 7,503.371 ms. Its sole failure is the already retained intermittent `PROTECTED_SOURCE` versus `SOURCE_CHECK_INCOMPLETE` missing-source diagnostic mismatch. This source slice does not claim to fix it. EncoderService's hash remains `5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7`; no covered bytes changed during that run.
+
+The actual broad Linux run `20261117T185705Z_resize-source-lead-linux` passed 178/213 with 35 failures, exit 1, in 1,329.177 ms. `checkpoint015-broad-failure-reconciliation.json`, 1,619 bytes, SHA-256 `e58a239e7786e5730c72f365a5b460d11fab327b45cf61c63e7055552c9ee046`, compared the prior 27-failure log and current log by exact failure names. All 27 prior names remain, with eight new candidate producer-identity refusals. No earlier failure disappeared. Normalized diagnostic-name sets and raw wrapper lines must not be confused with test counts.
+
+Those eight refusals cover the immutable producer closure plus candidate factory/report-currentness, cancellation, cleanup, OutputAccess seam and candidate workbench preparation/snapshot tests that depend on opening that source-bound composition. They occur because the unchanged `candidate-keep720-service.cjs` map explicitly pins all three changed production modules: `linux-blue/workbench-long-range-calibration.cjs`, `src/operation-family.cjs` and `src/operation-evidence.cjs`. The map remains unchanged, and the current bytes no longer match the earlier qualification capsule. They do not prove those later behaviors broke, since the gate refuses before their intended positive path, and they are not silently waived as unrelated noise. The current candidate service/workbench cannot be claimed usable on the changed source until separately requalified.
+
+All three lead runs used Node 24.22.1 on Linux and retained exact test/covered-source identities. Their broad dirty-path count includes pre-existing reconstructed/untracked material and is not the seven-file authorized scope. Only explicit reviewed paths belong to this integration. No actual candidate runtime/media, Electron or native launch was performed by these source tests.
+
+The expected consequence of shared family/evidence producer changes is deliberate refusal by old exact-source capsules. Existing Keep720 normal-service/native proof remains valid for its immutable historical bytes, not automatically for the changed working source. The eight new producer-gate failures are counted and explained, not concealed under the earlier 27 broad failures or “fixed” by merely updating hashes. Final lead test receipts own the actual integrated pass/fail counts and bytes.
+
+### 9. Prepare one finite resize calibration without authorizing or running it
+
+The separate preparation directory contains a reviewed launcher, outer runner, fixed JSON campaign plan and immutable runtime manifest. The current status overlay distinguishes those prepared files from the retained earlier design text that originally said no runnable launcher/API existed. `PLAN-design-v1.md` preserves the original rationale, SHA-256 `f95f2749596c2d57e432f30821c4a069379a3b8d5330a8caebc902e88765b270`. The later concrete JSON plan and reviewed artifact hashes govern a prospective run; the old prose is not an excuse to claim the helpers were already executed.
+
+Independent review at 18:52:38.981588 UTC gives conditional GO only. It records launcher SHA-256 `f15c58a14d025d8a4896c477c79476c28c47f102c1e61a72e7203723f2acd180`, outer runner `04d87badba422f87bcf15f558713bbe5b6801b20c93218d19ea8b7697fce08f2`, JSON plan `08cca5418d754bf14d7564fbab878b4ef981f535876ca13ef16e1c969adb8544` and runtime manifest `a957385be8d57874dfd5e88a9cbf137ecbe9311ebccc5e25280e6e52b72a511c`. The seven required source/test hashes matched the isolated reviewed proposals, not yet an actual committed authoritative checkpoint. Exact paired runtime and seven listed dependency bytes were checked read-only; that is not runtime/media execution or exhaustive dynamic-loading discovery.
+
+The fixed prospective cases are a fresh 150-second 1080p30 source with [100,140) late range, the same source from 130 seconds to verified source end, and a separate fresh 11-second horizontally flipped/chirped heldout source with [0.413,8.621). Expected frame/sample pairs are 1,200/1,920,000; 600/960,000; and 246/393,984. These are preregistered expectations, not observed outputs. The entire source must be decoded/verified for each case and selected/output PCM must match. Scaling changes video pixels, so successful evidence would not establish source/output video-pixel identity or general visual quality.
+
+Resize resource derivation charges the existing 3,375 ms per source-second decode coefficient plus selected scaling charge, distinct from Keep720's 1,500 ms. Those are fixed acceptance budgets, not measured throughput. No coefficient is to be fitted after observing a failure. Output geometry, source metadata/clocks/brand/chroma/orientation, complete source extent, exact range membership, full output decode, telemetry correspondence and no unknown rows remain independent acceptance checks.
+
+The outer/inner gates require an actual checkpoint 015-or-later containing the exact seven reviewed paths, exact full tracked-tree key set and immutable/current file hashes, independently verified full Notion restore and new scope-specific explicit authorization. Gate booleans represent work that must actually be done, not switches to assert to unlock a run. The old 014/native/Keep720 approvals cannot be reused. Exclusive attempt/log markers, exact one-new-directory reconciliation, pre/post source/runtime identity checks, no loader overrides and no retry loop remain required.
+
+Planned bounds are maximum 160 serial children, maximum concurrency one, 30-minute abort request, 27 GiB available before each child and 2 GiB owned-artifact admission. The final returned/saved report must agree after close; each child row must close with exit 0 and complete available nontruncated saved stderr with matching length/hash and no save failure. Completion-receipt persistence can fail on filesystem errors; outer logs/actual closure and raw inventory must then be reconciled rather than inventing a receipt. Neither conditional GO nor a prepared launch file grants execution authority.
+
+At this source-session cutoff, `APPROVED_CHECKPOINT.json` is absent, no resize campaign has started and no genuine resize-media output/report exists. Conditional launch review and source integration are complete; actual checkpoint 015 preservation and a new explicit one-campaign authorization remain prerequisites. No service/native/default/catalog activation follows from the prepared helpers.
+
+### 10. Preserve the full source-session handoff without overwriting evidence
+
+The saved owning records are [Proportional Resize source execution](2026-11-17_Proportional_Resize_Source.md), [structured receipts](2026-11-17_Proportional_Resize_Source_Receipts.json), [Current](CURRENT_STATE.md) and this complete cumulative Session. These local links exist and were read for the final cross-check before the repository write. The lead owns source integration, Current/execution/receipts and Git/publication; this documentation role edits only the released Session path.
+
+The final lead execution record is 13,663 bytes, SHA-256 `c4a398e1409cb5c66a344f7ec663c0a5ffc1b09b79d4284747e415489062687c`; structured receipts are 30,337 bytes, SHA-256 `32884820ea5a6c9308e6d8629eba5b3d0b9466ba4de69640f2a9e5bca63b5036`, recorded at 19:01:33.410435 UTC. Current is 5,374 bytes. The planned checkpoint contains exactly eleven paths: seven reviewed source/tests plus Current, Session and these two new records. Three new tests and two new records yield an expected 538-file source archive and fifteen-commit local history after the new commit. Those expected counts do not mean the backup already exists.
+
+No new portable media report is created for this source-only step. Raw runtime/media, future launch/approval helpers, private roots/profile data, historical unknown recovered payload and unrelated source remain excluded. Shared family/evidence logic is cross-platform code, but these pure/injected tests ran on Linux; they are not Windows/GPU execution. Existing geometry builders, resource coefficients, EncoderService, runtime/capsule maps, UI/theme and defaults remain unchanged in this slice. The lead's next direction is the exact prepared single calibration after verified backup and a fresh gate, then an independent audit before any capsule/service/native claim.
+
+The prior fourteen sessions and original structure-correction receipt remain exact. Proposed checkpoint 015 commit, full Notion restoration and GitHub update must be distinguished from completed 014 preservation and from local implementation. A source backup does not include ignored original runtime/media or grant raw-report, private selector, OutputAccess or native-execution authority.
+
+## 🧠 Key Insights
+
+### A new family needs its own genuine producer path, not merely geometry support
+
+Existing resize builders and a legacy harness did not close the private candidate selection gap. The shared family/collector extension and explicit candidate harness are separate necessary steps. Treating the old route as an acceptable shortcut would remove source/resource binding precisely where the new evidence is supposed to establish it. Reusing the existing machinery is valuable only while preserving its real authority boundary.
+
+### Family-specific bounds keep long-source support from becoming blanket permission
+
+A long proportional source cannot borrow a short legacy orientation grant or a Keep720 family simply because metadata is similar. Evaluating source facts within each exact tuple's bounds lets the reviewed resize case proceed without globally widening legacy source extents or interpreting missing rotation as identity. The scope remains the private current plan/source/runtime tuple, not a permissive public flag.
+
+### A negative test can pass without proving its named rejection
+
+The one-stream unknown-row test hit an earlier shape guard. Source review showed the intended check existed, but the test was weak evidence for it. Supplying a valid two-stream shape and asserting the specific message made coverage precise while leaving production unchanged. Retaining both the original review limitation and the V2 fix is more informative than calling every negative assertion equivalent.
+
+### Diagnostic completeness and final lifecycle state are separate from a good output
+
+A correct output or empty outer stderr says nothing about a missing successful-child warning stream. A saved prefix can be identified exactly while still being incomplete, and a console summary can be accurate before close but stale afterward. The new records make these boundaries explicit; final success requires final post-close report and complete diagnostics, without pretending capture is a sandbox or persistence infallible.
+
+### Exact-source refusal is an expected cost of real shared changes
+
+The old capsule bound specific family/evidence bytes. Extending those producers should stop it from treating old media evidence as qualification for new code. Requalification must create new evidence, not merely replace the map entry. Historical native success and current fail-closed behavior can both be true; their versions must remain distinct.
+
+## 📌 Decisions Made
+
+- Confirmed — The engineering lead chose the narrow E3 five-file proposal after the native milestone, with integration conditioned on checkpoint 014 preservation and exact base/applicability checks. Broader geometry, Full, AAC, default/UI/catalog activation and legacy report substitution are excluded.
+- Confirmed — The source contributor reused the existing selector, private epoch/source/plan binding and fixed resize resource formula; independent review found no scoped blocker and retained legacy failure parity rather than rebaselining.
+- Confirmed — The lead separated the genuine candidate calibration gap into the two existing harness/test paths. Fixed wrappers retain the old Keep720 API; arbitrary family/config/runtime inputs are not introduced.
+- Confirmed — Independent review's unknown-row coverage limitation was corrected in V2 by reaching the actual branch. The 148-test V1 result is not relabelled as a full V2 rerun.
+- Confirmed — Final returned/persisted post-close state and explicitly complete saved diagnostics govern a future clean pass. A pre-close console line, saved partial prefix or empty launcher stderr is insufficient.
+- Provisional — Independent launcher review is conditional GO for one later explicitly authorized finite campaign, not approval to open runtime or generate resize media now.
+- Deferred — New qualification capsule, real normal-service publication/cancellation proof, native resize, arbitrary visual quality, broader platforms, production/default activation and owner release acceptance remain later independently scoped work.
+
+## ⚠️ Difficulties / Friction
+
+The original shared source proposal solved family/collector admission but left the actual candidate harness hardcoded to Keep720. A superficial use of the older resize helper would have bypassed the required current private selection. This required a second bounded source slice, not an external launcher pretending a missing API already worked.
+
+Early test assertions had two fixture mistakes: one expected a different SAR-filter spelling than the unchanged builder emitted; another attached resize orientation authority to a source-resolution test plan. Correcting tests did not require changing production geometry semantics. Later independent review found that the unknown-row negative failed on stream shape before reaching its intended branch, prompting the narrow V2 correction.
+
+The test evidence has real limits. The complete source/service harnesses use injected child streams, and calibration tests stop before a full successful synthetic campaign. A source-traced orientation path is not real resize media proof. The retained old legacy failures and future producer-gate refusals must remain visible even when focused new tests pass.
+
+Diagnostic capture is bounded to a prefix. If settlement precedes child close or no stderr stream is available, the saved file cannot be labelled complete. Runtime close or persistence can fail after a provisional console success. The launch design handles these as explicit reconciliation/failure gates, not as reasons to suppress warnings or promise unconditional cleanup evidence.
+
+Actual integrated tests expose the expected availability cost: the focused V2 set is green, but the old service diagnostic remains and broad Linux now has 35 failures, including eight deliberate exact-producer refusals. The old candidate service/workbench is not usable on these changed producer bytes. Keeping it fail closed is preferable to silently treating historical media as new-source evidence; fresh bounded qualification is required before its consumer path can reopen.
+
+## 🔧 Adjustments Made
+
+- Shifted from: A genuine candidate calibration helper fixed to Keep720 despite a separate legacy resize campaign.
+  - To: Explicit fixed candidate resize wrappers using the genuine final plan's family and resources, with the original Keep720 wrapper retained.
+  - Because: The reviewed shared family/collector proposal did not make the old candidate route capable of resize, and the legacy source policy was not an acceptable substitute.
+  - Consequence: A separately reviewed two-file harness patch is required alongside the five-file source proposal; no historical report or authority is repinned.
+
+- Shifted from: Orientation source facts interpreted with the older bounds before selecting a family.
+  - To: Exact per-family proportional/legacy source bounds and request scope before issuing a source-bound absent-orientation interpretation.
+  - Because: Long proportional resize must be admitted by its own tuple without widening short legacy or Keep720 grants.
+  - Consequence: The matching fixed resize case has a genuine source-fingerprint path; explicit nonidentity and wrong family/rate/geometry remain refused.
+
+- Shifted from: A passing unknown-row negative with only one stream, capable of failing the earlier stream-count guard.
+  - To: A valid two-stream negative with one unknown video row and the specific refusal asserted.
+  - Because: Independent review identified the coverage gap, while production already contained the proper check.
+  - Consequence: V2 changes only test precision; worker and independent focused 17/17 results are attributed separately from V1's 148/148.
+
+- Shifted from: Returned/streamed child results without individual bounded successful-child stderr records, and a console status emitted before runtime close.
+  - To: Explicit per-child prefix/hash/completeness records and final post-close returned/persisted report checks.
+  - Because: Earlier observed warnings showed output success cannot clear process diagnostics, and closure can change final status.
+  - Consequence: Incomplete capture or failed close cannot be called clean success; original warnings, failed reports and filesystem uncertainty remain evidence.
+
+- Shifted from: An isolated reviewed source proposal and previously qualified exact candidate producer bytes in checkpoint 014.
+  - To: Actual seven-file integration with final V2 148/148 focused checks, 125/126 service checks and 178/213 broad checks, including eight new source-identity refusals.
+  - Because: Verified 014 preservation and the independently reviewed patches allowed a source-only milestone; the old capsule correctly rejects changed shared producers.
+  - Consequence: The next step is source preservation and fresh bounded calibration/audit, not a hash-only repair or immediate service/native use.
+
+## ❌ Mistakes / Risks Noted
+
+### Early source tests asserted the wrong fixture details
+
+- What happened or could happen: One early family test expected a different SAR-filter spelling; one harness test constructed a source-resolution plan with a resize orientation grant.
+- Actual impact: The corresponding first green attempts remained red, 14/15, until the tests matched the intended unchanged builder/plan scope.
+- Potential impact: Changing production behavior just to satisfy those assertions could weaken or distort the existing geometry boundary.
+- Correction / current status: Test regex/conditional fixture was corrected without changing the geometry builder. Final scoped runs and independent review retain the earlier red logs.
+- Failure Intelligence: Retain these bounded test-authoring mistakes in the handoff/session; no production geometry incident is asserted.
+
+### Unknown-row negative originally did not reach the intended check
+
+- What happened or could happen: The V1 negative's one-stream shape could be rejected before unknown-row validation.
+- Actual impact: The test could pass while failing to establish the claimed branch coverage; source review did not find an incorrect production check.
+- Potential impact: A later regression specifically in unknown-row rejection might go undetected under that fixture.
+- Correction / current status: V2 adds a proper two-stream case and asserts the specific refusal. Production unchanged; final independent focused 17/17 passed.
+- Failure Intelligence: Preserve V1 review and V2 disposition rather than retroactively treating the original test as sufficient; no separate production incident needed.
+
+### Incomplete stderr or pre-close status could overstate a campaign result
+
+- What happened or could happen: A child's invocation can settle before stream/close completion, or runtime close can fail after the console summary.
+- Actual impact: Source/injected review identifies these supported lifecycle possibilities; no new actual resize campaign has demonstrated them in this session.
+- Potential impact: Treating the saved prefix as a full transcript or console success as final could hide warnings or cleanup failure.
+- Correction / current status: Explicit availability/truncation/completeAtSave and final returned/persisted status govern consumers; late data never retroactively completes the saved prefix. The prospective launcher refuses incomplete diagnostics and retains original artifacts.
+- Failure Intelligence: Known design/measurement boundary documented in source review, not a fabricated media failure or hard-sandbox guarantee.
+
+### Shared producer integration invalidates old qualification authority
+
+- What happened or could happen: The family/evidence producer bytes change while historical service capsules still require their previously reviewed exact closure.
+- Actual impact: The integrated broad run is 178/213 with 35 failures: all prior 27 names plus eight candidate producer-identity refusals. The focused V2 run is 148/148, while the separate service run retains one old diagnostic mismatch. Candidate service/workbench admission is closed on changed source.
+- Potential impact: Repinning old evidence to new producers would imply a qualification experiment that never occurred; omitting new failures would mislead re-entry.
+- Correction / current status: Preserve old capsule/report bytes and immutable prior source; require fresh media audit and separately reviewed source-bound capsule before new service/native use.
+- Failure Intelligence: Intended fail-closed integration cost, not automatically a regression to waive; actual test/refusal evidence must be recorded in the final lead receipt.
+
+### Source/injected tests do not establish resize output or native quality
+
+- What happened or could happen: Focused green suites and source-reviewed launch helpers could be mistaken for actual resized-media acceptance.
+- Actual impact: Isolated tests execute synthetic streams and calibration tests stop before a complete successful campaign; no real resize result is available at this source-session cutoff.
+- Potential impact: Activating defaults/catalog/native controls prematurely would expose an unqualified path.
+- Correction / current status: No activation or old-report substitution; future exact-source calibration, real service proof and any native journey remain separately gated.
+- Failure Intelligence: Evidence/continuation boundary, not a claimed successful or failed media incident.
+
+## 📍 Current Position
+
+**As of:** Authoritative seven-file integration at 18:56:55.212692 UTC and the final lead tests beginning 18:56:55.310, 18:56:57.439 and 18:57:05.019 UTC, with no covered source changes during those runs. The finite launcher remains prepared/conditionally reviewed only; checkpoint 015 preservation and campaign approval are not completed here.
+
+**Before this session:** The narrow Keep720 route had actual normal-service/native evidence on earlier immutable source. A separately isolated E3 proposal existed, but the genuine candidate calibration harness still had a Keep720-only path and no actual resize qualification.
+
+**After this session:** Checkpoint 014 is fully restored and published. The five-file family/collector proposal and V2 two-file candidate resize harness are now integrated into the authoritative working source. Exact private family/resource/orientation paths and bounded diagnostics have source-test/review evidence; lead focused V2 is 148/148. Service is 125/126 with its old diagnostic failure; broad Linux is 178/213 with all prior 27 failures plus eight expected producer-gate refusals. No runtime pin/report/capsule was updated, and no resize media, service proof, native run or production activation occurred.
+
+**Current standing:** The reviewed proportional resize source/harness slice is locally integrated and ready for a coherent source checkpoint; old candidate consumers remain intentionally fail closed pending new exact-source qualification.
+
+**Live owner / continuation anchor:** The engineering lead owns authoritative source/current records and future qualification gates. Read [CURRENT_STATE.md](CURRENT_STATE.md), [Proportional Resize source execution](2026-11-17_Proportional_Resize_Source.md) and its [structured receipts](2026-11-17_Proportional_Resize_Source_Receipts.json). This is a dated snapshot, not evidence that later publication or campaign execution completed.
+
+## 🔜 Next Steps
+
+1. **First re-entry:** Read Current and the latest source execution/receipts; verify actual checkpoint 014/015 preservation, final integrated source hashes and whether any scope-specific media approval/result exists. Distinguish isolated V1/V2 tests, final integrated validation and any later actual media evidence.
+2. The lead should complete the bounded source checkpoint, verify every source file and complete history through Notion and fetch the full cumulative summary without abridgment, then verify the intended original-ancestry GitHub update. Do not claim a local commit is remote preservation.
+3. Only after actual committed source/restoration, exact reviewed launcher/plan/runtime gates, adequate storage/no conflicting heavy work and a new explicit one-campaign release may the fixed resize calibration run. Retain all three exact cases and budgets, warnings/failures, one-attempt inventory and final post-close diagnostics. Independent saved-output audit must precede any new source-bound capsule.
+4. A separately reviewed capsule and genuine normal-service publication/cancellation proof are required before native resize or broader use. Existing exact-source refusals remain intact until genuinely requalified; preserve prior native source attribution and no-fourth-Keep720-launch boundary.
+
+**Do not reopen / repeat:** Do not rewrite old summaries or native outcomes, erase red/legacy failures, treat V1's 148/148 as a full V2 rerun, manufacture missing historical reports, repin old evidence, infer orientation identity generally, relabel partial stderr as complete, hide close failure behind console success or start a campaign because its plan says conditional GO.
+
+**Continuation boundary:** The explicit source/PBS checkpoint may proceed through Git → independently verified full Notion restoration → verified original-ancestry GitHub. Binding a new finite campaign gate requires that actual immutable source, completed restoration, exact reviewed helpers/runtime/environment and an explicit one-campaign release; no approval file or run exists at this cutoff. Source-only progress is not media/run/default/catalog authority. Resize calibration, new service capsule, real service proof, native resize, other platforms and owner acceptance each retain their actual prerequisites.
+
+## ❓ Open Questions
+
+- Will the finite exact-runtime resize calibration satisfy full-source, range, geometry, PCM, telemetry, diagnostic and lifecycle criteria without adjusting budgets? Needed from: Separately authorized real run and independent saved-output audit after source preservation. Blocks: Measured resize qualification and a new capsule, not the source-only milestone.
+- Will every actual successful/failed child have a complete retained diagnostic record on the intended runtime? Needed from: Final post-close raw report, saved stderr hashes and census in the future campaign. Blocks: Clean-diagnostics assertions; source review alone does not clear warning/performance uncertainty.
+- What wider resize geometry, visual quality, native/platform and release behavior can be accepted? Needed from: Separately scoped evidence and reserved owner acceptance. Blocks: Those broader claims only; the fixed first family does not answer them.
+
+## 🧾 Session Outcome
+
+The source milestone closes two distinct gaps without bypassing either: the shared private family/collector now carries the fixed resize tuple and derived limits, and the candidate harness can use that genuine selection rather than the historical unbranded route. Independent reviews and final integrated V2 tests support the bounded implementation. The new test-coverage mistake was corrected without changing production; incomplete stderr and post-close status are explicitly represented rather than hidden behind a green console summary. The broad suite is not all green: historical failures remain and exact producer gates intentionally refuse the changed source. Checkpoint 014 is fully preserved; checkpoint 015 source preservation and a separately authorized real calibration are the next concrete steps.
+
+The meaningful source advance is not generic scaling support: it is a fixed resize family carried through the existing private plan/source/resource path and a genuine candidate harness that can acquire evidence without borrowing historical authority. Red tests, legacy parity, coverage correction and diagnostic/closure limits make the claim narrower and more usable. Actual qualification remains future evidence, not something source green tests or a prepared launcher can supply.
+
+## 🔍 Confidence Level
+
+**Isolated family/collector scope and harness review:** High for the exact reviewed source and pure/injected checks, with V1/V2 results attributed to their actual bytes.
+
+**Authoritative integrated source:** High for exact local integration, preserved source identities and the measured focused/failure reconciliation results; not an all-tests-green or currently usable candidate-service claim.
+
+**Actual resize-media, native and production acceptance:** Not established in this source session.
+
+**Why:** The immutable five-file patch has hash-bound final-test baseline red, 25/25 focused, 125/125 worker/independent and matched 73/98 legacy outcomes. Actual final integrated lead evidence separately passes the 148-test V2 focused set and retains the 125/126 service and 178/213 broad results without source changes during execution. The separate harness review passed 148/148 on V1, then independently verified a test-only V2 correction at 17/17 with unchanged production/prerequisite hashes. Reviews trace private selection, resources, currentness, orientation and final diagnostics without replacing them with public flags or an old report.
+
+**Not higher because:** Injected children are not real runtime/media. Calibration tests stop before a complete successful synthetic campaign, the real orientation path is source-reviewed rather than media-executed, stderr prefixes can be incomplete and final persistence can fail. Historical qualification does not cover changed shared bytes, broad/legacy failures remain, manual review is not Security Cloud and future capsule/service/native/owner acceptance is separate.
+
+---
+
 # 📘 Session: November 17, 2026 — FFmpeg Encoder — Bring the exact candidate into the original native workbench and separate picker uncertainty from application proof
 
 ## 🤖 Models, Effort, Roles and Provenance

@@ -95,7 +95,7 @@ function candidateProbe(size) {
   format: { format_name: 'mov,mp4,m4a,3gp,3g2,mj2', start_time: '0', duration: '150', size: String(size), nb_streams: 2,
     nb_programs: 0, nb_stream_groups: 0, tags: { major_brand: 'qt  ' } }, chapters: [], programs: [], stream_groups: [] };
 }
-async function candidateFixture(t, execute) {
+async function candidateFixture(t, execute, resize = false) {
   const parent = await fs.realpath(os.tmpdir()), root = await fs.mkdtemp(path.join(parent, 'ffmpeg-candidate-case-'));
   let runtime; t.after(async () => { await runtime?.close(); assert.equal(await fs.realpath(root), root); await fs.rm(root, { recursive: true }); });
   const pins = {};
@@ -106,9 +106,11 @@ async function candidateFixture(t, execute) {
   runtime = await openCandidateCalibrationRuntime({ pins, runtimeIdentity, dependencies: [dependency] }, { execute: execute || (async () => { throw new Error('No process expected'); }) });
   const source = path.join(root, 'source.fixture'); await fs.writeFile(source, 'synthetic source bytes');
   const sourceIdentity = await readSourceIdentity(source), probe = candidateProbe(sourceIdentity.size);
-  const makePlan = (range = { startUs: 100000000, endUs: 140000000 }, resolution = 'source') => withEncodeOperationTelemetry(buildEncodeOperation({
+  if (resize) { probe.streams[0].width = 1920; probe.streams[0].height = 1080; }
+  const makePlan = (range = { startUs: 100000000, endUs: 140000000 }, resolution = resize ? '720' : 'source') => withEncodeOperationTelemetry(buildEncodeOperation({
     input: source, output: path.join(root, 'output.mkv'), settings: { profileId: 'h265-cpu', preset: 'slow', quality: 25 }, runtimeIdentity,
     inspection: { probe, color: classifyColor(probe), duration: 150 },
+    ...(resize && resolution === '720' ? { identityOrientationQualification: { evidenceId: 'synthetic-owned-identity', runtimeIdentity, sourceEvidenceFingerprint: require('../src/encode-operation.cjs').fingerprintEncodeSource(probe), videoIndex: 0 } } : {}),
     request: resolveFileRequest({ fileId: 'synthetic', identityRevision: 1, draftRevision: 1, operation: 'encode', overrides: { range, resolution, audioPolicy: 'precision-flac' } }) }));
   return { root, source, runtime, dependency, probe, makePlan, options: { verifiedRuntime: runtime, plan: makePlan(), sourceIdentity, evidenceId: 'synthetic-preregistered-only' } };
 }
@@ -174,4 +176,76 @@ test('candidate campaign saves child failure and bounded settlement dependency d
   assert.deepEqual(saved.failure, report.failure);
   assert.deepEqual(saved.census, { spawned: 1, closed: 1, live: 0, maximum: 1 });
   assert.equal(saved.catalogActivated, false); assert.equal(saved.publicationAuthorized, false);
+});
+
+const { prepareCandidateResize1080to720Case, runCandidateResize1080to720Campaign, requireValidCampaignTelemetry } = require('./workbench-long-range-calibration.cjs');
+test('candidate resize binds its genuine final plan and distinct resize resource formula', async t => {
+  const h = await candidateFixture(t, undefined, true);
+  const selected = await prepareCandidateResize1080to720Case(h.options);
+  assert.deepEqual(selected.resources, require('../src/operation-resource-budget.cjs').deriveCfrResizeFlacResources({ sourceExtentUs: 150000000, selectedExtentUs: 40000000, sourceBytes: h.options.sourceIdentity.size }));
+  assert.equal(selected.selection.sourcePolicy.id, campaign('resize1080to720').familyId);
+  assert.equal(await selected.requireCurrent(), selected.selection);
+  await assert.rejects(prepareCandidateKeep720Case(h.options));
+  await assert.rejects(prepareCandidateResize1080to720Case({ ...h.options, verifiedRuntime: { ...h.runtime } }));
+  await assert.rejects(prepareCandidateResize1080to720Case({ ...h.options, plan: h.makePlan(undefined, 'source') }));
+  const q = selected.selection;
+  assert.throws(() => assertProportionalCollectionSelection(q, { plan: h.options.plan, sourcePath: h.source, sourceProbe: h.probe,
+    budget: deriveCfrFlacResources({ sourceExtentUs: 150000000, selectedExtentUs: 40000000, sourceBytes: h.options.sourceIdentity.size }).budget,
+    timingQualification: q.timingQualification, sourcePolicy: q.sourcePolicy }));
+  selected.close(); await assert.rejects(selected.requireCurrent());
+});
+test('resize campaign preserves bounded stderr on failed injected child and closes runtime', async t => {
+  const { PassThrough } = require('node:stream');
+  const h = await candidateFixture(t, async (file, args, options) => {
+    assert.ok(args.includes('testsrc2=size=1920x1080:rate=30:duration=150'));
+    const child = new EventEmitter(); child.kill = () => {}; child.stderr = new PassThrough(); options.onChild(child);
+    child.stderr.write(Buffer.alloc(256 * 1024 + 19, 120)); child.stderr.end(); child.emit('close', 1, null);
+    throw Object.assign(new Error('Injected resize fixture stop'), { code: 'SYNTHETIC_FIXTURE_STOP' });
+  });
+  const mkdtemp = fs.mkdtemp; t.mock.method(fs, 'mkdtemp', prefix => {
+    assert.ok(prefix.endsWith('candidate-resize1080to720-calibration-')); return mkdtemp(path.join(h.root, 'campaign-'));
+  });
+  t.mock.method(fs, 'statfs', async () => ({ bavail: 100n * 1024n ** 3n, bsize: 1n }));
+  const report = await runCandidateResize1080to720Campaign({ verifiedRuntime: h.runtime });
+  assert.equal(report.failure.code, 'SYNTHETIC_FIXTURE_STOP'); assert.equal(report.resourcePolicy, campaign('resize1080to720').resourcePolicy);
+  assert.equal(report.children.length, 1); const c = report.children[0];
+  assert.equal(c.stderr.totalBytes, 256 * 1024 + 19); assert.equal(c.stderr.retainedBytes, 256 * 1024); assert.equal(c.stderr.truncated, true);
+  assert.equal((await fs.readFile(c.stderr.path)).length, 256 * 1024); assert.equal(c.exitCode, 1);
+  assert.equal(c.failure.code, 'SYNTHETIC_FIXTURE_STOP'); await assert.rejects(h.runtime.requireCurrent());
+});
+test('campaign acceptance refuses invalid or unknown-row telemetry', () => {
+  assert.throws(() => requireValidCampaignTelemetry({ valid: false, streams: [] }));
+  assert.throws(() => requireValidCampaignTelemetry({ valid: true, streams: [{ unknownInputRecords: '1' }] }));
+  assert.throws(() => requireValidCampaignTelemetry({ valid: true, streams: [] }));
+  assert.throws(() => requireValidCampaignTelemetry({ valid: true, streams: [{ kind: 'video', unknownInputRecords: '1' }, { kind: 'audio', unknownInputRecords: '0' }] }), /Unknown telemetry input rows refused/);
+  assert.doesNotThrow(() => requireValidCampaignTelemetry({ valid: true, streams: [{ kind: 'video', unknownInputRecords: '0' }, { kind: 'audio', unknownInputRecords: '0' }] }));
+});
+
+test('resize candidate supports late open-end and nonaligned plans but refuses Full and stale source', async t => {
+  const h = await candidateFixture(t, undefined, true);
+  for (const range of [{ startUs: 130000000 }, { startUs: 413000, endUs: 8621000 }]) {
+    const chosen = await prepareCandidateResize1080to720Case({ ...h.options, plan: h.makePlan(range) });
+    await chosen.requireCurrent(); chosen.close();
+  }
+  await assert.rejects(async () => prepareCandidateResize1080to720Case({ ...h.options, plan: h.makePlan(null) }));
+  const selected = await prepareCandidateResize1080to720Case(h.options);
+  await fs.appendFile(h.source, 'changed'); await assert.rejects(selected.requireCurrent()); selected.close();
+  await h.runtime.close(); await assert.rejects(runCandidateResize1080to720Campaign({ verifiedRuntime: h.runtime }));
+});
+test('successful injected child stderr is retained before a subsequent fixture failure', async t => {
+  const { PassThrough } = require('node:stream');
+  const h = await candidateFixture(t, async (file, args, options) => {
+    const child = new EventEmitter(); child.kill = () => {}; child.stderr = new PassThrough(); options.onChild(child);
+    child.stderr.write('retained warning\n'); child.stderr.end(); child.emit('close', 0, null);
+    // Deliberately do not create generated media: later fileHash fails, after successful child settlement.
+    return { exitCode: 0, stdout: '', stderr: 'retained warning\n' };
+  });
+  const mkdtemp = fs.mkdtemp; t.mock.method(fs, 'mkdtemp', prefix => mkdtemp(path.join(h.root, 'campaign-')));
+  t.mock.method(fs, 'statfs', async () => ({ bavail: 100n * 1024n ** 3n, bsize: 1n }));
+  const report = await runCandidateResize1080to720Campaign({ verifiedRuntime: h.runtime });
+  assert.equal(report.status, 'failed-retained'); assert.equal(report.failure.code, 'ENOENT');
+  const row = report.children[0]; assert.equal(row.closed, true); assert.equal(row.exitCode, 0);
+  assert.equal(row.stderr.available, true); assert.equal(row.stderr.truncated, false);
+  assert.equal(await fs.readFile(row.stderr.path, 'utf8'), 'retained warning\n');
+  assert.equal(row.stderr.sha256, digest('retained warning\n'));
 });

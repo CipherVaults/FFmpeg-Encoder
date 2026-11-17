@@ -22,6 +22,30 @@ function isProportionalFamilySelection(result, plan) {
   return !!issued && issued.current() && (plan === undefined || plan === issued.plan);
 }
 
+// Pure admission only: this does not re-observe filesystem bytes or runtime.
+// Exact frozen references prevent substituting permissive cost/timing policies.
+function assertProportionalCollectionSelection(selection, options) {
+  return checked('OPERATION_PROPORTIONAL_COLLECTION', () => {
+    const issued = selection && typeof selection === 'object' ? proportionalResults.get(selection) : null;
+    need(issued && issued.current(), 'A genuine current proportional family selection is required.');
+    record(options, ['plan', 'sourcePath', 'sourceProbe', 'budget', 'timingQualification', 'sourcePolicy']);
+    need(options.plan === issued.plan && options.sourcePath === issued.sourceIdentity.canonicalPath,
+      'Collection must use the exact selected plan and source path.');
+    need(options.budget === selection.budget && options.timingQualification === selection.timingQualification
+      && options.sourcePolicy === selection.sourcePolicy, 'Collection must use the issued frozen budget, timing and source policy.');
+    inert(options.sourceProbe);
+    need(fingerprintEncodeSource(options.sourceProbe) === issued.sourceProbeFingerprint,
+      'Collection source metadata differs from the selected source.');
+    return issued.sourceIdentity;
+  });
+}
+
+function verifyProportionalCollectedSource(selection, evidence) {
+  const issued = selection && typeof selection === 'object' ? proportionalResults.get(selection) : null;
+  if (!issued || !issued.current()) throw new ToolError('OPERATION_PROPORTIONAL_COLLECTION', 'A current proportional selection is required.');
+  return issued.verify(evidence);
+}
+
 const FAMILY = 'short-sdr-range-v1', MAX_EXTENT_US = 120000000, MAX_BYTES = 512 * 1024 * 1024;
 // Record 47 Q2b: whole-file 1080p30 -> 720p with copied audio. The first cells
 // were measured on a 10 s and a 31 s file, so video, audio, container and the
@@ -397,7 +421,8 @@ class OperationFamilySelector {
         budget: current.state.budget, evidenceIds: selected.evidenceIds, executionBudgetMs: current.state.executionBudgetMs, policyIdentity: this.#policy,
         controlsRequired: true, sourcePolicy: current.sourcePolicy,
         ...(proportional ? { proportional: true, resourcePolicy: RESOURCE_POLICY, resources: current.state.resources } : {}) });
-      if (proportional) { const epoch = this.#epoch; proportionalResults.set(result, { plan: current.plan, current: () => this.#epoch === epoch }); }
+      if (proportional) { const epoch = this.#epoch; proportionalResults.set(result, { plan: current.plan, sourceIdentity: freeze(current.state.sourceIdentity),
+        sourceProbeFingerprint: current.state.sourceProbeFingerprint, verify: evidence => this.#verifyCollectedSource(token, evidence), current: () => this.#epoch === epoch }); }
       this.#selections.set(token, { epoch: this.#epoch, plan: current.plan, state: freeze(current.state), facts: current.facts, result }); return token;
     });
   }
@@ -466,7 +491,8 @@ class OperationFamilySelector {
     } catch (error) { reason = typeof error?.message === 'string' && error.message ? error.message : null; }
     return refusal(reason || 'The file or request is outside the measured family.');
   }
-  verifyCollectedSource(token, evidence) {
+  verifyCollectedSource(token, evidence) { return this.#verifyCollectedSource(token, evidence); }
+  #verifyCollectedSource(token, evidence) {
     return checked(SOURCE_FAILED, () => {
       const selected = this.#selected(token);
       need(plain(evidence), 'A complete main-owned collection receipt is required.');
@@ -512,4 +538,4 @@ class OperationFamilySelector {
   }
 }
 
-module.exports = { OperationFamilySelector, isProportionalFamilySelection };
+module.exports = { OperationFamilySelector, isProportionalFamilySelection, assertProportionalCollectionSelection, verifyProportionalCollectedSource };

@@ -1,3 +1,133 @@
+# 📘 Session: November 17, 2026 — FFmpeg Encoder — Bind proportional collection and close the final revocation gap
+
+## 🤖 Models, Effort, Roles and Provenance
+
+Ahmed retains ownership and acceptance authority. The lead was configured as GPT-6 Astra Ultra. Implementation, lead verification and independent review were separate. This session advances the reconstructed application with a new bounded interface; it does not claim to recover missing historical implementation or resolve unknown earlier publication reviews.
+
+Evidence includes the immutable six-file patch, focused and legacy receipts, fresh lead aggregate/Linux runs and an independent final collector repeat. Tests use synthetic metadata, real temporary file identities and injected timing/PCM streams. They are code-path evidence, not actual media qualification. Prior checkpoint 004 source and records remain separate from the current modifications.
+
+## 🕒 Time
+
+November 17, 2026, through final focused runs at 14:44:00 UTC and 14:44:02 UTC, lead aggregate/Linux/adapted legacy runs at 14:45:23–26 UTC, and independent final collector review. The close-time revocation regression was first observed red at 14:43:48 UTC. These timestamps identify evidence, not continuous labor.
+
+## 🎯 Session Goal
+
+Connect the already branded proportional FLAC family to evidence collection without allowing callers to borrow a budget or policy by copying its public shape. The next boundary needed to bind the exact plan, source and approved collection inputs, then preserve that authority through awaited filesystem and cleanup operations.
+
+The goal remained one non-resize family and its collector/service integration. It did not include opening production factories, supplying missing reports, changing runtime pins or qualifying long-range media. Existing calibration and legacy collector behavior needed to remain intact.
+
+## 🛠️ Actions Taken
+
+### 1. Define authority separately from source observation
+
+Review found that a collector policy allowlist alone would not suffice: plan-shaped objects, probes and budgets were separately supplied. A genuine result could still be misapplied if its selected source and plan were not checked together. The private result record was therefore extended with its issued source identity and source-probe fingerprint, alongside epoch and exact plan.
+
+`assertProportionalCollectionSelection` now validates that private binding and requires the same approved frozen budget, timing qualification and source-policy references. It rejects copied results, other plans or source paths, changed probes, substituted policy objects and accessor-bearing inputs. The returned identity describes what was selected; it does not assert that filesystem bytes are currently unchanged.
+
+### 2. Check before encoding and at actual collection entry
+
+The service adds an output-independent binding preflight after its existing source recheck and before encoding. This makes collector compatibility explicit before launching the job, while retaining separate source/runtime freshness checks. It is not a new qualification or factory-activation grant.
+
+The collector accepts the optional genuine selection only for the supported proportional family. It validates that selection even when a caller substitutes a legacy policy. Before creating the evidence directory, it compares actual observed source dev, inode, size, mtime, ctime and birthtime with the privately selected identity. A changed file or initial ctime mismatch therefore cannot pass merely because it is stable during collection.
+
+Legacy calls without a new selection retain their existing admission. Sparse-digest freshness remains outside a stat comparison and continues to depend on the service's source checks. Existing positive dev/inode requirements are not expanded as a side effect of this work.
+
+### 3. Follow authority through the full collection lifecycle
+
+The collector repeats the binding check around awaited directory observation before children and before completion. Source-property validation applies to frames beyond the selected interval. A truncated-source regression demonstrated that successful parsing of a selected range was insufficient for complete-source evidence, so direct collector completion now calls the selector's private whole-source verifier.
+
+That callback invokes a private method, not an overridable public subclass method. The public verification API remains a wrapper for existing callers. The new path therefore reuses the established whole-source contract without permitting a subclass override to bypass its final check.
+
+The positive injected test completes timing parsing and PCM comparison for a one-second source and a half-second selection. A separate 150-second source reaches collector admission, then deliberately stops. The long-source test is not a completed long decode or a measurement campaign.
+
+### 4. Correct the final awaited-close race
+
+Initial independent review found one remaining lifecycle gap. The collector checked its selection after persisting the receipt, but then awaited spool-handle closure. Revocation during those closes could occur after the final check and still let the promise resolve successfully.
+
+An injected close-time revocation test reproduced the issue: 9 passed and 1 failed because rejection was missing. The correction adds a final synchronous binding check after all awaited spool closures, only for completed proportional collection. On failure the rejected call carries the evidence directory, receipt and an explicit historical-not-current-authority warning.
+
+The saved receipt may still describe completed collection work. Its publication and qualification flags remain false, and the rejected call cannot be treated as a current successful grant. This preserves historical evidence rather than rewriting a completed observation to conceal later revocation. The final test checks both the rejection and the retained receipt semantics.
+
+### 5. Reconcile tests with the newly reachable collector
+
+The previous service integration tests deliberately ended at the old unsupported-policy refusal. With genuine proportional admission implemented, those tests now reach an explicitly injected collector-runner stop. Their error is named `SYNTHETIC_COLLECTOR_STOP`; it is no longer described as a production gate.
+
+Final focused tests passed 31/31, relevant evidence/storage/telemetry regression passed 85/85, and the lead's final aggregate passed 123/123. Fresh broad Linux regression remained failed with 150 passes and 27 failures out of 177. A test-only adapted legacy run passed 33/33. Independent review repeated the final collector file: 10/10 passed, with no skips or cancellations.
+
+The final patch SHA-256 is `2ed91323376fd9fdceb23c69cf8e373593bd5327d1a912b5e93a9a3c99f34606`. These final results supersede earlier 30-test evidence for final-source verification, while the earlier attempts remain retained history.
+
+## 🧠 Key Insights
+
+Private branding answers who issued a selection; exact binding answers what it applies to; actual source observation answers whether the selected file still matches. None substitutes for the others. This work joins those boundaries without interpreting a public result shape as authority.
+
+A final check is only final if no relevant awaited operation follows it. The spool-close regression showed that completion logic can remain vulnerable even after correctly checking persistence. A synchronous post-close check closes that specific gap without redesigning generic cleanup.
+
+Completed evidence and current authority also differ. A retained receipt can truthfully describe completed parsing while a later revocation makes the overall call fail. False publication/qualification flags and a clear rejection diagnostic are essential to keep that historical record from becoming an accidental grant.
+
+## 📌 Decisions Made
+
+The lead kept this milestone to the existing proportional FLAC family, collector/service binding and focused tests. No broader family, runtime, report, pin, default or production factory change was authorized by the implementation.
+
+Initial source ctime must match selection. During-collection ctime-only drift retains the existing explicit warning semantics rather than being relabeled unchanged content. Whole-source verification uses a private callback, and final revocation after handle closure must reject before the collector resolves.
+
+The normal preservation order remains Git, immediate verified Notion source restoration and permitted GitHub publication. This entry records engineering completion only; it does not anticipate the new commit or mirror result.
+
+## ⚠️ Difficulties / Friction
+
+The collector's existing interface was intentionally flexible for legacy and calibration use, while the new family required a stricter genuine selection. Preserving that compatibility without turning a policy string into an authority bypass required a separate optional binding rather than a blanket allowlist expansion.
+
+The initially passing focused suite did not exercise revocation during final close. Independent lifecycle tracing and a deliberately failing test were needed to expose the gap. Service test expectations also needed correction because the collector was now legitimately reachable, not because a safety refusal had been weakened for convenience.
+
+## 🔧 Adjustments Made
+
+Admission moved from public source-policy shape to a private exact selection/plan/source binding. The service gained pre-encode compatibility validation; the collector gained actual initial identity comparison and repeated asynchronous-boundary checks.
+
+Direct collector completion gained whole-source verification after the truncation case exposed an incomplete success condition. Final closure then gained its own post-await revocation check. Tests were updated to distinguish genuine collector reachability, intentional injected stops and unchanged production factory gates.
+
+## ❌ Mistakes / Risks Noted
+
+Development also retained a deliberate missing-API red test, a corrected implementation-placement ReferenceError, the direct-collector truncation red case and the service tests whose earlier closed-policy expectations no longer matched the new reachable collector. The direct-collector truncation result was not evidence that the unchanged service could publish truncated proof; the service already ran its separate whole-source check.
+
+The first finalization sequence left an awaited handle-close operation after its last epoch check. This was a real correctness gap, reproduced red and corrected before checkpoint. A saved completed receipt still requires careful interpretation: it is historical evidence with false authority flags, not proof the call returned successfully or a selection remains valid.
+
+A matching stat does not establish fresh sparse content identity. Plain getter rejection does not promise protection from arbitrary in-process Proxies. Neither the positive one-second injected collector case nor 150-second admission establishes real media behavior. The existing source-identity sign restriction also remains a separate platform concern.
+
+## 📍 Current Position
+
+The reviewed source now admits genuine proportional FLAC collection, binds it to selected identity and approved inputs, validates actual entry stamps, verifies complete source and rejects revocation through the final awaited close boundary. All changes are confined to three application files and three associated test files.
+
+The preceding test/PBS checkpoint is local `f1e63be`; these new bytes are not part of that historical checkpoint. Their own Git/Notion/GitHub result belongs in the next receipt. Production factories remain closed by unchanged retained-report, exact source and runtime requirements.
+
+Final evidence is 31/31 focused, 85/85 relevant regression, 123/123 lead aggregate, 33/33 adapted legacy and an independent 10/10 collector repeat. Broad Linux remains 150/177 passing with 27 failures. No actual media, UI, GPU or native Windows qualification occurred.
+
+## 🔜 Next Steps
+
+First preserve the reviewed source and substantive records through the established checkpoint cycle and verify exact restoration/publication identities. Keep raw locally retained proof and compact published receipts distinguishable.
+
+The next independent step is read-only verification of the legitimate official-runtime build and fresh qualification path, alongside classified remaining code failures. No download, install, repin or activation is implied by that feasibility check. Any further family or activation work must retain exact report/pin gates and separate qualification evidence. Do not fabricate missing reports or use the synthetic fixtures as substitute authorization.
+
+## ❓ Open Questions
+
+Which of the remaining 27 Linux failures should be addressed next without conflating missing runtime/report dependencies with code defects? What platform scope should eventually support source inode representations beyond the current positive-only selector contract?
+
+Applicable actual-runtime and retained-media qualification remain unavailable for the newly connected family. This milestone does not resolve those prerequisites or broaden the accepted source family.
+
+## 🧾 Session Outcome
+
+The proportional collection boundary is now implemented and tested as a genuine plan/source/resource contract rather than a permissive policy flag. Independent review found and closed a final awaited-close revocation race, with historical receipt meaning preserved and explicit failure diagnostics.
+
+This is meaningful application progress and stronger continuity for the next developer, but not production activation or 0.7 acceptance. The exact passing tests, broader failures and remaining platform/runtime boundaries are recorded separately so later work can proceed without replaying or overstating this milestone.
+
+## 🔍 Confidence Level
+
+High for the reviewed binding, forged/borrowed-input refusal, initial identity enforcement, private whole-source verification and final close-revocation behavior demonstrated by injected tests. Independent final collector execution supports that narrow conclusion.
+
+Confidence remains limited for real media, unavailable runtime/report qualifications, native Windows, broader families and unresolved Linux failures. New off-machine preservation must be established by the later checkpoint receipt rather than inferred from this completed engineering narrative.
+
+The final broad Linux failure-name comparison matches the same 27 names from the earlier 14:16:45 run, with no added or removed names. This is failure-set parity, not proof of all branches behind those failures. The earlier independent 30/30 run belongs to the pre-close-correction source; only the final collector 10/10 was independently repeated after that correction.
+
+---
+
 # 📘 Session: November 17, 2026 — FFmpeg Encoder — Execute the proportional service resource boundaries without activating media
 
 ## 🤖 Models, Effort, Roles and Provenance

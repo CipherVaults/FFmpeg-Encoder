@@ -14,7 +14,7 @@ const catalogSettings = request => { const resolved = resolveCatalogSettings(req
 const { encodeOutputName } = require('./operation-names.cjs');
 const { buildEncodeOperation, validateEncodeOperationOutput, fingerprintEncodeSource, withEncodeOperationTelemetry,
   resolveEncodeOperationInvocation, validateEncodeOperationTelemetry } = require('./encode-operation.cjs');
-const { isProportionalFamilySelection } = require('./operation-family.cjs');
+const { isProportionalFamilySelection, assertProportionalCollectionSelection } = require('./operation-family.cjs');
 const { collectOperationEvidence } = require('./operation-evidence.cjs');
 const { createOperationTelemetry, assertTelemetryReady, collectOperationTelemetry, closeOperationTelemetry } = require('./operation-telemetry.cjs');
 const { runTool, isSharedToolFailure, boundedToolStderr } = require('./process-runner.cjs');
@@ -1878,6 +1878,11 @@ class EncoderService extends EventEmitter {
             throw fail('INPUT_CHANGED', 'The explicit original override no longer matches this file.');
           }
           await this.assertSourceMatches(entry, jobSignal, 'after-provenance-check', 'Source identity changed during the final provenance check.');
+          if (isProportionalFamilySelection(qualified, entry.operationPlan)) {
+            requireQualification();
+            assertProportionalCollectionSelection(qualified, { plan: entry.operationPlan, sourcePath: entry.file,
+              sourceProbe: currentProbe, budget: qualified.budget, timingQualification: qualified.timingQualification, sourcePolicy: qualified.sourcePolicy });
+          }
           validatingSource = false;
           await this.provenanceJournal.recordIntent({ outputId: entry.outputId, sourceIdentity: entry.fingerprint,
             destination: entry.destination, profileId: entry.remux ? `remux-${entry.remuxRequest.target}` : this.plan.settings.profileId, generationDescription: entry.generationDescription });
@@ -1991,6 +1996,7 @@ class EncoderService extends EventEmitter {
               ffmpeg: this.ffmpeg, ffprobe: this.ffprobe, run, signal: jobSignal,
               budget: qualified.budget, timingQualification: qualified.timingQualification,
               ...(qualified.sourcePolicy ? { sourcePolicy: qualified.sourcePolicy } : {}),
+              ...(isProportionalFamilySelection(qualified, entry.operationPlan) ? { familySelection: qualified } : {}),
               ...(qualified.qualification.containerDuration === 'matroska-packet-end-plus-codec-delay'
                 ? { containerClockPolicy: qualified.qualification.containerDuration } : {}) });
             if (remuxGroup) { entry.operationRuntimeGroup = await this.operationRuntime.closeRemuxGroup(remuxGroup); remuxGroup = null; }

@@ -185,11 +185,31 @@ test('only current branded matching encode selection routes derived limits; remu
   assert.match(source, /const qualified = requireQualification\(\);\s*const costLimits = operationCostLimits\(entry, qualified\)/);
   assert.match(source, /maxBytes: costLimits\.telemetryBytes \?\? 4 \* 1024 \* 1024, maxRecords: costLimits\.telemetryRecords \?\? 20000/);
 });
-test('production collector remains closed for the new policy before any runner call', async () => {
+test('unbranded proportional collector policy refuses before any runner call', async () => {
   const h = fixture(), { result } = choose(h); let calls = 0;
   await assert.rejects(collectOperationEvidence({ plan: h.plan, sourceProbe: h.source, outputProbe: {},
     sourcePath: h.bindings.sourceIdentity.canonicalPath, outputPath: path.resolve('/synthetic/output.mkv'), stageDirectory: path.resolve('/synthetic/evidence'),
     ffmpeg: path.resolve('/synthetic/ffmpeg'), ffprobe: path.resolve('/synthetic/ffprobe'), run: () => { calls++; assert.fail('No collector launch'); },
-    signal: undefined, budget: result.budget, timingQualification: result.timingQualification, sourcePolicy: result.sourcePolicy }), /Only the bounded short SDR source policies/);
+    signal: undefined, budget: result.budget, timingQualification: result.timingQualification, sourcePolicy: result.sourcePolicy }), /privately bound proportional FLAC policy/);
   assert.equal(calls, 0);
+});
+
+test('proportional collection preflight binds private selection, exact source and frozen evidence authority', () => {
+  const { assertProportionalCollectionSelection } = require('../src/operation-family.cjs');
+  const h = fixture(), { result } = choose(h);
+  const request = { plan: h.plan, sourcePath: h.bindings.sourceIdentity.canonicalPath, sourceProbe: h.source,
+    budget: result.budget, timingQualification: result.timingQualification, sourcePolicy: result.sourcePolicy };
+  assert.deepEqual(assertProportionalCollectionSelection(result, request), h.bindings.sourceIdentity);
+  const reject = (selection, changed = request) => assert.throws(() => assertProportionalCollectionSelection(selection, changed), { code: 'OPERATION_PROPORTIONAL_COLLECTION' });
+  for (const forged of [{ ...result }, Object.create(result), {}, null]) reject(forged);
+  reject(result, { ...request, plan: fixture().plan });
+  reject(result, { ...request, sourcePath: request.sourcePath + '.other' });
+  const changedProbe = structuredClone(h.source); changedProbe.format.duration = '149';
+  reject(result, { ...request, sourceProbe: changedProbe });
+  for (const key of ['budget', 'timingQualification', 'sourcePolicy']) reject(result, { ...request, [key]: { ...request[key] } });
+  let getters = 0;
+  for (const key of Object.keys(request)) { const hostile = { ...request }; Object.defineProperty(hostile, key, { enumerable: true, get() { getters++; return request[key]; } }); reject(result, hostile); }
+  const hostileProbe = structuredClone(h.source); Object.defineProperty(hostileProbe.format, 'duration', { enumerable: true, get() { getters++; return '150'; } });
+  reject(result, { ...request, sourceProbe: hostileProbe }); assert.equal(getters, 0);
+  h.selector.invalidate('Synthetic collection revocation.'); reject(result);
 });

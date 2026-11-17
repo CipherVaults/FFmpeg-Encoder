@@ -15,7 +15,7 @@ const { classifyColor, PROFILES } = require('../src/media.cjs');
 const { frozenQualifications } = require('../scripts/v07-sdr-flac-range-calibration.cjs');
 // Synthetic contracts, non-executable tool files and EventEmitter children only.
 // No production factory, retained calibration report, real child or media is used.
-// A successful telemetry check deliberately ends at the unchanged closed collector.
+// A successful telemetry check stops at an explicitly injected collector-runner fault; no decoded evidence is fabricated.
 const settings = { profileId: 'h265-cpu', preset: 'slow', quality: 25 };
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 function probe(size) {
@@ -67,7 +67,7 @@ async function harness(t, { seconds = .5, mode = 'exact' } = {}) {
     const child = new EventEmitter(); child.kill = () => {}; options.onChild(child); active++;
     const call = { executable, args, options }; calls.push(call); let exitCode = 0;
     try {
-      assert.equal(options.onStdoutChunk, undefined, 'Closed collector must not invoke decoded-evidence runner.');
+      if (options.onStdoutChunk) throw Object.assign(new Error('Synthetic stop before decoded evidence, not a production refusal.'), { code: 'SYNTHETIC_COLLECTOR_STOP' });
       if (executable === paths.ffmpeg) {
         if (mode === 'pipe') {
           options.onOutputBytes({ stream: 'stdout', bytes: expected.resources.pipeBytes });
@@ -118,13 +118,13 @@ async function harness(t, { seconds = .5, mode = 'exact' } = {}) {
   if (jobDirectory) { const reservation = JSON.parse(await fs.readFile(path.join(jobDirectory, 'storage-reservation.json'), 'utf8')); assert.equal(reservation.forecastBytes, expected.resources.evidenceReserveBytes); }
   return { item, calls, expected, jobDirectory };
 }
-for (const seconds of [.5, 75]) test(`real service collects exactly derived telemetry records (${seconds}s) before closed collector refusal`, { timeout: 15000 }, async t => {
+for (const seconds of [.5, 75]) test(`real service collects exactly derived telemetry records (${seconds}s) before an injected collector stop`, { timeout: 15000 }, async t => {
   const h = await harness(t, { seconds });
-  assert.equal(h.calls.length, 2); // encode then output probe, no decoded collector calls
+  assert.equal(h.calls.length, 3); // encode, output probe, then explicitly stopped collector child
   const receipt = JSON.parse(await fs.readFile(path.join(h.jobDirectory, 'encoder-input-receipt.json'), 'utf8'));
   assert.equal(receipt.streams[0].summary.records, String(h.expected.resources.telemetryRecords));
   assert.equal(receipt.publicationAuthorized, false);
-  assert.equal(h.item.reasonCode, 'OPERATION_EVIDENCE_INVALID');
+  assert.equal(h.item.reasonCode, 'SYNTHETIC_COLLECTOR_STOP');
 });
 for (const [mode, code] of [['records', 'TELEMETRY_LIMIT'], ['bytes', 'TELEMETRY_PATH'], ['pipe', 'OPERATION_PIPE_LIMIT']])
   test(`real service refuses derived ${mode} exhaustion without publication`, { timeout: 15000 }, async t => {

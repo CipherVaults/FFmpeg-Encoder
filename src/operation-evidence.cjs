@@ -5,6 +5,8 @@ const path = require('node:path');
 const { createHash } = require('node:crypto');
 const { ToolError } = require('./process-runner.cjs');
 const { normalizeProbe } = require('./inspection.cjs');
+const { assertProportionalCollectionSelection, verifyProportionalCollectedSource } = require('./operation-family.cjs');
+const { FAMILY_ID: PROPORTIONAL } = require('./operation-resource-budget.cjs');
 
 // Main-only evidence acquisition, not a capability cell or publication grant.
 // This first complete path deliberately reads source decoded timing. Main must
@@ -218,18 +220,20 @@ async function compareAudioTimelines({ sourceRows, outputRows, sampleRate, sourc
 
 async function collectOperationEvidence(options) {
   exact(options, ['plan', 'sourceProbe', 'outputProbe', 'sourcePath', 'outputPath', 'stageDirectory', 'ffmpeg', 'ffprobe', 'run', 'signal', 'budget', 'timingQualification', ...(own(options, 'sourcePolicy') ? ['sourcePolicy'] : []),
-    ...(own(options, 'containerClockPolicy') ? ['containerClockPolicy'] : [])], 'Main collector request');
-  const { plan, sourcePath, outputPath, stageDirectory, ffmpeg, ffprobe, run, signal, budget, timingQualification } = options;
+    ...(own(options, 'containerClockPolicy') ? ['containerClockPolicy'] : []), ...(own(options, 'familySelection') ? ['familySelection'] : [])], 'Main collector request');
+  const { plan, sourcePath, outputPath, stageDirectory, ffmpeg, ffprobe, run, signal, budget, timingQualification, familySelection, sourcePolicy, sourceProbe } = options;
   const sourceProperties = own(options, 'sourcePolicy');
+  const collectionBinding = () => assertProportionalCollectionSelection(familySelection, { plan, sourcePath, sourceProbe: sourceProbe, budget, timingQualification, sourcePolicy: sourcePolicy });
+  const approvedSource = own(options, 'familySelection') ? collectionBinding() : null;
   if (sourceProperties) {
-    exact(options.sourcePolicy, ['id', 'rate', 'maximumExtentUs'], 'Decoded source policy');
+    exact(sourcePolicy, ['id', 'rate', 'maximumExtentUs'], 'Decoded source policy');
     // Record 47 Q2b: the whole-file copied-audio family uses the same SDR source checks at 30 fps only.
-    need((['short-sdr-range-v1', 'short-sdr-range-flac-v1'].includes(options.sourcePolicy.id) && [30, 60].includes(options.sourcePolicy.rate)
-      || options.sourcePolicy.id === 'full-sdr-resize-copy-v1' && options.sourcePolicy.rate === 30)
-      && options.sourcePolicy.maximumExtentUs === 120000000, 'Only the bounded short SDR source policies are implemented.');
+    need((approvedSource && sourcePolicy.id === PROPORTIONAL) || ((['short-sdr-range-v1', 'short-sdr-range-flac-v1'].includes(sourcePolicy.id) && [30, 60].includes(sourcePolicy.rate)
+      || sourcePolicy.id === 'full-sdr-resize-copy-v1' && sourcePolicy.rate === 30)
+      && sourcePolicy.maximumExtentUs === 120000000), 'Only bounded legacy policies or a privately bound proportional FLAC policy are implemented.');
   }
   const packetClock = own(options, 'containerClockPolicy');
-  if (packetClock) need(sourceProperties && options.sourcePolicy.id === 'short-sdr-range-v1' && options.containerClockPolicy === CONTAINER_CLOCK,
+  if (packetClock) need(sourceProperties && sourcePolicy.id === 'short-sdr-range-v1' && options.containerClockPolicy === CONTAINER_CLOCK,
     'The packet/codec-delay clock requires the qualified short SDR source policy.');
   exact(budget, ['sourceDecode', 'timeoutMs', 'maxFrameBytes', 'maxPcmBytes', 'maxRecords', 'maxSpoolBytes'], 'Evidence budget');
   need(budget.sourceDecode === 'complete', 'Main must explicitly budget complete source decoding; telemetry alone does not satisfy this validator.', 'OPERATION_EVIDENCE_COST_APPROVAL');
@@ -247,8 +251,8 @@ async function collectOperationEvidence(options) {
     need(timingQualification.aac.alignment === 'decoded-after-signalled-skip', 'AAC requires a measured decoded-sample alignment contract.');
     for (const key of ['encoderDelaySamples', 'discardPaddingSamples']) need(safe(timingQualification.aac[key], key) <= 1048576, 'Unsupported AAC padding qualification.');
   }
-  const source = normalizeProbe(options.sourceProbe), output = normalizeProbe(options.outputProbe);
-  if (sourceProperties && options.sourcePolicy.id === 'short-sdr-range-flac-v1') {
+  const source = normalizeProbe(sourceProbe), output = normalizeProbe(options.outputProbe);
+  if (sourceProperties && ['short-sdr-range-flac-v1', PROPORTIONAL].includes(sourcePolicy.id)) {
     // The new source policy is specific to one integer-PCM range route. It
     // cannot be attached to an AAC or copied-audio plan to borrow its checks.
     const audio = plan.contract.audio.streams, stream = source.streams.find(item => item.index === audio[0]?.index);
@@ -277,6 +281,13 @@ async function collectOperationEvidence(options) {
   const origin = range?.start || { n: 0n, d: 1n };
   cancelled(signal);
   const [sourceBefore, outputBefore, stageBefore] = await Promise.all([binding(sourcePath), binding(outputPath), binding(stageDirectory, true)]);
+  if (approvedSource) {
+    collectionBinding();
+    // This first observed stamp must match issuance, including ctime. Sparse
+    // digest freshness remains the service's responsibility, not a stat claim.
+    need(['dev', 'ino', 'size', 'mtimeNs', 'ctimeNs', 'birthtimeNs'].every(key => String(sourceBefore[key]) === approvedSource[key]),
+      'Source identity changed since proportional selection.', 'OPERATION_EVIDENCE_CHANGED');
+  }
   need(!sameObject(sourceBefore, outputBefore), 'Source and encoded output must be distinct files.', 'OPERATION_EVIDENCE_PATH');
   const directory = await fs.mkdtemp(path.join(stageDirectory, 'operation-evidence-')), directoryBefore = await binding(directory, true);
   const handles = [], spools = [], invocations = [];
@@ -325,7 +336,9 @@ async function collectOperationEvidence(options) {
     };
   }
   async function invoke(label, executable, args, sink, limit) {
+    if (approvedSource) collectionBinding();
     await directories(); cancelled(signal);
+    if (approvedSource) collectionBinding();
     const entry = { label, executable, args, status: 'running', startedAt: new Date().toISOString() }; invocations.push(entry);
     try {
       const result = await run(executable, args, { signal, timeoutMs: budget.timeoutMs, stdoutLimit: limit, stderrLimit: 256 * 1024, onStdoutChunk: chunk => sink.push(chunk) });
@@ -372,7 +385,7 @@ async function collectOperationEvidence(options) {
     receipt.completeSource.video = { frames: completeVideoCount, firstTime: pack(completeFirst.time), endTime: pack(add(completeLast.time, completeLast.duration)),
       maximumNominalCadenceErrorUs: period ? cadenceErrorUs : null, maximumNominalDurationErrorUs: period ? durationErrorUs : null,
       maximumNominalPhaseErrorUs: period ? phaseErrorUs : null,
-      ...(sourceProperties ? { properties: { policy: options.sourcePolicy.id, sampleAspectRatio: '1:1', chromaLocation: 'left',
+      ...(sourceProperties ? { properties: { policy: sourcePolicy.id, sampleAspectRatio: '1:1', chromaLocation: 'left',
         sideDataPolicy: 'h26x-unregistered-sei-only', framesChecked: completeVideoCount } } : {}) };
     receipt.encoderInputs.video = { outputIndex: mapping.outputIndex, records: String(sourceCount), orderedPts: encoderPtsHash.digest('hex'),
       scope: 'independent-selected-source-timestamps-minus-canonical-filter-origin' };
@@ -566,7 +579,11 @@ async function collectOperationEvidence(options) {
     receipt.sourceAfter = stamps(sourceAfter); receipt.sourceIdentityDisposition = sourceDisposition;
     if (sourceDisposition === 'ctime-only') receipt.sourceIdentityWarning = 'Only ctime changed in the observed filesystem stamp. This is not proof of unchanged bytes; main must apply completed-source bounded-identity/warning policy. No cache, source or publication authority is granted.';
     receipt.outputAfter = stamps(await assertBound(outputPath, outputBefore));
-    await directories(); cancelled(signal); Object.assign(receipt, { status: 'completed', decodedEvidence }); completed = true;
+    await directories(); cancelled(signal);
+    if (approvedSource) collectionBinding();
+    Object.assign(receipt, { status: 'completed', decodedEvidence });
+    if (approvedSource) verifyProportionalCollectedSource(familySelection, receipt);
+    completed = true;
     return freeze(receipt);
   } catch (error) {
     Object.assign(receipt, { status: error.code === 'CANCELLED' ? 'cancelled' : 'failed', failure: evidenceFailure(error) });
@@ -574,9 +591,21 @@ async function collectOperationEvidence(options) {
   } finally {
     // No generic cleanup API. An interrupted or rejected collection remains
     // diagnosable, and none of these logs grants authority over media/staging.
-    try { await persist('receipt.json', receipt); }
+    try { await persist('receipt.json', receipt); if (completed && approvedSource) collectionBinding(); }
     catch (error) { if (completed) { error.evidenceDirectory = directory; error.evidenceReceipt = receipt; throw error; } }
-    finally { await Promise.allSettled(handles.map(handle => handle.close())); }
+    finally {
+      await Promise.allSettled(handles.map(handle => handle.close()));
+      // Closing owned spools is awaited too. A selection revoked during that
+      // drain cannot turn a historical completed receipt into current authority.
+      if (completed && approvedSource) {
+        try { collectionBinding(); }
+        catch (error) {
+          error.evidenceDirectory = directory; error.evidenceReceipt = receipt;
+          error.evidenceAuthorityWarning = 'The saved completed receipt is historical evidence, not current authority; the proportional selection was invalidated or changed before collection returned.';
+          throw error;
+        }
+      }
+    }
   }
 }
 

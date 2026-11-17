@@ -1,0 +1,1161 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-11-17T14:47:24.034976+00:00",
+  "parentLocalCommit": "f1e63be1ebafd07df7d65a4c2c8ac919e8f5734a",
+  "parentRemoteCommit": "39b8d6e528ccb2944e91453de7c2bf2dc561d953",
+  "patchSha256": "2ed91323376fd9fdceb23c69cf8e373593bd5327d1a912b5e93a9a3c99f34606",
+  "sourceFiles": [
+    {
+      "path": "src/operation-family.cjs",
+      "bytes": 49171,
+      "sha256": "8194bcf01f27cb9d9bb6fc5680ca3aa8e08f0638dd0dc02d75964fdc5e750ecb",
+      "gitBlob": "96619453672aea983f25328a350c41b083a3303f"
+    },
+    {
+      "path": "src/operation-evidence.cjs",
+      "bytes": 53077,
+      "sha256": "9a359914f1ddc1a59cdfc651b2f82e67e7eac3d4d54562d0c19dca2c0ff7714e",
+      "gitBlob": "cc0e4159c54dd229e1f5942c3a28516f1b962076"
+    },
+    {
+      "path": "src/encoder-service.cjs",
+      "bytes": 158646,
+      "sha256": "9db5757ead17e1b859dd89e85fb412c4d2e88a9edba8728896ae30b585733e26",
+      "gitBlob": "0e57cab34d0328cf0cf2d1a0a31893e07f1a3b94"
+    },
+    {
+      "path": "tests/operation-family-proportional.test.cjs",
+      "bytes": 18231,
+      "sha256": "94665884185a02243441d021f1f153a2ed6622b3dbd4520b5c670578bed0b89e",
+      "gitBlob": "960a435257fa3811cc9f54a938f06d62d68021ba"
+    },
+    {
+      "path": "tests/operation-proportional-service.test.cjs",
+      "bytes": 12166,
+      "sha256": "a955accf9d0309d2c643393d79009898d81653f4f8223a2366247025d68a1d3a",
+      "gitBlob": "002ea41c79df1c564198e1eb25b641519cee68e7"
+    },
+    {
+      "path": "tests/operation-evidence-proportional.test.cjs",
+      "bytes": 13780,
+      "sha256": "00c78bccdbbe1344d12b933f034c68f637c95f365dbfe387b3a5f90031d4f618",
+      "gitBlob": "5484f07f2aa36cc04628be8ba966acce997dfc45"
+    }
+  ],
+  "scope": "One existing non-resize proportional FLAC family; genuine selection/plan/source/resource collection binding, pre-encode pure check and whole-source verifier. No factory/pin/report/default/runtime/coefficient changes.",
+  "independentReview": {
+    "disposition": "No remaining blocking issue after post-close epoch check and regression",
+    "priorPatchFocused": {
+      "tests": 30,
+      "pass": 30,
+      "fail": 0
+    },
+    "finalCollectorTests": {
+      "tests": 10,
+      "pass": 10,
+      "fail": 0
+    },
+    "limits": "Manual focused source/security review and injected tests. Not a formal Security Cloud scan, independent repeat of every lead suite, native Windows or actual-media qualification."
+  },
+  "keyEvidence": [
+    "Exact issued selection/plan/path/probe and frozen budget/timing/policy references required; no public flag authority.",
+    "Actual initial source stat including ctime matches private issued identity before evidence directory creation or children.",
+    "Epoch binding repeated after awaited directory and final handle-close boundaries.",
+    "Genuine injected 1-second source / half-second selection completes actual parser, selected PCM comparison and private whole-source verification.",
+    "150-second source proves genuine admission beyond legacy ceiling only, with an explicit first-runner stop; not a complete long-media proof.",
+    "Truncated complete source fails direct proportional collector before completion; unchanged service already performed separate whole-source verification.",
+    "Initial ctime mismatch refuses; existing ctime-only drift during collection remains a warning without publication/source authority.",
+    "Service telemetry tests now stop at an explicit injected decoded-collector fault, not at a production unsupported-policy gate.",
+    "Revocation during final awaited handle closure rejects with a historical-not-current-authority diagnostic; retained completed receipt still has both authority flags false."
+  ],
+  "failureHistory": [
+    "12/13 deliberate missing pure-preflight API red.",
+    "12/13 first implementation placement ReferenceError, corrected without widening contract.",
+    "4/5 truncated direct collector completed before its whole-source verifier was linked; this did not prove unchanged service publication bypass.",
+    "24/26 old telemetry tests expected closed-policy refusal/two calls; updated to explicit injected collector-stop boundary/three calls.",
+    "9/10 independently requested close-await revocation regression red before post-close recheck."
+  ],
+  "linuxFailureComparison": {
+    "earlierRun": "20261117T141645Z_proportional-contract-final-linux",
+    "currentRun": "20261117T144525Z_proportional-collector-lead-linux",
+    "earlierFailures": 27,
+    "currentFailures": 27,
+    "sameFailureNames": true,
+    "newFailureNames": [],
+    "removedFailureNames": [],
+    "failureNames": [
+      "synthetic staged service: codecs, exclusive publication, admission and child balance",
+      "active cancellation drains before restart; progress-time collision never overwrites",
+      "close drains an active child and permanently closes admission",
+      "caller fixture swap after capture cannot redirect child reads",
+      "ordinary three-codec paths retain baseline predicate and reach superclass admission",
+      "genuine KeepSource, range resize and Full resize tokens coexist with ordinary H265 in one preflight",
+      "forged/stale family and runtime tokens refuse the whole batch without state mutation",
+      "unsupported route, omissions, settings and separate-folder rules cannot partially start",
+      "stale plans and invalid selections retain superclass refusal before any start",
+      "a revoked genuine observer token refuses before superclass mutation",
+      "fourth family requires its own genuine catalog and current token, old three cannot issue it",
+      "original factory remains ordinary-only and forwards state/output access without spawning",
+      "1440 pure receipt schema retains full extents, independent source and exact family resources",
+      "1440 is fixed main-only fourth variant without app activation or geometry override",
+      "1440 composition pins the independently accepted complete calibration bytes",
+      "Full composition pins the independently reviewed completed calibration",
+      "Full receipt requires complete distinct source extents, family and null interval",
+      "pending, missing or changed digests cannot authorize a receipt",
+      "exact successful Keep Source, resize and Full service proofs match their own calibrations",
+      "forged successful labels cannot replace lifecycle, source, accounting or geometry evidence",
+      "accepted exact proofs construct real qualified factory without capabilities or child execution",
+      "1440 service validator has distinct status, geometry, lifecycle and complete tail counts",
+      "accepted exact fourth proof constructs four-family factory without children and keeps three-family app separate",
+      "three-family controls import and real construction do not load unavailable inactive 1440 composition",
+      "reviewed local dependency gate succeeds and absent/symlinked dependencies fail closed",
+      "resize receipt binds independently verified bytes while explicit pending factories stay closed",
+      "resize receipt independently binds geometry, policy, clocks, resources and all evidence"
+    ],
+    "interpretation": "Equal failure names are classification parity, not proof of every unexecuted branch; both broad runs remain failed."
+  },
+  "testOnlyAdapter": {
+    "sha256": "a61debcd1b66ed4428935cee591d4c6a251b1a1f72ce1de1f83ad3e906302583",
+    "source": "'use strict';\n// TEST PROCESS ONLY: recognize historical Windows absolute fixture strings in\n// pure in-memory family tests running on Linux. No production source changed.\nconst path = require('node:path');\nconst original = path.isAbsolute;\npath.isAbsolute = value => original(value) || path.win32.isAbsolute(value);\n",
+    "usage": "NODE_OPTIONS=--require=<owned absolute temporary adapter path> only for isolated legacy family tests; original tests and production path semantics unchanged.",
+    "note": "Evidence wrapper does not capture NODE_OPTIONS; this supplemental record identifies the exact used adapter. This is not native Windows qualification."
+  },
+  "qualificationLimits": [
+    "The final broad Linux run remains failed: 150 passed, 27 failed of 177; identical failure names do not prove every masked branch.",
+    "Branding and stat comparison do not establish fresh source/runtime bytes; existing service currentness and actual filesystem/runtime checks remain necessary.",
+    "Collector admission and completed injected evidence do not authorize production activation, source cache or publication.",
+    "Missing retained reports, unavailable custom runtime and exact observer-source pins remain unresolved; no repin or substitute receipt.",
+    "Positive device/inode source-family assumption remains unchanged; negative Linux source identities are a separate portability question.",
+    "No actual FFmpeg media, GUI, GPU, native Windows, packaging or release acceptance from this patch.",
+    "Arbitrary in-process Proxy/malicious-JavaScript behavior is outside the inert-main-owned-object guarantee."
+  ],
+  "receipts": [
+    {
+      "runId": "20261117T143726Z_proportional-collection-preflight-red",
+      "receiptSha256": "ed5f26c815a3b1c0338bc9531f9bf9cb063d5a994746d1c3df284741e5e679ea",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-collection-preflight-red",
+        "startedAt": "2026-11-17T14:37:26.121Z",
+        "durationMs": 531.718,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "f1e63be1ebafd07df7d65a4c2c8ac919e8f5734a",
+        "dirtyPaths": 109,
+        "command": [
+          "node",
+          "--test",
+          "tests/operation-family-proportional.test.cjs"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 13,
+          "suites": 0,
+          "pass": 12,
+          "fail": 1,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/operation-family-proportional.test.cjs",
+              "bytes": 18240,
+              "sha256": "1a276ba8abdc085dc9fdbb894eca87b0423b61acc0ff69dac82f3fb23cd5e7a0"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 47198,
+              "sha256": "e1d665aa380ffb5ed8e81e6bba2c50ff10e4cb9e748cb16e8d21ef612f39007d"
+            },
+            {
+              "file": "src/operation-evidence.cjs",
+              "bytes": 51137,
+              "sha256": "42064563f9fc62d6e88d1e868b3a01cdab0b33044f3caa0de3d3fc49b0f622fb"
+            },
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158086,
+              "sha256": "89fdd557093eb191157f3fedb7ad48609957f5d4ead82084327b44f739b6fd2f"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "runId": "20261117T143803Z_proportional-collection-preflight-first",
+      "receiptSha256": "9ee3064a1548884cac6570a5679cd53bff19811d4ab2c0b8912d6ad3da0f58de",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-collection-preflight-first",
+        "startedAt": "2026-11-17T14:38:03.634Z",
+        "durationMs": 437.594,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "f1e63be1ebafd07df7d65a4c2c8ac919e8f5734a",
+        "dirtyPaths": 112,
+        "command": [
+          "node",
+          "--test",
+          "tests/operation-family-proportional.test.cjs"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 13,
+          "suites": 0,
+          "pass": 12,
+          "fail": 1,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/operation-family-proportional.test.cjs",
+              "bytes": 18240,
+              "sha256": "1a276ba8abdc085dc9fdbb894eca87b0423b61acc0ff69dac82f3fb23cd5e7a0"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 48620,
+              "sha256": "9d093c265cd6449d97301979cb771eaf7226853f568819590818e79cf9502f7b"
+            },
+            {
+              "file": "src/operation-evidence.cjs",
+              "bytes": 52322,
+              "sha256": "7a0b0afb38a738316f705dfe41754ebb7c4a9fc14a9f1a964f76b50da68b2b10"
+            },
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158646,
+              "sha256": "9db5757ead17e1b859dd89e85fb412c4d2e88a9edba8728896ae30b585733e26"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "runId": "20261117T143831Z_proportional-collection-preflight-second",
+      "receiptSha256": "cedb99766bd9796e2d131b43fdeeb18564743c56d815630348fa7a55f9c2d757",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-collection-preflight-second",
+        "startedAt": "2026-11-17T14:38:31.107Z",
+        "durationMs": 1189.557,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "f1e63be1ebafd07df7d65a4c2c8ac919e8f5734a",
+        "dirtyPaths": 112,
+        "command": [
+          "node",
+          "--test",
+          "tests/operation-family-proportional.test.cjs",
+          "tests/operation-evidence.test.cjs"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 51,
+          "suites": 0,
+          "pass": 51,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/operation-family-proportional.test.cjs",
+              "bytes": 18231,
+              "sha256": "94665884185a02243441d021f1f153a2ed6622b3dbd4520b5c670578bed0b89e"
+            },
+            {
+              "file": "tests/operation-evidence.test.cjs",
+              "bytes": 42817,
+              "sha256": "d7cf3d921219fe268dc3c882d3b521a08b3bd7418bb0e02346f2292ae8d4ccd2"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 48620,
+              "sha256": "9d093c265cd6449d97301979cb771eaf7226853f568819590818e79cf9502f7b"
+            },
+            {
+              "file": "src/operation-evidence.cjs",
+              "bytes": 52320,
+              "sha256": "6c724f89af4479809d69a662393b0bff86b05b17d3c5540adc72d89acedb5be3"
+            },
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158646,
+              "sha256": "9db5757ead17e1b859dd89e85fb412c4d2e88a9edba8728896ae30b585733e26"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "runId": "20261117T143944Z_proportional-collector-first",
+      "receiptSha256": "80b4fce0f48d68dc046f3bea6f3f941986217aa870b91950ed7d88cb47d8471c",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-collector-first",
+        "startedAt": "2026-11-17T14:39:44.393Z",
+        "durationMs": 449.775,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "f1e63be1ebafd07df7d65a4c2c8ac919e8f5734a",
+        "dirtyPaths": 113,
+        "command": [
+          "node",
+          "--test",
+          "tests/operation-evidence-proportional.test.cjs"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 5,
+          "suites": 0,
+          "pass": 4,
+          "fail": 1,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/operation-evidence-proportional.test.cjs",
+              "bytes": 8897,
+              "sha256": "f9d4c3313bc262460ffd679fc5b92753c03f2701c36550aab08371d767250e5a"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 48620,
+              "sha256": "9d093c265cd6449d97301979cb771eaf7226853f568819590818e79cf9502f7b"
+            },
+            {
+              "file": "src/operation-evidence.cjs",
+              "bytes": 52320,
+              "sha256": "6c724f89af4479809d69a662393b0bff86b05b17d3c5540adc72d89acedb5be3"
+            },
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158646,
+              "sha256": "9db5757ead17e1b859dd89e85fb412c4d2e88a9edba8728896ae30b585733e26"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "runId": "20261117T144009Z_proportional-collector-complete",
+      "receiptSha256": "bcd1146fea7da5ad290249f017d2fba67b6db73510fe8533467ca591e17573e6",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-collector-complete",
+        "startedAt": "2026-11-17T14:40:09.765Z",
+        "durationMs": 1728.746,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "f1e63be1ebafd07df7d65a4c2c8ac919e8f5734a",
+        "dirtyPaths": 113,
+        "command": [
+          "node",
+          "--test",
+          "tests/operation-evidence-proportional.test.cjs",
+          "tests/operation-family-proportional.test.cjs",
+          "tests/operation-proportional-service.test.cjs"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 26,
+          "suites": 0,
+          "pass": 24,
+          "fail": 2,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/operation-evidence-proportional.test.cjs",
+              "bytes": 8897,
+              "sha256": "f9d4c3313bc262460ffd679fc5b92753c03f2701c36550aab08371d767250e5a"
+            },
+            {
+              "file": "tests/operation-family-proportional.test.cjs",
+              "bytes": 18231,
+              "sha256": "94665884185a02243441d021f1f153a2ed6622b3dbd4520b5c670578bed0b89e"
+            },
+            {
+              "file": "tests/operation-proportional-service.test.cjs",
+              "bytes": 12062,
+              "sha256": "13144c8648ddae8efa86a780cf15dbc7fb44329199daa3cf3c983006db7069f8"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 49050,
+              "sha256": "2e86833591eed6d8293dee4132a463fcab619dc9c164367d75576d37bad2df77"
+            },
+            {
+              "file": "src/operation-evidence.cjs",
+              "bytes": 52557,
+              "sha256": "4f27d02429f26f96f8894c6dcfe40222a9788987ca7f1d879fc601c37f256267"
+            },
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158646,
+              "sha256": "9db5757ead17e1b859dd89e85fb412c4d2e88a9edba8728896ae30b585733e26"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "runId": "20261117T144220Z_proportional-collector-final",
+      "receiptSha256": "7848ff5683b706cff5590ba037708eab7af97d55e8652b06a578869b37ba578a",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-collector-final",
+        "startedAt": "2026-11-17T14:42:20.326Z",
+        "durationMs": 1795.805,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "f1e63be1ebafd07df7d65a4c2c8ac919e8f5734a",
+        "dirtyPaths": 114,
+        "command": [
+          "node",
+          "--test",
+          "tests/operation-evidence-proportional.test.cjs",
+          "tests/operation-family-proportional.test.cjs",
+          "tests/operation-proportional-service.test.cjs"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 30,
+          "suites": 0,
+          "pass": 30,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/operation-evidence-proportional.test.cjs",
+              "bytes": 12370,
+              "sha256": "c1347a17a63a8ad9a4d2b775346549f3518c1b62d04dd7da20f0591f8860db3c"
+            },
+            {
+              "file": "tests/operation-family-proportional.test.cjs",
+              "bytes": 18231,
+              "sha256": "94665884185a02243441d021f1f153a2ed6622b3dbd4520b5c670578bed0b89e"
+            },
+            {
+              "file": "tests/operation-proportional-service.test.cjs",
+              "bytes": 12166,
+              "sha256": "a955accf9d0309d2c643393d79009898d81653f4f8223a2366247025d68a1d3a"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 49171,
+              "sha256": "8194bcf01f27cb9d9bb6fc5680ca3aa8e08f0638dd0dc02d75964fdc5e750ecb"
+            },
+            {
+              "file": "src/operation-evidence.cjs",
+              "bytes": 52481,
+              "sha256": "3936118cde31bc51c507ce279af68836e8eacaece2b3ede6c5c4a42ffb9a4d74"
+            },
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158646,
+              "sha256": "9db5757ead17e1b859dd89e85fb412c4d2e88a9edba8728896ae30b585733e26"
+            },
+            {
+              "file": "src/operation-runtime.cjs",
+              "bytes": 24676,
+              "sha256": "95285842847006e2fbcad43d46bbca7bc3823c3378fdc33a755ee82398681b79"
+            },
+            {
+              "file": "src/operation-storage.cjs",
+              "bytes": 28430,
+              "sha256": "fb9bcf00b2bf1fac3fe70f5421355a1aea0a2ded5358a38f41f7fd28fe7b1226"
+            },
+            {
+              "file": "src/operation-telemetry.cjs",
+              "bytes": 18149,
+              "sha256": "ef1f30ac5d311224cb8b0e79f60f55f55c69c0610d920d17e5f9c7e191a55814"
+            },
+            {
+              "file": "src/operation-resource-budget.cjs",
+              "bytes": 7168,
+              "sha256": "b60f0fe312e79c6f1b15e717f0cb4a7925fba132ca62b8aa753aa5a3ef51accd"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "runId": "20261117T144348Z_proportional-close-revocation-red",
+      "receiptSha256": "6d57c12ee45431b50e4e298732961448991b31235e4038dd73e442c064c2e4a3",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-close-revocation-red",
+        "startedAt": "2026-11-17T14:43:48.235Z",
+        "durationMs": 371.467,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "f1e63be1ebafd07df7d65a4c2c8ac919e8f5734a",
+        "dirtyPaths": 114,
+        "command": [
+          "node",
+          "--test",
+          "tests/operation-evidence-proportional.test.cjs"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 10,
+          "suites": 0,
+          "pass": 9,
+          "fail": 1,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/operation-evidence-proportional.test.cjs",
+              "bytes": 13780,
+              "sha256": "00c78bccdbbe1344d12b933f034c68f637c95f365dbfe387b3a5f90031d4f618"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 49171,
+              "sha256": "8194bcf01f27cb9d9bb6fc5680ca3aa8e08f0638dd0dc02d75964fdc5e750ecb"
+            },
+            {
+              "file": "src/operation-evidence.cjs",
+              "bytes": 52481,
+              "sha256": "3936118cde31bc51c507ce279af68836e8eacaece2b3ede6c5c4a42ffb9a4d74"
+            },
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158646,
+              "sha256": "9db5757ead17e1b859dd89e85fb412c4d2e88a9edba8728896ae30b585733e26"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "runId": "20261117T144400Z_proportional-close-revocation-green",
+      "receiptSha256": "ff2d833461d8f3b0bf98f573e0334231595d24bd3021cacdea17683666e0875b",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-close-revocation-green",
+        "startedAt": "2026-11-17T14:44:00.592Z",
+        "durationMs": 1713.083,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "f1e63be1ebafd07df7d65a4c2c8ac919e8f5734a",
+        "dirtyPaths": 114,
+        "command": [
+          "node",
+          "--test",
+          "tests/operation-evidence-proportional.test.cjs",
+          "tests/operation-family-proportional.test.cjs",
+          "tests/operation-proportional-service.test.cjs"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 31,
+          "suites": 0,
+          "pass": 31,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/operation-evidence-proportional.test.cjs",
+              "bytes": 13780,
+              "sha256": "00c78bccdbbe1344d12b933f034c68f637c95f365dbfe387b3a5f90031d4f618"
+            },
+            {
+              "file": "tests/operation-family-proportional.test.cjs",
+              "bytes": 18231,
+              "sha256": "94665884185a02243441d021f1f153a2ed6622b3dbd4520b5c670578bed0b89e"
+            },
+            {
+              "file": "tests/operation-proportional-service.test.cjs",
+              "bytes": 12166,
+              "sha256": "a955accf9d0309d2c643393d79009898d81653f4f8223a2366247025d68a1d3a"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 49171,
+              "sha256": "8194bcf01f27cb9d9bb6fc5680ca3aa8e08f0638dd0dc02d75964fdc5e750ecb"
+            },
+            {
+              "file": "src/operation-evidence.cjs",
+              "bytes": 53077,
+              "sha256": "9a359914f1ddc1a59cdfc651b2f82e67e7eac3d4d54562d0c19dca2c0ff7714e"
+            },
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158646,
+              "sha256": "9db5757ead17e1b859dd89e85fb412c4d2e88a9edba8728896ae30b585733e26"
+            },
+            {
+              "file": "src/operation-runtime.cjs",
+              "bytes": 24676,
+              "sha256": "95285842847006e2fbcad43d46bbca7bc3823c3378fdc33a755ee82398681b79"
+            },
+            {
+              "file": "src/operation-storage.cjs",
+              "bytes": 28430,
+              "sha256": "fb9bcf00b2bf1fac3fe70f5421355a1aea0a2ded5358a38f41f7fd28fe7b1226"
+            },
+            {
+              "file": "src/operation-telemetry.cjs",
+              "bytes": 18149,
+              "sha256": "ef1f30ac5d311224cb8b0e79f60f55f55c69c0610d920d17e5f9c7e191a55814"
+            },
+            {
+              "file": "src/operation-resource-budget.cjs",
+              "bytes": 7168,
+              "sha256": "b60f0fe312e79c6f1b15e717f0cb4a7925fba132ca62b8aa753aa5a3ef51accd"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "runId": "20261117T144402Z_proportional-close-legacy-regression",
+      "receiptSha256": "30f7c41313aa8b4af6561bcd5c5b80af79d9277198319adf8b79a8e724da637d",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-close-legacy-regression",
+        "startedAt": "2026-11-17T14:44:02.370Z",
+        "durationMs": 1849.647,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "f1e63be1ebafd07df7d65a4c2c8ac919e8f5734a",
+        "dirtyPaths": 114,
+        "command": [
+          "node",
+          "--test",
+          "tests/operation-evidence.test.cjs",
+          "tests/operation-storage-service.test.cjs",
+          "tests/operation-telemetry-plan.test.cjs",
+          "tests/operation-telemetry.test.cjs"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 85,
+          "suites": 0,
+          "pass": 85,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/operation-evidence.test.cjs",
+              "bytes": 42817,
+              "sha256": "d7cf3d921219fe268dc3c882d3b521a08b3bd7418bb0e02346f2292ae8d4ccd2"
+            },
+            {
+              "file": "tests/operation-storage-service.test.cjs",
+              "bytes": 28143,
+              "sha256": "03c9036f3e7cca08225e41446afa902af9e6eaae3cc1918aeded9fede514aeb4"
+            },
+            {
+              "file": "tests/operation-telemetry-plan.test.cjs",
+              "bytes": 18534,
+              "sha256": "4a6f7df859c3c16c4e67cd81a553660f64470f7ff9fe35c8ed994233be03b0bc"
+            },
+            {
+              "file": "tests/operation-telemetry.test.cjs",
+              "bytes": 11975,
+              "sha256": "8e51364951a007716e88e266893353654c9b2ebd095b07a548620980d50c2238"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 49171,
+              "sha256": "8194bcf01f27cb9d9bb6fc5680ca3aa8e08f0638dd0dc02d75964fdc5e750ecb"
+            },
+            {
+              "file": "src/operation-evidence.cjs",
+              "bytes": 53077,
+              "sha256": "9a359914f1ddc1a59cdfc651b2f82e67e7eac3d4d54562d0c19dca2c0ff7714e"
+            },
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158646,
+              "sha256": "9db5757ead17e1b859dd89e85fb412c4d2e88a9edba8728896ae30b585733e26"
+            },
+            {
+              "file": "src/operation-runtime.cjs",
+              "bytes": 24676,
+              "sha256": "95285842847006e2fbcad43d46bbca7bc3823c3378fdc33a755ee82398681b79"
+            },
+            {
+              "file": "src/operation-storage.cjs",
+              "bytes": 28430,
+              "sha256": "fb9bcf00b2bf1fac3fe70f5421355a1aea0a2ded5358a38f41f7fd28fe7b1226"
+            },
+            {
+              "file": "src/operation-telemetry.cjs",
+              "bytes": 18149,
+              "sha256": "ef1f30ac5d311224cb8b0e79f60f55f55c69c0610d920d17e5f9c7e191a55814"
+            },
+            {
+              "file": "src/operation-resource-budget.cjs",
+              "bytes": 7168,
+              "sha256": "b60f0fe312e79c6f1b15e717f0cb4a7925fba132ca62b8aa753aa5a3ef51accd"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "runId": "20261117T144523Z_proportional-collector-lead-final",
+      "receiptSha256": "ad05f2f24bf4560f8e7a2dc80c0c00a96570ae7c49d2bc3c0cf52b99a0ac8f23",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-collector-lead-final",
+        "startedAt": "2026-11-17T14:45:23.970Z",
+        "durationMs": 2973.185,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "f1e63be1ebafd07df7d65a4c2c8ac919e8f5734a",
+        "dirtyPaths": 114,
+        "command": [
+          "node",
+          "--test",
+          "tests/operation-evidence-proportional.test.cjs",
+          "tests/operation-family-proportional.test.cjs",
+          "tests/operation-proportional-service.test.cjs",
+          "tests/operation-evidence.test.cjs",
+          "tests/operation-storage-service.test.cjs",
+          "tests/operation-telemetry-plan.test.cjs",
+          "tests/operation-telemetry.test.cjs",
+          "tests/operation-resource-budget.test.cjs"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 123,
+          "suites": 0,
+          "pass": 123,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/operation-evidence-proportional.test.cjs",
+              "bytes": 13780,
+              "sha256": "00c78bccdbbe1344d12b933f034c68f637c95f365dbfe387b3a5f90031d4f618"
+            },
+            {
+              "file": "tests/operation-family-proportional.test.cjs",
+              "bytes": 18231,
+              "sha256": "94665884185a02243441d021f1f153a2ed6622b3dbd4520b5c670578bed0b89e"
+            },
+            {
+              "file": "tests/operation-proportional-service.test.cjs",
+              "bytes": 12166,
+              "sha256": "a955accf9d0309d2c643393d79009898d81653f4f8223a2366247025d68a1d3a"
+            },
+            {
+              "file": "tests/operation-evidence.test.cjs",
+              "bytes": 42817,
+              "sha256": "d7cf3d921219fe268dc3c882d3b521a08b3bd7418bb0e02346f2292ae8d4ccd2"
+            },
+            {
+              "file": "tests/operation-storage-service.test.cjs",
+              "bytes": 28143,
+              "sha256": "03c9036f3e7cca08225e41446afa902af9e6eaae3cc1918aeded9fede514aeb4"
+            },
+            {
+              "file": "tests/operation-telemetry-plan.test.cjs",
+              "bytes": 18534,
+              "sha256": "4a6f7df859c3c16c4e67cd81a553660f64470f7ff9fe35c8ed994233be03b0bc"
+            },
+            {
+              "file": "tests/operation-telemetry.test.cjs",
+              "bytes": 11975,
+              "sha256": "8e51364951a007716e88e266893353654c9b2ebd095b07a548620980d50c2238"
+            },
+            {
+              "file": "tests/operation-resource-budget.test.cjs",
+              "bytes": 8542,
+              "sha256": "9eb1674ec8909c2413d648bbfe1fe95bc32fa4ef87b11b17ae6b1dc6bee08cb0"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 49171,
+              "sha256": "8194bcf01f27cb9d9bb6fc5680ca3aa8e08f0638dd0dc02d75964fdc5e750ecb"
+            },
+            {
+              "file": "src/operation-evidence.cjs",
+              "bytes": 53077,
+              "sha256": "9a359914f1ddc1a59cdfc651b2f82e67e7eac3d4d54562d0c19dca2c0ff7714e"
+            },
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158646,
+              "sha256": "9db5757ead17e1b859dd89e85fb412c4d2e88a9edba8728896ae30b585733e26"
+            },
+            {
+              "file": "src/operation-runtime.cjs",
+              "bytes": 24676,
+              "sha256": "95285842847006e2fbcad43d46bbca7bc3823c3378fdc33a755ee82398681b79"
+            },
+            {
+              "file": "src/operation-storage.cjs",
+              "bytes": 28430,
+              "sha256": "fb9bcf00b2bf1fac3fe70f5421355a1aea0a2ded5358a38f41f7fd28fe7b1226"
+            },
+            {
+              "file": "src/operation-telemetry.cjs",
+              "bytes": 18149,
+              "sha256": "ef1f30ac5d311224cb8b0e79f60f55f55c69c0610d920d17e5f9c7e191a55814"
+            },
+            {
+              "file": "src/operation-resource-budget.cjs",
+              "bytes": 7168,
+              "sha256": "b60f0fe312e79c6f1b15e717f0cb4a7925fba132ca62b8aa753aa5a3ef51accd"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "runId": "20261117T144525Z_proportional-collector-lead-linux",
+      "receiptSha256": "82107df23d01e7fb5775732b1efe51bbe3541a169e097a6b7a4f2bea290bf78e",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-collector-lead-linux",
+        "startedAt": "2026-11-17T14:45:25.340Z",
+        "durationMs": 1271.288,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "f1e63be1ebafd07df7d65a4c2c8ac919e8f5734a",
+        "dirtyPaths": 114,
+        "command": [
+          "node",
+          "--test",
+          "linux-blue/demo-boundary.test.cjs",
+          "linux-blue/output-preflight.test.cjs",
+          "linux-blue/runtime-av1-operation.test.cjs",
+          "linux-blue/runtime-av1.test.cjs",
+          "linux-blue/runtime-candidate.test.cjs",
+          "linux-blue/runtime.test.cjs",
+          "linux-blue/source-inspection-boundary.test.cjs",
+          "linux-blue/source-inspection.test.cjs",
+          "linux-blue/synthetic-service.test.cjs",
+          "linux-blue/ui-policy.test.cjs",
+          "linux-blue/workbench-av1-admission.test.cjs",
+          "linux-blue/workbench-av1-service.test.cjs",
+          "linux-blue/workbench-av1-trim.test.cjs",
+          "linux-blue/workbench-execution.test.cjs",
+          "linux-blue/workbench-full-1440-service.test.cjs",
+          "linux-blue/workbench-full-resize-service.test.cjs",
+          "linux-blue/workbench-long-range-calibration.test.cjs",
+          "linux-blue/workbench-long-range-service.test.cjs",
+          "linux-blue/workbench-long-range-smoke.test.cjs",
+          "linux-blue/workbench-qualified-app-smoke.test.cjs",
+          "linux-blue/workbench-qualified-encode-controls.test.cjs",
+          "linux-blue/workbench-remux.test.cjs",
+          "linux-blue/workbench-resize-service.test.cjs",
+          "linux-blue/workbench-service.test.cjs",
+          "linux-blue/workbench-trim-candidate.test.cjs"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 177,
+          "suites": 0,
+          "pass": 150,
+          "fail": 27,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "linux-blue/demo-boundary.test.cjs",
+              "bytes": 7127,
+              "sha256": "768fc77bce010c54f32b8664234628e4709931fb72cd585282fa807df33d3cea"
+            },
+            {
+              "file": "linux-blue/output-preflight.test.cjs",
+              "bytes": 6545,
+              "sha256": "027a7429f628413b969a8852a7a2f0172e88c8d76016d64cc86d17be2710a16e"
+            },
+            {
+              "file": "linux-blue/runtime-av1-operation.test.cjs",
+              "bytes": 9656,
+              "sha256": "13956585833345e0cc6a4b78a1c71b1cc32d82fb7879bf970c762240aa96e02f"
+            },
+            {
+              "file": "linux-blue/runtime-av1.test.cjs",
+              "bytes": 5177,
+              "sha256": "fe43507ecf66f95e86aca902d27ccf25ab9334b5163ccaae92b09f147eef1d38"
+            },
+            {
+              "file": "linux-blue/runtime-candidate.test.cjs",
+              "bytes": 3699,
+              "sha256": "5512a93d8abcb841514dd9b3956f4ce2cb7da6f705161d64d70aea198584bb19"
+            },
+            {
+              "file": "linux-blue/runtime.test.cjs",
+              "bytes": 3959,
+              "sha256": "77e5a2a83a5a9ef7ef9334d6e01d90f6ac3b66aa4ba87f177ce7b102c267d446"
+            },
+            {
+              "file": "linux-blue/source-inspection-boundary.test.cjs",
+              "bytes": 6470,
+              "sha256": "e3af4733bf7bc72bb437cd2ccb86b8ea69371bf2cbea63e10347a9f5049e1cdd"
+            },
+            {
+              "file": "linux-blue/source-inspection.test.cjs",
+              "bytes": 8961,
+              "sha256": "b48e38a1dca45a04cddc8ff3a9e7c02d9f314b06cd8ba484749c381269d8618f"
+            },
+            {
+              "file": "linux-blue/synthetic-service.test.cjs",
+              "bytes": 5647,
+              "sha256": "be889555ea44c4d293c33e2cfc8c84a1a84ca8d96d426b505ccbf01811530e7c"
+            },
+            {
+              "file": "linux-blue/ui-policy.test.cjs",
+              "bytes": 5165,
+              "sha256": "587aecaed6fb0b547fcff7668a854acf561fb9c07147fec0f4bcb86f51fed8df"
+            },
+            {
+              "file": "linux-blue/workbench-av1-admission.test.cjs",
+              "bytes": 10085,
+              "sha256": "9df61cceaf1f8bd6c334d5754be4c79b2cef4334ba45b39a1612ff8cea60968e"
+            },
+            {
+              "file": "linux-blue/workbench-av1-service.test.cjs",
+              "bytes": 6755,
+              "sha256": "6079eec204ed3e0b15970089018a06ac42e0072b1fc06b67d8192d35349036a6"
+            },
+            {
+              "file": "linux-blue/workbench-av1-trim.test.cjs",
+              "bytes": 2647,
+              "sha256": "08cc9f46160c517f880aa81d1caf9bec8892308801bfd62361c96fe4a93affaf"
+            },
+            {
+              "file": "linux-blue/workbench-execution.test.cjs",
+              "bytes": 4083,
+              "sha256": "570fd4f1918fed21bbfd30164f7847d164bb3209310108b66244a76559e0919b"
+            },
+            {
+              "file": "linux-blue/workbench-full-1440-service.test.cjs",
+              "bytes": 5963,
+              "sha256": "2a3127ff0f81a44f6f640c98817e2d4ee5cb099c058e4d292a1e16f13c0bf86e"
+            },
+            {
+              "file": "linux-blue/workbench-full-resize-service.test.cjs",
+              "bytes": 5137,
+              "sha256": "8affd468c14fba60c98dc3ea734a96e1d502d61382afa5170d06f7b3a782239c"
+            },
+            {
+              "file": "linux-blue/workbench-long-range-calibration.test.cjs",
+              "bytes": 5013,
+              "sha256": "f87d01834f3d8ee135c246bed32475e54d46abd9a664f9128385e136abc8e9a2"
+            },
+            {
+              "file": "linux-blue/workbench-long-range-service.test.cjs",
+              "bytes": 10678,
+              "sha256": "823948d7ac18bc5732e3297985b9261411188dafbf32a4c24a64871eaef07fb6"
+            },
+            {
+              "file": "linux-blue/workbench-long-range-smoke.test.cjs",
+              "bytes": 5860,
+              "sha256": "3bf94d7768613312fe50ef1959b7da17da400caa7dbd2c00cad976ad3b3fcf13"
+            },
+            {
+              "file": "linux-blue/workbench-qualified-app-smoke.test.cjs",
+              "bytes": 6469,
+              "sha256": "c85541320584cb5a19eacda7b130bc71a0e33923b3dc9f2b4b5e0b3601cc6993"
+            },
+            {
+              "file": "linux-blue/workbench-qualified-encode-controls.test.cjs",
+              "bytes": 11188,
+              "sha256": "18b69949fa9f5894556a74e11e8b0c7a2625022df397ab9388515730fe874ac1"
+            },
+            {
+              "file": "linux-blue/workbench-remux.test.cjs",
+              "bytes": 9956,
+              "sha256": "0a44f52c0bbd345661c5330cd1aa230b35a509b298dac4e7b19642ba7ec19d47"
+            },
+            {
+              "file": "linux-blue/workbench-resize-service.test.cjs",
+              "bytes": 5387,
+              "sha256": "2190e0461ca93177bc8770c0488e7ffd61b6d6e49f9d6f2beaeb485513691d04"
+            },
+            {
+              "file": "linux-blue/workbench-service.test.cjs",
+              "bytes": 8616,
+              "sha256": "ec4af779d98a510ba2fb45bc0d97f4213f2451e5b93dc0b557ba2d14c2a3eee6"
+            },
+            {
+              "file": "linux-blue/workbench-trim-candidate.test.cjs",
+              "bytes": 6983,
+              "sha256": "c4550f213c0dd33bf11c518f5ee7c3d34f9bb5a144a5ca38ba77bdaec00bd2b1"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 49171,
+              "sha256": "8194bcf01f27cb9d9bb6fc5680ca3aa8e08f0638dd0dc02d75964fdc5e750ecb"
+            },
+            {
+              "file": "src/operation-evidence.cjs",
+              "bytes": 53077,
+              "sha256": "9a359914f1ddc1a59cdfc651b2f82e67e7eac3d4d54562d0c19dca2c0ff7714e"
+            },
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158646,
+              "sha256": "9db5757ead17e1b859dd89e85fb412c4d2e88a9edba8728896ae30b585733e26"
+            },
+            {
+              "file": "src/operation-runtime.cjs",
+              "bytes": 24676,
+              "sha256": "95285842847006e2fbcad43d46bbca7bc3823c3378fdc33a755ee82398681b79"
+            },
+            {
+              "file": "src/operation-resource-budget.cjs",
+              "bytes": 7168,
+              "sha256": "b60f0fe312e79c6f1b15e717f0cb4a7925fba132ca62b8aa753aa5a3ef51accd"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "runId": "20261117T144526Z_proportional-collector-lead-legacy-adapted",
+      "receiptSha256": "4ea17bb0a9c8135b067bc6e2a6a5651f323fa736c82954b00116749bf62ca8ba",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-collector-lead-legacy-adapted",
+        "startedAt": "2026-11-17T14:45:26.731Z",
+        "durationMs": 487.709,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "f1e63be1ebafd07df7d65a4c2c8ac919e8f5734a",
+        "dirtyPaths": 114,
+        "command": [
+          "node",
+          "--test",
+          "tests/operation-family.test.cjs"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 33,
+          "suites": 0,
+          "pass": 33,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/operation-family.test.cjs",
+              "bytes": 59721,
+              "sha256": "068cd6add5dd9d8ad5e8cfafd7c9b031f939f8227916f6cfce53217b3e8c0e0f"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 49171,
+              "sha256": "8194bcf01f27cb9d9bb6fc5680ca3aa8e08f0638dd0dc02d75964fdc5e750ecb"
+            },
+            {
+              "file": "src/operation-resource-budget.cjs",
+              "bytes": 7168,
+              "sha256": "b60f0fe312e79c6f1b15e717f0cb4a7925fba132ca62b8aa753aa5a3ef51accd"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

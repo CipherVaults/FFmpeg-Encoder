@@ -1,3 +1,433 @@
+# 📘 Session: November 17, 2026 — FFmpeg Encoder — Add an explicit developer resize workbench route without changing defaults or claiming native acceptance
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model or tool identity | Effort setting | Evidence basis and verification limit |
+|---|---|---|---|
+| Engineering lead / integration owner | GPT-6 Astra, recorded lead configuration | Ultra, recorded assignment | Chose the fixed successor after accepted real service evidence, coordinated isolated work and source preservation, and owns final integration/testing/publication. Configuration is not backend/performance attestation. |
+| Isolated implementation contributor | Not separately established here | Not separately established | Built a nine-path route/acquisition/composition/renderer/test proposal and retained initial red, V1 regression and test-only V2 refinement. No real candidate binary, media, Electron or desktop was executed. |
+| Independent source reviewer | Not separately established here | Not separately established | Reviewed V1 and ran 133 tests, then reviewed the sole V2 test change and ran the final service test file 15/15. After correcting a nonexistent-path attribution, independently reran the nine existing paths on V2 for 133/133 with identical successful names. No standalone main-lifecycle coverage follows from either independent 133 run; lead explicitly adds it in 164/164. The contributor's 212-test V1 scope is distinct. |
+| Native journey planner | Not separately established here | Not separately established | Prepared a future bounded UI journey and read-only asset identities. Planning does not launch Electron, restore/copy media, create profile state or grant execution authority. |
+| Preservation / mirror role | Not separately established here | Not separately established | Verifies predecessor source/full-history/readable records and original-ancestry publication, then the eventual new exact source checkpoint. Source archives do not restore ignored binary/raw-report authority. |
+| Documentation editor | Blue documentation contributor; model not independently established here | Not separately established | Read actual patches, handoffs/reviews, red/refinement logs, integration/test/path-correction receipts, prior publication and prepared-helper review; drafts outside the authoritative checkout. Owns only the explicitly released Session prepend, not source/tests/media/Git actions. |
+
+**Record basis:** The actual five-case resize normal-service proof ran on immutable 017 source `db2fa5e` and was preserved in evidence-only 018. It did not provide a native workbench route. This session records the separately reviewed consumer/UI source slice. The previous 755,707-byte cumulative body remains exact, including its historical statement that this proposal was then unreviewed/unintegrated. New consumer bytes are not retroactively covered by that media run.
+
+## 🕒 Time
+
+- Date / date range: November 17, 2026. Explicit receipt timestamps are UTC; Cairo civil time is UTC+2. No media/native clock or performance result is newly measured by this source step.
+- Start: Exact active-work start was not measured. Isolated proposal/red/review ordering is retained in saved artifacts; no coding start is invented from file mtime or test duration.
+- Continuation: 018 source and full-history Notion restoration both preceded integration at 20:05:55 UTC. Remote verification completed later, at 20:06:55.157282 UTC, not before integration.
+- Integration: Final reviewed nine-path V2 bytes were integrated at 20:05:55.002046 UTC onto ca99ae6 after both actual predecessor Notion restores.
+- Final test timing: Corrected focused run started 20:06:55.257 UTC (1,442.096 ms); encoder-only 20:07:16.151 (6,707.554 ms); Linux broad 20:07:22.929 (1,649.229 ms); encoder-plus-runner parity 20:08:22.811 (7,396.240 ms). These are recorded run starts/durations, not wall-clock finish or human-effort estimates.
+- End / stopping point: This source/PBS handoff precedes any claimed new native resize run or 019 publication. Final owning receipt is dated 20:11:16.379861 UTC. At this cutoff all source/test bytes are stable, the prepared native helper has conditional independent GO only, and no native approval or execution exists. This entry is prepared for the later Session-only save; its actual save/commit/publication receipts remain separate.
+- Session type: Isolated developer-workbench source implementation, independent test refinement/review, authoritative integration and preservation handoff.
+- Project stage: Linux 0.7 fixed 1080p30-to-720p precision-FLAC developer workbench source, after real service evidence and before its own native journey.
+- Main focus: Explicit named runtime mode, fixed acquisition, main-owned output authority, inspection-only initial state, ordinary per-file reprepare and sticky cancellation/relaunch, while retaining baseline styling/defaults and old Keep720 refusal.
+- Contributors: Ahmed retains product ownership and release acceptance. Lead, implementation, independent review, planning, preservation and documentation responsibilities are separated above.
+- Model / effort: Known lead configuration or explicitly unknown by role, not copied across contributors.
+- Active working time: Not measured. Source test durations and preservation intervals are not an inferred effort or native responsiveness benchmark.
+- Reason for summary: Preserve the actual source boundaries and test coverage, including the valid-AAC refinement mistake, then name the remaining native proof gates without claiming app usability from VM tests.
+
+## 🎯 Session Goal
+
+The real resize service proof had established three protected publications, collision preservation, live cancellation and new-owner recovery for a fixed developer route. The next useful engineering slice was to expose that route explicitly in the existing Linux workbench without turning it into the default, repinning historical evidence or building a second UI/application architecture.
+
+The goal was a fixed main-owned `--blue-runtime=9.0.2-resize-candidate` choice that acquires only the exact reviewed local tools/report, reuses normal service/selection/storage, accepts only real main-owned OutputAccess and keeps initial compatibility/Full preparation inspection-only. The ordinary per-file editor should apply an explicit range, 720 and Precision FLAC, reprepare a genuine current operation and show the existing Ready/Start flow. Cancellation must visibly close the session and require relaunch with new owners, not reset stale tokens.
+
+Original HTML/CSS/theme/Gauge, preload/IPC, Windows entry points, baseline/AV1/Keep720 choices and product defaults remain unchanged. Renderer changes should be conditional on a distinct resize developer disclosure rather than pretending to be Keep720. The finish line here is reviewed integrated source and accurate tests; actual native picker/editor/publication/reveal behavior requires a later exact-source, restored-environment, separately reviewed and authorized journey.
+
+## 🛠️ Actions Taken
+
+### 1. Preserve the accepted service evidence before integrating its workbench successor
+
+Evidence-only checkpoint 018 is local `ca99ae65fc3b910c6dbd397ceba6cf869002379e`, tree `4544686d29df8181c6187fe2e02a6c2d8c34860c`, parent `db2fa5e7933c1c6a51188a281f0478cd50f62367`. It preserves the one genuine resize normal-service run, independent final-v3 audit and later provenance-only reconciliation without changing application/test source. Its archive has 548 files and eighteen local commits.
+
+The source ZIP is 3,363,494 bytes, SHA-256 `c2097ef3bdbf602252a78af9eb544a8dd172c429ff58d7505d22359ea4bf8aeb`; full bundle 3,230,040 bytes, SHA-256 `467a8d70f8a4aa7d89fd70be338d6532460d99d611d93b838cc83964e7df2ce1`. [Notion checkpoint 018](https://app.notion.com/p/41bbd7ade63b8156aca4f16f76a552f9) independently restored all 548 source files and the full eighteen-commit bundle. The [native readable Session](https://app.notion.com/p/41bbd7ade63b812b83a8e6f62bd25386) was fetched as three ordered complete chunks with all eighteen session headings and the historical ending, without truncation. Exact Markdown bytes remain in ZIP/bundle. The exact cumulative Session is 755,707 bytes, SHA-256 `752ebd3515ac5939228e94b01863ad8e37c13dfd8981710fe0552625ac6ea3e1`; native readable formatting must not be confused with exact Markdown bytes.
+
+The historical media producer remains `9390681`, consumer service proof `db2fa5e`, and evidence-preservation base `ca99ae6`. A new workbench composition is separately reviewed source, not part of a prior calibration or media execution merely because it reuses those modules. Integration waited for the actual predecessor source and bundle restore. Any later native proof must bind the actual new consumer checkpoint.
+
+018 remote `72ebaabb43033cef4ec007732a95e0df7ddb7676` on `blue/linux-development` has actual sole parent `502c98d28c48e00a10162d379cd8780fd8c2769e` and tree `bfe7f4d69309ab16c8b16846f039441f8f23b8e5`. Five changed contents/Git blobs, actual ancestry/tree and fresh ref were verified at 20:06:55.157282 UTC: 930 total remote files, 925 unchanged, two modified, three new and zero deleted. This remote verification followed 019 integration; the earlier actual Notion restores were its preservation gates. An initial local whole-request read was truncated and failed JSON parsing before any connector mutation. Reading the same reviewed request in bounded local chunks then enabled one submission, not a changed payload, review-denial bypass or alternate egress route.
+
+### 2. Keep the successor to nine explicit source/test paths
+
+The isolated proposal starts from `db2fa5e`; evidence-only 018 adds no producer/source delta. V1 patch SHA-256 is `58f1c1773655bb511ebe44c9d34f52f66fa20aadbd982893c8883ff7e362e875`; final V2 is `43e563a2a5db1642082c9bd256ea21effc5243311261758145ec4bb894dd8064`. V2 changes only the service test, not production or the other eight paths.
+
+| Final V2 path | Role | Bytes | SHA-256 |
+|---|---|---:|---|
+| `linux-blue/candidate-resize-service.cjs` | Add optional main-owned output/workbench behavior to the separate consumer | 25,086 | `f0d088cd7d2ef0e3e8030dcc9afa2abbed2ca63d6331e172d1c19943392df41a` |
+| `linux-blue/candidate-resize-service.test.cjs` | Source gates, genuine selection, inspection-only/OutputAccess and V2 valid-AAC negative | 28,279 | `d444d6dcd98e366fcc456b54fb329fd9b86f9cd538503318db91aa123e960236` |
+| `linux-blue/candidate-resize-workbench.cjs` | New fixed local acquisition and narrow developer capabilities/preferences | 5,997 | `fe67afb34aa3ca47a5edebd92bb7caa2f45121aa7408c2f7d0bdd55a8995d452` |
+| `linux-blue/candidate-resize-workbench.test.cjs` | Acquisition, missing-input and injected main-startup ownership tests | 9,551 | `817cda905e20b2ae4cdb4d2bf8b6c367eebe6a9d816dd99f0866178ce0a799a1` |
+| `linux-blue/candidate-resize-workbench-renderer.test.cjs` | New renderer disclosure/editor/closed-state tests | 12,555 | `468b26867b06e28149316baa484f398de1c8acfef7ec4f379d1881c1ef59f0bb` |
+| `linux-blue/runtime-av1.test.cjs` | Existing choice parser parity and exact new option negatives | 5,952 | `e5bc4a5d1f7644db79f58d27b036a821eb6a3d1ba8988959ceb47e01d6284b40` |
+| `linux-blue/workbench-main.cjs` | Explicit factory/state/title/error routing with existing shutdown owner | 9,642 | `92ecee117209485228b2c95d4767b132a671de1b1141a4e054f82a2e0551f411` |
+| `linux-blue/workbench-runtime-choice.cjs` | Admit only the exact new named choice alongside existing choices | 839 | `36013c00d7566fc18c9af747291bf4f8d67219e09ced10296524f738af4e5b6b` |
+| `ui/renderer.js` | Conditional shared developer-preview presentation, retaining legacy disclosure | 149,098 | `d669ed1224683d432fbbb633000b5b5cf3032028339b841091e86452b56681c8` |
+
+Three paths are new: acquisition, its test and resize renderer test. Existing shared EncoderService, operation-family/evidence, OutputAccess implementation, preload/IPC, HTML/CSS, theme/Gauge assets, Windows main, defaults, catalog and old Keep720 capsule/acquisition remain outside the change. The nine source/test paths plus Current, Session, execution and receipts form a prospective thirteen-path checkpoint, with five new files after the two new records, expected 553 source files and nineteen local commits. Actual scope remains subject to the final staged receipt, not an assumed published result.
+
+### 3. Add a fixed named choice and fail-closed local acquisition
+
+The parser adds only `--blue-runtime=9.0.2-resize-candidate` alongside existing exact baseline/AV1/Keep720 semantics. Duplicate, malformed and path-bearing runtime choices remain refused. There is no renderer-selected executable, manifest, report, factory or policy parameter and no automatic fallback to baseline or another candidate.
+
+The new acquisition module uses the fixed ignored `artifacts/candidate-runtime-1980b0c…` restoration directory, exact reviewed FFmpeg/FFprobe sizes/hashes and seven listed dependency records. It checks Linux x64 loader conditions and refuses nonempty NODE_OPTIONS/LD_ overrides. Missing either fixed tool or the original raw resize report produces a clear `CANDIDATE_WORKBENCH_NOT_RESTORED` error before runtime owner/observer/child work. It does not download or repair missing assets.
+
+The presence precheck is not the integrity authority. Genuine runtime acquisition and the existing fixed service factory still enforce private runtime brand/currentness, exact pair/dependencies, original raw report, stable bounded read and 97 historical producer digests. Source-only/portable restoration cannot replace those live prerequisites. The new consumer's changed bytes require a new full checkpoint gate for future native execution even though historical producers and raw calibration remain unchanged.
+
+Acquisition accepts only inert main-owned stateDir, optional child observer and optional OutputAccess. On construction failure it closes the acquired runtime and attaches closure failure information without substituting a fallback. Its developer capability view exposes only H265 CPU slow with quality fixed at 25; recipes/vendor profiles are empty, Remux unavailable and production-qualified catalog status false. Returned preferences are narrowed for this explicit developer route, not saved as new product defaults or used to rewrite normal user settings.
+
+### 4. Pass real main-owned output authority without widening IPC
+
+The separate service factory now permits optional own-data `outputAccess` and boolean `workbenchMode`, retaining inert-option validation and all prior fixed report/runtime gates. It passes the actual main-created OutputAccess into the normal base service. A callback-shaped impostor is refused rather than accepting arbitrary renderer shell callbacks.
+
+The `instanceof OutputAccess` check is a shape/prototype guard, not an unforgeable private brand. Actual issuance, token-only actions and source/output identity enforcement remain in the unchanged OutputAccess implementation and existing IPC. Main remains the trusted owner; this source slice does not claim protection against arbitrary hostile code running with that same main-process authority.
+
+Workbench main reuses its existing creation of OutputAccess backed by fixed shell actions and the unchanged preload/IPC token path. No raw output path or renderer-provided command is introduced. Source tests cover wiring and existing output-grant regression behavior, not actual operating-system reveal, player launch or playback. A later real Show-in-folder observation must be recorded separately from dispatch acceptance.
+
+### 5. Keep initial compatibility/Full preparation inspection-only before every emitted snapshot
+
+In workbench mode, `snapshot()` inspects the current plan entry for every currently Ready item. If genuine qualification selection, runtime token or instrumentation is absent, or the operation still uses the compatibility path, it removes that current entry and changes the item to unsupported with `CANDIDATE_RANGE_REQUIRED`. The explanation tells the person to choose a per-file range, 720 and Precision FLAC, then Apply; Full is not qualified in this preview.
+
+This demotion runs before the emitted base snapshot so the user does not receive a runnable compatibility Ready row merely because initial inspection succeeded. The operation draft is preserved so the ordinary editor remains usable. The inherited independent CandidateTrimService Start guard remains necessary before snapshot or in unexpected ordering; display text is not the authority gate.
+
+The source test exercises a real OperationDraft, `updateFileOperations` reprepare lifecycle, final operation construction and genuine family selection around injected inspection/worker/report/runtime data. It verifies initial entry removal, repeated unsupported disclosure, preserved draft, a new plan after explicit range/720/FLAC edit and valid resize resources. It also rejects source resolution, other geometry, Full, copied/invalidated tokens and the properly isolated valid-AAC family negative described below.
+
+Its limits are deliberately retained. `prepareWithWorkers`, incident/folder evidence and the runtime token are injected; the entire real base `prepareItem` and actual FILE_INSPECTED/PREPARATION_FINISHED await sequence are not executed here. The pending-write test models emissions around a promise, not a held actual base diagnostic-write await. The disconnected `oldItem` fixture is not a real late callback. These tests support the exercised current-state/guard contracts, not complete preparation concurrency or native end-to-end behavior.
+
+### 6. Expose resize's own disclosure and keep cancellation visibly closed
+
+The service emits a separate `developerResize` object describing the finite 1080p30-to-720p range route, H265 CPU slow/CRF 25, Precision FLAC, unavailable Full/KeepSource/other resize/Remux paths and retained CPU topology/thread-pool warning limits. It does not impersonate `developerKeep720` or claim production catalog activation.
+
+Renderer chooses the active resize disclosure, otherwise the legacy Keep720 disclosure, into one internal developer-preview value. The existing revision guard remains. `developerSessionClosed` is sticky: once a valid snapshot says relaunch required, a later false or stale snapshot does not reopen the controls. Both developer previews retain disabled native/remux controls and the existing ordinary file editor, while baseline behavior with no preview remains unchanged in the tested scope.
+
+Service cancellation still closes admission synchronously. In workbench mode it immediately emits the closed/relaunch state before awaiting inherited cancellation/drainage. The existing ordered resource/candidate cleanup remains, and recovery requires new runtime handle and new service after closing the old owners. No same-session restart or claim that idle cancellation alone necessarily revokes an external token is introduced.
+
+Renderer tests use mocked IPC returns to show editor/selection/disclosure and sticky closure. They do not prove that actual service preparation or native DOM interaction produced those mock Ready states. This source-only result must not be described as a user-visible completed journey or as native cancellation under the new route.
+
+### 7. Reuse main startup/closure ownership without weakening desktop security
+
+Workbench main selects the new fixed factory only for the exact named option, uses its own `workbench-resize-candidate-preview` state directory, explicit experimental title and mode, and a clear resize-specific startup error. Existing startupPromise/shutdown ownership remains the controlling mechanism. It does not add a user-data override, private profile migration, baseline fallback or new arbitrary path channel.
+
+The injected main test executes the actual main source with mocked Electron and a deliberately late service promise. A close request arrives while startup is unresolved; when the service becomes available it closes admission, cancels, waits for resource drainage and closes diagnostics before exit, with no window created. This is meaningful main control-flow evidence, but no real Electron process/display/sandbox behavior is run by it.
+
+Original shell/security declarations remain: sandbox enabled, context isolation true, node integration false, existing preload and original assets/style. No `--no-sandbox`, remote-debugging flag, loader configuration, library replacement, desktop permission or OS security setting is introduced. A future native launch must reverify the actual environment rather than assuming these source declarations alone prove native sandbox compatibility.
+
+### 8. Retain the initial red and attribute V1 tests accurately
+
+Before production edits, the saved red run reports 18 tests, twelve pass and six fail. The new acquisition module is absent, workbench/output options are unsupported by the old service and renderer resize/relaunch disclosure is absent. The failure set includes a module-level missing-module result and specific new service/renderer expectations; it is not six independently demonstrated media/security exploits or an end-to-end native failure.
+
+The contributor's subsequent isolated V1 runs pass 22/22, then 157/157, then the final 212/212 aggregate. Independent V1 review runs a different 133-test selection, no skips, including resize/legacy candidate service and renderer coverage, runtime choice, shared UI, output access, IPC and injected actual-main startup. Its originally named nonexistent `tests/main.test.cjs` does not provide standalone main-lifecycle coverage; the correction is detailed below. It finds no blocking source issue while recording exact coverage limitations and the useful AAC-negative refinement.
+
+The independent V1 review SHA-256 is `9c03da76a85597de615624035e5d44e24c0d279b5d369ca8cd756e90092c4349`, with stdout SHA `e0d75a5da0157ff3231a17df3ecf32dcb5694738bd385e23ff3dbbc2953c156d`. The contributor's final V1 stdout is `6be049accc56bceee810585caa4c26d6a416b0ed0da83f7ed60c13f0bdb98af2`. These are separate executed scopes, not counts to add or represent as a repeated 212-test independent run.
+
+The HANDOFF-v2 retains V1's `tests.final: 212` as historical evidence; that field does not make it a final-byte V2 aggregate rerun. The original independent 133/133 belongs to V1; a later explicitly corrected nine-existing-path run independently repeats 133/133 on V2. Final integrated lead runs have their own exact final-source identities and attribution.
+
+### 9. Improve valid Precision AAC refusal coverage without changing production
+
+V1's AAC negative used `audioPolicy: 'aac'`, which is not a supported request spelling. Its rejection therefore did not independently demonstrate that a valid Precision AAC request reached the resize family's refusal. Independent review identified this as a coverage limitation, not a production bypass or an assertion that AAC was actually admitted.
+
+The initial V2 refinement uses valid `precision-aac` and constructs the plan outside the throws assertion. It exposes an earlier `GEOMETRY_ORIENTATION_UNKNOWN` because the resize qualification did not provide orientation for that unsupported audio family. The retained `v2-final` run is 14/15, not silently deleted or counted green. It fails before the intended family selector predicate; this is a test-isolation issue, not a regression in production audio admission.
+
+The corrected test explicitly borrows the same synthetic source's orientation fixture from an admitted FLAC request solely to construct a syntactically valid AAC plan. It asserts that the plan carries `precision-aac`, then calls the genuine selector, which refuses it. No runtime authority or execution is issued; the plan is never run. This negative borrowed-orientation fixture is not evidence that normal service preparation admits AAC or that the real orientation gate has been bypassed in production.
+
+Only the test file changes from V1 27,901 bytes/SHA `feb2e0de7cd4f35cae14f0a6428d70f4bfe5f26cac5dd9d02edf24d93ce57240` to final 28,279 bytes/SHA `d444d6dcd98e366fcc456b54fb329fd9b86f9cd538503318db91aa123e960236`. All eight other paths, including every production byte, remain unchanged. Corrected contributor and independent focused runs each pass 15/15; those focused runs do not themselves repeat the V1 aggregates. The separate later independent scope correction does rerun the nine existing paths at 133/133 on final V2. No final V2 worker 212-test repeat is claimed.
+
+Independent V2 review is 1,231 bytes, SHA-256 `41c4218230d58edfffc47afe9fa7145d744b86f66e4e915ef9d6c98c784c9181`, with log SHA `7957bda868bc88887f2ca39f24666a891eb48cc7a2b29be99550c754658145b2`. It finds no blocker and closes the valid-AAC syntax coverage gap while retaining all other V1 limits. The failing refinement log remains SHA `d8164b078ce08df62992a76038e739534dfe3d1a1f80f284187aede0e25d6def`; corrected log SHA is `af596623b014ab3fb980b1997c4396afe5bb5a75e6031053b845f6a75da93617`.
+
+### 10. Integrate only the reviewed final bytes and reconcile actual final tests
+
+Lead first verified predecessor 018 source and full bundle restoration and every destination against the proposal base or expected absence. At 20:05:55.002046 UTC it integrated only the nine final reviewed paths onto `ca99ae6`, leaving 018 evidence records and all unrelated source untouched. The integration receipt is 2,816 bytes, SHA `c2cd27448087f99599c6b9295d3371a04cd332e7eb375b484a76283d3bbecc49`. The final combined lead test receipt is 19,687 bytes, SHA `c40fdabf93c102ee44bd3045be4c741326e1ddf125dc41ca1ec5348eaaaf3040`.
+
+A real attribution mistake was discovered before accepting the final coverage. Independent V1's actual command named `tests/main.test.cjs`, which does not exist. Node v24.22.1 nevertheless produced 133 passes. That result proves only the executed existing scope, not a nonexistent standalone main suite. The original invocation/log remains; no historical command is rewritten to substitute `tests/main-lifecycle.test.cjs`. Reviewer saved `INDEPENDENT_SCOPE_CORRECTION.json` (1,714 bytes/SHA `9b2f70cea90ef723277d17388457386a489c818624a12d5186a35759f20f3c64`) and reran the nine existing paths on V2: 133/133 with exactly the same successful-name multiset. Its fresh stdout SHA is `6c921876f5a0311451c8138ca16b07517ba2f5b0c84478e4e1155ed1b728412a`. Neither independent 133 run includes standalone main-lifecycle; the injected actual-main deferred-startup test inside candidate-workbench tests did run and remains a separate claim.
+
+Lead copied that missing path into its first evidence command and had also proposed absent `tests/renderer.test.cjs`. The stricter evidence runner stopped while statting `tests/main.test.cjs` before spawning tests. The empty evidence directory and 504-byte error record SHA `914a18c7896416ad49bc3201608a878605e6d2239a77022e2e7eb8b5a617fab4`, dated 20:06:55.160353 UTC, remain. There is no failed-test count or immutable test receipt for that pre-run stop. `renderer.test.cjs` was removed before the corrected invocation; actual shared renderer coverage is `tests/ui-workbench.test.cjs`, and the independent command never contained the absent renderer path.
+
+The corrected focused command explicitly runs the real `tests/main-lifecycle.test.cjs` with the nine candidate/runtime-choice/UI/output/IPC paths. Final lead evidence is:
+
+| Exact lead evidence directory suffix | Actual start UTC / duration | Result | Disposition |
+|---|---|---|---|
+| `20261117T200655Z_resize-workbench-lead-focused-v2` | 20:06:55.257 / 1,442.096 ms | 164/164 pass, exit 0 | Includes actual standalone main-lifecycle source tests; no native Electron/media |
+| `20261117T200716Z_resize-workbench-lead-shared-service` | 20:07:16.151 / 6,707.554 ms | 81/82 pass, one fail, exit 1 | Existing missing-source diagnostic mismatch |
+| `20261117T200722Z_resize-workbench-lead-linux` | 20:07:22.929 / 1,649.229 ms | 202/237 pass, 35 fail, exit 1 | Exact previous 35 failing-name multiset retained |
+| `20261117T200822Z_resize-workbench-lead-service-parity` | 20:08:22.811 / 7,396.240 ms | 125/126 pass, one fail, exit 1 | Encoder plus runner repeats the same existing diagnostic mismatch |
+
+All four actual receipts report source/test bytes unchanged during each run. The shared failure remains actual `PROTECTED_SOURCE` versus expected `SOURCE_CHECK_INCOMPLETE`, the known intermittent missing-source diagnostic mismatch, not a newly repaired contract. These overlapping suites are not summed into one unique or green test count.
+
+The Linux failure reconciliation is 4,265 bytes, SHA `0bd8a9ebe259f023513e0689b4465db497146e22b65c824280a53c3eeca7379c`. It compares the current 202/237 log to 017's 190/225 using spec cross lines before the failure footer, strips only trailing timing and explicitly requires 35 names before comparing the multiset. It is not an empty-parser equality or a new reproduction of the earlier parser mistake. All 27 inherited failures and eight intentional old Keep720 producer-closure refusals remain; no failure was removed, expectation loosened or historical report repinned. Equal names do not prove every downstream unexecuted behavior safe.
+
+The integrated source changes the separately reviewed workbench consumer, not the fixed calibration producer closure. The current resize route still needs its exact original raw report, pair/seven dependencies and unchanged 97 producer hashes. The old Keep720 capsule remains intentionally refused against changed historical producers. These passing source tests do not make baseline/history green, activate a product catalog or execute a native journey.
+
+### 11. Prepare the native journey without launching or treating asset hashes as desktop proof
+
+A separate read-only plan proposes one actual native workbench publication after this source slice is independently reviewed, integrated, preserved and bound to a fresh exact gate. It does not authorize a launcher, fixture copy, profile creation or desktop action. Its then-current source/reference labels are planning provenance, not the future immutable native source identity.
+
+The planner verifies existing local source fixture bytes, fixed restored runtime tools, original raw resize calibration and Electron binary. The intended eight-second input is the genuinely independent service fixture, 6,672,071 bytes/SHA `a45ca66b173cb60c4ee4d34d8c5880df174ab8ee0c2b9107bfe268a6ff4c6fc2`; any later copy must be exclusive and preserve the original. The fixed pair and raw report already exist at exact reviewed bytes, so no download/restore is presently needed according to that planning read. Electron 44.7.0 is 228,605,256 bytes/SHA `10a14d05c6ff4f94075cfb3eeb6ed6571be33ebcc08cbd675b5ce9ff84706564`. Hashing it does not reprove display, sandbox or supported computer-input behavior.
+
+The named resize workbench state directory is absent at the planning read. A future launch must recheck that absence; if it appears, stop and reconcile rather than delete/clear state or claim a pristine profile. Main owns its fixed user/session paths; no command-line profile override or reading/publishing private browser/profile/cache/token databases is part of the plan.
+
+The proposed Journey A uses the original UI, documented global Sky mouse/keys and fresh screenshots, not hidden IPC, clipboard injection, unsupported per-window typing or the previously failed AT-SPI `type_text` route. It allows only tightly bounded known-parent picker correction and stops on tool/focus/unknown-result failure. It would verify initial Full inspection-only state, normal per-file explicit 720/range .613–2.721/Precision FLAC editing, one reprepare, one Start, real progress/publication and at most one genuine Show-in-folder action before normal close. The expected 63 frames/101,184 samples and 240/384,000 whole-source evidence are targets, not observed native results.
+
+No cancellation/relaunch, player/Open action, second encode, other geometry/audio/default change or fallback runtime is included in that prospective journey. The native observer provides a census, not an external 160/180-child enforcement gate or per-child 27 GiB check. Proposed launch/major-action disk admission, 30-minute abort request and existing operation resources must be described accurately as point/supervisory controls, not hard exit/write limits. Any post-close FFprobe or decode must be separately specified/authorized, not silently added to a UI-only plan.
+
+The plan requires complete retained outer stdout/stderr, actual startup/security/runtime disclosures, process exit/wall/monotonic outcomes, observed per-child diagnostic completeness only where provided, and saved screenshots or explicit CUA-only observation limits. Source/runtime/report/input/output/audit identities must be checked after close; Show dispatch is not playback verification and a saved audit is not a fresh decode. Preparation subsequently produced a syntax-checked fixed supervisor and independent conditional GO, not an execution grant. `PLAN.md` is 10,027 bytes/SHA `a00e4f2a29ea4a440f28d0b12ed5d884c68a8edf22c108bfd9693add847d2bc2`; `launch-resize.py` 6,545 bytes/SHA `456f0c52a1cad223dba50dffa47023aabb302c5b95cb35be79ca714a3fd4775b`; `NATIVE_PLAN.json` 6,015 bytes/SHA `f83c0dae92d957a7736c0ef233af83cfb35ed9eb9a28741d6561bec8e6641ca3`; independent prepared review is 2,922 bytes/SHA `c98e844dcd11d06836c433c6e240a0a2a42bd3bbd466c4b5e3631e5352a83d98`. `ast.parse` passed; the supervisor was not executed. No approval/gate, fixture copy, attempt, state/profile or native launch exists at this cutoff.
+
+The reviewed helper requires actual 019 HEAD/full Git/current file identities and both independently established Notion restores, not merely trust in boolean attestations. It uses exclusive attempt/copy/output/log/receipt creates and fixed argv. Its assertions must remain enabled: invoke ordinary fixed Python without `-O`, `-OO` or `PYTHONOPTIMIZE`. Source and all identity inputs stay frozen through independent audit. Desktop/global-Sky/focus/exclusive-session/security preflight and operator major-action 27 GiB/2 GiB checks remain separate prerequisites, not work performed by syntax parsing.
+
+Supervisor closure and top-level stdout/stderr hashes do not prove UI publication or complete child stderr. The owned allowance covers input/output only, not uninspected profile/cache stores or logs; no native hard child cap or per-child disk gate exists. A 30-minute SIGTERM request may wait indefinitely and is not forced termination/relaunch. Prelaunch failure before the try block can leave exclusive attempt/copy artifacts without `OUTER_COMPLETION`; preserve the actual incomplete outcome and stop, never silently replay. Signals/nonzero exit/abort remain failed or incomplete even when post-close identities match.
+
+The helper does not collect/hash the publication itself. A later read-only saved-output audit must establish the output full hash, acknowledging first establishment then if applicable, plus genuinely saved geometry/PCM/provenance/private reveal. Native service may not retain a separate output probe, so geometry might rely on saved service/collector acceptance rather than an independently saved probe. The approved preparation does not add a fresh FFprobe/decode. These native capture limits remain distinct from 018's richer standalone-service report and must not be inherited away.
+
+### 12. Prepare source/PBS preservation without importing unrun outcomes
+
+The intended owning records are [Resize Developer Workbench](2026-11-17_Resize_Developer_Workbench.md), its [structured receipts](2026-11-17_Resize_Developer_Workbench_Receipts.json) and [Current](CURRENT_STATE.md). Current is 6,498 bytes/SHA `67a953705b5577d5c205d95faf9a66797dd589c09ee9aa8fbce2083a071d0c57`; execution is 14,869 bytes/SHA `f7086d0ca742ae6376d75cd30481f231ad06ca5696e75c390d1d2ec7bb61db5b`; receipts are 56,666 bytes/SHA `e3c0ff6074b34e80096159876b5503d08f35059f964cda3ce89e0ae74574f81b` at this reconciliation. The lead explicitly released Session only after those records were saved. No new portable media report exists because no media ran. They distinguish source tests/coverage from actual native/media results and preserve the failed AAC test refinement rather than replacing its history.
+
+The new coherent checkpoint is prospective until its actual commit and verified preservation exist. Its source delta must remain the exact nine paths above, with four PBS records, no runtime/media/raw diagnostic payload, private helper approval or unrelated source. The full 755,707-byte prior Session and original structure-correction receipt remain unchanged. Notion must restore the complete source/full history and unabridged native readable record, then the exact intended original-ancestry GitHub delta must be verified without overwriting unrelated remote history.
+
+No actual native resize output, folder-picker behavior, pixel quality, player playback, same-session retry or warning-free performance is established here. The earlier real service proof remains on `db2fa5e`, not reattributed to these changed workbench consumer bytes. If native execution is later authorized, its result belongs to a subsequent dated session with actual source/runtime/environment/evidence identities.
+
+## 🧠 Key Insights
+
+### Explicit developer choice preserves useful progress without silently changing the product
+
+A named fixed route can make a new consumer testable while keeping defaults, historical capsules and product catalog untouched. Its narrow capability view and separate disclosure communicate the real envelope. That is more honest than making the old Keep720 option accept new evidence or assuming a successful service experiment is a release-ready app mode.
+
+### Presentation and authority need separate guards
+
+Removing unqualified Ready rows prevents a misleading UI, but Start must still independently refuse before or without a snapshot. Preserving the OperationDraft keeps the editor usable without preserving a stale runnable plan. Genuine reprepare/selection is what earns authority; a mocked renderer Ready response is only a UI contract test.
+
+### A more valid negative can reveal that the wrong predicate was being tested
+
+The unsupported `aac` spelling rejected early. Switching to valid `precision-aac` exposed another earlier orientation refusal. Constructing the valid plan with a clearly labelled test-only orientation fixture then reaches genuine family refusal. The improvement is better predicate isolation, not a production fix or evidence that normal AAC preparation is admitted.
+
+### Existing code reuse does not erase coverage limits
+
+The implementation reuses normal service, private family tokens, OutputAccess and main startup ownership. Source tests exercise real portions of that machinery under injected dependencies. They still do not execute the full base preparation-await path, a real late callback or native OS output action. Keeping those distinctions visible avoids repeating earlier overclaims about modeled pending writes.
+
+### Fixed restoration and a working desktop are different prerequisites
+
+Exact local tools/report/Electron can already exist while the actual current desktop, sandboxed renderer and keyboard/picker journey remain unverified. A source restore also cannot manufacture those ignored inputs. Native readiness requires both exact assets and actual environment preflight, followed by one bounded reviewed journey.
+
+## 📌 Decisions Made
+
+1. **Confirmed: add a separate exact named resize developer mode.** The lead chose the smallest route/acquisition/composition/renderer slice after accepted service evidence. Baseline, AV1 and historical Keep720 choices/defaults remain unchanged; no arbitrary renderer configuration channel is added.
+2. **Confirmed: reuse fixed local restoration and fail closed.** Missing tools/report, wrong pair/dependencies, loader overrides or stale authority must stop without downloads or fallback. Source/portable archives are not live runtime credentials.
+3. **Confirmed: retain main-owned OutputAccess and token-only IPC.** Optional factory wiring accepts the real main-created object; unchanged private grants/identity checks remain authority. Instanceof is not presented as an unforgeable brand.
+4. **Confirmed: demote initial compatibility/Full Ready state while preserving an editable draft.** Snapshot guards presentation; independent Start guards authority. Explicit range/720/Precision FLAC reprepare earns a genuine current selection rather than an automatic request rewrite.
+5. **Confirmed: expose separate resize disclosure and sticky close/relaunch.** Shared conditional renderer handling preserves old Keep720 semantics while refusing new work after cancellation. Recovery remains fresh owners, not same-session reopening.
+6. **Confirmed: correct valid-AAC negative coverage in tests only.** Independent review identified invalid request spelling; the retained first valid refinement failed earlier orientation. A labelled borrowed-orientation fixture now isolates family refusal, without production changes or AAC execution authority.
+7. **Confirmed: integrate final V2 only after both predecessor Notion restores, correct actual coverage and retain failure parity.** Nine paths match final review. Independent nonexistent-path attribution is withdrawn; fresh V2 133 and lead real-main-lifecycle-inclusive 164 are separate. Shared 81/82 and 125/126 retain the old mismatch; broad 202/237 retains all previous 35 failures. No pins or expectations are weakened.
+8. **Provisional: one bounded native Journey A after preserved source and fresh authorization.** Read-only asset checks and planning identify a useful path, but no native launch, profile/fixture copy or output action is currently inferred.
+9. **Deferred: native acceptance, general source/geometry/performance and product rollout.** Full/AAC/other geometry, native resize results, same-session recovery, arbitrary shell action and owner release acceptance remain separate.
+
+## ⚠️ Difficulties / Friction
+
+The workbench's ordinary initial Full preparation is not qualified for this developer range capsule. Simply displaying a Ready row and relying on the person to choose a different request would misrepresent authority. The source therefore demotes unqualified current entries before emission while retaining the draft/editor, with Start still guarded independently.
+
+Positive reprepare coverage needs source/runtime/report/worker data that unit tests do not obtain from real media. Injecting those values makes bounded source tests practical, but the comments and summary must not call the modeled promise or disconnected old item an actual base persistence await or stale callback. Native proof remains necessary for the whole UI/service flow.
+
+The V1 AAC negative initially rejected an invalid spelling. Correcting syntax exposed a different earlier orientation failure, producing the retained 14/15 V2 refinement result. The narrow fixture correction deliberately isolates family refusal rather than loosening production guards. A valid negative test can need explicit test-only evidence without granting the production request any new authority.
+
+Acquisition readiness is also conditional: the planner finds exact restored tools/report/Electron locally, but no desktop operation is performed. Prior successful native Keep720 activity does not establish current display/control readiness or resize application behavior. Existing profile state must be respected rather than cleared to make a clean-state assumption pass.
+
+Test command provenance required correction: a nonexistent main path appeared in the independent command and was copied into lead's strict evidence command. The former still produced 133 passes without standalone-main coverage; the latter stopped before tests. Preserving both facts, rerunning the existing nine paths and explicitly adding the real main-lifecycle suite was more reliable than substituting a plausible filename in history. The planned absent renderer path was removed; actual shared UI tests were named explicitly.
+
+The shared diagnostic mismatch and 35 broad failures remain despite focused success. The final equality parser requires an actual nonempty 35-name multiset and cannot turn empty extraction into parity. Source tests and unchanged named failures support a bounded source checkpoint, not globally clean functionality or automatic acceptance of all unexecuted paths.
+
+018 publication also required a bounded local request read after whole-file output truncation. The parse failed before connector mutation, then exactly the same reviewed payload was submitted once. Source/full history had already been restored before integration; remote verification came later. This chronology is retained rather than moving a convenient final backup timestamp earlier.
+
+## 🔧 Adjustments Made
+
+### 1. Add a workbench consumer after the real service result rather than activate from calibration
+
+- Shifted from: A fixed developer service exercised outside native UI, with no workbench route.
+- To: A separate named developer workbench acquisition and conditional UI disclosure around the existing normal service.
+- Because: Accepted service evidence supports the next bounded consumer slice, not automatic default/catalog activation.
+- Consequence: The new source can be reviewed/preserved for a later native journey while old routes, product defaults and layout remain unchanged; shared renderer handling changes only conditionally for developer previews.
+
+### 2. Keep initial compatibility rows editable but not runnable
+
+- Shifted from: Initial ordinary compatibility/Full inspection state that can contain a Ready item before explicit qualified range edits.
+- To: Current-entry demotion/removal before emitted snapshots, preserved operation draft and independent Start refusal, followed by normal explicit reprepare.
+- Because: A display-ready status must not imply fixed resize authority that the initial request lacks.
+- Consequence: The user retains the existing editor without an automatic request rewrite; source tests prove only their exercised injected/current-state boundaries, not full native preparation concurrency.
+
+### 3. Generalize only internal developer presentation, not qualification authority
+
+- Shifted from: Renderer-local handling named solely for legacy `developerKeep720`.
+- To: One internal preview presentation value selected from distinct `developerResize` or legacy Keep720 disclosure.
+- Because: The two explicit modes share notice/locking behavior but have different qualified routes and historical evidence.
+- Consequence: Sticky closure and native/remux disabling are reused without changing HTML/style/defaults or pretending resize is Keep720. Service qualification remains separate and fixed.
+
+### 4. Replace invalid-AAC syntax rejection with a genuine family negative
+
+- Shifted from: V1 `aac` spelling rejected before a valid operation could reach the intended predicate.
+- To: Valid `precision-aac` plan construction outside the assertion, with explicitly test-only same-source orientation borrowed from the admitted FLAC fixture, then genuine selector refusal.
+- Because: The first valid refinement exposed `GEOMETRY_ORIENTATION_UNKNOWN` before family selection, demonstrating that syntax correction alone did not isolate the test.
+- Consequence: Retained 14/15 red is followed by 15/15 corrected focused checks; all production bytes and other eight files remain unchanged. This does not prove normal preparation admits or executes AAC.
+
+### 5. Correct named test coverage before treating counts as evidence
+
+- Shifted from: An independent command containing absent `tests/main.test.cjs`, followed by a lead pre-run identity-stat stop when that path was copied.
+- To: Retained original invocation/error, explicit independent nine-existing-path V2 133/133 and corrected lead 164/164 including real `tests/main-lifecycle.test.cjs`; actual renderer suite is `tests/ui-workbench.test.cjs`.
+- Because: A returned count cannot prove an absent named file was run, and a wrapper's pre-spawn error is not a failed-test result.
+- Consequence: Standalone main-lifecycle evidence now has a real lead receipt, not retroactive independent attribution. No production bytes or expectations changed.
+
+### 6. Advance a read-only native plan to conditional helper readiness, not execution
+
+- Shifted from: A proposed Journey A and read-only local asset checks without an implementation/reviewed supervisor.
+- To: Exact syntax-checked supervisor/plan and independent conditional GO with assertions enabled, preservation/current-desktop/exclusive-state gates and explicit capture/abort limits.
+- Because: A bounded UI run needs an actual reviewed process owner and evidence plan, but those artifacts cannot authorize themselves or prove publication.
+- Consequence: No launch, copy, profile or runtime action occurs in this source session. Actual source checkpoint restoration, final one-run grant and desktop preflight remain before native work.
+
+## ❌ Mistakes / Risks Noted
+
+### 1. Mistaking an invalid request rejection for the desired family guard
+
+- What happened or could happen: V1's AAC negative used unsupported `aac` rather than valid `precision-aac`, so rejection could occur before family selection.
+- Actual impact: Coverage was narrower than its intended audio-family claim; independent review found no production blocker.
+- Potential impact: A later regression in the family predicate could escape if an earlier syntax guard always makes the negative pass.
+- Correction / current status: V2 builds valid syntax outside throws and isolates the genuine family refusal with a labelled test-only orientation fixture. The first orientation-red run and corrected focused results remain retained.
+- Failure Intelligence: Keep in this Session and source receipts. Negative tests should demonstrate the intended boundary, not merely any thrown error.
+
+### 2. Borrowed test-only orientation could be misreported as production authority
+
+- What happened or could happen: The corrected AAC negative borrows same-source orientation from an admitted FLAC request solely to reach the later selector.
+- Actual impact: A valid AAC plan can be constructed in the test and is then refused; no plan is executed or normal preparation admitted.
+- Potential impact: Omitting the fixture boundary would suggest a production bypass or broader supported audio policy.
+- Correction / current status: Comments and independent V2 review explicitly label it an intentional negative borrowed-orientation case; all production bytes remain unchanged.
+- Failure Intelligence: Preserve the test seam and do not market its constructed plan as an accepted application route.
+
+### 3. Overclaiming complete preparation or real stale-callback coverage
+
+- What happened or could happen: Modeled pending-write emissions, injected `prepareWithWorkers`, runtime token and disconnected old item can resemble actual full preparation concurrency.
+- Actual impact: Real draft/update/reprepare/final-plan/family selection contracts run under synthetic dependencies; the full base prepareItem await sequence and a genuine delayed callback do not.
+- Potential impact: A summary claiming those paths fully tested could hide unverified concurrency or native integration behavior.
+- Correction / current status: Comments, handoffs and this record preserve exact modeled limits. Independent Start refusal remains a separate safety boundary; native end-to-end evidence is future work.
+- Failure Intelligence: Reuse the earlier distinction between modeled emissions and actual held diagnostic writes; do not silently upgrade a fixture into observed runtime behavior.
+
+### 4. Treating OutputAccess instanceof as an unforgeable security credential
+
+- What happened or could happen: The new option check could be described as private-brand proof merely because callback-shaped objects fail.
+- Actual impact: It is a shape/prototype guard; main creates the real object and unchanged private grants/identity/action checks provide actual output authority.
+- Potential impact: Overstating the guard could obscure trusted-main assumptions or encourage raw shell callbacks from untrusted renderer input.
+- Correction / current status: No new path/callback IPC is added; existing output tests remain relevant. Actual native reveal/playback still needs its own observation.
+- Failure Intelligence: Keep type/shape checks, private grant authority and OS action verification separate.
+
+### 5. Reopening cancelled work from late snapshots
+
+- What happened or could happen: A newer false relaunch flag or stale snapshot could otherwise make a closed developer session look available again.
+- Actual impact: Source closes admission synchronously and emits relaunch; renderer closure is sticky across the tested updates.
+- Potential impact: UI state could invite reuse of stale operation/runtime authority after cancellation.
+- Correction / current status: Fresh handle/service after close/relaunch remains required. The tests do not claim that idle cancellation alone immediately revokes every external token or that native cancellation under this route has run.
+- Failure Intelligence: Preserve synchronous service guard and sticky presentation together, with distinct test/execution evidence.
+
+### 6. Conflating source review, restored assets and native success
+
+- What happened or could happen: Passing VM/DOM/main tests and exact local tool hashes could be mistaken for actual Electron/display/picker/media behavior.
+- Actual impact: No real candidate binary/media/Electron/native action is executed in this source slice; read-only planning only verifies specific bytes and then-current absence/presence.
+- Potential impact: Premature native/default activation could skip actual environment, source gate, capture and one-run authorization.
+- Correction / current status: Preserve the new source checkpoint before a separate native plan/review/gate. No security flags, fallback runtime, hidden IPC or silent profile clearing is allowed.
+- Failure Intelligence: Native readiness needs actual environment and UI observations, not inferred success from source declarations or historical journeys.
+
+### 7. Misattributing aggregate tests to final V2 bytes
+
+- What happened or could happen: HANDOFF-v2 retains V1's 212-test final field, and independent V1's 133-test scope differs from the worker's.
+- Actual impact: V2's actual focused contributor/independent result is 15/15; the worker 212 aggregate was not rerun after the sole test edit. A separate corrected independent nine-path V2 133/133 was subsequently executed and is explicitly attributed, not inferred from the earlier handoff field.
+- Potential impact: A careless summary could claim a larger independent final-byte rerun or sum unrelated scopes.
+- Correction / current status: Label every run by version/role/scope and use separate final integrated lead receipts for actual authoritative bytes.
+- Failure Intelligence: Retain inherited handoff fields as historical provenance, not automatic current verification.
+
+### 8. Reporting nonexistent named test paths as actual main-lifecycle coverage
+
+- What happened or could happen: Independent V1 named absent `tests/main.test.cjs`; Node still returned 133 passes. Lead copied that path into a stricter wrapper and also initially proposed absent renderer.test.
+- Actual impact: Standalone independent main-lifecycle attribution was unsupported; lead stopped at ENOENT before test spawning and produced no test result. The original logs, empty directory and error record remain.
+- Potential impact: Treating count/exit alone as named-path coverage could hide an untested lifecycle seam or convert a pre-run error into fictional tests.
+- Correction / current status: Reviewer explicitly withdrew that attribution, reran the nine real paths on V2 with identical 133 successful names, and lead added real `tests/main-lifecycle.test.cjs` for 164/164. Actual renderer scope is ui-workbench. Production source did not change.
+- Failure Intelligence: Preserve original command and correction separately; validate named files and executed names before claiming coverage. No additional incident document or historical rewrite is needed.
+
+### 9. Calling unchanged broad failures a globally green app
+
+- What happened or could happen: Focused 164/164 could overshadow shared 81/82 and 125/126 or broad 202/237.
+- Actual impact: The old missing-source diagnostic mismatch and exact prior 35 broad failing names remain. Failure equality is based on an explicit minimum-count parser, not empty comparison.
+- Potential impact: Overstating green status could hide deliberate old Keep720 source refusals or unsupported historical dependencies/fixtures, with unexecuted downstream behavior unknown.
+- Correction / current status: No rebaseline, pin change or expectation weakening occurred. Narrow source qualification and broader failure disposition remain separate.
+- Failure Intelligence: Retain versioned scope, names and diagnostics; identical failing names do not prove everything after those guards would pass.
+
+### 10. Treating conditional native helper GO as a run grant or complete evidence collector
+
+- What happened or could happen: A reviewed supervisor may appear ready enough to launch without actual new source preservation, assertions/current-desktop gates or independent output evidence.
+- Actual impact: Only syntax/preparation/review ran; no approval/gate or native execution exists. The helper does not hash publication or establish complete child stderr, and its assertions are security-relevant gates.
+- Potential impact: Optimized Python, missing desktop preflight, inherited service-harness claims or replay after partial prelaunch failure could invalidate the bounded proof.
+- Correction / current status: Require ordinary Python assertions, exact actual 019/full restoration, one-run authorization, fresh state/desktop controls and later saved-output audit. Retain incomplete artifacts on failure, no silent retry or force-kill-as-normal-close claim.
+- Failure Intelligence: Separate process supervision, operator UI observations, publication identity and diagnostics coverage; all need their actual evidence before acceptance.
+
+## 📍 Current Position
+
+**As of:** Final owning receipt dated 20:11:16.379861 UTC, after final V2 integration/source tests, corrected independent scope and prepared-helper conditional GO. Source is unchanged; 019 commit/restoration/publication and native approval/execution remain future at this cutoff.
+
+**Before this session:** Real fixed resize normal-service proof existed on `db2fa5e` and was preserved in evidence-only 018, but no reviewed integrated native workbench consumer or native resize journey existed. Old Keep720 exact-source refusal and baseline/style/default boundaries remained deliberate.
+
+**After this session:** The final nine-path reviewed V2 source is integrated onto ca99ae6 after actual predecessor source/full-history restoration. Lead focused 164/164 passes; shared 81/82 and 125/126 retain the old diagnostic mismatch; broad 202/237 retains the same 35 failing names. Independent corrected V2 133/133 supplements, rather than silently rewrites, original V1 attribution. The fixed route/acquisition, main-owned output wiring, inspection-only initial snapshot, normal explicit range reprepare and conditional renderer closure are the new source slice. The valid-AAC negative refinement is test-only and retains its initial earlier-guard red. Actual native behavior, same-session recovery and broader product acceptance remain unproved.
+
+**Current standing:** Developer workbench source, not a release-ready or natively accepted app. Exact raw calibration/runtime/dependency prerequisites and private service authority remain required. No default/catalog/HTML/theme/preload/IPC/Windows-main change or old Keep720 repin is part of the intended scope. Historical service proof remains attributed to its tested old consumer bytes.
+
+**Live owner / continuation anchor:** The lead owns final integration/records/commit and native gate decisions; independent review owns scoped source disposition; the mirror owns exact source/full-history/readable/remote verification. This role owns only the explicitly released Session prepend and exact history preservation. Re-enter through [Current](CURRENT_STATE.md), [the workbench execution record](2026-11-17_Resize_Developer_Workbench.md) and [structured receipts](2026-11-17_Resize_Developer_Workbench_Receipts.json), then actual final source/restoration/native-plan identities rather than assuming a predicted checkpoint exists.
+
+## 🔜 Next Steps
+
+1. **First precise re-entry: stage only the verified thirteen-path checkpoint.** Responsible: lead and preservation reviewer. Final nine-path V2 integration and tests are complete; verify their unchanged hashes plus final Current/execution/receipts and the independently checked Session-only prepend. Do not reintegrate or rerun the historical command merely because this record names its failure. Changed source after tested bytes requires proportionate new verification.
+2. **Preserve the coherent thirteen-path source/PBS checkpoint.** Responsible: lead, documentation and mirror. Prerequisite: explicit Session release, final records and exact prior history preservation. Commit, restore every expected file/full nineteen-commit history through Notion, fetch the unabridged Session and verify original-ancestry remote changed bytes/parent/tree/ref. A local commit or uploaded-but-unrestored archive is not final backup.
+3. **Bind the already reviewed native helper to the actual preserved consumer before any execution grant.** Responsible: lead, bounded planner and independent reviewer. Conditional GO exists for exact helper/plan bytes, not a run. Verify actual 019 HEAD/full Git/current set, both Notion restores, fixed local assets, absent named state and current desktop/global-Sky/security preflight. Enforce ordinary Python assertions/no -O or PYTHONOPTIMIZE, operator point checks and capture/closure limits; no hidden IPC or security bypasses.
+4. **Run at most the separately authorized finite native journey if all gates pass.** Responsible: authorized desktop executor. Observe initial inspection-only state, explicit normal editor request, genuine Ready/Start, one actual resized publication and optional token-only reveal, then normal close and saved-output audit. If a tool/focus/state/evidence gate fails, retain the actual outcome and stop rather than retry silently or call a dispatch proof playback.
+5. **Keep wider qualification separate.** Native cancellation/relaunch, same-session parity, Full/AAC/other geometry, visual quality, hardware performance, production catalog/defaults and owner acceptance are not established by this source slice. Existing warnings and unrelated historical failures must not be hidden to make a status line greener.
+
+**Do not reopen / repeat:** Do not repin old Keep720 evidence; do not rewrite prior Session/correction history; do not call V1 212/133 an independent final V2 aggregate; do not claim full base prepareItem/real stale callback from modeled fixtures; do not treat borrowed orientation as AAC admission; do not clear profile state, use fallback executables or weaken Electron security; do not perform media/native work under this source-only assignment.
+
+**Continuation boundary:** This session ends at reviewed source/PBS handoff, before verified 019 preservation/publication and not at an actual native resize result. Any future launcher/approval, desktop action, output publication/reveal and independent native audit need their own exact evidence and subsequent dated record.
+
+## ❓ Open Questions
+
+### Does the full native UI flow preserve these source-level authority boundaries?
+
+- Known: The explicit route and snapshot/Start/editor/OutputAccess/closure contracts have scoped source evidence; actual full base preparation and native UI are not exercised by the modeled tests.
+- Needed from: A separately reviewed and authorized native journey on the final preserved source and exact restored environment.
+- Blocks: Claiming native resize usability, actual picker/editor/publication/reveal success or performance, not preservation of the reviewed source checkpoint.
+
+### Are current desktop and clean named state prerequisites still available at launch time?
+
+- Known: Planning finds exact local input/tools/raw report/Electron and an absent resize profile directory; no desktop or profile action occurred.
+- Needed from: Actual current preflight, exact source/restoration gate and ownership/state recheck before the one allowed launch.
+- Blocks: Native execution if anything differs. It does not authorize deleting state, changing security flags or substituting another runtime.
+
+### What remaining failures or broader behaviors require later engineering?
+
+- Known: Old Keep720 source refusal, previous service diagnostic mismatch and historical broad failures are not automatically repaired by a new route. Fixed SDR resize range/FLAC support does not admit Full/AAC/general geometry or same-session recovery.
+- Needed from: Later proportionate investigations/qualification within the agreed scope. Final integrated reconciliation already establishes the same 35 failing names, not their complete downstream behavior.
+- Blocks: Global green/release/general-platform claims, not a bounded well-attributed source checkpoint.
+
+## 🧾 Session Outcome
+
+Reviewed fixed developer resize workbench source is integrated, with final focused 164/164 and accurately retained shared/broad failures. Independent test-scope attribution and valid-AAC refinement errors were corrected transparently without changing production guards. The prospective native helper has conditional GO only, no authorization or execution. The new workbench consumer preserves fixed report/runtime/producer authority, existing normal service and output actions, explicit inspection-only initial state and close/relaunch behavior. It changes no product default, shared UI layout or historical capsule.
+
+The valid-AAC negative is materially better isolated after a retained orientation-red refinement, but it is still a synthetic negative test, not a new supported route. Worker/independent V1 aggregates and final V2 focused counts remain separately attributed. No actual native resize, shell output action, player playback or performance acceptance is claimed. The full prior 755,707-byte body remains exact, and actual 019 backup/publication must be verified after the new commit exists.
+
+## 🔍 Confidence Level
+
+**High for the narrowly reviewed source design and stated test boundaries.** Exact V1/V2 patches/file identities and independent dispositions are retained. V2 changes only the service test and demonstrates genuine family refusal of a valid AAC plan under a clearly labelled orientation fixture.
+
+**High for the exact executed final source-test counts and failure-name parity.** Integrated bytes stayed stable across lead 164/164, 81/82, 202/237 and 125/126 scopes. Corrected independent V2 133/133 has real existing paths and matching names; standalone main-lifecycle belongs to the explicit lead run. The minimum-count comparison establishes the same 35 broad names, not globally safe downstream behavior or an all-green suite.
+
+**Bounded for authority/lifecycle safety.** Fixed local acquisition, private runtime/selection gates, main-owned OutputAccess and synchronous admission closure are supported by source and scoped tests. Instanceof is not a private brand, modeled pending writes are not full base preparation, and trusted main/hash checks are not hostile same-process or atomic loaded-image protection.
+
+**Not established for native UI or broad product acceptance.** Existing asset hashes and source declarations do not prove current desktop/sandbox/picker behavior, actual output reveal/playback, general scaler quality or warning-free hardware performance. The future journey remains separately gated.
+
+**Why:** The record separates historical service evidence from changed consumer source, actual test versions/scopes from inherited handoff fields, synthetic negative fixtures from production authority, and planning from execution. Original history and default/style boundaries remain explicit.
+
+**Not higher because:** Full native end-to-end behavior and base preparation concurrency remain untested here, historical failures/diagnostic limits are not erased, and source-only preservation cannot provide missing raw/runtime inputs. Final source/preservation and any later native execution each require actual verified receipts rather than a completed-looking plan.
+
+---
+
 # 📘 Session: November 17, 2026 — FFmpeg Encoder — Execute the first genuine resize normal-service proof and preserve publication, cancellation and diagnostic boundaries
 
 ## 🤖 Models, Effort, Roles and Provenance

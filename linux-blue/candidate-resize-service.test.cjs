@@ -182,9 +182,9 @@ test('composed selector issues only genuine fixed resize range authority with it
   const { isProportionalFamilySelection } = require('../src/operation-family.cjs');
   const source = probe(), inspection = { probe: source, color: classifyColor(source), duration: 150 };
   const identity = { canonicalPath: '/synthetic/source.mov', dev: '1', ino: '2', size: '100000000', mtimeNs: '1', ctimeNs: '1', birthtimeNs: '1', sparseDigest: 'sha256-sparse-v1:' + 'a'.repeat(64) };
-  const make = resolution => {
-    const request = resolveFileRequest({ fileId: 'synthetic', identityRevision: 1, draftRevision: 1, operation: 'encode', overrides: { range: { startUs: 130000000 }, resolution, audioPolicy: 'precision-flac' } });
-    const orientation = service.operationQualifications.orientationQualification({ inspection, request, runtimeIdentity: RUNTIME_ID, settings });
+  const make = (resolution, overrides = {}, orientationRequest = null) => {
+    const request = resolveFileRequest({ fileId: 'synthetic', identityRevision: 1, draftRevision: 1, operation: 'encode', overrides: { range: { startUs: 130000000 }, resolution, audioPolicy: 'precision-flac', ...overrides } });
+    const orientation = service.operationQualifications.orientationQualification({ inspection, request: orientationRequest || request, runtimeIdentity: RUNTIME_ID, settings });
     const plan = withEncodeOperationTelemetry(buildEncodeOperation({ input: identity.canonicalPath, output: '/synthetic/output.mkv', inspection, request, settings, runtimeIdentity: RUNTIME_ID, ...orientation }));
     return { plan, sourceIdentity: identity, sourceProbeFingerprint: fingerprintEncodeSource(source), settings, runtimeIdentity: RUNTIME_ID, environment: null, budget: null, executionBudgetMs: 120000 };
   };
@@ -195,6 +195,13 @@ test('composed selector issues only genuine fixed resize range authority with it
     assert.equal(selection.resourcePolicy, RESOURCE_POLICY);
     assert.deepEqual(selection.resources, deriveCfrResizeFlacResources({ sourceExtentUs: 150000000, selectedExtentUs: 20000000, sourceBytes: '100000000' }).resources);
     assert.throws(() => service.operationQualifications.select(make('source')));
+    for (const resolution of ['1080', '1440', '2160']) assert.throws(() => service.operationQualifications.select(make(resolution)));
+    assert.throws(() => service.operationQualifications.select(make('720', { range: null })));
+    // Test-only orientation fixture isolates audio-family admission from the
+    // earlier orientation refusal: build valid AAC syntax, never run this plan.
+    const aacBindings = make('720', { audioPolicy: 'precision-aac' }, bindings.plan.contract.request);
+    assert.equal(aacBindings.plan.contract.request.audioPolicy, 'precision-aac');
+    assert.throws(() => service.operationQualifications.select(aacBindings));
     assert.throws(() => service.operationQualifications.requireCurrent({ ...token }, bindings));
     service.operationQualifications.invalidate('test scope ended');
     assert.throws(() => service.operationQualifications.requireCurrent(token, bindings));
@@ -213,4 +220,82 @@ test('report path replacement and canonical alias after bounded read reject and 
     assert.equal(h.counts().closed, 1);
     assert.equal(h.counts().invoked, 0);
   }
+});
+
+test('workbench snapshot removes unqualified runnable entry before every update, then ordinary file-edit reprepare issues genuine range selection', async () => {
+  const h = await injected(), service = await h.api.createCandidateResizeService({ verifiedRuntime: h.fake, stateDir: '/tmp/not-created-candidate-service', workbenchMode: true });
+  const { OperationDraft } = require('../src/operation-draft.cjs');
+  const { buildEncodeOperation, withEncodeOperationTelemetry, fingerprintEncodeSource } = require('../src/encode-operation.cjs');
+  const { classifyColor } = require('../src/media.cjs');
+  const { isProportionalFamilySelection } = require('../src/operation-family.cjs');
+  const { randomUUID } = require('node:crypto');
+  const fileId = randomUUID(), planId = randomUUID();
+  const draft = new OperationDraft({ operation: 'encode', appDefaults: {}, appDefaultsRevision: 0 }); draft.addSources([{ fileId, identityRevision: 0 }]);
+  service.plan = { id: planId, operation: 'encode', settings, input: '/synthetic', output: '/synthetic-output', draft, sameFolder: false,
+    entries: new Map([[fileId, { operationPlan: { compatibilityPath: true } }]]), ...Object.fromEntries(['overrides', 'ambiguities', 'generated', 'reencodeAuthorizations', 'encodePreservationGrants', 'encodePreservationCandidates'].map(k => [k, new Map()])) };
+  service.state.phase = 'ready'; service.state.planId = planId; service.state.settings = settings;
+  service.state.operationDraft = draft.snapshot(); service.state.items = [{ id: fileId, name: 'source.mov', status: 'ready' }];
+  assert.throws(() => service.startBatch({ planId, fileIds: [fileId] }), { code: 'LINUX_TRIM_CANDIDATE_SCOPE' });
+  const updates = []; service.on('update', value => {
+    updates.push(value);
+    if (value.items[0]?.reasonCode === 'CANDIDATE_RANGE_REQUIRED') {
+      assert.equal(service.plan.entries.has(fileId), false);
+      assert.throws(() => service.startBatch({ planId: service.plan.id, fileIds: [fileId] }), error => ['LINUX_TRIM_CANDIDATE_SCOPE', 'BUSY'].includes(error.code));
+    }
+  }); service.emitState();
+  assert.equal(updates[0].items[0].status, 'unsupported'); assert.equal(service.plan.entries.has(fileId), false);
+  assert.equal(updates[0].operationDraft.files.length, 1);
+  service.state.items[0].status = 'ready'; service.emitState(); assert.equal(updates.at(-1).items[0].status, 'unsupported');
+  // Runtime, report, inspection/worker evidence and the runtime token are injected.
+  // Real draft editing, reprepare lifecycle, final-plan construction and the
+  // family selector run below; this is not observed runtime authority.
+  service.recordIncident = async () => {}; service.verifyFolders = async () => {};
+  service.prepareWithWorkers = async () => {
+    const source = probe(), identity = { canonicalPath: '/synthetic/source.mov', dev: '1', ino: '2', size: '100000000', mtimeNs: '1', ctimeNs: '1', birthtimeNs: '1', sparseDigest: 'sha256-sparse-v1:' + 'a'.repeat(64) };
+    const inspection = { probe: source, color: classifyColor(source), duration: 150 }, request = draft.fileRequest(fileId);
+    const orientation = service.operationQualifications.orientationQualification({ inspection, request, settings, runtimeIdentity: RUNTIME_ID });
+    const plan = withEncodeOperationTelemetry(buildEncodeOperation({ ...orientation, input: identity.canonicalPath, output: '/synthetic-output/output.mkv', settings,
+      runtimeIdentity: RUNTIME_ID, inspection: { probe: source, color: classifyColor(source), duration: 150 }, request: draft.fileRequest(fileId) }));
+    const bindings = { plan, sourceIdentity: identity, sourceProbeFingerprint: fingerprintEncodeSource(source), settings, runtimeIdentity: RUNTIME_ID, environment: null, budget: null, executionBudgetMs: 120000 };
+    const token = service.operationQualifications.select(bindings);
+    assert.equal(isProportionalFamilySelection(service.operationQualifications.requireCurrent(token, bindings)), true);
+    service.plan.entries.set(fileId, { operationPlan: plan, qualificationSelection: token, qualificationBindings: bindings, operationRuntimeToken: {} });
+    service.state.items[0].status = 'ready'; service.emitState();
+  };
+  try {
+    const next = await service.updateFileOperations({ planId, draftId: draft.id, revision: draft.snapshot().revision, fileIds: [fileId],
+      overrides: { range: { startUs: 130000000, endUs: 132000000 }, resolution: '720', audioPolicy: 'precision-flac' } });
+    assert.equal(next.phase, 'ready', next.error); assert.equal(next.items[0].status, 'ready'); assert.equal(service.plan.entries.has(fileId), true);
+    assert.notEqual(next.planId, planId); assert.equal(next.operationDraft.files[0].request.range.startUs, 130000000);
+    const currentEntry = service.plan.entries.get(fileId);
+    // Snapshot reads current state, not this disconnected old-item fixture.
+    // This does not execute a real delayed prepareItem callback.
+    const oldItem = { id: fileId, status: 'ready' }; oldItem.status = 'unsupported';
+    service.emitState(); assert.equal(service.plan.entries.get(fileId), currentEntry); assert.equal(service.snapshot().items[0].status, 'ready');
+  } finally { await service.closeOperationResources(); }
+});
+test('strict OutputAccess seam rejects callback-shaped impostor and accepts real main-owned authority', async () => {
+  const h = await injected(); await assert.rejects(h.api.createCandidateResizeService({ verifiedRuntime: h.fake, stateDir: '/tmp/test', outputAccess: { issue() {}, action() {} } }), /OutputAccess/);
+  const other = await injected(), { OutputAccess } = require('../src/output-access.cjs');
+  const outputAccess = new OutputAccess({ openPath() {}, showItemInFolder() {} });
+  const service = await other.api.createCandidateResizeService({ verifiedRuntime: other.fake, stateDir: '/tmp/test', outputAccess, workbenchMode: true });
+  assert.equal(service.outputAccess, outputAccess); const pending = service.cancelCurrent();
+  assert.equal(service.snapshot().developerResize.relaunchRequired, true); await pending; await service.closeOperationResources();
+});
+
+test('inspection-only boundary refuses Start across a modeled pending-write window and does not emit ready compatibility rows', async () => {
+  const h = await injected(), service = await h.api.createCandidateResizeService({ verifiedRuntime: h.fake, stateDir: '/tmp/test', workbenchMode: true });
+  const { randomUUID } = require('node:crypto'), fileId = randomUUID(), planId = randomUUID();
+  service.plan = { id: planId, operation: 'encode', settings, sameFolder: false, entries: new Map([[fileId, { operationPlan: { compatibilityPath: true } }]]) };
+  service.state.phase = 'preparing'; service.state.items = [{ id: fileId, status: 'ready' }];
+  let release; const pendingWrite = new Promise(resolve => { release = resolve; });
+  const seen = []; service.on('update', snapshot => { seen.push(snapshot.items[0].status); assert.notEqual(snapshot.items[0].status, 'ready'); });
+  const diagnostic = (async () => { service.emitState(); await pendingWrite; service.emitState(); })();
+  try {
+    assert.throws(() => service.startBatch({ planId, fileIds: [fileId] }), { code: 'BUSY' });
+    assert.equal(service.plan.entries.has(fileId), false);
+    service.state.phase = 'ready';
+    assert.throws(() => service.startBatch({ planId, fileIds: [fileId] }), { code: 'LINUX_TRIM_CANDIDATE_SCOPE' });
+  } finally { release(); await diagnostic; await service.closeOperationResources(); }
+  assert.deepEqual(seen, ['unsupported', 'unsupported']);
 });

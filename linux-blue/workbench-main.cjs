@@ -11,6 +11,7 @@ const { selectWorkbenchRuntime } = require('./workbench-runtime-choice.cjs');
 const runtimeChoice = selectWorkbenchRuntime(process.argv);
 const createService = runtimeChoice === 'baseline' ? createWorkbenchService
   : runtimeChoice === '9.0.2-keep720-candidate' ? require('./candidate-workbench.cjs').createCandidateWorkbench
+  : runtimeChoice === '9.0.2-resize-candidate' ? require('./candidate-resize-workbench.cjs').createCandidateResizeWorkbench
     : require('./workbench-av1-service.cjs').create1440QualifiedAv1WorkbenchService;
 const { AppearanceSettings } = require('../src/appearance.cjs');
 const { OutputAccess } = require('../src/output-access.cjs');
@@ -24,7 +25,7 @@ protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: {
 } }]);
 const root = path.resolve(__dirname, '..');
 const stateDir = runtimeChoice === 'baseline' ? path.join(__dirname, 'artifacts', 'workbench-preview')
-  : path.join(__dirname, 'artifacts', runtimeChoice === '9.0.2-keep720-candidate' ? 'workbench-keep720-candidate-preview' : 'workbench-av1-preview');
+  : path.join(__dirname, 'artifacts', runtimeChoice === '9.0.2-keep720-candidate' ? 'workbench-keep720-candidate-preview' : runtimeChoice === '9.0.2-resize-candidate' ? 'workbench-resize-candidate-preview' : 'workbench-av1-preview');
 mkdirSync(stateDir, { recursive: true, mode: 0o700 });
 for (const [name, child] of [['userData', 'electron-state'], ['sessionData', 'electron-session']]) {
   const directory = path.join(stateDir, child);
@@ -33,6 +34,7 @@ for (const [name, child] of [['userData', 'electron-state'], ['sessionData', 'el
 }
 let title = 'FFmpeg Encoder · Linux CPU preview · Full SDR · 30-minute encode limit';
 if (runtimeChoice === '9.0.2-keep720-candidate') title = 'FFmpeg Encoder · Experimental Keep720 range · CPU slow25 / precision FLAC · Cancel requires relaunch · native threading unqualified';
+else if (runtimeChoice === '9.0.2-resize-candidate') title = 'FFmpeg Encoder · Experimental 1080p30 to 720p resize range · CPU slow25 / precision FLAC · Cancel requires relaunch · native threading unqualified';
 else if (runtimeChoice !== 'baseline') title = 'FFmpeg Encoder · Linux CPU preview · FFmpeg 9.0.2 AV1 · ordinary encode limit 30 minutes';
 const census = { spawned: 0, closed: 0, live: 0, maximum: 0 };
 let window, service, appearance, unregister;
@@ -136,6 +138,7 @@ async function launch() {
   console.log('LINUX_WORKBENCH_READY', JSON.stringify({ electron: process.versions.electron,
     runtimeChoice, runtimeIdentity: service.runtimeIdentity,
     mode: runtimeChoice === '9.0.2-keep720-candidate' ? 'developer-keep720-range'
+      : runtimeChoice === '9.0.2-resize-candidate' ? 'developer-resize-range'
       : service.linuxQualifiedEncodeStatus?.available ? 'qualified-cpu-sdr' : 'ordinary-cpu-full-sdr',
     qualifiedFamilies: service.linuxQualifiedEncodeStatus?.familyIds || [], remuxAvailable: service.linuxRemuxStatus.available, sandbox: preferences.sandbox,
     contextIsolation: preferences.contextIsolation, nodeIntegration: preferences.nodeIntegration,
@@ -152,6 +155,7 @@ else {
     failed = true;
     console.error('LINUX_WORKBENCH_START_FAILED', error.code || 'START_FAILED', error.message);
     if (runtimeChoice === '9.0.2-keep720-candidate' && app.isReady()) dialog.showErrorBox('Experimental Keep720 preview unavailable', error.message);
+    if (runtimeChoice === '9.0.2-resize-candidate' && app.isReady()) dialog.showErrorBox('Experimental resize preview unavailable', error.message);
     void close();
   });
 }

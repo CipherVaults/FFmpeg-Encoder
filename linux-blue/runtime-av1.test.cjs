@@ -14,6 +14,8 @@ test('startup defaults to baseline and accepts only one explicit fixed candidate
   assert.equal(selectWorkbenchRuntime(['electron', 'main.cjs']), 'baseline');
   assert.equal(selectWorkbenchRuntime(['electron', '--blue-runtime=9.0.2-av1']), '9.0.2-av1');
   assert.equal(selectWorkbenchRuntime(['electron', '--blue-runtime=9.0.2-keep720-candidate']), '9.0.2-keep720-candidate');
+  assert.equal(selectWorkbenchRuntime(['electron', '--blue-runtime=9.0.2-resize-candidate']), '9.0.2-resize-candidate');
+  for (const argv of [['--blue-runtime=9.0.2-resize-candidate', '--blue-runtime=9.0.2-keep720-candidate'], ['--blue-runtime=9.0.2-resize-candidate', '--blue-runtime=9.0.2-resize-candidate'], ['--blue-runtime=9.0.2-resize-candidate/path'], ['--blue-runtime=9.0.2-resize-candidate=elsewhere']]) assert.throws(() => selectWorkbenchRuntime(argv), { code: 'LINUX_RUNTIME_CHOICE' });
   assert.throws(() => selectWorkbenchRuntime(['--blue-runtime=9.0.2-av1', '--blue-runtime=9.0.2-keep720-candidate']), { code: 'LINUX_RUNTIME_CHOICE' });
   for (const argv of [['--blue-runtime=/tmp/tool'], ['--blue-runtime'], ['--blue-runtime=baseline'],
     ['--blue-runtime=9.0.2-av1', '--blue-runtime=9.0.2-av1']]) assert.throws(() => selectWorkbenchRuntime(argv), { code: 'LINUX_RUNTIME_CHOICE' });

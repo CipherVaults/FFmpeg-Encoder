@@ -1,3 +1,119 @@
+# 📘 Session: November 17, 2026 — FFmpeg Encoder — Execute the proportional service resource boundaries without activating media
+
+## 🤖 Models, Effort, Roles and Provenance
+
+Ahmed retains product ownership and acceptance. The engineering lead was configured as GPT-6 Astra Ultra. Test implementation and independent review were separate. This session adds one test file, not a production feature or recovered historical implementation.
+
+Evidence comes from the inspected test, final receipts and independent execution. Real application components run against synthetic files, injected metadata and fake child events. Those distinctions matter: an actual service code path is exercised, but no real encoder, real media or retained qualification campaign is run. Broader earlier results retain their own source identities and scope.
+
+## 🕒 Time
+
+November 17, 2026, through final cleanup verification at 14:31:59 UTC, the storage/telemetry regression at 14:32:01 UTC and independent final review/repeat. Earlier core-plus-service and regression runs began 14:30:35 UTC and 14:30:47 UTC. These are run timestamps, not a continuous active-time claim.
+
+## 🎯 Session Goal
+
+Replace the preceding checkpoint's telemetry-wiring-only evidence with a bounded executed test through real service, runtime observation, storage and telemetry components. The central question was whether genuine proportional limits reach and constrain the actual consumers, including values smaller and larger than the old defaults.
+
+The task intentionally did not extend the collector, enable a production family or launch media. A successful test should prove routing and refusal behavior while preserving the distinction between a synthetic contract and measured qualification.
+
+## 🛠️ Actions Taken
+
+### 1. Build an owned synthetic service harness
+
+The new `tests/operation-proportional-service.test.cjs` creates temporary source, output, state and tool fixtures. The source is explicitly non-media; the tool files are non-executable bytes pinned by size and hash. The real OperationRuntimeObserver checks those files, and the real selector derives a source-bound proportional result. EncoderService performs its ordinary preparation and operation-update flow before Start.
+
+Only execution and external observations are injected: a runner creates EventEmitter children and closes them in `finally`; metadata and capability callbacks describe a synthetic 150-second source. Evidence storage uses its real implementation with deterministic available-space observations. Telemetry files are written through the paths supplied by the real service invocation, then consumed by the real parser.
+
+### 2. Exercise both restrictive and expanded telemetry limits
+
+The harness uses 0.5-second and 75-second selections. Their derived per-stream record ceilings are 1280 and 20224, respectively. This deliberately covers a value below and a value above the former 20000-record fallback. In both cases, exactly the derived video count is accepted, while the first excess row is rejected. Audio contains one row; the tests do not pretend to exhaust its independently enforced ceiling.
+
+Successful telemetry collection proceeds to a fake output probe and then reaches the unchanged unsupported-policy collector refusal. The generated telemetry receipt records the expected count and no publication authority. That is evidence of an exercised telemetry stage, not a completed or accepted encode.
+
+### 3. Check refusal boundaries and resource ownership
+
+A sparse file is enlarged to one byte over the derived telemetry file-size ceiling and rejected by the actual bounded-file guard. Separately, injected stdout accounting reaches the aggregate pipe ceiling and an additional stderr byte causes refusal. Retained-storage pressure makes the real evidence store reject the forecast reservation before any encode child. Selector invalidation before Start prevents reservation and child execution.
+
+The harness asserts exact forecast admission, derived deadline routing, expected child counts, final failed status, unchanged source bytes and no published MKV. Fake-child active count returns to zero. No decoded collector invocation is allowed, so a test would fail if that closed path unexpectedly ran.
+
+### 4. Correct fixture errors and establish early cleanup
+
+Initial attempts failed for test-fixture reasons: source size was supplied as a number rather than its required exact string; invalidation omitted its required diagnostic; and a test expected the wrong refusal code. The reported progression was 0/5, 7/8 and 19/20. These were corrected without modifying production code, and retained as separate attempts rather than concealed behind the final pass.
+
+Review then found that cleanup was registered too late to cover early setup failure. Five small temporary fixture directories had been left by those failures. Cleanup registration was moved immediately after directory creation, with conditional closure of initialized resources and exact directory-ownership checks before removal. The five earlier directories were individually verified by exact inventory, fixture bytes, timestamps and absence of symlinks, then removed. This improves fixture ownership without broad deletion or changes to application behavior. If a close operation itself fails, later cleanup can still stop and retain files; the test does not claim an unconditional no-leak guarantee.
+
+### 5. Verify the final test bytes independently
+
+The final test file SHA-256 is `13144c8648ddae8efa86a780cf15dbc7fb44329199daa3cf3c983006db7069f8`. Final targeted execution passed 8/8. The final storage/telemetry/service regression passed 55/55. Independent execution of the final file also passed 8/8, with no skipped or cancelled tests.
+
+The earlier 20/20 core-plus-service and 55/55 regression runs were on the pre-cleanup file and remain correctly attributed to those bytes. No production source change was needed to make the final resource assertions pass. The previous source checkpoint 003 is already preserved through Git, Notion restoration and GitHub; this new test's publication remains a separate step.
+
+## 🧠 Key Insights
+
+A wiring assertion can show that code mentions a derived value, but only executed integration reveals whether the actual service passes that value into its consumers. The two selection sizes are important: a permanently retained legacy default would fail the restrictive boundary or the expanded legitimate control.
+
+Different byte-limit tests prove different things. Sparse logical file size reaches the telemetry file guard; it does not demonstrate a streaming parser's cumulative byte exhaustion. Likewise, EventEmitter closure establishes the injected runner's ownership protocol, not native process termination or operating-system pipe drainage.
+
+Cleanup is part of trustworthy testing. Registering it after setup leaves precisely the most fragile setup failures uncovered. Early ownership registration makes failure evidence easier to trust without overstating what cleanup can guarantee if closure itself throws.
+
+## 📌 Decisions Made
+
+Keep this checkpoint test-only and restricted to `tests/operation-proportional-service.test.cjs`. No production source, catalog, runtime, report, pin or default changes are part of it. Preserve synthetic qualification labeling and deliberately terminate successful telemetry cases at the unsupported collector policy.
+
+Treat collector integration and any pre-encode policy check as a separate design and implementation task. Keep existing production report/source/runtime gates closed. Preserve the established Git → immediate verified Notion mirror → permitted GitHub order, without treating the previous completed cycle as backup of these new bytes.
+
+## ⚠️ Difficulties / Friction
+
+The harness needed genuine application contracts even though its media and tools were fake. Exact source-size typing and diagnostic requirements caused useful early failures. Incorrect expected error codes also needed reconciliation with what the real service actually reported.
+
+The main review challenge was scope: real service execution could easily be described as real encoding, while a collector refusal could be mistaken for an encoder launch guard. Both would be incorrect. Evidence wording was kept narrow enough to distinguish actual code-path coverage from absent media and operating-system behavior.
+
+## 🔧 Adjustments Made
+
+Testing moved from source inspection and a wiring expression to executed service/storage/telemetry integration. Controls were chosen on both sides of the old record default, and each accepted video count received a first-excess refusal test.
+
+Cleanup moved from late registration to immediate namespace ownership. The status description was refined to call the sparse case a logical file-size refusal and the child behavior simulated closure. Audio exhaustion, timing expiry and cancellation drainage were left explicitly outside the demonstrated scope.
+
+## ❌ Mistakes / Risks Noted
+
+Early fixture errors and late cleanup registration were real test-development mistakes. They did not indicate production behavior needed relaxation. The final harness closes initialized resources before attempting removal of its own verified directory.
+
+Risks remain if readers interpret eight passing tests as full media qualification, assume the audio boundary was exhausted, infer real child drainage, or claim the collector prevented encoding. Successful telemetry cases do fake encoding first, then fail at collection. Production factories remain unavailable for separate unchanged reasons.
+
+## 📍 Current Position
+
+The new test provides executed synthetic integration evidence for resource routing and selected refusal boundaries. Final 8/8 and 55/55 runs pass; independent final 8/8 repeats that result. No new media, UI, GPU or native Windows validation occurred. The earlier broad Linux suite remains 150 passed and 27 failed out of 177; it was not rerun for this test-only delta and is not an overall pass.
+
+Parent source checkpoint 003 is local `f4db4ac8e7a88f2fca9c25fc974a43c682f652a9`, with verified GitHub `5d3a636` and completed intervening Notion restoration. These identities do not contain this new test unless a later receipt explicitly establishes that. New commit/mirror/push status is not claimed here.
+
+Detailed evidence is retained under the dated `proportional-service-cleanup` and `proportional-service-cleanup-regression` runs. Compact published receipts should identify the exact final test hash and scope; raw local artifacts are not implicitly included in every checkpoint.
+
+## 🔜 Next Steps
+
+Preserve the reviewed test and its records through the established checkpoint cycle, verifying each publication independently. Keep its scope distinct from unresolved earlier payloads.
+
+Next design the smallest collector interface that binds a genuine current selection to the exact plan, source fingerprint/path and approved budget/timing/policy. Consider a separate output-independent pre-encode validator so unsupported policy can fail before encoding; do not mislabel collection itself as that guard. Test the interface with injected service cases before considering any activation or actual media run.
+
+## ❓ Open Questions
+
+What exact collector binding will prevent genuine-result borrowing across plans or sources while preserving legacy collectors and existing calibration use? Which checks belong before encoding versus at collection/currentness boundaries?
+
+Timing expiry, cancellation drainage, audio-limit exhaustion and decoded-evidence aggregate exhaustion are not answered by this test file. Future coverage should be selected according to the next integration change, rather than expanding this checkpoint into an unrelated general test campaign.
+
+## 🧾 Session Outcome
+
+The previously pending service-to-telemetry test gap now has meaningful executed synthetic coverage. Real components accept exact derived video record limits and refuse selected overruns, storage pressure and stale selection without publishing output. The test also records its own setup corrections and improves cleanup ownership.
+
+This is a bounded confidence improvement around existing production code, not a new qualified family or media capability. It leaves the collector task and production gates visible and gives the next developer stronger evidence for continuing safely.
+
+## 🔍 Confidence Level
+
+High for the exact tested synthetic paths and their asserted outcomes, supported by independent final execution. Confidence is bounded to the injected runner, generated telemetry rows and deterministic external observations.
+
+No claim is made for actual media fidelity, native process drainage, UI, GPU, native Windows, timing/cancellation behavior not tested here, or production activation. Publication of the new test must be established by its later checkpoint receipt.
+
+---
+
 # 📘 Session: November 17, 2026 — FFmpeg Encoder — Branded proportional FLAC resources and a closed activation boundary
 
 ## 🤖 Models, Effort, Roles and Provenance

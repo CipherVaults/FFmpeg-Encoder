@@ -1,0 +1,765 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-11-17T14:33:32.473665+00:00",
+  "parentLocalCommit": "f4db4ac8e7a88f2fca9c25fc974a43c682f652a9",
+  "parentRemoteCommit": "5d3a636276d3028a03523a60b8f75c18944bffc3",
+  "newTest": {
+    "path": "tests/operation-proportional-service.test.cjs",
+    "bytes": 12062,
+    "sha256": "13144c8648ddae8efa86a780cf15dbc7fb44329199daa3cf3c983006db7069f8",
+    "gitBlob": "fddadcd82e13d05ec3425b51831f7426823a8fee"
+  },
+  "patchSha256": "8286d24e994d2877b1ef9dac5b86893eda8e661d12d15df1c74453eeac07d577",
+  "productionSourceUnchangedAgainstParent": true,
+  "productionSources": [
+    {
+      "file": "src/encoder-service.cjs",
+      "bytes": 158086,
+      "sha256": "89fdd557093eb191157f3fedb7ad48609957f5d4ead82084327b44f739b6fd2f"
+    },
+    {
+      "file": "src/operation-family.cjs",
+      "bytes": 47198,
+      "sha256": "e1d665aa380ffb5ed8e81e6bba2c50ff10e4cb9e748cb16e8d21ef612f39007d"
+    },
+    {
+      "file": "src/operation-runtime.cjs",
+      "bytes": 24676,
+      "sha256": "95285842847006e2fbcad43d46bbca7bc3823c3378fdc33a755ee82398681b79"
+    },
+    {
+      "file": "src/operation-storage.cjs",
+      "bytes": 28430,
+      "sha256": "fb9bcf00b2bf1fac3fe70f5421355a1aea0a2ded5358a38f41f7fd28fe7b1226"
+    },
+    {
+      "file": "src/operation-telemetry.cjs",
+      "bytes": 18149,
+      "sha256": "ef1f30ac5d311224cb8b0e79f60f55f55c69c0610d920d17e5f9c7e191a55814"
+    },
+    {
+      "file": "src/operation-resource-budget.cjs",
+      "bytes": 7168,
+      "sha256": "b60f0fe312e79c6f1b15e717f0cb4a7925fba132ca62b8aa753aa5a3ef51accd"
+    },
+    {
+      "file": "src/operation-evidence.cjs",
+      "bytes": 51137,
+      "sha256": "42064563f9fc62d6e88d1e868b3a01cdab0b33044f3caa0de3d3fc49b0f622fb"
+    }
+  ],
+  "evidenceClassification": "Executed service/storage/runtime/telemetry tests using synthetic non-media source metadata, non-executable test tool files and injected EventEmitter children. Not actual FFmpeg execution or retained media qualification.",
+  "cleanup": {
+    "registration": "Immediately after creating the owned temporary directory, before fixture setup",
+    "verification": "Close initialized service/storage/runtime resources, verify exact owned directory and parent, then remove only that directory",
+    "historicalSetupLeak": "Five initial failed-setup directories were individually verified by exact inventory, fixture bytes, no symlinks and timestamps, then removed. Prior failed receipts retained."
+  },
+  "testCoverage": [
+    "Real service selection to exact derived storage forecast and persisted reservation",
+    "Actual runner timeout greater than legacy input and bounded by derived operation deadline",
+    "Video telemetry record ceilings of 1280 and 20224 accepted, each first excess row rejected",
+    "Sparse telemetry logical file size above derived ceiling rejected before parsing",
+    "Storage pressure that permits legacy 32 MiB but exceeds derived reservation refused before encode",
+    "Aggregate stdout/stderr callback at exact derived pipe allowance then one extra byte refused",
+    "Real selector invalidation refused before reservation or encode",
+    "Successful telemetry cases reach the unchanged collector refusal, with drained fake children, unchanged source and no published MKV"
+  ],
+  "qualificationLimits": [
+    "Only video-stream record ceilings are stressed; audio contributes one valid row. Limits are per stream, not aggregate.",
+    "Sparse-byte test proves logical file-size admission refusal, not streaming byte-counter enforcement.",
+    "Fake runner callbacks exercise service aggregate pipe accounting without allocating or transferring that volume.",
+    "Deadline routing is checked, not elapsed timer expiry. Live storage monitor and cancellation drainage are not exercised here.",
+    "Closed collector prevents downstream decoded-evidence and child-count exhaustion coverage for this family.",
+    "Synthetic successful telemetry ends with expected collector refusal, not media validation or output publication.",
+    "No production source, factory gate, pin, retained qualification, runtime installation, default, UI or release change.",
+    "Broad Linux result remains the previous failed 150/177 run, not rerun for this test-only delta. No native Windows, GPU or actual-media qualification."
+  ],
+  "receiptInterpretation": "dirtyPaths counts include pre-existing untracked excluded historical material. Exact production hashes and tracked diff establish no production change; test counts are separate suites and not additive.",
+  "receipts": [
+    {
+      "runId": "20261117T142924Z_proportional-service-first",
+      "receiptSha256": "ca1d336d3bda942017c121585e424686fbbe931e9cdcb34288babcf8bc5d8188",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-service-first",
+        "startedAt": "2026-11-17T14:29:24.112Z",
+        "durationMs": 410.887,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "f4db4ac8e7a88f2fca9c25fc974a43c682f652a9",
+        "dirtyPaths": 109,
+        "command": [
+          "node",
+          "--test",
+          "tests/operation-proportional-service.test.cjs"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 5,
+          "suites": 0,
+          "pass": 0,
+          "fail": 5,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/operation-proportional-service.test.cjs",
+              "bytes": 10084,
+              "sha256": "be97c6f29180b28524728bcc3a7daf6de130ab5c27753c3b82a282897115b927"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158086,
+              "sha256": "89fdd557093eb191157f3fedb7ad48609957f5d4ead82084327b44f739b6fd2f"
+            },
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 47198,
+              "sha256": "e1d665aa380ffb5ed8e81e6bba2c50ff10e4cb9e748cb16e8d21ef612f39007d"
+            },
+            {
+              "file": "src/operation-runtime.cjs",
+              "bytes": 24676,
+              "sha256": "95285842847006e2fbcad43d46bbca7bc3823c3378fdc33a755ee82398681b79"
+            },
+            {
+              "file": "src/operation-storage.cjs",
+              "bytes": 28430,
+              "sha256": "fb9bcf00b2bf1fac3fe70f5421355a1aea0a2ded5358a38f41f7fd28fe7b1226"
+            },
+            {
+              "file": "src/operation-telemetry.cjs",
+              "bytes": 18149,
+              "sha256": "ef1f30ac5d311224cb8b0e79f60f55f55c69c0610d920d17e5f9c7e191a55814"
+            },
+            {
+              "file": "src/operation-resource-budget.cjs",
+              "bytes": 7168,
+              "sha256": "b60f0fe312e79c6f1b15e717f0cb4a7925fba132ca62b8aa753aa5a3ef51accd"
+            },
+            {
+              "file": "src/operation-evidence.cjs",
+              "bytes": 51137,
+              "sha256": "42064563f9fc62d6e88d1e868b3a01cdab0b33044f3caa0de3d3fc49b0f622fb"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "runId": "20261117T142937Z_proportional-service-second",
+      "receiptSha256": "66357656dd8f6c37d55300613fa9915a35bf2082dfeb3da111e012ba30c7de84",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-service-second",
+        "startedAt": "2026-11-17T14:29:37.781Z",
+        "durationMs": 1252.395,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "f4db4ac8e7a88f2fca9c25fc974a43c682f652a9",
+        "dirtyPaths": 109,
+        "command": [
+          "node",
+          "--test",
+          "tests/operation-proportional-service.test.cjs"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 5,
+          "suites": 0,
+          "pass": 5,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/operation-proportional-service.test.cjs",
+              "bytes": 10092,
+              "sha256": "7783510ea214f889f6b9686bfd9eff7ae02394090ae77c82fcef669147bec64a"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158086,
+              "sha256": "89fdd557093eb191157f3fedb7ad48609957f5d4ead82084327b44f739b6fd2f"
+            },
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 47198,
+              "sha256": "e1d665aa380ffb5ed8e81e6bba2c50ff10e4cb9e748cb16e8d21ef612f39007d"
+            },
+            {
+              "file": "src/operation-runtime.cjs",
+              "bytes": 24676,
+              "sha256": "95285842847006e2fbcad43d46bbca7bc3823c3378fdc33a755ee82398681b79"
+            },
+            {
+              "file": "src/operation-storage.cjs",
+              "bytes": 28430,
+              "sha256": "fb9bcf00b2bf1fac3fe70f5421355a1aea0a2ded5358a38f41f7fd28fe7b1226"
+            },
+            {
+              "file": "src/operation-telemetry.cjs",
+              "bytes": 18149,
+              "sha256": "ef1f30ac5d311224cb8b0e79f60f55f55c69c0610d920d17e5f9c7e191a55814"
+            },
+            {
+              "file": "src/operation-resource-budget.cjs",
+              "bytes": 7168,
+              "sha256": "b60f0fe312e79c6f1b15e717f0cb4a7925fba132ca62b8aa753aa5a3ef51accd"
+            },
+            {
+              "file": "src/operation-evidence.cjs",
+              "bytes": 51137,
+              "sha256": "42064563f9fc62d6e88d1e868b3a01cdab0b33044f3caa0de3d3fc49b0f622fb"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "runId": "20261117T143001Z_proportional-service-boundaries",
+      "receiptSha256": "91adb73ec67810e9291cd9743ead4187ff449455ab4754953d7478e807dcb743",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-service-boundaries",
+        "startedAt": "2026-11-17T14:30:01.179Z",
+        "durationMs": 1677.648,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "f4db4ac8e7a88f2fca9c25fc974a43c682f652a9",
+        "dirtyPaths": 109,
+        "command": [
+          "node",
+          "--test",
+          "tests/operation-proportional-service.test.cjs"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 8,
+          "suites": 0,
+          "pass": 7,
+          "fail": 1,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/operation-proportional-service.test.cjs",
+              "bytes": 11571,
+              "sha256": "298bf933ed449e3ae5583237864dbf55cbd3d9e0ecae404add05d3703f8a55d4"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158086,
+              "sha256": "89fdd557093eb191157f3fedb7ad48609957f5d4ead82084327b44f739b6fd2f"
+            },
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 47198,
+              "sha256": "e1d665aa380ffb5ed8e81e6bba2c50ff10e4cb9e748cb16e8d21ef612f39007d"
+            },
+            {
+              "file": "src/operation-runtime.cjs",
+              "bytes": 24676,
+              "sha256": "95285842847006e2fbcad43d46bbca7bc3823c3378fdc33a755ee82398681b79"
+            },
+            {
+              "file": "src/operation-storage.cjs",
+              "bytes": 28430,
+              "sha256": "fb9bcf00b2bf1fac3fe70f5421355a1aea0a2ded5358a38f41f7fd28fe7b1226"
+            },
+            {
+              "file": "src/operation-telemetry.cjs",
+              "bytes": 18149,
+              "sha256": "ef1f30ac5d311224cb8b0e79f60f55f55c69c0610d920d17e5f9c7e191a55814"
+            },
+            {
+              "file": "src/operation-resource-budget.cjs",
+              "bytes": 7168,
+              "sha256": "b60f0fe312e79c6f1b15e717f0cb4a7925fba132ca62b8aa753aa5a3ef51accd"
+            },
+            {
+              "file": "src/operation-evidence.cjs",
+              "bytes": 51137,
+              "sha256": "42064563f9fc62d6e88d1e868b3a01cdab0b33044f3caa0de3d3fc49b0f622fb"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "runId": "20261117T143020Z_proportional-service-final",
+      "receiptSha256": "269d6b396518915940125a4f3b5de56c1ce56f4c9591c70b3c735b8cd53ef807",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-service-final",
+        "startedAt": "2026-11-17T14:30:20.659Z",
+        "durationMs": 1827.852,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "f4db4ac8e7a88f2fca9c25fc974a43c682f652a9",
+        "dirtyPaths": 109,
+        "command": [
+          "node",
+          "--test",
+          "tests/operation-proportional-service.test.cjs",
+          "tests/operation-family-proportional.test.cjs"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 20,
+          "suites": 0,
+          "pass": 19,
+          "fail": 1,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/operation-proportional-service.test.cjs",
+              "bytes": 11684,
+              "sha256": "69f58313b09db9386b644ab638c657c3b44aee3c6794326696ed32c102043d82"
+            },
+            {
+              "file": "tests/operation-family-proportional.test.cjs",
+              "bytes": 16420,
+              "sha256": "c56f2adc3f2a77c018bf89a2c263c871cc2d76d3c4780c546a5bf4c609290226"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158086,
+              "sha256": "89fdd557093eb191157f3fedb7ad48609957f5d4ead82084327b44f739b6fd2f"
+            },
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 47198,
+              "sha256": "e1d665aa380ffb5ed8e81e6bba2c50ff10e4cb9e748cb16e8d21ef612f39007d"
+            },
+            {
+              "file": "src/operation-runtime.cjs",
+              "bytes": 24676,
+              "sha256": "95285842847006e2fbcad43d46bbca7bc3823c3378fdc33a755ee82398681b79"
+            },
+            {
+              "file": "src/operation-storage.cjs",
+              "bytes": 28430,
+              "sha256": "fb9bcf00b2bf1fac3fe70f5421355a1aea0a2ded5358a38f41f7fd28fe7b1226"
+            },
+            {
+              "file": "src/operation-telemetry.cjs",
+              "bytes": 18149,
+              "sha256": "ef1f30ac5d311224cb8b0e79f60f55f55c69c0610d920d17e5f9c7e191a55814"
+            },
+            {
+              "file": "src/operation-resource-budget.cjs",
+              "bytes": 7168,
+              "sha256": "b60f0fe312e79c6f1b15e717f0cb4a7925fba132ca62b8aa753aa5a3ef51accd"
+            },
+            {
+              "file": "src/operation-evidence.cjs",
+              "bytes": 51137,
+              "sha256": "42064563f9fc62d6e88d1e868b3a01cdab0b33044f3caa0de3d3fc49b0f622fb"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "runId": "20261117T143035Z_proportional-service-reviewed",
+      "receiptSha256": "380cf0c75f07e72bdfeb9a794614d7e3d1d479f0b51d9a711de4f4e3ec0cfc42",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-service-reviewed",
+        "startedAt": "2026-11-17T14:30:35.132Z",
+        "durationMs": 1864.26,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "f4db4ac8e7a88f2fca9c25fc974a43c682f652a9",
+        "dirtyPaths": 109,
+        "command": [
+          "node",
+          "--test",
+          "tests/operation-proportional-service.test.cjs",
+          "tests/operation-family-proportional.test.cjs"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 20,
+          "suites": 0,
+          "pass": 20,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/operation-proportional-service.test.cjs",
+              "bytes": 11681,
+              "sha256": "77b03498fb86b069c6aefa1b797c14b31d786fd4ca332755479007695af1e957"
+            },
+            {
+              "file": "tests/operation-family-proportional.test.cjs",
+              "bytes": 16420,
+              "sha256": "c56f2adc3f2a77c018bf89a2c263c871cc2d76d3c4780c546a5bf4c609290226"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158086,
+              "sha256": "89fdd557093eb191157f3fedb7ad48609957f5d4ead82084327b44f739b6fd2f"
+            },
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 47198,
+              "sha256": "e1d665aa380ffb5ed8e81e6bba2c50ff10e4cb9e748cb16e8d21ef612f39007d"
+            },
+            {
+              "file": "src/operation-runtime.cjs",
+              "bytes": 24676,
+              "sha256": "95285842847006e2fbcad43d46bbca7bc3823c3378fdc33a755ee82398681b79"
+            },
+            {
+              "file": "src/operation-storage.cjs",
+              "bytes": 28430,
+              "sha256": "fb9bcf00b2bf1fac3fe70f5421355a1aea0a2ded5358a38f41f7fd28fe7b1226"
+            },
+            {
+              "file": "src/operation-telemetry.cjs",
+              "bytes": 18149,
+              "sha256": "ef1f30ac5d311224cb8b0e79f60f55f55c69c0610d920d17e5f9c7e191a55814"
+            },
+            {
+              "file": "src/operation-resource-budget.cjs",
+              "bytes": 7168,
+              "sha256": "b60f0fe312e79c6f1b15e717f0cb4a7925fba132ca62b8aa753aa5a3ef51accd"
+            },
+            {
+              "file": "src/operation-evidence.cjs",
+              "bytes": 51137,
+              "sha256": "42064563f9fc62d6e88d1e868b3a01cdab0b33044f3caa0de3d3fc49b0f622fb"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "runId": "20261117T143047Z_proportional-service-regression",
+      "receiptSha256": "b165df7a5122fb2856dcf7d91772153920dac46788b0338b81fa303ce1d4ab93",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-service-regression",
+        "startedAt": "2026-11-17T14:30:47.376Z",
+        "durationMs": 2060.76,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "f4db4ac8e7a88f2fca9c25fc974a43c682f652a9",
+        "dirtyPaths": 109,
+        "command": [
+          "node",
+          "--test",
+          "tests/operation-proportional-service.test.cjs",
+          "tests/operation-storage-service.test.cjs",
+          "tests/operation-telemetry-plan.test.cjs",
+          "tests/operation-telemetry.test.cjs"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 55,
+          "suites": 0,
+          "pass": 55,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/operation-proportional-service.test.cjs",
+              "bytes": 11681,
+              "sha256": "77b03498fb86b069c6aefa1b797c14b31d786fd4ca332755479007695af1e957"
+            },
+            {
+              "file": "tests/operation-storage-service.test.cjs",
+              "bytes": 28143,
+              "sha256": "03c9036f3e7cca08225e41446afa902af9e6eaae3cc1918aeded9fede514aeb4"
+            },
+            {
+              "file": "tests/operation-telemetry-plan.test.cjs",
+              "bytes": 18534,
+              "sha256": "4a6f7df859c3c16c4e67cd81a553660f64470f7ff9fe35c8ed994233be03b0bc"
+            },
+            {
+              "file": "tests/operation-telemetry.test.cjs",
+              "bytes": 11975,
+              "sha256": "8e51364951a007716e88e266893353654c9b2ebd095b07a548620980d50c2238"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158086,
+              "sha256": "89fdd557093eb191157f3fedb7ad48609957f5d4ead82084327b44f739b6fd2f"
+            },
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 47198,
+              "sha256": "e1d665aa380ffb5ed8e81e6bba2c50ff10e4cb9e748cb16e8d21ef612f39007d"
+            },
+            {
+              "file": "src/operation-runtime.cjs",
+              "bytes": 24676,
+              "sha256": "95285842847006e2fbcad43d46bbca7bc3823c3378fdc33a755ee82398681b79"
+            },
+            {
+              "file": "src/operation-storage.cjs",
+              "bytes": 28430,
+              "sha256": "fb9bcf00b2bf1fac3fe70f5421355a1aea0a2ded5358a38f41f7fd28fe7b1226"
+            },
+            {
+              "file": "src/operation-telemetry.cjs",
+              "bytes": 18149,
+              "sha256": "ef1f30ac5d311224cb8b0e79f60f55f55c69c0610d920d17e5f9c7e191a55814"
+            },
+            {
+              "file": "src/operation-resource-budget.cjs",
+              "bytes": 7168,
+              "sha256": "b60f0fe312e79c6f1b15e717f0cb4a7925fba132ca62b8aa753aa5a3ef51accd"
+            },
+            {
+              "file": "src/operation-evidence.cjs",
+              "bytes": 51137,
+              "sha256": "42064563f9fc62d6e88d1e868b3a01cdab0b33044f3caa0de3d3fc49b0f622fb"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "runId": "20261117T143159Z_proportional-service-cleanup",
+      "receiptSha256": "b57cc274a57087e0ec49797277eda9dafb7d2043f05ef2601c251534795a6662",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-service-cleanup",
+        "startedAt": "2026-11-17T14:31:59.288Z",
+        "durationMs": 1926.015,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "f4db4ac8e7a88f2fca9c25fc974a43c682f652a9",
+        "dirtyPaths": 109,
+        "command": [
+          "node",
+          "--test",
+          "tests/operation-proportional-service.test.cjs"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 8,
+          "suites": 0,
+          "pass": 8,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/operation-proportional-service.test.cjs",
+              "bytes": 12062,
+              "sha256": "13144c8648ddae8efa86a780cf15dbc7fb44329199daa3cf3c983006db7069f8"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158086,
+              "sha256": "89fdd557093eb191157f3fedb7ad48609957f5d4ead82084327b44f739b6fd2f"
+            },
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 47198,
+              "sha256": "e1d665aa380ffb5ed8e81e6bba2c50ff10e4cb9e748cb16e8d21ef612f39007d"
+            },
+            {
+              "file": "src/operation-runtime.cjs",
+              "bytes": 24676,
+              "sha256": "95285842847006e2fbcad43d46bbca7bc3823c3378fdc33a755ee82398681b79"
+            },
+            {
+              "file": "src/operation-storage.cjs",
+              "bytes": 28430,
+              "sha256": "fb9bcf00b2bf1fac3fe70f5421355a1aea0a2ded5358a38f41f7fd28fe7b1226"
+            },
+            {
+              "file": "src/operation-telemetry.cjs",
+              "bytes": 18149,
+              "sha256": "ef1f30ac5d311224cb8b0e79f60f55f55c69c0610d920d17e5f9c7e191a55814"
+            },
+            {
+              "file": "src/operation-resource-budget.cjs",
+              "bytes": 7168,
+              "sha256": "b60f0fe312e79c6f1b15e717f0cb4a7925fba132ca62b8aa753aa5a3ef51accd"
+            },
+            {
+              "file": "src/operation-evidence.cjs",
+              "bytes": 51137,
+              "sha256": "42064563f9fc62d6e88d1e868b3a01cdab0b33044f3caa0de3d3fc49b0f622fb"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "runId": "20261117T143201Z_proportional-service-cleanup-regression",
+      "receiptSha256": "cad0918fbdf5e10d19d33e2f7f353ca3cfa0105789140c8559c0d9cf75d9329a",
+      "receipt": {
+        "schema": 1,
+        "label": "proportional-service-cleanup-regression",
+        "startedAt": "2026-11-17T14:32:01.294Z",
+        "durationMs": 2394.38,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "f4db4ac8e7a88f2fca9c25fc974a43c682f652a9",
+        "dirtyPaths": 109,
+        "command": [
+          "node",
+          "--test",
+          "tests/operation-proportional-service.test.cjs",
+          "tests/operation-storage-service.test.cjs",
+          "tests/operation-telemetry-plan.test.cjs",
+          "tests/operation-telemetry.test.cjs"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 55,
+          "suites": 0,
+          "pass": 55,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/operation-proportional-service.test.cjs",
+              "bytes": 12062,
+              "sha256": "13144c8648ddae8efa86a780cf15dbc7fb44329199daa3cf3c983006db7069f8"
+            },
+            {
+              "file": "tests/operation-storage-service.test.cjs",
+              "bytes": 28143,
+              "sha256": "03c9036f3e7cca08225e41446afa902af9e6eaae3cc1918aeded9fede514aeb4"
+            },
+            {
+              "file": "tests/operation-telemetry-plan.test.cjs",
+              "bytes": 18534,
+              "sha256": "4a6f7df859c3c16c4e67cd81a553660f64470f7ff9fe35c8ed994233be03b0bc"
+            },
+            {
+              "file": "tests/operation-telemetry.test.cjs",
+              "bytes": 11975,
+              "sha256": "8e51364951a007716e88e266893353654c9b2ebd095b07a548620980d50c2238"
+            }
+          ],
+          "covers": [
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158086,
+              "sha256": "89fdd557093eb191157f3fedb7ad48609957f5d4ead82084327b44f739b6fd2f"
+            },
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 47198,
+              "sha256": "e1d665aa380ffb5ed8e81e6bba2c50ff10e4cb9e748cb16e8d21ef612f39007d"
+            },
+            {
+              "file": "src/operation-runtime.cjs",
+              "bytes": 24676,
+              "sha256": "95285842847006e2fbcad43d46bbca7bc3823c3378fdc33a755ee82398681b79"
+            },
+            {
+              "file": "src/operation-storage.cjs",
+              "bytes": 28430,
+              "sha256": "fb9bcf00b2bf1fac3fe70f5421355a1aea0a2ded5358a38f41f7fd28fe7b1226"
+            },
+            {
+              "file": "src/operation-telemetry.cjs",
+              "bytes": 18149,
+              "sha256": "ef1f30ac5d311224cb8b0e79f60f55f55c69c0610d920d17e5f9c7e191a55814"
+            },
+            {
+              "file": "src/operation-resource-budget.cjs",
+              "bytes": 7168,
+              "sha256": "b60f0fe312e79c6f1b15e717f0cb4a7925fba132ca62b8aa753aa5a3ef51accd"
+            },
+            {
+              "file": "src/operation-evidence.cjs",
+              "bytes": 51137,
+              "sha256": "42064563f9fc62d6e88d1e868b3a01cdab0b33044f3caa0de3d3fc49b0f622fb"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "independentReview": {
+    "disposition": "No blocking issue for the bounded test-only checkpoint; final cleanup delta inspected",
+    "reviewerFinalExecution": {
+      "tests": 8,
+      "pass": 8,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    "testSha256": "13144c8648ddae8efa86a780cf15dbc7fb44329199daa3cf3c983006db7069f8",
+    "scope": "All new harness and assertions plus affected service/runtime/storage/telemetry paths; worker regression receipts inspected, not independently repeated",
+    "limits": "Manual focused review, not a formal Security Cloud scan or real-media qualification."
+  }
+}

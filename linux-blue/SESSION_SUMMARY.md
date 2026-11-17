@@ -1,3 +1,225 @@
+# 📘 Session: November 17, 2026 — FFmpeg Encoder — Wire an explicit candidate workbench without confusing source coverage with a native app proof
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model or tool identity | Effort setting | Evidence basis and verification limit |
+|---|---|---|---|
+| Engineering lead / integrator | GPT-6 Astra, recorded lead configuration | Ultra, recorded assignment | Reviewed the integration boundary, required accurate test descriptions, integrated the frozen v2 source and ran final focused/broad suites. Configuration does not independently establish backend identity, billing or performance. |
+| Integration source contributor | Not separately established in this record | Not separately established | Implemented the nine-file developer-workbench patch, retained the initial renderer-fixture failure and returned source/test evidence. No actual Electron, reviewed media runtime or GUI was opened. |
+| Independent source / baseline reviewer | Not separately established in this record | Not separately established | Verified the immutable 517-file parent extraction, ran its 125-check baseline, independently checked the candidate source with 158 passing tests and accepted the corrected v2 evidence descriptions without a source blocker. This is pure/injected review, not native execution. |
+| Preservation contributor | Not separately established in this record | Not separately established | Restored checkpoint 009 source/history and fetched its full native Notion summary. The completed 009 preservation is distinguished from the new source checkpoint still pending. |
+| Documentation editor | Blue documentation contributor; model not independently established here | Not separately established | Read the actual design, v2 handoff, source diff, relevant tests, final lead receipts and prior publication receipt; added this entry without changing the prior 255,403-byte history. Did not run the tests or open a runtime. |
+
+**Record basis:** Contemporaneous source implementation and review after the first real normal-service proof. The immutable base is checkpoint 009, `dfa1658a2856cf1f021fdcdb50f1974fb60eaf43`; the final patch is identified below. Evidence is deliberately split between actual source behavior, executed pure/VM tests, modeled timing cases and still-unrun native behavior. Earlier media remains the checkpoint 008 service campaign recorded in checkpoint 009, not evidence that this new workbench has run. The full owner-supplied single-project structure and all earlier session bytes are preserved.
+
+## 🕒 Time
+
+- Date / date range: November 17, 2026, Africa/Cairo UTC+2.
+- Start: Integration design and source continuation followed the preceding service proof and warning diagnosis; exact implementation start was not recorded.
+- Continuation: Read-only design and environment inspection; immutable-parent baseline; integration and renderer fixture correction; candidate lifecycle tests; independent review; v2 test-description correction; final lead suites and documentation.
+- End / stopping point: Final lead focused run began at 16:36:21.262 UTC / 18:36:21.262 Cairo and lasted 1,283.377 ms. The broad run began at 16:36:22.626 UTC / 18:36:22.626 Cairo and lasted 1,202.456 ms. These are test-run starts/durations, not a measured session-end or active-hours total. Documentation handoff followed.
+- Session type: Developer-only integration design, implementation, tests, independent review and continuity. No new actual media or native GUI proof.
+- Project stage: Linux 0.7, narrow CPU KeepSource720 precision-FLAC range Encode prerequisites and explicit experimental workbench access. Not product or whole-Q completion.
+- Main focus: Reuse the existing workbench safely for the genuine candidate path, keeping unsupported initial rows editable, cancellation visibly terminal and missing runtime/report inputs fail-closed.
+- Contributors: Ahmed retains product ownership/acceptance; actual engineering, review, preservation and documentation roles are identified above.
+- Model / effort: Recorded or unknown by role above; no inference from another task's identity.
+- Active working time: Not measured. Separate receipt timestamps are not combined into an invented active duration.
+- Reason for summary: Preserve a reviewed source milestone and exact native-environment prerequisites before the next Git → verified Notion → original-ancestry GitHub checkpoint.
+
+## 🎯 Session Goal
+
+The previous campaign had established a narrow genuine-service result: prepare/Start, three local range publications, collision protection, active cancellation and fresh-instance recovery. It did not connect that behavior to the existing visible developer workbench. The next useful step was a finite source integration using the current shell and theme, not a replacement interface, a production default change or another calibration run.
+
+The initial design had to resolve two real mismatches. The workbench passed main-owned output access and expected Remux status, while the strict candidate factory did not yet support that integration shape. More importantly, the existing UI obtains per-file range controls after initial preparation, whereas the candidate does not qualify Full. Range cannot simply be inserted into batch defaults because the contract excludes it there. The goal was to retain inspection and editable per-file drafts without letting an unqualified initial compatibility row become Start authority.
+
+The session aimed to:
+
+- Add one explicit, fixed developer candidate choice while preserving baseline/AV1 routing, defaults, security and the existing interface.
+- Derive restoration paths and exact runtime pins in trusted main code, preserving the original raw calibration and dependency gates without copying binaries or accepting renderer-supplied paths.
+- Make inspection-only rows editable but not runnable, then reprepare an explicit per-file range through the existing draft/plan/family path.
+- Make cancellation visibly require close/relaunch, test source-level admission/lifecycle behavior and record native and real-await gaps honestly.
+
+Review later required narrower descriptions of two tests that modeled timing rather than traversing the claimed production await/callback path. Correcting those descriptions became part of the handoff; it was not a retroactive claim that the missing coverage had been implemented.
+
+## 🛠️ Actions Taken
+
+### 1. Establish the preserved parent and an independent unchanged baseline
+
+Checkpoint 009 is local `dfa1658a2856cf1f021fdcdb50f1974fb60eaf43`. Its [Notion checkpoint](https://app.notion.com/p/41bbd7ade63b816bb6ece36db5ad3be7) restored all 517 source files and the complete nine-commit local bundle. The [full native summary page](https://app.notion.com/p/41bbd7ade63b81498255c76dd3ba66cc) was fetched unabridged, preserving the 255,403-byte cumulative summary. Its final committed SHA-256 is `82ddc4fb8f16df302e7a292a62097aa381d71197647e9d771b656fddd6d1ca94`; this exact committed body is the suffix preserved below.
+
+GitHub preservation completed at 16:24:45 UTC as `8685c2f3d51e89c24fb3ec5ab8d549978172017a`, sole parent `14be3e1e218d2ea97cef10583b8d166ebd771e96`, on `CipherVaults/FFmpeg-Encoder-Blue-Linux`, branch `blue/linux-development`. The 899-file remote tree had 894 unchanged paths, two modified and three new, with no deletions. Changed bytes, ancestry, tree and final ref were verified without force. This is completed checkpoint 009 publication, not publication of the new integration.
+
+Independent review extracted the exact 517-file parent ZIP and verified it against its manifest before running 125 UI/output-access/IPC/main-lifecycle baseline tests, all passing. Receipt `20261117T162737Z_candidate-workbench-parent009-ui` belongs to that immutable extraction. It was not a Git checkout, and its empty wrapper HEAD field is not evidence of an unknown source: the verified ZIP manifest and `workbench-baseline009-location.json` identify `dfa1658`. These were pure/injected checks, not Windows, Electron or native media execution.
+
+### 2. Inspect the real UI preparation constraint before changing its semantics
+
+The read-only design traced the actual workbench and draft code. First Prepare sends folder/settings information; per-file range editors appear after a draft is returned. The allowed batch-default contract excludes range. The earlier service launcher had prepared a default draft and then applied a per-file override, so it could not be cited as proof of a direct pre-prepare GUI range route.
+
+Inspection established that existing unsupported draft rows remain editable: the per-file editor depends on an editable draft and file membership, not on being ready or selected for Start. The implementation therefore reused those controls. It did not invent a range, add range to batch defaults, qualify Full, change the shared `EncoderService`, widen IPC fields or introduce a new shell.
+
+The reviewed solution keeps the existing candidate Start guard and adds a candidate-workbench-only snapshot boundary. Before an update snapshot is emitted, a nominally ready entry lacking the required qualification selection, runtime token or instrumentation, or still marked as a compatibility plan, loses its runnable plan entry and becomes unsupported with `CANDIDATE_RANGE_REQUIRED`. Its draft/source row remains available for explicit per-file editing. Full may be internally described during inspection; it is not thereby qualified or startable. The original Start guard already refuses the compatibility entry before the new snapshot demotion occurs.
+
+### 3. Add fixed main-owned acquisition and explicit routing
+
+The exact new option is `--blue-runtime=9.0.2-keep720-candidate`. With no runtime option, baseline remains selected, and the exact existing AV1 option remains available. Duplicate, unknown or path-valued runtime choices are rejected. There is no environment selector, arbitrary manifest URL, renderer executable path or silent fallback to an old factory.
+
+The new main-owned `candidate-workbench.cjs` derives a fixed ignored restoration directory under `linux-blue/artifacts/candidate-runtime-1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9/`, with fixed `ffmpeg` and `ffprobe` basenames. It records the public exact tool sizes/hashes and seven previously inspected dependency identities. No binary was copied, committed, downloaded or opened by this work. Those fixed restoration binaries are absent in the inspected workspace; the existence of separately retained earlier binaries does not satisfy this new acquisition path automatically.
+
+The helper rejects unsuitable loader environments and checks required inputs before opening the candidate. The genuine runtime factory and existing original 55,953-byte raw long-calibration gate remain authoritative, including SHA-256 `1feb0f2958c78cc73683c70fed08835d1e61b98462e8b30e0127f95b5cf350ab` and the historical producer checks. A transformed portable report cannot satisfy that gate. Missing inputs produce an explicit unavailable error, not a false-ready window, unreviewed download or baseline fallback.
+
+Main now selects the candidate helper only for that explicit option and uses a separate candidate state directory and title. Baseline and AV1 state/factories remain distinct. Candidate capability/preferences presentation is narrowed to CPU H.265, slow, quality 25, no recipe or vendor profile; Remux and production-qualified catalog status are explicitly unavailable. The title/status warns that this is an experimental range route, cancellation requires relaunch and native threading is unqualified. These are implemented source routes, not observed native startup.
+
+### 4. Reuse output authority without calling a type check an unforgeable brand
+
+The candidate factory now accepts a main-owned `OutputAccess` object and passes it through the ordinary service integration. Both the helper and factory reject callback-shaped substitutes and require `instanceof OutputAccess` when the object is supplied. That is a nominal type check, not an unforgeable brand and not independent authorization to open any path.
+
+Actual output actions continue to depend on the existing class's private grant and identity machinery. No renderer-supplied callbacks, arbitrary paths or new IPC permission are introduced. The existing output-access tests are part of the unchanged 125-check baseline and final affected suite, while the new seam test proves rejection/acceptance and pass-through under injection. It does not show an actual newly encoded output receiving a live open/reveal capability through this workbench. That integration still belongs in the native journey.
+
+### 5. Keep per-file editing useful and cancellation visibly terminal
+
+The service test exercises actual `OperationDraft` edits, `updateFileOperations` reprepare lifecycle, final encode-plan construction and the real proportional family selector. The explicit range is 130–132 seconds with Keep source and precision FLAC. The test verifies a new plan ID, a ready range entry and removal of unqualified compatibility authority before update emission. Runtime, raw-report evidence, inspection worker and runtime token are injected. A genuine selector object in this controlled fixture is not an observed live runtime grant.
+
+The renderer tests execute the complete production renderer in a small DOM/event fixture using the original HTML. An unsupported inspection-only row cannot be selected or started but can be edited through the existing per-file range/audio controls and existing `updateFileOperations` API. The fixture sends 0.613–2.721 seconds with precision FLAC; no batch-range API is added. The test covers data flow and attributes, not native layout, screen-reader output, system dialogs or actual encoding.
+
+Candidate cancellation emits closure status after synchronously closing service admission. The renderer retains a sticky closed flag: later higher-revision snapshots cannot reopen new work merely by omitting the terminal state or presenting a ready row. It disables preparation, selection/Start and editing after closure, while candidate mode disables new native qualification and Remux preparation. The existing close/relaunch instruction remains visible instead of promising same-session retry. These renderer changes are conditional on candidate metadata; the ordinary interface is not replaced.
+
+A separate VM test executes main's lifecycle with a delayed startup service. A close request arrives before service resolution; once the owner arrives, closure waits for resource drainage and diagnostics before exit, without constructing a window or registering IPC. This is useful source-level ordering evidence, not an actual Electron close-during-startup observation or an OS child-drain measurement.
+
+### 6. Preserve failures, review corrections and final source evidence
+
+The first new renderer fixture run, `20261117T162754Z_candidate-workbench-renderer-first`, passed one of two tests. It used the nonexistent draft method `registerFiles`; correcting the fixture to `addSources` produced the retained 127/127 result at `20261117T162817Z_candidate-workbench-renderer-fixed`, including the unchanged 125 parent checks. This was a test-fixture mistake, not an observed production failure, and the red result was not discarded.
+
+Subsequent focused lifecycle/service checks included 19/19 at `20261117T163109Z_candidate-workbench-transient-review` and five of five at `20261117T163212Z_candidate-workbench-startup-drain`. The frozen worker source result and independent v1 review each recorded 158/158 with no source blocker. Those totals describe their own selected suites, not a substitute for the final lead run or a whole-platform pass.
+
+The lead then found that test descriptions claimed more than their bodies established. The “pending write” window is modeled by an emitter/IIFE around a manually controlled promise. It does not execute the actual base `prepareItem` → `recordIncident` awaited production write. The disconnected old-item snippet is not a real delayed prepare callback, and the runtime token in the range-reprepare fixture is injected. V2 corrects the titles/comments and handoff to say so; runtime implementation code did not change between those reviewed versions. The reviewer agreed that this exposed coverage limits rather than a demonstrated source blocker. Actual base-await traversal, overlapping late preparation and live output-capability issuance remain future coverage gaps.
+
+The final nine-file v2 patch is SHA-256 `36529e8708fd0145ba1e318fa9f1f6efda1e4604d792e21c6a3e696af9f4dd06`. It covers the runtime-choice module, workbench main, candidate service and test, AV1 routing test, shared renderer, new candidate-workbench helper/test and new candidate renderer test. No shared `EncoderService`, contract, IPC, preload, HTML, theme or Windows main file was changed. The existing AV1 source-match assertion was adapted to the intentional three-way routing, not removed to hide a missing old runtime.
+
+Lead receipt `20261117T163621Z_candidate-workbench-lead-final` passed 163/163, exit zero. The separate `20261117T163622Z_candidate-workbench-lead-linux` broad run had 181 passes and 27 failures out of 208, exit one. Its normalized failure diagnostics match the prior broad run; the 28 raw diagnostic lines include wrapper entries and are not 28 failed tests. Ten additional passes and the same inherited 27 failures do not make the broad suite green or prove blocked branches. Both final receipts record no source-byte changes during their runs and identify parent `dfa1658`; the changed integration was not yet committed.
+
+### 7. Keep native availability and preservation status separate from source readiness
+
+Read-only inspection of the selected workspace found no installed Electron in the checked project/PATH/common locations and no active display/Xvfb environment. A package declaration or an Xorg executable is not a running supported Electron/display session. This is a result about the environment inspected, not proof that every connected machine or future environment lacks those facilities. No Electron, GUI, native media runtime, browser process or installation was launched for this source step.
+
+The warning diagnosis from checkpoint 009 remains unchanged. Duplicate codec-option precedence was directly explained; missing sysfs/NUMA topology remains a strongly supported, qualified mechanism for x265 pool warnings, not a sole-cause experiment. Native threading/performance is still unqualified. No stderr suppression, new pool flags, sysfs mount, affinity/security change or runtime repin was introduced to make the workbench appear ready.
+
+The new [execution record](2026-11-17_Candidate_Workbench_Integration.md) and [receipt](2026-11-17_Candidate_Workbench_Integration_Receipts.json) own the scoped source/test result, alongside the lead-owned [CURRENT_STATE](CURRENT_STATE.md). This entry preserves the previous 255,403-byte summary as an exact suffix. Historical archives and the earlier correction receipt remain untouched. At this record's cutoff, checkpoint 010's commit, Notion restore/readback and GitHub publication are still pending; checkpoint 009's verified destinations do not back up this new patch automatically.
+
+## 🧠 Key Insights
+
+### Editable does not need to mean qualified or startable
+
+The existing per-file editor provides a smaller route than changing batch semantics or inventing a new pre-prepare form. Retaining a draft while removing runnable compatibility authority lets the user state the missing range explicitly. The distinction depends on the service guard and snapshot/plan treatment, not on disabling a button alone. The source tests support that separation, while native preparation and real awaited timing still need their own evidence.
+
+### Source reuse can preserve product boundaries better than a new shell
+
+The candidate path now uses the existing main, renderer, preload, IPC and theme architecture rather than a parallel application. Its exact option, isolated state and conditional metadata keep the experiment visible without changing default factories. Reuse does not by itself prove end-to-end behavior: the new acquisition path lacks restored tools, and a native application has not been opened.
+
+### A passing test's name is part of the evidence contract
+
+The v2 correction matters even though it changed no runtime code. A controlled pending promise or disconnected object can establish a modeled boundary but cannot be promoted to an executed base-class write or delayed callback. Describing the fixture precisely makes the remaining test work actionable instead of presenting a misleading green check. The same discipline applies to `instanceof`: it is useful main-owned type validation, not the private authority mechanism itself.
+
+### Native qualification needs both the right environment and the right inputs
+
+Finding an Electron binary alone would not restore the exact candidate tools, dependencies and original raw report. Restoring those files alone would not supply a supported display or prove GUI lifecycle and output opening. The next proof must establish each prerequisite explicitly and retain the warning/performance caveat, rather than weakening a gate because the source integration is already tested.
+
+## 📌 Decisions Made
+
+- **Confirmed by the lead:** Add only the exact `--blue-runtime=9.0.2-keep720-candidate` developer route; preserve baseline/AV1 defaults, factories and state isolation. No production activation is implied.
+- **Confirmed design choice:** Reuse unsupported-but-editable draft rows and existing per-file range controls. Do not add range to batch defaults, invent a range, qualify Full or modify shared contract/IPC semantics.
+- **Confirmed authority boundary:** Remove candidate compatibility-ready plan entries before snapshot emission and retain the original Start guard; use main-owned fixed runtime acquisition and the existing private output-grant/identity machinery.
+- **Confirmed lifecycle:** Cancellation stays closed to new work and visibly requires close/relaunch. No hidden candidate renewal or same-service recovery is added.
+- **Confirmed review correction:** Keep the initial renderer-fixture failure; correct v2 test descriptions to identify modeled pending-write/stale-object behavior and injected runtime evidence. Do not claim that actual base-await/overlap coverage was obtained.
+- **Confirmed next direction, not yet executed:** Preserve the source checkpoint, locate a supported native Electron/display environment separately, restore exact reviewed runtime inputs only through bounded setup, then independently review and run the existing-UI journey. Continue independent remaining 0.7 work if native proof stays blocked.
+- **Deferred:** Default/catalog activation, arbitrary runtime paths, broader geometry/audio, same-service recovery, native performance/GPU/Windows qualification, release acceptance and packaging. Ahmed retains acceptance; packaging remains last.
+
+## ⚠️ Difficulties / Friction
+
+The principal design tension was the initial Full-shaped inspection path. Simply adding a candidate branch would leave a UI that needs a draft before showing range controls, while the service does not qualify Full. Broadening batch defaults or marking the compatibility plan ready would solve the presentation problem by weakening the operation contract. The chosen implementation instead preserves editing and removes runnable authority; the actual awaited-preparation and overlap cases remain explicitly unproven.
+
+Main integration also had genuine shape mismatches: output access was previously rejected by the strict candidate options and main expected a Remux status field. The new helper/factory seam resolves those specific interfaces without expanding renderer authority or claiming Remux qualification. A nominal `instanceof` check must not be oversold as the security boundary; private grants and identity checks still decide actions.
+
+The first renderer test failed because its fixture used the wrong draft method. Later review found misleading descriptions around controlled timing fixtures. Both issues were corrected and retained, but they are different: one was an executable fixture error; the other was an evidence-description overclaim with remaining coverage work. Neither should be described as a native app failure or as proof that the untested production paths are safe.
+
+Native validation is currently blocked by the inspected environment and missing fixed-path inputs, not by a failing real UI campaign. No such campaign ran. The pre-existing 27 broad Linux failures and the runtime topology caveat remain, so a focused green source suite cannot justify “the app is usable now” or “all Linux tests pass.”
+
+## 🔧 Adjustments Made
+
+- Shifted from: A calibration-backed service proven through an external bounded launcher but not wired to the existing visible workbench.
+  - To: An explicit developer-only main/renderer route with fixed acquisition, narrow capability/status presentation and unchanged default routes.
+  - Because: The preceding actual service proof supported a finite consumer integration, while owner direction favored reusing existing design and architecture.
+  - Consequence: Source integration can be checkpointed; native usability remains a separate experiment rather than a claimed consequence.
+- Shifted from: An existing draft-before-range UI whose initial compatibility/Full-shaped row was not qualified by the candidate.
+  - To: Existing editable inspection-only rows, candidate-only snapshot demotion/entry removal and explicit per-file reprepare.
+  - Because: Range is excluded from batch defaults and unsupported draft rows already expose the necessary editor.
+  - Consequence: No shared contract expansion, invented range or Full qualification was needed; the original Start guard remains authoritative.
+- Shifted from: Test wording suggesting actual awaited base preparation and delayed callbacks.
+  - To: Exact descriptions of a modeled pending-write window, disconnected old-item fixture and injected runtime/report/token evidence.
+  - Because: Lead review compared the descriptions to the test bodies rather than relying on a green total.
+  - Consequence: V2 changes comments/titles, not runtime behavior, and explicitly preserves the missing real-await/overlap/live-output coverage for continuation.
+
+## ❌ Mistakes / Risks Noted
+
+- **Actual fixture mistake, corrected:** `registerFiles` was not the draft API; the retained first renderer run passed one of two. The fixture now uses `addSources`, and the subsequent selected suite passed 127/127. No red record was erased.
+- **Actual evidence-description overclaim, corrected:** Modeled emission around a pending promise and a disconnected old-item assignment were described too strongly. V2 narrows the claims. The actual base `prepareItem` → awaited `recordIncident`, overlapping late preparation and live output issuance remain untested here.
+- **Potential authority overstatement, avoided:** `instanceof OutputAccess` is not an unforgeable brand. The existing private grant/identity actions, not callback shape or UI presentation, remain the output authority.
+- **Potential product overstatement, avoided:** Initial Full-shaped inspection is not qualified Full; a real selector inside an injected test is not observed runtime authority; VM/DOM execution is not Electron, visual/accessibility or native media proof.
+- **Operational prerequisite risk:** The new fixed restoration path lacks the exact reviewed tools. Source-only backups do not include the raw runtime/media working set or satisfy the original raw-report gate. Automatic fallback, arbitrary paths or a portable-report substitution would change the trust boundary and are not part of this work.
+- **Residual platform/test risk:** The same 27 broad failures remain. The currently inspected environment lacks a supported running Electron/display setup, while other environments are not yet ruled out. Native threading/performance and broader source/geometry behavior remain unqualified.
+
+**Failure Intelligence disposition:** The fixture failure, corrected test-description overclaims and unresolved coverage prerequisites are retained here and in the lead-owned execution/receipt records. No separate incident or native failure is invented. The preserved red run and precise gaps should guide the next review instead of being flattened into either “all green” or “integration failed.”
+
+## 📍 Current Position
+
+**As of:** November 17, 2026, after frozen v2 review and the lead's final 16:36:21/16:36:22 UTC source suites, before checkpoint 010 preservation and any native workbench run. Exact documentation finish time is not recorded.
+
+**Before this session:** Checkpoint 009 preserved the narrow actual normal-service proof and read-only warning diagnosis. The candidate was not connected to the existing developer workbench. The UI's draft-before-range sequence, strict factory options and required main status fields needed a bounded integration design.
+
+**After this session:** Nine source/test files implement the explicit candidate route, main-owned fixed acquisition, output-access seam, inspection-only-to-range source flow, narrow candidate metadata and sticky close/relaunch UI behavior. Independent source review found no blocker, final affected tests passed 163/163 and the broad run remains 181/208 with the same 27 inherited failures. Runtime/source bytes stayed fixed during those final tests. No native app, reviewed runtime, media or GUI was opened, and no claim of current end-to-end usability is made.
+
+**Current standing:** Developer-only CPU KeepSource720 slow/quality-25 precision-FLAC range path; no baseline/AV1 default or production catalog change, no shared contract/IPC/preload/HTML/theme/Windows main change, no HDR expansion or release acceptance. The warning caveat and exact original-report/runtime gates remain. Ahmed retains acceptance and packaging remains last.
+
+**Preservation state:** Checkpoint 009 is locally committed, restored in Notion and GitHub-verified as named above. The new v2 source and records are still the next checkpoint, not yet a verified remote backup at this cutoff. The exact previous 255,403 bytes remain below this entry, and the historical correction receipt is unchanged.
+
+**Live owner / continuation anchor:** Read [CURRENT_STATE](CURRENT_STATE.md), the [workbench integration execution record](2026-11-17_Candidate_Workbench_Integration.md) and [receipt](2026-11-17_Candidate_Workbench_Integration_Receipts.json) before continuing. The lead owns source/native-environment decisions, current state, execution evidence and the coherent Git/GitHub checkpoint; the preservation contributor owns immediate Notion restoration/readback. The documentation editor owns only this new session entry and historical-suffix verification. No routine owner decision is needed to preserve the authorized source milestone.
+
+## 🔜 Next Steps
+
+1. Complete the coherent source/records checkpoint, checking the exact v2 patch scope, unchanged historical suffix and the distinction between pure/VM tests and native gaps. Commit descriptively, immediately verify full source/history restoration and unabridged native summary in Notion, then publish only the intended delta on original GitHub ancestry and verify the ref/tree/changed bytes.
+2. **First engineering re-entry:** Locate a supported native Electron/display environment using actual environment inventory and capability checks. The current workspace's missing setup is not proof that another authorized environment cannot serve. Do not bypass sandbox/security, install software, mount topology or launch media merely to turn a source milestone into a nominal native pass.
+3. Plan bounded restoration of only the exact reviewed candidate pair and required original raw report into the main-derived fixed path, with dependency/loader/currentness checks intact. Do not copy arbitrary binaries, download an unreviewed replacement, repin historical evidence or use portable JSON to satisfy the raw gate. Setup and any required approval remain distinct from source implementation.
+4. Independently review the finite existing-UI journey before actual execution: explicit candidate choice, honest missing-input behavior, inspection-only row, per-file Keep-source range/precision-FLAC Apply, qualified Start, output capability action, cancellation, closure/relaunch and appropriate drainage evidence. Retain all child stderr and native topology/affinity observations. Do not claim same-service recovery or performance qualification from this route.
+5. Address real base-await preparation, overlapping late callbacks and live output issuance with proportionate evidence rather than citing modeled tests as completed coverage. If native proof is blocked, keep independent remaining 0.7 work moving under its own scope instead of repeatedly rerunning calibration or waiting without useful progress.
+
+**Do not reopen / repeat:** Rebuild/recalibrate the historical candidate without a specific need; alter default factories or range semantics to ease the UI; suppress stderr or force thread-pool flags; revive cancelled tokens; count VM fixtures as native runs; call `instanceof` a private capability brand; delete the retained fixture failure; or claim a local-only patch/runtime as backed up.
+
+**Continuation boundary:** This session ends at reviewed source integration and honest handoff, not an opened application. A later setup, native journey, lifecycle fix or coverage expansion needs its own exact source/input baseline, bounded review and observed result. Checkpoint 010 publication and future execution are not predicted here.
+
+## ❓ Open Questions
+
+- **Which authorized environment can support real Electron/display execution?** The lead must inspect available environments and their actual capabilities. The selected workspace lacks the checked prerequisites; other machines have not been disproven. This blocks native proof, not source preservation or independent 0.7 work.
+- **Can the exact tools, dependencies and original raw report be restored into the fixed acquisition path?** The lead owns a bounded setup plan and verification. A source archive or a different path containing old local binaries is not enough; no automatic acquisition was implemented.
+- **Do actual base-class awaited writes and overlapping late preparation preserve the boundary?** The new tests model important states but do not execute those exact paths. The lead/reviewer own targeted follow-up coverage; the current review found no source blocker, not complete timing qualification.
+- **Does a newly published output receive and use the intended open/reveal capability through the real workbench?** Existing output-access tests and the new injected seam do not establish that complete native journey. It belongs to the reviewed actual UI proof.
+- **What is the native threading/performance behavior?** Still unqualified. The prior topology explanation is a bounded inference, and no new runtime/threading flags were tested. Native-host evidence must retain diagnostics and environment facts.
+- **Is this ready for production or final acceptance?** No. The developer route, inherited failures, unrun native journey and wider 0.7 scope remain. Ahmed retains acceptance, HDR expansion stays deferred and packaging remains last.
+
+## 🧾 Session Outcome
+
+The existing developer workbench now has a reviewed source route for the exact candidate, without replacing the shell or changing baseline/AV1 defaults. The implementation separates inspection/editability from Start authority, preserves main-owned runtime/output boundaries and makes cancellation close/relaunch-only. Final focused checks passed 163/163, independent review found no blocker and the broad suite retained its same 27 inherited failures. The fixture red result and v2 corrections to modeled-test claims remain visible.
+
+This is a source-integration milestone. No Electron, GUI, reviewed runtime, new media, native output action or installation ran, and the fixed-path tools/display prerequisites are not satisfied in the inspected workspace. The next checkpoint must be preserved before the separately reviewed native journey; only checkpoint 009's publication is reported as complete here.
+
+## 🔍 Confidence Level
+
+**Reviewed source routing and stated pure/injected behavior: High within the tested scope.**
+
+**Why:** Actual design/source inspection, a verified immutable-parent 125-check baseline, retained worker red/green evidence, independent 158-check review, final 163/163 affected checks and unchanged-source receipt identities support the implementation and bounded claims. The candidate option/default isolation, snapshot/Start separation, existing renderer reuse and closure metadata are visible in source. The exact prior summary is preserved rather than rewritten.
+
+**Not higher because:** Positive composition/runtime/report/token/worker cases are injected, timing windows are partly modeled, real base-await/overlapping late preparation and live output issuance remain gaps, and no native Electron/display or actual new media journey occurred. The 27 broad failures remain, fixed-path restoration is absent, native threading/performance is unqualified and this new checkpoint is not yet verified remotely. Native usability and product readiness therefore remain unestablished, not inferred from the green focused suite.
+
+---
+
 # 📘 Session: November 17, 2026 — FFmpeg Encoder — Prove the gated normal-service path, protect collisions and recover through fresh owners
 
 ## 🤖 Models, Effort, Roles and Provenance

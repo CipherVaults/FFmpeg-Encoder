@@ -32,6 +32,7 @@
       : jobStageLabels[snapshot.progress?.stage] || (isRemux() ? 'Remuxing' : phaseLabels.running)
     : phaseLabels[snapshot.phase] || 'Current operation';
   let capabilities = null;
+  let developerKeep720 = null, developerSessionClosed = false;
   let nativeState = null;
 
   function nativeProofMatchesDisplay() {
@@ -526,6 +527,10 @@
   // older batch after an update event already delivered a newer state.
   function applySnapshot(next) {
     if (!next || !Number.isInteger(next.revision) || next.revision < snapshot.revision) return;
+    if (next.developerKeep720?.enabled) {
+      developerKeep720 = next.developerKeep720;
+      developerSessionClosed ||= next.developerKeep720.relaunchRequired === true;
+    }
     const previousPhase = snapshot.phase;
     const previousBatch = snapshot.batchId;
     snapshot = next;
@@ -895,7 +900,7 @@
   }
 
   function syncSelection() {
-    const canSelect = snapshot.phase === 'ready' && !dirty && !pendingCommands;
+    const canSelect = snapshot.phase === 'ready' && !dirty && !pendingCommands && !developerSessionClosed;
     const eligible = (snapshot.items || []).filter(item => selectableStatuses.has(item.status));
     const eligibleIds = new Set(eligible.map(item => item.id));
     const retainedIds = snapshot.phase === 'ready' ? eligibleIds : new Set((snapshot.items || []).map(item => item.id));
@@ -1033,7 +1038,7 @@
   }
 
   function editableOperationDraft() {
-    return discardableOperationDraft() && !dirty && !snapshot.encodingSettingsStale;
+    return !developerSessionClosed && discardableOperationDraft() && !dirty && !snapshot.encodingSettingsStale;
   }
 
   function discardableOperationDraft() {
@@ -1831,7 +1836,7 @@
     else if (pendingCommands) activity = 'Working…';
     else if (ready) activity = `Review the effective settings and select the files to ${isRemux() ? 'remux' : 'encode'}.`;
     else if (dirty && editing && capabilities) activity = 'Choose your settings, then review the batch.';
-    put('activity-message', activity);
+    put('activity-message', developerKeep720 ? `${developerSessionClosed ? developerKeep720.relaunchNotice : developerKeep720.notice} ${activity}` : activity);
     visible('diagnostic-warning', Boolean(snapshot.diagnosticWarning)); put('diagnostic-warning', snapshot.diagnosticWarning || '');
     visible('setup-panel', true);
     visible('location-panel', activeWorkspace === 'encode' || activeWorkspace === 'remux');
@@ -1867,16 +1872,16 @@
     put('cancel-explanation', checking ? 'Cancel this capability check.' : 'Cancellation stops this operation and the remaining queue.');
     byId('cancel-batch').disabled = !snapshot.batchId || cancelPending || phase === 'cancelling';
     put('cancel-batch', phase === 'cancelling' || cancelPending ? 'Cancelling…' : phase === 'preparing' ? 'Cancel inspection' : checking ? 'Cancel check' : 'Cancel batch');
-    const locked = busy || pendingCommands > 0;
-    byId('native-settings-fields').disabled = locked || !nativeState || Boolean(nativeState.ownerBlock);
-    byId('native-refresh').disabled = locked || typeof api?.refreshNativeBackends !== 'function' || Boolean(nativeState?.ownerBlock);
+    const locked = busy || pendingCommands > 0 || developerSessionClosed;
+    byId('native-settings-fields').disabled = Boolean(developerKeep720) || locked || !nativeState || Boolean(nativeState.ownerBlock);
+    byId('native-refresh').disabled = Boolean(developerKeep720) || locked || typeof api?.refreshNativeBackends !== 'function' || Boolean(nativeState?.ownerBlock);
     const native = nativeProfile(), availability = nativeState?.native.profiles.find(profile => profile.profileId === native?.id);
-    byId('native-qualify').disabled = locked || !native || !byId('native-device').value || native.backend === 'amf'
+    byId('native-qualify').disabled = Boolean(developerKeep720) || locked || !native || !byId('native-device').value || native.backend === 'amf'
       || availability?.reason !== 'CHOOSE_AND_QUALIFY_CELL' || Boolean(nativeState?.ownerBlock);
     renderNativeStatus();
     for (const id of ['choose-input', 'choose-output']) byId(id).disabled = locked;
     byId('remux-target').disabled = locked;
-    byId('prepare-remux').disabled = locked || !inputFolder?.id || !outputFolder?.id || inputFolder.available === false || outputFolder.available === false;
+    byId('prepare-remux').disabled = Boolean(developerKeep720) || locked || !inputFolder?.id || !outputFolder?.id || inputFolder.available === false || outputFolder.available === false;
     byId('profile').disabled = locked || !capabilities;
     for (const id of ['preset', 'quality', 'quality-slider', 'tested-default']) byId(id).disabled = locked || !selectedProfile();
     const candidate = profileRecipe();

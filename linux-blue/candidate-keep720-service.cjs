@@ -4,6 +4,7 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const { constants } = require('node:fs');
+const { OutputAccess } = require('../src/output-access.cjs');
 const { createHash } = require('node:crypto');
 const { isDeepStrictEqual: same } = require('node:util');
 const { requireCandidateCalibrationRuntime } = require('./candidate-calibration-runtime.cjs');
@@ -215,12 +216,31 @@ async function verifyCandidateServiceProducers() {
 }
 class OwnedCandidateService extends CandidateTrimService {
   #candidate;
-  constructor(options, candidate) { super(options); this.#candidate = candidate; }
+  constructor(options, candidate, workbenchMode) { super(options); this.#candidate = candidate; this.workbenchMode = workbenchMode; }
+  snapshot() {
+    if (this.workbenchMode) {
+      for (const item of this.state.items) {
+        if (item.status !== 'ready') continue;
+        const entry = this.plan?.entries?.get(item.id);
+        if (!entry?.qualificationSelection || !entry.operationRuntimeToken || !entry.operationPlan?.instrumentation || entry.operationPlan.compatibilityPath) {
+          this.plan?.entries?.delete(item.id);
+          item.status = 'unsupported'; item.reasonCode = 'CANDIDATE_RANGE_REQUIRED';
+          item.reason = 'Inspection only: choose a per-file range, Keep source and precision FLAC, then Apply. Full is not qualified in this developer preview.';
+        }
+      }
+    }
+    const snapshot = super.snapshot();
+    if (this.workbenchMode) snapshot.developerKeep720 = { enabled: true, relaunchRequired: this.admissionClosed,
+      notice: 'Experimental Keep720 range only · H265 CPU slow / CRF 25 · precision FLAC. Full, resize and Remux unavailable. CPU topology/thread-pool warnings remain; native threading/performance is not qualified.',
+      relaunchNotice: 'This developer session is closed to new work. Close and relaunch to obtain a new verified runtime; same-session retry is unavailable.' };
+    return snapshot;
+  }
   async cancelCurrent() {
     // Preserve cancellation's invalidated operation/candidate tokens. No retry
     // route re-observes them. Main must close this service and open a new one.
     // Close synchronously: saved-write drainage and terminal callbacks may yield.
     this.closeAdmission();
+    if (this.workbenchMode) this.emitState();
     return super.cancelCurrent();
   }
   async closeOperationResources() {
@@ -235,12 +255,13 @@ async function createCandidateKeep720Service(options) {
   need(options && Object.getPrototypeOf(options) === Object.prototype, 'Inert main-owned options required.');
   const keys = Reflect.ownKeys(options);
   need(['verifiedRuntime', 'stateDir'].every(k => keys.includes(k))
-    && keys.every(k => ['verifiedRuntime', 'stateDir', 'onChild'].includes(k)
+    && keys.every(k => ['verifiedRuntime', 'stateDir', 'onChild', 'outputAccess', 'workbenchMode'].includes(k)
       && Object.hasOwn(Object.getOwnPropertyDescriptor(options, k), 'value')), 'Only fixed main-owned service options are accepted.');
-  const { verifiedRuntime, stateDir, onChild } = options;
+  const { verifiedRuntime, stateDir, onChild, outputAccess, workbenchMode = false } = options;
   const candidate = requireCandidateCalibrationRuntime(verifiedRuntime);
   let observer;
   try {
+    need(typeof workbenchMode === 'boolean' && (outputAccess === undefined || outputAccess instanceof OutputAccess), 'Main-owned workbench mode and OutputAccess required.');
     need(typeof stateDir === 'string' && path.isAbsolute(stateDir) && stateDir === path.resolve(stateDir)
       && !/[\x00-\x1f\x7f]/.test(stateDir) && (onChild === undefined || typeof onChild === 'function'), 'Canonical state directory and child observer required.');
     need(candidate.runtimeIdentity === RUNTIME_ID && sha(JSON.stringify(candidate.dependencies)) === dependencyIdentity,
@@ -261,11 +282,11 @@ async function createCandidateKeep720Service(options) {
       qualification, timingQualification, evidenceIds: report.sources.flatMap(s => [s.frozen.qualification.evidenceId, s.frozen.timingQualification.evidenceId]),
     }] });
     return new OwnedCandidateService({ ffmpeg: candidate.pins.ffmpeg.path, ffprobe: candidate.pins.ffprobe.path,
-      runtimeIdentity: RUNTIME_ID, stateDir, run, inspectionWorkers: 1, operationRuntime: observer, operationQualifications: selector,
+      runtimeIdentity: RUNTIME_ID, stateDir, outputAccess, run, inspectionWorkers: 1, operationRuntime: observer, operationQualifications: selector,
       vendorCapabilities: async () => ({ profiles: failedVendorCapabilities('VENDOR_DISCOVERY_INCOMPLETE'), bindings: new Map() }),
       operationEvidenceBudget: null, operationDeadlineMs: 120000, operationTelemetry: true,
       operationStorage: () => openEvidenceStorage({ root: path.join(stateDir, 'operation-evidence') }),
-    }, candidate);
+    }, candidate, workbenchMode);
   } catch (error) {
     const cleanup = await Promise.allSettled([observer?.close(), candidate.close()]);
     const failures = cleanup.filter(x => x.status === 'rejected');

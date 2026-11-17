@@ -1,3 +1,401 @@
+# 📘 Session: November 17, 2026 — FFmpeg Encoder — Close two stopped popup diagnostics without changing protected output or claiming a visual finding
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model or tool identity | Effort setting | Evidence basis and verification limit |
+|---|---|---|---|
+| Engineering lead / exact diagnostic gate owner | GPT-6 Astra, recorded configuration | Ultra, recorded assignment | Chose the bounded exact-control reproduction, owns immutable source/state reconciliation, execution grant and preservation. Configuration is not backend attestation or proof of a UI result. |
+| Native desktop executor | Not separately established here | Not separately established | Reads the actual no-argument authorizer contract, uses documented global Sky and current screenshots, and reports submitted actions separately from prospective commands. |
+| Independent helper / authorizer reviewer | Not separately established here | Not separately established | Read the complete frozen supervisor/authorizer, statically parsed them, verified current source/Notion-manifest and prior allowed artifacts. No actual launch or fresh desktop observation occurred in that review. |
+| Independent saved diagnostic auditor | Not separately established here | Not separately established | Independently reconciled both saved outcomes, current/Git/Notion/gate source, exact pins/media, prior/new allowed artifacts and actual clocks. No UI replay, fresh probe/decode or raw profile inspection; Return delivery remains unknown. |
+| Preservation / mirror | Not separately established here | Not separately established | Independently restored 020 source/full history/unabridged readable record and verified exact intended remote delta; later owns the new actual checkpoint verification. |
+| Documentation editor | Blue documentation contributor; model not independently established here | Not separately established | Drafts outside the frozen checkout from exact predecessor/preparation/current outcome records; only a later explicitly released Session prepend is owned, never code/native/Git actions. |
+
+**Record basis:** The prior native resize journey functionally succeeded but its open Resolution popup visibly overpainted. Two separately reviewed targeted diagnostic attempts are not replays of that encode or claims the defect has been fixed. This session preserves the exact scope decision, known-state reuse, preparatory command correction and actual observations/audits. All 885,468 previous Session bytes stay exact, including the earlier unresolved popup and then-unlaunched diagnostic status.
+
+## 🕒 Time
+
+- Date / date range: November 17, 2026. Saved explicit timestamps are UTC; Cairo civil time is UTC+2. Actual native/outer/log clock domains must be read independently, not inherited from previous runs.
+- Start: Active-work start is not measured. Preparation existed before the completed 020 preservation; no start is invented from file mtime or a source-test duration.
+- Predecessor publication: 020 remote verification completed at 20:55:30.817531 UTC; exact source/full-history Notion restoration and unabridged native readable record are verified separately below.
+- Authorizer review: 20:55:10.990325 UTC, static/read-only review, not gate creation or launch.
+- Fresh desktop preflight / grant: Fresh ready preflight at 20:56:57.223469 UTC recorded actual desktop :0 through a verified global-key printf, idle Terminal/Chromium and no observed competing app/user input. It is current observation, not a comprehensive hidden-process census.
+- Gate / attempt / process: Actual gate created 20:58:23.091943 UTC; exclusive attempt Python clock 20:58:24.499757 UTC/date 20:58:24.501478305Z; PID 6923 receipt 20:58:24.809179 UTC. One corrected no-argument authorizer/helper chain, no duplicate launch.
+- Outcome / independent audit / source release: Attempt A ended 20:59:41.083556 UTC; audit 21:01:56.341379 and reconciliation 21:02:59.980757 retained the source freeze. Attempt B ran 21:07:21.518446–21:10:05.681727 UTC; audit 21:12:52.519943, final source/document release 21:14:11.869691. Owning receipts are dated 21:16:41.836511 UTC, before 021 commit/restoration/publication.
+- Session type: Bounded native inspection-only visual diagnostic and saved-evidence reconciliation, not another encode qualification or code implementation milestone.
+- Project stage: Linux 0.7 developer resize workbench, one actual resize workflow already passed within limits; exact popup behavior still open.
+- Focus: Reopen the same dynamic per-file Resolution control after one explicit inspection-only Prepare, compare Audio, preserve unchanged request/old output and record actual rendering without speculative cause or patch.
+- Contributors: Ahmed retains product ownership and acceptance; lead, desktop operator, independent reviewer/auditor, mirror and documentation roles are separated.
+- Model / effort: Only recorded configuration is stated; unknown settings are not silently attributed across roles.
+- Active working time: Not measured. Whole manual diagnostic elapsed time is not encode speed or UI responsiveness benchmarking.
+- Reason for summary: Keep an actual diagnostic, including scope/input/state limitations and any failure, distinct from a generic clean visual QA or broad release claim.
+
+## 🎯 Session Goal
+
+The previous actual native range/720/Precision FLAC journey published and revealed a correct counted/PCM-preserving output, while the open per-file Resolution dropdown painted unreadable black/pale-blue areas and text-like streaks. Its closed labels and Audio popup were legible. Static source review found no concrete new-code cause and did not establish a renderer/compositor/environment explanation.
+
+The useful next step was a bounded exact-control observation on preserved, unchanged source and known existing state, not a speculative theme/GPU/security change. Open the original dynamic per-file Resolution popup and Audio popup once each, use Escape without selecting a value, and retain whether the earlier defect reproduces. A fresh service has no live prepared draft, so reaching that exact control requires explicitly allowing one inspection-only Prepare, while prohibiting Apply, Start, target encode, reveal, player, changed values or automatic retry.
+
+The goal is a precise observed result plus evidence/source/state reconciliation. An unreadable popup remaining unreadable does not invalidate earlier PCM evidence, and a clear popup on one repeat does not prove a permanent fix or root cause. Isolated Full-copy source work remains a separate successor lane, not an implementation contained in this diagnostic session.
+
+## 🛠️ Actions Taken
+
+### 1. Verify complete 020 preservation before another native action
+
+Evidence-only 020 is local `89c57821100a1859de522df33cb7e93d4b03fc7e`, tree `bf4e9940a81aa340d4e6b42dced29dc0f4e6f095`, parent `e0b5d35055afaeff841bd3fe695c0400e6e7b2d5`, with 556 source files and twenty local commits. Its five paths preserve the actual native resize result, audit, unresolved popup and source release; no production/test code changed from tested 019.
+
+[Notion checkpoint 020](https://app.notion.com/p/41bbd7ade63b816c9baec567dec11004) independently restored all 556 source files and full twenty-commit history. Source ZIP is 3,474,009 bytes/SHA `0f61516f34856775c672f216bf4e73f98c0876a5eff3b6bdda377cef40da853d`; bundle 3,324,207 bytes/SHA `6b9e91074215a162a11f5eb74ea7391e16ff0173893bbefbc93bffac145dc7b5`; history ZIP SHA `ca7e2a65ca6fe7baf51736acc028f05f9f1521a5482bffeea64e77c66ded2e59`. The [native readable Session](https://app.notion.com/p/41bbd7ade63b810f8b13c2061261a84d) was fetched as four ordered unabridged chunks with all twenty headings and historical ending, without truncation metadata. Exact Markdown remains 885,468 bytes/SHA `0efb3b694ec72af67f353d076a38867c9b3e1c139b7ec5d5ab84d9b9bbcea630` in ZIP/bundle; native formatting is not byte identity. An earlier publication-receipt note that readable pages were processing is superseded by the actual final native verification, not mistaken for a remaining gap.
+
+Remote `8029c6b71f1d89e2af80accc95e7544b311d5df6` has actual sole parent `82ed88f67bf211fb0f09d25192e390ddb718cee1`, tree `eb97e92bc1d8170c444cc9fb2c56fa98c65e2dfc` and intended branch `blue/linux-development`. Exact five contents/Git blobs, actual parent/tree, non-force ref and fresh readback were verified at 20:55:30.817531 UTC. The remote tree has 938 files, 933 unchanged, two modified, three new, zero deleted. That is completed predecessor preservation, not an inference from a local commit or an archive upload.
+
+### 2. Reject an inexact Settings comparison as proof of the dynamic per-file control
+
+The first scope-blocker plan is preserved as `PLAN-v1-scope-blocker.md`, 4,649 bytes/SHA `51291767f513063827e1fa7efb6b1324563c98ae0a22f27d33c7f2094f3f3ead`. It identified a real interface dependency: every fresh EncoderService starts with no live plan/items. Reopening its persistent profile/history does not restore a prepared operation or its authority. The previously corrupted control was the dynamically created per-file Resolution select, not the Settings page's static default-resolution select.
+
+Under the initial prohibition on Prepare, a Settings-only popup comparison could be safe but could not reproduce the exact control/context. The plan explicitly refused to inject a plan, call hidden IPC, restore private state manually or label that different select as the same reproduction. It asked the lead to choose either a clearly limited comparison or a prospective scope expansion for one inspection-only Prepare.
+
+The lead chose exact per-file reproduction and prospectively allowed one owned-folder registration/inspection Prepare, followed only by popup observations. Final `PLAN.md` is 3,605 bytes/SHA `b5079ef392455727ebd51e9ea77a7f72d0784fede4338d69a57a6b7cc9e9f3e5`; `NATIVE_PLAN.json` 6,675 bytes/SHA `e08131cc1a433fa47db11f8195ce1a3a8625cdc4e517af924e4bde9313d3b423`. This is an explicit scope decision before execution, not an unauthorized Prepare silently added during a Settings-only test.
+
+### 3. Reconcile known state rather than clear or recreate a profile
+
+The main entry fixes its resize state path. Attempt A deliberately reuses known 019 state after its normal closure, rather than pretending it is pristine, adding alternate profile flags or clearing/renaming files to fit a clean-state gate. The normal application may read its own state; the workers/reviewer do not inspect raw Electron profile/cache/token/preferences contents.
+
+Attempt A’s authorizer pins prior `JOURNEY_OUTCOME.json` SHA `742eb9b3e9f57537d90c0211c34603fc7bbf6bc7c7a6b1829700c9ce9d047b25` and `OUTER_COMPLETION.json` SHA `501d92fa4a6e30627828fbf028892a2b35eca9864e21e4c466c6751160e63199`, checks the old exit 0/no abort/no failure and 42/42 owned tool closure/live 0, and verifies all 42 allowed old diagnostics/operation-evidence/provenance paths against pinned rows and retained copies. Any extra/missing/changed allowed file before launch refuses the gate.
+
+Original and owned eight-second fixture bytes, the existing 586,866-byte published output and its SHA `07230e60b600505cb38f51df2cee2c1a7364baccb20a3224796b316222e07006`, exact runtime pair/seven dependencies/original build pair, Electron and original raw calibration remain unchanged prerequisites. No fixture copy, media generation or new output directory is needed for Attempt A. Reusing an old output is not new output publication or a second output qualification.
+
+The helper inventories only the allowlisted diagnostics/evidence/provenance paths before launch, saves that inventory exclusively, then compares every prior row after close and records only new allowed paths. The helper does not recompare its initial inventory to every gate row; the immediately preceding authorizer performs that exact pinned comparison, so unchanged ownership and immediate chained execution remain required. End-point equality is not a guarantee against transient changes or automatic retention during the run. If a previous file differs or disappears, the diagnostic fails; no one may repair/reset the evidence or retry silently to conceal that outcome.
+
+### 4. Review the exact supervisor and fixed no-argument authorizer before execution
+
+The 7,607-byte supervisor SHA is `5dc73947a9cdba740cb3caac34634613cfd377aeb093b980b23a0c523b18d073`; independent helper review is 2,728 bytes/SHA `6b01406d398d63f61174aa13ed7db8a429e015725ec53695c17d0b6f89f6580c`. Review gives conditional GO only after actual 020 restoration, current source/state/input identities and fresh desktop preflight. `ast.parse` passed; that review did not execute the helper or native runtime.
+
+The separate fixed authorizer `authorize-native-popup020.py` is 7,697 bytes/SHA `d5b037a7446d315c17f4bb488f74c0bd8f7613408851fb8c251edec911bd4054`; preparation receipt 2,056 bytes/SHA `a27e7bb7e8b9cf841eb0fc946f9084f443706fa8b3e2d6be7cdb54885a8cbecd`. Unlike the prior native authorizer, it hardcodes actual 020 commit/tree and accepts no positional arguments. It rejects optimized Python explicitly before assertions, verifies twenty commits/556 files and exact Git/current/Notion manifest, validates all fixed helpers/assets/prior-state rows and creates a single exclusive popup-inspection gate only after actual external preflight.
+
+Independent authorizer review at 20:55:10.990325 UTC is 4,025 bytes/SHA `7107d3bd0bbc94101ae266b501c97a907a32ce2330e06e2ddd4a64349973055f`. It read the complete source and statically parsed the authorizer; independently rehashed all 556 current files against Git/Notion manifest, all 42 old allowed artifacts/retained copies and helpers. It did not repeat network download/clone, observe the desktop, create a gate, read private profile stores or launch runtime. Receipt restoration booleans refer to the separately completed mirror verification; fresh desktop attestations still require real observations, not just serialized true values.
+
+The authorizer requires existing DISPLAY=:0, ordinary Python assertions enabled with no -O/-OO/PYTHONOPTIMIZE, and no NODE_OPTIONS/nonempty LD_ overrides. The external aware preflight must be between five seconds in the future and 300 seconds old at the actual check, with true observed global-Sky/no competing app/known state/inspection-scope/ordinary-Python attestations. The launcher itself retains assert-based gates and does not independently enforce freshness; immediate unchanged ordinary-Python invocation and source/state ownership freeze are essential. There is no atomic hostile-concurrent-mutation guarantee between authorizer and helper.
+
+### 5. Correct the prospective command contract before any submission
+
+Lead initially supplied a 020 SHA positional argument by copying the previous authorizer convention. The desktop worker read the actual new authorizer and correctly stopped: it asserts no positional arguments and already fixes the actual 020 identity. The lead confirmed the corrected ordinary-Python authorizer-to-helper chain with no argument.
+
+This correction occurred before desktop execution, gate creation or native launch. It is not an executed failing authorizer, media retry, failed encode or second application attempt. No source/helper edit was needed; the invocation was aligned to the already reviewed interface. Preserve the mistaken prospective instruction and correction without inventing an ENOENT/AssertionError result or rewriting the authorizer to accept an unnecessary argument.
+
+### 6. Keep inspection-only execution bounds explicit
+
+The intended one launch uses the exact existing Electron/workbench-main/resize option, original security/theme/render flags and documented global Sky keys/mouse with fresh screenshots/focus. Re-register the exact prior owned input/output directories through at most one visible picker each. One Prepare must produce initial Full/Keep source/copy, unsupported/unselectable and Start disabled; if actual reused defaults or authority differ, stop without changing values or settings to manufacture the expected state.
+
+Then open the dynamic per-file Resolution menu once, observe the popup/closed value/readability, and Escape without selecting a value. Open Audio once and Escape similarly. Confirm no pending edits and unchanged Full/Keep source/copy. No Apply, Start, target encode, reveal, player, settings save/reset, theme change, hidden IPC, clipboard, cancellation/relaunch or automatic retry is included. Native startup capability and inspection media/probe children are real runtime work; this is no-target-encode, not zero-media/zero-runtime.
+
+Supervision retains top-level stdout/stderr, actual process closure/census and fresh diagnostic boundaries. Thirty-minute SIGTERM request is not a hard exit deadline and may wait indefinitely; no force kill/retry is authorized. The 27 GiB launch/major-action floor and 2 GiB helper input/output admission are point checks, not child/write/growth limits. Because this helper reuses fixtures/output elsewhere, its own owned-input/output tally is normally empty and does not cap old output, logs, state or excluded profile/cache growth. Complete child stderr/absence of a target encode cannot be inferred from top-level logs or census alone; visible action and fresh diagnostic/operation/provenance review are required.
+
+The actual 1,017-byte ready preflight SHA is `ba10364ab345fc9a016fec0cbad391fe1ce9f272c1dfe46be542ffb26c6d26c1`, dated 20:56:57.223469 UTC. Fresh Sky inventory/screenshot showed idle Terminal and Chromium, no observed workbench or user input; an exact visibly verified global-key printf returned `POPUP_PREFLIGHT_DISPLAY=:0`. Prior normal closure, 42 allowed state/retained files and old output were independently reconciled. Screenshots remain CUA-only and window inventory does not prove absence of every hidden process.
+
+While entering the actual chained shell command through global keys, the tool timed out before Return. A fresh screenshot established a partial unsubmitted prefix; the operator entered only the missing suffix, verified the complete command, then pressed Return once. The lead/operator reported no duplicated command or app launch. This input-delivery interruption is distinct from the earlier prospective extra-argument correction and from any executed authorizer/runtime failure.
+
+The authorizer created the actual 75,510-byte gate at 20:58:23.091943 UTC, SHA `355fc743c7c4ae8dae09a77f1d0fc644eb4a06862cfa5591d34e82f66e4011e7`, binding actual 020 source/tree/all 556 hashes, both Notion restores, exact helper/review/plan, ready preflight, ordinary Python and known 019 state. The 518-byte attempt SHA `bef03359a66d8694e03266aabbe29244304193cac3d4d14f80afb2f0b467a728` records the fixed Electron/workbench/resize argv and both actual startup clocks. PID receipt is 68 bytes/SHA `261b697c0d4851aee76d3764eda81546f26eb3ea9f9d92364b43d484633a8c80`, process 6923 at 20:58:24.809179 UTC. The exclusive prior inventory is 7,930 bytes/SHA `a948793f773a933c9225406397d688a69d467e11d48f00d12ff8dec3fb0eb1ed`, containing the 42 known old allowed files.
+
+READY logs Electron 44.7.0, the exact resize choice/pair, original UI/preload and sandbox true/contextIsolation true/nodeIntegration false, qualifiedFamilies empty and Remux unavailable. These are the actual process's saved startup/security declarations, not independent OS sandbox enforcement or proof of later popup behavior. Existing owned folders were already registered in the reopened app, so no picker was needed; actual UI outcome remains separately recorded below.
+
+The now-saved outer receipt records process closure at 20:59:41.083556 UTC, exit 0/no abort/no failure and post-close identities true, with monotonic 76.27440289800143 seconds since 20:58:24.809179. This is whole manual inspection time, not encode benchmarking. Final stdout reports 29 owned tool children spawned/29 closed/live 0/maximum 1/failures 0. The 436-byte stdout SHA is `ae008c3b4d4022975ad17f26809ad9e8bdbf81bdce955b98d6e06203f0f884b6`; 620-byte top-level stderr SHA `d91555fb83417e2dec6657594438b38ecf4c01d8cda5dd8b113f6ca8ae6f300c` retains missing-system-D-Bus and SSL handshake errors. Process closure and counts alone do not establish the actual UI outcome or absence of target encode; the subsequent fresh-record and independent audit reconciliation below provides the bounded evidence.
+
+### 7. Record the actual popup observations and closure, not the desired result
+
+The operator reported one actual Prepare on the already registered prior input/output folders. Instead of the required Unsupported inspection row, the UI showed Skipped, “Nothing to encode in this batch,” zero selected and disabled Start. This triggered the planned stop boundary. No Resolution or Audio popup was opened, no values were changed, no Apply/Start/target encode/reveal/player occurred, and normal close followed. The earlier popup defect was neither reproduced nor cleared by this attempt because its exact control was never exercised.
+
+An existing old output was initially only a plausible collision explanation. The fresh saved allowlisted diagnostics then provided direct evidence: FILE_INSPECTED sequence 6 is skipped with summary null; PREPARATION_FINISHED sequence 7 explicitly records status skipped and reason “Output already exists.” The root phase is ready because preparation ended, not because a runnable file was selected. This is protected collision behavior preventing the intended diagnostic setup, not a newly demonstrated application defect or a negative popup result.
+
+The reused existing output was deliberately not deleted, renamed, moved or overwritten to manufacture the expected state. Any later empty-destination reproduction would require a revised reviewed setup and a new one-run decision, not an automatic second attempt under this exclusive gate. Full target-output protection and the unresolved original visual issue remain separate facts.
+
+Attempt A outcome is 5,527 bytes/SHA `927991ca16404b4e9dc94e394b493a326786c2adf0d62af346f9dca3e8225184`, recorded at 21:00:29.846207 UTC. Its action counts are one launch, one Prepare, zero pickers, zero Resolution/Audio opens, Apply, Start, reveal, player or automatic retry. Outer receipt is 560 bytes/SHA `da6008822d198c6c69f4e410dcf2fda22532009875e676cd98472d794da3d4d0`. These are preserved unchanged even though a later separately reviewed attempt followed. The first outcome's dated statement that no retry was then authorized is not rewritten to erase the actual later decision.
+
+No conclusion about popup reproduction, visual cause, regression or clean visual QA follows from this blocked setup. The earlier black upper area/pale-blue overpainting/text-like streaks provide a precise comparison target, but the actual present control, focus, closed value, surrounding UI and Audio comparison must be observed. Screenshots may remain CUA-only; do not claim independent portable images unless actual files exist.
+
+### 8. Reconcile old/new artifacts, absence of target work and independent audit
+
+**Attempt A independent audit and continued freeze.** The 9,402-byte saved audit SHA is `660daec5719969e9de763fe67682605cccccdeeb66bb60e40ef8c3f1ae3a3167`, checked 21:01:56.341379 UTC. It finds no integrity blocker, confirms the safe existing-output stop, and explicitly says the popup objective was not reached. All 556 Git/current/Notion/gate files and exact runtime pair/seven dependencies/original build pair/Electron/raw report/original and owned fixture/old output match. Forty-two prior allowed files remain exact; nine new diagnostic files match current inventory and retained copies, with no new operation-evidence/provenance paths. The preflight age was 85.868474 seconds at gate and 87.585710 at launch.
+
+FILE_INSPECTED sequence 6 has a truncated context, but its “Output already exists.” message is not truncated. The separate untruncated PREPARATION_FINISHED repeats the same skipped item/reason. The cause is therefore direct saved evidence, not inferred only from static source or a truncated summary. Source review also confirms the destination protection guard precedes ordinary encoding admission; it does not replace the actual event evidence. First/last numeric diagnostic epochs convert to 20:58:25.300–20:59:39.602 UTC, within the outer interval. The Electron formatted stderr clock is separate; no earlier two-hour event mismatch is inherited.
+
+At 21:02:59.980757 UTC, the lead reverified all source/pins/input/output, old 42 and new nine artifacts and wrote the 1,615-byte reconciliation SHA `337cc8c31af0faf70afaaa7538bf2a98be7f847fdcbdac0d28fd6b53af53e801`. Its `sourceDocsFreezeReleased` is explicitly false. The first run was closed/reconciled, but source 020 remained frozen while a separately scoped empty-output diagnostic was prepared. This was not document write release or automatic retry authorization.
+
+**Correct the setup through a separate reviewed empty-output attempt.** The first plan had overlooked the unavoidable collision from deliberately reusing a folder containing the same intended output name. The lead chose a new exclusive empty owned destination, preserving the old publication and all 51 current allowed artifacts. Final plan was 3,050 bytes/SHA `b4ea97fb369f7111bd5c0b7fa0805701e15d2f6c8012a676413778650ad2b497`; native plan 7,935 bytes/SHA `661cd5d0ee0fafd806b32d96eec95bd358d857e64a55cf36a4d1fb28e12ebe4f`; helper 8,752 bytes/SHA `9ef8258c4b776c087f5a6a3f16efe53dd73970f0a4d760e4185e4313f0fe5c39`. The exact prior-51 manifest combines original 42 plus the nine first-attempt files, without silently discarding either run.
+
+Both new helper and final authorizer explicitly reject optimized Python before assertion-based logic. Helper review is 2,797 bytes/SHA `b67e1aa2d2b14380a7b3971211de3b7a0512ef5029f588a1c8924fea31215499`; final authorizer 8,868 bytes/SHA `1bb920f71c97f3b2d9ac9bcc8eb8a3e23d0cc02784c3511cb61454b28f8e4e2c`; separate final authorizer review 2,113 bytes/SHA `02ba839cab5786653e228d29d22d84e84ac9544687fda26dfd22ed01c0c40e6f`. The final authorizer delta only filled the reviewed helper-review pin; the prior prepared version remains. These reviews were static/AST and conditional; the lead separately released one exact ordinary-Python, no-argument chained launch after fresh preflight.
+
+The revised plan required one visible output picker to register the new empty directory before one inspection Prepare. Normal destination registration may update application settings; preservation covers source/media/allowed evidence, not byte identity of every private profile/preferences store. The operator must not clear/reprofile/read those stores. No changed values, Apply, Start, target encode, reveal/player, source/rendering/security change or extra launch was allowed. The same point-space/timeout/capture limitations remain; post-close emptiness cannot prove continuous absence of transient writes.
+
+**Attempt B actual gate and startup.** Ready preflight at 21:06:08.205027 UTC is 948 bytes/SHA `fa2ec2999c751dcbe4d8cced597dc1165b9a3a74aa9d1ecf41f9100cd6aa78e9`. It records a fresh idle original terminal/Chromium observation, no visible workbench/user input, known prior closure and reconciled 51 artifacts. It did not repeat the earlier printf; the same terminal showed prior read-only DISPLAY evidence, and the authorizer independently required actual inherited DISPLAY=:0. Window inventory remains non-exhaustive, and no profile read is implied.
+
+The 76,668-byte exclusive gate SHA `689af7e1c4001d33f4091134ff70282297ad603858ff2e0a4ad055eadd066d9f` was created at 21:07:19.494073 UTC. Attempt Python/date clocks were 21:07:21.186343 UTC and 21:07:21.187743964Z; the 518-byte attempt SHA is `a93b8b74e3959b8e8af870ee3ac465b1480c13eb8574edb51ba0418e4e4cb7f0`. PID 9279 was recorded at 21:07:21.518446 UTC, receipt 68 bytes/SHA `cc2970794170beb41a7d1c7646580fd461f99657321855c335f89066b267d3ad`. One complete global-key shell command was visibly checked and submitted with adequate input-tool timeout; no duplicated launch occurred. The helper exclusively created the new empty owned output directory after its gates. Old output/input and source remained unchanged.
+
+**Transport interruption, unknown input delivery and safe recovery.** App READY showed the original input and old output registered. One Change output folder picker was opened. Ctrl+L and global keys entered the exact new helper parent ending in a slash; a fresh screenshot showed the `owned-output/` completion selected. The next Return-plus-screenshot call failed with `executor key changed during session recovery`, then the environment/CUA surface became unavailable. Delivery of that Return is unknown. No Prepare/Apply/Start was issued, no new launch was started, and no CUA completion could truthfully be supplied while the surface was unavailable and outcome unknown.
+
+After reconnection, a fresh screenshot showed the same picker still open at the typed parent/autocomplete state. There was no confirmed destination registration. The lead/operator stopped rather than guessing delivery or resending Return: Cancel the picker, verify the old registered output still displayed, and normally close the same app. That recovered UI state justified safe closure; it does not prove Return never arrived, that no transient input occurred, or complete underlying profile byte identity. The transport failure is not evidence of the Resolution popup's rendering cause.
+
+Attempt B outcome is 4,648 bytes/SHA `52fcdfff658de9531d080b93d0819f802df4fcb77fed344e86bf4cbda1348a5c`, recorded 21:10:55.122321 UTC. It reports one launch/output picker, no confirmed registration, no input picker, Prepare, popup opens, Apply, Start, reveal, player or automatic retry. The app closed at 21:10:05.681727 UTC with exit 0/no abort/no failure/post-close checks true. Outer receipt is 561 bytes/SHA `dca8e0e46315ad087685447b02a6b4a55280cf0c7024dee004fc17d07e480289`; total manual duration 164.16330500199547 seconds, not encoding time. Twenty-eight owned startup/capability tools spawned and closed, live 0/maximum 1/failures 0; no exhaustive OS-wide process or per-child argv/stderr claim follows.
+
+Final stdout is 436 bytes/SHA `76650dd382e4d71303ad5f0fadc0f9408dc1ffa4be0e7c7fa1fe9e91a68ec423`; stderr 620 bytes/SHA `261d5437e33ad6d1a5c63b3a19aa277e8dc9ca3c8b4f79af4e941c419ecd051c`, retaining three missing-system-D-Bus errors and one SSL handshake net_error -202. Neither run had warning-free top-level diagnostics. Capability work includes real media tool activity, so absence of target Start is not zero encoding/runtime work in capability discovery.
+
+**Attempt B independent audit.** The 9,985-byte final saved audit SHA `42c2b2c79d507954291d120d48bbd162cd1ec4c6621dd07a548baa6d62b4031d`, checked 21:12:52.519943 UTC, finds no integrity blocker and supports the stopped picker/normal closure, while preserving unknown Return delivery and the unmet popup objective. It rechecks all 556 Git/current/Notion/gate identities, pins/media and original build pair; all 51 prior allowed files remain equal, six new diagnostic files match current inventory/retained copies, no new operation-evidence/provenance paths exist, and the new output directory is empty at checked post-close/current endpoints.
+
+The six fresh events are SESSION_STARTED, CAPABILITY_STARTED, RUNTIME_IDENTIFIED, CAPABILITY_FINISHED, PROVENANCE_RECOVERY_FINISHED and SESSION_ENDED, sequences 0–5, with no truncated contexts or preparation event. Their converted epochs 21:07:22.072–21:10:03.647 UTC align within the outer interval. Preflight age was 71.289046 seconds at gate and 73.313419 at launch. These records corroborate the reported absence of Prepare/target Start, not a retrospective replay of every UI input or exhaustive child argv audit.
+
+The audit's initial orchestration tried to reuse a temporary script that was missing after environment recovery. That failed before audit checks/output creation; an independent replacement then performed all checks afresh. No missing first-pass result was treated as a completed audit, and this is not an app/media failure. Source/media/allowed artifact preservation was verified after recovery, without asserting continuous monitoring during the disconnection.
+
+The required audit distinguishes reused old encode/provenance files from the fresh diagnostic session. New capability/inspection children do not imply a target encode; conversely a total census alone cannot prove no forbidden target work. Check actual fresh event reasons, operation/provenance path deltas, output/current identity and prior 42-file preservation, with honest record truncation/retention and timestamp domains. No fresh probe/decode/UI action is part of a saved audit.
+
+### 9. Release the frozen source only after the actual reconciliation
+
+Final lead reconciliation is 1,827 bytes/SHA `b983f6ba4c8dcfaa48743ae48f230b679d925b52db1c5cbb016c076af1a896a8`, dated 21:14:11.869691 UTC. It repeats all 556 source files, both Notion restore gates, exact outcomes/audits/outer receipts, runtime/build pair/seven dependencies/Electron/raw report/original and owned fixture/old output and all 57 allowed current/retained artifacts. The new output remains empty at checked endpoints. Its `sourceDocsFreezeReleased` is now true, unlike the first reconciliation's false value. This final release permits documentation/source continuation, not another native launch or actual AAC campaign.
+
+The lead's explicit reattach restored access to the same files but placed that lead thread under a read-only profile; normal reviewed escalation succeeded for the final local reconciliation/owning records. No permission rejection was bypassed, no alternate transport was used to evade a denial, and no source/media loss or restart is inferred. This documentation role uses its own permitted profile and writes only the released Session path after independent review. The transport interruption and actual recovered identities are retained rather than relabelled as an uninterrupted run.
+
+No unit or broad tests ran for this evidence-only milestone. Source 019's 164/164 focused, 125/126 service parity with the existing diagnostic mismatch and 202/237 broad with the same 35 failures retain their original source/time attribution. No producer pin or failing expectation was weakened. The previously verified native range output remains unchanged; its earlier count/PCM/reveal and evidence limitations are not replaced by these stopped diagnostics.
+
+All 556 tracked source files and exact old allowed artifacts/input/output/runtime/helper gates remained protected through both outcomes and independent audits. Documentation was drafted outside the checkout during that freeze. The subsequent explicit Session-only release does not widen to code/tests/media or incorporate isolated Full-copy bytes into the source actually inspected.
+
+### 10. Preserve successor scope and coherent checkpoint status
+
+The lead chose to close this related diagnostic milestone with both stopped attempts and no third native launch, then prioritize useful reviewed Full-copy source progress rather than spend more launches repeating uncertainty. The seven-file closed-factory whole-file resize/copied-audio foundation and separate two-file fail-first calibration harness remain isolated/unintegrated at this cutoff. The foundation's independent 139-test review and harness's final independent 69-test check are successor source evidence, not tests rerun on this diagnostic checkpoint or proof of genuine AAC execution.
+
+The harness review found a missing derived diagnostic timeout and corrected it narrowly before final source acceptance. That fix, its original failure and exact implementation/testing belong to the ensuing source milestone, not an implied completed authoritative integration here. Real AAC priming/padding may still fail the strict synthetic source-extent contract before any target encode. Preserve such failure rather than fit tolerance or borrow FLAC content/resource authority. Copied packet/header/padding and decoded timing/count proof remain separate from video-only telemetry; changed shared source must cause existing producer capsules to refuse until fresh evidence, not a historical repin.
+
+At initial assignment, a seven-file Full-copy proposal and its 139-test independent review are prepared in isolation but not integrated. Those future source results must retain their exact identities/scopes in a later source milestone, not be credited as an implementation or real AAC qualification in this popup diagnostic. Closing this evidence session should not wait for future Full-copy work.
+
+Final owning records are [Native Popup Diagnostic execution](2026-11-17_Native_Popup_Diagnostic.md), [structured receipts](2026-11-17_Native_Popup_Diagnostic_Receipts.json), [portable reports](evidence-2026-11-17/native-popup-diagnostic-portable.json) and [Current](CURRENT_STATE.md). At the 21:16:41.836511 UTC record cutoff, Current is 6,916 bytes/SHA `24b87c2c65ab11f0de884f794f5c9c25bdb15d1393ae4d50272b233d1249cae7`; execution 10,769 bytes/SHA `ee8e0b46151ce5b4ac0d05b524c01f1001436af24489aae1f404643381ca51c0`; receipts 11,629 bytes/SHA `e4238051fd194e9743212374d29ab297c03cf0e8394b1837b089701b8b0c35c0`. The lead saved those records and explicitly released only Session to this editor.
+
+The six-report portable archive is 38,146 bytes/SHA `88aeb6f5164cbd69128fcf664c2b5d352acee9b49cffd7b2e5c342e1f1457635`. It retains each attempt's outcome, independent saved audit and lead reconciliation. Exactly eighteen known-root string replacements are reviewed: project six, support twelve; all other keys/types/values remain equal. There is no private inverse mapping, runtime factory/admission authority, raw media/log/profile payload or source-restorable standalone screenshot. Original hashes bind the exact local originals, not a claim portable formatting is the raw original bytes.
+
+The coherent 021 scope is five evidence/PBS paths: Current, Session and three new execution/receipts/portable files, expected 559 files and twenty-one commits. No application/test source changes or new target output belong to it. 021 commit/Notion/GitHub are not yet performed at this cutoff; later actual preservation receipts own their identities. The full 885,468-byte predecessor Session and correction receipt remain exact, preserving the first-attempt false-release and dated no-retry boundaries rather than rewriting them after the second attempt.
+
+The actual new checkpoint must preserve exact prior Session/correction history and only the lead-approved source/PBS/evidence scope. Local commit, independently restored Notion source/full-history/unabridged readable records and verified intended remote delta remain distinct stages. Do not claim backup until its actual verification, or publish raw profile/cache/token state, private mappings, media or executable authority in a portable record.
+
+## 🧠 Key Insights
+
+### Persistent history is not a live prepared operation
+
+A reopened profile may retain history and settings, but a new service has no live plan/items. The exact per-file popup cannot be reached by wishing old authority back into existence. Explicitly allowing one inspection-only Prepare is more truthful and safer than hidden state injection or substituting a different Settings control.
+
+### Known state can be reused without being cleared or privately inspected
+
+The diagnostic can reconcile the permitted old artifacts and let the normal app use its existing state, while excluding raw profile/cache/token stores. This preserves history and avoids a destructive clean-state shortcut. Post-close equality only proves the endpoints checked, not that nothing transient changed.
+
+### A prospective command correction is not an execution failure
+
+The new authorizer hardcodes 020 and has no positional arguments. Catching an inherited SHA argument before submission avoids an avoidable run failure. Record the exact coordination mistake without inventing an executed error, retry or new source patch.
+
+### No target encode does not mean no media execution
+
+Capability discovery and inspection invoke actual media tools. Honest census/resource/diagnostic claims should name those operations rather than label the diagnostic as pure UI or zero-runtime. Absence of Apply/Start must be checked against observed actions and fresh records, not inferred from a supervisor exit alone.
+
+### A successful stop can leave the diagnostic question unanswered
+
+The row was skipped because its output already existed, so the operator correctly stopped before opening the intended control. That preserves the output and respects scope, but does not answer whether the popup still corrupts. Process exit 0 and protected collision behavior must not be converted into a visual-test pass.
+
+### Reusing state and preserving output can conflict with a reproduction prerequisite
+
+Known-state reuse was deliberate and safe, but Attempt A’s unchanged destination already contained the same planned output name. Separately reviewed Attempt B created a new empty owned destination instead of deleting or mutating the valid old output. Transport interruption then prevented registration and preparation, so that revised setup still supplied no popup observation.
+
+## 📌 Decisions Made
+
+1. **Confirmed: use preserved 020 and exact existing runtime/source assets.** All source/full-history/native-readable/remote predecessor gates are completed; no speculative source, style or security change is introduced for reproduction.
+2. **Confirmed: reproduce the exact dynamic per-file control, not mislabel a Settings comparison.** Lead prospectively expands to one inspection-only Prepare so the live draft/editor exists, retaining no-value/Apply/Start/target-work limits.
+3. **Confirmed: reuse known 019 state with explicit old-artifact reconciliation.** No profile clearing/replacement/manual private-state read or history erasure. Fresh session and new paths must be separated from the old 42 artifacts.
+4. **Confirmed: invoke the actual fixed authorizer without a SHA argument.** The worker caught the obsolete convention before any execution; helper/source remain unchanged.
+5. **Bounded: one launch per separately reviewed grant, only if all current authorizer and operator checks pass.** Ordinary Python, fresh desktop, unchanged ownership, exact inputs and no automatic retry remain required; review alone is not execution permission.
+6. **Confirmed: stop both attempts on their actual boundaries, preserve both and end this native diagnostic milestone.** Attempt A protected an existing output; the separately reviewed Attempt B stopped after transport-ambiguous picker recovery. Neither opened a popup. First reconciliation kept the source freeze; final reconciliation released it only after both audits. No third launch, visual fix or general acceptance is inferred.
+7. **Separate/deferred: Full-copy source integration, live AAC qualification, broader visual/native/product acceptance.** The isolated proposal/review does not change this tested source or authorize media/default activation.
+
+## ⚠️ Difficulties / Friction
+
+The initially proposed no-Prepare diagnostic could not reach the exact control that had failed. Settings provided a different select/context, and reopening persistent state did not recreate the prior prepared item. The lead resolved the genuine scope dependency prospectively rather than letting the operator inject state or silently expand actions.
+
+Known-state reuse raises a different gate than the previous pristine launch. Old diagnostics/evidence/provenance and the prior output must survive byte-identically at the checked endpoints; raw profile stores are deliberately excluded. Automatic retention or unexpected defaults could block the diagnostic and must not be repaired behind the record.
+
+The copied positional SHA command convention did not match the new fixed authorizer. The worker stopped before submission, allowing the lead to correct the instruction without a failed runtime/media attempt or source modification.
+
+The helper's resource/capture limits remain narrow: a normally empty helper input/output tally does not cap reused state/output/logs, top-level logs do not prove all-child stderr, and gate booleans do not create truthful desktop observations. These limits matter even for a no-target-encode diagnostic.
+
+The diagnostic encountered a real setup conflict: the deliberately reused output folder already contained the prior publication. Fresh preparation therefore skipped the item as “Output already exists” rather than producing the required unsupported editable inspection row. The operator stopped as instructed without opening a popup or altering the preserved output. This is an inconclusive visual diagnostic, not a clean popup comparison or failed encoding attempt. Independent audit subsequently reconciled the actual fresh session, old artifacts and reported absence of target work within its capture limits.
+
+## 🔧 Adjustments Made
+
+### 1. Expand the exact reproduction scope before running it
+
+- Shifted from: No-Prepare Settings comparison, which cannot access the prior dynamic per-file popup.
+- To: One explicitly permitted inspection-only Prepare and exact per-file Resolution/Audio open+Escape, without value changes or Apply/Start.
+- Because: Fresh service state has no prepared draft; a different Settings select would not answer the same diagnostic question.
+- Consequence: Actual capability/inspection media children are disclosed, while target encoding and private state injection remain prohibited.
+
+### 2. Replace pristine-state assumptions with known-state reconciliation
+
+- Shifted from: The earlier native resize proof's absent-profile/first-attempt gate.
+- To: Deliberate normal reuse of known 019 fixed state, pinned old closure/outcome, exact 42 allowed files and unchanged old output/input.
+- Because: The existing main fixes its state path and history must be preserved, not cleared to make a new gate pass.
+- Consequence: Post-close old-artifact equality/new-path inventory become necessary; no claim of transient-write immunity or private profile inspection is added.
+
+### 3. Correct the prospective authorizer invocation before any command ran
+
+- Shifted from: A lead-supplied positional 020 SHA copied from the earlier convention.
+- To: The exact reviewed no-argument authorizer chained to its fixed helper with ordinary Python.
+- Because: The new authorizer already fixes 020 and requires no extra arguments; the worker read the contract before acting.
+- Consequence: No failed gate, native launch, encode or retry resulted from the mistaken prospective instruction; no code change was needed.
+
+### 4. Stop the actual diagnostic when protected collision replaces the required inspection state
+
+- Shifted from: Intended unsupported inspection-only row followed by two unchanged popup observations.
+- To: Immediate stop after one Prepare showed Skipped/no selected work; normal close without popup opens or target actions.
+- Because: The required state was not obtained, and fresh diagnostics explicitly say the old output already exists.
+- Consequence: The old output is preserved with no retry under Attempt A’s gate. Separately reviewed Attempt B used a new empty destination under its own grant, then stopped before Prepare; the original popup question remains unresolved.
+
+## ❌ Mistakes / Risks Noted
+
+### 1. An inexact control comparison could be misreported as defect reproduction
+
+- What happened or could happen: A no-Prepare Settings select could be tested instead of the dynamic per-file control that was visibly corrupted.
+- Actual impact: The preparation plan identified the mismatch before execution and retained the scope-blocker version.
+- Potential impact: A clear Settings popup could falsely clear the per-file defect, or a different failure could be misattributed to the original path.
+- Correction / current status: Lead explicitly allowed one inspection-only Prepare to reach the exact control, without hidden authority restoration or later target work.
+- Failure Intelligence: Match the actual control/context under investigation; do not substitute a convenient surface without changing the claim.
+
+### 2. Persistent profile/history could be mistaken for resumed live authority
+
+- What happened or could happen: Reopening the known state could be assumed to restore the prior prepared plan and its runtime tokens.
+- Actual impact: The new service starts without live items/plan, so one explicit inspection is needed; old artifacts are preserved rather than used as active grants.
+- Potential impact: Hidden plan injection or raw state editing would bypass normal admission and invalidate the reproduction.
+- Correction / current status: Normal app state reuse only, no manual profile/plan edits or private store reads. Reconcile old allowed artifacts/input/output and require actual unsupported initial request.
+- Failure Intelligence: Treat saved history as evidence, not live process-private authority.
+
+### 3. Copying an old invocation convention into a new fixed authorizer
+
+- What happened or could happen: Lead initially included a SHA positional argument although this authorizer accepts none and hardcodes the actual 020 source.
+- Actual impact: The worker caught the mismatch before executing the command; no gate/attempt/media failure occurred.
+- Potential impact: Unchecked copying could create avoidable failed/partial administrative artifacts and tempt a silent retry or helper edit.
+- Correction / current status: Exact no-argument ordinary-Python chain confirmed before submission; the original mistaken instruction is classified as preparation only.
+- Failure Intelligence: Read the actual current command contract rather than assuming a similarly named predecessor has the same interface.
+
+### 4. Endpoint old-artifact equality could be overstated as continuous immutability
+
+- What happened or could happen: Pre/post hashes of old allowed files could be described as proof the application never wrote transiently or exercised retention.
+- Actual impact: Attempt A preserved all 42 prior allowed files and added nine diagnostics; Attempt B preserved those 51 and added six. All 57 current/retained artifacts and the old input/output were reconciled at the final endpoint. Private profile stores were not read or byte-compared.
+- Potential impact: A temporal or excluded-state change could be hidden by an overbroad preservation claim.
+- Correction / current status: Report exact endpoint equality and separately excluded profile/cache/log scope; any actual mismatch fails and is not repaired to pass.
+- Failure Intelligence: Preserve raw observed endpoints and ownership rules without claiming stronger atomic/continuous guarantees than implemented.
+
+### 5. No target encode could be confused with no runtime work or complete diagnostic capture
+
+- What happened or could happen: An inspection-only UI flow may still perform capability probes/short media and file inspection.
+- Actual impact: Attempt A closed 29 owned tools after startup/one Prepare; Attempt B closed 28 startup tools without Prepare. Fresh event/path deltas corroborate no target Start or new operation/provenance, but no exhaustive argv/all-child stderr audit exists. Top-level D-Bus/SSL errors remain.
+- Potential impact: Incorrect zero-runtime, child-cap or clean-stderr claims could hide real resource/diagnostic behavior.
+- Correction / current status: Reconcile actual startup/inspection children, logs, fresh diagnostic reasons and absence of target job/provenance separately. No extra decode is added by the saved audit.
+- Failure Intelligence: Use actual operation scope and capture completeness, not the shorthand “no encode,” to describe what happened.
+
+### 6. Preserving the old output in the chosen destination blocked the planned editor state
+
+- What happened or could happen: The initial exact-control setup reused a directory containing the same intended output name.
+- Actual impact: One Prepare skipped the item with direct saved “Output already exists” evidence, so the required unsupported editor state and popup observations were not reached. This was a planning oversight, not a broken protection guard.
+- Potential impact: Treating the stop as a visual pass or deleting the protected output to proceed could corrupt evidence and conceal an unmet objective.
+- Correction / current status: The first attempt was retained/audited; a separately reviewed empty-output follow-up preserved the old file and all 51 artifacts. Neither result is erased or silently retried, and the later follow-up still did not reach a popup.
+- Failure Intelligence: Check diagnostic setup against destination protection before granting a run; preserve valid outputs and distinguish successful safety behavior from diagnostic success.
+
+### 7. A disconnected Return call had unknown delivery
+
+- What happened or could happen: Attempt B's Return-plus-screenshot call failed during environment transport recovery after a parent path/autocomplete was visible.
+- Actual impact: Input delivery and destination registration were unknown. After reconnection the same picker was still open; the operator cancelled it, saw the old destination and normally closed the same app without Prepare or popup actions.
+- Potential impact: Repeating Return or launching again without reconciling current state could duplicate actions, select an unintended destination or hide transient input.
+- Correction / current status: Unknown delivery remains unknown. Fresh recovered state guided safe closure; no automatic retry or claim that Return definitely failed to arrive. Old destination display is not a whole-profile byte audit.
+- Failure Intelligence: Preserve ambiguous-action status until observed; a later safe state does not retroactively prove exact delivery or continuous inactivity.
+
+### 8. Environment recovery invalidated an audit helper assumption
+
+- What happened or could happen: The second audit's initial orchestration expected a temporary script that was unavailable after recovery.
+- Actual impact: That setup failed before checks or audit output creation; no partial success was accepted.
+- Potential impact: Assuming the prior script/result existed could omit independent source/evidence verification or misstate completion.
+- Correction / current status: The independent replacement rechecked all facts afresh and saved the final audit. Lead separately restored access/reconciled identities and used normal reviewed write permission for its own records.
+- Failure Intelligence: Verify recovery artifacts and actual tool permission/state before resuming; retain setup failure separately from app/media behavior and never claim bypass or preservation without checking.
+
+### 9. Two safe closures could be mistaken for two visual tests
+
+- What happened or could happen: Exit 0 and balanced child counts might be summarized as successful popup investigations.
+- Actual impact: Neither Resolution nor Audio popup opened in either attempt. The first stopped on collision; the second before preparation after picker transport ambiguity.
+- Potential impact: The original unresolved overpainting could be falsely marked reproduced, fixed, absent or caused by transport.
+- Correction / current status: Functional prior resize proof remains, but this milestone provides no new popup finding or rendering fix. Further native attempts are deferred until a concrete useful plan exists.
+- Failure Intelligence: Report objective attainment separately from safe stop/closure and evidence preservation.
+
+## 📍 Current Position
+
+**As of:** Final owning receipts dated 21:16:41.836511 UTC, after both stopped attempts, independent audits and final source/document reconciliation at 21:14:11.869691 UTC. 021 publication remains pending; isolated Full-copy source/harness are not integrated here.
+
+**Before this session:** One exact native resize workflow had passed within count/PCM/publication/reveal/closure limits, with unresolved open Resolution popup corruption. Evidence-only 020 and its full history/readable records/remote delta were preserved. A precise popup reproduction needed a real per-file draft and known-state reconciliation.
+
+**After this session:** Two separately reviewed native inspections safely stopped and closed on unchanged source 020. Attempt A made one Prepare and confirmed protected output collision; Attempt B opened one output picker, lost transport with unknown Return delivery, then cancelled/closed after recovery without Prepare. Neither popup opened. All 556 source files, exact runtime/input/old output and 57 allowed artifacts reconcile; no production/test source or target media changed. The original popup defect is still unresolved.
+
+**Current standing:** Safe stopped diagnostic outcomes and artifact preservation established, no visual reproduction or fix. Earlier native range-resize functional evidence remains unchanged with its original qualification limits. No third native attempt or actual AAC campaign is granted. The next engineering lane is separately reviewed closed-factory Full-copy source integration after 021 preservation, not a product/default/capsule activation.
+
+**Live owner / continuation anchor:** Lead owns exact native source/state freeze, later reconciliation and checkpoint; operator owns only the bounded visible diagnostic; independent reviewer/auditor owns exact preparation/saved evidence checks; mirror owns preservation. Documentation owns only the now explicitly released Session prepend. Re-enter through [Current](CURRENT_STATE.md), [execution](2026-11-17_Native_Popup_Diagnostic.md), [receipts](2026-11-17_Native_Popup_Diagnostic_Receipts.json) and final actual source/audit identities, not an obsolete planned command or inferred visual result.
+
+## 🔜 Next Steps
+
+1. **First precise re-entry: close and preserve the five-path evidence-only 021 checkpoint.** Responsible: lead, documentation and mirror. Verify final owning hashes, exact full predecessor Session suffix, both outcomes/audits/reconciliations and portable substitutions. Expected 559 files/twenty-one commits. Do not rerun native work or integrate successor code before this milestone is preserved.
+2. Preserve exact prior Session and the agreed coherent outcome records through Git, independently restored Notion source/full history/unabridged readable content and verified intended remote contents/parent/tree/ref. No local-only or uploaded-but-unrestored backup claim.
+3. **Then integrate the independently reviewed seven-file Full-copy foundation and two-file calibration harness under separate source ownership.** Responsible: lead/source worker/reviewer after verified preservation. Recheck exact final proposal bytes, diagnostic timeout correction and final source tests, retaining known failures and producer-closure refusals. No live AAC/media/factory/UI/default activation follows from isolated 139/69 source checks or this diagnostic record.
+4. **Defer another popup attempt until it has a concrete useful diagnostic plan.** Responsible: lead; any future operator task needs new exact scope/review/fresh desktop gate. Do not launch repeatedly merely to escape uncertainty or make a visual finding appear.
+5. Preserve existing defaults/ArchiveCQ29, Windows corrections, original theme, non-HDR order and benchmark pause. 1440p/4K remain within 0.7, while actual Remux/seek qualification remains a separate unfinished lane. General visual acceptance, other geometry/audio, native performance, owner release, HDR expansion and packaging remain separately scoped.
+
+**Do not reopen / repeat:** Do not clear or reprofile existing state, silently retry an exclusive attempt, call hidden IPC, change values/Apply/Start during this inspection-only task, add target media or player actions, alter rendering/security flags to force a result, or rewrite prior Session/correction evidence. Do not report a different control as the same reproduction or gate delegation as actual execution.
+
+**Continuation boundary:** Both attempts are closed and reconciled; source/documents are released but no new native grant exists. This entry ends before verified 021 commit/Notion/GitHub. Successor source integration and any actual future AAC/native proof require their own identities/tests/reviews and dated records. Keep both stopped attempts, transport uncertainty and the original unresolved visual defect intact.
+
+## ❓ Open Questions
+
+### What useful next diagnostic could reach the exact popup without repeating these setup failures?
+
+- Known: Attempt A stopped before the editor on existing-output protection; Attempt B stopped before Prepare after output-picker transport loss. Neither supplies a new popup observation, and all old output/evidence is preserved.
+- Needed from: A concrete proportionate future plan addressing setup and current desktop capability, independently reviewed and explicitly scoped if it is worth another native run.
+- Blocks: Fresh reproduction/visual acceptance claims, not this evidence checkpoint or separate source development. No third attempt is automatically approved.
+
+### What would justify a causal explanation or source/rendering change?
+
+- Known: No concrete 019 code cause was found; unchanged HTML/CSS/editor is context, not proof of environment origin. A single repeat can narrow observations but cannot by itself identify a compositor/driver/regression cause.
+- Needed from: Actual bounded diagnostic evidence and proportionate review before any separately scoped corrective change.
+- Blocks: Root-cause/fixed/clean visual QA claims, not preservation of a faithfully recorded diagnostic outcome.
+
+### Will actual copied-AAC media satisfy the strict future priming/padding and extent contract?
+
+- Known: The Full-copy foundation/harness remain isolated source work; final synthetic/injected checks do not establish genuine AAC qualification. Existing range/FLAC evidence is not a substitute.
+- Needed from: Separate reviewed source integration/tests and later exact bounded media evidence if authorized, preserving any early source-extent failure without tolerance fitting or old-report repin.
+- Blocks: New live Full-copy capsule/service/native claims, not preservation of the two stopped popup attempts.
+
+## 🧾 Session Outcome
+
+Both separately reviewed popup attempts stopped safely and were independently audited, with all source/runtime/media and allowed evidence preserved. The first exposed the setup oversight of an existing protected output; the second ended after a transport-interrupted picker with unknown Return delivery and deliberate Cancel/normal close. There was no popup open, no new target output, no source fix, no fresh unit-test result and no visual-clean conclusion.
+
+The final reconciliation releases documentation/source work but not another native launch or actual AAC qualification. Preserve this single related evidence milestone, then continue independently reviewed Full-copy source integration rather than wait for or manufacture a popup result.
+
+The complete prior 885,468-byte Session remains an exact suffix. Actual new checkpoint publication must be verified separately after commit, without backdating preservation or integrating a future source proposal into the native-tested identity.
+
+## 🔍 Confidence Level
+
+**High for the preserved predecessor and preparation boundaries.** Exact source/full-history/native-readable/remote verification, scope-blocker/final plan, static review and no-argument command correction are documented without inventing execution.
+
+**Bounded for the gate/state model.** Exact old allowed-artifact/current-source checks and explicit ordinary-Python/fresh-desktop conditions constrain the intended run. They are not atomic hostile-concurrent-mutation protection, continuous state immutability or independent desktop truth merely because booleans are true.
+
+**High for the narrow stopped outcomes and checked preservation.** Both outcomes, actual outer receipts, fresh event sets, exact old/new allowed artifacts and independent source/pin/media checks agree. Attempt A's direct untruncated collision message/final item is corroborated despite one truncated context; Attempt B's six startup/recovery/shutdown events and empty new output support its stopped pre-Prepare boundary.
+
+**Bounded for UI delivery/history.** Operator screenshots are CUA-only, not independent image replay. The disconnected Return's delivery remains unknown; recovered Cancel and old displayed destination do not prove no transient input or whole-profile byte equality. Owned tool counts are not OS-wide process or complete argv/stderr proof.
+
+**No new confidence about the popup itself.** Neither attempt reached either popup. The original visual defect and its unknown cause remain exactly as before; transport interruption cannot be treated as its root cause or a rendering fix.
+
+**Not established for general visual cause or a permanent fix.** Reproduction and comparison observations need their own exact evidence; a one-off clear or corrupt popup is not broad native/product acceptance.
+
+**Why:** Confidence is separated across source preservation, exact control/scope, actual submitted actions, old/new artifact identities and independent audit rather than collapsed into a green process exit.
+
+**Not higher because:** CUA-only screenshots, excluded profile stores, incomplete per-child diagnostics and no independent repeated visual experiment can limit a finite diagnostic. General root cause, other environments and owner release acceptance remain separate.
+
+---
+
 # 📘 Session: November 17, 2026 — FFmpeg Encoder — Verify one native resize publication and reveal while retaining the popup defect and evidence limits
 
 ## 🤖 Models, Effort, Roles and Provenance

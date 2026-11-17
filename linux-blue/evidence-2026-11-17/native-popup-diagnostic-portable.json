@@ -1,0 +1,713 @@
+{
+  "schema": "ffmpeg-native-popup-diagnostic-portable-v1",
+  "purpose": "Archive two stopped native diagnostic attempts and saved audits/reconciliations. Neither attempt reached either popup. Exact structured data except declared root-prefix string replacements; not runtime authority.",
+  "testedCommit": "89c57821100a1859de522df33cb7e93d4b03fc7e",
+  "originals": [
+    {
+      "role": "first_outcome",
+      "file": "native-resize-popup-diagnostic-preparation-20261117/JOURNEY_OUTCOME.json",
+      "bytes": 5527,
+      "sha256": "927991ca16404b4e9dc94e394b493a326786c2adf0d62af346f9dca3e8225184"
+    },
+    {
+      "role": "first_audit",
+      "file": "native-resize-popup-diagnostic-preparation-20261117/INDEPENDENT_SAVED_AUDIT.json",
+      "bytes": 9402,
+      "sha256": "660daec5719969e9de763fe67682605cccccdeeb66bb60e40ef8c3f1ae3a3167"
+    },
+    {
+      "role": "first_release",
+      "file": "native-resize-popup-diagnostic-preparation-20261117/LEAD_RELEASE.json",
+      "bytes": 1615,
+      "sha256": "337cc8c31af0faf70afaaa7538bf2a98be7f847fdcbdac0d28fd6b53af53e801"
+    },
+    {
+      "role": "second_outcome",
+      "file": "native-resize-popup-empty-output-preparation-20261117/JOURNEY_OUTCOME.json",
+      "bytes": 4648,
+      "sha256": "52fcdfff658de9531d080b93d0819f802df4fcb77fed344e86bf4cbda1348a5c"
+    },
+    {
+      "role": "second_audit",
+      "file": "native-resize-popup-empty-output-preparation-20261117/INDEPENDENT_SAVED_AUDIT.json",
+      "bytes": 9985,
+      "sha256": "42c2b2c79d507954291d120d48bbd162cd1ec4c6621dd07a548baa6d62b4031d"
+    },
+    {
+      "role": "second_release",
+      "file": "native-resize-popup-empty-output-preparation-20261117/LEAD_RELEASE.json",
+      "bytes": 1827,
+      "sha256": "b983f6ba4c8dcfaa48743ae48f230b679d925b52db1c5cbb016c076af1a896a8"
+    }
+  ],
+  "transform": {
+    "kind": "Known absolute root prefix-only replacements in string values; all other keys/types/values unchanged.",
+    "count": 18,
+    "byAlias": {
+      "project://": 6,
+      "support://": 12
+    },
+    "inverseMappingIncluded": false,
+    "originalRawReportsRestorable": false
+  },
+  "authority": {
+    "runtimeAdmission": false,
+    "factoryReceiptSubstitute": false,
+    "nativeGeneralQualification": false,
+    "productionActivation": false,
+    "visualCleanAcceptance": false,
+    "popupReproduced": false
+  },
+  "limits": [
+    "First attempt: one Prepare, existing-output skip, no popup opened. Second: output-picker transport interruption with unknown Return delivery, recovered Cancel and normal close, no Prepare or popup.",
+    "29 and 28 owned media-tool children closed separately; no target Start reported, not zero capability media activity or exhaustive child argv/stderr verification.",
+    "One first-attempt FILE_INSPECTED context truncated; message and untruncated PREPARATION_FINISHED corroborate skip. Second six saved events are startup/capability/recovery/shutdown only.",
+    "Existing 42 artifacts then 51 artifacts unchanged; total57 now retained. New output empty at closure, not continuous write monitoring. Original input and prior published output unchanged.",
+    "Top-level D-Bus/SSL diagnostics retained; CUA-only screenshots and unknown transient input remain limitations. Numeric event epochs align with each outer interval.",
+    "Raw runtime/media/logs, approvals, profile/cache/preferences/token stores and private inverse mappings are excluded; this archive cannot restore those inputs or prove visual acceptance."
+  ],
+  "reports": {
+    "first_outcome": {
+      "status": "stopped-before-popup-observation-unexpected-skipped-item",
+      "sourceCommit": "89c57821100a1859de522df33cb7e93d4b03fc7e",
+      "checkedAtUtc": "2026-11-17T21:00:29.846207+00:00",
+      "gateSha256": "355fc743c7c4ae8dae09a77f1d0fc644eb4a06862cfa5591d34e82f66e4011e7",
+      "outer": {
+        "exitCode": 0,
+        "abortRequested": false,
+        "failure": null,
+        "postCloseIdentitiesVerified": true,
+        "startedUTC": "2026-11-17T20:58:24.809179+00:00",
+        "endedUTC": "2026-11-17T20:59:41.083556+00:00",
+        "monotonicElapsedSeconds": 76.27440289800143,
+        "stdoutSha256": "ae008c3b4d4022975ad17f26809ad9e8bdbf81bdce955b98d6e06203f0f884b6",
+        "stderrSha256": "d91555fb83417e2dec6657594438b38ecf4c01d8cda5dd8b113f6ca8ae6f300c",
+        "qualification": "Process closure receipt only; UI and publication outcome require observed evidence and independent saved audit."
+      },
+      "outerSha256": "da6008822d198c6c69f4e410dcf2fda22532009875e676cd98472d794da3d4d0",
+      "census": {
+        "spawned": 29,
+        "closed": 29,
+        "live": 0,
+        "maximum": 1,
+        "failures": 0
+      },
+      "observations": [
+        "Fresh actual desktop printf returned POPUP_PREFLIGHT_DISPLAY=:0.",
+        "Initial supplied positional SHA corrected before command execution; authorizer takes no argument.",
+        "Global-key command entry timed out and reset CUA kernel before Return. Fresh screenshot showed exact unexecuted prefix ending native-resize-popup-diagnostic-. Only missing suffix was typed, full chain screenshot-verified, then one Return. No duplicate command or launch.",
+        "App Ready with original experimental resize/security/runtime disclosures and already registered exact owned input/output folders; no picker used.",
+        "One Prepare clicked. Final sole item Skipped, zero selected, checkbox and Start disabled. Text: Nothing to encode in this batch.",
+        "Required Unsupported state was not reached, so stopped without opening either popup or changing defaults.",
+        "Normal window close; terminal confirmed exit0, no abort/failure and post-close identities verified."
+      ],
+      "diagnosisFromSavedEvidence": {
+        "event": "FILE_INSPECTED",
+        "reason": "Output already exists.",
+        "preparationFinished": {
+          "skipped": 1,
+          "success": 0,
+          "failed": 0,
+          "cancelled": 0,
+          "unprocessed": 0
+        },
+        "newSessionId": "867662ed-830d-49c7-82b7-4f964cc80731"
+      },
+      "actions": {
+        "launches": 1,
+        "prepare": 1,
+        "pickers": 0,
+        "resolutionPopup": 0,
+        "audioPopup": 0,
+        "apply": 0,
+        "start": 0,
+        "reveal": 0,
+        "player": 0,
+        "retry": 0
+      },
+      "integrity": {
+        "trackedSourceFilesRehashed": 556,
+        "priorAllowedFilesUnchanged": 42,
+        "newAllowedFiles": 9,
+        "retainedNewFiles": {
+          "diagnostics-v1/events/46c00fb7-c2d4-4cec-b329-74fa95848c03.json": {
+            "bytes": 464,
+            "sha256": "73ca59505f5cc141a92317eac164e1f640bb6f6653a994379a6ba55043428088"
+          },
+          "diagnostics-v1/events/287ea9be-ea76-4b06-b67d-4413f1849d0d.json": {
+            "bytes": 11843,
+            "sha256": "b6f4c9f507c5a94565a414b38b53db092c246fd52a275d47a456e7a6327978d7"
+          },
+          "diagnostics-v1/events/3f0afde9-de0b-4e49-b86c-613fbcefac08.json": {
+            "bytes": 388,
+            "sha256": "1afafa27ae94ca6fb16c6b691183f7ddeb012e85c8a6e5db617940accc29c00b"
+          },
+          "diagnostics-v1/events/241ce598-1907-4c34-9992-a27badc4a8bb.json": {
+            "bytes": 816,
+            "sha256": "51eaf2dc1d911f254d93bfa550e9b6bea88ec1c4adf2c0f8a52df8fbb2e7245b"
+          },
+          "diagnostics-v1/events/285e7dda-97d0-4268-b1cb-c51b3af62938.json": {
+            "bytes": 816,
+            "sha256": "980ff030d5075feb6166fbec64915c37dea66e65b0d5207b1280c6951bd46f59"
+          },
+          "diagnostics-v1/events/07d7a3e5-dcfc-4937-a9a0-1c5189387f96.json": {
+            "bytes": 360,
+            "sha256": "745c4319d105d4a577fddb7075ebb23dd591cf10effdd3a4c55a67953d896f7b"
+          },
+          "diagnostics-v1/events/3a10892a-3940-4918-8e7e-51faafc56141.json": {
+            "bytes": 715,
+            "sha256": "06e095a1aa042ab17d03047e0daf90c5c020f24a7a8f98329e7a123c4f4de2aa"
+          },
+          "diagnostics-v1/events/319177f0-ce86-494b-9e7d-967db07b2736.json": {
+            "bytes": 533,
+            "sha256": "1e712a5e3bcff66a503c7a4cd3a3e32fc851d3c9161e8044f1283c509d786675"
+          },
+          "diagnostics-v1/events/f2603440-390d-4d29-a302-53e0248a8fad.json": {
+            "bytes": 480,
+            "sha256": "020b8fa24296e50d7af3ecfb3f5c6a16ec8bf65a4b140dcbc1b12f6da17b5edc"
+          }
+        },
+        "runtimeAndInputOutputPostchecks": "Reviewed helper succeeded; no source/profile/cache edits or reads",
+        "postCloseFreeBytes": 59068076032,
+        "prePrepareFreeBytes": 59092852736
+      },
+      "limitations": [
+        "Popup issue neither reproduced nor disproved; exact editor controls never opened.",
+        "29 media-tool children include startup capability/inspection work; no target encode UI action or new operation-evidence/provenance artifacts. This is not zero-media execution.",
+        "No numeric progress/per-child stderr-completeness assertion. App stderr retains D-Bus missing socket and SSL handshake net_error -202 diagnostics.",
+        "Screenshots remain CUA transcript only, no standalone screenshot files.",
+        "Native Electron timestamp text uses separate clock display from awareUTC outer receipt; no clock changes.",
+        "Point storage checks are not hard caps; normal closure observed, no forced termination.",
+        "Future attempt would require separately reviewed plan that resolves existing-output collision while preserving prior output; no retry authorized or performed."
+      ]
+    },
+    "first_audit": {
+      "disposition": "Saved evidence supports safe stopped attempt due to existing-output skip; popup diagnostic objective not reached. No integrity blocker found.",
+      "checkedAtUtc": "2026-11-17T21:01:56.341379+00:00",
+      "identities": {
+        "JOURNEY_OUTCOME.json": "927991ca16404b4e9dc94e394b493a326786c2adf0d62af346f9dca3e8225184",
+        "OUTER_COMPLETION.json": "da6008822d198c6c69f4e410dcf2fda22532009875e676cd98472d794da3d4d0",
+        "APPROVED_JOURNEY_A.json": "355fc743c7c4ae8dae09a77f1d0fc644eb4a06862cfa5591d34e82f66e4011e7",
+        "DESKTOP_PREFLIGHT.json": "ba10364ab345fc9a016fec0cbad391fe1ce9f272c1dfe46be542ffb26c6d26c1",
+        "ATTEMPT_STARTED.json": "bef03359a66d8694e03266aabbe29244304193cac3d4d14f80afb2f0b467a728",
+        "APP_PID.json": "261b697c0d4851aee76d3764eda81546f26eb3ea9f9d92364b43d484633a8c80",
+        "PRIOR_ALLOWED_ARTIFACTS.json": "a948793f773a933c9225406397d688a69d467e11d48f00d12ff8dec3fb0eb1ed",
+        "NEW_ALLOWED_ARTIFACTS.json": "7ec5fc45c77c49d37d5a9122cb5a434a951ac04dd0a50d4b04d12885155e0b49",
+        "app.stdout.log": "ae008c3b4d4022975ad17f26809ad9e8bdbf81bdce955b98d6e06203f0f884b6",
+        "app.stderr.log": "d91555fb83417e2dec6657594438b38ecf4c01d8cda5dd8b113f6ca8ae6f300c",
+        "launch-popup-inspection.py": "5dc73947a9cdba740cb3caac34634613cfd377aeb093b980b23a0c523b18d073",
+        "PLAN.md": "b5079ef392455727ebd51e9ea77a7f72d0784fede4338d69a57a6b7cc9e9f3e5",
+        "NATIVE_PLAN.json": "e08131cc1a433fa47db11f8195ce1a3a8625cdc4e517af924e4bde9313d3b423",
+        "INDEPENDENT_PREPARED_REVIEW.json": "6b01406d398d63f61174aa13ed7db8a429e015725ec53695c17d0b6f89f6580c",
+        "INDEPENDENT_AUTHORIZER_REVIEW.json": "7107d3bd0bbc94101ae266b501c97a907a32ce2330e06e2ddd4a64349973055f"
+      },
+      "source": {
+        "commit": "89c57821100a1859de522df33cb7e93d4b03fc7e",
+        "tree": "bf4e9940a81aa340d4e6b42dced29dc0f4e6f095",
+        "filesComparedGitCurrentNotionGate": 556,
+        "commits": 20,
+        "notionReceiptSha256": "2e40b205ee6ef6a7bfe9d1ace52a8b13358a12b98371ba8daba239edcf4e4557",
+        "sourceAndBundleRestoreVerified": true
+      },
+      "freshness": {
+        "preflightAgeAtGateSeconds": 85.868474,
+        "preflightAgeAtLaunchSeconds": 87.58571
+      },
+      "preservation": {
+        "priorFilesComparedCurrentOutcomeRetained": 42,
+        "newFilesComparedCurrentInventoryRetained": 9,
+        "newOperationEvidenceOrProvenance": false,
+        "pinsAndMedia": [
+          {
+            "path": "project://linux-blue/artifacts/candidate-runtime-1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9/ffmpeg",
+            "size": 46175848,
+            "sha256": "ae5b2e8b48ad0e9b51b89ebab000ebcfc0b76a09b8cb80c88e18fddcc5d9e8ba",
+            "originalBuildPath": "support://runtime-candidate-build-20261117/build/ffmpeg"
+          },
+          {
+            "path": "project://linux-blue/artifacts/candidate-runtime-1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9/ffprobe",
+            "size": 45962728,
+            "sha256": "923dab8640da8804c445418b6e2efe4b395665bdb9d4cfc84f6a244ed0fb156b",
+            "originalBuildPath": "support://runtime-candidate-build-20261117/build/ffprobe"
+          },
+          {
+            "path": "/usr/lib/x86_64-linux-gnu/libm.so.6",
+            "sonamePath": "/lib/x86_64-linux-gnu/libm.so.6",
+            "size": 977112,
+            "sha256": "6d567d53e895273ca14a1f9dc164fc6c8d39aed2f60aa46a733c2784228915f3"
+          },
+          {
+            "path": "/usr/lib/x86_64-linux-gnu/libdav1d.so.7.0.0",
+            "sonamePath": "/lib/x86_64-linux-gnu/libdav1d.so.7",
+            "size": 1746880,
+            "sha256": "1d7a4182344230d5f4cf9f58bf4485da2801c411e9c9fd6d8471460c75ae8fbf"
+          },
+          {
+            "path": "/usr/lib/x86_64-linux-gnu/libSvtAv1Enc.so.2.3.0",
+            "sonamePath": "/lib/x86_64-linux-gnu/libSvtAv1Enc.so.2",
+            "size": 7984736,
+            "sha256": "48713dd9caf08909462bad0274cc9d9b249ccf836a9be72fd731f8d8096c4d35"
+          },
+          {
+            "path": "/usr/lib/x86_64-linux-gnu/libgcc_s.so.1",
+            "sonamePath": "/lib/x86_64-linux-gnu/libgcc_s.so.1",
+            "size": 182856,
+            "sha256": "30c61ab012a4241bed033725a09b61f5fdd3bb7df95ee852d0b096520524c7af"
+          },
+          {
+            "path": "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.33",
+            "sonamePath": "/lib/x86_64-linux-gnu/libstdc++.so.6",
+            "size": 2497768,
+            "sha256": "972bb2a18b71140dab0240f8a1f68ab3fb1d56bcd4c4f824a91b70888faf5a00"
+          },
+          {
+            "path": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+            "sonamePath": "/lib/x86_64-linux-gnu/libc.so.6",
+            "size": 1995216,
+            "sha256": "9792e3cbb541c8f44c7acf5f14f4022ea62998ecc787d326bed4d8b6547dfd92"
+          },
+          {
+            "path": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+            "sonamePath": "/lib64/ld-linux-x86-64.so.2",
+            "size": 225672,
+            "sha256": "c8438e4fde1934e61c88311633f00949ff645d5c04cdb8671fa3d78164d2f307"
+          },
+          {
+            "path": "support://electron-44.7.0-setup/node_modules/electron/dist/electron",
+            "bytes": 228605256,
+            "sha256": "10a14d05c6ff4f94075cfb3eeb6ed6571be33ebcc08cbd675b5ce9ff84706564"
+          },
+          {
+            "path": "project://linux-blue/artifacts/candidate-resize1080to720-calibration-3JE2RQ/report.json",
+            "bytes": 125887,
+            "sha256": "3fc9a4678890da318728f2c8b44ac7c6b4fe345ccd271b7f1064928f63eb1317"
+          },
+          {
+            "path": "support://resize-normal-service-proof-20261117/owned-proof-zSa57P/fresh-input/fresh-vflip-997.mov",
+            "bytes": 6672071,
+            "sha256": "a45ca66b173cb60c4ee4d34d8c5880df174ab8ee0c2b9107bfe268a6ff4c6fc2"
+          },
+          {
+            "path": "support://native-resize-journey-preparation-20261117/owned-input/native-resize-fixture.mov",
+            "bytes": 6672071,
+            "sha256": "a45ca66b173cb60c4ee4d34d8c5880df174ab8ee0c2b9107bfe268a6ff4c6fc2"
+          },
+          {
+            "path": "support://native-resize-journey-preparation-20261117/owned-output/native-resize-fixture_H265-CPU.mkv",
+            "bytes": 586866,
+            "sha256": "07230e60b600505cb38f51df2cee2c1a7364baccb20a3224796b316222e07006"
+          }
+        ]
+      },
+      "diagnosis": {
+        "event": "FILE_INSPECTED",
+        "message": "Output already exists.",
+        "status": "skipped",
+        "sessionId": "867662ed-830d-49c7-82b7-4f964cc80731",
+        "sequence": 6,
+        "preparationFinishedCounts": {
+          "success": 0,
+          "failed": 0,
+          "skipped": 1,
+          "cancelled": 0,
+          "unprocessed": 0
+        },
+        "contextTruncated": true,
+        "messageTruncated": false
+      },
+      "census": {
+        "spawned": 29,
+        "closed": 29,
+        "live": 0,
+        "maximum": 1,
+        "failures": 0
+      },
+      "outer": {
+        "exitCode": 0,
+        "abortRequested": false,
+        "failure": null,
+        "postCloseIdentitiesVerified": true,
+        "startedUTC": "2026-11-17T20:58:24.809179+00:00",
+        "endedUTC": "2026-11-17T20:59:41.083556+00:00",
+        "monotonicElapsedSeconds": 76.27440289800143,
+        "stdoutSha256": "ae008c3b4d4022975ad17f26809ad9e8bdbf81bdce955b98d6e06203f0f884b6",
+        "stderrSha256": "d91555fb83417e2dec6657594438b38ecf4c01d8cda5dd8b113f6ca8ae6f300c",
+        "qualification": "Process closure receipt only; UI and publication outcome require observed evidence and independent saved audit."
+      },
+      "uiActionsReportedNotIndependentlyReplayed": {
+        "launches": 1,
+        "prepare": 1,
+        "pickers": 0,
+        "resolutionPopup": 0,
+        "audioPopup": 0,
+        "apply": 0,
+        "start": 0,
+        "reveal": 0,
+        "player": 0,
+        "retry": 0
+      },
+      "limits": [
+        "No runtime, decode, native launch or UI replay performed in audit. UI observations and one-Prepare/no-popup actions come from operator outcome; screenshots remain CUA transcript only.",
+        "Specific skip reason confirmed by untruncated fresh FILE_INSPECTED message and PREPARATION_FINISHED item, not inferred from source; FILE_INSPECTED context is explicitly truncated.",
+        "29 closed children include startup capability media work, not zero-media execution. No target Start reported and no new operation-evidence/provenance paths, not an exhaustive independent per-child argv audit.",
+        "Top-level stderr retains D-Bus missing socket and SSL handshake net_error -202. No per-child stderr completeness or warning-free claim.",
+        "Fresh desktop attestation is verified for hash/time/schema, not a retrospective exhaustive hidden-process census.",
+        "Existing profile/cache/preferences/token stores excluded and not read.",
+        "Popup painting issue neither reproduced nor disproved. Any new attempt requires new reviewed collision-avoiding plan preserving prior output; no retry authorization.",
+        "State/output hashes verified now and retained pre/post receipts match; not continuous mutation monitoring. Numeric diagnostic epoch timestamps align with outer UTC interval; Electron stderr formatted clock text is separate and not evidence of diagnostic epoch mismatch."
+      ],
+      "diagnosticEpochUTC": {
+        "first": "2026-11-17T20:58:25.300000+00:00",
+        "last": "2026-11-17T20:59:39.602000+00:00",
+        "withinOuterInterval": true
+      }
+    },
+    "first_release": {
+      "atUtc": "2026-11-17T21:02:59.980757+00:00",
+      "testedCommit": "89c57821100a1859de522df33cb7e93d4b03fc7e",
+      "sourceFilesVerified": 556,
+      "notionSourceAndBundleVerified": true,
+      "outcomeSha256": "927991ca16404b4e9dc94e394b493a326786c2adf0d62af346f9dca3e8225184",
+      "auditSha256": "660daec5719969e9de763fe67682605cccccdeeb66bb60e40ef8c3f1ae3a3167",
+      "outerSha256": "da6008822d198c6c69f4e410dcf2fda22532009875e676cd98472d794da3d4d0",
+      "runtimeInputOutputIdentitiesVerified": true,
+      "priorAllowedArtifactsUnchanged": 42,
+      "newRetainedArtifactsVerified": 9,
+      "currentAllowedArtifacts": 51,
+      "ownedCensus": {
+        "spawned": 29,
+        "closed": 29,
+        "live": 0,
+        "maximum": 1,
+        "failures": 0
+      },
+      "diagnosis": "Fresh untruncated PREPARATION_FINISHED confirms existing-output skip; popup objective not reached.",
+      "sourceDocsFreezeReleased": false,
+      "continuation": "First attempt reconciled and closed. Prepare separate one-launch empty-output inspection, protecting prior output and all51 artifacts. New exact helper/authorizer review and fresh desktop gate required before execution; source020 remains frozen.",
+      "limits": [
+        "No popup reproduced or disproved; no source fix or visual-clean claim.",
+        "UI actions from operator report, not independent replay; no new target Start reported or operation/provenance artifacts, not zero-media or full argv census.",
+        "FILE_INSPECTED context truncated; untruncated message and separate final item corroborate skip.",
+        "Raw artifacts and CUA-only images remain local; top-level D-Bus/SSL diagnostics and per-child stderr gap retained."
+      ]
+    },
+    "second_outcome": {
+      "status": "stopped-during-output-picker-after-executor-transport-discontinuity",
+      "sourceCommit": "89c57821100a1859de522df33cb7e93d4b03fc7e",
+      "checkedAtUtc": "2026-11-17T21:10:55.122321+00:00",
+      "gateSha256": "689af7e1c4001d33f4091134ff70282297ad603858ff2e0a4ad055eadd066d9f",
+      "outer": {
+        "exitCode": 0,
+        "abortRequested": false,
+        "failure": null,
+        "postCloseIdentitiesVerified": true,
+        "startedUTC": "2026-11-17T21:07:21.518446+00:00",
+        "endedUTC": "2026-11-17T21:10:05.681727+00:00",
+        "monotonicElapsedSeconds": 164.16330500199547,
+        "stdoutSha256": "76650dd382e4d71303ad5f0fadc0f9408dc1ffa4be0e7c7fa1fe9e91a68ec423",
+        "stderrSha256": "261d5437e33ad6d1a5c63b3a19aa277e8dc9ca3c8b4f79af4e941c419ecd051c",
+        "qualification": "Process closure receipt only; UI and publication outcome require observed evidence and independent saved audit."
+      },
+      "outerSha256": "dca8e0e46315ad087685447b02a6b4a55280cf0c7024dee004fc17d07e480289",
+      "census": {
+        "spawned": 28,
+        "closed": 28,
+        "live": 0,
+        "maximum": 1,
+        "failures": 0
+      },
+      "observations": [
+        "Fresh same idle Terminal and original desktop observed; exact ordinary no-argument chain entered by global keys with adequate timeout, screenshot-verified before sole Return.",
+        "App reached Ready with original owned input and old019 output registered.",
+        "One Change output folder picker opened. Ctrl+L, exact new helper parent typed ending slash. Screenshot showed autocompleted owned-output/ selected.",
+        "Return plus screenshot call failed: executor key changed during session recovery. Environment became unavailable and CUA tool removed. Delivery of Return remains unknown.",
+        "Environment and CUA returned; fresh screenshot showed same picker still open at typed parent with owned-output/ completion. No registration confirmation.",
+        "Stopped on ambiguity: clicked Cancel, verified old019 output still registered in main UI, closed app normally.",
+        "Terminal showed final process exit0/noabort/no failure/postclose identities true."
+      ],
+      "actions": {
+        "launches": 1,
+        "outputPickers": 1,
+        "outputRegistrationConfirmed": false,
+        "inputPickers": 0,
+        "prepare": 0,
+        "resolutionPopup": 0,
+        "audioPopup": 0,
+        "apply": 0,
+        "start": 0,
+        "reveal": 0,
+        "player": 0,
+        "retries": 0
+      },
+      "integrity": {
+        "trackedFilesRehashed": 556,
+        "priorAllowedUnchanged": 51,
+        "newAllowed": 6,
+        "retainedNewFiles": {
+          "diagnostics-v1/events/f1681394-6b65-4cf4-9e62-9d8634fb9eec.json": {
+            "bytes": 533,
+            "sha256": "fcd536ab8f2332ef96addd4cc29f29ac02faec8f09fc122db5c0b319ee4a7d10"
+          },
+          "diagnostics-v1/events/2f344ca5-51aa-4de7-ae2f-2fbefb369cb8.json": {
+            "bytes": 480,
+            "sha256": "274a9ea0d1f4d7a8349e302dc8af8a0f8dc36a84b27567239117691d2b8cd08a"
+          },
+          "diagnostics-v1/events/761d3d5a-5921-44c3-a5a7-2baaffad73b3.json": {
+            "bytes": 464,
+            "sha256": "d6b66f1031b6ff8a031d1e3b9c3e3a188f28c10ee3411787e3d93474daf5f635"
+          },
+          "diagnostics-v1/events/e167b6a3-b9ed-425a-8c87-d140959e6c37.json": {
+            "bytes": 360,
+            "sha256": "6d000e22d2d1d476be84fb59a6d3f382ba3ab494a2b7ab0edccd1fa99964dc3b"
+          },
+          "diagnostics-v1/events/f50f8049-4a65-4b4a-83cd-3ea334163d45.json": {
+            "bytes": 11843,
+            "sha256": "578a7f505ad163caa541074e083c5d5858cc2e6a033ace427987fc73a265c659"
+          },
+          "diagnostics-v1/events/31d80831-98de-4047-8cab-3168959206d4.json": {
+            "bytes": 388,
+            "sha256": "f8b6817ae2b2cb986fa6c45aa215b014678dcc40176c1d23dfff9393705d5f6a"
+          }
+        },
+        "newOwnedOutputEmpty": true,
+        "helperSourceRuntimeInputOldOutputPostChecks": true,
+        "prePickerFreeBytes": 59067629568,
+        "postCloseFreeBytes": 59067674624
+      },
+      "limits": [
+        "Popup reproduction objective not reached; no visual inference about Resolution or Audio popup.",
+        "No Prepare or target encode UI action. Startup capability media children occurred, so not zero media/runtime.",
+        "Return delivery during disconnected call unknown; no repeated Return or automatic picker/launch retry.",
+        "Top-level stderr retained, not complete per-child stderr.",
+        "CUA screenshots transcript-only; no standalone files claimed.",
+        "Profile/cache/token/preferences not read/copied/cleared. Normal Cancel left old displayed output path; no whole-profile byte-preservation claim.",
+        "Monotonic outer duration and awareUTC recorded separately from Electron textual timestamps; no clock changes.",
+        "Source freeze remains for independent saved audit; no source/PBS edits or postrun ffprobe/decode."
+      ]
+    },
+    "second_audit": {
+      "disposition": "Saved evidence supports a stopped output-picker attempt and normal closure. No integrity blocker found. Popup objective was not reached. Unknown Return delivery remains unknown.",
+      "checkedAtUtc": "2026-11-17T21:12:52.519943+00:00",
+      "identities": {
+        "JOURNEY_OUTCOME.json": "52fcdfff658de9531d080b93d0819f802df4fcb77fed344e86bf4cbda1348a5c",
+        "OUTER_COMPLETION.json": "dca8e0e46315ad087685447b02a6b4a55280cf0c7024dee004fc17d07e480289",
+        "APPROVED_JOURNEY_A.json": "689af7e1c4001d33f4091134ff70282297ad603858ff2e0a4ad055eadd066d9f",
+        "DESKTOP_PREFLIGHT.json": "fa2ec2999c751dcbe4d8cced597dc1165b9a3a74aa9d1ecf41f9100cd6aa78e9",
+        "ATTEMPT_STARTED.json": "a93b8b74e3959b8e8af870ee3ac465b1480c13eb8574edb51ba0418e4e4cb7f0",
+        "APP_PID.json": "cc2970794170beb41a7d1c7646580fd461f99657321855c335f89066b267d3ad",
+        "LEAD_EXECUTION_RELEASE.json": "19474c9bd9ec10071b2ec7e1ac874a783cf294119493bf59f95a5a814c5141da",
+        "PRIOR_ALLOWED_ARTIFACTS.json": "0630a89842756e3fc20168d91cb72bd9fa628d51a31e7cd8d8b846e0bb6c97c6",
+        "NEW_ALLOWED_ARTIFACTS.json": "6d55fea3bbebd75fb10c084fee2d2646edad02fe0f8c6f1a60e008a6c7356c25",
+        "PRIOR51_MANIFEST.json": "641307995040401c0faa8a1350418da7baed5e5ca6eb42afdc4d65beadf6f93f",
+        "app.stdout.log": "76650dd382e4d71303ad5f0fadc0f9408dc1ffa4be0e7c7fa1fe9e91a68ec423",
+        "app.stderr.log": "261d5437e33ad6d1a5c63b3a19aa277e8dc9ca3c8b4f79af4e941c419ecd051c",
+        "launch-popup-inspection.py": "9ef8258c4b776c087f5a6a3f16efe53dd73970f0a4d760e4185e4313f0fe5c39",
+        "authorize-popup-empty-output020.py": "1bb920f71c97f3b2d9ac9bcc8eb8a3e23d0cc02784c3511cb61454b28f8e4e2c",
+        "PLAN.md": "b4ea97fb369f7111bd5c0b7fa0805701e15d2f6c8012a676413778650ad2b497",
+        "NATIVE_PLAN.json": "661cd5d0ee0fafd806b32d96eec95bd358d857e64a55cf36a4d1fb28e12ebe4f",
+        "INDEPENDENT_PREPARED_REVIEW.json": "b67e1aa2d2b14380a7b3971211de3b7a0512ef5029f588a1c8924fea31215499",
+        "INDEPENDENT_AUTHORIZER_REVIEW.json": "02ba839cab5786653e228d29d22d84e84ac9544687fda26dfd22ed01c0c40e6f"
+      },
+      "source": {
+        "commit": "89c57821100a1859de522df33cb7e93d4b03fc7e",
+        "tree": "bf4e9940a81aa340d4e6b42dced29dc0f4e6f095",
+        "filesComparedGitCurrentNotionGate": 556,
+        "commits": 20,
+        "notionReceiptSha256": "2e40b205ee6ef6a7bfe9d1ace52a8b13358a12b98371ba8daba239edcf4e4557",
+        "sourceAndBundleRestoreVerified": true
+      },
+      "freshness": {
+        "preflightAgeAtGateSeconds": 71.289046,
+        "preflightAgeAtLaunchSeconds": 73.313419
+      },
+      "preservation": {
+        "priorFilesComparedCurrentManifestRetained": 51,
+        "newFilesComparedCurrentInventoryRetained": 6,
+        "newOperationEvidenceOrProvenance": false,
+        "newOwnedOutputEmpty": true,
+        "pinsAndMedia": [
+          {
+            "path": "project://linux-blue/artifacts/candidate-runtime-1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9/ffmpeg",
+            "size": 46175848,
+            "sha256": "ae5b2e8b48ad0e9b51b89ebab000ebcfc0b76a09b8cb80c88e18fddcc5d9e8ba",
+            "originalBuildPath": "support://runtime-candidate-build-20261117/build/ffmpeg"
+          },
+          {
+            "path": "project://linux-blue/artifacts/candidate-runtime-1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9/ffprobe",
+            "size": 45962728,
+            "sha256": "923dab8640da8804c445418b6e2efe4b395665bdb9d4cfc84f6a244ed0fb156b",
+            "originalBuildPath": "support://runtime-candidate-build-20261117/build/ffprobe"
+          },
+          {
+            "path": "/usr/lib/x86_64-linux-gnu/libm.so.6",
+            "sonamePath": "/lib/x86_64-linux-gnu/libm.so.6",
+            "size": 977112,
+            "sha256": "6d567d53e895273ca14a1f9dc164fc6c8d39aed2f60aa46a733c2784228915f3"
+          },
+          {
+            "path": "/usr/lib/x86_64-linux-gnu/libdav1d.so.7.0.0",
+            "sonamePath": "/lib/x86_64-linux-gnu/libdav1d.so.7",
+            "size": 1746880,
+            "sha256": "1d7a4182344230d5f4cf9f58bf4485da2801c411e9c9fd6d8471460c75ae8fbf"
+          },
+          {
+            "path": "/usr/lib/x86_64-linux-gnu/libSvtAv1Enc.so.2.3.0",
+            "sonamePath": "/lib/x86_64-linux-gnu/libSvtAv1Enc.so.2",
+            "size": 7984736,
+            "sha256": "48713dd9caf08909462bad0274cc9d9b249ccf836a9be72fd731f8d8096c4d35"
+          },
+          {
+            "path": "/usr/lib/x86_64-linux-gnu/libgcc_s.so.1",
+            "sonamePath": "/lib/x86_64-linux-gnu/libgcc_s.so.1",
+            "size": 182856,
+            "sha256": "30c61ab012a4241bed033725a09b61f5fdd3bb7df95ee852d0b096520524c7af"
+          },
+          {
+            "path": "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.33",
+            "sonamePath": "/lib/x86_64-linux-gnu/libstdc++.so.6",
+            "size": 2497768,
+            "sha256": "972bb2a18b71140dab0240f8a1f68ab3fb1d56bcd4c4f824a91b70888faf5a00"
+          },
+          {
+            "path": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+            "sonamePath": "/lib/x86_64-linux-gnu/libc.so.6",
+            "size": 1995216,
+            "sha256": "9792e3cbb541c8f44c7acf5f14f4022ea62998ecc787d326bed4d8b6547dfd92"
+          },
+          {
+            "path": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+            "sonamePath": "/lib64/ld-linux-x86-64.so.2",
+            "size": 225672,
+            "sha256": "c8438e4fde1934e61c88311633f00949ff645d5c04cdb8671fa3d78164d2f307"
+          },
+          {
+            "path": "support://electron-44.7.0-setup/node_modules/electron/dist/electron",
+            "bytes": 228605256,
+            "sha256": "10a14d05c6ff4f94075cfb3eeb6ed6571be33ebcc08cbd675b5ce9ff84706564"
+          },
+          {
+            "path": "project://linux-blue/artifacts/candidate-resize1080to720-calibration-3JE2RQ/report.json",
+            "bytes": 125887,
+            "sha256": "3fc9a4678890da318728f2c8b44ac7c6b4fe345ccd271b7f1064928f63eb1317"
+          },
+          {
+            "path": "support://resize-normal-service-proof-20261117/owned-proof-zSa57P/fresh-input/fresh-vflip-997.mov",
+            "bytes": 6672071,
+            "sha256": "a45ca66b173cb60c4ee4d34d8c5880df174ab8ee0c2b9107bfe268a6ff4c6fc2"
+          },
+          {
+            "path": "support://native-resize-journey-preparation-20261117/owned-input/native-resize-fixture.mov",
+            "bytes": 6672071,
+            "sha256": "a45ca66b173cb60c4ee4d34d8c5880df174ab8ee0c2b9107bfe268a6ff4c6fc2"
+          },
+          {
+            "path": "support://native-resize-journey-preparation-20261117/owned-output/native-resize-fixture_H265-CPU.mkv",
+            "bytes": 586866,
+            "sha256": "07230e60b600505cb38f51df2cee2c1a7364baccb20a3224796b316222e07006"
+          }
+        ]
+      },
+      "newDiagnostics": {
+        "reasons": [
+          "SESSION_STARTED",
+          "CAPABILITY_STARTED",
+          "RUNTIME_IDENTIFIED",
+          "CAPABILITY_FINISHED",
+          "PROVENANCE_RECOVERY_FINISHED",
+          "SESSION_ENDED"
+        ],
+        "sequences": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "firstUTC": "2026-11-17T21:07:22.072000+00:00",
+        "lastUTC": "2026-11-17T21:10:03.647000+00:00",
+        "withinOuterUTC": true,
+        "truncatedContextSequences": []
+      },
+      "census": {
+        "spawned": 28,
+        "closed": 28,
+        "live": 0,
+        "maximum": 1,
+        "failures": 0
+      },
+      "outer": {
+        "exitCode": 0,
+        "abortRequested": false,
+        "failure": null,
+        "postCloseIdentitiesVerified": true,
+        "startedUTC": "2026-11-17T21:07:21.518446+00:00",
+        "endedUTC": "2026-11-17T21:10:05.681727+00:00",
+        "monotonicElapsedSeconds": 164.16330500199547,
+        "stdoutSha256": "76650dd382e4d71303ad5f0fadc0f9408dc1ffa4be0e7c7fa1fe9e91a68ec423",
+        "stderrSha256": "261d5437e33ad6d1a5c63b3a19aa277e8dc9ca3c8b4f79af4e941c419ecd051c",
+        "qualification": "Process closure receipt only; UI and publication outcome require observed evidence and independent saved audit."
+      },
+      "uiActionsReportedNotIndependentlyReplayed": {
+        "launches": 1,
+        "outputPickers": 1,
+        "outputRegistrationConfirmed": false,
+        "inputPickers": 0,
+        "prepare": 0,
+        "resolutionPopup": 0,
+        "audioPopup": 0,
+        "apply": 0,
+        "start": 0,
+        "reveal": 0,
+        "player": 0,
+        "retries": 0
+      },
+      "limits": [
+        "No runtime, decode, native launch or UI replay performed in this audit. UI observations derive from operator report and CUA transcript, not standalone retained screenshots.",
+        "Return plus screenshot transport call failed with unknown delivery. Later still-open picker, Cancel and old destination display do not establish absence of transient input or prove Return never arrived.",
+        "No Prepare or target Start reported. Six fresh diagnostics contain only startup/capability/recovery/shutdown, with no new operation-evidence/provenance path. Not an exhaustive per-child argv audit.",
+        "28 startup capability media children closed, not zero-runtime or zero-encode activity in capability testing. Top-level stderr is retained, not complete per-child stderr.",
+        "Profile/cache/preferences/token stores excluded and not read. Old displayed destination is operator observation, not raw settings comparison.",
+        "New output is empty now and in postclose checks, not continuous monitoring of transient writes. All 51 prior allowed files remain equal.",
+        "Popup painting neither reproduced nor disproved. No further launch approval granted.",
+        "Fresh desktop receipt checked for saved identity/time/schema, not retrospective exhaustive hidden-process census.",
+        "Initial audit orchestration attempted to reuse a temporary script missing after environment recovery; failed before checks or output creation. This independent replacement performs all checks afresh."
+      ],
+      "stderrObserved": [
+        "Three D-Bus missing system socket errors",
+        "One SSL handshake failure, net_error -202"
+      ]
+    },
+    "second_release": {
+      "atUtc": "2026-11-17T21:14:11.869691+00:00",
+      "testedCommit": "89c57821100a1859de522df33cb7e93d4b03fc7e",
+      "sourceFilesVerified": 556,
+      "notionSourceAndBundleVerified": true,
+      "outcomeSha256": "52fcdfff658de9531d080b93d0819f802df4fcb77fed344e86bf4cbda1348a5c",
+      "auditSha256": "42c2b2c79d507954291d120d48bbd162cd1ec4c6621dd07a548baa6d62b4031d",
+      "outerSha256": "dca8e0e46315ad087685447b02a6b4a55280cf0c7024dee004fc17d07e480289",
+      "runtimeInputOutputIdentitiesVerified": true,
+      "priorAllowedArtifactsUnchanged": 51,
+      "newRetainedArtifactsVerified": 6,
+      "currentAllowedArtifacts": 57,
+      "newOwnedOutputEmpty": true,
+      "ownedCensus": {
+        "spawned": 28,
+        "closed": 28,
+        "live": 0,
+        "maximum": 1,
+        "failures": 0
+      },
+      "sourceDocsFreezeReleased": true,
+      "qualification": "Safe stopped output-picker attempt and normal closure supported; no popup observation or visual-clean acceptance. Unknown Return delivery remains unknown.",
+      "next": "Preserve both stopped diagnostic attempts in evidence-only checkpoint021, then integrate independently reviewed Full-copy source and calibration harness after preservation. No further native launch or actual AAC media campaign is granted by this release.",
+      "limits": [
+        "No Prepare or target Start reported; fresh saved diagnostics show startup/recovery/shutdown only, not an exhaustive per-child argv audit.",
+        "Existing profile stores were not read; visible old destination after Cancel is not whole-profile byte identity.",
+        "All57 allowed artifacts retained; local raw logs/runtime/media and CUA-only images remain outside source restoration.",
+        "Top-level D-Bus/SSL errors retained; no complete per-child stderr claim.",
+        "Source and evidence verified after recovered environment; no claim continuous monitoring or no transient input."
+      ]
+    }
+  }
+}

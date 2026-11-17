@@ -1,0 +1,269 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-11-17T21:16:41.836511+00:00",
+  "scope": "Evidence-only021: two stopped native popup diagnostics on immutable020; no source/test delta or rendering conclusion.",
+  "testedCommit": "89c57821100a1859de522df33cb7e93d4b03fc7e",
+  "testedFiles": 556,
+  "artifacts": [
+    {
+      "file": "native-resize-popup-diagnostic-preparation-20261117/JOURNEY_OUTCOME.json",
+      "bytes": 5527,
+      "sha256": "927991ca16404b4e9dc94e394b493a326786c2adf0d62af346f9dca3e8225184"
+    },
+    {
+      "file": "native-resize-popup-diagnostic-preparation-20261117/INDEPENDENT_SAVED_AUDIT.json",
+      "bytes": 9402,
+      "sha256": "660daec5719969e9de763fe67682605cccccdeeb66bb60e40ef8c3f1ae3a3167"
+    },
+    {
+      "file": "native-resize-popup-diagnostic-preparation-20261117/LEAD_RELEASE.json",
+      "bytes": 1615,
+      "sha256": "337cc8c31af0faf70afaaa7538bf2a98be7f847fdcbdac0d28fd6b53af53e801"
+    },
+    {
+      "file": "native-resize-popup-diagnostic-preparation-20261117/OUTER_COMPLETION.json",
+      "bytes": 560,
+      "sha256": "da6008822d198c6c69f4e410dcf2fda22532009875e676cd98472d794da3d4d0"
+    },
+    {
+      "file": "native-resize-popup-diagnostic-preparation-20261117/APPROVED_JOURNEY_A.json",
+      "bytes": 75510,
+      "sha256": "355fc743c7c4ae8dae09a77f1d0fc644eb4a06862cfa5591d34e82f66e4011e7"
+    },
+    {
+      "file": "native-resize-popup-diagnostic-preparation-20261117/DESKTOP_PREFLIGHT.json",
+      "bytes": 1017,
+      "sha256": "ba10364ab345fc9a016fec0cbad391fe1ce9f272c1dfe46be542ffb26c6d26c1"
+    },
+    {
+      "file": "native-resize-popup-diagnostic-preparation-20261117/ATTEMPT_STARTED.json",
+      "bytes": 518,
+      "sha256": "bef03359a66d8694e03266aabbe29244304193cac3d4d14f80afb2f0b467a728"
+    },
+    {
+      "file": "native-resize-popup-diagnostic-preparation-20261117/APP_PID.json",
+      "bytes": 68,
+      "sha256": "261b697c0d4851aee76d3764eda81546f26eb3ea9f9d92364b43d484633a8c80"
+    },
+    {
+      "file": "native-resize-popup-diagnostic-preparation-20261117/PRIOR_ALLOWED_ARTIFACTS.json",
+      "bytes": 7930,
+      "sha256": "a948793f773a933c9225406397d688a69d467e11d48f00d12ff8dec3fb0eb1ed"
+    },
+    {
+      "file": "native-resize-popup-diagnostic-preparation-20261117/NEW_ALLOWED_ARTIFACTS.json",
+      "bytes": 1579,
+      "sha256": "7ec5fc45c77c49d37d5a9122cb5a434a951ac04dd0a50d4b04d12885155e0b49"
+    },
+    {
+      "file": "native-resize-popup-diagnostic-preparation-20261117/app.stdout.log",
+      "bytes": 436,
+      "sha256": "ae008c3b4d4022975ad17f26809ad9e8bdbf81bdce955b98d6e06203f0f884b6"
+    },
+    {
+      "file": "native-resize-popup-diagnostic-preparation-20261117/app.stderr.log",
+      "bytes": 620,
+      "sha256": "d91555fb83417e2dec6657594438b38ecf4c01d8cda5dd8b113f6ca8ae6f300c"
+    },
+    {
+      "file": "native-resize-popup-diagnostic-preparation-20261117/launch-popup-inspection.py",
+      "bytes": 7607,
+      "sha256": "5dc73947a9cdba740cb3caac34634613cfd377aeb093b980b23a0c523b18d073"
+    },
+    {
+      "file": "native-resize-popup-diagnostic-preparation-20261117/PLAN.md",
+      "bytes": 3605,
+      "sha256": "b5079ef392455727ebd51e9ea77a7f72d0784fede4338d69a57a6b7cc9e9f3e5"
+    },
+    {
+      "file": "native-resize-popup-diagnostic-preparation-20261117/NATIVE_PLAN.json",
+      "bytes": 6675,
+      "sha256": "e08131cc1a433fa47db11f8195ce1a3a8625cdc4e517af924e4bde9313d3b423"
+    },
+    {
+      "file": "native-resize-popup-diagnostic-preparation-20261117/INDEPENDENT_PREPARED_REVIEW.json",
+      "bytes": 2728,
+      "sha256": "6b01406d398d63f61174aa13ed7db8a429e015725ec53695c17d0b6f89f6580c"
+    },
+    {
+      "file": "native-resize-popup-diagnostic-preparation-20261117/INDEPENDENT_AUTHORIZER_REVIEW.json",
+      "bytes": 4025,
+      "sha256": "7107d3bd0bbc94101ae266b501c97a907a32ce2330e06e2ddd4a64349973055f"
+    },
+    {
+      "file": "native-resize-popup-empty-output-preparation-20261117/JOURNEY_OUTCOME.json",
+      "bytes": 4648,
+      "sha256": "52fcdfff658de9531d080b93d0819f802df4fcb77fed344e86bf4cbda1348a5c"
+    },
+    {
+      "file": "native-resize-popup-empty-output-preparation-20261117/INDEPENDENT_SAVED_AUDIT.json",
+      "bytes": 9985,
+      "sha256": "42c2b2c79d507954291d120d48bbd162cd1ec4c6621dd07a548baa6d62b4031d"
+    },
+    {
+      "file": "native-resize-popup-empty-output-preparation-20261117/LEAD_RELEASE.json",
+      "bytes": 1827,
+      "sha256": "b983f6ba4c8dcfaa48743ae48f230b679d925b52db1c5cbb016c076af1a896a8"
+    },
+    {
+      "file": "native-resize-popup-empty-output-preparation-20261117/OUTER_COMPLETION.json",
+      "bytes": 561,
+      "sha256": "dca8e0e46315ad087685447b02a6b4a55280cf0c7024dee004fc17d07e480289"
+    },
+    {
+      "file": "native-resize-popup-empty-output-preparation-20261117/APPROVED_JOURNEY_A.json",
+      "bytes": 76668,
+      "sha256": "689af7e1c4001d33f4091134ff70282297ad603858ff2e0a4ad055eadd066d9f"
+    },
+    {
+      "file": "native-resize-popup-empty-output-preparation-20261117/DESKTOP_PREFLIGHT.json",
+      "bytes": 948,
+      "sha256": "fa2ec2999c751dcbe4d8cced597dc1165b9a3a74aa9d1ecf41f9100cd6aa78e9"
+    },
+    {
+      "file": "native-resize-popup-empty-output-preparation-20261117/ATTEMPT_STARTED.json",
+      "bytes": 518,
+      "sha256": "a93b8b74e3959b8e8af870ee3ac465b1480c13eb8574edb51ba0418e4e4cb7f0"
+    },
+    {
+      "file": "native-resize-popup-empty-output-preparation-20261117/APP_PID.json",
+      "bytes": 68,
+      "sha256": "cc2970794170beb41a7d1c7646580fd461f99657321855c335f89066b267d3ad"
+    },
+    {
+      "file": "native-resize-popup-empty-output-preparation-20261117/PRIOR_ALLOWED_ARTIFACTS.json",
+      "bytes": 9507,
+      "sha256": "0630a89842756e3fc20168d91cb72bd9fa628d51a31e7cd8d8b846e0bb6c97c6"
+    },
+    {
+      "file": "native-resize-popup-empty-output-preparation-20261117/NEW_ALLOWED_ARTIFACTS.json",
+      "bytes": 1054,
+      "sha256": "6d55fea3bbebd75fb10c084fee2d2646edad02fe0f8c6f1a60e008a6c7356c25"
+    },
+    {
+      "file": "native-resize-popup-empty-output-preparation-20261117/app.stdout.log",
+      "bytes": 436,
+      "sha256": "76650dd382e4d71303ad5f0fadc0f9408dc1ffa4be0e7c7fa1fe9e91a68ec423"
+    },
+    {
+      "file": "native-resize-popup-empty-output-preparation-20261117/app.stderr.log",
+      "bytes": 620,
+      "sha256": "261d5437e33ad6d1a5c63b3a19aa277e8dc9ca3c8b4f79af4e941c419ecd051c"
+    },
+    {
+      "file": "native-resize-popup-empty-output-preparation-20261117/launch-popup-inspection.py",
+      "bytes": 8752,
+      "sha256": "9ef8258c4b776c087f5a6a3f16efe53dd73970f0a4d760e4185e4313f0fe5c39"
+    },
+    {
+      "file": "native-resize-popup-empty-output-preparation-20261117/PLAN.md",
+      "bytes": 3050,
+      "sha256": "b4ea97fb369f7111bd5c0b7fa0805701e15d2f6c8012a676413778650ad2b497"
+    },
+    {
+      "file": "native-resize-popup-empty-output-preparation-20261117/NATIVE_PLAN.json",
+      "bytes": 7935,
+      "sha256": "661cd5d0ee0fafd806b32d96eec95bd358d857e64a55cf36a4d1fb28e12ebe4f"
+    },
+    {
+      "file": "native-resize-popup-empty-output-preparation-20261117/INDEPENDENT_PREPARED_REVIEW.json",
+      "bytes": 2797,
+      "sha256": "b67e1aa2d2b14380a7b3971211de3b7a0512ef5029f588a1c8924fea31215499"
+    },
+    {
+      "file": "native-resize-popup-empty-output-preparation-20261117/INDEPENDENT_AUTHORIZER_REVIEW.json",
+      "bytes": 2113,
+      "sha256": "02ba839cab5786653e228d29d22d84e84ac9544687fda26dfd22ed01c0c40e6f"
+    }
+  ],
+  "sourceAndNotionGates": {
+    "files": 556,
+    "commits": 20,
+    "sourceZipAndBundleRestored": true,
+    "localCommit": "89c57821100a1859de522df33cb7e93d4b03fc7e",
+    "githubCommit": "8029c6b71f1d89e2af80accc95e7544b311d5df6"
+  },
+  "attempts": [
+    {
+      "label": "A",
+      "outer": {
+        "exitCode": 0,
+        "abortRequested": false,
+        "failure": null,
+        "postCloseIdentitiesVerified": true,
+        "startedUTC": "2026-11-17T20:58:24.809179+00:00",
+        "endedUTC": "2026-11-17T20:59:41.083556+00:00",
+        "monotonicElapsedSeconds": 76.27440289800143,
+        "stdoutSha256": "ae008c3b4d4022975ad17f26809ad9e8bdbf81bdce955b98d6e06203f0f884b6",
+        "stderrSha256": "d91555fb83417e2dec6657594438b38ecf4c01d8cda5dd8b113f6ca8ae6f300c",
+        "qualification": "Process closure receipt only; UI and publication outcome require observed evidence and independent saved audit."
+      },
+      "outcome": "Existing-output skip after one Prepare; no popup",
+      "ownedCensus": {
+        "spawned": 29,
+        "closed": 29,
+        "live": 0,
+        "maximum": 1,
+        "failures": 0
+      },
+      "priorUnchanged": 42,
+      "newDiagnostics": 9
+    },
+    {
+      "label": "B",
+      "outer": {
+        "exitCode": 0,
+        "abortRequested": false,
+        "failure": null,
+        "postCloseIdentitiesVerified": true,
+        "startedUTC": "2026-11-17T21:07:21.518446+00:00",
+        "endedUTC": "2026-11-17T21:10:05.681727+00:00",
+        "monotonicElapsedSeconds": 164.16330500199547,
+        "stdoutSha256": "76650dd382e4d71303ad5f0fadc0f9408dc1ffa4be0e7c7fa1fe9e91a68ec423",
+        "stderrSha256": "261d5437e33ad6d1a5c63b3a19aa277e8dc9ca3c8b4f79af4e941c419ecd051c",
+        "qualification": "Process closure receipt only; UI and publication outcome require observed evidence and independent saved audit."
+      },
+      "outcome": "Transport-interrupted output picker; unknown Return delivery, recovered Cancel/normal close; no Prepare or popup",
+      "ownedCensus": {
+        "spawned": 28,
+        "closed": 28,
+        "live": 0,
+        "maximum": 1,
+        "failures": 0
+      },
+      "priorUnchanged": 51,
+      "newDiagnostics": 6,
+      "emptyNewOutput": true
+    }
+  ],
+  "portable": {
+    "file": "evidence-2026-11-17/native-popup-diagnostic-portable.json",
+    "bytes": 38146,
+    "sha256": "88aeb6f5164cbd69128fcf664c2b5d352acee9b49cffd7b2e5c342e1f1457635",
+    "transform": {
+      "kind": "Known absolute root prefix-only replacements in string values; all other keys/types/values unchanged.",
+      "count": 18,
+      "byAlias": {
+        "project://": 6,
+        "support://": 12
+      },
+      "inverseMappingIncluded": false,
+      "originalRawReportsRestorable": false
+    }
+  },
+  "inheritedTestsNotRerun": {
+    "source": "e0b5d35055afaeff841bd3fe695c0400e6e7b2d5",
+    "focused": "164/164",
+    "serviceParity": "125/126",
+    "broad": "202/237, same35 inherited failures"
+  },
+  "limits": [
+    "First attempt: one Prepare, existing-output skip, no popup opened. Second: output-picker transport interruption with unknown Return delivery, recovered Cancel and normal close, no Prepare or popup.",
+    "29 and 28 owned media-tool children closed separately; no target Start reported, not zero capability media activity or exhaustive child argv/stderr verification.",
+    "One first-attempt FILE_INSPECTED context truncated; message and untruncated PREPARATION_FINISHED corroborate skip. Second six saved events are startup/capability/recovery/shutdown only.",
+    "Existing 42 artifacts then 51 artifacts unchanged; total57 now retained. New output empty at closure, not continuous write monitoring. Original input and prior published output unchanged.",
+    "Top-level D-Bus/SSL diagnostics retained; CUA-only screenshots and unknown transient input remain limitations. Numeric event epochs align with each outer interval.",
+    "Raw runtime/media/logs, approvals, profile/cache/preferences/token stores and private inverse mappings are excluded; this archive cannot restore those inputs or prove visual acceptance."
+  ],
+  "next": "Preserve021 then reviewed Full-copy source integration. No further native or AAC media execution grant."
+}

@@ -90,3 +90,16 @@ test('separate 1440p Full policy charges four 720p pixel equivalents without cha
     { sourceExtentUs: Number.MAX_SAFE_INTEGER }, { sourceBytes: '9007199254740991' }])
     assert.throws(() => deriveCfrFull1440ResizeFlacResources({ ...options, ...patch }), { code: 'OPERATION_RESOURCE_CAPACITY' });
 });
+
+test('AAC forecasts bounded decoded tail and stereo float32 calibration bytes without changing FLAC',()=>{
+  const {deriveCfrAacResources,AAC_FAMILY_ID,AAC_RESOURCE_POLICY,AAC_DECODED_TAIL_SAMPLES,deriveCfrFlacResources}=require('../src/operation-resource-budget.cjs');
+  assert.equal(AAC_FAMILY_ID,'cfr-sdr-range-aac-v2');assert.equal(AAC_RESOURCE_POLICY,'cfr720p30-aac-resources-v1');assert.equal(AAC_DECODED_TAIL_SAMPLES,1024);
+  const o={sourceExtentUs:150000000,selectedExtentUs:40000000,sourceBytes:'1000000'},a=deriveCfrAacResources(o),f=deriveCfrFlacResources(o);
+  assert.equal(a.budget.maxPcmBytes,(150*48000+1024+48000)*8);assert.equal(f.budget.maxPcmBytes,(150*48000+48000)*4);
+  assert.equal(a.budget.maxRecords,20000+151*256);assert.equal(a.resources.telemetryRecords,1024+41*256);
+  assert.ok(a.executionBudgetMs>f.executionBudgetMs);assert.ok(Object.isFrozen(a.resources));
+  assert.ok(deriveCfrAacResources({...o,sourceBytes:'1000000000'}).executionBudgetMs>a.executionBudgetMs);
+  for(const patch of [{sourceExtentUs:0},{sourceExtentUs:1.1},{selectedExtentUs:150000001},{sourceBytes:'0'},{sourceBytes:'9007199254740991'},
+    {sourceExtentUs:Number.MAX_SAFE_INTEGER},{sourceExtentUs:3000000000,selectedExtentUs:3000000000}])
+    assert.throws(()=>deriveCfrAacResources({...o,...patch}),{code:'OPERATION_RESOURCE_CAPACITY'});
+});

@@ -1,0 +1,838 @@
+{
+  "schema": 1,
+  "checkpoint": "017",
+  "recordedAtUtc": "2026-11-17T19:33:39.611396+00:00",
+  "scope": "Two new developer-only resize service composition/test files plus four PBS records",
+  "sourceBase": "7270c89c59020be8dfaec46dc455edaad3ffc111",
+  "calibrationProducerBase": "9390681b347d732bff4ceae70d57de35495b536d",
+  "integration": {
+    "integratedAtUtc": "2026-11-17T19:29:28.617011+00:00",
+    "base": "7270c89c59020be8dfaec46dc455edaad3ffc111",
+    "sourcePatch": "02c05c73b8760681ab9cf59319218823f7fe0a15855d110f422704e0fec536bf",
+    "files": {
+      "linux-blue/candidate-resize-service.cjs": {
+        "bytes": 23400,
+        "sha256": "0b8abd1807fa577faa4fd77c2450258f203908048052e1ab6ad3652dab1a1068"
+      },
+      "linux-blue/candidate-resize-service.test.cjs": {
+        "bytes": 20010,
+        "sha256": "5c4353af15c3c667f3089e98a35e216b5af5c12b62160479397e41cb75411182"
+      }
+    },
+    "notion016SourceRestored": true,
+    "existingTrackedFilesChanged": []
+  },
+  "sourceFiles": {
+    "linux-blue/candidate-resize-service.cjs": {
+      "bytes": 23400,
+      "sha256": "0b8abd1807fa577faa4fd77c2450258f203908048052e1ab6ad3652dab1a1068"
+    },
+    "linux-blue/candidate-resize-service.test.cjs": {
+      "bytes": 20010,
+      "sha256": "5c4353af15c3c667f3089e98a35e216b5af5c12b62160479397e41cb75411182"
+    }
+  },
+  "patchSha256": "02c05c73b8760681ab9cf59319218823f7fe0a15855d110f422704e0fec536bf",
+  "rawReport": {
+    "bytes": 125887,
+    "sha256": "3fc9a4678890da318728f2c8b44ac7c6b4fe345ccd271b7f1064928f63eb1317",
+    "auditSHA256": "586d5adcbb2e5d586286ae94fa4e4b84d5726582a3380d3cdad49ac23b388574"
+  },
+  "producerClosure": {
+    "root": "linux-blue/workbench-long-range-calibration.cjs",
+    "resolution": "recursive literal relative require imports including package/JSON; all resolved existing files, no missing imports",
+    "receiptSHA256": "1d4d4de8c041f6d3dbd6a08cda869c03bcd6c36bb5f923394e3c2aa70eba2ebf"
+  },
+  "producerCount": 97,
+  "workerTests": {
+    "red": {
+      "exit": 1,
+      "note": "New tests before module creation fail MODULE_NOT_FOUND; this is API absence red, not individual negative-predicate red."
+    },
+    "first": {
+      "pass": 10,
+      "fail": 0
+    },
+    "second": {
+      "pass": 11,
+      "fail": 0
+    },
+    "final": {
+      "exit": 0,
+      "pass": 59,
+      "fail": 0,
+      "scope": "new service, calibration, candidate runtime and three resize family/collector/service suites"
+    },
+    "rawValidator": {
+      "exit": 0,
+      "scope": "Pure saved-byte validator only; no factory or runtime opening"
+    },
+    "v2Focused": {
+      "pass": 12,
+      "fail": 0,
+      "exit": 0
+    },
+    "v2Regression": {
+      "pass": 60,
+      "fail": 0,
+      "exit": 0
+    }
+  },
+  "independentReviews": [
+    {
+      "disposition": "Suitable developer-only source checkpoint; no blocking finding",
+      "patchSHA256": "6155b60fece4c3e44f0e7dcee42aad725a8eb498f958ce97e34cdb5b859de998",
+      "base": "9390681b347d732bff4ceae70d57de35495b536d",
+      "files": {
+        "linux-blue/candidate-resize-service.cjs": {
+          "bytes": 23400,
+          "sha256": "0b8abd1807fa577faa4fd77c2450258f203908048052e1ab6ad3652dab1a1068"
+        },
+        "linux-blue/candidate-resize-service.test.cjs": {
+          "bytes": 18881,
+          "sha256": "2981ffcf9cd34a72913fcbfb2c1f634bc2512e4cd37bcb3ca04d13aee75e5c99"
+        }
+      },
+      "producerClosure": "Independently recursively resolved97 literal relative imports and compared every digest to immutable9390681; exact set equals capsule map",
+      "runtime": "Fixed pair1980b0c0..., seven dependency records byte-value equal prior reviewed candidate inventory; no runtime opened",
+      "rawReportSHA256": "3fc9a4678890da318728f2c8b44ac7c6b4fe345ccd271b7f1064928f63eb1317",
+      "auditSHA256": "586d5adcbb2e5d586286ae94fa4e4b84d5726582a3380d3cdad49ac23b388574",
+      "independentTests": {
+        "command": "node --test linux-blue/candidate-resize-service.test.cjs linux-blue/workbench-long-range-calibration.test.cjs linux-blue/candidate-calibration-runtime.test.cjs tests/operation-family-resize-proportional.test.cjs tests/operation-evidence-resize-proportional.test.cjs tests/operation-resize-proportional-service.test.cjs",
+        "pass": 59,
+        "fail": 0,
+        "skipped": 0,
+        "logSHA256": "2bfcc0bb9cedece395576213a3d3577c11588a9e653de742a54312997d39ce40"
+      },
+      "findings": [
+        "Fixed raw report/hash/size, runtime and seven dependencies; caller cannot choose them through factory. Pure custom-digest seam issues no authority.",
+        "No-follow bounded stable handle read plus post-read pathname comparison; producer checks before and after report; runtime currentness after awaits.",
+        "Private runtime brand rejects copied handles; exact genuine resize selection and resource formula, source/runtime/currentness checks inherited.",
+        "Synchronous cancel admission closure and sequential aggregate cleanup preserved. Idle cancel alone is not proof external handle revoked; close/drain then freshhandle/service required.",
+        "Only two new files; no UI/default/catalog activation or old Keep720 repin.",
+        "Actual audited calibration supports new capsule only; separately reviewed factory not part of calibrated producer closure."
+      ],
+      "coverageLimits": [
+        "Positive factory path uses VM fake handle/report; no real factory/media/publication proof.",
+        "Report path-replacement recheck visible in source but not specifically mutated by test; generic symlink/hardlink/size/stamp/truncation and stale runtime negatives pass.",
+        "Producer test name claims immutable closure but itself checks current source only; this independent review separately checked actual immutable Git closure.",
+        "Existing test red is absent-module red, not every security predicate failing before implementation.",
+        "Diagnostics complete means retained, not warning-free; three successful499byte CPU-mask/threadpool/codec warning records persist.",
+        "Hash checks are not atomic loaded-code or dynamic-linker attestation; listed dependencies not generic closure.",
+        "Source-only restore lacks original rawreport/runtime; no nativeWindows or resized normal-service qualification.",
+        "Manual scoped review, not Security Cloud scan."
+      ]
+    },
+    {
+      "disposition": "No blocker; V2 closes dedicated post-read pathname regression coverage gap",
+      "patchSHA256": "02c05c73b8760681ab9cf59319218823f7fe0a15855d110f422704e0fec536bf",
+      "files": {
+        "linux-blue/candidate-resize-service.cjs": {
+          "bytes": 23400,
+          "sha256": "0b8abd1807fa577faa4fd77c2450258f203908048052e1ab6ad3652dab1a1068"
+        },
+        "linux-blue/candidate-resize-service.test.cjs": {
+          "bytes": 20010,
+          "sha256": "5c4353af15c3c667f3089e98a35e216b5af5c12b62160479397e41cb75411182"
+        }
+      },
+      "productionUnchanged": true,
+      "delta": "Only VM test fixture counters/post-read inode or canonical-alias substitution and one regression test. Stable descriptor and complete125887byte read reach exact Report path replaced during reading guard; both report handle and candidate close, zero child calls.",
+      "independent": {
+        "command": [
+          "node",
+          "--test",
+          "linux-blue/candidate-resize-service.test.cjs"
+        ],
+        "pass": 12,
+        "fail": 0,
+        "skipped": 0,
+        "logSHA256": "08885a1e4a219054540a4ca11ee508f8baa8a8f99c30e43f5c4740d59b9b5bac"
+      },
+      "priorReviewSHA256": "66c62b29c110c585c4ebb176ace3df55b013088a21d9e646655c35651a0cddba",
+      "limits": "Prior V1 limitations retained except newly exercised pathname guard. V1 independent59/59 not represented as finalV2 full rerun. No runtime/media/native execution or source edits."
+    }
+  ],
+  "leadTests": [
+    {
+      "evidenceDirectory": "artifacts/v0.7/evidence/20261117T192928Z_resize-capsule-lead-focused",
+      "receipt": {
+        "schema": 1,
+        "label": "resize-capsule-lead-focused",
+        "startedAt": "2026-11-17T19:29:28.712Z",
+        "durationMs": 2425.031,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "7270c89c59020be8dfaec46dc455edaad3ffc111",
+        "dirtyPaths": 110,
+        "command": [
+          "node",
+          "--test",
+          "linux-blue/candidate-resize-service.test.cjs",
+          "linux-blue/workbench-long-range-calibration.test.cjs",
+          "linux-blue/candidate-calibration-runtime.test.cjs",
+          "tests/operation-family-resize-proportional.test.cjs",
+          "tests/operation-evidence-resize-proportional.test.cjs",
+          "tests/operation-resize-proportional-service.test.cjs",
+          "tests/operation-family-proportional.test.cjs",
+          "tests/operation-evidence-proportional.test.cjs",
+          "tests/operation-proportional-service.test.cjs",
+          "tests/operation-resource-budget.test.cjs",
+          "tests/encode-operation.test.cjs",
+          "tests/operation-contract.test.cjs"
+        ],
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 160,
+          "suites": 0,
+          "pass": 160,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "linux-blue/candidate-resize-service.test.cjs",
+              "bytes": 20010,
+              "sha256": "5c4353af15c3c667f3089e98a35e216b5af5c12b62160479397e41cb75411182"
+            },
+            {
+              "file": "linux-blue/workbench-long-range-calibration.test.cjs",
+              "bytes": 20580,
+              "sha256": "29d446ee25955525caf1f583f2be3f8bfc897205439f38ebeb806227c505b6cc"
+            },
+            {
+              "file": "linux-blue/candidate-calibration-runtime.test.cjs",
+              "bytes": 6189,
+              "sha256": "e64958d684801ae8e53d08623b77f92777f81f7475b30af1d3e7e88111a1a4ba"
+            },
+            {
+              "file": "tests/operation-family-resize-proportional.test.cjs",
+              "bytes": 10973,
+              "sha256": "595da719c2a308d83c75761c74fecbd9e7f9a5b21d8fbd7e3830f67041cdca06"
+            },
+            {
+              "file": "tests/operation-evidence-resize-proportional.test.cjs",
+              "bytes": 15153,
+              "sha256": "d2784507b28814e2cf16e20fbfd514a22a753604f907f028b26eeafb28383cab"
+            },
+            {
+              "file": "tests/operation-resize-proportional-service.test.cjs",
+              "bytes": 12303,
+              "sha256": "d537e327182b118ae5f270835bc3d0f6835414dc67cfa9ba84018ebfa5291a72"
+            },
+            {
+              "file": "tests/operation-family-proportional.test.cjs",
+              "bytes": 18231,
+              "sha256": "94665884185a02243441d021f1f153a2ed6622b3dbd4520b5c670578bed0b89e"
+            },
+            {
+              "file": "tests/operation-evidence-proportional.test.cjs",
+              "bytes": 13780,
+              "sha256": "00c78bccdbbe1344d12b933f034c68f637c95f365dbfe387b3a5f90031d4f618"
+            },
+            {
+              "file": "tests/operation-proportional-service.test.cjs",
+              "bytes": 12166,
+              "sha256": "a955accf9d0309d2c643393d79009898d81653f4f8223a2366247025d68a1d3a"
+            },
+            {
+              "file": "tests/operation-resource-budget.test.cjs",
+              "bytes": 8542,
+              "sha256": "9eb1674ec8909c2413d648bbfe1fe95bc32fa4ef87b11b17ae6b1dc6bee08cb0"
+            },
+            {
+              "file": "tests/encode-operation.test.cjs",
+              "bytes": 44692,
+              "sha256": "0fb42537759719203bab0077637975863cf890c33cf90df02f9cb63dbed2d50f"
+            },
+            {
+              "file": "tests/operation-contract.test.cjs",
+              "bytes": 24779,
+              "sha256": "26316f8f69382ffb5f58d382d880329207120abeeebac4fa79bf18d2fdf57f1f"
+            }
+          ],
+          "covers": [
+            {
+              "file": "linux-blue/candidate-resize-service.cjs",
+              "bytes": 23400,
+              "sha256": "0b8abd1807fa577faa4fd77c2450258f203908048052e1ab6ad3652dab1a1068"
+            },
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158909,
+              "sha256": "5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7"
+            },
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 49891,
+              "sha256": "4453619d3f68d891bf7472a9dcfc919508b4dbb0533e0a07ee3b48461424ae3e"
+            },
+            {
+              "file": "src/operation-evidence.cjs",
+              "bytes": 53166,
+              "sha256": "8de2516179f3c80667004855ef720250b934fd7b816b170ac2be1b9c39179ef8"
+            }
+          ]
+        }
+      },
+      "artifacts": {
+        "receipt.json": {
+          "name": "receipt.json",
+          "bytes": 4207,
+          "sha256": "ccef0b776c8b6c6b5308d724d6b822fb7862150ca04968a61d1bebc404796c44",
+          "rawArtifactIncluded": false
+        },
+        "stdout.txt": {
+          "name": "stdout.txt",
+          "bytes": 18507,
+          "sha256": "affb82a91c405a0bea9db065c3cb4cefd0d74d3390d8df7ebe01ae337025b9ca",
+          "rawArtifactIncluded": false
+        },
+        "stderr.txt": {
+          "name": "stderr.txt",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "rawArtifactIncluded": false
+        }
+      }
+    },
+    {
+      "evidenceDirectory": "artifacts/v0.7/evidence/20261117T192931Z_resize-capsule-lead-service",
+      "receipt": {
+        "schema": 1,
+        "label": "resize-capsule-lead-service",
+        "startedAt": "2026-11-17T19:29:31.342Z",
+        "durationMs": 7501.598,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "7270c89c59020be8dfaec46dc455edaad3ffc111",
+        "dirtyPaths": 110,
+        "command": [
+          "node",
+          "--test",
+          "tests/encoder-service.test.cjs",
+          "tests/process-runner.test.cjs"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 126,
+          "suites": 0,
+          "pass": 125,
+          "fail": 1,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "tests/encoder-service.test.cjs",
+              "bytes": 92154,
+              "sha256": "2396154103fddf41bc00d10cdaf927871332e78c41c22e620b51eca0f4568208"
+            },
+            {
+              "file": "tests/process-runner.test.cjs",
+              "bytes": 27692,
+              "sha256": "c5b8b906c243252e2ae2bb3b17f43085b3f8a61029c5f47faff34a548d391917"
+            }
+          ],
+          "covers": [
+            {
+              "file": "linux-blue/candidate-resize-service.cjs",
+              "bytes": 23400,
+              "sha256": "0b8abd1807fa577faa4fd77c2450258f203908048052e1ab6ad3652dab1a1068"
+            },
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158909,
+              "sha256": "5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7"
+            },
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 49891,
+              "sha256": "4453619d3f68d891bf7472a9dcfc919508b4dbb0533e0a07ee3b48461424ae3e"
+            },
+            {
+              "file": "src/operation-evidence.cjs",
+              "bytes": 53166,
+              "sha256": "8de2516179f3c80667004855ef720250b934fd7b816b170ac2be1b9c39179ef8"
+            }
+          ]
+        }
+      },
+      "artifacts": {
+        "receipt.json": {
+          "name": "receipt.json",
+          "bytes": 1707,
+          "sha256": "b0a72ba9dae30b67245643833364f24a5e3268037b140281fb7a3e4bc58c485a",
+          "rawArtifactIncluded": false
+        },
+        "stdout.txt": {
+          "name": "stdout.txt",
+          "bytes": 14076,
+          "sha256": "9983a0b34768ed171aa60d01bb8b6dbda28037a99ae76cb23f6bddd75da4c782",
+          "rawArtifactIncluded": false
+        },
+        "stderr.txt": {
+          "name": "stderr.txt",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "rawArtifactIncluded": false
+        }
+      }
+    },
+    {
+      "evidenceDirectory": "artifacts/v0.7/evidence/20261117T192938Z_resize-capsule-lead-linux",
+      "receipt": {
+        "schema": 1,
+        "label": "resize-capsule-lead-linux",
+        "startedAt": "2026-11-17T19:29:38.918Z",
+        "durationMs": 1460.686,
+        "node": "v24.22.1",
+        "platform": "linux",
+        "head": "7270c89c59020be8dfaec46dc455edaad3ffc111",
+        "dirtyPaths": 110,
+        "command": [
+          "node",
+          "--test",
+          "linux-blue/candidate-calibration-runtime.test.cjs",
+          "linux-blue/candidate-keep720-service.test.cjs",
+          "linux-blue/candidate-resize-service.test.cjs",
+          "linux-blue/candidate-workbench-renderer.test.cjs",
+          "linux-blue/candidate-workbench.test.cjs",
+          "linux-blue/demo-boundary.test.cjs",
+          "linux-blue/output-preflight.test.cjs",
+          "linux-blue/runtime-av1-operation.test.cjs",
+          "linux-blue/runtime-av1.test.cjs",
+          "linux-blue/runtime-candidate.test.cjs",
+          "linux-blue/runtime.test.cjs",
+          "linux-blue/source-inspection-boundary.test.cjs",
+          "linux-blue/source-inspection.test.cjs",
+          "linux-blue/synthetic-service.test.cjs",
+          "linux-blue/ui-policy.test.cjs",
+          "linux-blue/workbench-av1-admission.test.cjs",
+          "linux-blue/workbench-av1-service.test.cjs",
+          "linux-blue/workbench-av1-trim.test.cjs",
+          "linux-blue/workbench-execution.test.cjs",
+          "linux-blue/workbench-full-1440-service.test.cjs",
+          "linux-blue/workbench-full-resize-service.test.cjs",
+          "linux-blue/workbench-long-range-calibration.test.cjs",
+          "linux-blue/workbench-long-range-service.test.cjs",
+          "linux-blue/workbench-long-range-smoke.test.cjs",
+          "linux-blue/workbench-qualified-app-smoke.test.cjs",
+          "linux-blue/workbench-qualified-encode-controls.test.cjs",
+          "linux-blue/workbench-remux.test.cjs",
+          "linux-blue/workbench-resize-service.test.cjs",
+          "linux-blue/workbench-service.test.cjs",
+          "linux-blue/workbench-trim-candidate.test.cjs"
+        ],
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "summary": {
+          "tests": 225,
+          "suites": 0,
+          "pass": 190,
+          "fail": 35,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "bytesChangedDuringRun": false,
+        "files": {
+          "tests": [
+            {
+              "file": "linux-blue/candidate-calibration-runtime.test.cjs",
+              "bytes": 6189,
+              "sha256": "e64958d684801ae8e53d08623b77f92777f81f7475b30af1d3e7e88111a1a4ba"
+            },
+            {
+              "file": "linux-blue/candidate-keep720-service.test.cjs",
+              "bytes": 22177,
+              "sha256": "8b9445ea950613c87b1f86339fcb623f41a06e7fd009740f642b7fd57b71a3b5"
+            },
+            {
+              "file": "linux-blue/candidate-resize-service.test.cjs",
+              "bytes": 20010,
+              "sha256": "5c4353af15c3c667f3089e98a35e216b5af5c12b62160479397e41cb75411182"
+            },
+            {
+              "file": "linux-blue/candidate-workbench-renderer.test.cjs",
+              "bytes": 12411,
+              "sha256": "8d063110140b4f8bd5d06bf48b50212a9eed8a8371933c6638c1390578da79fb"
+            },
+            {
+              "file": "linux-blue/candidate-workbench.test.cjs",
+              "bytes": 8467,
+              "sha256": "37ccbf2923794c429b7a90addf3240c5b2b991fe3f01089fec5726b79a8fdbed"
+            },
+            {
+              "file": "linux-blue/demo-boundary.test.cjs",
+              "bytes": 7127,
+              "sha256": "768fc77bce010c54f32b8664234628e4709931fb72cd585282fa807df33d3cea"
+            },
+            {
+              "file": "linux-blue/output-preflight.test.cjs",
+              "bytes": 6545,
+              "sha256": "027a7429f628413b969a8852a7a2f0172e88c8d76016d64cc86d17be2710a16e"
+            },
+            {
+              "file": "linux-blue/runtime-av1-operation.test.cjs",
+              "bytes": 9656,
+              "sha256": "13956585833345e0cc6a4b78a1c71b1cc32d82fb7879bf970c762240aa96e02f"
+            },
+            {
+              "file": "linux-blue/runtime-av1.test.cjs",
+              "bytes": 5453,
+              "sha256": "dfe653474ad3a616e57797b061626c7462a7236dd6ca807db11e3fbfda194118"
+            },
+            {
+              "file": "linux-blue/runtime-candidate.test.cjs",
+              "bytes": 3699,
+              "sha256": "5512a93d8abcb841514dd9b3956f4ce2cb7da6f705161d64d70aea198584bb19"
+            },
+            {
+              "file": "linux-blue/runtime.test.cjs",
+              "bytes": 3959,
+              "sha256": "77e5a2a83a5a9ef7ef9334d6e01d90f6ac3b66aa4ba87f177ce7b102c267d446"
+            },
+            {
+              "file": "linux-blue/source-inspection-boundary.test.cjs",
+              "bytes": 6470,
+              "sha256": "e3af4733bf7bc72bb437cd2ccb86b8ea69371bf2cbea63e10347a9f5049e1cdd"
+            },
+            {
+              "file": "linux-blue/source-inspection.test.cjs",
+              "bytes": 8961,
+              "sha256": "b48e38a1dca45a04cddc8ff3a9e7c02d9f314b06cd8ba484749c381269d8618f"
+            },
+            {
+              "file": "linux-blue/synthetic-service.test.cjs",
+              "bytes": 5647,
+              "sha256": "be889555ea44c4d293c33e2cfc8c84a1a84ca8d96d426b505ccbf01811530e7c"
+            },
+            {
+              "file": "linux-blue/ui-policy.test.cjs",
+              "bytes": 5165,
+              "sha256": "587aecaed6fb0b547fcff7668a854acf561fb9c07147fec0f4bcb86f51fed8df"
+            },
+            {
+              "file": "linux-blue/workbench-av1-admission.test.cjs",
+              "bytes": 10085,
+              "sha256": "9df61cceaf1f8bd6c334d5754be4c79b2cef4334ba45b39a1612ff8cea60968e"
+            },
+            {
+              "file": "linux-blue/workbench-av1-service.test.cjs",
+              "bytes": 6755,
+              "sha256": "6079eec204ed3e0b15970089018a06ac42e0072b1fc06b67d8192d35349036a6"
+            },
+            {
+              "file": "linux-blue/workbench-av1-trim.test.cjs",
+              "bytes": 2647,
+              "sha256": "08cc9f46160c517f880aa81d1caf9bec8892308801bfd62361c96fe4a93affaf"
+            },
+            {
+              "file": "linux-blue/workbench-execution.test.cjs",
+              "bytes": 4083,
+              "sha256": "570fd4f1918fed21bbfd30164f7847d164bb3209310108b66244a76559e0919b"
+            },
+            {
+              "file": "linux-blue/workbench-full-1440-service.test.cjs",
+              "bytes": 5963,
+              "sha256": "2a3127ff0f81a44f6f640c98817e2d4ee5cb099c058e4d292a1e16f13c0bf86e"
+            },
+            {
+              "file": "linux-blue/workbench-full-resize-service.test.cjs",
+              "bytes": 5137,
+              "sha256": "8affd468c14fba60c98dc3ea734a96e1d502d61382afa5170d06f7b3a782239c"
+            },
+            {
+              "file": "linux-blue/workbench-long-range-calibration.test.cjs",
+              "bytes": 20580,
+              "sha256": "29d446ee25955525caf1f583f2be3f8bfc897205439f38ebeb806227c505b6cc"
+            },
+            {
+              "file": "linux-blue/workbench-long-range-service.test.cjs",
+              "bytes": 10678,
+              "sha256": "823948d7ac18bc5732e3297985b9261411188dafbf32a4c24a64871eaef07fb6"
+            },
+            {
+              "file": "linux-blue/workbench-long-range-smoke.test.cjs",
+              "bytes": 5860,
+              "sha256": "3bf94d7768613312fe50ef1959b7da17da400caa7dbd2c00cad976ad3b3fcf13"
+            },
+            {
+              "file": "linux-blue/workbench-qualified-app-smoke.test.cjs",
+              "bytes": 6469,
+              "sha256": "c85541320584cb5a19eacda7b130bc71a0e33923b3dc9f2b4b5e0b3601cc6993"
+            },
+            {
+              "file": "linux-blue/workbench-qualified-encode-controls.test.cjs",
+              "bytes": 11188,
+              "sha256": "18b69949fa9f5894556a74e11e8b0c7a2625022df397ab9388515730fe874ac1"
+            },
+            {
+              "file": "linux-blue/workbench-remux.test.cjs",
+              "bytes": 9956,
+              "sha256": "0a44f52c0bbd345661c5330cd1aa230b35a509b298dac4e7b19642ba7ec19d47"
+            },
+            {
+              "file": "linux-blue/workbench-resize-service.test.cjs",
+              "bytes": 5387,
+              "sha256": "2190e0461ca93177bc8770c0488e7ffd61b6d6e49f9d6f2beaeb485513691d04"
+            },
+            {
+              "file": "linux-blue/workbench-service.test.cjs",
+              "bytes": 8616,
+              "sha256": "ec4af779d98a510ba2fb45bc0d97f4213f2451e5b93dc0b557ba2d14c2a3eee6"
+            },
+            {
+              "file": "linux-blue/workbench-trim-candidate.test.cjs",
+              "bytes": 6983,
+              "sha256": "c4550f213c0dd33bf11c518f5ee7c3d34f9bb5a144a5ca38ba77bdaec00bd2b1"
+            }
+          ],
+          "covers": [
+            {
+              "file": "linux-blue/candidate-resize-service.cjs",
+              "bytes": 23400,
+              "sha256": "0b8abd1807fa577faa4fd77c2450258f203908048052e1ab6ad3652dab1a1068"
+            },
+            {
+              "file": "src/encoder-service.cjs",
+              "bytes": 158909,
+              "sha256": "5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7"
+            },
+            {
+              "file": "src/operation-family.cjs",
+              "bytes": 49891,
+              "sha256": "4453619d3f68d891bf7472a9dcfc919508b4dbb0533e0a07ee3b48461424ae3e"
+            },
+            {
+              "file": "src/operation-evidence.cjs",
+              "bytes": 53166,
+              "sha256": "8de2516179f3c80667004855ef720250b934fd7b816b170ac2be1b9c39179ef8"
+            }
+          ]
+        }
+      },
+      "artifacts": {
+        "receipt.json": {
+          "name": "receipt.json",
+          "bytes": 8369,
+          "sha256": "85c4aad65901e122c01479267b0cb57de2ad9b9cab6ba75c20ca188652e96511",
+          "rawArtifactIncluded": false
+        },
+        "stdout.txt": {
+          "name": "stdout.txt",
+          "bytes": 61009,
+          "sha256": "75be164e2b1a50fc7345d117f44d3edf39d01bc97a5320796cd2f3203b2909ea",
+          "rawArtifactIncluded": false
+        },
+        "stderr.txt": {
+          "name": "stderr.txt",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "rawArtifactIncluded": false
+        }
+      }
+    }
+  ],
+  "failureReconciliation": {
+    "sourceBase": "7270c89c59020be8dfaec46dc455edaad3ffc111",
+    "priorLog": "artifacts/v0.7/evidence/20261117T185705Z_resize-source-lead-linux/stdout.txt",
+    "currentLog": "artifacts/v0.7/evidence/20261117T192938Z_resize-capsule-lead-linux/stdout.txt",
+    "priorDisplayedDiagnostics": 35,
+    "currentDisplayedDiagnostics": 35,
+    "sameNames": true,
+    "priorFailCount": 35,
+    "currentFailCount": 35,
+    "oldMissingSourceMismatchRetained": true,
+    "serviceFailedNames": [
+      "a missing source after valid completion is incomplete evidence, not a ctime warning or publication"
+    ],
+    "priorLogSHA256": "46b4a1a497bfd768fe5ac4fc34fe2b1349726c242be674bdae4103a7ccc9259d",
+    "currentLogSHA256": "75be164e2b1a50fc7345d117f44d3edf39d01bc97a5320796cd2f3203b2909ea",
+    "failedNames": [
+      "calibration producer literal closure still equals immutable tested source",
+      "synthetic factory composition uses normal selector, observer, telemetry and storage, with owned closure",
+      "bounded original-report read and post-await currentness fail closed with descriptor cleanup",
+      "cancellation closes admission synchronously before pending saved writes drain",
+      "service and candidate cleanup failures both survive without masking the primary",
+      "workbench snapshot removes unqualified runnable entry before every update, then ordinary file-edit reprepare issues genuine range selection",
+      "strict OutputAccess seam rejects callback-shaped impostor and accepts real main-owned authority",
+      "inspection-only boundary refuses Start across a modeled pending-write window and does not emit ready compatibility rows",
+      "synthetic staged service: codecs, exclusive publication, admission and child balance",
+      "active cancellation drains before restart; progress-time collision never overwrites",
+      "close drains an active child and permanently closes admission",
+      "caller fixture swap after capture cannot redirect child reads",
+      "ordinary three-codec paths retain baseline predicate and reach superclass admission",
+      "genuine KeepSource, range resize and Full resize tokens coexist with ordinary H265 in one preflight",
+      "forged/stale family and runtime tokens refuse the whole batch without state mutation",
+      "unsupported route, omissions, settings and separate-folder rules cannot partially start",
+      "stale plans and invalid selections retain superclass refusal before any start",
+      "a revoked genuine observer token refuses before superclass mutation",
+      "fourth family requires its own genuine catalog and current token, old three cannot issue it",
+      "original factory remains ordinary-only and forwards state/output access without spawning",
+      "1440 pure receipt schema retains full extents, independent source and exact family resources",
+      "1440 is fixed main-only fourth variant without app activation or geometry override",
+      "1440 composition pins the independently accepted complete calibration bytes",
+      "Full composition pins the independently reviewed completed calibration",
+      "Full receipt requires complete distinct source extents, family and null interval",
+      "pending, missing or changed digests cannot authorize a receipt",
+      "exact successful Keep Source, resize and Full service proofs match their own calibrations",
+      "forged successful labels cannot replace lifecycle, source, accounting or geometry evidence",
+      "accepted exact proofs construct real qualified factory without capabilities or child execution",
+      "1440 service validator has distinct status, geometry, lifecycle and complete tail counts",
+      "accepted exact fourth proof constructs four-family factory without children and keeps three-family app separate",
+      "three-family controls import and real construction do not load unavailable inactive 1440 composition",
+      "reviewed local dependency gate succeeds and absent/symlinked dependencies fail closed",
+      "resize receipt binds independently verified bytes while explicit pending factories stay closed",
+      "resize receipt independently binds geometry, policy, clocks, resources and all evidence"
+    ],
+    "correction": "Initial local parser expected TAP not-ok syntax but logs use spec-reporter cross marks; it produced an invalid empty/empty comparison. That draft is explicitly invalid and was replaced before publication with real diagnostic extraction and minimum-count assertions. No source/test or result changed."
+  },
+  "externalArtifacts": [
+    {
+      "name": "HANDOFF-v1.json",
+      "bytes": 4079,
+      "sha256": "a084ac210095a841b67f9bd5ae6160ee42cf556527a76e13d11775f37dfe2b35",
+      "rawArtifactIncluded": false
+    },
+    {
+      "name": "HANDOFF-v2.json",
+      "bytes": 5159,
+      "sha256": "dcfbb0f99a42ede5caa90d21540fa08f7160e1f8b7f77683dbf814095fd0dec6",
+      "rawArtifactIncluded": false
+    },
+    {
+      "name": "final.patch",
+      "bytes": 43239,
+      "sha256": "6155b60fece4c3e44f0e7dcee42aad725a8eb498f958ce97e34cdb5b859de998",
+      "rawArtifactIncluded": false
+    },
+    {
+      "name": "final-v2.patch",
+      "bytes": 44385,
+      "sha256": "02c05c73b8760681ab9cf59319218823f7fe0a15855d110f422704e0fec536bf",
+      "rawArtifactIncluded": false
+    },
+    {
+      "name": "producer-closure.json",
+      "bytes": 9950,
+      "sha256": "1d4d4de8c041f6d3dbd6a08cda869c03bcd6c36bb5f923394e3c2aa70eba2ebf",
+      "rawArtifactIncluded": false
+    },
+    {
+      "name": "INDEPENDENT_REVIEW.json",
+      "bytes": 3421,
+      "sha256": "66c62b29c110c585c4ebb176ace3df55b013088a21d9e646655c35651a0cddba",
+      "rawArtifactIncluded": false
+    },
+    {
+      "name": "INDEPENDENT_REVIEW-v2.json",
+      "bytes": 1383,
+      "sha256": "3c69096489a4b9af23a252a513e457a4be6228254f2b81e15661b99893c0d4e3",
+      "rawArtifactIncluded": false
+    },
+    {
+      "name": "checkpoint017-integration-receipt.json",
+      "bytes": 615,
+      "sha256": "e5b53a8b101d4383557970f9e54a840954b45f33b32df97bac1b586b1eb83bcf",
+      "rawArtifactIncluded": false
+    },
+    {
+      "name": "checkpoint017-failure-reconciliation.json",
+      "bytes": 4417,
+      "sha256": "b1ef4e0e674d47e6a6523f2b37da0593cded83a46401dd91115a090ddb529f5b",
+      "rawArtifactIncluded": false
+    },
+    {
+      "name": "DRAFT_PLAN.md",
+      "bytes": 10167,
+      "sha256": "0d79e5fd40580b60d0507e0534b3a17101db594f843670d2fed7e56c66f731a6",
+      "rawArtifactIncluded": false
+    },
+    {
+      "name": "PREPARED_HANDOFF-v2.json",
+      "bytes": 1630,
+      "sha256": "446bc2b7fb3b627b9c5ccc17845ece663a07816998a7475f8a6b0c1e508095a2",
+      "rawArtifactIncluded": false
+    },
+    {
+      "name": "INDEPENDENT_LAUNCH_REVIEW-v1.json",
+      "bytes": 2541,
+      "sha256": "4f0dc440950891c69d6d8a51b399a8fdba4f235e7cbc8baf0eac71cf6035a16e",
+      "rawArtifactIncluded": false
+    },
+    {
+      "name": "INDEPENDENT_LAUNCH_REVIEW-v2.json",
+      "bytes": 1782,
+      "sha256": "b8d3540d1fd1ad968a96fa4603827b1d4a3607d10040cc8376bea1b84535cea7",
+      "rawArtifactIncluded": false
+    }
+  ],
+  "priorPublication": {
+    "localCommit": "7270c89c59020be8dfaec46dc455edaad3ffc111",
+    "remoteCommit": "ea2a0558c72398e0943cf8696aecc929f1629725",
+    "notion": "https://app.notion.com/p/41bbd7ade63b81a19affe2be0d59705a",
+    "sourceFiles": 541,
+    "commits": 16,
+    "sourceAndBundleRestored": true,
+    "nativeSessionSourceBytes": 621362,
+    "githubVerifiedAtUtc": "2026-11-17T19:28:34.047983+00:00"
+  },
+  "limits": [
+    "Source delta adds only two files; existing app code is unchanged. Lead integration and four PBS paths are separately recorded. Original isolated-worker no-integration scope remains historical handoff context.",
+    "Injected VM composition and nonexecutable fixture runtime tests only; no real media, candidate binary, Electron or native execution.",
+    "Normal-service publication/cancellation with actual resize media remains unqualified; separate bounded proof required.",
+    "Raw report and exact runtime/library inputs are local restoration requirements, not supplied by source-only archive.",
+    "Warnings retained; diagnosticsComplete means fully retained observations, not warning-free execution/performance qualification.",
+    "Listed seven loaded dependencies are exact audited inventory, not general ELF closure or atomic loaded-image proof.",
+    "New factory is fixed/inert and unimported by app; no renderer/UI/output callback seam or catalog/default activation.",
+    "Prior Keep720 capsule intentionally unchanged and stale; no old-evidence repin.",
+    "V2 path-replacement and alias rejection are VM-modeled races, not concurrent OS attacker experiments.",
+    "Producer test itself checks current files; immutable97-file closure is established separately by independent review.",
+    "Cancel closes service admission synchronously, but idle cancel is not proof the external runtime token is immediately revoked; drain/close/fresh instance remains required.",
+    "Initial local failure-name parser used TAP on spec logs and produced invalid empty/empty comparison; corrected before publication using actual cross-mark entries and minimum count assertions.",
+    "Installed security guidance considered; this is scoped manual source review, not a formal Security Cloud scan."
+  ],
+  "nextProof": {
+    "status": "V2 helper prepared and independently conditional-GO reviewed; no approval or execution",
+    "cases": [
+      "late130-132s\u219260frames/96000samples",
+      "fresh8s heldout.613-2.721s\u219263/101184",
+      "exclusive destination collision",
+      "one observed active-encode cancellation",
+      "NEWhandle+NEWservice1.013-1.513s\u219215/24000"
+    ],
+    "bounds": "At most180serialchildren,30minuteabortrequest,27GiBfreefloor and2GiBpointadmission; not hard OS/write/exit guarantees",
+    "requires": "Immutable017commit/full-sourceNotionrestore, exact reviewedlauncher/plan/runtime/report/current source gate and new one-attempt approval before execution",
+    "preparedHashes": {
+      "launch-service.cjs": "07bf36806dbcca000174e2b5c948be7b41cfd8a3d9d3b74da8e77624200ebdce",
+      "run-once.cjs": "6f50c7534793319aeaa2609aaa9bbd7a91735f65a6d20b7be22b6aaf9fdd9210",
+      "CAMPAIGN_PLAN.json": "63af94a4c549e7dba067ccbe74b0ccef0cd255105fd45d2e0a241e7973214b8a",
+      "runtime-manifest.json": "a957385be8d57874dfd5e88a9cbf137ecbe9311ebccc5e25280e6e52b72a511c",
+      "DRAFT_PLAN.md": "0d79e5fd40580b60d0507e0534b3a17101db594f843670d2fed7e56c66f731a6"
+    },
+    "reviewSha256": "b8d3540d1fd1ad968a96fa4603827b1d4a3607d10040cc8376bea1b84535cea7",
+    "preparationCorrection": "V1 completion hashed only pre-write memory. Independent review required persisted report reread; V2 verifies bytes/hash/JSON after exclusive final write and derives completion hash from readback. Failure exits nonzero without passed completion. Both versions retained; syntax checks only."
+  },
+  "activation": {
+    "realResizeService": false,
+    "nativeResize": false,
+    "workbenchRoute": false,
+    "catalogOrDefaults": false,
+    "ownerAcceptance": false,
+    "oldKeep720Repin": false
+  }
+}

@@ -1,3 +1,421 @@
+# 📘 Session: November 17, 2026 — FFmpeg Encoder — Bind the audited resize calibration to a separate developer-only normal-service composition
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model or tool identity | Effort setting | Evidence basis and verification limit |
+|---|---|---|---|
+| Engineering lead / integration owner | GPT-6 Astra, recorded lead configuration | Ultra, recorded assignment | Chose the narrow successor, reviewed its immutable proposal, waited for the preceding source restore, integrated two new files and ran final focused/service/Linux tests. Configuration is not backend or performance attestation. |
+| Isolated source contributor | Not separately established here | Not separately established | Implemented the fixed developer-only resize capsule and tests outside the authoritative checkout, retained absence-red and successive test results, and froze V1 then a test-only V2. No genuine candidate binary or media was executed. |
+| Independent source reviewer | Not separately established here | Not separately established | Inspected the immutable patch, independently resolved the actual historical producer closure and ran 59 V1 tests; identified a dedicated pathname-guard coverage gap, then reviewed and ran the final V2 12-test file. The 59-test run is not relabelled as a V2 full rerun. |
+| Preservation / mirror role | Not separately established here | Not separately established | Restored checkpoint 016 source/history and fetched its complete native readable record; verified the intended remote ancestry and changed bytes. Source-only backup still does not restore ignored runtime/media/raw-report inputs. |
+| Documentation editor | Blue documentation contributor; model not independently established here | Not separately established | Read the final source/tests, handoffs/reviews, integration, lead tests, failure reconciliation and predecessor preservation receipts. Drafted outside the checkout and owns only the released Session path. No source implementation, tests, media, native execution or publication by this role. |
+
+**Record basis:** The actual resize calibration remains a result of immutable 015 source `9390681`, preserved in evidence checkpoint 016. This later session adds its separately reviewed consumer composition. Source qualification, synthetic positive factory tests, actual media calibration, normal-service publication and native application use are different evidence levels. The complete preceding 621,362-byte cumulative body remains exact, including the earlier statement that this successor was not yet implemented at that earlier cutoff.
+
+## 🕒 Time
+
+- Date / date range: November 17, 2026. Explicit receipt timestamps below are UTC; Cairo civil time is UTC+2. Earlier raw media epochs remain in their separately recorded clock domain and are not merged with this source-test chronology.
+- Start: An exact active-work start for the isolated implementation/review was not measured. V1/V2 handoffs and retained logs establish order; no invented coding start is inferred from a file timestamp or test duration.
+- Continuation: Checkpoint 016 GitHub verification completed at 19:28:34.047983 UTC / 21:28:34.047983 Cairo. Authoritative integration occurred at 19:29:28.617011 UTC after verified 016 Notion source restoration. The source gate and later full readable/history confirmation are distinct receipts, not an assumed simultaneous event.
+- Final focused tests: Started 19:29:28.712 UTC, duration 2,425.031 ms, 160/160 passed.
+- Final service tests: Started 19:29:31.342 UTC, duration 7,501.598 ms, 125/126 passed with the retained missing-source diagnostic mismatch.
+- Final broad Linux tests: Started 19:29:38.918 UTC, duration 1,460.686 ms, 190/225 passed with the same 35 failing names as the preceding broad run. These are recorded wrapper durations, not active working time or media-performance measurements.
+- End / stopping point: Final integrated source tests and failure reconciliation are complete. This record stops at the coherent source/PBS checkpoint handoff, before a verified 017 commit, Notion restore, GitHub publication or any actual resize normal-service campaign. The later helper-only V2 launch preparation is independently conditionally reviewed, but remains unapproved and unexecuted; that preparation is recorded separately below.
+- Session type: Isolated source implementation, independent V1/V2 review, bounded integration, regression reconciliation and preservation handoff.
+- Project stage: Linux 0.7 proportional 1080p30-to-720p precision-FLAC developer-only service composition, between audited calibration and actual consumer execution.
+- Main focus: Consume only the exact original calibration and immutable producer/runtime identities while preserving normal service, private selection, storage, cancellation and cleanup machinery.
+- Contributors: Ahmed retains product ownership and acceptance. Lead, isolated contributor, independent reviewer, preservation and documentation responsibilities are separated above.
+- Model / effort: Known lead configuration and explicitly unknown settings for other roles; no extrapolation across contributors.
+- Active working time: Not measured. Test, preservation, review and drafting intervals are not added into an invented total.
+- Reason for summary: Preserve the new narrow composition, the coverage correction and exact test results, then identify the next finite proof without claiming it has already run.
+
+## 🎯 Session Goal
+
+The preceding calibration established three finite resize cases on real source/runtime evidence. It did not make a service factory, current workbench or public output route qualified. In particular, the old Keep720 capsule continued to pin earlier versions of three producers, so the new resize evidence could not honestly be made useful by copying digests into that historical capsule and declaring the old route repaired.
+
+The goal was a separate developer-only consumer: two new files defining and testing a fixed `createCandidateResizeService` composition. It should admit the reviewed genuine candidate pair and seven listed dependencies, the exact original 125,887-byte raw report and its immutable 97-producer closure; reuse the existing normal EncoderService-derived path, guarded runner, selector, telemetry and evidence storage; and fail closed on mismatch or stale authority. It should remain unimported by the application, with no settings/default/catalog/renderer/IPC/Windows changes.
+
+The useful finish line for this session is a reviewed, integrated and tested source checkpoint with accurate limitations. Positive construction through an injected VM is valuable for refusal/ownership/control-flow tests, but it is not a real candidate factory invocation or output publication proof. A later exact-source, separately authorized finite normal-service campaign must establish the actual runtime/media/lifecycle behavior before any native resize journey is considered.
+
+## 🛠️ Actions Taken
+
+### 1. Preserve the audited calibration checkpoint before integrating its consumer
+
+Checkpoint 016 is local `7270c89c59020be8dfaec46dc455edaad3ffc111`, tree `8e70dcc52ba48c98606e546ecee33bb156eba0a5`, parent `9390681b347d732bff4ceae70d57de35495b536d`. Its five-path evidence/PBS change preserves the actual resize calibration without a source/test delta. The [016 preservation page](https://app.notion.com/p/41bbd7ade63b81a19affe2be0d59705a) restores all 541 files and the complete sixteen-commit local history.
+
+The source ZIP is 3,208,782 bytes, SHA-256 `7ebc0ccebfc7499aa3f1bf55a2f3ab38d8d71c2ce9c9d15c7853d82f1ed65612`; the full Git bundle is 3,054,971 bytes, SHA-256 `2bbe04b245b0d1baf559acd281312b331c1e4c1574283adff9040e7464448719`. The [native full Session record](https://app.notion.com/p/41bbd7ade63b8112ba9dfb8d209e781f) was fetched in two ordered chunks with all sixteen session headings and historical ending, without truncation metadata. Its exact Markdown authority remains the 621,362-byte file in the restored archive/bundle, SHA-256 `30a431cce0ff0a4c7bc18ee21fc2424005eacf375b71ee46aa96a953ed90059d`; native formatting is not byte-equivalent.
+
+Remote publication on the intended `CipherVaults/FFmpeg-Encoder-Blue-Linux` development branch is `ea2a0558c72398e0943cf8696aecc929f1629725`, sole parent `10c1a57532171b1b3a1846c0136d78ef06d600b1`, tree `57e6ae8cda93de003af5fa00a297f03b938b4a22`. It was verified at 19:28:34.047983 UTC: 923 total files, 918 unchanged, two modified, three new, zero deleted, with all five changed file readbacks, expected ancestry/tree and fresh saved ref verified. Local reconstruction ancestry and original remote ancestry remain separate and are not force-merged into a fabricated one-to-one commit identity.
+
+Integration waited for verified source restoration. Later full bundle/native verification was also completed in the actual predecessor receipts. Those receipts do not imply that ignored candidate binaries, local raw reports or media have been uploaded; they preserve source and explicitly portable evidence, not executable factory prerequisites.
+
+### 2. Keep the new consumer distinct from the immutable calibration producers
+
+The isolated proposal was based on `9390681`, the immutable source that produced the real resize calibration. Its V1 then V2 handoffs define only `linux-blue/candidate-resize-service.cjs` and `linux-blue/candidate-resize-service.test.cjs`. The subsequent authoritative integration base is the evidence-only child `7270c89`, whose relevant producers are unchanged. The historical producer closure is not rebased to the consumer commit merely because the new module is added later.
+
+The module pins runtime identity `1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9`, the exact reviewed pair and seven explicit dependency records, plus raw calibration SHA-256 `3fc9a4678890da318728f2c8b44ac7c6b4fe345ccd271b7f1064928f63eb1317`, exactly 125,887 bytes. Its fixed report is the original `candidate-resize1080to720-calibration-3JE2RQ/report.json`, not a transformed portable copy, caller-selected report or previously accepted Keep720 report. The final saved-output audit anchor remains `586d5adcbb2e5d586286ae94fa4e4b84d5726582a3380d3cdad49ac23b388574`.
+
+The 97-file producer map is a recursive literal relative-import closure rooted at `workbench-long-range-calibration.cjs`, including resolved package/JSON imports. The independent reviewer reconstructed that set and compared every digest to immutable `9390681`; its closure receipt SHA-256 is `1d4d4de8c041f6d3dbd6a08cda869c03bcd6c36bb5f923394e3c2aa70eba2ebf`. There were no missing imports in that stated resolution. It is not an assertion that every possible dynamic load, arbitrary future require, operating-system dependency or atomic loaded process image has been measured.
+
+The consumer itself was not present in the historical calibration's import closure. It is separately reviewed and must be bound by the future consumer checkpoint's full source gate. Excluding it from a historical producer list is therefore not permission to leave its future execution unbound. Conversely, adding it to that historical list would invent evidence the old campaign did not produce.
+
+### 3. Admit only fixed, main-owned inputs and retain real runtime currentness checks
+
+The public factory accepts an ordinary inert options object with own data properties for `verifiedRuntime`, `stateDir` and optional `onChild` only. It rejects accessor/extra-option surfaces instead of evaluating a caller-supplied getter or accepting an alternate report, qualification, runner, runtime identity, settings set or dependency inventory. A valid state directory must be absolute, canonical by the module's stated path rules and free of control characters; child observation is an optional function, not arbitrary authority injection.
+
+`requireCandidateCalibrationRuntime` requires the existing private runtime brand. A copied lookalike is rejected; a genuine but unreviewed synthetic pair also fails the exact pair/dependency gate before any report or service admission. That negative test uses nonexecutable fixture bytes and confirms the handle closes and no state directory is created. It is a genuine branded-handle refusal test, not execution of the candidate binary.
+
+The factory restricts the inspected platform to Linux x64 and refuses nonempty loader overrides. It checks candidate currentness before the producer/report awaits, rehashes all producers before and after the report read, then checks currentness again. The runner wrapper repeats the loader/currentness checks before invocation and uses the existing clock guard with the candidate FFprobe path. These checks preserve the existing authority boundary across awaits; they are not a claim that independent hash reads eliminate every filesystem race or attest atomically to the process image loaded by the kernel.
+
+The seven library records remain an explicit audited inventory, including canonical/soname identities, not general ELF closure discovery. No fallback to the system FFmpeg, runtime pin rewrite, copied binary, installation, native launch or system-security change belongs to this source checkpoint.
+
+### 4. Read only the exact original report through a bounded stable handle
+
+The new reader first requires the exact canonical report path, opens it read-only with `O_NOFOLLOW`, checks an ordinary single-link file of the exact expected size and uses bounded positioned reads into a 125,888-byte buffer. An extra byte, truncation, oversized file or changed descriptor metadata rejects rather than allocating an arbitrary file length or trusting a successful parse of a prefix.
+
+Before and after descriptor stamps include device, inode, size, link count, mtime, ctime and birthtime. After the bounded read, a separate pathname lstat and realpath comparison must still identify the same file. The open handle closes in `finally`. This distinguishes a stable descriptor from a pathname that has been replaced while the descriptor continues reading the old inode.
+
+The production gate already contained that post-read pathname comparison in V1. Independent review found that existing tests covered symlink, nonregular/large file, changed descriptor stamp, truncation, hardlink and stale runtime but did not specifically mutate the pathname after reading. V2 therefore changes tests only, not the production implementation: one case changes the post-read pathname inode while the descriptor remains stable; the other changes the second canonical resolution after the complete read.
+
+Both dedicated V2 cases assert the exact `Report path replaced during reading` guard, all 125,887 bytes read, two realpath checks, one descriptor close, one candidate close and zero child calls. This is stronger evidence that the intended late guard was actually reached than a generic rejection that might have stopped at an earlier precondition. The fixture is still a controlled VM filesystem seam, not a stress test against a live adversarial filesystem or proof of all possible races.
+
+### 5. Validate the finite calibration envelope without granting arbitrary report authority
+
+The pure receipt validator delegates to the existing proportional report validation with the fixed resize family, resource policy, input geometry and runtime identity, then adds the reviewed candidate-specific conditions. Its optional digest argument is a pure test seam: it returns parsed validation results but issues no service/runtime authority. The live factory always uses the fixed original report and digest, so a transformed JSON file or synthetic report accepted by a pure test cannot enter the live factory through that seam.
+
+The required raw calibration is candidate-runtime, passed pre-catalog, 1920×1080-to-1280×720, CPU HEVC slow quality 25 and precision FLAC. It retains exactly the late/open-end/nonaligned cases, full source coverage, exact selected PCM identity, frozen clock qualifications, genuine resize resource derivation and expected geometry. Source admission remains the inspected finite H.264 High/yuv420p progressive 30 fps BT709 limited-range/left-chroma QT-container and s16 stereo 48 kHz PCM envelope. This is not a generic source, audio-policy, orientation or geometry catalog.
+
+Each case must carry valid two-stream encoder-input count/timeline telemetry with correct video/audio order, zero unknown input records and the specified source correspondence. That input telemetry is not itself pixel identity, output validity or publication authority. The output/PCM/timing evidence remains the separately retained calibration evidence, with its original audit limits.
+
+The capsule requires closed successful calibration census and all 42 child diagnostic rows: available, complete-at-save, untruncated, consistent total/retained lengths within the reviewed 256 KiB prefix bound, valid saved hash and no failure/save failure. `diagnosticsComplete` means the observations were completely retained, not that stderr was empty. The actual report includes 39 empty child streams and three 499-byte target warnings; the validator must not suppress or reinterpret them as clean performance qualification.
+
+The earlier calibration still has its documented limits: full output hashes were first established at independent saved-output audit; there is no separately retained full output probe JSON or second full returned-report object; audit was a saved-evidence inspection, not a new media decode. Source-only capsule construction cannot retroactively improve what that campaign retained. The next consumer proof can explicitly save additional output/probe/diagnostic receipts, but that remains future work.
+
+### 6. Compose the existing normal service rather than build a second execution pipeline
+
+The factory constructs the existing CandidateTrimService-derived path with a real OperationRuntimeObserver, ClockQualifiedFamilySelector, guarded candidate runner, telemetry and `openEvidenceStorage`. Its policy identity is fixed to the reviewed resize source epoch, `candidate-resize1080to720-normal-service-9390681`; the family and resource formula are the existing proportional resize definitions. Inspection concurrency remains one. Vendor capabilities fail closed; no broad vendor discovery or backend promotion is introduced.
+
+The selector obtains its frozen qualifications and evidence identifiers from the exact accepted calibration, while actual job source/runtime bindings remain current and private through the existing selection machinery. The genuine-selection test builds the real operation request, plan, orientation qualification, source fingerprint and selection binding around synthetic inspection data. It verifies the private proportional-family selection and exact resize resources, refuses KeepSource, copied tokens and invalidated tokens. The claim is genuine selection/control-flow under synthetic inputs, not actual media/source inspection or publication.
+
+The service retains existing dynamic operation budgets/storage forecast and source-complete evidence behavior rather than adding a fixed-size escape hatch. `operationEvidenceBudget` is null to preserve the existing derivation; the composition's initial deadline input is not a replacement for genuine per-selection resize resources. No existing shared EncoderService, planner, family, collector, renderer, output callback, default or catalog code is edited in this checkpoint.
+
+The module owns its candidate handle. On construction failure it attempts observer/candidate cleanup and preserves the original error, attaching a cleanup-failure count if cleanup itself rejects. That path is distinct from normal resource closure, whose ordered errors are preserved as described next; it should not be described as returning every constructor-cleanup error object individually.
+
+### 7. Carry forward synchronous cancellation closure and fresh-instance recovery
+
+The owned service closes admission synchronously before awaiting the inherited cancellation path. The regression test holds a pending preference write, calls cancellation and checks that admission is already closed and Start rejects `SHUTTING_DOWN` before the pending write is released. It exercises a real service cancellation call under the injected positive factory, not an actual live FFmpeg cancellation. The earlier active-media cancellation evidence belongs to earlier Keep720 source/geometry and is not reused as a resize result.
+
+Resource closure attempts the inherited service/operation resources first, then the candidate handle even if the first close rejects. A single failure is rethrown; multiple failures become an ordered AggregateError. The regression checks that the inherited aggregate contains the original observer failure and the second entry is the candidate-close failure, so cleanup does not silently mask the primary error.
+
+The operational rule remains cancel → drain pending task/cancellation → close service/operation resources and candidate → create a new verified handle and a new service. Idle cancel alone does not prove that the externally supplied runtime token has been revoked. There is no same-service recovery claim, no permission to reopen admission on an old service and no new token-refresh bypass. Actual active encoding cancellation, no publication and fresh-instance recovery for resized media remain the next bounded proof, not an achievement of these unit tests.
+
+### 8. Retain the actual red, V1 review and V2 coverage correction
+
+The initial red run occurred before the new module existed and failed `MODULE_NOT_FOUND`. This proves API absence at that point, not that each security/refusal predicate was individually observed failing against a pre-fix implementation. The handoff explicitly retains that distinction. Initial isolated suites then passed 10/10 and 11/11 as coverage grew; the V1 combined regression and independent review each passed 59/59.
+
+The independent V1 review found no blocking source issue and separately reconstructed the exact 97-file historical producer closure. It also noted that the test named as an immutable-closure check itself compares current working source, while the review supplies the missing immutable Git comparison. A test title is not evidence that the historical lookup occurred inside that test. That limitation remains explicit rather than silently rewriting the test's provenance.
+
+V1's identified dedicated pathname-guard coverage gap led to the test-only V2. The production module remains 23,400 bytes, SHA-256 `0b8abd1807fa577faa4fd77c2450258f203908048052e1ab6ad3652dab1a1068`. The test file grows from V1 18,881 bytes, SHA-256 `2981ffcf9cd34a72913fcbfb2c1f634bc2512e4cd37bcb3ca04d13aee75e5c99`, to V2 20,010 bytes, SHA-256 `5c4353af15c3c667f3089e98a35e216b5af5c12b62160479397e41cb75411182`. The final two-file patch SHA-256 is `02c05c73b8760681ab9cf59319218823f7fe0a15855d110f422704e0fec536bf`.
+
+The V2 contributor ran the focused file 12/12 and combined regression 60/60. Independent V2 review ran the final focused file 12/12, confirmed production unchanged and concluded no blocker, with the late-path coverage gap closed. The prior independent 59/59 was not rerun as an independent 60-test V2 suite and is not reported that way. The later integrated lead 160-test run covers the actual final bytes independently of that attribution distinction.
+
+Positive factory composition remains VM-injected with synthetic report/runtime behavior and no child execution. Public copied-handle/inert-option negatives and a genuine branded but unreviewed nonexecutable runtime refusal are separate tests. The pure validator was also called on the actual saved report bytes without opening a runtime or factory. None of these is an actual resize normal-service/media campaign.
+
+### 9. Integrate exactly two new files after the predecessor source restore
+
+The lead integrated the frozen V2 proposal at 19:29:28.617011 UTC on `7270c89`. The integration receipt is 615 bytes, SHA-256 `e5b53a8b101d4383557970f9e54a840954b45f33b32df97bac1b586b1eb83bcf`, recording the final patch, exact two file identities, predecessor Notion source-restored gate and no existing tracked files changed by the integration.
+
+Only the two new service/test paths belong to the engineering delta. The old `candidate-keep720-service.cjs` remains 22,262 bytes with SHA-256 `ec3f75785829464193cf6538e6bd10b62eef02a7d3a4e7f49a222c5970afb5e6`. Its earlier producer map still refuses the changed calibration harness, operation-family and operation-evidence modules; it is not repinned. The existing app import graph, renderer/default/catalog, runtime pin files, shared service, IPC/preload/HTML/theme and Windows source remain outside this change.
+
+A new separate resize capsule therefore does not make the old current candidate workbench runnable. It creates a developer-only composition for a future explicit proof. Its source can be backed up while its runtime/raw-report restoration prerequisites remain local and its real output path remains unqualified.
+
+### 10. Run final integrated tests and reconcile the actual remaining failures
+
+All final lead receipts use Node v24.22.1 on Linux, record base HEAD `7270c89` plus the integrated new paths, and report no covered-byte changes during the run. Their inventories bind the exact final test/source hashes; a wrapper's `dirtyPaths` value is not a claim that 110 tracked source files were edited, nor does a nonempty workspace invalidate the explicit reviewed integration scope.
+
+| Actual final integrated run | Receipt prefix | Passed / total | Failure disposition |
+|---|---|---:|---|
+| New resize capsule, calibration/runtime, resize and prior proportional family/collector/service, resources, encode operation and contract | `20261117T192928Z_resize-capsule-lead-focused` | 160 / 160 | No failures, cancellations, skipped or todo cases. |
+| EncoderService and process runner | `20261117T192931Z_resize-capsule-lead-service` | 125 / 126 | The existing missing-source-after-completion diagnostic mismatch remains. |
+| Broad Linux suite including the final new 12-test file | `20261117T192938Z_resize-capsule-lead-linux` | 190 / 225 | Same 35 failing names as the preceding 178/213 broad suite; the added twelve tests pass. |
+
+The service failure remains `a missing source after valid completion is incomplete evidence, not a ctime warning or publication`, with the established `PROTECTED_SOURCE` versus `SOURCE_CHECK_INCOMPLETE` mismatch. This session does not claim to fix or rebaseline that intermittent diagnostic. The service and broad runs retain exit 1; a fully green focused run does not erase their outcomes.
+
+The broad 35 remain the earlier 27 inherited failures plus eight expected old Keep720/candidate-workbench producer-identity refusals introduced when the calibrated resize producers changed. The new separate capsule is not supposed to make those old capsule tests pass. No failure is removed by changing expected output, supplying an unrelated report or copying a new digest into old evidence.
+
+The durable reconciliation compares actual prior and current failing-name sets. An initial local parser expected TAP `not ok` syntax while these saved logs use spec-reporter cross marks; it yielded an invalid empty/empty comparison. That draft was explicitly invalidated before publication. The corrected extraction uses the real reporter format and minimum-count assertions, finds 35 diagnostics on each side and proves the same failing names. This was a reporting-parser mistake, not a test rerun, source fix or successful empty failure set.
+
+The final combined lead result receipt is 16,484 bytes, SHA-256 `a3f209c2dd4402c6d9d0885df36620a5bcb7e7e3061a64951e98e16410ea7d87`; the corrected failure reconciliation is 4,417 bytes, SHA-256 `b1ef4e0e674d47e6a6523f2b37da0593cded83a46401dd91115a090ddb529f5b`. The prior and current broad stdout hashes are respectively `46b4a1a497bfd768fe5ac4fc34fe2b1349726c242be674bdae4103a7ccc9259d` and `75be164e2b1a50fc7345d117f44d3edf39d01bc97a5320796cd2f3203b2909ea`. These retain the actual non-green outcome and comparison basis rather than relying on a summary count alone.
+
+### 11. Prepare the next finite proof as a proposal, not an execution result
+
+The external `resize-normal-service-proof-20261117/DRAFT_PLAN.md` began as a prospective normal-service proof design. Helper-only launcher/outer/plan files were subsequently prepared, syntax-checked and independently reviewed, with a narrow V1 finding corrected in V2 as recorded below. This preparation is not a grant or completed run. It reuses the prior normal-service harness structure with this new factory and fixed 720 output, while requiring a future actual preserved source checkpoint and exact reviewed helper hashes. Prior 015/016 approvals do not authorize this consumer experiment.
+
+Its useful five-case shape is: an owned exact copy of the audited 150-second source with a late [130,132) two-second publication; a genuinely fresh independent eight-second 1080p source with a nonaligned [.613,2.721) publication; an exclusive after-prepare sentinel collision that must skip unchanged; one actually observed active encoding cancellation without publication; and a 0.5-second [1.013,1.513) publication only after successful close and a fresh runtime handle/service. Expected successful counts are 60/96,000, 63/101,184 and 15/24,000 frames/audio samples, but none is an observed result of this session.
+
+The draft calls for at most one finite campaign, 180 actual children, maximum concurrency one, 30-minute supervisory abort request, 27 GiB free-space admission per child and 2 GiB recursively observed owned-artifact admission. Those controls are conditionally independently reviewed but still require the exact execution authority and gates; they are not current execution permission or hard OS write/exit limits. It deliberately does not hardcode the earlier Keep720 campaign's total child count as a future resize result.
+
+The proposal also addresses real evidence gaps: retain actual full output probe JSON and full output hash/size during publication verification, every child's known stderr/availability/truncation state, source and sentinel identities, genuine collector/telemetry/resource receipts, active cancellation observation, closure and fresh-instance provenance. No missing stderr is to be reported as empty; no warning suppression or performance claim is proposed. A later saved-output audit would still not be an independent media re-decode or atomic loaded-image attestation.
+
+Independent helper V1 review found a blocking final-evidence gap: after writing the final report, the completion hashed only the pre-write in-memory bytes without rereading the persisted report. A valid in-memory object cannot establish what was actually saved. The V1 review, SHA-256 `4f0dc440950891c69d6d8a51b399a8fdba4f235e7cbc8baf0eac71cf6035a16e`, required a narrow readback/equality correction before conditional GO. No runtime/media attempt occurred and no approval file was written; this is a preparation finding, not a failed campaign or media retry.
+
+Helper-only V2 now writes the final report exclusively, rereads it and compares bytes, hash and parsed JSON before deriving completion identity from the verified persisted bytes. A write/read/compare failure sets nonzero exit, attempts an exclusive failure-only receipt and throws before completion or success console; the original report is not overwritten. A secondary failure while saving that failure receipt still propagates without a passed completion. Both V1 artifacts and the corrective V2 remain retained outside the repository source scope.
+
+Independent V2 review, 1,782 bytes, SHA-256 `b8d3540d1fd1ad968a96fa4603827b1d4a3607d10040cc8376bea1b84535cea7`, concludes conditional GO for exactly one bounded campaign only after the actual 017 commit, verified full-tree Notion restoration, source freeze and explicit one-run authorization. The two `node --check` syntax checks pass; they are not runtime execution or a tested media-result guarantee. The prepared V2 launcher SHA-256 is `07bf36806dbcca000174e2b5c948be7b41cfd8a3d9d3b74da8e77624200ebdce`, outer `6f50c7534793319aeaa2609aaa9bbd7a91735f65a6d20b7be22b6aaf9fdd9210`, plan `63af94a4c549e7dba067ccbe74b0ccef0cd255105fd45d2e0a241e7973214b8a`, runtime manifest `a957385be8d57874dfd5e88a9cbf137ecbe9311ebccc5e25280e6e52b72a511c` and draft design `0d79e5fd40580b60d0507e0534b3a17101db594f843670d2fed7e56c66f731a6`.
+
+The conditional review retains important limits. `census.encodes` counts all progress-bearing children, not just target output encodes. Child stderr is retained as runner UTF-8 strings, not an arbitrary binary-byte archive; invalid UTF-8 that changes the measured byte count fails the equality check rather than being silently accepted. If the live-child drain assertion fails, that closeSession path exits before later closers; the proof fails and the outer supervisory handling remains abort-request-only, not guaranteed process termination. Point-in-time source/runtime checks are not atomic loaded-image attestation. These are disclosed constraints, not reasons to relabel conditional review as execution approval.
+
+The final source/restoration gate and one-run authority remain absent at this cutoff. No real candidate binary/media, native/Electron, Show/Open action or factory publication was executed for this checkpoint. The separate consumer source stayed unchanged during this helper-only preparation.
+
+### 12. Prepare the coherent six-path PBS/source checkpoint without rewriting history
+
+The lead-owned owning records are [Resize Candidate Service](2026-11-17_Resize_Candidate_Service.md), its [structured receipts](2026-11-17_Resize_Candidate_Service_Receipts.json) and [Current](CURRENT_STATE.md). They should reconcile final integration, actual test scopes and next-proof limits; this Session preserves the fuller chronology and failure intelligence. The final execution record is 15,275 bytes, SHA-256 `d407697b91042a3add9a82952ba3ce97e71941db26d87a1cb22f1c4a4e0a1abb`; structured receipts are 38,311 bytes, SHA-256 `dd9627df83e1de8adf02f4c72c6b2e58a589e89ad53ea97b9aaebbc20db6c910`; Current is 6,306 bytes, SHA-256 `4f3f8c8a941c6b218de10a9f1450e1447a9e42e4e3855358faf406ab8e5840c9`. These final records include the completed helper V2 conditional review, not its earlier pending status, and were read and hash-checked before this Session release.
+
+The mirror also corrected one scope sentence in the structured receipt: the two-file isolated worker's original no-integration/no-PBS scope remains historical handoff context, while the later lead integration and four PBS paths are separately completed work. The final receipt explicitly states that existing app code is unchanged, not that no later integration occurred. This is an attribution/record wording correction, not a source change or new test result.
+
+The intended 017 scope is six paths: the two new source/test files, Current, Session and the two new execution/receipt records. Four new files yield an expected 545-file source archive and seventeen-commit local history after the next coherent commit. This is intended scope, not a statement that a future commit or upload has already succeeded. The original raw report, runtime, media, private guidance, local absolute-path map and helper approvals are not included by implication.
+
+The documentation role drafts outside the checkout, waits for explicit Session-only release and preserves the exact 621,362-byte predecessor body as the suffix. The original structure-correction receipt remains untouched. No existing session is rewritten to include later implementation or to change its then-pending publication state. Source/history restoration, complete native readability and remote publication must each be checked against the actual new commit after it exists.
+
+## 🧠 Key Insights
+
+### Calibration evidence and consumer authority need different identities
+
+A real calibration establishes finite behavior for its immutable producers. A later factory consumes it, but that factory is a new artifact requiring its own review and full future source gate. Preserving the 97-producer historical closure and separately binding the consumer avoids both a fictitious historical qualification and an unbound new implementation. This is why the new resize module can coexist with the deliberately stale Keep720 capsule instead of silently replacing its history.
+
+### A rejection only proves the guard actually reached
+
+Generic negative tests can pass for the wrong reason. V1 had a real post-read pathname guard but no dedicated mutation that survived the earlier checks. V2's stable-descriptor, complete-read, second-path-resolution assertions establish the intended late guard and cleanup path. The same reasoning applies to the absent-module red: it proves an API was absent, not all predicates independently red.
+
+### Full stderr capture is compatible with unresolved warnings
+
+The calibration's 42 complete diagnostic receipts provide stronger completeness evidence than prior partial captures. They still contain three 499-byte target warning streams. The capsule intentionally requires completeness without laundering those warnings into a clean-performance claim. Functional qualification, diagnostic capture and root-cause/performance qualification remain distinct.
+
+### Source regression can be acceptable without a green broad suite
+
+The integrated new file's twelve tests pass, and the expanded focused suite passes 160/160. The broad suite remains 35 failures with the exact prior names, including deliberate old-capsule source refusal. That supports a scoped source checkpoint, not a global release claim. The old diagnostic mismatch remains open, and the invalid initial empty-set parser comparison shows why matching actual names requires format-aware extraction and nonempty-count checks.
+
+### Cancellation closes the service, not a promise of automatic recovery
+
+Synchronous admission closure prevents new Start work from entering while saved writes drain. Ordered cleanup preserves failure visibility. Neither fact proves that idle cancellation always revokes an external token or that an old service can safely restart. The explicit fresh-handle/fresh-service rule remains the simplest supported recovery boundary and must be exercised later with real resized media.
+
+### A source restore is not an executable proof environment
+
+The entire source/history/native Session can be restored while the factory still correctly refuses because the exact original raw report and candidate runtime/library identities are absent. Portable evidence is useful for review, not a substitute credential. Re-entry must establish actual local prerequisites and a new finite authorization instead of claiming that backup alone makes the app usable.
+
+## 📌 Decisions Made
+
+1. **Confirmed: use a separate developer-only resize capsule.** The lead chose two new files reusing the established normal-service path. Basis: fresh audited resize calibration exists, while old Keep720 evidence must remain exact. Consequence: no default/UI activation and no old map repin.
+2. **Confirmed: bind the exact original raw report, reviewed pair/dependencies and immutable 97-producer closure.** Basis: actual 015 campaign and final independent audit, plus independent closure reconstruction. Consequence: transformed portable JSON, arbitrary reports, copied handles or changed producers cannot satisfy live admission.
+3. **Confirmed: retain bounded descriptor and post-read pathname checks.** The V1 implementation already contains them; the reviewer requested dedicated coverage, supplied by test-only V2. Consequence: unchanged production bytes with clearer proof of the late guard, not a newly fixed production race claim.
+4. **Confirmed: preserve existing private selector/storage/lifecycle machinery.** Basis: genuine proportional-family resource/selection contracts already exist. Consequence: no parallel pipeline, shared service rewrite or public callback seam; the consumer stays narrow and inert.
+5. **Confirmed: cancel closes admission and requires fresh-instance recovery.** Basis: inherited lifecycle policy and current regression tests. Consequence: drain/close/new handle and new service, no same-service recovery or assumption that idle cancel itself revokes every external token.
+6. **Confirmed: integrate only after 016 source restoration.** The lead recorded the exact two-file integration at 19:29:28.617011 UTC. Consequence: actual calibrated producers and earlier history remain preserved before a later consumer is introduced.
+7. **Confirmed: preserve non-green tests and corrected comparison evidence.** Basis: 160/160 focused, 125/126 service and 190/225 broad with exact prior 35 names. Consequence: no false all-green claim or expectation rebaseline; the invalid TAP-parser draft has an explicit disposition.
+8. **Conditionally confirmed: use the reviewed V2 five-case real normal-service proof as the next useful step.** Basis: it covers publication, separate heldout source, collision, active cancellation and fresh recovery without native/UI scope expansion, and V2 closes the independent final-report readback finding. Consequence: conditional GO is not execution authority; actual source restore/freeze and a new one-run authorization remain mandatory.
+9. **Deferred: actual resize service/native acceptance and broader geometry/performance.** There has been no real factory/media invocation here. General sources, long outputs, same-service recovery, other cancellation phases, Windows/GPU/HDR/AAC and native resize remain outside this checkpoint.
+10. **Rejected for this slice: greenwashing old failures or treating source tests as media proof.** Changing historical report hashes, old expected results or stderr interpretation would conceal rather than resolve the evidence boundary. The new module does not claim to make the existing candidate workbench runnable.
+
+## ⚠️ Difficulties / Friction
+
+The main design constraint was preserving useful reuse without borrowing unearned authority. The old Keep720 capsule is intentionally stale against the new family/collector/harness producers. A separate consumer avoids changing that history but necessarily leaves eight old source-identity failures visible. These failures are not a reason to repin older evidence merely to make a broad summary green.
+
+The positive factory is difficult to exercise without opening exact runtime/report prerequisites. The source tests therefore use a clearly isolated VM injection for positive composition and pure/synthetic validation, plus public negative paths. That is proportionate for source review but leaves actual factory/media behavior unproved. The report must not blur a real private selection under synthetic data with a real output publication. The helper review later exposed a separate preparation gap: completion initially hashed memory without rereading saved report bytes. V2 corrects that path before any run; source/syntax review supports conditional GO, not a claim that the new persistence path has already completed a real campaign.
+
+The report-reader coverage gap was subtle: a stable descriptor does not imply the pathname still names it. The source already compared both, but tests had not forced the second boundary independently. The V2 fixture deliberately reaches the full bounded read and then mutates only pathname identity/canonical resolution, preserving all earlier guards rather than loosening them.
+
+Test reporting also had a concrete failure. Saved output used spec formatting, not the parser's assumed TAP syntax. An empty/empty set comparison initially looked equal but was invalid. It was replaced with actual reporter extraction plus minimum-count assertions before final publication. The valid comparison now retains the 35 real failures; no source or test expectation was changed to obtain that result.
+
+The old missing-source diagnostic mismatch recurred in the 125/126 service run. Earlier variation already showed it was not consistently green. This source slice does not resolve it, and a passing focused composition suite cannot be cited as proof that it disappeared.
+
+Finally, the exact source backup is intentionally separate from ignored binary/media/raw-report availability. A clean source restore cannot satisfy a hash-bound original report or runtime that is absent. Re-entry must stop on those actual missing prerequisites, not substitute the portable report, system executable or stale native setup.
+
+## 🔧 Adjustments Made
+
+### 1. Add dedicated late-path coverage without changing production
+
+- Shifted from: V1 coverage of generic report/descriptor/staleness negatives without a specific post-read pathname mutation.
+- To: V2 stable-descriptor tests for pathname inode replacement and second canonical-path alias after the exact full read.
+- Because: Independent review identified that the intended guard was visible in source but not separately reached by a controlled test.
+- Consequence: Production SHA remains unchanged; final tests prove the exact guard, two path resolutions, complete read and both closures with zero child calls. This is a coverage improvement, not evidence of a newly repaired live filesystem exploit.
+
+### 2. Correct the failure-comparison parser rather than accept empty equality
+
+- Shifted from: A TAP-pattern parser applied to spec-reporter logs, producing an invalid empty/empty draft comparison.
+- To: Actual cross-mark diagnostic extraction with minimum-count assertions and comparison of 35 prior/current failure names.
+- Because: Equality of empty sets did not describe either real failed run.
+- Consequence: The invalid draft is explicitly superseded; final reconciliation preserves the same 35 failures, original logs and exit codes, with no source/test/result change.
+
+### 3. Move from isolated source proposal to exact integrated validation
+
+- Shifted from: V1/V2 isolated handoffs and reviewer runs on the source-proposal base.
+- To: The exact V2 two-file integration after 016 source restoration, followed by 160/160 focused, 125/126 service and 190/225 broad tests on authoritative working bytes.
+- Because: An isolated review is not evidence that the intended bytes reached the actual checkout or preserved the existing suite behavior there.
+- Consequence: Integration and covered-byte identities are recorded independently; the source is suitable for a scoped preservation checkpoint, not declared globally green or media-qualified.
+
+### 4. Refine the next proof's evidence retention from calibration limits
+
+- Shifted from: The completed calibration's saved geometry/collector assertions without separate full output probe JSON or original per-case output full hashes.
+- To: A prospective normal-service proof that explicitly retains output probe JSON and publication-time full output identity, plus every child diagnostic and exact lifecycle/sentinel evidence.
+- Because: The final saved-output audit identified those actual retention limits, and a new consumer proof can preserve them directly at execution time.
+- Consequence: This improves the draft's acceptance criteria only. It does not retroactively add missing evidence to calibration or claim the future campaign has run.
+
+### 5. Close the final persisted-report gate before allowing a future run
+
+- Shifted from: Prepared helper V1, which wrote a report but derived completion identity from pre-write memory without a persisted readback.
+- To: Helper-only V2 exclusive final write followed by byte/hash/JSON readback equality and completion derived from verified persisted bytes, with failure-only evidence and nonzero exit on failure.
+- Because: Independent launch review identified the difference between a correct returned object and verified saved authority as a blocker before conditional GO.
+- Consequence: V1 remains preserved, V2 syntax checks and conditional independent review are complete, and no approval or campaign has occurred. This does not alter the two-file source patch or prove runtime persistence behavior through an actual run.
+
+## ❌ Mistakes / Risks Noted
+
+### 1. Invalid empty-set failure comparison from the wrong reporter parser
+
+- What happened or could happen: An initial reconciliation parser expected TAP `not ok` records but the saved logs used spec-reporter cross marks, producing an invalid empty/empty equality.
+- Actual impact: A local comparison draft was wrong. The real test failures and raw logs were unchanged; the draft was invalidated and corrected before publication.
+- Potential impact: Treating empty equality as regression parity could hide new or removed failures and support a false all-green or no-regression conclusion.
+- Correction / current status: Final extraction requires actual minimum counts, retains all 35 prior/current names and proves exact parity. The final reconciliation explicitly records this correction.
+- Failure Intelligence: Retain in this Session and the corrected structured reconciliation. Parse the actual output format and assert nonempty expected failure counts when baseline failures exist; do not create a separate incident document for this bounded reporting mistake.
+
+### 2. A generic negative test can miss a later guard
+
+- What happened or could happen: V1's pathname recheck existed but no test specifically replaced the pathname after a stable full descriptor read.
+- Actual impact: A dedicated coverage gap, not a demonstrated production bypass, was identified by independent review.
+- Potential impact: A future regression could remove or weaken the late-path check while generic rejection tests still pass at earlier guards.
+- Correction / current status: Test-only V2 now mutates inode and canonical alias at the precise boundary and asserts the exact error, full read, two realpath checks, descriptor/candidate close and no child calls. Production is unchanged and independent V2 12/12 passes.
+- Failure Intelligence: Retain the V1 finding and V2 disposition. Do not report an actual runtime race exploit or all-filesystem-races proof from a VM-controlled regression.
+
+### 3. Overclaiming absent-module red or immutable-source test provenance
+
+- What happened or could happen: The initial red is `MODULE_NOT_FOUND`; the producer-check test's title sounds historical but its own implementation compares current files.
+- Actual impact: Both are useful but narrower than a per-predicate red suite or historical Git reconstruction inside the test.
+- Potential impact: Inflated test descriptions could make review appear stronger than the actual executed evidence.
+- Correction / current status: The absence red is labelled API absence only. The independent source reviewer separately resolves all 97 imports and compares immutable `9390681`; that review, not the title, supplies historical closure evidence.
+- Failure Intelligence: Keep attribution separate in future capsule tests and summaries. Test labels are not evidence of steps not performed.
+
+### 4. Confusing synthetic factory composition with actual service/media proof
+
+- What happened or could happen: Positive tests construct real service/selector classes through a VM-injected handle/report and can look like a successful live factory.
+- Actual impact: Control flow, refusal conditions, private selection, admission closure and cleanup are tested without candidate binary/media execution.
+- Potential impact: Claiming actual resized publication, active cancellation or native usability would exceed the evidence and skip necessary source/runtime/authority gates.
+- Correction / current status: Source-only status is explicit. The conditionally reviewed V2 five-case normal-service campaign is unrun; future source preservation, exact gate and one-run authorization remain required, with renewed review if helper bytes materially change.
+- Failure Intelligence: Carry the injection boundary in handoffs, review and acceptance criteria. Distinguish nonexecutable branded-handle negatives, VM positives, pure report validation and actual media results.
+
+### 5. Treating complete diagnostics as warning-free or performant
+
+- What happened or could happen: `diagnosticsComplete` and successful exit status might be read as clean stderr or a resolved x265 environment.
+- Actual impact: The exact accepted calibration has all 42 captures complete but three 499-byte target warnings, including duplicate codec options and CPU-mask/thread-pool diagnostics.
+- Potential impact: Suppressing those records or declaring performance qualification could hide unresolved runtime/environment limitations.
+- Correction / current status: The capsule requires complete retained records without erasing warnings. Earlier warning diagnosis remains bounded, with no new causal trace, native performance proof or workaround.
+- Failure Intelligence: Preserve warning bytes and qualification limits. Complete evidence improves observability; it is not a clean-diagnostics result.
+
+### 6. Reusing a cancelled service or assuming idle token revocation
+
+- What happened or could happen: A caller could treat synchronous admission closure as permission to reopen the same service or assume idle cancellation has revoked every external runtime token.
+- Actual impact: Tests establish closed admission and stale Start refusal; actual resize active cancellation/recovery has not run.
+- Potential impact: Reusing stale source/runtime/operation authority could admit work after cancellation or mask incomplete resource drainage.
+- Correction / current status: Require drain, close resources and candidate, then a new verified handle and new service. Ordered closure errors remain visible; same-service recovery is not claimed.
+- Failure Intelligence: Carry the fresh-instance requirement into the future helper and native design rather than adding a token refresh shortcut.
+
+### 7. Expanding historical calibration authority or silently repinning Keep720
+
+- What happened or could happen: The new factory's existence might be used to update older pins or claim its implementation was part of the historical calibration.
+- Actual impact: No old pin or producer map changed. Eight old capsule/workbench refusals remain among the 35 broad failures.
+- Potential impact: Retrofitting old evidence would conceal the actual source boundary and bypass independently reviewed consumer proof.
+- Correction / current status: The new capsule separately pins the actual 97 historical producers; future execution binds its consumer bytes in a new full source gate. Old Keep720 remains stale/nonrunnable.
+- Failure Intelligence: Preserve both identities and the actual refusal cost. A new evidence-backed consumer is not an automatic repair of old routes.
+
+### 8. Treating source backup, hash reads or a scoped review as stronger guarantees
+
+- What happened or could happen: Full source restore could be mistaken for runtime/raw-report restoration; repeated hashes for atomic loaded-code proof; manual source review for a formal security scan.
+- Actual impact: The source/history/readable record is preserved, while exact ignored inputs remain local prerequisites and hash checks have their stated non-atomic limits.
+- Potential impact: A later run could substitute missing assets, overclaim threat coverage or launch on a different effective environment.
+- Correction / current status: The source-only factory fails closed when exact prerequisites are absent. Listed dependencies and literal imports remain finite inventories. This is independent scoped source review, not Security Cloud or a whole-system security certification.
+- Failure Intelligence: Retain precise assurance levels and stop on gate mismatch; do not broaden the task into new infrastructure or hidden substitutions.
+
+### 9. Hashing report memory without verifying the persisted report
+
+- What happened or could happen: Prepared helper V1 wrote the report but used the pre-write buffer for completion identity instead of rereading the actual saved bytes.
+- Actual impact: Independent review blocked conditional GO until a narrow helper-only correction. No approval, runtime/media execution, published output or completed proof was affected.
+- Potential impact: A failed or altered persisted report could otherwise be paired with a completion hash describing memory, weakening the final post-close evidence gate.
+- Correction / current status: V2 exclusively writes, rereads and compares bytes/hash/JSON, derives completion from readback and fails without passed completion on any persistence/equality error. Independent V2 conditional GO and syntax checks are complete; execution authority remains absent.
+- Failure Intelligence: Retain both helper versions and review receipts. A preparation defect corrected before execution is not a media retry; conditional source review is not observed successful persistence under a real campaign.
+
+## 📍 Current Position
+
+**As of:** Final integrated V2 test receipts and corrected failure reconciliation, followed by this 017 source/PBS handoff. The later helper-only V2 persisted-report correction and independent conditional GO are also complete, with no approval or execution.
+
+**Before this session:** The actual three-case 1080p30-to-720p calibration on immutable `9390681` had passed its saved-output audit and was preserved as 016. Its 42 children closed and diagnostic warnings were fully retained. No separate resize normal-service consumer was yet completed at that prior cutoff; old Keep720 source admission correctly remained stale.
+
+**After this session:** A separate fixed developer-only resize service module and final V2 tests are independently reviewed and integrated on `7270c89`, with 160/160 focused, 125/126 service and 190/225 broad results. V2 adds exact late-path regression coverage without changing production. Actual broad failure names match all 35 prior names; the old service diagnostic and old Keep720 producer refusals remain. The five-case normal-service helper exists outside source, with V2 syntax checks and independent conditional GO after correcting the persisted-report gate, but no real factory/runtime/media/native run has occurred here.
+
+**Current standing:** Suitable for a narrowly scoped six-path source/PBS checkpoint, not release-ready, native-ready or globally green. New source binds the original report/runtime/97 producers and reuses existing lifecycle/storage/selection; old app/default/catalog/renderer paths are unchanged. Source-only restoration does not supply the original raw report, binaries or dependencies. Exact runtime/media prerequisites and real consumer behavior remain separately gated.
+
+**Live owner / continuation anchor:** The engineering lead owns final source/PBS scope, commit and next finite proof; the preservation role owns exact source/full-history/native readback and original-ancestry remote verification. This documentation role owns only the released Session prepend and preserves the exact prior 621,362 bytes. Re-enter through [Current](CURRENT_STATE.md), [the service execution record](2026-11-17_Resize_Candidate_Service.md) and [its structured receipts](2026-11-17_Resize_Candidate_Service_Receipts.json), then the actual new commit/preservation receipts rather than assuming a planned checkpoint exists.
+
+## 🔜 Next Steps
+
+1. **First precise re-entry: finalize and verify the six-path 017 checkpoint.** Responsible: engineering lead and preservation role. Prerequisite: final Session release, unchanged two-file V2 source and reconciled owning records. Make the coherent source/PBS commit, restore every expected source file and full seventeen-commit history through Notion, fetch the complete cumulative Session without abridgment, then publish the exact scoped change on the intended original remote ancestry and verify bytes/parent/tree/ref. Do not report a local commit or archive upload alone as completed backup.
+2. **Reconcile the already conditionally reviewed V2 helper against the actual preserved checkpoint.** Responsible: lead, bounded proof contributor and independent reviewer. Prerequisite: actual preserved consumer source, not a predicted commit. Verify the frozen V2 launcher/outer/plan/manifest identities and the corrected persisted-report gate; re-review any material change rather than treating old review as interchangeable. Preserve output probes/full hashes, every child diagnostic, sentinel/cancellation/closure evidence and finite resource accounting. The helper is prepared and conditionally reviewed, not execution-approved.
+3. **Bind a fresh scope-specific one-run authority only after all prerequisites are real.** Responsible: lead/authorized operator. Prerequisite: immutable full source/current equality, exact helper/outer/plan/capsule/manifest identities, verified Notion source restoration, genuine pair/seven dependencies and original raw report available. A missing/mismatched prerequisite stops the step; no portable report/system binary substitution, old approval reuse or hidden automatic retry.
+4. **Execute at most the independently reviewed finite service proof if authorized.** Responsible: bounded executor. Preserve actual three successful publications, after-prepare collision sentinel, observed live cancellation and fresh-handle/service recovery only if they occur. Failure to reach active cancellation or any output/evidence/closure criterion is a retained failed result, not permission to retry, widen bounds or alter expected results.
+5. **Independently audit saved consumer outputs and reconcile release.** Responsible: saved-output auditor and lead. Prerequisite: final post-close report, source/runtime rechecks and complete diagnostics. Confirm actual resized geometry/timing/PCM/resources, source/sentinel identities and publication/lifecycle disposition without calling saved inspection a new media decode. Keep the source frozen through audit/release.
+6. **Consider native resize only after actual service proof and preservation.** Responsible: lead after separate environment/UI review. Reuse the existing app shell/theme and authority boundaries if later authorized; no current UI change or native launch is implied. Preserve warning/performance, same-service and unsupported-geometry limits, and continue independent useful work if a native prerequisite is genuinely blocked.
+
+**Do not reopen / repeat:** Do not rewrite 016's historical calibration result or exact prior Session body; do not repin old Keep720 evidence or suppress its eight refusals; do not call the 35 broad failures resolved; do not rerun media merely to make source documentation feel complete; do not treat VM injection, pure validation or portable JSON as live authority; do not rerun prior native journeys or launch a new resize GUI under this source assignment.
+
+**Continuation boundary:** This session ends with reviewed integrated source, accurate tests and preservation-ready records. Helper-only V2 preparation, syntax checks and conditional review are complete, but no new one-run authorization, real runtime/media/service/native execution, output publication, default/catalog activation or broader platform acceptance has occurred here. Actual checkpoint publication and any later campaign belong to their own verified receipts and subsequent dated session.
+
+## ❓ Open Questions
+
+### Will the fixed composition pass actual normal-service resize publication and lifecycle behavior?
+
+- Known: The source gates, real class composition under VM injection, private selection and cancellation/cleanup tests pass in their stated scope. The original calibration passed on its immutable producer source.
+- Needed from: The separately reviewed finite normal-service proof and saved-output audit on the actual preserved consumer checkpoint.
+- Blocks: Claiming real resized publication, collision protection, active cancellation/no-output and fresh-instance recovery for this new composition. It does not block preserving the source checkpoint.
+
+### Can the exact original raw report and reviewed runtime/library inputs be restored at the next execution site?
+
+- Known: Source and portable evidence are preserved; the live factory requires fixed original bytes and private genuine runtime authority, not portable substitutes.
+- Needed from: Actual local availability/hash/currentness checks under the next gate.
+- Blocks: Opening the live factory or executing media if those exact prerequisites are absent. It does not negate the completed source backup or justify silently choosing another runtime.
+
+### What remains behind the persistent runtime warnings and old service diagnostic mismatch?
+
+- Known: The accepted calibration retains three target warning streams; earlier topology diagnosis remains bounded. The old missing-source diagnostic mismatch recurs in this 125/126 service run without a new source change to that path.
+- Needed from: Separately scoped causal investigation or platform qualification where useful, with actual evidence rather than warning suppression or expectation changes.
+- Blocks: Clean-performance/general reliability claims and a globally green service suite. It does not by itself erase the finite calibration or the narrowly passing new source tests.
+
+### What broader source, geometry, cancellation and native behavior should eventually be accepted?
+
+- Known: This capsule is finite 1080p30 SDR-to-720p precision-FLAC range behavior; no current application import or native resize acceptance exists. Same-service recovery is deliberately unsupported, and cancellation phases beyond active encoding are not covered by the proposed first proof.
+- Needed from: Product/engineering scope and separate evidence after the first useful service result, not an assumption that every missing edge must be added now.
+- Blocks: Broader catalog/default/native/platform acceptance, not the current bounded source handoff.
+
+## 🧾 Session Outcome
+
+The audited resize calibration now has a separate developer-only consumer composition, integrated as exactly two new files after the predecessor source restore. It binds the original report, genuine reviewed runtime/dependencies and immutable producer closure; reuses existing service/selector/storage/telemetry; preserves synchronous cancellation admission closure and ordered cleanup; and leaves old Keep720, defaults and UI untouched.
+
+Independent review found no source blocker and closed a dedicated late-path test gap through test-only V2. Final lead results are 160/160 focused, 125/126 service and 190/225 broad, with all 35 prior broad failing names retained. The original absent-module red, immutable-closure attribution limit and invalid initial failure-parser comparison are recorded honestly. No runtime, media, native application or new output was executed here.
+
+The deliverable is the source/PBS checkpoint handoff and exact continuation toward the conditionally reviewed V2 real normal-service proof. Its final persisted-report gate was corrected before any execution, and actual source restoration/freeze and one-run authorization remain outstanding. It is not an app-ready, media-qualified or globally green release. The full previous 621,362-byte summary remains byte-exact; actual 017 commit, Notion restore and remote publication must be verified after this record is saved, not assumed from the plan.
+
+## 🔍 Confidence Level
+
+**High for the narrow source/integration record.** Exact final production/test/patch identities, two-file integration, independent V1/V2 scope and final lead result inventories are available and reconciled. The dedicated V2 late-path checks reach the intended guard without production change; existing tracked source was not rewritten by the integration.
+
+**High for stated test counts and retained failures, not for an all-green project.** The actual focused/service/broad receipts and corrected nonempty failure-name comparison support 160/160, 125/126 and 190/225 with the same 35 broad failures. Raw non-green exits remain part of the result. Independent 59/59 V1, 12/12 V2 and contributor 60/60 are separately attributed.
+
+**Bounded for gate/security behavior.** Read-only no-follow/bounded reads, descriptor/path checks, private runtime/selection brands, currentness checks and cleanup are supported by source and scoped negative tests. This is not an atomic loaded-image guarantee, all-filesystem-races proof, general dynamic dependency closure or formal Security Cloud assessment.
+
+**Not yet established for actual resize normal-service or native operation.** Positive factory behavior was VM-injected, and pure saved-report validation issued no runtime authority. The real calibration's earlier success and warnings remain exact; actual consumer publication/collision/cancellation/fresh recovery, native UI, arbitrary geometry and performance require their own execution evidence.
+
+**Why:** The record separates historical producers from the new consumer, exact source tests from media, reviewed proposal from authorization, and complete diagnostics from warning-free operation. It preserves concrete mistakes and their disposition rather than silently upgrading test or publication status.
+
+**Not higher because:** The next live factory/proof is unrun, original runtime/raw-report prerequisites are not supplied by source-only backup, old service/broad failures remain, runtime warnings are unresolved, and the assurance limits of VM injection, literal closures and repeated non-atomic file hashes still apply. The 017 source checkpoint is preservation-ready here, not already published at the dated cutoff.
+
+---
+
 # 📘 Session: November 17, 2026 — FFmpeg Encoder — Execute the first genuine proportional resize calibration without transferring its result into unearned service authority
 
 ## 🤖 Models, Effort, Roles and Provenance

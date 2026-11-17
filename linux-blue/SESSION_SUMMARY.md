@@ -1,3 +1,394 @@
+# 📘 Session: November 17, 2026 — FFmpeg Encoder — Execute the first genuine resize normal-service proof and preserve publication, cancellation and diagnostic boundaries
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model or tool identity | Effort setting | Evidence basis and verification limit |
+|---|---|---|---|
+| Engineering lead / one-run authorizer | GPT-6 Astra, recorded lead configuration | Ultra, recorded assignment | Bound the actual immutable 017 source, restored Notion source, reviewed V2 helper and exact runtime/report to one finite campaign. Configuration is not backend/performance attestation. |
+| Genuine normal-service executor | Not separately established here | Not separately established | Executed the real fixed resize factory and normal service once, retaining source/output probes, original output hashes, all child diagnostic records and post-close report readback. This is distinct from source tests and later saved-output inspection. |
+| Independent saved-output reviewer | Not separately established here | Not separately established | Independently rechecked the frozen source/runtime, 297 artifacts, original output probes/full hashes, selected spools/PCM, diagnostics and lifecycle ordering. The audit corrects an inherited clock-offset statement in final-v2 and cancelled-stage hash provenance in final-v3, retaining superseded receipts. The audit does not become a second media decode merely by inspecting the campaign's retained decoded evidence. |
+| Preservation / mirror role | Not separately established here | Not separately established | Restored 017 source/full history and fetched the complete native Session, then verified original-ancestry GitHub publication at its actual later time. Source archive does not supply ignored runtime/raw-media authority. |
+| Documentation editor | Blue documentation contributor; model not independently established here | Not separately established | Read actual authorization, outer/completion, report, selected source/output probes and diagnostic rows, plus predecessor preservation receipts. Drafted outside the frozen checkout; owns only a later released Session path. No tests, media, runtime, native action or Git publication by this role. |
+
+**Record basis:** Checkpoint 017 implemented and tested a separate developer-only resize consumer; its positive factory tests were VM-injected and did not establish actual media publication. This later session records one genuine service campaign on that preserved source. The earlier 690,967-byte cumulative body remains exact, including its then-accurate unexecuted status. Calibration producers, consumer source, run authorization, retained media result, audit and any later UI activation remain separately identified.
+
+## 🕒 Time
+
+- Date / date range: November 17, 2026. Explicit receipt labels below are UTC; Cairo civil time is UTC+2. Source stat epochs and retained raw event clocks remain their own domains, not silently synchronized with outer wall time.
+- Start: Exact active preparation time was not measured. One-run authorization was recorded at 19:43:38.014078 UTC / 21:43:38.014078 Cairo, after the actual source/restoration/review prerequisites.
+- Continuation: The exclusive outer marker records 19:43:53.649 UTC. Outer completion's own start is 19:43:53.651 UTC; the inner attempt marker follows gate checks at 19:43:56.033 UTC. These are different recorded points, not one fabricated exact start.
+- Actual run end: Raw report finished at 19:45:05.586 UTC; outer process ended at 19:45:05.602 UTC, exit 0, no signal/spawn error. Outer wall elapsed is 71,951 ms and monotonic elapsed 71,950.99471 ms. The report's internal elapsed is 69,549 ms, a different measured interval.
+- Case timing: Successful publication elapsed values are 35,155 ms, 7,508 ms and 4,220 ms. They include their service proof work, not isolated encode throughput or an application responsiveness benchmark. No measured total active working time is inferred from them.
+- Publication timing: Checkpoint 017 GitHub verification completed at 19:45:13.689136 UTC, after this campaign ended. The launch was gated by the actual local immutable source, verified Notion source restoration and explicit one-run authorization; the later remote verification is not retroactively described as a completed prelaunch gate.
+- End / stopping point: The audit receipt records checked-at 19:47:49.068394 UTC. The lead rechecked all frozen identities and released at 19:49:46.681072 UTC against corrected final-v2; later final-v3 corrects only the retained-stage hash provenance, not the accepted result, and is separately reconciled at 19:52:54.879931 UTC. This entry stops at the evidence handoff, before any claimed 018 publication or native resize result.
+- Session type: One bounded genuine normal-service resize campaign, saved-output audit/reconciliation and evidence preservation.
+- Project stage: Linux 0.7 fixed 1080p30-to-720p precision-FLAC range service proof, before application/default/catalog/native acceptance.
+- Main focus: Three protected publications, separate heldout source, after-prepare collision, actual active encoding cancellation and fresh-owner recovery, with complete diagnostics and stronger original output evidence.
+- Contributors: Ahmed retains product ownership and acceptance. Authorization/execution/audit/preservation/documentation roles are separated above.
+- Model / effort: Known lead configuration or explicitly unknown by role, not copied across contributors.
+- Active working time: Not measured. Campaign, review and preservation timings are not summed into invented effort.
+- Reason for summary: Preserve what real consumer execution now establishes, what failed or remains limited, and the exact continuation boundary without rewriting the preceding source-only session.
+
+## 🎯 Session Goal
+
+The separate resize service composition had passed source review and focused tests, while its real factory/output behavior remained unexecuted. The next goal was one useful finite proof through the actual normal-service lifecycle, not a direct FFmpeg command masquerading as application behavior and not a new workbench mode activated from calibration alone.
+
+The authorized sequence was deliberately small: publish a late two-second range from an owned copy of the audited 150-second source; publish a nonaligned range from a genuinely fresh independent eight-second source; preserve an exclusively created after-prepare collision sentinel; observe one live encoding cancellation without publication; close the old service/runtime resources and publish a half-second range only through a new handle and service. The fixed route remains CPU HEVC slow/quality 25, 1280×720 output from 1920×1080p30 SDR, Matroska precision FLAC.
+
+Evidence completeness was part of the goal. Unlike the earlier calibration, this helper was designed to retain full output probe JSON and full output SHA/size during the original publication verification. It also retained every child diagnostic, real source/plan/selection/storage/collector/telemetry evidence, final closure and persisted-report readback. None of that implies video-pixel identity, generic scaler quality, warning-free performance or native UI acceptance.
+
+## 🛠️ Actions Taken
+
+### 1. Preserve source checkpoint 017 and keep remote publication timing honest
+
+The actual consumer source is `db2fa5e7933c1c6a51188a281f0478cd50f62367`, tree `d36a8734035f635b83010561dd78a6abb3056663`, parent `7270c89c59020be8dfaec46dc455edaad3ffc111`. Its six-path source/PBS checkpoint contains 545 files and seventeen local commits, with only the two new developer resize service/test paths in the engineering delta. Existing shared service, renderer/UI/default/catalog and old Keep720 map remain unchanged.
+
+The [017 preservation page](https://app.notion.com/p/41bbd7ade63b81e89b3dc57e6117e5bc) restores all 545 source files and the full seventeen-commit history. The source ZIP is 3,266,237 bytes, SHA-256 `1b5c18262633e4414f5d256fa75208042a243e769219fe6302b6e7c4cdea03df`; bundle 3,130,630 bytes, SHA-256 `b4ea9e559ae759352baf6b088b745aff938e74847454f195527e2b52af0db782`. The [native cumulative Session](https://app.notion.com/p/41bbd7ade63b81609e7edaa592487e5c) was fetched in three ordered chunks with all seventeen headings and historical ending, without truncation. Exact Markdown remains the 690,967-byte source file, SHA-256 `f77e70a582528e35edfefec3955715cbb33b906bfbf093ff74a0f5b9253fda28`; native formatting is not byte identity.
+
+Original-ancestry remote publication is `502c98d28c48e00a10162d379cd8780fd8c2769e`, sole parent `ea2a0558c72398e0943cf8696aecc929f1629725`, tree `e36d1f422b23f9d23cc06176b756941c7aa08f74`. The verified tree has 927 total files, 921 unchanged, two modified, four new and zero deleted; all six changed file readbacks and fresh parent/tree/ref checks passed. Its verification timestamp is 19:45:13.689136 UTC, after the run. No wording promotes that later verification into the earlier source-restoration launch gate.
+
+The archived source-only records remain accurate at their historical cutoff: they said actual service work was not yet executed. This later entry records the new run instead of revising those old paragraphs. Source/full-history backup remains distinct from local runtime, raw report, media and private helper evidence.
+
+### 2. Bind the real source, reviewed V2 helper and exact calibration/runtime to one attempt
+
+The scope-specific `APPROVED_CHECKPOINT.json` is 63,781 bytes, SHA-256 `4e13f51512a01129026e2bf81cfea9796de4ead08a7bd526da7323030e8e2dee`. It authorizes `one-resize-normal-service-proof` at 19:43:38.014078 UTC on the actual `db2fa5e`, with all 545 tracked hashes and independently established Notion-restoration/review attestations. This is new run-specific authority, not inherited permission from a prior Keep720 or calibration attempt.
+
+The gate binds V2 launcher SHA-256 `07bf36806dbcca000174e2b5c948be7b41cfd8a3d9d3b74da8e77624200ebdce`, outer `6f50c7534793319aeaa2609aaa9bbd7a91735f65a6d20b7be22b6aaf9fdd9210`, plan `63af94a4c549e7dba067ccbe74b0ccef0cd255105fd45d2e0a241e7973214b8a` and independent conditional-review receipt `b8d3540d1fd1ad968a96fa4603827b1d4a3607d10040cc8376bea1b84535cea7`. V1's missing final report readback had already been corrected and reviewed in the preceding source session; the executed helper is the verified V2, not an unreviewed substitute.
+
+The live factory still requires original raw calibration SHA-256 `3fc9a4678890da318728f2c8b44ac7c6b4fe345ccd271b7f1064928f63eb1317`, exactly 125,887 bytes, and the 97 literal-import producers from immutable `9390681`. The new consumer's complete source is separately frozen at `db2fa5e`; it is not retroactively added to the historical calibration closure. Runtime identity remains `1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9`, exact FFmpeg/FFprobe pair plus seven explicitly listed dependency targets. Portable evidence, a copied handle or a system executable is not an admitted substitute.
+
+The grant bounds one attempt to 180 serial children, maximum concurrency one, a 30-minute supervisory abort request, 27 GiB free-space admission before each child and 2 GiB recursively observed owned-artifact admission. Genuine resize-derived per-operation/child/storage/pipe/telemetry limits remain active. These are finite point/admission controls, not hard active-write caps, atomic loaded-image guarantees or a guaranteed OS termination deadline. No retry, native/UI/default/catalog/release activation is included. Source remains frozen through closure, independent audit and explicit lead release.
+
+### 3. Execute the genuine normal service and retain final post-close report readback
+
+The run uses the actual fixed `createCandidateResizeService`, verified candidate runtime, normal register/prepare/per-file operation update/Start sequence, genuine source/runtime selection, protected staging/publication and evidence storage. The helper's main-owned execution seam delegates to real `runTool` while preserving signal/callback/child accounting; it does not replace private selection authority with a synthetic token or bypass the service through a direct output encode.
+
+The exclusive outer marker is SHA-256 `693279ef0b6e391e470c91cf0c4e68e6c74628919f7160f106cc816a0e06b6de`; inner marker is `65fe6d63418d1d51671e91173f84efb2baabcd525fddbabea612e7524ab0eeb1`. One owned proof directory was created. No second attempt or cancellation retry is hidden behind the passed result.
+
+The final raw `owned-proof-zSa57P/report.json` is 295,517 bytes, SHA-256 `507918076f2463feb4fe67ee649cd7fa7a4d1b969e96cc093a05bb728d176bac`, status `passed-developer-candidate-resize-normal-service-proof`. Its `appActivated` and `sameServiceRecoveryProven` are false. Completion, 524 bytes, SHA-256 `860a609d2f3b10ea571cc39cf49a440517e1d1a7b25910374a6869eaea103658`, records the same exact report hash and `reportReadbackVerified: true` after the executed V2 byte/hash/JSON readback gate. It records the final closed census, not a pre-close console promise.
+
+Outer completion is 375 bytes, SHA-256 `6a352a4aa30ffc11c3d15facdaa6f477ea0739db7dd1f82f2ed05bffc4c25135`, exit 0, null signal/spawn error. Outer stdout is 323 bytes, SHA-256 `d1ec14be624ac87e03fef135725ccc93317a147b064b978186fbc56737351707`; outer stderr is empty. That does not describe target/capability child stderr, which is independently retained and nonempty in sixteen rows.
+
+This improves final persisted evidence over a mere in-memory success object. It still does not create a second full independently saved returned-report object or cryptographic chronology; the executed gate and saved completion corroborate exact persisted bytes. Any later audit conclusion must say what was actually rechecked rather than calling readback a separate decode.
+
+### 4. Use an owned long copy and genuinely fresh independent heldout source
+
+The long source is an exclusively created owned copy under a different basename, byte-identical to the audited 150-second 1080p source. Its full SHA-256 is `8c24561ce37320d3530a9be4dcc9d2cfbe06371b716a2875d364f520de6f0280`, size 130,549,760 bytes, extent 150,000,000 μs. The original is preserved. The retained source-probe JSON SHA-256 is `c4ae911e8119a061bf65b4c64173e349ef71622ae6502ca9eb9a4a8aae9cbecf`.
+
+The independent source is newly generated eight-second 1920×1080p30 content with the reviewed flipped pattern and distinct chirped stereo audio, not an extract or rename of either calibration input. It is 6,672,071 bytes, full SHA-256 `a45ca66b173cb60c4ee4d34d8c5880df174ab8ee0c2b9107bfe268a6ff4c6fc2`, extent 8,000,000 μs. Retained full source-probe JSON SHA-256 is `17143799aa9f2dbaa3a9a0d55a959408f6b2800f1ce8c7755547ffa9d7659e42`.
+
+The source envelope is the narrow reviewed progressive H.264 High/yuv420p, square-SAR 16:9, BT709 limited-range/left-chroma, QT-container and s16 stereo 48 kHz PCM path, with source video 1/15360 and audio 1/48000 clocks. Actual inspection and source-bound orientation/plan predicates, not construction argv alone, establish admission. No arbitrary geometry, rotation, HDR, audio layout or source catalog is inferred from this fixture pair.
+
+Successful job records retain unchanged after-encode sparse identity, while the helper also retains full source hashes and checks original/source identities after closure. The independent audit keeps those full-hash checks distinct from sparse job comparisons; identity methods are not interchangeable labels.
+
+### 5. Publish three actual resized ranges through protected service outcomes
+
+| Service case | Requested range | Frames / audio samples | Canonical PCM bytes on each side | Service case elapsed |
+|---|---|---:|---:|---:|
+| Late long-source publication | [130,132) seconds of the owned 150-second copy | 60 / 96,000 | 384,000 | 35,155 ms |
+| Fresh independent publication | [0.613,2.721) seconds of the new eight-second source | 63 / 101,184 | 404,736 | 7,508 ms |
+| Fresh-instance recovery publication | [1.013,1.513) seconds of that fresh source, after old owners close | 15 / 24,000 | 96,000 | 4,220 ms |
+
+All three returned normal-service items have `status: success`, `outcome: saved` and an actual `published: true` disposition. These are protected published outputs, not calibration stages relabelled as service success. The two nonaligned video intervals need not equal audio request boundaries; exact membership/timing evidence is retained separately. Container duration alone is not the selected audio duration or proof of frame membership.
+
+Original campaign output identities are: late 568,869 bytes, SHA-256 `e1909c18827922e2a6803144a8c6b9e96c833a1f14f46be2ac2aa644ca32e588`; heldout 586,866 bytes, SHA-256 `d85bbee9ecba168ab512dc57608aeedd73e4345ff74a79b43e559cb620f0eebb`; fresh-recovery 135,290 bytes, SHA-256 `b4967b36f2f2245df831da80c1ad2cda1763515e205feb21b6362c1d93d0f24d`. Unlike the preceding calibration, these full hashes and sizes are in the original service report before the independent audit.
+
+Full output probe JSON is also retained during the campaign. Hashes are respectively `73533193930318427c13379d048f81a0d28f84f3f56262badc9834de6bcf6f0c`, `21d0a1814bd6a633ffc20dc09f70bb0492f93dc87347c63e3f09e5c2a9531faa` and `5ad7a04c92cfc0bf9374ccd4e15978d589383ebdb45488120b112d4084d1c8fb`. These observed probes report HEVC 1280×720 progressive yuv420p, SAR 1:1, DAR 16:9, BT709/tv, FLAC stereo 48 kHz and both Matroska stream time bases 1/1000. Format durations are 2.000000, 2.120000 and 0.520000 seconds; the latter two are not rewritten to the requested audio lengths just to make a simpler narrative.
+
+Selected source/output PCM hashes match exactly: late `7acabaca200ee56c036bdc013dee5b0bb10493138984e87f3313a97e7658f355`; heldout `707e310c31c5ac4c472d86447038d040d9357776d042704120af065e8adfe413`; recovery `08b3888935637042f5a7d82a6da202c162f7ef9d4bdea851ac721d902845df33`. Those are retained s16le-interleaved audio identity receipts, not video-pixel identity. Lanczos scaling deliberately changes pixels; this finite result does not establish general visual quality.
+
+### 6. Retain genuine source-complete evidence, telemetry and resource accounting
+
+Each successful output has the actual collector start/receipt, three selected/output spool files, seven collector child records and genuine runtime/family/resource bindings. Normal service accounting includes ten operation children per successful publication; the seven collector subset, total campaign census and progress-bearing calls are different scopes. Full source coverage remains required even for a short late output: the long source has 4,500 frames and 7,200,000 samples; the independent eight-second source has 240 frames and 384,000 samples.
+
+All three reported telemetry validations are valid two-stream encoder-input count/timeline checks, correct video/audio order and zero unknown rows. Their explicit limits remain: they do not alone establish video-pixel identity, lossless audio identity, last frame duration or output/publication validity. Separate canonical decoded-operation, PCM, source/output and protected disposition evidence must support those other claims.
+
+The actual execution budgets for late/heldout/recovery are 1,161,568 / 225,050 / 151,550 ms. Allowed evidence bytes are 448,179,200 / 160,364,800 / 160,056,064; pipe limits 464,956,416 / 177,142,016 / 176,833,280. Telemetry limits are respectively 393,216 bytes/1,536 rows, 458,752/1,792 and 327,680/1,280. Each genuine selection retains a 64-child ceiling; no budget coefficient is fitted to the observed successful elapsed time.
+
+Recorded successful-operation streamed bytes are 31,234,908 / 2,111,109 / 1,746,691. Corresponding stdout pipe accounting is 31,247,018 / 2,122,985 / 1,757,244 and stderr 499 bytes each. The 499-byte accounting is the target encode's warnings, not evidence that seven collector children emitted those bytes. Storage forecasts are 20,971,520 / 21,495,808 / 20,447,232 bytes, with 33,554,432-byte reservations marked diagnostic-only. Streamed stdout is not disk use, and point admission/reservation is not a hard live-write cap.
+
+The final saved-output audit independently reconciles those resources/accounting against the three actual sources/ranges and verifies the retained collector/spool/telemetry evidence. The direct spool check counts selected-video rows 60/63/15; selected-audio rows 95/100/24 summing to 96,000/101,184/24,000 samples; output-audio rows 375/372/46 with those same sample sums. Telemetry video rows are 60/63/15 and audio rows 375/372/46. Different row counts are not different sample results. Seven collector invocations per publication give 21 collector children; all those retained collector stderr records are empty. The target 499-byte warning streams remain separate.
+
+### 7. Preserve an actual after-prepare collision without overwriting prior output
+
+The collision case prepares fresh-source [1.013,3.087), then exclusively creates a small owned sentinel at that prepared destination. It does not overwrite one of the successful publications to manufacture a collision. Normal Start returns `skipped` with `Output appeared since preview.` The retained sentinel SHA-256 is `541e7f3289bcf1fd9b36608330013a775380c53fbf579763a9c3e0445b8368b2`.
+
+Progress-bearing invocation count remains 14 before and after collision, supporting that no new target/progress child was launched for this case. Actual sentinel bytes and final identity are checked rather than inferring no-overwrite solely from a status string. This is one controlled after-prepare collision, not a claim that all filesystem races are impossible or a previously published file was intentionally replaced.
+
+### 8. Observe active cancellation, retain its incomplete stage and recover only with new owners
+
+The cancellation is requested only after an actual live owned encoding child reports frame 3, media seconds 0.213333, `ended: false`, stage encoding, for requested [0,7) seconds. It is not an idle cancel or a pre-launch refusal presented as active cancellation. The UI-oriented progress percent/ETA/fps/speed fields are observed telemetry, not a throughput benchmark or a complete frame/sample result for the cancelled output.
+
+The service returns `cancelled`, reason code `CANCELLED`, with no published destination. It retains the incomplete `.ffmpeg-encoder-AwtUpK/encoded.mkv` stage because it was never identity-bound; safety cleanup does not remove an unvalidated object. The retained stage is not a valid finished output or a candidate for implicit publication.
+
+The actual cancellation child is index 77, closed with null exit code and `SIGKILL`, not graceful termination. It ran from 19:44:52.219 to 19:44:55.260 UTC and retains 1,232 stderr bytes, SHA-256 `64daa18831598b241ecbd585421542c8a6532362d115850769f12ae06690c098`. Diagnostics include familiar duplicate-codec/x265 CPU-mask/thread-pool messages plus interrupted demux/partial-file/H.264 NAL/decode errors. These observations are preserved, not erased by the overall passed cancellation criterion.
+
+The source and original data remain protected by the campaign's identity checks; interrupted child diagnostics alone do not prove that the original source file became corrupt. Nor does source hash equality establish the sole cause of each warning. The narrow supported conclusion is that a real active encode was cancelled, no validated output was published, the incomplete stage was retained, and the child/resource lifecycle was drained under the reviewed policy.
+
+Both recorded session closures have admission closed, busy false and no errors. The old service/runtime resources are closed before a new verified candidate handle and new service in a new state directory perform the recovery publication. `sameServiceRetryPermitted` and top-level `sameServiceRecoveryProven` remain false. This proves fresh-owner recovery for the observed sequence, not safe reopening of an old service or parity across every cancellation phase.
+
+### 9. Retain all 121 child diagnostic observations and do not confuse them with output count
+
+Final census is 121 spawned, 121 closed, zero live and maximum concurrency one. There are three successful publications, one skipped collision and one cancelled target. The census's `encodes: 28` counts all progress-bearing invocations, including capability work, not twenty-eight target output encodes or twenty-eight publications. No hardcoded total from an earlier 119-child Keep720 run is reused.
+
+All 121 stderr captures are known, complete-at-save and untruncated. Of them 105 are empty and sixteen nonempty: four 167-byte capability rows, four 335-byte rows, two 1,181-byte and two 1,182-byte capability rows, three 499-byte successful targets and one 1,232-byte cancelled target. Exactly sixteen children retain duplicate-codec-option messages and eight retain the x265 CPU-mask/thread-pool warning family. The successful targets are children 41, 57 and 111; their stderr hashes are `053d471831354372523349e90be96dde7de9c9ff72843eb0540a536f9bd01a9e`, `a73d006e80b3a9c0fda0bdaf09dcf871673c206d70f7cbce32acf42b32b4cf25` and `d3225f91257db8b6bfd0b057987b56f14f3b8433f9660b03dace49d0d8bf4084`.
+
+The target warnings remain the same known family: global and specific codec choices produce duplicate-option messages; x265 reports `Failed to genrate CPU mask` and no thread pool for WPP/lookahead slices. Earlier source-based diagnosis made codec precedence clear and missing system topology a strong mechanism, not an independently traced sole cause. This run is fresh functional evidence on the resize route, not new causal/native performance qualification. No suppression flags, system mounts, runtime replacement or performance workaround was applied.
+
+Captures are the runner's UTF-8 string observations with byte counts/hashes, not a general arbitrary-binary stderr archive. The reviewed helper fails equality if invalid UTF-8 changes the byte count. Here the actual saved rows all satisfy the known complete criteria. Empty outer stderr still says nothing different about these nonempty child records.
+
+The raw report inventories 297 owned artifacts and 139,332,801 owned bytes at close before the final report is itself saved. That number is not peak disk use or a hard storage cap. The report also records all 545 source hashes rechecked post-close and exact runtime/source identity checks. Independent audit and lead reconciliation remain separate from those executor assertions.
+
+### 10. Independently audit the saved outcome before releasing the source freeze
+
+The authoritative `INDEPENDENT_SAVED_OUTPUT_AUDIT_FINAL-v3.json` is 72,627 bytes, SHA-256 `6a98af956ffa90a781ec00d7e5e5098bd6a43ae80c69c677ad136ff897936eb5`. It records PASS for the bounded saved-output audit and recommends release only after lead reconciliation. Its checked-at field is 19:47:49.068394 UTC; the corrected final-v3 artifact, not a superseded supplement, is the conclusion used here. This was read-only saved evidence review, with no extra runtime/media execution or independent re-decode.
+
+The audit verifies all 545 source paths against actual immutable Git/current/gate identities, all nine listed tool/dependency pins, exact authorization/helper/plan/review/completion identities and all 297 inventoried artifacts, 139,332,801 bytes before final report creation. The only extra file relative to that pre-report inventory is the report itself, whose exact 295,517-byte identity matches completion. It independently byte-checks both source probes and all three original output probe/hash records, instead of merely trusting the returned success labels.
+
+It confirms full source counts, selected/output frame/sample/PCM receipts, sealed spools and telemetry, seven collector invocations per successful publication, resource accounting and source/closure state. The complete-source counts/PCM hashes are captured streaming evidence, not retained full decoded PCM buffers or a new independent decoder replay. The source/geometry/timing/PCM claims retain that verification level even though the campaign itself actually decoded the media.
+
+The collision sentinel hash and no progress-bearing invocation delta remain intact. No published cancellation destination exists; the retained incomplete stage is zero bytes, with empty-file SHA-256 `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` already recorded in the original campaign artifact manifest and independently matched by the audit. This does not turn the retained path into a validated output, nor imply no temporary path was created. The actual child 77 SIGKILL and all 1,232 diagnostic bytes are retained. Nineteen checkpoint receipts corroborate cancellation drained, old session closed, new session created and recovery prepared/settled/verified in that order.
+
+Fresh live object ownership is established by the reviewed executed launcher and corroborated by those saved session/closure records; serialized JSON cannot independently prove JavaScript object identity. The same limitation applies to stale Start refusal recorded by the executed checks. The audit correctly distinguishes 121 total children, 28 progress-bearing calls and three publications; the collision claim is no progress-child delta, not no inspection children. All 121 stderr rows are independently reconciled, including the sixteen nonempty diagnostic groups.
+
+The audit process corrected one concrete reporting mistake. A supplement initially carried forward an older campaign's roughly two-hour clock characterization without converting this run's actual numeric checkpoint value. Here `1794944636037` converts to 19:43:56.037 UTC, between the outer start 19:43:53.651 and first child 19:43:56.832. No two-hour discrepancy is observed in those saved fields. Final-v2 removes the unsupported inherited claim and preserves the earlier supplement as superseded; initial audit and correction provenance are retained. It still keeps numeric checkpoint, child ISO, filesystem nanoseconds and outer wall/monotonic domains separate and does not claim synchronized or cryptographically attested chronology.
+
+Final-v3 corrects a second provenance statement: final-v2 had described the retained zero-byte stage hash as first established during audit, but the original campaign artifact manifest already recorded both its size and empty-file hash. Final-v3 now says campaign-recorded and independently verified; v2 remains preserved. This correction changes neither report/media bytes, checks, result nor release recommendation. It does not claim a complete or playable cancelled output.
+
+At 19:49:46.681072 UTC the lead reconciled the then-final-v2 audit and independently rechecked all 545 current/Git/gate files, nine pins, all 297 artifacts plus final report. `LEAD_RELEASE.json` SHA-256 is `fd79a86698b6db837c2d8449e5eed05139ff6600eedd9a4643828367232c26b6`. Final report and then-reviewed audit identities remained exact, census 121/121 closed, live zero, max one. At 19:52:54.879931 UTC, `LEAD_RELEASE-v2.json`, 876 bytes, SHA-256 `61d12abe05240636e86bb24c4e0fc091451769e70ad9d6452a2df40a2a9aa2c8`, reconciles authoritative audit-v3. The lead verifies that only stage-hash provenance/audit history changed, rechecks the campaign report and actual empty stage, and confirms all other audit values identical. The earlier full 545-file/nine-pin/297-artifact reconciliation and source release stand; no repeated media or independent decode occurred. The initial source/document freeze release remains in force for the evidence checkpoint and separately bounded successor work, not for another media attempt or native activation.
+
+The audit and release qualify one finite developer resize normal-service workflow only. They do not qualify general sources/geometry, visual pixel quality, native UI, same-service retry or production activation, and do not change the point-in-time/non-hard-limit nature of file hashes, storage admission or abort supervision.
+
+### 11. Preserve an evidence-only checkpoint and select the next step without activation
+
+The owning records are [Resize Normal Service Proof](2026-11-17_Resize_Normal_Service_Proof.md), its [structured receipts](2026-11-17_Resize_Normal_Service_Proof_Receipts.json) and [Current](CURRENT_STATE.md), with a reviewed portable full report. Final owning records were saved and read before this Session release. Current is 6,851 bytes, SHA-256 `6ca4234e7e60828ac3d37223259b5d31d04dd2d524227b92231ec39e4ab7c0ee`; execution is 16,574 bytes, SHA-256 `7b77a652e4f2de4c52f249b7a23b8fa6f3fe9cf2ec9664391bf18b843f88d665`; structured receipts are 132,634 bytes, SHA-256 `ff8238da10744dfd8bfd7096f977d4706a76317f40fea7eaee781d4cfb48b83a`. The receipt's first limitation was clarified to say that the independent audit performed no additional runtime/media execution or independent re-decode, rather than implying that this actual campaign did not run. That is a scope-wording correction, not a changed media result.
+
+The [portable full service report](evidence-2026-11-17/resize-normal-service-portable.json) is 282,577 bytes, SHA-256 `c771b5771371087704ef64cdc61163887c7adfe7c882661cb56caaa94ba34fdb`. The documentation read independently compared the complete parsed report recursively: exactly 293 strings change by known-root substitution, 171 proof-root, one project-root and 121 runtime-build-root replacements. All other keys, types and values match the original raw report. The inverse private mapping is excluded. Its wrapper explicitly denies raw-report/runtime restoration, factory, same-service, native/app/catalog/default or new-execution authority.
+
+This is an evidence-only step: no new application/service/test source change is needed to record what ran on immutable `db2fa5e`. The latest source tests remain the preceding 160/160 focused, 125/126 service with the old missing-source diagnostic mismatch, and 190/225 broad with the same 35 failures. They were not rerun simply because media evidence was added. The old Keep720 capsule still refuses three changed producer identities; the new service success does not repin that historical map or activate its workbench route.
+
+The expected five-path checkpoint is Current, Session, execution, receipts and portable report; three new files give 548 source files and eighteen local commits after the next coherent commit. A portable report is reviewable archive content after exact documented path substitutions, never the raw report or runtime/factory/new-run authority. Raw media, original diagnostic/spool bundle, binary/library payloads, private mapping and helper approval are not uploaded by implication.
+
+After the final audit/release, the lead assigned an isolated fixed developer resize workbench implementation from the reviewed next-slice design, SHA-256 `7b7a5a2396f1a07753a29b50c72516da842b739f9edc365f696a705a2fe3ffa0`. The design adds explicit main-owned `--blue-runtime=9.0.2-resize-candidate`, preserving baseline/AV1/historical Keep720 choices and defaults. It reuses the existing shell/theme, runtime restoration checks, main-owned OutputAccess and token-only actions; resize snapshots disclose their own developer mode rather than impersonating Keep720. Initial compatibility/Full preparation must stay inspection-only, while normal per-file range/720/precision-FLAC editing reparses genuine source/plan/selection authority.
+
+That assignment is a successor, not a completed integration in this evidence checkpoint. An isolated proposal has arrived at final handoff but is still unreviewed and unintegrated; its source, tests and acceptance belong to the next checkpoint. No new authoritative workbench integration or native run is claimed here. Any consumer edits require independent source review/tests and a coherent preserved source checkpoint before a separately reviewed native journey. Cancellation remains close/relaunch with a fresh handle/service; OutputAccess instanceof is a shape check, with real authority still in private grants and identity checks. No shared service/family/evidence rewrite, old capsule repin, HTML/theme/layout/default/catalog change or hidden runtime fallback is granted by this result.
+
+ The documentation role will write only after explicit Session release, preserve the full 690,967-byte prior body and the original correction receipt, verify links/hashes/structure, and release to the lead/mirror for actual Git → Notion → GitHub preservation. This draft does not claim that 018 already exists remotely or that native resize has become accepted.
+
+## 🧠 Key Insights
+
+### Real service proof adds authority that a source test cannot supply
+
+The new result is not another direct calibration encode. It traverses normal registration, inspection, per-file operation preparation, private selection, storage, protected publication and lifecycle through the real fixed factory. That makes the three output dispositions and cancellation/recovery sequence meaningful new evidence. It still does not connect the module to an application entry point or qualify every source/geometry/platform.
+
+### Save output identities and probes during the campaign, then independently check them
+
+The prior calibration required the auditor to establish full output hashes afterward and lacked separately retained output probe JSON. This consumer campaign now records those original output hashes and probes itself. That closes a concrete retention gap without retroactively upgrading the old evidence. The later audit remains a saved-output inspection, not a second decoder run.
+
+### A passed cancellation case can contain forceful termination and serious-looking diagnostics
+
+The acceptance criterion is observed live work, cancellation, no publication, retained unsafe stage, drained ownership and successful new-owner recovery. Child 77 actually closes by SIGKILL and retains interrupted demux/decode errors. Those facts are not inconsistent with the narrow passed criterion, but they rule out “graceful cancellation,” “clean child stderr” or generic reliability claims.
+
+### Count the right thing
+
+Three publications, four target encode attempts, 28 progress-bearing calls, 21 successful collector children and 121 total spawned children describe different units. The collision launches no extra progress-bearing child. Reporting any of those counters as “encodes” without its scope would mislead later comparisons and conceal capability/collector costs.
+
+### Fresh-instance recovery is an explicit lifecycle choice, not a workaround to hide
+
+Closing old admission and draining resources before new runtime/service creation preserves the cancellation invalidation boundary. The successful half-second recovery demonstrates that chosen flow. It does not justify resetting tokens or reopening the old service, and its new state directory is relevant evidence rather than incidental implementation detail.
+
+### Preservation order must follow actual receipts
+
+The source and verified Notion restoration gated this run; GitHub verification completed after the campaign. The project can preserve source correctly while a separately authorized bounded step proceeds, but its records must not reorder timestamps to make every backup appear prelaunch. Exact historical Session bytes and dated publication receipts prevent that ambiguity.
+
+## 📌 Decisions Made
+
+1. **Confirmed: authorize exactly one real normal-service resize campaign on immutable 017.** The lead bound actual source/restoration/runtime/report/helper identities after conditional review. No retry, native/UI/default/catalog scope or old approval reuse was included.
+2. **Confirmed: exercise real service publication and lifecycle rather than bypassing the factory.** The reviewed helper reuses normal registration/preparation/selection/storage/publication with genuine runtime authority. The fixed finite geometry/audio/source envelope remains unchanged.
+3. **Confirmed: use an owned exact long copy and a genuinely fresh heldout source.** The original calibration inputs remain protected; the new source provides independent fixture content rather than a renamed long segment.
+4. **Confirmed: preserve collision sentinel and incomplete cancellation stage.** Controlled exclusive destination collision must skip unchanged; unbound cancelled output must remain retained rather than be deleted or published on a successful label.
+5. **Confirmed: close/drain old owners before new-owner recovery.** Same-service recovery remains false. Actual child SIGKILL and diagnostics are retained rather than described as graceful cleanup.
+6. **Confirmed: save full output probes/hashes and all child diagnostics before final completion.** Executed V2 persisted byte/hash/JSON readback supplies final report identity. Complete diagnostic retention does not mean warning-free execution.
+7. **Confirmed after independent audit: preserve this finite result and release the source freeze.** Final accepted audit PASS and the lead's 19:49:46.681072 UTC recheck cover all 545 source files, nine pins and 297 artifacts plus report. The mistaken inherited clock-offset supplement and later incorrect audit-first stage-hash wording are explicitly corrected and preserved as superseded; no new run/native authority follows from release.
+8. **Confirmed as an isolated successor assignment, not a result: prepare fixed developer resize workbench wiring.** The lead chose the explicit separate mode and existing shell/OutputAccess/lifecycle patterns after audit. Implementation, review, integration, preservation and native journey remain separate later work.
+9. **Deferred: native resize, general geometry/source coverage and performance acceptance.** The narrow service result has no default/catalog/renderer activation, no Windows/GPU/HDR/AAC/Full claim and no all-cancellation-phases or same-service parity claim.
+
+## ⚠️ Difficulties / Friction
+
+A short late output still requires whole-source evidence. The two-second long-source case takes substantially more proof work than a two-second encode alone, and its 35,155 ms is not a media throughput benchmark. The separate genuine resource formula accounts for complete source and selected work instead of scaling every budget only by output duration.
+
+Nonaligned ranges have different video membership and audio boundaries. The saved output container durations of 2.120 and 0.520 seconds cannot be replaced with requested audio lengths 2.108 and 0.500 just for readability. Exact frame/sample counts, decoded timing and selected PCM remain the useful evidence.
+
+The cancellation run was deliberately interrupted after actual live encoding progress and ended with SIGKILL. Its retained H.264/partial-file/demux errors are not clean diagnostics and must not be omitted. The source/retained-state checks and no-publication criterion determine the narrow outcome; they do not establish sole warning causality or graceful termination.
+
+The familiar duplicate-codec and x265 CPU-mask/thread-pool messages persist on successful targets and capability children. Full capture removes uncertainty about missing diagnostics, not the diagnostic/performance limitation itself. No environmental workaround or warning suppression was introduced to make the result look cleaner.
+
+The distinction between actual prelaunch source restoration and later GitHub verification is also material. The run does not become unauthorized because the remote verification arrived later, but the records must name the actual gate and chronology rather than claiming all preservation surfaces were already checked before launch.
+
+The independent audit also had a bounded reporting correction: a supplement inherited an older two-hour clock-offset characterization. Actual conversion of this run's numeric checkpoint showed normal ordering with the outer/child ISO labels. Final-v2 corrects that statement, preserves the superseded supplement and keeps all timing domains distinct. The media/report did not change and no rerun was used to obtain the correction. Final-v3 also corrects the cancelled-stage hash attribution: the original campaign artifact manifest already recorded the zero-byte stage and empty hash, so the audit matched rather than first established them.
+
+## 🔧 Adjustments Made
+
+### 1. Move from injected source proof to actual consumer execution
+
+- Shifted from: The prior checkpoint's VM-positive factory and genuine selection tests without real candidate media.
+- To: One reviewed actual factory/normal-service campaign on preserved `db2fa5e` with protected outputs and observed lifecycle evidence.
+- Because: Source tests cannot establish real inspection/runtime/collector/publication/cancellation behavior.
+- Consequence: Three actual resize publications and the collision/cancel/fresh-owner sequence now have retained evidence, within the narrow route, accepted by the final audit and lead release. No app activation follows automatically.
+
+### 2. Improve original output evidence retention
+
+- Shifted from: The calibration's auditor-first full output hashes and absent standalone full output probe JSON.
+- To: Output SHA/size and full probe JSON saved during this service campaign, then available for independent rechecking.
+- Because: The earlier audit identified those concrete evidence-retention limits.
+- Consequence: This campaign can support a stronger saved-output identity/geometry review; the older calibration remains unchanged and no independent re-decode is implied.
+
+### 3. Use observed active cancellation and explicit new-owner recovery
+
+- Shifted from: Source-level cancellation admission/cleanup tests and a planned future live cancellation case.
+- To: Actual live frame-3 cancellation, no published output, retained unbound stage, drained old owners and successful new-handle/new-service publication.
+- Because: The lifecycle boundary needs real execution evidence, not only a method call under injected dependencies.
+- Consequence: The supported recovery flow is established for this case, while SIGKILL, interrupted diagnostics and no same-service parity remain explicit.
+
+### 4. Correct inherited clock commentary using this run's actual numeric value
+
+- Shifted from: An audit supplement that copied an earlier campaign's roughly two-hour offset characterization.
+- To: Explicit conversion of `1794944636037` to 19:43:56.037 UTC, correctly ordered between outer start and first child, with final-v2 audit provenance.
+- Because: The actual saved fields do not show that inherited discrepancy; prior environment observations are not a substitute for current evidence.
+- Consequence: The erroneous supplement is preserved as superseded, raw report and output evidence stay unchanged, and no synchronized/atomic chronology claim is added.
+
+### 5. Advance from accepted service evidence to a separately scoped workbench assignment
+
+- Shifted from: A reviewed but unexecuted service consumer and a conditional future workbench design.
+- To: Independently accepted finite service evidence followed by an isolated explicit developer resize workbench assignment.
+- Because: Real publication/collision/cancel/fresh-owner behavior is now supported narrowly enough to justify the next bounded source slice.
+- Consequence: The assignment may proceed outside authoritative source while evidence is preserved; no completed UI integration, native launch or default/catalog activation is asserted here.
+
+## ❌ Mistakes / Risks Noted
+
+### 1. Relabelling forceful cancellation as graceful or clean
+
+- What happened or could happen: The overall five-case result passes while cancelled child 77 ends by SIGKILL with 1,232 bytes of warnings/interrupted demux/H.264 errors.
+- Actual impact: Live encode cancellation produced no published output and retained its unbound incomplete stage; diagnostic cleanliness was not achieved or required.
+- Potential impact: A simplified “clean cancellation” claim could conceal forceful shutdown, partial artifacts and unqualified failure/recovery phases.
+- Correction / current status: The exact signal, observed progress, retained stage and fresh-owner requirement are preserved. No same-service or graceful-exit claim is made.
+- Failure Intelligence: Retain in this Session and structured receipts. A passed bounded cancellation criterion is not evidence that every child exited zero or every diagnostic disappeared.
+
+### 2. Interpreting interrupted child errors as proven original-source corruption
+
+- What happened or could happen: Cancellation stderr includes packet corruption, invalid NAL units and partial-file/demux messages.
+- Actual impact: Those are actual child observations during interruption; successful source identity/full-hash checks and subsequent fresh-owner proof provide separate source evidence.
+- Potential impact: Declaring the original source corrupt, or claiming all errors were definitively caused only by cancellation, would exceed what was observed.
+- Correction / current status: Preserve both diagnostic bytes and source identity outcomes. Sole-cause diagnosis is not asserted; the incomplete output is retained and never promoted.
+- Failure Intelligence: Distinguish file integrity, interrupted-process diagnostics and causal inference. Do not suppress warnings or modify sources to make the logs simpler.
+
+### 3. Confusing progress-bearing invocations with publications
+
+- What happened or could happen: `census.encodes` is 28, but it counts all progress-bearing calls including capability work.
+- Actual impact: There are three successful publications, one cancelled target, one skipped collision and 121 total children; collision retains count 14→14.
+- Potential impact: Reporting 28 outputs/target encodes or treating all child counts as collectors would distort scope and future resource comparisons.
+- Correction / current status: Each counter is labelled with its real unit; independent audit has reconciled exact rows and diagnostics rather than trusting the field name alone.
+- Failure Intelligence: Preserve explicit counter semantics in future reports and any compact handoff.
+
+### 4. Treating complete diagnostics as resolved runtime performance
+
+- What happened or could happen: All stderr captures are complete and the proof passes, while three successful targets still retain 499-byte warnings and eight children show x265 CPU-mask/thread-pool diagnostics.
+- Actual impact: Capture completeness is improved; warning/performance uncertainty remains.
+- Potential impact: Warning suppression or an unsupported native-performance claim could turn narrow functional evidence into a false broader qualification.
+- Correction / current status: Exact warning records remain. No flag workaround, system/security change, runtime replacement or reencode was performed.
+- Failure Intelligence: Keep earlier causal diagnosis bounded and require separate evidence for native threading/performance rather than interpreting success as resolution.
+
+### 5. Generalizing one finite proof into product/native acceptance
+
+- What happened or could happen: Actual service publication could be mistaken for a usable workbench route, arbitrary resize support or all-platform release.
+- Actual impact: Fixed developer-only 1080p30 SDR-to-720p precision-FLAC service behavior was exercised; appActivated and sameServiceRecoveryProven remain false.
+- Potential impact: Default/catalog/UI activation or unsupported sources could bypass the exact qualification/ownership assumptions.
+- Correction / current status: Preserve source freeze through audit and future source/UI/environment review. Old Keep720 pins remain unchanged and stale; no automatic native step follows from this result.
+- Failure Intelligence: Separate calibration, consumer execution, application wiring, native journey and owner acceptance in every continuation.
+
+### 6. Overstating resource bounds or temporal assurance
+
+- What happened or could happen: Serial child caps, disk point checks and a 30-minute abort request might be described as hard OS limits or atomic loaded-image proof.
+- Actual impact: This run closed all 121 children with max one and remained within recorded admission accounting. No hard active-write/termination guarantee was tested.
+- Potential impact: A future failure could exceed a point-observed footprint or fail to terminate on request; hashes across separate reads cannot prove simultaneous loaded bytes.
+- Correction / current status: Preserve exact observed closure, finite limits and their non-hard/non-atomic nature. Raw epochs/outer clocks remain separate, and case durations are not benchmarks.
+- Failure Intelligence: Keep enforcement type and actual result separate, including the reviewed helper's failure/cleanup limits.
+
+### 7. Reordering backup chronology or upgrading saved inspection into execution
+
+- What happened or could happen: GitHub verification completed after the run, and an independent audit later reads saved outputs without redecoding.
+- Actual impact: Actual local+Notion+explicit gates preceded the one attempt; later remote/source/audit receipts have their own times and scope.
+- Potential impact: Misdated backup or a fictitious second media decode would overstate reproducibility and verification strength.
+- Correction / current status: The explicit times, original output-probe/hash retention and later saved-output audit are separately attributed. Historical source-only sessions remain exact.
+- Failure Intelligence: Preserve chronology and provenance, not a narrative ordering that makes every check appear earlier or stronger.
+
+### 8. Inheriting clock commentary and misstating saved-hash provenance
+
+- What happened or could happen: An audit supplement initially repeated an older roughly two-hour discrepancy characterization; final-v2 also incorrectly attributed the retained empty-stage hash to first establishment at audit.
+- Actual impact: Current numeric checkpoint conversion aligns with outer/child ordering, and the original campaign manifest already contains the zero-byte stage/hash. The two commentary/provenance errors did not change media, report, hashes or results.
+- Potential impact: Carrying the claim forward could fabricate a timing inconsistency or encourage a false correction to valid recorded times.
+- Correction / current status: Final-v2 records the exact conversion; final-v3 corrects the stage hash to campaign-recorded and independently matched. Superseded receipts remain preserved, and the lead reconciles the final wording without a media rerun.
+- Failure Intelligence: Retain both corrections in this Session and audit history. Recompute current clocks and inspect the original artifact manifest instead of copying prior caveats or assuming when a hash was first established. Keep clock/identity provenance precise without stronger synchronization claims.
+
+## 📍 Current Position
+
+**As of:** Actual one-run completion on immutable `db2fa5e`, followed by the audit/release status recorded above. The bounded independent PASS is reconciled and the lead source/document freeze release is dated 19:49:46.681072 UTC. Final-v3 later corrects only the empty-stage hash provenance and is reconciled at 19:52:54.879931 UTC; the result is unchanged. A separate isolated workbench assignment exists, not a completed UI or native result.
+
+**Before this session:** The reviewed two-file resize service composition and V2 helper were preserved, but positive factory tests were synthetic and no real resized normal-service publication/cancellation result existed. The exact original calibration and 97-producer closure remained historical authority; the old Keep720 workbench route remained stale.
+
+**After this session:** One genuine campaign reports all five cases passed: three protected publications with exact selected PCM counts/hashes, an unchanged collision sentinel, actual live cancelled encoding with no publication and fresh-owner recovery. All 121 children closed, complete diagnostic records include sixteen nonempty streams and the cancelled child ends by SIGKILL. Original output probes/full hashes and final persisted report equality are retained. The independent final-v3 audit accepts the bounded saved-output result and the lead rechecks all frozen identities before release; the inherited clock-offset statement is corrected explicitly.
+
+**Current standing:** Narrow developer normal-service proof, not app/default/catalog/native/release acceptance. Same-service recovery, all cancellation phases, generic geometry/source support, pixel quality and warning-free performance remain unproved. The latest source tests are inherited unchanged, not rerun for this evidence-only step.
+
+**Live owner / continuation anchor:** The engineering lead owns source freeze/release, final evidence/PBS scope, publication and next engineering decision. The independent auditor owns saved-output verification, the mirror owns full source/history/native preservation, and this role owns only an explicitly released Session prepend. Re-enter through [Current](CURRENT_STATE.md), [the execution record](2026-11-17_Resize_Normal_Service_Proof.md) and [structured receipts](2026-11-17_Resize_Normal_Service_Proof_Receipts.json), then verify actual 018 publication rather than assume it from these filenames.
+
+## 🔜 Next Steps
+
+1. **First precise re-entry: verify final-v3 audit and the reconciled release anchors, not superseded wording.** Responsible: lead and preservation role. The actual final audit is `6a98af95…`, initial release `fd79a866…`, tested commit `db2fa5e`; verify the later provenance-only reconciliation and no source/report/artifact change before preparing the evidence checkpoint. The source freeze has been released after those checks, not by the mere executor success flag.
+2. **Preserve the coherent evidence-only 018 checkpoint.** Responsible: lead, documentation and mirror. Prerequisite: explicit documentation release and final reviewed portable/owning records. Preserve exact prior Session bytes, commit the five-path scope, restore full 548-file source/eighteen-commit history through Notion, fetch unabridged native records and verify expected-parent remote bytes/tree/ref.
+3. **Complete/review the separately assigned fixed developer resize workbench source slice.** Responsible: isolated contributor, independent reviewer and lead. Prerequisite for authoritative integration: verified 018 evidence preservation and exact reviewed source scope. Reuse existing shell/style, main-owned runtime/OutputAccess and genuine per-file operation flow; keep initial Full compatibility inspection-only and cancellation close/relaunch. Bind consumer edits in their own subsequent source checkpoint. Do not infer a native run or successful UI flow from this assignment or the service campaign.
+4. **Retain the remaining failures and qualification limits.** The prior 125/126 service diagnostic and 35 broad failures, including stale Keep720 source refusals, have not been fixed by this media result. Native resize, same-service recovery, other cancellation phases, general geometry/source/visual-quality and performance claims require their own scoped evidence rather than a report rename or hash repin.
+
+**Do not reopen / repeat:** No second media/cancellation attempt under the consumed one-run grant; no original-source overwrite, sentinel replacement, incomplete-stage deletion or publication; no warning suppression; no repinning old Keep720 evidence; no rewriting prior sessions; no unreviewed native launch/default/catalog activation; no claiming source tests were rerun or every child stderr was empty.
+
+**Continuation boundary:** This entry records one actual finite normal-service experiment and its final saved-output/release disposition. Evidence preservation and subsequent engineering have their own gates. A native resize result, broader family activation, product rollout, global green suite or owner acceptance is not established here.
+
+## ❓ Open Questions
+
+### Can the separately assigned developer workbench route preserve the real service boundaries through the UI?
+
+- Known: The service route is developer-only and unimported by the workbench; actual app/native resize remains separate. Existing shell/theme and authority/lifecycle boundaries should be reused.
+- Needed from: Actual implementation, independent tests/review and preserved source for the assigned explicit developer mode, followed by a separately authorized native environment/journey. The engineering choice is already made; its result is not.
+- Blocks: Claiming application wiring or native execution success, not preservation of the accepted finite service evidence.
+
+### How broadly do cancellation, source geometry and warnings generalize?
+
+- Known: One active encoding cancellation required forceful termination and retained an unbound stage; recovery used new owners. Fixed fixture geometry/audio/source clocks passed, while known warnings persisted.
+- Needed from: Separately scoped evidence where useful for broader acceptance; exact causal/runtime/environment diagnosis cannot be inferred from successful functional output.
+- Blocks: Same-service parity, other cancellation phases, arbitrary geometry/source support, clean performance/native qualification and release claims. These are not reasons to expand or repeat the consumed campaign automatically.
+
+## 🧾 Session Outcome
+
+One actual fixed resize normal-service campaign has now run on preserved 017 source, beyond the earlier VM-positive construction tests. The executor retained three protected publications, unchanged controlled collision, actual active cancellation/no publication, fresh-owner recovery, original output probes/full hashes, exact selected PCM and complete diagnostic/closure records. There are 121 closed children, max one, not 28 published encodes; known warnings and the cancelled child's SIGKILL remain explicit.
+
+Final-v3 independent saved-output audit accepts that bounded result and the lead releases the source/document freeze after exact rechecks. The audit corrects a mistakenly inherited clock-offset statement and audit-first empty-stage hash attribution without changing media/report bytes. A fixed developer resize workbench source slice is assigned in isolation, not completed or native-tested here. The exact previous 690,967 bytes remain untouched, no existing code/test/default/UI/pin change is implied, and the next coherent evidence checkpoint must be actually committed/restored/published before being described as backed up.
+
+## 🔍 Confidence Level
+
+**High for the observed executor record and narrow identity facts.** The exact authorized source/helper/runtime/report anchors, one-attempt markers, raw report, outer closure and original output probes/hashes are retained. Publication/collision/cancellation/fresh-owner results have concrete service records rather than only success labels.
+
+**High for the bounded independently accepted saved-output result.** Final-v3 audit and lead reconciliation verify all 545 source identities, nine runtime pins, 297 artifacts plus report, original output probes/hashes, selected spools/PCM/telemetry/resources and collision/cancellation/closure evidence. The corrected clock characterization is based on actual numeric conversion. This is not a new independent decoder run or serialized proof of live object identity.
+
+**Bounded for broader lifecycle, security and environment behavior.** Actual forceful cancellation and fresh-owner recovery are useful but not same-service or all-phase parity. Point admission, repeated hashes and saved UTF-8 diagnostics retain their non-hard/non-atomic limits. Known CPU-mask/thread-pool warnings do not qualify native performance.
+
+**Not established for product/native/general acceptance.** No app/default/catalog activation, generic source/geometry/scaler quality, GPU/Windows/HDR/AAC/Full, native resize or owner release acceptance follows from this finite service result.
+
+**Why:** The record separates real normal-service execution from earlier injected tests, original campaign evidence from later saved review, outputs from progress-bearing child counts, and observed functional success from warning-free/graceful/native claims. Publication timing and prior history remain exact.
+
+**Not higher because:** Complete decoded PCM buffers are not retained for replay, current hashes are not atomic loaded-image evidence, and the audit rechecks saved artifacts rather than executing another decode. Generalization beyond the fixed cases, independent re-decode, atomic loaded-image/chronology proof, all cancellation phases, same-service recovery and native performance remain unverified. The final 018 source/history/publication receipts are subsequent work, not assumed from the draft.
+
+---
+
 # 📘 Session: November 17, 2026 — FFmpeg Encoder — Bind the audited resize calibration to a separate developer-only normal-service composition
 
 ## 🤖 Models, Effort, Roles and Provenance

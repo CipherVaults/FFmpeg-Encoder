@@ -1,0 +1,3358 @@
+{
+  "schema": 1,
+  "checkpoint": "018",
+  "recordedAtUtc": "2026-11-17T19:55:24.814605+00:00",
+  "scope": "Evidence-only preservation of one actual developer resize normal-service proof; no source/test changes",
+  "testedCommit": "db2fa5e7933c1c6a51188a281f0478cd50f62367",
+  "sourceFiles": 545,
+  "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+  "rawReport": {
+    "bytes": 295517,
+    "sha256": "507918076f2463feb4fe67ee649cd7fa7a4d1b969e96cc093a05bb728d176bac"
+  },
+  "status": "passed-developer-candidate-resize-normal-service-proof",
+  "outer": {
+    "startedAt": "2026-11-17T19:43:53.651Z",
+    "endedAt": "2026-11-17T19:45:05.602Z",
+    "elapsedMs": 71951,
+    "monotonicElapsedMs": 71950.99471,
+    "exitCode": 0,
+    "signal": null,
+    "spawnError": null,
+    "stdoutSha256": "d1ec14be624ac87e03fef135725ccc93317a147b064b978186fbc56737351707",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "innerElapsedMs": 69549,
+  "innerFinishedAt": "2026-11-17T19:45:05.586Z",
+  "clockEvidence": {
+    "startedCheckpointEpochMs": 1794944636037,
+    "epochInterpretedAsUnixUtc": "2026-11-17T19:43:56.037000+00:00",
+    "firstChildIso": "2026-11-17T19:43:56.832Z",
+    "outer": {
+      "startedAt": "2026-11-17T19:43:53.651Z",
+      "endedAt": "2026-11-17T19:45:05.602Z",
+      "elapsedMs": 71951,
+      "monotonicElapsedMs": 71950.99471,
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdoutSha256": "d1ec14be624ac87e03fef135725ccc93317a147b064b978186fbc56737351707",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "qualification": "This run numeric checkpoint epoch converts to19:43:56.037 UTC, consistent in ordering with outer19:43:53.651 and firstchild19:43:56.832. No two-hour discrepancy observed in these saved fields. Retain separately: outer71951ms wall,71950.99471ms monotonic and inner69549ms cover different intervals/representations; do not equate them."
+  },
+  "sources": [
+    {
+      "id": "long-owned-copy",
+      "input": "proof://long-input",
+      "path": "proof://long-input/owned-different-name-long.mov",
+      "original": "project://linux-blue/artifacts/candidate-resize1080to720-calibration-3JE2RQ/long-pattern.mov",
+      "sha256": "8c24561ce37320d3530a9be4dcc9d2cfbe06371b716a2875d364f520de6f0280",
+      "bytes": 130549760,
+      "extentUs": 150000000,
+      "probePath": "proof://long-owned-copy-source-probe.json",
+      "probeSha256": "c4ae911e8119a061bf65b4c64173e349ef71622ae6502ca9eb9a4a8aae9cbecf"
+    },
+    {
+      "id": "fresh-independent",
+      "input": "proof://fresh-input",
+      "path": "proof://fresh-input/fresh-vflip-997.mov",
+      "sha256": "a45ca66b173cb60c4ee4d34d8c5880df174ab8ee0c2b9107bfe268a6ff4c6fc2",
+      "bytes": 6672071,
+      "extentUs": 8000000,
+      "probePath": "proof://fresh-independent-source-probe.json",
+      "probeSha256": "17143799aa9f2dbaa3a9a0d55a959408f6b2800f1ce8c7755547ffa9d7659e42"
+    }
+  ],
+  "publications": [
+    {
+      "name": "late-long-service-publication",
+      "output": {
+        "path": "proof://late-long-service-publication/owned-different-name-long_H265-CPU.mkv",
+        "bytes": 568869,
+        "sha256": "e1909c18827922e2a6803144a8c6b9e96c833a1f14f46be2ac2aa644ca32e588",
+        "probePath": "proof://late-long-service-publication-output-probe.json",
+        "probeSha256": "73533193930318427c13379d048f81a0d28f84f3f56262badc9834de6bcf6f0c"
+      },
+      "frames": 60,
+      "samples": 96000,
+      "pcm": {
+        "algorithm": "sha256",
+        "format": "s16le-interleaved",
+        "sourceHash": "7acabaca200ee56c036bdc013dee5b0bb10493138984e87f3313a97e7658f355",
+        "outputHash": "7acabaca200ee56c036bdc013dee5b0bb10493138984e87f3313a97e7658f355",
+        "sourceBytes": 384000,
+        "outputBytes": 384000
+      },
+      "completeSource": {
+        "video": {
+          "frames": 4500,
+          "firstTime": {
+            "n": "0",
+            "d": "15360"
+          },
+          "endTime": {
+            "n": "35389440000",
+            "d": "235929600"
+          },
+          "maximumNominalCadenceErrorUs": 0,
+          "maximumNominalDurationErrorUs": 0,
+          "maximumNominalPhaseErrorUs": 0,
+          "properties": {
+            "policy": "cfr-sdr-range-resize-flac-v1",
+            "sampleAspectRatio": "1:1",
+            "chromaLocation": "left",
+            "sideDataPolicy": "h26x-unregistered-sei-only",
+            "framesChecked": 4500
+          }
+        },
+        "audio": [
+          {
+            "inputIndex": 1,
+            "sampleCount": "7200000",
+            "firstTime": {
+              "n": "0",
+              "d": "48000"
+            },
+            "endTime": {
+              "n": "345600000000",
+              "d": "2304000000"
+            },
+            "gaps": 0
+          }
+        ]
+      },
+      "limits": {
+        "pipeBytes": 464956416,
+        "evidenceBytes": 448179200,
+        "maxChildren": 64,
+        "evidenceReserveBytes": 20971520,
+        "stallMs": null,
+        "telemetryBytes": 393216,
+        "telemetryRecords": 1536,
+        "executionBudgetMs": 1161568
+      },
+      "actualAccounting": {
+        "directory": "proof://state-1/operation-evidence/job-fec72c7b-5378-401a-a4c5-86178468688a/operation-evidence-4oWgvI",
+        "planFingerprint": "c2fefe3efd73e98a5de857d6ac62a8d9304c72f8aff0701896dc0c9e6e18cd0b",
+        "evidenceIds": [
+          "candidate-resize1080to720-calibration-3JE2RQ:long-pattern:endpoints",
+          "candidate-resize1080to720-calibration-3JE2RQ:long-pattern:interior",
+          "candidate-resize1080to720-calibration-3JE2RQ:heldout-flipped:endpoints",
+          "candidate-resize1080to720-calibration-3JE2RQ:heldout-flipped:interior"
+        ],
+        "status": "completed",
+        "scope": "complete-decoded-timing-and-selected-flac-pcm",
+        "failure": null,
+        "children": 10,
+        "streamedBytes": 31234908,
+        "pipeBytes": {
+          "stdout": 31247018,
+          "stderr": 499
+        },
+        "telemetryValidation": {
+          "valid": true,
+          "scope": "encoder-input-count-and-timeline-only",
+          "streams": [
+            {
+              "outputIndex": 0,
+              "kind": "video",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            },
+            {
+              "outputIndex": 1,
+              "kind": "audio",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            }
+          ],
+          "doesNotEstablish": [
+            "video-pixel-identity",
+            "lossless-audio-identity",
+            "last-video-frame-duration",
+            "output-or-publication-validity"
+          ]
+        },
+        "sourceIdentityDisposition": "unchanged"
+      },
+      "telemetrySummaries": [
+        {
+          "schema": 1,
+          "scope": "encoder-input-statistics",
+          "stream": {
+            "outputIndex": 0,
+            "kind": "video"
+          },
+          "bytes": 2906,
+          "records": "60",
+          "sampleCount": null,
+          "first": {
+            "n": "0",
+            "inputFrame": "180",
+            "timeBase": {
+              "numerator": "1",
+              "denominator": "15360"
+            },
+            "pts": "0",
+            "time": {
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "inputTimeBase": {
+              "numerator": "1",
+              "denominator": "15360"
+            },
+            "inputPts": "1996800",
+            "inputTime": {
+              "numerator": "130",
+              "denominator": "1"
+            }
+          },
+          "last": {
+            "n": "59",
+            "inputFrame": "239",
+            "timeBase": {
+              "numerator": "1",
+              "denominator": "15360"
+            },
+            "pts": "30208",
+            "time": {
+              "numerator": "59",
+              "denominator": "30"
+            },
+            "inputTimeBase": {
+              "numerator": "1",
+              "denominator": "15360"
+            },
+            "inputPts": "2027008",
+            "inputTime": {
+              "numerator": "3959",
+              "denominator": "30"
+            }
+          },
+          "unknownInputRecords": "0",
+          "repeatedPts": "0",
+          "backwardsPts": "0",
+          "audioDiscontinuities": "0",
+          "minPtsDelta": {
+            "numerator": "1",
+            "denominator": "30"
+          },
+          "maxPtsDelta": {
+            "numerator": "1",
+            "denominator": "30"
+          },
+          "hashes": {
+            "algorithm": "sha256",
+            "raw": "43bcd9c2322efb8d8f1de912f494ecb1a42c4f7a5c69f19d04356bd48dd9d20a",
+            "canonicalRecords": "d833a484db8a4b0ecfc870c29598b24493b9315e771ed1bb96302ebfb344bd5c",
+            "orderedPts": "d3ad4575ad27e7fd75d22c9f4042b4923a4b62060d57d2ec843ecf4ad942e3ad",
+            "contentHash": false
+          },
+          "videoDurationAvailable": false,
+          "completeOutputValidation": false
+        },
+        {
+          "schema": 1,
+          "scope": "encoder-input-statistics",
+          "stream": {
+            "outputIndex": 1,
+            "kind": "audio",
+            "sampleRate": 48000
+          },
+          "bytes": 22298,
+          "records": "375",
+          "sampleCount": "96000",
+          "first": {
+            "n": "0",
+            "inputFrame": "284",
+            "timeBase": {
+              "numerator": "1",
+              "denominator": "48000"
+            },
+            "pts": "0",
+            "time": {
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "inputTimeBase": {
+              "numerator": "1",
+              "denominator": "48000"
+            },
+            "inputPts": "6239232",
+            "inputTime": {
+              "numerator": "16248",
+              "denominator": "125"
+            },
+            "sampleOffset": "0",
+            "samples": "256",
+            "endTime": {
+              "numerator": "2",
+              "denominator": "375"
+            }
+          },
+          "last": {
+            "n": "374",
+            "inputFrame": "378",
+            "timeBase": {
+              "numerator": "1",
+              "denominator": "48000"
+            },
+            "pts": "95744",
+            "time": {
+              "numerator": "748",
+              "denominator": "375"
+            },
+            "inputTimeBase": {
+              "numerator": "1",
+              "denominator": "48000"
+            },
+            "inputPts": "6335488",
+            "inputTime": {
+              "numerator": "49496",
+              "denominator": "375"
+            },
+            "sampleOffset": "95744",
+            "samples": "256",
+            "endTime": {
+              "numerator": "2",
+              "denominator": "1"
+            }
+          },
+          "unknownInputRecords": "0",
+          "repeatedPts": "0",
+          "backwardsPts": "0",
+          "audioDiscontinuities": "0",
+          "minPtsDelta": {
+            "numerator": "2",
+            "denominator": "375"
+          },
+          "maxPtsDelta": {
+            "numerator": "2",
+            "denominator": "375"
+          },
+          "hashes": {
+            "algorithm": "sha256",
+            "raw": "50e4d816d36aac257016169ce10c6b074986a02424c7b9aaac740e13517161ae",
+            "canonicalRecords": "fca3c6c054a38e03459feaeddcf928dda1fc05ff7bac22829e1ea4db132c44fa",
+            "orderedPts": "7e486c736ed01282f4cc798877056e6a08d5b88657ecadfc97f04da27c1f0d5c",
+            "contentHash": false
+          },
+          "videoDurationAvailable": false,
+          "completeOutputValidation": false
+        }
+      ]
+    },
+    {
+      "name": "fresh-independent-service-publication",
+      "output": {
+        "path": "proof://fresh-independent-service-publication/fresh-vflip-997_H265-CPU.mkv",
+        "bytes": 586866,
+        "sha256": "d85bbee9ecba168ab512dc57608aeedd73e4345ff74a79b43e559cb620f0eebb",
+        "probePath": "proof://fresh-independent-service-publication-output-probe.json",
+        "probeSha256": "21d0a1814bd6a633ffc20dc09f70bb0492f93dc87347c63e3f09e5c2a9531faa"
+      },
+      "frames": 63,
+      "samples": 101184,
+      "pcm": {
+        "algorithm": "sha256",
+        "format": "s16le-interleaved",
+        "sourceHash": "707e310c31c5ac4c472d86447038d040d9357776d042704120af065e8adfe413",
+        "outputHash": "707e310c31c5ac4c472d86447038d040d9357776d042704120af065e8adfe413",
+        "sourceBytes": 404736,
+        "outputBytes": 404736
+      },
+      "completeSource": {
+        "video": {
+          "frames": 240,
+          "firstTime": {
+            "n": "0",
+            "d": "15360"
+          },
+          "endTime": {
+            "n": "1887436800",
+            "d": "235929600"
+          },
+          "maximumNominalCadenceErrorUs": 0,
+          "maximumNominalDurationErrorUs": 0,
+          "maximumNominalPhaseErrorUs": 0,
+          "properties": {
+            "policy": "cfr-sdr-range-resize-flac-v1",
+            "sampleAspectRatio": "1:1",
+            "chromaLocation": "left",
+            "sideDataPolicy": "h26x-unregistered-sei-only",
+            "framesChecked": 240
+          }
+        },
+        "audio": [
+          {
+            "inputIndex": 1,
+            "sampleCount": "384000",
+            "firstTime": {
+              "n": "0",
+              "d": "48000"
+            },
+            "endTime": {
+              "n": "18432000000",
+              "d": "2304000000"
+            },
+            "gaps": 0
+          }
+        ]
+      },
+      "limits": {
+        "pipeBytes": 177142016,
+        "evidenceBytes": 160364800,
+        "maxChildren": 64,
+        "evidenceReserveBytes": 21495808,
+        "stallMs": null,
+        "telemetryBytes": 458752,
+        "telemetryRecords": 1792,
+        "executionBudgetMs": 225050
+      },
+      "actualAccounting": {
+        "directory": "proof://state-1/operation-evidence/job-172830ed-a4e4-4754-8c12-4e3b6f31b4d2/operation-evidence-iNyzjh",
+        "planFingerprint": "0c52e733db08a3f0b8cb307edc4aba2533d0870b53037b3580c179fe9d5c1a96",
+        "evidenceIds": [
+          "candidate-resize1080to720-calibration-3JE2RQ:long-pattern:endpoints",
+          "candidate-resize1080to720-calibration-3JE2RQ:long-pattern:interior",
+          "candidate-resize1080to720-calibration-3JE2RQ:heldout-flipped:endpoints",
+          "candidate-resize1080to720-calibration-3JE2RQ:heldout-flipped:interior"
+        ],
+        "status": "completed",
+        "scope": "complete-decoded-timing-and-selected-flac-pcm",
+        "failure": null,
+        "children": 10,
+        "streamedBytes": 2111109,
+        "pipeBytes": {
+          "stdout": 2122985,
+          "stderr": 499
+        },
+        "telemetryValidation": {
+          "valid": true,
+          "scope": "encoder-input-count-and-timeline-only",
+          "streams": [
+            {
+              "outputIndex": 0,
+              "kind": "video",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            },
+            {
+              "outputIndex": 1,
+              "kind": "audio",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            }
+          ],
+          "doesNotEstablish": [
+            "video-pixel-identity",
+            "lossless-audio-identity",
+            "last-video-frame-duration",
+            "output-or-publication-validity"
+          ]
+        },
+        "sourceIdentityDisposition": "unchanged"
+      },
+      "telemetrySummaries": [
+        {
+          "schema": 1,
+          "scope": "encoder-input-statistics",
+          "stream": {
+            "outputIndex": 0,
+            "kind": "video"
+          },
+          "bytes": 2866,
+          "records": "63",
+          "sampleCount": null,
+          "first": {
+            "n": "0",
+            "inputFrame": "19",
+            "timeBase": {
+              "numerator": "1",
+              "denominator": "15360"
+            },
+            "pts": "312",
+            "time": {
+              "numerator": "13",
+              "denominator": "640"
+            },
+            "inputTimeBase": {
+              "numerator": "1",
+              "denominator": "15360"
+            },
+            "inputPts": "9728",
+            "inputTime": {
+              "numerator": "19",
+              "denominator": "30"
+            }
+          },
+          "last": {
+            "n": "62",
+            "inputFrame": "81",
+            "timeBase": {
+              "numerator": "1",
+              "denominator": "15360"
+            },
+            "pts": "32056",
+            "time": {
+              "numerator": "4007",
+              "denominator": "1920"
+            },
+            "inputTimeBase": {
+              "numerator": "1",
+              "denominator": "15360"
+            },
+            "inputPts": "41472",
+            "inputTime": {
+              "numerator": "27",
+              "denominator": "10"
+            }
+          },
+          "unknownInputRecords": "0",
+          "repeatedPts": "0",
+          "backwardsPts": "0",
+          "audioDiscontinuities": "0",
+          "minPtsDelta": {
+            "numerator": "1",
+            "denominator": "30"
+          },
+          "maxPtsDelta": {
+            "numerator": "1",
+            "denominator": "30"
+          },
+          "hashes": {
+            "algorithm": "sha256",
+            "raw": "1ab0798ab5afca699909d5fee8ab94561f80970fe3233139969880f83e0b2e75",
+            "canonicalRecords": "16bd20ae0fa2a02db01643addda0847446c2b9bcc2c2feb330532b9bff70d36d",
+            "orderedPts": "f5d7e2633005c0b4cc90e3e0667c16f2b6b8c404b23f3fbc5da3323789b6b523",
+            "contentHash": false
+          },
+          "videoDurationAvailable": false,
+          "completeOutputValidation": false
+        },
+        {
+          "schema": 1,
+          "scope": "encoder-input-statistics",
+          "stream": {
+            "outputIndex": 1,
+            "kind": "audio",
+            "sampleRate": 48000
+          },
+          "bytes": 21230,
+          "records": "372",
+          "sampleCount": "101184",
+          "first": {
+            "n": "0",
+            "inputFrame": "28",
+            "timeBase": {
+              "numerator": "1",
+              "denominator": "48000"
+            },
+            "pts": "0",
+            "time": {
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "inputTimeBase": {
+              "numerator": "1",
+              "denominator": "48000"
+            },
+            "inputPts": "28672",
+            "inputTime": {
+              "numerator": "224",
+              "denominator": "375"
+            },
+            "sampleOffset": "0",
+            "samples": "272",
+            "endTime": {
+              "numerator": "17",
+              "denominator": "3000"
+            }
+          },
+          "last": {
+            "n": "371",
+            "inputFrame": "127",
+            "timeBase": {
+              "numerator": "1",
+              "denominator": "48000"
+            },
+            "pts": "100912",
+            "time": {
+              "numerator": "6307",
+              "denominator": "3000"
+            },
+            "inputTimeBase": {
+              "numerator": "1",
+              "denominator": "48000"
+            },
+            "inputPts": "130048",
+            "inputTime": {
+              "numerator": "1016",
+              "denominator": "375"
+            },
+            "sampleOffset": "100912",
+            "samples": "272",
+            "endTime": {
+              "numerator": "527",
+              "denominator": "250"
+            }
+          },
+          "unknownInputRecords": "0",
+          "repeatedPts": "0",
+          "backwardsPts": "0",
+          "audioDiscontinuities": "0",
+          "minPtsDelta": {
+            "numerator": "17",
+            "denominator": "3000"
+          },
+          "maxPtsDelta": {
+            "numerator": "17",
+            "denominator": "3000"
+          },
+          "hashes": {
+            "algorithm": "sha256",
+            "raw": "f0c480267f60cf357085aaedea558f52382f3da2b955a17d0b5644aa0ac32044",
+            "canonicalRecords": "edb527544d00d921d57efbb63c9f8a16a1d38301794f04cc29861c16f005ee4b",
+            "orderedPts": "10ae24742c56f860db06934df05b59ae50a1137c1a07b72f73ae9f4627c43d49",
+            "contentHash": false
+          },
+          "videoDurationAvailable": false,
+          "completeOutputValidation": false
+        }
+      ]
+    },
+    {
+      "name": "fresh-instance-recovery-publication",
+      "output": {
+        "path": "proof://fresh-instance-recovery-publication/fresh-vflip-997_H265-CPU.mkv",
+        "bytes": 135290,
+        "sha256": "b4967b36f2f2245df831da80c1ad2cda1763515e205feb21b6362c1d93d0f24d",
+        "probePath": "proof://fresh-instance-recovery-publication-output-probe.json",
+        "probeSha256": "5ad7a04c92cfc0bf9374ccd4e15978d589383ebdb45488120b112d4084d1c8fb"
+      },
+      "frames": 15,
+      "samples": 24000,
+      "pcm": {
+        "algorithm": "sha256",
+        "format": "s16le-interleaved",
+        "sourceHash": "08b3888935637042f5a7d82a6da202c162f7ef9d4bdea851ac721d902845df33",
+        "outputHash": "08b3888935637042f5a7d82a6da202c162f7ef9d4bdea851ac721d902845df33",
+        "sourceBytes": 96000,
+        "outputBytes": 96000
+      },
+      "completeSource": {
+        "video": {
+          "frames": 240,
+          "firstTime": {
+            "n": "0",
+            "d": "15360"
+          },
+          "endTime": {
+            "n": "1887436800",
+            "d": "235929600"
+          },
+          "maximumNominalCadenceErrorUs": 0,
+          "maximumNominalDurationErrorUs": 0,
+          "maximumNominalPhaseErrorUs": 0,
+          "properties": {
+            "policy": "cfr-sdr-range-resize-flac-v1",
+            "sampleAspectRatio": "1:1",
+            "chromaLocation": "left",
+            "sideDataPolicy": "h26x-unregistered-sei-only",
+            "framesChecked": 240
+          }
+        },
+        "audio": [
+          {
+            "inputIndex": 1,
+            "sampleCount": "384000",
+            "firstTime": {
+              "n": "0",
+              "d": "48000"
+            },
+            "endTime": {
+              "n": "18432000000",
+              "d": "2304000000"
+            },
+            "gaps": 0
+          }
+        ]
+      },
+      "limits": {
+        "pipeBytes": 176833280,
+        "evidenceBytes": 160056064,
+        "maxChildren": 64,
+        "evidenceReserveBytes": 20447232,
+        "stallMs": null,
+        "telemetryBytes": 327680,
+        "telemetryRecords": 1280,
+        "executionBudgetMs": 151550
+      },
+      "actualAccounting": {
+        "directory": "proof://state-2/operation-evidence/job-1419fb13-9304-4df9-ba89-55b78daec8cf/operation-evidence-0d9kpj",
+        "planFingerprint": "227a06b4ed82fc66c8f48bd437ee7b131d367c1d3e3f89e32e437f864ff96132",
+        "evidenceIds": [
+          "candidate-resize1080to720-calibration-3JE2RQ:long-pattern:endpoints",
+          "candidate-resize1080to720-calibration-3JE2RQ:long-pattern:interior",
+          "candidate-resize1080to720-calibration-3JE2RQ:heldout-flipped:endpoints",
+          "candidate-resize1080to720-calibration-3JE2RQ:heldout-flipped:interior"
+        ],
+        "status": "completed",
+        "scope": "complete-decoded-timing-and-selected-flac-pcm",
+        "failure": null,
+        "children": 10,
+        "streamedBytes": 1746691,
+        "pipeBytes": {
+          "stdout": 1757244,
+          "stderr": 499
+        },
+        "telemetryValidation": {
+          "valid": true,
+          "scope": "encoder-input-count-and-timeline-only",
+          "streams": [
+            {
+              "outputIndex": 0,
+              "kind": "video",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            },
+            {
+              "outputIndex": 1,
+              "kind": "audio",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            }
+          ],
+          "doesNotEstablish": [
+            "video-pixel-identity",
+            "lossless-audio-identity",
+            "last-video-frame-duration",
+            "output-or-publication-validity"
+          ]
+        },
+        "sourceIdentityDisposition": "unchanged"
+      },
+      "telemetrySummaries": [
+        {
+          "schema": 1,
+          "scope": "encoder-input-statistics",
+          "stream": {
+            "outputIndex": 0,
+            "kind": "video"
+          },
+          "bytes": 663,
+          "records": "15",
+          "sampleCount": null,
+          "first": {
+            "n": "0",
+            "inputFrame": "31",
+            "timeBase": {
+              "numerator": "1",
+              "denominator": "15360"
+            },
+            "pts": "312",
+            "time": {
+              "numerator": "13",
+              "denominator": "640"
+            },
+            "inputTimeBase": {
+              "numerator": "1",
+              "denominator": "15360"
+            },
+            "inputPts": "15872",
+            "inputTime": {
+              "numerator": "31",
+              "denominator": "30"
+            }
+          },
+          "last": {
+            "n": "14",
+            "inputFrame": "45",
+            "timeBase": {
+              "numerator": "1",
+              "denominator": "15360"
+            },
+            "pts": "7480",
+            "time": {
+              "numerator": "187",
+              "denominator": "384"
+            },
+            "inputTimeBase": {
+              "numerator": "1",
+              "denominator": "15360"
+            },
+            "inputPts": "23040",
+            "inputTime": {
+              "numerator": "3",
+              "denominator": "2"
+            }
+          },
+          "unknownInputRecords": "0",
+          "repeatedPts": "0",
+          "backwardsPts": "0",
+          "audioDiscontinuities": "0",
+          "minPtsDelta": {
+            "numerator": "1",
+            "denominator": "30"
+          },
+          "maxPtsDelta": {
+            "numerator": "1",
+            "denominator": "30"
+          },
+          "hashes": {
+            "algorithm": "sha256",
+            "raw": "6b9d21131358569074358fc1a82384262ba15d9e9c23151af96b6859313c9378",
+            "canonicalRecords": "f8dd3e2c63cb41d8a4a4eb159824d4c7fef46cabd5187d4c4cdf51d3f5bb9c31",
+            "orderedPts": "08e9db39721310c86a0f5512708f29063b7d7d28ba9349ff09e50ead8ceb234a",
+            "contentHash": false
+          },
+          "videoDurationAvailable": false,
+          "completeOutputValidation": false
+        },
+        {
+          "schema": 1,
+          "scope": "encoder-input-statistics",
+          "stream": {
+            "outputIndex": 1,
+            "kind": "audio",
+            "sampleRate": 48000
+          },
+          "bytes": 2520,
+          "records": "46",
+          "sampleCount": "24000",
+          "first": {
+            "n": "0",
+            "inputFrame": "47",
+            "timeBase": {
+              "numerator": "1",
+              "denominator": "48000"
+            },
+            "pts": "0",
+            "time": {
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "inputTimeBase": {
+              "numerator": "1",
+              "denominator": "48000"
+            },
+            "inputPts": "48128",
+            "inputTime": {
+              "numerator": "376",
+              "denominator": "375"
+            },
+            "sampleOffset": "0",
+            "samples": "528",
+            "endTime": {
+              "numerator": "11",
+              "denominator": "1000"
+            }
+          },
+          "last": {
+            "n": "45",
+            "inputFrame": "70",
+            "timeBase": {
+              "numerator": "1",
+              "denominator": "48000"
+            },
+            "pts": "23760",
+            "time": {
+              "numerator": "99",
+              "denominator": "200"
+            },
+            "inputTimeBase": {
+              "numerator": "1",
+              "denominator": "48000"
+            },
+            "inputPts": "71680",
+            "inputTime": {
+              "numerator": "112",
+              "denominator": "75"
+            },
+            "sampleOffset": "23760",
+            "samples": "240",
+            "endTime": {
+              "numerator": "1",
+              "denominator": "2"
+            }
+          },
+          "unknownInputRecords": "0",
+          "repeatedPts": "0",
+          "backwardsPts": "0",
+          "audioDiscontinuities": "0",
+          "minPtsDelta": {
+            "numerator": "11",
+            "denominator": "1000"
+          },
+          "maxPtsDelta": {
+            "numerator": "11",
+            "denominator": "1000"
+          },
+          "hashes": {
+            "algorithm": "sha256",
+            "raw": "b2a1b461bde29e24022bd269664056b8ac75fdbfae17199e738c584979fd02df",
+            "canonicalRecords": "c9db4014714a996fd29ac0410bc73e5d9d423ff99fa19ececb28d309932fa19a",
+            "orderedPts": "a3615d59c00bc9b641654819c2bc23c2eaf5608737f43d6548ba83c930a8397a",
+            "contentHash": false
+          },
+          "videoDurationAvailable": false,
+          "completeOutputValidation": false
+        }
+      ]
+    }
+  ],
+  "collision": {
+    "name": "collision-preserved",
+    "status": "passed",
+    "item": {
+      "id": "d7f26467-2399-4eb4-aa8f-5144cdbf05bb",
+      "name": "fresh-vflip-997.mov",
+      "outputName": "fresh-vflip-997_H265-CPU.mkv",
+      "status": "skipped",
+      "reason": "Output appeared since preview.",
+      "reencodeAuthorized": false,
+      "operationRequest": {
+        "version": 1,
+        "fileId": "d7f26467-2399-4eb4-aa8f-5144cdbf05bb",
+        "identityRevision": 0,
+        "draftRevision": 1,
+        "operation": "encode",
+        "appDefaultsRevision": 0,
+        "target": "matroska",
+        "resolution": "720",
+        "hdrPolicy": "preserve",
+        "range": {
+          "startUs": 1013000,
+          "endUs": 3087000
+        },
+        "audioPolicy": "precision-flac",
+        "aacBitrateKbps": null,
+        "origins": {
+          "target": "factory",
+          "resolution": "file",
+          "hdrPolicy": "app",
+          "range": "file",
+          "audioPolicy": "file",
+          "aacBitrateKbps": "factory"
+        },
+        "omissionRequestIds": [],
+        "omissionAuthority": "unbound-request-ids"
+      },
+      "inspectionMethod": "fresh",
+      "origin": {
+        "kind": "original",
+        "reason": "No application-generated provenance was detected."
+      },
+      "summary": {
+        "selectedVideoIndex": 0,
+        "codec": "h264",
+        "width": 1920,
+        "height": 1080,
+        "pixelFormat": "yuv420p",
+        "bitDepth": 8,
+        "frameRate": 30,
+        "streamCounts": {
+          "video": 1,
+          "audio": 1
+        },
+        "durationSeconds": 8,
+        "sampling": [
+          {
+            "label": "start",
+            "start": 0,
+            "seconds": 2,
+            "interval": "0.000000%2.000000",
+            "succeeded": true,
+            "frames": 60,
+            "framesInWindow": 60,
+            "observedStart": 0,
+            "observedEnd": 1.966667
+          }
+        ],
+        "samplingLimit": "Bounded metadata samples cannot prove the absence of untagged HDR or HDR outside inspected frames. Demuxer seeking may begin at an earlier keyframe.",
+        "metadataNotices": [],
+        "boundedFrameProperties": {
+          "scope": "bounded-decoded-windows-only",
+          "complete": true,
+          "decodedFrames": 60,
+          "scan": "progressive-observed",
+          "geometry": {
+            "width": {
+              "complete": true,
+              "values": [
+                1920
+              ]
+            },
+            "height": {
+              "complete": true,
+              "values": [
+                1080
+              ]
+            },
+            "pix_fmt": {
+              "complete": true,
+              "values": [
+                "yuv420p"
+              ]
+            },
+            "sample_aspect_ratio": {
+              "complete": true,
+              "values": [
+                "1:1"
+              ]
+            }
+          },
+          "color": {
+            "color_transfer": {
+              "complete": true,
+              "values": [
+                "bt709"
+              ]
+            },
+            "color_primaries": {
+              "complete": true,
+              "values": [
+                "bt709"
+              ]
+            },
+            "color_space": {
+              "complete": true,
+              "values": [
+                "bt709"
+              ]
+            },
+            "color_range": {
+              "complete": true,
+              "values": [
+                "tv"
+              ]
+            }
+          },
+          "limitation": "Observed frames do not prove unchanged scan, geometry, color or metadata outside the inspected windows."
+        }
+      },
+      "rangeLimitUs": 8000000,
+      "evidenceStorage": {
+        "schema": 1,
+        "observation": "complete",
+        "consistency": "bounded-point-observations",
+        "observationAttempts": 1,
+        "maxObservationAttempts": 3,
+        "usedBytes": 200760,
+        "reservedBytes": 0,
+        "projectedBytes": 266296,
+        "capBytes": 1073741824,
+        "metadataHeadroomBytes": 65536,
+        "entries": 45,
+        "freeBytes": 59233775616,
+        "minFreeBytes": 26843545600,
+        "overCap": false,
+        "overAdmissionCap": false,
+        "lowFree": false,
+        "jobs": [],
+        "leaseRecovery": "none",
+        "ledgerState": "reconciled",
+        "startupLedgerState": "missing-reconciled",
+        "directorySync": "synced",
+        "hardWriteCap": false,
+        "final": {
+          "id": "job-34c35c0a-9e71-4da3-8890-454bc731fea8",
+          "status": "completed",
+          "recordPersisted": true,
+          "violations": [],
+          "retained": true
+        }
+      }
+    },
+    "sha256": "541e7f3289bcf1fd9b36608330013a775380c53fbf579763a9c3e0445b8368b2",
+    "encodesBefore": 14,
+    "encodesAfter": 14
+  },
+  "cancellation": {
+    "name": "real-encode-cancellation",
+    "status": "passed",
+    "item": {
+      "id": "27d1567d-7a88-4e1b-9573-5a1d775b8c6d",
+      "name": "fresh-vflip-997.mov",
+      "outputName": "fresh-vflip-997_H265-CPU.mkv",
+      "status": "cancelled",
+      "reason": "Operation cancelled. Temporary files retained for safety: The incomplete output was never identity-bound; the temporary directory was retained.",
+      "reencodeAuthorized": false,
+      "operationRequest": {
+        "version": 1,
+        "fileId": "27d1567d-7a88-4e1b-9573-5a1d775b8c6d",
+        "identityRevision": 0,
+        "draftRevision": 1,
+        "operation": "encode",
+        "appDefaultsRevision": 0,
+        "target": "matroska",
+        "resolution": "720",
+        "hdrPolicy": "preserve",
+        "range": {
+          "startUs": 0,
+          "endUs": 7000000
+        },
+        "audioPolicy": "precision-flac",
+        "aacBitrateKbps": null,
+        "origins": {
+          "target": "factory",
+          "resolution": "file",
+          "hdrPolicy": "app",
+          "range": "file",
+          "audioPolicy": "file",
+          "aacBitrateKbps": "factory"
+        },
+        "omissionRequestIds": [],
+        "omissionAuthority": "unbound-request-ids"
+      },
+      "inspectionMethod": "fresh",
+      "origin": {
+        "kind": "original",
+        "reason": "No application-generated provenance was detected."
+      },
+      "summary": {
+        "selectedVideoIndex": 0,
+        "codec": "h264",
+        "width": 1920,
+        "height": 1080,
+        "pixelFormat": "yuv420p",
+        "bitDepth": 8,
+        "frameRate": 30,
+        "streamCounts": {
+          "video": 1,
+          "audio": 1
+        },
+        "durationSeconds": 8,
+        "sampling": [
+          {
+            "label": "start",
+            "start": 0,
+            "seconds": 2,
+            "interval": "0.000000%2.000000",
+            "succeeded": true,
+            "frames": 60,
+            "framesInWindow": 60,
+            "observedStart": 0,
+            "observedEnd": 1.966667
+          }
+        ],
+        "samplingLimit": "Bounded metadata samples cannot prove the absence of untagged HDR or HDR outside inspected frames. Demuxer seeking may begin at an earlier keyframe.",
+        "metadataNotices": [],
+        "boundedFrameProperties": {
+          "scope": "bounded-decoded-windows-only",
+          "complete": true,
+          "decodedFrames": 60,
+          "scan": "progressive-observed",
+          "geometry": {
+            "width": {
+              "complete": true,
+              "values": [
+                1920
+              ]
+            },
+            "height": {
+              "complete": true,
+              "values": [
+                1080
+              ]
+            },
+            "pix_fmt": {
+              "complete": true,
+              "values": [
+                "yuv420p"
+              ]
+            },
+            "sample_aspect_ratio": {
+              "complete": true,
+              "values": [
+                "1:1"
+              ]
+            }
+          },
+          "color": {
+            "color_transfer": {
+              "complete": true,
+              "values": [
+                "bt709"
+              ]
+            },
+            "color_primaries": {
+              "complete": true,
+              "values": [
+                "bt709"
+              ]
+            },
+            "color_space": {
+              "complete": true,
+              "values": [
+                "bt709"
+              ]
+            },
+            "color_range": {
+              "complete": true,
+              "values": [
+                "tv"
+              ]
+            }
+          },
+          "limitation": "Observed frames do not prove unchanged scan, geometry, color or metadata outside the inspected windows."
+        }
+      },
+      "rangeLimitUs": 8000000,
+      "reasonCode": "CANCELLED",
+      "details": "[vost#0:0 @ 0x5598268cbe00] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx265' will be used.\n[aost#0:1 @ 0x5598269964c0] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 1, only the last option '-codec:a:0 flac' will be used.\nx265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n[in#0/mov,mp4,m4a,3gp,3g2,mj2 @ 0x5598268c87c0] Packet corrupt (stream = 0, dts = 31744).\n[h264 @ 0x559826995c40] Invalid NAL unit size (15462 > 2172).\n[h264 @ 0x559826995c40] missing picture in access unit with size 2176\n[in#0/mov,mp4,m4a,3gp,3g2,mj2 @ 0x5598268c84c0] corrupt input packet in stream 0\n[in#0/mov,mp4,m4a,3gp,3g2,mj2 @ 0x5598268c87c0] stream 1, offset 0x1b6b40: partial file\n[in#0/mov,mp4,m4a,3gp,3g2,mj2 @ 0x5598268c84c0] Error during demuxing: Immediate exit requested\n[h264 @ 0x559826a08200] Invalid NAL unit size (15462 > 2172).\n[h264 @ 0x559826a08200] Error splitting the input into NAL units.\n[vist#0:0/h264 @ 0x5598268df340] [dec:h264 @ 0x559826996980] Decoding error: Invalid data found when processing input\n",
+      "cleanup": {
+        "retained": true,
+        "directory": "proof://real-encode-cancellation/.ffmpeg-encoder-AwtUpK",
+        "file": "proof://real-encode-cancellation/.ffmpeg-encoder-AwtUpK/encoded.mkv",
+        "reason": "The incomplete output was never identity-bound; the temporary directory was retained."
+      },
+      "evidenceStorage": {
+        "schema": 1,
+        "observation": "complete",
+        "consistency": "bounded-point-observations",
+        "observationAttempts": 1,
+        "maxObservationAttempts": 3,
+        "usedBytes": 208908,
+        "reservedBytes": 0,
+        "projectedBytes": 274444,
+        "capBytes": 1073741824,
+        "metadataHeadroomBytes": 65536,
+        "entries": 51,
+        "freeBytes": 59232825344,
+        "minFreeBytes": 26843545600,
+        "overCap": false,
+        "overAdmissionCap": false,
+        "lowFree": false,
+        "jobs": [],
+        "leaseRecovery": "none",
+        "ledgerState": "reconciled",
+        "startupLedgerState": "missing-reconciled",
+        "directorySync": "synced",
+        "hardWriteCap": false,
+        "final": {
+          "id": "job-8f463864-4bbc-4f6d-8770-dc8af94feb9c",
+          "status": "cancelled",
+          "recordPersisted": true,
+          "violations": [],
+          "retained": true
+        }
+      }
+    },
+    "observed": {
+      "childLive": true,
+      "progress": {
+        "seconds": 0.213333,
+        "fps": 2.99,
+        "speed": 0.213,
+        "bytes": 3976,
+        "frame": 3,
+        "ended": false,
+        "fileId": "27d1567d-7a88-4e1b-9573-5a1d775b8c6d",
+        "stage": "encoding",
+        "duration": 7,
+        "percent": 3.047614285714286,
+        "etaSeconds": 31.862286384976525
+      }
+    },
+    "sameServiceRetryPermitted": false
+  },
+  "cancelChild": {
+    "index": 77,
+    "tool": "runtime-build://ffmpeg",
+    "args": [
+      "-hide_banner",
+      "-nostdin",
+      "-loglevel",
+      "warning",
+      "-nostats",
+      "-progress",
+      "pipe:1",
+      "-n",
+      "-protocol_whitelist",
+      "file,pipe",
+      "-format_whitelist",
+      "mov,matroska,webm,avi",
+      "-noautorotate",
+      "-copyts",
+      "-display_rotation:0",
+      "0",
+      "-i",
+      "proof://fresh-input/fresh-vflip-997.mov",
+      "-map",
+      "0:0",
+      "-map",
+      "0:1",
+      "-map_metadata",
+      "0",
+      "-map_chapters",
+      "0",
+      "-c",
+      "copy",
+      "-c:v:0",
+      "libx265",
+      "-map_metadata:s:0",
+      "0:s:0",
+      "-disposition:0",
+      "default",
+      "-map_metadata:s:1",
+      "0:s:1",
+      "-disposition:1",
+      "default",
+      "-preset:v:0",
+      "slow",
+      "-crf:v:0",
+      "25",
+      "-x265-params",
+      "aq-mode=3:psy-rd=2",
+      "-pix_fmt:v:0",
+      "+yuv420p",
+      "-fps_mode:v:0",
+      "passthrough",
+      "-color_trc:v:0",
+      "bt709",
+      "-color_primaries:v:0",
+      "bt709",
+      "-colorspace:v:0",
+      "bt709",
+      "-color_range:v:0",
+      "tv",
+      "-metadata",
+      "FFMPEG_ENCODER_PROVENANCE=1",
+      "-metadata",
+      "FFMPEG_ENCODER_OUTPUT_ID=b140501e-8143-4a8b-b46d-cf4bf829903c",
+      "-metadata",
+      "FFMPEG_ENCODER_GENERATION={\"version\":1,\"profileId\":\"h265-cpu\",\"codec\":\"H265\",\"backend\":\"CPU\",\"encoder\":\"libx265\",\"preset\":\"slow\",\"qualityMode\":\"CRF\",\"quality\":25,\"bitDepth\":8,\"encoderArgs\":[\"-c:v:0\",\"libx265\",\"-preset:v:0\",\"slow\",\"-crf:v:0\",\"25\",\"-x265-params\",\"aq-mode=3:psy-rd=2\"],\"appVersion\":\"0.7.0-alpha.1\",\"createdAt\":\"2026-11-17T19:44:51.950Z\",\"runtimeVersion\":\"ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers\"}",
+      "-metadata:s:v:0",
+      "rotate=0",
+      "-filter:v:0",
+      "settb=expr=1/15360,trim=start_pts=0:end_pts=107520,setpts=PTS-(0),scale=w=1280:h=720:flags=lanczos+accurate_rnd:in_color_matrix=bt709:out_color_matrix=bt709:in_range=tv:out_range=tv,setsar=sar=(1/1):max=2147483647,sidedata=mode=delete:type=DISPLAYMATRIX",
+      "-enc_time_base:v:0",
+      "filter",
+      "-c:a:0",
+      "flac",
+      "-ar:a:0",
+      "48000",
+      "-channel_layout:a:0",
+      "stereo",
+      "-enc_time_base:a:0",
+      "1/48000",
+      "-sample_fmt:a:0",
+      "s16",
+      "-filter:a:0",
+      "asettb=expr=1/48000,atrim=start_pts=0:end_pts=336000,asetpts=PTS-(0)",
+      "-avoid_negative_ts",
+      "disabled",
+      "-stats_enc_pre:0",
+      "proof://state-1/operation-evidence/job-8f463864-4bbc-4f6d-8770-dc8af94feb9c/encoder-telemetry-GPcX50/stream-0.tsv",
+      "-stats_enc_pre_fmt:0",
+      "ffet1\tv\t{fidx}\t{sidx}\t{n}\t{ni}\t{tb}\t{pts}\t{tbi}\t{ptsi}",
+      "-stats_enc_pre:1",
+      "proof://state-1/operation-evidence/job-8f463864-4bbc-4f6d-8770-dc8af94feb9c/encoder-telemetry-GPcX50/stream-1.tsv",
+      "-stats_enc_pre_fmt:1",
+      "ffet1\ta\t{fidx}\t{sidx}\t{n}\t{ni}\t{tb}\t{pts}\t{tbi}\t{ptsi}\t{sn}\t{samp}",
+      "-default_mode",
+      "passthrough",
+      "-f",
+      "matroska",
+      "proof://real-encode-cancellation/.ffmpeg-encoder-AwtUpK/encoded.mkv"
+    ],
+    "startedAt": "2026-11-17T19:44:52.219Z",
+    "spawned": true,
+    "pid": 1544,
+    "closeCode": null,
+    "closeSignal": "SIGKILL",
+    "closed": true,
+    "failure": {
+      "code": "CANCELLED",
+      "message": "Operation cancelled."
+    },
+    "finishedAt": "2026-11-17T19:44:55.260Z",
+    "stderr": "[vost#0:0 @ 0x5598268cbe00] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx265' will be used.\n[aost#0:1 @ 0x5598269964c0] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 1, only the last option '-codec:a:0 flac' will be used.\nx265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n[in#0/mov,mp4,m4a,3gp,3g2,mj2 @ 0x5598268c87c0] Packet corrupt (stream = 0, dts = 31744).\n[h264 @ 0x559826995c40] Invalid NAL unit size (15462 > 2172).\n[h264 @ 0x559826995c40] missing picture in access unit with size 2176\n[in#0/mov,mp4,m4a,3gp,3g2,mj2 @ 0x5598268c84c0] corrupt input packet in stream 0\n[in#0/mov,mp4,m4a,3gp,3g2,mj2 @ 0x5598268c87c0] stream 1, offset 0x1b6b40: partial file\n[in#0/mov,mp4,m4a,3gp,3g2,mj2 @ 0x5598268c84c0] Error during demuxing: Immediate exit requested\n[h264 @ 0x559826a08200] Invalid NAL unit size (15462 > 2172).\n[h264 @ 0x559826a08200] Error splitting the input into NAL units.\n[vist#0:0/h264 @ 0x5598268df340] [dec:h264 @ 0x559826996980] Decoding error: Invalid data found when processing input\n",
+    "stderrCapture": {
+      "totalBytes": 1232,
+      "truncated": false
+    },
+    "stderrCaptureKnown": true,
+    "stderrTruncated": false,
+    "stderrRetainedBytes": 1232,
+    "stderrCompleteAtSave": true,
+    "stderrSha256": "64daa18831598b241ecbd585421542c8a6532362d115850769f12ae06690c098"
+  },
+  "retainedStage": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "hashFirstEstablished": "Recorded during campaign in report.artifacts for real-encode-cancellation/.ffmpeg-encoder-AwtUpK/encoded.mkv (0 bytes, SHA256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855); independently verified by saved-output audit, not first established at audit."
+  },
+  "closures": [
+    {
+      "admissionClosed": true,
+      "busy": false,
+      "errors": []
+    },
+    {
+      "admissionClosed": true,
+      "busy": false,
+      "errors": []
+    }
+  ],
+  "checkpoints": [
+    "001-started.json",
+    "002-session-1.json",
+    "003-sources.json",
+    "004-late-long-service-publication-prepared.json",
+    "005-late-long-service-publication-settled.json",
+    "006-late-long-service-publication-verified.json",
+    "007-fresh-independent-service-publication-prepared.json",
+    "008-fresh-independent-service-publication-settled.json",
+    "009-fresh-independent-service-publication-verified.json",
+    "010-collision-preserved-prepared.json",
+    "011-collision-preserved-settled.json",
+    "012-real-encode-cancellation-prepared.json",
+    "013-real-encode-cancellation-settled.json",
+    "014-cancelled-drained.json",
+    "015-old-session-closed.json",
+    "016-session-2.json",
+    "017-fresh-instance-recovery-publication-prepared.json",
+    "018-fresh-instance-recovery-publication-settled.json",
+    "019-fresh-instance-recovery-publication-verified.json"
+  ],
+  "census": {
+    "spawned": 121,
+    "closed": 121,
+    "live": 0,
+    "maximum": 1,
+    "encodes": 28
+  },
+  "warningLengthGroups": {
+    "167": [
+      11,
+      14,
+      88,
+      91
+    ],
+    "335": [
+      17,
+      20,
+      94,
+      97
+    ],
+    "1181": [
+      23,
+      100
+    ],
+    "1182": [
+      26,
+      103
+    ],
+    "499": [
+      41,
+      57,
+      111
+    ],
+    "1232": [
+      77
+    ]
+  },
+  "warningClassification": {
+    "empty": 105,
+    "duplicateCodecX264": 4,
+    "duplicateCodecX265CpuMaskThreadPool": 4,
+    "SVTStartupInfoAndDuplicateCodec": 4,
+    "targetX265Flac499Bytes": 3,
+    "activeCancellation1232Bytes": 1
+  },
+  "nonemptyStderr": [
+    {
+      "index": 11,
+      "stderr": "[vost#0:0 @ 0x55d99f275840] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx264' will be used.\n",
+      "stderrSha256": "4b968557076a4f2e7c1df53df518da80b5cd62aae5ac229a534694d136f637a6",
+      "stderrRetainedBytes": 167,
+      "closeCode": 0,
+      "closeSignal": null,
+      "failure": null
+    },
+    {
+      "index": 14,
+      "stderr": "[vost#0:0 @ 0x556e56e90cc0] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx264' will be used.\n",
+      "stderrSha256": "7f91d1b3b2d0dfec77a6e0f4413d950dbf504222624d025c3cba1e8fd01dc4d0",
+      "stderrRetainedBytes": 167,
+      "closeCode": 0,
+      "closeSignal": null,
+      "failure": null
+    },
+    {
+      "index": 17,
+      "stderr": "[vost#0:0 @ 0x5594f7bfb880] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx265' will be used.\nx265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n",
+      "stderrSha256": "b53973b667493f35d5c28d7b1cd2bfc3e7fd13221ab7b3a2886883ad27096c1c",
+      "stderrRetainedBytes": 335,
+      "closeCode": 0,
+      "closeSignal": null,
+      "failure": null
+    },
+    {
+      "index": 20,
+      "stderr": "[vost#0:0 @ 0x55cfdcfc6d00] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx265' will be used.\nx265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n",
+      "stderrSha256": "e51c6e87a84ab5bca50328085376758d53ba0e9f1e9b12d63d199d7f3e45a246",
+      "stderrRetainedBytes": 335,
+      "closeCode": 0,
+      "closeSignal": null,
+      "failure": null
+    },
+    {
+      "index": 23,
+      "stderr": "[vost#0:0 @ 0x5609026b8840] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libsvtav1' will be used.\nSvt[info]: -------------------------------------------\nSvt[info]: SVT [version]:\tSVT-AV1 Encoder Lib v2.3.0\nSvt[info]: SVT [build]  :\tGCC 14.2.0\t 64 bit\nSvt[info]: -------------------------------------------\nSvt[info]: Level of Parallelism: 4\nSvt[info]: Number of PPCS 107\nSvt[info]: [asm level on system : up to avx512]\nSvt[info]: [asm level selected : up to avx512]\nSvt[info]: -------------------------------------------\nSvt[info]: SVT [config]: main profile\ttier (auto)\tlevel (auto)\nSvt[info]: SVT [config]: width / height / fps numerator / fps denominator \t\t: 320 / 184 / 30 / 1\nSvt[info]: SVT [config]: bit-depth / color format \t\t\t\t\t: 8 / YUV420\nSvt[info]: SVT [config]: preset / tune / pred struct \t\t\t\t\t: 6 / PSNR / random access\nSvt[info]: SVT [config]: gop size / mini-gop size / key-frame type \t\t\t: 161 / 32 / key frame\nSvt[info]: SVT [config]: BRC mode / rate factor \t\t\t\t\t: CRF / 32 \nSvt[info]: SVT [config]: AQ mode / variance boost \t\t\t\t\t: 2 / 0\nSvt[info]: -------------------------------------------\n",
+      "stderrSha256": "734ff49757d3eb73b5775bcc5a01b7bf45e1f148bf6a72725c08885e1502232c",
+      "stderrRetainedBytes": 1181,
+      "closeCode": 0,
+      "closeSignal": null,
+      "failure": null
+    },
+    {
+      "index": 26,
+      "stderr": "[vost#0:0 @ 0x55d14159fcc0] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libsvtav1' will be used.\nSvt[info]: -------------------------------------------\nSvt[info]: SVT [version]:\tSVT-AV1 Encoder Lib v2.3.0\nSvt[info]: SVT [build]  :\tGCC 14.2.0\t 64 bit\nSvt[info]: -------------------------------------------\nSvt[info]: Level of Parallelism: 4\nSvt[info]: Number of PPCS 107\nSvt[info]: [asm level on system : up to avx512]\nSvt[info]: [asm level selected : up to avx512]\nSvt[info]: -------------------------------------------\nSvt[info]: SVT [config]: main profile\ttier (auto)\tlevel (auto)\nSvt[info]: SVT [config]: width / height / fps numerator / fps denominator \t\t: 320 / 184 / 30 / 1\nSvt[info]: SVT [config]: bit-depth / color format \t\t\t\t\t: 10 / YUV420\nSvt[info]: SVT [config]: preset / tune / pred struct \t\t\t\t\t: 6 / PSNR / random access\nSvt[info]: SVT [config]: gop size / mini-gop size / key-frame type \t\t\t: 161 / 32 / key frame\nSvt[info]: SVT [config]: BRC mode / rate factor \t\t\t\t\t: CRF / 32 \nSvt[info]: SVT [config]: AQ mode / variance boost \t\t\t\t\t: 2 / 0\nSvt[info]: -------------------------------------------\n",
+      "stderrSha256": "c719a940c81393866e838c321dec08eddc0d47764b051ed1607b33f9ac6d6ed1",
+      "stderrRetainedBytes": 1182,
+      "closeCode": 0,
+      "closeSignal": null,
+      "failure": null
+    },
+    {
+      "index": 41,
+      "stderr": "[vost#0:0 @ 0x559a15f56640] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx265' will be used.\n[aost#0:1 @ 0x559a15fab680] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 1, only the last option '-codec:a:0 flac' will be used.\nx265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n",
+      "stderrSha256": "053d471831354372523349e90be96dde7de9c9ff72843eb0540a536f9bd01a9e",
+      "stderrRetainedBytes": 499,
+      "closeCode": 0,
+      "closeSignal": null,
+      "failure": null
+    },
+    {
+      "index": 57,
+      "stderr": "[vost#0:0 @ 0x55ca56a18e00] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx265' will be used.\n[aost#0:1 @ 0x55ca56ae34c0] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 1, only the last option '-codec:a:0 flac' will be used.\nx265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n",
+      "stderrSha256": "a73d006e80b3a9c0fda0bdaf09dcf871673c206d70f7cbce32acf42b32b4cf25",
+      "stderrRetainedBytes": 499,
+      "closeCode": 0,
+      "closeSignal": null,
+      "failure": null
+    },
+    {
+      "index": 77,
+      "stderr": "[vost#0:0 @ 0x5598268cbe00] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx265' will be used.\n[aost#0:1 @ 0x5598269964c0] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 1, only the last option '-codec:a:0 flac' will be used.\nx265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n[in#0/mov,mp4,m4a,3gp,3g2,mj2 @ 0x5598268c87c0] Packet corrupt (stream = 0, dts = 31744).\n[h264 @ 0x559826995c40] Invalid NAL unit size (15462 > 2172).\n[h264 @ 0x559826995c40] missing picture in access unit with size 2176\n[in#0/mov,mp4,m4a,3gp,3g2,mj2 @ 0x5598268c84c0] corrupt input packet in stream 0\n[in#0/mov,mp4,m4a,3gp,3g2,mj2 @ 0x5598268c87c0] stream 1, offset 0x1b6b40: partial file\n[in#0/mov,mp4,m4a,3gp,3g2,mj2 @ 0x5598268c84c0] Error during demuxing: Immediate exit requested\n[h264 @ 0x559826a08200] Invalid NAL unit size (15462 > 2172).\n[h264 @ 0x559826a08200] Error splitting the input into NAL units.\n[vist#0:0/h264 @ 0x5598268df340] [dec:h264 @ 0x559826996980] Decoding error: Invalid data found when processing input\n",
+      "stderrSha256": "64daa18831598b241ecbd585421542c8a6532362d115850769f12ae06690c098",
+      "stderrRetainedBytes": 1232,
+      "closeCode": null,
+      "closeSignal": "SIGKILL",
+      "failure": {
+        "code": "CANCELLED",
+        "message": "Operation cancelled."
+      }
+    },
+    {
+      "index": 88,
+      "stderr": "[vost#0:0 @ 0x5645c8b68840] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx264' will be used.\n",
+      "stderrSha256": "1a64b8f87b211d4444e1800a3fc9f6f18c3e440fe963adec2b8b078a7bc25d7f",
+      "stderrRetainedBytes": 167,
+      "closeCode": 0,
+      "closeSignal": null,
+      "failure": null
+    },
+    {
+      "index": 91,
+      "stderr": "[vost#0:0 @ 0x55b395115cc0] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx264' will be used.\n",
+      "stderrSha256": "d57f83ebb63a1d3d546baadbef5abada1a69c8083ed4df08b13df03df85aa673",
+      "stderrRetainedBytes": 167,
+      "closeCode": 0,
+      "closeSignal": null,
+      "failure": null
+    },
+    {
+      "index": 94,
+      "stderr": "[vost#0:0 @ 0x555f0f58d880] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx265' will be used.\nx265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n",
+      "stderrSha256": "e540680726881a762bd5838227fe5a695b498783edf8b80369d9be106134602f",
+      "stderrRetainedBytes": 335,
+      "closeCode": 0,
+      "closeSignal": null,
+      "failure": null
+    },
+    {
+      "index": 97,
+      "stderr": "[vost#0:0 @ 0x562304c4cd00] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx265' will be used.\nx265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n",
+      "stderrSha256": "984a60ea99bf79995b9180ad11bf903046de5ef153aefca1435afa4d36ed503a",
+      "stderrRetainedBytes": 335,
+      "closeCode": 0,
+      "closeSignal": null,
+      "failure": null
+    },
+    {
+      "index": 100,
+      "stderr": "[vost#0:0 @ 0x55b9e1cb7840] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libsvtav1' will be used.\nSvt[info]: -------------------------------------------\nSvt[info]: SVT [version]:\tSVT-AV1 Encoder Lib v2.3.0\nSvt[info]: SVT [build]  :\tGCC 14.2.0\t 64 bit\nSvt[info]: -------------------------------------------\nSvt[info]: Level of Parallelism: 4\nSvt[info]: Number of PPCS 107\nSvt[info]: [asm level on system : up to avx512]\nSvt[info]: [asm level selected : up to avx512]\nSvt[info]: -------------------------------------------\nSvt[info]: SVT [config]: main profile\ttier (auto)\tlevel (auto)\nSvt[info]: SVT [config]: width / height / fps numerator / fps denominator \t\t: 320 / 184 / 30 / 1\nSvt[info]: SVT [config]: bit-depth / color format \t\t\t\t\t: 8 / YUV420\nSvt[info]: SVT [config]: preset / tune / pred struct \t\t\t\t\t: 6 / PSNR / random access\nSvt[info]: SVT [config]: gop size / mini-gop size / key-frame type \t\t\t: 161 / 32 / key frame\nSvt[info]: SVT [config]: BRC mode / rate factor \t\t\t\t\t: CRF / 32 \nSvt[info]: SVT [config]: AQ mode / variance boost \t\t\t\t\t: 2 / 0\nSvt[info]: -------------------------------------------\n",
+      "stderrSha256": "4e28bed8beb93b56a01ee5d5a71438e79eb7e5a262acc9f18f2cbc24a72075ef",
+      "stderrRetainedBytes": 1181,
+      "closeCode": 0,
+      "closeSignal": null,
+      "failure": null
+    },
+    {
+      "index": 103,
+      "stderr": "[vost#0:0 @ 0x56126d7b6cc0] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libsvtav1' will be used.\nSvt[info]: -------------------------------------------\nSvt[info]: SVT [version]:\tSVT-AV1 Encoder Lib v2.3.0\nSvt[info]: SVT [build]  :\tGCC 14.2.0\t 64 bit\nSvt[info]: -------------------------------------------\nSvt[info]: Level of Parallelism: 4\nSvt[info]: Number of PPCS 107\nSvt[info]: [asm level on system : up to avx512]\nSvt[info]: [asm level selected : up to avx512]\nSvt[info]: -------------------------------------------\nSvt[info]: SVT [config]: main profile\ttier (auto)\tlevel (auto)\nSvt[info]: SVT [config]: width / height / fps numerator / fps denominator \t\t: 320 / 184 / 30 / 1\nSvt[info]: SVT [config]: bit-depth / color format \t\t\t\t\t: 10 / YUV420\nSvt[info]: SVT [config]: preset / tune / pred struct \t\t\t\t\t: 6 / PSNR / random access\nSvt[info]: SVT [config]: gop size / mini-gop size / key-frame type \t\t\t: 161 / 32 / key frame\nSvt[info]: SVT [config]: BRC mode / rate factor \t\t\t\t\t: CRF / 32 \nSvt[info]: SVT [config]: AQ mode / variance boost \t\t\t\t\t: 2 / 0\nSvt[info]: -------------------------------------------\n",
+      "stderrSha256": "f49a874706bee7932fdb30c5274593994e68569b2afcb0e535ab4f79f9b42c2d",
+      "stderrRetainedBytes": 1182,
+      "closeCode": 0,
+      "closeSignal": null,
+      "failure": null
+    },
+    {
+      "index": 111,
+      "stderr": "[vost#0:0 @ 0x55a90c724e00] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx265' will be used.\n[aost#0:1 @ 0x55a90c7ef600] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 1, only the last option '-codec:a:0 flac' will be used.\nx265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n",
+      "stderrSha256": "d3225f91257db8b6bfd0b057987b56f14f3b8433f9660b03dace49d0d8bf4084",
+      "stderrRetainedBytes": 499,
+      "closeCode": 0,
+      "closeSignal": null,
+      "failure": null
+    }
+  ],
+  "emptyStderrCount": 105,
+  "artifacts": {
+    "files": 297,
+    "bytesBeforeReport": 139332801,
+    "extraFinalReportBytes": 295517,
+    "manifest": [
+      {
+        "path": "001-started.json",
+        "bytes": 65257,
+        "sha256": "789245d4bc898df39d55c0a3c63df67257c1389b93298e430ee58b4084a5ebbf"
+      },
+      {
+        "path": "002-session-1.json",
+        "bytes": 19973,
+        "sha256": "05510aa64558d152c98ce2f4344755254d80c1ab8384f4710b7ac3966833642f"
+      },
+      {
+        "path": "003-sources.json",
+        "bytes": 1798,
+        "sha256": "e8ec0dc3108e596d1f34c5241f26001bcf4924dd47c5ba034882a62b5ca7ad22"
+      },
+      {
+        "path": "004-late-long-service-publication-prepared.json",
+        "bytes": 8593,
+        "sha256": "6e8505ed0d9d9c132abd5e07e84b64fb52779f8d196ec4302697d619dccdf869"
+      },
+      {
+        "path": "005-late-long-service-publication-settled.json",
+        "bytes": 11634,
+        "sha256": "3e555847b5d5d8fd3038543074abdeedf9044bb61408696f39711b7fa51f8c1b"
+      },
+      {
+        "path": "006-late-long-service-publication-verified.json",
+        "bytes": 10832,
+        "sha256": "b3327ecf9c023fe45a26543401773be744d75812f68911f752f904e96086bfd9"
+      },
+      {
+        "path": "007-fresh-independent-service-publication-prepared.json",
+        "bytes": 7875,
+        "sha256": "a5c6b679d8748f86649d56f74747f7e3a1abe2282143fb6e60dfb27b4acd91e4"
+      },
+      {
+        "path": "008-fresh-independent-service-publication-settled.json",
+        "bytes": 10880,
+        "sha256": "55b979509b5b35f87fc7cc929e8f9d2cd680590727747cb31c59ac6c6f2aa9f9"
+      },
+      {
+        "path": "009-fresh-independent-service-publication-verified.json",
+        "bytes": 10185,
+        "sha256": "16c69daa1c12b92d79d3bf38c57eaea6edd0b628285e173d6a345fcf260f757f"
+      },
+      {
+        "path": "010-collision-preserved-prepared.json",
+        "bytes": 7878,
+        "sha256": "ca938300c6930510aaf2dd5687dff6de9e7716ecf771534fab2f2ef926aef23e"
+      },
+      {
+        "path": "011-collision-preserved-settled.json",
+        "bytes": 8110,
+        "sha256": "da0348237b2a72cb1446bc7b134665bd7d570f5d8439cf98046a672a3a10ac13"
+      },
+      {
+        "path": "012-real-encode-cancellation-prepared.json",
+        "bytes": 7861,
+        "sha256": "542acd0e8d8645e2e33756f0c2d50ef3bc8a8b7b6c4c7533a47f2db4fa2e7e40"
+      },
+      {
+        "path": "013-real-encode-cancellation-settled.json",
+        "bytes": 10404,
+        "sha256": "0c339565e121693aba2209cf8ae4897f23af772f1602e8e680ede8d96b3beba8"
+      },
+      {
+        "path": "014-cancelled-drained.json",
+        "bytes": 6791,
+        "sha256": "b9d03c41c77004b4a1300533ae105ec22fdfbee01e636fee375818aef1d54bcf"
+      },
+      {
+        "path": "015-old-session-closed.json",
+        "bytes": 129,
+        "sha256": "144b1833849b4e2f123fdb207fcd146cbd62b1a1b32f7af13d49ce852922227a"
+      },
+      {
+        "path": "016-session-2.json",
+        "bytes": 19973,
+        "sha256": "aab40df520a2e25c78d66af740f71d00cc0ad3440a04d532dbe356f56262fafb"
+      },
+      {
+        "path": "017-fresh-instance-recovery-publication-prepared.json",
+        "bytes": 7877,
+        "sha256": "3860eae83a4c4258db24d886c8a30041b008fd3a08e093c8b859ec9ce1ec5bd8"
+      },
+      {
+        "path": "018-fresh-instance-recovery-publication-settled.json",
+        "bytes": 10880,
+        "sha256": "e821761423aad7fa61e27b092a2ebeb128f17b2a43c427df28647e21e6f346a2"
+      },
+      {
+        "path": "019-fresh-instance-recovery-publication-verified.json",
+        "bytes": 10176,
+        "sha256": "3115a6dd4aa0484c25fcff53c347307f14cbfeb7d8dc0e225e4f13e47e9c1a5f"
+      },
+      {
+        "path": "child-diagnostics/001.json",
+        "bytes": 648,
+        "sha256": "97d4112abaa9737ae611d75c5ace917ee1f8013585992dad0ec15193ef6370b1"
+      },
+      {
+        "path": "child-diagnostics/002.json",
+        "bytes": 649,
+        "sha256": "10f8cadc154a2c2dcfc92abb3fa957b6c11db2ec6744cee626ec78e4abd4cc3d"
+      },
+      {
+        "path": "child-diagnostics/003.json",
+        "bytes": 1317,
+        "sha256": "7a08e8f96d693597af43b20566a0eeb37bbfd3ad77fd25c6a63f56985f3e93e4"
+      },
+      {
+        "path": "child-diagnostics/004.json",
+        "bytes": 937,
+        "sha256": "d56519947e9cdcb3976650d154609021baa900bde26303362628e61c41335536"
+      },
+      {
+        "path": "child-diagnostics/005.json",
+        "bytes": 1326,
+        "sha256": "7ef41d685dfa6e2f870ed1ba3c2f02b15ed147796fe4b8ebdf366c8e2464e4be"
+      },
+      {
+        "path": "child-diagnostics/006.json",
+        "bytes": 938,
+        "sha256": "d9bc07c000c69252dbaa5bfd707ff73dbd05ae6d1b996742375dd8a8d5b9a27f"
+      },
+      {
+        "path": "child-diagnostics/007.json",
+        "bytes": 1325,
+        "sha256": "728df9858de1ffa3d62ec2dc09d00123e761a39e5c7e1c9a4f90e691284faa0d"
+      },
+      {
+        "path": "child-diagnostics/008.json",
+        "bytes": 944,
+        "sha256": "0f432b925f7adc3080e861c50d6220b3dfc14f11628d59fe0033bb12896cc199"
+      },
+      {
+        "path": "child-diagnostics/009.json",
+        "bytes": 1334,
+        "sha256": "0c92091434e5e53964ce2bc8c39f3eef7eaba589456b9d8852e459bc1de90476"
+      },
+      {
+        "path": "child-diagnostics/010.json",
+        "bytes": 946,
+        "sha256": "5ff58e831f848a35f83475934e5661c6d357b1e68cead2029fdb76cb935e8a3a"
+      },
+      {
+        "path": "child-diagnostics/011.json",
+        "bytes": 1937,
+        "sha256": "715e6208bd049179210ea87fbbac78fc8c8b215646b907851221181ad60767f7"
+      },
+      {
+        "path": "child-diagnostics/012.json",
+        "bytes": 962,
+        "sha256": "174617cd277cea90ae87376e88cb11afeeec74d0b53c502930da6df9c984ed22"
+      },
+      {
+        "path": "child-diagnostics/013.json",
+        "bytes": 1040,
+        "sha256": "794d3894b6b937873f7b3975ad24baf16c55d763332766e22ace8d3255a2dd60"
+      },
+      {
+        "path": "child-diagnostics/014.json",
+        "bytes": 1943,
+        "sha256": "8af46d50c78743abda491357b9968cfd842cb5f877752c82d6c4930ad5d0cf0e"
+      },
+      {
+        "path": "child-diagnostics/015.json",
+        "bytes": 963,
+        "sha256": "bd020c18d2146fc63e61871a750531303ee627f66b7803a7ce0f485b946c4ba0"
+      },
+      {
+        "path": "child-diagnostics/016.json",
+        "bytes": 1041,
+        "sha256": "ec8b9680df5a5e91238c028ba6f118739714cfd9407211ca6bd6c2db3c8aada4"
+      },
+      {
+        "path": "child-diagnostics/017.json",
+        "bytes": 2152,
+        "sha256": "13f8ae7ed9ecd6ed26e78dcc181a17c997e1ca4367fcafa740c16a1d4c6d4261"
+      },
+      {
+        "path": "child-diagnostics/018.json",
+        "bytes": 962,
+        "sha256": "ec74edf73290c8f2032af6586223f9d2da1f1530fbcc34731f8b4953ffb3628f"
+      },
+      {
+        "path": "child-diagnostics/019.json",
+        "bytes": 1040,
+        "sha256": "bff937d55b14b596a75542127a4d869aad63f9df62818412d0cd3787ec132576"
+      },
+      {
+        "path": "child-diagnostics/020.json",
+        "bytes": 2158,
+        "sha256": "1df16c337f463b64804644f2171a6f0124494c750a92004c107282a3bf31c491"
+      },
+      {
+        "path": "child-diagnostics/021.json",
+        "bytes": 963,
+        "sha256": "99960847d6cbb35ce306d55e59829c625273918b88bd0a76c87b4b8fc6a172a2"
+      },
+      {
+        "path": "child-diagnostics/022.json",
+        "bytes": 1041,
+        "sha256": "af9655a789e8d87c3672337dbcc4d6708274a6436f8322492c17e23cc006198f"
+      },
+      {
+        "path": "child-diagnostics/023.json",
+        "bytes": 2996,
+        "sha256": "83c1ccd4fd833eeb06dc44ec29803cf5adb9c67b188517eaac6121652ff4fc7a"
+      },
+      {
+        "path": "child-diagnostics/024.json",
+        "bytes": 962,
+        "sha256": "3ff6fdcbe4d69737c8089b9c8fde7e9d475f3ca26109700e110306611fab9136"
+      },
+      {
+        "path": "child-diagnostics/025.json",
+        "bytes": 1040,
+        "sha256": "5a49762646d1a2c10a9395d12966ccb88f3c86561e23dba3ffd30354b72ec9b0"
+      },
+      {
+        "path": "child-diagnostics/026.json",
+        "bytes": 3004,
+        "sha256": "c6560ce75efa275735028b4af5ac7cc904665a355a6b181fad709c40ffc1eef3"
+      },
+      {
+        "path": "child-diagnostics/027.json",
+        "bytes": 963,
+        "sha256": "0576a2083212079b4756856bd82dc5327940e11c1e527d9dfde48c754c3dc2d3"
+      },
+      {
+        "path": "child-diagnostics/028.json",
+        "bytes": 1041,
+        "sha256": "3bc76e44d48bdff66cebedfd4e9f9a01d3e217497b19b3e5898859bb5d0ab656"
+      },
+      {
+        "path": "child-diagnostics/029.json",
+        "bytes": 1952,
+        "sha256": "5540bbd8095c81f4b1fda9df0e2a2a706b38d395b851d772869e6bd57bf901bc"
+      },
+      {
+        "path": "child-diagnostics/030.json",
+        "bytes": 898,
+        "sha256": "afd0482190d2e147c2ff3ce8cbb3cb05c2f4608f1853bae5397f86c91d2674ae"
+      },
+      {
+        "path": "child-diagnostics/031.json",
+        "bytes": 889,
+        "sha256": "b8f279e99ecb98cdf2c0f1a73c53afd21fc9b019ed8cf27402a4d81426b1bb20"
+      },
+      {
+        "path": "child-diagnostics/032.json",
+        "bytes": 1121,
+        "sha256": "5ccc187096cd9e65efc4d07f1bf7ad326580c724d69088c47527122ef48473c7"
+      },
+      {
+        "path": "child-diagnostics/033.json",
+        "bytes": 1388,
+        "sha256": "60989d940283cf48ae64e6ad45a65d325dd636c34414871e58643fcb763f2709"
+      },
+      {
+        "path": "child-diagnostics/034.json",
+        "bytes": 1390,
+        "sha256": "2206c36a03138aa2589e86e8588d350b748a60cb9bbb39b463f93084e80f59b2"
+      },
+      {
+        "path": "child-diagnostics/035.json",
+        "bytes": 1392,
+        "sha256": "2217758926025c2e3f91a3185d4c32ab55eb6d6bf517118a583747e34751df7b"
+      },
+      {
+        "path": "child-diagnostics/036.json",
+        "bytes": 1121,
+        "sha256": "bd9389b32f2eb2952a925614560c9004211d8fe6554015cd0012a6a3c104c556"
+      },
+      {
+        "path": "child-diagnostics/037.json",
+        "bytes": 1388,
+        "sha256": "b71de89f4cb09744cbf83f3bed320d4358065ec7112fa4fcdb07514d5886191c"
+      },
+      {
+        "path": "child-diagnostics/038.json",
+        "bytes": 1390,
+        "sha256": "1d1989467315e6c826288999f57b43b4f80c26b1ed06b4138ea2910e014c9165"
+      },
+      {
+        "path": "child-diagnostics/039.json",
+        "bytes": 1392,
+        "sha256": "0c622a31c02b5104a6a0ba70da9f97b9148b096c9347192f5ea704804428123f"
+      },
+      {
+        "path": "child-diagnostics/040.json",
+        "bytes": 1121,
+        "sha256": "520baa3f3faa9fd652edfd145aaa5176c76c6998e00b184ff5fce6cbb264aaed"
+      },
+      {
+        "path": "child-diagnostics/041.json",
+        "bytes": 4700,
+        "sha256": "c423ed920719bc9a16389a7f669c12620a587714df5438c47fc1bada1a5e57a3"
+      },
+      {
+        "path": "child-diagnostics/042.json",
+        "bytes": 1020,
+        "sha256": "0eede88205a8f418d57769a9e07072643a1ce1f43f4e13acd507b589bbcd4675"
+      },
+      {
+        "path": "child-diagnostics/043.json",
+        "bytes": 1347,
+        "sha256": "cc5f65dc2a915f00daa41df1726a1ccb53f81a3f4cdebe3a08d48b6fb3da4242"
+      },
+      {
+        "path": "child-diagnostics/044.json",
+        "bytes": 1321,
+        "sha256": "b2470162642d0281efbea32230a80d9e3672c6ed7a8ebb1554e9e5b336af5018"
+      },
+      {
+        "path": "child-diagnostics/045.json",
+        "bytes": 1297,
+        "sha256": "bbe490480d9b8e99b9c66b86a84a1accae9594a46468bed610974169ad831386"
+      },
+      {
+        "path": "child-diagnostics/046.json",
+        "bytes": 1321,
+        "sha256": "779c1e98944d58bc5f10f13a81e921bab8d9f1fb39f28ee6fc50bb228951ca91"
+      },
+      {
+        "path": "child-diagnostics/047.json",
+        "bytes": 1192,
+        "sha256": "2930c250d3d14bf9e9ad6384dfa829e74ec69051b63d2a57153ece5c996a6841"
+      },
+      {
+        "path": "child-diagnostics/048.json",
+        "bytes": 1121,
+        "sha256": "5ef025cf9122964400af392a1297b7dc7b92d8c36ddeffe5db9ed2aba0653ee1"
+      },
+      {
+        "path": "child-diagnostics/049.json",
+        "bytes": 1145,
+        "sha256": "9989b74681f15228cc18f8078abe7e5653ec1f5d2439b35d046797768cdf23a1"
+      },
+      {
+        "path": "child-diagnostics/050.json",
+        "bytes": 926,
+        "sha256": "fd8d4bef78726ec6bf6219efb8d3d94d42d756a93a4185b65463408819351706"
+      },
+      {
+        "path": "child-diagnostics/051.json",
+        "bytes": 974,
+        "sha256": "52409f10efd011f2406c8b6459e0cb92f6dc768ffdf0f2cb11220e195345e3b8"
+      },
+      {
+        "path": "child-diagnostics/052.json",
+        "bytes": 1112,
+        "sha256": "8f0e519d09af256816074a3cb73bfb33765cbb95920774db0361cd7ffee6c56e"
+      },
+      {
+        "path": "child-diagnostics/053.json",
+        "bytes": 1379,
+        "sha256": "cfcb06b73080ad5721cec0def9c3b45b638d9176455b6f34c7b3f4063b84d21a"
+      },
+      {
+        "path": "child-diagnostics/054.json",
+        "bytes": 1112,
+        "sha256": "71b7572d7153789723d3ba4b340f7c94189c313ef2d03d85b549f46d3ee647f7"
+      },
+      {
+        "path": "child-diagnostics/055.json",
+        "bytes": 1379,
+        "sha256": "7bf4775e1638391913f91ea387a25fa4359923b634d6a7343c701e887ad76820"
+      },
+      {
+        "path": "child-diagnostics/056.json",
+        "bytes": 1112,
+        "sha256": "4b8feafd51a264b21b806ab1a822667a7194a70074ff2602544aabcdddeb08d4"
+      },
+      {
+        "path": "child-diagnostics/057.json",
+        "bytes": 4601,
+        "sha256": "1c0e033cba0e289596ed6b35a999662fe0271b95f7b7bd31d93675f5bccad28a"
+      },
+      {
+        "path": "child-diagnostics/058.json",
+        "bytes": 1028,
+        "sha256": "d6a3d70b89799ffae97383fd5012cbfce1a11f1a28615ff1a16cb312a5c2e846"
+      },
+      {
+        "path": "child-diagnostics/059.json",
+        "bytes": 1338,
+        "sha256": "13519ac92dfdf53734dab9fa57b8913f14986944150deb4e05faedaa82986190"
+      },
+      {
+        "path": "child-diagnostics/060.json",
+        "bytes": 1329,
+        "sha256": "50841297dc134aa6612f33488fa957c8a571dc32057b4220015e6ad78db400f4"
+      },
+      {
+        "path": "child-diagnostics/061.json",
+        "bytes": 1288,
+        "sha256": "93e1c69a05d89e7fcb00b8e577b9715495fff382b64bc8d45be2f0f421da27f0"
+      },
+      {
+        "path": "child-diagnostics/062.json",
+        "bytes": 1329,
+        "sha256": "506a9fa4ceaff1c69e7795b201c90011bb266a6244eda70a55ecd53f20affdd1"
+      },
+      {
+        "path": "child-diagnostics/063.json",
+        "bytes": 1200,
+        "sha256": "81c44e7cb7ebcc12aac4607b61cac96e0a0dc706ea3a8b360448be3400481203"
+      },
+      {
+        "path": "child-diagnostics/064.json",
+        "bytes": 1112,
+        "sha256": "09505102576a21073274abd596af46cb942c19c30ae44049d2d24dede3505adc"
+      },
+      {
+        "path": "child-diagnostics/065.json",
+        "bytes": 1153,
+        "sha256": "7dbef8ea08884bab0d2604195fcf399517fe4f896b7ad0c2ff15b17871bc10fc"
+      },
+      {
+        "path": "child-diagnostics/066.json",
+        "bytes": 924,
+        "sha256": "db64cc81d4cd1242f996e4eb4da03d2340a16baabccd19683df76eabc3b77cdb"
+      },
+      {
+        "path": "child-diagnostics/067.json",
+        "bytes": 972,
+        "sha256": "bb73c88318d4174093f105defc89baf16899a8c4251f7ed60d4b069e9886a521"
+      },
+      {
+        "path": "child-diagnostics/068.json",
+        "bytes": 1112,
+        "sha256": "71621e52953ddd65a42d6d30c5bd90c888a4c4fec3d3607209ca1d8a29ff3d39"
+      },
+      {
+        "path": "child-diagnostics/069.json",
+        "bytes": 1379,
+        "sha256": "ab501abf1554600152fb9d12d8671485bd96451c489d749342991cfb59d7ad00"
+      },
+      {
+        "path": "child-diagnostics/070.json",
+        "bytes": 1112,
+        "sha256": "a679bb055f0294e1b6530b7dd9c5a9e73dc51a725e0f67251f5234debf94bc4c"
+      },
+      {
+        "path": "child-diagnostics/071.json",
+        "bytes": 1379,
+        "sha256": "2cca6d870fbddf1ab2e4da99b71c7e5fbd216c8cc6e2e7d9fee3fe6d554b3c68"
+      },
+      {
+        "path": "child-diagnostics/072.json",
+        "bytes": 1112,
+        "sha256": "2d5061c9bebacad2bf432ffa365f9f061dca86f03434801072e5aab29c198430"
+      },
+      {
+        "path": "child-diagnostics/073.json",
+        "bytes": 1379,
+        "sha256": "8ec5bfab2ae80a69450966a2eb455ee618b6fa33949ec73021a73a3cfc15f5f7"
+      },
+      {
+        "path": "child-diagnostics/074.json",
+        "bytes": 1112,
+        "sha256": "08a6469329a30a2dea53376d4a90c62f1ffc599850758fb0d4f755504681d53f"
+      },
+      {
+        "path": "child-diagnostics/075.json",
+        "bytes": 1379,
+        "sha256": "14afb1aa73a00dc5dd86b1e890bc9ce54611ea407daf8a2e8702957b1906ef35"
+      },
+      {
+        "path": "child-diagnostics/076.json",
+        "bytes": 1112,
+        "sha256": "e290536c21749906a468bc6851b11c2d7481443328d5f4378cea20d243718b3d"
+      },
+      {
+        "path": "child-diagnostics/077.json",
+        "bytes": 5410,
+        "sha256": "19acbe7d30ff2888e3b1db46a56074db7c73979065659256a0924069583407a8"
+      },
+      {
+        "path": "child-diagnostics/078.json",
+        "bytes": 650,
+        "sha256": "bf41b1ae4f48470389fae0004229419789537e21e21d1a42e3ea0f6a9b871d13"
+      },
+      {
+        "path": "child-diagnostics/079.json",
+        "bytes": 651,
+        "sha256": "dc4329eeac4da31ed4cd289d46e64d7a4cf59d2bc0edd0f33ff5ebd0c981b501"
+      },
+      {
+        "path": "child-diagnostics/080.json",
+        "bytes": 1319,
+        "sha256": "e59ece9dcd2084cf5e69224a8bc0dcb5f2b934774fd156c1c0876798ff32d9a7"
+      },
+      {
+        "path": "child-diagnostics/081.json",
+        "bytes": 939,
+        "sha256": "2f88e8efc6a5add18508c770227531aaaeab14f0af714aab86c3f8fda32a2b3a"
+      },
+      {
+        "path": "child-diagnostics/082.json",
+        "bytes": 1328,
+        "sha256": "c0512b0cb0b5e1f14911f0b195a42404c0d047f985b56c4c4faa0388ad97e658"
+      },
+      {
+        "path": "child-diagnostics/083.json",
+        "bytes": 940,
+        "sha256": "dc4a5c97dc85f95719fd09999db468e306ae8538368f525d6c5f09b6a545e4f0"
+      },
+      {
+        "path": "child-diagnostics/084.json",
+        "bytes": 1327,
+        "sha256": "dfe820a2d7ea04e9bed8fbbf785879b144b168edc53851cbe3bbc30a1c1d282b"
+      },
+      {
+        "path": "child-diagnostics/085.json",
+        "bytes": 946,
+        "sha256": "a41d5e76c24fdfca8e537de3942333bef84e2148dd580f230291a61f0cacecd0"
+      },
+      {
+        "path": "child-diagnostics/086.json",
+        "bytes": 1336,
+        "sha256": "4a5f3c716ebc4e393a175c71c10f17ec2f1a7477bb14a887a64f6f725bfd9fa6"
+      },
+      {
+        "path": "child-diagnostics/087.json",
+        "bytes": 947,
+        "sha256": "511b260e8064ddb266956ed59288438b176e1366fa15f3d136d37d0957655016"
+      },
+      {
+        "path": "child-diagnostics/088.json",
+        "bytes": 1938,
+        "sha256": "a84335b93f72de8963da99ab804fc2c44ac7d458b6100ee670830670f970e9aa"
+      },
+      {
+        "path": "child-diagnostics/089.json",
+        "bytes": 963,
+        "sha256": "ff580314c7cf1186df85782ce6685ece5c3766894f39780d72caa9eb5ebcb23e"
+      },
+      {
+        "path": "child-diagnostics/090.json",
+        "bytes": 1041,
+        "sha256": "7bfa8df7d8621a9dcfbfbfb66028e7300f915c7acdbdb94c5ac152f20b7b7203"
+      },
+      {
+        "path": "child-diagnostics/091.json",
+        "bytes": 1944,
+        "sha256": "2d5afcafe9eb3b154d2723eaa240e39dabeeb544b04ce9fafeb1ed30b57e1378"
+      },
+      {
+        "path": "child-diagnostics/092.json",
+        "bytes": 964,
+        "sha256": "e6f6354312f52d5706df7c47c38ce451e0d0931e3e0b670581f11a6fb7626b8e"
+      },
+      {
+        "path": "child-diagnostics/093.json",
+        "bytes": 1042,
+        "sha256": "1951d7b7f9614e6c257407af27d0b1db4615a0d2a24ed0812c5e51b6299be3e4"
+      },
+      {
+        "path": "child-diagnostics/094.json",
+        "bytes": 2153,
+        "sha256": "2410ce92ffd88de1eba91769ac3e8018a0a8fe2d02da84a3d52f2d78dc1e3d3c"
+      },
+      {
+        "path": "child-diagnostics/095.json",
+        "bytes": 963,
+        "sha256": "022206fa7954d4f8bd3458b67d71cccaed2eb7ee467c98364f2fbe9a82787b39"
+      },
+      {
+        "path": "child-diagnostics/096.json",
+        "bytes": 1041,
+        "sha256": "63bb027bb4037b5a0e2109da11344cbe989a3d10b30b62710097ef2be1b74805"
+      },
+      {
+        "path": "child-diagnostics/097.json",
+        "bytes": 2159,
+        "sha256": "1bcc3befe31c5b000766d3f9ac1469e31e607788badb3fdff93b1a189fcb0350"
+      },
+      {
+        "path": "child-diagnostics/098.json",
+        "bytes": 964,
+        "sha256": "0043c32ef19184ce379c177ab49bce131f917a7aa1548d63cae69c7c9bd69f18"
+      },
+      {
+        "path": "child-diagnostics/099.json",
+        "bytes": 1042,
+        "sha256": "82470af3af1e2828e87b856fba8cbfc81bb06cb63b19a2d7af9f73e9990e0a52"
+      },
+      {
+        "path": "child-diagnostics/100.json",
+        "bytes": 2998,
+        "sha256": "858734639234d614c3d34b7bac4c9df9f6deca0712188b45e2adc139b1960f08"
+      },
+      {
+        "path": "child-diagnostics/101.json",
+        "bytes": 963,
+        "sha256": "2c69f2020ee4d1fc68628c899fef0edd0b2fde21c21ba1ce1fe0eca3fa34107a"
+      },
+      {
+        "path": "child-diagnostics/102.json",
+        "bytes": 1041,
+        "sha256": "93537793b83fa50f00d726198eed5ac656a3d39cc40d0364f41e5e5a47748d29"
+      },
+      {
+        "path": "child-diagnostics/103.json",
+        "bytes": 3005,
+        "sha256": "c6c3a89e4cf3b202ff4c7e84657533eb050ed670ad2fd58b544a88ceafc94ec7"
+      },
+      {
+        "path": "child-diagnostics/104.json",
+        "bytes": 964,
+        "sha256": "395c1735c61e1dae07db273bc84dec049d064b887fc2e7420fbcf9515492fb20"
+      },
+      {
+        "path": "child-diagnostics/105.json",
+        "bytes": 1042,
+        "sha256": "ab5e6f88e5811f31da09fcda172eff89564fda8e944dc057357d170b0cf8c8bc"
+      },
+      {
+        "path": "child-diagnostics/106.json",
+        "bytes": 1113,
+        "sha256": "d9269e17dca1ac777b6491c3d2fc0b1f078b93fe80516f7e2a22a247d8b298cd"
+      },
+      {
+        "path": "child-diagnostics/107.json",
+        "bytes": 1380,
+        "sha256": "08e3f0663a419784751d1b272b3e3190f6dc31843d8623a40234fb641df9bfb1"
+      },
+      {
+        "path": "child-diagnostics/108.json",
+        "bytes": 1113,
+        "sha256": "2eedea500a5dc487347f28d52c1b304d6a59381458a775aa620f5ae2776f5826"
+      },
+      {
+        "path": "child-diagnostics/109.json",
+        "bytes": 1380,
+        "sha256": "8fec66f98bedf862beaa6cd567e6ec9380fc83feeed5ae3c058b6fee1a54d492"
+      },
+      {
+        "path": "child-diagnostics/110.json",
+        "bytes": 1113,
+        "sha256": "03df9524cb618e234477bf29b56ff6c6e8d182ba2a4f1aa528d1dd9825dd3f24"
+      },
+      {
+        "path": "child-diagnostics/111.json",
+        "bytes": 4601,
+        "sha256": "9a1743af6bbc2fd36b2c9af49c8ebd26732fb3920b8e825ae4e66c76f2549331"
+      },
+      {
+        "path": "child-diagnostics/112.json",
+        "bytes": 1027,
+        "sha256": "072097d91f6b7c28501bb7ec4504db20b47f668122855bca20592bed10787c05"
+      },
+      {
+        "path": "child-diagnostics/113.json",
+        "bytes": 1339,
+        "sha256": "8538b149ffae638e0d0cfc2e67474d1e149219d6ef00f3f3ade8f4f06bbba359"
+      },
+      {
+        "path": "child-diagnostics/114.json",
+        "bytes": 1328,
+        "sha256": "808ff9cd7b307f488cf5075e0455d862e1b77fa6fd6b43e83f3cb9f50b0023f1"
+      },
+      {
+        "path": "child-diagnostics/115.json",
+        "bytes": 1289,
+        "sha256": "a80518102941389e51f38d06576fad3854bd45865bcfd471f0806826afd5b7b6"
+      },
+      {
+        "path": "child-diagnostics/116.json",
+        "bytes": 1328,
+        "sha256": "bafd5d84f045d075aa63bb500d61f230e5d13a0fd864d74104bb8189d58b9a98"
+      },
+      {
+        "path": "child-diagnostics/117.json",
+        "bytes": 1199,
+        "sha256": "1889d028bd7127019f08b6bb25ce42743aa1a610d881e8ecbf5cd0e5ad349567"
+      },
+      {
+        "path": "child-diagnostics/118.json",
+        "bytes": 1113,
+        "sha256": "0a04769f6448a956f2316c34ad6cc9b9b1fd75cab8ddfb8af146b77235ba52f9"
+      },
+      {
+        "path": "child-diagnostics/119.json",
+        "bytes": 1152,
+        "sha256": "2f82ffddd3ab42a714ac53297be8688f62e6871e6062d40ea514078d952df3e6"
+      },
+      {
+        "path": "child-diagnostics/120.json",
+        "bytes": 923,
+        "sha256": "553c8fcd0c07636bdc0ed490b9e7a9f4497f3067cfdd397ad39eccdf6d6e789a"
+      },
+      {
+        "path": "child-diagnostics/121.json",
+        "bytes": 971,
+        "sha256": "f0c9fcfb6c17df0d6a8454c0fb699e3f4167024bf0f45ea295ba61b5d4b3788b"
+      },
+      {
+        "path": "collision-preserved/fresh-vflip-997_H265-CPU.mkv",
+        "bytes": 68,
+        "sha256": "541e7f3289bcf1fd9b36608330013a775380c53fbf579763a9c3e0445b8368b2"
+      },
+      {
+        "path": "fresh-independent-service-publication-output-probe.json",
+        "bytes": 5093,
+        "sha256": "21d0a1814bd6a633ffc20dc09f70bb0492f93dc87347c63e3f09e5c2a9531faa"
+      },
+      {
+        "path": "fresh-independent-service-publication/fresh-vflip-997_H265-CPU.mkv",
+        "bytes": 586866,
+        "sha256": "d85bbee9ecba168ab512dc57608aeedd73e4345ff74a79b43e559cb620f0eebb"
+      },
+      {
+        "path": "fresh-independent-source-probe.json",
+        "bytes": 4535,
+        "sha256": "17143799aa9f2dbaa3a9a0d55a959408f6b2800f1ce8c7755547ffa9d7659e42"
+      },
+      {
+        "path": "fresh-input/fresh-vflip-997.mov",
+        "bytes": 6672071,
+        "sha256": "a45ca66b173cb60c4ee4d34d8c5880df174ab8ee0c2b9107bfe268a6ff4c6fc2"
+      },
+      {
+        "path": "fresh-instance-recovery-publication-output-probe.json",
+        "bytes": 5091,
+        "sha256": "5ad7a04c92cfc0bf9374ccd4e15978d589383ebdb45488120b112d4084d1c8fb"
+      },
+      {
+        "path": "fresh-instance-recovery-publication/fresh-vflip-997_H265-CPU.mkv",
+        "bytes": 135290,
+        "sha256": "b4967b36f2f2245df831da80c1ad2cda1763515e205feb21b6362c1d93d0f24d"
+      },
+      {
+        "path": "late-long-service-publication-output-probe.json",
+        "bytes": 5094,
+        "sha256": "73533193930318427c13379d048f81a0d28f84f3f56262badc9834de6bcf6f0c"
+      },
+      {
+        "path": "late-long-service-publication/owned-different-name-long_H265-CPU.mkv",
+        "bytes": 568869,
+        "sha256": "e1909c18827922e2a6803144a8c6b9e96c833a1f14f46be2ac2aa644ca32e588"
+      },
+      {
+        "path": "long-input/owned-different-name-long.mov",
+        "bytes": 130549760,
+        "sha256": "8c24561ce37320d3530a9be4dcc9d2cfbe06371b716a2875d364f520de6f0280"
+      },
+      {
+        "path": "long-owned-copy-source-probe.json",
+        "bytes": 4556,
+        "sha256": "c4ae911e8119a061bf65b4c64173e349ef71622ae6502ca9eb9a4a8aae9cbecf"
+      },
+      {
+        "path": "real-encode-cancellation/.ffmpeg-encoder-AwtUpK/encoded.mkv",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/06dfbb4c-4d43-417a-a14a-50890aa5d0d5.json",
+        "bytes": 577,
+        "sha256": "b3e09657e3bbe072c8e64e1a53f40a4bdb619308da7e93b9bf4a8ace7b42d1f8"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/0c0f847e-b447-4a1b-b730-76f19ef28970.json",
+        "bytes": 577,
+        "sha256": "62725c454643e8d258438fc91c920bf0f3b187a43e85f665134aabb02650012d"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/18c5ecfa-dad6-4bdf-8445-f9e1e8e49c41.json",
+        "bytes": 3031,
+        "sha256": "e2a6558df4f8548537d527c0f1a197429b3e085bf550847eefb6236e88a84010"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/1bda4def-162f-4758-856c-fbca25d3a2f5.json",
+        "bytes": 718,
+        "sha256": "b97bfeb16c40ae9b1c238b42934e7ca3f62f2469893c7109dd057b8e1eecd4fd"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/20f53ae8-364b-4fba-9a46-3ce7fbfc900f.json",
+        "bytes": 501,
+        "sha256": "8525793b198edf06557e727353109188806f462d65736df05a86fca92385d457"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/22d0be15-7cfe-4f1b-9094-eb02033126b8.json",
+        "bytes": 1783,
+        "sha256": "cb225e896da2fa6c962aa631dc37ee0abb9b04cd9f2e529bc3ea1bdb971534e8"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/23130ef9-39bb-40db-81ab-8ee1a0ec71b8.json",
+        "bytes": 577,
+        "sha256": "2227875e810aa74e7eff0d09cb0bffaa4a7130bef090e398d437e4f4b0ac4b7d"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/24f84c64-e2e9-40f0-8fab-dffd7931862b.json",
+        "bytes": 5539,
+        "sha256": "9ddfe55818cd51df913ad6c9f7de60edbfd4e8768b6261de85d9719be25fea63"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/36259f97-ee81-44a7-bb5a-69706650a20a.json",
+        "bytes": 11843,
+        "sha256": "af7b3817315076cfd2b253745fe75d31378ec27f874ea1329169ccf172bff348"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/3d3d4ce9-2884-47a7-8e40-50c46ab2a9b9.json",
+        "bytes": 2795,
+        "sha256": "5435da1139a387ce27461c587955462508c545fffbcd38efe9d63197cbf2ccb9"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/432b97fc-e97c-4cbc-8a10-7733596b47c6.json",
+        "bytes": 365,
+        "sha256": "b4e9616729ac089469a43c4672abc8d323bb55947de5ae88c01bcd964db9d90e"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/4906000a-5f01-4ebc-a6f3-34300a93f6cc.json",
+        "bytes": 2005,
+        "sha256": "377a5f60e18da13945e32f7a580c06ea6422579227b1b3919b90269966bb1fe1"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/5681314f-1785-4ab1-b57d-6d74f29fbe5a.json",
+        "bytes": 577,
+        "sha256": "79fe1bcac85f15c6e208a3b731e8cffedd69a60607819d343c7d8868dac10c19"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/59761322-5834-4d53-9909-5aba508b553f.json",
+        "bytes": 1213,
+        "sha256": "f0ba5d62eab03ae257745490f913c14ae14514e95b610697b02306404b135d0a"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/5c6444e5-8b5f-4e70-bdf6-a5003c20579d.json",
+        "bytes": 1553,
+        "sha256": "25010717399163137c0c2107b3eccbb5c016152181181dc11a1de00b9f0b6416"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/610d26db-87ff-419a-9573-82ec912c9e20.json",
+        "bytes": 502,
+        "sha256": "286bc61ae31a663182e80f01bace995842c24cdc9cb8403171a8fd7ce56b65b6"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/62ac6892-a842-4856-9247-8dacd775a343.json",
+        "bytes": 775,
+        "sha256": "61a2029b5eae10b7148e8e38e191a3cd449266e488d1d59986cf4f9fbba4b3da"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/6456eaf6-069a-4804-a844-3eabd0a86e09.json",
+        "bytes": 868,
+        "sha256": "9bc81655dd968acf2a70d10719f7969f866b7f9eef536f9f0f492491c16f01a2"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/70d86691-7da7-44f1-909a-c19d0ac4edec.json",
+        "bytes": 2352,
+        "sha256": "beb3ceeece2cf82c7af6301a572468877c73477fc2c9209c0fc216216c0a127d"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/72ad3d79-6122-4f5f-a389-d04608aadf36.json",
+        "bytes": 502,
+        "sha256": "871bcf0aaca5ddc328d908d6483fd3675f03557f3478277a60d00f8eea47e923"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/73d9eece-62c4-45f8-9db8-599f9ac30d0e.json",
+        "bytes": 443,
+        "sha256": "6711956b02beaf539ce558fbe3168e15348ba0484abfa284bdb6fee750687b48"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/74190aa5-cea6-46d7-9cd1-cc69aaf1d405.json",
+        "bytes": 1197,
+        "sha256": "932b239db7365128014dffc60d282baa2d4136356b2595a1184c4ef7235307bb"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/76618ccc-a79c-48fb-85f8-959b2167e139.json",
+        "bytes": 691,
+        "sha256": "6133c551e30844fd4871c94bffe5bd43ecf71764fcf1ced9f009dd44fdf6ac39"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/7d09f77e-96ee-4368-bd6d-64b6d35e4f5b.json",
+        "bytes": 2005,
+        "sha256": "f4cc1cf18e1080d9530aba0808d1f4ed9e6bc0c17ddf817d1d48c2cde10557b1"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/8646a4ed-b2d5-412e-8c59-82b7d4080ab8.json",
+        "bytes": 775,
+        "sha256": "7e4f44206a1b64d0ae4284b7454a105420eacb6beacbad17c0492e864d5a8908"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/8a2fe5f8-d780-4f0d-9f72-57e18c2505d4.json",
+        "bytes": 502,
+        "sha256": "3c58e62c5c284f4eb42345ac9bd14ba013a8ae80189ac5753150e1cacb159d8c"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/8b94f7f9-7542-4f81-85ff-c41766ef3780.json",
+        "bytes": 692,
+        "sha256": "4ae5f2777633677f242a812dbd3f12cdf516f018d8bed240c9795b32778ee494"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/8ca6f249-273b-471d-ad0c-1e5c0dd618e4.json",
+        "bytes": 2005,
+        "sha256": "2445db1f7d6462d8f7431ebe6256d797fae22abbf99e9d1e605f7f7df60ff942"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/910f0d5e-162b-4fb9-9250-1f639481d944.json",
+        "bytes": 775,
+        "sha256": "b00f7a05173c326f231d9a1573c0cbfd930bbf50a4fea0995d42913cd1ac57b0"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/9d9c0938-42f4-43a9-a2bd-56c241230899.json",
+        "bytes": 5487,
+        "sha256": "6af91c3d23a0968c58712d569067145a05ff121aef754aec4c414e4ebc076107"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/a1b126d2-0aa7-4e46-89a8-e88a4fefe057.json",
+        "bytes": 850,
+        "sha256": "459dacb40291e4169a72109cbb0ce44b185d545e39b86b0d951767778e532149"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/a25eab30-af46-4cc8-9fb3-2b5c54462c9f.json",
+        "bytes": 1575,
+        "sha256": "d24fceefb744effa8e7ad863ad547ccb095905d7d584d78373de189b5d7030d1"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/a27184c7-3d62-4f93-9996-2bcc7e9a5976.json",
+        "bytes": 858,
+        "sha256": "dd1652c8253be016699d7768c1fec96be7e0090db965b7b11db3a9561b2312ce"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/ad1dedb2-6da7-4fd1-86e7-ed12a957166a.json",
+        "bytes": 2352,
+        "sha256": "9d722f58d2d98efe618493370650045c271f19d47659502bbef04e6a28f51ff6"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/b7f6ca85-029c-401e-a9c7-f7151763672c.json",
+        "bytes": 900,
+        "sha256": "badee59c0914314663cd056067a7714c3fb4f21d0c1f17e5f857286c7ead5b22"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/c0716f57-518d-4454-b441-f51c0cc2aced.json",
+        "bytes": 1900,
+        "sha256": "3329cb0a80f2bb93cdc445e37ab48e7019bb52f6f16a4edf11735d7cf3b4f8a6"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/c3f6fb7a-c3b1-4d14-81c0-d483ce528393.json",
+        "bytes": 533,
+        "sha256": "e9390ab339a7a88a2ac869f0d056f6fdf16f8954711c3f1a7a43adce2bb739ee"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/c53b2ad4-328d-4e81-b6f8-0e38af197cb5.json",
+        "bytes": 1898,
+        "sha256": "14f2d896acf2aa325c7e90d8f4d8e6c7e48f5a6a70eb56faccd77515fa1f8ad3"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/c7989081-ed9d-4e7c-9bc0-78548692cd98.json",
+        "bytes": 855,
+        "sha256": "6752a598918f26ac99a629482305dd0256b3c3f6fb3b2cf7dc921b209666eb87"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/c949edbc-6b1b-461f-a4ab-3b3cddf4f72a.json",
+        "bytes": 2005,
+        "sha256": "42ed0f3adcb104bd3f6f181f855da281d03c13cbe867cec27d90af5c0ae41063"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/c9caf250-fa5f-40e9-a5ec-07fab51cc594.json",
+        "bytes": 480,
+        "sha256": "8d8768baf296d12301cb49d431d0d42420761d400d29416af7c6aaf32f179e80"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/d5bd7067-5567-47e9-af4e-3fd8efc71e96.json",
+        "bytes": 692,
+        "sha256": "350499cbc22cdc0b7b17ad90e0f112b227f6c1e42789591abf4a5ac7ee752eef"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/d79ea089-eef1-4b0a-a184-c161d123aa23.json",
+        "bytes": 692,
+        "sha256": "2fba42c06ccd805552ee22cb25ee1116849bfa8475471ed0b10a4834546f0877"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/d82ac420-6f10-466e-9ea8-77efc13feba4.json",
+        "bytes": 718,
+        "sha256": "58bfd991d6c37b2238129ccc15f078721104903e0f6daa7b7dd178fb315442fb"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/e1f7ab0a-3f1a-4aff-9dc1-35b0ca719e23.json",
+        "bytes": 442,
+        "sha256": "d68379c1945455812f5622d4f1445eb290ed65c830e325f880499131f22be571"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/e4154f4e-5151-4005-9e1f-afa2194ec86b.json",
+        "bytes": 3063,
+        "sha256": "05ce376bb745e92c1f4f71c91a7a298257ff2c4a88e0f50a1a114720fdab40a5"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/e64ca6c9-dce5-4be5-abdd-9ad397c12adc.json",
+        "bytes": 2005,
+        "sha256": "75f9c681afe8ee869ebf1fe6b209e2130523b40ed98f55f8f6f930c24c9dfce6"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/e92adb72-ffd8-41b3-8c28-55a3fc741830.json",
+        "bytes": 3264,
+        "sha256": "43b1ceaffe5da6928585f23195d5c2aa518821f28f9f1291a8f405828f14b157"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/f3920848-8635-44f5-b79d-57baa7fb823c.json",
+        "bytes": 776,
+        "sha256": "1398a856fbcebeccef888d9a949809a71e387c29fb6a3f8389aaf5dbfbcb2492"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/f521e119-0f41-4e84-9a0a-5c33b7936581.json",
+        "bytes": 1807,
+        "sha256": "e29e29457c056e35991dbb5b2fce558aeba8500b14a3ed027c5fd97551dcee39"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/f7243801-cec5-47db-b8f1-de2418f92ef3.json",
+        "bytes": 5623,
+        "sha256": "5c569357359aad321ea38af0356afe2da726676573b462f54714c90f2ec6e888"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/fa1aeafe-c040-41d7-bf57-a948fee5252c.json",
+        "bytes": 388,
+        "sha256": "20d026dbe3b9e96d27ac129f50e3f75b83a510e21f8ecbfea65c8eab933a3b53"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/fd3052dd-01ac-4f49-afff-b3b651f6d0f5.json",
+        "bytes": 2005,
+        "sha256": "4e59b8d78ee3df9e5334f023ea905541cd52fce88a00df2bd8584a165e2551e6"
+      },
+      {
+        "path": "state-1/diagnostics-v1/stderr/1bda4def-162f-4758-856c-fbca25d3a2f5.txt",
+        "bytes": 499,
+        "sha256": "a73d006e80b3a9c0fda0bdaf09dcf871673c206d70f7cbce32acf42b32b4cf25"
+      },
+      {
+        "path": "state-1/diagnostics-v1/stderr/b7f6ca85-029c-401e-a9c7-f7151763672c.txt",
+        "bytes": 1232,
+        "sha256": "64daa18831598b241ecbd585421542c8a6532362d115850769f12ae06690c098"
+      },
+      {
+        "path": "state-1/diagnostics-v1/stderr/d82ac420-6f10-466e-9ea8-77efc13feba4.txt",
+        "bytes": 499,
+        "sha256": "053d471831354372523349e90be96dde7de9c9ff72843eb0540a536f9bd01a9e"
+      },
+      {
+        "path": "state-1/localpreferences-v1/preferences.json",
+        "bytes": 666,
+        "sha256": "f1975ab6ac1d93b3b798c28ff391770f0c0346d91326b57d5193f2dbfc56c9a1"
+      },
+      {
+        "path": "state-1/operation-evidence/.storage-ledger.json",
+        "bytes": 1573,
+        "sha256": "b4526bb4040cc07940e264f22e5fa13935f27a8828fd32885bf63958056a7391"
+      },
+      {
+        "path": "state-1/operation-evidence/job-172830ed-a4e4-4754-8c12-4e3b6f31b4d2/encoder-input-receipt.json",
+        "bytes": 6325,
+        "sha256": "83c888b728b470a99cfd86cb64c291d9b11db6966e256f40ed3ee9be4df6b98b"
+      },
+      {
+        "path": "state-1/operation-evidence/job-172830ed-a4e4-4754-8c12-4e3b6f31b4d2/encoder-telemetry-rsmCW9/stream-0.tsv",
+        "bytes": 2866,
+        "sha256": "1ab0798ab5afca699909d5fee8ab94561f80970fe3233139969880f83e0b2e75"
+      },
+      {
+        "path": "state-1/operation-evidence/job-172830ed-a4e4-4754-8c12-4e3b6f31b4d2/encoder-telemetry-rsmCW9/stream-1.tsv",
+        "bytes": 21230,
+        "sha256": "f0c480267f60cf357085aaedea558f52382f3da2b955a17d0b5644aa0ac32044"
+      },
+      {
+        "path": "state-1/operation-evidence/job-172830ed-a4e4-4754-8c12-4e3b6f31b4d2/operation-evidence-iNyzjh/child-1.json",
+        "bytes": 1232,
+        "sha256": "06c2daffa74218cb6d1bb3a145c2ccd244093685a5ad1f8823f7895441d456ff"
+      },
+      {
+        "path": "state-1/operation-evidence/job-172830ed-a4e4-4754-8c12-4e3b6f31b4d2/operation-evidence-iNyzjh/child-2.json",
+        "bytes": 1222,
+        "sha256": "12c7cb6e3fbbf23eccded440f3548b6f6d79a50016b3fbb241ab752d181554f1"
+      },
+      {
+        "path": "state-1/operation-evidence/job-172830ed-a4e4-4754-8c12-4e3b6f31b4d2/operation-evidence-iNyzjh/child-3.json",
+        "bytes": 1184,
+        "sha256": "4457e3ac97ee969dbd437043a02f53456b4f84b18f83f6568df1becfede953d8"
+      },
+      {
+        "path": "state-1/operation-evidence/job-172830ed-a4e4-4754-8c12-4e3b6f31b4d2/operation-evidence-iNyzjh/child-4.json",
+        "bytes": 1225,
+        "sha256": "824abed3c76833d02a2f8b6bddfea9852395878a85c6c34bc067a0ef14353f0f"
+      },
+      {
+        "path": "state-1/operation-evidence/job-172830ed-a4e4-4754-8c12-4e3b6f31b4d2/operation-evidence-iNyzjh/child-5.json",
+        "bytes": 1096,
+        "sha256": "30fb4ba773724f3f3dc7793d58e80ae3a16fdd1174adaa637a9c7cfa9c5bdb8c"
+      },
+      {
+        "path": "state-1/operation-evidence/job-172830ed-a4e4-4754-8c12-4e3b6f31b4d2/operation-evidence-iNyzjh/child-6.json",
+        "bytes": 1016,
+        "sha256": "83e103c1af1f88b503dff966979af245da503854c9760d428a007cbc4c616d12"
+      },
+      {
+        "path": "state-1/operation-evidence/job-172830ed-a4e4-4754-8c12-4e3b6f31b4d2/operation-evidence-iNyzjh/child-7.json",
+        "bytes": 1056,
+        "sha256": "ed17bd4314002c5ce851ed2016bf626e9b0a24b1a7d4d84ca60df7dc757515bf"
+      },
+      {
+        "path": "state-1/operation-evidence/job-172830ed-a4e4-4754-8c12-4e3b6f31b4d2/operation-evidence-iNyzjh/output-audio-1.jsonl",
+        "bytes": 24316,
+        "sha256": "6a68c090876b5903290f46e43b33871c1ce1dc375be2593331a5e120227ad7af"
+      },
+      {
+        "path": "state-1/operation-evidence/job-172830ed-a4e4-4754-8c12-4e3b6f31b4d2/operation-evidence-iNyzjh/receipt.json",
+        "bytes": 16868,
+        "sha256": "dbd9df6a6eaddd9e6909eed02aefd3f01d2513f239fa8eeda951b3bb35d64fe9"
+      },
+      {
+        "path": "state-1/operation-evidence/job-172830ed-a4e4-4754-8c12-4e3b6f31b4d2/operation-evidence-iNyzjh/selected-audio-1.jsonl",
+        "bytes": 10945,
+        "sha256": "f329c03b2acc5de832638c9f1435b606abdbe2b950fdde9e72fcbefdb7b06cee"
+      },
+      {
+        "path": "state-1/operation-evidence/job-172830ed-a4e4-4754-8c12-4e3b6f31b4d2/operation-evidence-iNyzjh/selected-video.jsonl",
+        "bytes": 4409,
+        "sha256": "12d8692546152e41ae5704254b9b26d98ed4e41ab0ec858265f3b4a9eba4ecde"
+      },
+      {
+        "path": "state-1/operation-evidence/job-172830ed-a4e4-4754-8c12-4e3b6f31b4d2/operation-evidence-iNyzjh/start.json",
+        "bytes": 2333,
+        "sha256": "2f1e640a2aa41729df236ee6f111bfe52d4e95961fe06e6b41599f4604402df6"
+      },
+      {
+        "path": "state-1/operation-evidence/job-172830ed-a4e4-4754-8c12-4e3b6f31b4d2/storage-final.json",
+        "bytes": 880,
+        "sha256": "c1544452c23988ba91628338717706ca88d2fed5f4468d70288723d4c9209264"
+      },
+      {
+        "path": "state-1/operation-evidence/job-172830ed-a4e4-4754-8c12-4e3b6f31b4d2/storage-reservation.json",
+        "bytes": 175,
+        "sha256": "72c308802dd1ca81df352f9259c3e0d026a66dc208a81bd50b514c8ccde92aff"
+      },
+      {
+        "path": "state-1/operation-evidence/job-34c35c0a-9e71-4da3-8890-454bc731fea8/storage-final.json",
+        "bytes": 878,
+        "sha256": "7c1d738ee1bde3e48d1c049ffe28ba8e671c90b74fc7904900bcda6c1aa637f8"
+      },
+      {
+        "path": "state-1/operation-evidence/job-34c35c0a-9e71-4da3-8890-454bc731fea8/storage-reservation.json",
+        "bytes": 175,
+        "sha256": "306226e4976ac6db3ce47a2e34b2ba70b850122685c7406fe1d8fcf0d4383e8d"
+      },
+      {
+        "path": "state-1/operation-evidence/job-8f463864-4bbc-4f6d-8770-dc8af94feb9c/encoder-telemetry-GPcX50/stream-0.tsv",
+        "bytes": 1680,
+        "sha256": "8ce9b22645f842a40527a29b81f7c22b75248186749f940df49da9dbfb2810ba"
+      },
+      {
+        "path": "state-1/operation-evidence/job-8f463864-4bbc-4f6d-8770-dc8af94feb9c/encoder-telemetry-GPcX50/stream-1.tsv",
+        "bytes": 5413,
+        "sha256": "2e35497b98b0fba2408977e4c353bd50c4ed8b328dc20dde922aea815ebfaca0"
+      },
+      {
+        "path": "state-1/operation-evidence/job-8f463864-4bbc-4f6d-8770-dc8af94feb9c/storage-final.json",
+        "bytes": 879,
+        "sha256": "09cf959eaa3250a1ac9c5d234b8641468dd822244f2d9b1192edd6edf94a2be5"
+      },
+      {
+        "path": "state-1/operation-evidence/job-8f463864-4bbc-4f6d-8770-dc8af94feb9c/storage-reservation.json",
+        "bytes": 175,
+        "sha256": "d6b1044f9a5adc8009ad7a26b4295097b17e040488a53cefbb4746e184d160fb"
+      },
+      {
+        "path": "state-1/operation-evidence/job-fec72c7b-5378-401a-a4c5-86178468688a/encoder-input-receipt.json",
+        "bytes": 6317,
+        "sha256": "e203dcc2f070ceeaad1422bcb49cd46bfb7a0f851f9bc49addc85c73ad256902"
+      },
+      {
+        "path": "state-1/operation-evidence/job-fec72c7b-5378-401a-a4c5-86178468688a/encoder-telemetry-MEL8o7/stream-0.tsv",
+        "bytes": 2906,
+        "sha256": "43bcd9c2322efb8d8f1de912f494ecb1a42c4f7a5c69f19d04356bd48dd9d20a"
+      },
+      {
+        "path": "state-1/operation-evidence/job-fec72c7b-5378-401a-a4c5-86178468688a/encoder-telemetry-MEL8o7/stream-1.tsv",
+        "bytes": 22298,
+        "sha256": "50e4d816d36aac257016169ce10c6b074986a02424c7b9aaac740e13517161ae"
+      },
+      {
+        "path": "state-1/operation-evidence/job-fec72c7b-5378-401a-a4c5-86178468688a/operation-evidence-4oWgvI/child-1.json",
+        "bytes": 1244,
+        "sha256": "071fecae79311d8d3d0962d8eafb8b88b5cb552ed1524850ea5428a0a26cdbb9"
+      },
+      {
+        "path": "state-1/operation-evidence/job-fec72c7b-5378-401a-a4c5-86178468688a/operation-evidence-4oWgvI/child-2.json",
+        "bytes": 1214,
+        "sha256": "20df188e273fe746c89f94acfff13b7ae8733828effc2136e0c04e3e591d7765"
+      },
+      {
+        "path": "state-1/operation-evidence/job-fec72c7b-5378-401a-a4c5-86178468688a/operation-evidence-4oWgvI/child-3.json",
+        "bytes": 1195,
+        "sha256": "1a15501ced5e123595bb4ad8e9891ed4522566e14d8ee1201425311fe2e23a51"
+      },
+      {
+        "path": "state-1/operation-evidence/job-fec72c7b-5378-401a-a4c5-86178468688a/operation-evidence-4oWgvI/child-4.json",
+        "bytes": 1217,
+        "sha256": "01b5f683f51e731e9a681d87da78a8dc50cac585962a8f28e96fab1c5d252c6c"
+      },
+      {
+        "path": "state-1/operation-evidence/job-fec72c7b-5378-401a-a4c5-86178468688a/operation-evidence-4oWgvI/child-5.json",
+        "bytes": 1088,
+        "sha256": "769059fa4ed43a17d181b373a63327cdf7644b608116607719c85bac1ba4b97b"
+      },
+      {
+        "path": "state-1/operation-evidence/job-fec72c7b-5378-401a-a4c5-86178468688a/operation-evidence-4oWgvI/child-6.json",
+        "bytes": 1026,
+        "sha256": "98cb35ef0cec6a570588c797934eec0239e1a6c83264ffa5b29a46968bec7432"
+      },
+      {
+        "path": "state-1/operation-evidence/job-fec72c7b-5378-401a-a4c5-86178468688a/operation-evidence-4oWgvI/child-7.json",
+        "bytes": 1048,
+        "sha256": "da09c83ed1792a96679cc914fe026b809db9ef373050e9055fddc6533c588277"
+      },
+      {
+        "path": "state-1/operation-evidence/job-fec72c7b-5378-401a-a4c5-86178468688a/operation-evidence-4oWgvI/output-audio-1.jsonl",
+        "bytes": 24495,
+        "sha256": "8328053f4df9124b99b3f54d520375e6639dae6968662b90244124b0850c09b7"
+      },
+      {
+        "path": "state-1/operation-evidence/job-fec72c7b-5378-401a-a4c5-86178468688a/operation-evidence-4oWgvI/receipt.json",
+        "bytes": 16873,
+        "sha256": "17d075aa3f2cb75be5c780aaabbdd9891f29a9d157a99c4467a8d5e50fb25d95"
+      },
+      {
+        "path": "state-1/operation-evidence/job-fec72c7b-5378-401a-a4c5-86178468688a/operation-evidence-4oWgvI/selected-audio-1.jsonl",
+        "bytes": 10908,
+        "sha256": "850bca2b127ec01d855978f3d2242ae6d0a3af40fbf8aee832b81721d7571744"
+      },
+      {
+        "path": "state-1/operation-evidence/job-fec72c7b-5378-401a-a4c5-86178468688a/operation-evidence-4oWgvI/selected-video.jsonl",
+        "bytes": 4320,
+        "sha256": "94d991eb35e7c62b6807958278c1e8546d9cf46e43129cfc1d934778157a7b0c"
+      },
+      {
+        "path": "state-1/operation-evidence/job-fec72c7b-5378-401a-a4c5-86178468688a/operation-evidence-4oWgvI/start.json",
+        "bytes": 2337,
+        "sha256": "5071d9f999186c9b06f9c037e0f2eb93a0643173168888fc841bf3a1b6d6de4a"
+      },
+      {
+        "path": "state-1/operation-evidence/job-fec72c7b-5378-401a-a4c5-86178468688a/storage-final.json",
+        "bytes": 879,
+        "sha256": "d8912668fe250553e907f6959eed226d0611b6f95c37749e28cdd2799eccafdb"
+      },
+      {
+        "path": "state-1/operation-evidence/job-fec72c7b-5378-401a-a4c5-86178468688a/storage-reservation.json",
+        "bytes": 175,
+        "sha256": "c984174f94b53344f56a74db3a60255e2606de7c559281f38bfc9b1263f70ab1"
+      },
+      {
+        "path": "state-1/provenance-v1/b140501e-8143-4a8b-b46d-cf4bf829903c.intent.json",
+        "bytes": 1321,
+        "sha256": "67fb36a90a737ba732554141b41520379148bc5dea96384233d1afbe283bab4f"
+      },
+      {
+        "path": "state-1/provenance-v1/bf2977f0-0d46-41e3-8d7d-6bdfe0917b03.intent.json",
+        "bytes": 1334,
+        "sha256": "f3221761b3aa063408a5afb343929274d46369b79c3f20de9913e471757b4911"
+      },
+      {
+        "path": "state-1/provenance-v1/bf2977f0-0d46-41e3-8d7d-6bdfe0917b03.published.json",
+        "bytes": 701,
+        "sha256": "a4c45a02db297ea44318bb85d36ba249567f7c74055d2bd2548108f22400adfb"
+      },
+      {
+        "path": "state-1/provenance-v1/d1c42a3c-7b7e-4196-bdc7-d7252fb93007.intent.json",
+        "bytes": 1347,
+        "sha256": "976d137cd27f15536cff6f8f62a5d9134a1bd1092e06ff59bc7c90c28404b701"
+      },
+      {
+        "path": "state-1/provenance-v1/d1c42a3c-7b7e-4196-bdc7-d7252fb93007.published.json",
+        "bytes": 703,
+        "sha256": "56c033b4a4f5dab12ee29621c9a58518c8011b77dd0daeec672952021443fc16"
+      },
+      {
+        "path": "state-2/diagnostics-v1/events/02fe011b-3ac3-4683-9ead-be1a9016aa94.json",
+        "bytes": 1199,
+        "sha256": "ba139cd49d0bdcbda3ae1289bd22429bf17d7c4318746a16bd3ac5b3e91b37e3"
+      },
+      {
+        "path": "state-2/diagnostics-v1/events/09e2915a-caf7-4d5d-8193-c29017f55fca.json",
+        "bytes": 5542,
+        "sha256": "a97d0ce54d5dfb67c36ac7780670ef1930b045b081f3a06d6e29fa39c5fda826"
+      },
+      {
+        "path": "state-2/diagnostics-v1/events/0f675676-b1b6-468f-99dc-8dd26c45d91c.json",
+        "bytes": 480,
+        "sha256": "1c6d0f9c8caeefdf8c30d8480e998bd2bc11bea3e971ab8113a1d8d24d90b18c"
+      },
+      {
+        "path": "state-2/diagnostics-v1/events/19db30c2-c707-4224-b417-ff7abf520c3c.json",
+        "bytes": 361,
+        "sha256": "e806c4ba970858d55a7ac8e18acedc985c604c611edd44c00ce18ed45356c801"
+      },
+      {
+        "path": "state-2/diagnostics-v1/events/1e64f31e-7d15-4cc6-bddc-89ca6c12ea88.json",
+        "bytes": 718,
+        "sha256": "b42f5f73b8ef37d16205ac4fed673e6a49b8f937de9724046a8b62fd2f8175b6"
+      },
+      {
+        "path": "state-2/diagnostics-v1/events/309d123f-5819-4038-925d-5b27427628a8.json",
+        "bytes": 691,
+        "sha256": "8cc36bdc174b42ca9b6c5f7d13037f37b626346b7414012ebdd706b049d7badd"
+      },
+      {
+        "path": "state-2/diagnostics-v1/events/376e976b-4571-4f95-9722-7e0db414b5f0.json",
+        "bytes": 11843,
+        "sha256": "9bb07e13b007fe0457d96788c4488860c9a050cf28aee9606287e0757582bbf1"
+      },
+      {
+        "path": "state-2/diagnostics-v1/events/3f2ac116-f99d-4c99-a799-3045662bfa39.json",
+        "bytes": 577,
+        "sha256": "2f0744b7991173d81cd048c488feb1eb1dfbb92c8b13d11bd8ff512b5dd79a9b"
+      },
+      {
+        "path": "state-2/diagnostics-v1/events/41fc6e72-bddf-49c4-aeb1-1e71e8158557.json",
+        "bytes": 775,
+        "sha256": "9a8be9509f3778474646f45355ee5d12d121a82fb90b23334758e7cdbc1c0486"
+      },
+      {
+        "path": "state-2/diagnostics-v1/events/485bf3cc-cb06-4eb2-8799-3ff1089b0c4b.json",
+        "bytes": 388,
+        "sha256": "165cf6558a6cc6b9ec9a7924bb66f06f11e237b61ce9c1b1058d497fa2de4fd6"
+      },
+      {
+        "path": "state-2/diagnostics-v1/events/4d055e3e-c753-48ec-a46a-e3e48a96751b.json",
+        "bytes": 1553,
+        "sha256": "b1f1b9a62d2be91e6ae833d74698589ca168874b2dc7c9f93ba18d5302280693"
+      },
+      {
+        "path": "state-2/diagnostics-v1/events/5161d44a-9c7a-48f6-bf17-d6a41c869d0e.json",
+        "bytes": 3032,
+        "sha256": "a75ff5d203f4fc985e10acb13697db37541d7d65784ceb69667a15f682bd3035"
+      },
+      {
+        "path": "state-2/diagnostics-v1/events/51e48047-8ee4-497c-8cd9-2184fec1d8eb.json",
+        "bytes": 1898,
+        "sha256": "c0df9163ee3e9ce5a8a549210ec521bc3aaa224131bc2cd34eb6b93abd427ba5"
+      },
+      {
+        "path": "state-2/diagnostics-v1/events/55c6143d-0d4a-492a-8e29-9399bf0c1023.json",
+        "bytes": 865,
+        "sha256": "0d5af09058aff6f82140aeebc06798e1c03152f9a21d0ad279391f30bcfa83ec"
+      },
+      {
+        "path": "state-2/diagnostics-v1/events/7248a474-0a25-434e-8e93-6cf4d07486fb.json",
+        "bytes": 1781,
+        "sha256": "0f76a6ed73560f3c91c3b0241903c330649891874a7cfbe431b2ecfd42cebe63"
+      },
+      {
+        "path": "state-2/diagnostics-v1/events/88099c62-868d-4f17-b5e0-b55c748264f6.json",
+        "bytes": 2004,
+        "sha256": "9dee25dcc1b7e6379074548adfebe5d2cb0b7af85be7fac56d92b6b553540928"
+      },
+      {
+        "path": "state-2/diagnostics-v1/events/b78b177a-aff4-4cc1-90c1-66ad45a0c863.json",
+        "bytes": 533,
+        "sha256": "cb7b27e2ff0d121edb49a9559f80aeaebe7f9e1342576836e7413805e0cf1fb2"
+      },
+      {
+        "path": "state-2/diagnostics-v1/events/bdb0a52a-1c62-4b8a-add5-07280b6bd169.json",
+        "bytes": 501,
+        "sha256": "35f8f327b6cb5e6de8c8ea63c0a26e36570c4edb3d1e66c94730f06daa247824"
+      },
+      {
+        "path": "state-2/diagnostics-v1/events/c0c3ba91-d65d-492b-8885-d86114d56d65.json",
+        "bytes": 442,
+        "sha256": "0de48f3e662da4a8dabd765ec94f080fe11d24fd10cf4cd6c52a44113a09fe3f"
+      },
+      {
+        "path": "state-2/diagnostics-v1/events/e9045021-ab36-4e5d-b172-1bc1e185f19e.json",
+        "bytes": 2004,
+        "sha256": "a1b5892aba0f550969ab16d6665bbef0c3de9cbdd227b7c42c950b4555ddb65c"
+      },
+      {
+        "path": "state-2/diagnostics-v1/stderr/1e64f31e-7d15-4cc6-bddc-89ca6c12ea88.txt",
+        "bytes": 499,
+        "sha256": "d3225f91257db8b6bfd0b057987b56f14f3b8433f9660b03dace49d0d8bf4084"
+      },
+      {
+        "path": "state-2/localpreferences-v1/preferences.json",
+        "bytes": 677,
+        "sha256": "a6ea8c0171c6b39c880ffd2496c370a4f0e4e29e332164a3d12ba9df455df96a"
+      },
+      {
+        "path": "state-2/operation-evidence/.storage-ledger.json",
+        "bytes": 1572,
+        "sha256": "c18a588c34b47c5e0725c85257958c4fdb7b58d5202c049d34fed0f512760040"
+      },
+      {
+        "path": "state-2/operation-evidence/job-1419fb13-9304-4df9-ba89-55b78daec8cf/encoder-input-receipt.json",
+        "bytes": 6301,
+        "sha256": "da024c178da6923e4b7ece35f9a30a56725221167b9ce19af607620ecedccf57"
+      },
+      {
+        "path": "state-2/operation-evidence/job-1419fb13-9304-4df9-ba89-55b78daec8cf/encoder-telemetry-2K3Gxq/stream-0.tsv",
+        "bytes": 663,
+        "sha256": "6b9d21131358569074358fc1a82384262ba15d9e9c23151af96b6859313c9378"
+      },
+      {
+        "path": "state-2/operation-evidence/job-1419fb13-9304-4df9-ba89-55b78daec8cf/encoder-telemetry-2K3Gxq/stream-1.tsv",
+        "bytes": 2520,
+        "sha256": "b2a1b461bde29e24022bd269664056b8ac75fdbfae17199e738c584979fd02df"
+      },
+      {
+        "path": "state-2/operation-evidence/job-1419fb13-9304-4df9-ba89-55b78daec8cf/operation-evidence-0d9kpj/child-1.json",
+        "bytes": 1232,
+        "sha256": "6e8f48b8c3f2aa6cf271e5f5ba970ea929e3fe0320e201eaeb1716ea8e9e08be"
+      },
+      {
+        "path": "state-2/operation-evidence/job-1419fb13-9304-4df9-ba89-55b78daec8cf/operation-evidence-0d9kpj/child-2.json",
+        "bytes": 1219,
+        "sha256": "34c5fd5de1bf6eaab7fb8700333cf10dcdf51ecdaeeb25ec0bfa9543ea753b9b"
+      },
+      {
+        "path": "state-2/operation-evidence/job-1419fb13-9304-4df9-ba89-55b78daec8cf/operation-evidence-0d9kpj/child-3.json",
+        "bytes": 1184,
+        "sha256": "fecad5a94b4efbede78c11d6eaf83caa18314bacbceacecf943372989606391e"
+      },
+      {
+        "path": "state-2/operation-evidence/job-1419fb13-9304-4df9-ba89-55b78daec8cf/operation-evidence-0d9kpj/child-4.json",
+        "bytes": 1221,
+        "sha256": "e1c90e8eebb5c2247b107bcb87d7d79ff2c8e975722771a26a53018fc3c2120b"
+      },
+      {
+        "path": "state-2/operation-evidence/job-1419fb13-9304-4df9-ba89-55b78daec8cf/operation-evidence-0d9kpj/child-5.json",
+        "bytes": 1093,
+        "sha256": "d6ca0a7338b975788657d6d2bd2de7033f21ea6c8a0ca7f2de60069085c1adbb"
+      },
+      {
+        "path": "state-2/operation-evidence/job-1419fb13-9304-4df9-ba89-55b78daec8cf/operation-evidence-0d9kpj/child-6.json",
+        "bytes": 1015,
+        "sha256": "7b621b43c0597933e530308367a0063020fcb429f31c54a0a8720f7373b03a03"
+      },
+      {
+        "path": "state-2/operation-evidence/job-1419fb13-9304-4df9-ba89-55b78daec8cf/operation-evidence-0d9kpj/child-7.json",
+        "bytes": 1052,
+        "sha256": "e7bd0683939cfe613242b57678c546952a2bb8e64f86e5a416ac1046f46396c6"
+      },
+      {
+        "path": "state-2/operation-evidence/job-1419fb13-9304-4df9-ba89-55b78daec8cf/operation-evidence-0d9kpj/output-audio-1.jsonl",
+        "bytes": 2956,
+        "sha256": "bb8553928e4f8132dfcc4c46d6b1cf83427b35cffd9b1a7bc3468d1b04020b76"
+      },
+      {
+        "path": "state-2/operation-evidence/job-1419fb13-9304-4df9-ba89-55b78daec8cf/operation-evidence-0d9kpj/receipt.json",
+        "bytes": 16837,
+        "sha256": "956a41f160311b965714ec802ad795ab4b81ea4d507de079393ea83b3b2b8ab3"
+      },
+      {
+        "path": "state-2/operation-evidence/job-1419fb13-9304-4df9-ba89-55b78daec8cf/operation-evidence-0d9kpj/selected-audio-1.jsonl",
+        "bytes": 2599,
+        "sha256": "c6a444fd74e3e48ebea087e99b58fdd1fb7bf9bbb93aa27945b7e05780c68516"
+      },
+      {
+        "path": "state-2/operation-evidence/job-1419fb13-9304-4df9-ba89-55b78daec8cf/operation-evidence-0d9kpj/selected-video.jsonl",
+        "bytes": 1050,
+        "sha256": "ce3ab1fffabe13681b9bced417efee5a2caf5dcd1efa55e5b8345609829bebe2"
+      },
+      {
+        "path": "state-2/operation-evidence/job-1419fb13-9304-4df9-ba89-55b78daec8cf/operation-evidence-0d9kpj/start.json",
+        "bytes": 2330,
+        "sha256": "8b49fa3c6f184a66137fe07cc28e1592badb078d27db5d25631ff57347d07483"
+      },
+      {
+        "path": "state-2/operation-evidence/job-1419fb13-9304-4df9-ba89-55b78daec8cf/storage-final.json",
+        "bytes": 879,
+        "sha256": "454b15d728f2a4fe7c8f61dbbccf0c4993119b76465c1bbcabeef79b9a6c7a01"
+      },
+      {
+        "path": "state-2/operation-evidence/job-1419fb13-9304-4df9-ba89-55b78daec8cf/storage-reservation.json",
+        "bytes": 175,
+        "sha256": "25079998be4f44ba94b17276c3368583f61adbddcef808ed263029519e610ff4"
+      },
+      {
+        "path": "state-2/provenance-v1/00fd5291-c891-4afd-996f-3b70be8c7ab6.intent.json",
+        "bytes": 1332,
+        "sha256": "0a628add75d1b215d2b7317ea18010ab01ea77d0b7f6033a455594d589846e42"
+      },
+      {
+        "path": "state-2/provenance-v1/00fd5291-c891-4afd-996f-3b70be8c7ab6.published.json",
+        "bytes": 699,
+        "sha256": "b9a7c67bb6c204c4402b44eb1a44edf1bc227d9a69f09abdef1d77688b1df253"
+      }
+    ],
+    "actualFilesIncluded": false
+  },
+  "additionalVerifiedSpools": [
+    {
+      "case": "late-long-service-publication",
+      "spools": [
+        {
+          "name": "selected-video.jsonl",
+          "bytes": 4320,
+          "sha256": "94d991eb35e7c62b6807958278c1e8546d9cf46e43129cfc1d934778157a7b0c",
+          "rows": 60,
+          "summedSamples": 0
+        },
+        {
+          "name": "selected-audio-1.jsonl",
+          "bytes": 10908,
+          "sha256": "850bca2b127ec01d855978f3d2242ae6d0a3af40fbf8aee832b81721d7571744",
+          "rows": 95,
+          "summedSamples": 96000
+        },
+        {
+          "name": "output-audio-1.jsonl",
+          "bytes": 24495,
+          "sha256": "8328053f4df9124b99b3f54d520375e6639dae6968662b90244124b0850c09b7",
+          "rows": 375,
+          "summedSamples": 96000
+        }
+      ],
+      "collectorInvocations": 7
+    },
+    {
+      "case": "fresh-independent-service-publication",
+      "spools": [
+        {
+          "name": "selected-video.jsonl",
+          "bytes": 4409,
+          "sha256": "12d8692546152e41ae5704254b9b26d98ed4e41ab0ec858265f3b4a9eba4ecde",
+          "rows": 63,
+          "summedSamples": 0
+        },
+        {
+          "name": "selected-audio-1.jsonl",
+          "bytes": 10945,
+          "sha256": "f329c03b2acc5de832638c9f1435b606abdbe2b950fdde9e72fcbefdb7b06cee",
+          "rows": 100,
+          "summedSamples": 101184
+        },
+        {
+          "name": "output-audio-1.jsonl",
+          "bytes": 24316,
+          "sha256": "6a68c090876b5903290f46e43b33871c1ce1dc375be2593331a5e120227ad7af",
+          "rows": 372,
+          "summedSamples": 101184
+        }
+      ],
+      "collectorInvocations": 7
+    },
+    {
+      "case": "fresh-instance-recovery-publication",
+      "spools": [
+        {
+          "name": "selected-video.jsonl",
+          "bytes": 1050,
+          "sha256": "ce3ab1fffabe13681b9bced417efee5a2caf5dcd1efa55e5b8345609829bebe2",
+          "rows": 15,
+          "summedSamples": 0
+        },
+        {
+          "name": "selected-audio-1.jsonl",
+          "bytes": 2599,
+          "sha256": "c6a444fd74e3e48ebea087e99b58fdd1fb7bf9bbb93aa27945b7e05780c68516",
+          "rows": 24,
+          "summedSamples": 24000
+        },
+        {
+          "name": "output-audio-1.jsonl",
+          "bytes": 2956,
+          "sha256": "bb8553928e4f8132dfcc4c46d6b1cf83427b35cffd9b1a7bc3468d1b04020b76",
+          "rows": 46,
+          "summedSamples": 24000
+        }
+      ],
+      "collectorInvocations": 7
+    }
+  ],
+  "independentAudit": {
+    "disposition": "PASS bounded saved-output audit; source/docs release recommended after parent reconciles this exact result. No execution authorization.",
+    "checkedAtUtc": "2026-11-17T19:47:49.068394+00:00",
+    "artifact": {
+      "name": "INDEPENDENT_SAVED_OUTPUT_AUDIT_FINAL-v3.json",
+      "bytes": 72627,
+      "sha256": "6a98af956ffa90a781ec00d7e5e5098bd6a43ae80c69c677ad136ff897936eb5",
+      "rawBytesIncluded": false
+    },
+    "history": {
+      "initialAuditSHA256": "5a07a87d6aa9deb2486ddf4896679c6b5dd1bb8e85da4054f5a46b9d3ed9b408",
+      "supplement": "Added direct sealed spool hashes/raw selected audio sums, seven collector calls per publication, explicit clock domain evidence and warning groups. Initial audit preserved.",
+      "correctedSupplementSHA256": "b23e9053f25628453b7dbdb062dfd20698057eb83edc107f8cb3a3478ecb575d",
+      "correction": "Removed incorrectly inherited two-hour clock characterization after actual numeric conversion showed this run aligns. Original supplement preserved as superseded.",
+      "supersededFinalV2SHA256": "c60ece73670d1dfad6b2c88885434bfd69dc442ce5c9041eced7062366f90f93",
+      "finalV3Correction": "Corrected retained empty-stage hash provenance only: campaign report artifact manifest already recorded its size/hash. No change to result, checks, release recommendation or source/runtime; v2 preserved."
+    },
+    "noRuntimeOrRedecode": true
+  },
+  "leadRelease": {
+    "initialCheckedAtUtc": "2026-11-17T19:49:46.681072+00:00",
+    "sourceFilesRechecked": 545,
+    "runtimePinsRechecked": 9,
+    "artifactsRechecked": 297,
+    "initialArtifact": {
+      "name": "LEAD_RELEASE.json",
+      "bytes": 3349,
+      "sha256": "fd79a86698b6db837c2d8449e5eed05139ff6600eedd9a4643828367232c26b6",
+      "rawBytesIncluded": false
+    },
+    "narrowCorrectionSupplement": {
+      "schema": 1,
+      "checkedAtUtc": "2026-11-17T19:52:54.879931+00:00",
+      "initialReleaseAtUtc": "2026-11-17T19:49:46.681072+00:00",
+      "initialReleaseSha256": "fd79a86698b6db837c2d8449e5eed05139ff6600eedd9a4643828367232c26b6",
+      "authoritativeAudit": {
+        "name": "INDEPENDENT_SAVED_OUTPUT_AUDIT_FINAL-v3.json",
+        "bytes": 72627,
+        "sha256": "6a98af956ffa90a781ec00d7e5e5098bd6a43ae80c69c677ad136ff897936eb5"
+      },
+      "scope": "Verified v2\u2192v3 changes limited to stage-hash provenance and audit history. Campaign report and actual empty stage rechecked; all other audit values identical. Initial full545file/9pin/297artifact reconciliation and source release stand. No repeated media or independent decode.",
+      "retainedStageProvenance": "Empty stage size/hash already recorded in campaign artifact manifest and independently matched; not first established by audit."
+    }
+  },
+  "externalArtifacts": [
+    {
+      "name": "APPROVED_CHECKPOINT.json",
+      "bytes": 63781,
+      "sha256": "4e13f51512a01129026e2bf81cfea9796de4ead08a7bd526da7323030e8e2dee",
+      "rawBytesIncluded": false
+    },
+    {
+      "name": "launch-service.cjs",
+      "bytes": 31118,
+      "sha256": "07bf36806dbcca000174e2b5c948be7b41cfd8a3d9d3b74da8e77624200ebdce",
+      "rawBytesIncluded": false
+    },
+    {
+      "name": "run-once.cjs",
+      "bytes": 2550,
+      "sha256": "6f50c7534793319aeaa2609aaa9bbd7a91735f65a6d20b7be22b6aaf9fdd9210",
+      "rawBytesIncluded": false
+    },
+    {
+      "name": "CAMPAIGN_PLAN.json",
+      "bytes": 3473,
+      "sha256": "63af94a4c549e7dba067ccbe74b0ccef0cd255105fd45d2e0a241e7973214b8a",
+      "rawBytesIncluded": false
+    },
+    {
+      "name": "INDEPENDENT_LAUNCH_REVIEW-v2.json",
+      "bytes": 1782,
+      "sha256": "b8d3540d1fd1ad968a96fa4603827b1d4a3607d10040cc8376bea1b84535cea7",
+      "rawBytesIncluded": false
+    },
+    {
+      "name": "COMPLETION.json",
+      "bytes": 524,
+      "sha256": "860a609d2f3b10ea571cc39cf49a440517e1d1a7b25910374a6869eaea103658",
+      "rawBytesIncluded": false
+    },
+    {
+      "name": "OUTER_COMPLETION.json",
+      "bytes": 375,
+      "sha256": "6a352a4aa30ffc11c3d15facdaa6f477ea0739db7dd1f82f2ed05bffc4c25135",
+      "rawBytesIncluded": false
+    },
+    {
+      "name": "runtime-manifest.json",
+      "bytes": 2312,
+      "sha256": "a957385be8d57874dfd5e88a9cbf137ecbe9311ebccc5e25280e6e52b72a511c",
+      "rawBytesIncluded": false
+    },
+    {
+      "name": "SAVED_OUTPUT_AUDIT_CHECKLIST.md",
+      "bytes": 6451,
+      "sha256": "09cb20e72f3567ebc2ba6bf0d085dc0ac37e16a07899be3e4c1b73075906b88a",
+      "rawBytesIncluded": false
+    },
+    {
+      "name": "INDEPENDENT_SAVED_OUTPUT_AUDIT_FINAL-v3.json",
+      "bytes": 72627,
+      "sha256": "6a98af956ffa90a781ec00d7e5e5098bd6a43ae80c69c677ad136ff897936eb5",
+      "rawBytesIncluded": false
+    },
+    {
+      "name": "LEAD_RELEASE.json",
+      "bytes": 3349,
+      "sha256": "fd79a86698b6db837c2d8449e5eed05139ff6600eedd9a4643828367232c26b6",
+      "rawBytesIncluded": false
+    },
+    {
+      "name": "LEAD_RELEASE-v2.json",
+      "bytes": 876,
+      "sha256": "61d12abe05240636e86bb24c4e0fc091451769e70ad9d6452a2df40a2a9aa2c8",
+      "rawBytesIncluded": false
+    }
+  ],
+  "portable": {
+    "path": "evidence-2026-11-17/resize-normal-service-portable.json",
+    "bytes": 282577,
+    "sha256": "c771b5771371087704ef64cdc61163887c7adfe7c882661cb56caaa94ba34fdb",
+    "prefixSubstitutions": 293,
+    "aliases": {
+      "proof://": 171,
+      "project://": 1,
+      "runtime-build://": 121
+    },
+    "allOtherReportDataUnchanged": true,
+    "authority": false
+  },
+  "priorPublication": {
+    "localCommit": "db2fa5e7933c1c6a51188a281f0478cd50f62367",
+    "remoteCommit": "502c98d28c48e00a10162d379cd8780fd8c2769e",
+    "githubVerifiedAtUtc": "2026-11-17T19:45:13.689136+00:00",
+    "notion": "https://app.notion.com/p/41bbd7ade63b81e89b3dc57e6117e5bc",
+    "sourceAndFullHistoryRestoredBeforeRun": true,
+    "chronology": "GitHub verification followed the campaign end; it did not gate its start. Actual local commit, verified source and full bundle, exact reviewed helper/runtime/report and one-run authorization preceded execution."
+  },
+  "inheritedTests": {
+    "rerunForEvidenceOnly018": false,
+    "sourceCheckpoint": "017",
+    "focused": "160/160",
+    "service": "125/126 old missing-source diagnostic mismatch",
+    "broad": "190/225 same35 failed names:27older+8staleKeep720producerrefusals"
+  },
+  "limitations": [
+    "The independent audit performed no additional runtime/media execution or independent re-decode. Full output probe and full output SHA were saved during campaign, now independently byte-verified.",
+    "PCM and complete-source hashes/counts are captured streaming evidence, not retained full decoded PCM buffers or independent decoder replay.",
+    "Reviewed executed launcher establishes fresh runtime handle/service and stale Start refusal; saved session/closure ordering corroborates, not serialized live object identity.",
+    "28 progress-bearing calls include inspections; 121 children and three published jobs are different counts. Collision asserts no progress-child delta, not no inspection children.",
+    "All stderr retained, including x265 CPU-mask/thread-pool warnings and expected cancellation packet/NAL/demux errors.",
+    "Artifact inventory and ownedBytesAtClose precede report creation. 27GiB floor and2GiB admission are point guards, not hard write cap;30min abort request not hard exit guarantee.",
+    "Preserve inner numeric, child ISO, filesystem ns and outer wall/monotonic clock domains separately; no inferred synchronized chronology.",
+    "Fixed SDR1080p30-to720 range precision-FLAC developer service only. No native/UI/Full/generic geometry/pixel quality/same-service retry/production activation."
+  ],
+  "next": "Preserve018, then independently review a fixed developer resize workbench route in an isolated clone; no native execution is yet authorized or completed.",
+  "activation": {
+    "sameServiceRecovery": false,
+    "nativeResize": false,
+    "uiRoute": false,
+    "catalogOrDefaults": false,
+    "ownerAcceptance": false,
+    "oldKeep720Repin": false
+  }
+}

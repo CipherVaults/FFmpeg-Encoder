@@ -1274,3 +1274,188 @@ test('shared reprepare inspection failure stays failed when peer cancellation dr
   assert.equal(revoked.context.phase, 'failed'); assert.notEqual(revoked.stage, 'cancellation');
   assert.equal(h.calls.length, 0);
 });
+
+for (const mode of ['initial preparation', 'draft repreparation']) {
+  test(`real FILE_INSPECTED await retains ${mode} ownership through cancellation and rejects late inspection progress`, async t => {
+    const callbacks = [], freshEntered = deferred(), freshRelease = deferred();
+    let holdFresh = false;
+    const h = await harness(t, { names: ['a.mp4'], eligible: false, onInspect: async ({ options }) => {
+      callbacks.push(options.onStage);
+      if (holdFresh) { freshEntered.resolve(); await freshRelease.promise; }
+    } });
+    const first = mode === 'draft repreparation' ? await h.prepare() : null;
+    const gate = deferred(), entering = deferred(), original = h.service.recordIncident.bind(h.service);
+    let holdReceipt = true;
+    h.service.recordIncident = async event => {
+      if (holdReceipt && event.reason === 'FILE_INSPECTED') { entering.resolve(event); await gate.promise; }
+      return original(event);
+    };
+    const operation = first ? h.service.updateFileOperations({ planId: first.planId,
+      draftId: first.operationDraft.id, revision: first.operationDraft.revision,
+      fileIds: [first.items[0].id], overrides: { resolution: 'source' } }) : h.prepare();
+    let cancellation, fresh;
+    try {
+      const event = await entering.promise;
+      const staleId = h.service.plan.id, oldCallback = callbacks.at(-1);
+      assert.equal(typeof oldCallback, 'function'); assert.equal(h.service.busy, true);
+      assert.throws(() => h.service.startBatch({ planId: staleId, fileIds: [event.fileId] }), { code: 'BUSY' });
+      await assert.rejects(h.prepare(), { code: 'BUSY' });
+      let preparedSettled = false, cancelledSettled = false;
+      operation.then(() => { preparedSettled = true; }, () => { preparedSettled = true; });
+      cancellation = h.service.cancelCurrent();
+      cancellation.then(() => { cancelledSettled = true; }, () => { cancelledSettled = true; });
+      await tick();
+      assert.equal(preparedSettled, false); assert.equal(cancelledSettled, false);
+      assert.equal(h.service.busy, true); await assert.rejects(h.prepare(), { code: 'BUSY' });
+      gate.resolve(); const result = await operation; await cancellation;
+      assert.equal(result.phase, 'cancelled'); assert.equal(result.planId, null);
+      assert.equal(h.service.plan, null); assert.equal(h.service.busy, false);
+      assert.ok(result.items.every(item => item.status === 'cancelled'));
+      assert.throws(() => h.service.startBatch({ planId: staleId, fileIds: [event.fileId] }));
+      assert.equal(h.calls.length, 0);
+      let updates = 0; const countUpdate = () => { updates++; };
+      h.service.on('update', countUpdate);
+      // Elapsed time is derived on every snapshot, not mutable callback state.
+      const stableSnapshot = () => { const { elapsedSeconds, ...state } = h.service.snapshot(); return state; };
+      const cancelled = stableSnapshot();
+      oldCallback({ stage: 'stale-after-cancel', window: { index: 999 } });
+      assert.deepEqual(stableSnapshot(), cancelled); assert.equal(updates, 0);
+      holdReceipt = false; holdFresh = true; fresh = h.prepare(); await freshEntered.promise;
+      const current = stableSnapshot(), beforeUpdates = updates;
+      assert.equal(current.phase, 'preparing'); assert.notEqual(current.batchId, cancelled.batchId);
+      oldCallback({ stage: 'stale-during-new-prepare', window: { index: 999 } });
+      assert.deepEqual(stableSnapshot(), current); assert.equal(updates, beforeUpdates);
+      freshRelease.resolve(); const ready = await fresh;
+      assert.equal(ready.phase, 'ready'); assert.notEqual(ready.planId, staleId);
+      assert.equal(h.calls.length, 0); h.service.off('update', countUpdate);
+    } finally {
+      // Release and drain owned async work before harness removes its fixture tree.
+      holdReceipt = false; gate.resolve(); freshRelease.resolve();
+      await Promise.allSettled([operation, cancellation, fresh].filter(Boolean));
+      await h.service.cancelCurrent(); await h.service.closeOperationResources();
+      await h.service.closeDiagnostics('completed');
+    }
+  });
+}
+
+
+test('initial PREPARATION_FINISHED await must retain busy admission until its real receipt settles', async t => {
+  const h = await harness(t, { names: ['a.mp4'] });
+  const gate = deferred(), entering = deferred(), original = h.service.recordIncident.bind(h.service);
+  h.service.recordIncident = async event => {
+    if (event.reason === 'PREPARATION_FINISHED') { entering.resolve(event); await gate.promise; }
+    return original(event);
+  };
+  const preparing = h.prepare();
+  try {
+    const event = await entering.promise;
+    t.diagnostic(JSON.stringify({ boundary: event.reason, busy: h.service.busy,
+      phase: h.service.snapshot().phase, planPresent: !!h.service.plan }));
+    assert.equal(h.service.busy, true, 'Initial final receipt must retain preparation admission');
+    assert.throws(() => h.service.startBatch({ planId: h.service.plan.id,
+      fileIds: [h.service.snapshot().items[0].id] }), { code: 'BUSY' });
+    await assert.rejects(h.prepare(), { code: 'BUSY' });
+    const held = h.service.snapshot();
+    assert.throws(() => h.service.updateFileOperations({ planId: held.planId,
+      draftId: held.operationDraft.id, revision: held.operationDraft.revision,
+      fileIds: [held.items[0].id], overrides: { resolution: 'source' } }), { code: 'BUSY' });
+    let drained = false; const cancelling = h.service.cancelCurrent().then(() => { drained = true; });
+    await tick(); assert.equal(drained, false);
+    gate.resolve(); const result = await preparing; await cancelling;
+    assert.equal(result.phase, 'cancelled'); assert.equal(result.planId, null);
+    assert.equal(result.operationDraft, null);
+    assert.ok(result.items.every(item => item.status === 'cancelled' && !item.reencodeAuthorized));
+    const finished = await diagnosticRecord(h.service, 'PREPARATION_FINISHED');
+    const revoked = await diagnosticRecord(h.service, 'PREPARED_AUTHORITY_REVOKED');
+    assert.equal(finished.planId, held.planId); assert.equal(finished.batchId, held.batchId);
+    assert.equal(revoked.planId, finished.planId); assert.equal(revoked.batchId, finished.batchId);
+    assert.ok(revoked.sequence > finished.sequence);
+    assert.equal(finished.context.phase, 'ready'); assert.equal(finished.context.items[0].status, 'ready');
+    assert.equal(revoked.context.phase, 'cancelled');
+    assert.equal(h.calls.length, 0);
+  } finally {
+    gate.resolve(); await Promise.allSettled([preparing]);
+    await h.service.cancelCurrent(); await h.service.closeOperationResources();
+    await h.service.closeDiagnostics('completed');
+  }
+});
+
+
+test('initial failed final receipt preserves failure precedence and correlation across late cancellation', async t => {
+  const h = await harness(t, { names: ['a.mp4'], onInspect: async () => {
+    throw failure('SPAWN_FAILED', 'Owned initial inspection infrastructure failure');
+  } });
+  const gate = deferred(), entering = deferred(), original = h.service.recordIncident.bind(h.service);
+  h.service.recordIncident = async event => {
+    if (event.reason === 'PREPARATION_FINISHED') { entering.resolve(event); await gate.promise; }
+    return original(event);
+  };
+  const preparing = h.prepare(); let cancelling;
+  try {
+    const pending = await entering.promise;
+    assert.equal(pending.context.phase, 'failed'); assert.equal(h.service.busy, true);
+    cancelling = h.service.cancelCurrent(); gate.resolve();
+    const result = await preparing; await cancelling;
+    assert.equal(result.phase, 'failed'); assert.equal(result.planId, null); assert.equal(result.operationDraft, null);
+    assert.match(result.error, /Owned initial inspection infrastructure failure/);
+    const started = await diagnosticRecord(h.service, 'PREPARATION_STARTED');
+    const failed = await diagnosticRecord(h.service, 'PREPARATION_FAILED');
+    const finished = await diagnosticRecord(h.service, 'PREPARATION_FINISHED');
+    const revoked = await diagnosticRecord(h.service, 'PREPARED_AUTHORITY_REVOKED');
+    for (const event of [failed, finished, revoked]) {
+      assert.equal(event.planId, started.planId); assert.equal(event.batchId, started.batchId);
+    }
+    assert.equal(finished.message, result.error); assert.equal(finished.context.phase, 'failed');
+    assert.equal(revoked.context.phase, 'failed'); assert.notEqual(revoked.stage, 'cancellation');
+    assert.equal(h.calls.length, 0);
+  } finally {
+    gate.resolve(); await Promise.allSettled([preparing, cancelling].filter(Boolean));
+    await h.service.cancelCurrent(); await h.service.closeOperationResources(); await h.service.closeDiagnostics('completed');
+  }
+});
+
+for (const mode of ['initial', 'draft']) {
+  test(`${mode} preparation failure receipt keeps admission and original correlation until cancellation drains`, async t => {
+    let failInspection = mode === 'initial';
+    const h = await harness(t, { names: ['a.mp4'], eligible: false, onInspect: async () => {
+      if (failInspection) throw failure('SPAWN_FAILED', 'Owned failure receipt infrastructure error');
+    } });
+    const first = mode === 'draft' ? await h.prepare() : null; failInspection = true;
+    const reason = first ? 'DRAFT_REPREPARATION_FAILED' : 'PREPARATION_FAILED';
+    const gate = deferred(), entering = deferred(), original = h.service.recordIncident.bind(h.service);
+    h.service.recordIncident = async event => {
+      if (event.reason === reason) { entering.resolve(event); await gate.promise; }
+      return original(event);
+    };
+    const preparing = first ? h.service.updateFileOperations({ planId: first.planId,
+      draftId: first.operationDraft.id, revision: first.operationDraft.revision,
+      fileIds: [first.items[0].id], overrides: { resolution: 'source' } }) : h.prepare();
+    let cancelling;
+    try {
+      const pending = await entering.promise, held = h.service.snapshot();
+      assert.equal(h.service.busy, true);
+      assert.throws(() => h.service.startBatch({ planId: pending.planId, fileIds: [held.items[0].id] }), { code: 'BUSY' });
+      await assert.rejects(h.prepare(), { code: 'BUSY' });
+      assert.throws(() => h.service.updateFileOperations({ planId: pending.planId,
+        draftId: held.operationDraft.id, revision: held.operationDraft.revision,
+        fileIds: [held.items[0].id], overrides: { resolution: 'source' } }), { code: 'BUSY' });
+      let drained = false; cancelling = h.service.cancelCurrent().then(() => { drained = true; });
+      await tick(); assert.equal(drained, false); assert.equal(h.service.busy, true);
+      gate.resolve(); const result = await preparing; await cancelling;
+      assert.equal(result.phase, 'failed'); assert.equal(result.planId, null);
+      assert.equal(result.operationDraft, null); assert.equal(h.service.plan, null);
+      assert.match(result.error, /Owned failure receipt infrastructure error/);
+      const failed = await diagnosticRecord(h.service, reason);
+      const finished = await diagnosticRecord(h.service, first ? 'DRAFT_REPREPARATION_FINISHED' : 'PREPARATION_FINISHED');
+      const revoked = await diagnosticRecord(h.service, 'PREPARED_AUTHORITY_REVOKED');
+      for (const event of [failed, finished, revoked]) {
+        assert.equal(event.planId, pending.planId); assert.equal(event.batchId, pending.batchId);
+      }
+      assert.equal(finished.context.phase, 'failed'); assert.equal(revoked.context.phase, 'failed');
+      assert.equal(h.calls.length, 0);
+    } finally {
+      gate.resolve(); await Promise.allSettled([preparing, cancelling].filter(Boolean));
+      await h.service.cancelCurrent(); await h.service.closeOperationResources(); await h.service.closeDiagnostics('completed');
+    }
+  });
+}

@@ -1240,9 +1240,10 @@ class EncoderService extends EventEmitter {
       generated: new Map(), reencodeAuthorizations: new Map() };
     if (native) this.plan.nativeSelection = native.token;
     this.state.planId = this.plan.id;
+    const receiptIds = { batchId: this.state.batchId, planId: this.plan.id };
     this.taskPromise = (async () => {
       try {
-        await this.recordIncident({ stage: 'preparation', reason: 'PREPARATION_STARTED', context: { settings,
+        await this.recordIncident({ ...receiptIds, stage: 'preparation', reason: 'PREPARATION_STARTED', context: { settings,
           ...(native ? { nativePrivate: { input: input.path, output: output.path } } : { input: input.path, output: output.path }) } });
         await this.captureFolders();
         await this.verifyFolders();
@@ -1270,12 +1271,14 @@ class EncoderService extends EventEmitter {
         if (native) requireNativeSelection.call(this, native.token);
         this.state.phase = 'ready';
       } catch (error) {
-        this.state.phase = this.preparationFailure ? 'failed' : signal.aborted || error.code === 'CANCELLED' ? 'cancelled' : 'failed';
+        const terminalPhase = this.preparationFailure ? 'failed' : signal.aborted || error.code === 'CANCELLED' ? 'cancelled' : 'failed';
+        this.state.phase = 'preparing';
         // A native batch reports fixed text; the original stays main-only.
         const refusal = native ? nativeRefusal(error) : VENDOR_PROFILES.some(row => row.id === settings?.profileId) ? vendorRefusal(error) : null;
         this.state.error = refusal ? refusal.reason : error.message;
-        await this.recordIncident({ stage: 'preparation', reason: 'PREPARATION_FAILED', severity: 'error', message: this.state.error,
+        try { await this.recordIncident({ ...receiptIds, stage: 'preparation', reason: 'PREPARATION_FAILED', severity: 'error', message: this.state.error,
           ...diagnosticStderr(error), context: { code: refusal ? refusal.reasonCode : error.code || 'PREPARATION_FAILED', ...(refusal ? { nativePrivate: refusal.nativePrivate } : {}) } });
+        } finally { this.state.phase = terminalPhase; }
         for (const item of this.state.items) {
           if (native && ['ready', 'conflict'].includes(item.status)) { item.status = 'unprocessed'; item.reason = refusal.reason; }
           else if (item.status === 'pending') item.status = 'unprocessed';
@@ -1283,9 +1286,8 @@ class EncoderService extends EventEmitter {
         this.plan = null;
         this.state.planId = null;
       } finally {
-        await this.recordIncident({ stage: 'preparation', reason: 'PREPARATION_FINISHED', severity: this.state.phase === 'failed' ? 'error' : 'info',
-          message: this.state.error || '', context: { phase: this.state.phase, items: this.state.items.map(item => ({ id: item.id, status: item.status, reason: item.reason })) } });
-        this.finishedAt = Date.now(); this.emitState();
+        await this.finishPreparationReceipt({ receiptIds, signal, stage: 'preparation', reason: 'PREPARATION_FINISHED',
+          message: this.state.error || '', context: { items: this.state.items.map(item => ({ id: item.id, status: item.status, reason: item.reason })) } });
       }
     })();
     await this.taskPromise;
@@ -1416,12 +1418,14 @@ class EncoderService extends EventEmitter {
         notCancelled(signal);
         this.markConflicts(); this.state.phase = 'ready';
       } catch (error) {
-        this.state.phase = this.preparationFailure ? 'failed' : signal.aborted || error.code === 'CANCELLED' ? 'cancelled' : 'failed';
+        const terminalPhase = this.preparationFailure ? 'failed' : signal.aborted || error.code === 'CANCELLED' ? 'cancelled' : 'failed';
+        this.state.phase = 'preparing';
         this.state.error = VENDOR_PROFILES.some(row => row.id === this.state.settings?.profileId) ? vendorRefusal(error).reason : error.message;
         for (const item of this.state.items) { item.reencodeAuthorized = false; if (item.status === 'pending') item.status = 'unprocessed'; }
         this.plan = null; this.state.planId = null;
-        await this.recordIncident({ ...receiptIds, stage: 'preparation', reason: 'DRAFT_REPREPARATION_FAILED', severity: 'error', message: error.message,
+        try { await this.recordIncident({ ...receiptIds, stage: 'preparation', reason: 'DRAFT_REPREPARATION_FAILED', severity: 'error', message: error.message,
           ...diagnosticStderr(error), context: { code: error.code || 'PREPARATION_FAILED' } });
+        } finally { this.state.phase = terminalPhase; }
       } finally {
         await this.finishPreparationReceipt({ receiptIds, signal, stage: 'preparation', reason: 'DRAFT_REPREPARATION_FINISHED' });
       }
@@ -1430,14 +1434,14 @@ class EncoderService extends EventEmitter {
     return this.snapshot();
   }
 
-  async finishPreparationReceipt({ receiptIds, signal, stage, reason, context = {} }) {
+  async finishPreparationReceipt({ receiptIds, signal, stage, reason, context = {}, message }) {
     const phase = this.state.phase;
     // Keep admission closed through the receipt and any late cancellation.
     // Never let a slow journal replace this operation's state/correlation.
     this.state.phase = 'preparing';
     try {
       await this.recordIncident({ ...receiptIds, stage, reason, severity: phase === 'failed' ? 'error' : 'info',
-        context: { ...context, phase, counts: this.snapshot().counts } });
+        ...(message === undefined ? {} : { message }), context: { ...context, phase, counts: this.snapshot().counts } });
       if (signal.aborted) {
         this.hdrOperations?.invalidate();
         this.encodePreservationOperations?.invalidate();

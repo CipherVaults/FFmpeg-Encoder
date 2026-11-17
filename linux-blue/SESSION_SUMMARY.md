@@ -1,3 +1,252 @@
+# 📘 Session: November 17, 2026 — FFmpeg Encoder — Hold preparation authority through real receipt writes and preserve the resulting requalification boundary
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model or tool identity | Effort setting | Evidence basis and verification limit |
+|---|---|---|---|
+| Engineering lead / integrator | GPT-6 Astra, recorded lead configuration | Ultra, recorded assignment | Directed real awaited-path tests, integrated the bounded shared-service correction, ran final affected/broad comparisons and retained the old candidate's fail-closed producer gate. Configuration does not independently establish backend identity, billing or performance. |
+| Lifecycle implementation contributor | Not separately established in this record | Not separately established | Changed only the shared service and its test file, added six lifecycle tests and retained red/green receipts. The tests traverse real service/receipt control flow with fixture inspection/media behavior, not actual media execution. |
+| Independent source reviewer | Not separately established in this record | Not separately established | Identified initial/draft failure-receipt admission windows, found the new clock-sensitive test comparison and reviewed V2 with no scoped source blocker. The final independent repeat was 81/82 with only the retained baseline mismatch; all six new lifecycle regressions passed. This was manual source review, not a formal scan or native run. |
+| Desktop discovery / isolated setup contributor | Not separately established in this record | Not separately established | Verified a later available cloud desktop/terminal view of the same checkout, acquired official pinned Electron 44.7.0 in isolated storage and verified package/archive/extracted bytes. Did not invoke the Electron executable or prove native dependency/sandbox operation. |
+| Documentation editor | Blue documentation contributor; model not independently established here | Not separately established | Read the actual patch, red/final receipts, candidate refusal record, preceding publication and setup verification; drafted outside the frozen checkout. Did not execute tests, install software or open media. |
+
+**Record basis:** Contemporaneous follow-up to checkpoint 010's explicitly incomplete real-await coverage. The source baseline is `1af9c682bda254cab04ec4e7d1ed88b76a5d9f61`. This record distinguishes a cancelled-row presentation defect, an observed final-receipt admission window, later corrected shared-service behavior, expected producer-identity refusals and new environment/setup observations. The previous 293,033-byte session history remains exact; later desktop availability is not retroactively written into the earlier dated inspection result. No native app or media proof is claimed for this session.
+
+## 🕒 Time
+
+- Date / date range: November 17, 2026, Africa/Cairo UTC+2.
+- Start: Follow-up testing of the real preparation path began after checkpoint 010's local source handoff; exact active-work start was not recorded. The first retained service baseline run began at 16:50:06.187 UTC / 18:50:06.187 Cairo.
+- Continuation: Real `FILE_INSPECTED` await tests and presentation correction in test interpretation; a separately reproduced `PREPARATION_FINISHED` admission window; shared-service correction and failure-path review; regression comparisons; later desktop discovery and isolated Electron acquisition; documentation.
+- End / stopping point: The final lead V2 affected run began at 17:03:45.059 UTC / 19:03:45.059 Cairo and lasted 12,438.411 ms. The earlier affected run began at 16:56:53.800 UTC and the broad Linux run at 16:57:05.934 UTC, lasting 12,053.566 and 1,150.597 ms respectively. Final independent V2 review found no scoped source blocker; exact reviewer/documentation finish time is not recorded. These labels are run starts/durations, not a measured session end or active-hours total.
+- Session type: Real awaited-lifecycle testing, shared-source correction, independent review, prerequisite acquisition and continuity.
+- Project stage: Linux 0.7 shared preparation safety and candidate requalification prerequisites. Not native workbench acceptance or product activation.
+- Main focus: Keep preparation busy and correctly correlated until actual diagnostic writes drain, including failure and late cancellation, without silently carrying old calibration authority across changed producer source.
+- Contributors: Ahmed retains product ownership/acceptance; actual engineering, review, setup and documentation roles are identified above.
+- Model / effort: Recorded or unknown by role above; no inherited model inference.
+- Active working time: Not measured. Test durations, asynchronous review and setup intervals are not combined into an invented work total.
+- Reason for summary: Preserve the corrected source and explicit temporary loss of candidate qualification before a new verified checkpoint and any future requalification/native work.
+
+## 🎯 Session Goal
+
+Checkpoint 010 intentionally left an important distinction visible: its pending-write and stale-object tests modeled states but did not execute the actual base `prepareItem` → `recordIncident` await or a captured delayed inspection callback. The next work was to test those real boundaries before describing the developer workbench as natively ready. It was not initially a plan to loosen producer gates, replace the runtime or rerun successful media.
+
+The first added test exposed a cancelled initial-preparation row still labelled ready even though the plan was already null. That observation needed a narrow interpretation: it was misleading presentation, not proof of runnable authority or a completed unwanted encode. Keeping the correct non-runnable assertions allowed the real callback tests to continue. A separate held final-receipt test then found a more consequential state: `busy: false`, phase ready and a live plan while `PREPARATION_FINISHED` persistence was still pending. That new finding, and review of related failure-receipt paths, expanded the session into a bounded shared-service correction.
+
+The session aimed to:
+
+- Exercise the actual inspection/preparation receipt await and captured stale callbacks, with cancellation/drainage and new-operation ownership visible.
+- Preserve admission, failure precedence and original batch/plan correlation through success and failure receipt writes.
+- Correct only the shared lifecycle and its tests, retain all red evidence and distinguish an intermittent baseline diagnostic mismatch from a resolved defect.
+- Keep exact old candidate producer pins unchanged, explicitly stop candidate use on changed source and prepare the next honest requalification boundary.
+
+Later desktop discovery and pinned Electron acquisition advanced one native prerequisite in parallel. Those later observations did not undo the source requalification requirement or establish a running application.
+
+## 🛠️ Actions Taken
+
+### 1. Anchor the source to checkpoint 010 and its actual preservation chronology
+
+Checkpoint 010 is local `1af9c682bda254cab04ec4e7d1ed88b76a5d9f61`. Its [Notion checkpoint](https://app.notion.com/p/41bbd7ade63b81fc81adc3eadf2cc5ec) restored all 522 source files and cloned the complete ten-commit local-history bundle. The source archive SHA-256 is `cbf5f81e3f7a82a39146175cd4344d0c91e8aaff5bacf7167f2ff220a289aa0d`; the bundle SHA-256 is `4c38133c0912bf0b381a8f61c1f79697c5d7e157e40cea7c7ccff7d99d633a56`. The 293,033-byte summary SHA-256 is `8f3904745d0ea49b69908bc2e09a8c0071b1b36cc4a31710abab4569c4167f9c`, preserved below as the exact prior body.
+
+GitHub publication was verified at 16:51:04 UTC as `c2046b05e5cb7ba495e15dcfe88f3bcb441ad814`, sole parent `8685c2f3d51e89c24fb3ec5ab8d549978172017a`, on `CipherVaults/FFmpeg-Encoder-Blue-Linux`, branch `blue/linux-development`. All thirteen changed contents, actual parent/tree and fresh ref were verified with expected-parent/non-force protection. Early service tests at 16:50 occurred before that remote completion; the record does not invent an earlier GitHub backup. The preserved local source was already the baseline.
+
+This backup retains the old workbench/source and its exact existing gates. It does not make the later changed shared service qualified, and it does not turn the earlier media evidence into a test of the new source.
+
+### 2. Traverse the real FILE_INSPECTED await and interpret the initial red result correctly
+
+The existing service baseline at `20261117T165006Z_real-file-inspected-lifecycle` recorded 75 passes and one failure out of 76. The failure was the known missing-source diagnostic mismatch: actual `PROTECTED_SOURCE` versus expected `SOURCE_CHECK_INCOMPLETE`. That baseline failure was kept visible before new assertions were added.
+
+The new tests call actual initial preparation or `updateFileOperations` draft repreparation. They intercept the real `recordIncident` call for `FILE_INSPECTED`, hold it on a controlled promise and capture the actual inspection `onStage` callback. While the receipt is held, they check busy admission, refusal of Start/new preparation, and that both the preparation and cancellation promises remain unsettled until release. After drain, they check null plan, refused stale Start, zero fixture media calls and stale-callback effects after cancellation and during a later preparation.
+
+The first added run, `20261117T165033Z_real-file-inspected-lifecycle-added`, recorded 76 passes/two failures of 78. One was the unchanged baseline mismatch. The new initial-preparation test failed because a row still had `ready` status after cancellation, although the phase was cancelled and plan/plan ID were null. The draft path passed. The initial test stopped at that row assertion, so its later stale-callback steps were not established by that red run.
+
+The lead preserved the authoritative assertions and treated the ready-row result as a presentation inconsistency rather than claiming an encode or authority escape had occurred. With that distinction made, the real captured callback checks could run: an old callback did not change state or emit updates after cancellation or while a fresh preparation owned the service. These are real shared-service control-flow/callback tests with fixture inspection and no media calls, not a native job or a previously invented disconnected old-item example.
+
+### 3. Reproduce a distinct admission window at the actual final receipt
+
+A separate test held the real initial `PREPARATION_FINISHED` write. Receipt `20261117T165224Z_real-initial-final-receipt-diagnostic` recorded 77 passes/two failures out of 79, including the baseline mismatch and the new final-receipt assertion. Its captured diagnostic was `busy: false`, `phase: ready`, `planPresent: true` while the receipt promise was still held.
+
+That state differs materially from the earlier cancelled/null-plan presentation issue: the final write had not drained, yet the shared service's phase no longer kept preparation admission busy. The red test failed at its first busy assertion. It did **not** proceed to execute Start, overlap another preparation or edit the plan in that run. The record therefore establishes the observed admission window, not an observed overlapping encode, corrupted journal or destructive effect.
+
+Independent review also found the related failure-receipt windows: initial and draft paths set a terminal failed/cancelled phase before their `PREPARATION_FAILED` or `DRAFT_REPREPARATION_FAILED` write completed. The correction had to cover those awaits as well as the final success receipt, rather than only turn the single red assertion green.
+
+### 4. Reuse the existing finish helper and capture operation correlation
+
+Only `src/encoder-service.cjs` and `tests/encoder-service.test.cjs` changed. The initial reviewed patch was 18,016 bytes, SHA-256 `614d0c0a5e23bf10f403b051a8cf20f69e876524558a9e95daa654dbac7226f1`. The subsequent V2 test-only clock comparison correction produces an 18,195-byte patch, SHA-256 `0bd20ede6f98d94aaf021c817c67d753b3ebe774a639938b834d3f512eb8ac7b`; the production service hash remains unchanged. Its final independent disposition is recorded below. The source reuses the existing `finishPreparationReceipt` mechanism rather than introducing another admission subsystem.
+
+Initial preparation now captures its batch/plan receipt IDs before the asynchronous work and uses those captured IDs for started, failed and finished records. The final receipt goes through the helper, which keeps the externally busy phase at preparing while persistence is awaited. It preserves the intended terminal phase in the record context and only exposes the final state after receipt handling. The optional message parameter preserves the initial failure text; shared callers that do not supply it retain their existing behavior.
+
+Both initial and draft failure-receipt paths also keep phase preparing while the failure diagnostic is written, then restore the computed terminal phase before the final helper runs. Failure precedence remains stronger than late cancellation: an inspection infrastructure failure is not rewritten as a successful cancellation merely because cancellation arrives during its receipt.
+
+When cancellation arrives during the final write, the reused helper clears plan/draft authority and per-item re-encode authorization, invalidates relevant operation authorities and changes eligible rows to cancelled. If a finished record already describes ready, a later `PREPARED_AUTHORITY_REVOKED` record explains the cancellation using the same captured batch/plan IDs and a later sequence. The old ready record is not silently rewritten. This also removes the earlier cancelled initial row's misleading ready presentation as part of the shared finalization path.
+
+### 5. Add six real lifecycle regressions and preserve nonuniform test outcomes
+
+The six added tests cover two real `FILE_INSPECTED` await paths, initial successful final-receipt drainage, initial failed final-receipt precedence/correlation, and both initial/draft failure-receipt admission windows. They use actual service entry points and actual captured callbacks while controlling journal completion and inspection fixtures. On corrected source they assert busy Start/new-prepare/edit refusal while held, pending cancellation until drain, correct terminal/null-authority state, preserved correlation and receipt order, ignored stale callbacks and no fixture media calls.
+
+The corrected worker run at `20261117T165415Z_initial-preparation-receipt-fix` had 79 passes/one failure of 80. The expanded failure-path run at `20261117T165453Z_preparation-failure-and-final-receipts` had 81/82. The affected regression at `20261117T165527Z_preparation-receipt-affected-regression` had 169/170. Each remaining failure was the same pre-existing missing-source diagnostic mismatch, not one of the new lifecycle regressions.
+
+A later worker final run, `20261117T165600Z_preparation-receipt-final-regression`, passed 170/170. Production source was unchanged between the 169/170 and 170/170 runs; only trailing whitespace in the test patch changed before the final handoff. That intermittent green result is not evidence that the missing-source diagnostic was fixed. Both outcomes remain part of the result, not a reason to discard the earlier red receipt.
+
+The lead's first broader affected run, `20261117T165653Z_preparation-receipt-lead-affected`, recorded 245 passes/one failure out of 246. The sole failure again returned `PROTECTED_SOURCE` where the old test expected `SOURCE_CHECK_INCOMPLETE`. Source bytes were unchanged during the run. That run does not supersede the separate worker totals, and the record must not describe all affected checks as consistently green.
+
+Independent repetition then recorded 80 passes/two failures of 82. Alongside the old missing-source diagnostic, the new draft `FILE_INSPECTED` callback test compared whole snapshots and failed because derived `elapsedSeconds` advanced from 0.005 to 0.006. The reported snapshot difference was only elapsed time, with unchanged reported revision and other state. The following update-count assertion was not reached at that failing boundary. This supports a test-time-sensitivity diagnosis, not an observed stale-callback state mutation; the subsequent passing V2 lifecycle cases retain and pass the separate update-count assertions. The independent red log is retained as `preparation-receipt-independent-final.txt`, 13,676 bytes, SHA-256 `f714675dcae56db116e2548ab078bac7ab7c8e574b525ba975b73df573c0c797`.
+
+V2 excludes only the derived `elapsedSeconds` field from those snapshot comparisons. It continues comparing the remaining state and separately asserting no update emission; no other expected code, authority, callback or lifecycle assertion is loosened, and production source is unchanged. Worker receipts `20261117T170249Z_preparation-receipt-clock-stable` and `20261117T170257Z_preparation-receipt-clock-stable-regression` then recorded 81/82 and 169/170, each with only the old missing-source mismatch. The final independent V2 repeat was 81/82 with only the same baseline mismatch; all six new lifecycle regressions passed. Its retained output is 10,000 bytes, SHA-256 `4628a4b3e112fa5be1c59bf814433c545100280abc7f5d3350c252c353fed61e`. Manual source review found no scoped blocker for this shared-fix checkpoint, while explicitly retaining the candidate requalification requirement. Lead receipt `20261117T170345Z_preparation-receipt-lead-v2` then repeated the full affected set at 245/246, with unchanged covered bytes and the same sole baseline mismatch. The broad 173/208 result belongs to the unchanged production source before the clock-only test correction, not a newly claimed broad rerun. This additional red/correction cycle is retained in the same failure-intelligence disposition, not presented as a new production incident.
+
+### 6. Keep the old candidate producer gate closed on changed shared source
+
+The candidate's exact producer map includes `src/encoder-service.cjs`. Correcting that shared source intentionally invalidates the old calibration/service composition's producer match. A saved read-only refusal records `CANDIDATE_KEEP720_SERVICE_SCOPE` with “Calibration producer changed: src/encoder-service.cjs,” source SHA-256 `5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7` and unchanged candidate composition SHA-256 `a980cc2546698809ab7ff737475ead5b71bd54263bc1d7abca2de173117fea1d`. No runtime opened and no media executed for that check.
+
+The final broad Linux run, `20261117T165705Z_preparation-receipt-lead-linux`, therefore had 173 passes and 35 failures out of 208, not the preceding 181/208 with 27 failures. The exact prior 27-failure diagnostic set remains, with eight additional producer/factory-dependent tests now refused because the shared producer changed. No previous failure disappeared. Some of those tests contain positive behavior assertions that are now unreachable behind the earlier producer refusal; their failure is not evidence that those later paths executed and failed.
+
+This is a deliberate, visible integration cost of maintaining exact evidence authority. The current candidate route is unusable on the changed working source until a separately reviewed new qualification record and its supporting calibration/service evidence are produced. Neither the producer map, historical pin nor original raw report was updated to make the suite green. Checkpoint 010 and the older media proof remain preserved, but cannot be silently reused as qualification of the corrected source.
+
+### 7. Record later desktop discovery and isolated Electron acquisition without claiming launch
+
+A later read-only cloud-desktop inventory and authorized terminal inspection found a usable desktop surface with `DISPLAY=:0`, and the terminal could read the same checkout. Its candidate-workbench source hash matched the known source identity. Node was not on that terminal's PATH, but the existing absolute executable reported 24.22.1. This new observation belongs here: checkpoint 010's earlier scoped environment inspection remains an honest dated record, not a statement to retroactively replace with today's broader discovery.
+
+Electron 44.7.0 was initially missing. Authorized isolated setup then acquired the pinned official npm package and release archive without changing the project checkout or invoking the Electron executable. The package/lock input hashes and npm SHA-512 integrity were verified; `npm ci --ignore-scripts --no-audit --no-fund` installed 53 packages, followed only by the explicitly inspected Electron installer. No other install hook or automatic version upgrade was run. A proxy-configuration warning and update notice were retained; they were not installation failures or authorization to update npm.
+
+The 122,998,223-byte official Linux-x64 release ZIP has SHA-256 `3ae7d5bdad61c664486c6ab61361dd084d064c8c08af8d13a687096e18ce555a`, matched against the official release checksum in addition to the bundled check. All 72 extracted files were compared byte-for-byte with the archive. The acquired Electron executable is 228,605,256 bytes, SHA-256 `10a14d05c6ff4f94075cfb3eeb6ed6571be33ebcc08cbd675b5ce9ff84706564`. Setup verification is SHA-256 `56eabc423cca0cb41e89257dc275e7b6d803c7d5fc8f4260be4c729c3c28b58f`.
+
+The status is acquired and byte-verified, **not launched**. Native shared-library resolution, sandbox launch, display interaction and application operation remain unknown. No `--no-sandbox` shortcut, system/security change, topology mount, candidate runtime restoration/opening, media or packaging occurred. The desktop observation still found no NUMA node CPU-map path, so the prior threading/performance caveat is not erased. Most importantly, acquiring Electron does not remove the new shared-source producer mismatch: fresh qualification must precede native media on this corrected tree.
+
+### 8. Prepare a new source/evidence checkpoint without rewriting earlier records
+
+The next three-case calibration preparation was assembled separately and received an independent launch-review GO, but its checkpoint approval file remains deliberately absent and no media has run. It is not authorized to execute merely because the launcher exists. The proposed cases remain a 100–140-second range and 130-second open end from a fresh 150-second source, plus 0.413–8.621 seconds from an independent eleven-second source. The plan keeps the exact reviewed runtime, unchanged source-derived case resources, a 160-child ceiling at concurrency one, a 27-GiB pre-child free-space guard and a 30-minute abort request. That request is not a hard wall-clock exit deadline and the admission check is not a hard active-write disk cap. Execution requires the newly committed checkpoint, verified Notion restore, exact full tracked-source hashes and explicit one-attempt lead release; there are no automatic retries.
+
+The lead owns [CURRENT_STATE](CURRENT_STATE.md), the new [lifecycle execution report](2026-11-17_Preparation_Receipt_Lifecycle.md) and its [receipt](2026-11-17_Preparation_Receipt_Lifecycle_Receipts.json). This summary was prepared outside the checkout while source and review remained frozen, then prepended after the lead explicitly released the documentation path. The prior 293,033-byte body, original historical archive and earlier correction receipt remain untouched.
+
+At this record's cutoff, checkpoint 011's commit, full Notion restoration/readback and GitHub publication are still pending. Checkpoint 010 is verified as described above. The isolated Electron files and raw runtime/media evidence are separate local prerequisites, not source-archive contents or proof of an operational native environment. Later publication receipts must own actual new commit/ref identities rather than being predicted here.
+
+## 🧠 Key Insights
+
+### Receipt persistence is part of the preparation lifetime
+
+The actual final-receipt test showed why setting phase ready before awaiting a journal write is not merely a cosmetic ordering choice. In this service, phase determines busy admission. A pending receipt therefore belongs inside the owned preparation lifetime; otherwise ready presentation and admission can appear before the operation has finished its awaited receipt write. Reusing the existing finalization helper makes that relationship explicit across initial and draft paths.
+
+### A ready-looking row and a live ready plan are different observations
+
+The first cancelled-row red result had no plan authority and did not demonstrate an encode. The second final-receipt red result retained a live plan with busy false, but stopped before executing overlapping actions. Keeping both distinctions prevents two opposite errors: dismissing a genuine admission window as a visual issue, or overstating a visual issue and first assertion as observed destructive execution.
+
+### A later revocation record can preserve truthful history better than editing the first receipt
+
+Cancellation may arrive while a finished receipt describing ready is being written. Captured IDs and an ordered revocation record preserve what was recorded and what changed afterward. Rewriting the ready receipt or borrowing the next operation's IDs would conceal the boundary the tests are meant to establish. The corrected code and fixture assertions support correlation/order for these paths, not general crash-proof persistence.
+
+### Exact evidence gates can make a safer source tree temporarily less usable
+
+The shared lifecycle correction is useful, but its source identity no longer matches the historical candidate producer set. Eight additional broad refusals are therefore part of the honest result. Updating a hash map just to regain green tests would erase the relationship between proof and implementation. The correct continuation is to preserve this source and deliberately requalify it, not claim that old successful media already tested it.
+
+### Environment discovery and acquisition are separate from operational readiness
+
+The later desktop and acquired Electron resolve narrower questions than a successful native launch. They do not establish dynamic dependencies, sandbox behavior, exact candidate restoration or changed-source qualification. This progress is useful precisely because the remaining blockers are now separate and testable rather than compressed into either “no desktop” or “native ready.”
+
+## 📌 Decisions Made
+
+- **Confirmed by the lead:** Execute real awaited service/receipt paths rather than rely on checkpoint 010's modeled pending-write and disconnected-object tests.
+- **Confirmed after the actual red observation:** Reuse `finishPreparationReceipt`, capture initial receipt IDs and keep both initial/draft failure writes in preparing state until they drain. Preserve failure precedence and ordered revocation on late cancellation.
+- **Confirmed evidence treatment:** Retain the presentation-only first red, the actual final-receipt admission red and their assertion stop points. Do not claim an overlapping Start or media event occurred in a red run that stopped earlier.
+- **Confirmed verification boundary:** Keep the intermittent missing-source diagnostic mismatch visible despite one worker 170/170 pass. Final lead 245/246 and broad 173/208 with 35 failures remain the measured outcomes.
+- **Confirmed authority boundary:** Leave the old candidate producer map, pins and original report unchanged. The corrected source requires a new reviewed qualification step before candidate/native media, and the old proof remains attributed to its old source.
+- **Completed authorized prerequisite only:** Discover the later desktop and acquire official pinned Electron 44.7.0 in isolated storage with byte verification. Do not equate acquisition with launch or change security controls to force it.
+- **Deferred:** Actual native app/media execution, candidate restoration/requalification, same-service candidate recovery, general threading/performance, broader families, release acceptance and packaging. Ahmed retains acceptance; packaging stays last.
+
+## ⚠️ Difficulties / Friction
+
+The work required separating test-model gaps from actual source defects. Checkpoint 010 had already corrected inflated descriptions, but only executing the real await revealed which concern was merely a cancelled-row presentation issue and which left busy admission open. The first test's early assertion also meant its later callback checks could not be claimed until they actually ran.
+
+The shared helper already handled parts of draft finalization, making it tempting to fix only the initial final write. Review identified failure-diagnostic awaits as separate windows in both initial and draft paths. The bounded correction therefore had to preserve terminal failure meaning and operation correlation while holding admission, without introducing a second scheduler or rewriting old receipts.
+
+Test totals are nonuniform for distinct reasons, and the independent repeat added a separate test-clock mistake. The missing-source diagnostic mismatch is a pre-existing intermittent result, seen before the patch, absent in one later worker run and present again in the lead affected run. Separately, eight new candidate-dependent refusals are expected consequences of the deliberately unchanged producer gate. Neither category should be hidden, combined into “only the old failures,” or treated as proof that every newly blocked positive test body executed. The independent elapsed-time comparison failure is different again: excluding only a derived clock field makes the new state assertion meaningful without changing production behavior or hiding a callback update.
+
+The later desktop discovery changed the practical environment picture, but the terminal had different PATH/display visibility from earlier inspection. Using the existing absolute Node path established access to the same project; it did not authorize arbitrary setup or prove Electron. Pinned acquisition was completed under a bounded separate setup, while native launch and source qualification remain separate unresolved steps.
+
+## 🔧 Adjustments Made
+
+- Shifted from: Modeled pending-write emission and disconnected stale-object coverage in the previous source checkpoint.
+  - To: Actual `FILE_INSPECTED`, final-receipt and failure-receipt awaits reached through shared service entry points, with real captured callbacks.
+  - Because: The prior record explicitly left these exact paths untested.
+  - Consequence: The session found both a presentation inconsistency and a distinct admission window, then added targeted regression coverage instead of inflating the previous tests.
+- Shifted from: Initial preparation marking a terminal/ready phase before its diagnostic writes finished.
+  - To: Preparing/busy admission through failure and final receipt persistence, using captured IDs and the existing helper's late-cancellation revocation.
+  - Because: The held final receipt actually exposed busy false with a ready phase and live plan, and review found related failure windows.
+  - Consequence: Corrected source retains lifetime/correlation until drain and changes eligible cancelled rows consistently, while old receipt history remains intact.
+- Shifted from: A candidate composition whose exact old producer map still matched the workbench source.
+  - To: Explicit fail-closed refusal on the changed shared service and a required new qualification step.
+  - Because: This is a real producer-source change, not a documentation-only update.
+  - Consequence: Broad failures increase from 27 to 35; no hash-map or raw-report rewrite is used to conceal the cost.
+- Shifted from: The earlier scoped environment inspection without a found running Electron/display setup.
+  - To: A later verified desktop/terminal and isolated, byte-verified Electron acquisition.
+  - Because: The supported desktop surface exposed additional actual capabilities and the authorized pinned setup completed.
+  - Consequence: One prerequisite is available, but executable launch, sandbox/dependency behavior and changed-source media qualification remain unproven. The earlier dated record is preserved.
+
+- Shifted from: Whole-snapshot equality in the new captured-callback tests, including a derived elapsed clock.
+  - To: Equality of all remaining state plus unchanged update-count assertions, excluding only `elapsedSeconds`.
+  - Because: Independent repetition observed 0.005 versus 0.006 seconds with unchanged revision and other state, demonstrating time-sensitive test logic rather than a stale-callback mutation.
+  - Consequence: The independent red remains, V2 is test-only and subsequent worker results still retain the unrelated baseline mismatch. No production callback behavior or other expectation was weakened.
+
+## ❌ Mistakes / Risks Noted
+
+- **Actual presentation inconsistency:** After initial cancellation, a row remained ready while the plan was null. Its observed impact was misleading state, not an encoded output. The corrected shared finalizer now clears authority and changes eligible rows; the original red evidence remains.
+- **Actual admission-window observation:** While initial `PREPARATION_FINISHED` was held, busy was false and a ready live plan existed. The red test stopped at its first assertion, so overlapping actions were a potential consequence, not an observed event. The corrected test now exercises their busy refusal and cancellation drainage.
+- **Actual test-time-sensitivity mistake, corrected in V2:** Whole-snapshot equality included derived `elapsedSeconds`, producing an independent red with only 0.005 versus 0.006 in the reported snapshot difference. The following update-count assertion was not reached in that red run; the later passing V2 cases establish that check. The fix omits only that clock field, retains all remaining state/update assertions and preserves the red log; production source is unchanged.
+- **Actual baseline instability, unresolved:** A missing-source test intermittently returns `PROTECTED_SOURCE` instead of `SOURCE_CHECK_INCOMPLETE`. The patch did not change that production behavior, and a single 170/170 pass does not fix it. The lead's affected result retains the failure.
+- **Intentional new integration blockage:** Eight candidate-dependent tests now refuse the changed producer, giving 35 broad failures. The candidate route is not presently usable on this source without fresh qualification. Calling this merely the old 27 failures would misstate current state.
+- **Potential overclaim, avoided:** Real shared-service control flow still uses controlled inspection/journal/media fixtures. It is not a native process, actual encode, crash-recovery or universal concurrency proof. Acquired Electron bytes are not a successful sandboxed launch.
+- **Preservation risk:** A source mirror does not include isolated Electron files or all raw runtime/media evidence. Neither a checksum nor a portable report substitutes for the exact bytes/gates required by the next execution.
+
+**Failure Intelligence disposition:** Retain the two distinct new observations, the failure-receipt review findings, the independent elapsed-clock test mistake, the baseline diagnostic mismatch and the deliberate producer refusals in this session and the owning execution/receipt records. Do not manufacture a destructive-media incident, erase red runs after a later green total, or rewrite earlier sessions with later environment discoveries. No separate incident record is claimed here.
+
+## 📍 Current Position
+
+**As of:** November 17, 2026, after final independent V2 source review, the 17:03:45 UTC lead V2 affected run and isolated Electron acquisition, before checkpoint 011 publication or new media execution. Exact documentation finish time is not recorded.
+
+**Before this session:** Checkpoint 010's explicit candidate workbench source was preserved and source-tested. Its modeled timing coverage left real base awaits and captured late callbacks open. The historical candidate producer map matched that old source, and the earlier environment inspection had not established a native setup.
+
+**After this session:** Two shared-service/test files correct receipt lifetime and correlation with six new regressions. Real held-await tests now distinguish admission from presentation and verify scoped cancellation/drainage behavior. The earlier worker 170/170 is retained alongside 169/170 and lead 245/246 with the known intermittent diagnostic mismatch. An independent 80/82 repeat additionally exposed clock-sensitive snapshot equality; V2 omits only derived elapsed time, with subsequent worker 81/82 and 169/170, independent V2 81/82 and final lead V2 245/246 retaining only the baseline mismatch. Independent manual review found no scoped blocker for the shared fix; it did not remove the candidate requalification gate. Broad Linux is now 173/208 with 35 failures: the prior 27 plus eight changed-producer refusals. The old candidate cannot be used on this changed source until new qualification. A later desktop was found and official Electron 44.7.0 acquired/verified, but not launched.
+
+**Current standing:** Reviewed shared lifecycle correction ready for its own verified checkpoint, with changed-source qualification still required; not a ready native app. No historical producer map/pin/raw report, default/catalog, runtime threading, security setting, HDR scope or owner acceptance changed. Packaging remains last.
+
+**Preservation state:** Checkpoint 010 is fully preserved as named above. The new patch/records are still uncommitted/unmirrored/unpublished at this record's cutoff. The previous 293,033 summary bytes and earlier correction receipt remain exact. Electron and raw media/runtime prerequisites remain separately local.
+
+**Live owner / continuation anchor:** Read [CURRENT_STATE](CURRENT_STATE.md), [Preparation Receipt Lifecycle](2026-11-17_Preparation_Receipt_Lifecycle.md) and its [receipt](2026-11-17_Preparation_Receipt_Lifecycle_Receipts.json). The lead owns final review disposition, the coherent checkpoint, new qualification design and any bounded native prerequisite/launch decision. The preservation contributor owns Notion restore/readback. The documentation editor owns only the new summary entry after release, with no source/test/Git/media writes.
+
+## 🔜 Next Steps
+
+1. Preserve this independently reviewed exact shared-source correction with its full evidence, including nonuniform affected results and all eight newly gated failures. Create the coherent local commit, immediately verify complete Notion source/history restoration and unabridged session readback, then publish and verify the intended GitHub delta without rewriting prior ancestry.
+2. **First engineering re-entry after preservation:** Read the saved candidate refusal and updated current/execution records. Design a separately reviewed qualification record for the changed producer source. Do not merely update the old producer hash map, substitute portable JSON or reuse the checkpoint 008/010 proof as authority for the new service.
+3. After the six-path checkpoint and verified Notion restore, populate and independently verify the exact source-bound execution gate for the already prepared three-case calibration only when the lead explicitly releases that one attempt. The plan has independent review GO, but its approval file remains absent and it is unrun. Use the existing exact runtime, a fresh report location and unchanged case/resource criteria; do not reuse an old run authorization. Then audit the actual result, review a new source-bound qualification record and require a real normal-service consumer proof before native workbench media. A calibration pass alone does not activate the service or replace its old gate.
+4. Treat acquired Electron as a verified input, not an operating environment. Before an authorized native journey, establish dynamic dependency and sandbox/display viability through a bounded supported setup/launch plan without security bypasses, then restore exact qualified candidate inputs and exercise the existing UI. Preserve stderr, topology and source identities; native threading/performance remains unqualified until actually evidenced.
+5. Investigate the intermittent missing-source diagnostic separately when proportionate; retain both observed codes and do not rebaseline the test without understanding the cause. If native work is blocked, continue independent authorized 0.7 work instead of repeating old calibration or weakening gates.
+
+**Do not reopen / repeat:** Rewrite checkpoint 010's environment observation; erase the initial presentation-only red or final-receipt red; claim overlaps ran after a stopping assertion; call 170/170 a consistent fix; describe the current broad failures as only 27; alter the historical producer map/raw report to force readiness; run acquired Electron/media without its next reviewed boundary; or change sandbox/topology/thread-pool controls as an undisclosed shortcut.
+
+**Continuation boundary:** This session establishes the shared-source correction, scoped fixture evidence and acquired native prerequisite. The next checkpoint must preserve that result before fresh qualification. Actual candidate/runtime/native media and release acceptance remain separate, not consequences inferred from source tests or a downloaded executable.
+
+## ❓ Open Questions
+
+- **How will changed producer source obtain fresh candidate qualification?** The lead must design and review the new exact-source calibration/service evidence and gate. This blocks candidate/native media on the corrected tree, not historical-source restoration.
+- **Why does the old missing-source diagnostic vary between PROTECTED_SOURCE and SOURCE_CHECK_INCOMPLETE?** The existing behavior is intermittent and unresolved. The lead owns a separate proportionate investigation; the lifecycle patch does not answer it.
+- **Will the acquired Electron executable resolve its libraries and run with supported sandbox/display behavior?** Not yet tested. The setup contributor/lead must verify it under a bounded plan; acquisition and checksum agreement do not answer operational readiness.
+- **What wider concurrency/persistence scenarios remain beyond these controlled awaits?** The six tests cover named paths and captured callbacks, not every crash, I/O failure or native interleaving. Later work must be scoped to concrete risks rather than generalizing this result.
+- **Is the candidate or product ready for acceptance?** No. Current producer refusal, fresh qualification, native UI/runtime behavior and broader 0.7 scope remain. Ahmed retains acceptance and packaging stays last.
+
+## 🧾 Session Outcome
+
+The follow-up moved from modeled timing coverage to actual shared-service awaits. It found a cancelled-row presentation inconsistency and a separate final-receipt admission window, then reused the existing finalization mechanism to hold admission, preserve failure precedence and keep receipt correlation through late cancellation. Six regressions and lead checks support those narrow changes, with the intermittent baseline diagnostic failure retained rather than erased by one green worker run. Independent repetition also found a time-sensitive new assertion; a test-only V2 correction excludes only derived elapsed time while preserving state/update and authority assertions, with its red evidence kept.
+
+The exact old candidate gate now correctly refuses the changed producer, increasing broad failures to 35 and requiring new qualification before media. That loss of immediate candidate usability is explicit, not hidden by a hash update. Separately, later desktop discovery and pinned Electron byte verification advanced prerequisites without a launch. The project is ready to preserve the corrected source and plan its fresh qualification, not to claim a running native workbench or product acceptance.
+
+## 🔍 Confidence Level
+
+**Named shared preparation-receipt correction: High within the controlled test scope.**
+
+**Why:** Actual awaited service paths, captured callback use, retained red-state diagnostics, six targeted regressions, exact patch/source identities and final lead affected evidence support the bounded lifecycle correction. The presentation-only and live-plan observations, first-assert stop point, baseline intermittent failure and deliberate producer refusals remain distinct. Prior source/history and old proof attribution are preserved.
+
+**Not higher because:** Controlled fixtures are not native media or universal crash/concurrency evidence; the missing-source mismatch is unresolved, eight candidate-dependent checks are blocked by changed producers, and new qualification has not occurred. Final manual review found no scoped source blocker, not broad qualification. Electron was acquired but not invoked; native dependency/sandbox/threading behavior and the new checkpoint's verified publication remain unestablished.
+
+---
+
 # 📘 Session: November 17, 2026 — FFmpeg Encoder — Wire an explicit candidate workbench without confusing source coverage with a native app proof
 
 ## 🤖 Models, Effort, Roles and Provenance

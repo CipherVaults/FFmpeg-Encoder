@@ -1,0 +1,624 @@
+{
+  "schema": 1,
+  "checkpoint": 23,
+  "kind": "evidence-only-full-copy-calibration",
+  "datedCutoffUtc": "2026-11-17T22:44:00Z",
+  "testedCommit": "2714557fb27dac3ec2ccdcc85ea52e5028c2ee88",
+  "testedTree": "5d27f6fefb9ee36b23f31cc05d86e180c2d5cd11",
+  "predecessor": {
+    "localCommit": "2714557fb27dac3ec2ccdcc85ea52e5028c2ee88",
+    "remoteCommit": "fc77f9d986e4d5c89dfcd550d00cdc6a77edaaa4",
+    "notion": "https://app.notion.com/p/41bbd7ade63b81018f6ae220b13b0fb7",
+    "sourceFiles": 567,
+    "commits": 22,
+    "fullSessionBytes": 1004199,
+    "finalNotionReceiptSha256": "c1af86d03b6d10473ca3f05b7387640a8b567022a5b31fb1bc7b1ce3b0a84d02"
+  },
+  "gate": {
+    "authorizedAtUtc": "2026-11-17T22:23:59.280786+00:00",
+    "bytes": 64265,
+    "sha256": "691e37e64b35bcc01cf40bfb49c837db103f94ce0f811339a300ecc54bdaa693"
+  },
+  "execution": {
+    "command": [
+      "node",
+      "run-once.cjs"
+    ],
+    "cwdRole": "reviewed Full-copy calibration preparation directory",
+    "attempts": 1,
+    "outer": {
+      "startedAt": "2026-11-17T22:24:31.173Z",
+      "endedAt": "2026-11-17T22:31:47.042Z",
+      "elapsedMs": 435869.169239,
+      "wallElapsedMs": 435869,
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdoutSha256": "849858499c4e90ec851ccd321cd3075f37dcd6dc66d345634a30091a1488a157",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "innerStartedAtUtc": "2026-11-17T22:24:33.199Z",
+    "reportFinishedAtUtc": "2026-11-17T22:31:45.989Z",
+    "status": "passed-preregistered-full-copy-calibration",
+    "harnessCensus": {
+      "spawned": 70,
+      "closed": 70,
+      "live": 0,
+      "maximum": 1
+    },
+    "externalCensus": {
+      "spawned": 70,
+      "closed": 70,
+      "live": 0,
+      "maximum": 1
+    },
+    "artifactFiles": 233,
+    "artifactBytes": 167990089,
+    "targetWarnings": [
+      {
+        "index": 8,
+        "bytes": 335,
+        "text": "[vost#0:0 @ 0x55fe3246c040] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx265' will be used.\nx265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n",
+        "sha256": "1316d5a5b5218338804655c774caf6cbcc99456575219e6ab02d225e5f8ef9a9"
+      },
+      {
+        "index": 32,
+        "bytes": 335,
+        "text": "[vost#0:0 @ 0x562e45f7ee40] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx265' will be used.\nx265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n",
+        "sha256": "40990bd9b909c589859b9ad08d14085818e200503b18e9ed997afa4771b31d19"
+      },
+      {
+        "index": 56,
+        "bytes": 335,
+        "text": "[vost#0:0 @ 0x55b6090c4200] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx265' will be used.\nx265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n",
+        "sha256": "3a7b5ef4045e556b1990301d39d8d542bd11cf932f9afd6ed0f0d28dd180e55b"
+      }
+    ],
+    "emptyStderrChildren": 67
+  },
+  "cases": [
+    {
+      "id": "short-mp4",
+      "source": {
+        "bytes": 5578679,
+        "sha256": "bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97"
+      },
+      "output": {
+        "bytes": 1958967,
+        "sha256": "c0ba0f83fc51f0f75a5398e4d1d80f98e7f6f2c5b6ce0172acc3877fdf5ffb0f"
+      },
+      "sourceCounts": {
+        "video": {
+          "frames": 240,
+          "samples": 0,
+          "first": "0",
+          "end": "8",
+          "diagnosticExactAdjacencyMismatches": 0
+        },
+        "audio": {
+          "frames": 375,
+          "samples": 384000,
+          "first": "0",
+          "end": "8",
+          "diagnosticExactAdjacencyMismatches": 0
+        }
+      },
+      "outputCounts": {
+        "video": {
+          "frames": 240,
+          "samples": 0,
+          "first": "0",
+          "end": "8",
+          "diagnosticExactAdjacencyMismatches": 0
+        },
+        "audio": {
+          "frames": 375,
+          "samples": 384000,
+          "first": "0",
+          "end": "24001/3000",
+          "diagnosticExactAdjacencyMismatches": 374
+        }
+      },
+      "sourcePacketSeals": {
+        "count": 376,
+        "payloadSha256": "b991cd0656a0f98f1f31928878519dc126b1c6845936043487e634fd08d0c856",
+        "paddingSha256": "c61d37c51be2cdb36aa5911971fbe578038afd6666789cfc8cbdbbaae1c5bd87",
+        "headerSha256": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10"
+      },
+      "outputPacketSeals": {
+        "count": 376,
+        "payloadSha256": "b991cd0656a0f98f1f31928878519dc126b1c6845936043487e634fd08d0c856",
+        "paddingSha256": "c61d37c51be2cdb36aa5911971fbe578038afd6666789cfc8cbdbbaae1c5bd87",
+        "headerSha256": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10"
+      },
+      "decodedEvidence": {
+        "video": {
+          "sourceFrameCount": 240,
+          "outputFrameCount": 240,
+          "comparedFrames": 240,
+          "firstSourcePtsUs": 0,
+          "lastSourcePtsUs": 7966667,
+          "lastSourceDurationUs": 33333,
+          "firstOutputPtsUs": 0,
+          "lastOutputPtsUs": 7967000,
+          "lastOutputDurationUs": 33000,
+          "maxRebasedTimestampErrorUs": 334
+        },
+        "audio": [
+          {
+            "inputIndex": 1,
+            "sourceSampleCount": 384000,
+            "outputSampleCount": 384000,
+            "firstSourcePtsUs": 0,
+            "lastSourceEndUs": 8000000,
+            "firstOutputPtsUs": 0,
+            "lastOutputEndUs": 8000333,
+            "encoderDelaySamples": 1024,
+            "discardPaddingSamples": 0,
+            "packetIdentity": {
+              "algorithm": "sha256",
+              "packets": 376,
+              "sourceSeal": "40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721",
+              "outputSeal": "40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721"
+            }
+          }
+        ]
+      },
+      "validationValid": true,
+      "targetIndex": 8,
+      "targetSeconds": 14.91
+    },
+    {
+      "id": "long-mov",
+      "source": {
+        "bytes": 104812003,
+        "sha256": "62ed1672e3a2c16540bd0bf477fe7ef687cbee0349697cb0aea609fe8b7b92e0"
+      },
+      "output": {
+        "bytes": 36098122,
+        "sha256": "0b10970d330df2cbc691a4af38f7094ad4b92e34889445a33a5f4e488a4479dc"
+      },
+      "sourceCounts": {
+        "video": {
+          "frames": 4500,
+          "samples": 0,
+          "first": "0",
+          "end": "150",
+          "diagnosticExactAdjacencyMismatches": 0
+        },
+        "audio": {
+          "frames": 7032,
+          "samples": 7200000,
+          "first": "0",
+          "end": "150",
+          "diagnosticExactAdjacencyMismatches": 0
+        }
+      },
+      "outputCounts": {
+        "video": {
+          "frames": 4500,
+          "samples": 0,
+          "first": "0",
+          "end": "150",
+          "diagnosticExactAdjacencyMismatches": 0
+        },
+        "audio": {
+          "frames": 7032,
+          "samples": 7200000,
+          "first": "0",
+          "end": "450001/3000",
+          "diagnosticExactAdjacencyMismatches": 7031
+        }
+      },
+      "sourcePacketSeals": {
+        "count": 7033,
+        "payloadSha256": "43e83646c37aa0bd88f95862fd2930fe990a78d8c25fd97518fced76d06ad67a",
+        "paddingSha256": "a397882a336181a29168668107a61297be7e7de49769ebdda9eb3d6dcbefea37",
+        "headerSha256": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10"
+      },
+      "outputPacketSeals": {
+        "count": 7033,
+        "payloadSha256": "43e83646c37aa0bd88f95862fd2930fe990a78d8c25fd97518fced76d06ad67a",
+        "paddingSha256": "a397882a336181a29168668107a61297be7e7de49769ebdda9eb3d6dcbefea37",
+        "headerSha256": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10"
+      },
+      "decodedEvidence": {
+        "video": {
+          "sourceFrameCount": 4500,
+          "outputFrameCount": 4500,
+          "comparedFrames": 4500,
+          "firstSourcePtsUs": 0,
+          "lastSourcePtsUs": 149966667,
+          "lastSourceDurationUs": 33333,
+          "firstOutputPtsUs": 0,
+          "lastOutputPtsUs": 149967000,
+          "lastOutputDurationUs": 33000,
+          "maxRebasedTimestampErrorUs": 334
+        },
+        "audio": [
+          {
+            "inputIndex": 1,
+            "sourceSampleCount": 7200000,
+            "outputSampleCount": 7200000,
+            "firstSourcePtsUs": 0,
+            "lastSourceEndUs": 150000000,
+            "firstOutputPtsUs": 0,
+            "lastOutputEndUs": 150000333,
+            "encoderDelaySamples": 1024,
+            "discardPaddingSamples": 768,
+            "packetIdentity": {
+              "algorithm": "sha256",
+              "packets": 7033,
+              "sourceSeal": "78d9b4ddb48033355fe7ed55f1e6c9405aac10d2835ffdbed833d595d87ca9f1",
+              "outputSeal": "78d9b4ddb48033355fe7ed55f1e6c9405aac10d2835ffdbed833d595d87ca9f1"
+            }
+          }
+        ]
+      },
+      "validationValid": true,
+      "targetIndex": 32,
+      "targetSeconds": 254.937
+    },
+    {
+      "id": "heldout-mp4",
+      "source": {
+        "bytes": 7250606,
+        "sha256": "b9e375498e5c74af6f4a44b1ebcbcbf3d4f9d358609c2f0ddd4ec8d7a5d21b5c"
+      },
+      "output": {
+        "bytes": 2637026,
+        "sha256": "c8d09b09c1db78b630ec35d6fb8ff547ae83b1582d1c2e8bbf4e796df343d046"
+      },
+      "sourceCounts": {
+        "video": {
+          "frames": 330,
+          "samples": 0,
+          "first": "0",
+          "end": "11",
+          "diagnosticExactAdjacencyMismatches": 0
+        },
+        "audio": {
+          "frames": 516,
+          "samples": 528000,
+          "first": "0",
+          "end": "11",
+          "diagnosticExactAdjacencyMismatches": 0
+        }
+      },
+      "outputCounts": {
+        "video": {
+          "frames": 330,
+          "samples": 0,
+          "first": "0",
+          "end": "11",
+          "diagnosticExactAdjacencyMismatches": 0
+        },
+        "audio": {
+          "frames": 516,
+          "samples": 528000,
+          "first": "0",
+          "end": "33001/3000",
+          "diagnosticExactAdjacencyMismatches": 515
+        }
+      },
+      "sourcePacketSeals": {
+        "count": 517,
+        "payloadSha256": "94ca79d4e5096a0e84a7e0e9fb4363a0872f69ad88aed9713bfc695670165d88",
+        "paddingSha256": "839359325ffb25b2f894fad199ae8cbde38fccd2fa9649d304a8d99e31936a54",
+        "headerSha256": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10"
+      },
+      "outputPacketSeals": {
+        "count": 517,
+        "payloadSha256": "94ca79d4e5096a0e84a7e0e9fb4363a0872f69ad88aed9713bfc695670165d88",
+        "paddingSha256": "839359325ffb25b2f894fad199ae8cbde38fccd2fa9649d304a8d99e31936a54",
+        "headerSha256": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10"
+      },
+      "decodedEvidence": {
+        "video": {
+          "sourceFrameCount": 330,
+          "outputFrameCount": 330,
+          "comparedFrames": 330,
+          "firstSourcePtsUs": 0,
+          "lastSourcePtsUs": 10966667,
+          "lastSourceDurationUs": 33333,
+          "firstOutputPtsUs": 0,
+          "lastOutputPtsUs": 10967000,
+          "lastOutputDurationUs": 33000,
+          "maxRebasedTimestampErrorUs": 334
+        },
+        "audio": [
+          {
+            "inputIndex": 1,
+            "sourceSampleCount": 528000,
+            "outputSampleCount": 528000,
+            "firstSourcePtsUs": 0,
+            "lastSourceEndUs": 11000000,
+            "firstOutputPtsUs": 0,
+            "lastOutputEndUs": 11000333,
+            "encoderDelaySamples": 1024,
+            "discardPaddingSamples": 384,
+            "packetIdentity": {
+              "algorithm": "sha256",
+              "packets": 517,
+              "sourceSeal": "606f1376b41cdc9d597edf6ee92e8b947644aed8100e8630f353dfb8c8eb9c72",
+              "outputSeal": "606f1376b41cdc9d597edf6ee92e8b947644aed8100e8630f353dfb8c8eb9c72"
+            }
+          }
+        ]
+      },
+      "validationValid": true,
+      "targetIndex": 56,
+      "targetSeconds": 18.347
+    }
+  ],
+  "outputAudioRationalAdjacency": [
+    {
+      "case": "short-mp4",
+      "nonzeroAdjacentDifferences": 374,
+      "minimumSeconds": "-1/3000",
+      "maximumSeconds": "1/1500",
+      "maximumAbsoluteMicroseconds": "2000/3",
+      "canonicalAudioTimelineBoundUs": 1042,
+      "outputEndMinusSourceEndSeconds": "1/3000"
+    },
+    {
+      "case": "long-mov",
+      "nonzeroAdjacentDifferences": 7031,
+      "minimumSeconds": "-1/3000",
+      "maximumSeconds": "1/1500",
+      "maximumAbsoluteMicroseconds": "2000/3",
+      "canonicalAudioTimelineBoundUs": 1042,
+      "outputEndMinusSourceEndSeconds": "1/3000"
+    },
+    {
+      "case": "heldout-mp4",
+      "nonzeroAdjacentDifferences": 515,
+      "minimumSeconds": "-1/3000",
+      "maximumSeconds": "1/1500",
+      "maximumAbsoluteMicroseconds": "2000/3",
+      "canonicalAudioTimelineBoundUs": 1042,
+      "outputEndMinusSourceEndSeconds": "1/3000"
+    }
+  ],
+  "outputProbeChecks": [
+    {
+      "case": "short-mp4",
+      "outputProbeSha256": "a181186296c3142ecdabdc6e00a0cc61d9928616b490ad4855fada63a715abdd",
+      "video": "HEVC 1280x720 SDR BT709/tv, square SAR",
+      "audio": "AAC 48000 Hz stereo"
+    },
+    {
+      "case": "long-mov",
+      "outputProbeSha256": "648ae3bab77b547eda1755d7d3791459b893649470cb2b7068bb85cac72b67d0",
+      "video": "HEVC 1280x720 SDR BT709/tv, square SAR",
+      "audio": "AAC 48000 Hz stereo"
+    },
+    {
+      "case": "heldout-mp4",
+      "outputProbeSha256": "30920b7502d4db22aec83f07368883e41ba4101c5d8be6342b225872839af170",
+      "video": "HEVC 1280x720 SDR BT709/tv, square SAR",
+      "audio": "AAC 48000 Hz stereo"
+    }
+  ],
+  "frozenCriteria": {
+    "classification": "preregistered-unmeasured; not production qualification",
+    "sourceVideoClock": "1/15360",
+    "sourceAudioClock": "1/48000",
+    "outputClock": "1/1000",
+    "containerDuration": "matroska-copy-end-plus-codec-delay",
+    "tolerances": {
+      "videoTimestampUs": 1067,
+      "audioTimestampUs": 1042,
+      "avSyncUs": 2109,
+      "durationUs": 1088,
+      "sampleCount": 0
+    },
+    "videoDurationUs": 1067,
+    "audioTimelineUs": 1042,
+    "rationale": "Video: source tick + output millisecond +1us; audio: source tick + source sample + output millisecond. Exact copied sample count. Container max(video end, copied decoded audio end plus its own observed delay). No fitted shift or terminal coding allowance.",
+    "sourceCriterion": "Zero origin; complete CFR/properties/continuous samples; exact metadata-versus-decoded ends. AAC priming/padding relation unresolved. Failure stops before target."
+  },
+  "auditImplementationNotes": [
+    "Initial independent parser did not strip the observed side_datum/skip_samples field prefix and refused packet-seal comparison; corrected parser for this explicit saved format, then full checks repeated.",
+    "Initial independent argv assertion expected explicit -c:a; actual builder uses -c copy with only video encoder override. Corrected audit to require default copy and absence of audio encoder/filter override, then full checks repeated. Neither was a media/source failure or modification."
+  ],
+  "leadReconciliation": {
+    "checkedAtUtc": "2026-11-17T22:41:48.656397+00:00",
+    "disposition": "Post-audit full source/runtime/artifact reconciliation passed. Release authoritative docs/source freeze for checkpoint 023 evidence preservation and isolated successor source development only. No additional runtime/media execution authorized by this receipt.",
+    "testedCommit": "2714557fb27dac3ec2ccdcc85ea52e5028c2ee88",
+    "testedTree": "5d27f6fefb9ee36b23f31cc05d86e180c2d5cd11",
+    "sourceFiles": 567,
+    "sourceGitCurrentCanonicalAndNotionHashesEqual": true,
+    "runtimeFiles": 9,
+    "artifactFiles": 233,
+    "artifactBytes": 167990089,
+    "completeArtifactPathSet": true,
+    "sourceFreezeReleased": true,
+    "runtimeExecutionAuthorized": false,
+    "independentAudit": {
+      "bytes": 29735,
+      "sha256": "a535b47cffd2dc40a79126c696c95c9a81ec28c1569236026709c02a5ac7da90"
+    },
+    "rawReport": {
+      "bytes": 207464,
+      "sha256": "5f74a9efb7981fefb242dcf34c82e972bbc269c5a5ea7a92c62a68db1bc34ad9"
+    },
+    "notion022ReceiptSha256": "c1af86d03b6d10473ca3f05b7387640a8b567022a5b31fb1bc7b1ce3b0a84d02",
+    "harnessCensus": {
+      "spawned": 70,
+      "closed": 70,
+      "live": 0,
+      "maximum": 1
+    },
+    "externalCensus": {
+      "spawned": 70,
+      "closed": 70,
+      "live": 0,
+      "maximum": 1
+    },
+    "limits": [
+      "Saved-data audit only: no new runtime, ffprobe, decode, media, UI or source edits. Original source/output hashes were captured by campaign and independently rechecked, not invented as historical hashes by this audit.",
+      "The external and harness censuses both equal 70 here; they are separately checked and not assumed universally identical. No OS-wide process audit.",
+      "Independent source diagnostics have zero exact adjacency mismatches and strict metadata/decoded endpoint equality. Output AAC adjacency mismatch counts reflect literal rational timestamp discontinuities under 1 ms container clocks; canonical bounded timeline checks pass. Do not call output timestamps exactly contiguous or infer missing samples.",
+      "Copied AAC evidence is equal ordered coded packets, decoder header, ordinal skip/discard, exact decoded counts and bounded timeline; no decoded PCM identity or pixel/scaler-quality proof.",
+      "Three successful target children retain duplicate-codec, CPU-mask and thread-pool warnings. Validation passing does not establish harmlessness or general performance qualification.",
+      "Preregistered tolerances remained fixed, not fitted from observed outputs. Passed three synthetic inputs do not establish arbitrary duration/container/codec coverage.",
+      "Runtime/source currentness follows saved checks plus current full hashes, not continuous atomic locks. Source-only restores exclude binaries and raw media/report artifacts.",
+      "Timers/admission bounds are not hard OS quotas/exit guarantees. No retry or production activation inferred from success.",
+      "Collector cost description generically mentions extra FLAC PCM decoding; actual copied-AAC invocations are nine and contain no FLAC PCM identity."
+    ],
+    "next": "Preserve evidence-only 023 in Git, independently restored Notion source plus full bundle, then GitHub. Isolated two-file Full-copy service implementation and separately isolated missing-source test investigation may proceed; no integration or runtime activation without independent review and new checkpoint."
+  },
+  "artifacts": [
+    {
+      "name": "APPROVED_CHECKPOINT.json",
+      "bytes": 64265,
+      "sha256": "691e37e64b35bcc01cf40bfb49c837db103f94ce0f811339a300ecc54bdaa693"
+    },
+    {
+      "name": "AUTHORIZER_REVIEW.json",
+      "bytes": 2639,
+      "sha256": "0d1c7f63589dbede23d7d842cfa556af80665af758506678206374a883c92ba0"
+    },
+    {
+      "name": "INDEPENDENT_LAUNCH_REVIEW-v1.json",
+      "bytes": 4173,
+      "sha256": "8e3d5211fc7133bdd5ee42ac8372f5db778d120b853e6dad713a00a40dcaea9f"
+    },
+    {
+      "name": "INDEPENDENT_LAUNCH_REVIEW.json",
+      "bytes": 5583,
+      "sha256": "37c22cce64f6ec5436a4ccd10221b660fa626be1e7bc18720bc3c9a56239b5b6"
+    },
+    {
+      "name": "PREPARED_LAUNCH_HANDOFF-v2.json",
+      "bytes": 1686,
+      "sha256": "c93923f4b0409fe772d26609ea132cb01c69c48102757e386e5ce99e0474a86e"
+    },
+    {
+      "name": "CAMPAIGN_PLAN.json",
+      "bytes": 3212,
+      "sha256": "bee513e64c202fcda24b2f884108a065e5c1bfd4628e5cb73e09f8f11da46f70"
+    },
+    {
+      "name": "launch-full-copy.cjs",
+      "bytes": 16565,
+      "sha256": "f850bf0c9a36dadcabc38d8e0f42c5b93a402a72147d7f04daf422487595b219"
+    },
+    {
+      "name": "run-once.cjs",
+      "bytes": 3219,
+      "sha256": "148fd540e7b6554d59569a19c9a9616414c5550e3507f631f192e3cb7990a11a"
+    },
+    {
+      "name": "completion-readback.test.cjs",
+      "bytes": 2057,
+      "sha256": "d4059983ebe918a6585ab241396af31ec883772055a939bfea31087b3363edaf"
+    },
+    {
+      "name": "OUTER_ATTEMPT_STARTED.json",
+      "bytes": 93,
+      "sha256": "6899b93e3df1cf03faf71609396427ef4f34de6f3121e5b22babe92ab10f73c3"
+    },
+    {
+      "name": "ATTEMPT_STARTED.json",
+      "bytes": 279,
+      "sha256": "a0ade0988d21ca850f06d1322a973f4ebe68345fe6b58e9848b0c30fa99ce457"
+    },
+    {
+      "name": "OUTER_COMPLETION.json",
+      "bytes": 373,
+      "sha256": "dae467244edce9d9bdbf5fefc8216982d9f16cdd9706cc0719b415d9dfaa7514"
+    },
+    {
+      "name": "completion-1794954707025-12.json",
+      "bytes": 131954,
+      "sha256": "7888972f449b266ad52412acfaf913f62df5dd55df15eaca1c2854635aa7fe51"
+    },
+    {
+      "name": "WORKER_FINAL_HANDOFF.json",
+      "bytes": 8026,
+      "sha256": "22415e99b0cc8f586c140587b1a189ef1315202ffe6935bcd3fcf90e09167b8b"
+    },
+    {
+      "name": "POST_RUN_INVENTORY.json",
+      "bytes": 65698,
+      "sha256": "8033b3e16aaeaff70110c95ee59ab5cc53b04876eaed4736292938c2a95e3ea7"
+    },
+    {
+      "name": "INDEPENDENT_SAVED_OUTPUT_AUDIT.json",
+      "bytes": 29735,
+      "sha256": "a535b47cffd2dc40a79126c696c95c9a81ec28c1569236026709c02a5ac7da90"
+    },
+    {
+      "name": "LEAD_RELEASE.json",
+      "bytes": 3349,
+      "sha256": "065f73eb985e373ab301ad1dd239964ef050370bfc7d432d934ddfb835940e80"
+    },
+    {
+      "name": "notion-checkpoint-022-verification.json",
+      "bytes": 98392,
+      "sha256": "c1af86d03b6d10473ca3f05b7387640a8b567022a5b31fb1bc7b1ce3b0a84d02"
+    },
+    {
+      "name": "github-checkpoint022-verification.json",
+      "bytes": 4634,
+      "sha256": "5514cef8e7437fb6a8d6835cca11110f6ccbcbcb54e95c1d1420ebbf524d7f13"
+    },
+    {
+      "name": "full-copy-calibration-transform-locations.json",
+      "bytes": 23095,
+      "sha256": "4f4ce32b22161ed6ea188dde2181a596c5797804f38f051b9121b20fec8ecbb4"
+    },
+    {
+      "name": "full-copy-service-design/DESIGN.md",
+      "bytes": 10120,
+      "sha256": "a5bc4fc7d8f22d6cc405e9c40a0058aaae9a78ea4f585b178f57d2817788df5e"
+    },
+    {
+      "name": "full-copy-calibration-independent-review/MISSING_SOURCE_TRIAGE.json",
+      "bytes": 4113,
+      "sha256": "782e6c6bfc41f2885bfa8b9de94f7abd1430fb92e087332a7bf93a50910e4ae7"
+    }
+  ],
+  "portable": {
+    "path": "linux-blue/evidence-2026-11-17/full-copy-calibration-portable.json",
+    "bytes": 194941,
+    "sha256": "f0acf7a7c11321cbe46849c295d670903fa505030df53fded50f2e1ad4630a67",
+    "substitutions": 260,
+    "byAlias": {
+      "campaign://": 161,
+      "runtime-build://": 99
+    },
+    "rawBytes": 207464,
+    "rawSha256": "5f74a9efb7981fefb242dcf34c82e972bbc269c5a5ea7a92c62a68db1bc34ad9"
+  },
+  "inheritedTestsNotRerun": {
+    "leadFocused": "170/170",
+    "independentIntegrated": "69/69",
+    "serviceParity": "125/126",
+    "broad": "200/245, all 45 failures retained"
+  },
+  "limitations": [
+    "Saved-data audit only: no new runtime, ffprobe, decode, media, UI or source edits. Original source/output hashes were captured by campaign and independently rechecked, not invented as historical hashes by this audit.",
+    "The external and harness censuses both equal 70 here; they are separately checked and not assumed universally identical. No OS-wide process audit.",
+    "Independent source diagnostics have zero exact adjacency mismatches and strict metadata/decoded endpoint equality. Output AAC adjacency mismatch counts reflect literal rational timestamp discontinuities under 1 ms container clocks; canonical bounded timeline checks pass. Do not call output timestamps exactly contiguous or infer missing samples.",
+    "Copied AAC evidence is equal ordered coded packets, decoder header, ordinal skip/discard, exact decoded counts and bounded timeline; no decoded PCM identity or pixel/scaler-quality proof.",
+    "Three successful target children retain duplicate-codec, CPU-mask and thread-pool warnings. Validation passing does not establish harmlessness or general performance qualification.",
+    "Preregistered tolerances remained fixed, not fitted from observed outputs. Passed three synthetic inputs do not establish arbitrary duration/container/codec coverage.",
+    "Runtime/source currentness follows saved checks plus current full hashes, not continuous atomic locks. Source-only restores exclude binaries and raw media/report artifacts.",
+    "Timers/admission bounds are not hard OS quotas/exit guarantees. No retry or production activation inferred from success.",
+    "Collector cost description generically mentions extra FLAC PCM decoding; actual copied-AAC invocations are nine and contain no FLAC PCM identity."
+  ],
+  "publication": {
+    "localCommit": null,
+    "notionRestoreVerified": false,
+    "githubVerified": false,
+    "note": "Proposed 023 evidence checkpoint not yet committed or mirrored at dated cutoff. Later publication lives in external receipts."
+  },
+  "next": {
+    "serviceSource": "Two new developer-only files assigned in isolated source copy after lead release; no authoritative integration or runtime run. Requires fresh Full-copy producer closure, raw original report gate and genuine selector/service lifecycle. Ordinary service does not inherit calibration pre-target decoded diagnostics.",
+    "testInvestigation": "Separate isolated missing-source inode-reuse hypothesis investigation; no measured inode evidence or authoritative correction yet. Do not weaken protected-output guard.",
+    "runtime": "No new media/probe/decode/native execution authorized by these records."
+  }
+}

@@ -1,3 +1,335 @@
+# 📘 Session: November 17, 2026 — FFmpeg Encoder — Validate three fixed Full-copy candidates while retaining bounded AAC timestamp differences
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model / effort attribution | Evidence and limit |
+|---|---|---|
+| Engineering lead | GPT-6 Astra / Ultra, recorded assignment only | Owns exact preservation/authorization/freeze, interprets actual outcome and releases source/docs after independent audit. Configuration is not backend attestation. |
+| Calibration helper worker | Not independently established here | Prepares fixed source/runtime gate, one-shot launcher and bounded completion persistence. Preparation and file-only tests are not execution. |
+| Independent helper / authorizer reviewer | Not independently established here | Reviews actual code, identities, failure boundaries and extracted file-write tests; static authorizer review does not issue a gate or dynamically prove runtime readiness. |
+| Actual campaign operator / saved-evidence auditor | Not independently established here | One actual finite campaign used real media tools; independent audit only rehashed/recomputed saved evidence, with no fresh runtime/probe/decode. These scopes remain separately attributed. |
+| Mirror / documentation | Not independently established here | Mirror verifies unabridged source/history/native records and exact remote scope. Documentation drafts outside the source freeze and owns only a later explicitly released Session prepend. |
+
+**Record basis:** Source 022 introduced the closed Full-copy proportional-resource/copy-evidence foundation and fail-first developer harness. Its focused checks passed, but current source invalidates historical candidate closures; actual copied-AAC priming/padding remains unmeasured. This session must preserve the observed finite outcome, including an early strict refusal if one occurs, without changing coefficients, tolerances, sources, cases or historical pins mid-run.
+
+## 🕒 Time
+
+- Date: November 17, 2026. Explicit saved timestamps are UTC. Active-work start/total active work are not measured; do not derive them from file mtime or an outer elapsed duration.
+- Earlier source-record cutoff: 022 retained helper V2 prepared/four file-only checks and final review pending. That remains historically correct; the later final helper review belongs here, not retroactively in 022.
+- Predecessor remote verification: 22:22:49.905578 UTC for exact thirteen-file 022 publication. Source/full-history Notion and native full Session are independently verified separately.
+- Gate created 22:23:59.280786 UTC. Outer exclusive marker is 22:24:31.172 UTC, outer timing begins 22:24:31.173 and inner attempt is 22:24:33.199. These are distinct receipt boundaries, not inconsistent timestamps.
+- Raw report finished 22:31:45.989 UTC; outer closed 22:31:47.042 with exit 0. Inner elapsed is 432,635 ms / monotonic 432,634.96432 ms; outer wall 435,869 ms / monotonic 435,869.169239 ms. Neither is active work or a general throughput benchmark.
+- Independent saved audit carries checkedAt 22:34:58.108216 UTC; its final hashed content includes subsequent rational-adjacency/output-probe clarifications. Lead full reconciliation/release is 22:41:48.656397 UTC. Preserve exact final hash rather than interpreting the initial audit timestamp as when every later clarification was already written.
+- Session type: One actual fixed developer Full-copy calibration and saved-evidence reconciliation, with all three preregistered cases passing their unchanged criteria. Not normal-service/native/product activation or general duration/performance proof.
+- Stage / focus: Linux 0.7, exact whole-file 1080p30 SDR-to-720p HEVC with copied AAC, strict source diagnostics and honest priming/padding evidence.
+- Contributors: Ahmed retains product ownership/acceptance; lead, helper/operator, independent reviewer/auditor, mirror and documentation have separate scope.
+- Model / effort: Only independently recorded configuration is stated; no blanket model attribution across workers.
+- Summary purpose: Keep completed preservation, prospective controls, submitted actions, retained diagnostics and independently supported conclusions distinct.
+
+## 🎯 Session Goal
+
+Run at most the exact separately authorized preregistered Full-copy candidate campaign on immutable 022, with genuine existing runtime ownership, all 567 tracked source files frozen, and verified source/history backups. The fixed cases are eight-second MP4, 150-second MOV and distinct eleven-second held-out MP4. They are attempted sequentially only while earlier strict criteria succeed.
+
+The first genuine source may disagree with the exact synthetic metadata/decoded endpoint contract because copied AAC priming/padding has not yet been qualified. Such a retained failure is useful evidence, not permission to fit tolerances, silently regenerate later cases, borrow FLAC acceptance or report a passing family. A source-admitted output still needs genuine collection, canonical telemetry/output validation and complete closure; diagnostics alone do not grant collector authority.
+
+No service factory, current preview, catalog/default route, native journey, popup fix, production activation or owner release acceptance is implied by the candidate experiment.
+
+## 🛠️ Actions Taken
+
+### 1. Verify the exact 022 source/history and remote boundary
+
+Local 022 is `2714557fb27dac3ec2ccdcc85ea52e5028c2ee88`, tree `5d27f6fefb9ee36b23f31cc05d86e180c2d5cd11`, full twenty-two-commit history and 567 tracked files. [Notion source/history](https://app.notion.com/p/41bbd7ade63b81018f6ae220b13b0fb7) independently restored exact ZIP/bundle bytes, with source ZIP SHA `201f3dfb23d409d2bb5e1f2d1d7aeb71389fa9a62a5152bc7d9eec0c3911115b`, bundle SHA `2b3a2d451b7624ede4d46a1340ee5c887476f87705c7ed6f6e2c2acf61bcd4bd` and history ZIP SHA `ecb6aa7e94df92f9fda51a7a7d7ea05976600e1c59a6aba8ad6cdc47d61e2f4b`.
+
+The [native full Session](https://app.notion.com/p/41bbd7ade63b8190a3e3e7771dca37fd) was sent through five ordered unabridged requests and fetched with all twenty-two headings, historical ending and no truncation metadata. It represents the complete 1,004,199-byte Markdown source, SHA `3422f919d8f85ac80114dcacf525b59771f1de73bfad8e85f9e0ee834102df41`; exact Markdown bytes remain in source/history archives, not a promise native rendering is byte-identical. An initial local combined JSON read was truncated before connector mutation; bounded reads preserved complete content without a duplicate partial upload.
+
+Remote `fc77f9d986e4d5c89dfcd550d00cdc6a77edaaa4` was verified at 22:22:49.905578 UTC, actual sole parent `0408e2c62c09393a1312fe9a030e17085b5d7d92`, tree `8d3d105de645dfb4e31c0bf25454420101d31802`. All thirteen exact changed files and parent/tree/fresh ref match: 949 total, 936 unchanged, five modified, eight new and zero deleted. Only the approved 022 source/test/PBS scope was published; no calibration result or old terminal-unknown payload was inferred/replayed.
+
+This editor copied and verified the entire 1,004,199-byte prior Session outside the checkout before drafting. It must remain the exact suffix; earlier source and native statements are never rewritten to incorporate a later experiment. The final 022 Notion verification receipt mapping was completed before authorization and frozen at SHA `c1af86d03b6d10473ca3f05b7387640a8b567022a5b31fb1bc7b1ce3b0a84d02`. This exact receipt identity, not the earlier mutable draft, is the gate input.
+
+### 2. Close the helper completion-readback gap without rerunning or changing source
+
+The source harness already verifies its raw final report, but V1 external launcher/outer helpers did not reread their own final completion writes before printing or assigning success. Independent review requested a helper-only correction, even though both syntax checks passed. Raw report and inner completion checks did not automatically make the entire outer receipt chain readback-verified.
+
+V1 launcher is 16,169 bytes/SHA `f9835bbafe0b42a8a4a02d986bf6c09cbcc4411ac0bff1700044dfd4c23d40d2`; V1 outer is 2,765 bytes/SHA `1a06eff7d9f85c6c225f621234679341d9fa551243c434f2d3cc45af9465ffdd`. Original scripts remain as `.v1`, and the initial handoff/review remain unchanged. This gap is distinct from the in-repository diagnostic timeout omission already fixed in source 022.
+
+V2 serializes each completion once, writes exclusively, rereads exact bytes/hash and parsed JSON before printing completion or assigning a successful exit. Launcher readback rejection reaches the top-level nonzero handler; outer catches it and returns nonzero. No overwrite or retry is introduced, and a partial artifact/error remains evidence. Production source, runtime pins, case plan, limits and acceptance criteria are unchanged.
+
+Final launcher is 16,565 bytes/SHA `f850bf0c9a36dadcabc38d8e0f42c5b93a402a72147d7f04daf422487595b219`; outer 3,219 bytes/SHA `148fd540e7b6554d59569a19c9a9616414c5550e3507f631f192e3cb7990a11a`. The final completion-block test is 2,057 bytes/SHA `d4059983ebe918a6585ab241396af31ec883772055a939bfea31087b3363edaf`. Four worker and independently repeated file-only tests cover positive and corrupt-readback negative outcomes for each exact extracted completion block, with real temporary file I/O. They do not execute entire orchestration, child spawning, runtime or media.
+
+An initial cross-VM JSON prototype mismatch caused false failures in the extracted test. The test was corrected by injecting the same JSON global, leaving production unchanged; original red stdout remains SHA `e94f21d6adc227fbfb4274fe07d8e741985c15ebdc92499809666b2e428a0609`. Independent final stdout SHA `8a20f14e3ebd35212bf0fabe5e0aa90a328f251761c189217d03a54facc7cdf7` and empty stderr support four passing checks. No real campaign failure is invented from this test-realm issue.
+
+Final independent review is 5,583 bytes/SHA `37c22cce64f6ec5436a4ccd10221b660fa626be1e7bc18720bc3c9a56239b5b6`. Its inherited syntax-only sentence was corrected to include the actual four extracted file-only tests; it still explicitly excludes full orchestration/runtime/media. The conditional GO applies only after actual immutable 022, both independent restores, exact final helper/review pins and separate execution release.
+
+Outer completion directly hashes top-level stdout/stderr, not the raw report. Launcher completion carries the exact report identity and validates persisted report/inner completion. Preserve this distinction rather than repeat the older handoff’s overly broad “outer hashes report” wording.
+
+### 3. Review a fixed authorizer without treating static approval as a run
+
+`authorize-full-copy022.py` is 5,351 bytes/SHA `a8ccb75e133e0b602404d2c67fef2659de08598d4509d1ee5c00aa8700775a55`; its independent review is 2,639 bytes/SHA `0d1c7f63589dbede23d7d842cfa556af80665af758506678206374a883c92ba0`. The review is AST/static only, not success-path or optimization-mode execution. It finds the script suitable after explicit lead release and final Notion-receipt freezing; it does not create a gate or dynamically verify runtime readiness.
+
+The script fixes actual 022 HEAD/tree and twenty-two commits, accepts no positional arguments, and explicitly rejects optimized Python/PYTHONOPTIMIZE before assertion-based checks. It requires a clean tracked diff and exact equality of all 567 Git/current/publication/Notion paths and content hashes with stable read stamps/canonical paths. Both restoration flags and commit/tree/file/history counts must match. The actual final Notion receipt bytes are hashed into the gate, not a guessed future digest; if that receipt changes after issuance, stop and reconcile rather than mutate the gate silently.
+
+Exact final launcher/outer/plan/review/runtime-manifest hashes and the nine reviewed producer hashes are pinned. Tool pair and seven dependencies are streamed/hashed with stable sizes/stamps and canonical/soname paths; the existing genuine runtime adapter retains its own admission requirements. The authorizer itself does not bind its own review hash or verify runtime hardlink count, so trusted lead invocation of the exact reviewed authorizer and adapter ownership remain explicit assumptions, not newly proven atomic security.
+
+No NODE_OPTIONS or LD_* override is permitted. Free space must meet the fresh 27 GiB point check and all exclusive gate/attempt/log/completion markers must be absent. The ordinary no-argument Python invocation writes the gate exclusively and rereads exact bytes/JSON before success. It is still a separate authorized action, not a side effect of review or this document.
+
+The lead reverified all 567 Git/current/Notion source identities, clean tracked source, exact authorizer/review and runtime pair/seven dependencies, then wrote the exclusive gate at 22:23:59.280786 UTC, SHA `691e37e64b35bcc01cf40bfb49c837db103f94ce0f811339a300ecc54bdaa693`, and separately released one run. The final corrected helper review is `37c22cce…`; intermediate `323af556…` is not the final pinned review. Actual outer exclusive marker is 93 bytes/SHA `6899b93e3df1cf03faf71609396427ef4f34de6f3121e5b22babe92ab10f73c3` at 22:24:31.172 UTC, followed by outer start 22:24:31.173. Inner attempt is 279 bytes/SHA `a0ade0988d21ca850f06d1322a973f4ebe68345fe6b58e9848b0c30fa99ce457` at 22:24:33.199. Exactly one invocation ran; final closure/audit/release are recorded below, with no retry or intervention.
+
+### 4. Keep the finite runtime/diagnostic boundaries explicit
+
+The 3,212-byte plan SHA is `bee513e64c202fcda24b2f884108a065e5c1bfd4628e5cb73e09f8f11da46f70`; runtime manifest is 2,312 bytes/SHA `a957385be8d57874dfd5e88a9cbf137ecbe9311ebccc5e25280e6e52b72a511c`. The plan fixes full/null 1080p30-to-720 HEVC CPU slow/25, copied AAC, exact short/long/held-out specs and preregistered unmeasured tolerances. It grants no production qualification/publication.
+
+Source diagnostics comprise four bounded independent scans before target; output has four more if reached; the canonical genuine collector has nine calls. No additional PCM or FLAC identity is inserted. Strict source metadata/decoded equality and earlier family admission may stop before target. Genuine private selection/currentness and post-output canonical validation remain mandatory for success; independent diagnostics are explicitly non-authoritative observations.
+
+128 serial children, thirty-minute overall abort request, 480-second case ceiling, 300-second child ceiling, 180-second generation allowance, 27 GiB free-space admission, 2 GiB owned admission, 512 MiB file and 32 MiB report bounds are fixed. Runtime adapter startup children are also guarded by the external runner; the inner harness census starts after runtime open and must not be confused with the full external lifetime count.
+
+Timers request abortion, not guaranteed process exit; final closure/hash inventory can outlive them and the outer has no independent hard-kill timer. Storage admissions are not quotas. Pre/post identities are point checks, not locks or proof against transient changes. The helper’s final source byte check is less strict than full preflight HEAD/tree/canonical checks, so lead separately reconciles those after close. Runtime acquisition failure may precede transfer of ownership; the existing adapter cleanup contract is still relied on. No automatic retry, cleanup reset, tolerance adjustment or later-case regeneration follows an early failure.
+
+Complete successful-child stderr requires actual capture metadata, not merely an empty launcher log. Failed/truncated diagnostics remain honest failures. After close, report/inner completion/launcher completion/outer logs, complete source/runtime identities, all owned artifact hashes and external/inner census must reconcile before releasing the freeze.
+
+### 5. Preserve the actual finite campaign and refusal boundary
+
+Exactly one invocation completed on immutable 022. Raw report `candidate-full-copy-calibration-8wuK9M/report.json` is 207,464 bytes/SHA `5f74a9efb7981fefb242dcf34c82e972bbc269c5a5ea7a92c62a68db1bc34ad9`, status `passed-preregistered-full-copy-calibration`. All three strict source diagnostics passed unchanged, so all three target branches and canonical collectors were actually reached. The expected possibility of an early AAC refusal did not occur for these exact generated inputs; no failure was fitted away, no later case was regenerated and no alternate attempt was run.
+
+Runtime pair identity is `1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9`. Both independently recorded harness and external census are 70 spawned/70 closed/live 0/maximum 1. They happen to agree here, but the outer scope was checked separately rather than assumed equal to the harness. This is owned-tool accounting, not an OS-wide process audit. Report flags remain `publicationAuthorized:false` and `catalogActivated:false`; outputs are retained developer stages, not published service outputs.
+
+| Case | Source duration / container | Compared video frames | Source/output decoded audio samples | Ordered copied packets | Retained output bytes |
+|---|---|---:|---:|---:|---:|
+| short-mp4 | 8 seconds, MP4 | 240 / 240 | 384,000 / 384,000 | 376 | 1,958,967 |
+| long-mov | 150 seconds, MOV | 4,500 / 4,500 | 7,200,000 / 7,200,000 | 7,033 | 36,098,122 |
+| heldout-mp4 | 11 seconds, MP4, distinct flipped image/audio | 330 / 330 | 528,000 / 528,000 | 517 | 2,637,026 |
+
+Short source is 5,578,679 bytes/SHA `bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97`, output SHA `c0ba0f83fc51f0f75a5398e4d1d80f98e7f6f2c5b6ce0172acc3877fdf5ffb0f`. Long source is 104,812,003 bytes/SHA `62ed1672e3a2c16540bd0bf477fe7ef687cbee0349697cb0aea609fe8b7b92e0`, output SHA `0b10970d330df2cbc691a4af38f7094ad4b92e34889445a33a5f4e488a4479dc`. Held-out source is 7,250,606 bytes/SHA `b9e375498e5c74af6f4a44b1ebcbcbf3d4f9d358609c2f0ddd4ec8d7a5d21b5c`, output SHA `c8d09b09c1db78b630ec35d6fb8ff547ae83b1582d1c2e8bbf4e796df343d046`.
+
+Full source/output hashes and complete output probes were captured during the original campaign, then independently rechecked. They were not first established after the fact and retroactively presented as campaign observations. All three saved output probes show HEVC 1280×720, SDR BT.709/limited range, square SAR and AAC 48 kHz stereo. Probe hashes are `a181186296c3142ecdabdc6e00a0cc61d9928616b490ad4855fada63a715abdd`, `648ae3bab77b547eda1755d7d3791459b893649470cb2b7068bb85cac72b67d0` and `30920b7502d4db22aec83f07368883e41ba4101c5d8be6342b225872839af170` respectively. This is exact probe/property evidence, not subjective scaler/pixel-quality acceptance.
+
+Each genuine collector executed nine copied-audio evidence calls. Packet payload order, header and ordinal skip/discard seals match source/output in every case, separately from decoded sample counts/timeline. Canonical packet seals match within each pair: short `40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721`, long `78d9b4ddb48033355fe7ed55f1e6c9405aac10d2835ffdbed833d595d87ca9f1`, held-out `606f1376b41cdc9d597edf6ee92e8b947644aed8100e8630f353dfb8c8eb9c72`. All have 1,024 encoder-delay samples; retained terminal discard is 0, 768 and 384 samples respectively. Actual argv uses global `-c copy` with only a video encoder override, no audio encoder/filter override. No decoded PCM hash identity is measured or claimed.
+
+Video-only telemetry and canonical output validation pass all three cases, with zero unknown input records, no canonical errors or warnings, and exact source/output video frame counts. The telemetry receipt’s scope remains encoder-input count/timeline: it does not itself establish pixels, lossless audio, last-frame duration or publication. Generic retained collector cost text mentions extra FLAC PCM work, but actual copied-AAC invocations are nine and contain no FLAC/PCM identity; keep this textual limitation rather than credit nonexistent decoding.
+
+**Audio timing is bounded, not exactly contiguous.** Source diagnostics have zero exact-rational adjacency mismatches and strict metadata/decoded endpoints 8/150/11 seconds. Output audio uses a 1 ms container clock and has 374/7,031/515 nonzero exact adjacent differences respectively. Each case ranges from −1/3000 to +1/1500 second, maximum absolute 2000/3 µs (666⅔ µs), within the preregistered canonical 1,042 µs audio timeline bound. Output audio endpoints exceed the source by 1/3000 second (333⅓ µs), represented canonically as 8,000,333 / 150,000,333 / 11,000,333 µs. Counts and coded seals still match. Do not call the timestamps exactly contiguous, infer dropped samples from the literal mismatch count, or turn bounded timeline evidence into PCM waveform identity. No tolerance was changed to obtain these results.
+
+**Warnings and elapsed time remain visible.** All 70 child stderr captures are complete/untruncated: 67 empty, three target children (8, 32, 56) each 335 bytes. Each retains the duplicate-codec last-option warning, x265 CPU-mask error and no-thread-pool/WPP/lookahead warnings. Their hashes are `1316d5a5b5218338804655c774caf6cbcc99456575219e6ab02d225e5f8ef9a9`, `40990bd9b909c589859b9ad08d14085818e200503b18e9ed997afa4771b31d19` and `3a7b5ef4045e556b1990301d39d8d542bd11cf932f9afd6ed0f0d28dd180e55b`. Empty outer stderr and empty canonical warning arrays do not erase those child diagnostics or establish harmlessness/general performance.
+
+Target children lasted 14.910, 254.937 and 18.347 seconds by saved child timestamps. Long target 32 began 22:25:51.634 and closed 22:30:06.571 UTC, within its 300-second effective ceiling. Later long-case collection and the held-out case explain the later overall finish; the total 435.869-second outer run is not a target deadline overrun. The derived long child budget is 3,295,624 ms, but the fixed harness clamps to 300,000 ms and remaining time; it is not an enlarged live limit. Short/held-out derived child budgets are 204,168 and 269,468 ms. Corresponding operation forecasts are 408,672 / 6,597,496 / 539,372 ms, with fixed case/overall constraints still applied. These observations do not establish a general throughput benchmark.
+
+Raw report finishes 22:31:45.989 with inner wall 432,635 ms/monotonic 432,634.96432 ms. Outer closes at 22:31:47.042, wall 435,869 ms/monotonic 435,869.169239 ms, exit 0/no signal/no spawn error. The actual entry point was one `node run-once.cjs` without arguments or environment overrides in the reviewed helper directory. Its 373-byte receipt SHA is `dae467244edce9d9bdbf5fefc8216982d9f16cdd9706cc0719b415d9dfaa7514`; top-level stdout SHA `849858499c4e90ec851ccd321cd3075f37dcd6dc66d345634a30091a1488a157`, stderr empty. Launcher completion `completion-1794954707025-12.json` SHA `7888972f449b266ad52412acfaf913f62df5dd55df15eaca1c2854635aa7fe51` binds the raw report, while inner completion SHA is `1c926f42c0d4dbbfaa3efdc19e6e496bb1c4fc7e2155c53e7af83b7e47b48575`. Finalization error list is empty.
+
+Final inventory comprises 233 owned files/167,990,089 bytes. The raw report’s earlier `ownedBytesAtClose` is 167,782,177 bytes before its own final report/completion are added; these are different inventory boundaries, not unexplained loss/growth. Actual pipe bytes total 13,780,323, with per-case 675,815 / 11,991,311 / 1,113,197. The raw retained totals do not convert admission checks into hard quotas or prove no transient writes.
+
+### 6. Independently reconcile saved evidence before interpreting qualification
+
+Final independent saved audit is 29,735 bytes/SHA `a535b47cffd2dc40a79126c696c95c9a81ec28c1569236026709c02a5ac7da90`. It supports three successful preregistered developer calibration cases on exact 022, not publication, service/native integration or production qualification. It independently compared all 567 source files, nine runtime tool/dependency pins and all 233 owned artifact hashes/167,990,089 bytes against the saved post-close manifest, including the complete path set.
+
+Saved raw report/inner completion/launcher completion/outer identities, final gate/Notion source receipt, source/output full hashes/probes, child rows/capture bytes, separate censuses and source/collection/telemetry facts reconcile. The auditor recomputed strict source counts/endpoints, coded packet/header/padding seals and exact rational output adjacency from retained records. It performed no fresh ffprobe, FFmpeg decode, runtime, UI or media execution. No independent pixel/PCM re-decode or cryptographic wall-clock chronology is claimed.
+
+Two initial audit assumptions failed and were corrected before full checks repeated. The parser initially failed to strip the observed `side_datum/skip_samples` prefix and refused a seal comparison; the corrected parser handles the explicit retained format. A separate argv assertion expected explicit `-c:a`, whereas the actual builder correctly uses `-c copy` followed only by video override. Audit now requires that default copy and absence of audio encoder/filter override. These were saved-evidence parser/assertion errors, not source/media failures or permission to alter original reports. Original result bytes remained unchanged. A read-only completion inspection also printed too much structured data and was truncated in tool context; bounded field reads resumed without changing saved evidence or retrying execution. The lead’s process-list namespace could not see the worker and was not used as closure proof; actual owned receipts/censuses supplied that evidence.
+
+The final audit records output adjacency and endpoint fractions explicitly, distinguishing literal rational discontinuity from canonical bounded timeline acceptance. It retains all three warnings rather than assuming passing validation proves thread-pool harmlessness. Its own freeze status says lead reconciliation is still required; audit completion alone did not authorize a source write or next run.
+
+### 7. Release only the measured source/evidence scope and preserve the checkpoint
+
+At 22:41:48.656397 UTC, the lead independently reconciled HEAD/tree and all 567 Git/current/canonical/Notion source hashes, nine runtime files and all 233 artifacts/167,990,089 bytes, plus exact report/audit/outcome identities. The final 3,349-byte release SHA is `065f73eb985e373ab301ad1dd239964ef050370bfc7d432d934ddfb835940e80`. It releases docs/source freeze for evidence preservation and isolated successor development only, explicitly `runtimeExecutionAuthorized:false`. No additional media or native action follows from that release.
+
+No production source/test bytes changed during this evidence milestone. The latest source suites remain 022’s 170/170 focused, 69/69 independent overlap, service 125/126 and broad 200/245 with all 45 retained failures; they are not rerun or silently cleared by a successful calibration. Existing Keep720/resize maps remain stale and previews unavailable. A new source-bound Full-copy service composition may be prepared only in isolation with independent review; two-file implementation and a separate missing-source/inode-hypothesis test investigation have been assigned but are not integrated outcomes here.
+
+Final owning records at the dated 22:44 UTC cutoff are [Current](CURRENT_STATE.md), [Full-copy calibration execution](2026-11-17_Full_Copy_Calibration.md), [structured receipts](2026-11-17_Full_Copy_Calibration_Receipts.json) and [portable archival report](evidence-2026-11-17/full-copy-calibration-portable.json). Current is 7,161 bytes/SHA `efd3ded3e36e250915d13a07161b6aa0f31b19156cc66de335fd3d25bd775d11`; execution 15,509 bytes/SHA `c86ab673211f6454e6dff958e9d819bee562a2ffa85bf22251418f35bab5e128`; receipts 25,986 bytes/SHA `c1a87befeb186f3f78c0d963b503b0dd9348e283897e3eb4e94c53d190a193bd`. The lead explicitly released this editor’s Session-only write after these records landed.
+
+The portable report is 194,941 bytes/SHA `f0acf7a7c11321cbe46849c295d670903fa505030df53fded50f2e1ad4630a67`. Exactly 260 leading known-root/prefix strings are replaced: 161 campaign aliases and 99 runtime-build aliases. All other original report keys/types/values remain equal; final audit and lead metadata are separate from the preserved report. No inverse mapping, runtime/media payload or raw gate is included. Every production/factory/service/native/raw-restore/gate-substitution authority flag is false. This artifact archives readable structured evidence but cannot recreate the original raw-report hash or satisfy a future live raw-report gate. Full original probes/media/streams/reports remain local and excluded from the source mirror. Lead owns Current/execution/receipts and reviewed portable evidence; documentation owns only its explicitly released Session path. The evidence-only five-path checkpoint adds three records to reach 570 files/twenty-three commits after the intended commit. No 023 commit/restoration/remote identity exists at this cutoff. Do not wait for future service/test investigation results or retroactively insert them into this tested source.
+
+The full prior 1,004,199-byte body and original correction receipt remain unchanged. Coherent Git, independently downloaded/restored Notion source/full history/unabridged native text and verified intended GitHub contents/parent/tree/ref remain distinct stages. New checkpoint identifiers are recorded after actual completion, not predicted inside the record that creates them.
+
+## 🧠 Key Insights
+
+### Every completion layer needs its own persistence boundary
+
+A verified raw report does not mean a later launcher/outer completion write was reread. V2 closes that specific gap without claiming its extracted file-only tests execute the whole experiment.
+
+### Conditional review, exact gate and actual execution are different events
+
+A helper can be suitable while the final Notion receipt is still changing. The one-shot authorizer must bind the final real receipt/HEAD/tree, and no runtime outcome exists merely because an independent reviewer says conditional GO.
+
+### The first strict refusal can be the useful result
+
+Real AAC endpoint behavior must be measured, not guessed or fitted to a synthetic model. Preserve the original complete observations and exact failure boundary before deciding any new source contract.
+
+### Inner and external census cover different lifetimes
+
+Adapter startup precedes inner harness accounting. A truthful total must reconcile the actual external runner rather than call the harness count all process activity. Neither is an OS-wide hidden-process census.
+
+### Actual copied-packet identity and bounded timing can coexist
+
+All three sources passed their strict criterion; output packet/header/padding and counts match while millisecond-clock exact adjacency does not. The useful finding is the exact bounded discrepancy, not a false binary choice between perfectly contiguous audio and lost samples.
+
+## 📌 Decisions Made
+
+1. Use only immutable preserved 022 and exact reviewed helpers/runtime; do not borrow earlier FLAC reports or stale producer maps.
+2. Correct launcher/outer completion readback before any possible run, retaining V1 scripts and test mistakes.
+3. Pin the final corrected review and actual final Notion receipt; no silent gate edits after issuance.
+4. Run at most the separately authorized fixed finite campaign; stop first failure, retain it and do not fit tolerance or generate later cases automatically.
+5. Keep source/runtime frozen through independent audit and final lead HEAD/tree/canonical/identity reconciliation.
+6. Accept only the independently supported three-case candidate calibration, keeping bounded output timing, warnings and no PCM/pixel proof explicit. Do not repin old source capsules or equate retained developer stages with service publication.
+7. Preserve evidence-only 023 before separately reviewed Full-copy service integration; keep the independent missing-source test investigation isolated. Neither successor lane changes this source/result or authorizes more media/native work.
+
+## ⚠️ Difficulties / Friction
+
+The external helpers initially omitted final completion readback even though raw report checks existed. Syntax validation alone did not reveal that receipt-chain gap. Extracted file-only tests initially encountered a cross-realm prototype mismatch; it was corrected in the test with original red retained, not misdiagnosed as media failure.
+
+Earlier handoff wording implied the outer directly hashed the report. The actual split is outer log hashes and launcher report binding. A final review sentence also inherited syntax-only language despite four file-only checks; its corrected final identity, not the earlier draft hash, is the gate prerequisite.
+
+The original popup still has no new observation. Source 022’s service/broad suites remain red and current candidate preview unavailable under exact-source refusal; a candidate calibration must not be described as a hidden production reactivation. The actual run reached all three cases without a source refusal, but output AAC exact-rational adjacency differs under the millisecond clock. Those literal mismatches and target stderr warnings remain, even while fixed canonical criteria pass. Audit parser prefix/argv assumptions were corrected transparently, with full checks repeated and originals unchanged. A long total run was not a long-target timeout: target 32 closed within 300 seconds before later collection and held-out work.
+
+## 🔧 Adjustments Made
+
+### 1. Verify final completion writes independently
+
+- Shifted from: Raw report/inner completion verified, but final launcher/outer completion only written.
+- To: Exclusive serialized write followed by exact bytes/hash/JSON readback before completion/success.
+- Because: Independent V1 review found the outer persistence boundary incomplete.
+- Consequence: V2 fails nonzero and retains partial artifacts on readback failure; no overwrite/retry/source changes.
+
+### 2. Correct test-realm and attribution wording without enlarging claims
+
+- Shifted from: Cross-VM JSON prototype false failures and inherited syntax-only/outer-report wording.
+- To: Same JSON global for extracted file tests, four passing checks accurately named, outer-log versus launcher-report identities separated.
+- Because: The evidence needed to describe the actual verified scope, not overstate or understate it.
+- Consequence: Original red/V1 records remain; full orchestration/runtime/media is still untested by those file checks.
+
+### 3. Bind the actual completed predecessor rather than a future label
+
+- Shifted from: Preparation’s futureCommit null/conditional future 022 language.
+- To: Actual immutable 2714557, 567-source/full twenty-two-commit restores, final helper review and actual finalized Notion receipt hash.
+- Because: A predicted checkpoint name or ongoing mutable receipt cannot establish a source-exact launch gate.
+- Consequence: Gate creation and execution remain separate authorized actions; changed receipt bytes require stop/reconciliation.
+
+### 4. Interpret the observed output timing without fitting or overclaiming
+
+- Shifted from: The possibility that the first source would fail the strict synthetic criterion, or an oversimplified claim that matching counts imply exact output continuity.
+- To: All three actual sources accepted unchanged; retain exact 374/7,031/515 output adjacency differences, maximum 666⅔ µs and endpoint +333⅓ µs within the predeclared model.
+- Because: Actual saved rational timing and coded seals answer different questions from synthetic expectations or PCM identity.
+- Consequence: Three finite calibration cases are supported, not exact timestamp continuity, dropped-sample inference, waveform identity or broad production qualification.
+
+### 5. Correct audit assumptions against the actual retained format and argv
+
+- Shifted from: An unhandled side_datum field prefix and an assertion requiring explicit `-c:a`.
+- To: Parse the observed prefix correctly and verify actual global copy with only video override/no audio override.
+- Because: Original saved data and builder argv were valid evidence; the independent parser/assertion assumptions were wrong.
+- Consequence: Repeat full saved checks with original files untouched; do not relabel audit setup errors as failed media or silently discard them.
+
+## ❌ Mistakes / Risks Noted
+
+### 1. Completion persistence could be overstated
+
+- What happened or could happen: V1 wrote final helper completion records without rereading them.
+- Actual impact: A preparation review blocker was found before actual runtime; raw report readback did not cover those writes.
+- Potential impact: A success line/exit could misrepresent persisted completion bytes.
+- Correction / current status: V2 readback and four extracted positive/corrupt-negative file tests pass; full orchestration remains outside those tests.
+- Failure Intelligence: Preserve original scripts, review, cross-realm red and final exact helper/review pins. Do not treat syntax green as complete persistence assurance.
+
+### 2. Prepared or stale receipt state could be mistaken for authorization
+
+- What happened or could happen: Final Notion receipt mapping may still be updated while helper review is complete.
+- Actual impact: Preparation alone creates no gate; final actual receipt must be frozen and hashed.
+- Potential impact: Launch could bind a stale receipt or silently modify an issued gate.
+- Correction / current status: Fixed no-argument authorizer checks actual immutable source/restores and rereads exclusive gate bytes. The exclusive gate was issued after final receipt freezing; exactly one actual run closed and was audited/reconciled. Gate/helper/receipt hashes stayed fixed, with no silent revision or retry.
+- Failure Intelligence: Record actual gate/attempt times and identities only after they exist; no source/runtime action follows merely from a reviewer message.
+
+### 3. Real AAC may refuse before the first target
+
+- What happened or could happen: Exact synthetic metadata/decoded source endpoints may not match actual priming/padding representation.
+- Actual impact: All three generated sources passed strict endpoint/origin/continuity criteria unchanged. Output exact adjacency differences remain under the 1 ms clock, while copied coded seals/counts and canonical bounded timeline pass.
+- Potential impact: Tolerance fitting, skipping cases or borrowing FLAC evidence could falsely activate unsupported copied audio.
+- Correction / current status: Strict preregistered fail-first criteria and retained partial/raw diagnostics are mandatory; future qualification decisions require independent audit.
+- Failure Intelligence: Keep complete observed origin/end/sample/packet/header/padding facts and actual error, including if the refusal occurs earlier than anticipated.
+
+### 4. Census, timing and resource controls could be overstated
+
+- What happened or could happen: Inner counts exclude runtime opening; software timers and admission checks can be mistaken for hard exit/disk guarantees.
+- Actual impact: Both actual censuses independently reconcile to 70/70/live 0/maximum 1, all capture metadata is complete, and final lead identities reconcile. This finite result does not establish general hard guarantees.
+- Potential impact: Omitted startup children, silent diagnostic truncation or a claimed performance result could exceed actual evidence.
+- Correction / current status: Separate inner/external/OS-wide scopes, whole elapsed versus benchmark, actual stderr completeness and point bounds versus quotas.
+- Failure Intelligence: Preserve all raw clocks/capture metadata and rejected partial artifacts; never infer clean diagnostics from empty outer stderr.
+
+### 5. Passing canonical validation could hide a false exact-continuity or clean-diagnostics claim
+
+- What happened or could happen: Three valid outputs have 374/7,031/515 exact-rational adjacency differences and three 335-byte warning captures.
+- Actual impact: Maximum adjacency magnitude 666⅔ µs and endpoint +333⅓ µs satisfy unchanged criteria; counts/coded seals match. Warnings remain and no PCM identity was collected.
+- Potential impact: Calling these perfectly contiguous, waveform-identical, warning-free or generally performant would overstate the result; calling mismatches missing samples would also exceed evidence.
+- Correction / current status: Preserve exact rational magnitudes, complete warning text/hash and distinct identity/telemetry boundaries in audit and records.
+- Failure Intelligence: Literal timestamp mismatch, bounded timing acceptance, coded packet identity and decoded counts are separate observations. Do not replace them with a convenient broad quality label.
+
+### 6. Saved-audit implementation errors could be confused with media failure
+
+- What happened or could happen: Initial parser missed the side_datum prefix and initial argv assertion expected explicit audio-copy option spelling.
+- Actual impact: Audit checks refused until corrected against the actual saved format/default-copy argv; originals/source/media were unchanged.
+- Potential impact: Silently adjusting source/report data or discarding failed audit assumptions would conceal the true verification path.
+- Correction / current status: Corrected parser/argv checks and repeated full audit passed; original implementation notes and exact final audit hash retained.
+- Failure Intelligence: Reconcile parser assumptions to saved evidence and distinguish their failure from runtime/media acceptance, without extending the audit to unrequested re-decodes.
+
+## 📍 Current Position
+
+**As of:** Actual campaign closed 22:31:47.042 UTC, independent final audit reconciled, and lead full freeze release at 22:41:48.656397 UTC. Final owning records use a fixed 22:44 UTC cutoff; 023 commit/restoration/publication remain pending, and later successor findings are excluded.
+
+**Before this session:** The Full-copy source/harness was integrated with 170/170 focused and 69/69 independent overlap, while service 125/126 and broad 200/245 retained known failures and deliberate producer refusals. Real AAC compatibility was unresolved and no live Full-copy composition existed.
+
+**After this session:** One exact campaign passed all three preregistered cases with 240/4,500/330 frames and 384,000/7,200,000/528,000 equal decoded samples, matching coded packet/header/padding seals and bounded timing. All 70 owned children closed; source/runtime/all 233 artifacts reconcile. Outputs remain unpublished developer stages. Exact output adjacency and warnings persist; no fresh audit decode, service/native proof or production activation.
+
+**Current standing:** Narrow candidate Full-copy calibration is supported on immutable 022, with no fitted criteria. Existing preview closures remain stale; a later separately reviewed Full-copy service composition and actual service proof remain necessary. The original popup stays unresolved, and arbitrary duration/container/codec/quality/performance acceptance is not established.
+
+**Live owner / continuation anchor:** Lead owns exact release/freeze and final reconciliation; operator only the fixed one-shot action; auditor saved evidence; mirror preservation; documentation only later Session prepend. Re-enter through [Current](CURRENT_STATE.md), [execution](2026-11-17_Full_Copy_Calibration.md), [receipts](2026-11-17_Full_Copy_Calibration_Receipts.json) and exact final audit/release identities. Documentation now owns only the explicitly released Session prepend, not source/test/native work.
+
+## 🔜 Next Steps
+
+1. **First exact re-entry: preserve evidence-only 023.** Responsible: lead/documentation/mirror. Verify final owning/portable identities, exact 1,004,199-byte prior Session suffix and correction receipt; retain raw report/audit limits and final 567/9/233 identity reconciliation. Expected five paths/570 files/twenty-three commits.
+2. Complete coherent Git → independently downloaded/restored Notion source/full history/unabridged native text → verified exact GitHub delta/parent/tree/ref. No new checkpoint is called backed up before actual verification.
+3. **Then review the isolated two-file Full-copy service proposal on its actual source identity.** Responsible: lead/source worker/independent reviewer. It must reuse existing ownership/storage/guards and bind exact raw calibration/runtime/producer evidence, without old Keep720/resize repins, default/UI activation or claimed real service success. Existing FLAC receipt semantics are not copied-AAC authority. Ordinary service performs complete-source collection after encode and before publication; it does not automatically inherit calibration’s pre-target decoded diagnostics. A later initial proof must use audited fixtures and explicitly preserve that timing boundary, then begin with a separately authorized bounded eight-second Full publication before any justified longer/held-out/cancellation/new-instance expansion.
+4. Keep the separate missing-source/inode-hypothesis test investigation isolated until its actual reproduction, cause, patch and independent review are known. Read-only triage suggests unlink-before-stage inode reuse may trigger protected-output precedence, but original inode stamps were not captured, so that is inference. Holding an original read handle through unlink/stage completion is a potential test-only correction only if independently supported. No future result is implied here and no production change or weakened guard is justified merely by the hypothesis.
+
+5. Decide the next smallest source/qualification step from actual evidence, not from the desired passing experiment. Retain non-HDR order, theme/Gauge, Windows corrections, defaults/ArchiveCQ29, benchmark pause and 0.7’s 1440p/4K scope. Any-length, Remux/seek, HDR expansion, packaging and owner release remain unfinished.
+
+**Do not reopen / repeat:** Do not rewrite 022’s then-pending helper cutoff, silently modify a gate, retry exclusive markers, tune source/tolerances after failure, forge collector authority, substitute FLAC/PCM identity, repin old production receipts, delete failed artifacts or launch native UI to distract from calibration results.
+
+**Continuation boundary:** This closes one audited candidate calibration and releases docs/source work only. Evidence preservation and future service/test source review are next; no additional runtime/media/native execution or activation is granted. Source/helper preparation, actual candidate experiment, normal service, native workflow and production release remain separate evidence layers.
+
+## ❓ Open Questions
+
+### Can the exact calibration support a safe separately scoped Full-copy service composition?
+
+- Known: Three candidate cases pass fixed criteria on immutable 022; private runtime, raw report and source identities are available locally, not production activation authority.
+- Needed from: A separately reviewed source-bound service proposal reusing existing cancellation/storage/ownership and genuine raw-evidence gates, followed later by its own bounded actual service proof if authorized.
+- Blocks: Full-copy service/native functionality, not preservation of this completed finite calibration.
+
+### How broadly do the coded-copy and bounded timing results generalize?
+
+- Known: Exact generated 8/150/11-second inputs preserve coded seals/counts with millisecond-clock adjacency deviations inside fixed bounds. No PCM/pixel identity or arbitrary-duration/container/codec coverage follows.
+- Needed from: Additional separately scoped evidence only where the agreed roadmap requires it, without fitting old experiment criteria or claiming warning harmlessness.
+- Blocks: Broad quality/performance/any-length qualification and owner acceptance, not the exact three-case result.
+
+### What explains the separate inherited missing-source diagnostic instability?
+
+- Known: Prior service parity remains 125/126; a separate isolated inode-related hypothesis/investigation has been assigned but no result is integrated here.
+- Needed from: Actual reproducible evidence and independent source/test review in that separate lane.
+- Blocks: Claims that the inherited mismatch is fixed; does not invalidate or expand this unchanged-source calibration evidence.
+
+## 🧾 Session Outcome
+
+One actual exact-source campaign completed all three fixed Full-copy cases without criterion changes, retry or later-case regeneration. Matching coded packet/header/padding seals, exact decoded counts and bounded canonical timing support the finite candidate result. Output literal adjacency mismatches and three target warning captures remain explicit. All 70 children closed; final reconciliation of source, runtime and all 233 artifacts passed. No published service output, new source integration, native/product activation, PCM/pixel identity or arbitrary-duration claim follows.
+
+The exact prior 1,004,199-byte Session remains untouched outside this draft. Final audit/reconciliation is complete; the explicit Session-only release now permits the evidence-record prepend. No future service/test implementation result is backfilled into this milestone.
+
+## 🔍 Confidence Level
+
+**High for exact preserved predecessor and preparation identities.** Source/history/native/remote verification, immutable helper revisions and independent static/file-only checks are separately recorded.
+
+**Bounded for prepared execution controls.** Point hashes, ordinary-Python guards, exclusive writes and bounded software controls bounded this executed attempt; they are not atomic locks, OS quotas, guaranteed exits or a dynamic runtime result.
+
+**High for the exact finite candidate outcome and retained identities.** Actual unchanged-source report/closures, original full hashes/probes, independent saved audit and final lead reconciliation agree. **Bounded for meaning beyond that result:** coded copy/counts and timing do not establish PCM/pixels, exact continuity, warning harmlessness, general performance, actual service/native readiness or a popup fix.
+
+**Why:** The record separates observed facts, static/injected checks, final persisted identities and future actual evidence rather than treating preparation as completion.
+
+**Not higher because:** Only three exact generated inputs and one runtime/environment were tested; audit performed no new decode, timestamps are bounded rather than exact-contiguous, warnings remain and broader service/native/product proof is absent. The earlier file-only tests were not the actual campaign; actual success now has its own independent evidence.
+
+---
+
 # 📘 Session: November 17, 2026 — FFmpeg Encoder — Build the closed Full-copy source foundation and a fail-first calibration harness without borrowing FLAC qualification
 
 ## 🤖 Models, Effort, Roles and Provenance

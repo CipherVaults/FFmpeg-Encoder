@@ -48,7 +48,13 @@ function stamp(stat) {
   return Object.fromEntries(['dev', 'ino', 'size', 'nlink', 'mtimeNs', 'ctimeNs', 'birthtimeNs'].map(key => [key, String(stat[key])]));
 }
 function ordinary(stat) {
-  if (!stat.isFile() || stat.isSymbolicLink() || stat.nlink !== 1n || stat.ino <= 0n) fail('OPERATION_RUNTIME_STALE', 'Runtime must remain an ordinary, singly linked file with a known file identity.');
+  // This Linux environment reports some inode identities as signed bigint
+  // values. Accept that bounded representation only on Linux, retaining the
+  // exact raw stamp for every held-handle/path comparison. Never normalize its
+  // sign or change the positive-only rule on Windows and other platforms.
+  const knownInode = typeof stat.ino === 'bigint' && (stat.ino > 0n
+    || process.platform === 'linux' && stat.ino >= -(1n << 63n) && stat.ino < 0n);
+  if (!stat.isFile() || stat.isSymbolicLink() || stat.nlink !== 1n || !knownInode) fail('OPERATION_RUNTIME_STALE', 'Runtime must remain an ordinary, singly linked file with a known file identity.');
 }
 function reason(value) {
   if (typeof value !== 'string' || !/^[\x20-\x7e]{1,512}$/.test(value) || !value.trim()) fail('INVALID_OPERATION_RUNTIME', 'Invalidation needs a bounded diagnostic reason.');

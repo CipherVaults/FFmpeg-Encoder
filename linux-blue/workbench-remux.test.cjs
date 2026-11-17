@@ -44,12 +44,14 @@ test('zero, out-of-range negative and changed inode are refused without altering
     try { fakeInode(inode); await assert.rejects(observer.observe({ hardware: 'CPU' }), { code: 'OPERATION_RUNTIME_STALE' }); }
     finally { fs.lstat = original; await observer.close(); }
   }
-  const observer = new OperationRuntimeObserver(options());
-  try {
-    const token = await observer.observe({ hardware: 'CPU' });
-    fakeInode(BigInt(observer.snapshot(token).tools.ffmpeg.identity.ino) + 1n);
-    await assert.rejects(observer.requireCurrent(token), { code: 'OPERATION_RUNTIME_STALE' });
-  } finally { fs.lstat = original; await observer.close(); }
+  for (const change of [value => value + 1n, value => -value]) {
+    const observer = new OperationRuntimeObserver(options());
+    try {
+      const token = await observer.observe({ hardware: 'CPU' });
+      fakeInode(change(BigInt(observer.snapshot(token).tools.ffmpeg.identity.ino)));
+      await assert.rejects(observer.requireCurrent(token), { code: 'OPERATION_RUNTIME_STALE' });
+    } finally { fs.lstat = original; await observer.close(); }
+  }
 });
 test('evidence boundary preserves binary FD3 sinks, budgets, cancellation and both child observers', async () => {
   const seen = [], child = {}, signal = new AbortController().signal, chunk = Buffer.from([0, 255]);

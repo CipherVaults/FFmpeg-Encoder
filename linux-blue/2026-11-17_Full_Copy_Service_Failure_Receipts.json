@@ -1,0 +1,529 @@
+{
+  "schema": 1,
+  "checkpoint": "025",
+  "cutoffUtc": "2026-11-17T23:32:00Z",
+  "scope": "Five evidence/PBS paths only; unchanged application/test source, failed campaign preserved.",
+  "testedSourceCommit": "9f8870155b2cdeb6ac0594ff0375cd818abee988",
+  "testedSourceTree": "7f02a11cc074bbb298a9404c5c56724218a77d7d",
+  "sourceFiles": 574,
+  "priorPreservation": {
+    "localCommit": "9f8870155b2cdeb6ac0594ff0375cd818abee988",
+    "remoteCommit": "8f9bcf2647517a10fb2a561f95473d4c8ce583e4",
+    "notion": "https://app.notion.com/p/41bbd7ade63b810d8f1cd1a490420c6a",
+    "finalNotionReceiptSha256": "e7a85726fc27db7f7d3a7dce451cb9ff75b69f430f8bbd0131be86ba72a3cd5d",
+    "sourceAndBundleRestored": true,
+    "nativeSessionBytes": 1114429,
+    "githubVerifiedAtUtc": "2026-11-17T23:22:25.495311+00:00"
+  },
+  "rawReport": {
+    "file": "owned-proof-TVCkje/report.json",
+    "bytes": 98832,
+    "sha256": "baf73af4fd3df60aa644972b3daf73c912d8e544548eebb46a0b777585103981",
+    "includedInSourceMirror": false
+  },
+  "portable": {
+    "path": "linux-blue/evidence-2026-11-17/full-copy-short-service-failure-portable.json",
+    "bytes": 96765,
+    "sha256": "844ab018f4488a1685cae9c2289645e178e5630de4502acdd3296f343cb6bf8e",
+    "substitutions": 103,
+    "byAlias": {
+      "proof://": 57,
+      "project://": 1,
+      "runtime-build://": 45
+    },
+    "allOtherReportDataUnchanged": true
+  },
+  "outcome": {
+    "campaignStatus": "failed-retained",
+    "failure": {
+      "code": null,
+      "message": "Cannot read properties of undefined (reading 'retained')"
+    },
+    "servicePublicationSupported": true,
+    "completePlannedProofPassed": false,
+    "retryAuthorized": false,
+    "caseSuccessEntries": 0,
+    "outer": {
+      "startedAt": "2026-11-17T23:25:14.303Z",
+      "endedAt": "2026-11-17T23:25:41.061Z",
+      "elapsedMs": 26757.825333,
+      "wallElapsedMs": 26758,
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "stdoutSha256": "70ba18e8b493eee1bf58e089e06d8d662672011a27b2638400dc541a7b4cd8cc",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "census": {
+      "spawned": 45,
+      "closed": 45,
+      "live": 0,
+      "maximum": 1,
+      "encodes": 13
+    },
+    "actualTargetChild": 35,
+    "progressBearingChildren": [
+      11,
+      13,
+      14,
+      16,
+      17,
+      19,
+      20,
+      22,
+      23,
+      25,
+      26,
+      28,
+      35
+    ],
+    "aggregateOperationChildren": 12,
+    "collectorInvocations": 9,
+    "closure": [
+      {
+        "admissionClosed": true,
+        "busy": false,
+        "errors": []
+      }
+    ]
+  },
+  "publication": {
+    "bytes": 1959028,
+    "sha256": "372e0fcaa4624cbf76c46f79873a1d565335c3633ac9ba359592cf4c72594553",
+    "hashProvenance": "Already captured in postclose artifact inventory, independently rechecked now; later planned published/outputProbe assertion was not reached."
+  },
+  "savedEvidence": {
+    "decodedEvidence": {
+      "video": {
+        "sourceFrameCount": 240,
+        "outputFrameCount": 240,
+        "comparedFrames": 240,
+        "firstSourcePtsUs": 0,
+        "lastSourcePtsUs": 7966667,
+        "lastSourceDurationUs": 33333,
+        "firstOutputPtsUs": 0,
+        "lastOutputPtsUs": 7967000,
+        "lastOutputDurationUs": 33000,
+        "maxRebasedTimestampErrorUs": 334
+      },
+      "audio": [
+        {
+          "inputIndex": 1,
+          "sourceSampleCount": 384000,
+          "outputSampleCount": 384000,
+          "firstSourcePtsUs": 0,
+          "lastSourceEndUs": 8000000,
+          "firstOutputPtsUs": 0,
+          "lastOutputEndUs": 8000333,
+          "encoderDelaySamples": 1024,
+          "discardPaddingSamples": 0,
+          "packetIdentity": {
+            "algorithm": "sha256",
+            "packets": 376,
+            "sourceSeal": "40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721",
+            "outputSeal": "40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721"
+          }
+        }
+      ]
+    },
+    "packetIdentity": [
+      {
+        "inputIndex": 1,
+        "outputIndex": 1,
+        "source": {
+          "packets": 376,
+          "payloadSha256": "b991cd0656a0f98f1f31928878519dc126b1c6845936043487e634fd08d0c856",
+          "sideDataSha256": "c61d37c51be2cdb36aa5911971fbe578038afd6666789cfc8cbdbbaae1c5bd87",
+          "extradataSha256": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+          "seal": "40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721"
+        },
+        "output": {
+          "packets": 376,
+          "payloadSha256": "b991cd0656a0f98f1f31928878519dc126b1c6845936043487e634fd08d0c856",
+          "sideDataSha256": "c61d37c51be2cdb36aa5911971fbe578038afd6666789cfc8cbdbbaae1c5bd87",
+          "extradataSha256": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+          "seal": "40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721"
+        }
+      }
+    ],
+    "completeSource": {
+      "video": {
+        "frames": 240,
+        "firstTime": {
+          "n": "0",
+          "d": "15360"
+        },
+        "endTime": {
+          "n": "1887436800",
+          "d": "235929600"
+        },
+        "maximumNominalCadenceErrorUs": 0,
+        "maximumNominalDurationErrorUs": 0,
+        "maximumNominalPhaseErrorUs": 0,
+        "properties": {
+          "policy": "cfr-sdr-full-resize-copy-v1",
+          "sampleAspectRatio": "1:1",
+          "chromaLocation": "left",
+          "sideDataPolicy": "h26x-unregistered-sei-only",
+          "framesChecked": 240
+        }
+      },
+      "audio": [
+        {
+          "inputIndex": 1,
+          "sampleCount": "384000",
+          "firstTime": {
+            "n": "0",
+            "d": "48000"
+          },
+          "endTime": {
+            "n": "18432000000",
+            "d": "2304000000"
+          },
+          "gaps": 0
+        }
+      ]
+    },
+    "storageFinal": {
+      "id": "job-88e64e7b-aa57-4447-b0c1-efca4911f23a",
+      "status": "completed",
+      "recordPersisted": true,
+      "violations": [],
+      "retained": true
+    },
+    "provenanceReceiptSha256": "74c81f22b79485e2035b8c724e41e2d2dd89417329fdd6fb5ca202ab87e40d52",
+    "collectorReceiptSha256": "5cffd89ecc850aee607e349dbb5f0e9bf182558c38b8a517e0e8c1fb4cfb9df6",
+    "accounting": {
+      "planFingerprint": "12eacf37058ed2fb87ecf88daa6be57350dc99ed83561388d24af545338c3ff3",
+      "evidenceIds": [
+        "full-copy-reviewed-2714557-5f74a9efb7981fef:endpoints",
+        "full-copy-reviewed-2714557-5f74a9efb7981fef:interior"
+      ],
+      "status": "completed",
+      "scope": "complete-decoded-timing-and-copied-packet-identity",
+      "failure": null,
+      "children": 12,
+      "streamedBytes": 285448,
+      "pipeBytes": {
+        "stdout": 301112,
+        "stderr": 335
+      },
+      "telemetryValidation": {
+        "valid": true,
+        "scope": "encoder-input-count-and-timeline-only",
+        "streams": [
+          {
+            "outputIndex": 0,
+            "kind": "video",
+            "unknownInputRecords": "0",
+            "correspondence": "reported-input-and-independent-selected-source"
+          }
+        ],
+        "doesNotEstablish": [
+          "video-pixel-identity",
+          "lossless-audio-identity",
+          "last-video-frame-duration",
+          "output-or-publication-validity"
+        ]
+      },
+      "sourceIdentityDisposition": "unchanged"
+    },
+    "accountingContextTruncated": true,
+    "validation": {
+      "validation": {
+        "valid": true,
+        "errors": [],
+        "warnings": [],
+        "validation": "decoded-operation-contract",
+        "qualificationEvidenceId": "full-copy-reviewed-2714557-5f74a9efb7981fef:endpoints",
+        "timing": {
+          "timeline": "source-timestamps",
+          "requested": null,
+          "resolved": null,
+          "video": {
+            "startUs": 0,
+            "endUs": 8000000,
+            "frames": 240,
+            "outputStartUs": 0,
+            "outputEndUs": 8000000
+          },
+          "audio": [
+            {
+              "inputIndex": 1,
+              "mode": "copy",
+              "startUs": 0,
+              "endUs": 8000000,
+              "outputStartUs": 0,
+              "outputEndUs": 8000333,
+              "encoderDelaySamples": 1024,
+              "discardPaddingSamples": 0,
+              "sampleCountDifference": 0
+            }
+          ]
+        }
+      }
+    },
+    "truncatedDiagnosticSequences": [
+      6,
+      9,
+      13,
+      17
+    ]
+  },
+  "diagnostics": {
+    "knownCompleteStderrChildren": 45,
+    "emptyStderrChildren": 38,
+    "nonemptyStderr": [
+      {
+        "index": 11,
+        "bytes": 167,
+        "sha256": "f85cba53902afa14f0bba819e4fa6610af210bfaafe2631d5a5666443a2d5586"
+      },
+      {
+        "index": 14,
+        "bytes": 167,
+        "sha256": "e44cb954773fe56f350f4fa251436d1b60e0e6a8b938fa0a203c47cef9306769"
+      },
+      {
+        "index": 17,
+        "bytes": 335,
+        "sha256": "19fcd279c785aa360a77d1c36c656350ed32ab54a15caba650d1cfa4daed7276"
+      },
+      {
+        "index": 20,
+        "bytes": 335,
+        "sha256": "15f6211cf41992be5b3701dfc46253f48432bade561b2767fb7f922fa22edd79"
+      },
+      {
+        "index": 23,
+        "bytes": 1181,
+        "sha256": "d63e7bd2255d74b4c388c93403c94be0265ddf3d60e6c5b5a0e365c23231a298"
+      },
+      {
+        "index": 26,
+        "bytes": 1182,
+        "sha256": "320639334260e499133b98e0d7a7eb167b54a1069c65169c47081f303a43bf8a"
+      },
+      {
+        "index": 35,
+        "bytes": 335,
+        "sha256": "6ce05f21ec8cc246144eab4fb1c515e11a092064798be552b36f99e0b4625e67"
+      }
+    ],
+    "targetStderrBytes": 335,
+    "outerStderrBytes": 0,
+    "osWideProcessCensus": false
+  },
+  "reached": [
+    "Real compatibility-ready initial preparation, null-authority refusal checkpoint, then explicit Full720 copied-AAC reprepare.",
+    "Actual target, nine-child collector, canonical validation, unchanged source assessment, completed storage, protected publication and output grant issuance.",
+    "Postclose source/runtime/artifact verification, complete bounded child diagnostics, exact failed report/completion retention."
+  ],
+  "unreached": [
+    "item.cleanup.retained assertion cannot run: cleanup absent from public snapshot. Later evidence assertions in helper were not reached; audit verifies retained records separately.",
+    "First-terminal-result success checkpoint, independent output full probe, output-access forged/reveal-observation/clear assertions, report.cases success append.",
+    "Prepare-only existing-output collision and no-second-target assertions."
+  ],
+  "failureIntelligence": {
+    "cleanup": "Production exposes cleanup only when temporary media is retained; normal successful item has no such field.",
+    "accounting": "Aggregate12: source recheck probe + target + output probe + nine collectors; expected11 was wrong and unreached.",
+    "progressCounter": "13 progress-bearing invocations:12 startup capability and1 owned-source target; absolute1 assertions were wrong and unreached.",
+    "priorReviewLimits": "Original helper V2 syntax/file-only tests and independent review did not catch all post-success schema/count assumptions."
+  },
+  "leadReconciliation": {
+    "checkedAtUtc": "2026-11-17T23:30:40.122595+00:00",
+    "sourceCommit": "9f8870155b2cdeb6ac0594ff0375cd818abee988",
+    "sourceTree": "7f02a11cc074bbb298a9404c5c56724218a77d7d",
+    "sourceFiles": 574,
+    "runtimeFiles": 9,
+    "artifactRows": 96,
+    "artifactBytes": 7887242,
+    "actualProofFilesIncludingReport": 97,
+    "rawReportBytes": 98832,
+    "rawReportSha256": "baf73af4fd3df60aa644972b3daf73c912d8e544548eebb46a0b777585103981",
+    "allExact": true,
+    "finalMirrorReceiptSha256": "e7a85726fc27db7f7d3a7dce451cb9ff75b69f430f8bbd0131be86ba72a3cd5d",
+    "originalCalibrationReportSha256": "5f74a9efb7981fefb242dcf34c82e972bbc269c5a5ea7a92c62a68db1bc34ad9",
+    "originalSourceSha256": "bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97",
+    "disposition": "Read-only post-run full identity reconciliation passed. Campaign remains failed-retained. This is not a retry authorization or a complete proof pass; await final audit release before evidence-only documentation."
+  },
+  "leadRelease": {
+    "atUtc": "2026-11-17T23:31:15.813469+00:00",
+    "sourceCommit": "9f8870155b2cdeb6ac0594ff0375cd818abee988",
+    "audit": {
+      "bytes": 15543,
+      "sha256": "a011346bd95fc36422e6425cde04f5c727e2e8f7585ba65cbfde6878db4dd19b"
+    },
+    "identityReconciliation": {
+      "bytes": 978,
+      "sha256": "2c2331839cd6463a8df5f4b2299a7b78842d97aa7ce8e12f91cda2a138560465"
+    },
+    "disposition": "Release tracked freeze only for five-path evidence/PBS checkpoint025. Actual bounded service publication supported; original campaign remains failed-retained. Preserve original attempt and all raw artifacts. Separately prepared corrected helper may receive file-only tests/review; no second media/gate/native execution authorized.",
+    "demonstrated": "Genuine short Full720/copied-AAC publication, exact decoded counts and coded packet/header/padding identity, complete bounded closure/diagnostics.",
+    "unreached": "Planned helper post-success assertions, independent output full probe, OutputAccess action/expiry and second prepare-only collision checks.",
+    "next": "Preserve025 through local Git, independently restored Notion source and full history with complete native records, then verified GitHub. Finish independently reviewed corrected helper and fresh exact authorizer before considering one new bounded attempt.",
+    "authority": {
+      "campaignPass": false,
+      "retryAuthorized": false,
+      "nativeUiQualification": false,
+      "productionActivation": false
+    }
+  },
+  "inheritedTestsNotRerun": {
+    "focused": "98/98",
+    "sourceProtection": "229/229",
+    "linuxBroad": "211/256,45failed",
+    "failureMultiset": "same nonempty45 as022, no downstream-green claim",
+    "overlappingScopes": true
+  },
+  "futureHelperAtCutoff": {
+    "status": "Separate correction preparation only; worker reports7 file-only tests, final immutable review pending.",
+    "noSecondGateOrRuntime": true
+  },
+  "artifactReferences": [
+    {
+      "label": "024 GitHub verification",
+      "file": "github-checkpoint024-verification.json",
+      "bytes": 3157,
+      "sha256": "c107097b07fb1e79efd5fad7abb84e8cb499f81555c906489ee045952738f227",
+      "includedInSourceMirror": false
+    },
+    {
+      "label": "024 final Notion verification",
+      "file": "notion-checkpoint-024-verification.json",
+      "bytes": 99793,
+      "sha256": "e7a85726fc27db7f7d3a7dce451cb9ff75b69f430f8bbd0131be86ba72a3cd5d",
+      "includedInSourceMirror": false
+    },
+    {
+      "label": "original helper handoff V2",
+      "file": "full-copy-short-service-proof-preparation-20261117/HANDOFF-v2.json",
+      "bytes": 2138,
+      "sha256": "a82171bb4018a499eee72465b5a7b177b530c425c4618ab5c2ec58e8d819112a",
+      "includedInSourceMirror": false
+    },
+    {
+      "label": "original launch review",
+      "file": "full-copy-short-service-proof-preparation-20261117/INDEPENDENT_LAUNCH_REVIEW.json",
+      "bytes": 6166,
+      "sha256": "b240c3e4b2c8c24f5d4db096e3fbb0e1efc4226418002e4e12cec2922757de7d",
+      "includedInSourceMirror": false
+    },
+    {
+      "label": "authorizer",
+      "file": "authorize-full-copy-short024.py",
+      "bytes": 7228,
+      "sha256": "21723374b3d69a44878fb4d1b3c9aee877acd0158cc7b19fba2ad8145ad9b6dc",
+      "includedInSourceMirror": false
+    },
+    {
+      "label": "authorizer review",
+      "file": "full-copy-short-service-proof-preparation-20261117/AUTHORIZER_REVIEW.json",
+      "bytes": 3397,
+      "sha256": "55f53b018bc28c8ad017c29d40a4c6f001c530966eef399b4baae8dbd38fbf97",
+      "includedInSourceMirror": false
+    },
+    {
+      "label": "authorizer execution",
+      "file": "full-copy-short-service-proof-preparation-20261117/AUTHORIZER_EXECUTION.json",
+      "bytes": 502,
+      "sha256": "548b9d233400cb1f81bbb81ddad69c556d3c2f0314dad036e5b7fd7db23217ce",
+      "includedInSourceMirror": false
+    },
+    {
+      "label": "gate",
+      "file": "full-copy-short-service-proof-preparation-20261117/APPROVED_CHECKPOINT.json",
+      "bytes": 66188,
+      "sha256": "84429162fe30192a5b25815fc10983b0d207e64d01f1d23355ffb149efe71467",
+      "includedInSourceMirror": false
+    },
+    {
+      "label": "outer attempt",
+      "file": "full-copy-short-service-proof-preparation-20261117/OUTER_ATTEMPT_STARTED.json",
+      "bytes": 93,
+      "sha256": "ddc1962466fdecb70f1b080e8caa5438e8b22bf58ea895b4d9da6ea52d9977f1",
+      "includedInSourceMirror": false
+    },
+    {
+      "label": "inner attempt",
+      "file": "full-copy-short-service-proof-preparation-20261117/ATTEMPT_STARTED.json",
+      "bytes": 85,
+      "sha256": "6ebe290763f2e2b6452f2d835fc2bd4f48c4350190860fe241d8b437aef3bd14",
+      "includedInSourceMirror": false
+    },
+    {
+      "label": "outer completion",
+      "file": "full-copy-short-service-proof-preparation-20261117/OUTER_COMPLETION.json",
+      "bytes": 371,
+      "sha256": "01fc76d25fdaf2f27accfe06ca3f73a39c61e9d92f2e6e5902ea36455c4b0448",
+      "includedInSourceMirror": false
+    },
+    {
+      "label": "inner completion",
+      "file": "full-copy-short-service-proof-preparation-20261117/COMPLETION.json",
+      "bytes": 504,
+      "sha256": "d244b25e75d42e02ee93a39364015994548518e00f4df085da4c6992d9d9e631",
+      "includedInSourceMirror": false
+    },
+    {
+      "label": "stdout",
+      "file": "full-copy-short-service-proof-preparation-20261117/campaign.stdout.log",
+      "bytes": 408,
+      "sha256": "70ba18e8b493eee1bf58e089e06d8d662672011a27b2638400dc541a7b4cd8cc",
+      "includedInSourceMirror": false
+    },
+    {
+      "label": "stderr",
+      "file": "full-copy-short-service-proof-preparation-20261117/campaign.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "includedInSourceMirror": false
+    },
+    {
+      "label": "worker final handoff",
+      "file": "full-copy-short-service-proof-preparation-20261117/WORKER_FINAL_HANDOFF.json",
+      "bytes": 4339,
+      "sha256": "d6016d3aa22a61ca4a8525319a9f92f2dfb598eac315651f40bedddae597c5fd",
+      "includedInSourceMirror": false
+    },
+    {
+      "label": "failure audit",
+      "file": "full-copy-short-service-proof-preparation-20261117/INDEPENDENT_FAILURE_AUDIT.json",
+      "bytes": 15543,
+      "sha256": "a011346bd95fc36422e6425cde04f5c727e2e8f7585ba65cbfde6878db4dd19b",
+      "includedInSourceMirror": false
+    },
+    {
+      "label": "post-success contract review",
+      "file": "full-copy-short-service-helper-review/POST_SUCCESS_CONTRACT_REVIEW.json",
+      "bytes": 9303,
+      "sha256": "abc9efe14a513c2b659206366c9baaf2790821684ef78b16296d16406697eae4",
+      "includedInSourceMirror": false
+    },
+    {
+      "label": "lead identity reconciliation",
+      "file": "full-copy-short-service-proof-preparation-20261117/LEAD_IDENTITY_RECONCILIATION.json",
+      "bytes": 978,
+      "sha256": "2c2331839cd6463a8df5f4b2299a7b78842d97aa7ce8e12f91cda2a138560465",
+      "includedInSourceMirror": false
+    },
+    {
+      "label": "lead release",
+      "file": "full-copy-short-service-proof-preparation-20261117/LEAD_RELEASE.json",
+      "bytes": 1459,
+      "sha256": "3f5158f154cb9da74a4c70b7225e3f468b95d31a1d7b6cb69b4571a1fd3d2643",
+      "includedInSourceMirror": false
+    }
+  ],
+  "limits": [
+    "Saved-data audit only, no media/probe/decode/runtime execution.",
+    "Source full probe is retained; planned independent output full probe was never reached. Do not claim complete output-probe proof from helper or re-decode.",
+    "Equal coded packet/header/padding seals and384000 decoded samples are not a PCM hash identity or video quality guarantee.",
+    "Public snapshot has outputAccess ID, but actual access action assertions were unreached. No observation-sink reveal or OS reveal proven.",
+    "Some diagnostic contexts are truncated; explicit retained collector/storage/provenance used separately. Warnings remain, not a clean-runtime claim.",
+    "Source/runtime freeze remains until lead reconciliation. No production/native/general acceptance.",
+    "Lead released evidence-only docs and separate file-only correction, not a new run.",
+    "Raw report/runtime/media/helper evidence are excluded from source restoration; no reversible root map.",
+    "No native/default/catalog/Windows qualification; manual review is not formal Security Cloud scan."
+  ]
+}

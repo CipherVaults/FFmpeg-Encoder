@@ -1,3 +1,281 @@
+# 📘 Session: November 17, 2026 — FFmpeg Encoder — Preserve a failed Full-copy proof campaign and its genuine published output without claiming unreached checks
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model / effort attribution | Evidence and limit |
+|---|---|---|
+| Engineering lead | GPT-6 Astra / Ultra, recorded assignment, not backend attestation | Owns checkpoint identity, final semantic authorizer review/release, source freeze and outcome reconciliation. |
+| Helper author / independent reviewer | Not independently established here | Prepared exact V2 one-shot helpers and reviewed static/API controls plus file-only persistence. That review is not a run. |
+| Actual proof executor / saved-output auditor | Not independently established here | Executes one fixed-source attempt and independently audits saved records/hashes afterward, without a fresh runtime/decode. Campaign failure and supported service publication are different outcomes. |
+| Preservation / documentation | Not independently established here | Mirror restores exact source/full history/native record and remote delta; documentation drafts outside checkout and writes only explicitly released Session. |
+
+**Record basis:** 024 integrated a fixed developer Full-copy service and test-only missing-source correction. Its final source tests passed narrowly, but no actual normal-service media had run. This session starts from immutable 024, keeps original helper defects and corrected preparation attribution, and treats generation, exact authorizer review, gate issuance, one-shot execution, closure and independent audit as separate facts.
+
+## 🕒 Time
+
+- Date: November 17, 2026; exact saved timestamps UTC. Active-work start/total active time is not measured.
+- Continuation: Previous 024 record cutoff 23:10 UTC, source final test V3 and helper V2 conditional review, no gate/attempt/runtime. Do not retroactively add this later preservation or execution to it.
+- 024 source freeze: 23:19:15.773654 UTC, exact immutable checkpoint below.
+- 024 remote verification: 23:22:25.495311 UTC, seven exact paths and full-tree/sole-parent/fresh-ref checks.
+- Generator/template pre-review is static only, no authorizer gate or media. Its recorded checks do not establish final generated literal bindings before the finalized mirror receipt is released.
+- Exact authorizer invocation: 23:24:56.118662–23:24:57.645519 UTC, exit 0, empty stderr; gate authorized 23:24:57.637804 UTC. This step verifies/writes authority, not media execution.
+- Outer attempt marker: 23:25:14.302 UTC; actual outer start 23:25:14.303 UTC. Inner attempt marker: 23:25:17.154 UTC.
+- Actual user target child 35: 23:25:23.032–23:25:36.868 UTC, exit 0, no signal. This is one target duration, not a general performance or native benchmark.
+- Failed raw report finished: 23:25:41.041 UTC, inner monotonic 23,885.360651 ms and wall 23,885 ms. Outer ended 23:25:41.061 UTC, monotonic 26,757.825333 ms and wall 26,758 ms, exit 1. Do not merge inner/outer or claim service success makes outer green.
+- Saved-data audit checked at 23:28:01.758554 UTC. Lead full identity reconciliation checked 23:30:40.122595 UTC; documentation-only source-freeze release at 23:31:15.813469 UTC.
+- Final owning record cutoff: 23:32 UTC. Successor helper work is preparation only, seven file-only tests reported but final freeze/review pending at this cutoff; no second gate or run.
+- End / stopping point: Dated cutoff 23:32 UTC, one failed-retained campaign closed and independently reconciled. Genuine bounded publication is supported; planned post-success helper checks remain unreached. Source freeze is released only for this evidence/PBS checkpoint, with no production/test change or retry authorization.
+- Session type / focus: One separately authorized and executed finite developer Full-copy normal-service proof attempt, now failed-retained with supported publication; not native UI/default/product release or broad duration qualification.
+- Contributors: Ahmed retains product ownership/acceptance; lead, helper author, executor, independent reviewer/auditor, mirror and documentation retain separate duties.
+- Reason for summary: Preserve actual state transitions, rejected assumptions, evidence bounds and the exact next continuation without turning preparation into claimed execution.
+
+## 🎯 Session Goal
+
+After independently preserved 024, review and bind the actual one-shot authorizer to immutable source/full tree, final restoration receipt, exact original calibration/audit, current runtime and frozen helper V2. Only a separate explicit release can permit one bounded actual normal-service proof on the exact audited eight-second source.
+
+The intended proof has exactly one Full/null/720/copied-AAC target, initial compatibility-ready/null preparation plus synchronous inherited Start refusal, ordinary explicit-720 reprepare, genuine collector/publication/result access and a second prepare-only existing-output refusal. Trusted OutputAccess dispatch to an observation sink is not OS reveal. No second encode, native app, long/held-out/cancellation extension or retry is implied.
+
+## 🛠️ Actions Taken
+
+### 1. Finish 024 preservation before any actual proof
+
+024 local commit is `9f8870155b2cdeb6ac0594ff0375cd818abee988`, source tree `7f02a11cc074bbb298a9404c5c56724218a77d7d`, 574 tracked files and twenty-four commits. [Notion source/history](https://app.notion.com/p/41bbd7ade63b810d8f1cd1a490420c6a) independently restored source ZIP SHA `ea733f2c149a9812bfa5efbd4a599ff3719bd11e94137c60c1292b8efef5753d`, full bundle SHA `5c5159e65fcd2e11dd8896bda47aaa61aca6ed0428c33583399699114400cfee` and history ZIP SHA `3d60b73c4f4624c0f023c98779e80f392f850005a45702b37b95114b19d9a17a`.
+
+The [full native Session](https://app.notion.com/p/41bbd7ade63b81778ff2c9eb914064d2) was sent in five ordered unabridged requests. Fetch returned 1,129,535 characters, all twenty-four headings and historical ending, no truncation metadata. Exact source/history Markdown is 1,114,429 bytes, SHA `47ba934ad0f5e99331292c5d47ac808c39d7b15de1a92951ccf40fb5546e796c`; rendered native transport is not claimed byte-identical.
+
+GitHub remote is `8f9bcf2647517a10fb2a561f95473d4c8ce583e4`, sole parent `ddde1b63aefb539eeb15f8c0e1b6680ed583b604`, tree `30fb324f4f82c3e118d514e271bf13c9af8b7742`. Verified at 23:22:25.495311 UTC: 956 total files, 949 unchanged, three modified, four new, zero deleted; seven exact readbacks, expected-parent non-force update and fresh ref. Session above 1 MiB used the supported immutable Git blob endpoint directly, not an empty contents response or repeated upload. Local reconstruction and remote original ancestry intentionally differ; exact delta preserves the remote history.
+
+The mirror finished cross-checking and released final 024 receipt SHA `e7a85726fc27db7f7d3a7dce451cb9ff75b69f430f8bbd0131be86ba72a3cd5d`. Lead matched those exact bytes, completing the preservation cycle. No runtime gate follows automatically from this completion.
+
+### 2. Keep the corrected service and helper boundaries explicit
+
+Final production service stays SHA `474468c9aa591db536b685dcfa4f79f0fc7893d43dd989cebba711e3b32b5acd`; service test V3 SHA `5342780891a8764fc3103b65206f6596d6b54178328ee9886a6594c8bdbeb148`; missing-source fixture SHA `e67d9996f57497e1198cad7f90e40811a5997942a4c1aeeea6c622d10d06c0ab`. Prior final lead 98/98 focused and 229/229 protection pass; broad 211/256 retains 45 existing failures. Those are previous source tests, not rerun by this proof merely because their counts are quoted.
+
+Actual initial compatibility preparation can emit ready/Keep-source/full/copy with null selection because that path bypasses the family selector. Inherited Start refuses synchronously before effects. Previous test uses actual composed registration/preparation/Start with synthetic factory/runtime/report and inspection/capability/cache/storage seams. It does not prove ready suppression, positive explicit-720/live runtime or service publication. Later actual proof must record the real observed state rather than suppress or rewrite it.
+
+The earlier helper V1 review requested three changes: its accounting assumption was changed from nine to eleven for target + output probe + nine collectors; initial preparation must inspect compatibility-ready/null and prove Start refusal, not assume Unsupported; and a missing final 27 GiB free-space point check was required. The eleven-count assumption was still incomplete, as the actual twelve-call result and later contract review below establish. V1 review SHA `488fbf4b3572bda2152c6393f02a4a50edf8b9c0de11fa747aa7ad817083e9b4` and frozen originals remain. V2 made those requested changes without production source edits; it did not yet expose the post-success schema/count mistakes later found in this actual attempt.
+
+V2 independent executable review SHA `b240c3e4b2c8c24f5d4db096e3fbb0e1efc4226418002e4e12cec2922757de7d` gives conditional GO only. Launcher SHA `00194829a50767f11d7fa37c5f6fcb5b99c82c27a9a7a5c50aee05d30d6b9140`, outer SHA `9ffcd16af7df6768464d7729e96844f1c53b6d6005897c1e4dffad532f619095`, updated plan SHA `3a54e262adf897761d7234463956adf386eafb2a02638002a0ff92c69de2e58f`. At that review stage, syntax checks and two file-only persistence tests were executed, not a campaign. Reviewed code admits at most eighty serial children before spawn, propagates abort to service/helper tools and intends to capture first terminal success before subsequent preparation and test output-grant clearing/expiry. Those intended later success/access branches were not reached in the actual failed attempt. Exclusive failed-report/completion/outer readback did occur after closure/hash checks. Free-space/owned-byte limits are admission point checks, not hard quotas; ten-minute abort is not guaranteed exit.
+
+The original raw calibration is 207,464 bytes/SHA `5f74a9efb7981fefb242dcf34c82e972bbc269c5a5ea7a92c62a68db1bc34ad9` on immutable 022, with original audit SHA `a535b47cffd2dc40a79126c696c95c9a81ec28c1569236026709c02a5ac7da90` and release SHA `065f73eb985e373ab301ad1dd239964ef050370bfc7d432d934ddfb835940e80`. Portable archives are not live authority. New service-only code was not executed in that historical calibration; current actual service must prove its own route. Normal service checks metadata before target and complete-source evidence after target before publication, not the calibration's pre-target decoded diagnostic.
+
+### 3. Review the generator without treating it as an authorization boundary
+
+At its preliminary review, the then-unexecuted generator was 7,853 bytes, SHA `3bff5821003e0da82c077e7357d94942d546c71d06b0c3c0f721f69c1f581171`. Independent pre-review parsed AST for generator and literal authorizer template without executing either. It found no blocking schema/runtime-link-count mismatch, but required a final independent review of the generated fixed authorizer after final mirror release.
+
+The template explicitly rejects optimized Python and positional arguments before assertions, checks exact source/current/Git/publication/Notion equality for 574 paths and twenty-four commits, source and helper/parent identities, original raw report, nine runtime identities and exclusive absent attempt/gate/output markers. It reads actual restoration semantics, not only asserted true flags. Gate bytes/JSON must be reread after exclusive write. Runtime identities are two tools plus seven listed libraries, not nine libraries or complete ELF closure.
+
+The pre-review observed each listed path had single link and expected manifest `size` field. Those are read-only point stats, not full current hash requalification. The final authorizer/adapter still require full hashes/currentness. The generator itself uses assertions and lacks optimization rejection but writes only a future authorizer, not a gate. Ordinary Python is required as intended, and generator pre-review cannot substitute for reviewing generated literal values. It derives current commit/tree/mirror/helper/parent hashes, so final review must compare every rendered value to separately reviewed identities, not trust generation blindly.
+
+After final mirror release, lead ran only the generator to render `authorize-full-copy-short024.py`, 7,228 bytes/SHA `21723374b3d69a44878fb4d1b3c9aee877acd0158cc7b19fba2ad8145ad9b6dc`. AST parsing passed. The generated authorizer itself was not executed; no gate/runtime was opened. Independent exact authorizer review then completed, SHA `55f53b018bc28c8ad017c29d40a4c6f001c530966eef399b4baae8dbd38fbf97`. It compared rendered text against the reviewed template/literal substitutions, actual 024 commit/tree, released mirror hash, 574 files/twenty-four commits/native entries, completed remote identity, fixed helper V2 and all five parent audit/release/source/test/integrated-review identities. No guards were weakened. Reviewer performed static/AST/saved identity checks only, not gate/media execution.
+
+Lead invoked that exact no-argument authorizer once with ordinary Python at 23:24:56.118662 UTC; it exited 0 at 23:24:57.645519 with empty stderr. Execution receipt, stdout SHA `7474c457fa09f4f5d990dce51296e4d6b1805c1c335a2fe99c286087041d6823` and stderr remain. The exclusive gate is 66,188 bytes/SHA `84429162fe30192a5b25815fc10983b0d207e64d01f1d23355ffb149efe71467`, authorized 23:24:57.637804 UTC for all 574 exact source files. This step did not execute runtime/media. Only afterward did lead separately release exactly one outer invocation. Source/runtime/final receipt remained frozen through independent audit and lead reconciliation.
+
+### 4. Execute one actual attempt and retain the first terminal failure
+
+The exact outer invocation ran once, 23:25:14.303–23:25:41.061 UTC, exit 1, signal null, no spawn error. It retained root `owned-proof-TVCkje` and original helpers unchanged. There was no retry or altered assertion after seeing the result. Raw report is 98,832 bytes/SHA `baf73af4fd3df60aa644972b3daf73c912d8e544548eebb46a0b777585103981`, status `failed-retained`, `cases:[]`, failure code null and message `Cannot read properties of undefined (reading 'retained')`. Its exact report readback passed and both inner/outer completions preserve failure: completion SHA `d244b25e75d42e02ee93a39364015994548518e00f4df085da4c6992d9d9e631`, outer SHA `01fc76d25fdaf2f27accfe06ca3f73a39c61e9d92f2e6e5902ea36455c4b0448`.
+
+The helper dereferenced `item.cleanup.retained` after awaiting a settled service. The public item snapshot has no `cleanup` field, so the helper stopped even though that snapshot already showed successful publication. This is a helper schema mistake, not evidence that the service failed to publish. Conversely, the service's success does not turn the enclosing campaign into a pass. The empty `cases` array records that the later success append was not reached, not that no output exists.
+
+Owned input is an exact exclusive copy of the audited eight-second source, 5,578,679 bytes/SHA `bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97`. Actual checkpoints retain session creation, initial compatibility-ready/null Start refusal, explicit Full/null/720/copied-AAC preparation and settled service. `003-compatibility-ready-start-refused.json` SHA `bd88e4aec8cfd0601b69436edc02c087d31b8ff395a7c6ae156095a5315081f8` is actual runtime-era evidence, separate from previous synthetic source tests. No hidden ready-row rewrite or bypass was used.
+
+Exactly 45 owned tool children spawned and closed, live 0, maximum concurrency 1. Report field `encodes:13` counts progress-bearing child invocations: twelve startup capability encodes plus one actual user target (child 35), not thirteen requested targets. The target used the actual ordinary service, H265 CPU slow/CRF25, 1080p source to 1280×720, copied AAC, full/null interval and reviewed runtime. Target close code 0/signal null does not erase the later helper exit 1.
+
+The final closure record has admission closed, busy false and no closure errors. Post-close owned inventory has 96 rows / 7,887,242 bytes, excluding the final raw report itself; including report gives 97 proof files. Final free bytes are 58,664,792,064. These observations satisfy finite admission/closure evidence, not hard write-quota or guaranteed timeout claims. The global 80-child limit was not reached; no timing timeout was reported.
+
+### 5. Audit the published result without completing unreached checks by inference
+
+Independent `INDEPENDENT_FAILURE_AUDIT.json` is 15,543 bytes/SHA `a011346bd95fc36422e6425cde04f5c727e2e8f7585ba65cbfde6878db4dd19b`, checked 23:28:01.758554 UTC. It reads saved records and hashes only: no additional runtime, output probe, media decode or re-encode. It verifies 574 source files, nine runtime identities and all 96 report-listed artifacts, plus separately checks the exact failed report/completion/helper/log identities. The raw report/completions are not counted inside their own preceding artifact inventory.
+
+The saved service snapshot is `phase:completed`, one item `status:success`, outcome `saved`, output disposition `published`, unchanged post-encode source assessment and issued output-access ID. Snapshot counts are one success and zero failed/skipped/cancelled/unprocessed. Its storage final state is completed, record persisted, retained true, violations empty. Here retained means the evidence record is kept, not a retained temporary-media cleanup. These are not the absent public `item.cleanup` field. The audit separately verifies collector/storage/provenance records rather than inventing that field or rerunning unreachable helper assertions.
+
+Published `audited-short_H265-CPU.mkv` is 1,959,028 bytes, SHA `372e0fcaa4624cbf76c46f79873a1d565335c3633ac9ba359592cf4c72594553`. Its full hash was already captured by the campaign's post-close artifact inventory and was independently matched by the audit. It was not first established by the audit or by the later planned explicit published-output assertion, which never ran. Provenance receipt SHA is `74c81f22b79485e2035b8c724e41e2d2dd89417329fdd6fb5ca202ab87e40d52`; collector receipt SHA is `5cffd89ecc850aee607e349dbb5f0e9bf182558c38b8a517e0e8c1fb4cfb9df6`.
+
+Saved genuine collector/canonical validation supports:
+
+- Source/output 240/240 video frames, compared 240, first timestamp zero. Source last PTS 7,966,667 µs/duration 33,333 µs; output last PTS 7,967,000 µs/duration 33,000 µs; maximum rebased timestamp error 334 µs. Validation reports full video interval 0–8,000,000 µs.
+- Source/output 384,000 decoded audio samples; source endpoint 8,000,000 µs, output endpoint 8,000,333 µs; encoder delay 1,024 samples and discard padding 0. Complete-source audio has 0 gaps under its source-clock assessment. This is not a claim of exact output adjacency/contiguity.
+- Exactly 376 copied coded packets. Source/output equal payload SHA `b991cd0656a0f98f1f31928878519dc126b1c6845936043487e634fd08d0c856`, side-data SHA `c61d37c51be2cdb36aa5911971fbe578038afd6666789cfc8cbdbbaae1c5bd87`, extradata SHA `b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10` and combined seal `40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721`.
+- Complete source 240 frames / eight seconds has zero measured nominal cadence/duration/phase error and retained SDR frame-property checks; exact sample/packet/header/padding facts support the bounded contract, not arbitrary inputs or general visual quality.
+
+Equal coded packet/header/padding seals and decoded counts do not establish a PCM hash identity, lossless resized video, absence of all dropped-sample effects, exact contiguous output timestamps or arbitrary-duration/scaler quality. Telemetry validates encoder input count/timeline only, explicitly not pixel identity, lossless audio identity, last video duration or publication validity. Publication is instead supported by its actual disposition/provenance/output and canonical checks.
+
+All 45 stderr captures are complete and untruncated: 38 empty, seven nonempty. Target child 35 has 335 bytes with duplicate-codec option warning and x265 CPU-mask/thread-pool warnings. Other nonempty rows are capability children 11/14 (167 bytes each), 17/20 (335 each), 23 (1,181) and 26 (1,182). Empty outer stderr does not mean clean child diagnostics. No warnings were suppressed; native threading/performance remains unqualified.
+
+Four saved event contexts, sequences 6, 9, 13, 17, are truncated. The operation-accounting event is among truncated contexts; the full retained collector/storage/provenance records independently establish their stated facts. Do not claim all event contexts are complete just because child stderr is complete. Saved operation accounting reports 12 children, 335 stderr bytes and genuine collector count 9. Audit reconciles 12 as pre-encode source recheck + target + output probe + nine collection calls. The earlier helper's expected 11 was incomplete and would fail later even after fixing missing cleanup; it was not reached in this attempt.
+
+Unreached checks remain explicitly unproved: first-terminal-success checkpoint and `report.cases` success append, planned independent published-output full probe, output-access forged/reveal-observation/clear-expiry actions, second prepare-only existing-output collision and no-second-target assertions. The ordinary service did run its internal output probe/validation; that is not the distinct later independent full probe. An issued output-access ID is not evidence an action was invoked. No observation-sink reveal, OS reveal, native UI, live cancellation or same-service recovery was demonstrated.
+
+The separate read-only post-success contract review, 9,303 bytes/SHA `abc9efe14a513c2b659206366c9baaf2790821684ef78b16296d16406697eae4`, checked 23:29:17.631756 UTC, confirms all three helper defects against actual source/saved shapes. It explicitly acknowledges that its earlier review missed cleanup and progress-counter assumptions and omitted the fresh-source probe when recommending eleven calls. It does not rewrite that prior review or claim a production fix. `EncoderService` only assigns `item.cleanup` when temporary cleanup retains files; normal successful cleanup may omit it. Saved stage file and owned stage directory are now absent, while publication/grant evidence exists. Correct future assertions must use actual supported disposition/warning/stage-boundary facts, not fabricate the field or simply default every absence to false.
+
+The contract review additionally correlates child 34 pre-encode source probe, 35 target, 36 internal output probe and 37–45 collectors. It checks remaining retained data types/resources and source-compatible access/probe/second-prepare code without executing those branches. Later proof should capture the first settled result before optional assertions, correlate publication marker ID to the prepared output ID and enforce semantic one-target admission separately from all progress-bearing calls. These are successor requirements, not newly run checks or approval.
+
+### 6. Reconcile the frozen source and release only evidence documentation
+
+Lead `LEAD_IDENTITY_RECONCILIATION.json`, 978 bytes/SHA `2c2331839cd6463a8df5f4b2299a7b78842d97aa7ce8e12f91cda2a138560465`, checked 23:30:40.122595 UTC: all 574 immutable/current source files, nine runtime identities, 96 artifacts/7,887,242 bytes, raw 98,832-byte report, final mirror receipt, original calibration/raw source all match. No source/test changes or media replay occurred during the freeze.
+
+`LEAD_RELEASE.json`, 1,459 bytes/SHA `3f5158f154cb9da74a4c70b7225e3f468b95d31a1d7b6cb69b4571a1fd3d2643`, dated 23:31:15.813469 UTC, releases only five evidence/PBS paths. Its authority explicitly keeps campaignPass, retryAuthorized, nativeUiQualification and productionActivation false. The genuine bounded short service publication stands; the failed campaign and all original artifacts remain immutable.
+
+Successor helper preparation is separate, in a new directory. It must treat absent public cleanup correctly, classify user target separately from startup progress-bearing calls and reconcile actual twelve-operation accounting. Seven file-only tests are reported at 23:32 cutoff, with final freeze/review still pending. No second attempt/gate or source modification is authorized, and future helper work does not delay this failure preservation.
+
+### 7. Preserve the new milestone and exact previous history
+
+Final owning records at the fixed 23:32 UTC cutoff are [Current](CURRENT_STATE.md), [failure execution](2026-11-17_Full_Copy_Service_Failure.md), [curated receipts](2026-11-17_Full_Copy_Service_Failure_Receipts.json) and [portable failed report](evidence-2026-11-17/full-copy-short-service-failure-portable.json). Exact identities:
+
+- Current 7,477 bytes/SHA `987a51a70f39398382e131e9cce96e12fde3c39755f562fb7150dbbc4924c265`.
+- Execution 14,506 bytes/SHA `7791e200f2b6019578162c25e4d095e12cae2886de031cb5458a512def237463`.
+- Receipts 20,610 bytes/SHA `f79bccbf1d40c5435e4d89d81131a23c8d56f112aa911b4df549f63003cc2d60`.
+- Portable 96,765 bytes/SHA `844ab018f4488a1685cae9c2289645e178e5630de4502acdd3296f343cb6bf8e`.
+
+The portable report uses exactly 103 prefix-only string substitutions: 57 `proof://`, one `project://`, 45 `runtime-build://`. All other raw report keys/types/values, including failed status and empty cases, remain unchanged. It includes audit/reconciliation/limitations metadata but no inverse private root mapping. All authority flags are false: it is not raw-report restoration, factory/service publication authority, a substitute gate, native/production qualification or a promotion of failed campaign to pass. The underlying actual publication is supported by original evidence; the transformed archive itself confers no authority.
+
+Five explicit paths yield expected 577 tracked files/twenty-five commits after a coherent evidence-only commit. There is no production/test delta. Exact prior 1,114,429-byte body remains a byte-identical suffix and original correction receipt stays unchanged. Raw media/runtime/helper/profile/private root mappings are not included in source publication. At the cutoff 025 is not committed/restored/pushed; later publication receipts must verify Git → immediately independently restored Notion source/full history/unabridged record → exact ancestry-preserving GitHub. Unpushed local work is not backed up and remote publication is not owner acceptance.
+
+## 🧠 Key Insights
+
+### Review, gate issuance and execution are different facts
+
+A reviewed helper is not an executed proof. Generated literals need independent semantic reconciliation with a final released restoration receipt; a template containing assertions does not itself establish those assertions ran.
+
+### Ready presentation is not Start authority
+
+Ready presentation and execution authority differ. The fixed service's initial compatibility row may be ready/null while Start remains forbidden. Record the actual state and boundary, not an imagined Unsupported label.
+
+### Count the correct kind of child work
+
+Nine collector invocations are not the whole operation or campaign census. Target, probe, capability and helper work need their own accurate accounting and common pre-spawn ownership limits.
+
+### Preserve failure and supported publication together
+
+A failed harness can retain a genuinely successful service publication. Preserve both, identify which assertions failed or never ran and audit saved evidence without silently converting failure into pass. Prior coded-AAC packet/header/padding seals and bounded timestamp rounding do not prove PCM identity, exact contiguous output, absence of dropped samples or general scaler quality.
+
+## 📌 Decisions Made
+
+1. **Confirmed; lead, based on completed 024 preservation:** Use immutable 024 and final exact restored receipt as prerequisites, not an unpushed source tree.
+2. **Confirmed; independent helper review/lead:** Retain V1 findings and use V2 corrected API/accounting/resource controls. Conditional review is not execution release.
+3. **Confirmed; lead/reviewer:** Generated authorizer requires separate exact final review, ordinary Python and semantic source/history receipt checks before any gate.
+4. **Confirmed; lead explicit one-shot release and actual gate:** Authorized one audited eight-second target with planned output-access and second prepare-only existing-output refusal. The target published; later access/collision checks were unreached. No native/OS reveal/cancellation/long/held-out expansion or retry was authorized.
+5. **Confirmed; lead/auditor, actual terminal receipts:** Keep campaign failed-retained, no retry. Record service publication only to the extent independently supported by saved output/collector/provenance; do not invent unreached access/probe/collision checks.
+6. **Confirmed; lead after full reconciliation:** Release only five evidence/PBS files, no production/test change, activation or native proof.
+7. **Provisional successor; lead:** Correct helper in a separate new directory, retain original failed attempt, require final independent review, new preserved source/restoration-bound authorizer/gate and explicit release before considering a new attempt.
+
+## ⚠️ Difficulties / Friction
+
+Previous direct-selector coverage did not include the shared compatibility preparation bypass. This was corrected before any actual proof, with synthetic seams honestly disclosed and initial ready presentation retained.
+
+The large Session needs full immutable Git blob readback beyond the contents endpoint's one-MiB threshold. Exact bytes are verified without implying native rendering has identical transport.
+
+The generator can only freeze actual final restoration identities after the mirror stops writing. Preparation/review may proceed independently, but it cannot invent the final gate before that evidence exists.
+
+The actual helper accessed a nonexistent cleanup field after service success. Audit also exposed latent count expectations: twelve operation children rather than eleven and thirteen progress-bearing invocations rather than one user target. These are helper assumptions missed by previous static review/file-only tests, not reasons to loosen protection or fabricate a complete pass. Four event contexts are truncated; complete child stderr and full collector/storage/provenance records are different evidence layers.
+
+## 🔧 Adjustments Made
+
+### 1. Use exact whole-source preservation rather than presumed backup
+
+- Shifted from: 024 source tests complete but checkpoint/restore/publication still pending at its cutoff.
+- To: Verified immutable source/full history/native record and exact remote seven-path delta before potential proof.
+- Because: A future runtime claim must have a recoverable source and exact provenance.
+- Consequence: Later actual gate must bind the released restoration receipt; preservation does not automatically authorize execution.
+
+### 2. Bind a generated authorizer, not just a reviewed template
+
+- Shifted from: Static generator/template and runtime stat observations.
+- To: Exact generated authorizer independently reviewed against final released mirror/source/helper/parent identities, then invoked once to create an exclusive bound gate.
+- Because: Current-file-derived values may differ from separately reviewed immutable identities.
+- Consequence: The actual gate and later single attempt have separate timestamps/receipts. Neither review nor gate issuance is mislabeled as media success.
+
+## ❌ Mistakes / Risks Noted
+
+### 1. Missing public cleanup field stopped the campaign after publication
+
+- What happened or could happen: Helper dereferenced `item.cleanup.retained`, but cleanup is absent from the public snapshot.
+- Actual impact: One attempt exits 1/failed-retained after genuine service publication; success-case append and remaining checks are unreached.
+- Potential impact: Calling it a full pass hides untested behavior; calling it failed publication discards real evidence. Retrying blindly could duplicate work.
+- Correction / current status: Retain original unchanged, audit actual output/provenance/collector and separately prepare schema-correct successor. No retry authorized.
+- Failure Intelligence: Public snapshot schema and separately retained storage/disposition evidence differ. Static/file-only helper review did not exercise this live post-success path.
+
+### 2. Two latent accounting expectations were also wrong
+
+- What happened or could happen: Helper expects eleven operation calls and one absolute `encodes` count.
+- Actual impact: Those assertions were not reached after cleanup failure. Saved audit shows 12 operation calls including pre-encode source recheck, and 13 progress-bearing child invocations including 12 startup capabilities plus one user target.
+- Potential impact: Fixing only cleanup would produce another avoidable helper failure or misreport thirteen targets.
+- Correction / current status: Successor preparation must classify roles/deltas from actual argv/source/target identity, retain nine collectors distinctly and preserve original counts. No rebaseline of current failed report.
+- Failure Intelligence: Target count, progress-bearing invocation count, operation accounting and total campaign census are distinct dimensions.
+
+### 3. Partial evidence could overstate result-access or output-probe proof
+
+- What happened or could happen: Published output/access ID and full inventory hash are treated as if all planned post-success assertions ran.
+- Actual impact: Inventory already captured output full hash; audit matched it. Separate independent output full probe, access actions/expiry and second preparation collision checks never ran.
+- Potential impact: Future work could rely on unproved reveal/identity/collision behavior or claim a complete campaign pass.
+- Correction / current status: State publication supported, campaign failed; list unreached boundaries explicitly. No additional probe/decode was performed during audit.
+- Failure Intelligence: Distinguish actual service internal probe/canonical validation, post-close hash inventory and planned independent helper probe/actions.
+
+### 4. Complete stderr could be confused with complete event context or clean diagnostics
+
+- What happened or could happen: Empty outer stderr and complete 45 child captures obscure seven warning-bearing children and four truncated contexts.
+- Actual impact: Target 335-byte warnings persist; sequences 6, 9, 13, 17 are truncated. Full collector/storage/provenance records are separately verified.
+- Potential impact: Clean-runtime/performance or complete-context claims would exceed evidence.
+- Correction / current status: Preserve all warnings and explicit truncation; audit uses complete saved records, not invented omitted context.
+- Failure Intelligence: Capture completeness, warning presence and event serialization truncation are separate checks; no general native-performance/PCM/visual-quality inference.
+
+## 📍 Current Position
+
+**As of:** November 17, 2026, 23:32 UTC dated cutoff, after one failed-retained campaign, independent saved-data audit and lead full identity reconciliation/documentation-only release.
+
+**Before this session:** Source 024 and helper V2 had narrow source/static/file-only evidence; no real Full-copy normal-service publication or access/collision proof had occurred.
+
+**After this session:** One actual eight-second Full720/copied-AAC service output is published and independently supported by retained contract/count/packet/header/padding/provenance/hash records. The campaign failed on missing public cleanup after service settled; later planned output/access/collision checks remain unreached. All 45 children closed; no retry or native action.
+
+**Current standing:** CampaignPass false, bounded service publication supported, production/default/UI activation false. Existing 45 broad failures, Windows/native qualification, longer/held-out/cancellation/recovery, arbitrary duration/scaler/PCM quality and popup remain separate.
+
+**Live owner / continuation anchor:** Lead owns exact failure checkpoint/future release, mirror owns source/history/native/remote preservation, independent auditor owns saved-data conclusion, successor helper author/reviewer works outside source. Documentation owns only the released Session. Re-enter through [Current](CURRENT_STATE.md), [failure execution](2026-11-17_Full_Copy_Service_Failure.md), [receipts](2026-11-17_Full_Copy_Service_Failure_Receipts.json) and exact audit/release identities above, not an inferred retry.
+
+## 🔜 Next Steps
+
+1. Complete the five-path evidence/PBS 025 checkpoint: Current, this Session, failure execution/receipts and explicitly non-authoritative portable report. Expected 577 tracked files / twenty-five commits; no source/test delta. Preserve original 1,114,429-byte prior body/correction receipt.
+2. Independently restore exact source/full history/native Session in Notion and verify remote expected-parent delta/tree/ref. At the cutoff new 025 commit/backup does not exist; later external receipts own its outcome.
+3. Finish the separate corrected helper's exact freeze/independent review. Address optional cleanup, 12-versus-11 accounting and 13-progress-versus1-target classification together; do not edit the failed helper/root/report or reuse its gate.
+4. Only after preserved 025, exact corrected helper review, fresh semantic authorizer/source/restoration/runtime binding and separate explicit authorization may one new bounded attempt be considered. No repeat is authorized here. Future result-access/full-probe/collision completion, native integration or wider proof requires actual evidence.
+
+**Do not reopen / repeat:** Do not erase helper V1/test reds, infer ready suppression, equate collectors with whole census, repin old candidates, use portable report as raw authority, replay uncertain attempts, rewrite old dated history or widen finite proof into native/production claims.
+
+**Continuation boundary:** Evidence-only preservation of one failed campaign with supported bounded publication. Successor is preparation/file-only testing, not an authorized second run. Actual access/collision/full helper completion, broader lifecycle/native integration and owner acceptance remain separate milestones.
+
+## ❓ Open Questions
+
+### Can the corrected helper finish the previously unreached checks on a separately authorized attempt?
+
+- Known: Genuine one-target publication is supported; current campaign is failed-retained and independent output full probe/access actions/second preparation are unreached. Three helper assumptions need correction.
+- Needed from: Final exact successor review, preserved-source fresh authorizer and explicit release, then actual new terminal result and audit, not inferred success from the retained output.
+- Blocks: Complete short proof/access/collision claims, not this failure preservation.
+
+### What remains outside the finite short proof?
+
+- Known: Planned scope is one audited eight-second source, one target and prepare-only existing-output refusal; native UI, longer/held-out/cancellation and general quality are not included.
+- Needed from: Separately scoped future work grounded in the actual outcome, with preserved source and explicit gate.
+- Blocks: Broader product/platform qualification and acceptance.
+
+## 🧾 Session Outcome
+
+One actual source-bound campaign failed and was retained without retry. Its service genuinely published one Full720/copied-AAC output, supported by saved canonical/collector/provenance and inventory hash evidence, 240 video frames and 384,000 audio samples with equal 376 coded packet/header/padding seals. All 45 owned children closed, maximum 1/live 0. Missing cleanup schema stopped the helper; later full-probe/access/collision assertions remain unrun, and audit identified two further count assumptions. No complete campaign pass, native/default activation or broad quality qualification is claimed.
+
+Evidence-only 025 preserves that distinction and original failure. Exact 1,114,429-byte previous history remains a byte-identical suffix. New 025 local commit/Notion/GitHub are pending at the cutoff; successor helper preparation does not authorize retry or delay recording the result.
+
+## 🔍 Confidence Level
+
+**High for exact failure, retained publication and closure:** Immutable source/runtime/artifact identities, terminal receipts, public disposition/provenance, full collector/storage records, independently matched output hash and lead reconciliation support the bounded conclusions.
+
+**Not established for complete campaign/access/collision:** Required later helper assertions were unreached; no fresh audit probe/decode was substituted. Separate service publication is not a campaign pass.
+
+**Bounded for quality/platform/lifecycle:** Count/packet/header/padding and timeline evidence are not PCM/visual identity, native performance, arbitrary inputs/duration, Windows or cancellation/recovery qualification.
+
+**Why:** Actual gate, single attempt, failure, service publication, diagnostic limits and saved-data audit are separately grounded and independently reconciled.
+
+**Not higher because:** Helper coverage missed real schema/count assumptions, four contexts are truncated, runtime warnings remain and several planned proof checks never executed.
+
+---
+
 # 📘 Session: November 17, 2026 — FFmpeg Encoder — Compose the exact Full-copy service and correct a missing-source test fixture without weakening protection
 
 ## 🤖 Models, Effort, Roles and Provenance

@@ -1,3 +1,316 @@
+# 📘 Session: November 17, 2026 — FFmpeg Encoder — Execute the first genuine proportional resize calibration without transferring its result into unearned service authority
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model or tool identity | Effort setting | Evidence basis and verification limit |
+|---|---|---|---|
+| Engineering lead / campaign authorizer | GPT-6 Astra, recorded lead configuration | Ultra, recorded assignment | Bound the exact preserved source/runtime/launcher to one finite resize campaign, reconciled an authorizer receipt-schema mistake and retained the complete source freeze through closure/audit. Configuration is not backend or measured performance attestation. |
+| Actual calibration executor | Not separately established here | Not separately established | Ran the reviewed fixed candidate resize harness once with genuine runtime/selector bindings; retained raw sources, outputs, child stderr, report and outer completion. Process results are distinct from later saved-output review. |
+| Independent saved-output auditor | Not separately established here | Not separately established | Reviews saved source/runtime identities, report, spools/telemetry, outputs, resource derivation and diagnostics read-only. Final conclusion and any limitations belong to the actual audit receipt, not an assumed pass from exit zero. |
+| Preservation / mirror role | Not separately established here | Not separately established | Verified predecessor source/full-history preservation and native readable content, then checked intended original-ancestry remote publication. Source archives do not supply ignored runtime/media authority. |
+| Documentation editor | Blue documentation contributor; model not independently established here | Not separately established | Read actual authorization, outer/completion, raw report, selected stderr/output hashes and predecessor preservation receipts; drafts outside the frozen checkout. No media, runtime, tests, desktop, source implementation or Git publication by this role. |
+
+**Record basis:** The preceding checkpoint integrated the private proportional resize family and genuine candidate harness, with focused source tests passing and old producer-bound service admission deliberately closed. This session records a later real media campaign on that immutable source, not a retroactive update to the source-only checkpoint. The previous 569,785-byte cumulative body remains exact. Calibration output, independent audit, source release and any successor capsule are distinct states.
+
+## 🕒 Time
+
+- Date / date range: November 17, 2026, using each actual receipt's explicit UTC labels; Cairo civil time is UTC+2. Raw case epochs and source stat nanoseconds are preserved in their own domains, not silently converted to match outer labels.
+- Start: Exact active-work start was not measured. The scope-specific authorization is dated 19:06:05.196053 UTC / 21:06:05.196053 Cairo, after the actual source restore and reviewed prerequisites.
+- Continuation: The exclusive outer marker records 19:06:43.152 UTC; the outer completion's own start is 19:06:43.153 UTC. The inner completion records a start of 19:06:43.253 UTC, while the inner attempt marker records 19:06:45.203 UTC after its gate work. These labels are retained as distinct receipt points, not forced into one fabricated exact start.
+- Actual run end: Inner completion 19:10:34.326 UTC; outer completion 19:10:34.339 UTC, exit 0. Outer monotonic elapsed is 231,185.590595 ms; outer wall elapsed is 231,186 ms. This is the complete campaign wrapper interval, not encoding throughput or active work time.
+- Publication timing: Checkpoint 015's GitHub verification completed at 19:07:11.154352 UTC, while the separately authorized campaign was already underway. Its actual verified source-restore gate preceded authorization; the later remote receipt is not misdated as a prelaunch requirement that was already complete.
+- Raw case timing: `startedAt` epochs are 1794942426585, 1794942538564 and 1794942613781; recorded per-case elapsed values are 111,931, 71,467 and 20,264 ms. They are retained raw from the case clock domain and are not merged with outer UTC or presented as isolated encoder benchmarks.
+- End / stopping point: The final independent saved-output audit is dated 19:13:12.333822 UTC. The lead rechecked all frozen source/runtime/artifact identities and released at 19:19:01.732803 UTC. This record stops at the evidence-only 016 handoff, before its commit/preservation and before any completed successor service implementation or actual service/native resize run.
+- Session type: One bounded genuine-runtime resize calibration, retained-output/diagnostic review, source preservation and continuation.
+- Project stage: Linux 0.7 proportional 1080p30-to-720p precision-FLAC range calibration, before new service capsule/publication/native acceptance.
+- Main focus: Confirm the fixed late/open-end/nonaligned cases through genuine plan/selection/resources and complete-source/output evidence, while retaining actual diagnostics and exact-source limits.
+- Contributors: Ahmed retains product ownership and final acceptance; authorization, execution, audit, preservation and documentation roles are separated above.
+- Model / effort: Known configuration or unknown by role; no extrapolation from lead settings to every contributor.
+- Active working time: Not measured. Campaign, review, preservation and documentation durations are not combined into an invented total.
+- Reason for summary: Preserve the first actual resize result and its bounds, the authorizer correction, final independent disposition and the boundary before any downstream service authority.
+
+## 🎯 Session Goal
+
+Checkpoint 015 closed the source gap between a proportional resize family and a genuine candidate calibration path. It did not produce resized media, and it correctly invalidated the old candidate service capsule because three pinned producers changed. The next authorized step was not to copy hashes into that capsule. It was to run one reviewed fixed calibration on the exact preserved source, retain complete evidence, and independently check the result before deciding what a successor service composition could consume.
+
+The goal was one finite experiment: create fresh 150-second and independent 11-second 1080p30 SDR test sources, execute the preregistered late 40-second, open-ended 20-second and nonaligned 8.208-second range cases, and check selected frame/sample counts, source/output geometry/timing, exact selected PCM, complete-source integrity, genuine resize resource derivation, telemetry and child closure. The heldout source used for the nonaligned range was not the same long source repackaged as an independent case.
+
+A second meaningful goal was evidence completeness. Earlier successful campaigns retained warning uncertainty because not every successful child's stderr was individually saved. The reviewed new harness records bounded diagnostic files for every child and distinguishes final post-close status from a pre-close console line. This actual run should establish what those captures contain, not merely assert that exit zero means clean stderr.
+
+The intended boundary remains pre-catalog calibration only. No service factory, output publication authority, workbench/native route, runtime pin map, default, catalog, Windows/GPU behavior, general scaler visual quality or release acceptance can be inferred from it. The source was required to stay frozen through independent audit and a separate lead release, which is recorded below.
+
+## 🛠️ Actions Taken
+
+### 1. Complete checkpoint 015 preservation and retain its actual timing
+
+The campaign source is immutable local `9390681b347d732bff4ceae70d57de35495b536d`, tree `9a2cb18c9254be5fab33386ac55cc1e7146dd288`, parent `40391115b769dd30d4a986db1e1126fa2f4a8f29`. It contains 538 files and fifteen local commits, with the eleven-path reviewed source/PBS delta from the prior milestone.
+
+The [checkpoint 015 Notion backup](https://app.notion.com/p/41bbd7ade63b81cc9085f8b106f181a2) was independently restored against all source files. Its exact 3,162,825-byte source ZIP has SHA-256 `12afa412eb075f33af56cb1248405b489f2df40c53e1ef34eba5b3e13e346d4d`. The 3,010,501-byte named-branch full-history bundle, SHA-256 `0d938d669dba81fd355a472c4229fc351c9f8ad6e788de9a378a0f6ef2b91c52`, was cloned and verified. The [full native readable summary](https://app.notion.com/p/41bbd7ade63b81438d45dbe39d09c5a1) was fetched in order with all fifteen entries and historical ending after a two-chunk upload. Native markup normalization is not byte identity; exact 569,785-byte Markdown remains in the verified ZIP/bundle with SHA-256 `e2cc54645685ea28e3d3c21e05378a332a313f924e1721c06ff4fe986d37741f`.
+
+Original-ancestry GitHub publication reached `10c1a57532171b1b3a1846c0136d78ef06d600b1` on `CipherVaults/FFmpeg-Encoder-Blue-Linux`, branch `blue/linux-development`. Actual sole parent is `3bb31a785c6c3ace4f45fc4cc6ad4e136730f8bf`, tree `ac6a2dc7088d4a94c7bd3ba56b1250ff4b3aaceb`. All eleven changed file readbacks and expected blobs, parent/tree and fresh ref were checked. The remote has 920 files: 909 unchanged, six modified, five new, zero deleted. Verification is dated 19:07:11.154352 UTC, during the later authorized media run; by this record cutoff the full predecessor preservation is complete.
+
+The source-restore gate and exact source identities, rather than a claim that remote publication had already finished, authorized opening the runtime. Source backups do not include the ignored original candidate tools, raw calibration/media or private ephemeral authority. Those prerequisites were separately verified for the run.
+
+### 2. Correct the authorizer's receipt-schema assumption before any approval or media action
+
+The first authorization preparation attempted to read a `commit` field from the mirror receipt, but this actual checkpoint's schema uses `localCommit`, `sourceVerified` and `sourceZipSha256`. It stopped with `KeyError commit` before writing any approval file. No runtime/media execution or approved campaign existed at that stop.
+
+The lead then read the actual receipt and mapped those exact named fields while retaining full commit/tree-file/hash comparisons. `AUTHORIZATION_PREPARATION_NOTE.json` is 350 bytes, SHA-256 `bce31cb3950f209e2d17010f7e63d25423fcd08c6916a26eb4eaa632d9a98299`. The correction addresses the wrapper's schema assumption; it does not relax the source restore check, fabricate verified booleans or alter runtime/media code.
+
+This is an actual setup mistake with a safe stop, not a failed encode or a second media attempt. Preserving the note prevents a later reader from calling the whole sequence flawless or counting the correction as a retry of a campaign that had not yet launched.
+
+### 3. Authorize one exact source/runtime/launcher-bound experiment
+
+The final `APPROVED_CHECKPOINT.json` is 62,634 bytes, SHA-256 `15978a549458831fc21445d8e820f0106b0b69688618b41f90a58e2993709715`, authorized at 19:06:05.196053 UTC for `one-e3-resize1080to720-calibration` on the actual 015 commit. It binds all 538 tracked source hashes, independently verified source restore, exact reviewed launcher/outer/JSON plan/review identities and the existing candidate runtime identity `1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9`.
+
+The unchanged reviewed inner launcher SHA-256 is `f15c58a14d025d8a4896c477c79476c28c47f102c1e61a72e7203723f2acd180`; outer runner is `04d87badba422f87bcf15f558713bbe5b6801b20c93218d19ea8b7697fce08f2`; fixed campaign plan is `08cca5418d754bf14d7564fbab878b4ef981f535876ca13ef16e1c969adb8544`; independent launch review is `73c566cd137e4b882e349310b9f74aca49c42f4fdf09152c302f5f4f0c5cc3e0`. Prior conditional review became a specific actual run authorization only after those prerequisites were bound. No old Keep720/native approval was reused.
+
+The actual pair remains FFmpeg SHA-256 `ae5b2e8b48ad0e9b51b89ebab000ebcfc0b76a09b8cb80c88e18fddcc5d9e8ba` (46,175,848 bytes) and FFprobe `923dab8640da8804c445418b6e2efe4b395665bdb9d4cfc84f6a244ed0fb156b` (45,962,728 bytes), plus the seven explicitly reviewed dependency targets. The manifest SHA-256 is `a957385be8d57874dfd5e88a9cbf137ecbe9311ebccc5e25280e6e52b72a511c`. These nine saved identities are the reviewed explicit closure, not proof that every possible dynamic load has been discovered or atomically measured inside a process.
+
+The grant allowed one attempt, maximum 160 serial children, maximum concurrency one, 30-minute abort request, 27 GiB free-space admission before each child and 2 GiB aggregate owned-artifact admission. Per-case and per-child derived budgets remained active. These are supervisory/admission controls, not an OS CPU sandbox, hard write cap or guaranteed shutdown deadline. All tracked source was to remain unchanged through closure and independent saved-output audit. No retry, normal-service/native/publication/default activation was authorized.
+
+### 4. Execute once, preserve fresh inventory and use final post-close state
+
+The exclusive outer attempt marker and inner attempt marker name the immutable commit and the exact new invocation. The pre-run candidate-resize inventory was empty; the post-run inventory contains exactly one new directory, `candidate-resize1080to720-calibration-3JE2RQ`, matching the returned report root. There is no replay/retry hidden behind a successful later run.
+
+The actual final raw report is 125,887 bytes with SHA-256 `3fc9a4678890da318728f2c8b44ac7c6b4fe345ccd271b7f1064928f63eb1317`. Its status is `passed-pre-catalog-calibration`, resource policy `cfr1080p30-to720p-flac-resources-v1`, geometry 1920×1080 input to 1280×720 output, CPU HEVC slow quality 25 and precision FLAC. `publicationAuthorized` and `catalogActivated` remain false. Outputs are retained calibration stages, not published user outputs from a normal EncoderService factory.
+
+The inner completion is 63,745 bytes, SHA-256 `c1b82390130cf9781444450ba303ce622b6cab72edb14fbfdf17ff3096645e29`; it records exit 0, null error, no finalization errors, the report hash, exactly one new artifact directory and post-close checks of all 538 source hashes and all nine tool/dependency identities. Final census is 42 spawned, 42 closed, zero live, maximum one. The executed launcher checked the final returned/persisted report after runtime close, not inferred from the earlier console summary; only the persisted full object is saved, as the audit limit below clarifies.
+
+The outer completion is 373 bytes, SHA-256 `23c39deef861166cf1c1aed191643699e6320b6bd1fbdd556086b9472cc39036`, with exit 0, no signal/spawn error, monotonic 231,185.590595 ms and wall 231,186 ms. The outer stdout hash is `34b3e7f317cadfa0128b72715e2bcd58bf80eefa7af6df93f40f17568e73bcf5`; outer stderr is empty. That empty outer stream does not mean all target child stderr is empty, as the separately retained child files below show.
+
+### 5. Create genuinely separate fresh sources and retain their exact scope
+
+The long source is 150,000,000 μs, 130,549,760 bytes, SHA-256 `8c24561ce37320d3530a9be4dcc9d2cfbe06371b716a2875d364f520de6f0280`. The heldout source is 11,000,000 μs, 9,620,929 bytes, SHA-256 `4279510d183955b8ba91db9266459d098bf4bcec960f53b269ede93e29f433eb`. Their retained canonical stat/sparse/full identities remain distinct. The heldout source uses the separately constructed flipped pattern and different chirped audio, not an extract of the long input.
+
+The actual campaign uses the reviewed narrow H.264 High/yuv420p progressive 1080p30 SDR BT709 limited-range, square-pixel, left-chroma, QT-container, s16 stereo 48 kHz scope. Construction argv does not substitute for measured probe and full decoded-source checks. The private main-owned orientation interpretation is tied to each exact source fingerprint/runtime/video index and owned unrotated fixture construction; it does not globally infer zero rotation from absent tags or fabricate a rotation tag.
+
+Frozen timing bounds were derived before encoding from source video tick 1/15360, audio tick/sample 1/48000 and fixed output time-base hypothesis 1/1000. Endpoint tolerances are video 1,067 μs, audio 1,042 μs, AV sync 2,109 μs, duration 1,088 μs and zero sample-count difference; interior video/audio bounds are 1,067/1,042 μs. The record states no observed candidate error was used to fit them. These are preregistered clock-derived criteria, not independent proof that the raw timestamps are cryptographically ordered.
+
+Each long-source case includes complete 4,500-frame and 7,200,000-sample source evidence; heldout includes 330 frames and 528,000 samples. Full-source cadence/duration/phase errors are reported zero and audio gaps zero. Those facts concern retained actual collector output; the independent auditor must check the saved evidence rather than treating the harness's summary alone as its own audit.
+
+### 6. Record the three actual resize results without overclaiming pixel quality
+
+| Case | Requested / resolved range | Selected/output frames | Selected/output audio samples | Canonical PCM bytes on each side | Recorded case elapsed |
+|---|---|---:|---:|---:|---:|
+| Late forty seconds | [100,140) seconds of the 150-second source | 1,200 | 1,920,000 | 7,680,000 | 111,931 ms |
+| Late open end | [130, verified source end), resolved to 150 seconds | 600 | 960,000 | 3,840,000 | 71,467 ms |
+| Heldout nonaligned | [0.413,8.621) seconds of the independent 11-second source | 246 | 393,984 | 1,575,936 | 20,264 ms |
+
+All three raw cases report passed canonical decoded-operation validation with no validation errors/warnings and valid two-stream telemetry with zero unknown input rows. The first two retained video ranges are 100–140 and 130–150 seconds. The heldout video membership is 0.433333–8.633333 seconds, with output video 0.020000–8.220000; audio follows the requested 0.413000–8.621000 range, output 0–8.208000. The nonaligned video boundary is not silently equated with requested audio endpoints.
+
+Selected source/output s16le-interleaved PCM hashes match exactly for each case: late `557362ddcf7724e009cd0b1df44c19e9960e08eeea2e8cfa04c9e77857770f44`; open-end `ae9f20e1d3b792afffa53935066412e267063ecbf70c5b2d396dbf32fda1b81b`; heldout `2df057e2c484e1762af4ef62eac53af4237b7b63fe83690918552b0aa3fdc8a6`. Sample-count difference, encoder delay and discard padding are zero. PCM identity is independently represented in those retained hashes/byte/sample facts, not granted by a telemetry-valid flag.
+
+The retained output files, whose full hashes were first established during the later saved-output audit and then matched by the documentation read, are 10,676,153 bytes, SHA-256 `e8700504a62b09570609190f22bbd77cabf506050a3b32d786b8453ee983a832`; 5,574,422 bytes, SHA-256 `f8e87dc0f1ad6ecf77839643e00ebd63435599f07f30496cbb3cc8972674a6a9`; and 2,143,761 bytes, SHA-256 `6c08b2176f87d18485e7330ac1a95a810a22d38299176f1074c349cb03f4eaca`, respectively. These identities locate the tested retained artifacts; they are not normal-service publication receipts or OutputAccess grants.
+
+Each genuine plan performs range trim/common-origin rebasing, explicit BT709/tv Lanczos scaling to 1280×720, square-SAR normalization and display-matrix deletion after source-bound identity interpretation. Geometry records a 2/3 scale factor, zero aspect error and no rotation. This is one fixed known geometry, not arbitrary resize/orientation acceptance. Scaling changes pixels; count/timing/geometry success does not establish source/output video-pixel identity or general visual quality.
+
+Telemetry is explicitly encoder-input-count/timeline evidence. It does not alone establish lossless audio identity, last video-frame duration, output validity or publication authority. The actual output checks and PCM receipts remain separate; a completed calibration cannot bypass a future normal-service composition merely by returning a valid telemetry object.
+
+### 7. Preserve the actual derived resources and all 42 child diagnostic files
+
+The long-late case used collector timeout 1,275,142 ms and execution budget 2,558,068 ms; the open-end case 907,642 / 1,823,068 ms; the heldout 232,788 / 466,152 ms. These use the existing distinct resize formula, including complete-source decode and selected scaling charge. Some per-case limits exceed the overall supervisory abort request; they are independent bounds, not a promise that the outer campaign can run beyond its own control. No budget coefficient was adjusted after observing these results.
+
+The corresponding allowed evidence bytes are 455,475,200; 451,635,200; and 167,617,024. Pipe allowances are 472,252,416; 468,412,416; and 184,394,240. Actual per-case pipe counts are 39,276,734; 35,300,423; and 3,978,844, while whole campaign total pipe bytes are 78,863,928, including work outside the three case counters. These quantities must not be conflated with retained disk footprint, process RSS or measured throughput. The per-selection resource ceiling is 64 children; the external campaign ceiling is 160; actual campaign total is 42.
+
+The actual report marks `diagnosticsComplete: true`. All 42 child rows closed with exit 0, available stderr, `completeAtSave: true`, no truncation and no save failure. Thirty-nine saved stderr files are empty. Exactly three target encode rows, sequences 7, 17 and 33, each retain 499 bytes. Their hashes are `a549aa8947db9ab13b3420d8016391235583191f888b006b3867ef6eb4f8cfda`, `e3d6fb12ed44fd2957ebd7f4d39a79ceddc51f8027b2fe7c204498a45dd68fe2` and `23694c75edd127750235c5b85229c554a470ad3107e3abf41905e12e6a800266`.
+
+Those files retain duplicate codec-option messages, x265's `Failed to genrate CPU mask` error and disabled thread-pool/WPP/lookahead-slices warnings. The familiar warning family persists; complete capture makes it better evidenced, not resolved. The differing hashes include process-specific message details and are not evidence that one encode was warning-free. No warning suppression, thread-pool flag workaround, system mount/change, runtime repin or reencode occurred in this step.
+
+The earlier diagnosis distinguished deterministic codec-option precedence from a strong but not sole-cause-proven missing-topology mechanism. This campaign supplies fresh actual diagnostic records on the resize path, not new source/trace evidence proving the exact x265 cause or normal native performance. Successful functional criteria can coexist with unresolved warning/performance qualification.
+
+### 8. Complete independent saved-output audit and reconcile source release
+
+The final `INDEPENDENT_RESIZE_SAVED_OUTPUT_AUDIT_FINAL.json` records PASS for the bounded saved-output audit at 19:13:12.333822 UTC. It is 40,514 bytes, SHA-256 `586d5adcbb2e5d586286ae94fa4e4b84d5726582a3380d3cdad49ac23b388574`. It verifies the actual 538-file immutable/current/gate source identity, nine listed runtime/tool dependencies, two complete source identities, exact report/completion/outer records and 95 owned artifacts totalling 160,457,169 bytes. This is a read-only audit, with no runtime, media decode, tests or source edits.
+
+The auditor independently inspected saved collector, telemetry and output records, checked the three frame/sample/PCM cases, and rederived the distinct resource formula against actual source sizes/extents and selected ranges. Video telemetry rows are 1,200, 600 and 246; audio rows are 3,750, 3,750 and 601. Counts are stream-record counts, not three alternative estimates of audio samples. Each case has seven collector invocations, so 21 collector children, three progress-bearing target encodes and 42 campaign children are distinct scopes. Saved timeline comparisons report maximum video duration error 334 μs within 1,067 μs and audio elapsed-clock error 334 μs within 1,042 μs, with no unmatched selected tails or fitted shift. The timing comparison's `contentIdentity: false` is not rewritten; separate selected/output PCM hashes supply retained audio identity evidence.
+
+The final audit confirms all 42 individual stderr rows are complete/available/untruncated and correctly preserves the three target warning files. It checks output identities, but the full output SHA-256 values were first established during this saved-output audit, not stored in the original campaign case records. The documentation role subsequently rehashed those retained files and matched them. This is current artifact identification and saved evidence review, not a claim that the harness had recorded independent full hashes at an earlier moment.
+
+Full output probe JSON is not separately retained. Acceptance of 1280×720/SAR/container clocks rests on the reviewed executed harness assertions, saved geometry/validation and collector frame checks; the auditor did not run a fresh independent ffprobe. Similarly, returned/persisted report equality was enforced by the executed launcher's deep-equality gate. Successful outer/completion status and exact persisted report hash corroborate that gate, but the completion does not store a second full returned object for an independent comparison of two saved report copies.
+
+The raw report has no overall elapsed field. The audit keeps outer monotonic 231,185.590595 ms, outer wall 231,186 ms, raw case epochs/durations and completion filename epoch separately. It notes the known roughly two-hour offset between raw epochs and outer ISO labels without asserting synchronized chronology or altering system clocks. Its release recommendation supports preserving this fresh pre-catalog calibration after lead reconciliation, not automatic service/capsule/default activation.
+
+At 19:19:01.732803 UTC the lead reconciled the actual final audit and independently rechecked all 538 immutable/current source files, all nine listed pins and all 95 owned artifacts, totalling 160,457,169 bytes. `LEAD_RELEASE.json` has SHA-256 `0b740942bb6e15c65aceb5fa70ea892ebb6ba92ef98bc63f4c468e3a54b8e698`. The exact raw report and final audit identities remained unchanged, with 42/42 closed, max one and live zero. No campaign remained active.
+
+Only then was the source/document freeze released for the next coherent evidence checkpoint and separately bounded isolated successor source work. The tested media source remains immutable 9390681. Updating the dated Session after release does not retroactively change the source tree that produced the calibration, and no old report/capsule map is repinned. The release's qualification is explicitly finite pre-catalog resize calibration only.
+
+An independent saved-output review must not be described as an independent FFmpeg re-decode, atomic loaded-image attestation, cryptographic chronology or visual-quality test unless it actually performs those steps. The harness's actual decode occurred during the campaign. Audit authority comes from checking retained receipts, hashes, timelines/counts/resources and identities with explicit limits, not relabelling a repeated read as another media run.
+
+### 9. Keep successor authority and any code work separate from the calibration
+
+The lead chose a separate developer-only `candidate-resize-service.cjs` plus tests as the next isolated source slice. It should reuse existing normal service, guards, storage, selector/telemetry and lifecycle machinery, consuming this exact original raw report and an immutable reviewed producer closure. It must preserve synchronous cancellation admission closure and drain → close → fresh runtime handle and service for recovery, without claiming same-service recovery. It must not repair the old Keep720 capsule by copying new hashes, change UI/default/catalog selection or manufacture a second calibration pipeline.
+
+Isolated implementation may proceed while the evidence-only 016 checkpoint is preserved, but this session does not claim it has completed, passed review or executed service/media/native work. Its later actual patch/tests/review and source preservation must be documented on their own evidence. Any real service proof requires a separately reviewed finite launcher; the calibration grant is not permission to run that consumer experiment.
+
+At campaign completion, the existing `candidate-keep720-service.cjs` map still pins earlier versions of the changed harness, operation-family and operation-evidence modules. No old report was repinned and no source change was made during this frozen experiment. The current old candidate service/workbench remains fail closed. A new source/report-bound composition must be independently reviewed and then exercised through actual normal-service publication/lifecycle proof before native resize acceptance is considered.
+
+The latest source test results are the earlier 015 integrated 148/148 focused, 125/126 service with the old missing-source diagnostic mismatch, and 178/213 broad with prior 27 plus eight exact producer refusals. This media evidence step does not silently rerun those tests or remove their failures. Any later code/test work needs its own actual receipt and chronology rather than inheriting a green result from a calibration.
+
+### 10. Save a coherent evidence handoff while preserving exact history
+
+The intended lead-owned records are [Resize Candidate Calibration](2026-11-17_Resize_Candidate_Calibration.md) and its [structured receipts](2026-11-17_Resize_Candidate_Calibration_Receipts.json), with [Current](CURRENT_STATE.md) reconciled to the final audited result. Any portable report must preserve full semantics after only reviewed path substitutions and explicitly remain nonraw/non-authoritative; it cannot replace the original raw report or supply runtime/media/factory authority.
+
+The final lead execution record is 13,770 bytes, SHA-256 `68c072a50b377ce19aa5813dd589248d4f382b9d82fb41d47cf1bf26c9d11a85`; structured receipts are 44,244 bytes, SHA-256 `2b6623abe8e665a1a84ce8b5ab0d957d9d897e1ba4343dfebf6869e02572d254`. Current is 6,177 bytes, SHA-256 `9c629064dbf5915cb126accf8d1bcdd8f7f2fe047327d0f6fffe93796246434d`. These owning records were saved and read for the final documentation cross-check.
+
+The [portable full calibration report](evidence-2026-11-17/resize-candidate-calibration-portable.json) is 119,740 bytes, SHA-256 `cab7f0f3ca11853e487ad077bb82128cc0b40f3965996d2b828a94e684328cdd`. Its recorded transformation is exactly 141 strings: 99 proof-root and 42 runtime-build-root replacements, with other report keys/types/values unchanged. The private inverse map is excluded. The wrapper explicitly includes the audit-first output-hash, missing standalone output-probe and no-second-saved-returned-object limitations; it grants no raw restore, runtime restore, factory, service/native, catalog/default or new execution authority. This documentation check read the record and verified the final file hash; it does not claim an additional completed independent recursive comparison of the transformed content.
+
+The coherent evidence-only 016 scope is five paths: Current, Session, execution, structured receipts and portable report. Three are new, giving an expected 541-file archive and sixteen-commit local history after the next commit. This is intended preservation scope, not a claim that 016 is already committed or uploaded. No application/source/test code, original binaries, media, raw diagnostic/spool bundle, approval file, private mapping or unrelated historical payload enters this checkpoint.
+
+The documentation role owns only the released Session path. It must preserve the exact 569,785-byte previous body and earlier structure-correction receipt, not rewrite the source-only 015 status to contain this later media result. The actual 016 commit, Notion restore and GitHub publication belong to subsequent verified receipts, not the existence of these local drafts. Raw runtime/media and private paths remain local evidence unless separately included in an authorized artifact.
+
+## 🧠 Key Insights
+
+### Genuine resize evidence is a new source-bound result, not a borrowed Keep720 pass
+
+The real campaign used the exact new family/collector/harness on 9390681 and retained a fresh resize report, sources and outputs. It therefore advances beyond source/injected tests. It still does not reopen a historical service capsule: measured acquisition and consumer authority are separate steps, and the old producer map correctly remains stale.
+
+### Complete diagnostics can confirm that warnings persist
+
+Capturing every child's stderr closes a prior evidence gap without making the run warning-free. Thirty-nine empty streams and three fully retained warning streams are a precise result. The output contract can pass while x265 reports topology/thread-pool errors; that supports only the bounded functional conclusion, not normal threading, performance or sole-cause resolution.
+
+### Nonaligned membership and decoded output must be described at their actual boundaries
+
+The heldout audio follows the requested microsecond interval while video uses the available source frames and output time-base rounding. Reporting both ranges preserves what the proof actually checks. Matching counts and PCM are stronger than a convenient rounded duration, but none is evidence of source/output video-pixel equality after scaling.
+
+### A safe setup stop is neither campaign failure nor invisible perfection
+
+The authorizer's outdated receipt-field assumption failed before writing approval or opening runtime. Reading the actual schema and retaining full hash checks corrected the real mistake. Keeping that event separate from the later single media attempt both preserves failure intelligence and prevents a false retry narrative.
+
+## 📌 Decisions Made
+
+- Confirmed — The engineering lead authorized exactly one reviewed finite resize calibration after actual source restore and source/runtime/launcher verification, with all tracked source frozen through closure/audit.
+- Confirmed — The authorizer schema mismatch was corrected by reading the actual receipt fields while preserving full source comparisons; no approval existed during the initial stop and no media retry was permitted.
+- Confirmed — Final returned/persisted post-close report, exact inventory, closed census and complete individual stderr captures govern the observed campaign result, not empty outer stderr or a pre-close console line.
+- Confirmed — All three requested cases retain their fixed original geometry/ranges/resources and preregistered timing criteria. Successful output does not justify fitting budgets or suppressing recurring warnings.
+- Confirmed — The independent auditor passed the bounded saved-output checks with explicit full-hash/probe/returned-object and clock limitations; its recommendation is preservation after lead reconciliation, not downstream activation.
+- Deferred — Successor source/report-bound capsule, actual normal-service resize publication/cancellation proof, native resize, general scaling quality, Windows/GPU, production/default/catalog and owner release acceptance remain distinct later work.
+
+## ⚠️ Difficulties / Friction
+
+The setup first encountered a mirror-receipt schema mismatch. The authorizer stopped before approval write rather than silently assuming an absent field meant verified source. Correcting the field mapping preserved the required source comparisons and left no extra media attempt to reconcile.
+
+The successful target encodes still emitted known codec-option and x265 CPU-mask/thread-pool diagnostics. This time all child captures are complete, so warnings can be attributed precisely instead of inferred from returned strings or launcher stderr. Their recurrence remains a functional/performance qualification limit, not a reason to erase the narrow count/PCM/output result.
+
+Outer labelled times, inner gate/attempt points, raw case epochs and source stat times are not one synchronized clock. Whole campaign elapsed includes fixture generation, probes, target work, collection and closure; case elapsed is not isolated encode time. The records retain these distinctions rather than constructing a benchmark from incompatible clocks.
+
+The successor consumer path remains closed despite the new calibration. Exact producer guards are doing their intended work; a new report does not itself update a service factory, qualify all operations or permit an immediate native launch. The independent audit and source-release boundary prevent documentation edits from invalidating the frozen producer tree mid-review.
+
+The audit exposed important retention boundaries: full output hashes were first established during review, a separate full output probe is unavailable, and there is no second saved returned report object. Those limits do not erase the executed harness gates, but they prevent claiming an independent probe/re-decode or comparison of two separately stored full reports. The record states the source of each conclusion rather than silently upgrading evidence strength.
+
+## 🔧 Adjustments Made
+
+- Shifted from: The authorizer's assumption that the new mirror receipt used earlier `commit`/verification field names.
+  - To: Reading `localCommit`, `sourceVerified` and `sourceZipSha256` from the actual receipt while retaining full commit/tree/hash verification.
+  - Because: The first preparation raised `KeyError commit` before writing approval.
+  - Consequence: The exact later gate was created safely; the retained note distinguishes a setup correction from a media retry.
+
+- Shifted from: Source-only/injected resize family and harness checks on the integrated 015 tree.
+  - To: One genuine-runtime fixed three-case resize campaign on immutable 9390681 with retained fresh sources, outputs and complete-source/PCM evidence.
+  - Because: Verified source restoration and a specific independently reviewed authorization satisfied the next acquisition gate.
+  - Consequence: Actual calibration facts exist; new service/native/default authority still does not.
+
+- Shifted from: Earlier campaign uncertainty about individually retained successful-child diagnostics.
+  - To: Forty-two actual complete available nontruncated stderr files, with 39 empty and three target warning files.
+  - Because: The reviewed 015 harness retained each owned stream and required final diagnostic completeness.
+  - Consequence: Warning scope is directly evidenced, not cleared; final post-close report/closure is checked separately from console/outer stderr.
+
+- Shifted from: The completed raw harness result awaiting independent saved-output disposition.
+  - To: A passing bounded audit of source/runtime, 95 artifacts, exact case/resource/diagnostic evidence with explicit retention/clock limits.
+  - Because: The reviewer checked actual saved records and established output full hashes while identifying which original evidence was not separately retained.
+  - Consequence: The result can be described as saved-evidence audited, not independently re-decoded/probed, and source release remains a separate lead action.
+
+## ❌ Mistakes / Risks Noted
+
+### Authorizer used the wrong receipt schema before approval creation
+
+- What happened or could happen: The initial preparation expected `commit` in a receipt that actually uses `localCommit` and differently named verification fields.
+- Actual impact: It stopped before approval write, runtime opening or media execution.
+- Potential impact: Assuming missing fields or setting verification booleans without reading the real receipt could have authorized the wrong source.
+- Correction / current status: Exact actual fields were read/mapped while full commit/tree-file/hash comparisons stayed intact; the note and final gate identities are retained.
+- Failure Intelligence: Record the real bounded authorizer mistake here and in its note, without inventing a failed/retried media campaign.
+
+### Functional success does not clear target stderr warnings
+
+- What happened or could happen: All three actual target encodes emitted 499-byte duplicate-codec and x265 CPU-mask/thread-pool messages.
+- Actual impact: The fixed output criteria passed, but diagnostics were not clean and native threading/performance remains unqualified.
+- Potential impact: Treating zero exit, validation warnings[] or empty outer stderr as diagnostic clearance could mislead later platform/performance decisions.
+- Correction / current status: Every child capture is retained with length/hash/completeness; warnings remain explicit and no workaround or coefficient adjustment was introduced.
+- Failure Intelligence: This extends the existing warning record with exact resize evidence; no new unsupported sole-cause finding or duplicate incident is asserted.
+
+### Timing domains and resource admission could be overstated
+
+- What happened or could happen: Raw epochs, outer labels, case elapsed and overall monotonic time differ in scope; admission limits are not live OS caps.
+- Actual impact: The campaign closed 42/42 with max one and no live remainder under the observed controls; no exact active-work or isolated encoder benchmark was measured.
+- Potential impact: Fusing clocks or claiming guaranteed shutdown/disk bounds would overstate the experiment.
+- Correction / current status: Preserve every timing domain and distinguish 160 campaign admission from per-selection ceilings and observed child counts; retain request/admission wording for abort/storage.
+- Failure Intelligence: Known evidence/operational boundaries, not an observed runaway or storage incident.
+
+### Calibration could be mistaken for a runnable service or accepted scaler
+
+- What happened or could happen: A genuine raw report says passed, but the unchanged old capsule still rejects the new producer tree and scaling alters video pixels.
+- Actual impact: No new normal-service publication, OutputAccess authority, native resize, production activation or general visual-quality result exists from the calibration alone.
+- Potential impact: Repinning old evidence or enabling UI/defaults immediately could widen use beyond reviewed source and operation scope.
+- Correction / current status: Keep old map/report bytes and source attribution intact; require separate reviewed capsule and real consumer proof after audit/preservation.
+- Failure Intelligence: Explicit continuation boundary rather than a fabricated service pass or waived exact-source failure.
+
+### Retained output evidence has specific independent-verification limits
+
+- What happened or could happen: Full output hashes were first computed by the saved-output audit; complete output probe JSON and a second returned report object were not separately retained.
+- Actual impact: The auditor can identify current retained outputs and corroborate executed acceptance/deep-equality gates, but cannot claim an independent output probe or compare two saved full report copies.
+- Potential impact: Calling those missing artifacts independently checked would overstate reproducibility and timing provenance.
+- Correction / current status: The final audit and this record name the executed harness assertions, saved geometry/collector facts and exact newly established hashes, with no extra media run or invented evidence.
+- Failure Intelligence: Preserve the evidence-retention limitation here; no observed output corruption or failed contract is established.
+
+## 📍 Current Position
+
+**As of:** Final independent saved-output audit at 19:13:12.333822 UTC and lead full source/runtime/artifact reconciliation/release at 19:19:01.732803 UTC. The calibration is complete and audited, with no active run. Evidence-only checkpoint 016 preservation and the separate isolated resize-service successor remain next work.
+
+**Before this session:** The fixed proportional resize source/harness was implemented and preserved in checkpoint 015, with pure/injected focused checks and intentional old candidate refusal. There was no actual resize media result or approved calibration execution at that source-session cutoff.
+
+**After this session:** One later scope-specific gate authorized one real resize campaign on immutable 9390681. Three fixed cases passed raw canonical output/count/PCM criteria, all 42 children closed, complete individual diagnostics were retained and source/runtime postchecks matched. The first authorizer schema mismatch stopped before any approval/runtime action and was corrected without a media retry. The final independent saved-output audit passed within its explicit limits, checking all 538 sources, nine pins and 95 owned artifacts. The lead then reconciled/released the source freeze at 19:19:01.732803 UTC; the new evidence checkpoint is not yet committed or published at this record cutoff.
+
+**Current standing:** One finite genuine 1080p30-to-720p precision-FLAC calibration is completed and saved-evidence audited on immutable 9390681, ready for evidence-only preservation; no successor service/native or production authority is established.
+
+**Live owner / continuation anchor:** The engineering lead owns source freeze/release, [Current](CURRENT_STATE.md), [calibration execution](2026-11-17_Resize_Candidate_Calibration.md), [receipts](2026-11-17_Resize_Candidate_Calibration_Receipts.json) and any successor source/run gate. This is a dated snapshot, not a claim that later capsule, service or native work completed.
+
+## 🔜 Next Steps
+
+1. **First re-entry:** Read Current and the latest calibration execution/receipts, final independent audit and source-release record; confirm their exact commit/report identities and whether 016 preservation actually completed. Do not mistake the earlier prepared plan, raw `passed` status or queued successor work for an independently completed later step.
+2. The lead should preserve the coherent audited evidence/PBS scope with an explicit commit, independently verify source ZIP/full-history restore and full native summary in Notion, then verify the intended original-ancestry GitHub delta. Keep actual media/runtime and portable/nonraw limitations explicit.
+3. The lead may advance the separately bounded isolated developer-only `candidate-resize-service.cjs` and tests while preserving this evidence. Reuse the existing normal service/guards/storage and bind the exact original raw resize report plus immutable producer closure; keep old Keep720 pins, UI/default/catalog unchanged. Complete independent source review and source preservation before a separately authorized bounded actual resize-service publication/lifecycle proof. No real media/native run is covered by the source assignment.
+4. Retain the old failure counts and immutable prior native evidence, recurring warnings and fixed geometry/audio/range limitations. Any actual service or native resize proof must consume the proper reviewed new source/report authority and have its own bounded inputs/lifecycle/closure/audit gates.
+
+**Do not reopen / repeat:** Do not rerun the campaign merely to make diagnostics look clean, suppress warnings, fit budget coefficients after outcomes, rewrite source-only 015 history, erase the authorizer stop, repin old reports, merge raw epoch clocks with outer labels, claim pixel identity after scaling or call retained calibration stages normal-service publications.
+
+**Continuation boundary:** The lead has released the completed frozen experiment after exact reconciliation. The five-path evidence/PBS checkpoint may proceed through Git → verified Notion source/full-history/native-record restore → verified original-ancestry GitHub. Separately scoped isolated successor code may proceed, but its actual review/tests/checkpoint and any later media launcher authorization remain independent. The existing old candidate service stays fail closed; no fourth Keep720 native launch or unreviewed resize-native run is inherited. No automatic default/catalog/native/platform/release authority follows from this finite calibration. Owner acceptance remains separate.
+
+## ❓ Open Questions
+
+- Does the separately chosen resize-service composition preserve exact original-report/producer gates and the normal service lifecycle without reopening old Keep720 authority? Needed from: Its actual isolated implementation, independent review, test evidence and later source preservation. Blocks: New factory/service admission; the source direction is chosen, not yet completed or qualified.
+- Can a real normal-service resize path preserve publication/collision/cancellation/fresh-instance recovery under that new composition? Needed from: Separately bounded real service proof and independent saved-output audit. Blocks: Service/native claims, not the fixed calibration result.
+- What does the persistent x265 topology warning imply for native performance, and how far does scaler quality generalize? Needed from: Appropriate exact-source/platform/trace or separately scoped visual evidence. Blocks: Sole-cause, throughput and general visual-quality claims, not the narrow functional record.
+
+## 🧾 Session Outcome
+
+The first genuine proportional resize calibration completed once on the preserved 015 source and passed independent saved-output review. All three preregistered selections met the retained count/PCM/timing/geometry contract, all 42 children closed and every diagnostic file is complete. Three target warning streams remain explicit rather than being mistaken for failure-free threading or cleared performance uncertainty. The audit strengthened artifact identity while qualifying missing standalone output-probe and returned-object evidence. The lead rechecked the entire frozen source/runtime/artifact set before release. The milestone is now ready for evidence-only preservation and a separately reviewed exact-report-bound service composition, not immediate consumer activation.
+
+The material advance is one actual exact-source resize experiment with complete retained diagnostics, not a generic claim that scaling is now finished. The authorizer's safe stop was corrected transparently, fixed ranges/resources were not tuned after observation, and the familiar warning family remained visible despite functional success. The next consumer authority must be earned separately rather than inferred from a raw report or copied into an old map.
+
+## 🔍 Confidence Level
+
+**Completed raw calibration and closure:** High for exact report/completion/file identities, recorded three-case count/PCM/output facts and complete 42-child closure/diagnostic capture.
+
+**Independent saved-output disposition:** High for the bounded retained-byte/metadata/receipt review on the exact commit; no independent re-decode, fresh output probe, second saved returned report object or cryptographic chronology is claimed.
+
+**Service/native/general scaler/platform acceptance:** Not established by this calibration alone.
+
+**Why:** Exact immutable source/runtime/launcher authorization, one-attempt inventory, raw report, final post-close completion and separate outer closure provide concrete evidence. Source and output identities are not conflated; two fresh sources feed three exact selections with recorded full-source and PCM identities. Warning-bearing files are retained rather than inferred from an empty outer stream.
+
+**Not higher because:** Hashes are not atomic loaded-image attestation or cryptographic chronology, raw case clocks are not synchronized outer labels, retained evidence is not a second independent decode and scaling does not preserve source pixels. Warnings/performance uncertainty persists, old source-bound candidate service authority remains stale, and new capsule/service/native/production/owner acceptance are separate.
+
+---
+
 # 📘 Session: November 17, 2026 — FFmpeg Encoder — Extend the private proportional family to one resize route and close the genuine candidate calibration gap
 
 ## 🤖 Models, Effort, Roles and Provenance

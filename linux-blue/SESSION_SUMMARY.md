@@ -1,3 +1,243 @@
+# 📘 Session: November 17, 2026 — FFmpeg Encoder — Prove the gated normal-service path, protect collisions and recover through fresh owners
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model or tool identity | Effort setting | Evidence basis and verification limit |
+|---|---|---|---|
+| Engineering lead / integrator | GPT-6 Astra, recorded lead configuration | Ultra, recorded assignment | Approved one bounded campaign against preserved checkpoint 008, independently rechecked all 514 tracked files and owns the evidence checkpoint. Configuration does not independently establish backend identity, billing or performance. |
+| Launcher preparation and actual campaign contributor | Not separately established in this record | Not separately established | Prepared the reviewed launcher and ran one real candidate normal-service campaign. Its report and captured sequence are producer evidence, not an independent repetition. |
+| Independent launch / saved-output review | Not separately established in this record | Not separately established | Reviewed the exact launcher and audited retained source/runtime/artifact hashes, resource derivations, telemetry, collision and lifecycle records. No additional media execution, runtime opening or independent re-decode occurred in the saved-output audit. |
+| Preservation contributor | Not separately established in this record | Not separately established | Verified checkpoint 008 source/history restoration and the unabridged native Notion summary. Its completed publication is distinguished below from the new evidence checkpoint still to be made. |
+| Read-only diagnostic contributor | Not separately established in this record | Not separately established | Inspected saved actual arguments, retained FFmpeg source and static archive symbols, post-run topology/affinity and official upstream material. No media/library execution or system change; the NUMA mechanism remains qualified inference. |
+| Documentation editor | Blue documentation contributor; model not independently established here | Not separately established | Read the actual report, launcher, publication receipt, final audit, read-only diagnosis and lead verification, then prepared this full entry outside the frozen checkout. Did not execute the media campaign or rerun engineering tests. |
+
+**Record basis:** Contemporaneous continuation of checkpoint 008's reviewed developer-only composition. The account is grounded in the one-attempt launcher, raw 85,306-byte report, retained intermediate records, independent saved-output audit and attributed lead checks. It follows the owner's full single-project structure. Earlier sessions remain an exact historical suffix, not silently updated with later results. Successful publication below means the service saved a local output unless GitHub or Notion is named explicitly; it does not mean public release or production activation.
+
+## 🕒 Time
+
+- Date / date range: November 17, 2026, Africa/Cairo UTC+2.
+- Start: Campaign preparation followed checkpoint 008's source handoff; its exact working start was not recorded. Lead authorization was recorded at 16:05:31.253 UTC / 18:05:31.253 Cairo.
+- Continuation: Reviewed launcher and restored-source gate; one actual normal-service campaign; worker/lead identity rechecks; independent saved-output audit; read-only warning diagnosis; evidence and continuity records.
+- End / stopping point: The actual campaign recorded 16:05:59.826–16:06:50.532 UTC / 18:05:59.826–18:06:50.532 Cairo. The lead's full-tree recheck was 16:08:24.187 UTC and the saved-output audit is dated 16:08:57.317 UTC, with a later final child-diagnostics clarification. Documentation release and read-only warning diagnosis followed; the exact diagnostic work interval is not recorded here and no active session end is inferred from those evidence timestamps.
+- Session type: Bounded real service/media validation, independent evidence review, preservation and documentation. No application source implementation in this block.
+- Project stage: Linux 0.7, narrow developer-only CPU KeepSource720 precision-FLAC range Encode. Not whole-Q or release closure.
+- Main focus: Establish that the reviewed genuine runtime/calibration composition can prepare, Start, collect evidence, publish a range, reject a collision and cancel before fresh-instance recovery.
+- Contributors: Ahmed retains product ownership and acceptance; the lead and actual preparation/review/preservation/documentation roles are identified above.
+- Model / effort: Recorded or unknown by role above; no inference from another contributor's identity.
+- Active working time: Not measured. The report's internal elapsed value is 50,704 ms; the launcher process wall interval is 51.159 seconds. Neither is the full session's active time and they are not interchangeable measures.
+- Reason for summary: Preserve the first actual normal-service result and its narrow limits before the next Git → verified Notion → original-ancestry GitHub checkpoint.
+
+## 🎯 Session Goal
+
+Checkpoint 008 had delivered a reviewed composition and lifecycle fixes, but its positive construction tests used injected dependencies. The new runtime had already passed short and long calibration, yet calibration alone could not establish normal service preparation, Start, storage, output publication or live cancellation. The purpose of this session was to cross that specific gap without expanding into an application rollout.
+
+The initial intended stopping point was one retained, reviewed result against unchanged source. The final audit exposed successful-encode diagnostics that warranted a subsequent read-only cause investigation; that investigation was added after the actual run, not presented as an already-resolved starting assumption. The planned five cases were a late two-second trim from the existing 150-second fixture, a nonaligned range from a newly generated independent eight-second source, an output appearing after preview, cancellation during an actual live encode, and a successful operation only after closing the old owners and opening new ones. A failed attempt or missed cancellation observation was to remain evidence, not trigger an undisclosed retry.
+
+The session aimed to:
+
+- Exercise the real developer-only EncoderService composition with its genuine candidate handle, exact original calibration report and immutable producer gates.
+- Verify selected frame/sample accounting, FLAC PCM identity, output metadata and decode checks, proportional limits and normal evidence-storage records for successful outputs.
+- Observe collision protection and active-encode cancellation without overwriting a sentinel, publishing a cancelled output or reusing a revoked owner.
+- Retain the complete result, audit saved evidence independently and keep claims no broader than this Linux CPU 720p30 experiment.
+
+## 🛠️ Actions Taken
+
+### 1. Preserve checkpoint 008 and distinguish its publication chronology from execution
+
+Checkpoint 008 is local `374d327a7e3fa934d046def5b4e18b45285680ed`, with an exact 514-file source snapshot and complete eight-commit local-history bundle. The [Notion checkpoint](https://app.notion.com/p/41bbd7ade63b81f8bfd9e35605405e32) was restored and verified. Its [full native session page](https://app.notion.com/p/41bbd7ade63b81449deec038fa2d56bf) was fetched unabridged: 212,471 source bytes, SHA-256 `9e5a55e36a624586c11248300d9d2bb873dedda69fc18e2c20019ec5fab90451`.
+
+The 16:05:31 UTC launch gate required that local commit, verified Notion restore, the exact independently reviewed launcher and frozen source hashes. It did not claim that GitHub verification was already complete. Checkpoint 008's GitHub preservation was subsequently verified at 16:07:33 UTC, after this campaign had finished, as `14be3e1e218d2ea97cef10583b8d166ebd771e96` on `CipherVaults/FFmpeg-Encoder-Blue-Linux`, branch `blue/linux-development`, sole parent `74a82817b57ad929be56e9137e4e7dda3086097d`.
+
+The remote tree contained 896 files: 889 unchanged, three modified and four new, with no deletions. The seven changed contents, parent, tree and final ref were checked without force. This completed preservation belongs to checkpoint 008's source and records; it is not publication of the new campaign evidence described here.
+
+### 2. Approve one bounded launcher against the genuine composition
+
+The external launcher remained SHA-256 `b28cddc0f9f738f46e8716fa1292207a35f3526c055dec84fd0025227ec42ca5`. It used a one-attempt marker, the genuine candidate service factory and candidate runtime pair `1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9`. The factory consumed the exact original long-calibration report, SHA-256 `1feb0f2958c78cc73683c70fed08835d1e61b98462e8b30e0127f95b5cf350ab`, not its portable archival derivative. The reviewed 97-file calibration-producer closure and seven listed runtime dependencies remained prerequisites; the launcher additionally gated 271 source records.
+
+Independent launch review identified the need to distinguish the launcher's post-close runtime/artifact checks from a full producer-source recheck. The lead therefore retained the all-514-file freeze through the later audit and supplied its own full-tree verification. The review also retained the rule that a too-fast encode which escaped active-cancellation observation would be a failure, not an invitation to repeat until it passed.
+
+The campaign ceiling was 180 children at concurrency one, a 30-minute abort request, at least 27 GiB free before child admission and a two-GiB owned-artifact admission allowance. Existing per-operation proportional resources were used unchanged. These are admission and observation controls, not a hard active-write disk ceiling or a guaranteed whole-process exit deadline. The main app, default factory, production pins and catalog were not activated or replaced.
+
+### 3. Run the late-source and independent-source publications through the real service
+
+The launcher copied the existing 150-second fixture under an owned different filename and verified its full hash as `b2adc00b3f7e4a2f459023c9dfe484451b8eedfdd3c5114542abc413b3ca893b`. This remained the calibration source by content; renaming it did not make it independent. It separately generated a new eight-second vertically flipped source with distinct stereo chirps, full hash `882bbbd151ea501205a57f8cae33416cbddbb2757c02efffe4fa73b6753091cb`, and verified that this hash did not occur among the calibration sources. This new fixture is not the previous campaign's eleven-second held-out source.
+
+The first normal-service operation selected 130–132 seconds of the long source. The service prepared a ready plan, obtained a genuine proportional selection, started the encode, collected operation evidence and published the local output. The result had 60 selected/output frames and 96,000 selected/output samples. The selected source and output PCM hashes matched, with 384,000 bytes each. The complete source accounting covered 4,500 frames and 7,200,000 samples rather than treating the two-second range as the whole source.
+
+The next operation used 0.613–2.721 seconds of the new eight-second source. It published 63 selected/output frames and 101,184 selected/output samples, with matching source/output PCM hashes and 404,736 bytes each. The full eight-second source accounting covered 240 frames and 384,000 samples. Non-frame-aligned requested duration was not incorrectly rounded to an assumed integer number of frames.
+
+For each successful publication, the launcher checked generated-output metadata, HEVC video plus FLAC audio, 1280×720 geometry, 1:1 sample aspect ratio, 16:9 display aspect ratio and 1/1000 stream time bases, then ran the output through FFmpeg's error-sensitive full-decode check. These were actual producer checks within the one campaign. The later auditor did not rerun them. Normal evidence storage reported persisted completed records, no recorded final violations and released reservations; its bounded point observations still do not constitute a hard write cap.
+
+### 4. Protect an output appearing after preview
+
+The collision case prepared a range from the fresh source, then wrote an owned sentinel at the intended destination before Start. The service returned `skipped` with “Output appeared since preview.” The sentinel was byte-identical after the operation and retained SHA-256 `541e7f3289bcf1fd9b36608330013a775380c53fbf579763a9c3e0445b8368b2`.
+
+The count of progress-bearing children stayed at 14 before and after this case. This supports the intended no-output-encode collision outcome in this sequence, together with the reviewed Start path and retained sentinel; it is not a blanket claim about every filesystem race or all overwrite policies. No collision was cleared or silently worked around to obtain a passing encode.
+
+### 5. Observe active encoding, cancel, drain and close before fresh-instance recovery
+
+The cancellation case requested 0–7 seconds of the fresh source. Cancellation was triggered only after the service reported `stage: encoding`, a live child, frame 8, 0.490667 seconds of progress and `ended: false`. The item then became `cancelled`, the final destination did not exist, admission was closed and a further Start on that same service was rejected with `SHUTTING_DOWN`.
+
+The incomplete temporary output was deliberately retained because it had never been identity-bound. “No published output” must not be rewritten as “no file left behind” or “all temporary media deleted.” Its record preserves that safety outcome and the diagnostic reason. The saved cancellation details retain 1,086 bytes of stderr: duplicate-codec warnings, x265 CPU-mask/thread-pool diagnostics and interrupted demux/PCM errors. The final audit also found the codec/CPU-mask/thread-pool diagnostics on all three successful target encodes, so they cannot be attributed solely to cancellation. Their presence is not hidden by the external launcher's empty stderr.
+
+The captured sequence then drained the operation, closed the old service/runtime owners and recorded that closure before opening a fresh candidate handle and a fresh service. The new instance published a separate 1.013–1.513-second range from the independent eight-second source: 15 selected/output frames, 24,000 selected/output samples and matching PCM hashes with 96,000 bytes each. The two closure records both had admission closed, `busy: false` and no reported closure errors.
+
+This is measured fresh-instance recovery after active-encode cancellation. It does not prove same-service retry, idle-cancellation token revocation, cancellation during evidence collection or general crash recovery. No revoked token was revived to make the recovery case work.
+
+### 6. Reconcile campaign accounting, source freeze and the independent audit
+
+The one actual attempt finished successfully with five cases, three local output publications, 119 children spawned and closed, zero live and maximum concurrency one. The retained owned inventory measured 88,343,227 bytes before the final report was written. The report's internal elapsed value was 50,704 ms; the enclosing launcher exited zero after 51.159 seconds of wall time. No retry occurred.
+
+The raw report is `candidate-normal-service-proof-20261117/owned-proof-LGmb6T/report.json`, 85,306 bytes, SHA-256 `0f82cfbb028b2da5cc7c036af69096ea87099b063c5aa235ea39763a0d42e70d`. Its `census.encodes: 28` counts all children whose arguments contain `-progress`, including inspection/decoding. It must not be read as 28 output encodes or 28 publications. There were three completed publications and one observed cancelled target encode.
+
+The worker rehashed all 271 gated source records at 16:07:09 UTC with no mismatch. The lead independently checked every one of the 514 tracked files against checkpoint 008 at 16:08:24 UTC, with zero changes and the source/document freeze still held. The latest source-test results remained the preceding 97/97 affected checks and broad 171 passes/27 inherited failures out of 198; those suites were not rerun or relabelled green for this evidence-only step.
+
+The final independent saved-output audit, initially dated 16:08:57 UTC and subsequently extended with child-diagnostic analysis, is 111,726 bytes, SHA-256 `45fb2d5d2de9c350e72b2464a8021d7c7a251cb889655d938c94c32684e5573c`; it supersedes the earlier audit digests. It checked all 271 gated producers, all 171 retained inventory artifacts, both source contents and the copied source's original, nine runtime/dependency files, all three output hashes/receipts, collision preservation, cancellation/closure order and the recorded child census. It independently rederived all three issued resource limits and checked all six telemetry-stream summaries against their issued byte/record limits. It found the saved evidence supports the stated narrow Linux CPU 720p30 precision-FLAC normal-service proof, collision and fresh-instance recovery, not product activation.
+
+The audit did not independently re-decode media, retain every raw streamed child byte, independently recompute sparse digests/birthtimes, supply atomic loader guarantees or cryptographically attest chronology. Full source hashes and saved/current identity fields were checked; those limits remain explicit. The external launcher's stderr was empty. Each of the three successful target encodes retained 499 stderr bytes containing duplicate-codec warnings, x265 “Failed to genrate CPU mask” and thread-pool warnings; the cancelled target retained 1,086 bytes including those plus interrupted demux/PCM errors. All 21 collector children separately recorded empty stderr, zero bytes and `truncated: false`. The 499 bytes in each job's accounting belong to its target encode, not the collector or progress text. At the audit cutoff, root cause, performance and broader reliability implications remained unresolved; the later read-only investigation below explains option precedence and supports a qualified topology mechanism without proving native behavior; the narrow output/PCM/timing/publication assertions passed, but “all child stderr clean” would be false.
+
+### 7. Diagnose retained warnings read-only without hiding them or repeating the campaign
+
+After the final audit clarified that all three successful targets carried diagnostics, a separate read-only investigation inspected the saved actual argument lists, retained verified FFmpeg 9.0.2 source, static x265/libnuma archive symbols and strings, current workspace topology/affinity and official upstream source/documentation. No FFmpeg/x265 or library function was executed, no media was rerun and no runtime, system setting or application source was changed. The lead read the resulting `warning-diagnosis/DIAGNOSIS.md`, SHA-256 `258df9a07f49c4163cea1b1071fc376a5347ad6c77e8e3fe8bb34c3cbbba0ce7`.
+
+The duplicate-codec warning has a directly established cause. Saved actual arguments place the application's global `-c copy` before specific HEVC and FLAC overrides. The retained exact FFmpeg option-matcher source warns about multiple matching options but uses the final matching option. That deterministic precedence and the actual HEVC/FLAC output evidence explain the warning; they do not justify blindly removing global copy, which still governs streams intended to be copied. Any later argument canonicalization needs its own reviewed tests and fingerprint/producer-gate consequences.
+
+The CPU-mask/thread-pool result has a strong but qualified mechanism. The owned x265 4.1 static archive references `numa_node_to_cpus`. The same workspace's post-run observation found no `/sys`, while process affinity still exposed CPUs 0–8; absent topology does not mean there were no CPUs. Matching libnuma 2.0.19 source reads the sysfs node CPU-map file and fails when it is unavailable. Accessible x265 upstream master places the exact misspelled diagnostic on that call's failure and disables pool-dependent WPP/lookahead features when no pool was allocated. These sources and archive evidence strongly support missing topology as the mechanism, not simply an unavailable encoder.
+
+The exact x265 4.1 source was not retrieved, there was no trace of the completed child and topology was observed after the run rather than captured inside it. The result is therefore “strongly consistent with missing sysfs/NUMA topology,” not “experimentally proven sole cause.” Native threading, throughput and broader reliability remain unqualified. The additional cancelled-child demux/PCM diagnostics are consistent with interruption given the live cancellation, unchanged source hashes and later fresh-instance success; the precise packet state was not independently traced.
+
+The lead accepted keeping the measured functional proof within those limits and proceeding to separately reviewed developer-only UI wiring with an explicit caveat. No stderr suppression, forced pool flags, sysfs mount, affinity/security change or runtime repin was made. A native-host proof remains a separate environment and bounded-execution gate. The read-only finding changes the next step from unexamined warnings to qualified integration planning, not to an unqualified runtime-readiness claim.
+
+### 8. Record the result without turning portable evidence into live authority
+
+The new [execution narrative](2026-11-17_Candidate_Normal_Service_Proof.md), [compact evidence receipt](2026-11-17_Candidate_Normal_Service_Proof_Receipts.json) and [portable full report](evidence-2026-11-17/normal-service-proof-portable.json) have been saved locally as the lead-owned record set for this result. The 89,603-byte portable report, SHA-256 `a3a2b8bed23166fc0a56734ac0034bcde92c4c1b7f94a21b6b41ae5a3b070582`, preserves the full report while transforming 26 path-bearing strings to explicit logical prefixes. Its metadata identifies the raw original hash and its non-raw, non-authoritative status; without the excluded mapping it cannot reconstruct the original absolute-path bytes. It cannot replace the exact raw long-calibration input required by the service factory.
+
+Raw runtime binaries, source/output media, retained incomplete cancellation artifact and original raw report remain local-only. Hashes and portable records preserve identification and explain the experiment, not the bytes needed to reproduce it on a different machine. A source/history mirror must not be described as a full media/runtime backup.
+
+This new entry preserves the prior 212,471-byte cumulative summary as an exact suffix. Checkpoints 001–008, the original historical archive and the earlier correction receipt remain untouched. At this writing, the new evidence checkpoint's commit, verified Notion restoration and GitHub ref are still to be completed and verified by their owners; the already completed checkpoint 008 destinations do not establish those future outcomes.
+
+## 🧠 Key Insights
+
+### A real service result closes a different gap from calibration or injected construction
+
+The new evidence shows that the exact reviewed developer-only composition can use a genuine runtime and original calibration to reach actual prepare/Start, evidence collection and saved output. That was missing from checkpoint 008's controlled positive tests. It does not broaden the qualifying family: the successful sources are generated Linux CPU 720p30 examples, and the longest requested interval among the completed outputs is only 2.108 seconds. The 150-second input tests late selection and whole-source accounting, not a long sustained normal-service output.
+
+### Refusal and retention can be the successful result
+
+The collision case passed by not overwriting an existing destination. Cancellation passed by ending the active job, withholding publication, refusing another Start on the closing owner and retaining an unbound incomplete artifact instead of deleting what it could not safely identify. Treating every passed case as an output file or every retained file as cleanup failure would erase the contracts this campaign was designed to test.
+
+### Metrics need their producer's definition
+
+The misleadingly named `encodes` counter is a concrete example: its value 28 measures progress-bearing children, not output jobs. Likewise 50,704 ms and 51.159 seconds measure different scopes, and empty launcher stderr says nothing about collected child stderr. The durable lesson here is to retain the observable label and explain its meaning rather than silently relabel raw fields or inflate a summary from their names.
+
+### Independent audit strengthens traceability without becoming a second experiment
+
+Hashing retained evidence and rederiving resource limits provide useful independent checks on the producer's report. They do not reproduce PCM decoding, prove general visual fidelity or recover unretained raw streams. The audit's value is strongest when its verified claims and its non-executed checks are both preserved.
+
+## 📌 Decisions Made
+
+- **Confirmed by the lead:** Permit exactly one reviewed bounded normal-service campaign against immutable checkpoint 008 after local Git and verified Notion restoration; preserve failure rather than automatically retry.
+- **Confirmed execution choice:** Use the genuine developer-only factory and exact original calibration/runtime gates, not VM test substitutes, portable report authority or production pin changes.
+- **Confirmed lifecycle boundary:** Active cancellation closes admission; drain and close the old owners before creating both a new handle and a new service. No same-service recovery claim is added.
+- **Confirmed evidence treatment:** Preserve the collision sentinel, the cancelled incomplete artifact and its warnings/errors. Do not turn empty outer stderr into a child-cleanliness claim.
+- **Confirmed documentation correction:** Explain `encodes: 28` as progress-bearing children while leaving the raw report unchanged; preserve all prior session bytes and separate completed checkpoint 008 publication from the new checkpoint still pending.
+- **Completed subsequent read-only step:** Diagnose warnings without suppressing criteria or re-encoding. Duplicate-codec precedence is directly explained; missing sysfs/NUMA topology is a strongly supported but not sole-cause-proven mechanism. Native threading/performance remains unqualified.
+- **Confirmed next direction by the lead, not yet performed:** Separately review finite developer-workbench integration that reuses the existing shell/theme, requires explicit candidate choice, changes no defaults and makes cancellation require close/relaunch. Inspect the existing range-before-Full access risk before implementation.
+- **Deferred:** Production/app/default/catalog activation, broader geometry, long normal-service outputs, evidence-collection cancellation, native/GPU/Windows qualification and owner acceptance. This campaign does not authorize those outcomes or an immediate native/media run.
+
+## ⚠️ Difficulties / Friction
+
+The main difficulty was proof scope, not an encode failure. A short successful output from a long source can be mistaken for long-output qualification; an independently generated fixture can be confused with an independent auditor; a passing cancellation can be mistaken for same-service recovery. The concrete sources, ranges, instance boundary and review role are therefore part of the result, not optional footnotes.
+
+Resource safety also has two layers. The launcher's 27-GiB/two-GiB admission checks and the service's normal evidence-storage observations reduce risk at known points, but neither promises to stop every active write at a byte ceiling. The 30-minute mechanism requests abort; it does not guarantee the entire process has exited then. No bound was enlarged to obtain this successful run.
+
+Retained subprocess diagnostics limit a “clean run” description. All three successful target encodes had the same classes of duplicate-codec and CPU-mask/thread-pool diagnostics; only the cancelled target additionally had interrupted demux/PCM errors. The collectors themselves had empty stderr. The bounded assertions and saved-output audit passed, but those facts do not establish the diagnostics' root cause, performance impact or general harmlessness. Their presence on successful targets made read-only diagnosis necessary rather than allowing dismissal as cancellation noise. That subsequent investigation established codec-option precedence and a qualified topology mechanism, but did not remove native-performance or broader-reliability uncertainty.
+
+During audit, an initial read used the nonexistent filename `encoder-telemetry.json`; directory inspection corrected the reference to the actual retained `encoder-input-receipt.json`. This was read-only review friction with no source/media effect, not a missing-evidence failure or a reason to manufacture a replacement.
+
+## 🔧 Adjustments Made
+
+- Shifted from: The previous checkpoint's source-reviewed, VM-positive service construction with real media still pending.
+  - To: An actual five-case normal-service observation with three local publications, collision refusal, active cancellation and fresh-instance recovery.
+  - Because: The genuine candidate factory, source gate and reviewed bounded launcher were available and the one permitted attempt passed.
+  - Consequence: The narrow real-service evidence gap is closed for these cases; application activation and broader qualification remain separate.
+- Shifted from: Relying on launcher post-close identity checks as if they covered all producer files.
+  - To: Worker rehash of 271 gated records plus the lead's explicit all-514-file checkpoint comparison, with the freeze retained through audit.
+  - Because: Launch review distinguished runtime/artifact currentness from a complete source-manifest check.
+  - Consequence: The tested code and records remain attributable to immutable checkpoint 008 rather than to an evolving documentation tree.
+- Shifted from: Potential shorthand based on counter labels or empty outer stderr.
+  - To: Three publications/one observed cancelled target encode, 28 progress-bearing children, and explicit retained child diagnostics.
+  - Because: The actual counter implementation, per-job accounting, retained target stderr and collector records establish those narrower meanings.
+  - Consequence: The report remains byte-exact while the narrative prevents numerical and cleanliness overclaims. Final audit refinement attributes 499-byte diagnostics to target encodes, not the 21 clean-stderr collector children, and triggered the subsequently completed read-only diagnosis before integration planning.
+
+- Shifted from: Treating the successful-encode diagnostics as unexamined candidate-runtime warnings after the saved-output audit.
+  - To: Directly explained codec-option precedence plus a strongly supported, qualified missing-topology mechanism for x265 pool failure.
+  - Because: Read-only inspection connected actual saved arguments to exact retained FFmpeg code and connected archive symbols/upstream NUMA behavior to the post-run absence of `/sys`.
+  - Consequence: Developer-only UI wiring may be reviewed with the diagnostic caveat, while native threading/performance still needs a separate environment-gated proof. No runtime “fix,” warning suppression or media repeat was introduced.
+
+## ❌ Mistakes / Risks Noted
+
+- **Actual review mistake, corrected:** The auditor initially looked for the wrong telemetry filename. Inspection found the existing receipt; no evidence was missing or rewritten and no media rerun followed.
+- **Actual retained artifact, not silently cleaned:** Cancellation left an incomplete temporary output because it lacked a bound identity. It remains owned local evidence. Its presence is compatible with no published destination and must remain visible to anyone planning later cleanup.
+- **Potential overstatement, avoided:** “28 encodes,” “all stderr empty,” “long-service proof,” “same-service recovery” and “independent re-decode” would each exceed this result. The distinctions are now explicit in the record and audit.
+- **Local-only recovery risk:** Runtime/media/raw reports are not made restorable by their hashes or a portable JSON record. A new machine cannot assume it can replay this service gate from the source archive alone.
+- **Unresolved coverage risk:** The source suite still has the same 27 inherited broad failures. No new test run was performed here, and exact failure parity from the prior source work does not establish success in masked or blocked branches.
+- **Remaining runtime risk:** Captured identity checks/chronology and admission observations are not atomic loader guarantees, cryptographic time attestation, hard disk caps or guaranteed abort completion. General source/family and hardware/platform behavior remain unverified.
+
+**Failure Intelligence disposition:** The actual review filename mistake, retained target diagnostics, safe cancelled-artifact retention and misleading counter risk are recorded here and in the lead-owned execution/receipt records. No separate incident was opened or claimed, and no failed media attempt was erased. This evidence should guide the next review rather than be copied into an invented failure history.
+
+## 📍 Current Position
+
+**As of:** November 17, 2026, after the final saved-output audit, subsequent read-only diagnosis and documentation release, before checkpoint 009 preservation. Exact final working time is not recorded.
+
+**Before this session:** Checkpoint 008's new composition was source-reviewed and tested, while actual positive factory use and normal-service/media behavior remained unproven. The earlier real media belonged to calibration on checkpoint `54ee143`. The correction request's full summary structure was already preserved through checkpoint 008.
+
+**After this session:** One no-retry campaign on unchanged `374d327` passed the five intended normal-service cases. Three local outputs have selected frame/sample and matching PCM evidence, retained metadata/decode assertions and successful storage/publication records. The collision was refused without replacing the sentinel. Active cancellation prevented publication and closed old admission; recovery occurred only through new runtime/service owners. All 119 children closed, zero remained live and the independent saved-output audit supports those narrow claims. Subsequent read-only diagnosis explains duplicate-codec precedence and supports a missing-topology mechanism for x265 without proving it the sole cause or qualifying native threading/performance.
+
+**Current standing:** Developer-only Linux CPU KeepSource720 precision-FLAC family; no app/default/catalog/pin activation, no ArchiveCQ29 or benchmark changes, no HDR expansion, no public release and packaging last. Ahmed retains product acceptance. No source implementation changed for the evidence-only result.
+
+**Preservation state:** Checkpoint 008 is locally committed, Notion-restored and GitHub-verified as named above. The new evidence/session records are the next coherent checkpoint, not yet a verified backup at this record's cutoff. Raw binary/media/report material remains local-only. The source freeze and subsequent documentation release are separate from actual source changes.
+
+**Live owner / continuation anchor:** Read [CURRENT_STATE](CURRENT_STATE.md), the [normal-service execution record](2026-11-17_Candidate_Normal_Service_Proof.md) and its [receipt](2026-11-17_Candidate_Normal_Service_Proof_Receipts.json) together; their dated scope distinguishes this result from future integration. The engineering lead owns the next decision, current state, execution/receipt records and coherent Git/GitHub checkpoint. The preservation contributor owns the immediate Notion restoration/readback verification. The documentation editor owns only this new cumulative-summary entry after explicit release, preserving the earlier suffix. There is no user decision needed to finish the authorized evidence handoff.
+
+## 🔜 Next Steps
+
+1. Finish the evidence-only checkpoint with the execution narrative, compact receipt, explicitly transformed/non-authoritative portable full report and this full session entry. Preserve the raw report and retained artifacts; do not rerun the one-attempt campaign merely to create a cleaner-looking record.
+2. Verify exact summary-suffix preservation, source/evidence scope, local links and whitespace; create a coherent descriptive multiline commit, immediately verify the complete Notion source/history restore and native unabridged session readback, then publish through the existing GitHub ancestry and verify the exact changed paths/ref. Report actual identifiers only after success.
+3. **First engineering re-entry:** Read the completed warning diagnosis and the current execution/receipt records, retaining the distinction between established codec precedence, strongly supported topology mechanism and unverified native behavior. Do not repeat the media to investigate a question already answered read-only or change flags merely to remove warnings.
+4. Prepare and independently review a finite developer-workbench integration reusing the existing shell/theme. Require explicit candidate selection, leave defaults unchanged, preserve the exact runtime/calibration gates and expose cancellation as close/relaunch rather than same-service recovery. Inspect the existing UI's range-before-Full access risk before implementation; do not assume the current shell already permits the intended bounded route safely. This is the chosen next design/source direction, not completed work.
+5. Keep longer normal-service outputs, other source geometries, evidence-collection cancellation, same-service recovery, GPU/native/Windows execution, general quality and product activation outside any claim unless separately scoped and evidenced.
+
+**Do not repeat:** Rebuild or reopen historical calibration without a specific reason; replace original raw-gate evidence with portable JSON; alter production pins to bypass a failing gate; retry the completed one-attempt campaign; silently delete the unbound cancelled artifact; rewrite older sessions with new outcomes; or treat a local-only artifact/hash as remotely backed up.
+
+**Continuation boundary:** This session ends with the narrow real-service evidence established and its records ready for verified preservation. A later implementation or campaign requires its own recorded starting source, review, bounds and actual result. This entry does not claim that future work has begun.
+
+## ❓ Open Questions
+
+- **What causes the successful target encodes' retained diagnostics, and what do they imply?** The read-only investigation now directly explains codec precedence and strongly supports missing sysfs/NUMA topology for pool failure. Exact x265 4.1 source and an in-child trace were unavailable, so sole cause and native performance/reliability are not established. The lead owns any later scoped qualification; no new encode or system change follows automatically.
+- **Can the existing developer shell expose a finite range before an inappropriate Full route?** The lead must inspect that access risk and independently review the explicit candidate-choice integration. Reuse of the existing shell/theme is the direction, not proof that its present flow already satisfies the candidate boundary.
+- **Does the same service recover after cancellation?** Unproven and not permitted by this tested lifecycle. The lead would need a separately reviewed lifecycle change and dedicated evidence; the fresh-instance pass is not an answer.
+- **Does cancellation during evidence collection behave safely?** Not exercised here. The lead must scope and review that distinct stage before making a claim.
+- **Do long completed outputs, other geometries or real-world sources meet the same contract?** Not answered by a late two-second range from a 150-second input. The lead owns any later qualification plan; this result cannot generalize those dimensions.
+- **How should retained raw runtime/media evidence be preserved or reproduced outside this workspace?** The raw bytes remain local. The lead must choose a scoped retention/reproduction solution if continued work requires it; portable source records are not a full replay kit.
+- **Is this ready for production or owner acceptance?** No such conclusion is established. Wider requirements, platforms and release checks remain; Ahmed retains acceptance and packaging remains last.
+
+## 🧾 Session Outcome
+
+The reviewed candidate composition has moved from controlled construction tests to one actual normal-service campaign on immutable checkpoint 008. The five cases passed without retries: three bounded local publications with frame/sample and selected PCM evidence, a preserved post-preview collision sentinel, and observed active-encode cancellation followed by new-instance recovery. The audit independently checked saved evidence and resource derivations without re-decoding media. A subsequent read-only investigation explained duplicate-codec precedence and supported a qualified missing-topology mechanism for x265 pool failure; it did not alter source/runtime/settings or qualify native behavior. The raw diagnostics, cancelled retained artifact, local-only data boundary and unchanged inherited test failures remain visible.
+
+The outcome is a narrow developer-only Linux CPU 720p30 precision-FLAC service proof, not a production activation, long-output qualification, same-service recovery or cross-platform result. The next checkpoint's preservation must still be completed and verified; only checkpoint 008's publication is reported as done here.
+
+## 🔍 Confidence Level
+
+**Five-case functional result: High within the stated scope.**
+
+**Why:** Actual genuine-service execution, retained phase records, three exact output identities, matching selected PCM evidence, the observed live cancellation, two closure records, full frozen-source recheck and independent saved-output/resource audit support the recorded result. Previous history is preserved exactly and the report's metrics are described according to their real definitions.
+
+**Not higher because:** The saved-output audit is not an independent re-decode; some raw child streams were not retained, source identity/chronology checks are not atomic or cryptographically timed, subprocess diagnostics remain, the NUMA cause is a qualified inference and native threading/performance is unverified, media/runtime/raw evidence is local-only and the next record checkpoint is not yet verified. The experiment used generated fixtures, short published ranges and one Linux CPU family. Same-service recovery, evidence-collection cancellation, long output, general geometry/quality, GUI/native/GPU/Windows behavior and production readiness remain outside this confidence claim.
+
+---
+
 # 📘 Session: November 17, 2026 — FFmpeg Encoder — Prepare a genuinely gated normal-service proof and close cancellation admission safely
 
 ## 🤖 Models, Effort, Roles and Provenance

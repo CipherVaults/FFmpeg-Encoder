@@ -1,0 +1,329 @@
+{
+  "schema": "ffmpeg-linux-normal-service-proof-receipt-v1",
+  "recordedAtUtc": "2026-11-17T16:14:24.073799+00:00",
+  "classification": "Actual bounded developer-service proof; passed five cases with retained target-encoder diagnostics; not product activation",
+  "testedSourceCommit": "374d327a7e3fa934d046def5b4e18b45285680ed",
+  "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+  "calibrationSha256": "1feb0f2958c78cc73683c70fed08835d1e61b98462e8b30e0127f95b5cf350ab",
+  "sourceBackupGate": {
+    "notionUrl": "https://app.notion.com/p/41bbd7ade63b81f8bfd9e35605405e32",
+    "sourceFiles": 514,
+    "sourceRestoredBeforeRuntimeOpening": true,
+    "fullBundleCommitCount": 8,
+    "remotePublicationVerifiedLaterAtUtc": "2026-11-17T16:07:33.039747+00:00",
+    "remoteCommit": "14be3e1e218d2ea97cef10583b8d166ebd771e96",
+    "soleParent": "74a82817b57ad929be56e9137e4e7dda3086097d"
+  },
+  "attempts": 1,
+  "execution": {
+    "startedAt": "2026-11-17T16:05:59.390868+00:00",
+    "finishedAt": "2026-11-17T16:06:50.550056+00:00",
+    "exitCode": 0,
+    "wallSeconds": 51.159258063999005
+  },
+  "internalElapsedMs": 50704,
+  "census": {
+    "spawned": 119,
+    "closed": 119,
+    "live": 0,
+    "maximum": 1,
+    "encodes": 28
+  },
+  "censusSemanticCorrection": "encodes counts all owned children whose argv contains -progress, not output encoding jobs. Three output files were published.",
+  "bounds": {
+    "maximumChildren": 180,
+    "maximumConcurrency": 1,
+    "abortRequestMs": 1800000,
+    "minimumFreeBytes": "28991029248",
+    "ownedArtifactAdmissionBytes": "2147483648"
+  },
+  "ownedBytesBeforeFinalReport": "88343227",
+  "artifactCountBeforeFinalReport": 171,
+  "artifacts": [
+    {
+      "fileName": "launch-service.cjs",
+      "bytes": 23435,
+      "sha256": "b28cddc0f9f738f46e8716fa1292207a35f3526c055dec84fd0025227ec42ca5",
+      "includedRawInSourceArchive": false
+    },
+    {
+      "fileName": "APPROVED_CHECKPOINT.json",
+      "bytes": 30502,
+      "sha256": "cd4164d3220af9b49e73ec3f9ca7f525b6446be278e12e9dc5ff653551474d69",
+      "includedRawInSourceArchive": false
+    },
+    {
+      "fileName": "runtime-manifest.json",
+      "bytes": 2312,
+      "sha256": "a957385be8d57874dfd5e88a9cbf137ecbe9311ebccc5e25280e6e52b72a511c",
+      "includedRawInSourceArchive": false
+    },
+    {
+      "fileName": "ATTEMPT_STARTED.json",
+      "bytes": 85,
+      "sha256": "9cdc919edf4466984ca27582d95be8e91a439d4f7230a72563ef10e66be2eeeb",
+      "includedRawInSourceArchive": false
+    },
+    {
+      "fileName": "COMPLETION.json",
+      "bytes": 486,
+      "sha256": "dc834a4f0243b1532385244c2c09b0c6d907882f67bbc68991fd6ce1d51b8d37",
+      "includedRawInSourceArchive": false
+    },
+    {
+      "fileName": "actual-exit.json",
+      "bytes": 159,
+      "sha256": "bbcf4f720cd0cbda4ab282777a356d7a2a69982edbc76d86af3a46cd9a9ca1ab",
+      "includedRawInSourceArchive": false
+    },
+    {
+      "fileName": "actual-stdout.txt",
+      "bytes": 319,
+      "sha256": "38f6d368923db023dfe89f546f2015cf20e10bcdec1928c1af5fdc17bd69bcc0",
+      "includedRawInSourceArchive": false
+    },
+    {
+      "fileName": "actual-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "includedRawInSourceArchive": false
+    },
+    {
+      "fileName": "post-run-verification.json",
+      "bytes": 3339,
+      "sha256": "c6659b98759efd7a7f0c0bbddd7805e8a362eb7cfce780a23b3c061d454460e3",
+      "includedRawInSourceArchive": false
+    },
+    {
+      "fileName": "lead-postrun-source-check.json",
+      "bytes": 253,
+      "sha256": "507de4e197ecac56d177d8bd60f862e22e223780f0528fc3972930956fb23331",
+      "includedRawInSourceArchive": false
+    },
+    {
+      "fileName": "independent-saved-output-audit.json",
+      "bytes": 111726,
+      "sha256": "45fb2d5d2de9c350e72b2464a8021d7c7a251cb889655d938c94c32684e5573c",
+      "includedRawInSourceArchive": false
+    },
+    {
+      "fileName": "report.json",
+      "bytes": 85306,
+      "sha256": "0f82cfbb028b2da5cc7c036af69096ea87099b063c5aa235ea39763a0d42e70d",
+      "includedRawInSourceArchive": false
+    }
+  ],
+  "portableArchive": {
+    "path": "linux-blue/evidence-2026-11-17/normal-service-proof-portable.json",
+    "bytes": 89603,
+    "sha256": "a3a2b8bed23166fc0a56734ac0034bcde92c4c1b7f94a21b6b41ae5a3b070582",
+    "changedPathStrings": 26,
+    "allOtherReportDataPreserved": true,
+    "byteIdenticalOriginalReport": false,
+    "rawRestoreWithoutExternalMapping": false,
+    "maySatisfyPinnedReportGate": false
+  },
+  "cases": [
+    {
+      "name": "late-long-service-publication",
+      "status": "passed",
+      "itemStatus": "success",
+      "frames": 60,
+      "samples": 96000,
+      "outputSha256": "3c1bac2095567e86301f61dbe84a4cd2c23fdee4132557059a27b41e6696784f",
+      "pcmIdentity": {
+        "algorithm": "sha256",
+        "format": "s16le-interleaved",
+        "sourceHash": "7acabaca200ee56c036bdc013dee5b0bb10493138984e87f3313a97e7658f355",
+        "outputHash": "7acabaca200ee56c036bdc013dee5b0bb10493138984e87f3313a97e7658f355",
+        "sourceBytes": 384000,
+        "outputBytes": 384000
+      },
+      "elapsedMs": 20695,
+      "resources": {
+        "pipeBytes": 464956416,
+        "evidenceBytes": 448179200,
+        "maxChildren": 64,
+        "evidenceReserveBytes": 20971520,
+        "stallMs": null,
+        "telemetryBytes": 393216,
+        "telemetryRecords": 1536,
+        "executionBudgetMs": 579720
+      },
+      "published": true
+    },
+    {
+      "name": "fresh-independent-service-publication",
+      "status": "passed",
+      "itemStatus": "success",
+      "frames": 63,
+      "samples": 101184,
+      "outputSha256": "0dcef7a2e020105467cad5435af857ecc84137f948d0f6980eda08136e6c5543",
+      "pcmIdentity": {
+        "algorithm": "sha256",
+        "format": "s16le-interleaved",
+        "sourceHash": "707e310c31c5ac4c472d86447038d040d9357776d042704120af065e8adfe413",
+        "outputHash": "707e310c31c5ac4c472d86447038d040d9357776d042704120af065e8adfe413",
+        "sourceBytes": 404736,
+        "outputBytes": 404736
+      },
+      "elapsedMs": 6804,
+      "resources": {
+        "pipeBytes": 177142016,
+        "evidenceBytes": 160364800,
+        "maxChildren": 64,
+        "evidenceReserveBytes": 21495808,
+        "stallMs": null,
+        "telemetryBytes": 458752,
+        "telemetryRecords": 1792,
+        "executionBudgetMs": 174520
+      },
+      "published": true
+    },
+    {
+      "name": "collision-preserved",
+      "status": "passed",
+      "itemStatus": "skipped",
+      "frames": null,
+      "samples": null,
+      "outputSha256": null,
+      "pcmIdentity": null,
+      "elapsedMs": null,
+      "resources": null,
+      "published": false
+    },
+    {
+      "name": "real-encode-cancellation",
+      "status": "passed",
+      "itemStatus": "cancelled",
+      "frames": null,
+      "samples": null,
+      "outputSha256": null,
+      "pcmIdentity": null,
+      "elapsedMs": null,
+      "resources": null,
+      "published": false
+    },
+    {
+      "name": "fresh-instance-recovery-publication",
+      "status": "passed",
+      "itemStatus": "success",
+      "frames": 15,
+      "samples": 24000,
+      "outputSha256": "30e492e68674b2da58dea822fa5e805289d066c314442ac3072d512664b9cf38",
+      "pcmIdentity": {
+        "algorithm": "sha256",
+        "format": "s16le-interleaved",
+        "sourceHash": "08b3888935637042f5a7d82a6da202c162f7ef9d4bdea851ac721d902845df33",
+        "outputHash": "08b3888935637042f5a7d82a6da202c162f7ef9d4bdea851ac721d902845df33",
+        "sourceBytes": 96000,
+        "outputBytes": 96000
+      },
+      "elapsedMs": 3416,
+      "resources": {
+        "pipeBytes": 176833280,
+        "evidenceBytes": 160056064,
+        "maxChildren": 64,
+        "evidenceReserveBytes": 20447232,
+        "stallMs": null,
+        "telemetryBytes": 327680,
+        "telemetryRecords": 1280,
+        "executionBudgetMs": 114520
+      },
+      "published": true
+    }
+  ],
+  "closures": [
+    {
+      "admissionClosed": true,
+      "busy": false,
+      "errors": []
+    },
+    {
+      "admissionClosed": true,
+      "busy": false,
+      "errors": []
+    }
+  ],
+  "sourceChecks": {
+    "workerAndIndependentCurrentPlusCommittedSourceRecords": 271,
+    "leadAllTrackedSourceRecords": 514,
+    "mismatches": 0,
+    "leadVerifiedAtUtc": "2026-11-17T16:08:24.187468+00:00"
+  },
+  "independentAudit": {
+    "sha256": "45fb2d5d2de9c350e72b2464a8021d7c7a251cb889655d938c94c32684e5573c",
+    "bytes": 111726,
+    "runtimeAndDependencyFiles": 9,
+    "artifactHashesChecked": 171,
+    "resourceLimitsIndependentlyRederived": 3,
+    "telemetrySummaries": 6,
+    "collectorChildren": 21,
+    "collectorStderrBytes": 0,
+    "scope": "Saved-output consistency, actual-source/runtime identity, source/output/spool/PCM counters, bounds and retained chronology; no new media/runtime opening or independent re-decode"
+  },
+  "diagnostics": {
+    "outerStderrBytes": 0,
+    "successfulTargetEncodeStderrBytesEach": 499,
+    "successfulTargetEncodeCount": 3,
+    "cancelledTargetEncodeStderrBytes": 1086,
+    "successfulCategories": [
+      "duplicate stream codec options; last selected codec used",
+      "x265: Failed to genrate CPU mask",
+      "x265: No thread pool allocated; WPP disabled",
+      "x265: No thread pool allocated; lookahead slices disabled"
+    ],
+    "cancellationAdditionalCategories": [
+      "corrupt/partial packets and immediate-exit demux diagnostics",
+      "invalid partial PCM packet during interrupted decode"
+    ],
+    "collectorStderrBytes": 0,
+    "interpretation": "Measured five-case contracts passed. Duplicate codec final-match behavior is explained by actual argv and exact retained FFmpeg source; missing sysfs strongly matches x265 NUMA failure, but no exact child trace or retrieved exact x2654.1 source proves sole causality. Native threading/performance remains unqualified; no suppression, runtime flag change or repeat."
+  },
+  "earlierCodeTests": {
+    "sourceCheckpoint": "374d327",
+    "leadAffected": {
+      "pass": 97,
+      "fail": 0
+    },
+    "independentFocused": {
+      "pass": 35,
+      "fail": 0
+    },
+    "broadLinux": {
+      "pass": 171,
+      "fail": 27,
+      "total": 198
+    },
+    "rerunForThisEvidenceOnlyCheckpoint": false
+  },
+  "limits": [
+    "No same-service recovery; new handle and new service were created after complete closure.",
+    "Encoding-phase cancellation does not establish evidence-collection-phase cancellation.",
+    "Short selected outputs on one KeepSource720 family do not qualify arbitrary duration, Full/resize/higher resolutions, other audio or native devices.",
+    "No product app activation, Windows/GPU/GUI/package/release acceptance.",
+    "Runtime binaries, original reports, media and spool files are outside the source archive.",
+    "Per-child capacity/admission observations are not hard active-write caps; abort request is not guaranteed process exit.",
+    "File hashes and retained chronology are not atomic loader or cryptographic chronology attestation."
+  ],
+  "publicationStatus": {
+    "local": "not yet committed at record creation",
+    "notion": "not yet mirrored at record creation",
+    "github": "not yet published at record creation"
+  },
+  "appActivated": false,
+  "sameServiceRecoveryProven": false,
+  "releaseAccepted": false,
+  "readOnlyDiagnosis": {
+    "fileName": "warning-diagnosis/DIAGNOSIS.md",
+    "bytes": 8299,
+    "sha256": "258df9a07f49c4163cea1b1071fc376a5347ad6c77e8e3fe8bb34c3cbbba0ce7",
+    "actualDuplicateCodecPrecedenceEstablished": true,
+    "numaCause": "Strongly consistent with absent sysfs CPU topology; post-run observation plus archive symbols and upstream source mapping, not traced sole cause.",
+    "exactX265SourceVersionRetrieved": false,
+    "newMediaOrRuntimeLibraryExecution": false,
+    "systemSettingsChanged": false,
+    "runtimeRepinned": false,
+    "nativeThreadingQualified": false
+  }
+}

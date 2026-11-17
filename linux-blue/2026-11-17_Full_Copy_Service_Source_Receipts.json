@@ -1,0 +1,1819 @@
+{
+  "schema": 1,
+  "checkpoint": 24,
+  "kind": "developer-full-copy-service-and-missing-source-fixture",
+  "datedCutoffUtc": "2026-11-17T23:10:00Z",
+  "integration": {
+    "integratedAtUtc": "2026-11-17T23:07:17.728543+00:00",
+    "baseCommit": "a77404158bb06c3bca5e24905fadd62db5d86b57",
+    "proposalBase": "2714557fb27dac3ec2ccdcc85ea52e5028c2ee88",
+    "notion023BothRestored": true,
+    "files": [
+      {
+        "path": "linux-blue/candidate-full-copy-service.cjs",
+        "bytes": 24212,
+        "sha256": "474468c9aa591db536b685dcfa4f79f0fc7893d43dd989cebba711e3b32b5acd"
+      },
+      {
+        "path": "linux-blue/candidate-full-copy-service.test.cjs",
+        "bytes": 23755,
+        "sha256": "5342780891a8764fc3103b65206f6596d6b54178328ee9886a6594c8bdbeb148"
+      },
+      {
+        "path": "tests/encoder-service.test.cjs",
+        "bytes": 92535,
+        "sha256": "e67d9996f57497e1198cad7f90e40811a5997942a4c1aeeea6c622d10d06c0ab"
+      }
+    ],
+    "patch": {
+      "bytes": 49939,
+      "sha256": "95530e193a6ecdba0fe6429634f3487ed0345660357fb5465d5bbad159274f13"
+    },
+    "limits": [
+      "Three source/test paths only: two new developer service files and one test fixture correction. Existing production code/pins/catalog/UI unchanged.",
+      "No runtime/media/probe/native execution by integration. Lead tests pending."
+    ],
+    "originalIntegrationReceiptSha256": "9a0aa3fb1f433bfa77f562cc2569f6a060fac3c127c691d233b0b430823f0c27",
+    "correction": "Actual compatibility preparation coverage added; V3 comment accurately discloses synthetic factory/runtime/report setup. Production unchanged. Prior V1 integration/tests retained separately."
+  },
+  "sourceReview": {
+    "disposition": "PASS bounded source review; no scoped blocker found, not live service qualification",
+    "checks": [
+      "Both changed files fully reviewed and support control flow followed into CandidateTrimService, clock selector/runner and operation-family source scope/collector guards.",
+      "Independent literal closure enumeration exactly26 paths; all hashes equal pinned bytes and immutable Git2714557. New service/helper imports are separately reviewed, not claimed as calibration execution.",
+      "Exact original207464-byte report passes pure validator without live factory or executable use.",
+      "97/97 affected tests independently passed; extra reviewer copy of10-test suite passes with13 additional wrong-codec/geometry/rate/clock/channel/color/origin/extent/extra-stream refusals and wrong-settings refusal.",
+      "Bounded nofollow report reads and final pathname/descriptor checks; hash/size/fixed path cannot be chosen by live caller; missing/alias/replaced/mutated report cleanup tested.",
+      "Runtime identity, pair and listed dependency seals checked; currentness before/after report awaits and each invocation; runtime adapter separately enforces child ownership and post-child identity.",
+      "Pure receipt binds actual schema and copied coded/header/ordinal-padding identity; no fabricated embedded probe. Fresh genuine selector enforces metadata tuple, Full/null/copy resources and rejects inherited compatibility null.",
+      "Inherited startBatch checks genuine instrumented selection/runtime tokens, separate folder and exact settings; ordinary evidence/storage/publication protections remain.",
+      "Cancellation admission closes synchronously before yield; candidate/observer cleanup preserves errors; new-instance route tested synthetically."
+    ],
+    "nonblockingNotes": [
+      "Handoff says nine specified dependency identities; precisely two tool identities plus seven listed library identities. This is wording, not an extra unverified library.",
+      "Source comment independently enumerated denotes author enumeration; this review now independently verifies26-path closure.",
+      "Returned receipt checker permits alternate digest only pure test API; live construction always uses fixed digest/path. Synthetic semantic acceptance is not authority."
+    ],
+    "limitations": [
+      "Manual scoped security/behavior review only. Formal Security Cloud deferred/prohibited; no scan/SARIF claimed.",
+      "Positive live factory plus full normal prepare/encode/collector/publication has not run. VM injected composition and shared tests do not prove actual service success.",
+      "Normal service does not repeat calibration pre-target full decoded source diagnostics; it checks metadata before target and genuine complete-source evidence after target before publication.",
+      "No arbitrary-duration/container coverage, native UI, application/catalog/default activation, PCM-identity, pixel/scaler-quality or performance claim.",
+      "No general ELF dependency closure or OS sandbox guarantee; no continuous atomic filesystem locking.",
+      "No live runtime/probe/media/native commands; tested fixture tools are nonexecutable and execute callbacks reject launch.",
+      "No source/PBS/pin edits, staging, commits, remote mutations or authorizations."
+    ],
+    "tests": [
+      {
+        "command": [
+          "node",
+          "--test",
+          "linux-blue/candidate-full-copy-service.test.cjs",
+          "linux-blue/candidate-full-copy-calibration.test.cjs",
+          "linux-blue/candidate-calibration-runtime.test.cjs",
+          "linux-blue/workbench-long-range-calibration.test.cjs",
+          "tests/operation-resource-full-copy.test.cjs",
+          "tests/operation-family-full-copy-proportional.test.cjs",
+          "tests/operation-evidence-full-copy-proportional.test.cjs",
+          "tests/operation-full-copy-proportional-service.test.cjs",
+          "tests/output-access.test.cjs"
+        ],
+        "node": "v24.22.1",
+        "exit": 0,
+        "pass": 97,
+        "fail": 0,
+        "cwdRole": "isolated source copy or reviewer-only copied suite, per original hashed review"
+      },
+      {
+        "command": "node ffmpeg-reconstruction-guidance-20261117/full-copy-service-independent-review/extra-metadata-review.cjs",
+        "node": "v24.22.1",
+        "exit": 0,
+        "pass": 10,
+        "fail": 0,
+        "extraNegativeChecks": 14,
+        "method": "Reviewer-only copied test source compiled with original module path; no source edit or live media execution.",
+        "cwdRole": "isolated source copy or reviewer-only copied suite, per original hashed review"
+      }
+    ]
+  },
+  "sourceWorker": {
+    "baseCommit": "2714557fb27dac3ec2ccdcc85ea52e5028c2ee88",
+    "producerClosure": {
+      "files": 26,
+      "root": "linux-blue/candidate-full-copy-calibration.cjs",
+      "sha256": "deea7b72390136d515a00c5df4d5375057f1513ca3f601b369a18bd150561f81",
+      "missing": [],
+      "method": "Recursively enumerate literal relative require strings; exact Git2714557 bytes and paths, including package.json. Not copied old FLAC closure. New composition/helpers are separately reviewed, not claimed historically executed."
+    },
+    "testCounts": {
+      "newFocused": 10,
+      "finalAffected": 97,
+      "passed": 97,
+      "failed": 0
+    },
+    "redEvidence": [
+      "Initial missing module red preserved",
+      "First suite7/8: test erroneously constructed OutputAccess without trusted callbacks; corrected test fixture",
+      "Selector matrix revealed inherited compatibility null for Keep source/1440; narrow new selector rejects null; no shared-code modification",
+      "Intermediate red logs preserved, final97/97 green"
+    ],
+    "limits": [
+      "No actual Full-copy normal-service campaign, native UI, or application/default/catalog activation.",
+      "Normal service does NOT run calibration pre-target complete-source diagnostic scans. Metadata selector before encoding, genuine complete-source collector after encoding before publication; later first proof should use exact audited fixture.",
+      "Original raw report/runtime prerequisites required after source restoration; no transformed portable report substitution.",
+      "Report lacks embedded complete probe JSON: exact original hash and audited source/target probe facts bind codec/geometry envelope; semantic receipt validator checks report evidence present, while genuine selector checks actual new input codec/geometry. It does not invent absent probe fields.",
+      "Output timestamps may have bounded ms adjacency discontinuities; no exact output contiguity, PCM identity, scaler pixel-quality, arbitrary-length or performance claim.",
+      "Two tools plus seven specified library identities are not complete ELF discovery or OS sandbox; warnings remain retained.",
+      "26 literal calibration producer closure excludes new composition and reused service-only modules not imported by tested harness; their review/tests are separate.",
+      "No whole positive normal prepare/encode/publication flow exercised by this new composition suite; existing injected shared-service tests and token gates are not a replacement for later separately gated actual proof."
+    ]
+  },
+  "testFixture": {
+    "originalMeasuredRed": "Source and newly written stage both dev27/ino2236490; protected-source guard correctly refused alias before completed-source ENOENT assessment. This measures the isolated reproduction, not retroactively the unstamped earlier run.",
+    "v1": "Holding original read handle preserved allocation and passed Linux checks; independent review identified unnecessary Windows deletion-sharing semantics, not a measured Windows failure.",
+    "v2": "Rename original to absent path inside exclusive same-filesystem held-source directory outside selected input, within owned test root. Original path remains missing, allocation remains live, cleanup unchanged.",
+    "v2SourceSha256": "e67d9996f57497e1198cad7f90e40811a5997942a4c1aeeea6c622d10d06c0ab",
+    "workerChecks": "Five repeated targeted 1/1, 229/229 full regression and distinct-inode instrumented run.",
+    "independentChecks": "Targeted 1/1 and 229/229 protection regression on exact V2.",
+    "productionChanged": false,
+    "assertionsWeakened": false,
+    "windowsExecution": "Not performed or qualified."
+  },
+  "leadTests": {
+    "checkedAtUtc": "2026-11-17T23:10:53.350041+00:00",
+    "base": "a77404158bb06c3bca5e24905fadd62db5d86b57",
+    "runs": [
+      {
+        "path": "artifacts/v0.7/evidence/20261117T230717Z_checkpoint024-final-focused",
+        "receipt": {
+          "schema": 1,
+          "label": "checkpoint024-final-focused",
+          "startedAt": "2026-11-17T23:07:17.845Z",
+          "durationMs": 2151.496,
+          "node": "v24.22.1",
+          "platform": "linux",
+          "head": "a77404158bb06c3bca5e24905fadd62db5d86b57",
+          "dirtyPaths": 114,
+          "command": [
+            "node",
+            "--test",
+            "linux-blue/candidate-full-copy-service.test.cjs",
+            "linux-blue/candidate-full-copy-calibration.test.cjs",
+            "linux-blue/candidate-calibration-runtime.test.cjs",
+            "linux-blue/workbench-long-range-calibration.test.cjs",
+            "tests/operation-resource-full-copy.test.cjs",
+            "tests/operation-family-full-copy-proportional.test.cjs",
+            "tests/operation-evidence-full-copy-proportional.test.cjs",
+            "tests/operation-full-copy-proportional-service.test.cjs",
+            "tests/output-access.test.cjs"
+          ],
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "summary": {
+            "tests": 98,
+            "suites": 0,
+            "pass": 98,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "bytesChangedDuringRun": false,
+          "files": {
+            "tests": [
+              {
+                "file": "linux-blue/candidate-full-copy-service.test.cjs",
+                "bytes": 23755,
+                "sha256": "5342780891a8764fc3103b65206f6596d6b54178328ee9886a6594c8bdbeb148"
+              },
+              {
+                "file": "linux-blue/candidate-full-copy-calibration.test.cjs",
+                "bytes": 9509,
+                "sha256": "b9e1d06498959f59b6f0730cf364275629ab54b2a8f2fa9ffc161299f876e086"
+              },
+              {
+                "file": "linux-blue/candidate-calibration-runtime.test.cjs",
+                "bytes": 6189,
+                "sha256": "e64958d684801ae8e53d08623b77f92777f81f7475b30af1d3e7e88111a1a4ba"
+              },
+              {
+                "file": "linux-blue/workbench-long-range-calibration.test.cjs",
+                "bytes": 20580,
+                "sha256": "29d446ee25955525caf1f583f2be3f8bfc897205439f38ebeb806227c505b6cc"
+              },
+              {
+                "file": "tests/operation-resource-full-copy.test.cjs",
+                "bytes": 1714,
+                "sha256": "7a3f0c4735fe519c8ff637712fa7194a112601c11a256f78112730c872bf7ac6"
+              },
+              {
+                "file": "tests/operation-family-full-copy-proportional.test.cjs",
+                "bytes": 10512,
+                "sha256": "519e467bf4d97b4a383cd037fa9c77939370a15d9d2c40874e55ce288d93445b"
+              },
+              {
+                "file": "tests/operation-evidence-full-copy-proportional.test.cjs",
+                "bytes": 17989,
+                "sha256": "56798a0988027fbf952933273785160461eb0f9e4d5dde4d1e02ff6106ed4bbc"
+              },
+              {
+                "file": "tests/operation-full-copy-proportional-service.test.cjs",
+                "bytes": 12956,
+                "sha256": "54370a7b5709df9984b0b57018fda2d447f39b1026376851724df4fa3bd3353f"
+              },
+              {
+                "file": "tests/output-access.test.cjs",
+                "bytes": 18285,
+                "sha256": "ed3bbf5f7e1303432cf1b13a87052b0cb6f6a361960b71c5abf792d7647aa047"
+              }
+            ],
+            "covers": [
+              {
+                "file": "linux-blue/candidate-full-copy-service.cjs",
+                "bytes": 24212,
+                "sha256": "474468c9aa591db536b685dcfa4f79f0fc7893d43dd989cebba711e3b32b5acd"
+              },
+              {
+                "file": "linux-blue/candidate-full-copy-service.test.cjs",
+                "bytes": 23755,
+                "sha256": "5342780891a8764fc3103b65206f6596d6b54178328ee9886a6594c8bdbeb148"
+              },
+              {
+                "file": "tests/encoder-service.test.cjs",
+                "bytes": 92535,
+                "sha256": "e67d9996f57497e1198cad7f90e40811a5997942a4c1aeeea6c622d10d06c0ab"
+              }
+            ]
+          }
+        },
+        "artifacts": {
+          "stderr.txt": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "receipt.json": {
+            "bytes": 3392,
+            "sha256": "898d368a0c0cb9b2964d244e2a44b28a2710ca0c51f2bb5209a243b52a25a957"
+          },
+          "stdout.txt": {
+            "bytes": 11242,
+            "sha256": "e56765777b5137305f865c71e97460f041ae8728d60e31ea1644230c89129d3d"
+          }
+        }
+      },
+      {
+        "path": "artifacts/v0.7/evidence/20261117T230728Z_checkpoint024-final-protection",
+        "receipt": {
+          "schema": 1,
+          "label": "checkpoint024-final-protection",
+          "startedAt": "2026-11-17T23:07:28.890Z",
+          "durationMs": 7257.24,
+          "node": "v24.22.1",
+          "platform": "linux",
+          "head": "a77404158bb06c3bca5e24905fadd62db5d86b57",
+          "dirtyPaths": 114,
+          "command": [
+            "node",
+            "--test",
+            "tests/encoder-service.test.cjs",
+            "tests/process-runner.test.cjs",
+            "tests/outputs.test.cjs",
+            "tests/completed-output-retention.test.cjs",
+            "tests/completed-source-policy.test.cjs",
+            "tests/source-identity.test.cjs",
+            "tests/source-catalog-cross-route.test.cjs",
+            "tests/source-catalog-seals.test.cjs"
+          ],
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "summary": {
+            "tests": 229,
+            "suites": 0,
+            "pass": 229,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "bytesChangedDuringRun": false,
+          "files": {
+            "tests": [
+              {
+                "file": "tests/encoder-service.test.cjs",
+                "bytes": 92535,
+                "sha256": "e67d9996f57497e1198cad7f90e40811a5997942a4c1aeeea6c622d10d06c0ab"
+              },
+              {
+                "file": "tests/process-runner.test.cjs",
+                "bytes": 27692,
+                "sha256": "c5b8b906c243252e2ae2bb3b17f43085b3f8a61029c5f47faff34a548d391917"
+              },
+              {
+                "file": "tests/outputs.test.cjs",
+                "bytes": 26774,
+                "sha256": "ff44527d53b84bada28fe08ea2aa0c7c760a705ec5dd2469188368b306ae883d"
+              },
+              {
+                "file": "tests/completed-output-retention.test.cjs",
+                "bytes": 12250,
+                "sha256": "80831f9fd012c6cbff5d557847525b23e275aa595714c8c11fea2d77902bd6da"
+              },
+              {
+                "file": "tests/completed-source-policy.test.cjs",
+                "bytes": 7594,
+                "sha256": "734d87741254269f47c1fa242c11537a78cfef90fd27069e9c25c04ca49c9df8"
+              },
+              {
+                "file": "tests/source-identity.test.cjs",
+                "bytes": 11264,
+                "sha256": "f8812d9ff1c5acab8a53c1440bde68a146ba4cd5ffeaa5c737e842cda9313051"
+              },
+              {
+                "file": "tests/source-catalog-cross-route.test.cjs",
+                "bytes": 6482,
+                "sha256": "1fcff67d117ab8b6f9975754d757d53f0d2d2f9332c7154d30c6a53391c9bbd4"
+              },
+              {
+                "file": "tests/source-catalog-seals.test.cjs",
+                "bytes": 3296,
+                "sha256": "dbc4673d318454bc57970900514ff89f23c52e545c674f6136f8418e653128f5"
+              }
+            ],
+            "covers": [
+              {
+                "file": "linux-blue/candidate-full-copy-service.cjs",
+                "bytes": 24212,
+                "sha256": "474468c9aa591db536b685dcfa4f79f0fc7893d43dd989cebba711e3b32b5acd"
+              },
+              {
+                "file": "linux-blue/candidate-full-copy-service.test.cjs",
+                "bytes": 23755,
+                "sha256": "5342780891a8764fc3103b65206f6596d6b54178328ee9886a6594c8bdbeb148"
+              },
+              {
+                "file": "tests/encoder-service.test.cjs",
+                "bytes": 92535,
+                "sha256": "e67d9996f57497e1198cad7f90e40811a5997942a4c1aeeea6c622d10d06c0ab"
+              },
+              {
+                "file": "src/encoder-service.cjs",
+                "bytes": 158909,
+                "sha256": "5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7"
+              },
+              {
+                "file": "src/outputs.cjs",
+                "bytes": 22987,
+                "sha256": "0871e35adb50b7fca7c177b6beb34c5533df8bac98751b55c8af31b8e422ca96"
+              },
+              {
+                "file": "src/source-identity.cjs",
+                "bytes": 9080,
+                "sha256": "fe6f73342936aa70ed6bbda98348da6fb892d05ddb566ee6d1664ba3f38e42bd"
+              }
+            ]
+          }
+        },
+        "artifacts": {
+          "stderr.txt": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "receipt.json": {
+            "bytes": 3403,
+            "sha256": "d06d7aa9830d4a508d392773d26f0cbf01c9023770c63477e089c79cd83f15f6"
+          },
+          "stdout.txt": {
+            "bytes": 24417,
+            "sha256": "7ee7fd3382b339cf426140e53485842238f9c51005e80db98f4596842830eccd"
+          }
+        }
+      },
+      {
+        "path": "artifacts/v0.7/evidence/20261117T230747Z_checkpoint024-final-linux-broad",
+        "receipt": {
+          "schema": 1,
+          "label": "checkpoint024-final-linux-broad",
+          "startedAt": "2026-11-17T23:07:47.841Z",
+          "durationMs": 1566.133,
+          "node": "v24.22.1",
+          "platform": "linux",
+          "head": "a77404158bb06c3bca5e24905fadd62db5d86b57",
+          "dirtyPaths": 114,
+          "command": [
+            "node",
+            "--test",
+            "linux-blue/candidate-calibration-runtime.test.cjs",
+            "linux-blue/candidate-full-copy-calibration.test.cjs",
+            "linux-blue/candidate-full-copy-service.test.cjs",
+            "linux-blue/candidate-keep720-service.test.cjs",
+            "linux-blue/candidate-resize-service.test.cjs",
+            "linux-blue/candidate-resize-workbench-renderer.test.cjs",
+            "linux-blue/candidate-resize-workbench.test.cjs",
+            "linux-blue/candidate-workbench-renderer.test.cjs",
+            "linux-blue/candidate-workbench.test.cjs",
+            "linux-blue/demo-boundary.test.cjs",
+            "linux-blue/output-preflight.test.cjs",
+            "linux-blue/runtime-av1-operation.test.cjs",
+            "linux-blue/runtime-av1.test.cjs",
+            "linux-blue/runtime-candidate.test.cjs",
+            "linux-blue/runtime.test.cjs",
+            "linux-blue/source-inspection-boundary.test.cjs",
+            "linux-blue/source-inspection.test.cjs",
+            "linux-blue/synthetic-service.test.cjs",
+            "linux-blue/ui-policy.test.cjs",
+            "linux-blue/workbench-av1-admission.test.cjs",
+            "linux-blue/workbench-av1-service.test.cjs",
+            "linux-blue/workbench-av1-trim.test.cjs",
+            "linux-blue/workbench-execution.test.cjs",
+            "linux-blue/workbench-full-1440-service.test.cjs",
+            "linux-blue/workbench-full-resize-service.test.cjs",
+            "linux-blue/workbench-long-range-calibration.test.cjs",
+            "linux-blue/workbench-long-range-service.test.cjs",
+            "linux-blue/workbench-long-range-smoke.test.cjs",
+            "linux-blue/workbench-qualified-app-smoke.test.cjs",
+            "linux-blue/workbench-qualified-encode-controls.test.cjs",
+            "linux-blue/workbench-remux.test.cjs",
+            "linux-blue/workbench-resize-service.test.cjs",
+            "linux-blue/workbench-service.test.cjs",
+            "linux-blue/workbench-trim-candidate.test.cjs"
+          ],
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "summary": {
+            "tests": 256,
+            "suites": 0,
+            "pass": 211,
+            "fail": 45,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "bytesChangedDuringRun": false,
+          "files": {
+            "tests": [
+              {
+                "file": "linux-blue/candidate-calibration-runtime.test.cjs",
+                "bytes": 6189,
+                "sha256": "e64958d684801ae8e53d08623b77f92777f81f7475b30af1d3e7e88111a1a4ba"
+              },
+              {
+                "file": "linux-blue/candidate-full-copy-calibration.test.cjs",
+                "bytes": 9509,
+                "sha256": "b9e1d06498959f59b6f0730cf364275629ab54b2a8f2fa9ffc161299f876e086"
+              },
+              {
+                "file": "linux-blue/candidate-full-copy-service.test.cjs",
+                "bytes": 23755,
+                "sha256": "5342780891a8764fc3103b65206f6596d6b54178328ee9886a6594c8bdbeb148"
+              },
+              {
+                "file": "linux-blue/candidate-keep720-service.test.cjs",
+                "bytes": 22177,
+                "sha256": "8b9445ea950613c87b1f86339fcb623f41a06e7fd009740f642b7fd57b71a3b5"
+              },
+              {
+                "file": "linux-blue/candidate-resize-service.test.cjs",
+                "bytes": 28279,
+                "sha256": "d444d6dcd98e366fcc456b54fb329fd9b86f9cd538503318db91aa123e960236"
+              },
+              {
+                "file": "linux-blue/candidate-resize-workbench-renderer.test.cjs",
+                "bytes": 12555,
+                "sha256": "468b26867b06e28149316baa484f398de1c8acfef7ec4f379d1881c1ef59f0bb"
+              },
+              {
+                "file": "linux-blue/candidate-resize-workbench.test.cjs",
+                "bytes": 9551,
+                "sha256": "817cda905e20b2ae4cdb4d2bf8b6c367eebe6a9d816dd99f0866178ce0a799a1"
+              },
+              {
+                "file": "linux-blue/candidate-workbench-renderer.test.cjs",
+                "bytes": 12411,
+                "sha256": "8d063110140b4f8bd5d06bf48b50212a9eed8a8371933c6638c1390578da79fb"
+              },
+              {
+                "file": "linux-blue/candidate-workbench.test.cjs",
+                "bytes": 8467,
+                "sha256": "37ccbf2923794c429b7a90addf3240c5b2b991fe3f01089fec5726b79a8fdbed"
+              },
+              {
+                "file": "linux-blue/demo-boundary.test.cjs",
+                "bytes": 7127,
+                "sha256": "768fc77bce010c54f32b8664234628e4709931fb72cd585282fa807df33d3cea"
+              },
+              {
+                "file": "linux-blue/output-preflight.test.cjs",
+                "bytes": 6545,
+                "sha256": "027a7429f628413b969a8852a7a2f0172e88c8d76016d64cc86d17be2710a16e"
+              },
+              {
+                "file": "linux-blue/runtime-av1-operation.test.cjs",
+                "bytes": 9656,
+                "sha256": "13956585833345e0cc6a4b78a1c71b1cc32d82fb7879bf970c762240aa96e02f"
+              },
+              {
+                "file": "linux-blue/runtime-av1.test.cjs",
+                "bytes": 5952,
+                "sha256": "e5bc4a5d1f7644db79f58d27b036a821eb6a3d1ba8988959ceb47e01d6284b40"
+              },
+              {
+                "file": "linux-blue/runtime-candidate.test.cjs",
+                "bytes": 3699,
+                "sha256": "5512a93d8abcb841514dd9b3956f4ce2cb7da6f705161d64d70aea198584bb19"
+              },
+              {
+                "file": "linux-blue/runtime.test.cjs",
+                "bytes": 3959,
+                "sha256": "77e5a2a83a5a9ef7ef9334d6e01d90f6ac3b66aa4ba87f177ce7b102c267d446"
+              },
+              {
+                "file": "linux-blue/source-inspection-boundary.test.cjs",
+                "bytes": 6470,
+                "sha256": "e3af4733bf7bc72bb437cd2ccb86b8ea69371bf2cbea63e10347a9f5049e1cdd"
+              },
+              {
+                "file": "linux-blue/source-inspection.test.cjs",
+                "bytes": 8961,
+                "sha256": "b48e38a1dca45a04cddc8ff3a9e7c02d9f314b06cd8ba484749c381269d8618f"
+              },
+              {
+                "file": "linux-blue/synthetic-service.test.cjs",
+                "bytes": 5647,
+                "sha256": "be889555ea44c4d293c33e2cfc8c84a1a84ca8d96d426b505ccbf01811530e7c"
+              },
+              {
+                "file": "linux-blue/ui-policy.test.cjs",
+                "bytes": 5165,
+                "sha256": "587aecaed6fb0b547fcff7668a854acf561fb9c07147fec0f4bcb86f51fed8df"
+              },
+              {
+                "file": "linux-blue/workbench-av1-admission.test.cjs",
+                "bytes": 10085,
+                "sha256": "9df61cceaf1f8bd6c334d5754be4c79b2cef4334ba45b39a1612ff8cea60968e"
+              },
+              {
+                "file": "linux-blue/workbench-av1-service.test.cjs",
+                "bytes": 6755,
+                "sha256": "6079eec204ed3e0b15970089018a06ac42e0072b1fc06b67d8192d35349036a6"
+              },
+              {
+                "file": "linux-blue/workbench-av1-trim.test.cjs",
+                "bytes": 2647,
+                "sha256": "08cc9f46160c517f880aa81d1caf9bec8892308801bfd62361c96fe4a93affaf"
+              },
+              {
+                "file": "linux-blue/workbench-execution.test.cjs",
+                "bytes": 4083,
+                "sha256": "570fd4f1918fed21bbfd30164f7847d164bb3209310108b66244a76559e0919b"
+              },
+              {
+                "file": "linux-blue/workbench-full-1440-service.test.cjs",
+                "bytes": 5963,
+                "sha256": "2a3127ff0f81a44f6f640c98817e2d4ee5cb099c058e4d292a1e16f13c0bf86e"
+              },
+              {
+                "file": "linux-blue/workbench-full-resize-service.test.cjs",
+                "bytes": 5137,
+                "sha256": "8affd468c14fba60c98dc3ea734a96e1d502d61382afa5170d06f7b3a782239c"
+              },
+              {
+                "file": "linux-blue/workbench-long-range-calibration.test.cjs",
+                "bytes": 20580,
+                "sha256": "29d446ee25955525caf1f583f2be3f8bfc897205439f38ebeb806227c505b6cc"
+              },
+              {
+                "file": "linux-blue/workbench-long-range-service.test.cjs",
+                "bytes": 10678,
+                "sha256": "823948d7ac18bc5732e3297985b9261411188dafbf32a4c24a64871eaef07fb6"
+              },
+              {
+                "file": "linux-blue/workbench-long-range-smoke.test.cjs",
+                "bytes": 5860,
+                "sha256": "3bf94d7768613312fe50ef1959b7da17da400caa7dbd2c00cad976ad3b3fcf13"
+              },
+              {
+                "file": "linux-blue/workbench-qualified-app-smoke.test.cjs",
+                "bytes": 6469,
+                "sha256": "c85541320584cb5a19eacda7b130bc71a0e33923b3dc9f2b4b5e0b3601cc6993"
+              },
+              {
+                "file": "linux-blue/workbench-qualified-encode-controls.test.cjs",
+                "bytes": 11188,
+                "sha256": "18b69949fa9f5894556a74e11e8b0c7a2625022df397ab9388515730fe874ac1"
+              },
+              {
+                "file": "linux-blue/workbench-remux.test.cjs",
+                "bytes": 9956,
+                "sha256": "0a44f52c0bbd345661c5330cd1aa230b35a509b298dac4e7b19642ba7ec19d47"
+              },
+              {
+                "file": "linux-blue/workbench-resize-service.test.cjs",
+                "bytes": 5387,
+                "sha256": "2190e0461ca93177bc8770c0488e7ffd61b6d6e49f9d6f2beaeb485513691d04"
+              },
+              {
+                "file": "linux-blue/workbench-service.test.cjs",
+                "bytes": 8616,
+                "sha256": "ec4af779d98a510ba2fb45bc0d97f4213f2451e5b93dc0b557ba2d14c2a3eee6"
+              },
+              {
+                "file": "linux-blue/workbench-trim-candidate.test.cjs",
+                "bytes": 6983,
+                "sha256": "c4550f213c0dd33bf11c518f5ee7c3d34f9bb5a144a5ca38ba77bdaec00bd2b1"
+              }
+            ],
+            "covers": [
+              {
+                "file": "linux-blue/candidate-full-copy-service.cjs",
+                "bytes": 24212,
+                "sha256": "474468c9aa591db536b685dcfa4f79f0fc7893d43dd989cebba711e3b32b5acd"
+              },
+              {
+                "file": "linux-blue/candidate-full-copy-service.test.cjs",
+                "bytes": 23755,
+                "sha256": "5342780891a8764fc3103b65206f6596d6b54178328ee9886a6594c8bdbeb148"
+              },
+              {
+                "file": "tests/encoder-service.test.cjs",
+                "bytes": 92535,
+                "sha256": "e67d9996f57497e1198cad7f90e40811a5997942a4c1aeeea6c622d10d06c0ab"
+              }
+            ]
+          }
+        },
+        "artifacts": {
+          "stderr.txt": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "receipt.json": {
+            "bytes": 9247,
+            "sha256": "3927f2f843cecc9f038ff4548c1e42b5b2b93a78201bd01dfb7dd3e62f546931"
+          },
+          "stdout.txt": {
+            "bytes": 74820,
+            "sha256": "00070d8b374e360bc00b4dae49da9d342d6d0cb914b1c202543ab5e9d78864c1"
+          }
+        }
+      }
+    ],
+    "independentFinalReconciliation": {
+      "name": "checkpoint024-independent/INTEGRATED_REVIEW-final.json",
+      "bytes": 11273,
+      "sha256": "62769501f17d4d360c45acec9a29a3c8b8e813c413683aba8b7ef47d6b72bd36"
+    },
+    "earlierLeadResults": "checkpoint024-lead-test-results.json remains unchanged and describes pre-correction V1."
+  },
+  "integratedIndependentReview": {
+    "disposition": "Final V3 source identities and lead receipts reconciled. Same nonempty 45 broad failure labels as checkpoint 022. Existing failures remain unresolved.",
+    "files": [
+      {
+        "path": "linux-blue/candidate-full-copy-service.cjs",
+        "bytes": 24212,
+        "sha256": "474468c9aa591db536b685dcfa4f79f0fc7893d43dd989cebba711e3b32b5acd"
+      },
+      {
+        "path": "linux-blue/candidate-full-copy-service.test.cjs",
+        "bytes": 23755,
+        "sha256": "5342780891a8764fc3103b65206f6596d6b54178328ee9886a6594c8bdbeb148"
+      },
+      {
+        "path": "tests/encoder-service.test.cjs",
+        "bytes": 92535,
+        "sha256": "e67d9996f57497e1198cad7f90e40811a5997942a4c1aeeea6c622d10d06c0ab"
+      }
+    ],
+    "combinedPatchSha256": "95530e193a6ecdba0fe6429634f3487ed0345660357fb5465d5bbad159274f13",
+    "integrationReceiptSha256": "a53a957a0671b6e1755e28c0b8e40012eb06c6b681d3d126dcd628480ca4ad71",
+    "otherTrackedDifferences": [
+      "linux-blue/CURRENT_STATE.md"
+    ],
+    "differenceNote": "Initial all-other-files equality assertion stopped on CURRENT_STATE.md, which lead is updating in documentation phase. Rechecked every other tracked base file; existing production code remains unchanged. No review output was created by that failed assertion.",
+    "leadRuns": [
+      {
+        "directory": "20261117T230717Z_checkpoint024-final-focused",
+        "summary": {
+          "tests": 98,
+          "suites": 0,
+          "pass": 98,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "receiptSha256": "898d368a0c0cb9b2964d244e2a44b28a2710ca0c51f2bb5209a243b52a25a957",
+        "stdoutSha256": "e56765777b5137305f865c71e97460f041ae8728d60e31ea1644230c89129d3d",
+        "command": [
+          "node",
+          "--test",
+          "linux-blue/candidate-full-copy-service.test.cjs",
+          "linux-blue/candidate-full-copy-calibration.test.cjs",
+          "linux-blue/candidate-calibration-runtime.test.cjs",
+          "linux-blue/workbench-long-range-calibration.test.cjs",
+          "tests/operation-resource-full-copy.test.cjs",
+          "tests/operation-family-full-copy-proportional.test.cjs",
+          "tests/operation-evidence-full-copy-proportional.test.cjs",
+          "tests/operation-full-copy-proportional-service.test.cjs",
+          "tests/output-access.test.cjs"
+        ],
+        "bytesChangedDuringRun": false
+      },
+      {
+        "directory": "20261117T230728Z_checkpoint024-final-protection",
+        "summary": {
+          "tests": 229,
+          "suites": 0,
+          "pass": 229,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "receiptSha256": "d06d7aa9830d4a508d392773d26f0cbf01c9023770c63477e089c79cd83f15f6",
+        "stdoutSha256": "7ee7fd3382b339cf426140e53485842238f9c51005e80db98f4596842830eccd",
+        "command": [
+          "node",
+          "--test",
+          "tests/encoder-service.test.cjs",
+          "tests/process-runner.test.cjs",
+          "tests/outputs.test.cjs",
+          "tests/completed-output-retention.test.cjs",
+          "tests/completed-source-policy.test.cjs",
+          "tests/source-identity.test.cjs",
+          "tests/source-catalog-cross-route.test.cjs",
+          "tests/source-catalog-seals.test.cjs"
+        ],
+        "bytesChangedDuringRun": false
+      },
+      {
+        "directory": "20261117T230747Z_checkpoint024-final-linux-broad",
+        "summary": {
+          "tests": 256,
+          "suites": 0,
+          "pass": 211,
+          "fail": 45,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "receiptSha256": "3927f2f843cecc9f038ff4548c1e42b5b2b93a78201bd01dfb7dd3e62f546931",
+        "stdoutSha256": "00070d8b374e360bc00b4dae49da9d342d6d0cb914b1c202543ab5e9d78864c1",
+        "command": [
+          "node",
+          "--test",
+          "linux-blue/candidate-calibration-runtime.test.cjs",
+          "linux-blue/candidate-full-copy-calibration.test.cjs",
+          "linux-blue/candidate-full-copy-service.test.cjs",
+          "linux-blue/candidate-keep720-service.test.cjs",
+          "linux-blue/candidate-resize-service.test.cjs",
+          "linux-blue/candidate-resize-workbench-renderer.test.cjs",
+          "linux-blue/candidate-resize-workbench.test.cjs",
+          "linux-blue/candidate-workbench-renderer.test.cjs",
+          "linux-blue/candidate-workbench.test.cjs",
+          "linux-blue/demo-boundary.test.cjs",
+          "linux-blue/output-preflight.test.cjs",
+          "linux-blue/runtime-av1-operation.test.cjs",
+          "linux-blue/runtime-av1.test.cjs",
+          "linux-blue/runtime-candidate.test.cjs",
+          "linux-blue/runtime.test.cjs",
+          "linux-blue/source-inspection-boundary.test.cjs",
+          "linux-blue/source-inspection.test.cjs",
+          "linux-blue/synthetic-service.test.cjs",
+          "linux-blue/ui-policy.test.cjs",
+          "linux-blue/workbench-av1-admission.test.cjs",
+          "linux-blue/workbench-av1-service.test.cjs",
+          "linux-blue/workbench-av1-trim.test.cjs",
+          "linux-blue/workbench-execution.test.cjs",
+          "linux-blue/workbench-full-1440-service.test.cjs",
+          "linux-blue/workbench-full-resize-service.test.cjs",
+          "linux-blue/workbench-long-range-calibration.test.cjs",
+          "linux-blue/workbench-long-range-service.test.cjs",
+          "linux-blue/workbench-long-range-smoke.test.cjs",
+          "linux-blue/workbench-qualified-app-smoke.test.cjs",
+          "linux-blue/workbench-qualified-encode-controls.test.cjs",
+          "linux-blue/workbench-remux.test.cjs",
+          "linux-blue/workbench-resize-service.test.cjs",
+          "linux-blue/workbench-service.test.cjs",
+          "linux-blue/workbench-trim-candidate.test.cjs"
+        ],
+        "bytesChangedDuringRun": false
+      }
+    ],
+    "baselineBroad": {
+      "directory": "20261117T220727Z_checkpoint022-linux-broad",
+      "tests": 245,
+      "pass": 200,
+      "fail": 45,
+      "stdoutSha256": "0b728b72c92bb41ca69b1a89113a71ae82e6002be6f5479ee03aceee05a32ac3"
+    },
+    "failureMultisetEqual": true,
+    "finalFailureLabels": [
+      "calibration producer literal closure still equals immutable tested source",
+      "synthetic factory composition uses normal selector, observer, telemetry and storage, with owned closure",
+      "bounded original-report read and post-await currentness fail closed with descriptor cleanup",
+      "cancellation closes admission synchronously before pending saved writes drain",
+      "service and candidate cleanup failures both survive without masking the primary",
+      "workbench snapshot removes unqualified runnable entry before every update, then ordinary file-edit reprepare issues genuine range selection",
+      "strict OutputAccess seam rejects callback-shaped impostor and accepts real main-owned authority",
+      "inspection-only boundary refuses Start across a modeled pending-write window and does not emit ready compatibility rows",
+      "calibration producer literal closure still equals immutable tested source",
+      "synthetic factory composition uses normal selector, observer, telemetry and storage, with owned closure",
+      "bounded original-report read and post-await currentness fail closed with descriptor cleanup",
+      "cancellation closes admission synchronously before pending saved writes drain",
+      "service and candidate cleanup failures both survive without masking the primary",
+      "composed selector issues only genuine fixed resize range authority with its own resource policy",
+      "report path replacement and canonical alias after bounded read reject and close the open handle",
+      "workbench snapshot removes unqualified runnable entry before every update, then ordinary file-edit reprepare issues genuine range selection",
+      "strict OutputAccess seam rejects callback-shaped impostor and accepts real main-owned authority",
+      "inspection-only boundary refuses Start across a modeled pending-write window and does not emit ready compatibility rows",
+      "synthetic staged service: codecs, exclusive publication, admission and child balance",
+      "active cancellation drains before restart; progress-time collision never overwrites",
+      "close drains an active child and permanently closes admission",
+      "caller fixture swap after capture cannot redirect child reads",
+      "ordinary three-codec paths retain baseline predicate and reach superclass admission",
+      "genuine KeepSource, range resize and Full resize tokens coexist with ordinary H265 in one preflight",
+      "forged/stale family and runtime tokens refuse the whole batch without state mutation",
+      "unsupported route, omissions, settings and separate-folder rules cannot partially start",
+      "stale plans and invalid selections retain superclass refusal before any start",
+      "a revoked genuine observer token refuses before superclass mutation",
+      "fourth family requires its own genuine catalog and current token, old three cannot issue it",
+      "original factory remains ordinary-only and forwards state/output access without spawning",
+      "1440 pure receipt schema retains full extents, independent source and exact family resources",
+      "1440 is fixed main-only fourth variant without app activation or geometry override",
+      "1440 composition pins the independently accepted complete calibration bytes",
+      "Full composition pins the independently reviewed completed calibration",
+      "Full receipt requires complete distinct source extents, family and null interval",
+      "pending, missing or changed digests cannot authorize a receipt",
+      "exact successful Keep Source, resize and Full service proofs match their own calibrations",
+      "forged successful labels cannot replace lifecycle, source, accounting or geometry evidence",
+      "accepted exact proofs construct real qualified factory without capabilities or child execution",
+      "1440 service validator has distinct status, geometry, lifecycle and complete tail counts",
+      "accepted exact fourth proof constructs four-family factory without children and keeps three-family app separate",
+      "three-family controls import and real construction do not load unavailable inactive 1440 composition",
+      "reviewed local dependency gate succeeds and absent/symlinked dependencies fail closed",
+      "resize receipt binds independently verified bytes while explicit pending factories stay closed",
+      "resize receipt independently binds geometry, policy, clocks, resources and all evidence"
+    ],
+    "parser": "Initial result section only; remove duration suffix; require 45 labels and explicit fail-45 summary in both before multiset comparison.",
+    "coverageAttribution": "Actual composed registration/prepareBatch/Start with synthetic factory/runtime/report and preparation seams. Compatibility-ready Keep-source/null-qualification observed; Start refuses synchronously before effects. Not presentation suppression, live runtime admission or normal-service media proof.",
+    "independentEvidence": "Previous independent 2/2 targeted integrated run and V2 11/11 plus V3 exact comment-only delta review remain separate. Final 98/98,229/229,211/256 are lead runs, not rerun by this reconciliation.",
+    "limits": [
+      "No runtime/media/native or Windows qualification.",
+      "Matching failure labels can conceal unreached assertions; not full branch verification.",
+      "Previous INTEGRATED_REVIEW.json is unchanged. No authoritative source/PBS writes by reviewer."
+    ]
+  },
+  "artifacts": [
+    {
+      "name": "checkpoint024-integration.json",
+      "bytes": 1133,
+      "sha256": "9a0aa3fb1f433bfa77f562cc2569f6a060fac3c127c691d233b0b430823f0c27"
+    },
+    {
+      "name": "checkpoint024-integrated-source.patch",
+      "bytes": 47068,
+      "sha256": "c161fd1f358f2a1c62a60100bf1a35926c9dcce8d01c38b8c87fd55c3527ecb0"
+    },
+    {
+      "name": "checkpoint024-lead-test-results.json",
+      "bytes": 21136,
+      "sha256": "7b72275a7a8e337a8f7e5064320cdca4e5924949cbc90440ea3b2fd79ca0362b"
+    },
+    {
+      "name": "checkpoint024-independent/INTEGRATED_REVIEW.json",
+      "bytes": 12518,
+      "sha256": "645453b58c3ecacd2675e29bc712953e20a3ed068d5968ec35d8fdb12c7f30a7"
+    },
+    {
+      "name": "full-copy-service-sourcework-evidence/HANDOFF-v1.json",
+      "bytes": 6120,
+      "sha256": "8cd5e45e2081c0775c0454c83937523c6ab9734ce6e1932488d1d28f1d4d25b6"
+    },
+    {
+      "name": "full-copy-service-sourcework-evidence/full-copy-service-v1.patch",
+      "bytes": 45956,
+      "sha256": "242606a8461280034a139c2ae6f31927df9c48ec58a75bef444abf98225fcd40"
+    },
+    {
+      "name": "full-copy-service-independent-review/INDEPENDENT_REVIEW-v1.json",
+      "bytes": 6850,
+      "sha256": "c1e55edcaba3020f7df337ec4f95ee65abd3fd149d8fe845bbd520da15ec3e3c"
+    },
+    {
+      "name": "missing-source-test-evidence/HANDOFF-v1.json",
+      "bytes": 7291,
+      "sha256": "19c9f6dae336b9973ccbef8854ce7e119b1d42069038679e63ee4aec0f5d8ced"
+    },
+    {
+      "name": "missing-source-test-evidence/HANDOFF-v2.json",
+      "bytes": 7449,
+      "sha256": "0675a5c0521b8554e339425ba7dcb668b6bc477974b639063be279be027c7b73"
+    },
+    {
+      "name": "missing-source-test-evidence/missing-source-test-v1.patch",
+      "bytes": 969,
+      "sha256": "2de6ea33fd6f1691a7b5f5d750c2fb691c289e25e8ed8d2ac03057787da50ba5"
+    },
+    {
+      "name": "missing-source-test-evidence/missing-source-test-v2.patch",
+      "bytes": 924,
+      "sha256": "2a55339483d0aa49516ba6a22d0626d2e38bd51935ceb0c3836cdb2afa992d3d"
+    },
+    {
+      "name": "missing-source-test-evidence/INDEPENDENT_REVIEW-v1.json",
+      "bytes": 3274,
+      "sha256": "9019a4ce37b58d321240b7af2421fe0cc0c7b7a991afcdfba0e6f92f25af29ce"
+    },
+    {
+      "name": "missing-source-test-evidence/INDEPENDENT_REVIEW-v2.json",
+      "bytes": 3086,
+      "sha256": "f753442ae4ced60d5164b1746384c0545c85a8700c5dfd2f27e7b043edf0c75b"
+    },
+    {
+      "name": "notion-checkpoint-023-verification.json",
+      "bytes": 99140,
+      "sha256": "131fc3038197167eb707f2b887e9c94a5525a6c89d7854877934f9c9373b7d1e"
+    },
+    {
+      "name": "github-checkpoint023-verification.json",
+      "bytes": 3535,
+      "sha256": "de306a70cedaefa5febff7b655116156fad67bcab1477409408f44d02a0ac01f"
+    },
+    {
+      "name": "full-copy-short-service-proof-preparation-20261117/PLAN.md",
+      "bytes": 8597,
+      "sha256": "d0dfceb1c4d43e6eddd87e9ed0b700ce0b42e075b00bc809b86597a4485a3b1b"
+    },
+    {
+      "name": "full-copy-short-service-proof-preparation-20261117/INDEPENDENT_PLAN_REVIEW.json",
+      "bytes": 2734,
+      "sha256": "85938013e7b70614b9a31be41214467ef7e2b3801999042b8aa8e6ad9ae15222"
+    },
+    {
+      "name": "checkpoint024-integration-final.json",
+      "bytes": 1449,
+      "sha256": "a53a957a0671b6e1755e28c0b8e40012eb06c6b681d3d126dcd628480ca4ad71"
+    },
+    {
+      "name": "checkpoint024-integrated-source-final.patch",
+      "bytes": 49939,
+      "sha256": "95530e193a6ecdba0fe6429634f3487ed0345660357fb5465d5bbad159274f13"
+    },
+    {
+      "name": "checkpoint024-final-lead-test-results.json",
+      "bytes": 21035,
+      "sha256": "24fbc2a7943d5a9d0558ef8d53d047c34b03eaeed6b3ee80402380ba4980fddb"
+    },
+    {
+      "name": "checkpoint024-independent/INTEGRATED_REVIEW-final.json",
+      "bytes": 11273,
+      "sha256": "62769501f17d4d360c45acec9a29a3c8b8e813c413683aba8b7ef47d6b72bd36"
+    },
+    {
+      "name": "full-copy-service-sourcework-evidence/HANDOFF-v2.json",
+      "bytes": 1738,
+      "sha256": "6c927732acb697d455d7f3663d638908f605e132837e792715a8bed57222af56"
+    },
+    {
+      "name": "full-copy-service-sourcework-evidence/HANDOFF-v3.json",
+      "bytes": 1165,
+      "sha256": "ce663a0e63ca34174c83855221e848afde0cd03673e3f1987de064bf506f8b78"
+    },
+    {
+      "name": "full-copy-service-sourcework-evidence/full-copy-service-test-v2.patch",
+      "bytes": 4118,
+      "sha256": "43d0f4028061bf3d6bc8d4d869d6961f3b9978d53807c477b3252c7c0161227a"
+    },
+    {
+      "name": "full-copy-service-sourcework-evidence/full-copy-service-test-v3-comment.patch",
+      "bytes": 870,
+      "sha256": "27f59f314ad3faf0c164ee8fedb687485de5f67f4eff549120508b895dc8fc16"
+    },
+    {
+      "name": "full-copy-service-sourcework-evidence/INDEPENDENT_TEST_REVIEW-v3.json",
+      "bytes": 1202,
+      "sha256": "a31d9c39a89717435abf824aac19c7d8c4bf7a58fcd049046d08543bf6893073"
+    },
+    {
+      "name": "full-copy-short-service-helper-review/INDEPENDENT_REVIEW-v1.json",
+      "bytes": 6070,
+      "sha256": "488fbf4b3572bda2152c6393f02a4a50edf8b9c0de11fa747aa7ad817083e9b4"
+    },
+    {
+      "name": "full-copy-short-service-proof-preparation-20261117/HANDOFF-v2.json",
+      "bytes": 2138,
+      "sha256": "a82171bb4018a499eee72465b5a7b177b530c425c4618ab5c2ec58e8d819112a"
+    },
+    {
+      "name": "full-copy-short-service-proof-preparation-20261117/INDEPENDENT_LAUNCH_REVIEW.json",
+      "bytes": 6166,
+      "sha256": "b240c3e4b2c8c24f5d4db096e3fbb0e1efc4226418002e4e12cec2922757de7d"
+    }
+  ],
+  "nextProof": {
+    "plan": {
+      "checkedAtUtc": "2026-11-17T22:55:49.697231+00:00",
+      "disposition": "GO for helper preparation only; no permission to run or create approval/attempt gates",
+      "plan": {
+        "bytes": 8597,
+        "sha256": "d0dfceb1c4d43e6eddd87e9ed0b700ce0b42e075b00bc809b86597a4485a3b1b"
+      },
+      "scope": "One audited8-second Full/null720 copied-AAC normal-service success, injected OutputAccess dispatch, second prepare-only collision refusal.",
+      "assessment": "No material plan blocker found. Source/history preservation, final immutable mirror receipt, exact future checkpoint and independent helper review plus explicit one-shot run release remain mandatory. Finite children/deadline/storage/diagnostic bounds and failure retention are appropriately qualified.",
+      "helperReviewRequirements": [
+        "Enforce80-child and serial admission BEFORE each spawn, including capability and final-probe children. Observation-only onChild notification after spawn cannot by itself enforce the cap. Count actual closed events and preserve forced exits/signals without misreporting normal closure.",
+        "Overall abort must reach active service child as well as any helper-owned source/output probes. Timeout handling must preserve primary failure and still await/drain owned children; do not report bounded exit guarantee.",
+        "Read actual current request/selection/resource/evidence fields and pure OutputAccess API. Confirm initial unsupported draft never starts, exact one target encode and genuine collector authority; no direct entry mutation.",
+        "Execute second prepare only after completed task and successful result capture. Preserve first result/evidence before new preparation resets service state. Preserve grant through intended reveal check, then explicitly clear/expire and verify callback count does not increase on forged/expired IDs.",
+        "Freeze report after all closure/post-close hashes; exclusive report/completion/outer receipts must reread bytes/hash/JSON, and failures must not overwrite success-looking receipts. Attempt uncertainty must stop for reconciliation, never replay.",
+        "Separate late helper probes from service collector accounting; include all in80 serial census while retaining genuine nine-collector count. Preserve stderr bytes/capture completeness and exact original report/runtime/source currentness."
+      ],
+      "limits": [
+        "No executable helper inspected or prepared by reviewer, no syntax/runtime/media/tests invoked.",
+        "No Windows/native/UI/OS reveal/PCM identity/arbitrary duration or race-collision qualification.",
+        "The declaration that source preservation/helper release are the only remaining gates is prospective: any observed implementation or preflight failure must still stop."
+      ]
+    },
+    "status": "Executable helper V2 has conditional independent GO, syntax and two file-only persistence tests passed. No gate/attempt/runtime/media/native execution. Actual024 preservation, final released mirror receipt semantics, authorizer review/bindings and separate explicit release remain required.",
+    "shortOnly": "One exact audited 8-second MP4 Full/null720 copied AAC through normal service. Result access is trusted OutputAccess observation sink, not OS reveal. Second preparation checks existing-output refusal, not a second encode or race sentinel.",
+    "gates": "Actual future checkpoint and full source tree, independently restored Notion source/history and final released mirror receipt, exact reviewed helper, explicit one-shot release. Any implementation/preflight failure still stops.",
+    "helperV1Findings": [
+      "Aggregate operation accounting is 11 children: target plus output probe plus nine collector calls, not nine total.",
+      "Initial compatibility preparation may be ready/null; inspect and deliberately assert Start refusal before explicit720, rather than claiming unsupported initial presentation.",
+      "Final27GiB free-floor point check was missing."
+    ],
+    "helperFinalReview": {
+      "name": "full-copy-short-service-proof-preparation-20261117/INDEPENDENT_LAUNCH_REVIEW.json",
+      "bytes": 6166,
+      "sha256": "b240c3e4b2c8c24f5d4db096e3fbb0e1efc4226418002e4e12cec2922757de7d"
+    },
+    "helperFinalHandoff": {
+      "name": "full-copy-short-service-proof-preparation-20261117/HANDOFF-v2.json",
+      "bytes": 2138,
+      "sha256": "a82171bb4018a499eee72465b5a7b177b530c425c4618ab5c2ec58e8d819112a"
+    }
+  },
+  "predecessor": {
+    "localCommit": "a77404158bb06c3bca5e24905fadd62db5d86b57",
+    "remoteCommit": "ddde1b63aefb539eeb15f8c0e1b6680ed583b604",
+    "notion": "https://app.notion.com/p/41bbd7ade63b810695cce89472f6d22b",
+    "files": 570,
+    "commits": 23,
+    "fullSessionBytes": 1054788,
+    "finalNotionReceiptSha256": "131fc3038197167eb707f2b887e9c94a5525a6c89d7854877934f9c9373b7d1e",
+    "githubVerifiedAtUtc": "2026-11-17T22:52:54.351437+00:00",
+    "readbackLimit": "Session over1MiB returned empty contents-API payload. Supported immutable Git blob readback matched all bytes/hash; no second upload/source change."
+  },
+  "publication": {
+    "localCommit": null,
+    "notionRestored": false,
+    "githubVerified": false,
+    "note": "Proposed seven-path source/PBS checkpoint not yet committed or preserved at this cutoff. Later exact publication receipts own outcome."
+  },
+  "initialIntegration": {
+    "integratedAtUtc": "2026-11-17T22:54:08.121197+00:00",
+    "baseCommit": "a77404158bb06c3bca5e24905fadd62db5d86b57",
+    "proposalBase": "2714557fb27dac3ec2ccdcc85ea52e5028c2ee88",
+    "notion023BothRestored": true,
+    "files": [
+      {
+        "path": "linux-blue/candidate-full-copy-service.cjs",
+        "bytes": 24212,
+        "sha256": "474468c9aa591db536b685dcfa4f79f0fc7893d43dd989cebba711e3b32b5acd"
+      },
+      {
+        "path": "linux-blue/candidate-full-copy-service.test.cjs",
+        "bytes": 20911,
+        "sha256": "b149833bb76cb35c6e8e760fd0575e5bec45b3a79aa47ba41a4e7ab9835bd29a"
+      },
+      {
+        "path": "tests/encoder-service.test.cjs",
+        "bytes": 92535,
+        "sha256": "e67d9996f57497e1198cad7f90e40811a5997942a4c1aeeea6c622d10d06c0ab"
+      }
+    ],
+    "patch": {
+      "bytes": 47068,
+      "sha256": "c161fd1f358f2a1c62a60100bf1a35926c9dcce8d01c38b8c87fd55c3527ecb0"
+    },
+    "limits": [
+      "Three source/test paths only: two new developer service files and one test fixture correction. Existing production code/pins/catalog/UI unchanged.",
+      "No runtime/media/probe/native execution by integration. Lead tests pending."
+    ]
+  },
+  "priorLeadTests": {
+    "checkedAtUtc": "2026-11-17T22:55:40.485000+00:00",
+    "base": "a77404158bb06c3bca5e24905fadd62db5d86b57",
+    "runs": [
+      {
+        "path": "artifacts/v0.7/evidence/20261117T225419Z_checkpoint024-full-copy-service-focused",
+        "receipt": {
+          "schema": 1,
+          "label": "checkpoint024-full-copy-service-focused",
+          "startedAt": "2026-11-17T22:54:19.615Z",
+          "durationMs": 1938.018,
+          "node": "v24.22.1",
+          "platform": "linux",
+          "head": "a77404158bb06c3bca5e24905fadd62db5d86b57",
+          "dirtyPaths": 111,
+          "command": [
+            "node",
+            "--test",
+            "linux-blue/candidate-full-copy-service.test.cjs",
+            "linux-blue/candidate-full-copy-calibration.test.cjs",
+            "linux-blue/candidate-calibration-runtime.test.cjs",
+            "linux-blue/workbench-long-range-calibration.test.cjs",
+            "tests/operation-resource-full-copy.test.cjs",
+            "tests/operation-family-full-copy-proportional.test.cjs",
+            "tests/operation-evidence-full-copy-proportional.test.cjs",
+            "tests/operation-full-copy-proportional-service.test.cjs",
+            "tests/output-access.test.cjs"
+          ],
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "summary": {
+            "tests": 97,
+            "suites": 0,
+            "pass": 97,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "bytesChangedDuringRun": false,
+          "files": {
+            "tests": [
+              {
+                "file": "linux-blue/candidate-full-copy-service.test.cjs",
+                "bytes": 20911,
+                "sha256": "b149833bb76cb35c6e8e760fd0575e5bec45b3a79aa47ba41a4e7ab9835bd29a"
+              },
+              {
+                "file": "linux-blue/candidate-full-copy-calibration.test.cjs",
+                "bytes": 9509,
+                "sha256": "b9e1d06498959f59b6f0730cf364275629ab54b2a8f2fa9ffc161299f876e086"
+              },
+              {
+                "file": "linux-blue/candidate-calibration-runtime.test.cjs",
+                "bytes": 6189,
+                "sha256": "e64958d684801ae8e53d08623b77f92777f81f7475b30af1d3e7e88111a1a4ba"
+              },
+              {
+                "file": "linux-blue/workbench-long-range-calibration.test.cjs",
+                "bytes": 20580,
+                "sha256": "29d446ee25955525caf1f583f2be3f8bfc897205439f38ebeb806227c505b6cc"
+              },
+              {
+                "file": "tests/operation-resource-full-copy.test.cjs",
+                "bytes": 1714,
+                "sha256": "7a3f0c4735fe519c8ff637712fa7194a112601c11a256f78112730c872bf7ac6"
+              },
+              {
+                "file": "tests/operation-family-full-copy-proportional.test.cjs",
+                "bytes": 10512,
+                "sha256": "519e467bf4d97b4a383cd037fa9c77939370a15d9d2c40874e55ce288d93445b"
+              },
+              {
+                "file": "tests/operation-evidence-full-copy-proportional.test.cjs",
+                "bytes": 17989,
+                "sha256": "56798a0988027fbf952933273785160461eb0f9e4d5dde4d1e02ff6106ed4bbc"
+              },
+              {
+                "file": "tests/operation-full-copy-proportional-service.test.cjs",
+                "bytes": 12956,
+                "sha256": "54370a7b5709df9984b0b57018fda2d447f39b1026376851724df4fa3bd3353f"
+              },
+              {
+                "file": "tests/output-access.test.cjs",
+                "bytes": 18285,
+                "sha256": "ed3bbf5f7e1303432cf1b13a87052b0cb6f6a361960b71c5abf792d7647aa047"
+              }
+            ],
+            "covers": [
+              {
+                "file": "linux-blue/candidate-full-copy-service.cjs",
+                "bytes": 24212,
+                "sha256": "474468c9aa591db536b685dcfa4f79f0fc7893d43dd989cebba711e3b32b5acd"
+              },
+              {
+                "file": "linux-blue/candidate-full-copy-service.test.cjs",
+                "bytes": 20911,
+                "sha256": "b149833bb76cb35c6e8e760fd0575e5bec45b3a79aa47ba41a4e7ab9835bd29a"
+              },
+              {
+                "file": "tests/encoder-service.test.cjs",
+                "bytes": 92535,
+                "sha256": "e67d9996f57497e1198cad7f90e40811a5997942a4c1aeeea6c622d10d06c0ab"
+              }
+            ]
+          }
+        },
+        "artifacts": {
+          "stderr.txt": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "receipt.json": {
+            "bytes": 3404,
+            "sha256": "d6f8f034df8d7ca667c22313f987cb94f1de68b41f3556f94b200a5f1409dd9e"
+          },
+          "stdout.txt": {
+            "bytes": 11122,
+            "sha256": "f28a555a0fbd668527f232d1b86041eed050b0a12f8965cfd21be4ec48f5ef08"
+          }
+        }
+      },
+      {
+        "path": "artifacts/v0.7/evidence/20261117T225429Z_checkpoint024-source-protection-regression",
+        "receipt": {
+          "schema": 1,
+          "label": "checkpoint024-source-protection-regression",
+          "startedAt": "2026-11-17T22:54:29.107Z",
+          "durationMs": 7161.885,
+          "node": "v24.22.1",
+          "platform": "linux",
+          "head": "a77404158bb06c3bca5e24905fadd62db5d86b57",
+          "dirtyPaths": 111,
+          "command": [
+            "node",
+            "--test",
+            "tests/encoder-service.test.cjs",
+            "tests/process-runner.test.cjs",
+            "tests/outputs.test.cjs",
+            "tests/completed-output-retention.test.cjs",
+            "tests/completed-source-policy.test.cjs",
+            "tests/source-identity.test.cjs",
+            "tests/source-catalog-cross-route.test.cjs",
+            "tests/source-catalog-seals.test.cjs"
+          ],
+          "exitCode": 0,
+          "signal": null,
+          "spawnError": null,
+          "summary": {
+            "tests": 229,
+            "suites": 0,
+            "pass": 229,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "bytesChangedDuringRun": false,
+          "files": {
+            "tests": [
+              {
+                "file": "tests/encoder-service.test.cjs",
+                "bytes": 92535,
+                "sha256": "e67d9996f57497e1198cad7f90e40811a5997942a4c1aeeea6c622d10d06c0ab"
+              },
+              {
+                "file": "tests/process-runner.test.cjs",
+                "bytes": 27692,
+                "sha256": "c5b8b906c243252e2ae2bb3b17f43085b3f8a61029c5f47faff34a548d391917"
+              },
+              {
+                "file": "tests/outputs.test.cjs",
+                "bytes": 26774,
+                "sha256": "ff44527d53b84bada28fe08ea2aa0c7c760a705ec5dd2469188368b306ae883d"
+              },
+              {
+                "file": "tests/completed-output-retention.test.cjs",
+                "bytes": 12250,
+                "sha256": "80831f9fd012c6cbff5d557847525b23e275aa595714c8c11fea2d77902bd6da"
+              },
+              {
+                "file": "tests/completed-source-policy.test.cjs",
+                "bytes": 7594,
+                "sha256": "734d87741254269f47c1fa242c11537a78cfef90fd27069e9c25c04ca49c9df8"
+              },
+              {
+                "file": "tests/source-identity.test.cjs",
+                "bytes": 11264,
+                "sha256": "f8812d9ff1c5acab8a53c1440bde68a146ba4cd5ffeaa5c737e842cda9313051"
+              },
+              {
+                "file": "tests/source-catalog-cross-route.test.cjs",
+                "bytes": 6482,
+                "sha256": "1fcff67d117ab8b6f9975754d757d53f0d2d2f9332c7154d30c6a53391c9bbd4"
+              },
+              {
+                "file": "tests/source-catalog-seals.test.cjs",
+                "bytes": 3296,
+                "sha256": "dbc4673d318454bc57970900514ff89f23c52e545c674f6136f8418e653128f5"
+              }
+            ],
+            "covers": [
+              {
+                "file": "linux-blue/candidate-full-copy-service.cjs",
+                "bytes": 24212,
+                "sha256": "474468c9aa591db536b685dcfa4f79f0fc7893d43dd989cebba711e3b32b5acd"
+              },
+              {
+                "file": "linux-blue/candidate-full-copy-service.test.cjs",
+                "bytes": 20911,
+                "sha256": "b149833bb76cb35c6e8e760fd0575e5bec45b3a79aa47ba41a4e7ab9835bd29a"
+              },
+              {
+                "file": "tests/encoder-service.test.cjs",
+                "bytes": 92535,
+                "sha256": "e67d9996f57497e1198cad7f90e40811a5997942a4c1aeeea6c622d10d06c0ab"
+              },
+              {
+                "file": "src/encoder-service.cjs",
+                "bytes": 158909,
+                "sha256": "5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7"
+              },
+              {
+                "file": "src/outputs.cjs",
+                "bytes": 22987,
+                "sha256": "0871e35adb50b7fca7c177b6beb34c5533df8bac98751b55c8af31b8e422ca96"
+              },
+              {
+                "file": "src/source-identity.cjs",
+                "bytes": 9080,
+                "sha256": "fe6f73342936aa70ed6bbda98348da6fb892d05ddb566ee6d1664ba3f38e42bd"
+              }
+            ]
+          }
+        },
+        "artifacts": {
+          "stderr.txt": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "receipt.json": {
+            "bytes": 3416,
+            "sha256": "5fa26b7c512024b3c68ca2b1b092eb51b284986085025fc6543c1084d15c9027"
+          },
+          "stdout.txt": {
+            "bytes": 24419,
+            "sha256": "6c35ea34d61e2283270a94537341f7bf18e8360a827735d1a2f0ec631d62cc2b"
+          }
+        }
+      },
+      {
+        "path": "artifacts/v0.7/evidence/20261117T225458Z_checkpoint024-linux-broad",
+        "receipt": {
+          "schema": 1,
+          "label": "checkpoint024-linux-broad",
+          "startedAt": "2026-11-17T22:54:58.954Z",
+          "durationMs": 1615.934,
+          "node": "v24.22.1",
+          "platform": "linux",
+          "head": "a77404158bb06c3bca5e24905fadd62db5d86b57",
+          "dirtyPaths": 111,
+          "command": [
+            "node",
+            "--test",
+            "linux-blue/candidate-calibration-runtime.test.cjs",
+            "linux-blue/candidate-full-copy-calibration.test.cjs",
+            "linux-blue/candidate-full-copy-service.test.cjs",
+            "linux-blue/candidate-keep720-service.test.cjs",
+            "linux-blue/candidate-resize-service.test.cjs",
+            "linux-blue/candidate-resize-workbench-renderer.test.cjs",
+            "linux-blue/candidate-resize-workbench.test.cjs",
+            "linux-blue/candidate-workbench-renderer.test.cjs",
+            "linux-blue/candidate-workbench.test.cjs",
+            "linux-blue/demo-boundary.test.cjs",
+            "linux-blue/output-preflight.test.cjs",
+            "linux-blue/runtime-av1-operation.test.cjs",
+            "linux-blue/runtime-av1.test.cjs",
+            "linux-blue/runtime-candidate.test.cjs",
+            "linux-blue/runtime.test.cjs",
+            "linux-blue/source-inspection-boundary.test.cjs",
+            "linux-blue/source-inspection.test.cjs",
+            "linux-blue/synthetic-service.test.cjs",
+            "linux-blue/ui-policy.test.cjs",
+            "linux-blue/workbench-av1-admission.test.cjs",
+            "linux-blue/workbench-av1-service.test.cjs",
+            "linux-blue/workbench-av1-trim.test.cjs",
+            "linux-blue/workbench-execution.test.cjs",
+            "linux-blue/workbench-full-1440-service.test.cjs",
+            "linux-blue/workbench-full-resize-service.test.cjs",
+            "linux-blue/workbench-long-range-calibration.test.cjs",
+            "linux-blue/workbench-long-range-service.test.cjs",
+            "linux-blue/workbench-long-range-smoke.test.cjs",
+            "linux-blue/workbench-qualified-app-smoke.test.cjs",
+            "linux-blue/workbench-qualified-encode-controls.test.cjs",
+            "linux-blue/workbench-remux.test.cjs",
+            "linux-blue/workbench-resize-service.test.cjs",
+            "linux-blue/workbench-service.test.cjs",
+            "linux-blue/workbench-trim-candidate.test.cjs"
+          ],
+          "exitCode": 1,
+          "signal": null,
+          "spawnError": null,
+          "summary": {
+            "tests": 255,
+            "suites": 0,
+            "pass": 210,
+            "fail": 45,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "bytesChangedDuringRun": false,
+          "files": {
+            "tests": [
+              {
+                "file": "linux-blue/candidate-calibration-runtime.test.cjs",
+                "bytes": 6189,
+                "sha256": "e64958d684801ae8e53d08623b77f92777f81f7475b30af1d3e7e88111a1a4ba"
+              },
+              {
+                "file": "linux-blue/candidate-full-copy-calibration.test.cjs",
+                "bytes": 9509,
+                "sha256": "b9e1d06498959f59b6f0730cf364275629ab54b2a8f2fa9ffc161299f876e086"
+              },
+              {
+                "file": "linux-blue/candidate-full-copy-service.test.cjs",
+                "bytes": 20911,
+                "sha256": "b149833bb76cb35c6e8e760fd0575e5bec45b3a79aa47ba41a4e7ab9835bd29a"
+              },
+              {
+                "file": "linux-blue/candidate-keep720-service.test.cjs",
+                "bytes": 22177,
+                "sha256": "8b9445ea950613c87b1f86339fcb623f41a06e7fd009740f642b7fd57b71a3b5"
+              },
+              {
+                "file": "linux-blue/candidate-resize-service.test.cjs",
+                "bytes": 28279,
+                "sha256": "d444d6dcd98e366fcc456b54fb329fd9b86f9cd538503318db91aa123e960236"
+              },
+              {
+                "file": "linux-blue/candidate-resize-workbench-renderer.test.cjs",
+                "bytes": 12555,
+                "sha256": "468b26867b06e28149316baa484f398de1c8acfef7ec4f379d1881c1ef59f0bb"
+              },
+              {
+                "file": "linux-blue/candidate-resize-workbench.test.cjs",
+                "bytes": 9551,
+                "sha256": "817cda905e20b2ae4cdb4d2bf8b6c367eebe6a9d816dd99f0866178ce0a799a1"
+              },
+              {
+                "file": "linux-blue/candidate-workbench-renderer.test.cjs",
+                "bytes": 12411,
+                "sha256": "8d063110140b4f8bd5d06bf48b50212a9eed8a8371933c6638c1390578da79fb"
+              },
+              {
+                "file": "linux-blue/candidate-workbench.test.cjs",
+                "bytes": 8467,
+                "sha256": "37ccbf2923794c429b7a90addf3240c5b2b991fe3f01089fec5726b79a8fdbed"
+              },
+              {
+                "file": "linux-blue/demo-boundary.test.cjs",
+                "bytes": 7127,
+                "sha256": "768fc77bce010c54f32b8664234628e4709931fb72cd585282fa807df33d3cea"
+              },
+              {
+                "file": "linux-blue/output-preflight.test.cjs",
+                "bytes": 6545,
+                "sha256": "027a7429f628413b969a8852a7a2f0172e88c8d76016d64cc86d17be2710a16e"
+              },
+              {
+                "file": "linux-blue/runtime-av1-operation.test.cjs",
+                "bytes": 9656,
+                "sha256": "13956585833345e0cc6a4b78a1c71b1cc32d82fb7879bf970c762240aa96e02f"
+              },
+              {
+                "file": "linux-blue/runtime-av1.test.cjs",
+                "bytes": 5952,
+                "sha256": "e5bc4a5d1f7644db79f58d27b036a821eb6a3d1ba8988959ceb47e01d6284b40"
+              },
+              {
+                "file": "linux-blue/runtime-candidate.test.cjs",
+                "bytes": 3699,
+                "sha256": "5512a93d8abcb841514dd9b3956f4ce2cb7da6f705161d64d70aea198584bb19"
+              },
+              {
+                "file": "linux-blue/runtime.test.cjs",
+                "bytes": 3959,
+                "sha256": "77e5a2a83a5a9ef7ef9334d6e01d90f6ac3b66aa4ba87f177ce7b102c267d446"
+              },
+              {
+                "file": "linux-blue/source-inspection-boundary.test.cjs",
+                "bytes": 6470,
+                "sha256": "e3af4733bf7bc72bb437cd2ccb86b8ea69371bf2cbea63e10347a9f5049e1cdd"
+              },
+              {
+                "file": "linux-blue/source-inspection.test.cjs",
+                "bytes": 8961,
+                "sha256": "b48e38a1dca45a04cddc8ff3a9e7c02d9f314b06cd8ba484749c381269d8618f"
+              },
+              {
+                "file": "linux-blue/synthetic-service.test.cjs",
+                "bytes": 5647,
+                "sha256": "be889555ea44c4d293c33e2cfc8c84a1a84ca8d96d426b505ccbf01811530e7c"
+              },
+              {
+                "file": "linux-blue/ui-policy.test.cjs",
+                "bytes": 5165,
+                "sha256": "587aecaed6fb0b547fcff7668a854acf561fb9c07147fec0f4bcb86f51fed8df"
+              },
+              {
+                "file": "linux-blue/workbench-av1-admission.test.cjs",
+                "bytes": 10085,
+                "sha256": "9df61cceaf1f8bd6c334d5754be4c79b2cef4334ba45b39a1612ff8cea60968e"
+              },
+              {
+                "file": "linux-blue/workbench-av1-service.test.cjs",
+                "bytes": 6755,
+                "sha256": "6079eec204ed3e0b15970089018a06ac42e0072b1fc06b67d8192d35349036a6"
+              },
+              {
+                "file": "linux-blue/workbench-av1-trim.test.cjs",
+                "bytes": 2647,
+                "sha256": "08cc9f46160c517f880aa81d1caf9bec8892308801bfd62361c96fe4a93affaf"
+              },
+              {
+                "file": "linux-blue/workbench-execution.test.cjs",
+                "bytes": 4083,
+                "sha256": "570fd4f1918fed21bbfd30164f7847d164bb3209310108b66244a76559e0919b"
+              },
+              {
+                "file": "linux-blue/workbench-full-1440-service.test.cjs",
+                "bytes": 5963,
+                "sha256": "2a3127ff0f81a44f6f640c98817e2d4ee5cb099c058e4d292a1e16f13c0bf86e"
+              },
+              {
+                "file": "linux-blue/workbench-full-resize-service.test.cjs",
+                "bytes": 5137,
+                "sha256": "8affd468c14fba60c98dc3ea734a96e1d502d61382afa5170d06f7b3a782239c"
+              },
+              {
+                "file": "linux-blue/workbench-long-range-calibration.test.cjs",
+                "bytes": 20580,
+                "sha256": "29d446ee25955525caf1f583f2be3f8bfc897205439f38ebeb806227c505b6cc"
+              },
+              {
+                "file": "linux-blue/workbench-long-range-service.test.cjs",
+                "bytes": 10678,
+                "sha256": "823948d7ac18bc5732e3297985b9261411188dafbf32a4c24a64871eaef07fb6"
+              },
+              {
+                "file": "linux-blue/workbench-long-range-smoke.test.cjs",
+                "bytes": 5860,
+                "sha256": "3bf94d7768613312fe50ef1959b7da17da400caa7dbd2c00cad976ad3b3fcf13"
+              },
+              {
+                "file": "linux-blue/workbench-qualified-app-smoke.test.cjs",
+                "bytes": 6469,
+                "sha256": "c85541320584cb5a19eacda7b130bc71a0e33923b3dc9f2b4b5e0b3601cc6993"
+              },
+              {
+                "file": "linux-blue/workbench-qualified-encode-controls.test.cjs",
+                "bytes": 11188,
+                "sha256": "18b69949fa9f5894556a74e11e8b0c7a2625022df397ab9388515730fe874ac1"
+              },
+              {
+                "file": "linux-blue/workbench-remux.test.cjs",
+                "bytes": 9956,
+                "sha256": "0a44f52c0bbd345661c5330cd1aa230b35a509b298dac4e7b19642ba7ec19d47"
+              },
+              {
+                "file": "linux-blue/workbench-resize-service.test.cjs",
+                "bytes": 5387,
+                "sha256": "2190e0461ca93177bc8770c0488e7ffd61b6d6e49f9d6f2beaeb485513691d04"
+              },
+              {
+                "file": "linux-blue/workbench-service.test.cjs",
+                "bytes": 8616,
+                "sha256": "ec4af779d98a510ba2fb45bc0d97f4213f2451e5b93dc0b557ba2d14c2a3eee6"
+              },
+              {
+                "file": "linux-blue/workbench-trim-candidate.test.cjs",
+                "bytes": 6983,
+                "sha256": "c4550f213c0dd33bf11c518f5ee7c3d34f9bb5a144a5ca38ba77bdaec00bd2b1"
+              }
+            ],
+            "covers": [
+              {
+                "file": "linux-blue/candidate-full-copy-service.cjs",
+                "bytes": 24212,
+                "sha256": "474468c9aa591db536b685dcfa4f79f0fc7893d43dd989cebba711e3b32b5acd"
+              },
+              {
+                "file": "linux-blue/candidate-full-copy-service.test.cjs",
+                "bytes": 20911,
+                "sha256": "b149833bb76cb35c6e8e760fd0575e5bec45b3a79aa47ba41a4e7ab9835bd29a"
+              },
+              {
+                "file": "tests/encoder-service.test.cjs",
+                "bytes": 92535,
+                "sha256": "e67d9996f57497e1198cad7f90e40811a5997942a4c1aeeea6c622d10d06c0ab"
+              }
+            ]
+          }
+        },
+        "artifacts": {
+          "stderr.txt": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "receipt.json": {
+            "bytes": 9241,
+            "sha256": "dd57694db902a429d99069434fa2fde3559b0266e511fb7004de73872bfa2390"
+          },
+          "stdout.txt": {
+            "bytes": 74694,
+            "sha256": "894530f5bd0566262ec98184320199135325a810cb5e2df819b0509f035a5402"
+          }
+        }
+      }
+    ],
+    "broadComparison": {
+      "baselineSummary": "200/245,45failed",
+      "currentSummary": "210/255,45failed",
+      "nonemptyNormalizedSpecFailureMultisetEqual": true,
+      "failureDiagnosticLines": 45,
+      "note": "Nested/wrapper spec lines can exceed failed test count. Parsed only before failing-tests summary; timing suffix removed; multiplicity retained. Independent comparison pending."
+    }
+  },
+  "priorIntegratedReview": {
+    "disposition": "Integrated identities and targeted tests pass; broad failure multiset is unchanged and nonempty. No new failure label observed, not a claim all branches or existing failures pass.",
+    "integrationReceiptSha256": "9a0aa3fb1f433bfa77f562cc2569f6a060fac3c127c691d233b0b430823f0c27",
+    "integratedPatchSha256": "c161fd1f358f2a1c62a60100bf1a35926c9dcce8d01c38b8c87fd55c3527ecb0",
+    "base": "a77404158bb06c3bca5e24905fadd62db5d86b57",
+    "files": [
+      {
+        "path": "linux-blue/candidate-full-copy-service.cjs",
+        "bytes": 24212,
+        "sha256": "474468c9aa591db536b685dcfa4f79f0fc7893d43dd989cebba711e3b32b5acd"
+      },
+      {
+        "path": "linux-blue/candidate-full-copy-service.test.cjs",
+        "bytes": 20911,
+        "sha256": "b149833bb76cb35c6e8e760fd0575e5bec45b3a79aa47ba41a4e7ab9835bd29a"
+      },
+      {
+        "path": "tests/encoder-service.test.cjs",
+        "bytes": 92535,
+        "sha256": "e67d9996f57497e1198cad7f90e40811a5997942a4c1aeeea6c622d10d06c0ab"
+      }
+    ],
+    "identityCheck": "All three exact hashes matched. Every other tracked base file was byte-equal to an independent Git archive.",
+    "independentTest": {
+      "cwd": "Separate archive of a774041 with only three verified overlays",
+      "command": "node --test --test-name-pattern='a missing source after valid completion|Full copy derives exact whole-source budgets' tests/encoder-service.test.cjs tests/operation-family-full-copy-proportional.test.cjs",
+      "tests": 2,
+      "pass": 2,
+      "fail": 0,
+      "stdoutSha256": "c46856fe9c79adc4c2dd86e90728d9022e71d5ee6320601640e93d4d8480a268",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "broadComparison": [
+      {
+        "directory": "20261117T220727Z_checkpoint022-linux-broad",
+        "summary": {
+          "tests": 245,
+          "pass": 200,
+          "fail": 45,
+          "skipped": 0
+        },
+        "failures": [
+          "calibration producer literal closure still equals immutable tested source",
+          "synthetic factory composition uses normal selector, observer, telemetry and storage, with owned closure",
+          "bounded original-report read and post-await currentness fail closed with descriptor cleanup",
+          "cancellation closes admission synchronously before pending saved writes drain",
+          "service and candidate cleanup failures both survive without masking the primary",
+          "workbench snapshot removes unqualified runnable entry before every update, then ordinary file-edit reprepare issues genuine range selection",
+          "strict OutputAccess seam rejects callback-shaped impostor and accepts real main-owned authority",
+          "inspection-only boundary refuses Start across a modeled pending-write window and does not emit ready compatibility rows",
+          "calibration producer literal closure still equals immutable tested source",
+          "synthetic factory composition uses normal selector, observer, telemetry and storage, with owned closure",
+          "bounded original-report read and post-await currentness fail closed with descriptor cleanup",
+          "cancellation closes admission synchronously before pending saved writes drain",
+          "service and candidate cleanup failures both survive without masking the primary",
+          "composed selector issues only genuine fixed resize range authority with its own resource policy",
+          "report path replacement and canonical alias after bounded read reject and close the open handle",
+          "workbench snapshot removes unqualified runnable entry before every update, then ordinary file-edit reprepare issues genuine range selection",
+          "strict OutputAccess seam rejects callback-shaped impostor and accepts real main-owned authority",
+          "inspection-only boundary refuses Start across a modeled pending-write window and does not emit ready compatibility rows",
+          "synthetic staged service: codecs, exclusive publication, admission and child balance",
+          "active cancellation drains before restart; progress-time collision never overwrites",
+          "close drains an active child and permanently closes admission",
+          "caller fixture swap after capture cannot redirect child reads",
+          "ordinary three-codec paths retain baseline predicate and reach superclass admission",
+          "genuine KeepSource, range resize and Full resize tokens coexist with ordinary H265 in one preflight",
+          "forged/stale family and runtime tokens refuse the whole batch without state mutation",
+          "unsupported route, omissions, settings and separate-folder rules cannot partially start",
+          "stale plans and invalid selections retain superclass refusal before any start",
+          "a revoked genuine observer token refuses before superclass mutation",
+          "fourth family requires its own genuine catalog and current token, old three cannot issue it",
+          "original factory remains ordinary-only and forwards state/output access without spawning",
+          "1440 pure receipt schema retains full extents, independent source and exact family resources",
+          "1440 is fixed main-only fourth variant without app activation or geometry override",
+          "1440 composition pins the independently accepted complete calibration bytes",
+          "Full composition pins the independently reviewed completed calibration",
+          "Full receipt requires complete distinct source extents, family and null interval",
+          "pending, missing or changed digests cannot authorize a receipt",
+          "exact successful Keep Source, resize and Full service proofs match their own calibrations",
+          "forged successful labels cannot replace lifecycle, source, accounting or geometry evidence",
+          "accepted exact proofs construct real qualified factory without capabilities or child execution",
+          "1440 service validator has distinct status, geometry, lifecycle and complete tail counts",
+          "accepted exact fourth proof constructs four-family factory without children and keeps three-family app separate",
+          "three-family controls import and real construction do not load unavailable inactive 1440 composition",
+          "reviewed local dependency gate succeeds and absent/symlinked dependencies fail closed",
+          "resize receipt binds independently verified bytes while explicit pending factories stay closed",
+          "resize receipt independently binds geometry, policy, clocks, resources and all evidence"
+        ],
+        "stdoutSha256": "0b728b72c92bb41ca69b1a89113a71ae82e6002be6f5479ee03aceee05a32ac3",
+        "receiptSha256": "241924e22a0647532e47fb891b63f0abd9dff9ee67b62cac98649cadbddcfaab"
+      },
+      {
+        "directory": "20261117T225458Z_checkpoint024-linux-broad",
+        "summary": {
+          "tests": 255,
+          "pass": 210,
+          "fail": 45,
+          "skipped": 0
+        },
+        "failures": [
+          "calibration producer literal closure still equals immutable tested source",
+          "synthetic factory composition uses normal selector, observer, telemetry and storage, with owned closure",
+          "bounded original-report read and post-await currentness fail closed with descriptor cleanup",
+          "cancellation closes admission synchronously before pending saved writes drain",
+          "service and candidate cleanup failures both survive without masking the primary",
+          "workbench snapshot removes unqualified runnable entry before every update, then ordinary file-edit reprepare issues genuine range selection",
+          "strict OutputAccess seam rejects callback-shaped impostor and accepts real main-owned authority",
+          "inspection-only boundary refuses Start across a modeled pending-write window and does not emit ready compatibility rows",
+          "calibration producer literal closure still equals immutable tested source",
+          "synthetic factory composition uses normal selector, observer, telemetry and storage, with owned closure",
+          "bounded original-report read and post-await currentness fail closed with descriptor cleanup",
+          "cancellation closes admission synchronously before pending saved writes drain",
+          "service and candidate cleanup failures both survive without masking the primary",
+          "composed selector issues only genuine fixed resize range authority with its own resource policy",
+          "report path replacement and canonical alias after bounded read reject and close the open handle",
+          "workbench snapshot removes unqualified runnable entry before every update, then ordinary file-edit reprepare issues genuine range selection",
+          "strict OutputAccess seam rejects callback-shaped impostor and accepts real main-owned authority",
+          "inspection-only boundary refuses Start across a modeled pending-write window and does not emit ready compatibility rows",
+          "synthetic staged service: codecs, exclusive publication, admission and child balance",
+          "active cancellation drains before restart; progress-time collision never overwrites",
+          "close drains an active child and permanently closes admission",
+          "caller fixture swap after capture cannot redirect child reads",
+          "ordinary three-codec paths retain baseline predicate and reach superclass admission",
+          "genuine KeepSource, range resize and Full resize tokens coexist with ordinary H265 in one preflight",
+          "forged/stale family and runtime tokens refuse the whole batch without state mutation",
+          "unsupported route, omissions, settings and separate-folder rules cannot partially start",
+          "stale plans and invalid selections retain superclass refusal before any start",
+          "a revoked genuine observer token refuses before superclass mutation",
+          "fourth family requires its own genuine catalog and current token, old three cannot issue it",
+          "original factory remains ordinary-only and forwards state/output access without spawning",
+          "1440 pure receipt schema retains full extents, independent source and exact family resources",
+          "1440 is fixed main-only fourth variant without app activation or geometry override",
+          "1440 composition pins the independently accepted complete calibration bytes",
+          "Full composition pins the independently reviewed completed calibration",
+          "Full receipt requires complete distinct source extents, family and null interval",
+          "pending, missing or changed digests cannot authorize a receipt",
+          "exact successful Keep Source, resize and Full service proofs match their own calibrations",
+          "forged successful labels cannot replace lifecycle, source, accounting or geometry evidence",
+          "accepted exact proofs construct real qualified factory without capabilities or child execution",
+          "1440 service validator has distinct status, geometry, lifecycle and complete tail counts",
+          "accepted exact fourth proof constructs four-family factory without children and keeps three-family app separate",
+          "three-family controls import and real construction do not load unavailable inactive 1440 composition",
+          "reviewed local dependency gate succeeds and absent/symlinked dependencies fail closed",
+          "resize receipt binds independently verified bytes while explicit pending factories stay closed",
+          "resize receipt independently binds geometry, policy, clocks, resources and all evidence"
+        ],
+        "stdoutSha256": "894530f5bd0566262ec98184320199135325a810cb5e2df819b0509f035a5402",
+        "receiptSha256": "dd57694db902a429d99069434fa2fde3559b0266e511fb7004de73872bfa2390"
+      }
+    ],
+    "failureMultisetEqual": true,
+    "parser": "Only initial result lines before first test summary; remove duration suffix. Require exactly 45 parsed failures in each and matching explicit nonzero summary. No empty-parser equality.",
+    "limits": [
+      "No media/runtime/native or Windows execution. Full-copy normal-service proof remains unexecuted.",
+      "Broad 210/255 is not a green suite. Existing source-pin refusals and missing historical reports can stop before downstream assertions; matching labels do not prove unreached assertions.",
+      "This is integrated identity/failure reconciliation plus two targeted tests, not a replacement for separate service-source review or a formal security scan.",
+      "Lead focused 97/97 and protection 229/229 are separately attributed lead runs, not independent repeats in this integrated step. Earlier independent V2 protection 229/229 remains tied to its isolated fixture review."
+    ]
+  },
+  "preparationBoundaryCorrection": {
+    "finding": "Actual ordinary compatibility preparation bypasses selector and can return a ready row with null qualification. Inherited Start refuses synchronously. No unauthorized encode bypass was found; direct-selector tests did not prove initial preparation presentation.",
+    "testV2": {
+      "name": "full-copy-service-sourcework-evidence/HANDOFF-v2.json",
+      "bytes": 1738,
+      "sha256": "6c927732acb697d455d7f3663d638908f605e132837e792715a8bed57222af56"
+    },
+    "testV3": {
+      "name": "full-copy-service-sourcework-evidence/HANDOFF-v3.json",
+      "bytes": 1165,
+      "sha256": "ce663a0e63ca34174c83855221e848afde0cd03673e3f1987de064bf506f8b78"
+    },
+    "finalReview": {
+      "name": "full-copy-service-sourcework-evidence/INDEPENDENT_TEST_REVIEW-v3.json",
+      "bytes": 1202,
+      "sha256": "a31d9c39a89717435abf824aac19c7d8c4bf7a58fcd049046d08543bf6893073"
+    },
+    "productionUnchanged": true,
+    "actualCoverage": "Real composed registerFolder/prepareBatch/inherited Start with owned temporary synthetic non-media source. Synthetic factory/runtime/report fixture plus injected inspection/capabilities/cache/storage eligibility. Actual ready/null compatibility result and Start refusal leave snapshot/task/output/invocation counts unchanged. No real runtime or explicit720 prepare success proven.",
+    "red": "First added-test run reached assertions but cleanup used invalid terminal outcome; corrected to completed. V3 changes only the attribution comment, not assertions.",
+    "finalTestBytes": 23755,
+    "finalTestSha256": "5342780891a8764fc3103b65206f6596d6b54178328ee9886a6594c8bdbeb148"
+  },
+  "environmentReconciliation": "Brief workspace restart after final test receipts completed. Ready-state readback confirmed same HEAD/staged source hashes/prior Session and all three terminal receipts. No media/publication action was active; no test retry occurred."
+}

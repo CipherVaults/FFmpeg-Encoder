@@ -680,7 +680,13 @@ test('an output publication race preserves the competitor and the validated comp
 });
 
 test('a missing source after valid completion is incomplete evidence, not a ctime warning or publication', async t => {
-  const h = await harness(t, { names: ['a.mp4'], onEncode: ({ file }) => fs.unlink(file) });
+  const h = await harness(t, { names: ['a.mp4'], onEncode: async ({ file, input }) => {
+    // Hold the original inode outside the selected input directory. Deleting it
+    // before the synthetic stage exists can correctly hit PROTECTED_SOURCE via
+    // inode reuse, rather than reach the completed-source ENOENT assessment.
+    const held = await fs.mkdtemp(path.join(path.dirname(input), 'held-source-'));
+    await fs.rename(file, path.join(held, 'original'));
+  } });
   const result = await h.finish(await h.prepare());
   const item = result.items[0];
   assert.equal(item.status, 'failed');

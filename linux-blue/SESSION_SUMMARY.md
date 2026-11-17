@@ -1,3 +1,378 @@
+# 📘 Session: November 17, 2026 — FFmpeg Encoder — Compose the exact Full-copy service and correct a missing-source test fixture without weakening protection
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model / effort attribution | Evidence and limit |
+|---|---|---|
+| Engineering lead | GPT-6 Astra / Ultra, recorded assignment, not backend attestation | Owns exact source integration, final tests, preservation and next runtime authorization. |
+| Full-copy service worker | Not independently established here | Two new isolated files, pure raw-receipt validation, VM/injected composition and retained source-test evidence; no actual service media execution. |
+| Service independent reviewer | Not independently established here | Reads both files/support control flow, independently enumerates 26 producer paths, repeats 97 tests and an extra ten-test copy with fourteen additional negative checks. Counts overlap and are not a unique sum. |
+| Missing-source test investigator / independent reviewer | Not independently established here | Measures inode reuse in an isolated original fixture, preserves V1 held-handle experiment, reviews V2 exclusive owned rename and executes Linux regression without production changes. Windows is not run. |
+| Preservation / documentation | Not independently established here | Mirror restores source/full history/unabridged native record and exact remote delta. Documentation drafts outside the checkout and owns only the explicitly released Session prepend. |
+
+**Record basis:** Actual Full-copy calibration on immutable 022 passed three fixed inputs and was preserved as evidence-only 023. That did not run the new normal service or repair an inherited missing-source test. This source milestone separates a new source-bound service composition from a test-fixture correction, retains their different evidence and leaves production protection, historical producer maps, defaults and UI unchanged.
+
+## 🕒 Time
+
+- Date: November 17, 2026. Explicit saved timestamps are UTC. Active-work start/total active working time are not measured; do not infer them from file timestamps or test duration.
+- Earlier evidence cutoff: 023 ends at 22:44 UTC with isolated source/test tasks assigned but no results integrated. Later handoffs below do not retroactively alter that record.
+- Missing-source V1 handoff: 22:43:47.357211 UTC in its isolated clone. Its existence does not mean its result was integrated or independently accepted at the 023 record cutoff.
+- Missing-source V2 handoff: 22:47:18.010838 UTC, one test-only replacement of the held-open unlink design.
+- Service worker test: started 22:49:23.590719 UTC, elapsed 2.0237984849954955 seconds, Node v24.22.1, exit 0, 97/97. Frozen handoff created 22:50:07.397627 UTC.
+- Service independent review: 22:52:22.780378 UTC, bounded source review; no actual service qualification.
+- Predecessor remote verification: 22:52:54.351437 UTC for five exact evidence/PBS paths, after independent 023 source/full-history restoration.
+- Authoritative integration: 22:54:08.121197 UTC on preserved `a77404158bb06c3bca5e24905fadd62db5d86b57`, after both 023 Notion restoration gates and verified remote publication.
+- Initial V1 lead starts: 22:54:19.615 UTC focused 97/97 (1938.018 ms); 22:54:29.107 UTC source protection 229/229 (7161.885 ms); 22:54:58.954 UTC broad 210/255, 45 failures (1615.934 ms). These are measured individual test durations, not session active time.
+- Next proof plan review: 22:55:49.697231 UTC, GO for helper preparation only, not a gate or runtime authorization.
+- Continuation: Continue from 023's audited Full-copy calibration; the earlier dated record remains unchanged. Source authoring/test investigation may overlap preservation, but authoritative integration waited for the recorded gates.
+- Helper V1 review: 23:02:17.929198 UTC, changes required for three actual assumptions before any campaign. Session save/commit paused; no authoritative Session write or media attempt had occurred.
+- Added source test: V2 frozen at 23:04:26.586155 UTC after 98/98 affected tests; V3 attribution-comment correction frozen at 23:06:34.583542 UTC after 11/11 focused, production unchanged.
+- Helper V2 conditional review: 23:07:05.853627 UTC, exact executable/helper review, not authorization to run.
+- Final test-only overlay: 23:07:17.728543 UTC. Final lead starts 23:07:17.845 UTC focused 98/98 (2151.496 ms), 23:07:28.890 UTC protection 229/229 (7257.240 ms), 23:07:47.841 UTC broad 211/256 with 45 failures (1566.133 ms). Earlier runs remain tied to V1 bytes.
+- End / stopping point: Dated evidence cutoff 23:10 UTC, extended from the unsaved 22:58 draft to capture the actual preparation boundary/test and helper corrections before commit. Three source/test paths and final reviews are complete; 024 commit/Notion/GitHub, future authorizer review/gate and actual proof remain unperformed. A later brief workspace restart was reconciled against exact terminal receipts/source/prior Session without replay; it is continuity, not a new test or media result.
+- Reason for summary: Preserve a coherent source milestone with its measured fixture cause, actual integration, separate test provenance and exact next gate before attempting normal-service media.
+- Session type / focus: Source composition plus deterministic test-fixture correction, not a live Full-copy service campaign, native journey or product release.
+- Project stage: Linux 0.7 non-HDR development; preserve the existing shared architecture, Windows corrections, theme/Gauge/defaults, actual evidence and finish-line scope.
+- Contributors: Ahmed retains product ownership/acceptance; lead, isolated workers, independent reviewers, mirror and documentation have separate scope.
+- Model / effort: Only recorded attribution is stated; unknown worker configuration is not silently filled in.
+
+## 🎯 Session Goal
+
+Add a developer-only normal-service composition that consumes the exact audited original Full-copy calibration report and genuine candidate runtime, deriving a new literal calibration producer closure rather than repinning an unrelated FLAC service. Reuse existing selector/runtime observer/storage/output/cancellation guards and preserve the boundary between pre-encode metadata selection and complete-source collection after encoding but before publication.
+
+Separately investigate the inherited “missing source after valid completion” mismatch and correct the fixture only if evidence explains it. The starting requirement is to preserve the production protected-source guard and original missing-path assertions. The later measured reproduction found that immediate unlink/stage creation could reuse the protected inode; that finding, not an assumed starting diagnosis, led to the fixture-lifetime correction below.
+
+Do not claim live service publication, successful full normal prepare/encode/collect flow, general Windows filesystem behavior, old preview requalification, popup repair or production activation from isolated source tests.
+
+## 🛠️ Actions Taken
+
+### 1. Preserve the exact prior evidence milestone and resolve large-file readback honestly
+
+Checkpoint 023 local `a77404158bb06c3bca5e24905fadd62db5d86b57`, tree `71e188c5b04c5ecaed6430cec588d8eb39f02f9d`, has 570 files and twenty-three commits. [Notion source/history](https://app.notion.com/p/41bbd7ade63b810695cce89472f6d22b) independently restored source ZIP SHA `9fa39cf936c568d61e85630c02c164331dfd50533d55565572155a23753487f4`, bundle SHA `a6b37800eafada476c951a25936c5c7614b6c3d644361557b56ac4853f03b88c` and full history ZIP SHA `e4b6e0769e8b43c22fc1f622cc7a47e707b0ffba8116431ece4d685a80b5faff`.
+
+The [native full Session](https://app.notion.com/p/41bbd7ade63b817b9fc4fb33973e3912) was sent in five ordered unabridged requests and fetched with all twenty-three headings, historical ending and no truncation metadata. Exact 1,054,788-byte Markdown SHA `f7f93605410c1c7067f0e68af2f58527f4de0009aafbff23498504ab964a59d7` remains in verified source/history; native rendering is not byte-identical Markdown transport. This entire body was independently copied/hashed outside the checkout for the exact-suffix prepend.
+
+GitHub remote `ddde1b63aefb539eeb15f8c0e1b6680ed583b604` was verified at 22:52:54.351437 UTC, actual sole parent `fc77f9d986e4d5c89dfcd550d00cdc6a77edaaa4`, tree `76fb7ee3bd2bd2aa3873fe13637dc8b85a5c8422`. Five exact changed files match, with 952 total/947 unchanged/two modified/three new/zero deleted; expected-parent non-force update and fresh ref are verified.
+
+Initial contents-API verification returned empty content for the Session above 1 MiB. Verification stopped rather than treating emptiness as equality or repeating upload. The same immutable Git blob was then read through the supported read-only endpoint; all 1,054,788 UTF-8 bytes, SHA-256 and Git blob hash matched. A diagnostic print of a nested blob response was context-truncated, but the saved full response, not that excerpt, was used for verification. No upload retry, source change, duplicated publication or workaround around a denial occurred. The external receipt retains this readback correction; it does not alter older dated records.
+
+### 2. Freeze a new two-file developer service, not an application route
+
+The isolated service proposal is based on application source 022 `2714557fb27dac3ec2ccdcc85ea52e5028c2ee88`; 023 adds evidence, not intervening application changes. Handoff is 6,120 bytes/SHA `8cd5e45e2081c0775c0454c83937523c6ab9734ce6e1932488d1d28f1d4d25b6`; patch 45,956 bytes/SHA `242606a8461280034a139c2ae6f31927df9c48ec58a75bef444abf98225fcd40`.
+
+Exactly two new files are proposed:
+- `linux-blue/candidate-full-copy-service.cjs`, 24,212 bytes/SHA `474468c9aa591db536b685dcfa4f79f0fc7893d43dd989cebba711e3b32b5acd`.
+- `linux-blue/candidate-full-copy-service.test.cjs`, 20,911 bytes/SHA `b149833bb76cb35c6e8e760fd0575e5bec45b3a79aa47ba41a4e7ab9835bd29a`.
+
+No application imports the module. No main/renderer/HTML/CSS/IPC/preload, Windows-main, catalog/default, runtime-pin or historical candidate-service changes are included. It is a fixed developer composition, not a selectable user feature or a parallel public publication path.
+
+It reuses `CandidateTrimService`, `ClockQualifiedFamilySelector`, clock-guarded runtime runner, genuine operation runtime observer, existing operation storage and main-owned OutputAccess. The seam checks `instanceof OutputAccess`; this is not an unforgeable brand claim, and the existing private access identity/grant rules remain the actual output authority.
+
+### 3. Bind the original raw evidence and actual tested producer closure
+
+Live construction fixes raw report path, exact 207,464 bytes and SHA `5f74a9efb7981fefb242dcf34c82e972bbc269c5a5ea7a92c62a68db1bc34ad9`. The portable archival report cannot satisfy this gate or recreate the raw bytes. Runtime identity is `1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9`, exact FFmpeg/ffprobe pair plus seven listed libraries. That is nine file identities, not nine libraries or complete automatic ELF dependency discovery.
+
+The new literal closure recursively enumerates relative `require` paths from the tested Full-copy calibration harness, including package.json: exactly twenty-six producer files. Worker closure digest is `deea7b72390136d515a00c5df4d5375057f1513ca3f601b369a18bd150561f81`; independent enumeration matches all paths and immutable Git 2714557 bytes. This is not the old FLAC closure with relabelled pins. The new service and service-only modules not imported by the tested harness are separately reviewed/tested; they are not falsely credited as having run during calibration.
+
+Report acquisition requires canonical non-symlink path, O_NOFOLLOW, regular single-link exact size, bounded positioned reading and identical descriptor stamps before/after. It then rechecks pathname/canonical identity against the descriptor so replacement/alias/hardlink/truncation or mutation refuses. Handle closure is in finally. Producer hashes and runtime currentness are checked before and after report awaits; loader overrides are rejected and each invocation checks current runtime ownership again. These are point checks and lifecycle guards, not continuous atomic filesystem locks or a general OS sandbox.
+
+The semantic receipt validator binds exact schema/status/settings/specs/frozen criteria, complete 70-child closed diagnostics, each of the three source/target cases, rederived resources, independent diagnostic seals, all nine genuine collector records, source/output before/after identity, copied packet/header/padding seals, sample counts, bounded timeline, video-only telemetry and canonical Full/null/copy result. The exact original report passes pure validation without opening a live runtime/factory. Its exported alternate expected digest exists only for pure tests; live construction always supplies the fixed path/digest.
+
+The raw report does not embed full probe JSON. The validator checks what is actually present and relies on the exact original digest plus independently audited full probe facts for the historical codec/geometry envelope; it does not invent absent fields. A fresh genuine selector checks the actual new input metadata before admission. Coded identity and decoded counts/bounded timing remain distinct from PCM/pixel equality, and output millisecond adjacency differences/warnings remain historical limitations.
+
+### 4. Preserve fixed selection and lifecycle rather than permit compatibility fallback
+
+When invoked, the new selector admits only genuine Full/null/720/copied-AAC selections with exact runtime/settings and per-source derived resources and explicitly rejects inherited compatibility null. The direct-selector matrix found null fallback for Keep Source/1440 requests. This selector refusal does not suppress initial ready compatibility presentation: shared compatibility preparation bypasses selection, and inherited Start separately refuses null authority, as the later actual preparation-path test establishes. Shared selector/service production is unchanged.
+
+Inherited Start guards still require genuine instrumented selection/runtime tokens, separate destination and exact settings. Reused observer/storage/output publication code remains authoritative. Cancellation closes admission synchronously before awaiting saved-write drainage. A cancelled service is not recovered in place: close/drain resources, then use a new verified candidate handle and a new service. Cleanup preserves base/candidate errors in order; constructor failures also retain primary error plus failed cleanup, rather than masking either.
+
+Ordinary service does **not** install the calibration’s pre-target complete decoded source diagnostics. It performs metadata selection before target encoding and genuine complete-source collection after encoding but before publication. That difference is explicit and material. An initial separately authorized real proof must use the exact audited fixture and state the boundary; neither synthetic composition nor the earlier calibration proves a successful live normal-service publication.
+
+### 5. Attribute isolated service tests and review without overstating coverage
+
+Initial missing-module red remains. An intermediate seven-of-eight pass exposed a test fixture constructing OutputAccess without trusted callbacks; the fixture, not production output access, was corrected. The selector matrix’s compatibility-null finding led to the narrow new-selector refusal above. The initial V1 focused suite has ten tests; its retained affected command covers nine paths and reports 97/97, Node v24.22.1, with stdout SHA `e3e6511914dd226d88bbb4fa291f6eaefb1c1b0466e785a3bdbbf0a086d0577b` and empty stderr. Original intermediate logs remain.
+
+Coverage includes thirty-three pure semantic refusal mutations; VM-injected positive construction with a synthetic padded report and privately substituted digest/handle; bounded-read/path replacement/alias/hardlink/truncation/missing/nonregular/report and producer/runtime failures; exact Full/copy token/resource selection; range/1440/FLAC/precision-AAC/forged/stale/changed-source negatives; sync cancellation admission before a modeled pending write and ordered cleanup. Nonexecutable fixture tool files and rejecting execution callbacks ensure this is not an actual media run.
+
+Independent review is 6,850 bytes/SHA `c1e55edcaba3020f7df337ec4f95ee65abd3fd149d8fe845bbd520da15ec3e3c`, disposition bounded pass/no scoped blocker, not live service qualification. It fully reads both files and support control flow, independently repeats 97/97 and validates the exact original raw report read-only. A separate reviewer-only copied ten-test suite adds thirteen wrong-metadata negatives and one wrong-settings refusal: fourteen extra checks, not fourteen new top-level tests or a total to sum without overlap. Actual wrong-codec/geometry/rate/clock/channel/color/origin/extent/extra-stream cases are included.
+
+No positive complete normal prepare→encode→collector→publication flow runs in this new composition suite. Genuine selector and VM factory tests plus existing injected shared-service tests are useful but not a replacement for later exact gated proof. Manual scoped security/behavior review is not formal Security Cloud, exhaustive fuzz, SARIF, Windows qualification or a performance guarantee.
+
+### 6. Measure the inherited missing-source failure instead of rebaselining it
+
+The isolated diagnostic copy of the original missing-source fixture measures source before unlink and synthetic stage after creation. On that actual reproduction both have device 27/inode 2236490, producing `PROTECTED_SOURCE` rather than expected `SOURCE_CHECK_INCOMPLETE`. Retained red diagnostic stdout SHA is `1eb08dc5215e3eb75e55bbaeabb17b7e37881eb5385fd8ce6159d0ead651ac97`; it records the actual reused identity and correct protected-source refusal.
+
+The production guard is behaving correctly: an output stage claiming a protected source identity must refuse before the later completed-source missing-path assessment. The test’s immediate unlink/new-stage sequence accidentally permits allocator reuse, so it does not reliably isolate its intended branch. This reproduction confirms the mechanism in that measured isolated run, not every prior historical red run whose inode stamps were never captured.
+
+No production change or diagnostic expectation rebaseline is justified. The intended assertions stay `SOURCE_CHECK_INCOMPLETE`, incomplete/ENOENT, retained completed output with current validation, and no publication. Only fixture allocation/path lifetime changes.
+
+### 7. Preserve V1 evidence, then replace a portability assumption with owned rename
+
+V1 holds a read-only source handle, unlinks the selected path and keeps the original allocation alive through service completion, closing the handle in finally. The instrumented fixed Linux reproduction has distinct source/stage inodes 2237087/2237105 and reaches the intended incomplete/ENOENT retained-completed/no-publication result. Five targeted repetitions and 229 regressions pass. V1 patch is 969 bytes/SHA `2de6ea33fd6f1691a7b5f5d750c2fb691c289e25e8ed8d2ac03057787da50ba5`; all original diagnostic/V1 evidence stays unchanged.
+
+Independent review identifies the portability concern: Linux held-open unlink success does not establish Windows delete-sharing semantics. Rather than call this Windows-qualified or weaken protection, V2 removes that assumption. In the already-prepared `onEncode` callback it creates a fresh exclusive `held-source-*` directory under the unique harness root, sibling to selected input, then renames the original file to a previously absent `original` path there. Same fixture filesystem parent avoids a cross-volume move in this setup. The original allocation stays alive while the selected pathname becomes absent, with no open-handle deletion dependence or overwrite intent.
+
+The plan is prepared before onEncode and no discovery runs again, so the sibling held file is not a new selected source. Existing boundary-checked harness-root cleanup covers the held file and partial mkdtemp/rename failures. No unrelated path, original user file or authoritative evidence is deleted. Windows behavior still remains unexecuted; avoiding one known portability assumption is not proof on every filesystem or Windows lock configuration.
+
+V2 patch is 924 bytes/SHA `2a55339483d0aa49516ba6a22d0626d2e38bd51935ceb0c3836cdb2afa992d3d`, handoff 7,449 bytes/SHA `0675a5c0521b8554e339425ba7dcb668b6bc477974b639063be279be027c7b73`. The only changed existing file is `tests/encoder-service.test.cjs`, 92,535 bytes/SHA `e67d9996f57497e1198cad7f90e40811a5997942a4c1aeeea6c622d10d06c0ab`. All other 566 files in the isolated 022 base remain exact, including encoder-service/outputs/source-identity production modules. This count belongs to that base, not the later evidence-expanded checkout.
+
+V2 measured source device 27/inode 2236577 and stage inode 2237026, no reuse, with `SOURCE_CHECK_INCOMPLETE`, incomplete ENOENT and retained-completed/no-publication assertions. Five worker targeted repeats pass, then the explicit eight-path encoder/process-runner/output-retention/source-policy/identity/catalog suite passes 229/229. Independent V2 review is 3,086 bytes/SHA `f753442ae4ced60d5164b1746384c0545c85a8700c5dfd2f27e7b043edf0c75b`; it independently runs the target and 229-test suite, confirms unchanged assertions/production and no leftover service-test run directories.
+
+These are Linux tests with injected media work and normal process-runner Node/subprocess tests, not FFmpeg/native Windows execution. The old historical inode allocation remains unmeasured even though a new reproduction demonstrates the cause. Test-only determinism and production safety are separate facts, both preserved.
+
+### 8. Reconcile actual authoritative integration and final tests
+
+After both source/history restorations and remote verification of 023, the lead integrated exactly two new service files plus the V2 test-only fixture at 22:54:08.121197 UTC onto `a77404158bb06c3bca5e24905fadd62db5d86b57`. The isolated proposals were originally based on 022 `2714557fb27dac3ec2ccdcc85ea52e5028c2ee88`; this base distinction is retained. Integration receipt `checkpoint024-integration.json` is 1,133 bytes, SHA `9a0aa3fb1f433bfa77f562cc2569f6a060fac3c127c691d233b0b430823f0c27`; combined patch is 47,068 bytes, SHA `c161fd1f358f2a1c62a60100bf1a35926c9dcce8d01c38b8c87fd55c3527ecb0`. The three initial V1 source identities matched the reviewed versions above; the later test-only V3 overlay and final identities are separately recorded below.
+
+Initial V1 lead wrapper tests used Node v24.22.1 in the authoritative checkout. Full command arrays, tested and covered paths, source hashes, actual log hashes and start/duration/exit receipts are retained in `checkpoint024-lead-test-results.json` (21,136 bytes; SHA `7b72275a7a8e337a8f7e5064320cdca4e5924949cbc90440ea3b2fd79ca0362b`) and the curated [source receipts](2026-11-17_Full_Copy_Service_Source_Receipts.json). No command is reconstructed from a headline count.
+
+| Lead run / exact evidence directory | Start UTC / measured duration | Actual result | Attribution / scope |
+|---|---|---|---|
+| `20261117T225419Z_checkpoint024-full-copy-service-focused` | 22:54:19.615 / 1938.018 ms | 97 tests, 97 pass, 0 fail; exit 0 | Nine explicit test files: new service/calibration/runtime, long-range calibration, four Full-copy foundation scopes and OutputAccess. |
+| `20261117T225429Z_checkpoint024-source-protection-regression` | 22:54:29.107 / 7161.885 ms | 229 tests, 229 pass, 0 fail; exit 0 | Eight protection suites including actual encoder-service/process-runner/outputs, retention/source policy, source identity and both catalog scopes. |
+| `20261117T225458Z_checkpoint024-linux-broad` | 22:54:58.954 / 1615.934 ms | 255 tests, 210 pass, 45 fail; exit 1 | Explicit 34-path Linux command, not a green broad suite. |
+
+All three initial V1 wrapper receipts say `bytesChangedDuringRun:false`; their recorded `dirtyPaths:111` includes pre-existing untracked material and is not the publication scope. Stderr logs are empty for these test commands, not a claim that historical media warnings vanished. Test counts overlap and are not summed into unique coverage. Lead focused/protection receipts are respectively 3,404/3,416 bytes, SHA `d6f8f034df8d7ca667c22313f987cb94f1de68b41f3556f94b200a5f1409dd9e` / `5fa26b7c512024b3c68ca2b1b092eb51b284986085025fc6543c1084d15c9027`; broad receipt is 9,241 bytes, SHA `dd57694db902a429d99069434fa2fde3559b0266e511fb7004de73872bfa2390`.
+
+Independent integrated review `checkpoint024-independent/INTEGRATED_REVIEW.json` is 12,518 bytes, SHA `645453b58c3ecacd2675e29bc712953e20a3ed068d5968ec35d8fdb12c7f30a7`. In a separate archive of a774041 with only three verified overlays, it confirmed all three identities and every other tracked base byte. Its actual targeted command was `node --test --test-name-pattern='a missing source after valid completion|Full copy derives exact whole-source budgets' tests/encoder-service.test.cjs tests/operation-family-full-copy-proportional.test.cjs`: 2/2 passed, stdout SHA `c46856fe9c79adc4c2dd86e90728d9022e71d5ee6320601640e93d4d8480a268`, empty stderr. This integrated review did not independently repeat the entire 97/229 lead scopes; earlier independent 97 and V2 229 remain separately attributed isolated evidence.
+
+The reviewer parsed nonempty initial result lines before the first summary, removed only timing suffixes, retained multiplicity, and required exactly 45 failures with explicit nonzero summaries in each output. Initial V1 210/255 and immutable 022 baseline 200/245 have the same 45 failure-name multiset. The ten new Full-copy tests pass; no prior failure was removed, relabeled or hidden by an empty-parser comparison. Equality of failure labels does not prove downstream assertions that a stale source/report gate prevents from running.
+
+Existing Keep720/resize source closures remain unchanged/stale. The new Full-copy composition pins its own actual calibration closure and raw evidence rather than silently requalifying old previews. The missing-source protection regression now passes its intended branch without changing production, but the 45 broad Linux failures remain. Neither V1 210/255 nor final V3 211/256 is overall green, old preview availability, actual factory success or full service publication.
+
+### 9. Stop before commit, test the actual preparation boundary and reconcile final V3
+
+The helper V1 review at 23:02:17.929198 UTC found three concrete mistakes before any run. First, ordinary operation accounting counts target encoding plus output probe plus nine collector invocations: eleven aggregate calls, not nine. Second, initial Keep-source compatibility preparation may return a ready row with null qualification because `EncoderService` sets `qualificationBindings` to null for `compatibilityPath`, never calling the new selector. Third, the helper lacked its promised final 27 GiB free-space point check. V1 review is 6,070 bytes, SHA `488fbf4b3572bda2152c6393f02a4a50edf8b9c0de11fa747aa7ad817083e9b4`; original helper V1 files remain in `frozen-v1`. No source/runtime/media bypass was demonstrated. The inherited candidate Start gate already refuses unqualified compatibility rows synchronously before effects. The error was an untested preparation assumption and overbroad wording, not a missing production Start guard.
+
+Lead held Session save/commit, corrected owning records and requested an actual composed preparation test rather than relying on direct selector tests or a manually inserted ready entry. The added test creates an exclusively owned temporary synthetic non-media file, uses real folder registration and `prepareBatch`, and observes the actual Full/null/Keep-source/copy ready item, compatibility plan and null selection. Calling the real inherited `startBatch` throws `LINUX_TRIM_CANDIDATE_SCOPE` synchronously. Snapshot, task promise, busy state, invocation counters and output-directory contents remain unchanged; invocation count is zero. Cleanup cancels/drains/closes resources and diagnostics before deleting only the owned root.
+
+The actual APIs/control flow are exercised, but factory/runtime/report are synthetic VM fixtures and inspection, capability, cache and storage-eligibility seams are injected. It is not genuine runtime admission, real raw-report use, explicit-720 preparation success, ready-row suppression, positive normal-service publication or native media proof. The composed selector exists but the compatibility path intentionally does not call it. These distinctions prevent “real preparation” from becoming a claim that all its dependencies were live.
+
+The first added-test run reached the substantive assertions but used an invalid cleanup terminal outcome; changing only that fixture outcome to `completed` resolved it, and the red log remains. V2 handoff is 1,738 bytes/SHA `6c927732acb697d455d7f3663d638908f605e132837e792715a8bed57222af56`, its 4,118-byte patch SHA `43d0f4028061bf3d6bc8d4d869d6961f3b9978d53807c477b3252c7c0161227a`; worker 98/98 affected and independent 11/11 focused pass. Independent V2 review then required a comment correction because saying only preparation seams were injected omitted the pre-existing synthetic factory/runtime/report fixture. V3 changes that comment only, not executable assertions or production: handoff 1,165 bytes/SHA `ce663a0e63ca34174c83855221e848afde0cd03673e3f1987de064bf506f8b78`, comment patch 870 bytes/SHA `27f59f314ad3faf0c164ee8fedb687485de5f67f4eff549120508b895dc8fc16`. V3 worker ran 11/11, stdout SHA `85b2418641c10e20ebd73d0423bc840fa27fa71e87ca9fde366b6eb0b3b5f837`; V2 affected 98/98 was not silently recast as a V3 worker rerun.
+
+Independent V3 review is 1,202 bytes, SHA `a31d9c39a89717435abf824aac19c7d8c4bf7a58fcd049046d08543bf6893073`. Replacing exactly the new comment reconstructs the independently tested V2 SHA; source production remains exact. It treats independent V2 11/11, worker V3 11/11 and comment-delta verification separately, not an independent V3 execution.
+
+The lead overlaid final test V3 at 23:07:17.728543 UTC. Final test is 23,755 bytes, SHA `5342780891a8764fc3103b65206f6596d6b54178328ee9886a6594c8bdbeb148`; new service production remains 24,212 bytes/SHA `474468c9aa591db536b685dcfa4f79f0fc7893d43dd989cebba711e3b32b5acd`, and missing-source fixture remains V2 SHA `e67d9996f57497e1198cad7f90e40811a5997942a4c1aeeea6c622d10d06c0ab`. Final integration receipt is 1,449 bytes/SHA `a53a957a0671b6e1755e28c0b8e40012eb06c6b681d3d126dcd628480ca4ad71`; combined source patch 49,939 bytes/SHA `95530e193a6ecdba0fe6429634f3487ed0345660357fb5465d5bbad159274f13`.
+
+Final lead evidence, separate from the earlier V1 results:
+
+| Final V3 evidence directory | Actual start UTC / duration | Result |
+|---|---|---|
+| `20261117T230717Z_checkpoint024-final-focused` | 23:07:17.845 / 2151.496 ms | 98/98 pass, exit 0; nine test paths, eleven new service tests. |
+| `20261117T230728Z_checkpoint024-final-protection` | 23:07:28.890 / 7257.240 ms | 229/229 pass, exit 0; same eight protection suites. |
+| `20261117T230747Z_checkpoint024-final-linux-broad` | 23:07:47.841 / 1566.133 ms | 211/256 pass, 45 fail, exit 1; same 34-path scope plus the added test within its existing file. |
+
+Final lead result receipt `checkpoint024-final-lead-test-results.json` is 21,035 bytes/SHA `24fbc2a7943d5a9d0558ef8d53d047c34b03eaeed6b3ee80402380ba4980fddb`. All final receipts use Node v24.22.1 and report `bytesChangedDuringRun:false`, no cancellation/skip/todo and empty test stderr. Focused/protection/broad receipt hashes respectively are `898d368a0c0cb9b2964d244e2a44b28a2710ca0c51f2bb5209a243b52a25a957`, `d06d7aa9830d4a508d392773d26f0cbf01c9023770c63477e089c79cd83f15f6` and `3927f2f843cecc9f038ff4548c1e42b5b2b93a78201bd01dfb7dd3e62f546931`. No historical test result is upgraded to later bytes.
+
+Final independent reconciliation `checkpoint024-independent/INTEGRATED_REVIEW-final.json` is 11,273 bytes/SHA `62769501f17d4d360c45acec9a29a3c8b8e813c413683aba8b7ef47d6b72bd36`. It confirms exact final source/patch/receipts and the nonempty 45-failure multiset against 022, now 211/256 versus 200/245. Its first blanket other-base-files assertion stopped on Current being updated in the authorized documentation phase; it then explicitly accounted for that difference and verified every other tracked base byte. No review output arose from the failed assertion. This final review reconciles lead runs; it does not independently rerun 98/229/broad, replace the earlier independent 2/2, or prove unreachable downstream branches.
+
+After terminal test receipts completed, a brief workspace restart interrupted coordination. Ready-state readback recovered the same HEAD, staged source identities, exact prior Session and all terminal receipts. No test retry, uncertain media replay or remote mutation occurred. The final cutoff remains a source/testing milestone; later continuity is not fabricated additional active work.
+
+### 10. Preserve the coherent source checkpoint before any normal-service experiment
+
+At the revised 23:10 UTC cutoff the lead saved [Current](CURRENT_STATE.md), [Full-copy service execution](2026-11-17_Full_Copy_Service_Source.md) and [curated receipts](2026-11-17_Full_Copy_Service_Source_Receipts.json). Their exact final sizes/SHA-256 are:
+
+- Current: 8,374 bytes; `7f0c5c5df2f357c783f1364e48872b1c7073dfe12c8a5eff329b34245139f4bf`.
+- Execution: 18,546 bytes; `74b5bb8d58d959dedfd5b287d6ee4d225b365e2e9b7e96db2606d9cc8bd99132`.
+- Receipts: 93,036 bytes; `dc8b80b3e98c04fbd373e033bbae015666e14e36003359ce2e2f7e9db45d0a7d`.
+
+The agreed seven-path checkpoint consists of two new service files, one modified test fixture, modified Current/Session and new execution/receipts. Four new paths yield 574 tracked files/twenty-four commits once committed. This is an expected explicit scope, not a claim that an unperformed commit exists. No application/default/old-pin/source widening is included. The original 1,054,788-byte Session and immutable correction receipt remain exact. No 024 commit/Notion/GitHub identity exists at this cutoff; later publication receipts own those outcomes.
+
+The original non-executable plan was 8,597 bytes/SHA `d0dfceb1c4d43e6eddd87e9ed0b700ce0b42e075b00bc809b86597a4485a3b1b`; that historical version remains in `frozen-v1/PLAN.md`, not the now-updated current path. Initial independent plan review was 2,734 bytes/SHA `85938013e7b70614b9a31be41214467ef7e2b3801999042b8aa8e6ad9ae15222`, GO for helper preparation only. Subsequent executable V1 review required the three corrections above. Final helper V2 handoff is 2,138 bytes/SHA `a82171bb4018a499eee72465b5a7b177b530c425c4618ab5c2ec58e8d819112a`; final independent launch review is 6,166 bytes/SHA `b240c3e4b2c8c24f5d4db096e3fbb0e1efc4226418002e4e12cec2922757de7d`, checked 23:07:05.853627 UTC. Its conditional GO is source/helper review only, **not** run authorization. Syntax checks and 2/2 file-only persistence tests pass; no factory campaign, runtime opening, probe/media/native execution, gate or attempt exists.
+
+V2 launcher is 30,588 bytes/SHA `00194829a50767f11d7fa37c5f6fcb5b99c82c27a9a7a5c50aee05d30d6b9140`; outer is 3,602 bytes/SHA `9ffcd16af7df6768464d7729e96844f1c53b6d6005897c1e4dffad532f619095`; updated plan is 9,324 bytes/SHA `3a54e262adf897761d7234463956adf386eafb2a02638002a0ff92c69de2e58f`. The reviewed helper admits at most 80 serial children before each spawn, propagates global/service abort signals, preserves first terminal success/evidence before second preparation, clears/invalidates genuine OutputAccess IDs, and exclusively persists/rereads report/completion/outer receipts after closure and identity checks. Correct accounting distinguishes eleven operation calls from nine collector invocations and the complete campaign census. Final `statfs` checks 27 GiB free and records `freeBytesAtClose`; free-space/owned-size admissions are point bounds, not hard OS quotas, and the ten-minute abort request is not a guaranteed exit.
+
+The bounded proof remains one exact audited eight-second source, Full/null/720/copied AAC, one target, genuine OutputAccess dispatch to a trusted observation sink and second prepare-only existing-output refusal. It now deliberately records initial compatibility-ready/null state and verifies synchronous Start refusal before ordinary explicit-720 reprepare; no production presentation guard is invented. The sink is not OS reveal, second preparation is not second encode/raced collision proof, and no live cancellation or arbitrary-duration qualification is claimed.
+
+Before any execution, a separately reviewed authorizer must parse the actual final 024 commit/tree/count/full-path set and independently downloaded source/full-bundle restoration semantics, bind the final mirror receipt after it is released from writes, and bind original calibration audit/release, source review and fixed helper/plan/runtime-manifest identities. Boolean flags alone do not establish those gates. Final V3 test/comment bytes and actual committed source must reconcile. A separate explicit one-shot release and exclusive markers remain mandatory. Any implementation/preflight uncertainty must stop for reconciliation, never replay or relax assertions.
+
+## 🧠 Key Insights
+
+### A new service needs its own evidence binding, not a renamed old capsule
+
+Full-copy semantics differ from FLAC. The exact 26-path calibration closure, original raw report and genuine runtime bind what was measured; new composition/service-only imports require separate source review and later actual service proof.
+
+### Successful calibration does not mean the ordinary service checks source at the same time
+
+Calibration performs complete decoded diagnostics before target. Ordinary service uses metadata before target and complete collection after target but before publication. Reusing safe publication guards is valuable, but the timing distinction must remain explicit for first proof and product expectations.
+
+### A correct protection failure can expose a test-fixture mistake
+
+Immediate unlink/stage allocation can reuse the protected source’s inode. The guard’s earlier refusal is correct; fixture lifetime must preserve the intended missing-path scenario without suppressing the guard or accepting a different expected error.
+
+### Cross-platform caution changes the fixture, not the proof already obtained
+
+Held-open unlink demonstrated Linux causality but introduced Windows delete-sharing uncertainty. Exclusive owned rename avoids that particular assumption. It still does not establish actual Windows behavior or erase the V1 diagnostic history.
+
+### Large-file verification needs exact supported readback, not another upload
+
+An empty contents response above 1 MiB is not a missing remote file or proof of corruption. Exact immutable Git blob readback verified the same committed bytes without repeating mutation or rewriting history.
+
+## 📌 Decisions Made
+
+1. **Confirmed; lead, based on independent service review and actual integration:** Add only the fixed developer Full-copy composition/test, not an application route, default/catalog activation or old candidate repin.
+2. **Confirmed; source author/reviewer and lead, based on exact original calibration/audit:** Require original raw report/runtime and the 26-producer closure. Portable archives and alternate pure-test digests are not live authority; historical closure excludes newly reviewed consumer-only code.
+3. **Confirmed; lead, based on reviewed source and actual preparation-path test with synthetic seams:** Reuse existing storage/output/cancellation guards. Selector rejects null only when invoked; initial compatibility preparation can be ready/null, but inherited Start refuses before effects. Do not claim suppression. Cancellation requires a new candidate handle/service; no same-service recovery claim.
+4. **Confirmed; lead/reviewer, based on actual control flow:** Keep metadata-before-encode versus complete-source-after-encode/prepublication explicit. Source tests do not prove real publication.
+5. **Confirmed; lead, based on measured reproduction plus independent V2 review and 229/229 integrated regression:** Change the missing-source fixture only. Adopt exclusive owned rename over V1 held-handle deletion, preserving production protection, expected diagnostics and original evidence.
+6. **Confirmed; lead/independent integrated reviewer, based on 45 explicit failure lines and matching summaries:** Retain broad 45 failures despite targeted greens. Neither old preview requalification nor blocked downstream behavior is inferred.
+7. **Provisional next proof scope; lead, final independent executable-helper conditional review:** Use corrected V2 outside source only after actual preserved 024 identity/restoration, reviewed authorizer with semantic receipt binding and separate one-shot release. Helper GO is not launch approval.
+8. **Deferred; engineering/product boundary:** Windows/native Full workflow, broader durations/lifecycle, unresolved popup and owner acceptance require later actual evidence and are not added to this source milestone.
+
+## ⚠️ Difficulties / Friction
+
+Direct-selector tests caught compatibility null and the new selector refuses it when invoked, but helper review exposed the separate compatibility preparation path that skips selection. Actual ready/null presentation and Start refusal are now distinguished rather than claiming every ready fallback is suppressed. An early test created OutputAccess without required trusted callbacks; the fixture was corrected with the red preserved.
+
+Historical raw calibration does not include embedded full probe JSON, so the validator must bind actual present evidence and exact audited digest without inventing fields. The producer closure covers the tested harness, not new service-only code. VM substitutions and synthetic padded report positives remain tests, not runtime credentials or actual media.
+
+Missing-source failures had been intermittently attributed only as an inherited diagnostic mismatch. New measured reproduction identifies inode reuse and confirms the production refusal is correct. V1 Linux success still left Windows sharing behavior unresolved; V2 changes fixture design rather than claim a platform test that did not happen.
+
+The predecessor Session crossed 1 MiB and contents readback was empty; exact supported Git blob verification resolved it without another upload. Final integration/tests add no new broad failure label but do not remove the retained 45 failures. Raw report/runtime availability remains necessary after a source-only restore; a portable summary cannot make the live factory available.
+
+## 🔧 Adjustments Made
+
+### 1. Distinguish selector refusal from actual preparation presentation
+
+- Shifted from: Direct-selector null rejection was described too broadly as preventing every ready fallback.
+- To: Actual registration/preparation test observes ready Keep-source/null authority; inherited Start independently refuses synchronously before effects. Selector rejects null only when called.
+- Because: Shared compatibility preparation bypasses the selector, so direct selection tests cannot establish its presentation.
+- Consequence: No production guard change or bypass claim; source coverage and wording improve, initial ready presentation remains explicit, and actual media qualification is still pending.
+
+### 2. Diagnose fixture identity before altering expectations
+
+- Shifted from: A missing-source assertion intermittently receives protected-source refusal without original inode evidence.
+- To: Isolated instrumentation records same original/stage inode and the actual guard reason.
+- Because: Production protection precedes the intended missing-path assessment and was correctly detecting an identity collision.
+- Consequence: Correct fixture allocation lifetime; keep the same incomplete/ENOENT/no-publication assertions and protected-source code unchanged.
+
+### 3. Replace held-open unlink with an exclusive owned rename
+
+- Shifted from: V1 holds an original handle through unlink/completion, verified only on Linux.
+- To: V2 moves the original into a fresh harness-owned sibling directory, keeping allocation alive without delete-sharing assumptions.
+- Because: Windows open-handle unlink semantics were not tested and were an avoidable portability risk.
+- Consequence: Linux target and 229-test regressions pass with assertions intact; Windows remains unqualified, and V1/red evidence stays historical.
+
+### 4. Verify the large remote Session through its immutable blob
+
+- Shifted from: Empty contents-API payload above 1 MiB stopped verification.
+- To: Supported read-only Git blob retrieval with exact byte/SHA/Git-blob comparison.
+- Because: The contents endpoint response did not supply the required bytes.
+- Consequence: Remote preservation is verified without upload retry, source change or history rewrite.
+
+## ❌ Mistakes / Risks Noted
+
+### 1. Direct-selector coverage was overstated as preparation suppression
+
+- What happened or could happen: Direct selector rejects compatibility null, but actual initial preparation bypasses it and can return a ready row with null qualification. Earlier unsaved record/helper wording assumed otherwise.
+- Actual impact: Helper V1 review caught the gap before commit or media. New composed preparation test observed the state and proved inherited Start refusal before effects; no unauthorized encode bypass was found.
+- Potential impact: A helper could fail at its first assumption, or documentation could claim a presentation guard/live authority that does not exist.
+- Correction / current status: Production unchanged; V2 actual preparation test and V3 fixture-attribution comment added. Helper V2 records the actual state and deliberately tests refusal before explicit-720 reprepare.
+- Failure Intelligence: Preserve original selector tests, V1 helper findings, added-test cleanup red and V2/V3 distinctions. Real API control flow with synthetic dependencies is not live runtime admission or ready-row suppression.
+
+### 2. Fixture inode reuse obscured the intended missing-path branch
+
+- What happened or could happen: Original fixture unlinked the source before allocating a synthetic output, allowing same device/inode reuse.
+- Actual impact: Measured isolated red gets correct `PROTECTED_SOURCE`, not intended later `SOURCE_CHECK_INCOMPLETE`.
+- Potential impact: Rebaselining the assertion or weakening protection would hide a real safety boundary to make a test green.
+- Correction / current status: V2 keeps the original allocation alive by owned rename and makes only the selected path absent; assertions/production remain unchanged.
+- Failure Intelligence: New stamped reproduction demonstrates the mechanism, not the exact physical allocation in every old unstamped run. Retain original red, V1 and V2 separately.
+
+### 3. A Linux fixture fix could be overclaimed as Windows qualification
+
+- What happened or could happen: V1 held-open unlink succeeds on Linux but depends on deletion-sharing behavior not measured on Windows.
+- Actual impact: Independent review requested a narrower portable fixture design before integration.
+- Potential impact: Cross-platform tests could fail or cleanup assumptions differ even though Linux is green.
+- Correction / current status: V2 uses fresh sibling-directory rename on the same fixture filesystem, with existing owned cleanup. Windows remains unexecuted.
+- Failure Intelligence: Avoid the identified assumption rather than invent native coverage; future Windows proof remains a separate platform check.
+
+### 4. Receipt semantics or tests could be mistaken for live service proof
+
+- What happened or could happen: Exact raw calibration and synthetic factory/selector success are treated as successful full ordinary-service execution.
+- Actual impact: No real service prepare/encode/collector/publication occurred in this proposal; raw report lacks embedded complete probe JSON.
+- Potential impact: New composition could be activated without actual service lifecycle evidence, or absent fields/PCM identity could be fabricated.
+- Correction / current status: Bind exact original report/audited facts, enforce fresh metadata selection, retain post-target complete-source/prepublication boundary and require later bounded proof.
+- Failure Intelligence: Distinguish pure receipt validation, VM-injected construction, shared-service tests, actual calibration and actual service. None substitutes for the next layer.
+
+### 5. Producer closure scope could be overstated
+
+- What happened or could happen: Twenty-six literal calibration imports are described as every new composition/ELF dependency or as historical execution of service-only modules.
+- Actual impact: Closure is independently enumerated from tested harness; new service-only code is separately reviewed and library inventory is two tools/seven listed libraries.
+- Potential impact: Unmeasured code/runtime behavior could be incorrectly treated as calibrated or sandboxed.
+- Correction / current status: Exact closure and limits documented; no complete ELF, atomic locking, OS sandbox or performance claim.
+- Failure Intelligence: Keep source closure, listed runtime identities and separate composition review distinct.
+
+### 6. Helper assumptions and fixture attribution needed correction before any run
+
+- What happened or could happen: Helper V1 confused eleven aggregate operation calls with nine collectors, expected initial unsupported presentation and omitted its final free-space floor. The added source test initially used an invalid cleanup terminal label; its first comment then omitted synthetic factory/runtime/report seams.
+- Actual impact: Static/API review and source tests caught these before any campaign. First test assertions ran, but cleanup red remained until corrected. Session save/commit paused; no media attempt was consumed.
+- Potential impact: Misleading reports, false coverage, early helper failure or unverified resource claims could result if ignored.
+- Correction / current status: Helper V2 corrects all three findings; test V2 corrects cleanup, V3 only clarifies injection attribution. Exact conditional review, two file-only persistence tests and final lead results are retained; authorizer/run remain pending.
+- Failure Intelligence: Keep V1 helper and test red/V2/V3 separately. Pointwise free-space checks are not hard quotas, collector count is not total census, and static readiness is not executed proof.
+
+## 📍 Current Position
+
+**As of:** November 17, 2026, 23:10 UTC revised dated cutoff, after final test-only V3 overlay, final lead regressions, independent reconciliation and helper V2 conditional review; before 024 commit/backup, reviewed authorizer/gate or real normal-service proof.
+
+**Before this session:** Three actual fixed copied-AAC calibration cases were audited/preserved, but no normal-service composition had run and missing-source test instability had only a hypothesis in the earlier dated record.
+
+**After this session:** Two new service files (service test now V3) plus the separate missing-source V2 fixture are integrated. Final lead focused 98/98 and protection 229/229 pass; broad 211/256 retains the same 45 failures. Earlier integrated independent 2/2, added-test independent V2 11/11/comment-only V3 review and final source/receipt reconciliation remain separately attributed. Actual initial compatibility-ready/null presentation is documented, with inherited Start refusal before effects, not suppression. Helper V2 has conditional review only; no actual authorizer gate or run exists.
+
+**Current standing:** Integrated and tested developer-only source, not yet 024-backed-up at this cutoff. No live Full-copy service publication, old preview requalification, Windows proof, native/UI activation or popup fix. Source-only restoration still requires exact local raw report/runtime prerequisites before genuine factory availability.
+
+**Live owner / continuation anchor:** Lead owns final source/PBS scope, commit and explicit future run release; mirror owns independently restored source/full history/unabridged record and verified remote publication; helper author/reviewer work outside source. Documentation owns only the released Session prepend. Re-enter through [Current](CURRENT_STATE.md), [execution](2026-11-17_Full_Copy_Service_Source.md), [receipts](2026-11-17_Full_Copy_Service_Source_Receipts.json) and the exact integration/independent review identities above, not an inferred next campaign result.
+
+## 🔜 Next Steps
+
+1. Lead completes explicit seven-path PBS/source review and coherent 024 Git checkpoint; mirror independently restores exact 574-file source and full twenty-four-commit history/unabridged Session, then verifies expected-parent non-force GitHub delta/tree/ref. These counts are prospective until actual commit/receipts exist. Preserve all 1,054,788 prior bytes and original correction receipt exactly.
+2. Preserve the already conditionally reviewed exact V2 helper outside checkout. Prepare and independently review the separate authorizer against actual final commit/full-path tree and mirror restoration semantics, original calibration audit/release, source review and frozen helper identities. Do not mistake the completed file-only/syntax/helper review for a run or require future proof to close this source milestone.
+3. Lead binds actual immutable 024/full source tree, both restored Notion source/history gates and final released mirror receipt, exact raw report/runtime, final executable/helper identities and reviewed authorizer before any one-shot release. Any implementation/preflight failure stops; preservation alone is not unconditional execution approval.
+4. Only if separately released, perform one exact audited eight-second source Full/null/720/copy through ordinary service, with actual publication/hash/probe/collector/child evidence and retained warnings. Trusted reveal observation is not OS reveal; second prepare is existing-output refusal, not second encode or racing-collision proof. Independent audit follows actual closure before widening claims.
+5. Keep no same-service-after-cancel recovery claim; future cancellation requires closed old resources/new candidate/new service. Longer/held-out/cancellation/native proof, arbitrary duration, unresolved popup, Remux/seek, HDR expansion, packaging and owner acceptance remain separately scoped. Maintain non-HDR order, theme/Gauge/defaults/ArchiveCQ29, Windows corrections and benchmark pause; 1440p/4K remain within 0.7.
+
+**Do not reopen / repeat:** Do not repin old FLAC/resize/Keep720 evidence, weaken protected-source checks, change expected incomplete/no-publication assertions, erase V1/red evidence, infer Windows behavior from Linux, sum overlapping tests, claim the new service ran during calibration, repeat predecessor upload or rewrite prior dated cutoffs.
+
+**Continuation boundary:** Integrated source and conditionally reviewed executable helper, not execution authority. 024 is not committed/restored/pushed at the dated cutoff; future authorizer review, actual gate and runtime result remain absent. Source preservation, actual short service proof, broader lifecycle proof and native/product activation remain distinct. Later helper or publication outcomes belong to their actual subsequent record, not a retroactive edit here.
+
+## ❓ Open Questions
+
+### Does the fixed composition complete a real ordinary-service publication safely?
+
+- Known: Exact raw calibration validation and private selector/runtime/storage/lifecycle tests pass in synthetic/injected scope; pre-target decoded calibration scans are not installed in ordinary service.
+- Needed from: Separately reviewed, preserved-source, bounded actual short service proof with audited fixture and complete post-encode collection before publication.
+- Blocks: Live Full-copy service/native functionality, not source preservation.
+
+### What platform behavior remains after removing held-open deletion assumptions?
+
+- Known: Linux V2 target/regression pass; owned rename avoids the specific V1 open-handle unlink issue without modifying protection/assertions.
+- Needed from: Actual Windows/platform validation under its real filesystem/lock semantics when that lane resumes.
+- Blocks: Windows-qualified fixture/app claims, not the measured Linux result.
+
+### How do future source changes affect exact evidence authority?
+
+- Known: New Full-copy closure is twenty-six tested calibration imports, with new service-only modules separately reviewed; historical candidate closures remain unchanged.
+- Needed from: Later source-bound runtime qualification on the actual preserved checkpoint and explicit review of any producer change, not automatic pin updates. Integrated source identities and tests are already resolved here.
+- Blocks: Claims of restored old preview or arbitrary-source activation; does not invalidate archived immutable results.
+
+## 🧾 Session Outcome
+
+The exact three-path source milestone is integrated: a fixed evidence-bound Full-copy service/test plus a corrected missing-source fixture after measured inode reuse, preserving production protection and original assertions. Final lead 98/98 and 229/229 pass; broad 211/256 retains all 45 prior failures. Earlier independent 2/2, added-test V2 11/11/comment-only V3 verification and final byte/failure reconciliation remain separate. Actual initial ready/null compatibility state and Start refusal are now covered without production changes. V2 avoids held-handle deletion assumptions but is Linux-tested only. No real service/native result, old preview requalification or Windows qualification follows from these tests.
+
+The exact prior 1,054,788-byte Session remains an untouched suffix. Source integration/test identities are recorded above. The expected seven-path 024 checkpoint remains to be committed, independently restored and remotely verified at this cutoff. Helper V2 has conditional review but no reviewed authorizer/gate or execution; future media is not required to close this coherent source milestone.
+
+## 🔍 Confidence Level
+
+**High for integrated identities and measured fixture cause.** Frozen patches, exact stamped reproduction, independent isolated reviews, final lead 98/98 and 229/229, earlier integrated 2/2 plus added preparation-boundary independent review and unchanged production/assertions support the narrow conclusions. Nonempty multiplicity-preserving broad comparison supports unchanged failure labels, not green or unreached assertions.
+
+**Bounded for service behavior.** Pure exact raw-report validation and VM/injected lifecycle/selection checks are not a positive complete live service flow; new composition/service-only code was not historically executed by calibration.
+
+**Not established for native Windows or broad product readiness.** V2 removes one portability assumption but does not prove every filesystem or native UI behavior. Old source-gate failures and popup issue remain separate.
+
+**Why:** Evidence distinguishes source/test identities, actual fixture measurements, original versus fixed conditions, independent review and later required service proof.
+
+**Not higher because:** Actual normal-service publication has not run, Windows was not executed, original historical failures lack stamps, and listed source/runtime closures are not exhaustive OS/security/performance qualification.
+
+---
+
 # 📘 Session: November 17, 2026 — FFmpeg Encoder — Validate three fixed Full-copy candidates while retaining bounded AAC timestamp differences
 
 ## 🤖 Models, Effort, Roles and Provenance

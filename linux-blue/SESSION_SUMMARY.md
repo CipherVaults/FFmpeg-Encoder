@@ -1,3 +1,160 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Audited 1440 range service and one-introduction Windows archive workflow
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role | Attribution | Evidence and limits |
+|---|---|---|
+| Helper/source authors and independent reviewers | Recorded roles; model/effort not inferred | Separate preparation, offline controls and frozen source review. Their source checks are not live Windows proof. |
+| Engineering lead | Execution, reconciliation and integration | Executed one Linux service campaign on immutable 060, accepted saved audit, then integrated the four reviewed Windows additions. |
+| Documentation recovery writer | Later reconstruction from retained local artifacts | Completed the already released Session-only write after continuity interruption. No earlier work is attributed to this writer's model. |
+
+**Record basis:** Reconstructed continuation with a fixed evidence cutoff of **17:50:57.086161 UTC on November 18, 2026**. Read the retained service narrative, final owning execution/receipt records, integration and cutoff records, final V3 review, and lead test results. This entry preserves what was known at that cutoff; its later save does not establish a new runtime run, commit or remote publication. The full prior 2,329,960-byte Session body is retained exactly.
+
+## 🕒 Time
+
+**Stage/type/focus:** Bounded Linux service execution and saved-output audit, followed by source-only Windows archive workflow integration and documentation.
+
+- Prior 060 source: local `fb628eb6d65d3530c73a647ec70261a6fb8a1085`; verified remote `97ca51ff99cce5e4b382b2a9d0445949cb416cc8`.
+- Service execution: **17:37:27.146–17:38:28.041 UTC / 19:37:27.146–19:38:28.041 Cairo**. This is campaign wall time, not an encoder performance benchmark.
+- Independent audit final release: **17:41:59.913845 UTC**; lead reconciliation/source-freeze release: **17:46:55.780944 UTC**.
+- Four Windows additions integrated: **17:50:01.989368 UTC**. Lead checks: **17:50:25.216528–17:50:39.146510 UTC**.
+- Fixed cutoff: **17:50:57.086161 UTC / 19:50:57.086161 Cairo**. Owning records were integrated and Session write released later, at **17:57:03.728858 UTC**. Their save time is not the evidence cutoff.
+
+**Stopping point:** Combined nine-path checkpoint prepared for coherent preservation. Hosted Windows acquisition remains unexecuted. This Session recovery does not import later calibration proposals or later publication outcomes.
+
+## 🎯 Session Goal
+
+Turn the fixed current 1440p→720p range service from source-only composition into honestly bounded actual evidence, including output collision, active cancellation and fresh-owner recovery. Separately prepare a safe first hosted Windows archive check without conflating downloads, installation, native application behavior and hardware qualification. Preserve useful work before the next qualification step and keep the old unavailable paths visible.
+
+## 🛠️ Actions Taken
+
+### Preservation and hosted chronology
+
+060 is independently preserved at local `fb628eb6d65d3530c73a647ec70261a6fb8a1085`, remote `97ca51ff99cce5e4b382b2a9d0445949cb416cc8`. The final mirror receipt is 129,382 bytes, SHA `b88bbe1f0f6fb406dd72684451216baa3877119c6c79cb0c131b056c83b42847`; lead final release check is dated 17:35:39.620554 UTC. Source/history/native records and all six remote contents are verified before the service run. No later checkpoint preservation is inferred.
+
+Actual hosted 059 run 44357487410 passed on its exact remote: 202 syntax and 209 shared tests on both OSes, plus ten Linux tests. Its jobs ran 17:20:06–17:20:26 Ubuntu and 17:20:06–17:21:01 Windows. These execution timestamps precede the earlier 060 cutoff, but their later verification is additive continuation; do not rewrite the earlier pending-at-cutoff record.
+
+Actual hosted 060 run 44360097680 passed on the exact 060 remote: 204 syntax and 209 shared tests on both OSes, plus ten Linux tests. Jobs ran 17:34:05–17:34:25 Ubuntu and 17:34:05–17:34:40 Windows, Node 24.22.1, zero failure/skip/cancellation. The two newly tracked consumer/test files explain 204; the precommit local 202 count remains correct for its recorded selection. These are selected source/injected/filesystem tests, not Windows media, archive acquisition, native Electron/GPU or packaging acceptance; repeated scopes are not summed.
+
+### Preparation, one execution and release
+
+After 060's cutoff, independent conditional V2 helper review reproduced 14 author controls and five additional overlapping controls plus four syntax checks. It requires a specific actual Start collision and original target-stage identity/disposition, not a generic skipped item or inference from missing cleanup metadata. Historical 048 observations exercised the checking procedure only; current live pre-spawn stamps were required. V1 reds and the fixture byte-count correction remain retained. Fresh binding/review/gate facts should be read in the final owning receipt rather than inferred from preparation alone.
+
+One current 1440 service campaign ran on immutable 060. Outer completion records 17:37:27.146–17:38:28.041 UTC, 60,895 ms wall / 60,894.583283 ms monotonic, exit 0 without signal or spawn error. The inner report records 56,888 ms; these are campaign durations, not encoder benchmarks. Its original report is 270,099 bytes, SHA `e758a02ffd5ebdeeaee9cc93113fc1f38858c801347c797076afb6de1cb98f15`.
+
+Independent audit was recorded 17:41:17.013686, its supplement 17:41:47.032335, and final release 17:41:59.913845. The lead accepted bounded evidence and released the source freeze at 17:46:55.780944 after rehashing 987 audit identity rows / 972 unique paths, six supplemental telemetry files and all 704 unchanged Git/current source files. Audit, supplement, original report and source remain unchanged. No replay, auditor decode or manual auditor process kill occurred.
+
+### Four actual cases, not three or 27 jobs
+
+The proof reused the accepted 11-second genuine 2560×1440p30 H.264/PCM calibration fixture, not a newly independent source. The service uses the fixed 720p H.265 CPU slow quality 25 / precision-FLAC range family.
+
+- Short publication .613–2.721: 63 frames / 101,184 samples; original streamed selected s16le source/output SHA and 404,736 bytes match. Final output 441,241 bytes, original-run SHA `353b719c6f77127ab09da1be0d26cd68fbe75fbd1e3743c1a3a687c2502c7d2e`. Whole case 10,124 ms; actual target child 39 interval 4.486 seconds, not a general throughput result.
+- Collision 1.013–3.087: prepare first, place the sentinel, then actually Start. Same item returns the exact output-appeared-since-preview refusal; sentinel unchanged and no additional target/progress child. The counter remains 13 before/after. This is not prepare-only collision evidence.
+- Active cancel 0–7: live target 67 observed frame 6, .789333 seconds, nonterminal progress tied to the same item. Existing runner closes it with SIGKILL; no final publication. The same originally recorded case/stage identities reconcile to an unverified zero-byte retained file and directory, checked again after owner closure. It was not deleted and is not valid media. Missing receipt alone was not accepted as absence.
+- Fresh-owner recovery 1.013–1.513: old service/runtime first drain/close, then a distinct verified owner and service produce 15 frames / 24,000 samples; original streamed selected PCM SHA and 96,000 bytes match. Output 109,548 bytes, original-run SHA `e802326b01248501dea04310327b16fa5feb3f3f96bafdb7d0d1d7b73c210c42`. Whole case 7,050 ms; child 105 interval 1.677 seconds. This is not same-service restart.
+
+Actual census is 115 spawned/115 closed, zero live, peak one. Three semantic targets are children 39/67/105; 27 progress-bearing invocations are not 27 user targets. Prior 048's 99 children were not a current census guarantee. Two owner closure records have admission closed, zero live and no errors; final pending operations are empty and no owner is retained. The helper's original inventory contains 250 artifacts totaling 16,123,766 bytes, distinct from audit identity occurrences and parsed-JSON counts.
+
+### Saved evidence and explicit limits
+
+Both successful service accounting records are complete, no failure, ten accounted children each, valid input-count/timeline telemetry with zero unknown input records, and final storage ledgers complete with no violations. The independent supplement checked the six original encoder telemetry files. The original output full hashes and full probes were recorded by the campaign and independently rehashed; unlike the older calibration, these are not first established during audit.
+
+Selected PCM equality is original streaming digest/byte-count evidence. No raw PCM pair is retained and no new decode or direct raw sample/pixel comparison was performed by the auditor. The known source's full hash is unchanged. The short output has finite frame-grid picture selection .633333–2.733333, output video .020–2.120 versus audio 0–2.107667; recovery picture 1.033333–1.533333, output video .020–.520 versus audio 0–.500. Do not turn finite acceptance into an arbitrary exact-picture cut or general lip-sync claim.
+
+All 115 child diagnostic rows match their original sidecars and complete, untruncated stderr byte/hash accounting. Eleven are nonempty and 104 empty. Six 168-byte x265 streams, including the two successful targets, retain the CPU-mask error-level line and WPP/lookahead thread-pool warnings; four startup SVT streams are informational. Cancellation retains 904 bytes including x265 and interrupted packet/NAL/partial-file/demux messages. No duplicate-codec warning was observed. These warnings are not suppressed or labeled harmless; unchanged original-source hash and interruption do not establish source corruption or its root cause.
+
+There is no OutputAccess backend configured: absent item grants are not a grant-issuance backend test, reveal or OS action. App activation is false. Point storage checks, 30-minute abort request and 60-second close observation do not guarantee hard quotas, maximum process exit or universal settlement. This one reused short source does not establish long/general-media, native UI, Windows/GPU/default acceptance. Older 1080 range/Full-copy consumers remain stale and unavailable, with no repin.
+
+
+### Windows workflow: from broad draft to one reviewed introduction
+
+V1 had a real bounded-read gap: serializing a small JSON object did not prevent later unrestricted `readFile` allocation. V2 added retained-handle bounded reads, a 32KiB+1 sentinel, exact bytes/digest and deep-content checks, owned-directory rechecks and attested report output. V3 additionally pins the expected prior remote 060 in both workflow and wrapper and rejects forced, branch-created/deleted, mismatched after-SHA, repository/ref or attempt inputs. The actual checkout must match. A path inclusion filter is not sole-parent proof; the publishing lead still must verify the ordinary immediate successor and expected remote ref. Manual exact-SHA dispatch is separate, not a duplicate/fallback permission.
+
+The four exact additions are `.github/workflows/windows-archives.yml`, `scripts/windows-hosted-archive-check.cjs`, `tests/windows-hosted-archive-check.test.cjs` and [Windows archive check notes](WINDOWS_HOSTED_ARCHIVE_CHECK.md). The independent V3 review approved this scope. Author 26/26 and reviewer 10/10 offline controls passed. Push-scope controls moved from V2 2/6 red to V3 6/6; four inherited report/floor/outcome controls stayed green. Counts overlap and are not added into a fictitious coverage total.
+
+The Windows check measures the actual `RUNNER_TEMP` volume and retains the unchanged 27GiB-plus-archive floor. It either verifies pinned archives or records a resource/integrity failure. It does not clean disk, choose arbitrary volumes, extract, install, invoke FFmpeg/Electron or admit a media operation. Only a closed, bounded, reread and attested JSON report may be uploaded for three days; payload archives remain ephemeral. No hosted capacity, event or artifact-service success was observed at the cutoff.
+
+### Current-base integration and final selected checks
+
+Integration at 17:50:01.989368 UTC preserved all 704 prior files. Lead Linux Node v24.22.1 checks explicitly covered wrapper/test syntax, 55/55 focused tests and selected CI with 209 shared plus ten Linux tests. The CI enumerated 204 already-tracked syntax files; the two new CJS files were checked separately. Future 206-file tracked enumeration is not an already executed result. All selected commands exited zero with no failures/skips; 708 indexed and newly added source files stayed byte-identical during checks. Historical eleven failures and unchanged 1440 source-only tests were not rerun or declared fixed.
+
+The Python driver's `0for` emitted a `SyntaxWarning: invalid decimal literal`, but parsed and ran every command with exits captured before result parsing. It did not change results or cause a test replay.
+
+### Portable evidence and owning records
+
+The portable report preserves every parsed report value except exactly 274 declared leading-root substitutions: 159 proof aliases and 115 runtime-build aliases. Final audit metadata lives in the wrapper, with all executable-authority flags false. This readable companion cannot recreate raw runtime/media or satisfy service factory gates. The complete report, [execution record](2026-11-18_Current_1440_Service_and_Windows_Introduction.md), [receipt record](2026-11-18_Current_1440_Service_and_Windows_Introduction_Receipts.json) and [Current State](CURRENT_STATE.md) form the owning evidence set. Independent record review verified 43 references before Session release.
+
+## 🧠 Key Insights
+
+- A successful service proof is stronger than mocked checks but narrower than an application release. Actual 115-child closure and two valid outputs support this exact short family, not every file or platform.
+- Collision must be observed at Start after preview, and cancellation must account for the same original stage. Generic skip or absent cleanup metadata cannot replace either fact.
+- Streaming PCM receipts can support exact selected-audio equality without retaining raw PCM, but a later saved audit must not claim a new decode or sample comparison.
+- Safe GitHub workflow triggering requires event and revision guards in addition to a file path filter. A reported source pass cannot establish capacity or download success.
+- Saved collector timings attribute most cost to required source-video verification. Apparent duplicate identity-check cost is still unmeasured; weakening guards would trade proven correctness for an unproven speed benefit.
+
+## 📌 Decisions Made
+
+| Decision | Basis / decider | Consequence |
+|---|---|---|
+| Accept the four-case 1440 service evidence only within its frozen scope | Independent saved audit and lead reconciliation | Preserve warnings, original receipts and exact 060 source; no app/default/GPU promotion. |
+| Integrate V3 as a one-introduction archive workflow | Independent source review and lead checks | Require remote 060 immediate successor and nonforced publication; no duplicate dispatch or resource-floor relaxation. |
+| Keep old 1080 range, Full-copy and Keep720 reports unavailable | Changed producer identities | Obtain fresh qualification rather than edit historical report pins. Known 057 recovery and default 7.1.5 remain available. |
+| Keep 0.7 development primary; plan themes, twelve languages including Arabic, illustrated guide/onboarding and UX polish for 0.8; move HDR to 0.9 | Ahmed's later planning direction relayed by root | Future calculator theme/localization inspiration; benchmark feedback still pending and may inform 0.7 or 0.8. No implementation or complete external-plan rewrite claimed by this checkpoint. |
+
+## ⚠️ Difficulties / Friction
+
+The helper required stronger evidence than its first draft supplied. The exact collision reason, active target identity and original cancelled-stage disposition had to survive owner closure. Windows report readback needed bounded filesystem reads, not merely bounded serialization. Push filters initially admitted broader future events than intended; V3 narrowed them. An auditor's initial heldout-directory guess was corrected to the actual pinned input before audit write. These corrections are retained rather than hidden by final green checks.
+
+Continuity interrupted the final documentation work after owning-record integration but before the Session prepend. Recovery found the exact predecessor and prepared narrative intact. This is a record-completion interruption, not evidence that the source or service results were lost. No unrelated untracked files were staged or removed by the Session writer.
+
+## 🔧 Adjustments Made
+
+- **Generic collision/cleanup inference → exact same-item collision and stage evidence:** necessary to test the promised lifecycle property, not a weaker substitute.
+- **Unbounded report reread → retained-handle capped exact readback:** rejects oversized, changed or unattested report/receipt files before emitting upload metadata.
+- **Workflow path inclusion → expected-parent plus nonforced event guards:** bounds the initial hosted attempt while preserving the publishing lead's parent/ref verification duty.
+- **Calibration-only state → accepted actual service evidence:** accepted on immutable 060 only after saved audit; runtime policy, default and GUI availability remain unchanged.
+- **Unmeasured optimization idea → evidence-based deferral:** retain contract-required source-video checks and collect attribution rather than optimize by removing safety.
+
+## ❌ Mistakes / Risks Noted
+
+Exit zero and empty helper stderr could conceal meaningful child warnings; all 115 sidecars were reconciled. A zero-byte cancelled stage could be mistaken for cleanup or output; it remains explicitly retained and unverified. A 27-progress-child count could be mistaken for 27 encodes; there were three semantic targets. Checkpoint source CI could be mistaken for a Windows app test; no Windows archive transfer, installation, native app or GPU ran. The current source changed since older qualification, so blind repinning would fabricate acceptance. None of those shortcuts is used.
+
+Historical eleven test failures remain carried. This selected pass does not assert full-suite health. Point-space checks and timeout requests are not guaranteed quotas/termination. The reused short fixture limits generality. Known x265 diagnostics remain unresolved observations, not silently harmless or claimed source corruption.
+
+## 📍 Current Position
+
+At the cutoff, the four-case current 1440 service evidence is independently accepted on 060. The four Windows workflow additions are integrated and selected source tests pass. The intended checkpoint contains nine changed paths, 711 files and 61 commits after the lead freezes it. These expected counts are not a statement that commit or backup already happened.
+
+Older 1080 range/Full-copy/Keep720 paths remain unavailable on current producers. New 1440 service evidence is not native app wiring. Linux 7.1.5 default/rollback, existing UI and audio policy remain unchanged. Windows capacity/acquisition, extraction, runtime installation, CPU/native Electron, RTX 5060, broader media and release gates remain open.
+
+## 🔜 Next Steps
+
+1. Lead reviews this final Session, stages only the nine declared paths and freezes a coherent 061 commit with exact source/history archives.
+2. Preserve and independently restore/read back full Notion source/history/native records before GitHub publication. Verify the expected remote parent and exact sole-successor tree; independently read back changed remote files.
+3. Observe the single reviewed introduction workflow and its actual report if triggered. Record a resource-floor refusal honestly; do not dispatch again, lower a floor or infer archive verification from CI status.
+4. Restore stale 1080 range and Full-copy qualification using fresh reviewed source evidence. Decide the smallest next current-product acceptance step without manufacturing old acceptance or interrupting 0.7 for future themes/HDR.
+5. Keep full summaries and a Windows hardware handoff current, including actual versus unrun platform evidence.
+
+## ❓ Open Questions
+
+- Does the hosted Windows runner's actual permitted volume satisfy the unchanged floor, and can the exact pinned archives be verified? The single hosted attempt and saved report must answer this.
+- What remains to wire and qualify the accepted 1440 service in the native application? Current proof alone does not answer it.
+- Which fresh qualification restores the old 1080/Full-copy routes on settled shared source? Future reviewed evidence, not old report edits, is required.
+- What practical benchmark feedback will Ahmed provide, and does it belong in 0.7 or 0.8? Pending owner feedback; no date or outcome assumed.
+- Is any repeated identity-check overhead material? Current saved timing does not establish that; no speculative optimization adopted.
+
+## 🧾 Session Outcome
+
+**Bounded success, not release completion.** The short actual Linux 1440 service campaign and independent audit passed; Windows introduction source passed its reviewed offline and lead integration checks. Full original child diagnostics, lifecycle facts, selected audio evidence and explicit limits remain available through owning records. 061 commit, Notion restoration, GitHub mapping and actual hosted archive outcome are pending at this cutoff.
+
+The recovery writer modifies only this cumulative Session, preserving its exact predecessor and original correction/history. It does not commit, publish, run media or modify the owning evidence files. Later save verification belongs in the external writer receipt, not a retroactive success assertion here.
+
+## 🔍 Confidence Level
+
+**High** for the retained accepted bounded service facts, exact four-file integration and selected test results, supported by original reports, independent audit/review, lead reconciliation and current owning hashes. **Limited** for general media, arbitrary timestamp cuts, UI/backend grants, Windows/native/GPU and packaging because they were not exercised. **No claim** for still-pending preservation or hosted acquisition. Saved-only audit and recovered narrative are explicitly distinguished from fresh runtime execution.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Dedicated 1440 range consumer and safer fixed-report reading
 
 ## 🤖 Models, Effort, Roles and Provenance

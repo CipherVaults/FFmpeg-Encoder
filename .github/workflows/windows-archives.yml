@@ -1,0 +1,41 @@
+name: Windows pinned archive verification (no installation)
+on:
+  push:
+    branches: [blue/linux-development]
+    paths: [.github/workflows/windows-archives.yml]
+  workflow_dispatch:
+    inputs:
+      approved_sha:
+        description: Exact reviewed and authorized development commit (40 hex)
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: windows-archive-verification
+  cancel-in-progress: false
+jobs:
+  archives:
+    if: ${{ github.repository == 'CipherVaults/FFmpeg-Encoder-Blue-Linux' && github.ref == 'refs/heads/blue/linux-development' && ((github.event_name == 'push' && github.event.before == '97ca51ff99cce5e4b382b2a9d0445949cb416cc8' && github.event.after == github.sha && github.event.forced == false && github.event.created == false && github.event.deleted == false) || (github.event_name == 'workflow_dispatch' && inputs.approved_sha == github.sha)) && github.run_attempt == 1 }}
+    runs-on: windows-2022
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24.22.1'
+          package-manager-cache: false
+      - name: Measure resources and verify archives only
+        id: verify
+        run: node scripts/windows-hosted-archive-check.cjs
+      - name: Preserve attested diagnostic report only
+        if: ${{ always() && !cancelled() && steps.verify.outputs.report_ready == 'true' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: windows-archive-report-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ steps.verify.outputs.report_path }}
+          if-no-files-found: error
+          retention-days: 3
+          compression-level: 0

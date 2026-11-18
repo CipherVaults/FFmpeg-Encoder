@@ -1,0 +1,743 @@
+{
+  "schemaVersion": 1,
+  "status": "Final outside owning records released for lead integration; checkpoint publication pending",
+  "owningRecordCutoffUtc": "2026-11-18T17:50:57.086161+00:00",
+  "testedSource": {
+    "localCommit": "fb628eb6d65d3530c73a647ec70261a6fb8a1085",
+    "remoteCommit": "97ca51ff99cce5e4b382b2a9d0445949cb416cc8",
+    "sourceFiles": 704,
+    "applicationActivated": false
+  },
+  "service": {
+    "report": {
+      "base": "guidance",
+      "artifact": "e3-1440-service060-preparation-v2/owned-proof-HG5MmB/report.json",
+      "bytes": 270099,
+      "sha256": "e758a02ffd5ebdeeaee9cc93113fc1f38858c801347c797076afb6de1cb98f15"
+    },
+    "audit": {
+      "status": "accepted bounded saved evidence",
+      "artifacts": {
+        "audit": {
+          "base": "guidance",
+          "artifact": "e3-1440-service060-saved-audit/INDEPENDENT_SAVED_AUDIT.json",
+          "bytes": 267777,
+          "sha256": "1aaefc0d5b330e32970aefe2996d27bdb196bfbdcd97246829a59855fdd05b50"
+        },
+        "auditRelease": {
+          "base": "guidance",
+          "artifact": "e3-1440-service060-saved-audit/FINAL_RELEASE.json",
+          "bytes": 2330,
+          "sha256": "b1f276754b8b010967e0317ff6771ee47ad27cdc8cd16ec9882a75747eec8dee"
+        },
+        "supplement": {
+          "base": "guidance",
+          "artifact": "e3-1440-service060-saved-audit/SUPPLEMENT.json",
+          "bytes": 3492,
+          "sha256": "c4715407751e697547fae281c69a173b5edfe6bd332ad1774bce2f039fe48a04"
+        },
+        "leadRelease": {
+          "base": "guidance",
+          "artifact": "checkpoint061-service-lead-release.json",
+          "bytes": 5938,
+          "sha256": "d9499734d499a14b86de4e320d5b9d73decbe41056849487b2dd7967008cc189"
+        }
+      },
+      "auditReleasedAtUtc": "2026-11-18T17:41:59.913845+00:00",
+      "leadReleasedAtUtc": "2026-11-18T17:46:55.780944+00:00",
+      "identityRows": 987,
+      "uniquePaths": 972,
+      "sourceFilesVerified": 704,
+      "producerPinsVerified": 97,
+      "noAdditionalMediaExecution": true
+    },
+    "cases": [
+      "retained-short-service-publication",
+      "collision-preserved",
+      "real-encode-cancellation",
+      "fresh-instance-recovery-publication"
+    ],
+    "children": 115,
+    "closed": 115,
+    "live": 0,
+    "maxConcurrent": 1,
+    "progressInvocations": 27,
+    "semanticTargets": [
+      39,
+      67,
+      105
+    ],
+    "publicationBytes": [
+      441241,
+      109548
+    ],
+    "cancellation": {
+      "observedFrame": 6,
+      "signal": "SIGKILL",
+      "retainedUnverifiedStageBytes": 0
+    },
+    "outerMonotonicElapsedMs": 60894.583283,
+    "innerElapsedMs": 56888,
+    "targetIntervalsMs": [
+      4486,
+      3560,
+      1677
+    ],
+    "diagnostics": {
+      "x265168ByteChildren": [
+        17,
+        20,
+        39,
+        84,
+        87,
+        105
+      ],
+      "svtInformational": [
+        23,
+        26,
+        90,
+        93
+      ],
+      "cancel904ByteChild": 67,
+      "emptyOtherChildren": 104
+    },
+    "limitations": [
+      "Original full report is preserved as parsed data except declared leading-root aliases, not the original raw JSON bytes. No raw media/runtime/library/profile or complete proof directory is included.",
+      "Four bounded cases accepted by independent saved audit and lead reconciliation: two publications, specific post-preview collision refusal, real cancellation and fresh-owner recovery. 115 children closed, 27 progress-bearing invocations, three semantic targets; counts are not interchangeable.",
+      "Two small publications carry original full output hashes/probes and streaming selected PCM receipts. Raw PCM is not retained; no independent re-decode or video pixel comparison claimed.",
+      "Live target67 cancellation observed frame6 then closed SIGKILL/CANCELLED. A zero-byte stage is retained unverified, checked immediately and postclose, not deleted or valid output.",
+      "Fresh distinct owners recover; same-service retry not proven. Collision is exact post-preview Start refusal and unchanged sentinel, no target child. No OutputAccess backend grant-issuance test or native UI claim.",
+      "168-byte CPU-mask/thread-pool diagnostics remain on both success targets; cancellation904-byte stream adds interrupted demux/H264 diagnostics. Zero helper stderr does not mean clean child diagnostics, and no source-corruption inference is made.",
+      "27GiB/2GiB checks are point observations,30-minute abort request and60-second closure observation are not wall-clock exit guarantees. Reused11-second input is not a novel holdout.",
+      "Actual source remains immutable060; later Windows source/hosted results are separate and pending.",
+      "Audit rehashed original output hashes/probes and six retained FFET1 telemetry files; streaming PCM equality remains original-run receipt evidence, not independently repeated decode or raw PCM comparison.",
+      "Saved audit initially guessed a heldout subdirectory and stopped before writing; corrected to the actual pinned original input. No media or original artifacts changed.",
+      "1080 range, Full-copy and Keep720 stale producer refusals remain; no old report repinning or native/application/default activation follows."
+    ]
+  },
+  "portable": {
+    "base": "guidance",
+    "artifact": "proof-records061-preparation/current-1440-range-service-proof-portable.json",
+    "bytes": 306928,
+    "sha256": "ae514e119e97423f01207e73bbdf2cd17d94fb4c3beac9c6fbc53968b135faa6"
+  },
+  "artifacts": [
+    {
+      "base": "guidance",
+      "artifact": "e3-1440-service060-saved-audit/INDEPENDENT_SAVED_AUDIT.json",
+      "bytes": 267777,
+      "sha256": "1aaefc0d5b330e32970aefe2996d27bdb196bfbdcd97246829a59855fdd05b50"
+    },
+    {
+      "base": "guidance",
+      "artifact": "e3-1440-service060-saved-audit/FINAL_RELEASE.json",
+      "bytes": 2330,
+      "sha256": "b1f276754b8b010967e0317ff6771ee47ad27cdc8cd16ec9882a75747eec8dee"
+    },
+    {
+      "base": "guidance",
+      "artifact": "e3-1440-service060-saved-audit/SUPPLEMENT.json",
+      "bytes": 3492,
+      "sha256": "c4715407751e697547fae281c69a173b5edfe6bd332ad1774bce2f039fe48a04"
+    },
+    {
+      "base": "guidance",
+      "artifact": "checkpoint061-service-lead-release.json",
+      "bytes": 5938,
+      "sha256": "d9499734d499a14b86de4e320d5b9d73decbe41056849487b2dd7967008cc189"
+    },
+    {
+      "base": "guidance",
+      "artifact": "e3-1440-service060-preparation-v2/HANDOFF-v2.json",
+      "bytes": 2107,
+      "sha256": "a583ee0b31f5cef9b31cd18375f01d30649e25ae11ab5a87d0b11baefe720a02"
+    },
+    {
+      "base": "guidance",
+      "artifact": "e3-1440-service060-preparation-v2/PLAN.md",
+      "bytes": 6639,
+      "sha256": "b5f3dc49cadcc06600537f7f422f600263b0c7e00c32f2131c2814b9ec7f7362"
+    },
+    {
+      "base": "guidance",
+      "artifact": "e3-1440-service060-preparation-v2/launch-service.cjs",
+      "bytes": 43986,
+      "sha256": "6889946896877ab376475e6309eda87386f9f9628a13715f872c171f0bbb9d86"
+    },
+    {
+      "base": "guidance",
+      "artifact": "e3-1440-service060-preparation-v2/run-once.cjs",
+      "bytes": 2787,
+      "sha256": "17fb3341ca035b17338e1e88bce81b47b9e0c81fad3e4d6208d9323045be0c93"
+    },
+    {
+      "base": "guidance",
+      "artifact": "e3-1440-service060-preparation-v2/APPROVED_CHECKPOINT.json",
+      "bytes": 84936,
+      "sha256": "032889491edf2300892021da81d46942e19adcab4c01db223ca54110c03b292f"
+    },
+    {
+      "base": "guidance",
+      "artifact": "e3-1440-service060-preparation-v2/SOURCE_BINDING.json",
+      "bytes": 99994,
+      "sha256": "8e595d4c658d54af706c33719b0c6d0d74f2e1497aa42168a055824f062e2e66"
+    },
+    {
+      "base": "guidance",
+      "artifact": "e3-1440-service060-preparation-v2/OUTER_COMPLETION.json",
+      "bytes": 442,
+      "sha256": "fdad033e4c871f8fbad37d500251b46f7e53072aee2ad0b636f0407050252942"
+    },
+    {
+      "base": "guidance",
+      "artifact": "e3-1440-service060-preparation-v2/COMPLETION.json",
+      "bytes": 781,
+      "sha256": "2a423abee0a581a80d550772cc8bf2392cc5665dceb0f324f5e4788a934261a6"
+    },
+    {
+      "base": "guidance",
+      "artifact": "e3-1440-service060-preparation-v2/ATTEMPT_STARTED.json",
+      "bytes": 147,
+      "sha256": "8e72426aea0d8c4cc7e5b83e6fd49cff4b014ce7d8a12cd1a1924bb90e93af58"
+    },
+    {
+      "base": "guidance",
+      "artifact": "e3-1440-service060-final-binding-independent/result.json",
+      "bytes": 3084,
+      "sha256": "3ffff136825bb11bb34010cd1340f7ceb7330656b3809621d805f481e909f76e"
+    },
+    {
+      "base": "guidance",
+      "artifact": "checkpoint059-final-mirror-release.json",
+      "bytes": 643,
+      "sha256": "8fc2eb751febe58fafffd50882821b41a2298ef4ea87c0d2aabda551e2ee1fe6"
+    },
+    {
+      "base": "guidance",
+      "artifact": "checkpoint060-final-mirror-release.json",
+      "bytes": 438,
+      "sha256": "1d382a9039b7f9ea18512409b8c42ef60c84788d07f0d1745dd9a2050b00eacb"
+    },
+    {
+      "base": "guidance",
+      "artifact": "github-checkpoint059-verification.json",
+      "bytes": 3880,
+      "sha256": "26c6007fddb75377540761b095a4f7047d762e2306e3bea442e7cadc3aeb561e"
+    },
+    {
+      "base": "guidance",
+      "artifact": "github-checkpoint060-verification.json",
+      "bytes": 2989,
+      "sha256": "4d147f579c33c8ced1d5a07668845d3df17fed711f44ce8052dee284ea34866e"
+    },
+    {
+      "base": "guidance",
+      "artifact": "post060-current-cost-triage/OBSERVED060.json",
+      "bytes": 1621,
+      "sha256": "697a354c346c9953298d2f6fce88682b7a529e00cdc9b709f537b5795537a74a"
+    },
+    {
+      "base": "guidance",
+      "artifact": "checkpoint061-cutoff.json",
+      "bytes": 1076,
+      "sha256": "1a8d8433e2c9e366669d7f1fbe1e85cae573aa4deb01a81e77b8fade3310a925"
+    },
+    {
+      "base": "guidance",
+      "artifact": "checkpoint061-integration.json",
+      "bytes": 2513,
+      "sha256": "783300d8ab93f08787cb35048cfe7dd5bb6552307b5be4426c8cce4a41f564a7"
+    },
+    {
+      "base": "guidance",
+      "artifact": "checkpoint061-prior-notion-at-integration.json",
+      "bytes": 129382,
+      "sha256": "b88bbe1f0f6fb406dd72684451216baa3877119c6c79cb0c131b056c83b42847"
+    },
+    {
+      "base": "guidance",
+      "artifact": "checkpoint061-lead-tests/RESULTS.json",
+      "bytes": 88368,
+      "sha256": "7d810c78398f51b931e65dc994374b692e603382fa0e44ceb1e240a9fb4bf0a1"
+    },
+    {
+      "base": "guidance",
+      "artifact": "windows-hosted-wrapper-review/FINAL_REVIEW-v3.md",
+      "bytes": 2275,
+      "sha256": "1bda84b6e48049e31bdc256726748b813bc6818e5f78d66510ccad49c0b0883c"
+    },
+    {
+      "base": "guidance",
+      "artifact": "windows-hosted-wrapper-review/RECEIPTS-v3.txt",
+      "bytes": 576,
+      "sha256": "602040a793a2bac82e6ee6c425a3dbc8b7e5a82e5fcaa30e34957c3bfa3f122a"
+    },
+    {
+      "base": "guidance",
+      "artifact": "windows-hosted-wrapper-review/v3-offline.tap",
+      "bytes": 2418,
+      "sha256": "62734c7f39a4f92fa002045ce1b295f4445031071628127c51408c35b8efd710"
+    },
+    {
+      "base": "guidance",
+      "artifact": "windows-hosted-wrapper-review/v3-independent.tap",
+      "bytes": 940,
+      "sha256": "f9aa3ba37432fb71c77f9e5ad422579622bcb28d8cde8fbfd0111a2389b3b4cf"
+    },
+    {
+      "base": "guidance",
+      "artifact": "checkpoint061-lead-tests/syntax-wrapper.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "base": "guidance",
+      "artifact": "checkpoint061-lead-tests/syntax-wrapper.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "base": "guidance",
+      "artifact": "checkpoint061-lead-tests/syntax-test.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "base": "guidance",
+      "artifact": "checkpoint061-lead-tests/syntax-test.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "base": "guidance",
+      "artifact": "checkpoint061-lead-tests/focused.stdout",
+      "bytes": 12116,
+      "sha256": "bcc465d52c57239c20af1fc44e56db17d36d60075789232351c8d63503536b16"
+    },
+    {
+      "base": "guidance",
+      "artifact": "checkpoint061-lead-tests/focused.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "base": "guidance",
+      "artifact": "checkpoint061-lead-tests/ci-runner.stdout",
+      "bytes": 22895,
+      "sha256": "97afdc15baad3e3a95d0b5ce60ef0db88a5b049a7dab5d8d52d31e8910ebf05c"
+    },
+    {
+      "base": "guidance",
+      "artifact": "checkpoint061-lead-tests/ci-runner.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "windows": {
+    "status": "exact independently reviewed four additions integrated; actual hosted introduction unexecuted",
+    "integratedAtUtc": "2026-11-18T17:50:01.989368+00:00",
+    "sourceFiles": [
+      {
+        "path": ".github/workflows/windows-archives.yml",
+        "bytes": 1899,
+        "sha256": "5a5ce6c42d1b6c950104821b68943990b5ca7501e98d06f1cffb612b0e8e6f15",
+        "priorSha256": null
+      },
+      {
+        "path": "scripts/windows-hosted-archive-check.cjs",
+        "bytes": 6925,
+        "sha256": "caa5aacfe95467acb723e7e56f1b8e8e9ab7aad6c54f14a50ee530092f0804a7",
+        "priorSha256": null
+      },
+      {
+        "path": "tests/windows-hosted-archive-check.test.cjs",
+        "bytes": 5032,
+        "sha256": "ed01d98925893154aed14082e3dab61075890eb6a25994b0b58629b6b2be04df",
+        "priorSha256": null
+      },
+      {
+        "path": "linux-blue/WINDOWS_HOSTED_ARCHIVE_CHECK.md",
+        "bytes": 3822,
+        "sha256": "f7d96069ffa77ee561d8f9c1a0a101352058f9624380dea5978c864f13ba7837",
+        "priorSha256": null
+      }
+    ],
+    "all704PriorFilesUnchanged": true,
+    "projectedSourceFiles": 708,
+    "authorOfflineTests": 26,
+    "independentOfflineTests": 10,
+    "purePushScopeV2": {
+      "passed": 2,
+      "total": 6
+    },
+    "purePushScopeV3": {
+      "passed": 6,
+      "total": 6
+    },
+    "limits": [
+      "Exactly one reviewed nonforced introduction push with expected prior remote060, no duplicate dispatch or automatic rerun.",
+      "No actual Windows capacity/acquisition or download, archive extraction, installed-runtime, native GUI, CPU/GPU result.",
+      "Existing calibration producers and consumers unchanged; old1080range/Fullcopy/Keep720 still refuse.",
+      "Current service proof belongs to immutable060; no source/runtime policy or default promotion."
+    ]
+  },
+  "hosted059060": {
+    "status": "actual saved hosted run/jobs/decoded logs read",
+    "runs": [
+      {
+        "checkpoint": "059",
+        "runId": 44357487410,
+        "head": "b7eaeb170ef29ebf08fc579ef459413e837cf66c",
+        "url": "https://github.com/CipherVaults/FFmpeg-Encoder-Blue-Linux/actions/runs/44357487410",
+        "status": "completed",
+        "conclusion": "success",
+        "createdAt": "2026-11-18T17:20:02Z",
+        "updatedAt": "2026-11-18T17:21:02Z",
+        "jobs": [
+          {
+            "id": 134989427021,
+            "name": "Source contracts / ubuntu-24.04",
+            "started_at": "2026-11-18T17:20:06Z",
+            "completed_at": "2026-11-18T17:20:26Z",
+            "conclusion": "success"
+          },
+          {
+            "id": 134989427597,
+            "name": "Source contracts / windows-2022",
+            "started_at": "2026-11-18T17:20:06Z",
+            "completed_at": "2026-11-18T17:21:01Z",
+            "conclusion": "success"
+          }
+        ],
+        "syntaxFiles": 202,
+        "sharedTestsEachPlatform": 209,
+        "additionalLinuxTests": 10,
+        "evidence": [
+          {
+            "base": "workspace-evidence",
+            "artifact": "ffmpeg-ci-hosted059-20261118/job-134989427021.log",
+            "bytes": 47190,
+            "sha256": "557cc51a388042c252b2c07df5364c03f1584f8a9122a9bf2200b81babef3d2c"
+          },
+          {
+            "base": "workspace-evidence",
+            "artifact": "ffmpeg-ci-hosted059-20261118/job-134989427597.log",
+            "bytes": 46361,
+            "sha256": "a01cfa6bc6c3fe7360dfc199176b99655629b025160ab8357bb35355e63e5bf8"
+          },
+          {
+            "base": "workspace-evidence",
+            "artifact": "ffmpeg-ci-hosted059-20261118/jobs.json",
+            "bytes": 6213,
+            "sha256": "63601e8a497ba826357af9f848205895a1d5b00352dac97f1f0e75a756ce107c"
+          },
+          {
+            "base": "workspace-evidence",
+            "artifact": "ffmpeg-ci-hosted059-20261118/runs.json",
+            "bytes": 17398,
+            "sha256": "16015dda0598f439b80b46c170529cd05970c4ca7674b00402464443cdde0793"
+          }
+        ]
+      },
+      {
+        "checkpoint": "060",
+        "runId": 44360097680,
+        "head": "97ca51ff99cce5e4b382b2a9d0445949cb416cc8",
+        "url": "https://github.com/CipherVaults/FFmpeg-Encoder-Blue-Linux/actions/runs/44360097680",
+        "status": "completed",
+        "conclusion": "success",
+        "createdAt": "2026-11-18T17:34:02Z",
+        "updatedAt": "2026-11-18T17:34:41Z",
+        "jobs": [
+          {
+            "id": 134998769440,
+            "name": "Source contracts / windows-2022",
+            "started_at": "2026-11-18T17:34:05Z",
+            "completed_at": "2026-11-18T17:34:40Z",
+            "conclusion": "success"
+          },
+          {
+            "id": 134998770069,
+            "name": "Source contracts / ubuntu-24.04",
+            "started_at": "2026-11-18T17:34:05Z",
+            "completed_at": "2026-11-18T17:34:25Z",
+            "conclusion": "success"
+          }
+        ],
+        "syntaxFiles": 204,
+        "sharedTestsEachPlatform": 209,
+        "additionalLinuxTests": 10,
+        "evidence": [
+          {
+            "base": "workspace-evidence",
+            "artifact": "ffmpeg-ci-hosted060-20261118/job-134998769440.log",
+            "bytes": 46352,
+            "sha256": "c082920d8d8421fefaa2a49154315713ce2fba9707178d486a2d4837df836428"
+          },
+          {
+            "base": "workspace-evidence",
+            "artifact": "ffmpeg-ci-hosted060-20261118/job-134998770069.log",
+            "bytes": 47165,
+            "sha256": "73159ceeeaaeba7e7d858fc7f8f78fece5b46052612b42a28e9934c639b8a51a"
+          },
+          {
+            "base": "workspace-evidence",
+            "artifact": "ffmpeg-ci-hosted060-20261118/jobs.json",
+            "bytes": 6213,
+            "sha256": "52a8ce8f0d0003083f91bd5452ad6faab0bed0be9396f717ec82251e21d43fd1"
+          },
+          {
+            "base": "workspace-evidence",
+            "artifact": "ffmpeg-ci-hosted060-20261118/runs.json",
+            "bytes": 17294,
+            "sha256": "255ea36027a3569748b1cbdf857774cf5b2a49ef6ffcd62937d7de58e851417e"
+          }
+        ]
+      }
+    ],
+    "chronology": "059 ran before060 record cutoff, but its result was still pending in dated060 records. This later reconciliation does not retroactively rewrite that knowledge boundary.060 run itself occurred after060 cutoff.",
+    "limits": "Selected source contracts only; no archive acquisition, installation, native CPU/Electron, NVIDIA/RTX5060 or media qualification."
+  },
+  "futureOwnerDirection": {
+    "version08": [
+      "themes",
+      "12 languages including Arabic",
+      "in-app illustrated guide and interactive onboarding",
+      "UX bug work"
+    ],
+    "hdr": "0.9",
+    "benchmarkFeedback": "placement pending between 0.7 and 0.8",
+    "currentWork": "do not interrupt agreed 0.7 completion"
+  },
+  "pending": [
+    "coherent061 commit, Notion source/history/full native records, GitHub verification",
+    "one guarded introduction hosted outcome after preservation; no duplicate dispatch or automatic rerun"
+  ],
+  "noRepositoryOrSessionWrites": true,
+  "scope": {
+    "expectedPaths": 9,
+    "expectedIndexFiles": 711,
+    "expectedCommits": 61
+  },
+  "leadTests": {
+    "results": [
+      {
+        "name": "syntax-wrapper",
+        "command": [
+          "node",
+          "--check",
+          "scripts/windows-hosted-archive-check.cjs"
+        ],
+        "startedAtUtc": "2026-11-18T17:50:25.216528+00:00",
+        "endedAtUtc": "2026-11-18T17:50:25.300919+00:00",
+        "exitCode": 0,
+        "node": "v24.22.1",
+        "platform": "Linux",
+        "baseCommit": "fb628eb6d65d3530c73a647ec70261a6fb8a1085",
+        "counts": {
+          "tests": [],
+          "pass": [],
+          "fail": [],
+          "cancelled": [],
+          "skipped": []
+        },
+        "failedCases": [],
+        "outputs": [
+          {
+            "path": "syntax-wrapper.stdout",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "syntax-wrapper.stderr",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "testedFiles": [
+          {
+            "path": "scripts/windows-hosted-archive-check.cjs",
+            "bytes": 6925,
+            "sha256": "caa5aacfe95467acb723e7e56f1b8e8e9ab7aad6c54f14a50ee530092f0804a7"
+          }
+        ]
+      },
+      {
+        "name": "syntax-test",
+        "command": [
+          "node",
+          "--check",
+          "tests/windows-hosted-archive-check.test.cjs"
+        ],
+        "startedAtUtc": "2026-11-18T17:50:25.306614+00:00",
+        "endedAtUtc": "2026-11-18T17:50:25.362398+00:00",
+        "exitCode": 0,
+        "node": "v24.22.1",
+        "platform": "Linux",
+        "baseCommit": "fb628eb6d65d3530c73a647ec70261a6fb8a1085",
+        "counts": {
+          "tests": [],
+          "pass": [],
+          "fail": [],
+          "cancelled": [],
+          "skipped": []
+        },
+        "failedCases": [],
+        "outputs": [
+          {
+            "path": "syntax-test.stdout",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "syntax-test.stderr",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "testedFiles": [
+          {
+            "path": "tests/windows-hosted-archive-check.test.cjs",
+            "bytes": 5032,
+            "sha256": "ed01d98925893154aed14082e3dab61075890eb6a25994b0b58629b6b2be04df"
+          }
+        ]
+      },
+      {
+        "name": "focused",
+        "command": [
+          "node",
+          "--test",
+          "--test-reporter=tap",
+          "tests/windows-hosted-archive-check.test.cjs",
+          "tests/candidate-archive-acquisition.test.cjs",
+          "tests/candidate-runtime.test.cjs",
+          "tests/provision-candidate-electron.test.cjs"
+        ],
+        "startedAtUtc": "2026-11-18T17:50:25.370456+00:00",
+        "endedAtUtc": "2026-11-18T17:50:25.726026+00:00",
+        "exitCode": 0,
+        "node": "v24.22.1",
+        "platform": "Linux",
+        "baseCommit": "fb628eb6d65d3530c73a647ec70261a6fb8a1085",
+        "counts": {
+          "tests": [
+            55
+          ],
+          "pass": [
+            55
+          ],
+          "fail": [
+            0
+          ],
+          "cancelled": [
+            0
+          ],
+          "skipped": [
+            0
+          ]
+        },
+        "failedCases": [],
+        "outputs": [
+          {
+            "path": "focused.stdout",
+            "bytes": 12116,
+            "sha256": "bcc465d52c57239c20af1fc44e56db17d36d60075789232351c8d63503536b16"
+          },
+          {
+            "path": "focused.stderr",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "testedFiles": [
+          {
+            "path": "tests/windows-hosted-archive-check.test.cjs",
+            "bytes": 5032,
+            "sha256": "ed01d98925893154aed14082e3dab61075890eb6a25994b0b58629b6b2be04df"
+          },
+          {
+            "path": "tests/candidate-archive-acquisition.test.cjs",
+            "bytes": 6991,
+            "sha256": "4fb938ad601c97b6ce9ea8d52ee63ed8ad8ac90e8748ef1dfe6133413356dc4f"
+          },
+          {
+            "path": "tests/candidate-runtime.test.cjs",
+            "bytes": 13226,
+            "sha256": "c1e7966df0ae7bb363c45c4091dfd072021f136b09574e8fcc7917d2ce38b661"
+          },
+          {
+            "path": "tests/provision-candidate-electron.test.cjs",
+            "bytes": 6886,
+            "sha256": "cff895b2725fe195514905f8353867b28991e1d58284aa9ed2534937f11a6fc5"
+          }
+        ]
+      },
+      {
+        "name": "ci-runner",
+        "command": [
+          "node",
+          "scripts/ci-source-contracts.cjs"
+        ],
+        "startedAtUtc": "2026-11-18T17:50:25.731048+00:00",
+        "endedAtUtc": "2026-11-18T17:50:39.146510+00:00",
+        "exitCode": 0,
+        "node": "v24.22.1",
+        "platform": "Linux",
+        "baseCommit": "fb628eb6d65d3530c73a647ec70261a6fb8a1085",
+        "counts": {
+          "tests": [
+            209,
+            10
+          ],
+          "pass": [
+            209,
+            10
+          ],
+          "fail": [
+            0,
+            0
+          ],
+          "cancelled": [
+            0,
+            0
+          ],
+          "skipped": [
+            0,
+            0
+          ]
+        },
+        "failedCases": [],
+        "outputs": [
+          {
+            "path": "ci-runner.stdout",
+            "bytes": 22895,
+            "sha256": "97afdc15baad3e3a95d0b5ce60ef0db88a5b049a7dab5d8d52d31e8910ebf05c"
+          },
+          {
+            "path": "ci-runner.stderr",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "testedFiles": [
+          {
+            "path": "scripts/ci-source-contracts.cjs",
+            "bytes": 2173,
+            "sha256": "4eae37c5b3746a028beef3b604c207ed633fbbf2a9953a25099df685a1041433"
+          }
+        ]
+      }
+    ],
+    "all708SourceFilesUnchanged": true,
+    "limits": "Focused supplied selection overlaps author/reviewer/runtime checks; source/injected file/network/Windows dependencies only, no actual archive download or Windows host. Shared CI includes two bounded Node helpers. CI syntax enumerates204 tracked files; two new scripts explicitly checked separately. Previous historical11 and source-only1440 tests not rerun because all704 prior files unchanged. No media/default/capsule promotion."
+  },
+  "testAttribution": {
+    "syntaxTrackedFiles": 204,
+    "newCjsExplicitSyntaxChecks": 2,
+    "expectedFutureTrackedSyntax": 206,
+    "historicalFailuresCarriedNotRerun": 11,
+    "driverWarning": "Python SyntaxWarning: invalid decimal literal from 0for; driver parsed and ran all commands, retaining actual process exits before result parsing. No rerun.",
+    "noMediaReplay": true
+  }
+}

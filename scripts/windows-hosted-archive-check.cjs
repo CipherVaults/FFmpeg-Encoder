@@ -1,0 +1,106 @@
+'use strict';
+// Reviewed dispatch only: measure local runner capacity, optionally acquire
+// pinned archives, and publish a fresh bounded diagnostic report. No extraction.
+const assert = require('node:assert/strict');
+const fs = require('node:fs/promises');
+const path = require('node:path');
+const { createHash } = require('node:crypto');
+const { execFileSync } = require('node:child_process');
+const { acquire, localDrivePath, retainDirectory } = require('./acquire-candidate-archives.cjs');
+const { expectedCandidateManifest, loadCandidateManifest, assertOrdinaryPath, verifyPinnedFile, readBoundedJson } = require('../src/candidate-runtime.cjs');
+const REPO = 'CipherVaults/FFmpeg-Encoder-Blue-Linux';
+const REF = 'refs/heads/blue/linux-development';
+const INTRODUCTION_PARENT = '97ca51ff99cce5e4b382b2a9d0445949cb416cc8';
+const FLOOR = 27n * 1024n ** 3n;
+const sha = bytes => createHash('sha256').update(bytes).digest('hex');
+function authority(env, event) {
+  assert(env.GITHUB_ACTIONS === 'true' && env.GITHUB_REPOSITORY === REPO && env.GITHUB_REF === REF
+    && ['workflow_dispatch', 'push'].includes(env.GITHUB_EVENT_NAME), 'Only the authorized repository/ref event is admitted.');
+  if (env.GITHUB_EVENT_NAME === 'push') {
+    assert(event.before === INTRODUCTION_PARENT && event.forced === false && event.created === false && event.deleted === false,
+      'Only the reviewed ordinary introduction push is admitted.');
+  }
+  const expected = env.GITHUB_EVENT_NAME === 'push' ? event.after : event.inputs?.approved_sha;
+  assert(/^[a-f0-9]{40}$/.test(env.GITHUB_SHA) && expected === env.GITHUB_SHA,
+    'Dispatch must name the exact reviewed source revision.');
+  assert(/^\d+$/.test(env.GITHUB_RUN_ID) && env.GITHUB_RUN_ATTEMPT === '1', 'Missing run identity.');
+  return { head: env.GITHUB_SHA, runId: env.GITHUB_RUN_ID, attempt: env.GITHUB_RUN_ATTEMPT };
+}
+function fixedDrive(parent) {
+  localDrivePath(parent);
+  const drive = path.win32.parse(parent).root.slice(0, 2);
+  const shell = path.join(process.env.SystemRoot, 'System32', 'WindowsPowerShell', 'v1.0', 'powershell.exe');
+  const output = execFileSync(shell, ['-NoProfile', '-NonInteractive', '-Command',
+    `$d=Get-CimInstance Win32_LogicalDisk -Filter "DeviceID='${drive}'"; if (!$d) {exit 2}; Write-Output $d.DriveType`],
+  { encoding: 'utf8', timeout: 10000, maxBuffer: 1024, windowsHide: true });
+  assert(output.trim() === '3', 'Runner volume is not a fixed local disk.');
+}
+async function attestReport(file, bytes, owned) {
+  await owned();
+  const decoded = await readBoundedJson(file, 32768);
+  assert.deepEqual(decoded, JSON.parse(bytes.toString('utf8')), 'Fresh report content changed.');
+  await verifyPinnedFile(file, { sizeBytes: bytes.length, sha256: sha(bytes) });
+  await owned();
+  return decoded;
+}
+async function publishReport(parent, report, outputFile) {
+  await assertOrdinaryPath(parent, 'directory');
+  const ownsParent = await retainDirectory(parent);
+  await ownsParent();
+  const dir = await fs.mkdtemp(path.join(parent, 'archive-report-'));
+  const owned = await retainDirectory(dir);
+  const file = path.join(dir, 'report.json');
+  const bytes = Buffer.from(JSON.stringify(report, null, 2) + '\n');
+  assert(bytes.length < 32768 && !/[\r\n]/.test(file), 'Unbounded report/path.');
+  await owned(); await fs.writeFile(file, bytes, { flag: 'wx', mode: 0o600 });
+  await owned(); await assertOrdinaryPath(file);
+  const decoded = await attestReport(file, bytes, owned);
+  assert.deepEqual(Object.keys(decoded).sort(), ['schema', 'head', 'runId', 'attempt', 'state', 'availableBytes', 'requiredBytes',
+    'archives', 'extraction', 'installation'].sort(), 'Report field allowlist differs.');
+  assert(decoded.schema === 1 && /^[a-f0-9]{40}$/.test(decoded.head) && /^\d+$/.test(decoded.runId)
+    && /^\d+$/.test(decoded.attempt), 'Report identity invalid.');
+  // The step outputs exist only after exclusive creation and closed readback.
+  await owned();
+  await fs.appendFile(outputFile, `report_path=${file}\nreport_sha256=${sha(bytes)}\nreport_ready=true\n`, 'utf8');
+  return { file, digest: sha(bytes) };
+}
+async function execute({ root, parent, identity }, { inspectDrive = fixedDrive, acquireImpl = acquire, platform = process.platform, statfsImpl = fs.statfs } = {}) {
+  assert(platform === 'win32', 'Windows-only hosted archive lane.');
+  await inspectDrive(parent); await assertOrdinaryPath(parent, 'directory');
+  const manifest = await loadCandidateManifest({ root });
+  assert.deepEqual(manifest, expectedCandidateManifest());
+  const pins = [manifest.archive, manifest.electron.archive];
+  const required = FLOOR + pins.reduce((n, p) => n + BigInt(p.sizeBytes), 0n);
+  const disk = await statfsImpl(parent, { bigint: true }); const available = disk.bavail * disk.bsize;
+  const report = { schema: 1, ...identity, state: 'BLOCKED_RESOURCE_FLOOR', availableBytes: String(available),
+    requiredBytes: String(required), archives: [], extraction: 'not-run', installation: 'not-run' };
+  if (available <= required) return report;
+  try {
+    const result = await acquireImpl({ parent });
+    assert(result.receipt === path.join(result.directory, 'transfer-report.json'), 'Unexpected receipt path.');
+    const receipt = await readBoundedJson(result.receipt, 32768); assert(receipt.schema === 1 && receipt.items.length === 2);
+    for (const pin of pins) {
+      const item = receipt.items.find(row => row.name === pin.fileName);
+      assert(item && item.verified === true && item.expectedSha256 === pin.sha256 && item.expectedBytes === pin.sizeBytes);
+      const verified = await verifyPinnedFile(path.join(result.directory, pin.fileName), pin);
+      report.archives.push({ name: pin.fileName, observedBytes: verified.sizeBytes, observedSha256: verified.sha256 });
+    }
+    report.state = 'ARCHIVES_VERIFIED_ONLY';
+  } catch { report.state = 'ACQUISITION_FAILED'; }
+  return report;
+}
+async function main() {
+  const env = process.env;
+  const event = JSON.parse(await fs.readFile(env.GITHUB_EVENT_PATH, 'utf8'));
+  const identity = authority(env, event);
+  const root = path.resolve(__dirname, '..');
+  const actual = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8', timeout: 10000 }).trim();
+  assert(actual === identity.head, 'Checked-out source differs from approved revision.');
+  const parent = env.RUNNER_TEMP; localDrivePath(parent);
+  const report = await execute({ root, parent, identity });
+  const saved = await publishReport(parent, report, env.GITHUB_OUTPUT);
+  console.log(`${report.state}; report SHA256 ${saved.digest}; no extraction or installation.`);
+  if (report.state !== 'ARCHIVES_VERIFIED_ONLY') process.exitCode = 1;
+}
+module.exports = { authority, execute, publishReport, attestReport };
+if (require.main === module) main().catch(() => { console.error('Hosted archive preflight/report incomplete; no attested report is available.'); process.exitCode = 1; });

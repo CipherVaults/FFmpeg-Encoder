@@ -1,3 +1,13 @@
+# Successor correction: packaged-mode executable basename
+
+For the pinned Linux Electron 44.7.0 shell, the internal candidate executable is now a normal copied file at `electron/ffmpeg-encoder-linux-candidate`, not `electron/electron`. Its input source, exact bytes and SHA-256 are unchanged. The official pinned implementation treats the basename `electron` as development mode; that made `app.isPackaged` false and selected the wrong runtime root. Renaming the copied target selects the intended packaged-mode naming convention while preserving sibling `resources/app` and `resources/runtime` paths.
+
+No symlink, FORCE environment override, validator change, chmod, app launch or package build is part of this correction. Runtime/source hashes, Windows behavior and defaults are unchanged. This is a source-based naming correction; actual packaged-mode startup and native publication still require separate execution and acceptance. Frozen checkpoint 066 is not rewritten.
+
+The same successor also integrates the separately reviewed Windows packaging helper change. Because `scripts/build-portable.cjs` is an existing Linux physical-app input, its fixed-plan size/hash is explicitly reconciled to those approved bytes. Membership remains 132 application rows and 225 inputs; the new input total is 391,326,565 bytes (91 bytes above checkpoint 066). All 225 inputs were independently rehashed and six affected package fixtures passed. The unchanged 115 product-source closure and measured producer maps remain authoritative.
+
+## Previous package layout record
+
 # Physical application layout correction (current)
 
 This supersedes active-ASAR placement in the historical sections below. Pinned Electron 44.7.0 virtual ASAR stat/open behavior is incompatible with unchanged retained-handle identity checks. This is a source-based prediction, not an observed native failure; no verifier check was weakened.

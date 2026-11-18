@@ -69,3 +69,17 @@ test('physical relocated app preserves real product source and compact qualifica
  assert.equal(relocated.verifyProductSources().files,115);assert.equal(relocated.loadQualification().nativeProof,null);
  await assert.rejects(fs.lstat(path.join(moved,'resources/app.asar')),{code:'ENOENT'});
 });
+
+
+test('Linux candidate basename selects packaged convention with unchanged sibling resources',()=>{
+ const row=PLAN.files.find(r=>r.target==='electron/ffmpeg-encoder-linux-candidate');assert(row);
+ assert.equal(row.bytes,228605256);assert.equal(row.sha256,'10a14d05c6ff4f94075cfb3eeb6ed6571be33ebcc08cbd675b5ce9ff84706564');
+ assert.equal(row.source,'electron');assert.equal(row.root,'electron');
+ assert(!PLAN.files.some(r=>r.target==='electron/electron'));
+ assert.notEqual(path.posix.basename(row.target),'electron');
+ assert(PLAN.files.some(r=>r.target==='electron/resources/app/package.json'));
+ for(const binary of ['ffmpeg','ffprobe'])assert(PLAN.files.some(r=>r.target==='electron/resources/runtime/'+binary));
+ const main=require('node:fs').readFileSync(path.join(__dirname,'../main.js'),'utf8');
+ assert(main.includes("app.isPackaged ? process.resourcesPath : root"));
+ assert(!main.includes('ELECTRON_FORCE_IS_PACKAGED'));
+});

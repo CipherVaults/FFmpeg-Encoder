@@ -119,7 +119,7 @@ function startupDiagnostic(error) {
     listingReason:LISTING_REASONS.has(error?.listingReason)?error.listingReason:null,
     listing:SAFE_LISTINGS.has(error?.listingStructure)?error.listingStructure:null};
 }
-async function startup({parent,acquisition,manifest=expectedCandidateManifest()}, {run=runBounded}={}) {
+async function preparePayload({parent,acquisition,manifest=expectedCandidateManifest()}, {run=runBounded}={}) {
   let stage='preflight', structure=null;
   try {
   assert(process.platform==='win32'); assert.deepEqual(manifest,expectedCandidateManifest());
@@ -163,7 +163,24 @@ async function startup({parent,acquisition,manifest=expectedCandidateManifest()}
   await fsp.writeFile(path.join(isolated,'resources','candidate-binary-manifest.json'),JSON.stringify(manifest),{flag:'wx'});
   await capacity(parent,bytes+1048576n);
   await provisionCandidateRuntime({root:isolated,receiptPath:acquisition.receipt,payloadDirectory:payload});
-  stage='version';
+  stage='final-checks';
+  const validateFinal=async()=>{
+    await owned();await owner();assert((await fsp.stat(TOOL)).size===toolStat.size);
+    assert(createHash('sha256').update(await fsp.readFile(TOOL)).digest('hex')===toolHash);
+  };
+  await validateFinal();
+  return {validateFinal,work,payload,isolated,toolSha256:toolHash,listingSha256:createHash('sha256').update(listing.stdout).digest('hex'),selectedFiles:entries.length};
+  } catch(error) {error.startupStage=stage;error.listingStructure=structure;throw error;}
+}
+async function finalStartupCheck(prepared) {
+  try {await prepared.validateFinal();}
+  catch(error){error.startupStage='final-checks';throw error;}
+}
+async function startup(options, {run=runBounded}={}) {
+  const prepared=await preparePayload(options,{run});
+  const manifest=options.manifest || expectedCandidateManifest();
+  const {work,isolated}=prepared; const owned=await retainDirectory(work);
+  try {
   const versions=[];
   for(const pin of manifest.binaries) {
     const exe=path.join(isolated,...pin.developmentPath.split('/'));await verifyPinnedFile(exe,pin);await owned();
@@ -171,9 +188,10 @@ async function startup({parent,acquisition,manifest=expectedCandidateManifest()}
     const first=version.stdout.split(/\r?\n/)[0];assert(first.startsWith(pin.name.slice(0,-4)+' version '+manifest.version+' '),'Unexpected version.');
     await verifyPinnedFile(exe,pin);versions.push({name:pin.name,sha256:pin.sha256,sizeBytes:pin.sizeBytes,version:manifest.version,closed:true});
   }
-  stage='final-checks';
-  await owned();await owner();assert((await fsp.stat(TOOL)).size===toolStat.size);assert(createHash('sha256').update(await fsp.readFile(TOOL)).digest('hex')===toolHash);
-  return {state:'FFMPEG_VERSION_VERIFIED_ONLY',toolSha256:toolHash,listingSha256:createHash('sha256').update(listing.stdout).digest('hex'),selectedFiles:entries.length,versions,media:'not-run',electron:'not-run'};
-  } catch(error) {error.startupStage=stage;error.listingStructure=structure;throw error;}
+
+    await finalStartupCheck(prepared);
+    return {state:'FFMPEG_VERSION_VERIFIED_ONLY',toolSha256:prepared.toolSha256,
+      listingSha256:prepared.listingSha256,selectedFiles:prepared.selectedFiles,versions,media:'not-run',electron:'not-run'};
+  } catch(error) {if(error.startupStage!=='final-checks')error.startupStage='version';throw error;}
 }
-module.exports={selected,safeMember,inspectListing,runBounded,startup,startupDiagnostic,listingStructure};
+module.exports={finalStartupCheck,preparePayload,selected,safeMember,inspectListing,runBounded,startup,startupDiagnostic,listingStructure};

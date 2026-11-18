@@ -1,0 +1,245 @@
+{
+  "checkpoint": "067",
+  "status": "SOURCE_ACCEPTED_DOCUMENTS_PREPARED; COMMIT_AND_PRESERVATION_PENDING",
+  "cutoffUtc": "2026-11-18T20:44:56.525280+00:00",
+  "baseCommit": "6d85bbba7a5a84045bb2893d764d2fc3f74238da",
+  "sourceScope": [
+    {
+      "path": "resources/linux-inert-package-plan.json",
+      "bytes": 63154,
+      "sha256": "0d435ad2fa8533a9125f14af5b4d7d2e8c9b57fd704101c3bda59a9088378e83"
+    },
+    {
+      "path": "linux-blue/LINUX_OFFLINE_PACKAGE_PROPOSAL.md",
+      "bytes": 11645,
+      "sha256": "b3b2f725867cb6090c93c07be2d942dcac659de2298ee15845026ae167903bca",
+      "note": "Later explanatory paragraph only, supplied by lead after code review; final bytes bound here."
+    },
+    {
+      "path": "tests/linux-inert-package.test.cjs",
+      "bytes": 8450,
+      "sha256": "047b45c959b87bbebd658e121893d9e83a57bce4e24b497c96b4642cb0fbcaf0"
+    },
+    {
+      "path": "scripts/windows-ffmpeg-startup.cjs",
+      "bytes": 13880,
+      "sha256": "81919912a3ac8f2f06643719c5babcf22bac80494e8ff66b7f0f9c63c2e92879"
+    },
+    {
+      "path": "scripts/build-portable.cjs",
+      "bytes": 16448,
+      "sha256": "0fa6a742ddb2a8ae4e888f6d8f591bf25e88fdf48ce228325d132991a195fd5f"
+    },
+    {
+      "path": "scripts/provision-candidate-electron.cjs",
+      "bytes": 8287,
+      "sha256": "bf7b16f5fe442a6b9117e7eeed2752e62dca8c926b90654dd002eb30b477cfd7"
+    },
+    {
+      "path": "scripts/windows-package-policy.cjs",
+      "bytes": 3775,
+      "sha256": "82d050e73e0406e09dee7c124f4179aa3d0ef91727b3fe18da4f4c3b8571baa3"
+    },
+    {
+      "path": "scripts/windows-hosted-package-check.cjs",
+      "bytes": 10182,
+      "sha256": "5470c27b51acd774035708fbae14d51d4b0c1fdbf11e3ba1288b00d40d8c6898"
+    },
+    {
+      "path": "tests/windows-package-policy.test.cjs",
+      "bytes": 5519,
+      "sha256": "84eb01b57da6457663e4afcd80a57f3592dc785b3c843a93e955aebcfcddc6d9"
+    },
+    {
+      "path": ".github/workflows/windows-package.yml",
+      "bytes": 2475,
+      "sha256": "7c6b1d22fc00c717684593f28a403f97c46a710686ed44387e6b670df69702ae"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "checkpoint067-narrative-reconciliation.json",
+      "bytes": 506,
+      "sha256": "48638a8c8ed955c7a480812c194458cbebec5f7d6d8fb1697da3d9fe599c989c"
+    },
+    {
+      "path": "checkpoint067-cutoff.json",
+      "bytes": 1146,
+      "sha256": "44e8021e630be8837103826db14d8d5fb32bcbc38708ab651daaa0b02dc7888b"
+    },
+    {
+      "path": "checkpoint067-lead-tests.json",
+      "bytes": 2362,
+      "sha256": "daca0641db38a52e900c2b99026683249249b3c599fe91d7192176b46b3f6cc7"
+    },
+    {
+      "path": "checkpoint067-plan-reconciliation.json",
+      "bytes": 998,
+      "sha256": "cd1edfc5f9fc53b6fac3222efa0d35fbd56e864eb141b16675997e9a10687834"
+    },
+    {
+      "path": "checkpoint067-independent-code-scope-review.json",
+      "bytes": 4549,
+      "sha256": "1613f61ecb2a6d64e458732fc2a83688905f090a6269b75a17f41231004ed693"
+    },
+    {
+      "path": "checkpoint067-naming-integration.json",
+      "bytes": 1048,
+      "sha256": "43757b7731aaf7093f052be5ea32d0e34073a3dfb18c11554889a6a340940c81"
+    },
+    {
+      "path": "checkpoint067-windows-integration.json",
+      "bytes": 1562,
+      "sha256": "d5e878c0e9fe692fd04d9eaaabf234509c9afc6f7b6c973a5aa930706ed7acd4"
+    },
+    {
+      "path": "github-checkpoint066-observation.json",
+      "bytes": 1653,
+      "sha256": "db8957fe86321c7c1aeb8394fc19fe6cb0d6a121d07431ae3dbe2676a49b06fa"
+    },
+    {
+      "path": "checkpoint066-final-mirror-release.json",
+      "bytes": 643,
+      "sha256": "1046216ac3af26b38b500a1d47da261f01bc5a23b4833b30d2455f1c3d53b5a2"
+    },
+    {
+      "path": "inert-package066-actual/ORIGINAL_BUILD_RESULT.json",
+      "bytes": 47466,
+      "sha256": "3120bc7332c9be98d6bb02d165d5e96c3078795fea0df7bc1d54fd7531043763"
+    },
+    {
+      "path": "inert-package066-actual/OUTER_COMPLETION.json",
+      "bytes": 1717,
+      "sha256": "d26eb8fa0cd48b5627a49d41d2bbed062f8241a9ba0b3129e89b29fa11757244"
+    },
+    {
+      "path": "inert-package066-actual/INDEPENDENT_FINAL_AUDIT.json",
+      "bytes": 1183,
+      "sha256": "3110a1197b10b181e8f60b7195239a8a51534b05a21770ae205c772a8932409a"
+    },
+    {
+      "path": "inert-package066-actual/RELOCATION_FINAL_PROOF.json",
+      "bytes": 1618,
+      "sha256": "e2dcfe88206510209e425ae10565b4f36ed08f6d7e318d2ac428d365853c4fb2"
+    },
+    {
+      "path": "windows-package-implementation/INDEPENDENT_BOUND_SUCCESSOR_REVIEW.json",
+      "bytes": 2938,
+      "sha256": "8f6c242c89c4f1fa10950f8aef5b2cd575ebb55d16194cb888dc266bf1974e4d"
+    }
+  ],
+  "tests": {
+    "initialLeadReceipt": {
+      "cutoffUtc": "2026-11-18T20:42:52.930163+00:00",
+      "baseCommit": "6d85bbba7a5a84045bb2893d764d2fc3f74238da",
+      "focused": {
+        "tests": 73,
+        "passed": 73,
+        "failed": 0,
+        "skipped": 0,
+        "receipt": "artifacts/v0.7/evidence/20261118T204204Z_recovered067-integration/receipt.json"
+      },
+      "shared": {
+        "syntax": 211,
+        "tests": 243,
+        "additionalLinux": 32,
+        "failed": 0,
+        "skipped": 0
+      },
+      "paths": [
+        {
+          "path": "resources/linux-inert-package-plan.json",
+          "bytes": 63154,
+          "sha256": "4623e9601228d5b55eac74da26c20fad0f1ac04b1a7fcf13b1bc5bb68f93570b"
+        },
+        {
+          "path": "linux-blue/LINUX_OFFLINE_PACKAGE_PROPOSAL.md",
+          "bytes": 11094,
+          "sha256": "d15193da8ee8bd64338d2f29c0ad490b68ee7c70061bb0250cee1f105b7b72dd"
+        },
+        {
+          "path": "tests/linux-inert-package.test.cjs",
+          "bytes": 8450,
+          "sha256": "047b45c959b87bbebd658e121893d9e83a57bce4e24b497c96b4642cb0fbcaf0"
+        },
+        {
+          "path": "scripts/windows-ffmpeg-startup.cjs",
+          "bytes": 13880,
+          "sha256": "81919912a3ac8f2f06643719c5babcf22bac80494e8ff66b7f0f9c63c2e92879"
+        },
+        {
+          "path": "scripts/build-portable.cjs",
+          "bytes": 16448,
+          "sha256": "0fa6a742ddb2a8ae4e888f6d8f591bf25e88fdf48ce228325d132991a195fd5f"
+        },
+        {
+          "path": "scripts/provision-candidate-electron.cjs",
+          "bytes": 8287,
+          "sha256": "bf7b16f5fe442a6b9117e7eeed2752e62dca8c926b90654dd002eb30b477cfd7"
+        },
+        {
+          "path": "scripts/windows-package-policy.cjs",
+          "bytes": 3775,
+          "sha256": "82d050e73e0406e09dee7c124f4179aa3d0ef91727b3fe18da4f4c3b8571baa3"
+        },
+        {
+          "path": "scripts/windows-hosted-package-check.cjs",
+          "bytes": 10182,
+          "sha256": "5470c27b51acd774035708fbae14d51d4b0c1fdbf11e3ba1288b00d40d8c6898"
+        },
+        {
+          "path": "tests/windows-package-policy.test.cjs",
+          "bytes": 5519,
+          "sha256": "84eb01b57da6457663e4afcd80a57f3592dc785b3c843a93e955aebcfcddc6d9"
+        },
+        {
+          "path": ".github/workflows/windows-package.yml",
+          "bytes": 2475,
+          "sha256": "7c6b1d22fc00c717684593f28a403f97c46a710686ed44387e6b670df69702ae"
+        }
+      ],
+      "limitations": [
+        "Focused and shared counts overlap, not cumulative.",
+        "No actual067 package or native launch yet.",
+        "Windows bound hosted package workflow not yet published or exercised."
+      ]
+    },
+    "postReconciliationAffectedPassed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "overlappingNotCumulative": true,
+    "initialReceiptsNotReassigned": true
+  },
+  "plan": {
+    "files": 225,
+    "applicationMembers": 132,
+    "bytes": 391326565,
+    "sourceClosure": 115,
+    "allInputsIndependentlyRehashed": true,
+    "sha256": "0d435ad2fa8533a9125f14af5b4d7d2e8c9b57fd704101c3bda59a9088378e83"
+  },
+  "predecessor": {
+    "bytes": 2426475,
+    "sha256": "93d7856e1c23545ada7a75402dcca3ab5cab238d7d07cd02be790a0b5b1d5892",
+    "exactSuffix": true
+  },
+  "scope": {
+    "sourcePaths": 10,
+    "documentPaths": 4,
+    "totalPaths": 14,
+    "new": 6,
+    "modified": 8,
+    "expectedTracked": 750
+  },
+  "runtimeExecuted": false,
+  "actual067PackageBuilt": false,
+  "hosted067Result": null,
+  "sharedCIWindowsPolicyAdded": false,
+  "limits": [
+    "Focused and shared counts overlap, not cumulative.",
+    "No actual067 package or native launch yet.",
+    "Windows bound hosted package workflow not yet published or exercised.",
+    "Production defaults and Windows application composition unchanged.",
+    "No public distribution approval, hardware acceptance or v0.7 release claim."
+  ]
+}

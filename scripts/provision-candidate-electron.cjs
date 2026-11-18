@@ -135,5 +135,5 @@ async function main({ archivePath } = {}) {
   finally { try { await ownedReceipt.update(report); } finally { await ownedReceipt.close(); } }
   console.log(JSON.stringify({ status: report.status, receipt, dist }));
 }
-module.exports = { reserveDirectory, reserveDirectoryChain, requireAbsent, openProvisionReceipt, parseArguments };
+module.exports = { main, reserveDirectory, reserveDirectoryChain, requireAbsent, openProvisionReceipt, parseArguments };
 if (require.main === module) main(parseArguments(process.argv.slice(2))).catch(error => { console.error(error); process.exitCode = 1; });

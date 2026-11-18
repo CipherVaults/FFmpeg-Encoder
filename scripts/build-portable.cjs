@@ -129,9 +129,8 @@ async function runPackaging(root, buildRoot, packageJson, electronZipDir = null)
   return { packager: '@electron/packager', executable, args, ...(electronZipDir ? { electronZipDir } : {}) };
 }
 
-async function main() {
+async function main({ root = path.resolve(__dirname, '..'), sourceProvenance = null } = {}) {
   assert.equal(process.platform, 'win32', 'The local portable build targets Windows x64.');
-  const root = path.resolve(__dirname, '..');
   const packageJson = JSON.parse(await fsp.readFile(path.join(root, 'package.json'), 'utf8'));
   const selection = selectPortableRuntime(packageJson);
   assert.equal(packageJson.main, 'main.js');
@@ -173,7 +172,7 @@ async function main() {
   };
   try {
     if (candidate) { report.candidateRuntime = candidateProof.verified; report.electronArchive = electronArchive; }
-    report.git = {
+    report.git = sourceProvenance || {
       commit: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8', windowsHide: true }).trim(),
       status: execFileSync('git', ['status', '--porcelain'], { cwd: root, encoding: 'utf8', windowsHide: true }).trim(),
     };
@@ -255,6 +254,7 @@ async function main() {
     report.status = 'build-verified-runtime-acceptance-pending';
     report.completedAtUtc = new Date().toISOString();
     await fsp.writeFile(path.join(buildRoot, 'build-report.json'), JSON.stringify(report, null, 2) + '\n', { flag: 'wx' });
+    if (sourceProvenance) return report;
     console.log(JSON.stringify({ status: report.status, zip: report.zip, report: path.join(buildRoot, 'build-report.json') }, null, 2));
   } catch (error) {
     report.status = 'failed';
@@ -265,5 +265,5 @@ async function main() {
   }
 }
 
-module.exports = { appFiles, appDirectories, appSources, readAsarSource, hashFile, selectPortableRuntime };
+module.exports = { main, appFiles, appDirectories, appSources, readAsarSource, hashFile, selectPortableRuntime };
 if (require.main === module) main().catch(error => { console.error(error); process.exitCode = 1; });

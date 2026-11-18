@@ -1,4 +1,5 @@
 'use strict';
+const specimens = require('./test-fixtures/proportional-reports.cjs');
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs/promises');
@@ -8,11 +9,7 @@ const { createRequire } = require('node:module');
 const { createHash } = require('node:crypto');
 const { createQualifiedEncodeControls, assertServiceProof, SERVICE_PROOFS } = require('./workbench-qualified-encode-controls.cjs');
 const sha = b => createHash('sha256').update(b).digest('hex');
-async function fixture(kind) {
-  const module = require(kind === 'fullResize1440to720' ? './workbench-full-1440-service.cjs' : kind === 'keep720' ? './workbench-long-range-service.cjs' : kind === 'fullResize1080to720' ? './workbench-full-resize-service.cjs' : './workbench-resize-service.cjs');
-  const calibration = JSON.parse(await fs.readFile(module.REPORT));
-  return { bytes: await fs.readFile(SERVICE_PROOFS[kind].report), evidenceIds: calibration.sources.flatMap(s => [s.frozen.qualification.evidenceId,s.frozen.timingQualification.evidenceId]) };
-}
+async function fixture(kind) {const c=specimens.calibration(kind);return {bytes:specimens.bytes(specimens.serviceProof(kind)),evidenceIds:c.sources.flatMap(s=>[s.frozen.qualification.evidenceId,s.frozen.timingQualification.evidenceId])};}
 test('pending Full proof refuses before any receipt read, runtime verification or storage construction', async () => {
   const file=path.join(__dirname,'workbench-qualified-encode-controls.cjs'),source=await fs.readFile(file,'utf8');
   const module={exports:{}},real=createRequire(file);
@@ -25,14 +22,14 @@ test('pending Full proof refuses before any receipt read, runtime verification o
   finally { fs.readFile=original; }
   assert.equal(reads,0);
 });
-test('exact successful Keep Source, resize and Full service proofs match their own calibrations', async () => {
+test('portable Keep Source, resize and Full service schemas bind their own synthetic calibrations', async () => {
   assert.equal(SERVICE_PROOFS.keep720.sha256,'6d0d49b83ec5bf01a5c5aca977f412e83a8205dd6ad1e43ee558e5a5701e8039');
   for (const kind of ['keep720','resize1080to720','fullResize1080to720','fullResize1440to720']) {
     const {bytes,evidenceIds}=await fixture(kind);
-    assert.equal(sha(bytes),SERVICE_PROOFS[kind].sha256);
-    assert.equal(assertServiceProof(bytes,kind,SERVICE_PROOFS[kind].sha256,evidenceIds).cases.length,8);
+    assert.notEqual(sha(bytes),SERVICE_PROOFS[kind].sha256);assert.throws(()=>assertServiceProof(bytes,kind,SERVICE_PROOFS[kind].sha256,evidenceIds),/Exact accepted/);
+    assert.equal(assertServiceProof(bytes,kind,sha(bytes),evidenceIds).cases.length,8);
     assert.throws(()=>assertServiceProof(bytes,kind,'0'.repeat(64),evidenceIds),/Exact accepted/);
-    assert.throws(()=>assertServiceProof(bytes,kind,SERVICE_PROOFS[kind].sha256,evidenceIds.map(x=>x+'other')),/correlated/);
+    assert.throws(()=>assertServiceProof(bytes,kind,sha(bytes),evidenceIds.map(x=>x+'other')),/correlated/);
   }
 });
 test('forged successful labels cannot replace lifecycle, source, accounting or geometry evidence', async () => {
@@ -60,23 +57,14 @@ test('builder remains main-only and returns no ordinary runner or fallback autho
   assert.match(factory,/require\('\.\/workbench-qualified-encode-controls\.cjs'\)/);
 });
 
-test('accepted exact proofs construct real qualified factory without capabilities or child execution', async () => {
-  const { createQualifiedAv1WorkbenchService } = require('./workbench-av1-service.cjs');
-  const { Av1WorkbenchAdmissionService } = require('./workbench-av1-admission.cjs');
-  const { OperationRuntimeObserver } = require('../src/operation-runtime.cjs');
-  const { ClockQualifiedFamilySelector } = require('./workbench-long-range-service.cjs');
-  const stateDir=path.join(__dirname,'artifacts','qualified-construction-no-media'),outputAccess={test:'main-owned-output-access'};
-  const service=await createQualifiedAv1WorkbenchService({stateDir,outputAccess,onChild(){assert.fail('No children during construction');}});
-  try {
-    assert.ok(service instanceof Av1WorkbenchAdmissionService);
-    assert.ok(service.operationRuntime instanceof OperationRuntimeObserver);
-    assert.ok(service.operationQualifications instanceof ClockQualifiedFamilySelector);
-    assert.equal(service.stateDir,stateDir); assert.equal(service.outputAccess,outputAccess);
-    assert.equal(service.linuxQualifiedEncodeStatus.available,true);assert.equal(service.linuxQualifiedEncodeStatus.familyIds.length,3);
-    assert.equal(service.linuxRemuxStatus.available,false);assert.equal(service.remuxOperations,null);
-    assert.equal(service.operationEvidenceBudget,null);assert.equal(service.operationDeadlineMs,120000);
-    assert.equal(typeof service.run,'function');
-  } finally { service.closeAdmission(); await service.closeOperationResources(); }
+test('real three-family builder validates synthetic receipts then refuses unsupported Full-FLAC without issuing controls',async()=>{
+  const h=await specimens.controlsFixture();
+  await assert.rejects(h.api.createQualifiedEncodeControls({stateDir:'/not-created',onChild(){assert.fail('child');}}),{code:'INVALID_OPERATION_QUALIFICATION'});
+  assert.deepEqual(h.counts.validated,['keep720','resize1080to720','fullResize1080to720']);
+  assert.deepEqual(h.counts.tools,['ffmpeg','ffprobe']);assert.equal(h.counts.runner,0);assert.equal(h.counts.fourthLoads,0);
+  const bad=await specimens.controlsFixture({mutateProof(r,kind){if(kind==='resize1080to720')r.cases[0].accounting.evidenceIds=[];}});
+  await assert.rejects(bad.api.createQualifiedEncodeControls({stateDir:'/not-created'}),{code:'LINUX_QUALIFIED_CONTROLS'});
+  assert.deepEqual(bad.counts.tools,[]);assert.equal(bad.counts.runner,0);
 });
 
 test('inactive fourth builder pending fixture refuses before all reads even after future pins',async()=>{
@@ -104,33 +92,16 @@ test('1440 service validator has distinct status, geometry, lifecycle and comple
   }
 });
 
-test('accepted exact fourth proof constructs four-family factory without children and keeps three-family app separate',async()=>{
-  const {create1440QualifiedAv1WorkbenchService,createQualifiedAv1WorkbenchService}=require('./workbench-av1-service.cjs');
-  const {FULL_1440_RESIZE_FAMILY_ID}=require('../src/operation-resource-budget.cjs');
-  const bytes=await fs.readFile(SERVICE_PROOFS.fullResize1440to720.report);
-  assert.equal(sha(bytes),'44b2dda7486b274e5afd94b4bdb69c757667b4ba02261e131e5a97152d816be5');
-  for(const [factory,size] of [[create1440QualifiedAv1WorkbenchService,4],[createQualifiedAv1WorkbenchService,3]]) {
-    const outputAccess={marker:'four-family-no-media'},stateDir=path.join(__dirname,'artifacts','four-family-construction-no-media');
-    const service=await factory({stateDir,outputAccess,onChild(){assert.fail('No children');}});
-    try {assert.equal(service.linuxQualifiedEncodeStatus.familyIds.length,size);
-      assert.equal(service.linuxQualifiedEncodeStatus.familyIds.includes(FULL_1440_RESIZE_FAMILY_ID),size===4);
-      assert.equal(service.outputAccess,outputAccess);assert.equal(service.stateDir,stateDir);
-      assert.equal(service.linuxRemuxStatus.available,false);assert.equal(service.operationEvidenceBudget,null);
-    }finally{service.closeAdmission();await service.closeOperationResources();}
-  }
+test('real fourth builder validates its distinct synthetic proofs but cannot invent missing Full-FLAC authority',async()=>{
+  const h=await specimens.controlsFixture();
+  await assert.rejects(h.api.create1440QualifiedEncodeControls({stateDir:'/not-created',onChild(){assert.fail('child');}}),{code:'INVALID_OPERATION_QUALIFICATION'});
+  assert.deepEqual(h.counts.validated,['keep720','resize1080to720','fullResize1080to720','fullResize1440to720']);
+  assert.equal(h.counts.fourthLoads,1);assert.deepEqual(h.counts.tools,['ffmpeg','ffprobe']);assert.equal(h.counts.runner,0);
 });
 
-test('three-family controls import and real construction do not load unavailable inactive 1440 composition',async()=>{
-  const file=path.join(__dirname,'workbench-qualified-encode-controls.cjs'),source=await fs.readFile(file,'utf8');
-  const module={exports:{}},real=createRequire(file);let fourthLoads=0;
-  vm.runInThisContext(`(function(require,module,exports,__dirname){${source}\n})`,{filename:file})(name=>{
-    if(name==='./workbench-full-1440-service.cjs'){fourthLoads++;throw Object.assign(new Error('inactive 1440 dependency unavailable'),{code:'TEST_1440_UNAVAILABLE'});}
-    return real(name);
-  },module,module.exports,__dirname);
-  assert.equal(fourthLoads,0);
-  const result=await module.exports.createQualifiedEncodeControls({stateDir:path.join(__dirname,'artifacts','three-family-no-fourth-dependency'),onChild(){assert.fail('No children');}});
-  try {assert.equal(result.status.familyIds.length,3);assert.equal(fourthLoads,0);}
-  finally {await result.controls.operationRuntime.close();}
-  await assert.rejects(module.exports.create1440QualifiedEncodeControls({stateDir:'/not-created'}),{code:'TEST_1440_UNAVAILABLE'});
-  assert.equal(fourthLoads,1);
+test('three-family validation never loads unavailable fourth composition, even though current Full-FLAC remains unavailable',async()=>{
+  const h=await specimens.controlsFixture({rejectFourth:true});assert.equal(h.counts.fourthLoads,0);
+  await assert.rejects(h.api.createQualifiedEncodeControls({stateDir:'/not-created'}),{code:'INVALID_OPERATION_QUALIFICATION'});
+  assert.equal(h.counts.validated.length,3);assert.equal(h.counts.fourthLoads,0);
+  await assert.rejects(h.api.create1440QualifiedEncodeControls({stateDir:'/not-created'}),{code:'TEST_1440_UNAVAILABLE'});assert.equal(h.counts.fourthLoads,1);
 });

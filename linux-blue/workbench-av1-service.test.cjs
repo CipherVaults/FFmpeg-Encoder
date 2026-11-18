@@ -8,13 +8,24 @@ const { createRequire } = require('node:module');
 const { createAv1WorkbenchService, createQualifiedAv1WorkbenchService } = require('./workbench-av1-service.cjs');
 const { LinuxWorkbenchService } = require('./workbench-service.cjs');
 const { PINS, RUNTIME_ID } = require('./runtime-av1.cjs');
-test('original factory remains ordinary-only and forwards state/output access without spawning', async () => {
-  const stateDir = path.join(__dirname,'artifacts','factory-test-not-executed'), outputAccess = { marker:'main-owned-test-handle' };
-  const service = await createAv1WorkbenchService({stateDir,outputAccess,onChild(){assert.fail('child');}});
-  assert.ok(service instanceof LinuxWorkbenchService);assert.equal(service.stateDir,stateDir);assert.equal(service.outputAccess,outputAccess);
-  assert.equal(service.ffmpeg,PINS.ffmpeg.path);assert.equal(service.ffprobe,PINS.ffprobe.path);assert.equal(service.runtimeIdentity,RUNTIME_ID);
-  assert.equal(service.operationQualifications,null);assert.equal(service.operationRuntime,null);
-  assert.equal(service.linuxQualifiedEncodeStatus,undefined);assert.equal(service.linuxRemuxStatus.available,false);
+test('ordinary factory wiring preserves real service and ordered tool verification without historical binary access', async () => {
+  const file=path.join(__dirname,'workbench-av1-service.cjs'),source=await fs.readFile(file,'utf8'),real=createRequire(file),module={exports:{}};
+  let refuse=false;
+  const calls=[],run=()=>assert.fail('No child allowed'),onChild=()=>assert.fail('No child allowed');
+  const runtime={PINS,RUNTIME_ID,verifyAv1Tool:async kind=>{calls.push(kind);if(refuse)throw Object.assign(new Error('synthetic missing tool'),{code:'TEST_TOOL_MISSING'});},createAv1Runner:options=>{assert.equal(options.onChild,onChild);calls.push('runner');return run;}};
+  vm.runInThisContext(`(function(require,module,exports){${source}\n})`,{filename:file})(n=>n==='./runtime-av1.cjs'?runtime:real(n),module,module.exports);
+  const stateDir=path.join(__dirname,'artifacts','factory-test-not-executed'),outputAccess={marker:'main-owned-test-handle'};
+  const service=await module.exports.createAv1WorkbenchService({stateDir,outputAccess,onChild});
+  try {
+    assert.deepEqual(calls,['ffmpeg','ffprobe','runner']);
+    assert.ok(service instanceof LinuxWorkbenchService);assert.equal(service.stateDir,stateDir);assert.equal(service.outputAccess,outputAccess);
+    assert.equal(service.ffmpeg,PINS.ffmpeg.path);assert.equal(service.ffprobe,PINS.ffprobe.path);assert.equal(service.runtimeIdentity,RUNTIME_ID);
+    assert.equal(service.run,run);assert.equal(service.operationQualifications,null);assert.equal(service.operationRuntime,null);
+    assert.equal(service.linuxQualifiedEncodeStatus,undefined);assert.equal(service.linuxRemuxStatus.available,false);
+  } finally {service.closeAdmission();await service.closeOperationResources();}
+  calls.length=0;refuse=true;
+  await assert.rejects(module.exports.createAv1WorkbenchService({stateDir,outputAccess,onChild}),{code:'TEST_TOOL_MISSING'});
+  assert.deepEqual(calls,['ffmpeg']);
 });
 test('new factory preserves real pending control gate before runtime reads or children', async () => {
   // Fresh test-only module evaluation replaces only the Full calibration's

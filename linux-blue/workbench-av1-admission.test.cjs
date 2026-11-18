@@ -1,11 +1,17 @@
 'use strict';
-// Admission-only tests: actual fixed executable bytes are read to issue genuine
-// observer tokens, but no child/media execution occurs. execute is a test sink.
+// Portable admission contracts: real observer tokens over owned inert bytes.
+// No historical AV1 qualification or child execution is inferred. The production
+// admission class is evaluated with ONLY its runtime constants replaced in this test.
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const path = require('node:path');
 const { randomUUID } = require('node:crypto');
-const { Av1WorkbenchAdmissionService } = require('./workbench-av1-admission.cjs');
+const fs = require('node:fs/promises');
+const os = require('node:os');
+const vm = require('node:vm');
+const { createRequire } = require('node:module');
+const { createHash } = require('node:crypto');
+let Av1WorkbenchAdmissionService;
 const { isOrdinaryWorkbenchEntry } = require('./workbench-service.cjs');
 const { OperationRuntimeObserver } = require('../src/operation-runtime.cjs');
 const { OperationFamilySelector } = require('../src/operation-family.cjs');
@@ -14,15 +20,29 @@ const { resolveFileRequest } = require('../src/operation-contract.cjs');
 const { classifyColor } = require('../src/media.cjs');
 const { FAMILY_ID, RESOURCE_POLICY, RESIZE_FAMILY_ID, RESIZE_RESOURCE_POLICY, FULL_RESIZE_FAMILY_ID, FULL_RESIZE_RESOURCE_POLICY, FULL_1440_RESIZE_FAMILY_ID, FULL_1440_RESIZE_RESOURCE_POLICY } = require('../src/operation-resource-budget.cjs');
 const { frozenQualifications } = require('../scripts/v07-sdr-flac-range-calibration.cjs');
-const { PINS, RUNTIME_ID } = require('./runtime-av1.cjs');
+let PINS, RUNTIME_ID, runtimeDirectory;
+const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const SETTINGS = { profileId: 'h265-cpu', preset: 'slow', quality: 25 };
 let observer, runtimeToken;
 test.before(async () => {
+  runtimeDirectory = await fs.mkdtemp(path.join(os.tmpdir(), 'av1-admission-contract-'));
+  PINS = {};
+  for (const kind of ['ffmpeg', 'ffprobe']) {
+    const bytes = Buffer.from(`inert observer fixture: ${kind}\n`), file = path.join(runtimeDirectory, kind);
+    await fs.writeFile(file, bytes, { flag: 'wx', mode: 0o500 });
+    PINS[kind] = { path: file, size: bytes.length, sha256: sha(bytes) };
+  }
+  RUNTIME_ID = sha(JSON.stringify(['ffmpeg','ffprobe'].map(k => ({sizeBytes:PINS[k].size,sha256:PINS[k].sha256}))));
+  const file = path.join(__dirname, 'workbench-av1-admission.cjs'), module = {exports:{}}, real = createRequire(file);
+  const source = await fs.readFile(file, 'utf8');
+  vm.runInThisContext(`(function(require,module,exports){${source}\n})`, {filename:file})(
+    name => name === './runtime-av1.cjs' ? {PINS,RUNTIME_ID} : real(name), module, module.exports);
+  ({Av1WorkbenchAdmissionService} = module.exports);
   observer = new OperationRuntimeObserver({ runtime: Object.fromEntries(Object.entries(PINS).map(([k,p]) => [k,p.path])),
     pins: Object.fromEntries(Object.entries(PINS).map(([k,p]) => [k,{ sizeBytes:p.size, sha256:p.sha256 }])), run() { assert.fail('No child allowed'); } });
   runtimeToken = await observer.observe({ hardware: 'CPU' });
 });
-test.after(async () => observer?.close());
+test.after(async () => { try { await observer?.close(); } finally { if (runtimeDirectory) await fs.rm(runtimeDirectory,{recursive:true,force:true}); } });
 function probe(width = 1280) { return { streams: [
   { index: 0, codec_type: 'video', codec_name: 'h264', profile: 'High', width, height: width === 1280 ? 720 : width === 2560 ? 1440 : 1080,
     pix_fmt: 'yuv420p', field_order: 'progressive', sample_aspect_ratio: '1:1', display_aspect_ratio: '16:9',
@@ -35,7 +55,7 @@ function probe(width = 1280) { return { streams: [
 function selector(include1440=false) {
   const q = frozenQualifications('synthetic-admission-only', RUNTIME_ID, probe());
   return new OperationFamilySelector({ policyIdentity: 'synthetic-admission-only', families:
-    [[FAMILY_ID,RESOURCE_POLICY],[RESIZE_FAMILY_ID,RESIZE_RESOURCE_POLICY],[FULL_RESIZE_FAMILY_ID,FULL_RESIZE_RESOURCE_POLICY],...(include1440?[[FULL_1440_RESIZE_FAMILY_ID,FULL_1440_RESIZE_RESOURCE_POLICY]]:[])].map(([id,resourcePolicy]) => ({
+    [[FAMILY_ID,RESOURCE_POLICY],[RESIZE_FAMILY_ID,RESIZE_RESOURCE_POLICY],...(include1440?[[FULL_1440_RESIZE_FAMILY_ID,FULL_1440_RESIZE_RESOURCE_POLICY]]:[])].map(([id,resourcePolicy]) => ({
       id,resourcePolicy, settings:SETTINGS,runtimeIdentity:RUNTIME_ID,environment:null,qualification:q.qualification,timingQualification:q.timingQualification,
       evidenceIds:[q.qualification.evidenceId,q.timingQualification.evidenceId] })) });
 }
@@ -63,8 +83,8 @@ test('ordinary three-codec paths retain baseline predicate and reach superclass 
     s.startBatch(request);assert.deepEqual(s.started,request.fileIds);
   }
 });
-test('genuine KeepSource, range resize and Full resize tokens coexist with ordinary H265 in one preflight', () => {
-  const sel=selector(), entries=[ordinary(),... [FAMILY_ID,RESIZE_FAMILY_ID,FULL_RESIZE_FAMILY_ID].map(k=>qualified(sel,k))];
+test('genuine currently implemented KeepSource and range resize tokens coexist with ordinary H265 in one preflight', () => {
+  const sel=selector(), entries=[ordinary(),... [FAMILY_ID,RESIZE_FAMILY_ID].map(k=>qualified(sel,k))];
   const {s,request}=service(entries,sel);s.startBatch(request);assert.deepEqual(s.started,request.fileIds);
 });
 test('forged/stale family and runtime tokens refuse the whole batch without state mutation', () => {
@@ -101,12 +121,18 @@ test('a revoked genuine observer token refuses before superclass mutation', asyn
   assert.equal(s.started,undefined);assert.ok(s.state.items.every(i=>i.status==='ready'));
 });
 
-test('fourth family requires its own genuine catalog and current token, old three cannot issue it',()=>{
+test('unimplemented historical Full-FLAC and1440 descriptors cannot acquire current private authority',()=>{
+  // Their original positive admission assertions remain in the explicit historical
+  // qualification suite. Do not simulate a private brand for unsupported source.
+  assert.throws(()=>selector(true),{code:'INVALID_OPERATION_QUALIFICATION'});
+  assert.throws(()=>qualified(selector(),FULL_RESIZE_FAMILY_ID));
   assert.throws(()=>qualified(selector(),FULL_1440_RESIZE_FAMILY_ID));
-  const sel=selector(true),e=qualified(sel,FULL_1440_RESIZE_FAMILY_ID),x=service([ordinary(),e],sel);
-  x.s.startBatch(x.request);assert.deepEqual(x.s.started,x.request.fileIds);
-  for(const stale of [false,true]) {const q=selector(true),entry=qualified(q,FULL_1440_RESIZE_FAMILY_ID);
-    if(stale)q.invalidate('1440 stale');else entry.qualificationSelection={};
-    const y=service([ordinary(),entry],q);assert.throws(()=>y.s.startBatch(y.request));assert.equal(y.s.started,undefined);
-  }
+});
+
+test('portable observer retains genuine private branding and rejects changed tool bytes without execution', async () => {
+  assert.throws(() => observer.snapshot({...runtimeToken}), {code:'OPERATION_RUNTIME_STALE'});
+  const token = await observer.observe({hardware:'CPU'});
+  await fs.chmod(PINS.ffmpeg.path,0o700);
+  await fs.writeFile(PINS.ffmpeg.path,'changed inert fixture');
+  await assert.rejects(observer.requireCurrent(token), {code:'OPERATION_RUNTIME_STALE'});
 });

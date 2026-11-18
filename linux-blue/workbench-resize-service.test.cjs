@@ -1,4 +1,5 @@
 'use strict';
+const specimens = require('./test-fixtures/proportional-reports.cjs');
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs/promises');
@@ -11,30 +12,14 @@ const { frozenQualifications } = require('../scripts/v07-sdr-flac-range-calibrat
 const { RUNTIME_ID } = require('./runtime-av1.cjs');
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const check = value => { const bytes = Buffer.from(JSON.stringify(value)); return assertResizeReceipt(bytes, sha(bytes)); };
-async function syntheticReport() {
-  // Deliberately synthetic mutation for schema tests only, never service authority.
-  const value = JSON.parse(await fs.readFile(previous.REPORT));
-  value.resourcePolicy = RESIZE_RESOURCE_POLICY;
-  value.geometry = { sourceWidth: 1920, sourceHeight: 1080, resolution: '720', outputWidth: 1280, outputHeight: 720 };
-  for (const source of value.sources) {
-    const video = source.probe.streams.find(s => s.codec_type === 'video'); video.width = 1920; video.height = 1080;
-    source.frozen = frozenQualifications(`${path.basename(path.dirname(REPORT))}:${source.id}`, RUNTIME_ID, source.probe);
-  }
-  for (const row of value.cases) {
-    const source = value.sources.find(s => s.id === row.sourceId);
-    row.resources = deriveCfrResizeFlacResources({ sourceExtentUs: source.sourceExtentUs,
-      selectedExtentUs: (row.range.endUs ?? source.sourceExtentUs) - row.range.startUs, sourceBytes: source.identity.size });
-    row.completeSource.video.properties.policy = RESIZE_FAMILY_ID;
-  }
-  return value;
-}
-test('resize receipt binds independently verified bytes while explicit pending factories stay closed', async () => {
+async function syntheticReport() { return specimens.calibration('resize1080to720'); }
+test('portable resize schema binds supplied test bytes while live pins and pending factories stay closed', async () => {
   assert.equal(REPORT_SHA, 'dd0637354ea1ca27e57c75958074423aff98f37ab6da00a3459a6dac2b206c32');
   const pending = previous.createProportionalServiceFactory({ kind: 'resize1080to720', report: REPORT, reportSha: null });
   await assert.rejects(pending.createService({ stateDir: '/must-not-exist', onChild() { assert.fail('child'); } }), /pending/);
   assert.throws(() => pending.assertReceipt(Buffer.from('{}')), /pending/);
   assert.throws(() => assertResizeReceipt(Buffer.from('{}')), /exact reviewed/);
-  assert.equal(assertResizeReceipt(await fs.readFile(REPORT)).status, 'passed-pre-catalog-calibration');
+  const bytes=specimens.bytes(await syntheticReport());assert.equal(assertResizeReceipt(bytes,sha(bytes)).status,'passed-pre-catalog-calibration');assert.throws(()=>assertResizeReceipt(bytes),/exact reviewed/);
 });
 test('resize receipt independently binds geometry, policy, clocks, resources and all evidence', async () => {
   const value = await syntheticReport(); assert.deepEqual(check(value), value);
@@ -46,9 +31,9 @@ test('resize receipt independently binds geometry, policy, clocks, resources and
     r => { r.cases[0].completeSource.video.frames--; }, r => { r.cases[0].pcmIdentity.outputHash = '0'.repeat(64); }]) {
     const bad = structuredClone(value); mutate(bad); assert.throws(() => check(bad), { code: 'LINUX_LONG_RANGE_SCOPE' });
   }
-  const original = await fs.readFile(previous.REPORT);
+  const original = specimens.bytes(specimens.calibration('keep720'));
   assert.throws(() => assertResizeReceipt(original, sha(original)), /pre-catalog/);
-  assert.equal(previous.assertLongRangeReceipt(original).status, 'passed-pre-catalog-calibration');
+  assert.equal(previous.assertLongRangeReceipt(original,sha(original)).status, 'passed-pre-catalog-calibration');
 });
 test('trusted factory rejects hidden or arbitrary configuration and snapshots pending state', async () => {
   const { createProportionalServiceFactory } = previous;

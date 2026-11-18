@@ -9,14 +9,26 @@ const { RUNTIME_ID, SOURCE_PINS, checkRemuxSources, createRemuxRunner } = requir
 const options = () => ({ runtime: Object.fromEntries(Object.entries(PINS).map(([k, v]) => [k, v.path])),
   pins: Object.fromEntries(Object.entries(PINS).map(([k, v]) => [k, { sizeBytes: v.size, sha256: v.sha256 }])) });
 
-test('reviewed local dependency gate succeeds and absent/symlinked dependencies fail closed', async () => {
-  assert.equal((await checkRemuxSources()).available, true);
-  const root = await fs.mkdtemp(path.join(__dirname, 'artifacts/remux-gate-'));
-  const absent = await checkRemuxSources(root); assert.equal(absent.available, false);
-  assert.deepEqual(absent.missing, Object.keys(SOURCE_PINS));
-  await fs.mkdir(path.join(root, 'src'));
-  for (const file of Object.keys(SOURCE_PINS)) await fs.symlink(path.resolve(__dirname, '..', file), path.join(root, file));
-  assert.deepEqual((await checkRemuxSources(root)).missing, Object.keys(SOURCE_PINS));
+test('portable dependency gate accepts only exact owned bytes and refuses missing, changed and symlinked inputs', async t => {
+  const os=require('node:os'),vm=require('node:vm'),{createRequire}=require('node:module'),{createHash}=require('node:crypto');
+  const root=await fs.mkdtemp(path.join(os.tmpdir(),'remux-gate-contract-'));t.after(()=>fs.rm(root,{recursive:true,force:true}));
+  const pins={},bytes=Buffer.from('inert synthetic dependency; never runtime code');
+  for(const file of Object.keys(SOURCE_PINS))pins[file]=createHash('sha256').update(bytes).digest('hex');
+  const file=path.join(__dirname,'workbench-remux.cjs'),original=await fs.readFile(file,'utf8'),module={exports:{}},real=createRequire(file);
+  // Test-only constant substitution; live SOURCE_PINS and source guards unchanged.
+  const source=original.replace(/const SOURCE_PINS = Object\.freeze\(\{[\s\S]*?\}\);/,`const SOURCE_PINS = Object.freeze(${JSON.stringify(pins)});`);assert.notEqual(source,original);
+  vm.runInThisContext(`(function(require,module,exports,__dirname){${source}\n})`,{filename:file})(real,module,module.exports,__dirname);
+  const check=module.exports.checkRemuxSources;
+  assert.deepEqual((await check(root)).missing,Object.keys(pins));
+  await fs.mkdir(path.join(root,'src'));
+  for(const n of Object.keys(pins))await fs.writeFile(path.join(root,n),bytes,{flag:'wx'});
+  assert.deepEqual(await check(root),{available:true,missing:[]});
+  const first=Object.keys(pins)[0];await fs.writeFile(path.join(root,first),'changed');assert.deepEqual((await check(root)).missing,[first]);
+  await fs.rm(path.join(root,first));await fs.symlink(path.join(root,Object.keys(pins)[1]),path.join(root,first));assert.deepEqual((await check(root)).missing,[first]);
+  await fs.rm(path.join(root,first));await fs.writeFile(path.join(root,first),Buffer.alloc(1024*1024+1));assert.deepEqual((await check(root)).missing,[first]);
+  const actual=await checkRemuxSources();
+  // Actual historical gate remains closed on current changed dependencies, not repinned.
+  assert.equal(actual.available,false);assert.ok(actual.missing.includes('src/operation-runtime.cjs'));
 });
 test('actual pinned pair accepts its exact Linux signed inode representation and genuine identity', async () => {
   const observer = new OperationRuntimeObserver(options());

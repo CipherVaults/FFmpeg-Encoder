@@ -1,0 +1,475 @@
+{
+  "schema": "ffmpeg-checkpoint-evidence-v1",
+  "checkpoint": "035",
+  "cutoffUtc": "2026-11-18T05:07:37.151402+00:00",
+  "expectedScope": {
+    "changedPaths": 17,
+    "files": 617,
+    "commits": 35
+  },
+  "publication": "pending at cutoff",
+  "integration": {
+    "integratedAtUtc": "2026-11-18T05:04:59.269665+00:00",
+    "baseLocalCommit": "35b254d4cf05d1a41a4655e801ba6dee9ecfb722",
+    "priorCheckpointFullyPreserved": {
+      "bytes": 110502,
+      "sha256": "ffd90f045c56a876134caf734b943c1232a39c8bb3275a869e6144e14adcb143"
+    },
+    "baseSourceFiles": 611,
+    "resultSourceFiles": 615,
+    "unchangedBaseFiles": 602,
+    "files": [
+      {
+        "path": "linux-blue/workbench-av1-admission.test.cjs",
+        "bytes": 11650,
+        "sha256": "79dd7f22e89805da15698d0501447d3b5bf29c94db3668ca4b22cfe28f38b6d0"
+      },
+      {
+        "path": "linux-blue/workbench-av1-service.test.cjs",
+        "bytes": 7833,
+        "sha256": "e488452ca674052a3e2a35297a83dcb0c5a402958684a71759a33857fdd7ce4e"
+      },
+      {
+        "path": "linux-blue/workbench-full-1440-service.test.cjs",
+        "bytes": 6149,
+        "sha256": "624324b4fccb05d40e5cc236c81d6983cd40f0f3de1acafecd778302c6b673a6"
+      },
+      {
+        "path": "linux-blue/workbench-remux.test.cjs",
+        "bytes": 11450,
+        "sha256": "9db76dd9f7af7a4755b64a4a7973fc891dba6f887baeb4d1ea5b20b905f6b5e1"
+      },
+      {
+        "path": "linux-blue/qualification-tests/historical-runtime-and-remux.cjs",
+        "bytes": 13095,
+        "sha256": "349777ec1ba28aa4d81f08d2e6b791ea784ae088fabda082da9e7e27e003d096"
+      },
+      {
+        "path": "linux-blue/synthetic-service.test.cjs",
+        "bytes": 9188,
+        "sha256": "3666d1d77e2e9a60b0e855a1a1af766d10d7ba4f775b8713fe5d539f8f0f8caf"
+      },
+      {
+        "path": "linux-blue/qualification-tests/historical-synthetic-service.cjs",
+        "bytes": 6275,
+        "sha256": "473f71f5de00e5898573b9d31c96fd4477aa11f110322f0b2210239a3cdffc54"
+      },
+      {
+        "path": "linux-blue/workbench-full-resize-service.test.cjs",
+        "bytes": 3949,
+        "sha256": "f9c39242391d3ac7341fb502bede4c0ca1f5b1487525f1e7dcae81d1c4719d47"
+      },
+      {
+        "path": "linux-blue/workbench-long-range-service.test.cjs",
+        "bytes": 10906,
+        "sha256": "327cf6f89ceb814d0e8d33352ce174e263299af43f1cadfef305104f589bd42f"
+      },
+      {
+        "path": "linux-blue/workbench-qualified-encode-controls.test.cjs",
+        "bytes": 9039,
+        "sha256": "badf82ef883f6b9645c3604b378390eb10d706d96bf3d040db46782c5c4d5617"
+      },
+      {
+        "path": "linux-blue/workbench-resize-service.test.cjs",
+        "bytes": 4640,
+        "sha256": "430465d6554084581fd532542f4ddc74a0ace5026fd8c591192da78ce4c6996e"
+      },
+      {
+        "path": "linux-blue/test-fixtures/proportional-reports.cjs",
+        "bytes": 9943,
+        "sha256": "222d9f0ffa2c4b9543793b3574f9c19fc754007b14cb232ab3ef33612dc36208"
+      },
+      {
+        "path": "linux-blue/qualification-tests/historical-proportional-reports.cjs",
+        "bytes": 41939,
+        "sha256": "f4a44ab4368d536563e0b223ba273d3acf2cc165ad4988541c9cf25f9cd37953"
+      }
+    ],
+    "steps": [
+      {
+        "batch": "failure27",
+        "handoff": {
+          "bytes": 7723,
+          "sha256": "f587c5969173011caf8d99234f32a83461f602795922f66fc434ea7e29d58a2c"
+        },
+        "review": {
+          "bytes": 7152,
+          "sha256": "c2bde24417cb41f5c66e030509e972ca776bfae04d947113a2e24e47c0c27c65"
+        },
+        "patch": {
+          "bytes": 31192,
+          "sha256": "75796008cd67901824d6201d36e5aa22f996fd71dc102dcf607f0df8bd90bcc3"
+        },
+        "changes": [
+          {
+            "path": "linux-blue/workbench-av1-admission.test.cjs",
+            "before": {
+              "bytes": 10085,
+              "sha256": "9df61cceaf1f8bd6c334d5754be4c79b2cef4334ba45b39a1612ff8cea60968e"
+            },
+            "after": {
+              "bytes": 11650,
+              "sha256": "79dd7f22e89805da15698d0501447d3b5bf29c94db3668ca4b22cfe28f38b6d0"
+            }
+          },
+          {
+            "path": "linux-blue/workbench-av1-service.test.cjs",
+            "before": {
+              "bytes": 6755,
+              "sha256": "6079eec204ed3e0b15970089018a06ac42e0072b1fc06b67d8192d35349036a6"
+            },
+            "after": {
+              "bytes": 7833,
+              "sha256": "e488452ca674052a3e2a35297a83dcb0c5a402958684a71759a33857fdd7ce4e"
+            }
+          },
+          {
+            "path": "linux-blue/workbench-full-1440-service.test.cjs",
+            "before": {
+              "bytes": 5963,
+              "sha256": "2a3127ff0f81a44f6f640c98817e2d4ee5cb099c058e4d292a1e16f13c0bf86e"
+            },
+            "after": {
+              "bytes": 7318,
+              "sha256": "f8c1287dc19dc83c670d5e7c848db250d87ea30e2cd32fe6d3b92b88135b31ac"
+            }
+          },
+          {
+            "path": "linux-blue/workbench-remux.test.cjs",
+            "before": {
+              "bytes": 9956,
+              "sha256": "0a44f52c0bbd345661c5330cd1aa230b35a509b298dac4e7b19642ba7ec19d47"
+            },
+            "after": {
+              "bytes": 11450,
+              "sha256": "9db76dd9f7af7a4755b64a4a7973fc891dba6f887baeb4d1ea5b20b905f6b5e1"
+            }
+          },
+          {
+            "path": "linux-blue/qualification-tests/historical-runtime-and-remux.cjs",
+            "before": null,
+            "after": {
+              "bytes": 13095,
+              "sha256": "349777ec1ba28aa4d81f08d2e6b791ea784ae088fabda082da9e7e27e003d096"
+            }
+          }
+        ]
+      },
+      {
+        "batch": "failure17",
+        "handoff": {
+          "bytes": 6224,
+          "sha256": "af1e05557efa18c8f2e1ac8f992570fc137183251b69db612642f1cca9273b5e"
+        },
+        "review": {
+          "bytes": 5572,
+          "sha256": "793fd5b387e862058c67011231d1853ec5af743aabe3981a61912a0797f0ed68"
+        },
+        "patch": {
+          "bytes": 21854,
+          "sha256": "2df5b43c70028998358545d58c17a0f6b6c4d25f68ece70042e33aa579a0f4cf"
+        },
+        "changes": [
+          {
+            "path": "linux-blue/synthetic-service.test.cjs",
+            "before": {
+              "bytes": 5647,
+              "sha256": "be889555ea44c4d293c33e2cfc8c84a1a84ca8d96d426b505ccbf01811530e7c"
+            },
+            "after": {
+              "bytes": 9188,
+              "sha256": "3666d1d77e2e9a60b0e855a1a1af766d10d7ba4f775b8713fe5d539f8f0f8caf"
+            }
+          },
+          {
+            "path": "linux-blue/qualification-tests/historical-synthetic-service.cjs",
+            "before": null,
+            "after": {
+              "bytes": 6275,
+              "sha256": "473f71f5de00e5898573b9d31c96fd4477aa11f110322f0b2210239a3cdffc54"
+            }
+          }
+        ]
+      },
+      {
+        "batch": "failure13",
+        "handoff": {
+          "bytes": 7778,
+          "sha256": "b1e931ae61c85227441120be708a5e44ab7b7477c433a972017530e6b59d409c"
+        },
+        "review": {
+          "bytes": 7538,
+          "sha256": "52e2acdfdf44e2c0fdd2370549beb939270b70a94940199158bd6ad6bdeae254"
+        },
+        "patch": {
+          "bytes": 78286,
+          "sha256": "4e3de6228cb16ce5b87ba3bce7479447e2740b30c085c4715662a39ec03870bb"
+        },
+        "changes": [
+          {
+            "path": "linux-blue/workbench-full-1440-service.test.cjs",
+            "before": {
+              "bytes": 7318,
+              "sha256": "f8c1287dc19dc83c670d5e7c848db250d87ea30e2cd32fe6d3b92b88135b31ac"
+            },
+            "after": {
+              "bytes": 6149,
+              "sha256": "624324b4fccb05d40e5cc236c81d6983cd40f0f3de1acafecd778302c6b673a6"
+            }
+          },
+          {
+            "path": "linux-blue/workbench-full-resize-service.test.cjs",
+            "before": {
+              "bytes": 5137,
+              "sha256": "8affd468c14fba60c98dc3ea734a96e1d502d61382afa5170d06f7b3a782239c"
+            },
+            "after": {
+              "bytes": 3949,
+              "sha256": "f9c39242391d3ac7341fb502bede4c0ca1f5b1487525f1e7dcae81d1c4719d47"
+            }
+          },
+          {
+            "path": "linux-blue/workbench-long-range-service.test.cjs",
+            "before": {
+              "bytes": 10678,
+              "sha256": "823948d7ac18bc5732e3297985b9261411188dafbf32a4c24a64871eaef07fb6"
+            },
+            "after": {
+              "bytes": 10906,
+              "sha256": "327cf6f89ceb814d0e8d33352ce174e263299af43f1cadfef305104f589bd42f"
+            }
+          },
+          {
+            "path": "linux-blue/workbench-qualified-encode-controls.test.cjs",
+            "before": {
+              "bytes": 11188,
+              "sha256": "18b69949fa9f5894556a74e11e8b0c7a2625022df397ab9388515730fe874ac1"
+            },
+            "after": {
+              "bytes": 9039,
+              "sha256": "badf82ef883f6b9645c3604b378390eb10d706d96bf3d040db46782c5c4d5617"
+            }
+          },
+          {
+            "path": "linux-blue/workbench-resize-service.test.cjs",
+            "before": {
+              "bytes": 5387,
+              "sha256": "2190e0461ca93177bc8770c0488e7ffd61b6d6e49f9d6f2beaeb485513691d04"
+            },
+            "after": {
+              "bytes": 4640,
+              "sha256": "430465d6554084581fd532542f4ddc74a0ace5026fd8c591192da78ce4c6996e"
+            }
+          },
+          {
+            "path": "linux-blue/test-fixtures/proportional-reports.cjs",
+            "before": null,
+            "after": {
+              "bytes": 9943,
+              "sha256": "222d9f0ffa2c4b9543793b3574f9c19fc754007b14cb232ab3ef33612dc36208"
+            }
+          },
+          {
+            "path": "linux-blue/qualification-tests/historical-proportional-reports.cjs",
+            "before": null,
+            "after": {
+              "bytes": 41939,
+              "sha256": "f4a44ab4368d536563e0b223ba273d3acf2cc165ad4988541c9cf25f9cd37953"
+            }
+          }
+        ]
+      }
+    ],
+    "sequentialOverlap": "workbench-full-1440-service.test.cjs first receives reviewed second slice, then final report-fixture changes; routing body was independently verified byte-identical.",
+    "productionFilesChanged": 0,
+    "fullCopy26Exact": true,
+    "sourceOnly": true,
+    "leadDecision": "Accept three independently reviewed test-only slices; current portable contracts and old historical qualification are explicitly separated. Owner does not require reconstructing obsolete code to green old tests. No feature/runtime restoration inferred.",
+    "tests": "Final lead integrated tests pending at this integration timestamp; separately recorded later."
+  },
+  "tests": {
+    "completedAtUtc": "2026-11-18T05:05:49.642943+00:00",
+    "baseLocalCommit": "35b254d4cf05d1a41a4655e801ba6dee9ecfb722",
+    "testedIntegratedSource": true,
+    "runtimeOrNativeExecuted": false,
+    "runs": [
+      {
+        "path": "checkpoint035-lead-tests/affected.json",
+        "bytes": 6242,
+        "sha256": "5f358c7a451ad1e2bcebf90e179429f162cdfd9f13883933a64b72596e8685df",
+        "summary": {
+          "tests": 52,
+          "suites": 0,
+          "pass": 52,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      },
+      {
+        "path": "checkpoint035-lead-tests/focused.json",
+        "bytes": 7453,
+        "sha256": "cadb9e3efbc81d83653e501ad1e5aaeb854d384655067ab03e8c7439f4c8f34c",
+        "summary": {
+          "tests": 224,
+          "suites": 0,
+          "pass": 224,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      },
+      {
+        "path": "checkpoint035-lead-tests/protection.json",
+        "bytes": 5839,
+        "sha256": "7279bd723550e535886f998a290765f15e0cee3ec7601e51e0ad2c5bcd6c9168",
+        "summary": {
+          "tests": 229,
+          "suites": 0,
+          "pass": 229,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      },
+      {
+        "path": "checkpoint035-lead-tests/linux-broad.json",
+        "bytes": 12852,
+        "sha256": "b5d086a0b5e4c44b94ad1a2b5189fdf334f008adb5a84165ab8837b48c398b83",
+        "summary": {
+          "tests": 296,
+          "suites": 0,
+          "pass": 296,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      },
+      {
+        "path": "checkpoint035-lead-tests/historical-reference.json",
+        "bytes": 5220,
+        "sha256": "a5f6d5eea59d6abcaf1ddd9d54bf7c28210f57ae4d48782784b2f74d5c36f0a9",
+        "summary": {
+          "tests": 43,
+          "suites": 6,
+          "pass": 1,
+          "fail": 9,
+          "cancelled": 33,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 1
+      }
+    ],
+    "checkedSourceFiles": 615,
+    "sourceBytesUnchanged": true,
+    "overlappingScopesNotSummed": true
+  },
+  "artifacts": [
+    {
+      "path": "checkpoint035-fixed-cutoff.json",
+      "bytes": 391,
+      "sha256": "64fb88d67e1fec325e51eaf794d3a9aeee99d22dc5f00b9f6b68bbaa6e792776"
+    },
+    {
+      "path": "checkpoint035-integration.json",
+      "bytes": 9856,
+      "sha256": "b3a4abae8157c1be39b5213b58f94fada6d0413b8997999b9c77ea8ebc0b4201"
+    },
+    {
+      "path": "checkpoint035-lead-test-results.json",
+      "bytes": 2167,
+      "sha256": "40d09609b07155898a49022c525e9f181cef375bbe498590da59d7cc83e418c5"
+    },
+    {
+      "path": "checkpoint035-failure-reconciliation.json",
+      "bytes": 1271,
+      "sha256": "31f4d04dd765fc27cecead148af5d5c0eaa4efeab6439a0eda6908b29cd5100e"
+    },
+    {
+      "path": "failure27-independent-review/INDEPENDENT_REVIEW-v1.json",
+      "bytes": 7152,
+      "sha256": "c2bde24417cb41f5c66e030509e972ca776bfae04d947113a2e24e47c0c27c65"
+    },
+    {
+      "path": "failure17-independent-review/INDEPENDENT_REVIEW-v1.json",
+      "bytes": 5572,
+      "sha256": "793fd5b387e862058c67011231d1853ec5af743aabe3981a61912a0797f0ed68"
+    },
+    {
+      "path": "failure13-independent-review/INDEPENDENT_REVIEW-v1.json",
+      "bytes": 7538,
+      "sha256": "52e2acdfdf44e2c0fdd2370549beb939270b70a94940199158bd6ad6bdeae254"
+    },
+    {
+      "path": "full-flac-implementation-investigation/INVESTIGATION.json",
+      "bytes": 9930,
+      "sha256": "748f5fa5e83737da9b748ddeb425122d5ad5dd805fad9f924bce102dbd3b0e80"
+    },
+    {
+      "path": "post035-capability-next-step/PLAN-v2-owner-priorities.md",
+      "bytes": 7043,
+      "sha256": "54331712a3a95f3daf195c1cf08f3b939eacd726ead994742efd38e4923ae4d5"
+    },
+    {
+      "path": "notion-checkpoint-034-verification.json",
+      "bytes": 110502,
+      "sha256": "ffd90f045c56a876134caf734b943c1232a39c8bb3275a869e6144e14adcb143"
+    },
+    {
+      "path": "github-checkpoint034-verification.json",
+      "bytes": 4973,
+      "sha256": "e6f5b351becb1d96ed9703f0ddde93160c032e4e80ff7b934aad8c99e82162ce"
+    },
+    {
+      "path": "checkpoint035-lead-tests/affected.json",
+      "bytes": 6242,
+      "sha256": "5f358c7a451ad1e2bcebf90e179429f162cdfd9f13883933a64b72596e8685df"
+    },
+    {
+      "path": "checkpoint035-lead-tests/focused.json",
+      "bytes": 7453,
+      "sha256": "cadb9e3efbc81d83653e501ad1e5aaeb854d384655067ab03e8c7439f4c8f34c"
+    },
+    {
+      "path": "checkpoint035-lead-tests/protection.json",
+      "bytes": 5839,
+      "sha256": "7279bd723550e535886f998a290765f15e0cee3ec7601e51e0ad2c5bcd6c9168"
+    },
+    {
+      "path": "checkpoint035-lead-tests/linux-broad.json",
+      "bytes": 12852,
+      "sha256": "b5d086a0b5e4c44b94ad1a2b5189fdf334f008adb5a84165ab8837b48c398b83"
+    },
+    {
+      "path": "checkpoint035-lead-tests/historical-reference.json",
+      "bytes": 5220,
+      "sha256": "a5f6d5eea59d6abcaf1ddd9d54bf7c28210f57ae4d48782784b2f74d5c36f0a9"
+    }
+  ],
+  "ownerPriority": {
+    "cutoffUtc": "2026-11-18T05:07:37.151402+00:00",
+    "ownerDirection": "Current reliability/performance and truthful supported/unsupported/untested map; obsolete historical reference failures do not require reconstructing old code.",
+    "currentReliabilityFollowup": "Isolated lifecycle boundary investigation and read-only retained-cost attribution assigned only; no outcome at cutoff."
+  },
+  "historicalReferenceMeaning": "Optional preserved original contracts: 1 pass, 9 failures, 33 prerequisite cancellations and zero skips; not automatically a current release gate. No cancelled assertion counted as passed.",
+  "productionChanges": 0,
+  "fullCopy26Exact": true,
+  "limits": [
+    "Portable test green is not media qualification or feature restoration.",
+    "All 615 checked source files remained byte-identical through final tests; overlapping scopes are not summed.",
+    "Current Full-copy finite evidence and source-033 empty-switch evidence retain their prior attribution. Keep/resize remain stale; Full-FLAC/1440 inherited incomplete integration is not restored.",
+    "Ordinary/default encoding, old AV1, Remux, hardware and Windows scope remains unverified beyond exact existing evidence.",
+    "No new benchmark, default, producer pin or media/runtime changes.",
+    "Lifecycle and retained-cost investigation assigned only at cutoff, no result.",
+    "Manual review is not formal Security Cloud assessment."
+  ]
+}

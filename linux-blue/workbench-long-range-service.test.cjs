@@ -1,4 +1,5 @@
 'use strict';
+const specimens = require('./test-fixtures/proportional-reports.cjs');
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { createHash } = require('node:crypto');
@@ -49,7 +50,9 @@ test('pending, missing or changed digests cannot authorize a receipt', async () 
   assert.throws(() => assertLongRangeReceipt(Buffer.from('{}'), ''), /pending/);
   assert.throws(() => assertLongRangeReceipt(Buffer.from('{}')), /exact reviewed/);
   const bad = Buffer.from('{'); assert.throws(() => assertLongRangeReceipt(bad, sha(bad)), /JSON/);
-  assert.equal(assertLongRangeReceipt(await fs.readFile(REPORT)).status, 'passed-pre-catalog-calibration');
+  const portable=Buffer.from(JSON.stringify(report()));
+  assert.equal(assertLongRangeReceipt(portable,sha(portable)).status,'passed-pre-catalog-calibration');
+  assert.throws(()=>assertLongRangeReceipt(portable),/exact reviewed/); // Not historical qualification.
 });
 test('exact-digest receipt validates complete frozen structure without granting service authority', () => {
   const value = report(); assert.deepEqual(validate(value), value);

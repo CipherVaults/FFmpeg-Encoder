@@ -1,23 +1,30 @@
 # Current state: Linux FFmpeg Encoder 0.7
 
-Updated through 2026-11-18 04:47:34.966823 UTC. Checkpoint 034 preservation is pending.
+Cutoff: 2026-11-18 05:07:37.151402 UTC. Checkpoint 035 preservation is pending.
 
-## Current source result
+## Current contract suite
 
-Six reviewed files improve strict Keep report diagnostics and path-currentness, and make incomplete calibration capture fail the saved campaign. Sixteen previously blocked VM tests execute their original downstream assertions again. Two default tests now assert stale-producer refusal; both original positive prerequisite checks remain explicitly runnable and fail 0/2. This is not 18 repaired app defects or renewed media qualification.
+Three independently reviewed test-only slices now separate portable current contracts from optional historical qualification. Final integrated results: affected 52/52, focused 224/224, protection 229/229 and broad 296/296, with zero skips or cancellations in those scopes. All 615 checked source files remained byte-identical through testing. Overlapping scopes are not summed.
 
-Final integrated checks: affected 49/49, focused 224/224, protection 229/229, broad 267/294 with 27 failures, explicit qualification 0/2; zero skips. All 608 checked source files remained byte-identical during these tests. Scopes overlap and are not summed. Remaining default failures comprise eight runtime, thirteen report, four fixture and two stale-expectation cases. Full-copy's 26 producer hashes remain exact; Keep and resize retain their original 97-entry maps, each with four stale identities. No blind repin or route reopening.
+The explicit historical-reference command still reports 43 tests: 1 pass, 9 failures and 33 prerequisite cancellations, zero skips. Original bodies remain preserved and runnable. These are neither silently passed nor automatic current-release gates. No production code, default, budget, tolerance or pin changed; Full-copy's 26 producer hashes remain exact. Green portable tests do not restore missing media or implement historical features.
 
-## Native result belongs to prior checkpoint 033
+## Works / unsupported / untested
 
-One empty ordinary → Full-copy → ordinary journey completed with normal closure, 84 owned startup children closed and zero semantic targets. An unavailable python alias stopped before helper or app launch. The unconsumed gate was archived; fresh checks and a python3 gate then preceded the sole app launch.
+| Area | Supported now | Unsupported or untested boundary |
+|---|---|---|
+| Developer Full 1080p30 → 720 copied AAC-LC, 48 kHz stereo | Finite calibration and normal-service publication; fresh copied-sentinel collision, active cancellation and NEW runtime/service recovery; short native publication/reveal | Not arbitrary sources/durations, same-service recovery, PCM/pixel identity, Windows or hardware qualification. Original runtime/report prerequisites remain required. |
+| Ordinary ↔ Full-copy opt-in switching | Source/VM ownership tests and accepted native empty-batch journey on immutable 033 | Nonempty reset, completed output-grant revocation and direct WebContents identity are not established by empty batches. |
+| Normal Quit and preparation ownership | Actual-main/IPC injected regression coverage and bounded observed native close | Held picker/action or external child may keep close pending; no forced-exit guarantee or all-active-state native proof. |
+| Precise Keep 720 and range resize | Genuine implemented family/collector with retained older finite evidence | Current capsules remain closed, each with four stale producer identities; Keep additionally needs complete diagnostic evidence. Not currently requalified. |
+| Historical Full precision-FLAC 1080/1440 | Resource/schema contracts and refusal boundaries | Core descriptor/collector integration was already absent in surviving baseline; missing reports/runtime are separate blockers. Not working features restored by these tests. |
+| Ordinary/default encoding, old AV1, Remux and vendor acceleration | Existing scoped source contracts and earlier evidence only | No general current media/native/Windows/hardware qualification inferred from Full-copy or portable tests. |
 
-Three ordered saved sessions and observed native windows support bounded empty-session replacement, not direct WebContents identity, nonempty reset, completed-output revocation, encoding or Windows proof. Top-level stderr retained 624 bytes of D-Bus/SSL messages; it is not complete child stderr or an established cause. Four storage points are not continuous quota or whole-profile proof. Known directory identity and allowlisted prior events were preserved; other profile contents were not inspected. Native audit and release preceded the new source integration, so this is not a native test of checkpoint 034 changes.
+## Next priorities
 
-## Next and preservation
+Follow the owner's latest direction: know what works and improve current reliability/performance. Do not reconstruct old code or acquire obsolete runtimes merely to make historical tests green. Avoid a second compatibility framework or new technical debt. Existing 1440p/4K roadmap context is not automatic feature-restoration authorization.
 
-Expected checkpoint 034: eleven changed paths, 611 files and 34 commits, subject to final verification. Preserve Git → immediately verified Notion source/history/full Session → verified GitHub. The portable record retains eighteen declared prefix-only transformations with false authority flags; runtime, media, profile and full gate payloads remain excluded.
+After complete 035 preservation, investigate the current owner-transition/lifecycle coverage gap and attribute retained costs between startup, target encoding, decoding/evidence and GUI time. Both are assigned only at this cutoff; no finding or tuning result is claimed. No benchmark, quality/default, thread-policy or preservation-budget change. Fresh finite Keep/resize qualification is an optional product-driven decision, not a prerequisite to erase old failures.
 
-A second test-only slice is frozen and not yet reviewed at this cutoff, not integrated here. Continue independent repair of remaining coverage, then fresh finite Keep/resize qualification separately. No later result or new runtime is implied. Formal Security Cloud remains deferred; manual review is not a formal assessment. Windows, hardware, HDR, remux, packaging and owner acceptance remain open. Existing design, defaults and roadmap priorities remain unchanged.
+Expected scope: 17 changed paths, 617 files and 35 commits, subject to verification. Preserve Git → immediate independently restored Notion source/history/full Session → verified GitHub. Prior 034 is fully preserved; no pending 035 commit is claimed backed up. Formal Security Cloud remains deferred; manual review is not a formal assessment.
 
-See [execution](2026-11-18_Validation_Fixes_And_Native_Switch.md), [receipts](2026-11-18_Validation_Fixes_And_Native_Switch_Receipts.json), [native evidence](evidence-2026-11-18/empty-session-switch-portable.json) and [Session](SESSION_SUMMARY.md).
+See [execution](2026-11-18_Current_Contract_Test_Repair.md), [receipts](2026-11-18_Current_Contract_Test_Repair_Receipts.json) and [Session](SESSION_SUMMARY.md).

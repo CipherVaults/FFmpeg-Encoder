@@ -1,3 +1,351 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Make current contract tests portable and green, preserve historical references, and prioritize current reliability
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model / effort attribution | Evidence and limit |
+|---|---|---|
+| Engineering lead | GPT-6 Astra / Ultra, recorded assignment, not backend attestation | Reconciled the owner's current-product direction, completed 034 preservation and integrated three independently reviewed test-only slices in order. |
+| Isolated test authors | Not independently established here | Replaced unavailable historical dependencies in current contract tests with explicitly synthetic test inputs, preserving original historical bodies and intermediate red evidence. |
+| Independent reviewers | Not independently established here | Reproduced focused/default results, inspected test seams and historical-body preservation, and used negative mutations to check assertion sensitivity. No media or native qualification. |
+| Source-history investigator | Not independently established here | Compared the surviving source export and reconstructed history to distinguish inherited missing Full-FLAC implementation from missing historical artifacts. Read-only investigation, not lost-workspace recovery. |
+| Integrated-test / record / mirror workers | Not independently established here | Exact authoritative test receipts, current capability boundaries, restored full history and verified GitHub mapping. Scope totals overlap and are not added together. |
+| Session documentation / prose review | Not independently established here | Own only this new Session prepend, independently reviewed against final records, preserving the entire predecessor and original correction receipt byte-exact. |
+
+**Record basis:** The current portable Linux default contract suite now passes **296/296, zero skips or cancellations**, after three reviewed test-only slices. Final affected **52/52**, focused **224/224** and protection **229/229** also pass. **No production code changed and no FFmpeg, ffprobe, media or native journey ran in this checkpoint.** The separately invoked optional historical-reference command remains exit 1: **43 tests, one pass, nine failures and 33 prerequisite cancellations, zero skips**. Those cancelled assertions did not execute successfully. Historical bodies remain available, but the owner explicitly does not require obsolete code/runtime restoration solely to clear old tests.
+
+The result is a more useful current contract suite and a clearer map of supported, unsupported and untested behavior, not 27 production bugs fixed, missing features restored, general optimization completed or a broadly qualified release.
+
+## 🕒 Time
+
+**Stage / type / focus:** Current-contract test repair, source-backed capability classification, and a product-focused reliability/performance handoff. Source-only, with deterministic fixtures and injected process boundaries.
+
+**Date and clock:** November 18, 2026. Owner-local **Africa/Cairo is UTC+02:00** on this date. Exact receipt times below are UTC; the combined cutoff is **07:07:37.151402 Cairo / 05:07:37.151402 UTC**. Overall active effort was not measured, and test-run durations are not media performance measurements.
+
+- Prior 034 cutoff: **04:47:34.966823 UTC / 06:47:34.966823 Cairo**. The later owner clarification and additional slice results belong here, not in a rewrite of 034.
+- Runtime/admission/Remux slice independent review: **04:48:46.410940 UTC**. Synthetic-service slice independent review: **04:54:01.209040**.
+- Read-only Full-FLAC source-history investigation: **04:56:05.127940**. Final missing-report/schema slice independent review: **05:01:10.947465**.
+- 034 GitHub verification: **05:02:54.030833**. Full source/history/native restoration and final mirror receipt were checked before integration.
+- Ordered integration on preserved 034: **05:04:59.269665 UTC / 07:04:59.269665 Cairo**.
+- Integrated affected tests **05:05:37.645145–05:05:38.317074**; focused **05:05:38.354826–05:05:39.441390**; protection **05:05:39.479522–05:05:47.431293**; Linux broad **05:05:47.469336–05:05:49.326669**; optional historical reference **05:05:49.362012–05:05:49.606172**.
+- Aggregate final test receipt: **05:05:49.642943**; failure reconciliation **05:05:49.642807**.
+- **Fixed cutoff: 2026-11-18T05:07:37.151402Z / 07:07:37.151402 Africa/Cairo.** Later lifecycle or retained-cost findings are excluded even if received while this record is assembled.
+
+**End / stopping point:** Thirteen unique test/fixture/reference paths are integrated, four current test scopes pass, and the optional historical scope remains explicitly unsuccessful. Current lifecycle-gap investigation and read-only retained-cost attribution have been assigned only. No findings or tuning results from them are claimed.
+
+**Reason for this summary:** Preserve a coherent test-only milestone and the owner's new priority: understand and improve the current app, rather than endlessly reconstruct obsolete artifacts to make every historical test green.
+
+## 🎯 Session Goal
+
+Resolve the remaining default-suite environmental and historical coupling without concealing real gaps. Keep real validators, private authority checks, storage/control-flow behavior and meaningful negative assertions in the current suite. Preserve original historical tests as optional references, honestly showing their unmet prerequisites. Do not invent raw reports, fake genuine brands, repin production source, relax budgets/tolerances or claim real codec behavior from synthetic data.
+
+Ahmed clarified the priority: **know what works and what does not, fix what can be fixed, and avoid accumulating bugs and an unoptimized app while adding features. Historical data may already be irrelevant; old code need not be rebuilt just to clear old failures.** This supersedes an automatic sequence toward reconstructing historical Full-FLAC/1440 functionality. Existing roadmap context is not a mandate to implement unsupported old features now.
+
+The finish line is a green, meaningful **current portable Linux contract suite**, a truthful current capability map, and a bounded reliability/performance continuation after full preservation. It is not general app acceptance, historical feature restoration or a new media qualification campaign.
+
+## 🛠️ Actions Taken
+
+### 1. Complete and verify 034 preservation before the next integration
+
+034 is local commit `35b254d4cf05d1a41a4655e801ba6dee9ecfb722`, tree `9d7e2a4f2562fad96bc43a4cdf7bb3b99e0915d6`, **611 files / 34 commits**. It records six validation/test paths plus five PBS/evidence paths. Its successful empty native switch remains attributed to immutable 033, and its later source changes did not imply a native retest.
+
+[034 Notion source and full history](https://app.notion.com/p/41cbd7ade63b818b9ecdcd63a2ca07c3) independently restored source ZIP SHA-256 `c5611af51fc7e895cd284400a0059de86c911a8834c3d89e485da9f994b34168`, bundle `ddd6f0c26270d137a54bdedd7a9f634096cf591c244cde991d39676d2d839daf`, and history ZIP `1cf89bf79ca342bac7616b6be763db8efd8849d5232e644c1f467b77c3634876`.
+
+[034 readable native Session](https://app.notion.com/p/41cbd7ade63b8144ad6ac5d34e4dd6b1?pvs=204) was read back with all 34 headings and historical ending, without truncation metadata. Exact **1,630,818-byte** source, SHA-256 `3742541220832391acfa3032a92356d053c8ea66e3414b19969ac97ec88b1cf9`, was verified through source/history restoration, not inferred from native formatting. That entire body is retained as the exact suffix of this entry.
+
+GitHub `blue/linux-development` verified remote `96e61747ff2e83a592c37d8a2d7cfe0c22c17ddf`, sole parent `d202c4ae8567bace109cb6666f9c86dc6dc7dc58`, tree `ceb8053bc88ef53d45cf43946131cb487b5db8e7`. Eleven exact changed-file readbacks, full Session immutable Git-blob read, expected-parent/non-force update and fresh ref passed. Remote tree: **993 total / 982 unchanged / seven modified / four new / zero deleted**. Local reconstruction and remote ancestry remain deliberately distinct, without force rewriting existing remote history.
+
+Final Notion verification receipt is **110,502 bytes**, SHA-256 `ffd90f045c56a876134caf734b943c1232a39c8bb3275a869e6144e14adcb143`. The actual 035 integration receipt binds that final identity and preserved 034 base. No local-only or incompletely mirrored state is called backed up.
+
+### 2. Reframe historical failures according to the owner's current-product priority
+
+The original 45 failures were not all established application bugs. Checkpoint 034 repaired real validation/currentness gaps and restored 16 downstream test paths, while retaining two historical positive producer checks separately. Its broad default suite still had 27 failures arising from unavailable old runtime/report/fixture dependencies and stale expectations.
+
+The next work separates two questions:
+
+1. **Does current code enforce its intended control, storage, schema and authority contracts?** This should be testable without unavailable historical media.
+2. **Can a particular historical runtime/report/factory configuration still satisfy its original positive qualification?** Keep the original bodies available and report unmet prerequisites, but do not make obsolete reference cases automatic current-product release gates.
+
+This distinction does not permit weakening a live source/runtime gate. When the current supported product actually requires exact runtime/report authority, those prerequisites still apply. It does prevent spending time resurrecting old binaries, artifacts or feature branches merely to improve a historical test count. A new compatibility framework is not introduced.
+
+Three isolated test-only slices were reviewed independently before integration. Their directory names describe the number of default failures remaining at each stage, not a count of production defects: `failure27`, `failure17`, then `failure13`. Intermediate trees and overlapping counts remain individually attributed.
+
+### 3. Make runtime, admission, routing and Remux contracts portable while retaining historical positives
+
+The five-path runtime/admission/Remux proposal is patch **31,192 bytes**, SHA-256 `75796008cd67901824d6201d36e5aa22f996fd71dc102dcf607f0df8bd90bcc3`. Author baseline included the previous five-file first repair; independent review explicitly reconstructed 033 plus the final six-file V2 repair before applying this slice, preserving the added standalone producer-positive reference. The baseline difference was reconciled rather than silently ignored.
+
+Portable admission uses the actual `OperationRuntimeObserver` over inert owned files, the genuine private-token class and current `OperationFamilySelector`. Only fixed runtime constants and the execution boundary are injected. Real supported Keep720/range-resize selections and ordinary admission paths execute. Forged/stale tokens, invalid selections, unsupported routes and source/currentness boundaries remain checked; no counterfeit branded token substitutes for real authority.
+
+After the initial portable observer setup, seven tests exposed another distinction: current shared selector implementation supports proportional Keep720, range resize and Full copied-AAC, but not the historical Full precision-FLAC/1440 descriptors. The old positive combination cannot be described as available simply because schema/resource constants exist. Current tests therefore exercise supported positives plus explicit unsupported-family refusals. The **entire original seven-test AV1 admission source** remains verbatim in the optional historical suite, with an adapter for original relative imports.
+
+The factory forwarding test uses the actual `LinuxWorkbenchService` with fixed historical constants and a VM-only verifier/runner sink. It verifies ordered checking, forwarded arguments and rejection before runner creation. It does not validate historical runtime bytes or execute an encoder. Remux tests use real filesystem checks with VM-local synthetic pins: correct inert bytes pass the exact check, while changed bytes, symlink, oversize and absence refuse. The live production Remux source gate remains closed under its actual unavailable/stale prerequisites.
+
+An obsolete blanket assertion that the fourth-family module is never imported was replaced with executed current routing boundaries: ordinary baseline avoids the import; explicit AV1 route selects the fourth factory expression; three-family controls do not load the unavailable fourth composition; pending fourth qualification refuses. These tests execute the relevant main selection expression and actual controls with injected pending modules, **not** the complete native window lifecycle or a working Full-FLAC feature.
+
+Independent mutation controls removed the real Remux hash comparison and bypassed qualified admission. Each selected negative test then failed **0/1**, showing assertion sensitivity; the source was restored byte-exact. Original early red evidence also retains an ignored-artifacts-directory absence and the unsupported-family setup failures. Those preparation errors are not claimed as separate production bugs.
+
+Author and independent focused **20/20**, selected routing **1/1** and broad **278/295 with 17 failures** overlap. Independent review **7,152 bytes**, SHA-256 `c2bde24417cb41f5c66e030509e972ca776bfae04d947113a2e24e47c0c27c65`, accepted this test-only scope. The original historical runtime/Remux command remained **zero pass, three fail and seven setup-cancelled, zero skips**. Cancelled bodies are preserved but were not executed/passed. Ten former default failure occurrences are addressed through portable contracts and truthful unsupported-route expectations, with one new observer-tamper test; this is not ten production defects fixed.
+
+### 4. Exercise actual service/storage behavior with inert files and an explicit fake process boundary
+
+The two-path synthetic-service patch is **21,854 bytes**, SHA-256 `2df5b43c70028998358545d58c17a0f6b6c4d25f68ece70042e33aa579a0f4cf`. It builds on the first V2 and reviewed runtime-contract slice in an isolated checkout. The original four failures stopped at missing live fixture prerequisites before demonstrating application behavior.
+
+The replacement current fixture is explicitly **`inert portable source; not video\n`**, SHA-256 `04c0cc869fd449958c21372caae872ce8ec1de61ee15f32a1ca40cfc6ed67123`. The VM changes only the fixed fixture digest and process module boundary; production fixture SHA `145c63faaaa6052e7fd7b0dc206319c67355edbb8b5e2c43a2687af5100a5d06` remains unchanged. Real crypto hashing, descriptor capture, no-follow/bounded reading, file stamps, private source copying and output primitives are not replaced with permissive fakes.
+
+Tests exercise actual staged files, sealing, validation marking, atomic publication and cleanup. Three codec **labels** use injected probe/audio/frame facts; these labels are not evidence of real codec success. The process sink supplies predetermined probe, audio-hash and null-decode responses and fake EventEmitter children. It is control-flow evidence, not measured PCM identity, real subprocess settlement or media preservation.
+
+The meaningful cases include:
+
+- A held fake child keeps actual cancellation pending; restart stays blocked until drainage. An independent mutation removing the actual `await pending` causes the cancellation assertion to fail `true !== false`, before any claimed drain completion.
+- A progress-time collision creates a real exclusive sentinel. Actual publication refuses collision and the sentinel remains unchanged; an alternate mocked publisher is not used.
+- Wrong source bytes and a symlink refuse before the process sink. Replacing the caller's path after capture cannot redirect the private source bytes used by injected execution.
+- Incorrect output frame-count facts trigger actual service validation and no destination publication.
+- Cleanup releases a held fake child, drains the service, then removes its owned temporary directory. The order is intentional; it does not demonstrate native child termination behavior.
+
+All **five original live-suite tests remain verbatim** in `qualification-tests/historical-synthetic-service.cjs`, with original-relative path/import adaptation. With the real fixture environment absent, that explicit command reports **one pass / four fail / zero skips** without launching media. The original failed prerequisites are not silently counted as current success.
+
+Worker and independent focused **51/51** comprise six portable synthetic-service tests plus 45 actual output-primitive tests; broad **283/296** retains exactly 13 report-dependent failures. Review **5,572 bytes**, SHA-256 `793fd5b387e862058c67011231d1853ec5af743aabe3981a61912a0797f0ed68`, verifies 610 isolated files unchanged after runs and mutation restoration. Its original worker freeze check initially assumed all authoritative 033 bytes were untouched while the parent had already integrated prior work; that assumption was rejected. The worker made no authoritative writes, and no false “all 607 unchanged” claim is carried forward.
+
+### 5. Replace unavailable historical report dependencies with labeled schema specimens, not fabricated qualification
+
+The final seven-path report/schema proposal is **78,286 bytes**, SHA-256 `4e3de6228cb16ce5b87ba3bce7479447e2740b30c085c4715662a39ec03870bb`. It supplies **eight deterministic synthetic specimens** from explicit source extents, counts, lifecycle and accounting shapes. Specimens are materialized twice and hashed by the independent reviewer; no original raw reports were read, recovered, recreated or written to production report paths.
+
+The specimens carry an explicit `syntheticSchemaFixture` label. They are rejected against production report digests. They construct schema input independently of validator calls, but reuse resource derivation and frozen-clock helpers, so they are **not fully independent numerical or media oracles**. Canned successful lifecycle, PCM hashes and request fields are deterministic schema inputs, **not physically observed media**. For example, generic range request fields do not independently establish correspondence with actual decoded counts. A validator accepting a shape is not proof that the described media existed.
+
+Actual pure validators retain digest, cross-family, schema and mutation checks. VM builder tests map only synthetic bytes and test-local digest constants plus a tool-verification sink. Actual calibration validators and `ClockQualifiedFamilySelector` construction execute. Three/four-family paths observe the expected three/four calibration validations, then two tool checks, then **`INVALID_OPERATION_QUALIFICATION` before runner creation** for the unsupported Full-FLAC descriptor. This is a truthful construction boundary, not an invented successful control object, fake brand or missing family implementation.
+
+Tampered evidence identifiers refuse before runtime verification. Three-family paths do not import the fourth composition; unavailable/pending fourth-family paths remain negative controls. A reviewer-only early-return bypass in actual `assertServiceProof` makes the existing forged-label test fail **“Missing expected exception”**; the original production source is restored. This sensitivity test shows the validator matters, not that the synthetic lifecycle/PCM values are physically true.
+
+Five historical file bodies remain verbatim in `qualification-tests/historical-proportional-reports.cjs`, using the declared sequential baseline. A shared prerequisite hook requires the **exact four original calibration and four original service reports**. In this environment all 26 original tests are cancelled by that failed prerequisite and the command exits 1. They are not skipped, passed or requalified. Historical factory-success assertions remain unreached; no synthetic specimen is promoted into their actual source/report authority.
+
+The `workbench-full-1440-service.test.cjs` overlap is sequential and approved. The earlier slice's final file is **7,318 bytes**, SHA-256 `f8c1287dc19dc83c670d5e7c848db250d87ea30e2cd32fe6d3b92b88135b31ac`; this slice produces **6,149 bytes**, SHA-256 `624324b4fccb05d40e5cc236c81d6983cd40f0f3de1acafecd778302c6b673a6`. The already-reviewed routing body is byte-identical. The reviewer initially compared against the entire older 033 file, stopped before tests, and corrected the comparison to the declared sequential base. That is a review-baseline correction, not a production regression or silent overwrite.
+
+Independent final review **7,538 bytes**, SHA-256 `52e2acdfdf44e2c0fdd2370549beb939270b70a94940199158bd6ad6bdeae254`, reproduced **103/103 focused** and **296/296 default Linux broad**, with zero skips/cancellations. Focused includes 26 report-contract tests plus 77 shared family/evidence/resource tests and overlaps broad. All 612 isolated files stayed unchanged through runs and restored mutations. At this stage green meant the combined portable contracts passed, not that any historical feature had been restored.
+
+### 6. Investigate the missing Full-FLAC core instead of assuming old report names prove an implemented feature
+
+Read-only investigation `full-flac-implementation-investigation/INVESTIGATION.json` is **9,930 bytes**, SHA-256 `748f5fa5e83737da9b748ddeb425122d5ad5dd805fad9f924bce102dbd3b0e80`. It compares the surviving GitHub/verified-Library export `f6bc64aa4afd84377e732188da6c7d5ce3bf0680` with first reconstructed commit `99e1430bf3c2b6156f2388842dc9e0eedb7bab83` and later local source changes. This is source/provenance analysis, not recovery of the lost workspace or earlier Git history.
+
+Six baseline file identities were matched to the original export: operation-family, operation-evidence, operation-resource-budget, long-range service and the Full1080/Full1440 wrappers. At that earliest trustworthy snapshot:
+
+- Family admission recognized fixed AAC range, FLAC range and **whole-file copied AAC**. The old Full copied-AAC branch was 1080p30→720p with its own 10–31-second bounds; it was not Full precision-FLAC.
+- The collector accepted the corresponding legacy policies with a 120-second maximum extent and had no proportional Full-FLAC/1440 dispatch.
+- Full-FLAC1080/1440 resource IDs, derivation/schema code and wrapper composition labels already existed, but these did not form a complete genuine selector/collector implementation.
+- Both wrappers had non-null report digests. Therefore “only a deliberate null placeholder” is not an adequate description. Their historical factory would still encounter unsupported descriptor admission even if missing report/runtime bytes were restored.
+- Later local changes added genuine proportional Keep720 binding, source/collector currentness, range resize and Full copied-AAC. No Full-FLAC/1440 branch was shown removed by those edits.
+
+The supported classification is **inherited incomplete integration in the surviving snapshot**, plus separate missing historical reports/runtime and changed pins. Available history cannot establish absent earlier work or author intent. Negative refusal/schema tests do not fill that missing implementation.
+
+The investigation suggested possible separate implementation work, but **the owner's newer current-product direction supersedes automatic restoration sequencing**. Do not build Full-FLAC1080/1440 merely because old tests named them. Product need, current reliability and maintenance cost must justify any future feature; existing budget derivation or report labels alone do not.
+
+### 7. Integrate thirteen unique test/fixture/reference paths in the reviewed order
+
+Actual integration at **05:04:59.269665 UTC** binds preserved 034 and the final mirror receipt. Slice order is runtime/admission/Remux → synthetic service → report/schema. Five plus two plus seven path appearances equal **13 unique paths**, because the Full1440 test is intentionally edited twice. Each intermediate identity and final identity is retained in `checkpoint035-integration.json`.
+
+| Final integrated path | Bytes | SHA-256 |
+|---|---:|---|
+| `linux-blue/workbench-av1-admission.test.cjs` | 11,650 | `79dd7f22e89805da15698d0501447d3b5bf29c94db3668ca4b22cfe28f38b6d0` |
+| `linux-blue/workbench-av1-service.test.cjs` | 7,833 | `e488452ca674052a3e2a35297a83dcb0c5a402958684a71759a33857fdd7ce4e` |
+| `linux-blue/workbench-full-1440-service.test.cjs` | 6,149 | `624324b4fccb05d40e5cc236c81d6983cd40f0f3de1acafecd778302c6b673a6` |
+| `linux-blue/workbench-remux.test.cjs` | 11,450 | `9db76dd9f7af7a4755b64a4a7973fc891dba6f887baeb4d1ea5b20b905f6b5e1` |
+| `linux-blue/qualification-tests/historical-runtime-and-remux.cjs` | 13,095 | `349777ec1ba28aa4d81f08d2e6b791ea784ae088fabda082da9e7e27e003d096` |
+| `linux-blue/synthetic-service.test.cjs` | 9,188 | `3666d1d77e2e9a60b0e855a1a1af766d10d7ba4f775b8713fe5d539f8f0f8caf` |
+| `linux-blue/qualification-tests/historical-synthetic-service.cjs` | 6,275 | `473f71f5de00e5898573b9d31c96fd4477aa11f110322f0b2210239a3cdffc54` |
+| `linux-blue/workbench-full-resize-service.test.cjs` | 3,949 | `f9c39242391d3ac7341fb502bede4c0ca1f5b1487525f1e7dcae81d1c4719d47` |
+| `linux-blue/workbench-long-range-service.test.cjs` | 10,906 | `327cf6f89ceb814d0e8d33352ce174e263299af43f1cadfef305104f589bd42f` |
+| `linux-blue/workbench-qualified-encode-controls.test.cjs` | 9,039 | `badf82ef883f6b9645c3604b378390eb10d706d96bf3d040db46782c5c4d5617` |
+| `linux-blue/workbench-resize-service.test.cjs` | 4,640 | `430465d6554084581fd532542f4ddc74a0ace5026fd8c591192da78ce4c6996e` |
+| `linux-blue/test-fixtures/proportional-reports.cjs` | 9,943 | `222d9f0ffa2c4b9543793b3574f9c19fc754007b14cb232ab3ef33612dc36208` |
+| `linux-blue/qualification-tests/historical-proportional-reports.cjs` | 41,939 | `f4a44ab4368d536563e0b223ba273d3acf2cc165ad4988541c9cf25f9cd37953` |
+
+There are nine modified existing files and four new test/reference/fixture files; **602 base files remain unchanged**, taking 611 to **615 checked source files** before the two new documentary artifacts. No production module, main/renderer/preload/IPC, HTML/CSS/theme, default, runtime pin, budget, tolerance or raw report changes. Full-copy's **26 producer identities remain exact**. This is not a hidden framework refactor or runtime activation.
+
+The integration receipt's “final lead tests pending” statement remains a dated integration-time fact. The completed tests below are a separate receipt; history is not rewritten to imply they had already run.
+
+### 8. Run and reconcile current contracts and optional historical references separately
+
+Final lead runs use **Node v24.22.1** in the authoritative checkout with actual expanded commands, before/after identities and retained logs. The **296-test Linux broad selection is explicit, not package-wide `npm test`, and does not claim every repository test ran**. All **615 checked source files remained byte-identical** through testing. This counts files, not bytes. The scopes overlap and must not be summed.
+
+| Scope | UTC interval | Final result | Interpretation |
+|---|---|---|---|
+| Affected current contracts | 05:05:37.645145–05:05:38.317074 | **52/52**, exit 0 | Changed portable runtime, storage and report-contract tests. |
+| Focused app/UI/IPC/output/session/Quit | 05:05:38.354826–05:05:39.441390 | **224/224**, exit 0 | Existing overlapping source/VM regressions. |
+| Service/source/output protection | 05:05:39.479522–05:05:47.431293 | **229/229**, exit 0 | Existing protection checks remain passing. |
+| Broad default Linux contracts | 05:05:47.469336–05:05:49.326669 | **296/296**, exit 0 | Zero failed, skipped or cancelled tests in this explicit default scope. |
+| Optional historical reference | 05:05:49.362012–05:05:49.606172 | **43 tests: one pass, nine fail, 33 prerequisite-cancelled**, exit 1 | Zero skips; original unmet assertions remain visible, not automatic current release requirements. |
+
+The default progression is **245/290, 45 failures → 267/294, 27 failures → 278/295, 17 failures → 283/296, 13 failures → 296/296, zero failures**. Four tests were added in 034 and two in these slices, producing 296 total. These intermediate counts belong to their own exact trees; they are not independent cumulative coverage.
+
+The optional historical command includes the prior two producer positives, ten runtime/Remux references, five synthetic live-service references and 26 report references: **43 total**. The result decomposes as two stale producer failures; runtime/Remux zero pass, three fail and seven setup cancellations; synthetic one pass and four fail; report 26 prerequisite cancellations. That is **one pass, nine fail and 33 cancelled** overall. Prerequisite cancellations are not author-selected skips and not successful execution of the affected assertions.
+
+Failure reconciliation preserves original failures, intermediate red logs and explicit historical bodies. It reports what changed in the suite rather than claiming 27 production defects disappeared. A source-only green contract suite is useful: current regressions can now be detected without noise from absent old artifact dependencies. It does not certify all current user workflows, recover historical qualification or remove live runtime/report gates.
+
+### 9. Publish a source-backed current capability map, including unsupported and untested areas
+
+| Area | Supported by retained evidence | Boundary that remains |
+|---|---|---|
+| Developer Full 1080p30 → 720 with copied AAC-LC, 48 kHz stereo | Finite calibration and normal-service publication; fresh copied-sentinel collision; active cancellation and recovery with NEW runtime/service; short native publication/reveal. | Not arbitrary source/duration, same-service recovery, PCM/pixel identity, Windows or hardware qualification. Current exact runtime/raw-report prerequisites still apply. |
+| Opt-in ordinary ↔ Full-copy session switching | Source/VM ownership tests and accepted empty-batch native ordinary → Full-copy → ordinary journey on immutable 033. | Nonempty draft/selection reset, completed-output grant revocation and direct WebContents identity are not established by empty batches. |
+| Normal Quit and preparation ownership | Actual-main/IPC injected regressions plus bounded observed normal native close. | Held picker/action or external child may keep close pending. No forced-exit guarantee, all-active-state native coverage or proven new lifecycle defect at this cutoff. |
+| Precise Keep720 and range resize | Genuine implemented family/collector and retained older finite evidence. | Current capsules remain closed with four stale producer identities each; Keep also needs complete retained diagnostics. Not currently requalified. |
+| Historical Full precision-FLAC1080/1440 | Resource/schema contracts, wrapper labels and truthful refusal boundaries. | Genuine descriptor/collector integration already absent in the surviving baseline; missing old reports/runtime are separate barriers. Not working features restored here. |
+| Ordinary/default encoding, historical AV1, Remux and vendor acceleration | Existing scoped source contracts and earlier evidence only. | No general current media/native/Windows/hardware qualification may be borrowed from Full-copy or portable tests. |
+
+This map is not a new qualification matrix declaring every unlabeled route broken. “Untested” and “unsupported” are distinct from a reproducible defect. Known source gaps and closed gates remain explicit; functioning finite paths are not discarded because unrelated historical fixtures are missing. Existing design, ArchiveCQ29/default constraints and roadmap context remain unchanged.
+
+### 10. Assign current reliability and retained-cost investigation without inventing their results
+
+At the fixed cutoff, two successor tasks are **assigned only**:
+
+- **Current lifecycle/owner-transition investigation:** inspect the coverage gap around nonempty plan/access retirement and active Quit using real integration paths. Seek a failing case before changing working ownership code. The gap itself is not proof of a new bug. Preserve already-tested source/VM behavior and native empty-switch attribution.
+- **Read-only retained-cost attribution:** separate startup inventory, target encoding, complete-source decoding, evidence/telemetry/storage and manual GUI time in retained audited records. Conservative resource coefficients are scheduling bounds, not measured throughput. Whole manual native journey duration is not encoding time.
+
+Neither task has a finding, patch, benchmark or tuning result in this entry. No quality/default/thread-policy change, benchmark restart, budget reduction, warning suppression or removal of preservation checks is authorized by merely recording the task. A concrete current defect or avoidable cost can justify proportionate reviewed follow-up later.
+
+Fresh finite Keep/resize qualification is an **optional product-driven decision** if current workflows need those routes, not a mandatory exercise to erase historical red references. No Full-FLAC/1440 reconstruction or second compatibility framework is the automatic next step.
+
+### 11. Prepare the coherent 035 preservation boundary
+
+Final readable records are [current state](CURRENT_STATE.md), [current-contract repair execution](2026-11-18_Current_Contract_Test_Repair.md) and [structured receipts](2026-11-18_Current_Contract_Test_Repair_Receipts.json), alongside this full cumulative Session. Current is **4,105 bytes**, SHA-256 `e1e2335050d7d8c0da109c5bee6d0e7c460feea9e55cbcebd26ab693ea49b4fa`; execution **10,947 bytes**, `7797f26c6bb79c8e5e6052ba47535a6713bad60931391f1afb7b32fcd1afa832`; curated receipts **17,364 bytes**, `1f77da96c0a19cfd85084f7d4f49c804fd861d854a295fd25a271aad9f7940cb`.
+
+Expected coherent scope is **17 paths / 617 files / 35 commits** after commitment: thirteen test/fixture/reference paths and four PBS files. There is no new portable media package, runtime archive, new consumed gate or native result. Source restoration cannot reconstruct excluded old binaries/reports/media or supply missing runtime authority.
+
+At this cutoff **035 commit, Notion restoration and GitHub publication are pending**. 034 is fully preserved; the changed 035 tree is not called backed up until its own Git → independently restored Notion source/full history/full readable Session → verified GitHub cycle completes. Later receipts can establish publication without changing the evidence cutoff.
+
+## 🧠 Key Insights
+
+1. **A useful test suite follows the current product contract.** Making current validators and lifecycle/storage checks runnable without obsolete artifact dependencies is valuable even when historical positives remain unavailable.
+2. **Historical preservation is not historical obligation.** Keep exact original tests and evidence for context, but do not make every old label a release gate or a mandate to recreate a feature the owner no longer prioritizes.
+3. **Synthetic inputs can test real mechanisms without becoming media evidence.** Actual filesystem publication, private tokens, schema validation and cancellation control can execute around an injected process boundary. Predetermined frames, PCM hashes and lifecycle values still remain specimens, not measurements.
+4. **Negative mutations make green more meaningful.** Removing hash enforcement, bypassing admission/proof validation or dropping cancellation drainage made selected tests fail. This detects empty or permissive test rewrites; it still does not qualify real codecs.
+5. **Labels and resource derivation are not feature implementation.** Surviving Full-FLAC wrappers and report hashes did not supply the missing genuine family/collector dispatch. Restoring artifacts alone would not solve that source gap.
+6. **Supported, unsupported and untested must be reported separately.** A finite working Full-copy path does not qualify all ordinary/AV1/Remux/hardware paths, while missing old qualification does not prove a current production regression.
+7. **Reliability and performance need current evidence before change.** A coverage gap is not yet a bug; a long manual journey is not an encoding benchmark; a conservative budget is not observed throughput. Fixes should follow concrete findings, not cosmetic metrics.
+
+## 📌 Decisions Made
+
+### Confirmed decisions
+
+- **Follow the owner's current-product priority.** Basis: explicit direction to understand what works, fix current reliability/performance issues and avoid accumulating debt while adding features. This supersedes automatic historical feature reconstruction, without rewriting dated earlier plans.
+- **Separate portable current contracts from optional historical references.** Basis: actual failures occurred before their intended assertions because exact old reports/runtime/fixture files were absent. Original positive bodies remain available and visibly unsuccessful; no blanket skip or silent pass.
+- **Use bounded test-only seams around real mechanisms.** Basis: independent review verified actual private authority, validators, filesystem/staging/publication and control-flow behavior. Production defaults, pins, budgets and tolerances remain unchanged.
+- **Preserve the sequential 1440 edit exactly.** Basis: the report-fixture slice follows the runtime/routing slice; independent review confirmed the earlier routing body is byte-identical. Integration records both identities rather than overwriting a concurrent owner.
+- **Integrate the three reviewed slices only after 034 restoration.** Basis: final independent reviews and exact integration receipt binding the released mirror identity. Final integrated tests verify the actual combined tree.
+- **Report the optional historical exit 1 without turning it into a release mandate.** Basis: 43 tests with one pass, nine failures and 33 prerequisite cancellations; owner says obsolete reconstruction is not required just to clear them.
+- **Investigate current lifecycle and cost next, before feature expansion.** Basis: current capability map and owner's reliability/performance concern. Both tasks are assigned-only at cutoff, with no result imported here.
+
+### Deferred decisions and prerequisites
+
+- **Current production bug fixes or tuning:** wait for a reproducible lifecycle defect or defensible retained-cost finding, then make a narrow reviewed change. Do not rewrite ownership, lower preservation costs or alter quality merely because tests are green.
+- **Keep/resize renewed qualification:** optional if a current user workflow needs it. Exact fresh source-bound evidence is still required before opening a route; historical test repair alone supplies none.
+- **Historical Full-FLAC/1440 work:** no automatic implementation plan. A present product requirement must justify scope and maintenance cost separately.
+- **Broad ordinary/AV1/Remux/native/Windows/vendor/hardware qualification and formal Security Cloud:** remain outside this source-only result. Manual review is not a formal or schema-validated security assessment.
+
+## ⚠️ Difficulties / Friction
+
+- Tests labeled synthetic depended on a live pilot fixture and stopped before behavior. Replacing that environment coupling required preserving real filesystem and lifecycle checks, not merely mocking the final answer.
+- Historical source and current selectors disagree about unsupported Full-FLAC combinations. Genuine token construction exposed the missing implementation rather than making arbitrary brands pass.
+- The early runtime slice lacked an ignored artifacts directory and retained an additional setup error. That red was preserved and distinguished from valid contract failures.
+- The synthetic-service worker initially expected the authoritative tree to remain at 033 while the lead had progressed. The stale freeze assertion was rejected, with no authoritative worker writes or false unchanged-source claim.
+- Sequential edits to the 1440 test required the declared intermediate base. An initial independent comparison against the older entire file stopped before tests, then was corrected; the reviewed routing body was preserved.
+- Shared clock/resource helpers simplify deterministic specimens but prevent calling them independent numerical oracles. Schema acceptance cannot independently validate physical counts, timing or PCM identity.
+- Historical prerequisite hooks cancelled 33 assertions in the final optional command. They must be reported as unexecuted due to setup failure, not counted as passes, skips, current product bugs or mandatory restoration work.
+- The owner explicitly rejected accumulating debt while adding features. A green test checkpoint is not an excuse to ignore current behavior, lifecycle gaps or avoidable costs, nor to start rebuilding obsolete features automatically.
+
+## 🔧 Adjustments Made
+
+### Shifted from
+
+Default checks coupled to unavailable old runtime/report/fixture bytes, a continuation that could drift into reconstructing historical families to clear red tests, and an incomplete distinction between working current paths, closed evidence gates and absent core implementation.
+
+### To
+
+A portable current contract suite with meaningful real-mechanism tests and negative mutations; preserved optional historical bodies with explicit unsuccessful results; a source-backed supported/unsupported/untested map; and assigned current lifecycle/cost investigation before more feature work.
+
+### Because
+
+The owner wants a reliable, efficient current app and clarity about behavior, not a cosmetically green historical archive or a growing compatibility burden. Independent tests and source history showed that old artifact absence, unimplemented feature dispatch and actual contract behavior are distinct problems requiring distinct decisions.
+
+### Consequence
+
+Current Linux default contracts pass 296/296 with no skips/cancellations, while optional historical references remain one pass, nine failures and 33 prerequisite cancellations. No production code or runtime behavior changed in this checkpoint. Missing historical features are not implicitly restored or scheduled; subsequent work must earn its place through current product need and concrete evidence.
+
+## ❌ Mistakes / Risks Noted
+
+### What happened or could happen
+
+Environment-dependent tests were being read too broadly as current product failures; synthetic fixture facts could be confused with measured media; historical wrapper labels could be mistaken for implemented features; and optional reference red could drive unnecessary old-code reconstruction. Sequential test edits and stale assumptions about a shared checkout also risked misleading source attribution.
+
+### Actual impact
+
+Current tests previously stopped before intended assertions. Portable repairs now exercise real mechanisms with explicit injected boundaries. Independent mutations fail as expected, original positives remain preserved, and exact sequential identities were reconciled. No production pins, budgets, default settings or actual media evidence were changed. The source investigation found an inherited integration gap rather than evidence of a later removed feature.
+
+### Potential impact
+
+Calling all historical red tests fixed bugs would hide unqualified or absent functionality. Calling deterministic lifecycle/PCM specimens real reports could grant unjustified runtime authority. Treating every old test as a mandatory release gate could consume effort rebuilding obsolete paths and increase the technical debt the owner wants reduced. Conversely, celebrating a green source suite as complete product reliability could leave real current lifecycle/performance issues unexamined.
+
+### Correction / current status
+
+Current and optional historical commands are separate, with exact counts and no skipped-default workaround. Original test bodies and red evidence remain. Production report digests reject the synthetic specimens, and actual unsupported selector construction still refuses before a runner. Current capability boundaries and owner priorities are written explicitly. Lifecycle and retained-cost investigations are assigned only; no speculative bug, optimization or future result is claimed.
+
+### Failure Intelligence
+
+- **Test dependency failure:** identify whether a test reaches its intended subject. Remove unnecessary historical coupling while preserving a genuine historical reference rather than substituting a false positive.
+- **Meaningful synthetic coverage:** keep actual authority/storage/validator behavior and prove negative sensitivity. Label process/probe/lifecycle inputs honestly; they are not codec or media measurements.
+- **Prerequisite cancellation:** a failed shared setup can cancel many retained assertions. Report cancellations separately and never count them as executed coverage.
+- **Sequential shared-file ownership:** verify the declared intermediate hash and preserve earlier reviewed test bodies. Do not compare only against an obsolete baseline or silently overwrite an overlapping proposal.
+- **Source-gap diagnosis:** compare surviving trustworthy history before attributing a feature gap to recent work. Available material cannot establish missing earlier intent or source.
+- **Product-priority correction:** historical preservation supports understanding; it does not dictate current release scope. Reliability and performance work should follow current needs and observed evidence, not a desire to make every old suite green.
+
+## 📍 Current Position
+
+**As of:** **November 18, 2026, 07:07:37.151402 Cairo / 05:07:37.151402 UTC.**
+
+**Before this session:** Fully preserved 034 had 267/294 default Linux tests passing, 27 failures and separately retained stale producer positives. Current Full-copy and empty native switching had finite evidence, while historical runtime/report/fixture dependencies obscured current contract checks. Earlier continuation could imply historical requalification/restoration as the automatic next step.
+
+**After this session:** Thirteen unique test/fixture/reference paths are integrated without production changes. Final current scopes pass 52/52 affected, 224/224 focused, 229/229 protection and 296/296 Linux broad; all 615 checked source files stayed byte-identical. Optional historical reference remains exit 1 with one pass, nine failures and 33 prerequisite cancellations. Original bodies remain available. Source-backed capability limits and the owner's current reliability/performance priority now direct continuation.
+
+**Current standing:** Green portable contracts, not a fully qualified or optimized app. No new media/native evidence. Current exact Full-copy closure remains unchanged; precise Keep/resize capsules remain closed; Full-FLAC/1440 core integration remains unsupported and is not an automatic implementation obligation. Ordinary/AV1/Remux/platform/hardware behavior keeps its actual narrower or untested scope.
+
+**Live owner / continuation anchor:** Lead owns exact scope, commit and Git → Notion → GitHub completion, then evidence-led current reliability/cost work. Mirror verifies source/full history/native records and remote mapping. This writer owns only the new Session prepend. Isolated lifecycle investigation and read-only retained-cost attribution have no result at this cutoff; their later findings belong in the next record.
+
+## 🔜 Next Steps
+
+1. **Preserve this exact 035 checkpoint:** verify 17-path scope, commit, immediately restore all 617 files and full 35-commit history in Notion, verify full readable Session plus exact archived bytes, then publish and independently verify GitHub parent/tree/ref/readbacks.
+2. **Investigate the current lifecycle boundary before changing it:** cover real nonempty plan/access retirement and active Quit where useful. Distinguish an uncovered case from a reproducible defect; retain red evidence before a narrow fix.
+3. **Attribute retained costs before optimizing:** separate startup, target encode, decode/evidence/storage and GUI time. Use measured retained facts and their environment limits; identify a concrete avoidable cost before proposing a change. Do not weaken preservation or quality.
+4. **Maintain the current capability map and meaningful contract suite:** keep supported, unsupported, closed-gate and untested states distinct. Test production behavior relevant to current use, without resurrecting obsolete dependencies just to erase reference failures.
+5. **Choose future qualification/features for current product value:** precise Keep/resize may justify fresh finite evidence if needed. Historical Full-FLAC/1440 does not become next merely because old resource/schema names exist. No compatibility framework, broad activation or hardware claim is implied.
+
+**Do not reopen / repeat:** Do not rewrite prior Session history, delete original failed/partial evidence, fake raw reports, bypass live source/currentness gates, change budgets/tolerances/defaults or treat canned PCM/lifecycle fields as media. Do not rerun old runtime qualification solely to make optional references green, blindly rebuild missing Full-FLAC/1440, or claim whole-GUI duration as encoding performance. Do not import later lifecycle/cost findings into this cutoff.
+
+**Continuation boundary:** The owner has authorized ongoing project leadership and prioritizes current reliability/performance. Routine scoped investigation and test work should proceed without unnecessary new approval. New consequential actions still require their applicable confirmation, and real runtime/native work requires exact preservation/identity/scope checks. Optional historical reference status is not itself a current release block or a grant to revive obsolete functionality.
+
+## ❓ Open Questions
+
+- **Is there a reproducible current nonempty transition or active-Quit defect beyond the known coverage gap?** **Needed from:** the assigned isolated real-integration lifecycle investigation. It blocks a justified production fix, not preservation of this test-only checkpoint.
+- **Which retained costs are startup, actual encoding, full-source preservation work or manual UI time, and which are avoidable?** **Needed from:** read-only attribution of audited receipts with environment and clock limits. No optimization target is established yet.
+- **Which currently closed precise Keep/resize paths matter to the owner's real workflow now?** **Needed from:** current product requirements and usage priorities, using existing context before asking. Fresh qualification is optional product work, not a requirement to satisfy old tests.
+- **Does any present product need justify implementing historical Full-FLAC1080/1440?** **Needed from:** a current use case and proportionate design/maintenance decision, not historical labels alone. No reconstruction is scheduled by this record.
+- **What broader media, native or platform verification is needed for actual release scope?** **Needed from:** a concrete supported-workflow/release plan. Portable contract green does not answer ordinary encoding, old AV1, Remux, Windows, vendor acceleration or owner acceptance by implication.
+
+## 🧾 Session Outcome
+
+**Completed:** Full 034 preservation verified; three independently reviewed test-only slices integrated in exact order, preserving the approved shared-file routing body and original historical tests. Current default Linux contracts pass 296/296 with zero skips/cancellations; affected, focused and protection scopes also pass. Optional historical references remain openly unsuccessful. Source-history investigation distinguishes inherited missing Full-FLAC core from absent old artifacts. The capability map and continuation now prioritize current reliability/performance rather than obsolete reconstruction.
+
+**Not completed:** New production functionality, all-current-workflow qualification, runtime/media/native/Windows/hardware verification, restored historical features, lifecycle defect resolution, measured performance improvement, formal Security Cloud assessment or 035 backup/publication at cutoff. Later assigned investigations have no result in this record.
+
+**Preservation contract:** Only this Session entry is prepended. The exact prior **1,630,818 bytes** and original structure-correction receipt remain untouched. Independent prose review, link checks, full suffix/source identity and final Session hash are recorded outside the repository. 035 becomes backed up only after its own verified preservation cycle, not merely because current tests are green.
+
+## 🔍 Confidence Level
+
+**High for current portable contract results, exact integration and the recorded limits. Moderate for broader current-product behavior; no new media/performance conclusion.**
+
+**Why:** Three independent source/test reviews reproduced results and mutation failures, verified original historical bodies and sequential file identity, and did not alter production code. Final authoritative runs retained commands/logs and all 615 checked files unchanged. Exact 034 restoration and remote mapping establish the predecessor. The capability map separates retained real evidence from synthetic schema/control tests and source-history gaps, and the continuation follows the owner's latest direction.
+
+**Not higher because:** Fake process/probe outputs and deterministic PCM/lifecycle fields cannot establish physical media correctness. Some historical assertions remain unexecuted under missing prerequisites, unsupported core families remain absent, and the current lifecycle/cost investigations have not yet produced results. Native/Windows/hardware/formal-security and general performance/release claims remain unverified. A green current contract suite is a useful foundation, not the finish line for reliability.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Verify the empty native session switch and begin repairing the 45 failing checks without reopening stale qualification
 
 ## 🤖 Models, Effort, Roles and Provenance

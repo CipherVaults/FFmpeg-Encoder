@@ -4,7 +4,7 @@ const fs = require('node:fs'), path = require('node:path');
 const root = path.join(__dirname, '..');
 test('internal qualification binds exact accepted evidence while native/release acceptance stays pending', () => {
  const q=require('../linux-blue/product-linux-qualification.cjs').loadQualification();
- assert.equal(q.scope,'internal-opt-in-two-family-candidate');assert.equal(q.nativeProof,null);assert.equal(q.productIntegrationReview,null);
+ assert.equal(q.scope,'internal-opt-in-three-family-candidate');assert.equal(q.nativeProof,null);assert.equal(q.productIntegrationReview,null);
  assert.equal(q.internalCandidateDecision.distributionReady,false);assert(q.supportingEvidence.serviceRelease.bytes>0);assert.match(q.supportingEvidence.serviceRelease.sha256,/^[a-f0-9]{64}$/);
 });
 test('compact calibration record carries measured values, not runtime approval flags', () => {
@@ -105,17 +105,19 @@ test('Windows construction matches frozen reviewed baseline except declaration s
  assert(current.includes('let nativeFilesFailure = null;'));
 });
 
-test('two candidate families keep separate exact qualifiers without changing the range record', async()=>{
+test('three candidate families keep separate exact qualifiers without changing the range record', async()=>{
  const f=serviceFixture(),s=await f.api.createLinuxProductService({verifiedRuntime:f.candidate,stateDir:'/inert'});
  const families=s.options.operationQualifications.options.families;
- assert.equal(families.length,2);
+ assert.equal(families.length,3);
  assert.equal(families[0].id,'cfr-sdr-range-resize1440-flac-v1');
  assert.equal(families[1].id,'cfr-sdr-full-resize-copy-v1');
+ assert.equal(families[2].id,'cfr-sdr-range-resize-flac-v1');
+ assert.equal(families[2].resourcePolicy,'cfr1080p30-to720p-flac-resources-v1');
  assert.equal(families[1].qualification.containerDuration,'matroska-copy-end-plus-codec-delay');
  assert.equal(families[1].qualification.tolerances.sampleCount,0);
  assert.deepEqual(families[0].settings,families[1].settings);
  assert.equal(s.snapshot().developerProduct.enabled,true);
- assert.match(s.snapshot().developerProduct.notice,/not yet verified/);
+ assert.match(s.snapshot().developerProduct.notice,/has not undergone native publication testing/);
  await s.closeOperationResources();
 });
 test('compact Full-copy record rejects widened geometry, settings, clocks and false native approval',t=>{
@@ -148,26 +150,30 @@ function productProbe(seconds = 150, tick = 15360) {
     nb_streams: 2, nb_programs: 0, nb_stream_groups: 0, tags: { major_brand: 'qt  ' } }, programs: [], stream_groups: [], chapters: [] };
 }
 
-test('real combined selector admits only the two explicit families, with no cross-family fallback',async()=>{
+test('real combined selector admits only the three explicit families, with no cross-family fallback',async()=>{
  const f=serviceFixture({realSelector:true}),s=await f.api.createLinuxProductService({verifiedRuntime:f.candidate,stateDir:'/inert'});
  const selector=s.options.operationQualifications;
  const {buildEncodeOperation,fingerprintEncodeSource}=require('../src/encode-operation.cjs');
  const {resolveFileRequest}=require('../src/operation-contract.cjs');
  const {classifyColor}=require('../src/media.cjs');
  const settings={profileId:'h265-cpu',preset:'slow',quality:25};
- function bindings({range=null,audioPolicy='copy',width=1920,resolution='720',quality=25}={}){
+ function bindings({range=null,audioPolicy='copy',width=1920,resolution='720',quality=25,pcm=false,mutateSource=()=>{}}={}){
   const source=productProbe(11); source.streams[0].width=width;source.streams[0].height=width===2560?1440:1080;
-  if(width===2560){source.streams[1].codec_name='pcm_s16le';source.streams[1].sample_fmt='s16';delete source.streams[1].profile;}
+  if(width===2560||pcm){source.streams[1].codec_name='pcm_s16le';source.streams[1].sample_fmt='s16';delete source.streams[1].profile;}
+  mutateSource(source);
   const identity={canonicalPath:'/synthetic-product/input.mov',dev:'1',ino:'2',size:source.format.size,mtimeNs:'1000',ctimeNs:'1001',birthtimeNs:'900',sparseDigest:`sha256-sparse-v1:${'b'.repeat(64)}`};
   const config={...settings,quality};
   const request=resolveFileRequest({fileId:'synthetic',identityRevision:1,draftRevision:1,operation:'encode',overrides:{range,resolution,audioPolicy}});
   const plan=buildEncodeOperation({input:identity.canonicalPath,output:'/synthetic-product/output.mkv',settings:config,inspection:{probe:source,color:classifyColor(source),duration:11},request,runtimeIdentity:f.candidate.runtimeIdentity});
   return {plan,settings:config,sourceIdentity:identity,sourceProbeFingerprint:fingerprintEncodeSource(source),runtimeIdentity:f.candidate.runtimeIdentity,environment:null,budget:null,executionBudgetMs:120000};
  }
- for(const args of [{},{width:2560,range:{startUs:413000,endUs:8621000},audioPolicy:'precision-flac'}]){
+ for(const args of [{},{pcm:true,range:{startUs:413000,endUs:8621000},audioPolicy:'precision-flac'},{width:2560,range:{startUs:413000,endUs:8621000},audioPolicy:'precision-flac'}]){
   const b=bindings(args),token=selector.select(b);assert(token);assert(selector.requireCurrent(token,b).controlsRequired);
  }
- for(const args of [{width:2560},{range:{startUs:413000,endUs:8621000}},{audioPolicy:'precision-flac'},{resolution:'source'},{quality:24}])assert.throws(()=>selector.select(bindings(args)));
+ for(const args of [{width:2560},{range:{startUs:413000,endUs:8621000}},{audioPolicy:'precision-flac'},{range:{startUs:413000,endUs:8621000},audioPolicy:'precision-flac'},{pcm:true,range:{startUs:413000,endUs:8621000}},{resolution:'source'},{quality:24}])assert.throws(()=>selector.select(bindings(args)));
+ for(const mutateSource of [p=>p.streams[0].avg_frame_rate='30000/1001',p=>p.streams[0].color_transfer='smpte2084',p=>p.streams[1].channels=1,p=>p.streams[1].sample_rate='44100',p=>p.streams[0].profile='Main']){
+  assert.throws(()=>selector.select(bindings({pcm:true,range:{startUs:413000,endUs:8621000},audioPolicy:'precision-flac',mutateSource})));
+ }
  await s.closeOperationResources();
 });
 test('altered Full-copy producer fails the same bounded source-closure gate',t=>{
@@ -178,4 +184,25 @@ test('altered Full-copy producer fails the same bounded source-closure gate',t=>
  const victim=path.join(temp,'linux-blue/candidate-full-copy-calibration.cjs');
  const bytes=fs.readFileSync(victim);bytes[0]^=1;fs.writeFileSync(victim,bytes);
  assert.throws(()=>q.verifyProductSources(),{code:'LINUX_PRODUCT_SOURCE_CHANGED'});
+});
+
+test('1080 range compact record preserves original clocks and refuses mutated scope',t=>{
+ const q=require('../linux-blue/product-linux-qualification.cjs').loadQualification();
+ assert.equal(q.range1080.rawCalibration.sha256,'84bc6a774ec2fd7af8e0eff05420d9637d54232f4feb0d1d24d80b384a2c6ccd');
+ assert.equal(q.range1080.rawCalibration.sizeBytes,125797);assert.equal(q.range1080.nativeProof,null);
+ assert.deepEqual(q.range1080.family.qualification.tolerances,q.family.qualification.tolerances);
+ const temp=fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()),'range1080-record-'));t.after(()=>fs.rmSync(temp,{recursive:true,force:true}));
+ const loader=injected(qualificationFile,{},temp);
+ for(const mutate of [x=>x.range1080.nativeProof={passed:true},x=>x.range1080.family.geometry.sourceWidth=2560,x=>x.range1080.family.qualification.tolerances.sampleCount=1,x=>x.range1080.family.timingQualification.aac={}]){
+ const v=structuredClone(q);mutate(v);fs.writeFileSync(path.join(temp,'product-linux-qualification.json'),JSON.stringify(v,null,2)+'\n');assert.throws(()=>loader.readCompactQualification(),{code:'LINUX_PRODUCT_QUALIFICATION_CHANGED'});
+ }
+});
+
+test('all 97 original 1080 producer hashes remain exact and are included in product closure',()=>{
+ const crypto=require('node:crypto');
+ const source=fs.readFileSync(path.join(root,'linux-blue/candidate-resize-service.cjs'),'utf8');
+ const original=JSON.parse(source.match(/const PRODUCERS = Object.freeze\((\{[\s\S]*?\n\})\);/)[1]);
+ const pins=JSON.parse(fs.readFileSync(qualificationFile,'utf8').match(/const SOURCE_PINS = (\{[\s\S]*?\n\});/)[1]);
+ assert.equal(Object.keys(original).length,97);
+ for(const [name,hash] of Object.entries(original)){assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(root,name))).digest('hex'),hash,name);assert.equal(pins[name].sha256,hash,name);}
 });

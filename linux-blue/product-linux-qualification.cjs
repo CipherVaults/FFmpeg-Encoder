@@ -4,7 +4,7 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 const { createHash } = require('node:crypto');
 const { isDeepStrictEqual } = require('node:util');
-const EXPECTED_SHA = 'd90f025a58bf081d14cc736aea6f8d56a8dab95df9be631abffa81c90f1d0491';
+const EXPECTED_SHA = 'faa88a7c347e1a81c65c6c45f3d79b04453349d1da18ca40c3fbbcde5178f89a';
 // Reviewed code is the trust anchor, not a caller manifest or writable JSON flag.
 // This loader cannot hash itself recursively; package/source review binds it.
 const SOURCE_PINS = {
@@ -13,12 +13,12 @@ const SOURCE_PINS = {
     "sha256": "a62ceab690931736a7d7a81e7c6c7495987f7015f953013366ab6f5a0fd8217a"
   },
   "linux-blue/product-linux-service.cjs": {
-    "bytes": 10127,
-    "sha256": "2c6383827cf6efa85ff9d3285502802b42e306f37edd5082cc11761d5cd42068"
+    "sha256": "941c29ba2ca936b9c5e404f3e592b13e6574f49abf303280471da3e00a0d9cc1",
+    "bytes": 10772
   },
   "linux-blue/product-linux-shell.cjs": {
-    "bytes": 5780,
-    "sha256": "b5b9e511e413f889b0f74b477815f7bd82bceb96ed6af27c16ee5c67714f4f22"
+    "bytes": 5782,
+    "sha256": "9d469d71a3e2c099e69b9f99ea4b6bc7c06a8f97372fbb4ba7303e11e9732a72"
   },
   "linux-blue/runtime-av1-operation.cjs": {
     "bytes": 5507,
@@ -474,8 +474,8 @@ const SOURCE_PINS = {
   }
 };
 const CLOSED_RECORD = {
-  "schema": "linux-product-two-family-qualification/v2",
-  "scope": "internal-opt-in-two-family-candidate",
+  "schema": "linux-product-three-family-qualification/v3",
+  "scope": "internal-opt-in-three-family-candidate",
   "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
   "rawCalibration": {
     "sha256": "c81129d8305109c0a7a9dd024e65d3f5dab5611bf70cd218a601c734ff3dcd67",
@@ -635,6 +635,73 @@ const CLOSED_RECORD = {
       "H265 CPU slow CRF25 only. No remux, GPU, arbitrary source geometry, precision-range substitution or production catalog activation.",
       "062 calibration and 063 service evidence is not relocated package/native acceptance.",
       "Existing CPU topology/thread-pool warnings and cancellation diagnostics remain recorded."
+    ]
+  },
+  "range1080": {
+    "rawCalibration": {
+      "sha256": "84bc6a774ec2fd7af8e0eff05420d9637d54232f4feb0d1d24d80b384a2c6ccd",
+      "sizeBytes": 125797
+    },
+    "supportingEvidence": {
+      "calibrationAudit": {
+        "sha256": "67cff40706d899c92303107178adcf1eb7d55977f5037ae68a12546d01aceb28",
+        "bytes": 257925
+      },
+      "serviceAudit": {
+        "sha256": "2eb44fd7df5af327ce344d15f2f29e277ecead132d9b5ce877016db38e0fe14f",
+        "bytes": 270595
+      },
+      "serviceRelease": {
+        "sha256": "1074436b1c70d3f62df59721f9259b222d98928cf5bd4844eb9359122ee10c6c",
+        "bytes": 2489
+      }
+    },
+    "nativeProof": null,
+    "relocatedPublication": null,
+    "family": {
+      "settings": {
+        "profileId": "h265-cpu",
+        "preset": "slow",
+        "quality": 25
+      },
+      "resourcePolicy": "cfr1080p30-to720p-flac-resources-v1",
+      "geometry": {
+        "sourceWidth": 1920,
+        "sourceHeight": 1080,
+        "resolution": "720",
+        "outputWidth": 1280,
+        "outputHeight": 720
+      },
+      "qualification": {
+        "evidenceId": "candidate-resize1080to720-calibration-miYNXT:long-pattern:endpoints",
+        "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+        "containerDuration": "end-timestamp",
+        "tolerances": {
+          "videoTimestampUs": 1067,
+          "audioTimestampUs": 1042,
+          "avSyncUs": 2109,
+          "durationUs": 1088,
+          "sampleCount": 0
+        }
+      },
+      "timingQualification": {
+        "evidenceId": "candidate-resize1080to720-calibration-miYNXT:long-pattern:interior",
+        "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+        "videoDurationUs": 1067,
+        "audioTimelineUs": 1042,
+        "aac": null
+      },
+      "evidenceIds": [
+        "candidate-resize1080to720-calibration-miYNXT:long-pattern:endpoints",
+        "candidate-resize1080to720-calibration-miYNXT:long-pattern:interior",
+        "candidate-resize1080to720-calibration-miYNXT:heldout-flipped:endpoints",
+        "candidate-resize1080to720-calibration-miYNXT:heldout-flipped:interior"
+      ]
+    },
+    "limits": [
+      "Explicit 1080p30 range to 720p with precision FLAC only; H264 High progressive yuv420p CFR SDR bt709/tv/left and stereo 48 kHz s16 PCM QuickTime source.",
+      "Not arbitrary AAC, VFR, HDR or GPU input. H265 CPU slow CRF25 only.",
+      "Accepted 061 calibration and 062 service evidence does not qualify this new packaged composition. Predecessor native proofs apply only to their exact artifacts."
     ]
   }
 };

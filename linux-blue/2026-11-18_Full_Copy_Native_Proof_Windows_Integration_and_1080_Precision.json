@@ -1,0 +1,167 @@
+{
+  "draftOnly": false,
+  "mainWritten": false,
+  "base": "559c524ea531be3b2daeed9d27800eef59a2d765",
+  "predecessor": {
+    "bytes": 2477859,
+    "sha256": "52d79230f7d4f85b1dac61c016e7f8ccc7c4ad37293337f528ceae5a5fbb7400"
+  },
+  "sectionCount": 14,
+  "exactSuffix": true,
+  "receipts": [
+    {
+      "path": "checkpoint070-final-mirror-release.json",
+      "bytes": 644,
+      "sha256": "a962c88269f9cf3f054240fe0ad7086b34012e07e8672505d509b8dd8098cce1"
+    },
+    {
+      "path": "github070-hosted-observation/VERIFIED_OUTCOME.json",
+      "bytes": 2083,
+      "sha256": "64ba44bf0cbb9051ae3901ff80a28eaa49f80fd03c5881e7f60ab7a0699461ec"
+    },
+    {
+      "path": "inert-package070-actual/OUTER_COMPLETION.json",
+      "bytes": 387,
+      "sha256": "4d9da27980d262732b63f0bd94d8cf2388f67e3e901aea8609cc632536fb28e9"
+    },
+    {
+      "path": "inert-package070-actual/INDEPENDENT_FINAL_AUDIT.json",
+      "bytes": 1295,
+      "sha256": "b323dcea867e62df67fd500c44609dd0d5691dbd988a1374cdc0c14d83e17009"
+    },
+    {
+      "path": "inert-package070-actual/INDEPENDENT_RELOCATION_AUDIT.json",
+      "bytes": 571,
+      "sha256": "5602a6bf8260199e17cce355a14f800bca70c5a5fd413c683cd93282d6749542"
+    },
+    {
+      "path": "inert-package070-actual/NORMAL_MODE_VERIFICATION.json",
+      "bytes": 65369,
+      "sha256": "5bce1a39ced65a99c144c8c86fac7ccd4f4088645dff4eab3df8c0fb338daa70"
+    },
+    {
+      "path": "native-fullcopy070-preparation/SAVED_FULLCOPY_PUBLICATION_AUDIT.json",
+      "bytes": 16397,
+      "sha256": "c4523751206174c06fd93e8831d2b27324736bd7310bc23d59e5b68e9dcd35ce"
+    },
+    {
+      "path": "mirror-equivalence071-study/RESULT.json",
+      "bytes": 2630,
+      "sha256": "dc46848c56de30d4b597404a962235a75c250cffb0621e2ea8542f746bd8e48d"
+    },
+    {
+      "path": "mirror-equivalence071-study/RECOMMENDATION.md",
+      "bytes": 3557,
+      "sha256": "42b59a39c904378ea50008022c38b3c49dfe7ec586bc491cf557cc7f3526a9a0"
+    },
+    {
+      "path": "windows-integration071-proposal/HANDOFF.json",
+      "bytes": 2046,
+      "sha256": "2f76c139f8db3efdcf06c9703ba0cc2b021d0631d317ff36c9d981509a5911d6"
+    },
+    {
+      "path": "product-range1080-071-proposal/HANDOFF.json",
+      "bytes": 4308,
+      "sha256": "c793daf6df14e8aaefd56b1d410adfa793cd1de87ae8cb56605908d07f68a0ee"
+    },
+    {
+      "path": "product-range1080-next-plan/COMPATIBILITY.json",
+      "bytes": 1355,
+      "sha256": "46bdc4aa867d3f86bb2ff1f2539cc6364d554806cb281e849c5e9f4e37f6d571"
+    },
+    {
+      "path": "checkpoint071-linux-integration.json",
+      "bytes": 5011,
+      "sha256": "d3fc9b15a03deec50d162111437513c9b05043c06ccab865af7f7027844747b2"
+    },
+    {
+      "path": "checkpoint071-windows-integration.json",
+      "bytes": 2579,
+      "sha256": "9333fdca6e0486a433e1b6ab4f75df04626115046b5a6b054461235c3c4c5706"
+    },
+    {
+      "path": "product-range1080-071-proposal/INDEPENDENT_REVIEW.json",
+      "bytes": 3486,
+      "sha256": "116cd77ed2b0eb0a08ca268d1937e4c29c5b369bdcfbbfd775fd040bff046dc9"
+    },
+    {
+      "path": "windows-integration071-proposal/INDEPENDENT_FINAL_REVIEW.json",
+      "bytes": 3494,
+      "sha256": "8468d5a0559ae23c6230917751a335fb5508788773b78269f200cf608df65cec"
+    },
+    {
+      "path": "checkpoint071-source-contracts.stdout",
+      "bytes": 28601,
+      "sha256": "0bb5ddc6c46845781f0924c06d5b0acc40d6a1fd03a6d2b5d726eaa6a48cbaa8"
+    },
+    {
+      "path": "checkpoint071-source-contracts.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "chosenScope": "Reviewed and integrated Windows packaged CPU integration plus Linux third-family precision composition",
+  "linux1080Precision": "Integrated source; actual new native acceptance pending",
+  "ownerGateOrder": {
+    "provenance": "Latest Ahmed instruction forwarded by root, 2026-11-18",
+    "lastGate": "Ahmed Windows PC / RTX 5060 testing",
+    "beforeOwnerTest": [
+      "feasible hosted Windows startup and CPU integration",
+      "Linux qualification",
+      "release packaging",
+      "v0.7 bug fixes and polish",
+      "sensible overlooked improvements"
+    ],
+    "handoff": "Exact build plus short prioritized owner hardware checklist",
+    "doNotUseOrRequestOwnerMachineBeforeThen": true,
+    "v08ScopeChanged": false
+  },
+  "ownerBranchAmendment": {
+    "provenance": "Latest owner amendment forwarded by root, 2026-11-18",
+    "codexQuota": "exhausted",
+    "v08MayStartWhen": "Useful independent v0.7 work finished and release candidate frozen",
+    "mayProceedBeforeFinalOwnerPCTest": true,
+    "requiredBranchIsolation": true,
+    "v08": [
+      "themes",
+      "localization including Arabic",
+      "in-app guide and onboarding",
+      "polish"
+    ],
+    "hdrVersion": "0.9",
+    "earlyV08ImplementationNow": false,
+    "quotaResetExplorationOrOwnerMachineUse": false
+  },
+  "preparedOutsideMain": true,
+  "cutoffUtc": "2026-11-18T22:30:40Z",
+  "tests": {
+    "linuxFocused": 28,
+    "windowsFocused": 52,
+    "syntax": 211,
+    "shared": 243,
+    "linuxAggregate": 39,
+    "fail": 0,
+    "skip": 0,
+    "stderrBytes": 0,
+    "overlap": true
+  },
+  "scope": {
+    "source": 13,
+    "records": 4,
+    "total": 17,
+    "new": 7
+  },
+  "new071RuntimeExecuted": false,
+  "focusedReceipts": [
+    {
+      "path": "artifacts/v0.7/evidence/20261118T222458Z_recovered071-linux-composition/receipt.json",
+      "bytes": 2225,
+      "sha256": "558e0628c01f031f22f5775dc25ad8c0c8c90b708fa3e386c29bc5f124708932"
+    },
+    {
+      "path": "artifacts/v0.7/evidence/20261118T223017Z_recovered071-windows-integration/receipt.json",
+      "bytes": 1985,
+      "sha256": "974f634691fff4bb5920b003492afabafccb242d870030afd0df77de19205d75"
+    }
+  ]
+}

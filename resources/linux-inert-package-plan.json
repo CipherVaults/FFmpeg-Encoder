@@ -772,32 +772,32 @@
       "source": "linux-blue/product-linux-qualification.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-qualification.cjs",
       "group": "application",
-      "bytes": 26468,
-      "sha256": "2357bdb207897d8bb1546fe9d49c936108078b702ae422a8abd04a8e8949eeec"
+      "bytes": 29083,
+      "sha256": "7a76a90caf305fc062091c7da7f1cb4adeca262428659b56a929aedf2bae47d7"
     },
     {
       "root": "source",
       "source": "linux-blue/product-linux-qualification.json",
       "target": "electron/resources/app/linux-blue/product-linux-qualification.json",
       "group": "application",
-      "bytes": 6137,
-      "sha256": "d90f025a58bf081d14cc736aea6f8d56a8dab95df9be631abffa81c90f1d0491"
+      "bytes": 8752,
+      "sha256": "faa88a7c347e1a81c65c6c45f3d79b04453349d1da18ca40c3fbbcde5178f89a"
     },
     {
       "root": "source",
       "source": "linux-blue/product-linux-service.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-service.cjs",
       "group": "application",
-      "bytes": 10127,
-      "sha256": "2c6383827cf6efa85ff9d3285502802b42e306f37edd5082cc11761d5cd42068"
+      "bytes": 10772,
+      "sha256": "941c29ba2ca936b9c5e404f3e592b13e6574f49abf303280471da3e00a0d9cc1"
     },
     {
       "root": "source",
       "source": "linux-blue/product-linux-shell.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-shell.cjs",
       "group": "application",
-      "bytes": 5780,
-      "sha256": "b5b9e511e413f889b0f74b477815f7bd82bceb96ed6af27c16ee5c67714f4f22"
+      "bytes": 5782,
+      "sha256": "9d469d71a3e2c099e69b9f99ea4b6bc7c06a8f97372fbb4ba7303e11e9732a72"
     },
     {
       "root": "source",

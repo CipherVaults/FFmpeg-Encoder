@@ -72,7 +72,7 @@ async function publish(parent,report,output){
   await verifyPinnedFile(file,{sizeBytes:bytes.length,sha256:sha(bytes)});await owned();assert(!/[\r\n]/.test(file));
   await fs.appendFile(output,`report_path=${file}\nreport_sha256=${sha(bytes)}\nreport_ready=true\n`);return sha(bytes);
 }
-async function execute({root,parent,identity},{acquireImpl=acquire,prepareImpl=preparePayload,electronImpl=provisionElectron,buildImpl=buildPortable,run=runBounded}={}){
+async function execute({root,parent,identity},{acquireImpl=acquire,prepareImpl=preparePayload,electronImpl=provisionElectron,buildImpl=buildPortable,run=runBounded,onVerifiedBuild=null}={}){
   let phase='preflight';
   try {
   const manifest=expectedCandidateManifest();await preflight(root,parent,manifest);const owner=await retainDirectory(root);
@@ -117,6 +117,7 @@ async function execute({root,parent,identity},{acquireImpl=acquire,prepareImpl=p
   await verifyPinnedFile(built.zip.path,built.zip);
   phase='final-readback';
   const report=reportSummary(built,identity);report.electronArchiveSha256=manifest.electron.archive.sha256;report.electronListingSha256=sha(listing.stdout);report.packageLockSha256=lock.sha256;
+  if(onVerifiedBuild!==null){assert(typeof onVerifiedBuild==='function');await onVerifiedBuild(built,report);}
   return report;
   }catch(error){error.packagePhase=phase;throw error;}
 }
@@ -133,5 +134,5 @@ async function main(diagnostic=createPreflightDiagnostic()){
   let report;try{report=await execute({root,parent,identity});}catch(error){report={schema:1,...identity,failure:failureDiagnostic(error),state:'PACKAGE_FAILED_OR_INCOMPLETE',gui:'not-run',media:'not-run',gpu:'not-run',distribution:'report-only'};process.exitCode=1;}
   console.log('Inert Windows package result: '+report.state+'; report SHA256 '+await step('report-publication',()=>publish(parent,report,process.env.GITHUB_OUTPUT)));
 }
-module.exports={readHostedEvent,createPreflightDiagnostic,failureDiagnostic,authority,treeBound,publish,execute};
+module.exports={preflight,readHostedEvent,createPreflightDiagnostic,failureDiagnostic,authority,treeBound,publish,execute};
 if(require.main===module){const diagnostic=createPreflightDiagnostic();main(diagnostic).catch(error=>{console.error('Windows package diagnostic: '+JSON.stringify(diagnostic.failure(error)));process.exitCode=1;});}

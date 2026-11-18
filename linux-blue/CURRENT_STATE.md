@@ -1,10 +1,15 @@
-# Current state — checkpoint 070 prepared
+# Current state — checkpoint 071 prepared
 
-Cutoff: November 18, 2026 at 21:51:35 UTC.
+Cutoff: November 18, 2026 at 22:30:40 UTC.
 
-- **Preserved 069:** local `92ddb521acdc81d43a16fc444e33078d5e3a80bc`, remote `d71d50cb83660246ea77ed4f1837af18f4426e58`; 754 files / 69 commits and native records verified.
-- **Actual old-artifact native success:** unchanged packaged 067 registered both folders, then a separately bounded attempt published and revealed one precision-FLAC range. Saved evidence: 246 video frames, 393,984 samples, exact selected PCM hash equality; one 1,624,941-byte output. Exit zero; 19 sampled identities, not an exhaustive census. No new 070 bytes or Full-copy native acceptance are implied.
-- **070 source accepted:** seven Full-copy composition paths, two exact package-plan/test paths and five constrained Windows archive paths. 116 product pins; package plan 226 inputs / 133 app members / 391,360,593 bytes. Original measured producers/runtime inputs and production defaults remain unchanged. No new actual package built.
-- **Checks:** 69 focused passed, zero failures/skips. Full local CI: 211 syntax, 243 shared and 37 Linux tests passed. These are distinct from hosted 069: 211 / 243 both OS plus 32 Linux.
-- **Windows actual 069:** preflight/install passed, listing failed ERR_ZIP_ATTRIBUTES; sanitized report artifact verified. Exact vendor ZIP inspection supports a context-only successor, not a generic policy relaxation or completed Windows package. Actual successor unrun.
-- **Next:** review four records, commit coherent scope and verify Notion then GitHub; observe hosted successor; separately release exact new package and Full-copy native proof. No GPU, broad portability, distribution or v0.7 release acceptance. Raw profiles/media/source tarballs remain local artifacts, not checkpoint archive payloads.
+- **Preserved base:** 070 local `559c524ea531be3b2daeed9d27800eef59a2d765`, remote `007da483659278edd6916137249f568f29afc9df`; source/history/native records verified.
+- **Actual 070 outcomes:** audited Linux package and relocation, one normal native Full/720p/copied-AAC publication and reveal, 240 frames / 384,000 samples / 376 identical sealed packets. Exit zero, 16 sampled identities, not exhaustive. Hosted Windows inert package succeeded; only its sanitized report was retained, not an executable. No Windows media/GPU run is implied.
+- **Accepted 071 source:** seven Linux third-family precision paths and six Windows packaged integration paths. Linux family is narrow H264 High CFR30 SDR with stereo 48 kHz s16 PCM QuickTime; all 97 measured producers unchanged. The plan has 226 inputs / 133 app files / 391,366,470 bytes. No new package or native acceptance yet.
+- **Windows integration scope:** one requested small synthetic CPU encode through the ordinary compatibility route, with a disclosed substituted picker. Normal startup also creates capability fixtures and probes profiles including GPU attempts. GPU is unqualified; readiness is bounded at 240 seconds and journey at six minutes. Closure is sampled, not exhaustive. Actual hosted run pending.
+- **Checks:** lead Linux 28 and Windows 52 focused tests passed, zero failures/skips; aggregate 211 syntax, 243 shared and 39 Linux passed with empty stderr. Counts overlap. New Windows scripts parse. Both independent source reviews accepted.
+- **Next:** review/copy four records, commit coherent 17-path scope, verify Notion and GitHub, then separately release actual new package/native and hosted work. Current mirror unchanged; local equivalence study is not an external proof.
+
+## Owner-directed gate order
+Latest owner instructions forwarded by root on November 18, 2026: complete useful independent v0.7 hosted Windows, Linux qualification, release packaging, fixes and polish before Ahmed’s final Windows PC / RTX 5060 test. Do not use or request that machine early. Deliver the exact candidate and a short prioritized hardware checklist. Codex quota remains exhausted; do not explore a reset.
+
+Once useful independent v0.7 work is complete and its candidate frozen, v0.8 may begin on a separate branch without waiting for quota or the final PC test. Keep v0.7 fixes isolated. Themes, localization including Arabic, guides/onboarding and polish belong to v0.8; HDR remains v0.9. No early v0.8 implementation now.

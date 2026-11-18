@@ -1,0 +1,51 @@
+name: Windows packaged CPU integration (report only)
+on:
+  push:
+    branches: [blue/linux-development]
+    paths: [.github/workflows/windows-integration.yml]
+permissions:
+  contents: read
+concurrency:
+  group: windows-packaged-cpu-integration
+  cancel-in-progress: false
+jobs:
+  package:
+    # Bound to one ordinary successor push after checkpoint 070; no dispatch or rerun.
+    if: ${{ github.repository == 'CipherVaults/FFmpeg-Encoder-Blue-Linux' && github.ref == 'refs/heads/blue/linux-development' && github.event_name == 'push' && github.event.before == '007da483659278edd6916137249f568f29afc9df' && github.event.after == github.sha && github.event.forced == false && github.event.created == false && github.event.deleted == false && github.run_attempt == 1 }}
+    runs-on: windows-2022
+    timeout-minutes: 25
+    env:
+      ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+      npm_config_ignore_scripts: 'true'
+      npm_config_audit: 'false'
+      npm_config_fund: 'false'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24.22.1'
+          package-manager-cache: false
+      - name: Check integration authority before locked metadata
+        run: node scripts/windows-integration-preflight.cjs
+      - name: Install locked packaging metadata without lifecycle scripts
+        timeout-minutes: 5
+        shell: pwsh
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund *> "$env:RUNNER_TEMP\package-npm-install.log"
+          if ($LASTEXITCODE -ne 0) { throw 'Locked packaging metadata installation failed; local log retained, not uploaded.' }
+      - name: Build and qualify one packaged CPU journey
+        id: verify
+        timeout-minutes: 18
+        run: node scripts/windows-hosted-integration-check.cjs
+      - name: Retain sanitized report only, never executable package
+        if: ${{ always() && !cancelled() && steps.verify.outputs.report_ready == 'true' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: windows-integration-report-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ steps.verify.outputs.report_path }}
+          if-no-files-found: error
+          retention-days: 3
+          compression-level: 0

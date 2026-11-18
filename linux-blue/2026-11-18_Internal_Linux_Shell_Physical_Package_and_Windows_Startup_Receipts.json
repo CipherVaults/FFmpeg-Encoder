@@ -1,0 +1,236 @@
+{
+  "checkpoint": "066",
+  "cutoffUtc": "2026-11-18T20:19:12.986881+00:00",
+  "status": "integrated and locally verified; commit and preservation pending",
+  "baseLocalCommit": "e9df1ed78cf1ade0b6c322ead652644c482d9662",
+  "baseRemoteCommit": "75d82ef61b3ec4f1428f2bd11fffca372a186a85",
+  "sourceFiles": [
+    {
+      "path": "main.js",
+      "bytes": 15786,
+      "sha256": "d3229e84ec5dc62c03cda8cd9bb06647d9d44da5b1b3d2e2990986555c5b3295",
+      "source": "/workspace/scratch/b0b5fef72e20/ffmpeg-linux-product066-integration-proposal/main.js",
+      "change": "modified"
+    },
+    {
+      "path": "linux-blue/product-linux-shell.cjs",
+      "bytes": 5760,
+      "sha256": "3b0a5478061eea01927a7e63ef5da4e0d80c37b967756a80f7da870d1ef28b73",
+      "source": "/workspace/scratch/b0b5fef72e20/ffmpeg-linux-product066-integration-proposal/linux-blue/product-linux-shell.cjs",
+      "change": "new"
+    },
+    {
+      "path": "linux-blue/product-linux-service.cjs",
+      "bytes": 9157,
+      "sha256": "867f214900d1c4e2b0a9eded853b0037c95e3d93431c6489446ec0b4bad808fa",
+      "source": "/workspace/scratch/b0b5fef72e20/ffmpeg-linux-product066-integration-proposal/linux-blue/product-linux-service.cjs",
+      "change": "new"
+    },
+    {
+      "path": "linux-blue/product-linux-qualification.cjs",
+      "bytes": 23733,
+      "sha256": "906678a4925653edff633900037e0cc34f0c51d3c8df5fbffec9e745fdeafd68",
+      "source": "/workspace/scratch/b0b5fef72e20/ffmpeg-linux-product066-integration-proposal/linux-blue/product-linux-qualification.cjs",
+      "change": "new"
+    },
+    {
+      "path": "linux-blue/product-linux-qualification.json",
+      "bytes": 3563,
+      "sha256": "5f5be216f22f5fc83a3fbca730b152105d59ff0f9d04dc8644174e0cfbadc85b",
+      "source": "/workspace/scratch/b0b5fef72e20/ffmpeg-linux-product066-integration-proposal/linux-blue/product-linux-qualification.json",
+      "change": "new"
+    },
+    {
+      "path": "linux-blue/LINUX_PRODUCT_COMPOSITION_PROPOSAL.md",
+      "bytes": 11534,
+      "sha256": "35fedc9602fe43a914f489effe0691a4588f3d03678e8efe03d0d259fbcdcc27",
+      "source": "/workspace/scratch/b0b5fef72e20/ffmpeg-linux-product066-integration-proposal/linux-blue/LINUX_PRODUCT_COMPOSITION_PROPOSAL.md",
+      "change": "new"
+    },
+    {
+      "path": "tests/linux-product-proposal.test.cjs",
+      "bytes": 9640,
+      "sha256": "c9d05d00304fd7b59bd404899c517ff6204bf0fb6c30cb4c754835b235c7369e",
+      "source": "/workspace/scratch/b0b5fef72e20/ffmpeg-linux-product066-integration-proposal/tests/linux-product-proposal.test.cjs",
+      "change": "new"
+    },
+    {
+      "path": "scripts/build-linux-inert-package.cjs",
+      "bytes": 10218,
+      "sha256": "d21e10c69e847d7e345ac57ce8c7750e443ec392a049f1b337474b8142903bdb",
+      "source": "/workspace/scratch/b0b5fef72e20/ffmpeg-linux-product066-integration-proposal/scripts/build-linux-inert-package.cjs",
+      "change": "new"
+    },
+    {
+      "path": "resources/linux-inert-package-plan.json",
+      "bytes": 63132,
+      "sha256": "883d22872e43dd31a3bedbb27b2a74b4b54ac2c1e142ed39bb3fe7f610716646",
+      "source": "/workspace/scratch/b0b5fef72e20/ffmpeg-linux-product066-integration-proposal/resources/linux-inert-package-plan.json",
+      "change": "new"
+    },
+    {
+      "path": "tests/linux-inert-package.test.cjs",
+      "bytes": 7511,
+      "sha256": "17c76c89b6d46738ab2c8a173e5ba502ec469ee461879a44068a217558667dc5",
+      "source": "/workspace/scratch/b0b5fef72e20/ffmpeg-linux-product066-integration-proposal/tests/linux-inert-package.test.cjs",
+      "change": "new"
+    },
+    {
+      "path": "linux-blue/LINUX_OFFLINE_PACKAGE_PROPOSAL.md",
+      "bytes": 10083,
+      "sha256": "f6dec3f11e5296cf01e8c157987d5ed59fa221403921020312de0193cced216c",
+      "source": "/workspace/scratch/b0b5fef72e20/ffmpeg-linux-product066-integration-proposal/linux-blue/LINUX_OFFLINE_PACKAGE_PROPOSAL.md",
+      "change": "new"
+    },
+    {
+      "path": "scripts/ci-source-contracts.cjs",
+      "bytes": 2486,
+      "sha256": "cec093f230cc8ddda6c2991b60ec4593a909cf831ba35b72b0c2a96ff20aba18",
+      "source": "Lead: include twelve pure/injected product composition tests in Linux-only CI. Actual ASAR package tests remain separate with approved installed dependency.",
+      "change": "modified"
+    }
+  ],
+  "tests": {
+    "verifiedAtUtc": "2026-11-18T20:19:12.986881+00:00",
+    "focused": {
+      "pass": 61,
+      "fail": 0,
+      "skip": 0,
+      "receipt": "/workspace/scratch/b0b5fef72e20/ffmpeg-linux-f6bc64a-20261117/artifacts/v0.7/evidence/20261118T201752Z_recovered066-physical-final/receipt.json",
+      "receiptSha256": "c9bae48953fa54b925e1d78a6271c45b079f6206473971b856997d4565a28141"
+    },
+    "individualSyntaxFiles": [
+      "main.js",
+      "linux-blue/product-linux-shell.cjs",
+      "linux-blue/product-linux-service.cjs",
+      "linux-blue/product-linux-qualification.cjs",
+      "tests/linux-product-proposal.test.cjs",
+      "scripts/build-linux-inert-package.cjs",
+      "tests/linux-inert-package.test.cjs",
+      "scripts/ci-source-contracts.cjs"
+    ],
+    "ci": {
+      "syntaxFiles": 211,
+      "sharedTests": 243,
+      "linuxTests": 32,
+      "fail": 0,
+      "skip": 0,
+      "stdoutSha256": "3047819e1cb2d6789239316edc645d758bb9c9390c016f6ee73ee28141ee31dd",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "checkpoint066-ci-final.stdout"
+    },
+    "calibrationPins": [
+      {
+        "consumer": "candidate-resize-service.cjs",
+        "count": 97,
+        "allMatched": true
+      },
+      {
+        "consumer": "candidate-resize1440-service.cjs",
+        "count": 97,
+        "allMatched": true
+      },
+      {
+        "consumer": "candidate-full-copy-service.cjs",
+        "count": 26,
+        "allMatched": true
+      }
+    ],
+    "productSourceClosure": {
+      "files": 115,
+      "verified": true,
+      "recordRead": true,
+      "runtimeInvoked": false
+    },
+    "packageInputs": {
+      "files": 225,
+      "applicationFiles": 132,
+      "bytes": 391326474,
+      "allExact": true,
+      "actualPackageBuilt": false,
+      "physicalAppLayout": "electron/resources/app; audit-only ASAR outside launch resources",
+      "all115ProductSourceMembersCovered": true
+    },
+    "countsOverlap": true,
+    "labelCorrection": "checkpoint066-test-label-correction.json documents old-source60-test run with premature physical label; final61receipt is authoritative"
+  },
+  "evidence": [
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/checkpoint065-final-mirror-release.json",
+      "bytes": 643,
+      "sha256": "557f5d8d4e488d00ff0e53a623f527fc4e0a54f80511c30552408c111e894da0"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/notion-checkpoint-065-verification.json",
+      "bytes": 199940,
+      "sha256": "638d1323551dc9a13fb4a5f0614040ec4c1fd49b730a19e99e59ecbe1561697f"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/github-checkpoint065-verification.json",
+      "bytes": 5817,
+      "sha256": "c5816cae76e7be10ca7ad24c3f8cd462a36a3ff000d98bb786169ea4b2b181b7"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/github-checkpoint065-observation.json",
+      "bytes": 5154,
+      "sha256": "5562aeef6ce2998d585d781ccca13019b0c44e74e21145ed655db57b1a3820de"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/checkpoint066-integration.json",
+      "bytes": 4509,
+      "sha256": "aec7c7b6b03be51cca8e9fca293f6d5bef2047d81f8e3c516caae524d741586a"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/checkpoint066-lead-tests.json",
+      "bytes": 2022,
+      "sha256": "5c36151bc6e7d9ca12c50990840bdbb3e7585feff2d70f1edcf7a762c70708a4"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/checkpoint066-cutoff.json",
+      "bytes": 672,
+      "sha256": "358b87db2471c2315f3079610d2be76920001fabac1f18ca5793a2e8e7e140e8"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/checkpoint066-test-label-correction.json",
+      "bytes": 369,
+      "sha256": "e5e2410a05906cb81fa72834e20e791e03972af30d20a261b6e4194dca465ab5"
+    },
+    {
+      "path": "ffmpeg-linux-product066-integration-proposal/ASAR_FILESYSTEM_SEAM_REVIEW.json",
+      "bytes": 3470,
+      "sha256": "30bdbcb5c1a5719a4797e3fb7222d288f7885aeb45e3f22a106de5ee72210a86"
+    },
+    {
+      "path": "ffmpeg-linux-product066-integration-proposal/INDEPENDENT_PHYSICAL_LAYOUT_REVIEW.json",
+      "bytes": 5829,
+      "sha256": "96f23b212ff5d924cdd15e248b2482d83f1b1c0b1a65dbefce86bb51a14aeffb"
+    },
+    {
+      "path": "ffmpeg-linux-product066-integration-proposal/PHYSICAL_LAYOUT_ADDED_MEMBERS.json",
+      "bytes": 56,
+      "sha256": "02ad851c65dbf9fc4645a5eb7a12ac5a2c78cfd8c7215ed197f92f1815e0d2b8"
+    }
+  ],
+  "predecessor": {
+    "bytes": 2412268,
+    "sha256": "9059e4b79b15c36f87481762721978d4482bcb50e924a18a1ee460ba75a9dcb8",
+    "exactSuffixPreserved": true
+  },
+  "scope": {
+    "internalOptIn": true,
+    "defaultActivation": false,
+    "windowsCompositionChanged": false,
+    "nativeProof": "pending",
+    "actualPackageBuilt": false,
+    "runtimeInvoked": false,
+    "physicalLaunchRoot": "electron/resources/app",
+    "auditArchive": "audit/app.asar"
+  },
+  "expectedFrozenCounts": {
+    "paths": 16,
+    "new": 12,
+    "modified": 4,
+    "tracked": 744
+  },
+  "preservation066": "pending"
+}

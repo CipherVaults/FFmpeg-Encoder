@@ -18,6 +18,8 @@ const { AppearanceSettings } = require('./src/appearance.cjs');
 // arbitrary file loading are granted to this origin.
 protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { standard: true, secure: true, supportFetchAPI: true, corsEnabled: true } }]);
 
+// Explicit opt-in only. No renderer/persisted setting can select this route.
+const linuxProductCandidate = process.platform === 'linux' && app.commandLine.hasSwitch('linux-product-candidate');
 let window;
 let service;
 let ipcRegistration;
@@ -148,6 +150,7 @@ try {
   root = app.getAppPath();
   stateDir = app.commandLine.hasSwitch('user-data-dir')
     ? app.commandLine.getSwitchValue('user-data-dir')
+    : linuxProductCandidate ? path.join(app.getPath('appData'), 'FFmpegEncoder-Linux-Candidate')
     : path.join(app.isPackaged ? path.dirname(app.getPath('exe')) : root, app.isPackaged ? 'data' : 'data-next-0.7');
   fs.mkdirSync(stateDir, { recursive: true });
   // Electron/Chromium can initialize GPU/network state before createWindow.
@@ -167,6 +170,14 @@ try {
 }
 
 async function createWindow() {
+  let nativeFilesFailure = null;
+  if (linuxProductCandidate) {
+    const { createLinuxProductShell } = require('./linux-blue/product-linux-shell.cjs');
+    service = await createLinuxProductShell({
+      runtimeRoot: path.join(app.isPackaged ? process.resourcesPath : root, 'runtime'), stateDir,
+      outputAccess: new OutputAccess({ openPath: file => shell.openPath(file), showItemInFolder: file => shell.showItemInFolder(file) }),
+    });
+  } else {
   // A separate verified namespace preserves the paused benchmark's9.0.1 pair.
   // No renderer, IPC handler or capability child exists before verification;
   // a missing or altered candidate runtime is an explicit startup failure.
@@ -181,7 +192,7 @@ async function createWindow() {
   // Only the data folder's own condition leaves it unavailable; any other
   // refusal (extra keys such as policies, a non-genuine backend service, a
   // non-production brand or a policy row) is a build defect and stops startup.
-  let nativeFiles = null, nativeFilesFailure = null;
+  let nativeFiles = null;
   try {
     nativeFiles = createNativeFileControls({ stateDir, nativeBackends: nativeControls.nativeBackends,
       runtime: Object.fromEntries(['ffmpeg', 'ffprobe'].map((name, index) => [name,
@@ -195,6 +206,7 @@ async function createWindow() {
     ...createOperationControls({ runtime, stateDir, families: FAMILIES, policyIdentity: POLICY_ID }),
     ...nativeControls, nativeFiles, vendorCapabilities: checkVendorCapabilities,
     outputAccess: new OutputAccess({ openPath: file => shell.openPath(file), showItemInFolder: file => shell.showItemInFolder(file) }) });
+  }
   await service.initializeDiagnostics();
   if (quitDuringStartup) { await finishShutdown(); return; }
   if (nativeFilesFailure) await service.recordIncident({ stage: 'startup', reason: 'NATIVE_FILE_COMPOSITION_FAILED', severity: 'warning',

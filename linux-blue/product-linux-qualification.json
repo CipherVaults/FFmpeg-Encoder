@@ -1,0 +1,95 @@
+{
+  "schema": "linux-product-range1440-qualification/v1",
+  "scope": "internal-opt-in-single-family-candidate",
+  "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+  "rawCalibration": {
+    "sha256": "c81129d8305109c0a7a9dd024e65d3f5dab5611bf70cd218a601c734ff3dcd67",
+    "sizeBytes": 125817
+  },
+  "independentCalibrationAuditSha256": "454301f509d8aaa38f9ee12d30faf62605e44425089173fc742fd4d18f6e9072",
+  "nativeProof": null,
+  "productIntegrationReview": null,
+  "family": {
+    "settings": {
+      "profileId": "h265-cpu",
+      "preset": "slow",
+      "quality": 25
+    },
+    "resourcePolicy": "cfr1440p30-to720p-flac-resources-v1",
+    "geometry": {
+      "sourceWidth": 2560,
+      "sourceHeight": 1440,
+      "resolution": "720",
+      "outputWidth": 1280,
+      "outputHeight": 720
+    },
+    "qualification": {
+      "evidenceId": "candidate-resize1440to720-calibration-B10HEW:long-pattern:endpoints",
+      "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+      "containerDuration": "end-timestamp",
+      "tolerances": {
+        "videoTimestampUs": 1067,
+        "audioTimestampUs": 1042,
+        "avSyncUs": 2109,
+        "durationUs": 1088,
+        "sampleCount": 0
+      }
+    },
+    "timingQualification": {
+      "evidenceId": "candidate-resize1440to720-calibration-B10HEW:long-pattern:interior",
+      "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+      "videoDurationUs": 1067,
+      "audioTimelineUs": 1042,
+      "aac": null
+    },
+    "evidenceIds": [
+      "candidate-resize1440to720-calibration-B10HEW:long-pattern:endpoints",
+      "candidate-resize1440to720-calibration-B10HEW:long-pattern:interior",
+      "candidate-resize1440to720-calibration-B10HEW:heldout-flipped:endpoints",
+      "candidate-resize1440to720-calibration-B10HEW:heldout-flipped:interior"
+    ]
+  },
+  "internalCandidateDecision": {
+    "scope": "Explicit Linux opt-in engineering candidate only; source review and preservation required before execution",
+    "basis": "Original accepted calibration and developer service; unchanged measured producer closure",
+    "nativePublication": "pending replacement-shell acceptance; workbench picker is not a prerequisite",
+    "productionDefault": "unchanged",
+    "distributionReady": false,
+    "pending": [
+      "independent activation source review",
+      "Git then verified Notion then GitHub preservation",
+      "actual relocated internal-shell publication/output access/close",
+      "portable dependency and notices obligations"
+    ]
+  },
+  "supportingEvidence": {
+    "serviceAudit": {
+      "sha256": "1aaefc0d5b330e32970aefe2996d27bdb196bfbdcd97246829a59855fdd05b50",
+      "bytes": 267777
+    },
+    "serviceSupplement": {
+      "sha256": "c4715407751e697547fae281c69a173b5edfe6bd332ad1774bce2f039fe48a04",
+      "bytes": 3492
+    },
+    "serviceRelease": {
+      "sha256": "b1f276754b8b010967e0317ff6771ee47ad27cdc8cd16ec9882a75747eec8dee",
+      "bytes": 2330
+    },
+    "source064": {
+      "sha256": "a5fde18c8f63c0b1fd461f62f8ba624369a2cf12dda8626fb00d3f0a24d2e9a3",
+      "bytes": 4688
+    },
+    "tests064": {
+      "sha256": "96a2e574841da9acad73d509b5f25583b89b25a13db5b0dae64df0003c0bf490",
+      "bytes": 1698
+    },
+    "source065": {
+      "sha256": "557941e3c9b53f2335edf7cf5bcbcf9e5e1134e396bf1dd287a342ad84e594d2",
+      "bytes": 3438
+    },
+    "tests065": {
+      "sha256": "5b34b575578bbfd4cdae1690bc52544dcf2fa806d698b857f189d5ab0ffa5669",
+      "bytes": 1405
+    }
+  }
+}

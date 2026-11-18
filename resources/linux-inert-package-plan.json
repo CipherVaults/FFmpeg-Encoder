@@ -1,0 +1,1819 @@
+{
+  "schema": 1,
+  "scope": "offline-inert-linux-product-package-proposal",
+  "platform": "linux",
+  "arch": "x64",
+  "distributionReady": false,
+  "usableForEncoding": false,
+  "dependencyStrategy": "exact-inspected-host-libraries-not-bundled",
+  "electronVersion": "44.7.0",
+  "asarVersion": "4.3.0",
+  "releaseBlockers": [
+    "Independent activation review and preservation required before internal execution; native publication remains pending; production defaults unchanged.",
+    "Corresponding source closure for linked x264/x265/numa components and complete redistribution obligations not verified",
+    "Electron and system-library platform compatibility beyond exact inspected host unqualified",
+    "Inert output modes: no runtime executable permission or native launch performed"
+  ],
+  "files": [
+    {
+      "root": "source",
+      "source": "assets/app-icon/LICENSE.txt",
+      "target": "electron/resources/app/assets/app-icon/LICENSE.txt",
+      "group": "application",
+      "bytes": 758,
+      "sha256": "db487fa434f73fa49d6619f84131fab7b0286f3fdd1a07ff7a3010c29cada112"
+    },
+    {
+      "root": "source",
+      "source": "assets/app-icon/PROVENANCE.md",
+      "target": "electron/resources/app/assets/app-icon/PROVENANCE.md",
+      "group": "application",
+      "bytes": 2529,
+      "sha256": "eb498cde94cb4d22bc72df6ed252443bd97c4c692761d54fb0aa84abc7821083"
+    },
+    {
+      "root": "source",
+      "source": "assets/app-icon/app-icon-256.png",
+      "target": "electron/resources/app/assets/app-icon/app-icon-256.png",
+      "group": "application",
+      "bytes": 8288,
+      "sha256": "79c685c05246e1d5cd4d9c505e32c6ceaa1de0c0febd385a2368a5138acae2e9"
+    },
+    {
+      "root": "source",
+      "source": "assets/app-icon/app-icon.ico",
+      "target": "electron/resources/app/assets/app-icon/app-icon.ico",
+      "group": "application",
+      "bytes": 21195,
+      "sha256": "9d45805495e3bfdaa047508b0ff9bfb47ea904a187abe82e68c51a12e6f57b9c"
+    },
+    {
+      "root": "source",
+      "source": "assets/app-icon/app-icon.svg",
+      "target": "electron/resources/app/assets/app-icon/app-icon.svg",
+      "group": "application",
+      "bytes": 750,
+      "sha256": "2f42a5b1c25add5f33ceb06925c0ffa18d0699cdff7b903045c5c391668ec763"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/candidate-calibration-runtime.cjs",
+      "target": "electron/resources/app/linux-blue/candidate-calibration-runtime.cjs",
+      "group": "application",
+      "bytes": 8695,
+      "sha256": "a62ceab690931736a7d7a81e7c6c7495987f7015f953013366ab6f5a0fd8217a"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/product-linux-qualification.cjs",
+      "target": "electron/resources/app/linux-blue/product-linux-qualification.cjs",
+      "group": "application",
+      "bytes": 23733,
+      "sha256": "906678a4925653edff633900037e0cc34f0c51d3c8df5fbffec9e745fdeafd68"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/product-linux-qualification.json",
+      "target": "electron/resources/app/linux-blue/product-linux-qualification.json",
+      "group": "application",
+      "bytes": 3563,
+      "sha256": "5f5be216f22f5fc83a3fbca730b152105d59ff0f9d04dc8644174e0cfbadc85b"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/product-linux-service.cjs",
+      "target": "electron/resources/app/linux-blue/product-linux-service.cjs",
+      "group": "application",
+      "bytes": 9157,
+      "sha256": "867f214900d1c4e2b0a9eded853b0037c95e3d93431c6489446ec0b4bad808fa"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/product-linux-shell.cjs",
+      "target": "electron/resources/app/linux-blue/product-linux-shell.cjs",
+      "group": "application",
+      "bytes": 5760,
+      "sha256": "3b0a5478061eea01927a7e63ef5da4e0d80c37b967756a80f7da870d1ef28b73"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/runtime-av1-operation.cjs",
+      "target": "electron/resources/app/linux-blue/runtime-av1-operation.cjs",
+      "group": "application",
+      "bytes": 5507,
+      "sha256": "f664ec1a79ac95683bdb062633e454259dab25e8bfa00fecae7f8ed39dc921cc"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/runtime-av1-pins.json",
+      "target": "electron/resources/app/linux-blue/runtime-av1-pins.json",
+      "group": "application",
+      "bytes": 1160,
+      "sha256": "d3f390eb66119e402042d17d3d0f96d44f24c3b657597d94ec5e54f9edc635c8"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/runtime-av1.cjs",
+      "target": "electron/resources/app/linux-blue/runtime-av1.cjs",
+      "group": "application",
+      "bytes": 3480,
+      "sha256": "f4e905f1e15fb86b0d20d9bde941d5e6c8ac2a0bb7b72adff41f056aef2e1e27"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/runtime-candidate-pins.json",
+      "target": "electron/resources/app/linux-blue/runtime-candidate-pins.json",
+      "group": "application",
+      "bytes": 601,
+      "sha256": "73aca3d1af30109cf20bf27dbeec759f267469781d13c9b8a18c07dd4d8c5e27"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/runtime-candidate.cjs",
+      "target": "electron/resources/app/linux-blue/runtime-candidate.cjs",
+      "group": "application",
+      "bytes": 4072,
+      "sha256": "6958cdb86854d0e57fddd7cf8e793a7e944cbe600001338600a3953e610ad33e"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/runtime.cjs",
+      "target": "electron/resources/app/linux-blue/runtime.cjs",
+      "group": "application",
+      "bytes": 5005,
+      "sha256": "0ddd5026996fa23e8122e359c340b08ff84a2786f56362099b38eaf8927331c8"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/workbench-flac-calibration.cjs",
+      "target": "electron/resources/app/linux-blue/workbench-flac-calibration.cjs",
+      "group": "application",
+      "bytes": 11319,
+      "sha256": "059cbfd0edbcc4ffdae0c0174669b28e097b4f5e748ca12dacb1302f6285c0c4"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/workbench-long-range-service.cjs",
+      "target": "electron/resources/app/linux-blue/workbench-long-range-service.cjs",
+      "group": "application",
+      "bytes": 15912,
+      "sha256": "02f513956133f79ef7764424a4b7e2c558265868aa1b6e2084c7068894f1ce58"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/workbench-remux.cjs",
+      "target": "electron/resources/app/linux-blue/workbench-remux.cjs",
+      "group": "application",
+      "bytes": 7108,
+      "sha256": "6a6cbf2a009a6ad48f6359e15d6c2432e615623c3b799df6dc29eb0eae4b4e2a"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/workbench-service.cjs",
+      "target": "electron/resources/app/linux-blue/workbench-service.cjs",
+      "group": "application",
+      "bytes": 8566,
+      "sha256": "1f8ef2673fb3e0ea6d4cdbd8d7e726fee72d94dd9d54120d9cd7e9877fb52c80"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/workbench-trim-candidate.cjs",
+      "target": "electron/resources/app/linux-blue/workbench-trim-candidate.cjs",
+      "group": "application",
+      "bytes": 9967,
+      "sha256": "6e68df2eb93ddda8282b0a7cec8d6dbedff00871222a1f58ed7bc7e0a6d0c10f"
+    },
+    {
+      "root": "source",
+      "source": "main.js",
+      "target": "electron/resources/app/main.js",
+      "group": "application",
+      "bytes": 15786,
+      "sha256": "d3229e84ec5dc62c03cda8cd9bb06647d9d44da5b1b3d2e2990986555c5b3295"
+    },
+    {
+      "root": "source",
+      "source": "package.json",
+      "target": "electron/resources/app/package.json",
+      "group": "application",
+      "bytes": 991,
+      "sha256": "b5678dc133c1e5fb8da250bfe828c9da55f50d89dac3728af1f0870693e69a82"
+    },
+    {
+      "root": "source",
+      "source": "packaging.config.cjs",
+      "target": "electron/resources/app/packaging.config.cjs",
+      "group": "application",
+      "bytes": 2483,
+      "sha256": "168a7f5c54e10e621218c222dac9b4c2a77452f7e8d0b49225399d18c520646d"
+    },
+    {
+      "root": "source",
+      "source": "preload.js",
+      "target": "electron/resources/app/preload.js",
+      "group": "application",
+      "bytes": 3683,
+      "sha256": "c4480a209476b994d4132e1bfb99960da16bef935b04ce1dc58288fe55450f07"
+    },
+    {
+      "root": "source",
+      "source": "resources/candidate-binary-manifest.json",
+      "target": "electron/resources/app/resources/candidate-binary-manifest.json",
+      "group": "application",
+      "bytes": 3555,
+      "sha256": "79ed7d063dc57480e065c86795dd14af11c179d9a377ef0fa0e47beab8339e3a"
+    },
+    {
+      "root": "source",
+      "source": "scripts/build-portable.cjs",
+      "target": "electron/resources/app/scripts/build-portable.cjs",
+      "group": "application",
+      "bytes": 16357,
+      "sha256": "a6d785a6d5eb99a04db2cfd5780c005fd600afe74bf40d8c97c83ef1561c213d"
+    },
+    {
+      "root": "source",
+      "source": "scripts/v07-sdr-flac-range-calibration.cjs",
+      "target": "electron/resources/app/scripts/v07-sdr-flac-range-calibration.cjs",
+      "group": "application",
+      "bytes": 44169,
+      "sha256": "623973624f0ff72a92d8d684ba4d19a31d2fb4abc017d3f5cc0e078b2146ec28"
+    },
+    {
+      "root": "source",
+      "source": "src/app-settings.cjs",
+      "target": "electron/resources/app/src/app-settings.cjs",
+      "group": "application",
+      "bytes": 19769,
+      "sha256": "b0e9a2c7da8a21ccc4f5a7223fb6176777aa14e4d02875c3d324bcb318aae970"
+    },
+    {
+      "root": "source",
+      "source": "src/appearance.cjs",
+      "target": "electron/resources/app/src/appearance.cjs",
+      "group": "application",
+      "bytes": 15587,
+      "sha256": "ecf43ede703586f1f479ffd8193bedfcd1a4230b508a57a870a844202cbaa047"
+    },
+    {
+      "root": "source",
+      "source": "src/backend-adapters.cjs",
+      "target": "electron/resources/app/src/backend-adapters.cjs",
+      "group": "application",
+      "bytes": 21754,
+      "sha256": "7fbd1b2df2a0261e9d9b0457d224c4c3c77bfd2a4e16b497f8fb339d542847aa"
+    },
+    {
+      "root": "source",
+      "source": "src/backend-capabilities.cjs",
+      "target": "electron/resources/app/src/backend-capabilities.cjs",
+      "group": "application",
+      "bytes": 26589,
+      "sha256": "33b6f2952f9fe106019c1416801f374cb9053d90bdd2b8df14e4c45b1df5b4c3"
+    },
+    {
+      "root": "source",
+      "source": "src/backend-discovery.cjs",
+      "target": "electron/resources/app/src/backend-discovery.cjs",
+      "group": "application",
+      "bytes": 6646,
+      "sha256": "66a3535d6bd8b4933e93ef7470b1c87be6e611fa731184f9909bb7ceabbffbd2"
+    },
+    {
+      "root": "source",
+      "source": "src/backend-observation.cjs",
+      "target": "electron/resources/app/src/backend-observation.cjs",
+      "group": "application",
+      "bytes": 25702,
+      "sha256": "bcecce31a7de01aa8e3022f1deb7acd0033ff90130a1c8a6cc9fd4651e0e373a"
+    },
+    {
+      "root": "source",
+      "source": "src/backend-probe.cjs",
+      "target": "electron/resources/app/src/backend-probe.cjs",
+      "group": "application",
+      "bytes": 40078,
+      "sha256": "22b8a83730d303bd5f8159b27ecc8f6be2cbee3df86128fdc749d8119c0c9139"
+    },
+    {
+      "root": "source",
+      "source": "src/candidate-runtime.cjs",
+      "target": "electron/resources/app/src/candidate-runtime.cjs",
+      "group": "application",
+      "bytes": 11723,
+      "sha256": "9566a7691feab7cb65f5c739a723f99c48833064aea2edfe8cf410cc5dc0d712"
+    },
+    {
+      "root": "source",
+      "source": "src/capabilities.cjs",
+      "target": "electron/resources/app/src/capabilities.cjs",
+      "group": "application",
+      "bytes": 13255,
+      "sha256": "88b697955e5f938c98455faf0f2b98e51b98295cf0237da7dab9ecd360f31aca"
+    },
+    {
+      "root": "source",
+      "source": "src/container-clock.cjs",
+      "target": "electron/resources/app/src/container-clock.cjs",
+      "group": "application",
+      "bytes": 13353,
+      "sha256": "b823f1e41c4cca19a0b06d82dadf1941f4e0a0326b6d16bd910691c702763857"
+    },
+    {
+      "root": "source",
+      "source": "src/diagnostics.cjs",
+      "target": "electron/resources/app/src/diagnostics.cjs",
+      "group": "application",
+      "bytes": 48267,
+      "sha256": "fa785aaca639324959339acceefbeaf7bfa1dfce4d38d27598b20c4d82df7901"
+    },
+    {
+      "root": "source",
+      "source": "src/encode-operation.cjs",
+      "target": "electron/resources/app/src/encode-operation.cjs",
+      "group": "application",
+      "bytes": 57371,
+      "sha256": "aae37c5479897a13f9ee66b1ea1a8a9a6a46d2c57f76d36bdebdedf21569a5de"
+    },
+    {
+      "root": "source",
+      "source": "src/encode-preservation-catalog.cjs",
+      "target": "electron/resources/app/src/encode-preservation-catalog.cjs",
+      "group": "application",
+      "bytes": 4821,
+      "sha256": "1bce9f0b0c9a79a18e6d1c89fb181200ee366603dfe28097f1ace3d809bbf17f"
+    },
+    {
+      "root": "source",
+      "source": "src/encode-preservation-producers.cjs",
+      "target": "electron/resources/app/src/encode-preservation-producers.cjs",
+      "group": "application",
+      "bytes": 1106,
+      "sha256": "0fd773d1bb0c0fab1af9d28861d80107e5e34809d7f3057467882d83f6f0de76"
+    },
+    {
+      "root": "source",
+      "source": "src/encode-preservation-workspace.cjs",
+      "target": "electron/resources/app/src/encode-preservation-workspace.cjs",
+      "group": "application",
+      "bytes": 6795,
+      "sha256": "30031b818ca362ea71c79a4cab6b6038e3b29ecaa5bc8efef00ce5fa5017bda9"
+    },
+    {
+      "root": "source",
+      "source": "src/encode-preservation.cjs",
+      "target": "electron/resources/app/src/encode-preservation.cjs",
+      "group": "application",
+      "bytes": 15414,
+      "sha256": "7de7fde7f20544f6b8480ca14b275865694163d3ed5608891c91c2be7aaabab4"
+    },
+    {
+      "root": "source",
+      "source": "src/encoder-catalog.cjs",
+      "target": "electron/resources/app/src/encoder-catalog.cjs",
+      "group": "application",
+      "bytes": 1611,
+      "sha256": "1fd039577d83fbb35c8424d098fa06056822f538ae65e6b855c3021aab314cf2"
+    },
+    {
+      "root": "source",
+      "source": "src/encoder-service.cjs",
+      "target": "electron/resources/app/src/encoder-service.cjs",
+      "group": "application",
+      "bytes": 158909,
+      "sha256": "5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7"
+    },
+    {
+      "root": "source",
+      "source": "src/hdr-catalog-seals.cjs",
+      "target": "electron/resources/app/src/hdr-catalog-seals.cjs",
+      "group": "application",
+      "bytes": 6748,
+      "sha256": "e92d84a4688ea63b04f2b7190376f4a7d028c6a5c77768cf61eb38133117fda3"
+    },
+    {
+      "root": "source",
+      "source": "src/hdr-catalog.cjs",
+      "target": "electron/resources/app/src/hdr-catalog.cjs",
+      "group": "application",
+      "bytes": 6435,
+      "sha256": "8efa4fc80256fbe73c5e7a4aaeebd91ad754339385441f1518112227cabab03f"
+    },
+    {
+      "root": "source",
+      "source": "src/hdr-container.cjs",
+      "target": "electron/resources/app/src/hdr-container.cjs",
+      "group": "application",
+      "bytes": 10506,
+      "sha256": "8fc887ce472905d1642d7a855213a034cda0550e7bf6fa7c531c1c728f10d901"
+    },
+    {
+      "root": "source",
+      "source": "src/hdr-contract.cjs",
+      "target": "electron/resources/app/src/hdr-contract.cjs",
+      "group": "application",
+      "bytes": 30407,
+      "sha256": "3086db24ed02645cdb3663cdfc69303c1213689b5201c7d72b133a85c99828a4"
+    },
+    {
+      "root": "source",
+      "source": "src/hdr-encoding.cjs",
+      "target": "electron/resources/app/src/hdr-encoding.cjs",
+      "group": "application",
+      "bytes": 24145,
+      "sha256": "91cdaaf3fc33d0fa7d4e982f588847a26c6bc23a755f05ef9ac8805e4b0858b8"
+    },
+    {
+      "root": "source",
+      "source": "src/hdr-evidence.cjs",
+      "target": "electron/resources/app/src/hdr-evidence.cjs",
+      "group": "application",
+      "bytes": 47759,
+      "sha256": "ceb2bfd7ae65b5ec0534dbcb25a6caf017d806e48d8215c202db10f5cfaf316d"
+    },
+    {
+      "root": "source",
+      "source": "src/hdr-input.cjs",
+      "target": "electron/resources/app/src/hdr-input.cjs",
+      "group": "application",
+      "bytes": 29191,
+      "sha256": "3e7373a4416410ad06c3130e4959f569c41a77ad90f3b7a860699f31584073f3"
+    },
+    {
+      "root": "source",
+      "source": "src/hdr-operation.cjs",
+      "target": "electron/resources/app/src/hdr-operation.cjs",
+      "group": "application",
+      "bytes": 46409,
+      "sha256": "0a269db9ea829f2478334b6ec8dfff1ae8477a71d23a00313bba7709c49dead7"
+    },
+    {
+      "root": "source",
+      "source": "src/hdr-workspace.cjs",
+      "target": "electron/resources/app/src/hdr-workspace.cjs",
+      "group": "application",
+      "bytes": 14989,
+      "sha256": "20ae02c4dc3aa816a76ee7c5fb10b0f8d8fcf1c4cd010b0311065a60d3b358c7"
+    },
+    {
+      "root": "source",
+      "source": "src/hevc-content.cjs",
+      "target": "electron/resources/app/src/hevc-content.cjs",
+      "group": "application",
+      "bytes": 37132,
+      "sha256": "5e3b70c3b5f8250ebb3b037e1ac6287b5d55ca768a99e9c964e79fef5382a931"
+    },
+    {
+      "root": "source",
+      "source": "src/inspection-cache.cjs",
+      "target": "electron/resources/app/src/inspection-cache.cjs",
+      "group": "application",
+      "bytes": 13608,
+      "sha256": "a8df2a0b65a4c4117e1efb903710ff159335424d4f3645adb53b99b278e55de1"
+    },
+    {
+      "root": "source",
+      "source": "src/inspection.cjs",
+      "target": "electron/resources/app/src/inspection.cjs",
+      "group": "application",
+      "bytes": 32810,
+      "sha256": "948559c31919629326f02ebabe30a3a6918677c91cf9bba338bf382b3401c491"
+    },
+    {
+      "root": "source",
+      "source": "src/ipc.cjs",
+      "target": "electron/resources/app/src/ipc.cjs",
+      "group": "application",
+      "bytes": 8998,
+      "sha256": "278cf0cc43278cf549709f259b557805169fcb2b5f327d94e215ad6e66a9a7fd"
+    },
+    {
+      "root": "source",
+      "source": "src/linux-runtime-descriptor.cjs",
+      "target": "electron/resources/app/src/linux-runtime-descriptor.cjs",
+      "group": "application",
+      "bytes": 1544,
+      "sha256": "6d2e2f8800707faf64c1acad1be83d99e1ae0972d43f708510ff06d88721607e"
+    },
+    {
+      "root": "source",
+      "source": "src/linux-runtime-staging.cjs",
+      "target": "electron/resources/app/src/linux-runtime-staging.cjs",
+      "group": "application",
+      "bytes": 7117,
+      "sha256": "ff5abdb15e505a04883672e341fc23fc81cbd83145b032511c0347ee7e36f06a"
+    },
+    {
+      "root": "source",
+      "source": "src/local-protocol.cjs",
+      "target": "electron/resources/app/src/local-protocol.cjs",
+      "group": "application",
+      "bytes": 1583,
+      "sha256": "4bfd2c041224594d3f67e766e73bb692fc4345bc449193fdecc6b40dca1fc08b"
+    },
+    {
+      "root": "source",
+      "source": "src/media-evidence.cjs",
+      "target": "electron/resources/app/src/media-evidence.cjs",
+      "group": "application",
+      "bytes": 22167,
+      "sha256": "102de80ca6e3e4509448e015d2012bed7025502584e2f934ae2dbe2dfad19502"
+    },
+    {
+      "root": "source",
+      "source": "src/media.cjs",
+      "target": "electron/resources/app/src/media.cjs",
+      "group": "application",
+      "bytes": 24918,
+      "sha256": "79f040a7e136b2b06235090675360996e12d7ff815ea776eb800fd479ce9a7e7"
+    },
+    {
+      "root": "source",
+      "source": "src/mov-representation.cjs",
+      "target": "electron/resources/app/src/mov-representation.cjs",
+      "group": "application",
+      "bytes": 10263,
+      "sha256": "0155dc48d2b81e2c2b72d0e291c25dee372df2f37d7dbc592062724013b14348"
+    },
+    {
+      "root": "source",
+      "source": "src/native-backend-controls.cjs",
+      "target": "electron/resources/app/src/native-backend-controls.cjs",
+      "group": "application",
+      "bytes": 4282,
+      "sha256": "432348cee4e5db6ba8f44be5c1eb4a5ff9b6431af0efa62676d61442c9e5c429"
+    },
+    {
+      "root": "source",
+      "source": "src/native-backend-service.cjs",
+      "target": "electron/resources/app/src/native-backend-service.cjs",
+      "group": "application",
+      "bytes": 17026,
+      "sha256": "ca7a9ea38034c992eb553f9a649f9d2c17411764c16d5aa016a1ae2ce78d6019"
+    },
+    {
+      "root": "source",
+      "source": "src/native-file-command.cjs",
+      "target": "electron/resources/app/src/native-file-command.cjs",
+      "group": "application",
+      "bytes": 7078,
+      "sha256": "936116ef5e251ee4afaf0db8907082806a79c06c70159688417e26ecfecb5216"
+    },
+    {
+      "root": "source",
+      "source": "src/native-file-contract.cjs",
+      "target": "electron/resources/app/src/native-file-contract.cjs",
+      "group": "application",
+      "bytes": 14520,
+      "sha256": "2cf75cfb1b5ba25a51da513f311fe0287be4700fbf3893f9e27a1440e5e6e91a"
+    },
+    {
+      "root": "source",
+      "source": "src/native-file-controls.cjs",
+      "target": "electron/resources/app/src/native-file-controls.cjs",
+      "group": "application",
+      "bytes": 34048,
+      "sha256": "c8f9edab25393bf4944df0e07da239923b97a16f13fc5115842887efb97f81d6"
+    },
+    {
+      "root": "source",
+      "source": "src/native-file-oracle.cjs",
+      "target": "electron/resources/app/src/native-file-oracle.cjs",
+      "group": "application",
+      "bytes": 13381,
+      "sha256": "0bdadd1e91acf494aa5baf2f5b2177953676f919047ccfa8f64d4eb9c9d2c1e4"
+    },
+    {
+      "root": "source",
+      "source": "src/native-file-runtime-pair.cjs",
+      "target": "electron/resources/app/src/native-file-runtime-pair.cjs",
+      "group": "application",
+      "bytes": 7107,
+      "sha256": "5e8dd98c7e2ab70406b5f57f82a8c25b24f1e0ca98e3256f759f3bf5a52107a8"
+    },
+    {
+      "root": "source",
+      "source": "src/native-file-runtime.cjs",
+      "target": "electron/resources/app/src/native-file-runtime.cjs",
+      "group": "application",
+      "bytes": 35319,
+      "sha256": "c96ee8adcd48d5a76e6abd5f58310963f6321b5e663c43d6751826377f59f90a"
+    },
+    {
+      "root": "source",
+      "source": "src/native-file-source.cjs",
+      "target": "electron/resources/app/src/native-file-source.cjs",
+      "group": "application",
+      "bytes": 14081,
+      "sha256": "d246f7b9e612f18ce210c56b80d08d5e3d8b4e89f4dab2de5253248dba0be8d9"
+    },
+    {
+      "root": "source",
+      "source": "src/native-file-template.cjs",
+      "target": "electron/resources/app/src/native-file-template.cjs",
+      "group": "application",
+      "bytes": 15284,
+      "sha256": "0823a97b036e0bd2e342b59ac3f12a6bd85454d8870dc664ef524b7d53cc89f3"
+    },
+    {
+      "root": "source",
+      "source": "src/native-file-tools.cjs",
+      "target": "electron/resources/app/src/native-file-tools.cjs",
+      "group": "application",
+      "bytes": 14238,
+      "sha256": "da73dbecf1e13d2fef34a553f4f568370abf561c8bee7db5268076b9889ffb4f"
+    },
+    {
+      "root": "source",
+      "source": "src/native-file-workspace.cjs",
+      "target": "electron/resources/app/src/native-file-workspace.cjs",
+      "group": "application",
+      "bytes": 24501,
+      "sha256": "433fcd2610c2530fef086b5151bbb01b70bb214ded14af5b2209e40db056d387"
+    },
+    {
+      "root": "source",
+      "source": "src/native-initialization-evidence.cjs",
+      "target": "electron/resources/app/src/native-initialization-evidence.cjs",
+      "group": "application",
+      "bytes": 3514,
+      "sha256": "032d30b043934cfbb6e5063f799128ddabd6aef2aa7a6a3ec1c851153823caa7"
+    },
+    {
+      "root": "source",
+      "source": "src/operation-catalog.cjs",
+      "target": "electron/resources/app/src/operation-catalog.cjs",
+      "group": "application",
+      "bytes": 14692,
+      "sha256": "43f236c38b9c6de2f8bd209adaed5e05c0221b59be77e14da4649de44b4c30c4"
+    },
+    {
+      "root": "source",
+      "source": "src/operation-chapters.cjs",
+      "target": "electron/resources/app/src/operation-chapters.cjs",
+      "group": "application",
+      "bytes": 8673,
+      "sha256": "b2c5ac0491cca29ea129966812b388bf2c2fa0046e97065bf2e1e2f66e277696"
+    },
+    {
+      "root": "source",
+      "source": "src/operation-contract.cjs",
+      "target": "electron/resources/app/src/operation-contract.cjs",
+      "group": "application",
+      "bytes": 29342,
+      "sha256": "e87c0bd40a27e9bc4309cfff489a3270899edc6505face10a9c4461272bb343d"
+    },
+    {
+      "root": "source",
+      "source": "src/operation-controls.cjs",
+      "target": "electron/resources/app/src/operation-controls.cjs",
+      "group": "application",
+      "bytes": 3511,
+      "sha256": "bd0977641d5fe62b182a70e58d9f89a69f4af4564daeea0c616dcb066238f59f"
+    },
+    {
+      "root": "source",
+      "source": "src/operation-draft.cjs",
+      "target": "electron/resources/app/src/operation-draft.cjs",
+      "group": "application",
+      "bytes": 9030,
+      "sha256": "9c4a25e65021be52bff887830a5cbdf5db07c03720be69b0352020437707251a"
+    },
+    {
+      "root": "source",
+      "source": "src/operation-evidence.cjs",
+      "target": "electron/resources/app/src/operation-evidence.cjs",
+      "group": "application",
+      "bytes": 53356,
+      "sha256": "5ec5452881d01789f7f181e4540cfcca268371f13f6abdd7f59fa9ad57e8b8d4"
+    },
+    {
+      "root": "source",
+      "source": "src/operation-family.cjs",
+      "target": "electron/resources/app/src/operation-family.cjs",
+      "group": "application",
+      "bytes": 52210,
+      "sha256": "3e27335e4228969d670545b0fb6aeb77a6fd9303529c248ae7560d0c9e4fade3"
+    },
+    {
+      "root": "source",
+      "source": "src/operation-names.cjs",
+      "target": "electron/resources/app/src/operation-names.cjs",
+      "group": "application",
+      "bytes": 1511,
+      "sha256": "185a019d034db77c0e6c4f06ffc7a4d32817296cf394f1fe6b8ede383977e56c"
+    },
+    {
+      "root": "source",
+      "source": "src/operation-packet-range.cjs",
+      "target": "electron/resources/app/src/operation-packet-range.cjs",
+      "group": "application",
+      "bytes": 9699,
+      "sha256": "92dd5521098acf66e17e44a19137d48c9f7a24c8aa329fff157536de120a2116"
+    },
+    {
+      "root": "source",
+      "source": "src/operation-qualification.cjs",
+      "target": "electron/resources/app/src/operation-qualification.cjs",
+      "group": "application",
+      "bytes": 15938,
+      "sha256": "94c1e3e932efda8459899ec703c64efaa2583036b7d2a12e9299503417cacc6a"
+    },
+    {
+      "root": "source",
+      "source": "src/operation-resource-budget.cjs",
+      "target": "electron/resources/app/src/operation-resource-budget.cjs",
+      "group": "application",
+      "bytes": 8323,
+      "sha256": "9a328f902ee4203465083da4afd477ad86d045654104fe33409cb571cd02d3f6"
+    },
+    {
+      "root": "source",
+      "source": "src/operation-runtime.cjs",
+      "target": "electron/resources/app/src/operation-runtime.cjs",
+      "group": "application",
+      "bytes": 24676,
+      "sha256": "95285842847006e2fbcad43d46bbca7bc3823c3378fdc33a755ee82398681b79"
+    },
+    {
+      "root": "source",
+      "source": "src/operation-storage.cjs",
+      "target": "electron/resources/app/src/operation-storage.cjs",
+      "group": "application",
+      "bytes": 28430,
+      "sha256": "fb9bcf00b2bf1fac3fe70f5421355a1aea0a2ded5358a38f41f7fd28fe7b1226"
+    },
+    {
+      "root": "source",
+      "source": "src/operation-telemetry.cjs",
+      "target": "electron/resources/app/src/operation-telemetry.cjs",
+      "group": "application",
+      "bytes": 18149,
+      "sha256": "ef1f30ac5d311224cb8b0e79f60f55f55c69c0610d920d17e5f9c7e191a55814"
+    },
+    {
+      "root": "source",
+      "source": "src/output-access.cjs",
+      "target": "electron/resources/app/src/output-access.cjs",
+      "group": "application",
+      "bytes": 12629,
+      "sha256": "52e5ab6793ce5ea493fcc922d49dad3d25202cff50aaaca953a919bb5b1d8d0c"
+    },
+    {
+      "root": "source",
+      "source": "src/outputs.cjs",
+      "target": "electron/resources/app/src/outputs.cjs",
+      "group": "application",
+      "bytes": 22987,
+      "sha256": "0871e35adb50b7fca7c177b6beb34c5533df8bac98751b55c8af31b8e422ca96"
+    },
+    {
+      "root": "source",
+      "source": "src/preferences.cjs",
+      "target": "electron/resources/app/src/preferences.cjs",
+      "group": "application",
+      "bytes": 10834,
+      "sha256": "ba49926594e97665064f63b5db440ef9e3144c5b4eee6e60404af5dfde2f82c9"
+    },
+    {
+      "root": "source",
+      "source": "src/process-runner.cjs",
+      "target": "electron/resources/app/src/process-runner.cjs",
+      "group": "application",
+      "bytes": 16953,
+      "sha256": "257ae0ce717d086635a133535df9a73afd2609b83ad231ea8ed0798b3596395c"
+    },
+    {
+      "root": "source",
+      "source": "src/provenance.cjs",
+      "target": "electron/resources/app/src/provenance.cjs",
+      "group": "application",
+      "bytes": 35994,
+      "sha256": "3fcce843cbc995086adda7b45444c23acedce9d54813c01b92123d97cfcff894"
+    },
+    {
+      "root": "source",
+      "source": "src/remux-catalog.cjs",
+      "target": "electron/resources/app/src/remux-catalog.cjs",
+      "group": "application",
+      "bytes": 5114,
+      "sha256": "ba299093370dd87e7e154cbeba22cd9f9fe8bc5246eb64266dff193ad21093ec"
+    },
+    {
+      "root": "source",
+      "source": "src/remux-contract.cjs",
+      "target": "electron/resources/app/src/remux-contract.cjs",
+      "group": "application",
+      "bytes": 34909,
+      "sha256": "f420e73a9a95b310459c4dd7adb5b4e5657ea819d1b6f61a405ef72531c284da"
+    },
+    {
+      "root": "source",
+      "source": "src/remux-ebml-reader.cjs",
+      "target": "electron/resources/app/src/remux-ebml-reader.cjs",
+      "group": "application",
+      "bytes": 12786,
+      "sha256": "693f3f6fc8a1e22630691ccdbc99c5b82aaa5fbef0070f38215a1846a4005bd3"
+    },
+    {
+      "root": "source",
+      "source": "src/remux-edit-lists.cjs",
+      "target": "electron/resources/app/src/remux-edit-lists.cjs",
+      "group": "application",
+      "bytes": 29526,
+      "sha256": "2c43bcd88ee7772470abddc232d428751e37b95a072e4f989189a5a4178a99de"
+    },
+    {
+      "root": "source",
+      "source": "src/remux-evidence.cjs",
+      "target": "electron/resources/app/src/remux-evidence.cjs",
+      "group": "application",
+      "bytes": 151932,
+      "sha256": "76ed8963119b7217b3d94cf6058bcf9afca081cadf0d51f6166be5fbdd408a75"
+    },
+    {
+      "root": "source",
+      "source": "src/remux-fragments.cjs",
+      "target": "electron/resources/app/src/remux-fragments.cjs",
+      "group": "application",
+      "bytes": 5772,
+      "sha256": "7f8df279d723d48b44c6ee8dbc1a4e2d9263b416a42a1812ef98e42eac1a5968"
+    },
+    {
+      "root": "source",
+      "source": "src/remux-language-codes.cjs",
+      "target": "electron/resources/app/src/remux-language-codes.cjs",
+      "group": "application",
+      "bytes": 921,
+      "sha256": "84ec89c4d01c29b6be7de57cf99e4c13c0a73c573279b67cdac539799074afd6"
+    },
+    {
+      "root": "source",
+      "source": "src/remux-metadata-policy.cjs",
+      "target": "electron/resources/app/src/remux-metadata-policy.cjs",
+      "group": "application",
+      "bytes": 6530,
+      "sha256": "56b613509412a0a986276a705e6fff57aa97577fd5b6def2aaec275781c129a8"
+    },
+    {
+      "root": "source",
+      "source": "src/remux-native-checks.cjs",
+      "target": "electron/resources/app/src/remux-native-checks.cjs",
+      "group": "application",
+      "bytes": 31906,
+      "sha256": "70764d731e52a6b648b902147cdd2492bc153b22d877d56510902120a97ff3c7"
+    },
+    {
+      "root": "source",
+      "source": "src/remux-native-cues.cjs",
+      "target": "electron/resources/app/src/remux-native-cues.cjs",
+      "group": "application",
+      "bytes": 6081,
+      "sha256": "fe894c5ab1f7f413dd62e824a89398fed5c6ff3d487c3c4590b736de4ef279dd"
+    },
+    {
+      "root": "source",
+      "source": "src/remux-native-indexes.cjs",
+      "target": "electron/resources/app/src/remux-native-indexes.cjs",
+      "group": "application",
+      "bytes": 10122,
+      "sha256": "e14658f20cbb818eff9a7d2773ce3078e24db39caf0ed77ca0b0b6a5839ebbf8"
+    },
+    {
+      "root": "source",
+      "source": "src/remux-native-inventory.cjs",
+      "target": "electron/resources/app/src/remux-native-inventory.cjs",
+      "group": "application",
+      "bytes": 86178,
+      "sha256": "b98c0bbd232c6581cfaff9fd6579a2094baf7d0b48842a1a27910b32e45c5fa2"
+    },
+    {
+      "root": "source",
+      "source": "src/remux-native-isobmff.cjs",
+      "target": "electron/resources/app/src/remux-native-isobmff.cjs",
+      "group": "application",
+      "bytes": 8553,
+      "sha256": "996d68381b22431b265af4f96138be5ca9fcd01b10e4fc13f9c3150629d1aced"
+    },
+    {
+      "root": "source",
+      "source": "src/remux-native-matroska.cjs",
+      "target": "electron/resources/app/src/remux-native-matroska.cjs",
+      "group": "application",
+      "bytes": 14805,
+      "sha256": "e6b2b011ca6b840cd1540f3491cace78f506e92a4c81dd2956e15d29a82e6a14"
+    },
+    {
+      "root": "source",
+      "source": "src/remux-native-reader.cjs",
+      "target": "electron/resources/app/src/remux-native-reader.cjs",
+      "group": "application",
+      "bytes": 7105,
+      "sha256": "b9df0fcb3638d9ff251c70f57d94b040598d465d5b7731c28638b45a8fe436d1"
+    },
+    {
+      "root": "source",
+      "source": "src/remux-native-samples.cjs",
+      "target": "electron/resources/app/src/remux-native-samples.cjs",
+      "group": "application",
+      "bytes": 13302,
+      "sha256": "ef79e3591a8b63e9d91400e709b7718f758222999eac408f16e6e86f37212fb2"
+    },
+    {
+      "root": "source",
+      "source": "src/remux-native-sync.cjs",
+      "target": "electron/resources/app/src/remux-native-sync.cjs",
+      "group": "application",
+      "bytes": 3729,
+      "sha256": "9d24c8191d1ea6d35dee7f7727643def30c0a0b3def2b1c81dfdd00174da05c7"
+    },
+    {
+      "root": "source",
+      "source": "src/remux-operation.cjs",
+      "target": "electron/resources/app/src/remux-operation.cjs",
+      "group": "application",
+      "bytes": 40397,
+      "sha256": "62715bdbb137e3f0938d26d7394172b6818e4f950f0bc5b7331f18769f51dcac"
+    },
+    {
+      "root": "source",
+      "source": "src/remux-transport-evidence.cjs",
+      "target": "electron/resources/app/src/remux-transport-evidence.cjs",
+      "group": "application",
+      "bytes": 14174,
+      "sha256": "529e67c24200cc216c7f3578f9984d383714de6990c249bf6f3a8453a724b62a"
+    },
+    {
+      "root": "source",
+      "source": "src/remux-transport.cjs",
+      "target": "electron/resources/app/src/remux-transport.cjs",
+      "group": "application",
+      "bytes": 28038,
+      "sha256": "cd99370b3971d80cc917fa63c374005b3a895d25775b5084a91f9c6740b27c5e"
+    },
+    {
+      "root": "source",
+      "source": "src/remux-validation.cjs",
+      "target": "electron/resources/app/src/remux-validation.cjs",
+      "group": "application",
+      "bytes": 41149,
+      "sha256": "6166b0e226b5755a0dfa1ca8b9333a1401c3186e21f6f31ad30cdf1266a6f810"
+    },
+    {
+      "root": "source",
+      "source": "src/remux-workspace.cjs",
+      "target": "electron/resources/app/src/remux-workspace.cjs",
+      "group": "application",
+      "bytes": 14588,
+      "sha256": "7430f312bfcbabce39ae942ceeac7c0231ebaf7c387d21b7bc8d64d9de7f5260"
+    },
+    {
+      "root": "source",
+      "source": "src/source-catalog-seals.cjs",
+      "target": "electron/resources/app/src/source-catalog-seals.cjs",
+      "group": "application",
+      "bytes": 2619,
+      "sha256": "87bfdd9f0f72a3d3c124a3f1befc8fe07a26daa727c18ba1c2fd77573c9404e7"
+    },
+    {
+      "root": "source",
+      "source": "src/source-identity.cjs",
+      "target": "electron/resources/app/src/source-identity.cjs",
+      "group": "application",
+      "bytes": 9080,
+      "sha256": "fe6f73342936aa70ed6bbda98348da6fb892d05ddb566ee6d1664ba3f38e42bd"
+    },
+    {
+      "root": "source",
+      "source": "src/storage-eligibility.cjs",
+      "target": "electron/resources/app/src/storage-eligibility.cjs",
+      "group": "application",
+      "bytes": 6195,
+      "sha256": "a03a88ed0820beb807719d0e92ddbd761932efa8a11e9891cc6893902f930196"
+    },
+    {
+      "root": "source",
+      "source": "src/vendor-capabilities.cjs",
+      "target": "electron/resources/app/src/vendor-capabilities.cjs",
+      "group": "application",
+      "bytes": 13413,
+      "sha256": "a48712b3b93c792c1aab7298b37f576a5eb8859504ffe95aec9ccd3bbfa20fea"
+    },
+    {
+      "root": "source",
+      "source": "src/vendor-encode.cjs",
+      "target": "electron/resources/app/src/vendor-encode.cjs",
+      "group": "application",
+      "bytes": 9527,
+      "sha256": "4ace2e31776981382f86fa742f5caca2a8874314c61bf9d6ea1cde069980dd74"
+    },
+    {
+      "root": "source",
+      "source": "src/vendor-execution.cjs",
+      "target": "electron/resources/app/src/vendor-execution.cjs",
+      "group": "application",
+      "bytes": 8441,
+      "sha256": "4f9d08432499e3840e7b6c867f5b965c4466d58e8644a84d9655fcb323342f78"
+    },
+    {
+      "root": "source",
+      "source": "src/vendor-preferences.cjs",
+      "target": "electron/resources/app/src/vendor-preferences.cjs",
+      "group": "application",
+      "bytes": 6813,
+      "sha256": "820033d07a8f0cef5de7bfd071537d0d26e4d778bb2e3cc82bc0699a4cbfad11"
+    },
+    {
+      "root": "source",
+      "source": "src/vendor-profiles.cjs",
+      "target": "electron/resources/app/src/vendor-profiles.cjs",
+      "group": "application",
+      "bytes": 8517,
+      "sha256": "cc194f022665aa729410060804de2021175f0e87bd394fc18e4b3c47716cf65d"
+    },
+    {
+      "root": "source",
+      "source": "src/windows-adapters.cjs",
+      "target": "electron/resources/app/src/windows-adapters.cjs",
+      "group": "application",
+      "bytes": 12888,
+      "sha256": "8700b6de13ecf46e49d1b8bd7ac347b04232c86efd9b8a1eee2827d0d3265eb4"
+    },
+    {
+      "root": "source",
+      "source": "ui/index.html",
+      "target": "electron/resources/app/ui/index.html",
+      "group": "application",
+      "bytes": 39874,
+      "sha256": "c4406a0f4d7c1b1ec2a9d6ecc1b53033c480700bfd46e520481c49b7f44a8f78"
+    },
+    {
+      "root": "source",
+      "source": "ui/renderer.js",
+      "target": "electron/resources/app/ui/renderer.js",
+      "group": "application",
+      "bytes": 152740,
+      "sha256": "534ea2ca19be9106fbbe8eb2b4d61d2870635072c9679f00e46fbd5a50a9ad2b"
+    },
+    {
+      "root": "source",
+      "source": "ui/styles.css",
+      "target": "electron/resources/app/ui/styles.css",
+      "group": "application",
+      "bytes": 39661,
+      "sha256": "6abf4c37263c2399a1443ffcf1cd0142d43cb7316188cd29955e51f0a0227243"
+    },
+    {
+      "root": "electron",
+      "source": "electron",
+      "target": "electron/electron",
+      "group": "electron",
+      "bytes": 228605256,
+      "sha256": "10a14d05c6ff4f94075cfb3eeb6ed6571be33ebcc08cbd675b5ce9ff84706564"
+    },
+    {
+      "root": "electron",
+      "source": "locales/vi.pak",
+      "target": "electron/locales/vi.pak",
+      "group": "electron",
+      "bytes": 149276,
+      "sha256": "4dcf8fe139c4355a8999137098532662e5af79d7b464c6e2faab686605d7ad8d"
+    },
+    {
+      "root": "electron",
+      "source": "locales/da.pak",
+      "target": "electron/locales/da.pak",
+      "group": "electron",
+      "bytes": 119482,
+      "sha256": "14cfcdfecb80d8575d273d8ec03317ae51c3e2c976c862ab774f9af9c7c4557b"
+    },
+    {
+      "root": "electron",
+      "source": "chrome_100_percent.pak",
+      "target": "electron/chrome_100_percent.pak",
+      "group": "electron",
+      "bytes": 719546,
+      "sha256": "891176da5eee33b54352fdb1407a8e09a2bd48c7eb2077311e75787de33a095e"
+    },
+    {
+      "root": "electron",
+      "source": "locales/sk.pak",
+      "target": "electron/locales/sk.pak",
+      "group": "electron",
+      "bytes": 133943,
+      "sha256": "8c743c91af3dd53fd5c36e88061a62dddb2b91687ec779e7958774f436486dac"
+    },
+    {
+      "root": "electron",
+      "source": "locales/pl.pak",
+      "target": "electron/locales/pl.pak",
+      "group": "electron",
+      "bytes": 131479,
+      "sha256": "35e0d1578baa9c9441c83383aade35d69c03bc2307783c639c01b156015a11a8"
+    },
+    {
+      "root": "electron",
+      "source": "locales/ar.pak",
+      "target": "electron/locales/ar.pak",
+      "group": "electron",
+      "bytes": 185624,
+      "sha256": "4bca90c44595767a6d03cf1ae9a3a896e19f476c435d1f9cd535ffd74e908419"
+    },
+    {
+      "root": "electron",
+      "source": "locales/en-US.pak",
+      "target": "electron/locales/en-US.pak",
+      "group": "electron",
+      "bytes": 106969,
+      "sha256": "e37db76f0a15a4b2a3cbd365bd4f06b0d8dc91fb9a83c03b7cd38503c23c044b"
+    },
+    {
+      "root": "electron",
+      "source": "locales/nb.pak",
+      "target": "electron/locales/nb.pak",
+      "group": "electron",
+      "bytes": 115867,
+      "sha256": "36c2e3f5d4e920e8e0411878df2cbd4a92bd9e553e9e427b3aae355bfb9fc955"
+    },
+    {
+      "root": "electron",
+      "source": "locales/th.pak",
+      "target": "electron/locales/th.pak",
+      "group": "electron",
+      "bytes": 249576,
+      "sha256": "2272de996ac5c553cf01f406e6f708cb98ad419708355fb4969cb91ec8031e56"
+    },
+    {
+      "root": "electron",
+      "source": "locales/bn.pak",
+      "target": "electron/locales/bn.pak",
+      "group": "electron",
+      "bytes": 269422,
+      "sha256": "eaa31ac7166ef4c5c61bf6e4a9b0a0b4cb1825e1b57e5a45f76faa65dc0d113f"
+    },
+    {
+      "root": "electron",
+      "source": "chrome_200_percent.pak",
+      "target": "electron/chrome_200_percent.pak",
+      "group": "electron",
+      "bytes": 1268994,
+      "sha256": "b3ce9953a50959e9c1a018d6512742f48cee0dbf53644ea952909418bd7c2b3e"
+    },
+    {
+      "root": "electron",
+      "source": "locales/ko.pak",
+      "target": "electron/locales/ko.pak",
+      "group": "electron",
+      "bytes": 126096,
+      "sha256": "8c98d075840cb4800016c6df141183b3ec69cfe20df38ea759f2274259a86666"
+    },
+    {
+      "root": "electron",
+      "source": "vk_swiftshader_icd.json",
+      "target": "electron/vk_swiftshader_icd.json",
+      "group": "electron",
+      "bytes": 107,
+      "sha256": "c9eef28b6b984fec220ef0abfecc40b502d46946706e47bfe97707027cb818bd"
+    },
+    {
+      "root": "electron",
+      "source": "locales/sw.pak",
+      "target": "electron/locales/sw.pak",
+      "group": "electron",
+      "bytes": 124791,
+      "sha256": "3475068a7e3b8205444f914d7d29421fb45b87c008594984f3e7b04cff22b2d3"
+    },
+    {
+      "root": "electron",
+      "source": "locales/ml.pak",
+      "target": "electron/locales/ml.pak",
+      "group": "electron",
+      "bytes": 312341,
+      "sha256": "fffb1b403dd4a62f0116fb39a961a73dd0766049bdc23118c90f4360971e225b"
+    },
+    {
+      "root": "electron",
+      "source": "locales/ru.pak",
+      "target": "electron/locales/ru.pak",
+      "group": "electron",
+      "bytes": 207665,
+      "sha256": "b011f8c753fa33f9aa91732590ca13a791824a7fd94a8f35c41330fe346de11a"
+    },
+    {
+      "root": "electron",
+      "source": "locales/zh-TW.pak",
+      "target": "electron/locales/zh-TW.pak",
+      "group": "electron",
+      "bytes": 103156,
+      "sha256": "320cbc6cf7f15cc652e2e4a6c4e964d9fe5dcbf2d65ebf379beb47d738317d4d"
+    },
+    {
+      "root": "electron",
+      "source": "locales/en-GB.pak",
+      "target": "electron/locales/en-GB.pak",
+      "group": "electron",
+      "bytes": 106865,
+      "sha256": "550775b16b4716e610232e6b06e35a95c4c6ce2dedbd2a26747f8dc8f08d8aeb"
+    },
+    {
+      "root": "electron",
+      "source": "locales/nl.pak",
+      "target": "electron/locales/nl.pak",
+      "group": "electron",
+      "bytes": 121445,
+      "sha256": "5cceeeff48b3aad830116126f8f15b3bfddf682bbdf986b3a266e0e72ff463d1"
+    },
+    {
+      "root": "electron",
+      "source": "locales/it.pak",
+      "target": "electron/locales/it.pak",
+      "group": "electron",
+      "bytes": 127474,
+      "sha256": "b02a5de9de434266991a9e37a6bcced44b65ae3c164e4920a736eb350f745ecb"
+    },
+    {
+      "root": "electron",
+      "source": "locales/hr.pak",
+      "target": "electron/locales/hr.pak",
+      "group": "electron",
+      "bytes": 125949,
+      "sha256": "6937159b11ac75bee2c8046a5150596acee10a7c10c75a2469a752175f9e9e99"
+    },
+    {
+      "root": "electron",
+      "source": "locales/ur.pak",
+      "target": "electron/locales/ur.pak",
+      "group": "electron",
+      "bytes": 185651,
+      "sha256": "203e225739beb9879eebb08d08d9aa17b80f02320049f03d453156ff53170da8"
+    },
+    {
+      "root": "electron",
+      "source": "locales/id.pak",
+      "target": "electron/locales/id.pak",
+      "group": "electron",
+      "bytes": 114654,
+      "sha256": "06c550187e7dd49cf0210ac9bcf4401c10e96ed777ccc8fd07e914a9337de9b7"
+    },
+    {
+      "root": "electron",
+      "source": "locales/bg.pak",
+      "target": "electron/locales/bg.pak",
+      "group": "electron",
+      "bytes": 211672,
+      "sha256": "96741df7a895b1d4894db0fd5e5db4f761849eb0e5ebadf6f3f27daf16723ebe"
+    },
+    {
+      "root": "electron",
+      "source": "locales/fi.pak",
+      "target": "electron/locales/fi.pak",
+      "group": "electron",
+      "bytes": 119440,
+      "sha256": "fb7379246632c90a58a8f7155e390ca583f9d73b6c6ae26baf9bf4878be184df"
+    },
+    {
+      "root": "electron",
+      "source": "icudtl.dat",
+      "target": "electron/icudtl.dat",
+      "group": "electron",
+      "bytes": 10875024,
+      "sha256": "da53f0b69843aaa43315f0f210a67e4a874b0be338f3dae08ff57b8afe76ab0d"
+    },
+    {
+      "root": "electron",
+      "source": "snapshot_blob.bin",
+      "target": "electron/snapshot_blob.bin",
+      "group": "electron",
+      "bytes": 368768,
+      "sha256": "318358a565b6799c7cd42f4647a68d07c326aea80171d5b451af8f14d1bc345f"
+    },
+    {
+      "root": "electron",
+      "source": "locales/gu.pak",
+      "target": "electron/locales/gu.pak",
+      "group": "electron",
+      "bytes": 262702,
+      "sha256": "309dcf4484d9479eeb68dcc7d745f17dfa0ffc4e6b112751de704ce62e8aecbe"
+    },
+    {
+      "root": "electron",
+      "source": "locales/sl.pak",
+      "target": "electron/locales/sl.pak",
+      "group": "electron",
+      "bytes": 126084,
+      "sha256": "ccb3f13a24076f3a29148486b296255a65318314ad25cd276152146732cb024d"
+    },
+    {
+      "root": "electron",
+      "source": "libffmpeg.so",
+      "target": "electron/libffmpeg.so",
+      "group": "electron",
+      "bytes": 2801752,
+      "sha256": "c4c805e46f957356f6b80be31999459e5f07e8b0c351221544ad43a16c980638"
+    },
+    {
+      "root": "electron",
+      "source": "locales/fa.pak",
+      "target": "electron/locales/fa.pak",
+      "group": "electron",
+      "bytes": 180542,
+      "sha256": "7bc6e2d1c924b5f32d69e28033b369a67c5d9ce661af81a7ad5a66006a572170"
+    },
+    {
+      "root": "electron",
+      "source": "locales/ms.pak",
+      "target": "electron/locales/ms.pak",
+      "group": "electron",
+      "bytes": 117618,
+      "sha256": "ce1f9c8cfe5b2705b281d3480e0df992ab36f3518956100564eb9edae5d03dbb"
+    },
+    {
+      "root": "electron",
+      "source": "locales/lt.pak",
+      "target": "electron/locales/lt.pak",
+      "group": "electron",
+      "bytes": 134875,
+      "sha256": "b7e01915d9f1131743aaa7b1c262c7ef685c10d8621f2437e46ebefe980a6efc"
+    },
+    {
+      "root": "electron",
+      "source": "version",
+      "target": "electron/version",
+      "group": "electron",
+      "bytes": 6,
+      "sha256": "3e1e0322d949de3be7e5b9883a0c8014660aafa67e417a7d86b281e9733829a1"
+    },
+    {
+      "root": "electron",
+      "source": "locales/de.pak",
+      "target": "electron/locales/de.pak",
+      "group": "electron",
+      "bytes": 127411,
+      "sha256": "7d4874ca52ac298dbc4c01d91c1c6a549008dbefc2d0c8f52154d872dce4979f"
+    },
+    {
+      "root": "electron",
+      "source": "locales/mr.pak",
+      "target": "electron/locales/mr.pak",
+      "group": "electron",
+      "bytes": 261151,
+      "sha256": "0f5879b812517af23c9655347b08852c8e8f5c399b288466a8ec717d397e94d6"
+    },
+    {
+      "root": "electron",
+      "source": "locales/he.pak",
+      "target": "electron/locales/he.pak",
+      "group": "electron",
+      "bytes": 158974,
+      "sha256": "5764ba9a2261b2ded07f3c3afa8f003594b29f58c73b322f1d89479907a97ca2"
+    },
+    {
+      "root": "electron",
+      "source": "LICENSES.chromium.html",
+      "target": "electron/LICENSES.chromium.html",
+      "group": "electron",
+      "bytes": 20115518,
+      "sha256": "3375e2a9bd7bc631738fde10be6548a76efe8cf5e4b8826b8140ba8b0c4d6353"
+    },
+    {
+      "root": "electron",
+      "source": "resources.pak",
+      "target": "electron/resources.pak",
+      "group": "electron",
+      "bytes": 12634717,
+      "sha256": "631f8de6e1d5b46de9a5930ac3da5c1f77ebd2eef355be75c8c2095d0b29dbab"
+    },
+    {
+      "root": "electron",
+      "source": "locales/af.pak",
+      "target": "electron/locales/af.pak",
+      "group": "electron",
+      "bytes": 115408,
+      "sha256": "9abd48c6c1f34e14dcad66131a9cc8624b4e850ebf692b05a66fb18d5c537588"
+    },
+    {
+      "root": "electron",
+      "source": "locales/el.pak",
+      "target": "electron/locales/el.pak",
+      "group": "electron",
+      "bytes": 229543,
+      "sha256": "114158bd5f674169564173a12612922259a8acc50076c228c2214659924ee018"
+    },
+    {
+      "root": "electron",
+      "source": "locales/pt-BR.pak",
+      "target": "electron/locales/pt-BR.pak",
+      "group": "electron",
+      "bytes": 126281,
+      "sha256": "907226d904de6a571a80289ef6a8072bad867b1f63ec37fcd735c30763af970d"
+    },
+    {
+      "root": "electron",
+      "source": "locales/hi.pak",
+      "target": "electron/locales/hi.pak",
+      "group": "electron",
+      "bytes": 278957,
+      "sha256": "b4d36beed004905461637b0c60eacc6d8eca49ba47ba262ed04d68c88b826bf4"
+    },
+    {
+      "root": "electron",
+      "source": "locales/te.pak",
+      "target": "electron/locales/te.pak",
+      "group": "electron",
+      "bytes": 289043,
+      "sha256": "4955104544daf89da718e7f584ad66fe35dd4ca219c245697de2929acb317ec8"
+    },
+    {
+      "root": "electron",
+      "source": "locales/ta.pak",
+      "target": "electron/locales/ta.pak",
+      "group": "electron",
+      "bytes": 314512,
+      "sha256": "e4053fb503c08d94b7364b10a74abc04506d15f67ad74b9ea66185999ea177df"
+    },
+    {
+      "root": "electron",
+      "source": "locales/sr.pak",
+      "target": "electron/locales/sr.pak",
+      "group": "electron",
+      "bytes": 196325,
+      "sha256": "92bac4af059cea0f2f72293fde0cc665b8554c00653b26611cfcc6e98b4971e8"
+    },
+    {
+      "root": "electron",
+      "source": "locales/lv.pak",
+      "target": "electron/locales/lv.pak",
+      "group": "electron",
+      "bytes": 135866,
+      "sha256": "22fc0a3e04e7772c7df2f4c74e928ceb4046edc8c1688dbc4f04676f00944952"
+    },
+    {
+      "root": "electron",
+      "source": "locales/fil.pak",
+      "target": "electron/locales/fil.pak",
+      "group": "electron",
+      "bytes": 131706,
+      "sha256": "7c6c76af71a7d60733a01014c19d9544409d5facd6001fb9058fc8ae8062cf54"
+    },
+    {
+      "root": "electron",
+      "source": "locales/ja.pak",
+      "target": "electron/locales/ja.pak",
+      "group": "electron",
+      "bytes": 147791,
+      "sha256": "4b51a3023136f05ae2c0b8e041e262eed3f6d5fa87c782892cba36e10d904b3c"
+    },
+    {
+      "root": "electron",
+      "source": "locales/ro.pak",
+      "target": "electron/locales/ro.pak",
+      "group": "electron",
+      "bytes": 132409,
+      "sha256": "b7c3b4af988ec26f8f3a3fa789cdbe46712a14497e47cba6266c9f0e808e57f7"
+    },
+    {
+      "root": "electron",
+      "source": "LICENSE",
+      "target": "electron/LICENSE",
+      "group": "electron",
+      "bytes": 1096,
+      "sha256": "5154e165bd6c2cc0cfbcd8916498c7abab0497923bafcd5cb07673fe8480087d"
+    },
+    {
+      "root": "electron",
+      "source": "locales/zh-CN.pak",
+      "target": "electron/locales/zh-CN.pak",
+      "group": "electron",
+      "bytes": 103981,
+      "sha256": "4f2cf868b28d2ef31cc8d877bd1295bcd99997505bd96828905900250160f3c5"
+    },
+    {
+      "root": "electron",
+      "source": "locales/kn.pak",
+      "target": "electron/locales/kn.pak",
+      "group": "electron",
+      "bytes": 295238,
+      "sha256": "875859c2b88312ff3644c6cadd65dd8b5057e336a0a2bea512fbffa7c85695a7"
+    },
+    {
+      "root": "electron",
+      "source": "locales/cs.pak",
+      "target": "electron/locales/cs.pak",
+      "group": "electron",
+      "bytes": 130919,
+      "sha256": "cffb35f66f25ef7dac62b05213dfa787ecddf2533518c02276d8fbe828f541e8"
+    },
+    {
+      "root": "electron",
+      "source": "locales/sv.pak",
+      "target": "electron/locales/sv.pak",
+      "group": "electron",
+      "bytes": 116299,
+      "sha256": "54cf311648f8688effc4cfd70a580b85b837e67dd9e5f194d9f761202a27ebba"
+    },
+    {
+      "root": "electron",
+      "source": "locales/es.pak",
+      "target": "electron/locales/es.pak",
+      "group": "electron",
+      "bytes": 129380,
+      "sha256": "b3256546e28dffff82c3d00abae9ad2141cf7bb940e5e39620f6ae30b488dcea"
+    },
+    {
+      "root": "electron",
+      "source": "chrome-sandbox",
+      "target": "electron/chrome-sandbox",
+      "group": "electron",
+      "bytes": 15232,
+      "sha256": "a4f6dfd7325ddd55f94ddc0c487d22726d40ef099ded6475d5dffe236e277896"
+    },
+    {
+      "root": "electron",
+      "source": "locales/ca.pak",
+      "target": "electron/locales/ca.pak",
+      "group": "electron",
+      "bytes": 129791,
+      "sha256": "3f86be184e95323c14604836b8eaf8935fc24f9cd2308cb207be26c318d8f287"
+    },
+    {
+      "root": "electron",
+      "source": "libvulkan.so.1",
+      "target": "electron/libvulkan.so.1",
+      "group": "electron",
+      "bytes": 2483336,
+      "sha256": "951c832a600fd72fc0eff1a42b8e251e81ea200a62499e74c86d4aeb3646aa34"
+    },
+    {
+      "root": "electron",
+      "source": "locales/am.pak",
+      "target": "electron/locales/am.pak",
+      "group": "electron",
+      "bytes": 186176,
+      "sha256": "28545e9a72220ddca39f7d7b36eacb3b661a3cc40d212b7e56be21d90f5ee71b"
+    },
+    {
+      "root": "electron",
+      "source": "chrome_crashpad_handler",
+      "target": "electron/chrome_crashpad_handler",
+      "group": "electron",
+      "bytes": 1918544,
+      "sha256": "3e9742b8edaef6779c48e0966b9f433db39e59ee148854312b5a5c8612100a04"
+    },
+    {
+      "root": "electron",
+      "source": "locales/tr.pak",
+      "target": "electron/locales/tr.pak",
+      "group": "electron",
+      "bytes": 125317,
+      "sha256": "f690918f136d8c5bad9853c358670e60475999d0faafb36d36001c4fa7ec4f8b"
+    },
+    {
+      "root": "electron",
+      "source": "locales/hu.pak",
+      "target": "electron/locales/hu.pak",
+      "group": "electron",
+      "bytes": 137413,
+      "sha256": "d6add186bc8bd342ef5d35cba5261c8c847ecb529697b7c003016435997c9fdc"
+    },
+    {
+      "root": "electron",
+      "source": "locales/es-419.pak",
+      "target": "electron/locales/es-419.pak",
+      "group": "electron",
+      "bytes": 128677,
+      "sha256": "aaacff94a6407a7d487a455889a544f6107107cccb82393a27e9bf593d1b943d"
+    },
+    {
+      "root": "electron",
+      "source": "locales/fr.pak",
+      "target": "electron/locales/fr.pak",
+      "group": "electron",
+      "bytes": 136129,
+      "sha256": "95b11fc7368d9f4367534e89456cceda009468abe2423821a11fe1dd1a7b4604"
+    },
+    {
+      "root": "electron",
+      "source": "locales/uk.pak",
+      "target": "electron/locales/uk.pak",
+      "group": "electron",
+      "bytes": 209472,
+      "sha256": "26ddf342bb13d674df20162ff1a955edc56e6ffc64bc846953e7b2be8827fe80"
+    },
+    {
+      "root": "electron",
+      "source": "locales/et.pak",
+      "target": "electron/locales/et.pak",
+      "group": "electron",
+      "bytes": 116201,
+      "sha256": "41f78768a3ef702356653ab005522a20407e0dbbe7b0ea323683072520f11191"
+    },
+    {
+      "root": "electron",
+      "source": "v8_context_snapshot.bin",
+      "target": "electron/v8_context_snapshot.bin",
+      "group": "electron",
+      "bytes": 742200,
+      "sha256": "f7ce43b3433a5c36621b09b24fb1b49823dcad925c089ebe60f09aa780941aa1"
+    },
+    {
+      "root": "electron",
+      "source": "libvk_swiftshader.so",
+      "target": "electron/libvk_swiftshader.so",
+      "group": "electron",
+      "bytes": 4657864,
+      "sha256": "f473264f0013f07345b5bb258dd12f10b461a291c578f32b7466c9000b662707"
+    },
+    {
+      "root": "electron",
+      "source": "locales/pt-PT.pak",
+      "target": "electron/locales/pt-PT.pak",
+      "group": "electron",
+      "bytes": 127702,
+      "sha256": "540b4f6c0d58d8f0315a8e4fbee49e41b6fbfe2b9c2065b8f28b069619c132ba"
+    },
+    {
+      "root": "guidance",
+      "source": "runtime-candidate-build-20261117/build/ffmpeg",
+      "target": "electron/resources/runtime/ffmpeg",
+      "group": "ffmpeg-pair",
+      "bytes": 46175848,
+      "sha256": "ae5b2e8b48ad0e9b51b89ebab000ebcfc0b76a09b8cb80c88e18fddcc5d9e8ba"
+    },
+    {
+      "root": "guidance",
+      "source": "runtime-candidate-build-20261117/build/ffprobe",
+      "target": "electron/resources/runtime/ffprobe",
+      "group": "ffmpeg-pair",
+      "bytes": 45962728,
+      "sha256": "923dab8640da8804c445418b6e2efe4b395665bdb9d4cfc84f6a244ed0fb156b"
+    },
+    {
+      "root": "inputs",
+      "source": "source/ffmpeg-9.0.2/COPYING.GPLv2",
+      "target": "electron/notices/ffmpeg/COPYING.GPLv2",
+      "group": "notice",
+      "bytes": 18092,
+      "sha256": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643"
+    },
+    {
+      "root": "inputs",
+      "source": "source/ffmpeg-9.0.2/COPYING.GPLv3",
+      "target": "electron/notices/ffmpeg/COPYING.GPLv3",
+      "group": "notice",
+      "bytes": 35147,
+      "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+    },
+    {
+      "root": "inputs",
+      "source": "source/ffmpeg-9.0.2/COPYING.LGPLv2.1",
+      "target": "electron/notices/ffmpeg/COPYING.LGPLv2.1",
+      "group": "notice",
+      "bytes": 26517,
+      "sha256": "246041b6ecf9bc32d718a62c57877c78b5eb397b6467e74ed7ae2626ab189c30"
+    },
+    {
+      "root": "inputs",
+      "source": "source/ffmpeg-9.0.2/COPYING.LGPLv3",
+      "target": "electron/notices/ffmpeg/COPYING.LGPLv3",
+      "group": "notice",
+      "bytes": 7651,
+      "sha256": "da7eabb7bafdf7d3ae5e9f223aa5bdc1eece45ac569dc21b3b037520b4464768"
+    },
+    {
+      "root": "inputs",
+      "source": "source/ffmpeg-9.0.2/LICENSE.md",
+      "target": "electron/notices/ffmpeg/LICENSE.md",
+      "group": "notice",
+      "bytes": 4346,
+      "sha256": "2e1d16c72fd74e12063776371da757322f8b77589386532f4fd8634bde7de1af"
+    },
+    {
+      "root": "inputs",
+      "source": "codec-sysroot/usr/share/doc/libx264-dev/copyright",
+      "target": "electron/notices/codec-development/libx264-dev-copyright",
+      "group": "notice",
+      "bytes": 7690,
+      "sha256": "b8b4d68a602bf580d47237c3119e52ac7a70121de39fb365ca28a63b3a200655"
+    },
+    {
+      "root": "inputs",
+      "source": "codec-sysroot/usr/share/doc/libx265-dev/copyright",
+      "target": "electron/notices/codec-development/libx265-dev-copyright",
+      "group": "notice",
+      "bytes": 4551,
+      "sha256": "ac2859168010138bce5a5a16a1c2442570ed236121352c34c1a710005b727eb5"
+    },
+    {
+      "root": "inputs",
+      "source": "codec-sysroot/usr/share/doc/libnuma-dev/copyright",
+      "target": "electron/notices/codec-development/libnuma-dev-copyright",
+      "group": "notice",
+      "bytes": 1357,
+      "sha256": "179c34f5e56cd0b6b73dd7970a97357ee784e2236e8293826656c7ebb3bface7"
+    },
+    {
+      "root": "inputs",
+      "source": "codec-sysroot/usr/share/doc/libdav1d-dev/copyright",
+      "target": "electron/notices/codec-development/libdav1d-dev-copyright",
+      "group": "notice",
+      "bytes": 9722,
+      "sha256": "38aaebbbf5ab0c19a5d4029acb5ce6566f8bd95e07eff6f6472753f5bea83d97"
+    },
+    {
+      "root": "inputs",
+      "source": "codec-sysroot/usr/share/doc/libsvtav1enc-dev/copyright",
+      "target": "electron/notices/codec-development/libsvtav1enc-dev-copyright",
+      "group": "notice",
+      "bytes": 14574,
+      "sha256": "66433ce51ad1f83c561940a0af5f78e45a1beee67e5cc5087c1f0c5d2736e1e4"
+    },
+    {
+      "root": "hostDocs",
+      "source": "libc6/copyright",
+      "target": "electron/notices/host-dependencies/libc6-copyright",
+      "group": "notice",
+      "bytes": 51200,
+      "sha256": "f5788886720a2605a946e81d571e6c8162b09f58d2e2ceb8d36e5768fccd850d"
+    },
+    {
+      "root": "hostDocs",
+      "source": "gcc-14-base/copyright",
+      "target": "electron/notices/host-dependencies/libgcc-s1-copyright",
+      "group": "notice",
+      "bytes": 69004,
+      "sha256": "20390f8a6f3b1e4d7cb45dd8652dabb259bbef688cbad839bcdb0b9ba7252f79"
+    },
+    {
+      "root": "hostDocs",
+      "source": "gcc-14-base/copyright",
+      "target": "electron/notices/host-dependencies/libstdc++6-copyright",
+      "group": "notice",
+      "bytes": 69004,
+      "sha256": "20390f8a6f3b1e4d7cb45dd8652dabb259bbef688cbad839bcdb0b9ba7252f79"
+    },
+    {
+      "root": "hostDocs",
+      "source": "libdav1d7/copyright",
+      "target": "electron/notices/host-dependencies/libdav1d7-copyright",
+      "group": "notice",
+      "bytes": 9722,
+      "sha256": "38aaebbbf5ab0c19a5d4029acb5ce6566f8bd95e07eff6f6472753f5bea83d97"
+    },
+    {
+      "root": "hostDocs",
+      "source": "libsvtav1enc2/copyright",
+      "target": "electron/notices/host-dependencies/libsvtav1enc2-copyright",
+      "group": "notice",
+      "bytes": 14574,
+      "sha256": "66433ce51ad1f83c561940a0af5f78e45a1beee67e5cc5087c1f0c5d2736e1e4"
+    },
+    {
+      "root": "guidance",
+      "source": "runtime-requalification-inputs-20261117/INPUT_ACQUISITION_RECEIPT.json",
+      "target": "electron/provenance/runtime-requalification-inputs-20261117--INPUT_ACQUISITION_RECEIPT.json",
+      "group": "provenance",
+      "bytes": 9679,
+      "sha256": "cf1ac0f19337e50d240dbae220239f65a9a059a800f9bdb2be67787da8458d62"
+    },
+    {
+      "root": "guidance",
+      "source": "runtime-requalification-inputs-20261117/extraction-result.json",
+      "target": "electron/provenance/runtime-requalification-inputs-20261117--extraction-result.json",
+      "group": "provenance",
+      "bytes": 927,
+      "sha256": "b0e646464e24ecc5a12721aa8feafa55d4c33940ad9500ed4f26229eb0872a12"
+    },
+    {
+      "root": "guidance",
+      "source": "runtime-candidate-build-20261117/BUILD_RECEIPT.json",
+      "target": "electron/provenance/runtime-candidate-build-20261117--BUILD_RECEIPT.json",
+      "group": "provenance",
+      "bytes": 15228,
+      "sha256": "823f1ab2427a5b26b2ae3af1c9c78f2c7af7533ede82d866e01167fc6f805eca"
+    },
+    {
+      "root": "guidance",
+      "source": "runtime-candidate-build-20261117/BUILD_PLAN_002.json",
+      "target": "electron/provenance/runtime-candidate-build-20261117--BUILD_PLAN_002.json",
+      "group": "provenance",
+      "bytes": 7334,
+      "sha256": "79f0e9cf81b648c32e9872e98bba7f10a5e774ce9e3e82e2c1d1aa282ce0c9ab"
+    },
+    {
+      "root": "guidance",
+      "source": "electron-44.7.0-setup/verification.json",
+      "target": "electron/provenance/electron-44.7.0-setup--verification.json",
+      "group": "provenance",
+      "bytes": 13098,
+      "sha256": "56eabc423cca0cb41e89257dc275e7b6d803c7d5fc8f4260be4c729c3c28b58f"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/workbench-long-range-calibration.cjs",
+      "target": "electron/resources/app/linux-blue/workbench-long-range-calibration.cjs",
+      "group": "application",
+      "bytes": 33462,
+      "sha256": "ee8d48e294f098ed9f47e7b6e1e75edd5a4661d460ee6b00bb2a375010692afc"
+    }
+  ]
+}

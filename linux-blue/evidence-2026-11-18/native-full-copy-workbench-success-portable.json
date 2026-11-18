@@ -1,0 +1,1175 @@
+{
+  "schema": "ffmpeg-linux-portable-native-full-copy-evidence-v1",
+  "checkpoint": "030",
+  "sourceCommit": "475ac0f9bd5ebc033d68a36a443bddc60ce5f111",
+  "status": "independently-audited-bounded-native-full-copy-publication-and-reveal",
+  "cutoffUtc": "2026-11-18T02:10:12.231751Z",
+  "sourceArtifacts": [
+    {
+      "name": "JOURNEY_OUTCOME.json",
+      "bytes": 7415,
+      "sha256": "6cd103db1d4e718567120b99db6b5e62611fda2a440956740991415309395385"
+    },
+    {
+      "name": "OUTER_COMPLETION.json",
+      "bytes": 924,
+      "sha256": "a69018eefd93f9cc7c90e21afe9573f5814c51df8d1a28751e42c52870649f12"
+    },
+    {
+      "name": "INDEPENDENT_SAVED_EVIDENCE_AUDIT.json",
+      "bytes": 25857,
+      "sha256": "a6c50a1ab95f15510a66c7c16bb3527243d4ab0a3fe97fd46722eaf05e3f56b6"
+    },
+    {
+      "name": "LEAD_IDENTITY_RECONCILIATION.json",
+      "bytes": 1280,
+      "sha256": "df34af0b4d73fb20d377c6723eb22626f1a168d1786bd1db09e7df480948e5ae"
+    },
+    {
+      "name": "LEAD_RELEASE.json",
+      "bytes": 4569,
+      "sha256": "91fe8521277a04a923d1551faa8dda0e59ec34e7ca6e8389be33114968ce34d6"
+    }
+  ],
+  "transform": {
+    "strategy": "Exact known leading root-prefix replacement only. Every other key/type/value remains unchanged; JSON whitespace reserialized, not original byte restoration.",
+    "changedStrings": 9,
+    "byAlias": {
+      "proof://": 6,
+      "project://": 3,
+      "support://": 0
+    },
+    "locations": [
+      {
+        "location": [
+          "reports",
+          "JOURNEY_OUTCOME.json",
+          "closure",
+          "outputInventory",
+          0,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "OUTER_COMPLETION.json",
+          "outputInventory",
+          0,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_SAVED_EVIDENCE_AUDIT.json",
+          "outputInventory",
+          0,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_SAVED_EVIDENCE_AUDIT.json",
+          "collector",
+          "spools",
+          0,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_SAVED_EVIDENCE_AUDIT.json",
+          "collector",
+          "spools",
+          1,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_SAVED_EVIDENCE_AUDIT.json",
+          "collector",
+          "spools",
+          2,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_SAVED_EVIDENCE_AUDIT.json",
+          "sourceAssessment",
+          "sourceAssessment",
+          "diagnostic",
+          "expected",
+          "canonicalPath"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_SAVED_EVIDENCE_AUDIT.json",
+          "sourceAssessment",
+          "sourceAssessment",
+          "diagnostic",
+          "actual",
+          "canonicalPath"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "LEAD_IDENTITY_RECONCILIATION.json",
+          "newOutputInventoryMatched",
+          0,
+          "path"
+        ],
+        "alias": "proof://"
+      }
+    ],
+    "inverseRootMappingIncluded": false
+  },
+  "authority": {
+    "runtimeGateSubstitute": false,
+    "productionActivation": false,
+    "generalFamilyQualification": false,
+    "rawArtifactByteRestoration": false,
+    "runtimeOrMediaRestoration": false,
+    "newExecutionPermission": false
+  },
+  "limits": [
+    "Output full SHA first established by supervisor after closure and independently matched here, not an encode-time historical hash. No fresh ffprobe/decode or pixel/PCM validation. Saved collector decoded counts/timing and copied AAC coded packet/header/padding seals are supporting evidence, not lossless video identity.",
+    "Collector receipt and telemetry remain nonpublication authority; actual OUTPUT_CHECKED, SOURCE_ASSESSED, OUTPUT_PUBLISHED and successful JOB_DISPOSITION/BATCH_FINISHED establish the service path.",
+    "Source-only hash/state checks are at audit time, not continuous enforcement. Full referenced job files copied byte-exact inside explicit canonical operation-evidence boundary; no profile/cache/token contents read.",
+    "Four truncated diagnostic contexts at FILE_INSPECTED twice, OPERATION_EVIDENCE_COLLECTED and JOB_DISPOSITION retained; event digests validate retained bytes, not lost context. Full referenced collector/storage files retained separately.",
+    "Aggregate44-child census includes startup/capability/inspection work. One ENCODE_STARTED/OUTPUT_PUBLISHED retained; no complete per-child argv/stderr claim. Top-level D-Bus/SSL messages and recorded335-byte service stderr accounting do not prove all child diagnostics harmless.",
+    "Numeric event epochs align with outer UTC. Electron stderr textual clock format differs; no clock-drift or cause inference.",
+    "Six storage point receipts precede matching actions, last after publication/before reveal. These are point checks, not continuous hard write/child quotas.",
+    "Operator reports visible Open acceptance, actual Thunar selected output/exact size, legible resolution popup on this opening, two missed coordinates corrected using fresh observations, no repeated Apply/Start. These are CUA-only visual observations, not standalone reviewed screenshots or proof intermittent popup defect fixed.",
+    "Whole871.204704-second journey includes manual entry/UI and is not encode performance. No Windows/hardware/general family/catalog/release qualification. No extra GUI/runtime/probe/decode performed by auditor.",
+    "The original outcome still says awaiting independent audit and original identity says source freeze unreleased. These dated statuses are preserved verbatim; the separate later audit/release supplies subsequent disposition.",
+    "No raw logs, referenced job-file payloads, runtime/media, profile/cache/token stores, executable helpers/gates or inverse root map are included.",
+    "261/261 source tests are inherited from029, not rerun; historical broad223/268 with45failures remains unrerun."
+  ],
+  "reports": {
+    "JOURNEY_OUTCOME.json": {
+      "status": "observed-native-single-target-success-reveal-and-normal-close-awaiting-independent-saved-audit",
+      "recordedAtUtc": "2026-11-18T02:01:41.392912+00:00",
+      "sourceCommit": "475ac0f9bd5ebc033d68a36a443bddc60ce5f111",
+      "scope": "one native Full/null/720/copied-AAC journey, unchanged owner-approved bounded test",
+      "actions": {
+        "launches": 1,
+        "inputPickerOpenings": 1,
+        "inputVisibleOpenAcceptances": 1,
+        "outputPickerOpenings": 1,
+        "outputVisibleOpenAcceptances": 1,
+        "inspectionPrepareClicks": 1,
+        "perFileApplyClicks": 1,
+        "startClicks": 1,
+        "showInFolderClicks": 1,
+        "playerOpens": 0,
+        "extraProbeDecodeInvocations": 0,
+        "cancellations": 0,
+        "relaunches": 0
+      },
+      "observations": [
+        "Exact owned input path entered through global Sky keys in short chunks, full beginning/end checked using Home/End; visible Open clicked once, input registered. No Return-only picker acceptance.",
+        "Exact owned output path similarly entered and visible Open clicked once. Working/empty-label transitional frame settled to Ready with exact registered output path; no repeated picker or acceptance. One subsequent screenshot result exceeded available context; a fresh screenshot established settled state.",
+        "Initial Prepare: one Unsupported, not-selected row, disabled Start; focused inspector stated inspection-only Full/Keep source/Copy and directed720 per-file.",
+        "Opened per-file editor; Full video and disabled blank start/end fields retained, Copy where qualified retained; selected visible720p option. Popup was legible on this opening, not evidence of resolution of earlier intermittent rendering defect.",
+        "Apply once caused inspection then Ready/not-selected. Selected one row, then Start became enabled.",
+        "Observed Waiting/In progress, then Encoding58.3%, encoded00:04,speed0.37x,FPS15.6,output1.0MiB,remaining00:08,batchelapsed00:12. These are UI samples, not independently benchmarked performance.",
+        "Observed Checking preservation with no reliable percentage/ETA, then Completed and Succeeded.",
+        "Show in folder once opened Thunar at exact owned-output path with native-full-copy_H265-CPU.mkv selected. Thunar independently displayed1,959,028 bytes. Returned by closing Thunar; app showed platform-neutral Show-in-folder request sent to your file manager.",
+        "Closed app through normal titlebar close. App disappeared to idle terminal; saved supervisor later confirmed normal exit and post-close identities."
+      ],
+      "interactionPrecision": [
+        "After scroll, first resolution-control coordinate click landed below the shifted control and made no selection; fresh screenshot used for actual popup opening.",
+        "After reprepare/scroll, first attempted checkbox coordinate landed below shifted checkbox and did not select; fresh screenshot established not-selected state before actual checkbox selection. No Prepare/Apply/Start repeated."
+      ],
+      "closure": {
+        "exitCode": 0,
+        "abortRequested": false,
+        "failure": null,
+        "postCloseIdentitiesVerified": true,
+        "startedUTC": "2026-11-18T01:45:38.236217+00:00",
+        "endedUTC": "2026-11-18T02:00:09.440901+00:00",
+        "monotonicElapsedSeconds": 871.2047041979968,
+        "stdoutSha256": "42b41d7e77224afca696dc0baf1e4d0ac9f9fe3edaa245577a330ecc427f0e5e",
+        "stderrSha256": "8ba1a0b788e598bfcf5af15714c90cfa958eb391f6939ce592d1da4bb44b6337",
+        "qualification": "Process closure receipt only; UI and publication outcome require observed evidence and independent saved audit.",
+        "outputInventory": [
+          {
+            "path": "proof://owned-output/native-full-copy_H265-CPU.mkv",
+            "bytes": 1959028,
+            "sha256": "bf6f148143a55fac9c6dfc27dab86de96e05be243c1879437cd51f4257730f81"
+          }
+        ],
+        "extraProbeDecodeInvocations": 0
+      },
+      "childCensus": {
+        "spawned": 44,
+        "closed": 44,
+        "live": 0,
+        "maximum": 1,
+        "failures": 0,
+        "source": "LINUX_WORKBENCH_CLOSED in app.stdout.log",
+        "limitation": "Aggregate native-owned observer; startup capability children are not target encodes. Not a generic pre-spawn cap or complete child-stderr capture."
+      },
+      "identityReconciliation": {
+        "sourceFiles": 591,
+        "gateIdentities": 12,
+        "priorEventsOriginalAndRetained": 12,
+        "newWhitelistedEvents": 25,
+        "sessionId": "feffbd62-8a21-429e-b9f7-23267812c484"
+      },
+      "evidence": [
+        {
+          "path": "OUTER_COMPLETION.json",
+          "bytes": 924,
+          "sha256": "a69018eefd93f9cc7c90e21afe9573f5814c51df8d1a28751e42c52870649f12"
+        },
+        {
+          "path": "app.stdout.log",
+          "bytes": 436,
+          "sha256": "42b41d7e77224afca696dc0baf1e4d0ac9f9fe3edaa245577a330ecc427f0e5e"
+        },
+        {
+          "path": "app.stderr.log",
+          "bytes": 624,
+          "sha256": "8ba1a0b788e598bfcf5af15714c90cfa958eb391f6939ce592d1da4bb44b6337"
+        },
+        {
+          "path": "WORKER_IDENTITY_AND_EVENT_CAPTURE.json",
+          "bytes": 8274,
+          "sha256": "46730929157f11f1806cb75c3eca078bd44a7d6188a88c203826978e65414723"
+        },
+        {
+          "path": "APPROVED_JOURNEY_A.json",
+          "bytes": 77231,
+          "sha256": "108d02cbe541aceaa1af89d476296c046d3c48807ecd0a259655d3b67bd9fb46"
+        },
+        {
+          "path": "DESKTOP_PREFLIGHT.json",
+          "bytes": 1357,
+          "sha256": "edf701185ee0952e7741aebd0a56fe7dd36d9262a8e97d0a72a276d8bc3d27ad"
+        },
+        {
+          "path": "POINT_STORAGE-01.json",
+          "bytes": 151,
+          "sha256": "81d3b67ad9a80de1e91b2c0dd8e84e32f4d420596eb3ef9b2ac986fa8916fcf8"
+        },
+        {
+          "path": "POINT_STORAGE-02.json",
+          "bytes": 152,
+          "sha256": "9dde10157f3cc51f844fae914aba8ab3a64620e5e046b5b2c505b27d4cf28dbf"
+        },
+        {
+          "path": "POINT_STORAGE-03.json",
+          "bytes": 150,
+          "sha256": "cc58bf129fa3286f4714a904ee4f1c85d855013b0164d8a5fda5932b26bd1a52"
+        },
+        {
+          "path": "POINT_STORAGE-04.json",
+          "bytes": 165,
+          "sha256": "4a4edc6ca5b84b566f5e60a124b864610b7b6518cceb2e8761e7080f853c77ba"
+        },
+        {
+          "path": "POINT_STORAGE-05.json",
+          "bytes": 142,
+          "sha256": "bd64e28b784842ede79917e75a0ca68f87a0c80a15c6d5f97a4eb9f155c1dc1d"
+        },
+        {
+          "path": "POINT_STORAGE-06.json",
+          "bytes": 187,
+          "sha256": "ceb1377467a342fc1b03d935d5618bbdbf46bc0c7e7f934b3d7a213920b413c4"
+        }
+      ],
+      "limits": [
+        "Screenshots are CUA transcript observations only; no standalone screenshot files claimed.",
+        "No extra ffprobe/full decode was run; saved service evidence is subject to independent audit.",
+        "Whole871.204704-second supervisor duration includes manual folder entry and UI observation; it is not encode duration.",
+        "Top-level stderr retained; not claimed complete per-child stderr. Existing CPU topology/thread-pool qualification caveat remains.",
+        "Storage observations are point admission checks, not hard quotas;30-minute SIGTERM supervisor is not guaranteed forced termination.",
+        "No Windows/native hardware/performance/release qualification, no general family catalog activation.",
+        "Profile/cache/token contents not read/copied; only allowlisted diagnostics. Normal registered-directory persistence intentionally changed.",
+        "Prior unknown-cause interrupted027 and Return-only nonregistered028 remain preserved; present successful visible acceptance does not establish their causes."
+      ],
+      "writerReleased": true
+    },
+    "OUTER_COMPLETION.json": {
+      "exitCode": 0,
+      "abortRequested": false,
+      "failure": null,
+      "postCloseIdentitiesVerified": true,
+      "startedUTC": "2026-11-18T01:45:38.236217+00:00",
+      "endedUTC": "2026-11-18T02:00:09.440901+00:00",
+      "monotonicElapsedSeconds": 871.2047041979968,
+      "stdoutSha256": "42b41d7e77224afca696dc0baf1e4d0ac9f9fe3edaa245577a330ecc427f0e5e",
+      "stderrSha256": "8ba1a0b788e598bfcf5af15714c90cfa958eb391f6939ce592d1da4bb44b6337",
+      "qualification": "Process closure receipt only; UI and publication outcome require observed evidence and independent saved audit.",
+      "outputInventory": [
+        {
+          "path": "proof://owned-output/native-full-copy_H265-CPU.mkv",
+          "bytes": 1959028,
+          "sha256": "bf6f148143a55fac9c6dfc27dab86de96e05be243c1879437cd51f4257730f81"
+        }
+      ],
+      "extraProbeDecodeInvocations": 0
+    },
+    "INDEPENDENT_SAVED_EVIDENCE_AUDIT.json": {
+      "atUtc": "2026-11-18T02:04:14.430557+00:00",
+      "disposition": "Saved evidence supports one successful bounded native Full/null/720/copied-AAC publication and dispatched reveal, followed by normal closure. Visual journey remains attributed to operator CUA observations.",
+      "outcomeSha256": "6cd103db1d4e718567120b99db6b5e62611fda2a440956740991415309395385",
+      "outerSha256": "a69018eefd93f9cc7c90e21afe9573f5814c51df8d1a28751e42c52870649f12",
+      "sourceCommit": "475ac0f9bd5ebc033d68a36a443bddc60ce5f111",
+      "sourceFilesGitCurrentNotionVerified": 591,
+      "historyCommits": 29,
+      "runtimePinsVerified": 9,
+      "priorDiagnosticOriginalCopyPairsVerified": 12,
+      "newDiagnosticOriginalCopyPairsAndEventDigestsVerified": 25,
+      "outputInventory": [
+        {
+          "path": "proof://owned-output/native-full-copy_H265-CPU.mkv",
+          "bytes": 1959028,
+          "sha256": "bf6f148143a55fac9c6dfc27dab86de96e05be243c1879437cd51f4257730f81"
+        }
+      ],
+      "census": {
+        "spawned": 44,
+        "closed": 44,
+        "live": 0,
+        "maximum": 1,
+        "failures": 0
+      },
+      "pointStorage": [
+        {
+          "stage": "before-input-acceptance",
+          "atUtc": "2026-11-18T01:49:18.699978+00:00",
+          "freeBytes": 58449530880,
+          "ownedInputOutputBytes": 5578679
+        },
+        {
+          "stage": "before-output-acceptance",
+          "atUtc": "2026-11-18T01:53:12.631372+00:00",
+          "freeBytes": 58449457152,
+          "ownedInputOutputBytes": 5578679
+        },
+        {
+          "checkedAtUtc": "2026-11-18T01:56:14.532629+00:00",
+          "freeBytes": 58449444864,
+          "ownedBytes": 5578679,
+          "action": "before inspection Prepare"
+        },
+        {
+          "checkedAtUtc": "2026-11-18T01:57:31.894193+00:00",
+          "freeBytes": 58449424384,
+          "ownedBytes": 5578679,
+          "action": "before per-file Apply Full null 720 Copy"
+        },
+        {
+          "checkedAtUtc": "2026-11-18T01:58:45.502909+00:00",
+          "freeBytes": 58449408000,
+          "ownedBytes": 5578679,
+          "action": "before sole Start"
+        },
+        {
+          "checkedAtUtc": "2026-11-18T01:59:35.129305+00:00",
+          "freeBytes": 58447175680,
+          "ownedBytes": 7537707,
+          "action": "after terminal success before optional reveal and normal close"
+        }
+      ],
+      "eventTimeline": [
+        {
+          "sequence": 0,
+          "reason": "SESSION_STARTED",
+          "atUtc": "2026-11-18T01:45:38.918000+00:00",
+          "contextTruncated": false
+        },
+        {
+          "sequence": 1,
+          "reason": "CAPABILITY_STARTED",
+          "atUtc": "2026-11-18T01:45:39.112000+00:00",
+          "contextTruncated": false
+        },
+        {
+          "sequence": 2,
+          "reason": "RUNTIME_IDENTIFIED",
+          "atUtc": "2026-11-18T01:45:43.640000+00:00",
+          "contextTruncated": false
+        },
+        {
+          "sequence": 3,
+          "reason": "CAPABILITY_FINISHED",
+          "atUtc": "2026-11-18T01:45:43.647000+00:00",
+          "contextTruncated": false
+        },
+        {
+          "sequence": 4,
+          "reason": "PROVENANCE_RECOVERY_FINISHED",
+          "atUtc": "2026-11-18T01:45:43.652000+00:00",
+          "contextTruncated": false
+        },
+        {
+          "sequence": 5,
+          "reason": "FOLDER_PICKER_REQUESTED",
+          "atUtc": "2026-11-18T01:46:01.660000+00:00",
+          "contextTruncated": false
+        },
+        {
+          "sequence": 6,
+          "reason": "FOLDER_PICKER_REGISTERED",
+          "atUtc": "2026-11-18T01:49:27.405000+00:00",
+          "contextTruncated": false
+        },
+        {
+          "sequence": 7,
+          "reason": "FOLDER_PICKER_REQUESTED",
+          "atUtc": "2026-11-18T01:49:46.357000+00:00",
+          "contextTruncated": false
+        },
+        {
+          "sequence": 8,
+          "reason": "FOLDER_PICKER_REGISTERED",
+          "atUtc": "2026-11-18T01:53:22.382000+00:00",
+          "contextTruncated": false
+        },
+        {
+          "sequence": 9,
+          "reason": "PREPARATION_STARTED",
+          "atUtc": "2026-11-18T01:56:25.086000+00:00",
+          "contextTruncated": false
+        },
+        {
+          "sequence": 10,
+          "reason": "FILE_INSPECTED",
+          "atUtc": "2026-11-18T01:56:26.325000+00:00",
+          "contextTruncated": true
+        },
+        {
+          "sequence": 11,
+          "reason": "PREPARATION_FINISHED",
+          "atUtc": "2026-11-18T01:56:26.338000+00:00",
+          "contextTruncated": false
+        },
+        {
+          "sequence": 12,
+          "reason": "DRAFT_REPREPARATION_STARTED",
+          "atUtc": "2026-11-18T01:57:45.295000+00:00",
+          "contextTruncated": false
+        },
+        {
+          "sequence": 13,
+          "reason": "FILE_INSPECTED",
+          "atUtc": "2026-11-18T01:57:46.355000+00:00",
+          "contextTruncated": true
+        },
+        {
+          "sequence": 14,
+          "reason": "DRAFT_REPREPARATION_FINISHED",
+          "atUtc": "2026-11-18T01:57:46.377000+00:00",
+          "contextTruncated": false
+        },
+        {
+          "sequence": 15,
+          "reason": "ENCODE_STARTED",
+          "atUtc": "2026-11-18T01:58:54.625000+00:00",
+          "contextTruncated": false
+        },
+        {
+          "sequence": 16,
+          "reason": "ENCODE_CLOSED",
+          "atUtc": "2026-11-18T01:59:09.540000+00:00",
+          "contextTruncated": false
+        },
+        {
+          "sequence": 17,
+          "reason": "OPERATION_EVIDENCE_COLLECTED",
+          "atUtc": "2026-11-18T01:59:13.536000+00:00",
+          "contextTruncated": true
+        },
+        {
+          "sequence": 18,
+          "reason": "OUTPUT_CHECKED",
+          "atUtc": "2026-11-18T01:59:13.548000+00:00",
+          "contextTruncated": false
+        },
+        {
+          "sequence": 19,
+          "reason": "SOURCE_ASSESSED",
+          "atUtc": "2026-11-18T01:59:13.564000+00:00",
+          "contextTruncated": false
+        },
+        {
+          "sequence": 20,
+          "reason": "OUTPUT_PUBLISHED",
+          "atUtc": "2026-11-18T01:59:13.595000+00:00",
+          "contextTruncated": false
+        },
+        {
+          "sequence": 21,
+          "reason": "JOB_DISPOSITION",
+          "atUtc": "2026-11-18T01:59:13.634000+00:00",
+          "contextTruncated": true
+        },
+        {
+          "sequence": 22,
+          "reason": "BATCH_FINISHED",
+          "atUtc": "2026-11-18T01:59:13.639000+00:00",
+          "contextTruncated": false
+        },
+        {
+          "sequence": 23,
+          "reason": "OUTPUT_ACTION_DISPATCHED",
+          "atUtc": "2026-11-18T01:59:39.990000+00:00",
+          "contextTruncated": false
+        },
+        {
+          "sequence": 24,
+          "reason": "SESSION_ENDED",
+          "atUtc": "2026-11-18T02:00:06.951000+00:00",
+          "contextTruncated": false
+        }
+      ],
+      "retainedReferencedEvidence": [
+        {
+          "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/encoder-input-receipt.json",
+          "bytes": 3303,
+          "sha256": "26069baba479b24aa09fe29b4b130bba38a69c1258d57f8c9aef2f3bf4bb0540"
+        },
+        {
+          "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/encoder-telemetry-UrrjEl/stream-0.tsv",
+          "bytes": 11340,
+          "sha256": "a9111876a67c3bfd7105f099170679b0fdba47270c00659a617c98c5acb4930f"
+        },
+        {
+          "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/child-1.json",
+          "bytes": 1280,
+          "sha256": "de41dc2a2c27857b1246d34629553f038cc742c540c9f348a786f00e9a8f74d0"
+        },
+        {
+          "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/child-2.json",
+          "bytes": 1245,
+          "sha256": "a937a2ed68d44deb6a00ee8417b8b3acfd9d0e300163369e9acc31905374c7ed"
+        },
+        {
+          "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/child-3.json",
+          "bytes": 1232,
+          "sha256": "23e4ad4ea3ea4ad7040c8cbc00f0f4f3134dd8684ae2345d89ff69f7ef526227"
+        },
+        {
+          "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/child-4.json",
+          "bytes": 1247,
+          "sha256": "3259b2c6abf9090393e0cebe0e09ac2e3ccd15590bc9aaa85caec19c40a82f31"
+        },
+        {
+          "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/child-5.json",
+          "bytes": 1118,
+          "sha256": "42a6bb2dc22730058fefa028f7970c0df775fda73c3866fb69673d3e908199f7"
+        },
+        {
+          "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/child-6.json",
+          "bytes": 1159,
+          "sha256": "3bb1badd70e8b2eb43952951705db6c5b536507c91bef57d7ee0006530505f63"
+        },
+        {
+          "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/child-7.json",
+          "bytes": 1103,
+          "sha256": "e01a9c6c11f45ddd1707435de484a1c15319727795b7e9dd5be7f097598ded38"
+        },
+        {
+          "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/child-8.json",
+          "bytes": 1174,
+          "sha256": "3c313f33520149b9e020292a7992b9850cb88f2710a0f639204b2723974eec4b"
+        },
+        {
+          "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/child-9.json",
+          "bytes": 1118,
+          "sha256": "9f129694134d6e04d0f4278c76f330eddae501b67bac4490fe34d0212909e707"
+        },
+        {
+          "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/output-audio-1.jsonl",
+          "bytes": 25336,
+          "sha256": "da21466606533237f6546d3766d40b87a8857ad63659b7e495a3b77e520a327d"
+        },
+        {
+          "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/receipt.json",
+          "bytes": 20482,
+          "sha256": "e35e3e06408db92cafd9bc4d838444b0f27ec65b2727532206421e4ee2c27c00"
+        },
+        {
+          "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/selected-audio-1.jsonl",
+          "bytes": 41812,
+          "sha256": "08b1cc8c13aee87d902f031a1fa69f9563dd22a672a08359a5f28cece7a4e216"
+        },
+        {
+          "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/selected-video.jsonl",
+          "bytes": 16820,
+          "sha256": "839a277e8a91d408c309813baa546bfeda7fb72342e6d84ec010735845fd4b9f"
+        },
+        {
+          "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/start.json",
+          "bytes": 2270,
+          "sha256": "ce9a6a2b6a897fa49ba60ab1f79fcf3cc5b14b6c7cd6c90865ac06c14a866a61"
+        },
+        {
+          "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/storage-final.json",
+          "bytes": 881,
+          "sha256": "5936f2f53f8810896e54f6abae3ebe4ff40c8ab0bc5e6b5e6944f69effbd280e"
+        },
+        {
+          "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/storage-reservation.json",
+          "bytes": 175,
+          "sha256": "006322e1ed1c6d953095a5d1e010f249fc0a382626b2c0385cb5cc05ebdd0f2c"
+        }
+      ],
+      "collector": {
+        "planFingerprint": "3d33749606bb4d416c8b53d63d532c412da2226fb003098a52a1585f37dce4bc",
+        "status": "completed",
+        "children": 9,
+        "completeSource": {
+          "video": {
+            "frames": 240,
+            "firstTime": {
+              "n": "0",
+              "d": "15360"
+            },
+            "endTime": {
+              "n": "1887436800",
+              "d": "235929600"
+            },
+            "maximumNominalCadenceErrorUs": 0,
+            "maximumNominalDurationErrorUs": 0,
+            "maximumNominalPhaseErrorUs": 0,
+            "properties": {
+              "policy": "cfr-sdr-full-resize-copy-v1",
+              "sampleAspectRatio": "1:1",
+              "chromaLocation": "left",
+              "sideDataPolicy": "h26x-unregistered-sei-only",
+              "framesChecked": 240
+            }
+          },
+          "audio": [
+            {
+              "inputIndex": 1,
+              "sampleCount": "384000",
+              "firstTime": {
+                "n": "0",
+                "d": "48000"
+              },
+              "endTime": {
+                "n": "18432000000",
+                "d": "2304000000"
+              },
+              "gaps": 0
+            }
+          ]
+        },
+        "decodedEvidence": {
+          "video": {
+            "sourceFrameCount": 240,
+            "outputFrameCount": 240,
+            "comparedFrames": 240,
+            "firstSourcePtsUs": 0,
+            "lastSourcePtsUs": 7966667,
+            "lastSourceDurationUs": 33333,
+            "firstOutputPtsUs": 0,
+            "lastOutputPtsUs": 7967000,
+            "lastOutputDurationUs": 33000,
+            "maxRebasedTimestampErrorUs": 334
+          },
+          "audio": [
+            {
+              "inputIndex": 1,
+              "sourceSampleCount": 384000,
+              "outputSampleCount": 384000,
+              "firstSourcePtsUs": 0,
+              "lastSourceEndUs": 8000000,
+              "firstOutputPtsUs": 0,
+              "lastOutputEndUs": 8000333,
+              "encoderDelaySamples": 1024,
+              "discardPaddingSamples": 0,
+              "packetIdentity": {
+                "algorithm": "sha256",
+                "packets": 376,
+                "sourceSeal": "40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721",
+                "outputSeal": "40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721"
+              }
+            }
+          ]
+        },
+        "packetIdentity": [
+          {
+            "inputIndex": 1,
+            "outputIndex": 1,
+            "source": {
+              "packets": 376,
+              "payloadSha256": "b991cd0656a0f98f1f31928878519dc126b1c6845936043487e634fd08d0c856",
+              "sideDataSha256": "c61d37c51be2cdb36aa5911971fbe578038afd6666789cfc8cbdbbaae1c5bd87",
+              "extradataSha256": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+              "seal": "40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721"
+            },
+            "output": {
+              "packets": 376,
+              "payloadSha256": "b991cd0656a0f98f1f31928878519dc126b1c6845936043487e634fd08d0c856",
+              "sideDataSha256": "c61d37c51be2cdb36aa5911971fbe578038afd6666789cfc8cbdbbaae1c5bd87",
+              "extradataSha256": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+              "seal": "40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721"
+            }
+          }
+        ],
+        "timelineComparisons": {
+          "video": {
+            "comparedFrames": 240,
+            "maximumDurationErrorUs": 334,
+            "toleranceUs": 1067
+          },
+          "audio": [
+            {
+              "inputIndex": 1,
+              "mode": "copy",
+              "selectedSourceGaps": 0,
+              "unmatchedSourceTailSamples": 0,
+              "unmatchedOutputTailSamples": 0,
+              "comparedSamples": 384000,
+              "intersectedSpans": 375,
+              "maximumElapsedClockErrorUs": 334,
+              "toleranceUs": 1042,
+              "alignment": "sample ordinal after decoder-signalled skip; source minus the shared requested origin; no fitted shift",
+              "contentIdentity": false
+            }
+          ]
+        },
+        "budget": {
+          "sourceDecode": "complete",
+          "timeoutMs": 204168,
+          "maxFrameBytes": 22577152,
+          "maxPcmBytes": 1728000,
+          "maxRecords": 22048,
+          "maxSpoolBytes": 5767168
+        },
+        "spools": [
+          {
+            "path": "project://linux-blue/artifacts/workbench-full-copy-candidate-preview/operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/selected-video.jsonl",
+            "bytes": 16820,
+            "status": "sealed",
+            "sha256": "839a277e8a91d408c309813baa546bfeda7fb72342e6d84ec010735845fd4b9f",
+            "identity": {
+              "dev": "27",
+              "ino": "2245144",
+              "size": "16820",
+              "mtimeNs": "1794967151289454011",
+              "ctimeNs": "1794967151289454011",
+              "birthtimeNs": "1794967149693192005",
+              "nlink": "1"
+            }
+          },
+          {
+            "path": "project://linux-blue/artifacts/workbench-full-copy-candidate-preview/operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/selected-audio-1.jsonl",
+            "bytes": 41812,
+            "status": "sealed",
+            "sha256": "08b1cc8c13aee87d902f031a1fa69f9563dd22a672a08359a5f28cece7a4e216",
+            "identity": {
+              "dev": "27",
+              "ino": "2245150",
+              "size": "41812",
+              "mtimeNs": "1794967152565478196",
+              "ctimeNs": "1794967152565478196",
+              "birthtimeNs": "1794967152456276959",
+              "nlink": "1"
+            }
+          },
+          {
+            "path": "project://linux-blue/artifacts/workbench-full-copy-candidate-preview/operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/output-audio-1.jsonl",
+            "bytes": 25336,
+            "status": "sealed",
+            "sha256": "da21466606533237f6546d3766d40b87a8857ad63659b7e495a3b77e520a327d",
+            "identity": {
+              "dev": "27",
+              "ino": "2245152",
+              "size": "25336",
+              "mtimeNs": "1794967152734740695",
+              "ctimeNs": "1794967152734740695",
+              "birthtimeNs": "1794967152629757326",
+              "nlink": "1"
+            }
+          }
+        ],
+        "publicationAuthorized": false,
+        "qualificationGranted": false
+      },
+      "storageFinal": {
+        "schema": 1,
+        "id": "job-4700ae6d-42bb-4f70-affa-56cf42213716",
+        "status": "completed",
+        "retained": true,
+        "observation": "complete",
+        "observedBeforeRecord": {
+          "schema": 1,
+          "observation": "complete",
+          "consistency": "bounded-point-observations",
+          "observationAttempts": 1,
+          "maxObservationAttempts": 3,
+          "usedBytes": 133287,
+          "reservedBytes": 33422218,
+          "projectedBytes": 33621041,
+          "capBytes": 1073741824,
+          "metadataHeadroomBytes": 65536,
+          "entries": 22,
+          "freeBytes": 58447187968,
+          "minFreeBytes": 26843545600,
+          "overCap": false,
+          "overAdmissionCap": false,
+          "lowFree": false,
+          "jobs": [
+            {
+              "id": "job-4700ae6d-42bb-4f70-affa-56cf42213716",
+              "actualBytes": 132214,
+              "reservedBytes": 33554432,
+              "remainingBytes": 33422218,
+              "overReservation": false
+            }
+          ],
+          "leaseRecovery": "none",
+          "ledgerState": "reconciled",
+          "startupLedgerState": "missing-reconciled",
+          "directorySync": "synced",
+          "hardWriteCap": false
+        },
+        "violations": [],
+        "authority": "diagnostic-only",
+        "hardWriteCap": false
+      },
+      "encoderTelemetrySummary": {
+        "schema": 1,
+        "scope": "encoder-input-statistics",
+        "stream": {
+          "outputIndex": 0,
+          "kind": "video"
+        },
+        "bytes": 11340,
+        "records": "240",
+        "sampleCount": null,
+        "first": {
+          "n": "0",
+          "inputFrame": "0",
+          "timeBase": {
+            "numerator": "1",
+            "denominator": "15360"
+          },
+          "pts": "0",
+          "time": {
+            "numerator": "0",
+            "denominator": "1"
+          },
+          "inputTimeBase": {
+            "numerator": "1",
+            "denominator": "15360"
+          },
+          "inputPts": "0",
+          "inputTime": {
+            "numerator": "0",
+            "denominator": "1"
+          }
+        },
+        "last": {
+          "n": "239",
+          "inputFrame": "239",
+          "timeBase": {
+            "numerator": "1",
+            "denominator": "15360"
+          },
+          "pts": "122368",
+          "time": {
+            "numerator": "239",
+            "denominator": "30"
+          },
+          "inputTimeBase": {
+            "numerator": "1",
+            "denominator": "15360"
+          },
+          "inputPts": "122368",
+          "inputTime": {
+            "numerator": "239",
+            "denominator": "30"
+          }
+        },
+        "unknownInputRecords": "0",
+        "repeatedPts": "0",
+        "backwardsPts": "0",
+        "audioDiscontinuities": "0",
+        "minPtsDelta": {
+          "numerator": "1",
+          "denominator": "30"
+        },
+        "maxPtsDelta": {
+          "numerator": "1",
+          "denominator": "30"
+        },
+        "hashes": {
+          "algorithm": "sha256",
+          "raw": "a9111876a67c3bfd7105f099170679b0fdba47270c00659a617c98c5acb4930f",
+          "canonicalRecords": "eb9592eea20be1b7c1caa3cd2f6ab03eb954931d37c1a6f8c001b9f87f06d306",
+          "orderedPts": "f7433a5f43304561b22f0d3921380e2a561091b345830d969139b71a59a2ed83",
+          "contentHash": false
+        },
+        "videoDurationAvailable": false,
+        "completeOutputValidation": false
+      },
+      "serviceAggregateAccounting": {
+        "children": 12,
+        "streamedBytes": 285448,
+        "pipeBytes": {
+          "stdout": 301478,
+          "stderr": 335
+        },
+        "meaning": "12 includes source reinspection, target, output metadata probe and nine collector invocations; not twelve collector children."
+      },
+      "collectorStderr": [
+        {
+          "label": "source-video-frames",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          }
+        },
+        {
+          "label": "output-video-frames",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          }
+        },
+        {
+          "label": "source-audio-1-frames",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          }
+        },
+        {
+          "label": "output-audio-1-frames",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          }
+        },
+        {
+          "label": "output-audio-1-padding",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          }
+        },
+        {
+          "label": "source-audio-1-packet-identity",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          }
+        },
+        {
+          "label": "source-audio-1-header",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          }
+        },
+        {
+          "label": "output-audio-1-packet-identity",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          }
+        },
+        {
+          "label": "output-audio-1-header",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          }
+        }
+      ],
+      "validation": {
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": [],
+          "validation": "decoded-operation-contract",
+          "qualificationEvidenceId": "full-copy-reviewed-2714557-5f74a9efb7981fef:endpoints",
+          "timing": {
+            "timeline": "source-timestamps",
+            "requested": null,
+            "resolved": null,
+            "video": {
+              "startUs": 0,
+              "endUs": 8000000,
+              "frames": 240,
+              "outputStartUs": 0,
+              "outputEndUs": 8000000
+            },
+            "audio": [
+              {
+                "inputIndex": 1,
+                "mode": "copy",
+                "startUs": 0,
+                "endUs": 8000000,
+                "outputStartUs": 0,
+                "outputEndUs": 8000333,
+                "encoderDelaySamples": 1024,
+                "discardPaddingSamples": 0,
+                "sampleCountDifference": 0
+              }
+            ]
+          }
+        }
+      },
+      "sourceAssessment": {
+        "sourceAssessment": {
+          "kind": "unchanged",
+          "diagnostic": {
+            "version": 1,
+            "stage": "after-encode",
+            "checkpoint": "after-encode",
+            "changedFields": [],
+            "expected": {
+              "canonicalPath": "proof://owned-input/native-full-copy.mp4",
+              "dev": "27",
+              "ino": "2245046",
+              "size": "5578679",
+              "mtimeNs": "1794966337882140075",
+              "ctimeNs": "1794966337882140075",
+              "birthtimeNs": "1794966337869035844",
+              "sparseDigest": "sha256-sparse-v1:817813293f3a557371abd080bb11828e3f4582935dec8c2a80aecaf284749d99"
+            },
+            "actual": {
+              "canonicalPath": "proof://owned-input/native-full-copy.mp4",
+              "dev": "27",
+              "ino": "2245046",
+              "size": "5578679",
+              "mtimeNs": "1794966337882140075",
+              "ctimeNs": "1794966337882140075",
+              "birthtimeNs": "1794966337869035844",
+              "sparseDigest": "sha256-sparse-v1:817813293f3a557371abd080bb11828e3f4582935dec8c2a80aecaf284749d99"
+            },
+            "comparison": "sparse-identity"
+          }
+        }
+      },
+      "limits": [
+        "Output full SHA first established by supervisor after closure and independently matched here, not an encode-time historical hash. No fresh ffprobe/decode or pixel/PCM validation. Saved collector decoded counts/timing and copied AAC coded packet/header/padding seals are supporting evidence, not lossless video identity.",
+        "Collector receipt and telemetry remain nonpublication authority; actual OUTPUT_CHECKED, SOURCE_ASSESSED, OUTPUT_PUBLISHED and successful JOB_DISPOSITION/BATCH_FINISHED establish the service path.",
+        "Source-only hash/state checks are at audit time, not continuous enforcement. Full referenced job files copied byte-exact inside explicit canonical operation-evidence boundary; no profile/cache/token contents read.",
+        "Four truncated diagnostic contexts at FILE_INSPECTED twice, OPERATION_EVIDENCE_COLLECTED and JOB_DISPOSITION retained; event digests validate retained bytes, not lost context. Full referenced collector/storage files retained separately.",
+        "Aggregate44-child census includes startup/capability/inspection work. One ENCODE_STARTED/OUTPUT_PUBLISHED retained; no complete per-child argv/stderr claim. Top-level D-Bus/SSL messages and recorded335-byte service stderr accounting do not prove all child diagnostics harmless.",
+        "Numeric event epochs align with outer UTC. Electron stderr textual clock format differs; no clock-drift or cause inference.",
+        "Six storage point receipts precede matching actions, last after publication/before reveal. These are point checks, not continuous hard write/child quotas.",
+        "Operator reports visible Open acceptance, actual Thunar selected output/exact size, legible resolution popup on this opening, two missed coordinates corrected using fresh observations, no repeated Apply/Start. These are CUA-only visual observations, not standalone reviewed screenshots or proof intermittent popup defect fixed.",
+        "Whole871.204704-second journey includes manual entry/UI and is not encode performance. No Windows/hardware/general family/catalog/release qualification. No extra GUI/runtime/probe/decode performed by auditor.",
+        "Source freeze remains until lead final reconciliation/release."
+      ],
+      "writerReleased": true
+    },
+    "LEAD_IDENTITY_RECONCILIATION.json": {
+      "checkedAtUtc": "2026-11-18T02:04:10.286526+00:00",
+      "sourceCommit": "475ac0f9bd5ebc033d68a36a443bddc60ce5f111",
+      "sourceFilesGitCurrentGateManifestMatched": 591,
+      "gateRuntimeAndEvidenceIdentitiesMatched": 12,
+      "outcomeReferencedReceiptsMatched": 12,
+      "priorOriginalAndRetainedEventsMatched": 12,
+      "newOriginalAndRetainedEventsMatched": 25,
+      "knownStateIdentityMatched": {
+        "dev": 27,
+        "ino": 2244096
+      },
+      "oldOutputsRemainEmpty": true,
+      "newOutputInventoryMatched": [
+        {
+          "path": "proof://owned-output/native-full-copy_H265-CPU.mkv",
+          "bytes": 1959028,
+          "sha256": "bf6f148143a55fac9c6dfc27dab86de96e05be243c1879437cd51f4257730f81"
+        }
+      ],
+      "outcomeAndOuterExactlyAgree": true,
+      "sourceFreezeReleased": false,
+      "limits": [
+        "Read-only identity reconciliation, not independent media re-decode or full output probe.",
+        "Output full hash was first established by saved post-close inventory; this check only matches it.",
+        "CUA-only visual observations and full collector/storage interpretation remain for independent audit.",
+        "No profile/cache/token reads, GUI/runtime/media execution or new source edits."
+      ]
+    },
+    "LEAD_RELEASE.json": {
+      "recordedAtUtc": "2026-11-18T02:10:12.231751+00:00",
+      "sourceCommit": "475ac0f9bd5ebc033d68a36a443bddc60ce5f111",
+      "disposition": "Accept the independently audited bounded native Full/null/720/copied-AAC journey as completed evidence; release the 591-file source freeze only for coherent checkpoint 030 evidence/PBS records. No production qualification or new runtime execution is granted by this record.",
+      "sourceFreezeReleasedForDocumentation": true,
+      "audit": {
+        "path": "INDEPENDENT_SAVED_EVIDENCE_AUDIT.json",
+        "bytes": 25857,
+        "sha256": "a6c50a1ab95f15510a66c7c16bb3527243d4ab0a3fe97fd46722eaf05e3f56b6"
+      },
+      "leadIdentity": {
+        "path": "LEAD_IDENTITY_RECONCILIATION.json",
+        "bytes": 1280,
+        "sha256": "df34af0b4d73fb20d377c6723eb22626f1a168d1786bd1db09e7df480948e5ae"
+      },
+      "outcome": {
+        "path": "JOURNEY_OUTCOME.json",
+        "bytes": 7415,
+        "sha256": "6cd103db1d4e718567120b99db6b5e62611fda2a440956740991415309395385"
+      },
+      "outer": {
+        "path": "OUTER_COMPLETION.json",
+        "bytes": 924,
+        "sha256": "a69018eefd93f9cc7c90e21afe9573f5814c51df8d1a28751e42c52870649f12"
+      },
+      "supported": [
+        "One visible acceptance for each folder, one Prepare, one Apply, one Start and one file-manager reveal, attributed to operator CUA observations and matching saved service events.",
+        "One 1,959,028-byte publication, 240 frames and 384000 audio samples, matching coded AAC packet/header/padding seals; decoded timing within documented tolerances, not PCM or lossless video identity.",
+        "All 44 observed owned tools closed; nine collector receipts and completed storage record retained.",
+        "All 591 source files and twelve prior diagnostic event pairs preserved; original interrupted and Return-only attempts not rewritten."
+      ],
+      "limitations": [
+        "Output full SHA first established by supervisor after closure and independently matched here, not an encode-time historical hash. No fresh ffprobe/decode or pixel/PCM validation. Saved collector decoded counts/timing and copied AAC coded packet/header/padding seals are supporting evidence, not lossless video identity.",
+        "Collector receipt and telemetry remain nonpublication authority; actual OUTPUT_CHECKED, SOURCE_ASSESSED, OUTPUT_PUBLISHED and successful JOB_DISPOSITION/BATCH_FINISHED establish the service path.",
+        "Source-only hash/state checks are at audit time, not continuous enforcement. Full referenced job files copied byte-exact inside explicit canonical operation-evidence boundary; no profile/cache/token contents read.",
+        "Four truncated diagnostic contexts at FILE_INSPECTED twice, OPERATION_EVIDENCE_COLLECTED and JOB_DISPOSITION retained; event digests validate retained bytes, not lost context. Full referenced collector/storage files retained separately.",
+        "Aggregate44-child census includes startup/capability/inspection work. One ENCODE_STARTED/OUTPUT_PUBLISHED retained; no complete per-child argv/stderr claim. Top-level D-Bus/SSL messages and recorded335-byte service stderr accounting do not prove all child diagnostics harmless.",
+        "Numeric event epochs align with outer UTC. Electron stderr textual clock format differs; no clock-drift or cause inference.",
+        "Six storage point receipts precede matching actions, last after publication/before reveal. These are point checks, not continuous hard write/child quotas.",
+        "Operator reports visible Open acceptance, actual Thunar selected output/exact size, legible resolution popup on this opening, two missed coordinates corrected using fresh observations, no repeated Apply/Start. These are CUA-only visual observations, not standalone reviewed screenshots or proof intermittent popup defect fixed.",
+        "Whole871.204704-second journey includes manual entry/UI and is not encode performance. No Windows/hardware/general family/catalog/release qualification. No extra GUI/runtime/probe/decode performed by auditor."
+      ],
+      "nextPermittedWork": "Preserve checkpoint 030 via Git, independently restored Notion source and complete history plus full native records, then verified GitHub. Prepare the reviewed longer normal-service campaign final execution binding and authorizer against the actual selected preserved checkpoint and frozen mirror receipt. No campaign replay or additional GUI is authorized by this release.",
+      "nextHelperManifest": {
+        "path": "full-copy-long-service028-preparation-20261118/MANIFEST_HANDOFF-final.json",
+        "bytes": 3484,
+        "sha256": "790e0707d1fec9111e1d9a6ad79b7859adf5d02d6c49231ced8381186d659ba3"
+      },
+      "writerReleased": true
+    }
+  }
+}

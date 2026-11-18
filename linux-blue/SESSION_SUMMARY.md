@@ -1,3 +1,376 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Complete the bounded native Full-copy journey and preserve its exact evidence
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model / effort attribution | Evidence and limit |
+|---|---|---|
+| Engineering lead | GPT-6 Astra / Ultra, recorded assignment, not backend attestation | Bound actual preserved source, authorization and evidence; reconciled the native run and released documentation only. |
+| Helper / generator / authorizer authors and reviewers | Not independently established here | Static and extracted/file-only checks, a pre-invocation generator blocker and exact V2 correction; separate actual rendering, authorizer review and gate. |
+| Native operator | Not independently established here | One original-shell journey with visible folder acceptance, one Apply/Start/reveal and normal close. UI/picker/Thunar observations are CUA-only, not standalone reviewed screenshots. |
+| Independent saved-evidence auditor | Not independently established here | Matched source/runtime/events/output and retained full referenced collector/storage files without extra probe/decode or private profile reads. |
+| Parallel longer-service preparation | Not independently established here | Reviewed execution-binding source, synthetic/file tests and corrected test attribution; no actual binding, gate or campaign. |
+| Preservation / Session documentation | Not independently established here | Full 029 backup verified; new evidence records are prepared for coherent 030. Session writer owns only the new prepend and exact preservation of history. |
+
+**Record basis:** One bounded native Full/null/720/copied-AAC journey on immutable 029 succeeded through genuine service publication and one file-manager reveal, followed by normal closure. Saved evidence independently supports that limited result. It does not establish lossless video, PCM identity, arbitrary duration, performance, Windows, production/catalog activation or resolution of intermittent popup rendering. Both earlier stopped attempts remain intact and their causes are not retroactively diagnosed.
+
+## 🕒 Time
+
+- Date / clocks: November 18, 2026, UTC unless separately retained textual stderr formatting is named. Overall active-work start and total active work were not measured.
+- Prior 029 cutoff: 01:28 UTC. Its successor helper was prepared but unreviewed then; independent preparation review at **01:28:30.974727** belongs here.
+- Native generator V1 handoff 01:29:39.305792; independent REVISE review 01:31:46.431326; corrected V2 review 01:33:42.929463. These were preparation, not generator invocation or runtime.
+- Prior Session saved 01:34:31.391992; 029 GitHub verified **01:38:57.870589**. Final mirror release received **01:40:12.154728**. Actual V2 generator ran 01:40:12.155661–01:40:13.614513, exit 0.
+- Exact rendered-authorizer review 01:41:23.599709; fresh desktop preflight 01:42:45.231975; authorizer 01:43:16.173535–01:43:18.957235, exit 0; new gate at 01:43:18.949124.
+- Attempt marker **01:45:37.867210**; app process/outer start **01:45:38.236217**. Normal closure **02:00:09.440901**; monotonic **871.2047041979968 seconds**. This is the whole manual journey, not encoding time or a performance benchmark.
+- Saved service event times: input registration returned 01:49:27.405; output registration returned 01:53:22.382; preparation 01:56:25.086–01:56:26.338; draft reprepare 01:57:45.295–01:57:46.377; ENCODE_STARTED 01:58:54.625; ENCODE_CLOSED 01:59:09.540; OUTPUT_PUBLISHED 01:59:13.595; BATCH_FINISHED 01:59:13.639; reveal dispatch 01:59:39.990; SESSION_ENDED 02:00:06.951. These are saved event timestamps, not invented exact click times.
+- Outcome recorded 02:01:41.392912. Lead identity reconciliation 02:04:10.286526; independent saved audit 02:04:14.430557. Final documentation release and **fixed cutoff: 2026-11-18T02:10:12.231751Z**.
+- Parallel long-helper V3 review 01:49:05.061682; test-only correction review 01:50:43.773505; final manifest metadata closure 01:52:18.293775. No longer-service runtime occurred.
+- Stage / type / focus: Evidence-only native milestone, original existing UI and exact source/runtime retained. End / stopping point: audited one-output success, documentation release, 030 preservation and later exact longer-service binding pending.
+- Reason for summary: Record the actual useful native result with its provenance, interaction friction, strict evidence limits, prior failures preserved and a precise next handoff.
+
+## 🎯 Session Goal
+
+Complete the same bounded native Full-copy test under Ahmed's existing retry authorization, using current reviewed IPC source and visible Open/Select acceptance rather than Return-only picker closure. Require exact full backup, same known state without resets/private profile reads, one new gate, short observed input, actual storage points, inspection-only Unsupported followed by explicit Full/null/720/Copy reprepare, one genuine publication and at most one enabled reveal.
+
+The finish line for this session is that narrow observed-and-audited native path, not a production release or an arbitrary-duration family qualification. Preserve both prior stopped attempts unchanged. Prepare the next longer normal-service experiment separately; do not treat synthetic binding tests or a manifest as authority to execute it.
+
+## 🛠️ Actions Taken
+
+### 1. Complete 029 preservation before this native attempt
+
+Actual 029 is `475ac0f9bd5ebc033d68a36a443bddc60ce5f111`, tree `73d73304e6d325a4c87e129fe1df52b2382806f6`, parent `1e1493552f21425ccd4b650ab610db7e7f66842d`: **591 files / twenty-nine commits**. It contains the reviewed two-file IPC change and five evidence/PBS paths, not this later native result.
+
+[Notion source and full history](https://app.notion.com/p/41cbd7ade63b81f991d3f2ac6a929e2d) restored source ZIP SHA-256 `ae1d7cb6f21261be6dea2bf19347df07845cd6b7864eb90d8b3eca54d2e384eb`, bundle `b56715b3405caccbb15c01c2c028f74211a7d6e7ffa0f6ab24a2088655d919c5`, and history ZIP `a90b40763438cda3fb75ad5b9f78f32906a71dcfa9f0384c69af0044e1750f40`. [Full readable native Session](https://app.notion.com/p/41cbd7ade63b81e8aa25f8204ceae20a) used six ordered unabridged requests and fetched all twenty-nine headings and the historical ending without truncation metadata. Native formatting differs from exact Markdown transport.
+
+Exact prior Session is **1,359,259 bytes**, SHA-256 `23296c66b7f023019724674a8b59a52c462dfcbc037f5a1b8a08e64942a6448b`. It remains an unchanged suffix, with the original structure-correction receipt untouched. Earlier inaccurate or superseded prose remains dated historical evidence, with corrections recorded later rather than silently rewritten.
+
+GitHub remote `26229b7a750c583209a90c0b37cf564cf78c77de`, sole parent `fe84fb04602d4c91b1352ca87889400ed0d10c5d`, tree `4811babcf01b10a592bf607a218ab84c76104792`, was verified at 01:38:57.870589 on `blue/linux-development`. Seven exact files matched; full tree **973 total / 966 unchanged / four modified / three new / zero deleted**. Fresh ref, non-force expected-parent update, ancestry and full Session Git-blob readback were verified. Local reconstruction and original remote history remain deliberately distinct.
+
+Final Notion receipt is 105,229 bytes, SHA-256 `3b9a7d3b3f7cfe55b844fae1d382621e749a7bc9a6ddbfc7d8f88de6d83eb52d`; final mirror release is 519 bytes, `fa974def43db9eb1ef8e1fa7ca4db76b57bf1dd68277c9c17189b2f621040a97`, received 01:40:12.154728. All this preceded gate/runtime. Completed backup claims refer to 029; 030 is pending at this entry's cutoff.
+
+### 2. Independently review the new visible-accept helper and preserve both prior attempts
+
+The prepared helper existed before the prior cutoff but its independent conditional review occurred at 01:28:30.974727. Exact review is 4,531 bytes, SHA-256 `6129c6da803f289d750eec69d4e7326b73b78071cfa89a1a002feb47cd99245a`; plan 4,826 bytes, `b66fb9423f0b329f90c4b645352d8fe16d7461af712199bd9a114f89b956c753`; manifest 20,823 bytes, `a016f93a036cab0f2fc542c27ec0caf8521c554e2109f5f996fdcb7376c88c63`; launcher 11,736 bytes, `21b60517ded000c897eb6e751ad942526e18ddec807bb9d767978379b1e67461`.
+
+Worker and independent five file-only tests each passed, not summed: syntax, guarded import, temporary exclusive persistence/readback, mutation and symlink checks. They did not execute main, full two-attempt state reconciliation, process supervision, failure after Popen or native journey. Static inspection and exact referenced-file hashing are separate from those tests.
+
+Known-state verification expanded to both prior attempts: twelve distinct old event originals/retained copies, both outcomes/outer/audits/reconciliations/releases, old fixture copies and empty old outputs. Same canonical ordinary directory and device/inode are held before/after, not directory timestamps across legitimate writes. No profile/cache/token/preferences inspection, traversal, deletion/reset/clone/rename/redirection occurred. New input/output/log/attempt paths are exclusive.
+
+The approved interaction uses short global Sky chunks, fresh screenshots, exact beginning/end/path focus checks and the **visible Open/Select button** after establishing the owned directory. Return alone is not final acceptance. One picker per role; uncertain delivery stops without replay. This is a changed method, not a causal diagnosis of either earlier stop.
+
+Worker storage obligations now explicitly include each picker acceptance, Prepare, Apply, Start and terminal-before-reveal/close; supervisor itself checks launch/close only. These are point observations, not hard continuous quotas, an eighty-child guard or guaranteed thirty-minute exit. New markers remain operator-correlated evidence: requested means intent, registered means service returned, missing fallible markers prove no absence. Exact helper hashes do not replace final authorizer verification of actual archives, source/history and remote mapping.
+
+### 3. Correct a generator review mismatch before invocation
+
+V1 generator handoff at 01:29:39.305792 described 20,686 bytes, SHA-256 `e714ac28e7e64d86c125cec90626393559b9d5cac17cff312b34db47ccc4d3d9`. Its five AST/extracted seven-row schema tests passed. Independent review at 01:31:46.431326 nevertheless required revision: code expected nonexistent `INDEPENDENT_HELPER_REVIEW.json` with `approvedForConditionalPreparation`, but the actual review was `INDEPENDENT_PREPARATION_REVIEW.json` with a textual conditional disposition. A dynamically chosen review hash did not bind the requested immutable review.
+
+This was caught **before generator invocation**, unlike the previous session's actual final-receipt assertion failure. No authorizer/gate/runtime resulted from V1 here. The original generator/handoff/review remain intact. An earlier adaptation AST reader's Tuple-versus-Name extraction mistake was preparation-tool friction, not generator execution or application failure.
+
+V2 is 21,359 bytes, SHA-256 `cf59ffe6cef4fb29d4376fd4ec5df3036f1ebc1bbd033e3f7077fa410ec6e85d`. It pins the actual 4,531-byte review and exact digest, requires its real disposition/writerReleased and four reviewed helper identities, supplies FIXED before verification, and makes the gate reference that same review. It neither manufactures an approval boolean nor edits an approval record. Existing preservation/known-state/source/strict-seven-row/remote/runtime checks stay unchanged; all forty-one fixed hashes match.
+
+Worker and independent V2 **nine** AST/extracted-array/extracted-review-function tests passed, separately. They read four preparation files and the actual review, not COMMON/preservation/generator/authorizer execution. Independent V2 review at 01:33:42.929463 resolved the blocker conditionally, requiring actual released 029 preservation and a later exact rendered-authorizer review.
+
+Actual V2 generator ran once 01:40:12.155661–01:40:13.614513, exit 0, rendering only. Rendered authorizer is **22,614 bytes**, SHA-256 `8977b7f49cf278dc99548b60daeb3b4ffaddb4a09f2bb020e21556830e7bec4d`. Independent exact review at 01:41:23.599709 matched rendering, all 591 source rows, twenty-nine commits, actual seven paths, strict mirror/remote readbacks and seven frozen receipt/archive identities. It did not execute an authorizer or establish current UI readiness. Generator stderr retained 119 bytes; it is not described as empty or a runtime error.
+
+### 4. Refresh the actual desktop and create a separate one-shot gate
+
+Fresh preflight at **01:42:45.231975** is 1,357 bytes, SHA-256 `edf701185ee0952e7741aebd0a56fe7dd36d9262a8e97d0a72a276d8bc3d27ad`. Observed terminal/Chromium inventory had no workbench or observed human activity. A fresh read-only printf entered through short global keys with screenshots and separate Return showed actual inherited `:0`. No DISPLAY injection or security/loader/rendering flags were used. It matched 591 source hashes, runtime pair/seven libraries, original build pair, Electron/raw report/fixture, twelve old event pairs and canonical state identity; free space was 58,455,396,352 bytes. These are point readiness checks, not continuous surveillance or whole-profile identity.
+
+Exact authorizer executed once **01:43:16.173535–01:43:18.957235**, exit 0, without launching app/media itself. New gate at **01:43:18.949124** is 77,231 bytes, SHA-256 `108d02cbe541aceaa1af89d476296c046d3c48807ecd0a259655d3b67bd9fb46`. It binds actual 029, released preservation, immutable helper/review/plan, known state/runtime and fresh desktop. The attempt marker at 01:45:37.867210 and app start at 01:45:38.236217 are distinct recorded actions.
+
+Existing owner approval covered this reasonable same-test retry. Fresh operational review/gate protects implementation state; it does not invent a new need for owner permission. Both prior consumed gates remained closed, no replay or extra retry. Scope remained one inspection Prepare, explicit Full/null/720/Copy Apply, one Start, at most one enabled reveal, normal close and no extra probe/decode/player/cancel/relaunch.
+
+### 5. Register both folders through visible acceptance and reprepare the actual UI row
+
+One input picker opened. The exact new owned path was entered with short global keys, beginning/end checked with Home/End and fresh screenshots; the visible Open control was clicked once, not Return-only acceptance. Main UI showed the intended input path and “Change input folder.” New fixed service markers record requested at 01:46:01.660 and registered at 01:49:27.405. Markers alone mean admitted intent/service return; actual displayed path is separate operator observation.
+
+One output picker used the same visible acceptance method. A Working/empty-label transitional frame settled to Ready and the exact output path without repeated acceptance. One screenshot result exceeded available context; a fresh screenshot established settled state. Saved requested/registered events are 01:49:46.357 and 01:53:22.382. Normal folder preferences may persist; that is expected state mutation, not a whole-profile byte-preservation promise.
+
+One Prepare produced one editable Unsupported, unselected row and disabled Start; inspector described inspection-only Full/Keep source/Copy and directed per-file 720. Preparation events run 01:56:25.086–01:56:26.338. The ordinary per-file editor retained Full video, disabled blank start/end and Copy where qualified. The resolution popup was **legible on this one opening**, and 720p was selected visibly without a keyboard workaround. This does not fix or disprove the earlier intermittent painting defect.
+
+After scrolling, one initial coordinate click landed below the shifted resolution control and made no selection. A fresh screenshot supplied the actual popup coordinate. Later one attempted checkbox click likewise landed below the shifted checkbox and did not select; fresh observation confirmed the not-selected state before the actual selection. No Prepare, Apply or Start was duplicated.
+
+One Apply triggered draft inspection/reprepare, returning Ready but unselected; saved events are 01:57:45.295–01:57:46.377. The operator selected the one row, then Start enabled. This is actual existing UI behavior, not a hidden IPC call, replacement UI or synthetic service fixture.
+
+### 6. Observe one target, preservation check, publication and reveal
+
+One Start was issued after its storage point check. UI showed Waiting/In progress, then an actual **Encoding 58.3%** sample: encoded 00:04, speed 0.37x, FPS 15.6, output 1.0 MiB, remaining 00:08, batch elapsed 00:12. These are reported UI samples, not independently benchmarked performance or continuous telemetry sampling. It then showed Checking preservation with no reliable percentage/ETA, followed by Completed and Succeeded.
+
+Saved events anchor service activity precisely: ENCODE_STARTED 01:58:54.625; ENCODE_CLOSED 01:59:09.540; OPERATION_EVIDENCE_COLLECTED 01:59:13.536; OUTPUT_CHECKED 01:59:13.548; SOURCE_ASSESSED 01:59:13.564; OUTPUT_PUBLISHED 01:59:13.595; successful JOB_DISPOSITION 01:59:13.634 and BATCH_FINISHED 01:59:13.639. The roughly 14.915-second encode-event interval is not the whole journey or a platform benchmark, and a progress sample alone is not publication authority.
+
+After terminal storage checking, one Show in folder dispatched at 01:59:39.990. Operator saw Thunar at the exact owned output directory, with `native-full-copy_H265-CPU.mkv` selected and **1,959,028 bytes** displayed. Closing Thunar returned to the app with platform-neutral “Show-in-folder request sent to your file manager.” Saved dispatch corroborates service action; actual selection/size/UI are CUA observations, not independent standalone screenshot review. No player or repeated reveal opened.
+
+Normal titlebar close removed the app to idle terminal. SESSION_ENDED is 02:00:06.951; supervisor ended 02:00:09.440901 with exit 0, no abort request/failure and post-close identities verified. **44 spawned / 44 closed / zero live / maximum one / zero reported failures** is an owned native observer census, not OS-wide process proof, a pre-spawn hard cap or forty-four targets. Startup/capability/inspection/collector work is included. One ENCODE_STARTED and one OUTPUT_PUBLISHED support the one-target attribution.
+
+The output full SHA-256, **`bf6f148143a55fac9c6dfc27dab86de96e05be243c1879437cd51f4257730f81`**, was first established by the supervisor's **post-close inventory**, then independently matched. It was not a historical encode-time hash. No additional full output probe or independent re-decode occurred. Outcome recorded 02:01:41.392912 is 7,415 bytes, SHA-256 `6cd103db1d4e718567120b99db6b5e62611fda2a440956740991415309395385`; outer completion is 924 bytes, `a69018eefd93f9cc7c90e21afe9573f5814c51df8d1a28751e42c52870649f12`.
+
+### 7. Retain actual resource points, diagnostics and full referenced operation evidence
+
+Six saved worker point checks precede the relevant actions:
+
+| UTC | Recorded boundary | Free bytes | Owned input/output bytes |
+|---|---|---:|---:|
+| 01:49:18.699978 | Before input acceptance | 58,449,530,880 | 5,578,679 |
+| 01:53:12.631372 | Before output acceptance | 58,449,457,152 | 5,578,679 |
+| 01:56:14.532629 | Before inspection Prepare | 58,449,444,864 | 5,578,679 |
+| 01:57:31.894193 | Before Full/null/720/Copy Apply | 58,449,424,384 | 5,578,679 |
+| 01:58:45.502909 | Before sole Start | 58,449,408,000 | 5,578,679 |
+| 01:59:35.129305 | After success, before reveal/close | 58,447,175,680 | 7,537,707 |
+
+This closes the prior attempt's missing mid-picker observation for this run only. Launch/close supervisor checks and these points do not cover every instant, profile growth or active writes. Thirty-minute SIGTERM-then-wait remains an abort request, not guaranteed termination. No hard native child quota is inferred.
+
+Twenty-five new event originals/retained copies and their event digests were verified, correlated to one session and excluding the twelve prior IDs. Numeric epochs align with outer UTC. Four contexts are truncated: FILE_INSPECTED twice, OPERATION_EVIDENCE_COLLECTED and JOB_DISPOSITION. Digest correctness covers retained bytes, not lost context. The original full referenced job evidence was therefore copied byte-exact within the explicit canonical operation-evidence boundary, not reconstructed from summaries or gathered by traversing profile stores.
+
+Eighteen referenced files include encoder input receipt, 240-row video telemetry spool, nine collector child receipts, full collector receipt/start, three sealed spools, storage reservation and final storage record. No profile/cache/token contents were read/copied. Original and retained twelve old event pairs remain exact; both old output directories remain empty. Ordinary current folder preferences are permitted to change.
+
+Top stdout is 436 bytes, SHA-256 `42b41d7e77224afca696dc0baf1e4d0ac9f9fe3edaa245577a330ecc427f0e5e`; top stderr 624 bytes, `8ba1a0b788e598bfcf5af15714c90cfa958eb391f6939ce592d1da4bb44b6337`. D-Bus/system-socket and SSL diagnostics are retained, not assigned a picker cause. Textual stderr clock formatting differs from UTC; numeric event alignment does not establish drift or justify clock changes. Logged sandbox/contextIsolation/nodeIntegration values remain preferences, not independent enforcement proof.
+
+Service aggregate accounting records **twelve** invocations, including source reinspection, target, output metadata probe and **nine collector** invocations, with 335 stderr bytes. This is not twelve collectors or a complete per-child stderr inventory. The nine saved collector children each have zero stderr bytes and truncated=false. Neither that fact nor 335 aggregate bytes proves all other child warnings harmless, absent or causally resolved; prior CPU topology/thread-pool performance caveats remain.
+
+### 8. Independently validate the saved collector, timing, copied AAC and publication path
+
+Independent audit at 02:04:14.430557 is **25,857 bytes**, SHA-256 `a6c50a1ab95f15510a66c7c16bb3527243d4ab0a3fe97fd46722eaf05e3f56b6`. It supports one bounded successful native Full/null/720/copied-AAC publication and dispatched reveal, with visual details attributed to CUA. All 591 Git/current/Notion source files, twenty-nine commits, nine runtime pins, old/new event pairs, output identity and referenced operation files matched. The auditor ran no GUI/runtime/media/probe/decode or independent pixel/PCM validation.
+
+The completed collector contains **240 source frames / 240 output frames / 240 compared frames**, complete source video at 30 fps over eight seconds, and **384,000 source/output audio samples**. Source nominal cadence/duration/phase errors are zero. Saved output rebased timestamp and maximum duration errors are 334 microseconds, within the 1,067-microsecond video tolerance. First video timestamps are zero; last source PTS 7,966,667 microseconds versus output 7,967,000. This bounded timestamp evidence is not lossless resized-video or pixel identity.
+
+Copied AAC has **376 packets**, matching payload, side-data and extradata/header hashes and combined seal **`40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721`**. Decoder-signalled delay is 1,024 samples and discard padding zero. Source end is 8,000,000 microseconds; output end 8,000,333. Canonical audio comparison covers all 384,000 samples, 375 intersected spans, no unmatched source/output tails and maximum elapsed clock error 334 microseconds within 1,042. Alignment is sample ordinal after decoder-signalled skip, shared requested origin, no fitted shift. **contentIdentity=false** remains explicit: matching coded AAC packet/header/padding seals and decoded count/timing evidence are not a new PCM-hash identity assertion or proof of exact rational adjacency at every boundary.
+
+Collector resource limits remain explicit: complete source decode, timeout 204,168 ms, max frame bytes 22,577,152, max PCM bytes 1,728,000, max records 22,048 and max spool bytes 5,767,168. Three actual sealed spools are 16,820 / 41,812 / 25,336 bytes with exact saved hashes. No wider duration/corpus qualification follows from this one fixture.
+
+Full encoder-input telemetry retains 240 records, zero unknown/repeated/backward PTS, 1/30-second min/max deltas, ordered input frames 0–239 and exact raw/canonical/PTS hashes. `contentHash:false`, `videoDurationAvailable:false` and `completeOutputValidation:false` remain. Telemetry and collector receipt explicitly carry no publication/qualification authority. Successful OUTPUT_CHECKED, unchanged SOURCE_ASSESSED, OUTPUT_PUBLISHED, JOB_DISPOSITION and BATCH_FINISHED are the separate normal-service evidence of actual publication.
+
+Source assessment compares sparse identity and saved filesystem fields with no changed fields after encode; it is not a continuous full-hash monitor. The completed retained storage record is diagnostic-only with no violations, bounded point observation, used bytes 133,287, projected 33,621,041 under a 1,073,741,824-byte cap, free 58,447,187,968 above its recorded minimum and `hardWriteCap:false`. That source/service evidence is retained as actually generated, not promoted to stronger continuous guarantees.
+
+Lead identity reconciliation at 02:04:10.286526 is 1,280 bytes, SHA-256 `df34af0b4d73fb20d377c6723eb22626f1a168d1786bd1db09e7df480948e5ae`: all 591 source files matched Git/gate/manifest, twelve gate runtime/evidence identities, twelve outcome references, twelve prior and twenty-five new event pairs, same state device/inode and the output matched. It explicitly kept source freeze closed pending final audit/release. The final 4,569-byte release **`91fe8521277a04a923d1551faa8dda0e59ec34e7ca6e8389be33114968ce34d6`** at 02:10:12.231751 accepts the bounded result and frees documentation only. It does not grant production qualification or another runtime.
+
+### 9. Finish longer-service preparation metadata without claiming a campaign
+
+Separate longer-service preparation carried forward earlier abort-observation corrections, retained V1/V2 evidence and exact role budgets/templates. V3 replaces stale checkpoint-028 literals with a reviewed execution-binding validator tied to an actual future preserved checkpoint and exact receipt linkage. Both launcher/outer hash the binding helper before import; role-template hashes are now bound in both. This is a validator, not an issuer of permission: mutually consistent synthetic receipt/plan/gate values cannot establish actual preservation or authorize execution.
+
+Independent V3 review at 01:49:05.061682 repeated **eighteen** temporary-file/injected tests of binding, guards, exact caller slices and persistence. No actual Git call by the subject helper, runtime/media/native UI or complete launcher orchestration was exercised. The helper checks current filesystem/HEAD and receipt linkage; the later exact authorizer must independently establish archive contents, history length, per-file Git blob identity, remote ancestry and final released preservation rather than trust booleans. Read/hash sequencing is not malicious-concurrent-writer-proof, so exclusive freeze remains required.
+
+The reviewer found a genuine coverage-attribution gap: the row-mismatch test modified a mirror row and binding hash but left release/gate mirror hashes stale, so refusal occurred at earlier linkage, not the intended row comparison. Original test/log/manifest remain. Test-only correction updated every upstream linkage and required the exact strict-equality error with original source SHA versus wrong restored SHA. Independent five binding tests passed at 01:50:43.773505. All six production helper identities stayed unchanged by this correction. Eighteen earlier tests plus five focused correction tests overlap and are not summed as twenty-three independent behaviors.
+
+Final metadata handoff at 01:52:18.293775 is 3,484 bytes, SHA-256 `790e0707d1fec9111e1d9a6ad79b7859adf5d02d6c49231ced8381186d659ba3`. Final CAMPAIGN_PLAN is 14,344 bytes, **`6b3051d7a558ee597e7d96d12fd738cd7af63ab6fffb37bed05baef31ac6075b`**, with thirty-eight file rows verified and corrected test metadata. Earlier V3 manifest/handoff retained. Metadata closure itself reran no tests. Any later gate must bind the final hash, not its earlier V3 predecessor.
+
+At cutoff there is **no actual execution binding, final authorizer, gate or longer-service run**. Future selected preserved source/full-history/native/GitHub/final mirror receipt must be bound and independently reviewed. Abort observation retains unresolved ownership but cannot force an OS child to exit; corpus/argv compatibility, long output, live cancellation and new-owner recovery remain unproved by these injected tests. This preparation is not part of 030 app source or a reason to delay its evidence preservation.
+
+### 10. Prepare coherent evidence-only 030 and preserve exact historical boundaries
+
+This checkpoint contains no application or test source changes and reruns no source suite. Prior lead 261/261 targeted tests, worker 220/220 and independent 57/57 remain historical overlapping scopes; broad 223/268 with forty-five failures was not rerun or cleared. New evidence is the actual one-fixture native path on unchanged 029, not broad regression, native Windows or production readiness. Formal Security Cloud remains deferred; manual review is not a completed formal scan or validated risk artifact.
+
+The intended five paths are [Current State](CURRENT_STATE.md), [Native Full-copy Workbench Proof](2026-11-18_Native_Full_Copy_Workbench_Proof.md), [Curated Receipts](2026-11-18_Native_Full_Copy_Workbench_Proof_Receipts.json), [Portable Native Success](evidence-2026-11-18/native-full-copy-workbench-success-portable.json), and this Session. Three new record files yield expected **594 files / thirty commits**. Full raw runtime/media/profile payloads are not part of source preservation. Portable evidence is 49,870 bytes, SHA-256 `2667ea67966e3ea05d61a31f945b3e7e08e9da138481c9ee829d06db33494206`. It contains the five original parsed outcome, outer, audit, lead identity and release reports with exactly nine leading-root replacements: six proof:// and three project://. Every other key/type/value remains exact, including the outcome’s original awaiting-audit status and lead identity’s earlier sourceFreezeReleased=false. Reserialized whitespace is not raw-byte restoration. All six portable authority flags remain false; no inverse map, executable gate, runtime/media/profile or raw-log payload is published. It is a sanitized supporting record, not a substitute for raw runtime/calibration gates.
+
+The exact prior 1,359,259-byte history and original correction receipt remain immutable. Original abort wording is not attributed to Ahmed; Return-only nonregistration remains separate. This run's successful visible acceptance and new markers do not retroactively identify either prior cause. Popup legibility on one opening does not erase earlier rendering defects. Existing theme/defaults/ArchiveCQ29, benchmark pause, non-HDR order and 1440p/4K scope in 0.7 remain unchanged.
+
+Next is coherent Git, independent full-source/full-history and readable Notion restoration, then verified ancestry-preserving GitHub. Only after actual final released receipts should longer-service binding/authorizer preparation proceed against a selected real checkpoint. No new runtime is granted by this documentation release. Existing owner development/retry intent remains distinct from each fresh operational gate; no unnecessary new user approval is demanded solely because an earlier gate was consumed.
+
+## 🧠 Key Insights
+
+### Visible acceptance and saved service boundaries now agree
+
+Actual main UI folder paths plus requested/registered events support this run's registration. Those markers still mean intent/service return rather than independently proving every UI frame; CUA observations supply the visible part. Their usefulness does not diagnose earlier Return behavior.
+
+### A completed native journey is meaningful without being universal qualification
+
+This is real original-shell registration, inspection/reprepare, target validation, publication, reveal and normal close on one fixed eight-second fixture. It is stronger than source-only or VM-injected proof, but narrower than arbitrary media, Windows, performance, release or production acceptance.
+
+### Copied compressed-audio identity and decoded timing are different claims
+
+Matching AAC payload/header/padding seals support coded packet preservation. Saved sample/frame counts and bounded timing support alignment. Neither becomes a fresh PCM hash, lossless resized pixels or exact adjacency claim merely because the UI says Succeeded.
+
+### Complete referenced files matter when event contexts are truncated
+
+Four event contexts are deliberately bounded; their hashes cannot restore omitted fields. Retaining full collector/storage/telemetry files within the owned evidence boundary supplies the inspectable detail without reading private profile stores or treating summaries as authority.
+
+### Fail-closed tests can pass at the wrong boundary
+
+The longer-service row test initially proved stale linkage refusal, not row equality. Updating all upstream hashes and asserting the precise expected mismatch corrected attribution without changing production helpers. Green counts alone do not tell which branch was exercised.
+
+## 📌 Decisions Made
+
+1. **Confirmed; existing owner intent and lead checks:** Carry out one fresh same-test native attempt using actual preserved 029, known state, reviewed helper/authorizer and exclusive gate. No replay of prior markers or reset of private state.
+2. **Confirmed; independent generator review:** Preserve V1 review-file/schema/hash-binding blocker and correct V2 before invocation. Bind actual immutable review; do not manufacture approval data.
+3. **Confirmed; plan/operator:** Use visible folder acceptance after exact path observations, then actual inspection-only Unsupported and explicit per-file reprepare. Correct stale coordinates from fresh screenshots without repeating destructive or target actions.
+4. **Confirmed; saved audit and lead release:** Accept one native Full/null/720/copied-AAC publication/reveal/normal close, limited to this exact source/runtime/fixture and actual retained evidence.
+5. **Confirmed; evidence provenance:** State output full hash as post-close, preserve four truncated contexts and full referenced files separately, distinguish aggregate stderr/census from complete per-child capture, and keep coded AAC versus PCM/pixel claims separate.
+6. **Confirmed; longer-helper reviewer:** Correct the row-mismatch test's false coverage attribution and final manifest metadata, while leaving actual binding/authorizer/run unissued and preserving all earlier artifacts.
+7. **Deferred; preservation and next reviewed experiment:** 030 backup, longer-service exact binding and actual long/cancel/recovery proof remain future. Native Windows/performance/popup/general family/product release are not implied.
+
+## ⚠️ Difficulties / Friction
+
+The next generator initially referenced the wrong review filename/schema and lacked immutable review binding. Passing extracted schema tests did not catch it; independent exact-artifact review did. V2 corrected those specifics before invocation, unlike the earlier session's actual generator assertion failure. The original mismatch remains preserved.
+
+Manual entry was slow and required short calls, Home/End observations and fresh screenshots. One output-registration transition and one oversized screenshot response required observation, not repeated action. Two post-scroll coordinate clicks missed their controls harmlessly; refreshed views resolved focus/selection without duplicate Apply or Start. These are real interaction imperfections, not a clean visual-QA claim.
+
+The resolution popup was legible once, but earlier overpainting remains unexplained. D-Bus/SSL top-level messages and the broader CPU topology/threading caveat remain without causal diagnosis. UI speed/ETA samples and whole journey duration cannot qualify native performance.
+
+Evidence is richer than prior stopped attempts but still bounded: CUA-only visuals, post-close full output hash, aggregate native child capture and four truncated contexts. The audit compensated by retaining full referenced operation files without silently expanding into private profile stores or another probe/decode run.
+
+Longer-service synthetic tests exposed a coverage claim that stopped at an earlier guard. Correcting the fixture and metadata was required before calling the targeted branch tested, but it did not make an actual long campaign ready or authorized.
+
+## 🔧 Adjustments Made
+
+### 1. Bind the actual preparation review before rendering
+
+- Shifted from: V1's nonexistent review filename/boolean and dynamically accepted review digest.
+- To: Exact real review filename, size/hash, disposition, writer release and four helper identities.
+- Because: Independent review found the actual saved schema and immutable identity mismatch before invocation.
+- Consequence: V2 tests and exact rendering proceed without rewriting approvals; no V1 runtime failure is invented.
+
+### 2. Replace Return-only acceptance with visible Open/Select
+
+- Shifted from: The prior stopped retry's Return-only dialog closure without registration.
+- To: Establish exact owned paths, then click each visible acceptance control once and verify the main UI.
+- Because: The explicit accept-button path had not been exercised and was the smallest useful next test.
+- Consequence: Both folders registered in this run, corroborated by new service markers, without claiming a diagnosis of the prior stop.
+
+### 3. Resolve actual transient UI states with observation rather than replay
+
+- Shifted from: Shifted controls after scroll and an output-registration transitional frame.
+- To: Fresh screenshots, corrected coordinates and confirmed settled/selected state before continuing.
+- Because: Blind repetition could select the wrong setting or duplicate actions.
+- Consequence: One Apply/Start/reveal retained; two harmless missed coordinates and screenshot limitation remain disclosed.
+
+### 4. Add and retain the missing action-level storage observations
+
+- Shifted from: Prior retry's launch/close checks without a separate mid-picker point.
+- To: Six actual saved points before each acceptance/Prepare/Apply/Start and after success before reveal/close.
+- Because: This run's plan explicitly required those measurements.
+- Consequence: Better actual resource evidence, still not a continuous cap or guaranteed deadline.
+
+### 5. Retain full referenced evidence behind truncated summaries
+
+- Shifted from: Four bounded diagnostic contexts that cannot carry complete operation details.
+- To: Exact original/retained event validation plus full owned collector/storage/telemetry files.
+- Because: Truncated event digests prove only retained bytes, not lost data or complete validation.
+- Consequence: Audit can inspect detailed counts/seals/timing while keeping publication authority and privacy boundaries separate.
+
+### 6. Correct the longer-service test at its intended failure boundary
+
+- Shifted from: A row-mismatch fixture rejected earlier by stale upstream release linkage.
+- To: Consistent upstream mirror/release/binding/gate identities and assertion of the specific row SHA mismatch.
+- Because: The initial test's green result did not prove the intended branch.
+- Consequence: Five corrected binding tests pass, six production helpers unchanged, final metadata updated; no live campaign claim.
+
+## ❌ Mistakes / Risks Noted
+
+### 1. Wrong review assumptions could invalidate authorization preparation
+
+- What happened or could happen: V1 expected a nonexistent review/boolean and did not freeze the actual review digest.
+- Actual impact: Independent review blocked generation before invocation; no authorizer/gate/runtime from V1.
+- Potential impact: Failed execution preparation or acceptance of the wrong review if bypassed.
+- Correction / current status: V2 exact review binding and tests accepted; original artifacts retained.
+- Failure Intelligence: Validate actual saved schemas and immutable identities, not an anticipated review shape or a green synthetic count.
+
+### 2. Stale coordinates and transient frames could cause duplicate or wrong UI actions
+
+- What happened or could happen: Post-scroll control/checkbox positions and temporary output labels are misread.
+- Actual impact: Two clicks missed controls without selection; one screenshot response exceeded context; fresh observations corrected both state/focus.
+- Potential impact: Wrong resolution, duplicate acceptance/Apply/Start or false registration report.
+- Correction / current status: Actual closed labels/selection verified, no repeated target actions, observed friction retained.
+- Failure Intelligence: A screenshot or click result is not a guarantee of settled state; inspect current UI before continuing.
+
+### 3. One legible popup or successful picker could erase prior defects falsely
+
+- What happened or could happen: This success is treated as proof earlier interruption/Return/popup causes are solved.
+- Actual impact: Visible acceptance succeeded and resolution popup was legible once; earlier causes remain unknown.
+- Potential impact: False bug closure or unsupported reliability/platform claims.
+- Correction / current status: Preserve both stopped attempts and intermittent popup issue; current result has exact scope only.
+- Failure Intelligence: A successful alternative path is evidence of that path, not a diagnosis of a prior failure.
+
+### 4. Post-close hashes and lossy-video validation could be overstated
+
+- What happened or could happen: Full output SHA is called encode-time provenance, or packet/timing/count evidence becomes PCM/pixel identity.
+- Actual impact: Supervisor first hashed the output after close; saved AAC seals/counts/tolerances pass, with contentIdentity=false.
+- Potential impact: Unsupported historical integrity or preservation guarantees.
+- Correction / current status: Timing of hash establishment and absence of fresh re-decode/full probe/PCM/pixel check are explicit.
+- Failure Intelligence: State what was measured, when, and which representation it validates.
+
+### 5. Sparse diagnostics could hide warnings or missing context
+
+- What happened or could happen: Forty-four balanced children or nine empty collector stderrs imply all child logs are complete/harmless.
+- Actual impact: Native capture is aggregate; service accounts 335 stderr bytes; four event contexts truncated; top messages retained.
+- Potential impact: Unqualified performance/reliability and inaccessible validation detail.
+- Correction / current status: Full referenced collector/storage files retained; per-child completeness and warning causality remain limited.
+- Failure Intelligence: Do not transfer richer service-harness coverage to native census or confuse retained-context hashes with lost data.
+
+### 6. Point checks could be mistaken for hard resource guarantees
+
+- What happened or could happen: Six successful checks and diagnostic storage caps imply continuous disk/child/deadline enforcement.
+- Actual impact: Actual points passed, storage diagnostic reports no violations; profile growth is excluded and hardWriteCap=false.
+- Potential impact: Misleading operational safety/performance promise on different media or conditions.
+- Correction / current status: Point admission, diagnostic storage and termination-request limits remain explicit.
+- Failure Intelligence: Measurement at chosen boundaries is not an OS quota or guaranteed exit mechanism.
+
+### 7. Longer-service test initially proved the wrong refusal
+
+- What happened or could happen: Intended row mismatch stopped at earlier stale linkage and was counted as direct row coverage.
+- Actual impact: Reviewer found attribution gap; no production helper failure established by that test.
+- Potential impact: Overconfidence in binding validation or premature campaign launch.
+- Correction / current status: Corrected test reaches exact row SHA comparison, independently five passes; original test/log and previous manifest retained.
+- Failure Intelligence: A negative test must assert its intended reason, not merely that some guard rejected.
+
+### 8. A bounded native success could become an unearned release claim
+
+- What happened or could happen: One eight-second output/reveal is generalized to Windows, arbitrary media, cancellation, performance or production.
+- Actual impact: This exact journey succeeded; broad forty-five failures and other qualification gaps remain.
+- Potential impact: Shipping untested families/platforms or changing defaults outside scope.
+- Correction / current status: Evidence-only 030, unchanged source/pins/theme/defaults; longer service and release acceptance separate.
+- Failure Intelligence: Milestone completion and overall project completion must have different evidence bars.
+
+## 📍 Current Position
+
+**As of:** 2026-11-18T02:10:12.231751Z, final documentation release; 030 preservation not yet complete.
+
+**Before this session:** Two native attempts had stopped before registration, with different observed causes/unknowns, and 029 added privacy-bounded IPC diagnostics. Its targeted tests passed but native behavior on changed IPC was unproved. A prepared visible-accept helper still required review, actual preservation, authorizer and fresh desktop.
+
+**After this session:** Actual preserved 029 completed one original-shell Full/null/720/copied-AAC native journey with visible folder registration, inspection/reprepare, one validated publication and file-manager reveal, normal close and all forty-four owned children closed. Independent saved audit matched all source/runtime/event/output/collector/storage evidence with explicit limitations. No application/test source changed.
+
+**Current standing:** Narrow native Full-copy proof now exists for the exact fixture/source/runtime. It is not general media, Windows, hardware/performance, popup-fix, production/catalog or release qualification. Output full hash is post-close; no extra full probe/re-decode or PCM/pixel identity. Prior broad forty-five failures remain unrerun. Longer-service manifest is reviewed preparation, no actual execution binding/gate/run. Both earlier stopped attempts and prior Session bytes are preserved.
+
+**Live owner / continuation anchor:** Lead owns the five-path evidence checkpoint, mirror owns full restored/readable Notion and verified GitHub, Session writer owns only this prepend. Read [execution](2026-11-18_Native_Full_Copy_Workbench_Proof.md), [receipts](2026-11-18_Native_Full_Copy_Workbench_Proof_Receipts.json) and [portable evidence](evidence-2026-11-18/native-full-copy-workbench-success-portable.json). After actual preservation, prepare an exact longer-service binding/authorizer against the final manifest and released mirror receipt; no stale checkpoint literal or consumed gate replay.
+
+## 🔜 Next Steps
+
+1. Commit coherent evidence-only 030, then immediately independently download/restore all source and complete Git history in Notion with unabridged readable records; verify ancestry-preserving GitHub and exact full Session readback. Local unpushed work is not backup.
+2. Select the actual preserved checkpoint for longer normal-service work and build exact execution binding/authorizer using final manifest SHA `6b3051d7a558ee597e7d96d12fd738cd7af63ab6fffb37bed05baef31ac6075b`, complete archive/history/remote evidence and final released receipt. Do not let booleans or synthetic consistency substitute for actual facts.
+3. Independently review that concrete binding/authorizer and current runtime/source/fixture state before any bounded campaign. Preserve earlier long-helper tests/reviews, including corrected row-mismatch evidence and outstanding orchestration/OS closure limits.
+4. Only within the next explicitly checked scope, obtain actual longer-output/collision/cancellation/new-owner recovery evidence, then audit before any wider qualification. No run, promise of success or additional GUI is created by this record.
+5. Keep independent remaining 0.7 work aligned with existing source/design/defaults, non-HDR order and 1440p/4K scope. Formal release/native Windows/performance/HDR/general-family requirements remain distinct.
+
+**Do not reopen / repeat:** Do not rewrite historical suffix/failed attempts, blame Ahmed for the original tool abort, replay gates, clear/redirect profiles, infer earlier causes from visible-accept success, call one legible popup fixed, reuse old manifest hashes, sum overlapping tests, claim all child stderr clean, claim encode-time full output hash or PCM/pixel identity, rebaseline broad failures, repin evidence or activate production/default routes.
+
+**Continuation boundary:** This is a completed bounded native-evidence milestone. New runtime work requires actual preserved source, final binding/authorizer review and fresh implementation checks under existing owner development scope; this release grants documentation and preparation only. Later events belong to their own dated Session, not this fixed cutoff.
+
+## ❓ Open Questions
+
+1. **Will the longer normal-service corpus, collision and active cancellation/new-owner recovery satisfy the reviewed limits?** Known: manifest and synthetic binding/helper tests prepared; no actual binding/gate/run. Needed from: exact future authorization and bounded real evidence plus audit. Blocks: longer-service qualification, not 030 backup.
+2. **What caused the original interrupted input and later Return-only nonregistration?** Known: distinct retained outcomes, current visible acceptance succeeded. Needed from: specific causal evidence if useful, not inference from one alternative path. Blocks: causal bug closure, not current narrow success.
+3. **Is intermittent resolution popup rendering reliable across openings/platforms?** Known: one current popup legible, earlier corruption retained. Needed from: separately scoped evidence; no hidden flags or visual acceptance by assumption. Blocks: defect closure/general UI qualification.
+4. **How do CPU topology/threading warnings affect native performance?** Known: prior caveat remains; current UI speed sample and aggregate diagnostics are not a benchmark. Needed from: separately supported native performance investigation, not suppression or repin. Blocks: performance claims.
+5. **Does this path work on Windows or arbitrary sources/families?** Known: exact Linux fixture only, no source change or Windows native test here. Needed from: separate platform/corpus tests within project priorities. Blocks: broad release/catalog qualification.
+6. **Is 030 fully backed up?** Known: 029 completed; new evidence records pending preservation at cutoff. Needed from: actual commit, downloaded restoration and remote verification receipts. Blocks: calling new work safely published or binding a later run to an unverified successor.
+
+## 🧾 Session Outcome
+
+**One native Full/null/720/copied-AAC journey completed successfully on immutable 029.** Both folders were visibly accepted, one inspection and explicit reprepare led to one Start, the UI showed actual progress and preservation checking, one 1,959,028-byte file was published and revealed in Thunar, and the same app closed normally with 44/44 owned children closed. The saved independent audit supports 240 frames, 384,000 samples, matching coded AAC packet/header/padding seals and bounded timing, with no fresh re-decode or PCM/pixel guarantee.
+
+Four truncated contexts, complete referenced operation evidence, post-close output hashing, aggregate stderr limits, six resource points, CUA-only visuals and two harmless interaction misses remain explicit. One legible popup is not a fix; successful visible acceptance does not diagnose either prior stop. Source/tests/pins/defaults remain unchanged and historical broad failures remain unrerun.
+
+The exact 1,359,259-byte predecessor and original structure receipt are preserved. 030 is evidence-only and awaiting full backup at cutoff. Longer-service manifest metadata is prepared and reviewed, but actual execution binding, authorizer, gate and campaign remain future.
+
+## 🔍 Confidence Level
+
+- **High within the exact bounded scope:** Genuine native registration/reprepare/publication/reveal/normal closure, with operator-visible observations and independently matched saved service/collector/storage evidence.
+- **High:** Immutable source/preservation identities, prior-attempt continuity, exact operation-file retention, generator correction provenance and final longer-helper metadata distinctions.
+- **Limited / unproved:** Pixel/PCM identity, encode-time full hash, complete native child diagnostics, continuous resource guarantees, performance, intermittent popup resolution, causal prior failures, native Windows, arbitrary media and longer/cancellation campaigns.
+
+**Why:** The record separates actual UI observations, event timing, normal-service publication authority, collector/telemetry support, post-close identity and future preparation. It retains failures and exact original evidence rather than converting a bounded success into universal qualification.
+
+**Not higher because:** Visuals are CUA-only, four contexts truncated, no independent extra probe/decode or pixel/PCM check, no complete child argv/stderr inventory, resource checks are points, and new preservation/future longer-service execution are unfinished at the cutoff.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Preserve the stopped known-state retry and add bounded folder-picker diagnostics
 
 ## 🤖 Models, Effort, Roles and Provenance

@@ -1,0 +1,967 @@
+{
+  "schema": 1,
+  "checkpoint": "030",
+  "cutoffUtc": "2026-11-18T02:10:12.231751Z",
+  "sourceCommit": "475ac0f9bd5ebc033d68a36a443bddc60ce5f111",
+  "scope": {
+    "paths": 5,
+    "expectedFiles": 594,
+    "expectedCommits": 30,
+    "sourceFilesUnchanged": 591,
+    "appOrTestDelta": false
+  },
+  "priorPublication": {
+    "verifiedAtUtc": "2026-11-18T01:38:57.870589+00:00",
+    "localCommit": "475ac0f9bd5ebc033d68a36a443bddc60ce5f111",
+    "remoteCommit": "26229b7a750c583209a90c0b37cf564cf78c77de",
+    "remoteTree": "4811babcf01b10a592bf607a218ab84c76104792",
+    "actualSoleParent": "fe84fb04602d4c91b1352ca87889400ed0d10c5d",
+    "repository": "CipherVaults/FFmpeg-Encoder-Blue-Linux",
+    "branch": "blue/linux-development",
+    "nonForceExpectedShaUpdate": true,
+    "freshRefVerified": true,
+    "fullTreeCounts": {
+      "total": 973,
+      "unchanged": 966,
+      "modified": 4,
+      "new": 3,
+      "deleted": 0
+    },
+    "notionRestorationGatesPrecededPublication": true,
+    "sessionReadback": "Supported immutable Git blob read directly for full Session; all bytes/SHA/Git blob match.",
+    "limits": [
+      "Two reviewed shared IPC/test paths plus five evidence/PBS paths; later retry helper and original runtime/raw logs/profiles excluded.",
+      "Local reconstruction and remote ancestry deliberately differ; exact reviewed delta preserves original remote history without force.",
+      "Stopped native attempt is not publication or UI acceptance; the new IPC source has no native/Windows qualification. Fresh same-test retry is covered by existing owner authorization and requires fresh checks, not a new user approval. Prior 45 broad failures were not rerun."
+    ]
+  },
+  "observedActions": {
+    "launches": 1,
+    "inputPickerOpenings": 1,
+    "inputVisibleOpenAcceptances": 1,
+    "outputPickerOpenings": 1,
+    "outputVisibleOpenAcceptances": 1,
+    "inspectionPrepareClicks": 1,
+    "perFileApplyClicks": 1,
+    "startClicks": 1,
+    "showInFolderClicks": 1,
+    "playerOpens": 0,
+    "extraProbeDecodeInvocations": 0,
+    "cancellations": 0,
+    "relaunches": 0
+  },
+  "supportedResult": [
+    "One visible acceptance for each folder, one Prepare, one Apply, one Start and one file-manager reveal, attributed to operator CUA observations and matching saved service events.",
+    "One 1,959,028-byte publication, 240 frames and 384000 audio samples, matching coded AAC packet/header/padding seals; decoded timing within documented tolerances, not PCM or lossless video identity.",
+    "All 44 observed owned tools closed; nine collector receipts and completed storage record retained.",
+    "All 591 source files and twelve prior diagnostic event pairs preserved; original interrupted and Return-only attempts not rewritten."
+  ],
+  "leadRelease": {
+    "recordedAtUtc": "2026-11-18T02:10:12.231751+00:00",
+    "sourceCommit": "475ac0f9bd5ebc033d68a36a443bddc60ce5f111",
+    "disposition": "Accept the independently audited bounded native Full/null/720/copied-AAC journey as completed evidence; release the 591-file source freeze only for coherent checkpoint 030 evidence/PBS records. No production qualification or new runtime execution is granted by this record.",
+    "sourceFreezeReleasedForDocumentation": true,
+    "audit": {
+      "path": "INDEPENDENT_SAVED_EVIDENCE_AUDIT.json",
+      "bytes": 25857,
+      "sha256": "a6c50a1ab95f15510a66c7c16bb3527243d4ab0a3fe97fd46722eaf05e3f56b6"
+    },
+    "leadIdentity": {
+      "path": "LEAD_IDENTITY_RECONCILIATION.json",
+      "bytes": 1280,
+      "sha256": "df34af0b4d73fb20d377c6723eb22626f1a168d1786bd1db09e7df480948e5ae"
+    },
+    "outcome": {
+      "path": "JOURNEY_OUTCOME.json",
+      "bytes": 7415,
+      "sha256": "6cd103db1d4e718567120b99db6b5e62611fda2a440956740991415309395385"
+    },
+    "outer": {
+      "path": "OUTER_COMPLETION.json",
+      "bytes": 924,
+      "sha256": "a69018eefd93f9cc7c90e21afe9573f5814c51df8d1a28751e42c52870649f12"
+    },
+    "supported": [
+      "One visible acceptance for each folder, one Prepare, one Apply, one Start and one file-manager reveal, attributed to operator CUA observations and matching saved service events.",
+      "One 1,959,028-byte publication, 240 frames and 384000 audio samples, matching coded AAC packet/header/padding seals; decoded timing within documented tolerances, not PCM or lossless video identity.",
+      "All 44 observed owned tools closed; nine collector receipts and completed storage record retained.",
+      "All 591 source files and twelve prior diagnostic event pairs preserved; original interrupted and Return-only attempts not rewritten."
+    ],
+    "limitations": [
+      "Output full SHA first established by supervisor after closure and independently matched here, not an encode-time historical hash. No fresh ffprobe/decode or pixel/PCM validation. Saved collector decoded counts/timing and copied AAC coded packet/header/padding seals are supporting evidence, not lossless video identity.",
+      "Collector receipt and telemetry remain nonpublication authority; actual OUTPUT_CHECKED, SOURCE_ASSESSED, OUTPUT_PUBLISHED and successful JOB_DISPOSITION/BATCH_FINISHED establish the service path.",
+      "Source-only hash/state checks are at audit time, not continuous enforcement. Full referenced job files copied byte-exact inside explicit canonical operation-evidence boundary; no profile/cache/token contents read.",
+      "Four truncated diagnostic contexts at FILE_INSPECTED twice, OPERATION_EVIDENCE_COLLECTED and JOB_DISPOSITION retained; event digests validate retained bytes, not lost context. Full referenced collector/storage files retained separately.",
+      "Aggregate44-child census includes startup/capability/inspection work. One ENCODE_STARTED/OUTPUT_PUBLISHED retained; no complete per-child argv/stderr claim. Top-level D-Bus/SSL messages and recorded335-byte service stderr accounting do not prove all child diagnostics harmless.",
+      "Numeric event epochs align with outer UTC. Electron stderr textual clock format differs; no clock-drift or cause inference.",
+      "Six storage point receipts precede matching actions, last after publication/before reveal. These are point checks, not continuous hard write/child quotas.",
+      "Operator reports visible Open acceptance, actual Thunar selected output/exact size, legible resolution popup on this opening, two missed coordinates corrected using fresh observations, no repeated Apply/Start. These are CUA-only visual observations, not standalone reviewed screenshots or proof intermittent popup defect fixed.",
+      "Whole871.204704-second journey includes manual entry/UI and is not encode performance. No Windows/hardware/general family/catalog/release qualification. No extra GUI/runtime/probe/decode performed by auditor."
+    ],
+    "nextPermittedWork": "Preserve checkpoint 030 via Git, independently restored Notion source and complete history plus full native records, then verified GitHub. Prepare the reviewed longer normal-service campaign final execution binding and authorizer against the actual selected preserved checkpoint and frozen mirror receipt. No campaign replay or additional GUI is authorized by this release.",
+    "nextHelperManifest": {
+      "path": "full-copy-long-service028-preparation-20261118/MANIFEST_HANDOFF-final.json",
+      "bytes": 3484,
+      "sha256": "790e0707d1fec9111e1d9a6ad79b7859adf5d02d6c49231ced8381186d659ba3"
+    },
+    "writerReleased": true
+  },
+  "eventTimeline": [
+    {
+      "sequence": 0,
+      "reason": "SESSION_STARTED",
+      "atUtc": "2026-11-18T01:45:38.918000+00:00",
+      "contextTruncated": false
+    },
+    {
+      "sequence": 1,
+      "reason": "CAPABILITY_STARTED",
+      "atUtc": "2026-11-18T01:45:39.112000+00:00",
+      "contextTruncated": false
+    },
+    {
+      "sequence": 2,
+      "reason": "RUNTIME_IDENTIFIED",
+      "atUtc": "2026-11-18T01:45:43.640000+00:00",
+      "contextTruncated": false
+    },
+    {
+      "sequence": 3,
+      "reason": "CAPABILITY_FINISHED",
+      "atUtc": "2026-11-18T01:45:43.647000+00:00",
+      "contextTruncated": false
+    },
+    {
+      "sequence": 4,
+      "reason": "PROVENANCE_RECOVERY_FINISHED",
+      "atUtc": "2026-11-18T01:45:43.652000+00:00",
+      "contextTruncated": false
+    },
+    {
+      "sequence": 5,
+      "reason": "FOLDER_PICKER_REQUESTED",
+      "atUtc": "2026-11-18T01:46:01.660000+00:00",
+      "contextTruncated": false
+    },
+    {
+      "sequence": 6,
+      "reason": "FOLDER_PICKER_REGISTERED",
+      "atUtc": "2026-11-18T01:49:27.405000+00:00",
+      "contextTruncated": false
+    },
+    {
+      "sequence": 7,
+      "reason": "FOLDER_PICKER_REQUESTED",
+      "atUtc": "2026-11-18T01:49:46.357000+00:00",
+      "contextTruncated": false
+    },
+    {
+      "sequence": 8,
+      "reason": "FOLDER_PICKER_REGISTERED",
+      "atUtc": "2026-11-18T01:53:22.382000+00:00",
+      "contextTruncated": false
+    },
+    {
+      "sequence": 9,
+      "reason": "PREPARATION_STARTED",
+      "atUtc": "2026-11-18T01:56:25.086000+00:00",
+      "contextTruncated": false
+    },
+    {
+      "sequence": 10,
+      "reason": "FILE_INSPECTED",
+      "atUtc": "2026-11-18T01:56:26.325000+00:00",
+      "contextTruncated": true
+    },
+    {
+      "sequence": 11,
+      "reason": "PREPARATION_FINISHED",
+      "atUtc": "2026-11-18T01:56:26.338000+00:00",
+      "contextTruncated": false
+    },
+    {
+      "sequence": 12,
+      "reason": "DRAFT_REPREPARATION_STARTED",
+      "atUtc": "2026-11-18T01:57:45.295000+00:00",
+      "contextTruncated": false
+    },
+    {
+      "sequence": 13,
+      "reason": "FILE_INSPECTED",
+      "atUtc": "2026-11-18T01:57:46.355000+00:00",
+      "contextTruncated": true
+    },
+    {
+      "sequence": 14,
+      "reason": "DRAFT_REPREPARATION_FINISHED",
+      "atUtc": "2026-11-18T01:57:46.377000+00:00",
+      "contextTruncated": false
+    },
+    {
+      "sequence": 15,
+      "reason": "ENCODE_STARTED",
+      "atUtc": "2026-11-18T01:58:54.625000+00:00",
+      "contextTruncated": false
+    },
+    {
+      "sequence": 16,
+      "reason": "ENCODE_CLOSED",
+      "atUtc": "2026-11-18T01:59:09.540000+00:00",
+      "contextTruncated": false
+    },
+    {
+      "sequence": 17,
+      "reason": "OPERATION_EVIDENCE_COLLECTED",
+      "atUtc": "2026-11-18T01:59:13.536000+00:00",
+      "contextTruncated": true
+    },
+    {
+      "sequence": 18,
+      "reason": "OUTPUT_CHECKED",
+      "atUtc": "2026-11-18T01:59:13.548000+00:00",
+      "contextTruncated": false
+    },
+    {
+      "sequence": 19,
+      "reason": "SOURCE_ASSESSED",
+      "atUtc": "2026-11-18T01:59:13.564000+00:00",
+      "contextTruncated": false
+    },
+    {
+      "sequence": 20,
+      "reason": "OUTPUT_PUBLISHED",
+      "atUtc": "2026-11-18T01:59:13.595000+00:00",
+      "contextTruncated": false
+    },
+    {
+      "sequence": 21,
+      "reason": "JOB_DISPOSITION",
+      "atUtc": "2026-11-18T01:59:13.634000+00:00",
+      "contextTruncated": true
+    },
+    {
+      "sequence": 22,
+      "reason": "BATCH_FINISHED",
+      "atUtc": "2026-11-18T01:59:13.639000+00:00",
+      "contextTruncated": false
+    },
+    {
+      "sequence": 23,
+      "reason": "OUTPUT_ACTION_DISPATCHED",
+      "atUtc": "2026-11-18T01:59:39.990000+00:00",
+      "contextTruncated": false
+    },
+    {
+      "sequence": 24,
+      "reason": "SESSION_ENDED",
+      "atUtc": "2026-11-18T02:00:06.951000+00:00",
+      "contextTruncated": false
+    }
+  ],
+  "collectorSummary": {
+    "status": "completed",
+    "children": 9,
+    "completeSource": {
+      "video": {
+        "frames": 240,
+        "firstTime": {
+          "n": "0",
+          "d": "15360"
+        },
+        "endTime": {
+          "n": "1887436800",
+          "d": "235929600"
+        },
+        "maximumNominalCadenceErrorUs": 0,
+        "maximumNominalDurationErrorUs": 0,
+        "maximumNominalPhaseErrorUs": 0,
+        "properties": {
+          "policy": "cfr-sdr-full-resize-copy-v1",
+          "sampleAspectRatio": "1:1",
+          "chromaLocation": "left",
+          "sideDataPolicy": "h26x-unregistered-sei-only",
+          "framesChecked": 240
+        }
+      },
+      "audio": [
+        {
+          "inputIndex": 1,
+          "sampleCount": "384000",
+          "firstTime": {
+            "n": "0",
+            "d": "48000"
+          },
+          "endTime": {
+            "n": "18432000000",
+            "d": "2304000000"
+          },
+          "gaps": 0
+        }
+      ]
+    },
+    "decodedEvidence": {
+      "video": {
+        "sourceFrameCount": 240,
+        "outputFrameCount": 240,
+        "comparedFrames": 240,
+        "firstSourcePtsUs": 0,
+        "lastSourcePtsUs": 7966667,
+        "lastSourceDurationUs": 33333,
+        "firstOutputPtsUs": 0,
+        "lastOutputPtsUs": 7967000,
+        "lastOutputDurationUs": 33000,
+        "maxRebasedTimestampErrorUs": 334
+      },
+      "audio": [
+        {
+          "inputIndex": 1,
+          "sourceSampleCount": 384000,
+          "outputSampleCount": 384000,
+          "firstSourcePtsUs": 0,
+          "lastSourceEndUs": 8000000,
+          "firstOutputPtsUs": 0,
+          "lastOutputEndUs": 8000333,
+          "encoderDelaySamples": 1024,
+          "discardPaddingSamples": 0,
+          "packetIdentity": {
+            "algorithm": "sha256",
+            "packets": 376,
+            "sourceSeal": "40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721",
+            "outputSeal": "40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721"
+          }
+        }
+      ]
+    },
+    "packetIdentity": [
+      {
+        "inputIndex": 1,
+        "outputIndex": 1,
+        "source": {
+          "packets": 376,
+          "payloadSha256": "b991cd0656a0f98f1f31928878519dc126b1c6845936043487e634fd08d0c856",
+          "sideDataSha256": "c61d37c51be2cdb36aa5911971fbe578038afd6666789cfc8cbdbbaae1c5bd87",
+          "extradataSha256": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+          "seal": "40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721"
+        },
+        "output": {
+          "packets": 376,
+          "payloadSha256": "b991cd0656a0f98f1f31928878519dc126b1c6845936043487e634fd08d0c856",
+          "sideDataSha256": "c61d37c51be2cdb36aa5911971fbe578038afd6666789cfc8cbdbbaae1c5bd87",
+          "extradataSha256": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+          "seal": "40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721"
+        }
+      }
+    ],
+    "timelineComparisons": {
+      "video": {
+        "comparedFrames": 240,
+        "maximumDurationErrorUs": 334,
+        "toleranceUs": 1067
+      },
+      "audio": [
+        {
+          "inputIndex": 1,
+          "mode": "copy",
+          "selectedSourceGaps": 0,
+          "unmatchedSourceTailSamples": 0,
+          "unmatchedOutputTailSamples": 0,
+          "comparedSamples": 384000,
+          "intersectedSpans": 375,
+          "maximumElapsedClockErrorUs": 334,
+          "toleranceUs": 1042,
+          "alignment": "sample ordinal after decoder-signalled skip; source minus the shared requested origin; no fitted shift",
+          "contentIdentity": false
+        }
+      ]
+    },
+    "budget": {
+      "sourceDecode": "complete",
+      "timeoutMs": 204168,
+      "maxFrameBytes": 22577152,
+      "maxPcmBytes": 1728000,
+      "maxRecords": 22048,
+      "maxSpoolBytes": 5767168
+    },
+    "publicationAuthorized": false,
+    "qualificationGranted": false
+  },
+  "serviceAggregateAccounting": {
+    "children": 12,
+    "streamedBytes": 285448,
+    "pipeBytes": {
+      "stdout": 301478,
+      "stderr": 335
+    },
+    "meaning": "12 includes source reinspection, target, output metadata probe and nine collector invocations; not twelve collector children."
+  },
+  "collectorStderr": [
+    {
+      "label": "source-video-frames",
+      "stderr": "",
+      "stderrCapture": {
+        "totalBytes": 0,
+        "truncated": false
+      }
+    },
+    {
+      "label": "output-video-frames",
+      "stderr": "",
+      "stderrCapture": {
+        "totalBytes": 0,
+        "truncated": false
+      }
+    },
+    {
+      "label": "source-audio-1-frames",
+      "stderr": "",
+      "stderrCapture": {
+        "totalBytes": 0,
+        "truncated": false
+      }
+    },
+    {
+      "label": "output-audio-1-frames",
+      "stderr": "",
+      "stderrCapture": {
+        "totalBytes": 0,
+        "truncated": false
+      }
+    },
+    {
+      "label": "output-audio-1-padding",
+      "stderr": "",
+      "stderrCapture": {
+        "totalBytes": 0,
+        "truncated": false
+      }
+    },
+    {
+      "label": "source-audio-1-packet-identity",
+      "stderr": "",
+      "stderrCapture": {
+        "totalBytes": 0,
+        "truncated": false
+      }
+    },
+    {
+      "label": "source-audio-1-header",
+      "stderr": "",
+      "stderrCapture": {
+        "totalBytes": 0,
+        "truncated": false
+      }
+    },
+    {
+      "label": "output-audio-1-packet-identity",
+      "stderr": "",
+      "stderrCapture": {
+        "totalBytes": 0,
+        "truncated": false
+      }
+    },
+    {
+      "label": "output-audio-1-header",
+      "stderr": "",
+      "stderrCapture": {
+        "totalBytes": 0,
+        "truncated": false
+      }
+    }
+  ],
+  "storageFinal": {
+    "schema": 1,
+    "id": "job-4700ae6d-42bb-4f70-affa-56cf42213716",
+    "status": "completed",
+    "retained": true,
+    "observation": "complete",
+    "observedBeforeRecord": {
+      "schema": 1,
+      "observation": "complete",
+      "consistency": "bounded-point-observations",
+      "observationAttempts": 1,
+      "maxObservationAttempts": 3,
+      "usedBytes": 133287,
+      "reservedBytes": 33422218,
+      "projectedBytes": 33621041,
+      "capBytes": 1073741824,
+      "metadataHeadroomBytes": 65536,
+      "entries": 22,
+      "freeBytes": 58447187968,
+      "minFreeBytes": 26843545600,
+      "overCap": false,
+      "overAdmissionCap": false,
+      "lowFree": false,
+      "jobs": [
+        {
+          "id": "job-4700ae6d-42bb-4f70-affa-56cf42213716",
+          "actualBytes": 132214,
+          "reservedBytes": 33554432,
+          "remainingBytes": 33422218,
+          "overReservation": false
+        }
+      ],
+      "leaseRecovery": "none",
+      "ledgerState": "reconciled",
+      "startupLedgerState": "missing-reconciled",
+      "directorySync": "synced",
+      "hardWriteCap": false
+    },
+    "violations": [],
+    "authority": "diagnostic-only",
+    "hardWriteCap": false
+  },
+  "encoderTelemetrySummary": {
+    "schema": 1,
+    "scope": "encoder-input-statistics",
+    "stream": {
+      "outputIndex": 0,
+      "kind": "video"
+    },
+    "bytes": 11340,
+    "records": "240",
+    "sampleCount": null,
+    "first": {
+      "n": "0",
+      "inputFrame": "0",
+      "timeBase": {
+        "numerator": "1",
+        "denominator": "15360"
+      },
+      "pts": "0",
+      "time": {
+        "numerator": "0",
+        "denominator": "1"
+      },
+      "inputTimeBase": {
+        "numerator": "1",
+        "denominator": "15360"
+      },
+      "inputPts": "0",
+      "inputTime": {
+        "numerator": "0",
+        "denominator": "1"
+      }
+    },
+    "last": {
+      "n": "239",
+      "inputFrame": "239",
+      "timeBase": {
+        "numerator": "1",
+        "denominator": "15360"
+      },
+      "pts": "122368",
+      "time": {
+        "numerator": "239",
+        "denominator": "30"
+      },
+      "inputTimeBase": {
+        "numerator": "1",
+        "denominator": "15360"
+      },
+      "inputPts": "122368",
+      "inputTime": {
+        "numerator": "239",
+        "denominator": "30"
+      }
+    },
+    "unknownInputRecords": "0",
+    "repeatedPts": "0",
+    "backwardsPts": "0",
+    "audioDiscontinuities": "0",
+    "minPtsDelta": {
+      "numerator": "1",
+      "denominator": "30"
+    },
+    "maxPtsDelta": {
+      "numerator": "1",
+      "denominator": "30"
+    },
+    "hashes": {
+      "algorithm": "sha256",
+      "raw": "a9111876a67c3bfd7105f099170679b0fdba47270c00659a617c98c5acb4930f",
+      "canonicalRecords": "eb9592eea20be1b7c1caa3cd2f6ab03eb954931d37c1a6f8c001b9f87f06d306",
+      "orderedPts": "f7433a5f43304561b22f0d3921380e2a561091b345830d969139b71a59a2ed83",
+      "contentHash": false
+    },
+    "videoDurationAvailable": false,
+    "completeOutputValidation": false
+  },
+  "pointStorage": [
+    {
+      "stage": "before-input-acceptance",
+      "atUtc": "2026-11-18T01:49:18.699978+00:00",
+      "freeBytes": 58449530880,
+      "ownedInputOutputBytes": 5578679
+    },
+    {
+      "stage": "before-output-acceptance",
+      "atUtc": "2026-11-18T01:53:12.631372+00:00",
+      "freeBytes": 58449457152,
+      "ownedInputOutputBytes": 5578679
+    },
+    {
+      "checkedAtUtc": "2026-11-18T01:56:14.532629+00:00",
+      "freeBytes": 58449444864,
+      "ownedBytes": 5578679,
+      "action": "before inspection Prepare"
+    },
+    {
+      "checkedAtUtc": "2026-11-18T01:57:31.894193+00:00",
+      "freeBytes": 58449424384,
+      "ownedBytes": 5578679,
+      "action": "before per-file Apply Full null 720 Copy"
+    },
+    {
+      "checkedAtUtc": "2026-11-18T01:58:45.502909+00:00",
+      "freeBytes": 58449408000,
+      "ownedBytes": 5578679,
+      "action": "before sole Start"
+    },
+    {
+      "checkedAtUtc": "2026-11-18T01:59:35.129305+00:00",
+      "freeBytes": 58447175680,
+      "ownedBytes": 7537707,
+      "action": "after terminal success before optional reveal and normal close"
+    }
+  ],
+  "retainedReferencedEvidence": [
+    {
+      "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/encoder-input-receipt.json",
+      "bytes": 3303,
+      "sha256": "26069baba479b24aa09fe29b4b130bba38a69c1258d57f8c9aef2f3bf4bb0540"
+    },
+    {
+      "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/encoder-telemetry-UrrjEl/stream-0.tsv",
+      "bytes": 11340,
+      "sha256": "a9111876a67c3bfd7105f099170679b0fdba47270c00659a617c98c5acb4930f"
+    },
+    {
+      "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/child-1.json",
+      "bytes": 1280,
+      "sha256": "de41dc2a2c27857b1246d34629553f038cc742c540c9f348a786f00e9a8f74d0"
+    },
+    {
+      "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/child-2.json",
+      "bytes": 1245,
+      "sha256": "a937a2ed68d44deb6a00ee8417b8b3acfd9d0e300163369e9acc31905374c7ed"
+    },
+    {
+      "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/child-3.json",
+      "bytes": 1232,
+      "sha256": "23e4ad4ea3ea4ad7040c8cbc00f0f4f3134dd8684ae2345d89ff69f7ef526227"
+    },
+    {
+      "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/child-4.json",
+      "bytes": 1247,
+      "sha256": "3259b2c6abf9090393e0cebe0e09ac2e3ccd15590bc9aaa85caec19c40a82f31"
+    },
+    {
+      "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/child-5.json",
+      "bytes": 1118,
+      "sha256": "42a6bb2dc22730058fefa028f7970c0df775fda73c3866fb69673d3e908199f7"
+    },
+    {
+      "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/child-6.json",
+      "bytes": 1159,
+      "sha256": "3bb1badd70e8b2eb43952951705db6c5b536507c91bef57d7ee0006530505f63"
+    },
+    {
+      "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/child-7.json",
+      "bytes": 1103,
+      "sha256": "e01a9c6c11f45ddd1707435de484a1c15319727795b7e9dd5be7f097598ded38"
+    },
+    {
+      "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/child-8.json",
+      "bytes": 1174,
+      "sha256": "3c313f33520149b9e020292a7992b9850cb88f2710a0f639204b2723974eec4b"
+    },
+    {
+      "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/child-9.json",
+      "bytes": 1118,
+      "sha256": "9f129694134d6e04d0f4278c76f330eddae501b67bac4490fe34d0212909e707"
+    },
+    {
+      "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/output-audio-1.jsonl",
+      "bytes": 25336,
+      "sha256": "da21466606533237f6546d3766d40b87a8857ad63659b7e495a3b77e520a327d"
+    },
+    {
+      "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/receipt.json",
+      "bytes": 20482,
+      "sha256": "e35e3e06408db92cafd9bc4d838444b0f27ec65b2727532206421e4ee2c27c00"
+    },
+    {
+      "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/selected-audio-1.jsonl",
+      "bytes": 41812,
+      "sha256": "08b1cc8c13aee87d902f031a1fa69f9563dd22a672a08359a5f28cece7a4e216"
+    },
+    {
+      "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/selected-video.jsonl",
+      "bytes": 16820,
+      "sha256": "839a277e8a91d408c309813baa546bfeda7fb72342e6d84ec010735845fd4b9f"
+    },
+    {
+      "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/operation-evidence-qIPgUb/start.json",
+      "bytes": 2270,
+      "sha256": "ce9a6a2b6a897fa49ba60ab1f79fcf3cc5b14b6c7cd6c90865ac06c14a866a61"
+    },
+    {
+      "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/storage-final.json",
+      "bytes": 881,
+      "sha256": "5936f2f53f8810896e54f6abae3ebe4ff40c8ab0bc5e6b5e6944f69effbd280e"
+    },
+    {
+      "path": "operation-evidence/job-4700ae6d-42bb-4f70-affa-56cf42213716/storage-reservation.json",
+      "bytes": 175,
+      "sha256": "006322e1ed1c6d953095a5d1e010f249fc0a382626b2c0385cb5cc05ebdd0f2c"
+    }
+  ],
+  "inheritedTests": {
+    "rerunFor030": false,
+    "source029": "261/261",
+    "historicalBroad": "223/268,45 failures; not rerun",
+    "noScopesSummed": true
+  },
+  "nextLongHelper": {
+    "status": "Final manifest metadata closure; no binding/gate or runtimepermission",
+    "at": "2026-11-18T01:52:18.293775+00:00",
+    "manifest": {
+      "path": "full-copy-long-service028-preparation-20261118/CAMPAIGN_PLAN.json",
+      "bytes": 14344,
+      "sha256": "6b3051d7a558ee597e7d96d12fd738cd7af63ab6fffb37bed05baef31ac6075b"
+    },
+    "priorManifest": {
+      "path": "full-copy-long-service028-preparation-20261118/CAMPAIGN_PLAN-v3-before-test-metadata.json",
+      "bytes": 12573,
+      "sha256": "15f4a8e6f6d86045de9e1072b191234ec2f0dda09d33f86c43d8cf1af040a4ca"
+    },
+    "priorHandoff": {
+      "path": "full-copy-long-service028-preparation-20261118/MANIFEST_HANDOFF-v3.json",
+      "bytes": 3655,
+      "sha256": "7e182e46b2dec8f81901f693e5febc4ce71273706869c197ac7c265c62c036dc"
+    },
+    "reviews": [
+      {
+        "path": "full-copy-long-service028-preparation-20261118/INDEPENDENT_MANIFEST_REVIEW-v3.json",
+        "bytes": 4429,
+        "sha256": "2221955acf1d8a23044b1a613f62399984005b59c284fe035d58fcf31a291278"
+      },
+      {
+        "path": "full-copy-long-service028-preparation-20261118/INDEPENDENT_TEST_CORRECTION_REVIEW-v3.json",
+        "bytes": 2129,
+        "sha256": "e1b41af6f46f2649f59dd5993df3dd800e796c8b833e7c6a80ccebb4070ef050"
+      }
+    ],
+    "correctedTest": {
+      "path": "full-copy-long-service028-preparation-20261118/execution-binding.test.cjs",
+      "bytes": 4946,
+      "sha256": "d9b7b77a890fe38dbb9053eb2c910e3042bfc249170d7cb7f0152c5376d6f9b3"
+    },
+    "verifiedFileRows": 38,
+    "productionHelpersUnchanged": [
+      {
+        "path": "full-copy-long-service028-preparation-20261118/launch-service.cjs",
+        "bytes": 37515,
+        "sha256": "8dd512823962e4e81f357f50154dc6534c83559df3cd6cf5503adf31bcbd50c2"
+      },
+      {
+        "path": "full-copy-long-service028-preparation-20261118/run-once.cjs",
+        "bytes": 3996,
+        "sha256": "1d0e0be3d951218510159c4933c4e0b8d98d093085603f026e7dd4f35eb27a02"
+      },
+      {
+        "path": "full-copy-long-service028-preparation-20261118/execution-binding.cjs",
+        "bytes": 5882,
+        "sha256": "d1e77cb91102b5e2c1df090716616147300a02ea308e12718bc23a233e2e151b"
+      },
+      {
+        "path": "full-copy-long-service028-preparation-20261118/terminal-contract.cjs",
+        "bytes": 9358,
+        "sha256": "b04d1cbb5c9873aa3150e63697ae37cb9b09138973b8185fa59ff9b3d6261589"
+      },
+      {
+        "path": "full-copy-long-service028-preparation-20261118/role-templates.json",
+        "bytes": 21390,
+        "sha256": "9dd9c4b00b232523fbf12874ce33aca40b4b8822dc372d65230088a78cf45baa"
+      },
+      {
+        "path": "full-copy-long-service028-preparation-20261118/persist-exact.cjs",
+        "bytes": 694,
+        "sha256": "3e2e8419f80fc934905802ac045bd6a23b30746f78afa4782292414d4d95b459"
+      }
+    ],
+    "remainingPrerequisites": [
+      "Actual future checkpoint must be selected from completed independently verified source/fullhistory/nativeNotion/GitHub preservation and finalreleased mirror receipt; no guessed checkpoint or present execution binding.",
+      "Generate and independently review exact future EXECUTION_BINDING.json/authorizer against final manifest hash, actual fullarchives/receipts and exact approvedapp/runtime/proof identities. Explicit bounded one-shot leadrelease remains required."
+    ],
+    "limits": "Metadata-only closure, all listedfile hashesverified by reads. No tests rerun, source/PBS/profile/runtime/media/desktop/authorizer/binding/gate writes. Manifest hash changed, so future gate planSha256 must use this finalhash, not earlierV3."
+  },
+  "portable": {
+    "path": "linux-blue/evidence-2026-11-18/native-full-copy-workbench-success-portable.json",
+    "bytes": 49870,
+    "sha256": "2667ea67966e3ea05d61a31f945b3e7e08e9da138481c9ee829d06db33494206",
+    "reports": 5,
+    "rootOnlyChanges": 9,
+    "allOtherKeysTypesValuesExact": true
+  },
+  "artifacts": [
+    {
+      "path": "native-full-copy-picker029-preparation-20261118/HANDOFF-v1.json",
+      "bytes": 2428,
+      "sha256": "4de2216987aa68cbe424f6381f7fba8316d36d7c9de6df2e01afb7198ac11f1d"
+    },
+    {
+      "path": "native-full-copy-picker029-preparation-20261118/PLAN.md",
+      "bytes": 4826,
+      "sha256": "b66fb9423f0b329f90c4b645352d8fe16d7461af712199bd9a114f89b956c753"
+    },
+    {
+      "path": "native-full-copy-picker029-preparation-20261118/NATIVE_PLAN.json",
+      "bytes": 20823,
+      "sha256": "a016f93a036cab0f2fc542c27ec0caf8521c554e2109f5f996fdcb7376c88c63"
+    },
+    {
+      "path": "native-full-copy-picker029-preparation-20261118/INDEPENDENT_PREPARATION_REVIEW.json",
+      "bytes": 4531,
+      "sha256": "6129c6da803f289d750eec69d4e7326b73b78071cfa89a1a002feb47cd99245a"
+    },
+    {
+      "path": "native-full-copy-picker029-preparation-20261118/INDEPENDENT_GENERATOR_REVIEW.json",
+      "bytes": 3533,
+      "sha256": "ce3ddf63e15fb9941cd07f374e05fb09139de3edc71b0b83df1564db123b2ea5"
+    },
+    {
+      "path": "native-full-copy-picker029-preparation-20261118/INDEPENDENT_GENERATOR_REVIEW-v2.json",
+      "bytes": 3048,
+      "sha256": "573a4f53c4b489294bc0215bb0f33bde4c2dfc5d81bc29868e613d71c4eb3df0"
+    },
+    {
+      "path": "native-full-copy-picker029-preparation-20261118/GENERATOR_V2_EXECUTION.json",
+      "bytes": 704,
+      "sha256": "5407f42686080784e737e9c1e0981a978e2c11064949aa2278d466cb1f018fbc"
+    },
+    {
+      "path": "native-full-copy-picker029-preparation-20261118/AUTHORIZER_REVIEW.json",
+      "bytes": 5151,
+      "sha256": "9c543c07b6991d91182b5c4bede84e5cc572d5c67c528b4c3e2adbc6dbee1c74"
+    },
+    {
+      "path": "native-full-copy-picker029-preparation-20261118/AUTHORIZER_EXECUTION.json",
+      "bytes": 716,
+      "sha256": "623e308b8d0e28447c1d2a991c3a1afa8c138dee32a230e755c1f9893aa7ea70"
+    },
+    {
+      "path": "native-full-copy-picker029-preparation-20261118/DESKTOP_PREFLIGHT.json",
+      "bytes": 1357,
+      "sha256": "edf701185ee0952e7741aebd0a56fe7dd36d9262a8e97d0a72a276d8bc3d27ad"
+    },
+    {
+      "path": "native-full-copy-picker029-preparation-20261118/APPROVED_JOURNEY_A.json",
+      "bytes": 77231,
+      "sha256": "108d02cbe541aceaa1af89d476296c046d3c48807ecd0a259655d3b67bd9fb46"
+    },
+    {
+      "path": "native-full-copy-picker029-preparation-20261118/JOURNEY_OUTCOME.json",
+      "bytes": 7415,
+      "sha256": "6cd103db1d4e718567120b99db6b5e62611fda2a440956740991415309395385"
+    },
+    {
+      "path": "native-full-copy-picker029-preparation-20261118/OUTER_COMPLETION.json",
+      "bytes": 924,
+      "sha256": "a69018eefd93f9cc7c90e21afe9573f5814c51df8d1a28751e42c52870649f12"
+    },
+    {
+      "path": "native-full-copy-picker029-preparation-20261118/WORKER_IDENTITY_AND_EVENT_CAPTURE.json",
+      "bytes": 8274,
+      "sha256": "46730929157f11f1806cb75c3eca078bd44a7d6188a88c203826978e65414723"
+    },
+    {
+      "path": "native-full-copy-picker029-preparation-20261118/INDEPENDENT_SAVED_EVIDENCE_AUDIT.json",
+      "bytes": 25857,
+      "sha256": "a6c50a1ab95f15510a66c7c16bb3527243d4ab0a3fe97fd46722eaf05e3f56b6"
+    },
+    {
+      "path": "native-full-copy-picker029-preparation-20261118/LEAD_IDENTITY_RECONCILIATION.json",
+      "bytes": 1280,
+      "sha256": "df34af0b4d73fb20d377c6723eb22626f1a168d1786bd1db09e7df480948e5ae"
+    },
+    {
+      "path": "native-full-copy-picker029-preparation-20261118/LEAD_RELEASE.json",
+      "bytes": 4569,
+      "sha256": "91fe8521277a04a923d1551faa8dda0e59ec34e7ca6e8389be33114968ce34d6"
+    },
+    {
+      "path": "native-full-copy-picker029-preparation-20261118/POINT_STORAGE-01.json",
+      "bytes": 151,
+      "sha256": "81d3b67ad9a80de1e91b2c0dd8e84e32f4d420596eb3ef9b2ac986fa8916fcf8"
+    },
+    {
+      "path": "native-full-copy-picker029-preparation-20261118/POINT_STORAGE-02.json",
+      "bytes": 152,
+      "sha256": "9dde10157f3cc51f844fae914aba8ab3a64620e5e046b5b2c505b27d4cf28dbf"
+    },
+    {
+      "path": "native-full-copy-picker029-preparation-20261118/POINT_STORAGE-03.json",
+      "bytes": 150,
+      "sha256": "cc58bf129fa3286f4714a904ee4f1c85d855013b0164d8a5fda5932b26bd1a52"
+    },
+    {
+      "path": "native-full-copy-picker029-preparation-20261118/POINT_STORAGE-04.json",
+      "bytes": 165,
+      "sha256": "4a4edc6ca5b84b566f5e60a124b864610b7b6518cceb2e8761e7080f853c77ba"
+    },
+    {
+      "path": "native-full-copy-picker029-preparation-20261118/POINT_STORAGE-05.json",
+      "bytes": 142,
+      "sha256": "bd64e28b784842ede79917e75a0ca68f87a0c80a15c6d5f97a4eb9f155c1dc1d"
+    },
+    {
+      "path": "native-full-copy-picker029-preparation-20261118/POINT_STORAGE-06.json",
+      "bytes": 187,
+      "sha256": "ceb1377467a342fc1b03d935d5618bbdbf46bc0c7e7f934b3d7a213920b413c4"
+    },
+    {
+      "path": "github-checkpoint029-verification.json",
+      "bytes": 3337,
+      "sha256": "17177da3f232044e8ba7aabd29e3d12ec4e53acfaf6edd8df557edd344a9207b"
+    },
+    {
+      "path": "notion-checkpoint-029-verification.json",
+      "bytes": 105229,
+      "sha256": "3b9a7d3b3f7cfe55b844fae1d382621e749a7bc9a6ddbfc7d8f88de6d83eb52d"
+    },
+    {
+      "path": "checkpoint029-final-mirror-release.json",
+      "bytes": 519,
+      "sha256": "fa974def43db9eb1ef8e1fa7ca4db76b57bf1dd68277c9c17189b2f621040a97"
+    },
+    {
+      "path": "checkpoint029-lead-test-results.json",
+      "bytes": 4593,
+      "sha256": "49eaa08cb33951b99f3d2866feb9308f972b8c68fa721962493b5084cee8600a"
+    },
+    {
+      "path": "full-copy-long-service028-preparation-20261118/MANIFEST_HANDOFF-final.json",
+      "bytes": 3484,
+      "sha256": "790e0707d1fec9111e1d9a6ad79b7859adf5d02d6c49231ced8381186d659ba3"
+    },
+    {
+      "path": "full-copy-long-service028-preparation-20261118/CAMPAIGN_PLAN.json",
+      "bytes": 14344,
+      "sha256": "6b3051d7a558ee597e7d96d12fd738cd7af63ab6fffb37bed05baef31ac6075b"
+    }
+  ],
+  "limits": [
+    "Output full SHA first established by supervisor after closure and independently matched here, not an encode-time historical hash. No fresh ffprobe/decode or pixel/PCM validation. Saved collector decoded counts/timing and copied AAC coded packet/header/padding seals are supporting evidence, not lossless video identity.",
+    "Collector receipt and telemetry remain nonpublication authority; actual OUTPUT_CHECKED, SOURCE_ASSESSED, OUTPUT_PUBLISHED and successful JOB_DISPOSITION/BATCH_FINISHED establish the service path.",
+    "Source-only hash/state checks are at audit time, not continuous enforcement. Full referenced job files copied byte-exact inside explicit canonical operation-evidence boundary; no profile/cache/token contents read.",
+    "Four truncated diagnostic contexts at FILE_INSPECTED twice, OPERATION_EVIDENCE_COLLECTED and JOB_DISPOSITION retained; event digests validate retained bytes, not lost context. Full referenced collector/storage files retained separately.",
+    "Aggregate44-child census includes startup/capability/inspection work. One ENCODE_STARTED/OUTPUT_PUBLISHED retained; no complete per-child argv/stderr claim. Top-level D-Bus/SSL messages and recorded335-byte service stderr accounting do not prove all child diagnostics harmless.",
+    "Numeric event epochs align with outer UTC. Electron stderr textual clock format differs; no clock-drift or cause inference.",
+    "Six storage point receipts precede matching actions, last after publication/before reveal. These are point checks, not continuous hard write/child quotas.",
+    "Operator reports visible Open acceptance, actual Thunar selected output/exact size, legible resolution popup on this opening, two missed coordinates corrected using fresh observations, no repeated Apply/Start. These are CUA-only visual observations, not standalone reviewed screenshots or proof intermittent popup defect fixed.",
+    "Whole871.204704-second journey includes manual entry/UI and is not encode performance. No Windows/hardware/general family/catalog/release qualification. No extra GUI/runtime/probe/decode performed by auditor.",
+    "All source/restoration claims for completed preservation refer to029.030 commit/downloaded restore/GitHub remain pending at cutoff.",
+    "Formal Security Cloud and validated formal patch-risk artifact remain deferred/unavailable; manual evidence review is not a formal scan."
+  ]
+}

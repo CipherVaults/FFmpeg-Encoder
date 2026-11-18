@@ -1,0 +1,331 @@
+{
+  "schema": "ffmpeg-curated-checkpoint-receipts-v1",
+  "checkpoint": "036",
+  "status": "Prepared for coherent checkpoint 036; commit and preservation pending",
+  "runtimeSourceCommit": "2810e7e4e0590f73f3b1672741bef9dda593c4f7",
+  "artifactReferences": [
+    {
+      "path": "session-authority-sourcework-evidence/HANDOFF-v2.json",
+      "bytes": 3174,
+      "sha256": "8b7f3aff03ef2155802a35b3d86abf3d7d23669353108b153c31ce6007770559"
+    },
+    {
+      "path": "session-authority-independent/INDEPENDENT_REVIEW.json",
+      "bytes": 5920,
+      "sha256": "ba38b3d443dd902fb21ed56f39be38abdd7ba8b8a9136bf9c1418f9c1314e674"
+    },
+    {
+      "path": "session-authority-independent/INDEPENDENT_REVIEW-v2.json",
+      "bytes": 4603,
+      "sha256": "69614b5990921e3f57256c9b9565dde8449f8f32ac5f27c626bc4b524c64521b"
+    },
+    {
+      "path": "current-cost-attribution-20261118/COST_ATTRIBUTION.md",
+      "bytes": 8630,
+      "sha256": "38193e1c7d2ed66280eed0f2679559e2c4170815dff59ea68c41be1d03ecdc58"
+    },
+    {
+      "path": "current-cost-attribution-20261118/COST_ATTRIBUTION.json",
+      "bytes": 28261,
+      "sha256": "a2a3ffbeda321c72743736b0562b32dca6aeff10029529da92c68dd6e3c31793"
+    },
+    {
+      "path": "current-ordinary-route-review/PATH_MAP.md",
+      "bytes": 6499,
+      "sha256": "23680cc318cc7229f7d494c8fda7c2ad8d32fc577fef9aca1a2bcac12b965528"
+    },
+    {
+      "path": "ordinary-default035-smoke-preparation-20261118/INDEPENDENT_FAILURE_AUDIT.json",
+      "bytes": 18398,
+      "sha256": "a28e067e791b028169675140bf3fa8c02aafe4fbb6a1b6a99fb25fe242458573"
+    },
+    {
+      "path": "ordinary-default035-smoke-preparation-20261118/LEAD_RECONCILIATION.json",
+      "bytes": 1277,
+      "sha256": "8b16f94fcbf7b010fc1705c9d4c50a79220fe9258309399798353c1fc0946484"
+    },
+    {
+      "path": "ordinary-default035-successor-preparation-20261118/INDEPENDENT_SUCCESSOR_REVIEW.json",
+      "bytes": 4683,
+      "sha256": "03253c1b6679e86a655a5e6f68a07fe6e07cd40c4cefe5c7e300c25fe7eeaa39"
+    },
+    {
+      "path": "ordinary-default035-successor-preparation-20261118/INDEPENDENT_SAVED_OUTPUT_AUDIT.json",
+      "bytes": 28801,
+      "sha256": "7fe86ab4e950a6376442037def4166a48d85f7cb1961ae9f8c95bd06e1a4d5aa"
+    },
+    {
+      "path": "notion-checkpoint-035-verification.json",
+      "bytes": 113534,
+      "sha256": "2d99fc66d3563286729eb00e2cf556548acdfb0a4c76cdfb5614e3c9fefed2e4"
+    },
+    {
+      "path": "github-checkpoint035-verification.json",
+      "bytes": 6926,
+      "sha256": "3200ef9c23bdefc3b0ff22c7646fe4d258dc8c45f10cf72465ad973bc80f4ad4"
+    },
+    {
+      "path": "ordinary035-audio-diagnostic-preparation/REPORT.json",
+      "bytes": 13564,
+      "sha256": "f9e8adf4d17bdde0224228919b02da86dfc693ae47631a736edba8dd95d87a03"
+    },
+    {
+      "path": "ordinary035-audio-diagnostic-preparation/INDEPENDENT_DIAGNOSTIC_AUDIT.json",
+      "bytes": 8982,
+      "sha256": "a44f06ec2d10839cc6cbee58f1ae5e48268388dc408ce2374a53e65fbb65ac36"
+    },
+    {
+      "path": "ordinary035-audio-diagnostic-preparation/LEAD_RECONCILIATION.json",
+      "bytes": 1022,
+      "sha256": "6c8e6208454e3056685974943b6798906e4178b9f2033a367f38384eb5ccbeb7"
+    },
+    {
+      "path": "ordinary035-audio-diagnostic-preparation/INDEPENDENT_PREPARATION_REVIEW-v2.json",
+      "bytes": 4809,
+      "sha256": "4d859a289a031e0a23f04ef417a4b8707d5153c954e2f40ea8932159bcf5f2e1"
+    },
+    {
+      "path": "checkpoint036-integration.json",
+      "bytes": 1206,
+      "sha256": "7f6d6b1f2b646d7c902a0ba33c887d1670c2d9eee326de2554591b415d668117"
+    },
+    {
+      "path": "checkpoint036-lead-test-results.json",
+      "bytes": 1419,
+      "sha256": "eca89f44c1c7998c360e55f004e47aae2458dfab8876105007b5ae0eb78db9ad"
+    },
+    {
+      "path": "ordinary035-audio-timestamp-experiment-preparation/REPORT.json",
+      "bytes": 20593,
+      "sha256": "77c4ed71fa26f6793117471df95efadbc74d73988bdcbfaaa93345c0180b5965"
+    },
+    {
+      "path": "ordinary035-audio-timestamp-experiment-preparation/INDEPENDENT_EXPERIMENT_AUDIT.json",
+      "bytes": 10101,
+      "sha256": "bd0dc31d6c31909f7cd5d4a543019b226a7344b12c78f2a5974dc7524ed867c5"
+    },
+    {
+      "path": "ordinary035-audio-timestamp-experiment-preparation/LEAD_RECONCILIATION.json",
+      "bytes": 895,
+      "sha256": "3a99798b477f06be4232db9437e8f23d42493e576eced691166e409507548f38"
+    },
+    {
+      "path": "ordinary035-audio-timestamp-experiment-preparation/INDEPENDENT_PREPARATION_REVIEW-v1.json",
+      "bytes": 3203,
+      "sha256": "77cb7801239d5fa1aaf63f06c952755b8889f0df34560ec8b81ba3a61bc9ad1c"
+    },
+    {
+      "path": "ordinary035-audio-timestamp-experiment-preparation/INDEPENDENT_PREPARATION_REVIEW-v2.json",
+      "bytes": 3860,
+      "sha256": "0ac620c45595af0d5e117b154e4f315ed0a1318ec6c800776ccbb1c934456284"
+    },
+    {
+      "path": "ordinary035-audio-timestamp-experiment-preparation/HANDOFF-v2.json",
+      "bytes": 3911,
+      "sha256": "2f2037a0a8e18c8f618c719817dbbe7ff4d31cacef6e65d20fdaa643b11d05d4"
+    },
+    {
+      "path": "ordinary035-audio-timestamp-experiment-preparation/PLAN.md",
+      "bytes": 3810,
+      "sha256": "44c7aecf3c9fe3c1f848caf5e2fd599217a2dc7a1ad22808cf884bdc9c0647c1"
+    },
+    {
+      "path": "checkpoint036-lead-tests/focused.json",
+      "bytes": 2292,
+      "sha256": "13eb48259fa9d3f10ece9f397017e0259f774c2f5505ccb2d980101bd95ec5ce"
+    },
+    {
+      "path": "checkpoint036-lead-tests/protection.json",
+      "bytes": 3102,
+      "sha256": "f84bae6b1c206f76b022017ccdb82127fc62839037d9a2a391929560e8bc0318"
+    },
+    {
+      "path": "checkpoint036-lead-tests/linux-broad.json",
+      "bytes": 10361,
+      "sha256": "20e9b3c2358b9914d4ab7b523cf4dafe3dff9b068419df5334d1f7d064b0bdef"
+    }
+  ],
+  "independentV2Tests": {
+    "focusedPass": 42,
+    "focusedFail": 0,
+    "broadRerun": false,
+    "mutationRerun": false
+  },
+  "ordinaryEvidence": {
+    "original": {
+      "closed": 30,
+      "targets": 0,
+      "status": "failed-retained helper JSON comparison"
+    },
+    "successor": {
+      "closed": 39,
+      "targets": 1,
+      "cases": 2,
+      "stderrNonempty": 7,
+      "stderrEmpty": 32,
+      "targetStderrBytes": 1768,
+      "truncatedContextSequences": [
+        6,
+        13,
+        16
+      ],
+      "outputBytes": 6691931,
+      "outputSha256": "1a1fe52781537a565b8b165b131b53656b0ec2fd76765a5e359f1ddc01728cab",
+      "videoFrames": 240,
+      "sourceAudioFrames": 375,
+      "outputAudioFrames": 376,
+      "pcmIdentityEstablished": false,
+      "stockFactoryUntouched": false,
+      "osReveal": false
+    }
+  },
+  "limits": [
+    "Media evidence is on frozen 035; only one test integrated after source release. Final scopes overlap and optional historical references were not rerun.",
+    "All runtime evidence is on immutable 035, not the proposed test file.",
+    "Whole journey elapsed time is not throughput; retained cost attribution is read-only and not a benchmark.",
+    "No source-only restoration of raw media/runtime/gates; portable report objects are logical aliases, not execution authority.",
+    "V1 broad and mutation results are separate from V2 focused and cleanup controls.",
+    "Formal Security Cloud is not replaced by manual scoped review."
+  ],
+  "audioDiagnosis": {
+    "status": "Confirmed tested-tuple presentation defect; no source fix",
+    "childrenClosed": 6,
+    "stderrEmpty": 6,
+    "sourceSamples": 384000,
+    "outputSamples": 385024,
+    "outputPrefixSamples": 1024,
+    "outputSuffixSamples": 0,
+    "completeSourceEqualsOutputAfterPrefix": true,
+    "wholePcmBytesEqual": false,
+    "packetRowsIdentical": 376,
+    "sourceSkipSamples": 1024,
+    "outputSkipSideData": false,
+    "originalContentFirstFrameMs": 21,
+    "outputVideoStartMs": 21,
+    "provenLipSyncError": false,
+    "audibilityQualified": false,
+    "nextExperiment": "Completed separate timestamp-only experiment; both variants retain exposed priming. Next guard design is not implemented at cutoff.",
+    "sourceFreezeRetainedDuringDiagnostic": true
+  },
+  "cutoffUtc": "2026-11-18T06:02:50.107151+00:00",
+  "expectedCheckpoint": {
+    "changedPaths": 6,
+    "files": 621,
+    "commits": 36
+  },
+  "integratedSourceDelta": {
+    "path": "linux-blue/workbench-session-output-access.test.cjs",
+    "bytes": 10024,
+    "sha256": "de2feae5618bb754ffea78c7f080f568c7e11b391741d5be3ea8688a2b2db7a4",
+    "productionChange": false
+  },
+  "integration": {
+    "integratedAtUtc": "2026-11-18T06:01:27.491938+00:00",
+    "baseCommit": "2810e7e4e0590f73f3b1672741bef9dda593c4f7",
+    "baseTree": "4a4d2ecaf7707f6b99f6ad90a80686b028800ef6",
+    "unchangedPredecessorFiles": 617,
+    "checkedSourceFiles": 618,
+    "files": [
+      {
+        "path": "linux-blue/workbench-session-output-access.test.cjs",
+        "bytes": 10024,
+        "sha256": "de2feae5618bb754ffea78c7f080f568c7e11b391741d5be3ea8688a2b2db7a4"
+      }
+    ],
+    "sourceWorkerHandoff": {
+      "bytes": 3174,
+      "sha256": "8b7f3aff03ef2155802a35b3d86abf3d7d23669353108b153c31ce6007770559"
+    },
+    "independentV2Review": {
+      "bytes": 4603,
+      "sha256": "69614b5990921e3f57256c9b9565dde8449f8f32ac5f27c626bc4b524c64521b"
+    },
+    "audioDiagnosticAudit": {
+      "bytes": 8982,
+      "sha256": "a44f06ec2d10839cc6cbee58f1ae5e48268388dc408ce2374a53e65fbb65ac36"
+    },
+    "timestampExperimentAudit": {
+      "bytes": 10101,
+      "sha256": "bd0dc31d6c31909f7cd5d4a543019b226a7344b12c78f2a5974dc7524ed867c5"
+    },
+    "scope": "One new current lifecycle/output authority test only; no production/default/runtime/pin changes. Actual ordinary/audio proof remains attributed to immutable035. All no-longer-active runtime artifacts retained."
+  },
+  "leadTests": {
+    "completedAtUtc": "2026-11-18T06:02:41.473738+00:00",
+    "baseLocalCommit": "2810e7e4e0590f73f3b1672741bef9dda593c4f7",
+    "testedIntegratedSource": true,
+    "runtimeOrNativeExecuted": false,
+    "runs": [
+      {
+        "path": "checkpoint036-lead-tests/focused.json",
+        "bytes": 2292,
+        "sha256": "13eb48259fa9d3f10ece9f397017e0259f774c2f5505ccb2d980101bd95ec5ce",
+        "summary": {
+          "tests": 42,
+          "suites": 0,
+          "pass": 42,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      },
+      {
+        "path": "checkpoint036-lead-tests/protection.json",
+        "bytes": 3102,
+        "sha256": "f84bae6b1c206f76b022017ccdb82127fc62839037d9a2a391929560e8bc0318",
+        "summary": {
+          "tests": 229,
+          "suites": 0,
+          "pass": 229,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      },
+      {
+        "path": "checkpoint036-lead-tests/linux-broad.json",
+        "bytes": 10361,
+        "sha256": "20e9b3c2358b9914d4ab7b523cf4dafe3dff9b068419df5334d1f7d064b0bdef",
+        "summary": {
+          "tests": 298,
+          "suites": 0,
+          "pass": 298,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      }
+    ],
+    "checkedSourceFiles": 618,
+    "sourceBytesUnchanged": true,
+    "overlappingScopesNotSummed": true
+  },
+  "timestampExperiment": {
+    "closed": 8,
+    "emptyStderr": 8,
+    "samplesPerVariant": 385024,
+    "sourceSamples": 384000,
+    "extraPrefixSamples": 1024,
+    "pcmVariantsIdentical": true,
+    "skipMetadataRestored": false,
+    "timestampOnlyFixRejected": true,
+    "productionFix": false,
+    "independentPreparationTests": 14
+  },
+  "laterOwnerDirection": {
+    "recordedAtUtc": "2026-11-18T06:06:54+00:00",
+    "recordingTimeNotMessageTimestamp": true,
+    "source": "Owner clarification relayed by parent after the fixed evidence cutoff.",
+    "direction": "Search project history for the recalled approximately21ms audio/remux tradeoff decision before Claude contact. Hold consequential audio-refusal integration until reconciled.",
+    "measurementUnchanged": "Added1024 priming samples and absent skip metadata remain measured; all original384000 decoded sample instants remain exact suffix.",
+    "acceptancePolicy": "Initial defect interpretation is not a settled owner acceptance decision. Product acceptability and any guard policy pending history reconciliation.",
+    "operationDistinction": "Ordinary video encoding with copied AAC, not pure remux.",
+    "guardStatus": "Isolated proposal only; no production integration or chosen-policy claim."
+  }
+}

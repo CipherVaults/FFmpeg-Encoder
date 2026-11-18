@@ -1,30 +1,35 @@
-# Current state: Linux FFmpeg Encoder 0.7
+# Current state: ordinary service proof and ownership coverage
 
-Cutoff: 2026-11-18 05:07:37.151402 UTC. Checkpoint 035 preservation is pending.
+Checkpoint 036 cutoff: 2026-11-18T06:02:50.107151+00:00. One reviewed test is integrated; commit and preservation remain pending. Checkpoint 035 remains the immutable source used for the ordinary runtime proof.
 
-## Current contract suite
+## What works, and what remains limited
 
-Three independently reviewed test-only slices now separate portable current contracts from optional historical qualification. Final integrated results: affected 52/52, focused 224/224, protection 229/229 and broad 296/296, with zero skips or cancellations in those scopes. All 615 checked source files remained byte-identical through testing. Overlapping scopes are not summed.
-
-The explicit historical-reference command still reports 43 tests: 1 pass, 9 failures and 33 prerequisite cancellations, zero skips. Original bodies remain preserved and runnable. These are neither silently passed nor automatic current-release gates. No production code, default, budget, tolerance or pin changed; Full-copy's 26 producer hashes remain exact. Green portable tests do not restore missing media or implement historical features.
-
-## Works / unsupported / untested
-
-| Area | Supported now | Unsupported or untested boundary |
+| Area | Current evidence | Boundary |
 |---|---|---|
-| Developer Full 1080p30 → 720 copied AAC-LC, 48 kHz stereo | Finite calibration and normal-service publication; fresh copied-sentinel collision, active cancellation and NEW runtime/service recovery; short native publication/reveal | Not arbitrary sources/durations, same-service recovery, PCM/pixel identity, Windows or hardware qualification. Original runtime/report prerequisites remain required. |
-| Ordinary ↔ Full-copy opt-in switching | Source/VM ownership tests and accepted native empty-batch journey on immutable 033 | Nonempty reset, completed output-grant revocation and direct WebContents identity are not established by empty batches. |
-| Normal Quit and preparation ownership | Actual-main/IPC injected regression coverage and bounded observed native close | Held picker/action or external child may keep close pending; no forced-exit guarantee or all-active-state native proof. |
-| Precise Keep 720 and range resize | Genuine implemented family/collector with retained older finite evidence | Current capsules remain closed, each with four stale producer identities; Keep additionally needs complete diagnostic evidence. Not currently requalified. |
-| Historical Full precision-FLAC 1080/1440 | Resource/schema contracts and refusal boundaries | Core descriptor/collector integration was already absent in surviving baseline; missing reports/runtime are separate blockers. Not working features restored by these tests. |
-| Ordinary/default encoding, old AV1, Remux and vendor acceleration | Existing scoped source contracts and earlier evidence only | No general current media/native/Windows/hardware qualification inferred from Full-copy or portable tests. |
+| Ordinary Linux Full/Keep/copied audio | One current H.265 CPU slow CRF 25 publication on the known eight-second SDR input; 240 frames at 1920×1080; output decode succeeded; same-destination preparation skipped without a second target | Guarded runner instrumentation, not untouched stock factory; no native/Windows/hardware/arbitrary-input qualification |
+| Audio correctness | All 376 packet payload/size rows and extradata hashes match; all 384,000 original PCM sample instants equal the output after a 1,024-sample prefix | Confirmed tested-tuple presentation difference: previously skipped priming is exposed, yielding 385,024 output samples. Whole audio differs. Original-content PTS matches video start at 21 ms; no proven lip-sync error, audibility or general player claim |
+| Output access and ownership | Actual ordinary grant used once through inert reveal sink, then expired on clear; integrated real-grant/VM retirement and Quit-drain tests pass independently 42/42 | No OS reveal in this proof; seeded nonempty plan and injected platform; no new production defect demonstrated |
+| Developer Full-copy and session switch | Earlier finite Full-copy proofs and source 033 empty native ordinary→Full-copy→ordinary evidence remain | Not new native proof, nonempty native reset, general family or Windows qualification |
+| Precise Keep and resize | Existing implementation and earlier evidence remain | Current capsules still closed on stale producer identities; no repin or refreshed qualification |
+| Historical Full-FLAC/1440, AV1 and Remux | Existing scoped schema/refusal/reference evidence | No automatic missing-family restoration. Ordinary operation does not imply these routes are enabled |
 
-## Next priorities
+The original ordinary helper failed on JavaScript-versus-JSON undefined-property comparison after preparation. Its 30 owned children closed and no target ran. A separately bound successor fixed only that helper comparison; 39 owned children closed and one target published. Seven stderr streams remain warning-bearing, including 1,768 bytes from the target; three diagnostic event contexts were truncated. Saved full child captures and those contexts are different evidence scopes.
 
-Follow the owner's latest direction: know what works and improve current reliability/performance. Do not reconstruct old code or acquire obsolete runtimes merely to make historical tests green. Avoid a second compatibility framework or new technical debt. Existing 1440p/4K roadmap context is not automatic feature-restoration authorization.
+## Cost findings without speculative tuning
 
-After complete 035 preservation, investigate the current owner-transition/lifecycle coverage gap and attribute retained costs between startup, target encoding, decoding/evidence and GUI time. Both are assigned only at this cutoff; no finding or tuning result is claimed. No benchmark, quality/default, thread-policy or preservation-budget change. Fresh finite Keep/resize qualification is an optional product-driven decision, not a prerequisite to erase old failures.
+For retained Full-copy cases, the 150-second target took 265.778 seconds in observed child lifetime; collector wrappers totaled 50.747 seconds, dominated by full source/output video scans. These overlapping child/wrapper measurements are not additive, controlled benchmarks or proof verification can be removed. Existing slow/CRF 25 settings and no-thread-pool warnings do not establish deliberately forced single-thread execution; effective threads were not measured. No quality, threads, coefficients, defaults, producer pins or benchmark policy changed.
 
-Expected scope: 17 changed paths, 617 files and 35 commits, subject to verification. Preserve Git → immediate independently restored Notion source/history/full Session → verified GitHub. Prior 034 is fully preserved; no pending 035 commit is claimed backed up. Formal Security Cloud remains deferred; manual review is not a formal assessment.
+## Next
 
-See [execution](2026-11-18_Current_Contract_Test_Repair.md), [receipts](2026-11-18_Current_Contract_Test_Repair_Receipts.json) and [Session](SESSION_SUMMARY.md).
+Both audio-only timestamp variants have now completed eight closed children and retain the same exposed 1,024-sample prefix. Flags alone are rejected as a fix. Design a narrow source-bound leading-priming admission guard, minimizing repeated full-file scans; no implementation or run is claimed.
+
+The single test-only session/output-access file is integrated. Final lead focused 42/42, protection 229/229 and explicit Linux 298/298 pass with zero skips/cancellations; overlapping scopes are not summed. All 618 checked source files remain byte-identical through testing. Optional historical references were not rerun, no npm test/native run or production fix is implied. Preserve failed and successful ordinary attempts distinctly. Do not restore historical code merely to clear optional references or weaken working verification to improve apparent speed. Final source-only backup cannot restore media/runtime execution authority.
+
+See [execution](2026-11-18_Current_Ownership_And_Ordinary_Service.md), [curated receipts](2026-11-18_Current_Ownership_And_Ordinary_Service_Receipts.json) and [portable ordinary evidence](evidence-2026-11-18/current-ordinary-service-portable.json).
+
+
+## Later owner direction: reconcile the prior audio decision first
+
+Recorded at 2026-11-18T06:06:54+00:00, after the evidence cutoff above. This is the recording time, not an inferred message timestamp. Ahmed recalled an earlier Claude decision about approximately 21 ms audio/remux tradeoffs and requested a project-history search before contacting Claude. The parent has delegated that read-only search.
+
+The measured added priming, missing skip metadata and complete original-content suffix remain established. Earlier records calling this a defect describe the initial engineering interpretation, not a settled owner acceptance decision. Product acceptability and any new refusal policy are held pending reconciliation with that prior decision. The observed application operation is ordinary video encoding with copied AAC, not pure remux. The proposed guard remains isolated and must not be integrated or represented as the chosen policy yet. No production audio behavior has changed; current independent testing and evidence preservation may continue.

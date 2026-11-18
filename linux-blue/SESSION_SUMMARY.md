@@ -1,3 +1,287 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Verify current ownership, exercise ordinary encoding, and identify an AAC presentation difference
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model / effort attribution | Evidence and limit |
+|---|---|---|
+| Engineering lead | GPT-6 Astra / Ultra, recorded assignment, not backend attestation | Preserved 035, bound finite current-route work, reconciled audits, and integrated one reviewed lifecycle test. |
+| Lifecycle test author / independent reviewer | Not independently established here | Actual main/session/IPC/private output-authority integration with explicitly injected platform and process boundaries. No production defect found in these tested lifecycle cases. |
+| Ordinary-service / audio investigators and auditors | Not independently established here | Real bounded work on immutable 035; separate saved-data audits and exact original-artifact preservation. The auditors did not launch additional media processes. |
+| Retained-cost / ordinary-route investigators | Not independently established here | Read existing reports and source; no benchmark, tuning or current-route execution inferred from their initial analysis. |
+| Records / mirror / Session review | Not independently established here | Final records and independent prose review; this writer owns only the new Session prepend. Historical suffix and correction receipt remain exact. |
+
+**Record basis:** The ordinary default route completed one real H.265 CPU publication and its bounded output/access/collision checks. Subsequent investigation measured a **presentation difference for the tested copied-AAC tuple**: output exposes **1,024 extra priming sample instants**, while all **384,000 original sample instants** remain byte-identical after that prefix. Timestamp-only flags did not remove it. The lead initially classified this as a defect; the later owner direction below leaves product acceptability and guard policy unresolved pending historical-decision reconciliation. This checkpoint **does not fix production code**. It integrates one lifecycle test file, with final **42/42 focused, 229/229 protection and 298/298 explicit Linux tests** passing, zero skips/cancellations. Scopes overlap and are not added together; the Linux command is not package-wide `npm test` or every repository test.
+
+## 🕒 Time
+
+**Stage / type / focus:** Current-product reliability investigation, finite ordinary-service evidence, audio presentation diagnosis, retained-cost attribution, and test-only ownership coverage.
+
+**Date and clock:** November 18, 2026. Owner-local **Africa/Cairo is UTC+02:00**. The fixed cutoff is **08:02:50.107151 Cairo / 06:02:50.107151 UTC**. Exact chronology below is UTC; overall active effort was not measured.
+
+- 035's prior cutoff remains **05:07:37.151402 UTC**. Later findings belong here, not in rewritten history.
+- Lifecycle V1 independent review **05:15:37.832381**; V2 cleanup review **05:21:22.872707**.
+- Later 035 staging-command correction receipt **05:22:27.100620**; GitHub verification **05:28:25.797153**.
+- First ordinary attempt: outer **05:29:28.196–05:29:37.339**, exit 1; independent failure audit **05:32:17.574825**.
+- Separate successor review **05:34:06.806408**; new binding **05:34:59.957545**; outer **05:35:06.402–05:35:49.724**, exit 0; saved-output audit **05:37:35.373938**.
+- Six-child audio diagnostic final review **05:52:41.041204**; audit **05:54:38.656667**; lead reconciliation **05:55:20.283529**.
+- Timestamp experiment final review **05:58:26.149383**; audit **06:00:31.800673**; lead reconciliation/source release **06:01:27.489945**.
+- Reviewed test integration **06:01:27.491938**; final lead tests **06:02:32.010175–06:02:41.438421**, aggregate receipt **06:02:41.473738**.
+- **Fixed evidence cutoff: 2026-11-18T06:02:50.107151Z.** Later guard design, implementation or review results are excluded.
+- **Separate owner-direction addendum recorded 06:06:54 UTC / 08:06:54 Cairo.** This is the recording time, not an inferred user-message timestamp. It changes continuation policy, not the earlier measurements or evidence cutoff.
+
+**End / stopping point:** All ordinary/audio work has settled and been audited on immutable 035. One reviewed lifecycle test is integrated. The priming/presentation difference is measured; its acceptance policy is unresolved. A separate isolated mitigation assignment is not a completed fix, and consequential refusal integration is held pending the owner-requested history search.
+
+**Reason for this summary:** Preserve what currently works, the concrete presentation difference discovered by deeper checking, the failed hypotheses and the exact next repair boundary. Do not substitute a green contract suite or a successful publication for whole-audio fidelity.
+
+## 🎯 Session Goal
+
+Follow Ahmed's current-product priority: understand what works and what does not, fix demonstrated problems, and avoid accumulating bugs or unexamined performance costs while adding features. Historical tests remain references, not a mandate to reconstruct obsolete functionality.
+
+The immediate questions were whether session retirement and Quit revoke/drain real output authority, whether the current ordinary default can actually publish a normal owned input, and what retained timing evidence can honestly say about cost. When the ordinary audit exposed different audio frame counts, the goal became to determine whether that was merely partitioning or an actual decoded presentation difference. Preserve the existing defaults, runtime pins, quality choices and 26-file Full-copy producer closure; no blind repin or speculative optimization.
+
+## 🛠️ Actions Taken
+
+### 1. Finish 035 preservation before current-route execution
+
+035 is local `2810e7e4e0590f73f3b1672741bef9dda593c4f7`, tree `4a4d2ecaf7707f6b99f6ad90a80686b028800ef6`, **617 files / 35 commits**. [Notion source and full history](https://app.notion.com/p/41cbd7ade63b813d9c74cec1c24ec4b1) restored the source ZIP, full bundle and history; [the readable Session](https://app.notion.com/p/41cbd7ade63b81b581cae41248ae3ac0?pvs=204) returned all 35 entries and the historical ending. Exact **1,684,670-byte** history, SHA-256 `fd0e83ea3bc94f2cad37eab3d7cae7873d7232927386100906efb913c0be4540`, was verified from archives, not inferred from native formatting. That full body is the unchanged suffix here.
+
+GitHub `blue/linux-development` verified remote `3e43c4c9e49c0ed89e5c61013be8921bd310dc0a`, sole parent `96e61747ff2e83a592c37d8a2d7cfe0c22c17ddf`, tree `1a5abb23106e7172bc09c99a9136e3b3c563996d`. Seventeen exact file readbacks, immutable full Session blob, expected-parent/non-force update and fresh ref passed: **999 total / 982 unchanged / 11 modified / six new / zero deleted**. Final Notion verification is **113,534 bytes**, SHA-256 `2d99fc66d3563286729eb00e2cf556548acdfb0a4c76cdfb5614e3c9fefed2e4`.
+
+The later staging preparation mistake is retained separately: a relative path lookup from repository cwd, then a naive count replacement that altered the guidance date, both stopped before staging/mutation. Absolute roots and the correct date resolved them. No source or record change resulted from those failed commands.
+
+### 2. Establish the current ordinary route without borrowing old qualification
+
+Read-only source tracing confirmed that baseline Linux `workbench-main.cjs` chooses `createWorkbenchService`, not original Windows `npm start`, missing old AV1, developer Full-copy or rebuilt 9.0.2. Optional session switching starts ordinary. The fixed `/usr/bin/ffmpeg` and `/usr/bin/ffprobe` prerequisites were available. The factory and runner verify executable identities, permissions and loader-environment restrictions; this is not an exhaustive dynamic-library closure.
+
+Ordinary admits inspected supported SDR CPU compatibility plans: **Full/null range, Keep source geometry, copied audio, Matroska and a distinct output folder**, with no omissions or alternate preservation authority. It uses actual shared staging, ordinary output checks, source-currentness, exclusive publication and genuine OutputAccess. It does not run the proportional family preservation collector. The independently closed Remux source gate does not prevent ordinary CPU initialization. Historical tiny-fixture checkpoint prose was not treated as fresh current-source proof.
+
+A reviewed finite helper used the existing default **h265-cpu / slow / CRF 25** and an exclusive owned copy of the retained eight-second, 240-frame, 1920×1080 SDR H.264/AAC fixture. The fixture is **5,578,679 bytes**, SHA-256 `bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97`; it is not personal media. Actual service, capabilities, inspection, admission and publication remained intact. Only `service.run` was instrumented before initialization using the existing guarded runner and observed `runTool`. This is real service with explicit instrumentation, not untouched stock factory execution.
+
+Each attempt required a fresh exact binding to immutable 035, all 617 source rows, final preservation receipts, fixed tools, helpers and review. Limits were 64 actual children, one semantic target, serial admission, a ten-minute abort request, at most 60 seconds requested per child, and sampled 27 GiB free / 1 GiB owned bounds. They are not continuous quotas, an OS descendant census or guaranteed exit. Stderr captures are bounded decoded text, not arbitrary binary preservation.
+
+### 3. Preserve the first helper failure, then correct only JSON receipt comparison
+
+The first outer attempt exited 1 after **9.138355 seconds** measured monotonic duration. It spawned and closed **30 children**, maximum one live, zero remaining, **zero semantic targets and zero completed cases**. Actual preparation reached Ready and persisted `prepared.json`; the helper then compared parsed JSON with the original JavaScript snapshot and failed because JSON omits own `undefined` fields `diagnosticWarning` and `interruptedSessions`. Exact serialized-byte readback had succeeded. Following readiness assertions and Start were unreached.
+
+Raw report: **61,377 bytes**, SHA-256 `3d25997f6fe00e6276b4c66ad8808c5ef63e94bd8629a90ad19b4594a88bc91e`. Independent failure audit **18,398 bytes / `a28e067e791b028169675140bf3fa8c02aafe4fbb6a1b6a99fb25fe242458573`** and lead reconciliation verified all source/tool/input identities, **42 owned artifacts / 5,637,417 bytes**, empty output, and closure. Six startup stderr streams were nonempty; one `FILE_INSPECTED` context was truncated. Startup capability media is not zero work, but no user target ran. This was not an application encode regression.
+
+A successor in a new directory changed only parsed-value comparison to the intended JSON representation, retaining exclusive writes, exact byte reread, all real qualification assertions and identical outer launcher. Eight file-only checks and three independent same-realm controls passed. The latter distinguish actual `undefined` omission from a possible VM prototype mismatch in the author's first red control. An initial bare-constructor snapshot assumption also failed and was corrected in later test evidence. Original helper, failed attempt and all artifacts remain unchanged; no old gate was replayed.
+
+### 4. Observe one real ordinary publication, with exact limits on what passed
+
+The separately bound successor exited 0. Outer duration was **43.316589 seconds**, helper **40.968531 seconds**; target child 32 ran **05:35:12.634–05:35:42.980**, a **30.346-second child wall interval**, not CPU time or benchmark. All **39 children closed**, maximum one, zero live. Thirteen progress-bearing invocations include capability work; there was **one semantic target**, not 13 user encodes.
+
+Two helper cases passed: ordinary publication with its checks, and subsequent preparation against the existing destination. Output is **6,691,931 bytes**, SHA-256 `1a1fe52781537a565b8b165b131b53656b0ec2fd76765a5e359f1ddc01728cab`. Source H.264 and output HEVC probes both counted **240 frames at 1920×1080**. The run performed a full output decode with `-xerror`, exit 0. The helper asserted equal copied-audio hashes, but saved one matching hash value after comparison, not two independently retained raw hash stdout streams. Genuine OutputAccess dispatched once to an inert reveal sink, then refused after clearing; no OS reveal or native UI occurred. Collision preparation skipped the existing output, kept its full hash unchanged and admitted no additional target; its metadata child was expected.
+
+Raw report: **96,982 bytes / `fab4e8f3125382360a4efc42a9e27adf64d2ee9c74fa698b58e4ca45bdda56a3`**. The independent saved audit rechecked 617 source rows, fixed tools, original/owned input, prior failed evidence and **68 owned artifacts / 12,372,033 bytes**. Output full hash was first established by the helper after publication and before collision, then rechecked. Auditors did not repeat probes/decoding. Parsed full probe objects were retained, not original stdout whitespace.
+
+All 39 stderr captures were complete within the declared bounds: **32 empty, seven nonempty**. Target stderr was **1,768 bytes**, retaining duplicate-codec and x265 CPU-mask/no-thread-pool diagnostics plus encoder information. Contexts at sequences **6, 13 and 16** were truncated (`FILE_INSPECTED`, `JOB_DISPOSITION`, `FILE_INSPECTED`). Full report/child evidence remains separate. No clean-diagnostics, native performance or harmless-warning claim follows.
+
+Crucially, audio probes reported **375 source versus 376 output decoded AAC frames**, and output video/container timing shifted about **21 ms**. Passing publication, decode and coded-payload assertions did not establish identical decoded audio or presentation. The lead held that question open rather than calling the route fully fidelity-qualified.
+
+### 5. Diagnose the presentation difference from retained packets, frames and full PCM
+
+A separately reviewed and bound six-child audio-only diagnostic retained source/output packet and frame JSON plus complete decoded **interleaved little-endian float32, stereo 48 kHz** PCM. Before execution, review corrected two helper gaps: reject every nonempty `LD_*` variable before subprocess checks, and request/observe owned-child termination on exceptional cleanup as well as timeout. Ten file-only/injected tests passed. These were helper safety corrections, not application audio fixes or guaranteed termination.
+
+The actual diagnostic closed **six of six children**, all exit 0 and empty stderr. Report **13,564 bytes / `f9e8adf4d17bdde0224228919b02da86dfc693ae47631a736edba8dd95d87a03`**; independent audit **8,982 bytes / `a44f06ec2d10839cc6cbee58f1ae5e48268388dc408ce2374a53e65fbb65ac36`**. The audit rederived equality over full retained PCM bytes, not a new decode.
+
+Both streams contain **376 coded packets**, with matching ordered packet sizes/payload-hash rows and codec extradata. The source first packet has **Skip Samples = 1,024**, negative PTS `-1024` at `1/48000`; the output lacks that side data and begins at PTS zero on a millisecond clock. Source decodes to **384,000 sample instants / 375 frames**; output to **385,024 / 376**. The entire original PCM is exactly the output suffix after a **1,024-sample prefix**, with **no additional suffix and no excluded original samples**. Whole PCM hashes differ. The prefix is nonzero, not demonstrated silence.
+
+This establishes exposed priming and changed presentation for this tuple, not merely different frame partitioning. Nominal prefix duration is **21⅓ ms**. Original-content first frame appears at output PTS 21 ms, matching saved output video start 21 ms. It does **not** demonstrate a 21 ms lip-sync error, subjective audibility, all-player behavior or a complete fresh video timeline. No original decoded content loss or alteration was observed in this representation, but whole audio is not identical. Packet equality was independently compared from retained hash/size rows, not rehashed from unretained raw packet payload bytes.
+
+### 6. Reject the timestamp-only fix hypothesis without changing production
+
+A second separately reviewed experiment created only two owned **audio-only MKA stream-copy variants**: default handling versus `-copyts` with `-avoid_negative_ts disabled`. It then probed packets/frames and decoded their PCM. No video encode, shared command edit or original-file modification occurred.
+
+Review caught a terminal-size-check gap: a fast-closing child could bypass polling of the new MKA's 16 MiB cap. V2 adds the post-close check and a fast-close oversized-file regression. The first 12-test log was not source-locked to final V2 because author edits were detected afterward; final **14/14** independently ran against stable identities. No earlier run is silently promoted to final evidence.
+
+All **eight actual children closed**, exit 0, empty stderr. Report **20,593 bytes / `77c4ed71fa26f6793117471df95efadbc74d73988bdcbfaaa93345c0180b5965`**; independent audit **10,101 bytes / `bd0dc31d6c31909f7cd5d4a543019b226a7344b12c78f2a5974dc7524ed867c5`**. Both variants retain **385,024 samples**, no Skip Samples side data, and **byte-identical whole PCM to each other**, still the same 1,024-sample prefix plus the entire original content. The timestamp variant changes all 376 packet PTS by −21 ms and moves original-content first-frame PTS to zero; it does not restore the original 384,000-sample decoded extent. **Negative PTS alone is not the fix.**
+
+The audit rechecked **26 new artifacts / 7,370,807 bytes**, prior diagnostic/ordinary evidence and immutable source. Lead reconciliation at 06:01:27.489945 verified closure and released the source freeze only for the reviewed test and records. At the evidence cutoff, the lead treated this as an open presentation defect and assigned isolated admission/pre-target mitigation. The later owner direction below holds consequential refusal integration until the historical acceptance decision is reconciled. No mitigation was integrated or qualified.
+
+### 7. Add real lifecycle-authority coverage, without inventing a production bug
+
+Only `linux-blue/workbench-session-output-access.test.cjs` was integrated after the media audits: **10,024 bytes**, SHA-256 `de2feae5618bb754ffea78c7f080f568c7e11b391741d5be3ea8688a2b2db7a4`. V2 full patch is **10,410 bytes / `168f4b57afbb276a32e1f3f10fcb662a2e86648bc1649553a4acaeecc051deab`**. All 617 predecessor files were unchanged at integration. No production, default, runtime or producer-pin change.
+
+The test executes actual main source in a VM with real WorkbenchSession, IPC, inherited EncoderService admission/cancellation/closure/output methods and genuine private OutputAccess over inert files. It seeds a nonempty ready plan, switches both ways, checks old plan/admission/Start refusal, old IPC retirement and grant expiry, and directly invokes a captured stale listener after retirement. A positive current-owner update still works. The second case holds an admitted genuine output action in an injected shell callback: Quit closes new admission/grants immediately and waits for that already-dispatched action to settle before exit. It does not claim to undo a prior OS dispatch.
+
+Factories, Electron/window, persistence and shell are injected; the nonempty plan is seeded, not real asynchronous media preparation. Native/Windows behavior, all hung-shell permutations and partial asynchronous setup remain outside this coverage. Passing evidence found **no production authority defect** in these tested paths.
+
+V1 author focused **42/42**, explicit Linux broad **298/298** and three isolated red mutation controls are retained. Removing retire-clear, the stale-listener fence or IPC drainage each caused its selected assertion to fail; source was restored. Independent V1 review reran focused 42 and inspected mutation identities, not broad/mutations again. A runner mistake accidentally reran with relative HOME/TMPDIR, overwrote earlier initial logs and produced retained ENOENT failures **40/42 and 245/298**. Absolute evidence paths produced fresh passes without changing the subject test. Do not conceal the invalid runs or claim overwritten logs survive.
+
+V2 fixes only **test fixture cleanup registration** before setup. An injected pre-VM source-read failure shows V1 leaking its owned root and V2 removing that root once while preserving an unrelated sibling. The control removes its own V1 leak. Independent V2 focused **42/42** and cleanup control pass; V1 broad/mutation evidence remains separately attributed. Initialized cleanup can still wait for main exit, and this early control does not prove all partial asynchronous failures.
+
+Final lead on integrated bytes: **42/42 focused, 229/229 protection, 298/298 explicit Linux**, zero failures/skips/cancellations. All **618 checked source files were byte-identical during tests**. These overlapping scopes are not summed; no package-wide/all-repository claim. Optional historical suites were not rerun, and no new media/native work ran on the integrated test-only tree.
+
+### 8. Attribute retained costs rather than tune from misleading totals
+
+Read-only analysis distinguishes child wall intervals, overlapping collector wrappers, whole service cases and operator-paced journeys. For retained Full-copy publications, target / collector-wrapper / service-case seconds were **265.778 / 50.747 / 317.060** for 150 seconds of source, **19.268 / 4.587 / 24.371** for the 11-second recovery, and **14.372 / 3.366 / 18.222** for the eight-second short case. These are different fixtures and constrained environments, not controlled throughput or an ETA model. The long campaign remains failed later on its helper assertion despite successful long publication.
+
+Source/output full-video scan wrappers account for **48.980 of 50.747 seconds** of long verification. They are required evidence, not proven removable overhead. Startup repeats capability work; native empty switching's 95.741-second supervisor includes human interaction, not exact acquisition latency. Reservation forecasts are not peak memory/disk use; overlapping wrappers and child times must not be added together.
+
+The long actual argv contained no explicit single-thread or pools-none override. Maximum one simultaneous child is not one codec thread. CPU-topology warnings and earlier missing-sysfs hypothesis do not establish a deliberate thread policy, measured effective thread count or an application performance defect. No preset, CRF, threading, budget, quality or producer closure was changed. The new ordinary 30.346-second target also keeps source resolution, unlike prior 720p Full-copy targets; it is not a like-for-like optimization comparison.
+
+### 9. Preserve one coherent checkpoint and its exact evidence limits
+
+The intended six paths are this Session, Current State, the execution record, its receipt, one portable evidence record and the new lifecycle test. Expected result is **621 files / 36 commits**, after the lead's final scope check. At this dated cutoff, 036 commit, Notion restoration and GitHub publication remain **next actions**, not accomplished facts.
+
+Use the [detailed execution record](2026-11-18_Current_Ownership_And_Ordinary_Service.md), [exact receipts](2026-11-18_Current_Ownership_And_Ordinary_Service_Receipts.json), and [portable evidence](evidence-2026-11-18/current-ordinary-service-portable.json) for the retained report identities and limits. Portable path substitutions are transparent archive transformations, not original raw runtime authority. Original reports, media, helper failures and audit files remain preserved; this entry does not rewrite them or any prior Session.
+
+### 10. Apply the later owner direction without moving the evidence cutoff
+
+A separate addendum was **recorded at 06:06:54 UTC**, not asserted as the exact message time. Ahmed recalls an earlier Claude decision about an approximately 21 ms audio/remux tradeoff and requests **searching project history before contacting Claude**. Consequential audio-refusal integration is held until that decision and its scope are reconciled. The guard remains an isolated proposal; authoritative production source is unchanged.
+
+The initial “defect” label in the audit/lead chronology is preserved as an engineering interpretation, **not a settled owner acceptance decision**. The measurements remain unchanged: missing skip metadata, an additional 1,024-sample prefix, all original 384,000 decoded sample instants matching the suffix, and timestamp flags failing to restore whole-PCM equality. This case is **ordinary video encoding with copied AAC, not pure remux**. No historical acceptance decision, later research result, policy change or new runtime outcome is imported into this record. The original evidence cutoff remains 06:02:50.107151 UTC.
+
+## 🧠 Key Insights
+
+- **Publication and clean decode are not whole-audio fidelity.** Matching coded payload can coexist with lost priming/skip semantics and extra decoded presentation content.
+- **The measured difference is concrete, not inferred from old failures.** This tuple exposes 1,024 priming sample instants; all original decoded content survives after the prefix. Neither “sample loss” nor “harmless” is established, and the owner has requested historical-policy reconciliation before deciding whether refusal is appropriate.
+- **Timestamp shifting is insufficient.** It moved packet/frame times but did not remove the extra PCM or restore Skip Samples.
+- **Real authority coverage can be green without a production fix.** The added tests protect retirement, stale callback fencing and Quit drainage; seeded plans and injected platform seams remain explicit.
+- **Cost attribution precedes optimization.** Required video verification and repeated capability work are visible, but no safe cache, reduced evidence, lower-quality setting or performance fix has been demonstrated.
+
+## 📌 Decisions Made
+
+**Decider:** Engineering lead for the bounded execution, test-only integration and initial engineering interpretation; Ahmed for the later history-first direction, relayed by the parent. **Basis:** Exact preparation reviews, retained run/audit/reconciliation receipts, final integrated tests, and the separately recorded 06:06:54 owner-direction addendum. No unverified historical decision supplies acceptance policy here.
+
+**Confirmed**
+
+- Preserve the first helper failure and separately bound successor; correct JSON representation comparison, not application qualification requirements.
+- Accept the successor only for its bounded publication, decode, coded-payload assertion, output-access and collision results. Keep audio presentation separately open until investigated.
+- Record the actual AAC priming/presentation difference and reject timestamp flags as a way to restore identical decoded extent for this tuple. Do not install experimental flags into shared commands.
+- Integrate the independently reviewed lifecycle test only. Keep ordinary defaults, fixed tools and the 26-file Full-copy closure unchanged.
+- Follow the later owner direction: search the project history for the recalled approximately 21 ms audio/remux tradeoff decision before contacting Claude. Hold consequential audio-refusal integration pending reconciliation; keep isolated proposals separate.
+
+**Deferred / not decided**
+
+- Whether the measured whole-file priming behavior is already accepted under an applicable owner decision, and therefore whether a new refusal guard or preservation change is warranted. No exact historical acceptance decision is verified in this record.
+- General AAC/player compatibility, arbitrary inputs, native/Windows proof, subjective audibility, complete A/V synchronization and hardware performance.
+- Capability caching, evidence-path optimization and quality/threading/resource tuning. The retained analysis alone does not justify them.
+
+## ⚠️ Difficulties / Friction
+
+The first ordinary run stopped on a helper JSON equality mistake after successful preparation. Its original review's five file-only tests lacked the relevant optional-undefined snapshot case. Correcting the helper and independently isolating same-realm JSON behavior was necessary before another bounded attempt.
+
+The successor's apparently successful high-level checks exposed a deeper limitation: coded-payload equality did not answer decoded extent or priming. Two small audio-only investigations were needed; neither required rerunning the long video publication. Review also caught loader/exceptional-child cleanup and terminal MKA cap gaps before their respective diagnostic executions.
+
+Noisy successful stderr and truncated diagnostic contexts require explicit qualification. Complete saved child captures do not imply empty warnings, and saved audits do not imply fresh media reexecution. The green contract suite and the measured presentation difference are simultaneously true. Neither settles the owner's acceptance policy.
+
+## 🔧 Adjustments Made
+
+### Receipt correctness
+
+**Shifted from:** comparing parsed JSON directly to a richer JavaScript snapshot.
+
+**To:** exact bytes plus equality of the intended serialized JSON representation, with actual original-object qualification assertions unchanged.
+
+**Because:** optional `undefined` fields are omitted by JSON.
+
+**Consequence:** a new bounded successor could proceed without rewriting the original failed attempt or weakening application guards.
+
+### Fidelity diagnosis
+
+**Shifted from:** publication/decode/copy-hash checks as sufficient for this smoke's stated narrow claims.
+
+**To:** explicitly separate those passes from decoded sample extent, packet side data and presentation timing.
+
+**Because:** source/output audio frame counts differed.
+
+**Consequence:** exposed priming became a confirmed measured difference; a superficially promising timestamp change was rejected by full retained PCM evidence. The later owner request separates that measurement from acceptance policy.
+
+### Reliability and cost
+
+**Shifted from:** broad uncertainty about nonempty authority retirement and mixed elapsed totals.
+
+**To:** mutation-sensitive real-authority tests plus scoped retained-cost attribution.
+
+**Because:** Ahmed prioritizes current correctness and useful performance understanding.
+
+**Consequence:** add coverage without an invented production change; preserve quality/evidence contracts while investigating the demonstrated audio behavior and its applicable acceptance history.
+
+## ❌ Mistakes / Risks Noted
+
+### Helper receipt and test-harness mistakes
+
+**What happened:** undefined-property serialization comparison stopped the first smoke; early regression construction and VM realm ambiguity needed correction. Lifecycle runner relative paths produced invalid ENOENT runs, and fixture cleanup initially registered too late. Diagnostic reviews caught loader/cleanup and terminal-cap gaps.
+
+**Actual impact:** first smoke had no target, original failed evidence remains; later controls and helper revisions are individually retained. No application/default/pin change resulted.
+
+**Potential impact:** incorrectly blaming application behavior, leaking test-owned files/children, or accepting incomplete evidence.
+
+**Correction / current status:** bounded successor and diagnostic V2 reviews completed; cleanup/control limits remain explicit.
+
+**Failure Intelligence:** retained within this Session and exact helper/review records, not erased or turned into a separate speculative incident.
+
+### AAC presentation difference and unresolved acceptance policy
+
+**What happened:** copied-AAC output lacks original Skip Samples and exposes 1,024 decoded priming sample instants.
+
+**Actual impact:** whole decoded audio differs for the tested tuple, although every original PCM byte matches the suffix and no original decoded content loss was observed. Timestamp-only variants reproduce the difference.
+
+**Potential impact:** users may receive presentation content different from the intended source despite successful publication and payload checks. Audibility and broader inputs are unmeasured.
+
+**Correction / current status:** At the evidence cutoff, isolated mitigation was assigned under the lead's initial defect interpretation. The separately dated owner addendum now holds consequential audio-refusal integration pending history reconciliation. No settled rejection policy, production fix or repaired output is claimed.
+
+**Failure Intelligence:** preserve the original output, packet/frame/PCM files and unsuccessful hypothesis as the regression basis.
+
+### Overclaiming from bounded evidence
+
+**What could happen:** interpret green tests as fidelity, warnings as harmless, zero live owned children as full OS census, or retained timing as a benchmark.
+
+**Actual impact:** claims are restricted; no such broader qualification was performed.
+
+**Potential impact:** speculative optimization or source repinning could weaken working authority and quality contracts.
+
+**Correction / current status:** keep source and runtime provenance, injected seams, sampled resource bounds, stderr and cutoff limits visible.
+
+**Failure Intelligence:** do not repeat a long successful encode merely to satisfy a mistaken helper count or rename historical failed campaigns passed.
+
+## 📍 Current Position
+
+**As of:** Evidence through **2026-11-18 06:02:50.107151 UTC / 08:02:50.107151 Cairo**, with the separate owner-direction addendum recorded **06:06:54 UTC / 08:06:54 Cairo**.
+
+**Before this session:** Current portable Linux contracts passed 296/296. Empty native switching and finite developer Full-copy evidence existed, but current ordinary encoding and genuine completed-output authority integration had meaningful coverage gaps. Later lifecycle/cost investigations were assigned, not completed in 035.
+
+**After this session:** One lifecycle test is integrated, final explicit Linux selection passes 298/298, and the ordinary route has real bounded publication/decode/access/collision evidence on immutable 035. Deeper audio evidence confirms exposed priming, and timestamp-only flags do not remove it. No production code changed. The subsequent owner request holds acceptance/refusal policy pending historical reconciliation.
+
+**Current standing:** Ordinary operation is not “all broken,” and identical whole-audio presentation is not demonstrated for this tuple. Whether that behavior is within a previously accepted tradeoff is unresolved here. Session ownership cases pass under their actual injected/seeded boundaries. Historical optional suites are unchanged and not rerun. Keep/resize stale gates, missing historical Full-FLAC/1440 implementation, Windows/hardware and broad native behavior are not restored by this work.
+
+**Live owner continuation anchor:** Preserve 036 through Git → full Notion restoration → verified GitHub publication. Then reconcile the owner-recalled historical audio/remux decision before a consequential refusal change or Claude contact. Keep the isolated guard unintegrated and the 26-file Full-copy closure and quality/defaults intact. The measured case is ordinary video encoding with copied AAC, not pure remux. Later research findings must receive their own dated record.
+
+## 🔜 Next Steps
+
+1. Complete the six-path 036 checkpoint, independently restore all source and full history in Notion, verify the exact remote delta, and update external publication mapping. Do not call local-only work backed up.
+2. Complete the owner-requested project-history search before contacting Claude. Verify the exact decision, operation and scope rather than equating all approximately 21 ms observations. Until reconciled, hold consequential audio-refusal integration; an isolated proposal is not chosen product policy.
+3. Once policy is reconciled, review any justified mitigation/correction with evidence-sensitive tests. A refusal is not audio repair; a preservation claim must address decoded extent/priming and packet/timing semantics, not only coded payload or negative timestamps. Retain the original measured output.
+4. Keep performance investigation proportional. Separate target, verification and startup costs; do not relax quality, remove required complete-source evidence, or cache mutable authority merely from these observations.
+
+**Do not reopen / repeat:** Do not replay consumed helper gates, overwrite first failures, rerun long successful publication just for counting, resurrect obsolete features solely for historical green tests, or import future guard outcomes into this cutoff.
+
+**Continuation boundary:** The source patch here is test-only. No additional runtime, native journey, production fix, broad input qualification or user-facing release follows automatically from this record. Existing delegated engineering authority continues, with fresh exact implementation/runtime gates where needed.
+
+## ❓ Open Questions
+
+- **What exact historical owner decision applies, if any, to this ordinary video encode with copied AAC?** **Needed from:** the requested project-history search and scope reconciliation before Claude contact or consequential refusal integration. Approximate timing similarity alone is insufficient; no verified decision is asserted here. **Blocks:** consequential audio-refusal integration and treating the isolated guard as chosen policy, not preservation of this checkpoint.
+- **Can a real correction preserve decoded presentation without re-encoding or weakening the user's requested policy?** **Needed from:** a separately reviewed supported approach and finite retained evidence. The tested timestamp variant is not that answer. **Blocks:** any future claim of corrected decoded presentation, not the established bounded publication result.
+- **How broad is the problem across inputs, containers, decoders and players?** **Needed from:** proportionate follow-up only after the concrete current tuple is addressed. No generalization from one fixture or subjective audibility claim. **Blocks:** broader audio compatibility/acceptance claims; not current documentation or the history search.
+- **Do nonempty live preparation, real OS output actions and all shutdown permutations match the seeded/injected lifecycle cases?** **Needed from:** targeted future integration/native evidence when useful. Current tests protect concrete boundaries but do not exhaust them. **Blocks:** those broader lifecycle/native claims; no blocker to this reviewed test-only checkpoint.
+- **Which repeated startup/evidence costs are safely reducible?** **Needed from:** controlled attribution and authority-preserving design, not speculative quality/thread changes. No benchmark or optimization result exists here. **Blocks:** speculative tuning or performance claims; not evidence preservation or policy reconciliation.
+
+## 🧾 Session Outcome
+
+Current reliability is better understood: ordinary encoding really publishes and protects the tested destination; lifecycle ownership coverage passes; and a concrete copied-AAC presentation difference is now isolated rather than hidden behind a passing smoke. The lead's initial defect interpretation remains dated evidence, while the later owner request leaves acceptability and refusal policy unresolved. One new test file is integrated, **42/42, 229/229 and 298/298** pass in overlapping scopes, and **no production fix is claimed**. All real media evidence belongs to immutable 035; its first helper failure and both diagnostic investigations remain intact. Full 036 preservation is the next step, followed by historical-policy reconciliation before any consequential audio-refusal integration.
+
+## 🔍 Confidence Level
+
+**High for the recorded bounded results and the tested priming difference; limited for broader product fidelity or performance.**
+
+**Why:** Exact immutable source/tool/input identities, retained failure and successor reports, complete owned-child closure, independently rechecked output and full PCM bytes, explicit negative timestamp result, mutation-sensitive real-authority tests, and final integrated source-stability checks.
+
+**Not higher because:** One owned ordinary tuple does not cover arbitrary input or platforms; payload rows are hashes rather than retained raw packet bytes; no fresh full-video timeline/player/audibility proof, native ordinary journey or controlled benchmark; helper resource limits are sampled and aborts are not guaranteed exits; lifecycle plans/platform boundaries remain partly injected; the measured presentation difference has not been corrected and its product acceptance policy remains unresolved.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Make current contract tests portable and green, preserve historical references, and prioritize current reliability
 
 ## 🤖 Models, Effort, Roles and Provenance

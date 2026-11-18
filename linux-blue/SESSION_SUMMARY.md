@@ -1,3 +1,160 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Experimental 1440 range foundation and verified hosted safety
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role | Attribution | Work and evidence limit |
+|---|---|---|
+| Original 1440 author and source reviewer | Recorded roles; model/effort not inferred | Developed and reviewed seven files on the earlier 052 source. Pure/injected tests and original intermediate reds remain attributed to that work. |
+| Current revalidation author and independent reviewer | Separate isolated 057 archives | Reapplied the unchanged patch, compared exact source, exercised current source contracts and historical JSONs, and identified real loss of current capsule availability. No media/runtime qualification. |
+| Engineering lead, mirror and record writers | Separate integration, recovery, test and documentation roles | Completed 057 preservation, integrated the experimental slice, ran final local checks and verified actual 057 hosted jobs. Summary writer changes only this prepend after release. |
+
+**Record basis:** The genuine 1440-to-720 range foundation is now integrated as **experimental, unqualified source**. Existing 1080 range and Full-copy acquisition is deliberately unavailable on this successor because exact producer checks refuse changed source. The preserved 057 checkpoint remains recoverable. Separately, the expanded safety lane actually passed on both hosted OSes for 057, not for the newly changed 058 producers.
+
+## 🕒 Time
+
+**Stage / type / focus:** Source-only 1440 family, resource and calibration preparation, paired with predecessor recovery and hosted safety reconciliation.
+
+**Date and clock:** November 18, 2026; Cairo UTC+02:00. Fixed cutoff **18:33:41.865107 Cairo / 16:33:41.865107 UTC**. Times below are UTC; active effort and media performance were not measured.
+
+- Original proposal froze **15:15:15.216533** and its first independent source review was recorded **15:17:45.433285**, on earlier source. Current 057 revalidation is separate evidence.
+- Actual 057 hosted Ubuntu job: **16:28:45–16:29:05**; Windows job: **16:28:46–16:29:23**.
+- Complete 057 final mirror release verified **16:30:25.558378**.
+- Seven-file integration **16:31:58.138848**, after that complete preservation.
+- Final local lead selections **16:32:30.725937–16:32:49.086900**. Hosted 057 reconciliation recorded **16:32:48.466562**.
+- Fixed evidence cutoff **16:33:41.865107**. Later owning-record saves do not move it.
+
+**End / stopping point:** Experimental source integrated and affected results reconciled, with former routes explicitly unavailable. No genuine 1440 calibration, consumer, service or native execution yet.
+
+**Reason for this summary:** Preserve useful source progress without disguising its availability cost, converting source tests into media qualification, or applying predecessor hosted results to changed producers.
+
+## 🎯 Session Goal
+
+Implement the distinct finite genuine 1440 range foundation while retaining private selection, currentness, resource and evidence protections. Reuse the reviewed calibration structure rather than relabeling 1080 inputs. Preserve a known usable predecessor and make the required requalification of affected routes explicit. Continue the parallel platform plan without mixing read-only Windows provisioning with completed implementation.
+
+## 🛠️ Actions Taken
+
+### 1. Complete predecessor recovery and verify the actual expanded hosted lane
+
+Known usable local 057 is `4bbee047d7326396ec8943d1998a66f75c6882de`; its verified remote is `0f675aabb6cfbf7c060444721d75068917a795f9`. The released final mirror receipt is **127,699 bytes / `a6e3b07246df2469da2b1744fc344983fd9a944e955e83fe202745d3dd1bb743`**. Source, full history, native records and all eight intended remote file readbacks are verified. This is complete predecessor preservation, not new 058 backup.
+
+[Hosted run 44347682958](https://github.com/CipherVaults/FFmpeg-Encoder-Blue-Linux/actions/runs/44347682958) ran on that exact 057 remote revision with Node 24.22.1. Both jobs concluded success: **202 syntax files and 209 shared tests on Windows 2022**; the same **202 syntax and 209 shared plus 10 Linux-policy tests on Ubuntu 24.04**. Selected suites had zero failure, skip or cancellation. These are overlapping OS executions, not 418 unique tests.
+
+The source lane includes synthetic/injected contracts, disposable filesystem/hardlink checks and two bounded actual Node helpers. It is not native Electron, FFmpeg/media, descendant-process-tree, RTX/GPU, package or owner acceptance. The later producer changes below were not present in this hosted revision.
+
+### 2. Revalidate and integrate the unchanged seven-file proposal
+
+The original patch remains **57,460 bytes / `b0dcfcecffe6f4b014ff73eda9ad59846922ab9fd8cc5c1dd4f5011c96ab3250`**. Current author and independent reviewer used isolated 057 archives, checked all **690 original file identities**, five exact preimages and two new-file absences, then matched all seven final hashes. No current Windows shutdown or CI file was changed by the proposal.
+
+The integrated scope is three shared modules (`operation-resource-budget`, `operation-family`, `operation-evidence`), the long-range calibration module and its test, and two new 1440 family/evidence test files. The other **685 prior files** remained unchanged at integration, giving **692 source files** before the two new owning records. No consumer, selector, main, renderer, policy catalog, runtime, default or audio-policy change is included. Existing plans are untouched.
+
+The fixed family is progressive **2560×1440p30**, SDR BT.709, 8-bit H.264 High, exact clocks and QuickTime MOV with stereo 48 kHz s16 PCM, CPU range resize to **1280×720 H.265 slow quality 25 with precision FLAC**. It is not whole-file Full1440, general caller-selected geometry, 4K, VFR, 10-bit, HDR, other audio or GPU/Windows support. Private selection/epoch/plan bindings and full-source currentness/property checks remain; callers do not acquire authority by supplying their own dimensions or budgets.
+
+The dedicated branded calibration entry retains the fixed three cases on two genuine generated 1440 sources: a 150-second source with 100–140 and 130-to-end ranges, and an independent 11-second flipped source with .413–8.621. The complete source, selected PCM/timing, telemetry and output checks remain required. Injected generator/fixture-stop controls prove source requests and failed-report retention, not successful media. No source media was generated here.
+
+The **6000 ms/source-second** decode/selected-scale coefficient is a preregistered scheduling allowance derived from the existing pixel-area model, not measured throughput. Exact byte-derived bounds and the overall campaign allowance must be reconciled before any execution. An inherited whole-run abort request is not a guaranteed completion time or permission to extend/replay a spent run.
+
+### 3. Keep original reds, current source checks and actual availability separate
+
+Original missing-family reds and intermediate shared range-geometry/test-import corrections remain retained. Current independent review reproduced **81/81** focused checks and **188/213 baseline → 209/234 proposal**, with all 188 previous passes plus 21 new passes and the exact same 25 historical failure names. Its separate ordinary service/route/session/Windows lifecycle source selection passed **91/91**. These scopes overlap and do not constitute a fresh real ordinary service or native measurement.
+
+Authentic current producer verifiers changed from **0/97 to 4/97 mismatches for E3 resize**, and **0/26 to 3/26 for Full-copy**. Changed members are calibration plus shared resource/family/evidence for resize, and those three shared modules for Full-copy. Both last-qualified consumers now refuse acquisition. **That is real suspended availability in the experimental successor, not harmless test noise, and not a newly observed media failure.** No report, consumer pin or qualification receipt was rewritten to bypass the refusal.
+
+Keep720 remains unavailable with its same six stale producer paths. Historical HDR and encode-preservation retain their prior 36/69 and 16/32 mismatch sets and empty policy lists. Those historical states are not restored by this work. The known usable 057 revision remains the recovery reference rather than falsely describing the experimental branch as having both old choices still working.
+
+The independent 52-test capsule union used five exact original JSON inputs, avoiding optional raw-fixture skips: baseline **51/52**, with one preexisting Keep720 positive red; proposal **39/52**, with that red plus twelve additional stale-producer consequences. Nine are Full-copy and three resize. One Full-copy assertion sees zero report handles closed because refusal occurs before any report is opened, not evidence of a descriptor leak. One old negative still refuses but encounters the changed calibration producer before its expected codec mismatch. The five raw accept/refuse checks pass on both sides; valid old JSON cannot override current producer refusal. Smaller author/reviewer selections are not summed with this union.
+
+### 4. Run the final integrated lead selections
+
+Lead used Node v24.22.1 on Linux, retained exit codes and selected file/output identities, and rechecked all **692 files** and all **five historical raw JSON inputs** before/after tests.
+
+| Final lead selection | Actual result | Boundary |
+|---|---|---|
+| Family / evidence / resource / calibration focused | Exit 0; 81/81 | Pure/injected new and existing source contracts |
+| Broader source selection | Exit 1; 209/234 | Same 25 historical names, no new failures in that comparison |
+| Current/historical capsule union with original JSONs | Exit 1; 39/52 | Old Keep720 red plus twelve additional stale-producer consequences |
+| Existing expanded local CI runner | Exit 0; 202 syntax, 209 shared and 10 Linux tests | Local source safety checks; not new hosted qualification |
+
+All selections had zero skips and cancellations. Coverage overlaps and is **not summed or package-wide `npm test`**. The unchanged 202-file syntax selection is not all-repository syntax coverage; the new files ran in the focused/broader selections. File stability proves which bytes were tested, not media or native success. The capsule failures remain reported alongside source green, rather than being deleted, skipped or relabeled as fully working service behavior.
+
+### 5. Set the actual continuation boundary
+
+At cutoff, a minimal purpose-specific 1440 helper adaptation is assigned, with review/binding/runtime still pending. It must reuse established persistence/closure mechanics, derive the actual integrated import inventory and use genuine inputs. A calibration pass would still require independent saved-output audit and then a reviewed narrow consumer plus finite service proof; it does not itself create service authority. Restoring 1080 range and Full-copy likewise requires their own fresh current-source qualification, not blind repinning. Reused audited media may be an input, not proof of an unseen source.
+
+Windows provisioning is a separate read-only proposal at cutoff, not implemented, installed or exercised. No broader platform result, future helper review or actual campaign result is imported into this entry. The established private repository destination, owner checkout and reserved policy choices remain unchanged.
+
+## 🧠 Key Insights
+
+- Shared producer changes can remove service authority even when focused implementation tests pass. Keep that availability loss explicit and preserve a usable predecessor.
+- Passing an old raw receipt parser and passing the current source-identity gate are different obligations. Neither can substitute for the other.
+- Actual hosted safety success is useful Windows/Linux evidence, but belongs to its exact revision and selected contracts, not future media or hardware behavior.
+
+## 📌 Decisions Made
+
+1. **Confirmed:** Preserve the unchanged seven-file proposal as an experimental source checkpoint. **Decider:** Lead after current independent revalidation and complete 057 recovery. **Basis:** Exact source/patch review and explicit acceptance of temporarily suspended former routes, not a claim of activation.
+2. **Confirmed:** Leave 1080 range/Full-copy stale refusals and all original receipts intact. **Decider:** Lead with producer verification. **Basis:** Four and three changed producer members require new evidence; no guard relaxation or receipt reseal is justified.
+3. **Confirmed:** Record both actual expanded hosted jobs for 057 only. **Decider:** Lead after API/log reconciliation. **Basis:** Matched revision, jobs and counts, distinct from local 058 checks.
+4. **Deferred:** Genuine 1440 calibration/consumer/service, former-route requalification and Windows provisioning. **Decider:** Staged lead continuation. **Basis:** Preparatory or read-only work only at this cutoff; no completed runtime or platform proof.
+
+## ⚠️ Difficulties / Friction
+
+Original implementation needed a shared range-geometry correction and a test import correction; the failed attempts are preserved. Current source revalidation exposed the deliberate cost of shared-module edits: twelve additional capsule consequences, not twelve independent encoder defects. The broader 25 historical failures remain separately unchanged. Different test subsets and optional raw-input skips could obscure that comparison; the independent and lead union supplied all five original JSONs and retained exact names/results.
+
+## 🔧 Adjustments Made
+
+- **Shifted from:** A proposal reviewed on older 052. **To:** Exact unchanged source revalidated on 057, then integrated after full recovery. **Because:** Earlier review alone does not establish current-tree compatibility. **Consequence:** Current source evidence and explicit affected-route loss, without new runtime qualification.
+- **Shifted from:** Currently usable 1080/Full-copy capsules on preserved 057. **To:** Experimental successor that refuses their stale producers. **Because:** Genuine 1440 work changes shared dependencies. **Consequence:** Fresh evidence required before restoration; the known usable revision remains recoverable.
+- **Shifted from:** Expanded hosted checks pending in 057's dated record. **To:** Later verified Ubuntu/Windows passes. **Because:** Actual jobs completed. **Consequence:** Additive 058 chronology, not rewriting the earlier cutoff or qualifying changed 058 producers.
+
+## ❌ Mistakes / Risks Noted
+
+**Availability overstatement. What happened/could happen:** Source green might be presented as preserving old live routes. **Actual impact:** 1080 range and Full-copy acquisition is unavailable on the experimental source. **Potential impact:** Misleading users or bypassing stale evidence to recover the headline. **Correction/status:** Record the refusal and preserve exact 057; no pin changes. **Failure Intelligence:** State current usability independently of implementation test success.
+
+**Qualification and resource overstatement. What happened/could happen:** Synthetic 1440 geometry, scheduling allowances or a successful raw parser could be treated as measured media/throughput. **Actual impact:** No media or live consumer result exists here. **Potential impact:** Unsupported activation, altered acceptance thresholds or unjustified replay. **Correction/status:** Fresh bounded calibration/audit and consumer/service gates remain pending. **Failure Intelligence:** Bind each claim to actual source, input, execution and retained evidence; an allowance is not a benchmark.
+
+## 📍 Current Position
+
+**As of:** 16:33:41.865107 UTC / 18:33:41.865107 Cairo.
+
+**Before:** Fully preserved 057 had current E3/Full-copy producer identities and newly expanded source CI, with hosted results not yet recorded in its own cutoff.
+
+**After:** Seven-file experimental 1440 foundation integrated; focused/local safety checks pass, broader historical reds and real stale-capsule availability loss are explicit. Both hosted 057 jobs are verified separately.
+
+**Current standing:** Unqualified experimental source, no new live 1440 route. Existing 1080 range and Full-copy are suspended here; known usable 057 remains recoverable. Plans/defaults/runtime/audio policy are unchanged.
+
+**Live owner / continuation anchor:** Lead owns the eleven-path 058 preservation, then purpose-specific reviewed qualification and parallel Windows study. Summary writer owns only this prepend until release. No future helper or provisioning outcome is needed to close this source record.
+
+## 🔜 Next Steps
+
+1. Preserve exact experimental 058 source/history/readable records and verify its intended remote mapping, maintaining the usable 057 recovery reference.
+2. Independently review and bind the smallest genuine 1440 calibration adaptation with actual source inventory, runtime identities and derived bounds; retain any failure and audit saved output before consumer work.
+3. Restore affected current routes only through fresh matching evidence, reviewed consumers and proportionate service proof. Keep Windows provisioning read-only until its own reviewed implementation boundary.
+
+**Do not reopen / repeat:** Do not overwrite old reports or Session history, relabel 1080 inputs as 1440, retune tolerances after results, sum overlapping suites, call hosted CPU/source checks GPU/native proof, or repeat long/native campaigns merely for unchanged UI.
+
+**Continuation boundary:** Routine development authorization continues, but no source-only pass promotes defaults, audio policy, hardware/platform support or owner release acceptance. Future campaigns require fresh engineering checks; this record is not their gate.
+
+## ❓ Open Questions
+
+- **Does genuine 1440 satisfy the frozen media/resource contract? Needed from:** Actual bounded calibration and independent saved audit. **Blocks:** 1440 evidence binding and subsequent live-service qualification.
+- **When can the old current routes be restored? Needed from:** Fresh producer-matched evidence and consumer/service validation for each affected route. **Blocks:** Their availability on the successor, not recovery of preserved 057.
+- **What Windows provisioning work is appropriate next? Needed from:** The separate read-only proposal and reviewed implementation scope. **Blocks:** Provisioning only; no installation or platform qualification is claimed here.
+
+## 🧾 Session Outcome
+
+Integrated a genuine, finite 1440 range foundation as an explicitly experimental checkpoint, with source checks and all stale-route consequences preserved. Verified actual expanded hosted safety success for predecessor 057 on both OSes. No media, live 1440 consumer, native, hardware or release result was created.
+
+Read the [execution record](2026-11-18_Experimental_1440_Range_Source_and_Hosted_Safety.md), [receipt index](2026-11-18_Experimental_1440_Range_Source_and_Hosted_Safety_Receipts.json) and [current state](CURRENT_STATE.md). No portable runtime report is added.
+
+The exact **2,268,167-byte** predecessor, SHA `34ebc98384ba926e7bbdb73f0b58a6ce0accc8676fa25f58eb42b6b27a134ee1`, and original Session correction remain unchanged. Intended scope is **eleven paths / 694 files / 58 commits**. This checkpoint's commit and external preservation remain pending at cutoff; completed 057 preservation does not substitute for them.
+
+## 🔍 Confidence Level
+
+**High** in exact source integration, local comparisons and revision-bound hosted 057 results; **limited** in actual 1440 media/runtime and Windows/hardware claims.
+
+**Why:** Independent current-tree comparison, final lead logs, full source/raw-input stability and actual producer refusals agree. **Not higher because:** No genuine 1440 media ran, the new consumer does not exist, formerly available capsules refuse this source, and the platform tests are deliberately source-level rather than native/hardware acceptance.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Windows shutdown settlement and expanded shared safety CI
 
 ## 🤖 Models, Effort, Roles and Provenance

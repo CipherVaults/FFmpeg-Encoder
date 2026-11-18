@@ -8,6 +8,8 @@ const AAC_DECODED_TAIL_SAMPLES = 1024; // 1023 AAC terminal samples + one exact 
 const RESOURCE_POLICY = 'cfr720p30-flac-resources-v1';
 const FAMILY_ID = 'cfr-sdr-range-flac-v2';
 const RESIZE_FAMILY_ID = 'cfr-sdr-range-resize-flac-v1';
+const RESIZE_1440_FAMILY_ID = 'cfr-sdr-range-resize1440-flac-v1';
+const RESIZE_1440_RESOURCE_POLICY = 'cfr1440p30-to720p-flac-resources-v1';
 const RESIZE_RESOURCE_POLICY = 'cfr1080p30-to720p-flac-resources-v1';
 const FULL_RESIZE_FAMILY_ID = 'cfr-sdr-full-resize-flac-v1';
 const FULL_RESIZE_RESOURCE_POLICY = 'cfr1080p30-full-to720p-flac-resources-v1';
@@ -82,6 +84,9 @@ function deriveResources({ sourceExtentUs, selectedExtentUs, sourceBytes }, deco
 // Eight bytes/sample-frame cover stereo float32 calibration, not lossless AAC identity.
 function deriveCfrAacResources(options) { return deriveResources(options, 1500n, false, true); }
 function deriveCfrFlacResources(options) { return deriveResources(options, 1500n, false); }
+// Fixed 1440p range input has four times 720p pixels: 1500 * 4.
+// Same conservative scheduling model as Full1440, not measured throughput.
+function deriveCfrResize1440FlacResources(options) { return deriveResources(options, 6000n, true); }
 function deriveCfrResizeFlacResources(options) { return deriveResources(options, 3375n, true); }
 // Full has no invented interval: every source stream is processed to its own
 // end. The selector supplies the maximum observed video/audio/container extent
@@ -98,4 +103,4 @@ function deriveCfrFull1440ResizeFlacResources({ sourceExtentUs, sourceBytes }) {
 function deriveCfrFullResizeCopyResources({ sourceExtentUs, sourceBytes }) {
   return deriveResources({ sourceExtentUs, selectedExtentUs: sourceExtentUs, sourceBytes }, 3375n, true, false, true);
 }
-module.exports = { FULL_COPY_FAMILY_ID, FULL_COPY_RESOURCE_POLICY, deriveCfrFullResizeCopyResources, AAC_FAMILY_ID, AAC_RESOURCE_POLICY, AAC_DECODED_TAIL_SAMPLES, deriveCfrAacResources, FULL_1440_RESIZE_FAMILY_ID, FULL_1440_RESIZE_RESOURCE_POLICY, deriveCfrFull1440ResizeFlacResources, FULL_RESIZE_FAMILY_ID, FULL_RESIZE_RESOURCE_POLICY, deriveCfrFullResizeFlacResources, RESOURCE_POLICY, FAMILY_ID, deriveCfrFlacResources, RESIZE_RESOURCE_POLICY, RESIZE_FAMILY_ID, deriveCfrResizeFlacResources };
+module.exports = { RESIZE_1440_FAMILY_ID, RESIZE_1440_RESOURCE_POLICY, deriveCfrResize1440FlacResources, FULL_COPY_FAMILY_ID, FULL_COPY_RESOURCE_POLICY, deriveCfrFullResizeCopyResources, AAC_FAMILY_ID, AAC_RESOURCE_POLICY, AAC_DECODED_TAIL_SAMPLES, deriveCfrAacResources, FULL_1440_RESIZE_FAMILY_ID, FULL_1440_RESIZE_RESOURCE_POLICY, deriveCfrFull1440ResizeFlacResources, FULL_RESIZE_FAMILY_ID, FULL_RESIZE_RESOURCE_POLICY, deriveCfrFullResizeFlacResources, RESOURCE_POLICY, FAMILY_ID, deriveCfrFlacResources, RESIZE_RESOURCE_POLICY, RESIZE_FAMILY_ID, deriveCfrResizeFlacResources };

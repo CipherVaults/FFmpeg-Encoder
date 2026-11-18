@@ -13,12 +13,13 @@ const { resolveTimeRange, resolveAudio, resolveGeometry } = require('./operation
 const { assertEncodeOperationPlan, describeEncodeOperationSource, fingerprintEncodeSource } = require('./encode-operation.cjs');
 
 const { FAMILY_ID: PROPORTIONAL, RESOURCE_POLICY, deriveCfrFlacResources,
+  RESIZE_1440_FAMILY_ID: RESIZE_1440_PROPORTIONAL, RESIZE_1440_RESOURCE_POLICY, deriveCfrResize1440FlacResources,
   RESIZE_FAMILY_ID: RESIZE_PROPORTIONAL, RESIZE_RESOURCE_POLICY, deriveCfrResizeFlacResources,
   FULL_COPY_FAMILY_ID: FULL_COPY_PROPORTIONAL, FULL_COPY_RESOURCE_POLICY, deriveCfrFullResizeCopyResources } = require('./operation-resource-budget.cjs');
 // Fixed main-owned resource policies; proportional resources do not imply FLAC audio.
-const proportionalId = id => id === PROPORTIONAL || id === RESIZE_PROPORTIONAL || id === FULL_COPY_PROPORTIONAL;
-const proportionalFlacId = id => id === PROPORTIONAL || id === RESIZE_PROPORTIONAL;
-const resourcePolicy = id => id === FULL_COPY_PROPORTIONAL ? FULL_COPY_RESOURCE_POLICY : id === RESIZE_PROPORTIONAL ? RESIZE_RESOURCE_POLICY : RESOURCE_POLICY;
+const proportionalId = id => id === PROPORTIONAL || id === RESIZE_1440_PROPORTIONAL || id === RESIZE_PROPORTIONAL || id === FULL_COPY_PROPORTIONAL;
+const proportionalFlacId = id => id === PROPORTIONAL || id === RESIZE_1440_PROPORTIONAL || id === RESIZE_PROPORTIONAL;
+const resourcePolicy = id => id === RESIZE_1440_PROPORTIONAL ? RESIZE_1440_RESOURCE_POLICY : id === FULL_COPY_PROPORTIONAL ? FULL_COPY_RESOURCE_POLICY : id === RESIZE_PROPORTIONAL ? RESIZE_RESOURCE_POLICY : RESOURCE_POLICY;
 const proportionalResults = new WeakMap();
 // A result's private issuing epoch and plan identity, never a public flag, carry
 // resource authority. Callers must still requireCurrent at the normal boundary;
@@ -240,13 +241,14 @@ function streamSideData(video, audio) {
   // entries and any legacy representation. Unknown original side-data fields
   // remain in normalizeProbe and are refused here, rather than silently ignored.
 }
-function sourceFacts(probe, actualBytes, proportional = false) {
+function sourceFacts(probe, actualBytes, proportional = false, familyId = null) {
   need(probe.streams.length === 2 && probe.chapters.length === 0 && Array.isArray(probe.programs) && !probe.programs.length
     && Array.isArray(probe.stream_groups) && !probe.stream_groups.length, 'The family requires exactly one video and one audio stream with no chapters, programs or groups.');
   const video = probe.streams.find(item => item.codec_type === 'video'), audio = probe.streams.find(item => item.codec_type === 'audio');
   need(video && audio && video.index !== audio.index && video.codec_name === 'h264' && video.profile === 'High' && video.pix_fmt === 'yuv420p'
     && video.field_order === 'progressive' && Number(video.disposition?.attached_pic || 0) === 0
-    && (video.width === 1920 && video.height === 1080 || video.width === 1280 && video.height === 720), 'Only progressive 8-bit H264 High 1080p/720p source video belongs to this family.');
+    && (familyId === RESIZE_1440_PROPORTIONAL ? video.width === 2560 && video.height === 1440
+      : video.width === 1920 && video.height === 1080 || video.width === 1280 && video.height === 720), 'Only the fixed progressive 8-bit H264 High geometry belongs to this family.');
   need(['30/1', '60/1'].includes(video.avg_frame_rate) && video.r_frame_rate === video.avg_frame_rate, 'Only matching nominal and average 30/1 or 60/1 rates belong to this family.');
   // Refuse unsupported audio before side-data or clock diagnostics. Codec
   // selection remains per family; this common shape grants no applicability.
@@ -275,14 +277,14 @@ function sourceFacts(probe, actualBytes, proportional = false) {
     audioTick: audioTimeline.timeBase, orientation: orientation(ve.geometry), videoEvidence: ve, audioEvidence: ae,
     extents: { video: videoTimeline.duration, audio: audioTimeline.duration, container: containerExtent } };
 }
-function rangeScope(request, facts, contract, flac = false, proportional = false) {
+function rangeScope(request, facts, contract, flac = false, proportional = false, familyId = null) {
   const policy = flac ? 'precision-flac' : 'precision-aac';
   need(request.operation === 'encode' && request.target === 'matroska' && ['preserve', 'sdr'].includes(request.hdrPolicy)
     && request.audioPolicy === policy && request.aacBitrateKbps === null
     && Array.isArray(request.omissionRequestIds) && request.omissionRequestIds.length === 0,
   flac ? 'Only SDR Matroska range encoding with precision FLAC and no omissions belongs to this family.'
     : 'Only SDR Matroska range encoding with layout-default precision AAC and no omissions belongs to this family.');
-  need(request.resolution === 'source' || request.resolution === '720' && facts.width === 1920, 'Only Keep Source or 1080p to 720p belongs to this family.');
+  need(request.resolution === 'source' || request.resolution === '720' && (familyId === RESIZE_1440_PROPORTIONAL ? facts.width === 2560 : facts.width === 1920), 'Only the fixed source/resolution pair belongs to this range family.');
   const range = contract?.range || resolveTimeRange(facts.videoEvidence, request.range);
   need(range.kind === 'range' && range.resolved && Number.isSafeInteger(range.resolved.startUs) && Number.isSafeInteger(range.resolved.endUs), 'A resolved bounded range is required.');
   const span = range.resolved.endUs - range.resolved.startUs;
@@ -323,10 +325,10 @@ function fullExtents(video, audio, label, proportional = false) {
 function requestScope(request, facts, contract, id = FAMILY) {
   const audio = facts.sourceAudio, proportional = proportionalId(id), fullCopy = id === FULL_COPY_PROPORTIONAL, flac = id === FLAC || proportionalFlacId(id);
   if (proportional) {
-    need(facts.rate === 30 && (id === RESIZE_PROPORTIONAL || fullCopy
+    need(facts.rate === 30 && (id === RESIZE_1440_PROPORTIONAL ? facts.width === 2560 && request.resolution === '720' : id === RESIZE_PROPORTIONAL || fullCopy
       ? facts.width === 1920 && request.resolution === '720'
       : facts.width === 1280 && request.resolution === 'source'),
-    'Only the exact proportional 720p30 Keep Source range or1080p30 to720p range/Full-copy tuple belongs to its respective family.');
+    'Only the exact fixed geometry, cadence and resolution tuple belongs to its respective proportional family.');
     // The core contract carries the measured clock boundary too; a caller must
     // not obtain a broader branded family by omitting the Linux composition.
     need(compare(facts.videoTick, rat(1n, 15360n)) === 0n && compare(facts.audioTick, rat(1n, 48000n)) === 0n,
@@ -342,7 +344,7 @@ function requestScope(request, facts, contract, id = FAMILY) {
       : audio.codec_name === 'aac' && audio.profile === 'LC' && audio.sample_fmt === 'fltp'),
   flac ? 'Only 48 kHz stereo pcm_s16le/s16 source audio belongs to the precision-FLAC range family.'
     : 'Only 48 kHz stereo AAC LC/fltp source audio belongs to this family.');
-  return id === FULL || fullCopy ? fullScope(request, facts, contract, fullCopy) : rangeScope(request, facts, contract, flac, proportional);
+  return id === FULL || fullCopy ? fullScope(request, facts, contract, fullCopy) : rangeScope(request, facts, contract, flac, proportional, id);
 }
 const BINDINGS = ['plan', 'settings', 'sourceIdentity', 'sourceProbeFingerprint', 'runtimeIdentity', 'environment', 'budget', 'executionBudgetMs'];
 function bindings(value, familyId, scopeOnly = false) {
@@ -355,7 +357,7 @@ function bindings(value, familyId, scopeOnly = false) {
   // Without a family id this only gathers facts; the scope is that family's own.
   const proportional = proportionalId(familyId);
   if (proportional && !scopeOnly) need(value.budget === null, 'Proportional selection derives its budget; caller overrides are forbidden.');
-  const facts = sourceFacts(describeEncodeOperationSource(plan), BigInt(source.size), proportional);
+  const facts = sourceFacts(describeEncodeOperationSource(plan), BigInt(source.size), proportional, familyId);
   const base = { plan, facts, sourcePolicy: { id: null, rate: facts.rate, maximumExtentUs: MAX_EXTENT_US }, state: { planFingerprint: digest(plan.planFingerprint, 'Plan fingerprint'), settings: config, sourceIdentity: source,
     sourceProbeFingerprint: fingerprint, runtimeIdentity, environment: environment(value.environment, config, runtimeIdentity), familyId: null, request: null,
     budget: proportional || scopeOnly ? null : budget(value.budget), executionBudgetMs: scopeOnly ? 0 : integer(value.executionBudgetMs, 'Execution budget', 1, 1800000) } };
@@ -367,7 +369,7 @@ function forFamily(base, familyId) {
   if (proportionalId(familyId)) {
     const sourceExtentUs = extentUs(maximum(maximum(base.facts.extents.video, base.facts.extents.audio), base.facts.extents.container));
     const interval = base.plan.contract.range.resolved, selectedExtentUs = familyId === FULL_COPY_PROPORTIONAL ? sourceExtentUs : interval.endUs - interval.startUs;
-    const derive = familyId === FULL_COPY_PROPORTIONAL ? deriveCfrFullResizeCopyResources : familyId === RESIZE_PROPORTIONAL ? deriveCfrResizeFlacResources : deriveCfrFlacResources;
+    const derive = familyId === RESIZE_1440_PROPORTIONAL ? deriveCfrResize1440FlacResources : familyId === FULL_COPY_PROPORTIONAL ? deriveCfrFullResizeCopyResources : familyId === RESIZE_PROPORTIONAL ? deriveCfrResizeFlacResources : deriveCfrFlacResources;
     const derived = derive({ sourceExtentUs, selectedExtentUs, sourceBytes: base.state.sourceIdentity.size });
     return { plan: base.plan, facts: base.facts, sourcePolicy: { id: familyId, rate: base.facts.rate, maximumExtentUs: sourceExtentUs },
       state: { ...base.state, familyId, request, resourcePolicy: resourcePolicy(familyId), sourceExtentUs, selectedExtentUs,
@@ -460,7 +462,7 @@ class OperationFamilySelector {
       const probe = normalizeProbe(options.inspection.probe);
       let facts;
       const selected = tuple.find(item => { try {
-        const candidate = sourceFacts(probe, undefined, proportionalId(item.id));
+        const candidate = sourceFacts(probe, undefined, proportionalId(item.id), item.id);
         requestScope(options.request, candidate, undefined, item.id); facts = candidate; return true;
       } catch { return false; } });
       if (!selected || facts.orientation !== 'absent') return {};
@@ -498,8 +500,8 @@ class OperationFamilySelector {
     if (!tuple.length) return refusal('No measured family exists for these encoder settings and this runtime.');
     const reasons = new Map(); let reason = null;
     try {
-      const facts = sourceFacts(normalizeProbe(options.inspection.probe));
-      for (const item of tuple) { try { requestScope(options.request, facts, undefined, item.id); return null; } catch (error) { if (typeof error?.message === 'string' && error.message) reasons.set(item.id, error.message); } }
+      const probe = normalizeProbe(options.inspection.probe);
+      for (const item of tuple) { try { const facts = sourceFacts(probe, undefined, proportionalId(item.id), item.id); requestScope(options.request, facts, undefined, item.id); return null; } catch (error) { if (typeof error?.message === 'string' && error.message) reasons.set(item.id, error.message); } }
       reason = preferredReason(reasons, options.request);
     } catch (error) { reason = typeof error?.message === 'string' && error.message ? error.message : null; }
     return refusal(reason || 'The file or request is outside the measured family.');

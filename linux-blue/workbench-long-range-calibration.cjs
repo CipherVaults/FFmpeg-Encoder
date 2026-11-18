@@ -8,6 +8,7 @@ const assert = require('node:assert/strict');
 const { createHash, randomUUID } = require('node:crypto');
 const { PINS, RUNTIME_ID, createAv1ProportionalRunner } = require('./runtime-av1-operation.cjs');
 const { deriveCfrFlacResources, FAMILY_ID, RESOURCE_POLICY, deriveCfrResizeFlacResources,
+  RESIZE_1440_FAMILY_ID, RESIZE_1440_RESOURCE_POLICY, deriveCfrResize1440FlacResources,
   RESIZE_FAMILY_ID, RESIZE_RESOURCE_POLICY, FULL_RESIZE_FAMILY_ID, FULL_RESIZE_RESOURCE_POLICY,
   deriveCfrFullResizeFlacResources, FULL_1440_RESIZE_FAMILY_ID, FULL_1440_RESIZE_RESOURCE_POLICY,
   deriveCfrFull1440ResizeFlacResources } = require('../src/operation-resource-budget.cjs');
@@ -53,13 +54,13 @@ const FULL_1440_SOURCES = Object.freeze([
 // Fixed, main-owned developer campaigns, not a caller-supplied geometry,
 // runtime or qualification channel. Each has its own retained report namespace.
 function campaign(kind = 'keep720') {
-  assert.ok(['keep720', 'resize1080to720', 'fullResize1080to720', 'fullResize1440to720'].includes(kind), 'Unknown developer calibration campaign');
-  const high1440 = kind === 'fullResize1440to720', full = high1440 || kind === 'fullResize1080to720', resize = kind !== 'keep720';
-  return Object.freeze({ label: high1440 ? 'full-1440-calibration-' : full ? 'full-resize-calibration-' : resize ? 'resize-calibration-' : 'long-range-calibration-', full,
-    width: high1440 ? 2560 : resize ? 1920 : 1280, height: high1440 ? 1440 : resize ? 1080 : 720, resolution: resize ? '720' : 'source',
-    familyId: high1440 ? FULL_1440_RESIZE_FAMILY_ID : full ? FULL_RESIZE_FAMILY_ID : resize ? RESIZE_FAMILY_ID : FAMILY_ID,
-    resourcePolicy: high1440 ? FULL_1440_RESIZE_RESOURCE_POLICY : full ? FULL_RESIZE_RESOURCE_POLICY : resize ? RESIZE_RESOURCE_POLICY : RESOURCE_POLICY,
-    derive: high1440 ? deriveCfrFull1440ResizeFlacResources : full ? deriveCfrFullResizeFlacResources : resize ? deriveCfrResizeFlacResources : deriveCfrFlacResources });
+  assert.ok(['keep720', 'resize1440to720', 'resize1080to720', 'fullResize1080to720', 'fullResize1440to720'].includes(kind), 'Unknown developer calibration campaign');
+  const range1440 = kind === 'resize1440to720', high1440 = kind === 'fullResize1440to720', full = high1440 || kind === 'fullResize1080to720', resize = kind !== 'keep720';
+  return Object.freeze({ label: range1440 ? 'resize-1440-calibration-' : high1440 ? 'full-1440-calibration-' : full ? 'full-resize-calibration-' : resize ? 'resize-calibration-' : 'long-range-calibration-', full,
+    width: high1440 || range1440 ? 2560 : resize ? 1920 : 1280, height: high1440 || range1440 ? 1440 : resize ? 1080 : 720, resolution: resize ? '720' : 'source',
+    familyId: range1440 ? RESIZE_1440_FAMILY_ID : high1440 ? FULL_1440_RESIZE_FAMILY_ID : full ? FULL_RESIZE_FAMILY_ID : resize ? RESIZE_FAMILY_ID : FAMILY_ID,
+    resourcePolicy: range1440 ? RESIZE_1440_RESOURCE_POLICY : high1440 ? FULL_1440_RESIZE_RESOURCE_POLICY : full ? FULL_RESIZE_RESOURCE_POLICY : resize ? RESIZE_RESOURCE_POLICY : RESOURCE_POLICY,
+    derive: range1440 ? deriveCfrResize1440FlacResources : high1440 ? deriveCfrFull1440ResizeFlacResources : full ? deriveCfrFullResizeFlacResources : resize ? deriveCfrResizeFlacResources : deriveCfrFlacResources });
 }
 function sourcesForCampaign(kind) { const config = campaign(kind); return structuredClone(kind === 'fullResize1440to720' ? FULL_1440_SOURCES : config.full ? FULL_SOURCES : SOURCES); }
 function selectedCounts(config, spec, range, sourceExtentUs) {
@@ -107,7 +108,7 @@ const errorRecord = error => ({ code: error.code, message: error.message,
 // This local descriptor authorizes bounded experimental acquisition only. Its
 // clock-derived bounds are preregistered, not measured catalog qualification.
 function candidateSelector(kind, evidenceId, runtimeIdentity, sourceProbe) {
-  assert.ok(['keep720', 'resize1080to720'].includes(kind), 'Fixed candidate range family required');
+  assert.ok(['keep720', 'resize1440to720', 'resize1080to720'].includes(kind), 'Fixed candidate range family required');
   const config = campaign(kind), frozen = frozenQualifications(evidenceId, runtimeIdentity, sourceProbe);
   const selector = new OperationFamilySelector({ policyIdentity: evidenceId, families: [{
     id: config.familyId, resourcePolicy: config.resourcePolicy, runtimeIdentity, environment: null,
@@ -116,6 +117,7 @@ function candidateSelector(kind, evidenceId, runtimeIdentity, sourceProbe) {
   return { selector, frozen };
 }
 const prepareCandidateKeep720Case = options => prepareCandidateCase('keep720', options);
+const prepareCandidateResize1440to720Case = options => prepareCandidateCase('resize1440to720', options);
 const prepareCandidateResize1080to720Case = options => prepareCandidateCase('resize1080to720', options);
 async function prepareCandidateCase(kind, options) {
   assert.ok(options && Object.getPrototypeOf(options) === Object.prototype);
@@ -152,6 +154,7 @@ async function prepareCandidateCase(kind, options) {
   });
 }
 const runCandidateKeep720Campaign = options => runCandidateCampaign('keep720', options);
+const runCandidateResize1440to720Campaign = options => runCandidateCampaign('resize1440to720', options);
 const runCandidateResize1080to720Campaign = options => runCandidateCampaign('resize1080to720', options);
 async function runCandidateCampaign(kind, options) {
   assert.ok(options && Object.getPrototypeOf(options) === Object.prototype);
@@ -175,7 +178,8 @@ async function runCandidateCampaign(kind, options) {
 }
 const runCampaign = kind => runConfiguredCampaign(kind, null);
 async function runConfiguredCampaign(kind, candidate) {
-  if (candidate) { requireCandidateCalibrationRuntime(candidate); assert.ok(['keep720', 'resize1080to720'].includes(kind)); await candidate.requireCurrent(); }
+  assert.ok(kind !== 'resize1440to720' || candidate, '1440 range campaign requires a genuine candidate runtime');
+  if (candidate) { requireCandidateCalibrationRuntime(candidate); assert.ok(['keep720', 'resize1440to720', 'resize1080to720'].includes(kind)); await candidate.requireCurrent(); }
   const pins = candidate ? candidate.pins : PINS, runtimeIdentity = candidate ? candidate.runtimeIdentity : RUNTIME_ID;
   const config = campaign(kind), sources = sourcesForCampaign(kind);
   assert.equal(typeof config.derive, 'function', 'The matching reviewed resource planner is required');
@@ -292,7 +296,7 @@ async function runConfiguredCampaign(kind, candidate) {
           ? { evidenceId: `${path.basename(root)}:${spec.id}:owned-test-signal-identity`, runtimeIdentity,
             sourceEvidenceFingerprint: fingerprintEncodeSource(inspection.probe), videoIndex: sourceVideo.index } : null;
         let orientationOptions = orientation ? { identityOrientationQualification: orientation } : {};
-        if (candidate && kind === 'resize1080to720') {
+        if (candidate && ['resize1080to720', 'resize1440to720'].includes(kind)) {
           const prepared = candidateSelector(kind, `${path.basename(root)}:${spec.id}`, runtimeIdentity, inspection.probe);
           try {
             await candidate.requireCurrent();
@@ -412,4 +416,4 @@ function requireValidCampaignTelemetry(result) {
 }
 const main = () => runCampaign('keep720');
 if (require.main === module) main().catch(error => { console.error(error); process.exitCode = 1; });
-module.exports = { finalizeCampaignDiagnostics, prepareCandidateResize1080to720Case, runCandidateResize1080to720Campaign, requireValidCampaignTelemetry, main, runCampaign, runCandidateKeep720Campaign, prepareCandidateKeep720Case, campaign, sourcesForCampaign, selectedCounts, fixtureTimeoutMs, micros, count, SOURCES, FULL_SOURCES };
+module.exports = { prepareCandidateResize1440to720Case, runCandidateResize1440to720Campaign, finalizeCampaignDiagnostics, prepareCandidateResize1080to720Case, runCandidateResize1080to720Campaign, requireValidCampaignTelemetry, main, runCampaign, runCandidateKeep720Campaign, prepareCandidateKeep720Case, campaign, sourcesForCampaign, selectedCounts, fixtureTimeoutMs, micros, count, SOURCES, FULL_SOURCES };

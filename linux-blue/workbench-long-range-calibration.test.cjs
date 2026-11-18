@@ -106,7 +106,7 @@ async function candidateFixture(t, execute, resize = false) {
   runtime = await openCandidateCalibrationRuntime({ pins, runtimeIdentity, dependencies: [dependency] }, { execute: execute || (async () => { throw new Error('No process expected'); }) });
   const source = path.join(root, 'source.fixture'); await fs.writeFile(source, 'synthetic source bytes');
   const sourceIdentity = await readSourceIdentity(source), probe = candidateProbe(sourceIdentity.size);
-  if (resize) { probe.streams[0].width = 1920; probe.streams[0].height = 1080; }
+  if (resize) { probe.streams[0].width = resize === '1440' ? 2560 : 1920; probe.streams[0].height = resize === '1440' ? 1440 : 1080; }
   const makePlan = (range = { startUs: 100000000, endUs: 140000000 }, resolution = resize ? '720' : 'source') => withEncodeOperationTelemetry(buildEncodeOperation({
     input: source, output: path.join(root, 'output.mkv'), settings: { profileId: 'h265-cpu', preset: 'slow', quality: 25 }, runtimeIdentity,
     inspection: { probe, color: classifyColor(probe), duration: 150 },
@@ -281,4 +281,49 @@ test('actual report finalizer downgrades passed status on incomplete diagnostics
   }
   const failed = complete(); failed.failure = { code: 'ORIGINAL' }; failed.children[0].stderr.available = false;
   finalizeCampaignDiagnostics(failed); assert.deepEqual(failed.failure, { code: 'ORIGINAL' });
+});
+
+const { prepareCandidateResize1440to720Case, runCandidateResize1440to720Campaign, sourcesForCampaign } = require('./workbench-long-range-calibration.cjs');
+test('distinct1440 range dispatch preserves matrix and genuine currentness without media', async t => {
+  const config = campaign('resize1440to720');
+  assert.equal(config.width,2560); assert.equal(config.height,1440); assert.equal(config.full,false);
+  assert.notEqual(config.familyId,campaign('resize1080to720').familyId);
+  assert.deepEqual(sourcesForCampaign('resize1440to720'),sourcesForCampaign('resize1080to720'));
+  const h = await candidateFixture(t,undefined,'1440');
+  for (const range of [{startUs:100000000,endUs:140000000},{startUs:130000000},{startUs:413000,endUs:8621000}]) {
+    const selected = await prepareCandidateResize1440to720Case({...h.options,plan:h.makePlan(range)});
+    assert.equal(selected.selection.sourcePolicy.id,config.familyId); await selected.requireCurrent(); selected.close();
+  }
+  await assert.rejects(prepareCandidateResize1080to720Case(h.options));
+  await assert.rejects(prepareCandidateResize1440to720Case({...h.options,verifiedRuntime:{...h.runtime}}));
+  await assert.rejects(prepareCandidateResize1440to720Case({...h.options,plan:h.makePlan(null)}));
+  const selected = await prepareCandidateResize1440to720Case(h.options);
+  await fs.appendFile(h.source,'changed'); await assert.rejects(selected.requireCurrent()); selected.close();
+  await h.runtime.close(); await assert.rejects(runCandidateResize1440to720Campaign({verifiedRuntime:h.runtime}));
+});
+
+test('1440 candidate campaign attempts only fixed genuine1440 fixture then retains injected failure', async t => {
+  const {PassThrough}=require('node:stream');
+  const h=await candidateFixture(t,async (file,args,options)=>{
+    assert.ok(args.includes('testsrc2=size=2560x1440:rate=30:duration=150'));
+    const child=new EventEmitter();child.kill=()=>{};child.stderr=new PassThrough();options.onChild(child);
+    child.stderr.end('injected1440diagnostic');child.emit('close',1,null);
+    throw Object.assign(new Error('Fixture injected stop; no media'),{code:'SYNTHETIC_1440_STOP'});
+  });
+  const mkdtemp=fs.mkdtemp;t.mock.method(fs,'mkdtemp',prefix=>{
+    assert.ok(prefix.endsWith('candidate-resize1440to720-calibration-'));return mkdtemp(path.join(h.root,'campaign-'));
+  });
+  t.mock.method(fs,'statfs',async()=>({bavail:100n*1024n**3n,bsize:1n}));
+  const report=await runCandidateResize1440to720Campaign({verifiedRuntime:h.runtime});
+  assert.equal(report.status,'failed-retained');assert.equal(report.failure.code,'SYNTHETIC_1440_STOP');
+  assert.equal(report.resourcePolicy,campaign('resize1440to720').resourcePolicy);
+  assert.deepEqual(report.census,{spawned:1,closed:1,live:0,maximum:1});
+  assert.equal(report.children[0].stderr.truncated,false);
+  assert.equal(await fs.readFile(report.children[0].stderr.path,'utf8'),'injected1440diagnostic');
+  assert.deepEqual(JSON.parse(await fs.readFile(path.join(report.root,'report.json'),'utf8')).failure,report.failure);
+  assert.equal(report.catalogActivated,false);await assert.rejects(h.runtime.requireCurrent());
+});
+
+test('new1440 range refuses legacy unbranded campaign entry before effects', async () => {
+  await assert.rejects(require('./workbench-long-range-calibration.cjs').runCampaign('resize1440to720'), /genuine candidate runtime/);
 });

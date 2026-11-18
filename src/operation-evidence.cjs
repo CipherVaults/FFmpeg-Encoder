@@ -6,7 +6,7 @@ const { createHash } = require('node:crypto');
 const { ToolError } = require('./process-runner.cjs');
 const { normalizeProbe } = require('./inspection.cjs');
 const { assertProportionalCollectionSelection, verifyProportionalCollectedSource } = require('./operation-family.cjs');
-const { FAMILY_ID: PROPORTIONAL, RESIZE_FAMILY_ID: RESIZE_PROPORTIONAL, FULL_COPY_FAMILY_ID: FULL_COPY_PROPORTIONAL } = require('./operation-resource-budget.cjs');
+const { FAMILY_ID: PROPORTIONAL, RESIZE_1440_FAMILY_ID: RESIZE_1440_PROPORTIONAL, RESIZE_FAMILY_ID: RESIZE_PROPORTIONAL, FULL_COPY_FAMILY_ID: FULL_COPY_PROPORTIONAL } = require('./operation-resource-budget.cjs');
 
 // Main-only evidence acquisition, not a capability cell or publication grant.
 // This first complete path deliberately reads source decoded timing. Main must
@@ -228,7 +228,7 @@ async function collectOperationEvidence(options) {
   if (sourceProperties) {
     exact(sourcePolicy, ['id', 'rate', 'maximumExtentUs'], 'Decoded source policy');
     // Record 47 Q2b: the whole-file copied-audio family uses the same SDR source checks at 30 fps only.
-    need((approvedSource && [PROPORTIONAL, RESIZE_PROPORTIONAL, FULL_COPY_PROPORTIONAL].includes(sourcePolicy.id)) || ((['short-sdr-range-v1', 'short-sdr-range-flac-v1'].includes(sourcePolicy.id) && [30, 60].includes(sourcePolicy.rate)
+    need((approvedSource && [PROPORTIONAL, RESIZE_1440_PROPORTIONAL, RESIZE_PROPORTIONAL, FULL_COPY_PROPORTIONAL].includes(sourcePolicy.id)) || ((['short-sdr-range-v1', 'short-sdr-range-flac-v1'].includes(sourcePolicy.id) && [30, 60].includes(sourcePolicy.rate)
       || sourcePolicy.id === 'full-sdr-resize-copy-v1' && sourcePolicy.rate === 30)
       && sourcePolicy.maximumExtentUs === 120000000), 'Only bounded legacy policies or a privately bound proportional FLAC policy or Full-copy policy are implemented.');
   }
@@ -252,7 +252,7 @@ async function collectOperationEvidence(options) {
     for (const key of ['encoderDelaySamples', 'discardPaddingSamples']) need(safe(timingQualification.aac[key], key) <= 1048576, 'Unsupported AAC padding qualification.');
   }
   const source = normalizeProbe(sourceProbe), output = normalizeProbe(options.outputProbe);
-  if (sourceProperties && ['short-sdr-range-flac-v1', PROPORTIONAL, RESIZE_PROPORTIONAL].includes(sourcePolicy.id)) {
+  if (sourceProperties && ['short-sdr-range-flac-v1', PROPORTIONAL, RESIZE_1440_PROPORTIONAL, RESIZE_PROPORTIONAL].includes(sourcePolicy.id)) {
     // The new source policy is specific to one integer-PCM range route. It
     // cannot be attached to an AAC or copied-audio plan to borrow its checks.
     const audio = plan.contract.audio.streams, stream = source.streams.find(item => item.index === audio[0]?.index);

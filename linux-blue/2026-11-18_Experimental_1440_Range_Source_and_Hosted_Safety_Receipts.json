@@ -1,0 +1,558 @@
+{
+  "checkpoint": 58,
+  "evidenceCutoffUtc": "2026-11-18T16:33:41.865107+00:00",
+  "status": "Final outside owning record; writer released for lead integration",
+  "scope": "Experimental source-only genuine1440 range family/calibration and separately observed057 hosted shared-safety CI success. No1440 live consumer/media or default promotion.",
+  "plannedPublication": {
+    "changedPaths": 11,
+    "sourceFiles": 7,
+    "totalCommittedFiles": 694,
+    "portablePackage": null,
+    "rawReportsRuntimeMediaOrPrivateProfilesIncluded": false
+  },
+  "knownUsablePredecessor": {
+    "local": "4bbee047d7326396ec8943d1998a66f75c6882de",
+    "remote": "0f675aabb6cfbf7c060444721d75068917a795f9",
+    "preserved": true
+  },
+  "integration": {
+    "atUtc": "2026-11-18T16:31:58.138848+00:00",
+    "sourceFiles": [
+      {
+        "path": "src/operation-resource-budget.cjs",
+        "bytes": 8323,
+        "sha256": "9a328f902ee4203465083da4afd477ad86d045654104fe33409cb571cd02d3f6",
+        "priorSha256": "1914192dc877344b94bb6786a831e07b6e8b9704ee31c0a63fd225db426e5926"
+      },
+      {
+        "path": "src/operation-family.cjs",
+        "bytes": 52210,
+        "sha256": "3e27335e4228969d670545b0fb6aeb77a6fd9303529c248ae7560d0c9e4fade3",
+        "priorSha256": "c981fe49e8f67b674cd23eda6b6424ee031b022bbf1a90dfe2cb2b5d51f99f65"
+      },
+      {
+        "path": "src/operation-evidence.cjs",
+        "bytes": 53356,
+        "sha256": "5ec5452881d01789f7f181e4540cfcca268371f13f6abdd7f59fa9ad57e8b8d4",
+        "priorSha256": "9b680168395be354b8261bd4aa6624c1484daeecab424fd5278db55fa3aba9b9"
+      },
+      {
+        "path": "linux-blue/workbench-long-range-calibration.cjs",
+        "bytes": 33462,
+        "sha256": "ee8d48e294f098ed9f47e7b6e1e75edd5a4661d460ee6b00bb2a375010692afc",
+        "priorSha256": "7460d5f369949a84827b6b6b96edab05656aecf2abd2b711a244942abab7b484"
+      },
+      {
+        "path": "linux-blue/workbench-long-range-calibration.test.cjs",
+        "bytes": 26524,
+        "sha256": "e9305de02cc590c4ac75c5aabb740b776359100fb6c8fb1d1b73b155aba35d31",
+        "priorSha256": "db7f34126653033e61cc9954784177c6ff3a83d37c649bfca9e35bd7aac5d6d9"
+      },
+      {
+        "path": "tests/operation-family-resize1440-proportional.test.cjs",
+        "bytes": 12558,
+        "sha256": "b2eb71f564a2f33b6b9cf281c89da6d7e09229097afd0372067cd9bf26916548",
+        "priorSha256": null
+      },
+      {
+        "path": "tests/operation-evidence-resize1440-proportional.test.cjs",
+        "bytes": 15163,
+        "sha256": "9a1565942874957e7a7a5a673b6bc8ddfeb8d89b838c662f1c5836d2602e9a9a",
+        "priorSha256": null
+      }
+    ],
+    "otherPriorFilesUnchanged": 685,
+    "noMediaOrNativeRuntime": true
+  },
+  "leadChecks": [
+    {
+      "name": "focused",
+      "command": [
+        "node",
+        "--test",
+        "--test-reporter=tap",
+        "tests/operation-family-resize-proportional.test.cjs",
+        "tests/operation-family-resize1440-proportional.test.cjs",
+        "tests/operation-evidence-resize-proportional.test.cjs",
+        "tests/operation-evidence-resize1440-proportional.test.cjs",
+        "tests/operation-resize-proportional-service.test.cjs",
+        "tests/operation-resource-budget.test.cjs",
+        "tests/operation-resource-full-copy.test.cjs",
+        "linux-blue/workbench-long-range-calibration.test.cjs",
+        "linux-blue/candidate-calibration-runtime.test.cjs"
+      ],
+      "startedAtUtc": "2026-11-18T16:32:30.725937+00:00",
+      "endedAtUtc": "2026-11-18T16:32:32.548245+00:00",
+      "exitCode": 0,
+      "counts": {
+        "tests": [
+          81
+        ],
+        "pass": [
+          81
+        ],
+        "fail": [
+          0
+        ],
+        "cancelled": [
+          0
+        ],
+        "skipped": [
+          0
+        ]
+      },
+      "failedCases": [],
+      "outputs": [
+        {
+          "path": "focused.stdout",
+          "bytes": 21941,
+          "sha256": "cc61d43f95742afb55cc84a1914decfc76afd5ca012133e1456e9e95ed72468c"
+        },
+        {
+          "path": "focused.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "name": "broad",
+      "command": [
+        "node",
+        "--test",
+        "--test-reporter=tap",
+        "tests/operation-family-full-copy-proportional.test.cjs",
+        "tests/operation-family-proportional.test.cjs",
+        "tests/operation-family-resize-proportional.test.cjs",
+        "tests/operation-family-resize1440-proportional.test.cjs",
+        "tests/operation-family.test.cjs",
+        "tests/operation-evidence-full-copy-proportional.test.cjs",
+        "tests/operation-evidence-proportional.test.cjs",
+        "tests/operation-evidence-resize-proportional.test.cjs",
+        "tests/operation-evidence-resize1440-proportional.test.cjs",
+        "tests/operation-evidence.test.cjs",
+        "tests/operation-resource-budget.test.cjs",
+        "tests/operation-resource-full-copy.test.cjs",
+        "tests/encode-operation.test.cjs",
+        "linux-blue/workbench-long-range-calibration.test.cjs",
+        "linux-blue/candidate-calibration-runtime.test.cjs"
+      ],
+      "startedAtUtc": "2026-11-18T16:32:32.555002+00:00",
+      "endedAtUtc": "2026-11-18T16:32:33.900254+00:00",
+      "exitCode": 1,
+      "counts": {
+        "tests": [
+          234
+        ],
+        "pass": [
+          209
+        ],
+        "fail": [
+          25
+        ],
+        "cancelled": [
+          0
+        ],
+        "skipped": [
+          0
+        ]
+      },
+      "failedCases": [
+        "the finite720p/1080p30/60CPU/NVIDIA tuples admit collection with immutable retained policy",
+        "a family covers a new matching source without manufacturing exact-source catalog records",
+        "every current strict source stamp and sparse digest remain independently bound to the job",
+        "metadata predicates reject other codecs/profiles/rates/layouts/transports/starts/durations and byte extents",
+        "source requests stay range-only,0.5\u201330s,Keep Source or1080\u2192720 and layout-default precision AAC",
+        "only exact measured HEVC settings, runtime, device and complete budgets apply",
+        "family provenance and measured tolerances are immutable and duplicate/wildcard records fail closed",
+        "absent orientation gets source-bound interpretation only for matching1080\u2192720 family resize",
+        "reported orientation must be explicit zero with an identity matrix and cannot conceal conflicting legacy data",
+        "complete collected source verifies independently of metadata and refuses malformed or partial receipts",
+        "accessors and hidden family authority are rejected before any getter runs",
+        "CFR requires absolute ordinal phase throughout the full source, not just small local deltas and a returning final extent",
+        "start-only, end-only and to-source-end ranges resolve against the file and keep the 0.5\u201330 s family limit",
+        "FLAC ranges select their own family across both rates, geometries and backends with exact source coverage",
+        "FLAC source admission never admits AAC, non-s16 PCM, another rate or layout and never broadens AAC or copy",
+        "FLAC retains the range limits, refuses full-file jobs and reports the FLAC refusal in a mixed catalog",
+        "a whole-file FLAC resize names the FLAC range refusal for selection and absent-orientation diagnosis",
+        "FLAC requires the exact measured QuickTime brand while AAC and copy retain their container scope",
+        "the common audio pre-check reports 44.1 kHz AAC before clock or side-data diagnostics",
+        "a three-family catalog keeps HE-AAC, s16p, mono, mp3 and PCM outside the older families",
+        "a whole-file 1080p30 to 720p job with copied audio selects only the copied-audio family",
+        "with both families on one tuple each job selects its own family and the other stays unreachable to it",
+        "the copied-audio family refuses every job outside its measured whole-file 1080p30 scope",
+        "the copied-audio family bounds audio, container and decoded extents, not only the video stream",
+        "a refused range job names the range family, and a refused whole-file job names the whole-file family"
+      ],
+      "outputs": [
+        {
+          "path": "broad.stdout",
+          "bytes": 84933,
+          "sha256": "9f50ba8b525f55bcda3ae63ace986c2b81e44ca23a814403d840a40fea40dd7c"
+        },
+        {
+          "path": "broad.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "name": "capsules",
+      "command": [
+        "node",
+        "--test",
+        "--test-reporter=tap",
+        "linux-blue/candidate-producer-qualification.cjs",
+        "linux-blue/candidate-full-copy-service.test.cjs",
+        "linux-blue/candidate-keep720-service.test.cjs",
+        "linux-blue/candidate-resize-service.test.cjs"
+      ],
+      "startedAtUtc": "2026-11-18T16:32:33.911424+00:00",
+      "endedAtUtc": "2026-11-18T16:32:35.139244+00:00",
+      "exitCode": 1,
+      "counts": {
+        "tests": [
+          52
+        ],
+        "pass": [
+          39
+        ],
+        "fail": [
+          13
+        ],
+        "cancelled": [
+          0
+        ],
+        "skipped": [
+          0
+        ]
+      },
+      "failedCases": [
+        "literal calibration producer closure matches immutable tested source",
+        "injected normal-service composition preserves observer, storage, OutputAccess and no launch effects",
+        "rejected construction and bounded report-read failures retain cleanup without child effects",
+        "genuine OutputAccess only, inert option snapshot and synchronous cancellation closure",
+        "both service and candidate cleanup failures survive",
+        "composed selector issues genuine Full/null/copy-only tokens and recalculates whole-source budgets",
+        "actual composed prepare exposes compatibility-ready without authority; Start refuses before effects",
+        "workbench mode is inert boolean only and synchronously exposes terminal relaunch",
+        "actual workbench prepare and edit receipt awaits never expose compatibility authority or admit reentrant Start",
+        "Keep720: calibration producer literal closure still equals immutable tested source",
+        "resize: calibration producer literal closure still equals immutable tested source",
+        "new current producer capsule matches; historical capsule still refuses current bytes",
+        "immediately prior Q8fIWI producer capsule rejects current codec producer bytes"
+      ],
+      "outputs": [
+        {
+          "path": "capsules.stdout",
+          "bytes": 25714,
+          "sha256": "758469ebf44849001b35f911ec87358ad3af20c90a092e26ef473f78436483e3"
+        },
+        {
+          "path": "capsules.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "name": "ci-runner",
+      "command": [
+        "node",
+        "scripts/ci-source-contracts.cjs"
+      ],
+      "startedAtUtc": "2026-11-18T16:32:35.145458+00:00",
+      "endedAtUtc": "2026-11-18T16:32:49.086900+00:00",
+      "exitCode": 0,
+      "counts": {
+        "tests": [
+          209,
+          10
+        ],
+        "pass": [
+          209,
+          10
+        ],
+        "fail": [
+          0,
+          0
+        ],
+        "cancelled": [
+          0,
+          0
+        ],
+        "skipped": [
+          0,
+          0
+        ]
+      },
+      "failedCases": [],
+      "outputs": [
+        {
+          "path": "ci-runner.stdout",
+          "bytes": 22915,
+          "sha256": "d888e30b72c8205e51b398c0c16b25ea35c9a448580d53d4be503db866698d1f"
+        },
+        {
+          "path": "ci-runner.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    }
+  ],
+  "testQualifications": {
+    "overlapNotSummed": true,
+    "all692SourceFilesUnchanged": true,
+    "fiveOriginalRawReceiptsRehashedBeforeAndAfter": true,
+    "rawReportValidatorsDoNotBypassProducerCurrentness": true,
+    "capsuleUnionBefore": "Independent 51/52, one preexisting Keep720 positive fails",
+    "capsuleUnionAfter": "Lead and independent 39/52, thirteen failures: one preexisting plus twelve added stale consequences",
+    "extraCapsuleFailures": "Nine Full-copy and three resize labels, not twelve independent media defects. Early producer refusal includes a zero report-handle count and changed first-stale-path negative."
+  },
+  "producerCurrentness": {
+    "E3": {
+      "count": 97,
+      "changedIntersection": [
+        "linux-blue/workbench-long-range-calibration.cjs",
+        "src/operation-evidence.cjs",
+        "src/operation-family.cjs",
+        "src/operation-resource-budget.cjs"
+      ],
+      "mismatches": [
+        "linux-blue/workbench-long-range-calibration.cjs",
+        "src/operation-evidence.cjs",
+        "src/operation-family.cjs",
+        "src/operation-resource-budget.cjs"
+      ],
+      "expectedMainSha256": null,
+      "hashVerifier": "refused: Calibration producer changed: linux-blue/workbench-long-range-calibration.cjs"
+    },
+    "fullCopy": {
+      "count": 26,
+      "changedIntersection": [
+        "src/operation-evidence.cjs",
+        "src/operation-resource-budget.cjs",
+        "src/operation-family.cjs"
+      ],
+      "mismatches": [
+        "src/operation-evidence.cjs",
+        "src/operation-resource-budget.cjs",
+        "src/operation-family.cjs"
+      ],
+      "expectedMainSha256": null,
+      "hashVerifier": "refused: Calibration producer changed: src/operation-evidence.cjs"
+    },
+    "historicalHdr": {
+      "count": 69,
+      "changedIntersection": [
+        "src/operation-evidence.cjs",
+        "src/operation-family.cjs"
+      ],
+      "mismatches": [
+        "main.js",
+        "preload.js",
+        "src/backend-adapters.cjs",
+        "src/backend-discovery.cjs",
+        "src/capabilities.cjs",
+        "src/diagnostics.cjs",
+        "src/encode-operation.cjs",
+        "src/encoder-service.cjs",
+        "src/hdr-evidence.cjs",
+        "src/hdr-operation.cjs",
+        "src/hdr-workspace.cjs",
+        "src/hevc-content.cjs",
+        "src/inspection.cjs",
+        "src/ipc.cjs",
+        "src/media.cjs",
+        "src/mov-representation.cjs",
+        "src/operation-catalog.cjs",
+        "src/operation-contract.cjs",
+        "src/operation-evidence.cjs",
+        "src/operation-family.cjs",
+        "src/operation-runtime.cjs",
+        "src/operation-storage.cjs",
+        "src/outputs.cjs",
+        "src/preferences.cjs",
+        "src/process-runner.cjs",
+        "src/provenance.cjs",
+        "src/remux-catalog.cjs",
+        "src/remux-contract.cjs",
+        "src/remux-evidence.cjs",
+        "src/remux-operation.cjs",
+        "src/remux-validation.cjs",
+        "src/remux-workspace.cjs",
+        "src/windows-adapters.cjs",
+        "ui/index.html",
+        "ui/renderer.js",
+        "ui/styles.css"
+      ],
+      "expectedMainSha256": "a4e86ed97db88cc9c6f31a0ec4bbe1a606f3b977c794e410e801243133bcc515",
+      "policyIds": []
+    },
+    "historicalEncodePreservation": {
+      "count": 32,
+      "changedIntersection": [],
+      "mismatches": [
+        "main.js",
+        "preload.js",
+        "src/diagnostics.cjs",
+        "src/encode-operation.cjs",
+        "src/encoder-service.cjs",
+        "src/inspection.cjs",
+        "src/ipc.cjs",
+        "src/media.cjs",
+        "src/operation-contract.cjs",
+        "src/operation-runtime.cjs",
+        "src/outputs.cjs",
+        "src/process-runner.cjs",
+        "src/provenance.cjs",
+        "ui/index.html",
+        "ui/renderer.js",
+        "ui/styles.css"
+      ],
+      "expectedMainSha256": "a4e86ed97db88cc9c6f31a0ec4bbe1a606f3b977c794e410e801243133bcc515",
+      "policyIds": []
+    },
+    "Keep720": "Same six of97 mismatched producer paths, independently verified; remains refused."
+  },
+  "hosted057": {
+    "remoteCommit": "0f675aabb6cfbf7c060444721d75068917a795f9",
+    "runId": 44347682958,
+    "url": "https://github.com/CipherVaults/FFmpeg-Encoder-Blue-Linux/actions/runs/44347682958",
+    "event": "push",
+    "conclusion": "success",
+    "scope": "Windows2022:202 syntax and209 shared; Ubuntu24.04:202 syntax,209 shared and10Linux policy; all selected tests zero fail/skip/cancel. Both use Node24.22.1.",
+    "limits": [
+      "Two platform runs overlap; not418 unique tests.",
+      "Selected source/injected safety, two bounded Node helper processes and filesystem/hardlinks. Not native Electron, FFmpeg/media, RTX hardware, packaging or release acceptance."
+    ]
+  },
+  "pendingAtCutoff": [
+    "New dedicated1440 helper outside authoring/review/binding and any runtime campaign",
+    "Actual1440 measured calibration, separate narrow service consumer and real service proof",
+    "Fresh1080 range and Full-copy qualification to restore availability on new producer source",
+    "Windows runner-local provisioning implementation, real CPU service/Electron and owner RTX5060 acceptance"
+  ],
+  "artifacts": [
+    {
+      "base": "guidance",
+      "path": "e3-1440range-source-evidence/HANDOFF-v1.json",
+      "bytes": 8396,
+      "sha256": "c58b8a958557c106a979780a5ad45fbb12616b20c0b3ad37ee0c95fedac76b73"
+    },
+    {
+      "base": "guidance",
+      "path": "e3-1440range-source-evidence/proposal-v1.patch",
+      "bytes": 57460,
+      "sha256": "b0dcfcecffe6f4b014ff73eda9ad59846922ab9fd8cc5c1dd4f5011c96ab3250"
+    },
+    {
+      "base": "guidance",
+      "path": "e3-1440range-independent-review/INDEPENDENT_REVIEW-v1.json",
+      "bytes": 13380,
+      "sha256": "1db93ebbac9cb59aad9c25474b22b77a1d96e7490a63d35f105f0c4ad8dfc992"
+    },
+    {
+      "base": "guidance",
+      "path": "e3-1440-revalidation057/INTEGRATION-HANDOFF.md",
+      "bytes": 5234,
+      "sha256": "affbb2bdf5c4ac21b23eb909fb6aaf5aecb781d629cea278b4abcd59c0035cda"
+    },
+    {
+      "base": "guidance",
+      "path": "e3-1440-revalidation057/test-comparison.json",
+      "bytes": 10877,
+      "sha256": "8b57b956000d4446cc16eb62e19e0072a18d18408f3661e7ad2b900cf5e81fcc"
+    },
+    {
+      "base": "guidance",
+      "path": "e3-1440-independent-current057/FINAL_REVIEW.md",
+      "bytes": 4828,
+      "sha256": "956bfe756e75a9c2d66848452cf2e070fc167f6445d728a358bb8429db92cf1f"
+    },
+    {
+      "base": "guidance",
+      "path": "e3-1440-independent-current057/identity-and-closure.json",
+      "bytes": 10624,
+      "sha256": "da2526dcdab1ff4e803ee3559de2aee57cdad2339e9b28edd7427106ca9c7dcd"
+    },
+    {
+      "base": "guidance",
+      "path": "e3-1440-independent-current057/RECEIPTS.txt",
+      "bytes": 1337,
+      "sha256": "2548726cd2f75e55f32e63cbff9e69da14ad427a95343326b372e6f31e6a4549"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint058-integration.json",
+      "bytes": 3641,
+      "sha256": "e18be021ab84c49f9f540866ba2ddc79c96f7d0a703b6e7a7ada64f0cdc32951"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint058-lead-tests/RESULTS.json",
+      "bytes": 92326,
+      "sha256": "66dd6474a7b156fa2d1859e5620b4ce5f2a30bdce6cab1ca0dc75fed5804ad2a"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint058-producer-closures.json",
+      "bytes": 4118,
+      "sha256": "3864124e33624bc7ca50b027749b07ddc4d7f347784bed7209eb6217c6bfb7e0"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint058-hosted057-reconciliation.json",
+      "bytes": 1846,
+      "sha256": "f524cf3924110b55c7d7a211e3a2df7e1302c8fbed1196ad10b490b25cf94fcf"
+    },
+    {
+      "base": "guidance",
+      "path": "github-checkpoint057-verification.json",
+      "bytes": 4810,
+      "sha256": "a513d8ea11070f157d1da971d0b11f1cf54c818c049d54c12701b4d062930477"
+    },
+    {
+      "base": "guidance",
+      "path": "notion-checkpoint-057-verification.json",
+      "bytes": 127699,
+      "sha256": "a6e3b07246df2469da2b1744fc344983fd9a944e955e83fe202745d3dd1bb743"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint057-final-mirror-release.json",
+      "bytes": 389,
+      "sha256": "cc8beb4ee33be37a7191082c8a90229884da86951d9d7e88c17a8bbb8f4566fd"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint058-cutoff.json",
+      "bytes": 2526,
+      "sha256": "29fcdf44553f318771d71134b60330fb9d044f2fb829ca150450b03b8861144c"
+    },
+    {
+      "base": "workspace",
+      "path": "ffmpeg-windows-runner-provisioning-proposal-20261118.md",
+      "bytes": 6159,
+      "sha256": "3ae3d16f8ccd1e3304ffa89591fef2979caba1a6842fe481e04e24e5f3489835"
+    }
+  ],
+  "limits": [
+    "Seven exact reviewed files integrated after complete057 Git/Notion/GitHub final receipt. No selector/main/consumer/runtime/default change.",
+    "Existing1080 range and Full-copy now refuse their stale exact producer capsules (4/97 and3/26). Availability is intentionally suspended in this experimental successor, not dismissed as test-only noise; immutable057 remains recoverable.",
+    "Lead81/81focused;209/234broader with same25 historical names;39/52capsules (one preexistingKeep720 +12 additional stale consequences);202syntax+209shared+10Linux allpass. No skips/cancels; scopes overlap.",
+    "Five historical raw JSON inputs verified before/after lead checks; raw receipt validity cannot override current producer refusal.",
+    "Actual057 hosted Windows2022/Ubuntu24.04 success applies to057, not these newly changed producers. No nativeWindows, FFmpeg/media, GPU, package or release acceptance.",
+    "Fixed6000ms/source-second is a scheduling allowance, not measured speed; genuine1440 calibration, narrowconsumer and service proof pending. Existing1080/Full-copy require fresh separate qualification before restored.",
+    "Minimal new1440 helper adaptation assigned outside checkout and pending review/binding/runtime at cutoff. Windows provisioning proposal is read-only, not implemented, installed or exercised."
+  ],
+  "authority": {
+    "runtimeExecutionGranted": false,
+    "catalogActivationGranted": false,
+    "defaultPromotionGranted": false,
+    "releaseAcceptanceGranted": false,
+    "standingOwnerDevelopmentAuthorizationUnchanged": true
+  }
+}

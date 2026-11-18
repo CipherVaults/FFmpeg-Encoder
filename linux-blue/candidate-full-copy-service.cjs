@@ -19,15 +19,17 @@ const { failedVendorCapabilities } = require('../src/vendor-capabilities.cjs');
 const { FULL_COPY_FAMILY_ID: FAMILY_ID, FULL_COPY_RESOURCE_POLICY: RESOURCE_POLICY, deriveCfrFullResizeCopyResources } = require('../src/operation-resource-budget.cjs');
 const { FROZEN, SPECS } = require('./candidate-full-copy-calibration.cjs');
 const RUNTIME_ID = '1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9';
-const REPORT = path.join(__dirname, 'artifacts/candidate-full-copy-calibration-e6n8N6/report.json');
-const REPORT_SHA = '773f86b3b8b957c65be058138952aedb3c31f5aa21f7676d243f17fd1949acfd';
+const REPORT = path.join(__dirname, 'artifacts/candidate-full-copy-calibration-bkus3x/report.json');
+const REPORT_SHA = 'aa8872a45eec88e01444cb79c57b0cceb5d03825800afacd4475a06c57ad9cf1';
 const REPORT_BYTES = 207500;
 const SETTINGS = Object.freeze({ profileId: 'h265-cpu', preset: 'slow', quality: 25 });
 const sha = b => createHash('sha256').update(b).digest('hex');
 const need = (ok, message) => { if (!ok) throw Object.assign(new Error(message), { code: 'CANDIDATE_FULL_COPY_SERVICE_SCOPE' }); };
-// Literal producer closure from tested 049 commit 39777bc55c78de5e772538d80d4efb3bba7e0407.
-// Saved-output audit 3c7e0f3d6765f0eb10bbf368bebae40b4c5b5c01afbaefe610cf1ca047a9747e.
-// Lead reconciliation c18cae7904f0a497e5e075f9d8d972c98f6e794d9e8ba695da9282c61a523b0c.
+// Literal producer closure from checkpoint 062, commit 3f5d189d2d7fbbc450b2a75a1ddc16a628805904.
+// Saved-output audit 57ea480bec4c0df0440719ec6b78fadc54a15506f5c6467a885a9630128819e0.
+// Audit supplement 75140587dc812e658726cb5d8aeeb170fc28b38d7833d09550eab6a95a4872c8.
+// Independent final release e55311b8171833b650afe9671de9e976148e090df157cba3c4e8eac55099e530.
+// Lead reconciliation/acceptance 8423ecb5a270d131fcec1c3042c5d6eebad83b81d7684aeee1a47d23dc0cf452.
 // New composition is separately reviewed, not historically exercised by calibration.
 // No pre-target decoded diagnostic hook is installed: normal collector verifies
 // complete decoded source AFTER encode and BEFORE publication, unlike calibration.
@@ -50,9 +52,9 @@ const PRODUCERS = Object.freeze({
   "src/encode-operation.cjs": "aae37c5479897a13f9ee66b1ea1a8a9a6a46d2c57f76d36bdebdedf21569a5de",
   "src/container-clock.cjs": "b823f1e41c4cca19a0b06d82dadf1941f4e0a0326b6d16bd910691c702763857",
   "src/operation-contract.cjs": "e87c0bd40a27e9bc4309cfff489a3270899edc6505face10a9c4461272bb343d",
-  "src/operation-evidence.cjs": "9b680168395be354b8261bd4aa6624c1484daeecab424fd5278db55fa3aba9b9",
-  "src/operation-resource-budget.cjs": "1914192dc877344b94bb6786a831e07b6e8b9704ee31c0a63fd225db426e5926",
-  "src/operation-family.cjs": "c981fe49e8f67b674cd23eda6b6424ee031b022bbf1a90dfe2cb2b5d51f99f65",
+  "src/operation-evidence.cjs": "5ec5452881d01789f7f181e4540cfcca268371f13f6abdd7f59fa9ad57e8b8d4",
+  "src/operation-resource-budget.cjs": "9a328f902ee4203465083da4afd477ad86d045654104fe33409cb571cd02d3f6",
+  "src/operation-family.cjs": "3e27335e4228969d670545b0fb6aeb77a6fd9303529c248ae7560d0c9e4fade3",
   "linux-blue/candidate-calibration-runtime.cjs": "a62ceab690931736a7d7a81e7c6c7495987f7015f953013366ab6f5a0fd8217a",
   "src/operation-runtime.cjs": "95285842847006e2fbcad43d46bbca7bc3823c3378fdc33a755ee82398681b79",
   "src/remux-contract.cjs": "f420e73a9a95b310459c4dd7adb5b4e5657ea819d1b6f61a405ef72531c284da",
@@ -265,10 +267,10 @@ async function createCandidateFullCopyService(options) {
       pins: Object.fromEntries(Object.entries(candidate.pins).map(([k, v]) => [k, { sizeBytes: v.size, sha256: v.sha256 }])), run,
     });
     // Fresh capsule IDs bind the exact reviewed report, not portable summaries.
-    const id='full-copy-reviewed-39777bc-'+REPORT_SHA.slice(0,16);
+    const id='full-copy-reviewed-3f5d189-'+REPORT_SHA.slice(0,16);
     const qualification={evidenceId:id+':endpoints',runtimeIdentity:RUNTIME_ID,containerDuration:FROZEN.containerDuration,tolerances:{...FROZEN.tolerances}};
     const timingQualification={evidenceId:id+':interior',runtimeIdentity:RUNTIME_ID,videoDurationUs:FROZEN.videoDurationUs,audioTimelineUs:FROZEN.audioTimelineUs,aac:null};
-    const selector = new FullCopySelector({ policyIdentity: 'candidate-full-copy-normal-service-39777bc', families: [{
+    const selector = new FullCopySelector({ policyIdentity: 'candidate-full-copy-normal-service-3f5d189', families: [{
       id: FAMILY_ID, resourcePolicy: RESOURCE_POLICY, runtimeIdentity: RUNTIME_ID, environment: null, settings: SETTINGS,
       qualification, timingQualification, evidenceIds: [qualification.evidenceId, timingQualification.evidenceId],
     }] });

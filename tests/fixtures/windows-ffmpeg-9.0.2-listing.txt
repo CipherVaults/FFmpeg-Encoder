@@ -1,0 +1,490 @@
+Path = ffmpeg-9.0.2-full_build
+Size = 0
+Packed Size = 0
+Modified = 2026-09-19 07:26:07.3678974
+Attributes = D
+CRC = 
+Encrypted = -
+Method = 
+Block = 
+
+Path = ffmpeg-9.0.2-full_build/bin
+Size = 0
+Packed Size = 0
+Modified = 2026-09-19 07:26:07.2317722
+Attributes = D
+CRC = 
+Encrypted = -
+Method = 
+Block = 
+
+Path = ffmpeg-9.0.2-full_build/doc
+Size = 0
+Packed Size = 0
+Modified = 2026-09-19 07:26:07.1308021
+Attributes = D
+CRC = 
+Encrypted = -
+Method = 
+Block = 
+
+Path = ffmpeg-9.0.2-full_build/presets
+Size = 0
+Packed Size = 0
+Modified = 2026-09-19 07:26:07.0243230
+Attributes = D
+CRC = 
+Encrypted = -
+Method = 
+Block = 
+
+Path = ffmpeg-9.0.2-full_build/doc/bootstrap.min.css
+Size = 109483
+Packed Size = 602712
+Modified = 2026-09-19 07:26:07.1308021
+Attributes = A
+CRC = 16E72EE5
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/community.html
+Size = 13505
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0852974
+Attributes = A
+CRC = E50AA0BF
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/default.css
+Size = 2494
+Packed Size = 
+Modified = 2026-09-19 07:26:07.1308021
+Attributes = A
+CRC = 0C410C3C
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/developer.html
+Size = 65540
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0852974
+Attributes = A
+CRC = 3296F8D4
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/drawvg-reference.html
+Size = 147341
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0862981
+Attributes = A
+CRC = 140E58BB
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/faq.html
+Size = 65088
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0862981
+Attributes = A
+CRC = D7FBF26B
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/fate.html
+Size = 18768
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0872909
+Attributes = A
+CRC = E70B997B
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/ffmpeg-all.html
+Size = 3075750
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0892840
+Attributes = A
+CRC = 350574E8
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/ffmpeg-bitstream-filters.html
+Size = 62913
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0892840
+Attributes = A
+CRC = 2CABD048
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/ffmpeg-codecs.html
+Size = 348541
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0902806
+Attributes = A
+CRC = E22DDA98
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/ffmpeg-devices.html
+Size = 112837
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0902806
+Attributes = A
+CRC = 8E51C5D2
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/ffmpeg-filters.html
+Size = 1691550
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0912810
+Attributes = A
+CRC = 24DD31B7
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/ffmpeg-formats.html
+Size = 332166
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0912810
+Attributes = A
+CRC = C2555BE4
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/ffmpeg-protocols.html
+Size = 122284
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0922776
+Attributes = A
+CRC = 20BA5CED
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/ffmpeg-resampler.html
+Size = 13818
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0922776
+Attributes = A
+CRC = 8509E37A
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/ffmpeg-scaler.html
+Size = 12981
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0922776
+Attributes = A
+CRC = DDB79513
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/ffmpeg-utils.html
+Size = 55775
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0932741
+Attributes = A
+CRC = DD2A0075
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/ffmpeg.html
+Size = 217190
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0872909
+Attributes = A
+CRC = E6A5307D
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/ffplay-all.html
+Size = 2379314
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0942709
+Attributes = A
+CRC = 0BA7EE90
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/ffplay.html
+Size = 42145
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0932741
+Attributes = A
+CRC = D5555B5D
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/ffprobe-all.html
+Size = 2395749
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0962643
+Attributes = A
+CRC = 09B1E1EF
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/ffprobe.html
+Size = 58506
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0952690
+Attributes = A
+CRC = 48D6D7A2
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/general.html
+Size = 129043
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0962643
+Attributes = A
+CRC = 2BDD8452
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/git-howto.html
+Size = 27737
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0962643
+Attributes = A
+CRC = 7537C6E0
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/libavcodec.html
+Size = 3147
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0972607
+Attributes = A
+CRC = B1AF4A4B
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/libavdevice.html
+Size = 3026
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0972607
+Attributes = A
+CRC = D8113BB8
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/libavfilter.html
+Size = 3092
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0972607
+Attributes = A
+CRC = 0D8BB8EB
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/libavformat.html
+Size = 3122
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0982574
+Attributes = A
+CRC = ED91F96D
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/libavutil.html
+Size = 3621
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0982574
+Attributes = A
+CRC = FD209F1F
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/libswresample.html
+Size = 4005
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0982574
+Attributes = A
+CRC = AE1E9067
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/libswscale.html
+Size = 3621
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0982574
+Attributes = A
+CRC = 5A1974A7
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/mailing-list-faq.html
+Size = 31209
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0992541
+Attributes = A
+CRC = A57D3E59
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/nut.html
+Size = 11279
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0992541
+Attributes = A
+CRC = EE133CE2
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/platform.html
+Size = 22177
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0992541
+Attributes = A
+CRC = 2804E814
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/doc/style.min.css
+Size = 6523
+Packed Size = 
+Modified = 2026-09-19 07:26:07.1317992
+Attributes = A
+CRC = F3EF32AC
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/LICENSE
+Size = 35147
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0519254
+Attributes = A
+CRC = 6677F57C
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/presets/libvpx-1080p.ffpreset
+Size = 227
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0243230
+Attributes = A
+CRC = 8FC7CD96
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/presets/libvpx-1080p50_60.ffpreset
+Size = 227
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0243230
+Attributes = A
+CRC = DFD2E7D0
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/presets/libvpx-360p.ffpreset
+Size = 219
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0243230
+Attributes = A
+CRC = 9DCE392C
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/presets/libvpx-720p.ffpreset
+Size = 227
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0243230
+Attributes = A
+CRC = 6519ED86
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/presets/libvpx-720p50_60.ffpreset
+Size = 227
+Packed Size = 
+Modified = 2026-09-19 07:26:07.0243230
+Attributes = A
+CRC = 350CC7C0
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/README.txt
+Size = 45523
+Packed Size = 
+Modified = 2026-09-19 07:26:07.4461656
+Attributes = A
+CRC = 9B89F0A3
+Encrypted = -
+Method = LZMA2:192m
+Block = 0
+
+Path = ffmpeg-9.0.2-full_build/bin/ffmpeg.exe
+Size = 227823104
+Packed Size = 168367892
+Modified = 2026-09-19 07:26:07.2317722
+Attributes = A
+CRC = 98D13B1F
+Encrypted = -
+Method = BCJ2 LZMA2:192m LZMA:20:lc0:lp2 LZMA:20:lc0:lp2
+Block = 1
+
+Path = ffmpeg-9.0.2-full_build/bin/ffplay.exe
+Size = 229345792
+Packed Size = 
+Modified = 2026-09-19 07:26:07.2975558
+Attributes = A
+CRC = 688E23A3
+Encrypted = -
+Method = BCJ2 LZMA2:192m LZMA:20:lc0:lp2 LZMA:20:lc0:lp2
+Block = 1
+
+Path = ffmpeg-9.0.2-full_build/bin/ffprobe.exe
+Size = 227621376
+Packed Size = 
+Modified = 2026-09-19 07:26:07.3658703
+Attributes = A
+CRC = 2703115F
+Encrypted = -
+Method = BCJ2 LZMA2:192m LZMA:20:lc0:lp2 LZMA:20:lc0:lp2
+Block = 1
+

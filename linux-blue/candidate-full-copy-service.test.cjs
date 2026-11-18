@@ -86,7 +86,7 @@ test('composed selector issues genuine Full/null/copy-only tokens and recalculat
  const source=probe(100000000),inspection={probe:source,color:classifyColor(source),duration:150},identity={canonicalPath:'/synthetic/source.mov',dev:'1',ino:'2',size:'100000000',mtimeNs:'1',ctimeNs:'1',birthtimeNs:'1',sparseDigest:'sha256-sparse-v1:'+H};
  function make(overrides={},orientationRequest=null){const request=resolveFileRequest({fileId:'synthetic',identityRevision:1,draftRevision:1,operation:'encode',overrides:{range:null,resolution:'720',audioPolicy:'copy',...overrides}});const orientation=s.operationQualifications.orientationQualification({inspection,request:orientationRequest||request,runtimeIdentity:api.RUNTIME_ID,settings});const plan=withEncodeOperationTelemetry(buildEncodeOperation({input:identity.canonicalPath,output:'/synthetic/output.mkv',inspection,request,settings,runtimeIdentity:api.RUNTIME_ID,...orientation}));return {plan,sourceIdentity:identity,sourceProbeFingerprint:fingerprintEncodeSource(source),settings,runtimeIdentity:api.RUNTIME_ID,environment:null,budget:null,executionBudgetMs:120000};}
  try{
-  const bindings=make(),token=s.operationQualifications.select(bindings),selection=s.operationQualifications.requireCurrent(token,bindings);assert.equal(isProportionalFamilySelection(selection),true);assert.equal(selection.resourcePolicy,FULL_COPY_RESOURCE_POLICY);assert.deepEqual(selection.resources,deriveCfrFullResizeCopyResources({sourceExtentUs:150000000,sourceBytes:identity.size}).resources);assert.equal(bindings.plan.contract.request.range,null);assert.equal(bindings.plan.instrumentation.streams.length,1);
+  const bindings=make(),token=s.operationQualifications.select(bindings),selection=s.operationQualifications.requireCurrent(token,bindings);assert.equal(isProportionalFamilySelection(selection),true);assert.equal(selection.policyIdentity,'candidate-full-copy-normal-service-3f5d189');assert.deepEqual(selection.evidenceIds,['endpoints','interior'].map(kind=>'full-copy-reviewed-3f5d189-'+h.api.REPORT_SHA.slice(0,16)+':'+kind));assert.equal(selection.resourcePolicy,FULL_COPY_RESOURCE_POLICY);assert.deepEqual(selection.resources,deriveCfrFullResizeCopyResources({sourceExtentUs:150000000,sourceBytes:identity.size}).resources);assert.equal(bindings.plan.contract.request.range,null);assert.equal(bindings.plan.instrumentation.streams.length,1);
   for(const overrides of [{range:{startUs:1000000,endUs:2000000}},{resolution:'source'},{resolution:'1440'},{audioPolicy:'precision-flac'},{audioPolicy:'precision-aac'}])assert.throws(()=>s.operationQualifications.select(make(overrides,bindings.plan.contract.request)),JSON.stringify(overrides));
   assert.throws(()=>s.operationQualifications.requireCurrent({...token},bindings));assert.throws(()=>s.operationQualifications.requireCurrent(token,{...bindings,sourceIdentity:{...identity,ino:'3'}}));
   s.operationQualifications.invalidate('done');assert.throws(()=>s.operationQualifications.requireCurrent(token,bindings));
@@ -191,6 +191,26 @@ test('each stale original codec producer hash is refused independently',async()=
  const prior={
  'src/media.cjs':'4aaf7227e43b8ba10134fa1e34d15be7362eb5195d001eb1cfc629b66c677e66',
  'src/encode-operation.cjs':'ebd24233c03a78f2c67f6ce3787694eb9d73b0b3ee8da2f6758ae42deeb20a3a'};
+ for(const [name,old] of Object.entries(prior)){
+  const current=sha(await fs.readFile(path.resolve(__dirname,'..',name)));assert.equal(sourceText.split(current).length-1,1);
+  const modified=sourceText.replace(current,old),file=path.join(__dirname,'candidate-full-copy-service.cjs'),module={exports:{}};
+  vm.runInThisContext('(function(require,module,exports,__dirname){'+modified+'\n})',{filename:file})(createRequire(file),module,module.exports,__dirname);
+  await assert.rejects(module.exports.verifyCandidateServiceProducers(),e=>e.code==='CANDIDATE_FULL_COPY_SERVICE_SCOPE'&&e.message.endsWith(name));
+ }
+});
+
+// Immediately preceding retained calibration cannot authorize the current capsule.
+test('post-codec e6n8N6 raw Full-copy receipt remains historical only', {skip: !process.env.CANDIDATE_FULL_COPY_PREVIOUS_REPORT_TEST_PATH}, async()=>{
+ const bytes=await fs.readFile(process.env.CANDIDATE_FULL_COPY_PREVIOUS_REPORT_TEST_PATH);
+ assert.equal(bytes.length,207500);assert.equal(sha(bytes),'773f86b3b8b957c65be058138952aedb3c31f5aa21f7676d243f17fd1949acfd');
+ assert.throws(()=>api.assertCandidateServiceReceipt(bytes),/Exact bounded/);
+});
+test('each stale pre-062 Full-copy producer hash is refused independently',async()=>{
+ const prior={
+  "src/operation-evidence.cjs": "9b680168395be354b8261bd4aa6624c1484daeecab424fd5278db55fa3aba9b9",
+  "src/operation-resource-budget.cjs": "1914192dc877344b94bb6786a831e07b6e8b9704ee31c0a63fd225db426e5926",
+  "src/operation-family.cjs": "c981fe49e8f67b674cd23eda6b6424ee031b022bbf1a90dfe2cb2b5d51f99f65"
+};
  for(const [name,old] of Object.entries(prior)){
   const current=sha(await fs.readFile(path.resolve(__dirname,'..',name)));assert.equal(sourceText.split(current).length-1,1);
   const modified=sourceText.replace(current,old),file=path.join(__dirname,'candidate-full-copy-service.cjs'),module={exports:{}};

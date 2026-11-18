@@ -15,6 +15,9 @@ const shared = [
   'tests/process-runner.test.cjs',
   'tests/completed-output-retention.test.cjs',
   'tests/output-access.test.cjs',
+  'tests/windows-ffmpeg-startup.test.cjs',
+  'tests/windows-hosted-archive-check.test.cjs',
+  'tests/windows-hosted-diagnostics.test.cjs',
 ];
 const linux = ['linux-blue/ui-policy.test.cjs'];
 
@@ -36,7 +39,7 @@ const files = ['main.js', 'preload.js', 'scripts/ci-source-contracts.cjs',
   ...sourceFiles('src'), ...sourceFiles('ui'), ...sourceFiles('linux-blue')];
 console.log(`Node ${process.version}; platform ${process.platform}; syntax files ${files.length}`);
 for (const file of files) run(['--check', file]);
-console.log('Shared unit contracts: media settings/argv, container clocks, appearance, app settings, main shutdown, process cancellation/closure, completed-output retention and access.');
+console.log('Shared unit contracts: media settings/argv, container clocks, appearance, app settings, main shutdown, process cancellation/closure, completed-output retention/access, and injected Windows archive/startup safeguards.');
 run(['--test', ...shared]);
 if (process.platform === 'linux') {
   console.log('Additional Linux UI admission-policy unit contracts.');

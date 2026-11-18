@@ -1,6 +1,6 @@
 'use strict';
 // Reviewed dispatch only: measure local runner capacity, optionally acquire
-// pinned archives, and publish a fresh bounded diagnostic report. No extraction.
+// pinned archives, and publish a fresh bounded diagnostic report. FFmpeg-only reviewed extraction/version successor; no Electron or media.
 const assert = require('node:assert/strict');
 const fs = require('node:fs/promises');
 const path = require('node:path');
@@ -8,9 +8,10 @@ const { createHash } = require('node:crypto');
 const { execFileSync } = require('node:child_process');
 const { acquire, localDrivePath, retainDirectory } = require('./acquire-candidate-archives.cjs');
 const { expectedCandidateManifest, loadCandidateManifest, assertOrdinaryPath, verifyPinnedFile, readBoundedJson } = require('../src/candidate-runtime.cjs');
+const { startup, startupDiagnostic } = require('./windows-ffmpeg-startup.cjs');
 const REPO = 'CipherVaults/FFmpeg-Encoder-Blue-Linux';
 const REF = 'refs/heads/blue/linux-development';
-const INTRODUCTION_PARENT = 'feaa1c305707ade34689eee953b7a8a1e2016330';
+const INTRODUCTION_PARENT = '38c5042039035e429cdb48748eec18d5ea96150f';
 const FLOOR = 27n * 1024n ** 3n;
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 // Bounded diagnostic labels reveal the failing boundary, never raw paths,
@@ -74,7 +75,7 @@ async function publishReport(parent, report, outputFile) {
   await owned(); await assertOrdinaryPath(file);
   const decoded = await attestReport(file, bytes, owned);
   assert.deepEqual(Object.keys(decoded).sort(), ['schema', 'head', 'runId', 'attempt', 'state', 'availableBytes', 'requiredBytes',
-    'archives', 'extraction', 'installation'].sort(), 'Report field allowlist differs.');
+    'archives', 'extraction', 'installation', 'startup'].sort(), 'Report field allowlist differs.');
   assert(decoded.schema === 1 && /^[a-f0-9]{40}$/.test(decoded.head) && /^\d+$/.test(decoded.runId)
     && /^\d+$/.test(decoded.attempt), 'Report identity invalid.');
   // The step outputs exist only after exclusive creation and closed readback.
@@ -82,7 +83,18 @@ async function publishReport(parent, report, outputFile) {
   await fs.appendFile(outputFile, `report_path=${file}\nreport_sha256=${sha(bytes)}\nreport_ready=true\n`, 'utf8');
   return { file, digest: sha(bytes) };
 }
-async function execute({ root, parent, identity }, { inspectDrive = fixedDrive, acquireImpl = acquire, platform = process.platform, statfsImpl = fs.statfs } = {}) {
+async function applyStartup(report, action) {
+  try {
+      report.extraction = 'attempted-state-unverified'; report.installation = 'attempted-state-unverified';
+      report.startup = await action();
+      assert(report.startup.state === 'FFMPEG_VERSION_VERIFIED_ONLY');
+      report.extraction = 'four-ffmpeg-files-verified'; report.installation = 'isolated-ffmpeg-only';
+      report.state = 'FFMPEG_VERSION_VERIFIED_ONLY';
+    } catch(error) { report.state = 'FFMPEG_STARTUP_FAILED'; report.startup = startupDiagnostic(error);
+      report.extraction = 'failed-or-partial-unverified'; report.installation = 'failed-or-partial-unverified'; }
+  return report;
+}
+async function execute({ root, parent, identity }, { inspectDrive = fixedDrive, acquireImpl = acquire, platform = process.platform, statfsImpl = fs.statfs, startupImpl = startup } = {}) {
   await atStage('platform', () => assert(platform === 'win32', 'Windows-only hosted archive lane.'));
   await atStage('fixed-drive', () => inspectDrive(parent));
   await atStage('ordinary-directory', () => assertOrdinaryPath(parent, 'directory'));
@@ -95,7 +107,7 @@ async function execute({ root, parent, identity }, { inspectDrive = fixedDrive, 
   const required = FLOOR + pins.reduce((n, p) => n + BigInt(p.sizeBytes), 0n);
   const disk = await atStage('capacity', () => statfsImpl(parent, { bigint: true })); const available = disk.bavail * disk.bsize;
   const report = { schema: 1, ...identity, state: 'BLOCKED_RESOURCE_FLOOR', availableBytes: String(available),
-    requiredBytes: String(required), archives: [], extraction: 'not-run', installation: 'not-run' };
+    requiredBytes: String(required), archives: [], extraction: 'not-run', installation: 'not-run', startup: null };
   if (available <= required) return report;
   try {
     const result = await acquireImpl({ parent });
@@ -108,6 +120,7 @@ async function execute({ root, parent, identity }, { inspectDrive = fixedDrive, 
       report.archives.push({ name: pin.fileName, observedBytes: verified.sizeBytes, observedSha256: verified.sha256 });
     }
     report.state = 'ARCHIVES_VERIFIED_ONLY';
+    await applyStartup(report, () => startupImpl({parent, acquisition:result, manifest}));
   } catch { report.state = 'ACQUISITION_FAILED'; }
   return report;
 }
@@ -123,8 +136,8 @@ async function main() {
   const parent = env.RUNNER_TEMP; await atStage('runner-path', () => localDrivePath(parent));
   const report = await execute({ root, parent, identity });
   const saved = await atStage('report-publication', () => publishReport(parent, report, env.GITHUB_OUTPUT));
-  console.log(`${report.state}; report SHA256 ${saved.digest}; no extraction or installation.`);
-  if (report.state !== 'ARCHIVES_VERIFIED_ONLY') process.exitCode = 1;
+  console.log(`${report.state}; report SHA256 ${saved.digest}; FFmpeg-only qualification; no Electron/media/GPU acceptance.`);
+  if (report.state !== 'FFMPEG_VERSION_VERIFIED_ONLY') process.exitCode = 1;
 }
-module.exports = { authority, execute, publishReport, attestReport, atStage, failureDiagnostic };
+module.exports = { authority, applyStartup, execute, publishReport, attestReport, atStage, failureDiagnostic };
 if (require.main === module) main().catch(error => { console.error(JSON.stringify(failureDiagnostic(error))); process.exitCode = 1; });

@@ -1,4 +1,4 @@
-name: Windows pinned archive verification (no installation)
+name: Windows pinned FFmpeg startup (no media or Electron)
 on:
   push:
     branches: [blue/linux-development]
@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   archives:
-    if: ${{ github.repository == 'CipherVaults/FFmpeg-Encoder-Blue-Linux' && github.ref == 'refs/heads/blue/linux-development' && (github.event_name == 'push' && github.event.before == 'feaa1c305707ade34689eee953b7a8a1e2016330' && github.event.after == github.sha && github.event.forced == false && github.event.created == false && github.event.deleted == false) && github.run_attempt == 1 }}
+    if: ${{ github.repository == 'CipherVaults/FFmpeg-Encoder-Blue-Linux' && github.ref == 'refs/heads/blue/linux-development' && (github.event_name == 'push' && github.event.before == '38c5042039035e429cdb48748eec18d5ea96150f' && github.event.after == github.sha && github.event.forced == false && github.event.created == false && github.event.deleted == false) && github.run_attempt == 1 }}
     runs-on: windows-2022
     timeout-minutes: 10
     steps:
@@ -21,7 +21,7 @@ jobs:
         with:
           node-version: '24.22.1'
           package-manager-cache: false
-      - name: Measure resources and verify archives only
+      - name: Verify archives and isolated FFmpeg version startup
         id: verify
         run: node scripts/windows-hosted-archive-check.cjs
       - name: Preserve attested diagnostic report only

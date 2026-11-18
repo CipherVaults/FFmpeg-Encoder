@@ -1,11 +1,21 @@
-# Current state: fresh 1080 calibration accepted; consumer source refreshed; Windows diagnostic retry pending
+# Current state — checkpoint 063
 
-Checkpoint 062 cutoff: 2026-11-18T18:30:49.953661+00:00. Coherent commit and preservation remain pending.
+Evidence cutoff: November 18, 2026 at 19:07:50.043682 UTC.
 
-Checkpoint 061 is fully verified through Git, Notion and GitHub. Its actual hosted source checks passed on both operating systems: 204 syntax files and 209 shared tests each, plus 10 Linux tests. The separate Windows archive introduction failed before an attested report was available. Its cause remains unknown, not a proven storage-floor or drive-timeout result.
+## Completed within explicit scope
+- Checkpoint 062 is verified in Git, Notion and GitHub.
+- Current 1080 developer reduced-service proof is independently audited and accepted: four cases, 115 children closed, zero live, maximum concurrency one. Cancellation retained a zero-byte unverified stage; no native app acceptance is implied.
+- Fresh Full Copy calibration is independently audited and accepted: three 8-, 150- and 11-second cases, 70 children closed. This is calibration, not a new Full Copy service run.
+- Ten reviewed files are integrated: seven Windows startup/workflow/fixture records, two Full Copy consumer/test files and shared CI coverage.
+- Final checks passed: seven CJS syntax checks; 45 focused tests with zero skips/failures; local CI with 204 syntax files, 236 shared tests and ten Linux tests.
+- Hosted checkpoint 062 passed 204 syntax files and 209 shared tests on each platform, plus ten Linux tests. Its Windows run verified pinned FFmpeg 9.0.2 and Electron 44.7.0 archive identities only.
 
-Fresh current 1080p → 720p calibration ran once on immutable 061 and passed three cases: 1,200 / 600 / 246 frames and 1,920,000 / 960,000 / 393,984 samples. All 42 children closed. Independent saved audit and the lead's 1,007-row reconciliation accepted the bounded evidence. Full output hashes were established during audit; original streaming PCM receipts were not re-decoded. Three x265 diagnostic streams remain. This is calibration, not reduced-service, native UI, Windows, GPU or default qualification.
+## Still pending
+- Checkpoint 063 commit, verified Notion preservation and GitHub publication.
+- Actual current Full Copy service proof on preserved checkpoint 063.
+- Actual hosted Windows extraction and version startup. Source controls passed; execution has not yet occurred.
+- Native UI, Windows application, NVIDIA GPU and release acceptance. No defaults, audio policy or benchmark recommendations changed.
 
-Seven reviewed source paths are integrated: five Windows diagnostic/retry files and two 1080 consumer files binding the fresh report and current producers. Historical refusals remain. The next Windows attempt is one ordinary immediate-successor push only, with manual dispatch removed and floors/pins unchanged. No retry has run. Final selected checks: syntax for five CJS files; 77 passes, four explicit raw-receipt skips and zero failures in the 81-test focused selection; a separate actual-receipt run passed 21/21 with no skips; selected CI passed 204 syntax files, 209 shared tests and 10 Linux tests. This is not an aggregate full-suite or runtime claim.
+The checkpoint 061 archive failure cause remains unknown. Later success does not diagnose it. Runtime warnings and retained cancellation diagnostics remain evidence, not dismissed noise.
 
-Next: preserve 062 through Git → verified Notion → GitHub, then observe the exact bounded Windows attempt. Separately qualify the refreshed 1080 service and restore Full-copy rather than hide unavailable routes. Prior 1440 service acceptance remains bounded, with native wiring pending. Default 7.1.5 and original UI, audio and benchmark settings are unchanged. Version 0.8 plans themes, 12 languages including Arabic, an in-app guide, onboarding and UX fixes; HDR is deferred to 0.9. Benchmark feedback and its placement in 0.7 or 0.8 remain pending.
+See `2026-11-18_Current_Service_Full_Copy_and_Windows_Startup.md` and its `_Receipts.json` companion for the owning execution record. The complete historical Session remains intact.

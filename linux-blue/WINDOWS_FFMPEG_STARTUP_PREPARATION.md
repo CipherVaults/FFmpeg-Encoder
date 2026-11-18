@@ -1,0 +1,27 @@
+# Windows FFmpeg extraction/startup successor: review candidate, NOT released
+
+This candidate reuses the current acquisition, source event admission, exact manifest, provisioner and bounded report publication. It adds only FFmpeg selection/extraction/version startup, never Electron installation, media, catalog activation, build or release. Workflow/wrapper guard names one ordinary successor of remote 38c5042039035e429cdb48748eec18d5ea96150f, first attempt only, no dispatch/rerun. Main checkout remains unchanged.
+
+## Evidence and unresolved compatibility boundary
+
+The restored repository's exact candidate-binary-manifest.json identifies archive ffmpeg-9.0.2-full_build.7z, SHA f0e46253c70dfe902bac915dfb4224f0cf1b7c6eeab9da2ccc9a5581f9a71b13, root ffmpeg-9.0.2-full_build. Its four payload entries are bin/ffmpeg.exe (227,823,104 bytes), bin/ffprobe.exe (227,621,376 bytes), LICENSE (35,147 bytes), README.txt (45,523 bytes), each with existing exact digest. The preexisting provisioner already consumes this payload layout. Hosted checkpoint 062 independently verified compressed archive bytes only; it did NOT inspect the archive listing.
+
+The original pinned archive was downloaded with the unchanged bounded downloadPinned helper from its exact manifest URL, size and SHA. Existing free space exceeded 27 GiB plus the archive size. The archive and acquisition receipt are retained outside checkout in windows-next-after062/archive-listing/attempt-F58AUY. No archive payload was extracted or executed.
+
+No extractor was preinstalled. With lead authorization, official Debian trixie package 7zip 25.01+dfsg-1~deb13u2 (1,573,700 bytes; SHA-256 b2cb210bee3be6a10230b38b8645d71846d19364b157f44fd08e1a54cae1652f from packages.debian.org) was downloaded from deb.debian.org and unpacked into workspace without system installation. Bounded 7-Zip listing-only output, tool/banner/executable/module identities and package provenance are retained in archive-listing. The actual listing has forward-slash paths, Windows D/A attributes, explicit Encrypted=-, and the exact four selected manifest entries. The unchanged narrow parser accepts it. Original actual listing is included as tests/fixtures/windows-ffmpeg-9.0.2-listing.txt, not a synthetic substitute.
+
+This resolves original archive layout uncertainty using exact original bytes; it does not claim that the hosted Windows tool version, extraction, provisioning or candidate startup has run. Unknown Windows listing forms still refuse. Independent source review and next exact checkpoint preservation remain required before dispatch.
+
+## Safety implementation
+
+List at most 1 MiB and 1,024 records, reject unknown/duplicate fields, path traversal/drive/UNC/ADS/device names, duplicate case-insensitive entries, ambiguous attributes, encryption, selected size mismatches and expanded listing over 2 GiB. Extract only four literal selected members to stdout using -so and disabled wildcard matching. Trusted destination paths come solely from the pinned manifest, never archive names. Exclusively reserve each file; cap output BEFORE disk writes at exact pinned size, hash each completed file before provisioning. The byte cap prevents storage bombs for selected outputs even if listing lies. Unselected solid-archive decoding may still consume CPU until bounded child termination.
+
+The wrapper retains 27 GiB plus archives for pre-acquisition admission. Recheck 27 GiB residual with conservative remaining extraction/copy allocations before extraction/provisioning; existing provisioner independently preserves 25 GiB. Use an isolated fresh runtime root on the same measured RUNNER_TEMP volume, not checkout or workstation F-drive defaults. No overwrite/cleanup/recovery mode. Recheck directory identities and archive hashes around extraction. Point checks do not create hard quotas or eliminate malicious same-user dispatch races.
+
+Use fixed preinstalled 7-Zip path, record observed tool hash, require recognizable tool banner, no installer fallback. Children serially observe close; listing 30 seconds, selected extraction 90 seconds each, version 10 seconds each, stdout/stderr capped. Timeout requests kill and still waits for close; the 10-minute outer job remains. No false completion if a child fails to close. Failed partials stay ephemeral and are not backed up by report retention. Tool lineage is runner-provided, not a new pinned runtime dependency.
+
+Only two verified binaries run -version, with identities rechecked afterwards. Report distinguishes archive failure, startup failure and verified FFmpeg-version-only. Report contains no raw command output or filesystem paths; Electron/media are explicitly not-run. Exact runtime admission and decoded CPU service proof remain separate work.
+
+## Tests and remaining review
+
+27 injected/file-only tests passed, no skips: selected layout, hostile paths, aliases, encryption/link/unknown fields, expanded bombs, malformed sizes, missing files, listing cap, child nonzero/oversize/timeout/stderr/spawn failures, no writes beyond output cap, existing event/storage/report controls. No candidate executable/media/job was invoked. Separately authorized acquisition and recognized distro listing-tool execution are recorded above. Full Windows orchestration, extraction, provisioning and version stdout remain unexecuted. Added bounded phase diagnostics/partial-state tests prevent failed startup from being reported as not-run. Independent source review remains required.

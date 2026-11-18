@@ -1,0 +1,236 @@
+{
+  "status": "final documentation at cutoff; Git and preservation pending",
+  "receiptReferences": [
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/current1080-service062-preparation/OUTER_COMPLETION.json",
+      "bytes": 442,
+      "sha256": "781743797c30ad184b7e0448efbff762638fea65936a504127a084a54d2ab8ae"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/current1080-service062-saved-audit/INDEPENDENT_SAVED_AUDIT.json",
+      "bytes": 270595,
+      "sha256": "2eb44fd7df5af327ce344d15f2f29e277ecead132d9b5ce877016db38e0fe14f"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/current1080-service062-saved-audit/SUPPLEMENT.json",
+      "bytes": 6101,
+      "sha256": "b0fbae34a36d14be918e341f71851c00e1cea82f8eadc37e060f0d7f1027c884"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/current1080-service062-saved-audit/FINAL_RELEASE.json",
+      "bytes": 2489,
+      "sha256": "1074436b1c70d3f62df59721f9259b222d98928cf5bd4844eb9359122ee10c6c"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/current1080-service062-saved-audit/LEAD_RELEASE.json",
+      "bytes": 2105,
+      "sha256": "7675854f12ada7359ba5a335e5a5dc3bca0f2f1d29e8bde13d6e375c8f4b8149"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/current-full-copy-calibration062-preparation/OUTER_COMPLETION.json",
+      "bytes": 373,
+      "sha256": "7b9462b0bd9b37bfd627dc2189b5b775b9fe9c5ab1a102890afbb5e4b66d1417"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/current-full-copy-calibration062-saved-audit/INDEPENDENT_SAVED_OUTPUT_AUDIT.json",
+      "bytes": 26926,
+      "sha256": "57ea480bec4c0df0440719ec6b78fadc54a15506f5c6467a885a9630128819e0"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/windows-startup063-final-source-review.json",
+      "bytes": 3145,
+      "sha256": "2b164ff6df3c4da6220a5997655e2531b5df82646a41d91e930dd9b804bd2c68"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/current-full-copy-calibration062-saved-audit/SUPPLEMENT.json",
+      "bytes": 12872,
+      "sha256": "75140587dc812e658726cb5d8aeeb170fc28b38d7833d09550eab6a95a4872c8"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/current-full-copy-calibration062-saved-audit/FINAL_RELEASE.json",
+      "bytes": 2690,
+      "sha256": "e55311b8171833b650afe9671de9e976148e090df157cba3c4e8eac55099e530"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/current-full-copy-calibration062-saved-audit/LEAD_RELEASE.json",
+      "bytes": 2148,
+      "sha256": "8423ecb5a270d131fcec1c3042c5d6eebad83b81d7684aeee1a47d23dc0cf452"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/checkpoint063-cutoff.json",
+      "bytes": 422,
+      "sha256": "66a42e366f530edbb90461981417dcf1e75e8b090f040d10bc8d10a47ac8af41"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/checkpoint063-integration.json",
+      "bytes": 2001,
+      "sha256": "3112d2883e04ccd23c0027bea6d0499675a6f4ff1d8c2afa3408577a33134ad4"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/checkpoint063-lead-tests.json",
+      "bytes": 1617,
+      "sha256": "c57fe07863b44aa51eabfee88652bce9397e5a1d6c9c7733010569cac1195f68"
+    }
+  ],
+  "current1080Service": "accepted by lead within explicit limits",
+  "fullCopyCalibration": "accepted bounded calibration; consumer source integrated and tested; actual current service pending",
+  "windowsStartup": "reviewed source integrated; actual hosted extraction and version startup pending",
+  "checkpoint": "063",
+  "cutoff": {
+    "cutoffUtc": "2026-11-18T19:07:50.043682+00:00",
+    "scope": "Accepted current 1080 service and fresh Full-copy calibration; reviewed current Full-copy consumer and bounded Windows FFmpeg startup source",
+    "qualificationLimits": [
+      "Full-copy consumer real-service proof pending on preserved063",
+      "Windows actual extraction/version job not yet run",
+      "No native UI, GPU, default or release acceptance"
+    ]
+  },
+  "integration": {
+    "baseCommit": "3f5d189d2d7fbbc450b2a75a1ddc16a628805904",
+    "integratedAtUtc": "2026-11-18T19:04:35.601078+00:00",
+    "files": [
+      {
+        "path": "scripts/windows-ffmpeg-startup.cjs",
+        "bytes": 9835,
+        "sha256": "d97d39b9a846b616017fe5307cd29a057c899f327a2f34ca859a34880704e35a"
+      },
+      {
+        "path": "scripts/windows-hosted-archive-check.cjs",
+        "bytes": 9232,
+        "sha256": "8e5dd80175d6c031158c2785adef78c4847ef77f9cb0138b1c85b7c1465c99de"
+      },
+      {
+        "path": "tests/windows-ffmpeg-startup.test.cjs",
+        "bytes": 5822,
+        "sha256": "fa10b6292c9fa4408fb8ba5fb69e4d0d95c599c84a93496971396cb71a44bda4"
+      },
+      {
+        "path": "tests/windows-hosted-archive-check.test.cjs",
+        "bytes": 5718,
+        "sha256": "afda22e186539e0831e545be30e069b42811ac4f7c157a7f994b269ff7e26d44"
+      },
+      {
+        "path": ".github/workflows/windows-archives.yml",
+        "bytes": 1646,
+        "sha256": "b43650a9898f2c3561ba988e2e13eceeb8bf743703c7a5d711165eac3cdfa463"
+      },
+      {
+        "path": "linux-blue/WINDOWS_FFMPEG_STARTUP_PREPARATION.md",
+        "bytes": 5483,
+        "sha256": "536b46fb509cccfbdd26f0cd422047ac64eff5ceef357c6a6b77d860b59ebdf7"
+      },
+      {
+        "path": "tests/fixtures/windows-ffmpeg-9.0.2-listing.txt",
+        "bytes": 9483,
+        "sha256": "e3c848aeb7cd64279543f15f01e7666d19bd5fc6a7c92933e15b6be9ece5f51e"
+      },
+      {
+        "path": "linux-blue/candidate-full-copy-service.cjs",
+        "bytes": 26360,
+        "sha256": "55ec3242b07b55feafbaf52fe8b981eb87660cb785cabb4d20d2a35558a766ed"
+      },
+      {
+        "path": "linux-blue/candidate-full-copy-service.test.cjs",
+        "bytes": 34026,
+        "sha256": "eee18f79b6fbde15cb18a2f4a54131a3e5c26bd012fbd38426e9e1404477853d"
+      },
+      {
+        "path": "scripts/ci-source-contracts.cjs",
+        "bytes": 2357,
+        "sha256": "ec74db1c410b276910086705abcfceed02109cec74225d8499deb3a6358f9d7b"
+      }
+    ],
+    "pending": "Final lead tests and documentation",
+    "updatedAtUtc": "2026-11-18T19:06:19.026546+00:00"
+  },
+  "leadTests": {
+    "checkedAtUtc": "2026-11-18T19:07:50.043682+00:00",
+    "syntax": "All 7 CJS in 10-file integration passed node --check",
+    "focused": {
+      "tests": 45,
+      "pass": 45,
+      "skip": 0,
+      "fail": 0,
+      "scope": "18 Full-copy plus 27 Windows controls; genuine fresh and historical reports, no new media"
+    },
+    "ci": {
+      "exitCode": 0,
+      "syntaxFiles": 204,
+      "sharedPass": 236,
+      "linuxPass": 10,
+      "fail": 0,
+      "skip": 0
+    },
+    "evidence": [
+      {
+        "path": "/workspace/scratch/b0b5fef72e20/ffmpeg-linux-f6bc64a-20261117/artifacts/v0.7/evidence/20261118T190711Z_recovered063-final-corrected/receipt.json",
+        "bytes": 2963,
+        "sha256": "e53e06aca8ed635565a46823d6b3b058b736a005bb2e87ee511b88e7d9a8fb54"
+      },
+      {
+        "path": "/workspace/scratch/b0b5fef72e20/ffmpeg-reconstruction-guidance-20261117/checkpoint063-ci.stdout",
+        "bytes": 25120,
+        "sha256": "43c8af049603fd91d665eff5d4284c2e57fc9fe481baab7b27ae6e51459e75e8"
+      },
+      {
+        "path": "/workspace/scratch/b0b5fef72e20/ffmpeg-reconstruction-guidance-20261117/checkpoint063-ci.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "runnerCorrections": [
+      "Initial final runner cover list named nonexistent scripts/windows-hosted-diagnostics.cjs; identity precheck aborted before tests. Corrected list passed45. Earlier41run also passed; overlapping, not additive.",
+      "Lead summary parser initially expected TAP # prefixes; actual selected CI uses human reporter. Corrected parse verified actual236+10 passes; no product test failed."
+    ]
+  },
+  "priorSession": {
+    "bytes": 2364971,
+    "sha256": "3cb4383179472f8b20d202adbd0572a0b8be154f4f3448968df6a20c85b9e0ee"
+  },
+  "checkpoint062Preservation": {
+    "preparedAtUtc": "2026-11-18T18:45:29.106224+00:00",
+    "status": "outside preparation only; no checkpoint063 cutoff or publication",
+    "scope": "verified checkpoint062 preservation only",
+    "receipts": [
+      {
+        "path": "ffmpeg-reconstruction-guidance-20261117/notion-checkpoint-062-verification.json",
+        "bytes": 193616,
+        "sha256": "9e43eba53b7c0fb70dd75823f1e6fe2734d8383954cc49d2168049446da94d43"
+      },
+      {
+        "path": "ffmpeg-reconstruction-guidance-20261117/github-checkpoint062-verification.json",
+        "bytes": 4451,
+        "sha256": "b840189609275314aa131504113150470583e2dd6b7e9a65042ed4f710e14943"
+      },
+      {
+        "path": "ffmpeg-reconstruction-guidance-20261117/checkpoint062-final-mirror-release.json",
+        "bytes": 441,
+        "sha256": "44887be36f60462c6460820c494a24858d567e02c03efb4417a8802502aa20d7"
+      }
+    ],
+    "localCommit": "3f5d189d2d7fbbc450b2a75a1ddc16a628805904",
+    "remoteCommit": "38c5042039035e429cdb48748eec18d5ea96150f",
+    "remoteParent": "feaa1c305707ade34689eee953b7a8a1e2016330",
+    "remoteTree": "ffea19c0453cd00f385a6957786913888d01af98",
+    "notionPage": "https://app.notion.com/p/41cbd7ade63b81cebbf3fdebfc2aee62",
+    "recoveryFileCount": 714,
+    "recoveryCommitCount": 62,
+    "remoteTreeCounts": {
+      "total": 1096,
+      "unchanged": 1085,
+      "modified": 8,
+      "new": 3,
+      "deleted": 0
+    },
+    "nativeSessionEntries": 62,
+    "predecessorBytes": 2364971,
+    "predecessorSha256": "3cb4383179472f8b20d202adbd0572a0b8be154f4f3448968df6a20c85b9e0ee",
+    "hostedObservation": {
+      "path": "ffmpeg-reconstruction-guidance-20261117/github-checkpoint062-observation.json",
+      "sha256": "17b15cecdb0ab950179ba0756e34cc9055b64c6a5610517b4e4b88dff5b61f6a",
+      "allSavedRawReceiptRowsRehashed": true,
+      "state": "ARCHIVES_VERIFIED_ONLY",
+      "writerPerformedRemoteDownload": false
+    }
+  }
+}

@@ -21,10 +21,11 @@ function sanitized(identity,result,failure=null,build=null){
     if(result.processObservation){const o=result.processObservation;assert(['sampled-not-exhaustive','unobserved-launch'].includes(o.kind));report.processObservation={kind:o.kind};for(const key of ['samples','observedDescendants','observedStartupMedia','observedLiveAfterClose']){if(o.kind==='unobserved-launch'&&key==='observedLiveAfterClose')assert(o[key]===null);else assert(Number.isSafeInteger(o[key])&&o[key]>=0&&o[key]<=1200);report.processObservation[key]=o[key];}}
     if(result.cleanupFailure){assert.deepEqual(result.cleanupFailure,diagnostic(result.cleanupFailure.phase,{code:result.cleanupFailure.code}));report.cleanupFailure={...result.cleanupFailure};}
     report.startupDiscovery='unchanged-production-including-GPU-capability-attempts';
+    if(result.launchOwnership){assert(result.launchOwnership==='verified-shell-launcher-and-pinned-main');report.launchOwnership=result.launchOwnership;}
     if(result.security){report.security=Object.fromEntries(['packaged','sandbox','contextIsolation','nodeIntegration'].map(k=>{assert(typeof result.security[k]==='boolean');return [k,result.security[k]];}));}
   }
   if(build){report.build={};for(const key of ['asar','executable','zip']){const pin=build[key];assert(pin&&/^[a-f0-9]{64}$/.test(pin.sha256)&&Number.isSafeInteger(pin.sizeBytes)&&pin.sizeBytes>0);report.build[key]={sha256:pin.sha256,sizeBytes:pin.sizeBytes};}}
-  if(!failure){assertSecurity(result.security);assert(report.build&&report.collisionRefused);assert(!result.failure&&!result.cleanupFailure);assert(report.processObservation?.kind==='sampled-not-exhaustive'&&report.processObservation.samples>0&&report.processObservation.observedLiveAfterClose===0);}
+  if(!failure){assertSecurity(result.security);assert(report.launchOwnership==='verified-shell-launcher-and-pinned-main');assert(report.build&&report.collisionRefused);assert(!result.failure&&!result.cleanupFailure);assert(report.processObservation?.kind==='sampled-not-exhaustive'&&report.processObservation.samples>0&&report.processObservation.observedLiveAfterClose===0);}
   if(!failure)assert(report.requestedEncodes===1&&report.fixtureGenerationCalls===1&&report.probeReadbackCalls===1&&report.extraDecodeCalls===0&&report.close==='normal'&&report.sourceUnchanged&&report.packageUnchanged&&report.output);
   return report;
 }

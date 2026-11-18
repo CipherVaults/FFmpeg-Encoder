@@ -1,0 +1,114 @@
+{
+  "preparedOutsideMain": true,
+  "mainWritten": false,
+  "cutoffPending": false,
+  "base": "65831e8d0a112d3b25b742b9c8b21e2942746d45",
+  "predecessor": {
+    "bytes": 2491986,
+    "sha256": "9d8c8ab7c143d144705d189aa695a55670b17b9c49b2fd5f8bc9bdb510320545"
+  },
+  "sectionCount": 14,
+  "exactSuffix": true,
+  "sourceFiles": [
+    {
+      "path": "scripts/windows-hosted-integration-check.cjs",
+      "bytes": 6219,
+      "sha256": "5632865a435a03a7172b5fd9a71de89b860904a1292e4ade3435a03b9a212cf9"
+    },
+    {
+      "path": "scripts/windows-electron-ownership.cjs",
+      "bytes": 3681,
+      "sha256": "ffa775fa2852d206a50a4e54dc6d1ce7f8c0b7a5f36a81aaaa010e21bf01e022"
+    },
+    {
+      "path": "scripts/windows-packaged-integration.cjs",
+      "bytes": 15826,
+      "sha256": "ca7db00fea2d9926f3b32ada520dd49e10aa5d2f5d9ed960ff873156e2db1b19"
+    },
+    {
+      "path": "tests/windows-packaged-integration.test.cjs",
+      "bytes": 5761,
+      "sha256": "699b1026c02c60c9f220f5d923396656cdebfb7bd134d2c6754ce01f95ca9d1c"
+    },
+    {
+      "path": "tests/windows-electron-ownership.test.cjs",
+      "bytes": 5440,
+      "sha256": "5a6a4dea899a2768e8c26ccc387eec07ffcae02705e5a6170ecd95632f00a80d"
+    },
+    {
+      "path": ".github/workflows/windows-integration.yml",
+      "bytes": 2459,
+      "sha256": "0e1ce773626036287eab03f7b0ab6066a719b407f6252eb02104ebcb64358a53"
+    }
+  ],
+  "tests": {
+    "leadFocused": 83,
+    "independentFocused": 71,
+    "countsOverlap": true,
+    "runtimeExecuted": false,
+    "syntax": 211,
+    "shared": 243,
+    "linux": 39,
+    "fail": 0,
+    "stderrBytes": 0,
+    "newOwnershipCoveredInFocused": true
+  },
+  "receipts": [
+    {
+      "path": "checkpoint071-final-mirror-release.json",
+      "bytes": 645,
+      "sha256": "3b0956abca5ca9f1783598b44331d5d5fa0f124af11ca5843cc4d6bcb5d32fae"
+    },
+    {
+      "path": "github071-hosted-observation/VERIFIED_OUTCOME.json",
+      "bytes": 2774,
+      "sha256": "dd07ff0b3bf5677100d9b362e8946e2cd93d3ea8d84c9fe39be60553db53646e"
+    },
+    {
+      "path": "github071-hosted-observation/verified-report.json",
+      "bytes": 1380,
+      "sha256": "e9b899562c7b60a0fca35de5213ac24e52448705baeb32cdcba405c3004cb857"
+    },
+    {
+      "path": "windows071-launch-diagnosis/DIAGNOSIS.md",
+      "bytes": 4303,
+      "sha256": "9f80a3e0fe8a0fd59367859dc59935206fdc45d82cfc5286a71de56ae03a24b8"
+    },
+    {
+      "path": "native-range1080-071-preparation/SAVED_RANGE_PUBLICATION_AUDIT.json",
+      "bytes": 17586,
+      "sha256": "e0f4ad0241957887e853ab8f2cd4247745767137757f9ec4eb1bc016a32a22d2"
+    },
+    {
+      "path": "windows-launch072-proposal/HANDOFF.json",
+      "bytes": 1715,
+      "sha256": "3fab78f45b82ccf15dfcc38c7d6119435256950087627827cdba563600589cb7"
+    },
+    {
+      "path": "windows-launch072-proposal/INDEPENDENT_FINAL_REVIEW.json",
+      "bytes": 2843,
+      "sha256": "46dab46b4c2a203dfe8ee7fbf8df18e36f988a1d773251490efd036205864293"
+    },
+    {
+      "path": "checkpoint072-integration.json",
+      "bytes": 1715,
+      "sha256": "3fab78f45b82ccf15dfcc38c7d6119435256950087627827cdba563600589cb7"
+    },
+    {
+      "path": "checkpoint072-source-contracts.stdout",
+      "bytes": 28624,
+      "sha256": "2c11cf2c046b54c7dbfcfe8cb29dc931e84c4303330eac3f162eec3dc6603b75"
+    },
+    {
+      "path": "checkpoint072-source-contracts.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "leadReceipt": {
+    "path": "artifacts/v0.7/evidence/20261118T225415Z_recovered072-windows-ownership/receipt.json",
+    "bytes": 2318,
+    "sha256": "d00db26da21f13ef7fe999d8c483d7359f372c343caca5225fee4754290e4a10"
+  },
+  "cutoffUtc": "2026-11-18T22:56:00Z"
+}

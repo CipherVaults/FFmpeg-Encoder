@@ -6,7 +6,8 @@ const path=require('node:path');
 const {hashFile}=require('./build-portable.cjs');
 const {runBounded}=require('./windows-ffmpeg-startup.cjs');
 const {assertOrdinaryPath,verifyPinnedFile}=require('../src/candidate-runtime.cjs');
-const PARENT='007da483659278edd6916137249f568f29afc9df';
+const PARENT='66522dae7faa4314d076e13066facc9191b4f807';
+const ownership=require('./windows-electron-ownership.cjs');
 const SETTINGS=Object.freeze({profileId:'h264-cpu',preset:'veryfast',quality:23});
 const PHASES=new Set(['authority','build','owned-input','fixture','launch','security','prepare','encode','readback','collision','close','report']);
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
@@ -16,7 +17,7 @@ function authority(env,event){
   assert(/^[a-f0-9]{40}$/.test(env.GITHUB_SHA)&&/^\d+$/.test(env.GITHUB_RUN_ID));
   return {head:env.GITHUB_SHA,runId:env.GITHUB_RUN_ID,attempt:1};
 }
-function diagnostic(phase,error){return {phase:PHASES.has(phase)?phase:'report',code:new Set(['ERR_ASSERTION','ENOENT','EACCES','EPERM','ETIMEDOUT','ENOSPC','INTEGRATION_TIMEOUT','CLOSURE_UNCONFIRMED']).has(error?.code)?error.code:'INTEGRATION_FAILED'};}
+function diagnostic(phase,error){return {phase:PHASES.has(phase)?phase:'report',code:new Set(['ERR_ASSERTION','ENOENT','EACCES','EPERM','ETIMEDOUT','ENOSPC','INTEGRATION_TIMEOUT','CLOSURE_UNCONFIRMED',...ownership.CODES]).has(error?.code)?error.code:'INTEGRATION_FAILED'};}
 function deadline(promise,ms){let timer;return Promise.race([promise,new Promise((_,reject)=>{timer=setTimeout(()=>reject(Object.assign(new Error('Bounded integration timed out.'),{code:'INTEGRATION_TIMEOUT'})),ms);})]).finally(()=>clearTimeout(timer));}
 function unobservedLaunch(){return {kind:'unobserved-launch',samples:0,observedDescendants:0,observedStartupMedia:0,observedLiveAfterClose:null};}
 function assertSecurity(s){assert(s.packaged===true&&s.sandbox===true&&s.contextIsolation===true&&s.nodeIntegration===false&&s.requireType==='undefined'&&s.processType==='undefined');}
@@ -42,16 +43,19 @@ async function journey({built,parent,onPhase=()=>{}},{electron,run=runBounded}={
   async function snapshot(){return deadline(page.evaluate(()=>window.encoder.getSnapshot()),Math.min(15000,remaining()));}
   async function until(predicate,ms){const end=Date.now()+Math.min(ms,remaining());do{const s=await snapshot();if(predicate(s))return s;await sleep(100);}while(Date.now()<end);throw Object.assign(new Error('State deadline.'),{code:'INTEGRATION_TIMEOUT'});}
   const shell=path.join(process.env.SystemRoot,'System32/WindowsPowerShell/v1.0/powershell.exe');
-  async function processIdentity(pid){assert(Number.isSafeInteger(pid)&&pid>0);const x=await run(shell,['-NoProfile','-NonInteractive','-Command',`[Console]::OutputEncoding=[System.Text.UTF8Encoding]::new($false); $p=Get-CimInstance Win32_Process -Filter 'ProcessId = ${pid}'; if($p){$p | Select-Object ProcessId,CreationDate,ExecutablePath | ConvertTo-Json -Compress}`],{limit:65536,timeout:10000,cwd:dirs.cwd});return x.stdout.trim()?JSON.parse(x.stdout):null;}
-  let originalIdentity=null,sampling=false,sampler=null,sampleFailure=null;
+  async function processIdentity(pid){assert(Number.isSafeInteger(pid)&&pid>0);const x=await run(shell,['-NoProfile','-NonInteractive','-Command',`[Console]::OutputEncoding=[System.Text.UTF8Encoding]::new($false); $p=Get-CimInstance Win32_Process -Filter 'ProcessId = ${pid}'; if($p){$p | Select-Object ProcessId,CreationDate,ExecutablePath,ParentProcessId | ConvertTo-Json -Compress}`],{limit:65536,timeout:10000,cwd:dirs.cwd});return x.stdout.trim()?JSON.parse(x.stdout):null;}
+  let originalIdentity=null,validatedLauncher=null,mainIdentity=null,sampling=false,sampler=null,sampleFailure=null;
+  let verifiedOwners=null;
   const observed=new Map();let samples=0;
-  async function sample(){
-    assert(++samples<=1200);
+  async function processRows(){
     const x=await run(shell,['-NoProfile','-NonInteractive','-Command','[Console]::OutputEncoding=[System.Text.UTF8Encoding]::new($false); ConvertTo-Json -Compress -InputObject @(Get-CimInstance Win32_Process | Select-Object ProcessId,ParentProcessId,CreationDate,ExecutablePath)'],{limit:2*1024*1024,timeout:10000,cwd:dirs.cwd});
-    const rows=JSON.parse(x.stdout);assert(Array.isArray(rows)&&rows.length<10000);
+    const rows=JSON.parse(x.stdout);assert(Array.isArray(rows)&&rows.length<10000);return rows;
+  }
+  async function sample(){
+    assert(++samples<=1200);const rows=await processRows();
     const active=new Set();
     for(const row of rows){const key=row.ProcessId+':'+row.CreationDate;if(observed.has(key))active.add(row.ProcessId);}
-    if(rows.some(row=>row.ProcessId===originalIdentity.ProcessId&&row.CreationDate===originalIdentity.CreationDate&&row.ExecutablePath===originalIdentity.ExecutablePath))active.add(originalIdentity.ProcessId);
+    for(const owner of [originalIdentity,mainIdentity].filter(Boolean))if(rows.some(row=>ownership.sameIdentity(row,owner)))active.add(owner.ProcessId);
     let changed=true;while(changed){changed=false;for(const row of rows)if(active.has(row.ParentProcessId)&&!active.has(row.ProcessId)){active.add(row.ProcessId);changed=true;}}
     for(const row of rows)if(active.has(row.ProcessId)&&row.ProcessId!==originalIdentity.ProcessId){const key=row.ProcessId+':'+row.CreationDate;if(!observed.has(key)){assert(observed.size<512);observed.set(key,{...row,phase});}}
     return rows.filter(row=>observed.has(row.ProcessId+':'+row.CreationDate)).length;
@@ -61,11 +65,26 @@ async function journey({built,parent,onPhase=()=>{}},{electron,run=runBounded}={
     phaseSet('fixture');result.fixtureGenerationCalls++;
     await run(ffmpeg,['-nostdin','-v','error','-f','lavfi','-i','testsrc2=size=320x180:rate=24:duration=2,setparams=color_primaries=bt709:color_trc=bt709:colorspace=bt709:range=limited','-f','lavfi','-i','sine=sample_rate=48000:duration=2','-c:v','libx264','-preset','ultrafast','-pix_fmt','yuv420p','-c:a','aac','-shortest','-n',input],{limit:65536,timeout:30000,cwd:dirs.cwd});
     const inputPin=await hashFile(input);assert(inputPin.sizeBytes>0&&inputPin.sizeBytes<8*1024*1024);
-    phaseSet('launch');launchAttempted=true;
+    phaseSet('launch');
+    if(process.env.ComSpec||process.env.COMSPEC)ownership.need(ownership.canonical(process.env.ComSpec||process.env.COMSPEC)===ownership.canonical(path.join(process.env.SystemRoot,'System32','cmd.exe')),'LAUNCHER_IDENTITY');
+    launchAttempted=true;
     app=await electron.launch({executablePath:built.executable.path,args:[`--user-data-dir=${dirs.state}`],cwd:dirs.cwd,env,timeout:60000});
-    child=app.process();originalIdentity=await processIdentity(child.pid);assert(originalIdentity&&originalIdentity.ExecutablePath.toLowerCase()===built.executable.path.toLowerCase());
+    child=app.process();
+    const shellPath=path.join(process.env.SystemRoot,'System32','cmd.exe');
+    originalIdentity=await processIdentity(child.pid);
+    ownership.requireLauncher(originalIdentity,child.pid,shellPath,process.pid,child);
+    ownership.need(ownership.sameIdentity(await processIdentity(child.pid),originalIdentity),'LAUNCHER_IDENTITY');
+    ownership.requireLauncher(originalIdentity,child.pid,shellPath,process.pid,child);
+    validatedLauncher=originalIdentity;
+    const mainObserved=await deadline(app.evaluate(({app})=>({pid:process.pid,execPath:process.execPath,appExe:app.getPath('exe')})),15000);
+    mainIdentity=await processIdentity(mainObserved.pid);
+    const ancestry=await processRows();
+    verifiedOwners=ownership.requireMain({launcher:originalIdentity,main:mainIdentity,pid:mainObserved.pid,execPath:mainObserved.execPath,appExe:mainObserved.appExe,expected:built.executable.path,rows:ancestry});
+    for(const exe of [mainIdentity.ExecutablePath,mainObserved.execPath,mainObserved.appExe])await ownership.verifyMainFile(exe,built.executable.path,built.executable);
+    ownership.need(ownership.sameIdentity(await processIdentity(child.pid),originalIdentity)&&ownership.sameIdentity(await processIdentity(mainIdentity.ProcessId),mainIdentity),'MAIN_IDENTITY');
+    result.launchOwnership='verified-shell-launcher-and-pinned-main';
     sampling=true;sampler=(async()=>{while(sampling){await sample();await sleep(500);}})().catch(error=>{sampleFailure=error;sampling=false;});
-    page=await app.firstWindow({timeout:30000});page.setDefaultTimeout(15000);
+    try{page=await app.firstWindow({timeout:30000});}catch{ownership.need(false,'FIRST_WINDOW');}page.setDefaultTimeout(15000);
     // Playwright evaluate has no action timeout; bound each evaluation explicitly.
     const appEvaluate=app.evaluate.bind(app),pageEvaluate=page.evaluate.bind(page);
     app.evaluate=(...args)=>deadline(appEvaluate(...args),15000);
@@ -103,10 +122,14 @@ async function journey({built,parent,onPhase=()=>{}},{electron,run=runBounded}={
     sampling=false;if(sampler)await sampler;
     try { if(app){try{if(page&&!page.isClosed()){await deadline(page.evaluate(async()=>{const s=await window.encoder.getSnapshot();if(s.batchId)await window.encoder.cancelBatch({batchId:s.batchId});}),15000);}await deadline(app.close(),20000);result.close='normal';}catch(error){result.close='unconfirmed';result.cleanupFailure=diagnostic('close',error);
       // Never taskkill a guessed/recycled PID. The OS identity must still match.
-      if(child&&originalIdentity){const current=await processIdentity(child.pid);if(current&&JSON.stringify(current)===JSON.stringify(originalIdentity)){await run(path.join(process.env.SystemRoot,'System32/taskkill.exe'),['/PID',String(child.pid),'/T','/F'],{limit:65536,timeout:15000,cwd:dirs.cwd});result.close='forced-owned-tree';}}
+      if(child&&originalIdentity){
+        const owners=verifiedOwners||{launcher:validatedLauncher,main:null};
+        const target=ownership.cleanupRoot(owners,await processRows());
+        if(target&&ownership.sameIdentity(await processIdentity(target.ProcessId),target)){await run(path.join(process.env.SystemRoot,'System32/taskkill.exe'),['/PID',String(target.ProcessId),'/T','/F'],{limit:65536,timeout:15000,cwd:dirs.cwd});result.close='forced-owned-tree';}
+      }
       failed||=Object.assign(new Error('Normal closure unconfirmed.'),{code:'CLOSURE_UNCONFIRMED'});
     }
-    if(originalIdentity){const current=await processIdentity(child.pid);assert(!current||JSON.stringify(current)!==JSON.stringify(originalIdentity));}
+    for(const owner of [originalIdentity,mainIdentity].filter(Boolean)){const current=await processIdentity(owner.ProcessId);assert(!ownership.sameIdentity(current,owner));}
     }
     if(originalIdentity){assert.equal(await sample(),0,'Observed descendants remain alive');if(sampleFailure)throw sampleFailure;}
     if(originalIdentity)result.processObservation={kind:'sampled-not-exhaustive',samples,observedDescendants:observed.size,

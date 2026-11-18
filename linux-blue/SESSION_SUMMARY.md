@@ -1,3 +1,349 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Preserve the failed longer-service preparation and its exact cause
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model / effort attribution | Evidence and limit |
+|---|---|---|
+| Engineering lead | GPT-6 Astra / Ultra, recorded assignment, not backend attestation | Selected fully preserved 030, released one exact noninteractive attempt, reconciled the failure and released documentation and separate non-runtime preparation. |
+| Manifest / generator / exact-authorizer authors and reviewers | Not independently established here | Read-only source/archive checks and seven AST/extracted synthetic tests; later actual rendering and exact binding review are separate events. |
+| Campaign executor | Not independently established here | One outer invocation, retained all attempted-child rows and failure, no retry or target encode. |
+| Independent failure auditor | Not independently established here | Rehashed saved source/runtime/fixtures/artifacts and traced rejected inspection argv; no extra runtime, probe, decode or GUI. |
+| Successor helper preparation | Not independently established here | Assigned in a new sibling location only. No completed correction, new test result, authorization or second attempt is claimed at this cutoff. |
+| Preservation / Session documentation | Not independently established here | Completed 030 preservation, then prepared evidence-only 031. Session writer owns only this prepend and byte-exact historical suffix. |
+
+**Record basis:** The longer Full-copy service experiment **failed before any target encode or completed case**. Its exact helper allowlist omitted required middle/end inspection shapes for the 150-second source. Inspection failed closed; the helper then asserted an initial ready row and terminated. This is a diagnosed experiment-preparation defect, not evidence that the source is genuinely unsupported, encoding failed, or the application failed long-media qualification. That qualification was never reached. The original attempt and its consumed gate remain immutable.
+
+## 🕒 Time
+
+- Date / clocks: November 18, 2026, UTC. Total active-work start and duration were not measured. Saved wall and monotonic intervals are reported separately.
+- Prior 030 evidence cutoff: 02:10:12.231751. The final long-manifest review at **02:13:27.099813**, generator handoff at 02:14:00.972081 and generator review at **02:15:53.138178** belong to this later chronology, not to the previous dated entry.
+- 030 Session saved 02:16:45.374716; local 030 committed **02:18:20.929561**. GitHub verified **02:21:34.720275** after full Notion restoration gates. Final mirror release received **02:22:49.820885**.
+- Actual generator ran once **02:23:04.168800–02:23:06.064623**, exit 0. Exact rendered-authorizer/binding review: **02:24:14.995771**.
+- Separate lead run release: 02:25:20.169371. Authorizer executed once **02:25:20.169557–02:25:21.705578**, exit 0; gate created **02:25:21.698273**. Generation and authorization did not themselves launch runtime.
+- Outer attempt marker: 02:26:06.477; measured outer start **02:26:06.478**. Inner attempt marker **02:26:09.324**. First actual child started 02:26:10.117.
+- Last spawned child closed 02:26:14.022. Unspawned middle request recorded 02:26:14.089–14.092; end request 02:26:14.149–14.151. Inner report finished **02:26:15.019**; outer closed **02:26:15.033**, exit 1.
+- Outer monotonic **8,555.143829 ms**, wall 8,555 ms. Inner monotonic **5,691.21007 ms**, wall 5,692 ms. Neither is encoding time or a performance benchmark: no semantic target started.
+- Worker handoff: 02:27:00.189375. Independent saved failure audit: **02:28:11.524377**. Lead identity reconciliation: **02:29:21.288208**.
+- **Fixed evidence cutoff / documentation release: 2026-11-18T02:29:21.288468Z.** Subsequent helper corrections and tests are outside this entry, even if they finish while records are assembled.
+- Stage / type / focus: evidence-only failure preservation, after one bounded noninteractive experiment. End / stopping point: settled closed owners, audited exact helper omission, no retry, 031 preservation pending. Reason for summary: make the failed experiment actionable without rewriting history or overstating application/media conclusions.
+
+## 🎯 Session Goal
+
+Extend prior short normal-service and bounded native Full-copy evidence with one reviewed longer normal-service experiment on exact preserved source. The proposed sequence was a 150-second Full/null/720/copied-AAC publication, unchanged existing-output refusal, active target cancellation into a fresh output destination, then recovery with a **new runtime handle and service** using the existing 11-second fixture. It was not a native journey, a general performance run, same-service recovery proof or production activation.
+
+The actual finish line changed when the first source preparation was refused by the helper. Preserve the exact failure, distinguish its immediate assertion from the underlying missing invocation shapes, close all owned processes, audit the retained evidence and define a separate corrected experiment. Do not relax media checks, edit the failed attempt in place, replay its gate or manufacture success from the planned counts.
+
+## 🛠️ Actions Taken
+
+### 1. Finish full 030 preservation before creating this new gate
+
+Immutable source 030 is `89489aa03e096aa1eff5c0c72160774f235efe6e`, tree `a2a264da7e269ff6db3fde4add4d26bac3833ffa`, sole local parent `475ac0f9bd5ebc033d68a36a443bddc60ce5f111`: **594 files / thirty commits**. It is the prior five-path native-evidence checkpoint, not a source implementation change. Its successful native result remains tied to earlier tested 029 source; that fact is not converted into longer-service proof here.
+
+[Notion source and full history](https://app.notion.com/p/41cbd7ade63b81c182bee64b3555eac5) restored the full source ZIP, thirty-commit bundle and history wrapper. Source ZIP is 3,983,022 bytes, SHA-256 `6d1446c13baf2fce3aaa339f3bddc883049bd983a5e96164b1c5f311bd1ddc5a`; bundle 3,955,723 bytes, `3ffba53baa7b9bd5616261bb0b8f2c7f31dc7a00b1004d01279689b448ef95ca`; history ZIP 3,930,723 bytes, `2c33e5f45adad7e79943499871df0574f1f39f89c6c194ad83c10c3151c02d87`.
+
+[Full readable native Session](https://app.notion.com/p/41cbd7ade63b810e81abd08c353c2a19) was appended in six ordered unabridged requests and fetched with all thirty headings and historical ending, without truncation metadata. Native formatting adapts Markdown; exact bytes remain in restored archives. The full preceding Session is **1,412,844 bytes**, SHA-256 `9fc6df32862529425c0cde7584e93a3b4441e8e585875dfcf9d4cf2cf94c4e5a`. This entire body is an unchanged suffix. The original structure-correction receipt is unchanged.
+
+GitHub `CipherVaults/FFmpeg-Encoder-Blue-Linux`, branch `blue/linux-development`, was verified at 02:21:34.720275: remote `560fa21221c33a87d976cb038e5d765143dc2547`, sole parent `26229b7a750c583209a90c0b37cf564cf78c77de`, tree `f69451963a6ae5b28f0e05fe19e261f812ad0282`. All five exact changed files matched; full tree **976 total / 971 unchanged / two modified / three new / zero deleted**. Non-force expected-parent update, actual ancestry and fresh ref were verified. Local reconstructed history and the original remote history remain intentionally different.
+
+The first Session readback used a malformed `github.com/blob/<blob-sha>` URL and returned `INVALID_ARGUMENT` before content was read. The original error receipt remains. The supported Git-data blob API then read the same immutable full bytes and matched length, SHA and Git blob. There was no second publication, write replay or review denial. Final Notion verification is 105,275 bytes, SHA-256 `34b82b6045a1a95ab4462b62c0aabd54371c2674c5b45702b0fa7f5f6305f56d`; final release 480 bytes, `1f2f116fd2ea83265030c0cd5a142d2aafeb618e6a8f1de3119d74aecac0aeef`, received 02:22:49.820885. Preservation was complete before the actual generator, gate and experiment.
+
+### 2. Close final manifest metadata without treating review as runtime coverage
+
+Final campaign plan is 14,344 bytes, SHA-256 `6b3051d7a558ee597e7d96d12fd738cd7af63ab6fffb37bed05baef31ac6075b`; final handoff 3,484 bytes, `790e0707d1fec9111e1d9a6ad79b7859adf5d02d6c49231ced8381186d659ba3`. Its final review at 02:13:27.099813 is 3,947 bytes, `05055ee129a9c1fe0130d727a3037ac865e4f771d6720818b5f0736dc9cf8e2d`, accepting metadata closure **for future binding preparation only**.
+
+Review rehashed twenty-seven files and eleven antecedents, plus the separate original calibration report. Thirty-eight manifest/antecedent rows and thirty-nine including calibration are not conflicting counts. All six production helpers remained unchanged; final metadata correctly points to the earlier corrected binding test. That prior test had originally stopped at stale upstream release linkage rather than the intended restored-row mismatch; the corrected test refreshed dependent hashes and asserted the actual row mismatch. Historical tests/reviews remain attributed to their original stages. The final metadata review did not rerun them or exercise real long-source inspection.
+
+The reviewer initially assumed every referenced path was guidance-relative, then correctly handled repository-relative `linux-blue/` calibration. A blanket metadata comparison also flagged legitimate blocker wording. Both were review-tool corrections before final artifact creation, not execution failures or authority expansion. The plan still required actual preservation, a separately reviewed binding/authorizer and an explicit bounded release.
+
+### 3. Generate and review actual source-bound authorization artifacts
+
+The frozen generator is 14,810 bytes, SHA-256 `3cfeae1616e128057a5c1bc404f5c8371ed93b043d07c99bd17621e3dc067f30`. Its handoff at 02:14:00.972081 is 5,253 bytes, `42d60e8065b43e16f703873c8420c125e106f6ab0799b51a4da92c3a5f9bc6ed`; independent review at 02:15:53.138178 is 4,381 bytes, `2bebc01788fbecece7d405e72a29bc3c6f04591df1b5fece6697c04c66218d6a`.
+
+Worker and independent **seven AST/extracted synthetic tests each** passed, not fourteen unique checks. They covered syntax, exact selector and strict receipt-array fragments; a hash-cycle check was source-string inspection. They did not execute the full preservation verifier, generator or authorizer, nor exercise the live role corpus. This distinction matters because later authentic validation of exact files did not reveal the missing semantic long-source sample shapes.
+
+The reviewed generator only accepts selector 030 and verifies actual sole ancestry, source/tree/thirty-commit history, evidence-only delta, Git/current/mirror bytes and blobs, complete source ZIP, sole-branch bundle verification, history wrapper, full native Session and final released mirror/GitHub rows. It verifies the final manifest, six helpers, original raw calibration, existing 150-second/11-second fixtures, runtime pair, seven dependencies and aliases. Source ZIP is re-read in full; bundle verification relies also on prior independently restored evidence rather than performing another clone. Locally consistent files cannot invent approval; exclusive ownership and genuine review/release remain necessary trust boundaries.
+
+Actual generation ran **once**, 02:23:04.168800–02:23:06.064623, exit 0. It produced `EXECUTION_BINDING.json`, **1,205 bytes**, SHA-256 `2667c03acc5ea6612f950c80ef97afeb6c0e973bdf6e91c5330e33306a778737`, and inert `authorize-long-service030.py`, SHA-256 `6ebbfc1dbb5d44754c2ce0ba2957e95b339753ddc262be75ec8669a4223fc5bf`. It did not create a gate or launch runtime. Generator stdout 222 bytes and stderr 119 bytes were retained; the stderr is bundle-verification output, not empty and not a media error.
+
+Exact rendering review at 02:24:14.995771 is **5,776 bytes**, SHA-256 `c107659ea610a3d8b5241edd268e28f649b62c9557140d1db363f814fa03a8f9`. It matched generator rendering byte-for-byte, binding constants, 594 source rows, thirty commits, five evidence paths, full source ZIP, frozen archive/receipt identities, actual remote/mirror array rows, thirty-entry Session, all thirty-eight helper/antecedent rows, raw calibration, both fixtures and nine runtime pins. It did not re-download remote data, independently restore another bundle clone, execute the authorizer or grant runtime by itself.
+
+### 4. Create and consume one separate exact run gate
+
+Lead run release at 02:25:20.169371 is 1,751 bytes, SHA-256 `f65006c77c42f86e22f29edfe442251ad2b91aab64e3b0c69ea0aa4a87c3bde3`. It binds actual 030 source/tree, authorizer, execution binding and exact independent review, under ongoing owner-authorized Linux development. It permits one noninteractive outer launch and no GUI, player, extra manual probe/decode, target retry, source change or producer repin. All 594 tracked files and both previous short-proof outcomes stay frozen through audit/release.
+
+Authorizer executed **once**, 02:25:20.169557–02:25:21.705578, exit 0, and created the exclusive gate at 02:25:21.698273, SHA-256 `3efc5d2b57ef393390a20fe5d4194daed9a82c97b3bc9002c9d799520520ac13`. Its 109-byte stdout and 119-byte bundle-verification stderr remain. This was gate creation only, not runtime. The executor separately checked current inputs before its single outer invocation.
+
+The prospective bound was three semantic targets, at most 112 serial owned children and concurrency one; 27 GiB minimum free and 2 GiB owned point allowance; a thirty-minute abort request with a shared sixty-second post-abort observation. These are not guaranteed whole-process exit or hard active-write disk limits. Twelve extra possible children were restricted to exact normalized metadata shapes, not arbitrary spare targets or automatic retries. The failure occurred far before those longer-service paths, so this run does not validate long deadline behavior or unsettled-owner handling.
+
+### 5. Reach real startup and initial inspection, then fail before target admission
+
+The outer process began at 02:26:06.478; inner marker at 02:26:09.324. It copied and hash-bound the existing fixtures rather than synthesizing new source media. The long MOV is **104,812,003 bytes**, SHA-256 `62ed1672e3a2c16540bd0bf477fe7ef687cbee0349697cb0aea609fe8b7b92e0`; the existing 11-second MP4 is **7,250,606 bytes**, `b9e375498e5c74af6f4a44b1ebcbcbf3d4f9d358609c2f0ddd4ec8d7a5d21b5c`. Both originals and owned copies matched at audit. This did include legitimate startup capability fixture encodes; “no new source fixture generation” must not be mistaken for “no runtime process or encoding of any kind.”
+
+Actual census was **31 spawned / 31 closed / zero live / maximum concurrency one**. All thirty-one process exit codes were zero. There are thirty-three attempted invocation rows because the last two were refused before spawn. They are not thirty-three children, nor thirty-five. Role counts are two startup version calls, four startup fixture encodes, ten startup probes, six startup capability encodes, six startup decode-to-null validations, and three actual metadata probes. The **twelve progress-bearing children are six capability encodes plus six decode validations, not twelve target encodes**. Semantic owned-source target count is zero.
+
+Source metadata and the initial 0–2-second decoded-frame sample succeeded. The saved failed snapshot reports 57 observed start-window frames through 1.866667 seconds, 1920×1080/yuv420p/BT.709 properties and progressive scan in that bounded window. That partial observation cannot prove complete source geometry, color, scan or HDR absence. No complete-source collector was reached.
+
+Attempted row **32** requested `-read_intervals 75.000000%76.000000`; row **33** requested `148.000000%150.000000`. Both used the existing selected-video frame-inspection shape against the owned 150-second MOV, in preparation phase. The helper's exact normalized role templates did not admit those required middle/end shapes. Both were rejected **before process spawn** with `ERR_ASSERTION: Unlisted invocation shape/phase`.
+
+Source inspection requires the decoded color samples, so the service correctly returned an item with `status: unsupported`, `reasonCode: UNSUPPORTED_COLOR`, and “A required decoded-frame color sample failed.” The batch's phase being `ready` is not the same as a ready item or an authorized encode. The helper then expected the item's initial compatibility status to equal `ready` and failed its strict assertion: actual `unsupported`, expected `ready`. This is the terminal assertion, not the root cause. The saved sampling records connect that assertion to the two earlier admission refusals.
+
+No explicit 720 reprepare occurred. No long output, existing-output refusal, active target cancellation, fresh-instance recovery, full collector sequence or OutputAccess observation-sink check occurred. The report's cases array is empty; both output directories are empty. Expected long 4,500 frames / 7,200,000 samples / 768 padding and recovery 330 frames / 528,000 samples / 384 padding are **prospective contracts**, not measurements from this run.
+
+### 6. Retain complete actual child diagnostics and close the failed experiment
+
+All thirty-one spawned rows have known, complete, untruncated saved stderr. Twenty-five are empty; **six are nonempty**. Rows 11 and 14 retain 167 bytes each of duplicate codec-option warnings; rows 17 and 20 retain 335 bytes each including duplicate-option, x265 CPU-mask and no-thread-pool warnings; rows 23 and 26 retain 1,181 and 1,182 bytes respectively, including duplicate-option text and SVT-AV1 build/configuration output. No warning is suppressed, silently discarded or declared harmless. Native threading/performance remains unqualified, and these diagnostics do not explain the exact allowlist omission.
+
+Rows 32/33 contain empty stderr strings but `stderrCaptureKnown: false`, null captures and `stderrCompleteAtSave: false`. They had no process and therefore no process stderr to capture. Do not count them as two successfully captured clean children. Outer stderr is empty, which does not make all child stderr empty.
+
+The failure closure is recorded as reason `failed`, settled true, live zero. Raw report `owned-proof-SguXUe/report.json` is **73,663 bytes**, SHA-256 `8cc41be4b26412a6dc53efbc81f37177e23f45a77d42cb5532bb72b3a7be9615`, finished 02:26:15.019. Completion is 531 bytes, `199ca65453cc32d1a1ea74ee602269aa68b82bd1df2dcb0ed8f4e4085440a21f`, with exact persisted-report readback verified. Outer completion is 369 bytes, `30a937b099a0784d87485de126c7f2425ce834997d21b9ebf77820c22d115019`, exit 1, null signal and no spawn error. Failure is retained, not a passed campaign with cosmetic warnings.
+
+The report lists **49 saved artifacts totaling 112,222,979 bytes** at close, including the two owned inputs and diagnostic evidence. The final report itself is a separate artifact identity, not included in that pre-report manifest total. Free bytes at close were 58,312,634,368. These point observations are not hard disk quotas or proof of every transient write. No incomplete target output or cancellation-stage disposition is inferred because no target started. No retry, manual probe/decode, GUI, cleanup or source edit was performed by the executor.
+
+### 7. Independently audit the failed evidence and reconcile the frozen identities
+
+Worker handoff at 02:27:00.189375 is **2,371 bytes**, SHA-256 `68a419e6bfffda4dbf964fa491915b84411de59010684c4ff6d21c6d75410456`. It records the single invocation, 31/31 census, two pre-spawn refusals, exact assertion, settled failure and all unreached paths. Its historical statement that independent audit/reconciliation were pending remains unchanged; later records provide those results.
+
+Independent failure audit at 02:28:11.524377 is **13,999 bytes**, SHA-256 `3ccb9008345c6394e9d1412180d635f5da8e3fccecde1981472f71aa3a139b9c`. It verified all 594 source files against Git/current/publication/Notion, thirty-commit history evidence, nine runtime pins, thirty-eight manifest/antecedent identities, both original/owned source fixtures and all forty-nine saved artifact hashes. It rederived the distinction between thirty-one real children and two refused rows, their role counts, diagnostics, empty output directories and the exact causal chain. No extra probe, decode, runtime, GUI or retry was used.
+
+Lead identity reconciliation at 02:29:21.288208 is **621 bytes**, SHA-256 `e0b8436403b907638ab66202c3ea8098253f9a4ecd285fb42f3ffe75cdfb0c23`. It independently matched source, forty-nine artifacts and both fixture pairs, confirmed both output directories empty, zero completed cases and the census. Its source-freeze-pending wording belongs to that instant.
+
+Final lead release at **02:29:21.288468**, **3,220 bytes**, SHA-256 `5fee8f965274a4c3c5a1ab7c4a8ea3ebd071a4a876696fbf32eb6ccdf381cab4`, accepts this as a **failed retained helper experiment**, releases documentation and permits isolated new-sibling non-runtime helper correction in parallel. It does not grant an immediate successor run or change source qualification criteria. The audit's earlier wording about preparation after preservation is explicitly clarified: parallel preparation is allowed, but successor runtime must wait for completed failure preservation, independent exact review, fresh binding/authorizer/release and a new gate. Existing ongoing owner authorization is not replaced with an unnecessary new user-confirmation requirement.
+
+### 8. Prepare coherent failure records without importing later engineering
+
+This milestone changes evidence/PBS only. The authoritative execution record is [Long-service preparation failure](2026-11-18_Long_Service_Preparation_Failure.md), with [curated receipts](2026-11-18_Long_Service_Preparation_Failure_Receipts.json), a [portable failure evidence record](evidence-2026-11-18/long-service-preparation-failure-portable.json), and [current state](CURRENT_STATE.md). Exact original raw reports, logs, fixtures and gate remain local evidence; portable readable content is not raw identity or executable authority.
+
+The portable package contains seven parsed original objects: raw report, full failure audit, outer completion, inner completion, worker handoff, lead identity and final release. Exactly **92 leading-root substitutions** map 53 proof strings, four project strings and 35 runtime-build strings; other keys, types and values remain unchanged. Original sizes/full hashes are retained. Historical pending audit/release statements survive as dated values alongside the later audit/release, not overwritten. JSON reserialization and aliases cannot restore raw bytes or substitute for a gate; all six authority flags are false. No inverse path mapping, runtime binaries, media, private profile or separate raw-log files are included. Embedded diagnostic strings remain part of the parsed evidence. Source-only restoration still lacks the original local runtime/media/raw-report inputs needed for future exact gates.
+
+Manual scoped source, privacy and authority review is not a completed formal Security Cloud assessment. No new formal scan, schema-validated risk artifact or automatic merge permission is claimed. Existing product scope, theme/defaults, non-HDR ordering, benchmark pause and owner acceptance remain unchanged; this evidence milestone is not a release acceptance.
+
+No application, test, renderer, IPC, default, factory, producer map or runtime pin changed in this session. No new source test suite was run for this evidence-only milestone. Previous source test results remain dated: the last relevant focused IPC integration had 261/261 lead checks, overlapping 220 worker and 57 independent checks, while historical broad 223/268 with forty-five failures was not rerun. These are not current all-green qualification or evidence that this helper's real long-source path was covered.
+
+The original raw report's prospective `limitations` text and expected counts are preserved as authored, not silently rewritten to sound like observed completion. This Session and the curated execution/audit make the actual zero-target result explicit. The original failure and previous short/native successes coexist, each with its source, scope and time.
+
+Proposed 031 preservation scope is five paths: Current, this Session, execution, receipts and portable evidence; three new files imply **597 files / thirty-one commits** once the lead makes the coherent checkpoint. At this fixed cutoff, 031 commit, Notion restoration and GitHub publication are not yet performed. The lead owns that Git → immediately restored Notion source/full history/readable records → GitHub cycle and must verify the actual published bytes. Only 030 is already backed up here.
+
+## 🧠 Key Insights
+
+### A closed gate can expose a test harness omission rather than bad media
+
+The service did not arbitrarily reject known long media. Two required decoded-window requests were denied before reaching ffprobe because the experiment's exact role corpus was incomplete. The downstream `UNSUPPORTED_COLOR` result was a correct refusal to assume facts from missing evidence. Widening app support or bypassing color checks would address the wrong layer.
+
+### Exact preservation and correct authorization do not prove semantic coverage
+
+Full Git/current/Notion/GitHub identity and separate authentic reviews prevented drift and unauthorized replay. They cannot prove that an allowlist includes every legitimate call a real preparation path will request. Seven synthetic generator tests tested construction fragments, not the service's duration-dependent sample selection. The newly retained failure gives concrete counterexamples for successor helper tests.
+
+### Process accounting must distinguish startup work, refused attempts and targets
+
+Thirty-three rows are not thirty-three processes. Twelve progress children are not twelve user encodes. Four fixture encodes are separate from six capability encodes and six decode validations. This run did real bounded runtime work, but zero semantic source targets and zero campaign cases. These distinctions keep both useful evidence and its limits visible.
+
+### A successful safe stop is not a successful campaign
+
+All owned spawned processes closed and the original source remained intact. That supports failure containment and faithful evidence retention. It does not establish long publication, collision behavior, active cancellation, recovery, long deadline behavior or output access. Those remain the next experiment's purpose, not completed work.
+
+### Preserve failures before improving the experiment
+
+The retained raw report, exact refused argv, full child diagnostics and independent audit let later work fix a demonstrated omission without erasing the historical mistake. Parallel helper-only preparation is appropriate, but a later successful attempt must be separately bound to then-preserved source and cannot overwrite this one.
+
+## 📌 Decisions Made
+
+### Confirmed
+
+- **Lead:** Preserve the experiment as failed-retained, with zero targets/cases. Basis: raw report, independent audit and exact identity reconciliation.
+- **Lead / audit:** Attribute the immediate failure to helper omission of required 75–76 and 148–150 second inspection shapes, followed by the ready-item assertion. Do not attribute it to genuinely unsupported media or an encoded-output failure.
+- **Lead:** Keep all original attempt, source, runtime, historical short proof and native evidence unchanged. No retry, consumed-gate replay, qualification relaxation or producer repin.
+- **Lead:** Release five evidence/PBS paths for coherent 031 preservation. Completed backup claims apply only after actual commit, independent Notion restores and verified remote publication.
+- **Lead:** Permit separate new-sibling helper correction/file-only preparation under continuing development scope while failure preservation finishes. Actual successor runtime still requires exact reviewed new artifacts and a fresh gate after preservation.
+
+### Provisional
+
+- A narrowly expanded exact role corpus with explicit tests for the observed long-source preparation shapes is the justified next investigation. Its final source, proof coverage, review and authorization are not established at this cutoff.
+- Existing finite campaign cases remain the intended finish line, not a promise that correcting these two shapes alone will make all downstream cases pass. The untouched paths may contain further experiment or application issues.
+
+### Deferred
+
+- Any application-source change, production/default/catalog activation, native retry, new media generation or additional platform qualification.
+- Actual long publication, existing-output refusal, active cancellation with real stage disposition, new-owner recovery and genuine output-access observations.
+- Broader stderr root-cause/performance qualification, Windows/GPU/HDR/other geometries and resolution of inherited broad failures. None is silently closed by this short failed preparation.
+
+## ⚠️ Difficulties / Friction
+
+1. **Publication readback URL error:** A malformed blob URL returned before content. The supported immutable blob endpoint resolved verification with no remote write replay. The first failure remains part of provenance.
+2. **Review path/count friction:** Repository-relative calibration required different resolution from guidance files; thirty-nine recursive rows include the calibration outside the thirty-eight manifest/antecedent count. A legitimate blocker wording delta also required actual review rather than an overbroad exact-comparison rejection.
+3. **Real duration-dependent inspection was absent from the exact helper corpus:** Short-source or synthetic checks did not establish long-source middle/end admission. The first real attempt exposed that boundary.
+4. **Terminal assertion hid the first useful cause unless the earlier rows were read:** “Unsupported versus ready” alone could be misread as media incompatibility. Saved rows 32/33 and the service sampling summary identify the preceding pre-spawn refusals.
+5. **A ready batch phase is not a ready item:** The snapshot retained both. Treating the phase alone as success would erase the service's actual unsupported row and missing required evidence.
+6. **Diagnostic accounting had several different populations:** Thirty-one spawned rows, thirty-three requests, twelve progress children, six nonempty stderr streams and zero targets must not be conflated.
+7. **Long-proof paths remain untouched:** The experiment stopped before 720 selection, publication, collision, cancellation and recovery, so no conclusion about those downstream behaviors can be drawn merely from complete closure.
+
+## 🔧 Adjustments Made
+
+### Use the supported immutable readback interface
+
+**Shifted from:** A malformed GitHub blob URL for the large cumulative Session.
+
+**To:** The documented Git-data blob read of the same immutable object, with complete byte/SHA/blob comparison.
+
+**Because:** The first request failed with `INVALID_ARGUMENT` before content.
+
+**Consequence:** Full 030 remote verification completed without re-uploading or replaying a write; the original request error is retained.
+
+### Reframe the experiment result from assertion text to evidenced cause
+
+**Shifted from:** The terminal “actual unsupported, expected ready” assertion requiring reconciliation with earlier saved preparation evidence.
+
+**To:** The exact chain: two required inspection shapes omitted from helper admission → no child spawn → missing decoded color samples → fail-closed item → helper assertion.
+
+**Because:** Attempt rows and service sampling evidence distinguish root cause from the terminal assertion.
+
+**Consequence:** The fix belongs first to isolated helper preparation, not production qualification or relaxed media checks. All downstream proof claims stay open.
+
+### Separate process rows and semantic targets
+
+**Shifted from:** A report containing attempted-row, spawned-child and progress-bearing counts that required separate role classification.
+
+**To:** Explicit census and role accounting: 31 closed children, two unspawned requests, six capability encodes plus six decode validations among twelve progress calls, zero targets.
+
+**Because:** Recorded argv and spawn flags identify actual work precisely.
+
+**Consequence:** Startup evidence remains useful without implying long-media or cancellation success; no nonexistent stderr capture is claimed.
+
+### Continue preparation without reopening the failed attempt
+
+**Shifted from:** An audited failed original and historical audit wording placing successor preparation after preservation, before the final lead clarification.
+
+**To:** Preserve the failure now; allow a separate new-sibling helper correction and file-only review in parallel; require completed preservation and fresh exact authorization before another runtime attempt.
+
+**Because:** The final lead release explicitly reconciles ongoing owner scope, immutable evidence and the runtime safety boundary.
+
+**Consequence:** Useful engineering can continue without moving this cutoff, rewriting the old root, asking unnecessary new owner permission or claiming a future fix is complete.
+
+## ❌ Mistakes / Risks Noted
+
+### Missing legitimate inspection shapes in a strict helper allowlist
+
+**What happened or could happen:** Exact invocation admission omitted required middle/end samples of the real 150-second source.
+
+**Actual impact:** The first preparation returned unsupported and the helper failed; no target or campaign case ran.
+
+**Potential impact:** Relaxing inspection or substituting fabricated support could falsely qualify media; repeatedly retrying unchanged would waste resources while hiding the same cause.
+
+**Correction / current status:** Failure is audited and immutable. A separate helper correction is assigned only; no completed correction/test outcome exists at cutoff.
+
+**Failure Intelligence:** Retain rows 32/33, exact intervals/phase/argv and the failed snapshot as regression evidence. Test actual intended call admission and unauthorized near-neighbors, not merely presence of strings or earlier checks.
+
+### Over-reading authentic review and synthetic tests
+
+**What happened or could happen:** Exact files and preservation were correctly reviewed, while synthetic generator checks did not execute the service's duration-derived inspection calls.
+
+**Actual impact:** Review did not catch this helper coverage gap before the one real experiment.
+
+**Potential impact:** Calling all checks “green” or “fully validated” would overstate semantic coverage and misdirect subsequent work.
+
+**Correction / current status:** Test scopes and actual execution are separated; inherited broad failures remain red/unrerun and long-media behavior unproved.
+
+**Failure Intelligence:** Name what each test executes, preserve reviewer findings, and add direct coverage for the exposed boundary rather than inventing broader coverage retrospectively.
+
+### Misclassifying refusal as unsupported source media
+
+**What happened or could happen:** `UNSUPPORTED_COLOR` and the ready-item assertion could be quoted without their rejected-helper-call provenance.
+
+**Actual impact:** No complete decoded-color inspection occurred; the service refused to assume missing evidence.
+
+**Potential impact:** Incorrect product or media conclusions, unnecessary app changes and weakening of safety checks.
+
+**Correction / current status:** The curated audit and this entry explicitly name the helper omission, required-sample failure and zero-target boundary.
+
+**Failure Intelligence:** Diagnose from the earliest failed prerequisite and actual process admission, not just the last error string. Batch phase, item state and target authority are different concepts.
+
+### Losing warnings or inventing complete capture for nonexistent children
+
+**What happened or could happen:** Empty outer stderr or empty strings on unspawned rows could be summarized as clean diagnostics.
+
+**Actual impact:** Six actual startup children emitted retained text; rows 32/33 had no process captures at all.
+
+**Potential impact:** False reliability/performance claims or erased diagnostic evidence.
+
+**Correction / current status:** All 31 actual captures are complete and untruncated, 25 empty and six nonempty; the two refusals are explicitly capture-unknown/nonexistent processes. Warnings are not called harmless.
+
+**Failure Intelligence:** Validate capture-known, complete/truncated flags and semantic role along with content length; never infer clean child stderr from a parent log.
+
+### Treating short failure duration or settled closure as stress qualification
+
+**What happened or could happen:** 8.555 seconds and complete closure could be mistaken for fast long encoding or validated cancellation/deadline behavior.
+
+**Actual impact:** Only startup and bounded initial inspection ran. No target, cancellation stage or long collector exists.
+
+**Potential impact:** Unsupported performance and safe-exit guarantees.
+
+**Correction / current status:** Wall/monotonic durations are recorded as failed experiment duration only. All longer paths and hard-exit/hard-disk guarantees remain unestablished.
+
+**Failure Intelligence:** Associate timings and resource claims with the path actually reached. Retain future expected values as contracts, never observed results.
+
+### Moving the cutoff or silently replacing failed evidence
+
+**What happened or could happen:** A later sibling fix could be imported into this entry or original attempt rewritten to appear successful.
+
+**Actual impact:** None claimed; original failure, gate, logs and full prior Session remain preserved.
+
+**Potential impact:** Broken provenance, misleading authority, inability to reconstruct what was tested and when.
+
+**Correction / current status:** Fixed cutoff is 02:29:21.288468 UTC. Later correction tests, binding, authorization and execution belong to later dated records.
+
+**Failure Intelligence:** Separate immutable evidence from successor preparation, preserve exact history as suffix, and verify only the intended Session file changes during its final save.
+
+## 📍 Current Position
+
+**As of:** 2026-11-18T02:29:21.288468Z, the final failure-audit/lead-release cutoff. Documentation assembly and later publication occur afterward and do not move this evidence boundary.
+
+**Before this session:** Source 030 contained the prior bounded native success and was progressing through complete preservation. The longer-service final manifest and generator were preparation only. Short normal-service/native evidence existed, but longer publication/cancel/new-owner recovery had not been established.
+
+**After this session:** 030 is fully preserved in local Git, independently restored Notion source/full history/readable Session and verified GitHub. One exact newly gated longer-service attempt ran, failed during initial inspection because of two omitted helper shapes, retained all evidence and closed all 31 owned processes. Independent audit and lead reconciliation support that diagnosis. No target, case, output, cancellation, recovery or output-access proof resulted.
+
+**Current standing:** Application source, tests, runtime pair/dependencies, raw calibration and producer pins remain unchanged. The service's refusal is correct under missing inspection evidence; current longer-service qualification remains unavailable. Five evidence/PBS paths are prepared for 031, expected 597 files/thirty-one commits, but commit/Notion/GitHub for 031 are pending at cutoff. The original 1,412,844-byte Session body and structure-correction receipt remain exact.
+
+**Live owner / continuation anchor:** The engineering lead owns coherent 031 commit, full source/history/native Notion restoration, verified GitHub publication and any subsequent actual-source binding/release. Separate helper preparation owns only a new sibling correction/file-only review; it has no authority to replay the consumed run. Session writer owns only this prepend. Resume from the current execution/receipt links and the original failed root, not an assumed successful long target or any later undocumented worker message.
+
+## 🔜 Next Steps
+
+1. Finish the five-path failure checkpoint with a descriptive multiline commit naming the helper omission, actual closure, retained warnings, zero-target result and remaining proof gaps. Verify exact file scope and historical suffix.
+2. Restore and independently verify complete 031 source, full history and unabridged native Session in Notion, then publish the exact intended GitHub delta and verify ancestry, fresh ref and full bytes. Do not call local-only records backed up.
+3. In the separate sibling helper, investigate and correct only the demonstrated admission gap, using exact real sample shapes and negative tests. Preserve the old helper, role corpus, rejected rows and raw report. Do not relax source inspection, qualification, ownership or resource criteria.
+4. Obtain independent review of the final corrected helper and its actual test scope. Do not assume the two missing shapes are the only downstream issue. Keep all later results in their own dated chronology.
+5. After actual failure preservation and review, derive an exact fresh source/binding/authorizer from real released receipts. A new one-shot gate is an implementation-safety boundary under existing ongoing owner authorization, not consumed-gate replay and not an automatic request for another user approval.
+6. Only then attempt the finite longer-service sequence, preserve actual warnings and output/stage disposition, drain owners and independently audit saved evidence before extending any qualification claim. This session authorizes no immediate execution.
+
+**Do not reopen / repeat:** Do not rerun this failed root or gate, replace original reports, clear outputs/state, rewrite prior Sessions, repin old calibration, loosen color checks, call twelve progress children twelve targets, or reclassify later expected counts as observed. Do not re-run broad tests merely to dress an evidence-only failure record as all-green; investigate real new source changes under their own scope.
+
+**Continuation boundary:** At this cutoff, only isolated non-runtime successor preparation is permitted in parallel. Its correction, tests and final review are not completed facts here. Actual successor runtime requires completed 031 preservation and separately reviewed exact fresh authorization. No native GUI, production/default activation, new fixtures or platform expansion follows from this failure record.
+
+## ❓ Open Questions
+
+- **Which exact successor role templates safely cover the real duration-dependent inspection calls?** Known: two missing intervals and their normalized preparation shape are retained. Needed from: isolated helper author and independent reviewer. Blocks: a justified new experiment, not failure preservation.
+- **Will the longer target, collision, active cancellation and fresh-owner recovery succeed once preparation is admitted?** Known: every one of these paths was unreached. Needed from: separately authorized actual run and independent saved-output audit. Blocks: longer-service qualification and claims about those behaviors.
+- **What will cancellation do to its stage and owners on the real path?** Known: no target or cancellation stage existed here. Needed from: future actual state/diagnostics and closure evidence, not a forced assumption that retention must occur. Blocks: cancellation/recovery claims.
+- **Do startup warnings affect native threading or broader performance?** Known: duplicate-codec/x265/SVT text is retained and all actual startup children exited zero; no target performance was measured. Needed from: separately scoped evidence, without suppressing warnings or changing environment/security flags. Blocks: broader reliability/performance claims, not narrow cause attribution.
+- **Has 031 itself been backed up?** Known: only 030 preservation is complete at cutoff. Needed from: lead and mirror's subsequent actual commit/restoration/remote receipts. Blocks: successor runtime gate and claims that this new failure record is safely published.
+- **Are Windows, other geometry/HDR/GPU, broad baseline failures or production readiness resolved?** Known: no such work occurred here. Needed from: separate agreed implementation/qualification scope. Blocks: those claims, not continued focused Linux development.
+
+## 🧾 Session Outcome
+
+**Failed longer-service experiment, successfully retained and diagnosed.** One invocation stopped in initial preparation because the helper rejected two required long-source frame-inspection shapes before spawn. The service refused missing color evidence; the helper's ready assertion then failed. There were **31 actual closed children, zero live, maximum concurrency one, zero semantic targets, zero completed cases and no published output**. All real child stderr captures are complete; six nonempty streams are retained. The two unspawned requests are not clean process captures.
+
+Full source/runtime/fixture/artifact reconciliation and independent saved failure audit support that exact conclusion without an extra probe, decode, runtime or retry. They do not establish unsupported source media, failed target encoding, successful long qualification, cancellation or new-owner recovery. Prior native/short success remains intact and separate. No application/test/default/pin change occurred.
+
+030 is fully backed up; new 031 evidence-only preservation is the next lead action, not already complete at this cutoff. A separate non-runtime helper correction may proceed while preserving the entire failed attempt and historical Session exactly. No later fix or test result is imported into this dated record.
+
+## 🔍 Confidence Level
+
+High for the narrow failure diagnosis, actual census, diagnostic completeness, empty outputs and preserved source identity; deliberately unestablished for the unreached longer-service behaviors.
+
+**Why:** The raw report, exact attempted argv, spawn flags, per-child diagnostics, failed service snapshot, persisted-report readback, terminal closure, full source/runtime/input/artifact hashes, independent audit and separate lead reconciliation agree. The original evidence is retained, actual authorization/preservation precedes execution, and the last assertion is connected to the earlier missing-helper-call cause rather than assumed to be a media verdict.
+
+**Not higher because:** No target or completed campaign case ran; source color observation was only the initial bounded window; synthetic/file-only reviews did not exercise the real duration-dependent corpus; no new independent runtime or re-decode was performed by audit. Long deadline/cancellation behavior, hard exit/disk guarantees, native performance, broader media/platform qualification and inherited failing suites remain outside this evidence. A future correction and successful new run cannot be assumed from this diagnosis.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Complete the bounded native Full-copy journey and preserve its exact evidence
 
 ## 🤖 Models, Effort, Roles and Provenance

@@ -1,0 +1,3619 @@
+{
+  "schema": "ffmpeg-portable-evidence-v1",
+  "checkpoint": "031",
+  "cutoffUtc": "2026-11-18T02:29:21.288468Z",
+  "purpose": "Preserve a failed-retained helper experiment, not long-service qualification.",
+  "sourceCommit": "89489aa03e096aa1eff5c0c72160774f235efe6e",
+  "originals": {
+    "report": {
+      "path": "full-copy-long-service028-preparation-20261118/owned-proof-SguXUe/report.json",
+      "bytes": 73663,
+      "sha256": "8cc41be4b26412a6dc53efbc81f37177e23f45a77d42cb5532bb72b3a7be9615"
+    },
+    "audit": {
+      "path": "full-copy-long-service028-preparation-20261118/INDEPENDENT_FAILURE_AUDIT.json",
+      "bytes": 13999,
+      "sha256": "3ccb9008345c6394e9d1412180d635f5da8e3fccecde1981472f71aa3a139b9c"
+    },
+    "outer": {
+      "path": "full-copy-long-service028-preparation-20261118/OUTER_COMPLETION.json",
+      "bytes": 369,
+      "sha256": "30a937b099a0784d87485de126c7f2425ce834997d21b9ebf77820c22d115019"
+    },
+    "completion": {
+      "path": "full-copy-long-service028-preparation-20261118/COMPLETION.json",
+      "bytes": 531,
+      "sha256": "199ca65453cc32d1a1ea74ee602269aa68b82bd1df2dcb0ed8f4e4085440a21f"
+    },
+    "identity": {
+      "path": "full-copy-long-service028-preparation-20261118/LEAD_IDENTITY_RECONCILIATION.json",
+      "bytes": 621,
+      "sha256": "e0b8436403b907638ab66202c3ea8098253f9a4ecd285fb42f3ffe75cdfb0c23"
+    },
+    "release": {
+      "path": "full-copy-long-service028-preparation-20261118/LEAD_RELEASE.json",
+      "bytes": 3220,
+      "sha256": "5fee8f965274a4c3c5a1ab7c4a8ea3ebd071a4a876696fbf32eb6ccdf381cab4"
+    },
+    "worker": {
+      "path": "full-copy-long-service028-preparation-20261118/WORKER_FINAL_HANDOFF.json",
+      "bytes": 2371,
+      "sha256": "68a419e6bfffda4dbf964fa491915b84411de59010684c4ff6d21c6d75410456"
+    }
+  },
+  "transformation": {
+    "rule": "Only exact leading known-root prefixes in string values replaced; all other keys, types and values unchanged. No inverse root mapping is retained.",
+    "count": 92,
+    "countsByAlias": {
+      "proof://": 53,
+      "project://": 4,
+      "runtime-build://": 35
+    },
+    "locations": [
+      {
+        "location": [
+          "reports",
+          "report",
+          "root"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "sources",
+          0,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "sources",
+          0,
+          "input"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "sources",
+          0,
+          "output"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "sources",
+          0,
+          "original"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "sources",
+          1,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "sources",
+          1,
+          "input"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "sources",
+          1,
+          "output"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "sources",
+          1,
+          "original"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          0,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          1,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          2,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          2,
+          "args",
+          28
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          3,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          3,
+          "args",
+          8
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          4,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          4,
+          "args",
+          28
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          5,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          5,
+          "args",
+          8
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          6,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          6,
+          "args",
+          28
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          7,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          7,
+          "args",
+          8
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          8,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          8,
+          "args",
+          28
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          9,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          9,
+          "args",
+          8
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          10,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          10,
+          "args",
+          13
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          10,
+          "args",
+          48
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          11,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          11,
+          "args",
+          9
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          12,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          12,
+          "args",
+          9
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          13,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          13,
+          "args",
+          13
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          13,
+          "args",
+          48
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          14,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          14,
+          "args",
+          9
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          15,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          15,
+          "args",
+          9
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          16,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          16,
+          "args",
+          13
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          16,
+          "args",
+          50
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          17,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          17,
+          "args",
+          9
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          18,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          18,
+          "args",
+          9
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          19,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          19,
+          "args",
+          13
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          19,
+          "args",
+          50
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          20,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          20,
+          "args",
+          9
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          21,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          21,
+          "args",
+          9
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          22,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          22,
+          "args",
+          13
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          22,
+          "args",
+          48
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          23,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          23,
+          "args",
+          9
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          24,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          24,
+          "args",
+          9
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          25,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          25,
+          "args",
+          13
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          25,
+          "args",
+          48
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          26,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          26,
+          "args",
+          9
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          27,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          27,
+          "args",
+          9
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          28,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          28,
+          "args",
+          6
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          29,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          29,
+          "args",
+          16
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          30,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          30,
+          "args",
+          16
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          31,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          31,
+          "args",
+          16
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          32,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "report",
+          "children",
+          32,
+          "args",
+          16
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "refusedBeforeSpawn",
+          0,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "refusedBeforeSpawn",
+          0,
+          "args",
+          16
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "refusedBeforeSpawn",
+          1,
+          "tool"
+        ],
+        "alias": "runtime-build://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "refusedBeforeSpawn",
+          1,
+          "args",
+          16
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "sourcesOriginalAndOwned",
+          0,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "sourcesOriginalAndOwned",
+          0,
+          "input"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "sourcesOriginalAndOwned",
+          0,
+          "output"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "sourcesOriginalAndOwned",
+          0,
+          "original"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "sourcesOriginalAndOwned",
+          1,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "sourcesOriginalAndOwned",
+          1,
+          "input"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "sourcesOriginalAndOwned",
+          1,
+          "output"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "sourcesOriginalAndOwned",
+          1,
+          "original"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "completion",
+          "root"
+        ],
+        "alias": "proof://"
+      }
+    ]
+  },
+  "authority": {
+    "runtimeExecution": false,
+    "productionActivation": false,
+    "qualification": false,
+    "sameServiceRecovery": false,
+    "rawReportRestoration": false,
+    "gateSubstitution": false
+  },
+  "limits": [
+    "JSON reserialization and root aliases do not reproduce original full bytes or supply the original raw-report runtime gate.",
+    "31 actual closed children; two additional unspawned rows have unknown capture, not captured empty stderr. Six actual startup warning streams remain in parsed evidence.",
+    "No user target or completed case. Later publication/collision/cancellation/new-instance recovery/access checks were unreached.",
+    "Audit is saved-evidence review without additional probe/decode/UI/runtime. Historical pending statuses remain as dated values; final release is a separate object.",
+    "No runtime/media/profile or separate raw-log files are included. Embedded original diagnostic strings remain exact except declared path-prefix transforms."
+  ],
+  "reports": {
+    "report": {
+      "schema": 1,
+      "root": "proof://",
+      "checkpoint": "89489aa03e096aa1eff5c0c72160774f235efe6e",
+      "status": "failed-retained",
+      "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+      "calibrationSha256": "5f74a9efb7981fefb242dcf34c82e972bbc269c5a5ea7a92c62a68db1bc34ad9",
+      "appActivated": false,
+      "sameServiceRecoveryProven": false,
+      "bounds": {
+        "maximumChildren": 112,
+        "maximumConcurrency": 1,
+        "abortRequestMs": 1800000,
+        "minimumFreeBytes": "28991029248",
+        "ownedArtifactAdmissionBytes": "2147483648"
+      },
+      "sources": [
+        {
+          "id": "long-mov",
+          "file": "source.mov",
+          "bytes": 104812003,
+          "sha256": "62ed1672e3a2c16540bd0bf477fe7ef687cbee0349697cb0aea609fe8b7b92e0",
+          "extentUs": 150000000,
+          "expected": {
+            "frames": 4500,
+            "samples": 7200000,
+            "padding": 768
+          },
+          "path": "proof://long-mov-input/source.mov",
+          "input": "proof://long-mov-input",
+          "output": "proof://long-mov-output",
+          "original": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/long-mov/source.mov"
+        },
+        {
+          "id": "heldout-mp4",
+          "file": "source.mp4",
+          "bytes": 7250606,
+          "sha256": "b9e375498e5c74af6f4a44b1ebcbcbf3d4f9d358609c2f0ddd4ec8d7a5d21b5c",
+          "extentUs": 11000000,
+          "expected": {
+            "frames": 330,
+            "samples": 528000,
+            "padding": 384
+          },
+          "path": "proof://heldout-mp4-input/source.mp4",
+          "input": "proof://heldout-mp4-input",
+          "output": "proof://heldout-mp4-output",
+          "original": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/heldout-mp4/source.mp4"
+        }
+      ],
+      "cases": [],
+      "closures": [
+        {
+          "reason": "failed",
+          "settled": true,
+          "live": 0
+        }
+      ],
+      "children": [
+        {
+          "index": 1,
+          "tool": "runtime-build://build/ffmpeg",
+          "args": [
+            "-version"
+          ],
+          "startedAt": "2026-11-18T02:26:10.117Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-version",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 629,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 799.514753,
+          "finishedAt": "2026-11-18T02:26:10.127Z",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 2,
+          "tool": "runtime-build://build/ffprobe",
+          "args": [
+            "-version"
+          ],
+          "startedAt": "2026-11-18T02:26:10.195Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-version",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 630,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 875.088252,
+          "finishedAt": "2026-11-18T02:26:10.203Z",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 3,
+          "tool": "runtime-build://build/ffmpeg",
+          "args": [
+            "-hide_banner",
+            "-nostdin",
+            "-loglevel",
+            "error",
+            "-n",
+            "-f",
+            "lavfi",
+            "-i",
+            "testsrc2=size=320x180:rate=30,format=yuv420p,setparams=range=limited:color_primaries=bt709:color_trc=bt709:colorspace=bt709",
+            "-frames:v",
+            "2",
+            "-an",
+            "-c:v",
+            "ffv1",
+            "-level",
+            "3",
+            "-pix_fmt",
+            "+yuv420p",
+            "-color_primaries",
+            "bt709",
+            "-color_trc",
+            "bt709",
+            "-colorspace",
+            "bt709",
+            "-color_range",
+            "tv",
+            "-f",
+            "matroska",
+            "proof://state-1/capability-j2QHfb/input-8.mkv"
+          ],
+          "startedAt": "2026-11-18T02:26:10.275Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-fixture-encode",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 631,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 960.444262,
+          "finishedAt": "2026-11-18T02:26:10.288Z",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 4,
+          "tool": "runtime-build://build/ffprobe",
+          "args": [
+            "-v",
+            "error",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-show_streams",
+            "-show_format",
+            "-of",
+            "json",
+            "proof://state-1/capability-j2QHfb/input-8.mkv"
+          ],
+          "startedAt": "2026-11-18T02:26:10.350Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-probe",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 664,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 1031.000574,
+          "finishedAt": "2026-11-18T02:26:10.358Z",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 5,
+          "tool": "runtime-build://build/ffmpeg",
+          "args": [
+            "-hide_banner",
+            "-nostdin",
+            "-loglevel",
+            "error",
+            "-n",
+            "-f",
+            "lavfi",
+            "-i",
+            "testsrc2=size=320x180:rate=30,format=yuv420p10le,setparams=range=limited:color_primaries=bt709:color_trc=bt709:colorspace=bt709",
+            "-frames:v",
+            "2",
+            "-an",
+            "-c:v",
+            "ffv1",
+            "-level",
+            "3",
+            "-pix_fmt",
+            "+yuv420p10le",
+            "-color_primaries",
+            "bt709",
+            "-color_trc",
+            "bt709",
+            "-colorspace",
+            "bt709",
+            "-color_range",
+            "tv",
+            "-f",
+            "matroska",
+            "proof://state-1/capability-j2QHfb/input-10.mkv"
+          ],
+          "startedAt": "2026-11-18T02:26:10.502Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-fixture-encode",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 665,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 1191.513637,
+          "finishedAt": "2026-11-18T02:26:10.519Z",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 6,
+          "tool": "runtime-build://build/ffprobe",
+          "args": [
+            "-v",
+            "error",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-show_streams",
+            "-show_format",
+            "-of",
+            "json",
+            "proof://state-1/capability-j2QHfb/input-10.mkv"
+          ],
+          "startedAt": "2026-11-18T02:26:10.589Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-probe",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 698,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 1271.559673,
+          "finishedAt": "2026-11-18T02:26:10.599Z",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 7,
+          "tool": "runtime-build://build/ffmpeg",
+          "args": [
+            "-hide_banner",
+            "-nostdin",
+            "-loglevel",
+            "error",
+            "-n",
+            "-f",
+            "lavfi",
+            "-i",
+            "testsrc2=size=320x180:rate=30,format=yuv420p,setparams=range=limited:color_primaries=bt709:color_trc=bt709:colorspace=bt709",
+            "-frames:v",
+            "96",
+            "-an",
+            "-c:v",
+            "ffv1",
+            "-level",
+            "3",
+            "-pix_fmt",
+            "+yuv420p",
+            "-color_primaries",
+            "bt709",
+            "-color_trc",
+            "bt709",
+            "-colorspace",
+            "bt709",
+            "-color_range",
+            "tv",
+            "-f",
+            "matroska",
+            "proof://state-1/capability-j2QHfb/recipe-input-8.mkv"
+          ],
+          "startedAt": "2026-11-18T02:26:10.670Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-fixture-encode",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 699,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 1386.211417,
+          "finishedAt": "2026-11-18T02:26:10.714Z",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 8,
+          "tool": "runtime-build://build/ffprobe",
+          "args": [
+            "-v",
+            "error",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-show_streams",
+            "-show_format",
+            "-of",
+            "json",
+            "proof://state-1/capability-j2QHfb/recipe-input-8.mkv"
+          ],
+          "startedAt": "2026-11-18T02:26:10.773Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-probe",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 732,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 1455.761053,
+          "finishedAt": "2026-11-18T02:26:10.783Z",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 9,
+          "tool": "runtime-build://build/ffmpeg",
+          "args": [
+            "-hide_banner",
+            "-nostdin",
+            "-loglevel",
+            "error",
+            "-n",
+            "-f",
+            "lavfi",
+            "-i",
+            "testsrc2=size=320x180:rate=30,format=yuv420p10le,setparams=range=limited:color_primaries=bt709:color_trc=bt709:colorspace=bt709",
+            "-frames:v",
+            "96",
+            "-an",
+            "-c:v",
+            "ffv1",
+            "-level",
+            "3",
+            "-pix_fmt",
+            "+yuv420p10le",
+            "-color_primaries",
+            "bt709",
+            "-color_trc",
+            "bt709",
+            "-colorspace",
+            "bt709",
+            "-color_range",
+            "tv",
+            "-f",
+            "matroska",
+            "proof://state-1/capability-j2QHfb/recipe-input-10.mkv"
+          ],
+          "startedAt": "2026-11-18T02:26:10.843Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-fixture-encode",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 733,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 1563.223813,
+          "finishedAt": "2026-11-18T02:26:10.891Z",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 10,
+          "tool": "runtime-build://build/ffprobe",
+          "args": [
+            "-v",
+            "error",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-show_streams",
+            "-show_format",
+            "-of",
+            "json",
+            "proof://state-1/capability-j2QHfb/recipe-input-10.mkv"
+          ],
+          "startedAt": "2026-11-18T02:26:10.953Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-probe",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 766,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 1634.291102,
+          "finishedAt": "2026-11-18T02:26:10.962Z",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 11,
+          "tool": "runtime-build://build/ffmpeg",
+          "args": [
+            "-hide_banner",
+            "-nostdin",
+            "-loglevel",
+            "warning",
+            "-nostats",
+            "-progress",
+            "pipe:1",
+            "-n",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-format_whitelist",
+            "mov,matroska,webm,avi",
+            "-i",
+            "proof://state-1/capability-j2QHfb/input-8.mkv",
+            "-map",
+            "0:0",
+            "-map_metadata",
+            "0",
+            "-map_chapters",
+            "0",
+            "-c",
+            "copy",
+            "-c:v:0",
+            "libx264",
+            "-map_metadata:s:0",
+            "0:s:0",
+            "-disposition:0",
+            "0",
+            "-preset:v:0",
+            "slower",
+            "-crf:v:0",
+            "24",
+            "-pix_fmt:v:0",
+            "+yuv420p",
+            "-fps_mode:v:0",
+            "passthrough",
+            "-color_trc:v:0",
+            "bt709",
+            "-color_primaries:v:0",
+            "bt709",
+            "-colorspace:v:0",
+            "bt709",
+            "-color_range:v:0",
+            "tv",
+            "-default_mode",
+            "passthrough",
+            "-f",
+            "matroska",
+            "proof://state-1/capability-j2QHfb/h264-cpu-8.mkv"
+          ],
+          "startedAt": "2026-11-18T02:26:11.036Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-encode",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 767,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 1727.803696,
+          "finishedAt": "2026-11-18T02:26:11.055Z",
+          "stderr": "[vost#0:0 @ 0x5570804e7940] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx264' will be used.\n",
+          "stderrCapture": {
+            "totalBytes": 167,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 167,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "07e28461915b20e9e0399b6d99dc71bd01ae36322c81ed3d03f0e5c4aa987b43"
+        },
+        {
+          "index": 12,
+          "tool": "runtime-build://build/ffprobe",
+          "args": [
+            "-v",
+            "error",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-count_frames",
+            "-show_streams",
+            "-show_format",
+            "-of",
+            "json",
+            "proof://state-1/capability-j2QHfb/h264-cpu-8.mkv"
+          ],
+          "startedAt": "2026-11-18T02:26:11.120Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-probe",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 799,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 1802.785468,
+          "finishedAt": "2026-11-18T02:26:11.130Z",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 13,
+          "tool": "runtime-build://build/ffmpeg",
+          "args": [
+            "-hide_banner",
+            "-nostdin",
+            "-v",
+            "error",
+            "-xerror",
+            "-nostats",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-i",
+            "proof://state-1/capability-j2QHfb/h264-cpu-8.mkv",
+            "-map",
+            "0:v:0",
+            "-progress",
+            "pipe:1",
+            "-f",
+            "null",
+            "-"
+          ],
+          "startedAt": "2026-11-18T02:26:11.199Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-decode",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 800,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 1886.743398,
+          "finishedAt": "2026-11-18T02:26:11.214Z",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 14,
+          "tool": "runtime-build://build/ffmpeg",
+          "args": [
+            "-hide_banner",
+            "-nostdin",
+            "-loglevel",
+            "warning",
+            "-nostats",
+            "-progress",
+            "pipe:1",
+            "-n",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-format_whitelist",
+            "mov,matroska,webm,avi",
+            "-i",
+            "proof://state-1/capability-j2QHfb/input-10.mkv",
+            "-map",
+            "0:0",
+            "-map_metadata",
+            "0",
+            "-map_chapters",
+            "0",
+            "-c",
+            "copy",
+            "-c:v:0",
+            "libx264",
+            "-map_metadata:s:0",
+            "0:s:0",
+            "-disposition:0",
+            "0",
+            "-preset:v:0",
+            "slower",
+            "-crf:v:0",
+            "24",
+            "-pix_fmt:v:0",
+            "+yuv420p10le",
+            "-fps_mode:v:0",
+            "passthrough",
+            "-color_trc:v:0",
+            "bt709",
+            "-color_primaries:v:0",
+            "bt709",
+            "-colorspace:v:0",
+            "bt709",
+            "-color_range:v:0",
+            "tv",
+            "-default_mode",
+            "passthrough",
+            "-f",
+            "matroska",
+            "proof://state-1/capability-j2QHfb/h264-cpu-10.mkv"
+          ],
+          "startedAt": "2026-11-18T02:26:11.284Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-encode",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 825,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 1977.526977,
+          "finishedAt": "2026-11-18T02:26:11.305Z",
+          "stderr": "[vost#0:0 @ 0x5639d9914d80] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx264' will be used.\n",
+          "stderrCapture": {
+            "totalBytes": 167,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 167,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "fe7543e8b4c7af0f4caac85a0e1e1c7712ba6f937e44986d6d6eaf47462548b5"
+        },
+        {
+          "index": 15,
+          "tool": "runtime-build://build/ffprobe",
+          "args": [
+            "-v",
+            "error",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-count_frames",
+            "-show_streams",
+            "-show_format",
+            "-of",
+            "json",
+            "proof://state-1/capability-j2QHfb/h264-cpu-10.mkv"
+          ],
+          "startedAt": "2026-11-18T02:26:11.371Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-probe",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 857,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 2052.961435,
+          "finishedAt": "2026-11-18T02:26:11.380Z",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 16,
+          "tool": "runtime-build://build/ffmpeg",
+          "args": [
+            "-hide_banner",
+            "-nostdin",
+            "-v",
+            "error",
+            "-xerror",
+            "-nostats",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-i",
+            "proof://state-1/capability-j2QHfb/h264-cpu-10.mkv",
+            "-map",
+            "0:v:0",
+            "-progress",
+            "pipe:1",
+            "-f",
+            "null",
+            "-"
+          ],
+          "startedAt": "2026-11-18T02:26:11.471Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-decode",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 858,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 2156.104597,
+          "finishedAt": "2026-11-18T02:26:11.484Z",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 17,
+          "tool": "runtime-build://build/ffmpeg",
+          "args": [
+            "-hide_banner",
+            "-nostdin",
+            "-loglevel",
+            "warning",
+            "-nostats",
+            "-progress",
+            "pipe:1",
+            "-n",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-format_whitelist",
+            "mov,matroska,webm,avi",
+            "-i",
+            "proof://state-1/capability-j2QHfb/input-8.mkv",
+            "-map",
+            "0:0",
+            "-map_metadata",
+            "0",
+            "-map_chapters",
+            "0",
+            "-c",
+            "copy",
+            "-c:v:0",
+            "libx265",
+            "-map_metadata:s:0",
+            "0:s:0",
+            "-disposition:0",
+            "0",
+            "-preset:v:0",
+            "slow",
+            "-crf:v:0",
+            "25",
+            "-x265-params",
+            "aq-mode=3:psy-rd=2",
+            "-pix_fmt:v:0",
+            "+yuv420p",
+            "-fps_mode:v:0",
+            "passthrough",
+            "-color_trc:v:0",
+            "bt709",
+            "-color_primaries:v:0",
+            "bt709",
+            "-colorspace:v:0",
+            "bt709",
+            "-color_range:v:0",
+            "tv",
+            "-default_mode",
+            "passthrough",
+            "-f",
+            "matroska",
+            "proof://state-1/capability-j2QHfb/h265-cpu-8.mkv"
+          ],
+          "startedAt": "2026-11-18T02:26:11.551Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-encode",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 883,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 2313.477679,
+          "finishedAt": "2026-11-18T02:26:11.641Z",
+          "stderr": "[vost#0:0 @ 0x5586e0874980] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx265' will be used.\nx265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n",
+          "stderrCapture": {
+            "totalBytes": 335,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 335,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "44ffddab589bc7b2e9ddb338043bb9436f582b50609af178682b3e53d4af3f55"
+        },
+        {
+          "index": 18,
+          "tool": "runtime-build://build/ffprobe",
+          "args": [
+            "-v",
+            "error",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-count_frames",
+            "-show_streams",
+            "-show_format",
+            "-of",
+            "json",
+            "proof://state-1/capability-j2QHfb/h265-cpu-8.mkv"
+          ],
+          "startedAt": "2026-11-18T02:26:11.697Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-probe",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 911,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 2380.859223,
+          "finishedAt": "2026-11-18T02:26:11.708Z",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 19,
+          "tool": "runtime-build://build/ffmpeg",
+          "args": [
+            "-hide_banner",
+            "-nostdin",
+            "-v",
+            "error",
+            "-xerror",
+            "-nostats",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-i",
+            "proof://state-1/capability-j2QHfb/h265-cpu-8.mkv",
+            "-map",
+            "0:v:0",
+            "-progress",
+            "pipe:1",
+            "-f",
+            "null",
+            "-"
+          ],
+          "startedAt": "2026-11-18T02:26:11.777Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-decode",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 912,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 2462.504044,
+          "finishedAt": "2026-11-18T02:26:11.790Z",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 20,
+          "tool": "runtime-build://build/ffmpeg",
+          "args": [
+            "-hide_banner",
+            "-nostdin",
+            "-loglevel",
+            "warning",
+            "-nostats",
+            "-progress",
+            "pipe:1",
+            "-n",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-format_whitelist",
+            "mov,matroska,webm,avi",
+            "-i",
+            "proof://state-1/capability-j2QHfb/input-10.mkv",
+            "-map",
+            "0:0",
+            "-map_metadata",
+            "0",
+            "-map_chapters",
+            "0",
+            "-c",
+            "copy",
+            "-c:v:0",
+            "libx265",
+            "-map_metadata:s:0",
+            "0:s:0",
+            "-disposition:0",
+            "0",
+            "-preset:v:0",
+            "slow",
+            "-crf:v:0",
+            "25",
+            "-x265-params",
+            "aq-mode=3:psy-rd=2",
+            "-pix_fmt:v:0",
+            "+yuv420p10le",
+            "-fps_mode:v:0",
+            "passthrough",
+            "-color_trc:v:0",
+            "bt709",
+            "-color_primaries:v:0",
+            "bt709",
+            "-colorspace:v:0",
+            "bt709",
+            "-color_range:v:0",
+            "tv",
+            "-default_mode",
+            "passthrough",
+            "-f",
+            "matroska",
+            "proof://state-1/capability-j2QHfb/h265-cpu-10.mkv"
+          ],
+          "startedAt": "2026-11-18T02:26:11.864Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-encode",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 937,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 2634.643945,
+          "finishedAt": "2026-11-18T02:26:11.962Z",
+          "stderr": "[vost#0:0 @ 0x56301d54adc0] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx265' will be used.\nx265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n",
+          "stderrCapture": {
+            "totalBytes": 335,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 335,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "a0a06573eff82032e681a6a646fe2b95ad842bc85dfc8c3967090b7bfee7d272"
+        },
+        {
+          "index": 21,
+          "tool": "runtime-build://build/ffprobe",
+          "args": [
+            "-v",
+            "error",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-count_frames",
+            "-show_streams",
+            "-show_format",
+            "-of",
+            "json",
+            "proof://state-1/capability-j2QHfb/h265-cpu-10.mkv"
+          ],
+          "startedAt": "2026-11-18T02:26:12.028Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-probe",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 965,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 2710.340618,
+          "finishedAt": "2026-11-18T02:26:12.038Z",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 22,
+          "tool": "runtime-build://build/ffmpeg",
+          "args": [
+            "-hide_banner",
+            "-nostdin",
+            "-v",
+            "error",
+            "-xerror",
+            "-nostats",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-i",
+            "proof://state-1/capability-j2QHfb/h265-cpu-10.mkv",
+            "-map",
+            "0:v:0",
+            "-progress",
+            "pipe:1",
+            "-f",
+            "null",
+            "-"
+          ],
+          "startedAt": "2026-11-18T02:26:12.098Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-decode",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 966,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 2784.538636,
+          "finishedAt": "2026-11-18T02:26:12.112Z",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 23,
+          "tool": "runtime-build://build/ffmpeg",
+          "args": [
+            "-hide_banner",
+            "-nostdin",
+            "-loglevel",
+            "warning",
+            "-nostats",
+            "-progress",
+            "pipe:1",
+            "-n",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-format_whitelist",
+            "mov,matroska,webm,avi",
+            "-i",
+            "proof://state-1/capability-j2QHfb/input-8.mkv",
+            "-map",
+            "0:0",
+            "-map_metadata",
+            "0",
+            "-map_chapters",
+            "0",
+            "-c",
+            "copy",
+            "-c:v:0",
+            "libsvtav1",
+            "-map_metadata:s:0",
+            "0:s:0",
+            "-disposition:0",
+            "0",
+            "-preset:v:0",
+            "6",
+            "-crf:v:0",
+            "32",
+            "-pix_fmt:v:0",
+            "+yuv420p",
+            "-fps_mode:v:0",
+            "passthrough",
+            "-color_trc:v:0",
+            "bt709",
+            "-color_primaries:v:0",
+            "bt709",
+            "-colorspace:v:0",
+            "bt709",
+            "-color_range:v:0",
+            "tv",
+            "-default_mode",
+            "passthrough",
+            "-f",
+            "matroska",
+            "proof://state-1/capability-j2QHfb/av1-cpu-8.mkv"
+          ],
+          "startedAt": "2026-11-18T02:26:12.175Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-encode",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 991,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 3126.570947,
+          "finishedAt": "2026-11-18T02:26:12.454Z",
+          "stderr": "[vost#0:0 @ 0x56310c1a3940] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libsvtav1' will be used.\nSvt[info]: -------------------------------------------\nSvt[info]: SVT [version]:\tSVT-AV1 Encoder Lib v2.3.0\nSvt[info]: SVT [build]  :\tGCC 14.2.0\t 64 bit\nSvt[info]: -------------------------------------------\nSvt[info]: Level of Parallelism: 4\nSvt[info]: Number of PPCS 107\nSvt[info]: [asm level on system : up to avx512]\nSvt[info]: [asm level selected : up to avx512]\nSvt[info]: -------------------------------------------\nSvt[info]: SVT [config]: main profile\ttier (auto)\tlevel (auto)\nSvt[info]: SVT [config]: width / height / fps numerator / fps denominator \t\t: 320 / 184 / 30 / 1\nSvt[info]: SVT [config]: bit-depth / color format \t\t\t\t\t: 8 / YUV420\nSvt[info]: SVT [config]: preset / tune / pred struct \t\t\t\t\t: 6 / PSNR / random access\nSvt[info]: SVT [config]: gop size / mini-gop size / key-frame type \t\t\t: 161 / 32 / key frame\nSvt[info]: SVT [config]: BRC mode / rate factor \t\t\t\t\t: CRF / 32 \nSvt[info]: SVT [config]: AQ mode / variance boost \t\t\t\t\t: 2 / 0\nSvt[info]: -------------------------------------------\n",
+          "stderrCapture": {
+            "totalBytes": 1181,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 1181,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "24381e409f6b6c537cd64805521ed72c6330fc935437f3ad909433751be169b6"
+        },
+        {
+          "index": 24,
+          "tool": "runtime-build://build/ffprobe",
+          "args": [
+            "-v",
+            "error",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-count_frames",
+            "-show_streams",
+            "-show_format",
+            "-of",
+            "json",
+            "proof://state-1/capability-j2QHfb/av1-cpu-8.mkv"
+          ],
+          "startedAt": "2026-11-18T02:26:12.662Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-probe",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 1083,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 3355.165684,
+          "finishedAt": "2026-11-18T02:26:12.683Z",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 25,
+          "tool": "runtime-build://build/ffmpeg",
+          "args": [
+            "-hide_banner",
+            "-nostdin",
+            "-v",
+            "error",
+            "-xerror",
+            "-nostats",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-i",
+            "proof://state-1/capability-j2QHfb/av1-cpu-8.mkv",
+            "-map",
+            "0:v:0",
+            "-progress",
+            "pipe:1",
+            "-f",
+            "null",
+            "-"
+          ],
+          "startedAt": "2026-11-18T02:26:12.752Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-decode",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 1084,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 3438.337812,
+          "finishedAt": "2026-11-18T02:26:12.766Z",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 26,
+          "tool": "runtime-build://build/ffmpeg",
+          "args": [
+            "-hide_banner",
+            "-nostdin",
+            "-loglevel",
+            "warning",
+            "-nostats",
+            "-progress",
+            "pipe:1",
+            "-n",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-format_whitelist",
+            "mov,matroska,webm,avi",
+            "-i",
+            "proof://state-1/capability-j2QHfb/input-10.mkv",
+            "-map",
+            "0:0",
+            "-map_metadata",
+            "0",
+            "-map_chapters",
+            "0",
+            "-c",
+            "copy",
+            "-c:v:0",
+            "libsvtav1",
+            "-map_metadata:s:0",
+            "0:s:0",
+            "-disposition:0",
+            "0",
+            "-preset:v:0",
+            "6",
+            "-crf:v:0",
+            "32",
+            "-pix_fmt:v:0",
+            "+yuv420p10le",
+            "-fps_mode:v:0",
+            "passthrough",
+            "-color_trc:v:0",
+            "bt709",
+            "-color_primaries:v:0",
+            "bt709",
+            "-colorspace:v:0",
+            "bt709",
+            "-color_range:v:0",
+            "tv",
+            "-default_mode",
+            "passthrough",
+            "-f",
+            "matroska",
+            "proof://state-1/capability-j2QHfb/av1-cpu-10.mkv"
+          ],
+          "startedAt": "2026-11-18T02:26:12.829Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-encode",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 1108,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 3733.282777,
+          "finishedAt": "2026-11-18T02:26:13.061Z",
+          "stderr": "[vost#0:0 @ 0x55a64ff47d80] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libsvtav1' will be used.\nSvt[info]: -------------------------------------------\nSvt[info]: SVT [version]:\tSVT-AV1 Encoder Lib v2.3.0\nSvt[info]: SVT [build]  :\tGCC 14.2.0\t 64 bit\nSvt[info]: -------------------------------------------\nSvt[info]: Level of Parallelism: 4\nSvt[info]: Number of PPCS 107\nSvt[info]: [asm level on system : up to avx512]\nSvt[info]: [asm level selected : up to avx512]\nSvt[info]: -------------------------------------------\nSvt[info]: SVT [config]: main profile\ttier (auto)\tlevel (auto)\nSvt[info]: SVT [config]: width / height / fps numerator / fps denominator \t\t: 320 / 184 / 30 / 1\nSvt[info]: SVT [config]: bit-depth / color format \t\t\t\t\t: 10 / YUV420\nSvt[info]: SVT [config]: preset / tune / pred struct \t\t\t\t\t: 6 / PSNR / random access\nSvt[info]: SVT [config]: gop size / mini-gop size / key-frame type \t\t\t: 161 / 32 / key frame\nSvt[info]: SVT [config]: BRC mode / rate factor \t\t\t\t\t: CRF / 32 \nSvt[info]: SVT [config]: AQ mode / variance boost \t\t\t\t\t: 2 / 0\nSvt[info]: -------------------------------------------\n",
+          "stderrCapture": {
+            "totalBytes": 1182,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 1182,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "a1e04cf39c35a5b92eafce3d1ea45e5701ee9d6c847d04a171b8f4a477ffa266"
+        },
+        {
+          "index": 27,
+          "tool": "runtime-build://build/ffprobe",
+          "args": [
+            "-v",
+            "error",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-count_frames",
+            "-show_streams",
+            "-show_format",
+            "-of",
+            "json",
+            "proof://state-1/capability-j2QHfb/av1-cpu-10.mkv"
+          ],
+          "startedAt": "2026-11-18T02:26:13.124Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-probe",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 1200,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 3808.335371,
+          "finishedAt": "2026-11-18T02:26:13.136Z",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 28,
+          "tool": "runtime-build://build/ffmpeg",
+          "args": [
+            "-hide_banner",
+            "-nostdin",
+            "-v",
+            "error",
+            "-xerror",
+            "-nostats",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-i",
+            "proof://state-1/capability-j2QHfb/av1-cpu-10.mkv",
+            "-map",
+            "0:v:0",
+            "-progress",
+            "pipe:1",
+            "-f",
+            "null",
+            "-"
+          ],
+          "startedAt": "2026-11-18T02:26:13.198Z",
+          "spawned": true,
+          "phase": "startup",
+          "classification": "startup-decode",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 1201,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 3883.467695,
+          "finishedAt": "2026-11-18T02:26:13.211Z",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 29,
+          "tool": "runtime-build://build/ffprobe",
+          "args": [
+            "-v",
+            "error",
+            "-show_format",
+            "-show_streams",
+            "-of",
+            "json",
+            "proof://long-mov-input/source.mov"
+          ],
+          "startedAt": "2026-11-18T02:26:13.427Z",
+          "spawned": true,
+          "phase": "source-probe",
+          "classification": "metadata-probe",
+          "timeoutMs": 120000,
+          "session": 1,
+          "pid": 1225,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 4118.43887,
+          "finishedAt": "2026-11-18T02:26:13.446Z",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 30,
+          "tool": "runtime-build://build/ffprobe",
+          "args": [
+            "-v",
+            "error",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-format_whitelist",
+            "mov,matroska,webm,avi,mpegts",
+            "-show_streams",
+            "-show_format",
+            "-show_chapters",
+            "-show_programs",
+            "-show_stream_groups",
+            "-show_data_hash",
+            "sha256",
+            "-of",
+            "json",
+            "-i",
+            "proof://long-mov-input/source.mov"
+          ],
+          "startedAt": "2026-11-18T02:26:13.599Z",
+          "spawned": true,
+          "phase": "preparation",
+          "classification": "metadata-probe",
+          "timeoutMs": 30000,
+          "session": 1,
+          "pid": 1226,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 4293.305343,
+          "finishedAt": "2026-11-18T02:26:13.621Z",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 31,
+          "tool": "runtime-build://build/ffprobe",
+          "args": [
+            "-v",
+            "error",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-format_whitelist",
+            "mov,matroska,webm,avi,mpegts",
+            "-select_streams",
+            "0",
+            "-read_intervals",
+            "0.000000%2.000000",
+            "-show_frames",
+            "-show_entries",
+            "frame=media_type,stream_index,best_effort_timestamp,best_effort_timestamp_time,pts,pts_time,duration,duration_time,width,height,pix_fmt,sample_aspect_ratio,interlaced_frame,top_field_first,repeat_pict,color_transfer,color_primaries,color_space,color_range,chroma_location:frame_side_data",
+            "-of",
+            "json",
+            "-i",
+            "proof://long-mov-input/source.mov"
+          ],
+          "startedAt": "2026-11-18T02:26:13.687Z",
+          "spawned": true,
+          "phase": "preparation",
+          "classification": "metadata-probe",
+          "timeoutMs": 20000,
+          "session": 1,
+          "pid": 1227,
+          "closeCode": 0,
+          "closeSignal": null,
+          "closed": true,
+          "closeMonotonicMs": 4694.983701,
+          "finishedAt": "2026-11-18T02:26:14.022Z",
+          "stderr": "",
+          "stderrCapture": {
+            "totalBytes": 0,
+            "truncated": false
+          },
+          "stderrCaptureKnown": true,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": true,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 32,
+          "tool": "runtime-build://build/ffprobe",
+          "args": [
+            "-v",
+            "error",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-format_whitelist",
+            "mov,matroska,webm,avi,mpegts",
+            "-select_streams",
+            "0",
+            "-read_intervals",
+            "75.000000%76.000000",
+            "-show_frames",
+            "-show_entries",
+            "frame=media_type,stream_index,best_effort_timestamp,best_effort_timestamp_time,pts,pts_time,duration,duration_time,width,height,pix_fmt,sample_aspect_ratio,interlaced_frame,top_field_first,repeat_pict,color_transfer,color_primaries,color_space,color_range,chroma_location:frame_side_data",
+            "-of",
+            "json",
+            "-i",
+            "proof://long-mov-input/source.mov"
+          ],
+          "startedAt": "2026-11-18T02:26:14.089Z",
+          "spawned": false,
+          "phase": "preparation",
+          "failure": {
+            "code": "ERR_ASSERTION",
+            "message": "Unlisted invocation shape/phase"
+          },
+          "finishedAt": "2026-11-18T02:26:14.092Z",
+          "stderr": "",
+          "stderrCapture": null,
+          "stderrCaptureKnown": false,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": false,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 33,
+          "tool": "runtime-build://build/ffprobe",
+          "args": [
+            "-v",
+            "error",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-format_whitelist",
+            "mov,matroska,webm,avi,mpegts",
+            "-select_streams",
+            "0",
+            "-read_intervals",
+            "148.000000%150.000000",
+            "-show_frames",
+            "-show_entries",
+            "frame=media_type,stream_index,best_effort_timestamp,best_effort_timestamp_time,pts,pts_time,duration,duration_time,width,height,pix_fmt,sample_aspect_ratio,interlaced_frame,top_field_first,repeat_pict,color_transfer,color_primaries,color_space,color_range,chroma_location:frame_side_data",
+            "-of",
+            "json",
+            "-i",
+            "proof://long-mov-input/source.mov"
+          ],
+          "startedAt": "2026-11-18T02:26:14.149Z",
+          "spawned": false,
+          "phase": "preparation",
+          "failure": {
+            "code": "ERR_ASSERTION",
+            "message": "Unlisted invocation shape/phase"
+          },
+          "finishedAt": "2026-11-18T02:26:14.151Z",
+          "stderr": "",
+          "stderrCapture": null,
+          "stderrCaptureKnown": false,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": false,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "census": {
+        "spawned": 31,
+        "closed": 31,
+        "live": 0,
+        "maximum": 1,
+        "progressChildren": 12,
+        "targetEncodes": 0
+      },
+      "limitations": [
+        "Finite long/cancellation/new-instance proof only; no native/OS reveal/PCM/arbitrary-length/same-service recovery qualification.",
+        "Metadata before encoding; complete decoded source after encoding before publication.",
+        "Pre-child disk/size admission is not a hard active-write cap.",
+        "Abort request is not a guaranteed whole-process exit bound."
+      ],
+      "roleCounts": {
+        "startup-version": 2,
+        "startup-fixture-encode": 4,
+        "startup-probe": 10,
+        "startup-encode": 6,
+        "startup-decode": 6,
+        "metadata-probe": 3
+      },
+      "failure": {
+        "code": "ERR_ASSERTION",
+        "message": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'unsupported'\n- 'ready'\n"
+      },
+      "failedSnapshot": {
+        "revision": 12,
+        "batchId": "4a40f08f-fd27-46f8-a5b3-045c16057ad5",
+        "phase": "ready",
+        "planId": "441859b2-ffb5-43a5-8471-9208065fe43b",
+        "settings": {
+          "profileId": "h265-cpu",
+          "preset": "slow",
+          "quality": 25
+        },
+        "items": [
+          {
+            "id": "eed66e3d-a2c5-4d71-8daa-ed94a74dd982",
+            "name": "source.mov",
+            "outputName": "source_H265-CPU.mkv",
+            "status": "unsupported",
+            "reason": "A required decoded-frame color sample failed.",
+            "reencodeAuthorized": false,
+            "operationRequest": {
+              "version": 1,
+              "fileId": "eed66e3d-a2c5-4d71-8daa-ed94a74dd982",
+              "identityRevision": 0,
+              "draftRevision": 0,
+              "operation": "encode",
+              "appDefaultsRevision": 0,
+              "target": "matroska",
+              "resolution": "source",
+              "hdrPolicy": "preserve",
+              "range": null,
+              "audioPolicy": "copy",
+              "aacBitrateKbps": null,
+              "origins": {
+                "target": "factory",
+                "resolution": "app",
+                "hdrPolicy": "app",
+                "range": "factory",
+                "audioPolicy": "app",
+                "aacBitrateKbps": "factory"
+              },
+              "omissionRequestIds": [],
+              "omissionAuthority": "unbound-request-ids"
+            },
+            "inspectionMethod": "fresh",
+            "origin": {
+              "kind": "original",
+              "reason": "No application-generated provenance was detected."
+            },
+            "summary": {
+              "selectedVideoIndex": 0,
+              "codec": "h264",
+              "width": 1920,
+              "height": 1080,
+              "pixelFormat": "yuv420p",
+              "bitDepth": 8,
+              "frameRate": 30,
+              "streamCounts": {
+                "video": 1,
+                "audio": 1
+              },
+              "durationSeconds": 150,
+              "sampling": [
+                {
+                  "label": "start",
+                  "start": 0,
+                  "seconds": 2,
+                  "interval": "0.000000%2.000000",
+                  "succeeded": true,
+                  "frames": 57,
+                  "framesInWindow": 57,
+                  "observedStart": 0,
+                  "observedEnd": 1.866667
+                },
+                {
+                  "label": "middle",
+                  "start": 75,
+                  "seconds": 1,
+                  "interval": "75.000000%76.000000",
+                  "succeeded": false,
+                  "code": "ERR_ASSERTION",
+                  "reason": "Unlisted invocation shape/phase"
+                },
+                {
+                  "label": "end",
+                  "start": 148,
+                  "seconds": 2,
+                  "interval": "148.000000%150.000000",
+                  "succeeded": false,
+                  "code": "ERR_ASSERTION",
+                  "reason": "Unlisted invocation shape/phase"
+                }
+              ],
+              "samplingLimit": "Bounded metadata samples cannot prove the absence of untagged HDR or HDR outside inspected frames. Demuxer seeking may begin at an earlier keyframe.",
+              "metadataNotices": [],
+              "boundedFrameProperties": {
+                "scope": "bounded-decoded-windows-only",
+                "complete": false,
+                "decodedFrames": 57,
+                "scan": "progressive-observed",
+                "geometry": {
+                  "width": {
+                    "complete": true,
+                    "values": [
+                      1920
+                    ]
+                  },
+                  "height": {
+                    "complete": true,
+                    "values": [
+                      1080
+                    ]
+                  },
+                  "pix_fmt": {
+                    "complete": true,
+                    "values": [
+                      "yuv420p"
+                    ]
+                  },
+                  "sample_aspect_ratio": {
+                    "complete": true,
+                    "values": [
+                      "1:1"
+                    ]
+                  }
+                },
+                "color": {
+                  "color_transfer": {
+                    "complete": true,
+                    "values": [
+                      "bt709"
+                    ]
+                  },
+                  "color_primaries": {
+                    "complete": true,
+                    "values": [
+                      "bt709"
+                    ]
+                  },
+                  "color_space": {
+                    "complete": true,
+                    "values": [
+                      "bt709"
+                    ]
+                  },
+                  "color_range": {
+                    "complete": true,
+                    "values": [
+                      "tv"
+                    ]
+                  }
+                },
+                "limitation": "Observed frames do not prove unchanged scan, geometry, color or metadata outside the inspected windows."
+              }
+            },
+            "rangeLimitUs": 150000000,
+            "reasonCode": "UNSUPPORTED_COLOR"
+          }
+        ],
+        "progress": null,
+        "counts": {
+          "success": 0,
+          "failed": 1,
+          "skipped": 0,
+          "cancelled": 0,
+          "unprocessed": 0
+        },
+        "elapsedSeconds": 0.705,
+        "error": null,
+        "operation": "encode",
+        "remuxSupport": {
+          "targets": [
+            "matroska",
+            "mp4",
+            "mov"
+          ],
+          "notice": "Full stream copy only. Each source/target and every retained stream needs a qualified preservation path; unsupported cases are explained per file."
+        },
+        "diagnostics": {
+          "available": true,
+          "incomplete": false,
+          "failures": 0,
+          "lastFailure": null,
+          "notices": [],
+          "sessionId": "92cffd7f-64bc-48bf-8b3a-77e288baa72f"
+        },
+        "provenanceRecovery": {
+          "matching": 0,
+          "absent": 0,
+          "unrelated": 0,
+          "uncertain": 0,
+          "pendingRemaining": 0,
+          "warnings": []
+        },
+        "encodingSettingsStale": false,
+        "operationDraft": {
+          "id": "66466275-bf30-4ee7-8e22-24e27a254aa3",
+          "revision": 0,
+          "operation": "encode",
+          "frozen": false,
+          "batchDefaults": {
+            "version": 1,
+            "appDefaultsRevision": 0,
+            "values": {
+              "fullAudioPolicy": "copy",
+              "rangeAudioPolicy": "precision-aac",
+              "resolution": "source",
+              "hdrPolicy": "preserve",
+              "remuxTarget": "matroska"
+            },
+            "origins": {
+              "fullAudioPolicy": "app",
+              "rangeAudioPolicy": "app",
+              "resolution": "app",
+              "hdrPolicy": "app",
+              "remuxTarget": "app"
+            }
+          },
+          "files": [
+            {
+              "fileId": "eed66e3d-a2c5-4d71-8daa-ed94a74dd982",
+              "request": {
+                "version": 1,
+                "fileId": "eed66e3d-a2c5-4d71-8daa-ed94a74dd982",
+                "identityRevision": 0,
+                "draftRevision": 0,
+                "operation": "encode",
+                "appDefaultsRevision": 0,
+                "target": "matroska",
+                "resolution": "source",
+                "hdrPolicy": "preserve",
+                "range": null,
+                "audioPolicy": "copy",
+                "aacBitrateKbps": null,
+                "origins": {
+                  "target": "factory",
+                  "resolution": "app",
+                  "hdrPolicy": "app",
+                  "range": "factory",
+                  "audioPolicy": "app",
+                  "aacBitrateKbps": "factory"
+                },
+                "omissionRequestIds": [],
+                "omissionAuthority": "unbound-request-ids"
+              },
+              "overrides": {}
+            }
+          ]
+        },
+        "preparation": {
+          "total": 1,
+          "resolved": 1,
+          "reused": 0,
+          "inspected": 1,
+          "active": 0,
+          "workers": [],
+          "stage": "frames",
+          "fileId": "eed66e3d-a2c5-4d71-8daa-ed94a74dd982",
+          "notice": "Persistent reuse is accepted only on local Windows NTFS storage.",
+          "window": "end"
+        }
+      },
+      "diagnosticsComplete": true,
+      "postCloseSourceHashCount": 594,
+      "postCloseIdentityChecked": true,
+      "ownedBytesAtClose": "112222979",
+      "freeBytesAtClose": "58312634368",
+      "artifacts": [
+        {
+          "path": "001-started.json",
+          "bytes": 69663,
+          "sha256": "b47e799fcd95f299f71f921a78574bad4c98bb79e9d0ccab14ca35bbc325f90a"
+        },
+        {
+          "path": "002-session-1.json",
+          "bytes": 19983,
+          "sha256": "e0b67f89a4e7f6dab6dd7c40101cc39b4ca289c6af14494ad778010e6abc07fb"
+        },
+        {
+          "path": "child-diagnostics/001.json",
+          "bytes": 781,
+          "sha256": "c9b6cbb74ef9ceb7a535e412f8c7b29722ab251f7891d75c23bbf68c2b5efc3e"
+        },
+        {
+          "path": "child-diagnostics/002.json",
+          "bytes": 782,
+          "sha256": "e39f9d0ed218f8496c5156a44a853169806e472f37c9899f078a102208953a35"
+        },
+        {
+          "path": "child-diagnostics/003.json",
+          "bytes": 1467,
+          "sha256": "6577b35b09a61e576dae834686c1ff53f8e1e6e895c1cef0661bcebb342f5d48"
+        },
+        {
+          "path": "child-diagnostics/004.json",
+          "bytes": 1079,
+          "sha256": "e13f6b7d4ec8ca23777102e2115ae00089d3d273e9b7a3bc42c702a83da57b32"
+        },
+        {
+          "path": "child-diagnostics/005.json",
+          "bytes": 1477,
+          "sha256": "7f19072c32120f740a811eda0a27b7bd2305790eaeea49a1b9e5d220e81bc180"
+        },
+        {
+          "path": "child-diagnostics/006.json",
+          "bytes": 1080,
+          "sha256": "5356f5d783c3b42db1b1efaa4d42af6857e5ce3147a7a5247ee18b436d42439e"
+        },
+        {
+          "path": "child-diagnostics/007.json",
+          "bytes": 1476,
+          "sha256": "15739a9c75f9f5435258a6d6855f455e77804a165b2a6c2054928c30cccfa515"
+        },
+        {
+          "path": "child-diagnostics/008.json",
+          "bytes": 1086,
+          "sha256": "99e7809df30e85b9fff98fc1c6e39f27e2aba020e8f002c3d53379cf4f68829f"
+        },
+        {
+          "path": "child-diagnostics/009.json",
+          "bytes": 1485,
+          "sha256": "0a8e1d65932aae3c48975ff0ad88efd956d40790c2d3c3586e2be804e484b777"
+        },
+        {
+          "path": "child-diagnostics/010.json",
+          "bytes": 1088,
+          "sha256": "dd410ada85ad6a97ef38b942bd9544284a76fc2295d1693a856166184333cf48"
+        },
+        {
+          "path": "child-diagnostics/011.json",
+          "bytes": 2090,
+          "sha256": "672522f1a644ebbbcaf20224a0c83df6a7c89e8598d5f07decf867eb05116e64"
+        },
+        {
+          "path": "child-diagnostics/012.json",
+          "bytes": 1104,
+          "sha256": "3094b8d802eee218f20345afbf6d18adb994d296a75d20cd82f5705e45ae9098"
+        },
+        {
+          "path": "child-diagnostics/013.json",
+          "bytes": 1183,
+          "sha256": "62a3ad2bbc44c4d10ff42f8821d331a9d842da5da3ed8a877dddcbaa46f81b1b"
+        },
+        {
+          "path": "child-diagnostics/014.json",
+          "bytes": 2096,
+          "sha256": "f6f3e5d33276e525990edeacde0b137ac52b0ed808c1bbba619be028595e65b6"
+        },
+        {
+          "path": "child-diagnostics/015.json",
+          "bytes": 1105,
+          "sha256": "c2dc6e90a940439af6512f405a0c82b2ced27a87cbb6f81ee3ed6d0e6aff8462"
+        },
+        {
+          "path": "child-diagnostics/016.json",
+          "bytes": 1184,
+          "sha256": "9b4421831dbae0ff9783949db5eb0d5d5fef8df225f02a3142e796cf498481ce"
+        },
+        {
+          "path": "child-diagnostics/017.json",
+          "bytes": 2305,
+          "sha256": "139ec56ecf6599172e3fca3aad6ea33c6ba2a3f80a324f16e5e3c5b4e0ef444c"
+        },
+        {
+          "path": "child-diagnostics/018.json",
+          "bytes": 1104,
+          "sha256": "0723b1117920b9ad166a8258a7d8a7aea8469b213423e9bec3b4fa374a80ee75"
+        },
+        {
+          "path": "child-diagnostics/019.json",
+          "bytes": 1183,
+          "sha256": "b63462efd6c51060cde60797f42e226fb407e64fc291cfeaf45c408e6ab4ce70"
+        },
+        {
+          "path": "child-diagnostics/020.json",
+          "bytes": 2311,
+          "sha256": "8fdd1e8c24cd31f9e682ad50ea3d99b7e06a4fb90ab04490608a62e4013e1fff"
+        },
+        {
+          "path": "child-diagnostics/021.json",
+          "bytes": 1105,
+          "sha256": "76959dd65f8839bd767fee1912c78b8239bab3bf020d0503a2ed1f094c1eabd1"
+        },
+        {
+          "path": "child-diagnostics/022.json",
+          "bytes": 1184,
+          "sha256": "95082bbcbcbf334e87724c76a87e43ef252c368e1344ac558a20560cec9d63c9"
+        },
+        {
+          "path": "child-diagnostics/023.json",
+          "bytes": 3149,
+          "sha256": "e7af48e58caa4881fc13c954aac9032e6236e41f1354a927c1f1a87124c03e9d"
+        },
+        {
+          "path": "child-diagnostics/024.json",
+          "bytes": 1104,
+          "sha256": "2a9845dc402f51e73ddfad7812f2d7428fd52e2d2a703a2c0ac1da51d5ae0884"
+        },
+        {
+          "path": "child-diagnostics/025.json",
+          "bytes": 1183,
+          "sha256": "ac569d82ef09be44ce57853784297787d30205fe419a2fefbe123e6289267aa7"
+        },
+        {
+          "path": "child-diagnostics/026.json",
+          "bytes": 3157,
+          "sha256": "6a63255e6f43e9b14bb48bb34ce0fb54f3f22b185c1d06794889879a87bd6df9"
+        },
+        {
+          "path": "child-diagnostics/027.json",
+          "bytes": 1105,
+          "sha256": "75fdc3c986dd0ad3afe35b268805e58517b583f8cee901b8e06079d79e8fff99"
+        },
+        {
+          "path": "child-diagnostics/028.json",
+          "bytes": 1184,
+          "sha256": "dc65e71a55fe1ebb9d70faf2c47f7399ce9ce5a2dcadc7bc3fbbb9c35fd0a3d1"
+        },
+        {
+          "path": "child-diagnostics/029.json",
+          "bytes": 1031,
+          "sha256": "e69208b654ebd6ec6c75d0f5b4bc831b8e61a026059fce6882353993ef4646b9"
+        },
+        {
+          "path": "child-diagnostics/030.json",
+          "bytes": 1253,
+          "sha256": "6766be91eae0472ebc31509c2b428fbdf2b2601581fe8caad57acb618e92001e"
+        },
+        {
+          "path": "child-diagnostics/031.json",
+          "bytes": 1520,
+          "sha256": "d90a65fc17acfbf530acefb28e9457815362eacc58e759f8800f8145870240fc"
+        },
+        {
+          "path": "child-diagnostics/032.json",
+          "bytes": 1393,
+          "sha256": "afa4fb41202628fa3e0cfca6ce699bfe3b7d6d42986fdd59dd5706aa158b1e64"
+        },
+        {
+          "path": "child-diagnostics/033.json",
+          "bytes": 1395,
+          "sha256": "2cfee17264211af8c82d74a2a2f4a94122e7ecf677497a2a5792c5ed536a9404"
+        },
+        {
+          "path": "heldout-mp4-input/source.mp4",
+          "bytes": 7250606,
+          "sha256": "b9e375498e5c74af6f4a44b1ebcbcbf3d4f9d358609c2f0ddd4ec8d7a5d21b5c"
+        },
+        {
+          "path": "long-mov-input/source.mov",
+          "bytes": 104812003,
+          "sha256": "62ed1672e3a2c16540bd0bf477fe7ef687cbee0349697cb0aea609fe8b7b92e0"
+        },
+        {
+          "path": "long-mov-source-probe.json",
+          "bytes": 4648,
+          "sha256": "66b1b23afd38e0f94c88d8f99154f8645ccd71b2675749adcbd96093a017b364"
+        },
+        {
+          "path": "state-1/diagnostics-v1/events/32ecb140-66d8-4f3a-b819-e34bd7789991.json",
+          "bytes": 742,
+          "sha256": "75377805c887c1982ab4293dde83f4f553501f0197f0a14f1a767aa7d5d79640"
+        },
+        {
+          "path": "state-1/diagnostics-v1/events/3609ac49-aa21-4de0-b7fa-582d12bb5211.json",
+          "bytes": 533,
+          "sha256": "80d445d0bb321731760485c83f37a0fef5d3d32b0af8403925bb6debd7a39d7c"
+        },
+        {
+          "path": "state-1/diagnostics-v1/events/3ee13ee2-b6fb-4670-aada-34c63ffb66ab.json",
+          "bytes": 11843,
+          "sha256": "eefae5023fc8cfd2314d097a03436f7bb2593a56a2b4e39254de7ef87a522545"
+        },
+        {
+          "path": "state-1/diagnostics-v1/events/654271dd-ebb4-405b-9c79-9edb9f107569.json",
+          "bytes": 442,
+          "sha256": "278d8e68fedfd5befe5a0430bcffca24be1d2d15e0a8ea0dcfb38fc2aa6323ca"
+        },
+        {
+          "path": "state-1/diagnostics-v1/events/a147a241-7338-4e9b-9cb2-1a3872f32282.json",
+          "bytes": 388,
+          "sha256": "1f77f4c28d01a58606be405a2d81abf98bca22e49fbc8fb2a25088ce0bbdf509"
+        },
+        {
+          "path": "state-1/diagnostics-v1/events/a74f7748-fe69-448b-a585-3e425472c2f0.json",
+          "bytes": 2513,
+          "sha256": "00ddc0d676fa8d5e53d1f649d9deb03fcecb5ed29ccf8061fac044564602e7bb"
+        },
+        {
+          "path": "state-1/diagnostics-v1/events/aacef55e-010d-42b7-85ec-0b4ad73cecc7.json",
+          "bytes": 868,
+          "sha256": "f869edcdfea885e6b9efca30935de774f535d83585dc273f61c80e691fe15f3b"
+        },
+        {
+          "path": "state-1/diagnostics-v1/events/c5d59204-7323-4c7e-a07f-c81409755423.json",
+          "bytes": 358,
+          "sha256": "882639fd62f51a761900f4ff030cbbdf36a97cceceafd44d394685140ac0046a"
+        },
+        {
+          "path": "state-1/diagnostics-v1/events/cef7d103-6cbf-4aab-87c4-19e681a7fcdf.json",
+          "bytes": 480,
+          "sha256": "6e20e555353a443f278c4603210c512acd82398f0ee70f30cf3af20f07febe66"
+        },
+        {
+          "path": "state-1/diagnostics-v1/stderr/a74f7748-fe69-448b-a585-3e425472c2f0.txt",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "state-1/localpreferences-v1/preferences.json",
+          "bytes": 680,
+          "sha256": "5e9f95c356fe94f852c1fa3b1363977a5c57b1de959b5ab15b815b71be5bcb14"
+        }
+      ],
+      "finishedAt": "2026-11-18T02:26:15.019Z",
+      "elapsedMs": 5691.21007,
+      "wallElapsedMs": 5692
+    },
+    "audit": {
+      "atUtc": "2026-11-18T02:28:11.524377+00:00",
+      "disposition": "Failed retained helper experiment before any target. Exact argv allowlist rejected two required inspection samples; not evidence of unsupported source media, failed encoding or failed application qualification.",
+      "reportSha256": "8cc41be4b26412a6dc53efbc81f37177e23f45a77d42cb5532bb72b3a7be9615",
+      "completionSha256": "199ca65453cc32d1a1ea74ee602269aa68b82bd1df2dcb0ed8f4e4085440a21f",
+      "outerSha256": "30a937b099a0784d87485de126c7f2425ce834997d21b9ebf77820c22d115019",
+      "workerHandoffSha256": "68a419e6bfffda4dbf964fa491915b84411de59010684c4ff6d21c6d75410456",
+      "sourceCommit": "89489aa03e096aa1eff5c0c72160774f235efe6e",
+      "sourceFilesGitCurrentPublicationNotionVerified": 594,
+      "historyCommits": 30,
+      "runtimePinsVerified": 9,
+      "manifestFilesAndPriorProofsVerified": 38,
+      "savedArtifactRowsVerified": 49,
+      "outer": {
+        "startedAt": "2026-11-18T02:26:06.478Z",
+        "endedAt": "2026-11-18T02:26:15.033Z",
+        "elapsedMs": 8555.143829,
+        "wallElapsedMs": 8555,
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "stdoutSha256": "d9811217d7367a8a6e49effd3e0b60f6666245a806cacdaea21d89dea5045dcb",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "census": {
+        "spawned": 31,
+        "closed": 31,
+        "live": 0,
+        "maximum": 1,
+        "progressChildren": 12,
+        "targetEncodes": 0
+      },
+      "roleCounts": {
+        "startup-version": 2,
+        "startup-fixture-encode": 4,
+        "startup-probe": 10,
+        "startup-encode": 6,
+        "startup-decode": 6,
+        "metadata-probe": 3
+      },
+      "refusedBeforeSpawn": [
+        {
+          "index": 32,
+          "tool": "runtime-build://build/ffprobe",
+          "args": [
+            "-v",
+            "error",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-format_whitelist",
+            "mov,matroska,webm,avi,mpegts",
+            "-select_streams",
+            "0",
+            "-read_intervals",
+            "75.000000%76.000000",
+            "-show_frames",
+            "-show_entries",
+            "frame=media_type,stream_index,best_effort_timestamp,best_effort_timestamp_time,pts,pts_time,duration,duration_time,width,height,pix_fmt,sample_aspect_ratio,interlaced_frame,top_field_first,repeat_pict,color_transfer,color_primaries,color_space,color_range,chroma_location:frame_side_data",
+            "-of",
+            "json",
+            "-i",
+            "proof://long-mov-input/source.mov"
+          ],
+          "startedAt": "2026-11-18T02:26:14.089Z",
+          "spawned": false,
+          "phase": "preparation",
+          "failure": {
+            "code": "ERR_ASSERTION",
+            "message": "Unlisted invocation shape/phase"
+          },
+          "finishedAt": "2026-11-18T02:26:14.092Z",
+          "stderr": "",
+          "stderrCapture": null,
+          "stderrCaptureKnown": false,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": false,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "index": 33,
+          "tool": "runtime-build://build/ffprobe",
+          "args": [
+            "-v",
+            "error",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-format_whitelist",
+            "mov,matroska,webm,avi,mpegts",
+            "-select_streams",
+            "0",
+            "-read_intervals",
+            "148.000000%150.000000",
+            "-show_frames",
+            "-show_entries",
+            "frame=media_type,stream_index,best_effort_timestamp,best_effort_timestamp_time,pts,pts_time,duration,duration_time,width,height,pix_fmt,sample_aspect_ratio,interlaced_frame,top_field_first,repeat_pict,color_transfer,color_primaries,color_space,color_range,chroma_location:frame_side_data",
+            "-of",
+            "json",
+            "-i",
+            "proof://long-mov-input/source.mov"
+          ],
+          "startedAt": "2026-11-18T02:26:14.149Z",
+          "spawned": false,
+          "phase": "preparation",
+          "failure": {
+            "code": "ERR_ASSERTION",
+            "message": "Unlisted invocation shape/phase"
+          },
+          "finishedAt": "2026-11-18T02:26:14.151Z",
+          "stderr": "",
+          "stderrCapture": null,
+          "stderrCaptureKnown": false,
+          "stderrTruncated": false,
+          "stderrRetainedBytes": 0,
+          "stderrCompleteAtSave": false,
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "causalChain": [
+        "Actual first preparation metadata and start frame sample succeeded. Middle75–76s and end148–150s ffprobe argv do not match any fixed normalized role template. Admission rejects before process spawn.",
+        "Both sample failures retained ERR_ASSERTION/Unlisted invocation shape/phase. Source inspection requires these decoded color samples and returns unsupported/UNSUPPORTED_COLOR.",
+        "Helper expected initial compatibility ready status and fails its assertion. No explicit720 reprepare, target, collector or output publication occurs."
+      ],
+      "closures": [
+        {
+          "reason": "failed",
+          "settled": true,
+          "live": 0
+        }
+      ],
+      "sourcesOriginalAndOwned": [
+        {
+          "id": "long-mov",
+          "file": "source.mov",
+          "bytes": 104812003,
+          "sha256": "62ed1672e3a2c16540bd0bf477fe7ef687cbee0349697cb0aea609fe8b7b92e0",
+          "extentUs": 150000000,
+          "expected": {
+            "frames": 4500,
+            "samples": 7200000,
+            "padding": 768
+          },
+          "path": "proof://long-mov-input/source.mov",
+          "input": "proof://long-mov-input",
+          "output": "proof://long-mov-output",
+          "original": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/long-mov/source.mov"
+        },
+        {
+          "id": "heldout-mp4",
+          "file": "source.mp4",
+          "bytes": 7250606,
+          "sha256": "b9e375498e5c74af6f4a44b1ebcbcbf3d4f9d358609c2f0ddd4ec8d7a5d21b5c",
+          "extentUs": 11000000,
+          "expected": {
+            "frames": 330,
+            "samples": 528000,
+            "padding": 384
+          },
+          "path": "proof://heldout-mp4-input/source.mp4",
+          "input": "proof://heldout-mp4-input",
+          "output": "proof://heldout-mp4-output",
+          "original": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/heldout-mp4/source.mp4"
+        }
+      ],
+      "failure": {
+        "code": "ERR_ASSERTION",
+        "message": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'unsupported'\n- 'ready'\n"
+      },
+      "unreached": [
+        "explicit720 preparation",
+        "long target publication",
+        "existing-output refusal",
+        "active target cancellation",
+        "fresh instance11s recovery",
+        "OutputAccess sink checks"
+      ],
+      "diagnostics": {
+        "actualSpawnedRows": 31,
+        "allSpawnedClosedZero": true,
+        "allSpawnedSavedStderrCompleteUntruncated": true,
+        "nonemptyStderr": [
+          {
+            "index": 11,
+            "classification": "startup-encode",
+            "stderr": "[vost#0:0 @ 0x5570804e7940] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx264' will be used.\n",
+            "sha256": "07e28461915b20e9e0399b6d99dc71bd01ae36322c81ed3d03f0e5c4aa987b43"
+          },
+          {
+            "index": 14,
+            "classification": "startup-encode",
+            "stderr": "[vost#0:0 @ 0x5639d9914d80] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx264' will be used.\n",
+            "sha256": "fe7543e8b4c7af0f4caac85a0e1e1c7712ba6f937e44986d6d6eaf47462548b5"
+          },
+          {
+            "index": 17,
+            "classification": "startup-encode",
+            "stderr": "[vost#0:0 @ 0x5586e0874980] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx265' will be used.\nx265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n",
+            "sha256": "44ffddab589bc7b2e9ddb338043bb9436f582b50609af178682b3e53d4af3f55"
+          },
+          {
+            "index": 20,
+            "classification": "startup-encode",
+            "stderr": "[vost#0:0 @ 0x56301d54adc0] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx265' will be used.\nx265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n",
+            "sha256": "a0a06573eff82032e681a6a646fe2b95ad842bc85dfc8c3967090b7bfee7d272"
+          },
+          {
+            "index": 23,
+            "classification": "startup-encode",
+            "stderr": "[vost#0:0 @ 0x56310c1a3940] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libsvtav1' will be used.\nSvt[info]: -------------------------------------------\nSvt[info]: SVT [version]:\tSVT-AV1 Encoder Lib v2.3.0\nSvt[info]: SVT [build]  :\tGCC 14.2.0\t 64 bit\nSvt[info]: -------------------------------------------\nSvt[info]: Level of Parallelism: 4\nSvt[info]: Number of PPCS 107\nSvt[info]: [asm level on system : up to avx512]\nSvt[info]: [asm level selected : up to avx512]\nSvt[info]: -------------------------------------------\nSvt[info]: SVT [config]: main profile\ttier (auto)\tlevel (auto)\nSvt[info]: SVT [config]: width / height / fps numerator / fps denominator \t\t: 320 / 184 / 30 / 1\nSvt[info]: SVT [config]: bit-depth / color format \t\t\t\t\t: 8 / YUV420\nSvt[info]: SVT [config]: preset / tune / pred struct \t\t\t\t\t: 6 / PSNR / random access\nSvt[info]: SVT [config]: gop size / mini-gop size / key-frame type \t\t\t: 161 / 32 / key frame\nSvt[info]: SVT [config]: BRC mode / rate factor \t\t\t\t\t: CRF / 32 \nSvt[info]: SVT [config]: AQ mode / variance boost \t\t\t\t\t: 2 / 0\nSvt[info]: -------------------------------------------\n",
+            "sha256": "24381e409f6b6c537cd64805521ed72c6330fc935437f3ad909433751be169b6"
+          },
+          {
+            "index": 26,
+            "classification": "startup-encode",
+            "stderr": "[vost#0:0 @ 0x55a64ff47d80] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libsvtav1' will be used.\nSvt[info]: -------------------------------------------\nSvt[info]: SVT [version]:\tSVT-AV1 Encoder Lib v2.3.0\nSvt[info]: SVT [build]  :\tGCC 14.2.0\t 64 bit\nSvt[info]: -------------------------------------------\nSvt[info]: Level of Parallelism: 4\nSvt[info]: Number of PPCS 107\nSvt[info]: [asm level on system : up to avx512]\nSvt[info]: [asm level selected : up to avx512]\nSvt[info]: -------------------------------------------\nSvt[info]: SVT [config]: main profile\ttier (auto)\tlevel (auto)\nSvt[info]: SVT [config]: width / height / fps numerator / fps denominator \t\t: 320 / 184 / 30 / 1\nSvt[info]: SVT [config]: bit-depth / color format \t\t\t\t\t: 10 / YUV420\nSvt[info]: SVT [config]: preset / tune / pred struct \t\t\t\t\t: 6 / PSNR / random access\nSvt[info]: SVT [config]: gop size / mini-gop size / key-frame type \t\t\t: 161 / 32 / key frame\nSvt[info]: SVT [config]: BRC mode / rate factor \t\t\t\t\t: CRF / 32 \nSvt[info]: SVT [config]: AQ mode / variance boost \t\t\t\t\t: 2 / 0\nSvt[info]: -------------------------------------------\n",
+            "sha256": "a1e04cf39c35a5b92eafce3d1ea45e5701ee9d6c847d04a171b8f4a477ffa266"
+          }
+        ],
+        "unspawnedRowsHaveNoProcessStderr": [
+          32,
+          33
+        ]
+      },
+      "limits": [
+        "31 actual children, not33 or35.12 progress children comprise six startup encodes and six startup decodes; zero semantic user targets and zero completed cases.",
+        "Two unspawned rows have empty strings but captureKnown=false; do not claim their nonexistent process stderr was captured. Actual startup warning text retained, not erased or declared harmless.",
+        "Later long4500frame/7200000sample output, collision, cancellation, fresh330frame recovery, output-access checks and complete collectors were all unreached. Prospective expected counts are not observations.",
+        "Full source/runtime/input/proof bytes rehashed at audit; output directories empty.49 report-listed artifacts verified. No new probe/decode/runtime/UI or retry; saved report readback matched at audit, not a proof of every possible transient write.",
+        "Outer8.555s is failed experiment wall time, not encode performance. Shared closure records settled/live0; no nonsettlement stress or long deadline behavior demonstrated.",
+        "Fixing successor role corpus may be appropriate only as separately reviewed helper preparation after preservation, never by relaxing media qualification or modifying this failed tree.",
+        "Source/runtime freeze remains until lead reconciliation/release; no raw media upload."
+      ],
+      "writerReleased": true
+    },
+    "outer": {
+      "startedAt": "2026-11-18T02:26:06.478Z",
+      "endedAt": "2026-11-18T02:26:15.033Z",
+      "elapsedMs": 8555.143829,
+      "wallElapsedMs": 8555,
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "stdoutSha256": "d9811217d7367a8a6e49effd3e0b60f6666245a806cacdaea21d89dea5045dcb",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "completion": {
+      "root": "proof://",
+      "checkpoint": "89489aa03e096aa1eff5c0c72160774f235efe6e",
+      "status": "failed-retained",
+      "reportSha256": "8cc41be4b26412a6dc53efbc81f37177e23f45a77d42cb5532bb72b3a7be9615",
+      "reportReadbackVerified": true,
+      "census": {
+        "spawned": 31,
+        "closed": 31,
+        "live": 0,
+        "maximum": 1,
+        "progressChildren": 12,
+        "targetEncodes": 0
+      },
+      "elapsedMs": 5691.21007
+    },
+    "identity": {
+      "checkedAtUtc": "2026-11-18T02:29:21.288208+00:00",
+      "sourceCommit": "89489aa03e096aa1eff5c0c72160774f235efe6e",
+      "sourceFilesUnchanged": 594,
+      "savedArtifactHashesMatched": 49,
+      "originalAndOwnedFixturesMatched": 2,
+      "bothOutputDirectoriesEmpty": true,
+      "census": {
+        "spawned": 31,
+        "closed": 31,
+        "live": 0,
+        "maximum": 1,
+        "progressChildren": 12,
+        "targetEncodes": 0
+      },
+      "casesCompleted": 0,
+      "refusedBeforeSpawn": [
+        32,
+        33
+      ],
+      "scope": "Read-only saved identity reconciliation; no extra runtime/probe/decode or retry. Source remains frozen pending separate lead release."
+    },
+    "release": {
+      "recordedAtUtc": "2026-11-18T02:29:21.288468+00:00",
+      "sourceCommit": "89489aa03e096aa1eff5c0c72160774f235efe6e",
+      "disposition": "Accept and preserve this failed-retained helper experiment, not a successful long-service or media qualification. The helper omitted required long-source inspection argv shapes; correct service fail-closed behavior caused the later helper ready assertion.",
+      "audit": {
+        "path": "INDEPENDENT_FAILURE_AUDIT.json",
+        "bytes": 13999,
+        "sha256": "3ccb9008345c6394e9d1412180d635f5da8e3fccecde1981472f71aa3a139b9c"
+      },
+      "identity": {
+        "path": "LEAD_IDENTITY_RECONCILIATION.json",
+        "bytes": 621,
+        "sha256": "e0b8436403b907638ab66202c3ea8098253f9a4ecd285fb42f3ffe75cdfb0c23"
+      },
+      "worker": {
+        "path": "WORKER_FINAL_HANDOFF.json",
+        "bytes": 2371,
+        "sha256": "68a419e6bfffda4dbf964fa491915b84411de59010684c4ff6d21c6d75410456"
+      },
+      "rawReport": {
+        "path": "owned-proof-SguXUe/report.json",
+        "bytes": 73663,
+        "sha256": "8cc41be4b26412a6dc53efbc81f37177e23f45a77d42cb5532bb72b3a7be9615"
+      },
+      "sourceFreezeReleasedForDocumentation": true,
+      "nextPermittedWork": "Coherent evidence-only031 preservation via Git then immediately independently restored Notion source/fullhistory/full native records then GitHub. Isolated new-sibling helper correction and file-only tests may proceed in parallel under ongoing development scope, leaving all original attempt files immutable. A subsequent actual run requires separately reviewed corrected helper, actual completed preservation, fresh exact binding/authorizer/release and new gate; no consumed-gate replay.",
+      "preservedLimits": [
+        "31 actual children, not33 or35.12 progress children comprise six startup encodes and six startup decodes; zero semantic user targets and zero completed cases.",
+        "Two unspawned rows have empty strings but captureKnown=false; do not claim their nonexistent process stderr was captured. Actual startup warning text retained, not erased or declared harmless.",
+        "Later long4500frame/7200000sample output, collision, cancellation, fresh330frame recovery, output-access checks and complete collectors were all unreached. Prospective expected counts are not observations.",
+        "Full source/runtime/input/proof bytes rehashed at audit; output directories empty.49 report-listed artifacts verified. No new probe/decode/runtime/UI or retry; saved report readback matched at audit, not a proof of every possible transient write.",
+        "Outer8.555s is failed experiment wall time, not encode performance. Shared closure records settled/live0; no nonsettlement stress or long deadline behavior demonstrated.",
+        "Fixing successor role corpus may be appropriate only as separately reviewed helper preparation after preservation, never by relaxing media qualification or modifying this failed tree.",
+        "Source/runtime freeze remains until lead reconciliation/release; no raw media upload."
+      ],
+      "clarification": "Audit wording about successor preparation after preservation is not a new owner restriction; separate non-runtime preparation may run in parallel, but no successor runtime precedes completed failure preservation and fresh review.",
+      "writerReleased": true
+    },
+    "worker": {
+      "recordedAtUtc": "2026-11-18T02:27:00.189375+00:00",
+      "status": "failed-retained-no-retry",
+      "oneOuterInvocation": true,
+      "ownedExecSession": 8873,
+      "actualSessionExit": 1,
+      "report": {
+        "path": "owned-proof-SguXUe/report.json",
+        "bytes": 73663,
+        "sha256": "8cc41be4b26412a6dc53efbc81f37177e23f45a77d42cb5532bb72b3a7be9615"
+      },
+      "completion": {
+        "path": "COMPLETION.json",
+        "bytes": 531,
+        "sha256": "199ca65453cc32d1a1ea74ee602269aa68b82bd1df2dcb0ed8f4e4085440a21f"
+      },
+      "outer": {
+        "path": "OUTER_COMPLETION.json",
+        "bytes": 369,
+        "sha256": "30a937b099a0784d87485de126c7f2425ce834997d21b9ebf77820c22d115019"
+      },
+      "census": {
+        "spawned": 31,
+        "closed": 31,
+        "live": 0,
+        "maximum": 1,
+        "progressChildren": 12,
+        "targetEncodes": 0
+      },
+      "attemptedRows": 33,
+      "preSpawnRefusedRows": [
+        32,
+        33
+      ],
+      "failure": {
+        "code": "ERR_ASSERTION",
+        "message": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'unsupported'\n- 'ready'\n"
+      },
+      "underlyingSavedEvidence": "Preparation middle75–76s and end148–150s ffprobe frame-sampling argv rejected by helper role classifier before spawn as Unlisted invocation shape/phase. Service summary marks required decoded-frame color sample failure, unsupported/UNSUPPORTED_COLOR. Later helper ready assertion terminates. This does not establish unsupported media or failed encode.",
+      "closure": [
+        {
+          "reason": "failed",
+          "settled": true,
+          "live": 0
+        }
+      ],
+      "postCloseIdentityChecked": true,
+      "diagnosticsComplete": true,
+      "independentWorkerRechecks": {
+        "currentSourceHashes": 594,
+        "runtimePins": 9,
+        "savedArtifactHashes": 49,
+        "reportAndOuterLogHashes": true
+      },
+      "unreached": [
+        "explicit720 preparation",
+        "long target publication",
+        "existing-output refusal",
+        "active target cancellation",
+        "fresh instance11s recovery",
+        "OutputAccess sink checks"
+      ],
+      "limits": [
+        "31 actual children include startup capability calls and preparation probes, no owned-source target encode.",
+        "Two refused unspawned rows have no stderr capture; all spawned rows report complete saved diagnostics.",
+        "No GUI/manual probe/decode/retry/source edits/cleanup performed.",
+        "Independent saved-output audit and lead reconciliation remain pending."
+      ],
+      "writerReleased": true
+    }
+  }
+}

@@ -1,0 +1,264 @@
+{
+  "schema": "ffmpeg-checkpoint-evidence-v1",
+  "checkpoint": "031",
+  "cutoffUtc": "2026-11-18T02:29:21.288468Z",
+  "status": "draft-evidence-only-awaiting-preservation",
+  "sourceCommit": "89489aa03e096aa1eff5c0c72160774f235efe6e",
+  "expectedScope": {
+    "paths": 5,
+    "files": 597,
+    "commits": 31,
+    "applicationOrTestDelta": false
+  },
+  "artifacts": [
+    {
+      "path": "full-copy-long-service028-preparation-20261118/owned-proof-SguXUe/report.json",
+      "bytes": 73663,
+      "sha256": "8cc41be4b26412a6dc53efbc81f37177e23f45a77d42cb5532bb72b3a7be9615"
+    },
+    {
+      "path": "full-copy-long-service028-preparation-20261118/INDEPENDENT_FAILURE_AUDIT.json",
+      "bytes": 13999,
+      "sha256": "3ccb9008345c6394e9d1412180d635f5da8e3fccecde1981472f71aa3a139b9c"
+    },
+    {
+      "path": "full-copy-long-service028-preparation-20261118/OUTER_COMPLETION.json",
+      "bytes": 369,
+      "sha256": "30a937b099a0784d87485de126c7f2425ce834997d21b9ebf77820c22d115019"
+    },
+    {
+      "path": "full-copy-long-service028-preparation-20261118/COMPLETION.json",
+      "bytes": 531,
+      "sha256": "199ca65453cc32d1a1ea74ee602269aa68b82bd1df2dcb0ed8f4e4085440a21f"
+    },
+    {
+      "path": "full-copy-long-service028-preparation-20261118/LEAD_IDENTITY_RECONCILIATION.json",
+      "bytes": 621,
+      "sha256": "e0b8436403b907638ab66202c3ea8098253f9a4ecd285fb42f3ffe75cdfb0c23"
+    },
+    {
+      "path": "full-copy-long-service028-preparation-20261118/LEAD_RELEASE.json",
+      "bytes": 3220,
+      "sha256": "5fee8f965274a4c3c5a1ab7c4a8ea3ebd071a4a876696fbf32eb6ccdf381cab4"
+    },
+    {
+      "path": "full-copy-long-service028-preparation-20261118/WORKER_FINAL_HANDOFF.json",
+      "bytes": 2371,
+      "sha256": "68a419e6bfffda4dbf964fa491915b84411de59010684c4ff6d21c6d75410456"
+    },
+    {
+      "path": "full-copy-long-service028-preparation-20261118/CAMPAIGN_PLAN.json",
+      "bytes": 14344,
+      "sha256": "6b3051d7a558ee597e7d96d12fd738cd7af63ab6fffb37bed05baef31ac6075b"
+    },
+    {
+      "path": "full-copy-long-service028-preparation-20261118/MANIFEST_HANDOFF-final.json",
+      "bytes": 3484,
+      "sha256": "790e0707d1fec9111e1d9a6ad79b7859adf5d02d6c49231ced8381186d659ba3"
+    },
+    {
+      "path": "full-copy-long-service028-preparation-20261118/INDEPENDENT_FINAL_MANIFEST_REVIEW.json",
+      "bytes": 3947,
+      "sha256": "05055ee129a9c1fe0130d727a3037ac865e4f771d6720818b5f0736dc9cf8e2d"
+    },
+    {
+      "path": "full-copy-long-service028-preparation-20261118/EXECUTION_BINDING.json",
+      "bytes": 1205,
+      "sha256": "2667c03acc5ea6612f950c80ef97afeb6c0e973bdf6e91c5330e33306a778737"
+    },
+    {
+      "path": "full-copy-long-service028-preparation-20261118/INDEPENDENT_LAUNCH_REVIEW.json",
+      "bytes": 5776,
+      "sha256": "c107659ea610a3d8b5241edd268e28f649b62c9557140d1db363f814fa03a8f9"
+    },
+    {
+      "path": "full-copy-long-service028-preparation-20261118/LEAD_RUN_RELEASE.json",
+      "bytes": 1751,
+      "sha256": "f65006c77c42f86e22f29edfe442251ad2b91aab64e3b0c69ea0aa4a87c3bde3"
+    },
+    {
+      "path": "full-copy-long-service028-preparation-20261118/APPROVED_CHECKPOINT.json",
+      "bytes": 68197,
+      "sha256": "3efc5d2b57ef393390a20fe5d4194daed9a82c97b3bc9002c9d799520520ac13"
+    },
+    {
+      "path": "full-copy-long-service028-preparation-20261118/OUTER_ATTEMPT_STARTED.json",
+      "bytes": 93,
+      "sha256": "caad8e853249cd15b5aa3ebeb20a053464a9c99dbba9397ab4a2b2e0e7b602c7"
+    },
+    {
+      "path": "full-copy-long-service028-preparation-20261118/ATTEMPT_STARTED.json",
+      "bytes": 85,
+      "sha256": "cb3e1f0b307c28f67a85b04f86b7a01ca52fae2191dc57a1f514362bed97fe02"
+    },
+    {
+      "path": "full-copy-long-service028-preparation-20261118/role-templates.json",
+      "bytes": 21390,
+      "sha256": "9dd9c4b00b232523fbf12874ce33aca40b4b8822dc372d65230088a78cf45baa"
+    },
+    {
+      "path": "full-copy-long-service-authorizer-preparation-20261118/GENERATOR_HANDOFF-v1.json",
+      "bytes": 5253,
+      "sha256": "42d60e8065b43e16f703873c8420c125e106f6ab0799b51a4da92c3a5f9bc6ed"
+    },
+    {
+      "path": "full-copy-long-service-authorizer-preparation-20261118/INDEPENDENT_GENERATOR_REVIEW.json",
+      "bytes": 4381,
+      "sha256": "2bebc01788fbecece7d405e72a29bc3c6f04591df1b5fece6697c04c66218d6a"
+    },
+    {
+      "path": "full-copy-long-service-authorizer-preparation-20261118/GENERATOR_EXECUTION.json",
+      "bytes": 671,
+      "sha256": "d736a37d6a0151bc2af47b47b7b1c4609799a4e27c45ab2f20a9866c0d294062"
+    },
+    {
+      "path": "full-copy-long-service-authorizer-preparation-20261118/AUTHORIZER_EXECUTION.json",
+      "bytes": 626,
+      "sha256": "4826f9dd0f864e9d7581277533ac9b256d1e4e0a473dcd0eb7082d7e08c5fafd"
+    },
+    {
+      "path": "github-checkpoint030-verification.json",
+      "bytes": 3187,
+      "sha256": "87d2d9ca3d8ad03c1052cad5da3409850762a29cafb41e7c3f5dc3c38bc11e19"
+    },
+    {
+      "path": "notion-checkpoint-030-verification.json",
+      "bytes": 105275,
+      "sha256": "34b82b6045a1a95ab4462b62c0aabd54371c2674c5b45702b0fa7f5f6305f56d"
+    },
+    {
+      "path": "checkpoint030-final-mirror-release.json",
+      "bytes": 480,
+      "sha256": "1f2f116fd2ea83265030c0cd5a142d2aafeb618e6a8f1de3119d74aecac0aeef"
+    }
+  ],
+  "portable": {
+    "path": "proof-records031-preparation/long-service-preparation-failure-portable.json",
+    "bytes": 114874,
+    "sha256": "352520e910b2c3b55b6e6557cb12847df6009adfb08389f51385ef938a07333b"
+  },
+  "result": {
+    "status": "failed-retained",
+    "census": {
+      "spawned": 31,
+      "closed": 31,
+      "live": 0,
+      "maximum": 1,
+      "progressChildren": 12,
+      "targetEncodes": 0
+    },
+    "casesCompleted": 0,
+    "refusedBeforeSpawn": [
+      32,
+      33
+    ],
+    "cause": "Fixed helper role corpus omitted required 75–76s and148–150s inspection shapes; service returned unsupported before target, helper ready assertion failed.",
+    "spawnedStderr": {
+      "knownCompleteUntruncated": 31,
+      "nonempty": 6,
+      "empty": 25
+    },
+    "unspawnedCaptureKnown": false,
+    "bothOutputsEmpty": true,
+    "savedArtifactsVerified": 49
+  },
+  "chronology": {
+    "generator": {
+      "startedAtUtc": "2026-11-18T02:23:04.168800+00:00",
+      "endedAtUtc": "2026-11-18T02:23:06.064623+00:00",
+      "elapsedSeconds": 1.8958335280040046,
+      "exitCode": 0,
+      "command": [
+        "python3",
+        "-B",
+        "prepare-long-service030.py",
+        "030"
+      ],
+      "scope": "Generate exact EXECUTION_BINDING and inert authorizer only; no gate/runtime execution",
+      "logs": [
+        {
+          "path": "generator.stdout",
+          "bytes": 222,
+          "sha256": "5c96a027051bcc22a11242fe8de7780e9c4fb008e6cb73a429c50acc26bcf673"
+        },
+        {
+          "path": "generator.stderr",
+          "bytes": 119,
+          "sha256": "70b5dafcaf4ca2ca9f5c43398029d075dd3d19a70be1955a320b280ccd6d4ed5"
+        }
+      ]
+    },
+    "authorizer": {
+      "startedAtUtc": "2026-11-18T02:25:20.169557+00:00",
+      "endedAtUtc": "2026-11-18T02:25:21.705578+00:00",
+      "elapsedSeconds": 1.5360320179970586,
+      "exitCode": 0,
+      "command": [
+        "python3",
+        "-B",
+        "authorize-long-service030.py"
+      ],
+      "scope": "Exact new gate creation only; no runtime launch",
+      "logs": [
+        {
+          "path": "authorizer.stdout",
+          "bytes": 109,
+          "sha256": "a3371346e104b56c3109d5662a430f2af0bf203fb0ea6fb616fcd3f8e6e002fd"
+        },
+        {
+          "path": "authorizer.stderr",
+          "bytes": 119,
+          "sha256": "70b5dafcaf4ca2ca9f5c43398029d075dd3d19a70be1955a320b280ccd6d4ed5"
+        }
+      ]
+    },
+    "outer": {
+      "startedAt": "2026-11-18T02:26:06.478Z",
+      "endedAt": "2026-11-18T02:26:15.033Z",
+      "elapsedMs": 8555.143829,
+      "wallElapsedMs": 8555,
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "stdoutSha256": "d9811217d7367a8a6e49effd3e0b60f6666245a806cacdaea21d89dea5045dcb",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "auditAt": "2026-11-18T02:28:11.524377+00:00",
+    "identityAt": "2026-11-18T02:29:21.288208+00:00",
+    "releaseAt": "2026-11-18T02:29:21.288468+00:00"
+  },
+  "tests": {
+    "rerun": false,
+    "inheritedFocused": {
+      "passed": 261,
+      "total": 261,
+      "sourceCheckpoint": "029"
+    },
+    "historicalBroad": {
+      "passed": 223,
+      "total": 268,
+      "failed": 45,
+      "rerun": false
+    }
+  },
+  "unreached": [
+    "explicit720 preparation",
+    "long target publication",
+    "existing-output refusal",
+    "active target cancellation",
+    "fresh instance11s recovery",
+    "OutputAccess sink checks"
+  ],
+  "limits": [
+    "JSON reserialization and root aliases do not reproduce original full bytes or supply the original raw-report runtime gate.",
+    "31 actual closed children; two additional unspawned rows have unknown capture, not captured empty stderr. Six actual startup warning streams remain in parsed evidence.",
+    "No user target or completed case. Later publication/collision/cancellation/new-instance recovery/access checks were unreached.",
+    "Audit is saved-evidence review without additional probe/decode/UI/runtime. Historical pending statuses remain as dated values; final release is a separate object.",
+    "No runtime/media/profile or separate raw-log files are included. Embedded original diagnostic strings remain exact except declared path-prefix transforms.",
+    "Input/plan4500frames/7200000samples and recovery330frames are not successful outputs.",
+    "Manual scoped review is not formal Security Cloud; no validated assessment artifact claimed.",
+    "Original runtime/media/profiles and raw logs remain local; metadata and portable parsed reports are archival, not new run authority.",
+    "Successor helper assigned only at cutoff; no correction test result, new gate or runtime inferred."
+  ],
+  "preservation": "Local commit/Notion/GitHub for031 pending at record cutoff. Preserve original030 and failed attempt unchanged."
+}

@@ -1,3 +1,105 @@
+# 📘 Session: November 18,2026 — FFmpeg Encoder — Recovery, fresh 1080 calibration and diagnosable Windows failure
+
+## 🤖 Models, Effort, Roles and Provenance
+
+Recorded engineering lead, source authors, independent reviewers/auditor and documentation writer have distinct roles. Model/effort attribution for earlier work is not inferred. This is later reconstruction from retained061 publication records, actual hosted logs,1080 campaign completion/stdout, saved audit and lead release, exact source integration/review and final test receipts. No new runtime was executed by the Session writer.
+
+## 🕒 Time
+
+November 18,2026; UTC timestamps, Cairo UTC+02:00.061final mirror checked18:19:58.530605 UTC. Fresh1080campaign18:20:41.598–18:24:32.291 UTC; independent audit18:27:07.839538; lead release18:28:06.998065; seven-file integration18:29:21.930771. Fixed cutoff18:30:49.953661 UTC/20:30:49.953661 Cairo. Later source-review receipt save18:30:55.610579records previously completed review, not new tests. Stopping point: accepted calibration and reviewed source prepared for preservation, not a live service or hosted retry result.
+
+## 🎯 Session Goal
+
+Recover the interrupted061 preservation without losing work, obtain fresh evidence for stale1080 source, and make the failed Windows archive preflight diagnosable without weakening its safeguards. Keep useful0.7 progress and honest platform limits together.
+
+## 🛠️ Actions Taken
+
+### Practical progress
+
+Checkpoint 061 survived the lead continuity interruption and completed Git → verified Notion restoration → verified GitHub mapping. Local `3a05bb7c23c2ac9494815c07c2c8a27564763acb` maps to remote `feaa1c305707ade34689eee953b7a8a1e2016330`. Nine remote contents, sole parent060 and expected nonforced ref update were verified; final mirror receipt released18:19:58.530605 UTC. The remote1093-file tree preserves1084unchanged files, modifies2 and adds7 with no deletions. Local711-file recovery scope is a different population.
+
+Fresh current-source 1080p→720p calibration now has accepted saved evidence for three cases. This is progress toward restoring stale producer-dependent routes, not a blind repin or a claim that the app route already works. The one campaign ran18:20:41.598–18:24:32.291 UTC,230,692.832729ms monotonic,exit0. All42 children closed with zero live and maximum1. Independent saved audit at 18:27:07.839538 and lead reconciliation at 18:28:06.998065 accepted the bounded evidence; the lead rehashed1007 identity rows before releasing the source freeze. No media/probe/decode replay occurred in audit.
+
+### Calibration cases and provenance
+
+| Case | Requested range | Frames / samples | Output bytes | Evidence |
+|---|---|---|---|---|
+| Late forty seconds |100–140s|1200 /1,920,000|10,676,153|Original streamed selected PCM equality,7,680,000 bytes per side|
+| Late open end |130s→end|600 /960,000|5,574,422|Original streamed selected PCM equality,3,840,000 bytes per side|
+| Held-out nonaligned |.413–8.621s|246 /393,984|2,143,761|Original streamed selected PCM equality,1,575,936 bytes per side|
+
+All recorded video timestamp errors are bounded by334µs in these cases. The nonaligned picture starts on a frame boundary at.433333s, while selected audio begins.413s; output picture starts.020s. This is not arbitrary exact-picture trimming or general lip-sync acceptance. Exact output hashes are in the receipts.
+
+**Important distinction:** full-file output hashes were first established during this saved audit against unchanged original stat receipts. Do not call them original-run full-file digests. Selected PCM SHA/byte equality comes from the original streaming receipts; no raw PCM pairs were retained and no independent new decode occurred. The42child diagnostics contain three 168-byte x265 CPU-mask/WPP/lookahead-threadpool streams and 39empty streams. Warnings remain visible and are not labeled harmless. Three pre-catalog calibration cases do not grant service, native UI, Windows, GPU, default or publication qualification.
+
+### Actual hosted checks and retained failure
+
+Actual hosted source run44368225079 on 061passed Windows and Ubuntu. Logs record204syntaxfiles each,209 shared checks each and 10extraLinux checks. This is the actual count, not the earlier projected 206. Source-only checks are not archive acquisition or app/hardware tests.
+
+Separate Windows introduction run44368227020 failed in preflight/report handling. Its retained log says `Hosted archive preflight/report incomplete; no attested report is available.` and exits1. No attested report was available. The cause remains unknown: neither storage-floor refusal nor a drive-query timeout nor successful candidate transfer is established. Do not hide this failure behind the green source workflow or invent an outcome from absent diagnostics.
+
+### Windows diagnostic successor and consumer integration
+
+Exactly seven reviewed source paths were integrated18:29:21.930771 UTC. Five Windows diagnostic/retry files add allowlisted stage/kind/code without raw errors, paths, environment or command output. One ordinary successor push from remote061 is allowed, first attempt only; manual dispatch is removed/rejected. Resource floors, transfer pins, timeouts and attestation are unchanged. Independent12offlinechecks passed. This is not root-cause resolution or actual Windows execution.
+
+Two1080 consumer files now bind the fresh genuine report SHA84bc6a774ec2fd7af8e0eff05420d9637d54232f4feb0d1d24d80b384a2c6ccd and the accepted saved audit. Exactly four of97producer pins changed to the current calibrated source. Historical report/producer refusals remain; behavior and qualification boundaries did not change. Independent21consumerchecks used the actual new report and three historical reports. Author25adjacentchecks passed but were not independently rerun. This new capsule is not merely an old report repin, yet no reduced-service/native application result follows.
+
+Final lead checks passed syntax for all five CJS files. The focused 81test selection produced77 passes,4explicit skips and 0failures: the raw receipt tests had no supplied environment in that invocation. A separate run supplied the fresh and three historical reports and passed21/21 with no skips. These overlapping selections are not summed. Selected CI exited0with204tracked syntax files,209 shared and 10 Linux passes. No full aggregate suite claim follows. One initial invocation used workspace rather than repository cwd and failed MODULE_NOT_FOUND before testing; the corrected invocation succeeded. The failed invocation remains disclosed.
+
+All actual service/media calibration evidence belongs to immutable 061, not to the subsequently edited consumer. Actual Windows retry and reduced1080 service proof remain unrun. Final source bytes were reconciled against exact review/integration hashes before documentation.
+
+### Preserved decisions and next boundary
+
+0.7 remains the development priority. Benchmark defaults and audio policy are unchanged; Ahmed's benchmark feedback remains pending and may inform0.7or0.8 later.0.8 plans themes,12 languages including Arabic, illustrated learning/onboarding and UX fixes;HDRmoves to0.9. Calculator themes/localization are future inspiration, not implemented here.
+
+Source review/integration and selected final checks are complete. Preserve Git/Notion/GitHub before observing any single reviewed successor hosted attempt. Do not weaken floors, automatically duplicate the earlier attempt, repin old reports or claim native service/UI release from calibration. Full-copy and wider platform/native qualification remain separate work.
+
+## 🧠 Key Insights
+
+Recovery and progress are different claims:061 was preserved before new source changed. An unknown preflight failure needs diagnostics, not a guessed resource explanation. Genuine new calibration can replace stale evidence without rewriting history, but service and UI qualification still need separate proof. Observed CI counts outrank forecasts; report204rather than projected 206.
+
+## 📌 Decisions Made
+
+The lead accepted the saved three-case1080 calibration after 1007 identity-row rehash and released its source freeze. Review accepted the narrow consumer refresh and allowlisted diagnostic successor; no original Windows cause was declared solved. Historical raw reports remain refused on changed producers. Resource floors, defaults, benchmark/audio policy and no-overwrite protections remain unchanged. Ahmed's0.8 learning/localization/themes direction and 0.9 HDRdeferral remain future scope, not reasons to interrupt0.7.
+
+## ⚠️ Difficulties / Friction
+
+The previous lead became unavailable with061uncommitted, but its checkout, scope files and narrative survived. Recovery finished the exact scope instead of broad staging. The first hosted archive attempt returned only a generic preflight/report error and no attested artifact, so it did not identify the cause. One test invocation failed MODULE_NOT_FOUNDfrom wrong cwd before tests; corrected repository invocation succeeded. Four focused raw-receipt checks skipped without their environment, explicitly followed by actual-receipt21/21pass rather than relabeled as first-run passes.
+
+## 🔧 Adjustments Made
+
+- Unfinished061 documents → exact predecessor-preserving Session completion and verified full preservation.
+- Generic Windows error → allowlisted stage/kind/code diagnostics, retaining privacy and attestation.
+- Original introduction parent → reviewed one-successor061 parent restriction; manual dispatch removed, not broadly reopened retries.
+- Stale1080capsule → new actual calibration/report/audit and four current producer pin changes; historical refusals preserved.
+- Environmentless raw-test selection → separate correctly supplied receipt validation, not media replay.
+
+## ❌ Mistakes / Risks Noted
+
+Do not infer storage shortage, timeout or archive success from the generic failure. Do not call saved-audit output hashes original-run digests. Do not equate streamed PCM equality with new raw sample decoding. Do not sum overlapping 77/21/209selections or hide the4 skips. Three calibrationcases and source checks do not prove reduced service, native UI, Windows, GPU or defaults. No original raw artifacts or earlier failure records were rewritten.
+
+## 📍 Current Position
+
+061 is fully preserved, and its hosted source checks passed while archive introduction failed with unknown cause. Fresh1080 calibration is independently accepted on immutable 061. Seven reviewed source files are integrated and final selected checks complete;062 publication remains pending. The refreshed consumer is source-ready only; reduced service and native behavior remain unverified. Full-copy and broader release gates remain open.
+
+## 🔜 Next Steps
+
+Lead verifies the coherent scope and commits only intended paths. Restore/read back full Notion source/history/native records before GitHubpublication; verify actual immediate-successor parent/ref/tree and changed files. Observe only the reviewed successor Windows run and retain failure/report evidence. Qualify current 1080 service, then restoreFull-copyand continue remaining0.7 gates. No floor relaxation, blind repin or duplicate dispatch.
+
+## ❓ Open Questions
+
+What precise Windows preflight/report condition failed? Will safely restricted diagnostics expose it on the next actual run? Does the refreshed1080 consumer pass bounded actual service lifecycle and native UIchecks? What currentFull-copyqualification remains? These are pending, not answered by calibration. Ahmed's benchmark feedback and 0.7versus0.8 placement are also pending.
+
+## 🧾 Session Outcome
+
+Bounded progress:061recovered and fully backed up; three fresh 1080calibrationcases accepted; consumer and Windows diagnostic source refreshed with selected checks. Hosted archive failure remains visible and unresolved.062 commit/Notion/GitHuband actual service/retry are pending at cutoff. Full061 Session remains an exact suffix; historical documents retained. Source edits belong to their reviewed integration; documentation writer changed only four authorized records.
+
+## 🔍 Confidence Level
+
+High in retained identities, publication receipts, accepted bounded calibration and selected test evidence. Limited for actualWindows failure cause, native/service/platform behavior and unrun release gates. Audit is saved-only; no independent re-decode. No completion is inferred from a proposed retry or refreshed report binding.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Audited 1440 range service and one-introduction Windows archive workflow
 
 ## 🤖 Models, Effort, Roles and Provenance

@@ -61,7 +61,7 @@ test('new current producer capsule matches; historical capsule still refuses cur
   const file = path.join(__dirname, 'candidate-resize-service.cjs');
   let source = await fs.readFile(file, 'utf8');
   const legacy = {"linux-blue/workbench-long-range-calibration.cjs": "1e7a3425672f3662733370de2ee8babbaecea912db899556d7ad4a0bcbc66ee9", "src/operation-family.cjs": "4453619d3f68d891bf7472a9dcfc919508b4dbb0533e0a07ee3b48461424ae3e", "src/operation-resource-budget.cjs": "b60f0fe312e79c6f1b15e717f0cb4a7925fba132ca62b8aa753aa5a3ef51accd", "src/operation-evidence.cjs": "8de2516179f3c80667004855ef720250b934fd7b816b170ac2be1b9c39179ef8"};
-  const current = {"linux-blue/workbench-long-range-calibration.cjs": "7460d5f369949a84827b6b6b96edab05656aecf2abd2b711a244942abab7b484", "src/operation-family.cjs": "c981fe49e8f67b674cd23eda6b6424ee031b022bbf1a90dfe2cb2b5d51f99f65", "src/operation-resource-budget.cjs": "1914192dc877344b94bb6786a831e07b6e8b9704ee31c0a63fd225db426e5926", "src/operation-evidence.cjs": "9b680168395be354b8261bd4aa6624c1484daeecab424fd5278db55fa3aba9b9"};
+  const current = {"linux-blue/workbench-long-range-calibration.cjs": "ee8d48e294f098ed9f47e7b6e1e75edd5a4661d460ee6b00bb2a375010692afc", "src/operation-family.cjs": "3e27335e4228969d670545b0fb6aeb77a6fd9303529c248ae7560d0c9e4fade3", "src/operation-resource-budget.cjs": "9a328f902ee4203465083da4afd477ad86d045654104fe33409cb571cd02d3f6", "src/operation-evidence.cjs": "5ec5452881d01789f7f181e4540cfcca268371f13f6abdd7f59fa9ad57e8b8d4"};
   for (const name of Object.keys(legacy)) source = source.replace(current[name], legacy[name]);
   const module = { exports: {} };
   vm.runInThisContext('(function(require,module,exports,__dirname){' + source + '\n})', { filename: file })(createRequire(file), module, module.exports, __dirname);
@@ -345,4 +345,19 @@ test('actual prior Q8fIWI raw report stays incompatible', {skip:!process.env.CAN
  const bytes=await fs.readFile(process.env.CANDIDATE_RESIZE_PRIOR_REPORT_TEST_PATH);
  assert.equal(bytes.length,125887);assert.equal(sha(bytes),'ea6a92b5d9455174c46e18aab50995712c1d1a09a49b8b49e1fc2e0870417004');
  assert.throws(()=>assertCandidateServiceReceipt(bytes));
+});
+
+// Immediately prior raw evidence remains rejected, even at the same byte length.
+test('actual prior uj6Zhk report cannot substitute for fresh current1080 evidence', {skip:!process.env.CANDIDATE_RESIZE_IMMEDIATE_PRIOR_REPORT_TEST_PATH}, async()=>{
+ const bytes=await fs.readFile(process.env.CANDIDATE_RESIZE_IMMEDIATE_PRIOR_REPORT_TEST_PATH);
+ assert.equal(bytes.length,125797);assert.equal(sha(bytes),'226ec3b5a0f4ab58870a43a89a7579eb53a48dc6182000b45e8eaaba806901e2');
+ assert.throws(()=>assertCandidateServiceReceipt(bytes));
+});
+
+test('immediately prior uj6Zhk producer capsule rejects current source', async()=>{
+ const file=path.join(__dirname,'candidate-resize-service.cjs');let source=await fs.readFile(file,'utf8');
+ const pairs=[["ee8d48e294f098ed9f47e7b6e1e75edd5a4661d460ee6b00bb2a375010692afc", "7460d5f369949a84827b6b6b96edab05656aecf2abd2b711a244942abab7b484"], ["5ec5452881d01789f7f181e4540cfcca268371f13f6abdd7f59fa9ad57e8b8d4", "9b680168395be354b8261bd4aa6624c1484daeecab424fd5278db55fa3aba9b9"], ["3e27335e4228969d670545b0fb6aeb77a6fd9303529c248ae7560d0c9e4fade3", "c981fe49e8f67b674cd23eda6b6424ee031b022bbf1a90dfe2cb2b5d51f99f65"], ["9a328f902ee4203465083da4afd477ad86d045654104fe33409cb571cd02d3f6", "1914192dc877344b94bb6786a831e07b6e8b9704ee31c0a63fd225db426e5926"]];
+ for(const [current,prior] of pairs){assert.equal(source.split(current).length-1,1);source=source.replace(current,prior);}
+ const module={exports:{}};vm.runInThisContext('(function(require,module,exports,__dirname){'+source+'\n})',{filename:file})(createRequire(file),module,module.exports,__dirname);
+ await assert.rejects(module.exports.verifyCandidateServiceProducers(),/Calibration producer changed:/);
 });

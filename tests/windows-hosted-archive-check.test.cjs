@@ -7,15 +7,15 @@ const path = require('node:path');
 const { authority, execute, publishReport, attestReport } = require('../scripts/windows-hosted-archive-check.cjs');
 const identity = { head: 'a'.repeat(40), runId: '123', attempt: '1' };
 const environment = () => ({ GITHUB_ACTIONS: 'true', GITHUB_REPOSITORY: 'CipherVaults/FFmpeg-Encoder-Blue-Linux',
-  GITHUB_REF: 'refs/heads/blue/linux-development', GITHUB_EVENT_NAME: 'workflow_dispatch',
+  GITHUB_REF: 'refs/heads/blue/linux-development', GITHUB_EVENT_NAME: 'push',
   GITHUB_SHA: identity.head, GITHUB_RUN_ID: identity.runId, GITHUB_RUN_ATTEMPT: '1' });
-const event = { inputs: { approved_sha: identity.head } };
+const event = { after: identity.head, before: 'feaa1c305707ade34689eee953b7a8a1e2016330', forced: false, created: false, deleted: false };
 async function folder(t) { const dir = await fs.mkdtemp(path.join(await fs.realpath(os.tmpdir()), 'hosted-archive-unit-'));
   t.after(() => fs.rm(dir, { recursive: true })); return dir; }
-test('exact manual and push repo/ref/head admitted; PR, other refs, mismatches and reruns refused', () => {
+test('exact one-successor push admitted; manual, PR, other refs, mismatches and reruns refused', () => {
   assert.deepEqual(authority(environment(), event), identity);
-  assert.deepEqual(authority({ ...environment(), GITHUB_EVENT_NAME: 'push' }, { after: identity.head, before: '97ca51ff99cce5e4b382b2a9d0445949cb416cc8', forced: false, created: false, deleted: false }), identity);
-  for (const patch of [{ GITHUB_EVENT_NAME: 'pull_request' }, { GITHUB_REF: 'refs/heads/main' }, { GITHUB_REPOSITORY: 'other/repo' },
+  assert.deepEqual(authority({ ...environment(), GITHUB_EVENT_NAME: 'push' }, { after: identity.head, before: 'feaa1c305707ade34689eee953b7a8a1e2016330', forced: false, created: false, deleted: false }), identity);
+  for (const patch of [{ GITHUB_EVENT_NAME: 'workflow_dispatch' }, { GITHUB_EVENT_NAME: 'pull_request' }, { GITHUB_REF: 'refs/heads/main' }, { GITHUB_REPOSITORY: 'other/repo' },
     { GITHUB_RUN_ATTEMPT: '2' }, { GITHUB_SHA: 'b'.repeat(40) }, { GITHUB_ACTIONS: 'false' }]) assert.throws(() => authority({ ...environment(), ...patch }, event));
 });
 test('resource floor reports blocked without attempting acquisition', async t => {
@@ -59,9 +59,16 @@ test('bounded closed report attestation rejects oversized, changed and nonordina
 });
 
 test('introduction-only push refuses later parent, forced, created, deleted and missing flags', () => {
-  const base = { after: identity.head, before: '97ca51ff99cce5e4b382b2a9d0445949cb416cc8', forced: false, created: false, deleted: false };
+  const base = { after: identity.head, before: 'feaa1c305707ade34689eee953b7a8a1e2016330', forced: false, created: false, deleted: false };
   const env = { ...environment(), GITHUB_EVENT_NAME: 'push' };
   for (const patch of [{ before: 'b'.repeat(40) }, { forced: true }, { created: true }, { deleted: true }, { forced: undefined }, { after: 'b'.repeat(40) }]) {
     assert.throws(() => authority(env, { ...base, ...patch }));
   }
+});
+
+test('workflow agrees with single-successor push and cannot dispatch manually', async () => {
+ const yaml=await fs.readFile(path.resolve(__dirname,'../.github/workflows/windows-archives.yml'),'utf8');
+ assert(!yaml.includes('workflow_dispatch')); assert(yaml.includes("github.event.before == 'feaa1c305707ade34689eee953b7a8a1e2016330'"));
+ assert(yaml.includes('github.run_attempt == 1')); assert(yaml.includes('github.event.forced == false'));
+ assert(yaml.includes('github.event.created == false')); assert(yaml.includes('github.event.deleted == false'));
 });

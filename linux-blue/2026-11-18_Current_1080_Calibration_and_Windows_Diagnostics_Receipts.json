@@ -1,0 +1,440 @@
+{
+  "schemaVersion": 1,
+  "status": "Final owning record prepared for lead preservation",
+  "preparedAtUtc": "2026-11-18T18:29:35.378705+00:00",
+  "priorLocalCommit": "3a05bb7c23c2ac9494815c07c2c8a27564763acb",
+  "priorRemoteCommit": "feaa1c305707ade34689eee953b7a8a1e2016330",
+  "priorSession": {
+    "bytes": 2352453,
+    "sha256": "444e0b117f63744d5b661ef5b7dbf07547e5dd4a509c48f5a4fc2839dd71854b"
+  },
+  "references": [
+    {
+      "path": "checkpoint061-final-mirror-release.json",
+      "bytes": 439,
+      "sha256": "881312133b01e29f3700a0d84fc2cca453a4c18561e707342b14b3825d5eebff"
+    },
+    {
+      "path": "github-checkpoint061-verification.json",
+      "bytes": 3756,
+      "sha256": "2a301050b110fb00f5e192479259cf539f26dc76b0685186dcbb2c65511b7bf3"
+    },
+    {
+      "path": "notion-checkpoint-061-verification.json",
+      "bytes": 192287,
+      "sha256": "6f574829cca9280244f8e659a45e7a2200d2087241a1d123a3264144ddc5409f"
+    },
+    {
+      "path": "github-checkpoint061-jobs-44368225079.json",
+      "bytes": 10507,
+      "sha256": "b1e092dcaf0ac34cfa3ef12f333fa1240a09edceb3b6550882aa4c4d4552a82c"
+    },
+    {
+      "path": "github-checkpoint061-jobs-44368227020.json",
+      "bytes": 6147,
+      "sha256": "36037a7efceb53a78d64b1d00dce58d85129fee26f39aa8a2179d041eee2d35c"
+    },
+    {
+      "path": "github-checkpoint061-source-job-135027628178.json",
+      "bytes": 48160,
+      "sha256": "3b5699e7062eb2eae1abac1392813c55ba54eb2f9899a15d543627445deeda71"
+    },
+    {
+      "path": "github-checkpoint061-source-job-135027628989.json",
+      "bytes": 47812,
+      "sha256": "533dc8678442d6747d4aaedd5e4d113829851bfed0d4e09bd1cdc1e1749cc7a7"
+    },
+    {
+      "path": "github-checkpoint061-windows-archive-job-log.json",
+      "bytes": 19560,
+      "sha256": "5d300e0742dfe13f722c525d773e0207f1b18fbb5c74c458a1e47fafeee79c59"
+    },
+    {
+      "path": "current1080-calibration061-saved-independent-audit/AUDIT.json",
+      "bytes": 257925,
+      "sha256": "67cff40706d899c92303107178adcf1eb7d55977f5037ae68a12546d01aceb28"
+    },
+    {
+      "path": "current1080-calibration061-saved-independent-audit/LEAD_RELEASE.json",
+      "bytes": 952,
+      "sha256": "83d7230ded171a7032fe94664b05d98abdb7dd48a816b19a8b9bd293065d6cc2"
+    },
+    {
+      "path": "post060-e3-1080-calibration061-preparation-v2/OUTER_COMPLETION.json",
+      "bytes": 373,
+      "sha256": "a13656100d8a86060a2e5f0c08f08b6ebad18ddfde1872b2da8181590ddee40a"
+    },
+    {
+      "path": "post060-e3-1080-calibration061-preparation-v2/campaign.stdout.log",
+      "bytes": 1220,
+      "sha256": "847dda8dcb381456e03b7319035f2b262eed20546eb8d895405fcdabaf37bae4"
+    },
+    {
+      "path": "checkpoint062-cutoff.json",
+      "bytes": 291,
+      "sha256": "a77dd2c68d7054337b346d49b81d2824397242b009fd76c9baf159069c9681b9"
+    },
+    {
+      "path": "checkpoint062-integration.json",
+      "bytes": 1498,
+      "sha256": "34ba971ae870ed3659391f5df4f5cf1557dc220ac0aeab361c4f3c7d26431d16"
+    },
+    {
+      "path": "checkpoint062-lead-tests.json",
+      "bytes": 1845,
+      "sha256": "4551d1d76f2c16425784058e865e5058d7a3c5907f99d88fd865938afb69dfa0"
+    },
+    {
+      "path": "checkpoint062-independent-source-review.json",
+      "bytes": 4993,
+      "sha256": "876565398b5c0d97c758eda92d7518a2c387e4d2c55ccde485c4cd43e746d80e"
+    }
+  ],
+  "calibration": {
+    "auditedAtUtc": "2026-11-18T18:27:07.839538+00:00",
+    "leadAcceptedAtUtc": "2026-11-18T18:28:06.998065+00:00",
+    "sourceFiles": 711,
+    "producerHashes": 97,
+    "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+    "census": {
+      "spawned": 42,
+      "closed": 42,
+      "live": 0,
+      "maximum": 1
+    },
+    "outer": {
+      "startedAt": "2026-11-18T18:20:41.598Z",
+      "endedAt": "2026-11-18T18:24:32.291Z",
+      "elapsedMs": 230692.832729,
+      "wallElapsedMs": 230693,
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdoutSha256": "847dda8dcb381456e03b7319035f2b262eed20546eb8d895405fcdabaf37bae4",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "cases": [
+      {
+        "id": "late-forty-seconds",
+        "frames": 1200,
+        "samples": 1920000,
+        "range": {
+          "startUs": 100000000,
+          "endUs": 140000000
+        },
+        "outputAuditHash": {
+          "bytes": 10676153,
+          "sha256": "4c77b8d0dfb36e35f21d3d6c5470a9710bd2c5aa2c52ba050c9b013d5e25b884"
+        },
+        "originalStreamingPCM": {
+          "algorithm": "sha256",
+          "format": "s16le-interleaved",
+          "sourceHash": "557362ddcf7724e009cd0b1df44c19e9960e08eeea2e8cfa04c9e77857770f44",
+          "outputHash": "557362ddcf7724e009cd0b1df44c19e9960e08eeea2e8cfa04c9e77857770f44",
+          "sourceBytes": 7680000,
+          "outputBytes": 7680000
+        },
+        "maxRebasedTimestampErrorUs": 334
+      },
+      {
+        "id": "late-open-end",
+        "frames": 600,
+        "samples": 960000,
+        "range": {
+          "startUs": 130000000
+        },
+        "outputAuditHash": {
+          "bytes": 5574422,
+          "sha256": "958caf310f3ac99f90b4e266c795883a0f8caeb46934d9100fa7f26d02315281"
+        },
+        "originalStreamingPCM": {
+          "algorithm": "sha256",
+          "format": "s16le-interleaved",
+          "sourceHash": "ae9f20e1d3b792afffa53935066412e267063ecbf70c5b2d396dbf32fda1b81b",
+          "outputHash": "ae9f20e1d3b792afffa53935066412e267063ecbf70c5b2d396dbf32fda1b81b",
+          "sourceBytes": 3840000,
+          "outputBytes": 3840000
+        },
+        "maxRebasedTimestampErrorUs": 334
+      },
+      {
+        "id": "heldout-nonaligned",
+        "frames": 246,
+        "samples": 393984,
+        "range": {
+          "startUs": 413000,
+          "endUs": 8621000
+        },
+        "outputAuditHash": {
+          "bytes": 2143761,
+          "sha256": "4517fe68d78bddd316246297b92b372603379b8367b68e72ecb8f1279f88169b"
+        },
+        "originalStreamingPCM": {
+          "algorithm": "sha256",
+          "format": "s16le-interleaved",
+          "sourceHash": "2df057e2c484e1762af4ef62eac53af4237b7b63fe83690918552b0aa3fdc8a6",
+          "outputHash": "2df057e2c484e1762af4ef62eac53af4237b7b63fe83690918552b0aa3fdc8a6",
+          "sourceBytes": 1575936,
+          "outputBytes": 1575936
+        },
+        "maxRebasedTimestampErrorUs": 334
+      }
+    ],
+    "diagnostics": {
+      "nonempty": [
+        {
+          "sequence": 7,
+          "bytes": 168,
+          "text": "x265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n"
+        },
+        {
+          "sequence": 17,
+          "bytes": 168,
+          "text": "x265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n"
+        },
+        {
+          "sequence": 33,
+          "bytes": 168,
+          "text": "x265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n"
+        }
+      ],
+      "empty": 39
+    },
+    "leadRowsRehashed": 1007,
+    "limits": [
+      "Read-only saved audit. No ffmpeg/ffprobe/decode or replay.",
+      "Output full-file hashes established now against unchanged original stat receipts, not original-run digest claims.",
+      "PCM equality is original streaming receipt evidence; no raw PCM retained or independent re-decode.",
+      "Three calibration cases do not grant catalog/service/native/Windows/GPU/default/publication qualification.",
+      "Three x265 CPU-mask/thread-pool diagnostic streams retained, not labeled harmless."
+    ]
+  },
+  "windowsRetry": {
+    "status": "Five independently reviewed source files integrated; real hosted retry not run",
+    "expectedRemoteParent": "feaa1c305707ade34689eee953b7a8a1e2016330",
+    "noNewHostedOutcome": true
+  },
+  "futureRoadmap": {
+    "v07": "Continue current development; no benchmark defaults changed",
+    "v08": "Themes; 12 languages including Arabic; illustrated in-app guide/onboarding; UX polish/bug fixes",
+    "v09": "HDR",
+    "benchmarkFeedback": "Pending; eventual placement 0.7 or 0.8 undecided"
+  },
+  "cutoffUtc": "2026-11-18T18:30:49.953661+00:00",
+  "integration": {
+    "integratedAtUtc": "2026-11-18T18:29:21.930771+00:00",
+    "baseCommit": "3a05bb7c23c2ac9494815c07c2c8a27564763acb",
+    "files": [
+      {
+        "path": "scripts/windows-hosted-archive-check.cjs",
+        "bytes": 8240,
+        "sha256": "25351d488a6fa98c782bf25a978c35c35e8ef5155d667f2306e3b4e4e0afdfc6"
+      },
+      {
+        "path": "tests/windows-hosted-archive-check.test.cjs",
+        "bytes": 5703,
+        "sha256": "9acab88be1c52071bcb903bede62bebdc3adb41cde66c02588002145c24bc3fc"
+      },
+      {
+        "path": "tests/windows-hosted-diagnostics.test.cjs",
+        "bytes": 1674,
+        "sha256": "97c80dba462cbecdd271a2aae7a42da37abe3c8821fa96e6be01b9ceee7a7953"
+      },
+      {
+        "path": ".github/workflows/windows-archives.yml",
+        "bytes": 1638,
+        "sha256": "e65c12b787eb0f99a79be4e1b27ee55c4cca41f6350ecdd00d271e57d63aaff7"
+      },
+      {
+        "path": "linux-blue/WINDOWS_HOSTED_ARCHIVE_CHECK.md",
+        "bytes": 4550,
+        "sha256": "ff7bac60a17b1c7f9886dad48bbb613477e01aa89db94bd33483983322764b81"
+      },
+      {
+        "path": "linux-blue/candidate-resize-service.cjs",
+        "bytes": 25260,
+        "sha256": "e9d19ea9238a24c9574be8fcafdb632c70d978f879ecc45d917550d0bfb4bc8e"
+      },
+      {
+        "path": "linux-blue/candidate-resize-service.test.cjs",
+        "bytes": 34831,
+        "sha256": "84b6e9e55a00f551ce08f3d9369ea61417dc2fe44c5c69a8e13bb21626df131d"
+      }
+    ],
+    "nextRemoteParent": "feaa1c305707ade34689eee953b7a8a1e2016330",
+    "serviceNotYetRun": true,
+    "windowsRetryNotYetRun": true
+  },
+  "finalLeadTests": {
+    "checkedAtUtc": "2026-11-18T18:30:49.953661+00:00",
+    "syntax": "All5CJS in7-fileintegration passed node--check",
+    "focused": {
+      "tests": 81,
+      "pass": 77,
+      "skip": 4,
+      "fail": 0,
+      "scope": "4explicit raw receipt tests skipped without supplied environment"
+    },
+    "actualReceipts": {
+      "pass": 21,
+      "skip": 0,
+      "fail": 0,
+      "scope": "Pure validation of fresh and3historical reports, not new runtime"
+    },
+    "ci": {
+      "exitCode": 0,
+      "syntaxFiles": 204,
+      "sharedPass": 209,
+      "linuxPass": 10,
+      "fail": 0
+    },
+    "evidence": [
+      {
+        "path": "ffmpeg-linux-f6bc64a-20261117/artifacts/v0.7/evidence/20261118T182930Z_recovered062-focused/receipt.json",
+        "bytes": 2542,
+        "sha256": "247309c6a05246298bdf9cd30a4e66febf29f61041893ce6747bbf626f5d7963"
+      },
+      {
+        "path": "ffmpeg-linux-f6bc64a-20261117/artifacts/v0.7/evidence/20261118T183020Z_recovered062-actual-receipts/receipt.json",
+        "bytes": 1906,
+        "sha256": "a60f759df2e5e9a2385c019750013246b095c63bbf0c1f9aa1460009f8a3b349"
+      },
+      {
+        "path": "ffmpeg-reconstruction-guidance-20261117/checkpoint062-ci.stdout",
+        "bytes": 22897,
+        "sha256": "5dd863d04552afa093b84f52f57e54f003b7aa0d12ebb654f4347a1ce0273038"
+      },
+      {
+        "path": "ffmpeg-reconstruction-guidance-20261117/checkpoint062-ci.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "limits": [
+      "One initial runner invocation used workspace cwd and failed MODULE_NOT_FOUND before testing; corrected repository cwd succeeded.",
+      "No Windows runtime retry or reduced1080service proof yet.",
+      "No aggregate full suite result implied."
+    ]
+  },
+  "independentSourceReview": {
+    "schema": "checkpoint062-independent-source-review/v1",
+    "savedAtUtc": "2026-11-18T18:30:55.610579+00:00",
+    "reviewer": "scope_review061",
+    "baseLocalCommit": "3a05bb7c23c2ac9494815c07c2c8a27564763acb",
+    "status": "accepted for narrow integration and final affected checks; not release qualification",
+    "receiptOnly": true,
+    "newTestsRunWhileSaving": false,
+    "mainCheckoutEdited": false,
+    "windowsRetry": {
+      "files": [
+        {
+          "path": "scripts/windows-hosted-archive-check.cjs",
+          "bytes": 8240,
+          "sha256": "25351d488a6fa98c782bf25a978c35c35e8ef5155d667f2306e3b4e4e0afdfc6"
+        },
+        {
+          "path": "tests/windows-hosted-archive-check.test.cjs",
+          "bytes": 5703,
+          "sha256": "9acab88be1c52071bcb903bede62bebdc3adb41cde66c02588002145c24bc3fc"
+        },
+        {
+          "path": "tests/windows-hosted-diagnostics.test.cjs",
+          "bytes": 1674,
+          "sha256": "97c80dba462cbecdd271a2aae7a42da37abe3c8821fa96e6be01b9ceee7a7953"
+        },
+        {
+          "path": ".github/workflows/windows-archives.yml",
+          "bytes": 1638,
+          "sha256": "e65c12b787eb0f99a79be4e1b27ee55c4cca41f6350ecdd00d271e57d63aaff7"
+        },
+        {
+          "path": "linux-blue/WINDOWS_HOSTED_ARCHIVE_CHECK.md",
+          "bytes": 4550,
+          "sha256": "ff7bac60a17b1c7f9886dad48bbb613477e01aa89db94bd33483983322764b81"
+        }
+      ],
+      "nextRemoteParent": "feaa1c305707ade34689eee953b7a8a1e2016330",
+      "independentTestsPreviouslyRun": {
+        "pass": 12,
+        "fail": 0,
+        "scope": "Linux offline injected source checks, no actual Windows test"
+      },
+      "authorTestEvidence": {
+        "logSha256": "0b12e56e9e20682cd9d2fc7769108f97fe0b1c8b7dc6bd5b8aa922a815fe0fef",
+        "result": {
+          "tests": 12,
+          "pass": 12,
+          "fail": 0,
+          "skipped": 0,
+          "scope": "Linux offline injected source checks; no actual Windows test"
+        }
+      },
+      "verified": [
+        "Five-file scope only; diagnostics expose allowlisted stage/kind/code, not raw errors, paths, environment or command output.",
+        "Push-only correct repository/ref and parent; manual dispatch removed and rejected; forced/created/deleted events rejected; attempt one only.",
+        "Storage floor, timeouts, archive download and attestation rules unchanged."
+      ],
+      "limits": [
+        "No dispatch, download, actual Windows execution or root-cause resolution established.",
+        "Lead must verify actual one-commit immediate-successor ancestry before protected publication; event before alone does not prove single commit.",
+        "Prior failed hosted run remains unknown preflight/report failure."
+      ]
+    },
+    "current1080Consumer": {
+      "files": [
+        {
+          "path": "linux-blue/candidate-resize-service.cjs",
+          "bytes": 25260,
+          "sha256": "e9d19ea9238a24c9574be8fcafdb632c70d978f879ecc45d917550d0bfb4bc8e"
+        },
+        {
+          "path": "linux-blue/candidate-resize-service.test.cjs",
+          "bytes": 34831,
+          "sha256": "84b6e9e55a00f551ce08f3d9369ea61417dc2fe44c5c69a8e13bb21626df131d"
+        }
+      ],
+      "actualReport": {
+        "path": "linux-blue/artifacts/candidate-resize1080to720-calibration-miYNXT/report.json",
+        "bytes": 125797,
+        "sha256": "84bc6a774ec2fd7af8e0eff05420d9637d54232f4feb0d1d24d80b384a2c6ccd"
+      },
+      "audit": {
+        "path": "ffmpeg-reconstruction-guidance-20261117/current1080-calibration061-saved-independent-audit/AUDIT.json",
+        "bytes": 257925,
+        "sha256": "67cff40706d899c92303107178adcf1eb7d55977f5037ae68a12546d01aceb28"
+      },
+      "verified": [
+        "Exact source, report and audit hashes verified; all 97 producer identities matched, four pins changed.",
+        "Delta restricted to genuine report path/SHA, four producer pins, provenance comment and regression controls.",
+        "Historical raw-report and producer refusals preserved; behavior and qualification boundaries unchanged."
+      ],
+      "independentTestsPreviouslyRun": {
+        "pass": 21,
+        "fail": 0,
+        "scope": "consumer tests with actual new miYNXT report and historical 3JE2RQ, Q8fIWI, uj6Zhk reports; historical producer refusal controls"
+      },
+      "authorTestEvidence": {
+        "consumer": {
+          "pass": 21,
+          "fail": 0,
+          "skip": 0,
+          "logSha256": "f271c391f730cb3705ad293b670f87c94856a2724d02ab7c9ca6508d35745c65"
+        },
+        "adjacent": {
+          "pass": 25,
+          "fail": 0,
+          "skip": 0,
+          "logSha256": "8c88a38fb9a710e4eae12bc83fc999c079902d455364beeb5bc7154b9ec563eb"
+        }
+      },
+      "adjacentTestsIndependentlyRerun": false,
+      "limits": [
+        "No new media, service, UI, Windows or GPU runtime executed by this source review.",
+        "Fresh 1080 calibration is not reduced-service qualification; real service proof remains required.",
+        "Original streaming PCM evidence is not independent re-decode.",
+        "Output hashes established later by saved audit are not claimed as original-run hashes."
+      ]
+    }
+  },
+  "reviewReceiptChronology": "Review receipt saved18:30:55.610579 records previously completed review; no new tests at save. Fixed execution cutoff remains18:30:49.953661."
+}

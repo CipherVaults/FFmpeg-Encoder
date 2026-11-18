@@ -18,16 +18,16 @@ const { openEvidenceStorage } = require('../src/operation-storage.cjs');
 const { failedVendorCapabilities } = require('../src/vendor-capabilities.cjs');
 const { RESIZE_FAMILY_ID: FAMILY_ID, RESIZE_RESOURCE_POLICY: RESOURCE_POLICY, deriveCfrResizeFlacResources } = require('../src/operation-resource-budget.cjs');
 const RUNTIME_ID = '1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9';
-const REPORT = path.join(__dirname, 'artifacts/candidate-resize1080to720-calibration-uj6Zhk/report.json');
-const REPORT_SHA = '226ec3b5a0f4ab58870a43a89a7579eb53a48dc6182000b45e8eaaba806901e2';
+const REPORT = path.join(__dirname, 'artifacts/candidate-resize1080to720-calibration-miYNXT/report.json');
+const REPORT_SHA = '84bc6a774ec2fd7af8e0eff05420d9637d54232f4feb0d1d24d80b384a2c6ccd';
 const REPORT_BYTES = 125797;
 const SETTINGS = Object.freeze({ profileId: 'h265-cpu', preset: 'slow', quality: 25 });
 const sha = b => createHash('sha256').update(b).digest('hex');
 const need = (ok, message) => { if (!ok) throw Object.assign(new Error(message), { code: 'CANDIDATE_RESIZE_SERVICE_SCOPE' }); };
 // Complete literal relative-import closure rooted at the calibration producer,
-// from immutable fd129edab6e1b653da87cf7aac6c09f14b633132.
+// from fresh calibration on immutable 3a05bb7c23c2ac9494815c07c2c8a27564763acb.
 // Independent saved-output audit SHA256:
-// fd21230a4aeb596c186d20a0fa80e365b80a930fca6d2ec549c928e6ab17d14f.
+// 67cff40706d899c92303107178adcf1eb7d55977f5037ae68a12546d01aceb28.
 // This is a new capsule, not old-evidence compatibility or service activation.
 // It excludes separately reviewed composition code.
 const PRODUCERS = Object.freeze({
@@ -36,7 +36,7 @@ const PRODUCERS = Object.freeze({
   "linux-blue/runtime-av1-pins.json": "d3f390eb66119e402042d17d3d0f96d44f24c3b657597d94ec5e54f9edc635c8",
   "linux-blue/runtime-av1.cjs": "f4e905f1e15fb86b0d20d9bde941d5e6c8ac2a0bb7b72adff41f056aef2e1e27",
   "linux-blue/runtime.cjs": "0ddd5026996fa23e8122e359c340b08ff84a2786f56362099b38eaf8927331c8",
-  "linux-blue/workbench-long-range-calibration.cjs": "7460d5f369949a84827b6b6b96edab05656aecf2abd2b711a244942abab7b484",
+  "linux-blue/workbench-long-range-calibration.cjs": "ee8d48e294f098ed9f47e7b6e1e75edd5a4661d460ee6b00bb2a375010692afc",
   "linux-blue/workbench-remux.cjs": "6a6cbf2a009a6ad48f6359e15d6c2432e615623c3b799df6dc29eb0eae4b4e2a",
   "linux-blue/workbench-service.cjs": "1f8ef2673fb3e0ea6d4cdbd8d7e726fee72d94dd9d54120d9cd7e9877fb52c80",
   "package.json": "b5678dc133c1e5fb8da250bfe828c9da55f50d89dac3728af1f0870693e69a82",
@@ -86,10 +86,10 @@ const PRODUCERS = Object.freeze({
   "src/operation-contract.cjs": "e87c0bd40a27e9bc4309cfff489a3270899edc6505face10a9c4461272bb343d",
   "src/operation-controls.cjs": "bd0977641d5fe62b182a70e58d9f89a69f4af4564daeea0c616dcb066238f59f",
   "src/operation-draft.cjs": "9c4a25e65021be52bff887830a5cbdf5db07c03720be69b0352020437707251a",
-  "src/operation-evidence.cjs": "9b680168395be354b8261bd4aa6624c1484daeecab424fd5278db55fa3aba9b9",
-  "src/operation-family.cjs": "c981fe49e8f67b674cd23eda6b6424ee031b022bbf1a90dfe2cb2b5d51f99f65",
+  "src/operation-evidence.cjs": "5ec5452881d01789f7f181e4540cfcca268371f13f6abdd7f59fa9ad57e8b8d4",
+  "src/operation-family.cjs": "3e27335e4228969d670545b0fb6aeb77a6fd9303529c248ae7560d0c9e4fade3",
   "src/operation-names.cjs": "185a019d034db77c0e6c4f06ffc7a4d32817296cf394f1fe6b8ede383977e56c",
-  "src/operation-resource-budget.cjs": "1914192dc877344b94bb6786a831e07b6e8b9704ee31c0a63fd225db426e5926",
+  "src/operation-resource-budget.cjs": "9a328f902ee4203465083da4afd477ad86d045654104fe33409cb571cd02d3f6",
   "src/operation-runtime.cjs": "95285842847006e2fbcad43d46bbca7bc3823c3378fdc33a755ee82398681b79",
   "src/operation-storage.cjs": "fb9bcf00b2bf1fac3fe70f5421355a1aea0a2ded5358a38f41f7fd28fe7b1226",
   "src/operation-telemetry.cjs": "ef1f30ac5d311224cb8b0e79f60f55f55c69c0610d920d17e5f9c7e191a55814",

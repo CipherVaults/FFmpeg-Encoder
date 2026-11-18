@@ -3,12 +3,6 @@ on:
   push:
     branches: [blue/linux-development]
     paths: [.github/workflows/windows-archives.yml]
-  workflow_dispatch:
-    inputs:
-      approved_sha:
-        description: Exact reviewed and authorized development commit (40 hex)
-        required: true
-        type: string
 permissions:
   contents: read
 concurrency:
@@ -16,7 +10,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   archives:
-    if: ${{ github.repository == 'CipherVaults/FFmpeg-Encoder-Blue-Linux' && github.ref == 'refs/heads/blue/linux-development' && ((github.event_name == 'push' && github.event.before == '97ca51ff99cce5e4b382b2a9d0445949cb416cc8' && github.event.after == github.sha && github.event.forced == false && github.event.created == false && github.event.deleted == false) || (github.event_name == 'workflow_dispatch' && inputs.approved_sha == github.sha)) && github.run_attempt == 1 }}
+    if: ${{ github.repository == 'CipherVaults/FFmpeg-Encoder-Blue-Linux' && github.ref == 'refs/heads/blue/linux-development' && (github.event_name == 'push' && github.event.before == 'feaa1c305707ade34689eee953b7a8a1e2016330' && github.event.after == github.sha && github.event.forced == false && github.event.created == false && github.event.deleted == false) && github.run_attempt == 1 }}
     runs-on: windows-2022
     timeout-minutes: 10
     steps:

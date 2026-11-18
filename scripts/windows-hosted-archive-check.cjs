@@ -10,17 +10,35 @@ const { acquire, localDrivePath, retainDirectory } = require('./acquire-candidat
 const { expectedCandidateManifest, loadCandidateManifest, assertOrdinaryPath, verifyPinnedFile, readBoundedJson } = require('../src/candidate-runtime.cjs');
 const REPO = 'CipherVaults/FFmpeg-Encoder-Blue-Linux';
 const REF = 'refs/heads/blue/linux-development';
-const INTRODUCTION_PARENT = '97ca51ff99cce5e4b382b2a9d0445949cb416cc8';
+const INTRODUCTION_PARENT = 'feaa1c305707ade34689eee953b7a8a1e2016330';
 const FLOOR = 27n * 1024n ** 3n;
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
+// Bounded diagnostic labels reveal the failing boundary, never raw paths,
+// arguments, environment, command output or exception text from the runner.
+const STAGES = new Set(['startup', 'event-read', 'event-authority', 'git-head',
+  'runner-path', 'platform', 'fixed-drive', 'ordinary-directory', 'manifest',
+  'capacity', 'report-publication']);
+let failureStage = 'startup';
+async function atStage(stage, action) {
+  assert(STAGES.has(stage), 'Unknown diagnostic stage.');
+  failureStage = stage;
+  return action();
+}
+function failureDiagnostic(error) {
+  const codes = new Set(['ETIMEDOUT', 'ENOENT', 'EACCES', 'EPERM', 'ENOBUFS', 'ERR_ASSERTION', 'EINVAL', 'ENOSPC']);
+  const names = new Set(['AssertionError', 'TypeError', 'SyntaxError', 'RangeError', 'Error']);
+  return { schema: 1, state: 'PREFLIGHT_OR_REPORT_INCOMPLETE', stage: failureStage,
+    kind: names.has(error?.name) ? error.name : 'Error',
+    code: codes.has(error?.code) ? error.code : 'UNCLASSIFIED', attestedReport: false };
+}
 function authority(env, event) {
   assert(env.GITHUB_ACTIONS === 'true' && env.GITHUB_REPOSITORY === REPO && env.GITHUB_REF === REF
-    && ['workflow_dispatch', 'push'].includes(env.GITHUB_EVENT_NAME), 'Only the authorized repository/ref event is admitted.');
+    && env.GITHUB_EVENT_NAME === 'push', 'Only the authorized repository/ref event is admitted.');
   if (env.GITHUB_EVENT_NAME === 'push') {
     assert(event.before === INTRODUCTION_PARENT && event.forced === false && event.created === false && event.deleted === false,
       'Only the reviewed ordinary introduction push is admitted.');
   }
-  const expected = env.GITHUB_EVENT_NAME === 'push' ? event.after : event.inputs?.approved_sha;
+  const expected = event.after;
   assert(/^[a-f0-9]{40}$/.test(env.GITHUB_SHA) && expected === env.GITHUB_SHA,
     'Dispatch must name the exact reviewed source revision.');
   assert(/^\d+$/.test(env.GITHUB_RUN_ID) && env.GITHUB_RUN_ATTEMPT === '1', 'Missing run identity.');
@@ -65,13 +83,17 @@ async function publishReport(parent, report, outputFile) {
   return { file, digest: sha(bytes) };
 }
 async function execute({ root, parent, identity }, { inspectDrive = fixedDrive, acquireImpl = acquire, platform = process.platform, statfsImpl = fs.statfs } = {}) {
-  assert(platform === 'win32', 'Windows-only hosted archive lane.');
-  await inspectDrive(parent); await assertOrdinaryPath(parent, 'directory');
-  const manifest = await loadCandidateManifest({ root });
-  assert.deepEqual(manifest, expectedCandidateManifest());
+  await atStage('platform', () => assert(platform === 'win32', 'Windows-only hosted archive lane.'));
+  await atStage('fixed-drive', () => inspectDrive(parent));
+  await atStage('ordinary-directory', () => assertOrdinaryPath(parent, 'directory'));
+  const manifest = await atStage('manifest', async () => {
+    const result = await loadCandidateManifest({ root });
+    assert.deepEqual(result, expectedCandidateManifest());
+    return result;
+  });
   const pins = [manifest.archive, manifest.electron.archive];
   const required = FLOOR + pins.reduce((n, p) => n + BigInt(p.sizeBytes), 0n);
-  const disk = await statfsImpl(parent, { bigint: true }); const available = disk.bavail * disk.bsize;
+  const disk = await atStage('capacity', () => statfsImpl(parent, { bigint: true })); const available = disk.bavail * disk.bsize;
   const report = { schema: 1, ...identity, state: 'BLOCKED_RESOURCE_FLOOR', availableBytes: String(available),
     requiredBytes: String(required), archives: [], extraction: 'not-run', installation: 'not-run' };
   if (available <= required) return report;
@@ -91,16 +113,18 @@ async function execute({ root, parent, identity }, { inspectDrive = fixedDrive, 
 }
 async function main() {
   const env = process.env;
-  const event = JSON.parse(await fs.readFile(env.GITHUB_EVENT_PATH, 'utf8'));
-  const identity = authority(env, event);
+  const event = await atStage('event-read', async () => JSON.parse(await fs.readFile(env.GITHUB_EVENT_PATH, 'utf8')));
+  const identity = await atStage('event-authority', () => authority(env, event));
   const root = path.resolve(__dirname, '..');
-  const actual = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8', timeout: 10000 }).trim();
-  assert(actual === identity.head, 'Checked-out source differs from approved revision.');
-  const parent = env.RUNNER_TEMP; localDrivePath(parent);
+  await atStage('git-head', () => {
+    const actual = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8', timeout: 10000 }).trim();
+    assert(actual === identity.head, 'Checked-out source differs from approved revision.');
+  });
+  const parent = env.RUNNER_TEMP; await atStage('runner-path', () => localDrivePath(parent));
   const report = await execute({ root, parent, identity });
-  const saved = await publishReport(parent, report, env.GITHUB_OUTPUT);
+  const saved = await atStage('report-publication', () => publishReport(parent, report, env.GITHUB_OUTPUT));
   console.log(`${report.state}; report SHA256 ${saved.digest}; no extraction or installation.`);
   if (report.state !== 'ARCHIVES_VERIFIED_ONLY') process.exitCode = 1;
 }
-module.exports = { authority, execute, publishReport, attestReport };
-if (require.main === module) main().catch(() => { console.error('Hosted archive preflight/report incomplete; no attested report is available.'); process.exitCode = 1; });
+module.exports = { authority, execute, publishReport, attestReport, atStage, failureDiagnostic };
+if (require.main === module) main().catch(error => { console.error(JSON.stringify(failureDiagnostic(error))); process.exitCode = 1; });

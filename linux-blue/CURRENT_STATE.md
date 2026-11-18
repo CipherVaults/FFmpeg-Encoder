@@ -1,18 +1,17 @@
-# Current state — checkpoint 052
+# Current state — checkpoint 053
 
-Record cutoff: 2026-11-18 14:34:00.502486 UTC.
+Record cutoff: 2026-11-18 15:00:02.364612 UTC.
 
-## Verified progress
-- One bounded native Full-copy publication and real Thunar reveal completed on immutable checkpoint 051: Full / 720p / copied AAC, 240 video frames and 384,000 decoded samples. All 44 owned children closed. Packet/header/timing/skip evidence is not PCM identity.
-- A separate seven-file opt-in ordinary 9.0.2 ↔ Full-copy session selector is now integrated and source-tested. Final results: 45/45 focused, 345/345 explicit Linux with saved raw reports and 229/229 protection. Scopes overlap and must not be summed.
-- The selector uses fresh owners and existing retirement/drain boundaries, with explicit unavailable state and no silent fallback. Default 7.1.5 selection, media producers, runtime binaries, pins and audio policy are unchanged.
+## Verified now
+The opt-in ordinary 9.0.2 → Full-copy → ordinary 9.0.2 selector completed two native transitions on immutable checkpoint 052. The operator observed three Ready windows; saved events corroborate three ordered owners in one process. All 87 owned children closed and normal supervisor exit was zero.
 
-## Not yet established
-The native run predates selector integration. The new transition UI/main composition has injected source coverage only, not a native transition result. Shared renderer changes remain untested on native Windows. No final source-only test rerun, package-wide npm test, general-player, performance or default-promotion claim is made.
+This was an empty-batch transition proof: no user target, picker, Prepare, Apply, Start, reveal or cancellation. It does not prove populated output-grant reset, new media fidelity or native Windows behavior. Startup/recovery media occurred despite zero user targets.
 
-Four native contexts remain truncated; the audit separately acquired five named attachments. Output hash was first obtained post-close; no extra decode or PCM comparison. Point 07 preceded accepted reveal by 26.244 seconds, not immediately after the intervening missed click.
+Eighteen new events are exact and untruncated; all 76 prior events remained unchanged. Eight sampled storage/capability-directory checks are not a quota or no-temporary-writes guarantee. The 624-byte app stderr is not every child's diagnostics. The three children above the 84 forecast are consistent with three recovery probes, but no per-child ledger proves that explanation.
 
-## Next
-Preserve checkpoint 052, then independently review and bind the minimal zero-user-target selector helper. At cutoff HANDOFF-v1 and three file-only controls were prepared; review was pending, binding null, and there was no gate or native selector execution.
+## Source and continuation
+No application, test, runtime, pin, default or audio-policy change belongs to this checkpoint. The prior 45/45 focused, 345/345 explicit Linux and 229/229 protection results are inherited, overlapping and not rerun.
 
-[Execution](2026-11-18_Post_Codec_Full_Copy_Native_Selector.md) · [Receipts](2026-11-18_Post_Codec_Full_Copy_Native_Selector_Receipts.json)
+Preserve this evidence, then continue the isolated resize-range selector extension. At cutoff its current producer/raw evidence check was read-only complete, implementation/review pending and no authoritative integration or new runtime gate/result existed. No default promotion, performance benchmark, Windows or GPU qualification is claimed.
+
+[Execution](2026-11-18_Ordinary_Full_Copy_Selector_Native_Proof.md) · [Receipts](2026-11-18_Ordinary_Full_Copy_Selector_Native_Proof_Receipts.json)

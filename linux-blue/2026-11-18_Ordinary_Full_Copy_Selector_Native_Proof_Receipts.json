@@ -1,0 +1,144 @@
+{
+  "schema": 1,
+  "checkpoint": 53,
+  "cutoffUtc": "2026-11-18T15:00:02.364612+00:00",
+  "sourceCommit": "de117f37c0548d9fc82f728255e92639c23bf586",
+  "scope": {
+    "evidenceOnly": true,
+    "expectedPaths": 5,
+    "expectedFiles": 677,
+    "expectedCommits": 53,
+    "sourceChanges": false
+  },
+  "verified": {
+    "exitCode": 0,
+    "terminationRequested": false,
+    "failure": null,
+    "census": {
+      "spawned": 87,
+      "closed": 87,
+      "live": 0,
+      "maximum": 1,
+      "failures": 0
+    },
+    "oldEndBeforeNextStartMs": [
+      429,
+      241
+    ],
+    "sameSavedOwnerPid": 37173,
+    "distinctSessions": 3,
+    "newEvents": 18,
+    "oldEventsUnchanged": 76,
+    "exactCurrentEventSet": 94,
+    "eventContextTruncatedTrue": 0,
+    "rawCurrentAndRetainedEventBytesEqual": true,
+    "eightSampledPointsVerified": true,
+    "mediaTargets": 0,
+    "userPickersPrepareApplyStartRevealCancel": 0,
+    "wholeManualElapsedSeconds": 139.20484647899866
+  },
+  "attribution": "CUA operator observed three Ready windows and two explicit clicks. Saved events/owner PID corroborate lifecycle; auditor did not see screenshots, native window ID is not direct WebContents identity. No populated grant/batch reset or media fidelity result.",
+  "extraChildren": "Accepted source-supported explanation, not child ledger proof: three recovery events each1unrelated; recoverProvenance inspectMetadata route adds one probe per owner, consistent with84forecast+3=87. No replay required;84was never hardcap.",
+  "artifactReferences": [
+    {
+      "path": "checkpoint053-cutoff.json",
+      "bytes": 1426,
+      "sha256": "c21874621cb1803eb719a5fa0c011abbec14193b666f19128cb32c29b2001f2c"
+    },
+    {
+      "path": "checkpoint053-expected-paths.json",
+      "bytes": 295,
+      "sha256": "306241c91f1f84ba927c277fbb6b9d8af808e345a269dc1668c4898e096eb8a2"
+    },
+    {
+      "path": "notion-checkpoint-052-verification.json",
+      "bytes": 125790,
+      "sha256": "f439c597b58291366fb0dae8a3525fe442cab826bed2978515b2af3d86663a34"
+    },
+    {
+      "path": "github-checkpoint052-verification.json",
+      "bytes": 5972,
+      "sha256": "c1f40f7687adbc8bd51e1fdd76abf52b93c7180d5ca0afe9e4880c731b31a659"
+    },
+    {
+      "path": "checkpoint-de117f3-publication-receipt.json",
+      "bytes": 184101,
+      "sha256": "e6baaea798f52cf2235b5b5369b4236d56aec58ee4d90818f8b53cec9a8c127f"
+    },
+    {
+      "path": "checkpoint052-final-mirror-release.json",
+      "bytes": 534,
+      "sha256": "1ecf0be46a95e739f31258c07a089df17b516fafd889ddb1028157f721fbc727"
+    },
+    {
+      "path": "selector052-preparation/NATIVE_PLAN.json",
+      "bytes": 19136,
+      "sha256": "baee23887b4ea99a8f1c2d24510346f02b5c6ced43c25902f30b26d7cdc67e77"
+    },
+    {
+      "path": "selector052-preparation/HANDOFF-v1.json",
+      "bytes": 3244,
+      "sha256": "a37cc18bebe19dcbe110d593ce18aa475ffb5093823c1e0f0efd7606582aa9cb"
+    },
+    {
+      "path": "selector052-preparation/INDEPENDENT_PREPARATION_REVIEW.json",
+      "bytes": 6168,
+      "sha256": "bbb34f65df07996474454781ef00eb82f6f8cb53d8292f2b72d16cb4b9d3e1bf"
+    },
+    {
+      "path": "selector052-preparation/BOUND_HANDOFF.json",
+      "bytes": 1927,
+      "sha256": "6855d41871bec2c30e88b6e8962b9f9a3f807a8c14bb102ddf9a01cf39419d02"
+    },
+    {
+      "path": "selector052-preparation/BOUND_REVIEW.json",
+      "bytes": 3479,
+      "sha256": "580aba7943c3f8ee612ec27428936064ef5c7cadae6b56b47865611099ae2295"
+    },
+    {
+      "path": "selector052-preparation/APPROVED_SESSION_SWITCH.json",
+      "bytes": 79856,
+      "sha256": "d1b8d01d9420d50396e66c48f4f7bea6c94c5877518507d38defa040d00445c8"
+    },
+    {
+      "path": "selector052-preparation/NATIVE_OUTCOME.json",
+      "bytes": 23511,
+      "sha256": "1b75c22359335d24150a6c0716c4531e730cf5a2f450a0d5cd6aebfd1b5d77aa"
+    },
+    {
+      "path": "selector052-preparation/OUTER_COMPLETION.json",
+      "bytes": 840,
+      "sha256": "f0aa4ccfd9437bd5305e9f52431418faf5c24fb53512c601a373e16ed2d40b2c"
+    },
+    {
+      "path": "selector052-preparation/EVENT_CAPTURE.json",
+      "bytes": 6056,
+      "sha256": "64e819e4700b583bf9635aa59540fa855b84f9e116c6b044258aa31b6c1983fe"
+    },
+    {
+      "path": "selector052-preparation/INDEPENDENT_SAVED_OUTPUT_AUDIT.json",
+      "bytes": 43810,
+      "sha256": "281cfadfccbe23196c4c2e70aa5670a6a7584d274745593c25c15353081f5fca"
+    },
+    {
+      "path": "selector052-preparation/LEAD_RECONCILIATION.json",
+      "bytes": 3162,
+      "sha256": "942680809321c473275712c8e381f7975e7ba833e44ab019e16aa836990b55fe"
+    }
+  ],
+  "portable": {
+    "path": "linux-blue/ordinary-full-copy-selector-native-proof-portable.json",
+    "bytes": 99153,
+    "sha256": "adcc528f57efb077966e8808909ad336ac3c6b0ad768658ea57fb7e9f9e8d8b6",
+    "selectedObjects": 5,
+    "prefixChanges": 160
+  },
+  "limits": [
+    "Three observed Ready windows and exactly two operator clicks; same savedPID/ordered3owners corroborate but not directWebContents or populatedgrantreset proof.",
+    "87owned children closed0live;84was forecast only. Three recovered unrelated destinations support source-inferred3extra probes, not per-child ledger proof.",
+    "Zero usertargets notzero capability/recovery media. InitialREADYlineonly,18untruncatedevents,624BDBusSSLtopstderr notallchildstderr.",
+    "Eight sampledspace/capabilitydirectory observations notquota/no-temporary-writes; closure rests supervisorwait/ownedcensus notcrossnamespaceabsence.",
+    "No new target/mediafidelity/Windows/GPU/performance/default/audio-policy promotion. Existing345/45/229sourcechecks inherited, notrerun."
+  ],
+  "continuationAtCutoff": "Resize-range third selector option assigned in isolated sourcework. Author read-only check confirms97E3producerpins/currentrawreport, implementation/review pending; no authoritative integration or new runtime plan/gate/result."
+}

@@ -1,3 +1,155 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Native ordinary ↔ Full-copy empty-batch switching verified
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role | Attribution | Work and evidence limit |
+|---|---|---|
+| Engineering lead / native operator | GPT-6 Astra / Ultra, recorded assignment rather than backend attestation | Completed 052 preservation, issued the fresh engineering gate, observed two native transitions and normal closure, then reconciled the saved audit. |
+| Preparation / independent reviewers | Model and effort not independently established here | Checked the reused helper, exact binding and saved lifecycle evidence. File/injected controls and source-supported child-count explanation are not per-child native execution records. |
+| Mirror / records | Model and effort not independently established here | Verified exact source/history/publication and prepared evidence-only records. No source change, new target or test rerun was performed by the summary writer. |
+
+**Record basis:** The previously source-tested selector now has bounded native ordinary9 → Full-copy → ordinary9 evidence on immutable 052: three observed Ready windows, two explicit selections, ordered replacement owners and normal closure. The live batch stayed empty. This does not prove populated plan/grant reset, cancellation recovery, new media fidelity, Windows or default promotion.
+
+## 🕒 Time
+
+**Stage / type / focus:** Minimal native transition/lifecycle proof; evidence-only checkpoint.
+
+**Date and clock:** November 18, 2026; Cairo UTC+02:00. Fixed cutoff **17:00:02.364612 Cairo / 15:00:02.364612 UTC**. Times below are UTC. Active effort was not measured.
+
+- Conditional preparation review **14:34:09.911309**, after 052's cutoff; binding **14:44:58.136804**, bound review **14:45:41.038534**.
+- 052 GitHub verified **14:50:35.203261**; final publication receipt **14:51:47.350602**. Fresh desktop observation **14:51:28.506** preceded the gate; final preservation also completed before the gate.
+- Manual gate **14:52:10.377617**; native outer **14:52:35.329553–14:54:54.534382**, **139.204846 seconds**, exit 0 without termination request.
+- Saved audit **14:58:30.031108**; lead reconciliation **14:59:46.039453**; fixed cutoff **15:00:02.364612**.
+
+**End / stopping point:** The finite two-transition journey is terminal and audited. A third resize-range selector option is assigned in isolated source work; its implementation/review and any new runtime are pending at cutoff.
+
+**Reason for this summary:** Close the native selector question left by 052 without repeating a successful media target, inflating startup activity into user work or importing later source results.
+
+## 🎯 Session Goal
+
+Exercise only the new ordinary 9.0.2 / Full-copy session composition through the original Linux UI: one launch, two visible transitions and normal close. Reuse the existing supervisor and known ordinary profile. Keep the live batch empty, with no picker, Prepare, Apply, Start, reveal, player or cancellation. Preserve exact source/history before execution. No app/test/runtime/pin/default/audio-policy change belongs to 053.
+
+## 🛠️ Actions Taken
+
+### 1. Complete 052 preservation and bind the smallest reused helper
+
+The run used `de117f37c0548d9fc82f728255e92639c23bf586`, tree `33d89ccd442e01a49274f58fe514f1948c54b024`: **674 files / 52 commits**. The exact **2,172,162-byte** predecessor, SHA `6a15cb1dab5f7dddfbf4c639da8c786a6f1661d98df46573db549c8fb85eaf97`, remains this entry's untouched suffix.
+
+Both source ZIP and full-history bundle exceeded 5 MiB. Split attachments were downloaded and reconstructed into the exact originals, with all source files and full history verified; readable native records also completed. This is packaging, not rewritten history or a raw-byte claim for formatted pages. GitHub remote `c5f90b2e4c2feb220f55c0089f274e835489c0e1`, sole parent `40a68ea446c51c0c5aa3c711272d97c445f24ebb`, verified all twelve intended readbacks: **1,056 total files / 1,044 unchanged / nine modified / three new / zero deleted**.
+
+The final mirror receipt is **125,790 bytes / `f439c597b58291366fb0dae8a3525fe442cab826bed2978515b2af3d86663a34`**; final publication receipt is **184,101 bytes / `e6baaea798f52cf2235b5b5369b4236d56aec58ee4d90818f8b53cec9a8c127f`**. An initial browser-style readback URL put a blob SHA in a commit-ref slot and returned 404. The supported immutable Git-blob read then returned the exact Session bytes; no mutation was replayed.
+
+The reused empty-batch supervisor changed only the required fixed candidate/profile/source bindings and capture baseline. Its conditional preparation review reproduced three file/injected controls; these did not run Electron or media. Exact binding changed three launcher literals and corresponding plan fields/status, preserving unbound originals. Bound review checked all 674 Git/current identities and inert positive/negative plan controls, not a native result.
+
+The canonical ordinary profile directory and **76 prior allowlisted events** were reconciled without resetting/copying the separate Full-copy profile or inspecting unrelated preferences/cache. The manual exclusive gate followed exact final preservation, fixed runtime/raw/dependency checks and a fresh actual desktop with inherited DISPLAY. No generator, extra authorizer framework or new user permission was needed. Existing owner testing authorization continued.
+
+### 2. Observe two native transitions, without user targets
+
+Initial ordinary9 Ready was observed at **14:52:47.586**, with its ordinary disclosure, empty inspector/live batch and remembered folder labels. No folder picker or Prepare was used. After settled scrolling and a fresh screenshot, one Full-copy selection was observed at **14:53:26.274**; controls disabled while replacement was pending.
+
+At **14:53:41.607**, a replacement native window was Ready with the finite whole-file 1080p30-to-720p / H.265 slow CRF25 / copied-AAC disclosure and explicit unavailable range/Keep-source/other-resolution/Remux choices. Full-copy was selected, ordinary enabled and the batch empty. CPU topology/pool/native-performance warnings remained visible.
+
+One ordinary selection was observed at **14:54:16.135**. A third Ready native window at **14:54:23.184** restored the ordinary disclosure/settings and empty live batch; later footer observation confirmed ordinary selected and Full-copy enabled. The reset notice described discarding the batch/completed-output access, but there was no populated grant or batch here to test that promise.
+
+Normal close was observed at **14:54:53.088** and the terminal prompt returned. No missed, duplicate or uncertain selector delivery was observed. The three native window IDs changed while the saved supervised process stayed the same. These are CUA-only observations, not exported screenshots or direct WebContents identities. The auditor did not independently view those screenshots.
+
+Frozen outcome: **23,511 bytes / `1b75c22359335d24150a6c0716c4531e730cf5a2f450a0d5cd6aebfd1b5d77aa`**. Exactly zero user targets, pickers, Prepare, Apply, Start, reveal, cancel or player actions were recorded. Startup capability media and remembered-output bookkeeping still occurred; zero user targets is not zero media.
+
+### 3. Reconcile actual owners, census and the forecast difference
+
+The supervisor saved **87 spawned / 87 closed / zero live / maximum one / zero failures**, exit 0 with no termination request or failure. The whole **139.204846-second** interval includes manual navigation and three startups; it is not an encode or startup benchmark. Closure rests on supervisor wait/exit and owned aggregate census, not another namespace's missing PID or whole-OS absence.
+
+Eighteen retained events form **three distinct owners with six events each**: session start, capability start, runtime identified, capability finished, provenance recovery finished and session end. All three session starts identify the same supervised process. Each prior owner ended before the next began, by **429 ms** and **241 ms**. All 76 original events remained byte-exact; the current event set is exactly **94**, and all 18 retained copies equal their allowlisted originals. Known directory identity/event preservation is not whole-profile immutability.
+
+The approximate 84-child estimate was never a ceiling. Each owner's recovery event reports one unrelated existing destination, with no matching/absent/uncertain entries or pending remainder. Source inspection shows this path performs one metadata probe per destination, supporting **84 forecast + three recovery probes = 87 observed**. This is a source-supported explanation, **not a retained per-child argv/PID/stderr ledger or independent classification of each extra child**. No extra target or replay is invented to reconcile it.
+
+Saved startup capability results report H.264/H.265/AV1 CPU 8/10-bit availability for each owner. Those microfixture checks do not establish user-target publication, NVIDIA/GPU or general-family qualification. No preparation/encode/publication event appears among the 18 new events.
+
+### 4. Preserve diagnostic/resource limitations and accept only the measured scope
+
+No captured event has `contextTruncated:true`; absent/null flags on context-free events do not prove complete child diagnostics. The **624-byte top-level stderr** retains three missing D-Bus socket messages and one SSL handshake/net_error-202 message, not labeled harmless. Only the initial READY line is in stdout; replacement readiness comes from attributed visible observations and ordered events, not invented later READY lines. All-child stderr completeness is not claimed.
+
+Eight free-space/capability-directory observations were above the 27 GiB floor and showed no remaining capability directories at those sampled points. This is not proof of no temporary writes, a continuous quota or a complete filesystem census. Inherited SIGTERM-then-wait and persistence limits remain; this observed normal closure is not a guarantee against arbitrary hangs or host failure.
+
+Final saved audit is **43,810 bytes / `281cfadfccbe23196c4c2e70aa5670a6a7584d274745593c25c15353081f5fca`**. Lead reconciliation is **3,162 bytes / `942680809321c473275712c8e381f7975e7ba833e44ab019e16aa836990b55fe`**, rehashing **137 identity rows / 137 unique paths**, all 674 current/Git source files and the exact event set. Original outcome wording that audit was pending remains historical; acceptance is additive.
+
+There was no source/test edit or test rerun. The prior **345/345 explicit Linux, 45/45 focused and 229/229 protection** results are inherited and overlapping, not new native test counts. This journey establishes finite empty-batch transitions only, not populated plan/grant reset, cancellation recovery, new audio/video equality, Windows or default promotion.
+
+## 🧠 Key Insights
+
+- The selector now has a real native transition result on the same immutable source that was tested, rather than borrowing an earlier media run's qualification.
+- Ordered owner endings, replacement windows and normal closure corroborate lifecycle behavior without proving direct WebContents identity or populated access revocation.
+- Startup and recovery work explains why a zero-user-target test still launches media tools. Forecasts must not replace measured census or become invented hard limits.
+
+## 📌 Decisions Made
+
+1. **Confirmed:** Use one minimal empty-batch journey, not another successful encode. **Decider:** Lead within ongoing owner authorization. **Basis:** The unresolved question was selector composition, not media fidelity.
+2. **Confirmed:** Accept the two observed transitions and terminal owned lifecycle. **Decider:** Lead after independent saved audit. **Basis:** CUA observations, three ordered owners, exact source/events and 87-child closure, with stated limits.
+3. **Confirmed:** Preserve the 87-versus-84 distinction as measured census plus source-supported inference. **Decider:** Auditor/lead. **Basis:** Recovery events and source path, without a per-child ledger or needless replay.
+4. **Deferred:** Populated reset, broader native/platform behavior and a third resize-range option. **Decider:** Lead's staged continuation. **Basis:** Those are not the measured scope; isolated resize work is assigned/in progress only at cutoff.
+
+## ⚠️ Difficulties / Friction
+
+The initial CUA kernel reset explicitly executed no code, then normal initialization succeeded. Scrolling was allowed to settle and controls were reobserved before each click. An exploratory event dump exceeded display budget; bounded field reads recovered the full sequence without modifying raw files. Publication's read-only URL error was corrected without replaying a remote action. None is evidence of an application selector defect. The meaningful remaining limits are empty-batch scope, aggregate diagnostics, sampled resources and platform generalization.
+
+## 🔧 Adjustments Made
+
+- **Shifted from:** Source/injected selector coverage only. **To:** Audited finite native ordinary → Full-copy → ordinary transitions. **Because:** The preserved 052 composition completed the actual UI flow. **Consequence:** Native transition support strengthened without another target or policy change.
+- **Shifted from:** Approximate 84-child preparation forecast. **To:** Actual 87-child census and a separately labeled recovery-probe inference. **Because:** Three recovery events and source behavior explain the difference. **Consequence:** No false extra-target claim, hard-cap violation or unnecessary rerun.
+- **Shifted from:** Pending outcome wording. **To:** Additive independent acceptance. **Because:** Saved evidence and source/event identities reconciled. **Consequence:** Original dated evidence remains untouched.
+
+## ❌ Mistakes / Risks Noted
+
+**Readback URL misuse. What happened:** A blob SHA was placed in a commit-ref URL slot. **Actual impact:** Read-only 404 before content, no state change. **Potential impact:** Unnecessary upload/replay or wrong-byte verification. **Correction/status:** Correct immutable Git-blob API read matched the full Session. **Failure Intelligence:** Use the endpoint's actual identity type and verify existing bytes before repeating work.
+
+**Overinterpreting empty-batch or aggregate evidence. What could happen:** Treating the visible reset notice as populated grant revocation, 87 closures as OS-wide cleanup, or zero targets as zero media. **Actual impact:** No such promotion made. **Potential impact:** Skipping needed stateful/platform checks or obscuring startup cost. **Correction/status:** Explicit empty-batch, ownership and diagnostic limits. **Failure Intelligence:** Report the actual exercised state and distinguish source inference from retained process evidence.
+
+## 📍 Current Position
+
+**As of:** 15:00:02.364612 UTC / 17:00:02.364612 Cairo. Later record integration does not move the cutoff.
+
+**Before:** 052 had a reviewed/source-tested ordinary/Full-copy selector, but its native composition remained unobserved.
+
+**After:** One controlled native launch completed both transitions, three Ready windows and three ordered owners, with 87 owned children closed and original state/event identities preserved.
+
+**Current standing:** Bounded empty-batch native selector proof accepted on unchanged 052. No app/test/runtime/pin/default/audio-policy change, new media fidelity or Windows/GPU/performance promotion.
+
+**Live owner / continuation anchor:** Lead owns evidence-only 053 preservation and separately assigned isolated resize-range selector work. At cutoff the author has only confirmed current 97-producer/raw-report prerequisites read-only; implementation/review and new runtime authority remain pending. Summary writer owns only this prepend until release.
+
+## 🔜 Next Steps
+
+1. Preserve the five-path 053 checkpoint through local Git, full source/history/readable Notion restoration and exact GitHub verification.
+2. Continue the isolated third-option resize-range work through actual source review and proportionate checks, without treating its current report/pin identities as new UI qualification.
+3. Decide any subsequent native scope from the remaining question and preserved source, not by repeating completed targets or expanding the present empty-batch claim.
+
+**Do not reopen / repeat:** Do not rewrite original pending-audit records, replay the consumed gate, reset profile/state indiscriminately, infer all-child diagnostics, silently change defaults or count startup probes as user targets.
+
+**Continuation boundary:** Existing owner permission continues. This archive grants no new runtime gate. Later resize implementation, tests, reviews or native preparation belong to the next milestone, not this fixed record.
+
+## ❓ Open Questions
+
+- **How does replacement behave with populated plans or completed-output grants? Needed from:** A separately justified stateful check if prioritized. **Blocks:** That broader reset claim, not the accepted empty-batch result.
+- **Can the same existing boundaries support the third resize-range choice? Needed from:** The assigned isolated implementation and independent review. **Blocks:** Integrating or qualifying that future option.
+- **What holds on Windows or for performance/resource behavior beyond this run? Needed from:** Relevant platform and comparable measurements. **Blocks:** Generalization; observed Linux readiness and sampled storage do not answer those questions.
+
+## 🧾 Session Outcome
+
+Delivered an audited native ordinary9 → Full-copy → ordinary9 empty-batch proof on immutable 052. One launch, two observed selections, three ordered owners and 87 owned children closed normally. No user target, source change or source-test rerun occurred.
+
+Detailed records: [execution](2026-11-18_Ordinary_Full_Copy_Selector_Native_Proof.md), [receipt index](2026-11-18_Ordinary_Full_Copy_Selector_Native_Proof_Receipts.json) and [portable evidence](ordinary-full-copy-selector-native-proof-portable.json).
+
+The portable preserves five complete selected parsed objects: outcome, outer completion, capture index, audit and lead reconciliation. Exactly **160 leading-prefix substitutions** are declared: 85 project, 68 native-proof and seven support; other parsed keys/types/values are unchanged. Raw events, historical profile contents, logs, source/runtime/media and gate payloads are not embedded. This is not a zero-omission archive, raw-runtime restoration, inverse mapping or execution authority. Original dated pending wording remains historical.
+
+The exact previous **2,172,162-byte** body and original correction receipt remain intact. Intended scope is **five evidence/PBS paths / 677 files / 53 commits**. New commit and external preservation are pending at cutoff and must be verified separately.
+
+## 🔍 Confidence Level
+
+**High** in the finite observed transitions, owner ordering and terminal owned census. **Limited** in populated reset, comprehensive diagnostics, broader platforms and performance.
+
+**Why:** CUA observations, three exact session sequences, unchanged original events/source, supervisor closure and independent audit agree. **Not higher because:** Visuals are not exported/direct WebContents evidence, batch/grants were empty, the extra-child explanation lacks a process ledger, warnings remain and storage/closure observations are bounded rather than universal guarantees.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Native Full-copy proved; opt-in ordinary/Full-copy selector integrated separately
 
 ## 🤖 Models, Effort, Roles and Provenance

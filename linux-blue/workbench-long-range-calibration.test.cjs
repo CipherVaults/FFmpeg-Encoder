@@ -249,3 +249,36 @@ test('successful injected child stderr is retained before a subsequent fixture f
   assert.equal(await fs.readFile(row.stderr.path, 'utf8'), 'retained warning\n');
   assert.equal(row.stderr.sha256, digest('retained warning\n'));
 });
+
+test('campaign retains incomplete successful-child diagnostics as a distinct failure alongside later failure', async t => {
+  const h = await candidateFixture(t, async (file, args, options) => {
+    const child = new EventEmitter(); child.kill = () => {}; options.onChild(child); child.emit('close', 0, null);
+    // No stderr stream and no generated media: successful child, later fileHash ENOENT.
+    return { exitCode: 0, stdout: '', stderr: '' };
+  });
+  const mkdtemp = fs.mkdtemp;
+  t.mock.method(fs, 'mkdtemp', () => mkdtemp(path.join(h.root, 'campaign-')));
+  t.mock.method(fs, 'statfs', async () => ({ bavail: 100n * 1024n ** 3n, bsize: 1n }));
+  const report = await runCandidateKeep720Campaign({ verifiedRuntime: h.runtime });
+  assert.equal(report.status, 'failed-retained'); assert.equal(report.failure.code, 'ENOENT');
+  assert.equal(report.diagnosticsComplete, false);
+  assert.equal(report.diagnosticsFailure.code, 'CAMPAIGN_DIAGNOSTICS_INCOMPLETE');
+  const saved = JSON.parse(await fs.readFile(path.join(report.root, 'report.json'), 'utf8'));
+  assert.deepEqual(saved.diagnosticsFailure, report.diagnosticsFailure);
+});
+
+test('actual report finalizer downgrades passed status on incomplete diagnostics and preserves primary failure', () => {
+  const { finalizeCampaignDiagnostics } = require('./workbench-long-range-calibration.cjs');
+  const complete = () => ({ status: 'passed-pre-catalog-calibration', census: { spawned: 1 }, children: [{ sequence: 1, closed: true,
+    stderr: { available: true, completeAtSave: true, truncated: false, totalBytes: 7, retainedBytes: 7, sha256: digest('warning') } }] });
+  const ok = complete(); assert.equal(finalizeCampaignDiagnostics(ok), ok); assert.equal(ok.status, 'passed-pre-catalog-calibration');
+  for (const mutate of [r => r.children = [], r => r.children[0].stderr.available = false,
+    r => r.children[0].stderr.truncated = true, r => r.children[0].stderr.totalBytes++,
+    r => r.children[0].stderr.saveFailure = { message: 'write failed' }, r => r.children[0].closed = false]) {
+    const row = complete(); mutate(row); finalizeCampaignDiagnostics(row);
+    assert.equal(row.status, 'failed-retained'); assert.equal(row.diagnosticsComplete, false);
+    assert.equal(row.diagnosticsFailure.code, 'CAMPAIGN_DIAGNOSTICS_INCOMPLETE');
+  }
+  const failed = complete(); failed.failure = { code: 'ORIGINAL' }; failed.children[0].stderr.available = false;
+  finalizeCampaignDiagnostics(failed); assert.deepEqual(failed.failure, { code: 'ORIGINAL' });
+});

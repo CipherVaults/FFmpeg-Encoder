@@ -377,12 +377,31 @@ async function runConfiguredCampaign(kind, candidate) {
     if (report.census.live || report.census.spawned !== report.census.closed || report.census.maximum > 1 || report.closeFailure) {
       report.status = 'failed-retained'; report.closeFailure ||= { message: 'Unbalanced or overlapping children' }; if (!candidate) process.exitCode = 1;
     }
-    report.diagnosticsComplete = report.children.every(row => row.closed && row.stderr.available && row.stderr.completeAtSave && !row.stderr.truncated && !row.stderr.saveFailure);
+    finalizeCampaignDiagnostics(report);
+    if (report.diagnosticsFailure && !candidate) process.exitCode = 1;
     await fs.writeFile(path.join(root, 'report.json'), JSON.stringify(report, null, 2));
   }
   console.log(JSON.stringify({ root, status: report.status, census: report.census, totalPipeBytes: report.totalPipeBytes,
     cases: report.cases.map(({ id, status, frames, samples, elapsedMs, pipeBytes }) => ({ id, status, frames, samples, elapsedMs, pipeBytes })),
     failure: report.failure, closeFailure: report.closeFailure }, null, 2));
+  return report;
+}
+// Finalize the actual saved report, retaining an earlier media failure separately.
+// A zero-exit child without bounded complete stderr is not complete evidence.
+function finalizeCampaignDiagnostics(report) {
+  report.diagnosticsComplete = Array.isArray(report.children) && report.children.length > 0
+    && report.children.length === report.census.spawned
+    && report.children.every((row, i) => {
+      const e = row.stderr;
+      return row.sequence === i + 1 && row.closed === true && e?.available === true && e.completeAtSave === true
+        && e.truncated === false && !e.saveFailure && Number.isSafeInteger(e.retainedBytes)
+        && e.retainedBytes >= 0 && e.retainedBytes <= 256 * 1024 && e.totalBytes === e.retainedBytes
+        && /^[a-f0-9]{64}$/.test(e.sha256);
+    });
+  if (!report.diagnosticsComplete) {
+    report.status = 'failed-retained';
+    report.diagnosticsFailure = { code: 'CAMPAIGN_DIAGNOSTICS_INCOMPLETE', message: 'Every owned child requires complete bounded retained stderr before calibration acceptance.' };
+  }
   return report;
 }
 function requireValidCampaignTelemetry(result) {
@@ -393,4 +412,4 @@ function requireValidCampaignTelemetry(result) {
 }
 const main = () => runCampaign('keep720');
 if (require.main === module) main().catch(error => { console.error(error); process.exitCode = 1; });
-module.exports = { prepareCandidateResize1080to720Case, runCandidateResize1080to720Campaign, requireValidCampaignTelemetry, main, runCampaign, runCandidateKeep720Campaign, prepareCandidateKeep720Case, campaign, sourcesForCampaign, selectedCounts, fixtureTimeoutMs, micros, count, SOURCES, FULL_SOURCES };
+module.exports = { finalizeCampaignDiagnostics, prepareCandidateResize1080to720Case, runCandidateResize1080to720Campaign, requireValidCampaignTelemetry, main, runCampaign, runCandidateKeep720Campaign, prepareCandidateKeep720Case, campaign, sourcesForCampaign, selectedCounts, fixtureTimeoutMs, micros, count, SOURCES, FULL_SOURCES };

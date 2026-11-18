@@ -1,3 +1,333 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Verify the empty native session switch and begin repairing the 45 failing checks without reopening stale qualification
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model / effort attribution | Evidence and limit |
+|---|---|---|
+| Engineering lead | GPT-6 Astra / Ultra, recorded assignment, not backend attestation | Completed 033 preservation, bound one native empty-batch journey, reconciled its audit, then integrated the separately reviewed first failure-repair slice. |
+| Native helper reviewer / operator / auditor | Not independently established here | Pure preparation checks, one actual application launch, CUA observations and a saved-evidence audit are separate activities. The auditor did not repeat the native journey. |
+| Failure taxonomy / source author | Not independently established here | Reproduced the 45 default-suite failures, separated blocked qualification from downstream test coverage, and changed six source/test paths in an isolated proposal. |
+| Independent source reviewer | Not independently established here | Retained independent red evidence, required preservation of both historical positive producer checks, and reviewed V2 before integration. No new runtime qualification. |
+| Integrated test / preservation / documentation workers | Not independently established here | Exact source tests, coherent source-and-evidence records, independent prose review and byte-exact historical preservation. This writer changes only the new Session prepend. |
+
+**Record basis:** Two results are deliberately attributed separately. On immutable **033**, one empty ordinary → Full-copy → ordinary native journey completed with 84 owned startup/capability children closed. After the audit and source-freeze release, six reviewed paths restored useful source-test coverage and tightened Keep report/diagnostic acceptance. The broad default suite moved from **245/290 with 45 failures** to **267/294 with 27 failures**. This means **16 previously blocked downstream tests now exercise their assertions, two default expectations now truthfully assert stale-producer refusal, and four new tests pass**. It does **not** mean 18 application defects were fixed. The two original positive producer checks remain separately runnable and **zero passed and two failed (0/2 passed)** as expected on stale evidence. No historical runtime qualification was silently declared green.
+
+## 🕒 Time
+
+**Stage / type / focus:** Limited native transition proof followed by the first source-validation and test-portability repair slice, with complete preservation of failed checks and old proof boundaries.
+
+**Date and clock:** November 18, 2026. Owner-local time is **Africa/Cairo, UTC+02:00** on this date. The chronology below retains exact UTC receipt times; add two hours for Cairo. The combined record closes at **06:47:34.966823 Cairo / 04:47:34.966823 UTC**. Overall active-work duration was not measured. Preparation, native wall duration, audit time, test duration and publication time are not interchangeable.
+
+- Prior 033 evidence cutoff: **04:05:38.760763 UTC / 06:05:38.760763 Cairo**. Later helper preparation belongs here, not in the preserved 033 entry.
+- Unbound preparation review **04:11:38.179802 UTC**; 033 publication manifest created **04:18:33.906133**; bound handoff **04:19:48.762273**; bound review **04:20:51.340894**.
+- 033 GitHub verification **04:23:51.041600**; final mirror release **04:25:53.221783**. Both precede the native gate and application launch.
+- First desktop check **04:26:11.800538**; original gate creation **04:27:56.963062–04:27:59.131998**. One submitted `python` command failed in the shell before the helper; the retained unavailable-command receipt is **04:29:39.323329**. No helper-start timestamp is invented for that failure.
+- Refreshed desktop **04:32:05.941131**; corrected gate creation **04:33:12.994210–04:33:14.025542**. One `python3` helper attempt marker **04:34:10.506766**; application/outer start **04:34:10.507227**.
+- Native outer interval **04:34:10.507227–04:35:46.248550 UTC / 06:34:10.507227–06:35:46.248550 Cairo**, **95.74134244599554 seconds** for the whole manual journey. Exit 0, no termination request or supervisor failure. This is not an encoding or switch-latency benchmark.
+- Operator outcome saved **04:36:34.405323**; source V1 handoff **04:39:14.574358**; native independent audit **04:43:37.694578**; source V2 handoff **04:44:30.643674**.
+- Native lead release **04:44:46.663564**; source V1 conditional review saved **04:44:54.429474**; final V2 review **04:45:40.405156**. These are recorded save times, not invented times for earlier review conversation.
+- Six-path integration **04:46:39.558756**; integrated tests **04:46:39.674480–04:46:50.908225**; aggregate completion **04:46:50.948498**.
+- **Fixed combined cutoff: 2026-11-18T04:47:34.966823Z / 06:47:34.966823 Africa/Cairo.** Later legacy-repair review, publication or native preparation does not move this boundary.
+
+**End / stopping point:** The native empty-batch result is audited on 033. The six-path V2 repair is integrated and all five final test scopes have explicit results, including broad and qualification failures. The remaining legacy slice is isolated and frozen, with final review pending. No further runtime is required to preserve this checkpoint.
+
+**Reason for this summary:** Close one useful native-and-source milestone under Ahmed's request to fix the 45 failures, without confusing a healthier default suite with restored media qualification or rewriting earlier evidence.
+
+## 🎯 Session Goal
+
+First isolate session switching from the unresolved picker interaction: reuse the known profile, open no pickers, prepare no files, and visibly switch an empty ordinary session to Full-copy and back in one native application. Preserve original stopped attempts and their unknown causes.
+
+Then act on Ahmed's explicit request, **“try to fix those 45 failures.”** Reproduce and classify the failures; repair real validation/currentness gaps; make synthetic source tests reach their intended assertions; preserve every genuine qualification prerequisite and fail-closed source gate. Do not repin historical media evidence to new source, delete failures, mass-skip checks, manufacture calibration files or call missing historical qualification an application regression.
+
+Finish with one coherent 034 checkpoint: six source/test paths plus Current, Session, execution, receipts and the native portable record. The required continuation remains **Git → independently restored Notion source/full history/full readable Session → verified GitHub**. That preservation is planned for 034, not yet completed at this entry's cutoff.
+
+## 🛠️ Actions Taken
+
+### 1. Finish 033 preservation before any new native execution
+
+033 is local commit `616b0380d3bbe8bd5d2910f193a873ed4f59e1a5`, tree `ef0314eac90d42805ec57ddb15f6dbd8b938a603`, **607 files / 33 commits**. Its ten-path change preserved four reviewed Quit-drain source/test paths plus six PBS/evidence paths. The source archive, complete history and full Session were restored before the remote publication and new native gate.
+
+[033 Notion source and history](https://app.notion.com/p/41cbd7ade63b81ff9cf3e792cf3f08e0) verified source ZIP SHA-256 `76c7a16d8f3f390f7725ffe70b04514096ced6e720322c2b40d84bb2c619679d`, bundle `e1a5d82a1608bf99ba624e590a37f4bb7aaa4c1d38329ed1abe977bf99ab9eb1`, and history ZIP `401a04dd00bdd45a2a7e7b5a15e6df40e7c56483b18058862700302509ec720d`.
+
+[033 readable native Session](https://app.notion.com/p/41cbd7ade63b819ebab6f5ae0b8648de) was fetched with all 33 session headings and historical ending, without truncation metadata. Exact UTF-8 source is **1,579,998 bytes**, SHA-256 `5905a06df4c8b7c6ecf7b32cbe9f73aa2b443e4a72b86e9215f6eb8e7507e444`; source/archive restoration, not native formatting, establishes byte identity. That complete body remains the exact suffix below this entry.
+
+GitHub `blue/linux-development` reached remote `d202c4ae8567bace109cb6666f9c86dc6dc7dc58`, sole parent `7fb11eb5727b713fdb506bb8f82f638b8d741465`, tree `3939931f7c3bdc57b0f3881b1bbe81191c4d3fd9`. Ten exact file readbacks, full immutable Session Git-blob read, expected-parent/non-force update and fresh ref passed. Remote tree: **989 total / 979 unchanged / five modified / five new / zero deleted**. Local reconstructed ancestry and remote ancestry remain intentionally distinct; no force rewrite or local-only backup claim.
+
+Final mirror receipt is **109,331 bytes**, SHA-256 `398ca7e213195b1fb7ca381f91a345dda7a3d7ec72d8fa7f6fcdd63fbab560a2`. The final lead release confirms full source/bundle/native restoration, 607 current files matching the immutable manifest and ten independently checked remote rows.
+
+### 2. Reuse a small, bound empty-batch helper instead of repeating the picker-dependent journey
+
+The unbound helper reused the existing supervisor, preserving its source/runtime checks, known profile and one-attempt rules. Worker **3/3 file-only tests** and independent **3/3** covered inert import, unbound refusal, synthetic plan scope, temporary known-state identity, exact prior-event inventory, mutation refusal and new-event-only capture. These overlapping checks were not native supervision tests.
+
+The bound handoff pins actual 033 commit/tree, 607 files and 33 commits. Its delta is limited to actual literals and the accurate `boundLaunchReview` label; the runtime/action/state rows remain unchanged. Bound reviewer independently checked all 607 Git/current/publication identities, **13 fixed inputs**, **seven dependency links**, known state **dev 27 / inode 2250108**, and the **eight prior event originals and retained copies**. Eight pure validation checks accepted the exact plan and refused wrong scope, commit, tree, source count, history, Prepare and unbound state. No helper main or native app ran during review.
+
+Bound review SHA-256 `ef11a2e6931f62e0c99271276681c2bee36a5b1a68164fc3023119c54aee1748` explicitly supersedes the older preparation sentence requiring an authorizer. This journey intentionally uses a **lead-written exclusive one-use gate after semantic preservation and identity checks**. No generator or authorizer was generated or executed. A set of unchecked boolean fields was not treated as sufficient authorization.
+
+The visible scope was one launch, ordinary Ready with empty batch, one Full-copy click, one Ordinary click, then normal close. **Zero pickers, Prepare, Apply, Start, reveal, target encodes, extra probe/decode or automatic retries.** Startup capability activity is real media activity and is not described as zero media. Existing owner authorization covers the same bounded native work; fresh one-use gates are implementation safety, not repeated requests for new owner permission.
+
+Known profile identity and original eight events were preserved. Only allowlisted diagnostic event JSON may be captured: at most 2,000 files and 2 MiB each, grouped by session. No profile/cache/token contents, profile reset or alternate profile. Storage admission requires 27 GiB free; before-switch/before-close/after-close observations and bounded capability-artifact observations are point checks, not continuous quotas, per-child storage guards or a hard write cap. The supervisor's 30-minute SIGTERM request followed by waiting is not guaranteed exit or force-kill authority.
+
+### 3. Preserve the unavailable interpreter command and rebind fresh checks before the sole application launch
+
+The first observed terminal command was `python launch-session-switch.py`. The shell returned **`bash: python: command not found`**. `COMMAND_UNAVAILABLE.json` records one command submission, **zero helper launches and zero app launches**, with attempt, PID, outer and supervisor-failure markers all absent. This is an interpreter-availability preparation error, not an application defect, failed native switch or consumed gate.
+
+The lead independently confirmed the absence of markers. The original gate (**71,867 bytes**, SHA-256 `7b5da02614d75fab0c3a8a00c2366f7eb724c2c5b1d4a05409d9b627c7790431`), original preflight and gate-creation receipt were archived byte-exact under `unconsumed-python-command`. The failed terminal screenshot remains CUA-only. No invented execution log or helper traceback replaces it.
+
+The corrected command uses the observed installed **Python 3.13.5** interpreter name `python3`, with the same exact launcher and action scope. A new actual desktop receipt confirmed inherited `DISPLAY=:0`, known state and no competing app/observed user activity. The lead rechecked all 607 source files, 13 fixed inputs, seven links, eight old events and preservation records before exclusively writing a fresh gate. Corrected gate **72,540 bytes**, SHA-256 `5d4f60c93689d15779b3d02329638f306a9bda2a014f82de3ab59bfbb25ec19c`. Desktop age was 67.053079 seconds at gate creation start and 124.565635 seconds at the attempt, within the 300-second bound.
+
+The original unconsumed gate was not replayed. Exactly one corrected helper invocation launched the app. Direct lead gate creation itself executed no runtime; neither first nor corrected gate creation was an executed authorizer.
+
+### 4. Observe both empty-batch native transitions and normal owned closure on immutable 033
+
+One app PID **19253**, process-start ticks **7025279**, launched the original workbench through Electron 44.7.0 with `--blue-workbench-session-switching`. Operator observations establish three native windows:
+
+| Mode | Native window | Visible state |
+|---|---:|---|
+| Initial ordinary | 44040196 | Ready, no folders, empty inspector, CRF 0–51; bottom controls showed Ordinary selected/disabled and the reset notice. |
+| Full-copy | 44040227 | Ready, no folders, empty inspector, CRF 25–25; whole-file 1080p30→720p/copied-AAC disclosure, unsupported ranges/Keep/other resolutions/Remux and CPU-topology/threading limits visible. Candidate selected/disabled. |
+| Returned ordinary | 44040232 | Ready, no folders, empty inspector; CRF 0–51 restored and Ordinary selected/disabled. |
+
+The first Full-copy click initially showed disabled controls, then settled in the replacement candidate window. The Ordinary click initially showed a white replacement frame, then settled back to ordinary. Those observed transient frames are preserved, not relabeled as app failures or omitted as clean visual QA. There was one click per switch and one normal titlebar close. No picker or user target action occurred.
+
+Saved diagnostics contain **18 new events in three distinct six-event session groups**, alongside all eight original events unchanged. Each new group records SESSION_STARTED, CAPABILITY_STARTED, RUNTIME_IDENTIFIED, CAPABILITY_FINISHED, PROVENANCE_RECOVERY_FINISHED and SESSION_ENDED. Envelope digests were verified; no truncated new context was found. Saved ordered numeric epochs show ordinary **7.1.5 → candidate 9.0.2 → ordinary 7.1.5**, with each retained end preceding the next start. This supports ordered service replacement, not a global no-overlap theorem beyond recorded boundaries.
+
+Visible new native-window identities plus the single PID and service groups support replacement inference. They do not directly measure WebContents identity or prove sandbox enforcement. The screenshots live in the CUA transcript only; there are no standalone archived images to independently replay.
+
+Normal outer closure returned exit 0 with no termination request or supervisor failure. Aggregate owned census: **84 spawned / 84 closed / zero live / maximum one / zero failures**. These are startup/capability children across the three sessions, not 84 user encodes and not independently retained per-child argv/stderr. No fixture or output directory was created. Four sampled storage points preserved canonical state identity and reported no surviving capability artifacts at those moments; transient artifacts between samples are not excluded.
+
+Top-level stdout is 421 bytes; stderr is **624 bytes**. It retains three missing-system-D-Bus-socket messages and one SSL handshake `net_error -202`. No security workaround, warning suppression or causal diagnosis was applied. Text prefixes around 06:34 and outer UTC around 04:34 belong to different display domains; the numeric event epochs align with the outer UTC interval. No clock drift is inferred from the prefix difference.
+
+The empty batch proves only this bounded navigation and normal closure. It does **not** test nonempty draft/selection reset, completed OutputAccess-grant revocation, encoding, active-work Quit drainage, same-service cancellation recovery, Windows or general release performance.
+
+### 5. Independently audit saved native evidence, then release the source freeze
+
+`INDEPENDENT_SAVED_EVIDENCE_AUDIT.json` is **15,861 bytes**, SHA-256 `ebb0d23db3136bffdf7f5f6a0927005afdc9bc674ae1c30cc39fd2e971dbe35f`. It reconciles 607 immutable Git/current/gate source files, 33 history commits, 13 fixed input hashes, seven dependency links, eight original/retained old events, 18 original/retained new events, three session groups, four storage points, gates, receipts, logs and outcome.
+
+The audit is read-only saved-evidence work: no new native launch, GUI replay, runtime, ffprobe/decode or source/PBS change. It accepts limited native transition evidence using retained diagnostics plus attributed CUA observations. Aggregate census is not OS-wide accounting or complete child diagnostics. The absence of picker/Prepare/Start/output actions is supported by both the bounded operator record and new event scope, not inferred from exit 0 alone.
+
+Lead identity reconciliation **968 bytes**, SHA-256 `c34fef484c4b84b7469eccbbd46874e31ce2535334cfd8f4722a1db6c8580cf4`, independently rechecked the source and saved identities and confirmed the app PID absent. Lead release **2,202 bytes**, SHA-256 `1b030c163f2b62f34f24b898452afbae1d15db5349e7dce3ce29ef0e1a784277`, accepted that finite result and opened the source freeze only for separately reviewed first failure-repair integration. It did not retroactively authorize another native run or turn the original gate into a reusable approval.
+
+### 6. Reproduce the 45 failures and distinguish qualification blocks from repairable source-test problems
+
+Ahmed's new request to fix the failures was acted on in parallel isolated work while authoritative source stayed frozen for the native audit. The fresh frozen-bundle baseline retained command, cwd, Node version, logs and all 607 source identities: **245 passed / 290 tests / 45 failed / zero skips**.
+
+The initial taxonomy was:
+
+- **18 stale candidate-producer closure failures**, preventing downstream assertions from running.
+- **Four absent external pilot fixtures**, including tests labeled synthetic but dependent on live fixture files.
+- **Eight absent historical AV1 runtime-pair failures.**
+- **13 absent historical calibration/service-report failures**, including some pure tests unnecessarily seeded from missing actual reports.
+- **One obsolete source-absence assertion.**
+- **One stale remux source-pin refusal.**
+
+This is a causal test taxonomy, not a count of proven application defects. A guard correctly refusing changed source must stay closed. Pure validation can gain self-contained synthetic evidence without pretending that an old positive media proof exists. The remaining 27 were reserved for a separate isolated slice; no detailed result from that later work is imported into this fixed checkpoint.
+
+### 7. Restore meaningful VM test coverage without modifying live producer pins
+
+The Keep and resize synthetic composition loaders previously reached real historical producer checks first, so source evolution prevented the tests from exercising their intended downstream selector, observer, telemetry, lifecycle, report or cleanup assertions. The repair computes a **VM-only synthetic producer table** over current local source inside each test's loader. Production `PRODUCERS` literals, runtime identities, raw-report digests, default routes and factory gates remain unchanged.
+
+Sixteen previously blocked downstream tests now execute their original assertions with this explicit injected closure. A tampered producer still refuses with the exact producer error **before** opening the report; expected report-close count is therefore zero. This is correct pre-open refusal, not a leaked report descriptor. Positive factory construction remains injected; it is not a real current-runtime positive or evidence repin.
+
+The two default tests formerly asserting that historical positive producer tables matched current source now explicitly assert the actual stale-source refusal. Independent V1 review required that the original positive prerequisites not disappear merely to make the default suite greener. V2 adds **`candidate-producer-qualification.cjs`**, a separate explicitly runnable, non-`.test.cjs` file retaining both original `await verifyCandidateServiceProducers()` bodies with genuine Keep and resize exports. No skip or relaxed assertion hides their status.
+
+The explicit command `node --test linux-blue/candidate-producer-qualification.cjs` was run by author, independent reviewer and final lead: **zero pass / two fail / zero skips**. Both refuse at stale `workbench-long-range-calibration.cjs`. This command is deliberately not included by the default `*.test.cjs` glob, so default results must always be read with the separately reported positive qualification status. It is not legitimate to call those historical prerequisites repaired or qualified.
+
+All **26 Full-copy producer pins remain unchanged and matching**. Both 97-entry historical Keep/resize maps also remain unchanged, with current mismatches at `workbench-long-range-calibration.cjs`, `src/operation-family.cjs`, `src/operation-resource-budget.cjs` and `src/operation-evidence.cjs`. The current calibration-module change adds/maintains a concrete stale-producer boundary; it is not an automatic requalification. Full-copy's matching closure does not qualify unrelated routes or the new Keep behavior.
+
+### 8. Tighten real Keep receipt/path acceptance and make incomplete diagnostics fail the saved campaign
+
+Two production paths changed, with associated tests:
+
+**Keep receipt validation:** Acceptance now requires no runtime-close failure, `diagnosticsComplete === true`, a safe positive spawned count no greater than 160, one ordered child row per spawned child, successful closed children with zero exit/null signal/no failure, and bounded complete retained stderr metadata. Every child's stderr must be available, complete at save, untruncated, have no save failure, contain safe retained byte counts no greater than 256 KiB, equal total/retained bytes and a 64-hex SHA. A complete nonempty warning stream is accepted; missing evidence is not. This pure validator checks exact digest-bound report fields, not the raw diagnostic file bytes itself; a saved-evidence audit must separately verify those files.
+
+**Report pathname currentness:** After bounded no-follow descriptor reading and before returning bytes, the reader now checks `lstat` and canonical `realpath` against the original dev/inode/size/nlink/mtime/ctime/birthtime identity. Same-descriptor stability alone cannot prove the pathname was not replaced. Tests replace the inode or change canonical resolution after the read and verify refusal plus descriptor/runtime cleanup. It is a point check, not an ongoing filesystem lock against arbitrary future replacement.
+
+**Actual saved campaign finalizer:** `finalizeCampaignDiagnostics(report)` is now called by the real campaign path immediately before saving. It requires a nonempty child array matching census count, ordered closed rows and bounded complete stderr metadata. If diagnostics are incomplete it sets `failed-retained` plus `CAMPAIGN_DIAGNOSTICS_INCOMPLETE`, while preserving an earlier primary failure separately. The non-candidate path also signals an unsuccessful process result. The exported pure finalizer mutates the supplied report; zero-child evidence is deliberately rejected.
+
+One injected campaign test supplies a zero-exit child with no stderr stream, followed by a fixture `ENOENT`. The saved report retains **both** the original failure and distinct incomplete-diagnostics failure. Pure finalizer tests start from passed status and demonstrate downgrade on missing/truncated/inconsistent evidence while keeping complete warning-bearing evidence accepted. These are source/injected tests, not successful media generation or a newly audited calibration.
+
+The historical Keep report predates complete child-stderr capture. The tightened consumer therefore intentionally cannot accept it until fresh, independently reviewed source/report qualification exists. Nothing fabricates missing diagnostics, edits original reports, suppresses warnings or repins source to make the route runnable. This stricter availability boundary is an explicit integration cost, not an accidental green-status claim.
+
+### 9. Retain red evidence and the V1 → V2 review correction
+
+The initial author test fixture had a VM regular-expression mistake and produced 21 failures; that run remains retained rather than being cited as valid production-red evidence. After correcting the fixture, **45/48 with three genuine new acceptance/currentness failures** established a meaningful red. A subsequent expected-first-stale-file adjustment produced one failure before final green; that intermediate remains too.
+
+The independent reviewer reverted both production files to exact 033 while retaining final tests and obtained **45/49 with four failures**: three genuine validation/path/diagnostic gaps plus the absent new finalizer export. Production bytes were then restored. This is independent red evidence with a defined source change, not a new native/media failure.
+
+Worker and independent V1 focused **49/49** and broad **267/294, 27 failures** ran over the five files that remain byte-exact in V2. The V2 delta adds only the explicit positive qualification file and independently runs its **0/2** result. Original V1 metadata, patch, reviews, logs and the two positive assertions remain available. Overlapping author/reviewer/focused/broad counts are never summed into a larger independent total.
+
+Final independent V2 review **7,483 bytes**, SHA-256 `dfb5e2b530b2782f554579258780ae65b3626d310fddacaddd35ab9d13d4319c`, accepts this six-file source/test scope, not historical qualification or native validation of changed source. Patch **23,399 bytes**, SHA-256 `5cfe2e9032a2ee8d2ab9fc1bbd8369001532623b2b58578a3e565fced87e3480`. Manual code/privacy/authority review is separate from formal Security Cloud; no formal scan or completed security certification is claimed.
+
+### 10. Integrate six reviewed paths only after native release and run all final scopes
+
+Integration receipt **3,248 bytes**, SHA-256 `c948c3fa060857c9ca29aa853f5013b9d405b0524b0170b6f1a301c7f2890918`, records actual base 033, five modified files, one new file and **602 untouched base files**. Source inventory becomes **608 files** before three new documentary artifacts. Its “lead tests pending” statement is a historical integration-time fact; final runs are recorded below, not overwritten into that earlier receipt.
+
+| Integrated path | Bytes | SHA-256 |
+|---|---:|---|
+| `linux-blue/candidate-keep720-service.cjs` | 23,614 | `4e2b01380e69890be34031445a7ed594db5dd0d2ef0e2300b804941ca61973b0` |
+| `linux-blue/candidate-keep720-service.test.cjs` | 25,349 | `3e8db60d9323304552317ed08d0b7156750e3be9d5636ba90603075ebedba19d` |
+| `linux-blue/candidate-resize-service.test.cjs` | 29,271 | `7e43dd93f8f0aacee1e7708ae97ef969e7f0f3bfd6c6e36ad7bc34c9a9d6aa42` |
+| `linux-blue/workbench-long-range-calibration.cjs` | 32,660 | `7460d5f369949a84827b6b6b96edab05656aecf2abd2b711a244942abab7b484` |
+| `linux-blue/workbench-long-range-calibration.test.cjs` | 23,100 | `db7f34126653033e61cc9954784177c6ff3a83d37c649bfca9e35bd7aac5d6d9` |
+| `linux-blue/candidate-producer-qualification.cjs` | 1,178 | `fafc70fb80dc596854a1359eeec51dabd65c283eabfd1adc4be2e8664d88d50b` |
+
+No renderer, preload, HTML/CSS/theme, IPC, Windows main, default app route, Full-copy producer table, runtime binary or historical raw report changed in this slice. Shared calibration code does change, so no platform-parity or fresh-media claim follows from the narrow file count.
+
+Final lead runs used the authoritative checkout, recorded expanded commands and Node identity, with all **608 checked source files byte-identical before/after**:
+
+| Scope | UTC interval | Result | Meaning |
+|---|---|---|---|
+| Affected Keep/resize/calibration | 04:46:39.674480–04:46:41.098470 | **49/49**, exit 0 | New source tests and restored downstream composition checks. |
+| Focused app/UI/IPC/output/session/Quit | 04:46:41.137562–04:46:42.295841 | **224/224**, exit 0 | Overlapping source/VM regression checks, not native retest. |
+| Service/source/output protection | 04:46:42.329426–04:46:48.789044 | **229/229**, exit 0 | Existing protection coverage remains passing. |
+| Broad Linux default suite | 04:46:48.828659–04:46:50.666390 | **267/294**, 27 fail, exit 1 | Four new tests pass; original assertions in 16 previously blocked tests now run; two default negatives truthfully test refusal. |
+| Explicit historical positive producers | 04:46:50.706741–04:46:50.908225 | **0/2**, two fail, exit 1 | Genuine historical producer prerequisites remain stale; no skips or qualification success. |
+
+All scopes report zero skipped/cancelled/todo tests and overlap, so they are not additive. Failure reconciliation matches the nonempty exact remaining-label multiset against independent evidence: 54 raw occurrences are duplicated reporting of **27 distinct failed tests**, not 54 failures. The 27 retained failures still require useful work; this is neither full green nor a blanket rebaseline. No runtime/native execution occurred in these source-test runs.
+
+### 11. Assemble one exact source-and-evidence preservation checkpoint
+
+The new readable records are [current state](CURRENT_STATE.md), [execution and evidence narrative](2026-11-18_Validation_Fixes_And_Native_Switch.md), [structured receipts](2026-11-18_Validation_Fixes_And_Native_Switch_Receipts.json), and [portable native evidence](evidence-2026-11-18/empty-session-switch-portable.json). The portable record is an archival readable derivative, not the original raw report or a factory/source-gate substitute. Its **12 complete parsed original objects** retain outcome, outer closure, audit, event capture, unavailable-command record, corrected gate receipt, four point records, lead identity and release. Exactly **18 leading-root substitutions** occur: 15 native-proof aliases and three support aliases, with every other key/type/value unchanged. The package is **47,300 bytes**, SHA-256 `c44d206b843d4dc5ab066192fb9eda47cd2c98d8d7a3c39651460c6822c1c415`; all six authority flags are false. Original hashes and transform locations are retained, without inverse root mapping or full gates/source manifests. Serialization cannot restore original raw bytes. Original dated pending-audit statements remain unmodified inside their own report objects; later audit/release and the fixed current cutoff are separate. Curated receipt SHA-256 is `6799ad6e276d55d3d56a7dd0a29ed676ad6da916cfe8ac7848734e50f90b67f2`.
+
+Planned coherent scope is **11 paths / 611 source-and-record files / 34 commits** after the new commit: six reviewed source/test paths, Current, Session, execution, receipts and one portable. Runtime binaries, raw local logs, profile/cache/token contents, gates, private fixture roots and future helper/source proposals are not published as project source. Existing history and original correction receipt remain exact; only this new entry is prepended.
+
+At this cutoff **034 commit, Notion restoration and GitHub publication are pending**. Do not identify a local commit or remote SHA before it exists. 033 is fully backed up; the changed 034 tree is not called backed up until its own Git → Notion restoration → verified GitHub cycle succeeds. Subsequent publication receipts may establish those later events without moving this entry's evidence cutoff.
+
+## 🧠 Key Insights
+
+1. **Empty-batch switching removes a real experimental dependency.** The two earlier picker stops did not test switching. Zero-picker work now supplies a bounded ordinary/candidate/ordinary observation without diagnosing or erasing those stops.
+2. **A smaller failure count is not a sufficient outcome description.** Sixteen downstream tests became meaningful again, two stale-positive expectations moved to truthful default negatives with original positives retained, and four new tests were added. Those distinctions are necessary to interpret 45 → 27 honestly.
+3. **Synthetic test closure and live qualification have different authority.** A VM-local table can reach downstream code safely while live historical producer maps remain unchanged and reject. Treating the two as the same would fabricate qualification.
+4. **Successful child exit is insufficient if saved diagnostics are incomplete.** The campaign must preserve both a primary failure and the missing-evidence failure rather than declaring a passed or complete result from partial records.
+5. **Descriptor stability is not pathname stability.** The added canonical/path identity check closes a specific read-time substitution gap but does not claim a perpetual filesystem lock.
+6. **Strictness can deliberately reduce route availability.** Requiring complete child evidence means original Keep calibration cannot reopen the changed source. That is a documented prerequisite, not a reason to suppress diagnostics or blindly repin.
+7. **Native success remains source- and scope-bound.** The successful empty journey ran on 033 before the six-file repair. It cannot validate later source, nonempty reset, active-work Quit drainage or encoding.
+
+## 📌 Decisions Made
+
+### Confirmed decisions
+
+- **Honor the owner’s failure-repair request now.** Basis: Ahmed's explicit instruction to try to fix the 45 failures. Isolated reproduction/taxonomy and proportionate source tests are authorized routine engineering; no unnecessary owner decision is substituted for work.
+- **Use the known-profile empty journey, not another picker-dependent attempt.** Basis: prior stopped attempts left switching unobserved; the bounded helper and independent review isolate the intended behavior without resetting state.
+- **Use an exclusive lead-written gate rather than build another authorizer.** Basis: final bound review explicitly supersedes earlier wording and requires semantic preservation/identity/desktop checks. Actual gate creation and no-authorizer provenance are retained.
+- **Correct `python` to `python3` only after preserving the unavailable-command evidence and refreshing checks.** Basis: shell error occurred before helper/app, markers absent, script/scope unchanged. The first gate was unconsumed, not replayed.
+- **Accept limited native transition evidence and release source for reviewed integration only.** Basis: saved audit, lead identity check, 607 frozen source identities, three event groups and 84 closed owned children.
+- **Keep live historical producer guards unchanged.** Basis: source mismatch is real; no fresh complete matching evidence exists. VM-only tables may restore test reach without granting runtime authority.
+- **Retain the original two positive qualification assertions separately.** Basis: independent V1 condition; V2 explicit command remains 0/2 red. Default green expectations cannot erase unmet historical prerequisites.
+- **Integrate the six reviewed paths and preserve them with native evidence in one checkpoint.** Basis: final independent V2 disposition and integrated test receipts, with 602 untouched base files and no other source scope.
+
+### Deferred decisions and prerequisites
+
+- **Remaining 27 default failures:** separate isolated review/source work, not folded into this cutoff. No choice to waive them or declare release readiness.
+- **Keep/resize requalification:** requires fresh reviewed current-producer calibration and complete diagnostics, then independently accepted service proof where appropriate. No map or report update solely to silence tests.
+- **Nonempty native reset, completed-output grant revocation and active-work Quit:** separate finite proof after preservation; existing owner authorization does not remove the need for fresh implementation checks.
+- **Formal Security Cloud and Windows/hardware qualification:** not performed here. Manual independent review and Linux source tests are not substitutes.
+
+## ⚠️ Difficulties / Friction
+
+- The terminal lacked the `python` alias even though Python 3 was available. One shell-level failure delayed preparation, but no helper/app was launched. The correction required new desktop freshness rather than recycling an almost-stale observation.
+- Historical exact producer closures prevented downstream synthetic tests from reaching their actual subject. That made the original 18 failures poor evidence of 18 separate application defects, yet their refusal was still correct for live qualification.
+- The first test-loader regular expression was wrong, creating 21 irrelevant failures. A valid red required correcting the test fixture before judging production behavior; all intermediate evidence remains.
+- The first proposal corrected default producer expectations without preserving the original positive checks. Independent review made preservation a condition; V2 supplies an explicit command that remains honestly red.
+- Complete warning-bearing diagnostics and absent diagnostics cannot be treated the same. The old Keep report lacks the new complete capture requirements, so stronger acceptance intentionally keeps that route unavailable until fresh evidence.
+- The native transcript has screenshots but no standalone image archive. Saved events and audit support the narrow result; they cannot replay the visual state independently or establish WebContents/sandbox internals.
+- The broad suite still fails 27 tests, and two extra historical positive prerequisites fail separately. A short “tests pass” summary would materially misrepresent current standing.
+
+## 🔧 Adjustments Made
+
+### Shifted from
+
+A picker-dependent native journey that previously stopped before switching, stale producer tables inside otherwise synthetic downstream tests, and a campaign status that could leave incomplete saved diagnostics insufficiently distinguished from other failures.
+
+### To
+
+One known-profile zero-picker empty session-switch journey; VM-only synthetic closure for downstream source tests with genuine live refusal retained; a separately runnable historical positive qualification command; stricter Keep report/path validation; and an actual saved-report finalizer that records incomplete diagnostics as a distinct failure.
+
+### Because
+
+The goal is usable, trustworthy progress rather than a cosmetically green test count. Independent evidence showed where the experiment did not reach its subject, where tests stopped at unrelated historical prerequisites, and where acceptance/currentness checks needed real strengthening.
+
+### Consequence
+
+The empty native transition is now observed on 033. Sixteen tests exercise their intended downstream behavior again; four new tests cover genuine gaps. The default suite is 267/294 with 27 failures, while the original two positive producer assertions stay 0/2. The changed Keep route is still unavailable pending fresh complete matching evidence, and no later source is retroactively covered by the native result.
+
+## ❌ Mistakes / Risks Noted
+
+### What happened or could happen
+
+The wrong interpreter alias was submitted; a VM fixture regex produced misleading early red output; the first proposal risked losing two positive qualification assertions; incomplete diagnostics and descriptor-only currentness could permit overclaiming; and a lower default failure count could be mistaken for restored runtime qualification.
+
+### Actual impact
+
+The shell error caused zero helper/app launches. The invalid fixture red did not establish production defects and was corrected before valid red/green interpretation. V2 retained and reran the original positives, still red. Production tests now prove specific diagnostic/path refusals, not newly successful media. Historical gates were not weakened, raw reports were not replaced, and the original native/state evidence was preserved.
+
+### Potential impact
+
+Calling all 18 removed default failures fixed bugs would hide unmet qualification and mislead future activation decisions. Reusing the native result for the later six-file source would misattribute evidence. Ignoring diagnostic gaps or rehashing stale producer maps could turn an unavailable route into an unjustified capability. Treating empty-batch success as nonempty-reset or output-grant proof would omit important user-data lifecycle checks.
+
+### Correction / current status
+
+Unavailable-command and unconsumed-gate evidence are archived. Valid worker and independent reds remain. Explicit positive qualification lives in the new standalone source file with a reported failing result. The strict consumer/finalizer retain incomplete evidence as failure. Current source tests and native source attribution are separately named. Remaining 27 and historical 0/2 are prominent, not hidden in a footnote or skipped.
+
+### Failure Intelligence
+
+- **Preparation error:** shell command unavailable before helper, not app failure. Check observed interpreter names and renew stale preflight rather than treating absent markers as an attempted journey.
+- **Invalid test red:** a broken fixture must be repaired before drawing production conclusions. Preserve invalid and valid logs with exact attribution.
+- **Coverage restoration:** use explicitly synthetic test seams to reach downstream behavior, while keeping genuine qualification gates in separate honest tests.
+- **Evidence-completeness defect:** successful child status cannot replace bounded retained diagnostics; keep primary and diagnostic failures distinct.
+- **Currentness boundary:** verify both descriptor and pathname at the read boundary; do not advertise point checks as permanent locks.
+- **Qualification accounting:** report default failure counts and opt-in prerequisite failures together. Future work must not drop the explicit 0/2 command merely because it sits outside the default glob.
+
+## 📍 Current Position
+
+**As of:** **November 18, 2026, 06:47:34.966823 Cairo / 04:47:34.966823 UTC.**
+
+**Before this session:** 033 was fully preserved with reviewed Quit-drain source, a passed finite remaining-service proof, stopped picker-dependent native switching and 45 broad failures. The exact historical body was 1,579,998 bytes. Keep and resize historical producer gates were stale.
+
+**After this session:** On that immutable 033 source, one empty ordinary → Full-copy → ordinary native journey is independently audited with 84 owned children closed. After release, six reviewed paths are integrated; 608 source files stayed byte-identical during five final test scopes. Affected 49/49, focused 224/224 and protection 229/229 pass. Broad default remains 267/294 with 27 failures; explicit historical producer qualification remains 0/2. No runtime was executed on the changed source.
+
+**Current standing:** Bounded source progress with real acceptance/currentness fixes and restored downstream test coverage, not complete failure resolution or general release readiness. Full-copy's 26-pin closure is unchanged. Keep/resize historical 97-pin maps remain stale; strict Keep diagnostics additionally require fresh evidence. The known state-directory identity, allowlisted prior event bytes, failed attempts, raw proofs and all prior Session bytes remain preserved; other profile contents were not inspected.
+
+**Live owner / continuation anchor:** Lead owns integration, staged scope, commit and Git → Notion → GitHub follow-through. Mirror independently verifies source/full-history/readable preservation and remote mapping. Session writer owns only this new prepend and its suffix/link/prose verification. The remaining legacy repair is isolated and frozen, with final review pending; no final result from it belongs here.
+
+## 🔜 Next Steps
+
+1. **Preserve this exact 034 milestone now:** check 11-path scope, commit, restore all 611 files and full 34-commit history in Notion, verify the full readable Session and exact source bytes, then publish and independently verify the intended GitHub branch/parent/tree/readbacks.
+2. **Continue the remaining 27 failures as real engineering work:** inspect the isolated legacy slice and independent review, distinguish self-contained pure/source-test repair from absent historical runtime/report qualification, and keep useful positive assertions available. No blanket skips or rebaseline-to-green.
+3. **Keep explicit historical prerequisites visible:** run/report `candidate-producer-qualification.cjs` when relevant; do not silently fold its 0/2 state into default-suite success or edit historical maps without a fresh reviewed evidence chain.
+4. **Plan new Keep/resize qualification only when useful and properly bounded:** changed source plus complete retained child diagnostics, saved-output audit and matching producer/report capsule are prerequisites. Do not repeat already-supported long Full-copy media merely to hide unrelated stale gates.
+5. **Separate later native lifecycle proofs:** nonempty reset and completed grant revocation require a separately designed journey after preservation. Empty switching is complete within its scope; earlier picker stops remain unresolved evidence, not diagnosed GTK defects.
+
+**Do not reopen / repeat:** Do not rewrite historical entries, clear the known profile, delete original failed roots, replay consumed gates, rerun the native journey only to obtain cleaner screenshots, suppress warning streams, repin historical calibration to new source, or remove the retained positive qualification command. Do not merge later remaining-27 review/test results into this fixed cutoff.
+
+**Continuation boundary:** Existing owner authorization covers continuing useful project work and reasonable checked native attempts of the same task. Fresh source/receipt/desktop gates and scoped reviews remain technical execution prerequisites, not a demand that the owner repeatedly approve routine work. Any new consequential scope or required approval remains separate.
+
+## ❓ Open Questions
+
+- **Which of the remaining 27 are repairable test coupling versus genuinely missing historical qualification?** **Needed from:** the isolated legacy source work and independent per-test review. It blocks a truthful full-green claim, not preservation of this first repair slice.
+- **What fresh complete report will qualify current Keep/resize source?** **Needed from:** a separately reviewed bounded calibration, complete diagnostic retention, independent audit and exact producer-bound capsule. It blocks current live route acceptance; no raw file can be synthesized to answer it.
+- **Do nonempty draft reset and completed-output access revocation behave correctly across a native switch?** **Needed from:** a separately bounded actual native journey using preserved state and explicit output/grant observations. Empty-batch success does not answer this.
+- **What caused earlier picker acceptance stops?** **Needed from:** direct selection-object/diagnostic evidence or a reproducible targeted investigation. No evidence here establishes a GTK, operator or application cause; zero-picker success neither fixes nor diagnoses it.
+- **Will the changed source preserve platform/native behavior beyond these tests?** **Needed from:** appropriate Windows/native/hardware checks and any separately required formal security work. Linux source/VM green and manual review do not establish parity.
+
+## 🧾 Session Outcome
+
+**Completed:** Full 033 preservation verified; bound native helper reused without an authorizer; unavailable `python` command preserved and corrected with a fresh gate; one actual empty ordinary → Full-copy → ordinary native journey completed and audited on immutable 033; all 84 owned children closed. First failure-repair V2 was independently reviewed and integrated only after native source release. It tightens actual Keep report/currentness and campaign diagnostic acceptance, restores 16 downstream tests, retains two original positive qualification assertions explicitly, and adds four passing tests. Final test results and remaining failures are exact and source-stable.
+
+**Not completed:** Full removal of the 45-failure backlog, live Keep/resize requalification, nonempty native reset/output-grant proof, new-source runtime qualification, Windows/hardware/formal Security Cloud qualification, or 034 commit/restoration/GitHub publication at this cutoff. The 27 default failures and two explicit positive qualification failures (0/2 passed) remain actionable work, not hidden exceptions.
+
+**Preservation contract:** This entry is the only Session change; the complete previous 1,579,998-byte body remains a byte-exact suffix and the original structure-correction receipt remains unchanged. Final Session hash and independent prose/link/suffix verification are recorded outside the repository so later publication can verify exact bytes without self-referential file hashing.
+
+## 🔍 Confidence Level
+
+**High for the bounded recorded facts and source attribution. Moderate for extrapolation beyond them.**
+
+**Why:** Independent restoration and remote verification establish 033; exact gate/source/runtime/state/event identities, one observed application, ordered service records and saved audit support the narrow empty switch result. Independent source review and valid red evidence distinguish real validation gaps from fixture errors. Six exact integrated paths, unchanged producer tables, all 608 tested source identities, five retained final test scopes and explicit failing historical positives support the stated source outcome.
+
+**Not higher because:** Visual evidence is CUA-only, census is aggregate rather than complete per-child diagnostics, empty batches leave nonempty lifecycle behavior untested, and no runtime ran on the changed source. Point-currentness/storage checks are not permanent guarantees. Historical Keep/resize prerequisites remain stale, the default suite still has 27 failures, and no Windows/hardware or formal security qualification was performed. 034 is not yet backed up until its own preservation cycle is verified.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Close the remaining service-proof gaps, preserve the stopped native switch, and drain admitted IPC before Quit
 
 ## 🤖 Models, Effort, Roles and Provenance

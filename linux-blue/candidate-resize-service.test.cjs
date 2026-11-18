@@ -56,8 +56,8 @@ test('pure candidate receipt requires complete exact resize1080to720 evidence, n
     const value = report(); mutate(value); assert.throws(() => validate(value));
   }
 });
-test('calibration producer literal closure still equals immutable tested source', async () => {
-  await verifyCandidateServiceProducers();
+test('live historical producer closure refuses current source until fresh qualification, without repinning', async () => {
+  await assert.rejects(verifyCandidateServiceProducers(), /Calibration producer changed: (?:src\/operation-family\.cjs|linux-blue\/workbench-long-range-calibration\.cjs)/);
 });
 test('public factory rejects copied handles and inert-option violations without runtime or receipt access', async () => {
   let reads = 0;
@@ -68,7 +68,15 @@ test('public factory rejects copied handles and inert-option violations without 
 // Dependency injection exists only in this test's VM loader, not in the exported
 // live factory. No candidate binaries, retained media or historical reports needed.
 async function injected({ changedProducer = false, changedReport = false, wrongIdentity = false, changedDependencies = false, reportIssue = null, staleAfterChecks = false } = {}) {
-  const file = path.join(__dirname, 'candidate-resize-service.cjs'), source = await fs.readFile(file, 'utf8');
+  const file = path.join(__dirname, 'candidate-resize-service.cjs'), sourceOriginal = await fs.readFile(file, 'utf8');
+  // VM-only synthetic closure. These bytes are not a media qualification and
+  // never alter production pins. Real live-gate refusal is asserted separately.
+  const literal = sourceOriginal.match(/const PRODUCERS = Object\.freeze\((\{[\s\S]*?\n\})\);/);
+  assert.ok(literal);
+  const syntheticProducers = {};
+  for (const name of Object.keys(JSON.parse(literal[1])))
+    syntheticProducers[name] = sha(await fs.readFile(path.resolve(__dirname, '..', name)));
+  const source = sourceOriginal.replace(literal[0], 'const PRODUCERS = ' + JSON.stringify(syntheticProducers) + ';');
   const dependencies = JSON.parse(source.match(/const DEPENDENCIES = (\[[\s\S]*?\n\]);/)[1]);
   let closed = 0, observed = 0, invoked = 0, reportClosed = 0, reportStats = 0, reportReadBytes = 0, reportRealpaths = 0;
   const fake = { runtimeIdentity: wrongIdentity ? 'a'.repeat(64) : RUNTIME_ID, dependencies: changedDependencies ? [] : dependencies,
@@ -112,7 +120,9 @@ test('synthetic factory composition uses normal selector, observer, telemetry an
 test('rejected synthetic construction closes candidate without child or storage effects', async () => {
   for (const options of [{ changedProducer: true }, { changedReport: true }, { wrongIdentity: true }, { changedDependencies: true }]) {
     const h = await injected(options);
-    await assert.rejects(h.api.createCandidateResizeService({ verifiedRuntime: h.fake, stateDir: '/tmp/not-created-candidate-service' }));
+    await assert.rejects(h.api.createCandidateResizeService({ verifiedRuntime: h.fake, stateDir: '/tmp/not-created-candidate-service' }),
+      options.changedProducer ? /Calibration producer changed: linux-blue\/workbench-long-range-calibration\.cjs/ : undefined);
+    if (options.changedProducer) assert.equal(h.counts().reportClosed, 0, 'tampered producer stops before report read');
     assert.equal(h.counts().closed, 1); assert.equal(h.counts().invoked, 0);
   }
 });

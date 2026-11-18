@@ -40,7 +40,7 @@ function report() {
         audio: [{ sampleCount: String(source.sourceExtentUs * 48000 / 1e6) }] } };
   });
   for (const row of cases) row.telemetry = { valid: true, scope: 'encoder-input-count-and-timeline-only', streams: ['video', 'audio'].map((kind, outputIndex) => ({ kind, outputIndex, unknownInputRecords: '0', correspondence: 'reported-input-and-independent-selected-source' })) };
-  return { candidateRuntime: true, geometry: { sourceWidth: 1280, sourceHeight: 720, resolution: 'source', outputWidth: 1280, outputHeight: 720 }, status: 'passed-pre-catalog-calibration', runtimeIdentity: RUNTIME_ID, resourcePolicy: RESOURCE_POLICY,
+  return { diagnosticsComplete: true, children: Array.from({ length: 34 }, (_, i) => ({ sequence: i + 1, closed: true, exitCode: 0, signal: null, stderr: { available: true, completeAtSave: true, truncated: false, retainedBytes: 0, totalBytes: 0, sha256: sha(Buffer.alloc(0)) } })), candidateRuntime: true, geometry: { sourceWidth: 1280, sourceHeight: 720, resolution: 'source', outputWidth: 1280, outputHeight: 720 }, status: 'passed-pre-catalog-calibration', runtimeIdentity: RUNTIME_ID, resourcePolicy: RESOURCE_POLICY,
     publicationAuthorized: false, catalogActivated: false, settings, census: { spawned: 34, closed: 34, live: 0, maximum: 1 }, sources, cases };
 }
 
@@ -56,8 +56,8 @@ test('pure candidate receipt requires complete exact Keep720 evidence, not servi
     const value = report(); mutate(value); assert.throws(() => validate(value));
   }
 });
-test('calibration producer literal closure still equals immutable tested source', async () => {
-  await verifyCandidateServiceProducers();
+test('live historical producer closure refuses current source until fresh qualification, without repinning', async () => {
+  await assert.rejects(verifyCandidateServiceProducers(), /Calibration producer changed: linux-blue\/workbench-long-range-calibration\.cjs/);
 });
 test('public factory rejects copied handles and inert-option violations without runtime or receipt access', async () => {
   let reads = 0;
@@ -68,20 +68,29 @@ test('public factory rejects copied handles and inert-option violations without 
 // Dependency injection exists only in this test's VM loader, not in the exported
 // live factory. No candidate binaries, retained media or historical reports needed.
 async function injected({ changedProducer = false, changedReport = false, wrongIdentity = false, changedDependencies = false, reportIssue = null, staleAfterChecks = false } = {}) {
-  const file = path.join(__dirname, 'candidate-keep720-service.cjs'), source = await fs.readFile(file, 'utf8');
+  const file = path.join(__dirname, 'candidate-keep720-service.cjs'), sourceOriginal = await fs.readFile(file, 'utf8');
+  // VM-only synthetic closure. These bytes are not a media qualification and
+  // never alter production pins. Real live-gate refusal is asserted separately.
+  const literal = sourceOriginal.match(/const PRODUCERS = Object\.freeze\((\{[\s\S]*?\n\})\);/);
+  assert.ok(literal);
+  const syntheticProducers = {};
+  for (const name of Object.keys(JSON.parse(literal[1])))
+    syntheticProducers[name] = sha(await fs.readFile(path.resolve(__dirname, '..', name)));
+  const source = sourceOriginal.replace(literal[0], 'const PRODUCERS = ' + JSON.stringify(syntheticProducers) + ';');
   const dependencies = JSON.parse(source.match(/const DEPENDENCIES = (\[[\s\S]*?\n\]);/)[1]);
-  let closed = 0, observed = 0, invoked = 0, reportClosed = 0, reportStats = 0;
+  let closed = 0, observed = 0, invoked = 0, reportClosed = 0, reportStats = 0, reportReadBytes = 0;
   const fake = { runtimeIdentity: wrongIdentity ? 'a'.repeat(64) : RUNTIME_ID, dependencies: changedDependencies ? [] : dependencies,
     pins: Object.fromEntries(['ffmpeg', 'ffprobe'].map(k => [k, { path: '/synthetic/' + k, size: 1, sha256: 'a'.repeat(64) }])),
     async requireCurrent() { observed++; if (staleAfterChecks && observed > 1) throw new Error('Injected stale runtime after report verification'); }, async close() { closed++; }, createRunner() { return async () => { invoked++; throw new Error('No child authorized by this test'); }; } };
   const originalRequire = createRequire(file), module = { exports: {} }, syntheticBytes = Buffer.from(JSON.stringify(report()).padEnd(55953));
   const overrides = {
     'node:fs/promises': { ...fs,
-      realpath: async name => name === REPORT ? (reportIssue === 'symlink' ? REPORT + '.elsewhere' : REPORT) : fs.realpath(name),
+      lstat: async name => name === REPORT ? { dev: 1n, ino: reportIssue === 'path-replacement' && reportReadBytes === 55953 ? 3n : 2n, size: 55953n, nlink: 1n, mtimeNs: 1n, ctimeNs: 1n, birthtimeNs: 1n } : fs.lstat(name, { bigint: true }),
+      realpath: async name => name === REPORT ? (reportIssue === 'symlink' || reportIssue === 'path-alias' && reportReadBytes === 55953 ? REPORT + '.elsewhere' : REPORT) : fs.realpath(name),
       open: async (name, flags) => {
         assert.equal(name, REPORT); assert.ok(flags & require('node:fs').constants.O_NOFOLLOW);
         return { stat: async () => ({ isFile: () => reportIssue !== 'nonregular', nlink: 1n, size: reportIssue === 'large' ? 55954n : 55953n, dev: 1n, ino: 2n, mtimeNs: 1n, ctimeNs: reportIssue === 'mutation' ? BigInt(++reportStats) : 1n, birthtimeNs: 1n }),
-          read: async (target, offset, length, position) => ({ bytesRead: reportIssue === 'truncated' ? 0 : syntheticBytes.copy(target, offset, position, position + length) }), close: async () => { reportClosed++; } };
+          read: async (target, offset, length, position) => { const bytesRead = reportIssue === 'truncated' ? 0 : syntheticBytes.copy(target, offset, position, position + length); reportReadBytes += bytesRead; return { bytesRead }; }, close: async () => { reportClosed++; } };
       }, readFile: async (name, ...args) => name === REPORT ? syntheticBytes
       : changedProducer && String(name).endsWith('workbench-long-range-calibration.cjs') ? Buffer.from('changed') : fs.readFile(name, ...args) },
     './candidate-calibration-runtime.cjs': { requireCandidateCalibrationRuntime: h => { assert.equal(h, fake); return h; } },
@@ -108,7 +117,9 @@ test('synthetic factory composition uses normal selector, observer, telemetry an
 test('rejected synthetic construction closes candidate without child or storage effects', async () => {
   for (const options of [{ changedProducer: true }, { changedReport: true }, { wrongIdentity: true }, { changedDependencies: true }]) {
     const h = await injected(options);
-    await assert.rejects(h.api.createCandidateKeep720Service({ verifiedRuntime: h.fake, stateDir: '/tmp/not-created-candidate-service' }));
+    await assert.rejects(h.api.createCandidateKeep720Service({ verifiedRuntime: h.fake, stateDir: '/tmp/not-created-candidate-service' }),
+      options.changedProducer ? /Calibration producer changed: linux-blue\/workbench-long-range-calibration\.cjs/ : undefined);
+    if (options.changedProducer) assert.equal(h.counts().reportClosed, 0, 'tampered producer stops before report read');
     assert.equal(h.counts().closed, 1); assert.equal(h.counts().invoked, 0);
   }
 });
@@ -243,4 +254,24 @@ test('inspection-only boundary refuses Start across a modeled pending-write wind
     assert.throws(() => service.startBatch({ planId, fileIds: [fileId] }), { code: 'LINUX_TRIM_CANDIDATE_SCOPE' });
   } finally { release(); await diagnostic; await service.closeOperationResources(); }
   assert.deepEqual(seen, ['unsupported', 'unsupported']);
+});
+
+test('Keep receipt refuses incomplete successful-child diagnostics while retaining warnings', () => {
+  const positive = report(); positive.children[0].stderr = { ...positive.children[0].stderr, totalBytes: 7, retainedBytes: 7, sha256: sha(Buffer.from('warning')) };
+  assert.deepEqual(validate(positive), positive);
+  for (const mutate of [r => r.diagnosticsComplete = false, r => delete r.children, r => r.children.pop(),
+    r => r.children[0].stderr.available = false, r => r.children[0].stderr.completeAtSave = false,
+    r => r.children[0].stderr.truncated = true, r => r.children[0].stderr.saveFailure = { message: 'failed' },
+    r => r.children[0].stderr.totalBytes++, r => r.children[0].closed = false,
+    r => r.children[0].exitCode = 1, r => r.children[0].signal = 'SIGTERM',
+    r => r.children[0].failure = { message: 'failed' }, r => r.runtimeCloseFailure = { message: 'failed' }]) {
+    const negative = report(); mutate(negative); assert.throws(() => validate(negative), /diagnostic|campaign/i);
+  }
+});
+test('Keep report pathname replacement and canonical alias after read reject with descriptor cleanup', async () => {
+  for (const reportIssue of ['path-replacement', 'path-alias']) {
+    const h = await injected({ reportIssue });
+    await assert.rejects(h.api.createCandidateKeep720Service({ verifiedRuntime: h.fake, stateDir: '/tmp/not-created-candidate-service' }), /Report path replaced during reading/);
+    assert.equal(h.counts().reportClosed, 1); assert.equal(h.counts().closed, 1); assert.equal(h.counts().invoked, 0);
+  }
 });

@@ -185,6 +185,20 @@ function assertCandidateServiceReceipt(bytes, expectedSha = REPORT_SHA) {
     && report.geometry.sourceWidth === 1280 && report.geometry.sourceHeight === 720
     && report.geometry.outputWidth === 1280 && report.geometry.outputHeight === 720,
   'Only the reviewed candidate KeepSource720 campaign is admitted.');
+  // Fresh successor acceptance requires complete retained diagnostics. Historical
+  // raw reports and producer pins are intentionally not rewritten by this guard.
+  need(!report.runtimeCloseFailure && report.diagnosticsComplete === true
+    && Number.isSafeInteger(report.census.spawned) && report.census.spawned > 0 && report.census.spawned <= 160
+    && Array.isArray(report.children) && report.children.length === report.census.spawned,
+  'Complete closed campaign diagnostics required; warnings are not suppressed.');
+  for (const [i, child] of report.children.entries()) {
+    const e = child.stderr;
+    need(child.sequence === i + 1 && child.closed === true && child.exitCode === 0 && child.signal === null && !child.failure
+      && e?.available === true && e.completeAtSave === true && e.truncated === false && !e.saveFailure
+      && Number.isSafeInteger(e.retainedBytes) && e.retainedBytes >= 0 && e.retainedBytes <= 256 * 1024
+      && e.totalBytes === e.retainedBytes && /^[a-f0-9]{64}$/.test(e.sha256),
+    'Complete bounded successful-child diagnostics required.');
+  }
   for (const row of report.cases) {
     const t = row.telemetry;
     need(t?.valid === true && t.scope === 'encoder-input-count-and-timeline-only'
@@ -210,6 +224,9 @@ async function readReviewedReport() {
     const after = await file.stat({ bigint: true });
     need(offset === REPORT_BYTES && ['dev', 'ino', 'size', 'nlink', 'mtimeNs', 'ctimeNs', 'birthtimeNs'].every(k => before[k] === after[k]),
       'The original report changed during bounded reading.');
+    const current = await fs.lstat(REPORT, { bigint: true });
+    need(await fs.realpath(REPORT) === REPORT && ['dev', 'ino', 'size', 'nlink', 'mtimeNs', 'ctimeNs', 'birthtimeNs'].every(k => before[k] === current[k]),
+      'Report path replaced during reading.');
     return bytes.subarray(0, REPORT_BYTES);
   } finally { await file.close(); }
 }

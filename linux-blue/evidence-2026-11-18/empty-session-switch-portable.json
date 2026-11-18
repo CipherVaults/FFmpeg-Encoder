@@ -1,0 +1,1172 @@
+{
+  "schema": "ffmpeg-portable-evidence-v1",
+  "checkpoint": "034",
+  "sourceCommit": "616b0380d3bbe8bd5d2910f193a873ed4f59e1a5",
+  "originals": {
+    "outcome": {
+      "path": "session-switch-empty033-bound-20261118/JOURNEY_OUTCOME.json",
+      "bytes": 7338,
+      "sha256": "0afe7ee1778c926ef486a351330995d662ff70e4e6b98788cbb60631a438b70a"
+    },
+    "outer": {
+      "path": "session-switch-empty033-bound-20261118/OUTER_COMPLETION.json",
+      "bytes": 839,
+      "sha256": "204e028eadd224d59135a706ea9f278eca397ab6b5684fdd1b20728a4621d1fb"
+    },
+    "audit": {
+      "path": "session-switch-empty033-bound-20261118/INDEPENDENT_SAVED_EVIDENCE_AUDIT.json",
+      "bytes": 15861,
+      "sha256": "ebb0d23db3136bffdf7f5f6a0927005afdc9bc674ae1c30cc39fd2e971dbe35f"
+    },
+    "events": {
+      "path": "session-switch-empty033-bound-20261118/EVENT_CAPTURE.json",
+      "bytes": 6056,
+      "sha256": "55ea58492ef0e18836a026ea13410fc2fdcde19b19c2d5a9bcdf00322c6d0e9a"
+    },
+    "commandUnavailable": {
+      "path": "session-switch-empty033-bound-20261118/COMMAND_UNAVAILABLE.json",
+      "bytes": 594,
+      "sha256": "a5db97a8799f1aaf8dd4843c9d48c489f838c00dc0d35ed9dce93c1467dbdab1"
+    },
+    "correctedGateReceipt": {
+      "path": "session-switch-empty033-bound-20261118/GATE_CREATION_RECEIPT.json",
+      "bytes": 1821,
+      "sha256": "71ae59f32fe8ecb1202b5d5a31268160f3a00a289fde06af6fd82bc3e475412c"
+    },
+    "pointBeforeFullCopy": {
+      "path": "session-switch-empty033-bound-20261118/POINT-before-full-copy.json",
+      "bytes": 276,
+      "sha256": "71c6058c0b4ce1551726a703a10c0f36a3915f4db66db10773d214f8d601f42d"
+    },
+    "pointBeforeOrdinary": {
+      "path": "session-switch-empty033-bound-20261118/POINT-before-ordinary.json",
+      "bytes": 275,
+      "sha256": "5af8ae20775e19a2bc5b3197f7c91a93514eea5606c03d21502609ef9f8ff296"
+    },
+    "pointBeforeClose": {
+      "path": "session-switch-empty033-bound-20261118/POINT-before-close.json",
+      "bytes": 272,
+      "sha256": "a2b423dad1a94741fbdf224203a8aa09ba56fb46b8c9c7cec62b5f8cd2cf42a8"
+    },
+    "pointAfterClose": {
+      "path": "session-switch-empty033-bound-20261118/POINT-after-close.json",
+      "bytes": 271,
+      "sha256": "459061dd5d1eddfac649e8df3e396a6bb23d11c6ab870c980983c1977ad24f8c"
+    },
+    "identity": {
+      "path": "session-switch-empty033-bound-20261118/LEAD_IDENTITY_RECONCILIATION.json",
+      "bytes": 968,
+      "sha256": "c34fef484c4b84b7469eccbbd46874e31ce2535334cfd8f4722a1db6c8580cf4"
+    },
+    "release": {
+      "path": "session-switch-empty033-bound-20261118/LEAD_RELEASE.json",
+      "bytes": 2202,
+      "sha256": "1b030c163f2b62f34f24b898452afbae1d15db5349e7dce3ce29ef0e1a784277"
+    }
+  },
+  "transformation": {
+    "rule": "Only declared exact leading known-root string prefixes replaced. Every other key/type/value retained. No inverse mapping.",
+    "count": 18,
+    "countsByAlias": {
+      "support://": 3,
+      "native-proof://": 15
+    },
+    "locations": [
+      {
+        "location": [
+          "reports",
+          "audit",
+          "gateBoundRecords",
+          0,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "gateBoundRecords",
+          1,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "gateBoundRecords",
+          2,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "gateBoundRecords",
+          3,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "gateBoundRecords",
+          4,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "gateBoundRecords",
+          5,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "gateBoundRecords",
+          6,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "commandCorrection",
+          "archivedOriginals",
+          0,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "commandCorrection",
+          "archivedOriginals",
+          1,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "commandCorrection",
+          "archivedOriginals",
+          2,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "commandCorrection",
+          "correctedGate",
+          "gate",
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "commandCorrection",
+          "correctedGate",
+          "originalUnconsumedArtifacts",
+          0,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "commandCorrection",
+          "correctedGate",
+          "originalUnconsumedArtifacts",
+          1,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "commandCorrection",
+          "correctedGate",
+          "originalUnconsumedArtifacts",
+          2,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "correctedGateReceipt",
+          "gate",
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "correctedGateReceipt",
+          "originalUnconsumedArtifacts",
+          0,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "correctedGateReceipt",
+          "originalUnconsumedArtifacts",
+          1,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "correctedGateReceipt",
+          "originalUnconsumedArtifacts",
+          2,
+          "path"
+        ],
+        "alias": "native-proof://"
+      }
+    ]
+  },
+  "authority": {
+    "runtimeExecution": false,
+    "productionActivation": false,
+    "qualification": false,
+    "rawReportRestoration": false,
+    "gateSubstitution": false,
+    "nativeSwitchQualification": false
+  },
+  "limits": [
+    "One successful empty ordinary\u2192Full-copy\u2192ordinary journey on033, supported by saved sessions and operator CUA observations. Not direct WebContents identity, nonempty reset, completed-output revocation, encoding or Windows proof.",
+    "84 observed owned startup/capability children closed; zero semantic targets does not mean zero media or OS-wide census. Top624-byte stderr is not complete individual-child diagnostics.",
+    "Initial python unavailable before helper/app/attempt; original unconsumed gate archived and fresh python3 correction preserved. Gate receipts contain identities only; no full gate/source-manifest payload included.",
+    "Four point observations are not continuous quota or whole-profile identity. No private profile/cache/token contents included.",
+    "Original dated pending-audit fields remain unchanged; separate final saved audit is included. Lead reconciliation and native source release completed at 04:44:46.663564 UTC and are included separately. The current owning record has the fixed 034 cutoff of 2026-11-18 04:47:34.966823 UTC; later source integration and test records are not native evidence.",
+    "Only declared prefix replacements; serialized logical aliases cannot restore original raw bytes or substitute runtime authority. No inverse mapping, raw media/runtime/profile or separate log files."
+  ],
+  "reports": {
+    "outcome": {
+      "status": "observed-empty-batch-two-switches-and-normal-close",
+      "recordedAtUtc": "2026-11-18T04:36:34.405323+00:00",
+      "sourceHead": "616b0380d3bbe8bd5d2910f193a873ed4f59e1a5",
+      "actions": {
+        "appLaunches": 1,
+        "switches": [
+          "full-copy",
+          "ordinary"
+        ],
+        "pickers": 0,
+        "prepare": 0,
+        "apply": 0,
+        "start": 0,
+        "reveal": 0,
+        "normalClose": 1
+      },
+      "windows": [
+        {
+          "id": 44040196,
+          "mode": "ordinary",
+          "observed": "Ready, no folders, empty inspector, CRF0\u201351"
+        },
+        {
+          "id": 44040227,
+          "mode": "full-copy",
+          "observed": "Ready, no folders, empty inspector, CRF25\u201325; whole-file1080p30-to720p/copiedAAC disclosure, unsupported ranges/Keep/other resolutions/Remux and CPU topology/threading limits visible"
+        },
+        {
+          "id": 44040232,
+          "mode": "ordinary",
+          "observed": "Ready, no folders, empty inspector, CRF0\u201351 restored"
+        }
+      ],
+      "pidEvidence": {
+        "pid": 19253,
+        "procStartTicks": "7025279",
+        "utc": "2026-11-18T04:34:10.507227+00:00",
+        "display": ":0"
+      },
+      "uiSequence": [
+        "Global checked python command failed before helper; retained evidence, no app attempt. Parent corrected to python3 and refreshed gate/preflight.",
+        "One corrected python3 launch; ordinary Ready. Scrolled to appended bottom controls, ordinary selected/disabled and reset notice visible.",
+        "One Full-copy button click, initial disabled-button frame then settled new candidate window. Scrolled bottom, candidate selected/disabled.",
+        "One Ordinary button click, initial white replacement frame then settled new ordinary window. Scrolled bottom, ordinary selected/disabled and reset notice visible.",
+        "Normal titlebar close removed app to terminal. No additional UI or runtime actions."
+      ],
+      "outer": {
+        "exitCode": 0,
+        "terminationRequested": false,
+        "failure": null,
+        "startedUtc": "2026-11-18T04:34:10.507227+00:00",
+        "endedUtc": "2026-11-18T04:35:46.248550+00:00",
+        "elapsedSeconds": 95.74134244599554,
+        "noUserTargetAuthorized": true,
+        "qualification": "Closure only. Requires visible CUA outcome and independent saved audit. No direct WebContents identity, completed-grant revocation, complete child stderr or runtime qualification inferred.",
+        "app.stdout.log": {
+          "bytes": 421,
+          "sha256": "3f6886844d4634a9626a13d83cd5257a0c4aabd5d6a0436e1bce71d5e80e85a8"
+        },
+        "app.stderr.log": {
+          "bytes": 624,
+          "sha256": "d34ff3d675cdcd130b318eafcd3109754b4205b3fde5d7bd9fcf36d8503657b8"
+        },
+        "ownedCensusLines": [
+          "LINUX_WORKBENCH_CLOSED {\"spawned\":84,\"closed\":84,\"live\":0,\"maximum\":1,\"failures\":0}"
+        ]
+      },
+      "sourceFilesReverified": 607,
+      "fixedInputsReverified": 13,
+      "dependencyLinksReverified": 7,
+      "priorEventsUnchanged": 8,
+      "newEventCount": 18,
+      "newEventGroups": {
+        "938067d1-435e-4704-8473-b08912c07dc2": [
+          "03b9fc82-15e6-4551-8d7f-16db49848374.json",
+          "1ecc49e9-ee5b-4ef9-8612-c8f433572ae6.json",
+          "33350329-a5e0-49ef-81e7-0cc8cd1ac8df.json",
+          "34daa49b-0eea-41d7-984b-f93f2ed71ff3.json",
+          "6f14c2c4-79fd-44a7-810f-2a015dcc3762.json",
+          "cc5e9761-5ec5-4d24-a220-d9aac89fd229.json"
+        ],
+        "5a548f95-f1da-45fc-8f54-b3de7c59653a": [
+          "238794af-c0aa-4fed-9ea3-445c7f52e96a.json",
+          "4e779df2-91cf-4b13-b14f-e59ebdc3447a.json",
+          "5b4df75f-1c99-4695-aa4f-760b4bb1533f.json",
+          "6f9bceac-06c8-4469-9f18-e56a4be53a73.json",
+          "8df3b797-8823-44d0-9483-e0ff0c882faf.json",
+          "a9ec3e6e-2eb7-4b61-b31e-0bb4d6068e82.json"
+        ],
+        "e6ae837c-0a91-4cc5-a2c8-0a5ec5880926": [
+          "2c0f0c75-2b88-4b73-b9c4-88f45b2ca8f3.json",
+          "48f8e452-7413-49d2-9763-feaca3120c61.json",
+          "57568864-5364-45d0-b6b8-4b95de62098c.json",
+          "ace70f59-b79d-4d8a-8a06-e7b4d33eb536.json",
+          "b80af459-dffa-4446-9aba-3c69262d01c4.json",
+          "fe364d0c-00d8-44ba-a438-a19fc15a9b33.json"
+        ]
+      },
+      "eventReasons": {
+        "938067d1-435e-4704-8473-b08912c07dc2": [
+          "CAPABILITY_STARTED",
+          "PROVENANCE_RECOVERY_FINISHED",
+          "RUNTIME_IDENTIFIED",
+          "CAPABILITY_FINISHED",
+          "SESSION_STARTED",
+          "SESSION_ENDED"
+        ],
+        "5a548f95-f1da-45fc-8f54-b3de7c59653a": [
+          "RUNTIME_IDENTIFIED",
+          "SESSION_ENDED",
+          "CAPABILITY_FINISHED",
+          "SESSION_STARTED",
+          "PROVENANCE_RECOVERY_FINISHED",
+          "CAPABILITY_STARTED"
+        ],
+        "e6ae837c-0a91-4cc5-a2c8-0a5ec5880926": [
+          "CAPABILITY_FINISHED",
+          "PROVENANCE_RECOVERY_FINISHED",
+          "SESSION_ENDED",
+          "RUNTIME_IDENTIFIED",
+          "SESSION_STARTED",
+          "CAPABILITY_STARTED"
+        ]
+      },
+      "stateIdentity": {
+        "dev": 27,
+        "ino": 2250108
+      },
+      "evidence": [
+        {
+          "name": "APPROVED_SESSION_SWITCH.json",
+          "bytes": 72540,
+          "sha256": "5d4f60c93689d15779b3d02329638f306a9bda2a014f82de3ab59bfbb25ec19c"
+        },
+        {
+          "name": "APP_PID.json",
+          "bytes": 114,
+          "sha256": "dc923657ef17cb18b7c6ab2bbd5d31ca8d401fcfdfb902bc594555a815600ca5"
+        },
+        {
+          "name": "OUTER_COMPLETION.json",
+          "bytes": 839,
+          "sha256": "204e028eadd224d59135a706ea9f278eca397ab6b5684fdd1b20728a4621d1fb"
+        },
+        {
+          "name": "EVENT_CAPTURE.json",
+          "bytes": 6056,
+          "sha256": "55ea58492ef0e18836a026ea13410fc2fdcde19b19c2d5a9bcdf00322c6d0e9a"
+        },
+        {
+          "name": "app.stdout.log",
+          "bytes": 421,
+          "sha256": "3f6886844d4634a9626a13d83cd5257a0c4aabd5d6a0436e1bce71d5e80e85a8"
+        },
+        {
+          "name": "app.stderr.log",
+          "bytes": 624,
+          "sha256": "d34ff3d675cdcd130b318eafcd3109754b4205b3fde5d7bd9fcf36d8503657b8"
+        },
+        {
+          "name": "COMMAND_UNAVAILABLE.json",
+          "bytes": 594,
+          "sha256": "a5db97a8799f1aaf8dd4843c9d48c489f838c00dc0d35ed9dce93c1467dbdab1"
+        },
+        {
+          "name": "POINT-after-close.json",
+          "bytes": 271,
+          "sha256": "459061dd5d1eddfac649e8df3e396a6bb23d11c6ab870c980983c1977ad24f8c"
+        },
+        {
+          "name": "POINT-before-close.json",
+          "bytes": 272,
+          "sha256": "a2b423dad1a94741fbdf224203a8aa09ba56fb46b8c9c7cec62b5f8cd2cf42a8"
+        },
+        {
+          "name": "POINT-before-full-copy.json",
+          "bytes": 276,
+          "sha256": "71c6058c0b4ce1551726a703a10c0f36a3915f4db66db10773d214f8d601f42d"
+        },
+        {
+          "name": "POINT-before-ordinary.json",
+          "bytes": 275,
+          "sha256": "5af8ae20775e19a2bc5b3197f7c91a93514eea5606c03d21502609ef9f8ff296"
+        }
+      ],
+      "limits": [
+        "Same application PID supported by one launcher child and retained diagnostics; native window replacement is not direct WebContents identity verification.",
+        "Empty-batch transitions do not prove nonempty reset, completed output access revocation or encoding.",
+        "84 startup capability children are real media activity, not target encoding; no complete per-child stderr claim.",
+        "Top-level stderr retains three missing system D-Bus socket messages and one SSL handshake net_error -202. No cause/security workaround inferred.",
+        "Electron stderr wall clock prefixes differ from UTC supervisor clock; domains retained, not conflated.",
+        "Point capability observations empty at sampled times, not continuous artifact quota.",
+        "Screenshots CUA transcript only, no standalone image files.",
+        "Independent saved audit still required."
+      ],
+      "writerReleased": true
+    },
+    "outer": {
+      "exitCode": 0,
+      "terminationRequested": false,
+      "failure": null,
+      "startedUtc": "2026-11-18T04:34:10.507227+00:00",
+      "endedUtc": "2026-11-18T04:35:46.248550+00:00",
+      "elapsedSeconds": 95.74134244599554,
+      "noUserTargetAuthorized": true,
+      "qualification": "Closure only. Requires visible CUA outcome and independent saved audit. No direct WebContents identity, completed-grant revocation, complete child stderr or runtime qualification inferred.",
+      "app.stdout.log": {
+        "bytes": 421,
+        "sha256": "3f6886844d4634a9626a13d83cd5257a0c4aabd5d6a0436e1bce71d5e80e85a8"
+      },
+      "app.stderr.log": {
+        "bytes": 624,
+        "sha256": "d34ff3d675cdcd130b318eafcd3109754b4205b3fde5d7bd9fcf36d8503657b8"
+      },
+      "ownedCensusLines": [
+        "LINUX_WORKBENCH_CLOSED {\"spawned\":84,\"closed\":84,\"live\":0,\"maximum\":1,\"failures\":0}"
+      ]
+    },
+    "audit": {
+      "schema": "independent-native-saved-evidence-audit/v1",
+      "checkedAtUtc": "2026-11-18T04:43:37.694578+00:00",
+      "writerReleased": true,
+      "disposition": "Saved diagnostics and operator CUA record support one empty-batch ordinary \u2192 Full-copy \u2192 ordinary journey with normal owned closure on immutable source 033. Limited native transition evidence, not encoding or broad release qualification.",
+      "identities": {
+        "JOURNEY_OUTCOME.json": {
+          "bytes": 7338,
+          "sha256": "0afe7ee1778c926ef486a351330995d662ff70e4e6b98788cbb60631a438b70a"
+        },
+        "APPROVED_SESSION_SWITCH.json": {
+          "bytes": 72540,
+          "sha256": "5d4f60c93689d15779b3d02329638f306a9bda2a014f82de3ab59bfbb25ec19c"
+        },
+        "GATE_CREATION_RECEIPT.json": {
+          "bytes": 1821,
+          "sha256": "71ae59f32fe8ecb1202b5d5a31268160f3a00a289fde06af6fd82bc3e475412c"
+        },
+        "COMMAND_UNAVAILABLE.json": {
+          "bytes": 594,
+          "sha256": "a5db97a8799f1aaf8dd4843c9d48c489f838c00dc0d35ed9dce93c1467dbdab1"
+        },
+        "DESKTOP_PREFLIGHT.json": {
+          "bytes": 1434,
+          "sha256": "d87b16d9a4f0a63e8cb8369a52ed2a5375edf7466ebcaf5703efd9be398eb209"
+        },
+        "ATTEMPT_STARTED.json": {
+          "bytes": 579,
+          "sha256": "929fb91a0da840fdf571257227d54ef006d1f85e224c6ae98cc63af5d0bca9b7"
+        },
+        "APP_PID.json": {
+          "bytes": 114,
+          "sha256": "dc923657ef17cb18b7c6ab2bbd5d31ca8d401fcfdfb902bc594555a815600ca5"
+        },
+        "OUTER_COMPLETION.json": {
+          "bytes": 839,
+          "sha256": "204e028eadd224d59135a706ea9f278eca397ab6b5684fdd1b20728a4621d1fb"
+        },
+        "EVENT_CAPTURE.json": {
+          "bytes": 6056,
+          "sha256": "55ea58492ef0e18836a026ea13410fc2fdcde19b19c2d5a9bcdf00322c6d0e9a"
+        },
+        "app.stdout.log": {
+          "bytes": 421,
+          "sha256": "3f6886844d4634a9626a13d83cd5257a0c4aabd5d6a0436e1bce71d5e80e85a8"
+        },
+        "app.stderr.log": {
+          "bytes": 624,
+          "sha256": "d34ff3d675cdcd130b318eafcd3109754b4205b3fde5d7bd9fcf36d8503657b8"
+        }
+      },
+      "verifiedCounts": {
+        "currentGitAndGateSources": 607,
+        "historyCommits": 33,
+        "fixedInputFiles": 13,
+        "dependencyLinks": 7,
+        "priorOriginalAndCopiedEvents": 8,
+        "newOriginalAndRetainedEvents": 18,
+        "sessionGroups": 3,
+        "pointObservations": 4
+      },
+      "gateBoundRecords": [
+        {
+          "path": "support://notion-checkpoint-033-verification.json",
+          "bytes": 109331,
+          "sha256": "398ca7e213195b1fb7ca381f91a345dda7a3d7ec72d8fa7f6fcdd63fbab560a2"
+        },
+        {
+          "path": "support://github-checkpoint033-verification.json",
+          "bytes": 4625,
+          "sha256": "39419352a054979c96a22588eb39e619df5a620a700fa659e6156c2ec8dfa6a7"
+        },
+        {
+          "path": "support://session-switch-empty033-preparation-20261118/INDEPENDENT_PREPARATION_REVIEW.json",
+          "bytes": 4468,
+          "sha256": "8fe45f2288dc8ae0bedee3aa78478cc9c828be3eb0b6cca5bd59211c4750cb0d"
+        },
+        {
+          "path": "native-proof://INDEPENDENT_BOUND_LAUNCH_REVIEW.json",
+          "bytes": 4104,
+          "sha256": "ef11a2e6931f62e0c99271276681c2bee36a5b1a68164fc3023119c54aee1748"
+        },
+        {
+          "path": "native-proof://GITHUB_PRELAUNCH_REF.json",
+          "bytes": 1590,
+          "sha256": "e79a77b30c2df28b662b25c678bf32fa8cd990a7e05bb2f63071f4d224fea225"
+        },
+        {
+          "path": "native-proof://unconsumed-python-command/APPROVED_SESSION_SWITCH.json",
+          "bytes": 71867,
+          "sha256": "7b5da02614d75fab0c3a8a00c2366f7eb724c2c5b1d4a05409d9b627c7790431"
+        },
+        {
+          "path": "native-proof://COMMAND_UNAVAILABLE.json",
+          "bytes": 594,
+          "sha256": "a5db97a8799f1aaf8dd4843c9d48c489f838c00dc0d35ed9dce93c1467dbdab1"
+        }
+      ],
+      "commandCorrection": {
+        "firstCommand": {
+          "status": "shell-command-unavailable-before-helper",
+          "checkedAtUtc": "2026-11-18T04:29:39.323329+00:00",
+          "command": "python launch-session-switch.py",
+          "observedTerminalError": "bash: python: command not found",
+          "commandSubmissions": 1,
+          "helperLaunches": 0,
+          "appLaunches": 0,
+          "terminalWindowId": 41943043,
+          "markers": {
+            "ATTEMPT_STARTED.json": false,
+            "APP_PID.json": false,
+            "OUTER_COMPLETION.json": false,
+            "SUPERVISOR_FAILURE.json": false
+          },
+          "screenshots": "CUA transcript only",
+          "action": "No substitution or retry; parent notified; source unchanged"
+        },
+        "archivedOriginals": [
+          {
+            "path": "native-proof://unconsumed-python-command/APPROVED_SESSION_SWITCH.json",
+            "bytes": 71867,
+            "sha256": "7b5da02614d75fab0c3a8a00c2366f7eb724c2c5b1d4a05409d9b627c7790431"
+          },
+          {
+            "path": "native-proof://unconsumed-python-command/DESKTOP_PREFLIGHT.json",
+            "bytes": 1406,
+            "sha256": "3f07fe2b544cd42eabc3ab9a6e04053e81812bf9b338ae8b5db65e9ece6eb51a"
+          },
+          {
+            "path": "native-proof://unconsumed-python-command/GATE_CREATION_RECEIPT.json",
+            "bytes": 1002,
+            "sha256": "3ff948792dfe4bb6958f361167aff5c894145800dc3441e6e943d64b77c6584c"
+          }
+        ],
+        "correctedGate": {
+          "startedAtUtc": "2026-11-18T04:33:12.994210+00:00",
+          "completedAtUtc": "2026-11-18T04:33:14.025542+00:00",
+          "gate": {
+            "path": "native-proof://APPROVED_SESSION_SWITCH.json",
+            "bytes": 72540,
+            "sha256": "5d4f60c93689d15779b3d02329638f306a9bda2a014f82de3ab59bfbb25ec19c"
+          },
+          "desktopAgeSecondsAtStart": 67.053079,
+          "sourceFilesVerified": 607,
+          "fixedInputsVerified": 13,
+          "priorEventsVerified": 8,
+          "originalUnconsumedArtifacts": [
+            {
+              "path": "native-proof://unconsumed-python-command/APPROVED_SESSION_SWITCH.json",
+              "bytes": 71867,
+              "sha256": "7b5da02614d75fab0c3a8a00c2366f7eb724c2c5b1d4a05409d9b627c7790431"
+            },
+            {
+              "path": "native-proof://unconsumed-python-command/DESKTOP_PREFLIGHT.json",
+              "bytes": 1406,
+              "sha256": "3f07fe2b544cd42eabc3ab9a6e04053e81812bf9b338ae8b5db65e9ece6eb51a"
+            },
+            {
+              "path": "native-proof://unconsumed-python-command/GATE_CREATION_RECEIPT.json",
+              "bytes": 1002,
+              "sha256": "3ff948792dfe4bb6958f361167aff5c894145800dc3441e6e943d64b77c6584c"
+            }
+          ],
+          "reason": "Shell had no python alias; no helper/app/attempt started. Corrected observed installed Python3.13.5 command preserves exact script and action scope. Original gate/preflight/creation receipt retained byte-exact, not replayed.",
+          "command": "python3 launch-session-switch.py",
+          "runtimeExecutedByThisGateAction": false,
+          "authorizerGeneratedOrExecuted": false
+        },
+        "desktopAgeAtAttemptSeconds": 124.565635,
+        "interpretation": "Unavailable python shell alias stopped before helper/app. Original unconsumed gate/preflight/receipt retained byte-exact. New python3 command and fresh exact gate preceded the sole helper attempt; this is not a second app launch or consumed-gate replay."
+      },
+      "outer": {
+        "exitCode": 0,
+        "terminationRequested": false,
+        "failure": null,
+        "startedUtc": "2026-11-18T04:34:10.507227+00:00",
+        "endedUtc": "2026-11-18T04:35:46.248550+00:00",
+        "elapsedSeconds": 95.74134244599554,
+        "noUserTargetAuthorized": true,
+        "qualification": "Closure only. Requires visible CUA outcome and independent saved audit. No direct WebContents identity, completed-grant revocation, complete child stderr or runtime qualification inferred.",
+        "app.stdout.log": {
+          "bytes": 421,
+          "sha256": "3f6886844d4634a9626a13d83cd5257a0c4aabd5d6a0436e1bce71d5e80e85a8"
+        },
+        "app.stderr.log": {
+          "bytes": 624,
+          "sha256": "d34ff3d675cdcd130b318eafcd3109754b4205b3fde5d7bd9fcf36d8503657b8"
+        },
+        "ownedCensusLines": [
+          "LINUX_WORKBENCH_CLOSED {\"spawned\":84,\"closed\":84,\"live\":0,\"maximum\":1,\"failures\":0}"
+        ]
+      },
+      "pidEvidence": {
+        "pid": 19253,
+        "procStartTicks": "7025279",
+        "utc": "2026-11-18T04:34:10.507227+00:00",
+        "display": ":0"
+      },
+      "census": {
+        "spawned": 84,
+        "closed": 84,
+        "live": 0,
+        "maximum": 1,
+        "failures": 0
+      },
+      "orderedSessions": [
+        {
+          "startEpochMs": 1794976450851,
+          "endEpochMs": 1794976491273,
+          "runtimeVersions": {
+            "ffmpeg": "7.1.5-0+deb13u1",
+            "ffprobe": "7.1.5-0+deb13u1"
+          },
+          "eventReasons": [
+            "SESSION_STARTED",
+            "CAPABILITY_STARTED",
+            "RUNTIME_IDENTIFIED",
+            "CAPABILITY_FINISHED",
+            "PROVENANCE_RECOVERY_FINISHED",
+            "SESSION_ENDED"
+          ],
+          "contextTruncated": false
+        },
+        {
+          "startEpochMs": 1794976491664,
+          "endEpochMs": 1794976519398,
+          "runtimeVersions": {
+            "ffmpeg": "9.0.2",
+            "ffprobe": "9.0.2"
+          },
+          "eventReasons": [
+            "SESSION_STARTED",
+            "CAPABILITY_STARTED",
+            "RUNTIME_IDENTIFIED",
+            "CAPABILITY_FINISHED",
+            "PROVENANCE_RECOVERY_FINISHED",
+            "SESSION_ENDED"
+          ],
+          "contextTruncated": false
+        },
+        {
+          "startEpochMs": 1794976519447,
+          "endEpochMs": 1794976544772,
+          "runtimeVersions": {
+            "ffmpeg": "7.1.5-0+deb13u1",
+            "ffprobe": "7.1.5-0+deb13u1"
+          },
+          "eventReasons": [
+            "SESSION_STARTED",
+            "CAPABILITY_STARTED",
+            "RUNTIME_IDENTIFIED",
+            "CAPABILITY_FINISHED",
+            "PROVENANCE_RECOVERY_FINISHED",
+            "SESSION_ENDED"
+          ],
+          "contextTruncated": false
+        }
+      ],
+      "eventEnvelopeDigestsVerified": true,
+      "operatorObservedWindows": [
+        {
+          "id": 44040196,
+          "mode": "ordinary",
+          "observed": "Ready, no folders, empty inspector, CRF0\u201351"
+        },
+        {
+          "id": 44040227,
+          "mode": "full-copy",
+          "observed": "Ready, no folders, empty inspector, CRF25\u201325; whole-file1080p30-to720p/copiedAAC disclosure, unsupported ranges/Keep/other resolutions/Remux and CPU topology/threading limits visible"
+        },
+        {
+          "id": 44040232,
+          "mode": "ordinary",
+          "observed": "Ready, no folders, empty inspector, CRF0\u201351 restored"
+        }
+      ],
+      "operatorActions": {
+        "appLaunches": 1,
+        "switches": [
+          "full-copy",
+          "ordinary"
+        ],
+        "pickers": 0,
+        "prepare": 0,
+        "apply": 0,
+        "start": 0,
+        "reveal": 0,
+        "normalClose": 1
+      },
+      "stateIdentity": {
+        "dev": 27,
+        "ino": 2250108
+      },
+      "points": [
+        {
+          "at": "2026-11-18T04:36:00.152483+00:00",
+          "action": "after-close",
+          "freeBytes": 57680572416,
+          "stateIdentity": {
+            "dev": 27,
+            "ino": 2250108
+          },
+          "capabilityArtifacts": [],
+          "limits": "Point observations only; no profile contents or continuous quota"
+        },
+        {
+          "at": "2026-11-18T04:35:37.699332+00:00",
+          "action": "before-close",
+          "freeBytes": 57680703488,
+          "stateIdentity": {
+            "dev": 27,
+            "ino": 2250108
+          },
+          "capabilityArtifacts": [],
+          "limits": "Point observations only; no profile contents or continuous quota"
+        },
+        {
+          "at": "2026-11-18T04:34:45.889625+00:00",
+          "action": "before-full-copy",
+          "freeBytes": 57710043136,
+          "stateIdentity": {
+            "dev": 27,
+            "ino": 2250108
+          },
+          "capabilityArtifacts": [],
+          "limits": "Point observations only; no profile contents or continuous quota"
+        },
+        {
+          "at": "2026-11-18T04:35:12.846644+00:00",
+          "action": "before-ordinary",
+          "freeBytes": 57680797696,
+          "stateIdentity": {
+            "dev": 27,
+            "ino": 2250108
+          },
+          "capabilityArtifacts": [],
+          "limits": "Point observations only; no profile contents or continuous quota"
+        }
+      ],
+      "noOwnedFixtureOrOutputCreated": true,
+      "stderr": {
+        "text": "[19253:1118/063410.614144:ERROR:dbus/bus.cc:406] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory\n[19253:1118/063410.815878:ERROR:dbus/bus.cc:406] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory\n[19253:1118/063410.815953:ERROR:dbus/bus.cc:406] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory\n[19284:1118/063410.970160:ERROR:net/socket/ssl_client_socket_impl.cc:962] handshake failed; returned -1, SSL error code 1, net_error -202\n",
+        "interpretation": "Three D-Bus system socket messages and SSL handshake net_error -202 retained; no causal or security workaround inference."
+      },
+      "conclusions": [
+        "Three independent session groups start and close in order with runtime versions ordinary 7.1.5 \u2192 candidate 9.0.2 \u2192 ordinary 7.1.5. Numeric epochs align with outer UTC interval; no overlap inferred from these retained boundaries.",
+        "CUA outcome reports native windows 44040196 \u2192 44040227 \u2192 44040232 and one application PID 19253, visible mode/CRF disclosures and empty inspectors. This is supported operator observation, not independently replayed screenshot files or direct WebContents measurement.",
+        "No picker, preparation, Apply, Start or output action in the new session events or reported scope. The 84 owned children are startup/capability activity, not semantic target encodes.",
+        "Known canonical state dev 27/ino 2250108 and all eight prior events/copies unchanged. Only allowlisted event originals/copies and directory identity inspected, not profile/cache/token contents."
+      ],
+      "limits": [
+        "Saved-file/hash/Git audit only; no new launch, GUI, media, runtime, ffprobe/decode, source or PBS modifications.",
+        "Top-level stdout and stderr plus aggregate census do not provide complete individual-child stderr/argv or OS-wide process accounting.",
+        "Empty batches cannot demonstrate nonempty draft/selection reset, completed OutputAccess grant revocation, encoding, same-service recovery or Windows behavior.",
+        "Visible native windows and retained service sessions support replacement inference, not direct WebContents identity. Logged sandbox flags remain preferences, not independently established enforcement.",
+        "Four storage/capability observations are points, not whole-profile/continuous quotas. Empty capability lists at sampled times do not exclude transient artifacts.",
+        "Initial unavailable-command cause is shell availability as observed; no authorizer was generated/executed. Exact original shell screenshot remains CUA-only.",
+        "Stderr 06:34 textual prefix versus 04:34 UTC is a display-domain difference, not proof of clock drift; numeric event times independently align.",
+        "No formal Security Cloud scan or broad catalog/old-AV1 qualification claimed. Source-freeze release remains with lead."
+      ]
+    },
+    "events": {
+      "files": [
+        {
+          "name": "03b9fc82-15e6-4551-8d7f-16db49848374.json",
+          "bytes": 388,
+          "sha256": "4634ceb8cb095f56d425f589b8892e3ade63d011e64168f9001de24c52644e39",
+          "sessionId": "938067d1-435e-4704-8473-b08912c07dc2",
+          "contextTruncated": null
+        },
+        {
+          "name": "1ecc49e9-ee5b-4ef9-8612-c8f433572ae6.json",
+          "bytes": 533,
+          "sha256": "bdc1eb4d238e2be2c7f8120534df3197984ace64b25474be6620e7b2626b754a",
+          "sessionId": "938067d1-435e-4704-8473-b08912c07dc2",
+          "contextTruncated": false
+        },
+        {
+          "name": "238794af-c0aa-4fed-9ea3-445c7f52e96a.json",
+          "bytes": 500,
+          "sha256": "d47fc06708b5400964a592f8fae897a6c55597ae3348b90912e9f8f53e64a0ce",
+          "sessionId": "5a548f95-f1da-45fc-8f54-b3de7c59653a",
+          "contextTruncated": false
+        },
+        {
+          "name": "2c0f0c75-2b88-4b73-b9c4-88f45b2ca8f3.json",
+          "bytes": 11843,
+          "sha256": "3efac202b2d99a036eec868b06d41e8a1b573eba63237c5b53a2a475b92a63d2",
+          "sessionId": "e6ae837c-0a91-4cc5-a2c8-0a5ec5880926",
+          "contextTruncated": false
+        },
+        {
+          "name": "33350329-a5e0-49ef-81e7-0cc8cd1ac8df.json",
+          "bytes": 500,
+          "sha256": "2f976fa2929cae9ee20a8faf296656bc149f5097f75ae58d447c3526075cba28",
+          "sessionId": "938067d1-435e-4704-8473-b08912c07dc2",
+          "contextTruncated": false
+        },
+        {
+          "name": "34daa49b-0eea-41d7-984b-f93f2ed71ff3.json",
+          "bytes": 12351,
+          "sha256": "044f79a1d4ff5fdaa7476e65a206f2161c8ecf7622c01e3510621fd4cfb86fce",
+          "sessionId": "938067d1-435e-4704-8473-b08912c07dc2",
+          "contextTruncated": false
+        },
+        {
+          "name": "48f8e452-7413-49d2-9763-feaca3120c61.json",
+          "bytes": 533,
+          "sha256": "a20ffb329b738fe73826e2e8813ee7d6423a3a991a775371ba0e5f50b6fe2a6d",
+          "sessionId": "e6ae837c-0a91-4cc5-a2c8-0a5ec5880926",
+          "contextTruncated": false
+        },
+        {
+          "name": "4e779df2-91cf-4b13-b14f-e59ebdc3447a.json",
+          "bytes": 360,
+          "sha256": "38fdb5c7caef55dda023b538af7cc6dbf82217944044eda4ccf9c7dc5e1b3181",
+          "sessionId": "5a548f95-f1da-45fc-8f54-b3de7c59653a",
+          "contextTruncated": null
+        },
+        {
+          "name": "57568864-5364-45d0-b6b8-4b95de62098c.json",
+          "bytes": 360,
+          "sha256": "db9f9310676ddf62030997192f07b6dacf18aedd34a4948671cef33827ea0e01",
+          "sessionId": "e6ae837c-0a91-4cc5-a2c8-0a5ec5880926",
+          "contextTruncated": null
+        },
+        {
+          "name": "5b4df75f-1c99-4695-aa4f-760b4bb1533f.json",
+          "bytes": 12351,
+          "sha256": "d636ce7a62a9e2f2fb4a6b4c3d917650e801c926d19e17da304f42d7a676c474",
+          "sessionId": "5a548f95-f1da-45fc-8f54-b3de7c59653a",
+          "contextTruncated": false
+        },
+        {
+          "name": "6f14c2c4-79fd-44a7-810f-2a015dcc3762.json",
+          "bytes": 465,
+          "sha256": "2486f584b5e4c2427c045812d235b776c8137696ded50c37a0e022bf91e32aad",
+          "sessionId": "938067d1-435e-4704-8473-b08912c07dc2",
+          "contextTruncated": null
+        },
+        {
+          "name": "6f9bceac-06c8-4469-9f18-e56a4be53a73.json",
+          "bytes": 465,
+          "sha256": "7a0fcacd3ddbcf29d37269e2a800fd1c148e3b7ab9069a827ce5605f4ac283ac",
+          "sessionId": "5a548f95-f1da-45fc-8f54-b3de7c59653a",
+          "contextTruncated": null
+        },
+        {
+          "name": "8df3b797-8823-44d0-9483-e0ff0c882faf.json",
+          "bytes": 533,
+          "sha256": "6bb7f8a31f64ed6bfefd20fc9ba957909f884ec687823bae24fdfc13bb6a7ab3",
+          "sessionId": "5a548f95-f1da-45fc-8f54-b3de7c59653a",
+          "contextTruncated": false
+        },
+        {
+          "name": "a9ec3e6e-2eb7-4b61-b31e-0bb4d6068e82.json",
+          "bytes": 388,
+          "sha256": "993a704f968dc6a8a98c274f03da9fdc47fb2e883ee3b47d70e9c4fe123ab67d",
+          "sessionId": "5a548f95-f1da-45fc-8f54-b3de7c59653a",
+          "contextTruncated": null
+        },
+        {
+          "name": "ace70f59-b79d-4d8a-8a06-e7b4d33eb536.json",
+          "bytes": 480,
+          "sha256": "e18b74085fcdd7846fcd05257e532f19c75a82873d462f1f97027f28ee89ba02",
+          "sessionId": "e6ae837c-0a91-4cc5-a2c8-0a5ec5880926",
+          "contextTruncated": false
+        },
+        {
+          "name": "b80af459-dffa-4446-9aba-3c69262d01c4.json",
+          "bytes": 465,
+          "sha256": "ed6c9ae40a2f121d32b03d3b2f09ef682a2c8ebff12865f41c697a419708babf",
+          "sessionId": "e6ae837c-0a91-4cc5-a2c8-0a5ec5880926",
+          "contextTruncated": null
+        },
+        {
+          "name": "cc5e9761-5ec5-4d24-a220-d9aac89fd229.json",
+          "bytes": 360,
+          "sha256": "c2cdbb242dd3f723453576dff3d5ade9463bf8f56c974a1a52c99eb513f20bd9",
+          "sessionId": "938067d1-435e-4704-8473-b08912c07dc2",
+          "contextTruncated": null
+        },
+        {
+          "name": "fe364d0c-00d8-44ba-a438-a19fc15a9b33.json",
+          "bytes": 388,
+          "sha256": "4efa84a0a99cd13b9dae1d53013e110d086aaed51423def60a1ebf7b7abc1322",
+          "sessionId": "e6ae837c-0a91-4cc5-a2c8-0a5ec5880926",
+          "contextTruncated": null
+        }
+      ],
+      "groups": {
+        "938067d1-435e-4704-8473-b08912c07dc2": [
+          "03b9fc82-15e6-4551-8d7f-16db49848374.json",
+          "1ecc49e9-ee5b-4ef9-8612-c8f433572ae6.json",
+          "33350329-a5e0-49ef-81e7-0cc8cd1ac8df.json",
+          "34daa49b-0eea-41d7-984b-f93f2ed71ff3.json",
+          "6f14c2c4-79fd-44a7-810f-2a015dcc3762.json",
+          "cc5e9761-5ec5-4d24-a220-d9aac89fd229.json"
+        ],
+        "5a548f95-f1da-45fc-8f54-b3de7c59653a": [
+          "238794af-c0aa-4fed-9ea3-445c7f52e96a.json",
+          "4e779df2-91cf-4b13-b14f-e59ebdc3447a.json",
+          "5b4df75f-1c99-4695-aa4f-760b4bb1533f.json",
+          "6f9bceac-06c8-4469-9f18-e56a4be53a73.json",
+          "8df3b797-8823-44d0-9483-e0ff0c882faf.json",
+          "a9ec3e6e-2eb7-4b61-b31e-0bb4d6068e82.json"
+        ],
+        "e6ae837c-0a91-4cc5-a2c8-0a5ec5880926": [
+          "2c0f0c75-2b88-4b73-b9c4-88f45b2ca8f3.json",
+          "48f8e452-7413-49d2-9763-feaca3120c61.json",
+          "57568864-5364-45d0-b6b8-4b95de62098c.json",
+          "ace70f59-b79d-4d8a-8a06-e7b4d33eb536.json",
+          "b80af459-dffa-4446-9aba-3c69262d01c4.json",
+          "fe364d0c-00d8-44ba-a438-a19fc15a9b33.json"
+        ]
+      },
+      "missing": false,
+      "limits": "Raw allowlisted events retained; grouping is not proof of native WebContents identity or complete stderr."
+    },
+    "commandUnavailable": {
+      "status": "shell-command-unavailable-before-helper",
+      "checkedAtUtc": "2026-11-18T04:29:39.323329+00:00",
+      "command": "python launch-session-switch.py",
+      "observedTerminalError": "bash: python: command not found",
+      "commandSubmissions": 1,
+      "helperLaunches": 0,
+      "appLaunches": 0,
+      "terminalWindowId": 41943043,
+      "markers": {
+        "ATTEMPT_STARTED.json": false,
+        "APP_PID.json": false,
+        "OUTER_COMPLETION.json": false,
+        "SUPERVISOR_FAILURE.json": false
+      },
+      "screenshots": "CUA transcript only",
+      "action": "No substitution or retry; parent notified; source unchanged"
+    },
+    "correctedGateReceipt": {
+      "startedAtUtc": "2026-11-18T04:33:12.994210+00:00",
+      "completedAtUtc": "2026-11-18T04:33:14.025542+00:00",
+      "gate": {
+        "path": "native-proof://APPROVED_SESSION_SWITCH.json",
+        "bytes": 72540,
+        "sha256": "5d4f60c93689d15779b3d02329638f306a9bda2a014f82de3ab59bfbb25ec19c"
+      },
+      "desktopAgeSecondsAtStart": 67.053079,
+      "sourceFilesVerified": 607,
+      "fixedInputsVerified": 13,
+      "priorEventsVerified": 8,
+      "originalUnconsumedArtifacts": [
+        {
+          "path": "native-proof://unconsumed-python-command/APPROVED_SESSION_SWITCH.json",
+          "bytes": 71867,
+          "sha256": "7b5da02614d75fab0c3a8a00c2366f7eb724c2c5b1d4a05409d9b627c7790431"
+        },
+        {
+          "path": "native-proof://unconsumed-python-command/DESKTOP_PREFLIGHT.json",
+          "bytes": 1406,
+          "sha256": "3f07fe2b544cd42eabc3ab9a6e04053e81812bf9b338ae8b5db65e9ece6eb51a"
+        },
+        {
+          "path": "native-proof://unconsumed-python-command/GATE_CREATION_RECEIPT.json",
+          "bytes": 1002,
+          "sha256": "3ff948792dfe4bb6958f361167aff5c894145800dc3441e6e943d64b77c6584c"
+        }
+      ],
+      "reason": "Shell had no python alias; no helper/app/attempt started. Corrected observed installed Python3.13.5 command preserves exact script and action scope. Original gate/preflight/creation receipt retained byte-exact, not replayed.",
+      "command": "python3 launch-session-switch.py",
+      "runtimeExecutedByThisGateAction": false,
+      "authorizerGeneratedOrExecuted": false
+    },
+    "pointBeforeFullCopy": {
+      "at": "2026-11-18T04:34:45.889625+00:00",
+      "action": "before-full-copy",
+      "freeBytes": 57710043136,
+      "stateIdentity": {
+        "dev": 27,
+        "ino": 2250108
+      },
+      "capabilityArtifacts": [],
+      "limits": "Point observations only; no profile contents or continuous quota"
+    },
+    "pointBeforeOrdinary": {
+      "at": "2026-11-18T04:35:12.846644+00:00",
+      "action": "before-ordinary",
+      "freeBytes": 57680797696,
+      "stateIdentity": {
+        "dev": 27,
+        "ino": 2250108
+      },
+      "capabilityArtifacts": [],
+      "limits": "Point observations only; no profile contents or continuous quota"
+    },
+    "pointBeforeClose": {
+      "at": "2026-11-18T04:35:37.699332+00:00",
+      "action": "before-close",
+      "freeBytes": 57680703488,
+      "stateIdentity": {
+        "dev": 27,
+        "ino": 2250108
+      },
+      "capabilityArtifacts": [],
+      "limits": "Point observations only; no profile contents or continuous quota"
+    },
+    "pointAfterClose": {
+      "at": "2026-11-18T04:36:00.152483+00:00",
+      "action": "after-close",
+      "freeBytes": 57680572416,
+      "stateIdentity": {
+        "dev": 27,
+        "ino": 2250108
+      },
+      "capabilityArtifacts": [],
+      "limits": "Point observations only; no profile contents or continuous quota"
+    },
+    "identity": {
+      "checkedAtUtc": "2026-11-18T04:44:46.663074+00:00",
+      "sourceCommit": "616b0380d3bbe8bd5d2910f193a873ed4f59e1a5",
+      "sourceTree": "ef0314eac90d42805ec57ddb15f6dbd8b938a603",
+      "sourceFiles": 607,
+      "sourceByteIdentityVerified": true,
+      "unchangedIndex": true,
+      "audit": {
+        "bytes": 15861,
+        "sha256": "ebb0d23db3136bffdf7f5f6a0927005afdc9bc674ae1c30cc39fd2e971dbe35f"
+      },
+      "outcome": {
+        "bytes": 7338,
+        "sha256": "0afe7ee1778c926ef486a351330995d662ff70e4e6b98788cbb60631a438b70a"
+      },
+      "auditReferencedRecordsRehashed": 21,
+      "fixedInputsRehashed": 13,
+      "newRetainedEventsRehashed": 18,
+      "recordedPidAbsentNow": true,
+      "knownStateIdentityStillMatches": true,
+      "census": {
+        "spawned": 84,
+        "closed": 84,
+        "live": 0,
+        "maximum": 1,
+        "failures": 0
+      },
+      "interpretation": "Saved evidence plus operator CUA supports bounded empty-batch ordinary to Full-copy to ordinary with normal closure on source033. No replay or new runtime."
+    },
+    "release": {
+      "releasedAtUtc": "2026-11-18T04:44:46.663564+00:00",
+      "sourceCommit": "616b0380d3bbe8bd5d2910f193a873ed4f59e1a5",
+      "audit": {
+        "bytes": 15861,
+        "sha256": "ebb0d23db3136bffdf7f5f6a0927005afdc9bc674ae1c30cc39fd2e971dbe35f"
+      },
+      "identityReconciliation": {
+        "bytes": 968,
+        "sha256": "c34fef484c4b84b7469eccbbd46874e31ce2535334cfd8f4722a1db6c8580cf4"
+      },
+      "decision": "Accept the independently audited limited native transition evidence. Release source freeze for separately reviewed, scoped first failure-repair integration. Preserve all original native artifacts and consumed gate; no further launch authorized by this record.",
+      "limits": [
+        "Saved-file/hash/Git audit only; no new launch, GUI, media, runtime, ffprobe/decode, source or PBS modifications.",
+        "Top-level stdout and stderr plus aggregate census do not provide complete individual-child stderr/argv or OS-wide process accounting.",
+        "Empty batches cannot demonstrate nonempty draft/selection reset, completed OutputAccess grant revocation, encoding, same-service recovery or Windows behavior.",
+        "Visible native windows and retained service sessions support replacement inference, not direct WebContents identity. Logged sandbox flags remain preferences, not independently established enforcement.",
+        "Four storage/capability observations are points, not whole-profile/continuous quotas. Empty capability lists at sampled times do not exclude transient artifacts.",
+        "Initial unavailable-command cause is shell availability as observed; no authorizer was generated/executed. Exact original shell screenshot remains CUA-only.",
+        "Stderr 06:34 textual prefix versus 04:34 UTC is a display-domain difference, not proof of clock drift; numeric event times independently align.",
+        "No formal Security Cloud scan or broad catalog/old-AV1 qualification claimed. Source-freeze release remains with lead."
+      ],
+      "next": "Review six-file first failure repair including separate retained positive qualification command; integrate only on final independent disposition, then focused/protection/broad source checks and immediate Git/Notion/GitHub preservation. Remaining legacy repairs stay isolated."
+    }
+  },
+  "owningRecordCutoffUtc": "2026-11-18T04:47:34.966823Z"
+}

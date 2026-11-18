@@ -1,12 +1,14 @@
-# Current state — checkpoint 068 prepared
+# Current state — checkpoint 069 prepared
 
-Cutoff: November 18, 2026 at 21:10:12.080048 UTC.
+Final cutoff: November 18, 2026 at 21:25:48.155624 UTC; original code/test cutoff remains 21:24:30.101467 UTC.
 
-- **Preserved base:** checkpoint 067, local `6f5408a077b1d0a68680c23c14c87b3f9ae3c663`, remote `9a64403265eeb78d183ec379e2a3d7b2ac8d54f5`; 750 source files and 67 commits verified through Git → Notion → GitHub.
-- **Linux package:** corrected offline build completed in 3.026 seconds. Independent build/relocation audit accepted 228 files, 132 audit archive members and 115 physical source pins. A separate normal-mode release preserved all hashes and set exactly five ordinary executable files to 0755.
-- **Actual native result:** the internal packaged replacement shell opened normally. Input-folder selection returned cancelled before input admission. No output selection, Prepare, Apply, Start, encoding or reveal occurred; no media output. Main exited zero after 137.365 seconds. Independent saved audit accepted package/source integrity and clean closure of seven sampled identities, not an exhaustive child census. Existing eight-event journal located the admission boundary. Cancellation cause remains unproven.
-- **Hosted 067:** both OS jobs passed 211 syntax and 243 shared checks; Linux additionally passed 32. Windows package failed its first preflight, before npm installation/build/report; no artifact and exact cause unknown.
-- **Accepted 068 source:** three Windows diagnostic paths add finite invocation-owned failure phases and bounded capacity fields, retaining restrictions and binding one ordinary successor push. Lead tests: 22 passed, zero failures/skips; two changed syntax checks; 132 Linux package source rows unchanged. No broad CI rerun or new Linux qualification is claimed.
-- **Pending:** review/apply four prepared records, commit the seven-path scope, verify Notion then GitHub, observe actual hosted successor. A future native retry needs a separate bounded release. No publication, GPU, broad platform, production default or v0.7 release acceptance follows.
+- **Preserved base:** 068 local `d6260eeeec3265380ddbbcc237e5ce5999d1c0d8`, remote `5885305e1eab44a32323e7b52bedc7b383a90f18`, 752 files and 68 commits verified through Git → Notion → GitHub.
+- **Actual hosted 068:** both platforms passed 211 syntax and 243 shared checks; Linux additionally passed 32. Windows package stopped at event-read / ERR_ASSERTION before authority, source or capacity checks. npm, build and report upload were skipped; no artifact.
+- **Cause and accepted fix:** the caller requested a 2 MiB maximum while the shared safe reader asserts at most 1 MiB before opening. The actual-reader regression proves this contract defect, not an oversized hosted event. Three reviewed paths use a fixed supported helper and bind one ordinary successor push; the shared reader and safeguards are unchanged.
+- **Final checks:** 24 focused tests passed, zero failures/skips; both changed syntax checks passed; all 132 Linux package source rows unchanged. No fresh broad CI or native run.
+- **Release-input work:** signed Debian archive metadata authenticates the exact x264/x265/numactl source descriptors and archive references. Maintainer signatures and exact binary buildinfo linkage remain unresolved. All six inert source tarballs are now acquired and read-back verified against authenticated sizes/hashes, totaling 2,332,490 bytes. No extraction, installation, code execution, repin, key import or distribution clearance follows.
+The raw tarballs remain local only; this checkpoint records their recoverable public URL/hash/size inventory, not the archive bytes. The tarballs are not included in its Git, Notion or GitHub source/history archives.
 
-See `2026-11-18_Packaged_Linux_Startup_and_Windows_Preflight_Diagnostics.md` and its companion receipt for detailed chronology and evidence. Preserve the complete Session history.
+- **Next:** review/apply four records, commit the seven-path scope and verify Notion then GitHub; observe the admitted Windows successor. Native input cancellation remains unproven; no new media publication, GPU, portability, public distribution or v0.7 release acceptance.
+
+See `2026-11-18_Windows_Event_Reader_and_Release_Source_Metadata.md` and its companion receipt. Preserve complete Session history.

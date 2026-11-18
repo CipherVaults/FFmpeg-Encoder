@@ -10,7 +10,7 @@ const {main:provisionElectron}=require('./provision-candidate-electron.cjs');
 const {main:buildPortable,hashFile,appSources}=require('./build-portable.cjs');
 const {expectedCandidateManifest,assertOrdinaryPath,verifyPinnedFile,readBoundedJson}=require('../src/candidate-runtime.cjs');
 const {LISTING_CODES,inspectElectronListing,requiredFree,reportSummary}=require('./windows-package-policy.cjs');
-const PARENT='9a64403265eeb78d183ec379e2a3d7b2ac8d54f5';
+const PARENT='5885305e1eab44a32323e7b52bedc7b383a90f18';
 const TOOL='C:\\Program Files\\7-Zip\\7z.exe';
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
 const PHASES=new Set(['preflight','source-inventory','dependency-metadata','acquisition','ffmpeg-payload','ffmpeg-provision','electron-archive','electron-listing','electron-extraction','electron-inventory','package-capacity','package-build','source-readback','zip-integrity','zip-inventory','final-readback']);
@@ -119,10 +119,12 @@ async function execute({root,parent,identity},{acquireImpl=acquire,prepareImpl=p
   return report;
   }catch(error){error.packagePhase=phase;throw error;}
 }
+// The shared ordinary-file reader permits at most 1 MiB; do not relax it for events.
+async function readHostedEvent(filename){return readBoundedJson(filename,1024*1024);}
 async function main(diagnostic=createPreflightDiagnostic()){
   const step=(name,action)=>diagnostic.boundary(name,action);
   const root=path.resolve(__dirname,'..'),parent=process.env.RUNNER_TEMP;
-  const event=await step('event-read',()=>readBoundedJson(process.env.GITHUB_EVENT_PATH,2*1024*1024));const identity=await step('event-authority',()=>authority(process.env,event));
+  const event=await step('event-read',()=>readHostedEvent(process.env.GITHUB_EVENT_PATH));const identity=await step('event-authority',()=>authority(process.env,event));
   await step('source-head',()=>{const head=execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',timeout:10000,maxBuffer:1024}).trim();assert(head===identity.head);});
   await step('source-clean',()=>execFileSync('git',['diff','--exit-code','HEAD','--'],{cwd:root,timeout:10000,maxBuffer:1024}));
   if(process.argv.length===3&&process.argv[2]==='--preflight'){await preflight(root,parent,expectedCandidateManifest(),diagnostic);return;}
@@ -130,5 +132,5 @@ async function main(diagnostic=createPreflightDiagnostic()){
   let report;try{report=await execute({root,parent,identity});}catch(error){report={schema:1,...identity,failure:failureDiagnostic(error),state:'PACKAGE_FAILED_OR_INCOMPLETE',gui:'not-run',media:'not-run',gpu:'not-run',distribution:'report-only'};process.exitCode=1;}
   console.log('Inert Windows package result: '+report.state+'; report SHA256 '+await step('report-publication',()=>publish(parent,report,process.env.GITHUB_OUTPUT)));
 }
-module.exports={createPreflightDiagnostic,failureDiagnostic,authority,treeBound,publish,execute};
+module.exports={readHostedEvent,createPreflightDiagnostic,failureDiagnostic,authority,treeBound,publish,execute};
 if(require.main===module){const diagnostic=createPreflightDiagnostic();main(diagnostic).catch(error=>{console.error('Windows package diagnostic: '+JSON.stringify(diagnostic.failure(error)));process.exitCode=1;});}

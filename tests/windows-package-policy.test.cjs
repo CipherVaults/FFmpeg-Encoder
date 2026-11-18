@@ -28,7 +28,7 @@ test('final startup validation runs after versions and preserves final-checks fa
 
 test('bound authority admits only exact ordinary successor push',()=>{
   const env={GITHUB_ACTIONS:'true',GITHUB_REPOSITORY:'CipherVaults/FFmpeg-Encoder-Blue-Linux',GITHUB_REF:'refs/heads/blue/linux-development',GITHUB_EVENT_NAME:'push',GITHUB_SHA:'a'.repeat(40),GITHUB_RUN_ID:'123',GITHUB_RUN_ATTEMPT:'1'};
-  const event={before:'9a64403265eeb78d183ec379e2a3d7b2ac8d54f5',after:env.GITHUB_SHA,forced:false,created:false,deleted:false};
+  const event={before:'5885305e1eab44a32323e7b52bedc7b383a90f18',after:env.GITHUB_SHA,forced:false,created:false,deleted:false};
   assert.deepEqual(hosted.authority(env,event),{head:env.GITHUB_SHA,runId:'123',attempt:'1'});
   for(const change of [{GITHUB_ACTIONS:'false'},{GITHUB_REPOSITORY:'other/repo'},{GITHUB_REF:'refs/heads/main'},{GITHUB_EVENT_NAME:'workflow_dispatch'},{GITHUB_RUN_ATTEMPT:'2'},{GITHUB_SHA:'bad'},{GITHUB_RUN_ID:'private'}])assert.throws(()=>hosted.authority({...env,...change},event));
   for(const change of [{before:'b'.repeat(40)},{after:'b'.repeat(40)},{forced:true},{created:true},{deleted:true}])assert.throws(()=>hosted.authority(env,{...event,...change}));
@@ -62,10 +62,39 @@ test('capacity evidence requires bounded bigint measurement; failure preserves m
 });
 test('workflow and source bind only next ordinary push without changing job scope',async()=>{
   const workflow=await fs.readFile(path.join(__dirname,'../.github/workflows/windows-package.yml'),'utf8');
-  assert(workflow.includes("github.event.before == '9a64403265eeb78d183ec379e2a3d7b2ac8d54f5'"));
+  assert(workflow.includes("github.event.before == '5885305e1eab44a32323e7b52bedc7b383a90f18'"));
   assert(!workflow.includes('workflow_dispatch'));assert(workflow.includes('github.run_attempt == 1'));
   const source=await fs.readFile(path.join(__dirname,'../scripts/windows-hosted-package-check.cjs'),'utf8');
   for(const phase of ['event-read','event-authority','source-head','source-clean','platform','environment','source-path','staging-path','same-volume','fixed-drive-process','fixed-drive-type','capacity-stat','capacity-floor'])assert(source.includes("step('"+phase+"'"));
   assert(source.includes('timeout:10000,maxBuffer:1024'));assert(source.includes('requiredFree([manifest.archive,manifest.electron.archive])'));
   assert(source.includes("console.error('Windows package diagnostic: '+JSON.stringify(diagnostic.failure(error)))"));
+});
+
+test('real event reader accepts small ordinary JSON through exact main helper',async()=>{
+  const dir=await fs.mkdtemp(path.join(os.tmpdir(),'hosted-event-'));
+  try{
+    const file=path.join(dir,'event.json');const event={before:'5885305e1eab44a32323e7b52bedc7b383a90f18',after:'a'.repeat(40),forced:false,created:false,deleted:false};
+    await fs.writeFile(file,JSON.stringify(event),{flag:'wx'});
+    const {readBoundedJson}=require('../src/candidate-runtime.cjs');
+    // The former caller fails unconditionally at argument validation, even for valid small input.
+    await assert.rejects(readBoundedJson(file,2*1024*1024),{code:'ERR_ASSERTION',message:'JSON read limit is invalid.'});
+    const actual=await hosted.readHostedEvent(file);assert.deepEqual(actual,event);
+    const env={GITHUB_ACTIONS:'true',GITHUB_REPOSITORY:'CipherVaults/FFmpeg-Encoder-Blue-Linux',GITHUB_REF:'refs/heads/blue/linux-development',GITHUB_EVENT_NAME:'push',GITHUB_SHA:event.after,GITHUB_RUN_ID:'123',GITHUB_RUN_ATTEMPT:'1'};
+    assert.equal(hosted.authority(env,actual).head,event.after);
+    const source=await fs.readFile(path.join(__dirname,'../scripts/windows-hosted-package-check.cjs'),'utf8');
+    assert(source.includes("step('event-read',()=>readHostedEvent(process.env.GITHUB_EVENT_PATH))"));
+  }finally{await fs.rm(dir,{recursive:true,force:true});}
+});
+test('real event reader keeps size, syntax and ordinary-file refusals',async()=>{
+  const dir=await fs.mkdtemp(path.join(os.tmpdir(),'hosted-event-'));
+  try{
+    const file=path.join(dir,'event.json');
+    await fs.writeFile(file,' '.repeat(1024*1024-2)+'{}',{flag:'wx'});
+    assert.deepEqual(await hosted.readHostedEvent(file),{}); // Exact inclusive bound.
+    await fs.appendFile(file,' ');await assert.rejects(hosted.readHostedEvent(file),{code:'ERR_ASSERTION'});
+    await fs.writeFile(file,'{');await assert.rejects(hosted.readHostedEvent(file),SyntaxError);
+    await fs.writeFile(file,'{}');const link=path.join(dir,'link');await fs.symlink(file,link);await assert.rejects(hosted.readHostedEvent(link),{code:'ERR_ASSERTION'});
+    const hard=path.join(dir,'hard');await fs.link(file,hard);await assert.rejects(hosted.readHostedEvent(file),{code:'ERR_ASSERTION'});
+    await assert.rejects(hosted.readHostedEvent(dir),{code:'ERR_ASSERTION'});
+  }finally{await fs.rm(dir,{recursive:true,force:true});}
 });

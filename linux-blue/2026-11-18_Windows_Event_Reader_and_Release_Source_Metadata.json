@@ -1,0 +1,186 @@
+{
+  "draftOnly": false,
+  "mainWrites": false,
+  "baseCommit": "d6260eeeec3265380ddbbcc237e5ce5999d1c0d8",
+  "predecessor": {
+    "bytes": 2453245,
+    "sha256": "8ba5a8b9247baa451f85879f8274abbbbb898bf79fd0cabf203f897e577ddbf5"
+  },
+  "exactSuffix": true,
+  "sectionCount": 14,
+  "pending": [
+    "record integration",
+    "commit and preservation",
+    "actual successor result",
+    "binary provenance and native publication"
+  ],
+  "receipts": [
+    {
+      "path": "checkpoint068-final-mirror-release.json",
+      "bytes": 641,
+      "sha256": "9535aeaf26b63cf8c2e4703673d37c5fba7a435051d8b38e77a0da1681f89e7e"
+    },
+    {
+      "path": "notion-checkpoint-068-verification.json",
+      "bytes": 203223,
+      "sha256": "206edca5ed4dc9bdf245f87eb257ba8177d1206dffb2c07cc62461659372ba07"
+    },
+    {
+      "path": "github-checkpoint068-observation.json",
+      "bytes": 4960,
+      "sha256": "81ccb81026ce02dcbacf1227dcd0e1aa3deb747e105507d784e2d5ae8257d9b0"
+    },
+    {
+      "path": "windows-event069-proposal/HANDOFF.json",
+      "bytes": 2265,
+      "sha256": "aa2791f34bd705078c0a487a38fa9deaf67ca4a36aa32feae6f094e8751e8019"
+    },
+    {
+      "path": "linux067-release-input-inventory/INVENTORY.json",
+      "bytes": 8377,
+      "sha256": "eb55447a2b325ea83cdf86a6319a502f74e9cf1fc156722b8a3848ea8dbfad12"
+    },
+    {
+      "path": "linux067-source-metadata-verification/VERIFICATION.json",
+      "bytes": 6742,
+      "sha256": "1229004ab3a2fa5ba61e8de915fd9feb22049688258816c9387c600159f096a3"
+    },
+    {
+      "path": "checkpoint069-cutoff.json",
+      "bytes": 1791,
+      "sha256": "094689afefec9a9e460d5dd28e2bd5c7255e15d01f78bd5583f3f6b1261d1869"
+    },
+    {
+      "path": "checkpoint069-integration.json",
+      "bytes": 998,
+      "sha256": "e691151132c355c9832a41d4edf032c71cd599f4c8ebd60a9520e060b6ceb6a8"
+    },
+    {
+      "path": "linux067-source-tarballs-inert/ACQUISITION_RECEIPT.json",
+      "bytes": 4672,
+      "sha256": "76f8f8cdfcd4b94bd2476000a2064c8bb3151450e4980e8dabe5c484b617a329"
+    }
+  ],
+  "preparedOutsideMain": true,
+  "cutoff": {
+    "cutoffUtc": "2026-11-18T21:25:48.155624+00:00",
+    "scope": "Fix source-proven Windows event reader limit mismatch without changing safe reader; preserve068 failure evidence and signed Debian source-metadata progress",
+    "tests": {
+      "focused": 24,
+      "pass": 24,
+      "fail": 0,
+      "skip": 0,
+      "receipt": "artifacts/v0.7/evidence/20261118T212419Z_recovered069-event-reader/receipt.json",
+      "syntax": "Changed wrapper and policy tests pass",
+      "linuxPlanSourceRowsVerified": 132,
+      "retainedSharedCI": "068 remote5885305e passed211syntax/243sharedbothOS/+32Linux; no fresh broad rerun claimed"
+    },
+    "qualificationLimits": [
+      "The former2MiB caller argument unconditionally violates reader max1MiB before file open; actual successor Windows contents/later phases unverified.",
+      "Shared safe reader, filesystem guards, resource floors, defaults and native qualification unchanged.",
+      "No new native run, media output, hardware test, public distribution clearance or v0.7 release.",
+      "Signed Debian archive-index metadata authenticates source checksums; maintainer-specific signatures and original binary buildinfo remain separate unresolved checks."
+    ],
+    "initialCodeTestCutoffUtc": "2026-11-18T21:24:30.101467+00:00",
+    "dataOnlyFollowup": {
+      "receipt": "/workspace/scratch/b0b5fef72e20/ffmpeg-reconstruction-guidance-20261117/linux067-source-tarballs-inert/ACQUISITION_RECEIPT.json",
+      "sha256": "76f8f8cdfcd4b94bd2476000a2064c8bb3151450e4980e8dabe5c484b617a329",
+      "tarballs": 6,
+      "totalBytes": 2332490,
+      "extraction": false,
+      "execution": false,
+      "meaning": "Exact source tarballs acquired and matched signed archive-index hashes; no runtime changes or distribution clearance. Maintainer and binary-buildinfo gaps remain separate."
+    }
+  },
+  "integration": {
+    "atUtc": "2026-11-18T21:24:18.961602+00:00",
+    "baseCommit": "d6260eeeec3265380ddbbcc237e5ce5999d1c0d8",
+    "files": [
+      {
+        "path": ".github/workflows/windows-package.yml",
+        "bytes": 2475,
+        "sha256": "36685334c99c8708e62533a999759f6c7bad2408d0e0cdda86353ac798ff98e9",
+        "baseSha256": "05fbc877ff28fbb499b123555035a56b1606d640af98448a3fea524fee81d0cf"
+      },
+      {
+        "path": "scripts/windows-hosted-package-check.cjs",
+        "bytes": 12288,
+        "sha256": "cd781962ce97e0fdde23528d984136d7606a860a4605dcffe4b75660a8cb4d7f",
+        "baseSha256": "dd186ea176c9fd57d30fb1834b90737a41906486994c4f2e692240d6648b2f35"
+      },
+      {
+        "path": "tests/windows-package-policy.test.cjs",
+        "bytes": 10880,
+        "sha256": "e9596c56a8438513d7712e4a3a5b4e3784ac408d20a3288a027931987298ffc2",
+        "baseSha256": "fbe40a95e77b1743625dc2e6a9e4bca08e5a88f6c10c4a66b4c30aa942fdadab"
+      }
+    ],
+    "reviewSha256": "439cda59f2391e9ad2b0dc4b67a3270e9dcfa9c1dba3317cd53bf38ddbbc1eeb"
+  },
+  "testReceipt": {
+    "path": "artifacts/v0.7/evidence/20261118T212419Z_recovered069-event-reader/receipt.json",
+    "bytes": 1346,
+    "sha256": "3533902cbf6e410dec72f0d3d9c67d739182db1cef0786bcb102fd98f40ee573"
+  },
+  "scope": {
+    "sourcePaths": 3,
+    "records": 4,
+    "total": 7,
+    "new": 2,
+    "modified": 5,
+    "prospectiveTracked": 754
+  },
+  "sourceArchiveRetrievalAtCutoff": "Six inert source archives acquired and verified; no extraction or execution",
+  "sourceInputs": [
+    {
+      "source": "x264",
+      "version": "2:0.164.3108+git31e19f9-2",
+      "filename": "x264_0.164.3108+git31e19f9.orig.tar.gz",
+      "url": "https://deb.debian.org/debian/pool/main/x/x264/x264_0.164.3108%2Bgit31e19f9.orig.tar.gz",
+      "bytes": 954789,
+      "sha256": "41606cb8e788a7f8c4514290646d4ba5c7bc68d9e1ccd1a73f446a90546913eb"
+    },
+    {
+      "source": "x264",
+      "version": "2:0.164.3108+git31e19f9-2",
+      "filename": "x264_0.164.3108+git31e19f9-2.debian.tar.xz",
+      "url": "https://deb.debian.org/debian/pool/main/x/x264/x264_0.164.3108%2Bgit31e19f9-2.debian.tar.xz",
+      "bytes": 24600,
+      "sha256": "35afd5e6896432acc7ed675eb077f71f37d92d748c41652f19470c18403fcb58"
+    },
+    {
+      "source": "x265",
+      "version": "4.1-2",
+      "filename": "x265_4.1.orig.tar.xz",
+      "url": "https://deb.debian.org/debian/pool/main/x/x265/x265_4.1.orig.tar.xz",
+      "bytes": 1113508,
+      "sha256": "85abb8a850000bf693947459c42a666a3ecd6de10a2ac6b3c6647554b14d3270"
+    },
+    {
+      "source": "x265",
+      "version": "4.1-2",
+      "filename": "x265_4.1-2.debian.tar.xz",
+      "url": "https://deb.debian.org/debian/pool/main/x/x265/x265_4.1-2.debian.tar.xz",
+      "bytes": 13920,
+      "sha256": "05daa2bd9395f3e5cc6eed64aa47c044856b38a3dab12cd59008d60ec9f8c3cb"
+    },
+    {
+      "source": "numactl",
+      "version": "2.0.19-1",
+      "filename": "numactl_2.0.19.orig.tar.gz",
+      "url": "https://deb.debian.org/debian/pool/main/n/numactl/numactl_2.0.19.orig.tar.gz",
+      "bytes": 218333,
+      "sha256": "8b84ffdebfa0d730fb2fc71bb7ec96bb2d38bf76fb67246fde416a68e04125e4"
+    },
+    {
+      "source": "numactl",
+      "version": "2.0.19-1",
+      "filename": "numactl_2.0.19-1.debian.tar.xz",
+      "url": "https://deb.debian.org/debian/pool/main/n/numactl/numactl_2.0.19-1.debian.tar.xz",
+      "bytes": 7340,
+      "sha256": "93b4e00d8b7b1e465d931b29e65d220fadd84ac76431437307ecd075277355d3"
+    }
+  ],
+  "sourceInputTotalBytes": 2332490,
+  "sourceArchivePreservation": "The raw tarballs remain local only; this checkpoint records their recoverable public URL/hash/size inventory, not the archive bytes. The tarballs are not included in its Git, Notion or GitHub source/history archives."
+}

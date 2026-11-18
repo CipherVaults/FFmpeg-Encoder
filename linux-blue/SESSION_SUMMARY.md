@@ -1,3 +1,227 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Establish long ordinary service evidence and a practical native H.265 journey
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role | Attribution | Work and evidence limit |
+|---|---|---|
+| Engineering lead | GPT-6 Astra / Ultra, recorded assignment, not backend attestation | Kept exact 041 source frozen, reviewed sequential releases, reconciled three outcomes and corrected the PID-namespace interpretation. |
+| Helper authors / independent reviewers | Model and effort not independently established here | Exact known-state bindings, a finite long-service helper and a minimal mouse-only amendment; file/injected checks are not runtime proof. |
+| Service executor / saved-output auditor | Model and effort not independently established here | One actual 150-second H.264 campaign; independent retained-file hashes and complete chunked PCM comparison without another decode. |
+| Native operator / auditor / records | Model and effort not independently established here | One stopped known-profile attempt and a separately gated successful mouse-only H.265 journey; CUA observations remain distinct from durable event evidence. |
+
+**Record basis:** On immutable **041**, a first native attempt stopped before input registration. A separate **150-second H.264 ordinary-service campaign passed publication and collision**, with 4,500 video frames and exact whole same-decoder PCM equality at **7,200,000 sample instants**. A subsequent practical **mouse-only native H.265 journey completed one target and one reveal**, with both folders registered and 33 owned tool children closed. That native output was not independently decoded or PCM-compared. No source, tests, defaults, pins or audio policy changed; prior failures remain intact. An earlier `/proc` PID-absence statement is explicitly qualified because the executor and desktop use different namespaces.
+
+## 🕒 Time
+
+**Stage / type / focus:** Evidence-only current-source qualification: stopped native registration, longer ordinary-service proof, then one functional native journey.
+
+**Date and clock:** November 18, 2026; Cairo UTC+02:00. Fixed cutoff **11:15:53.849006 Cairo / 09:15:53.849006 UTC**. Chronology below is UTC; total active effort is not measured.
+
+- Prior 041 cutoff remains **08:21:10.119189**. Its commit was frozen **08:36:31**; GitHub verification **08:41:38.257078**.
+- First native final binding: **08:43:12.541208**; final review: **08:44:09.221683**; gate: **08:45:19.915639**.
+- First native outer run: **08:45:55.795848–08:47:59.275330**, normal exit 0, **123.479541 seconds**, no target. Audit: **08:50:01.755261**; lead reconciliation: **08:51:38.691475**.
+- Long-service binding: **08:51:54.360478**; outer run **08:51:54.892–08:54:07.449**, exit 0, measured **132,554.191692 ms**; inner report finished **08:54:07.316**, measured **129,692.027591 ms**.
+- Actual long target child interval: **08:52:05.260–08:53:25.825**, **80.565 seconds**. This is a process-lifecycle wall interval, not CPU time or a matched-quality performance comparison.
+- Long audit: **08:57:28.452880**; reconciliation/resource release: **08:59:50.223208**.
+- Mouse-only final review: **08:59:37.606435**; lead release: **09:00:12.511747**; fresh gate: **09:00:57.509414**.
+- Mouse-only native outer run: **09:01:26.830105–09:10:00.052516**, normal exit 0, **513.222429 seconds** for the entire manual journey. Namespace clarification recorded **09:08:00.315368**; native outcome recorded **09:10:59.572177**.
+- Final native audit: **09:14:09.353041**; lead reconciliation: **09:15:53.848149**.
+- **Fixed cutoff: 2026-11-18T09:15:53.849006+00:00.** Later recovery-feasibility results or implementation are excluded.
+
+**End / stopping point:** All three actual runs are terminal and audited; 041 source remained exact. The long-service and successful native results are accepted only within their separate scopes. Fresh-owner recovery feasibility is assigned read-only next work, not a completed result.
+
+**Reason for this summary:** Preserve a real native usability gain and longer media evidence without erasing the first stop, overstating audio/performance coverage, or carrying forward an invalid process-liveness inference.
+
+## 🎯 Session Goal
+
+Continue the common Linux 9.0.2 foundation through useful current-product evidence while retaining 7.1.5 rollback and unchanged audio policy. Test the newly preserved status-contract source in a known-profile native journey, extend ordinary service evidence beyond eight-second outputs, and use a practical visible interaction to get through folder registration without adding another application feature or weakening its checks.
+
+The three outcomes answer different questions. A stopped picker is not an encode defect; a full PCM service comparison is not native GUI proof; and a successful mouse-only journey does not establish the root cause of earlier keyboard-path failures. Existing owner permission covers controlled repeated testing, while each attempt still needs fresh source, evidence, state and execution checks.
+
+## 🛠️ Actions Taken
+
+### 1. Preserve actual 041, then fill exact binding identities
+
+041 is local `66fb129bb0c65c3639e45c3937220228cbba0d13`, tree `412258e858fdfdd35a290a82c6edf19794ec10b9`, **641 files / 41 commits**. [Notion source and full history](https://app.notion.com/p/41cbd7ade63b812d812deddfa0e1ecc0) restored exact archives. [The readable Session](https://app.notion.com/p/41cbd7ade63b81a5b02ad4a153dbaa13) returned 41 headings and the historical ending in eight ordered requests without truncation; archive identity, not native formatting, protects the **1,875,712-byte** predecessor, SHA `0d4359bb7087d425771d6f67e9e9e8fe1a175bd8eeacd9a554f5259f0f72cf6c`.
+
+GitHub verified remote `bd111ce845910f18894db227b40e68f6df0c1a00`, sole parent `efd3f759969eb1a21a0c995f008314cf49f7f105`, tree `13af7539304ea74ade11aa5a2ff5492b3a4933b8`: six exact file readbacks, fresh ref and expected-parent non-force update, **1,023 total / 1,017 unchanged / three modified / three new / zero deleted**. Full Session used immutable Git blob readback. Final mirror is **115,091 bytes / `fbd24cd8b7d121778a871261243d1055e123f112ee02b63f69a35a368ae5211d`**; external publication receipt **172,001 bytes / `a6395e09dcf77e9ee9fd13d1c0994bd5203e13405c3b87fa467c1a86235771fc`**.
+
+Seven initial native append requests used `new_str` instead of required `content` and were rejected before mutation. Corrected ordered requests succeeded without archive/upload replay. This transport error did not change source or historical records.
+
+The known-profile preparation already had eight pure tests recorded in 041. Its bound draft received seven independent file-only checks; six final publication placeholders deliberately prevented early side effects. READINESS metadata was corrected from **177/229/317 to 177/229/321**, with original V1 preserved; the authorizer already pinned the correct receipt. After final preservation, only those six placeholders were filled. The final **9,143-byte** authorizer, SHA `0bf6b596e6416ee168bdd4e1eb5d052e4e1eb7db9f9a4a30ea1639e2b3f7a1af`, received combined review `e08dd2e968a4b3135a18d3c7d981ca786293bf7f6e66f53089c52e6830b1ca7f`. No redundant native execution was inferred from static review.
+
+### 2. Retain the first stopped known-profile attempt
+
+Fresh desktop evidence observed inherited `DISPLAY=:0`, known state directory **dev 27 / inode 2361428**, and the exact eight old allowlisted events. The new **76,885-byte** gate, SHA `e5060a6f6ee68a89788e0674bc295c7a65e17b31b76100976768808ea8d71b4c`, preceded one helper launch, PID **25640**, start ticks **8535808**, and actual candidate READY.
+
+The operator opened one input picker, used the bound location field and exact owned-input path, then Return. The screenshot still showed the path field and a blank file list: the fixture was not visible, so **no explicit Open/acceptance click** was attempted. A later Tab plus accessibility read returned X11 `BadWindow`. Whether Tab was delivered, and what closed the dialog, are unknown. A fresh view showed `No folder selected`. Reused numeric window IDs do not establish the same document.
+
+The operator stopped without retry, output selection, Prepare, Apply, Start or reveal, then closed normally. Eight new saved events show requested then cancelled, no registration. All eight original events and the canonical directory identity remained exact; normal application state is not claimed wholly byte-identical. Aggregate closure was **28 spawned / 28 closed / zero live / maximum one**, empty output and no termination request/failure. These are real startup capability children, not zero media. CUA actions/screenshots are not standalone replayable image files.
+
+The retained **624-byte** top-level stderr lacks the earlier missing optional-status-handler text. That is a useful native observation of its absence on this run, not universal proof or an explanation for the picker. DBus/SSL diagnostics remain. Independent audit **23,022 bytes / `5b6d2e2d0f9881b276dce7e3709f36b54e40130919af02a5c5281f6eec65b29e`** and lead reconciliation **2,963 bytes / `9750593ddd13848178bfded2297b538a3458f4ef4c437c505cf01145b3d7e0ec`** verified 641 source files and 67 identity rows. The later PID-namespace qualification below applies to that unchanged reconciliation.
+
+### 3. Run one finite 150-second ordinary H.264 service campaign
+
+After the first native closure, a separately reviewed helper targeted the known 150-second 1080p SDR/stereo source with **H.264 CPU slower / CRF24, Full / Keep source / copied AAC**, followed by existing-output collision. It did not repeat H.265/AV1 targets, cancellation or recovery. Thirteen independent file/injected checks covered streaming PCM comparison, genuine access/journal contracts and four actual-main never-settling await paths using synthetic factories. They were preparation evidence, not a full successful runtime simulation.
+
+The PCM helper uses two 65,536-byte buffers, exact positional reads, no-follow/identity checks and whole-file hashing; unequal lengths or bytes fail. Direct owned-file PCM output retains a **64 MiB detected limit**, monitored during work and checked after closure. It is not a hard quota: overshoot is possible. The runner's existing metadata stdout cap was not relaxed. Startup/currentness, real service execution, validation, publication and access contracts remained in use.
+
+Binding **79,077 bytes / `70d5b32574bc65b9517975095f2d66574a6419af1330b1d17cf1aa7436d44bdd`** authorized one target and one collision check on exact 041. The actual report is **7,236,062 bytes / `432f089eb64feb5ab59072120a3fd776690c8ad8d15f0d7e1894683fe2ea3b52`**, status `passed-bounded-ordinary-long-h264`. Both cases passed, with **42 spawned / 42 closed / zero live / maximum one / one semantic target**, matching the forecast and below the 48-child ceiling. Fifty invocation rows include eight unspawned capability refusals.
+
+The published file is **85,661,595 bytes**, SHA `c674ef0d3c0be04cbddb3f5dbfddfaade1a9bf68b9bccfd97cb539080c8e30b7`. Saved count-probe evidence shows **4,500 H.264 frames, 1920×1080, yuv420p**; a separate strict video-only decode exited zero. Target terminal progress reached 150 seconds / 4,500 frames. Ordinary service validation is metadata-based; these two additional video traversals are explicit campaign checks, not an implicit property of every publication.
+
+Both complete PCM files contain **57,600,000 bytes / 7,200,000 sample instants**, SHA `84c71cc354a523729db0ed602152b94c2cd0e197133461f0b576053afdffa481`. All **879 chunks** compare equal, with **no fitted shift or trimmed prefix**. All **7,033 packet payload/size rows per side**, codec extradata, leading Skip Samples **1,024** and terminal discard **768** match; decoded frame rows are **7,032 per side**. Container time bases remain different, **1/48000 versus 1/1000**. This establishes exact same-candidate-reader equality for this known tuple, not universal player/cross-reader timing, audibility or a new audio-policy decision.
+
+Collision genuinely skipped the existing output, allowed one metadata child, created no extra target and reached the helper's full-hash preservation assertion. Genuine OutputAccess/expiry used an inert sink, not an OS reveal. Resources and diagnostics settled with outcome completed, no errors, unresolved operations or retained owner.
+
+### 4. Audit the long result without hiding its limits
+
+All **42 captured child streams** were untruncated: **35 empty stderr / seven nonempty**. The H.264 target has a retained **167-byte** duplicate-codec warning; startup x265 CPU-mask/thread-pool and SVT diagnostics remain. Nineteen events include three truncated contexts at sequences **6, 13 and 16**. These truncations are separate from complete child captures; warnings are not automatically harmless because output passed.
+
+Independent saved-only audit **71,471 bytes / `1287aac1bb5a9259474058a57582c046fe281a2dee938ac9a0a59291bca7f922`** verified source/pins and **168 owned artifacts / 341,498,268 bytes**, independently streaming the existing PCM rather than executing another decoder. Lead reconciliation **5,011 bytes / `3e7bd2165c7485497c914015a92ca1f779ae4b7162fd4b6aea818fa9302cf8eb`** rehashed **930 identity rows** and all 641 source files. Output and PCM full hashes were originally persisted by the helper, not first invented by the audit. An initial audit assertion inspected an event wrapper instead of its nested event and stopped before saving; corrected read-only inspection changed no runtime evidence.
+
+The 132.554-second campaign includes startup, inspection, verification, collision and closure. The 80.565-second target interval is a separate observed process span, not an optimization benchmark. Point storage limits, streaming checks and final inventory are not continuous quotas or guaranteed OS termination. This service result does not qualify native UI or every long input.
+
+### 5. Use a minimally amended, separately gated mouse-only native journey
+
+The practical follow-up did not reset state or build another application harness. The reviewed helper change was baseline cardinality/message **eight → sixteen**; original identity/equality and new-only capture logic remained. Original eight events plus the first attempt's eight new events formed the protected baseline. Preparation explicitly replaced the unsuitable requirement to see the media file inside a directory-only picker: a read-only file-manager listing confirms the fixture, while the picker uses actual sidebar/breadcrumb/directory rows and one visible Open per role. Prior keyboard/cancellation cause remains unknown.
+
+Combined review `efa2313eb2996c52f9c3f0c997f3bec2333f6ea16675670c74aa2210b2cb4bc6` and a separate lead release preceded gate **76,879 bytes / `07044989490bb2e1a6bde69221d4cb34bb8e25fe0c6ea1f95ea0ca1ab74121f2`**; that gate followed terminal long-resource evidence, full audit/reconciliation and fresh desktop checks. Its authorizer differed only in fixed helper/plan identity tuples. This was an explicitly controlled further attempt under existing owner permission, not replay of a consumed gate.
+
+Read-only Thunar confirmed the exact input file and **5,578,679-byte** size without opening media. A `type_text` attempt in the **file-manager address field**, outside the picker, had ambiguous delivery; supported bound character input subsequently confirmed that path. Inside both directory-only pickers the operator used **mouse-only visible navigation**, confirmed exact breadcrumbs and clicked Open once each. The application displayed both exact registered folders; saved events contain both `FOLDER_PICKER_REGISTERED` markers.
+
+One Prepare reached Ready for the known eight-second 1920×1080 source. The expanded actual request showed **Full / Keep source / copied AAC**, H.265 CPU **slow / CRF25**, without changing defaults. **No Apply was needed. One Start** produced waiting/in-progress, then Completed/Succeeded. A numerical percentage was not observed and is not reconstructed from later success.
+
+One Show in folder dispatched the real output action; Thunar selected the exact file, **6,691,875 bytes**, according to CUA observation. No playback or extra target/probe/decode occurred. The file's first full SHA was established by **post-close inventory**, `ec2784be38db304eab4c9e40c7806de14cc9a867befc8d89d6e06943791e0548`, then independently rehashed. This native output has no fresh complete frame/PCM equality proof; the long H.264 service's evidence must not be transferred to it.
+
+### 6. Reconcile native success, diagnostics and the PID-namespace correction
+
+The actual native supervisor waited for normal closure and recorded exit 0, no termination/failure, **33 spawned / 33 closed / zero live / maximum one**. All sixteen baseline events, the canonical profile directory identity and all 641 source hashes remained exact. Twenty-one new events include both registrations, preparation, one encode start/close, valid metadata output check, source assessment, publication, completed one-success batch, dispatched reveal and session end. FILE_INSPECTED and JOB_DISPOSITION contexts are truncated; other untruncated records corroborate the bounded result.
+
+The saved batch measured **31.052 seconds**; encode-close minus encode-start is **30.658 seconds**; the whole manual journey is **513.222429 seconds**. These are different scopes, not interchangeable performance claims. Numeric progress remained unobserved. Target stderr **335 bytes**, SHA `1afb1f633881e0d9394656a45b302ccf6bd8c89ffbd80835f22dcebd0d421201`, retains duplicate-codec and x265 CPU-mask/thread-pool warnings. Top-level stderr is 624 bytes with DBus/SSL diagnostics and no missing optional-status-handler text. Aggregate census does not enumerate every child argv/stderr or every OS process.
+
+An important additive correction was recorded during this journey. The earlier `ownedPidAbsentAtReconciliation` boolean came from the executor's `/proc`, **not the desktop process namespace**. The still-active desktop PID **28253** was invisible from that executor, demonstrating the boundary. Clarification **1,200 bytes / `c36c20b9b5c10894696507cc66c7045998d7dfde7932c1f87edef674c206b75b`** qualifies the inference without changing the original reconciliation or later binding identities. The original stopped attempt's actual supervisor wait/exit 0 and 28/28 owned census remain valid closure evidence. For the successful journey, actual supervisor wait, 33/33 census and final operator desktop observation support closure; an executor PID lookup is not added as independent desktop/whole-OS proof.
+
+Final native audit **42,959 bytes / `5bfe49ac50438943b9de9e5bcfc89a730050f881303dfd0ad7be5c7525c3c819`** and lead reconciliation **4,629 bytes / `7244f5b440afd99b1f8e4d520fcfef844c741ee16e5344e972da33fd82ea6f7c`** verified **113 identity rows**, exact source, state/event baseline and output. CUA-only screenshots are not standalone image archives. Ordinary app writes do not imply whole-profile byte preservation. Storage observations are point checks, and inherited unbounded termination-wait/failure-only-capture limitations remain.
+
+### 7. Preserve an explicitly curated record, not a claimed complete raw archive
+
+This checkpoint publishes complete **selected audit/reconciliation objects plus the namespace clarification**, with declared leading-root substitutions. Selection is deliberate: the **7,236,062-byte raw long report**, its **14,066 source/output packet-array rows**, raw identity ledger/outcome/completion objects, PCM/media/runtime/profile/gates and full logs are not all reproduced as objects. Their exact metadata and the original local records remain; the portable is **not zero-omission preservation**, cannot restore original raw bytes and grants no runtime authority.
+
+No application/test source changed and no regression suite was rerun. Inherited 041 **177/177 focused, 229/229 protection and 321/321 expanded explicit Linux** results remain separately attributed, overlapping and not package-wide `npm test`. Helper thirteen file/injected checks are a different scope. At cutoff, fresh-owner cancellation-recovery feasibility is only assigned read-only investigation; later findings are excluded.
+
+## 🧠 Key Insights
+
+- Practical visible navigation established a usable native path without changing application source or erasing the earlier stop. It supports that one alternate interaction, not a keyboard/root-cause diagnosis or general picker reliability.
+- Long service evidence is materially stronger than metadata alone: complete source/output PCM and packet evidence agree without a fitted shift. It is still same-reader, known-input evidence, not universal audio policy.
+- Service proof and GUI proof remain complementary, not interchangeable. The native H.265 output has observed publication/reveal and metadata validation, not the long H.264 output's full decode/PCM measurements.
+- Process identity depends on observation context. Cross-namespace absence cannot prove desktop closure; actual ownership/wait receipts and desktop observations are the correct evidence.
+- Curating useful audit records is acceptable when omissions are explicit. It must not be described as byte-complete raw-report preservation.
+
+## 📌 Decisions Made
+
+**Confirmed:** Accept the known 150-second H.264 publication/collision and the separately scoped native H.265 journey. **Decider:** lead after independent saved audits. **Basis:** exact source, persisted publication/PCM evidence for the service, and correlated native events plus visible output/reveal for the GUI.
+
+**Confirmed:** Preserve the first stop and qualify the PID lookup additively. **Decider:** lead. **Basis:** original evidence and subsequent bindings must remain exact, while the namespace inference was too broad.
+
+**Confirmed:** Keep defaults, 7.1.5 rollback, pins and audio policy unchanged. **Decider:** continuing owner direction, maintained by lead. **Basis:** bounded current-source gains do not authorize general promotion or a new audio acceptance rule.
+
+**Deferred:** General picker cause/reliability, broader media/platform performance and cancellation-recovery product design. **Decider:** lead after proportionate investigation, with owner decisions where reserved. **Basis:** one successful alternate interaction and finite known inputs do not settle those questions.
+
+## ⚠️ Difficulties / Friction
+
+The first known-profile picker still closed without registration, with uncertain Tab delivery and no explicit Open click. Static metadata needed a 317→321 correction, and native document append calls initially used the wrong field. Those were corrected without source mutation or remote-write replay. Long PCM verification required bounded streaming rather than enlarging a captured stdout buffer. A wrapper-versus-nested-event audit assertion stopped safely before save. The process-namespace mismatch required an honest later qualification, not deletion of the original claim. Warning streams and truncated diagnostic contexts remain visible despite successful results.
+
+## 🔧 Adjustments Made
+
+- **Shifted from:** seeing the fixture within a directory-only picker and entering its path through keyboard interaction. **To:** read-only file-manager fixture confirmation followed by mouse-only directory navigation and one visible acceptance. **Because:** the first attempt never established a visible fixture/registered input, while the picker selects directories. **Consequence:** a separately gated practical journey succeeded; the original cause remains unknown.
+- **Shifted from:** short ordinary service evidence only. **To:** one known 150-second H.264 target plus collision with streaming whole-PCM comparison. **Because:** useful longer-output confidence required actual current-source evidence. **Consequence:** 4,500 frames and 7,200,000 sample instants are now supported for that tuple, not a universal claim.
+- **Shifted from:** treating an executor `/proc` absence as desktop liveness evidence. **To:** namespace-qualified lookup plus actual supervisor ownership/wait and desktop observation. **Because:** an active desktop process was invisible in the executor namespace. **Consequence:** original records stay intact with a correction; no rerun or changed outcome.
+- **Shifted from:** reproducing full raw-report objects in every portable package. **To:** complete selected audits/reconciliations with explicit raw-data exclusions. **Because:** the combined evidence includes a large packet/PCM report while compact source records should remain useful. **Consequence:** source restoration is no longer described as complete raw-report restoration.
+
+## ❌ Mistakes / Risks Noted
+
+### Process closure overclaimed across namespaces
+
+**What happened / could happen:** A recorded PID-absence boolean could be read as independent desktop or whole-OS closure proof.
+
+**Actual impact:** The lookup was in the wrong namespace for that inference. Actual supervisor waits and owned census still support both terminal outcomes; no outcome is reversed.
+
+**Potential impact:** A future live desktop process could be overlooked before another run.
+
+**Correction / current status:** Additive clarification records the demonstrated namespace boundary. Later reconciliation relies on actual supervisor/desktop evidence, not the lookup.
+
+**Failure Intelligence:** Preserve the original hashed receipt and the correction together; do not silently rewrite history or count cross-namespace absence as an additional confirmation.
+
+### Evidence scopes conflated after success
+
+**What happened / could happen:** Long H.264 PCM equality, native H.265 publication, metadata validation and CUA reveal could be collapsed into one general “everything works” claim.
+
+**Actual impact:** Each result is valid only within its stated measurement and source scope. Native full SHA was first post-close, numeric progress was unobserved, and native PCM was not decoded.
+
+**Potential impact:** Premature promotion, inaccurate performance claims or a false assertion that prior picker failures are fixed.
+
+**Correction / current status:** Distinct outcomes, timing scopes, hash provenance, warnings and unsupported claims are explicitly retained.
+
+**Failure Intelligence:** Keep the stopped attempt and successful attempt as separate events. Do not transfer measured fidelity across outputs or infer cause from a single alternate interaction.
+
+### Curated preservation mistaken for raw completeness
+
+**What happened / could happen:** A portable containing whole selected audits could be described as omission-free preservation of the raw campaign.
+
+**Actual impact:** Large raw reports, packet arrays, PCM/media and other execution inputs are intentionally outside source publication.
+
+**Potential impact:** A later worker could assume it can reconstruct raw evidence or launch from that source archive alone.
+
+**Correction / current status:** Exact original metadata, selection and root transformations are distinct; authority and restoration limits are explicit.
+
+**Failure Intelligence:** Audit object completeness does not imply completeness of the source material selected. Preserve those declarations alongside the hashes.
+
+## 📍 Current Position
+
+**As of:** **2026-11-18T09:15:53.849006+00:00 / 11:15:53.849006 Cairo.**
+
+**Before this session:** 041 source-tests repaired optional status, but its native behavior was unqualified; the prior eight-second ordinary service result belonged to 039.
+
+**After this session:** Exact 041 has a stopped native attempt with the missing-handler text absent, a passed 150-second ordinary H.264/collision campaign with complete same-reader PCM evidence, and a successful eight-second native H.265 publication/reveal using mouse-only picker navigation. All outcomes are audited and source identities unchanged.
+
+**Current standing:** No source/test/default/pin/audio-policy changes. Both native runs preserved the same canonical profile identity and protected prior events, not opaque profile contents. No Windows/hardware, cross-reader/player, general input, audibility, performance, hard-termination or formal Security Cloud claim. The native result does not yet establish a designed fresh-owner recovery UI.
+
+**Live owner continuation anchor:** Current-product reliability and usability remain the priority. Preserve this evidence, then investigate fresh-owner cancellation recovery read-only before deciding on any implementation; keep known state and rollback intact. Do not reopen historical requirements or impose a new audio refusal policy merely because the common candidate is progressing.
+
+## 🔜 Next Steps
+
+1. Preserve coherent evidence-only 042 through local Git, verified full Notion source/history/native records, then exact GitHub readback. Its new preservation is pending at this entry's cutoff, not inferred from completed 041.
+2. Complete the assigned read-only fresh-owner recovery feasibility investigation and reconcile it with existing cancellation/lifecycle rules before a later source proposal. No result or implementation from after this cutoff belongs here.
+3. Use the demonstrated practical picker method where appropriate, while treating the earlier cancellation cause and broader reliability as open. Avoid repeating completed media just to improve the historical narrative.
+
+**Do not reopen / repeat:** Do not erase either stop, replay consumed gates, reset the profile, transfer service PCM proof to native output, suppress warning streams, promote defaults/audio policy, or rewrite the previous Session body.
+
+**Continuation boundary:** Evidence/PBS only for 042. Later recovery decisions, native attempts, code or new media require their own dated scope and engineering checks under existing owner authorization, not a fictitious new user-permission barrier.
+
+## ❓ Open Questions
+
+- Why did the earlier keyboard/location interactions end in cancellation or `BadWindow`? **Needed from:** proportionate controlled UI/source evidence. **Blocks:** a causal or general reliability claim, not acceptance of the one successful mouse-only journey.
+- What fresh-owner recovery experience should the candidate offer after cancellation? **Needed from:** the assigned read-only feasibility analysis and reviewed product/source decision. **Blocks:** claiming implemented recovery convenience; no later conclusion is included here.
+- How far do known-input long-service and native results generalize? **Needed from:** selected representative media/platform evidence rather than broad repetition. **Blocks:** arbitrary-input, Windows/hardware and default-promotion claims.
+- What do retained CPU-mask/thread-pool warnings imply for representative performance and reliability? **Needed from:** a separate environment/performance investigation. **Blocks:** harmless-warning or optimization claims; wall durations alone do not answer it.
+
+## 🧾 Session Outcome
+
+Useful current-source progress is established: one longer ordinary H.264 publication with exact complete same-reader audio evidence, and one functional native H.265 prepare/encode/reveal journey. The first native stop, warning/capture limits, and PID-namespace correction remain explicit. No production implementation or policy was changed to manufacture those successes.
+
+See [execution](2026-11-18_Ordinary_Long_Service_And_Picker_Evidence.md), [receipts](2026-11-18_Ordinary_Long_Service_And_Picker_Evidence_Receipts.json) and [current state](CURRENT_STATE.md). All **1,875,712 prior bytes** and the original Session Structure Correction receipt remain exact. Selected portable audits are not complete raw reports or execution authority; 042 commit/mirror/push remain pending at the dated cutoff.
+
+## 🔍 Confidence Level
+
+**High for the finite service measurements, successful native publication and preserved chronology; limited for root cause, general fidelity and broader product readiness.**
+
+**Why:** Independent saved audits rechecked exact source/pins, complete retained PCM/packet evidence for the long service, correlated native registration/publication/reveal events, original-event baselines and actual owned closure. The namespace correction and evidence exclusions are explicit rather than hidden.
+
+**Not higher because:** Audits did not run new decodes, the native output lacks separate full PCM/frame proof, CUA images are not standalone archives, and one successful interaction does not explain prior cancellation. Warnings, truncated contexts, point-only storage checks, unbounded wait limitations and untested platforms remain.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Repair optional workbench status without granting selection authority
 
 ## 🤖 Models, Effort, Roles and Provenance

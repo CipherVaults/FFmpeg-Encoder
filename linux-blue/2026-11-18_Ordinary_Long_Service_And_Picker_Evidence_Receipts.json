@@ -1,0 +1,131 @@
+{
+  "schema": "ffmpeg-curated-checkpoint-receipts-v1",
+  "checkpoint": "042",
+  "status": "Final outside evidence-only records; preservation pending",
+  "artifacts": [
+    {
+      "path": "ordinary-native041-known-profile-bound/INDEPENDENT_NATIVE_AUDIT.json",
+      "bytes": 23022,
+      "sha256": "5b6d2e2d0f9881b276dce7e3709f36b54e40130919af02a5c5281f6eec65b29e"
+    },
+    {
+      "path": "ordinary-native041-known-profile-bound/LEAD_RECONCILIATION.json",
+      "bytes": 2963,
+      "sha256": "9750593ddd13848178bfded2297b538a3458f4ef4c437c505cf01145b3d7e0ec"
+    },
+    {
+      "path": "ordinary-long041-service-preparation/INDEPENDENT_SAVED_OUTPUT_AUDIT.json",
+      "bytes": 71471,
+      "sha256": "1287aac1bb5a9259474058a57582c046fe281a2dee938ac9a0a59291bca7f922"
+    },
+    {
+      "path": "ordinary-long041-service-preparation/LEAD_RECONCILIATION.json",
+      "bytes": 5011,
+      "sha256": "3e7bd2165c7485497c914015a92ca1f779ae4b7162fd4b6aea818fa9302cf8eb"
+    },
+    {
+      "path": "ordinary-native041-known-profile-bound/JOURNEY_OUTCOME.json",
+      "bytes": 3602,
+      "sha256": "9780b2f41094c056bd7c6e3d94f596e885c6532a02637590684fc28e5bf21d6d"
+    },
+    {
+      "path": "ordinary-native041-known-profile-bound/OUTER_COMPLETION.json",
+      "bytes": 870,
+      "sha256": "b50d0a878b43fb3fd098e91654338c408a31aa35d1029fec388d8947153abfa8"
+    },
+    {
+      "path": "ordinary-long041-service-preparation/REPORT.json",
+      "bytes": 7236062,
+      "sha256": "432f089eb64feb5ab59072120a3fd776690c8ad8d15f0d7e1894683fe2ea3b52"
+    },
+    {
+      "path": "ordinary-long041-service-preparation/COMPLETION.json",
+      "bytes": 280,
+      "sha256": "bd48746e8348e244ebb8bbef829b4227d94d23360dd588221bf85103cc2b517d"
+    },
+    {
+      "path": "ordinary-long041-service-preparation/OUTER_COMPLETION.json",
+      "bytes": 469,
+      "sha256": "6d147ebbf021f6ed2671dfccc277865b5ac4537953e5d15e2051e92736ecd839"
+    },
+    {
+      "path": "ordinary-long041-service-preparation/INDEPENDENT_AUDIT_IDENTITIES.json",
+      "bytes": 229729,
+      "sha256": "65d550e50228b615982fbef2a2dbebeace72b48b9726cb31669daeb081129fd9"
+    },
+    {
+      "path": "notion-checkpoint-041-verification.json",
+      "bytes": 115091,
+      "sha256": "fbd24cd8b7d121778a871261243d1055e123f112ee02b63f69a35a368ae5211d"
+    },
+    {
+      "path": "github-checkpoint041-verification.json",
+      "bytes": 3499,
+      "sha256": "ae73ef3b039657b20403530460caa515df821dffed3dcf7f9e6bb756890ee4a8"
+    },
+    {
+      "path": "checkpoint-66fb129-publication-receipt.json",
+      "bytes": 172001,
+      "sha256": "a6395e09dcf77e9ee9fd13d1c0994bd5203e13405c3b87fa467c1a86235771fc"
+    },
+    {
+      "path": "ordinary-native041-mouse-only-bound/INDEPENDENT_NATIVE_AUDIT.json",
+      "bytes": 42959,
+      "sha256": "5bfe49ac50438943b9de9e5bcfc89a730050f881303dfd0ad7be5c7525c3c819"
+    },
+    {
+      "path": "ordinary-native041-mouse-only-bound/LEAD_RECONCILIATION.json",
+      "bytes": 4629,
+      "sha256": "7244f5b440afd99b1f8e4d520fcfef844c741ee16e5344e972da33fd82ea6f7c"
+    },
+    {
+      "path": "native041-proc-namespace-clarification.json",
+      "bytes": 1200,
+      "sha256": "c36c20b9b5c10894696507cc66c7045998d7dfde7932c1f87edef674c206b75b"
+    },
+    {
+      "path": "ordinary-native041-mouse-only-bound/JOURNEY_OUTCOME.json",
+      "bytes": 5348,
+      "sha256": "bf7090632191c6a72bbcd4b0953761bea9ba192fe8fd63da7e9416308baeb52b"
+    },
+    {
+      "path": "ordinary-native041-mouse-only-bound/OUTER_COMPLETION.json",
+      "bytes": 869,
+      "sha256": "0dcadde422993c41f615b229be75b9e1db3c3516a5ed90d2115854483c2e4980"
+    },
+    {
+      "path": "ordinary-native041-mouse-only-bound/OUTPUT_INVENTORY.json",
+      "bytes": 333,
+      "sha256": "25326a0a0b850c7a4343b82bd9d2576c88e523b758e5b4ad5a82434b86ee5726"
+    },
+    {
+      "path": "checkpoint042-cutoff.json",
+      "bytes": 793,
+      "sha256": "2296decb840788f5881304348a2ab2867856adb071444cf13261541bdd326d3c"
+    }
+  ],
+  "selectionDisclosure": "Complete seven selected saved audit, lead reconciliation and namespace clarification objects only. NOT a full report package and NOT zero-omission. Original raw reports remain locally unchanged.",
+  "omissions": [
+    "The 7,236,062-byte raw service report and its 14,066 source/output packet-array rows are not reproduced. Exact raw-report metadata is retained.",
+    "Raw identity ledger rows, original outcome/completion objects, PCM, compressed media, runtime binaries, profile/cache, full gate/source manifests and logs are not included as full objects.",
+    "No inverse-root mapping or original-byte restoration. Compact source restoration does not restore test media or execution authority."
+  ],
+  "sourceCommit": "66fb129bb0c65c3639e45c3937220228cbba0d13",
+  "sourceFiles": 641,
+  "sourceOrTestDelta": false,
+  "laterNativeOutcomeClaimed": true,
+  "cutoffUtc": "2026-11-18T09:15:53.849006+00:00",
+  "nativeOutcomeScope": "One bounded H265 publication/reveal dispatch, not general native qualification",
+  "native": {
+    "closedChildren": 33,
+    "targets": 1,
+    "targetSeconds": 30.658,
+    "wholeManualSeconds": 513.2224285940028,
+    "outputHashFirstRecordedPostClose": true,
+    "numericProgressObserved": false,
+    "truncatedContexts": 2,
+    "targetStderrBytes": 335,
+    "priorPickerCauseKnown": false,
+    "execProcAbsenceProvesDesktopAbsence": false
+  }
+}

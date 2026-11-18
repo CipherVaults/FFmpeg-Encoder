@@ -1,0 +1,673 @@
+{
+  "checkpoint": 59,
+  "evidenceCutoffUtc": "2026-11-18T17:05:24.867679+00:00",
+  "status": "Final outside owning record; writer released for lead integration",
+  "scope": "Bounded058 genuine1440 calibration and independent audit; subsequent four-file Windows acquisitionV3 source integration and lead checks; actual hosted058 source safety result. No new consumer or hosted acquisition execution.",
+  "plannedPublication": {
+    "changedPaths": 9,
+    "sourceFiles": 4,
+    "totalCommittedFiles": 700,
+    "portablePackage": "experimental-1440-range-calibration-portable.json",
+    "rawMediaRuntimeProfilesGatesOrApiLogsIncluded": false
+  },
+  "calibration": {
+    "sourceCommit": "fe58dd01ecae2b7284e3a3fdf91d3b79fbec3e12",
+    "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+    "outer": {
+      "runId": "e3-range1440-c3754989-13ec-42e8-8df2-ec6e91e0640d",
+      "startedAt": "2026-11-18T16:48:19.905Z",
+      "endedAt": "2026-11-18T16:53:11.937Z",
+      "elapsedMs": 292031.869263,
+      "wallElapsedMs": 292032,
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdoutSha256": "cbf256b9de1951c68f776c7e6a3ada7e52411028b4a32b415fdf9bb483092839",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "originalReport": {
+      "bytes": 125817,
+      "sha256": "c81129d8305109c0a7a9dd024e65d3f5dab5611bf70cd218a601c734ff3dcd67"
+    },
+    "census": {
+      "spawned": 42,
+      "closed": 42,
+      "live": 0,
+      "maximum": 1
+    },
+    "cases": [
+      {
+        "id": "late-forty-seconds",
+        "frames": 1200,
+        "samples": 1920000,
+        "wholeCaseElapsedMs": 128287,
+        "auditTimeOutputFullFile": {
+          "bytes": 8217744,
+          "sha256": "6ba3beefc482154f58af8017d42bba3bc252c379b40af913313993f81818cf2e"
+        },
+        "originalStreamedSelectedPCM": {
+          "algorithm": "sha256",
+          "format": "s16le-interleaved",
+          "sourceHash": "557362ddcf7724e009cd0b1df44c19e9960e08eeea2e8cfa04c9e77857770f44",
+          "outputHash": "557362ddcf7724e009cd0b1df44c19e9960e08eeea2e8cfa04c9e77857770f44",
+          "sourceBytes": 7680000,
+          "outputBytes": 7680000
+        },
+        "timeline": {
+          "timeline": "request-relative",
+          "requested": {
+            "startUs": 100000000,
+            "endUs": 140000000
+          },
+          "resolved": {
+            "startUs": 100000000,
+            "endUs": 140000000
+          },
+          "video": {
+            "startUs": 100000000,
+            "endUs": 140000000,
+            "frames": 1200,
+            "outputStartUs": 0,
+            "outputEndUs": 40000000
+          },
+          "audio": [
+            {
+              "inputIndex": 1,
+              "mode": "precision-flac",
+              "startUs": 100000000,
+              "endUs": 140000000,
+              "outputStartUs": 0,
+              "outputEndUs": 39999667,
+              "encoderDelaySamples": 0,
+              "discardPaddingSamples": 0,
+              "sampleCountDifference": 0
+            }
+          ]
+        }
+      },
+      {
+        "id": "late-open-end",
+        "frames": 600,
+        "samples": 960000,
+        "wholeCaseElapsedMs": 92188,
+        "auditTimeOutputFullFile": {
+          "bytes": 4367077,
+          "sha256": "7b0f96e543647e402919220ea712c6e07b6a84ce0732ec9333eed5d6e169f694"
+        },
+        "originalStreamedSelectedPCM": {
+          "algorithm": "sha256",
+          "format": "s16le-interleaved",
+          "sourceHash": "ae9f20e1d3b792afffa53935066412e267063ecbf70c5b2d396dbf32fda1b81b",
+          "outputHash": "ae9f20e1d3b792afffa53935066412e267063ecbf70c5b2d396dbf32fda1b81b",
+          "sourceBytes": 3840000,
+          "outputBytes": 3840000
+        },
+        "timeline": {
+          "timeline": "request-relative",
+          "requested": {
+            "startUs": 130000000,
+            "endUs": null
+          },
+          "resolved": {
+            "startUs": 130000000,
+            "endUs": 150000000
+          },
+          "video": {
+            "startUs": 130000000,
+            "endUs": 150000000,
+            "frames": 600,
+            "outputStartUs": 0,
+            "outputEndUs": 20000000
+          },
+          "audio": [
+            {
+              "inputIndex": 1,
+              "mode": "precision-flac",
+              "startUs": 130000000,
+              "endUs": 150000000,
+              "outputStartUs": 0,
+              "outputEndUs": 20000333,
+              "encoderDelaySamples": 0,
+              "discardPaddingSamples": 0,
+              "sampleCountDifference": 0
+            }
+          ]
+        }
+      },
+      {
+        "id": "heldout-nonaligned",
+        "frames": 246,
+        "samples": 393984,
+        "wholeCaseElapsedMs": 21886,
+        "auditTimeOutputFullFile": {
+          "bytes": 1624941,
+          "sha256": "f80cfafba6de482569151829cb09bbcdad8228e0fb48b3c1cbc45ffa2da423a5"
+        },
+        "originalStreamedSelectedPCM": {
+          "algorithm": "sha256",
+          "format": "s16le-interleaved",
+          "sourceHash": "2df057e2c484e1762af4ef62eac53af4237b7b63fe83690918552b0aa3fdc8a6",
+          "outputHash": "2df057e2c484e1762af4ef62eac53af4237b7b63fe83690918552b0aa3fdc8a6",
+          "sourceBytes": 1575936,
+          "outputBytes": 1575936
+        },
+        "timeline": {
+          "timeline": "request-relative",
+          "requested": {
+            "startUs": 413000,
+            "endUs": 8621000
+          },
+          "resolved": {
+            "startUs": 413000,
+            "endUs": 8621000
+          },
+          "video": {
+            "startUs": 433333,
+            "endUs": 8633333,
+            "frames": 246,
+            "outputStartUs": 20000,
+            "outputEndUs": 8220000
+          },
+          "audio": [
+            {
+              "inputIndex": 1,
+              "mode": "precision-flac",
+              "startUs": 413000,
+              "endUs": 8621000,
+              "outputStartUs": 0,
+              "outputEndUs": 8208000,
+              "encoderDelaySamples": 0,
+              "discardPaddingSamples": 0,
+              "sampleCountDifference": 0
+            }
+          ]
+        }
+      }
+    ],
+    "auditedCampaignFiles": 95,
+    "auditedCampaignBytes": 231764084,
+    "producerCount": 97,
+    "diagnostics": {
+      "nonemptyChildren": [
+        7,
+        17,
+        33
+      ],
+      "bytesEach": 168,
+      "emptyChildren": 39,
+      "categories": {
+        "x265 [error]: Failed to genrate CPU mask": 3,
+        "x265 [warning]: No thread pool allocated, --wpp disabled": 3,
+        "x265 [warning]: No thread pool allocated, --lookahead-slices disabled": 3
+      }
+    },
+    "totalPipeBytes": 78858633,
+    "sumCasePipeBytes": 78550703,
+    "sourceFreezeReleasedAtUtc": "2026-11-18T17:02:59.519545+00:00",
+    "acceptance": "This saved preregistered calibration only, not service, catalog, default, Windows, GPU or owner release acceptance"
+  },
+  "windowsIntegration": {
+    "atUtc": "2026-11-18T17:03:01.224691+00:00",
+    "sourceFiles": [
+      {
+        "path": "scripts/acquire-candidate-archives.cjs",
+        "bytes": 8224,
+        "sha256": "a9625a9779c72ee1f17d2172b7bf88b739a438901fed5f674b21d7b95b660035",
+        "priorSha256": null
+      },
+      {
+        "path": "scripts/provision-candidate-electron.cjs",
+        "bytes": 8281,
+        "sha256": "89cfbe7a8645420c464ba8d8ecad706db22cd9e8c90d8de8ab99a1657b7367c1",
+        "priorSha256": "6ecdb343915d12182888619fcb2a7779ba9667f6426aead7d2e3710c66cb460f"
+      },
+      {
+        "path": "tests/candidate-archive-acquisition.test.cjs",
+        "bytes": 6991,
+        "sha256": "4fb938ad601c97b6ce9ea8d52ee63ed8ad8ac90e8748ef1dfe6133413356dc4f",
+        "priorSha256": null
+      },
+      {
+        "path": "linux-blue/WINDOWS_RUNNER_ACQUISITION.md",
+        "bytes": 4023,
+        "sha256": "143d75cc42af9b80bc3944d0ef5de891001cc4efe26480acd9a88b79f7ad65c2",
+        "priorSha256": null
+      }
+    ],
+    "other693PriorFilesUnchanged": true,
+    "sourceOnly": true,
+    "downloads": 0,
+    "installation": false,
+    "workflowChanged": false,
+    "freshCalibrationProducerIntersection": []
+  },
+  "leadChecks": [
+    {
+      "name": "syntax-new-acquisition",
+      "command": [
+        "node",
+        "--check",
+        "scripts/acquire-candidate-archives.cjs"
+      ],
+      "startedAtUtc": "2026-11-18T17:03:01.310560+00:00",
+      "endedAtUtc": "2026-11-18T17:03:01.367449+00:00",
+      "exitCode": 0,
+      "node": "v24.22.1",
+      "platform": "Linux",
+      "baseCommit": "fe58dd01ecae2b7284e3a3fdf91d3b79fbec3e12",
+      "counts": {
+        "tests": [],
+        "pass": [],
+        "fail": [],
+        "cancelled": [],
+        "skipped": []
+      },
+      "failedCases": [],
+      "outputs": [
+        {
+          "path": "syntax-new-acquisition.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "syntax-new-acquisition.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "testedFiles": [
+        {
+          "path": "scripts/acquire-candidate-archives.cjs",
+          "bytes": 8224,
+          "sha256": "a9625a9779c72ee1f17d2172b7bf88b739a438901fed5f674b21d7b95b660035"
+        }
+      ]
+    },
+    {
+      "name": "syntax-electron",
+      "command": [
+        "node",
+        "--check",
+        "scripts/provision-candidate-electron.cjs"
+      ],
+      "startedAtUtc": "2026-11-18T17:03:01.368487+00:00",
+      "endedAtUtc": "2026-11-18T17:03:01.443116+00:00",
+      "exitCode": 0,
+      "node": "v24.22.1",
+      "platform": "Linux",
+      "baseCommit": "fe58dd01ecae2b7284e3a3fdf91d3b79fbec3e12",
+      "counts": {
+        "tests": [],
+        "pass": [],
+        "fail": [],
+        "cancelled": [],
+        "skipped": []
+      },
+      "failedCases": [],
+      "outputs": [
+        {
+          "path": "syntax-electron.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "syntax-electron.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "testedFiles": [
+        {
+          "path": "scripts/provision-candidate-electron.cjs",
+          "bytes": 8281,
+          "sha256": "89cfbe7a8645420c464ba8d8ecad706db22cd9e8c90d8de8ab99a1657b7367c1"
+        }
+      ]
+    },
+    {
+      "name": "syntax-new-test",
+      "command": [
+        "node",
+        "--check",
+        "tests/candidate-archive-acquisition.test.cjs"
+      ],
+      "startedAtUtc": "2026-11-18T17:03:01.443630+00:00",
+      "endedAtUtc": "2026-11-18T17:03:01.498761+00:00",
+      "exitCode": 0,
+      "node": "v24.22.1",
+      "platform": "Linux",
+      "baseCommit": "fe58dd01ecae2b7284e3a3fdf91d3b79fbec3e12",
+      "counts": {
+        "tests": [],
+        "pass": [],
+        "fail": [],
+        "cancelled": [],
+        "skipped": []
+      },
+      "failedCases": [],
+      "outputs": [
+        {
+          "path": "syntax-new-test.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "syntax-new-test.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "testedFiles": [
+        {
+          "path": "tests/candidate-archive-acquisition.test.cjs",
+          "bytes": 6991,
+          "sha256": "4fb938ad601c97b6ce9ea8d52ee63ed8ad8ac90e8748ef1dfe6133413356dc4f"
+        }
+      ]
+    },
+    {
+      "name": "focused",
+      "command": [
+        "node",
+        "--test",
+        "--test-reporter=tap",
+        "tests/candidate-archive-acquisition.test.cjs",
+        "tests/candidate-runtime.test.cjs",
+        "tests/provision-candidate-electron.test.cjs"
+      ],
+      "startedAtUtc": "2026-11-18T17:03:01.499463+00:00",
+      "endedAtUtc": "2026-11-18T17:03:01.793159+00:00",
+      "exitCode": 0,
+      "node": "v24.22.1",
+      "platform": "Linux",
+      "baseCommit": "fe58dd01ecae2b7284e3a3fdf91d3b79fbec3e12",
+      "counts": {
+        "tests": [
+          48
+        ],
+        "pass": [
+          48
+        ],
+        "fail": [
+          0
+        ],
+        "cancelled": [
+          0
+        ],
+        "skipped": [
+          0
+        ]
+      },
+      "failedCases": [],
+      "outputs": [
+        {
+          "path": "focused.stdout",
+          "bytes": 10614,
+          "sha256": "cd042755aec7559288c343adf845d56846792d82467e8f16d093d09f6e02f4a7"
+        },
+        {
+          "path": "focused.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "testedFiles": [
+        {
+          "path": "tests/candidate-archive-acquisition.test.cjs",
+          "bytes": 6991,
+          "sha256": "4fb938ad601c97b6ce9ea8d52ee63ed8ad8ac90e8748ef1dfe6133413356dc4f"
+        },
+        {
+          "path": "tests/candidate-runtime.test.cjs",
+          "bytes": 13226,
+          "sha256": "c1e7966df0ae7bb363c45c4091dfd072021f136b09574e8fcc7917d2ce38b661"
+        },
+        {
+          "path": "tests/provision-candidate-electron.test.cjs",
+          "bytes": 6886,
+          "sha256": "cff895b2725fe195514905f8353867b28991e1d58284aa9ed2534937f11a6fc5"
+        }
+      ]
+    },
+    {
+      "name": "ci-runner",
+      "command": [
+        "node",
+        "scripts/ci-source-contracts.cjs"
+      ],
+      "startedAtUtc": "2026-11-18T17:03:01.794135+00:00",
+      "endedAtUtc": "2026-11-18T17:03:15.357524+00:00",
+      "exitCode": 0,
+      "node": "v24.22.1",
+      "platform": "Linux",
+      "baseCommit": "fe58dd01ecae2b7284e3a3fdf91d3b79fbec3e12",
+      "counts": {
+        "tests": [
+          209,
+          10
+        ],
+        "pass": [
+          209,
+          10
+        ],
+        "fail": [
+          0,
+          0
+        ],
+        "cancelled": [
+          0,
+          0
+        ],
+        "skipped": [
+          0,
+          0
+        ]
+      },
+      "failedCases": [],
+      "outputs": [
+        {
+          "path": "ci-runner.stdout",
+          "bytes": 22907,
+          "sha256": "0e80ccbec92cd3f443e8c1c2ba98242122047c9af7705e1c65882fbfd5504fbb"
+        },
+        {
+          "path": "ci-runner.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "testedFiles": [
+        {
+          "path": "scripts/ci-source-contracts.cjs",
+          "bytes": 2173,
+          "sha256": "4eae37c5b3746a028beef3b604c207ed633fbbf2a9953a25099df685a1041433"
+        }
+      ]
+    }
+  ],
+  "testLimits": "Overlapping source/injected/file selections; two bounded Node helper children in shared CI. No fetch/download/extraction/install/media/native Windows/GPU. Not package-wide npm test; historical baseline failures not rerun or fixed.",
+  "sourceHashesBeforeAfterVerified": 697,
+  "hosted058": {
+    "runId": 44350794412,
+    "remoteCommit": "09528d41a79f43977047b4bf483a7a95c565ba7e",
+    "conclusion": "success",
+    "Windows2022": {
+      "syntax": 202,
+      "shared": 209,
+      "fail": 0,
+      "skip": 0
+    },
+    "Ubuntu2404": {
+      "syntax": 202,
+      "shared": 209,
+      "linuxPolicy": 10,
+      "fail": 0,
+      "skip": 0
+    },
+    "scope": "Selected source/injected/filesystem safety, not new acquisition or media"
+  },
+  "portable": {
+    "path": "experimental-1440-range-calibration-portable.json",
+    "bytes": 144634,
+    "sha256": "3d3d4b668e2b9b6dad46d6e787596cd9144ce7ef6670409131a2ebdf40221618",
+    "originalReportBytes": 125817,
+    "transformations": 141,
+    "proofPrefix": 99,
+    "runtimePrefix": 42,
+    "allOtherParsedValuesUnchanged": true,
+    "rawReportAuthority": false
+  },
+  "remaining": [
+    "Dedicated1440 consumer and reduced service proof not integrated or run; existing1080range andFull-copy bindings remain stale/refusing.",
+    "Windows acquisition is offline-tested source only. Actual hosted local volume, real publisher transfer, archive extraction/installation, production CPU service and Electron/native/hardware remain untested.",
+    "Standard hosted Windows advertised14GB capacity is below unchanged27GiB+archive admission; actual volume measurement is pending, no cleanup/floor reduction/paid runner.",
+    "Inherited13 capsule and25 broader historical failures are not rerun or resolved by this unrelated source slice; shared CI and focused tests overlap.",
+    "No video pixel comparison, retained rawPCM or independent re-decode; output fullMKV hashes are audit-time, not original-run."
+  ],
+  "artifactReferences": [
+    {
+      "base": "guidance",
+      "path": "e3-1440-calibration058-preparation-v2/HANDOFF-v2.json",
+      "bytes": 3923,
+      "sha256": "bd8a673b5826b19e7a5713fe2e52d4fc92d91a449666a37ac79257455915dfa1"
+    },
+    {
+      "base": "guidance",
+      "path": "e3-1440-calibration058-independent-review/FINAL_REVIEW.md",
+      "bytes": 4419,
+      "sha256": "9d89e60794071965be9bd8f2ecb31cb1c9dd5200454db11305bed7feb351650d"
+    },
+    {
+      "base": "guidance",
+      "path": "e3-1440-calibration058-source-binding-independent/result.json",
+      "bytes": 1035,
+      "sha256": "b47d18230c8a06010d98497021e57090021168b54349fce269de5ee100eeb04c"
+    },
+    {
+      "base": "guidance",
+      "path": "e3-1440-calibration058-final-binding-independent/result-gate.json",
+      "bytes": 1052,
+      "sha256": "75cffa1a0861ed5a36309fb62cf35a2b03af02d3119c0088ba373926f0f01c46"
+    },
+    {
+      "base": "guidance",
+      "path": "e3-1440-calibration058-preparation-v2/APPROVED_CHECKPOINT.json",
+      "bytes": 83277,
+      "sha256": "80b01e7060b7950e051954a48fb0533803fe5c95e566960e16694c2cf859b062"
+    },
+    {
+      "base": "guidance",
+      "path": "e3-1440-calibration058-preparation-v2/OUTER_COMPLETION.json",
+      "bytes": 437,
+      "sha256": "93812472b98e3449384d11a9032109024080c70880ec166b3df72487fd738c3a"
+    },
+    {
+      "base": "guidance",
+      "path": "e3-1440-calibration058-preparation-v2/completion-1795020791926-16.json",
+      "bytes": 85114,
+      "sha256": "4842609481c0b6b51f7217dfe96ae1f42c7545783e493d8fe311f3c26a29e22c"
+    },
+    {
+      "base": "project",
+      "path": "linux-blue/artifacts/candidate-resize1440to720-calibration-B10HEW/report.json",
+      "bytes": 125817,
+      "sha256": "c81129d8305109c0a7a9dd024e65d3f5dab5611bf70cd218a601c734ff3dcd67"
+    },
+    {
+      "base": "guidance",
+      "path": "e3-1440-calibration058-independent-audit/FINAL_REVIEW.md",
+      "bytes": 6269,
+      "sha256": "454301f509d8aaa38f9ee12d30faf62605e44425089173fc742fd4d18f6e9072"
+    },
+    {
+      "base": "guidance",
+      "path": "e3-1440-calibration058-independent-audit/result.json",
+      "bytes": 2512,
+      "sha256": "4447d9f57180a4f6418e09e262e4f3c0b6391f1b9f9b9372ceab80adcc7ba9cc"
+    },
+    {
+      "base": "guidance",
+      "path": "e3-1440-calibration058-independent-audit/RECEIPTS.txt",
+      "bytes": 781,
+      "sha256": "75aaef32b7d1c4ad9c3338cfa4c096ee6cf22828dfe0522a2beb88da44ae69df"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint059-calibration-lead-release.json",
+      "bytes": 2740,
+      "sha256": "214e2ca14bfbb93842ace081be9bc187a9ab0df0f2654487a92ce538e65073a5"
+    },
+    {
+      "base": "workspace",
+      "path": "ffmpeg-windows-acquisition-v3.patch",
+      "bytes": 22511,
+      "sha256": "6b8ef1701ec4b6d105c71a031b1efdb65bd2608dc67852fa96918cacfa370233"
+    },
+    {
+      "base": "workspace",
+      "path": "ffmpeg-windows-acquisition-v3-manifest.json",
+      "bytes": 931,
+      "sha256": "6b6dcacbd597588f4f4d7fb90ad285dd75afeede4604d69968716c930fa180d3"
+    },
+    {
+      "base": "guidance",
+      "path": "windows-acquisition-independent/v3/FINAL_REVIEW.md",
+      "bytes": 2339,
+      "sha256": "2d5d7e8fc14ebfb64b5e6cdf1640ac1915d09c7b4623d9c109ed604a1e2848a8"
+    },
+    {
+      "base": "guidance",
+      "path": "windows-acquisition-independent/v3/RECEIPTS.txt",
+      "bytes": 517,
+      "sha256": "84e15a7f72060fb62b39c7e6630f0c7deb28e8f274797789d7395b641af60bbe"
+    },
+    {
+      "base": "workspace",
+      "path": "ffmpeg-windows-acquisition-sourcework-20261118/artifacts/v0.7/evidence/20261118T165037Z_archive-acquisition-v3-final/receipt.json",
+      "bytes": 1962,
+      "sha256": "aa56796dbd7553783b527004a775b0a9230a33eac810eb0a1a279876badfcefb"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint059-integration.json",
+      "bytes": 2211,
+      "sha256": "3d4592131acbea70e2aaacbca914bdee85e7ae640ac3c5d2212d73aca364e26d"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint059-lead-tests/RESULTS.json",
+      "bytes": 87703,
+      "sha256": "7ef8c802c7ab889c8b971c5f74c5ca9a9238f89139f368a3ca14596b6e170399"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint059-producer-impact.json",
+      "bytes": 586,
+      "sha256": "89f54b641f487cb1a9fad05a4a74a3005a4d0bed701d714547dc3a7f1665a5d6"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint059-hosted058-reconciliation.json",
+      "bytes": 2195,
+      "sha256": "62fe278b55ba9e6a9633ad2a06af2c436d90b616aea3406ed87470333908f7f6"
+    },
+    {
+      "base": "guidance",
+      "path": "notion-checkpoint-058-verification.json",
+      "bytes": 129223,
+      "sha256": "a9c988d7aa860d7fd660ef9706f6a3caf81c75ae060e6f45bb2d672292c3cdae"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint058-final-mirror-release.json",
+      "bytes": 390,
+      "sha256": "3f1fb0233aef943db8b2ba3c1a4d533597d9c1151b97224ea4b13be9e8a7aabe"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint059-cutoff.json",
+      "bytes": 362,
+      "sha256": "883576ce2636ce100f60dca4475842502b4f9d0e902b72d5c2aeb89298b9b2e6"
+    }
+  ]
+}

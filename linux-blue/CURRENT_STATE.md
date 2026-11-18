@@ -1,16 +1,15 @@
-# Current state: experimental 1440p source, not a release
+# Current state: audited 1440p range calibration; Windows acquisition source
 
-Checkpoint 058 evidence cutoff: 18 November 2026, 16:33:41.865107 UTC. These records await this checkpoint's commit and ordered preservation.
+Evidence cutoff: 2026-11-18T17:05:24.867679+00:00. Checkpoint 059 follows complete 058 Git → restored/readable Notion → verified GitHub preservation.
 
-## Current availability
-The seven-file genuine 1440p range proposal is integrated as an **experimental source-only successor**. It does not add an available 1440p service or selector. Changing shared producers makes the previously qualified 1080p range and Full-copy services refuse acquisition: four of 97 and three of 26 producer hashes are now stale. This is a real temporary availability loss, not merely failing tests. No old report, consumer pin, default or audio policy was rewritten to hide it.
+## What is now supported
+- One genuine Linux 9.0.2 CPU calibration on immutable 058 passed all three fixed 1440p→720p H.265/precision-FLAC ranges. Independent saved-output audit checked all 95 campaign artifacts, 694 source files, nine runtime files and 42 closed children. This is not an integrated service or native/default release.
+- Original selected decoded PCM hash/byte counts agree; complete timing/spools and encoder-input correspondence pass fixed bounds. Raw PCM and video pixels were not independently compared. Three encodes retain the same CPU-mask error-level line and two pool warnings despite zero exits.
+- Four reviewed Windows source files now acquire only the pinned archives into new owned slots and permit an explicit Electron archive path. Final integrated Linux checks: 48 focused tests, three explicit syntax checks, existing CI's 202 syntax + 209 shared + 10 Linux policy checks, zero failures/skips. These overlapping tests do not download or install anything.
+- Actual 058 hosted Windows and Ubuntu safety jobs passed their selected 202 syntax/209 shared checks, plus ten Linux checks. They predate the new acquisition code and do not qualify it.
 
-Checkpoint 057 remains the known usable, recoverable predecessor: local `4bbee047d7326396ec8943d1998a66f75c6882de`, remote `0f675aabb6cfbf7c060444721d75068917a795f9`. Its exact source, full history, native Notion records and GitHub mapping are independently verified. Do not represent this experimental successor as its qualified replacement.
-
-## Evidence now available
-- On the integrated source: 81/81 focused tests; 209/234 broader tests with the same 25 historical failures; 39/52 capsule checks with one old Keep720 failure and twelve additional stale-producer consequences. No skips or cancellations. Five original raw JSON inputs stayed unchanged; their validity does not restore current producer authority.
-- Local selected CI: 202 syntax checks, 209 shared tests and 10 Linux UI-policy tests pass. These selections overlap, not a package-wide green result.
-- Actual **057**, not this changed source, passed hosted Windows 2022 and Ubuntu 24.04 safety jobs: 202 syntax checks and 209 shared tests each, plus 10 Linux policy tests, no failures or skips. This is selected source/injected safety evidence, not native Electron, FFmpeg/media, GPU or package acceptance.
+## Still unavailable or untested
+The experimental 058 shared producers still invalidate the old 1080p range and Full-copy capsules. No old report or seal was repinned, and 057 remains recoverable. A dedicated 1440p consumer, actual service proof and native journey remain next, not done. Existing thirteen capsule failures and 25 historical broader failures are inherited, not fixed or rerun here. Windows archive transfer, safe FFmpeg extraction, installation, actual CPU/Electron, RTX 5060 and release acceptance remain separate gates. Hosted capacity may block the unchanged 27 GiB floor; measure it rather than weaken it.
 
 ## Next useful work
-Preserve this exact source, then qualify its genuine 2560×1440p30 to 1280×720 H.265/precision-FLAC range using the fixed three-case calibration. A narrow consumer and reduced real-service proof follow an independent audit. Restore former 1080p range and Full-copy services only after their own fresh qualification. The fixed resource coefficient is a scheduling allowance, not a measured performance claim. Windows runner-local provisioning is separately proposed, not installed or tested. Electron 0.7, existing UI, protected defaults, security and owner hardware acceptance remain the plan.
+Preserve this combined evidence/source checkpoint, then independently review the isolated two-file 1440p consumer and exercise its real service. Continue the separate bounded hosted Windows capacity/acquisition proposal after its report-upload/ref guards are reviewed. Keep Electron 0.7, current UI, protected defaults/audio policy, security and the additive shared/platform plan unchanged.

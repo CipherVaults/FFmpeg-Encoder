@@ -1,3 +1,160 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Genuine 1440 range calibration and guarded Windows acquisition source
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role | Attribution | Work and evidence limit |
+|---|---|---|
+| Calibration helper author and independent preparation reviewer | Recorded roles; model/effort not inferred | Corrected the final-manifest check, retained negative controls and reviewed exact source/runtime binding. File/injected preparation is separate from execution. |
+| Lead executor and independent saved-output auditor | Separate execution and audit roles | Lead executed one bounded calibration on immutable 058; auditor read saved evidence without new media execution. Lead reconciled identities before releasing the source freeze. |
+| Windows source author and independent reviewer | Isolated V1/V2/V3 work | Corrected directory/path ownership and response-body cleanup, then reviewed four exact files. No actual network, installation or Windows runtime test. |
+| Lead, mirror and record writers | Separate integration, preservation and documentation roles | Verified complete 058 recovery and hosted safety, integrated Windows V3 and ran local checks. Summary writer changes only this prepend after release. |
+
+**Record basis:** One genuine Linux 1440p→720p range calibration now has accepted saved evidence for its three fixed cases. A separate four-file Windows acquisition increment is integrated and source-tested. Neither creates a 1440 service, restores stale 1080 range/Full-copy consumers, or establishes Windows/native/default release acceptance.
+
+## 🕒 Time
+
+**Stage / type / focus:** Bounded media evidence followed by unrelated, reviewed Windows acquisition source preparation.
+
+**Date and clock:** November 18, 2026; Cairo UTC+02:00. Fixed cutoff **19:05:24.867679 Cairo / 17:05:24.867679 UTC**. Times below are UTC; elapsed campaign/case times are not active effort or encoder benchmarks.
+
+- Actual hosted 058 jobs started **16:44:58**; Ubuntu ended **16:45:18**, Windows **16:45:36**.
+- Complete 058 preservation release verified **16:46:34.280242**; gate recorded **16:46:34.337105**, with independent final gate acceptance **16:47:42.739615** before execution.
+- Outer attempt marker **16:48:19.904**; completion's execution interval **16:48:19.905–16:53:11.937**. Inner attempt **16:48:22.962**. Monotonic elapsed **292,031.869263 ms**, wall elapsed **292,032 ms**, exit 0.
+- Saved-audit disposition recorded **17:01:04.036949**; lead accepted bounded evidence and released the freeze **17:02:59.519545**.
+- Four-file source integration **17:03:01.224691**; final local lead checks **17:03:01.310560–17:03:15.357524**.
+- Fixed evidence cutoff **17:05:24.867679**. Later record saves or consumer work do not move it.
+
+**End / stopping point:** Three-case calibration accepted, four Windows files integrated and checked, with no live 1440 consumer or actual Windows acquisition. Dedicated consumer work remains isolated next work.
+
+**Reason for this summary:** Preserve actual media progress and source fixes without merging their qualification scopes or concealing still-unavailable routes.
+
+## 🎯 Session Goal
+
+Test the distinct genuine 1440 range foundation using frozen inputs, acceptance rules and resource bounds; keep failures and warning provenance. In parallel, prepare pinned Windows archive acquisition without weakening ownership, disk, runtime or installation gates. Continue the shared/platform Electron 0.7 plan while preserving known usable 057 and protected UI/default/audio-policy decisions.
+
+## 🛠️ Actions Taken
+
+### 1. Complete predecessor preservation and verify its actual hosted checks
+
+Immutable local 058 is `fe58dd01ecae2b7284e3a3fdf91d3b79fbec3e12`; verified remote is `09528d41a79f43977047b4bf483a7a95c565ba7e`. The released final mirror receipt is **129,223 bytes / `a9c988d7aa860d7fd660ef9706f6a3caf81c75ae060e6f45bb2d672292c3cdae`**. Independent split-archive reconstruction verified all **694 files / 58 commits**, complete native records and eleven exact remote file readbacks. This is completed 058 preservation, not advance backup of 059.
+
+[Hosted run 44350794412](https://github.com/CipherVaults/FFmpeg-Encoder-Blue-Linux/actions/runs/44350794412) succeeded on that exact remote with Node 24.22.1: **202 syntax and 209 shared checks on each OS**, plus **10 Linux-policy checks on Ubuntu**. Selected tests had zero failures, skips or cancellations. These are overlapping source/injected/filesystem checks, including two bounded real Node helpers, not Windows media, Electron, GPU, archive acquisition or packaging. They predate the new acquisition source below.
+
+### 2. Correct and bind the calibration helper before one execution
+
+The initial V1 fixture control chose a member shared by the seven-file and 97-producer maps; the correct earlier guard refused before the expected diagnostic, giving **6/7**. Choosing a seven-map-only control corrected attribution without weakening the guard; V1 reached **9/9**. Independent review then found that a readable but changed final runtime manifest could be recorded without automatic failure. V2 retains the verified preflight digest, compares the final reread, stores both and preserves any preceding primary error while failing the mismatch. Old preparation/negative evidence remains unchanged.
+
+V2's **10/10** file-only controls were independently repeated alongside **6/6** overlapping controls and syntax checks; these were not media proof. The fresh gate and independent binding check subsequently matched the actual preserved 058 tree, all 694 source identities, 97 producers, seven postimages, runtime pair/seven libraries, exact launchers/plan and available-space observation. The lead executed one unspent attempt. No reset, duplicate launch, retry or catalog/default permission was inferred.
+
+### 3. Run and audit the three genuine finite ranges
+
+The actual inputs were two generated **2560×1440p30 progressive H.264 High, BT.709 limited, square-pixel MOVs with stereo 48 kHz s16 PCM**: 150 seconds and an independent 11-second flipped fixture. Outputs were unpublished **1280×720 H.265 slow CRF 25 / precision-FLAC Matroska stages**. The original report is **125,817 bytes / `c81129d8305109c0a7a9dd024e65d3f5dab5611bf70cd218a601c734ff3dcd67`**. Returned/persisted post-close reports agreed, with no finalization/readback error.
+
+| Fixed range | Frames / audio samples | Whole-case elapsed | Stage bytes |
+|---|---:|---:|---:|
+| 100–140 s | 1,200 / 1,920,000 | 128,287 ms | 8,217,744 |
+| 130 s to source end | 600 / 960,000 | 92,188 ms | 4,367,077 |
+| Heldout .413–8.621 s | 246 / 393,984 | 21,886 ms | 1,624,941 |
+
+All **42 children spawned and closed**, zero live, peak one. The audit rehashed **95 campaign files / 231,764,084 bytes**, all 694 source files and nine runtime files; parsed every retained selected-video/audio/output-audio spool and encoder-input TSV; and matched 21 invocation sidecars plus all 42 complete stderr attachments. It performed **no new decode, probe or encode**.
+
+Original source-wide checks covered **4,500 frames / 7,200,000 samples** for each long case and **330 / 528,000** for the heldout. Separate original selected source/output s16le streams recorded equal digests over **7,680,000 / 3,840,000 / 1,575,936 bytes**; sample-count differences, coding delay and discard padding were zero. Raw PCM was not retained, so the audit checked receipts, counts, timing spools and stable media rather than independently regenerating or directly comparing raw samples. Original strict all-stream decode-to-null exited zero for each output. No video pixel-fidelity claim follows.
+
+Timing correspondence passed unchanged frozen **1,067 μs video / 1,042 μs audio** limits; maximum reported/recomputed clock error was **334 μs**. Heldout picture selection remains frame-grid bounded: requested **.413–8.621 s**, selected picture **.433333–8.633333 s**, output video **.020–8.220 s**, audio **0–8.208 s**. This is not exact arbitrary picture trimming or general lip-sync proof. Full output-file hashes were **first established by the post-close audit**; original stable output stamps bracketed validation and still matched. Original reports were not rewritten to imply earlier hashing.
+
+Diagnostics are warning-bearing success: encoder children **7, 17 and 33** each retain **168 bytes**, including x265's CPU-mask error-level line and two no-thread-pool warnings disabling WPP/lookahead slices. The other **39** stderr files are empty; all 42 are untruncated and hash-matched. Empty outer stderr and the media validator's empty warning list do not erase these diagnostics or prove their performance impact.
+
+All resource calculations were independently rederived from actual input sizes and the frozen **6,000 ms/source-second** scheduling coefficient, without tuning to observed speed. Whole-case timings include validation. The **27 GiB free / 2 GiB owned** checks are point observations, not continuous peaks or quotas; the 30-minute alarm requests abort, not guaranteed process exit. Lead reconciliation accepted only this saved pre-catalog calibration and released the source freeze.
+
+### 4. Integrate the separate Windows V3 source and preserve its corrections
+
+After release, exactly four files were integrated: new `scripts/acquire-candidate-archives.cjs`, its new test, new `linux-blue/WINDOWS_RUNNER_ACQUISITION.md`, and optional `--archive` support in the existing Electron provisioner. One old file changed, three were added, the other **693 prior files** remained exact. All **97 fresh 1440 producer hashes still match**, with no intersection to this Windows increment. The actual Linux media execution remains attributed to 058, not to a new 059 run.
+
+V1 independently passed its 43-test author selection but was held for two real source issues: failure reporting could write through a replaced owned directory, and Windows CLI arguments allowed broader absolute-path forms than the intended local-drive input. V2 binds/rechecks directory identity before additive reservations/publication, refuses a new failure-marker write after ownership loss, and requires explicit drive-qualified syntax while retaining the old no-argument behavior. A drive letter alone does not prove physical locality; future execution must choose a host-known local volume.
+
+V2's final-response handling still left rejected status/encoding/length bodies undisposed before reader acquisition. V3 cancels the owned reader or, if no reader was acquired, the unclaimed body; a secondary cancellation error cannot replace the sanitized primary failure. Independent controls were **V2 1/6 → V3 6/6**, plus five transaction/path/floor controls and **48/48** project tests. The earlier author's **16:50:13** run exercised unchanged V2; only the later **16:50:37** final run covers V3. Those scopes overlap and are not live network or Windows evidence.
+
+The real CLI accepts only fixed manifest URLs/pins, bounded HTTPS redirects, length/byte/hash checks and exclusive owned slots; the **27 GiB plus both compressed archives** admission floor remains. A success receipt verifies compressed archives, not extraction or installation. Future FFmpeg extraction must separately validate entries/links/size and the existing provisioner's payload/notices and **25 GiB** residual floor. Electron's old default, pins and extraction protections remain. No runtime version, dependency, workflow, policy, default or historical evidence seal changed. Same-user path races and nonsettling underlying promises are not claimed solved.
+
+### 5. Check final integrated bytes and stop at the actual boundary
+
+Final lead checks on Linux Node 24.22.1 passed **three explicit syntax checks**, **48/48 focused acquisition/runtime/Electron tests**, then the existing runner's **202 syntax + 209 shared + 10 Linux-policy checks**. All selected tests had zero failures, skips or cancellations; all **697 source files** stayed byte-identical. Exits were retained before parsing. Coverage overlaps, is not package-wide `npm test`, and the unchanged CI selection does not by itself cover every new file. The explicit syntax/focused checks cover the new source separately.
+
+No download, extraction, installation, native Windows or new media ran in this lane. The inherited **13 capsule failures and 25 broader historical failures** were not rerun or fixed. Old 1080 range and Full-copy still refuse their stale producers. A dedicated 1440 consumer is isolated next work, not integrated, source-reviewed to completion here or service-qualified. The separate hosted capacity/acquisition proposal also remains preparatory. No later consumer freeze/review or workflow outcome enters this cutoff.
+
+## 🧠 Key Insights
+
+- Genuine 1440 calibration now supplies finite media evidence, but source binding and real-service lifecycle proof still require a dedicated consumer. It does not restore other stale families.
+- Streamed PCM receipts, saved timing reconstruction and audit-time output hashes have different provenance; agreement is meaningful without claiming a retained raw-sample or pixel comparison.
+- Source-only Windows review found actionable ownership and response-cleanup defects before network use. Passing these controls is useful preparation, not proof of real publisher, NTFS or installation behavior.
+
+## 📌 Decisions Made
+
+1. **Confirmed:** Accept the one saved three-case calibration only. **Decider:** Lead after independent saved audit and identity reconciliation. **Basis:** Frozen inputs/limits, complete retained diagnostics and closed children; no service/default promotion.
+2. **Confirmed:** Integrate exact Windows V3 after releasing the calibration freeze. **Decider:** Lead after separate independent source review. **Basis:** Corrected negative controls, exact postimages and no intersection with the 97 calibration producers.
+3. **Confirmed:** Preserve stale 1080 range/Full-copy refusals, usable 057 and all historical records. **Decider:** Lead under the existing evidence-bound workflow. **Basis:** No fresh restoration proof for those consumers.
+4. **Deferred:** Dedicated 1440 consumer/service/native and actual Windows capacity/acquisition/provisioning. **Decider:** Subsequent reviewed engineering steps. **Basis:** Only isolated/preparatory work exists at cutoff; owner hardware/release acceptance remains separate.
+
+## ⚠️ Difficulties / Friction
+
+Helper control selection initially exercised the earlier shared guard, and independent review exposed a final readable-manifest mismatch that the old completion path did not reject. Both corrections preceded execution. Windows V1/V2 reviews then exposed distinct directory/path and response-body ownership gaps, not observed installation failures. Encoder warning text remains present despite successful media validation. None of these records is erased by final green checks.
+
+## 🔧 Adjustments Made
+
+- **Shifted from:** Source-only genuine 1440 preparation. **To:** One independently audited, finite three-case calibration. **Because:** Frozen source, full predecessor preservation and reviewed fresh gate were available. **Consequence:** Media evidence now exists, but consumer/service authority does not.
+- **Shifted from:** Windows V1/V2 preparation with ownership/cleanup gaps. **To:** Exact source-reviewed V3. **Because:** Independent red controls identified missing refusal/cleanup behavior. **Consequence:** Four files integrated after Linux audit; no network/install authority inferred.
+- **Shifted from:** Hosted 058 results pending in its dated record. **To:** Verified later source-safety passes. **Because:** Actual jobs completed. **Consequence:** Additive chronology only, not retroactive 058 edits or qualification of the later Windows files.
+
+## ❌ Mistakes / Risks Noted
+
+**Completion and ownership failures. What happened/could happen:** Changed final manifest or replaced acquisition directory could previously escape the intended completion/write boundary; an unclaimed rejected response could remain undisposed. **Actual impact:** Found in file/injected controls before these respective runtime/network uses; original reds retained. **Potential impact:** False completion, unintended failure-marker write or retained transport resources. **Correction/status:** Helper V2 and Windows V3 fix the reviewed paths, without claiming atomic same-user protection or bounded settlement. **Failure Intelligence:** Test late failure paths and distinguish ownership before publishing success or failure.
+
+**Qualification overstatement. What happened/could happen:** Three successful stages, empty validator warnings or green hosted tests could imply usable routes, clean stderr or Windows acceptance. **Actual impact:** Three warning streams remain, old routes remain unavailable, no dedicated 1440 service or actual acquisition exists. **Potential impact:** Unsupported activation or silent guard weakening. **Correction/status:** Preserve exact scope/provenance and known usable predecessor. **Failure Intelligence:** Media, source, service, native and hardware acceptance must be stated separately.
+
+## 📍 Current Position
+
+**As of:** 17:05:24.867679 UTC / 19:05:24.867679 Cairo.
+
+**Before:** Experimental 058 had a genuine 1440 foundation but no actual calibration, and old 1080 range/Full-copy acquisition was suspended.
+
+**After:** One fixed calibration is independently accepted; separate guarded Windows acquisition source is integrated with final local checks. Actual hosted 058 source safety is verified.
+
+**Current standing:** No live 1440 consumer/service yet; old two routes remain unavailable here, while 057 remains recoverable. No new Windows transfer/install/native, GPU, default or audio-policy acceptance. App/UI and existing plans are unchanged.
+
+**Live owner / continuation anchor:** Lead owns nine-path 059 preservation, then isolated consumer/service and separate bounded Windows capacity/acquisition work. Summary writer owns only this prepend until release. No future engineering result is needed to close this record.
+
+## 🔜 Next Steps
+
+1. Preserve the exact 059 source/history/readable records and intended remote mapping, retaining original raw evidence locally and explicit portable exclusions.
+2. Independently review the smallest dedicated 1440 consumer, bind the original accepted report/current producers, then run a proportionate real-service proof before native integration. Do not borrow Full1440 or legacy AV1 identities.
+3. Establish actual Windows host-local capacity and reviewed workflow boundaries before transfer. Preserve an explicit space refusal if the unchanged floor fails; do not silently clean disks, lower the floor, buy capacity, switch pins or call archives an installation.
+
+**Do not reopen / repeat:** Do not overwrite old reports/history, repin stale consumers blindly, repeat long calibration merely for unchanged UI, sum overlapping tests, or convert scheduling allowances and whole-case timing into throughput claims.
+
+**Continuation boundary:** Existing routine development authorization continues. Fresh execution needs its own exact engineering checks; this record does not grant publication, default/audio-policy change, native/hardware acceptance or replay of the consumed campaign.
+
+## ❓ Open Questions
+
+- **Can a dedicated current 1440 consumer complete service lifecycle cases? Needed from:** Reviewed source binding and finite actual service evidence. **Blocks:** Service/native availability, not preservation of this accepted calibration.
+- **When do 1080 range and Full-copy become available again? Needed from:** Separate current-source requalification/consumer work. **Blocks:** Those successor routes; preserved 057 remains the recovery reference.
+- **Can the intended Windows host satisfy capacity and safely acquire/install pinned archives? Needed from:** Actual host measurements and separately reviewed transfer/extraction/provisioning evidence. **Blocks:** Real Windows CPU/Electron and later RTX 5060 testing, not these offline source fixes.
+
+## 🧾 Session Outcome
+
+Preserved a warning-bearing but independently accepted genuine 1440 range calibration on immutable 058, plus a separate four-file source-tested Windows acquisition improvement. Actual hosted 058 safety passes are verified. No dedicated consumer, restored old route, actual Windows installation or new native release is claimed.
+
+Read the [execution record](2026-11-18_1440_Range_Calibration_and_Windows_Acquisition.md), [receipt index](2026-11-18_1440_Range_Calibration_and_Windows_Acquisition_Receipts.json), [current state](CURRENT_STATE.md) and [portable calibration report](experimental-1440-range-calibration-portable.json). The portable preserves the complete parsed report with **141 declared leading-root substitutions: 99 proof and 42 runtime**; all other parsed values remain unchanged. It is not byte-identical raw-report authority or a media/runtime/profile/gate/API-log backup, and cannot reconstruct original absolute paths.
+
+The exact **2,288,178-byte** predecessor, SHA `3075039edaa7a100cc77c839e361aafa347496e0da86f91c655c6b2b46f91df6`, and original Session correction remain unchanged. Intended scope is **nine paths / 700 files / 59 commits**. This checkpoint's commit and external preservation remain pending at cutoff; completed 058 recovery is separate. The established private destination and protected owner decisions remain unchanged.
+
+## 🔍 Confidence Level
+
+**High** in the bounded saved calibration, exact four-file integration and selected test outcomes; **limited** for live consumer, Windows transport/installation and general media behavior.
+
+**Why:** Original retained counts/digests/spools, independent saved reconstruction, complete child diagnostics, immutable source matching and final local logs agree. **Not higher because:** Only two generated media fixtures were exercised; raw PCM/pixels were not independently compared, full output hashes are audit-time, old routes still refuse, and new Windows behavior is only source/injected tested.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Experimental 1440 range foundation and verified hosted safety
 
 ## 🤖 Models, Effort, Roles and Provenance

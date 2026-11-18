@@ -80,7 +80,18 @@ async function openProvisionReceipt(filename, initial, { io = fs, assertPath = a
   return Object.freeze({ update, close });
 }
 
-async function main() {
+function parseArguments(args) {
+  if (!args.length) return {};
+  assert(args.length === 2 && args[0] === '--archive' && typeof args[1] === 'string'
+    && path.isAbsolute(args[1]) && !args[1].includes('\0'), 'Use only --archive ABSOLUTE_PATH.');
+  if (process.platform === 'win32') {
+    assert(/^[A-Za-z]:[\\\\/]/.test(args[1]) && !/[\x00-\x1f]/.test(args[1]) && !args[1].slice(2).includes(':'),
+      'Use a fully-qualified drive path on a known local runner volume.');
+  }
+  return { archivePath: args[1] };
+}
+
+async function main({ archivePath } = {}) {
   const root = path.resolve(__dirname, '..');
   const manifest = expectedCandidateManifest();
   const pin = manifest.electron.archive;
@@ -96,7 +107,7 @@ async function main() {
   for (const filename of [dist, receipt, installedPath]) await requireAbsent(filename);
   const space = await fs.statfs(root, { bigint: true });
   assert(space.bavail * space.bsize > 27n * 1024n ** 3n, 'Keep the D: floor plus a bounded extraction margin.');
-  const source = path.join('F:/FFmpeg Encoder Project supplied videos/_FFmpeg-0.7-Owned/downloads/runtime-trials', pin.fileName);
+  const source = archivePath || path.join('F:/FFmpeg Encoder Project supplied videos/_FFmpeg-0.7-Owned/downloads/runtime-trials', pin.fileName);
   await verifyPinnedFile(source, pin);
   const archive = resolveCandidateRuntime({ root }).electronArchive;
   await reserveDirectoryChain(root, ['.tools', 'candidate-runtime', 'electron-44.7.0-zip']);
@@ -124,5 +135,5 @@ async function main() {
   finally { try { await ownedReceipt.update(report); } finally { await ownedReceipt.close(); } }
   console.log(JSON.stringify({ status: report.status, receipt, dist }));
 }
-module.exports = { reserveDirectory, reserveDirectoryChain, requireAbsent, openProvisionReceipt };
-if (require.main === module) main().catch(error => { console.error(error); process.exitCode = 1; });
+module.exports = { reserveDirectory, reserveDirectoryChain, requireAbsent, openProvisionReceipt, parseArguments };
+if (require.main === module) main(parseArguments(process.argv.slice(2))).catch(error => { console.error(error); process.exitCode = 1; });

@@ -1,0 +1,154 @@
+{
+  "schema": "ffmpeg-curated-checkpoint-receipts-v1",
+  "checkpoint": "037",
+  "status": "Prepared checkpoint; commit and preservation pending",
+  "scope": "Evidence-only; no app/test/guard changes",
+  "sourceCommit": "10d2c65d71f35d8b0146a43280516fb2d069b70d",
+  "sourceFiles": 621,
+  "artifactReferences": [
+    {
+      "path": "ordinary035-aac-investigation/DEMUX_MECHANISM_SUPPLEMENT.md",
+      "bytes": 3986,
+      "sha256": "d21f9e3573984d2d2d9b106a60050fe38fc8b1d1c213c0454285303133c7db6e"
+    },
+    {
+      "path": "ordinary035-aac-investigation/TECHNICAL_OPTIONS_POLICY_HELD.md",
+      "bytes": 6610,
+      "sha256": "0ef43c1b9d94bd60ab841f020c37f29aad11fea0d5d36cf725e22d717280535d"
+    },
+    {
+      "path": "ordinary035-aac-investigation/SAME_INPUT_902_SAVED_COMPARISON.json",
+      "bytes": 8915,
+      "sha256": "4ebb6811fed9eb2b68773043c3e93a902504e63582dade3c6e90207f1adc5137"
+    },
+    {
+      "path": "ordinary035-aac-investigation/HISTORICAL_RECONCILIATION.json",
+      "bytes": 2769,
+      "sha256": "f8e9c701e3b78c15cffdfe981c9146bdbdc6485f84340b0c4e277310165e7b34"
+    },
+    {
+      "path": "saved902-output-system036-diagnostic-preparation/INDEPENDENT_DIAGNOSTIC_AUDIT.json",
+      "bytes": 9252,
+      "sha256": "df0725b1ca930056cd41dd5e6ec05ee18ac2bb232639b46f113657e78d3171fa"
+    },
+    {
+      "path": "saved902-output-system036-diagnostic-preparation/OUTER_COMPLETION.json",
+      "bytes": 445,
+      "sha256": "ba5776568fdc427f5d173037f1daf2ea5f0f85451b7cd0a0a11fb8237d475db7"
+    },
+    {
+      "path": "saved902-output-system036-diagnostic-preparation/REPORT.json",
+      "bytes": 7340,
+      "sha256": "36857d6afe23af437f7e14810ed792aec34c85983dc5adcfb8d53b711b6a0845"
+    },
+    {
+      "path": "saved902-output-system036-diagnostic-preparation/PLAN.md",
+      "bytes": 3181,
+      "sha256": "17fbaf2de50e2cff26dfbe92a5a902f04254f2a887350725dde16ae08d9ca2e5"
+    },
+    {
+      "path": "saved902-output-system036-diagnostic-preparation/LEAD_RECONCILIATION.json",
+      "bytes": 1554,
+      "sha256": "d6e2e6326127da9297b6080710b66aafcfa766a569bb633a5a26aa2d897e8315"
+    },
+    {
+      "path": "saved902-output-system036-diagnostic-preparation/INDEPENDENT_PREPARATION_REVIEW.json",
+      "bytes": 5271,
+      "sha256": "87497fc82c2d946067e2381c21d43d60ac0367fa4448a08b5eb81a7b640de2df"
+    },
+    {
+      "path": "opposite-reader036-audio-diagnostic-preparation/INDEPENDENT_DIAGNOSTIC_AUDIT.json",
+      "bytes": 25080,
+      "sha256": "82228c5a04233f38ccc4e499ca4844497c952af63976aacec771fbe71233d351"
+    },
+    {
+      "path": "opposite-reader036-audio-diagnostic-preparation/OUTER_COMPLETION.json",
+      "bytes": 444,
+      "sha256": "76d814f0511c28b28c48bc0e94ec47d9dd202ca66c8e12a6c9f7480a6953d22b"
+    },
+    {
+      "path": "opposite-reader036-audio-diagnostic-preparation/REPORT.json",
+      "bytes": 12093,
+      "sha256": "6d4fc03d3e0ef1a5b3ad2a469db3289c5639cdc5b533c8ed2b9cde7246e3fb98"
+    },
+    {
+      "path": "opposite-reader036-audio-diagnostic-preparation/PLAN.md",
+      "bytes": 3551,
+      "sha256": "1457ba9a69ab5a63cb9a37da6ca981560006a695154b38d799acb1d2f1321fa9"
+    },
+    {
+      "path": "opposite-reader036-audio-diagnostic-preparation/INDEPENDENT_PREPARATION_REVIEW-v2.json",
+      "bytes": 5191,
+      "sha256": "0736f809e4425cdd93628d05b618bd9464d7f27e39674e281e8ea1d83fecdf6c"
+    },
+    {
+      "path": "opposite-reader036-audio-diagnostic-preparation/HANDOFF-v2.json",
+      "bytes": 2241,
+      "sha256": "665c564530512dc70bedea2f47f935fcab4f6c32154384edb734513c07b12407"
+    },
+    {
+      "path": "notion-checkpoint-036-verification.json",
+      "bytes": 110897,
+      "sha256": "fd73175bbe3dcea710cf22189b81d183af11db3835ed0849d65b9baefe71c0f7"
+    },
+    {
+      "path": "github-checkpoint036-verification.json",
+      "bytes": 3508,
+      "sha256": "5b0fa88eac97a14241d88baa724aa17d8e3cdc4a552cc925c5049b48fe8a5cdb"
+    },
+    {
+      "path": "opposite-reader036-audio-diagnostic-preparation/LEAD_RECONCILIATION.json",
+      "bytes": 1923,
+      "sha256": "d720b131ae47714b25f6f967600be4b45d81bba8fde74d7a44d8364976085689"
+    },
+    {
+      "path": "checkpoint037-cutoff.json",
+      "bytes": 442,
+      "sha256": "eae02beb525c75858be49f22a38fd2ed948e63a09c1eb4b35ed4b523cb8f513a"
+    }
+  ],
+  "diagnostics": {
+    "systemReadingCandidateOutput": {
+      "closed": 2,
+      "exitZero": 2,
+      "emptyStderr": 2,
+      "padding": 1024,
+      "packetSkipPresent": false,
+      "outputSamples": 385024,
+      "sameDecoderSourceSamples": 384000,
+      "sourceEqualsSuffixAfter1024": true
+    },
+    "candidateReadingOrdinaryOutput": {
+      "closed": 3,
+      "exitZero": 3,
+      "emptyStderr": 3,
+      "padding": 0,
+      "packetSkipPresent": false,
+      "outputSamples": 385024,
+      "sameDecoderSourceSamples": 384000,
+      "sourceEqualsSuffixAfter1024": true
+    },
+    "crossDecoderSourcePcmEqual": false
+  },
+  "regression": {
+    "inheritedLinuxPass": 298,
+    "inheritedProtectionPass": 229,
+    "inheritedFocusedPass": 42,
+    "rerun": false,
+    "overlappingScopesNotSummed": true
+  },
+  "limits": [
+    "Historical remux/trim policy is not ordinary AAC-copy acceptance.",
+    "Guard policy remains held; no runtime upgrade/default/refusal decision.",
+    "Upstream source difference is not exact Debian binary causal proof.",
+    "No audibility/player/A-V/Windows/general qualification.",
+    "No raw PCM/media/runtime/full connector readbacks/profile/gates in portable source record."
+  ],
+  "cutoffUtc": "2026-11-18T06:38:06.365588+00:00",
+  "expectedCheckpoint": {
+    "changedPaths": 5,
+    "files": 624,
+    "commits": 37
+  },
+  "nextWork": "Isolated ordinary cancellation/recovery file-only coverage through real factory/runner with inert child boundary, assigned only; no result at cutoff."
+}

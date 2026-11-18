@@ -1,35 +1,19 @@
-# Current state: ordinary service proof and ownership coverage
+# Current state: AAC reader compatibility
 
-Checkpoint 036 cutoff: 2026-11-18T06:02:50.107151+00:00. One reviewed test is integrated; commit and preservation remain pending. Checkpoint 035 remains the immutable source used for the ordinary runtime proof.
+Checkpoint 037 cutoff: 2026-11-18T06:38:06.365588+00:00. Evidence-only; both diagnostic reconciliations complete, commit and preservation pending. No production/test/guard/default/runtime policy changes. Checkpoint 036 remains fully preserved at local `10d2c65`, remote `7d973243`, with 621 files.
 
-## What works, and what remains limited
+## What is now established
 
-| Area | Current evidence | Boundary |
+| Evidence | Result | Limit |
 |---|---|---|
-| Ordinary Linux Full/Keep/copied audio | One current H.265 CPU slow CRF 25 publication on the known eight-second SDR input; 240 frames at 1920×1080; output decode succeeded; same-destination preparation skipped without a second target | Guarded runner instrumentation, not untouched stock factory; no native/Windows/hardware/arbitrary-input qualification |
-| Audio correctness | All 376 packet payload/size rows and extradata hashes match; all 384,000 original PCM sample instants equal the output after a 1,024-sample prefix | Confirmed tested-tuple presentation difference: previously skipped priming is exposed, yielding 385,024 output samples. Whole audio differs. Original-content PTS matches video start at 21 ms; no proven lip-sync error, audibility or general player claim |
-| Output access and ownership | Actual ordinary grant used once through inert reveal sink, then expired on clear; integrated real-grant/VM retirement and Quit-drain tests pass independently 42/42 | No OS reveal in this proof; seeded nonempty plan and injected platform; no new production defect demonstrated |
-| Developer Full-copy and session switch | Earlier finite Full-copy proofs and source 033 empty native ordinary→Full-copy→ordinary evidence remain | Not new native proof, nonempty native reset, general family or Windows qualification |
-| Precise Keep and resize | Existing implementation and earlier evidence remain | Current capsules still closed on stale producer identities; no repin or refreshed qualification |
-| Historical Full-FLAC/1440, AV1 and Remux | Existing scoped schema/refusal/reference evidence | No automatic missing-family restoration. Ordinary operation does not imply these routes are enabled |
+| Ordinary H.265/copied AAC output | Original decoded content survives after an exposed 1,024-sample prefix | Whole audio is not identical; timestamp-only flags did not fix it |
+| System 7.1.5 reading saved candidate 9.0.2 output | Two closed children; initial_padding 1024 but no packet skip; 385,024 decoded samples | Rejects writer-only inference; no exact binary root-cause or player claim |
+| Candidate 9.0.2 reading ordinary output | Three closed children; padding 0/no skip; 385,024 output versus 384,000 same-decoder source samples | Complete source is an exact suffix after 1,024 samples; no whole-audio identity |
+| Cross-decoder source control | Equal counts but different float32 bytes | Do not compare hashes across decoders as though they were the same representation |
+| Historical remux/trim policy | Verified scoped decisions and surviving assertions | Does not automatically authorize ordinary encode/AAC-copy acceptance or refusal |
 
-The original ordinary helper failed on JavaScript-versus-JSON undefined-property comparison after preparation. Its 30 owned children closed and no target ran. A separately bound successor fixed only that helper comparison; 39 owned children closed and one target published. Seven stderr streams remain warning-bearing, including 1,768 bytes from the target; three diagnostic event contexts were truncated. Saved full child captures and those contexts are different evidence scopes.
+All five diagnostic children closed with empty stderr. No new compressed media, muxing, video decode, install or default change was performed. Prior ordinary warnings and finite proof limits remain. The initially reviewed admission guard is isolated and policy-held.
 
-## Cost findings without speculative tuning
+Retained candidate source and upstream n7.1.5 demux differences are a causal candidate, not verified installed Debian source/binary proof. No subjective audibility, lip-sync defect, generic player compatibility, Windows or general fidelity qualification follows. Existing 298/298 Linux, 229/229 protection and 42/42 focused tests are inherited, not rerun or summed.
 
-For retained Full-copy cases, the 150-second target took 265.778 seconds in observed child lifetime; collector wrappers totaled 50.747 seconds, dominated by full source/output video scans. These overlapping child/wrapper measurements are not additive, controlled benchmarks or proof verification can be removed. Existing slow/CRF 25 settings and no-thread-pool warnings do not establish deliberately forced single-thread execution; effective threads were not measured. No quality, threads, coefficients, defaults, producer pins or benchmark policy changed.
-
-## Next
-
-Both audio-only timestamp variants have now completed eight closed children and retain the same exposed 1,024-sample prefix. Flags alone are rejected as a fix. Design a narrow source-bound leading-priming admission guard, minimizing repeated full-file scans; no implementation or run is claimed.
-
-The single test-only session/output-access file is integrated. Final lead focused 42/42, protection 229/229 and explicit Linux 298/298 pass with zero skips/cancellations; overlapping scopes are not summed. All 618 checked source files remain byte-identical through testing. Optional historical references were not rerun, no npm test/native run or production fix is implied. Preserve failed and successful ordinary attempts distinctly. Do not restore historical code merely to clear optional references or weaken working verification to improve apparent speed. Final source-only backup cannot restore media/runtime execution authority.
-
-See [execution](2026-11-18_Current_Ownership_And_Ordinary_Service.md), [curated receipts](2026-11-18_Current_Ownership_And_Ordinary_Service_Receipts.json) and [portable ordinary evidence](evidence-2026-11-18/current-ordinary-service-portable.json).
-
-
-## Later owner direction: reconcile the prior audio decision first
-
-Recorded at 2026-11-18T06:06:54+00:00, after the evidence cutoff above. This is the recording time, not an inferred message timestamp. Ahmed recalled an earlier Claude decision about approximately 21 ms audio/remux tradeoffs and requested a project-history search before contacting Claude. The parent has delegated that read-only search.
-
-The measured added priming, missing skip metadata and complete original-content suffix remain established. Earlier records calling this a defect describe the initial engineering interpretation, not a settled owner acceptance decision. Product acceptability and any new refusal policy are held pending reconciliation with that prior decision. The observed application operation is ordinary video encoding with copied AAC, not pure remux. The proposed guard remains isolated and must not be integrated or represented as the chosen policy yet. No production audio behavior has changed; current independent testing and evidence preservation may continue.
+Next: preserve the evidence and investigate ordinary cancellation/recovery with isolated file-only real-factory/runner coverage over an inert child boundary; this work is assigned only, with no result at cutoff. Decide a proportionate audio product response without silently upgrading runtime, integrating refusal, re-encoding audio or treating historical remux rules as ordinary policy. Keep the working Full-copy producer identities and existing defaults unchanged.

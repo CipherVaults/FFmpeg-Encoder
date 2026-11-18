@@ -1,3 +1,243 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Reconcile AAC policy history and distinguish writer signaling from reader behavior
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model / effort attribution | Evidence and limit |
+|---|---|---|
+| Engineering lead | GPT-6 Astra / Ultra, recorded assignment, not backend attestation | Completed 036 preservation, bound two finite diagnostics, reconciled independent audits and held consequential audio-policy changes. |
+| History / mechanism investigators | Not independently established here | Checked surviving project decisions, exact saved same-input evidence and retained source. No historical media rebuild or blanket acceptance inference. |
+| Diagnostic authors / independent reviewers | Not independently established here | Separate helper preparation, actual audio-only execution and saved-file audits. Auditors did not execute additional media. |
+| Records / mirror / Session review | Not independently established here | Preserve exact artifacts and chronology, independently review the new entry, and keep the full historical suffix unchanged. |
+
+**Record basis:** This is an evidence-only checkpoint, not an audio fix. The same saved candidate-produced output exposes **384,000 samples in its retained 9.0.2-reader evidence but 385,024 under the system 7.1.5 reader**. Conversely, the ordinary output exposes **385,024 samples under both tested readers**. Within each decoder representation, all **384,000 original source sample instants** survive exactly after the **1,024-sample prefix**. Whole audio is not identical. Reader interpretation and container signaling both matter; a writer-only explanation is insufficient. Historical remux and trim decisions do not automatically settle this ordinary video-encode/AAC-copy policy. No application, test, guard, runtime pin or default changes here.
+
+## 🕒 Time
+
+**Stage / type / focus:** Current-product reliability, scoped historical-decision reconciliation and bounded cross-reader audio diagnosis.
+
+**Date and clock:** November 18, 2026. Owner-local Africa/Cairo is UTC+02:00. Fixed cutoff: **08:38:06.365588 Cairo / 06:38:06.365588 UTC**. Exact chronology below is UTC; total active effort was not measured.
+
+- 036 retains its **06:02:50.107151** evidence cutoff and separately recorded **06:06:54** owner-direction addendum. This later investigation does not rewrite either.
+- Isolated guard technical review: **06:10:42.780962**; historical reconciliation recorded **06:12:08.517974**. Technical review is not policy approval or integration.
+- 036 GitHub verification: **06:24:09.940483**, before these new diagnostics.
+- Diagnostic A preparation review: **06:25:32.252423**; outer execution **06:27:33.039197–06:27:33.678485**; audit **06:29:09.797948**; lead reconciliation **06:30:47.452316**.
+- Diagnostic B final preparation review: **06:33:09.343307**; pre-binding correction recorded **06:33:56.182393**; outer execution **06:34:09.788041–06:34:10.998238**; audit **06:35:53.465466**; lead reconciliation **06:38:06.365322**.
+- **Fixed evidence cutoff: 2026-11-18T06:38:06.365588+00:00.** Later cancellation/recovery investigation results are excluded.
+
+**End / stopping point:** Both separately bound audio-only diagnostics closed all owned children and received saved-output audits and lead reconciliation. Current 036 source remained unchanged. Evidence/PBS assembly is released; guard integration and product acceptance remain held.
+
+**Reason for this summary:** Preserve the useful distinction between historical tradeoffs, actual exposed priming, writer/container signaling and reader interpretation without inventing a policy decision or spending another encode on an already-produced file.
+
+## 🎯 Session Goal
+
+Honor Ahmed's request to search project history before contacting Claude about the approximately 21 ms audio/remux tradeoff. Establish what that history actually authorizes, then test whether the current ordinary result is solely a writer problem or also depends on the reader. Keep the current-product priority: know what works and what does not, investigate real reliability issues, and do not rebuild obsolete features solely to make historical tests green.
+
+Use existing exact media and retained diagnostics. Preserve the ordinary defaults, supported Full-copy producer identities and existing production source. Do not silently accept the difference, refuse previously admitted work, upgrade runtime, re-encode audio, edit container metadata or reinterpret a scoped trim/remux decision as universal permission.
+
+## 🛠️ Actions Taken
+
+### 1. Complete 036 Git → Notion → GitHub preservation
+
+036 is local `10d2c65d71f35d8b0146a43280516fb2d069b70d`, tree `c08c2b0731f7be6d6ee4941a9632027c0c0662ef`, **621 files / 36 commits**. [Notion source and full history](https://app.notion.com/p/41cbd7ade63b81629441d61d437cd513) restored the ZIP and full bundle. [The readable Session](https://app.notion.com/p/41cbd7ade63b812e8423eaaf8884c580?pvs=204) returned all 36 entries and the historical ending; exact bytes were verified in archives, not inferred from native rendering. The **1,725,309-byte** prior Session, SHA-256 `fa0385084abf60aaf4a35ff359fff72ac113b1abd320b883a0f17f078998174d`, is preserved byte-for-byte as this entry's suffix.
+
+GitHub `CipherVaults/FFmpeg-Encoder-Blue-Linux`, branch `blue/linux-development`, verified remote `7d97324302b7a29340e80a0b2dbb1c7664401ae4`, sole parent `3e43c4c9e49c0ed89e5c61013be8921bd310dc0a`, tree `f9173c83f44c2b9b55db190bc22798cd9e152e19`. Six exact file readbacks, the full immutable Session blob, expected-parent/non-force update and fresh ref were checked: **1,003 total / 997 unchanged / two modified / four new / zero deleted**. The final released Notion verification is **110,897 bytes**, SHA-256 `fd73175bbe3dcea710cf22189b81d183af11db3835ed0849d65b9baefe71c0f7`. New diagnostics bound this actual preservation and all 621 source identities, not a future backup promise.
+
+### 2. Separate three historical cases instead of treating “21 ms” as one policy
+
+Surviving record 47, the earlier Claude continuation record and the historical Full-copy harness were checked against immutable source readbacks. The reconciliation is **2,769 bytes**, SHA-256 `f8e9c701e3b78c15cffdfe981c9146bdbdc6485f84340b0c4e277310165e7b34`.
+
+- **Q2k remux choices:** MKV-to-MP4 remux prefers exact copy where feasible, otherwise a disclosed measured shift, with re-encoding/omission alternatives. Measured results precede a default decision; ordinary encode defaults remain separate. This is not blanket permission for exposed whole-file priming.
+- **QD1 trim-edge tolerance:** Original-audio trimming can begin/end on packet edges, approximately one AAC packet early or late, with disclosure. That is a trim-boundary decision, not a rule accepting an extra decoded prefix on a whole-file operation.
+- **Q2b whole-file resize/copy:** Surviving records and code describe retained priming/padding and assertions of complete, untrimmed PCM equality despite a container-duration shift. The original historical media and equality result were not independently re-audited here. An assertion in surviving code is not a fresh measured pair.
+
+The current ordinary case is **video encoding with copied AAC**, not pure remux. Its added prefix, whole-file sample extent and player compatibility require their own interpretation. The history search supplied useful constraints without contacting Claude or rebuilding an old runtime. It did not locate a decision granting blanket acceptance or refusal for this current tuple.
+
+### 3. Reconcile the same-input candidate evidence before testing a hypothesis
+
+The saved 9.0.2 Full-copy calibration used the identical eight-second, 1920×1080 source: **5,578,679 bytes**, SHA-256 `bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97`. The retained candidate output is **1,958,967 bytes**, SHA-256 `c0ba0f83fc51f0f75a5398e4d1d80f98e7f6f2c5b6ce0172acc3877fdf5ffb0f`. Raw calibration report and eight source/output diagnostic files were rehashed.
+
+Those retained candidate-reader records report **375 decoded audio frames / 384,000 sample instants on each side**, 376 packet rows and matching recorded packet/header/padding seals, with output Skip Samples 1024. They do **not** retain an independently comparable complete source/output raw PCM pair. Historical Q2b whole-PCM assertions and this current calibration's packet/frame evidence are different scopes. The 374 exact-rational output adjacency mismatches on the millisecond clock also remain; no exact-continuity claim is added.
+
+The initial options note reasonably identified writer/container signaling as a candidate explanation. It did not prove that ordinary would be fixed by replacing the writer, nor authorize such replacement. The next experiment tested the already-produced candidate file with the system reader, avoiding a new encode. Earlier notes remain immutable as dated research; later evidence narrows their inference explicitly.
+
+### 4. Diagnostic A: system 7.1.5 reads the saved candidate-produced output
+
+A separate helper was reviewed for exactly **two serial audio-only children**: a packet/frame/stream metadata probe and a complete float32 PCM decode of that existing output. **12/12 independent file-only checks** passed. The executable job list and count guard were two; the stale six-child docstring was documented and did not expand authority. A broader earlier draft was not this run's gate.
+
+The actual outer invocation exited zero in **0.6392995 monotonic seconds**. Both children closed, no retained live PID, both stderr captures empty. This duration is a small diagnostic elapsed time, not an encoding benchmark. Report: **7,340 bytes / `36857d6afe23af437f7e14810ed792aec34c85983dc5adcfb8d53b711b6a0845`**. Independent audit: **9,252 bytes / `df0725b1ca930056cd41dd5e6ec05ee18ac2bb232639b46f113657e78d3171fa`**.
+
+For the exact output that the saved candidate reader reported as 384,000 samples, the system reader reports:
+
+- Stream `initial_padding = 1024`, but **no first-packet Skip Samples**.
+- **376 frames / 385,024 decoded sample instants**, first packet/frame PTS −21 on a `1/1000` clock.
+- All 376 retained packet payload hashes match the earlier candidate observation.
+- Entire decoded output PCM is identical to the prior ordinary system-decoded output: **3,080,192 bytes**, SHA-256 `e17a02104232c0eb569306391f2fc6868f352a27c7cc635d59edc3188038bf9b`.
+- The complete retained system-decoded source, **384,000 sample instants**, is the exact output suffix after the **1,024-sample prefix**, with no extra suffix. Whole PCM is unequal.
+
+The audit independently recomputed the full saved PCM comparison, checked six newly owned artifacts totaling **3,508,139 bytes**, prior diagnostic identities and all 621 source rows. It did not run another decoder. Lead reconciliation accepted this as **negative discrimination against a writer-only explanation**, not general preservation qualification. A stream padding field alone did not make the tested system reader apply the skip.
+
+### 5. Diagnostic B: candidate 9.0.2 reads the ordinary output and the original source
+
+After the first audit, a distinct helper was prepared for exactly **three audio-only children**: candidate metadata for the ordinary output, candidate PCM decode of that output, and candidate PCM decode of the original source using identical decoder/options. The source control prevents mistaking cross-version floating-point differences for lost audio. No fresh compressed output, mux, video decode or fourth probe was needed; source format was pinned from prior exact evidence.
+
+Final preparation review independently passed **14 file-only/inert-process tests**. Metadata V2 added the previous lead reconciliation and preserved old manifest/handoff files; the previous audit key was already present. The reviewer corrected its own initial expectation that both keys were new. Separately, a reused binding script expected older schema names/status; its assertion stopped **before any binding write or media attempt**. Only assertions were aligned to the reviewed manifest, with helper and scope unchanged, before the sole actual bound invocation.
+
+The outer invocation exited zero in **1.210206909 monotonic seconds**; helper elapsed was **0.919685953 seconds**. All **three children closed**, each exit zero and empty stderr, serial intervals verified, no retained live PID. Report: **12,093 bytes / `6d4fc03d3e0ef1a5b3ad2a469db3289c5639cdc5b533c8ed2b9cde7246e3fb98`**. Independent audit: **25,080 bytes / `82228c5a04233f38ccc4e499ca4844497c952af63976aacec771fbe71233d351`**.
+
+Candidate interpretation of the unchanged ordinary output is **initial_padding 0, no packet skip side data, 376 frames and 385,024 samples**. Its 376 ordered packet payload-hash/size rows and codec extradata match prior ordinary observations. Candidate decoding of the original source yields **384,000 samples**. The complete source PCM exactly equals output after the **1,024-sample prefix**, with no extra suffix, but whole PCM is unequal:
+
+| Same candidate decoder | Bytes | SHA-256 |
+|---|---:|---|
+| Original source PCM | 3,072,000 | `200ca1c2a6804c139d5d7637caf507b686b30f7dfdf4b5c11ca629855e82a9a4` |
+| Ordinary output PCM | 3,080,192 | `88411c8bf2cae4370133baee3756f6fb59612499feb3e3eefcbbe3fa66d9367e` |
+
+The same-original-source control has equal sample counts under system and candidate decoders but **different float32 bytes**. All 768,000 scalar values are finite; 368,543 differ, with maximum absolute difference **3.725290298461914×10⁻⁸** and RMS difference **5.3510167115214064×10⁻⁹**. These are numerical observations, not audibility measurements, a content-loss finding or a claim of cross-decoder bit identity. Same-decoder whole-source preservation and cross-decoder numerical variation must remain separate.
+
+The saved-only audit rechecked source, bound runtime/dependency and evidence identities, nine new artifact rows and listed prior files, recomputed full-buffer PCM relations and reconciled actual child records. It did not execute a decoder. Lead reconciliation at the fixed cutoff accepts the bounded reader evidence and releases only evidence/PBS preservation. It does not authorize an audio-policy integration or additional runtime.
+
+### 6. Interpret the matrix and inspect a plausible mechanism without declaring root cause
+
+| Produced file / reader | Observed extent and skip | Evidence provenance |
+|---|---|---|
+| Candidate-produced file / candidate 9.0.2 | Skip Samples 1024; 375 frames / 384,000 samples | Retained calibration metadata/frame evidence, not a new full PCM pair |
+| Candidate-produced file / system 7.1.5 | Stream padding 1024, no packet skip; 376 / 385,024 | New two-child diagnostic and saved full PCM audit |
+| Ordinary-produced file / system 7.1.5 | No skip; 376 / 385,024 | Prior ordinary diagnostic on immutable 035 |
+| Ordinary-produced file / candidate 9.0.2 | Padding 0, no skip; 376 / 385,024 | New three-child diagnostic and same-decoder source control |
+
+Retained official 9.0.2 source provides a concrete mechanism: Matroska CodecDelay becomes `initial_padding` and internal `skip_samples`; demux creates packet skip side data; decoding consumes it unless manual skip is requested. The inspected upstream n7.1.5 Matroska location sets stream padding but lacks the corresponding internal skip assignment. This is **supporting source evidence consistent with the result**, not verification of the exact installed Debian source/patchset or a controlled binary-level root cause. The bounded search did not find that exact installed source. Upstream web text was not retained as a complete hashed file, and build/configuration or other paths are not eliminated.
+
+Container/writer signaling still matters: both readers expose the prefix on the ordinary output, while the system reader sees padding in the candidate output but does not apply it as packet skip. Neither “only the writer” nor “a newer reader fixes every file” follows. No player, subjective audibility, full A/V synchronization, Windows or arbitrary-media claim is made.
+
+### 7. Keep policy and source changes out of this evidence checkpoint
+
+The isolated ordinary AAC admission guard received technical review, but remains **policy-held and unintegrated**. Its tests do not decide whether restricting an existing supported operation is the right product response. There is no default runtime upgrade, metadata rewrite, audio re-encode, producer repin, new refusal or blanket acceptance here. The earlier “defect” classification is a historical engineering interpretation, not retroactive owner approval of a mitigation.
+
+Existing **298/298 explicit Linux, 229/229 protection and 42/42 focused** results are inherited, **not rerun**. They overlap, are not summed, and do not mean package-wide `npm test`, every repository test or current media-fidelity qualification. Optional historical references were not rerun. All 621 checked source files remained identical through the diagnostic evidence; this checkpoint changes records only.
+
+The helpers enforce exact identities, exclusive attempt/receipt files and bounded captures. Their 60-second child limits, finite total observation, 27 GiB point checks and polled/terminal size limits are not hard disk quotas, immutable execution locks or guaranteed termination. Explicit dependency/soname checks are not exhaustive ELF closure; owned-child counts are not a full OS descendant census. The observed five new children closed with empty stderr, but those clean diagnostic streams do not erase earlier ordinary target warnings.
+
+Final records: [Execution summary](2026-11-18_AAC_Presentation_And_Reader_Compatibility.md), [curated receipts](2026-11-18_AAC_Presentation_And_Reader_Compatibility_Receipts.json), and [portable evidence](evidence-2026-11-18/aac-reader-compatibility-portable.json). The portable keeps eight selected research/report/audit/reconciliation objects with disclosed logical root aliases. It is not raw runtime restoration, a gate or an inverse path map. Media, binary PCM, runtime, profiles, gates and full connector readbacks remain outside that source artifact. Exact original evidence remains retained locally.
+
+## 🧠 Key Insights
+
+1. **Historical decisions are scoped by operation.** Packet-edge trimming, MKV-to-MP4 remux and whole-file video-encode/AAC-copy are not interchangeable just because a number is near 21 ms.
+2. **Writer-only attribution failed a useful test.** Identical candidate output bytes produce different skip/frame observations under the two readers. Stream padding does not guarantee that every reader removes priming.
+3. **A different reader cannot reconstruct missing signaling automatically.** Candidate 9.0.2 still exposes the ordinary output's extra prefix; newer software is not a demonstrated drop-in remedy for that file.
+4. **No original same-decoder source samples were excluded in these comparisons.** That is narrower than whole-PCM equality, unchanged presentation, all-player compatibility or inaudibility of the prefix.
+5. **Decoder identity is part of a PCM equality claim.** Tiny float differences on the unchanged original source make cross-version full hashes unsuitable as if they represented the same decoding calculation.
+6. **The useful next step is not another speculative encode.** Preserve the matrix and make a deliberate product decision while separately testing current cancellation/recovery reliability.
+
+## 📌 Decisions Made
+
+### Confirmed
+
+- Preserve both completed diagnostics, including the negative result and changed hypothesis. **Decider:** Engineering lead. **Basis:** Exact saved audits and complete owned-child closure on unchanged 036 source.
+- Treat remux, trim-edge and whole-file historical decisions separately. **Decider:** Lead following Ahmed's history-search request. **Basis:** Immutable surviving documents/assertion code; no verified blanket ordinary-policy decision.
+- Compare full PCM within a controlled decoder representation and disclose cross-version differences separately. **Decider:** Lead/auditors. **Basis:** Same-source control and exact full-buffer relations.
+- Keep 037 evidence-only and retain the exact prior Session. **Decider:** Lead/project workflow. **Basis:** No production change is needed to record the findings; three new records plus Current and Session form the intended coherent checkpoint.
+
+### Deferred / held
+
+- Acceptance, disclosure, compatibility restriction, refusal or runtime change for current ordinary AAC copy. **Decider:** Owner for any reserved consequential product tradeoff, informed by the lead. **Basis:** Existing history does not settle this path; observations do not prove audibility or universal player behavior. Guard integration remains held.
+- Exact installed-binary causal attribution and broader playback qualification. **Decider:** Lead for a proportionate future scope. **Basis:** Upstream source is consistent mechanism evidence, not the installed Debian patchset or exhaustive compatibility proof.
+
+## ⚠️ Difficulties / Friction
+
+- Similar clock magnitudes obscured different contracts. Reconciliation required reading actual historical operations and assertions rather than borrowing an accepted numeric tolerance.
+- The saved candidate calibration had useful counts/packet evidence but no retained complete source/output PCM pair. It could narrow a hypothesis, not establish that missing pair retroactively.
+- Helper metadata drift remained visible: stale child-count prose, a reviewer delta assumption and a binding schema mismatch. Actual job guards, exact final manifests and pre-write checks prevented broader execution or replay.
+- Full PCM hashes differed across decoders even on the original source. A same-decoder source control was necessary to avoid a false fidelity regression.
+- Exact installed Debian source was unavailable in the bounded search. The record preserves that attribution limit instead of declaring the upstream difference a proven sole cause.
+
+## 🔧 Adjustments Made
+
+- **Shifted from:** A provisional writer/signaling explanation. **To:** A writer/container/reader matrix. **Because:** The system reader exposes priming on the exact candidate-produced file. **Consequence:** No writer-only fix claim or unqualified upgrade recommendation.
+- **Shifted from:** Reusing a source PCM hash across versions. **To:** Candidate source and output decoded with the same options, plus a separately labeled cross-decoder control. **Because:** Floating-point decoder output can vary. **Consequence:** Exact within-decoder preservation remains meaningful without calling numerical differences lost audio.
+- **Shifted from:** An isolated technically reviewed guard as a possible next mitigation. **To:** Held policy while current evidence and historical constraints are reconciled. **Because:** Restricting previously admitted work is a product behavior decision, not implied by test review. **Consequence:** Production behavior remains unchanged.
+- **Shifted from:** A broader prospective experiment. **To:** Two existing-output jobs followed by three opposite-reader/control jobs. **Because:** Saved files could answer the discriminating questions without another encode/mux. **Consequence:** Finite new evidence without redundant compressed-media creation.
+
+## ❌ Mistakes / Risks Noted
+
+### 1. Generalizing a historical tolerance or prematurely assigning cause
+
+**What happened / could happen:** Approximately 21 ms could be read as prior blanket acceptance; candidate metadata could be read as proof the ordinary writer alone is responsible.
+
+**Actual impact:** No acceptance/refusal policy or production change was made. Cross-reader evidence narrowed the provisional inference.
+
+**Potential impact:** A silent compatibility regression, unnecessary refusal or unjustified runtime replacement.
+
+**Correction / current status:** Preserve distinct historical scopes and the complete reader matrix. Earlier research stays dated and unchanged; later conclusions explicitly supersede inference, not evidence.
+
+**Failure Intelligence:** Distinguish measured result, proposed mechanism and owner decision. Do not turn a matching number into permission.
+
+### 2. Preparation/review schema assumptions
+
+**What happened / could happen:** Diagnostic A retained a stale six-child docstring. Diagnostic B's reviewer initially expected two newly added keys when only reconciliation was new; a reused binding assertion expected an older schema.
+
+**Actual impact:** The executable limits stayed two/three. Review expectation was corrected. The first binding assertion stopped before any write or media attempt; the sole actual run used the corrected reviewed schema.
+
+**Potential impact:** Misstated scope, false review failure or unsafe binding if assertions were weakened indiscriminately.
+
+**Correction / current status:** Old records preserved; only exact assertions/metadata were corrected. Independent file-only reviews passed, then actual terminal audits verified the bounded outcomes.
+
+**Failure Intelligence:** Read final manifest fields and executable scope rather than copying prose or schema assumptions. A pre-write preparation stop is not an application failure or media retry.
+
+### 3. Treating decoded equality too broadly
+
+**What happened / could happen:** Cross-decoder hash inequality could be called source loss; an exact source suffix could be called whole-audio equality.
+
+**Actual impact:** The candidate source control showed equal sample counts with tiny unequal float values. Both same-decoder comparisons retain the entire source after a prefix; whole buffers differ.
+
+**Potential impact:** False fidelity failures or false preservation claims.
+
+**Correction / current status:** Retain decoder/options, whole-buffer result, explicit prefix/suffix counts and numerical control separately. No audibility, all-player or complete A/V conclusion.
+
+**Failure Intelligence:** Equality requires a stated representation and extent. Packet/hash rows, sample counts, original-content survival and whole presentation are separate assertions.
+
+## 📍 Current Position
+
+**As of:** 08:38:06.365588 Cairo / 06:38:06.365588 UTC on November 18, 2026.
+
+**Before this session:** Ordinary publication and finite checks worked on immutable 035, but exposed 1,024-sample priming and failed timestamp-only mitigation were measured. The owner requested history reconciliation before contacting Claude. Guard policy was held; 036 preservation was finishing.
+
+**After this session:** 036 is fully preserved. Historical scope is clarified; two finite diagnostics on unchanged 036 establish reader-dependent behavior on candidate output and missing effective skip on ordinary output under both readers. Same-decoder source content survives exactly after the prefix; no whole-audio identity or acceptance policy is declared.
+
+**Current standing:** No production/test/default/runtime/guard change. All actual diagnostic work settled, independently audited and lead-reconciled. Inherited green current-contract suites remain inherited. The audio presentation/compatibility decision is open, not fixed or waived. The intended 037 records are five paths, three new files, **624 files / 37 commits after preservation**; those numbers describe the planned checkpoint, not an already completed commit/push at this cutoff.
+
+**Live owner continuation anchor:** Prioritize current reliability and explain supported, unsupported and untested behavior. Preserve first, then pursue the already assigned isolated ordinary cancellation/recovery file-only investigation. At this cutoff that assignment has **no completed result**. Do not use it to imply a new app fix or media proof. Any consequential audio response remains subject to the held decision boundary.
+
+## 🔜 Next Steps
+
+1. Finish the coherent evidence-only local Git checkpoint, restore source/full history and readable Session in Notion, then publish and verify the intended GitHub delta. The lead and mirror own those actions; this entry does not report future preservation as done.
+2. Continue isolated ordinary cancellation/recovery investigation using real factory/runner coverage over an inert child boundary. Review actual findings before deciding whether a current production defect exists; no outcome is assumed here.
+3. Use the measured matrix and scoped historical decisions to propose a proportionate audio response with clear compatibility and disclosure tradeoffs. Keep the isolated guard held until that decision is reconciled.
+
+**Do not reopen / repeat:** Do not rewrite old Session entries or audits, replay consumed bindings, redo the disproved timestamp-only variant, launch a speculative new encode, reconstruct historical features just to green references, silently upgrade or repin, insert refusal, re-encode audio, or equate tiny cross-decoder float differences with lost samples.
+
+**Continuation boundary:** Further runtime, native/player testing or production changes require their own exact scope, review and current evidence. No new user approval is implied merely by internal one-use execution gates; neither these archival records nor technical review selects a consequential policy on the owner's behalf.
+
+## ❓ Open Questions
+
+- **What ordinary audio behavior should be accepted, disclosed or restricted for the supported product?** **Needed from:** Lead recommendation and owner where a consequential tradeoff is reserved. **Blocks:** Guard/default/policy integration, not preservation or isolated reliability tests.
+- **Which exact installed-reader implementation/build difference produces the observed skip behavior, and which supported playback paths matter?** **Needed from:** A proportionate source/compatibility investigation if it changes the product decision. **Blocks:** Sole-cause and broader player claims, not the measured matrix.
+- **Does current ordinary cancellation/recovery have a reproducible authority, cleanup or reuse defect?** **Needed from:** The assigned isolated investigation and independent review. **Blocks:** Any claim or repair in that area; no result exists at this cutoff.
+
+## 🧾 Session Outcome
+
+A useful negative hypothesis test and its opposite-reader control are complete and audited. The project now distinguishes **surviving original content**, **whole decoded presentation**, **container signaling**, **reader behavior** and **historical acceptance scope**. Both diagnostics operated on immutable 036 with existing files, no new encode/mux, all five owned children closed and empty diagnostic stderr. Prior warnings and evidence limits remain.
+
+No audio fix, guard integration, default upgrade, player qualification or policy waiver was delivered. Exact historical records remain intact. The new checkpoint's commit, Notion restoration and verified GitHub publication are subsequent lead-owned steps, not completed claims in this dated entry.
+
+## 🔍 Confidence Level
+
+**High** in the finite saved-file identities, observed sample/skip results, same-decoder full-source suffix comparisons, child closure and separation of historical scopes. **Limited** for causal attribution and product-wide compatibility; policy remains unresolved.
+
+**Why:** Independent audits rehashed original and new evidence, recomputed complete retained PCM relations, checked bound source/runtime identities and reconciled actual child receipts. The opposite-reader control rules out a misleading cross-version equality assumption, and history was read rather than reconstructed from memory.
+
+**Not higher because:** No exact installed Debian source/binary isolation, historical raw PCM re-audit, new full candidate-produced PCM pair, player listening study, full A/V comparison, Windows proof or arbitrary-media campaign. Point resource limits are not quotas; inherited tests were not rerun. No measurement alone selects the owner's acceptance policy.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Verify current ownership, exercise ordinary encoding, and identify an AAC presentation difference
 
 ## 🤖 Models, Effort, Roles and Provenance

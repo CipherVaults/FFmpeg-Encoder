@@ -1,0 +1,2747 @@
+{
+  "schema": "ffmpeg-portable-evidence-v1",
+  "status": "Final outside draft; commit and preservation pending",
+  "owningRecordCutoffUtc": "2026-11-18T06:38:06.365588+00:00",
+  "authority": {
+    "runtime": false,
+    "production": false,
+    "qualification": false,
+    "rawRestoration": false,
+    "gate": false,
+    "policy": false
+  },
+  "originals": [
+    {
+      "key": "01_HISTORICAL_RECONCILIATION",
+      "path": "ordinary035-aac-investigation/HISTORICAL_RECONCILIATION.json",
+      "bytes": 2769,
+      "sha256": "f8e9c701e3b78c15cffdfe981c9146bdbdc6485f84340b0c4e277310165e7b34"
+    },
+    {
+      "key": "02_SAME_INPUT_902_SAVED_COMPARISON",
+      "path": "ordinary035-aac-investigation/SAME_INPUT_902_SAVED_COMPARISON.json",
+      "bytes": 8915,
+      "sha256": "4ebb6811fed9eb2b68773043c3e93a902504e63582dade3c6e90207f1adc5137"
+    },
+    {
+      "key": "03_REPORT",
+      "path": "saved902-output-system036-diagnostic-preparation/REPORT.json",
+      "bytes": 7340,
+      "sha256": "36857d6afe23af437f7e14810ed792aec34c85983dc5adcfb8d53b711b6a0845"
+    },
+    {
+      "key": "04_INDEPENDENT_DIAGNOSTIC_AUDIT",
+      "path": "saved902-output-system036-diagnostic-preparation/INDEPENDENT_DIAGNOSTIC_AUDIT.json",
+      "bytes": 9252,
+      "sha256": "df0725b1ca930056cd41dd5e6ec05ee18ac2bb232639b46f113657e78d3171fa"
+    },
+    {
+      "key": "05_LEAD_RECONCILIATION",
+      "path": "saved902-output-system036-diagnostic-preparation/LEAD_RECONCILIATION.json",
+      "bytes": 1554,
+      "sha256": "d6e2e6326127da9297b6080710b66aafcfa766a569bb633a5a26aa2d897e8315"
+    },
+    {
+      "key": "06_REPORT",
+      "path": "opposite-reader036-audio-diagnostic-preparation/REPORT.json",
+      "bytes": 12093,
+      "sha256": "6d4fc03d3e0ef1a5b3ad2a469db3289c5639cdc5b533c8ed2b9cde7246e3fb98"
+    },
+    {
+      "key": "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+      "path": "opposite-reader036-audio-diagnostic-preparation/INDEPENDENT_DIAGNOSTIC_AUDIT.json",
+      "bytes": 25080,
+      "sha256": "82228c5a04233f38ccc4e499ca4844497c952af63976aacec771fbe71233d351"
+    },
+    {
+      "key": "08_LEAD_RECONCILIATION",
+      "path": "opposite-reader036-audio-diagnostic-preparation/LEAD_RECONCILIATION.json",
+      "bytes": 1923,
+      "sha256": "d720b131ae47714b25f6f967600be4b45d81bba8fde74d7a44d8364976085689"
+    }
+  ],
+  "transformation": {
+    "rule": "Only declared known leading root prefixes replaced; no inverse mapping. All other parsed keys/types/values unchanged.",
+    "count": 110,
+    "countsByAlias": {
+      "project://": 26,
+      "support://": 40,
+      "system-reader://": 12,
+      "candidate-reader://": 32
+    },
+    "locations": [
+      {
+        "location": [
+          "reports",
+          "02_SAME_INPUT_902_SAVED_COMPARISON",
+          "report",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "02_SAME_INPUT_902_SAVED_COMPARISON",
+          "source",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "02_SAME_INPUT_902_SAVED_COMPARISON",
+          "output",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "02_SAME_INPUT_902_SAVED_COMPARISON",
+          "sourceDiagnostic",
+          "file"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "02_SAME_INPUT_902_SAVED_COMPARISON",
+          "sourceDiagnostic",
+          "files",
+          0,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "02_SAME_INPUT_902_SAVED_COMPARISON",
+          "sourceDiagnostic",
+          "files",
+          1,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "02_SAME_INPUT_902_SAVED_COMPARISON",
+          "sourceDiagnostic",
+          "files",
+          2,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "02_SAME_INPUT_902_SAVED_COMPARISON",
+          "sourceDiagnostic",
+          "files",
+          3,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "02_SAME_INPUT_902_SAVED_COMPARISON",
+          "outputDiagnostic",
+          "file"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "02_SAME_INPUT_902_SAVED_COMPARISON",
+          "outputDiagnostic",
+          "files",
+          0,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "02_SAME_INPUT_902_SAVED_COMPARISON",
+          "outputDiagnostic",
+          "files",
+          1,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "02_SAME_INPUT_902_SAVED_COMPARISON",
+          "outputDiagnostic",
+          "files",
+          2,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "02_SAME_INPUT_902_SAVED_COMPARISON",
+          "outputDiagnostic",
+          "files",
+          3,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "02_SAME_INPUT_902_SAVED_COMPARISON",
+          "sourceFiles",
+          0,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "02_SAME_INPUT_902_SAVED_COMPARISON",
+          "sourceFiles",
+          1,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "03_REPORT",
+          "children",
+          0,
+          "argv",
+          12
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "03_REPORT",
+          "children",
+          0,
+          "stdout",
+          "path"
+        ],
+        "alias": "system-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "03_REPORT",
+          "children",
+          0,
+          "stderr",
+          "path"
+        ],
+        "alias": "system-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "03_REPORT",
+          "children",
+          1,
+          "argv",
+          9
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "03_REPORT",
+          "children",
+          1,
+          "stdout",
+          "path"
+        ],
+        "alias": "system-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "03_REPORT",
+          "children",
+          1,
+          "stderr",
+          "path"
+        ],
+        "alias": "system-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "04_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "closure",
+          "outer",
+          "cwd"
+        ],
+        "alias": "system-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "04_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "historicalComparison",
+          "sameOutputPin",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "04_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "historicalComparison",
+          "rawHistoricalArtifactsRehashed",
+          0,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "04_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "historicalComparison",
+          "rawHistoricalArtifactsRehashed",
+          1,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "04_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "historicalComparison",
+          "rawHistoricalArtifactsRehashed",
+          2,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "04_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "historicalComparison",
+          "rawHistoricalArtifactsRehashed",
+          3,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "04_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "historicalComparison",
+          "rawHistoricalArtifactsRehashed",
+          4,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "04_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "historicalComparison",
+          "rawHistoricalArtifactsRehashed",
+          5,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "04_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "historicalComparison",
+          "rawHistoricalArtifactsRehashed",
+          6,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "04_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "historicalComparison",
+          "rawHistoricalArtifactsRehashed",
+          7,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "06_REPORT",
+          "children",
+          0,
+          "argv",
+          0
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "06_REPORT",
+          "children",
+          0,
+          "argv",
+          12
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "06_REPORT",
+          "children",
+          0,
+          "stdout",
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "06_REPORT",
+          "children",
+          0,
+          "stderr",
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "06_REPORT",
+          "children",
+          1,
+          "argv",
+          0
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "06_REPORT",
+          "children",
+          1,
+          "argv",
+          9
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "06_REPORT",
+          "children",
+          1,
+          "stdout",
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "06_REPORT",
+          "children",
+          1,
+          "stderr",
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "06_REPORT",
+          "children",
+          2,
+          "argv",
+          0
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "06_REPORT",
+          "children",
+          2,
+          "argv",
+          9
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "06_REPORT",
+          "children",
+          2,
+          "stdout",
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "06_REPORT",
+          "children",
+          2,
+          "stderr",
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "identities",
+          0,
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "identities",
+          1,
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "identities",
+          2,
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "identities",
+          3,
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "identities",
+          4,
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "identities",
+          5,
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "identities",
+          6,
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "identities",
+          7,
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "identities",
+          8,
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "identities",
+          9,
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "identities",
+          10,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "verifiedBindingPins",
+          0,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "verifiedBindingPins",
+          1,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "verifiedBindingPins",
+          9,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "verifiedBindingPins",
+          10,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "verifiedBindingPins",
+          11,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "verifiedBindingPins",
+          12,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "verifiedBindingPins",
+          13,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "verifiedBindingPins",
+          14,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "verifiedBindingPins",
+          15,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "verifiedBindingPins",
+          16,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "verifiedBindingPins",
+          17,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "verifiedBindingPins",
+          18,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "verifiedBindingPins",
+          19,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "verifiedBindingPins",
+          20,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "verifiedBindingPins",
+          21,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "verifiedBindingPins",
+          22,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "verifiedBindingPins",
+          23,
+          "path"
+        ],
+        "alias": "system-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "verifiedBindingPins",
+          24,
+          "path"
+        ],
+        "alias": "system-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "verifiedBindingPins",
+          25,
+          "path"
+        ],
+        "alias": "system-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "verifiedBindingPins",
+          26,
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "verifiedBindingPins",
+          27,
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "verifiedBindingPins",
+          28,
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "verifiedBindingPins",
+          29,
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "verifiedBindingPins",
+          30,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "verifiedBindingPins",
+          31,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "verifiedBindingPins",
+          32,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "ownedArtifacts",
+          0,
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "ownedArtifacts",
+          1,
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "ownedArtifacts",
+          2,
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "ownedArtifacts",
+          3,
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "ownedArtifacts",
+          4,
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "ownedArtifacts",
+          5,
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "ownedArtifacts",
+          6,
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "ownedArtifacts",
+          7,
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "ownedArtifacts",
+          8,
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "priorExplicitArtifactRowsRehashed",
+          0,
+          "path"
+        ],
+        "alias": "system-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "priorExplicitArtifactRowsRehashed",
+          1,
+          "path"
+        ],
+        "alias": "system-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "priorExplicitArtifactRowsRehashed",
+          2,
+          "path"
+        ],
+        "alias": "system-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "priorExplicitArtifactRowsRehashed",
+          3,
+          "path"
+        ],
+        "alias": "system-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "priorExplicitArtifactRowsRehashed",
+          4,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "priorExplicitArtifactRowsRehashed",
+          5,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "priorExplicitArtifactRowsRehashed",
+          6,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "priorExplicitArtifactRowsRehashed",
+          7,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "priorExplicitArtifactRowsRehashed",
+          8,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "priorExplicitArtifactRowsRehashed",
+          9,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "priorExplicitArtifactRowsRehashed",
+          10,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "priorExplicitArtifactRowsRehashed",
+          11,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "priorExplicitArtifactRowsRehashed",
+          12,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "priorExplicitArtifactRowsRehashed",
+          13,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "priorExplicitArtifactRowsRehashed",
+          14,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "priorExplicitArtifactRowsRehashed",
+          15,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "priorExplicitArtifactRowsRehashed",
+          16,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "priorExplicitArtifactRowsRehashed",
+          17,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "actualExecution",
+          "outer",
+          "cwd"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "pcm",
+          "candidateSource",
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_DIAGNOSTIC_AUDIT",
+          "pcm",
+          "candidateOutput",
+          "path"
+        ],
+        "alias": "candidate-reader://"
+      }
+    ]
+  },
+  "limits": [
+    "Logical aliases do not recreate original bytes or executable authority; raw PCM/media/runtime/gates/profile data excluded.",
+    "Both finite reader diagnostics expose additional priming; same-decoder source suffix equality is not cross-decoder float identity or whole-audio equality.",
+    "No writer-only causation, exact Debian binary root cause, player/audibility/A-V/Windows/general qualification or policy choice.",
+    "Historical remux and packet-edge trim choices do not silently decide ordinary video encode/AAC-copy policy.",
+    "Original report conclusions remain dated and unchanged; later interpretation is separate."
+  ],
+  "reports": {
+    "01_HISTORICAL_RECONCILIATION": {
+      "recordedAtUtc": "2026-11-18T06:12:08.517974+00:00",
+      "sources": [
+        {
+          "path": "0- Documentation/47_Milestone_Q_Plan_2026-11-12.md",
+          "remoteRef": "3e43c4c9e49c0ed89e5c61013be8921bd310dc0a",
+          "gitBlob": "e5391b059ad366a70deed086ba6dfd398ce3b616",
+          "bytes": 33930,
+          "sha256": "71035e4ba241bdda405e5d9572f440d992dd1a0fbeec43a2e41afdd6d26ca84c",
+          "localMatchesSupportedImmutableReadback": true
+        },
+        {
+          "path": "0- Documentation/Execution Summaries/2026-10-29_Claude_Continuation_and_Native_Runtime.md",
+          "remoteRef": "3e43c4c9e49c0ed89e5c61013be8921bd310dc0a",
+          "gitBlob": "9b006ebcfcfe8a10a41c1da6acad941cca518271",
+          "bytes": 93820,
+          "sha256": "7231c9213d87efbcd3b06b28a203a8d46c9cd5d5c8716a21f0a83256515e58fc",
+          "localMatchesSupportedImmutableReadback": true
+        }
+      ],
+      "oldHarness": {
+        "path": "scripts/v07-sdr-full-copy-calibration.cjs",
+        "bytes": 44485,
+        "sha256": "bcc0a89a09a01b8b96d738c0d2010c4f00acb1c473bb1c500fdec3bec6e0d5b0",
+        "relevantLines": "239–253 and346–352",
+        "fact": "Complete source/output f32le PCM with copyts, no fitted trim/shift, equal full hash and bytes asserted. Raw historical outputs were not independently re-audited here."
+      },
+      "reconciliation": [
+        "Record47 section6 is MKV-to-MP4 remux policy: exact copy preferred if feasible, otherwise disclosed shift; measured numbers to owner before default, remux-only settings, ordinary encode defaults untouched.",
+        "Record47 section10 accepts disclosed packet-edge trim rounding, not arbitrary whole-file priming exposure.",
+        "Historical Q2b is whole-file resize/copy evidence under a qualified copy-clock model:10.000-to10.021 container duration coexists with claimed retained priming/padding and exact complete PCM. It is not simply a blanket21ms tolerance.",
+        "Current ordinary7.1.5 proof retains all original384000 decoded sample instants only after removing an extra1024-sample prefix. Its completePCM is unequal and skip side data absent. The same approximate duration difference does not establish equivalent decoded presentation or policy coverage.",
+        "No new ordinary refusal/default policy is selected or integrated; isolated guard is technically reviewed only. No silent re-encode, timeline-normalization patch or old feature rebuild follows."
+      ],
+      "limits": [
+        "Historical documentation and surviving assertion code verified; original historical raw media/receipts not re-executed or fully re-audited.",
+        "Current sample findings remain finite known-input/runtime evidence, not subjective audibility or general player behavior.",
+        "This later reconciliation is outside checkpoint036 fixed evidence cutoff/addendum; it does not rewrite their chronology."
+      ]
+    },
+    "02_SAME_INPUT_902_SAVED_COMPARISON": {
+      "report": {
+        "path": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/report.json",
+        "bytes": 207464,
+        "sha256": "5f74a9efb7981fefb242dcf34c82e972bbc269c5a5ea7a92c62a68db1bc34ad9"
+      },
+      "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+      "source": {
+        "path": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/short-mp4/source.mp4",
+        "bytes": 5578679,
+        "sha256": "bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97"
+      },
+      "output": {
+        "path": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/short-mp4/.ffmpeg-encoder-NSTyHs/encoded.mkv",
+        "bytes": 1958967,
+        "sha256": "c0ba0f83fc51f0f75a5398e4d1d80f98e7f6f2c5b6ce0172acc3877fdf5ffb0f"
+      },
+      "sourceDiagnostic": {
+        "collectorAuthority": false,
+        "source": true,
+        "file": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/short-mp4/source.mp4",
+        "files": [
+          {
+            "label": "video",
+            "path": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/short-mp4/source-diagnostic/video.compact",
+            "bytes": 57734,
+            "sha256": "0efce70c344c02fe730952e106c744dabb30f67454eb7ecddfa9d52e459e9850",
+            "records": 240
+          },
+          {
+            "label": "audio",
+            "path": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/short-mp4/source-diagnostic/audio.compact",
+            "bytes": 47889,
+            "sha256": "d98214e6fbbdbf3f9e5123b7ea96eeb18e720bf6002143def3c843a5de98788d",
+            "records": 375
+          },
+          {
+            "label": "packets",
+            "path": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/short-mp4/source-diagnostic/packets.compact",
+            "bytes": 48528,
+            "sha256": "35803be01d0b63c30e5801472cd6148c73f162791785c883ea045cecce3db48b",
+            "records": 376
+          },
+          {
+            "label": "header",
+            "path": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/short-mp4/source-diagnostic/header.compact",
+            "bytes": 102,
+            "sha256": "5604976c8d7faa41ec753a318e1ab8e694be656d026f48658c095120a671a808",
+            "records": 1
+          }
+        ],
+        "video": {
+          "frames": 240,
+          "samples": "0",
+          "first": {
+            "n": "0",
+            "d": "1"
+          },
+          "end": {
+            "n": "8",
+            "d": "1"
+          },
+          "gaps": 0,
+          "cadence": true,
+          "metadata": {
+            "startPts": "0",
+            "durationTs": "122880",
+            "timeBase": "1/15360"
+          }
+        },
+        "audio": {
+          "frames": 375,
+          "samples": "384000",
+          "first": {
+            "n": "0",
+            "d": "1"
+          },
+          "end": {
+            "n": "8",
+            "d": "1"
+          },
+          "gaps": 0,
+          "cadence": true,
+          "metadata": {
+            "startPts": "0",
+            "durationTs": "384000",
+            "timeBase": "1/48000"
+          }
+        },
+        "packets": {
+          "count": 376,
+          "payloadSha256": "b991cd0656a0f98f1f31928878519dc126b1c6845936043487e634fd08d0c856",
+          "paddingSha256": "c61d37c51be2cdb36aa5911971fbe578038afd6666789cfc8cbdbbaae1c5bd87",
+          "headerSha256": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+          "first": {
+            "stream_index": "1",
+            "pts": "-1024",
+            "duration": "1024",
+            "data_hash": "SHA256:120998f555531c6cc7bd4d91c931816f5a5d9fa600180a4667573233606bdd22",
+            "side_data_type": "Skip Samples",
+            "skip_samples": "1024",
+            "discard_padding": "0"
+          },
+          "last": {
+            "stream_index": "1",
+            "pts": "382976",
+            "duration": "1024",
+            "data_hash": "SHA256:08fd3bf1f53df9f96141c159b2ed5c85cb1dfb8b247a325ea2a12907b81e2711"
+          },
+          "timeBase": "1/48000"
+        }
+      },
+      "outputDiagnostic": {
+        "collectorAuthority": false,
+        "source": false,
+        "file": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/short-mp4/.ffmpeg-encoder-NSTyHs/encoded.mkv",
+        "files": [
+          {
+            "label": "video",
+            "path": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/short-mp4/output-diagnostic/video.compact",
+            "bytes": 84206,
+            "sha256": "944679be93537f379bf3224cb55e49bb210ccb7192a57c935336ee6f9b42eccc",
+            "records": 240
+          },
+          {
+            "label": "audio",
+            "path": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/short-mp4/output-diagnostic/audio.compact",
+            "bytes": 46447,
+            "sha256": "80ced0b21fead8236d4f7ecc8aeea195369bb3622062a6fe3fd46d7c49048bc3",
+            "records": 375
+          },
+          {
+            "label": "packets",
+            "path": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/short-mp4/output-diagnostic/packets.compact",
+            "bytes": 47082,
+            "sha256": "548b3a9a30b40f7f81a35ae2abb8f7747d3ef28255bea1307892900fdbccdd9a",
+            "records": 376
+          },
+          {
+            "label": "header",
+            "path": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/short-mp4/output-diagnostic/header.compact",
+            "bytes": 102,
+            "sha256": "5604976c8d7faa41ec753a318e1ab8e694be656d026f48658c095120a671a808",
+            "records": 1
+          }
+        ],
+        "video": {
+          "frames": 240,
+          "samples": "0",
+          "first": {
+            "n": "0",
+            "d": "1"
+          },
+          "end": {
+            "n": "8",
+            "d": "1"
+          },
+          "gaps": 0,
+          "cadence": true,
+          "metadata": {
+            "startPts": "0",
+            "durationTs": "undefined",
+            "timeBase": "1/1000"
+          }
+        },
+        "audio": {
+          "frames": 375,
+          "samples": "384000",
+          "first": {
+            "n": "0",
+            "d": "1"
+          },
+          "end": {
+            "n": "24001",
+            "d": "3000"
+          },
+          "gaps": 374,
+          "cadence": true,
+          "metadata": {
+            "startPts": "0",
+            "durationTs": "undefined",
+            "timeBase": "1/1000"
+          }
+        },
+        "packets": {
+          "count": 376,
+          "payloadSha256": "b991cd0656a0f98f1f31928878519dc126b1c6845936043487e634fd08d0c856",
+          "paddingSha256": "c61d37c51be2cdb36aa5911971fbe578038afd6666789cfc8cbdbbaae1c5bd87",
+          "headerSha256": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+          "first": {
+            "stream_index": "1",
+            "pts": "-21",
+            "duration": "21",
+            "data_hash": "SHA256:120998f555531c6cc7bd4d91c931816f5a5d9fa600180a4667573233606bdd22",
+            "side_data_type": "Skip Samples",
+            "skip_samples": "1024",
+            "discard_padding": "0"
+          },
+          "last": {
+            "stream_index": "1",
+            "pts": "7979",
+            "duration": "21",
+            "data_hash": "SHA256:08fd3bf1f53df9f96141c159b2ed5c85cb1dfb8b247a325ea2a12907b81e2711"
+          },
+          "timeBase": "1/1000"
+        }
+      },
+      "collectionAudio": [
+        {
+          "inputIndex": 1,
+          "sourceSampleCount": 384000,
+          "outputSampleCount": 384000,
+          "firstSourcePtsUs": 0,
+          "lastSourceEndUs": 8000000,
+          "firstOutputPtsUs": 0,
+          "lastOutputEndUs": 8000333,
+          "encoderDelaySamples": 1024,
+          "discardPaddingSamples": 0,
+          "packetIdentity": {
+            "algorithm": "sha256",
+            "packets": 376,
+            "sourceSeal": "40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721",
+            "outputSeal": "40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721"
+          }
+        }
+      ],
+      "limits": [
+        "Saved diagnostics hashed read-only, not new decode. Current candidate calibration does not provide an independent complete PCM equality pair; historical Q2b code does assert such equality, with original raw historical outputs not re-audited."
+      ],
+      "sourceFiles": [
+        {
+          "path": "support://runtime-requalification-inputs-20261117/source/ffmpeg-9.0.2/libavformat/mov.c",
+          "bytes": 420246,
+          "sha256": "533674687505d25db7176cf876036f600e6d8cb25079ffa6b28b4a8e8266eae1"
+        },
+        {
+          "path": "support://runtime-requalification-inputs-20261117/source/ffmpeg-9.0.2/libavformat/matroskaenc.c",
+          "bytes": 141168,
+          "sha256": "087df6ac8ffaa6bbceb61c6d61aa7f0ee0f1a19cc71f73df5bd0fde6a76f3e1c"
+        }
+      ]
+    },
+    "03_REPORT": {
+      "status": "diagnostic-completed-not-preservation-qualification",
+      "children": [
+        {
+          "role": "output",
+          "kind": "metadata",
+          "argv": [
+            "/usr/bin/ffprobe",
+            "-v",
+            "error",
+            "-select_streams",
+            "a:0",
+            "-show_packets",
+            "-show_frames",
+            "-show_streams",
+            "-show_data_hash",
+            "sha256",
+            "-of",
+            "json",
+            "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/short-mp4/.ffmpeg-encoder-NSTyHs/encoded.mkv"
+          ],
+          "startedAtUnix": 1794983253.2377539,
+          "pid": 11,
+          "returncode": 0,
+          "elapsedSeconds": 0.15123685500293504,
+          "closed": true,
+          "stdout": {
+            "path": "system-reader://owned-diagnostic/output-metadata.json",
+            "bytes": 425582,
+            "sha256": "c2bc68e7c2f29e5204dbfca35b083e9691cf2d9b765d6e6e146856192375147c"
+          },
+          "stderr": {
+            "path": "system-reader://owned-diagnostic/output-metadata.stderr",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "role": "output",
+          "kind": "pcm",
+          "argv": [
+            "/usr/bin/ffmpeg",
+            "-hide_banner",
+            "-nostdin",
+            "-v",
+            "error",
+            "-xerror",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-i",
+            "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/short-mp4/.ffmpeg-encoder-NSTyHs/encoded.mkv",
+            "-map",
+            "0:a:0",
+            "-vn",
+            "-sn",
+            "-dn",
+            "-c:a",
+            "pcm_f32le",
+            "-f",
+            "f32le",
+            "pipe:1"
+          ],
+          "startedAtUnix": 1794983253.443716,
+          "pid": 14,
+          "returncode": 0,
+          "elapsedSeconds": 0.1509847960114712,
+          "closed": true,
+          "stdout": {
+            "path": "system-reader://owned-diagnostic/output-pcm.pcm",
+            "bytes": 3080192,
+            "sha256": "e17a02104232c0eb569306391f2fc6868f352a27c7cc635d59edc3188038bf9b"
+          },
+          "stderr": {
+            "path": "system-reader://owned-diagnostic/output-pcm.stderr",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      ],
+      "noEncode": true,
+      "output": {
+        "frames": 376,
+        "samples": 385024,
+        "stream": {
+          "index": 1,
+          "codec_name": "aac",
+          "codec_long_name": "AAC (Advanced Audio Coding)",
+          "profile": "LC",
+          "codec_type": "audio",
+          "codec_tag_string": "[0][0][0][0]",
+          "codec_tag": "0x0000",
+          "sample_fmt": "fltp",
+          "sample_rate": "48000",
+          "channels": 2,
+          "channel_layout": "stereo",
+          "bits_per_sample": 0,
+          "initial_padding": 1024,
+          "r_frame_rate": "0/0",
+          "avg_frame_rate": "0/0",
+          "time_base": "1/1000",
+          "start_pts": -21,
+          "start_time": "-0.021000",
+          "nb_read_frames": "376",
+          "nb_read_packets": "376",
+          "extradata_size": 5,
+          "extradata_hash": "SHA256:b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+          "disposition": {
+            "default": 1,
+            "dub": 0,
+            "original": 0,
+            "comment": 0,
+            "lyrics": 0,
+            "karaoke": 0,
+            "forced": 0,
+            "hearing_impaired": 0,
+            "visual_impaired": 0,
+            "clean_effects": 0,
+            "attached_pic": 0,
+            "timed_thumbnails": 0,
+            "non_diegetic": 0,
+            "captions": 0,
+            "descriptions": 0,
+            "metadata": 0,
+            "dependent": 0,
+            "still_image": 0,
+            "multilayer": 0
+          },
+          "tags": {
+            "HANDLER_NAME": "SoundHandler",
+            "DURATION": "00:00:08.021000000"
+          }
+        }
+      },
+      "pcm": {
+        "sourceSamples": 384000,
+        "outputSamples": 385024,
+        "sourceSha256": "4e371b8a5047a76fcc336a9f247e2f3c30407403df525abd6949b3af1896afc8",
+        "outputSha256": "e17a02104232c0eb569306391f2fc6868f352a27c7cc635d59edc3188038bf9b",
+        "exactBytesEqual": false,
+        "alignments": [
+          {
+            "outputOffsetMinusSourceSamples": -1024,
+            "comparedSamples": 382976,
+            "allComparedBytesEqual": false,
+            "sourceComparedSha256": "4689fc529f0bdf9e1631e63e1361eebadc70a2802bb1fc9003fcd40b63d65e86",
+            "outputComparedSha256": "988c9e50dc96adad6560385c4f12bbbaf4f5c22ab9d10f80b89c5d8dc2a4a002",
+            "sourcePrefixSamples": 1024,
+            "outputPrefixSamples": 0,
+            "sourceSuffixSamples": 0,
+            "outputSuffixSamples": 2048,
+            "sourceExcludedPrefixSha256": "0543eee396a57987d516a9fa493dc0808c495c0787a0ce34d0a81523c5032df2",
+            "outputExcludedPrefixSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "sourceExcludedSuffixSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "outputExcludedSuffixSha256": "1699b6cc447aef96301b8c301b30daf33934d19ac62957790a66076572c6fc7d"
+          },
+          {
+            "outputOffsetMinusSourceSamples": 0,
+            "comparedSamples": 384000,
+            "allComparedBytesEqual": false,
+            "sourceComparedSha256": "4e371b8a5047a76fcc336a9f247e2f3c30407403df525abd6949b3af1896afc8",
+            "outputComparedSha256": "5ff88315853433d7f097b4e823d6897f5ecd3d9161f13e969a534528f0ff4cac",
+            "sourcePrefixSamples": 0,
+            "outputPrefixSamples": 0,
+            "sourceSuffixSamples": 0,
+            "outputSuffixSamples": 1024,
+            "sourceExcludedPrefixSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "outputExcludedPrefixSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "sourceExcludedSuffixSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "outputExcludedSuffixSha256": "078c7cfe81363110941d9aaa4ea73d31521ce8b1a12fc5e6a5a5d2a76818c63a"
+          },
+          {
+            "outputOffsetMinusSourceSamples": 1024,
+            "comparedSamples": 384000,
+            "allComparedBytesEqual": true,
+            "sourceComparedSha256": "4e371b8a5047a76fcc336a9f247e2f3c30407403df525abd6949b3af1896afc8",
+            "outputComparedSha256": "4e371b8a5047a76fcc336a9f247e2f3c30407403df525abd6949b3af1896afc8",
+            "sourcePrefixSamples": 0,
+            "outputPrefixSamples": 1024,
+            "sourceSuffixSamples": 0,
+            "outputSuffixSamples": 0,
+            "sourceExcludedPrefixSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "outputExcludedPrefixSha256": "81eb30187d6bb2c8a2988513131d33bf01de030d6c17ce95720228af6029adbc",
+            "sourceExcludedSuffixSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "outputExcludedSuffixSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ]
+      },
+      "retainedLivePid": null,
+      "postIdentityChecked": true,
+      "elapsedSeconds": 0.4953271550039062,
+      "freeBytesAfter": 57310363648
+    },
+    "04_INDEPENDENT_DIAGNOSTIC_AUDIT": {
+      "createdUtc": "2026-11-18T06:29:09.797948+00:00",
+      "disposition": "Negative discrimination confirmed: same saved candidate output yields exposed priming under system7.1.5, contrary to writer-only explanation. Reader/demux/decoder interpretation matters; exact cause not isolated.",
+      "writerReleased": true,
+      "source": {
+        "commit": "10d2c65d71f35d8b0146a43280516fb2d069b70d",
+        "tree": "c08c2b0731f7be6d6ee4941a9632027c0c0662ef",
+        "currentAndGitRowsVerified": 621,
+        "boundPinsVerified": 21
+      },
+      "fixedArtifacts": [
+        {
+          "path": "APPROVED_BINDING.json",
+          "bytes": 77189,
+          "sha256": "a1250c9119135cf4f082ec4286b06c43b473bff31e41730a34bbbccca8c95585"
+        },
+        {
+          "path": "ATTEMPT.json",
+          "bytes": 129,
+          "sha256": "d84273900d472c3c3bbc7e6b2078540aa1d053a19ae86ca0a787d5c3536fb886"
+        },
+        {
+          "path": "OUTER_COMPLETION.json",
+          "bytes": 445,
+          "sha256": "ba5776568fdc427f5d173037f1daf2ea5f0f85451b7cd0a0a11fb8237d475db7"
+        },
+        {
+          "path": "REPORT.json",
+          "bytes": 7340,
+          "sha256": "36857d6afe23af437f7e14810ed792aec34c85983dc5adcfb8d53b711b6a0845"
+        },
+        {
+          "path": "COMPLETION.json",
+          "bytes": 216,
+          "sha256": "cb2c9433e61a58c2f3de757365725353bc1d4b27e20125f199f7a1e4e471a434"
+        },
+        {
+          "path": "diagnose.py",
+          "bytes": 8635,
+          "sha256": "1c732272e1f196857cadee348b02aa02040d72003d155250135ec38bc84dd4df"
+        },
+        {
+          "path": "PLAN.md",
+          "bytes": 3181,
+          "sha256": "17fbaf2de50e2cff26dfbe92a5a902f04254f2a887350725dde16ae08d9ca2e5"
+        },
+        {
+          "path": "INPUT_MANIFEST.json",
+          "bytes": 4043,
+          "sha256": "c4fa8716dde91d6f9eb93f4f6555a1ebe93b2b49a2520d5b733d3bc03f37b4bd"
+        },
+        {
+          "path": "INDEPENDENT_PREPARATION_REVIEW.json",
+          "bytes": 5271,
+          "sha256": "87497fc82c2d946067e2381c21d43d60ac0367fa4448a08b5eb81a7b640de2df"
+        },
+        {
+          "path": "outer.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "outer.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "closure": {
+        "children": 2,
+        "closed": 2,
+        "exitZero": 2,
+        "emptyStderr": 2,
+        "retainedLivePid": null,
+        "postIdentityChecked": true,
+        "outer": {
+          "startedAtUtc": "2026-11-18T06:27:33.039197+00:00",
+          "completedAtUtc": "2026-11-18T06:27:33.678485+00:00",
+          "elapsedSeconds": 0.6392995009955484,
+          "returncode": 0,
+          "command": [
+            "python3",
+            "diagnose.py"
+          ],
+          "cwd": "system-reader://",
+          "bindingSha256": "a1250c9119135cf4f082ec4286b06c43b473bff31e41730a34bbbccca8c95585"
+        }
+      },
+      "metadata": {
+        "combinedPacketRecords": 376,
+        "combinedFrameRecords": 376,
+        "samples": 385024,
+        "streamInitialPadding": 1024,
+        "packetSkipSideDataPresent": false,
+        "firstPacketPts": -21,
+        "firstFramePts": -21,
+        "timeBase": "1/1000",
+        "extradataHash": "SHA256:b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+        "all376PacketPayloadHashesMatchHistorical902Observation": true
+      },
+      "pcm": {
+        "sourceSamples": 384000,
+        "outputSamples": 385024,
+        "sourceSha256": "4e371b8a5047a76fcc336a9f247e2f3c30407403df525abd6949b3af1896afc8",
+        "outputSha256": "e17a02104232c0eb569306391f2fc6868f352a27c7cc635d59edc3188038bf9b",
+        "wholeEqual": false,
+        "entireSourceEqualsOutputSuffixAfter1024Samples": true,
+        "outputExtraPrefixSamples": 1024,
+        "outputExtraSuffixSamples": 0,
+        "identicalToPriorOrdinarySystemDecodedPcm": true,
+        "prefixSha256": "81eb30187d6bb2c8a2988513131d33bf01de030d6c17ce95720228af6029adbc"
+      },
+      "historicalComparison": {
+        "sameOutputPin": {
+          "path": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/short-mp4/.ffmpeg-encoder-NSTyHs/encoded.mkv",
+          "bytes": 1958967,
+          "sha256": "c0ba0f83fc51f0f75a5398e4d1d80f98e7f6f2c5b6ce0172acc3877fdf5ffb0f"
+        },
+        "historicalRuntimePair": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+        "saved902Frames": 375,
+        "saved902Samples": 384000,
+        "saved902FirstPacketSkipSamples": 1024,
+        "saved902FirstDecodedPts": 0,
+        "rawHistoricalArtifactsRehashed": [
+          {
+            "path": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/short-mp4/source-diagnostic/video.compact",
+            "bytes": 57734,
+            "sha256": "0efce70c344c02fe730952e106c744dabb30f67454eb7ecddfa9d52e459e9850"
+          },
+          {
+            "path": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/short-mp4/source-diagnostic/audio.compact",
+            "bytes": 47889,
+            "sha256": "d98214e6fbbdbf3f9e5123b7ea96eeb18e720bf6002143def3c843a5de98788d"
+          },
+          {
+            "path": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/short-mp4/source-diagnostic/packets.compact",
+            "bytes": 48528,
+            "sha256": "35803be01d0b63c30e5801472cd6148c73f162791785c883ea045cecce3db48b"
+          },
+          {
+            "path": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/short-mp4/source-diagnostic/header.compact",
+            "bytes": 102,
+            "sha256": "5604976c8d7faa41ec753a318e1ab8e694be656d026f48658c095120a671a808"
+          },
+          {
+            "path": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/short-mp4/output-diagnostic/video.compact",
+            "bytes": 84206,
+            "sha256": "944679be93537f379bf3224cb55e49bb210ccb7192a57c935336ee6f9b42eccc"
+          },
+          {
+            "path": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/short-mp4/output-diagnostic/audio.compact",
+            "bytes": 46447,
+            "sha256": "80ced0b21fead8236d4f7ecc8aeea195369bb3622062a6fe3fd46d7c49048bc3"
+          },
+          {
+            "path": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/short-mp4/output-diagnostic/packets.compact",
+            "bytes": 47082,
+            "sha256": "548b3a9a30b40f7f81a35ae2abb8f7747d3ef28255bea1307892900fdbccdd9a"
+          },
+          {
+            "path": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/short-mp4/output-diagnostic/header.compact",
+            "bytes": 102,
+            "sha256": "5604976c8d7faa41ec753a318e1ab8e694be656d026f48658c095120a671a808"
+          }
+        ],
+        "interpretation": "Same exact output bytes and ordered AAC packet hashes, but prior9.0.2 observation retained packet skip metadata and375 decoded frames, while system7.1.5 reports stream initial_padding1024 without packet skip and376 decoded frames. This disproves sufficiency of a writer-only attribution; it does not isolate decoder versus demuxer versus specific upstream change."
+      },
+      "artifactInventory": [
+        {
+          "path": "owned-diagnostic/output-metadata-receipt.json",
+          "bytes": 1155,
+          "sha256": "edffc666a1f5044ab2432f424b938e114407c282a192050222ee0053eeaf6cac"
+        },
+        {
+          "path": "owned-diagnostic/output-metadata.json",
+          "bytes": 425582,
+          "sha256": "c2bc68e7c2f29e5204dbfca35b083e9691cf2d9b765d6e6e146856192375147c"
+        },
+        {
+          "path": "owned-diagnostic/output-metadata.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "owned-diagnostic/output-pcm-receipt.json",
+          "bytes": 1210,
+          "sha256": "1e469ed58f9e4613b947ac52d0f1a9c067c7a1479ee8cd68ffd912882beec6af"
+        },
+        {
+          "path": "owned-diagnostic/output-pcm.pcm",
+          "bytes": 3080192,
+          "sha256": "e17a02104232c0eb569306391f2fc6868f352a27c7cc635d59edc3188038bf9b"
+        },
+        {
+          "path": "owned-diagnostic/output-pcm.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "artifactCount": 6,
+      "artifactBytes": 3508139,
+      "limits": [
+        "Saved-only audit: no media/runtime/probe/decode rerun.",
+        "Historical9.0.2 compact frame counts/skip metadata are retained evidence, not a fresh9.0.2 decode or historical full-PCM equality proof.",
+        "Current full PCM equality/offset verified directly over retained binaries; packet payload equality compares retained reported hashes, not raw packet bytes.",
+        "No arbitrary AAC/Matroska, player/A-V/audibility/Windows/general fidelity or policy choice. An initial_padding field alone did not result in skipped PCM in this tested pipeline.",
+        "Two owned child records and clean stderr do not prove complete OS process inventory. Bounds are sampled/polled, not quotas or guaranteed termination.",
+        "No original media/source/runtime modified; source release remains lead-owned."
+      ]
+    },
+    "05_LEAD_RECONCILIATION": {
+      "recordedAtUtc": "2026-11-18T06:30:47.452316+00:00",
+      "sourceCommit": "10d2c65d71f35d8b0146a43280516fb2d069b70d",
+      "report": {
+        "bytes": 7340,
+        "sha256": "36857d6afe23af437f7e14810ed792aec34c85983dc5adcfb8d53b711b6a0845"
+      },
+      "independentAudit": {
+        "bytes": 9252,
+        "sha256": "df0725b1ca930056cd41dd5e6ec05ee18ac2bb232639b46f113657e78d3171fa"
+      },
+      "disposition": "Accept exact saved-output interpretation evidence, not preservation qualification or policy decision",
+      "outcome": "The system 7.1.5 pair reads the same preserved candidate output with initial_padding=1024 but no packet SkipSamples, 376 frames and 385024 sample instants. Complete PCM equals the prior ordinary system decode, containing all source samples after the identical 1024-sample prefix. Reader/demux/decoder interpretation is a factor; writer-only attribution is not established.",
+      "closure": {
+        "children": 2,
+        "closed": 2,
+        "exitZero": 2,
+        "emptyStderr": 2,
+        "retainedLivePid": null
+      },
+      "limits": [
+        "No new encode, copy, mux, video decode, runtime upgrade, app change or audio-policy choice.",
+        "Prior 9.0.2 output metadata and sample counts are saved historical diagnostics, not a new candidate PCM decode.",
+        "No single upstream cause, player/audibility/general A/V or cross-platform conclusion."
+      ],
+      "sourceRelease": "Retain current 036 source unchanged. Parent authorizes preparing and separately binding a proportionate opposite-reader diagnostic after this audit; this record itself is not the next execution gate."
+    },
+    "06_REPORT": {
+      "status": "diagnostic-completed-not-preservation-qualification",
+      "children": [
+        {
+          "role": "output",
+          "kind": "metadata",
+          "argv": [
+            "support://runtime-candidate-build-20261117/build/ffprobe",
+            "-v",
+            "error",
+            "-select_streams",
+            "a:0",
+            "-show_packets",
+            "-show_frames",
+            "-show_streams",
+            "-show_data_hash",
+            "sha256",
+            "-of",
+            "json",
+            "support://ordinary-default035-successor-preparation-20261118/owned-proof/output/source_H265-CPU.mkv"
+          ],
+          "startedAtUnix": 1794983650.254597,
+          "pid": 11,
+          "returncode": 0,
+          "elapsedSeconds": 0.05068482700153254,
+          "closed": true,
+          "stdout": {
+            "path": "candidate-reader://owned-diagnostic/output-metadata.json",
+            "bytes": 425823,
+            "sha256": "04c4745d2069b2a506e7f91fbd5ed9f6de0dedf14d045a0f4b05dbb497c93df8"
+          },
+          "stderr": {
+            "path": "candidate-reader://owned-diagnostic/output-metadata.stderr",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "role": "output",
+          "kind": "pcm",
+          "argv": [
+            "support://runtime-candidate-build-20261117/build/ffmpeg",
+            "-hide_banner",
+            "-nostdin",
+            "-v",
+            "error",
+            "-xerror",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-i",
+            "support://ordinary-default035-successor-preparation-20261118/owned-proof/output/source_H265-CPU.mkv",
+            "-map",
+            "0:a:0",
+            "-vn",
+            "-sn",
+            "-dn",
+            "-c:a",
+            "pcm_f32le",
+            "-f",
+            "f32le",
+            "pipe:1"
+          ],
+          "startedAtUnix": 1794983650.4710503,
+          "pid": 14,
+          "returncode": 0,
+          "elapsedSeconds": 0.05074489901016932,
+          "closed": true,
+          "stdout": {
+            "path": "candidate-reader://owned-diagnostic/output-pcm.pcm",
+            "bytes": 3080192,
+            "sha256": "88411c8bf2cae4370133baee3756f6fb59612499feb3e3eefcbbe3fa66d9367e"
+          },
+          "stderr": {
+            "path": "candidate-reader://owned-diagnostic/output-pcm.stderr",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "role": "source",
+          "kind": "pcm",
+          "argv": [
+            "support://runtime-candidate-build-20261117/build/ffmpeg",
+            "-hide_banner",
+            "-nostdin",
+            "-v",
+            "error",
+            "-xerror",
+            "-protocol_whitelist",
+            "file,pipe",
+            "-i",
+            "support://ordinary-default035-successor-preparation-20261118/owned-proof/input/source.mp4",
+            "-map",
+            "0:a:0",
+            "-vn",
+            "-sn",
+            "-dn",
+            "-c:a",
+            "pcm_f32le",
+            "-f",
+            "f32le",
+            "pipe:1"
+          ],
+          "startedAtUnix": 1794983650.7170355,
+          "pid": 31,
+          "returncode": 0,
+          "elapsedSeconds": 0.05067308600700926,
+          "closed": true,
+          "stdout": {
+            "path": "candidate-reader://owned-diagnostic/source-pcm.pcm",
+            "bytes": 3072000,
+            "sha256": "200ca1c2a6804c139d5d7637caf507b686b30f7dfdf4b5c11ca629855e82a9a4"
+          },
+          "stderr": {
+            "path": "candidate-reader://owned-diagnostic/source-pcm.stderr",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      ],
+      "noEncode": true,
+      "output": {
+        "frames": 376,
+        "samples": 385024,
+        "stream": {
+          "index": 1,
+          "codec_name": "aac",
+          "codec_long_name": "AAC (Advanced Audio Coding)",
+          "profile": "LC",
+          "codec_type": "audio",
+          "codec_tag_string": "[0][0][0][0]",
+          "codec_tag": "0x0000",
+          "mime_codec_string": "mp4a.40.2",
+          "sample_fmt": "fltp",
+          "sample_rate": "48000",
+          "channels": 2,
+          "channel_layout": "stereo",
+          "bits_per_sample": 0,
+          "initial_padding": 0,
+          "r_frame_rate": "0/0",
+          "avg_frame_rate": "0/0",
+          "time_base": "1/1000",
+          "start_pts": 0,
+          "start_time": "0.000000",
+          "nb_read_frames": "376",
+          "nb_read_packets": "376",
+          "extradata_size": 5,
+          "extradata_hash": "SHA256:b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+          "disposition": {
+            "default": 1,
+            "dub": 0,
+            "original": 0,
+            "comment": 0,
+            "lyrics": 0,
+            "karaoke": 0,
+            "forced": 0,
+            "hearing_impaired": 0,
+            "visual_impaired": 0,
+            "clean_effects": 0,
+            "attached_pic": 0,
+            "timed_thumbnails": 0,
+            "non_diegetic": 0,
+            "captions": 0,
+            "descriptions": 0,
+            "metadata": 0,
+            "dependent": 0,
+            "still_image": 0,
+            "multilayer": 0
+          },
+          "tags": {
+            "HANDLER_NAME": "SoundHandler",
+            "VENDOR_ID": "[0][0][0][0]",
+            "DURATION": "00:00:08.021000000"
+          }
+        }
+      },
+      "pcm": {
+        "sourceSamples": 384000,
+        "outputSamples": 385024,
+        "sourceSha256": "200ca1c2a6804c139d5d7637caf507b686b30f7dfdf4b5c11ca629855e82a9a4",
+        "outputSha256": "88411c8bf2cae4370133baee3756f6fb59612499feb3e3eefcbbe3fa66d9367e",
+        "exactBytesEqual": false,
+        "alignments": [
+          {
+            "outputOffsetMinusSourceSamples": -1024,
+            "comparedSamples": 382976,
+            "allComparedBytesEqual": false,
+            "sourceComparedSha256": "0700a4058d9d91880e9290fa34ed8946a91b2addea09556f610615d411dcb146",
+            "outputComparedSha256": "1c145a7022ad828283bdb5555ef5afd0e377bef25e9fd5c2438199ed1ea4c152",
+            "sourcePrefixSamples": 1024,
+            "outputPrefixSamples": 0,
+            "sourceSuffixSamples": 0,
+            "outputSuffixSamples": 2048,
+            "sourceExcludedPrefixSha256": "d85fc6a8c6ee967489b6a7b695014f1c1a47cc27c12e6b2fcab1b6d7d28d8f23",
+            "outputExcludedPrefixSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "sourceExcludedSuffixSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "outputExcludedSuffixSha256": "392a25c311329f06b7c6b56619e785aff6a02b61089f659d9e4cf21acd279da6"
+          },
+          {
+            "outputOffsetMinusSourceSamples": 0,
+            "comparedSamples": 384000,
+            "allComparedBytesEqual": false,
+            "sourceComparedSha256": "200ca1c2a6804c139d5d7637caf507b686b30f7dfdf4b5c11ca629855e82a9a4",
+            "outputComparedSha256": "79fa079e7dc7310c7c3f9aa000b4f7d597fd534619ff475bb6a780c20a46d76f",
+            "sourcePrefixSamples": 0,
+            "outputPrefixSamples": 0,
+            "sourceSuffixSamples": 0,
+            "outputSuffixSamples": 1024,
+            "sourceExcludedPrefixSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "outputExcludedPrefixSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "sourceExcludedSuffixSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "outputExcludedSuffixSha256": "4805cde8bad1276a94ce6c253f39eb0858fb12cb0021a15f028b39beee716ba2"
+          },
+          {
+            "outputOffsetMinusSourceSamples": 1024,
+            "comparedSamples": 384000,
+            "allComparedBytesEqual": true,
+            "sourceComparedSha256": "200ca1c2a6804c139d5d7637caf507b686b30f7dfdf4b5c11ca629855e82a9a4",
+            "outputComparedSha256": "200ca1c2a6804c139d5d7637caf507b686b30f7dfdf4b5c11ca629855e82a9a4",
+            "sourcePrefixSamples": 0,
+            "outputPrefixSamples": 1024,
+            "sourceSuffixSamples": 0,
+            "outputSuffixSamples": 0,
+            "sourceExcludedPrefixSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "outputExcludedPrefixSha256": "15226cb63d39d5a5a0596f1411045d5515b7ea5c1a6761f1ef70de19adddf2d6",
+            "sourceExcludedSuffixSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "outputExcludedSuffixSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ]
+      },
+      "sourceDecoderControl": {
+        "sourceSamples": 384000,
+        "outputSamples": 384000,
+        "sourceSha256": "4e371b8a5047a76fcc336a9f247e2f3c30407403df525abd6949b3af1896afc8",
+        "outputSha256": "200ca1c2a6804c139d5d7637caf507b686b30f7dfdf4b5c11ca629855e82a9a4",
+        "exactBytesEqual": false,
+        "alignments": [
+          {
+            "outputOffsetMinusSourceSamples": -1024,
+            "comparedSamples": 382976,
+            "allComparedBytesEqual": false,
+            "sourceComparedSha256": "4689fc529f0bdf9e1631e63e1361eebadc70a2802bb1fc9003fcd40b63d65e86",
+            "outputComparedSha256": "5e8879fe5039b334444d828c19e1110394dff0bd4b3256e9c6484160404be30b",
+            "sourcePrefixSamples": 1024,
+            "outputPrefixSamples": 0,
+            "sourceSuffixSamples": 0,
+            "outputSuffixSamples": 1024,
+            "sourceExcludedPrefixSha256": "0543eee396a57987d516a9fa493dc0808c495c0787a0ce34d0a81523c5032df2",
+            "outputExcludedPrefixSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "sourceExcludedSuffixSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "outputExcludedSuffixSha256": "4805cde8bad1276a94ce6c253f39eb0858fb12cb0021a15f028b39beee716ba2"
+          },
+          {
+            "outputOffsetMinusSourceSamples": 0,
+            "comparedSamples": 384000,
+            "allComparedBytesEqual": false,
+            "sourceComparedSha256": "4e371b8a5047a76fcc336a9f247e2f3c30407403df525abd6949b3af1896afc8",
+            "outputComparedSha256": "200ca1c2a6804c139d5d7637caf507b686b30f7dfdf4b5c11ca629855e82a9a4",
+            "sourcePrefixSamples": 0,
+            "outputPrefixSamples": 0,
+            "sourceSuffixSamples": 0,
+            "outputSuffixSamples": 0,
+            "sourceExcludedPrefixSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "outputExcludedPrefixSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "sourceExcludedSuffixSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "outputExcludedSuffixSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "outputOffsetMinusSourceSamples": 1024,
+            "comparedSamples": 382976,
+            "allComparedBytesEqual": false,
+            "sourceComparedSha256": "b6a8f7a4c86f40a11ef742b05316e77b113463f21a440e12c7ef693215785ef2",
+            "outputComparedSha256": "0700a4058d9d91880e9290fa34ed8946a91b2addea09556f610615d411dcb146",
+            "sourcePrefixSamples": 0,
+            "outputPrefixSamples": 1024,
+            "sourceSuffixSamples": 1024,
+            "outputSuffixSamples": 0,
+            "sourceExcludedPrefixSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "outputExcludedPrefixSha256": "d85fc6a8c6ee967489b6a7b695014f1c1a47cc27c12e6b2fcab1b6d7d28d8f23",
+            "sourceExcludedSuffixSha256": "078c7cfe81363110941d9aaa4ea73d31521ce8b1a12fc5e6a5a5d2a76818c63a",
+            "outputExcludedSuffixSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ]
+      },
+      "retainedLivePid": null,
+      "postIdentityChecked": true,
+      "elapsedSeconds": 0.9196859530056827,
+      "freeBytesAfter": 57303543808
+    },
+    "07_INDEPENDENT_DIAGNOSTIC_AUDIT": {
+      "auditedAtUtc": "2026-11-18T06:35:53.465466+00:00",
+      "disposition": "Saved evidence confirms the bounded three-child opposite-reader diagnostic, not preservation qualification or policy approval.",
+      "writerReleased": true,
+      "source": {
+        "commit": "10d2c65d71f35d8b0146a43280516fb2d069b70d",
+        "tree": "c08c2b0731f7be6d6ee4941a9632027c0c0662ef",
+        "gitAndCurrentFileCount": 621,
+        "allMatchedBindingAndGitBlobs": true
+      },
+      "identities": [
+        {
+          "path": "candidate-reader://APPROVED_BINDING.json",
+          "bytes": 80797,
+          "sha256": "7eb225ec0971e6b28229bf05ef51730afec8a78cc947d598162ed198d6a6e2da"
+        },
+        {
+          "path": "candidate-reader://ATTEMPT.json",
+          "bytes": 129,
+          "sha256": "3c894656a7d981195b5a1175ff3c8b38badebd230671a5538c882ae96abacb63"
+        },
+        {
+          "path": "candidate-reader://REPORT.json",
+          "bytes": 12093,
+          "sha256": "6d4fc03d3e0ef1a5b3ad2a469db3289c5639cdc5b533c8ed2b9cde7246e3fb98"
+        },
+        {
+          "path": "candidate-reader://COMPLETION.json",
+          "bytes": 217,
+          "sha256": "82ac11558908c39b2f03cf142b807ce7352bb15dd845e73b0e9d0294a05dc178"
+        },
+        {
+          "path": "candidate-reader://OUTER_COMPLETION.json",
+          "bytes": 444,
+          "sha256": "76d814f0511c28b28c48bc0e94ec47d9dd202ca66c8e12a6c9f7480a6953d22b"
+        },
+        {
+          "path": "candidate-reader://diagnose.py",
+          "bytes": 11063,
+          "sha256": "ea5863dc4ef0c1ab06edda2015e5832f19da7ce7f0ec72c01c0619a952a65036"
+        },
+        {
+          "path": "candidate-reader://INPUT_MANIFEST.json",
+          "bytes": 7513,
+          "sha256": "96058dada18842e1005dabe74258f44bd21f478a42f97f29d193f6f731f9d325"
+        },
+        {
+          "path": "candidate-reader://INDEPENDENT_PREPARATION_REVIEW-v2.json",
+          "bytes": 5191,
+          "sha256": "0736f809e4425cdd93628d05b618bd9464d7f27e39674e281e8ea1d83fecdf6c"
+        },
+        {
+          "path": "candidate-reader://outer.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "candidate-reader://outer.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "support://opposite-reader036-binding-prewrite-correction.json",
+          "bytes": 740,
+          "sha256": "c006fc51101f83984b8f1b6160c94744e3604ad065b415b8d306cdd9dda8f2b1"
+        }
+      ],
+      "verifiedBindingPins": [
+        {
+          "path": "support://runtime-candidate-build-20261117/build/ffmpeg",
+          "bytes": 46175848,
+          "sha256": "ae5b2e8b48ad0e9b51b89ebab000ebcfc0b76a09b8cb80c88e18fddcc5d9e8ba"
+        },
+        {
+          "path": "support://runtime-candidate-build-20261117/build/ffprobe",
+          "bytes": 45962728,
+          "sha256": "923dab8640da8804c445418b6e2efe4b395665bdb9d4cfc84f6a244ed0fb156b"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libm.so.6",
+          "bytes": 977112,
+          "sha256": "6d567d53e895273ca14a1f9dc164fc6c8d39aed2f60aa46a733c2784228915f3"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libdav1d.so.7.0.0",
+          "bytes": 1746880,
+          "sha256": "1d7a4182344230d5f4cf9f58bf4485da2801c411e9c9fd6d8471460c75ae8fbf"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libSvtAv1Enc.so.2.3.0",
+          "bytes": 7984736,
+          "sha256": "48713dd9caf08909462bad0274cc9d9b249ccf836a9be72fd731f8d8096c4d35"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libgcc_s.so.1",
+          "bytes": 182856,
+          "sha256": "30c61ab012a4241bed033725a09b61f5fdd3bb7df95ee852d0b096520524c7af"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.33",
+          "bytes": 2497768,
+          "sha256": "972bb2a18b71140dab0240f8a1f68ab3fb1d56bcd4c4f824a91b70888faf5a00"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "bytes": 1995216,
+          "sha256": "9792e3cbb541c8f44c7acf5f14f4022ea62998ecc787d326bed4d8b6547dfd92"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+          "bytes": 225672,
+          "sha256": "c8438e4fde1934e61c88311633f00949ff645d5c04cdb8671fa3d78164d2f307"
+        },
+        {
+          "path": "support://ordinary-default035-successor-preparation-20261118/owned-proof/output/source_H265-CPU.mkv",
+          "bytes": 6691931,
+          "sha256": "1a1fe52781537a565b8b165b131b53656b0ec2fd76765a5e359f1ddc01728cab"
+        },
+        {
+          "path": "support://ordinary-default035-successor-preparation-20261118/owned-proof/input/source.mp4",
+          "bytes": 5578679,
+          "sha256": "bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97"
+        },
+        {
+          "path": "support://ordinary035-audio-diagnostic-preparation/owned-diagnostic/source-pcm.pcm",
+          "bytes": 3072000,
+          "sha256": "4e371b8a5047a76fcc336a9f247e2f3c30407403df525abd6949b3af1896afc8"
+        },
+        {
+          "path": "support://ordinary035-audio-diagnostic-preparation/owned-diagnostic/source-frames.json",
+          "bytes": 232374,
+          "sha256": "0ed9acebf99f046a0ca1e02e8c343fed263f27179be56084d0bab9421d2a3d57"
+        },
+        {
+          "path": "support://ordinary035-audio-diagnostic-preparation/owned-diagnostic/source-packets.json",
+          "bytes": 177857,
+          "sha256": "d5117252c72ae58cf694b7e5211a77358223ec016b88e1f378b2f3b7867d7770"
+        },
+        {
+          "path": "support://ordinary035-aac-investigation/SAME_INPUT_902_SAVED_COMPARISON.json",
+          "bytes": 8915,
+          "sha256": "4ebb6811fed9eb2b68773043c3e93a902504e63582dade3c6e90207f1adc5137"
+        },
+        {
+          "path": "support://ordinary035-aac-investigation/TECHNICAL_OPTIONS_POLICY_HELD.md",
+          "bytes": 6610,
+          "sha256": "0ef43c1b9d94bd60ab841f020c37f29aad11fea0d5d36cf725e22d717280535d"
+        },
+        {
+          "path": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/report.json",
+          "bytes": 207464,
+          "sha256": "5f74a9efb7981fefb242dcf34c82e972bbc269c5a5ea7a92c62a68db1bc34ad9"
+        },
+        {
+          "path": "support://ordinary035-audio-diagnostic-preparation/REPORT.json",
+          "bytes": 13564,
+          "sha256": "f9e8adf4d17bdde0224228919b02da86dfc693ae47631a736edba8dd95d87a03"
+        },
+        {
+          "path": "support://ordinary035-audio-diagnostic-preparation/INDEPENDENT_DIAGNOSTIC_AUDIT.json",
+          "bytes": 8982,
+          "sha256": "a44f06ec2d10839cc6cbee58f1ae5e48268388dc408ce2374a53e65fbb65ac36"
+        },
+        {
+          "path": "support://ordinary035-audio-timestamp-experiment-preparation/REPORT.json",
+          "bytes": 20593,
+          "sha256": "77c4ed71fa26f6793117471df95efadbc74d73988bdcbfaaa93345c0180b5965"
+        },
+        {
+          "path": "support://ordinary035-audio-timestamp-experiment-preparation/INDEPENDENT_EXPERIMENT_AUDIT.json",
+          "bytes": 10101,
+          "sha256": "bd0dc31d6c31909f7cd5d4a543019b226a7344b12c78f2a5974dc7524ed867c5"
+        },
+        {
+          "path": "support://ordinary-default035-successor-preparation-20261118/REPORT.json",
+          "bytes": 96982,
+          "sha256": "fab4e8f3125382360a4efc42a9e27adf64d2ee9c74fa698b58e4ca45bdda56a3"
+        },
+        {
+          "path": "support://ordinary-default035-successor-preparation-20261118/INDEPENDENT_SAVED_OUTPUT_AUDIT.json",
+          "bytes": 28801,
+          "sha256": "7fe86ab4e950a6376442037def4166a48d85f7cb1961ae9f8c95bd06e1a4d5aa"
+        },
+        {
+          "path": "system-reader://REPORT.json",
+          "bytes": 7340,
+          "sha256": "36857d6afe23af437f7e14810ed792aec34c85983dc5adcfb8d53b711b6a0845"
+        },
+        {
+          "path": "system-reader://INDEPENDENT_DIAGNOSTIC_AUDIT.json",
+          "bytes": 9252,
+          "sha256": "df0725b1ca930056cd41dd5e6ec05ee18ac2bb232639b46f113657e78d3171fa"
+        },
+        {
+          "path": "system-reader://LEAD_RECONCILIATION.json",
+          "bytes": 1554,
+          "sha256": "d6e2e6326127da9297b6080710b66aafcfa766a569bb633a5a26aa2d897e8315"
+        },
+        {
+          "path": "candidate-reader://INPUT_MANIFEST.json",
+          "bytes": 7513,
+          "sha256": "96058dada18842e1005dabe74258f44bd21f478a42f97f29d193f6f731f9d325"
+        },
+        {
+          "path": "candidate-reader://PLAN.md",
+          "bytes": 3551,
+          "sha256": "1457ba9a69ab5a63cb9a37da6ca981560006a695154b38d799acb1d2f1321fa9"
+        },
+        {
+          "path": "candidate-reader://INDEPENDENT_PREPARATION_REVIEW-v2.json",
+          "bytes": 5191,
+          "sha256": "0736f809e4425cdd93628d05b618bd9464d7f27e39674e281e8ea1d83fecdf6c"
+        },
+        {
+          "path": "candidate-reader://HANDOFF-v2.json",
+          "bytes": 2241,
+          "sha256": "665c564530512dc70bedea2f47f935fcab4f6c32154384edb734513c07b12407"
+        },
+        {
+          "path": "support://github-checkpoint036-verification.json",
+          "bytes": 3508,
+          "sha256": "5b0fa88eac97a14241d88baa724aa17d8e3cdc4a552cc925c5049b48fe8a5cdb"
+        },
+        {
+          "path": "support://notion-checkpoint-036-verification.json",
+          "bytes": 110897,
+          "sha256": "fd73175bbe3dcea710cf22189b81d183af11db3835ed0849d65b9baefe71c0f7"
+        },
+        {
+          "path": "support://bind-opposite-reader036.py",
+          "bytes": 5906,
+          "sha256": "79345dd193ccf8a007711c8f8f9c855c3a4c8b6131d532d2647631b7b7e88849"
+        }
+      ],
+      "ownedArtifacts": [
+        {
+          "path": "candidate-reader://owned-diagnostic/output-metadata-receipt.json",
+          "bytes": 1249,
+          "sha256": "fe0bb278973d5ca32359ca79d810dd37172a090f27ba7239617dcbeed8171863"
+        },
+        {
+          "path": "candidate-reader://owned-diagnostic/output-metadata.json",
+          "bytes": 425823,
+          "sha256": "04c4745d2069b2a506e7f91fbd5ed9f6de0dedf14d045a0f4b05dbb497c93df8"
+        },
+        {
+          "path": "candidate-reader://owned-diagnostic/output-metadata.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "candidate-reader://owned-diagnostic/output-pcm-receipt.json",
+          "bytes": 1307,
+          "sha256": "95b8584c735c9739b6b163c33e5ce2de03a8afe4cc1de43325a7f60b52806789"
+        },
+        {
+          "path": "candidate-reader://owned-diagnostic/output-pcm.pcm",
+          "bytes": 3080192,
+          "sha256": "88411c8bf2cae4370133baee3756f6fb59612499feb3e3eefcbbe3fa66d9367e"
+        },
+        {
+          "path": "candidate-reader://owned-diagnostic/output-pcm.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "candidate-reader://owned-diagnostic/source-pcm-receipt.json",
+          "bytes": 1297,
+          "sha256": "71a70a82c02dfbb60c3163cb98c352a48791cbb3e8a451a179447f9ef3dc9812"
+        },
+        {
+          "path": "candidate-reader://owned-diagnostic/source-pcm.pcm",
+          "bytes": 3072000,
+          "sha256": "200ca1c2a6804c139d5d7637caf507b686b30f7dfdf4b5c11ca629855e82a9a4"
+        },
+        {
+          "path": "candidate-reader://owned-diagnostic/source-pcm.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "priorExplicitArtifactRowsRehashed": [
+        {
+          "path": "system-reader://owned-diagnostic/output-metadata.json",
+          "bytes": 425582,
+          "sha256": "c2bc68e7c2f29e5204dbfca35b083e9691cf2d9b765d6e6e146856192375147c"
+        },
+        {
+          "path": "system-reader://owned-diagnostic/output-metadata.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "system-reader://owned-diagnostic/output-pcm.pcm",
+          "bytes": 3080192,
+          "sha256": "e17a02104232c0eb569306391f2fc6868f352a27c7cc635d59edc3188038bf9b"
+        },
+        {
+          "path": "system-reader://owned-diagnostic/output-pcm.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/short-mp4/source.mp4",
+          "bytes": 5578679,
+          "sha256": "bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97"
+        },
+        {
+          "path": "support://ordinary-default035-successor-preparation-20261118/owned-proof/output/source_H265-CPU.mkv",
+          "bytes": 6691931,
+          "sha256": "1a1fe52781537a565b8b165b131b53656b0ec2fd76765a5e359f1ddc01728cab"
+        },
+        {
+          "path": "support://ordinary035-audio-diagnostic-preparation/owned-diagnostic/source-packets.json",
+          "bytes": 177857,
+          "sha256": "d5117252c72ae58cf694b7e5211a77358223ec016b88e1f378b2f3b7867d7770"
+        },
+        {
+          "path": "support://ordinary035-audio-diagnostic-preparation/owned-diagnostic/source-packets.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "support://ordinary035-audio-diagnostic-preparation/owned-diagnostic/source-frames.json",
+          "bytes": 232374,
+          "sha256": "0ed9acebf99f046a0ca1e02e8c343fed263f27179be56084d0bab9421d2a3d57"
+        },
+        {
+          "path": "support://ordinary035-audio-diagnostic-preparation/owned-diagnostic/source-frames.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "support://ordinary035-audio-diagnostic-preparation/owned-diagnostic/source-pcm.pcm",
+          "bytes": 3072000,
+          "sha256": "4e371b8a5047a76fcc336a9f247e2f3c30407403df525abd6949b3af1896afc8"
+        },
+        {
+          "path": "support://ordinary035-audio-diagnostic-preparation/owned-diagnostic/source-pcm.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "support://ordinary035-audio-diagnostic-preparation/owned-diagnostic/output-packets.json",
+          "bytes": 175218,
+          "sha256": "88284144a6912d35f91d37720ffff3065edea9022ccaea1e7ad7b6a594e50468"
+        },
+        {
+          "path": "support://ordinary035-audio-diagnostic-preparation/owned-diagnostic/output-packets.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "support://ordinary035-audio-diagnostic-preparation/owned-diagnostic/output-frames.json",
+          "bytes": 229954,
+          "sha256": "551a2760789ef50b33fab007d168134ba15bfcbe34bc7bd288e7ca1ef2f97adc"
+        },
+        {
+          "path": "support://ordinary035-audio-diagnostic-preparation/owned-diagnostic/output-frames.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "support://ordinary035-audio-diagnostic-preparation/owned-diagnostic/output-pcm.pcm",
+          "bytes": 3080192,
+          "sha256": "e17a02104232c0eb569306391f2fc6868f352a27c7cc635d59edc3188038bf9b"
+        },
+        {
+          "path": "support://ordinary035-audio-diagnostic-preparation/owned-diagnostic/output-pcm.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "actualExecution": {
+        "outer": {
+          "startedAtUtc": "2026-11-18T06:34:09.788041+00:00",
+          "completedAtUtc": "2026-11-18T06:34:10.998238+00:00",
+          "elapsedSeconds": 1.2102069090033183,
+          "returncode": 0,
+          "command": [
+            "python3",
+            "diagnose.py"
+          ],
+          "cwd": "candidate-reader://",
+          "bindingSha256": "7eb225ec0971e6b28229bf05ef51730afec8a78cc947d598162ed198d6a6e2da"
+        },
+        "children": 3,
+        "closed": 3,
+        "exitZero": 3,
+        "emptyStderr": 3,
+        "retainedLivePid": null,
+        "serialIntervalsVerified": true,
+        "reportElapsedSeconds": 0.9196859530056827,
+        "freeBytesAfter": 57303543808,
+        "caps": "All saved stdout below16MiB; stderr empty; each child below60s and total below180s. Point storage check above27GiB, not continuous quota."
+      },
+      "metadata": {
+        "packets": 376,
+        "frames": 376,
+        "samples": 385024,
+        "initial_padding": 0,
+        "packetSideData": [],
+        "firstPacketPts": 0,
+        "firstFramePts": 0,
+        "stream": {
+          "index": 1,
+          "codec_name": "aac",
+          "codec_long_name": "AAC (Advanced Audio Coding)",
+          "profile": "LC",
+          "codec_type": "audio",
+          "codec_tag_string": "[0][0][0][0]",
+          "codec_tag": "0x0000",
+          "mime_codec_string": "mp4a.40.2",
+          "sample_fmt": "fltp",
+          "sample_rate": "48000",
+          "channels": 2,
+          "channel_layout": "stereo",
+          "bits_per_sample": 0,
+          "initial_padding": 0,
+          "r_frame_rate": "0/0",
+          "avg_frame_rate": "0/0",
+          "time_base": "1/1000",
+          "start_pts": 0,
+          "start_time": "0.000000",
+          "nb_read_frames": "376",
+          "nb_read_packets": "376",
+          "extradata_size": 5,
+          "extradata_hash": "SHA256:b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+          "disposition": {
+            "default": 1,
+            "dub": 0,
+            "original": 0,
+            "comment": 0,
+            "lyrics": 0,
+            "karaoke": 0,
+            "forced": 0,
+            "hearing_impaired": 0,
+            "visual_impaired": 0,
+            "clean_effects": 0,
+            "attached_pic": 0,
+            "timed_thumbnails": 0,
+            "non_diegetic": 0,
+            "captions": 0,
+            "descriptions": 0,
+            "metadata": 0,
+            "dependent": 0,
+            "still_image": 0,
+            "multilayer": 0
+          },
+          "tags": {
+            "HANDLER_NAME": "SoundHandler",
+            "VENDOR_ID": "[0][0][0][0]",
+            "DURATION": "00:00:08.021000000"
+          }
+        },
+        "ordered376PayloadHashesAndSizesMatchPriorSystemOrdinaryOutput": true,
+        "extradataHashMatches": true
+      },
+      "pcm": {
+        "candidateSource": {
+          "path": "candidate-reader://owned-diagnostic/source-pcm.pcm",
+          "bytes": 3072000,
+          "sha256": "200ca1c2a6804c139d5d7637caf507b686b30f7dfdf4b5c11ca629855e82a9a4"
+        },
+        "candidateOutput": {
+          "path": "candidate-reader://owned-diagnostic/output-pcm.pcm",
+          "bytes": 3080192,
+          "sha256": "88411c8bf2cae4370133baee3756f6fb59612499feb3e3eefcbbe3fa66d9367e"
+        },
+        "sourceSamples": 384000,
+        "outputSamples": 385024,
+        "wholeEqual": false,
+        "completeSourceEqualsOutputAfter1024SamplePrefix": true,
+        "suffixSamples": 0,
+        "prefixSha256": "15226cb63d39d5a5a0596f1411045d5515b7ea5c1a6761f1ef70de19adddf2d6",
+        "allReportAlignmentHashesRecomputed": true
+      },
+      "sameSourceCrossDecoderControl": {
+        "floatValues": 768000,
+        "allFinite": true,
+        "unequalValues": 368543,
+        "maxAbsoluteDifference": 3.725290298461914e-08,
+        "rmsDifference": 5.3510167115214064e-09
+      },
+      "interpretation": [
+        "Candidate9.0.2 also exposes1024 extra decoded sample instants on this exact ordinary output; all original same-decoder source PCM bytes occur unchanged after that prefix. Whole PCM is unequal.",
+        "Candidate versus system decoding of the unchanged original source has equal sample count but different float bytes; these differences alone are not lost audio or cross-version PCM identity. Numerical differences are not audibility measurements.",
+        "Combined with earlier system-reader/saved-candidate-output result, writer-only causation remains unsupported. Reader/container interpretation matters, but no exact upstream code cause is isolated."
+      ],
+      "provenance": [
+        "Audit read and hashed saved files only; no FFmpeg/ffprobe, decoder, GUI or player rerun. PCM/metadata were generated by the recorded three children.",
+        "First schema-key assertion failure is retained as a pre-binding-write correction; recorded correction precedes actual binding and single attempt. No helper or runtime scope changed.",
+        "Prior explicit report artifact identities and all bound prior evidence pins rehashed unchanged; no claim about arbitrary unlisted files."
+      ],
+      "limits": [
+        "No new A/V timing, player, subjective audibility, Windows, general fidelity or audio-policy decision.",
+        "Explicit seven dependency/soname checks are not exhaustive ELF closure or immutable execution lock.",
+        "Successful closure/captures are observed here; bounded termination logic does not guarantee process exit on all failures.",
+        "Source freeze release remains lead-owned; this reviewer releases only its audit writer."
+      ]
+    },
+    "08_LEAD_RECONCILIATION": {
+      "recordedAtUtc": "2026-11-18T06:38:06.365322+00:00",
+      "sourceCommit": "10d2c65d71f35d8b0146a43280516fb2d069b70d",
+      "report": {
+        "bytes": 12093,
+        "sha256": "6d4fc03d3e0ef1a5b3ad2a469db3289c5639cdc5b533c8ed2b9cde7246e3fb98"
+      },
+      "independentAudit": {
+        "bytes": 25080,
+        "sha256": "82228c5a04233f38ccc4e499ca4844497c952af63976aacec771fbe71233d351"
+      },
+      "disposition": "Accept scoped opposite-reader interpretation evidence; no preservation qualification or audio policy selection",
+      "outcome": "Candidate 9.0.2 also decodes the preserved ordinary output with initial_padding=0, no packet skip and 385024 sample instants. Same-decoder original source has384000 and equals the complete output suffix after1024 samples. Cross-decoder original-source float bytes differ despite equal counts, so within-decoder identity and cross-decoder numerical differences are separate.",
+      "closures": {
+        "children": 3,
+        "closed": 3,
+        "exitZero": 3,
+        "emptyStderr": 3,
+        "retainedLivePid": null
+      },
+      "sourceControl": {
+        "floatValues": 768000,
+        "allFinite": true,
+        "unequalValues": 368543,
+        "maxAbsoluteDifference": 3.725290298461914e-08,
+        "rmsDifference": 5.3510167115214064e-09
+      },
+      "limits": [
+        "No new compressed media encode, mux, video decode, runtime upgrade or production/guard/default/policy change.",
+        "No claim of player/audibility/lip-sync/general fidelity or exact installed-Debian binary cause. Upstream source inspection is supporting mechanism evidence only.",
+        "Original prior source/media/evidence remain unchanged; all621 current source files verified by independent audit."
+      ],
+      "sourceRelease": "Release only checkpoint037 evidence/PBS assembly and preservation. No additional runtime attempt, audio-policy integration or app change is granted by this record. Separately assigned ordinary cancellation reliability work remains isolated and unintegrated."
+    }
+  }
+}

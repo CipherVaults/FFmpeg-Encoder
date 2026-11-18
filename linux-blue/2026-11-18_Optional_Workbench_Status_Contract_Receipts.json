@@ -1,0 +1,167 @@
+{
+  "schema": "ffmpeg-curated-checkpoint-receipts-v1",
+  "checkpoint": "041",
+  "status": "Prepared checkpoint041; preservation pending;040 complete",
+  "sourceIntegration": {
+    "integratedAtUtc": "2026-11-18T08:15:23.657304+00:00",
+    "baseLocalCommit": "d8812dcd5b84e3562d0c35a707615df69733d604",
+    "reviewedSourceBase": "0303cba1981b5700158b1a0ec249b509f30f5bc2",
+    "priorSourceFiles": 638,
+    "integratedFiles": [
+      {
+        "path": "src/ipc.cjs",
+        "bytes": 8998,
+        "sha256": "278cf0cc43278cf549709f259b557805169fcb2b5f327d94e215ad6e66a9a7fd",
+        "beforeSha256": "fa33ea85dcbb39ed6da019fed880a6fc6ffb516fb45f3322f3c20541b09db043"
+      },
+      {
+        "path": "tests/workbench-default-status.test.cjs",
+        "bytes": 4238,
+        "sha256": "efbb267542f66b729a3a7405d30b055d93b2c6d87f0656360a84edc5a70f21d4",
+        "beforeSha256": null
+      }
+    ],
+    "unchangedExistingFiles": 637,
+    "expectedFilesBeforePBS": 639,
+    "mirrorSourceAndBundleVerifiedBeforeIntegration": true,
+    "mirrorFullNativeAndGitHubAtIntegration": "Still pending for040; no new runtime action. Immutable040 source/history already restored.",
+    "reviewSha256": "015c7ccfbac30bb3ba4416da8eae04b0defa5ab6b230f34db1e83e26d8e46512",
+    "patchSha256": "2e198d0a8dd3b5e5e0f952be20d209f718c9ad2054c85bc13bdb0e60c674f121",
+    "limits": [
+      "Shared IPC source plus one new test only; no renderer/preload/main/runtime/default/pin/permission change.",
+      "Read-only disabled status preserves trust/arity/admission/drain/retirement and leaves select opt-in; not a picker-cancellation fix.",
+      "New source has no native/Windows qualification. Original039 actual service/native evidence remains separately attributed."
+    ]
+  },
+  "leadTests": {
+    "completedAtUtc": "2026-11-18T08:16:21.324755+00:00",
+    "baseLocalCommit": "d8812dcd5b84e3562d0c35a707615df69733d604",
+    "testedIntegratedSource": true,
+    "nativeOrMediaQualification": false,
+    "checkedSourceFiles": 639,
+    "sourceBytesUnchanged": true,
+    "overlappingScopesNotSummed": true,
+    "runs": [
+      {
+        "path": "checkpoint041-lead-tests/focused.json",
+        "bytes": 3736,
+        "sha256": "ac4fa23fa2c8595bd97d889655998290288a993da0d6ce081743167d8639f84e",
+        "summary": {
+          "tests": 177,
+          "suites": 0,
+          "pass": 177,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      },
+      {
+        "path": "checkpoint041-lead-tests/protection.json",
+        "bytes": 3133,
+        "sha256": "bb834bcb7bbc73a1bbd303695a35717eca5dc5a9c7c9170082a52092476ad933",
+        "summary": {
+          "tests": 229,
+          "suites": 0,
+          "pass": 229,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      },
+      {
+        "path": "checkpoint041-lead-tests/linux-broad.json",
+        "bytes": 10798,
+        "sha256": "235ec8f48d74c15bedb01bfdf20c26a7eec0cdcd242eec0a60e54888fa03e6ec",
+        "summary": {
+          "tests": 321,
+          "suites": 0,
+          "pass": 321,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "checkpoint041-source-integration.json",
+      "bytes": 1517,
+      "sha256": "3cd0228d069e948bfcb22bda1bf3d4f03ccbe17b04e5f1d91148e258b7460984"
+    },
+    {
+      "path": "checkpoint041-lead-test-results.json",
+      "bytes": 1424,
+      "sha256": "e33c58d9ae7c8167420fb8c1e7cc06ab4537bb3b15e5ab007977186db4d0fe80"
+    },
+    {
+      "path": "default-status-sourcework-evidence/HANDOFF-v1.json",
+      "bytes": 1481,
+      "sha256": "0458e734032316dd303fb05d912fde58233a92a4f765d066a6763b5c17bbcff0"
+    },
+    {
+      "path": "default-status-sourcework-evidence/INDEPENDENT_REVIEW-v1.json",
+      "bytes": 4210,
+      "sha256": "015c7ccfbac30bb3ba4416da8eae04b0defa5ab6b230f34db1e83e26d8e46512"
+    },
+    {
+      "path": "default-status-sourcework-evidence/default-status-v1.patch",
+      "bytes": 5377,
+      "sha256": "2e198d0a8dd3b5e5e0f952be20d209f718c9ad2054c85bc13bdb0e60c674f121"
+    },
+    {
+      "path": "ordinary-native041-known-profile-preparation/INDEPENDENT_PREPARATION_REVIEW.json",
+      "bytes": 4359,
+      "sha256": "dcf4bd48f5a66a3f99a52100509ebed096c511b95714f82d0bec98507b7211d1"
+    },
+    {
+      "path": "checkpoint041-lead-tests/focused.json",
+      "bytes": 3736,
+      "sha256": "ac4fa23fa2c8595bd97d889655998290288a993da0d6ce081743167d8639f84e"
+    },
+    {
+      "path": "checkpoint041-lead-tests/protection.json",
+      "bytes": 3133,
+      "sha256": "bb834bcb7bbc73a1bbd303695a35717eca5dc5a9c7c9170082a52092476ad933"
+    },
+    {
+      "path": "checkpoint041-lead-tests/linux-broad.json",
+      "bytes": 10798,
+      "sha256": "235ec8f48d74c15bedb01bfdf20c26a7eec0cdcd242eec0a60e54888fa03e6ec"
+    },
+    {
+      "path": "checkpoint041-cutoff.json",
+      "bytes": 540,
+      "sha256": "543e6c5b826caaa8dde01a95f151ee4c83633643a13e21bccf356cbefff4b043"
+    },
+    {
+      "path": "notion-checkpoint-040-verification.json",
+      "bytes": 114964,
+      "sha256": "d226cfc854c2a4020a3b88357d7a3e7c7b95021a4aeccd8303751d81e3234f6b"
+    },
+    {
+      "path": "checkpoint-d8812dc-publication-receipt.json",
+      "bytes": 172223,
+      "sha256": "377ad0075ff2dd158da67c1091ee5fe2c2fa01eb22492082384de6e12a01d2c5"
+    }
+  ],
+  "expectedCheckpoint": {
+    "changedPaths": 6,
+    "files": 641,
+    "commits": 41
+  },
+  "limits": [
+    "Two source/test paths only; no native/media/default/pin/policy change.",
+    "Shared Windows IPC untested natively; synthetic Electron/VM preload is not native proof.",
+    "Status repair does not establish picker cancellation cause.",
+    "Author317 excludes new shared test; independent75 and final177/229/321 overlap and are not summed.",
+    "040 final mirror mapping verified after integration and released before fixed041 cutoff; no runtime/gate at cutoff."
+  ],
+  "cutoffUtc": "2026-11-18T08:21:10.119189+00:00"
+}

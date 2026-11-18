@@ -1,3 +1,184 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Repair optional workbench status without granting selection authority
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role | Attribution | Work and evidence limit |
+|---|---|---|
+| Engineering lead | GPT-6 Astra / Ultra, recorded assignment, not backend attestation | Integrated the exact two-path repair after prior source/history restoration, ran final source tests and fixed this record's cutoff. |
+| Source author / independent reviewer | Model and effort not independently established here | Reproduced the missing-handler contract, retained baseline red controls and reviewed real IPC/VM-preload behavior through synthetic Electron fixtures. |
+| Native preparation / preservation / records | Model and effort not independently established here | Prepared an unbound known-profile journey and completed prior preservation. No new media, native launch or picker-cause result. |
+
+**Record basis:** Non-switching routes now answer the existing read-only `encoder:workbench-session` request with a fresh `{ enabled: false }` result. Selection remains opt-in and existing trust/lifecycle checks remain in force. This repairs a reproduced missing-handler contract, **not the unexplained native picker cancellation**. Final integrated tests pass **177/177 focused, 229/229 protection and 321/321 explicit Linux plus the new shared test**, with unchanged source bytes during testing. These are overlapping selections, not a sum or package-wide `npm test`. No native/Windows/media/default/audio-policy qualification is added.
+
+## 🕒 Time
+
+**Stage / type / focus:** Narrow current-product reliability repair and source-only regression coverage.
+
+**Date and clock:** November 18, 2026; Africa/Cairo UTC+02:00. Fixed cutoff **10:21:10.119189 Cairo / 08:21:10.119189 UTC**. The following times are UTC; active effort was not measured.
+
+- Prior 040 cutoff remains **08:00:56.971778**; no later result is inserted into that history.
+- Source handoff: **08:01:59.943506**; independent source review: **08:03:47.977039**.
+- Known-profile preparation review: **08:08:47.684984**, eight pure tests, unbound/no launch.
+- Actual integration: **08:15:23.657304**, after 040 source/history restoration but before its later full native PBS and GitHub mapping.
+- Lead focused run **08:16:11.358759–08:16:12.541315**; protection **08:16:12.581514–08:16:19.200910**; expanded Linux selection **08:16:19.239800–08:16:21.284497**. Final receipt: **08:16:21.324755**.
+- 040 GitHub verification: **08:19:27.356580**. Its independent final mirror mapping was complete and released by this cutoff.
+- **Fixed cutoff: 2026-11-18T08:21:10.119189+00:00.** Later binding/native facts are excluded.
+
+**End / stopping point:** Two reviewed paths are integrated and source tests complete; 040 preservation is fully verified. A future native investigation is prepared but has no bound gate or runtime at this cutoff.
+
+**Reason for this summary:** Preserve a real, small contract repair with exact test attribution, without presenting unrelated picker behavior or inherited runtime evidence as newly fixed.
+
+## 🎯 Session Goal
+
+Address the actionable missing status-handler diagnostic discovered in the stopped ordinary native journey. Keep the shared renderer/preload contract reliable on non-switching routes without exposing session selection or changing runtime policy. Follow Ahmed's current-product reliability priority: fix demonstrated problems proportionately, preserve uncertainty where cause is not known, and avoid unnecessary feature expansion or historical reconstruction.
+
+## 🛠️ Actions Taken
+
+### 1. Reproduce and isolate the contract failure
+
+The prior ordinary native stderr contained a missing `encoder:workbench-session` handler. Shared renderer/preload probes optional status on every route; previously IPC registered that request only when a workbench-session controller was supplied. The new test ran unchanged actual preload in a VM with a synthetic Electron adapter and real `registerIpc` dispatch. Against exact baseline IPC it produced **one pass / three expected failures**, while the opt-in control passed. Independent review reproduced the same baseline control in a disposable directory.
+
+The native picker `REQUESTED → CANCELLED` result remains separate. Nothing in the baseline red or repair establishes why Electron returned `canceled === true`, proves a human cancellation, or demonstrates a registration defect.
+
+### 2. Make the smallest shared IPC change
+
+Only these source/test paths change:
+
+- `src/ipc.cjs`: **8,998 bytes**, SHA-256 `278cf0cc43278cf549709f259b557805169fcb2b5f327d94e215ad6e66a9a7fd`.
+- New `tests/workbench-default-status.test.cjs`: **4,238 bytes**, SHA-256 `efbb267542f66b729a3a7405d30b055d93b2c6d87f0656360a84edc5a70f21d4`.
+
+The status method is always registered through the existing request envelope. With no controller it returns a **new disabled object on every call**, so a caller cannot mutate a shared response into enabled state. With an opted-in controller, original status dispatch remains. `encoder:select-workbench-session` is still registered only for opt-in controllers, and blocked owners still permit status rather than selection.
+
+Registered-window, sender, main-frame, URL, argument-count, admission and retirement checks precede dispatch. Tests retain trusted rejection diagnostics in the in-flight count until settlement, verify drain remains pending while that work is held, reject new work after admission closes, and refuse captured callbacks after retirement. No new filesystem, runtime, configuration or permission authority is granted.
+
+Renderer, preload, main, picker implementation, runtime choice, pins, theme and defaults are unchanged. IPC is shared with Windows, so this is **not Linux-only source impact**, even though Windows/native execution was not performed. The exact patch is **5,377 bytes / `2e198d0a8dd3b5e5e0f952be20d209f718c9ad2054c85bc13bdb0e60c674f121`**; independent review is **4,210 bytes / `015c7ccfbac30bb3ba4416da8eae04b0defa5ab6b230f34db1e83e26d8e46512`**.
+
+### 3. Preserve red controls and distinguish actual test selections
+
+Author focused checks passed **49/49**, including the new four tests, IPC, session, quit and ordinary-route coverage. The author's **317/317 explicit Linux** selection did **not** include the new `tests/` file. Independent review passed **75/75** across the new file, IPC, main lifecycle, quit and session selections; it did not claim to rerun the author's full 317 selection. These scopes overlap and are not additive.
+
+The reviewer first attempted Git inventory in a non-Git isolated source copy. That stopped before testing or writing the review, then was corrected to the exact authoritative immutable Git base. This setup error is retained, not classified as a failed application test.
+
+After independent review, the lead integrated the two exact paths on 040 local `d8812dcd5b84e3562d0c35a707615df69733d604`. The proposal was reviewed against 039's relevant source; 040 had added evidence only. Of **638 existing paths, 637 remained unchanged**, and the new test brought the checked set to **639 files** before this checkpoint's records. Source/history restoration preceded integration; no runtime ran while later publication was finishing.
+
+Final lead tests on Node **24.22.1**:
+
+| Selection | Result | Interpretation |
+|---|---|---|
+| Focused route/IPC/preload/UI/lifecycle, explicitly including the new test | **177/177** | Current integrated source, synthetic/file test coverage |
+| Source/output/process protection | **229/229** | Separate protection regression selection |
+| Explicit Linux selection **plus** `tests/workbench-default-status.test.cjs` | **321/321** | Four new shared tests deliberately added to the earlier 317 selection |
+
+All runs exited zero, with zero failures, skips or cancellations. **All 639 checked source files remained byte-identical through testing.** Results are **1,424 bytes / `e33c58d9ae7c8167420fb8c1e7cc06ab4537bb3b15e5ab007977186db4d0fe80`**; exact commands, tested-file hashes and logs are retained in the three run receipts. This is not package-wide `npm test`, real Electron IPC, media execution, or native/Windows qualification.
+
+### 4. Finish prior preservation without reversing the actual order
+
+040 is local `d8812dcd5b84e3562d0c35a707615df69733d604`, tree `f10b517f1858f97e2e556443505edeef095a7ea9`, **638 files / 40 commits**. [Notion source and complete history](https://app.notion.com/p/41cbd7ade63b813e909dd5a7e9975060) were restored before integration. [The full readable Session](https://app.notion.com/p/41cbd7ade63b811f9633d64049943ff0) returned all 40 entries and the historical ending in eight ordered requests. Its **1,855,413-byte** archive identity, SHA `8bb7fd68f3f0790225946ee0a39048c196004063a8d948a8ae45772c445cf5a8`, is preserved exactly below this entry. The large service portable was also read back in nine complete segments; exact archives remain the byte authority.
+
+Later GitHub verification confirmed remote `efd3f759969eb1a21a0c995f008314cf49f7f105`, sole parent `d9c0ac4c6d67d5701ab968137acabf9327dce342`, tree `879c13993439ecc3ac52e294ce0fc87cde545c1b`. Six exact paths and fresh ref passed after the non-force expected-parent update: **1,020 total / 1,014 unchanged / two modified / four new / zero deleted**. Full Session and service portable used immutable Git blob readback. A mirror readback-schema adaptation stopped read-only before receipt mutation; the corrected shape verified all six files without replaying a remote action.
+
+By this cutoff, the entire 040 cycle was independently complete: final mirror **114,964 bytes / `d226cfc854c2a4020a3b88357d7a3e7c7b95021a4aeccd8303751d81e3234f6b`**, external publication **172,223 bytes / `377ad0075ff2dd158da67c1091ee5fe2c2fa01eb22492082384de6e12a01d2c5`**. Neither prior source restoration nor this new status repair grants runtime authority. The successful service and stopped native results remain attributable to immutable 039, not the new IPC bytes.
+
+### 5. Prepare a known-profile follow-up without launching it
+
+The independently reviewed preparation has **eight pure tests**, conditional approval only and future source constants still unbound. Review **4,359 bytes / `dcf4bd48f5a66a3f99a52100509ebed096c511b95714f82d0bec98507b7211d1`** verifies known directory identity **dev 27 / inode 2361428** and the exact eight prior allowlisted event filenames/bytes/hashes. No opaque profile/cache/token contents were inspected or reset.
+
+The helper must preserve original events and capture only new ones, reject a changed/lost/symlink baseline or unexpected prelaunch event, and permit normal post-launch writes without pretending directory timestamps or the whole profile are immutable. The plan requires the fixture visibly present in the exact folder, a durable registration event and visibly confirmed input before further actions. It does not assume the status fix repairs the picker.
+
+Tests import validation logic and temporary-file fixtures; they do not run subprocess orchestration or native Electron. The inherited SIGTERM-then-unbounded-wait and failure-only receipt limitations remain. Actual future source/preservation binding, independent final review, fresh desktop and exact gate remain required. No gate, launch or successful native result exists at this cutoff.
+
+## 🧠 Key Insights
+
+A shared optional-status API should return an explicit disabled state when the capability is unavailable, rather than fail at transport level. That can be corrected without granting the optional action itself. Real preload plus IPC tests are useful for this contract, while synthetic Electron still limits the claim. Explicit test file lists also matter: green 317 Linux tests never implied coverage of the newly added shared file. Finally, fixing a source-traced diagnostic does not identify the cause of an adjacent UI failure.
+
+## 📌 Decisions Made
+
+**Confirmed:** Integrate the read-only default-status repair. **Decider:** lead after independent review. **Basis:** baseline reproduction, exact two-path scope, preserved authority/lifecycle guards and final current-source tests.
+
+**Confirmed:** Keep selection opt-in, default 7.1.5 rollback, pins and audio policy unchanged. **Decider:** continuing owner direction, maintained by lead. **Basis:** reliability repair needs no runtime promotion, new permission or policy choice.
+
+**Deferred:** Native validation, Windows behavior and picker root cause. **Decider:** lead after separately controlled current-source observations and review. **Basis:** no native/media execution here; prior cancellation remains unexplained.
+
+## ⚠️ Difficulties / Friction
+
+A missing optional handler appeared beside an unresolved picker failure, creating a risk of false causal attribution. Source review also had a correctable non-Git inventory setup error, and the author's Linux test selection omitted the new shared file by design. Final lead selection explicitly included it. Prior preservation continued concurrently: source/history were restored before integration, while full readable pages and remote mapping finished later. Those distinct completion points are preserved rather than flattened into a single “backed up” claim.
+
+## 🔧 Adjustments Made
+
+- **Shifted from:** status registered only when a session controller exists. **To:** always-registered read-only status with a fresh disabled result when absent. **Because:** shared preload probes every route. **Consequence:** missing-handler behavior is repaired without exposing selection.
+- **Shifted from:** the author's 317-test Linux-only selection. **To:** the lead's explicit Linux selection plus the four-test shared status file. **Because:** the new file lives outside `linux-blue/`. **Consequence:** 321/321 directly includes it; earlier counts retain their original scope.
+- **Shifted from:** the prior fresh-profile native plan. **To:** unbound known-profile preparation preserving exact original events. **Because:** the prior attempt created state that should not be deleted to manufacture success. **Consequence:** eight pure preparation checks pass, but no new native outcome is implied.
+
+## ❌ Mistakes / Risks Noted
+
+### Missing-handler repair mistaken for picker repair
+
+**What happened / could happen:** A real optional-status diagnostic is fixed, but it could be presented as the cause of the cancelled folder selection.
+
+**Actual impact:** The contract now passes source tests; prior native registration remains unsuccessful and unexplained.
+
+**Potential impact:** A wrong causal conclusion, weakened picker validation or unearned native acceptance.
+
+**Correction / current status:** Keep the two findings separate and require visible/durable registration evidence in a future controlled attempt.
+
+**Failure Intelligence:** Retain baseline one-pass/three-fail controls, the original native enum events and the explicit no-causal-link limit. No prior failure is erased.
+
+### Test scope and platform coverage overstated
+
+**What happened / could happen:** Author 317 green could be read as including the new test, or synthetic Electron as real native/Windows proof.
+
+**Actual impact:** The original author list excluded the shared file; independent 75 and final 177/229/321 are separate, overlapping scopes. Shared IPC affects Windows without native testing.
+
+**Potential impact:** A regression hidden behind a broad but incomplete headline.
+
+**Correction / current status:** Final Linux command explicitly adds the new file; exact commands/hashes and native limits remain in receipts.
+
+**Failure Intelligence:** Keep selection provenance and the review's corrected read-only inventory setup error. Do not sum tests, relabel them package-wide, or treat a conditional helper review as execution.
+
+## 📍 Current Position
+
+**As of:** **2026-11-18T08:21:10.119189+00:00 / 10:21:10.119189 Cairo.**
+
+**Before this session:** The actual ordinary native attempt on 039 had retained a missing status handler and a separate cancelled picker result; 040 preserved both without a repair.
+
+**After this session:** Two reviewed paths implement and test a default disabled status contract. Current integrated source passes 177/177 focused, 229/229 protection and 321/321 expanded explicit Linux checks. No runtime/native action has occurred on these changed bytes.
+
+**Current standing:** Selection remains opt-in; trust, drainage and retirement remain guarded. Shared Windows IPC is changed but untested natively. Main/renderer/preload/picker/runtime/default/pins/audio policy are unchanged. Prior 040 is fully preserved; 041's own six-path / 641-file / 41-commit preservation is still intended, not completed at this record's cutoff.
+
+**Live owner continuation anchor:** Continue current-product reliability through the smallest justified fix and an evidence-controlled picker investigation. Preserve known state and the 7.1.5 rollback; do not infer root cause, promote 9.0.2 or reopen historical audio policy merely because source tests are green.
+
+## 🔜 Next Steps
+
+1. Preserve this coherent source checkpoint through local Git, verified full Notion source/history/native records, then exact GitHub publication/readback.
+2. Bind and independently review the prepared known-profile investigation against the actual preserved source, with fresh desktop/evidence checks under existing owner authorization. No speculative extra runtime campaign is required to finish these records.
+3. Verify the status response and actual folder registration separately in any later native attempt. Keep Windows/native and broader runtime acceptance claims pending until their own evidence exists.
+
+**Do not reopen / repeat:** Do not rewrite 040, clear the profile, replay consumed gates, remove trust checks, claim the picker fixed, sum overlapping tests, or convert prior 039 media evidence into qualification of the new IPC bytes.
+
+**Continuation boundary:** This checkpoint contains two source/test paths plus four PBS paths only. Later binding, gate, native results or source changes belong to the next dated milestone, not this fixed cutoff.
+
+## ❓ Open Questions
+
+- Does the repaired status contract behave as expected in the actual native session and shared Windows environment? **Needed from:** separately scoped native/platform evidence. **Blocks:** native/Windows qualification, not source preservation.
+- Why did the prior picker return cancellation despite the observed acceptance action? **Needed from:** controlled UI/source observations with durable registration/result evidence. **Blocks:** a picker-cause or end-to-end native success claim.
+- Is the preserved profile/event baseline still exact when the future attempt starts? **Needed from:** fresh reviewed binding and point checks. **Blocks:** launching that attempt; opaque profile integrity is not assumed.
+
+## 🧾 Session Outcome
+
+A small real reliability defect is repaired: non-switching routes now answer optional status safely, while selection and existing safeguards remain unchanged. Baseline reds and final source tests establish the contract; no picker-cause, native, Windows, media or default-promotion claim is added.
+
+See [execution](2026-11-18_Optional_Workbench_Status_Contract.md), [receipts](2026-11-18_Optional_Workbench_Status_Contract_Receipts.json) and [current state](CURRENT_STATE.md). All **1,855,413 predecessor bytes** and the original Session Structure Correction receipt remain exact. This new checkpoint's commit/mirror/push remain pending at the dated cutoff.
+
+## 🔍 Confidence Level
+
+**High for the narrow source contract and test attribution; limited for native/platform behavior and picker cause.**
+
+**Why:** Exact baseline reproduction, independent source review, genuine IPC registration/drainage with actual VM-loaded preload, stable integrated bytes and explicit final test commands support the repair. Prior preservation and integration chronology are independently recorded.
+
+**Not higher because:** Electron is synthetic in these tests, Windows is not executed, the native follow-up is unbound, and the picker cause is still unknown. The inherited supervisor also retains unbounded termination-wait limits. No claim extends beyond the tested source behavior.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Qualify remaining ordinary candidate service paths and preserve a stopped native picker journey
 
 ## 🤖 Models, Effort, Roles and Provenance

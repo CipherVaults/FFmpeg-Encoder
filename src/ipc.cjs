@@ -45,6 +45,8 @@ function registerIpc({ ipcMain, window, service, appearance, dialog, entryUrl, w
     } finally { pickingFolder = false; }
   };
   const methods = {
+    // Shared preload probes status on every route; only opt-in main grants selection.
+    'encoder:workbench-session': [0, () => workbenchSession ? workbenchSession.status() : ({ enabled: false })],
     'encoder:capabilities': [0, () => service.getCapabilities()],
     'encoder:native-state': [0, () => service.getNativeBackendState()],
     'encoder:native-refresh': [0, () => service.refreshNativeBackends()],
@@ -84,7 +86,6 @@ function registerIpc({ ipcMain, window, service, appearance, dialog, entryUrl, w
     'encoder:diagnostic-export-preview': [1, request => service.getDiagnosticExport(request)],
   };
   if (workbenchSession) {
-    methods['encoder:workbench-session'] = [0, () => workbenchSession.status()];
     methods['encoder:select-workbench-session'] = [1, kind => {
       if (inFlight > 1 || pickingFolder) throw Object.assign(new Error('Wait for active requests.'), { code: 'BUSY' });
       return workbenchSession.select(kind);

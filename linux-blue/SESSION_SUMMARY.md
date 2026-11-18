@@ -1,3 +1,177 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Current Full-copy service proved after correcting stale helper templates
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role | Attribution | Work and evidence limit |
+|---|---|---|
+| Engineering lead / executor | GPT-6 Astra / Ultra, recorded assignment rather than backend attestation | Completed 050 preservation, issued separate fresh gates, executed both attempts, reconciled their saved audits and released evidence-only records. |
+| Helper author / independent reviewers | Model and effort not independently established here | Corrected finalization retention, then reconciled current startup argv with six stale templates. File/injected and saved-argv controls are not actual service proof. |
+| Auditor / mirror / records | Model and effort not independently established here | Audited saved evidence, verified preservation and prepared records. No additional media decode, source change or native execution was performed by the auditor or summary writer. |
+
+**Record basis:** The first actual attempt failed before a user target because its helper rejected current startup commands. It remains failed. A separately reviewed sibling, on the same immutable 050 source, then passed short publication, post-preview Start collision refusal, active cancellation and NEW-owner recovery. This establishes bounded current Full-copy service behavior, not native/Windows/default or PCM-identity qualification.
+
+## 🕒 Time
+
+**Stage / type / focus:** Reduced real-service proof following fresh Full-copy calibration and source binding; evidence-only checkpoint.
+
+**Date and clock:** November 18, 2026; Cairo UTC+02:00. Fixed cutoff **15:59:57.465769 Cairo / 13:59:57.465769 UTC**. Times below are UTC. Active effort was not measured.
+
+- V1 independent HOLD **13:34:26.195733**; V2 conditional preparation review **13:38:29.826566**; lead acceptance **13:39:17.358000**. These are later than 050's cutoff.
+- 050 GitHub verified **13:42:48.947637**; final publication receipt **13:43:49.121382**. Full preservation preceded either gate.
+- First gate **13:45:13.125595**; outer **13:45:19.020–13:45:25.419**, **6,398.746954 ms**, exit 1. Failure audit **13:47:39.418433**; lead reconciliation **13:48:43.993371**.
+- Corrected sibling review **13:49:42.658251**; fresh gate **13:51:14.255414**; outer **13:51:22.117–13:52:30.994**, **68,877.395656 ms**, exit 0. Inner elapsed **65,614.518570 ms**.
+- Successor saved audit **13:54:27.291890**; lead reconciliation and fixed cutoff **13:59:57.465769**.
+
+**End / stopping point:** Both attempts are terminal and audited, with the original failure preserved. Current service qualification is accepted only for the four finite cases. Read-only native reuse feasibility is complete and the smallest existing-supervisor adaptation is assigned; no new native helper acceptance, gate, launch or outcome exists at cutoff.
+
+**Reason for this summary:** Record meaningful current behavior and the real helper/review mistakes that preceded it, without relabeling a failed attempt or adding unmeasured features and policy claims.
+
+## 🎯 Session Goal
+
+Exercise the newly bound Full-copy consumer through its real service using known 8-second and 11-second inputs, without repeating the completed 150-second target. Reuse the fixed runtime, service, collector, ownership and access controls. Keep whole-file/720p/copied-AAC evidence distinct from ordinary Keep-source and range/FLAC evidence. Preserve source/history before runtime and retain every failed attempt. No application, repository test, runtime, default, thread or audio-policy change is part of 051.
+
+## 🛠️ Actions Taken
+
+### 1. Complete 050 preservation before either actual attempt
+
+Both runs use immutable `d52b89e3e31250fa2c609b41009f1b6c7ea21b91`, tree `6360260f3d6e6a52b614aa74ef1f00d1b8f0f264`: **668 files / 50 commits**. The **2,122,532-byte** Session, SHA `b3856ce84a2e5e5cd10d25267d497f788d59823d57ab5c2b69402dd55c3b66e1`, is this entry's exact predecessor suffix.
+
+Notion restored the source archive and complete history, reconstructing the exact 5,323,015-byte bundle from two labeled ZIP parts. This time the technical 5 MiB attachment limit was anticipated: each attachment uploaded once, without an oversized attempt or history rewrite. Full readable Session and portable records were also verified. Native formatting is not raw Markdown byte identity; exact bytes remain in restored archives.
+
+GitHub remote `ef5a7ac7c98bd3ce19d6733a30772284a354c8ab` has sole parent `e0af21c3b91d4049b4fabeb0f1a0c449103a1561`: **1,050 total files / 1,043 unchanged / four modified / three new / zero deleted**. All seven intended readbacks matched. A local receipt patch-format rejection after commit creation but before ref update was retained; the exact stored commit result was recovered, then one non-force expected-parent update completed. No remote mutation was replayed.
+
+Final released mirror receipt: **122,437 bytes / `c2b1fe7faf0654a9bc6d573b2343e16781fd305271da24d3462bfbcdee78dd64`**. Final publication receipt: **180,197 bytes / `74a63ca5cd52ac298e5c138f6007b922122591c2b72b6de0c0f88c6db245a663`**. Fresh gates separately checked committed/current source, the exact calibration/raw consumer, fixed pair and dependencies, helper/review identities, fixtures and point storage. Existing owner authorization continued; these were engineering gates, not requests for new user permission.
+
+### 2. Repair helper failure retention, while preserving the coverage limit
+
+The reduced helper reused the existing supervisor and lifecycle rather than a new framework. V1's 17 file/injected checks passed, but independent review reproduced a concrete gap: report-write/readback or fallback/completion-save failure could obscure the original target, closure and post-close outcome. It did not falsely announce success; it could lose primary failure evidence.
+
+V2 retains those original outcomes in an exclusive, verified fallback and logs both original and secondary errors if fallback or final completion persistence fails. It never rewrites the original report. Four exact finalization-slice controls fail against frozen V1 and pass after the correction; they are included in the **21/21** file/injected selection. Five additional independent inert controls check the actual finalization slice with the real persistence helper. These overlapping scopes are not summed into a live-service claim. The reviewer checked **ten** syntax files, correcting the handoff's stale count of nine.
+
+The inherited limits remain material: a 30-minute abort request and shared 60-second settlement observation are not guaranteed exit; some direct I/O/diagnostic awaits can remain pending. Late rejection has a separate bounded receipt; late success does not prove ownership released. Terminal output is fallback evidence, not durable storage under host loss, and a partial completion file cannot override failed readback/outer status. No new owner is allowed while prior ownership is unresolved.
+
+### 3. Retain the first failure and identify the exact allowlist mismatch
+
+The first gate produced one actual run in `owned-proof-85Jcn5`. Its raw report is **37,042 bytes**, SHA `e536cb185b07a5ff0e05926c11fd9b0c386a3454da128e75b063ce950a9e6ed4`: **failed-retained**, `UNAVAILABLE_PROFILE`, empty cases, **11 spawned / 11 closed / zero live / maximum one / zero progress-bearing children / zero semantic targets**.
+
+Seventeen operation rows include **six refusals before process spawn**, not six failed encoder processes. Real startup fixture media did run among the eleven children; this is not a zero-media claim. All eleven actual stderr captures are empty. A refused invocation has no child stderr, which is not the same as an empty captured stream.
+
+Saved argv and current source establish the cause narrowly: the six CPU capability encode templates, two bit depths each for H.264/H.265/SVT-AV1, still expected obsolete global `-c copy` pairs removed by the reviewed codec cleanup. Every refused normalized command matches after deleting only that pair. Capability detection caught the invocation refusals and recorded unavailable profiles; preparation then raised `UNAVAILABLE_PROFILE`. This was a helper admission mismatch, not evidence that the runtime or media encoder was unsupported.
+
+Publication, collector/output validation, grants, collision, active cancellation and recovery were unreached. The independent failure audit is **130,442 bytes / `e47a7a2967361000c79bdce0669db6f713f27cfbe86c4d736df7b2fd8da6062c`**. Lead reconciliation is **19,311 bytes / `ababcd3d9c44bee1c456d37a75b593b9e4c7d380980538cd185b2e32dacf275d`**, checking 90 identity occurrences / 57 unique files plus all 668 source files. Actual settled closure was verified before another attempt was considered. Original helper, consumed gate, report and artifacts remain unchanged.
+
+### 4. Correct only six templates in a new sibling, then run once
+
+The successor removes only one obsolete global-copy pair from each of those six startup template arrays. Six executable/runtime helper files and every other template object remain byte-identical. It does not broaden matching, admit arbitrary commands or change app/runtime/source. New evidence binds current saved startup commands, not just templates tested against themselves.
+
+The reviewer explicitly acknowledged the earlier gap: V1/V2 review checked saved-template consistency but missed their divergence from current capability argv. The successor's **26/26** file/injected controls passed; the old-template control retained three passes / two failures. An independent saved-row checker admitted all 28 current startup rows and the retained target shape, reproduced the six original refusals with old templates, and rejected wrong input/phase/tool and codec mutations. Eleven syntax checks passed. These are preparation checks, not the later actual run.
+
+A fresh sibling binding and gate followed the original failure audit/closure and exact preserved-source checks. The new gate is **84,846 bytes**, SHA `beb15566bb0101139d651431489e5b17687b52b7a700df6113d9431e81c4e2be`; it was not a replay of the consumed gate. The lead executed one corrected campaign in `owned-proof-4ikMMY`. Its raw report is **359,406 bytes**, SHA `9c9c23ea3b307e3dbef1a9e236263e40e74b243e591a1ef271f5e1d1a0fffb68`.
+
+| Actual case | Bounded outcome |
+|---|---|
+| Known 8-second publication | Full/null range, 720p H.265 CPU slow/quality-25 with copied AAC; 240 frames, 384,000 decoded audio samples, valid publication and access checks. |
+| Collision after preview | Ready preview first, then an exclusive 53-byte sentinel at the exact final destination; actual Start skipped with target count 1 → 1, zero children for that Start, no grant/publication and unchanged sentinel. |
+| Active cancellation | Live target child 56 observed at frame 10 / 0.405333 seconds, `ended:false`; cancelled with SIGKILL. No final file/grant; zero-byte incomplete stage retained. |
+| NEW-owner recovery | Old runtime/service closed and drained before a new handle and new service used the known 11-second input; 330 frames / 528,000 samples, valid publication/access. Not same-service restart or a new unseen holdout. |
+
+The normal initial compatibility ready/null state was not silently treated as qualified: unqualified Start refusal and explicit Full/null720/copy reprepare were checked. There was no 150-second target or fixture generation. Both genuine OutputAccess grants worked through an injected observation sink; forged access refused and cleared grants expired. No OS reveal occurred.
+
+### 5. Reconcile lifecycle, diagnostics and media evidence without overclaiming
+
+The successor reports **106 spawned / 106 closed / zero live / maximum one**, with **27 progress-bearing children: 24 startup invocations and three semantic targets**. The 24 startup progress invocations comprise 12 capability encodes and 12 decode-to-null validations across two owners, not 24 user encodes. Other startup fixture encodes are separately counted. Actual 106 is below the 128 ceiling and 122 role-cap forecast; forecast is not measured census.
+
+Both owner closures settled at zero live children, the first before new acquisition. No closure error, unresolved pending owner or late-operation error was retained. This proves the observed owned lifecycle, not whole-OS absence or guaranteed termination on arbitrary future hangs. Point storage checks are not hard write quotas. Outer elapsed 68.877 seconds includes startup, validation, both publications and cancellation; it is not an encode benchmark.
+
+The two outputs are **1,959,028 bytes** / SHA `61802c31a1e26916365ff638d97eecaaf3d7d6591c132558591c25d938d657e2` and **2,637,087 bytes** / SHA `27953000e4681851bc5191473bdf58fd1353e6e64bf7edcf0368d8792a5ec834`. Whole-output hashes were recorded by the original helper after publication/probe, then independently rehashed, not first established by the audit. Original complete source/output probe JSON and collector evidence remain retained.
+
+Copied packet payload/header/ordinal skip-discard identities match for 376 and 517 packets. Each side has 384,000 and 528,000 decoded samples respectively; initial skip is 1,024, terminal discard 0/384. Source and output end clocks differ by approximately 333 microseconds; the canonical sample-ordinal comparison remains within unchanged 1,042-microsecond audio tolerance, with no fitted shift or unmatched tail. This is decoded count/timing plus coded-packet evidence, **not PCM identity**, pixel identity, exact rational timestamp continuity or all-player acceptance. No raw PCM pair was retained or independently re-decoded. Normal-service decoded-source validation occurred after encoding and before publication, unlike calibration’s fail-first scans.
+
+Each publication uses nine collector children while service accounting includes twelve invocations. Both accounting event contexts are explicitly truncated; full retained collector evidence and child diagnostics were separately verified. The complete 106-child stderr census contains **95 empty / 11 nonempty** streams. Both successful targets retain 168-byte CPU-mask/WPP/lookahead warnings; the cancellation retains **904 bytes** including packet-corrupt/NAL/partial-file/immediate-exit diagnostics. SIGKILL is not graceful cancellation. These messages do not prove underlying fixture corruption or universal harmlessness. Startup SVT diagnostics remain present; empty outer stderr and validator warning lists do not erase child warnings.
+
+The final saved audit is **226,519 bytes / `a31f2cd4babf808363c2da8f61c3d4a6b88da5ff6d2309e23282df5f349a781f`**. Lead reconciliation is **112,487 bytes / `5b9b7c4c9664f873128f30c26ea12f6fccaee672914bdb78c46e8f4f35975314`**: **333 identity occurrences / 320 unique files**, plus all 668 current/Git source files. The successor inventory has 248 artifacts totaling 18,329,069 bytes. Both original and corrected reports remain distinct. Audit acceptance is saved-data-only; no new probe, decode, native run or source test was performed. 050's 342/342 explicit Linux, 229/229 protection and 72/72 focused results are inherited, not rerun or summed into this campaign.
+
+## 🧠 Key Insights
+
+- Real execution exposed a stale helper template despite green preparation checks. Testing templates against themselves was insufficient; current producer argv had to be compared directly.
+- A truthful failed attempt can coexist with a successful corrected attempt on identical app source. The successor does not turn unreached original assertions into passes.
+- Current Full-copy now has finite service ownership/publication evidence after the fresh calibration binding. That is a different milestone from native UI, Windows, PCM or general-input qualification.
+- Failure retention, actual child settlement and publication authority are separate requirements. None can be inferred solely from an exit code or a report's top-level pass field.
+
+## 📌 Decisions Made
+
+1. **Confirmed:** Hold V1 for its concrete failure-retention defect, preserving the red controls. **Decider:** Lead after independent review. **Basis:** Exact finalization-slice reproduction, not speculative infrastructure.
+2. **Confirmed:** Retain the first consumed attempt as failed and diagnose before proceeding. **Decider:** Lead/auditor. **Basis:** Six exact pre-spawn refusals and verified closure, not a runtime failure.
+3. **Confirmed:** Correct six template pairs only in a new sibling and issue a fresh gate on the already preserved 050 source. **Decider:** Lead after independent review. **Basis:** Current saved argv, unchanged executable helpers and source, no unresolved ownership.
+4. **Confirmed:** Accept the successor only for four bounded service cases. **Decider:** Lead after saved audit. **Basis:** Original output/collector/access/lifecycle evidence and exact identity reconciliation.
+5. **Deferred:** Current native Full-copy proof, Windows, broader inputs, warning causality/performance and audio-policy changes. **Decider:** Lead's staged continuation. **Basis:** Those claims were not measured here; native adaptation is assigned only at cutoff.
+
+## ⚠️ Difficulties / Friction
+
+The first preparation review correctly found persistence risk but missed stale startup shapes. Its 21 controls did not prove current runtime admission. The six-command mismatch failed safely before a target, yet cost a real attempt and audit. Corrected current-argv controls now explain the narrow repair rather than hiding the old result.
+
+A stale nine-file syntax count was clarified to ten in V2 review. Publication's local receipt patch error was recovered without replaying remote mutation. Neither administrative correction is an app defect. Residual warning streams, accounting truncation and inherited abort limits remain explicit rather than suppressed.
+
+## 🔧 Adjustments Made
+
+- **Shifted from:** Losing primary context when report/final save fails. **To:** Exclusive fallback and terminal retention of original plus secondary outcomes. **Because:** Independent exact-slice failure reproduction. **Consequence:** Better evidence retention without claiming durable storage or termination guarantees.
+- **Shifted from:** Old template self-consistency as startup coverage. **To:** Current saved argv reconciliation and six exact pair removals in a fresh sibling. **Because:** Real pre-spawn refusals exposed the gap. **Consequence:** Current admission succeeds without loosening the matcher or changing app code.
+- **Shifted from:** Source-tested consumer only. **To:** Audited finite real-service publication/collision/cancellation/new-owner proof. **Because:** The corrected campaign completed the intended flow. **Consequence:** Current service support is strengthened; native and broader policy claims remain separate.
+
+## ❌ Mistakes / Risks Noted
+
+**Lost original failure evidence. What happened:** V1 finalization could report only a persistence error after target/closure failure. **Actual impact:** Four injected old-V1 controls failed; no media failure is attributed to that defect. **Potential impact:** Incomplete incident attribution. **Correction/status:** V2 exact-slice/inert controls and fallback retention accepted. **Failure Intelligence:** Review the terminal path, not only successful serialization; partial completion is not proof of success.
+
+**Stale startup admission and review gap. What happened:** Six templates retained the removed broad-codec pair; prior review did not compare current producer commands. **Actual impact:** First run ended before a user target with `UNAVAILABLE_PROFILE`. **Potential impact:** Misdiagnosing available runtime as unsupported or weakening guards to make tests pass. **Correction/status:** Original failure retained; exact sibling correction, current-argv negative controls and actual success audited. **Failure Intelligence:** Validate allowlists against current immutable producer evidence, not just against themselves.
+
+**Qualification overreach. What could happen:** Calling 106 closures OS-wide cleanup, SIGKILL graceful, packet equality PCM equality, or this service proof native qualification. **Actual impact:** No such promotion made. **Potential impact:** Skipping needed acceptance checks or concealing warnings. **Correction/status:** Explicit boundaries and separate next native assignment. **Failure Intelligence:** Name the observed contract and the missing evidence, not a blanket pass.
+
+## 📍 Current Position
+
+**As of:** 13:59:57.465769 UTC / 15:59:57.465769 Cairo. Later record integration does not move the cutoff.
+
+**Before:** 050 had fresh calibration and restored current source tests, but no current normal-service qualification of the updated Full-copy consumer.
+
+**After:** One failed pre-target helper attempt is preserved; a reviewed corrected sibling passes two publications, actual post-preview Start collision refusal, positive-frame cancellation and NEW-owner recovery on unchanged 050.
+
+**Current standing:** Bounded current Full-copy service proof accepted. No source/test/runtime/default/audio-policy change; no current native/Windows/PCM/performance promotion. Inherited source green remains inherited.
+
+**Live owner / continuation anchor:** Lead owns evidence-only preservation and the next narrowly reused native preparation. Summary writer owns only this prepend until release. Preserve both attempts and reuse existing supervisor mechanics rather than another framework or repeated long target.
+
+## 🔜 Next Steps
+
+1. Preserve the five-path 051 checkpoint through local Git, full source/history/readable Notion restoration and exact GitHub verification.
+2. Finish and independently review the smallest native Full-copy supervisor adaptation already assigned. Bind actual preserved source, known state and fresh desktop checks before any separate attempt; no new native helper acceptance/gate/run exists at this cutoff.
+3. Use actual native evidence to resolve only its UI/publication scope. Keep source/currentness guards, warning/performance questions and broader audio/player policy separate.
+
+**Do not reopen / repeat:** Do not overwrite the original failure, replay its gate, reclassify six refusals as crashed children, weaken matching, repin historical evidence, repeat the completed 150-second target without need, suppress stderr or fit timing offsets.
+
+**Continuation boundary:** Existing owner permission continues. This archival entry creates no gate or default promotion. Later native helper/review/outcome facts belong to the next milestone, not this fixed record.
+
+## ❓ Open Questions
+
+- **Does the current Full-copy route work through the native UI on the new source? Needed from:** The separately reviewed, preserved-source native attempt. **Blocks:** Current native qualification, not the accepted finite service proof.
+- **What do residual threading and interrupted-input diagnostics imply beyond these cases? Needed from:** Targeted same-build evidence if prioritized. **Blocks:** Causal/performance or harmlessness claims, not accurate retention of the current result.
+- **What holds across other readers, platforms and inputs? Needed from:** Relevant bounded tests and owner acceptance criteria. **Blocks:** Generalization; packet/extent evidence is not universal PCM/player identity.
+
+## 🧾 Session Outcome
+
+Delivered an independently audited current Full-copy service proof on immutable 050, while preserving the original helper failure and its exact cause. The corrected sibling completed four cases with 106 owned children closed, two publications and NEW-owner recovery. No application or repository test file changed.
+
+Detailed records: [execution](2026-11-18_Post_Codec_Full_Copy_Service_Proof.md), [receipt index](2026-11-18_Post_Codec_Full_Copy_Service_Proof_Receipts.json) and [portable reports](post-codec-full-copy-service-proof-portable.json).
+
+The portable preserves both complete parsed raw report objects with 47 declared leading-root substitutions in the first and 319 in the successor; the first remains failed and the successor remains passed. Every other parsed key, type and value is unchanged. Audit/reconciliation identities are separate references, not an assertion that every raw artifact is embedded. Media, PCM, binaries/dependencies, gates and state payloads remain excluded. It supplies no inverse mapping, raw restoration, factory, publication or native authority.
+
+The exact previous 2,122,532-byte body and original correction receipt remain intact. Intended scope is five evidence/PBS paths, 671 files and 51 commits. The new checkpoint's commit and external preservation are pending at cutoff and must be verified separately.
+
+## 🔍 Confidence Level
+
+**High** in the diagnosed first failure, exact sibling correction and finite service outcomes. **Limited** in native/platform generalization, PCM/player acceptance and warning/performance causality.
+
+**Why:** Retained red controls, actual current argv, distinct consumed attempts, full output/probe/collector evidence, verified ownership and independent saved audits agree. **Not higher because:** No new native/Windows run or raw PCM comparison occurred; accounting contexts truncate, warnings remain and bounded observed settlement is not a universal exit guarantee.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Fresh Full-copy evidence restores the blocked current tests
 
 ## 🤖 Models, Effort, Roles and Provenance

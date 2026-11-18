@@ -1,18 +1,17 @@
-# Current state — checkpoint 050
+# Current state — checkpoint 051
 
-Record cutoff: 2026-11-18 13:28:22.496419 UTC.
+Record cutoff: 2026-11-18 13:59:57.465769 UTC.
 
-## What now works within the tested scope
-- Fresh Full-copy calibration passed three preregistered whole-file 1080p30-to-720 H265 slow25 / copied-AAC cases on immutable checkpoint 049. All 70 owned children closed. Packet/header/padding identities and decoded timing/counts were audited; this is not PCM identity.
-- The reviewed two-file Full-copy consumer binding now uses that exact fresh evidence. All 342 tests in the explicit Linux selection pass, including the same nine previously failing names. All 339 prior names remain, plus three new tests; failures were not converted to expected negatives.
-- Focused 72/72 and protection 229/229 also pass. These scopes overlap. Focused source-only coverage is 14 passes and two explicitly missing raw-input prerequisite skips, not hidden production failures.
+## Current evidence
+The updated Full-copy service now has a bounded real-service proof on immutable checkpoint 050: two short H265 slow25 / whole-file 1080p-to-720 / copied-AAC publications, post-preview collision refusal, and live cancellation followed by recovery through a NEW runtime/service owner. Four cases passed and all 106 owned children closed. This is not native UI qualification or same-service restart.
 
-## Boundaries that remain
-The updated consumer has actual-report parser and injected factory/source coverage, not a fresh normal-service or native run. Earlier bounded ordinary and post-codec resize service evidence remains separate. This is not package-wide npm test, Windows, general-player, visual-quality or performance qualification. No runtime/default/audio-policy or producer source changed. Three 168-byte CPU/pool warning streams remain; harmlessness is not established.
+The first attempt remains failed-retained. Six obsolete helper startup templates caused pre-spawn refusals, not encoder failures; 11 actual startup children closed and no target ran. A separately reviewed sibling corrected only those six template pairs and completed the successful campaign. No application, test, runtime, default or audio-policy change was needed.
 
-The source archive preserves a complete transformed report, not runtime tools, dependencies, raw media or a restorable original report. Those inputs remain necessary for genuine acquisition.
+Copied packet/header/padding identities and decoded counts/timing passed; no PCM identity or universal-player claim follows. Full output hashes and probes were recorded during the successful run and rechecked by saved-data audit. Warnings remain, both publication accounting contexts are truncated, and access used an injected sink rather than OS reveal.
 
-## Next
-Preserve this coherent source checkpoint, then finish and independently review the reduced short Full-copy service helper. At this cutoff it was assigned only: no completed helper, review, gate or run, and no repeat 150-second target planned.
+## Tests and next step
+Checkpoint 050's 342/342 explicit Linux, 72/72 focused and 229/229 protection results are inherited, overlapping and not rerun for this evidence-only milestone. Source-only 14 passes / two raw-input prerequisite skips remain a separate scope.
 
-[Execution](2026-11-18_Post_Codec_Full_Copy_Calibration_and_Binding.md) · [Receipts](2026-11-18_Post_Codec_Full_Copy_Calibration_and_Binding_Receipts.json)
+Preserve these two attempts together, then complete and review the smallest native supervisor adaptation. At cutoff only read-only feasibility and assignment were complete; no newly accepted helper, gate or native run. No Windows, default promotion, general quality or performance qualification is claimed.
+
+[Execution](2026-11-18_Post_Codec_Full_Copy_Service_Proof.md) · [Receipts](2026-11-18_Post_Codec_Full_Copy_Service_Proof_Receipts.json)

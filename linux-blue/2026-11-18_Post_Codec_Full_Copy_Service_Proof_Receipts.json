@@ -1,0 +1,148 @@
+{
+  "schema": 1,
+  "checkpoint": 51,
+  "cutoffUtc": "2026-11-18T13:59:57.465769+00:00",
+  "sourceCommit": "d52b89e3e31250fa2c609b41009f1b6c7ea21b91",
+  "scope": {
+    "evidenceOnly": true,
+    "expectedPaths": 5,
+    "expectedFiles": 671,
+    "expectedCommits": 51,
+    "applicationOrTestChanges": false
+  },
+  "results": {
+    "firstAttempt": "11 actual children closed, six pre-spawn template refusals, zero targets/cases, failed-retained",
+    "successor": "Four cases passed, 106 actual children closed, 27 progress children, three semantic targets, two owners",
+    "inheritedSourceTests": "050 explicit Linux342/342; source selections not rerun for evidence-only051",
+    "scopesNotSummed": true
+  },
+  "firstAttempt": {
+    "status": "failed-retained",
+    "operationRows": 17,
+    "actualChildrenClosed": 11,
+    "preSpawnRefusals": 6,
+    "targets": 0,
+    "cases": 0,
+    "stderrNonempty": 0,
+    "cause": "Six historical startup templates retained obsolete global -c copy; exact admission refused commands before spawn."
+  },
+  "successor": {
+    "casesPassed": 4,
+    "childrenClosed": 106,
+    "progressChildren": 27,
+    "startupProgressChildren": 24,
+    "targets": 3,
+    "owners": 2,
+    "nonemptyStderr": 11,
+    "emptyStderr": 95,
+    "publicationAccountingContextsTruncated": [
+      true,
+      true
+    ],
+    "collisionSentinelBytes": 53,
+    "collisionTargetBeforeAfter": [
+      1,
+      1
+    ],
+    "collisionChildren": 0,
+    "cancelFrame": 10,
+    "cancelSignal": "SIGKILL",
+    "cancelStderrBytes": 904,
+    "retainedStageBytes": 0,
+    "pcmIdentity": false,
+    "nativeOrOSReveal": false,
+    "sourceIdentityOccurrences": 333,
+    "uniqueEvidenceFiles": 320,
+    "currentSourceFiles": 668
+  },
+  "artifactReferences": [
+    {
+      "path": "checkpoint051-cutoff.json",
+      "bytes": 3599,
+      "sha256": "ad2f8befb2b2e9cb8452b0b94202e2454b0f38df7f2283c1b9d203ab7e86d281"
+    },
+    {
+      "path": "checkpoint051-expected-paths.json",
+      "bytes": 277,
+      "sha256": "9d9238e56f87127f24dd035d5ea70f43ddc468bfed34b836976295f27f8a3bd6"
+    },
+    {
+      "path": "current-full-copy-reduced-service-preparation/INDEPENDENT_SAVED_OUTPUT_AUDIT.json",
+      "bytes": 130442,
+      "sha256": "e47a7a2967361000c79bdce0669db6f713f27cfbe86c4d736df7b2fd8da6062c"
+    },
+    {
+      "path": "current-full-copy-reduced-service-preparation/LEAD_RECONCILIATION.json",
+      "bytes": 19311,
+      "sha256": "ababcd3d9c44bee1c456d37a75b593b9e4c7d380980538cd185b2e32dacf275d"
+    },
+    {
+      "path": "current-full-copy-reduced-service-preparation/OUTER_COMPLETION.json",
+      "bytes": 369,
+      "sha256": "aa048acf822e55416aaad961bbe0a9f2a598e6997136c646232359586c829cb1"
+    },
+    {
+      "path": "current-full-copy-reduced-service-successor050-preparation/HANDOFF-v1.json",
+      "bytes": 5285,
+      "sha256": "ac102ef142c690dbe5b3609b9cec2c4ff59cbe4d8e2d26db0e0855b9c3aef661"
+    },
+    {
+      "path": "current-full-copy-reduced-service-successor050-preparation/INDEPENDENT_LAUNCH_REVIEW.json",
+      "bytes": 8121,
+      "sha256": "b9fcd89f69cf871f0493e82fd2ca5deb7050ec37935adfc64383631b49fdd648"
+    },
+    {
+      "path": "current-full-copy-reduced-service-successor050-preparation/CURRENT_ARGV_EVIDENCE.json",
+      "bytes": 65278,
+      "sha256": "0ccad62b38c5e3ad27a288fcd2556c2b6fb774c287b7667541ad5b87e2ce3ab3"
+    },
+    {
+      "path": "current-full-copy-reduced-service-successor050-preparation/OUTER_COMPLETION.json",
+      "bytes": 371,
+      "sha256": "ca17e90fae2ebd373ecada7837694e27c150e64bccb80da6e50c469d91a75c08"
+    },
+    {
+      "path": "current-full-copy-reduced-service-successor050-preparation/INDEPENDENT_SAVED_OUTPUT_AUDIT.json",
+      "bytes": 226519,
+      "sha256": "a31f2cd4babf808363c2da8f61c3d4a6b88da5ff6d2309e23282df5f349a781f"
+    },
+    {
+      "path": "current-full-copy-reduced-service-successor050-preparation/LEAD_RECONCILIATION.json",
+      "bytes": 112487,
+      "sha256": "5b9b7c4c9664f873128f30c26ea12f6fccaee672914bdb78c46e8f4f35975314"
+    },
+    {
+      "path": "notion-checkpoint-050-verification.json",
+      "bytes": 122437,
+      "sha256": "c2b1fe7faf0654a9bc6d573b2343e16781fd305271da24d3462bfbcdee78dd64"
+    },
+    {
+      "path": "checkpoint-d52b89e-publication-receipt.json",
+      "bytes": 180197,
+      "sha256": "74a63ca5cd52ac298e5c138f6007b922122591c2b72b6de0c0f88c6db245a663"
+    },
+    {
+      "path": "github-checkpoint050-verification.json",
+      "bytes": 4053,
+      "sha256": "b21c0c05c7ccf226ffcc32037ee5875776d17975dedadc9d0f75e6558eeb1901"
+    }
+  ],
+  "portable": {
+    "path": "linux-blue/post-codec-full-copy-service-proof-portable.json",
+    "bytes": 451506,
+    "sha256": "b969ec0b4b0d5bc18152e3047b358ac917afdc7a02b2a6f045679298b899772f",
+    "firstPrefixChanges": 47,
+    "successorPrefixChanges": 319
+  },
+  "limits": [
+    "The independent saved-data auditors did not run media, probe, decode, native actions or tests; actual campaign execution is recorded separately.",
+    "Whole output hashes were recorded by the original helper after publication/probe and rechecked here; original complete probe JSON retained. AAC packet/header/padding identity plus decoded count/timing is not PCM identity; no raw PCM pair comparison.",
+    "Nine collector children versus twelve service-accounted invocations. 27 progress-bearing children comprise 24 startup and three semantic targets.",
+    "Cancellation actually SIGKILL with zero-byte stage retained. Packet-corrupt/NAL/partial-file/immediate-exit diagnostics retained alongside CPU-mask/WPP/lookahead warnings; no proven underlying fixture corruption or universal harmlessness.",
+    "Two genuine OutputAccess grants exercised with injected observation sink only, not OS reveal. Recovery uses NEW runtime/service owner and known 11-second input, not same-service recovery or new held-out media.",
+    "Accounting context truncation flags recorded per case; full child diagnostic captures are independently hashed. No claim of unrelated diagnostics beyond retained artifacts.",
+    "All 106 owned children closed, not whole-OS proof. Point disk admission/abort/cleanup windows are not hard quotas or guaranteed exit.",
+    "Original failed attempt unchanged; successful successor does not turn its unreached assertions into historical passes. No native/Windows/player/visual-quality/default/policy/performance qualification."
+  ],
+  "nextAtCutoff": "Preserve coherent evidence-only051 immediately. Read-only native Full-copy reuse plan is complete; smallest outside-only supervisor adaptation assigned. No new native helper acceptance/gate/launch/outcome at this cutoff."
+}

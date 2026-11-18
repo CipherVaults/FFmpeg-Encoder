@@ -2,11 +2,13 @@
 const fail = (code, message) => Object.assign(new Error(message), { code });
 // Exactly two main-owned session types. No paths, options, fallback or persistence.
 class WorkbenchSession {
-  constructor({ ordinary, fullCopy, createAccess, publish }) {
+  constructor({ ordinary, fullCopy, createAccess, publish, recoveryOnly = false, verifyDrained = () => {} }) {
+    this.recoveryOnly = recoveryOnly; this.verifyDrained = verifyDrained;
     this.factories = { ordinary, 'full-copy': fullCopy }; this.createAccess = createAccess;
     this.publish = publish; this.owner = null; this.transitioning = false; this.closed = false; this.poisoned = false; this.epoch = 0;
   }
   status() { return { enabled: true, selected: this.owner?.kind || null, transitioning: this.transitioning,
+    recoveryOnly: this.recoveryOnly,
     notice: 'Switching resets the workbench window and discards this batch and completed-output access. Candidate inputs must already be restored; no fallback.' }; }
   async retire(owner) {
     if (!owner) return;
@@ -21,16 +23,22 @@ class WorkbenchSession {
     if (errors.length) throw new AggregateError(errors, 'Previous session cleanup failed.');
   }
   async select(kind) {
-    if (!['ordinary', 'full-copy'].includes(kind)) throw fail('INVALID_REQUEST', 'Choose ordinary or full-copy.');
+    const restart = this.recoveryOnly && kind === 'restart-ordinary';
+    if (!(this.recoveryOnly ? ['ordinary', 'restart-ordinary'] : ['ordinary', 'full-copy']).includes(kind)) throw fail('INVALID_REQUEST', 'Choose ordinary or full-copy.');
     if (this.poisoned) throw fail('SESSION_CLEANUP_FAILED', 'Cleanup failed; close and relaunch the workbench.');
     if (this.closed) throw fail('SHUTTING_DOWN', 'Workbench session is closed.');
     if (this.transitioning) throw fail('BUSY', 'A session transition is active.');
-    this.owner?.service.requireIdle();
-    if (this.owner?.kind === kind) return this.owner.service;
+    if (restart) {
+      if (!this.owner || this.owner.service.admissionClosed !== true) throw fail('RECOVERY_NOT_REQUIRED', 'Cancel the current ordinary session before creating a new one.');
+      kind = 'ordinary';
+    } else {
+      this.owner?.service.requireIdle();
+      if (this.owner?.kind === kind) return this.owner.service;
+    }
     this.transitioning = true;
     const previous = this.owner; this.owner = null; const epoch = ++this.epoch;
     try {
-      try { await this.retire(previous); } catch (error) { this.poisoned = true; throw error; }
+      try { await this.retire(previous); await this.verifyDrained(); } catch (error) { this.poisoned = true; if (this.recoveryOnly) this.owner = previous; throw error; }
       if (this.closed) throw fail('SHUTTING_DOWN', 'Workbench closed during transition.');
       const access = this.createAccess(); let service;
       try {

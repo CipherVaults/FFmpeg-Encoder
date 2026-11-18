@@ -1,0 +1,244 @@
+{
+  "schema": "ffmpeg-curated-checkpoint-receipts-v1",
+  "checkpoint": "043",
+  "status": "Final outside source/PBS draft; preservation pending",
+  "artifacts": [
+    {
+      "path": "ordinary-cancellation-recovery-feasibility/FEASIBILITY.md",
+      "bytes": 7714,
+      "sha256": "920aa43e4965de3d146ff43e2b7c64691e63c301a22c651941348955acfc86ce"
+    },
+    {
+      "path": "ordinary-cancellation-recovery-feasibility/EVIDENCE.json",
+      "bytes": 2077,
+      "sha256": "ef56fcec44a31948470e8858bf4be4515feeaeb88afa65701cf801b2963dc147"
+    },
+    {
+      "path": "ordinary-recovery-sourcework-evidence/HANDOFF-v1.json",
+      "bytes": 6770,
+      "sha256": "fef2c3051393e2534a5fcb707fd2b7c129224ad767dd7678666d98370d3bdc14"
+    },
+    {
+      "path": "ordinary-recovery-sourcework-evidence/HANDOFF-v2.json",
+      "bytes": 7619,
+      "sha256": "098330a6d371e12efbac23186ddfa0472191a0d7ae08940f8bc0cef962226451"
+    },
+    {
+      "path": "ordinary-recovery-sourcework-evidence/INDEPENDENT_REVIEW-v1.json",
+      "bytes": 5626,
+      "sha256": "d4423c230d8ff6f3d037f7a9181022f0f49c1f893c9f159b1498867939ec7650"
+    },
+    {
+      "path": "ordinary-recovery-sourcework-evidence/INDEPENDENT_REVIEW-v2.json",
+      "bytes": 6595,
+      "sha256": "29f5e6cabd372495e5d438d44a9c0fa9b4253f3609558f4bc6fbee8e80994dcc"
+    },
+    {
+      "path": "checkpoint043-integration.json",
+      "bytes": 2580,
+      "sha256": "ecf2207e86e1751e4e6a58ef4ac05dd3731b27537e43d674d03a3eb0caf513f9"
+    },
+    {
+      "path": "checkpoint043-lead-test-results.json",
+      "bytes": 1424,
+      "sha256": "d6ef0c0c07f9192bd6eb9707b84cd51b6fe065a2c380ade5f4f0ffa1c53e785c"
+    },
+    {
+      "path": "checkpoint043-cutoff.json",
+      "bytes": 1155,
+      "sha256": "e64f646b941a703e65bc17598ab619636111fe5d28b449ee9f993aaa180fc489"
+    },
+    {
+      "path": "checkpoint043-integration-v3.json",
+      "bytes": 3427,
+      "sha256": "338a8540ac7a9e5049137c9ebade9da78cc9c82bcc957d9ad6eca81be0b2c3b8"
+    },
+    {
+      "path": "checkpoint043-lead-test-results-v3.json",
+      "bytes": 1433,
+      "sha256": "42d1df9e274d1182b35afc4342798ea85c66baf90b33e93778fab0ce5c29c1db"
+    },
+    {
+      "path": "ordinary-recovery-sourcework-evidence/HANDOFF-v3.json",
+      "bytes": 9870,
+      "sha256": "4fae1f267198b0a30c9d5dc0a886a5a9e6cb13a76ed23531a7942a68e3666e2d"
+    },
+    {
+      "path": "ordinary-recovery-sourcework-evidence/INDEPENDENT_REVIEW-v3.json",
+      "bytes": 8018,
+      "sha256": "615d51150f569a7e42eb0ac54d1354d47f9498152effcf95bfd6614fd24ff51a"
+    },
+    {
+      "path": "notion-checkpoint-042-verification.json",
+      "bytes": 115490,
+      "sha256": "f03767ae14ab750e5b5915a64610ebeb00e129d882544a6241a0cb564765fa6c"
+    },
+    {
+      "path": "github-checkpoint042-verification.json",
+      "bytes": 3320,
+      "sha256": "ff02b984fcb0efc0836e0fe9e3145c40759698b85deb546077c7bc425c834d24"
+    },
+    {
+      "path": "checkpoint-7e72f71-publication-receipt.json",
+      "bytes": 173075,
+      "sha256": "05e39fa0e979df35ade126e7aa089bc0ac1f164123fcc887ffca52e706f6cd89"
+    },
+    {
+      "path": "checkpoint043-lead-tests-v3/focused.json",
+      "bytes": 4963,
+      "sha256": "3e3a29e2d9926fbb340dc37460027750951e839f5997111488ffbc9cf02b9f2e"
+    },
+    {
+      "path": "checkpoint043-lead-tests-v3/protection.json",
+      "bytes": 4360,
+      "sha256": "819029b50dd36b2970082fd89e376f1fc793501b1e8c67fd3be631f7bfee57f3"
+    },
+    {
+      "path": "checkpoint043-lead-tests-v3/linux-broad.json",
+      "bytes": 12026,
+      "sha256": "7ad2e376942d35a2fdc823f15c5d0a74466e46ecc9d3eff4c444c023fa83c884"
+    }
+  ],
+  "retainedInitialLeadResults": {
+    "focused": "185/189",
+    "protection": "229/229",
+    "explicitLinux": "329/333",
+    "failures": 4,
+    "scopesOverlap": true
+  },
+  "limits": [
+    "V2 narrow184 green omitted older route fixture.",
+    "V3 addresses genuine expected-close regression, retaining fatal cleanup failures. Failed acquisition may lack active-owner reference; no all-resource-settled/retry guarantee.",
+    "No native/Windows/default/pin/audio-policy qualification."
+  ],
+  "cutoffUtc": "2026-11-18T09:41:18.591336+00:00",
+  "expectedCheckpoint": {
+    "changedPaths": 10,
+    "files": 646,
+    "commits": 43
+  },
+  "finalLeadResults": {
+    "completedAtUtc": "2026-11-18T09:40:50.878377+00:00",
+    "baseLocalCommit": "7e72f7107990f1e4516a8eb238153d8c0754d002",
+    "testedIntegratedSource": true,
+    "nativeOrMediaQualification": false,
+    "checkedSourceFiles": 644,
+    "sourceBytesUnchanged": true,
+    "overlappingScopesNotSummed": true,
+    "runs": [
+      {
+        "path": "checkpoint043-lead-tests-v3/focused.json",
+        "bytes": 4963,
+        "sha256": "3e3a29e2d9926fbb340dc37460027750951e839f5997111488ffbc9cf02b9f2e",
+        "summary": {
+          "tests": 191,
+          "suites": 0,
+          "pass": 191,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      },
+      {
+        "path": "checkpoint043-lead-tests-v3/protection.json",
+        "bytes": 4360,
+        "sha256": "819029b50dd36b2970082fd89e376f1fc793501b1e8c67fd3be631f7bfee57f3",
+        "summary": {
+          "tests": 229,
+          "suites": 0,
+          "pass": 229,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      },
+      {
+        "path": "checkpoint043-lead-tests-v3/linux-broad.json",
+        "bytes": 12026,
+        "sha256": "7ad2e376942d35a2fdc823f15c5d0a74466e46ecc9d3eff4c444c023fa83c884",
+        "summary": {
+          "tests": 335,
+          "suites": 0,
+          "pass": 335,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      }
+    ]
+  },
+  "finalSourceIntegration": {
+    "integratedAtUtc": "2026-11-18T09:40:40.167812+00:00",
+    "baseLocalCommit": "7e72f7107990f1e4516a8eb238153d8c0754d002",
+    "proposalBaseCommit": "66fb129bb0c65c3639e45c3937220228cbba0d13",
+    "previousV2Integration": "checkpoint043-integration.json",
+    "previousRedResults": "checkpoint043-lead-test-results.json",
+    "files": [
+      {
+        "path": "linux-blue/candidate-ordinary-renderer.test.cjs",
+        "bytes": 11476,
+        "sha256": "998c8b578d38f83dc48e20e6a1f943313227e367ae348bc160a9082a24ffce8d",
+        "baseSha256": "ff32efba158e4a0f637a90ad4cc6065154aa4756e1b0feaf0292686d3e11b484"
+      },
+      {
+        "path": "linux-blue/workbench-main.cjs",
+        "bytes": 16389,
+        "sha256": "f1a9cacb523d8ba89f2bb71897fe3eba13b458ee1090027a6af2dd620ecc39bb",
+        "baseSha256": "db7ff86e5ead2a93083fa5fd20e6e2af9f36cd308d992d364f94ab585267519d"
+      },
+      {
+        "path": "linux-blue/workbench-session.cjs",
+        "bytes": 3948,
+        "sha256": "72b93d9f52a391bbaec636b1dc9cdf0c24bfca5308bf7fa9753db8b36fefcc0a",
+        "baseSha256": "731deecea97e96e2b46f9fde68efff75e166c9349674e0da11a882dbeba7dd96"
+      },
+      {
+        "path": "linux-blue/workbench-session.test.cjs",
+        "bytes": 58760,
+        "sha256": "04ee6b02dc90d9af2df6584dbac96982c1705896cd9fa3ccd0eaf40a78d84d0b",
+        "baseSha256": "5619bd508be9cf93e665709aa62792b19c2bc42c66f851f07df179c566bbf9a7"
+      },
+      {
+        "path": "ui/renderer.js",
+        "bytes": 151543,
+        "sha256": "86cee96629468120a1671167d76d3b57b01e0ba894683e3913d1f364bab13083",
+        "baseSha256": "51adb5045cf68d058c7e896df8771ef28bd01009f353dd9ccf0d6ae612f57a44"
+      },
+      {
+        "path": "linux-blue/candidate-ordinary-route.test.cjs",
+        "bytes": 9518,
+        "sha256": "f2e3e4064c9278c496ad50058105fb64f046413d20dd61193d433b95c3231526",
+        "baseSha256": "b6e30a8a8461dca1c82b30e22097fd8ee3c62f1be054a9b2e7aa8375830c8e66"
+      }
+    ],
+    "incrementalChangedPaths": [
+      "linux-blue/candidate-ordinary-route.test.cjs",
+      "linux-blue/workbench-main.cjs"
+    ],
+    "checkedFiles": 644,
+    "onlyDeclaredFilesChanged": true,
+    "independentReview": {
+      "path": "ordinary-recovery-sourcework-evidence/INDEPENDENT_REVIEW-v3.json",
+      "bytes": 8018,
+      "sha256": "615d51150f569a7e42eb0ac54d1354d47f9498152effcf95bfd6614fd24ff51a"
+    },
+    "patch": {
+      "path": "ordinary-recovery-sourcework-evidence/proposal-v3.patch",
+      "bytes": 58198,
+      "sha256": "7eb70c91ee2519a87ee516dc6bb6d0b76ca0388f9b8005af18bb5f945bbad08a"
+    },
+    "limits": [
+      "191-test focused scope independently repeated. Author229 protection/335 Linux and prior184 are separately attributed, not claimed rerun here.",
+      "Actual main/session/preload/IPC source is exercised with synthetic Electron/factory/service owners. Genuine OutputAccess construction/grant component checks do not establish real media/native recovery or Windows behavior.",
+      "Acquisition cleanup failure can leave no active owner reference. Errors remain fatal and replacement blocked, but this narrow catch does not introduce retry ownership or prove all failed resources settled. Nonzero owned census is failure evidence, not OS enumeration.",
+      "Never-settling retirement still blocks without hard timeout/kill guarantee. No automatic replay, old observer revival, source producer repins/default/audio-policy change or formal Security Cloud scan.",
+      "No authoritative source/PBS/Git or runtime/media/native actions by reviewer."
+    ]
+  }
+}

@@ -10,6 +10,8 @@ const { createWorkbenchService } = require('./workbench-service.cjs');
 const { selectWorkbenchRuntime, sessionSwitchingEnabled } = require('./workbench-runtime-choice.cjs');
 const switchingEnabled = sessionSwitchingEnabled(process.argv);
 const runtimeChoice = selectWorkbenchRuntime(process.argv);
+const recoveryEnabled = runtimeChoice === '9.0.2-ordinary-candidate';
+const managedSessions = switchingEnabled || recoveryEnabled;
 const createService = runtimeChoice === 'baseline' ? createWorkbenchService
   : runtimeChoice === '9.0.2-ordinary-candidate' ? require('./candidate-ordinary-service.cjs').createCandidateOrdinaryService
   : runtimeChoice === '9.0.2-keep720-candidate' ? require('./candidate-workbench.cjs').createCandidateWorkbench
@@ -36,7 +38,7 @@ for (const [name, child] of [['userData', 'electron-state'], ['sessionData', 'el
   app.setPath(name, directory);
 }
 let title = 'FFmpeg Encoder · Linux CPU preview · Full SDR · 30-minute encode limit';
-if (runtimeChoice === '9.0.2-ordinary-candidate') title = 'FFmpeg Encoder · Experimental ordinary FFmpeg 9.0.2 CPU · Full / Keep source / copied audio · Cancel requires relaunch · 30-minute encode limit';
+if (runtimeChoice === '9.0.2-ordinary-candidate') title = 'FFmpeg Encoder · Experimental ordinary FFmpeg 9.0.2 CPU · Full / Keep source / copied audio · New session after cancellation · 30-minute encode limit';
 else if (runtimeChoice === '9.0.2-keep720-candidate') title = 'FFmpeg Encoder · Experimental Keep720 range · CPU slow25 / precision FLAC · Cancel requires relaunch · native threading unqualified';
 else if (runtimeChoice === '9.0.2-resize-candidate') title = 'FFmpeg Encoder · Experimental 1080p30 to 720p resize range · CPU slow25 / precision FLAC · Cancel requires relaunch · native threading unqualified';
 else if (runtimeChoice === '9.0.2-full-copy-candidate') title = 'FFmpeg Encoder · Experimental whole-file 1080p30 to 720p · CPU slow25 / copied AAC · Cancel requires relaunch · native threading unqualified';
@@ -120,21 +122,30 @@ async function launch() {
     census.spawned++; census.live++; census.maximum = Math.max(census.maximum, census.live);
     child.once('close', () => { census.closed++; census.live--; });
   } });
-  if (switchingEnabled) {
+  if (managedSessions) {
     const { WorkbenchSession } = require('./workbench-session.cjs');
     sessionOwner = new WorkbenchSession({
-      ordinary: access => createWorkbenchService({ stateDir, outputAccess: access, onChild: trackChild }),
+      ordinary: access => (recoveryEnabled ? createService : createWorkbenchService)({ stateDir, outputAccess: access, onChild: trackChild }),
+      recoveryOnly: recoveryEnabled,
+      verifyDrained() { if (recoveryEnabled && census.live !== 0) throw new Error('An owned media child remains live; no new session can be created.'); },
       fullCopy: access => require('./candidate-full-copy-workbench.cjs').createCandidateFullCopyWorkbench({ stateDir, outputAccess: access, onChild: trackChild }),
       createAccess: () => new OutputAccess({ openPath: file => shell.openPath(file), showItemInFolder: file => shell.showItemInFolder(file) }),
       publish: snapshot => { if (!closing && window && !window.isDestroyed()) window.webContents.send('encoder:update', snapshot); },
     });
-    service = await sessionOwner.select('ordinary');
+    try { service = await sessionOwner.select('ordinary'); }
+    catch (error) {
+      // A normal close may win initial acquisition after its late owner was retired.
+      // Never hide failed cleanup, an active owner, or another startup failure.
+      if (recoveryEnabled && closing && error.code === 'SHUTTING_DOWN'
+          && !sessionOwner.poisoned && !sessionOwner.owner) return;
+      throw error;
+    }
   } else service = await acquire(createService);
   if (closing) { beginClose(); return; }
   title += service.linuxRemuxStatus.available ? ' · Remux ≤60s: MKV video / MP4 AAC'
     : runtimeChoice === 'baseline' ? ' · Remux unavailable (source mismatch)' : ' · Remux unavailable';
   if (service.linuxQualifiedEncodeStatus?.available) title += ' · H265 FLAC range/resize: per-file eligibility';
-  if (!switchingEnabled) await service.initializeDiagnostics();
+  if (!managedSessions) await service.initializeDiagnostics();
   appearance = new AppearanceSettings({ directory: stateDir });
   const initial = await appearance.load();
   if (closing) { beginClose(); return; }
@@ -165,9 +176,11 @@ async function launch() {
   }
   const ownedWindow = window;
   const bindIpc = () => registerIpc({ ipcMain, window, service, dialog, entryUrl: ENTRY_URL,
-    workbenchSession: switchingEnabled ? {
+    workbenchSession: managedSessions ? {
       status: () => sessionOwner.status(), blocked: () => closing || sessionOwner.transitioning,
       select(kind) {
+        // Internal bootstrap uses ordinary; renderer recovery may only request a fresh owner.
+        if (recoveryEnabled && kind !== 'restart-ordinary') throw Object.assign(new Error('Choose New ordinary session.'), { code: 'INVALID_REQUEST' });
         if (transitionActive) throw Object.assign(new Error('A session transition is active.'), { code: 'BUSY' });
         transitionActive = true;
         transitionPromise = (async () => {
@@ -181,7 +194,7 @@ async function launch() {
             try { ownedWindow.destroy(); await openWindow(); }
             finally { replacingWindow = false; retiringWindow = null; }
             if (closing) return null;
-            window.setTitle(kind === 'ordinary' ? title : 'FFmpeg Encoder · Experimental whole-file 720p / copied AAC');
+            window.setTitle(kind === 'ordinary' || kind === 'restart-ordinary' ? title : 'FFmpeg Encoder · Experimental whole-file 720p / copied AAC');
             return sessionOwner.status();
           } catch (error) {
             if (closing && error.code === 'SHUTTING_DOWN') return null;
@@ -205,7 +218,7 @@ async function launch() {
     },
   } });
   unregister = bindIpc(); ipcOwners.add(unregister);
-  if (!switchingEnabled) service.on('update', snapshot => {
+  if (!managedSessions) service.on('update', snapshot => {
     if (!closing && !window.isDestroyed() && !window.webContents.isDestroyed()) window.webContents.send('encoder:update', snapshot);
   });
   window.on('close', event => { if (ownedWindow !== retiringWindow && !closed) { event.preventDefault(); void close(); } });

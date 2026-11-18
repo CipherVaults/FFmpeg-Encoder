@@ -32,7 +32,7 @@
       : jobStageLabels[snapshot.progress?.stage] || (isRemux() ? 'Remuxing' : phaseLabels.running)
     : phaseLabels[snapshot.phase] || 'Current operation';
   let capabilities = null;
-  let developerPreview = null, developerSessionClosed = false;
+  let developerPreview = null, developerSessionClosed = false, ordinaryRecovery = null;
   let nativeState = null;
 
   function nativeProofMatchesDisplay() {
@@ -1839,7 +1839,7 @@
     else if (pendingCommands) activity = 'Working…';
     else if (ready) activity = `Review the effective settings and select the files to ${isRemux() ? 'remux' : 'encode'}.`;
     else if (dirty && editing && capabilities) activity = 'Choose your settings, then review the batch.';
-    put('activity-message', developerPreview ? `${developerSessionClosed ? developerPreview.relaunchNotice : developerPreview.notice} ${activity}` : activity);
+    put('activity-message', developerPreview ? `${developerSessionClosed ? (ordinaryRecovery ? 'This session is closed. New ordinary session discards this batch and output access after cleanup; close and relaunch if cleanup fails.' : developerPreview.relaunchNotice) : developerPreview.notice} ${activity}` : activity);
     visible('diagnostic-warning', Boolean(snapshot.diagnosticWarning)); put('diagnostic-warning', snapshot.diagnosticWarning || '');
     visible('setup-panel', true);
     visible('location-panel', activeWorkspace === 'encode' || activeWorkspace === 'remux');
@@ -1876,6 +1876,7 @@
     byId('cancel-batch').disabled = !snapshot.batchId || cancelPending || phase === 'cancelling';
     put('cancel-batch', phase === 'cancelling' || cancelPending ? 'Cancelling…' : phase === 'preparing' ? 'Cancel inspection' : checking ? 'Cancel check' : 'Cancel batch');
     const locked = busy || pendingCommands > 0 || developerSessionClosed;
+    if (ordinaryRecovery) ordinaryRecovery.disabled = !developerSessionClosed || busy || pendingCommands > 0 || cancelPending || ordinaryRecovery.restarting === true;
     byId('native-settings-fields').disabled = Boolean(developerPreview) || locked || !nativeState || Boolean(nativeState.ownerBlock);
     byId('native-refresh').disabled = Boolean(developerPreview) || locked || typeof api?.refreshNativeBackends !== 'function' || Boolean(nativeState?.ownerBlock);
     const native = nativeProfile(), availability = nativeState?.native.profiles.find(profile => profile.profileId === native?.id);
@@ -2275,6 +2276,20 @@
   // Absent on ordinary/default and Windows main: no visible controls without opt-in.
   if (typeof api.getWorkbenchSession === 'function') void api.getWorkbenchSession().then(state => {
     if (!state?.enabled) return;
+    if (state.recoveryOnly === true) {
+      const group = document.createElement('section');
+      const notice = document.createElement('p'); notice.textContent = 'New ordinary session discards this batch and completed-output access. No work is replayed.';
+      const button = document.createElement('button'); button.textContent = 'New ordinary session'; button.disabled = true;
+      ordinaryRecovery = button;
+      button.addEventListener('click', async () => {
+        if (button.disabled) return;
+        button.disabled = true; button.restarting = true;
+        try { await api.selectWorkbenchSession('restart-ordinary'); }
+        catch (error) { notice.textContent = `${error.message} Close and relaunch if cleanup cannot complete.`; button.restarting = false; }
+      });
+      group.appendChild(notice); group.appendChild(button); document.body.appendChild(group);
+      render(); return;
+    }
     const group = document.createElement('section');
     const notice = document.createElement('p'); notice.textContent = state.notice; group.appendChild(notice);
     const buttons = [];

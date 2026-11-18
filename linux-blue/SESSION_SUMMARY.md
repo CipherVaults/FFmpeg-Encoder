@@ -1,3 +1,219 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Add fresh ordinary-session recovery without reviving a cancelled owner
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role | Attribution | Work and evidence limit |
+|---|---|---|
+| Engineering lead | GPT-6 Astra / Ultra, recorded assignment, not backend attestation | Preserved 042, integrated reviewed proposals, retained wider red results and verified the final six-path source change. |
+| Source author / independent reviewer | Model and effort not independently established here | Read-only feasibility, isolated V1–V3 proposals, actual-main/preload/IPC source tests with synthetic Electron and candidate owners; no native recovery execution. |
+| Records / preservation | Model and effort not independently established here | Exact source/test receipts, unchanged prior history and the fixed cutoff; current-source tests are not inherited media proof. |
+
+**Record basis:** The explicit ordinary 9.0.2 developer route now has a **New ordinary session** recovery action. It retires a cancelled owner, discards its batch and output access, then obtains a fresh fixed candidate and replaces the window. It does not revive the cancelled observer or replay work. Review caught a public alternate-action loophole; broader integration tests then exposed a genuine initial-acquisition close regression after an obsolete fixture was corrected. Final integrated results are **191/191 focused, 229/229 protection and 335/335 explicit Linux**, with no failures, cancellations or skips. These selections overlap and are not package-wide `npm test`. Native recovery, Windows behavior and complete settlement after failed late cleanup remain unproved.
+
+## 🕒 Time
+
+**Stage / type / focus:** Current-product usability and lifecycle source repair; three production files and three tests, with no new runtime/media/native execution.
+
+**Date and clock:** November 18, 2026; Cairo UTC+02:00. Fixed cutoff **11:41:18.591336 Cairo / 09:41:18.591336 UTC**. All times below are UTC. Active effort was not measured.
+
+- Prior 042 evidence cutoff remains **09:15:53.849006**; later recovery work does not enter that older record.
+- V1 author freeze: **09:26:51.763568**. V2 author freeze: **09:29:21.772846**; the preserved V1 review was recorded **09:29:23.739747** after its finding had already triggered V2 work. File-recording order is not treated as the time the finding first occurred.
+- 042 GitHub verification: **09:33:34.445002**. Initial five-path V2 integration: **09:34:09.047416**, after prior preservation gates and lead GitHub verification; final independent mapping followed.
+- Wider integrated V2 results completed **09:34:48.275166**: four failures retained, not overwritten by earlier 184-test green results.
+- Independent final V3 review: **09:40:03.334601**. Final six-path V3 integration: **09:40:40.167812**. Final lead tests completed **09:40:50.878377**.
+- **Fixed cutoff: 2026-11-18T09:41:18.591336+00:00.** Later native plan review, binding or execution is excluded.
+
+**End / stopping point:** Six reviewed source/test paths are integrated and final source checks pass. Prior 042 preservation is complete. A concise reuse-only native plan/helper-delta proposal is prepared but unbound, unexecuted and still awaiting plan review at this cutoff.
+
+**Reason for this summary:** Preserve a useful recovery path together with both discovered defects, the wider-test coverage correction and the boundary between source confidence and actual fresh-owner native behavior.
+
+## 🎯 Session Goal
+
+Improve current ordinary9 reliability and usability without weakening cancellation, changing runtime defaults or requiring a full application relaunch after every cancelled session. Reuse the existing ownership, IPC, replacement-window and output-access machinery. A new session must mean a genuinely new fixed candidate owner after the old one is retired, not permission to reopen admission on an invalidated object.
+
+This follows the owner's current-product priority: fix real defects and avoid accumulating lifecycle debt while extending the common Linux 9.0.2 foundation. Preserve 7.1.5 rollback, exact producer/runtime boundaries and the held audio policy. Earlier codec/native evidence is a baseline for later proportional testing, not automatic qualification of this new window handoff.
+
+## 🛠️ Actions Taken
+
+### 1. Establish the smallest fresh-owner design
+
+Read-only feasibility inspected candidate cancellation, inherited service admission, WorkbenchSession retirement, main transition ownership, IPC trust/drainage and the renderer's sticky closed-session latch. Candidate cancellation closes admission synchronously before awaiting inherited cancellation. A cancelled-looking snapshot is therefore neither permission to restart the same service nor proof that every child, diagnostic write and resource has settled.
+
+Existing same-kind session selection returned the current object and called `requireIdle`; it could not safely restart a closed candidate. Existing ordinary/full-copy switching also selected the system ordinary factory, not ordinary9. Enabling those controls unchanged would select the wrong lifecycle/factory rather than solve recovery.
+
+The chosen design reuses the existing mechanisms with one fixed candidate-only action. It serializes before awaiting, clears old output access and listeners, preserves closed admission, performs cancellation/resource/diagnostic retirement and verifies the observed owned-child census before acquiring a fresh fixed candidate. The old document remains latched closed. A replacement window starts with a new document and newly owned IPC. There is no automatic Prepare/Start, transfer of old plan/grants or user-selected runtime path.
+
+### 2. Preserve V1 and correct the public-action loophole
+
+V1 changed five paths: Linux main, WorkbenchSession and shared renderer plus session/renderer tests. The author reported 184/184 after an original 172-test baseline; independent review also repeated 184/184. New tests against original production retained **18 passes / 11 failures**. Those red controls establish why the new behavior is needed; overlapping runs are not additional independent features.
+
+Despite that green selection, independent review found that public recovery-mode `selectWorkbenchSession('ordinary')` was accepted. With an idle admission-open owner, WorkbenchSession returned the same service, while main replaced the window without retiring its plan and output access. This was a real alternate public path, not merely a button-label problem.
+
+V2 restricts public candidate main selection to **`restart-ordinary` before transition mutation**. Internal ordinary bootstrap and baseline/full-copy switching retain their existing semantics. The actual preload/IPC negative control checks that rejected `ordinary` changes no factory, service, window, access-clear or plan state. Its V1 run failed with missing expected rejection; V2 passed. Independent V2 accepted this narrower correction and repeated 184/184. Neither version was presented as native proof.
+
+The V1 review's final live-file identity sweep stopped when the author had already begun approved V2 changes. The immutable V1 patch and retained test log remain the subject; no completed V1 all-file post-test identity sweep is invented. V2 and V3 have their own identities and dispositions.
+
+### 3. Let broader tests reveal the remaining regression
+
+The lead integrated the exact five V2 paths into evidence-only 042, then ran broader current selections. Results were **185/189 focused, 229/229 protection and 329/333 explicit Linux**. Four failures in the existing candidate-route fixture had been omitted by the earlier 184-test selection. The fixture did not supply newly used WorkbenchSession, had an empty OutputAccess stub and expected the old title.
+
+The sixth path, `linux-blue/candidate-ordinary-route.test.cjs`, was corrected to reach the **actual WorkbenchSession and genuine OutputAccess** and the intended new-session title, retaining opt-in/security, separate-state, no-fallback, admission and diagnostic-drainage assertions. This was not the end of the investigation: the corrected fixture exposed a real new lifecycle regression. Closing during initial candidate acquisition retired the late owner successfully, but the resulting `SHUTTING_DOWN` was treated as startup failure, yielding exit 1 instead of normal closure.
+
+V3 adds a narrow catch around initial managed-session selection. Normal-close suppression requires all of: candidate recovery enabled, actual closing, error code `SHUTTING_DOWN`, an unpoisoned session and no active owner. Other errors are rethrown. Baseline/full-copy suppression behavior is unchanged. Paired tests require late-owner resource or diagnostic cleanup failures, and other factory failure while closing, to remain **fatal exit 1**, with no window/READY. The expected close path verifies normal exit 0, no READY and the relevant resource close. No assertion was weakened to turn failed cleanup into success.
+
+An important limitation remains: failed cleanup during late acquisition can leave **no active owner reference**. Fatal failure and blocked replacement are supported; this narrow catch does not add retry ownership or prove every failed resource settled. That is different from failed retirement of an existing owner, where the old owner is retained for shutdown and replacement is poisoned.
+
+### 4. Verify the final source and distinguish test scopes
+
+Final proposal `proposal-v3.patch` is **58,198 bytes**, SHA `7eb70c91ee2519a87ee516dc6bb6d0b76ca0388f9b8005af18bb5f945bbad08a`. Final independent review is **8,018 bytes**, SHA `615d51150f569a7e42eb0ac54d1354d47f9498152effcf95bfd6614fd24ff51a`. It independently repeated the **191-test focused selection** on stable subject hashes and accepted source integration within the stated limits.
+
+Final six-path scope:
+
+| Path | Purpose |
+|---|---|
+| `linux-blue/workbench-main.cjs` | Fixed ordinary9 recovery ownership, strict public action, existing replacement-window flow and narrow expected startup-close handling. |
+| `linux-blue/workbench-session.cjs` | Explicit fresh same-kind recovery, retirement/drain checks and failed-retirement ownership behavior. |
+| `ui/renderer.js` | Conditional New ordinary session control and clear discard/failure notice; old document latch stays sticky. |
+| `linux-blue/workbench-session.test.cjs` | Actual-main/preload/IPC transition, stale/forged/in-flight rejection and genuine access-expiry component coverage. |
+| `linux-blue/candidate-ordinary-renderer.test.cjs` | Fixed recovery action, pending-command gating and sticky old-document behavior. |
+| `linux-blue/candidate-ordinary-route.test.cjs` | Real session/access fixture and expected-close versus fatal-cleanup regressions. |
+
+The final lead results on integrated V3 were:
+
+| Selection | Passed / total | Fail / cancelled / skipped |
+|---|---:|---:|
+| Focused | 191 / 191 | 0 / 0 / 0 |
+| Protection | 229 / 229 | 0 / 0 / 0 |
+| Explicit Linux | 335 / 335 | 0 / 0 / 0 |
+
+All **644 checked source files** remained byte-identical across the final lead tests. The exact commands and per-run identities are retained in `checkpoint043-lead-test-results-v3.json`, SHA `42d1df9e274d1182b35afc4342798ea85c66baf90b33e93778fab0ce5c29c1db`. Author, independent and lead runs are separate, overlapping scopes. Independent review did not claim to rerun the author's protection/Linux selections; final lead receipts establish those integrated results. The explicit Linux selection is not package-wide `npm test`, all repository tests or Windows qualification.
+
+Actual main/session/preload/IPC source is exercised, but Electron, candidate factories, services and child behavior are synthetic in those tests. Genuine OutputAccess construction and grant checks establish their component contract, not an actual media/native recovery journey. Candidate runtime/service, IPC/preload production, HTML/CSS/theme, defaults, pins and audio policy did not change. Shared renderer changes can affect Windows, which was not executed.
+
+### 5. Complete prior preservation and keep new authority separate
+
+042 is local `7e72f7107990f1e4516a8eb238153d8c0754d002`, **644 files / 42 commits**. [Notion source/history](https://app.notion.com/p/41cbd7ade63b8116bd76e7ac50b5c096) restored both archives; [the native full Session](https://app.notion.com/p/41cbd7ade63b8178bc3ff0aeb8471d27) was submitted in eight ordered requests and fetched with 42 entries and the historical ending, without truncation. Native formatting is not byte identity; source archives preserve the exact **1,908,397-byte** predecessor, SHA `4c2c9bef109bb6691f46a0b7c6001240e39e4d1548bae631d5a6d49bd2d0cfe7`.
+
+GitHub verified remote `afed81dd5e005cb4b6e6903fde03a64c900fca9d`, sole parent `bd111ce845910f18894db227b40e68f6df0c1a00`, tree `4c831a0f1733629844d2166d6b760b2dcf75acb1`: five exact file readbacks, fresh ref, expected-parent non-force update, **1,026 total / 1,021 unchanged / two modified / three new / zero deleted**. Full Session used immutable Git blob readback. Final mirror is **115,490 bytes / `f03767ae14ab750e5b5915a64610ebeb00e129d882544a6241a0cb564765fa6c`**; publication receipt is **173,075 bytes / `05e39fa0e979df35ade126e7aa089bc0ac1f164123fcc887ffca52e706f6cd89`**. A local finalizer initially assumed the wrong root readback key and stopped before writing; it was corrected to the actual GitHub array, without replaying the remote update.
+
+Later operational clarification confirmed that the native operator's own PID28253 absence check also used the executor namespace. Frozen 042 audit/lead/PBS already make no cross-namespace PID-absence inference, so no prior result, raw outcome or cutoff was rewritten. Actual supervisor wait/exit 0 and owned-child census remain the closure evidence, not the executor's inability to see a desktop PID.
+
+At this cutoff the prospective recovery-native plan is only prepared, unbound and unexecuted, with review pending. Existing owner permission covers controlled repeated tests; fresh preservation, state and execution checks remain engineering prerequisites. This source checkpoint does not itself create a native gate or add runtime authority.
+
+## 🧠 Key Insights
+
+A fresh session is an ownership transition, not a snapshot reset. Reusing retirement, admission, access revocation and document replacement is safer than reviving the old candidate or clearing its sticky renderer latch. The fixed public action matters even when the intended button sends only that action: a trusted renderer can still invoke another allowed enum through the real bridge.
+
+A green but incomplete test selection missed an existing route dependency. Correcting that fixture then exposed a real expected-close defect. Keeping those two layers distinct prevented both dismissal of the regression as obsolete tests and false confidence from the earlier 184-test result. A fatal failed-cleanup outcome is also not proof that every resource has settled or remains retriable.
+
+## 📌 Decisions Made
+
+**Confirmed:** Use a candidate-only New ordinary session action with a fresh fixed factory and replacement document. **Decider:** lead after source feasibility and independent review. **Basis:** existing ownership mechanisms support bounded reuse; cancelled owners remain closed and old work is discarded, not replayed.
+
+**Confirmed:** Restrict the public recovery API to `restart-ordinary`, retain internal bootstrap, and suppress only the narrow verified normal-close condition during initial acquisition. **Decider:** lead after V1 finding, wider integrated reds and V3 review. **Basis:** actual API and lifecycle reproductions, paired fatal-cleanup controls and final integrated tests.
+
+**Preserved:** Default 7.1.5 rollback, runtime/pin boundaries, shared design and held audio policy. **Decider:** continuing owner direction, maintained by lead. **Basis:** recovery usability needs no runtime promotion or new audio acceptance rule.
+
+**Deferred:** Native fresh-owner handoff, Windows behavior and stronger failed-acquisition retry/settlement ownership. **Decider:** lead through separately scoped evidence and review. **Basis:** source/injected tests cannot settle those questions; no further runtime occurred here.
+
+## ⚠️ Difficulties / Friction
+
+The earlier narrow review omitted the candidate-route fixture, causing four wider failures after integration. Its missing module, empty access stub and old title initially obscured the genuine normal-close regression. The corrective sequence retained both the fixture errors and the resulting product defect rather than relabeling everything as test maintenance.
+
+Authoring also retained an initially premature live-child fixture, a VM brace error, a DOM disabled-state boolean correction, a required inert `openPath` callback and an incorrect shutdown expectation. These are test construction errors, not evidence of corresponding runtime failures. V1 reviewer path/cwd reads and the later publication-key lookup were corrected without authoritative source or remote-action replay.
+
+## 🔧 Adjustments Made
+
+- **Shifted from:** public recovery selection also accepting `ordinary`. **To:** candidate-only public `restart-ordinary` before any transition effect. **Because:** V1 could replace a window while retaining the same owner, plan and access. **Consequence:** internal bootstrap remains available but the actual public bridge rejects the alternate path without side effects.
+- **Shifted from:** five paths and the narrower 184-test selection. **To:** six paths with the existing route fixture using actual session/access contracts and wider final selections. **Because:** integration exposed four failures omitted by the earlier scope. **Consequence:** preserved reds led to a genuine expected-close fix, not just updated expectations.
+- **Shifted from:** treating every initial selection rejection as startup failure. **To:** a candidate-only narrow expected-close condition with paired cleanup failures still fatal. **Because:** normal late acquisition retirement produced `SHUTTING_DOWN`. **Consequence:** expected closure is normal, without claiming failed-resource settlement or retry ownership.
+- **Shifted from:** requiring close/relaunch for all cancelled ordinary9 sessions. **To:** a conditional fresh-owner action with explicit batch/access discard and close/relaunch fallback. **Because:** existing retirement and replacement-window fences can be reused. **Consequence:** the old renderer remains disabled; only a new document starts fresh, with no automatic replay. Native behavior still needs evidence.
+
+## ❌ Mistakes / Risks Noted
+
+### Public ordinary selection bypassed fresh-owner semantics
+
+**What happened:** V1 accepted public `ordinary` on the recovery route, returning the existing owner while main replaced the window.
+
+**Actual impact:** Independent review found retained plan/access semantics inconsistent with the proposed recovery boundary; V1 was held before authoritative integration.
+
+**Potential impact:** A new-looking document could retain old authority and batch state without the required retirement.
+
+**Correction / current status:** V2/V3 reject every public action except `restart-ordinary` before mutation; actual preload/IPC negative checks verify no side effects. Internal bootstrap is unchanged.
+
+**Failure Intelligence:** Preserve the V1 immutable patch, independent finding and V2 missing-rejection red. A UI control's fixed payload is not sufficient API enforcement.
+
+### Narrow green coverage hid a real initial-close regression
+
+**What happened:** The 184-test selection omitted a route fixture; wider tests failed four cases. Correcting that fixture exposed normal late acquisition cleanup being counted as startup failure.
+
+**Actual impact:** Initial integrated results were 185/189 and 329/333, not green. Successful expected shutdown could exit 1.
+
+**Potential impact:** A real close appears as application failure, or an overly broad catch hides failed cleanup while attempting to fix it.
+
+**Correction / current status:** V3 distinguishes the exact candidate normal-close condition; resource/diagnostic/factory failures remain fatal. Final 191/229/335 selections pass on unchanged integrated bytes.
+
+**Failure Intelligence:** Keep initial four reds, fixture-only intermediate red, V3 paired failure controls and explicit commands. Do not replace historical red runs with final green results or sum overlapping selections.
+
+### Fail-closed replacement is not complete resource recovery
+
+**What happened / could happen:** Failed late acquisition cleanup can lack an active owner reference, while never-settling retirement can remain pending indefinitely.
+
+**Actual impact:** Review supports fatal failure/no replacement, not retriable ownership or proof of full settlement. No real failed-resource native journey was run.
+
+**Potential impact:** An unavailable session or unresolved resource can outlive the visible recovery attempt; aggregate owned census does not enumerate the OS.
+
+**Correction / current status:** Preserve these limits and close/relaunch fallback. No timeout grants a new owner, no old observer is revived and no comprehensive shutdown claim is made.
+
+**Failure Intelligence:** Separate successful retirement, failed existing-owner retirement and failed late acquisition. Native/Windows/resource evidence must remain explicit; no formal Security Cloud scan is claimed.
+
+## 📍 Current Position
+
+**As of:** **2026-11-18T09:41:18.591336+00:00 / 11:41:18.591336 Cairo.**
+
+**Before this session:** The ordinary9 developer candidate required close/relaunch after cancellation. Existing same-kind selection could not safely replace a closed owner; 042 preserved a successful bounded native H.265 journey and longer H.264 service evidence on earlier immutable 041.
+
+**After this session:** Three production files and three tests implement and verify explicit fresh ordinary-session recovery, including strict public admission and the corrected initial-close path. Final integrated source checks pass 191/191 focused, 229/229 protection and 335/335 explicit Linux, with all 644 checked files stable during tests.
+
+**Current standing:** Source integration is complete; runtime/native recovery is not qualified. Shared renderer Windows behavior remains untested. Candidate runtime/service, IPC/preload production, HTML/CSS/theme, defaults, pins and audio policy are unchanged. Prior 042 is fully preserved. This milestone's expected **ten paths / 646 files / 43 commits** and Git → Notion → GitHub publication remain intended at this record's cutoff, not accomplished claims.
+
+**Live owner continuation anchor:** Improve current-product reliability with the smallest useful change and clear supported/unsupported/untested boundaries. Exercise the new handoff proportionately after preservation; do not repeat the whole codec matrix or reconstruct obsolete features merely to obtain broader-looking green results.
+
+## 🔜 Next Steps
+
+1. Preserve the coherent six source/test paths plus Current, execution, receipts and full Session using the established Git → Notion restore → GitHub verification workflow. Keep all earlier summaries and red evidence intact.
+2. Review and bind the concise reuse-only native recovery plan to the actual preserved source and known state. Test the new cancelled-owner to fresh-owner/window boundary with visible and durable evidence, without reviving old authority or replaying a consumed gate.
+3. Keep old work discarded, new Prepare/Start explicit, and fallback honest if retirement cannot settle. Investigate any actual ownership/cleanup gap before extending the feature or claiming production readiness.
+
+**Do not reopen / repeat:** Do not rewrite 042 or its raw outcomes, treat executor PID absence as desktop closure, clear known profile state without a separately justified scope, promote defaults, alter audio policy, or present prior 041 media as qualification of changed 043 main/session/renderer bytes.
+
+**Continuation boundary:** Later plan review, binding, native results or source changes belong to the next dated milestone. At this cutoff only the source change and current-source tests are complete; prospective plan preparation is not launch authority or execution.
+
+## ❓ Open Questions
+
+- Does the real native application complete cancellation, retire the old owner and grants, then replace the window and accept explicitly prepared new work as the source tests predict? **Needed from:** a separately bound, proportionate native handoff with visible and durable evidence. **Blocks:** native recovery qualification, not source preservation.
+- What bounded recovery ownership, if any, should be added for failed late acquisition cleanup that has no active owner reference, without hiding failure or reopening admission? **Needed from:** focused ownership/cleanup investigation and reviewed failure controls. **Blocks:** failed-resource retry and complete-settlement claims.
+- Does shared renderer behavior remain correct on Windows? **Needed from:** actual scoped Windows evidence; none was executed here. **Blocks:** cross-platform recovery qualification.
+- Which diagnostic/resource waits can remain unresolved in practice? **Needed from:** targeted retained failure evidence and a justified bounded-wait design, if needed. **Blocks:** hard timeout/kill or comprehensive shutdown guarantees; aggregate census is not exhaustive OS enumeration.
+
+## 🧾 Session Outcome
+
+**Delivered:** Reviewed and integrated fresh ordinary-session recovery with two independently discovered correctness issues addressed, preserved earlier red controls, final 191/229/335 passing source selections, and complete prior 042 publication. The previous **1,908,397-byte** Session is retained byte-exact as the suffix.
+
+**Not delivered:** Native recovery proof, Windows qualification, failed-resource retry ownership, automatic replay, default/runtime promotion, audio-policy change or formal security-scan approval. The future native plan remains prepared/unbound/unexecuted at the fixed cutoff.
+
+**Records:** [Execution and decisions](2026-11-18_Fresh_Ordinary_Session_Recovery.md), [exact receipts and limitations](2026-11-18_Fresh_Ordinary_Session_Recovery_Receipts.json), and [current continuation](CURRENT_STATE.md). Original V1/V2/V3 proposals, reviews, failures and final test receipts remain distinct evidence; no published historical session is silently rewritten.
+
+## 🔍 Confidence Level
+
+**High for the narrow source change and test attribution; limited for real native recovery and failed-resource settlement.**
+
+**Why:** Actual-main/session/preload/IPC paths, genuine access components, baseline and intermediate red controls, independent V3 review, broader integrated checks and stable source identities support the implementation. Prior preservation is independently mapped, and the exact fixed cutoff separates prospective work.
+
+**Not higher because:** Electron/factory/service behavior is synthetic in the principal lifecycle tests; no new runtime/media/native or Windows execution occurred. Nonsettling waits and failed late-cleanup ownership remain explicit limits. Green source selections do not prove resource performance, arbitrary input support or a production-ready handoff.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Establish long ordinary service evidence and a practical native H.265 journey
 
 ## 🤖 Models, Effort, Roles and Provenance

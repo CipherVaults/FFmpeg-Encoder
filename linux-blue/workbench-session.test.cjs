@@ -232,3 +232,265 @@ test('trusted rejection diagnostics drain before transition and retirement creat
  assert.equal((await handlers.get('encoder:snapshot')(event,'extra')).error.code,'INVALID_REQUEST');assert.equal(logging,1);
  assert.equal((await handlers.get('encoder:snapshot')({...event,sender:{}},'extra')).error.code,'UNTRUSTED_SENDER');assert.equal(logging,1);
 });
+
+test('candidate recovery retires admission-closed owner before fresh acquisition and fences old grants/events',async()=>{
+ const gate=deferred();let live=0;
+ const f=fixture({recoveryOnly:true,verifyDrained(){if(live)throw new Error('live child');}});
+ const old=await f.owner.select('ordinary'), listener=f.owner.owner.listener;
+ // Actual shared admission guard, not a permissive mock.
+ old.requireIdle=require('../src/encoder-service.cjs').EncoderService.prototype.requireIdle;
+ await assert.rejects(f.owner.select('restart-ordinary'),{code:'RECOVERY_NOT_REQUIRED'});
+ old.closeAdmission();assert.throws(()=>old.requireIdle(),{code:'SHUTTING_DOWN'});
+ old.closeOperationResources=()=>gate.promise;
+ const pending=f.owner.select('restart-ordinary');assert.equal(f.services.length,1);assert.equal(f.accesses[0].grants.size,0);
+ await assert.rejects(f.owner.select('restart-ordinary'),{code:'BUSY'});listener('stale');assert.deepEqual(f.updates,[]);
+ gate.resolve();const next=await pending;assert.notEqual(next,old);assert.equal(next.admissionClosed,false);assert.equal(old.admissionClosed,true);
+ assert.equal(f.services.length,2);await assert.rejects(f.owner.select('full-copy'),{code:'INVALID_REQUEST'});
+});
+test('recovery is absent on baseline switching and cleanup or live children prohibit new owner',async()=>{
+ const normal=fixture();await normal.owner.select('ordinary');await assert.rejects(normal.owner.select('restart-ordinary'),{code:'INVALID_REQUEST'});
+ for(const mode of ['resources','children']){
+  let active=false;const f=fixture({recoveryOnly:true,verifyDrained(){if(active&&mode==='children')throw new Error('live child');}});const old=await f.owner.select('ordinary');active=true;old.closeAdmission();
+  if(mode==='resources')old.closeOperationResources=async()=>{throw new Error('closure');};
+  await assert.rejects(f.owner.select('restart-ordinary'));assert.equal(f.services.length,1);assert.equal(f.owner.owner.service,old,'failed owner remains owned for final shutdown');await assert.rejects(f.owner.select('restart-ordinary'),{code:'SESSION_CLEANUP_FAILED'});
+ }
+});
+test('recovery pending closure never acquires; close during fresh acquisition retires late owner',async()=>{
+ const drain=deferred(),acquire=deferred();const f=fixture({recoveryOnly:true});const old=await f.owner.select('ordinary');old.closeAdmission();old.closeOperationResources=()=>drain.promise;
+ f.owner.factories.ordinary=async()=>{await acquire.promise;return f.create('fresh');};const pending=f.owner.select('restart-ordinary');await new Promise(r=>setImmediate(r));assert.equal(f.services.length,1);
+ drain.resolve();await new Promise(r=>setImmediate(r));f.owner.beginClose();acquire.resolve();await assert.rejects(pending,{code:'SHUTTING_DOWN'});assert.equal(f.owner.owner,null);assert.equal(f.services[1].admissionClosed,true);
+});
+
+test('actual candidate main recovery uses fresh fixed factory and preload bridge, replacing cancelled document',async()=>{
+ const fs=require('node:fs/promises'),path=require('node:path'),vm=require('node:vm');
+ const source=await fs.readFile(path.join(__dirname,'workbench-main.cjs'),'utf8');
+ const f=fixture(),handlers=new Map(),windows=[],logs=[],exits=[],startupReads=[];let oldEvent;
+ const app=Object.assign(new EventEmitter(),{enableSandbox(){},disableHardwareAcceleration(){},setPath(){},whenReady:async()=>{},requestSingleInstanceLock:()=>true,isReady:()=>true,exit:n=>exits.push(n),quit(){}});
+ const create=async kind=>{const s=await f.create(kind);Object.assign(s,{linuxRemuxStatus:{available:false},runtimeIdentity:kind,getRuntimeInformation:()=>({kind})});return s;};
+ const local=Object.assign(new EventEmitter(),{setPermissionRequestHandler(){},setPermissionCheckHandler(){},setDevicePermissionHandler(){},protocol:{},webRequest:{onBeforeRequest(){}}});
+ class Window extends EventEmitter {
+  constructor(){super();windows.push(this);this.destroyed=false;this.webContents=Object.assign(new EventEmitter(),{mainFrame:{url:'app://local/index.html'},setWindowOpenHandler(){},isDestroyed:()=>this.destroyed,send(){},getLastWebPreferences:()=>({sandbox:true})});}
+  isDestroyed(){return this.destroyed;} destroy(){this.destroyed=true;app.emit('window-all-closed');}setBackgroundColor(){}setTitle(){}
+  async loadURL(){const event={sender:this.webContents,senderFrame:this.webContents.mainFrame};
+    if(oldEvent) assert.equal((await handlers.get('encoder:runtime-information')(oldEvent)).error.code,'UNTRUSTED_SENDER');
+    startupReads.push(await handlers.get('encoder:runtime-information')(event));oldEvent=event;
+  }
+ }
+ const modules={electron:{app,BrowserWindow:Window,dialog:{showErrorBox(){assert.fail('unexpected failure');}},ipcMain:{handle:(n,f)=>handlers.set(n,f),removeHandler:n=>handlers.delete(n)},session:{fromPartition:()=>local},protocol:{registerSchemesAsPrivileged(){}},nativeTheme:{},shell:{}},'node:fs':{mkdirSync(){}},'node:path':path,
+ './workbench-service.cjs':{createWorkbenchService:()=>create('ordinary')},'./workbench-runtime-choice.cjs':require('./workbench-runtime-choice.cjs'),'./workbench-session.cjs':{WorkbenchSession},
+ './candidate-ordinary-service.cjs':{createCandidateOrdinaryService:()=>create('candidate')},
+ './candidate-full-copy-workbench.cjs':{createCandidateFullCopyWorkbench:()=>create('full-copy')},
+ '../src/appearance.cjs':{AppearanceSettings:class{async load(){return {theme:'dark'};}closeAdmission(){}async flush(){}}},'../src/output-access.cjs':{OutputAccess:class{constructor(){this.clears=0;f.accesses.push(this);}clear(){this.clears++;}}},'../src/ipc.cjs':require('../src/ipc.cjs'),'../src/local-protocol.cjs':{ENTRY_URL:'app://local/index.html',registerLocalProtocol(){},resolveAsset(){return true;}}};
+ vm.runInNewContext(source,{require:n=>{assert.ok(Object.hasOwn(modules,n),n);return modules[n];},__dirname,process:{argv:['electron','--blue-runtime=9.0.2-ordinary-candidate'],versions:{}},console:{log:(...x)=>logs.push(x),error:()=>assert.fail('startup failure')}});
+ await new Promise(r=>setImmediate(r));assert.equal(startupReads[0].value.kind,'candidate');
+ const oldHandler=handlers.get('encoder:runtime-information'), firstEvent=oldEvent;
+ let api;vm.runInNewContext(await fs.readFile(path.join(__dirname,'../preload.js'),'utf8'),{require:n=>{assert.equal(n,'electron');return {contextBridge:{exposeInMainWorld:(_n,x)=>{api=x;}},ipcRenderer:{invoke:(n,...args)=>handlers.get(n)(oldEvent,...args),on(){},removeListener(){}}};}});
+ assert.equal((await api.getWorkbenchSession()).recoveryOnly,true);
+ const oldPlan={id:'retained-plan'}, oldAccess=f.accesses[0];f.services[0].plan=oldPlan;const priorClears=oldAccess.clears;
+ const beforeWindow=windows[0],beforeService=f.services[0],beforeEvents=[...f.events];
+ await assert.rejects(api.selectWorkbenchSession('ordinary'),{code:'INVALID_REQUEST'});
+ assert.equal(f.services.length,1);assert.equal(windows.length,1);assert.equal(windows[0],beforeWindow);assert.equal(beforeWindow.destroyed,false);
+ assert.equal(f.services[0],beforeService);assert.equal(beforeService.plan,oldPlan);assert.deepEqual(f.events,beforeEvents);assert.equal(f.accesses.length,1);assert.equal(f.accesses[0],oldAccess);assert.equal(oldAccess.clears,priorClears);
+
+ await assert.rejects(api.selectWorkbenchSession('full-copy'),{code:'INVALID_REQUEST'});
+ await assert.rejects(api.selectWorkbenchSession('restart-ordinary'),{code:'RECOVERY_NOT_REQUIRED'});
+ f.services[0].closeAdmission();
+ await api.selectWorkbenchSession('restart-ordinary');assert.equal(f.services.length,2);assert.equal(f.services[0].admissionClosed,true);assert.equal(f.services[1].admissionClosed,false);
+ assert.equal(windows.length,2);assert.equal(windows[0].destroyed,true);assert.equal(windows[1].destroyed,false);
+ assert.equal(startupReads[1].ok,true);assert.equal(startupReads[1].value.kind,'candidate');
+ assert.equal((await oldHandler(firstEvent)).error.code,'SESSION_RETIRED');assert.deepEqual(exits,[]);
+ app.emit('before-quit',{preventDefault(){}});await new Promise(r=>setImmediate(r));assert.deepEqual(exits,[0]);
+});
+
+
+test('candidate restart IPC refuses pending picker, forged frame, extra arguments and retired handler',async()=>{
+ const {registerIpc}=require('../src/ipc.cjs');const f=fixture({recoveryOnly:true});const service=await f.owner.select('ordinary');
+ const picker=deferred(),handlers=new Map(),frame={url:'app://encoder/index.html'},window={isDestroyed:()=>false,webContents:{mainFrame:frame}};
+ Object.assign(service,{registerFolder:async()=>({id:'owned'}),recordIncident:async()=>{}});
+ const event={sender:window.webContents,senderFrame:frame};const unregister=registerIpc({ipcMain:{handle:(n,x)=>handlers.set(n,x),removeHandler:n=>handlers.delete(n)},window,service,entryUrl:frame.url,dialog:{showOpenDialog:()=>picker.promise},appearance:{},workbenchSession:{status:()=>f.owner.status(),blocked:()=>f.owner.transitioning,select:k=>f.owner.select(k)}});
+ const choosing=handlers.get('encoder:input-folder')(event);await new Promise(r=>setImmediate(r));service.closeAdmission();
+ const restart=handlers.get('encoder:select-workbench-session');assert.equal((await restart(event,'restart-ordinary')).error.code,'BUSY');assert.equal(f.services.length,1);
+ picker.resolve({canceled:true,filePaths:[]});await choosing;
+ assert.equal((await restart({...event,senderFrame:{url:frame.url}},'restart-ordinary')).error.code,'UNTRUSTED_SENDER');
+ assert.equal((await restart(event,'restart-ordinary','extra')).error.code,'INVALID_REQUEST');assert.equal(f.services.length,1);
+ unregister();assert.equal((await restart(event,'restart-ordinary')).error.code,'SESSION_RETIRED');assert.equal(f.services.length,1);
+});
+
+test('actual candidate main close during retirement waits for owner drainage without new acquisition',async()=>{
+ const fs=require('node:fs/promises'),path=require('node:path'),vm=require('node:vm');
+ const source=await fs.readFile(path.join(__dirname,'workbench-main.cjs'),'utf8');
+ const f=fixture(),handlers=new Map(),windows=[],logs=[],exits=[],startupReads=[];let oldEvent;
+ const app=Object.assign(new EventEmitter(),{enableSandbox(){},disableHardwareAcceleration(){},setPath(){},whenReady:async()=>{},requestSingleInstanceLock:()=>true,isReady:()=>true,exit:n=>exits.push(n),quit(){}});
+ const create=async kind=>{const s=await f.create(kind);Object.assign(s,{linuxRemuxStatus:{available:false},runtimeIdentity:kind,getRuntimeInformation:()=>({kind})});return s;};
+ const local=Object.assign(new EventEmitter(),{setPermissionRequestHandler(){},setPermissionCheckHandler(){},setDevicePermissionHandler(){},protocol:{},webRequest:{onBeforeRequest(){}}});
+ class Window extends EventEmitter {
+  constructor(){super();windows.push(this);this.destroyed=false;this.webContents=Object.assign(new EventEmitter(),{mainFrame:{url:'app://local/index.html'},setWindowOpenHandler(){},isDestroyed:()=>this.destroyed,send(){},getLastWebPreferences:()=>({sandbox:true})});}
+  isDestroyed(){return this.destroyed;} destroy(){this.destroyed=true;app.emit('window-all-closed');}setBackgroundColor(){}setTitle(){}
+  async loadURL(){const event={sender:this.webContents,senderFrame:this.webContents.mainFrame};
+    if(oldEvent) assert.equal((await handlers.get('encoder:runtime-information')(oldEvent)).error.code,'UNTRUSTED_SENDER');
+    startupReads.push(await handlers.get('encoder:runtime-information')(event));oldEvent=event;
+  }
+ }
+ const modules={electron:{app,BrowserWindow:Window,dialog:{showErrorBox(){assert.fail('unexpected failure');}},ipcMain:{handle:(n,f)=>handlers.set(n,f),removeHandler:n=>handlers.delete(n)},session:{fromPartition:()=>local},protocol:{registerSchemesAsPrivileged(){}},nativeTheme:{},shell:{}},'node:fs':{mkdirSync(){}},'node:path':path,
+ './workbench-service.cjs':{createWorkbenchService:()=>create('ordinary')},'./workbench-runtime-choice.cjs':require('./workbench-runtime-choice.cjs'),'./workbench-session.cjs':{WorkbenchSession},
+ './candidate-ordinary-service.cjs':{createCandidateOrdinaryService:()=>create('candidate')},
+ './candidate-full-copy-workbench.cjs':{createCandidateFullCopyWorkbench:()=>create('full-copy')},
+ '../src/appearance.cjs':{AppearanceSettings:class{async load(){return {theme:'dark'};}closeAdmission(){}async flush(){}}},'../src/output-access.cjs':{OutputAccess:class{clear(){}}},'../src/ipc.cjs':require('../src/ipc.cjs'),'../src/local-protocol.cjs':{ENTRY_URL:'app://local/index.html',registerLocalProtocol(){},resolveAsset(){return true;}}};
+ vm.runInNewContext(source,{require:n=>{assert.ok(Object.hasOwn(modules,n),n);return modules[n];},__dirname,process:{argv:['electron','--blue-runtime=9.0.2-ordinary-candidate'],versions:{}},console:{log:(...x)=>logs.push(x),error:()=>assert.fail('startup failure')}});
+ await new Promise(r=>setImmediate(r));assert.equal(startupReads[0].value.kind,'candidate');
+ const oldHandler=handlers.get('encoder:runtime-information'), firstEvent=oldEvent;
+ let api;vm.runInNewContext(await fs.readFile(path.join(__dirname,'../preload.js'),'utf8'),{require:n=>{assert.equal(n,'electron');return {contextBridge:{exposeInMainWorld:(_n,x)=>{api=x;}},ipcRenderer:{invoke:(n,...args)=>handlers.get(n)(oldEvent,...args),on(){},removeListener(){}}};}});
+ assert.equal((await api.getWorkbenchSession()).recoveryOnly,true);
+ await assert.rejects(api.selectWorkbenchSession('full-copy'),{code:'INVALID_REQUEST'});
+ await assert.rejects(api.selectWorkbenchSession('restart-ordinary'),{code:'RECOVERY_NOT_REQUIRED'});
+ const drainage=deferred();f.services[0].closeAdmission();f.services[0].closeOperationResources=()=>drainage.promise;
+ const restart=api.selectWorkbenchSession('restart-ordinary');await new Promise(r=>setImmediate(r));assert.equal(f.services.length,1);
+ app.emit('before-quit',{preventDefault(){}});await new Promise(r=>setImmediate(r));assert.deepEqual(exits,[]);
+ drainage.resolve();await restart;await new Promise(r=>setImmediate(r));await new Promise(r=>setImmediate(r));
+ assert.deepEqual(exits,[0]);assert.equal(f.services.length,1);assert.equal(windows.length,1);assert.equal(windows[0].destroyed,true);
+});
+
+test('actual candidate main waits for cancellation and rejects a second restart',async()=>{
+ const fs=require('node:fs/promises'),path=require('node:path'),vm=require('node:vm');
+ const source=await fs.readFile(path.join(__dirname,'workbench-main.cjs'),'utf8');
+ const f=fixture(),handlers=new Map(),windows=[],logs=[],exits=[],startupReads=[];let oldEvent;
+ const app=Object.assign(new EventEmitter(),{enableSandbox(){},disableHardwareAcceleration(){},setPath(){},whenReady:async()=>{},requestSingleInstanceLock:()=>true,isReady:()=>true,exit:n=>exits.push(n),quit(){}});
+ const create=async kind=>{const s=await f.create(kind);Object.assign(s,{linuxRemuxStatus:{available:false},runtimeIdentity:kind,getRuntimeInformation:()=>({kind})});return s;};
+ const local=Object.assign(new EventEmitter(),{setPermissionRequestHandler(){},setPermissionCheckHandler(){},setDevicePermissionHandler(){},protocol:{},webRequest:{onBeforeRequest(){}}});
+ class Window extends EventEmitter {
+  constructor(){super();windows.push(this);this.destroyed=false;this.webContents=Object.assign(new EventEmitter(),{mainFrame:{url:'app://local/index.html'},setWindowOpenHandler(){},isDestroyed:()=>this.destroyed,send(){},getLastWebPreferences:()=>({sandbox:true})});}
+  isDestroyed(){return this.destroyed;} destroy(){this.destroyed=true;app.emit('window-all-closed');}setBackgroundColor(){}setTitle(){}
+  async loadURL(){const event={sender:this.webContents,senderFrame:this.webContents.mainFrame};
+    if(oldEvent) assert.equal((await handlers.get('encoder:runtime-information')(oldEvent)).error.code,'UNTRUSTED_SENDER');
+    startupReads.push(await handlers.get('encoder:runtime-information')(event));oldEvent=event;
+  }
+ }
+ const modules={electron:{app,BrowserWindow:Window,dialog:{showErrorBox(){assert.fail('unexpected failure');}},ipcMain:{handle:(n,f)=>handlers.set(n,f),removeHandler:n=>handlers.delete(n)},session:{fromPartition:()=>local},protocol:{registerSchemesAsPrivileged(){}},nativeTheme:{},shell:{}},'node:fs':{mkdirSync(){}},'node:path':path,
+ './workbench-service.cjs':{createWorkbenchService:()=>create('ordinary')},'./workbench-runtime-choice.cjs':require('./workbench-runtime-choice.cjs'),'./workbench-session.cjs':{WorkbenchSession},
+ './candidate-ordinary-service.cjs':{createCandidateOrdinaryService:()=>create('candidate')},
+ './candidate-full-copy-workbench.cjs':{createCandidateFullCopyWorkbench:()=>create('full-copy')},
+ '../src/appearance.cjs':{AppearanceSettings:class{async load(){return {theme:'dark'};}closeAdmission(){}async flush(){}}},'../src/output-access.cjs':{OutputAccess:class{clear(){}}},'../src/ipc.cjs':require('../src/ipc.cjs'),'../src/local-protocol.cjs':{ENTRY_URL:'app://local/index.html',registerLocalProtocol(){},resolveAsset(){return true;}}};
+ vm.runInNewContext(source,{require:n=>{assert.ok(Object.hasOwn(modules,n),n);return modules[n];},__dirname,process:{argv:['electron','--blue-runtime=9.0.2-ordinary-candidate'],versions:{}},console:{log:(...x)=>logs.push(x),error:()=>assert.fail('startup failure')}});
+ await new Promise(r=>setImmediate(r));assert.equal(startupReads[0].value.kind,'candidate');
+ const oldHandler=handlers.get('encoder:runtime-information'), firstEvent=oldEvent;
+ let api;vm.runInNewContext(await fs.readFile(path.join(__dirname,'../preload.js'),'utf8'),{require:n=>{assert.equal(n,'electron');return {contextBridge:{exposeInMainWorld:(_n,x)=>{api=x;}},ipcRenderer:{invoke:(n,...args)=>handlers.get(n)(oldEvent,...args),on(){},removeListener(){}}};}});
+ assert.equal((await api.getWorkbenchSession()).recoveryOnly,true);
+ await assert.rejects(api.selectWorkbenchSession('full-copy'),{code:'INVALID_REQUEST'});
+ await assert.rejects(api.selectWorkbenchSession('restart-ordinary'),{code:'RECOVERY_NOT_REQUIRED'});
+ const waiting=deferred();f.services[0].closeAdmission();f.services[0].cancelCurrent=()=>waiting.promise;
+ const restart=api.selectWorkbenchSession('restart-ordinary');await new Promise(r=>setImmediate(r));assert.equal(f.services.length,1);assert.equal(windows.length,1);
+ await assert.rejects(api.selectWorkbenchSession('restart-ordinary'),{code:'BUSY'});assert.equal(f.services.length,1);
+ waiting.resolve({persisted:true});await restart;assert.equal(f.services.length,2);assert.equal(windows.length,2);
+ app.emit('before-quit',{preventDefault(){}});await new Promise(r=>setImmediate(r));assert.deepEqual(exits,[0]);
+});
+
+test('actual candidate main waits for diagnostics and rejects a second restart',async()=>{
+ const fs=require('node:fs/promises'),path=require('node:path'),vm=require('node:vm');
+ const source=await fs.readFile(path.join(__dirname,'workbench-main.cjs'),'utf8');
+ const f=fixture(),handlers=new Map(),windows=[],logs=[],exits=[],startupReads=[];let oldEvent;
+ const app=Object.assign(new EventEmitter(),{enableSandbox(){},disableHardwareAcceleration(){},setPath(){},whenReady:async()=>{},requestSingleInstanceLock:()=>true,isReady:()=>true,exit:n=>exits.push(n),quit(){}});
+ const create=async kind=>{const s=await f.create(kind);Object.assign(s,{linuxRemuxStatus:{available:false},runtimeIdentity:kind,getRuntimeInformation:()=>({kind})});return s;};
+ const local=Object.assign(new EventEmitter(),{setPermissionRequestHandler(){},setPermissionCheckHandler(){},setDevicePermissionHandler(){},protocol:{},webRequest:{onBeforeRequest(){}}});
+ class Window extends EventEmitter {
+  constructor(){super();windows.push(this);this.destroyed=false;this.webContents=Object.assign(new EventEmitter(),{mainFrame:{url:'app://local/index.html'},setWindowOpenHandler(){},isDestroyed:()=>this.destroyed,send(){},getLastWebPreferences:()=>({sandbox:true})});}
+  isDestroyed(){return this.destroyed;} destroy(){this.destroyed=true;app.emit('window-all-closed');}setBackgroundColor(){}setTitle(){}
+  async loadURL(){const event={sender:this.webContents,senderFrame:this.webContents.mainFrame};
+    if(oldEvent) assert.equal((await handlers.get('encoder:runtime-information')(oldEvent)).error.code,'UNTRUSTED_SENDER');
+    startupReads.push(await handlers.get('encoder:runtime-information')(event));oldEvent=event;
+  }
+ }
+ const modules={electron:{app,BrowserWindow:Window,dialog:{showErrorBox(){assert.fail('unexpected failure');}},ipcMain:{handle:(n,f)=>handlers.set(n,f),removeHandler:n=>handlers.delete(n)},session:{fromPartition:()=>local},protocol:{registerSchemesAsPrivileged(){}},nativeTheme:{},shell:{}},'node:fs':{mkdirSync(){}},'node:path':path,
+ './workbench-service.cjs':{createWorkbenchService:()=>create('ordinary')},'./workbench-runtime-choice.cjs':require('./workbench-runtime-choice.cjs'),'./workbench-session.cjs':{WorkbenchSession},
+ './candidate-ordinary-service.cjs':{createCandidateOrdinaryService:()=>create('candidate')},
+ './candidate-full-copy-workbench.cjs':{createCandidateFullCopyWorkbench:()=>create('full-copy')},
+ '../src/appearance.cjs':{AppearanceSettings:class{async load(){return {theme:'dark'};}closeAdmission(){}async flush(){}}},'../src/output-access.cjs':{OutputAccess:class{clear(){}}},'../src/ipc.cjs':require('../src/ipc.cjs'),'../src/local-protocol.cjs':{ENTRY_URL:'app://local/index.html',registerLocalProtocol(){},resolveAsset(){return true;}}};
+ vm.runInNewContext(source,{require:n=>{assert.ok(Object.hasOwn(modules,n),n);return modules[n];},__dirname,process:{argv:['electron','--blue-runtime=9.0.2-ordinary-candidate'],versions:{}},console:{log:(...x)=>logs.push(x),error:()=>assert.fail('startup failure')}});
+ await new Promise(r=>setImmediate(r));assert.equal(startupReads[0].value.kind,'candidate');
+ const oldHandler=handlers.get('encoder:runtime-information'), firstEvent=oldEvent;
+ let api;vm.runInNewContext(await fs.readFile(path.join(__dirname,'../preload.js'),'utf8'),{require:n=>{assert.equal(n,'electron');return {contextBridge:{exposeInMainWorld:(_n,x)=>{api=x;}},ipcRenderer:{invoke:(n,...args)=>handlers.get(n)(oldEvent,...args),on(){},removeListener(){}}};}});
+ assert.equal((await api.getWorkbenchSession()).recoveryOnly,true);
+ await assert.rejects(api.selectWorkbenchSession('full-copy'),{code:'INVALID_REQUEST'});
+ await assert.rejects(api.selectWorkbenchSession('restart-ordinary'),{code:'RECOVERY_NOT_REQUIRED'});
+ const waiting=deferred();f.services[0].closeAdmission();f.services[0].closeDiagnostics=()=>waiting.promise;
+ const restart=api.selectWorkbenchSession('restart-ordinary');await new Promise(r=>setImmediate(r));assert.equal(f.services.length,1);assert.equal(windows.length,1);
+ await assert.rejects(api.selectWorkbenchSession('restart-ordinary'),{code:'BUSY'});assert.equal(f.services.length,1);
+ waiting.resolve({persisted:true});await restart;assert.equal(f.services.length,2);assert.equal(windows.length,2);
+ app.emit('before-quit',{preventDefault(){}});await new Promise(r=>setImmediate(r));assert.deepEqual(exits,[0]);
+});
+
+test('actual candidate main refuses acquisition when an observed child remains live',async()=>{
+ const fs=require('node:fs/promises'),path=require('node:path'),vm=require('node:vm');
+ const source=await fs.readFile(path.join(__dirname,'workbench-main.cjs'),'utf8');
+ const f=fixture(),handlers=new Map(),windows=[],logs=[],exits=[],startupReads=[];let oldEvent;
+ const app=Object.assign(new EventEmitter(),{enableSandbox(){},disableHardwareAcceleration(){},setPath(){},whenReady:async()=>{},requestSingleInstanceLock:()=>true,isReady:()=>true,exit:n=>exits.push(n),quit(){}});
+ const child=new EventEmitter();
+ const create=async kind=>{const s=await f.create(kind);Object.assign(s,{linuxRemuxStatus:{available:false},runtimeIdentity:kind,getRuntimeInformation:()=>({kind})});return s;};
+ const local=Object.assign(new EventEmitter(),{setPermissionRequestHandler(){},setPermissionCheckHandler(){},setDevicePermissionHandler(){},protocol:{},webRequest:{onBeforeRequest(){}}});
+ class Window extends EventEmitter {
+  constructor(){super();windows.push(this);this.destroyed=false;this.webContents=Object.assign(new EventEmitter(),{mainFrame:{url:'app://local/index.html'},setWindowOpenHandler(){},isDestroyed:()=>this.destroyed,send(){},getLastWebPreferences:()=>({sandbox:true})});}
+  isDestroyed(){return this.destroyed;} destroy(){this.destroyed=true;app.emit('window-all-closed');}setBackgroundColor(){}setTitle(){}
+  async loadURL(){const event={sender:this.webContents,senderFrame:this.webContents.mainFrame};
+    if(oldEvent) assert.equal((await handlers.get('encoder:runtime-information')(oldEvent)).error.code,'UNTRUSTED_SENDER');
+    startupReads.push(await handlers.get('encoder:runtime-information')(event));oldEvent=event;
+  }
+ }
+ const modules={electron:{app,BrowserWindow:Window,dialog:{showErrorBox(){assert.fail('unexpected failure');}},ipcMain:{handle:(n,f)=>handlers.set(n,f),removeHandler:n=>handlers.delete(n)},session:{fromPartition:()=>local},protocol:{registerSchemesAsPrivileged(){}},nativeTheme:{},shell:{}},'node:fs':{mkdirSync(){}},'node:path':path,
+ './workbench-service.cjs':{createWorkbenchService:()=>create('ordinary')},'./workbench-runtime-choice.cjs':require('./workbench-runtime-choice.cjs'),'./workbench-session.cjs':{WorkbenchSession},
+ './candidate-ordinary-service.cjs':{createCandidateOrdinaryService:options=>{options.onChild(child);return create('candidate');}},
+ './candidate-full-copy-workbench.cjs':{createCandidateFullCopyWorkbench:()=>create('full-copy')},
+ '../src/appearance.cjs':{AppearanceSettings:class{async load(){return {theme:'dark'};}closeAdmission(){}async flush(){}}},'../src/output-access.cjs':{OutputAccess:class{clear(){}}},'../src/ipc.cjs':require('../src/ipc.cjs'),'../src/local-protocol.cjs':{ENTRY_URL:'app://local/index.html',registerLocalProtocol(){},resolveAsset(){return true;}}};
+ vm.runInNewContext(source,{require:n=>{assert.ok(Object.hasOwn(modules,n),n);return modules[n];},__dirname,process:{argv:['electron','--blue-runtime=9.0.2-ordinary-candidate'],versions:{}},console:{log:(...x)=>logs.push(x),error:()=>assert.fail('startup failure')}});
+ await new Promise(r=>setImmediate(r));assert.equal(startupReads[0].value.kind,'candidate');
+ const oldHandler=handlers.get('encoder:runtime-information'), firstEvent=oldEvent;
+ let api;vm.runInNewContext(await fs.readFile(path.join(__dirname,'../preload.js'),'utf8'),{require:n=>{assert.equal(n,'electron');return {contextBridge:{exposeInMainWorld:(_n,x)=>{api=x;}},ipcRenderer:{invoke:(n,...args)=>handlers.get(n)(oldEvent,...args),on(){},removeListener(){}}};}});
+ assert.equal((await api.getWorkbenchSession()).recoveryOnly,true);
+ await assert.rejects(api.selectWorkbenchSession('full-copy'),{code:'INVALID_REQUEST'});
+ await assert.rejects(api.selectWorkbenchSession('restart-ordinary'),{code:'RECOVERY_NOT_REQUIRED'});
+ f.services[0].closeAdmission();await assert.rejects(api.selectWorkbenchSession('restart-ordinary'),/owned media child remains live/);assert.equal(f.services.length,1);assert.equal(windows.length,1);
+ child.emit('close');await assert.rejects(api.selectWorkbenchSession('restart-ordinary'),{code:'SESSION_CLEANUP_FAILED'});
+ app.emit('before-quit',{preventDefault(){}});await new Promise(r=>setImmediate(r));assert.deepEqual(exits,[1],'failed transition remains a shutdown failure even after child eventually closes');
+});
+
+test('actual candidate main close during fresh acquisition retires late service and never displays it',async()=>{
+ const fs=require('node:fs/promises'),path=require('node:path'),vm=require('node:vm');
+ const source=await fs.readFile(path.join(__dirname,'workbench-main.cjs'),'utf8');
+ const f=fixture(),handlers=new Map(),windows=[],logs=[],exits=[],startupReads=[];let oldEvent;
+ const app=Object.assign(new EventEmitter(),{enableSandbox(){},disableHardwareAcceleration(){},setPath(){},whenReady:async()=>{},requestSingleInstanceLock:()=>true,isReady:()=>true,exit:n=>exits.push(n),quit(){}});
+ const acquiring=deferred();
+ const create=async kind=>{if(f.services.length)await acquiring.promise;const s=await f.create(kind);Object.assign(s,{linuxRemuxStatus:{available:false},runtimeIdentity:kind,getRuntimeInformation:()=>({kind})});return s;};
+ const local=Object.assign(new EventEmitter(),{setPermissionRequestHandler(){},setPermissionCheckHandler(){},setDevicePermissionHandler(){},protocol:{},webRequest:{onBeforeRequest(){}}});
+ class Window extends EventEmitter {
+  constructor(){super();windows.push(this);this.destroyed=false;this.webContents=Object.assign(new EventEmitter(),{mainFrame:{url:'app://local/index.html'},setWindowOpenHandler(){},isDestroyed:()=>this.destroyed,send(){},getLastWebPreferences:()=>({sandbox:true})});}
+  isDestroyed(){return this.destroyed;} destroy(){this.destroyed=true;app.emit('window-all-closed');}setBackgroundColor(){}setTitle(){}
+  async loadURL(){const event={sender:this.webContents,senderFrame:this.webContents.mainFrame};
+    if(oldEvent) assert.equal((await handlers.get('encoder:runtime-information')(oldEvent)).error.code,'UNTRUSTED_SENDER');
+    startupReads.push(await handlers.get('encoder:runtime-information')(event));oldEvent=event;
+  }
+ }
+ const modules={electron:{app,BrowserWindow:Window,dialog:{showErrorBox(){assert.fail('unexpected failure');}},ipcMain:{handle:(n,f)=>handlers.set(n,f),removeHandler:n=>handlers.delete(n)},session:{fromPartition:()=>local},protocol:{registerSchemesAsPrivileged(){}},nativeTheme:{},shell:{}},'node:fs':{mkdirSync(){}},'node:path':path,
+ './workbench-service.cjs':{createWorkbenchService:()=>create('ordinary')},'./workbench-runtime-choice.cjs':require('./workbench-runtime-choice.cjs'),'./workbench-session.cjs':{WorkbenchSession},
+ './candidate-ordinary-service.cjs':{createCandidateOrdinaryService:()=>create('candidate')},
+ './candidate-full-copy-workbench.cjs':{createCandidateFullCopyWorkbench:()=>create('full-copy')},
+ '../src/appearance.cjs':{AppearanceSettings:class{async load(){return {theme:'dark'};}closeAdmission(){}async flush(){}}},'../src/output-access.cjs':{OutputAccess:class{clear(){}}},'../src/ipc.cjs':require('../src/ipc.cjs'),'../src/local-protocol.cjs':{ENTRY_URL:'app://local/index.html',registerLocalProtocol(){},resolveAsset(){return true;}}};
+ vm.runInNewContext(source,{require:n=>{assert.ok(Object.hasOwn(modules,n),n);return modules[n];},__dirname,process:{argv:['electron','--blue-runtime=9.0.2-ordinary-candidate'],versions:{}},console:{log:(...x)=>logs.push(x),error:()=>assert.fail('startup failure')}});
+ await new Promise(r=>setImmediate(r));assert.equal(startupReads[0].value.kind,'candidate');
+ const oldHandler=handlers.get('encoder:runtime-information'), firstEvent=oldEvent;
+ let api;vm.runInNewContext(await fs.readFile(path.join(__dirname,'../preload.js'),'utf8'),{require:n=>{assert.equal(n,'electron');return {contextBridge:{exposeInMainWorld:(_n,x)=>{api=x;}},ipcRenderer:{invoke:(n,...args)=>handlers.get(n)(oldEvent,...args),on(){},removeListener(){}}};}});
+ assert.equal((await api.getWorkbenchSession()).recoveryOnly,true);
+ await assert.rejects(api.selectWorkbenchSession('full-copy'),{code:'INVALID_REQUEST'});
+ await assert.rejects(api.selectWorkbenchSession('restart-ordinary'),{code:'RECOVERY_NOT_REQUIRED'});
+ f.services[0].closeAdmission();const restart=api.selectWorkbenchSession('restart-ordinary');await new Promise(r=>setImmediate(r));assert.equal(f.services.length,1);
+ app.emit('before-quit',{preventDefault(){}});await new Promise(r=>setImmediate(r));assert.deepEqual(exits,[]);
+ acquiring.resolve();await restart;await new Promise(r=>setImmediate(r));await new Promise(r=>setImmediate(r));assert.deepEqual(exits,[0]);assert.equal(f.services.length,2);assert.equal(f.services[1].admissionClosed,true);assert.equal(windows.length,1);
+});
+
+test('fresh ordinary recovery clears a genuine old output grant before pending resource settlement',async()=>{
+ const fs=require('node:fs/promises'),path=require('node:path'),os=require('node:os');const {OutputAccess}=require('../src/output-access.cjs'),{readSourceIdentity}=require('../src/source-identity.cjs');
+ const dir=await fs.mkdtemp(path.join(os.tmpdir(),'ordinary-recovery-access-'));
+ try{const file=path.join(dir,'owned.mkv');await fs.writeFile(file,Buffer.alloc(2048,7));let calls=0;
+ const f=fixture({recoveryOnly:true,createAccess:()=>new OutputAccess({openPath:async()=>{throw new Error('No player');},showItemInFolder:async()=>{calls++;}})});const old=await f.owner.select('ordinary'),access=f.owner.owner.access,identity=await readSourceIdentity(file);
+ const grant=await access.issue({file:identity.canonicalPath,identity});const drain=deferred();old.closeAdmission();old.closeOperationResources=()=>drain.promise;
+ const recovery=f.owner.select('restart-ordinary');await assert.rejects(access.action({...grant,action:'reveal'}),{code:'OUTPUT_ACCESS_EXPIRED'});assert.equal(calls,0);
+ drain.resolve();await recovery;await assert.rejects(f.owner.owner.access.action({...grant,action:'reveal'}),{code:'OUTPUT_ACCESS_EXPIRED'});assert.equal(calls,0);
+ }finally{await fs.rm(dir,{recursive:true});}
+});

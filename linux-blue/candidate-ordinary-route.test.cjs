@@ -3,12 +3,12 @@ const {test}=require('node:test'),assert=require('node:assert/strict'),{EventEmi
 const {registerIpc}=require('../src/ipc.cjs');
 const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve=a;reject=b;});return {promise,resolve,reject};};
 const tick=()=>new Promise(r=>setImmediate(r));
-async function mainFixture({diagnostic,method,picker,resourceFailure=false,missing=false,load,acquire,argv=['--blue-runtime=9.0.2-ordinary-candidate']}={}) {
+async function mainFixture({diagnostic,method,picker,resourceFailure=false,diagnosticCloseFailure=false,missing=false,load,acquire,argv=['--blue-runtime=9.0.2-ordinary-candidate']}={}) {
  const handlers=new Map(),order=[],exits=[],logs=[],errors=[],directories=[],factories=[];let window;
  const app=Object.assign(new EventEmitter(),{enableSandbox(){},disableHardwareAcceleration(){},setPath(){},whenReady:async()=>{},requestSingleInstanceLock:()=>true,isReady:()=>true,exit:n=>exits.push(n),quit(){}});
  const service=Object.assign(new EventEmitter(),{admissionClosed:false,runtimeIdentity:'synthetic',linuxRemuxStatus:{available:false},initializeDiagnostics:async()=>{},
  closeAdmission(){this.admissionClosed=true;order.push('admission');},cancelCurrent:async()=>{order.push('cancel');},
- closeOperationResources:async()=>{order.push('resources');if(resourceFailure)throw new Error('resources failed');},closeDiagnostics:async()=>{order.push('diagnostics-close');return {persisted:true};},
+ closeOperationResources:async()=>{order.push('resources');if(resourceFailure)throw new Error('resources failed');},closeDiagnostics:async()=>{order.push('diagnostics-close');if(diagnosticCloseFailure)throw new Error('diagnostic close failed');return {persisted:true};},
  recordIncident:async()=>{order.push('incident-start');if(diagnostic)await diagnostic.promise;order.push('incident-end');},
  requireIdle(){if(this.admissionClosed)throw Object.assign(new Error('closed'),{code:'SHUTTING_DOWN'});},
  registerFolder:async()=>{service.requireIdle();order.push('folder-registered');return {};},
@@ -16,8 +16,8 @@ async function mainFixture({diagnostic,method,picker,resourceFailure=false,missi
  getRuntimeInformation:async()=>{order.push('method-start');if(method)await method.promise;order.push('method-end');return {};}});
  const local=Object.assign(new EventEmitter(),{setPermissionRequestHandler(){},setPermissionCheckHandler(){},setDevicePermissionHandler(){},protocol:{},webRequest:{onBeforeRequest(){}}});
  class Window extends EventEmitter {constructor(options){super();window=this;this.options=options;this.destroyed=false;this.webContents=Object.assign(new EventEmitter(),{mainFrame:{url:'app://local/index.html'},setWindowOpenHandler(){},isDestroyed:()=>this.destroyed,send(){},getLastWebPreferences:()=>({sandbox:true})});}isDestroyed(){return this.destroyed;}destroy(){this.destroyed=true;order.push('window-destroy');app.emit('window-all-closed');}setBackgroundColor(){}async loadURL(){if(load)await load.promise;}}
- const modules={electron:{app,BrowserWindow:Window,dialog:{showErrorBox:(...args)=>errors.push(args),showOpenDialog:async()=>{order.push('picker-open');return picker.promise;}},ipcMain:{handle:(n,f)=>handlers.set(n,f),removeHandler:n=>handlers.delete(n)},session:{fromPartition:()=>local},protocol:{registerSchemesAsPrivileged(){}},nativeTheme:{},shell:{}},'node:fs':{mkdirSync:p=>directories.push(p)},'node:path':path,'./workbench-service.cjs':{createWorkbenchService:async()=>{factories.push('baseline');return service;}},'./candidate-ordinary-service.cjs':{createCandidateOrdinaryService:async options=>{factories.push(options);if(acquire)await acquire.promise;if(missing)throw Object.assign(new Error('fixed candidate missing'),{code:'CANDIDATE_ORDINARY_NOT_RESTORED'});return service;}},'./workbench-runtime-choice.cjs':require('./workbench-runtime-choice.cjs'),
- '../src/appearance.cjs':{AppearanceSettings:class{async load(){return {theme:'dark'};}closeAdmission(){order.push('appearance-admission');}async flush(){order.push('appearance-flush');}}},'../src/output-access.cjs':{OutputAccess:class{}},'../src/ipc.cjs':{registerIpc},'../src/local-protocol.cjs':{ENTRY_URL:'app://local/index.html',registerLocalProtocol(){},resolveAsset(){return true;}}};
+ const modules={electron:{app,BrowserWindow:Window,dialog:{showErrorBox:(...args)=>errors.push(args),showOpenDialog:async()=>{order.push('picker-open');return picker.promise;}},ipcMain:{handle:(n,f)=>handlers.set(n,f),removeHandler:n=>handlers.delete(n)},session:{fromPartition:()=>local},protocol:{registerSchemesAsPrivileged(){}},nativeTheme:{},shell:{openPath:async()=>{throw new Error('No player in source tests');},showItemInFolder:()=>{throw new Error('No OS reveal in source tests');}}},'node:fs':{mkdirSync:p=>directories.push(p)},'node:path':path,'./workbench-service.cjs':{createWorkbenchService:async()=>{factories.push('baseline');return service;}},'./candidate-ordinary-service.cjs':{createCandidateOrdinaryService:async options=>{factories.push(options);if(acquire)await acquire.promise;if(missing)throw Object.assign(new Error('fixed candidate missing'),{code:'CANDIDATE_ORDINARY_NOT_RESTORED'});return service;}},'./workbench-runtime-choice.cjs':require('./workbench-runtime-choice.cjs'),'./workbench-session.cjs':require('./workbench-session.cjs'),
+ '../src/appearance.cjs':{AppearanceSettings:class{async load(){return {theme:'dark'};}closeAdmission(){order.push('appearance-admission');}async flush(){order.push('appearance-flush');}}},'../src/output-access.cjs':require('../src/output-access.cjs'),'../src/ipc.cjs':{registerIpc},'../src/local-protocol.cjs':{ENTRY_URL:'app://local/index.html',registerLocalProtocol(){},resolveAsset(){return true;}}};
  vm.runInNewContext(await fs.readFile(path.join(__dirname,'workbench-main.cjs'),'utf8'),{require:n=>{assert.ok(Object.hasOwn(modules,n),n);return modules[n];},__dirname,process:{argv:['electron',...argv],versions:{}},console:{log:(...x)=>logs.push(x),error:(...x)=>logs.push(x)}});
  await tick();const event=window?{sender:window.webContents,senderFrame:window.webContents.mainFrame}:null;
  return {handlers,order,exits,logs,errors,directories,factories,service,get window(){return window;},event,quit:()=>app.emit('before-quit',{preventDefault(){}})};
@@ -32,7 +32,7 @@ test('exact ordinary route is opt-in, rejects unknown/duplicate/combined switchi
 test('actual main picks only fixed candidate factory and separate state/title with existing security',async()=>{
  const h=await mainFixture();assert.equal(h.factories.length,1);assert.deepEqual(Object.keys(h.factories[0]).sort(),['onChild','outputAccess','stateDir']);
  assert.ok(h.factories[0].stateDir.endsWith('/artifacts/workbench-ordinary-candidate-preview'));
- assert.match(h.window.options.title,/Experimental ordinary FFmpeg 9.0.2/);assert.match(h.window.options.title,/Cancel requires relaunch/);
+ assert.match(h.window.options.title,/Experimental ordinary FFmpeg 9.0.2/);assert.match(h.window.options.title,/New session after cancellation/);
  const w=h.window.options.webPreferences;assert.equal(w.sandbox,true);assert.equal(w.contextIsolation,true);assert.equal(w.nodeIntegration,false);assert.equal(w.webSecurity,true);
  assert.ok(h.logs.some(x=>x[0]==='LINUX_WORKBENCH_READY'&&x[1].includes('developer-ordinary-cpu-full-sdr')));
  h.quit();await tick();await tick();assert.deepEqual(h.exits,[0]);
@@ -51,6 +51,20 @@ test('candidate actual-main admitted diagnostic drains before repeated Quit clos
 test('close during candidate acquisition or load never logs late READY and closes owner once',async()=>{
  for(const phase of ['acquire','load']){
   const pending=deferred(),h=await mainFixture({[phase]:pending});h.quit();await tick();assert.deepEqual(h.exits,[]);pending.resolve();await tick();await tick();await tick();
-  assert.deepEqual(h.exits,[0]);assert.equal(h.order.filter(x=>x==='resources').length,1);assert.ok(!h.logs.some(x=>x[0]==='LINUX_WORKBENCH_READY'));
+  assert.deepEqual(h.exits,[0]);assert.equal(h.errors.length,0);if(phase==='acquire')assert.equal(h.window,undefined);assert.equal(h.factories.length,1);assert.equal(h.order.filter(x=>x==='resources').length,1);assert.ok(!h.logs.some(x=>x[0]==='LINUX_WORKBENCH_READY'));
  }
+});
+
+test('candidate close during acquisition keeps failed resource or diagnostic cleanup fatal',async()=>{
+ for(const failure of ['resourceFailure','diagnosticCloseFailure']){
+  const acquire=deferred(),h=await mainFixture({acquire,[failure]:true});h.quit();await tick();assert.deepEqual(h.exits,[]);
+  acquire.resolve();await tick();await tick();await tick();assert.deepEqual(h.exits,[1]);assert.equal(h.window,undefined);assert.equal(h.factories.length,1);
+  assert.equal(h.order.filter(x=>x==='resources').length,1);assert.equal(h.order.filter(x=>x==='diagnostics-close').length,1);
+  assert.ok(h.errors.length>0);assert.ok(!h.logs.some(x=>x[0]==='LINUX_WORKBENCH_READY'));
+ }
+});
+test('non-shutdown candidate acquisition failure stays fatal even when close was requested',async()=>{
+ const acquire=deferred(),h=await mainFixture({acquire,missing:true});h.quit();await tick();acquire.resolve();await tick();await tick();await tick();
+ assert.deepEqual(h.exits,[1]);assert.equal(h.window,undefined);assert.equal(h.factories.length,1);assert.ok(h.errors.length>0);
+ assert.ok(!h.logs.some(x=>x[0]==='LINUX_WORKBENCH_READY'));assert.equal(h.order.filter(x=>x==='resources').length,0);
 });

@@ -40,6 +40,7 @@ function dom() {
     }
     getAttribute(name) { return this.attributes[name] ?? null; }
     removeAttribute(name) { delete this.attributes[name]; if (name === 'value') this._value = undefined; }
+    appendChild(child) { this.append(child); return child; }
     append(...children) { for (const child of children) { child.remove(); child.parentElement = this; this.children.push(child); } }
     insertBefore(child, before) { child.remove(); child.parentElement = this; const index = this.children.indexOf(before); if (index < 0) this.children.push(child); else this.children.splice(index, 0, child); }
     replaceChildren(...children) { for (const child of [...this.children]) child.remove(); this.append(...children); }
@@ -132,4 +133,17 @@ test('ordinary candidate cancellation stays visibly closed across newer late cal
   assert.equal(h.byId('start-batch').disabled, true); assert.equal(h.byId('prepare-batch').disabled, true); assert.equal(h.byId('select-ready').disabled, true);
   assert.match(h.byId('activity-message').textContent, /close and relaunch/);
   h.update({ revision: 9, phase: 'idle', items: [], counts: {} }); assert.equal(h.byId('prepare-batch').disabled, true);
+});
+
+
+test('candidate-only fresh-session control does not revive old renderer or replay work',async()=>{
+ let release;const wait=new Promise(r=>{release=r;});
+ const h=await harness({getWorkbenchSession:async()=>({enabled:true,recoveryOnly:true}),selectWorkbenchSession:()=>wait});
+ const button=h.document.body.querySelectorAll('button').find(b=>b.textContent==='New ordinary session');assert.ok(button);assert.equal(button.disabled,true);
+ h.update({revision:10,phase:'cancelled',items:[],counts:{},developerOrdinary:{...info,relaunchRequired:true}});
+ assert.equal(button.disabled,false);assert.match(h.byId('activity-message').textContent,/discards this batch/);
+ const pending=button.click();await settle();assert.equal(button.disabled,true);await button.click();
+ h.update({revision:11,phase:'ready',items:[],counts:{},developerOrdinary:info});assert.equal(button.disabled,true);assert.equal(h.byId('start-batch').disabled,true);
+ release({});await pending;assert.equal(h.calls.filter(c=>c.name==='selectWorkbenchSession').length,1);assert.deepEqual(h.calls.find(c=>c.name==='selectWorkbenchSession').args,['restart-ordinary']);
+ assert.equal(h.calls.filter(c=>['prepareBatch','startBatch'].includes(c.name)).length,0);
 });

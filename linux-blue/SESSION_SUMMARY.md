@@ -1,3 +1,152 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Native resize-session switching and a shared Linux/Windows CI foundation
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role | Attribution | Work and evidence limit |
+|---|---|---|
+| Engineering lead / native operator | Recorded roles; model and effort not independently re-established here | Verified 054 preservation, gated and observed the native journey, reconciled saved evidence, then integrated three reviewed CI files and ran the local runner. |
+| CI author / independent reviewers | Recorded roles; no inferred model or effort settings | Prepared and reviewed the exact CI proposal; separately reviewed native binding and saved outcome. Local source checks and saved audit are not hosted Windows or hardware execution. |
+| Mirror / records / summary review | Separate preservation and documentation roles | Verified recovery/publication, prepared owning records and reviewed this prepend. Summary writer changed only Session after release. |
+| Foundational-study worker | Explicit new assignment: GPT-6.2 Astra / Ultra, not backend attestation | Separate additive study/draft only at cutoff, not implementation or a dependency for this checkpoint. This setting is not attributed retrospectively to other workers. |
+
+**Record basis:** The opt-in ordinary 9.0.2 → precise resize-range → ordinary selector now has bounded Linux native empty-batch evidence on immutable 054. A separate three-file CI foundation is integrated and passes its local source-only selection. Hosted Actions, Windows execution, GPU/RTX 5060 acceptance and broader 0.7 completion remain pending.
+
+## 🕒 Time
+
+**Stage / type / focus:** Native composition verification followed by a small cross-platform CI source addition.
+
+**Date and clock:** November 18, 2026; Cairo UTC+02:00. Fixed cutoff **17:42:23.081562 Cairo / 15:42:23.081562 UTC**. Times below are UTC. Active effort was not measured.
+
+- Exact native binding **15:28:38.354772**; conditional bound review **15:29:38.469914**. Neither was a launch or completed preservation claim.
+- CI independent review **15:31:24.544186**, binding the exact three files before the later author handoff/patch was available.
+- 054 GitHub verification **15:34:39.954509**; final mirror release **15:36:33.475470**; fresh native engineering gate **15:36:34.263433**.
+- Actual native process **15:36:55.233348–15:38:30.954230**; **95.720901 seconds** for the whole manual journey, not startup or encoding performance.
+- Saved audit **15:40:50.200565**; lead reconciliation/source release **15:41:48.706701**; CI integration **15:41:48.758867**.
+- Local CI runner **15:41:48.798908–15:42:02.649439**, exit 0. Fixed cutoff **15:42:23.081562**.
+
+**End / stopping point:** Bounded native navigation is accepted, exact CI source is integrated and local checks pass. Hosted jobs and the separate foundational study remain subsequent work.
+
+**Reason for this summary:** Preserve a real native milestone and the first modest shared CI lane without treating empty-batch navigation or local green checks as full product, platform or hardware acceptance.
+
+## 🎯 Session Goal
+
+Verify that the reviewed resize option works through existing native session ownership, then make a small repeatable source-contract lane available for Linux and Windows. Reuse the established supervisor, runner conventions, Git → verified Notion → GitHub route and PBS records. Continue toward quality/security and 0.7, with an eventual detailed Windows/RTX 5060 handoff, rather than silently narrowing unfinished requirements or building new infrastructure without need.
+
+## 🛠️ Actions Taken
+
+### 1. Finish 054 recovery and bind the actual native source
+
+Base commit is `41d038ed6bf1e650c75fc9eb869ff0552432cb12`, tree `642cc4907b0f82dd1343578ed25c4af9e261a970`, **679 files / 54 commits**. The exact **2,209,326-byte** predecessor, SHA `012cfdcc9dacf293b33661ee4925d5506d131ad41d3c8623a48f41bb082cf68f`, remains this entry's unchanged suffix.
+
+Both source and full-history archives were reconstructed from two labeled parts each and independently restored. Complete readable native records preserve all 54 Session entries; rendered text is not claimed byte-identical, while restored archive bytes are. Final mirror receipt is **125,900 bytes / `0c6577067c8d32321a00b9b939741ebac17e85292828f8031289ee7a873888d1`**. GitHub remote `27b227ba3e45b9af410f2b2f1ce01c4b0c39efaf` has the expected sole parent, all nine exact readbacks and **1,061 total files / 1,052 unchanged / seven modified / two new / zero deleted**. Local and remote histories are deliberately mapped, not described as identical.
+
+The reused native helper changed only three source-identity literals and corresponding plan metadata, retaining unbound originals. Independent bound checks verified all 679 source files, the five selector-source identities, 97 resize producer pins and the known 94-event baseline. Eight negative bound-plan controls were separate from the earlier three file-only capture tests, not a rerun of them. Actual final preservation and fresh desktop evidence preceded the one-use gate and launch. Existing owner authorization covered testing; the gate established engineering freshness, not new user permission.
+
+### 2. Observe two native transitions without a user target
+
+One launch showed ordinary Ready with an empty inspector. One visible selection opened the precise 1080p30-to-720p range/FLAC session; its fixed H.265 CPU slow/CRF25 disclosure and unavailable alternatives were visible. A second and final selection returned to ordinary Ready in a replacement window. The reset notice was visible, and normal close returned to the shell. There were no pickers, Prepare, Apply, Start, user targets, reveal, cancellation, playback, extra probes/decodes or repeat launch.
+
+Three sequential diagnostic owners each retained six events, with each prior owner ending before the next began. All 18 new events were retained without truncated contexts; all 94 prior events and the known directory identity remained exact. These checks are not whole-profile preservation. The saved initial readiness line describes ordinary startup only; replacement-route disclosure is attributed to CUA observations and ordered events, not invented replacement READY log lines or direct WebContents identities.
+
+The supervisor waited normally and recorded exit 0, no termination request/failure, and **87 spawned / 87 closed / zero live / maximum one**. Approximately 84 was a forecast, not a ceiling. The extra three are not individually classified by retained evidence. Zero user targets is not zero startup media or bookkeeping. Closure relies on supervisor wait and the owned aggregate census, not cross-namespace process absence.
+
+Eight sampled storage points remained above the declared floor. Empty sampled capability directories do not prove no temporary writes, continuous quota enforcement or a complete filesystem census. CUA images remain conversation-only; point receipts were saved after named observations/actions and are not exact UI event timestamps. No missed or duplicate selector delivery was observed. An initially truncated inherited CUA observation was replaced by fresh bounded observation before gate/launch.
+
+Top-level stderr is **624 bytes**, retaining three missing-system-D-Bus messages and one SSL handshake error. They are not silently classified harmless and are not complete child stderr. Event epochs align with the supervisor UTC interval; timezone-less Chromium prefixes do not establish a separate two-hour duration. Native acceptance is limited to empty-batch navigation and normal closure, not populated-plan/grant reset, cancellation/recovery, media equality, Windows, performance or expanded resize families.
+
+### 3. Audit first, then integrate only the reviewed CI files
+
+The independent saved audit is **50,108 bytes / `5662da7dbf44bdc2ee029400b1742cbf4f0edffb0dbca87fe9465c17245b0499`**. It read saved evidence, not a fresh desktop replay or runtime campaign. The lead rehashed all **147 referenced identity rows** and all **679 source files**, then released the freeze for CI integration. The new CI files therefore follow the native proof; they are not part of the tested native source.
+
+Exactly three files were added: `.github/workflows/shared-core.yml`, `scripts/ci-source-contracts.cjs` and `linux-blue/CI_SOURCE_CONTRACTS.md`. All 679 predecessor files were unchanged at integration. The proposal was authored and independently tested from 053; the lead reconciled exact bytes before integrating on 054. The independent review explicitly preceded receipt of the final patch/handoff, so the later **6,146-byte** patch, SHA `11cbed5f098b6c74db6738c920762ab7a6a49a46064b6feeb1038ec5a880047e`, was separately matched to those reviewed identities.
+
+The workflow declares Ubuntu 24.04 and Windows 2022 jobs for the two named development branches, plus manual dispatch. It pins official checkout/setup-node actions to full commit identities and Node 24.22.1. Permissions are read-only; checkout credentials are not persisted. There are no supplied secrets, privileged PR trigger, self-hosted runner, dependency installation, package/artifact upload or release step. A ten-minute job limit and obsolete-run cancellation bound the intended workload. This is not a security sandbox or formal Security Cloud result; official Node provisioning still requires hosted infrastructure/network access.
+
+The runner uses Node argv arrays rather than shell expansion, explicit top-level file enumeration and 120-second subcommand timeouts, propagating failures. Its 202 syntax checks are not recursive whole-repository coverage. Four shared suites cover media settings/arguments, container clocks, appearance and app settings. Linux additionally selects its UI admission-policy suite. Windows-specific runtime/filesystem behavior is not established by injected shared tests or syntax checking Linux files.
+
+### 4. Retain exact local results and unfinished acceptance
+
+The final lead command `node scripts/ci-source-contracts.cjs` completed with exit 0 and empty stderr: **202 syntax files**, **96/96 shared tests** and **10/10 Linux-policy tests**, with zero failures, cancellations or skips. Independent local Linux review reproduced the same selections. These are overlapping repeated scopes, not an additive test total. The prior **50 focused / 350 explicit Linux / 229 protection** results remain inherited from 054 and were not rerun here; this lane is not package-wide `npm test` or full regression.
+
+No hosted Actions job had run at cutoff. The first hosted Linux and Windows jobs must be checked against the actual published revision. Manual dispatch discovery also depends on the workflow reaching the default branch; the initial development route is push/PR. Repository Actions policy may affect execution, and no permissions, billing or visibility settings were changed.
+
+The owner's later direction favors ongoing parallel Linux/Windows quality and security work toward 0.7 and a useful Windows/RTX 5060 handoff. The parent corrected the earlier visibility assumption: the active fork is private and detached; the separate public placeholder is not the publication destination. No destination or visibility change was made. Safe relative evidence labels remain appropriate regardless of visibility.
+
+An additive foundational study/draft is separate and not integrated at cutoff. The genuine 1440 proposal remains isolated. Broader 1440p/4K, long-file, cadence/orientation/audio acceptance, native Windows/GPU behavior, packaging and release qualification remain unfinished. Application source/tests, runtime defaults, producer pins and audio policy were not changed by this CI addition.
+
+## 🧠 Key Insights
+
+- Native composition evidence now supports the finite resize selector route, but an empty inspector cannot test revocation of a populated plan or completed-output grant.
+- A small CI lane is useful when its exact contract is clear. Local Linux green does not predict a hosted Windows result or replace broader regression/media evidence.
+- Preservation, native proof and later CI integration have different source/time boundaries. A single checkpoint can record them coherently without merging their claims.
+
+## 📌 Decisions Made
+
+1. **Confirmed:** Accept the bounded native empty-batch journey and normal closure. **Decider:** Lead after independent saved audit. **Basis:** CUA-attributed observations, ordered events, exact source identities and supervisor census.
+2. **Confirmed:** Integrate only the exact three reviewed CI files after freeze release. **Decider:** Lead. **Basis:** Reusable source-only checks with limited permissions and no app/runtime change.
+3. **Confirmed:** Keep the active private destination and existing publication route. **Decider:** Owner/parent clarification, applied by lead. **Basis:** The public placeholder is separate; no migration or visibility change was requested.
+4. **Deferred:** Hosted Windows/Linux acceptance, hardware/release work and the additive foundational plan. **Decider:** Lead's staged continuation. **Basis:** No actual hosted result or integrated broader implementation exists at cutoff.
+
+## ⚠️ Difficulties / Friction
+
+The initial desktop observation was truncated, so a fresh bounded observation replaced it before execution. The actual 87-child census exceeded an approximate 84 forecast without exceeding a declared hard cap; retained evidence does not classify the extra children. D-Bus/SSL diagnostics remain visible. The independent CI review initially lacked the final author handoff/patch, so its claim was confined to exact file bytes and the lead matched the later artifacts. No native delivery failure, source regression or hosted Actions failure is invented from these limits.
+
+## 🔧 Adjustments Made
+
+- **Shifted from:** Source-only resize-selector reachability. **To:** Bounded native ordinary → resize → ordinary evidence. **Because:** The existing supervisor could answer the composition question without another target encode. **Consequence:** Empty-batch navigation accepted; broader media and grant-reset limits remain.
+- **Shifted from:** Local-only source checks. **To:** A reviewed shared Linux/Windows Actions definition. **Because:** Repeatable current-contract checks support parallel quality work. **Consequence:** Local runner green; hosted execution still pending publication.
+- **Shifted from:** An incorrect public-active-repository assumption. **To:** The clarified private active fork and separate public placeholder. **Because:** Parent reconciled owner context. **Consequence:** No visibility/destination change and no historical rewrite.
+
+## ❌ Mistakes / Risks Noted
+
+**Evidence overreach. What happened/could happen:** Exit 0, 87 closed children or visible reset disclosure could be read as complete native/media acceptance. **Actual impact:** No user target or populated grant was exercised. **Potential impact:** Unsupported platform, media or performance claims. **Correction/status:** Exact empty-batch scope, CUA attribution, diagnostic/storage limits and aggregate-only census retained. **Failure Intelligence:** State what the exercised path can discriminate, not everything adjacent to it.
+
+**CI and destination assumptions. What happened/could happen:** Local source green could be labeled Windows CI success, or an unrelated public placeholder treated as the active repository. **Actual impact:** Neither hosted execution nor destination change occurred. **Potential impact:** False quality assurance or unintended publication. **Correction/status:** Actual hosted revision checks remain next; private active destination explicitly clarified. **Failure Intelligence:** Bind platform and publication claims to observed results and intended destinations.
+
+## 📍 Current Position
+
+**As of:** 15:42:23.081562 UTC / 17:42:23.081562 Cairo. Later owning-record save does not move this cutoff.
+
+**Before:** 054's finite resize option was source-tested but lacked native composition evidence; no shared hosted source-contract lane was integrated.
+
+**After:** Native empty-batch switching on unchanged 054 is accepted. Three CI files are integrated, with local 202 syntax / 96 shared / 10 Linux-policy checks passing.
+
+**Current standing:** No application/test/runtime/default/producer/audio-policy change. Hosted CI, Windows, hardware and broader 0.7 acceptance remain pending; separate studies/proposals are not implementation.
+
+**Live owner / continuation anchor:** Lead owns 055 preservation and the first actual hosted-job checks after publication. Parallel foundational/Windows work continues within its own scope. Summary writer owns only this prepend until release.
+
+## 🔜 Next Steps
+
+1. Preserve the eight-path 055 checkpoint through local Git, exact source/history/readable records and verified GitHub publication.
+2. Inspect actual hosted Linux and Windows runs on that published revision, retaining failures rather than assuming the local result transfers. Do not change repository settings silently if a policy blocks execution.
+3. Continue the separate additive plan and current-product quality work, including a detailed future Windows/RTX 5060 handoff and unfinished E3 requirements, with source/native/hardware evidence kept distinct.
+
+**Do not reopen / repeat:** Do not replay this consumed gate, repeat successful target media for paperwork, turn the 84 forecast into a hard limit, infer whole-profile preservation, sum repeated test scopes or promote defaults from CI green.
+
+**Continuation boundary:** Existing owner development authorization continues. This record is not a new runtime gate, hosted success receipt, visibility change or broad 0.7 acceptance. Later plan, source, job and native results belong to their actual later checkpoint.
+
+## ❓ Open Questions
+
+- **Will the selected source contracts pass on actual hosted Linux and Windows? Needed from:** First completed jobs tied to the published revision. **Blocks:** Hosted-platform CI claims, not local source preservation.
+- **What additional current-product work is required for 0.7 and Windows/RTX 5060 testing? Needed from:** The separate additive study and appropriate implementation/platform evidence. **Blocks:** Broad acceptance and the final machine handoff, not this finite milestone.
+- **Do populated-plan/grant reset and broader resize families hold? Needed from:** Specifically scoped later evidence. **Blocks:** Those claims only; this empty-batch result does not answer them.
+
+## 🧾 Session Outcome
+
+Accepted one bounded native ordinary → resize-range → ordinary journey on immutable 054, with 87/87 owned children closed and original state evidence preserved. Integrated three reviewed CI files and verified local source-only checks. Hosted execution and broader platform/hardware acceptance remain pending.
+
+Detailed records: [execution](2026-11-18_Shared_CI_and_Resize_Selector_Proof.md), [receipt index](2026-11-18_Shared_CI_and_Resize_Selector_Proof_Receipts.json), and [portable evidence](shared-ci-resize-selector-proof-portable.json). The portable is a declared evidence selection, not an app/runtime/profile/media recovery package; exclusions and transformations are recorded there.
+
+The exact previous **2,209,326-byte** body and original correction receipt remain intact. Intended scope is **eight paths / 685 files / 55 commits**. New commit, external preservation and hosted Actions results are pending at cutoff and require separate verification.
+
+## 🔍 Confidence Level
+
+**High** in the bounded native navigation and exact local CI source results; **limited** in hosted/Windows/hardware and broader 0.7 acceptance.
+
+**Why:** Independent saved audit, exact source/reference checks, ordered owner closure, reviewed three-file identities and a retained exit-0 local runner agree. **Not higher because:** Visuals are CUA-only, census/storage evidence is aggregate/sampled, the batch was empty, and no hosted Windows or hardware run occurred.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Fixed resize-range option added to the opt-in session selector
 
 ## 🤖 Models, Effort, Roles and Provenance

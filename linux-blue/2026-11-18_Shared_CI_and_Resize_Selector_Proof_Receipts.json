@@ -1,0 +1,164 @@
+{
+  "schema": 1,
+  "checkpoint": 55,
+  "cutoffUtc": "2026-11-18T15:42:23.081562+00:00",
+  "scope": {
+    "expectedPaths": 8,
+    "expectedFiles": 685,
+    "nativeBaseCommit": "41d038ed6bf1e650c75fc9eb869ff0552432cb12",
+    "applicationRuntimeProducerDefaultsUnchanged": true
+  },
+  "ciFiles": [
+    {
+      "path": ".github/workflows/shared-core.yml",
+      "bytes": 1093,
+      "sha256": "308644c3ca7e72f2b8e51d1d5c2257a0051fa4c8c87dbee47e10725f46ee6cd1"
+    },
+    {
+      "path": "scripts/ci-source-contracts.cjs",
+      "bytes": 1858,
+      "sha256": "ec0eb57785edeb9919da016e54ff4e6afd2e1cc2ceca8cef03b505a166684039"
+    },
+    {
+      "path": "linux-blue/CI_SOURCE_CONTRACTS.md",
+      "bytes": 2576,
+      "sha256": "8e7efeb7e9c8bd0749ddbbd78819a10becf3f432ab36e84c0e3f723faef3cd25"
+    }
+  ],
+  "integrationUtc": "2026-11-18T15:41:48.758867+00:00",
+  "localCI": {
+    "command": [
+      "node",
+      "scripts/ci-source-contracts.cjs"
+    ],
+    "syntaxFiles": 202,
+    "sharedPass": 96,
+    "linuxPolicyPass": 10,
+    "exitCode": 0,
+    "stderrBytes": 0,
+    "hostedLinuxExecuted": false,
+    "hostedWindowsExecuted": false
+  },
+  "native": {
+    "transitions": 2,
+    "readyWindowsObserved": 3,
+    "userTargets": 0,
+    "childrenClosed": 87,
+    "forecastChildren": 84,
+    "newEvents": 18,
+    "oldEventsUnchanged": 94,
+    "truncatedNewContexts": 0,
+    "points": 8,
+    "wholeManualSeconds": 95.720901,
+    "populatedGrantResetProven": false
+  },
+  "artifactReferences": [
+    {
+      "base": "guidance",
+      "path": "checkpoint055-cutoff.json",
+      "bytes": 1821,
+      "sha256": "4ddc7bcb5195e0f31fa06d9458a70080bfdb2395fea77bab7eda312d9e56c6f7"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint055-ci-integration.json",
+      "bytes": 1751,
+      "sha256": "cecc6f4ca3d69418abc31033a8b1e751473bccd5c1f025bf07542f0f95264d6c"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint055-ci-lead-tests/RESULTS.json",
+      "bytes": 432,
+      "sha256": "48e83a2b965fd7f1be044982f647bfa4b02fa8e876b231da998a7cbfecbc7141"
+    },
+    {
+      "base": "guidance",
+      "path": "resize-selector-native054-preparation/NATIVE_OUTCOME.json",
+      "bytes": 23571,
+      "sha256": "87b62aeb2b0113a8d81ca5fd411691ec52276b25ad30a46f71b4702ad9964397"
+    },
+    {
+      "base": "guidance",
+      "path": "resize-selector-native054-preparation/OUTER_COMPLETION.json",
+      "bytes": 839,
+      "sha256": "caed2ae17191e5bb1736a09e036cfc5390469938a3ca1e05b2055c37cf5744d6"
+    },
+    {
+      "base": "guidance",
+      "path": "resize-selector-native054-preparation/EVENT_CAPTURE.json",
+      "bytes": 6056,
+      "sha256": "233b0087e7299809251ddcaaba0430592b1658a43bb971292ee5f4712a22483c"
+    },
+    {
+      "base": "guidance",
+      "path": "resize-selector-native054-preparation/LEAD_RECONCILIATION.json",
+      "bytes": 3646,
+      "sha256": "126e554b8ae6f9e5c07b09b244b834213ed27f723a75f09c397122f66d6bcc7d"
+    },
+    {
+      "base": "guidance",
+      "path": "resize-selector-native054-independent/FINAL_SAVED_AUDIT.json",
+      "bytes": 50108,
+      "sha256": "5662da7dbf44bdc2ee029400b1742cbf4f0edffb0dbca87fe9465c17245b0499"
+    },
+    {
+      "base": "guidance",
+      "path": "resize-selector-native054-preparation/BOUND_HANDOFF.json",
+      "bytes": 1980,
+      "sha256": "dfc51fef9fe7a2edb95197feced44a8f432a49a952dd254fd8c69ef0df932863"
+    },
+    {
+      "base": "guidance",
+      "path": "resize-selector-native054-independent/BOUND_REVIEW.json",
+      "bytes": 5365,
+      "sha256": "609f8553fd49e587ae49f3ce31ca55f80aa7d90ca83e481ce1220c74ccbf4c7a"
+    },
+    {
+      "base": "guidance",
+      "path": "notion-checkpoint-054-verification.json",
+      "bytes": 125900,
+      "sha256": "0c6577067c8d32321a00b9b939741ebac17e85292828f8031289ee7a873888d1"
+    },
+    {
+      "base": "guidance",
+      "path": "github-checkpoint054-verification.json",
+      "bytes": 4654,
+      "sha256": "f79747ef906ed40f48352feee7eac0f99e475080fbb57f7c781d51c0da202895"
+    },
+    {
+      "base": "workspace-artifact",
+      "path": "ffmpeg-ci-handoff-20261118.json",
+      "bytes": 1144,
+      "sha256": "776de4a596f790908fce33aa32ddca0d0a43d5bb2c0fcbe48533d7dce07e9206"
+    },
+    {
+      "base": "workspace-artifact",
+      "path": "ffmpeg-ci-sourcework-20261118.patch",
+      "bytes": 6146,
+      "sha256": "11cbed5f098b6c74db6738c920762ab7a6a49a46064b6feeb1038ec5a880047e"
+    },
+    {
+      "base": "workspace-artifact",
+      "path": "ffmpeg-ci-independent-review-20261118/INDEPENDENT_REVIEW-v1.json",
+      "bytes": 5645,
+      "sha256": "b1fb4ebdb978218016f7275236d87d5c113f720b44ff9d8c16788a91d36c9547"
+    }
+  ],
+  "portable": {
+    "path": "linux-blue/shared-ci-resize-selector-proof-portable.json",
+    "bytes": 106217,
+    "sha256": "590badf45ac3615e2aec0c263d79b6d7c9e82e164d24c3a2f0c200c53dab54af",
+    "objects": 5,
+    "prefixChanges": 168
+  },
+  "limits": [
+    "CI local source checks 202 syntax files plus96shared and10Linux-policy tests, no hostedActions/Windows execution yet; source-only, no full regression or hardware/release acceptance.",
+    "Native evidence belongs immutable054, empty batch two transitions with three Ready windows, no user target or populated-grant reset.",
+    "87 aggregate children closed versus84 forecast; no complete child ledger, no performance benchmark.",
+    "Diagnostics retained: threeDBus plus oneSSL error,18untruncated new events,94prior unchanged,112 allowlisted total, no wholeprofile claim.",
+    "Eight storage points not quota; CUA-only image observations, not independent screenshot replay or WebContents IDs; normal wait closure not crossnamespace proc absence.",
+    "Additive foundational plan studied separately; not blocked on its completion, no plan source integrated at cutoff.",
+    "Owner asks highest available model/effort for future workers, ongoing parallel development, WindowsRTX5060 handoff, reusable skills/PBSv1.2 notes separate; no default/runtime/hardware/release promotion."
+  ],
+  "repositoryVisibility": "Private per corrected observation; unchanged by this work."
+}

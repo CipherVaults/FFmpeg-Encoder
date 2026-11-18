@@ -1,15 +1,15 @@
-# Current state — checkpoint 054
+# Current state — checkpoint 055
 
-Record cutoff: 2026-11-18 15:23:15.673767 UTC.
+Record cutoff: 2026-11-18 15:42:23.081562 UTC.
 
-The five-file resize-range selector extension is integrated and source-tested: 50/50 focused, 350/350 explicit Linux with saved reports and 229/229 protection. All final runs have zero failures, skips and cancellations. Scopes overlap and are not package-wide npm test.
+## Verified progress
+The native ordinary → resize-range → ordinary empty-batch journey passed on immutable checkpoint 054: two clicks, three observed Ready windows, 87/87 owned children closed and no user target. Eighteen new events were untruncated and 94 prior records remained unchanged. This is not populated-grant reset, new media fidelity or Windows qualification.
 
-Only explicitly opted-in ordinary 9.0.2 switching offers the existing fixed resize-range factory alongside ordinary and Full-copy. Default 7.1.5, audio policy, runtime, producer code and all 97 resize pins remain unchanged. The 218 literal-map rows have no intersection with changed source.
+A separate three-file shared Linux/Windows CI foundation is integrated. Its local runner passed 202 syntax-file checks, 96 shared tests and 10 Linux-policy tests, exit zero with empty stderr. Hosted Linux and Windows Actions have NOT run yet. The lane does not download or launch Electron/FFmpeg and does not replace broad regression or hardware acceptance.
 
-Native third-route switching is not yet tested on this source. Earlier ordinary/Full-copy native evidence does not qualify it, and shared renderer changes remain untested on native Windows. The narrow 1080p30-to-720 precision-FLAC range route does not complete broader 1440p/4K, long-file, cadence/orientation or audio acceptance; those remain project scope. A separately reviewed genuine 1440 proposal is still isolated and unintegrated.
+## Limits and direction
+Checkpoint 054's 50/50 focused, 350/350 explicit Linux and 229/229 protection scopes are inherited, overlapping and not rerun here. Defaults, runtime, producer pins and audio policy are unchanged. Broader 1440p/4K, long-file, cadence/orientation/audio acceptance and Windows/RTX 5060 final handoff remain unfinished.
 
-The initial test driver's spec/TAP parsing error is preserved; no missing child exit receipt is invented. Fresh explicit-TAP runs saved exits before parsing and passed. No media or native rerun occurred.
+Continue parallel Linux/Windows 0.7 Electron work, use the owner's requested highest available model/effort for future workers, and keep reusable skills/PBS v1.2 notes separate. The additional foundational plan is being studied separately, not integrated into 055 or used to delay this bounded checkpoint. The active repository remains private per corrected observation; no visibility or account setting was changed.
 
-Checkpoint 053 preservation is complete. This integration followed both restoration gates but preceded its later native documentation/GitHub completion. Next, preserve 054 and bind the conditionally reviewed native helper: at cutoff binding is null and no gate or run exists.
-
-[Execution](2026-11-18_Resize_Range_Selector_Extension.md) · [Receipts](2026-11-18_Resize_Range_Selector_Extension_Receipts.json)
+[Execution](2026-11-18_Shared_CI_and_Resize_Selector_Proof.md) · [Receipts](2026-11-18_Shared_CI_and_Resize_Selector_Proof_Receipts.json)

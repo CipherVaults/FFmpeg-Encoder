@@ -1,0 +1,2575 @@
+{
+  "schema": 1,
+  "title": "Shared CI and native resize selector: selected native evidence",
+  "cutoffUtc": "2026-11-18T15:42:23.081562+00:00",
+  "status": "audited bounded native054 proof; later CI source-only",
+  "authority": {
+    "runtimeExecution": false,
+    "factoryAcquisition": false,
+    "publication": false,
+    "catalogActivation": false,
+    "nativeQualification": false,
+    "rawReportRestoration": false
+  },
+  "originals": [
+    {
+      "id": "outcome",
+      "path": "resize-selector-native054-preparation/NATIVE_OUTCOME.json",
+      "bytes": 23571,
+      "sha256": "87b62aeb2b0113a8d81ca5fd411691ec52276b25ad30a46f71b4702ad9964397"
+    },
+    {
+      "id": "outer",
+      "path": "resize-selector-native054-preparation/OUTER_COMPLETION.json",
+      "bytes": 839,
+      "sha256": "caed2ae17191e5bb1736a09e036cfc5390469938a3ca1e05b2055c37cf5744d6"
+    },
+    {
+      "id": "capture",
+      "path": "resize-selector-native054-preparation/EVENT_CAPTURE.json",
+      "bytes": 6056,
+      "sha256": "233b0087e7299809251ddcaaba0430592b1658a43bb971292ee5f4712a22483c"
+    },
+    {
+      "id": "audit",
+      "path": "resize-selector-native054-independent/FINAL_SAVED_AUDIT.json",
+      "bytes": 50108,
+      "sha256": "5662da7dbf44bdc2ee029400b1742cbf4f0edffb0dbca87fe9465c17245b0499"
+    },
+    {
+      "id": "lead",
+      "path": "resize-selector-native054-preparation/LEAD_RECONCILIATION.json",
+      "bytes": 3646,
+      "sha256": "126e554b8ae6f9e5c07b09b244b834213ed27f723a75f09c397122f66d6bcc7d"
+    }
+  ],
+  "transformations": {
+    "method": "Known leading prefixes only; every other parsed key/type/value unchanged.",
+    "count": 168,
+    "countsByAlias": {
+      "project://": 98,
+      "native-proof://": 62,
+      "audit://": 3,
+      "support://": 5
+    },
+    "locations": [
+      {
+        "location": "$.reports.outcome.knownState.path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.outcome.pointReceipts[0].receipt.path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.outcome.pointReceipts[1].receipt.path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.outcome.pointReceipts[2].receipt.path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.outcome.pointReceipts[3].receipt.path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.outcome.pointReceipts[4].receipt.path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.outcome.pointReceipts[5].receipt.path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.outcome.pointReceipts[6].receipt.path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.outcome.pointReceipts[7].receipt.path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.outcome.diagnosticSummary.topLevelStderr.path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.outcome.diagnosticSummary.topLevelStdout.path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.outcome.references[0].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.outcome.references[1].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.outcome.references[2].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.outcome.references[3].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.outcome.references[4].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.outcome.references[5].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.outcome.references[6].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.outcome.references[7].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.outcome.references[8].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.outcome.references[9].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.outcome.references[10].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.outcome.references[11].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.outcome.references[12].path",
+        "alias": "audit://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.outcome.references[13].path",
+        "alias": "support://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.outcome.references[14].path",
+        "alias": "support://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[0].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[1].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[2].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[3].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[4].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[5].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[6].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[7].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[8].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[9].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[10].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[11].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[12].path",
+        "alias": "audit://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[13].path",
+        "alias": "support://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[14].path",
+        "alias": "support://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[15].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[16].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[17].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[18].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[19].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[20].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[21].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[22].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[23].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[24].path",
+        "alias": "support://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[25].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[26].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[34].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[35].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[36].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[37].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[38].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[39].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[40].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[41].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[42].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[43].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[44].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[45].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[46].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[47].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[48].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[49].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[50].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[51].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[52].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[53].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[54].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[55].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[56].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[57].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[58].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[59].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[60].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[61].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[62].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[63].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[64].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[65].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[66].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[67].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[68].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[69].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[70].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[71].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[72].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[73].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[74].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[75].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[76].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[77].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[78].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[79].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[80].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[81].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[82].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[83].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[84].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[85].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[86].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[87].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[88].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[89].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[90].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[91].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[92].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[93].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[94].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[95].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[96].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[97].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[98].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[99].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[100].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[101].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[102].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[103].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[104].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[105].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[106].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[107].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[108].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[109].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[110].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[111].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[112].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[113].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[114].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[115].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[116].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[117].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[118].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[119].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[120].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[121].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[122].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[123].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[124].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[125].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[126].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[127].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[128].path",
+        "alias": "project://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[129].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[130].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[131].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[132].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[133].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[134].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[135].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[136].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[137].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[138].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[139].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[140].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[141].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[142].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[143].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[144].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[145].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.audit.verifiedReferences[146].path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.lead.audit.path",
+        "alias": "audit://",
+        "occurrences": 1
+      },
+      {
+        "location": "$.reports.lead.outcome.path",
+        "alias": "native-proof://",
+        "occurrences": 1
+      }
+    ],
+    "embeddedChanges": 0,
+    "inverseMappingIncluded": false
+  },
+  "limits": [
+    "Five complete selected outcome/outer/capture/audit/reconciliation objects retained; raw event payloads, previous profile contents, logs, media, runtime and gates are excluded. This is not a zero-omission or raw-runtime restoration archive.",
+    "Native evidence belongs to immutable054, before separate three-file CI integration. Two empty-batch transitions, three Ready windows and zero user targets do not establish populated grant reset, new media fidelity or native Windows behavior.",
+    "87 owned children closed versus84 forecast; aggregate closure is not a per-child ledger or whole-OS proof. Initial READY stdout only; top-level three D-Bus and one SSL error are not all child stderr.",
+    "Eighteen untruncated new events and94 unchanged prior events form112 allowlisted records, not whole-profile inspection. Eight sampled points are not quotas/no-write guarantees; CUA-only observations are not independent screenshot replay or direct WebContents IDs.",
+    "No PCM/audio-policy/default/runtime/GPU/performance qualification or authority. No inverse private-root map. Local CI results and hosted Windows/Linux Actions status are separate from these original native objects."
+  ],
+  "reports": {
+    "outcome": {
+      "recordedAtUtc": "2026-11-18T15:39:23.349059+00:00",
+      "status": "Bounded visible two-transition journey completed; independent saved audit pending",
+      "sourceCommit": "41d038ed6bf1e650c75fc9eb869ff0552432cb12",
+      "sourceTree": "642cc4907b0f82dd1343578ed25c4af9e261a970",
+      "sourceCount": 679,
+      "allCurrentSourceBytesEqualGit": true,
+      "sourceTestRerun": false,
+      "scope": "One native launch; ordinary9 to resize-range to ordinary9; no picker, Prepare, Apply, Start, user target, reveal, cancel, player, extra probe/decode or repeat launch. Startup media and remembered-state bookkeeping occurred normally.",
+      "observations": [
+        {
+          "recordedByPoint": "POINT_03_ORDINARY_READY.json",
+          "windowId": 27262980,
+          "session": "ordinary9",
+          "state": "Ready, ordinary Full / Keep source / copied audio disclosure; remembered folder labels, empty inspector; three finite selector controls visible after one scroll."
+        },
+        {
+          "recordedByPoint": "POINT_04_FIRST_CLICK.json",
+          "action": "One click on Experimental precise 720p range / FLAC, at global713,915 after fresh screenshot. Old window controls disabled while replacement pending."
+        },
+        {
+          "recordedByPoint": "POINT_05_RESIZE_READY.json",
+          "windowId": 27263011,
+          "session": "resize-range",
+          "state": "Ready, title Experimental precise1080p30 to720p range / FLAC. H265CPU slow, fixedCRF25, precisionFLAC; Full/Keep source/otherresize/Remux unavailable. Explicit CPU topology/threadpool warnings and native threading/performance not qualified. Empty inspector; ordinary footer button enabled after scroll."
+        },
+        {
+          "recordedByPoint": "POINT_06_SECOND_CLICK.json",
+          "action": "One click on Ordinary encoding at global169,914 after fresh screenshot. This was the second and final selector click."
+        },
+        {
+          "recordedByPoint": "POINT_07_ORDINARY_RETURN_READY.json",
+          "windowId": 27263016,
+          "session": "ordinary9",
+          "state": "Ready third native window; ordinary disclosure and CRF0-51 range restored, empty inspector."
+        },
+        {
+          "recordedByPoint": "POINT_08_POSTCLOSE.json",
+          "action": "One normal X close at global1256,104 after current screenshot. Subsequent screenshot showed returned shell prompt. CUA completion summary sent exactly once, before subsequent tools."
+        }
+      ],
+      "observationTiming": "Ordered CUA observations are recorded here after the journey; point receipts were saved immediately after named observations/actions, not exact UI event timestamps. No screenshot export retained.",
+      "visibleResetNotice": "Switching resets the workbench window and discards this batch and completed-output access. Candidate inputs must already be restored; no fallback. Notice observed with controls, not proof of populated grant reset.",
+      "outerCompletion": {
+        "exitCode": 0,
+        "terminationRequested": false,
+        "failure": null,
+        "startedUtc": "2026-11-18T15:36:55.233348+00:00",
+        "endedUtc": "2026-11-18T15:38:30.954230+00:00",
+        "elapsedSeconds": 95.72090096199827,
+        "noUserTargetAuthorized": true,
+        "qualification": "Closure only. Requires visible CUA outcome and independent saved audit. No direct WebContents identity, completed-grant revocation, complete child stderr or runtime qualification inferred.",
+        "app.stdout.log": {
+          "bytes": 447,
+          "sha256": "f0c5560512b2a14835b0e6dd4d9e2ad575fe664462877ea4cb8859dae826a251"
+        },
+        "app.stderr.log": {
+          "bytes": 624,
+          "sha256": "e39df237331b03196cab3028f4b8cb47f3e1918b4aed1342b93f67f79eea8e55"
+        },
+        "ownedCensusLines": [
+          "LINUX_WORKBENCH_CLOSED {\"spawned\":87,\"closed\":87,\"live\":0,\"maximum\":1,\"failures\":0}"
+        ]
+      },
+      "census": {
+        "spawned": 87,
+        "closed": 87,
+        "live": 0,
+        "maximum": 1,
+        "failures": 0
+      },
+      "supervisedProcess": {
+        "pid": 40424,
+        "procStartTicks": "11001751",
+        "utc": "2026-11-18T15:36:55.233348+00:00",
+        "display": ":0"
+      },
+      "sessionEventSummary": [
+        {
+          "sessionId": "28f995ec-5392-49e1-8968-440f73678fb9",
+          "ownerPid": 40424,
+          "startedAt": 1795016215869,
+          "endedAt": 1795016254481,
+          "sequence": [
+            {
+              "sequence": 0,
+              "at": 1795016215869,
+              "reason": "SESSION_STARTED",
+              "outcome": null,
+              "contextTruncated": null
+            },
+            {
+              "sequence": 1,
+              "at": 1795016216058,
+              "reason": "CAPABILITY_STARTED",
+              "outcome": null,
+              "contextTruncated": null
+            },
+            {
+              "sequence": 2,
+              "at": 1795016219929,
+              "reason": "RUNTIME_IDENTIFIED",
+              "outcome": null,
+              "contextTruncated": false
+            },
+            {
+              "sequence": 3,
+              "at": 1795016219945,
+              "reason": "CAPABILITY_FINISHED",
+              "outcome": null,
+              "contextTruncated": false
+            },
+            {
+              "sequence": 4,
+              "at": 1795016220072,
+              "reason": "PROVENANCE_RECOVERY_FINISHED",
+              "outcome": null,
+              "contextTruncated": false
+            },
+            {
+              "sequence": 5,
+              "at": 1795016254481,
+              "reason": "SESSION_ENDED",
+              "outcome": "completed",
+              "contextTruncated": null
+            }
+          ],
+          "runtimeVersions": {
+            "ffmpeg": "9.0.2",
+            "ffprobe": "9.0.2"
+          },
+          "recovery": {
+            "matching": 0,
+            "absent": 0,
+            "unrelated": 1,
+            "uncertain": 0,
+            "pendingRemaining": 0,
+            "warnings": []
+          }
+        },
+        {
+          "sessionId": "88fd2be4-c7f9-4a8d-8695-40f0d11f6451",
+          "ownerPid": 40424,
+          "startedAt": 1795016254869,
+          "endedAt": 1795016283821,
+          "sequence": [
+            {
+              "sequence": 0,
+              "at": 1795016254869,
+              "reason": "SESSION_STARTED",
+              "outcome": null,
+              "contextTruncated": null
+            },
+            {
+              "sequence": 1,
+              "at": 1795016254970,
+              "reason": "CAPABILITY_STARTED",
+              "outcome": null,
+              "contextTruncated": null
+            },
+            {
+              "sequence": 2,
+              "at": 1795016259085,
+              "reason": "RUNTIME_IDENTIFIED",
+              "outcome": null,
+              "contextTruncated": false
+            },
+            {
+              "sequence": 3,
+              "at": 1795016259097,
+              "reason": "CAPABILITY_FINISHED",
+              "outcome": null,
+              "contextTruncated": false
+            },
+            {
+              "sequence": 4,
+              "at": 1795016259408,
+              "reason": "PROVENANCE_RECOVERY_FINISHED",
+              "outcome": null,
+              "contextTruncated": false
+            },
+            {
+              "sequence": 5,
+              "at": 1795016283821,
+              "reason": "SESSION_ENDED",
+              "outcome": "completed",
+              "contextTruncated": null
+            }
+          ],
+          "runtimeVersions": {
+            "ffmpeg": "9.0.2",
+            "ffprobe": "9.0.2"
+          },
+          "recovery": {
+            "matching": 0,
+            "absent": 0,
+            "unrelated": 1,
+            "uncertain": 0,
+            "pendingRemaining": 0,
+            "warnings": []
+          }
+        },
+        {
+          "sessionId": "221abc9a-5f7c-4672-9186-bcddc8ffb769",
+          "ownerPid": 40424,
+          "startedAt": 1795016284184,
+          "endedAt": 1795016308933,
+          "sequence": [
+            {
+              "sequence": 0,
+              "at": 1795016284184,
+              "reason": "SESSION_STARTED",
+              "outcome": null,
+              "contextTruncated": null
+            },
+            {
+              "sequence": 1,
+              "at": 1795016284289,
+              "reason": "CAPABILITY_STARTED",
+              "outcome": null,
+              "contextTruncated": null
+            },
+            {
+              "sequence": 2,
+              "at": 1795016288086,
+              "reason": "RUNTIME_IDENTIFIED",
+              "outcome": null,
+              "contextTruncated": false
+            },
+            {
+              "sequence": 3,
+              "at": 1795016288103,
+              "reason": "CAPABILITY_FINISHED",
+              "outcome": null,
+              "contextTruncated": false
+            },
+            {
+              "sequence": 4,
+              "at": 1795016288205,
+              "reason": "PROVENANCE_RECOVERY_FINISHED",
+              "outcome": null,
+              "contextTruncated": false
+            },
+            {
+              "sequence": 5,
+              "at": 1795016308933,
+              "reason": "SESSION_ENDED",
+              "outcome": "completed",
+              "contextTruncated": null
+            }
+          ],
+          "runtimeVersions": {
+            "ffmpeg": "9.0.2",
+            "ffprobe": "9.0.2"
+          },
+          "recovery": {
+            "matching": 0,
+            "absent": 0,
+            "unrelated": 1,
+            "uncertain": 0,
+            "pendingRemaining": 0,
+            "warnings": []
+          }
+        }
+      ],
+      "knownState": {
+        "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview",
+        "identity": {
+          "dev": 27,
+          "ino": 2361428
+        },
+        "priorAllowlistedEvents": 94,
+        "priorAllHashesUnchanged": true,
+        "newRetainedEvents": 18,
+        "threeSessionsSixEventsEach": true,
+        "contextTruncatedEvents": 0,
+        "wholeProfileUnchangedClaim": false
+      },
+      "pointReceipts": [
+        {
+          "receipt": {
+            "path": "native-proof://POINT_01_PRELAUNCH.json",
+            "bytes": 526,
+            "sha256": "2c51dad4123f62ce1f338e99108eea4ab1d20bcb02852c9a900b6c05006ac769"
+          },
+          "value": {
+            "observedAtUtc": "2026-11-18T15:36:36.033724+00:00",
+            "label": "Fresh gate, before one launch",
+            "storage": {
+              "freeBytes": 54813159424,
+              "continuousQuota": false,
+              "capabilityObservation": "Operator point observations only; no whole profile traversal"
+            },
+            "knownCapabilityArtifacts": {
+              "directories": [],
+              "totalBytes": 0,
+              "scope": "Only source-defined direct capability-* directories and ordinary files; metadata only, no cache/preferences/electron profile traversal. Sampled, not quota."
+            }
+          }
+        },
+        {
+          "receipt": {
+            "path": "native-proof://POINT_02_LAUNCH.json",
+            "bytes": 534,
+            "sha256": "5d6709623c963230a5af03e52761c20ed01b6f6e5f4a95d12f1c710d792b1696"
+          },
+          "value": {
+            "observedAtUtc": "2026-11-18T15:37:01.114357+00:00",
+            "label": "Supervisor submitted, initial startup",
+            "storage": {
+              "freeBytes": 54813106176,
+              "continuousQuota": false,
+              "capabilityObservation": "Operator point observations only; no whole profile traversal"
+            },
+            "knownCapabilityArtifacts": {
+              "directories": [],
+              "totalBytes": 0,
+              "scope": "Only source-defined direct capability-* directories and ordinary files; metadata only, no cache/preferences/electron profile traversal. Sampled, not quota."
+            }
+          }
+        },
+        {
+          "receipt": {
+            "path": "native-proof://POINT_03_ORDINARY_READY.json",
+            "bytes": 577,
+            "sha256": "d9582f1da41cb130b460cddcaec35f6dfb07a426225988e80b812f4cc75c7655"
+          },
+          "value": {
+            "observedAtUtc": "2026-11-18T15:37:27.299218+00:00",
+            "label": "Ordinary initial window Ready, three session controls visible, no batch prepared",
+            "storage": {
+              "freeBytes": 54813102080,
+              "continuousQuota": false,
+              "capabilityObservation": "Operator point observations only; no whole profile traversal"
+            },
+            "knownCapabilityArtifacts": {
+              "directories": [],
+              "totalBytes": 0,
+              "scope": "Only source-defined direct capability-* directories and ordinary files; metadata only, no cache/preferences/electron profile traversal. Sampled, not quota."
+            }
+          }
+        },
+        {
+          "receipt": {
+            "path": "native-proof://POINT_04_FIRST_CLICK.json",
+            "bytes": 565,
+            "sha256": "a0d8107bfcd7119680a75ba0214706e88c1a1792e98d0763c07d7134ab360a62"
+          },
+          "value": {
+            "observedAtUtc": "2026-11-18T15:37:40.449797+00:00",
+            "label": "One visible precise resize click delivered, waiting for fresh window",
+            "storage": {
+              "freeBytes": 54813065216,
+              "continuousQuota": false,
+              "capabilityObservation": "Operator point observations only; no whole profile traversal"
+            },
+            "knownCapabilityArtifacts": {
+              "directories": [],
+              "totalBytes": 0,
+              "scope": "Only source-defined direct capability-* directories and ordinary files; metadata only, no cache/preferences/electron profile traversal. Sampled, not quota."
+            }
+          }
+        },
+        {
+          "receipt": {
+            "path": "native-proof://POINT_05_RESIZE_READY.json",
+            "bytes": 587,
+            "sha256": "a3d422c91607552283d77a823182fbb38e8c38e6cca0e5c63a4849f1e0570e78"
+          },
+          "value": {
+            "observedAtUtc": "2026-11-18T15:37:52.740643+00:00",
+            "label": "New resize-range window Ready; fixed H265 CPU slow CRF25 and precision FLAC; no user batch",
+            "storage": {
+              "freeBytes": 54813061120,
+              "continuousQuota": false,
+              "capabilityObservation": "Operator point observations only; no whole profile traversal"
+            },
+            "knownCapabilityArtifacts": {
+              "directories": [],
+              "totalBytes": 0,
+              "scope": "Only source-defined direct capability-* directories and ordinary files; metadata only, no cache/preferences/electron profile traversal. Sampled, not quota."
+            }
+          }
+        },
+        {
+          "receipt": {
+            "path": "native-proof://POINT_06_SECOND_CLICK.json",
+            "bytes": 571,
+            "sha256": "bed383f6d0de811b80a7817bcf1a5560be3f89a5e098f8b74774c56822e1fb5d"
+          },
+          "value": {
+            "observedAtUtc": "2026-11-18T15:38:12.385271+00:00",
+            "label": "Second and final visible selector click, waiting for ordinary fresh window",
+            "storage": {
+              "freeBytes": 54812823552,
+              "continuousQuota": false,
+              "capabilityObservation": "Operator point observations only; no whole profile traversal"
+            },
+            "knownCapabilityArtifacts": {
+              "directories": [],
+              "totalBytes": 0,
+              "scope": "Only source-defined direct capability-* directories and ordinary files; metadata only, no cache/preferences/electron profile traversal. Sampled, not quota."
+            }
+          }
+        },
+        {
+          "receipt": {
+            "path": "native-proof://POINT_07_ORDINARY_RETURN_READY.json",
+            "bytes": 581,
+            "sha256": "c5f08d2ec4e247547775df05917013bc464b22ad2fb4599a3af35d98267609f5"
+          },
+          "value": {
+            "observedAtUtc": "2026-11-18T15:38:23.402495+00:00",
+            "label": "Fresh ordinary window Ready after second click, no targets; preparing normal X close",
+            "storage": {
+              "freeBytes": 54812819456,
+              "continuousQuota": false,
+              "capabilityObservation": "Operator point observations only; no whole profile traversal"
+            },
+            "knownCapabilityArtifacts": {
+              "directories": [],
+              "totalBytes": 0,
+              "scope": "Only source-defined direct capability-* directories and ordinary files; metadata only, no cache/preferences/electron profile traversal. Sampled, not quota."
+            }
+          }
+        },
+        {
+          "receipt": {
+            "path": "native-proof://POINT_08_POSTCLOSE.json",
+            "bytes": 565,
+            "sha256": "b30ad95c2226e1cb16b53346e4a85920f8f0314d752d38ededbf8a78c823fcb7"
+          },
+          "value": {
+            "observedAtUtc": "2026-11-18T15:38:44.827637+00:00",
+            "label": "Normal X close and terminal prompt observed, native UI session ended",
+            "storage": {
+              "freeBytes": 54812672000,
+              "continuousQuota": false,
+              "capabilityObservation": "Operator point observations only; no whole profile traversal"
+            },
+            "knownCapabilityArtifacts": {
+              "directories": [],
+              "totalBytes": 0,
+              "scope": "Only source-defined direct capability-* directories and ordinary files; metadata only, no cache/preferences/electron profile traversal. Sampled, not quota."
+            }
+          }
+        }
+      ],
+      "diagnosticSummary": {
+        "topLevelStderr": {
+          "path": "native-proof://app.stderr.log",
+          "bytes": 624,
+          "sha256": "e39df237331b03196cab3028f4b8cb47f3e1918b4aed1342b93f67f79eea8e55"
+        },
+        "content": "Three missing system D-Bus socket messages and one SSL handshake/net_error-202 message. Not classified harmless; no full per-child stderr capture.",
+        "topLevelStdout": {
+          "path": "native-proof://app.stdout.log",
+          "bytes": 447,
+          "sha256": "f0c5560512b2a14835b0e6dd4d9e2ad575fe664462877ea4cb8859dae826a251"
+        },
+        "readyLineLimit": "Initial readiness line only; replacement qualification rests on visible observations and ordered saved session events, not three READY lines."
+      },
+      "limitations": [
+        "CUA-only screenshots/observations, no screenshot export or raw WebContents identity. All three SESSION_STARTED events name supervised PID40424, supporting same-process three owners; window IDs are observed native windows, not direct WebContents IDs.",
+        "Zero user targets is not zero media. Actual87 children versus approximate84 forecast; forecast was not a ceiling. Aggregate census does not independently classify each extra child or guarantee complete command/stderr capture.",
+        "Three fresh owners complete startup capabilities and provenance recovery; remembered output bookkeeping says0matching/0absent/1unrelated/0uncertain each time, with no warning. No claim of new file deletion or whole-profile byte identity.",
+        "Empty live batch tests do not establish resetting populated plans or completed-output grants, active cancellation/recovery, arbitrary inputs/media/player equality, Windows or all family/native qualification.",
+        "Eight sampled free-space/capability-directory observations show no remaining capability-* directories at those points. Not a continuous quota, proof no temporary writes or complete filesystem census.",
+        "95.72090096199827 seconds is whole manually operated journey, not encode/startup benchmark.",
+        "Normal supervisor wait/exit and aggregate owned census support closure. Cross-namespace /proc absence is not used. No force-kill, timeout request, source/default/runtime/audio-policy change.",
+        "Independent saved audit pending; this record grants no runtime/default/publication authority."
+      ],
+      "friction": [
+        "No missed, duplicate or uncertain native selector delivery observed. Each click was followed by fresh state; initial old window was allowed to finish replacement without a repeat click.",
+        "Initial inherited CUA observation was truncated; a fresh bounded inventory/screenshot and display read were obtained before gate/launch."
+      ],
+      "references": [
+        {
+          "path": "native-proof://APPROVED_SESSION_SWITCH.json",
+          "bytes": 80562,
+          "sha256": "191d14136917603d65e4790eff31cb988b82fa5dd925fd8a94977b00576488ce"
+        },
+        {
+          "path": "native-proof://DESKTOP_PREFLIGHT.json",
+          "bytes": 807,
+          "sha256": "53f7e88eee0b171643bb3c54ee1e5ea5d8569d1646398b2a8c5e28c9bc4ff802"
+        },
+        {
+          "path": "native-proof://BOUND_HANDOFF.json",
+          "bytes": 1980,
+          "sha256": "dfc51fef9fe7a2edb95197feced44a8f432a49a952dd254fd8c69ef0df932863"
+        },
+        {
+          "path": "native-proof://launch-session-switch.py",
+          "bytes": 11885,
+          "sha256": "1e4281025e546ba14ffe84df526e0c6a5122d3383b1c0f226f826d0a69894047"
+        },
+        {
+          "path": "native-proof://NATIVE_PLAN.json",
+          "bytes": 22541,
+          "sha256": "09ec0a95484148e7e66c78d6f7d6fb0051fc026f0952232dee72cfad88709d8f"
+        },
+        {
+          "path": "native-proof://PLAN.md",
+          "bytes": 5506,
+          "sha256": "98a40648529e4ee6ff2285d9390d83365814bedfb2b995cd150dc53072992e5c"
+        },
+        {
+          "path": "native-proof://ATTEMPT_STARTED.json",
+          "bytes": 618,
+          "sha256": "d01b03681dc500e7b7d9789140886898adab323837640843456306891aeab53a"
+        },
+        {
+          "path": "native-proof://APP_PID.json",
+          "bytes": 115,
+          "sha256": "ef3a2cbf6e29505a0abdf4bcc6f716e9e3d9a1226c9b34aee668044da1ddbea6"
+        },
+        {
+          "path": "native-proof://OUTER_COMPLETION.json",
+          "bytes": 839,
+          "sha256": "caed2ae17191e5bb1736a09e036cfc5390469938a3ca1e05b2055c37cf5744d6"
+        },
+        {
+          "path": "native-proof://EVENT_CAPTURE.json",
+          "bytes": 6056,
+          "sha256": "233b0087e7299809251ddcaaba0430592b1658a43bb971292ee5f4712a22483c"
+        },
+        {
+          "path": "native-proof://app.stdout.log",
+          "bytes": 447,
+          "sha256": "f0c5560512b2a14835b0e6dd4d9e2ad575fe664462877ea4cb8859dae826a251"
+        },
+        {
+          "path": "native-proof://app.stderr.log",
+          "bytes": 624,
+          "sha256": "e39df237331b03196cab3028f4b8cb47f3e1918b4aed1342b93f67f79eea8e55"
+        },
+        {
+          "path": "audit://BOUND_REVIEW.json",
+          "bytes": 5365,
+          "sha256": "609f8553fd49e587ae49f3ce31ca55f80aa7d90ca83e481ce1220c74ccbf4c7a"
+        },
+        {
+          "path": "support://notion-checkpoint-054-verification.json",
+          "bytes": 125900,
+          "sha256": "0c6577067c8d32321a00b9b939741ebac17e85292828f8031289ee7a873888d1"
+        },
+        {
+          "path": "support://github-checkpoint054-verification.json",
+          "bytes": 4654,
+          "sha256": "f79747ef906ed40f48352feee7eac0f99e475080fbb57f7c781d51c0da202895"
+        }
+      ]
+    },
+    "outer": {
+      "exitCode": 0,
+      "terminationRequested": false,
+      "failure": null,
+      "startedUtc": "2026-11-18T15:36:55.233348+00:00",
+      "endedUtc": "2026-11-18T15:38:30.954230+00:00",
+      "elapsedSeconds": 95.72090096199827,
+      "noUserTargetAuthorized": true,
+      "qualification": "Closure only. Requires visible CUA outcome and independent saved audit. No direct WebContents identity, completed-grant revocation, complete child stderr or runtime qualification inferred.",
+      "app.stdout.log": {
+        "bytes": 447,
+        "sha256": "f0c5560512b2a14835b0e6dd4d9e2ad575fe664462877ea4cb8859dae826a251"
+      },
+      "app.stderr.log": {
+        "bytes": 624,
+        "sha256": "e39df237331b03196cab3028f4b8cb47f3e1918b4aed1342b93f67f79eea8e55"
+      },
+      "ownedCensusLines": [
+        "LINUX_WORKBENCH_CLOSED {\"spawned\":87,\"closed\":87,\"live\":0,\"maximum\":1,\"failures\":0}"
+      ]
+    },
+    "capture": {
+      "files": [
+        {
+          "name": "078c0653-c4aa-4d2b-8719-954e07353960.json",
+          "bytes": 533,
+          "sha256": "ae3816a0d7b1f671a8206ff26eed449368ab11ea6e8e0b8b62048c2f753e19cb",
+          "sessionId": "88fd2be4-c7f9-4a8d-8695-40f0d11f6451",
+          "contextTruncated": false
+        },
+        {
+          "name": "18c19c5c-82a6-48f2-b510-37e73aa073c7.json",
+          "bytes": 360,
+          "sha256": "ad97583a7bcc21be368b20613065eebc734beb6a622bf6e71cad6f620fda2db2",
+          "sessionId": "28f995ec-5392-49e1-8968-440f73678fb9",
+          "contextTruncated": null
+        },
+        {
+          "name": "21639370-4c4c-462f-933f-b14fd538cf59.json",
+          "bytes": 480,
+          "sha256": "4d8aedf5464832215e9935458e3a066cee8c5bc61210a6c288c02d03b2629cf3",
+          "sessionId": "88fd2be4-c7f9-4a8d-8695-40f0d11f6451",
+          "contextTruncated": false
+        },
+        {
+          "name": "2e3d612e-4fdd-4dbe-a30a-a8b8e3daaac5.json",
+          "bytes": 12331,
+          "sha256": "934a955f25d627fc8f98475b054b66547317d9f1939047b16e39670190bd852d",
+          "sessionId": "28f995ec-5392-49e1-8968-440f73678fb9",
+          "contextTruncated": false
+        },
+        {
+          "name": "3ac52ae5-8018-46ac-88c2-f0c1f5cdb49d.json",
+          "bytes": 465,
+          "sha256": "1698f478c5e5a23060a0e574a5b2e75b75d531ed4aa79cca7477e36b1bba648a",
+          "sessionId": "28f995ec-5392-49e1-8968-440f73678fb9",
+          "contextTruncated": null
+        },
+        {
+          "name": "3de7b0b3-2349-4087-9aa1-399652c84937.json",
+          "bytes": 465,
+          "sha256": "48f2248c86c2180c5928ef5f18680feba3c02aac54b01101d43f12dcdf5000af",
+          "sessionId": "88fd2be4-c7f9-4a8d-8695-40f0d11f6451",
+          "contextTruncated": null
+        },
+        {
+          "name": "605997f8-8af4-42ea-9af4-8b0e715091dd.json",
+          "bytes": 533,
+          "sha256": "55639153fe42f9ef48bab5b29f59f70943fdc49564aec9bc57eb9e1e55d66fb4",
+          "sessionId": "28f995ec-5392-49e1-8968-440f73678fb9",
+          "contextTruncated": false
+        },
+        {
+          "name": "68b140da-32a6-4aab-b9fa-c8dcc4791249.json",
+          "bytes": 12331,
+          "sha256": "a0467090e49aaaa49747b8f7d78f7c142b71c3f3f17386d954c6de4fb0cb2eb7",
+          "sessionId": "221abc9a-5f7c-4672-9186-bcddc8ffb769",
+          "contextTruncated": false
+        },
+        {
+          "name": "6ffafb5e-4489-4bcd-8794-33a93fb126f4.json",
+          "bytes": 388,
+          "sha256": "0a282710d0c5de65ed9dfb12ca82f081107f2397e499a46006c6af705a92f128",
+          "sessionId": "88fd2be4-c7f9-4a8d-8695-40f0d11f6451",
+          "contextTruncated": null
+        },
+        {
+          "name": "8800fcd0-160f-4b7f-9ed5-cf328aff1655.json",
+          "bytes": 480,
+          "sha256": "e63282d99d4bd28aab2fd4837cdd37e21dbb4a778a59b9e94ed3fce7d6e5b34d",
+          "sessionId": "221abc9a-5f7c-4672-9186-bcddc8ffb769",
+          "contextTruncated": false
+        },
+        {
+          "name": "96049453-6b7e-406b-a4d5-63b9dafc6d12.json",
+          "bytes": 388,
+          "sha256": "39c261cf1d048bec34443d7712c80580fd8de915880afa9f87601326c7eb218e",
+          "sessionId": "28f995ec-5392-49e1-8968-440f73678fb9",
+          "contextTruncated": null
+        },
+        {
+          "name": "a889c9f5-d454-4c70-87a3-e56297a96b0f.json",
+          "bytes": 480,
+          "sha256": "7b5a3e2a6f27874e13400e3ff483da8966603e354b30f64670a8ef7398467af5",
+          "sessionId": "28f995ec-5392-49e1-8968-440f73678fb9",
+          "contextTruncated": false
+        },
+        {
+          "name": "abb465d8-27a0-453e-83e8-93ca9398c8b9.json",
+          "bytes": 360,
+          "sha256": "b0ff3c70ca230cd465c9254682e132339da02eea86d707579f0bfd74d1fc65c2",
+          "sessionId": "221abc9a-5f7c-4672-9186-bcddc8ffb769",
+          "contextTruncated": null
+        },
+        {
+          "name": "d6583b02-d428-4012-9e85-b4a101053543.json",
+          "bytes": 465,
+          "sha256": "80b403b82e72d24d550a9dd73cc10a23554e72e319ec219c110477414d6deb48",
+          "sessionId": "221abc9a-5f7c-4672-9186-bcddc8ffb769",
+          "contextTruncated": null
+        },
+        {
+          "name": "d992c80e-9468-403b-981e-4056ef04ef45.json",
+          "bytes": 388,
+          "sha256": "26b920a58a53c9515f55d662b472bcdb233019044a60aa913202dfdaa66b35ee",
+          "sessionId": "221abc9a-5f7c-4672-9186-bcddc8ffb769",
+          "contextTruncated": null
+        },
+        {
+          "name": "ed44398a-fc33-4a15-908c-b4612edb02d0.json",
+          "bytes": 360,
+          "sha256": "79715444aaa8cf87bf9541bf42d3005c95fd2a7c9938245216beb7089631184f",
+          "sessionId": "88fd2be4-c7f9-4a8d-8695-40f0d11f6451",
+          "contextTruncated": null
+        },
+        {
+          "name": "f617c68a-7710-41a2-be94-a888127c5367.json",
+          "bytes": 533,
+          "sha256": "b48e51b4370f2985cd446a120d5166cd912d5815c0f40ca2b7e789ef39ed329e",
+          "sessionId": "221abc9a-5f7c-4672-9186-bcddc8ffb769",
+          "contextTruncated": false
+        },
+        {
+          "name": "f656c9a9-c21e-4a8a-9a0d-9c6f036d9e4b.json",
+          "bytes": 11843,
+          "sha256": "225679f1237e873302aa025d29561a9b3915d88b1ed92154812e7794154f3efd",
+          "sessionId": "88fd2be4-c7f9-4a8d-8695-40f0d11f6451",
+          "contextTruncated": false
+        }
+      ],
+      "groups": {
+        "88fd2be4-c7f9-4a8d-8695-40f0d11f6451": [
+          "078c0653-c4aa-4d2b-8719-954e07353960.json",
+          "21639370-4c4c-462f-933f-b14fd538cf59.json",
+          "3de7b0b3-2349-4087-9aa1-399652c84937.json",
+          "6ffafb5e-4489-4bcd-8794-33a93fb126f4.json",
+          "ed44398a-fc33-4a15-908c-b4612edb02d0.json",
+          "f656c9a9-c21e-4a8a-9a0d-9c6f036d9e4b.json"
+        ],
+        "28f995ec-5392-49e1-8968-440f73678fb9": [
+          "18c19c5c-82a6-48f2-b510-37e73aa073c7.json",
+          "2e3d612e-4fdd-4dbe-a30a-a8b8e3daaac5.json",
+          "3ac52ae5-8018-46ac-88c2-f0c1f5cdb49d.json",
+          "605997f8-8af4-42ea-9af4-8b0e715091dd.json",
+          "96049453-6b7e-406b-a4d5-63b9dafc6d12.json",
+          "a889c9f5-d454-4c70-87a3-e56297a96b0f.json"
+        ],
+        "221abc9a-5f7c-4672-9186-bcddc8ffb769": [
+          "68b140da-32a6-4aab-b9fa-c8dcc4791249.json",
+          "8800fcd0-160f-4b7f-9ed5-cf328aff1655.json",
+          "abb465d8-27a0-453e-83e8-93ca9398c8b9.json",
+          "d6583b02-d428-4012-9e85-b4a101053543.json",
+          "d992c80e-9468-403b-981e-4056ef04ef45.json",
+          "f617c68a-7710-41a2-be94-a888127c5367.json"
+        ]
+      },
+      "missing": false,
+      "limits": "Raw allowlisted events retained; grouping is not proof of native WebContents identity or complete stderr."
+    },
+    "audit": {
+      "disposition": "Saved evidence supports bounded empty-batch ordinary9\u2192resize-range\u2192ordinary9 journey and normal owned closure; source freeze may be released by lead. No new runtime authorization.",
+      "auditedAtUtc": "2026-11-18T15:40:50.200565+00:00",
+      "outcome": {
+        "bytes": 23571,
+        "sha256": "87b62aeb2b0113a8d81ca5fd411691ec52276b25ad30a46f71b4702ad9964397"
+      },
+      "source": {
+        "commit": "41d038ed6bf1e650c75fc9eb869ff0552432cb12",
+        "tree": "642cc4907b0f82dd1343578ed25c4af9e261a970",
+        "files": 679,
+        "allCommittedCurrentGateAndMirrorHashesEqual": true,
+        "resizeProducerPins": 97,
+        "allMatch": true
+      },
+      "preservationGate": {
+        "allReferencedHashesMatch": true,
+        "desktopAgeAtAttemptSeconds": 20.969689,
+        "desktopFacts": "Saved declarations verified, not independently reobserved desktop",
+        "gateSha256": "191d14136917603d65e4790eff31cb988b82fa5dd925fd8a94977b00576488ce"
+      },
+      "terminal": {
+        "exitCode": 0,
+        "terminationRequested": false,
+        "failure": null,
+        "startedUtc": "2026-11-18T15:36:55.233348+00:00",
+        "endedUtc": "2026-11-18T15:38:30.954230+00:00",
+        "elapsedSeconds": 95.72090096199827,
+        "noUserTargetAuthorized": true,
+        "qualification": "Closure only. Requires visible CUA outcome and independent saved audit. No direct WebContents identity, completed-grant revocation, complete child stderr or runtime qualification inferred.",
+        "app.stdout.log": {
+          "bytes": 447,
+          "sha256": "f0c5560512b2a14835b0e6dd4d9e2ad575fe664462877ea4cb8859dae826a251"
+        },
+        "app.stderr.log": {
+          "bytes": 624,
+          "sha256": "e39df237331b03196cab3028f4b8cb47f3e1918b4aed1342b93f67f79eea8e55"
+        },
+        "ownedCensusLines": [
+          "LINUX_WORKBENCH_CLOSED {\"spawned\":87,\"closed\":87,\"live\":0,\"maximum\":1,\"failures\":0}"
+        ]
+      },
+      "sessions": [
+        {
+          "sessionId": "28f995ec-5392-49e1-8968-440f73678fb9",
+          "ownerPid": 40424,
+          "firstEpochMs": 1795016215869,
+          "lastEpochMs": 1795016254481,
+          "reasons": [
+            "SESSION_STARTED",
+            "CAPABILITY_STARTED",
+            "RUNTIME_IDENTIFIED",
+            "CAPABILITY_FINISHED",
+            "PROVENANCE_RECOVERY_FINISHED",
+            "SESSION_ENDED"
+          ],
+          "severities": {
+            "info": 6
+          }
+        },
+        {
+          "sessionId": "88fd2be4-c7f9-4a8d-8695-40f0d11f6451",
+          "ownerPid": 40424,
+          "firstEpochMs": 1795016254869,
+          "lastEpochMs": 1795016283821,
+          "reasons": [
+            "SESSION_STARTED",
+            "CAPABILITY_STARTED",
+            "RUNTIME_IDENTIFIED",
+            "CAPABILITY_FINISHED",
+            "PROVENANCE_RECOVERY_FINISHED",
+            "SESSION_ENDED"
+          ],
+          "severities": {
+            "info": 6
+          }
+        },
+        {
+          "sessionId": "221abc9a-5f7c-4672-9186-bcddc8ffb769",
+          "ownerPid": 40424,
+          "firstEpochMs": 1795016284184,
+          "lastEpochMs": 1795016308933,
+          "reasons": [
+            "SESSION_STARTED",
+            "CAPABILITY_STARTED",
+            "RUNTIME_IDENTIFIED",
+            "CAPABILITY_FINISHED",
+            "PROVENANCE_RECOVERY_FINISHED",
+            "SESSION_ENDED"
+          ],
+          "severities": {
+            "info": 6
+          }
+        }
+      ],
+      "knownState": {
+        "devIno": {
+          "dev": 27,
+          "ino": 2361428
+        },
+        "priorEvents94Unchanged": true,
+        "newEvents18RetainedByteExact": true,
+        "completeAllowlistedSet112": true,
+        "truncatedNewEvents": 0,
+        "wholeProfileUnchanged": false
+      },
+      "pointObservations": {
+        "count": 8,
+        "minimumFreeBytes": 54812672000,
+        "maximumFreeBytes": 54813159424,
+        "allAbove27GiB": true,
+        "sampledCapabilityDirectoriesEmpty": true,
+        "limits": "Points after named actions, not exact UI event timestamps or continuous storage guarantees."
+      },
+      "diagnostics": {
+        "stdoutBytes": 447,
+        "stderrBytes": 624,
+        "stderr": "Three missing system D-Bus socket messages and one SSL handshake net_error-202; not silently classified harmless.",
+        "clockNote": "Saved event epoch milliseconds fall within supervisor UTC interval. Chromium stderr prefixes show17:36:55 while outer UTC is15:36:55; local-style prefix has no timezone and is not an extra duration/UTC proof.",
+        "censusLimit": "87 aggregate children closed,0live,maximum1,failures0; no complete per-child argv/stderr inventory. Extra3 versus84 forecast not independently classified."
+      },
+      "visualAttribution": {
+        "recordedWindowIds": [
+          27262980,
+          27263011,
+          27263016
+        ],
+        "basis": "Lead CUA observations recorded in outcome and contemporaneous point labels; no exported screenshots re-viewed by auditor. Saved events show3sequential diagnostic owners onPID40424, not direct WebContents identities.",
+        "scope": "Reported two clicks and three Ready native windows with empty inspector and reset disclosure; no populated-plan/output-grant revocation or media acceptance demonstrated."
+      },
+      "staleAttribution": "No material stale copied route/source/count found. Initial READY log is ordinary-only; resize native disclosure rests on recorded CUA observations, not an invented replacement READY line. Audit-pending wording correctly remains historical in original outcome.",
+      "limits": [
+        "Read-only saved audit only. No runtime/media/GUI, probes/decode, test reruns, profile reset, authoritative edits or source release performed by auditor.",
+        "Window/controller functional navigation is bounded acceptance only, not Windows, arbitrary input, cancellation/recovery, broad0.7 family1440p/4K, runtime default promotion or native performance qualification.",
+        "Normal wait exit and app-owned aggregate census support closure. Cross-namespace /proc absence was not used. Elapsed95.720901s includes manual navigation, not encoding/startup benchmark.",
+        "No whole-profile/preferences/cache/token examination.94 prior events+18 new event bytes and profileinode identity do not prove no other files changed or were removed.",
+        "Runtime hashes verified read-only after run; not ELFclosure or independent OSsandbox proof. No complete child stderr, continuous free-space cap or no-temporary-writes claim."
+      ],
+      "verifiedReferences": [
+        {
+          "path": "native-proof://APPROVED_SESSION_SWITCH.json",
+          "bytes": 80562,
+          "sha256": "191d14136917603d65e4790eff31cb988b82fa5dd925fd8a94977b00576488ce"
+        },
+        {
+          "path": "native-proof://DESKTOP_PREFLIGHT.json",
+          "bytes": 807,
+          "sha256": "53f7e88eee0b171643bb3c54ee1e5ea5d8569d1646398b2a8c5e28c9bc4ff802"
+        },
+        {
+          "path": "native-proof://BOUND_HANDOFF.json",
+          "bytes": 1980,
+          "sha256": "dfc51fef9fe7a2edb95197feced44a8f432a49a952dd254fd8c69ef0df932863"
+        },
+        {
+          "path": "native-proof://launch-session-switch.py",
+          "bytes": 11885,
+          "sha256": "1e4281025e546ba14ffe84df526e0c6a5122d3383b1c0f226f826d0a69894047"
+        },
+        {
+          "path": "native-proof://NATIVE_PLAN.json",
+          "bytes": 22541,
+          "sha256": "09ec0a95484148e7e66c78d6f7d6fb0051fc026f0952232dee72cfad88709d8f"
+        },
+        {
+          "path": "native-proof://PLAN.md",
+          "bytes": 5506,
+          "sha256": "98a40648529e4ee6ff2285d9390d83365814bedfb2b995cd150dc53072992e5c"
+        },
+        {
+          "path": "native-proof://ATTEMPT_STARTED.json",
+          "bytes": 618,
+          "sha256": "d01b03681dc500e7b7d9789140886898adab323837640843456306891aeab53a"
+        },
+        {
+          "path": "native-proof://APP_PID.json",
+          "bytes": 115,
+          "sha256": "ef3a2cbf6e29505a0abdf4bcc6f716e9e3d9a1226c9b34aee668044da1ddbea6"
+        },
+        {
+          "path": "native-proof://OUTER_COMPLETION.json",
+          "bytes": 839,
+          "sha256": "caed2ae17191e5bb1736a09e036cfc5390469938a3ca1e05b2055c37cf5744d6"
+        },
+        {
+          "path": "native-proof://EVENT_CAPTURE.json",
+          "bytes": 6056,
+          "sha256": "233b0087e7299809251ddcaaba0430592b1658a43bb971292ee5f4712a22483c"
+        },
+        {
+          "path": "native-proof://app.stdout.log",
+          "bytes": 447,
+          "sha256": "f0c5560512b2a14835b0e6dd4d9e2ad575fe664462877ea4cb8859dae826a251"
+        },
+        {
+          "path": "native-proof://app.stderr.log",
+          "bytes": 624,
+          "sha256": "e39df237331b03196cab3028f4b8cb47f3e1918b4aed1342b93f67f79eea8e55"
+        },
+        {
+          "path": "audit://BOUND_REVIEW.json",
+          "bytes": 5365,
+          "sha256": "609f8553fd49e587ae49f3ce31ca55f80aa7d90ca83e481ce1220c74ccbf4c7a"
+        },
+        {
+          "path": "support://notion-checkpoint-054-verification.json",
+          "bytes": 125900,
+          "sha256": "0c6577067c8d32321a00b9b939741ebac17e85292828f8031289ee7a873888d1"
+        },
+        {
+          "path": "support://github-checkpoint054-verification.json",
+          "bytes": 4654,
+          "sha256": "f79747ef906ed40f48352feee7eac0f99e475080fbb57f7c781d51c0da202895"
+        },
+        {
+          "path": "native-proof://POINT_01_PRELAUNCH.json",
+          "bytes": 526,
+          "sha256": "2c51dad4123f62ce1f338e99108eea4ab1d20bcb02852c9a900b6c05006ac769"
+        },
+        {
+          "path": "native-proof://POINT_02_LAUNCH.json",
+          "bytes": 534,
+          "sha256": "5d6709623c963230a5af03e52761c20ed01b6f6e5f4a95d12f1c710d792b1696"
+        },
+        {
+          "path": "native-proof://POINT_03_ORDINARY_READY.json",
+          "bytes": 577,
+          "sha256": "d9582f1da41cb130b460cddcaec35f6dfb07a426225988e80b812f4cc75c7655"
+        },
+        {
+          "path": "native-proof://POINT_04_FIRST_CLICK.json",
+          "bytes": 565,
+          "sha256": "a0d8107bfcd7119680a75ba0214706e88c1a1792e98d0763c07d7134ab360a62"
+        },
+        {
+          "path": "native-proof://POINT_05_RESIZE_READY.json",
+          "bytes": 587,
+          "sha256": "a3d422c91607552283d77a823182fbb38e8c38e6cca0e5c63a4849f1e0570e78"
+        },
+        {
+          "path": "native-proof://POINT_06_SECOND_CLICK.json",
+          "bytes": 571,
+          "sha256": "bed383f6d0de811b80a7817bcf1a5560be3f89a5e098f8b74774c56822e1fb5d"
+        },
+        {
+          "path": "native-proof://POINT_07_ORDINARY_RETURN_READY.json",
+          "bytes": 581,
+          "sha256": "c5f08d2ec4e247547775df05917013bc464b22ad2fb4599a3af35d98267609f5"
+        },
+        {
+          "path": "native-proof://POINT_08_POSTCLOSE.json",
+          "bytes": 565,
+          "sha256": "b30ad95c2226e1cb16b53346e4a85920f8f0314d752d38ededbf8a78c823fcb7"
+        },
+        {
+          "path": "native-proof://INDEPENDENT_PREPARATION_REVIEW.json",
+          "bytes": 6374,
+          "sha256": "3b2103e99082fb6162f3f09e0ea2ddd7ccb3217f5601a3585eda610432bc3c16"
+        },
+        {
+          "path": "support://electron-44.7.0-setup/node_modules/electron/dist/electron",
+          "bytes": 228605256,
+          "sha256": "10a14d05c6ff4f94075cfb3eeb6ed6571be33ebcc08cbd675b5ce9ff84706564"
+        },
+        {
+          "path": "project://linux-blue/artifacts/candidate-runtime-1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9/ffmpeg",
+          "bytes": 46175848,
+          "sha256": "ae5b2e8b48ad0e9b51b89ebab000ebcfc0b76a09b8cb80c88e18fddcc5d9e8ba"
+        },
+        {
+          "path": "project://linux-blue/artifacts/candidate-runtime-1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9/ffprobe",
+          "bytes": 45962728,
+          "sha256": "923dab8640da8804c445418b6e2efe4b395665bdb9d4cfc84f6a244ed0fb156b"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libm.so.6",
+          "bytes": 977112,
+          "sha256": "6d567d53e895273ca14a1f9dc164fc6c8d39aed2f60aa46a733c2784228915f3"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libdav1d.so.7.0.0",
+          "bytes": 1746880,
+          "sha256": "1d7a4182344230d5f4cf9f58bf4485da2801c411e9c9fd6d8471460c75ae8fbf"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libSvtAv1Enc.so.2.3.0",
+          "bytes": 7984736,
+          "sha256": "48713dd9caf08909462bad0274cc9d9b249ccf836a9be72fd731f8d8096c4d35"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libgcc_s.so.1",
+          "bytes": 182856,
+          "sha256": "30c61ab012a4241bed033725a09b61f5fdd3bb7df95ee852d0b096520524c7af"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.33",
+          "bytes": 2497768,
+          "sha256": "972bb2a18b71140dab0240f8a1f68ab3fb1d56bcd4c4f824a91b70888faf5a00"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "bytes": 1995216,
+          "sha256": "9792e3cbb541c8f44c7acf5f14f4022ea62998ecc787d326bed4d8b6547dfd92"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+          "bytes": 225672,
+          "sha256": "c8438e4fde1934e61c88311633f00949ff645d5c04cdb8671fa3d78164d2f307"
+        },
+        {
+          "path": "project://linux-blue/artifacts/candidate-resize1080to720-calibration-uj6Zhk/report.json",
+          "bytes": 125797,
+          "sha256": "226ec3b5a0f4ab58870a43a89a7579eb53a48dc6182000b45e8eaaba806901e2"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/03b04a82-4e94-4f2a-8965-feabb06ca8ca.json",
+          "bytes": 465,
+          "sha256": "69ba05bedf281a5e416c776ba2eec32191c7760acbdf62ccc44bbb20f65b6d00"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/040594a0-8533-4bce-97c0-9838a6eff449.json",
+          "bytes": 436,
+          "sha256": "263c6e568373fbed050f67eafbb59cbd78218a94323f62b3404bf1f5cd2edb37"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/0643fdea-ecef-4687-8ebe-83eeb9d7fc21.json",
+          "bytes": 433,
+          "sha256": "ad395d5aef5820912b62557d36527b150eb1b61bd03cca70525354edf1986f5c"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/089900dc-f8e6-4b57-907c-c70dcdf34ab0.json",
+          "bytes": 775,
+          "sha256": "e2cb76b26100fb360914136296458bce203b39c98594ef871cb49475af3c2fdc"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/093ac878-9af6-413c-9f80-890082042203.json",
+          "bytes": 776,
+          "sha256": "416ed91b14a0c8aeb8720d889ce989af61357e65192172d9962a52fd073b11c7"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/094a42df-d02a-4503-a31b-f40010a1f9ef.json",
+          "bytes": 434,
+          "sha256": "da06f438c7a20b0d88547a1fc8047c47e48781ca0f1cc640385f6bb5fc1b9a2a"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/0f99d8c4-88ba-4a71-993b-185db1e7a6a5.json",
+          "bytes": 776,
+          "sha256": "9f2081cc4123e0cf3e8c683829725f501753a7798edca1bae72f75c78fae86bb"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/10147371-b9d5-45a1-9463-3bd2082af0a6.json",
+          "bytes": 361,
+          "sha256": "9b2c482621f39e095bc15dc8c3bd7b53350cb33fc0f2e01e59d4ba881395082e"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/1033c423-f981-45f0-92fa-49c1903bd089.json",
+          "bytes": 533,
+          "sha256": "a49afe15a0efaedd197da85e074cc072224051e64e9792ac63ec93c0af23d6c1"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/1755a124-2aaa-499a-9f76-8ddaf03419ce.json",
+          "bytes": 465,
+          "sha256": "d84663a4bdd1a31a3514c5efad81ffbbf99261a874caac41eb3f86ea77874d36"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/17813acf-4a37-4d78-8aaa-d0039eb76107.json",
+          "bytes": 692,
+          "sha256": "41233d5a0aac6e0c1f83aef827da27a1e945586e3c929151d071b1b89b1df645"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/190db467-e74f-4ff9-bde6-a00d5939efaf.json",
+          "bytes": 388,
+          "sha256": "8a1f53b4c0840070bfe7308c4ee91f70ad9ba9c01cc4724f741f6014129ded38"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/1b08446f-7c41-4fb9-9364-752459e04097.json",
+          "bytes": 533,
+          "sha256": "fd0fecec5eb635ccd90cffecc7e5c75e8704fc9004dbffb11450fc0e5789e0c7"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/1bacd943-972c-49c0-bfed-413e069cd373.json",
+          "bytes": 533,
+          "sha256": "4d2d623bd86071c37008e53229eabca15f89bf2bf556c180f5a2fad96ecfea09"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/2546189c-e7c8-49e4-9eca-2df9d08da0be.json",
+          "bytes": 798,
+          "sha256": "ca3c45a845d66ccb9b2285952d3a5010e4dfa24c6184fd0bb31fa8d3b4eb2a1b"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/28f6e932-4b93-419e-921a-8c10617de736.json",
+          "bytes": 1519,
+          "sha256": "1f13e559993c0a5f845e046c58c08b56c135ff304a34afa854a5f7aafb5ef5e9"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/2b225fd8-bb9a-4dfd-9599-058adbd89c46.json",
+          "bytes": 434,
+          "sha256": "b7c06e75d0c18a5c80b0881ac8d3b50d8ef4059ec4317b0f64e7ae234d96e969"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/2cf0f1ac-8b65-46c2-a7d1-0711e05afb85.json",
+          "bytes": 433,
+          "sha256": "8b1f53cfafec3d9db06cb3dcbb17841c6efbe0ba1c5069a7b9051fc9b35fed8d"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/2d451f9d-8a10-4147-9143-9655c22be8ff.json",
+          "bytes": 612,
+          "sha256": "2e4608595eac40f54f78d32dca01447c27773f3b8b10e822fa07b1cc5dd5ce66"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/2f53b2c4-8c4d-4973-9c9c-21f6b0f3a3a2.json",
+          "bytes": 435,
+          "sha256": "0700783f09eae046676bff34d05ac22bb660d775a6ecc65cba930476b07561e7"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/31ea2ad1-b57c-428f-9495-526b82959889.json",
+          "bytes": 360,
+          "sha256": "5a442f81dfa4ef07ddc81daefe5fc07c7248f004eeb481b711401e7a4352bc62"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/32042fb7-4782-4870-90e3-f56cc6a0c298.json",
+          "bytes": 692,
+          "sha256": "d4c410e11269e7df9bd9bea18375c478e02c98c44091fa6ae679f738bd889070"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/3642d037-b2e1-4e57-add1-9e400e1616aa.json",
+          "bytes": 388,
+          "sha256": "22e95fe374d099e3bedffc179d78ec06b524e6226eb857705affd17044ccfb4a"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/3a0891ee-5991-4b38-be26-a828583c6e1e.json",
+          "bytes": 388,
+          "sha256": "d589d225c5e3120a45360202bfa449ed4db2339d269ee0ebdfdfbcb7b227c69f"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/3d364200-2f9d-4365-8c64-fc77d4e4acea.json",
+          "bytes": 388,
+          "sha256": "462c104505d884fb40a31a6a9873b3f294072ed238d50440053496009ae2ba0c"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/4216e355-2622-4feb-a3ab-18a2f01af017.json",
+          "bytes": 480,
+          "sha256": "6418ffee1036fb288d9371d1e12f29f040835b09da7cd4ceaeae2969f7a802a9"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/48eb66e7-6838-4841-810f-5b5121bd870c.json",
+          "bytes": 1990,
+          "sha256": "a9e326d0f3e65bd2848e869ec67312e0df73f322f4bf27e21963da4e1b494e0a"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/4ab4d64a-eea7-4279-8267-7469fd6a8942.json",
+          "bytes": 1707,
+          "sha256": "e53b7cdf6dc66428ecd9d6847bdbb0835bad0bb4caa06da4f1735e63e3a44037"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/4ad5f2ed-6472-45ed-acf4-ab5826ddd09e.json",
+          "bytes": 499,
+          "sha256": "7510ce89850be2917456a2a272f47602d4eb3184493d4a9508e8c9e4f8ff585d"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/4ebb6fdf-c405-45da-90b6-3363ec673c6c.json",
+          "bytes": 480,
+          "sha256": "1c8839c4faa6bc65c609fadc0fec8e946c1f664e6561cabdf6049d24229025b2"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/50e3e300-2a22-4418-87b8-b2c61aac656d.json",
+          "bytes": 433,
+          "sha256": "beb27557b7d9f35b78f734142a4f0abbe68510a4ac4f8bf9061b0880bdaa50a4"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/51dd1699-bd20-472e-adc3-9e0ef2c93895.json",
+          "bytes": 465,
+          "sha256": "4aa7c2001ff608d6d7fb804cf1b27b63c4bafb2608833a408c0f43dda3f2f507"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/522f980a-822a-42fe-aab8-5b1ac800909f.json",
+          "bytes": 718,
+          "sha256": "b697e28a359dbe58cf71647f78d71f034f66ebe1bd6a8fcd9d597570f9b907f5"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/53f7af2d-3e70-475a-bf7f-fd0591bda018.json",
+          "bytes": 3115,
+          "sha256": "0bc78add90339733c3808272cd10f9c8088bf31c150b3ba7c931cf1513a072a2"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/56fae84e-a202-4c2a-9256-d7e77b3cc3b2.json",
+          "bytes": 480,
+          "sha256": "8f5631527eb2c368ec5ed14c2526a58f2f8efa14be99a36641d9455f9bc61c88"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/62abf03e-9682-40c6-8baa-785e07439588.json",
+          "bytes": 12331,
+          "sha256": "0413fa61ec7d8fea417ac2e8a2eaa076d684b92edc1c463e39b99f2f896464fc"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/64d19b42-d593-4776-948c-505ec505c622.json",
+          "bytes": 3115,
+          "sha256": "89a21a12430b8547c099deb39e4a19fa11695ea28eda1aa4fafdd48a303e6901"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/66e56e3e-244d-45f6-a4c8-ce0a593d912e.json",
+          "bytes": 436,
+          "sha256": "4792b635ec7e6fe4c8a07b01caefb11044b15edea5073f216042ac023f5e7261"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/6773cb68-9715-4a1c-86d0-c3f8742efc3f.json",
+          "bytes": 533,
+          "sha256": "3682c6fcef1530d2c4d750b5b10b92f47fa09fca8a42bf7b9441d2d443ef63e4"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/67acb040-ccef-4369-992e-91c4ae0017cd.json",
+          "bytes": 480,
+          "sha256": "9f92f256c41843dcfdda0a79d4e135f6d115ada6245cce95e9ea0476427a933f"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/67d009e3-919d-4a12-b98e-4815a4693cf3.json",
+          "bytes": 1523,
+          "sha256": "0808ee3846459f36418ff6ce97890bcc9b58cc4d9f705f7bc58ef19f32f95997"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/6b83daee-1da4-4c5d-a478-a4594703c7b5.json",
+          "bytes": 434,
+          "sha256": "d6188d6bce26bfe7a86e71b05a529b550acf568276bc3352a271b0346ca34ee6"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/6bca9f08-3455-4e12-8e24-13858abf60ad.json",
+          "bytes": 533,
+          "sha256": "c5c3d8bbcc49ffacaf267c6bbeafc794228db82d9fbc01fe0b3a4e5c7c86ac56"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/6c1966c8-6dfc-449e-ab44-f6db8a912942.json",
+          "bytes": 465,
+          "sha256": "8ff2a2c53cb52712ddf49b47f6e965c957d7037d57d698d46fb4d20690f2460e"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/6c797809-c994-4986-8334-90a8f5e0a1c3.json",
+          "bytes": 12331,
+          "sha256": "9790ae6a0a73a937bf0ca46b81e0acd0a587dae8f445013ea2f9cc10e3fe5d1c"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/6f257e7f-5cf1-4605-acad-483d9741c783.json",
+          "bytes": 499,
+          "sha256": "38422c81063f206ced721de7f393a68cf7d433d8db4dd5b016b2ba4b709eb285"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/717977b0-6559-46b5-8027-d0eb5d7a5971.json",
+          "bytes": 11843,
+          "sha256": "0cef9590c0f79dbea8bdbd9e43e455fed8157bc636bed2643ff15f6de24e7304"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/726be3ca-0d80-4dd4-9220-bbe2f1c233e7.json",
+          "bytes": 802,
+          "sha256": "8f491c335408210e41358c134ee94dc830c13cc47e1285a438f967ee54b11d55"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/74d69ebd-77f9-4a10-af6c-83b107e3faf0.json",
+          "bytes": 612,
+          "sha256": "b0365423a85fb2b43bd726fe8db79e6e7caea71fe3d9c592e6c6175e04ba92ba"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/79466f94-acad-4399-bbd3-c4c937b89a12.json",
+          "bytes": 1729,
+          "sha256": "955651b76ba77ca5674eefc3167931e16d6160e188be2da7cdd88d35895d2ca3"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/7faf8c44-c965-4a14-b6bf-524d2f9df233.json",
+          "bytes": 443,
+          "sha256": "4d58db8ad1ed3ac1e45d80a245e8c83c36551bb4142884406e3972ab8fce381b"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/85fbfc71-6970-4545-a4cb-da45bf2e0e54.json",
+          "bytes": 360,
+          "sha256": "2a87b88150a7a5a1c507c316a48c6be1b32c605e5d27ce48b08343b7a201d04d"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/9068ad69-db13-4027-a6ed-edd6af1b802b.json",
+          "bytes": 436,
+          "sha256": "a2e4cd33d03080b1f2d6fa9aa2675beb651d036c827957c9833941f2fc7da7f8"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/92fd6364-28de-42fd-be43-d73575e7d3a9.json",
+          "bytes": 480,
+          "sha256": "b122ac8080f21a8fbb9b7335c89f997d1fbc3512d14407bee00d1c5519807993"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/95819d83-1f15-4022-ae93-7daff9a3bcc4.json",
+          "bytes": 12331,
+          "sha256": "22ce1ea458fb193a67b4be0454b1825915cccbfe3305ac14b7b4f6dc1ce69893"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/9a316c25-b054-4712-918e-e0984a4dde59.json",
+          "bytes": 361,
+          "sha256": "d7e8c125e81e00e4405647049987af34467a2c8eccc228c8cbe76269da11344f"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/9a80af68-b39a-44f9-ad95-823bc7be145b.json",
+          "bytes": 718,
+          "sha256": "23469dd864377547b81f7da4e57cb188ad03ec9dc0b6e4e7baa5d99f23a00dae"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/9abaaa83-da8b-4289-913c-6e9a64a7db93.json",
+          "bytes": 435,
+          "sha256": "f1fda548e034435c06a5606d4d5e9f20d3eb0b836ea995f44d4898b24fc5ec03"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/a40c2e02-cfe9-43f1-aba7-04e522f5016e.json",
+          "bytes": 465,
+          "sha256": "5dcd78af3145c74738368865a87e8f3f91af1823704381ecc6b68a83bbaad917"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/a93be076-ae9e-4a7a-a6a6-e0f2c75d6936.json",
+          "bytes": 1713,
+          "sha256": "99a49604309988f0c24cfd55beb17a24aa97cbf8404fe4fbfc49212042edd502"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/aca7cfa5-c959-4c7e-9093-c0f58555795e.json",
+          "bytes": 3119,
+          "sha256": "0ac746ce1a0ca98842634f6d2547cd47b170678723fa8ce89a1de77f690a7d86"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/accfbe2b-f634-4e8d-8ca6-8deeab8da9cb.json",
+          "bytes": 898,
+          "sha256": "20fee8a3b3fbb54ea877fc0936909c60d0a6c5eb16a27b346a967f87626b659a"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/ad914ccc-b94a-4b4f-b121-ea217eb5b63f.json",
+          "bytes": 480,
+          "sha256": "c1f7764715fb1b56f3d615175da44259bcb514524ef0e73687af156393e30f0e"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/af0e7a02-2995-4738-9575-7ca89987bd1c.json",
+          "bytes": 465,
+          "sha256": "eddac73130eb6091dc1f5c045df0203b66fa71ee02418a3d90fac82d33525b57"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/b5550e9a-8c10-461d-9876-a20a2685b529.json",
+          "bytes": 480,
+          "sha256": "30a4065fe6c12ec72d0469617398ef517a7913ebcde2bd78ccb0e170bca129c3"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/b58b0e82-2837-405a-89f8-27acbd9ffdc2.json",
+          "bytes": 388,
+          "sha256": "9d4c0d191bd5ce0ea01cad2dbf930083576224ea78e58217167584dc68822dd0"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/b6caa809-f4b8-4e3c-b4f7-d53764815fa6.json",
+          "bytes": 388,
+          "sha256": "433595866651e50b3ffec25f6bbe22cdcb8394e57c3cd1eefffc29dc626e1f47"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/b718a08a-cf97-44a4-97fd-d697a16099a9.json",
+          "bytes": 388,
+          "sha256": "e51c79ab27f189b09c4d7ea945a761f47d654b388e02246e39e56ee102bb47d1"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/b7eaf79d-6661-414f-8bae-6222793fdebd.json",
+          "bytes": 798,
+          "sha256": "b1cde8ef5e2c6d68ad9efeee9e248a11de1c30297fb59184f028df0401278bda"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/b939e8a0-c800-4bc8-b2c2-b5bd4d8f07aa.json",
+          "bytes": 388,
+          "sha256": "1ac3ecf08de4c983b60cc6ca7fdae93372f3e7ca9e585f19d964773505231fe8"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/bb4a1e4f-fa8e-49a6-b4d2-7096cc3dc477.json",
+          "bytes": 360,
+          "sha256": "fb8f1ca4e202f47e341d06b0673832491f5cc7c82cb3483c4aebd383b4572839"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/c00f0cb6-f286-4647-bb48-741a67a515ed.json",
+          "bytes": 360,
+          "sha256": "10a1d13d800275904e8cbd535e5fd03c70256778997e88bea8e184363e423212"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/c2ecb3c2-de15-4083-bc0d-cab57d84fd05.json",
+          "bytes": 533,
+          "sha256": "8b7dc5e07a8f91a6382c9a60dde19e826d9936a75195bdfcbdb557f1f87b0a9b"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/c70b87bb-b823-4608-952f-0103c162d62f.json",
+          "bytes": 433,
+          "sha256": "7474db72ed174d85aeb79102ef52d6359adeb71b629958315845cfa05b1143b8"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/c99fe6e3-9286-48ee-8aff-7bcf182de47a.json",
+          "bytes": 465,
+          "sha256": "3cf3863013a54f6f74ef1ecedb29a64686cbf133b0504f87fbeee2e3203b4550"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/cabdce44-7774-4634-94fc-42a583a90fdb.json",
+          "bytes": 12331,
+          "sha256": "af70d12c0543b7f53c80ec0fa8abaebebaed970baaec1cb5eadd1602f118c304"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/cb9dd6b2-1e46-4d4d-8fe7-430a2f137507.json",
+          "bytes": 12331,
+          "sha256": "5eb945ce30fe5366f852ef5f13d9ef9ad4c637e61e3e6a1c3bbc709a85c74c57"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/cbc09c80-ecc5-4c85-9d29-1afc99a73226.json",
+          "bytes": 1988,
+          "sha256": "9d4122ba31d7cd6f9270885cd2ae5e1b0f7bad138e5ce869375f290ddb1f312e"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/cea5477d-2818-4e8d-92e1-231b9db79be9.json",
+          "bytes": 433,
+          "sha256": "c0af7e38c1f8b4baf727529097f3f008ab76b53ecf3d95031e120d507023ccf9"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/d059bf4d-0876-41b8-92a9-2c79e78f7222.json",
+          "bytes": 1960,
+          "sha256": "e2a20111ce0574a25fca1aa2c6481f291fd66034c161118d9f4f3d7e6999c956"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/d0de8967-0e17-4620-835f-58c2c5069f8d.json",
+          "bytes": 435,
+          "sha256": "67b3011707ae4abf8fa8c85abe6f6dc9d408460fd5c84e1513c79586373344c8"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/d8b5cf5c-8aa3-4f4e-97a3-1dcc49212c56.json",
+          "bytes": 12331,
+          "sha256": "503e266d7351772fe200ab6105f7f2736409c2afff9885b33b5027603ad1f83b"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/da957676-96a6-4f3d-b18b-ffcbfde3344e.json",
+          "bytes": 480,
+          "sha256": "a77eb2df7151be276c22cdf74ccf8108f570ebb01dfa8214c8f3f6de94166f84"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/db43b82a-6c73-4d1b-8371-1d01b74d00f3.json",
+          "bytes": 1988,
+          "sha256": "d5aea9c70dd3dc8375adc3a853fc26b498bbf861b459483213e2846e07e927da"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/df126fa2-b32c-467e-ac19-e2db0929508b.json",
+          "bytes": 433,
+          "sha256": "57e6ca78da75d05ebfdd79e01c7a870033652ae753b36d76a3707b92d9fcd41e"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/df56281a-8975-4068-82c2-f583055ec821.json",
+          "bytes": 1727,
+          "sha256": "cc1fa6089ba17f17651a58e1aac56526818c395735d24dbd8086192809521597"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/e81c0e88-c56a-4563-9f0a-78adfa1a30f0.json",
+          "bytes": 433,
+          "sha256": "70ba6da3a7fae686e920a566ede8a4d9a9e43a72e0adc1bc8f7867deb367b27a"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/e83faedc-bb61-4809-a816-555c3d0e5161.json",
+          "bytes": 533,
+          "sha256": "bfccb4e17cfa982c93a5a0dd0c1cea5d929ca1484cdd56d568d2817d56213ed0"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/eb023f99-97a4-4751-b91b-6db92d9d5a89.json",
+          "bytes": 361,
+          "sha256": "54e1d41aad10cda346dd16b611fe23b8282ad434478e4e6df62831a84f2a9299"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/ec38427b-d6eb-4499-b5fb-386fcb7fdf76.json",
+          "bytes": 360,
+          "sha256": "89a4ee9e9d4456924dc4ccdeef2bdb8b6f85cb19581d6384bbb2c28b269fa159"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/ee9dd52c-941f-45ea-aadf-d5d6ffb71d0a.json",
+          "bytes": 12331,
+          "sha256": "ce1be5d5b855b4c49cf9ac09c3106273be59b3c9c8f2583c937d5f73982ee1f4"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/ef68c342-6a6b-4548-9d64-eea4c24d367f.json",
+          "bytes": 692,
+          "sha256": "48a047b2356a0dec329853c3a86d8016050faab5df6e6fae58e7aa91832cc2cf"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/f6e92ce4-ba75-4266-a246-b60be12ea081.json",
+          "bytes": 465,
+          "sha256": "e44407bf8e3a5c763a16312aacbbf6ba00952e3f2a4dcc4f7346cd12a909ede4"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/fa12161e-fc74-43b2-b533-2e26045ba687.json",
+          "bytes": 533,
+          "sha256": "ff254628bd87faa33eb794f70bea9a20a6548c07533935ac797de6a65e0787a3"
+        },
+        {
+          "path": "native-proof://retained-events/078c0653-c4aa-4d2b-8719-954e07353960.json",
+          "bytes": 533,
+          "sha256": "ae3816a0d7b1f671a8206ff26eed449368ab11ea6e8e0b8b62048c2f753e19cb"
+        },
+        {
+          "path": "native-proof://retained-events/18c19c5c-82a6-48f2-b510-37e73aa073c7.json",
+          "bytes": 360,
+          "sha256": "ad97583a7bcc21be368b20613065eebc734beb6a622bf6e71cad6f620fda2db2"
+        },
+        {
+          "path": "native-proof://retained-events/21639370-4c4c-462f-933f-b14fd538cf59.json",
+          "bytes": 480,
+          "sha256": "4d8aedf5464832215e9935458e3a066cee8c5bc61210a6c288c02d03b2629cf3"
+        },
+        {
+          "path": "native-proof://retained-events/2e3d612e-4fdd-4dbe-a30a-a8b8e3daaac5.json",
+          "bytes": 12331,
+          "sha256": "934a955f25d627fc8f98475b054b66547317d9f1939047b16e39670190bd852d"
+        },
+        {
+          "path": "native-proof://retained-events/3ac52ae5-8018-46ac-88c2-f0c1f5cdb49d.json",
+          "bytes": 465,
+          "sha256": "1698f478c5e5a23060a0e574a5b2e75b75d531ed4aa79cca7477e36b1bba648a"
+        },
+        {
+          "path": "native-proof://retained-events/3de7b0b3-2349-4087-9aa1-399652c84937.json",
+          "bytes": 465,
+          "sha256": "48f2248c86c2180c5928ef5f18680feba3c02aac54b01101d43f12dcdf5000af"
+        },
+        {
+          "path": "native-proof://retained-events/605997f8-8af4-42ea-9af4-8b0e715091dd.json",
+          "bytes": 533,
+          "sha256": "55639153fe42f9ef48bab5b29f59f70943fdc49564aec9bc57eb9e1e55d66fb4"
+        },
+        {
+          "path": "native-proof://retained-events/68b140da-32a6-4aab-b9fa-c8dcc4791249.json",
+          "bytes": 12331,
+          "sha256": "a0467090e49aaaa49747b8f7d78f7c142b71c3f3f17386d954c6de4fb0cb2eb7"
+        },
+        {
+          "path": "native-proof://retained-events/6ffafb5e-4489-4bcd-8794-33a93fb126f4.json",
+          "bytes": 388,
+          "sha256": "0a282710d0c5de65ed9dfb12ca82f081107f2397e499a46006c6af705a92f128"
+        },
+        {
+          "path": "native-proof://retained-events/8800fcd0-160f-4b7f-9ed5-cf328aff1655.json",
+          "bytes": 480,
+          "sha256": "e63282d99d4bd28aab2fd4837cdd37e21dbb4a778a59b9e94ed3fce7d6e5b34d"
+        },
+        {
+          "path": "native-proof://retained-events/96049453-6b7e-406b-a4d5-63b9dafc6d12.json",
+          "bytes": 388,
+          "sha256": "39c261cf1d048bec34443d7712c80580fd8de915880afa9f87601326c7eb218e"
+        },
+        {
+          "path": "native-proof://retained-events/a889c9f5-d454-4c70-87a3-e56297a96b0f.json",
+          "bytes": 480,
+          "sha256": "7b5a3e2a6f27874e13400e3ff483da8966603e354b30f64670a8ef7398467af5"
+        },
+        {
+          "path": "native-proof://retained-events/abb465d8-27a0-453e-83e8-93ca9398c8b9.json",
+          "bytes": 360,
+          "sha256": "b0ff3c70ca230cd465c9254682e132339da02eea86d707579f0bfd74d1fc65c2"
+        },
+        {
+          "path": "native-proof://retained-events/d6583b02-d428-4012-9e85-b4a101053543.json",
+          "bytes": 465,
+          "sha256": "80b403b82e72d24d550a9dd73cc10a23554e72e319ec219c110477414d6deb48"
+        },
+        {
+          "path": "native-proof://retained-events/d992c80e-9468-403b-981e-4056ef04ef45.json",
+          "bytes": 388,
+          "sha256": "26b920a58a53c9515f55d662b472bcdb233019044a60aa913202dfdaa66b35ee"
+        },
+        {
+          "path": "native-proof://retained-events/ed44398a-fc33-4a15-908c-b4612edb02d0.json",
+          "bytes": 360,
+          "sha256": "79715444aaa8cf87bf9541bf42d3005c95fd2a7c9938245216beb7089631184f"
+        },
+        {
+          "path": "native-proof://retained-events/f617c68a-7710-41a2-be94-a888127c5367.json",
+          "bytes": 533,
+          "sha256": "b48e51b4370f2985cd446a120d5166cd912d5815c0f40ca2b7e789ef39ed329e"
+        },
+        {
+          "path": "native-proof://retained-events/f656c9a9-c21e-4a8a-9a0d-9c6f036d9e4b.json",
+          "bytes": 11843,
+          "sha256": "225679f1237e873302aa025d29561a9b3915d88b1ed92154812e7794154f3efd"
+        }
+      ]
+    },
+    "lead": {
+      "recordedAtUtc": "2026-11-18T15:41:48.706701+00:00",
+      "disposition": "Accepted bounded empty-batch ordinary9 / resize-range / ordinary9 native navigation and normal closure; source freeze released for separately reviewed CI integration. No release/runtime-default or broad product acceptance.",
+      "sourceCommit": "41d038ed6bf1e650c75fc9eb869ff0552432cb12",
+      "audit": {
+        "path": "audit://FINAL_SAVED_AUDIT.json",
+        "bytes": 50108,
+        "sha256": "5662da7dbf44bdc2ee029400b1742cbf4f0edffb0dbca87fe9465c17245b0499"
+      },
+      "outcome": {
+        "path": "native-proof://NATIVE_OUTCOME.json",
+        "bytes": 23571,
+        "sha256": "87b62aeb2b0113a8d81ca5fd411691ec52276b25ad30a46f71b4702ad9964397"
+      },
+      "allVerifiedReferenceRowsRehashed": 147,
+      "all679SourceBytesStillEqual": true,
+      "terminal": {
+        "exitCode": 0,
+        "terminationRequested": false,
+        "failure": null,
+        "startedUtc": "2026-11-18T15:36:55.233348+00:00",
+        "endedUtc": "2026-11-18T15:38:30.954230+00:00",
+        "elapsedSeconds": 95.72090096199827,
+        "noUserTargetAuthorized": true,
+        "qualification": "Closure only. Requires visible CUA outcome and independent saved audit. No direct WebContents identity, completed-grant revocation, complete child stderr or runtime qualification inferred.",
+        "app.stdout.log": {
+          "bytes": 447,
+          "sha256": "f0c5560512b2a14835b0e6dd4d9e2ad575fe664462877ea4cb8859dae826a251"
+        },
+        "app.stderr.log": {
+          "bytes": 624,
+          "sha256": "e39df237331b03196cab3028f4b8cb47f3e1918b4aed1342b93f67f79eea8e55"
+        },
+        "ownedCensusLines": [
+          "LINUX_WORKBENCH_CLOSED {\"spawned\":87,\"closed\":87,\"live\":0,\"maximum\":1,\"failures\":0}"
+        ]
+      },
+      "sourceFreezeReleased": true,
+      "additionalClarification": "Chromium stderr prefixes have no timezone; event epochs and supervisor UTC agree. No two-hour duration inference. 87 children versus approximate84 remains aggregate-only, not per-child classification.",
+      "limits": [
+        "Read-only saved audit only. No runtime/media/GUI, probes/decode, test reruns, profile reset, authoritative edits or source release performed by auditor.",
+        "Window/controller functional navigation is bounded acceptance only, not Windows, arbitrary input, cancellation/recovery, broad0.7 family1440p/4K, runtime default promotion or native performance qualification.",
+        "Normal wait exit and app-owned aggregate census support closure. Cross-namespace /proc absence was not used. Elapsed95.720901s includes manual navigation, not encoding/startup benchmark.",
+        "No whole-profile/preferences/cache/token examination.94 prior events+18 new event bytes and profileinode identity do not prove no other files changed or were removed.",
+        "Runtime hashes verified read-only after run; not ELFclosure or independent OSsandbox proof. No complete child stderr, continuous free-space cap or no-temporary-writes claim."
+      ],
+      "visualAttribution": {
+        "recordedWindowIds": [
+          27262980,
+          27263011,
+          27263016
+        ],
+        "basis": "Lead CUA observations recorded in outcome and contemporaneous point labels; no exported screenshots re-viewed by auditor. Saved events show3sequential diagnostic owners onPID40424, not direct WebContents identities.",
+        "scope": "Reported two clicks and three Ready native windows with empty inspector and reset disclosure; no populated-plan/output-grant revocation or media acceptance demonstrated."
+      },
+      "freshRuntimeAuthorization": false
+    }
+  }
+}

@@ -1,0 +1,824 @@
+{
+  "schema": 1,
+  "checkpoint": "028",
+  "cutoffUtc": "2026-11-18T00:39:49.065000+00:00",
+  "sourceCommit": "941801614ecb69fd3945b558db6d9000b50ca858",
+  "sourceTree": "75620f721f613b44a5226635cb024a5d9b6a7912",
+  "sourceFilesUnchanged": 585,
+  "scope": {
+    "paths": 5,
+    "expectedFiles": 588,
+    "expectedCommits": 28,
+    "applicationOrTestChanges": false
+  },
+  "status": "stopped-input-interruption-before-registration-no-target",
+  "priorPublication": {
+    "verifiedAtUtc": "2026-11-18T00:18:20.023848+00:00",
+    "localCommit": "941801614ecb69fd3945b558db6d9000b50ca858",
+    "remoteCommit": "318331149baa1ed0d2b5b06bca2fa2f947c69181",
+    "remoteTree": "11a50a90b1c95bd3985570b1a5befdcb89c44862",
+    "actualSoleParent": "b9b3e30afb1f0b5b2fa863ac3d916a5660752267",
+    "repository": "CipherVaults/FFmpeg-Encoder-Blue-Linux",
+    "branch": "blue/linux-development",
+    "nonForceExpectedShaUpdate": true,
+    "freshRefVerified": true,
+    "fullTreeCounts": {
+      "total": 967,
+      "unchanged": 954,
+      "modified": 8,
+      "new": 5,
+      "deleted": 0
+    },
+    "notionRestorationGatesPrecededPublication": true,
+    "sessionReadback": "Supported immutable Git blob read directly for full 1,255,550-byte Session; all bytes/SHA/Git blob match.",
+    "limits": [
+      "Exact thirteen reviewed source/test/PBS paths only; later native helper preparation excluded.",
+      "Local reconstruction and original remote histories deliberately differ; exact delta preserves original ancestry without force.",
+      "Source/VM and injected-positive coverage are not native or Windows qualification; same 45 broad failures retained."
+    ]
+  },
+  "nativeAttempt": {
+    "authorizerExecution": {
+      "startedAtUtc": "2026-11-18T00:21:42.795542+00:00",
+      "endedAtUtc": "2026-11-18T00:21:45.655999+00:00",
+      "command": [
+        "python",
+        "authorize-native-full-copy027.py"
+      ],
+      "authorizerSha256": "2a6908113855c925cb6bef46250d0edb6a18bf1449aa6e54c1bb5b8c6c732591",
+      "exitCode": 0,
+      "stdoutSha256": "c61cfeaddca2cfc32d0e982af155d6fe5143ce6b47331658b00ec9eeadb02d8b",
+      "stderrSha256": "83e23f6ed956a5f506d17a8ee343a22a6d020bee9977284cd332499f9968d8b2",
+      "scope": "Exclusive exact one native inspection/Full-null720-Copy Apply/Start/at most one enabled reveal/normal close; no extra probe/decode/player/cancel/relaunch. No runtime executed by authorizer."
+    },
+    "gateAtUtc": "2026-11-18T00:21:45.648507+00:00",
+    "launchArgvRelative": [
+      "electron-44.7.0-setup/node_modules/electron/dist/electron",
+      "project:linux-blue/workbench-main.cjs",
+      "--blue-runtime=9.0.2-full-copy-candidate"
+    ],
+    "outer": {
+      "exitCode": 0,
+      "abortRequested": false,
+      "failure": null,
+      "postCloseIdentitiesVerified": true,
+      "startedUTC": "2026-11-18T00:22:54.832808+00:00",
+      "endedUTC": "2026-11-18T00:25:20.656896+00:00",
+      "monotonicElapsedSeconds": 145.82411392799986,
+      "stdoutSha256": "826cd728fdfed2a803a9f1cdd426e1050a4fbe0a250f2c63ef31932169bd600b",
+      "stderrSha256": "8abd720abcd443f10224d84c08fa5649b7ea03b4a02bfd0161da2315dd8f36b1",
+      "qualification": "Process closure receipt only; UI and publication outcome require observed evidence and independent saved audit.",
+      "outputInventory": [],
+      "extraProbeDecodeInvocations": 0
+    },
+    "actions": {
+      "inputPickerOpened": 1,
+      "outputPickerOpened": 0,
+      "folderRegistrationsObserved": 0,
+      "prepare": 0,
+      "apply": 0,
+      "start": 0,
+      "reveal": 0,
+      "player": 0
+    },
+    "interruption": {
+      "toolResult": "aborted by user after11.4s",
+      "action": "GlobalSky Ctrl+L plus literal approved parent path key sequence; call contained noReturn",
+      "delivery": "Partial path observed afterreset through native-full-copy- with autocomplete suggestions. Exact delivered key prefix versus GTK autocomplete not claimed. No continuation/replay.",
+      "cause": "Not established; no app-defect or whole-project-cancellation inference."
+    },
+    "cleanup": [
+      "Fresh observation only, no humanactivity observed.",
+      "Cancel click left dialog and dismissed suggestions; Escape closed location mode; secondEscape cancelled modal.",
+      "Both mainfolderlabels No folder selected observed.",
+      "Normal titlebarclose; window disappeared, CUAcompletion sent, outerreceipt/census verified."
+    ],
+    "census": {
+      "spawned": 28,
+      "closed": 28,
+      "live": 0,
+      "maximum": 1,
+      "failures": 0,
+      "classification": "startup/capability only; no target or Prepare observed and no preparation events retained"
+    },
+    "startup": {
+      "runtimeChoice": "9.0.2-full-copy-candidate",
+      "sandbox": true,
+      "contextIsolation": true,
+      "nodeIntegration": false,
+      "qualifiedFamilies": []
+    }
+  },
+  "savedAudit": {
+    "checkedAtUtc": "2026-11-18T00:28:04.512800+00:00",
+    "disposition": "Stopped before folder registration after interrupted picker input. Normal process closure is verified, not a successful native Full-copy journey. No target publication or UI acceptance established.",
+    "outcomeSha256": "ee340997dd753399c5278eec7d2760c2257cfa10e05751b33383a073e557d4b8",
+    "outerSha256": "df49997b15ac78f0f7f078ef2e0fab7e2f22eb8cede14a52529f7f924ad28861",
+    "gateSha256": "4746e38fa936b03286d14528accc75113f2c389b04561a8b6e3cb67faca6e7ea",
+    "sourceCommit": "941801614ecb69fd3945b558db6d9000b50ca858",
+    "sourceTree": "75620f721f613b44a5226635cb024a5d9b6a7912",
+    "sourceFilesVerified": 585,
+    "runtimePinsVerified": 9,
+    "electronRawReportOriginalAndOwnedFixtureVerified": true,
+    "fixtureSha256": "bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97",
+    "outer": {
+      "exitCode": 0,
+      "abortRequested": false,
+      "failure": null,
+      "postCloseIdentitiesVerified": true,
+      "startedUTC": "2026-11-18T00:22:54.832808+00:00",
+      "endedUTC": "2026-11-18T00:25:20.656896+00:00",
+      "monotonicElapsedSeconds": 145.82411392799986,
+      "stdoutSha256": "826cd728fdfed2a803a9f1cdd426e1050a4fbe0a250f2c63ef31932169bd600b",
+      "stderrSha256": "8abd720abcd443f10224d84c08fa5649b7ea03b4a02bfd0161da2315dd8f36b1",
+      "qualification": "Process closure receipt only; UI and publication outcome require observed evidence and independent saved audit.",
+      "outputInventory": [],
+      "extraProbeDecodeInvocations": 0
+    },
+    "startup": {
+      "electron": "44.7.0",
+      "runtimeChoice": "9.0.2-full-copy-candidate",
+      "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+      "mode": "developer-full-copy",
+      "qualifiedFamilies": [],
+      "remuxAvailable": false,
+      "sandbox": true,
+      "contextIsolation": true,
+      "nodeIntegration": false,
+      "originalUi": true,
+      "originalPreload": true
+    },
+    "census": {
+      "spawned": 28,
+      "closed": 28,
+      "live": 0,
+      "maximum": 1,
+      "failures": 0
+    },
+    "outputDirectoryEmpty": true,
+    "desktopAgeAtGateSeconds": 35.290198,
+    "desktopAgeAtLaunchSeconds": 104.474499,
+    "retainedDiagnosticRows": [
+      {
+        "path": "diagnostics-v1/events/0b5a44e4-99af-4926-820c-e925a0cdf39e.json",
+        "bytes": 11843,
+        "sha256": "e600a0a29161e45571a0768cd424e3a2d122be721e95f87d3a8dfc6cc91e0ffa",
+        "reason": "CAPABILITY_FINISHED",
+        "atEpochMs": 1794961379599,
+        "utc": "2026-11-18T00:22:59.599000+00:00",
+        "contextTruncated": false
+      },
+      {
+        "path": "diagnostics-v1/events/496e5adf-8390-45c5-b9d3-883a67272349.json",
+        "bytes": 388,
+        "sha256": "2a6f8ac8462a3ce737d1fedba44ae97d1b331390764a544853d434674d07b6dc",
+        "reason": "CAPABILITY_STARTED",
+        "atEpochMs": 1794961375610,
+        "utc": "2026-11-18T00:22:55.610000+00:00",
+        "contextTruncated": false
+      },
+      {
+        "path": "diagnostics-v1/events/4a39da25-8daa-416d-96f3-4ab685ae2f9a.json",
+        "bytes": 480,
+        "sha256": "e2e5c4eb4fc1aded6d5ca55cca9e6de78b2474508635d604625744719b6a6c96",
+        "reason": "RUNTIME_IDENTIFIED",
+        "atEpochMs": 1794961379593,
+        "utc": "2026-11-18T00:22:59.593000+00:00",
+        "contextTruncated": false
+      },
+      {
+        "path": "diagnostics-v1/events/e3e22a1d-9301-4fc2-be97-09a783e1844d.json",
+        "bytes": 533,
+        "sha256": "ead21a3fa2928c2816128aebc86cac22ad4a81fb133f21958105252ad883e37d",
+        "reason": "PROVENANCE_RECOVERY_FINISHED",
+        "atEpochMs": 1794961379603,
+        "utc": "2026-11-18T00:22:59.603000+00:00",
+        "contextTruncated": false
+      },
+      {
+        "path": "diagnostics-v1/events/f0029cbd-ee2b-4aa7-960d-a606cc819f93.json",
+        "bytes": 465,
+        "sha256": "f3bbfb541b602237be7fd8023ce2293e82f13f4d760d0e4dd34bf7ec15ebf1b1",
+        "reason": "SESSION_STARTED",
+        "atEpochMs": 1794961375452,
+        "utc": "2026-11-18T00:22:55.452000+00:00",
+        "contextTruncated": false
+      },
+      {
+        "path": "diagnostics-v1/events/f1b8d20c-de15-4fd5-a9e3-6b852f65f71e.json",
+        "bytes": 360,
+        "sha256": "15027c8bf43a9301efdf5b0ab473c6a0221b311c5117fb890af7666b7a00ef68",
+        "reason": "SESSION_ENDED",
+        "atEpochMs": 1794961519000,
+        "utc": "2026-11-18T00:25:19+00:00",
+        "contextTruncated": false
+      }
+    ],
+    "allSixOriginalAndRetainedCopiesEqual": true,
+    "diagnosticEpochsWithinOuterUtc": true,
+    "actionsReportedByOperator": {
+      "inputPickerOpened": 1,
+      "outputPickerOpened": 0,
+      "folderRegistrationsObserved": 0,
+      "prepare": 0,
+      "apply": 0,
+      "start": 0,
+      "reveal": 0,
+      "player": 0
+    },
+    "interruption": {
+      "toolResult": "aborted by user after11.4s",
+      "action": "GlobalSky Ctrl+L plus literal approved parent path key sequence; call contained noReturn",
+      "delivery": "Partial path observed afterreset through native-full-copy- with autocomplete suggestions. Exact delivered key prefix versus GTK autocomplete not claimed. No continuation/replay.",
+      "cause": "Not established; no app-defect or whole-project-cancellation inference."
+    },
+    "cleanupReportedByOperator": [
+      "Fresh observation only, no humanactivity observed.",
+      "Cancel click left dialog and dismissed suggestions; Escape closed location mode; secondEscape cancelled modal.",
+      "Both mainfolderlabels No folder selected observed.",
+      "Normal titlebarclose; window disappeared, CUAcompletion sent, outerreceipt/census verified."
+    ],
+    "topLevelStderr": {
+      "bytes": 624,
+      "sha256": "8abd720abcd443f10224d84c08fa5649b7ea03b4a02bfd0161da2315dd8f36b1",
+      "observations": [
+        "Three missing system D-Bus socket messages",
+        "One SSL handshake net_error -202"
+      ],
+      "causalAttribution": "Not established. No inference that these caused input interruption.",
+      "clockCaution": "Electron stderr displays0222xx while UTC outer begins0022xx. Preserve representations separately; numeric diagnostic epochs align with outer UTC. No clock adjustment or causation inferred."
+    },
+    "evidenceDistinctions": [
+      "Folder/modal state, no Return in interrupted call and cleanup sequence are operator CUA-transcript observations. No standalone screenshots were retained or independently viewed in this saved-file audit.",
+      "Unknown key prefix delivery and GTK autocomplete cannot be distinguished from the saved records. Tool text aborted by user does not establish who/what caused interruption or broader cancellation intent.",
+      "Six retained events and empty output corroborate no preparation/target activity; aggregate28-child census alone does not classify individual command lines or prove complete child stderr. Startup/capability media work did occur.",
+      "There is no saved collector, target telemetry, storage/publication or reveal proof from this attempt. Do not borrow successor service proof as native execution evidence.",
+      "Exit0/noabort describes normal closure only; native journey remains stopped. No retry or new state cleanup authorization.",
+      "READY sandbox/contextIsolation/nodeIntegration values are logged preferences, not independent enforcement verification."
+    ],
+    "scopeCompliance": [
+      "Only allowlisted diagnostics plus helper/receipts/source/runtime/media identity bytes read; no profile/cache/token databases inspected.",
+      "No GUI, FFmpeg, probe/decode, runtime opening, source/PBS edits or new attempt.",
+      "Source/runtime freeze remains until lead reconciliation/release."
+    ],
+    "writerReleased": true
+  },
+  "leadIdentity": {
+    "checkedAtUtc": "2026-11-18T00:28:06.428619+00:00",
+    "sourceCommit": "941801614ecb69fd3945b558db6d9000b50ca858",
+    "sourceTree": "75620f721f613b44a5226635cb024a5d9b6a7912",
+    "sourceFilesByteEqualGit": 585,
+    "trackedDiffEmpty": true,
+    "runtimePairAndSevenDependenciesVerified": 9,
+    "originalBuildPairAlsoVerified": true,
+    "electronRawReportOriginalAndOwnedFixtureVerified": true,
+    "sixOutcomeReceiptIdentitiesVerified": 6,
+    "sixRetainedAllowlistedEventsVerified": 6,
+    "outerEqualsOutcome": true,
+    "outputDirectoryEmpty": true,
+    "outcomeSha256": "ee340997dd753399c5278eec7d2760c2257cfa10e05751b33383a073e557d4b8",
+    "outerSha256": "df49997b15ac78f0f7f078ef2e0fab7e2f22eb8cede14a52529f7f924ad28861",
+    "qualification": "Read-only byte/identity reconciliation. Independent saved audit and source-release decision remain separate. No new runtime, probe, decode, UI or profile access."
+  },
+  "leadRelease": {
+    "releasedAtUtc": "2026-11-18T00:29:07.946184+00:00",
+    "sourceCommit": "941801614ecb69fd3945b558db6d9000b50ca858",
+    "independentAuditSha256": "4fb5c455ea28b16f6d197cb397d9850c10e881fcf0deb6b73456973ccbebe804",
+    "identityReconciliationSha256": "e445d1c0d9cc0ca99485291b105b0b1b2189586e7c9b3e425c87d686d2128635",
+    "disposition": "Verified stopped native attempt and normal cleanup only; no completed Full-copy GUI journey, target encode or publication.",
+    "sourceFreezeRelease": "Only five evidence/PBS paths for checkpoint028: Current, cumulative Session, new execution/receipt records and reviewed portable saved evidence. App source remains unchanged.",
+    "nextDirection": "No GUI retry. Continue independent non-interactive preparation of the smallest long Full-copy ordinary-service proof, conditional on separate plan/helper review, future preserved checkpoint and exact one-shot gate. No runtime execution grant here.",
+    "remainingLimits": [
+      "Input key-prefix delivery and abort cause unknown; no app-defect or broader owner-cancellation inference.",
+      "28 closed startup/tool children are not a per-child diagnostic census or zero media work.",
+      "No collector, target telemetry, output metadata or reveal proof from this native attempt.",
+      "CUA-only screenshot observations; six saved events and output-empty corroboration do not replace native UI acceptance.",
+      "Logged security preferences are not enforcement proof; top-level D-Bus and SSL diagnostics retain no established causal relationship.",
+      "Native profile/cache left intact and unread; no state cleanup or attempt replay authorization."
+    ]
+  },
+  "portable": {
+    "identity": {
+      "path": "native-full-copy-interrupted-portable-draft.json",
+      "bytes": 20686,
+      "sha256": "671ab8be5e8a9008cf7653de512a9cc3aa0355c7d07bd3201acb6ff1a70958c4"
+    },
+    "parsedReportsEqualOriginals": 5,
+    "transformations": 0,
+    "rawBytesRestoration": false
+  },
+  "historicalStartupCorrection": {
+    "checkedAtUtc": "2026-11-18T00:30:57.089176+00:00",
+    "originalReport": {
+      "bytes": 161820,
+      "sha256": "8c6adb29d46bcbdf576fdb88af34c3763365fe132fd7e78c26d451c4f1672695",
+      "sourceCheckpoint": "025",
+      "sourceCommit": "fa9388aceb836eca2cd68672ae34441dd27b9ca7"
+    },
+    "method": "Read exact saved original child argv, not inferred from phase labels/source alone. OriginalArgvJsonSha256 hashes compact UTF-8 JSON with ensure_ascii=false; no original private path strings reproduced.",
+    "rows": [
+      {
+        "index": 11,
+        "savedPhase": "startup",
+        "classification": "capability encode",
+        "encoder": "libx264",
+        "outputMode": "Matroska file",
+        "argumentCount": 49,
+        "originalArgvJsonSha256": "d468e06112042f495a4147ae4c2204eb2105626bc46f9b38eccf130d91cbdeac",
+        "closed": true,
+        "closeCode": 0,
+        "closeSignal": null
+      },
+      {
+        "index": 13,
+        "savedPhase": "startup",
+        "classification": "decode-to-null validation",
+        "encoder": null,
+        "outputMode": "null sink",
+        "argumentCount": 17,
+        "originalArgvJsonSha256": "cfc57a64a474e9bb05657802f0d862c4c3259b6e7708018a61c8baf48792c8ed",
+        "closed": true,
+        "closeCode": 0,
+        "closeSignal": null
+      },
+      {
+        "index": 14,
+        "savedPhase": "startup",
+        "classification": "capability encode",
+        "encoder": "libx264",
+        "outputMode": "Matroska file",
+        "argumentCount": 49,
+        "originalArgvJsonSha256": "7d8f91ba190c3edbefd6be284bb8de67ade24af8ea5c392efc5246d71260bc71",
+        "closed": true,
+        "closeCode": 0,
+        "closeSignal": null
+      },
+      {
+        "index": 16,
+        "savedPhase": "startup",
+        "classification": "decode-to-null validation",
+        "encoder": null,
+        "outputMode": "null sink",
+        "argumentCount": 17,
+        "originalArgvJsonSha256": "0ab23ba9f9ef6522f08bba22218e29236c6602d68c71018c282b746f1a86df75",
+        "closed": true,
+        "closeCode": 0,
+        "closeSignal": null
+      },
+      {
+        "index": 17,
+        "savedPhase": "startup",
+        "classification": "capability encode",
+        "encoder": "libx265",
+        "outputMode": "Matroska file",
+        "argumentCount": 51,
+        "originalArgvJsonSha256": "48ee4d633ea3d2be7c3f91affba3b7825c4907633990a67c37b05e1bc8d88163",
+        "closed": true,
+        "closeCode": 0,
+        "closeSignal": null
+      },
+      {
+        "index": 19,
+        "savedPhase": "startup",
+        "classification": "decode-to-null validation",
+        "encoder": null,
+        "outputMode": "null sink",
+        "argumentCount": 17,
+        "originalArgvJsonSha256": "b39bf335c6d82ba9f3739962b7e517fa6f99f6903a1bf71df77a18da1a46519a",
+        "closed": true,
+        "closeCode": 0,
+        "closeSignal": null
+      },
+      {
+        "index": 20,
+        "savedPhase": "startup",
+        "classification": "capability encode",
+        "encoder": "libx265",
+        "outputMode": "Matroska file",
+        "argumentCount": 51,
+        "originalArgvJsonSha256": "ab24c577f8268e746eb44e07e9d9249879c8105fe4fefe60dd6f577da0d9451e",
+        "closed": true,
+        "closeCode": 0,
+        "closeSignal": null
+      },
+      {
+        "index": 22,
+        "savedPhase": "startup",
+        "classification": "decode-to-null validation",
+        "encoder": null,
+        "outputMode": "null sink",
+        "argumentCount": 17,
+        "originalArgvJsonSha256": "152afcad3da8157fe4261724728a33a8cc2cf33e6d04e45e50a0f97e51856c35",
+        "closed": true,
+        "closeCode": 0,
+        "closeSignal": null
+      },
+      {
+        "index": 23,
+        "savedPhase": "startup",
+        "classification": "capability encode",
+        "encoder": "libsvtav1",
+        "outputMode": "Matroska file",
+        "argumentCount": 49,
+        "originalArgvJsonSha256": "cc78a44223e702962f506263c49dcb575e584065d3ce14e884ecc5779a0ebc0c",
+        "closed": true,
+        "closeCode": 0,
+        "closeSignal": null
+      },
+      {
+        "index": 25,
+        "savedPhase": "startup",
+        "classification": "decode-to-null validation",
+        "encoder": null,
+        "outputMode": "null sink",
+        "argumentCount": 17,
+        "originalArgvJsonSha256": "1effe5a30ea5226128a4864c6d9bb5b1eed03fd4226b758120e6a5221e05f9e9",
+        "closed": true,
+        "closeCode": 0,
+        "closeSignal": null
+      },
+      {
+        "index": 26,
+        "savedPhase": "startup",
+        "classification": "capability encode",
+        "encoder": "libsvtav1",
+        "outputMode": "Matroska file",
+        "argumentCount": 49,
+        "originalArgvJsonSha256": "cf8c3b10fe1f63ff9919d5973749e4420e9071e88f0a74643dba7d8fc4a92050",
+        "closed": true,
+        "closeCode": 0,
+        "closeSignal": null
+      },
+      {
+        "index": 28,
+        "savedPhase": "startup",
+        "classification": "decode-to-null validation",
+        "encoder": null,
+        "outputMode": "null sink",
+        "argumentCount": 17,
+        "originalArgvJsonSha256": "e336bff2c879038a12bbbdd7ff98aedc823f2e8721745eccb2e579e81c2bbda0",
+        "closed": true,
+        "closeCode": 0,
+        "closeSignal": null
+      },
+      {
+        "index": 35,
+        "savedPhase": "target",
+        "classification": "owned source target encode",
+        "encoder": "libx265",
+        "outputMode": "Matroska file",
+        "argumentCount": 79,
+        "originalArgvJsonSha256": "f0bc0e94c338e8f7c0649522ec49fbda2904adb9b34d6e6ad5da2bd698625dde",
+        "closed": true,
+        "closeCode": 0,
+        "closeSignal": null
+      }
+    ],
+    "counts": {
+      "allOwnedChildren": 47,
+      "startupChildren": 28,
+      "startupProgressInvocations": 12,
+      "startupProgressEncodes": 6,
+      "startupProgressDecodeToNullValidations": 6,
+      "jobTargetEncodes": 1,
+      "allProgressInvocations": 13
+    },
+    "encodeIndexes": [
+      11,
+      14,
+      17,
+      20,
+      23,
+      26
+    ],
+    "decodeValidationIndexes": [
+      13,
+      16,
+      19,
+      22,
+      25,
+      28
+    ],
+    "targetIndex": 35,
+    "correction": "Prior wording calling all twelve startup progress invocations encodes is inaccurate. They comprise six capability encodes and six decode-to-null validations. The actual owned-source target is child35.",
+    "limits": [
+      "This classification applies only to the hash-identified successful short025 saved report.",
+      "A native027 aggregate28 census cannot inherit these per-child roles without its own saved argv evidence.",
+      "Historical dated archives remain unchanged; corrected current prose should preserve the historical wording as dated evidence and explicitly explain this correction.",
+      "No runtime, probe, decode, media or source changes performed."
+    ]
+  },
+  "inheritedTests": {
+    "rerun": false,
+    "focused": "194/194",
+    "protection": "229/229",
+    "broad": "223/268; same 45 failures",
+    "overlappingScopesNotSummed": true
+  },
+  "artifacts": [
+    {
+      "path": "native-full-copy-journey027-preparation-20261118/HANDOFF-v1.json",
+      "bytes": 1802,
+      "sha256": "f56a103632339a14a3649eb4c0ca435eb3005b3daca0e29b90ad43c2824b93a7"
+    },
+    {
+      "path": "native-full-copy-journey027-preparation-20261118/launch-full-copy.py",
+      "bytes": 9321,
+      "sha256": "7fce7ec31599be486a0cea0b5202988b7e693dfe9954c059a9b82387d502053c"
+    },
+    {
+      "path": "native-full-copy-journey027-preparation-20261118/PLAN.md",
+      "bytes": 12325,
+      "sha256": "40e859936424de474535473a7efdc3b466d25fd3b6abc13084d00d420dd935d7"
+    },
+    {
+      "path": "native-full-copy-journey027-preparation-20261118/NATIVE_PLAN.json",
+      "bytes": 8001,
+      "sha256": "1366ce723abdc28a67d488453ae9ef72747a52a0f9bfbad6edde259dca7af403"
+    },
+    {
+      "path": "native-full-copy-journey027-preparation-20261118/INDEPENDENT_HELPER_REVIEW.json",
+      "bytes": 5614,
+      "sha256": "1889fed878fc620f5169a4a897a3964af2cdbae958e1e2547a34efea678fab15"
+    },
+    {
+      "path": "native-full-copy-journey027-preparation-20261118/AUTHORIZER_GENERATOR_HANDOFF.json",
+      "bytes": 1801,
+      "sha256": "de6c9b0bacf8275c92bdf41f4d1aefac10fb6aedf7879d98ebd0093d5159c168"
+    },
+    {
+      "path": "native-full-copy-journey027-preparation-20261118/INDEPENDENT_GENERATOR_REVIEW.json",
+      "bytes": 4529,
+      "sha256": "29a8d683b697d2779ec386833b59082fed9f08b01db348732807597a36f25e8a"
+    },
+    {
+      "path": "native-full-copy-journey027-preparation-20261118/AUTHORIZER_REVIEW.json",
+      "bytes": 3038,
+      "sha256": "11283aace8796caf4fc8c72b10e67710236a5c3df67016c90e932af8913564e5"
+    },
+    {
+      "path": "native-full-copy-journey027-preparation-20261118/AUTHORIZER_EXECUTION.json",
+      "bytes": 665,
+      "sha256": "1ec2b955912b0153d7db4c34c78e19e3e8e3628d0691dbd6b52494bc9b2cac10"
+    },
+    {
+      "path": "native-full-copy-journey027-preparation-20261118/DESKTOP_PREFLIGHT.json",
+      "bytes": 1335,
+      "sha256": "a9603822f24ce1671fc5e5e3a947caa18667bc8edea8eecbdf8926bb3c5f5167"
+    },
+    {
+      "path": "native-full-copy-journey027-preparation-20261118/APPROVED_JOURNEY_A.json",
+      "bytes": 71448,
+      "sha256": "4746e38fa936b03286d14528accc75113f2c389b04561a8b6e3cb67faca6e7ea"
+    },
+    {
+      "path": "native-full-copy-journey027-preparation-20261118/ATTEMPT_STARTED.json",
+      "bytes": 522,
+      "sha256": "527fe0a6c6db8d80399f7208f9f7b360dbea0e3bdc59dbd9c78679304e1fd9fa"
+    },
+    {
+      "path": "native-full-copy-journey027-preparation-20261118/JOURNEY_OUTCOME.json",
+      "bytes": 5731,
+      "sha256": "ee340997dd753399c5278eec7d2760c2257cfa10e05751b33383a073e557d4b8"
+    },
+    {
+      "path": "native-full-copy-journey027-preparation-20261118/OUTER_COMPLETION.json",
+      "bytes": 623,
+      "sha256": "df49997b15ac78f0f7f078ef2e0fab7e2f22eb8cede14a52529f7f924ad28861"
+    },
+    {
+      "path": "native-full-copy-journey027-preparation-20261118/INDEPENDENT_SAVED_EVIDENCE_AUDIT.json",
+      "bytes": 7462,
+      "sha256": "4fb5c455ea28b16f6d197cb397d9850c10e881fcf0deb6b73456973ccbebe804"
+    },
+    {
+      "path": "native-full-copy-journey027-preparation-20261118/LEAD_IDENTITY_RECONCILIATION.json",
+      "bytes": 897,
+      "sha256": "e445d1c0d9cc0ca99485291b105b0b1b2189586e7c9b3e425c87d686d2128635"
+    },
+    {
+      "path": "native-full-copy-journey027-preparation-20261118/LEAD_RELEASE.json",
+      "bytes": 1637,
+      "sha256": "e00915f35675a933faf9f44e8384d57899ea22dac572e7cd266e37abb749d4c5"
+    },
+    {
+      "path": "github-checkpoint027-verification.json",
+      "bytes": 4893,
+      "sha256": "7f2d13af7d959457bb130f5ce667d2414defb9832d753fcb0f3b7ca19b330ae4"
+    },
+    {
+      "path": "notion-checkpoint-027-verification.json",
+      "bytes": 101941,
+      "sha256": "81ec9749ef87fd28f577aa0304a0cdb278f204aff51943b3491b1d401cedca69"
+    },
+    {
+      "path": "checkpoint027-final-mirror-release.json",
+      "bytes": 501,
+      "sha256": "fa4c80762494af4f31908cb883dddee36a84fab0b3dc4a90c440a493d3706f93"
+    },
+    {
+      "path": "native-full-copy-interrupted-portable-draft.json",
+      "bytes": 20686,
+      "sha256": "671ab8be5e8a9008cf7653de512a9cc3aa0355c7d07bd3201acb6ff1a70958c4"
+    },
+    {
+      "path": "full-copy-long-service-prospective-20261118/PLAN.md",
+      "bytes": 7480,
+      "sha256": "4737f30694710f838cecf77032e758b1a31424dab5646d3014e8c9b8d18f2e0a"
+    },
+    {
+      "path": "native-full-copy-journey027-preparation-20261118/LEAD_RELEASE_ADDENDUM.json",
+      "bytes": 1709,
+      "sha256": "0347333b55dcc8e83519929fb9223c543b262f3909f63f0f4a760651a46fb478"
+    },
+    {
+      "path": "full-copy-long-service-prospective-20261118/STARTUP_PROGRESS_CLASSIFICATION.json",
+      "bytes": 6449,
+      "sha256": "09188ad15614f84cf41c976a75e9493b65991241a6eb0a299cc9ac5776cfe5d9"
+    },
+    {
+      "path": "full-copy-long-service-prospective-20261118/INDEPENDENT_PLAN_REVIEW.json",
+      "bytes": 6267,
+      "sha256": "1f14a952e522afe7cca75acb54f213d3f8a525d9f3d9f0ad8c7eba0aa2fea160"
+    },
+    {
+      "path": "native-full-copy-journey027-preparation-20261118/OWNER_RETRY_DIRECTION.json",
+      "bytes": 2357,
+      "sha256": "2459becbeffe1798b88f3ff547766954319f61e3fd1aec79d3ac435991d889f2"
+    }
+  ],
+  "publicationPending": true,
+  "limits": [
+    "Normal process closure and empty output do not establish a successful native journey. No registration, Prepare, Apply, Start or reveal was observed.",
+    "The interrupted input call and cleanup observations are CUA-transcript reports, without independently retained screenshots. Key-prefix delivery and cause remain unknown.",
+    "28 owned startup/tool children closed. Aggregate census and six saved events do not establish individual child argv or complete stderr capture.",
+    "Native security values are logged preferences, not independent enforcement. Top-level D-Bus/socket and SSL diagnostics have no established causal relationship to the interrupted tool call.",
+    "Numeric diagnostic epochs align with outer UTC; different stderr clock text is preserved, not treated as clock drift.",
+    "Runtime tools, original media, raw native logs and diagnostics, profile/cache/token stores and executable gates/helpers are excluded. These archival records do not themselves grant retry authority; later owner direction and a fresh exact gate remain separate.",
+    "Prior source tests are not rerun here; existing 45 broad failures and native/platform gaps remain.",
+    "Earlier no-retry statements in immutable outcome/audit/portable/release are historical; OWNER_RETRY_DIRECTION supersedes them only for one fresh bounded retry with independent review, preserved028 and a new gate. No retry is executed at cutoff."
+  ],
+  "leadReleaseAddendum": {
+    "recordedAtUtc": "2026-11-18T00:32:12.895323+00:00",
+    "earlierReleaseSha256": "e00915f35675a933faf9f44e8384d57899ea22dac572e7cd266e37abb749d4c5",
+    "classificationReceipt": {
+      "path": "full-copy-long-service-prospective-20261118/STARTUP_PROGRESS_CLASSIFICATION.json",
+      "bytes": 6449,
+      "sha256": "09188ad15614f84cf41c976a75e9493b65991241a6eb0a299cc9ac5776cfe5d9"
+    },
+    "correction": "For the exact successful short025 report, twelve startup progress calls comprise six capability encodes and six decode-to-null validations. Prior026/027 prose calling all twelve encodes is inaccurate. The one owned-source target remains child35 and all13 progress invocations/47 closed children remain unchanged.",
+    "historyDisposition": "Correct current028 prose and add an explicit later Session correction; preserve every dated prior archive and exact historical Session suffix. Do not infer native027 individual command roles from its aggregate28 census.",
+    "longPlanReview": {
+      "bytes": 6267,
+      "sha256": "1f14a952e522afe7cca75acb54f213d3f8a525d9f3d9f0ad8c7eba0aa2fea160",
+      "disposition": "Conditional GO for non-interactive helper preparation only, with startup classification and actual stage retained/removed disposition corrections required."
+    },
+    "nextPreparationScope": "Prepare corrected prospective long-service plan and isolated file-only helper/contract tests. No GUI retry, source edits, runtime/media execution or gate. Future execution requires independently reviewed exact helper, preserved028 source/history/native records, final released receipts and separate lead authorization.",
+    "sourceReleaseUnchanged": "Five028 evidence/PBS paths only; source code remains unchanged."
+  },
+  "prospectiveLongPlanReview": {
+    "atUtc": "2026-11-18T00:29:53.655840+00:00",
+    "disposition": "CONDITIONAL GO for helper preparation only, with required clarifications below; no execution grant",
+    "plan": {
+      "bytes": 7480,
+      "sha256": "4737f30694710f838cecf77032e758b1a31424dab5646d3014e8c9b8d18f2e0a"
+    },
+    "evidence": {
+      "shortReportSha256": "8c6adb29d46bcbdf576fdb88af34c3763365fe132fd7e78c26d451c4f1672695",
+      "calibrationReportSha256": "5f74a9efb7981fefb242dcf34c82e972bbc269c5a5ea7a92c62a68db1bc34ad9",
+      "resourceSourceSha256": "1914192dc877344b94bb6786a831e07b6e8b9704ee31c0a63fd225db426e5926"
+    },
+    "verifiedResources": [
+      {
+        "id": "long-mov",
+        "ioMs": 1562,
+        "resources": {
+          "budget": {
+            "sourceDecode": "complete",
+            "timeoutMs": 3295624,
+            "maxFrameBytes": 59801600,
+            "maxPcmBytes": 28992000,
+            "maxRecords": 58400,
+            "maxSpoolBytes": 61603840
+          },
+          "resources": {
+            "pipeBytes": 554991616,
+            "evidenceBytes": 538214400,
+            "maxChildren": 64,
+            "evidenceReserveBytes": 98566144,
+            "stallMs": null,
+            "telemetryBytes": 10092544,
+            "telemetryRecords": 39424
+          },
+          "executionBudgetMs": 6597496
+        }
+      },
+      {
+        "id": "heldout-mp4",
+        "ioMs": 109,
+        "resources": {
+          "budget": {
+            "sourceDecode": "complete",
+            "timeoutMs": 269468,
+            "maxFrameBytes": 23363584,
+            "maxPcmBytes": 2304000,
+            "maxRecords": 22816,
+            "maxSpoolBytes": 6946816
+          },
+          "resources": {
+            "pipeBytes": 227049472,
+            "evidenceBytes": 210272256,
+            "maxChildren": 64,
+            "evidenceReserveBytes": 25690112,
+            "stallMs": null,
+            "telemetryBytes": 983040,
+            "telemetryRecords": 3840
+          },
+          "executionBudgetMs": 539372
+        }
+      }
+    ],
+    "childForecast": {
+      "observedShort": 47,
+      "observedShortPhases": {
+        "startup": 28,
+        "source-probe": 1,
+        "preparation": 4,
+        "target": 12,
+        "post-target": 2
+      },
+      "perStartup": 28,
+      "startupProgressPerSession": 12,
+      "startupProgressDecodeChildren": [
+        13,
+        16,
+        19,
+        22,
+        25,
+        28
+      ],
+      "startupProgressEncodeChildren": [
+        11,
+        14,
+        17,
+        20,
+        23,
+        26
+      ],
+      "successfulJobExtra": 19,
+      "forecast": 100,
+      "hardAdmissionCap": 112,
+      "qualification": "56 startup +38 two successes +6 cancellation forecast is arithmetically coherent but exact cancellation/reprepare invocations need helper control-flow reconciliation. Unused twelve slots require predeclared classified probe roles, not discretionary retries."
+    },
+    "requiredClarifications": [
+      {
+        "topic": "Startup wording",
+        "detail": "Replace 12 capability progress encodes and24 startup capability encodes with12 progress-bearing startup calls per instance (6 actual encodes +6 decode-to-null validations). Across two instances24progress calls comprise12encodes+12decodes. Three job target launches are separately semantically admitted."
+      },
+      {
+        "topic": "Cancellation stage disposition",
+        "detail": "Retain actual diagnostics and observed stage disposition, not force retention of a partial file. Existing cleanup may remove incomplete owned staging; successful cleanup can omit item.cleanup. Record present or absent stage/file and outputDisposition, never dereference optional cleanup or alter source cleanup to satisfy harness."
+      },
+      {
+        "topic": "Future run gate",
+        "detail": "Native027 transport stop is not app failure or GUI retry permission. Concrete stopped-attempt audit and lead freeze release, then actual immutable source/full-history/native receipts and reviewed helper/authorizer plus explicit one-shot release remain prerequisites."
+      }
+    ],
+    "runnerFeasibility": [
+      "Existing openCandidateCalibrationRuntime(manifest,{execute}) wraps genuine verified runtime; tighten runTool options at that execute seam, not overwrite service.run or forge selection/runtime tokens. Preserve options stdout/stderr/record bounds and callbacks; combine service/campaign signals.",
+      "Use monotonic remaining segment and global time, refuse <=0 before spawn; positive timeout must be min(existing options.timeoutMs when positive, derived bound, segment/global remainder, chosen per-child cap). Never interpret zero/expired as unlimited. Recheck after async free-space/owned-byte checks.",
+      "Admission cap112 and serial-live/childBusy checks occur before spawn. Classify exact owned source/stage/codec/metadata argv, not phase or -progress alone. Exactly one target per success and one cancellation target.",
+      "Cancellation observation must confirm spawned semantic target still live, record monotonic request before close, then invoke existing cancelCurrent once without deadlocking on onChild or waiting for task completion inside callback. If already finished, stop inconclusive, no retry.",
+      "60second nonsettlement observation records failure/live PIDs and stops successor admission; keep supervision reachable for explicit handling rather than process.exit abandoning children. No OS-wide kill or guaranteed hard deadline."
+    ],
+    "auditRequirements": [
+      "Snapshot first success before sentinel prepare resets state; save sentinel hash and no target delta.",
+      "Save source and output full probes/hashes, exact entry.outputId marker correlation, genuine9collector argv and aggregate12 service children separately, complete diagnostics/truncation and provenance.",
+      "Long MOV copied padding768 and heldout384 are audited input-specific facts, not hardcode short padding0; recompute sample/frame/extents and resources for each.",
+      "Close SessionA runtime/service and demonstrate no live owned children before NEW handle/service/state; retained11s input is previously used independent-content fixture, not newly independent holdout.",
+      "No PCM/pixel/native/Windows/general-duration or same-service recovery claim. Existing45 failures retained."
+    ],
+    "reviewMethod": "Read-only source/retained report review and Python integer arithmetic. No tests, runtime opening, probe/decode/media, source/PBS changes or gate."
+  },
+  "laterOwnerClarification": {
+    "recordedAtUtc": "2026-11-18T00:39:49.065000+00:00",
+    "source": "Owner clarification relayed by parent thread after the stopped native attempt and earlier release addendum. Message timestamp not independently recorded here.",
+    "ownerWords": [
+      "I didn't abort anything",
+      "feel free to try again"
+    ],
+    "interpretation": "The tool wording alone does not establish that a human aborted the interaction. Cause remains unknown. The owner authorizes a fresh bounded retry within the existing native journey scope.",
+    "preservedFacts": "Original one-shot gate is consumed; stopped attempt, outcome, audit, raw logs, portable record and earlier dated releases remain unchanged. No folder registration, Prepare, Apply, Start or reveal occurred; normal closure and aggregate 28 owned tools closed were recorded.",
+    "supersededDirection": "The earlier no-GUI-retry direction applied before the owner clarification. It is now superseded only for one independently prepared fresh retry, not replay of the consumed gate or continuation of uncertain text entry.",
+    "retryConditions": [
+      "New sibling helper, exclusive attempt/input/output artifacts and new exact gate; no reuse of consumed approval.",
+      "Read-only known-state review of existing fixed main-owned state using prior closure, allowlisted diagnostics and fresh UI observation; no deletion, rename, redirect or inspection of profile/cache/token stores.",
+      "Actual checkpoint028 preservation, downloaded source and complete-history restores, full native PBS and final released publication receipts before execution.",
+      "Exact helper and rendered authorizer independent review; fresh source/runtime/Electron and desktop checks; no unrequested flags or security changes.",
+      "Short bounded UI input calls with fresh observation; no Return on uncertain text, hidden IPC, clipboard or type_text; stop on uncertain delivery.",
+      "No new encoding or publication claim before actual execution and independent audit."
+    ],
+    "parallelWork": "Partial long-service helper preparation is paused at a safe boundary. Syntax-only, unreviewed files remain outside the checkout; no tests, runtime, gate or source changes occurred.",
+    "sourceRelease": "Only the five checkpoint028 evidence/PBS paths remain released for editing; app code and original runtime/attempt evidence are unchanged."
+  }
+}

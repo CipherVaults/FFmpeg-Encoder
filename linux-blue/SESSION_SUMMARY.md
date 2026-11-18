@@ -1,3 +1,353 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Preserve the interrupted native Full-copy journey, correct startup terminology and scope the owner's fresh retry
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model / effort attribution | Evidence and limit |
+|---|---|---|
+| Engineering lead | GPT-6 Astra / Ultra, recorded assignment, not backend attestation | Bound exact source/preservation/gate, reconciled stopped evidence and issued dated documentation/continuation directions. |
+| Native helper and authorizer authors/reviewers | Not independently established here | Exact preparation, AST/source/schema review and later one-shot authorization; static checks are not failure-injection or native outcome proof. |
+| Native operator | Not independently established here | One actual launch, interrupted visible picker input and fresh-observation normal cleanup. Screenshots exist in the CUA transcript, not a standalone archive. |
+| Independent saved-evidence auditor | Not independently established here | Checked source/runtime/allowlisted evidence and closure without reopening GUI, probing or decoding media. |
+| Follow-on plan reviewer and owner-direction relay | Not independently established here | Corrected historical startup roles, reviewed a noninteractive plan, then recorded the owner's clarification and separate fresh-retry prerequisites. |
+| Preservation and documentation | Not independently established here | Exact 027 source/history/native/remote preservation verified; documentation owns only the explicitly released new Session prepend. |
+
+**Record basis:** One native Full-copy app launch reached startup and the input-folder picker, but not registration or Prepare. A tool reported an interruption during key entry. The cause is unknown, and Ahmed later explicitly denied causing an abort and allowed a fresh retry. The stopped attempt, consumed gate, audit and portable record remain immutable. Normal process closure is verified; a successful Full-copy GUI journey, target publication and OS reveal are not. Later correction of startup terminology is dated here without rewriting prior Session bytes.
+
+## 🕒 Time
+
+- Date and clocks: November 18, 2026, UTC unless an explicitly different stored representation is described. Full active-work start and total active work were not measured.
+- Prior 027 cutoff: 00:10 UTC, when native helper preparation was assigned but unfinished. Its later helper results and this attempt belong here, not in rewritten 027.
+- Helper handoff: 00:10:42.773493; independent helper review: 00:12:07.653139. AST/source review only at those stages.
+- Prior Session saved: 00:13:47.786877. Local 027 freeze receipt: 00:14:45.647334. Generator handoff: 00:15:52.526733; structural review: 00:17:15.259486.
+- 027 GitHub verified: 00:18:20.023848. Final released mirror mapping acknowledged: 00:19:25.201076. Both source/full-history restores and full readable records preceded native authorization.
+- Exact rendered-authorizer review: 00:20:29.034235. Fresh desktop receipt: 00:21:10.358309. Authorizer executed once 00:21:42.795542–00:21:45.655999, exit 0; gate written 00:21:45.648507.
+- Native outer run: **00:22:54.832808–00:25:20.656896**, monotonic **145.82411392799986 seconds**. This is the entire stopped manual journey, not encoding time or a performance benchmark. Exit 0 describes normal closure, not journey success.
+- Operator outcome saved: 00:26:10.559908. Independent saved audit: 00:28:04.512800. Lead identity reconciliation: 00:28:06.428619. First documentation release: 00:29:07.946184.
+- Prospective long-service plan review: 00:29:53.655840. Exact saved startup-argv classification: 00:30:57.089176. Correction/noninteractive-preparation addendum: 00:32:12.895323.
+- **Final fixed evidence cutoff: 00:39:49.065000 UTC**, the timestamp of the owner-direction record. This is not an independently captured timestamp of Ahmed's original messages. It records the later clarification superseding the earlier no-GUI-retry direction under fresh gates.
+- End / stopping point: Interrupted attempt closed and audited; evidence-only 028 preservation pending; one fresh known-state retry plan assigned, not launched. Partial long-service helper work is safely paused, syntax-only and unreviewed.
+- Stage / type / focus: Native interruption/evidence preservation, transparent terminology correction and controlled continuation, not a successful GUI or production release.
+- Reason for summary: Preserve exactly what happened, distinguish tool wording from human intent, record the owner's latest direction and retain original evidence/history while preparing a separate safe retry.
+
+## 🎯 Session Goal
+
+Use preserved integrated 027 source for one finite original-shell Full/null/720/copied-AAC native journey, with visible input/output registration, inspection-only Unsupported presentation, one explicit reprepare, one target and at most one enabled Show in folder. Require exact reviewed source/runtime/report/Electron/desktop prerequisites, zero additional independent probe/decode and normal closure with saved audit.
+
+The actual journey stopped during the first input picker. The resulting goal became honest interruption preservation and cleanup, without replaying uncertain input or claiming an app defect. After Ahmed clarified that he had not aborted and invited another try, the continuation became one **fresh separately prepared retry**, not resuming the unknown prefix or reusing the consumed gate. Preserve old failed and successful service attempts and every prior Session byte throughout.
+
+## 🛠️ Actions Taken
+
+### 1. Complete 027 preservation before the native authorization
+
+Local commit `941801614ecb69fd3945b558db6d9000b50ca858`, tree `75620f721f613b44a5226635cb024a5d9b6a7912`, parent `c0e47836cc46e1287eb39814550a064ac8ecf323`, contains the exact nine source/test changes plus four PBS paths: 585 files and twenty-seven commits. The tracked tree remained frozen through native closure and independent audit.
+
+Local freeze receipt is 152,292 bytes, SHA-256 `1c545fd986174b9e8418486c41550e40c026febad8d98718ec3c1d45a5493124`. [Notion source/full history](https://app.notion.com/p/41cbd7ade63b819aa626de2c172f9550) independently restored source ZIP SHA-256 `af39a18ed36e4069b8d2491020a6047078f8f29f6ed68648ac832e1607170c72`, bundle `cec391b762a518c1d76a26469845de633b934d900de2ba6f25467866cf0f371e`, and history ZIP `47a21cd27fa4f2e676676ea5222cce3ac0253e67c38fc2b62ba6436ad0777c32`.
+
+[Full native Session](https://app.notion.com/p/41cbd7ade63b819b84abd74178d9c1cd) used six ordered unabridged requests, fetched with all twenty-seven headings/historical ending and no truncation metadata. Native rendering returned 1,273,447 characters, not byte-identical Markdown transport. Exact archived/current prior Session is **1,255,550 bytes**, SHA-256 `82e351a88fcfba64435b976cf782e456c037928131ce043d30ead0aef9dd3236`, verified equal to Git HEAD and preserved as the unchanged suffix of this new entry.
+
+GitHub remote `318331149baa1ed0d2b5b06bca2fa2f947c69181`, sole parent `b9b3e30afb1f0b5b2fa863ac3d916a5660752267`, tree `11a50a90b1c95bd3985570b1a5befdcb89c44862`, was verified at 00:18:20.023848 on `blue/linux-development`. All thirteen intended files matched; full remote tree was 967 total / 954 unchanged / eight modified / five new / zero deleted. Expected-parent non-force update, fresh ref, full tree and immutable full Session blob readback were verified. Distinct original remote and reconstructed local histories remain deliberately preserved.
+
+Final mirror receipt is 101,941 bytes, SHA-256 `81ec9749ef87fd28f577aa0304a0cdb278f204aff51943b3491b1d401cedca69`; final mirror-release receipt is 501 bytes, SHA-256 `fa4c80762494af4f31908cb883dddee36a84fab0b3dc4a90c440a493d3706f93`. GitHub verification receipt is 4,893 bytes, SHA-256 `7f2d13af7d959457bb130f5ce667d2414defb9832d753fcb0f3b7ca19b330ae4`. Later native helper/runtime evidence is not inside that predecessor archive.
+
+### 2. Prepare and independently review the exact native helper
+
+New helper directory is `native-full-copy-journey027-preparation-20261118`. Handoff is 1,802 bytes, SHA-256 `f56a103632339a14a3649eb4c0ca435eb3005b3daca0e29b90ad43c2824b93a7`; launcher 9,321 bytes, `7fce7ec31599be486a0cea0b5202988b7e693dfe9954c059a9b82387d502053c`; PLAN 12,325 bytes, `40e859936424de474535473a7efdc3b466d25fd3b6abc13084d00d420dd935d7`; NATIVE_PLAN 8,001 bytes, `1366ce723abdc28a67d488453ae9ef72747a52a0f9bfbad6edde259dca7af403`.
+
+At handoff, only Python AST parsing and read-only nine-path identity checks had occurred. Its earlier `futureCommit: null` and uncommitted-state wording remains historical, not silently altered after 027 was committed. The later explicit assignment superseded only the older plan's deferral of executable **preparation**, not execution authority. The original reviewed read-only plan remains unchanged.
+
+Independent helper review is 5,614 bytes, SHA-256 `1889fed878fc620f5169a4a897a3964af2cdbae958e1e2547a34efea678fab15`. It matched exact file/plan bindings and AST-parsed without importing/executing the helper. Conditional GO required actual preserved 027, separately reviewed authorizer, fresh desktop and explicit one-shot release. No full supervisor failure-injection test was executed.
+
+The helper repeats all source hashes and exact nine integrated paths plus runtime restoration/original-build pair, seven dependencies/sonames, Electron, raw calibration and original/owned fixture identities. Fixed state must initially be absent; attempt/log/input/output creation is exclusive. Existing state stops rather than being deleted, renamed or redirected. Receipt persistence uses exclusive writes and exact bytes/hash/JSON readback. Profile/cache/token databases are not inspected or published.
+
+Optimization and argument rejection precede assertions. Failure after process creation requests termination and waits; thirty minutes requests SIGTERM, not guaranteed exit or forcekill. Setup/inventory failures may produce only retained failure artifacts rather than a complete outer result; they are not successful closure. Helper receipt-byte checks and truth flags rely on the separately reviewed authorizer for deep actual HEAD/tree/count/restoration/remote semantics, not arbitrary gate JSON.
+
+Reviewed scope explicitly included at most one safe enabled Show in folder after genuine publication and **zero extra independent ffprobe/decode**. The supervisor does not automate/enforce every UI action count; operator observations and saved audit supply that evidence. Native observer census is not the service harness's eighty-child admission guard or complete child stderr capture. The 27 GiB free-space and 2 GiB owned input/output point checks exclude profile/state growth and are not continuous write quotas or guaranteed exit limits.
+
+### 3. Render/review the authorizer, verify the desktop and issue one gate
+
+The final prepared generator was 13,287 bytes, SHA-256 `69eb83b2534d3effe930265c15ebdcf251b96f41ebecaf280f5f46d2f97f9c72`. Its 00:15:52 handoff and 00:17:15 structural review distinguish generator execution, which renders an inert authorizer, from executing that authorizer or launching Electron. Generator review is 4,529 bytes, SHA-256 `29a8d683b697d2779ec386833b59082fed9f08b01db348732807597a36f25e8a`. AST checks and receipt-schema comparisons did not create a gate or runtime.
+
+After final preservation release, exact rendered `authorize-native-full-copy027.py` was 14,492 bytes, SHA-256 `2a6908113855c925cb6bef46250d0edb6a18bf1449aa6e54c1bb5b8c6c732591`. Final authorizer review is 3,038 bytes, SHA-256 `11283aace8796caf4fc8c72b10e67710236a5c3df67016c90e932af8913564e5`, at 00:20:29.034235. It reconstructed template bytes, checked seven frozen receipt/archive identities, nine antecedent pins, actual 585 Git/current/source ZIP/publication/Notion identities, tree/twenty-seven commits, thirteen changed paths, full native Session and exact remote mapping. This is verification of saved preservation receipts, not another remote fetch.
+
+Fresh desktop receipt is 1,335 bytes, SHA-256 `a9603822f24ce1671fc5e5e3a947caa18667bc8edea8eecbdf8926bb3c5f5167`, observed at 00:21:10.358309. Global Sky/window/screenshots showed an idle terminal and Chromium, no observed competing workbench or human activity, actual inherited DISPLAY=:0 and absent fixed Full-copy state. A read-only printf entered with documented global keys was visibly verified before Return and completed. That tests terminal input, not future picker behavior. First inactive CUA entry reset without execution; required setup then succeeded. Screenshots remained CUA-only. This is bounded observation, not omniscient process exclusivity.
+
+The authorizer ran once, 00:21:42.795542–00:21:45.655999, exit 0. Execution receipt is 665 bytes, SHA-256 `1ec2b955912b0153d7db4c34c78e19e3e8e3628d0691dbd6b52494bc9b2cac10`; stdout SHA-256 `c61cfeaddca2cfc32d0e982af155d6fe5143ce6b47331658b00ec9eeadb02d8b`, stderr `83e23f6ed956a5f506d17a8ee343a22a6d020bee9977284cd332499f9968d8b2`. Stderr is not described as empty. No runtime ran in the authorizer itself.
+
+Exclusive approval gate is 71,448 bytes, SHA-256 `4746e38fa936b03286d14528accc75113f2c389b04561a8b6e3cb67faca6e7ea`, at 00:21:45.648507. It rechecked current source, runtime pair/seven libraries, original build pair, Electron, raw report/fixture, absent state/markers and fresh desktop. Desktop ages were 35.290198 seconds at gate and 104.474499 seconds at launch, within the reviewed point freshness bound. No DISPLAY injection, alternate profile/runtime, security/loader flags, clipboard/type_text or hidden IPC were authorized.
+
+The one-shot scope was initial inspection Prepare, explicit Full/null/720/Copy Apply, one Start, at most one enabled reveal after publication, normal close and no extra probe/decode/player/cancel/relaunch. This describes granted scope, not actions completed. Subsequent records show the journey stopped before all of these preparation/target actions.
+
+### 4. Observe one startup and interrupted picker input, without assigning a cause
+
+Exactly one native developer Full-copy launch occurred, using verified Electron/main and `--blue-runtime=9.0.2-full-copy-candidate`. The input-folder picker opened once; output picker did not open. During a global-key Ctrl+L and approved parent-path sequence, the tool returned **`aborted by user after11.4s`**. That call contained **no Return**.
+
+Fresh observation after reset showed a partial path through `native-full-copy-` with autocomplete suggestions. Saved evidence does not distinguish the exact delivered key prefix from GTK autocomplete. No continuation, path completion, Return or replay was attempted. The tool wording alone does not establish who or what interrupted the call, an app defect, or cancellation of the project. Ahmed's later explicit clarification is recorded below.
+
+Operator observations report zero completed folder registrations, zero Prepare, Apply, Start, reveal or player actions. No intended initial Unsupported inspection or 720 reprepare was tested. No target/publication evidence exists. A logged READY startup is not a completed UI journey.
+
+Cleanup used only fresh state observations. First Cancel click dismissed suggestions while the modal remained. One Escape exited location mode; a second Escape canceled the modal. Both main folder labels then read **No folder selected**. Normal titlebar close removed the same app window; CUA completion was sent. No second launch, alternate profile, state deletion or GUI retry followed within this attempt. No further abort or human activity was observed during cleanup, which does not determine the earlier interruption's cause.
+
+### 5. Verify closure, exact retained diagnostics and absence of a target output
+
+`JOURNEY_OUTCOME.json` is 5,731 bytes, SHA-256 `ee340997dd753399c5278eec7d2760c2257cfa10e05751b33383a073e557d4b8`, status `stopped-input-interruption-before-registration-no-target`. `OUTER_COMPLETION.json` is 623 bytes, SHA-256 `df49997b15ac78f0f7f078ef2e0fab7e2f22eb8cede14a52529f7f924ad28861`. Outer exit 0, `abortRequested:false`, `failure:null` and post-close identities true mean normal process closure only. The 145.824-second interval includes manual UI/navigation and cleanup, not encoding throughput.
+
+Owned observer census is 28 spawned / 28 closed / zero live / maximum one / zero reported failures. Startup/capability tool/media work occurred. This is **not zero media execution**, complete per-child command classification, complete child stderr or an OS-wide process survey. No user-source target is supported by the observed zero Prepare/Start, absence of preparation/encode/publication events and empty owned output directory. Do not transfer earlier service report child roles into this aggregate native census.
+
+The original and exclusively copied input retained SHA-256 `bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97`. Output inventory is empty. There is no output file hash/metadata, collector, target telemetry, target storage/publication record or private reveal proof to qualify. Older service success cannot supply these missing native facts. Extra independent FFmpeg/ffprobe/decode invocations were zero.
+
+The only allowlisted retained diagnostic files are six JSON events, copied byte-exact from their originals: SESSION_STARTED, CAPABILITY_STARTED, RUNTIME_IDENTIFIED, CAPABILITY_FINISHED, PROVENANCE_RECOVERY_FINISHED and SESSION_ENDED. Their contexts are untruncated. Numeric epochs convert to 00:22:55.452–00:25:19 UTC, inside the outer interval. No native profile/cache/token store was inspected or preserved; the six events are not a profile scrape.
+
+Top-level stdout is 436 bytes, SHA-256 `826cd728fdfed2a803a9f1cdd426e1050a4fbe0a250f2c63ef31932169bd600b`; stderr is 624 bytes, SHA-256 `8abd720abcd443f10224d84c08fa5649b7ea03b4a02bfd0161da2315dd8f36b1`. Stderr retains three missing system D-Bus socket messages and one SSL handshake `net_error -202`. No causal link to the interrupted input is established, and they are not suppressed. Electron stderr text displays 02:22 while the outer UTC labels show 00:22; numeric diagnostic epochs align with UTC. Those representations are retained separately, not diagnosed as clock drift or “fixed” by changing the clock.
+
+Startup reports Electron 44.7.0, candidate pair `1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9`, developer Full-copy mode, empty qualified families, Remux unavailable, original UI/preload, sandbox=true, contextIsolation=true and nodeIntegration=false. These are logged preferences, not independent OS/sandbox enforcement proof. No clean visual or native threading/performance acceptance follows.
+
+### 6. Independently audit the stopped attempt and release only evidence records
+
+Independent saved audit is 7,462 bytes, SHA-256 `4fb5c455ea28b16f6d197cb397d9850c10e881fcf0deb6b73456973ccbebe804`, checked 00:28:04.512800. It supports stopped-before-registration with normal closure, not GUI acceptance. It verified all 585 current source files against Git, nine runtime identities, Electron/raw report/original and owned fixture, six retained events, empty output and exact outcome/outer identities. It did not reopen GUI, execute a probe/decode/runtime, independently view standalone screenshots or access profile/cache.
+
+Folder/modal state, no Return in the interrupted call and cleanup order remain operator CUA-transcript observations. Saved event/output evidence corroborates their limited scope, not every pixel or key. Unknown prefix delivery versus autocomplete remains unresolved.
+
+Lead identity reconciliation is 897 bytes, SHA-256 `e445d1c0d9cc0ca99485291b105b0b1b2189586e7c9b3e425c87d686d2128635`, at 00:28:06.428619. It independently matched immutable source/tree, all 585 files with empty tracked diff, runtime pair/seven dependencies and original build pair, Electron/report/fixtures, six outcome receipt identities and six allowlisted events. Outcome and outer agree; output is empty.
+
+First release is 1,637 bytes, SHA-256 `e00915f35675a933faf9f44e8384d57899ea22dac572e7cd266e37abb749d4c5`, at 00:29:07.946184. It freed only Current, cumulative Session, execution/receipt and portable evidence for 028. It did not authorize source edits or another runtime. Its then-current next direction was **no GUI retry**, with independent noninteractive long-service preparation instead. That dated direction remains intact, and its later supersession is explicit rather than silently rewriting it.
+
+### 7. Correct prior startup terminology transparently, without changing history
+
+A later independent long-plan review required exact startup role classification. At 00:30:57.089176, `full-copy-long-service-prospective-20261118/STARTUP_PROGRESS_CLASSIFICATION.json` was saved, 6,449 bytes, SHA-256 `09188ad15614f84cf41c976a75e9493b65991241a6eb0a299cc9ac5776cfe5d9`. It reads actual saved original argv in the successful short-service report, 161,820 bytes, SHA-256 `8c6adb29d46bcbdf576fdb88af34c3763365fe132fd7e78c26d451c4f1672695`, executed on source 025 `fa9388aceb836eca2cd68672ae34441dd27b9ca7`.
+
+**Correction to prior 026/027 prose:** the twelve startup progress-bearing calls were **six capability encodes and six decode-to-null validations**, not twelve encodes. Capability encodes are children **11, 14, 17, 20, 23, 26**; decode-to-null validations are **13, 16, 19, 22, 25, 28**. Child **35** remains the sole owned-source target. Thirteen total progress invocations, 47 owned children closed and one target are unchanged. Exact compact-JSON argv hashes support classification without reproducing private paths.
+
+The earlier language was inaccurate and is corrected here as later evidence. Every dated historical archive and all 1,255,550 prior Session bytes remain untouched, including the inaccurate older wording as historical record. No old raw report, source code or acceptance result changed. **This correction applies only to that hash-identified short-service report. Native 027's aggregate 28-child census did not capture individual argv and cannot inherit the same detailed roles.**
+
+Lead release addendum is 1,709 bytes, SHA-256 `0347333b55dcc8e83519929fb9223c543b262f3909f63f0f4a760651a46fb478`, at 00:32:12.895323. It requires the current correction while preserving history and kept source release at the same five evidence/PBS paths.
+
+### 8. Record the intermediate noninteractive plan and its later pause
+
+At the first release, prospective long-service plan review was pending. At 00:29:53.655840, independent review conditionally permitted helper preparation only. Plan is 7,480 bytes, SHA-256 `4737f30694710f838cecf77032e758b1a31424dab5646d3014e8c9b8d18f2e0a`; review is 6,267 bytes, SHA-256 `1f14a952e522afe7cca75acb54f213d3f8a525d9f3d9f0ad8c7eba0aa2fea160`.
+
+The prospective scope was a 150-second MOV Full-copy success, protected existing-output refusal, observed active cancellation and recovery using a **new** service/runtime owner with the known eleven-second MP4. That MP4 had already appeared in calibration; it is not newly independent held-out evidence. Resource arithmetic and a 100-child forecast / 112 admission cap were planning checks, not observations or discretionary retry capacity. No long or cancellation run occurred.
+
+Review required corrected encode/decode startup roles and truthful canceled-stage disposition. A future helper must record actual retained **or removed** owned stage/file and outputDisposition, preserve diagnostics, and not force a partial file to survive ordinary cleanup or dereference an optional cleanup object. Runtime admission must retain genuine service/runner limits rather than forge tokens or overwrite run machinery. A completed target before intended cancellation must be inconclusive, not silently retried.
+
+The 00:32:12 addendum allowed isolated noninteractive helper/file-only contract preparation, no source edit, gate, runtime or GUI retry. After the owner's later clarification, that partial work was safely paused. At the final cutoff it is **syntax-only, unreviewed, with no tests, runtime or gate**. No later helper implementation/review result is imported into this entry.
+
+### 9. Apply the owner's clarification without reinterpreting the stopped evidence
+
+Ahmed said **“I didn't abort anything”** and **“feel free to try again.”** Root directed investigation and retry with fresh checks under the existing bounded scope. Cause remains unknown. The earlier tool string is retained as a tool result, not evidence of a human abort, intentional owner interference, app defect or cancellation of the wider project.
+
+`OWNER_RETRY_DIRECTION.json` is 2,357 bytes, SHA-256 `2459becbeffe1798b88f3ff547766954319f61e3fd1aec79d3ac435991d889f2`, recorded **00:39:49.065000 UTC**. That record timestamp is the final evidence cutoff, not the owner's message timestamp. It explicitly supersedes the earlier no-GUI-retry direction **only for one independently prepared fresh retry**. It does not allow consumed-gate replay or continuing the uncertain text entry.
+
+Conditions are a new sibling helper and exclusive attempt/input/output artifacts, new exact gate, actual 028 source/full-history/readable-record preservation and final released receipts, exact helper/rendered-authorizer review, fresh source/runtime/Electron/desktop checks and short bounded UI calls with fresh observations. No Return on uncertain text, hidden IPC, clipboard, type_text, unrequested flags or security changes are authorized.
+
+Fixed main-owned native state now exists from the stopped launch. The initial attempt's absent-state rule cannot be blindly reused or bypassed by deletion. Retry needs read-only known-state review using the previous normal closure, allowlisted diagnostics and fresh UI observation. **No state deletion, rename, redirection or profile/cache/token inspection** is permitted. At cutoff an independent known-state retry plan is assigned, but no new gate, retry launch, target or publication is claimed. The owner authorized a fresh bounded retry, not a conclusion that it will succeed.
+
+### 10. Preserve the five evidence records and the original chronology
+
+The reviewed portable evidence is 20,686 bytes, SHA-256 `671ab8be5e8a9008cf7653de512a9cc3aa0355c7d07bd3201acb6ff1a70958c4`. It contains five parsed reports: JOURNEY_OUTCOME, OUTER_COMPLETION, independent saved audit, lead identity reconciliation and initial lead release. All keys/types/values match their originals with **zero transformations**. Serialization whitespace differs, so original byte hashes are metadata, not a promise of raw-byte restoration. No runtime payload, raw logs, executable gate, profile store or inverse-root map is included. All six archival authority flags are false, including retry permission and native-journey qualification.
+
+The portable initial release still contains its historical no-retry direction. That immutable historical field is not the current instruction; the later owner-direction receipt in current records explicitly supersedes it. Do not alter the five parsed reports to make them appear contemporaneous with later clarification. The startup correction and owner addenda are separately retained by curated identities and current narrative.
+
+The five-path 028 scope is [Current State](CURRENT_STATE.md), [Native Interruption](2026-11-18_Full_Copy_Native_Interruption.md), [Curated Receipts](2026-11-18_Full_Copy_Native_Interruption_Receipts.json), [Portable Native Evidence](evidence-2026-11-18/native-full-copy-interrupted-portable.json), and this cumulative Session. Expected inventory is 588 files and twenty-eight commits. No application/test source is edited. Prior 027 test results remain 194/194 focused, 229/229 protection and 223/268 broad with the same forty-five failures; they were not rerun for this evidence milestone and overlapping scopes are not summed.
+
+Next preservation is coherent local Git, independently downloaded/restored Notion source and full history with unabridged readable records, then verified ancestry-preserving GitHub. At the final cutoff 028 is not yet committed/restored/pushed; all completed backup claims above refer to 027. Exact original structure-correction receipt and the full prior Session suffix remain unchanged.
+
+## 🧠 Key Insights
+
+### Tool wording does not establish human intent
+
+The tool returned an abort string, but Ahmed explicitly says he did not abort. Saved input delivery is uncertain and no cause is established. Preserve the wording and evidence without assigning blame or conflating one interrupted interaction with project cancellation.
+
+### Normal closure and successful user work are different outcomes
+
+The app started and all 28 observed tool children closed normally. Folder registration, inspection, reprepare, target, publication and reveal did not occur. Exit 0 and READY cannot turn that stopped journey into GUI acceptance.
+
+### Progress-bearing commands are not all encodes
+
+The saved short-service argv shows six startup encodes plus six decode-to-null validations. Correcting that terminology does not change the one-target result or closure count, but it matters for resource forecasts and truthful reporting. Aggregate native census cannot inherit a different run's detailed classification.
+
+### History can remain immutable while current conclusions change
+
+Original failure/success records, the stopped attempt and earlier no-retry direction remain dated evidence. A new correction/addendum supplies the latest facts and owner intent without silently rewriting history or pretending earlier instructions never applied.
+
+### Retry requires known-state review, not a reset
+
+The first launch created state even though no folders were registered. A fresh attempt must reconcile it read-only and bind new artifacts/gate, rather than satisfying an absent-state check by deletion or redirection. Fresh short UI observations reduce uncertainty but do not establish the old interruption's cause.
+
+## 📌 Decisions Made
+
+1. **Confirmed; lead and exact preservation receipts:** Execute the one native attempt only on preserved immutable 027 with all 585 source identities, exact raw/runtime inputs and fresh desktop checks. Source stayed frozen through closure/audit.
+2. **Confirmed at interruption; operator/root/lead:** Stop uncertain picker input without Return, completion or replay. Use fresh observations only to cancel the modal and normally close the same app. Do not infer cause or broader cancellation.
+3. **Confirmed; independent audit and lead reconciliation:** Accept normal closure and source/evidence identity continuity, but classify the native journey as stopped before registration, not successful target/publication/UI proof.
+4. **Confirmed later correction; exact saved argv and lead addendum:** Correct prior twelve-startup-encode wording to six encodes plus six decode-to-null validations for the specific short-service report. Preserve prior archives/suffix and do not transfer roles to the native census.
+5. **Confirmed historical intermediate direction; lead addendum at 00:32:12:** Permit isolated noninteractive long-helper preparation only, with correct startup roles and actual stage-retained/removed handling. No gate or runtime was authorized by that addendum.
+6. **Confirmed latest direction; Ahmed's explicit clarification and root relay:** Supersede no-GUI-retry only for one independently prepared **fresh** bounded retry after 028 preservation and known-state/helper/authorizer/live checks. Original attempt remains closed and immutable; cause unknown.
+7. **Deferred; future retry reviewer/operator/lead:** Retry plan outcome, new gate, native inspection/publication/reveal and any long-service execution remain future. No later results are needed to preserve this milestone.
+
+## ⚠️ Difficulties / Friction
+
+A long global-key path-entry call stopped with ambiguous tool wording and incomplete prefix/autocomplete state. That prevented the first folder registration. Neither saved logs nor visible cleanup establish a product defect or who caused the tool interruption. The later owner clarification removes any basis for calling it an owner-requested abort, but does not diagnose the underlying mechanism.
+
+Cleanup required multiple observed steps: Cancel dismissed suggestions, then separate Escapes exited location mode and the modal. Treating the first click as complete would have misreported closure. Fresh main labels and normal app disappearance supported the actual cleanup sequence.
+
+Evidence coverage is intentionally narrow: six allowlisted events, top-level logs and aggregate census, CUA-only images, no target collector/probe/output/reveal. D-Bus/SSL diagnostics and differing stderr clock text remain without a causal explanation. Exact startup terminology also required a later saved-argv correction rather than relying on progress flags or prior prose.
+
+The continuation changed after the first release. The earlier no-retry/noninteractive direction was valid when recorded; the owner's later clarification superseded it. Maintaining both dated states and the immutable portable copy avoids confusing provenance with current authority.
+
+## 🔧 Adjustments Made
+
+### 1. Replace uncertain path continuation with observed normal cleanup
+
+- Shifted from: One approved native journey entering its first input-folder path.
+- To: Stop after interrupted key entry, fresh-state modal cancellation and normal app close.
+- Because: Prefix delivery was uncertain and the call had no Return; replay could create a different action without reliable state.
+- Consequence: The attempt is stopped before registration, with normal closure verified and no target claim.
+
+### 2. Distinguish tool output from owner intent
+
+- Shifted from: A tool result containing the words “aborted by user,” without established cause.
+- To: Preserve that literal result while explicitly recording Ahmed's denial and permission for a fresh retry.
+- Because: Tool wording is not sufficient evidence of a human action or wider project cancellation.
+- Consequence: Cause remains unknown; the latest direction changes prospective work, not the original observed outcome.
+
+### 3. Correct historical startup terminology using exact argv
+
+- Shifted from: Prior prose calling all twelve startup progress invocations encodes.
+- To: Six capability encodes and six decode-to-null validations, plus the separate target, for the exact successful short-service report.
+- Because: Actual command arguments, not progress flags alone, determine those roles.
+- Consequence: Counts and one-target conclusion remain; new current prose is corrected and historical suffix remains exact.
+
+### 4. Preserve actual cancellation disposition in the intermediate long plan
+
+- Shifted from: Prospective language that could require retained partial staging or dereference optional cleanup.
+- To: Record observed retained-or-removed stage/file/outputDisposition and preserve diagnostics without changing source cleanup.
+- Because: Normal cleanup may remove staging and a successful public result may omit a cleanup object.
+- Consequence: Future helper preparation stays faithful to the service contract; no long/cancellation campaign is claimed.
+
+### 5. Replace the no-retry continuation with a separately gated fresh retry
+
+- Shifted from: The 00:32:12 no-GUI-retry direction and isolated noninteractive preparation.
+- To: Ahmed-authorized fresh retry preparation, new sibling artifacts/gate and read-only known-state review after 028 preservation; long helper paused safely.
+- Because: The owner clarified that he had not aborted and explicitly welcomed another try.
+- Consequence: One bounded future retry can be prepared without replaying a consumed gate, deleting state or importing later results into this cutoff.
+
+## ❌ Mistakes / Risks Noted
+
+### 1. Ambiguous tool wording could falsely blame the owner
+
+- What happened or could happen: “aborted by user” is treated as proof Ahmed intentionally canceled the input or project.
+- Actual impact: Tool interruption stopped the first picker entry; Ahmed later explicitly denied aborting. Cause is unresolved.
+- Potential impact: Incorrect blame, ignored latest instructions or unnecessary termination of authorized work.
+- Correction / current status: Attribute the string only to the tool, record owner words and apply the fresh-retry conditions without claiming a diagnosed cause.
+- Failure Intelligence: Separate machine-reported status, observed state, authenticated user intent and causal inference.
+
+### 2. Replaying uncertain text could duplicate or misdirect an action
+
+- What happened or could happen: Unknown delivered prefix and autocomplete suggestions are treated as a safe basis to continue/Return or repeat the whole path.
+- Actual impact: No Return or replay occurred; the operator canceled and closed normally. Both folders remained unselected.
+- Potential impact: Wrong path registration, duplicate launch/target or loss of one-shot provenance.
+- Correction / current status: Original attempt closed; future retry uses short bounded input calls and fresh observations, a new gate and no continuation of old uncertain text.
+- Failure Intelligence: Unknown delivery is not evidence that nothing arrived; reconcile visible state before any new action.
+
+### 3. Exit 0 or startup census could be promoted to GUI success
+
+- What happened or could happen: Normal close, READY preferences or 28 balanced children is reported as successful Full-copy publication or zero media work.
+- Actual impact: Startup/capability work occurred, but no folder registration/Prepare/Start/target/output/reveal was observed or saved.
+- Potential impact: Unsupported product/native qualification and hidden evidence gaps.
+- Correction / current status: State stopped-before-registration, empty output and missing target evidence; retain aggregate census/diagnostic limits.
+- Failure Intelligence: Process health and successful user workflow are distinct outcomes, and absence of a user target does not mean no startup media.
+
+### 4. Prior startup “twelve encodes” language was inaccurate
+
+- What happened or could happen: Every progress-bearing startup call is counted as an encoder job in narrative or prospective budgets.
+- Actual impact: Prior 026/027 prose misstated roles. Exact short-service argv shows six encodes and six decode-to-null validations; total 13 progress / 47 closed / one target is unchanged.
+- Potential impact: Misleading work accounting, incorrect future resource forecasts or transferring unsupported roles to native aggregate evidence.
+- Correction / current status: Explicit dated correction here and current records, exact classification receipt retained, all earlier archives and suffix unchanged.
+- Failure Intelligence: Classify actual argv/phase/output semantics; “-progress” is not synonymous with “encode.”
+
+### 5. Sparse native capture could be overgeneralized
+
+- What happened or could happen: Top-level logs and six untruncated events are called complete child stderr, full per-child argv or independent screenshot verification.
+- Actual impact: Those stronger data were not captured; images remain in the operator transcript and no target collector/output exists.
+- Potential impact: False causal explanation, quality assurance or clean-diagnostic claims.
+- Correction / current status: Keep source/runtime and event identities exact, preserve D-Bus/SSL and clock representations, and state capture limits without extra unapproved probe/decode.
+- Failure Intelligence: Every absence/limit is specific to its evidence layer; a clean outer exit cannot fill missing native records.
+
+### 6. A fresh retry could silently destroy or reuse prior state
+
+- What happened or could happen: Existing profile/state is deleted, renamed or redirected to satisfy the old absent-state gate, or the consumed gate is reused.
+- Actual impact: State remains intact and unread. Latest owner direction requires a new sibling attempt and known-state review, not deletion.
+- Potential impact: Lost provenance, unapproved access to profile/token data or duplicate operations.
+- Correction / current status: Require 028 preservation, read-only allowlisted prior-state review, exact new helper/authorizer and fresh live checks before any retry.
+- Failure Intelligence: Authorization to try again preserves scope and history; it does not authorize erasing the previous attempt or bypassing its gates.
+
+## 📍 Current Position
+
+**As of:** November 18, 2026, fixed **00:39:49.065000 UTC**, the later owner-direction record. Its timestamp is not a claim about the original message time. Evidence-only 028 preservation is pending.
+
+**Before this session:** Integrated 027 source and source tests were preserved; native helper preparation was assigned at its earlier cutoff. Prior short-service success and the first failed helper remained separate, with no successful Full-copy native journey.
+
+**After this session:** One native launch reached startup and the first input picker, then stopped after uncertain tool interruption. Normal close and 28/28 owned tool closure were audited; source/runtime/allowlisted events matched; no target/output/reveal exists. Startup terminology in prior prose was corrected transparently. Ahmed's latest clarification permits one freshly prepared retry after new gates, and a known-state retry plan is assigned. Long-helper preparation is paused syntax-only and unreviewed.
+
+**Current standing:** No app/test delta, no native inspection/reprepare/publication acceptance, no OS reveal, no resolved popup/threading warnings, no native Windows or general duration/quality/performance qualification. Original stopped evidence, old failed/successful service reports, prior Session suffix and structure-correction receipt remain unchanged. Formal Security Cloud scanning remains deferred.
+
+**Live owner / continuation anchor:** Lead owns five-path 028 preservation and future exact retry gate; mirror owns independently restored source/full history/readable records and remote verification. Documentation owns only this released prepend. Retry reviewer/operator must follow [Current State](CURRENT_STATE.md), [Native Interruption](2026-11-18_Full_Copy_Native_Interruption.md), [Receipts](2026-11-18_Full_Copy_Native_Interruption_Receipts.json) and the later OWNER_RETRY_DIRECTION, not the portable copy's superseded historical no-retry field.
+
+## 🔜 Next Steps
+
+1. **Lead and mirror:** Preserve five evidence/PBS paths as coherent 028: expected 588 files and twenty-eight commits. Independently restore Notion source and full history, verify unabridged native records, then publish/read back the exact GitHub delta with expected ancestry. No local-only checkpoint should be called backed up.
+2. **Retry-plan reviewer and lead:** Complete a separate known-state retry plan under Ahmed's latest direction. Preserve stopped artifacts and existing fixed main-owned state; review only prior closure, allowlisted diagnostics and fresh observed state. No deletion, rename, redirect or profile/cache/token inspection.
+3. **Helper/authorizer reviewers and lead:** Prepare new sibling artifacts and exact one-shot gate only after actual 028 preservation/released receipts. Bind source/runtime/Electron, prior outcome/audit, actual state policy and fresh desktop. Do not reuse the original gate or unknown path prefix.
+4. **Future operator:** If the exact new attempt is released, use short bounded documented global input with fresh checks. No Return on uncertain text, hidden IPC/clipboard/type_text, extra probe/decode/player or security flags. Keep the existing one-journey scope and stop on new uncertainty; do not infer success before actual evidence/audit.
+5. **Noninteractive owner:** Keep the partial long-helper work safely paused until the lead resumes it within scope. Its corrected startup classification and actual cleanup-disposition requirements remain useful, but no runtime, gate, test or finished-review claim belongs to this cutoff.
+
+**Do not reopen / repeat:** Do not attribute the interruption to Ahmed, diagnose an app defect without evidence, replay either consumed gate, rewrite historical wording/archives, transfer short-service child roles to native aggregate census, clear old state, suppress diagnostics, add unapproved probes or claim closure equals publication. The earlier no-GUI-retry direction is superseded only by the specifically conditioned fresh retry, not by unrestricted replay.
+
+**Continuation boundary:** 028 ends with a preserved stopped native outcome, corrected terminology and the owner's fresh-retry direction. The next native attempt needs its own known-state plan, exact helper/authorizer/preflight/gate after verified 028 preservation. Keep benchmark pause, ArchiveCQ29/defaults, non-HDR order, original Windows/design boundaries and 1440p/4K in 0.7. Remux/seek, HDR, packaging and owner release acceptance remain separate; missing historical source and terminal-unknown old 35-file payload are not recovered or replayed here. Do not wait for later retry results to close this record.
+
+## ❓ Open Questions
+
+### What caused the interrupted key-entry call?
+
+- Known: The tool returned its abort string; no Return was in the call, prefix/autocomplete state was uncertain, and Ahmed says he did not abort. Saved evidence does not identify a cause.
+- Needed from: Bounded investigation and fresh observations without replaying the old attempt or guessing at D-Bus/SSL/app causation.
+- Blocks: Causal diagnosis, not preserving the stopped outcome or preparing the explicitly allowed fresh retry.
+
+### Can one fresh known-state retry complete the actual UI journey?
+
+- Known: Source tests and old service proof support narrower contracts; the first native attempt stopped before registration. State now exists and must be reconciled, not cleared.
+- Needed from: Preserved 028, exact independent retry plan/helper/authorizer, fresh desktop/runtime/state checks, actual finite execution and independent audit.
+- Blocks: Claiming native inspection, 720 reprepare, target publication or OS reveal works.
+
+### What evidence will remain limited under the unchanged native scope?
+
+- Known: Zero additional probe/decode is allowed; native metadata may rely on actual service receipts. Aggregate census does not imply full child argv/stderr, and CUA-only visuals are not a standalone screenshot archive.
+- Needed from: The eventual retry's actual capture and explicit limitations, not borrowed service proof or extra unapproved probes.
+- Blocks: Broader independent media/quality/platform assurances, not honest bounded reporting.
+
+### When should long-service and cancellation preparation resume?
+
+- Known: A conditional plan review exists, startup roles and actual staging disposition were corrected, but partial helper work is paused syntax-only/unreviewed and no tests/runtime/gate occurred.
+- Needed from: Lead's resumed assignment and exact review/preservation/authorization before execution.
+- Blocks: Long/cancellation claims, not this native interruption checkpoint.
+
+## 🧾 Session Outcome
+
+Preserved one **stopped** native Full-copy journey on immutable 027. Startup and normal closure were observed; all 28 owned tools closed, source/runtime/event identities matched and output remained empty. Folder registration, Prepare, Apply, Start, publication and reveal did not occur. Tool wording is retained without attributing the cause to Ahmed; his later denial and fresh-retry permission now govern the bounded continuation.
+
+Added an explicit later correction that the earlier short-service startup progress calls were six encodes plus six decode-to-null validations, while preserving all prior dated Session bytes and raw evidence. New 028 is evidence-only; commit/Notion/GitHub preservation and any separately gated retry remain future at the cutoff. No later retry outcome is invented.
+
+## 🔍 Confidence Level
+
+**High for stopped-before-registration, normal closure and identity continuity:** Operator outcome, empty output, six exact retained events, outer/census receipts, independent saved audit and lead reconciliation agree within their scope.
+
+**High for the dated terminology correction and latest owner direction:** Exact saved argv supports the six-plus-six classification; the recorded owner clarification explicitly supersedes the earlier no-retry direction without changing original evidence.
+
+**Why:** Actual observed actions, saved-file corroboration, source/runtime identities, tool wording, owner intent and later prospective authority are kept separate. Original outcomes and historical suffix remain immutable.
+
+**Not higher because:** Interruption cause and exact delivered prefix remain unknown. Native per-child argv/stderr and standalone screenshots are absent; no target/output/collector/reveal exists. Logged security preferences are not enforcement proof, warnings/popup remain, and a fresh retry has not launched. New 028 preservation is still pending at the dated cutoff.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Integrate the explicit Full-copy developer workbench while preserving native and authority limits
 
 ## 🤖 Models, Effort, Roles and Provenance

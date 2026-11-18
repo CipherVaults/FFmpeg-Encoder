@@ -1,0 +1,744 @@
+{
+  "schema": "ffmpeg-portable-evidence-v1",
+  "checkpoint": "033",
+  "sourceCommit": "9b5fc9e4fc9912fbd231daa100d827b76a9a7c5e",
+  "originals": {
+    "outcome": {
+      "path": "session-switch-native-preparation032-20261118/JOURNEY_OUTCOME.json",
+      "bytes": 5383,
+      "sha256": "9d188a57bdaa3de6a9d3755281c6b6fd8ab7f4ed467d81cf612199810042bc26"
+    },
+    "outer": {
+      "path": "session-switch-native-preparation032-20261118/OUTER_COMPLETION.json",
+      "bytes": 839,
+      "sha256": "a425b88221611c7b4c980b7c8effadf7d20f3c49c190396097d5d33034f99efc"
+    },
+    "audit": {
+      "path": "session-switch-native-preparation032-20261118/INDEPENDENT_SAVED_EVIDENCE_AUDIT.json",
+      "bytes": 13162,
+      "sha256": "f1647700ea21fb9abd583a0a18deddeec2bb9fadaca2482c206c5f9910466e8f"
+    },
+    "identity": {
+      "path": "session-switch-native-preparation032-20261118/LEAD_IDENTITY_RECONCILIATION.json",
+      "bytes": 1693,
+      "sha256": "222c7fee37263c607075e9226d4158e6990abc763f005dd238f69bcae3d6480d"
+    },
+    "release": {
+      "path": "session-switch-native-preparation032-20261118/LEAD_RELEASE.json",
+      "bytes": 1333,
+      "sha256": "ebdadce43531b435587d1da2ce40d63f61deacb437ac282e0a6040d3ac4a8a03"
+    }
+  },
+  "transformation": {
+    "rule": "Only declared exact leading known-root string prefixes replaced. Every other key/type/value retained. No inverse mapping.",
+    "count": 13,
+    "countsByAlias": {
+      "support://": 4,
+      "native-proof://": 8,
+      "project://": 1
+    },
+    "locations": [
+      {
+        "location": [
+          "reports",
+          "audit",
+          "gateBoundReceipts",
+          0,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "gateBoundReceipts",
+          1,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "gateBoundReceipts",
+          2,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "gateBoundReceipts",
+          3,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "gateBoundReceipts",
+          4,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "gateBoundReceipts",
+          5,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "gateBoundReceipts",
+          6,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "audit",
+          "stateIdentity",
+          "canonicalPath"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "identity",
+          "auditAndOutcome",
+          0,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "identity",
+          "auditAndOutcome",
+          1,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "identity",
+          "auditAndOutcome",
+          2,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "release",
+          "reconciliation",
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "release",
+          "audit",
+          "path"
+        ],
+        "alias": "native-proof://"
+      }
+    ]
+  },
+  "authority": {
+    "runtimeExecution": false,
+    "productionActivation": false,
+    "qualification": false,
+    "rawReportRestoration": false,
+    "gateSubstitution": false,
+    "nativeSwitchQualification": false
+  },
+  "limits": [
+    "Native stopped before registration: REQUESTED then CANCELLED; no Prepare, switch, Apply, Start or reveal. One visible Open interaction did not register; autocomplete explanation remains inference, no established app/dialog cause.",
+    "28 observed owned children closed, including ordinary capability media; zero semantic targets does not mean zero media or OS-wide census.",
+    "624-byte DBus/SSL top stderr preserved in audit, not causal proof or full child diagnostic census. Numeric epochs align UTC; textual time prefix difference is not machine drift.",
+    "State dev27/ino2250108 unchanged at four point checks, not whole-profile hash/quota proof. Existing profile/cache/token contents not read and state must not be reset for retry.",
+    "CUA-only screenshots, no standalone visual replay; logged security preferences not enforcement proof.",
+    "Final audit and lead release are separate from earlier dated pending fields. The current wrapper uses the fixed owningRecordCutoffUtc; no new source test or native-switch qualification is inferred.",
+    "JSON reserialization/root aliases cannot reconstruct original full bytes or replace a runtime gate; no inverse mapping/raw media/profile/separate log files included."
+  ],
+  "reports": {
+    "outcome": {
+      "status": "stopped-before-registration-and-session-transitions",
+      "recordedAtUtc": "2026-11-18T03:58:56.458312+00:00",
+      "sourceCommit": "9b5fc9e4fc9912fbd231daa100d827b76a9a7c5e",
+      "actions": {
+        "launch": 1,
+        "inputPicker": 1,
+        "visibleOpenClick": 1,
+        "cleanupCancelClick": 1,
+        "outputPicker": 0,
+        "ordinaryPrepare": 0,
+        "candidatePrepare": 0,
+        "switches": 0,
+        "apply": 0,
+        "start": 0,
+        "reveal": 0
+      },
+      "uiSequence": [
+        "Ordinary startup Ready, LinuxCPU preview FullSDR title, H265CPU slow25 original controls; native window44040196. Session buttons not observed because later part of page not reached.",
+        "Input picker opened. First Ctrl+L immediately after opening did not expose location field; second after fresh observation did. Exact owned-input path typed using <=12globalSky keys per chunk. No tool abortion or uncertain typed chunk.",
+        "Final suffix and prefix observed via screenshots; Home prefix inspection opened autocomplete suggestions. One visible Open click dismissed suggestions but picker remained visible with location field, no error.",
+        "Fresh subsequent screenshot about30seconds later still showed picker. No second Open, Return, selection or picker replay. Exact cause not established; click may have interacted with autocomplete rather than accepted directory, but this is an inference only.",
+        "Conservative stop: Cancel once closed picker; main transitioned Working to Ready with both No folder selected. Normal titlebar close removed app to terminal. CUA completion recorded."
+      ],
+      "unreached": [
+        "ordinary inspection",
+        "Full-copy transition",
+        "candidate inspection",
+        "return ordinary transition",
+        "replacement-window/reset proof"
+      ],
+      "launchEvidence": {
+        "path": "APP_PID.json",
+        "bytes": 114,
+        "sha256": "b6a129f801386c66d65f1fdd42d02fc2917b583302a7337315475d48513fb7b3"
+      },
+      "outer": {
+        "exitCode": 0,
+        "terminationRequested": false,
+        "failure": null,
+        "startedUtc": "2026-11-18T03:51:54.899870+00:00",
+        "endedUtc": "2026-11-18T03:58:10.868034+00:00",
+        "elapsedSeconds": 375.9681826320011,
+        "noUserTargetAuthorized": true,
+        "qualification": "Closure only. Requires visible CUA outcome and independent saved audit. No direct WebContents identity, completed-grant revocation, complete child stderr or runtime qualification inferred.",
+        "app.stdout.log": {
+          "bytes": 421,
+          "sha256": "f1a4dd5282410ffd1cb6ccc0e6580687faefea816142e95cf1da93e6472064c2"
+        },
+        "app.stderr.log": {
+          "bytes": 624,
+          "sha256": "0b5ab1c8ad7587a5a789fbf80d8420f85608c40d79265dd1522f75b207325ad7"
+        },
+        "ownedCensusLines": [
+          "LINUX_WORKBENCH_CLOSED {\"spawned\":28,\"closed\":28,\"live\":0,\"maximum\":1,\"failures\":0}"
+        ]
+      },
+      "stateIdentity": {
+        "dev": 27,
+        "ino": 2250108,
+        "sameAtStartupBeforeCloseAfterClose": true
+      },
+      "rechecks": {
+        "sourceHashes": 602,
+        "fixedInputIdentities": 13,
+        "ownedFixtureHash": true,
+        "ownedOutputEmpty": true
+      },
+      "eventReasons": [
+        "SESSION_STARTED",
+        "CAPABILITY_STARTED",
+        "RUNTIME_IDENTIFIED",
+        "CAPABILITY_FINISHED",
+        "PROVENANCE_RECOVERY_FINISHED",
+        "FOLDER_PICKER_REQUESTED",
+        "FOLDER_PICKER_CANCELLED",
+        "SESSION_ENDED"
+      ],
+      "evidence": [
+        {
+          "path": "APPROVED_SESSION_SWITCH.json",
+          "bytes": 71700,
+          "sha256": "1e3009a6fd1d3ecdf59b1c79f8b79d7b74d975694f5ef582e8668a8a20453317"
+        },
+        {
+          "path": "EVENT_CAPTURE.json",
+          "bytes": 2774,
+          "sha256": "518878dc8a51156f808d98c01515d25212bb5947c5f07b3eaa617fa8daea5d08"
+        },
+        {
+          "path": "OUTER_COMPLETION.json",
+          "bytes": 839,
+          "sha256": "a425b88221611c7b4c980b7c8effadf7d20f3c49c190396097d5d33034f99efc"
+        },
+        {
+          "path": "app.stdout.log",
+          "bytes": 421,
+          "sha256": "f1a4dd5282410ffd1cb6ccc0e6580687faefea816142e95cf1da93e6472064c2"
+        },
+        {
+          "path": "app.stderr.log",
+          "bytes": 624,
+          "sha256": "0b5ab1c8ad7587a5a789fbf80d8420f85608c40d79265dd1522f75b207325ad7"
+        },
+        {
+          "path": "POINT-startup.json",
+          "bytes": 303,
+          "sha256": "6666afc9b1664d2ddaa8b34426ef6f1fc800ab06afbe02317eec65b0f664d1a5"
+        },
+        {
+          "path": "POINT-input-accept.json",
+          "bytes": 308,
+          "sha256": "76126b00e5cbc1fdf371d40e2f60abcd378da6b21f14a0b75573aa4f5358d9a0"
+        },
+        {
+          "path": "POINT-before-close.json",
+          "bytes": 308,
+          "sha256": "bbe6f456b18685ee7d06b6fa15d9dc9db496880ca484872cc93622b4225a0b24"
+        },
+        {
+          "path": "POINT-post-close.json",
+          "bytes": 306,
+          "sha256": "e5ab77a00ab482c033a26fb4305ac0e6b78fef35f219159af7ccd56e43dbd6af"
+        }
+      ],
+      "limits": [
+        "One ordinary startup only;28/28ownedchildren/live0 does not mean zero media or OS-wide census.",
+        "No transition/runtime switch acceptance claim. Source/VM behavior remains separate.",
+        "No raw profile/cache/token contents read; profile now exists and must not be reset for retry.",
+        "Capability-* directory point checks empty at sampled times, not proof no transient capability artifacts.",
+        "CUA transcript screenshots only, no standalone screenshotfiles.",
+        "Authorizer stdout visible terminal gatehash; exact execution start/end not separately timed.",
+        "No extra probes, runtime calls, deletion, retry or source edits."
+      ],
+      "writerReleased": true
+    },
+    "outer": {
+      "exitCode": 0,
+      "terminationRequested": false,
+      "failure": null,
+      "startedUtc": "2026-11-18T03:51:54.899870+00:00",
+      "endedUtc": "2026-11-18T03:58:10.868034+00:00",
+      "elapsedSeconds": 375.9681826320011,
+      "noUserTargetAuthorized": true,
+      "qualification": "Closure only. Requires visible CUA outcome and independent saved audit. No direct WebContents identity, completed-grant revocation, complete child stderr or runtime qualification inferred.",
+      "app.stdout.log": {
+        "bytes": 421,
+        "sha256": "f1a4dd5282410ffd1cb6ccc0e6580687faefea816142e95cf1da93e6472064c2"
+      },
+      "app.stderr.log": {
+        "bytes": 624,
+        "sha256": "0b5ab1c8ad7587a5a789fbf80d8420f85608c40d79265dd1522f75b207325ad7"
+      },
+      "ownedCensusLines": [
+        "LINUX_WORKBENCH_CLOSED {\"spawned\":28,\"closed\":28,\"live\":0,\"maximum\":1,\"failures\":0}"
+      ]
+    },
+    "audit": {
+      "schema": "independent-native-saved-evidence-audit/v1",
+      "checkedAtUtc": "2026-11-18T04:02:20.875058+00:00",
+      "writerReleased": true,
+      "disposition": "Stopped before registration and session transitions. Ordinary startup and normal observed-owned closure supported; no session-switch, prepare, target, publication or WebContents replacement acceptance.",
+      "identities": {
+        "JOURNEY_OUTCOME.json": {
+          "bytes": 5383,
+          "sha256": "9d188a57bdaa3de6a9d3755281c6b6fd8ab7f4ed467d81cf612199810042bc26"
+        },
+        "OUTER_COMPLETION.json": {
+          "bytes": 839,
+          "sha256": "a425b88221611c7b4c980b7c8effadf7d20f3c49c190396097d5d33034f99efc"
+        },
+        "APPROVED_SESSION_SWITCH.json": {
+          "bytes": 71700,
+          "sha256": "1e3009a6fd1d3ecdf59b1c79f8b79d7b74d975694f5ef582e8668a8a20453317"
+        },
+        "NATIVE_EXECUTION_BINDING.json": {
+          "bytes": 4165,
+          "sha256": "e02c0c8d45ebaf81cbf2b3ef79e361d8473a69be60c11617c22cd5815ed2f9dd"
+        },
+        "ATTEMPT_STARTED.json": {
+          "bytes": 573,
+          "sha256": "8199e960694c2e2afec15099ccfd08a23facf7dcc3b61bad4d8e7c42804d82a2"
+        },
+        "APP_PID.json": {
+          "bytes": 114,
+          "sha256": "b6a129f801386c66d65f1fdd42d02fc2917b583302a7337315475d48513fb7b3"
+        },
+        "DESKTOP_PREFLIGHT.json": {
+          "bytes": 1324,
+          "sha256": "3154e4bbe60f9632eef51bb5d044b7b958c41498f4487e68f0288812d0102f27"
+        },
+        "EVENT_CAPTURE.json": {
+          "bytes": 2774,
+          "sha256": "518878dc8a51156f808d98c01515d25212bb5947c5f07b3eaa617fa8daea5d08"
+        },
+        "app.stdout.log": {
+          "bytes": 421,
+          "sha256": "f1a4dd5282410ffd1cb6ccc0e6580687faefea816142e95cf1da93e6472064c2"
+        },
+        "app.stderr.log": {
+          "bytes": 624,
+          "sha256": "0b5ab1c8ad7587a5a789fbf80d8420f85608c40d79265dd1522f75b207325ad7"
+        }
+      },
+      "verifiedCounts": {
+        "currentGitAndGateSourceHashes": 602,
+        "historyCommits": 32,
+        "fixedFiles": 13,
+        "dependencyLinks": 7,
+        "eventsOriginalAndRetained": 8,
+        "sessionGroups": 1,
+        "storagePoints": 4
+      },
+      "gateBoundReceipts": [
+        {
+          "path": "support://notion-checkpoint-032-verification.json",
+          "bytes": 108910,
+          "sha256": "da4c2c8509e98f4f76ed898bc259dfbd500618a1a7fc164571cecee23cc770de"
+        },
+        {
+          "path": "support://github-checkpoint032-verification.json",
+          "bytes": 5536,
+          "sha256": "73f43e921656d00f1a2b5aa78937cf81fb9c54fc53d62452407c970b93f2ec22"
+        },
+        {
+          "path": "native-proof://INDEPENDENT_HELPER_REVIEW.json",
+          "bytes": 5438,
+          "sha256": "8706ca2c69625cac08da0e84cdb0a6438cc6dfc4476a3ae5778a88655e808900"
+        },
+        {
+          "path": "native-proof://INDEPENDENT_NATIVE_AUTHORIZER_REVIEW.json",
+          "bytes": 3626,
+          "sha256": "4285fa64f72d4a03ac74ef9144c5a00ba7964dcba387d0ce8e5f8113d1dc0d12"
+        },
+        {
+          "path": "native-proof://LEAD_NATIVE_RUN_RELEASE.json",
+          "bytes": 3097,
+          "sha256": "60ad96ee241ab59396f660a0344d8501dd9b5e35e92ba41b714a83901038670f"
+        },
+        {
+          "path": "support://full-copy-remaining032-preparation-20261118/INDEPENDENT_SAVED_OUTPUT_AUDIT.json",
+          "bytes": 96424,
+          "sha256": "ad5d6f3f2309271ea3c1cbb9fd12827bd474591db31e201a7f8b39c1c3dbeb05"
+        },
+        {
+          "path": "support://full-copy-remaining032-preparation-20261118/LEAD_RELEASE.json",
+          "bytes": 3166,
+          "sha256": "acd4dfb5edcf5332feca37c8d2911976741eb19e136c21e83a464681d64591e3"
+        }
+      ],
+      "outer": {
+        "exitCode": 0,
+        "terminationRequested": false,
+        "failure": null,
+        "startedUtc": "2026-11-18T03:51:54.899870+00:00",
+        "endedUtc": "2026-11-18T03:58:10.868034+00:00",
+        "elapsedSeconds": 375.9681826320011,
+        "noUserTargetAuthorized": true,
+        "qualification": "Closure only. Requires visible CUA outcome and independent saved audit. No direct WebContents identity, completed-grant revocation, complete child stderr or runtime qualification inferred.",
+        "app.stdout.log": {
+          "bytes": 421,
+          "sha256": "f1a4dd5282410ffd1cb6ccc0e6580687faefea816142e95cf1da93e6472064c2"
+        },
+        "app.stderr.log": {
+          "bytes": 624,
+          "sha256": "0b5ab1c8ad7587a5a789fbf80d8420f85608c40d79265dd1522f75b207325ad7"
+        },
+        "ownedCensusLines": [
+          "LINUX_WORKBENCH_CLOSED {\"spawned\":28,\"closed\":28,\"live\":0,\"maximum\":1,\"failures\":0}"
+        ]
+      },
+      "actionsReportedByOperator": {
+        "launch": 1,
+        "inputPicker": 1,
+        "visibleOpenClick": 1,
+        "cleanupCancelClick": 1,
+        "outputPicker": 0,
+        "ordinaryPrepare": 0,
+        "candidatePrepare": 0,
+        "switches": 0,
+        "apply": 0,
+        "start": 0,
+        "reveal": 0
+      },
+      "pickerSavedMarkers": [
+        {
+          "reason": "FOLDER_PICKER_REQUESTED",
+          "at": 1794973997348,
+          "context": {
+            "action": "choose-input-folder",
+            "outcome": "requested"
+          },
+          "sequence": 5
+        },
+        {
+          "reason": "FOLDER_PICKER_CANCELLED",
+          "at": 1794974263701,
+          "context": {
+            "action": "choose-input-folder",
+            "outcome": "cancelled"
+          },
+          "sequence": 6
+        }
+      ],
+      "eventSummary": [
+        {
+          "sequence": 0,
+          "reason": "SESSION_STARTED",
+          "at": 1794973915192,
+          "contextTruncated": null
+        },
+        {
+          "sequence": 1,
+          "reason": "CAPABILITY_STARTED",
+          "at": 1794973915386,
+          "contextTruncated": null
+        },
+        {
+          "sequence": 2,
+          "reason": "RUNTIME_IDENTIFIED",
+          "at": 1794973918580,
+          "contextTruncated": false
+        },
+        {
+          "sequence": 3,
+          "reason": "CAPABILITY_FINISHED",
+          "at": 1794973918588,
+          "contextTruncated": false
+        },
+        {
+          "sequence": 4,
+          "reason": "PROVENANCE_RECOVERY_FINISHED",
+          "at": 1794973918594,
+          "contextTruncated": false
+        },
+        {
+          "sequence": 5,
+          "reason": "FOLDER_PICKER_REQUESTED",
+          "at": 1794973997348,
+          "contextTruncated": false
+        },
+        {
+          "sequence": 6,
+          "reason": "FOLDER_PICKER_CANCELLED",
+          "at": 1794974263701,
+          "contextTruncated": false
+        },
+        {
+          "sequence": 7,
+          "reason": "SESSION_ENDED",
+          "at": 1794974289096,
+          "contextTruncated": null
+        }
+      ],
+      "eventHashes": [
+        {
+          "name": "1647fe1b-5248-4fb2-a0d0-d3bf4ef0336e.json",
+          "bytes": 500,
+          "sha256": "cefffe6eacb729d85065d83f030c45db4578e898c1d514d941a551b66d751b67"
+        },
+        {
+          "name": "70713380-aac4-40df-82c7-05e491fb82d7.json",
+          "bytes": 388,
+          "sha256": "5eb39f1b493563370bcb72467d1b7b14c4f382ce991afd561a5d6eccb0bcdd25"
+        },
+        {
+          "name": "7b1aa3b0-bbcf-4705-91a1-8077c8a15991.json",
+          "bytes": 12351,
+          "sha256": "4d349ba5f182c459b0db3db50df456562b54eaa6103baf974dcee3dfa27a8f23"
+        },
+        {
+          "name": "afa75b74-2a76-4b35-adae-d62aff483943.json",
+          "bytes": 360,
+          "sha256": "03781641e6c079e0d04de30352e3064531714242cdf17dc6b7d30327a42e34c7"
+        },
+        {
+          "name": "c7be8f7f-618f-4fa9-9ab5-cccbf0a9db6a.json",
+          "bytes": 433,
+          "sha256": "2040e2ee5b3dacc8f76403ca1a11dc18444cc3f92f913df07cac25e8f5b8b67f"
+        },
+        {
+          "name": "dee40c6a-ec72-4963-b149-9c54b4ac1397.json",
+          "bytes": 533,
+          "sha256": "2f6bbf2f6e8b2c95cd0e6f06ae89cedf2d7a0f69c7e0f4cd48e036b34c3c26fc"
+        },
+        {
+          "name": "f089e21e-a211-4276-87b0-ee8cb2bc3035.json",
+          "bytes": 433,
+          "sha256": "040a835e1b07caf474de259177baed1b5a7a07254b6687f78716becdd683948a"
+        },
+        {
+          "name": "f932be93-0e8e-42eb-a4ba-33ea858d85cb.json",
+          "bytes": 465,
+          "sha256": "04e91613c8767a7d7af0c877d8f9d7f49efcfacddccf34be16942197fa5d0853"
+        }
+      ],
+      "eventEnvelopeDigestsVerified": true,
+      "census": {
+        "spawned": 28,
+        "closed": 28,
+        "live": 0,
+        "maximum": 1,
+        "failures": 0
+      },
+      "fixture": {
+        "original": {
+          "bytes": 5578679,
+          "sha256": "bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97"
+        },
+        "ownedCopy": {
+          "bytes": 5578679,
+          "sha256": "bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97"
+        },
+        "outputEmpty": true
+      },
+      "stateIdentity": {
+        "canonicalPath": "project://linux-blue/artifacts/workbench-preview",
+        "dev": 27,
+        "ino": 2250108,
+        "matchesAllFourPointRecords": true
+      },
+      "storagePoints": [
+        {
+          "at": "2026-11-18T03:57:50.018607+00:00",
+          "action": "before-close",
+          "freeBytes": 57739366400,
+          "ownedInputOutputBytes": 5578679,
+          "stateIdentity": {
+            "dev": 27,
+            "ino": 2250108
+          },
+          "capabilityArtifacts": [],
+          "profileRead": false,
+          "limit": "Point checks, no comprehensive state quota"
+        },
+        {
+          "at": "2026-11-18T03:56:38.569715+00:00",
+          "action": "input-accept",
+          "freeBytes": 57739374592,
+          "ownedInputOutputBytes": 5578679,
+          "stateIdentity": {
+            "dev": 27,
+            "ino": 2250108
+          },
+          "capabilityArtifacts": [],
+          "profileRead": false,
+          "limit": "Point checks, no comprehensive state quota"
+        },
+        {
+          "at": "2026-11-18T03:58:31.952745+00:00",
+          "action": "post-close",
+          "freeBytes": 57739300864,
+          "ownedInputOutputBytes": 5578679,
+          "stateIdentity": {
+            "dev": 27,
+            "ino": 2250108
+          },
+          "capabilityArtifacts": [],
+          "profileRead": false,
+          "limit": "Point checks, no comprehensive state quota"
+        },
+        {
+          "at": "2026-11-18T03:52:56.017314+00:00",
+          "action": "startup",
+          "freeBytes": 57786757120,
+          "ownedInputOutputBytes": 5578679,
+          "stateIdentity": {
+            "dev": 27,
+            "ino": 2250108
+          },
+          "capabilityArtifacts": [],
+          "profileRead": false,
+          "limit": "Point checks, no comprehensive state quota"
+        }
+      ],
+      "desktopPreflightAgeAtAttemptSeconds": 15.437969,
+      "stderr": {
+        "text": "[17360:1118/055154.969073:ERROR:dbus/bus.cc:406] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory\n[17360:1118/055155.164909:ERROR:dbus/bus.cc:406] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory\n[17360:1118/055155.164982:ERROR:dbus/bus.cc:406] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory\n[17396:1118/055155.317620:ERROR:net/socket/ssl_client_socket_impl.cc:962] handshake failed; returned -1, SSL error code 1, net_error -202\n",
+        "interpretation": "DBus system-socket failures and SSL handshake net_error -202 retained. No causal link to picker interaction established."
+      },
+      "conclusions": [
+        "One session contains REQUESTED then CANCELLED picker markers, no REGISTERED or preparation/switch/publication event. The visible Open interaction failed to produce registration, then operator cancelled and normally closed.",
+        "Autocomplete dismissal versus actual directory acceptance remains operator inference only. Saved event data cannot establish the click target or native dialog cause.",
+        "28 observed owned children all closed, live zero. These include ordinary startup capability media; zero semantic targets does not mean zero media execution.",
+        "Numeric event epochs fall inside outer UTC window. Stderr textual 05:51 prefix differs from 03:51 UTC presentation; no machine-clock drift inferred.",
+        "Four recorded point checks meet 27-GiB free and 2-GiB fixture/output bounds. Empty capability-artifact lists at sample times do not establish absence of transient files or whole-state quota."
+      ],
+      "limits": [
+        "Read-only saved bytes and Git checks only. No GUI, native launch, runtime, media, ffprobe/decode, profile/cache/token reads, source/PBS edits or retry.",
+        "CUA screenshots are transcript observations, not independently replayed standalone screenshot artifacts in this audit.",
+        "No ordinary Prepare, candidate transition/Prepare, return transition, Apply, Start or reveal. Session buttons and replacement-window/reset behavior untested.",
+        "No direct WebContents identity, remembered-folder regrant or completed-output native revocation proof. No Windows or old AV1 qualification.",
+        "READY sandbox fields are logged preferences, not independently verified enforcement. Top-level stderr is not all child stderr; observed census is not OS-wide process proof.",
+        "Fresh fixed state now exists and must not be reset, deleted, renamed or redirected for any later retry.",
+        "Authorizer execution timing not separately captured; exact pinned gate/attempt/preflight readbacks support ordering without inventing start/end.",
+        "No source-freeze release granted by reviewer; parent reconciliation remains separate."
+      ]
+    },
+    "identity": {
+      "checkedAtUtc": "2026-11-18T04:04:13.686908+00:00",
+      "sourceCommit": "9b5fc9e4fc9912fbd231daa100d827b76a9a7c5e",
+      "sourceFiles": 602,
+      "allCurrentGitAndGateHashesExact": true,
+      "auditAndOutcome": [
+        {
+          "path": "native-proof://JOURNEY_OUTCOME.json",
+          "bytes": 5383,
+          "sha256": "9d188a57bdaa3de6a9d3755281c6b6fd8ab7f4ed467d81cf612199810042bc26"
+        },
+        {
+          "path": "native-proof://INDEPENDENT_SAVED_EVIDENCE_AUDIT.json",
+          "bytes": 13162,
+          "sha256": "f1647700ea21fb9abd583a0a18deddeec2bb9fadaca2482c206c5f9910466e8f"
+        },
+        {
+          "path": "native-proof://OUTER_COMPLETION.json",
+          "bytes": 839,
+          "sha256": "a425b88221611c7b4c980b7c8effadf7d20f3c49c190396097d5d33034f99efc"
+        }
+      ],
+      "allAuditIdentityAndBoundReceiptHashesExact": true,
+      "ownedPidAbsent": 17360,
+      "currentStateIdentity": {
+        "dev": 27,
+        "ino": 2250108
+      },
+      "outputEmpty": true,
+      "disposition": "Ordinary startup/picker cancellation/normal closure accepted as stopped evidence; native session-switch proof not reached. Unknown cause remains unknown.",
+      "limits": [
+        "No new runtime, GUI, profile content or media checks.",
+        "Audit corroborates saved bytes; CUA interactions are operator observations, not independently replayed.",
+        "28 owned children closed is aggregate observed census, not complete per-child stderr or OS-wide proof."
+      ]
+    },
+    "release": {
+      "releasedAtUtc": "2026-11-18T04:04:13.687541+00:00",
+      "sourceCommit": "9b5fc9e4fc9912fbd231daa100d827b76a9a7c5e",
+      "reconciliation": {
+        "path": "native-proof://LEAD_IDENTITY_RECONCILIATION.json",
+        "bytes": 1693,
+        "sha256": "222c7fee37263c607075e9226d4158e6990abc763f005dd238f69bcae3d6480d"
+      },
+      "audit": {
+        "path": "native-proof://INDEPENDENT_SAVED_EVIDENCE_AUDIT.json",
+        "bytes": 13162,
+        "sha256": "f1647700ea21fb9abd583a0a18deddeec2bb9fadaca2482c206c5f9910466e8f"
+      },
+      "acceptance": "Stopped-before-registration evidence only; no native switch/Prepare/publication acceptance.",
+      "sourceFreezeReleased": true,
+      "allowedNext": "Integrate independently reviewed four-path Quit-drain proposal and write coherent033 evidence/PBS after tests.",
+      "nativeOrMediaExecutionGranted": false,
+      "preservation": "Consumed gate/attempt, canonical profile dev27/ino2250108 and all original evidence remain intact; do not reset profile.",
+      "continuation": "After033 preservation, fresh reviewed empty-batch switch test can precede separate picker/nonempty reset checks under standing owner retry direction."
+    }
+  },
+  "owningRecordCutoffUtc": "2026-11-18T04:05:38.760763+00:00"
+}

@@ -1,3 +1,431 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Close the remaining service-proof gaps, preserve the stopped native switch, and drain admitted IPC before Quit
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model / effort attribution | Evidence and limit |
+|---|---|---|
+| Engineering lead | GPT-6 Astra / Ultra, recorded assignment, not backend attestation | Kept 032 frozen through two experiments and their audits, then integrated the independently reviewed four-path Quit-drain change and chose one coherent checkpoint. |
+| Remaining-service helper authors/reviewers | Not independently established here | Replaced fake-only collision coverage with real preparation through injected execution, reviewed exact source/receipt binding, and authorized one bounded attempt. |
+| Service executor / independent auditor | Not independently established here | One actual three-case campaign; independent saved-file/hash/receipt audit, not another decode or native run. |
+| Native operator / auditor | Not independently established here | One ordinary startup and stopped input-picker interaction. CUA observations, saved diagnostic originals and aggregate owned closure; no session transition occurred. |
+| Quit-drain source author / reviewer | Not independently established here | Reproduced an actual-main IPC shutdown race, retained red evidence, and reviewed injected/VM regression tests. Not a diagnosis of the native picker behavior. |
+| Preservation / Session documentation | Not independently established here | Complete 032 source/history/native records and GitHub mapping verified. This writer owns only the new Session prepend, with independent prose review and exact historical suffix preservation. |
+
+**Record basis:** Three distinct results belong together. On immutable **032**, the bounded remaining-service proof passed fresh copied-sentinel collision, active cancellation and recovery using a **NEW runtime and service**. A separate native session-switch journey stopped before folder registration, so switching remains untested natively. After both audits and source release, four reviewed source/test paths strengthened normal Quit drainage. The new source has source/VM test evidence only; neither preceding runtime result is retroactive qualification of it. Production/default activation, broad green tests, Windows qualification and owner acceptance are not claimed.
+
+## 🕒 Time
+
+**Stage / type / focus:** Developer proof and source-lifecycle hardening: remaining Full-copy service behaviors, an inspection-only native switch attempt, and normal-Quit admitted-work drainage.
+
+- Date / clock: November 18, 2026, UTC. The overall active-work start and total effort were not measured. Individual child, case, campaign, audit, integration and publication times remain separate.
+- Prior 032 cutoff: **03:06:11.941142**. Remaining-helper V1 handoff **03:16:27.510954**, V2 **03:19:57.487093**, final manifest closure **03:22:08.406878**. These later facts do not rewrite 032.
+- 032 GitHub verification **03:31:15.202024**; final mirror release **03:32:31.400095**. Remaining-service generator **03:32:31.400491–03:32:33.709421**; exact rendered review **03:33:57.810170**; authorizer **03:34:51.786992–03:34:53.556460**.
+- Service outer run **03:35:41.692–03:36:34.724**, 53,032.004682 ms monotonic / 53,032 ms wall, exit 0. Inner attempt marker **03:35:44.746**, report finished **03:36:34.696**, inner 49,946.997355 ms. These whole-campaign timings are not an encoding benchmark.
+- Service saved audit **03:39:08.277927**; lead release **03:40:55.694027**, retaining the source freeze for a separately gated native follow-on.
+- Native generator **03:41:09.769943–03:41:11.755755**; rendered review **03:42:16.128482**; lead native release **03:47:41.081382**. Refreshed desktop observation **03:51:39.191036**, gate **03:51:53.228023**, attempt **03:51:54.629005**.
+- Native app/outer **03:51:54.899870–03:58:10.868034**, 375.968182632 seconds for the entire stopped manual journey, exit 0. Authorizer execution start/end were not separately timed and are not invented from the gate timestamp.
+- Native audit **04:02:20.875058**; Quit source independent review **04:02:29.512416**. Native lead identity **04:04:13.686908**, source release **04:04:13.687541**, exact source integration **04:04:13.739412**.
+- Integrated source tests **04:05:03.053230–04:05:13.345237**; aggregate completion receipt **04:05:13.385629**.
+- **Fixed combined cutoff: 2026-11-18T04:05:38.760763Z.** Record assembly, publication and future empty-batch helper work do not move this evidence boundary.
+
+**End / stopping point:** Both immutable-032 experiments have audited outcomes and separate lead dispositions; the four-path Quit change is integrated and final source tests are complete. No additional native attempt is included.
+
+**Reason for this summary:** Preserve a coherent source-plus-evidence handoff before committing and restoring 033, without losing the stopped-native result, original failures or the distinction between tested 032 runtime and later source.
+
+## 🎯 Session Goal
+
+Finish the remaining finite service behaviors without repeating the already-supported 150-second success encode; attempt a narrow native ordinary → Full-copy → ordinary switch with zero user targets; preserve any actual stop rather than manufacture a success; and address the separately known normal-Quit admitted-IPC drainage gap through reviewed source work. Keep source attribution, failed histories, resource limits and proof boundaries explicit. Preserve the coherent result through Git, immediate independently restored Notion source/full history/full Session, then verified GitHub.
+
+The finish line for this checkpoint is not general release qualification. It is a supported three-case service result, an honest stopped-native record, and a reviewed shutdown source improvement with exact regression evidence and a safe continuation plan.
+
+## 🛠️ Actions Taken
+
+### 1. Complete and verify the preceding 032 preservation cycle
+
+Actual 032 local commit is `9b5fc9e4fc9912fbd231daa100d827b76a9a7c5e`, tree `b291e1ab21c9e3dcfc1875ffd428f170e98b624e`, with **602 files / 32 commits**. [Full Notion source and history](https://app.notion.com/p/41cbd7ade63b819c8079c4b8767e0476) verified source ZIP SHA-256 `626c13b49f929f3fc1acf9070ceb5bcf9425b1a533c1da64fe45e34906c12570`, bundle `2133b920580de2064783fee37266ae3cb1021d401a18ac476361cba8fe124a45`, and history wrapper `65a6a7ea23b4d7fa0cb82b0ef70823d7a888c26e859658d7a59b9ae794599af8`.
+
+[Readable native Session](https://app.notion.com/p/41cbd7ade63b81229a66fbcc8b5bd913) fetched all 32 session headings and the historical ending without truncation metadata. Exact **1,521,797-byte** UTF-8 source, SHA-256 `d169f3d49be30fbb7a9c2726fab446ac0c92e70b5649adf3ba1ed2b73ebe4d1d`, is established by restored source/history, not inferred from native formatting. That entire body remains the exact suffix of this entry.
+
+GitHub verification established remote `7fb11eb5727b713fdb506bb8f82f638b8d741465`, sole parent `e0c898c54e232d9664c7b1c72f941841e4b3ab1a`, tree `81172aac8497290c7d30bfc458fba53e6e4c9bfb` on `blue/linux-development`. Twelve exact changed-file readbacks, supported full Session Git-blob read, fresh ref and non-force expected-parent mapping passed. Full remote tree: **984 total / 972 unchanged / seven modified / five new / zero deleted**. Local reconstruction and remote ancestry remain intentionally distinct.
+
+Final mirror receipt SHA-256 `da4c2c8509e98f4f76ed898bc259dfbd500618a1a7fc164571cecee23cc770de` and release `6ee102f7d02903bb843c1c9dbe862beef8d67e5eaaf7e0c6cbefee78d23742c5` preceded the new generator. No unpushed-local or incomplete-restore backup claim is used.
+
+### 2. Correct the remaining helper's coverage before executing it
+
+The new sibling does not rerun the supported long publication. It exclusively copies its verified output as a protected sentinel in a new service, then tests one active 150-second cancellation and a NEW-owner 11-second recovery. The original failed roots, output, reports and consumed gates remain unchanged.
+
+V1 worker and independent file/injected suites passed **27/27**, but independent review held the proposal for a material evidence gap. The collision test replaced `prepareBatch` with a fake skipped-result producer. It therefore could not prove actual metadata-before-destination ordering, precisely the boundary which caused the earlier `51 !== 50` failure. Green fake-only tests were insufficient, not evidence of a new production defect. An initial copied caller fixture also referenced the old `first.p.folders` shape and failed before the intended nonsettlement check; the corrected fixture and red log remain.
+
+V2 changes tests and metadata, not the seven production/support helpers. It instantiates actual `EncoderService`, follows `registerFolder → prepareBatch → prepareItem` with the default inspect path, and injects capabilities/runner over temporary synthetic source/sentinel bytes. The real metadata argv traverses **both** `admitCollision` and `admitRole` before the synthetic return. Destination early rejection yields skipped/no executable entry/no access, one metadata invocation, no sampling/target/stage, and unchanged hashes. Extra metadata and extra options refuse.
+
+Worker focused **5/5** and complete **28/28** overlap; independent V2 **28/28** also overlaps. Reviewer-only mutation reinstates the old zero-child assertion and the real-preparation test fails exactly `1 !== 0`. Original author evidence stays intact. This proves the ordering and exact builder boundary with injected execution, not real media eligibility, actual candidate-factory qualification, explicit 720 collision or continuation of the producing service.
+
+Final manifest is **17,889 bytes**, SHA-256 `ff5f1cfc6e49eb7c8498a02b38e902a6a769ee7b1b7dbe8a9b3a605d99b5dfe9`. V2 review SHA-256 `acab9c924fb00e5c73e4e74a1bf4be4216a7cd7c25155ab112f29c9e45bad215` and final manifest review `c6c7e0397bc6c3d536d81cbfe76082fe138e7ebfd7a048dc2c71c80c2d078280` are conditional preparation decisions, not run permission. All **66 explicit rows** are 38 antecedents plus 28 files; recursive hash occurrences total 69 because calibration, sentinel and repeated preparation-review references are additional. Earlier manifests/handoffs remain archived. No tests were rerun for metadata-only closure.
+
+Forecast **89 = 56 startup + one collision metadata + ten cancellation + 22 recovery**. Effective pre-spawn and final semantic-target bound is two despite the inherited role-table cap three. Unused 900,000/600,000 ms long-success constants do not schedule another long success. Collector cap 18 and metadata cap 35 are ceilings, not authority for arbitrary extra commands; only nine successful collectors are planned. Serial ceiling 112, max concurrent one, 30-minute abort request/shared 60-second observation, 27 GiB free and 2 GiB owned point bounds are not OS quotas or guaranteed exit.
+
+### 3. Bind actual preserved source and authorize one service attempt
+
+One generator invocation exited 0 with 222 stdout / 119 stderr bytes and no runtime. It rendered execution binding SHA-256 `408136ce8f9006ad3c8ddd9f7662db076273cf94e10757b8bce48ed4ef1cf8d3` and authorizer `44edc3a8c528e630db34f16b347c069c839ec08a37c7b6d39e5ce5b1b2bb078d` against actual 032, not a prospective or evidence-only source assumption.
+
+Independent exact-rendering review verified 602 current/Git/restored source files, 32-history bundle, twelve remote delta rows, seven source/five PBS paths, unchanged 26 producers, 66 manifest rows, nine runtime pins and sentinel/fixture identities. It used read-only hashes/AST/saved released receipts, not a new network verification or runtime invocation. Prior nine AST/extracted generator tests were retained, not counted again.
+
+A separate lead release authorized one scoped attempt. The authorizer ran once, exit 0, with 109 stdout / 119 stderr bytes. Gate **69,319 bytes**, SHA-256 `ad440f27d38c3716bc8f222939d57e36fdaf50584f25bc1b418ee0d877a0388b`, binds source/runtime/manifest/reviews and exclusive one-use paths. Generation and gate creation are separate from media execution; no old failed gate was replayed.
+
+### 4. Execute fresh-service collision, active cancellation and NEW-owner recovery
+
+One actual outer invocation exited 0. Raw report **268,922 bytes**, SHA-256 `c310d423d25d335a187acf294209edb67fe0e39258a4058e714c04bbcd584b78`, reports all three finite cases passed. Full report readback and completion hash were verified. No second successful 150-second encode was performed.
+
+**Collision:** The sentinel is an exclusive copy of the earlier **36,098,183-byte** output, SHA-256 `7339073cef5ae9aa98e184c18043742c46d11d1d9ca50afd48120af01d3bc616`. New-service compatibility source/null/Copy preparation returns `skipped`, reason `Output already exists.` Actual metadata child 29 occurs before destination rejection. Targets remain zero before/after, no executable entry or new output authority is created, and sentinel identity survives. This is neither a new publication nor the earlier same-producing-owner collision; it does not retroactively execute that attempt's missed hash assertion.
+
+**Cancellation:** Target 39 began at **03:35:55.455**. Request occurred at monotonic **12,234.779353 ms**, after observed frame **6**, media seconds **0.298666**, encoding stage, `ended=false`. The recorded 3,911 progress bytes are an encoder report, not final stage size. Child close was **03:35:59.002**, monotonic **14,253.052046 ms**, null exit code, **SIGKILL / CANCELLED**. Do not describe this as graceful-only termination or clean stderr.
+
+No canceled destination was published. The unbound incomplete stage remains present, **zero bytes**, SHA-256 `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`; it is not playable content or an identity-bound output. Its retained disposition was observed, not assumed from an optional cleanup field. Storage finalization records cancellation/retention with no listed violations and `hardWriteCap=false`.
+
+Saved closure at epoch **1794972959081** shows 39 spawned/closed, live zero, reason cancelled/settled. The first session-two child starts at **03:35:59.316**, after that closure. Actual saved sequence agrees with awaited `closeSession` before `openSession(2)`. Recovery used a **new runtime handle and new service**, not same-service reset or retry.
+
+**Recovery:** The previously used 11-second calibration fixture keeps its historical `heldout-mp4` label but is not a newly independent holdout. Target 78 begins **03:36:09.222**, closes **03:36:28.490**, exit 0. The successful case duration is **24,371 ms**, distinct from target and whole-campaign duration. Published output is **2,637,087 bytes**, SHA-256 `6b76172454253072b3e8fda3c78c5f3726900a52cd6ca05736cba21ee494085e`. The actual helper established the full hash after publication and retained full source/output probe JSON; later audits rechecked those saved bytes rather than running new probes.
+
+### 5. Preserve the precise recovery evidence and diagnostic limits
+
+Saved source/output/compared video count is **330**, decoded source/output audio count **528,000 samples**, and copied coded AAC count **517 packets**. Payload, side-data and extradata hashes match, with seal `606f1376b41cdc9d597edf6ee92e8b947644aed8100e8630f353dfb8c8eb9c72`, delay **1,024** and discard padding **384** samples. Source endpoint is 11,000,000 microseconds; decoded output audio endpoint is 11,000,333. Maximum video/audio clock errors **334 microseconds** fall within **1,067 / 1,042** bounds. Ordinal alignment after decoder-signalled skip and shared origin, no fitted shift, zero unmatched tails and equal sample counts are not exact timestamp equality, PCM identity or video-pixel identity.
+
+The full decoded-source collection occurs **after encode and before publication**, not as universal pre-encode proof. Nine collectors are distinct from twelve service-accounted children and 89 whole-campaign children. The collector receipt independently carries false publication/qualification authority. Encoder-input telemetry has 330 records and no unknown/repeated/backward PTS; it does not prove final output content or last-frame duration. Genuine OutputAccess was tested through an injected observation sink once, with forged refusal and expiry after clear, not OS reveal or native window switching.
+
+All **89 actual children closed**, live zero, observed maximum one. The **26 progress-bearing calls** comprise **24 startup capability calls: twelve encodes and twelve decode-to-null validations**, plus two semantic targets. Role totals are four versions, eight startup-fixture encodes, twenty startup probes, twelve startup encodes, twelve startup decodes, 22 metadata probes, two targets and nine collectors. Do not count progress as user targets.
+
+All 89 child stderr captures are known, complete and untruncated: **75 empty / fourteen nonempty**. Twelve startup streams retain their warnings/configuration text. Cancellation retains **1,071 bytes** of duplicate-codec/CPU-mask/thread-pool plus corrupt/partial packet, invalid NAL and immediate-exit diagnostics. These are preserved without proving independent source corruption or declaring them harmless. Successful recovery target retains **335 bytes** of duplicate-codec/CPU-mask/thread-pool warnings. Empty outer stderr and valid canonical checks do not qualify native threading/performance. Aggregate accounting stderr is not all-child coverage; event context truncation remains distinct from full saved collector and child receipts.
+
+The report inventories **178 artifacts / 151,395,666 bytes** at close. Final free-space observation is 57,842,126,848 bytes. Point admission, reservation/lease observations and abort/drain limits remain non-hard controls. No fixture regeneration, manual extra decode/probe, OS reveal or retry was used to produce a more favorable outcome.
+
+### 6. Independently audit the service result while keeping source frozen
+
+Independent saved-output audit is **96,424 bytes**, SHA-256 `ad5d6f3f2309271ea3c1cbb9fd12827bd474591db31e201a7f8b39c1c3dbeb05`. It verifies actual report/closure ordering, source/runtime/manifest identities, sentinel/stage/output, original probes, packet/timing/telemetry/spools and warnings. It performs **no additional runtime, ffprobe, decode, GUI or acquisition**. Full output SHA was first established by the executed helper, then matched post-run; the audit did not create a missing original proof.
+
+Lead reconciliation rehashed **602 source files / nine pins / 178 new artifacts / 109 prior-long artifacts / 49 earlier-failure artifacts**, including both original/copied inputs and retained outputs. Lead release SHA-256 `acd4dfb5edcf5332feca37c8d2911976741eb19e136c21e83a464681d64591e3` accepted the three warning-bearing finite cases and conditionally permitted a separately reviewed native follow-on. It explicitly **kept all 602 source files byte-identical and frozen**, did not authorize a headless retry and did not turn the earlier failed campaign into a pass.
+
+### 7. Prepare and gate one native switch journey without adding a target
+
+The later native plan calls for ordinary → Full-copy → ordinary in one application, at most one ordinary and candidate inspection-only Prepare, no Apply/Start/reveal/target/popup/cancel experiment. Remembered folder labels may legitimately survive because a new service reissues capabilities; reset means old batch/plan/selection is gone, not necessarily blank paths. A native window replacement plus stable PID would support bounded source-backed inference, not direct WebContents identity. No completed output means native grant revocation is outside this journey.
+
+Initial read-only observation found the fixed ordinary state directory absent and thirteen matching byte identities: ordinary pair, candidate pair, seven libraries, original raw Full-copy report and retained Electron 44.7.0. That is not complete loader closure or runtime execution. Historical AV1 tools and four old reports remain absent; no fallback, replacement pin or historical qualification is inferred. The fixed state path must be created by the app once, not redirected or erased for a retry.
+
+Helper worker and independent **nine file-only tests** cover inert imports, syntax, synthetic plan mutations, persistence/freshness/symlink checks and event grouping. They do not execute the launcher, Electron or process supervision. Independent helper review SHA-256 `8706ca2c69625cac08da0e84cdb0a6438cc6dfc4476a3ae5778a88655e808900` separates operator-mediated UI/storage duties from mechanical supervisor checks. A wrong-relative-cwd source grep stopped without reading files, then was corrected; test execution was unaffected.
+
+Native generator preparation had **seven file/AST/pure-data tests**, not a full execution. After accepted service audit/disposition, one generator invocation exited 0, with 222 stdout / 119 stderr bytes, rendering only inert authorizer SHA-256 `b6b4caac066fa948d377e908f5af44c17b6f7a39c926b53262a5a02f4824e009` and binding `e02c0c8d45ebaf81cbf2b3ef79e361d8473a69be60c11617c22cd5815ed2f9dd`. Exact rendered review SHA-256 `4285fa64f72d4a03ac74ef9144c5a00ba7964dcba387d0ce8e5f8113d1dc0d12` verified frozen source/preservation/remaining-proof identities and template equality, rerunning no tests or media.
+
+Lead separately released one exact attempt. Earlier desktop observation is preserved as v1. During an unsubmitted DISPLAY command, a partial lowercase variable was cleared and corrected before Return; no injected DISPLAY or erroneous submitted command is claimed. Refreshed observation at 03:51:39.191036 retained the idle owned terminal and actual inherited `:0`. Gate **71,700 bytes**, SHA-256 `1e3009a6fd1d3ecdf59b1c79f8b79d7b74d975694f5ef582e8668a8a20453317`, was authorized at 03:51:53.228023, followed by one attempt. Authorizer exact start/end were not separately captured; its terminal gate hash and saved ordering support only the recorded chronology.
+
+### 8. Preserve the native stop before folder registration, not an imagined switch result
+
+One Electron process **PID 17360**, start ticks **6771718**, began with exact `--blue-workbench-session-switching`. Ordinary Ready was visible, Linux CPU Full SDR title, H265 CPU / slow / 25 original controls and native window 44040196. The session buttons were **not observed**, because their page section was not reached. Initial READY/security declarations do not prove enforcement or a later replacement window.
+
+One input picker opened. First Ctrl+L did not expose the location field; after a fresh observation, the second did. Exact owned input path was typed through bounded global-key chunks, with no reported tool abortion or uncertain chunk. Prefix/suffix were inspected. Home inspection opened autocomplete suggestions. One visible Open click dismissed suggestions but the picker stayed visible; another fresh screenshot about thirty seconds later still showed it. There was no second Open, Return acceptance or picker replay.
+
+Autocomplete may have intercepted the click, but that is **only an inference**, not an established GTK, application, focus or environment cause. The operator conservatively stopped. One Cancel closed the picker; main returned Working → Ready with both labels “No folder selected.” Normal titlebar close removed the app. No output picker, registration, ordinary Prepare, candidate Prepare, switch, Apply, Start or reveal occurred.
+
+Outcome **5,383 bytes**, SHA-256 `9d188a57bdaa3de6a9d3755281c6b6fd8ab7f4ed467d81cf612199810042bc26`, records stopped-before-registration-and-session-transitions. Outer exit 0/no termination request/no supervisor failure means normal closure, not a successful journey. **28 observed owned children closed / live zero / max one**, including ordinary capability media. Zero targets is not zero media, a universal process census or complete per-child diagnostics.
+
+Eight retained/original events in one session show SESSION_STARTED, capability/runtime completion, provenance recovery, **FOLDER_PICKER_REQUESTED → FOLDER_PICKER_CANCELLED**, then SESSION_ENDED. There is no registered/preparation/transition/publication marker. Five event contexts explicitly say untruncated; three have absent/null truncation fields, which must not be flattened into false. CUA screenshots are transcript observations, not standalone archived images or an independently replayed visual audit.
+
+Four point checks cover startup, input acceptance attempt, before close and after close. The canonical state directory stayed **dev 27 / inode 2250108** and now exists. It must not be deleted, renamed, redirected or reset for a later test. Profile/cache/token contents were not read. Empty capability-directory lists at sampled points do not prove no transient artifacts or a whole-state quota. Owned fixture stayed **5,578,679 bytes**, SHA-256 `bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97`; output remained empty.
+
+Top-level stderr retains **624 bytes** of missing D-Bus system-socket and SSL handshake `net_error -202` diagnostics. No causal link to picker behavior is established. These are not all child stderr. Numeric event epochs align with the outer UTC interval; textual stderr “05:51” versus UTC “03:51” is not by itself clock-drift evidence.
+
+### 9. Audit closure and release source only after reconciliation
+
+Native saved audit is **13,162 bytes**, SHA-256 `f1647700ea21fb9abd583a0a18deddeec2bb9fadaca2482c206c5f9910466e8f`. It verifies 602 current/Git/gate source identities, thirteen fixed inputs, seven dependency links, eight original/retained event hashes, four points, fixture/output and gate-bound receipts. It does not run GUI, runtime, media, ffprobe, decode or inspect private profile contents. It supports ordinary startup, picker cancellation and normal observed-owned closure only.
+
+Lead separately rehashed all source/audit identities, confirmed **PID 17360 absent**, fixed state identity and empty output, then released source with SHA-256 `ebdadce43531b435587d1da2ce40d63f61deacb437ac282e0a6040d3ac4a8a03`. This allowed four-path Quit-drain integration and coherent documentation, **not another native launch**. The consumed gate, attempt and known profile remain intact. Existing owner retry authorization covers later reasonable attempts of the same test; fresh checked gates are engineering safety, not an unnecessary new user-permission demand.
+
+### 10. Reproduce and fix a separate admitted-IPC Quit race
+
+The native picker stop did not diagnose this source defect. The shutdown issue was independently reproduced using **actual Linux main plus actual `registerIpc` with VM seams**: the original application could record exit 0 while a trusted rejected request's diagnostic was still held. Original red was retained before production edits. That is a concrete source-lifecycle gap, unlike the unknown picker cause.
+
+Frozen proposal patch **16,986 bytes**, SHA-256 `0725ad123bfcd76e54818b22d457a532cd64167dafc9c4eda8cb7f498d0c92d6`, changes exactly four paths: Linux workbench main, shared IPC, session tests and new `workbench-quit.test.cjs`. Three existing files change, one is added; 599 other base files are identical. All 26 historical Full-copy producer hashes stay unchanged. Windows main, renderer, preload, theme/HTML/CSS/Gauge, runtime factories and default encoder arguments are not changed in this patch, but **shared IPC does change**, so native Windows behavior remains unverified.
+
+The backward-compatible callable unregister gains main-only `closeAdmission` and `whenIdle`. Admission closes synchronously. Already admitted trusted work includes awaited rejection diagnostics; new requests do not extend the drain or add shutdown diagnostics. Settlement waiters resolve only after counted work finishes, and awaited rejection-diagnostic persistence failures remain sticky and fail shutdown.
+
+Linux close fences current and pending-retired registrations, cancels owned work immediately, waits startup/transition settlement, fences any late registration, then awaits remaining admitted IPC before resource, appearance and diagnostic closure. A retired registration is observed until its own settlement, without awaiting a transition from inside its own IPC handler. Per-owner cancellation memoization and actual-owner selection prevent duplicate cancellation/cleanup through stale main references, including late acquisition and window retirement. Pending failed settlement is retained rather than silently forgotten.
+
+This is **not a universal durability or exit guarantee**. Existing picker business logging retains its prior best-effort suppression. A held picker or action can keep normal close pending; no timeout converts it to success, and no native dialog dismissal or force-exit claim is made. Output-action tests use an injected action, not a real OS reveal. Sender/frame/URL checks and retired-owner refusal remain, with no renderer-supplied runtime path or new public channel.
+
+Worker and independent affected suites each passed **176/176**, overlapping. Coverage includes held admitted method, invalid-arity rejection diagnostic, repeated Quit, refusal of new admission, late picker return without late registration, output-action drain, diagnostic persistence rejection, resource failure and exact-once old/late-owner cleanup. Actual replacement/failure/close-during-load VM tests remain. Worker broad base **239/284** versus proposal **245/290** retains exactly the same nonempty 45-label multiset. Independent review verified those labels but **did not rerun broad**.
+
+Review **7,037 bytes**, SHA-256 `ef40bb68effe59505e2d79a5efa8870fb444678026b61e4236db61a7a451b3d0`, found no concrete blocker to bounded lead integration. Its manual advisory is high impact if wrong, moderate likelihood, partial regression protection, managed recovery and moderate confidence, with `merge` / `human_review_required`, not automatic permission. The root risk skill was read, but required storage/rubric resources were unavailable; no completed schema-validated assessment or formal Security Cloud scan is claimed.
+
+### 11. Integrate only after release, then run final source checks
+
+Exact four-path integration occurred **04:04:13.739412**, after native release **04:04:13.687541**. Integration receipt remains a dated record with tests then pending; final results below resolve that later state without rewriting its original chronology. Both runtime experiments still belong immutable 032. No runtime/native was executed on the new source.
+
+| Integrated path | Bytes | SHA-256 |
+|---|---:|---|
+| `linux-blue/workbench-main.cjs` | 14,715 | `3ffe743851ba972d583be2a68f76d110b9de8b5e73c19d0cca04a37f44492b7e` |
+| `src/ipc.cjs` | 8,879 | `fa33ea85dcbb39ed6da019fed880a6fc6ffb516fb45f3322f3c20541b09db043` |
+| `linux-blue/workbench-session.test.cjs` | 25,834 | `5619bd508be9cf93e665709aa62792b19c2bc42c66f851f07df179c566bbf9a7` |
+| `linux-blue/workbench-quit.test.cjs` | 7,223 | `7383ad0092fe8136245a8b921fb4021de111b28a8ea72f0e40fd366afc3ffeb5` |
+
+Lead ran Node **v24.22.1** with exact commands/cwd/log identities in saved receipts. All **603 checked files remained byte-identical** through the tests: 602 indexed files plus the new Quit test at that time. The old Git HEAD plus reviewed dirty/new paths describes the tested working source, not an already-created 033 commit.
+
+| Scope | Actual UTC interval | Result |
+|---|---|---|
+| Focused | 04:05:03.053230–04:05:04.533586 | **224/224**, exit 0 |
+| Protection | 04:05:04.578715–04:05:11.774887 | **229/229**, exit 0 |
+| Broad Linux | 04:05:11.816596–04:05:13.345237 | **245/290**, 45 failures, exit 1 |
+
+Failure reconciliation compares the **nonempty normalized label multiset**, including multiplicity, against 032; the same 45 remain, not just the same count. The saved comparison has 90 raw failure-label occurrences and 37 distinct labels because the reporter repeats footer entries and some names recur; the test summaries establish 45 failed tests, not 90 or 37. Missing historical fixture/runtime/report inputs and exact producer refusals stay red; their downstream assertions are not silently qualified. Source/VM, worker, reviewer and lead scopes overlap and must not be added. No native Quit/switch, Windows/hardware, packaging, catalog/production activation, HDR/remux or final owner acceptance follows.
+
+### 12. Assemble one coherent source/evidence checkpoint and preserve the next boundary
+
+The current records are [Quit drainage and remaining-service evidence](2026-11-18_Quit_Drain_And_Remaining_Service_Evidence.md), [curated receipts](2026-11-18_Quit_Drain_And_Remaining_Service_Evidence_Receipts.json), [remaining-service portable evidence](evidence-2026-11-18/remaining-service-proof-portable.json), [stopped-native portable evidence](evidence-2026-11-18/session-switch-stopped-portable.json) and [current state](CURRENT_STATE.md). Two portable packages keep the runtime tracks distinct. The service package retains seven parsed originals with 448 leading-root substitutions (344 proof, two project, three prior-long-proof, 99 runtime-build); the native package retains five with thirteen substitutions (eight native-proof, four support, one project). All other keys, types and values in the report objects remain unchanged; authority flags are false. They preserve parsed originals with declared leading-root transformations, original sizes/hashes and locations, not inverse mappings or byte-exact raw-report restoration. They provide no runtime authority; source restore does not recreate local binaries, media, profiles or consumed gates.
+
+Expected 033 scope is **ten paths / 607 files / 33 commits**: four source/test paths plus Current, execution, receipts, Session and two portable packages. One new source file and four new records account for the five-file increase. At the fixed cutoff, source integration/tests and both audits are complete, but 033 commit/Notion/GitHub preservation is pending. The lead owns that sequence; this writer owns only the full Session prepend, preserving every preceding byte and the original correction receipt.
+
+Next native work should first test **empty-batch ordinary → Full-copy → ordinary**, after full preservation and fresh independently reviewed setup, using the now-known profile without clearing it. This isolates the transition from the picker. Nonempty-plan reset and picker interaction become a later separate bounded check with explicit autocomplete dismissal and observed-state correction. No future helper implementation, launch or success is imported into this cutoff, and no consumed gate is replayed.
+
+## 🧠 Key Insights
+
+### A passed finite successor does not rewrite a failed predecessor
+
+The new copied-sentinel case closes a useful behavioral gap with fresh source-bound evidence. It does not turn the earlier same-producing-owner collision assertion into an executed pass. Original failures remain instructive and immutable; the new case has different ownership and preparation scope.
+
+### Real preparation coverage mattered more than another green fake
+
+V1's 27 passing tests missed the real caller ordering. V2's actual `prepareBatch`/`prepareItem` seam with injected execution demonstrated the legitimate metadata child and made the old zero-child assumption fail. The useful improvement was the tested boundary, not simply a larger test count.
+
+### Cancellation and recovery require separate ownership claims
+
+Observed frame 6 and later SIGKILL establish an active cancellation sequence, not graceful-only termination. A zero-byte retained stage is not contradicted by encoder progress bytes. Recovery after live zero and new owners is supported; same-service recovery remains false.
+
+### A native stop can be accepted evidence without being a successful journey
+
+Exit 0 and 28 closed children support closure. They do not prove folder registration, visibility of session controls, a replacement window or switching. A plausible autocomplete explanation remains an inference until distinct evidence establishes it.
+
+### Draining only successful requests misses shutdown work
+
+Trusted rejection diagnostics can outlive a request's apparent business failure. Source tests showed that normal Quit must fence admission and await the counted diagnostic work before claiming closure. Failure persistence and nonsettlement need honest outcomes, not a timeout relabeled success.
+
+### Break the next native proof into independent questions
+
+Empty-batch switching can test owner/window transitions without a picker prerequisite. Nonempty reset, remembered-folder regrant and completed-output authority require later evidence. This avoids repeating unrelated media or repeatedly blocking useful application validation on the same ambiguous UI interaction.
+
+## 📌 Decisions Made
+
+### Confirmed decisions and their bases
+
+- **Lead / reviewer:** Hold fake-only collision evidence despite 27 passing tests; require actual preparation with injected execution and retain the old-assumption red.
+- **Lead:** Authorize one fresh bounded service attempt only after actual 032 preservation, exact rendered review and source/runtime/manifest checks. Do not repeat the supported long success.
+- **Lead:** Accept the three finite service cases with SIGKILL, warning and ownership limits; keep all source frozen for the separately gated native attempt.
+- **Native operator / lead:** Stop after one ineffective Open interaction, preserve the uncertainty, cancel the picker and close normally. No automatic extra click, Return or relaunch, and no human-abort attribution.
+- **Lead / source reviewer:** Fix the independently reproduced Quit race, not an assumed picker cause. Integrate exactly four paths only after native audit/reconciliation releases source.
+- **Lead:** Combine useful source progress and both evidence tracks in one ten-path checkpoint. Preserve broad failures and actual tested-source chronology.
+- **Continuation:** After verified preservation, test empty-batch switches first on the known profile; defer picker/nonempty-plan reset to its own bounded observation. Existing owner authorization remains applicable, while fresh internal review/gates prevent stale execution.
+
+**Decision bases:** The actual preparation ordering and old-assumption red justify the helper correction; saved service audits establish the finite cases; the native marker/visual evidence establishes only a stopped attempt; the actual-main red and reviewed regression results justify the Quit source change. None supplies broader runtime or release authority.
+
+### Deferred decisions / acceptance
+
+Native switch acceptance, native pending-dialog Quit behavior, picker cause, nonempty-plan reset, completed-output revocation, Windows/hardware and production/catalog release remain deferred to their specific evidence. The next native direction is selected, but its helper, exact binding, gate, actual launch and outcome remain future work at this cutoff.
+
+## ⚠️ Difficulties / Friction
+
+1. **False reassurance from fake-only collision coverage.** Both V1 suites were green while bypassing the relevant preparation code. Independent review correctly stopped advancement until the real caller seam was exercised.
+2. **An inherited caller fixture failed before its intended boundary.** The old `first.p.folders` reference needed correction; its initial red is not evidence that nonsettlement handling had been tested.
+3. **Warning-bearing cancellation and recovery.** SIGKILL, zero-byte stage, duplicate-codec/CPU-mask/thread-pool and interrupted packet diagnostics required separate accounting rather than “clean run” shorthand.
+4. **Native picker acceptance remained ambiguous.** Location entry was observed, but one visible Open did not register the folder. No later switch-control evidence exists. The unknown cause cannot be filled with an environment or application diagnosis.
+5. **Whole-journey versus child timing.** Manual navigation dominates the 375.968-second native interval; campaign and successful-case timings likewise include more than encoding.
+6. **Shutdown involves admitted failure paths.** Pending diagnostic writes and retired IPC registrations can otherwise outlive the owner. Source fixes must avoid self-await while retaining failure and exact-once cleanup.
+7. **Inherited broad failures remain.** The 45-label multiset is unchanged, not green. Overlapping test suites and missing historical inputs must not inflate release confidence.
+8. **Formal assessment infrastructure was incomplete.** Required risk resources were unavailable. Manual independent review remains useful but does not become a completed formal security workflow.
+
+## 🔧 Adjustments Made
+
+### From fake skipped results to actual preparation ordering
+
+**Shifted from:** V1 collision tests replacing `prepareBatch` with a synthetic result.
+
+**To:** Real service registration/preparation/inspection path with injected metadata execution through both exact guards.
+
+**Because:** The previous failure arose from actual metadata-before-destination behavior, which the fake bypassed.
+
+**Consequence:** The old zero-child assumption fails in a retained independent mutation; V2 passes the intended one-metadata boundary without claiming live qualification.
+
+### From the full-sequence campaign to a fresh sentinel and remaining paths
+
+**Shifted from:** The earlier full-sequence campaign that placed long publication before collision, cancellation and recovery.
+
+**To:** Exclusive verified sentinel, active cancellation, then new-owner known-source recovery.
+
+**Because:** The long output already has supported saved evidence, while remaining ownership/cancellation cases needed direct proof.
+
+**Consequence:** One 89-child run supports the narrower cases without rewriting the earlier failed same-owner collision or claiming a new holdout.
+
+### From desired native transitions to an honestly stopped attempt
+
+**Shifted from:** Planned ordinary → Full-copy → ordinary with inspection-only preparation.
+
+**To:** Recorded ordinary startup, unsuccessful input acceptance, cancellation and normal close.
+
+**Because:** The one visible Open interaction did not register the directory and its exact cause was unknown.
+
+**Consequence:** No switching/reset qualification is claimed; consumed evidence and known profile are preserved for a fresh scoped continuation.
+
+### From premature Quit completion to admitted-work drainage
+
+**Shifted from:** Original actual-main exit 0 while a trusted rejection diagnostic could still be pending.
+
+**To:** Synchronous admission fences, settlement promises, retained retired owners, sticky failures and exact-once cancellation before final closure.
+
+**Because:** Reproduced source evidence demonstrated a real lifecycle gap independent of the picker stop.
+
+**Consequence:** Source/VM regression coverage passes; held IPC remains pending and native OS/dialog behavior is still unverified.
+
+### From picker-dependent switching to separate native questions
+
+**Shifted from:** Making a successful folder selection and nonempty batch prerequisites for the first native transition test.
+
+**To:** A future empty-batch switch sequence first, with picker/nonempty reset tested separately.
+
+**Because:** This isolates the new application boundary without repeating unrelated successful media or erasing ambiguous UI evidence.
+
+**Consequence:** The next plan must preserve the existing profile, use fresh reviewed bindings and record only actual observed transitions. It is not run at this cutoff.
+
+## ❌ Mistakes / Risks Noted
+
+### Fake-only green tests could have repeated the collision mistake
+
+**What happened or could happen:** V1 passed while replacing the real preparation method, missing the same metadata ordering behind the earlier failed assertion.
+
+**Actual impact:** Independent review held helper progression; no media ran on the unsupported assumption.
+
+**Potential impact:** Another failed experiment or an incorrectly weakened child guard could conceal unexpected work.
+
+**Correction / current status:** Actual preparation through exact guards and reviewer-only old-assumption red now exist; V2 worker/independent 28-pass scopes remain injected and overlapping.
+
+**Failure Intelligence:** Preserve both green-but-incomplete V1 and corrected V2. Future tests must execute the caller boundary that caused failure, not merely reproduce the expected snapshot.
+
+### Progress, stage size and termination can be conflated
+
+**What happened or could happen:** Encoder-reported 3,911 bytes and frame 6 could be mistaken for retained playable media, or exit 0 of the outer process for graceful target completion.
+
+**Actual impact:** Target 39 closed SIGKILL/CANCELLED and retained a zero-byte unbound stage; the outer campaign passed its intended cancellation contract.
+
+**Potential impact:** Incorrect cleanup, recovery or quality claims could follow from those different measurements.
+
+**Correction / current status:** Target signal, monotonic request/close ordering, actual stage identity and new-owner recovery are separately recorded. No graceful-only or same-service claim.
+
+**Failure Intelligence:** Keep exact child diagnostics and actual stage disposition, including absent/zero cases; do not dereference optional cleanup schemas or infer file size from progress.
+
+### Native picker cause remains unknown
+
+**What happened or could happen:** One Open click dismissed suggestions but did not register a folder; the interaction could be attributed prematurely to GTK, the app or user cancellation.
+
+**Actual impact:** The attempt stopped before Prepare or switching; it closed normally with empty output.
+
+**Potential impact:** A wrong diagnosis could drive irrelevant source or environment changes and repeated unusable tests.
+
+**Correction / current status:** Only operator observations and REQUESTED/CANCELLED markers are asserted. Autocomplete is a hypothesis. No later abort attribution or claimed switch result is inserted.
+
+**Failure Intelligence:** Preserve visible state and exact action counts. For later tests, separate empty-batch switching from picker handling and use explicit observed-state correction, not unseen repeated actions.
+
+### Quit can lose admitted diagnostics or retire the wrong owner
+
+**What happened or could happen:** Original actual-main red exited 0 before a trusted rejection diagnostic settled. Retired/late owners also risk duplicate cleanup or transition self-await.
+
+**Actual impact:** Source reproduction justified a four-path fix; no native data-loss incident is asserted.
+
+**Potential impact:** Lost closure evidence, shutdown hangs, stale authority or cleanup of the wrong service.
+
+**Correction / current status:** Admission/settlement API, synchronous fencing, retired-registration observation and memoized cancellation passed reviewed source/VM suites. Resource/diagnostic failures remain failed, held actions remain pending.
+
+**Failure Intelligence:** Retain actual-main red and exact-once assertions; do not downgrade unsettled IPC to successful closure. Picker business logging is still best-effort, not covered by a universal durability promise.
+
+### Evidence from 032 could be credited to later 033 source
+
+**What happened or could happen:** Passing service recovery or normal native close could be described as testing the newly integrated Quit implementation.
+
+**Actual impact:** Both experiments completed and were audited before source integration; the new source received tests only.
+
+**Potential impact:** Unsupported native lifecycle, shared-platform or release qualification.
+
+**Correction / current status:** Immutable source, release/integration times, four changed hashes and source-only final suites are explicit. Unchanged producer pins do not test changed consumers.
+
+**Failure Intelligence:** Always attach runtime results to the exact tested commit and keep later code/test evidence separate, even within one coherent checkpoint.
+
+### Diagnostic completeness differs between service and native evidence
+
+**What happened or could happen:** Complete 89-child service captures could be transferred to the native aggregate 28-child census, or null context fields flattened into untruncated assertions.
+
+**Actual impact:** Service captures are complete; native top-level stderr and aggregate census provide narrower coverage.
+
+**Potential impact:** Hidden-warning, OS-wide cleanup or causal claims beyond retained evidence.
+
+**Correction / current status:** Native 624-byte top stderr, eight event envelopes and field presence are explicit. No complete child-stderr or universal process proof is claimed.
+
+**Failure Intelligence:** Distinguish observed census, retained child streams, event-context truncation and full collector evidence. Numeric epochs and textual time labels are not interchangeable clock proofs.
+
+### Preservation and future authority must not be assumed
+
+**What happened or could happen:** Integrated local source, a portable report or a prepared plan could be treated as remotely backed up or authorized for a new launch.
+
+**Actual impact:** 032 preservation is verified; 033 preservation is pending at the fixed cutoff.
+
+**Potential impact:** Running unrecoverable source, replaying a consumed gate, resetting known profile evidence or publishing incomplete history.
+
+**Correction / current status:** One exact cumulative prepend, original correction receipt unchanged, ten-path source/evidence checkpoint, followed by verified Git → Notion → GitHub. New runtime needs a fresh exact binding/review/gate.
+
+**Failure Intelligence:** Preserve complete source/history and report transformations; source-only restore is not raw runtime/media restoration. Existing user scope does not make old implementation gates reusable.
+
+## 📍 Current Position
+
+**As of:** 2026-11-18T04:05:38.760763Z, the fixed combined 033 cutoff. Later assembly and publication do not add future runtime facts.
+
+**Before this session:** 032 had source-tested explicit session switching, a supported long publication on older source, a failed collision helper assertion and unreached cancellation/recovery. Native switching and a general Quit admitted-IPC drain remained unqualified.
+
+**After this session:** 032 is fully preserved. A fresh bounded service run on it passed collision, active cancellation and NEW-owner known-source recovery, with complete saved warnings and an independent audit. The separate native attempt stopped before registration/switching and closed normally. After audit/source release, four exact Quit-drain paths were integrated; focused 224/224 and protection 229/229 pass, broad 245/290 retains the same 45 failures.
+
+**Current standing:** Useful source and service progress, but not native-switch or general-release acceptance. No runtime occurred on 033 source. Expected checkpoint is ten paths / 607 files / 33 commits; its commit and remote restoration/publication remain pending at cutoff. Previous 1,521,797-byte Session is preserved exactly, as is the original correction receipt.
+
+**Live owner / continuation anchor:** Lead owns final source/evidence scope, coherent commit and verified preservation, then a fresh known-profile empty-batch native switch test. Mirror owns independent source/history/native/remote mapping. Original runtime roots/audits remain immutable. This Session writer owns only the prepend, not source, other records, runtime or Git actions.
+
+## 🔜 Next Steps
+
+1. Commit the coherent ten-path checkpoint with a descriptive multiline message covering Quit drainage, actual red/regressions, finite service success, stopped native result, inherited failures and unverified platforms.
+2. Immediately restore and verify full Notion source, 33-commit history and unabridged native Session; publish and verify the exact GitHub delta, tree/ref/parent and full Session bytes. Do not call local-only work backed up.
+3. Prepare a fresh known-profile **empty-batch** ordinary → Full-copy → ordinary native journey. Recheck actual source/runtime/raw-report identities, reviewed helper/authorizer, current desktop and no competing activity. Preserve state dev/inode and all original evidence; no reset or gate replay.
+4. Record actual visible controls/window identities, owner closure and any refusal. A successful empty-batch test would still not prove nonempty-plan reset, remembered-folder regrant or completed-output grant revocation.
+5. Only afterward, separately address picker/nonempty reset with bounded, observed autocomplete dismissal/acceptance handling. Keep cause unknown unless new evidence resolves it; no need to repeat successful long media merely to bypass the picker.
+6. Continue broader roadmap work within existing authorization while retaining source/VM versus native/Windows/hardware boundaries and the unchanged 45 inherited failures. Do not silently rebaseline or substitute missing old runtime/report identities.
+
+**Do not reopen / repeat:** Do not rewrite earlier failures, replay consumed gates, reset the known profile, re-encode the already-supported long success, claim a new holdout, sum overlapping tests, suppress warnings, infer graceful-only cancellation or call the stopped native attempt a switch pass.
+
+**Continuation boundary:** This record authorizes no new runtime by itself. Complete preservation, exact current bindings and separate reviewed internal release remain prerequisites under the owner's ongoing scope. No future helper, gate, attempt or acceptance is included at this cutoff.
+
+## ❓ Open Questions
+
+- **Do the named session switches work natively on the newly drained source?** Known: source/VM tests pass; this native attempt never reached the controls. Needed from: lead and native operator, a fresh reviewed empty-batch journey with independent saved-evidence audit. Blocks: native transition/reset acceptance.
+- **Why did the visible Open interaction not register the folder?** Known: suggestions disappeared, picker persisted, requested then cancelled markers. Needed from: native operator and reviewer, later bounded observed-state evidence, not a guessed environment diagnosis. Blocks: reliable picker/nonempty preparation journey, not source preservation.
+- **How does normal Quit behave with real native pending dialogs/actions?** Known: injected actual-main tests retain unsettled work and failure; no native pending-action test of new source. Needed from: lead, operator and independent reviewer, separately scoped native lifecycle evidence. Blocks: broad native shutdown claims.
+- **Are warnings harmless for native threading/performance or all media?** Known: finite canonical checks passed with retained diagnostics; no such general assurance exists. Needed from: runtime/platform engineering and independent review, separately scoped causal/performance/platform evidence. Blocks: unqualified clean-runtime claims, not this bounded proof.
+- **Are old missing fixtures/runtime/reports and Windows paths qualified?** Known: same 45 broad failures and shared IPC change. Needed from: lead and platform verification, authorized authentic inputs/platform validation, not repins or count-only comparison. Blocks: broader release acceptance.
+- **Is 033 itself backed up?** At this cutoff, no: source is integrated/tested and records assembled, but commit/restoration/remote mapping are subsequent steps. Needed from: lead and mirror, final preservation and remote-verification receipts. Blocks: completed backup and successor runtime-binding claims.
+
+## 🧾 Session Outcome
+
+**The remaining finite service cases are supported; native switching remains unreached; Quit source drainage is improved and tested.** One immutable-032 service run passed fresh copied-sentinel collision, active frame-6 cancellation ending SIGKILL, and new-owner publication of the known 11-second fixture with 330 frames, 528,000 samples and 517 matching coded AAC packets. All 89 children closed, warning streams and the zero-byte stage remain. This is not same-service recovery, fresh holdout, PCM identity or general media qualification.
+
+The separately authorized native attempt achieved ordinary startup and normal 28-child closure but stopped before folder registration, Prepare or any switch. Cause remains unknown; no new visual/lifecycle acceptance is inferred. A separately reproduced Quit race was corrected in four reviewed source/test paths after source release. Final 224/224 focused and 229/229 protection checks pass; broad remains 245/290 with the same 45 failures. The full history stays byte-exact, and the next useful step is verified preservation followed by isolated empty-batch native switching, not another redundant long encode.
+
+## 🔍 Confidence Level
+
+High for exact saved identities, bounded service outcomes, retained failure/closure chronology and integrated source-test results. Moderate for the source-level lifecycle risk assessment; native switch and new native Quit behavior remain unverified. Low for any specific picker root cause because the available evidence does not establish one.
+
+**Why:** Exact preserved-source bindings precede both actual experiments. Independent saved audits and separate lead reconciliations agree with report/probe/collector/hash/diagnostic/closure evidence and retain their limitations. Source integration occurs afterward, matches four frozen reviewed paths and unchanged producer identities, and final tests preserve all 603 checked files byte-identically. The original actual-main red, independent affected checks and nonempty failure-multiset comparison support the narrow source conclusion.
+
+**Not higher because:** Audits do not independently re-decode or replay the UI. Service cancellation uses SIGKILL and retains warnings/zero-byte stage; copied-packet/timing preservation is not PCM/pixel identity. Native registration and transitions were not reached; aggregate census is not all-child stderr or OS-wide proof. Held native actions, Windows/shared-platform behavior, broad missing inputs, formal security validation and 033 publication remain outside established acceptance at the fixed cutoff.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Add explicit workbench session switching and preserve the partial longer-service proof
 
 ## 🤖 Models, Effort, Roles and Provenance

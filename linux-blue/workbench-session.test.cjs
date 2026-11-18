@@ -162,6 +162,8 @@ test('actual main quit during pending replacement acquisition drains late owner 
  await pending; await new Promise(r=>setImmediate(r)); await new Promise(r=>setImmediate(r));
  assert.equal(windows.length,1); assert.equal(windows[0].destroyed,true);assert.equal(f.services[1].admissionClosed,true);
  assert.ok(f.events.includes('full-copy:resources'));assert.deepEqual(exits,[0]);
+ for (const kind of ['ordinary','full-copy']) for (const phase of ['cancel','resources','diagnostics'])
+  assert.equal(f.events.filter(value=>value===`${kind}:${phase}`).length,1,`${kind} ${phase} closes exactly once`);
 });
 
 test('replacement window close during its load is not suppressed as an old-window retirement',async()=>{

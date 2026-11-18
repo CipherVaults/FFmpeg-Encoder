@@ -43,25 +43,45 @@ const census = { spawned: 0, closed: 0, live: 0, maximum: 0 };
 let window, service, appearance, unregister, sessionOwner, transitionPromise, transitionActive = false, replacingWindow = false, retiringWindow;
 let closing = false, closed = false, closePromise, startupPromise, appearanceFailed = false, failed = false;
 
+const ipcOwners = new Set(), cancellations = new WeakMap();
+const currentService = () => sessionOwner ? sessionOwner.owner?.service : service;
+function cancelOwner(owner) {
+  if (!owner) return Promise.resolve();
+  if (!cancellations.has(owner)) {
+    try { cancellations.set(owner, Promise.resolve(owner.cancelCurrent())); }
+    catch (error) { cancellations.set(owner, Promise.reject(error)); }
+  }
+  return cancellations.get(owner);
+}
+function retireIpc(owner) {
+  if (!owner) return;
+  owner();
+  // A transition retires its own IPC handler: observe settlement, never await it here.
+  void Promise.resolve(owner.whenIdle?.()).then(() => ipcOwners.delete(owner), () => {
+    failed = true; ipcOwners.delete(owner);
+  });
+}
 function beginClose() {
   closing = true;
+  for (const owner of ipcOwners) owner.closeAdmission?.();
   sessionOwner?.beginClose();
   service?.closeAdmission();
   appearance?.closeAdmission();
 }
 
 async function drain() {
-  const failures = failed ? [new Error('Startup or renderer failed.')] : [];
-  for (const close of [() => service?.cancelCurrent(), () => service?.closeOperationResources(),
+  const failures = failed ? [new Error('Startup, transition or admitted IPC failed.')] : [];
+  const owned = currentService();
+  for (const close of [() => cancelOwner(owned), () => owned?.closeOperationResources(),
     async () => { await appearance?.flush(); if (appearanceFailed) throw new Error('Appearance save was not confirmed.'); }]) {
     try { await close(); } catch (error) { failures.push(error); }
   }
   try {
-    const receipt = await service?.closeDiagnostics(failures.length ? 'failed' : 'completed');
-    if (service && receipt?.persisted !== true) throw new Error('Diagnostic closure was not confirmed.');
+    const receipt = await owned?.closeDiagnostics(failures.length ? 'failed' : 'completed');
+    if (owned && receipt?.persisted !== true) throw new Error('Diagnostic closure was not confirmed.');
   } catch (error) { failures.push(error); }
   if (census.live !== 0) failures.push(new Error('An owned media child remains live.'));
-  unregister?.();
+  for (const owner of ipcOwners) owner();
   closed = true;
   if (window && !window.isDestroyed()) window.destroy();
   console.log('LINUX_WORKBENCH_CLOSED', JSON.stringify({ ...census, failures: failures.length }));
@@ -72,10 +92,14 @@ function close() {
   // Close admission and abort now, not after a slow startup/log write/picker.
   beginClose();
   if (closePromise) return closePromise;
-  const cancel = service?.cancelCurrent();
+  const cancel = cancelOwner(currentService());
   closePromise = (async () => {
     const settled = await Promise.allSettled([startupPromise, transitionPromise, cancel]);
     if (settled.some(result => result.status === 'rejected')) failed = true;
+    // Also fence a registration installed by a startup/transition that just settled.
+    beginClose();
+    const ipcSettled = await Promise.allSettled([...ipcOwners].map(owner => owner.whenIdle?.()));
+    if (ipcSettled.some(result => result.status === 'rejected')) failed = true;
     await drain();
   })();
   return closePromise;
@@ -148,7 +172,7 @@ async function launch() {
           try {
             const next = await sessionOwner.select(kind);
             if (closing) return null;
-            service = next; unregister?.();
+            service = next; retireIpc(unregister);
             // A new WebContents is the document fence; no public epoch getter.
             // Keep the same application/theme/security, not a generic navigation protocol.
             replacingWindow = true; retiringWindow = ownedWindow;
@@ -178,7 +202,7 @@ async function launch() {
       } catch (error) { appearanceFailed = true; throw error; }
     },
   } });
-  unregister = bindIpc();
+  unregister = bindIpc(); ipcOwners.add(unregister);
   if (!switchingEnabled) service.on('update', snapshot => {
     if (!closing && !window.isDestroyed() && !window.webContents.isDestroyed()) window.webContents.send('encoder:update', snapshot);
   });

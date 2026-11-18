@@ -1,7 +1,15 @@
 // Each channel has one purpose. Both WebContents and its top-level frame must
 // match; a compromised subframe must not inherit the application's privileges.
 function registerIpc({ ipcMain, window, service, appearance, dialog, entryUrl, workbenchSession }) {
-  let pickingFolder = false, inFlight = 0, registered = true;
+  let pickingFolder = false, inFlight = 0, registered = true, accepting = true;
+  const settlementWaiters = [], settlementFailures = [];
+  const settleWaiters = () => {
+    if (inFlight) return;
+    for (const waiter of settlementWaiters.splice(0)) {
+      if (settlementFailures.length) waiter.reject(new AggregateError(settlementFailures, 'Admitted IPC diagnostics failed.'));
+      else waiter.resolve();
+    }
+  };
   const choose = role => async () => {
     service.requireIdle();
     if (pickingFolder) throw Object.assign(new Error('A folder picker is already open.'), { code: 'BUSY' });
@@ -91,6 +99,7 @@ function registerIpc({ ipcMain, window, service, appearance, dialog, entryUrl, w
             || event.senderFrame !== window.webContents.mainFrame || event.senderFrame?.url !== entryUrl) {
           throw Object.assign(new Error('Request is not from the application window.'), { code: 'UNTRUSTED_SENDER' });
         }
+        if (!accepting) throw Object.assign(new Error('The application is shutting down.'), { code: 'SHUTTING_DOWN' });
         // Count trusted admission, including rejection diagnostics, before any await.
         inFlight++; counted = true;
         if (args.length !== argumentCount) throw Object.assign(new Error('Unexpected request arguments.'), { code: 'INVALID_REQUEST' });
@@ -100,17 +109,24 @@ function registerIpc({ ipcMain, window, service, appearance, dialog, entryUrl, w
       } catch (error) {
         // Only trusted-window requests may produce admission diagnostics. Never
         // persist an attacker's raw IPC payload or give it filesystem authority.
-        if (counted && registered && !workbenchSession?.blocked() && service.admissionClosed !== true
+        if (counted && registered && accepting && !workbenchSession?.blocked() && service.admissionClosed !== true
             && channel !== 'encoder:select-workbench-session' && error.code !== 'UNTRUSTED_SENDER'
             && typeof service.recordIncident === 'function') {
-          await service.recordIncident({ stage: 'admission', reason: 'REQUEST_REJECTED', severity: 'warning', message: error.message,
-            context: { channel, code: error.code || 'OPERATION_FAILED' } });
+          try { await service.recordIncident({ stage: 'admission', reason: 'REQUEST_REJECTED', severity: 'warning', message: error.message,
+            context: { channel, code: error.code || 'OPERATION_FAILED' } }); }
+          catch (diagnosticError) { settlementFailures.push(diagnosticError); throw diagnosticError; }
         }
         // Explicit envelopes retain error codes without exposing native objects.
         return { ok: false, error: { code: error.code || 'OPERATION_FAILED', message: error.message || 'Operation failed.' } };
-      } finally { if (counted) inFlight--; }
+      } finally { if (counted) { inFlight--; settleWaiters(); } }
     });
   }
-  return () => { registered = false; for (const channel of Object.keys(methods)) ipcMain.removeHandler(channel); };
+  // Backward-compatible unregister function; only an opting-in main uses drainage.
+  const unregister = () => { accepting = false; registered = false; for (const channel of Object.keys(methods)) ipcMain.removeHandler(channel); };
+  unregister.closeAdmission = () => { accepting = false; };
+  unregister.whenIdle = () => new Promise((resolve, reject) => {
+    settlementWaiters.push({ resolve, reject }); settleWaiters();
+  });
+  return unregister;
 }
 module.exports = { registerIpc };

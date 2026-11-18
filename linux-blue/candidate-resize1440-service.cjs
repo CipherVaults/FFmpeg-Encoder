@@ -1,0 +1,329 @@
+'use strict';
+// Fixed developer service for the Linux CPU 1440p30 -> 720p range/FLAC experiment.
+// No app/CLI/renderer route. A calibration receipt permits this composition;
+// it is not evidence that a normal-service run or publication has passed.
+// Independent saved-output audit: 454301f509d8aaa38f9ee12d30faf62605e44425089173fc742fd4d18f6e9072.
+// All three original encodes exited zero with x265 CPU-mask/thread-pool diagnostics;
+// neither clean stderr nor performance is qualified. No stderr is suppressed here.
+// After cancellation, recovery requires a new service and verified handle.
+const fs = require('node:fs/promises');
+const path = require('node:path');
+const { constants } = require('node:fs');
+const { createHash } = require('node:crypto');
+const { isDeepStrictEqual: same } = require('node:util');
+const { requireCandidateCalibrationRuntime } = require('./candidate-calibration-runtime.cjs');
+const { CandidateTrimService } = require('./workbench-trim-candidate.cjs');
+const { ClockQualifiedFamilySelector, clockGuardedRunner, assertProportionalReceiptForRuntime } = require('./workbench-long-range-service.cjs');
+const { OperationRuntimeObserver } = require('../src/operation-runtime.cjs');
+const { openEvidenceStorage } = require('../src/operation-storage.cjs');
+const { failedVendorCapabilities } = require('../src/vendor-capabilities.cjs');
+const { RESIZE_1440_FAMILY_ID: FAMILY_ID, RESIZE_1440_RESOURCE_POLICY: RESOURCE_POLICY, deriveCfrResize1440FlacResources } = require('../src/operation-resource-budget.cjs');
+const RUNTIME_ID = '1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9';
+const REPORT = path.join(__dirname, 'artifacts/candidate-resize1440to720-calibration-B10HEW/report.json');
+const REPORT_SHA = 'c81129d8305109c0a7a9dd024e65d3f5dab5611bf70cd218a601c734ff3dcd67';
+const REPORT_BYTES = 125817;
+const SETTINGS = Object.freeze({ profileId: 'h265-cpu', preset: 'slow', quality: 25 });
+const sha = b => createHash('sha256').update(b).digest('hex');
+const need = (ok, message) => { if (!ok) throw Object.assign(new Error(message), { code: 'CANDIDATE_RESIZE1440_SERVICE_SCOPE' }); };
+// Exact literal relative-import closure rooted at the calibration producer on
+// fe58dd01ecae2b7284e3a3fdf91d3b79fbec3e12. Composition itself is reviewed
+// separately. Never refresh these hashes to make an earlier report current.
+const PRODUCERS = Object.freeze({
+  "linux-blue/candidate-calibration-runtime.cjs": "a62ceab690931736a7d7a81e7c6c7495987f7015f953013366ab6f5a0fd8217a",
+  "linux-blue/runtime-av1-operation.cjs": "f664ec1a79ac95683bdb062633e454259dab25e8bfa00fecae7f8ed39dc921cc",
+  "linux-blue/runtime-av1-pins.json": "d3f390eb66119e402042d17d3d0f96d44f24c3b657597d94ec5e54f9edc635c8",
+  "linux-blue/runtime-av1.cjs": "f4e905f1e15fb86b0d20d9bde941d5e6c8ac2a0bb7b72adff41f056aef2e1e27",
+  "linux-blue/runtime.cjs": "0ddd5026996fa23e8122e359c340b08ff84a2786f56362099b38eaf8927331c8",
+  "linux-blue/workbench-long-range-calibration.cjs": "ee8d48e294f098ed9f47e7b6e1e75edd5a4661d460ee6b00bb2a375010692afc",
+  "linux-blue/workbench-remux.cjs": "6a6cbf2a009a6ad48f6359e15d6c2432e615623c3b799df6dc29eb0eae4b4e2a",
+  "linux-blue/workbench-service.cjs": "1f8ef2673fb3e0ea6d4cdbd8d7e726fee72d94dd9d54120d9cd7e9877fb52c80",
+  "package.json": "b5678dc133c1e5fb8da250bfe828c9da55f50d89dac3728af1f0870693e69a82",
+  "scripts/v07-sdr-flac-range-calibration.cjs": "623973624f0ff72a92d8d684ba4d19a31d2fb4abc017d3f5cc0e078b2146ec28",
+  "src/app-settings.cjs": "b0e9a2c7da8a21ccc4f5a7223fb6176777aa14e4d02875c3d324bcb318aae970",
+  "src/backend-adapters.cjs": "7fbd1b2df2a0261e9d9b0457d224c4c3c77bfd2a4e16b497f8fb339d542847aa",
+  "src/backend-capabilities.cjs": "33b6f2952f9fe106019c1416801f374cb9053d90bdd2b8df14e4c45b1df5b4c3",
+  "src/backend-observation.cjs": "bcecce31a7de01aa8e3022f1deb7acd0033ff90130a1c8a6cc9fd4651e0e373a",
+  "src/candidate-runtime.cjs": "9566a7691feab7cb65f5c739a723f99c48833064aea2edfe8cf410cc5dc0d712",
+  "src/capabilities.cjs": "88b697955e5f938c98455faf0f2b98e51b98295cf0237da7dab9ecd360f31aca",
+  "src/container-clock.cjs": "b823f1e41c4cca19a0b06d82dadf1941f4e0a0326b6d16bd910691c702763857",
+  "src/diagnostics.cjs": "fa785aaca639324959339acceefbeaf7bfa1dfce4d38d27598b20c4d82df7901",
+  "src/encode-operation.cjs": "aae37c5479897a13f9ee66b1ea1a8a9a6a46d2c57f76d36bdebdedf21569a5de",
+  "src/encode-preservation-catalog.cjs": "1bce9f0b0c9a79a18e6d1c89fb181200ee366603dfe28097f1ace3d809bbf17f",
+  "src/encode-preservation-producers.cjs": "0fd773d1bb0c0fab1af9d28861d80107e5e34809d7f3057467882d83f6f0de76",
+  "src/encode-preservation-workspace.cjs": "30031b818ca362ea71c79a4cab6b6038e3b29ecaa5bc8efef00ce5fa5017bda9",
+  "src/encode-preservation.cjs": "7de7fde7f20544f6b8480ca14b275865694163d3ed5608891c91c2be7aaabab4",
+  "src/encoder-catalog.cjs": "1fd039577d83fbb35c8424d098fa06056822f538ae65e6b855c3021aab314cf2",
+  "src/encoder-service.cjs": "5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7",
+  "src/hdr-catalog-seals.cjs": "e92d84a4688ea63b04f2b7190376f4a7d028c6a5c77768cf61eb38133117fda3",
+  "src/hdr-catalog.cjs": "8efa4fc80256fbe73c5e7a4aaeebd91ad754339385441f1518112227cabab03f",
+  "src/hdr-container.cjs": "8fc887ce472905d1642d7a855213a034cda0550e7bf6fa7c531c1c728f10d901",
+  "src/hdr-contract.cjs": "3086db24ed02645cdb3663cdfc69303c1213689b5201c7d72b133a85c99828a4",
+  "src/hdr-encoding.cjs": "91cdaaf3fc33d0fa7d4e982f588847a26c6bc23a755f05ef9ac8805e4b0858b8",
+  "src/hdr-evidence.cjs": "ceb2bfd7ae65b5ec0534dbcb25a6caf017d806e48d8215c202db10f5cfaf316d",
+  "src/hdr-input.cjs": "3e7373a4416410ad06c3130e4959f569c41a77ad90f3b7a860699f31584073f3",
+  "src/hdr-operation.cjs": "0a269db9ea829f2478334b6ec8dfff1ae8477a71d23a00313bba7709c49dead7",
+  "src/hdr-workspace.cjs": "20ae02c4dc3aa816a76ee7c5fb10b0f8d8fcf1c4cd010b0311065a60d3b358c7",
+  "src/hevc-content.cjs": "5e3b70c3b5f8250ebb3b037e1ac6287b5d55ca768a99e9c964e79fef5382a931",
+  "src/inspection-cache.cjs": "a8df2a0b65a4c4117e1efb903710ff159335424d4f3645adb53b99b278e55de1",
+  "src/inspection.cjs": "948559c31919629326f02ebabe30a3a6918677c91cf9bba338bf382b3401c491",
+  "src/media-evidence.cjs": "102de80ca6e3e4509448e015d2012bed7025502584e2f934ae2dbe2dfad19502",
+  "src/media.cjs": "79f040a7e136b2b06235090675360996e12d7ff815ea776eb800fd479ce9a7e7",
+  "src/mov-representation.cjs": "0155dc48d2b81e2c2b72d0e291c25dee372df2f37d7dbc592062724013b14348",
+  "src/native-backend-service.cjs": "ca7a9ea38034c992eb553f9a649f9d2c17411764c16d5aa016a1ae2ce78d6019",
+  "src/native-file-command.cjs": "936116ef5e251ee4afaf0db8907082806a79c06c70159688417e26ecfecb5216",
+  "src/native-file-contract.cjs": "2cf75cfb1b5ba25a51da513f311fe0287be4700fbf3893f9e27a1440e5e6e91a",
+  "src/native-file-controls.cjs": "c8f9edab25393bf4944df0e07da239923b97a16f13fc5115842887efb97f81d6",
+  "src/native-file-oracle.cjs": "0bdadd1e91acf494aa5baf2f5b2177953676f919047ccfa8f64d4eb9c9d2c1e4",
+  "src/native-file-runtime-pair.cjs": "5e8dd98c7e2ab70406b5f57f82a8c25b24f1e0ca98e3256f759f3bf5a52107a8",
+  "src/native-file-runtime.cjs": "c96ee8adcd48d5a76e6abd5f58310963f6321b5e663c43d6751826377f59f90a",
+  "src/native-file-source.cjs": "d246f7b9e612f18ce210c56b80d08d5e3d8b4e89f4dab2de5253248dba0be8d9",
+  "src/native-file-template.cjs": "0823a97b036e0bd2e342b59ac3f12a6bd85454d8870dc664ef524b7d53cc89f3",
+  "src/native-file-tools.cjs": "da73dbecf1e13d2fef34a553f4f568370abf561c8bee7db5268076b9889ffb4f",
+  "src/native-file-workspace.cjs": "433fcd2610c2530fef086b5151bbb01b70bb214ded14af5b2209e40db056d387",
+  "src/native-initialization-evidence.cjs": "032d30b043934cfbb6e5063f799128ddabd6aef2aa7a6a3ec1c851153823caa7",
+  "src/operation-contract.cjs": "e87c0bd40a27e9bc4309cfff489a3270899edc6505face10a9c4461272bb343d",
+  "src/operation-controls.cjs": "bd0977641d5fe62b182a70e58d9f89a69f4af4564daeea0c616dcb066238f59f",
+  "src/operation-draft.cjs": "9c4a25e65021be52bff887830a5cbdf5db07c03720be69b0352020437707251a",
+  "src/operation-evidence.cjs": "5ec5452881d01789f7f181e4540cfcca268371f13f6abdd7f59fa9ad57e8b8d4",
+  "src/operation-family.cjs": "3e27335e4228969d670545b0fb6aeb77a6fd9303529c248ae7560d0c9e4fade3",
+  "src/operation-names.cjs": "185a019d034db77c0e6c4f06ffc7a4d32817296cf394f1fe6b8ede383977e56c",
+  "src/operation-resource-budget.cjs": "9a328f902ee4203465083da4afd477ad86d045654104fe33409cb571cd02d3f6",
+  "src/operation-runtime.cjs": "95285842847006e2fbcad43d46bbca7bc3823c3378fdc33a755ee82398681b79",
+  "src/operation-storage.cjs": "fb9bcf00b2bf1fac3fe70f5421355a1aea0a2ded5358a38f41f7fd28fe7b1226",
+  "src/operation-telemetry.cjs": "ef1f30ac5d311224cb8b0e79f60f55f55c69c0610d920d17e5f9c7e191a55814",
+  "src/outputs.cjs": "0871e35adb50b7fca7c177b6beb34c5533df8bac98751b55c8af31b8e422ca96",
+  "src/preferences.cjs": "ba49926594e97665064f63b5db440ef9e3144c5b4eee6e60404af5dfde2f82c9",
+  "src/process-runner.cjs": "257ae0ce717d086635a133535df9a73afd2609b83ad231ea8ed0798b3596395c",
+  "src/provenance.cjs": "3fcce843cbc995086adda7b45444c23acedce9d54813c01b92123d97cfcff894",
+  "src/remux-catalog.cjs": "ba299093370dd87e7e154cbeba22cd9f9fe8bc5246eb64266dff193ad21093ec",
+  "src/remux-contract.cjs": "f420e73a9a95b310459c4dd7adb5b4e5657ea819d1b6f61a405ef72531c284da",
+  "src/remux-ebml-reader.cjs": "693f3f6fc8a1e22630691ccdbc99c5b82aaa5fbef0070f38215a1846a4005bd3",
+  "src/remux-edit-lists.cjs": "2c43bcd88ee7772470abddc232d428751e37b95a072e4f989189a5a4178a99de",
+  "src/remux-evidence.cjs": "76ed8963119b7217b3d94cf6058bcf9afca081cadf0d51f6166be5fbdd408a75",
+  "src/remux-fragments.cjs": "7f8df279d723d48b44c6ee8dbc1a4e2d9263b416a42a1812ef98e42eac1a5968",
+  "src/remux-language-codes.cjs": "84ec89c4d01c29b6be7de57cf99e4c13c0a73c573279b67cdac539799074afd6",
+  "src/remux-metadata-policy.cjs": "56b613509412a0a986276a705e6fff57aa97577fd5b6def2aaec275781c129a8",
+  "src/remux-native-checks.cjs": "70764d731e52a6b648b902147cdd2492bc153b22d877d56510902120a97ff3c7",
+  "src/remux-native-cues.cjs": "fe894c5ab1f7f413dd62e824a89398fed5c6ff3d487c3c4590b736de4ef279dd",
+  "src/remux-native-indexes.cjs": "e14658f20cbb818eff9a7d2773ce3078e24db39caf0ed77ca0b0b6a5839ebbf8",
+  "src/remux-native-inventory.cjs": "b98c0bbd232c6581cfaff9fd6579a2094baf7d0b48842a1a27910b32e45c5fa2",
+  "src/remux-native-isobmff.cjs": "996d68381b22431b265af4f96138be5ca9fcd01b10e4fc13f9c3150629d1aced",
+  "src/remux-native-matroska.cjs": "e6b2b011ca6b840cd1540f3491cace78f506e92a4c81dd2956e15d29a82e6a14",
+  "src/remux-native-reader.cjs": "b9df0fcb3638d9ff251c70f57d94b040598d465d5b7731c28638b45a8fe436d1",
+  "src/remux-native-samples.cjs": "ef79e3591a8b63e9d91400e709b7718f758222999eac408f16e6e86f37212fb2",
+  "src/remux-native-sync.cjs": "9d24c8191d1ea6d35dee7f7727643def30c0a0b3def2b1c81dfdd00174da05c7",
+  "src/remux-operation.cjs": "62715bdbb137e3f0938d26d7394172b6818e4f950f0bc5b7331f18769f51dcac",
+  "src/remux-transport-evidence.cjs": "529e67c24200cc216c7f3578f9984d383714de6990c249bf6f3a8453a724b62a",
+  "src/remux-transport.cjs": "cd99370b3971d80cc917fa63c374005b3a895d25775b5084a91f9c6740b27c5e",
+  "src/remux-validation.cjs": "6166b0e226b5755a0dfa1ca8b9333a1401c3186e21f6f31ad30cdf1266a6f810",
+  "src/remux-workspace.cjs": "7430f312bfcbabce39ae942ceeac7c0231ebaf7c387d21b7bc8d64d9de7f5260",
+  "src/source-catalog-seals.cjs": "87bfdd9f0f72a3d3c124a3f1befc8fe07a26daa727c18ba1c2fd77573c9404e7",
+  "src/source-identity.cjs": "fe6f73342936aa70ed6bbda98348da6fb892d05ddb566ee6d1664ba3f38e42bd",
+  "src/storage-eligibility.cjs": "a03a88ed0820beb807719d0e92ddbd761932efa8a11e9891cc6893902f930196",
+  "src/vendor-capabilities.cjs": "a48712b3b93c792c1aab7298b37f576a5eb8859504ffe95aec9ccd3bbfa20fea",
+  "src/vendor-encode.cjs": "4ace2e31776981382f86fa742f5caca2a8874314c61bf9d6ea1cde069980dd74",
+  "src/vendor-execution.cjs": "4f9d08432499e3840e7b6c867f5b965c4466d58e8644a84d9655fcb323342f78",
+  "src/vendor-preferences.cjs": "820033d07a8f0cef5de7bfd071537d0d26e4d778bb2e3cc82bc0699a4cbfad11",
+  "src/vendor-profiles.cjs": "cc194f022665aa729410060804de2021175f0e87bd394fc18e4b3c47716cf65d",
+  "src/windows-adapters.cjs": "8700b6de13ecf46e49d1b8bd7ac347b04232c86efd9b8a1eee2827d0d3265eb4"
+});
+// Exact audited loaded-library inventory, not automatic ELF closure discovery.
+const DEPENDENCIES = [
+  {
+    "path": "/usr/lib/x86_64-linux-gnu/libm.so.6",
+    "sonamePath": "/lib/x86_64-linux-gnu/libm.so.6",
+    "size": 977112,
+    "sha256": "6d567d53e895273ca14a1f9dc164fc6c8d39aed2f60aa46a733c2784228915f3"
+  },
+  {
+    "path": "/usr/lib/x86_64-linux-gnu/libdav1d.so.7.0.0",
+    "sonamePath": "/lib/x86_64-linux-gnu/libdav1d.so.7",
+    "size": 1746880,
+    "sha256": "1d7a4182344230d5f4cf9f58bf4485da2801c411e9c9fd6d8471460c75ae8fbf"
+  },
+  {
+    "path": "/usr/lib/x86_64-linux-gnu/libSvtAv1Enc.so.2.3.0",
+    "sonamePath": "/lib/x86_64-linux-gnu/libSvtAv1Enc.so.2",
+    "size": 7984736,
+    "sha256": "48713dd9caf08909462bad0274cc9d9b249ccf836a9be72fd731f8d8096c4d35"
+  },
+  {
+    "path": "/usr/lib/x86_64-linux-gnu/libgcc_s.so.1",
+    "sonamePath": "/lib/x86_64-linux-gnu/libgcc_s.so.1",
+    "size": 182856,
+    "sha256": "30c61ab012a4241bed033725a09b61f5fdd3bb7df95ee852d0b096520524c7af"
+  },
+  {
+    "path": "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.33",
+    "sonamePath": "/lib/x86_64-linux-gnu/libstdc++.so.6",
+    "size": 2497768,
+    "sha256": "972bb2a18b71140dab0240f8a1f68ab3fb1d56bcd4c4f824a91b70888faf5a00"
+  },
+  {
+    "path": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+    "sonamePath": "/lib/x86_64-linux-gnu/libc.so.6",
+    "size": 1995216,
+    "sha256": "9792e3cbb541c8f44c7acf5f14f4022ea62998ecc787d326bed4d8b6547dfd92"
+  },
+  {
+    "path": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+    "sonamePath": "/lib64/ld-linux-x86-64.so.2",
+    "size": 225672,
+    "sha256": "c8438e4fde1934e61c88311633f00949ff645d5c04cdb8671fa3d78164d2f307"
+  }
+];
+const dependencyIdentity = sha(JSON.stringify(DEPENDENCIES));
+function loaderGuard() {
+  need(process.platform === 'linux' && process.arch === 'x64', 'Only the inspected Linux x64 candidate is admitted.');
+  need(!process.env.NODE_OPTIONS && !Object.keys(process.env).some(k => k.startsWith('LD_') && process.env[k]), 'Loader overrides are not admitted.');
+}
+function assertCandidateResize1440Receipt(bytes, expectedSha = REPORT_SHA) {
+  // Caller-selected digest is solely a pure test seam. The live factory always
+  // uses the fixed original raw report, never a portable transformed record.
+  const report = assertProportionalReceiptForRuntime(bytes, expectedSha, {
+    report: REPORT, resize: true, sourceWidth: 2560, sourceHeight: 1440, resourcePolicy: RESOURCE_POLICY, familyId: FAMILY_ID, derive: deriveCfrResize1440FlacResources,
+  }, RUNTIME_ID);
+  need(report.candidateRuntime === true && report.geometry?.resolution === '720'
+    && report.geometry.sourceWidth === 2560 && report.geometry.sourceHeight === 1440
+    && report.geometry.outputWidth === 1280 && report.geometry.outputHeight === 720,
+  'Only the reviewed candidate 1440p-to-720p range campaign is admitted.');
+  need(!report.runtimeCloseFailure && report.diagnosticsComplete === true
+    && report.census.spawned === 42 && Array.isArray(report.children) && report.children.length === 42,
+  'Exact closed campaign and complete retained diagnostics required; warnings are not suppressed.');
+  for (const [i, child] of report.children.entries()) {
+    const e = child.stderr;
+    need(child.sequence === i + 1 && child.closed === true && child.exitCode === 0 && child.signal === null && !child.failure
+      && e?.available === true && e.completeAtSave === true && e.truncated === false && !e.saveFailure
+      && Number.isSafeInteger(e.retainedBytes) && e.retainedBytes >= 0 && e.retainedBytes <= 256 * 1024
+      && e.totalBytes === e.retainedBytes && /^[a-f0-9]{64}$/.test(e.sha256), 'Complete bounded successful-child stderr receipts required.');
+  }
+  for (const source of report.sources) {
+    const video = source.probe.streams[0], audio = source.probe.streams[1];
+    need(video.codec_type === 'video' && video.codec_name === 'h264' && video.profile === 'High'
+      && video.pix_fmt === 'yuv420p' && video.field_order === 'progressive' && video.r_frame_rate === '30/1' && video.avg_frame_rate === '30/1'
+      && video.color_primaries === 'bt709' && video.color_transfer === 'bt709' && video.color_space === 'bt709' && video.color_range === 'tv'
+      && video.chroma_location === 'left' && audio.codec_type === 'audio' && audio.codec_name === 'pcm_s16le' && audio.sample_fmt === 's16'
+      && audio.sample_rate === '48000' && audio.channels === 2 && audio.channel_layout === 'stereo'
+      && source.probe.format.tags.major_brand === 'qt  ', 'Exact finite SDR/PCM source envelope required.');
+  }
+  for (const row of report.cases) {
+    const geometry = row.geometry;
+    need(geometry?.requested === '720' && geometry.mode === 'downscale' && geometry.filterRequired === true
+      && geometry.source?.width === 2560 && geometry.source.height === 1440
+      && geometry.output?.width === 1280 && geometry.output.height === 720
+      && same(geometry.output.sampleAspectRatio, { numerator: '1', denominator: '1' })
+      && geometry.output.rotationDegrees === 0, 'Every case must retain actual downscale geometry.');
+    const pcm = row.pcmIdentity, video = row.completeSource.video, props = video.properties;
+    need(pcm.algorithm === 'sha256' && pcm.format === 's16le-interleaved'
+      && pcm.sourceBytes === row.samples * 4 && pcm.outputBytes === pcm.sourceBytes
+      && props.framesChecked === video.frames && props.sampleAspectRatio === '1:1'
+      && props.chromaLocation === 'left' && props.sideDataPolicy === 'h26x-unregistered-sei-only'
+      && row.completeSource.audio[0].gaps === 0, 'Every case requires full-frame source checks and complete equal selected PCM.');
+    const src = report.sources.find(source => source.id === row.sourceId);
+    need(row.validation.validation === 'decoded-operation-contract'
+      && row.validation.qualificationEvidenceId === src.frozen.qualification.evidenceId
+      && row.validation.timing?.timeline === 'request-relative'
+      && same(row.validation.timing.resolved, { startUs: row.range.startUs, endUs: row.range.endUs ?? src.sourceExtentUs }),
+    'The decoded timing receipt must bind the requested range and original clock qualification.');
+    const t = row.telemetry;
+    need(t?.valid === true && t.scope === 'encoder-input-count-and-timeline-only'
+      && Array.isArray(t.streams) && t.streams.length === 2
+      && t.streams.every((s, i) => s.outputIndex === i && s.kind === (i ? 'audio' : 'video')
+        && s.unknownInputRecords === '0' && s.correspondence === 'reported-input-and-independent-selected-source'),
+    'Every case requires the reviewed complete telemetry result.');
+  }
+  return report;
+}
+async function readReviewedReport() {
+  need(await fs.realpath(REPORT) === REPORT, 'The original report must have a canonical non-symlink path.');
+  const ordinary = stat => stat.isFile() && stat.nlink === 1n && stat.size === BigInt(REPORT_BYTES);
+  const sameStamp = (a, b) => ['dev', 'ino', 'size', 'nlink', 'mtimeNs', 'ctimeNs', 'birthtimeNs'].every(k => a[k] === b[k]);
+  const entry = await fs.lstat(REPORT, { bigint: true });
+  need(ordinary(entry), 'The exact ordinary report is required before opening.');
+  // A regular entry can change after lstat. Never wait for a FIFO peer before
+  // fstat can reject a replacement; O_NONBLOCK does not change regular reads.
+  const file = await fs.open(REPORT, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK);
+  try {
+    const before = await file.stat({ bigint: true });
+    need(ordinary(before) && sameStamp(entry, before), 'The original report changed before bounded reading.');
+    // Bounded positioned reads do not allocate an arbitrarily enlarged file.
+    const bytes = Buffer.alloc(REPORT_BYTES + 1); let offset = 0;
+    while (offset < bytes.length) {
+      const { bytesRead } = await file.read(bytes, offset, bytes.length - offset, offset);
+      if (!bytesRead) break; offset += bytesRead;
+    }
+    const after = await file.stat({ bigint: true });
+    need(offset === REPORT_BYTES && ordinary(after) && sameStamp(before, after),
+      'The original report changed during bounded reading.');
+    const current = await fs.lstat(REPORT, { bigint: true });
+    need(await fs.realpath(REPORT) === REPORT && ordinary(current) && sameStamp(before, current), 'Report path replaced during reading.');
+    return bytes.subarray(0, REPORT_BYTES);
+  } finally { await file.close(); }
+}
+async function verifyCandidateResize1440Producers() {
+  for (const [name, digest] of Object.entries(PRODUCERS))
+    need(sha(await fs.readFile(path.resolve(__dirname, '..', name))) === digest, 'Calibration producer changed: ' + name);
+}
+class OwnedCandidateService extends CandidateTrimService {
+  #candidate;
+  constructor(options, candidate) { super(options); this.#candidate = candidate; }
+  async cancelCurrent() {
+    // Preserve cancellation's invalidated operation/candidate tokens. No retry
+    // route re-observes them. Main must close this service and open a new one.
+    // Close synchronously: saved-write drainage and terminal callbacks may yield.
+    this.closeAdmission();
+    return super.cancelCurrent();
+  }
+  async closeOperationResources() {
+    const failures = [];
+    try { await super.closeOperationResources(); } catch (error) { failures.push(error); }
+    try { await this.#candidate.close(); } catch (error) { failures.push(error); }
+    if (failures.length === 1) throw failures[0];
+    if (failures.length) throw new AggregateError(failures, 'Service and candidate resource closure failed.');
+  }
+}
+async function createCandidateResize1440Service(options) {
+  need(options && Object.getPrototypeOf(options) === Object.prototype, 'Inert main-owned options required.');
+  const keys = Reflect.ownKeys(options);
+  need(['verifiedRuntime', 'stateDir'].every(k => keys.includes(k))
+    && keys.every(k => ['verifiedRuntime', 'stateDir', 'onChild'].includes(k)
+      && Object.hasOwn(Object.getOwnPropertyDescriptor(options, k), 'value')), 'Only fixed main-owned service options are accepted.');
+  const { verifiedRuntime, stateDir, onChild } = options;
+  const candidate = requireCandidateCalibrationRuntime(verifiedRuntime);
+  let observer;
+  try {
+    need(typeof stateDir === 'string' && path.isAbsolute(stateDir) && stateDir === path.resolve(stateDir)
+      && !/[\x00-\x1f\x7f]/.test(stateDir) && (onChild === undefined || typeof onChild === 'function'), 'Canonical state directory and child observer required.');
+    need(candidate.runtimeIdentity === RUNTIME_ID && sha(JSON.stringify(candidate.dependencies)) === dependencyIdentity,
+      'The exact reviewed pair and loaded dependency inventory are required.');
+    loaderGuard(); await candidate.requireCurrent();
+    await verifyCandidateResize1440Producers();
+    const report = assertCandidateResize1440Receipt(await readReviewedReport(), REPORT_SHA);
+    await verifyCandidateResize1440Producers();
+    await candidate.requireCurrent(); // Producer/report awaits cannot preserve stale authority.
+    const invoke = clockGuardedRunner(candidate.createRunner({ onChild }), candidate.pins.ffprobe.path);
+    const run = async (...args) => { loaderGuard(); await candidate.requireCurrent(); return invoke(...args); };
+    observer = new OperationRuntimeObserver({
+      runtime: Object.fromEntries(Object.entries(candidate.pins).map(([k, v]) => [k, v.path])),
+      pins: Object.fromEntries(Object.entries(candidate.pins).map(([k, v]) => [k, { sizeBytes: v.size, sha256: v.sha256 }])), run,
+    });
+    const { qualification, timingQualification } = report.sources[0].frozen;
+    const selector = new ClockQualifiedFamilySelector({ policyIdentity: 'candidate-range1440to720-normal-service-fe58dd0', families: [{
+      id: FAMILY_ID, resourcePolicy: RESOURCE_POLICY, runtimeIdentity: RUNTIME_ID, environment: null, settings: SETTINGS,
+      qualification, timingQualification, evidenceIds: report.sources.flatMap(s => [s.frozen.qualification.evidenceId, s.frozen.timingQualification.evidenceId]),
+    }] });
+    return new OwnedCandidateService({ ffmpeg: candidate.pins.ffmpeg.path, ffprobe: candidate.pins.ffprobe.path,
+      runtimeIdentity: RUNTIME_ID, stateDir, run, inspectionWorkers: 1, operationRuntime: observer, operationQualifications: selector,
+      vendorCapabilities: async () => ({ profiles: failedVendorCapabilities('VENDOR_DISCOVERY_INCOMPLETE'), bindings: new Map() }),
+      operationEvidenceBudget: null, operationDeadlineMs: 120000, operationTelemetry: true,
+      operationStorage: () => openEvidenceStorage({ root: path.join(stateDir, 'operation-evidence') }),
+    }, candidate);
+  } catch (error) {
+    const cleanup = await Promise.allSettled([observer?.close(), candidate.close()]);
+    const failures = cleanup.filter(x => x.status === 'rejected');
+    if (failures.length) throw new AggregateError([error, ...failures.map(x => x.reason)], 'Construction and owned cleanup failed.', { cause: error });
+    throw error;
+  }
+}
+module.exports = { createCandidateResize1440Service, assertCandidateResize1440Receipt, verifyCandidateResize1440Producers,
+  REPORT, REPORT_SHA, RUNTIME_ID };

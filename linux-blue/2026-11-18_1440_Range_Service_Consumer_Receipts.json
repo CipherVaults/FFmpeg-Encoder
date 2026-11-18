@@ -1,0 +1,598 @@
+{
+  "checkpoint": 60,
+  "evidenceCutoffUtc": "2026-11-18T17:23:56.787000+00:00",
+  "status": "Final outside owning record; ready for lead integration",
+  "scope": "Dedicated fixed Linux1440-to720 range consumerV2 source integration and tests after059 archive restoration; complete059 preservation. No live service or native qualification; next Windows workflow separate.",
+  "plannedPublication": {
+    "changedPaths": 6,
+    "sourceAdditions": 2,
+    "totalCommittedFiles": 704,
+    "rawReportMediaRuntimeProfilesGatesOrApiLogsIncluded": false
+  },
+  "sourceIntegration": {
+    "status": "Integrated exact reviewed two-addition1440 consumerV2; source-only",
+    "integratedAtUtc": "2026-11-18T17:14:16.642450+00:00",
+    "baseCommit": "fa46d399db4513e32a6179b5a10b0fb6da50bc54",
+    "sourceFiles": [
+      {
+        "path": "linux-blue/candidate-resize1440-service.cjs",
+        "bytes": 25136,
+        "sha256": "d43aa95b653fb894b7b00c9ae2768aa90467a6baac25642e7f0653b3952c7b67",
+        "priorSha256": null
+      },
+      {
+        "path": "linux-blue/candidate-resize1440-service.test.cjs",
+        "bytes": 21545,
+        "sha256": "bef5912610fb22ba5e076f22ae8a124311ff83940b8db28167c49977939c0f2d",
+        "priorSha256": null
+      }
+    ],
+    "all700PriorFilesUnchanged": true,
+    "projectedSourceFiles": 702,
+    "producerCount": 97,
+    "serviceCompositionOnlyFiles": {
+      "linux-blue/runtime-candidate-pins.json": "73aca3d1af30109cf20bf27dbeec759f267469781d13c9b8a18c07dd4d8c5e27",
+      "linux-blue/runtime-candidate.cjs": "6958cdb86854d0e57fddd7cf8e793a7e944cbe600001338600a3953e610ad33e",
+      "linux-blue/workbench-flac-calibration.cjs": "059cbfd0edbcc4ffdae0c0174669b28e097b4f5e748ca12dacb1302f6285c0c4",
+      "linux-blue/workbench-long-range-service.cjs": "02f513956133f79ef7764424a4b7e2c558265868aa1b6e2084c7068894f1ce58",
+      "linux-blue/workbench-trim-candidate.cjs": "6e68df2eb93ddda8282b0a7cec8d6dbedff00871222a1f58ed7bc7e0a6d0c10f"
+    },
+    "all102NamedBindingsMatch": true,
+    "review": {
+      "path": "e3-1440-service058-independent/FINAL_REVIEW-v2.md",
+      "bytes": 3679,
+      "sha256": "16c9b1957bb6dcef206fdec9fb8906357ebce9887a859f247fb454a6b75b5f3d"
+    },
+    "priorPreservationAtIntegration": {
+      "snapshot": "checkpoint060-prior-notion-at-integration.json",
+      "bytes": 124996,
+      "sha256": "bb2413e050606dde48278506886996d586cad1fac3c2547ad43a6a530f29e59b",
+      "bothRestorationGates": true,
+      "fullNative": false,
+      "finalReleased": false
+    },
+    "limits": [
+      "Two additions only, no app or UI importer, default/catalog/Windows route or rawreport added.",
+      "Producer97 describes calibration; five additional files are service composition, not historical-run producers.",
+      "Old1080range/Fullcopy/Keep720 seals unchanged/refusing; no runtime or realservice execution."
+    ]
+  },
+  "sourceChecks": [
+    {
+      "name": "syntax-consumer",
+      "command": [
+        "node",
+        "--check",
+        "linux-blue/candidate-resize1440-service.cjs"
+      ],
+      "startedAtUtc": "2026-11-18T17:15:02.540004+00:00",
+      "endedAtUtc": "2026-11-18T17:15:02.637621+00:00",
+      "exitCode": 0,
+      "node": "v24.22.1",
+      "platform": "Linux",
+      "baseCommit": "fa46d399db4513e32a6179b5a10b0fb6da50bc54",
+      "counts": {
+        "tests": [],
+        "pass": [],
+        "fail": [],
+        "cancelled": [],
+        "skipped": []
+      },
+      "failedCases": [],
+      "outputs": [
+        {
+          "path": "syntax-consumer.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "syntax-consumer.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "testedFiles": [
+        {
+          "path": "linux-blue/candidate-resize1440-service.cjs",
+          "bytes": 25136,
+          "sha256": "d43aa95b653fb894b7b00c9ae2768aa90467a6baac25642e7f0653b3952c7b67"
+        }
+      ]
+    },
+    {
+      "name": "syntax-test",
+      "command": [
+        "node",
+        "--check",
+        "linux-blue/candidate-resize1440-service.test.cjs"
+      ],
+      "startedAtUtc": "2026-11-18T17:15:02.638717+00:00",
+      "endedAtUtc": "2026-11-18T17:15:02.707398+00:00",
+      "exitCode": 0,
+      "node": "v24.22.1",
+      "platform": "Linux",
+      "baseCommit": "fa46d399db4513e32a6179b5a10b0fb6da50bc54",
+      "counts": {
+        "tests": [],
+        "pass": [],
+        "fail": [],
+        "cancelled": [],
+        "skipped": []
+      },
+      "failedCases": [],
+      "outputs": [
+        {
+          "path": "syntax-test.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "syntax-test.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "testedFiles": [
+        {
+          "path": "linux-blue/candidate-resize1440-service.test.cjs",
+          "bytes": 21545,
+          "sha256": "bef5912610fb22ba5e076f22ae8a124311ff83940b8db28167c49977939c0f2d"
+        }
+      ]
+    },
+    {
+      "name": "focused",
+      "command": [
+        "node",
+        "--test",
+        "--test-reporter=tap",
+        "linux-blue/candidate-resize1440-service.test.cjs"
+      ],
+      "startedAtUtc": "2026-11-18T17:15:02.707910+00:00",
+      "endedAtUtc": "2026-11-18T17:15:03.523840+00:00",
+      "exitCode": 0,
+      "node": "v24.22.1",
+      "platform": "Linux",
+      "baseCommit": "fa46d399db4513e32a6179b5a10b0fb6da50bc54",
+      "counts": {
+        "tests": [
+          12
+        ],
+        "pass": [
+          12
+        ],
+        "fail": [
+          0
+        ],
+        "cancelled": [
+          0
+        ],
+        "skipped": [
+          0
+        ]
+      },
+      "failedCases": [],
+      "outputs": [
+        {
+          "path": "focused.stdout",
+          "bytes": 3260,
+          "sha256": "d3b7187fad4e15538f252fcfff77546733bbb130fd99a1bf6117d4e004820989"
+        },
+        {
+          "path": "focused.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "testedFiles": [
+        {
+          "path": "linux-blue/candidate-resize1440-service.test.cjs",
+          "bytes": 21545,
+          "sha256": "bef5912610fb22ba5e076f22ae8a124311ff83940b8db28167c49977939c0f2d"
+        }
+      ]
+    },
+    {
+      "name": "adjacent",
+      "command": [
+        "node",
+        "--test",
+        "--test-reporter=tap",
+        "tests/operation-family-resize1440-proportional.test.cjs",
+        "tests/operation-evidence-resize1440-proportional.test.cjs",
+        "tests/operation-resize-proportional-service.test.cjs",
+        "linux-blue/workbench-long-range-calibration.test.cjs"
+      ],
+      "startedAtUtc": "2026-11-18T17:15:03.524880+00:00",
+      "endedAtUtc": "2026-11-18T17:15:05.325597+00:00",
+      "exitCode": 0,
+      "node": "v24.22.1",
+      "platform": "Linux",
+      "baseCommit": "fa46d399db4513e32a6179b5a10b0fb6da50bc54",
+      "counts": {
+        "tests": [
+          48
+        ],
+        "pass": [
+          48
+        ],
+        "fail": [
+          0
+        ],
+        "cancelled": [
+          0
+        ],
+        "skipped": [
+          0
+        ]
+      },
+      "failedCases": [],
+      "outputs": [
+        {
+          "path": "adjacent.stdout",
+          "bytes": 14129,
+          "sha256": "1179b1befeb3b6a968728225dff2f0b3b61b1970a9775af1397512c92cd8c282"
+        },
+        {
+          "path": "adjacent.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "testedFiles": [
+        {
+          "path": "tests/operation-family-resize1440-proportional.test.cjs",
+          "bytes": 12558,
+          "sha256": "b2eb71f564a2f33b6b9cf281c89da6d7e09229097afd0372067cd9bf26916548"
+        },
+        {
+          "path": "tests/operation-evidence-resize1440-proportional.test.cjs",
+          "bytes": 15163,
+          "sha256": "9a1565942874957e7a7a5a673b6bc8ddfeb8d89b838c662f1c5836d2602e9a9a"
+        },
+        {
+          "path": "tests/operation-resize-proportional-service.test.cjs",
+          "bytes": 12303,
+          "sha256": "d537e327182b118ae5f270835bc3d0f6835414dc67cfa9ba84018ebfa5291a72"
+        },
+        {
+          "path": "linux-blue/workbench-long-range-calibration.test.cjs",
+          "bytes": 26524,
+          "sha256": "e9305de02cc590c4ac75c5aabb740b776359100fb6c8fb1d1b73b155aba35d31"
+        }
+      ]
+    },
+    {
+      "name": "historical",
+      "command": [
+        "node",
+        "--test",
+        "--test-reporter=tap",
+        "linux-blue/candidate-resize-service.test.cjs",
+        "linux-blue/candidate-full-copy-service.test.cjs",
+        "linux-blue/candidate-keep720-service.test.cjs"
+      ],
+      "startedAtUtc": "2026-11-18T17:15:05.327137+00:00",
+      "endedAtUtc": "2026-11-18T17:15:06.661389+00:00",
+      "exitCode": 1,
+      "node": "v24.22.1",
+      "platform": "Linux",
+      "baseCommit": "fa46d399db4513e32a6179b5a10b0fb6da50bc54",
+      "counts": {
+        "tests": [
+          50
+        ],
+        "pass": [
+          39
+        ],
+        "fail": [
+          11
+        ],
+        "cancelled": [
+          0
+        ],
+        "skipped": [
+          0
+        ]
+      },
+      "failedCases": [
+        "literal calibration producer closure matches immutable tested source",
+        "injected normal-service composition preserves observer, storage, OutputAccess and no launch effects",
+        "rejected construction and bounded report-read failures retain cleanup without child effects",
+        "genuine OutputAccess only, inert option snapshot and synchronous cancellation closure",
+        "both service and candidate cleanup failures survive",
+        "composed selector issues genuine Full/null/copy-only tokens and recalculates whole-source budgets",
+        "actual composed prepare exposes compatibility-ready without authority; Start refuses before effects",
+        "workbench mode is inert boolean only and synchronously exposes terminal relaunch",
+        "actual workbench prepare and edit receipt awaits never expose compatibility authority or admit reentrant Start",
+        "new current producer capsule matches; historical capsule still refuses current bytes",
+        "immediately prior Q8fIWI producer capsule rejects current codec producer bytes"
+      ],
+      "outputs": [
+        {
+          "path": "historical.stdout",
+          "bytes": 23528,
+          "sha256": "97440d8b1badbf04c6639bf4c6efc23512c0905db10d5ea2caeab759f3bd5c7e"
+        },
+        {
+          "path": "historical.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "testedFiles": [
+        {
+          "path": "linux-blue/candidate-resize-service.test.cjs",
+          "bytes": 33127,
+          "sha256": "7f3c1548056b69e2482fe377a88f2c01363e8e1043801b68fde11c93082e1ef0"
+        },
+        {
+          "path": "linux-blue/candidate-full-copy-service.test.cjs",
+          "bytes": 32237,
+          "sha256": "370e674615f45b13747f32e611780a0dde64b017704a7ef93824fa8f76f49f65"
+        },
+        {
+          "path": "linux-blue/candidate-keep720-service.test.cjs",
+          "bytes": 25349,
+          "sha256": "3e8db60d9323304552317ed08d0b7156750e3be9d5636ba90603075ebedba19d"
+        }
+      ]
+    },
+    {
+      "name": "ci-runner",
+      "command": [
+        "node",
+        "scripts/ci-source-contracts.cjs"
+      ],
+      "startedAtUtc": "2026-11-18T17:15:06.664134+00:00",
+      "endedAtUtc": "2026-11-18T17:15:20.892840+00:00",
+      "exitCode": 0,
+      "node": "v24.22.1",
+      "platform": "Linux",
+      "baseCommit": "fa46d399db4513e32a6179b5a10b0fb6da50bc54",
+      "counts": {
+        "tests": [
+          209,
+          10
+        ],
+        "pass": [
+          209,
+          10
+        ],
+        "fail": [
+          0,
+          0
+        ],
+        "cancelled": [
+          0,
+          0
+        ],
+        "skipped": [
+          0,
+          0
+        ]
+      },
+      "failedCases": [],
+      "outputs": [
+        {
+          "path": "ci-runner.stdout",
+          "bytes": 22899,
+          "sha256": "e06a02d2f71dc824026464d976f4d469a38b6e51bd32442f7e19d8995826594a"
+        },
+        {
+          "path": "ci-runner.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "testedFiles": [
+        {
+          "path": "scripts/ci-source-contracts.cjs",
+          "bytes": 2173,
+          "sha256": "4eae37c5b3746a028beef3b604c207ed633fbbf2a9953a25099df685a1041433"
+        }
+      ]
+    }
+  ],
+  "all702SourceFilesAndSixOriginalRawReportsUnchanged": true,
+  "testLimits": "Overlapping selections, genuine original report parsing/descriptor and actual source plans with injected runtime; no live candidate or media/native/GPU. Real bounded Node helpers in shared CI. Not package-wide green.",
+  "historicalFailingLabels": [
+    "literal calibration producer closure matches immutable tested source",
+    "injected normal-service composition preserves observer, storage, OutputAccess and no launch effects",
+    "rejected construction and bounded report-read failures retain cleanup without child effects",
+    "genuine OutputAccess only, inert option snapshot and synchronous cancellation closure",
+    "both service and candidate cleanup failures survive",
+    "composed selector issues genuine Full/null/copy-only tokens and recalculates whole-source budgets",
+    "actual composed prepare exposes compatibility-ready without authority; Start refuses before effects",
+    "workbench mode is inert boolean only and synchronously exposes terminal relaunch",
+    "actual workbench prepare and edit receipt awaits never expose compatibility authority or admit reentrant Start",
+    "new current producer capsule matches; historical capsule still refuses current bytes",
+    "immediately prior Q8fIWI producer capsule rejects current codec producer bytes"
+  ],
+  "sameElevenHistoricalNames": true,
+  "readSafetyCorrection": {
+    "V1": "Potential blocking open before ordinary-file check",
+    "authorRed": {
+      "pass": 0,
+      "tests": 2
+    },
+    "independentRed": {
+      "pass": 0,
+      "tests": 3
+    },
+    "independentV2": {
+      "pass": 3,
+      "tests": 3
+    },
+    "limits": "Injected controls, no actual special file or hostile-filesystem guarantee; no absolute filesystem deadline"
+  },
+  "binding": {
+    "originalReportBytes": 125817,
+    "originalReportSha256": "c81129d8305109c0a7a9dd024e65d3f5dab5611bf70cd218a601c734ff3dcd67",
+    "calibrationSource": "fe58dd01ecae2b7284e3a3fdf91d3b79fbec3e12",
+    "calibrationProducers": 97,
+    "separateCompositionFiles": {
+      "linux-blue/runtime-candidate-pins.json": "73aca3d1af30109cf20bf27dbeec759f267469781d13c9b8a18c07dd4d8c5e27",
+      "linux-blue/runtime-candidate.cjs": "6958cdb86854d0e57fddd7cf8e793a7e944cbe600001338600a3953e610ad33e",
+      "linux-blue/workbench-flac-calibration.cjs": "059cbfd0edbcc4ffdae0c0174669b28e097b4f5e748ca12dacb1302f6285c0c4",
+      "linux-blue/workbench-long-range-service.cjs": "02f513956133f79ef7764424a4b7e2c558265868aa1b6e2084c7068894f1ce58",
+      "linux-blue/workbench-trim-candidate.cjs": "6e68df2eb93ddda8282b0a7cec8d6dbedff00871222a1f58ed7bc7e0a6d0c10f"
+    },
+    "all102NamedBindingsMatch": true,
+    "sourceGitDoesNotRestoreRawReportOrRuntime": true,
+    "policy": "candidate-range1440to720-normal-service-fe58dd0"
+  },
+  "prior059": {
+    "integrationSnapshot": {
+      "snapshot": "checkpoint060-prior-notion-at-integration.json",
+      "bytes": 124996,
+      "sha256": "bb2413e050606dde48278506886996d586cad1fac3c2547ad43a6a530f29e59b",
+      "bothRestorationGates": true,
+      "fullNative": false,
+      "finalReleased": false
+    },
+    "finalMirror": {
+      "checkedAtUtc": "2026-11-18T17:22:14.747282+00:00",
+      "path": "notion-checkpoint-059-verification.json",
+      "bytes": 129379,
+      "sha256": "07aa95000ac116c7032a9b51931a1d46db3d0c6f77df2cac30ded08ca5d3250f",
+      "nineRowArray": true,
+      "sourceHistoryNativeVerified": true,
+      "finalReleasedByIndependentWriter": true,
+      "localCommit": "fa46d399db4513e32a6179b5a10b0fb6da50bc54",
+      "remoteCommit": "b7eaeb170ef29ebf08fc579ef459413e837cf66c",
+      "readOnlyVerificationFriction": "Initial read expected root-level independentlyVerifiedReadbackFiles; KeyError before writes. Corrected to existing github object and reverified exact immutable bytes."
+    },
+    "remoteCommit": "b7eaeb170ef29ebf08fc579ef459413e837cf66c",
+    "sourceHistoryNativeAndNineRemoteContentsIndependentlyVerified": true,
+    "hosted059Result": "Pending at cutoff, not inferred from branch publication"
+  },
+  "futureHelper": {
+    "status": "Outside V2 frozen; final independent acceptance, source/final-receipt binding and gate pending",
+    "v1EvidenceFindings": [
+      "Generic skipped item did not establish intended post-preview collision",
+      "Missing cancellation-stage metadata was not reconciled with actual owned stage"
+    ],
+    "authorV1Red": "0/2",
+    "authorV2Controls": "14/14, four syntax checks",
+    "mediaRun": false,
+    "reusedFixture": "Known11-second1440 source, not a new holdout",
+    "retainedInitialV2Control": "13/14: test expected24-byte fixture, actual25; corrected expected Buffer.byteLength, final14/14"
+  },
+  "remaining": [
+    "Real1440 service prepare/start/publication/collision/active cancellation/fresh-owner recovery are not run. No app or UI importer added.",
+    "Old1080range4/97,Full-copy3/26 andKeep7206/97 mismatches remain. Historical39/50 is a selected suite, not all prior13capsule or25broader failures rerun.",
+    "Windows hosted capacity/acquisition wrapper remains outside implementation/review; no actual download/install, native CPU/Electron or hardware acceptance.",
+    "Current source checks and prior calibration are not release acceptance; Linux7.1.5 rollback/default,9.0.2 opt-in, originalUI and audio policy remain."
+  ],
+  "artifactReferences": [
+    {
+      "base": "guidance",
+      "path": "e3-1440-service058-implementation/HANDOFF.md",
+      "bytes": 4304,
+      "sha256": "7e7885d3a4c2fbe3ed9c7b9dd0438c8a46e28bb9b2a76f97465eb7f531470a31"
+    },
+    {
+      "base": "guidance",
+      "path": "e3-1440-service058-implementation-v2/HANDOFF-v2.md",
+      "bytes": 2065,
+      "sha256": "e37070f00e45cdc6464d50f2c4e8a001cb9c38b3758721dfc404775b5aa715f6"
+    },
+    {
+      "base": "guidance",
+      "path": "e3-1440-service058-implementation-v2/candidate-resize1440-service-v2.patch",
+      "bytes": 47852,
+      "sha256": "827df73a5313c72da879d457901d1ddeb9de768bf1bd654774d243bbc4a0091d"
+    },
+    {
+      "base": "guidance",
+      "path": "e3-1440-service058-implementation-v2/VERIFICATION.json",
+      "bytes": 3190,
+      "sha256": "299e8eefe9840cb5f5b11ec6f9529c456f98a9062590504d3008ac23a59590e1"
+    },
+    {
+      "base": "guidance",
+      "path": "e3-1440-service058-implementation-v2/closure-dispositions.json",
+      "bytes": 1142,
+      "sha256": "a3b9013532ab5d1347f7e2ca0cd58a76a2200ba2b37d1c93551ef3dbae9121e9"
+    },
+    {
+      "base": "guidance",
+      "path": "e3-1440-service058-independent/FINAL_REVIEW-v2.md",
+      "bytes": 3679,
+      "sha256": "16c9b1957bb6dcef206fdec9fb8906357ebce9887a859f247fb454a6b75b5f3d"
+    },
+    {
+      "base": "guidance",
+      "path": "e3-1440-service058-independent/RECEIPTS-v2.txt",
+      "bytes": 1361,
+      "sha256": "7ec290020ee2080ec4237edf74ebb16c62128cdad0277854f07b2c40cb82274b"
+    },
+    {
+      "base": "guidance",
+      "path": "e3-1440-service058-independent/v1-reader-controls.tap",
+      "bytes": 2749,
+      "sha256": "c977511cc543b507c871b60477ac6653b7145015767aaff076aac2eaf1cc7a80"
+    },
+    {
+      "base": "guidance",
+      "path": "e3-1440-service058-independent/v2-reader-controls.tap",
+      "bytes": 425,
+      "sha256": "0f2bc5ba6089b65db5eabd5e17abb8bd5b5e08d36052a172af8ce4620b879aec"
+    },
+    {
+      "base": "guidance",
+      "path": "e3-1440-service058-independent/v2-scope.json",
+      "bytes": 1073,
+      "sha256": "e5ac2a2cb1c9706163b0c32c2a44b3e21236bec9f295e448d8fcef2777694aa0"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint060-integration.json",
+      "bytes": 2199,
+      "sha256": "cbbd2c66a42f904ffb705d2bdbeed1f46f01c9e8daa59c97280818ef2e56859d"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint060-prior-notion-at-integration.json",
+      "bytes": 124996,
+      "sha256": "bb2413e050606dde48278506886996d586cad1fac3c2547ad43a6a530f29e59b"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint060-lead-tests/RESULTS.json",
+      "bytes": 93121,
+      "sha256": "8017b37088b807d44521e80ffb3b53e813c1c9599a1e7c6221d69f6bf751485f"
+    },
+    {
+      "base": "guidance",
+      "path": "notion-checkpoint-059-verification.json",
+      "bytes": 129379,
+      "sha256": "07aa95000ac116c7032a9b51931a1d46db3d0c6f77df2cac30ded08ca5d3250f"
+    },
+    {
+      "base": "guidance",
+      "path": "github-checkpoint059-verification.json",
+      "bytes": 3880,
+      "sha256": "26c6007fddb75377540761b095a4f7047d762e2306e3bea442e7cadc3aeb561e"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint059-final-mirror-release.json",
+      "bytes": 643,
+      "sha256": "8fc2eb751febe58fafffd50882821b41a2298ef4ea87c0d2aabda551e2ee1fe6"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint060-cutoff.json",
+      "bytes": 344,
+      "sha256": "1f54e29d6991381713862f3f8f6f0c63914421fff6930f8046be548ed8f29e88"
+    },
+    {
+      "base": "guidance",
+      "path": "e3-1440-service060-preparation-v2/HANDOFF-v2.json",
+      "bytes": 2107,
+      "sha256": "a583ee0b31f5cef9b31cd18375f01d30649e25ae11ab5a87d0b11baefe720a02"
+    }
+  ]
+}

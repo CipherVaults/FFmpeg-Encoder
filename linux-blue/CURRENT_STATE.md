@@ -1,15 +1,17 @@
-# Current state: audited 1440p range calibration; Windows acquisition source
+# Current state: fixed 1440p range consumer, live service proof next
 
-Evidence cutoff: 2026-11-18T17:05:24.867679+00:00. Checkpoint 059 follows complete 058 Git → restored/readable Notion → verified GitHub preservation.
+Evidence cutoff: 2026-11-18T17:23:56.787000+00:00. Checkpoint 060 is a source-only continuation after complete 059 preservation, not another media result.
 
-## What is now supported
-- One genuine Linux 9.0.2 CPU calibration on immutable 058 passed all three fixed 1440p→720p H.265/precision-FLAC ranges. Independent saved-output audit checked all 95 campaign artifacts, 694 source files, nine runtime files and 42 closed children. This is not an integrated service or native/default release.
-- Original selected decoded PCM hash/byte counts agree; complete timing/spools and encoder-input correspondence pass fixed bounds. Raw PCM and video pixels were not independently compared. Three encodes retain the same CPU-mask error-level line and two pool warnings despite zero exits.
-- Four reviewed Windows source files now acquire only the pinned archives into new owned slots and permit an explicit Electron archive path. Final integrated Linux checks: 48 focused tests, three explicit syntax checks, existing CI's 202 syntax + 209 shared + 10 Linux policy checks, zero failures/skips. These overlapping tests do not download or install anything.
-- Actual 058 hosted Windows and Ubuntu safety jobs passed their selected 202 syntax/209 shared checks, plus ten Linux checks. They predate the new acquisition code and do not qualify it.
+## Supported now
+- Dedicated Linux 9.0.2 1440p→720p CPU H.265/precision-FLAC range composition now binds the exact audited original calibration, all 97 producer hashes and the separately reviewed five composition files. No application, UI, catalog or default imports it yet.
+- The corrected report reader checks ordinary-file identity before a nonblocking/no-follow open and again before/after bounded reads. Independent injected controls reproduce V1's 0/3 and V2's 3/3; this is not an absolute filesystem deadline or hostile-host guarantee.
+- Integrated checks passed 12 focused, 48 adjacent and selected CI's 202 syntax/209 shared/10 Linux checks. The selected historical suite remains 39/50 with exactly the same eleven failures. Counts overlap. All 702 source files and six original raw reports remained unchanged during tests.
+- 059 is independently preserved through local Git, fresh reconstruction of split source/history archives, full readable Notion and exact nine-file GitHub readback. Its bounded calibration remains valid on the original producer closure, not proof of the new service.
 
 ## Still unavailable or untested
-The experimental 058 shared producers still invalidate the old 1080p range and Full-copy capsules. No old report or seal was repinned, and 057 remains recoverable. A dedicated 1440p consumer, actual service proof and native journey remain next, not done. Existing thirteen capsule failures and 25 historical broader failures are inherited, not fixed or rerun here. Windows archive transfer, safe FFmpeg extraction, installation, actual CPU/Electron, RTX 5060 and release acceptance remain separate gates. Hosted capacity may block the unchanged 27 GiB floor; measure it rather than weaken it.
+Old 1080p range, Full-copy and Keep720 capsules still refuse their changed producers; known usable 057 remains recoverable. No old seals were refreshed. The new consumer has not performed a real preparation, encode, publication or active cancellation/recovery. Source Git alone cannot restore its original raw report or exact runtime. Original calibration CPU-mask/thread-pool diagnostics and PCM/frame-grid limitations remain.
 
-## Next useful work
-Preserve this combined evidence/source checkpoint, then independently review the isolated two-file 1440p consumer and exercise its real service. Continue the separate bounded hosted Windows capacity/acquisition proposal after its report-upload/ref guards are reviewed. Keep Electron 0.7, current UI, protected defaults/audio policy, security and the additive shared/platform plan unchanged.
+Windows acquisition V3 remains source-tested only. The next guarded hosted capacity/acquisition wrapper is separate and not integrated here; actual local space, transfers, extraction, installation, CPU/Electron and RTX 5060 acceptance remain open. Existing 058 hosted safety passed, 059 hosted result is pending at this cutoff. Neither establishes media/platform acceptance.
+
+## Next useful step
+Preserve this two-file consumer and its records, finish the corrected reduced-service helper review, bind it to the exact fully preserved checkpoint, then run publication, genuine post-preview collision, live positive-frame cancellation and fresh-owner recovery using the known 11-second fixture. Continue Windows workflow work independently. Keep Electron 0.7, original UI, Linux 7.1.5 default/rollback, opt-in 9.0.2 and protected audio policy unchanged.

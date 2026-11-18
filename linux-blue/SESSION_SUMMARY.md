@@ -1,3 +1,157 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Dedicated 1440 range consumer and safer fixed-report reading
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role | Attribution | Work and evidence limit |
+|---|---|---|
+| Consumer author and independent source reviewer | Recorded roles; model/effort not inferred | Produced and reviewed two additions on isolated 058, retaining fixture and report-reader reds. Source/injected checks, not live service qualification. |
+| Engineering lead | Current-base integration and final checks | Matched the exact proposal on 059, verified 97 calibration producers plus five separate composition files, and ran the final selected suites. |
+| Mirror and record writers | Independent recovery, publication and documentation roles | Completed 059 preservation; maintain this fixed-cutoff source record. Summary writer changes only the prepend after release. |
+
+**Record basis:** A dedicated fixed Linux 1440p→720p range service composition is now integrated as source. It binds the accepted original calibration without rewriting older qualification. No app route imports it, and no new preparation, encode, publication, active cancellation/recovery or native result has been demonstrated.
+
+## 🕒 Time
+
+**Stage / type / focus:** Two-file consumer integration, corrected bounded report reader and source checks; predecessor preservation completed separately.
+
+**Date and clock:** November 18, 2026; Cairo UTC+02:00. Fixed cutoff **19:23:56.787000 Cairo / 17:23:56.787000 UTC**. Times below are UTC; no active-effort or media performance measurement.
+
+- Exact two additions integrated **17:14:16.642450**, after both 059 archive restores. Full native records and final GitHub mapping were still pending at that point.
+- Final lead checks ran **17:15:02.540004–17:15:20.892840**, with actual exits saved before parsing.
+- Complete 059 independent mirror release was reverified **17:22:14.747282**, including full native records and nine remote readbacks.
+- Fixed cutoff **17:23:56.787000**. Later helper acceptance, Windows wrapper work and record saves do not move it.
+
+**End / stopping point:** Dedicated consumer source and tests integrated; predecessor recovery complete. The reduced service helper is frozen V2 preparation with final independent acceptance/binding pending at cutoff, not a run.
+
+**Reason for this summary:** Preserve the real read-safety correction and exact evidence binding without promoting source tests into live service availability or disguising older failures.
+
+## 🎯 Session Goal
+
+Reuse the accepted genuine 1440 calibration through the smallest fixed consumer, preserving currentness, private runtime/selection authority, bounded evidence reads and resource ownership. Leave old stale consumers intact. Advance useful source work after restore gates rather than delaying it for an unfinished, separate Windows hosted workflow.
+
+## 🛠️ Actions Taken
+
+### 1. Preserve ordering and complete 059 recovery
+
+Base local 059 is `fa46d399db4513e32a6179b5a10b0fb6da50bc54`, with **700 files**. At integration, the saved mirror snapshot proves both source/full-history restore gates, but not yet full native or final remote completion. By cutoff those remaining steps were complete: split source/history archives reconstructed from four native parts, all 700 files/full 59 commits verified, full readable records restored, and nine exact remote file contents independently matched, including the full Session blob, sole parent/tree and fresh ref.
+
+The verified remote is `b7eaeb170ef29ebf08fc579ef459413e837cf66c`; final mirror receipt is **129,379 bytes / `07aa95000ac116c7032a9b51931a1d46db3d0c6f77df2cac30ded08ca5d3250f`**. A lead read-only check first expected the nine-row array at the receipt root rather than inside its existing `github` object; it stopped before writes, then verified the same immutable receipt correctly. No remote mutation was replayed. Actual hosted 059 outcome is **pending at this cutoff**, not inferred from the branch publication or earlier 058 hosted success.
+
+### 2. Correct the reader before integrating the two additions
+
+The exact V2 patch is **47,852 bytes / `827df73a5313c72da879d457901d1ddeb9de768bf1bd654774d243bbc4a0091d`**. It adds only `linux-blue/candidate-resize1440-service.cjs` and its adjacent test. All **700 prior files** stayed unchanged at source integration, yielding **702** before the two new owning records. No app/main/renderer/preload, existing consumer, CI, catalog, runtime, raw report, Windows file, packaging or default changed.
+
+Initial V1 testing had an **8/9** result because a negative control tried to mutate a frozen synthetic budget before reaching its assertion. A structured clone corrected the fixture, without policy relaxation; a real restored-report positive was also added. Independent review then found a real reader issue: opening the expected pathname before checking its file kind could block before descriptor validation.
+
+V2 first checks canonical path, regular-file type, one link and exact **125,817-byte** size. Linux open uses `O_RDONLY | O_NOFOLLOW | O_NONBLOCK`. Before any payload read, descriptor metadata must match all seven pre-open identity/size/link/timestamp fields. Positioned reads remain bounded to expected size plus one; post-read descriptor, renewed name/canonical identity, fixed digest and owned closure checks remain. This is not a universal filesystem deadline or atomic protection against a hostile same-user race.
+
+Author V1 controls retained **0/2**; the separate independent controls retained **0/3 → 3/3** on V2. These overlap and are not five independent defects. Controls reject an unsuitable entry before opening, refuse a changed descriptor before reading while closing it, and accept the exact ordinary report with required flags/partial reads. No actual special file or live candidate was executed. The author and independent **12 focused / 48 adjacent** source selections passed separately.
+
+### 3. Bind only the finite qualified source and compose existing protections
+
+The factory fixes the original B10HEW raw report's path, basename, length and SHA **`c81129d8305109c0a7a9dd024e65d3f5dab5611bf70cd218a601c734ff3dcd67`**. Caller-supplied digest is a pure parser-test seam, not factory authority. The parsed portable cannot replace the exact raw report, and source Git alone restores neither that original file nor the required runtime.
+
+All **97 calibration producer hashes** matched current source. Five additional existing runtime-candidate/workbench files were separately reviewed as service composition; all **102 named bindings** matched at integration. Those five are not newly labeled producers of the historical calibration. The factory requires a privately issued paired candidate and exact seven-library inventory, clean loader environment and runtime/producer rechecks around report-reading awaits. These checks are bounded observations, not universal dependency discovery or executable-source attestation.
+
+The fixed family remains progressive, square-pixel **2560×1440p30 H.264 High / BT.709 limited MOV with stereo 48 kHz PCM**, range output **1280×720 CPU H.265 slow quality 25 / precision FLAC**. It composes the existing real service, clock-qualified selector, runtime observer, telemetry, owned evidence storage and source-proportional budgets. No caller-selected policy/resource override or 1080/Full/Keep/AAC fallback is added. Cancellation fences admission synchronously; reuse requires a fresh service/verified owner. Service and candidate cleanup failures remain visible, aggregated if both fail. Injected lifecycle controls do not prove actual active-job settlement.
+
+The prior calibration remains warning-bearing: three zero-exit encodes retained a CPU-mask error-level line and two thread-pool warnings. Its original streamed PCM receipts, later audit-time output hashes and finite frame-grid limits remain distinct. No new media, decode, PCM or pixel comparison occurred here.
+
+### 4. Check the actual integrated bytes, retaining the red historical selection
+
+Lead used Node 24.22.1/Linux on the 059-based working tree:
+
+| Selection | Actual result | Scope |
+|---|---|---|
+| New consumer and test syntax | Two checks, exit 0 | Explicit new-file parsing |
+| New consumer focused | 12/12, exit 0 | Original report/parser/descriptor and source contracts with injected runtime |
+| Adjacent family/evidence/service/calibration | 48/48, exit 0 | Selected source/injected regressions |
+| Three historical consumer suites | 39/50, exit 1 | Same eleven exact failure names as paired baseline and V1/V2 |
+| Existing CI runner | 202 syntax, 209 shared and 10 Linux checks, exit 0 | Source safety, including two bounded real Node helpers |
+
+All selected suites had zero skips/cancellations. Counts overlap, are not summed and are **not package-wide green**. The historical exit 1 is retained; the driver succeeded only after matching the expected failure names, other counts and identities. Original reports were supplied, not skipped for missing prerequisites. All **702 source files and six original raw reports** stayed hash-identical before/after checks. The narrower 50-test selection is not a rerun or repair of all earlier thirteen capsule or 25 broader failures. The unchanged CI syntax list does not by itself cover every new file; the two explicit checks do.
+
+Older consumers remain unavailable: **1080 range 4/97**, **Full-copy 3/26**, **Keep720 6/97** producer mismatches. Their receipts and seals are untouched. A valid old report cannot override those refusals. Known usable 057 remains recoverable rather than describing the experimental successor as fully working.
+
+### 5. Freeze the actual next-work state
+
+The reduced service helper is outside the checkout. V1 review found two false-green risks: generic skipped-item success did not prove the intended post-preview collision, and absent cancellation metadata did not establish the actual owned target-stage disposition. V2 checks the exact same-file refusal and untouched sentinel, then correlates the target stage at invocation, immediately afterward and after closure. Its V1 **0/2** controls remain. A V2 **13/14** intermediate result was a 24-versus-25-byte fixture expectation, corrected with actual byte length; author final **14/14** and four syntax checks are preparation only. **Final independent acceptance, checkpoint/final-receipt binding, gate and execution are pending at cutoff.**
+
+The planned four-case/three-target proof reuses the known 11-second fixture, not a new independent holdout, for publication, actual post-preview Start collision, positive-frame cancellation and fresh-owner recovery. No service outcome is imported. The Windows hosted capacity/acquisition wrapper is a separate next checkpoint, not integrated here. Existing acquisition V3 is still source-tested only; actual transfer, extraction, install and Windows CPU/Electron/RTX 5060 acceptance remain open.
+
+## 🧠 Key Insights
+
+- Checking file kind after a potentially blocking open is too late. Early type checks and nonblocking descriptor binding improve this specific reader without promising universal filesystem settlement.
+- Calibration producers and additional service dependencies have different provenance. Both need current checks, but historical evidence cannot be expanded by relabeling imports.
+- Original-report parsing plus injected construction is useful source evidence, not successful real preparation/publication/cancellation. A separate live service proof remains necessary.
+
+## 📌 Decisions Made
+
+1. **Confirmed:** Integrate only the two reviewed V2 additions. **Decider:** Lead after current-base and independent source checks. **Basis:** Exact patch, corrected negative controls and unchanged existing tree; no app activation.
+2. **Confirmed:** Keep exact raw-report/runtime prerequisites and all stale older seals. **Decider:** Lead under evidence-bound development. **Basis:** The new family has its own calibration; old 1080/Full-copy/Keep authority is not restored by this consumer.
+3. **Confirmed:** Close this consumer-only milestone without waiting for the Windows wrapper. **Decider:** Lead with parallel author recommendation. **Basis:** Independent scope and completed source checks; unrelated unfinished work is not a preservation dependency.
+4. **Deferred:** Live service proof, native integration and actual Windows workflow execution. **Decider:** Subsequent reviewed engineering steps. **Basis:** Helper final acceptance/binding and platform prerequisites remain pending at cutoff.
+
+## ⚠️ Difficulties / Friction
+
+The frozen-budget test issue preceded the real blocking-open finding; neither is retroactively represented as runtime failure. Eleven historical failures remain visible beside green current-focused tests. The final mirror check's root-versus-nested schema assumption caused a read-only stop, not lost data or remote replay. Future helper evidence controls were tightened before any run rather than treating an arbitrary skip or missing stage metadata as proof.
+
+## 🔧 Adjustments Made
+
+- **Shifted from:** Post-open-only ordinary-file checks in V1. **To:** V2 early type/identity validation, nonblocking open and pre-read descriptor comparison. **Because:** The original guard could be reached too late. **Consequence:** Reviewed injected failures now refuse before payload reads, retaining closure/error protections.
+- **Shifted from:** A reviewed isolated 058 proposal. **To:** Exact additions checked on actual 059 after both restore gates. **Because:** Old-base review alone is insufficient for integration. **Consequence:** Current source evidence, with later full preservation chronology kept separate.
+- **Shifted from:** A possible combined consumer/Windows increment. **To:** Consumer-only 060. **Because:** The hosted wrapper was unfinished. **Consequence:** Coherent preservation now; Windows work continues separately without claims of execution.
+
+## ❌ Mistakes / Risks Noted
+
+**Reader sequencing. What happened/could happen:** V1 could block opening a nonordinary replacement before validating its descriptor. **Actual impact:** Identified in controlled source review, with author and independent red evidence; no live incident claimed. **Potential impact:** Construction could hang before its intended refusal. **Correction/status:** V2 early ordinary checks, nonblocking flags, identity comparisons and finally-close reviewed/passing. **Failure Intelligence:** Validate the boundary before the operation whose safety it is meant to establish, while retaining filesystem-race/settlement limits.
+
+**False qualification. What happened/could happen:** Parsed raw receipts, green source tests or a generic skipped result could be mistaken for service success. **Actual impact:** No real new service has run; old consumers remain stale and helper final acceptance is pending. **Potential impact:** Unsupported publication, route restoration or cancellation claims. **Correction/status:** Keep exact proof types and original failures; require specific collision/stage evidence in the future helper. **Failure Intelligence:** A result must prove the intended branch and ownership, not merely resemble a terminal status.
+
+## 📍 Current Position
+
+**As of:** 17:23:56.787000 UTC / 19:23:56.787000 Cairo.
+
+**Before:** 059 held accepted genuine 1440 calibration evidence and source-tested Windows acquisition, but no dedicated integrated consumer.
+
+**After:** The fixed consumer and tests are integrated, current source selections pass, and unchanged historical reds are explicit. 059 full preservation is complete before this cutoff.
+
+**Current standing:** Source-only developer composition with no app import or live-service qualification. Old routes remain unavailable; 057 is recoverable. Windows acquisition/defaults/audio policy, original UI and prior plans are unchanged.
+
+**Live owner / continuation anchor:** Lead owns six-path 060 preservation, then the corrected reduced-service helper's final review/binding and actual bounded proof. Windows wrapper work remains independent. Summary writer owns only this prepend until release.
+
+## 🔜 Next Steps
+
+1. Preserve the exact source/records and complete fresh restoration plus intended remote verification for 060, keeping original report/runtime prerequisites explicit.
+2. Finish independent helper acceptance, bind the exact fully preserved successor and run the smallest reduced service proof. Retain any failure, precise collision/cancel-stage disposition and owner closure before saved-output audit.
+3. Continue the separate Windows capacity/acquisition workflow with actual local-volume evidence and unchanged guards. Do not infer 059 hosted success or a capacity outcome before receiving evidence.
+
+**Do not reopen / repeat:** Do not rewrite old reports/history, refresh stale pins blindly, duplicate the 150-second calibration for unchanged composition, sum overlapping selections, or treat missing runtime/raw-report assets as restored by source Git.
+
+**Continuation boundary:** Routine development continues; this source record is not an execution gate or authority for default/audio-policy changes, native/hardware acceptance or release. Linux 7.1.5 default/rollback and opt-in 9.0.2 remain unchanged.
+
+## ❓ Open Questions
+
+- **Does the new composition pass real publication/collision/active-cancel/fresh-owner recovery? Needed from:** Separately reviewed and bound reduced service execution plus audit. **Blocks:** Actual service/native qualification.
+- **Can old unavailable families be restored? Needed from:** Their own current-source qualification and consumer work. **Blocks:** Those successor routes, not recovery of usable 057.
+- **What does hosted/platform work actually establish next? Needed from:** Actual 059 hosted result and separately reviewed Windows capacity/acquisition/extraction evidence. **Blocks:** Corresponding claims only; no reason to delay this completed source checkpoint.
+
+## 🧾 Session Outcome
+
+Integrated the dedicated fixed 1440 range consumer with the independently corrected report reader and source tests. Complete 059 preservation is verified. The selected historical suite remains **39/50** with the same eleven failures; no live-service, app-route, media, Windows or default promotion occurred.
+
+Read the [execution record](2026-11-18_1440_Range_Service_Consumer.md), [receipt index](2026-11-18_1440_Range_Service_Consumer_Receipts.json) and [current state](CURRENT_STATE.md). The existing [059 calibration portable](experimental-1440-range-calibration-portable.json) is referenced, not copied or promoted to raw-report authority. No new portable is added.
+
+The exact **2,310,280-byte** predecessor, SHA `b6e67398b5570eaa738708781f69dc0f05790eecf884ea579680e879d2f3fc87`, and original Session correction remain unchanged. Intended scope is **six paths / 704 files / 60 commits**. This checkpoint's commit/external preservation remain pending at cutoff; completed 059 recovery is separate. The private repository destination and owner-reserved decisions are unchanged.
+
+## 🔍 Confidence Level
+
+**High** in exact two-file integration, reviewed reader correction and selected source outcomes; **limited** in actual service and platform behavior.
+
+**Why:** Independent V1/V2 controls, fixed original-report checks, current 97+5 dependency identities, final lead logs and unchanged source/raw inputs agree. **Not higher because:** Candidate construction/lifecycle positives are injected, no real service or native run occurred, older route refusals remain, and Windows/hosted outcomes beyond the cutoff are not established here.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Genuine 1440 range calibration and guarded Windows acquisition source
 
 ## 🤖 Models, Effort, Roles and Provenance

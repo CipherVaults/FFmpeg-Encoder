@@ -198,11 +198,12 @@ test('1080 range compact record preserves original clocks and refuses mutated sc
  }
 });
 
-test('all 97 original 1080 producer hashes remain exact and are included in product closure',()=>{
+test('historical 97 pins remain intact; exactly one explicit service successor with 96 unchanged',()=>{
  const crypto=require('node:crypto');
  const source=fs.readFileSync(path.join(root,'linux-blue/candidate-resize-service.cjs'),'utf8');
  const original=JSON.parse(source.match(/const PRODUCERS = Object.freeze\((\{[\s\S]*?\n\})\);/)[1]);
  const pins=JSON.parse(fs.readFileSync(qualificationFile,'utf8').match(/const SOURCE_PINS = (\{[\s\S]*?\n\});/)[1]);
  assert.equal(Object.keys(original).length,97);
- for(const [name,hash] of Object.entries(original)){assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(root,name))).digest('hex'),hash,name);assert.equal(pins[name].sha256,hash,name);}
+ const successor=require(qualificationFile).SERVICE_SUCCESSOR;assert.equal(successor.nativeProof,null);let changed=0;
+ for(const [name,hash] of Object.entries(original)){const actual=crypto.createHash('sha256').update(fs.readFileSync(path.join(root,name))).digest('hex');if(name==='src/encoder-service.cjs'){assert.equal(hash,successor.historicalEncoderService.sha256);assert.equal(actual,successor.currentEncoderService.sha256);changed++;}else assert.equal(actual,hash,name);assert.equal(pins[name].sha256,actual,name);}assert.equal(changed,1);
 });

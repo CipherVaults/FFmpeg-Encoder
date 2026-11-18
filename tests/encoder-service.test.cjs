@@ -36,7 +36,7 @@ function inspection() {
   };
 }
 
-async function harness(t, { names = ['a.mp4', 'b.mp4'], onEncode, onInspect, verify, sameFolder = false, eligible = true, inspectResult, outputTags, runtimeIdentity } = {}) {
+async function harness(t, { names = ['a.mp4', 'b.mp4'], onEncode, onInspect, verify, sameFolder = false, eligible = true, inspectResult, outputTags, runtimeIdentity, ordinaryJobGuard } = {}) {
   await fs.mkdir(artifactParent, { recursive: true });
   const root = await fs.mkdtemp(path.join(artifactParent, 'run-'));
   const input = path.join(root, 'input');
@@ -61,7 +61,7 @@ async function harness(t, { names = ['a.mp4', 'b.mp4'], onEncode, onInspect, ver
   let active = 0;
   let maximumActive = 0;
   const service = new EncoderService({
-    ffmpeg: 'injected-ffmpeg', ffprobe: 'injected-ffprobe', stateDir, inspectionWorkers: 1, runtimeIdentity,
+    ordinaryJobGuard, ffmpeg: 'injected-ffmpeg', ffprobe: 'injected-ffprobe', stateDir, inspectionWorkers: 1, runtimeIdentity,
     storageEligibility: { check: async () => ({ eligible, reason: eligible ? null : 'Injected unsupported storage.' }) },
     capabilities: async () => ({
       profiles: PROFILES.map((profile) => ({ ...profile, available: true, supportedBitDepths: [8, 10] })),
@@ -1465,3 +1465,18 @@ for (const mode of ['initial', 'draft']) {
     }
   });
 }
+
+
+test('optional ordinary guard observes genuine stage and closes before output access', async t => {
+  const events=[];let bound;
+  const h=await harness(t,{names:['a.mp4'],ordinaryJobGuard:async facts=>{assert.equal(facts.settings.profileId,defaultSettings.profileId);return {signal:new AbortController().signal,onStage:async stage=>{assert(Object.isFrozen(stage));bound=stage;events.push('stage');},beforePublish:async stage=>{assert.equal(stage,bound);assert((await fs.stat(stage.file)).size>0);events.push('prepublish');},close:async()=>events.push('close')};}});
+  const done=await h.finish(await h.prepare());assert.equal(done.counts.success,1);assert.deepEqual(events,['stage','prepublish','close']);
+});
+test('ordinary prepublication refusal never publishes and still drains guard', async t => {
+  let closed=0;const h=await harness(t,{names:['a.mp4'],ordinaryJobGuard:async()=>({signal:new AbortController().signal,onStage:async()=>{},beforePublish:async()=>{throw failure('ORDINARY_STORAGE_FLOOR','test');},close:async()=>{closed++;}})});
+  const done=await h.finish(await h.prepare());assert.equal(done.counts.success,0);assert.equal(done.items[0].outputDisposition.published,false);assert.equal(closed,1);assert(!done.items[0].outputAccess);
+});
+test('ordinary guard closure failure remains explicit and blocks output access', async t => {
+  const h=await harness(t,{names:['a.mp4'],ordinaryJobGuard:async()=>({signal:new AbortController().signal,onStage:async()=>{},beforePublish:async()=>{},close:async()=>{throw failure('ORDINARY_CLOSE','test');}})});
+  const done=await h.finish(await h.prepare());assert.equal(done.items[0].resourceGuardFailure.code,'ORDINARY_CLOSE');assert(!done.items[0].outputAccess);assert.match(done.error,/closure/);
+});

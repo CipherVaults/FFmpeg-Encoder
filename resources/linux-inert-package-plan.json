@@ -772,8 +772,8 @@
       "source": "linux-blue/product-linux-qualification.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-qualification.cjs",
       "group": "application",
-      "bytes": 29083,
-      "sha256": "7a76a90caf305fc062091c7da7f1cb4adeca262428659b56a929aedf2bae47d7"
+      "bytes": 30504,
+      "sha256": "0d01e089f19a1167de967046896dbe47fcc06ea289a821b2987cd2722fc436cf"
     },
     {
       "root": "source",
@@ -900,8 +900,8 @@
       "source": "main.js",
       "target": "electron/resources/app/main.js",
       "group": "application",
-      "bytes": 15786,
-      "sha256": "d3229e84ec5dc62c03cda8cd9bb06647d9d44da5b1b3d2e2990986555c5b3295"
+      "bytes": 16561,
+      "sha256": "1b3a3968e42fb21a81594771b5bfa35cac60a1af40b05cad12fd77894fd342fb"
     },
     {
       "root": "source",
@@ -1092,8 +1092,8 @@
       "source": "src/encoder-service.cjs",
       "target": "electron/resources/app/src/encoder-service.cjs",
       "group": "application",
-      "bytes": 158909,
-      "sha256": "5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7"
+      "bytes": 160678,
+      "sha256": "7e11a4409a961de7d1cfa36c80e909f3443b5484573c6b48713964f963ff0c30"
     },
     {
       "root": "source",
@@ -1822,6 +1822,38 @@
       "group": "electron",
       "bytes": 107,
       "sha256": "c9eef28b6b984fec220ef0abfecc40b502d46946706e47bfe97707027cb818bd"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/product-linux-ordinary-shell.cjs",
+      "target": "electron/resources/app/linux-blue/product-linux-ordinary-shell.cjs",
+      "group": "application",
+      "bytes": 5205,
+      "sha256": "c1b749c553b029a3b7b624a4433e3ddba01a4bb569c6ee1ecf592e69867bcfa5"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/ordinary-cpu-service.cjs",
+      "target": "electron/resources/app/linux-blue/ordinary-cpu-service.cjs",
+      "group": "application",
+      "bytes": 7045,
+      "sha256": "34f317c52286369900a1068efce30290469a551443a6c7f75f9259d1b3aecec1"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/ordinary-cpu-policy.cjs",
+      "target": "electron/resources/app/linux-blue/ordinary-cpu-policy.cjs",
+      "group": "application",
+      "bytes": 4851,
+      "sha256": "7dd3f0f905aee3b0ed75510a43168b868a52197b2408e7e7b4085abf0407844a"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/ordinary-cpu-stage-guard.cjs",
+      "target": "electron/resources/app/linux-blue/ordinary-cpu-stage-guard.cjs",
+      "group": "application",
+      "bytes": 2901,
+      "sha256": "ffea76d7b7e0f6ea65d1316000c2d554e0e91cba581908454e394cd8ef36a42c"
     }
   ]
 }

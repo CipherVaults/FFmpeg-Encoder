@@ -167,7 +167,7 @@ class EncoderService extends EventEmitter {
     inspectionCache, storageEligibility, inspectionWorkers = 2, provenanceJournal, preferences, diagnostics, appSettings, outputAccess, runtimeIdentity = null, discoverBackends = null, nativeBackends = null,
     operationQualifications = null, operationEvidenceBudget = null, operationEnvironment = null, operationDeadlineMs = 120000,
     operationRuntime = null, operationStorage = null, operationTelemetry = false, remuxOperations = null, hdrOperations = null, encodePreservationOperations = null,
-    nativeFiles = null, allowInjectedNativeFiles = false, vendorAdapters }) {
+    nativeFiles = null, allowInjectedNativeFiles = false, vendorAdapters, ordinaryJobGuard = null }) {
     super();
     if (![1, 2].includes(inspectionWorkers)) throw new TypeError('Inspection workers must be one or two.');
     // Main composes native file controls once (record 37). Only tests may pass
@@ -177,6 +177,8 @@ class EncoderService extends EventEmitter {
       throw fail('INVALID_NATIVE_FILE_COMPOSITION', NATIVE_MESSAGES.INVALID_NATIVE_FILE_COMPOSITION);
     }
     Object.assign(this, { ffmpeg, ffprobe, stateDir, run, inspect, verify, capabilities, vendorCapabilities });
+    if (ordinaryJobGuard !== null && typeof ordinaryJobGuard !== 'function') throw new TypeError('Ordinary guard must be main-owned callable.');
+    this.ordinaryJobGuard = ordinaryJobGuard;
     this.vendorAdapters = vendorAdapters;
     this.inspectionWorkers = inspectionWorkers;
     this.folders = new Map();
@@ -1694,7 +1696,7 @@ class EncoderService extends EventEmitter {
           if (outcome === 'cancelled') break;
           continue;
         }
-        let stage;
+        let stage, ordinaryGuard = null, ordinaryGuardClosureFailure = false;
         let invocationId;
         let publishedIdentity;
         let encoderProgress;
@@ -1719,6 +1721,15 @@ class EncoderService extends EventEmitter {
             return entry.qualificationSelection ? qualificationOwner.requireCurrent(entry.qualificationSelection, qualificationBindings()) : null;
           };
           const qualified = requireQualification();
+          if (this.ordinaryJobGuard) {
+            if (qualified || entry.remux || entry.hdr || entry.vendor || entry.operationPlan?.compatibilityPath !== true)
+              throw fail('ORDINARY_ROUTE_REQUIRED', 'This explicit ordinary service cannot execute changed or vendor operations.');
+            ordinaryGuard = await this.ordinaryJobGuard({ signal, outputDirectory: this.plan.output,
+              inspection: entry.inspection, settings: this.plan.settings, request: item.operationRequest,
+              sourceIdentity: entry.fingerprint });
+            if (!(ordinaryGuard?.signal instanceof AbortSignal) || !['onStage', 'beforePublish', 'close'].every(key => typeof ordinaryGuard[key] === 'function'))
+              throw fail('ORDINARY_GUARD_INVALID', 'Ordinary resource guard is incomplete.');
+          }
           const costLimits = operationCostLimits(entry, qualified);
           let evidenceRemainingBytes = costLimits.evidenceReserveBytes;
           const observeEvidenceGrowth = async () => {
@@ -1733,7 +1744,8 @@ class EncoderService extends EventEmitter {
           };
           const protectedReceipt = qualified || requireEncodePreservation.call(this, entry);
           operationController = qualified ? new AbortController() : null;
-          const jobSignal = operationController ? AbortSignal.any([signal, operationController.signal]) : signal;
+          const baseJobSignal = operationController ? AbortSignal.any([signal, operationController.signal]) : signal;
+          const jobSignal = ordinaryGuard ? AbortSignal.any([baseJobSignal, ordinaryGuard.signal]) : baseJobSignal;
           // Review/queued time does not consume an active job's cost envelope.
           // Policy/source/runtime freshness is checked independently above.
           const activeDeadline = qualified ? Date.now() + costLimits.executionBudgetMs : null;
@@ -1892,6 +1904,7 @@ class EncoderService extends EventEmitter {
             destination: entry.destination, profileId: entry.remux ? `remux-${entry.remuxRequest.target}` : this.plan.settings.profileId, generationDescription: entry.generationDescription });
           if (entry.remux) await observeRemuxOutput();
           stage = await createStage(this.plan.output);
+          if (ordinaryGuard) await ordinaryGuard.onStage(stage);
           item.status = 'running';
           const owner = this.state.batchId;
           let lastProgress = 0;
@@ -2085,6 +2098,7 @@ class EncoderService extends EventEmitter {
           if (storage) await observeEvidenceGrowth();
           if (storageFailure) throw storageFailure;
           if (entry.vendor) await requireVendorDevice(entry.vendor.binding, { signal: jobSignal, run: this.run, adapters: this.vendorAdapters });
+          if (ordinaryGuard) { await ordinaryGuard.beforePublish(stage); notCancelled(jobSignal); }
           const published = await publishOutput(stage, entry.destination, { signal: jobSignal, atomicOnly: this.plan.sameFolder,
             ...(entry.remux ? { onProgress: event => advanceRemux(event.stage, event.completed) } : {}) });
           await this.recordIncident({ stage: 'publication', reason: published ? 'OUTPUT_PUBLISHED' : 'OUTPUT_COLLISION', fileId: item.id,
@@ -2141,6 +2155,12 @@ class EncoderService extends EventEmitter {
           if (item.status === 'cancelled') break;
           if (sharedFailure(error)) { stoppedByFailure = true; this.state.error = item.reason; break; }
         } finally {
+          if (ordinaryGuard) {
+            try { await ordinaryGuard.close(); }
+            catch (error) { ordinaryGuardClosureFailure = true; stoppedByFailure = true;
+              this.state.error = 'Ordinary resource guard closure is unconfirmed.';
+              item.resourceGuardFailure = { code: error.code || 'ORDINARY_GUARD_CLOSE' }; }
+          }
           if (operationTimer) clearTimeout(operationTimer);
           if (remuxGroup) { await this.operationRuntime.closeRemuxGroup(remuxGroup); remuxGroup = null; }
           if (storageMonitor) clearInterval(storageMonitor);
@@ -2177,7 +2197,7 @@ class EncoderService extends EventEmitter {
               ? { kind: 'publication-uncertain', published: null, validationCurrent: false, file: entry.destination, stage: staged }
               : staged;
           }
-          if (this.outputAccess && item.outputDisposition?.published === true && publishedIdentity && cleanup?.retained === false) {
+          if (!ordinaryGuardClosureFailure && this.outputAccess && item.outputDisposition?.published === true && publishedIdentity && cleanup?.retained === false) {
             try {
               const current = await readPublishedOutputIdentity(stage, { afterCleanup: true });
               item.outputAccess = await this.outputAccess.issue({ file: current.canonicalPath, identity: current });

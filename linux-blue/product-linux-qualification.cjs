@@ -69,8 +69,8 @@ const SOURCE_PINS = {
     "sha256": "6e68df2eb93ddda8282b0a7cec8d6dbedff00871222a1f58ed7bc7e0a6d0c10f"
   },
   "main.js": {
-    "bytes": 15786,
-    "sha256": "d3229e84ec5dc62c03cda8cd9bb06647d9d44da5b1b3d2e2990986555c5b3295"
+    "bytes": 16561,
+    "sha256": "1b3a3968e42fb21a81594771b5bfa35cac60a1af40b05cad12fd77894fd342fb"
   },
   "package.json": {
     "bytes": 991,
@@ -153,8 +153,8 @@ const SOURCE_PINS = {
     "sha256": "1fd039577d83fbb35c8424d098fa06056822f538ae65e6b855c3021aab314cf2"
   },
   "src/encoder-service.cjs": {
-    "bytes": 158909,
-    "sha256": "5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7"
+    "bytes": 160678,
+    "sha256": "7e11a4409a961de7d1cfa36c80e909f3443b5484573c6b48713964f963ff0c30"
   },
   "src/hdr-catalog-seals.cjs": {
     "bytes": 6748,
@@ -471,6 +471,22 @@ const SOURCE_PINS = {
   "linux-blue/candidate-full-copy-calibration.cjs": {
     "bytes": 27666,
     "sha256": "12aff9c8c7f2d58a0c1e2c64299c456918a965c16a41f35a28a6b3da0e1e228a"
+  },
+  "linux-blue/product-linux-ordinary-shell.cjs": {
+    "bytes": 5205,
+    "sha256": "c1b749c553b029a3b7b624a4433e3ddba01a4bb569c6ee1ecf592e69867bcfa5"
+  },
+  "linux-blue/ordinary-cpu-service.cjs": {
+    "bytes": 7045,
+    "sha256": "34f317c52286369900a1068efce30290469a551443a6c7f75f9259d1b3aecec1"
+  },
+  "linux-blue/ordinary-cpu-policy.cjs": {
+    "bytes": 4851,
+    "sha256": "7dd3f0f905aee3b0ed75510a43168b868a52197b2408e7e7b4085abf0407844a"
+  },
+  "linux-blue/ordinary-cpu-stage-guard.cjs": {
+    "bytes": 2901,
+    "sha256": "ffea76d7b7e0f6ea65d1316000c2d554e0e91cba581908454e394cd8ef36a42c"
   }
 };
 const CLOSED_RECORD = {
@@ -707,7 +723,23 @@ const CLOSED_RECORD = {
 };
 const digest = b => createHash('sha256').update(b).digest('hex');
 function frozen(value) { if (value && typeof value === 'object') { Object.values(value).forEach(frozen); Object.freeze(value); } return value; }
-frozen(SOURCE_PINS); frozen(CLOSED_RECORD);
+const SERVICE_SUCCESSOR = {
+  "scope": "explicit-service-integration-successor-not-new-calibration",
+  "historicalEncoderService": {
+    "bytes": 158909,
+    "sha256": "5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7"
+  },
+  "currentEncoderService": {
+    "bytes": 160678,
+    "sha256": "7e11a4409a961de7d1cfa36c80e909f3443b5484573c6b48713964f963ff0c30"
+  },
+  "historicalRangeProducerCount": 97,
+  "unchangedRangeProducerCount": 96,
+  "historicalFullCopyProducerCount": 26,
+  "nativeProof": null,
+  "basis": "Optional ordinary guard is absent on measured service instances. Original raw producer maps and numerical calibration records remain unchanged; current service integration requires separate review/tests and fresh packaged native regression."
+};
+frozen(SOURCE_PINS); frozen(CLOSED_RECORD); frozen(SERVICE_SUCCESSOR);
 const stamp = s => ['dev','ino','nlink','size','mtimeNs','ctimeNs','birthtimeNs'].map(k => String(s[k]));
 function ordinaryRead(root, relative, cap) {
   assert(path.isAbsolute(root) && path.resolve(root) === root && fs.realpathSync(root) === root);
@@ -762,4 +794,4 @@ function loadQualification() {
   return qualification;
 }
 
-module.exports = { loadQualification, readCompactQualification, verifyProductSources };
+module.exports = { loadQualification, readCompactQualification, verifyProductSources, SERVICE_SUCCESSOR };

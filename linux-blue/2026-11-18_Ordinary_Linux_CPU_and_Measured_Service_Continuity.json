@@ -1,0 +1,128 @@
+{
+  "draftOnly": false,
+  "mainWritten": false,
+  "base": "c0b2823260467ba358610a6b7a3ea9d9bf7d5c2d",
+  "predecessor": {
+    "bytes": 2504187,
+    "sha256": "80b092126ace9042e32dff47d907405416389885e558be45c8b8d1f44d65a7c8"
+  },
+  "sections": 14,
+  "exactSuffix": true,
+  "receipts": [
+    {
+      "path": "checkpoint072-final-mirror-release.json",
+      "bytes": 639,
+      "sha256": "d580eb820bae995bb92e0023ef90b9338d4307fdd2300c8e3fc56e4ddbe46390"
+    },
+    {
+      "path": "github072-hosted-observation/VERIFIED_OUTCOME.json",
+      "bytes": 4255,
+      "sha256": "97fd25592cd649494c7b5015daf4841fadb3173f80233fc44edaa02e4cbed941"
+    },
+    {
+      "path": "ordinary073-composition/HANDOFF.json",
+      "bytes": 7252,
+      "sha256": "bfad629feae716bcf630f59acdd282c1124a81380a67a4b2da27eabd651dcdfa"
+    },
+    {
+      "path": "ordinary073-composition/COMPOSITION.md",
+      "bytes": 3265,
+      "sha256": "af371cc7602bf531c56692cffb9fd3082118955e8f5517d7d6182d3b54a26268"
+    },
+    {
+      "path": "ordinary073-retest-scope/PLAN.md",
+      "bytes": 7848,
+      "sha256": "67cc0cb41de3f7b5205916d500e91ab042157ee9566947f588097ba98b56af8f"
+    },
+    {
+      "path": "native073-plan/PLAN.md",
+      "bytes": 8004,
+      "sha256": "cccccc0815ec7f3ec6d810d6c7e8a45e99ec605e74fc3d24d352c2b9b2292b9e"
+    },
+    {
+      "path": "native073-plan/ORDINARY_SAVED_ADMISSION.json",
+      "bytes": 1101,
+      "sha256": "4502b56cf16dfc5c445a729e46802016ff8013e02e913ead9c7d9cb07736056a"
+    },
+    {
+      "path": "native-ordinary073-unbound/PREPARATION.json",
+      "bytes": 3186,
+      "sha256": "41b0e8ec33f7cf8fa397eb27c86b59bee86ab5a0789471d2e8aa0759b8df64d9"
+    },
+    {
+      "path": "native-measured073-unbound/PREPARATION.json",
+      "bytes": 2526,
+      "sha256": "0236d10557417b10b9f642e7882d0aa1aa7f5c05ad547b172369235c085c3df0"
+    },
+    {
+      "path": "release-baseline073-study/DECISION_MEMO.md",
+      "bytes": 8108,
+      "sha256": "6400413260129f71063bee3837dbd5c19d69c248db0ff48430f016df0648da02"
+    },
+    {
+      "path": "reusable-lessons-072-073.md",
+      "bytes": 2479,
+      "sha256": "d72f989ce6433f4269c7aec86beb4820fbae669f9b1ed6153e14cbbceb78a289"
+    },
+    {
+      "path": "remux-after073-reentry.md",
+      "bytes": 2115,
+      "sha256": "45b3933ec11a7ec71d1a770ecf4f3754a27509c628ddec388a50f7ff23af8c4f"
+    },
+    {
+      "path": "ordinary073-composition/INDEPENDENT_COMBINED_REVIEW.json",
+      "bytes": 7625,
+      "sha256": "e57c1bab5cbbda1cb4e2003ab067ed0f56f3049173efdd46870c07c7431d4802"
+    },
+    {
+      "path": "checkpoint073-integration.json",
+      "bytes": 8694,
+      "sha256": "7725f3887a03090c069958882400c559cf2fbb9818af119e422ca91f43bc3ae8"
+    },
+    {
+      "path": "checkpoint073-source-contracts.stdout",
+      "bytes": 28620,
+      "sha256": "2e493d2df677abcc422e22a43b4f4764cde124007e207074d088c5da461b5d3e"
+    },
+    {
+      "path": "checkpoint073-source-contracts.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reusable-skill073-project-draft/HANDOFF.json",
+      "bytes": 873,
+      "sha256": "e1b9ec831542ece364c1008a0a0340e633f22eab5fbf6b0ea303ef1c184ba912"
+    },
+    {
+      "path": "native-ordinary073-unbound/INDEPENDENT_CORRECTED_UNBOUND_REVIEW.json",
+      "bytes": 1481,
+      "sha256": "0da15e008e59a243d3e591f8da5d16b62df7974b4e5f27060b28bc1519afdba6"
+    }
+  ],
+  "preparedOutsideMain": true,
+  "cutoffUtc": "2026-11-18T23:23:20Z",
+  "scope": {
+    "source": 18,
+    "ancillaryDrafts": 4,
+    "owningRecords": 4,
+    "total": 26
+  },
+  "tests": {
+    "leadFocused": 240,
+    "fail": 0,
+    "skip": 0,
+    "syntax": 215,
+    "shared": 243,
+    "linux": 39,
+    "stderrBytes": 0,
+    "overlap": true
+  },
+  "new073RuntimeBuildHosted": false,
+  "integrationManifest": "checkpoint073-integration.json",
+  "leadReceipt": {
+    "path": "artifacts/v0.7/evidence/20261118T232248Z_recovered073-ordinary-composition/receipt.json",
+    "bytes": 5563,
+    "sha256": "e54e138aa1335dfb7ed9b84c268ffbe4507f5a3893fbde1e8ce291e97f8a2e1f"
+  }
+}

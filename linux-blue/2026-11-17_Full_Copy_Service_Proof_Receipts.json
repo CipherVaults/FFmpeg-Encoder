@@ -1,0 +1,603 @@
+{
+  "schema": 1,
+  "checkpoint": "026",
+  "cutoffUtc": "2026-11-17T23:52:00Z",
+  "status": "Final owning evidence/PBS records; checkpoint preservation pending",
+  "scope": "Five evidence/PBS paths only; unchanged application/test source.",
+  "testedSourceCommit": "fa9388aceb836eca2cd68672ae34441dd27b9ca7",
+  "priorPreservation": {
+    "localCommit": "fa9388aceb836eca2cd68672ae34441dd27b9ca7",
+    "remoteCommit": "79fb517eb8c63cd07597c5795cfc15385bcb0f6b",
+    "finalNotionReceiptSha256": "593072cba7dfac3b63d585aeb8b695f778baa5fd089907daec79aae38618aeb4",
+    "files": 577,
+    "commits": 25,
+    "nativeSessionBytes": 1155825
+  },
+  "rawReport": {
+    "relativePath": "owned-proof-VVAFEH/report.json",
+    "bytes": 161820,
+    "sha256": "8c6adb29d46bcbdf576fdb88af34c3763365fe132fd7e78c26d451c4f1672695",
+    "includedInSourceMirror": false
+  },
+  "outer": {
+    "startedAt": "2026-11-17T23:46:57.905Z",
+    "endedAt": "2026-11-17T23:47:24.114Z",
+    "elapsedMs": 26208.967786,
+    "wallElapsedMs": 26209,
+    "exitCode": 0,
+    "signal": null,
+    "spawnError": null,
+    "stdoutSha256": "0321760e909fb6e7f38dc407a7e3c309948e613685859cdac9518b859f833426",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reportedStatus": "passed-developer-full-copy-short-service-proof",
+  "reportedCases": [
+    {
+      "name": "short-full-copy-publication",
+      "status": "passed"
+    },
+    {
+      "name": "prepare-only-existing-output-refusal",
+      "status": "passed"
+    }
+  ],
+  "census": {
+    "spawned": 47,
+    "closed": 47,
+    "live": 0,
+    "maximum": 1,
+    "progressChildren": 13,
+    "targetEncodes": 1
+  },
+  "closures": [
+    {
+      "admissionClosed": true,
+      "busy": false,
+      "errors": []
+    }
+  ],
+  "published": {
+    "bytes": 1959028,
+    "sha256": "4e4cd8e4fe45d0665051ed61ba77e54eb7cf6dc5b46dfd075f565f114ccb5931"
+  },
+  "fullProbes": {
+    "sourceProbe": {
+      "sha256": "76ba4b18ffa0ecd06cc5a5e24622dd4e9ecae35848d8aef10dc58753e2aa0768",
+      "capturedDuringCampaign": true
+    },
+    "outputProbe": {
+      "sha256": "5412d247bb54bdae6eb830788ac76447f39896ca71bc34d8aea602fde4d04f11",
+      "capturedDuringCampaign": true
+    }
+  },
+  "savedEvidence": {
+    "decodedEvidence": {
+      "video": {
+        "sourceFrameCount": 240,
+        "outputFrameCount": 240,
+        "comparedFrames": 240,
+        "firstSourcePtsUs": 0,
+        "lastSourcePtsUs": 7966667,
+        "lastSourceDurationUs": 33333,
+        "firstOutputPtsUs": 0,
+        "lastOutputPtsUs": 7967000,
+        "lastOutputDurationUs": 33000,
+        "maxRebasedTimestampErrorUs": 334
+      },
+      "audio": [
+        {
+          "inputIndex": 1,
+          "sourceSampleCount": 384000,
+          "outputSampleCount": 384000,
+          "firstSourcePtsUs": 0,
+          "lastSourceEndUs": 8000000,
+          "firstOutputPtsUs": 0,
+          "lastOutputEndUs": 8000333,
+          "encoderDelaySamples": 1024,
+          "discardPaddingSamples": 0,
+          "packetIdentity": {
+            "algorithm": "sha256",
+            "packets": 376,
+            "sourceSeal": "40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721",
+            "outputSeal": "40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721"
+          }
+        }
+      ]
+    },
+    "packetIdentity": [
+      {
+        "inputIndex": 1,
+        "outputIndex": 1,
+        "source": {
+          "packets": 376,
+          "payloadSha256": "b991cd0656a0f98f1f31928878519dc126b1c6845936043487e634fd08d0c856",
+          "sideDataSha256": "c61d37c51be2cdb36aa5911971fbe578038afd6666789cfc8cbdbbaae1c5bd87",
+          "extradataSha256": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+          "seal": "40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721"
+        },
+        "output": {
+          "packets": 376,
+          "payloadSha256": "b991cd0656a0f98f1f31928878519dc126b1c6845936043487e634fd08d0c856",
+          "sideDataSha256": "c61d37c51be2cdb36aa5911971fbe578038afd6666789cfc8cbdbbaae1c5bd87",
+          "extradataSha256": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+          "seal": "40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721"
+        }
+      }
+    ],
+    "completeSource": {
+      "video": {
+        "frames": 240,
+        "firstTime": {
+          "n": "0",
+          "d": "15360"
+        },
+        "endTime": {
+          "n": "1887436800",
+          "d": "235929600"
+        },
+        "maximumNominalCadenceErrorUs": 0,
+        "maximumNominalDurationErrorUs": 0,
+        "maximumNominalPhaseErrorUs": 0,
+        "properties": {
+          "policy": "cfr-sdr-full-resize-copy-v1",
+          "sampleAspectRatio": "1:1",
+          "chromaLocation": "left",
+          "sideDataPolicy": "h26x-unregistered-sei-only",
+          "framesChecked": 240
+        }
+      },
+      "audio": [
+        {
+          "inputIndex": 1,
+          "sampleCount": "384000",
+          "firstTime": {
+            "n": "0",
+            "d": "48000"
+          },
+          "endTime": {
+            "n": "18432000000",
+            "d": "2304000000"
+          },
+          "gaps": 0
+        }
+      ]
+    },
+    "telemetryValidation": {
+      "valid": true,
+      "scope": "encoder-input-count-and-timeline-only",
+      "streams": [
+        {
+          "outputIndex": 0,
+          "kind": "video",
+          "unknownInputRecords": "0",
+          "correspondence": "reported-input-and-independent-selected-source"
+        }
+      ],
+      "doesNotEstablish": [
+        "video-pixel-identity",
+        "lossless-audio-identity",
+        "last-video-frame-duration",
+        "output-or-publication-validity"
+      ]
+    },
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "validation": "decoded-operation-contract",
+      "qualificationEvidenceId": "full-copy-reviewed-2714557-5f74a9efb7981fef:endpoints",
+      "timing": {
+        "timeline": "source-timestamps",
+        "requested": null,
+        "resolved": null,
+        "video": {
+          "startUs": 0,
+          "endUs": 8000000,
+          "frames": 240,
+          "outputStartUs": 0,
+          "outputEndUs": 8000000
+        },
+        "audio": [
+          {
+            "inputIndex": 1,
+            "mode": "copy",
+            "startUs": 0,
+            "endUs": 8000000,
+            "outputStartUs": 0,
+            "outputEndUs": 8000333,
+            "encoderDelaySamples": 1024,
+            "discardPaddingSamples": 0,
+            "sampleCountDifference": 0
+          }
+        ]
+      }
+    },
+    "accounting": {
+      "planFingerprint": "ba140ee74c007086a7cb967220139a98627843677b605b3510b5c96976635ce3",
+      "evidenceIds": [
+        "full-copy-reviewed-2714557-5f74a9efb7981fef:endpoints",
+        "full-copy-reviewed-2714557-5f74a9efb7981fef:interior"
+      ],
+      "status": "completed",
+      "scope": "complete-decoded-timing-and-copied-packet-identity",
+      "failure": null,
+      "children": 12,
+      "streamedBytes": 285448,
+      "pipeBytes": {
+        "stdout": 301330,
+        "stderr": 335
+      },
+      "telemetryValidation": {
+        "valid": true,
+        "scope": "encoder-input-count-and-timeline-only",
+        "streams": [
+          {
+            "outputIndex": 0,
+            "kind": "video",
+            "unknownInputRecords": "0",
+            "correspondence": "reported-input-and-independent-selected-source"
+          }
+        ],
+        "doesNotEstablish": [
+          "video-pixel-identity",
+          "lossless-audio-identity",
+          "last-video-frame-duration",
+          "output-or-publication-validity"
+        ]
+      },
+      "sourceIdentityDisposition": "unchanged"
+    },
+    "accountingContextTruncated": true,
+    "limits": {
+      "pipeBytes": 219971584,
+      "evidenceBytes": 203194368,
+      "maxChildren": 64,
+      "evidenceReserveBytes": 24117248,
+      "stallMs": null,
+      "telemetryBytes": 786432,
+      "telemetryRecords": 3072,
+      "executionBudgetMs": 408672
+    },
+    "reservation": {
+      "schema": 1,
+      "id": "job-11af2a44-684e-4b33-85e0-a6854b31e5d7",
+      "reservedBytes": 33554432,
+      "forecastBytes": 24117248,
+      "authority": "diagnostic-only",
+      "streamedStdoutIsDiskUsage": false
+    },
+    "collectorChildren": 9,
+    "markerCorrelation": {
+      "matchesPublishedProvenanceAndTargetArgument": true,
+      "distinctFromAccessCapabilityId": true
+    },
+    "firstTerminal": {
+      "snapshotAt": 1794959243312,
+      "resultAt": 1794959243422,
+      "preservedBeforeSecondPreparation": true
+    },
+    "storageFinal": {
+      "id": "job-11af2a44-684e-4b33-85e0-a6854b31e5d7",
+      "status": "completed",
+      "recordPersisted": true,
+      "violations": [],
+      "retained": true
+    },
+    "provenanceReceiptSha256": "36a03545eda0181d9b022ecce6e06983d7902371c6ff774824c458eecd48ca7b",
+    "collectorReceiptSha256": "ca7cdf44fc6d5faa5205f1efffc3b5d02f6686a9943dc0cb40ac91d7d64cf986"
+  },
+  "outputAccess": {
+    "injectedSinkOnly": true,
+    "validCalls": 1,
+    "forgedRefused": true,
+    "clearedExpired": true,
+    "osReveal": false
+  },
+  "existingOutputPreparation": {
+    "status": "skipped",
+    "reason": "Output already exists.",
+    "targetEncodesBefore": 1,
+    "targetEncodesAfter": 1,
+    "raceCollision": false
+  },
+  "diagnostics": {
+    "complete": true,
+    "nonemptyStreams": [
+      {
+        "index": 11,
+        "classification": "capability-progress",
+        "bytes": 167,
+        "sha256": "2e347b7f2dc82a2c3b9099cdf6ed4802904ac0d28fca4d9bd7cff74f9bb79a70"
+      },
+      {
+        "index": 14,
+        "classification": "capability-progress",
+        "bytes": 167,
+        "sha256": "3f6a77c73d017098c6050b595672c45583514f5104ce6235e52a3e067ebbdc24"
+      },
+      {
+        "index": 17,
+        "classification": "capability-progress",
+        "bytes": 335,
+        "sha256": "9e721464d37b9055a51d4f0221ed77d79bac40d21cc230f799d9279663aa420e"
+      },
+      {
+        "index": 20,
+        "classification": "capability-progress",
+        "bytes": 335,
+        "sha256": "6aec32cb30911de8da80b51b8ecbfd9b07afd7b1dd3a999e66a70bfb402e7a13"
+      },
+      {
+        "index": 23,
+        "classification": "capability-progress",
+        "bytes": 1181,
+        "sha256": "e8ec03e8874a9d2cb6097008c0495924ee497014506826fc8fb707a3514133c7"
+      },
+      {
+        "index": 26,
+        "classification": "capability-progress",
+        "bytes": 1182,
+        "sha256": "36e697e5476c39e75336ad582c3e5b6323baf3d154c85aec98ae563afc22f743"
+      },
+      {
+        "index": 35,
+        "classification": "owned-target",
+        "bytes": 335,
+        "sha256": "a7db47be6e8c2ca00f910e03d8138524d6a2db1275de758c443d05ea0edbeb8c"
+      }
+    ],
+    "emptyStreams": 40,
+    "targetStderrBytes": 335,
+    "aggregateContextTruncated": true,
+    "finalTruncatedEventSet": [
+      {
+        "sequence": 20,
+        "reason": "FILE_INSPECTED"
+      },
+      {
+        "sequence": 6,
+        "reason": "FILE_INSPECTED"
+      },
+      {
+        "sequence": 9,
+        "reason": "FILE_INSPECTED"
+      },
+      {
+        "sequence": 13,
+        "reason": "OPERATION_EVIDENCE_COLLECTED"
+      },
+      {
+        "sequence": 17,
+        "reason": "JOB_DISPOSITION"
+      }
+    ]
+  },
+  "inventory": {
+    "listedFiles": 104,
+    "listedBytes": 7947104,
+    "originalFailedListedFiles": 96,
+    "sourceFilesCheckedByWorker": 577,
+    "independentAudit": {
+      "bytes": 15918,
+      "sha256": "d8318a9d84611acf2a20912d82a6cf69a1d8cebf8b0476e41f47d7adc25dc8a1",
+      "checkedAtUtc": "2026-11-17T23:49:53.861044+00:00",
+      "disposition": "Saved evidence supports one passed bounded developer short Full720 copied-AAC normal-service proof. Original failed attempt remains failed and unchanged. No production/native/general qualification.",
+      "auditMethodCorrection": "Additional audit assertions initially compared epoch milliseconds with ISO text and a serialized byte count with an integer, stopping before save. Normalized both representations and reran every check. No evidence changed."
+    },
+    "leadReconciliation": {
+      "checkedAtUtc": "2026-11-17T23:50:16.887194+00:00",
+      "sourceCommit": "fa9388aceb836eca2cd68672ae34441dd27b9ca7",
+      "sourceTree": "b3e849d5469f6add258c19d2fe88fbddd404d4ea",
+      "sourceFiles": 577,
+      "runtimeFiles": 9,
+      "artifactRows": 104,
+      "artifactBytes": 7947104,
+      "actualProofFilesIncludingReport": 105,
+      "rawReportBytes": 161820,
+      "rawReportSha256": "8c6adb29d46bcbdf576fdb88af34c3763365fe132fd7e78c26d451c4f1672695",
+      "priorFailedReportSha256": "baf73af4fd3df60aa644972b3daf73c912d8e544548eebb46a0b777585103981",
+      "priorFailedArtifactRows": 96,
+      "priorFailedArtifactBytes": 7887242,
+      "priorCuratedArtifactIdentities": 19,
+      "originalCalibrationReportSha256": "5f74a9efb7981fefb242dcf34c82e972bbc269c5a5ea7a92c62a68db1bc34ad9",
+      "allExact": true,
+      "finalMirrorReceiptSha256": "593072cba7dfac3b63d585aeb8b695f778baa5fd089907daec79aae38618aeb4",
+      "disposition": "Read-only complete identity reconciliation passed, including preserved failed attempt. Independent saved-output audit remains separate. No source integration or further runtime authorization implied."
+    }
+  },
+  "portable": {
+    "path": "linux-blue/evidence-2026-11-17/full-copy-short-service-proof-portable.json",
+    "bytes": 158462,
+    "sha256": "7c5df86b5a3108696412aad13a06b36379e4c0dbbb114d407269c0a03262748e",
+    "transform": {
+      "description": "Only known absolute root/prefix strings replaced with non-reversible logical aliases; all other report keys/types/values preserved. No inverse root mapping included.",
+      "substitutions": 142,
+      "byAlias": {
+        "proof://": 85,
+        "project://": 1,
+        "runtime-build://": 56
+      }
+    },
+    "authority": {
+      "productionQualification": false,
+      "factoryActivation": false,
+      "servicePublication": false,
+      "nativeUiQualification": false,
+      "rawReportRestore": false,
+      "gateSubstitution": false
+    }
+  },
+  "artifactReferences": [
+    {
+      "file": "HANDOFF-v1.json",
+      "bytes": 4446,
+      "sha256": "a4434165e18e3994b825594610e01a0b0ef112513dd638472a7a6d0ea983b304",
+      "includedInSourceMirror": false
+    },
+    {
+      "file": "HANDOFF-v2.json",
+      "bytes": 4582,
+      "sha256": "9c8409303abaad79ea753ac98a23615d648bac88b4b1cfa6cbb46fcc4ed352b7",
+      "includedInSourceMirror": false
+    },
+    {
+      "file": "CAMPAIGN_PLAN-v1.json",
+      "bytes": 1964,
+      "sha256": "b97731c35b77cb4628ed54d852bd29f462fb21c8249b49d45678b8024d02eefd",
+      "includedInSourceMirror": false
+    },
+    {
+      "file": "CAMPAIGN_PLAN.json",
+      "bytes": 1965,
+      "sha256": "1da7ec9b4d70a21d30cabe94f7df854b7024859f1f65048b4c93eacbc3bf7b15",
+      "includedInSourceMirror": false
+    },
+    {
+      "file": "INDEPENDENT_LAUNCH_REVIEW.json",
+      "bytes": 8743,
+      "sha256": "a55fc23a77e1bd7fcf55c21e8f7f0bf77cb23e4f2318419bb5dbced190609ee9",
+      "includedInSourceMirror": false
+    },
+    {
+      "file": "AUTHORIZER_REVIEW.json",
+      "bytes": 2814,
+      "sha256": "140a0bc9693dc2171191ffe29bacf34220461f7e9637dc8e3c352f34188e4e99",
+      "includedInSourceMirror": false
+    },
+    {
+      "file": "AUTHORIZER_EXECUTION.json",
+      "bytes": 502,
+      "sha256": "efafb11ea7b35e8cadb59e92a7923726744b3cf0dcbf25dcdfab9fa7ac5a656e",
+      "includedInSourceMirror": false
+    },
+    {
+      "file": "APPROVED_CHECKPOINT.json",
+      "bytes": 67514,
+      "sha256": "4499d0e6537d33908d0b05f3f7b3b548c4c2f13e1169773eb13d35ac686ece8d",
+      "includedInSourceMirror": false
+    },
+    {
+      "file": "OUTER_ATTEMPT_STARTED.json",
+      "bytes": 93,
+      "sha256": "4ceb3d352ec4254c9a311fb657f8473b19f63f7b75217f0b486b68564fe94454",
+      "includedInSourceMirror": false
+    },
+    {
+      "file": "ATTEMPT_STARTED.json",
+      "bytes": 85,
+      "sha256": "fb9fce5c93d44d803bae0287905702e9ca65547ea2c65ab9fdde27ea6b996d75",
+      "includedInSourceMirror": false
+    },
+    {
+      "file": "OUTER_COMPLETION.json",
+      "bytes": 371,
+      "sha256": "a385e936a514aa13ee3110b65b0f7c5298d7bfa6a5c76f0e63621d93f05ba6d0",
+      "includedInSourceMirror": false
+    },
+    {
+      "file": "COMPLETION.json",
+      "bytes": 575,
+      "sha256": "72840140e9faf1198bbf871d02a719af4368ffeeffc2f02833dc14b061311daa",
+      "includedInSourceMirror": false
+    },
+    {
+      "file": "WORKER_FINAL_HANDOFF.json",
+      "bytes": 4628,
+      "sha256": "f7ce75c0bd3da97f0b03144fb2390eff20c1e70152c360272b98f77830667a33",
+      "includedInSourceMirror": false
+    },
+    {
+      "file": "campaign.stdout.log",
+      "bytes": 367,
+      "sha256": "0321760e909fb6e7f38dc407a7e3c309948e613685859cdac9518b859f833426",
+      "includedInSourceMirror": false
+    },
+    {
+      "file": "campaign.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "includedInSourceMirror": false
+    },
+    {
+      "file": "full-copy-short-service-successor025-preparation-20261117/INDEPENDENT_SAVED_OUTPUT_AUDIT.json",
+      "bytes": 15918,
+      "sha256": "d8318a9d84611acf2a20912d82a6cf69a1d8cebf8b0476e41f47d7adc25dc8a1",
+      "includedInSourceMirror": false
+    },
+    {
+      "file": "full-copy-short-service-successor025-preparation-20261117/LEAD_IDENTITY_RECONCILIATION.json",
+      "bytes": 1084,
+      "sha256": "ce48e87499ea51a00cef107da3fa05e35676ac071b9a97d8d491d37b9199146b",
+      "includedInSourceMirror": false
+    },
+    {
+      "file": "full-copy-short-service-successor025-preparation-20261117/LEAD_RELEASE.json",
+      "bytes": 1831,
+      "sha256": "b11c24598c627a9de10dec8e9cb57c5353f7592e602dbe7f920640cf281b7a75",
+      "includedInSourceMirror": false
+    },
+    {
+      "file": "full-copy-workbench-independent-review/INDEPENDENT_SOURCE_REVIEW.json",
+      "bytes": 15272,
+      "sha256": "8796eb6dd077e2343a996608cb9f25ca2da74ab8f1a7aa08a7af62d761d1ddf1",
+      "includedInSourceMirror": false
+    }
+  ],
+  "inheritedSourceTestsNotRerun": {
+    "focused": "98/98",
+    "protection": "229/229",
+    "broad": "211/256, same 45 failures",
+    "overlappingScopes": true
+  },
+  "limits": [
+    "Short service proof only; no native/OS reveal/PCM/arbitrary-length/cancellation qualification.",
+    "Metadata before encoding; complete decoded source after encoding before publication.",
+    "Pre-child disk/size admission is not a hard active-write cap.",
+    "Abort request is not a guaranteed whole-process exit bound.",
+    "Original failed attempt remains immutable; new helper/proof does not rewrite prior results.",
+    "Full independent output probe recorded during campaign, but no later independent runtime/probe/re-decode implied.",
+    "Future workbench proposal is isolated and not the source tested by this proof.",
+    "Independent saved-output audit and lead identity reconciliation support bounded short-service proof; no additional runtime/native action authorized.",
+    "Five public diagnostic contexts remain truncated; complete collector and telemetry receipts supply separate evidence."
+  ],
+  "leadRelease": {
+    "atUtc": "2026-11-17T23:51:08.153664+00:00",
+    "sourceCommit": "fa9388aceb836eca2cd68672ae34441dd27b9ca7",
+    "audit": {
+      "bytes": 15918,
+      "sha256": "d8318a9d84611acf2a20912d82a6cf69a1d8cebf8b0476e41f47d7adc25dc8a1"
+    },
+    "identityReconciliation": {
+      "bytes": 1084,
+      "sha256": "ce48e87499ea51a00cef107da3fa05e35676ac071b9a97d8d491d37b9199146b"
+    },
+    "disposition": "Bounded new short Full-copy ordinary-service proof independently supported after complete identity reconciliation. Release authoritative tracked freeze for five evidence/PBS records only. Original failed attempt remains failed and preserved. No additional media/native execution authorized.",
+    "demonstrated": [
+      "One semantic owned-source target, genuine publication and full saved source/output probes and hashes.",
+      "Early terminal snapshots retained before state reset; coded packet/header/padding identities and decoded timing/count checks.",
+      "Genuine OutputAccess grant dispatch to trusted observation sink, forged refusal and clear/expiry refusal; not OS reveal.",
+      "Second prepare-only existing-output refusal with target count unchanged at one; not a raced collision.",
+      "47 owned children closed, warnings and five truncated contexts retained."
+    ],
+    "next": "Preserve026 via Git, independently restored Notion source/full history/full native records and verified GitHub. Then integrate independently reviewed isolated developer workbench proposal in a separate coherent source checkpoint, with fresh exact tests/review and preservation before any separately authorized native/runtime proof.",
+    "authority": {
+      "boundedShortServiceProofSupported": true,
+      "productionQualification": false,
+      "nativeUiQualification": false,
+      "additionalRuntimeAuthorized": false,
+      "workbenchAlreadyIntegrated": false
+    }
+  },
+  "workbenchProposalAtCutoff": {
+    "status": "Scoped immutable source review passed, not integrated or runtime-authorized",
+    "reviewBytes": 15272,
+    "reviewSha256": "8796eb6dd077e2343a996608cb9f25ca2da74ab8f1a7aa08a7af62d761d1ddf1",
+    "independentFocused": "194/194",
+    "broadSavedEvidence": "223/268 with same nonempty45 failures as211/256 base",
+    "limits": [
+      "Injected factory/runtime/report/worker/runtime-token positives; no live/native proof.",
+      "Actual delayed old prepareItem callback not executed.",
+      "Future integration needs exact tests/review and preservation, does not belong to026 proof."
+    ]
+  }
+}

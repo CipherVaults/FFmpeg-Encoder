@@ -1,0 +1,4586 @@
+{
+  "schema": 1,
+  "kind": "portable-full-copy-short-service-proof-evidence",
+  "testedSourceCommit": "fa9388aceb836eca2cd68672ae34441dd27b9ca7",
+  "sourceReport": {
+    "relativePath": "owned-proof-VVAFEH/report.json",
+    "bytes": 161820,
+    "sha256": "8c6adb29d46bcbdf576fdb88af34c3763365fe132fd7e78c26d451c4f1672695"
+  },
+  "transform": {
+    "description": "Only known absolute root/prefix strings replaced with non-reversible logical aliases; all other report keys/types/values preserved. No inverse root mapping included.",
+    "substitutions": 142,
+    "byAlias": {
+      "proof://": 85,
+      "project://": 1,
+      "runtime-build://": 56
+    }
+  },
+  "authority": {
+    "productionQualification": false,
+    "factoryActivation": false,
+    "servicePublication": false,
+    "nativeUiQualification": false,
+    "rawReportRestore": false,
+    "gateSubstitution": false
+  },
+  "limitations": [
+    "One separately authorized new attempt on unchanged production bytes after preserving the original failed attempt. Independent saved-output audit and lead identity reconciliation support the passed bounded short-service proof; the original failed campaign is not rewritten.",
+    "Exactly one semantic owned-source target at child35; 13 progress-bearing invocations include 12 startup capability encodes. Aggregate operation accounting 12 includes pre-target source probe, target, output probe and nine genuine collectors, not a nine-child total ceiling.",
+    "Full source/output probes and full output hash were captured during this actual run and independently rechecked. Early first terminal snapshot/result precede the second preparation. No fresh independent probe/decode was performed by the audit.",
+    "OutputAccess actions used genuine grants with a trusted injected observation sink, not OS reveal/playback. Existing-output refusal was a second preparation with target count still one, not a raced collision or overwrite trial.",
+    "All 47 owned children closed, zero live, maximum concurrency one. Seven nonempty stderr captures include startup11/14/17/20/23/26 and target35; target335bytes retains duplicate-codec and x265 CPU/threadpool diagnostics.40streams empty. Complete captured diagnostics are not warning-free or an OS-wide process census.",
+    "Five public diagnostic contexts are truncated: FILE_INSPECTED sequences6,9,20; OPERATION_EVIDENCE_COLLECTED13; JOB_DISPOSITION17. Separate complete collector and telemetry receipts support bounded checks; do not claim the public contexts are complete.",
+    "Copied packet/header/padding seals and decoded audio counts are not PCM identity or video-pixel/scaler quality. AAC endpoint rounding remains within frozen tolerance, not exact timestamp adjacency. One8second case does not qualify long/held-out service, cancellation/recovery, native UI, Windows, production or general duration/platform/performance.",
+    "Original raw report/runtime/media remain local and are not restored by this archive. All577 source files,9runtime files and104new artifact rows (7,947,104bytes), plus96originalfailed artifact rows and19curated original identities, were independently reconciled. Point capacity/admission/abort controls are not hard quotas or guaranteed exits. All archival authority flags remain false."
+  ],
+  "report": {
+    "schema": 1,
+    "root": "proof://",
+    "checkpoint": "fa9388aceb836eca2cd68672ae34441dd27b9ca7",
+    "status": "passed-developer-full-copy-short-service-proof",
+    "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+    "calibrationSha256": "5f74a9efb7981fefb242dcf34c82e972bbc269c5a5ea7a92c62a68db1bc34ad9",
+    "appActivated": false,
+    "sameServiceRecoveryProven": false,
+    "bounds": {
+      "maximumChildren": 80,
+      "maximumConcurrency": 1,
+      "abortRequestMs": 600000,
+      "minimumFreeBytes": "28991029248",
+      "ownedArtifactAdmissionBytes": "2147483648"
+    },
+    "sources": [
+      {
+        "path": "proof://input/audited-short.mp4",
+        "bytes": 5578679,
+        "sha256": "bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97",
+        "original": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/short-mp4/source.mp4",
+        "input": "proof://input",
+        "extentUs": 8000000
+      }
+    ],
+    "cases": [
+      {
+        "name": "short-full-copy-publication",
+        "status": "passed",
+        "item": {
+          "id": "01b39e31-748e-48e4-a837-cd70a5ef53a2",
+          "name": "audited-short.mp4",
+          "outputName": "audited-short_H265-CPU.mkv",
+          "status": "success",
+          "reason": "",
+          "reencodeAuthorized": false,
+          "operationRequest": {
+            "version": 1,
+            "fileId": "01b39e31-748e-48e4-a837-cd70a5ef53a2",
+            "identityRevision": 0,
+            "draftRevision": 1,
+            "operation": "encode",
+            "appDefaultsRevision": 0,
+            "target": "matroska",
+            "resolution": "720",
+            "hdrPolicy": "preserve",
+            "range": null,
+            "audioPolicy": "copy",
+            "aacBitrateKbps": null,
+            "origins": {
+              "target": "factory",
+              "resolution": "file",
+              "hdrPolicy": "app",
+              "range": "file",
+              "audioPolicy": "file",
+              "aacBitrateKbps": "factory"
+            },
+            "omissionRequestIds": [],
+            "omissionAuthority": "unbound-request-ids"
+          },
+          "inspectionMethod": "fresh",
+          "origin": {
+            "kind": "original",
+            "reason": "No application-generated provenance was detected."
+          },
+          "summary": {
+            "selectedVideoIndex": 0,
+            "codec": "h264",
+            "width": 1920,
+            "height": 1080,
+            "pixelFormat": "yuv420p",
+            "bitDepth": 8,
+            "frameRate": 30,
+            "streamCounts": {
+              "video": 1,
+              "audio": 1
+            },
+            "durationSeconds": 8,
+            "sampling": [
+              {
+                "label": "start",
+                "start": 0,
+                "seconds": 2,
+                "interval": "0.000000%2.000000",
+                "succeeded": true,
+                "frames": 57,
+                "framesInWindow": 57,
+                "observedStart": 0,
+                "observedEnd": 1.866667
+              }
+            ],
+            "samplingLimit": "Bounded metadata samples cannot prove the absence of untagged HDR or HDR outside inspected frames. Demuxer seeking may begin at an earlier keyframe.",
+            "metadataNotices": [],
+            "boundedFrameProperties": {
+              "scope": "bounded-decoded-windows-only",
+              "complete": true,
+              "decodedFrames": 57,
+              "scan": "progressive-observed",
+              "geometry": {
+                "width": {
+                  "complete": true,
+                  "values": [
+                    1920
+                  ]
+                },
+                "height": {
+                  "complete": true,
+                  "values": [
+                    1080
+                  ]
+                },
+                "pix_fmt": {
+                  "complete": true,
+                  "values": [
+                    "yuv420p"
+                  ]
+                },
+                "sample_aspect_ratio": {
+                  "complete": true,
+                  "values": [
+                    "1:1"
+                  ]
+                }
+              },
+              "color": {
+                "color_transfer": {
+                  "complete": true,
+                  "values": [
+                    "bt709"
+                  ]
+                },
+                "color_primaries": {
+                  "complete": true,
+                  "values": [
+                    "bt709"
+                  ]
+                },
+                "color_space": {
+                  "complete": true,
+                  "values": [
+                    "bt709"
+                  ]
+                },
+                "color_range": {
+                  "complete": true,
+                  "values": [
+                    "tv"
+                  ]
+                }
+              },
+              "limitation": "Observed frames do not prove unchanged scan, geometry, color or metadata outside the inspected windows."
+            }
+          },
+          "rangeLimitUs": 8000000,
+          "outputDisposition": {
+            "kind": "published",
+            "published": true,
+            "file": "proof://output/audited-short_H265-CPU.mkv"
+          },
+          "sourceAssessment": {
+            "kind": "unchanged",
+            "diagnostic": {
+              "version": 1,
+              "stage": "after-encode",
+              "checkpoint": "after-encode",
+              "changedFields": [],
+              "expected": {
+                "canonicalPath": "proof://input/audited-short.mp4",
+                "dev": "27",
+                "ino": "2241838",
+                "size": "5578679",
+                "mtimeNs": "1794959220338135812",
+                "ctimeNs": "1794959220338135812",
+                "birthtimeNs": "1794959220326135610",
+                "sparseDigest": "sha256-sparse-v1:817813293f3a557371abd080bb11828e3f4582935dec8c2a80aecaf284749d99"
+              },
+              "actual": {
+                "canonicalPath": "proof://input/audited-short.mp4",
+                "dev": "27",
+                "ino": "2241838",
+                "size": "5578679",
+                "mtimeNs": "1794959220338135812",
+                "ctimeNs": "1794959220338135812",
+                "birthtimeNs": "1794959220326135610",
+                "sparseDigest": "sha256-sparse-v1:817813293f3a557371abd080bb11828e3f4582935dec8c2a80aecaf284749d99"
+              },
+              "comparison": "sparse-identity"
+            }
+          },
+          "timing": {
+            "timeline": "source-timestamps",
+            "requested": null,
+            "resolved": null,
+            "video": {
+              "startUs": 0,
+              "endUs": 8000000,
+              "frames": 240,
+              "outputStartUs": 0,
+              "outputEndUs": 8000000
+            },
+            "audio": [
+              {
+                "inputIndex": 1,
+                "mode": "copy",
+                "startUs": 0,
+                "endUs": 8000000,
+                "outputStartUs": 0,
+                "outputEndUs": 8000333,
+                "encoderDelaySamples": 1024,
+                "discardPaddingSamples": 0,
+                "sampleCountDifference": 0
+              }
+            ]
+          },
+          "outcome": "saved",
+          "outputAccess": {
+            "outputId": "105395d8-486b-4b37-a836-cba80c81bbd4"
+          },
+          "evidenceStorage": {
+            "schema": 1,
+            "observation": "complete",
+            "consistency": "bounded-point-observations",
+            "observationAttempts": 1,
+            "maxObservationAttempts": 3,
+            "usedBytes": 134589,
+            "reservedBytes": 0,
+            "projectedBytes": 200125,
+            "capBytes": 1073741824,
+            "metadataHeadroomBytes": 65536,
+            "entries": 23,
+            "freeBytes": 58546855936,
+            "minFreeBytes": 26843545600,
+            "overCap": false,
+            "overAdmissionCap": false,
+            "lowFree": false,
+            "jobs": [],
+            "leaseRecovery": "none",
+            "ledgerState": "reconciled",
+            "startupLedgerState": "missing-reconciled",
+            "directorySync": "synced",
+            "hardWriteCap": false,
+            "final": {
+              "id": "job-11af2a44-684e-4b33-85e0-a6854b31e5d7",
+              "status": "completed",
+              "recordPersisted": true,
+              "violations": [],
+              "retained": true
+            }
+          }
+        },
+        "evidence": {
+          "schema": 1,
+          "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+          "planFingerprint": "ba140ee74c007086a7cb967220139a98627843677b605b3510b5c96976635ce3",
+          "directory": "proof://state-1/operation-evidence/job-11af2a44-684e-4b33-85e0-a6854b31e5d7/operation-evidence-M7cjwj",
+          "scope": "complete-decoded-timing-and-copied-packet-identity",
+          "publicationAuthorized": false,
+          "qualificationGranted": false,
+          "cost": "Sequential complete source/output timing decode; extra complete audio PCM decoding for FLAC. No original video prehash. timeoutMs and stream byte/row budgets apply per child; main owns the total operation deadline.",
+          "budget": {
+            "sourceDecode": "complete",
+            "timeoutMs": 204168,
+            "maxFrameBytes": 22577152,
+            "maxPcmBytes": 1728000,
+            "maxRecords": 22048,
+            "maxSpoolBytes": 5767168
+          },
+          "timingQualification": {
+            "evidenceId": "full-copy-reviewed-2714557-5f74a9efb7981fef:interior",
+            "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+            "videoDurationUs": 1067,
+            "audioTimelineUs": 1042,
+            "aac": null
+          },
+          "timelineComparisons": {
+            "video": {
+              "comparedFrames": 240,
+              "maximumDurationErrorUs": 334,
+              "toleranceUs": 1067
+            },
+            "audio": [
+              {
+                "inputIndex": 1,
+                "mode": "copy",
+                "selectedSourceGaps": 0,
+                "unmatchedSourceTailSamples": 0,
+                "unmatchedOutputTailSamples": 0,
+                "comparedSamples": 384000,
+                "intersectedSpans": 375,
+                "maximumElapsedClockErrorUs": 334,
+                "toleranceUs": 1042,
+                "alignment": "sample ordinal after decoder-signalled skip; source minus the shared requested origin; no fitted shift",
+                "contentIdentity": false
+              }
+            ]
+          },
+          "sourcePath": "proof://input/audited-short.mp4",
+          "outputPath": "proof://output/.ffmpeg-encoder-E1TjL8/encoded.mkv",
+          "sourceBefore": {
+            "dev": "27",
+            "ino": "2241838",
+            "size": "5578679",
+            "mtimeNs": "1794959220338135812",
+            "ctimeNs": "1794959220338135812",
+            "birthtimeNs": "1794959220326135610",
+            "nlink": "1"
+          },
+          "outputBefore": {
+            "dev": "27",
+            "ino": "2241900",
+            "size": "1959028",
+            "mtimeNs": "1794959239646467272",
+            "ctimeNs": "1794959239646467272",
+            "birthtimeNs": "1794959225314220644",
+            "nlink": "1"
+          },
+          "spools": [
+            {
+              "path": "proof://state-1/operation-evidence/job-11af2a44-684e-4b33-85e0-a6854b31e5d7/operation-evidence-M7cjwj/selected-video.jsonl",
+              "bytes": 16820,
+              "status": "sealed",
+              "sha256": "839a277e8a91d408c309813baa546bfeda7fb72342e6d84ec010735845fd4b9f",
+              "identity": {
+                "dev": "27",
+                "ino": "2243122",
+                "size": "16820",
+                "mtimeNs": "1794959241354497527",
+                "ctimeNs": "1794959241354497527",
+                "birthtimeNs": "1794959239830549947",
+                "nlink": "1"
+              }
+            },
+            {
+              "path": "proof://state-1/operation-evidence/job-11af2a44-684e-4b33-85e0-a6854b31e5d7/operation-evidence-M7cjwj/selected-audio-1.jsonl",
+              "bytes": 41812,
+              "status": "sealed",
+              "sha256": "08b1cc8c13aee87d902f031a1fa69f9563dd22a672a08359a5f28cece7a4e216",
+              "identity": {
+                "dev": "27",
+                "ino": "2243129",
+                "size": "41812",
+                "mtimeNs": "1794959242546518997",
+                "ctimeNs": "1794959242546518997",
+                "birthtimeNs": "1794959242454517341",
+                "nlink": "1"
+              }
+            },
+            {
+              "path": "proof://state-1/operation-evidence/job-11af2a44-684e-4b33-85e0-a6854b31e5d7/operation-evidence-M7cjwj/output-audio-1.jsonl",
+              "bytes": 25336,
+              "status": "sealed",
+              "sha256": "da21466606533237f6546d3766d40b87a8857ad63659b7e495a3b77e520a327d",
+              "identity": {
+                "dev": "27",
+                "ino": "2243132",
+                "size": "25336",
+                "mtimeNs": "1794959242662521088",
+                "ctimeNs": "1794959242662521088",
+                "birthtimeNs": "1794959242574519502",
+                "nlink": "1"
+              }
+            }
+          ],
+          "invocations": [
+            {
+              "label": "source-video-frames",
+              "executable": "runtime-build://build/ffprobe",
+              "args": [
+                "-v",
+                "error",
+                "-protocol_whitelist",
+                "file,pipe",
+                "-format_whitelist",
+                "mov,matroska,webm,avi,mpegts",
+                "-select_streams",
+                "0",
+                "-show_frames",
+                "-show_entries",
+                "frame=media_type,stream_index,pts,duration,pkt_duration,nb_samples,sample_fmt,channels,channel_layout,width,height,pix_fmt,interlaced_frame,color_range,color_space,color_primaries,color_transfer,sample_aspect_ratio,chroma_location:frame_tags=:frame_side_data=side_data_type",
+                "-of",
+                "compact=p=1:nk=0:escape=c",
+                "-i",
+                "proof://input/audited-short.mp4"
+              ],
+              "status": "completed",
+              "startedAt": "2026-11-17T23:47:19.831Z",
+              "capture": {
+                "bytes": 57734,
+                "records": 240,
+                "sha256": "0efce70c344c02fe730952e106c744dabb30f67454eb7ecddfa9d52e459e9850"
+              },
+              "stderr": "",
+              "stderrCapture": {
+                "totalBytes": 0,
+                "truncated": false
+              },
+              "finishedAt": "2026-11-17T23:47:21.414Z"
+            },
+            {
+              "label": "output-video-frames",
+              "executable": "runtime-build://build/ffprobe",
+              "args": [
+                "-v",
+                "error",
+                "-protocol_whitelist",
+                "file,pipe",
+                "-format_whitelist",
+                "mov,matroska,webm,avi,mpegts",
+                "-select_streams",
+                "0",
+                "-show_frames",
+                "-show_entries",
+                "frame=media_type,stream_index,pts,duration,pkt_duration,nb_samples,sample_fmt,channels,channel_layout,width,height,pix_fmt,interlaced_frame,color_range,color_space,color_primaries,color_transfer:frame_tags=:frame_side_data=",
+                "-of",
+                "compact=p=1:nk=0:escape=c",
+                "-i",
+                "proof://output/.ffmpeg-encoder-E1TjL8/encoded.mkv"
+              ],
+              "status": "completed",
+              "startedAt": "2026-11-17T23:47:21.422Z",
+              "capture": {
+                "bytes": 46286,
+                "records": 240,
+                "sha256": "9173094042f25eb0758ea666d18314bf2d320c32f331ab6be28efe55331f6b0b"
+              },
+              "stderr": "",
+              "stderrCapture": {
+                "totalBytes": 0,
+                "truncated": false
+              },
+              "finishedAt": "2026-11-17T23:47:22.457Z"
+            },
+            {
+              "label": "source-audio-1-frames",
+              "executable": "runtime-build://build/ffprobe",
+              "args": [
+                "-v",
+                "error",
+                "-protocol_whitelist",
+                "file,pipe",
+                "-format_whitelist",
+                "mov,matroska,webm,avi,mpegts",
+                "-select_streams",
+                "1",
+                "-show_frames",
+                "-show_entries",
+                "frame=media_type,stream_index,pts,duration,pkt_duration,nb_samples,sample_fmt,channels,channel_layout,width,height,pix_fmt,interlaced_frame,color_range,color_space,color_primaries,color_transfer:frame_tags=:frame_side_data=",
+                "-of",
+                "compact=p=1:nk=0:escape=c",
+                "-i",
+                "proof://input/audited-short.mp4"
+              ],
+              "status": "completed",
+              "startedAt": "2026-11-17T23:47:22.458Z",
+              "capture": {
+                "bytes": 47889,
+                "records": 375,
+                "sha256": "d98214e6fbbdbf3f9e5123b7ea96eeb18e720bf6002143def3c843a5de98788d"
+              },
+              "stderr": "",
+              "stderrCapture": {
+                "totalBytes": 0,
+                "truncated": false
+              },
+              "finishedAt": "2026-11-17T23:47:22.574Z"
+            },
+            {
+              "label": "output-audio-1-frames",
+              "executable": "runtime-build://build/ffprobe",
+              "args": [
+                "-v",
+                "error",
+                "-protocol_whitelist",
+                "file,pipe",
+                "-format_whitelist",
+                "mov,matroska,webm,avi,mpegts",
+                "-select_streams",
+                "1",
+                "-show_frames",
+                "-show_entries",
+                "frame=media_type,stream_index,pts,duration,pkt_duration,nb_samples,sample_fmt,channels,channel_layout,width,height,pix_fmt,interlaced_frame,color_range,color_space,color_primaries,color_transfer:frame_tags=:frame_side_data=",
+                "-of",
+                "compact=p=1:nk=0:escape=c",
+                "-i",
+                "proof://output/.ffmpeg-encoder-E1TjL8/encoded.mkv"
+              ],
+              "status": "completed",
+              "startedAt": "2026-11-17T23:47:22.576Z",
+              "capture": {
+                "bytes": 46447,
+                "records": 375,
+                "sha256": "80ced0b21fead8236d4f7ecc8aeea195369bb3622062a6fe3fd46d7c49048bc3"
+              },
+              "stderr": "",
+              "stderrCapture": {
+                "totalBytes": 0,
+                "truncated": false
+              },
+              "finishedAt": "2026-11-17T23:47:22.695Z"
+            },
+            {
+              "label": "output-audio-1-padding",
+              "executable": "runtime-build://build/ffprobe",
+              "args": [
+                "-v",
+                "error",
+                "-protocol_whitelist",
+                "file,pipe",
+                "-format_whitelist",
+                "mov,matroska,webm,avi,mpegts",
+                "-select_streams",
+                "1",
+                "-show_packets",
+                "-show_entries",
+                "packet=stream_index:packet_tags=:packet_side_data=side_data_type,skip_samples,discard_padding",
+                "-of",
+                "compact=p=1:nk=0:escape=c",
+                "-i",
+                "proof://output/.ffmpeg-encoder-E1TjL8/encoded.mkv"
+              ],
+              "status": "completed",
+              "startedAt": "2026-11-17T23:47:22.704Z",
+              "capture": {
+                "bytes": 8408,
+                "records": 376,
+                "sha256": "a0d88c62d49868ceb85c13c797461bc8d4b5f765a82acfff985d99ae84959fc0"
+              },
+              "stderr": "",
+              "stderrCapture": {
+                "totalBytes": 0,
+                "truncated": false
+              },
+              "finishedAt": "2026-11-17T23:47:22.801Z"
+            },
+            {
+              "label": "source-audio-1-packet-identity",
+              "executable": "runtime-build://build/ffprobe",
+              "args": [
+                "-v",
+                "error",
+                "-protocol_whitelist",
+                "file,pipe",
+                "-format_whitelist",
+                "mov,matroska,webm,avi,mpegts",
+                "-select_streams",
+                "1",
+                "-show_packets",
+                "-show_data_hash",
+                "sha256",
+                "-show_entries",
+                "packet=stream_index,data_hash:packet_tags=:packet_side_data=side_data_type,skip_samples,discard_padding",
+                "-of",
+                "compact=p=1:nk=0:escape=c",
+                "-i",
+                "proof://input/audited-short.mp4"
+              ],
+              "status": "completed",
+              "startedAt": "2026-11-17T23:47:22.803Z",
+              "capture": {
+                "bytes": 39240,
+                "records": 376,
+                "sha256": "fddd7482d1ce7c2eb04e9e8428b73b1393c38ffa1b80d867249bd598b9beadad"
+              },
+              "stderr": "",
+              "stderrCapture": {
+                "totalBytes": 0,
+                "truncated": false
+              },
+              "finishedAt": "2026-11-17T23:47:22.910Z"
+            },
+            {
+              "label": "source-audio-1-header",
+              "executable": "runtime-build://build/ffprobe",
+              "args": [
+                "-v",
+                "error",
+                "-protocol_whitelist",
+                "file,pipe",
+                "-format_whitelist",
+                "mov,matroska,webm,avi,mpegts",
+                "-select_streams",
+                "1",
+                "-show_streams",
+                "-show_data_hash",
+                "sha256",
+                "-show_entries",
+                "stream=index,extradata_hash:stream_tags=:stream_disposition=",
+                "-of",
+                "compact=p=1:nk=0:escape=c",
+                "-i",
+                "proof://input/audited-short.mp4"
+              ],
+              "status": "completed",
+              "startedAt": "2026-11-17T23:47:22.911Z",
+              "capture": {
+                "bytes": 102,
+                "records": 1,
+                "sha256": "5604976c8d7faa41ec753a318e1ab8e694be656d026f48658c095120a671a808"
+              },
+              "stderr": "",
+              "stderrCapture": {
+                "totalBytes": 0,
+                "truncated": false
+              },
+              "finishedAt": "2026-11-17T23:47:23.018Z"
+            },
+            {
+              "label": "output-audio-1-packet-identity",
+              "executable": "runtime-build://build/ffprobe",
+              "args": [
+                "-v",
+                "error",
+                "-protocol_whitelist",
+                "file,pipe",
+                "-format_whitelist",
+                "mov,matroska,webm,avi,mpegts",
+                "-select_streams",
+                "1",
+                "-show_packets",
+                "-show_data_hash",
+                "sha256",
+                "-show_entries",
+                "packet=stream_index,data_hash:packet_tags=:packet_side_data=side_data_type,skip_samples,discard_padding",
+                "-of",
+                "compact=p=1:nk=0:escape=c",
+                "-i",
+                "proof://output/.ffmpeg-encoder-E1TjL8/encoded.mkv"
+              ],
+              "status": "completed",
+              "startedAt": "2026-11-17T23:47:23.019Z",
+              "capture": {
+                "bytes": 39240,
+                "records": 376,
+                "sha256": "fddd7482d1ce7c2eb04e9e8428b73b1393c38ffa1b80d867249bd598b9beadad"
+              },
+              "stderr": "",
+              "stderrCapture": {
+                "totalBytes": 0,
+                "truncated": false
+              },
+              "finishedAt": "2026-11-17T23:47:23.119Z"
+            },
+            {
+              "label": "output-audio-1-header",
+              "executable": "runtime-build://build/ffprobe",
+              "args": [
+                "-v",
+                "error",
+                "-protocol_whitelist",
+                "file,pipe",
+                "-format_whitelist",
+                "mov,matroska,webm,avi,mpegts",
+                "-select_streams",
+                "1",
+                "-show_streams",
+                "-show_data_hash",
+                "sha256",
+                "-show_entries",
+                "stream=index,extradata_hash:stream_tags=:stream_disposition=",
+                "-of",
+                "compact=p=1:nk=0:escape=c",
+                "-i",
+                "proof://output/.ffmpeg-encoder-E1TjL8/encoded.mkv"
+              ],
+              "status": "completed",
+              "startedAt": "2026-11-17T23:47:23.120Z",
+              "capture": {
+                "bytes": 102,
+                "records": 1,
+                "sha256": "5604976c8d7faa41ec753a318e1ab8e694be656d026f48658c095120a671a808"
+              },
+              "stderr": "",
+              "stderrCapture": {
+                "totalBytes": 0,
+                "truncated": false
+              },
+              "finishedAt": "2026-11-17T23:47:23.222Z"
+            }
+          ],
+          "completeSource": {
+            "video": {
+              "frames": 240,
+              "firstTime": {
+                "n": "0",
+                "d": "15360"
+              },
+              "endTime": {
+                "n": "1887436800",
+                "d": "235929600"
+              },
+              "maximumNominalCadenceErrorUs": 0,
+              "maximumNominalDurationErrorUs": 0,
+              "maximumNominalPhaseErrorUs": 0,
+              "properties": {
+                "policy": "cfr-sdr-full-resize-copy-v1",
+                "sampleAspectRatio": "1:1",
+                "chromaLocation": "left",
+                "sideDataPolicy": "h26x-unregistered-sei-only",
+                "framesChecked": 240
+              }
+            },
+            "audio": [
+              {
+                "inputIndex": 1,
+                "sampleCount": "384000",
+                "firstTime": {
+                  "n": "0",
+                  "d": "48000"
+                },
+                "endTime": {
+                  "n": "18432000000",
+                  "d": "2304000000"
+                },
+                "gaps": 0
+              }
+            ]
+          },
+          "encoderInputs": {
+            "video": {
+              "outputIndex": 0,
+              "records": "240",
+              "orderedPts": "f7433a5f43304561b22f0d3921380e2a561091b345830d969139b71a59a2ed83",
+              "scope": "independent-selected-source-timestamps-minus-canonical-filter-origin"
+            },
+            "audio": [
+              {
+                "inputIndex": 1,
+                "outputIndex": 1,
+                "sampleCount": "384000",
+                "firstTime": {
+                  "n": "0",
+                  "d": "2304000000"
+                },
+                "endTime": {
+                  "n": "18432000000",
+                  "d": "2304000000"
+                },
+                "selectedGaps": 0
+              }
+            ]
+          },
+          "packetIdentity": [
+            {
+              "inputIndex": 1,
+              "outputIndex": 1,
+              "source": {
+                "packets": 376,
+                "payloadSha256": "b991cd0656a0f98f1f31928878519dc126b1c6845936043487e634fd08d0c856",
+                "sideDataSha256": "c61d37c51be2cdb36aa5911971fbe578038afd6666789cfc8cbdbbaae1c5bd87",
+                "extradataSha256": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+                "seal": "40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721"
+              },
+              "output": {
+                "packets": 376,
+                "payloadSha256": "b991cd0656a0f98f1f31928878519dc126b1c6845936043487e634fd08d0c856",
+                "sideDataSha256": "c61d37c51be2cdb36aa5911971fbe578038afd6666789cfc8cbdbbaae1c5bd87",
+                "extradataSha256": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+                "seal": "40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721"
+              }
+            }
+          ],
+          "sourceAfter": {
+            "dev": "27",
+            "ino": "2241838",
+            "size": "5578679",
+            "mtimeNs": "1794959220338135812",
+            "ctimeNs": "1794959220338135812",
+            "birthtimeNs": "1794959220326135610",
+            "nlink": "1"
+          },
+          "sourceIdentityDisposition": "unchanged",
+          "outputAfter": {
+            "dev": "27",
+            "ino": "2241900",
+            "size": "1959028",
+            "mtimeNs": "1794959239646467272",
+            "ctimeNs": "1794959239646467272",
+            "birthtimeNs": "1794959225314220644",
+            "nlink": "1"
+          },
+          "status": "completed",
+          "decodedEvidence": {
+            "video": {
+              "sourceFrameCount": 240,
+              "outputFrameCount": 240,
+              "comparedFrames": 240,
+              "firstSourcePtsUs": 0,
+              "lastSourcePtsUs": 7966667,
+              "lastSourceDurationUs": 33333,
+              "firstOutputPtsUs": 0,
+              "lastOutputPtsUs": 7967000,
+              "lastOutputDurationUs": 33000,
+              "maxRebasedTimestampErrorUs": 334
+            },
+            "audio": [
+              {
+                "inputIndex": 1,
+                "sourceSampleCount": 384000,
+                "outputSampleCount": 384000,
+                "firstSourcePtsUs": 0,
+                "lastSourceEndUs": 8000000,
+                "firstOutputPtsUs": 0,
+                "lastOutputEndUs": 8000333,
+                "encoderDelaySamples": 1024,
+                "discardPaddingSamples": 0,
+                "packetIdentity": {
+                  "algorithm": "sha256",
+                  "packets": 376,
+                  "sourceSeal": "40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721",
+                  "outputSeal": "40639b73dea9bc57b93c90b1aec55a1aaf31910566c27986f68df7c2eb569721"
+                }
+              }
+            ]
+          }
+        },
+        "telemetryValidation": {
+          "valid": true,
+          "scope": "encoder-input-count-and-timeline-only",
+          "streams": [
+            {
+              "outputIndex": 0,
+              "kind": "video",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            }
+          ],
+          "doesNotEstablish": [
+            "video-pixel-identity",
+            "lossless-audio-identity",
+            "last-video-frame-duration",
+            "output-or-publication-validity"
+          ]
+        },
+        "telemetry": {
+          "schema": 1,
+          "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+          "planFingerprint": "ba140ee74c007086a7cb967220139a98627843677b605b3510b5c96976635ce3",
+          "completion": {
+            "childClosed": true,
+            "exitCode": 0,
+            "cancelled": false
+          },
+          "streams": [
+            {
+              "path": "proof://state-1/operation-evidence/job-11af2a44-684e-4b33-85e0-a6854b31e5d7/encoder-telemetry-LEwbog/stream-0.tsv",
+              "identity": {
+                "dev": "27",
+                "ino": "2241904",
+                "birthtimeNs": "1794959225236511801",
+                "size": "11340",
+                "mtimeNs": "1794959237974438703",
+                "ctimeNs": "1794959237974438703",
+                "nlink": "1"
+              },
+              "summary": {
+                "schema": 1,
+                "scope": "encoder-input-statistics",
+                "stream": {
+                  "outputIndex": 0,
+                  "kind": "video"
+                },
+                "bytes": 11340,
+                "records": "240",
+                "sampleCount": null,
+                "first": {
+                  "n": "0",
+                  "inputFrame": "0",
+                  "timeBase": {
+                    "numerator": "1",
+                    "denominator": "15360"
+                  },
+                  "pts": "0",
+                  "time": {
+                    "numerator": "0",
+                    "denominator": "1"
+                  },
+                  "inputTimeBase": {
+                    "numerator": "1",
+                    "denominator": "15360"
+                  },
+                  "inputPts": "0",
+                  "inputTime": {
+                    "numerator": "0",
+                    "denominator": "1"
+                  }
+                },
+                "last": {
+                  "n": "239",
+                  "inputFrame": "239",
+                  "timeBase": {
+                    "numerator": "1",
+                    "denominator": "15360"
+                  },
+                  "pts": "122368",
+                  "time": {
+                    "numerator": "239",
+                    "denominator": "30"
+                  },
+                  "inputTimeBase": {
+                    "numerator": "1",
+                    "denominator": "15360"
+                  },
+                  "inputPts": "122368",
+                  "inputTime": {
+                    "numerator": "239",
+                    "denominator": "30"
+                  }
+                },
+                "unknownInputRecords": "0",
+                "repeatedPts": "0",
+                "backwardsPts": "0",
+                "audioDiscontinuities": "0",
+                "minPtsDelta": {
+                  "numerator": "1",
+                  "denominator": "30"
+                },
+                "maxPtsDelta": {
+                  "numerator": "1",
+                  "denominator": "30"
+                },
+                "hashes": {
+                  "algorithm": "sha256",
+                  "raw": "a9111876a67c3bfd7105f099170679b0fdba47270c00659a617c98c5acb4930f",
+                  "canonicalRecords": "eb9592eea20be1b7c1caa3cd2f6ab03eb954931d37c1a6f8c001b9f87f06d306",
+                  "orderedPts": "f7433a5f43304561b22f0d3921380e2a561091b345830d969139b71a59a2ed83",
+                  "contentHash": false
+                },
+                "videoDurationAvailable": false,
+                "completeOutputValidation": false
+              }
+            }
+          ],
+          "scope": "encoder-input-statistics-only",
+          "publicationAuthorized": false,
+          "limitations": [
+            "Not a decoded-content hash or output validity proof.",
+            "Input correspondence can be unknown after filtering.",
+            "No video last-frame duration in stats_enc_pre.",
+            "Read budgets bound memory and accepted evidence; the caller must separately budget disk growth while encoding."
+          ]
+        },
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": [],
+          "validation": "decoded-operation-contract",
+          "qualificationEvidenceId": "full-copy-reviewed-2714557-5f74a9efb7981fef:endpoints",
+          "timing": {
+            "timeline": "source-timestamps",
+            "requested": null,
+            "resolved": null,
+            "video": {
+              "startUs": 0,
+              "endUs": 8000000,
+              "frames": 240,
+              "outputStartUs": 0,
+              "outputEndUs": 8000000
+            },
+            "audio": [
+              {
+                "inputIndex": 1,
+                "mode": "copy",
+                "startUs": 0,
+                "endUs": 8000000,
+                "outputStartUs": 0,
+                "outputEndUs": 8000333,
+                "encoderDelaySamples": 1024,
+                "discardPaddingSamples": 0,
+                "sampleCountDifference": 0
+              }
+            ]
+          }
+        },
+        "accounting": {
+          "directory": "proof://state-1/operation-evidence/job-11af2a44-684e-4b33-85e0-a6854b31e5d7/operation-evidence-M7cjwj",
+          "planFingerprint": "ba140ee74c007086a7cb967220139a98627843677b605b3510b5c96976635ce3",
+          "evidenceIds": [
+            "full-copy-reviewed-2714557-5f74a9efb7981fef:endpoints",
+            "full-copy-reviewed-2714557-5f74a9efb7981fef:interior"
+          ],
+          "status": "completed",
+          "scope": "complete-decoded-timing-and-copied-packet-identity",
+          "failure": null,
+          "children": 12,
+          "streamedBytes": 285448,
+          "pipeBytes": {
+            "stdout": 301330,
+            "stderr": 335
+          },
+          "telemetryValidation": {
+            "valid": true,
+            "scope": "encoder-input-count-and-timeline-only",
+            "streams": [
+              {
+                "outputIndex": 0,
+                "kind": "video",
+                "unknownInputRecords": "0",
+                "correspondence": "reported-input-and-independent-selected-source"
+              }
+            ],
+            "doesNotEstablish": [
+              "video-pixel-identity",
+              "lossless-audio-identity",
+              "last-video-frame-duration",
+              "output-or-publication-validity"
+            ]
+          },
+          "sourceIdentityDisposition": "unchanged"
+        },
+        "accountingContextTruncated": true,
+        "serviceRows": [
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45
+        ],
+        "limits": {
+          "pipeBytes": 219971584,
+          "evidenceBytes": 203194368,
+          "maxChildren": 64,
+          "evidenceReserveBytes": 24117248,
+          "stallMs": null,
+          "telemetryBytes": 786432,
+          "telemetryRecords": 3072,
+          "executionBudgetMs": 408672
+        },
+        "elapsedMs": 18222,
+        "reservation": {
+          "schema": 1,
+          "id": "job-11af2a44-684e-4b33-85e0-a6854b31e5d7",
+          "reservedBytes": 33554432,
+          "forecastBytes": 24117248,
+          "authority": "diagnostic-only",
+          "streamedStdoutIsDiskUsage": false
+        },
+        "published": {
+          "path": "proof://output/audited-short_H265-CPU.mkv",
+          "bytes": 1959028,
+          "sha256": "4e4cd8e4fe45d0665051ed61ba77e54eb7cf6dc5b46dfd075f565f114ccb5931"
+        },
+        "sourceProbe": {
+          "parsed": {
+            "streams": [
+              {
+                "index": 0,
+                "codec_name": "h264",
+                "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+                "profile": "High",
+                "codec_type": "video",
+                "codec_tag_string": "avc1",
+                "codec_tag": "0x31637661",
+                "mime_codec_string": "avc1.640028",
+                "width": 1920,
+                "height": 1080,
+                "coded_width": 1920,
+                "coded_height": 1080,
+                "has_b_frames": 2,
+                "sample_aspect_ratio": "1:1",
+                "display_aspect_ratio": "16:9",
+                "pix_fmt": "yuv420p",
+                "level": 40,
+                "color_range": "tv",
+                "color_space": "bt709",
+                "color_transfer": "bt709",
+                "color_primaries": "bt709",
+                "chroma_location": "left",
+                "field_order": "progressive",
+                "is_avc": "true",
+                "nal_length_size": "4",
+                "id": "0x1",
+                "r_frame_rate": "30/1",
+                "avg_frame_rate": "30/1",
+                "time_base": "1/15360",
+                "start_pts": 0,
+                "start_time": "0.000000",
+                "duration_ts": 122880,
+                "duration": "8.000000",
+                "bit_rate": "5375761",
+                "bits_per_raw_sample": "8",
+                "nb_frames": "240",
+                "extradata_size": 49,
+                "disposition": {
+                  "default": 1,
+                  "dub": 0,
+                  "original": 0,
+                  "comment": 0,
+                  "lyrics": 0,
+                  "karaoke": 0,
+                  "forced": 0,
+                  "hearing_impaired": 0,
+                  "visual_impaired": 0,
+                  "clean_effects": 0,
+                  "attached_pic": 0,
+                  "timed_thumbnails": 0,
+                  "non_diegetic": 0,
+                  "captions": 0,
+                  "descriptions": 0,
+                  "metadata": 0,
+                  "dependent": 0,
+                  "still_image": 0,
+                  "multilayer": 0
+                },
+                "tags": {
+                  "language": "und",
+                  "handler_name": "VideoHandler",
+                  "encoder": "Lavc63.1.102 libx264"
+                }
+              },
+              {
+                "index": 1,
+                "codec_name": "aac",
+                "codec_long_name": "AAC (Advanced Audio Coding)",
+                "profile": "LC",
+                "codec_type": "audio",
+                "codec_tag_string": "mp4a",
+                "codec_tag": "0x6134706d",
+                "mime_codec_string": "mp4a.40.2",
+                "sample_fmt": "fltp",
+                "sample_rate": "48000",
+                "channels": 2,
+                "channel_layout": "stereo",
+                "bits_per_sample": 0,
+                "initial_padding": 1024,
+                "id": "0x2",
+                "r_frame_rate": "0/0",
+                "avg_frame_rate": "0/0",
+                "time_base": "1/48000",
+                "start_pts": 0,
+                "start_time": "0.000000",
+                "duration_ts": 384000,
+                "duration": "8.000000",
+                "bit_rate": "192375",
+                "nb_frames": "376",
+                "extradata_size": 5,
+                "disposition": {
+                  "default": 1,
+                  "dub": 0,
+                  "original": 0,
+                  "comment": 0,
+                  "lyrics": 0,
+                  "karaoke": 0,
+                  "forced": 0,
+                  "hearing_impaired": 0,
+                  "visual_impaired": 0,
+                  "clean_effects": 0,
+                  "attached_pic": 0,
+                  "timed_thumbnails": 0,
+                  "non_diegetic": 0,
+                  "captions": 0,
+                  "descriptions": 0,
+                  "metadata": 0,
+                  "dependent": 0,
+                  "still_image": 0,
+                  "multilayer": 0
+                },
+                "tags": {
+                  "language": "und",
+                  "handler_name": "SoundHandler"
+                }
+              }
+            ],
+            "format": {
+              "filename": "proof://input/audited-short.mp4",
+              "nb_streams": 2,
+              "nb_programs": 0,
+              "nb_stream_groups": 0,
+              "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+              "format_long_name": "QuickTime / MOV",
+              "start_time": "0.000000",
+              "duration": "8.000000",
+              "size": "5578679",
+              "bit_rate": "5578679",
+              "probe_score": 100,
+              "tags": {
+                "major_brand": "isom",
+                "minor_version": "512",
+                "compatible_brands": "isomiso2avc1mp41",
+                "encoder": "Lavf63.1.102"
+              }
+            }
+          },
+          "path": "proof://source-probe.json",
+          "sha256": "76ba4b18ffa0ecd06cc5a5e24622dd4e9ecae35848d8aef10dc58753e2aa0768"
+        },
+        "outputProbe": {
+          "parsed": {
+            "streams": [
+              {
+                "index": 0,
+                "codec_name": "hevc",
+                "codec_long_name": "H.265 / HEVC (High Efficiency Video Coding)",
+                "profile": "Main",
+                "codec_type": "video",
+                "codec_tag_string": "[0][0][0][0]",
+                "codec_tag": "0x0000",
+                "width": 1280,
+                "height": 720,
+                "coded_width": 1280,
+                "coded_height": 720,
+                "has_b_frames": 2,
+                "sample_aspect_ratio": "1:1",
+                "display_aspect_ratio": "16:9",
+                "pix_fmt": "yuv420p",
+                "level": 93,
+                "color_range": "tv",
+                "color_space": "bt709",
+                "color_transfer": "bt709",
+                "color_primaries": "bt709",
+                "chroma_location": "left",
+                "field_order": "progressive",
+                "view_ids_available": "",
+                "view_pos_available": "",
+                "r_frame_rate": "30/1",
+                "avg_frame_rate": "30/1",
+                "time_base": "1/1000",
+                "start_pts": 0,
+                "start_time": "0.000000",
+                "extradata_size": 2452,
+                "disposition": {
+                  "default": 1,
+                  "dub": 0,
+                  "original": 0,
+                  "comment": 0,
+                  "lyrics": 0,
+                  "karaoke": 0,
+                  "forced": 0,
+                  "hearing_impaired": 0,
+                  "visual_impaired": 0,
+                  "clean_effects": 0,
+                  "attached_pic": 0,
+                  "timed_thumbnails": 0,
+                  "non_diegetic": 0,
+                  "captions": 0,
+                  "descriptions": 0,
+                  "metadata": 0,
+                  "dependent": 0,
+                  "still_image": 0,
+                  "multilayer": 0
+                },
+                "tags": {
+                  "ENCODER": "Lavc63.1.102 libx265",
+                  "HANDLER_NAME": "VideoHandler",
+                  "ROTATE": "0",
+                  "DURATION": "00:00:08.000000000"
+                }
+              },
+              {
+                "index": 1,
+                "codec_name": "aac",
+                "codec_long_name": "AAC (Advanced Audio Coding)",
+                "profile": "LC",
+                "codec_type": "audio",
+                "codec_tag_string": "[0][0][0][0]",
+                "codec_tag": "0x0000",
+                "mime_codec_string": "mp4a.40.2",
+                "sample_fmt": "fltp",
+                "sample_rate": "48000",
+                "channels": 2,
+                "channel_layout": "stereo",
+                "bits_per_sample": 0,
+                "initial_padding": 1024,
+                "r_frame_rate": "0/0",
+                "avg_frame_rate": "0/0",
+                "time_base": "1/1000",
+                "start_pts": 0,
+                "start_time": "0.000000",
+                "extradata_size": 5,
+                "disposition": {
+                  "default": 1,
+                  "dub": 0,
+                  "original": 0,
+                  "comment": 0,
+                  "lyrics": 0,
+                  "karaoke": 0,
+                  "forced": 0,
+                  "hearing_impaired": 0,
+                  "visual_impaired": 0,
+                  "clean_effects": 0,
+                  "attached_pic": 0,
+                  "timed_thumbnails": 0,
+                  "non_diegetic": 0,
+                  "captions": 0,
+                  "descriptions": 0,
+                  "metadata": 0,
+                  "dependent": 0,
+                  "still_image": 0,
+                  "multilayer": 0
+                },
+                "tags": {
+                  "HANDLER_NAME": "SoundHandler",
+                  "DURATION": "00:00:08.021000000"
+                }
+              }
+            ],
+            "format": {
+              "filename": "proof://output/audited-short_H265-CPU.mkv",
+              "nb_streams": 2,
+              "nb_programs": 0,
+              "nb_stream_groups": 0,
+              "format_name": "matroska,webm",
+              "format_long_name": "Matroska / WebM",
+              "start_time": "0.000000",
+              "duration": "8.021000",
+              "size": "1959028",
+              "bit_rate": "1953899",
+              "probe_score": 100,
+              "tags": {
+                "FFMPEG_ENCODER_OUTPUT_ID": "b295c150-555a-491a-b0ba-d03254d51d0b",
+                "MAJOR_BRAND": "isom",
+                "MINOR_VERSION": "512",
+                "COMPATIBLE_BRANDS": "isomiso2avc1mp41",
+                "FFMPEG_ENCODER_GENERATION": "{\"version\":1,\"profileId\":\"h265-cpu\",\"codec\":\"H265\",\"backend\":\"CPU\",\"encoder\":\"libx265\",\"preset\":\"slow\",\"qualityMode\":\"CRF\",\"quality\":25,\"bitDepth\":8,\"encoderArgs\":[\"-c:v:0\",\"libx265\",\"-preset:v:0\",\"slow\",\"-crf:v:0\",\"25\",\"-x265-params\",\"aq-mode=3:psy-rd=2\"],\"appVersion\":\"0.7.0-alpha.1\",\"createdAt\":\"2026-11-17T23:47:04.973Z\",\"runtimeVersion\":\"ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers\"}",
+                "FFMPEG_ENCODER_PROVENANCE": "1",
+                "ENCODER": "Lavf63.1.102"
+              }
+            }
+          },
+          "path": "proof://output-probe.json",
+          "sha256": "5412d247bb54bdae6eb830788ac76447f39896ca71bc34d8aea602fde4d04f11"
+        },
+        "outputAccess": {
+          "injectedSinkOnly": true,
+          "calls": [
+            "proof://output/audited-short_H265-CPU.mkv"
+          ],
+          "forgedRefused": true,
+          "clearedExpired": true
+        },
+        "collectorChildren": 9
+      },
+      {
+        "name": "prepare-only-existing-output-refusal",
+        "status": "passed",
+        "plan": {
+          "revision": 60,
+          "batchId": "cefcbf14-ec1e-4296-9430-e7519e298688",
+          "phase": "ready",
+          "planId": "cc267552-e760-4d28-84c4-4a062bb56dcb",
+          "settings": {
+            "profileId": "h265-cpu",
+            "preset": "slow",
+            "quality": 25
+          },
+          "items": [
+            {
+              "id": "5fdb2574-7ca6-4849-99b0-d2c49b865d53",
+              "name": "audited-short.mp4",
+              "outputName": "audited-short_H265-CPU.mkv",
+              "status": "skipped",
+              "reason": "Output already exists.",
+              "reencodeAuthorized": false,
+              "operationRequest": {
+                "version": 1,
+                "fileId": "5fdb2574-7ca6-4849-99b0-d2c49b865d53",
+                "identityRevision": 0,
+                "draftRevision": 0,
+                "operation": "encode",
+                "appDefaultsRevision": 0,
+                "target": "matroska",
+                "resolution": "source",
+                "hdrPolicy": "preserve",
+                "range": null,
+                "audioPolicy": "copy",
+                "aacBitrateKbps": null,
+                "origins": {
+                  "target": "factory",
+                  "resolution": "app",
+                  "hdrPolicy": "app",
+                  "range": "factory",
+                  "audioPolicy": "app",
+                  "aacBitrateKbps": "factory"
+                },
+                "omissionRequestIds": [],
+                "omissionAuthority": "unbound-request-ids"
+              },
+              "inspectionMethod": "fresh",
+              "origin": {
+                "kind": "original",
+                "reason": "No application-generated provenance was detected."
+              }
+            }
+          ],
+          "progress": null,
+          "counts": {
+            "success": 0,
+            "failed": 0,
+            "skipped": 1,
+            "cancelled": 0,
+            "unprocessed": 0
+          },
+          "elapsedSeconds": 0.115,
+          "error": null,
+          "operation": "encode",
+          "remuxSupport": {
+            "targets": [
+              "matroska",
+              "mp4",
+              "mov"
+            ],
+            "notice": "Full stream copy only. Each source/target and every retained stream needs a qualified preservation path; unsupported cases are explained per file."
+          },
+          "diagnostics": {
+            "available": true,
+            "incomplete": false,
+            "failures": 0,
+            "lastFailure": null,
+            "notices": [],
+            "sessionId": "51135855-cf2d-42ee-877e-16f2a387e79f"
+          },
+          "provenanceRecovery": {
+            "matching": 0,
+            "absent": 0,
+            "unrelated": 0,
+            "uncertain": 0,
+            "pendingRemaining": 0,
+            "warnings": []
+          },
+          "encodingSettingsStale": false,
+          "operationDraft": {
+            "id": "3a173b45-056f-4d4b-85ce-957fdf4dd444",
+            "revision": 0,
+            "operation": "encode",
+            "frozen": false,
+            "batchDefaults": {
+              "version": 1,
+              "appDefaultsRevision": 0,
+              "values": {
+                "fullAudioPolicy": "copy",
+                "rangeAudioPolicy": "precision-aac",
+                "resolution": "source",
+                "hdrPolicy": "preserve",
+                "remuxTarget": "matroska"
+              },
+              "origins": {
+                "fullAudioPolicy": "app",
+                "rangeAudioPolicy": "app",
+                "resolution": "app",
+                "hdrPolicy": "app",
+                "remuxTarget": "app"
+              }
+            },
+            "files": [
+              {
+                "fileId": "5fdb2574-7ca6-4849-99b0-d2c49b865d53",
+                "request": {
+                  "version": 1,
+                  "fileId": "5fdb2574-7ca6-4849-99b0-d2c49b865d53",
+                  "identityRevision": 0,
+                  "draftRevision": 0,
+                  "operation": "encode",
+                  "appDefaultsRevision": 0,
+                  "target": "matroska",
+                  "resolution": "source",
+                  "hdrPolicy": "preserve",
+                  "range": null,
+                  "audioPolicy": "copy",
+                  "aacBitrateKbps": null,
+                  "origins": {
+                    "target": "factory",
+                    "resolution": "app",
+                    "hdrPolicy": "app",
+                    "range": "factory",
+                    "audioPolicy": "app",
+                    "aacBitrateKbps": "factory"
+                  },
+                  "omissionRequestIds": [],
+                  "omissionAuthority": "unbound-request-ids"
+                },
+                "overrides": {}
+              }
+            ]
+          },
+          "preparation": {
+            "total": 1,
+            "resolved": 1,
+            "reused": 0,
+            "inspected": 0,
+            "active": 0,
+            "workers": [],
+            "stage": "metadata",
+            "fileId": "5fdb2574-7ca6-4849-99b0-d2c49b865d53",
+            "notice": "Persistent reuse is accepted only on local Windows NTFS storage.",
+            "window": null
+          }
+        },
+        "targetEncodesBefore": 1,
+        "targetEncodesAfter": 1
+      }
+    ],
+    "closures": [
+      {
+        "admissionClosed": true,
+        "busy": false,
+        "errors": []
+      }
+    ],
+    "children": [
+      {
+        "index": 1,
+        "tool": "runtime-build://build/ffmpeg",
+        "args": [
+          "-version"
+        ],
+        "startedAt": "2026-11-17T23:47:00.559Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "non-progress",
+        "pid": 605,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:00.568Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 2,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-version"
+        ],
+        "startedAt": "2026-11-17T23:47:00.630Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "non-progress",
+        "pid": 606,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:00.637Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 3,
+        "tool": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-nostdin",
+          "-loglevel",
+          "error",
+          "-n",
+          "-f",
+          "lavfi",
+          "-i",
+          "testsrc2=size=320x180:rate=30,format=yuv420p,setparams=range=limited:color_primaries=bt709:color_trc=bt709:colorspace=bt709",
+          "-frames:v",
+          "2",
+          "-an",
+          "-c:v",
+          "ffv1",
+          "-level",
+          "3",
+          "-pix_fmt",
+          "+yuv420p",
+          "-color_primaries",
+          "bt709",
+          "-color_trc",
+          "bt709",
+          "-colorspace",
+          "bt709",
+          "-color_range",
+          "tv",
+          "-f",
+          "matroska",
+          "proof://state-1/capability-wPzyo4/input-8.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:00.701Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "non-progress",
+        "pid": 607,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:00.722Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 4,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-show_streams",
+          "-show_format",
+          "-of",
+          "json",
+          "proof://state-1/capability-wPzyo4/input-8.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:00.784Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "non-progress",
+        "pid": 640,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:00.792Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 5,
+        "tool": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-nostdin",
+          "-loglevel",
+          "error",
+          "-n",
+          "-f",
+          "lavfi",
+          "-i",
+          "testsrc2=size=320x180:rate=30,format=yuv420p10le,setparams=range=limited:color_primaries=bt709:color_trc=bt709:colorspace=bt709",
+          "-frames:v",
+          "2",
+          "-an",
+          "-c:v",
+          "ffv1",
+          "-level",
+          "3",
+          "-pix_fmt",
+          "+yuv420p10le",
+          "-color_primaries",
+          "bt709",
+          "-color_trc",
+          "bt709",
+          "-colorspace",
+          "bt709",
+          "-color_range",
+          "tv",
+          "-f",
+          "matroska",
+          "proof://state-1/capability-wPzyo4/input-10.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:00.850Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "non-progress",
+        "pid": 641,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:00.870Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 6,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-show_streams",
+          "-show_format",
+          "-of",
+          "json",
+          "proof://state-1/capability-wPzyo4/input-10.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:00.929Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "non-progress",
+        "pid": 674,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:00.937Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 7,
+        "tool": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-nostdin",
+          "-loglevel",
+          "error",
+          "-n",
+          "-f",
+          "lavfi",
+          "-i",
+          "testsrc2=size=320x180:rate=30,format=yuv420p,setparams=range=limited:color_primaries=bt709:color_trc=bt709:colorspace=bt709",
+          "-frames:v",
+          "96",
+          "-an",
+          "-c:v",
+          "ffv1",
+          "-level",
+          "3",
+          "-pix_fmt",
+          "+yuv420p",
+          "-color_primaries",
+          "bt709",
+          "-color_trc",
+          "bt709",
+          "-colorspace",
+          "bt709",
+          "-color_range",
+          "tv",
+          "-f",
+          "matroska",
+          "proof://state-1/capability-wPzyo4/recipe-input-8.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:00.997Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "non-progress",
+        "pid": 675,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:01.040Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 8,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-show_streams",
+          "-show_format",
+          "-of",
+          "json",
+          "proof://state-1/capability-wPzyo4/recipe-input-8.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:01.099Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "non-progress",
+        "pid": 708,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:01.109Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 9,
+        "tool": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-nostdin",
+          "-loglevel",
+          "error",
+          "-n",
+          "-f",
+          "lavfi",
+          "-i",
+          "testsrc2=size=320x180:rate=30,format=yuv420p10le,setparams=range=limited:color_primaries=bt709:color_trc=bt709:colorspace=bt709",
+          "-frames:v",
+          "96",
+          "-an",
+          "-c:v",
+          "ffv1",
+          "-level",
+          "3",
+          "-pix_fmt",
+          "+yuv420p10le",
+          "-color_primaries",
+          "bt709",
+          "-color_trc",
+          "bt709",
+          "-colorspace",
+          "bt709",
+          "-color_range",
+          "tv",
+          "-f",
+          "matroska",
+          "proof://state-1/capability-wPzyo4/recipe-input-10.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:01.174Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "non-progress",
+        "pid": 709,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:01.230Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 10,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-show_streams",
+          "-show_format",
+          "-of",
+          "json",
+          "proof://state-1/capability-wPzyo4/recipe-input-10.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:01.291Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "non-progress",
+        "pid": 742,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:01.302Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 11,
+        "tool": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-nostdin",
+          "-loglevel",
+          "warning",
+          "-nostats",
+          "-progress",
+          "pipe:1",
+          "-n",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi",
+          "-i",
+          "proof://state-1/capability-wPzyo4/input-8.mkv",
+          "-map",
+          "0:0",
+          "-map_metadata",
+          "0",
+          "-map_chapters",
+          "0",
+          "-c",
+          "copy",
+          "-c:v:0",
+          "libx264",
+          "-map_metadata:s:0",
+          "0:s:0",
+          "-disposition:0",
+          "0",
+          "-preset:v:0",
+          "slower",
+          "-crf:v:0",
+          "24",
+          "-pix_fmt:v:0",
+          "+yuv420p",
+          "-fps_mode:v:0",
+          "passthrough",
+          "-color_trc:v:0",
+          "bt709",
+          "-color_primaries:v:0",
+          "bt709",
+          "-colorspace:v:0",
+          "bt709",
+          "-color_range:v:0",
+          "tv",
+          "-default_mode",
+          "passthrough",
+          "-f",
+          "matroska",
+          "proof://state-1/capability-wPzyo4/h264-cpu-8.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:01.370Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "capability-progress",
+        "pid": 743,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:01.395Z",
+        "stderr": "[vost#0:0 @ 0x5600e995ba80] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx264' will be used.\n",
+        "stderrCapture": {
+          "totalBytes": 167,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 167,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "2e347b7f2dc82a2c3b9099cdf6ed4802904ac0d28fca4d9bd7cff74f9bb79a70"
+      },
+      {
+        "index": 12,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-count_frames",
+          "-show_streams",
+          "-show_format",
+          "-of",
+          "json",
+          "proof://state-1/capability-wPzyo4/h264-cpu-8.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:01.458Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "non-progress",
+        "pid": 775,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:01.470Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 13,
+        "tool": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-nostdin",
+          "-v",
+          "error",
+          "-xerror",
+          "-nostats",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-i",
+          "proof://state-1/capability-wPzyo4/h264-cpu-8.mkv",
+          "-map",
+          "0:v:0",
+          "-progress",
+          "pipe:1",
+          "-f",
+          "null",
+          "-"
+        ],
+        "startedAt": "2026-11-17T23:47:01.536Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "capability-progress",
+        "pid": 776,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:01.552Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 14,
+        "tool": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-nostdin",
+          "-loglevel",
+          "warning",
+          "-nostats",
+          "-progress",
+          "pipe:1",
+          "-n",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi",
+          "-i",
+          "proof://state-1/capability-wPzyo4/input-10.mkv",
+          "-map",
+          "0:0",
+          "-map_metadata",
+          "0",
+          "-map_chapters",
+          "0",
+          "-c",
+          "copy",
+          "-c:v:0",
+          "libx264",
+          "-map_metadata:s:0",
+          "0:s:0",
+          "-disposition:0",
+          "0",
+          "-preset:v:0",
+          "slower",
+          "-crf:v:0",
+          "24",
+          "-pix_fmt:v:0",
+          "+yuv420p10le",
+          "-fps_mode:v:0",
+          "passthrough",
+          "-color_trc:v:0",
+          "bt709",
+          "-color_primaries:v:0",
+          "bt709",
+          "-colorspace:v:0",
+          "bt709",
+          "-color_range:v:0",
+          "tv",
+          "-default_mode",
+          "passthrough",
+          "-f",
+          "matroska",
+          "proof://state-1/capability-wPzyo4/h264-cpu-10.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:01.618Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "capability-progress",
+        "pid": 801,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:01.643Z",
+        "stderr": "[vost#0:0 @ 0x55f151bbcf00] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx264' will be used.\n",
+        "stderrCapture": {
+          "totalBytes": 167,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 167,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "3f6a77c73d017098c6050b595672c45583514f5104ce6235e52a3e067ebbdc24"
+      },
+      {
+        "index": 15,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-count_frames",
+          "-show_streams",
+          "-show_format",
+          "-of",
+          "json",
+          "proof://state-1/capability-wPzyo4/h264-cpu-10.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:01.708Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "non-progress",
+        "pid": 833,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:01.720Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 16,
+        "tool": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-nostdin",
+          "-v",
+          "error",
+          "-xerror",
+          "-nostats",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-i",
+          "proof://state-1/capability-wPzyo4/h264-cpu-10.mkv",
+          "-map",
+          "0:v:0",
+          "-progress",
+          "pipe:1",
+          "-f",
+          "null",
+          "-"
+        ],
+        "startedAt": "2026-11-17T23:47:01.783Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "capability-progress",
+        "pid": 834,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:01.798Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 17,
+        "tool": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-nostdin",
+          "-loglevel",
+          "warning",
+          "-nostats",
+          "-progress",
+          "pipe:1",
+          "-n",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi",
+          "-i",
+          "proof://state-1/capability-wPzyo4/input-8.mkv",
+          "-map",
+          "0:0",
+          "-map_metadata",
+          "0",
+          "-map_chapters",
+          "0",
+          "-c",
+          "copy",
+          "-c:v:0",
+          "libx265",
+          "-map_metadata:s:0",
+          "0:s:0",
+          "-disposition:0",
+          "0",
+          "-preset:v:0",
+          "slow",
+          "-crf:v:0",
+          "25",
+          "-x265-params",
+          "aq-mode=3:psy-rd=2",
+          "-pix_fmt:v:0",
+          "+yuv420p",
+          "-fps_mode:v:0",
+          "passthrough",
+          "-color_trc:v:0",
+          "bt709",
+          "-color_primaries:v:0",
+          "bt709",
+          "-colorspace:v:0",
+          "bt709",
+          "-color_range:v:0",
+          "tv",
+          "-default_mode",
+          "passthrough",
+          "-f",
+          "matroska",
+          "proof://state-1/capability-wPzyo4/h265-cpu-8.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:01.859Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "capability-progress",
+        "pid": 859,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:01.956Z",
+        "stderr": "[vost#0:0 @ 0x55c152bc9ac0] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx265' will be used.\nx265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n",
+        "stderrCapture": {
+          "totalBytes": 335,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 335,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "9e721464d37b9055a51d4f0221ed77d79bac40d21cc230f799d9279663aa420e"
+      },
+      {
+        "index": 18,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-count_frames",
+          "-show_streams",
+          "-show_format",
+          "-of",
+          "json",
+          "proof://state-1/capability-wPzyo4/h265-cpu-8.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:02.015Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "non-progress",
+        "pid": 887,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:02.029Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 19,
+        "tool": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-nostdin",
+          "-v",
+          "error",
+          "-xerror",
+          "-nostats",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-i",
+          "proof://state-1/capability-wPzyo4/h265-cpu-8.mkv",
+          "-map",
+          "0:v:0",
+          "-progress",
+          "pipe:1",
+          "-f",
+          "null",
+          "-"
+        ],
+        "startedAt": "2026-11-17T23:47:02.087Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "capability-progress",
+        "pid": 888,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:02.101Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 20,
+        "tool": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-nostdin",
+          "-loglevel",
+          "warning",
+          "-nostats",
+          "-progress",
+          "pipe:1",
+          "-n",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi",
+          "-i",
+          "proof://state-1/capability-wPzyo4/input-10.mkv",
+          "-map",
+          "0:0",
+          "-map_metadata",
+          "0",
+          "-map_chapters",
+          "0",
+          "-c",
+          "copy",
+          "-c:v:0",
+          "libx265",
+          "-map_metadata:s:0",
+          "0:s:0",
+          "-disposition:0",
+          "0",
+          "-preset:v:0",
+          "slow",
+          "-crf:v:0",
+          "25",
+          "-x265-params",
+          "aq-mode=3:psy-rd=2",
+          "-pix_fmt:v:0",
+          "+yuv420p10le",
+          "-fps_mode:v:0",
+          "passthrough",
+          "-color_trc:v:0",
+          "bt709",
+          "-color_primaries:v:0",
+          "bt709",
+          "-colorspace:v:0",
+          "bt709",
+          "-color_range:v:0",
+          "tv",
+          "-default_mode",
+          "passthrough",
+          "-f",
+          "matroska",
+          "proof://state-1/capability-wPzyo4/h265-cpu-10.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:02.166Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "capability-progress",
+        "pid": 913,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:02.261Z",
+        "stderr": "[vost#0:0 @ 0x558f683e6f40] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx265' will be used.\nx265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n",
+        "stderrCapture": {
+          "totalBytes": 335,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 335,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "6aec32cb30911de8da80b51b8ecbfd9b07afd7b1dd3a999e66a70bfb402e7a13"
+      },
+      {
+        "index": 21,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-count_frames",
+          "-show_streams",
+          "-show_format",
+          "-of",
+          "json",
+          "proof://state-1/capability-wPzyo4/h265-cpu-10.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:02.326Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "non-progress",
+        "pid": 941,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:02.340Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 22,
+        "tool": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-nostdin",
+          "-v",
+          "error",
+          "-xerror",
+          "-nostats",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-i",
+          "proof://state-1/capability-wPzyo4/h265-cpu-10.mkv",
+          "-map",
+          "0:v:0",
+          "-progress",
+          "pipe:1",
+          "-f",
+          "null",
+          "-"
+        ],
+        "startedAt": "2026-11-17T23:47:02.400Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "capability-progress",
+        "pid": 942,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:02.416Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 23,
+        "tool": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-nostdin",
+          "-loglevel",
+          "warning",
+          "-nostats",
+          "-progress",
+          "pipe:1",
+          "-n",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi",
+          "-i",
+          "proof://state-1/capability-wPzyo4/input-8.mkv",
+          "-map",
+          "0:0",
+          "-map_metadata",
+          "0",
+          "-map_chapters",
+          "0",
+          "-c",
+          "copy",
+          "-c:v:0",
+          "libsvtav1",
+          "-map_metadata:s:0",
+          "0:s:0",
+          "-disposition:0",
+          "0",
+          "-preset:v:0",
+          "6",
+          "-crf:v:0",
+          "32",
+          "-pix_fmt:v:0",
+          "+yuv420p",
+          "-fps_mode:v:0",
+          "passthrough",
+          "-color_trc:v:0",
+          "bt709",
+          "-color_primaries:v:0",
+          "bt709",
+          "-colorspace:v:0",
+          "bt709",
+          "-color_range:v:0",
+          "tv",
+          "-default_mode",
+          "passthrough",
+          "-f",
+          "matroska",
+          "proof://state-1/capability-wPzyo4/av1-cpu-8.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:02.542Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "capability-progress",
+        "pid": 967,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:02.945Z",
+        "stderr": "[vost#0:0 @ 0x55d464416a80] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libsvtav1' will be used.\nSvt[info]: -------------------------------------------\nSvt[info]: SVT [version]:\tSVT-AV1 Encoder Lib v2.3.0\nSvt[info]: SVT [build]  :\tGCC 14.2.0\t 64 bit\nSvt[info]: -------------------------------------------\nSvt[info]: Level of Parallelism: 4\nSvt[info]: Number of PPCS 107\nSvt[info]: [asm level on system : up to avx512]\nSvt[info]: [asm level selected : up to avx512]\nSvt[info]: -------------------------------------------\nSvt[info]: SVT [config]: main profile\ttier (auto)\tlevel (auto)\nSvt[info]: SVT [config]: width / height / fps numerator / fps denominator \t\t: 320 / 184 / 30 / 1\nSvt[info]: SVT [config]: bit-depth / color format \t\t\t\t\t: 8 / YUV420\nSvt[info]: SVT [config]: preset / tune / pred struct \t\t\t\t\t: 6 / PSNR / random access\nSvt[info]: SVT [config]: gop size / mini-gop size / key-frame type \t\t\t: 161 / 32 / key frame\nSvt[info]: SVT [config]: BRC mode / rate factor \t\t\t\t\t: CRF / 32 \nSvt[info]: SVT [config]: AQ mode / variance boost \t\t\t\t\t: 2 / 0\nSvt[info]: -------------------------------------------\n",
+        "stderrCapture": {
+          "totalBytes": 1181,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 1181,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e8ec03e8874a9d2cb6097008c0495924ee497014506826fc8fb707a3514133c7"
+      },
+      {
+        "index": 24,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-count_frames",
+          "-show_streams",
+          "-show_format",
+          "-of",
+          "json",
+          "proof://state-1/capability-wPzyo4/av1-cpu-8.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:03.005Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "non-progress",
+        "pid": 1059,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:03.016Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 25,
+        "tool": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-nostdin",
+          "-v",
+          "error",
+          "-xerror",
+          "-nostats",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-i",
+          "proof://state-1/capability-wPzyo4/av1-cpu-8.mkv",
+          "-map",
+          "0:v:0",
+          "-progress",
+          "pipe:1",
+          "-f",
+          "null",
+          "-"
+        ],
+        "startedAt": "2026-11-17T23:47:03.077Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "capability-progress",
+        "pid": 1060,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:03.091Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 26,
+        "tool": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-nostdin",
+          "-loglevel",
+          "warning",
+          "-nostats",
+          "-progress",
+          "pipe:1",
+          "-n",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi",
+          "-i",
+          "proof://state-1/capability-wPzyo4/input-10.mkv",
+          "-map",
+          "0:0",
+          "-map_metadata",
+          "0",
+          "-map_chapters",
+          "0",
+          "-c",
+          "copy",
+          "-c:v:0",
+          "libsvtav1",
+          "-map_metadata:s:0",
+          "0:s:0",
+          "-disposition:0",
+          "0",
+          "-preset:v:0",
+          "6",
+          "-crf:v:0",
+          "32",
+          "-pix_fmt:v:0",
+          "+yuv420p10le",
+          "-fps_mode:v:0",
+          "passthrough",
+          "-color_trc:v:0",
+          "bt709",
+          "-color_primaries:v:0",
+          "bt709",
+          "-colorspace:v:0",
+          "bt709",
+          "-color_range:v:0",
+          "tv",
+          "-default_mode",
+          "passthrough",
+          "-f",
+          "matroska",
+          "proof://state-1/capability-wPzyo4/av1-cpu-10.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:03.149Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "capability-progress",
+        "pid": 1084,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:03.363Z",
+        "stderr": "[vost#0:0 @ 0x55616bd45f00] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libsvtav1' will be used.\nSvt[info]: -------------------------------------------\nSvt[info]: SVT [version]:\tSVT-AV1 Encoder Lib v2.3.0\nSvt[info]: SVT [build]  :\tGCC 14.2.0\t 64 bit\nSvt[info]: -------------------------------------------\nSvt[info]: Level of Parallelism: 4\nSvt[info]: Number of PPCS 107\nSvt[info]: [asm level on system : up to avx512]\nSvt[info]: [asm level selected : up to avx512]\nSvt[info]: -------------------------------------------\nSvt[info]: SVT [config]: main profile\ttier (auto)\tlevel (auto)\nSvt[info]: SVT [config]: width / height / fps numerator / fps denominator \t\t: 320 / 184 / 30 / 1\nSvt[info]: SVT [config]: bit-depth / color format \t\t\t\t\t: 10 / YUV420\nSvt[info]: SVT [config]: preset / tune / pred struct \t\t\t\t\t: 6 / PSNR / random access\nSvt[info]: SVT [config]: gop size / mini-gop size / key-frame type \t\t\t: 161 / 32 / key frame\nSvt[info]: SVT [config]: BRC mode / rate factor \t\t\t\t\t: CRF / 32 \nSvt[info]: SVT [config]: AQ mode / variance boost \t\t\t\t\t: 2 / 0\nSvt[info]: -------------------------------------------\n",
+        "stderrCapture": {
+          "totalBytes": 1182,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 1182,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "36e697e5476c39e75336ad582c3e5b6323baf3d154c85aec98ae563afc22f743"
+      },
+      {
+        "index": 27,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-count_frames",
+          "-show_streams",
+          "-show_format",
+          "-of",
+          "json",
+          "proof://state-1/capability-wPzyo4/av1-cpu-10.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:03.426Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "non-progress",
+        "pid": 1176,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:03.437Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 28,
+        "tool": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-nostdin",
+          "-v",
+          "error",
+          "-xerror",
+          "-nostats",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-i",
+          "proof://state-1/capability-wPzyo4/av1-cpu-10.mkv",
+          "-map",
+          "0:v:0",
+          "-progress",
+          "pipe:1",
+          "-f",
+          "null",
+          "-"
+        ],
+        "startedAt": "2026-11-17T23:47:03.503Z",
+        "spawned": true,
+        "phase": "startup",
+        "classification": "capability-progress",
+        "pid": 1177,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:03.520Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 29,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-show_format",
+          "-show_streams",
+          "-of",
+          "json",
+          "proof://input/audited-short.mp4"
+        ],
+        "startedAt": "2026-11-17T23:47:03.747Z",
+        "spawned": true,
+        "phase": "source-probe",
+        "classification": "non-progress",
+        "pid": 1201,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:03.768Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 30,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-show_streams",
+          "-show_format",
+          "-show_chapters",
+          "-show_programs",
+          "-show_stream_groups",
+          "-show_data_hash",
+          "sha256",
+          "-of",
+          "json",
+          "-i",
+          "proof://input/audited-short.mp4"
+        ],
+        "startedAt": "2026-11-17T23:47:03.899Z",
+        "spawned": true,
+        "phase": "preparation",
+        "classification": "non-progress",
+        "pid": 1202,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:03.917Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 31,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "0",
+          "-read_intervals",
+          "0.000000%2.000000",
+          "-show_frames",
+          "-show_entries",
+          "frame=media_type,stream_index,best_effort_timestamp,best_effort_timestamp_time,pts,pts_time,duration,duration_time,width,height,pix_fmt,sample_aspect_ratio,interlaced_frame,top_field_first,repeat_pict,color_transfer,color_primaries,color_space,color_range,chroma_location:frame_side_data",
+          "-of",
+          "json",
+          "-i",
+          "proof://input/audited-short.mp4"
+        ],
+        "startedAt": "2026-11-17T23:47:03.989Z",
+        "spawned": true,
+        "phase": "preparation",
+        "classification": "non-progress",
+        "pid": 1203,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:04.309Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 32,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-show_streams",
+          "-show_format",
+          "-show_chapters",
+          "-show_programs",
+          "-show_stream_groups",
+          "-show_data_hash",
+          "sha256",
+          "-of",
+          "json",
+          "-i",
+          "proof://input/audited-short.mp4"
+        ],
+        "startedAt": "2026-11-17T23:47:04.402Z",
+        "spawned": true,
+        "phase": "preparation",
+        "classification": "non-progress",
+        "pid": 1204,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:04.421Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 33,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "0",
+          "-read_intervals",
+          "0.000000%2.000000",
+          "-show_frames",
+          "-show_entries",
+          "frame=media_type,stream_index,best_effort_timestamp,best_effort_timestamp_time,pts,pts_time,duration,duration_time,width,height,pix_fmt,sample_aspect_ratio,interlaced_frame,top_field_first,repeat_pict,color_transfer,color_primaries,color_space,color_range,chroma_location:frame_side_data",
+          "-of",
+          "json",
+          "-i",
+          "proof://input/audited-short.mp4"
+        ],
+        "startedAt": "2026-11-17T23:47:04.487Z",
+        "spawned": true,
+        "phase": "preparation",
+        "classification": "non-progress",
+        "pid": 1205,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:04.941Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 34,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-show_streams",
+          "-show_format",
+          "-show_chapters",
+          "-show_programs",
+          "-show_stream_groups",
+          "-show_data_hash",
+          "sha256",
+          "-of",
+          "json",
+          "-i",
+          "proof://input/audited-short.mp4"
+        ],
+        "startedAt": "2026-11-17T23:47:05.173Z",
+        "spawned": true,
+        "phase": "target",
+        "classification": "non-progress",
+        "pid": 1206,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:05.194Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 35,
+        "tool": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-nostdin",
+          "-loglevel",
+          "warning",
+          "-nostats",
+          "-progress",
+          "pipe:1",
+          "-n",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi",
+          "-noautorotate",
+          "-copyts",
+          "-display_rotation:0",
+          "0",
+          "-i",
+          "proof://input/audited-short.mp4",
+          "-map",
+          "0:0",
+          "-map",
+          "0:1",
+          "-map_metadata",
+          "0",
+          "-map_chapters",
+          "0",
+          "-c",
+          "copy",
+          "-c:v:0",
+          "libx265",
+          "-map_metadata:s:0",
+          "0:s:0",
+          "-disposition:0",
+          "default",
+          "-map_metadata:s:1",
+          "0:s:1",
+          "-disposition:1",
+          "default",
+          "-preset:v:0",
+          "slow",
+          "-crf:v:0",
+          "25",
+          "-x265-params",
+          "aq-mode=3:psy-rd=2",
+          "-pix_fmt:v:0",
+          "+yuv420p",
+          "-fps_mode:v:0",
+          "passthrough",
+          "-color_trc:v:0",
+          "bt709",
+          "-color_primaries:v:0",
+          "bt709",
+          "-colorspace:v:0",
+          "bt709",
+          "-color_range:v:0",
+          "tv",
+          "-metadata",
+          "FFMPEG_ENCODER_PROVENANCE=1",
+          "-metadata",
+          "FFMPEG_ENCODER_OUTPUT_ID=b295c150-555a-491a-b0ba-d03254d51d0b",
+          "-metadata",
+          "FFMPEG_ENCODER_GENERATION={\"version\":1,\"profileId\":\"h265-cpu\",\"codec\":\"H265\",\"backend\":\"CPU\",\"encoder\":\"libx265\",\"preset\":\"slow\",\"qualityMode\":\"CRF\",\"quality\":25,\"bitDepth\":8,\"encoderArgs\":[\"-c:v:0\",\"libx265\",\"-preset:v:0\",\"slow\",\"-crf:v:0\",\"25\",\"-x265-params\",\"aq-mode=3:psy-rd=2\"],\"appVersion\":\"0.7.0-alpha.1\",\"createdAt\":\"2026-11-17T23:47:04.973Z\",\"runtimeVersion\":\"ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers\"}",
+          "-metadata:s:v:0",
+          "rotate=0",
+          "-filter:v:0",
+          "scale=w=1280:h=720:flags=lanczos+accurate_rnd:in_color_matrix=bt709:out_color_matrix=bt709:in_range=tv:out_range=tv,setsar=sar=(1/1):max=2147483647,sidedata=mode=delete:type=DISPLAYMATRIX",
+          "-enc_time_base:v:0",
+          "filter",
+          "-avoid_negative_ts",
+          "disabled",
+          "-stats_enc_pre:0",
+          "proof://state-1/operation-evidence/job-11af2a44-684e-4b33-85e0-a6854b31e5d7/encoder-telemetry-LEwbog/stream-0.tsv",
+          "-stats_enc_pre_fmt:0",
+          "ffet1\tv\t{fidx}\t{sidx}\t{n}\t{ni}\t{tb}\t{pts}\t{tbi}\t{ptsi}",
+          "-default_mode",
+          "passthrough",
+          "-f",
+          "matroska",
+          "proof://output/.ffmpeg-encoder-E1TjL8/encoded.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:05.297Z",
+        "spawned": true,
+        "phase": "target",
+        "classification": "owned-target",
+        "pid": 1207,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:19.669Z",
+        "stderr": "[vost#0:0 @ 0x55f1f1069e80] Multiple -codec/-c/-acodec/-vcodec/-scodec/-dcodec options specified for stream 0, only the last option '-codec:v:0 libx265' will be used.\nx265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n",
+        "stderrCapture": {
+          "totalBytes": 335,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 335,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "a7db47be6e8c2ca00f910e03d8138524d6a2db1275de758c443d05ea0edbeb8c"
+      },
+      {
+        "index": 36,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file",
+          "-show_format",
+          "-show_streams",
+          "-show_chapters",
+          "-show_data_hash",
+          "sha256",
+          "-of",
+          "json",
+          "proof://output/.ffmpeg-encoder-E1TjL8/encoded.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:19.774Z",
+        "spawned": true,
+        "phase": "target",
+        "classification": "non-progress",
+        "pid": 1244,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:19.788Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 37,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "0",
+          "-show_frames",
+          "-show_entries",
+          "frame=media_type,stream_index,pts,duration,pkt_duration,nb_samples,sample_fmt,channels,channel_layout,width,height,pix_fmt,interlaced_frame,color_range,color_space,color_primaries,color_transfer,sample_aspect_ratio,chroma_location:frame_tags=:frame_side_data=side_data_type",
+          "-of",
+          "compact=p=1:nk=0:escape=c",
+          "-i",
+          "proof://input/audited-short.mp4"
+        ],
+        "startedAt": "2026-11-17T23:47:19.873Z",
+        "spawned": true,
+        "phase": "target",
+        "classification": "non-progress",
+        "pid": 1245,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:21.360Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 38,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "0",
+          "-show_frames",
+          "-show_entries",
+          "frame=media_type,stream_index,pts,duration,pkt_duration,nb_samples,sample_fmt,channels,channel_layout,width,height,pix_fmt,interlaced_frame,color_range,color_space,color_primaries,color_transfer:frame_tags=:frame_side_data=",
+          "-of",
+          "compact=p=1:nk=0:escape=c",
+          "-i",
+          "proof://output/.ffmpeg-encoder-E1TjL8/encoded.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:21.474Z",
+        "spawned": true,
+        "phase": "target",
+        "classification": "non-progress",
+        "pid": 1246,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:22.422Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 39,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "1",
+          "-show_frames",
+          "-show_entries",
+          "frame=media_type,stream_index,pts,duration,pkt_duration,nb_samples,sample_fmt,channels,channel_layout,width,height,pix_fmt,interlaced_frame,color_range,color_space,color_primaries,color_transfer:frame_tags=:frame_side_data=",
+          "-of",
+          "compact=p=1:nk=0:escape=c",
+          "-i",
+          "proof://input/audited-short.mp4"
+        ],
+        "startedAt": "2026-11-17T23:47:22.509Z",
+        "spawned": true,
+        "phase": "target",
+        "classification": "non-progress",
+        "pid": 1247,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:22.548Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 40,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "1",
+          "-show_frames",
+          "-show_entries",
+          "frame=media_type,stream_index,pts,duration,pkt_duration,nb_samples,sample_fmt,channels,channel_layout,width,height,pix_fmt,interlaced_frame,color_range,color_space,color_primaries,color_transfer:frame_tags=:frame_side_data=",
+          "-of",
+          "compact=p=1:nk=0:escape=c",
+          "-i",
+          "proof://output/.ffmpeg-encoder-E1TjL8/encoded.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:22.631Z",
+        "spawned": true,
+        "phase": "target",
+        "classification": "non-progress",
+        "pid": 1248,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:22.664Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 41,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "1",
+          "-show_packets",
+          "-show_entries",
+          "packet=stream_index:packet_tags=:packet_side_data=side_data_type,skip_samples,discard_padding",
+          "-of",
+          "compact=p=1:nk=0:escape=c",
+          "-i",
+          "proof://output/.ffmpeg-encoder-E1TjL8/encoded.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:22.752Z",
+        "spawned": true,
+        "phase": "target",
+        "classification": "non-progress",
+        "pid": 1249,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:22.766Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 42,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "1",
+          "-show_packets",
+          "-show_data_hash",
+          "sha256",
+          "-show_entries",
+          "packet=stream_index,data_hash:packet_tags=:packet_side_data=side_data_type,skip_samples,discard_padding",
+          "-of",
+          "compact=p=1:nk=0:escape=c",
+          "-i",
+          "proof://input/audited-short.mp4"
+        ],
+        "startedAt": "2026-11-17T23:47:22.849Z",
+        "spawned": true,
+        "phase": "target",
+        "classification": "non-progress",
+        "pid": 1250,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:22.874Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 43,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "1",
+          "-show_streams",
+          "-show_data_hash",
+          "sha256",
+          "-show_entries",
+          "stream=index,extradata_hash:stream_tags=:stream_disposition=",
+          "-of",
+          "compact=p=1:nk=0:escape=c",
+          "-i",
+          "proof://input/audited-short.mp4"
+        ],
+        "startedAt": "2026-11-17T23:47:22.959Z",
+        "spawned": true,
+        "phase": "target",
+        "classification": "non-progress",
+        "pid": 1251,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:22.981Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 44,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "1",
+          "-show_packets",
+          "-show_data_hash",
+          "sha256",
+          "-show_entries",
+          "packet=stream_index,data_hash:packet_tags=:packet_side_data=side_data_type,skip_samples,discard_padding",
+          "-of",
+          "compact=p=1:nk=0:escape=c",
+          "-i",
+          "proof://output/.ffmpeg-encoder-E1TjL8/encoded.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:23.066Z",
+        "spawned": true,
+        "phase": "target",
+        "classification": "non-progress",
+        "pid": 1252,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:23.084Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 45,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "1",
+          "-show_streams",
+          "-show_data_hash",
+          "sha256",
+          "-show_entries",
+          "stream=index,extradata_hash:stream_tags=:stream_disposition=",
+          "-of",
+          "compact=p=1:nk=0:escape=c",
+          "-i",
+          "proof://output/.ffmpeg-encoder-E1TjL8/encoded.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:23.170Z",
+        "spawned": true,
+        "phase": "target",
+        "classification": "non-progress",
+        "pid": 1253,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:23.185Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 46,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-show_format",
+          "-show_streams",
+          "-of",
+          "json",
+          "proof://output/audited-short_H265-CPU.mkv"
+        ],
+        "startedAt": "2026-11-17T23:47:23.597Z",
+        "spawned": true,
+        "phase": "post-target",
+        "classification": "non-progress",
+        "pid": 1254,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:23.632Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "index": 47,
+        "tool": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-show_streams",
+          "-show_format",
+          "-show_chapters",
+          "-show_programs",
+          "-show_stream_groups",
+          "-show_data_hash",
+          "sha256",
+          "-of",
+          "json",
+          "-i",
+          "proof://input/audited-short.mp4"
+        ],
+        "startedAt": "2026-11-17T23:47:23.726Z",
+        "spawned": true,
+        "phase": "post-target",
+        "classification": "non-progress",
+        "pid": 1255,
+        "closeCode": 0,
+        "closeSignal": null,
+        "closed": true,
+        "finishedAt": "2026-11-17T23:47:23.749Z",
+        "stderr": "",
+        "stderrCapture": {
+          "totalBytes": 0,
+          "truncated": false
+        },
+        "stderrCaptureKnown": true,
+        "stderrTruncated": false,
+        "stderrRetainedBytes": 0,
+        "stderrCompleteAtSave": true,
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "census": {
+      "spawned": 47,
+      "closed": 47,
+      "live": 0,
+      "maximum": 1,
+      "progressChildren": 13,
+      "targetEncodes": 1
+    },
+    "limitations": [
+      "Short service proof only; no native/OS reveal/PCM/arbitrary-length/cancellation qualification.",
+      "Metadata before encoding; complete decoded source after encoding before publication.",
+      "Pre-child disk/size admission is not a hard active-write cap.",
+      "Abort request is not a guaranteed whole-process exit bound."
+    ],
+    "firstTerminalSnapshot": {
+      "revision": 55,
+      "batchId": "33346c5c-92cd-4094-bb2b-229e077ca26c",
+      "phase": "completed",
+      "planId": "b7d55776-7f6a-4b0b-9522-6e6502648250",
+      "settings": {
+        "profileId": "h265-cpu",
+        "preset": "slow",
+        "quality": 25
+      },
+      "items": [
+        {
+          "id": "01b39e31-748e-48e4-a837-cd70a5ef53a2",
+          "name": "audited-short.mp4",
+          "outputName": "audited-short_H265-CPU.mkv",
+          "status": "success",
+          "reason": "",
+          "reencodeAuthorized": false,
+          "operationRequest": {
+            "version": 1,
+            "fileId": "01b39e31-748e-48e4-a837-cd70a5ef53a2",
+            "identityRevision": 0,
+            "draftRevision": 1,
+            "operation": "encode",
+            "appDefaultsRevision": 0,
+            "target": "matroska",
+            "resolution": "720",
+            "hdrPolicy": "preserve",
+            "range": null,
+            "audioPolicy": "copy",
+            "aacBitrateKbps": null,
+            "origins": {
+              "target": "factory",
+              "resolution": "file",
+              "hdrPolicy": "app",
+              "range": "file",
+              "audioPolicy": "file",
+              "aacBitrateKbps": "factory"
+            },
+            "omissionRequestIds": [],
+            "omissionAuthority": "unbound-request-ids"
+          },
+          "inspectionMethod": "fresh",
+          "origin": {
+            "kind": "original",
+            "reason": "No application-generated provenance was detected."
+          },
+          "summary": {
+            "selectedVideoIndex": 0,
+            "codec": "h264",
+            "width": 1920,
+            "height": 1080,
+            "pixelFormat": "yuv420p",
+            "bitDepth": 8,
+            "frameRate": 30,
+            "streamCounts": {
+              "video": 1,
+              "audio": 1
+            },
+            "durationSeconds": 8,
+            "sampling": [
+              {
+                "label": "start",
+                "start": 0,
+                "seconds": 2,
+                "interval": "0.000000%2.000000",
+                "succeeded": true,
+                "frames": 57,
+                "framesInWindow": 57,
+                "observedStart": 0,
+                "observedEnd": 1.866667
+              }
+            ],
+            "samplingLimit": "Bounded metadata samples cannot prove the absence of untagged HDR or HDR outside inspected frames. Demuxer seeking may begin at an earlier keyframe.",
+            "metadataNotices": [],
+            "boundedFrameProperties": {
+              "scope": "bounded-decoded-windows-only",
+              "complete": true,
+              "decodedFrames": 57,
+              "scan": "progressive-observed",
+              "geometry": {
+                "width": {
+                  "complete": true,
+                  "values": [
+                    1920
+                  ]
+                },
+                "height": {
+                  "complete": true,
+                  "values": [
+                    1080
+                  ]
+                },
+                "pix_fmt": {
+                  "complete": true,
+                  "values": [
+                    "yuv420p"
+                  ]
+                },
+                "sample_aspect_ratio": {
+                  "complete": true,
+                  "values": [
+                    "1:1"
+                  ]
+                }
+              },
+              "color": {
+                "color_transfer": {
+                  "complete": true,
+                  "values": [
+                    "bt709"
+                  ]
+                },
+                "color_primaries": {
+                  "complete": true,
+                  "values": [
+                    "bt709"
+                  ]
+                },
+                "color_space": {
+                  "complete": true,
+                  "values": [
+                    "bt709"
+                  ]
+                },
+                "color_range": {
+                  "complete": true,
+                  "values": [
+                    "tv"
+                  ]
+                }
+              },
+              "limitation": "Observed frames do not prove unchanged scan, geometry, color or metadata outside the inspected windows."
+            }
+          },
+          "rangeLimitUs": 8000000,
+          "outputDisposition": {
+            "kind": "published",
+            "published": true,
+            "file": "proof://output/audited-short_H265-CPU.mkv"
+          },
+          "sourceAssessment": {
+            "kind": "unchanged",
+            "diagnostic": {
+              "version": 1,
+              "stage": "after-encode",
+              "checkpoint": "after-encode",
+              "changedFields": [],
+              "expected": {
+                "canonicalPath": "proof://input/audited-short.mp4",
+                "dev": "27",
+                "ino": "2241838",
+                "size": "5578679",
+                "mtimeNs": "1794959220338135812",
+                "ctimeNs": "1794959220338135812",
+                "birthtimeNs": "1794959220326135610",
+                "sparseDigest": "sha256-sparse-v1:817813293f3a557371abd080bb11828e3f4582935dec8c2a80aecaf284749d99"
+              },
+              "actual": {
+                "canonicalPath": "proof://input/audited-short.mp4",
+                "dev": "27",
+                "ino": "2241838",
+                "size": "5578679",
+                "mtimeNs": "1794959220338135812",
+                "ctimeNs": "1794959220338135812",
+                "birthtimeNs": "1794959220326135610",
+                "sparseDigest": "sha256-sparse-v1:817813293f3a557371abd080bb11828e3f4582935dec8c2a80aecaf284749d99"
+              },
+              "comparison": "sparse-identity"
+            }
+          },
+          "timing": {
+            "timeline": "source-timestamps",
+            "requested": null,
+            "resolved": null,
+            "video": {
+              "startUs": 0,
+              "endUs": 8000000,
+              "frames": 240,
+              "outputStartUs": 0,
+              "outputEndUs": 8000000
+            },
+            "audio": [
+              {
+                "inputIndex": 1,
+                "mode": "copy",
+                "startUs": 0,
+                "endUs": 8000000,
+                "outputStartUs": 0,
+                "outputEndUs": 8000333,
+                "encoderDelaySamples": 1024,
+                "discardPaddingSamples": 0,
+                "sampleCountDifference": 0
+              }
+            ]
+          },
+          "outcome": "saved",
+          "outputAccess": {
+            "outputId": "105395d8-486b-4b37-a836-cba80c81bbd4"
+          },
+          "evidenceStorage": {
+            "schema": 1,
+            "observation": "complete",
+            "consistency": "bounded-point-observations",
+            "observationAttempts": 1,
+            "maxObservationAttempts": 3,
+            "usedBytes": 134589,
+            "reservedBytes": 0,
+            "projectedBytes": 200125,
+            "capBytes": 1073741824,
+            "metadataHeadroomBytes": 65536,
+            "entries": 23,
+            "freeBytes": 58546855936,
+            "minFreeBytes": 26843545600,
+            "overCap": false,
+            "overAdmissionCap": false,
+            "lowFree": false,
+            "jobs": [],
+            "leaseRecovery": "none",
+            "ledgerState": "reconciled",
+            "startupLedgerState": "missing-reconciled",
+            "directorySync": "synced",
+            "hardWriteCap": false,
+            "final": {
+              "id": "job-11af2a44-684e-4b33-85e0-a6854b31e5d7",
+              "status": "completed",
+              "recordPersisted": true,
+              "violations": [],
+              "retained": true
+            }
+          }
+        }
+      ],
+      "progress": {
+        "fileId": "01b39e31-748e-48e4-a837-cd70a5ef53a2",
+        "stage": "publication",
+        "duration": 8,
+        "percent": null
+      },
+      "counts": {
+        "success": 1,
+        "failed": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "unprocessed": 0
+      },
+      "elapsedSeconds": 18.22,
+      "error": null,
+      "operation": "encode",
+      "remuxSupport": {
+        "targets": [
+          "matroska",
+          "mp4",
+          "mov"
+        ],
+        "notice": "Full stream copy only. Each source/target and every retained stream needs a qualified preservation path; unsupported cases are explained per file."
+      },
+      "diagnostics": {
+        "available": true,
+        "incomplete": false,
+        "failures": 0,
+        "lastFailure": null,
+        "notices": [],
+        "sessionId": "51135855-cf2d-42ee-877e-16f2a387e79f"
+      },
+      "provenanceRecovery": {
+        "matching": 0,
+        "absent": 0,
+        "unrelated": 0,
+        "uncertain": 0,
+        "pendingRemaining": 0,
+        "warnings": []
+      },
+      "encodingSettingsStale": false,
+      "operationDraft": {
+        "id": "44143bf8-4cd0-468f-b978-a4f815c5d8a8",
+        "revision": 1,
+        "operation": "encode",
+        "frozen": true,
+        "batchDefaults": {
+          "version": 1,
+          "appDefaultsRevision": 0,
+          "values": {
+            "fullAudioPolicy": "copy",
+            "rangeAudioPolicy": "precision-aac",
+            "resolution": "source",
+            "hdrPolicy": "preserve",
+            "remuxTarget": "matroska"
+          },
+          "origins": {
+            "fullAudioPolicy": "app",
+            "rangeAudioPolicy": "app",
+            "resolution": "app",
+            "hdrPolicy": "app",
+            "remuxTarget": "app"
+          }
+        },
+        "files": [
+          {
+            "fileId": "01b39e31-748e-48e4-a837-cd70a5ef53a2",
+            "request": {
+              "version": 1,
+              "fileId": "01b39e31-748e-48e4-a837-cd70a5ef53a2",
+              "identityRevision": 0,
+              "draftRevision": 1,
+              "operation": "encode",
+              "appDefaultsRevision": 0,
+              "target": "matroska",
+              "resolution": "720",
+              "hdrPolicy": "preserve",
+              "range": null,
+              "audioPolicy": "copy",
+              "aacBitrateKbps": null,
+              "origins": {
+                "target": "factory",
+                "resolution": "file",
+                "hdrPolicy": "app",
+                "range": "file",
+                "audioPolicy": "file",
+                "aacBitrateKbps": "factory"
+              },
+              "omissionRequestIds": [],
+              "omissionAuthority": "unbound-request-ids"
+            },
+            "overrides": {
+              "range": null,
+              "resolution": "720",
+              "audioPolicy": "copy"
+            }
+          }
+        ]
+      },
+      "preparation": null
+    },
+    "diagnosticsComplete": true,
+    "postCloseSourceHashCount": 577,
+    "postCloseIdentityChecked": true,
+    "ownedBytesAtClose": "7947104",
+    "freeBytesAtClose": "58546757632",
+    "artifacts": [
+      {
+        "path": "001-started.json",
+        "bytes": 68964,
+        "sha256": "3208e640235d55df62747728b12410c345ed2ba465f76efc516e0d3da72699c5"
+      },
+      {
+        "path": "002-session-1.json",
+        "bytes": 19994,
+        "sha256": "211881670a7b60af24dbc0fda38eb1440e35421e0a816bcfed4bb8848fc64494"
+      },
+      {
+        "path": "003-compatibility-ready-start-refused.json",
+        "bytes": 7131,
+        "sha256": "0febd0f5d430c6800c3c2bda3f1ffc509603f6036611280b4a0a6c80f1461a2b"
+      },
+      {
+        "path": "004-full-copy-prepared.json",
+        "bytes": 7621,
+        "sha256": "79a0b4510229761df34e925bedf763ada238bd691159b41968c289c34c7ed3e6"
+      },
+      {
+        "path": "005-short-full-copy-settled.json",
+        "bytes": 10579,
+        "sha256": "94b5f6c5467dcae5ad3b1e78910b9dd4bde895a12b561b9d7f9cf28c55719882"
+      },
+      {
+        "path": "006-first-terminal-preserved-before-helper-assertions.json",
+        "bytes": 10557,
+        "sha256": "4014782e8650be1b683fd4ae18cc30c9bffef89c9244e9564b122f75cb8e5d90"
+      },
+      {
+        "path": "007-first-terminal-result.json",
+        "bytes": 34963,
+        "sha256": "dd669223f1376510f7cfd27a64e4da87e6789473c88c1e5f66a4611410300e28"
+      },
+      {
+        "path": "child-diagnostics/001.json",
+        "bytes": 706,
+        "sha256": "51c42998240522193564204c2fc46f27540d02280915f3fef9d6fd883f42d735"
+      },
+      {
+        "path": "child-diagnostics/002.json",
+        "bytes": 707,
+        "sha256": "0df6f76fc600a63002e9f380df3010392d1fd95919a40da7dfd9e3c446c95286"
+      },
+      {
+        "path": "child-diagnostics/003.json",
+        "bytes": 1396,
+        "sha256": "82aedc59e45e7714088a34271afab2fb76ad4ac44b93503eaec03205fe616f24"
+      },
+      {
+        "path": "child-diagnostics/004.json",
+        "bytes": 1016,
+        "sha256": "22b11442072bb03409d8b29d6ffbb03fff894670cb8e6c1f4db911001398f5d8"
+      },
+      {
+        "path": "child-diagnostics/005.json",
+        "bytes": 1405,
+        "sha256": "15f50b5bfac2ccbbf50b06abe9b6d538773083a3e4b05d90049884f7b14a6ba3"
+      },
+      {
+        "path": "child-diagnostics/006.json",
+        "bytes": 1017,
+        "sha256": "d4a4ef27e3bdd274f1bb8c4c7d62d57fd73752a1c84fe5449f1299c3f9ad24a0"
+      },
+      {
+        "path": "child-diagnostics/007.json",
+        "bytes": 1404,
+        "sha256": "e5593cf951007355afe1542ce39fc626b13688117792b77ef9103c9713246941"
+      },
+      {
+        "path": "child-diagnostics/008.json",
+        "bytes": 1023,
+        "sha256": "902c6866a62aaf844210d8e6b9da3b02ad7e90339b58c508b5bd2a55fcd5a2ed"
+      },
+      {
+        "path": "child-diagnostics/009.json",
+        "bytes": 1413,
+        "sha256": "fd9692afb3156d69153c0dae75e9e115df0bd3a3fa77b9b6f42fa28e10b38c20"
+      },
+      {
+        "path": "child-diagnostics/010.json",
+        "bytes": 1025,
+        "sha256": "85c4db2aa28c9895723af47e54b6d72031271e8516bb460da623ca53767b5772"
+      },
+      {
+        "path": "child-diagnostics/011.json",
+        "bytes": 2044,
+        "sha256": "8e91b0364935c9a13441b4705b3884ff51baf2727080e92be7f88173174aee8e"
+      },
+      {
+        "path": "child-diagnostics/012.json",
+        "bytes": 1041,
+        "sha256": "28b8fcfd042afce129a0b6239ce3ec965ca6a2157a146dd0635c36efc8e68947"
+      },
+      {
+        "path": "child-diagnostics/013.json",
+        "bytes": 1126,
+        "sha256": "6417086295ad96751bc9f754810847107fd3324403e05a2229ba9aeb5106e20a"
+      },
+      {
+        "path": "child-diagnostics/014.json",
+        "bytes": 2050,
+        "sha256": "b468013355eeca2dcb79cdefd5c3277d7e3ad3ba20df4d43bdd5112a9eb5dde6"
+      },
+      {
+        "path": "child-diagnostics/015.json",
+        "bytes": 1042,
+        "sha256": "c157ef2384c1ae513ce9bd1eba1d94034fa1f819df0816cfd935ee7da0aa1890"
+      },
+      {
+        "path": "child-diagnostics/016.json",
+        "bytes": 1127,
+        "sha256": "e60b6e9a69c53480d3b6f3b7a9997aeb71dee762aa62659684ac63151eb301d6"
+      },
+      {
+        "path": "child-diagnostics/017.json",
+        "bytes": 2259,
+        "sha256": "24bbfd7078b8ad98da716189083073729a102f0cf2c6ad409f3eb9e153940982"
+      },
+      {
+        "path": "child-diagnostics/018.json",
+        "bytes": 1041,
+        "sha256": "db1a9858a0a3fc82576634653150712fc988690d2b3bc373a30b4187b985fb4c"
+      },
+      {
+        "path": "child-diagnostics/019.json",
+        "bytes": 1126,
+        "sha256": "cb9316f3fe5ed8ff50eff38267b9c1ba9313a49c40ccc15dcc030a96bc1c3372"
+      },
+      {
+        "path": "child-diagnostics/020.json",
+        "bytes": 2265,
+        "sha256": "f9eae8354b5c0c118346dfd07ec698f347ce8cd00e1e4e2e558214be0d2ac977"
+      },
+      {
+        "path": "child-diagnostics/021.json",
+        "bytes": 1042,
+        "sha256": "4d389205d07a2688854bc5533fb9f8479c8fadef9347866bc73a40b4e8aa78d7"
+      },
+      {
+        "path": "child-diagnostics/022.json",
+        "bytes": 1127,
+        "sha256": "4abad2ce34f8e60c931f9a9dd92b1910c58182a0cc024313518d4bfd5e45813e"
+      },
+      {
+        "path": "child-diagnostics/023.json",
+        "bytes": 3103,
+        "sha256": "3c82ce758c9fd9097677750c19a7c6b904874f12b5fa150836a335db986ddec2"
+      },
+      {
+        "path": "child-diagnostics/024.json",
+        "bytes": 1041,
+        "sha256": "29fdc0fee76f069f6683c4657239c346a3cdb3cb2846f73f01538b618db35974"
+      },
+      {
+        "path": "child-diagnostics/025.json",
+        "bytes": 1126,
+        "sha256": "2b7934dd95030d85b5410d9e0d9cdef8a9b0723dd4643a2114b1f6521854170d"
+      },
+      {
+        "path": "child-diagnostics/026.json",
+        "bytes": 3111,
+        "sha256": "c6c9040de6f9d37ed747eaac19431fc13f79fe45942c3fd99f7cd509f304097f"
+      },
+      {
+        "path": "child-diagnostics/027.json",
+        "bytes": 1042,
+        "sha256": "c093624da23a96d27e36a7fb9ca6f97554cb180fb3aa027b82498f0e90dedf2a"
+      },
+      {
+        "path": "child-diagnostics/028.json",
+        "bytes": 1127,
+        "sha256": "7da9d8ffa607af6e5259361c98c3a038371437051a341a08b010e0ef852a1497"
+      },
+      {
+        "path": "child-diagnostics/029.json",
+        "bytes": 965,
+        "sha256": "40e6048d7e4e2792dcff4b4ba308010d02cf60b9672c305810b74547ea339cee"
+      },
+      {
+        "path": "child-diagnostics/030.json",
+        "bytes": 1187,
+        "sha256": "c9e5347550802400c1526516f1f780cd299ae0837066df11729134552eb8f3c8"
+      },
+      {
+        "path": "child-diagnostics/031.json",
+        "bytes": 1454,
+        "sha256": "34d19f63c0880183a6ad1ed23c95566b894774bd63656cbe5ccde150fc29127e"
+      },
+      {
+        "path": "child-diagnostics/032.json",
+        "bytes": 1187,
+        "sha256": "93c2670fa25ab8049c3e28802fd3b7ea8bd72652ec1f13feed88fe2e9a8ab18b"
+      },
+      {
+        "path": "child-diagnostics/033.json",
+        "bytes": 1454,
+        "sha256": "f3739d92ac0304e4ad223e2066d58b5b2185520f695c1eee366ddf36b2cbeea9"
+      },
+      {
+        "path": "child-diagnostics/034.json",
+        "bytes": 1182,
+        "sha256": "aa78e3b1b49a50afaf9b5de2848d7e4f5845c0f48301bc52a422667d607bc2df"
+      },
+      {
+        "path": "child-diagnostics/035.json",
+        "bytes": 3795,
+        "sha256": "84f3a724959b1ba047ec23ff0d3ae8794d193b57ae6bbc0761991246697dde31"
+      },
+      {
+        "path": "child-diagnostics/036.json",
+        "bytes": 1075,
+        "sha256": "6f38b1a586dd46d9fd1821898743e5baac8eea01b5e934fe8c3c1de402ef972f"
+      },
+      {
+        "path": "child-diagnostics/037.json",
+        "bytes": 1408,
+        "sha256": "57d0e972c69821cd28d5c73cea2321d5cb8f6962215b1e0df3b2ffca92fbca05"
+      },
+      {
+        "path": "child-diagnostics/038.json",
+        "bytes": 1376,
+        "sha256": "800830a74acbabe813e0e25698c99d34171ce6afd3502fd671bf4a3049fb9a1d"
+      },
+      {
+        "path": "child-diagnostics/039.json",
+        "bytes": 1358,
+        "sha256": "bf70f024d803744526215ba13b6866d4b46ecc1ee0a093ebbea6198cb3a95251"
+      },
+      {
+        "path": "child-diagnostics/040.json",
+        "bytes": 1376,
+        "sha256": "58ac7791d245a3053d7fb5733b2193f3ccc9acf108a5eacf6fd0ee45903619e3"
+      },
+      {
+        "path": "child-diagnostics/041.json",
+        "bytes": 1247,
+        "sha256": "292c78b72a2e6992005b7eb6d22ec80a071a3a0ba15e03efcd46c286acc950d6"
+      },
+      {
+        "path": "child-diagnostics/042.json",
+        "bytes": 1276,
+        "sha256": "3ef7ca85ef28585abe375f57a47f3cf734477c0d5df2fab79fc29330c9f35cfa"
+      },
+      {
+        "path": "child-diagnostics/043.json",
+        "bytes": 1233,
+        "sha256": "308ff588be52105f8992496b4e9054d42261cafc2f4226a1e951d03da8e85fd6"
+      },
+      {
+        "path": "child-diagnostics/044.json",
+        "bytes": 1294,
+        "sha256": "bf8cf0931670468665fcfc45f068186ee1599dac4adbbb74cd85aa09ca1c189a"
+      },
+      {
+        "path": "child-diagnostics/045.json",
+        "bytes": 1251,
+        "sha256": "7957ce6d98a11d08d2102aa1dfa345fe63380456a030a62b0d72a3be1970168f"
+      },
+      {
+        "path": "child-diagnostics/046.json",
+        "bytes": 974,
+        "sha256": "659db6a65a52aa4d3823943085c2a8082c1e2d5f98e15f542de6100737ac3979"
+      },
+      {
+        "path": "child-diagnostics/047.json",
+        "bytes": 1187,
+        "sha256": "967a419714e6ac3a2e2e28b6bfccba7f5a9354d8a3213bafa22dbdffe7278939"
+      },
+      {
+        "path": "input/audited-short.mp4",
+        "bytes": 5578679,
+        "sha256": "bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97"
+      },
+      {
+        "path": "output-probe.json",
+        "bytes": 4953,
+        "sha256": "5412d247bb54bdae6eb830788ac76447f39896ca71bc34d8aea602fde4d04f11"
+      },
+      {
+        "path": "output/audited-short_H265-CPU.mkv",
+        "bytes": 1959028,
+        "sha256": "4e4cd8e4fe45d0665051ed61ba77e54eb7cf6dc5b46dfd075f565f114ccb5931"
+      },
+      {
+        "path": "source-probe.json",
+        "bytes": 4645,
+        "sha256": "76ba4b18ffa0ecd06cc5a5e24622dd4e9ecae35848d8aef10dc58753e2aa0768"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/0061f240-36cd-4044-972e-40107b32658c.json",
+        "bytes": 716,
+        "sha256": "4db740e3245fd8e0d8a100989cbe648983e2334e8a4cf18497d1c727a644ec11"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/0d2a7899-ce0a-4180-8e8f-aca7966d3a97.json",
+        "bytes": 718,
+        "sha256": "cc120992b35c4fc3cdab98f1571ac07a667506ed1007c69955aecc9f128c26c1"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/133957c3-cce3-4ca6-ac73-a7f42b636b41.json",
+        "bytes": 501,
+        "sha256": "bdca255fe5f26740854012e8b869e41e9fc8f6961765381d4e72619645fce6de"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/37ba7766-58f1-48a7-9019-131e79d9a060.json",
+        "bytes": 11843,
+        "sha256": "65c4902c911271c8734ce612eb42dc6885c43b3b0d3c8076c0328c6523a3897c"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/3e88e1f3-cdea-44ab-a953-f3cd658a9d2f.json",
+        "bytes": 2017,
+        "sha256": "c7a1429a526065204d9d96fa672df8cd8bda30b23ce2d317f4231150ad546d92"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/410bc1e7-5c8f-42ca-a847-0eaf2ea24532.json",
+        "bytes": 873,
+        "sha256": "3d3766fffe4c80b8593563c5935016dd53ef9c5a929e1d43d18e01dce924947e"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/43e0d8af-7020-4816-a42f-7b58508cfdae.json",
+        "bytes": 2435,
+        "sha256": "7ec8d86898c1d72c265c1d374a538a9c3a34d84f85ebb2624093e0c408bf5e2c"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/4f0f618f-de27-4f4c-92da-6453904c1bd3.json",
+        "bytes": 1579,
+        "sha256": "a53cafb60e713b2f0004f151c9d516c385c13650c08879cb603c9464bea66024"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/58ee0379-49c3-4ae2-a6e2-1335caa95553.json",
+        "bytes": 577,
+        "sha256": "e541e6286a4f8afe9978fe371f0526f730c50929caa9f0b1ea1cd1802e5b311a"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/60564c12-ca5e-4a24-adc7-055d105c1af3.json",
+        "bytes": 872,
+        "sha256": "522148e6c5b857096afc938dbefb7bf19fa2ac52ba8f38d420f400d88558d086"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/62ed9107-779d-43c7-a1aa-cb023152992d.json",
+        "bytes": 4162,
+        "sha256": "b2fb0fd4924ac95fd2527e8948168cd0df8c0e1ff9cb1acc7a7e2487de7db71d"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/6c18df4c-19d6-492b-ab47-4d2ebec480a3.json",
+        "bytes": 388,
+        "sha256": "1e1d5880399461bb8a9f406a4435eebc804642d8c1c4544c0809123b1daf920a"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/6e4c6b90-c984-44e7-a71b-b193d1e14827.json",
+        "bytes": 691,
+        "sha256": "34b1ab21a59183555b32456f53d664c43728c6fe01385c49aa45c237dc080f78"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/85e794a3-c7d3-4b52-9f99-75adb520959f.json",
+        "bytes": 1797,
+        "sha256": "e66cfd99ddde15912b995509b9a22fa042b27724b783a46b57f8936d88b69d54"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/8b39464c-2f4a-4695-8659-303f1906bfcf.json",
+        "bytes": 361,
+        "sha256": "e4de9764aeb98695a7746370163eee5c7b27c85fe68b5f94b21cf72cf1d8e840"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/accbd255-47f1-418f-9845-e57bc9200393.json",
+        "bytes": 442,
+        "sha256": "8476dde961d861cb4df0a77b1e835f1cbd582378ed21b679702eca07014fb9ec"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/b342ee1f-dd1e-47b3-b4a2-0423d11ef03a.json",
+        "bytes": 837,
+        "sha256": "facd378f9d1ca5f9b3c3e78b6cf83254cd1a50c6c0fd8fb695a43027136533e8"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/b581a4e3-1343-4142-be7f-e160b034908d.json",
+        "bytes": 533,
+        "sha256": "99444d8b28515ccc255ba9781fbc0d951aaa12018d426dbf715530e9eb8c1fac"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/b5af2da1-fcd7-471c-a49c-54feeab83fe8.json",
+        "bytes": 480,
+        "sha256": "dd905de5cc638d755f3bfcf2eab6eaf2226a16067b3a657f9c81a563f27f3b69"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/e50d2498-1916-4b85-80b2-cc0d895b15a9.json",
+        "bytes": 2017,
+        "sha256": "dccc6ed79f9961d686c6692a0e628a7a2d6a176c5d95896311b56489e2ce232d"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/f5d4c83f-4307-4023-a1b3-4b9d99c63a6d.json",
+        "bytes": 1624,
+        "sha256": "0cb8b94e95bff535089bd1d6a4065c912fbe56b98b5f8c841de1ccb061f3da33"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/f75a34e7-28b2-471f-a7f2-174b13094a12.json",
+        "bytes": 1104,
+        "sha256": "73a821a50d6d49282a47b0fb2b99d011b82d3260ec7952a67bacc8544feffa98"
+      },
+      {
+        "path": "state-1/diagnostics-v1/events/f820d1a5-631c-40b1-8856-0419314099a2.json",
+        "bytes": 776,
+        "sha256": "550f4fed7f0cfed7acc6dba993092e2dda0b66ea51d8c9a738570db6ea657c42"
+      },
+      {
+        "path": "state-1/diagnostics-v1/stderr/0d2a7899-ce0a-4180-8e8f-aca7966d3a97.txt",
+        "bytes": 335,
+        "sha256": "a7db47be6e8c2ca00f910e03d8138524d6a2db1275de758c443d05ea0edbeb8c"
+      },
+      {
+        "path": "state-1/localpreferences-v1/preferences.json",
+        "bytes": 684,
+        "sha256": "b272389e1f9d8010dc2332ffc6ecf816bce4f31e194dbfd02616174b07850d05"
+      },
+      {
+        "path": "state-1/operation-evidence/.storage-ledger.json",
+        "bytes": 1575,
+        "sha256": "a506f87e44928bf7a967c813718846e527c2886710ca1e88211f237cd3cc8cba"
+      },
+      {
+        "path": "state-1/operation-evidence/job-11af2a44-684e-4b33-85e0-a6854b31e5d7/encoder-input-receipt.json",
+        "bytes": 3339,
+        "sha256": "d66136bda6c477338c18e40e4edbada5ab243bb09786ff1aa2d540733fd5703c"
+      },
+      {
+        "path": "state-1/operation-evidence/job-11af2a44-684e-4b33-85e0-a6854b31e5d7/encoder-telemetry-LEwbog/stream-0.tsv",
+        "bytes": 11340,
+        "sha256": "a9111876a67c3bfd7105f099170679b0fdba47270c00659a617c98c5acb4930f"
+      },
+      {
+        "path": "state-1/operation-evidence/job-11af2a44-684e-4b33-85e0-a6854b31e5d7/operation-evidence-M7cjwj/child-1.json",
+        "bytes": 1245,
+        "sha256": "1e7b6e492502cdd2085a688451edd3c6c7609f787b80aae73fc42fc843ee3f9c"
+      },
+      {
+        "path": "state-1/operation-evidence/job-11af2a44-684e-4b33-85e0-a6854b31e5d7/operation-evidence-M7cjwj/child-2.json",
+        "bytes": 1213,
+        "sha256": "0d63c9e4533c41762fe8f5de1c9eba6a883a5944e44379c6811a560c8d790514"
+      },
+      {
+        "path": "state-1/operation-evidence/job-11af2a44-684e-4b33-85e0-a6854b31e5d7/operation-evidence-M7cjwj/child-3.json",
+        "bytes": 1197,
+        "sha256": "30cecf513aaab0ab0e318e54e30eca4525e892ec9304c77a89d273d7c45ae63f"
+      },
+      {
+        "path": "state-1/operation-evidence/job-11af2a44-684e-4b33-85e0-a6854b31e5d7/operation-evidence-M7cjwj/child-4.json",
+        "bytes": 1215,
+        "sha256": "e32078deb41d0b92cbedbe67ba9aec189e061b0b5ef1c69019e5f6658f8e8753"
+      },
+      {
+        "path": "state-1/operation-evidence/job-11af2a44-684e-4b33-85e0-a6854b31e5d7/operation-evidence-M7cjwj/child-5.json",
+        "bytes": 1086,
+        "sha256": "38e32c5138f6c8d4fb3827082292aff73418ce0348e449515c9dd745ff7cc6ce"
+      },
+      {
+        "path": "state-1/operation-evidence/job-11af2a44-684e-4b33-85e0-a6854b31e5d7/operation-evidence-M7cjwj/child-6.json",
+        "bytes": 1124,
+        "sha256": "117932bfbe1dcd0e0542247f11c9b1f62821bd71d85abb35031cb9414bf0a7e2"
+      },
+      {
+        "path": "state-1/operation-evidence/job-11af2a44-684e-4b33-85e0-a6854b31e5d7/operation-evidence-M7cjwj/child-7.json",
+        "bytes": 1068,
+        "sha256": "0d261dcc5958aea417a47d9ba73cb4d1b82c7dc807529730796ff26db251a1d2"
+      },
+      {
+        "path": "state-1/operation-evidence/job-11af2a44-684e-4b33-85e0-a6854b31e5d7/operation-evidence-M7cjwj/child-8.json",
+        "bytes": 1142,
+        "sha256": "0a8bbedde275cf207535b1b69a484f9ed4511804bbc3f8fc8329f724cdaf0481"
+      },
+      {
+        "path": "state-1/operation-evidence/job-11af2a44-684e-4b33-85e0-a6854b31e5d7/operation-evidence-M7cjwj/child-9.json",
+        "bytes": 1086,
+        "sha256": "0f92c224fd433392a00a4c72252f68311b4e1b91e7c19a3578edc014a6c450fa"
+      },
+      {
+        "path": "state-1/operation-evidence/job-11af2a44-684e-4b33-85e0-a6854b31e5d7/operation-evidence-M7cjwj/output-audio-1.jsonl",
+        "bytes": 25336,
+        "sha256": "da21466606533237f6546d3766d40b87a8857ad63659b7e495a3b77e520a327d"
+      },
+      {
+        "path": "state-1/operation-evidence/job-11af2a44-684e-4b33-85e0-a6854b31e5d7/operation-evidence-M7cjwj/receipt.json",
+        "bytes": 20369,
+        "sha256": "ca7cdf44fc6d5faa5205f1efffc3b5d02f6686a9943dc0cb40ac91d7d64cf986"
+      },
+      {
+        "path": "state-1/operation-evidence/job-11af2a44-684e-4b33-85e0-a6854b31e5d7/operation-evidence-M7cjwj/selected-audio-1.jsonl",
+        "bytes": 41812,
+        "sha256": "08b1cc8c13aee87d902f031a1fa69f9563dd22a672a08359a5f28cece7a4e216"
+      },
+      {
+        "path": "state-1/operation-evidence/job-11af2a44-684e-4b33-85e0-a6854b31e5d7/operation-evidence-M7cjwj/selected-video.jsonl",
+        "bytes": 16820,
+        "sha256": "839a277e8a91d408c309813baa546bfeda7fb72342e6d84ec010735845fd4b9f"
+      },
+      {
+        "path": "state-1/operation-evidence/job-11af2a44-684e-4b33-85e0-a6854b31e5d7/operation-evidence-M7cjwj/start.json",
+        "bytes": 2349,
+        "sha256": "9cf367e8fc4fbb5e0b723f58e83a40f28fe5847ab63688f814663e99f3a74d47"
+      },
+      {
+        "path": "state-1/operation-evidence/job-11af2a44-684e-4b33-85e0-a6854b31e5d7/storage-final.json",
+        "bytes": 881,
+        "sha256": "c93ceeafa6eb4c1337cc9213c4b874144a93502af8b9171c9a245883575c8810"
+      },
+      {
+        "path": "state-1/operation-evidence/job-11af2a44-684e-4b33-85e0-a6854b31e5d7/storage-reservation.json",
+        "bytes": 175,
+        "sha256": "af0db58a5a5bd28be552e10c1e5d246151c2c0748e213b737fe31e2d360b7ea0"
+      },
+      {
+        "path": "state-1/provenance-v1/b295c150-555a-491a-b0ba-d03254d51d0b.intent.json",
+        "bytes": 1335,
+        "sha256": "814378ae52a15a027f5576619e75324d5b611cfa331292f8cd2bdb395bd56d3e"
+      },
+      {
+        "path": "state-1/provenance-v1/b295c150-555a-491a-b0ba-d03254d51d0b.published.json",
+        "bytes": 690,
+        "sha256": "36a03545eda0181d9b022ecce6e06983d7902371c6ff774824c458eecd48ca7b"
+      }
+    ],
+    "finishedAt": "2026-11-17T23:47:24.092Z",
+    "elapsedMs": 23780.942068,
+    "wallElapsedMs": 23781
+  },
+  "independentAudit": {
+    "bytes": 15918,
+    "sha256": "d8318a9d84611acf2a20912d82a6cf69a1d8cebf8b0476e41f47d7adc25dc8a1",
+    "checkedAtUtc": "2026-11-17T23:49:53.861044+00:00",
+    "disposition": "Saved evidence supports one passed bounded developer short Full720 copied-AAC normal-service proof. Original failed attempt remains failed and unchanged. No production/native/general qualification.",
+    "auditMethodCorrection": "Additional audit assertions initially compared epoch milliseconds with ISO text and a serialized byte count with an integer, stopping before save. Normalized both representations and reran every check. No evidence changed."
+  },
+  "leadReconciliation": {
+    "bytes": 1084,
+    "sha256": "ce48e87499ea51a00cef107da3fa05e35676ac071b9a97d8d491d37b9199146b",
+    "checkedAtUtc": "2026-11-17T23:50:16.887194+00:00",
+    "sourceFiles": 577,
+    "runtimeFiles": 9,
+    "artifacts": 104,
+    "artifactBytes": 7947104,
+    "priorFailedArtifacts": 96,
+    "priorCuratedArtifactIdentities": 19
+  },
+  "leadRelease": {
+    "bytes": 1831,
+    "sha256": "b11c24598c627a9de10dec8e9cb57c5353f7592e602dbe7f920640cf281b7a75",
+    "atUtc": "2026-11-17T23:51:08.153664+00:00",
+    "scope": "Five evidence/PBS records; reviewed source integration only after026 preservation, no new runtime grant."
+  }
+}

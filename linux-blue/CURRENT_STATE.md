@@ -1,16 +1,18 @@
-# Current state: current resize evidence and consumer binding
+# Current state: current resize service proof
 
-Record cutoff: 2026-11-18 10:49:15.341766 UTC. Checkpoint 045 is prepared, not yet committed or externally preserved by this record.
+Cutoff: 2026-11-18 11:09:40.839788 UTC. Checkpoint 046 is an evidence-only preparation, not yet a committed or externally verified checkpoint in this record.
 
-## What works and what remains separate
-- Ordinary candidate CPU H.264 short and 150-second service evidence, short H.265/AV1, and bounded same-reader audio checks remain supported by prior records. Native ordinary H.265 cancellation, explicit new session, recovery publication and reveal were demonstrated on checkpoint 043 and preserved in 044. These are finite cases, not universal input/player acceptance.
-- Current E3 1080p-to-720p calibration passed three preregistered cases on immutable 044. All 42 owned children closed. The independent audit and lead accept this bounded evidence, with warning and retention limits.
-- The resize consumer now binds the new raw report and current producer identities. This is reviewed source plus tests, not an executed real-service or native proof of that new consumer. Resize cancellation still requires a fresh owner/relaunch; ordinary same-process recovery does not transfer.
-- Windows, GPU, general media/performance, release packaging and default promotion remain unqualified. Runtime, UI, Full-copy and ordinary copied-audio policy are unchanged.
+## Reliability map
+- Current E3 1080p-to-720p service now has one audited four-case run on immutable 045: finite publication, collision rejection at actual Start, active cancellation and publication after a new runtime/service owner. All 99 owned children closed. This advances beyond 045's calibration/parser/VM tests; it is not a native resize result.
+- Prior ordinary CPU H.264 short and 150-second, short H.265/AV1 and finite same-reader audio evidence remain supported. Native ordinary H.265 cancellation, explicit new session, recovery and reveal remain separate prior evidence, not resize lifecycle equivalence.
+- Resize recovery required old-owner drain/close and new runtime/service acquisition. Same-service restart, Windows, GPU, general player/quality/performance and default promotion remain unqualified.
 
-## Tests and next action
-Integrated source: 70/70 focused, 229/229 protection and 337/337 explicit Linux tests passed with zero skips or cancellations. Scopes overlap; this is not an npm-test or native run.
+## Evidence and limits
+Two publications contain 63 frames / 101,184 samples and 15 / 24,000 respectively. Full output probes and helper-established output hashes were retained. PCM equality is streaming collector hash evidence, not retained raw PCM independently re-decoded by the auditor. Warning-bearing success and cancellation diagnostics remain visible; no harmlessness or source-corruption inference is made.
 
-Preserve the coherent two-source/five-PBS checkpoint first. Then review the reused service helper for publication, collision, active cancellation and fresh-owner recovery using the retained eight-second fixture. At this cutoff preparation is only assigned and underway: no frozen review, binding, gate or run outcome exists.
+No app, test, runtime, UI, default or audio-policy changes. Inherited 70/70 focused, 229/229 protection and 337/337 explicit Linux tests were not rerun; scopes overlap.
 
-See [execution record](2026-11-18_Current_Resize_Calibration_and_Service_Binding.md) and its [receipts](2026-11-18_Current_Resize_Calibration_and_Service_Binding_Receipts.json).
+## Next action
+Preserve this five-path evidence checkpoint. Native helper reuse/adaptation and read-only warning triage are assigned outside only at the cutoff; no later proposal, review, gate or runtime outcome belongs here.
+
+See [execution](2026-11-18_Current_Resize_Service_Proof.md), [receipts](2026-11-18_Current_Resize_Service_Proof_Receipts.json) and the full parsed [portable report](current-resize-service-proof-portable.json).

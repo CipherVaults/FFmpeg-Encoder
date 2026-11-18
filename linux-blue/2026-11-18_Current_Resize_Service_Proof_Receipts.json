@@ -1,0 +1,163 @@
+{
+  "checkpoint": 46,
+  "cutoffUtc": "2026-11-18T11:09:40.839788+00:00",
+  "sourceCommit": "b22c8118a788c04ca89ef10b8869875b769383c1",
+  "sourceTree": "dc763baeff066b14d0ac90f26a0189cb5db851ff",
+  "scope": {
+    "changedPaths": 5,
+    "expectedFiles": 655,
+    "expectedCommits": 46,
+    "evidenceOnly": true,
+    "publicationPending": true
+  },
+  "cases": [
+    {
+      "name": "retained-short-service-publication",
+      "frames": 63,
+      "samples": 101184,
+      "outputBytes": 586866,
+      "outputSha256": "8ede5547493d57f8a8d1edff4d84e5538de145759e66d5dea216cd269c21f91e"
+    },
+    {
+      "name": "fresh-instance-recovery-publication",
+      "frames": 15,
+      "samples": 24000,
+      "outputBytes": 135290,
+      "outputSha256": "34399ce182fd4b57cd2b739c445de5ffa01eeca368e592bcc889fcf9fd5fe89d"
+    }
+  ],
+  "collision": "Sentinel inserted after preview; actual Start skipped Output appeared since preview, no added target, sentinel unchanged.",
+  "cancellation": "Observed live frame2/nonended progress; SIGKILL and all1232 stderr bytes retained; zero-byte unbound stage retained, absent final/grant and admission closed.",
+  "ownership": "Original owner drained and closed before new runtime/service acquisition; both closures zero-live/no error, no late receipt or pending owner. Not same-service recovery.",
+  "census": {
+    "spawned": 99,
+    "closed": 99,
+    "live": 0,
+    "maximum": 1,
+    "encodes": 27
+  },
+  "semanticTargets": 3,
+  "progressBearingChildren": 27,
+  "startupProgressChildren": 24,
+  "collectorChildren": 7,
+  "serviceAccountingChildren": 10,
+  "diagnostics": {
+    "all99InlineStderrByteLengthsAndHashesVerified": true,
+    "nonemptyCount": 15,
+    "truncation": false,
+    "notes": "Successful targets retain duplicate-codec and x265 CPU-mask/thread-pool warnings. Cancelled target additionally has corrupt-packet/invalid-NAL/partial-file/demux immediate-exit diagnostics. Do not infer source corruption or harmlessness from cancellation context alone."
+  },
+  "auditReconciliation": {
+    "sourceFilesCurrentAndGitRechecked": 652,
+    "auditIdentityRowsRehashed": 268,
+    "uniqueIdentityPathsRehashed": 258,
+    "ownedFiles": 235,
+    "declaredArtifacts": 234,
+    "declaredBytes": 8037263
+  },
+  "inheritedTests": {
+    "focused": "70/70",
+    "protection": "229/229",
+    "explicitLinux": "337/337",
+    "rerun": false,
+    "scopesOverlap": true
+  },
+  "portable": {
+    "file": "current-resize-service-proof-portable.json",
+    "bytes": 261330,
+    "sha256": "ec53fc4174980c07b3f30a6f75651f6a49ac44238b8033ffb18489a84977b80f",
+    "prefixTransformations": 237,
+    "copiedExactReviewedWrapper": true,
+    "fullParsedReport": true,
+    "rawRestoration": false
+  },
+  "references": [
+    {
+      "artifact": "checkpoint046-cutoff.json",
+      "bytes": 787,
+      "sha256": "5881cfb92a6e1a13b6c95a3d7bac80d73d17efd4abac7ace69a81a6664ba5a62"
+    },
+    {
+      "artifact": "checkpoint-b22c811-publication-receipt.json",
+      "bytes": 176523,
+      "sha256": "aaa5323de289ee6c61494303d43161345189024d7585c57aacc94f1c2e82eac5"
+    },
+    {
+      "artifact": "notion-checkpoint-045-verification.json",
+      "bytes": 117637,
+      "sha256": "ab8b82bb7969e5698120906feb8ccf541993cb76dc20ca68b6ec44adbdfb3dc3"
+    },
+    {
+      "artifact": "current-resize-service-independent-review/INDEPENDENT_REVIEW-v1.json",
+      "bytes": 5578,
+      "sha256": "a58416b89cb692eaceb8441f598dd577a51fa42f66b157cdd08e4d0d093831ec"
+    },
+    {
+      "artifact": "current-resize-service-independent-review/INDEPENDENT_REVIEW-v2.json",
+      "bytes": 6973,
+      "sha256": "7e7a0fba9189f552964bcf419f01a31ecca01705def09f43104be70d1e78b7b3"
+    },
+    {
+      "artifact": "current-resize-service-preparation/HANDOFF-v1.json",
+      "bytes": 3292,
+      "sha256": "09ced0b3a011bf60127e65aa0625294098386a21fc39eaacf37aef97139ba0dd"
+    },
+    {
+      "artifact": "current-resize-service-preparation/HANDOFF-v2.json",
+      "bytes": 3773,
+      "sha256": "7315aebe1a2796755509dd9aafe07c20c5f9bc51035c0093c5600d42aa82bf20"
+    },
+    {
+      "artifact": "current-resize-service-preparation/APPROVED_CHECKPOINT.json",
+      "bytes": 82554,
+      "sha256": "0bdc5de5f1bb96a7ca171afe2d301e5dcbe94900e4f67bb1e66c67e2f4297410"
+    },
+    {
+      "artifact": "current-resize-service-preparation/ATTEMPT_STARTED.json",
+      "bytes": 85,
+      "sha256": "faa423d226f82243f656ba6fa292b04166e8cdf2835b2ab6b44acfa076340bba"
+    },
+    {
+      "artifact": "current-resize-service-preparation/OUTER_ATTEMPT_STARTED.json",
+      "bytes": 93,
+      "sha256": "6bf17aaec81e3ef19358e46045688f8d35245d18b467252e1746d62fb69ade9f"
+    },
+    {
+      "artifact": "current-resize-service-preparation/COMPLETION.json",
+      "bytes": 521,
+      "sha256": "2f55f968a4d27657c572b7a16f90b76315562e3b5c251e4190660ddeddc1b118"
+    },
+    {
+      "artifact": "current-resize-service-preparation/OUTER_COMPLETION.json",
+      "bytes": 376,
+      "sha256": "3c20810dd217aed74eb181c0e78b65f76d3e067eb8d5affecfdf74840d6a2006"
+    },
+    {
+      "artifact": "current-resize-service-preparation/LEAD_TERMINAL_CHECK.json",
+      "bytes": 6150,
+      "sha256": "f74fdfb1c3c9350a1a09a7b9fa3b7fa6a824c41b8d988fffdee8ee9807cb4e08"
+    },
+    {
+      "artifact": "current-resize-service-preparation/INDEPENDENT_SAVED_OUTPUT_AUDIT.json",
+      "bytes": 195518,
+      "sha256": "6019c2f3425a666011df8937f8c944f94d1f509a424eb6074d0212d33909aa36"
+    },
+    {
+      "artifact": "current-resize-service-preparation/LEAD_RECONCILIATION.json",
+      "bytes": 3812,
+      "sha256": "c2bc54d7ed30adb611f0fb0925ff5efc0a1be4f55877795450c5b0a6d26adebc"
+    }
+  ],
+  "limitations": [
+    "Saved-only audit: no independent runtime/probe/decode or native UI.",
+    "Same previously audited eight-second fixture copied and rehashed; not a fresh held-out input.",
+    "Raw complete output probes are retained and rehashed. PCM is runtime streaming hash evidence, not retained raw PCM for independent byte recomparison. Selected sealed spools independently counted; complete decoder streams represented by capture digests/summary.",
+    "Output hashes were established in helper after verification/probe and rechecked after closure and here; no encode-time full hash or deterministic container claim.",
+    "Service accounting10 includes broader operation work; collector has7 invocations. 27 progress-bearing children include24 startup capability children, not27 user targets.",
+    "Private authority is evidenced by reviewed real factory/selection/service execution and receipts, not reconstructed from JSON. New runtime/service owner recovery is not same-service restart or native recovery.",
+    "Reservations diagnostic-only; 27GiB/2GiB point checks not hard quotas. Abort and60s cleanup observation not guaranteed whole-process termination. Owned99 closure not whole-OS proof.",
+    "No visual quality/pixel identity/player/Windows/general media, ordinary audio policy or default promotion."
+  ],
+  "nextAtCutoff": "Native helper reuse/adaptation and read-only x265 warning triage assigned outside only; no result, source modification, gate or further runtime.",
+  "formalSecurityCloudAssessment": false
+}

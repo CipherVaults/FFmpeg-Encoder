@@ -1,0 +1,152 @@
+{
+  "schema": 1,
+  "checkpoint": 56,
+  "cutoffUtc": "2026-11-18T16:01:25.935804+00:00",
+  "scope": {
+    "documentationOnly": true,
+    "expectedPaths": 5,
+    "expectedFiles": 688,
+    "appTestRuntimeCIChanges": false
+  },
+  "plan": {
+    "path": "linux-blue/2026-11-18_Parallel_Platform_0_7_Additional_Plan.md",
+    "bytes": 17711,
+    "sha256": "690ecf236efa0d27b313fc5d16f6a186b648a1330fb61c4660dc1f765c998036",
+    "integratedAtUtc": "2026-11-18T15:52:57.868768+00:00",
+    "priorFilesUnchanged": 685
+  },
+  "hosted": {
+    "runId": 44341131081,
+    "url": "https://github.com/CipherVaults/FFmpeg-Encoder-Blue-Linux/actions/runs/44341131081",
+    "headSha": "4c57a812025bbb7226e115b3b8292f6a3bc47e59",
+    "node": "24.22.1",
+    "jobs": [
+      {
+        "name": "Source contracts / windows-2022",
+        "url": "https://github.com/CipherVaults/FFmpeg-Encoder-Blue-Linux/actions/runs/44341131081/job/134931084593",
+        "conclusion": "success",
+        "syntaxFiles": 202,
+        "sharedPassed": 96,
+        "linuxPolicyPassed": null
+      },
+      {
+        "name": "Source contracts / ubuntu-24.04",
+        "url": "https://github.com/CipherVaults/FFmpeg-Encoder-Blue-Linux/actions/runs/44341131081/job/134931085228",
+        "conclusion": "success",
+        "syntaxFiles": 202,
+        "sharedPassed": 96,
+        "linuxPolicyPassed": 10
+      }
+    ]
+  },
+  "artifactReferences": [
+    {
+      "base": "guidance",
+      "path": "checkpoint056-plan-integration.json",
+      "bytes": 2023,
+      "sha256": "3a56a0118957651f19058ebb446e2c709b5c346a483ffcd9ca02ac1f47019af4"
+    },
+    {
+      "base": "guidance",
+      "path": "parallel-07-additional-plan/HANDOFF.json",
+      "bytes": 7582,
+      "sha256": "72a2340704cbe5ad3cb46c00ee8aeb07e4526804d09e39e6d3c6a5856c9d392e"
+    },
+    {
+      "base": "workspace-artifact",
+      "path": "parallel-07-plan-independent/INDEPENDENT_REVIEW-v2.json",
+      "bytes": 6014,
+      "sha256": "0126b343c6db239685ffa6edf2fb140a655c91b4f9ca4b5f45bb4129f095fdce"
+    },
+    {
+      "base": "workspace-artifact",
+      "path": "parallel-07-plan-independent/INDEPENDENT_REVIEW-v3-addendum.json",
+      "bytes": 1364,
+      "sha256": "b88e1eccf1a5e5943d82e2434ac734fbd60b5fea5c1c00b1e1ea95bce55741fe"
+    },
+    {
+      "base": "workspace-artifact",
+      "path": "reusable-work-study-20261118/skills-restore-verification.json",
+      "bytes": 1188,
+      "sha256": "34e2489730602fd939d4dd4f695590cbae6baf55c073f6f20c305b1d5ffdbc72"
+    },
+    {
+      "base": "workspace-artifact",
+      "path": "reusable-work-study-20261118/Transferable-methods-study.md",
+      "bytes": 3440,
+      "sha256": "dd199487683e45597767ce4d4db8c92245997c0e5c8751b0ba15f8cc1e722325"
+    },
+    {
+      "base": "workspace-artifact",
+      "path": "reusable-work-study-20261118/PBS-1.2-field-notes.md",
+      "bytes": 5529,
+      "sha256": "1ad8be0dcbc4ca5c6d1cef319cfce7acb83c57e15fa68b5bb0373d3479271dd2"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint056-cutoff.json",
+      "bytes": 1435,
+      "sha256": "4be01ad15d8324949a963f62ccd9acad63bd00701b1851095cc6df0226ce5e8f"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint056-expected-paths.json",
+      "bytes": 274,
+      "sha256": "83a3f1b916aef9d216a653ae4eb8677e9ac5912e963edd060d3fac1ba5e33725"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint056-hosted055-reconciliation.json",
+      "bytes": 2287,
+      "sha256": "54bc1325d70f70fca4bb860d1b61f29f1ed53fcd259daf2468185b4d5ae4a9dd"
+    },
+    {
+      "base": "guidance",
+      "path": "notion-checkpoint-055-verification.json",
+      "bytes": 126669,
+      "sha256": "3e335a405b34fb0687ee0f37ebc19741dda359b6e7024e7934b55cb22a06deea"
+    },
+    {
+      "base": "guidance",
+      "path": "github-checkpoint055-verification.json",
+      "bytes": 4565,
+      "sha256": "e6a36c747c22f3124354409c9da1b9b260e9feea4ed61f060dcc681121b2beb7"
+    },
+    {
+      "base": "workspace-artifact",
+      "path": "ffmpeg-ci-hosted055-20261118/run.json",
+      "bytes": 16250,
+      "sha256": "790b7cc6fdb18e610274cb24c11312eaec49b993f6f922137be0aa327bc3474b"
+    },
+    {
+      "base": "workspace-artifact",
+      "path": "ffmpeg-ci-hosted055-20261118/jobs.json",
+      "bytes": 6213,
+      "sha256": "c33acd94e84e0c5bd031d10ff5fda094629d1f1047340d76b228d9bd00842517"
+    },
+    {
+      "base": "workspace-artifact",
+      "path": "ffmpeg-ci-hosted055-20261118/job-134931084593.log",
+      "bytes": 31052,
+      "sha256": "07adadc8ebc7ea18a3af7495f1f99b5e802ea600d0f17f919d63868a8e4f0117"
+    },
+    {
+      "base": "workspace-artifact",
+      "path": "ffmpeg-ci-hosted055-20261118/job-134931085228.log",
+      "bytes": 31664,
+      "sha256": "d399bdc5c8a995a55dcd96d43a4e72d076cff0dbdd5c06bfeadc36b91c493873"
+    }
+  ],
+  "limits": [
+    "Complete055 Notion/GitHub final release precedes this cutoff; plan integration occurred after both055 restores but before full native/GitHub.",
+    "Plan body retains its explicit055 snapshot; later hosted success is additive current evidence, not retrospective rewriting.",
+    "Both actual hostedOS jobs succeeded on exact055 remote SHA. No native Windows/RTX, media, packaging or acceptance inferred.",
+    "Windows shutdown V2 separately independently reviewed, not integrated; CI safety extension assigned, not implemented or run at cutoff.",
+    "Existing plans, app/test/runtime/CI files, defaults, audio policy, visibility, permissions and original accepted releases unchanged.",
+    "Transferable skills and PBSv1.2 proposals remain independent; no new skill installation or PBS rule adoption in this checkpoint.",
+    "Selected source-contract workload only, no full regression, Electron, actual FFmpeg, GPU, packaging or release acceptance.",
+    "Same shared tests across two platforms are not 192 unique contract cases.",
+    "No workflow, app, runtime, permission, billing or repository visibility changes by this readback."
+  ],
+  "continuation": "Windows V2 independently reviewed/unintegrated; CI safety expansion assigned only; later skill/PBS changes excluded."
+}

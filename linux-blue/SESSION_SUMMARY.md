@@ -1,3 +1,160 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Additive parallel-platform plan and first hosted source-contract passes
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role | Attribution | Work and evidence limit |
+|---|---|---|
+| Foundational-study author | Explicit assignment: GPT-6.2 Astra / Ultra; configuration, not backend attestation | Studied the existing requirements, plans, source boundaries and receipts, then drafted one additive plan. No application implementation or runtime qualification by this work. |
+| Independent plan reviewer | Recorded role; model/effort not inferred | Reviewed evidence, safeguards, links and platform boundaries; accepted V2 and the exact V3 runtime-wording correction. This is document review, not code or security certification. |
+| Engineering lead / mirror / records | Separate coordination, preservation and documentation roles | Integrated the plan after both predecessor restores, verified complete 055 publication and actual hosted job receipts, and prepared this doc-only checkpoint. Summary writer changes only this prepend after release. |
+
+**Record basis:** One reviewed additional plan now explains how to advance the shared Electron product and separate Linux/Windows qualification lanes without replacing the existing plans. The first actual hosted source-contract jobs passed on the published 055 revision. Neither event is native Windows, RTX 5060, real-media, package or 0.7 release acceptance.
+
+## 🕒 Time
+
+**Stage / type / focus:** Study-first additive planning, predecessor preservation and hosted source-result reconciliation; documentation only.
+
+**Date and clock:** November 18, 2026; Cairo UTC+02:00. Fixed cutoff **18:01:25.935804 Cairo / 16:01:25.935804 UTC**. Times below are UTC; active effort was not measured.
+
+- The plan preserves an explicit **055 snapshot at 15:42 UTC**, when hosted jobs were still pending. Later results do not rewrite that snapshot.
+- V2 safeguard/target-qualification corrections recorded **15:47:11.782846**; final platform-runtime clarification **15:50:34.997212**, with independent exact-delta acceptance.
+- Exact plan integration **15:52:57.868768**, after both 055 archive restores but before full native-record/GitHub completion.
+- Both hosted jobs started **15:55:09** on the published 055 remote revision. Ubuntu completed **15:55:28**; Windows completed **15:55:50**.
+- 055 GitHub readback verified **15:55:19.851463**; final independent mirror release **15:56:24.843226**.
+- Hosted-result lead reconciliation and fixed 056 cutoff **16:01:25.935804**.
+
+**End / stopping point:** Reviewed V3 plan is integrated; 055 is fully preserved; both actual hosted source-contract jobs are verified. Separate Windows shutdown and CI safety proposals are not integrated at this cutoff.
+
+**Reason for this summary:** Preserve an actionable plan and the first real hosted-platform results without confusing a dated pending snapshot, source-only jobs, future hardware work or document publication stages.
+
+## 🎯 Session Goal
+
+Turn the owner's study-first, parallel Linux/Windows direction into one complete additional plan, then preserve it autonomously through the established workflow. Keep shared implementation, target qualification and combined owner acceptance separate. Maintain all original 0.7 requirements and protected behavior while preparing an eventual useful Windows/RTX 5060 run sheet. Keep transferable skills and PBS v1.2 proposals distinct from project implementation and release gates.
+
+## 🛠️ Actions Taken
+
+### 1. Study and integrate a supplement, not a replacement
+
+Base commit is `644866fcfa1bdd4da2690e885291a13469415e7d`, with **685 files / 55 commits**. The exact **2,229,390-byte** predecessor, SHA `8050ee47b894c7e214bdb95bfd4ecec6b664e581a641e410dd44e860630c23f0`, remains this entry's untouched suffix.
+
+The study read the existing Linux execution plan, shared Windows/Linux plan, 43-requirement contract, historical handoff/decisions, source/platform/packaging boundaries, CI evidence and native/preservation receipts. It identified an execution-coordination gap, not a need for a second application or replacement requirements. The final additive document is **17,711 bytes / `690ecf236efa0d27b313fc5d16f6a186b648a1330fb61c4660dc1f765c998036`**, at `linux-blue/2026-11-18_Parallel_Platform_0_7_Additional_Plan.md`.
+
+Independent V2 review verified source references, nine relative links and scoped privacy checks. V2 made two previously implicit safeguards explicit: preserve accepted releases/UI/defaults/benchmark/golden arguments; and separate each target's candidate qualification from combined owner acceptance. V3 changed only one platform-runtime sentence. Reversing that unique replacement reproduced V2 byte-for-byte, and the reviewer accepted the exact V3 identity. Original drafts and reviews remain retained.
+
+The lead's first integration lookup used the wrong review directory and stopped before any write. Correct references were rehashed before the single integration. All **685 prior files** remained unchanged. Both original plans, application/tests, CI files, runtime pins, defaults and audio policy were untouched. No implementation or new media/native campaign accompanied the document.
+
+### 2. Preserve the actual product and platform boundaries
+
+The plan retains the 43 requirements, non-HDR scope/deferred HDR, original UI/Gauge, accepted 0.5/0.6 releases, Tested Default, Archive CQ29 and golden ordinary arguments. The separate benchmark remains paused for owner visual review; no ledger or mapping is consumed. Packaging remains last, after applicable target-source, service, lifecycle, security and user-journey evidence.
+
+Shared behavior should be implemented once, with platform-specific filesystem, process, runtime, picker and packaging mechanisms kept explicit. Independent authors may use isolated trees; one integrator owns the checkout and one heavy media/desktop campaign owns its resources. A useful slice needs a valid positive case and a meaningful refusal/failure case. Neither blanket refusal nor obsolete-test reconstruction is a substitute for the current product's requirements.
+
+The final runtime wording is deliberately platform-specific: **Linux keeps 7.1.5 as baseline/rollback, with explicit 9.0.2 candidate selection. Windows already verifies a separately pinned Gyan WIN32-x64 9.0.2 pair.** Equal release labels do not establish parity, and this document changes neither runtime. A bounded Linux candidate need not wait for unavailable Windows/RTX hardware, but every unresolved requirement remains visible; Windows or combined-product acceptance is not silently waived.
+
+The Windows handoff is a future immutable run sheet, not a completed machine test. It must protect existing checkout/owner work, reconcile changes in isolation, establish the actual CPU baseline, exercise platform paths/locking/native workflow/cleanup, then test an explicitly supported RTX 5060/NVENC cell with a CPU control and independent output checks. Discovery, injected tests, hosted CPU jobs and CPU fallback are not GPU proof. Packaging and licensing, extracted-package checks, rollback and owner acceptance remain separate. No original Windows checkout change, automatic public release or default promotion is authorized by the document.
+
+### 3. Complete 055 preservation without moving earlier gates
+
+Both source and full-history archives were restored before the plan was integrated. Full native records and remote verification completed later. Final 055 mirror receipt is **126,669 bytes / `3e335a405b34fb0687ee0f37ebc19741dda359b6e7024e7934b55cb22a06deea`**. Split wrappers reconstructed the exact original source/history artifacts; complete native Session readback contains all 55 entries and the historical ending. Rendering is not byte proof; the restored archives preserve exact bytes.
+
+The mapped remote is `4c57a812025bbb7226e115b3b8292f6a3bc47e59`, with the expected sole parent and all eight intended readbacks verified: **1,067 total files / 1,059 unchanged / two modified / six new / zero deleted**. This is the established private destination, not the separate public placeholder. Local and remote identities are intentionally distinguished; visibility, accounts and permissions were not changed.
+
+A lead verifier initially selected the older 054 Notion receipt and stopped at the local-commit assertion after file checks. Correcting the filename and rerunning the read-only verification did not replay a remote mutation. Final 055 completion does not retroactively become the earlier plan-integration gate, nor does it prove new 056 preservation.
+
+### 4. Verify both actual hosted jobs on the correct revision
+
+[Hosted run 44341131081](https://github.com/CipherVaults/FFmpeg-Encoder-Blue-Linux/actions/runs/44341131081) was triggered by a push of exact remote `4c57a812025bbb7226e115b3b8292f6a3bc47e59`. Saved run/job receipts and complete job logs agree with the lead reconciliation, **2,287 bytes / `54bc1325d70f70fca4bb860d1b61f29f1ed53fcd259daf2468185b4d5ae4a9dd`**.
+
+| Actual hosted platform | Observed result with Node 24.22.1 |
+|---|---|
+| Ubuntu 24.04 | 202 syntax files; 96 shared tests and 10 Linux-policy tests passed |
+| Windows 2022 | 202 syntax files; 96 shared tests passed; Linux-only policy selection intentionally not selected |
+
+Both jobs concluded success with zero failures, cancellations and skips within their selected test suites. Windows' excluded Linux-only selection is not a skipped shared test or an unreported Windows failure. The same 96 contracts on two OSes are **not 192 distinct tests**, and syntax-file checks are not functional test cases.
+
+This establishes actual hosted source-contract execution, including Node provisioning, on both OSes. It does not establish full regression, Electron/native desktop behavior, real FFmpeg/media, driver/GPU, packaging or release acceptance. The prior broad 350/50/229 selections remain separately attributed; they were not rerun for this doc-only checkpoint. The workflow and runner were not changed by this readback. The plan's honest 055-cutoff statement that hosted jobs had not yet run stays intact; these later results are additive evidence here.
+
+### 5. Keep reusable methods and next implementation separate
+
+The study's transferable-methods stream and PBS v1.2 field notes are distinct. A saved receipt reports fresh same-host account retrieval of the ChatGPT Dots Workflow and Project Wipeout Drill procedures/assets, matching their recorded identities. That is bounded retrieval evidence, not Windows installation, independent-account recovery or recovery after loss of the full device/account. No skill was installed or modified by this documentation checkpoint.
+
+PBS v1.2 notes remain proposals for pilots against unchanged PBS 1.1, not silently adopted rules or a new 0.7 gate. The plan reuses existing Git/PBS/Notion guidance, preserves readable history separately from byte/history/runtime recovery, and explains interruption-safe readback before retry. Its pacing description creates no timer or delivery guarantee.
+
+At cutoff, the separate Windows shutdown V2 proposal has independent review but remains isolated/unintegrated. A CI safety extension is assigned, not implemented or run. The genuine 1440 proposal and broader E3 work remain separate from this document. No later source or test outcomes are imported into this entry.
+
+## 🧠 Key Insights
+
+- A shared implementation does not mean a single platform qualification claim. Actual hosted Windows source tests are useful progress without being native Windows or RTX evidence.
+- Separating a qualified target candidate from combined owner acceptance keeps work moving without waiving unavailable-platform requirements.
+- A dated plan can remain correct while its pending status is later resolved. Add the new receipt rather than rewriting the old cutoff.
+
+## 📌 Decisions Made
+
+1. **Confirmed:** Preserve one complete additive V3 plan and leave the original plans/requirements intact. **Decider:** Lead after study and independent review. **Basis:** The missing work was practical coordination and explicit evidence boundaries, not replacement scope.
+2. **Confirmed:** State Linux and Windows runtime baselines separately. **Decider:** Lead with reviewer verification. **Basis:** Source shows Linux 7.1.5 rollback and separately pinned Windows 9.0.2; a generic opt-in statement was misleading.
+3. **Confirmed:** Record both hosted source jobs as passed on exact 055 remote source. **Decider:** Lead after receipt/log reconciliation. **Basis:** Actual job conclusion, platform and test counts, not local prediction.
+4. **Deferred:** Native Windows/RTX, broader media/package/release acceptance and separate source proposals. **Decider:** Staged owner/lead continuation. **Basis:** No corresponding integrated or executed proof in this doc-only slice.
+
+## ⚠️ Difficulties / Friction
+
+V1 left protected invariants and per-target qualification too implicit; V2 corrected that. V2's generic runtime sentence could incorrectly apply Linux's baseline to Windows; exact V3 wording corrected it without changing source. A mistaken review-directory lookup stopped before integration, and a stale receipt filename stopped read-only publication verification. Originals and corrections are retained. None is an application regression, missing Windows result or reason to repeat native/media work.
+
+## 🔧 Adjustments Made
+
+- **Shifted from:** An implicit all-platform candidate boundary. **To:** Separate Linux and Windows target qualification plus combined owner acceptance. **Because:** Unavailable hardware must not erase requirements or halt unrelated useful work. **Consequence:** Honest bounded progress with explicit remaining gates.
+- **Shifted from:** Generic 7.1.5/9.0.2 wording. **To:** Platform-specific pinned-runtime descriptions. **Because:** Existing Windows and Linux compositions differ. **Consequence:** Clearer plan, no runtime promotion or downgrade.
+- **Shifted from:** Hosted checks pending at the plan's dated snapshot. **To:** Later verified Ubuntu and Windows source-contract passes. **Because:** Actual jobs completed on published 055. **Consequence:** Additive current evidence, not retrospective rewriting or native acceptance.
+
+## ❌ Mistakes / Risks Noted
+
+**Platform and acceptance conflation. What happened/could happen:** Generic runtime or candidate-freeze wording could misstate Windows or make unavailable RTX block every Linux milestone. **Actual impact:** Documentation corrected before preservation; no source policy changed. **Potential impact:** False parity, unsupported acceptance or needless delay. **Correction/status:** Exact V2/V3 reviews and separate target/owner boundaries retained. **Failure Intelligence:** Name the actual platform/runtime and the claim each proof can support.
+
+**Recovery and test overclaim. What happened/could happen:** Hosted source green or same-host skill retrieval could be mistaken for full product/hardware or independent-device recovery. **Actual impact:** Only bounded jobs/retrieval are verified. **Potential impact:** Missing runtime/private-input/platform prerequisites overlooked. **Correction/status:** Explicit limits and later proof obligations. **Failure Intelligence:** Separate source, history, readable records, execution inputs, account access and platform acceptance.
+
+## 📍 Current Position
+
+**As of:** 16:01:25.935804 UTC / 18:01:25.935804 Cairo. Later owning-record saves do not move the cutoff.
+
+**Before:** 055 had integrated the small shared CI lane; the additional plan and hosted results were pending.
+
+**After:** Reviewed V3 is integrated without changing any prior file at that step. Complete 055 recovery/publication and actual first hosted Ubuntu/Windows source-contract passes are verified.
+
+**Current standing:** Documentation-only milestone. Existing app/tests/CI/runtime/defaults and original plans are unchanged. Native Windows/RTX, broader E3 and final package/owner acceptance remain unfinished.
+
+**Live owner / continuation anchor:** Lead owns 056 preservation, then the first unblocked reviewed implementation slice. Separate Windows shutdown and CI safety work must retain their own integration/test boundaries. Summary writer owns only this prepend until release.
+
+## 🔜 Next Steps
+
+1. Preserve the five-path 056 checkpoint through local Git, exact Notion source/history/readable recovery and verified private GitHub publication; deliver the plan link and remote identity after actual readback.
+2. Continue current-product work using the additive plan and existing requirement ledger. Rebind/review isolated source changes before integration and test affected behavior, not just planning prose.
+3. Prepare the detailed Windows machine/RTX run sheet and broader target acceptance evidence when appropriate. Keep skills/PBS proposals independent and pilot changes before adoption.
+
+**Do not reopen / repeat:** Do not replace old plans or Session history, rewrite the dated 055 snapshot, reintegrate the CI lane, rerun accepted native/media solely for paperwork, sum repeated platform suites, or call CPU fallback GPU proof.
+
+**Continuation boundary:** Existing routine-development authorization continues. This document does not authorize changing the owner's Windows checkout, repository visibility, default runtime, reserved audio policy or final release acceptance. Later source proposals and results belong to their actual checkpoint.
+
+## ❓ Open Questions
+
+- **Which current-product slice is next ready for integration? Needed from:** Final reviewed source scope and affected checks. **Blocks:** That implementation only; doc preservation is ready.
+- **What remains for actual Windows/RTX and target packages? Needed from:** The planned immutable handoff and relevant machine/artifact evidence. **Blocks:** Those acceptance claims, not bounded Linux progress.
+- **Should any PBS v1.2 proposal be adopted? Needed from:** Separate positive/near-miss pilots and the existing governance process. **Blocks:** Rule adoption only, not Electron 0.7 work.
+
+## 🧾 Session Outcome
+
+Integrated the additional shared/Linux/Windows plan with exact reviewed safeguards and platform-runtime wording. Verified the first hosted source-contract jobs on both OSes, without changing application, test, runtime or CI code. Existing plans and dated history remain intact.
+
+Read the [additional plan](2026-11-18_Parallel_Platform_0_7_Additional_Plan.md), [study/execution record](2026-11-18_Parallel_Development_Plan_Study.md) and [receipt index](2026-11-18_Parallel_Development_Plan_Study_Receipts.json). No new portable media report is added by this doc-only checkpoint.
+
+The exact previous **2,229,390-byte** body and original correction receipt remain unchanged. Intended scope is **five paths / 688 files / 56 commits**. The new checkpoint's commit and external preservation remain pending at cutoff; 055's completed backup does not substitute for them.
+
+## 🔍 Confidence Level
+
+**High** in the reviewed plan, unchanged prior scope and actual hosted source-contract results; **limited** in native Windows/RTX, broader product and independent-device recovery claims.
+
+**Why:** Exact V3 reversal/review, original-plan preservation, bound job receipts/logs and completed predecessor recovery agree. **Not higher because:** This slice changes documentation only, the hosted workload is deliberately narrow, and the remaining platform/hardware/package/owner proofs have not occurred here.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Native resize-session switching and a shared Linux/Windows CI foundation
 
 ## 🤖 Models, Effort, Roles and Provenance

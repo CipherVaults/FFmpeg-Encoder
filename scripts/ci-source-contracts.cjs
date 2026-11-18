@@ -1,6 +1,7 @@
 'use strict';
 
-// Source-only CI: no npm lifecycle scripts, binaries, network, media or app launch.
+// Source-contract CI: no npm lifecycle scripts, FFmpeg/Electron, network or media.
+// Process tests include bounded owned Node helpers; no application is launched.
 const fs = require('node:fs');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
@@ -10,6 +11,10 @@ const shared = [
   'tests/container-clock.test.cjs',
   'tests/appearance.test.cjs',
   'tests/app-settings.test.cjs',
+  'tests/main-lifecycle.test.cjs',
+  'tests/process-runner.test.cjs',
+  'tests/completed-output-retention.test.cjs',
+  'tests/output-access.test.cjs',
 ];
 const linux = ['linux-blue/ui-policy.test.cjs'];
 
@@ -31,7 +36,7 @@ const files = ['main.js', 'preload.js', 'scripts/ci-source-contracts.cjs',
   ...sourceFiles('src'), ...sourceFiles('ui'), ...sourceFiles('linux-blue')];
 console.log(`Node ${process.version}; platform ${process.platform}; syntax files ${files.length}`);
 for (const file of files) run(['--check', file]);
-console.log('Shared unit contracts: media settings/argv, container clocks, appearance, app settings.');
+console.log('Shared unit contracts: media settings/argv, container clocks, appearance, app settings, main shutdown, process cancellation/closure, completed-output retention and access.');
 run(['--test', ...shared]);
 if (process.platform === 'linux') {
   console.log('Additional Linux UI admission-policy unit contracts.');

@@ -1,3 +1,156 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Windows shutdown settlement and expanded shared safety CI
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role | Attribution | Work and evidence limit |
+|---|---|---|
+| Windows source author and independent reviewer | Recorded roles; model/effort not inferred | Corrected and reviewed Windows main shutdown using production main/IPC in a synthetic Electron harness. Independent rejection controls are retained; no native Windows execution. |
+| CI author and independent reviewer | Separate source-selection and review work | Expanded the existing shared runner, verified its negative exit control and described real Node/filesystem coverage accurately. No hosted expanded-lane result from these reviews. |
+| Lead, preservation and record writers | Separate integration, test, recovery and documentation roles | Integrated four exact files after predecessor restores, ran local lead selections and reconciled source identities. Summary writer changes only this prepend after release. |
+
+**Record basis:** A bounded reliability correction and matching CI expansion, not a new media feature. Production Windows main now accounts for accepted IPC during shutdown and retains an initially rejected committed cancellation. Local tests support that behavior; native Windows, expanded hosted jobs and hardware acceptance remain separate.
+
+## 🕒 Time
+
+**Stage / type / focus:** Reviewed source integration, failure controls and local safety tests under the additive parallel-platform plan.
+
+**Date and clock:** November 18, 2026; Cairo UTC+02:00. Fixed cutoff **18:16:28.067800 Cairo / 16:16:28.067800 UTC**. Times below are UTC. Active effort was not measured.
+
+- Exact four-file integration: **16:13:49.426955**, after both 056 source and full-history restore gates.
+- Local CI runner: **16:13:49.513574–16:14:03.110667**; focused tests finished **16:14:03.388001**; wider tests **16:14:04.311905**; protection **16:14:11.454944**.
+- Fixed evidence cutoff: **16:16:28.067800**. The immutable predecessor snapshot already contained native Session, plan and owning-record verification, although the lead had not yet processed the full-native release message. GitHub and final mapping remained pending at this cutoff.
+- An attribution correction recorded **16:17:01.814323** preserved the original cutoff note and corrected its initial pending-native assumption using that same saved snapshot. It did not add a later publication outcome or move the evidence cutoff.
+
+**End / stopping point:** Four reviewed files are integrated and tested locally, with the two unchanged historical failures explicit. New checkpoint preservation and matched expanded hosted execution remain next.
+
+**Reason for this summary:** Preserve the actual shutdown fix, its rejected first proposal, local coverage and remaining platform limits without converting narrower earlier hosted success into expanded coverage.
+
+## 🎯 Session Goal
+
+Advance current Windows reliability and shared Linux/Windows CI together: stop admitting work when shutdown commits, allow already-accepted IPC to settle before closing resources, and retain an initial cancellation failure even if a later drain recovers. Exercise those contracts through whole shared test suites, leaving existing plans, runtime choices, media qualification and owner acceptance boundaries intact.
+
+## 🛠️ Actions Taken
+
+### 1. Review the failure, then integrate the exact four-file correction
+
+Base is `874a6938134ef8bc06727077259f103e71101bdf`, with **688 files / 56 commits**. The previous **2,248,925-byte** Session, SHA `326ff34d291950c1922d0356394820aad7ce9a142c65c5d5c034783a5ac71371`, is preserved as the exact suffix of this entry.
+
+The Windows proposal changes `main.js` and `tests/main-lifecycle.test.cjs`. Its matching CI proposal changes `scripts/ci-source-contracts.cjs` and `linux-blue/CI_SOURCE_CONTRACTS.md`. Lead integration matched the independent reviews' final identities; the other **684 prior files** were unchanged. Combined patch identity is **24,962 bytes / `73496490d8a5ec07a657a3a008091fc9187d72513f22bfc426685d0595202e42`**. The additive plan and all original plans remain untouched.
+
+V1 had a concrete blocker: an initially rejected, confirmed busy cancellation could strand the already-fenced window, preventing resource closure and terminal diagnostics. V2 leaves **Keep** uncommitted and unfenced. **Cancel** closes admission before cancellation, immediately observes and retains its promise, and carries its original failure into terminal shutdown even when a later cancellation succeeds. A destroyed parent is not closed twice.
+
+Ordinary close, renderer loss and startup close admission synchronously when ownership commits. Unregistering prevents new IPC but does not discard accepted calls. Shutdown asks child work to stop, waits for admitted IPC, then attempts resource closure, settings flush and terminal diagnostics. Distinct failures remain distinct: a service rejection is not a diagnostic rejection unless its diagnostic promise rejects, and a fulfilled `persisted:false` value is not itself a rejection. This is not a claim that every diagnostic was saved. Never-settling owned promises can still leave shutdown waiting; there is no new forced exit, timeout or universal settlement guarantee.
+
+### 2. Retain meaningful red controls and truthful execution boundaries
+
+Independent review retained the original **31/31** lifecycle baseline. Old main with exact final lifecycle tests gave **29/36**, with seven named reds: two updated startup expectations and five new tests. V1 also failed the reviewer's held-call/rejected-busy-cancel control. V2 passed **60/60** lifecycle, real shared IPC and Linux-quit tests, plus three separately written probes covering initial cancellation rejection, multiple accepted calls with rejected reporting, and production output-access accounting through injected dispatch and a pending incident receipt.
+
+These tests use real production main and `registerIpc` inside a synthetic Electron harness. They do not launch native Windows/Electron, run FFmpeg or exercise a real application shell. Shared IPC itself is unchanged. Independent probe counts overlap with other selections and are not added into a new unique-test total.
+
+### 3. Expand the existing shared CI lane, not its permissions
+
+The runner adds four complete suites: main lifecycle, process runner, completed-output retention and output access. It uses no test-name filters, skip additions or platform exceptions. The previous shared suites and separate Linux UI-policy selection remain.
+
+Coverage includes disposable filesystem fixtures, real hard links and races, injected shell callbacks and Windows UNC/device/drive-relative refusal assertions. Process tests include **two actual bounded owned Node helper processes**, alongside injected children. This is more than pure VM simulation, but not native application, FFmpeg or descendant-process-tree qualification. CI V2 corrected an explanatory header/documentation overstatement about child execution; its first CI version was already green.
+
+The independent added-suite selection passed **113/113**. The final local runner passed **202 syntax checks, 209 shared tests and 10 Linux-policy tests**. Its old-main negative control produced **202 passes / seven failures** in the 209 shared tests, exit 1, no final PASS banner and no Linux step. That verifies the existing exit-status propagation. Workflow YAML, pinned actions, Node version, branch triggers, token permissions, caches and publisher are unchanged.
+
+### 4. Run final lead selections and reconcile the remaining reds
+
+Lead tests used **Node v24.22.1 on Linux**. Child exit codes were retained before parsing. The result record is **89,802 bytes / `42dfc1e425147ad7d7bd69656c758602323e4202812081afc7591a046be75f76`**.
+
+| Lead selection | Actual result | Meaning |
+|---|---|---|
+| Existing CI runner with expanded selection | Exit 0; 202 syntax files, 209/209 shared and 10/10 Linux tests | Local expanded source-contract lane passed |
+| Lifecycle / IPC / Linux quit | Exit 0; 60/60 | Focused shutdown contracts passed |
+| Wider selection | Exit 1; 218/220 | Same two historical positive-assumption failures retained |
+| Protection | Exit 0; 229/229 | Selected protection contracts passed |
+
+All selections had zero skipped or cancelled tests. They overlap and are **not summed**, nor are they package-wide `npm test` or proof that every repository test ran. All **688 checked files** remained byte-identical during these tests.
+
+The wider failures are exactly “fresh exact source staging activates only the reviewed fixed runtime/source class and immutable report” and “fresh and cached factory loads fail closed after changed/mixed/omitted producer or hidden consent styling.” The author's original **213/215** and final **218/220** scopes retained those same two labels; the final lead run independently reproduced them. They are not two newly introduced application regressions or a green downstream qualification result.
+
+Actual producer verification confirms **E3 97/97** and **Full-copy 26/26** exact, with no changed-path intersections. Historical HDR and encode-preservation catalogs still have respectively **36 mismatches among 69 identities** and **16 among 32**, including already-stale main. Their registry bytes and empty policy lists are unchanged. No historical report was resealed, no guard weakened and no missing feature restored merely to green its old positive assumptions.
+
+### 5. Preserve the predecessor status and checkpoint boundary precisely
+
+Both 056 archives were restored before integration. The immutable cutoff snapshot is **124,201 bytes / `3c28462a0d959765f8e7724db02358b42b91273491eddc02fd295a0e6ec6f07b`** and also contains completed native-record verification. Initial prose incorrectly inferred native work was pending from an earlier message. Inspection corrected that attribution before owning records, retaining the original note and the later correction receipt. Message processing time is not the preservation evidence itself.
+
+056 GitHub readback/final mapping remains pending **at this cutoff**, regardless of later progress. Earlier narrower hosted 055 jobs remain valid for their own revision/selection, not this expanded lane. No expanded hosted job, native Windows desktop, media, RTX/GPU, package, benchmark or owner-acceptance run occurred in this slice. Current runtime/default/audio policy, Linux capsule pins, the owner's Windows checkout and established private destination are unchanged. Later studies or platform results are not imported here.
+
+## 🧠 Key Insights
+
+- Closing admission and settling previously accepted work are different obligations. Retiring IPC handlers alone does not discharge ownership.
+- A later successful drain must not erase the first committed cancellation failure. Conversely, service failure and diagnostic persistence failure must not be conflated.
+- Source CI can include real bounded Node/filesystem work without establishing native Windows or media behavior. Exact execution boundaries matter more than a larger summed count.
+
+## 📌 Decisions Made
+
+1. **Confirmed:** Integrate only the reviewed Windows V2 pair and matching CI V2 pair. **Decider:** Lead after independent review and predecessor restores. **Basis:** Retained V1 red, final source identities and affected local checks.
+2. **Confirmed:** Preserve initial cancellation failure and wait accepted IPC before resource closure; retain non-settlement limits. **Decider:** Source author and lead, independently reviewed. **Basis:** The stranded-window reproducer and successful failure-path controls, without inventing forced completion.
+3. **Confirmed:** Keep the two historical stale positives red and distinguish current producer checks. **Decider:** Lead with independent closure verification. **Basis:** Unchanged baseline mismatch sets and empty historical policies; no new qualification evidence.
+4. **Deferred:** Expanded hosted, native Windows/RTX and package acceptance. **Decider:** Staged lead/owner continuation. **Basis:** Local proof is complete for this slice, but those executions have not occurred here.
+
+## ⚠️ Difficulties / Friction
+
+V1's rejected-cancel path was a real implementation blocker, not test flakiness. The broader selection remains red in two historical positive assumptions; neither was hidden or skipped. CI wording initially understated its two real Node helper processes and was corrected without changing its executable selection. A predecessor-native status assumption was corrected from the already-saved snapshot, not by silently advancing the cutoff. These issues are retained at their actual scopes rather than reported as new media or Windows failures.
+
+## 🔧 Adjustments Made
+
+- **Shifted from:** A committed cancellation rejection stranding an already-fenced owner. **To:** Immediate observation, retained first failure and later closure attempts. **Because:** Recovery of a subsequent drain does not cancel the original responsibility. **Consequence:** Tested failure identity and closure ordering, still no guarantee for work that never settles.
+- **Shifted from:** Narrow shared CI coverage. **To:** Four additional whole safety suites. **Because:** Reviewed shutdown, process and output-access contracts should run through the existing OS lane. **Consequence:** Local expanded green and a negative gate control; actual hosted execution still required.
+- **Shifted from:** An outdated pending-native message assumption. **To:** Exact saved-snapshot attribution. **Because:** Native verification fields were already present. **Consequence:** Correct chronology without rewriting original evidence or claiming later GitHub completion.
+
+## ❌ Mistakes / Risks Noted
+
+**Shutdown ownership. What happened/could happen:** V1 lost the path to closure after an initial committed cancellation rejected. **Actual impact:** Independent review blocked that proposal before authoritative integration. **Potential impact:** Stranded handles/history or a falsely clean terminal result. **Correction/status:** V2 retains failure and tests accepted-call settlement. **Failure Intelligence:** Keep the first failure observable while still attempting subsequent closure stages.
+
+**Coverage and qualification. What happened/could happen:** Local CI green, two real helpers or current producer matches could be inflated into native/hardware or historical catalog acceptance. **Actual impact:** No such execution or reseal occurred; wider exit 1 is retained. **Potential impact:** Unsupported release or erased requirements. **Correction/status:** Separate local, hosted, native and media claims; verify future jobs against their exact published revision. **Failure Intelligence:** Preserve red controls, actual child exit codes and unchanged refusal evidence rather than optimizing the headline count.
+
+## 📍 Current Position
+
+**As of:** 16:16:28.067800 UTC / 18:16:28.067800 Cairo; later record saves do not move this boundary.
+
+**Before:** Immutable 056 supplied the additive plan. Windows main did not drain accepted IPC through the reviewed final shutdown path; the shared CI lane was narrower.
+
+**After:** Four exact reviewed files integrated; local expanded runner, focused and protection selections pass. Wider selection retains its two baseline historical failures. All current E3/Full-copy producer identities remain exact.
+
+**Current standing:** Source/test/CI improvement, not native Windows qualification. The 056 saved snapshot supports source/history/native records; its final remote mapping and this checkpoint's own preservation remain pending at cutoff.
+
+**Live owner / continuation anchor:** Lead owns the eight-path 057 preservation and subsequent matched hosted checks. Summary writer owns only this prepend until release. Existing platform/requirement plans remain authoritative and unchanged.
+
+## 🔜 Next Steps
+
+1. Preserve the exact eight-path checkpoint through Git, restored source/full history and readable records, then verify the intended private remote revision and mapping.
+2. Inspect the expanded hosted Ubuntu and Windows jobs against that published revision. Report actual conclusions and counts without carrying forward the narrower 055 result.
+3. Continue the additive platform plan with a proportionate native Windows shutdown/platform check and eventual immutable hardware/package handoff. Keep current media and historical qualification work separately justified.
+
+**Do not reopen / repeat:** Do not overwrite prior Session or plans, replay predecessor publication, sum overlapping suites, weaken stale producer checks, rebuild obsolete paths solely for green tests, or rerun accepted media merely to accompany this source slice.
+
+**Continuation boundary:** Existing routine development authorization continues. No new owner decision is needed for ordinary preservation and source CI. This entry does not change runtime/default/audio policy, repository visibility or final acceptance criteria, and does not authorize unplanned changes to the owner's Windows checkout.
+
+## ❓ Open Questions
+
+- **Will the expanded lane pass on both hosted OSes? Needed from:** Actual jobs bound to the preserved/published 057 source. **Blocks:** Expanded hosted claims only, not this completed local review.
+- **How does the reviewed close path behave on the actual Windows desktop and platform resources? Needed from:** A bounded native Windows run and retained outcomes. **Blocks:** Native Windows acceptance, not source preservation.
+- **Does future current-product work require a historical catalog to be qualified? Needed from:** Applicable current requirements and fresh evidence, not old positive assumptions alone. **Blocks:** That catalog's activation only; no automatic reconstruction mandate.
+
+## 🧾 Session Outcome
+
+Integrated Windows shutdown settlement and a matching shared CI expansion, retaining the rejected V1 path, meaningful negative controls and two unchanged historical failures. Local expanded source checks pass; no native, hardware, media or release claim is added.
+
+Read the [execution record](2026-11-18_Windows_Shutdown_and_CI_Safety.md), [receipt index](2026-11-18_Windows_Shutdown_and_CI_Safety_Receipts.json) and [CI coverage guide](CI_SOURCE_CONTRACTS.md). No runtime portable package is added by this source-only milestone.
+
+The exact **2,248,925-byte** predecessor and original Session-structure correction remain unchanged. Intended scope is **eight paths / 690 files / 57 commits**. Commit, external preservation and expanded hosted acceptance for this new checkpoint remain pending at cutoff.
+
+## 🔍 Confidence Level
+
+**High** in the reviewed source correction, local test results and preserved scope; **limited** in native Windows, expanded hosted and hardware claims.
+
+**Why:** Exact patches/reviews, retained baseline and negative controls, lead exit-first logs, stable file identities and authentic producer verification agree. **Not higher because:** Electron is synthetic in these checks, never-settling work has no new bounded-exit remedy, and hosted/native/media/package evidence has not been executed for this changed slice.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Additive parallel-platform plan and first hosted source-contract passes
 
 ## 🤖 Models, Effort, Roles and Provenance

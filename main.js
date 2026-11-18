@@ -20,10 +20,12 @@ protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { standard: t
 
 let window;
 let service;
+let ipcRegistration;
 let appearance;
 let appearanceSaveFailed = false;
 let exitAllowed = false;
 let closePrompt = false;
+let confirmedCancellation;
 let root;
 let stateDir;
 let shutdownComplete = false;
@@ -34,17 +36,28 @@ let rendererLost = false;
 let startupFailurePromise;
 let shutdownExitCode = 0;
 
-function finishShutdown() {
-  // Close admission synchronously, before draining media can yield to another
-  // IPC request. Previously accepted appearance writes still finish durably.
+function closeAdmission() {
+  // A committed close fences the registration, not just methods that check
+  // the service's busy flag. An unresolved Keep/Cancel prompt is not a close.
+  ipcRegistration?.closeAdmission();
   appearance?.closeAdmission();
   service?.closeAdmission?.();
+}
+
+function finishShutdown() {
+  closeAdmission();
   shutdownPromise ||= (async () => {
     // A failed drain must not skip attempts to close owned handles/leases or
     // flush diagnostics. Each closure retains its own failure identity.
     const failures = [];
     for (const [reason, close] of [
+      // A busy-close cancellation is requested while its parent window is
+      // still live. Retain its outcome even when the final drain can recover.
+      ...(confirmedCancellation ? [['CLOSE_CANCELLATION_FAILED', () => confirmedCancellation]] : []),
       ['OPERATION_DRAIN_FAILED', () => service?.cancelCurrent()],
+      // Unregistering prevents new calls but does not settle trusted calls
+      // already admitted (picker, output action, rejection diagnostic, etc.).
+      ['IPC_DRAIN_FAILED', () => ipcRegistration?.whenIdle()],
       ['OPERATION_RESOURCES_CLOSE_FAILED', () => service?.closeOperationResources?.()],
       ['APPEARANCE_FLUSH_FAILED', async () => {
         await appearance?.flush();
@@ -115,7 +128,7 @@ function startupFailed(error) {
   // its parent then closes it. Genuine startup errors remain visible.
   startupFailurePromise ||= (async () => {
     shutdownOutcome = 'failed'; shutdownExitCode = 1;
-    appearance?.closeAdmission();
+    closeAdmission();
     await service?.cancelCurrent();
     await service?.recordIncident({ stage: 'startup', reason: 'STARTUP_FAILED', severity: 'error',
       message: error.message, context: { code: error.code || null } });
@@ -214,12 +227,12 @@ async function createWindow() {
   window.webContents.on('will-navigate', event => event.preventDefault());
   window.webContents.on('will-frame-navigate', event => event.preventDefault());
   window.webContents.on('will-attach-webview', event => event.preventDefault());
-  const removeHandlers = registerIpc({ ipcMain, window, service, appearance: appearanceFacade, dialog, entryUrl });
+  ipcRegistration = registerIpc({ ipcMain, window, service, appearance: appearanceFacade, dialog, entryUrl });
   service.on('update', snapshot => {
     if (window && !window.isDestroyed() && !window.webContents.isDestroyed()) window.webContents.send('encoder:update', snapshot);
   });
   window.on('close', async event => {
-    if (exitAllowed || !service.busy) { appearance.closeAdmission(); service.closeAdmission(); return; }
+    if (exitAllowed || !service.busy) { closeAdmission(); return; }
     event.preventDefault();
     if (closePrompt) return;
     closePrompt = true;
@@ -229,12 +242,13 @@ async function createWindow() {
         message: 'Keep the application open, or cancel the current work and exit?',
         buttons: ['Keep application open', 'Cancel work and exit'], defaultId: 0, cancelId: 0, noLink: true,
       });
-      if (choice.response === 1) {
-        appearance.closeAdmission();
-        service.closeAdmission();
-        await service.cancelCurrent();
+      if (choice.response === 1 && !window.isDestroyed()) {
+        closeAdmission();
+        confirmedCancellation = (async () => service.cancelCurrent())();
+        try { await confirmedCancellation; }
+        catch { /* finishShutdown owns this failure and still tries the final drain. */ }
         exitAllowed = true;
-        window.close();
+        if (!window.isDestroyed()) window.close();
       }
     } finally { closePrompt = false; }
   });
@@ -242,8 +256,7 @@ async function createWindow() {
     // Loss of the only UI cancels work; it never enables invisible encoding.
     shutdownOutcome = 'failed';
     rendererLost = true;
-    appearance.closeAdmission();
-    service.closeAdmission();
+    closeAdmission();
     // Abort ownership synchronously before waiting on disk-backed diagnostics.
     // An unavailable/slow log directory must never prolong invisible encoding.
     const cancellation = service.cancelCurrent();
@@ -256,7 +269,7 @@ async function createWindow() {
     if (!window.isDestroyed()) window.destroy();
   });
   window.on('closed', () => {
-    removeHandlers();
+    ipcRegistration();
     void finishShutdown();
   });
   await window.loadURL(entryUrl);

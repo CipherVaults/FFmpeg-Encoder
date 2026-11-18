@@ -9,6 +9,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const { EventEmitter } = require('node:events');
+const { registerIpc } = require('../src/ipc.cjs');
 const source = fs.readFileSync(path.join(__dirname, '../main.js'), 'utf8');
 const tick = () => new Promise(resolve => setImmediate(resolve));
 const deferred = () => { let resolve, reject; const promise = new Promise((yes, no) => { resolve = yes; reject = no; }); return { promise, resolve, reject }; };
@@ -28,6 +29,8 @@ async function harness({ runtimePending = false, diagnosticsPending = false, res
   const verified = { ffmpeg: 'verified/ffmpeg.exe', ffprobe: 'verified/ffprobe.exe',
     verified: [{ sizeBytes: 1, sha256: 'a'.repeat(64) }, { sizeBytes: 2, sha256: 'b'.repeat(64) }] };
   if (!runtimePending) runtime.resolve(verified);
+  const ipcHandlers = new Map();
+  const ipcMain = { handle: (name, fn) => ipcHandlers.set(name, fn), removeHandler: name => ipcHandlers.delete(name) };
   const calls = []; let window, service, controlOptions, nativeControlOptions, ipcOptions, appearanceOptions, appearanceClosed = false;
   const nativeFileControls = Object.freeze({ policyCount: 0 }), nativeFileCalls = [], incidents = []; let nativeFileOptions;
   const families = [{ id: 'main-private-family-fixture' }], qualification = Object.freeze({});
@@ -38,7 +41,8 @@ async function harness({ runtimePending = false, diagnosticsPending = false, res
   class Service extends EventEmitter {
     constructor(options) { super(); service = this; this.busy = false; this.options = options; }
     initializeDiagnostics() { return initialized.promise; }
-    closeAdmission() { calls.push('close-admission'); }
+    closeAdmission() { this.admissionClosed = true; calls.push('close-admission'); }
+    requireIdle() { if (this.admissionClosed) throw Object.assign(new Error('Application is closing'), { code: 'SHUTTING_DOWN' }); }
     cancelCurrent() { calls.push('cancel'); return drained.promise; }
     closeOperationResources() { calls.push('close-operation-resources'); return resources.promise; }
     async recordIncident(event) { calls.push(event.reason); incidents.push(event); }
@@ -46,7 +50,7 @@ async function harness({ runtimePending = false, diagnosticsPending = false, res
   }
   class Window extends EventEmitter {
     constructor(options) { super(); appearanceOrder.push('window'); window = this; this.options = options; this.destroyed = false; this.webContents = new EventEmitter();
-      Object.assign(this.webContents, { setWindowOpenHandler() {}, isDestroyed: () => false }); }
+      Object.assign(this.webContents, { mainFrame: { url: 'app://encoder/index.html' }, setWindowOpenHandler() {}, isDestroyed: () => false }); }
     isDestroyed() { return this.destroyed; }
     loadURL() { appearanceOrder.push('navigation'); return load.promise; }
     destroy() { this.destroyed = true; dialogClosed.resolve(); this.emit('closed'); }
@@ -69,7 +73,7 @@ async function harness({ runtimePending = false, diagnosticsPending = false, res
   const nativeTheme = { set themeSource(theme) { nativeChanges.push(theme); appearanceOrder.push('native:' + theme); } };
   const appSession = { setPermissionRequestHandler() {}, setPermissionCheckHandler() {}, on() {}, protocol: {}, webRequest: { onBeforeRequest() {} } };
   vm.runInNewContext(source, { console, process: { resourcesPath: 'resources' }, require(id) {
-    if (id === 'electron') return { app, BrowserWindow: Window, nativeTheme, ipcMain: {}, session: { fromPartition: () => appSession }, protocol: { registerSchemesAsPrivileged() {} },
+    if (id === 'electron') return { app, BrowserWindow: Window, nativeTheme, ipcMain, session: { fromPartition: () => appSession }, protocol: { registerSchemesAsPrivileged() {} },
       dialog: { showErrorBox() { calls.push('blocking-dialog'); }, showMessageBox(...args) {
         const options = args.at(-1);
         if (options.buttons?.[0] === 'Keep application open') { calls.push('busy-dialog'); return closeChoice.promise; }
@@ -104,12 +108,19 @@ async function harness({ runtimePending = false, diagnosticsPending = false, res
     if (id === './src/encoder-service.cjs') return { EncoderService: Service };
     if (id === './src/output-access.cjs') return require('../src/output-access.cjs');
     if (id === './src/appearance.cjs') return { AppearanceSettings: Appearance };
-    if (id === './src/ipc.cjs') return { registerIpc: options => { ipcOptions = options; return () => calls.push('remove-ipc'); } };
+    if (id === './src/ipc.cjs') return { registerIpc: options => { ipcOptions = options; return registerIpc(options); } };
     if (id === './src/local-protocol.cjs') return { ENTRY_URL: 'app://encoder/index.html', resolveAsset() {}, registerLocalProtocol() {} };
     throw new Error('Unexpected dependency: ' + id);
   } }, { filename: 'main.js' });
   await tick();
-  return { app, load, drained, dialogClosed, closeChoice, calls, window, service, runtime, verified, initialized, resources,
+  // Capture the genuine registered handler and its trusted sender before close.
+  const channel = name => {
+    const invoke = ipcHandlers.get('encoder:' + name);
+    assert.equal(typeof invoke, 'function');
+    const event = { sender: window.webContents, senderFrame: window.webContents.mainFrame };
+    return (...args) => invoke(event, ...args);
+  };
+  return { app, channel, load, drained, dialogClosed, closeChoice, calls, window, service, runtime, verified, initialized, resources,
     appearanceReady, appearanceFlushed, appearanceWrites, appearanceSnapshot, nativeChanges, backgroundChanges, appearanceOrder,
     getWindow: () => window, getService: () => service, getControlOptions: () => controlOptions,
     getIpcOptions: () => ipcOptions, getNativeControlOptions: () => nativeControlOptions,
@@ -219,7 +230,7 @@ test('quit after service construction but before diagnostics readiness drains wi
 test('load rejection followed by renderer loss drains before failed exit without a blocking dialog', async () => {
   const h = await harness();
   h.load.reject(new Error("ERR_FAILED (-2) loading 'app://encoder/index.html'")); await tick();
-  assert.deepEqual(h.calls, ['cancel']);
+  assert.deepEqual(h.calls, ['close-admission', 'cancel']);
   h.window.webContents.emit('render-process-gone', {}, { reason: 'crashed', exitCode: 1 }); await tick();
   assert.ok(h.calls.includes('RENDERER_GONE'));
   assert.ok(!h.calls.some(x => Array.isArray(x) && x[0] === 'exit'));
@@ -232,8 +243,10 @@ test('load rejection followed by renderer loss drains before failed exit without
 });
 
 test('genuine startup failure remains visible asynchronously after owned work drains', async () => {
-  const h = await harness(); h.load.reject(new Error('asset unavailable')); await tick();
-  assert.deepEqual(h.calls, ['cancel']);
+  const h = await harness(), read = h.channel('snapshot'); h.service.snapshot = () => 'open';
+  h.load.reject(new Error('asset unavailable')); await tick();
+  assert.deepEqual(h.calls, ['close-admission', 'cancel']);
+  assert.equal((await read()).error?.code, 'SHUTTING_DOWN');
   h.drained.resolve(); await tick();
   assert.ok(h.calls.includes('async-dialog')); assert.ok(!h.calls.includes('blocking-dialog'));
   assert.ok(!h.calls.some(x => Array.isArray(x) && x[0] === 'exit'));
@@ -448,4 +461,97 @@ test('NS-20: a native file composition defect (for example an extra policies key
   assert.ok(!h.calls.includes('NATIVE_FILE_COMPOSITION_FAILED')); assert.ok(h.calls.includes('async-dialog'));
   h.dialogClosed.resolve(); await tick(); await tick();
   assert.deepEqual(h.calls.at(-1), ['exit', 1]);
+});
+
+test('committed busy close fences new IPC before media drains; Keep leaves the registration usable', async () => {
+  for (const response of [0, 1]) {
+    const h = await harness(), read = h.channel('snapshot');
+    h.service.snapshot = () => 'open'; h.service.busy = true;
+    h.window.close(); h.closeChoice.resolve({ response }); await tick();
+    const reply = await read();
+    if (response === 0) {
+      assert.equal(reply.value, 'open'); assert.ok(!h.service.admissionClosed);
+      assert.ok(!h.calls.includes('cancel'));
+    } else {
+      assert.equal(reply.error?.code, 'SHUTTING_DOWN'); assert.ok(h.calls.includes('cancel'));
+      assert.equal(h.window.isDestroyed(), false); h.drained.resolve(); await tick();
+      assert.equal(h.calls.at(-1), 'quit');
+    }
+  }
+});
+
+test('idle quit waits for an admitted output action before closing resources or history', async () => {
+  const h = await harness(), action = deferred();
+  h.service.openCompletedOutput = async () => { await action.promise; h.calls.push('output-done'); return true; };
+  const open = h.channel('open-completed-output'), payload = { outputId: 'bf509721-05ab-4d26-80da-7fb541d42c59', action: 'open' };
+  const admitted = open(payload);
+  h.app.emit('before-quit', { preventDefault() {} }); h.drained.resolve(); await tick();
+  assert.ok(h.calls.includes('cancel')); assert.equal((await open(payload)).error.code, 'SESSION_RETIRED');
+  assert.ok(!h.calls.includes('close-operation-resources')); assert.ok(!h.calls.includes('quit'));
+  action.resolve(); assert.equal((await admitted).value, true); await tick();
+  assert.ok(h.calls.indexOf('output-done') < h.calls.indexOf('close-operation-resources'));
+  assert.equal(h.calls.filter(item => Array.isArray(item) && item[0] === 'closed').length, 1);
+  assert.equal(h.calls.at(-1), 'quit');
+});
+
+test('renderer loss cancels promptly but still waits for a held folder picker to refuse a late selection', async () => {
+  const h = await harness(), picker = deferred();
+  h.getIpcOptions().dialog.showOpenDialog = () => { h.calls.push('picker-shown'); return picker.promise; };
+  h.service.registerFolder = () => { h.service.requireIdle(); h.calls.push('grant'); };
+  const read = h.channel('snapshot'); h.service.snapshot = () => 'open';
+  const request = h.channel('input-folder')(); await tick(); assert.ok(h.calls.includes('picker-shown'));
+  h.window.webContents.emit('render-process-gone', {}, { reason: 'crashed', exitCode: 1 });
+  assert.ok(h.calls.includes('cancel')); assert.equal((await read()).error?.code, 'SHUTTING_DOWN');
+  h.drained.resolve(); await tick();
+  assert.ok(!h.calls.includes('close-operation-resources')); assert.ok(!h.calls.includes('quit'));
+  picker.resolve({ canceled: false, filePaths: ['fixture-folder'] });
+  assert.equal((await request).error.code, 'SHUTTING_DOWN'); await tick();
+  assert.ok(!h.calls.includes('grant')); assert.ok(h.calls.includes('FOLDER_PICKER_REJECTED'));
+  assert.ok(h.calls.indexOf('FOLDER_PICKER_REJECTED') < h.calls.indexOf('close-operation-resources'));
+  assert.ok(h.calls.some(item => Array.isArray(item) && item[1] === 'failed'));
+});
+
+test('a trusted rejection diagnostic settling after close is observed before the terminal journal', async () => {
+  for (const failure of [false, true]) {
+    const h = await harness(), held = deferred(), record = h.service.recordIncident.bind(h.service);
+    h.service.recordIncident = async event => {
+      if (event.reason === 'REQUEST_REJECTED') { h.calls.push('held'); await held.promise; }
+      return record(event);
+    };
+    const request = h.channel('snapshot')('unexpected');
+    const result = failure ? assert.rejects(request, /unavailable/) : request;
+    await tick(); assert.ok(h.calls.includes('held')); h.window.destroy(); h.drained.resolve(); await tick();
+    assert.ok(!h.calls.includes('close-operation-resources')); assert.ok(!h.calls.includes('quit'));
+    if (failure) held.reject(new Error('unavailable')); else held.resolve();
+    await result; await tick();
+    assert.ok(h.calls.includes('close-operation-resources'));
+    assert.equal(h.calls.filter(item => Array.isArray(item) && item[0] === 'closed').length, 1);
+    assert.ok(h.calls.some(item => Array.isArray(item) && item[1] === (failure ? 'failed' : 'completed')));
+    assert.equal(h.calls.includes('IPC_DRAIN_FAILED'), failure);
+  }
+});
+
+test('failed busy Cancel cannot strand a fenced window or become a successful session after a later drain', async () => {
+  for (const retryFails of [false, true]) {
+    const h = await harness(), action = deferred(), retry = deferred(); let attempts = 0;
+    h.service.busy = true; h.service.snapshot = () => action.promise;
+    h.service.cancelCurrent = () => (++attempts === 1 ? h.drained : retry).promise;
+    h.service.getRuntimeInformation = () => 'open';
+    const lateRead = h.channel('runtime-information'), admitted = h.channel('snapshot')();
+    // EventEmitter itself does not await a close listener. Observe its result
+    // explicitly so a rejected listener cannot silently skip its cleanup.
+    const closing = h.window.listeners('close')[0]({ preventDefault() {} });
+    const outcome = closing.then(() => 'handled', () => 'unhandled');
+    h.closeChoice.resolve({ response: 1 }); await tick();
+    assert.equal(attempts, 1); assert.equal((await lateRead()).error?.code, 'SHUTTING_DOWN');
+    h.drained.reject(new Error('first cancellation failed')); await tick();
+    assert.equal(await outcome, 'handled'); assert.ok(h.window.isDestroyed()); assert.equal(attempts, 2);
+    if (retryFails) retry.reject(new Error('terminal cancellation failed')); else retry.resolve();
+    await tick(); assert.ok(!h.calls.includes('close-operation-resources')); assert.ok(!h.calls.includes('quit'));
+    action.resolve('done'); assert.equal((await admitted).value, 'done'); await tick();
+    assert.ok(h.calls.includes('CLOSE_CANCELLATION_FAILED'));
+    assert.equal(h.calls.includes('OPERATION_DRAIN_FAILED'), retryFails);
+    assert.ok(h.calls.includes('close-operation-resources')); assert.ok(h.calls.includes('flush-appearance'));
+    assert.deepEqual(h.calls.filter(item => Array.isArray(item) && item[0] === 'closed'), [['closed', 'failed']]);
+  }
 });

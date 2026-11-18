@@ -1,0 +1,372 @@
+{
+  "checkpoint": 57,
+  "status": "Final outside owning record; writer released for lead integration",
+  "cutoffUtc": "2026-11-18T16:16:28.067800+00:00",
+  "scope": {
+    "expectedChangedPaths": 8,
+    "expectedFiles": 690,
+    "productionOrTestPaths": [
+      {
+        "path": "main.js",
+        "bytes": 15064,
+        "sha256": "50b44bc3ffd0841ffbface559aeea27017a14e6ef65ac81ca552874f3fa70f21",
+        "priorSha256": "c6c843d3db537dc6585212f876b7fdc08bed2fbdd94247196bf604e63bff22c1"
+      },
+      {
+        "path": "tests/main-lifecycle.test.cjs",
+        "bytes": 38587,
+        "sha256": "cf3087aab7e5b1e8ea7ad050d93dd2ef6bfafecac8175156b59a7b2e75696920",
+        "priorSha256": "fb9a0e69ab48fd81d2e061fff54adcf44625b9546ac2bf8d05b0117a7a1f9ccb"
+      },
+      {
+        "path": "scripts/ci-source-contracts.cjs",
+        "bytes": 2173,
+        "sha256": "4eae37c5b3746a028beef3b604c207ed633fbbf2a9953a25099df685a1041433",
+        "priorSha256": "ec0eb57785edeb9919da016e54ff4e6afd2e1cc2ceca8cef03b505a166684039"
+      },
+      {
+        "path": "linux-blue/CI_SOURCE_CONTRACTS.md",
+        "bytes": 4251,
+        "sha256": "fa78bc310b513ec310ba23389d531d8fcee30db2fa465d8c74f93c72c62a23e6",
+        "priorSha256": "8e7efeb7e9c8bd0749ddbbd78819a10becf3f432ab36e84c0e3f723faef3cd25"
+      }
+    ],
+    "portable": null,
+    "plannedChangedPaths": [
+      "main.js",
+      "tests/main-lifecycle.test.cjs",
+      "scripts/ci-source-contracts.cjs",
+      "linux-blue/CI_SOURCE_CONTRACTS.md",
+      "linux-blue/CURRENT_STATE.md",
+      "linux-blue/SESSION_SUMMARY.md",
+      "linux-blue/2026-11-18_Windows_Shutdown_and_CI_Safety.md",
+      "linux-blue/2026-11-18_Windows_Shutdown_and_CI_Safety_Receipts.json"
+    ]
+  },
+  "integration": {
+    "atUtc": "2026-11-18T16:13:49.426955+00:00",
+    "baseCommit": "874a6938134ef8bc06727077259f103e71101bdf",
+    "otherPriorFilesUnchanged": 684,
+    "after056SourceAndHistoryRestores": true,
+    "predecessorAtCutoff": {
+      "sourceAndHistoryRestored": true,
+      "savedNativeSessionAndPlanAndRecordsVerified": true,
+      "githubAndFinalMappingPending": true,
+      "snapshot": "checkpoint057-notion056-restores-snapshot.json",
+      "attributionCorrection": "Initial cutoff assumed native pending; exact saved snapshot supported it. Release-message processing was later, not preservation evidence itself."
+    }
+  },
+  "leadTests": [
+    {
+      "name": "ci-runner",
+      "command": [
+        "node",
+        "scripts/ci-source-contracts.cjs"
+      ],
+      "startedAtUtc": "2026-11-18T16:13:49.513574+00:00",
+      "endedAtUtc": "2026-11-18T16:14:03.110667+00:00",
+      "exitCode": 0,
+      "node": "v24.22.1",
+      "platform": "Linux",
+      "countsBySelection": {
+        "tests": [
+          209,
+          10
+        ],
+        "pass": [
+          209,
+          10
+        ],
+        "fail": [
+          0,
+          0
+        ],
+        "cancelled": [
+          0,
+          0
+        ],
+        "skipped": [
+          0,
+          0
+        ]
+      },
+      "failedCases": [],
+      "outputFiles": [
+        {
+          "path": "ci-runner.stdout",
+          "bytes": 22896,
+          "sha256": "cdefd445a836d47b92bf7f064d8ca1b32decc6989f50c34528a5050a1a9caa13"
+        },
+        {
+          "path": "ci-runner.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "name": "focused",
+      "command": [
+        "node",
+        "--test",
+        "--test-reporter=tap",
+        "tests/main-lifecycle.test.cjs",
+        "tests/ipc.test.cjs",
+        "linux-blue/workbench-quit.test.cjs"
+      ],
+      "startedAtUtc": "2026-11-18T16:14:03.114907+00:00",
+      "endedAtUtc": "2026-11-18T16:14:03.388001+00:00",
+      "exitCode": 0,
+      "node": "v24.22.1",
+      "platform": "Linux",
+      "countsBySelection": {
+        "tests": [
+          60
+        ],
+        "pass": [
+          60
+        ],
+        "fail": [
+          0
+        ],
+        "cancelled": [
+          0
+        ],
+        "skipped": [
+          0
+        ]
+      },
+      "failedCases": [],
+      "outputFiles": [
+        {
+          "path": "focused.stdout",
+          "bytes": 15858,
+          "sha256": "48c6bf7f7c5cb7402c595dbf39332d108f3626bccdf6d9bc8abb92a45be1bc9f"
+        },
+        {
+          "path": "focused.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "name": "wider",
+      "command": [
+        "node",
+        "--test",
+        "--test-reporter=tap",
+        "tests/main-lifecycle.test.cjs",
+        "tests/ipc.test.cjs",
+        "tests/container-clock.test.cjs",
+        "tests/media.test.cjs",
+        "tests/appearance.test.cjs",
+        "tests/app-settings.test.cjs",
+        "tests/output-access.test.cjs",
+        "tests/hdr-catalog-seals.test.cjs",
+        "tests/encode-preservation-catalog.test.cjs",
+        "tests/source-catalog-seals.test.cjs",
+        "linux-blue/workbench-quit.test.cjs",
+        "linux-blue/ui-policy.test.cjs"
+      ],
+      "startedAtUtc": "2026-11-18T16:14:03.391253+00:00",
+      "endedAtUtc": "2026-11-18T16:14:04.311905+00:00",
+      "exitCode": 1,
+      "node": "v24.22.1",
+      "platform": "Linux",
+      "countsBySelection": {
+        "tests": [
+          220
+        ],
+        "pass": [
+          218
+        ],
+        "fail": [
+          2
+        ],
+        "cancelled": [
+          0
+        ],
+        "skipped": [
+          0
+        ]
+      },
+      "failedCases": [
+        "fresh exact source staging activates only the reviewed fixed runtime/source class and immutable report",
+        "fresh and cached factory loads fail closed after changed/mixed/omitted producer or hidden consent styling"
+      ],
+      "outputFiles": [
+        {
+          "path": "wider.stdout",
+          "bytes": 55370,
+          "sha256": "af7befb3560f5447f07c7a0f8ed3fb525cb8e90f7929de7c2fd1cee6596ee506"
+        },
+        {
+          "path": "wider.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "name": "protection",
+      "command": [
+        "node",
+        "--test",
+        "--test-reporter=tap",
+        "tests/encoder-service.test.cjs",
+        "tests/process-runner.test.cjs",
+        "tests/outputs.test.cjs",
+        "tests/completed-output-retention.test.cjs",
+        "tests/completed-source-policy.test.cjs",
+        "tests/source-identity.test.cjs",
+        "tests/source-catalog-cross-route.test.cjs",
+        "tests/source-catalog-seals.test.cjs"
+      ],
+      "startedAtUtc": "2026-11-18T16:14:04.317226+00:00",
+      "endedAtUtc": "2026-11-18T16:14:11.454944+00:00",
+      "exitCode": 0,
+      "node": "v24.22.1",
+      "platform": "Linux",
+      "countsBySelection": {
+        "tests": [
+          229
+        ],
+        "pass": [
+          229
+        ],
+        "fail": [
+          0
+        ],
+        "cancelled": [
+          0
+        ],
+        "skipped": [
+          0
+        ]
+      },
+      "failedCases": [],
+      "outputFiles": [
+        {
+          "path": "protection.stdout",
+          "bytes": 56001,
+          "sha256": "02b00f3ff6ba87e4a93c6fd7b7fd8a5322a6dad207f84e2b9836a1cdb77cec37"
+        },
+        {
+          "path": "protection.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    }
+  ],
+  "sourceStableDuringTests": 688,
+  "producerSummary": {
+    "E3Exact": 97,
+    "fullCopyExact": 26,
+    "historicalHdrMismatches": 36,
+    "historicalHdrTotal": 69,
+    "historicalPreservationMismatches": 16,
+    "historicalPreservationTotal": 32,
+    "noReseal": true
+  },
+  "references": [
+    {
+      "base": "guidance",
+      "path": "windows-next-portability/v2/windows-main-ipc-settlement-v2.patch",
+      "bytes": 18111,
+      "sha256": "726465bcdca648c930e1709212f9ef597e481cf26735d144940c0aea8274693f"
+    },
+    {
+      "base": "guidance",
+      "path": "windows-next-portability/v2/handoff.json",
+      "bytes": 3130,
+      "sha256": "739c4e313396da594e2227a8fab04e5b4201670f250c2e2ab406bbfe12dccd25"
+    },
+    {
+      "base": "guidance",
+      "path": "windows-shutdown-independent/v2/REVIEW.md",
+      "bytes": 4597,
+      "sha256": "ba220d11c95fee0a5db03f51c18dd4735cab2442aa30995798d5c8466507163b"
+    },
+    {
+      "base": "guidance",
+      "path": "ci-safety-independent/FINAL_REVIEW.md",
+      "bytes": 3220,
+      "sha256": "b192fe60d0ea15d1791ad2b1dd04baf09fd0ed7736abf83a3f2652a2bac7b341"
+    },
+    {
+      "base": "workspace-artifact",
+      "path": "ffmpeg-ci-safety-expansion-v2-20261118.patch",
+      "bytes": 5425,
+      "sha256": "cf27dcd2c935962d94107e43636faab727e143ad64290d566dc5d30476e25bde"
+    },
+    {
+      "base": "workspace-artifact",
+      "path": "ffmpeg-ci-safety-handoff-v2-20261118.json",
+      "bytes": 1040,
+      "sha256": "50bda07363a813bcfe92abb3adc77139f47a322753f83ba6136669e645d76069"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint057-reviewed-scope.json",
+      "bytes": 2462,
+      "sha256": "7a200e9261df6666416cd9b5de2df2f1cb884a214b897cfc5eddcdff075f67bc"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint057-integration.json",
+      "bytes": 1700,
+      "sha256": "d48aa8cceb1b5c10300e8697fab81732266dc028227c31087f4b60c4942f432f"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint057-integrated.patch",
+      "bytes": 24962,
+      "sha256": "73496490d8a5ec07a657a3a008091fc9187d72513f22bfc426685d0595202e42"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint057-lead-tests/RESULTS.json",
+      "bytes": 89802,
+      "sha256": "42dfc1e425147ad7d7bd69656c758602323e4202812081afc7591a046be75f76"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint057-producer-closures.json",
+      "bytes": 2693,
+      "sha256": "a6cdec3a98c360640afa03cda61ec247483724d1cddcb9d0e654c56a5d47dffc"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint057-cutoff-initial.json",
+      "bytes": 2072,
+      "sha256": "aa14cb149fd8da0ab9e5a0eed13b449852b18df13d7e9f8b11ac249f23af704c"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint057-cutoff.json",
+      "bytes": 2320,
+      "sha256": "62933f1d5063dd21d5505b6779f684c32fefafb8e95f208d4c7a9a889d81b850"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint057-cutoff-status-correction.json",
+      "bytes": 748,
+      "sha256": "e03cd508a7c2d1e83bd601f05d073765fc1dff3603ac4cd66bd223f88f632e20"
+    },
+    {
+      "base": "guidance",
+      "path": "checkpoint057-notion056-restores-snapshot.json",
+      "bytes": 124201,
+      "sha256": "3c28462a0d959765f8e7724db02358b42b91273491eddc02fd295a0e6ec6f07b"
+    }
+  ],
+  "limits": [
+    "Overlapping test selections are not summed. Wider tests retain two unchanged baseline failures.",
+    "Synthetic Electron and injected child/shell seams are distinct from two real bounded Node helper processes and private filesystem fixtures.",
+    "No expanded hosted CI, native Windows, FFmpeg/media, GPU/RTX, package or owner acceptance is claimed.",
+    "No timeout or forced settlement was added for never-settling owned promises.",
+    "Raw private worker artifacts are referenced by relative identity, not embedded. No authoritative files were written by this records worker."
+  ]
+}

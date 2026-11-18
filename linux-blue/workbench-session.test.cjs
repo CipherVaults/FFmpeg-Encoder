@@ -207,8 +207,9 @@ test('production opt-in control block stays hidden by default and offers explici
  const block=source.slice(source.indexOf('  // Absent on ordinary/default and Windows main'),source.lastIndexOf('})();'));
  function element(){return {children:[],events:{},appendChild(child){this.children.push(child);},addEventListener(name,fn){this.events[name]=fn;}};}
  for(const enabled of [false,true]){
-  const body=element(),calls=[],api={getWorkbenchSession:async()=>({enabled,selected:'ordinary',notice:'Explicit reset'}),selectWorkbenchSession:async kind=>{calls.push(kind);throw new Error('Missing fixed inputs');}};
-  vm.runInNewContext(block,{api,document:{body,createElement:element}});await new Promise(r=>setImmediate(r));
+  const body=element(),calls=[],api={getWorkbenchSession:async()=>({enabled,selected:calls.length?null:'ordinary',notice:'Explicit reset'}),selectWorkbenchSession:async kind=>{calls.push(kind);throw new Error('Missing fixed inputs');}};
+  const context={api,document:{body,createElement:element},render(){const c=context.developerSessionChoices;if(c)for(const row of c.buttons)row.button.disabled=c.pending||c.selected===row.kind;}};
+  vm.runInNewContext(block,context);await new Promise(r=>setImmediate(r));
   assert.equal(body.children.length,enabled?1:0);
   if(enabled){const [notice,ordinary,candidate]=body.children[0].children;assert.equal(ordinary.disabled,true);await candidate.events.click();assert.deepEqual(calls,['full-copy']);assert.equal(notice.textContent,'Missing fixed inputs');assert.equal(ordinary.disabled,false);}
  }
@@ -493,4 +494,170 @@ test('fresh ordinary recovery clears a genuine old output grant before pending r
  const recovery=f.owner.select('restart-ordinary');await assert.rejects(access.action({...grant,action:'reveal'}),{code:'OUTPUT_ACCESS_EXPIRED'});assert.equal(calls,0);
  drain.resolve();await recovery;await assert.rejects(f.owner.owner.access.action({...grant,action:'reveal'}),{code:'OUTPUT_ACCESS_EXPIRED'});assert.equal(calls,0);
  }finally{await fs.rm(dir,{recursive:true});}
+});
+
+// Current 9.0.2 composition: cancelled owners are replaced, never reopened.
+test('candidate selector explicitly accepts ordinary902 and drains closed owner before fresh selection', async()=>{
+ assert.equal(sessionSwitchingEnabled(['--blue-workbench-session-switching','--blue-runtime=9.0.2-ordinary-candidate']),true);
+ const f=fixture({replaceClosed:true}),old=await f.owner.select('ordinary'),gate=deferred();old.admissionClosed=true;
+ old.closeOperationResources=()=>gate.promise;
+ const pending=f.owner.select('ordinary');await new Promise(r=>setImmediate(r));
+ assert.equal(f.services.length,1);assert.equal(f.accesses[0].grants.size,0);
+ gate.resolve();const fresh=await pending;assert.notEqual(fresh,old);assert.equal(f.services.length,2);
+ fresh.admissionClosed=true;fresh.busy=true;
+ await assert.rejects(f.owner.select('full-copy'),{code:'BUSY'});assert.equal(f.owner.owner.service,fresh);
+ fresh.busy=false;await f.owner.select('full-copy');assert.equal(f.owner.owner.kind,'full-copy');
+});
+
+test('candidate902 actual main handoff destroys old document and permits replacement startup reads before load settles',async()=>{
+ const fs=require('node:fs/promises'),path=require('node:path'),vm=require('node:vm');
+ const source=await fs.readFile(path.join(__dirname,'workbench-main.cjs'),'utf8');
+ const f=fixture(),handlers=new Map(),windows=[],logs=[],exits=[],startupReads=[];let oldEvent;
+ const app=Object.assign(new EventEmitter(),{enableSandbox(){},disableHardwareAcceleration(){},setPath(){},whenReady:async()=>{},requestSingleInstanceLock:()=>true,isReady:()=>true,exit:n=>exits.push(n),quit(){}});
+ const create=async kind=>{const s=await f.create(kind);Object.assign(s,{linuxRemuxStatus:{available:false},runtimeIdentity:kind,getRuntimeInformation:()=>({kind})});return s;};
+ const local=Object.assign(new EventEmitter(),{setPermissionRequestHandler(){},setPermissionCheckHandler(){},setDevicePermissionHandler(){},protocol:{},webRequest:{onBeforeRequest(){}}});
+ class Window extends EventEmitter {
+  constructor(){super();windows.push(this);this.destroyed=false;this.webContents=Object.assign(new EventEmitter(),{mainFrame:{url:'app://local/index.html'},setWindowOpenHandler(){},isDestroyed:()=>this.destroyed,send(){},getLastWebPreferences:()=>({sandbox:true})});}
+  isDestroyed(){return this.destroyed;} destroy(){this.destroyed=true;app.emit('window-all-closed');}setBackgroundColor(){}setTitle(){}
+  async loadURL(){const event={sender:this.webContents,senderFrame:this.webContents.mainFrame};
+    if(oldEvent) assert.equal((await handlers.get('encoder:runtime-information')(oldEvent)).error.code,'UNTRUSTED_SENDER');
+    startupReads.push(await handlers.get('encoder:runtime-information')(event));oldEvent=event;
+  }
+ }
+ const modules={electron:{app,BrowserWindow:Window,dialog:{showErrorBox(){assert.fail('unexpected failure');}},ipcMain:{handle:(n,f)=>handlers.set(n,f),removeHandler:n=>handlers.delete(n)},session:{fromPartition:()=>local},protocol:{registerSchemesAsPrivileged(){}},nativeTheme:{},shell:{}},'node:fs':{mkdirSync(){}},'node:path':path,
+ './workbench-service.cjs':{createWorkbenchService:()=>assert.fail('No baseline fallback')},'./candidate-ordinary-service.cjs':{createCandidateOrdinaryService:()=>create('ordinary')},'./workbench-runtime-choice.cjs':require('./workbench-runtime-choice.cjs'),'./workbench-session.cjs':{WorkbenchSession},
+ './candidate-full-copy-workbench.cjs':{createCandidateFullCopyWorkbench:()=>create('full-copy')},
+ '../src/appearance.cjs':{AppearanceSettings:class{async load(){return {theme:'dark'};}closeAdmission(){}async flush(){}}},'../src/output-access.cjs':{OutputAccess:class{clear(){}}},'../src/ipc.cjs':require('../src/ipc.cjs'),'../src/local-protocol.cjs':{ENTRY_URL:'app://local/index.html',registerLocalProtocol(){},resolveAsset(){return true;}}};
+ vm.runInNewContext(source,{require:n=>{assert.ok(Object.hasOwn(modules,n),n);return modules[n];},__dirname,process:{argv:['electron','--blue-workbench-session-switching','--blue-runtime=9.0.2-ordinary-candidate'],versions:{}},console:{log:(...x)=>logs.push(x),error:()=>assert.fail('startup failure')}});
+ await new Promise(r=>setImmediate(r));assert.equal(startupReads[0].value.kind,'ordinary');
+ const oldHandler=handlers.get('encoder:runtime-information'), firstEvent=oldEvent;
+ const selected=await handlers.get('encoder:select-workbench-session')(oldEvent,'full-copy');assert.equal(selected.ok,true);
+ assert.equal(windows.length,2);assert.equal(windows[0].destroyed,true);assert.equal(windows[1].destroyed,false);
+ assert.equal(startupReads[1].ok,true);assert.equal(startupReads[1].value.kind,'full-copy');
+ assert.equal((await oldHandler(firstEvent)).error.code,'SESSION_RETIRED');assert.deepEqual(exits,[]);
+ const back=await handlers.get('encoder:select-workbench-session')(oldEvent,'ordinary');assert.equal(back.ok,true);assert.equal(windows.length,3);assert.equal(startupReads[2].value.kind,'ordinary');
+ f.services[2].admissionClosed=true;const restarted=await handlers.get('encoder:select-workbench-session')(oldEvent,'ordinary');assert.equal(restarted.ok,true);assert.equal(windows.length,4);assert.notEqual(f.services[3],f.services[2]);
+ app.emit('before-quit',{preventDefault(){}});await new Promise(r=>setImmediate(r));assert.deepEqual(exits,[0]);
+});
+
+test('candidate902 actual main quit during pending replacement acquisition drains late owner without replacement window',async()=>{
+ const fs=require('node:fs/promises'),path=require('node:path'),vm=require('node:vm');
+ const source=await fs.readFile(path.join(__dirname,'workbench-main.cjs'),'utf8');
+ const f=fixture(),handlers=new Map(),windows=[],logs=[],exits=[],startupReads=[], acquisition=deferred();let oldEvent;
+ const app=Object.assign(new EventEmitter(),{enableSandbox(){},disableHardwareAcceleration(){},setPath(){},whenReady:async()=>{},requestSingleInstanceLock:()=>true,isReady:()=>true,exit:n=>exits.push(n),quit(){}});
+ const create=async kind=>{if(kind==='full-copy') await acquisition.promise;const s=await f.create(kind);Object.assign(s,{linuxRemuxStatus:{available:false},runtimeIdentity:kind,getRuntimeInformation:()=>({kind})});return s;};
+ const local=Object.assign(new EventEmitter(),{setPermissionRequestHandler(){},setPermissionCheckHandler(){},setDevicePermissionHandler(){},protocol:{},webRequest:{onBeforeRequest(){}}});
+ class Window extends EventEmitter {
+  constructor(){super();windows.push(this);this.destroyed=false;this.webContents=Object.assign(new EventEmitter(),{mainFrame:{url:'app://local/index.html'},setWindowOpenHandler(){},isDestroyed:()=>this.destroyed,send(){},getLastWebPreferences:()=>({sandbox:true})});}
+  isDestroyed(){return this.destroyed;} destroy(){this.destroyed=true;app.emit('window-all-closed');}setBackgroundColor(){}setTitle(){}
+  async loadURL(){const event={sender:this.webContents,senderFrame:this.webContents.mainFrame};
+    if(oldEvent) assert.equal((await handlers.get('encoder:runtime-information')(oldEvent)).error.code,'UNTRUSTED_SENDER');
+    startupReads.push(await handlers.get('encoder:runtime-information')(event));oldEvent=event;
+  }
+ }
+ const modules={electron:{app,BrowserWindow:Window,dialog:{showErrorBox(){assert.fail('unexpected failure');}},ipcMain:{handle:(n,f)=>handlers.set(n,f),removeHandler:n=>handlers.delete(n)},session:{fromPartition:()=>local},protocol:{registerSchemesAsPrivileged(){}},nativeTheme:{},shell:{}},'node:fs':{mkdirSync(){}},'node:path':path,
+ './workbench-service.cjs':{createWorkbenchService:()=>assert.fail('No baseline fallback')},'./candidate-ordinary-service.cjs':{createCandidateOrdinaryService:()=>create('ordinary')},'./workbench-runtime-choice.cjs':require('./workbench-runtime-choice.cjs'),'./workbench-session.cjs':{WorkbenchSession},
+ './candidate-full-copy-workbench.cjs':{createCandidateFullCopyWorkbench:()=>create('full-copy')},
+ '../src/appearance.cjs':{AppearanceSettings:class{async load(){return {theme:'dark'};}closeAdmission(){}async flush(){}}},'../src/output-access.cjs':{OutputAccess:class{clear(){}}},'../src/ipc.cjs':require('../src/ipc.cjs'),'../src/local-protocol.cjs':{ENTRY_URL:'app://local/index.html',registerLocalProtocol(){},resolveAsset(){return true;}}};
+ vm.runInNewContext(source,{require:n=>{assert.ok(Object.hasOwn(modules,n),n);return modules[n];},__dirname,process:{argv:['electron','--blue-workbench-session-switching','--blue-runtime=9.0.2-ordinary-candidate'],versions:{}},console:{log:(...x)=>logs.push(x),error:()=>assert.fail('startup failure')}});
+ await new Promise(r=>setImmediate(r));assert.equal(startupReads[0].value.kind,'ordinary');
+ const oldHandler=handlers.get('encoder:runtime-information'), firstEvent=oldEvent;
+ const pending=handlers.get('encoder:select-workbench-session')(oldEvent,'full-copy');
+ await new Promise(r=>setImmediate(r)); app.emit('before-quit',{preventDefault(){}}); acquisition.resolve();
+ await pending; await new Promise(r=>setImmediate(r)); await new Promise(r=>setImmediate(r));
+ assert.equal(windows.length,1); assert.equal(windows[0].destroyed,true);assert.equal(f.services[1].admissionClosed,true);
+ assert.ok(f.events.includes('full-copy:resources'));assert.deepEqual(exits,[0]);
+ for (const kind of ['ordinary','full-copy']) for (const phase of ['cancel','resources','diagnostics'])
+  assert.equal(f.events.filter(value=>value===`${kind}:${phase}`).length,1,`${kind} ${phase} closes exactly once`);
+});
+
+test('candidate902 actual main replacement-window construction failure closes new owner and exits explicitly',async()=>{
+ const fs=require('node:fs/promises'),path=require('node:path'),vm=require('node:vm');
+ const source=await fs.readFile(path.join(__dirname,'workbench-main.cjs'),'utf8');
+ const f=fixture(),handlers=new Map(),windows=[],logs=[],exits=[],startupReads=[], errors=[];let oldEvent;
+ const app=Object.assign(new EventEmitter(),{enableSandbox(){},disableHardwareAcceleration(){},setPath(){},whenReady:async()=>{},requestSingleInstanceLock:()=>true,isReady:()=>true,exit:n=>exits.push(n),quit(){}});
+ const create=async kind=>{const s=await f.create(kind);Object.assign(s,{linuxRemuxStatus:{available:false},runtimeIdentity:kind,getRuntimeInformation:()=>({kind})});return s;};
+ const local=Object.assign(new EventEmitter(),{setPermissionRequestHandler(){},setPermissionCheckHandler(){},setDevicePermissionHandler(){},protocol:{},webRequest:{onBeforeRequest(){}}});
+ class Window extends EventEmitter {
+  constructor(){super();if(windows.length) throw new Error("synthetic window failure");windows.push(this);this.destroyed=false;this.webContents=Object.assign(new EventEmitter(),{mainFrame:{url:'app://local/index.html'},setWindowOpenHandler(){},isDestroyed:()=>this.destroyed,send(){},getLastWebPreferences:()=>({sandbox:true})});}
+  isDestroyed(){return this.destroyed;} destroy(){this.destroyed=true;app.emit('window-all-closed');}setBackgroundColor(){}setTitle(){}
+  async loadURL(){const event={sender:this.webContents,senderFrame:this.webContents.mainFrame};
+    if(oldEvent) assert.equal((await handlers.get('encoder:runtime-information')(oldEvent)).error.code,'UNTRUSTED_SENDER');
+    startupReads.push(await handlers.get('encoder:runtime-information')(event));oldEvent=event;
+  }
+ }
+ const modules={electron:{app,BrowserWindow:Window,dialog:{showErrorBox(...args){errors.push(args);}},ipcMain:{handle:(n,f)=>handlers.set(n,f),removeHandler:n=>handlers.delete(n)},session:{fromPartition:()=>local},protocol:{registerSchemesAsPrivileged(){}},nativeTheme:{},shell:{}},'node:fs':{mkdirSync(){}},'node:path':path,
+ './workbench-service.cjs':{createWorkbenchService:()=>assert.fail('No baseline fallback')},'./candidate-ordinary-service.cjs':{createCandidateOrdinaryService:()=>create('ordinary')},'./workbench-runtime-choice.cjs':require('./workbench-runtime-choice.cjs'),'./workbench-session.cjs':{WorkbenchSession},
+ './candidate-full-copy-workbench.cjs':{createCandidateFullCopyWorkbench:()=>create('full-copy')},
+ '../src/appearance.cjs':{AppearanceSettings:class{async load(){return {theme:'dark'};}closeAdmission(){}async flush(){}}},'../src/output-access.cjs':{OutputAccess:class{clear(){}}},'../src/ipc.cjs':require('../src/ipc.cjs'),'../src/local-protocol.cjs':{ENTRY_URL:'app://local/index.html',registerLocalProtocol(){},resolveAsset(){return true;}}};
+ vm.runInNewContext(source,{require:n=>{assert.ok(Object.hasOwn(modules,n),n);return modules[n];},__dirname,process:{argv:['electron','--blue-workbench-session-switching','--blue-runtime=9.0.2-ordinary-candidate'],versions:{}},console:{log:(...x)=>logs.push(x),error:()=>assert.fail('startup failure')}});
+ await new Promise(r=>setImmediate(r));assert.equal(startupReads[0].value.kind,'ordinary');
+ const oldHandler=handlers.get('encoder:runtime-information'), firstEvent=oldEvent;
+ const selected=await handlers.get('encoder:select-workbench-session')(oldEvent,'full-copy'); assert.equal(selected.ok,false);
+ await new Promise(r=>setImmediate(r)); await new Promise(r=>setImmediate(r));
+ assert.equal(windows[0].destroyed,true); assert.equal(f.services[1].admissionClosed,true);
+ assert.ok(f.events.includes('full-copy:resources')); assert.deepEqual(exits,[1]);assert.equal(errors.length,1);
+});
+
+test('mixed candidate selector quit during retirement waits without acquisition',async()=>{
+ const fs=require('node:fs/promises'),path=require('node:path'),vm=require('node:vm');
+ const source=await fs.readFile(path.join(__dirname,'workbench-main.cjs'),'utf8');
+ const f=fixture(),handlers=new Map(),windows=[],logs=[],exits=[],startupReads=[];let oldEvent;
+ const app=Object.assign(new EventEmitter(),{enableSandbox(){},disableHardwareAcceleration(){},setPath(){},whenReady:async()=>{},requestSingleInstanceLock:()=>true,isReady:()=>true,exit:n=>exits.push(n),quit(){}});
+ const create=async kind=>{const s=await f.create(kind);Object.assign(s,{linuxRemuxStatus:{available:false},runtimeIdentity:kind,getRuntimeInformation:()=>({kind})});return s;};
+ const local=Object.assign(new EventEmitter(),{setPermissionRequestHandler(){},setPermissionCheckHandler(){},setDevicePermissionHandler(){},protocol:{},webRequest:{onBeforeRequest(){}}});
+ class Window extends EventEmitter {
+  constructor(){super();windows.push(this);this.destroyed=false;this.webContents=Object.assign(new EventEmitter(),{mainFrame:{url:'app://local/index.html'},setWindowOpenHandler(){},isDestroyed:()=>this.destroyed,send(){},getLastWebPreferences:()=>({sandbox:true})});}
+  isDestroyed(){return this.destroyed;} destroy(){this.destroyed=true;app.emit('window-all-closed');}setBackgroundColor(){}setTitle(){}
+  async loadURL(){const event={sender:this.webContents,senderFrame:this.webContents.mainFrame};
+    if(oldEvent) assert.equal((await handlers.get('encoder:runtime-information')(oldEvent)).error.code,'UNTRUSTED_SENDER');
+    startupReads.push(await handlers.get('encoder:runtime-information')(event));oldEvent=event;
+  }
+ }
+ const modules={electron:{app,BrowserWindow:Window,dialog:{showErrorBox(){assert.fail('unexpected failure');}},ipcMain:{handle:(n,f)=>handlers.set(n,f),removeHandler:n=>handlers.delete(n)},session:{fromPartition:()=>local},protocol:{registerSchemesAsPrivileged(){}},nativeTheme:{},shell:{}},'node:fs':{mkdirSync(){}},'node:path':path,
+ './workbench-service.cjs':{createWorkbenchService:()=>create('ordinary')},'./workbench-runtime-choice.cjs':require('./workbench-runtime-choice.cjs'),'./workbench-session.cjs':{WorkbenchSession},
+ './candidate-ordinary-service.cjs':{createCandidateOrdinaryService:()=>create('candidate')},
+ './candidate-full-copy-workbench.cjs':{createCandidateFullCopyWorkbench:()=>create('full-copy')},
+ '../src/appearance.cjs':{AppearanceSettings:class{async load(){return {theme:'dark'};}closeAdmission(){}async flush(){}}},'../src/output-access.cjs':{OutputAccess:class{clear(){}}},'../src/ipc.cjs':require('../src/ipc.cjs'),'../src/local-protocol.cjs':{ENTRY_URL:'app://local/index.html',registerLocalProtocol(){},resolveAsset(){return true;}}};
+ vm.runInNewContext(source,{require:n=>{assert.ok(Object.hasOwn(modules,n),n);return modules[n];},__dirname,process:{argv:['electron','--blue-runtime=9.0.2-ordinary-candidate','--blue-workbench-session-switching'],versions:{}},console:{log:(...x)=>logs.push(x),error:()=>assert.fail('startup failure')}});
+ await new Promise(r=>setImmediate(r));assert.equal(startupReads[0].value.kind,'candidate');
+ const oldHandler=handlers.get('encoder:runtime-information'), firstEvent=oldEvent;
+ let api;vm.runInNewContext(await fs.readFile(path.join(__dirname,'../preload.js'),'utf8'),{require:n=>{assert.equal(n,'electron');return {contextBridge:{exposeInMainWorld:(_n,x)=>{api=x;}},ipcRenderer:{invoke:(n,...args)=>handlers.get(n)(oldEvent,...args),on(){},removeListener(){}}};}});
+ assert.equal((await api.getWorkbenchSession()).replaceClosed,true);
+ const drainage=deferred();f.services[0].closeAdmission();f.services[0].closeOperationResources=()=>drainage.promise;
+ const restart=api.selectWorkbenchSession('full-copy');await new Promise(r=>setImmediate(r));assert.equal(f.services.length,1);
+ app.emit('before-quit',{preventDefault(){}});await new Promise(r=>setImmediate(r));assert.deepEqual(exits,[]);
+ drainage.resolve();await restart;await new Promise(r=>setImmediate(r));await new Promise(r=>setImmediate(r));
+ assert.deepEqual(exits,[0]);assert.equal(f.services.length,1);assert.equal(windows.length,1);assert.equal(windows[0].destroyed,true);
+});
+
+test('candidate902 missing Full-copy stays unavailable then explicit ordinary recovery',async()=>{
+ const fs=require('node:fs/promises'),path=require('node:path'),vm=require('node:vm');
+ const source=await fs.readFile(path.join(__dirname,'workbench-main.cjs'),'utf8');
+ const f=fixture(),handlers=new Map(),windows=[],logs=[],exits=[],startupReads=[];let oldEvent;
+ const app=Object.assign(new EventEmitter(),{enableSandbox(){},disableHardwareAcceleration(){},setPath(){},whenReady:async()=>{},requestSingleInstanceLock:()=>true,isReady:()=>true,exit:n=>exits.push(n),quit(){}});
+ const create=async kind=>{const s=await f.create(kind);Object.assign(s,{linuxRemuxStatus:{available:false},runtimeIdentity:kind,getRuntimeInformation:()=>({kind})});return s;};
+ const local=Object.assign(new EventEmitter(),{setPermissionRequestHandler(){},setPermissionCheckHandler(){},setDevicePermissionHandler(){},protocol:{},webRequest:{onBeforeRequest(){}}});
+ class Window extends EventEmitter {
+  constructor(){super();windows.push(this);this.destroyed=false;this.webContents=Object.assign(new EventEmitter(),{mainFrame:{url:'app://local/index.html'},setWindowOpenHandler(){},isDestroyed:()=>this.destroyed,send(){},getLastWebPreferences:()=>({sandbox:true})});}
+  isDestroyed(){return this.destroyed;} destroy(){this.destroyed=true;app.emit('window-all-closed');}setBackgroundColor(){}setTitle(){}
+  async loadURL(){const event={sender:this.webContents,senderFrame:this.webContents.mainFrame};
+    if(oldEvent) assert.equal((await handlers.get('encoder:runtime-information')(oldEvent)).error.code,'UNTRUSTED_SENDER');
+    startupReads.push(await handlers.get('encoder:runtime-information')(event));oldEvent=event;
+  }
+ }
+ const modules={electron:{app,BrowserWindow:Window,dialog:{showErrorBox(){}},ipcMain:{handle:(n,f)=>handlers.set(n,f),removeHandler:n=>handlers.delete(n)},session:{fromPartition:()=>local},protocol:{registerSchemesAsPrivileged(){}},nativeTheme:{},shell:{}},'node:fs':{mkdirSync(){}},'node:path':path,
+ './workbench-service.cjs':{createWorkbenchService:()=>assert.fail('No baseline fallback')},'./candidate-ordinary-service.cjs':{createCandidateOrdinaryService:()=>create('ordinary')},'./workbench-runtime-choice.cjs':require('./workbench-runtime-choice.cjs'),'./workbench-session.cjs':{WorkbenchSession},
+ './candidate-full-copy-workbench.cjs':{createCandidateFullCopyWorkbench:()=>{throw new Error('Missing fixed candidate inputs');}},
+ '../src/appearance.cjs':{AppearanceSettings:class{async load(){return {theme:'dark'};}closeAdmission(){}async flush(){}}},'../src/output-access.cjs':{OutputAccess:class{clear(){}}},'../src/ipc.cjs':require('../src/ipc.cjs'),'../src/local-protocol.cjs':{ENTRY_URL:'app://local/index.html',registerLocalProtocol(){},resolveAsset(){return true;}}};
+ vm.runInNewContext(source,{require:n=>{assert.ok(Object.hasOwn(modules,n),n);return modules[n];},__dirname,process:{argv:['electron','--blue-workbench-session-switching','--blue-runtime=9.0.2-ordinary-candidate'],versions:{}},console:{log:(...x)=>logs.push(x),error:()=>assert.fail('startup failure')}});
+ await new Promise(r=>setImmediate(r));assert.equal(startupReads[0].value.kind,'ordinary');
+ const oldHandler=handlers.get('encoder:runtime-information'), firstEvent=oldEvent;
+ const selected=await handlers.get('encoder:select-workbench-session')(oldEvent,'full-copy');assert.equal(selected.ok,false);
+ assert.equal(f.services.length,1);assert.equal(f.services[0].admissionClosed,true);
+ assert.equal((await handlers.get('encoder:workbench-session')(oldEvent)).value.selected,null);
+ const recovered=await handlers.get('encoder:select-workbench-session')(oldEvent,'ordinary');assert.equal(recovered.ok,true);
+ assert.equal(f.services.length,2);assert.equal(windows.length,2);assert.equal(startupReads[1].value.kind,'ordinary');
+ assert.equal((await oldHandler(firstEvent)).error.code,'SESSION_RETIRED');
+ app.emit('before-quit',{preventDefault(){}});await new Promise(r=>setImmediate(r));assert.deepEqual(exits,[0]);
 });

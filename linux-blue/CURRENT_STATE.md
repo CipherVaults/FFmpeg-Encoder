@@ -1,17 +1,18 @@
-# Current state — checkpoint 051
+# Current state — checkpoint 052
 
-Record cutoff: 2026-11-18 13:59:57.465769 UTC.
+Record cutoff: 2026-11-18 14:34:00.502486 UTC.
 
-## Current evidence
-The updated Full-copy service now has a bounded real-service proof on immutable checkpoint 050: two short H265 slow25 / whole-file 1080p-to-720 / copied-AAC publications, post-preview collision refusal, and live cancellation followed by recovery through a NEW runtime/service owner. Four cases passed and all 106 owned children closed. This is not native UI qualification or same-service restart.
+## Verified progress
+- One bounded native Full-copy publication and real Thunar reveal completed on immutable checkpoint 051: Full / 720p / copied AAC, 240 video frames and 384,000 decoded samples. All 44 owned children closed. Packet/header/timing/skip evidence is not PCM identity.
+- A separate seven-file opt-in ordinary 9.0.2 ↔ Full-copy session selector is now integrated and source-tested. Final results: 45/45 focused, 345/345 explicit Linux with saved raw reports and 229/229 protection. Scopes overlap and must not be summed.
+- The selector uses fresh owners and existing retirement/drain boundaries, with explicit unavailable state and no silent fallback. Default 7.1.5 selection, media producers, runtime binaries, pins and audio policy are unchanged.
 
-The first attempt remains failed-retained. Six obsolete helper startup templates caused pre-spawn refusals, not encoder failures; 11 actual startup children closed and no target ran. A separately reviewed sibling corrected only those six template pairs and completed the successful campaign. No application, test, runtime, default or audio-policy change was needed.
+## Not yet established
+The native run predates selector integration. The new transition UI/main composition has injected source coverage only, not a native transition result. Shared renderer changes remain untested on native Windows. No final source-only test rerun, package-wide npm test, general-player, performance or default-promotion claim is made.
 
-Copied packet/header/padding identities and decoded counts/timing passed; no PCM identity or universal-player claim follows. Full output hashes and probes were recorded during the successful run and rechecked by saved-data audit. Warnings remain, both publication accounting contexts are truncated, and access used an injected sink rather than OS reveal.
+Four native contexts remain truncated; the audit separately acquired five named attachments. Output hash was first obtained post-close; no extra decode or PCM comparison. Point 07 preceded accepted reveal by 26.244 seconds, not immediately after the intervening missed click.
 
-## Tests and next step
-Checkpoint 050's 342/342 explicit Linux, 72/72 focused and 229/229 protection results are inherited, overlapping and not rerun for this evidence-only milestone. Source-only 14 passes / two raw-input prerequisite skips remain a separate scope.
+## Next
+Preserve checkpoint 052, then independently review and bind the minimal zero-user-target selector helper. At cutoff HANDOFF-v1 and three file-only controls were prepared; review was pending, binding null, and there was no gate or native selector execution.
 
-Preserve these two attempts together, then complete and review the smallest native supervisor adaptation. At cutoff only read-only feasibility and assignment were complete; no newly accepted helper, gate or native run. No Windows, default promotion, general quality or performance qualification is claimed.
-
-[Execution](2026-11-18_Post_Codec_Full_Copy_Service_Proof.md) · [Receipts](2026-11-18_Post_Codec_Full_Copy_Service_Proof_Receipts.json)
+[Execution](2026-11-18_Post_Codec_Full_Copy_Native_Selector.md) · [Receipts](2026-11-18_Post_Codec_Full_Copy_Native_Selector_Receipts.json)

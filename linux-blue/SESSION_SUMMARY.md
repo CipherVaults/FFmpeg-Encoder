@@ -1,3 +1,169 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Native Full-copy proved; opt-in ordinary/Full-copy selector integrated separately
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role | Attribution | Work and evidence limit |
+|---|---|---|
+| Engineering lead / native operator | GPT-6 Astra / Ultra, recorded assignment rather than backend attestation | Reconciled 051 preservation, controlled the bounded native journey, checked its saved audit, then integrated the independently reviewed selector and ran final source tests. |
+| Source author / independent reviewers | Model and effort not independently established here | Prepared and reviewed the seven-file selector, retained red controls and exercised injected lifecycle/renderer seams. Source review is not native transition qualification. |
+| Auditor / mirror / records | Model and effort not independently established here | Verified saved native evidence, separately acquired five named attachments, preserved source/history and prepared records. No additional media probe/decode was performed by saved-data reviewers or the summary writer. |
+
+**Record basis:** One native Full / 720p / copied-AAC publication and actual Thunar reveal succeeded on immutable 051. A later seven-file opt-in ordinary 9.0.2 ↔ Full-copy selector was integrated and source-tested only after audit/release. The earlier native run does not qualify that later selector. Default 7.1.5, media producers, runtime binaries, pins and audio policy remain unchanged.
+
+## 🕒 Time
+
+**Stage / type / focus:** Bounded native acceptance followed by a separate source-only session-selector integration; combined evidence and source checkpoint.
+
+**Date and clock:** November 18, 2026; Cairo UTC+02:00. Fixed cutoff **16:34:00.502486 Cairo / 14:34:00.502486 UTC**. Times below are UTC. Active effort was not measured.
+
+- Native preparation review **14:02:29.528207**, exact source binding **14:07:40.232353**, bound review **14:08:24.374754**. These follow 051's fixed cutoff.
+- 051 GitHub verification **14:13:31.084287**, final publication receipt **14:14:30.291870**; preservation completed before the native gate.
+- Fresh desktop/gate recorded **14:15:44.331855**. Native outer **14:16:03.787415–14:28:38.039555**, **754.252160 seconds**, exit 0.
+- Saved audit **14:31:02.513051**, additive point-timing supplement **14:31:43.089772**, lead reconciliation/release **14:32:26.692465**.
+- Seven-file source integration **14:32:48.162957**. Lead focused/Linux/protection checks ran **14:33:03.017737–14:33:14.327061**; fixed cutoff **14:34:00.502486**.
+
+**End / stopping point:** Native 051 proof is terminal and accepted within its finite scope; the later selector is integrated with green source checks. The next zero-user-target native selector helper is prepared with three file-only controls, independent review pending, binding null and no gate or native transition execution at cutoff.
+
+**Reason for this summary:** Preserve the two different advances, their chronology and actual evidence limits without treating source tests as native proof or moving the cutoff to later preparation results.
+
+## 🎯 Session Goal
+
+Complete the current Full-copy path through the original Linux UI using one known input, one explicit 720p/Copy target and one optional real reveal. Reuse existing supervisor, runtime, collector and safe mouse-only navigation rather than another framework. Separately make the already supported ordinary candidate and Full-copy sessions available through an explicit opt-in selector with fresh-owner cleanup boundaries. Preserve current source/history before execution and keep default/runtime/audio-policy promotion outside this milestone.
+
+## 🛠️ Actions Taken
+
+### 1. Preserve 051, then bind the reused native preparation
+
+The native run used immutable `8797a7f1a30c0cdb3bf140bb751e46ffe2413f6c`, tree `a08ea603328cc49d1e1e14a5e13f7b3ae4d9251d`: **671 files / 51 commits**. The exact **2,147,868-byte** preceding Session, SHA `de63ed22c3d08a970bad2eb399981e9c9f3469d617696b86d1f9399218d159b3`, remains this entry's untouched suffix.
+
+Both source ZIP and full-history bundle exceeded the technical 5 MiB attachment cap. Each was proactively split into two labeled native ZIP parts. Four attachments uploaded once; downloaded parts reconstructed the exact original archives and complete clone. No oversized upload attempt or history rewrite was required. Full readable Session and portable records were also verified; native page formatting is not raw Markdown byte identity.
+
+GitHub remote `40a68ea446c51c0c5aa3c711272d97c445f24ebb` has sole parent `ef5a7ac7c98bd3ce19d6733a30772284a354c8ab`: **1,053 total files / 1,048 unchanged / two modified / three new / zero deleted**, with five exact intended readbacks. Final mirror receipt is **122,912 bytes / `c829f893f6ab0a785d93b2f0ce3519fc8a136f7fb40aae5f358c239cc5c846ee`**; final publication receipt is **183,135 bytes / `0ce2bcfb09a9e83038b06f9c6603ba75ca49250dc06ad3ccd36c7a54ba1a02c4`**.
+
+The native adaptation reused the prior supervisor and Full-copy journey, binding the exact new commit/tree/count rather than changing execution logic. Original unbound files and reviews remain. Preparation's seven file/injected checks and three pure selector assertions, then exact-bound accept/reject controls, were not live proof. The gate checked preserved source, current consumer/raw calibration, fixed runtime/dependencies/Electron, known profile directory identity, 37 prior allowlisted events and fresh actual desktop state. Existing owner permission continued; this was an engineering freshness gate, not new user approval.
+
+The bounded scope allowed one Prepare, one Apply, one Start and at most one accepted reveal, with no player, cancellation, new session or extra native probe/decode. Startup media is not a user target. Known directory/event preservation is not a whole-profile/cache integrity claim. Inherited timeout/termination handling and point storage checks are not universal exit guarantees or hard quotas.
+
+### 2. Complete one actual native Full-copy journey
+
+Visible mouse-only directory navigation and accept buttons registered the exact owned input and output. Initial Prepare produced **Full / Keep source / Copy**, unsupported and unselected, with Start disabled. Explicit Inspect opened the editor; Full and Copy stayed unchanged, the resolution popup was legible and the closed field showed **720p**. One Apply returned Ready, the row was selected and one Start ran.
+
+A sampled UI display showed **Encoding 79.5%**, **00:06 encoded**, **0.42x** and **15.8 FPS**. Completion showed Succeeded and enabled Show in folder. One accepted reveal opened Thunar with the exact **1,959,028-byte** output selected. No player opened. Thunar and Electron closed normally; the supervisor waited and completed with exit 0. These are CUA-only operator observations, not exported screenshots or universal visual/player acceptance.
+
+The frozen outcome is **12,298 bytes / `45503939c7af97ef3909ae62fa3bdefed887979701a2fd0cb154d02cf5d779b0`**. It retains interaction friction: ambiguous filename/triangle clicks were replaced with explicit Inspect; truncated control output prompted a fresh screenshot rather than blind repetition; layout movement caused missed controls. Terminal text entry was used only for launch, not app pickers. The legible popup in this run does not diagnose or fix the earlier intermittent rendering problem.
+
+Actual closure is **44 owned children spawned / 44 closed / zero live / maximum one**, not a whole-OS or complete per-child diagnostic census. Measured scopes differ: **15.434 seconds target**, **20.163 seconds batch**, **754.252160 seconds whole manual journey**. Neither these intervals nor the single UI speed sample is a benchmark.
+
+### 3. Audit the saved output and correct the point-timing interpretation
+
+The saved audit accepted the finite native publication/reveal. It checked the operation receipt and copied packet/header/timing/skip evidence: **240 video frames, 384,000 decoded audio samples and 376 packets**, with bounded unchanged timing tolerances. This is not raw PCM identity, pixel equality, arbitrary-input or all-player acceptance. No additional probe or decode was run by the saved-data reviewers.
+
+Full output SHA `042d6daaa98ab1737b2d674b7e181c5b9e755683383b10d042c4d219c1d572ad` was first obtained **after closure**, not at publication. The original 37 allowlisted events remained unchanged and 25 new events were retained. Four contexts truncate: two `FILE_INSPECTED`, `OPERATION_EVIDENCE_COLLECTED` and `JOB_DISPOSITION`.
+
+The supervisor captured event wrappers, not all underlying payloads. The auditor separately acquired five specifically named event-referenced attachments: the full operation receipt, three compact spools and **168-byte target stderr**. This additive audit provenance must not be relabeled original supervisor capture or permission to enumerate unrelated profile contents. The fuller receipt does not reconstruct every truncated field. Target CPU-mask/WPP/lookahead diagnostics and separate **624-byte Electron D-Bus/SSL stderr** remain; no harmlessness or cause inference is made, and completeness for all 44 child streams is not claimed.
+
+Point 07 was **26.244 seconds before the accepted reveal**, preceding an intended click that landed on empty space after continued scrolling. Fresh window/event observation found no reveal; the newly observed button was then clicked. There was **no new storage point immediately before that later accepted reveal**. The additive supplement preserves this limitation rather than rewriting the original outcome/audit. A saved accepted dispatch does not prove every click succeeded or every action had an immediately fresh point. Apply, Start and close points are attributed as directly preceding those actions. Storage sampling is not a continuous quota.
+
+Final audit: **138,462 bytes / `f80f40830ad3f3de557492fafe7b5d588542307d8ed332ae08455f7aa0fa4f2b`**. Point supplement: **1,458 bytes / `675027bbac7a6cffe995b3fa262bb42400047b132b0a9460e3363679792378f4`**. Lead reconciliation: **41,495 bytes / `afbf42448cb35d23902ceb8fade8904cdc8b3105f67cbebd0620aacfcff1da42`**, rechecking **125 identity occurrences / 117 unique files**, plus all 671 current/Git source identities before integration. Closure rests on supervisor wait/exit and owned census, not cross-namespace executor `/proc` absence. No new policy or default acceptance follows.
+
+### 4. Integrate the separately reviewed opt-in selector after release
+
+The isolated seven-path proposal was reviewed while 051 remained frozen; authoritative integration occurred only after native audit/reconciliation. Four production paths changed: Linux workbench main, runtime choice, workbench session and shared renderer. Three associated source-test files changed. The other **664 of 671 checked files** were unchanged at source integration.
+
+The exact ordinary-candidate plus opt-in switching configuration is newly accepted. Main uses the existing candidate ordinary factory and existing Full-copy factory, not silent baseline fallback. Other disallowed candidate/switch combinations still reject. A closed owner is replaced, never reopened. Busy state, preference mutation and native media slots block retirement; retirement closes admission, clears grants, removes listeners, cancels and drains resources/diagnostics, verifies owned children and clears the old plan. Cleanup or census failure blocks replacement. Missing acquisition reports unavailable after retiring the old owner; recovery requires another explicit selection.
+
+Current exact window/frame trust, admitted-request and picker blocking, retired IPC handlers, replacement WebContents and callback epoch fencing remain. Renderer buttons track selected, busy and pending state and permit explicit fresh-owner recovery. Errors use `textContent` and refresh actual current status; replacement windows reset local state. No new IPC enum, arbitrary executable path, persisted runtime choice, automatic fallback, HTML/CSS/theme, preload or Windows-main change was introduced. The shared renderer still affects Windows and has not been tested natively there.
+
+Actual-main VM controls cover quit during acquisition/retirement, missing candidate, explicit recovery and replacement-window failure using injected factories/Electron/access. Independent extra controls use actual WorkbenchSession with injected service fields to check closed-owner busy blockers, failed resource drain and child census. General hung acquisition or diagnostics are not guaranteed to settle, and no forced-exit promise was added.
+
+The exact reviewed patch is **38,516 bytes / `6532a521e229ac744564ec0c6ed2baf14ab8d3ad6161b21618fd6fa55a9cf723`**. The manual source/privacy/authority review is not a formal Security Cloud scan. Literal producer maps remain byte-identical; all **26 Full-copy producer digests** match. That establishes unchanged calibration inputs, not dynamic closure or execution qualification of the selector. Runtime/raw-report/dependency prerequisites still lie outside a source-only restore.
+
+### 5. Retain red controls and final test scope precisely
+
+Initial author reds are retained: baseline-only policy rejected the new selector case; an extracted renderer fixture lacked its render dependency; another used nonexistent phase `encoding` instead of actual `running`. Fixture corrections modeled the current renderer and busy contract rather than weakening production assertions. A read-only review command against an archive checkout produced Git usage; the immutable patch was then read correctly. A TAP-only summary parser initially missed spec-format green logs, then was corrected without changing logs or rerunning tests.
+
+Final lead checks on integrated source with Node 24.22.1 passed **45/45 focused**, **345/345 explicit Linux with existing saved raw reports**, and **229/229 protection**, all with zero failures, skips or cancellations. These overlap and must not be added. The earlier intermediate author source-only **338 passes / five prerequisite skips** predates two final tests; it is not a final-source-only rerun. No package-wide `npm test` or new media/native transition proof is claimed.
+
+New main/lifecycle/renderer positives use injected or inert seams. The real native run above belongs to unchanged 051, before this code. It cannot establish the later ordinary ↔ Full-copy transition UI or new closed-owner behavior.
+
+## 🧠 Key Insights
+
+- A genuine native publication/reveal and a green selector patch are different claims when they run on different source states. Chronology is part of qualification.
+- Replacement preserves an explicit fresh-owner boundary; it is not reopening a cancelled owner or falling back silently to another runtime.
+- Saved audit additions can strengthen a finite result without changing what the supervisor originally captured. Four truncated contexts and missing raw PCM still matter.
+- An intended click and an accepted action are not interchangeable. The point-timing supplement prevents overstating the freshness of a storage observation.
+
+## 📌 Decisions Made
+
+1. **Confirmed:** Accept the finite native Full-copy publication/reveal on 051. **Decider:** Lead after independent saved audit. **Basis:** UI observations, named collector evidence, post-close output identity and terminal owned census, with explicit limits.
+2. **Confirmed:** Preserve the reveal timing correction additively. **Decider:** Lead/auditor. **Basis:** Point 07, the intervening missed click and accepted dispatch chronology; original outcome/audit remain untouched.
+3. **Confirmed:** Integrate only the seven reviewed selector paths after freeze release. **Decider:** Lead. **Basis:** Existing service/retirement mechanisms, retained red controls and independent source review; defaults and producer pins unchanged.
+4. **Deferred:** Native selector transitions, broader input/player/Windows support and default/audio-policy promotion. **Decider:** Lead's staged continuation within existing owner authorization. **Basis:** Source/injected checks cannot supply those missing observations.
+
+## ⚠️ Difficulties / Friction
+
+Archive sizes required exact split-and-reconstruct packaging, not relaxed preservation. Native interaction needed fresh screenshots after truncation and layout movement; missed clicks were not concealed or diagnosed as application defects. The reveal-specific point was older than the accepted action, now stated explicitly. Renderer fixture assumptions and a review log-format parser needed correction; they did not establish an app media regression. Residual warnings, partial context capture and inherited pending-await limitations remain visible.
+
+## 🔧 Adjustments Made
+
+- **Shifted from:** Service-only current Full-copy evidence. **To:** One audited native publication/reveal on preserved 051. **Because:** The real UI path completed. **Consequence:** Bounded native support strengthened, not universal media or later-selector qualification.
+- **Shifted from:** Separate opt-in ordinary and Full-copy entry routes. **To:** Explicit session selection with old-owner drain and fresh acquisition. **Because:** Existing mechanisms can be reused safely without changing defaults. **Consequence:** Seven paths source-tested; native transition validation remains next.
+- **Shifted from:** Potentially reading Point 07 as immediately before accepted reveal. **To:** Exact 26.244-second interval and intervening missed click. **Because:** Saved chronology and fresh observations distinguish intention from dispatch. **Consequence:** Honest sampled-storage limitation; no retrospective rewrite.
+
+## ❌ Mistakes / Risks Noted
+
+**Misclick and stale point interpretation. What happened:** Layout movement caused an intended reveal click to miss; the later accepted click had no new immediate storage point. **Actual impact:** One accepted reveal still succeeded; freshness is narrower than an every-action claim. **Potential impact:** Overstated resource safety or fabricated action chronology. **Correction/status:** Explicit additive timing supplement, original records unchanged. **Failure Intelligence:** Reobserve moving controls and distinguish sampled checks from continuous guarantees.
+
+**Fixture assumptions. What happened:** Missing renderer dependency and an invented phase produced retained reds. **Actual impact:** Source tests needed truthful fixtures before acceptance. **Potential impact:** Weakening application guards to satisfy inaccurate tests. **Correction/status:** Fixtures corrected to actual dependency/phase; final lead checks green. **Failure Intelligence:** Verify the real contract and keep the original failures.
+
+**Cross-source qualification and incomplete diagnostics. What could happen:** Attributing 051 native success to later selector code, packet evidence to PCM identity, or named attachment reads to all-child capture. **Actual impact:** No such promotion made. **Potential impact:** Skipped transition/platform checks or hidden warnings. **Correction/status:** Explicit source, provenance and coverage boundaries. **Failure Intelligence:** State which bytes ran, what was captured then and what was acquired later.
+
+## 📍 Current Position
+
+**As of:** 14:34:00.502486 UTC / 16:34:00.502486 Cairo. Later record integration does not move this cutoff.
+
+**Before:** Current Full-copy had audited finite service proof but no post-codec native acceptance; ordinary/Full-copy switching was not available in this exact candidate composition.
+
+**After:** One native Full-copy target and real reveal succeeded on immutable 051. A separate seven-path opt-in selector was integrated afterward, with 45/345/229 overlapping source checks passing.
+
+**Current standing:** Native evidence is bounded to the known Full/720p/Copy case. New selector remains source-only; no native transition, Windows, PCM/player, performance, default or audio-policy promotion. Full-copy producer inputs and runtime pins remain unchanged.
+
+**Live owner / continuation anchor:** Lead owns combined 052 preservation and the next minimal native transition proof. Summary writer owns only this prepend until release. At cutoff the zero-user-target helper has three file-only controls, review pending and null binding; it is not a completed native result.
+
+## 🔜 Next Steps
+
+1. Preserve the twelve-path 052 checkpoint through local Git, exact source/history/readable Notion restoration and verified GitHub publication.
+2. Independently review and bind the prepared minimal zero-user-target selector helper to actual preserved 052 and known state. Perform fresh engineering checks before any separately controlled native transition attempt.
+3. Use that attempt only to resolve transition/lifecycle/UI behavior. Do not repeat an already completed media target merely to inflate proof; keep broader media, warning and platform questions separate.
+
+**Do not reopen / repeat:** Do not rewrite 051 failures or native evidence, replay consumed gates, reset known profile indiscriminately, loosen owner/IPC/producer guards, infer PCM identity, suppress warnings or relabel the manual journey as encoding performance.
+
+**Continuation boundary:** Existing owner authorization continues; this archive itself creates no gate or default promotion. Later helper reviews, bindings and outcomes belong to the next milestone, not this fixed cutoff.
+
+## ❓ Open Questions
+
+- **Does the new candidate selector work in the actual native composition? Needed from:** The minimal preserved-source native transition proof. **Blocks:** Native selector qualification, not the accepted earlier Full-copy result.
+- **What holds across Windows, additional media and players? Needed from:** Relevant bounded platform/input checks and acceptance criteria. **Blocks:** Generalization; shared renderer and packet evidence alone cannot answer this.
+- **Do residual warnings or observed timing have broader performance implications? Needed from:** Targeted comparable measurements if prioritized. **Blocks:** Harmlessness, causal and benchmark claims, not accurate reporting of this finite run.
+
+## 🧾 Session Outcome
+
+Delivered a bounded native Full-copy publication/reveal on immutable 051, then separately integrated and source-tested the opt-in ordinary/Full-copy selector. Forty-four owned native children closed; final source scopes passed 45/45, 345/345 and 229/229 without summing them. Media producers, default runtime and audio policy did not change.
+
+Detailed records: [execution](2026-11-18_Post_Codec_Full_Copy_Native_Selector.md), [receipt index](2026-11-18_Post_Codec_Full_Copy_Native_Selector_Receipts.json) and [portable evidence](post-codec-full-copy-native-selector-portable.json).
+
+The portable contains seven complete selected objects, including outcome, outer completion, capture index, output inventory, audit, point-timing supplement and lead reconciliation. Exactly **250 leading-prefix substitutions** are declared: 139 native-proof, 16 support and 95 project. Other parsed keys/types/values are unchanged, including historical pending wording. Raw operation/spool/event payloads, gates, logs, media, PCM, binaries/dependencies and private profile/state are not embedded. References are not zero-omission preservation, raw-runtime restoration, inverse mapping or execution authority.
+
+The exact prior **2,147,868-byte** body and original correction receipt remain intact. Intended scope is **twelve paths / 674 files / 52 commits**. The new checkpoint's commit and external preservation are pending at cutoff and must be verified separately.
+
+## 🔍 Confidence Level
+
+**High** in the finite 051 native result and exact reviewed selector integration/source checks. **Limited** in the selector's native behavior and platform/media/performance generalization.
+
+**Why:** Original and additive evidence, preserved source identity, independent saved audit, explicit point supplement, reviewed owner boundaries and final tests agree. **Not higher because:** The native run predates the selector; positives use injected seams, four contexts truncate, raw PCM and comprehensive child diagnostics are absent, warnings remain and sampled storage/observed closure are not universal guarantees.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Current Full-copy service proved after correcting stale helper templates
 
 ## 🤖 Models, Effort, Roles and Provenance

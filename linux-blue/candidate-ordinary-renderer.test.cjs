@@ -147,3 +147,17 @@ test('candidate-only fresh-session control does not revive old renderer or repla
  release({});await pending;assert.equal(h.calls.filter(c=>c.name==='selectWorkbenchSession').length,1);assert.deepEqual(h.calls.find(c=>c.name==='selectWorkbenchSession').args,['restart-ordinary']);
  assert.equal(h.calls.filter(c=>['prepareBatch','startBatch'].includes(c.name)).length,0);
 });
+
+test('mixed candidate selector blocks active work and permits explicit fresh ordinary after cancellation',async()=>{
+ let reject;const waiting=new Promise((_,r)=>{reject=r;});let selected='ordinary';
+ const h=await harness({getWorkbenchSession:async()=>({enabled:true,replaceClosed:true,selected,notice:'Explicit session replacement; no replay.'}),selectWorkbenchSession:()=>waiting});
+ const buttons=h.document.body.querySelectorAll('button'), ordinary=buttons.find(b=>b.textContent==='Ordinary encoding'),full=buttons.find(b=>b.textContent==='Experimental whole-file 720p / copied AAC');
+ assert.equal(ordinary.disabled,true);assert.equal(full.disabled,false);
+ h.update({revision:10,phase:'running',items:[],counts:{},developerOrdinary:info});assert.equal(full.disabled,true);
+ h.update({revision:11,phase:'cancelled',items:[],counts:{},developerOrdinary:{...info,relaunchRequired:true}});
+ assert.equal(ordinary.disabled,false);assert.equal(full.disabled,false);
+ const pending=ordinary.click();await settle();assert.equal(full.disabled,true);assert.equal(ordinary.disabled,true);await full.click();
+ selected=null;reject(new Error('Fixed candidate unavailable'));await pending;
+ assert.equal(ordinary.disabled,false);assert.equal(full.disabled,false);assert.equal(h.calls.filter(c=>c.name==='selectWorkbenchSession').length,1);
+ assert.equal(h.byId('start-batch').disabled,true);assert.equal(h.calls.filter(c=>['prepareBatch','startBatch'].includes(c.name)).length,0);
+});

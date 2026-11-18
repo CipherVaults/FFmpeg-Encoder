@@ -1,0 +1,188 @@
+{
+  "schema": 1,
+  "checkpoint": 52,
+  "cutoffUtc": "2026-11-18T14:34:00.502486+00:00",
+  "scope": {
+    "paths": 12,
+    "expectedFiles": 674,
+    "expectedCommits": 52,
+    "nativeSourceCommit": "8797a7f1a30c0cdb3bf140bb751e46ffe2413f6c",
+    "selectorNativeQualified": false
+  },
+  "sourceFiles": [
+    {
+      "path": "linux-blue/candidate-ordinary-renderer.test.cjs",
+      "bytes": 12955,
+      "sha256": "274c11c93aeb402dda36c5eb7b88b8ba0d978125801c97185aa00844ffc0b472",
+      "baseSha256": "998c8b578d38f83dc48e20e6a1f943313227e367ae348bc160a9082a24ffce8d"
+    },
+    {
+      "path": "linux-blue/candidate-ordinary-route.test.cjs",
+      "bytes": 9510,
+      "sha256": "252a9c7f364408d5cc36995758b86caaacc5e342b7a98ea911609427a349ac22",
+      "baseSha256": "f2e3e4064c9278c496ad50058105fb64f046413d20dd61193d433b95c3231526"
+    },
+    {
+      "path": "linux-blue/workbench-main.cjs",
+      "bytes": 16692,
+      "sha256": "9e3656badac75a13cc3e4cd162c58ce7dce107c9c815d98ecb25dcbac6ea8fe7",
+      "baseSha256": "f1a9cacb523d8ba89f2bb71897fe3eba13b458ee1090027a6af2dd620ecc39bb"
+    },
+    {
+      "path": "linux-blue/workbench-runtime-choice.cjs",
+      "bytes": 1689,
+      "sha256": "02999a0f9f057d87e192762deebe9f610320c1f6a04c8747657c3a7b2487bd18",
+      "baseSha256": "4c0248010ca4034298a825603cb29891ccc8c22b11de81250d3a21e5f787d492"
+    },
+    {
+      "path": "linux-blue/workbench-session.cjs",
+      "bytes": 4371,
+      "sha256": "2d33a1dba423427cf7715acde00f170980b62f97e17097a690b42a4715b57798",
+      "baseSha256": "72b93d9f52a391bbaec636b1dc9cdf0c24bfca5308bf7fa9753db8b36fefcc0a"
+    },
+    {
+      "path": "linux-blue/workbench-session.test.cjs",
+      "bytes": 80371,
+      "sha256": "1744306f0bb9a263e6c60bf37ed5e80a9f9256fd2d8cfb6e47553851f43dbc5d",
+      "baseSha256": "04ee6b02dc90d9af2df6584dbac96982c1705896cd9fa3ccd0eaf40a78d84d0b"
+    },
+    {
+      "path": "ui/renderer.js",
+      "bytes": 152503,
+      "sha256": "b098427dabfb1ecd221bb6f808eaa3a32afb95c3fec27ca85536f2e86eadaaf9",
+      "baseSha256": "86cee96629468120a1671167d76d3b57b01e0ba894683e3913d1f364bab13083"
+    }
+  ],
+  "integratedAtUtc": "2026-11-18T14:32:48.162957+00:00",
+  "results": {
+    "native": "One publication/reveal, 44/44 closed; target15.434s batch20.163s manual754.252160s; 240frames384000samples, packet/header/timing/skip not PCM identity",
+    "sourceTests": "45/45 focused,345/345 explicit Linux with saved raw reports,229/229 protection; overlapping not summed; no final-source-only rerun or package-wide claim"
+  },
+  "nativeEvidence": {
+    "closedChildren": 44,
+    "videoFrames": 240,
+    "audioSamples": 384000,
+    "pcmIdentity": false,
+    "targetSeconds": 15.434,
+    "batchSeconds": 20.163,
+    "manualSeconds": 754.25216,
+    "truncatedContexts": 4,
+    "auditAdditiveAttachments": 5,
+    "firstFullOutputHashPostClose": true,
+    "point07BeforeAcceptedRevealSeconds": 26.244
+  },
+  "artifactReferences": [
+    {
+      "path": "checkpoint052-cutoff.json",
+      "bytes": 3927,
+      "sha256": "0e41b3662ada15253a4c38bd048d1a98c8ea86a6eb6f282f3f175f3adef2d02b"
+    },
+    {
+      "path": "checkpoint052-expected-paths.json",
+      "bytes": 567,
+      "sha256": "11cd86bc43abd738e6b6367e917ee21f7a2acf67caac95727bd5334a0a81d30b"
+    },
+    {
+      "path": "notion-checkpoint-051-verification.json",
+      "bytes": 122912,
+      "sha256": "c829f893f6ab0a785d93b2f0ce3519fc8a136f7fb40aae5f358c239cc5c846ee"
+    },
+    {
+      "path": "github-checkpoint051-verification.json",
+      "bytes": 4230,
+      "sha256": "6befcd24ccefbc0bc86d36cb6ae731c8a32faf9ab1b593155efb59d146b13fc5"
+    },
+    {
+      "path": "checkpoint-8797a7f-publication-receipt.json",
+      "bytes": 183135,
+      "sha256": "0ce2bcfb09a9e83038b06f9c6603ba75ca49250dc06ad3ccd36c7a54ba1a02c4"
+    },
+    {
+      "path": "current-full-copy-native051-preparation/NATIVE_PLAN.json",
+      "bytes": 15012,
+      "sha256": "a4afa49e32df1415a08221879372f72202285b49d4a594dd0df7bd1ec373d54f"
+    },
+    {
+      "path": "current-full-copy-native051-preparation/BOUND_HANDOFF.json",
+      "bytes": 2132,
+      "sha256": "f932c6661c2e0ae900d2f36d96f23f4c584da417824490f6d7068414885b430d"
+    },
+    {
+      "path": "current-full-copy-native051-preparation/BOUND_REVIEW.json",
+      "bytes": 3402,
+      "sha256": "908adf1d3170ced41f2d4d191075e5355de1be808191779e405ae47509c59228"
+    },
+    {
+      "path": "current-full-copy-native051-preparation/APPROVED_FULL_COPY_NATIVE.json",
+      "bytes": 80550,
+      "sha256": "a4e2489fdc08a32d9ca0694fc693f1971586c5c30c4929f213451715deb34f90"
+    },
+    {
+      "path": "current-full-copy-native051-preparation/NATIVE_OUTCOME.json",
+      "bytes": 12298,
+      "sha256": "45503939c7af97ef3909ae62fa3bdefed887979701a2fd0cb154d02cf5d779b0"
+    },
+    {
+      "path": "current-full-copy-native051-preparation/OUTER_COMPLETION.json",
+      "bytes": 960,
+      "sha256": "e27314ceb5002e0e320dc26fb93a1d205cd4c654f14a569229f3b62755a40818"
+    },
+    {
+      "path": "current-full-copy-native051-preparation/INDEPENDENT_SAVED_OUTPUT_AUDIT.json",
+      "bytes": 138462,
+      "sha256": "f80f40830ad3f3de557492fafe7b5d588542307d8ed332ae08455f7aa0fa4f2b"
+    },
+    {
+      "path": "current-full-copy-native051-preparation/INDEPENDENT_AUDIT_POINT_TIMING_SUPPLEMENT.json",
+      "bytes": 1458,
+      "sha256": "675027bbac7a6cffe995b3fa262bb42400047b132b0a9460e3363679792378f4"
+    },
+    {
+      "path": "current-full-copy-native051-preparation/LEAD_RECONCILIATION.json",
+      "bytes": 41495,
+      "sha256": "afbf42448cb35d23902ceb8fade8904cdc8b3105f67cbebd0620aacfcff1da42"
+    },
+    {
+      "path": "ordinary-full-selector-source-evidence/HANDOFF.json",
+      "bytes": 5365,
+      "sha256": "74d2240f4f853c9d39e1d5038c3ce9be2fffbbbf15e814c9f255229508ac663c"
+    },
+    {
+      "path": "ordinary-full-selector-source-evidence/PATCH.diff",
+      "bytes": 38516,
+      "sha256": "6532a521e229ac744564ec0c6ed2baf14ab8d3ad6161b21618fd6fa55a9cf723"
+    },
+    {
+      "path": "ordinary-full-selector-independent/INDEPENDENT_REVIEW.json",
+      "bytes": 16043,
+      "sha256": "90a092352aa872a585f6bee993f05e02c70d52d55dd593c2d7d621a1e4f6556c"
+    },
+    {
+      "path": "checkpoint052-source-integration.json",
+      "bytes": 3035,
+      "sha256": "719a2c4959ffacc078bc02c9cc5e91379f9a4a442560b53c7d7c6ffaa40d44eb"
+    },
+    {
+      "path": "checkpoint052-lead-tests/TEST_RESULTS.json",
+      "bytes": 23562,
+      "sha256": "4b18fdb44d6b206051512975fb60b56e0befa2111b1dfd02d9f38a6eb59acd6e"
+    }
+  ],
+  "portable": {
+    "path": "linux-blue/post-codec-full-copy-native-selector-portable.json",
+    "bytes": 237488,
+    "sha256": "23d8271b3d90608987f5196c4f253ef05c16d39f3149e9e1281a27eff08860b1",
+    "selectedObjects": 7,
+    "prefixChanges": 250
+  },
+  "limits": [
+    "Native051 evidence predates selector integration and cannot qualify it. Windows shared renderer affected but native Windows untested.",
+    "Four contexts truncated; supervisor capture events only; audit separately acquired named operation receipt/three spools/168-byte target stderr. First full output hash post-close. Residual x265 CPU-mask/WPP/lookahead and top-level DBus/SSL diagnostics retained.",
+    "Point07 was26.244seconds before accepted reveal with intervening misclick; no immediately-before-later-action check. Point checks not continuous quotas. CUA-only observations attributed, no screenshot export.",
+    "No raw PCM pair/new decoder/player/visual quality/performance/global policy/default promotion. Runtime pair/raw calibration/dependencies absent from source restore.",
+    "Actual-main lifecycle/renderer controls injected; old owner cleanup/census before fresh acquisition, no silent fallback. General hung acquisition/diagnostics not guaranteed to settle.",
+    "Full-copy26producer hashes unchanged; historical producer closure not new selector execution.",
+    "Earlier intermediate author source-only338pass/5skip is not a final-source-only rerun. Final scopes overlap; source/injected coverage does not qualify actual selector transitions."
+  ],
+  "nextAtCutoff": "Preserve combined052 promptly. Minimal zero-user-target native selector preparation delivered HANDOFF-v1, three file-only controls; independent review assigned and still pending, source binding null, no gate/desktop/native selector execution. Later review facts excluded."
+}

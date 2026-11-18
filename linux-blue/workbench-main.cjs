@@ -10,7 +10,8 @@ const { createWorkbenchService } = require('./workbench-service.cjs');
 const { selectWorkbenchRuntime, sessionSwitchingEnabled } = require('./workbench-runtime-choice.cjs');
 const switchingEnabled = sessionSwitchingEnabled(process.argv);
 const runtimeChoice = selectWorkbenchRuntime(process.argv);
-const recoveryEnabled = runtimeChoice === '9.0.2-ordinary-candidate';
+const candidateOrdinary = runtimeChoice === '9.0.2-ordinary-candidate';
+const recoveryEnabled = candidateOrdinary && !switchingEnabled;
 const managedSessions = switchingEnabled || recoveryEnabled;
 const createService = runtimeChoice === 'baseline' ? createWorkbenchService
   : runtimeChoice === '9.0.2-ordinary-candidate' ? require('./candidate-ordinary-service.cjs').createCandidateOrdinaryService
@@ -43,6 +44,7 @@ else if (runtimeChoice === '9.0.2-keep720-candidate') title = 'FFmpeg Encoder ·
 else if (runtimeChoice === '9.0.2-resize-candidate') title = 'FFmpeg Encoder · Experimental 1080p30 to 720p resize range · CPU slow25 / precision FLAC · Cancel requires relaunch · native threading unqualified';
 else if (runtimeChoice === '9.0.2-full-copy-candidate') title = 'FFmpeg Encoder · Experimental whole-file 1080p30 to 720p · CPU slow25 / copied AAC · Cancel requires relaunch · native threading unqualified';
 else if (runtimeChoice !== 'baseline') title = 'FFmpeg Encoder · Linux CPU preview · FFmpeg 9.0.2 AV1 · ordinary encode limit 30 minutes';
+if (candidateOrdinary && switchingEnabled) title = 'FFmpeg Encoder · Experimental FFmpeg 9.0.2 · Ordinary / whole-file 720p copied AAC · Explicit session replacement';
 const census = { spawned: 0, closed: 0, live: 0, maximum: 0 };
 let window, service, appearance, unregister, sessionOwner, transitionPromise, transitionActive = false, replacingWindow = false, retiringWindow;
 let closing = false, closed = false, closePromise, startupPromise, appearanceFailed = false, failed = false;
@@ -125,9 +127,10 @@ async function launch() {
   if (managedSessions) {
     const { WorkbenchSession } = require('./workbench-session.cjs');
     sessionOwner = new WorkbenchSession({
-      ordinary: access => (recoveryEnabled ? createService : createWorkbenchService)({ stateDir, outputAccess: access, onChild: trackChild }),
+      ordinary: access => (candidateOrdinary ? createService : createWorkbenchService)({ stateDir, outputAccess: access, onChild: trackChild }),
       recoveryOnly: recoveryEnabled,
-      verifyDrained() { if (recoveryEnabled && census.live !== 0) throw new Error('An owned media child remains live; no new session can be created.'); },
+      replaceClosed: candidateOrdinary && switchingEnabled,
+      verifyDrained() { if (candidateOrdinary && census.live !== 0) throw new Error('An owned media child remains live; no new session can be created.'); },
       fullCopy: access => require('./candidate-full-copy-workbench.cjs').createCandidateFullCopyWorkbench({ stateDir, outputAccess: access, onChild: trackChild }),
       createAccess: () => new OutputAccess({ openPath: file => shell.openPath(file), showItemInFolder: file => shell.showItemInFolder(file) }),
       publish: snapshot => { if (!closing && window && !window.isDestroyed()) window.webContents.send('encoder:update', snapshot); },
@@ -136,7 +139,7 @@ async function launch() {
     catch (error) {
       // A normal close may win initial acquisition after its late owner was retired.
       // Never hide failed cleanup, an active owner, or another startup failure.
-      if (recoveryEnabled && closing && error.code === 'SHUTTING_DOWN'
+      if (candidateOrdinary && closing && error.code === 'SHUTTING_DOWN'
           && !sessionOwner.poisoned && !sessionOwner.owner) return;
       throw error;
     }

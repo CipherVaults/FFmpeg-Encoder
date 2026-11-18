@@ -2,13 +2,13 @@
 const fail = (code, message) => Object.assign(new Error(message), { code });
 // Exactly two main-owned session types. No paths, options, fallback or persistence.
 class WorkbenchSession {
-  constructor({ ordinary, fullCopy, createAccess, publish, recoveryOnly = false, verifyDrained = () => {} }) {
-    this.recoveryOnly = recoveryOnly; this.verifyDrained = verifyDrained;
+  constructor({ ordinary, fullCopy, createAccess, publish, recoveryOnly = false, replaceClosed = false, verifyDrained = () => {} }) {
+    this.recoveryOnly = recoveryOnly; this.replaceClosed = replaceClosed; this.verifyDrained = verifyDrained;
     this.factories = { ordinary, 'full-copy': fullCopy }; this.createAccess = createAccess;
     this.publish = publish; this.owner = null; this.transitioning = false; this.closed = false; this.poisoned = false; this.epoch = 0;
   }
   status() { return { enabled: true, selected: this.owner?.kind || null, transitioning: this.transitioning,
-    recoveryOnly: this.recoveryOnly,
+    recoveryOnly: this.recoveryOnly, replaceClosed: this.replaceClosed,
     notice: 'Switching resets the workbench window and discards this batch and completed-output access. Candidate inputs must already be restored; no fallback.' }; }
   async retire(owner) {
     if (!owner) return;
@@ -32,8 +32,12 @@ class WorkbenchSession {
       if (!this.owner || this.owner.service.admissionClosed !== true) throw fail('RECOVERY_NOT_REQUIRED', 'Cancel the current ordinary session before creating a new one.');
       kind = 'ordinary';
     } else {
-      this.owner?.service.requireIdle();
-      if (this.owner?.kind === kind) return this.owner.service;
+      const closedOwner = this.replaceClosed && this.owner?.service.admissionClosed === true;
+      if (closedOwner) {
+        const owned = this.owner.service;
+        if (owned.busy || owned.preferenceMutation || owned.nativeMediaSlot) throw fail('BUSY', 'Wait for cancellation and cleanup to settle.');
+      } else this.owner?.service.requireIdle();
+      if (this.owner?.kind === kind && !closedOwner) return this.owner.service;
     }
     this.transitioning = true;
     const previous = this.owner; this.owner = null; const epoch = ++this.epoch;

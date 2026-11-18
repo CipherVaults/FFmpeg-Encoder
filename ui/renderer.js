@@ -32,7 +32,7 @@
       : jobStageLabels[snapshot.progress?.stage] || (isRemux() ? 'Remuxing' : phaseLabels.running)
     : phaseLabels[snapshot.phase] || 'Current operation';
   let capabilities = null;
-  let developerPreview = null, developerSessionClosed = false, ordinaryRecovery = null;
+  let developerPreview = null, developerSessionClosed = false, ordinaryRecovery = null, developerSessionChoices = null;
   let nativeState = null;
 
   function nativeProofMatchesDisplay() {
@@ -1839,7 +1839,7 @@
     else if (pendingCommands) activity = 'Working…';
     else if (ready) activity = `Review the effective settings and select the files to ${isRemux() ? 'remux' : 'encode'}.`;
     else if (dirty && editing && capabilities) activity = 'Choose your settings, then review the batch.';
-    put('activity-message', developerPreview ? `${developerSessionClosed ? (ordinaryRecovery ? 'This session is closed. New ordinary session discards this batch and output access after cleanup; close and relaunch if cleanup fails.' : developerPreview.relaunchNotice) : developerPreview.notice} ${activity}` : activity);
+    put('activity-message', developerPreview ? `${developerSessionClosed ? (ordinaryRecovery ? 'This session is closed. New ordinary session discards this batch and output access after cleanup; close and relaunch if cleanup fails.' : developerSessionChoices?.replaceClosed ? 'This session is closed. Choose an explicit session below after cleanup; no work is replayed.' : developerPreview.relaunchNotice) : developerPreview.notice} ${activity}` : activity);
     visible('diagnostic-warning', Boolean(snapshot.diagnosticWarning)); put('diagnostic-warning', snapshot.diagnosticWarning || '');
     visible('setup-panel', true);
     visible('location-panel', activeWorkspace === 'encode' || activeWorkspace === 'remux');
@@ -1876,6 +1876,7 @@
     byId('cancel-batch').disabled = !snapshot.batchId || cancelPending || phase === 'cancelling';
     put('cancel-batch', phase === 'cancelling' || cancelPending ? 'Cancelling…' : phase === 'preparing' ? 'Cancel inspection' : checking ? 'Cancel check' : 'Cancel batch');
     const locked = busy || pendingCommands > 0 || developerSessionClosed;
+    if (developerSessionChoices) for (const {button, kind} of developerSessionChoices.buttons) button.disabled = busy || pendingCommands > 0 || cancelPending || developerSessionChoices.pending || (developerSessionChoices.selected === kind && !(developerSessionChoices.replaceClosed && developerSessionClosed));
     if (ordinaryRecovery) ordinaryRecovery.disabled = !developerSessionClosed || busy || pendingCommands > 0 || cancelPending || ordinaryRecovery.restarting === true;
     byId('native-settings-fields').disabled = Boolean(developerPreview) || locked || !nativeState || Boolean(nativeState.ownerBlock);
     byId('native-refresh').disabled = Boolean(developerPreview) || locked || typeof api?.refreshNativeBackends !== 'function' || Boolean(nativeState?.ownerBlock);
@@ -2293,15 +2294,23 @@
     const group = document.createElement('section');
     const notice = document.createElement('p'); notice.textContent = state.notice; group.appendChild(notice);
     const buttons = [];
+    developerSessionChoices = { buttons, selected: state.selected, replaceClosed: state.replaceClosed === true, pending: false };
     for (const [kind, label] of [['ordinary', 'Ordinary encoding'], ['full-copy', 'Experimental whole-file 720p / copied AAC']]) {
       const button = document.createElement('button'); button.textContent = label; button.disabled = state.selected === kind;
       button.addEventListener('click', async () => {
-        button.disabled = true;
+        if (button.disabled) return;
+        developerSessionChoices.pending = true; render();
         try { await api.selectWorkbenchSession(kind); }
-        catch (error) { notice.textContent = error.message; for (const control of buttons) control.disabled = false; }
+        catch (error) {
+          notice.textContent = error.message;
+          developerSessionChoices.pending = false;
+          // Acquisition may have retired the old owner. Read its actual status; never silently fall back.
+          try { const current = await api.getWorkbenchSession(); developerSessionChoices.selected = current.selected; } catch {}
+          render();
+        }
       });
-      buttons.push(button); group.appendChild(button);
+      buttons.push({button, kind}); group.appendChild(button);
     }
-    document.body.appendChild(group);
+    document.body.appendChild(group); render();
   }).catch(() => {});
 })();

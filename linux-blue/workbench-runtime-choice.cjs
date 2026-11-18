@@ -11,8 +11,8 @@ function sessionSwitchingEnabled(argv) {
   const flags = argv.filter(value => value.startsWith('--blue-workbench-session-switching'));
   if (flags.length > 1 || flags.some(value => value !== '--blue-workbench-session-switching'))
     throw Object.assign(new Error('Use the exact opt-in session-switching flag.'), { code: 'LINUX_RUNTIME_CHOICE' });
-  if (flags.length && selectWorkbenchRuntime(argv) !== 'baseline')
-    throw Object.assign(new Error('Session switching starts from the ordinary baseline only.'), { code: 'LINUX_RUNTIME_CHOICE' });
+  if (flags.length && !['baseline', '9.0.2-ordinary-candidate'].includes(selectWorkbenchRuntime(argv)))
+    throw Object.assign(new Error('Session switching starts from the ordinary baseline or explicit ordinary 9.0.2 candidate only.'), { code: 'LINUX_RUNTIME_CHOICE' });
   return flags.length === 1;
 }
 module.exports = { selectWorkbenchRuntime, sessionSwitchingEnabled };

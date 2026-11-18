@@ -23,11 +23,11 @@ async function mainFixture({diagnostic,method,picker,resourceFailure=false,diagn
  return {handlers,order,exits,logs,errors,directories,factories,service,get window(){return window;},event,quit:()=>app.emit('before-quit',{preventDefault(){}})};
 }
 
-test('exact ordinary route is opt-in, rejects unknown/duplicate/combined switching choices', () => {
+test('exact ordinary route is opt-in, rejects unknown/duplicate choices and accepts explicit candidate switching', () => {
  const {selectWorkbenchRuntime,sessionSwitchingEnabled}=require('./workbench-runtime-choice.cjs');
  assert.equal(selectWorkbenchRuntime([]),'baseline');assert.equal(selectWorkbenchRuntime(['--blue-runtime=9.0.2-ordinary-candidate']),'9.0.2-ordinary-candidate');
  for(const argv of [['--blue-runtime=ordinary'],['--blue-runtime=/tmp/tool'],['--blue-runtime=9.0.2-ordinary-candidate','--blue-runtime=9.0.2-ordinary-candidate']])assert.throws(()=>selectWorkbenchRuntime(argv),{code:'LINUX_RUNTIME_CHOICE'});
- assert.throws(()=>sessionSwitchingEnabled(['--blue-workbench-session-switching','--blue-runtime=9.0.2-ordinary-candidate']),{code:'LINUX_RUNTIME_CHOICE'});
+ assert.equal(sessionSwitchingEnabled(['--blue-workbench-session-switching','--blue-runtime=9.0.2-ordinary-candidate']),true);
 });
 test('actual main picks only fixed candidate factory and separate state/title with existing security',async()=>{
  const h=await mainFixture();assert.equal(h.factories.length,1);assert.deepEqual(Object.keys(h.factories[0]).sort(),['onChild','outputAccess','stateDir']);

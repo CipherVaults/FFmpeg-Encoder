@@ -661,3 +661,107 @@ test('candidate902 missing Full-copy stays unavailable then explicit ordinary re
  assert.equal((await oldHandler(firstEvent)).error.code,'SESSION_RETIRED');
  app.emit('before-quit',{preventDefault(){}});await new Promise(r=>setImmediate(r));assert.deepEqual(exits,[0]);
 });
+
+test('resize-range is finite opt-in and drains/revokes before selected closed-owner replacement',async()=>{
+ const plain=fixture();await plain.owner.select('ordinary');await assert.rejects(plain.owner.select('resize-range'),{code:'INVALID_REQUEST'});
+ const f=fixture({replaceClosed:true});f.owner.factories['resize-range']=()=>f.create('resize-range');
+ assert.equal(f.owner.status().resizeRangeAvailable,true);
+ const first=await f.owner.select('ordinary');first.plan={id:'old'};const callback=f.owner.owner.listener;
+ const resized=await f.owner.select('resize-range');callback('stale');assert.deepEqual(f.updates,[]);assert.equal(first.plan,null);assert.equal(f.accesses[0].grants.size,0);
+ resized.admissionClosed=true;const gate=deferred();resized.closeOperationResources=()=>gate.promise;
+ const pending=f.owner.select('resize-range');await new Promise(r=>setImmediate(r));assert.equal(f.services.length,2);gate.resolve();await pending;assert.equal(f.services.length,3);
+ await assert.rejects(f.owner.select('keep720'),{code:'INVALID_REQUEST'});
+});
+
+test('resize-range candidate902 actual main handoff destroys old document and permits replacement startup reads before load settles',async()=>{
+ const fs=require('node:fs/promises'),path=require('node:path'),vm=require('node:vm');
+ const source=await fs.readFile(path.join(__dirname,'workbench-main.cjs'),'utf8');
+ const f=fixture(),handlers=new Map(),windows=[],logs=[],exits=[],startupReads=[];let oldEvent;
+ const app=Object.assign(new EventEmitter(),{enableSandbox(){},disableHardwareAcceleration(){},setPath(){},whenReady:async()=>{},requestSingleInstanceLock:()=>true,isReady:()=>true,exit:n=>exits.push(n),quit(){}});
+ const create=async kind=>{const s=await f.create(kind);Object.assign(s,{linuxRemuxStatus:{available:false},runtimeIdentity:kind,getRuntimeInformation:()=>({kind})});return s;};
+ const local=Object.assign(new EventEmitter(),{setPermissionRequestHandler(){},setPermissionCheckHandler(){},setDevicePermissionHandler(){},protocol:{},webRequest:{onBeforeRequest(){}}});
+ class Window extends EventEmitter {
+  constructor(){super();windows.push(this);this.destroyed=false;this.webContents=Object.assign(new EventEmitter(),{mainFrame:{url:'app://local/index.html'},setWindowOpenHandler(){},isDestroyed:()=>this.destroyed,send(){},getLastWebPreferences:()=>({sandbox:true})});}
+  isDestroyed(){return this.destroyed;} destroy(){this.destroyed=true;app.emit('window-all-closed');}setBackgroundColor(){}setTitle(){}
+  async loadURL(){const event={sender:this.webContents,senderFrame:this.webContents.mainFrame};
+    if(oldEvent) assert.equal((await handlers.get('encoder:runtime-information')(oldEvent)).error.code,'UNTRUSTED_SENDER');
+    startupReads.push(await handlers.get('encoder:runtime-information')(event));oldEvent=event;
+  }
+ }
+ const modules={electron:{app,BrowserWindow:Window,dialog:{showErrorBox(){assert.fail('unexpected failure');}},ipcMain:{handle:(n,f)=>handlers.set(n,f),removeHandler:n=>handlers.delete(n)},session:{fromPartition:()=>local},protocol:{registerSchemesAsPrivileged(){}},nativeTheme:{},shell:{}},'node:fs':{mkdirSync(){}},'node:path':path,
+ './workbench-service.cjs':{createWorkbenchService:()=>assert.fail('No baseline fallback')},'./candidate-ordinary-service.cjs':{createCandidateOrdinaryService:()=>create('ordinary')},'./workbench-runtime-choice.cjs':require('./workbench-runtime-choice.cjs'),'./workbench-session.cjs':{WorkbenchSession},
+ './candidate-resize-workbench.cjs':{createCandidateResizeWorkbench:()=>create('resize-range')},
+ '../src/appearance.cjs':{AppearanceSettings:class{async load(){return {theme:'dark'};}closeAdmission(){}async flush(){}}},'../src/output-access.cjs':{OutputAccess:class{clear(){}}},'../src/ipc.cjs':require('../src/ipc.cjs'),'../src/local-protocol.cjs':{ENTRY_URL:'app://local/index.html',registerLocalProtocol(){},resolveAsset(){return true;}}};
+ vm.runInNewContext(source,{require:n=>{assert.ok(Object.hasOwn(modules,n),n);return modules[n];},__dirname,process:{argv:['electron','--blue-workbench-session-switching','--blue-runtime=9.0.2-ordinary-candidate'],versions:{}},console:{log:(...x)=>logs.push(x),error:()=>assert.fail('startup failure')}});
+ await new Promise(r=>setImmediate(r));assert.equal(startupReads[0].value.kind,'ordinary');
+ const oldHandler=handlers.get('encoder:runtime-information'), firstEvent=oldEvent;
+ const selected=await handlers.get('encoder:select-workbench-session')(oldEvent,'resize-range');assert.equal(selected.ok,true);
+ assert.equal(windows.length,2);assert.equal(windows[0].destroyed,true);assert.equal(windows[1].destroyed,false);
+ assert.equal(startupReads[1].ok,true);assert.equal(startupReads[1].value.kind,'resize-range');
+ assert.equal((await oldHandler(firstEvent)).error.code,'SESSION_RETIRED');assert.deepEqual(exits,[]);
+ const back=await handlers.get('encoder:select-workbench-session')(oldEvent,'ordinary');assert.equal(back.ok,true);assert.equal(windows.length,3);assert.equal(startupReads[2].value.kind,'ordinary');
+ f.services[2].admissionClosed=true;const restarted=await handlers.get('encoder:select-workbench-session')(oldEvent,'ordinary');assert.equal(restarted.ok,true);assert.equal(windows.length,4);assert.notEqual(f.services[3],f.services[2]);
+ app.emit('before-quit',{preventDefault(){}});await new Promise(r=>setImmediate(r));assert.deepEqual(exits,[0]);
+});
+
+test('resize-range candidate902 actual main quit during pending replacement acquisition drains late owner without replacement window',async()=>{
+ const fs=require('node:fs/promises'),path=require('node:path'),vm=require('node:vm');
+ const source=await fs.readFile(path.join(__dirname,'workbench-main.cjs'),'utf8');
+ const f=fixture(),handlers=new Map(),windows=[],logs=[],exits=[],startupReads=[], acquisition=deferred();let oldEvent;
+ const app=Object.assign(new EventEmitter(),{enableSandbox(){},disableHardwareAcceleration(){},setPath(){},whenReady:async()=>{},requestSingleInstanceLock:()=>true,isReady:()=>true,exit:n=>exits.push(n),quit(){}});
+ const create=async kind=>{if(kind==='resize-range') await acquisition.promise;const s=await f.create(kind);Object.assign(s,{linuxRemuxStatus:{available:false},runtimeIdentity:kind,getRuntimeInformation:()=>({kind})});return s;};
+ const local=Object.assign(new EventEmitter(),{setPermissionRequestHandler(){},setPermissionCheckHandler(){},setDevicePermissionHandler(){},protocol:{},webRequest:{onBeforeRequest(){}}});
+ class Window extends EventEmitter {
+  constructor(){super();windows.push(this);this.destroyed=false;this.webContents=Object.assign(new EventEmitter(),{mainFrame:{url:'app://local/index.html'},setWindowOpenHandler(){},isDestroyed:()=>this.destroyed,send(){},getLastWebPreferences:()=>({sandbox:true})});}
+  isDestroyed(){return this.destroyed;} destroy(){this.destroyed=true;app.emit('window-all-closed');}setBackgroundColor(){}setTitle(){}
+  async loadURL(){const event={sender:this.webContents,senderFrame:this.webContents.mainFrame};
+    if(oldEvent) assert.equal((await handlers.get('encoder:runtime-information')(oldEvent)).error.code,'UNTRUSTED_SENDER');
+    startupReads.push(await handlers.get('encoder:runtime-information')(event));oldEvent=event;
+  }
+ }
+ const modules={electron:{app,BrowserWindow:Window,dialog:{showErrorBox(){assert.fail('unexpected failure');}},ipcMain:{handle:(n,f)=>handlers.set(n,f),removeHandler:n=>handlers.delete(n)},session:{fromPartition:()=>local},protocol:{registerSchemesAsPrivileged(){}},nativeTheme:{},shell:{}},'node:fs':{mkdirSync(){}},'node:path':path,
+ './workbench-service.cjs':{createWorkbenchService:()=>assert.fail('No baseline fallback')},'./candidate-ordinary-service.cjs':{createCandidateOrdinaryService:()=>create('ordinary')},'./workbench-runtime-choice.cjs':require('./workbench-runtime-choice.cjs'),'./workbench-session.cjs':{WorkbenchSession},
+ './candidate-resize-workbench.cjs':{createCandidateResizeWorkbench:()=>create('resize-range')},
+ '../src/appearance.cjs':{AppearanceSettings:class{async load(){return {theme:'dark'};}closeAdmission(){}async flush(){}}},'../src/output-access.cjs':{OutputAccess:class{clear(){}}},'../src/ipc.cjs':require('../src/ipc.cjs'),'../src/local-protocol.cjs':{ENTRY_URL:'app://local/index.html',registerLocalProtocol(){},resolveAsset(){return true;}}};
+ vm.runInNewContext(source,{require:n=>{assert.ok(Object.hasOwn(modules,n),n);return modules[n];},__dirname,process:{argv:['electron','--blue-workbench-session-switching','--blue-runtime=9.0.2-ordinary-candidate'],versions:{}},console:{log:(...x)=>logs.push(x),error:()=>assert.fail('startup failure')}});
+ await new Promise(r=>setImmediate(r));assert.equal(startupReads[0].value.kind,'ordinary');
+ const oldHandler=handlers.get('encoder:runtime-information'), firstEvent=oldEvent;
+ const pending=handlers.get('encoder:select-workbench-session')(oldEvent,'resize-range');
+ await new Promise(r=>setImmediate(r)); app.emit('before-quit',{preventDefault(){}}); acquisition.resolve();
+ await pending; await new Promise(r=>setImmediate(r)); await new Promise(r=>setImmediate(r));
+ assert.equal(windows.length,1); assert.equal(windows[0].destroyed,true);assert.equal(f.services[1].admissionClosed,true);
+ assert.ok(f.events.includes('resize-range:resources'));assert.deepEqual(exits,[0]);
+ for (const kind of ['ordinary','resize-range']) for (const phase of ['cancel','resources','diagnostics'])
+  assert.equal(f.events.filter(value=>value===`${kind}:${phase}`).length,1,`${kind} ${phase} closes exactly once`);
+});
+
+test('resize-range candidate902 missing resize inputs stays unavailable then explicit ordinary recovery',async()=>{
+ const fs=require('node:fs/promises'),path=require('node:path'),vm=require('node:vm');
+ const source=await fs.readFile(path.join(__dirname,'workbench-main.cjs'),'utf8');
+ const f=fixture(),handlers=new Map(),windows=[],logs=[],exits=[],startupReads=[];let oldEvent;
+ const app=Object.assign(new EventEmitter(),{enableSandbox(){},disableHardwareAcceleration(){},setPath(){},whenReady:async()=>{},requestSingleInstanceLock:()=>true,isReady:()=>true,exit:n=>exits.push(n),quit(){}});
+ const create=async kind=>{const s=await f.create(kind);Object.assign(s,{linuxRemuxStatus:{available:false},runtimeIdentity:kind,getRuntimeInformation:()=>({kind})});return s;};
+ const local=Object.assign(new EventEmitter(),{setPermissionRequestHandler(){},setPermissionCheckHandler(){},setDevicePermissionHandler(){},protocol:{},webRequest:{onBeforeRequest(){}}});
+ class Window extends EventEmitter {
+  constructor(){super();windows.push(this);this.destroyed=false;this.webContents=Object.assign(new EventEmitter(),{mainFrame:{url:'app://local/index.html'},setWindowOpenHandler(){},isDestroyed:()=>this.destroyed,send(){},getLastWebPreferences:()=>({sandbox:true})});}
+  isDestroyed(){return this.destroyed;} destroy(){this.destroyed=true;app.emit('window-all-closed');}setBackgroundColor(){}setTitle(){}
+  async loadURL(){const event={sender:this.webContents,senderFrame:this.webContents.mainFrame};
+    if(oldEvent) assert.equal((await handlers.get('encoder:runtime-information')(oldEvent)).error.code,'UNTRUSTED_SENDER');
+    startupReads.push(await handlers.get('encoder:runtime-information')(event));oldEvent=event;
+  }
+ }
+ const modules={electron:{app,BrowserWindow:Window,dialog:{showErrorBox(){}},ipcMain:{handle:(n,f)=>handlers.set(n,f),removeHandler:n=>handlers.delete(n)},session:{fromPartition:()=>local},protocol:{registerSchemesAsPrivileged(){}},nativeTheme:{},shell:{}},'node:fs':{mkdirSync(){}},'node:path':path,
+ './workbench-service.cjs':{createWorkbenchService:()=>assert.fail('No baseline fallback')},'./candidate-ordinary-service.cjs':{createCandidateOrdinaryService:()=>create('ordinary')},'./workbench-runtime-choice.cjs':require('./workbench-runtime-choice.cjs'),'./workbench-session.cjs':{WorkbenchSession},
+ './candidate-resize-workbench.cjs':{createCandidateResizeWorkbench:()=>{throw new Error('Missing fixed candidate inputs');}},
+ '../src/appearance.cjs':{AppearanceSettings:class{async load(){return {theme:'dark'};}closeAdmission(){}async flush(){}}},'../src/output-access.cjs':{OutputAccess:class{clear(){}}},'../src/ipc.cjs':require('../src/ipc.cjs'),'../src/local-protocol.cjs':{ENTRY_URL:'app://local/index.html',registerLocalProtocol(){},resolveAsset(){return true;}}};
+ vm.runInNewContext(source,{require:n=>{assert.ok(Object.hasOwn(modules,n),n);return modules[n];},__dirname,process:{argv:['electron','--blue-workbench-session-switching','--blue-runtime=9.0.2-ordinary-candidate'],versions:{}},console:{log:(...x)=>logs.push(x),error:()=>assert.fail('startup failure')}});
+ await new Promise(r=>setImmediate(r));assert.equal(startupReads[0].value.kind,'ordinary');
+ const oldHandler=handlers.get('encoder:runtime-information'), firstEvent=oldEvent;
+ const selected=await handlers.get('encoder:select-workbench-session')(oldEvent,'resize-range');assert.equal(selected.ok,false);
+ assert.equal(f.services.length,1);assert.equal(f.services[0].admissionClosed,true);
+ assert.equal((await handlers.get('encoder:workbench-session')(oldEvent)).value.selected,null);
+ const recovered=await handlers.get('encoder:select-workbench-session')(oldEvent,'ordinary');assert.equal(recovered.ok,true);
+ assert.equal(f.services.length,2);assert.equal(windows.length,2);assert.equal(startupReads[1].value.kind,'ordinary');
+ assert.equal((await oldHandler(firstEvent)).error.code,'SESSION_RETIRED');
+ app.emit('before-quit',{preventDefault(){}});await new Promise(r=>setImmediate(r));assert.deepEqual(exits,[0]);
+});

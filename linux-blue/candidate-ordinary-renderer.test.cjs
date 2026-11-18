@@ -161,3 +161,15 @@ test('mixed candidate selector blocks active work and permits explicit fresh ord
  assert.equal(ordinary.disabled,false);assert.equal(full.disabled,false);assert.equal(h.calls.filter(c=>c.name==='selectWorkbenchSession').length,1);
  assert.equal(h.byId('start-batch').disabled,true);assert.equal(h.calls.filter(c=>['prepareBatch','startBatch'].includes(c.name)).length,0);
 });
+
+test('resize selector control appears only when main advertises the finite route',async()=>{
+ for(const available of [false,true]){
+  const h=await harness({getWorkbenchSession:async()=>({enabled:true,replaceClosed:true,selected:'ordinary',resizeRangeAvailable:available}),selectWorkbenchSession:async()=>({})});
+  const button=h.document.body.querySelectorAll('button').find(b=>b.textContent==='Experimental precise 720p range / FLAC');
+  assert.equal(Boolean(button),available);if(!available)continue;
+  h.update({revision:10,phase:'running',items:[],counts:{},developerOrdinary:info});assert.equal(button.disabled,true);
+  h.update({revision:11,phase:'idle',items:[],counts:{},developerOrdinary:info});assert.equal(button.disabled,false);await button.click();
+  assert.deepEqual(h.calls.filter(c=>c.name==='selectWorkbenchSession').map(c=>c.args),[['resize-range']]);
+  assert.equal(h.calls.filter(c=>['prepareBatch','startBatch'].includes(c.name)).length,0);
+ }
+});

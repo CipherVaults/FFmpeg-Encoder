@@ -1,3 +1,156 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Fixed resize-range option added to the opt-in session selector
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role | Attribution | Work and evidence limit |
+|---|---|---|
+| Engineering lead | GPT-6 Astra / Ultra, recorded assignment rather than backend attestation | Reconciled 053 preservation, integrated the exact five-file V2 proposal and ran final source checks. No native or media execution occurred here. |
+| Source author / independent reviewers | Model and effort not independently established here | Implemented the finite route, retained red controls and reviewed lifecycle/renderer behavior through source, VM and inert seams. V2 review was a narrow label-only check, not another full test run. |
+| Mirror / records | Model and effort not independently established here | Verified preservation and prepared safe relative-path records. Summary writer changed only this prepend after review, not source or tests. |
+
+**Record basis:** The existing precise 1080p30-to-720p range/FLAC factory is now reachable as a third explicit choice in the opted-in ordinary 9.0.2 session composition. Final source checks pass. Native third-route behavior and broader E3 acceptance remain unproved; no producer, runtime, default or audio-policy change is included.
+
+## 🕒 Time
+
+**Stage / type / focus:** Source-only selector extension using existing ownership and resize mechanisms.
+
+**Date and clock:** November 18, 2026; Cairo UTC+02:00. Fixed cutoff **17:23:15.673767 Cairo / 15:23:15.673767 UTC**. Times below are UTC. Active effort was not measured.
+
+- Substantive independent V1 review **15:02:22.609464**; label-only V2 review **15:04:07.863627**. These follow 053's cutoff.
+- Native-helper conditional preparation review **15:10:37.503193**, with null source binding and no execution.
+- Exact five-file integration **15:18:12.399038**, after both 053 archive restoration gates but before later full native-record/GitHub completion.
+- Corrected final lead runs **15:18:36.192866–15:18:47.706217**. The original completed focused log and subsequent parser failure remain retained.
+- 053 GitHub verification **15:21:58.103366**; final publication/mirror release **15:23:15.664360**. Fixed 054 cutoff **15:23:15.673767**.
+
+**End / stopping point:** Reviewed V2 is integrated and source-tested; 053 preservation is complete. Native helper remains conditional/unbound. A separate genuine 1440-range proposal is reviewed but isolated and unintegrated. No further runtime or broader completion is claimed.
+
+**Reason for this summary:** Record a useful finite UI/source advance, its real test corrections and remaining qualification boundaries without turning a menu option into a new media capability claim.
+
+## 🎯 Session Goal
+
+Expose the existing fixed resize-range factory through the ordinary candidate's explicit session-switching mode, reusing retirement, access and cleanup safeguards. Preserve the distinction between ordinary encoding, whole-file/720p/copied-AAC and precise range/FLAC contracts. Do not add generic renderer-selected factories, silently fall back to another runtime or declare unfinished 1440p/4K, long-file, cadence/orientation/audio requirements complete.
+
+## 🛠️ Actions Taken
+
+### 1. Preserve the predecessor and integrate only reviewed source
+
+Base commit is `74609c5d2084d4e31a255a7ba917a8792224ccb9`, with **677 files / 53 commits**. The exact **2,191,614-byte** Session, SHA `a645979ea218bc5a5851795482dac58fcc07eb9cb6f15e152cbac637ad3d4c83`, remains this entry's untouched suffix.
+
+Both source and full-history archives were independently restored before integration. Complete native records and GitHub mapping finished later, still before this cutoff. Final remote `1e4df8d9365e5a10ca1d5c780e9e924a3ded8922` has sole parent `c5f90b2e4c2feb220f55c0089f274e835489c0e1`; all five intended readbacks match, with **1,059 total files / 1,054 unchanged / two modified / three new / zero deleted**. Final mirror receipt is **124,375 bytes / `e5c6a537b8e5c7f411ec69ff712fd696168ecd0f032b32112af78fddc3924a33`**. No later publication completion is retroactively used as the earlier integration gate.
+
+Two external preservation-helper strings, stale scope prose and an old receipt reference, were corrected before either helper was invoked. No source, PBS or archive mutation resulted from that correction. Public-facing records use relative artifact labels and omit private environment details; historical summary bytes are not rewritten.
+
+Exactly five reviewed paths were integrated: `linux-blue/workbench-main.cjs`, `linux-blue/workbench-session.cjs`, `ui/renderer.js`, and the associated session/ordinary-renderer tests. The other **672 prior files** remained unchanged at integration. The exact V2 patch is **20,707 bytes / `886e57d4cca2eedcdb108fb2de2f3c1be5be818b3e2161c7dfb99aa28db722c2`**.
+
+### 2. Add a finite main-owned option, not new media authority
+
+Only the explicit ordinary 9.0.2 candidate plus switching mode supplies the existing resize factory. Baseline switching and unopted ordinary recovery do not expose it. The controller also requires non-recovery replacement mode and a function, and accepts only the finite `resize-range` choice. No arbitrary path, options or renderer-granted factory authority was added.
+
+The route uses the same busy/preference/native-media-slot checks, admitted-request/picker blocking, old-owner retirement, grant clearing, listener/epoch fencing and replacement-window machinery. A closed selected owner is drained and replaced, never reopened. Cleanup or child-census failure blocks further selection. Missing resize prerequisites leave an unavailable state requiring explicit ordinary recovery, not silent fallback.
+
+The renderer advertises the option only when main reports `resizeRangeAvailable === true`. Existing busy/pending/cancel gating remains, and selection does not replay Prepare or Start. Actual-main VM controls cover ordinary → resize → ordinary, stale handler rejection, closed-owner replacement, missing candidate recovery and quit during pending acquisition with late-owner retirement. New route factories/access are injected; existing real OutputAccess controls cover the shared mechanism separately.
+
+The shared renderer changed, but Windows main, HTML/CSS/theme, default 7.1.5, presets/threading and audio policy did not. Native layout/Windows behavior is untested. The resize factory, current calibration report and runtime/dependency identities are unchanged. The actual producer record has **218 literal-map rows**, including **97 resize producers**, with no changed-source intersections. Earlier verbal 216 shorthand was inaccurate. Literal hash identity is not dynamic dependency closure or native qualification of the new composition.
+
+### 3. Preserve the red controls and V1/V2 distinction
+
+The initial author red stopped at absent `resizeRangeAvailable` status; it did not execute all later admission assertions. A cloned lifecycle assertion then expected the Full-copy resource label in a resize case. Correcting it to the resize-range label retained the actual drain assertion. Independent V1 checks passed **50 focused / 350 explicit Linux / 229 protection**, plus seven inert controller controls covering constructor gating, busy blockers, cleanup/census failure and invalid finite selections. These scopes overlap.
+
+V2 corrected one misleading test title, not production behavior or assertions. Independent byte reversal reproduced the exact V1 test and patch; syntax passed. The author's narrower V2 session run passed **37/37**, but the independent V1 suites were not rerun as part of that label-only review. Manual source/privacy/authority review is not a formal Security Cloud scan.
+
+### 4. Repair the lead test driver, then retain exact final results
+
+The first integrated focused command completed and its retained log reports **50 passes, zero failures/cancellations/skips**. The Python driver then failed because it expected TAP `#` summaries while Node emitted spec-format summaries. It had not saved the child return code before parsing failed, so an exact exit receipt for that first run is **not established**. This was a reporting failure, not evidence of a failing application test.
+
+A separate corrected driver explicitly selected TAP and saved process-exit evidence before parsing. Proportionate file-only repeats and the remaining selections then passed with recorded exit 0:
+
+| Final lead selection | Result |
+|---|---|
+| Focused source/lifecycle/renderer | 50/50 |
+| Explicit Linux selection with existing saved raw reports | 350/350 |
+| Protection selection | 229/229 |
+
+All final scopes have zero failures, cancellations and skips. They overlap, are not additive and are not package-wide `npm test`. Broad tests read existing restored raw reports that source-only archives do not supply. No encoder, native UI, hardware or new media qualification follows. The exact final result receipt is **18,503 bytes / `50eb06e0911c090f421b2fde5325f38cb8cbcff06120e7ab890864f6ff0904e3`**.
+
+### 5. Keep native preparation and broader E3 work separate
+
+The minimal native adaptation reuses the prior supervisor and reconciles the known 94-event baseline. Its independent conditional review passed three file-only controls, with source binding null and no desktop/gate/launch. It is preparation for an empty-batch ordinary → resize → ordinary journey, not a third-route result. Zero user targets would still permit startup/recovery media; sampled storage, aggregate diagnostics and inherited termination limits remain.
+
+Earlier ordinary/Full-copy native switching and prior resize calibration/service proofs keep their original source attribution. At cutoff, the separate genuine 1440-range source proposal has independent review but is still isolated/unintegrated. Broader **1440p/4K, long-file, cadence/orientation/audio acceptance remains unfinished 0.7 work**, not removed from scope because the currently exposed route is narrow.
+
+## 🧠 Key Insights
+
+- Exposing a qualified factory through an existing selector changes reachability and ownership composition, not the factory's measured media envelope.
+- A corrected reporting driver must preserve the first log and missing exit evidence rather than infer an exit retrospectively.
+- V1 substantive tests, V2 title-only checks and final integrated lead runs are different evidence stages; green counts are meaningful only with that attribution.
+
+## 📌 Decisions Made
+
+1. **Confirmed:** Integrate only the exact five-file V2 extension after both predecessor restores. **Decider:** Lead after independent review. **Basis:** Finite main-owned route and unchanged production media/pins.
+2. **Confirmed:** Retain the original parser failure and rerun cheap source checks with exit-first persistence. **Decider:** Lead. **Basis:** A real evidence-recording gap, not an app defect or reason to rerun media.
+3. **Confirmed:** Keep the changed source's native acceptance pending. **Decider:** Lead. **Basis:** Injected lifecycle/renderer controls do not establish desktop composition.
+4. **Deferred, not removed from scope:** Broader E3 acceptance and the isolated 1440 proposal. **Decider:** Lead's staged continuation. **Basis:** No integrated or executed proof for those additional requirements here.
+
+## ⚠️ Difficulties / Friction
+
+A copied fixture label and test title obscured which route was exercised; both were corrected without weakening the cleanup assertion. The lead driver assumed one reporter format and lost the first exact exit receipt. Original logs remain beside corrected final runs. Stale external helper strings and the 216-versus-218 map shorthand were also corrected proportionately. None is recast as a media-runtime failure or hidden behind final green counts.
+
+## 🔧 Adjustments Made
+
+- **Shifted from:** Two available candidate session choices. **To:** A third fixed resize-range choice in the same opted-in composition. **Because:** Existing factory and ownership safeguards can be reused. **Consequence:** Source reachability added; native acceptance still required.
+- **Shifted from:** Reporter-format assumptions before exit persistence. **To:** Explicit TAP and exit-first evidence. **Because:** Completed focused output could not be parsed reliably. **Consequence:** Final exact exit/log receipts are available without inventing the first one.
+- **Shifted from:** Ambiguous copied test labels. **To:** Correct route labels with original assertions and failure evidence retained. **Because:** Provenance must identify what actually ran. **Consequence:** V2 remains a narrow correction, not a new production fix claim.
+
+## ❌ Mistakes / Risks Noted
+
+**Test-driver evidence gap. What happened:** Parsing failed after the focused run, before its child exit was persisted. **Actual impact:** The first log reports passes but lacks an exact exit receipt. **Potential impact:** A misleading claim of verified completion or lost failure evidence. **Correction/status:** Original retained; separate explicit-TAP/exit-first final runs passed. **Failure Intelligence:** Save process outcome before interpreting reporter output.
+
+**Copied labels and scope overreach. What happened/could happen:** A Full-copy label appeared in resize testing; source green could be mistaken for new native/broad E3 support. **Actual impact:** Labels corrected, actual drain guards retained; no new native claim made. **Potential impact:** Missing qualification or weakening safeguards to satisfy an inaccurate fixture. **Correction/status:** Exact V1/V2/final-run attribution and pending native/broader work. **Failure Intelligence:** Match tests to actual finite contracts and preserve unfinished acceptance explicitly.
+
+## 📍 Current Position
+
+**As of:** 15:23:15.673767 UTC / 17:23:15.673767 Cairo. Later owning-record integration does not move the cutoff.
+
+**Before:** Ordinary/Full-copy switching had bounded native proof; resize existed as a separately qualified finite route, not this selector option.
+
+**After:** Five reviewed files expose that existing resize-range factory in the opted-in selector. Final lead 50/350/229 overlapping scopes pass; no media/native run occurred.
+
+**Current standing:** Source-only extension ready for preservation. Default/runtime/pins/audio policy unchanged; native third-route and Windows behavior remain untested. Broader E3 work is still unfinished.
+
+**Live owner / continuation anchor:** Lead owns 054 preservation and later exact-bound native checks. The independent native helper is conditional/unbound; the separately reviewed 1440 proposal remains isolated. Summary writer owns only this prepend until release.
+
+## 🔜 Next Steps
+
+1. Preserve the nine-path 054 checkpoint through local Git, exact source/history/readable records and verified GitHub publication.
+2. Bind and independently check the minimal native helper against that actual preserved source before any separately gated third-route transition attempt.
+3. Continue broader E3 work through coherent reviewed source changes and fresh qualification, rather than claiming the narrow menu option completes 1440p/4K/long/cadence/audio requirements.
+
+**Do not reopen / repeat:** Do not rewrite the original parser failure, relabel V1 checks as V2 reruns, repin old media evidence, weaken owner/IPC guards, replay consumed gates or repeat successful targets without a specific new question.
+
+**Continuation boundary:** Existing owner authorization continues. This record grants no native gate, runtime/default promotion or approval of later source changes. Subsequent bindings, integrations and outcomes belong to their actual later milestone.
+
+## ❓ Open Questions
+
+- **Does the new resize option work in the actual native selector composition? Needed from:** The separately bound preserved-source transition proof. **Blocks:** Native third-route acceptance, not source preservation.
+- **Which broader E3 requirements are met by subsequent changes? Needed from:** Reviewed implementation and appropriate new media evidence. **Blocks:** 1440p/4K/long/cadence/audio completion; isolated review alone is insufficient.
+- **What holds on Windows/shared UI? Needed from:** Relevant native platform checks. **Blocks:** Cross-platform claims, not this Linux source milestone.
+
+## 🧾 Session Outcome
+
+Integrated the fixed resize-range option through existing session boundaries and retained exact final 50/50 focused, 350/350 explicit Linux and 229/229 protection results. The initial reporting failure, fixture corrections and V1/V2 scope distinctions remain visible. No runtime, producer, default or audio-policy change occurred.
+
+Detailed records: [execution](2026-11-18_Resize_Range_Selector_Extension.md) and [receipt index](2026-11-18_Resize_Range_Selector_Extension_Receipts.json). This source-only checkpoint adds no new portable media report; historical media evidence remains separately attributed.
+
+The exact previous **2,191,614-byte** body and original correction receipt remain intact. Intended scope is **nine paths / 679 files / 54 commits**. New commit and external preservation are pending at cutoff and require separate verification.
+
+## 🔍 Confidence Level
+
+**High** in exact source scope and final measured source-test results. **Limited** in native third-route, Windows and broader E3 acceptance.
+
+**Why:** Immutable reviewed patch, retained reds, narrow V2 verification, unchanged producer identities and exact final exit/log receipts agree. **Not higher because:** New lifecycle/renderer positives use injected seams, broad tests require external saved reports, native helper is unbound and broader media work remains incomplete.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Native ordinary ↔ Full-copy empty-batch switching verified
 
 ## 🤖 Models, Effort, Roles and Provenance

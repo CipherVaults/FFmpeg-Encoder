@@ -1,0 +1,138 @@
+{
+  "status": "final source-only record",
+  "sourceFiles": [
+    {
+      "path": "linux-blue/candidate-ordinary-renderer.test.cjs",
+      "bytes": 13926,
+      "sha256": "b371ef33e08143c3e754937f6e0af061889c3f3fe27652ae6f4bfaec14c74cc3",
+      "baseSha256": "274c11c93aeb402dda36c5eb7b88b8ba0d978125801c97185aa00844ffc0b472"
+    },
+    {
+      "path": "linux-blue/workbench-main.cjs",
+      "bytes": 17012,
+      "sha256": "92c565285e2788a44089ceb3e8057be1eeafc491a616d28b128c352231f10d30",
+      "baseSha256": "9e3656badac75a13cc3e4cd162c58ce7dce107c9c815d98ecb25dcbac6ea8fe7"
+    },
+    {
+      "path": "linux-blue/workbench-session.cjs",
+      "bytes": 4719,
+      "sha256": "cf975404140c5b4bea9ce32a04bab6b2439742a7f570d2750d459439e121344e",
+      "baseSha256": "2d33a1dba423427cf7715acde00f170980b62f97e17097a690b42a4715b57798"
+    },
+    {
+      "path": "linux-blue/workbench-session.test.cjs",
+      "bytes": 93907,
+      "sha256": "85f86cced49ccd7eacbf9ae3abd366aaae769b8106bb8a3034bb065ed1f90a3e",
+      "baseSha256": "1744306f0bb9a263e6c60bf37ed5e80a9f9256fd2d8cfb6e47553851f43dbc5d"
+    },
+    {
+      "path": "ui/renderer.js",
+      "bytes": 152613,
+      "sha256": "893170f1df68d86659ef9b2de1044a2b3276a73ddbc05157cd37ef95c9fdef97",
+      "baseSha256": "b098427dabfb1ecd221bb6f808eaa3a32afb95c3fec27ca85536f2e86eadaaf9"
+    }
+  ],
+  "integrationUtc": "2026-11-18T15:18:12.399038+00:00",
+  "producerRows": 218,
+  "resizeProducerCount": 97,
+  "changedProducerIntersections": [],
+  "results": {
+    "focused": "50/50",
+    "explicitLinux": "350/350",
+    "protection": "229/229",
+    "overlap": true,
+    "nativeOrMedia": false
+  },
+  "artifactReferences": [
+    {
+      "path": "resize-selector-source-evidence/HANDOFF-v2.json",
+      "bytes": 4926,
+      "sha256": "d2905075f85f573e0e75380acb62868617d3edc0bdfe0677526bb7002e860cba"
+    },
+    {
+      "path": "resize-selector-source-evidence/PATCH-v2.diff",
+      "bytes": 20707,
+      "sha256": "886e57d4cca2eedcdb108fb2de2f3c1be5be818b3e2161c7dfb99aa28db722c2"
+    },
+    {
+      "path": "resize-selector-source-evidence/PRODUCER_CHECK.json",
+      "bytes": 44913,
+      "sha256": "4be0b4be6e7067e9bc058777817e6ee10da90e4d6162049412cb11b50082ce13"
+    },
+    {
+      "path": "resize-selector-independent/INDEPENDENT_REVIEW.json",
+      "bytes": 15269,
+      "sha256": "10c40e42baf92be63f17ddcb6dd96c5859822e475265baf4725572fd623a4cc7"
+    },
+    {
+      "path": "resize-selector-independent/INDEPENDENT_REVIEW-v2.json",
+      "bytes": 3352,
+      "sha256": "e6868dbb98fda6cb93fdd1015b88dcc7416efc938de181863000ff0ce59dda2d"
+    },
+    {
+      "path": "checkpoint054-source-integration.json",
+      "bytes": 2933,
+      "sha256": "411f5530461858073ad04bd695da499fabe5a46014cc8517634cabfa32939228"
+    },
+    {
+      "path": "checkpoint054-lead-tests-v2/RESULTS.json",
+      "bytes": 18503,
+      "sha256": "50eb06e0911c090f421b2fde5325f38cb8cbcff06120e7ab890864f6ff0904e3"
+    },
+    {
+      "path": "checkpoint054-test-driver-correction.json",
+      "bytes": 744,
+      "sha256": "1a2b817232b9cb61ba161e6d98d0a67d5211a54caedf458d632b2f57cae34ee1"
+    },
+    {
+      "path": "checkpoint054-cutoff.json",
+      "bytes": 1175,
+      "sha256": "e21ef511950943c2bad3bcec1945fabe192f06dff3bd683ae0145da91e3af7b9"
+    },
+    {
+      "path": "checkpoint054-expected-paths.json",
+      "bytes": 395,
+      "sha256": "4f925aad45e56a4d3074241931d47e87e9da9e989a9cec03fcd7d0f202fbb2d6"
+    },
+    {
+      "path": "notion-checkpoint-053-verification.json",
+      "bytes": 124375,
+      "sha256": "e5c6a537b8e5c7f411ec69ff712fd696168ecd0f032b32112af78fddc3924a33"
+    },
+    {
+      "path": "checkpoint053-final-mirror-release.json",
+      "bytes": 479,
+      "sha256": "312cb77887f58fdd4d459f2cc10b448435e3e15fee6319eb044fcf2414332870"
+    },
+    {
+      "path": "checkpoint-74609c5-publication-receipt.json",
+      "bytes": 181969,
+      "sha256": "39ea64c10cdd20e86715f61c1f37f05fdadcd1ef904194bc8b3598ba58e45b9c"
+    },
+    {
+      "path": "github-checkpoint053-verification.json",
+      "bytes": 3478,
+      "sha256": "f14880c99bac5846f9e7fa9bd5de9add72f55ec10c2e5fb60e41fddc3cffb93b"
+    },
+    {
+      "path": "resize-selector-native054-independent/INDEPENDENT_REVIEW.json",
+      "bytes": 6374,
+      "sha256": "3b2103e99082fb6162f3f09e0ea2ddd7ccb3217f5601a3585eda610432bc3c16"
+    }
+  ],
+  "limits": [
+    "Initial focused log reports50pass but no original child exit receipt was saved after parser failure. Final explicit-TAP runs have exit receipts.",
+    "Lead final50 focused,350 explicit Linux and229 protection tests overlap, not package-wide npm test; broad run uses existing raw reports absent from source archives.",
+    "Original spec-versus-TAP driver parse failure retained; fresh explicit-TAP runs retain exact process exits and complete logs.",
+    "Shared renderer affected; native resize transition and Windows behavior not tested on changed source.",
+    "Current97 resize producer closure/218 executable map rows unchanged; no producer intersections.",
+    "Native054 helper has independent conditional preparation review only, null binding/no gate/run.",
+    "Separate genuine1440 range proposal independently reviewed but remains isolated and unintegrated; broader1440p/4K/long/cadence/audio remains unfinished0.7 scope."
+  ],
+  "cutoffUtc": "2026-11-18T15:23:15.673767+00:00",
+  "scope": {
+    "paths": 9,
+    "expectedFiles": 679,
+    "expectedCommits": 54
+  }
+}

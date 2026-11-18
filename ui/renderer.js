@@ -2295,7 +2295,7 @@
     const notice = document.createElement('p'); notice.textContent = state.notice; group.appendChild(notice);
     const buttons = [];
     developerSessionChoices = { buttons, selected: state.selected, replaceClosed: state.replaceClosed === true, pending: false };
-    for (const [kind, label] of [['ordinary', 'Ordinary encoding'], ['full-copy', 'Experimental whole-file 720p / copied AAC']]) {
+    for (const [kind, label] of [['ordinary', 'Ordinary encoding'], ['full-copy', 'Experimental whole-file 720p / copied AAC'], ...(state.resizeRangeAvailable === true ? [['resize-range', 'Experimental precise 720p range / FLAC']] : [])]) {
       const button = document.createElement('button'); button.textContent = label; button.disabled = state.selected === kind;
       button.addEventListener('click', async () => {
         if (button.disabled) return;

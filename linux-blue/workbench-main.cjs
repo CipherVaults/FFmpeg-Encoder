@@ -131,6 +131,8 @@ async function launch() {
       recoveryOnly: recoveryEnabled,
       replaceClosed: candidateOrdinary && switchingEnabled,
       verifyDrained() { if (candidateOrdinary && census.live !== 0) throw new Error('An owned media child remains live; no new session can be created.'); },
+      resizeRange: candidateOrdinary && switchingEnabled
+        ? access => require('./candidate-resize-workbench.cjs').createCandidateResizeWorkbench({ stateDir, outputAccess: access, onChild: trackChild }) : undefined,
       fullCopy: access => require('./candidate-full-copy-workbench.cjs').createCandidateFullCopyWorkbench({ stateDir, outputAccess: access, onChild: trackChild }),
       createAccess: () => new OutputAccess({ openPath: file => shell.openPath(file), showItemInFolder: file => shell.showItemInFolder(file) }),
       publish: snapshot => { if (!closing && window && !window.isDestroyed()) window.webContents.send('encoder:update', snapshot); },
@@ -197,7 +199,7 @@ async function launch() {
             try { ownedWindow.destroy(); await openWindow(); }
             finally { replacingWindow = false; retiringWindow = null; }
             if (closing) return null;
-            window.setTitle(kind === 'ordinary' || kind === 'restart-ordinary' ? title : 'FFmpeg Encoder · Experimental whole-file 720p / copied AAC');
+            window.setTitle(kind === 'ordinary' || kind === 'restart-ordinary' ? title : kind === 'resize-range' ? 'FFmpeg Encoder · Experimental precise 1080p30 to 720p range / FLAC' : 'FFmpeg Encoder · Experimental whole-file 720p / copied AAC');
             return sessionOwner.status();
           } catch (error) {
             if (closing && error.code === 'SHUTTING_DOWN') return null;

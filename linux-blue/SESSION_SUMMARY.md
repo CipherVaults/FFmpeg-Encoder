@@ -1,3 +1,188 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Fresh Full-copy evidence restores the blocked current tests
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role | Attribution | Work and evidence limit |
+|---|---|---|
+| Engineering lead / executor | GPT-6 Astra / Ultra, recorded assignment rather than backend attestation | Completed 049 preservation, issued the fresh gate, executed the calibration, accepted the saved audit, integrated two reviewed consumer files and ran final source checks. |
+| Helper / consumer authors and independent reviewers | Model and effort not independently established here | Reused the existing calibration, corrected final-read retention, reviewed exact bindings and preserved original negative controls. File/injected and raw-parser tests are not new service execution. |
+| Auditor / mirror / records | Model and effort not independently established here | Verified retained evidence and archival restoration. The auditor did no new media decode; documentation preparation did not change runtime or source. |
+
+**Record basis:** Fresh Full-copy calibration passed on immutable 049. A later two-file evidence binding restores all nine previously blocked test names without changing their assertions; the explicit Linux selection is now 342/342. The updated consumer still has source/injected coverage only, not new normal-service or native qualification.
+
+## 🕒 Time
+
+**Stage / type / focus:** Fresh whole-file copied-AAC resize calibration, then narrowly reviewed consumer restoration.
+
+**Date and clock:** November 18, 2026; Cairo UTC+02:00. Fixed cutoff **15:28:22.496419 Cairo / 13:28:22.496419 UTC**. Times below are UTC; active effort was not measured.
+
+- Helper independent conditional review **12:55:16.756562**, later than 049's fixed cutoff, not a retroactive 049 result.
+- 049 committed/frozen **13:00:01.322051**. GitHub verified **13:07:15.459830**; final full publication receipt **13:10:24.355216**.
+- Fresh gate **13:11:19.749026**. Outer **13:11:28.542–13:18:49.924**, **441,382.359728 ms monotonic**, exit 0. Inner started **13:11:31.227**.
+- Saved audit **13:21:09.383575**; lead reconciliation/release **13:22:57.154745**; consumer review **13:25:41.133491**.
+- Exact two-file integration **13:26:05.960785**; lead tests completed **13:26:18.668355**; failure reconciliation **13:26:49.404380**; integrated review **13:27:11.932289**; cutoff **13:28:22.496419**.
+
+**End / stopping point:** Calibration and audit are complete. Consumer admission and original downstream tests are restored by the new binding. A reduced short-service helper is assigned only, not completed/reviewed/bound/run at cutoff; no repeated 150-second service target is planned.
+
+**Reason for this summary:** Explain how current coverage was restored with new evidence rather than ignored failures or stale repinning, while keeping calibration, source-test and actual-service claims separate.
+
+## 🎯 Session Goal
+
+Restore meaningful current Full-copy coverage after the codec-option change, using its distinct whole-file/720p/copied-audio contract rather than substituting ordinary Keep-source or range/FLAC evidence. Reuse existing mechanics, obtain new strict calibration evidence, then bind the existing consumer under unchanged guards. Preserve history and complete Git → Notion → GitHub before runtime. No new framework, audio policy, default/runtime/thread setting or obsolete-feature reconstruction is required.
+
+## 🛠️ Actions Taken
+
+### 1. Preserve 049, resolving packaging rather than changing history
+
+The source used for the actual run is `39777bc55c78de5e772538d80d4efb3bba7e0407`, tree `a2efda0d7c52ba34386d158c6a225c528dfd7435`: **665 files / 49 commits**. Its **2,098,494-byte** Session, SHA `e3fa7d86646b3a06ae3c2ecc7d552fcadc42f25da4ace2888f36382676d02f00`, remains the exact predecessor suffix.
+
+The source ZIP uploaded normally. The 5,281,307-byte history wrapper exceeded the workspace's 5 MiB attachment cap, a technical validation limit, not permission denial. The mirror split the exact original bundle into two labeled ZIP parts, downloaded both, reconstructed the original bytes and independently verified the full clone/history. No source/archive history was rewritten to fit the limit.
+
+GitHub request assembly initially compared Python code points with JavaScript UTF-16 length and stopped read-only before mutation. Corrected comparison loaded the exact request; no remote action was replayed. All five intended paths were verified at remote `e0af21c3b91d4049b4fabeb0f1a0c449103a1561`, sole parent `14934f3427fead7405d59df41f786cf85cb54bfc`: **1,047 total / 1,042 unchanged / two modified / three new / zero deleted**. Source/history restore gates preceded publication.
+
+Final released Notion receipt: **121,690 bytes / `46d7d7a45eece293fba6c9dd54359709e4377349e7f06a812740ea31956fa229`**. Final publication receipt: **180,285 bytes / `cdadf588c37406147e7c4efae7e61975b2fca77b37e35b10b63a7331d24154d9`**. Full native readable records were also complete before the gate.
+
+### 2. Reuse the calibration and fix its concrete failure-retention gap
+
+The recipe found that the unchanged nine historical review/test pins did not include the two changed transitive producers, `media.cjs` and `encode-operation.cjs`. A separate complete **26-file literal local-import closure**, plus full committed/current/mirror source binding, now covers them. The old nine pins remain useful, but are not a substitute for that closure. Neither map is complete dynamic/ELF/OS proof, and this preparation did not alter the live consumer or old report.
+
+The narrow inherited helper defect was in final report/manifest rereads outside the primary caught failure path. Missing/unreadable or changed data could prevent a truthful completion or replace the original failure. The adaptation guards those reads, retains primary and bounded secondary errors, records null unavailable hashes and failed/nonzero completion, and compares returned report content against final persisted content. Canonical serialized JSON comparison handles omitted undefined fields without inventing data.
+
+Three actual-launch injected controls against the byte-exact original remained red: missing report, failed manifest and changed report. Seven corrected file/injected controls passed and were independently repeated, not fourteen tests; five syntax checks passed. These use inert/injected main/I/O and real temporary files, not positive full-main/runtime execution. A local display initially treated the handoff's dictionary as a list and errored without writes; corrected schema reading succeeded. That was not a source defect.
+
+The independent review accepted the inherited abort-not-exit limitation for supervised one-shot testing. Acquisition, currentness, I/O or `runtime.close` can remain pending; the external timer clears before the final close. No durable completion is guaranteed if those awaits or its write fail. Missing completion must not be called closure or used to launch a competing owner. No timeout that abandons ownership, forced kill or retry framework was added.
+
+### 3. Run the unchanged strict three-case matrix on immutable 049
+
+The manual gate, **84,028 bytes / `2d78022576cd19d9d093f0f2319f269481a7f1159842ca6d0e743c4c6410d488`**, followed full preservation and fresh checks of 665 source files, all 26 producers, nine historical pins, fixed runtime/dependencies, helper/review and storage. The lead executed one campaign in a new `candidate-full-copy-calibration-e6n8N6` root. Original `8wuK9M` and consumed attempt records remained intact.
+
+The exact matrix retained fresh synthetic 8-second MP4, 150-second MOV and flipped 11-second MP4, whole-file/null range, 1080p30 → 720p H.265 CPU slow/quality-25 with copied AAC. Fail-first source diagnostics, genuine collector/validator requirements, geometry, resources and clock bounds were unchanged. No tolerance fitting, shortened long case or retry occurred.
+
+| Case | Source/output video frames | Decoded audio samples on each side | Copied audio packets |
+|---|---:|---:|---:|
+| Short MP4, 8 seconds | 240 | 384,000 | 376 |
+| Long MOV, 150 seconds | 4,500 | 7,200,000 | 7,033 |
+| Flipped MP4, 11 seconds | 330 | 528,000 | 517 |
+
+All three passed. The new raw report is **207,500 bytes**, SHA `773f86b3b8b957c65be058138952aedb3c31f5aa21f7676d243f17fd1949acfd`. Inner and outer finished exit 0; finalization/final-read error arrays are empty, post-close identities verified, publication/catalog authority false. External and harness census agree: **70 spawned / 70 closed / zero live / maximum one**.
+
+All actual child intervals fit the outer and 300-second child ceiling. The long target ran **13:12:47.813–13:17:09.856**, 262.043 seconds; later collection/generation explains the longer 441.382-second campaign. Neither is a performance benchmark. The unchanged 128-child maximum, 30-minute abort request, case/generation limits and point disk checks are not hard quotas or guarantees about arbitrary future termination.
+
+### 4. Audit packet/timing evidence without claiming PCM identity
+
+Full source/output probes and compact diagnostic streams were retained by the original execution. Whole-output hashes were also recorded then and independently rehashed afterward, not first invented by the audit. New outputs are 1,958,967 bytes, 36,098,122 bytes and 2,637,026 bytes respectively. This is not an encode-time hash or deterministic-container guarantee.
+
+For every case, ordered copied packet payload, codec header and ordinal skip/discard-padding seals match, with exact decoded sample counts. Initial skip is 1,024 samples; terminal discard is 0/768/384 across the three cases. This is coded-audio and decoded-extent evidence, **not raw PCM identity**; no raw PCM pair was retained or compared.
+
+Output millisecond timestamps produce **374 / 7,031 / 515 exact-rational adjacency discrepancies**, versus zero in source. Their signed deviations span −333⅓ to +666⅔ microseconds; output audio ends 333⅓ microseconds later. The unchanged canonical validator uses bounded clocks/sample ordinals, including 1,042-microsecond audio tolerance, without fitted shifts. Passing it does not assert exact rational continuity, infer dropped samples from those counts, or settle all-player/audio-policy acceptance. Video telemetry likewise is not pixel identity.
+
+All 70 child stderr captures are complete: **67 empty / three target streams of 168 bytes**. Duplicate-codec warnings are absent in those texts; CPU-mask/WPP/lookahead warnings remain and are not declared harmless. The validator's empty warning list is not a claim of empty process stderr.
+
+The independent saved audit is **256,954 bytes / `3c7e0f3d6765f0eb10bbf368bebae40b4c5b5c01afbaefe610cf1ca047a9747e`**. Lead reconciliation is **144,831 bytes / `c18cae7904f0a497e5e075f9d8d972c98f6e794d9e8ba695da9282c61a523b0c`**, covering **502 identity occurrences / 486 unique files** plus all 665 current source identities. The 233 new artifacts total 167,989,659 bytes; all 233 original historical artifacts were also preserved/rehashed. The auditor did no fresh probe, decode, test or native execution. Release permitted only a separately reviewed two-file consumer refresh and corresponding records, not automatic activation.
+
+### 5. Integrate the exact evidence binding and restore the original tests
+
+Independent source review accepted only `candidate-full-copy-service.cjs` and its focused test. The new consumer binds the actual report's repository-relative path, exact 207,500-byte size/SHA, fresh evidence/policy identity, audit provenance and complete 26-producer map with exactly two digest changes. Producer source files and runtime are unchanged. Normalizing only those disclosed bindings/comments makes the remaining production bytes equal baseline: no reader, private authority, currentness, clock/resource, cleanup, default or audio-acceptance relaxation.
+
+The old actual 207,464-byte report is rejected, while the new actual report passes the pure validator. Each old producer digest is independently substituted and rejected at its precise path. Synthetic reader padding/stat/one-byte-overflow boundaries are aligned to 207,500/207,501; original reader/cleanup/selector tests remain. The retained original source control was **four passes / nine failures**; those failures are not erased or described as nine independent behavioral defects.
+
+Independent affected testing passed 72/72 with both raw reports available; the same eight-file selection without raw inputs passed 70 with two explicit skips. The narrower final lead source-only selection is **14 passes / two raw-input skips**, a different command scope, not a regression or a concealed production failure. Real raw parsing/current producer reads are distinct from positive factory tests using VM/runtime/report/filesystem/crypto seams.
+
+The lead integrated the two reviewed files only after audit/review, then ran:
+
+| Integrated lead scope | Result |
+|---|---:|
+| Focused, actual raw inputs supplied | 72/72 |
+| Protection | 229/229 |
+| Explicit Linux selection | 342/342, zero failures/skips/cancellations |
+| Narrow source-only consumer selection | 14 passes / two explicit raw-input skips |
+
+All 665 checked source files stayed byte-identical during those runs. Scopes overlap and are not summed; this is not package-wide `npm test`, Windows or native qualification.
+
+Independent reconciliation compared actual prior/current TAP names and original test bodies: **all 339 prior names remain, exactly three new tests were added, and the same nine old failing names now pass**. They cover current producer admission and the previously unreachable composition, report-close/cleanup, genuine access, cancellation, selector, compatibility Start refusal and workbench reentrancy assertions. No failed positive was renamed into an expected negative, skipped or weakened. Original test-body bytes are unchanged after normalizing only synthetic report lengths. The former `reportClosed` zero-versus-one consequence now reaches its intended reader/cleanup assertion; it was never evidence of a leaked opened descriptor.
+
+The integrated reviewer verified saved lead receipts and current identities without another test run. This restores meaningful source coverage, not actual updated-service publication. The new calibration remains attributed to immutable 049; the later consumer has not yet been used for a normal-service/native run. Normal service's source diagnostics occur after encode/before publication, distinct from calibration's fail-first scans.
+
+## 🧠 Key Insights
+
+- Nine blocked tests became meaningful positives through new measured evidence and unchanged guards, not by hiding failures or resurrecting unrelated historical features.
+- Nine unchanged historical pins were insufficient: the full transitive 26-producer map contained the two changed codec modules.
+- Copied packet/header/padding equality plus sample/timing agreement is not PCM equality. Clock quantization discrepancies must remain explicit even when bounded validation passes.
+- Calibration and source-tested consumer restoration do not prove the consumer's real lifecycle or native behavior.
+
+## 📌 Decisions Made
+
+1. **Confirmed:** Reconstruct the exact split history bundle rather than alter archives to meet attachment limits. **Decider:** Mirror/lead. **Basis:** Technical size cap, deterministic restoration and clone verification.
+2. **Confirmed:** Reuse strict calibration with complete current producer binding and narrow final-read retention repair. **Decider:** Lead after independent review. **Basis:** Unchanged contract/harness, real inherited completion gap and retained failure controls.
+3. **Confirmed:** Integrate the two-file consumer refresh after actual calibration audit. **Decider:** Lead. **Basis:** New original report and full measured closure, secure guards unchanged, original positive tests restored.
+4. **Deferred:** Updated normal-service/native/Windows qualification and default promotion. **Decider:** Lead's staged continuation. **Basis:** Source/injected tests cannot substitute for actual composition. Reduced short-service preparation is merely assigned at cutoff.
+
+## ⚠️ Difficulties / Friction
+
+History packaging exceeded a technical attachment cap; exact two-part reconstruction solved it without losing commits. Read-only request assembly mixed string-length conventions and was corrected before mutation. A separate dictionary/list display error likewise wrote nothing.
+
+More materially, inherited final rereads could lose primary failure evidence, and the old nine-file map omitted changed transitive producers. Both were addressed narrowly before execution. Residual x265 warnings and millisecond audio adjacency differences remain disclosed rather than fitted away.
+
+## 🔧 Adjustments Made
+
+- **Shifted from:** One oversized history wrapper. **To:** Two labeled native ZIP parts with exact bundle reconstruction. **Because:** A 5 MiB technical cap. **Consequence:** Full history restored without content changes.
+- **Shifted from:** Nine review pins alone and unsafe final rereads. **To:** Separate complete 26 closure plus guarded/canonical final evidence. **Because:** The old pins missed changed modules and final I/O could obscure failure. **Consequence:** Fresh measurements bind the right source and preserve narrower failure receipts honestly.
+- **Shifted from:** A stale Full-copy consumer and nine blocked tests. **To:** A new audited report binding under original guards. **Because:** Actual current-source calibration is now available. **Consequence:** Original positive tests execute and pass; actual service proof remains separate.
+
+## ❌ Mistakes / Risks Noted
+
+**Inherited failure-retention defect. What happened:** Final report/manifest reads could fail outside the primary catch or accept changed persisted content. **Actual impact:** Three original injected controls failed; no new media failure is attributed to them. **Potential impact:** Missing or misleading completion. **Correction/status:** Guarded reads, primary/secondary retention, canonical JSON and exact report equality pass seven overlapping controls. **Failure Intelligence:** Exercise final evidence I/O, not only the main success path; never promise a receipt while ownership or persistence is unresolved.
+
+**Incomplete pin interpretation. What could happen:** Treating unchanged nine historical pins as full qualification after codec changes. **Actual impact:** No stale qualification accepted. **Potential impact:** Binding evidence to unmeasured transitive code. **Correction/status:** Full 26 closure and whole-source manifest checked; fresh report measured. **Failure Intelligence:** Distinguish review/test pins from the actual producer graph.
+
+**Green-test overreach. What could happen:** Calling 342 explicit Linux passes a universal app release or the new consumer live-qualified. **Actual impact:** Neither claimed. **Potential impact:** Skipping service/platform evidence. **Correction/status:** Exact scopes, raw prerequisites and calibration-versus-injected boundaries recorded. **Failure Intelligence:** A restored test assertion is useful evidence, but not every kind of evidence.
+
+## 📍 Current Position
+
+**As of:** 13:28:22.496419 UTC / 15:28:22.496419 Cairo. Later record saving does not move this cutoff.
+
+**Before:** Full-copy remained stale with nine prerequisite failures; ordinary and range/FLAC proofs could not replace its distinct contract.
+
+**After:** Fresh strict calibration passed on 049. Reviewed consumer binding restores the nine unchanged positive tests; explicit Linux results are 342/342.
+
+**Current standing:** Calibration accepted, updated consumer source-tested, actual service/native behavior still pending. Residual warnings, packet-versus-PCM limits and untested platforms remain. No producer/runtime/default/thread/audio-policy changes.
+
+**Live owner / continuation anchor:** Lead owns the coherent seven-path checkpoint, full restoration and remote verification. Summary writer owns only this prepend until release. Continue with the assigned reduced short-service helper, not another long completed target or relabeled historical report.
+
+## 🔜 Next Steps
+
+1. Preserve the seven-path source/evidence checkpoint through local Git, full Notion source/history/readable restoration and exact GitHub verification.
+2. Finish and independently review the reduced Full-copy service helper, then bind the actual preserved source and run only its scoped short publication/collision/cancellation/new-owner proof. At cutoff no completed helper/review/gate/run exists.
+3. Use that result to assess actual updated service support. Keep native/Windows and broader audio/player/performance claims separate, and avoid repeating the already completed 150-second service target without evidence of need.
+
+**Do not reopen / repeat:** Do not repin the old report, weaken private/currentness/reader guards, convert positives to negatives, rebuild obsolete features solely for green tests, suppress warnings, fit timing offsets or change unrelated defaults/audio/thread policy.
+
+**Continuation boundary:** Existing owner authorization continues; this archival entry creates no runtime gate. Fresh preservation/source/review checks apply. Later helper results belong in the next milestone.
+
+## ❓ Open Questions
+
+- **Does the refreshed consumer behave correctly through actual service ownership and publication? Needed from:** The reviewed short-service proof on preserved new source. **Blocks:** Current live-service qualification, not restored source coverage.
+- **How do residual warnings affect performance or broader inputs? Needed from:** Targeted same-build evidence if prioritized. **Blocks:** A causal/performance fix claim, not this bounded calibration acceptance.
+- **What is established across other readers/platforms and native UI? Needed from:** Relevant targeted tests. **Blocks:** Broader compatibility/presentation claims; packet preservation is not universal PCM/player acceptance.
+
+## 🧾 Session Outcome
+
+Delivered fresh audited Full-copy calibration and an exact two-file consumer refresh. All nine previously blocked current test names pass unchanged; the explicit Linux selection is 342/342. No normal-service/native/Windows proof of the updated consumer or policy/default promotion is included.
+
+Detailed records: [execution](2026-11-18_Post_Codec_Full_Copy_Calibration_and_Binding.md), [receipt index](2026-11-18_Post_Codec_Full_Copy_Calibration_and_Binding_Receipts.json) and [portable calibration report](post-codec-full-copy-calibration-portable.json).
+
+The portable preserves the complete parsed report with 260 declared leading-prefix substitutions: 161 proof aliases and 99 runtime-build aliases. All other report keys, types and values remain unchanged. Audit and reconciliation are referenced by exact metadata, not embedded in full. Original raw bytes, media, PCM, runtime/dependencies and state are not recreated by source restoration. No inverse mapping, raw acquisition or execution authority is supplied.
+
+The exact previous 2,098,494-byte body and original correction receipt remain intact. The intended checkpoint is seven changed paths, 668 files and 50 commits; its commit and external preservation are pending at cutoff and must be verified separately.
+
+## 🔍 Confidence Level
+
+**High** in the finite calibration, packet/extent/timing reconciliation, exact source binding and restoration of original test assertions. **Limited** in actual updated-service lifecycle, native/platform generalization and warning/performance causality.
+
+**Why:** Immutable source and artifact identities, strict measured cases, retained failure controls, independent audits and exact name/body reconciliation agree. **Not higher because:** No raw PCM comparison, fresh audit decode, updated service run or native/Windows test occurred; scope-specific green tests and bounded timing do not establish universal behavior.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Verify the refreshed resize service through cancellation and recovery
 
 ## 🤖 Models, Effort, Roles and Provenance

@@ -1,0 +1,177 @@
+{
+  "schema": 1,
+  "checkpoint": 50,
+  "cutoffUtc": "2026-11-18T13:28:22.496419+00:00",
+  "scope": {
+    "expectedChangedPaths": 7,
+    "expectedFiles": 668,
+    "expectedCommits": 50,
+    "calibrationSourceCommit": "39777bc55c78de5e772538d80d4efb3bba7e0407",
+    "newConsumerMediaExecuted": false
+  },
+  "sourceFiles": [
+    {
+      "path": "linux-blue/candidate-full-copy-service.cjs",
+      "beforeSha256": "0ee4d93d2dc709db1a49cbfced79e29c789be43d19d5b6e4d2748d13f7e3e462",
+      "bytes": 26163,
+      "sha256": "ef43cb73f9dad99df101f8ad7096f673bdc1c06367c9a165ff07ff0ec3657922"
+    },
+    {
+      "path": "linux-blue/candidate-full-copy-service.test.cjs",
+      "beforeSha256": "830b40b36badfcb0a00a0e021724306d5e2654d11117929b430011447ca34a9c",
+      "bytes": 32237,
+      "sha256": "370e674615f45b13747f32e611780a0dde64b017704a7ef93824fa8f76f49f65"
+    }
+  ],
+  "integrationUtc": "2026-11-18T13:26:05.960785+00:00",
+  "results": {
+    "focused": "72/72",
+    "protection": "229/229",
+    "explicitLinux": "342/342, zero failures/skips/cancellations; all339 prior names plus3 new tests",
+    "focusedSourceOnly": "14 passes/2 explicit raw-input skips",
+    "scopesOverlap": true,
+    "sameNineFormerFailuresNowPass": true
+  },
+  "restoredFailureNames": [
+    "literal calibration producer closure matches immutable tested source",
+    "injected normal-service composition preserves observer, storage, OutputAccess and no launch effects",
+    "rejected construction and bounded report-read failures retain cleanup without child effects",
+    "genuine OutputAccess only, inert option snapshot and synchronous cancellation closure",
+    "both service and candidate cleanup failures survive",
+    "composed selector issues genuine Full/null/copy-only tokens and recalculates whole-source budgets",
+    "actual composed prepare exposes compatibility-ready without authority; Start refuses before effects",
+    "workbench mode is inert boolean only and synchronously exposes terminal relaunch",
+    "actual workbench prepare and edit receipt awaits never expose compatibility authority or admit reentrant Start"
+  ],
+  "addedTests": [
+    "current audited raw Full-copy receipt validates without runtime",
+    "each stale original codec producer hash is refused independently",
+    "prior raw Full-copy receipt cannot authorize current producer capsule"
+  ],
+  "evidence": {
+    "cases": 3,
+    "childrenClosed": 70,
+    "videoFrames": [
+      240,
+      4500,
+      330
+    ],
+    "audioSamples": [
+      384000,
+      7200000,
+      528000
+    ],
+    "pcmIdentity": false,
+    "originalRunOutputHashesAndProbes": true,
+    "auditIdentityOccurrences": 502,
+    "auditUniqueFiles": 486,
+    "currentSourceFiles": 665,
+    "warningBytes": [
+      168,
+      168,
+      168
+    ]
+  },
+  "artifactReferences": [
+    {
+      "path": "checkpoint050-cutoff.json",
+      "bytes": 2882,
+      "sha256": "18165d9e749db2154ea00ad753b7bc4d9e47aedad02ef8cdd2554bc0be59e056"
+    },
+    {
+      "path": "checkpoint050-expected-paths.json",
+      "bytes": 396,
+      "sha256": "e1d806ecec00d3ff87aa26223eab778a3a0f473a01a10f1dc4dfab33b44904e1"
+    },
+    {
+      "path": "checkpoint050-integration.json",
+      "bytes": 1238,
+      "sha256": "5dfbf0e24b1c1e1dd433797b53eb9d595b023369714d0c7ae4a367723faefa17"
+    },
+    {
+      "path": "checkpoint050-lead-test-results.json",
+      "bytes": 78233,
+      "sha256": "96fbfbe50e2e988f805baadbcac85a1f295756ca5456f3836477dfff79b420cf"
+    },
+    {
+      "path": "checkpoint050-failure-reconciliation.json",
+      "bytes": 1872,
+      "sha256": "fe90375f1d768e2a8293b27da6dcd84385d0a4eda5a58168e646deec00c7830b"
+    },
+    {
+      "path": "current-full-copy-capsule049-evidence/HANDOFF-v1.json",
+      "bytes": 3980,
+      "sha256": "58504d98f6480c1f7600056c0fe6e32b4a6a2290bc1814cc0ca0592cbe3d886e"
+    },
+    {
+      "path": "current-full-copy-capsule049-independent-review/INDEPENDENT_REVIEW-v1.json",
+      "bytes": 7627,
+      "sha256": "51a5dd6a4941caf5be5134fc5e919201e75e1a4f3620f0ac7b736f6bb7553b5a"
+    },
+    {
+      "path": "current-full-copy-capsule049-independent-review/INTEGRATED_REVIEW.json",
+      "bytes": 15439,
+      "sha256": "35e4d7a721e31d19d508530e4dbdffeee54972fde1c7a802ce8a33e17bbec867"
+    },
+    {
+      "path": "current-full-copy-calibration-reuse-preparation/INDEPENDENT_SAVED_OUTPUT_AUDIT.json",
+      "bytes": 256954,
+      "sha256": "3c7e0f3d6765f0eb10bbf368bebae40b4c5b5c01afbaefe610cf1ca047a9747e"
+    },
+    {
+      "path": "current-full-copy-calibration-reuse-preparation/LEAD_RECONCILIATION.json",
+      "bytes": 144831,
+      "sha256": "c18cae7904f0a497e5e075f9d8d972c98f6e794d9e8ba695da9282c61a523b0c"
+    },
+    {
+      "path": "notion-checkpoint-049-verification.json",
+      "bytes": 121690,
+      "sha256": "46d7d7a45eece293fba6c9dd54359709e4377349e7f06a812740ea31956fa229"
+    },
+    {
+      "path": "checkpoint-39777bc-publication-receipt.json",
+      "bytes": 180285,
+      "sha256": "cdadf588c37406147e7c4efae7e61975b2fca77b37e35b10b63a7331d24154d9"
+    },
+    {
+      "path": "github-checkpoint049-verification.json",
+      "bytes": 3577,
+      "sha256": "17b5d287177d4934058a05d00211d8edb0092110b341dbe4c07755d301fd101b"
+    },
+    {
+      "path": "checkpoint050-lead-tests/focused.json",
+      "bytes": 4820,
+      "sha256": "4d714ab2b81db8412219c36e3f253a3eee6ce771919b4a7a70b8b38160dfabc1"
+    },
+    {
+      "path": "checkpoint050-lead-tests/protection.json",
+      "bytes": 4538,
+      "sha256": "a1c4c045907010a2497e5b2b42542fdcd81d4311563779a1f7d060ee48455e84"
+    },
+    {
+      "path": "checkpoint050-lead-tests/linux-broad.json",
+      "bytes": 12203,
+      "sha256": "03077ebdd75c9978986143c8f033b5c79dbe47a3d5ea3740d668cda0bbe95f4b"
+    },
+    {
+      "path": "checkpoint050-lead-tests/source-only.json",
+      "bytes": 2317,
+      "sha256": "d2c8bfd59fc50d6ab635f961cd4ffcbb5d008f7d71a4aaddbff7043db80bce29"
+    }
+  ],
+  "portable": {
+    "path": "linux-blue/post-codec-full-copy-calibration-portable.json",
+    "bytes": 231372,
+    "sha256": "8ac88d830d332bfbc0cc3c761162b5893651eff516b7592bf453d327d5647176",
+    "prefixChanges": 260,
+    "inverseMap": false
+  },
+  "limits": [
+    "Calibration on immutable049 is distinct from subsequently integrated consumer source and injected positive factory tests. No updated service or native media result.",
+    "Scopes overlap; explicit Linux selection is not whole-package npm test or Windows. Two source-only skips are explicit absent raw-report prerequisites.",
+    "Independent integrated reviewer reconciled saved receipts and source hashes without rerunning tests; actual lead test runs are recorded separately.",
+    "No PCM identity, independent re-decode, universal-player, performance or warning harmlessness claim. Raw inputs/runtime are not restored by portable aliases.",
+    "Consumer guards and producer code remain unchanged. Source review is not a formal Security Cloud assessment."
+  ],
+  "nextAtCutoff": "Reduced current Full-copy service helper adaptation assigned outside only, reusing retained short AAC fixture and prior successful mechanics. No completed helper/review/futuregate/runtime result at this cutoff. No repeat150s service target planned. Current updated consumer has source-tested/injected coverage only; actual service/native/Windows qualification pending."
+}

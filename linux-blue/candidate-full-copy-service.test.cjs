@@ -32,15 +32,15 @@ test('literal calibration producer closure matches immutable tested source',asyn
 test('factory rejects copied handles, getter options and arbitrary factory authority',async()=>{await assert.rejects(api.createCandidateFullCopyService({verifiedRuntime:{},stateDir:'/tmp/no-full-copy-state'}));let reads=0;const x=Object.defineProperty({stateDir:'/tmp/no-full-copy-state'},'verifiedRuntime',{enumerable:true,get(){reads++;return {};}});await assert.rejects(api.createCandidateFullCopyService(x));assert.equal(reads,0);await assert.rejects(api.createCandidateFullCopyService({verifiedRuntime:{},stateDir:'/tmp/no-full-copy-state',reportSha:H}));});
 // VM-only substitutions never become public factory inputs; no real executable/report.
 async function injected({changedProducer=false,changedReport=false,wrongIdentity=false,changedDependencies=false,wrongPair=false,reportIssue=null,staleAfterChecks=false,cleanupFailure=false}={}){
- const file=path.join(__dirname,'candidate-full-copy-service.cjs'),syntheticBytes=Buffer.from(JSON.stringify(report()).padEnd(207464));
+ const file=path.join(__dirname,'candidate-full-copy-service.cjs'),syntheticBytes=Buffer.from(JSON.stringify(report()).padEnd(207500));
  const digest=changedReport?H:sha(syntheticBytes);
  const source=sourceText.replace(`const REPORT_SHA = '${api.REPORT_SHA}';`,`const REPORT_SHA = '${digest}';`);
  let closed=0,observed=0,invoked=0,reportClosed=0,reportStats=0,reportReadBytes=0,reportRealpaths=0;
  const fake={runtimeIdentity:wrongIdentity?H:api.RUNTIME_ID,dependencies:changedDependencies?[]:deps,pins:Object.fromEntries(Object.entries(toolPins).map(([k,v])=>[k,{...v,path:'/synthetic/'+k,sha256:wrongPair?H:v.sha256}])),async requireCurrent(){observed++;if(staleAfterChecks&&observed>1)throw Error('Injected stale runtime after awaited report');},async close(){closed++;if(cleanupFailure)throw Error('Injected owned cleanup failure');},createRunner(){return async()=>{invoked++;throw Error('No child authorized');};}};
  const originalRequire=createRequire(file),module={exports:{}};
- const stat=()=>({isFile:()=>reportIssue!=='nonregular',nlink:reportIssue==='hardlink'?2n:1n,size:reportIssue==='large'?207465n:207464n,dev:1n,ino:2n,mtimeNs:1n,ctimeNs:reportIssue==='mutation'?BigInt(++reportStats):1n,birthtimeNs:1n});
+ const stat=()=>({isFile:()=>reportIssue!=='nonregular',nlink:reportIssue==='hardlink'?2n:1n,size:reportIssue==='large'?207501n:207500n,dev:1n,ino:2n,mtimeNs:1n,ctimeNs:reportIssue==='mutation'?BigInt(++reportStats):1n,birthtimeNs:1n});
  const overrides={
- 'node:fs/promises':{...fs,realpath:async name=>name===api.REPORT?(++reportRealpaths&&(reportIssue==='symlink'||reportIssue==='path-alias'&&reportReadBytes===207464)?api.REPORT+'.alias':api.REPORT):fs.realpath(name),
+ 'node:fs/promises':{...fs,realpath:async name=>name===api.REPORT?(++reportRealpaths&&(reportIssue==='symlink'||reportIssue==='path-alias'&&reportReadBytes===207500)?api.REPORT+'.alias':api.REPORT):fs.realpath(name),
  lstat:async name=>name===api.REPORT?{...stat(),ino:reportIssue==='path-replacement'?3n:2n}:fs.lstat(name,{bigint:true}),
  open:async(name,flags)=>{assert.equal(name,api.REPORT);assert.ok(flags&require('node:fs').constants.O_NOFOLLOW);if(reportIssue==='missing')throw Object.assign(Error('missing'),{code:'ENOENT'});return {stat:async()=>stat(),read:async(target,offset,length,position)=>{const bytesRead=reportIssue==='truncated'?0:syntheticBytes.copy(target,offset,position,position+length);reportReadBytes+=bytesRead;return {bytesRead};},close:async()=>{reportClosed++;}};},
  readFile:async(name,...args)=>changedProducer&&String(name).endsWith('candidate-full-copy-calibration.cjs')?Buffer.from('changed'):fs.readFile(name,...args)},
@@ -174,4 +174,27 @@ test('actual workbench prepare and edit receipt awaits never expose compatibilit
  assert.equal(service.busy,true);assert.throws(()=>service.startBatch({planId:service.plan.id,fileIds:[fileId]}));assert.equal(h.counts().invoked,0);releaseEdit();
  const next=await edit;assert.equal(next.items[0].status,'ready');assert.equal(next.items[0].operationRequest.range,null);assert.equal(next.items[0].operationRequest.resolution,'720');assert.equal(next.items[0].operationRequest.audioPolicy,'copy');
  const currentEntry=service.plan.entries.get(fileId);assert.ok(currentEntry.qualificationSelection);assert.notEqual(next.planId,plan.planId);assert.equal(service.snapshot().items[0].status,'ready');assert.equal(service.plan.entries.get(fileId),currentEntry);assert.equal(h.counts().invoked,0);
+});
+
+// Optional retained raw bytes exercise only the pure validator, not runtime/media.
+test('current audited raw Full-copy receipt validates without runtime', {skip: !process.env.CANDIDATE_FULL_COPY_REPORT_TEST_PATH}, async()=>{
+ const bytes=await fs.readFile(process.env.CANDIDATE_FULL_COPY_REPORT_TEST_PATH);
+ assert.equal(bytes.length,207500);assert.equal(sha(bytes),api.REPORT_SHA);
+ const value=api.assertCandidateServiceReceipt(bytes);assert.equal(value.cases.length,3);
+});
+test('prior raw Full-copy receipt cannot authorize current producer capsule', {skip: !process.env.CANDIDATE_FULL_COPY_OLD_REPORT_TEST_PATH}, async()=>{
+ const bytes=await fs.readFile(process.env.CANDIDATE_FULL_COPY_OLD_REPORT_TEST_PATH);
+ assert.equal(bytes.length,207464);assert.equal(sha(bytes),'5f74a9efb7981fefb242dcf34c82e972bbc269c5a5ea7a92c62a68db1bc34ad9');
+ assert.throws(()=>api.assertCandidateServiceReceipt(bytes),/Exact bounded/);
+});
+test('each stale original codec producer hash is refused independently',async()=>{
+ const prior={
+ 'src/media.cjs':'4aaf7227e43b8ba10134fa1e34d15be7362eb5195d001eb1cfc629b66c677e66',
+ 'src/encode-operation.cjs':'ebd24233c03a78f2c67f6ce3787694eb9d73b0b3ee8da2f6758ae42deeb20a3a'};
+ for(const [name,old] of Object.entries(prior)){
+  const current=sha(await fs.readFile(path.resolve(__dirname,'..',name)));assert.equal(sourceText.split(current).length-1,1);
+  const modified=sourceText.replace(current,old),file=path.join(__dirname,'candidate-full-copy-service.cjs'),module={exports:{}};
+  vm.runInThisContext('(function(require,module,exports,__dirname){'+modified+'\n})',{filename:file})(createRequire(file),module,module.exports,__dirname);
+  await assert.rejects(module.exports.verifyCandidateServiceProducers(),e=>e.code==='CANDIDATE_FULL_COPY_SERVICE_SCOPE'&&e.message.endsWith(name));
+ }
 });

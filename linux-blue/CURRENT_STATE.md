@@ -1,17 +1,18 @@
-# Current state: post-codec resize service evidence
+# Current state — checkpoint 050
 
-Cutoff: 2026-11-18 12:52:34.850606 UTC. Checkpoint 049 is evidence-only and prepared for preservation, not yet externally verified here.
+Record cutoff: 2026-11-18 13:28:22.496419 UTC.
 
-## What is supported
-Current refreshed resize service on immutable 048 has one independently audited four-case run: short publication, actual post-preview Start collision refusal, live cancellation and publication with a new runtime/service owner. All 99 owned children closed; the source hash set stayed unchanged. This advances beyond the consumer's source-only tests, but is not native resize qualification of the current bytes.
+## What now works within the tested scope
+- Fresh Full-copy calibration passed three preregistered whole-file 1080p30-to-720 H265 slow25 / copied-AAC cases on immutable checkpoint 049. All 70 owned children closed. Packet/header/padding identities and decoded timing/counts were audited; this is not PCM identity.
+- The reviewed two-file Full-copy consumer binding now uses that exact fresh evidence. All 342 tests in the explicit Linux selection pass, including the same nine previously failing names. All 339 prior names remain, plus three new tests; failures were not converted to expected negatives.
+- Focused 72/72 and protection 229/229 also pass. These scopes overlap. Focused source-only coverage is 14 passes and two explicitly missing raw-input prerequisite skips, not hidden production failures.
 
-The prior ordinary H.265 codec proof and fresh E3 calibration remain separate accepted finite evidence. Full-copy still has a stale historical capsule and nine inherited prerequisite failures. No new Full-copy runtime result exists.
+## Boundaries that remain
+The updated consumer has actual-report parser and injected factory/source coverage, not a fresh normal-service or native run. Earlier bounded ordinary and post-codec resize service evidence remains separate. This is not package-wide npm test, Windows, general-player, visual-quality or performance qualification. No runtime/default/audio-policy or producer source changed. Three 168-byte CPU/pool warning streams remain; harmlessness is not established.
 
-## Limits and next action
-Successful outputs retain complete probes and original-run full hashes. PCM equality uses streaming s16le receipts, not raw PCM independently re-decoded by the auditor. Eleven stderr streams are nonempty; residual warnings and cancellation diagnostics are not declared harmless. Recovery required NEW ownership, not same-service restart.
+The source archive preserves a complete transformed report, not runtime tools, dependencies, raw media or a restorable original report. Those inputs remain necessary for genuine acquisition.
 
-Inherited tests were not rerun: 72/72 focused, 229/229 protection, 330/339 explicit Linux with nine retained Full-copy failures, source-only 16 passes/3 raw-input skips. Scopes overlap. No application, test, runtime, UI, default or audio-policy changes.
+## Next
+Preserve this coherent source checkpoint, then finish and independently review the reduced short Full-copy service helper. At this cutoff it was assigned only: no completed helper, review, gate or run, and no repeat 150-second target planned.
 
-Preserve this evidence checkpoint. At the cutoff read-only Full-copy role assessment and reuse recipe are complete; narrow helper adaptation is assigned but not completed/reviewed/bound/executed. Windows, general media and performance remain unqualified.
-
-See [execution](2026-11-18_Post_Codec_Resize_Service_Proof.md), [receipts](2026-11-18_Post_Codec_Resize_Service_Proof_Receipts.json) and [portable](post-codec-resize-service-proof-portable.json).
+[Execution](2026-11-18_Post_Codec_Full_Copy_Calibration_and_Binding.md) · [Receipts](2026-11-18_Post_Codec_Full_Copy_Calibration_and_Binding_Receipts.json)

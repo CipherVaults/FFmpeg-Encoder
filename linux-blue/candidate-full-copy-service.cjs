@@ -1,7 +1,8 @@
 'use strict';
 // Developer-only Full1080p30-to-720p copied-AAC normal-service composition. Only the explicit developer workbench imports this module; default application routes are unchanged.
 // Raw calibration/runtime files are local restoration prerequisites, not bundled source.
-// Retained duplicate-codec and NUMA/thread-pool warnings do not qualify performance.
+// All three targets retained 168-byte CPU/pool warnings; duplicate-codec warnings absent.
+// No PCM identity, general performance, default promotion or new service/native claim.
 // A cancelled session requires a NEW service and NEW verified candidate handle.
 const fs = require('node:fs/promises');
 const path = require('node:path');
@@ -18,21 +19,22 @@ const { failedVendorCapabilities } = require('../src/vendor-capabilities.cjs');
 const { FULL_COPY_FAMILY_ID: FAMILY_ID, FULL_COPY_RESOURCE_POLICY: RESOURCE_POLICY, deriveCfrFullResizeCopyResources } = require('../src/operation-resource-budget.cjs');
 const { FROZEN, SPECS } = require('./candidate-full-copy-calibration.cjs');
 const RUNTIME_ID = '1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9';
-const REPORT = path.join(__dirname, 'artifacts/candidate-full-copy-calibration-8wuK9M/report.json');
-const REPORT_SHA = '5f74a9efb7981fefb242dcf34c82e972bbc269c5a5ea7a92c62a68db1bc34ad9';
-const REPORT_BYTES = 207464;
+const REPORT = path.join(__dirname, 'artifacts/candidate-full-copy-calibration-e6n8N6/report.json');
+const REPORT_SHA = '773f86b3b8b957c65be058138952aedb3c31f5aa21f7676d243f17fd1949acfd';
+const REPORT_BYTES = 207500;
 const SETTINGS = Object.freeze({ profileId: 'h265-cpu', preset: 'slow', quality: 25 });
 const sha = b => createHash('sha256').update(b).digest('hex');
 const need = (ok, message) => { if (!ok) throw Object.assign(new Error(message), { code: 'CANDIDATE_FULL_COPY_SERVICE_SCOPE' }); };
-// Literal producer closure independently enumerated from tested2714557.
-// Saved-output audit a535b47cffd2dc40a79126c696c95c9a81ec28c1569236026709c02a5ac7da90.
+// Literal producer closure from tested 049 commit 39777bc55c78de5e772538d80d4efb3bba7e0407.
+// Saved-output audit 3c7e0f3d6765f0eb10bbf368bebae40b4c5b5c01afbaefe610cf1ca047a9747e.
+// Lead reconciliation c18cae7904f0a497e5e075f9d8d972c98f6e794d9e8ba695da9282c61a523b0c.
 // New composition is separately reviewed, not historically exercised by calibration.
 // No pre-target decoded diagnostic hook is installed: normal collector verifies
 // complete decoded source AFTER encode and BEFORE publication, unlike calibration.
 const PRODUCERS = Object.freeze({
   "linux-blue/candidate-full-copy-calibration.cjs": "12aff9c8c7f2d58a0c1e2c64299c456918a965c16a41f35a28a6b3da0e1e228a",
   "package.json": "b5678dc133c1e5fb8da250bfe828c9da55f50d89dac3728af1f0870693e69a82",
-  "src/media.cjs": "4aaf7227e43b8ba10134fa1e34d15be7362eb5195d001eb1cfc629b66c677e66",
+  "src/media.cjs": "79f040a7e136b2b06235090675360996e12d7ff815ea776eb800fd479ce9a7e7",
   "src/provenance.cjs": "3fcce843cbc995086adda7b45444c23acedce9d54813c01b92123d97cfcff894",
   "src/vendor-profiles.cjs": "cc194f022665aa729410060804de2021175f0e87bd394fc18e4b3c47716cf65d",
   "src/backend-adapters.cjs": "7fbd1b2df2a0261e9d9b0457d224c4c3c77bfd2a4e16b497f8fb339d542847aa",
@@ -45,7 +47,7 @@ const PRODUCERS = Object.freeze({
   "src/source-identity.cjs": "fe6f73342936aa70ed6bbda98348da6fb892d05ddb566ee6d1664ba3f38e42bd",
   "src/outputs.cjs": "0871e35adb50b7fca7c177b6beb34c5533df8bac98751b55c8af31b8e422ca96",
   "src/operation-telemetry.cjs": "ef1f30ac5d311224cb8b0e79f60f55f55c69c0610d920d17e5f9c7e191a55814",
-  "src/encode-operation.cjs": "ebd24233c03a78f2c67f6ce3787694eb9d73b0b3ee8da2f6758ae42deeb20a3a",
+  "src/encode-operation.cjs": "aae37c5479897a13f9ee66b1ea1a8a9a6a46d2c57f76d36bdebdedf21569a5de",
   "src/container-clock.cjs": "b823f1e41c4cca19a0b06d82dadf1941f4e0a0326b6d16bd910691c702763857",
   "src/operation-contract.cjs": "e87c0bd40a27e9bc4309cfff489a3270899edc6505face10a9c4461272bb343d",
   "src/operation-evidence.cjs": "9b680168395be354b8261bd4aa6624c1484daeecab424fd5278db55fa3aba9b9",
@@ -263,10 +265,10 @@ async function createCandidateFullCopyService(options) {
       pins: Object.fromEntries(Object.entries(candidate.pins).map(([k, v]) => [k, { sizeBytes: v.size, sha256: v.sha256 }])), run,
     });
     // Fresh capsule IDs bind the exact reviewed report, not portable summaries.
-    const id='full-copy-reviewed-2714557-'+REPORT_SHA.slice(0,16);
+    const id='full-copy-reviewed-39777bc-'+REPORT_SHA.slice(0,16);
     const qualification={evidenceId:id+':endpoints',runtimeIdentity:RUNTIME_ID,containerDuration:FROZEN.containerDuration,tolerances:{...FROZEN.tolerances}};
     const timingQualification={evidenceId:id+':interior',runtimeIdentity:RUNTIME_ID,videoDurationUs:FROZEN.videoDurationUs,audioTimelineUs:FROZEN.audioTimelineUs,aac:null};
-    const selector = new FullCopySelector({ policyIdentity: 'candidate-full-copy-normal-service-2714557', families: [{
+    const selector = new FullCopySelector({ policyIdentity: 'candidate-full-copy-normal-service-39777bc', families: [{
       id: FAMILY_ID, resourcePolicy: RESOURCE_POLICY, runtimeIdentity: RUNTIME_ID, environment: null, settings: SETTINGS,
       qualification, timingQualification, evidenceIds: [qualification.evidenceId, timingQualification.evidenceId],
     }] });

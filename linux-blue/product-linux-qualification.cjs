@@ -4,7 +4,7 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 const { createHash } = require('node:crypto');
 const { isDeepStrictEqual } = require('node:util');
-const EXPECTED_SHA = '5f5be216f22f5fc83a3fbca730b152105d59ff0f9d04dc8644174e0cfbadc85b';
+const EXPECTED_SHA = 'd90f025a58bf081d14cc736aea6f8d56a8dab95df9be631abffa81c90f1d0491';
 // Reviewed code is the trust anchor, not a caller manifest or writable JSON flag.
 // This loader cannot hash itself recursively; package/source review binds it.
 const SOURCE_PINS = {
@@ -13,12 +13,12 @@ const SOURCE_PINS = {
     "sha256": "a62ceab690931736a7d7a81e7c6c7495987f7015f953013366ab6f5a0fd8217a"
   },
   "linux-blue/product-linux-service.cjs": {
-    "bytes": 9157,
-    "sha256": "867f214900d1c4e2b0a9eded853b0037c95e3d93431c6489446ec0b4bad808fa"
+    "bytes": 10127,
+    "sha256": "2c6383827cf6efa85ff9d3285502802b42e306f37edd5082cc11761d5cd42068"
   },
   "linux-blue/product-linux-shell.cjs": {
-    "bytes": 5760,
-    "sha256": "3b0a5478061eea01927a7e63ef5da4e0d80c37b967756a80f7da870d1ef28b73"
+    "bytes": 5780,
+    "sha256": "b5b9e511e413f889b0f74b477815f7bd82bceb96ed6af27c16ee5c67714f4f22"
   },
   "linux-blue/runtime-av1-operation.cjs": {
     "bytes": 5507,
@@ -465,13 +465,17 @@ const SOURCE_PINS = {
     "sha256": "8700b6de13ecf46e49d1b8bd7ac347b04232c86efd9b8a1eee2827d0d3265eb4"
   },
   "ui/renderer.js": {
-    "bytes": 152740,
-    "sha256": "534ea2ca19be9106fbbe8eb2b4d61d2870635072c9679f00e46fbd5a50a9ad2b"
+    "bytes": 152803,
+    "sha256": "936559b7532c3847bf1150eece4a67488c083d941d663e452b882915cc40243c"
+  },
+  "linux-blue/candidate-full-copy-calibration.cjs": {
+    "bytes": 27666,
+    "sha256": "12aff9c8c7f2d58a0c1e2c64299c456918a965c16a41f35a28a6b3da0e1e228a"
   }
 };
 const CLOSED_RECORD = {
-  "schema": "linux-product-range1440-qualification/v1",
-  "scope": "internal-opt-in-single-family-candidate",
+  "schema": "linux-product-two-family-qualification/v2",
+  "scope": "internal-opt-in-two-family-candidate",
   "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
   "rawCalibration": {
     "sha256": "c81129d8305109c0a7a9dd024e65d3f5dab5611bf70cd218a601c734ff3dcd67",
@@ -562,6 +566,76 @@ const CLOSED_RECORD = {
       "sha256": "5b34b575578bbfd4cdae1690bc52544dcf2fa806d698b857f189d5ab0ffa5669",
       "bytes": 1405
     }
+  },
+  "fullCopy": {
+    "rawCalibration": {
+      "sha256": "aa8872a45eec88e01444cb79c57b0cceb5d03825800afacd4475a06c57ad9cf1",
+      "sizeBytes": 207500
+    },
+    "supportingEvidence": {
+      "calibrationRelease": {
+        "sha256": "8423ecb5a270d131fcec1c3042c5d6eebad83b81d7684aeee1a47d23dc0cf452",
+        "bytes": 2148
+      },
+      "calibrationAudit": {
+        "sha256": "57ea480bec4c0df0440719ec6b78fadc54a15506f5c6467a885a9630128819e0",
+        "bytes": 26926
+      },
+      "serviceRelease": {
+        "sha256": "fda275a7cf18385a10de429357d0acf1ecf21501bcea1d7e4a9323535ba010b6",
+        "bytes": 2113
+      },
+      "serviceAudit": {
+        "sha256": "3a5d8c77e4befff6c0b16516ca5ee457f8db55902d5e99a2192f17c25fc2a4d0",
+        "bytes": 287395
+      }
+    },
+    "nativeProof": null,
+    "relocatedPublication": null,
+    "family": {
+      "settings": {
+        "profileId": "h265-cpu",
+        "preset": "slow",
+        "quality": 25
+      },
+      "resourcePolicy": "cfr1080p30-full-to720-copy-resources-v1",
+      "geometry": {
+        "sourceWidth": 1920,
+        "sourceHeight": 1080,
+        "resolution": "720",
+        "outputWidth": 1280,
+        "outputHeight": 720
+      },
+      "qualification": {
+        "evidenceId": "full-copy-reviewed-3f5d189-aa8872a45eec88e0:endpoints",
+        "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+        "containerDuration": "matroska-copy-end-plus-codec-delay",
+        "tolerances": {
+          "videoTimestampUs": 1067,
+          "audioTimestampUs": 1042,
+          "avSyncUs": 2109,
+          "durationUs": 1088,
+          "sampleCount": 0
+        }
+      },
+      "timingQualification": {
+        "evidenceId": "full-copy-reviewed-3f5d189-aa8872a45eec88e0:interior",
+        "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+        "videoDurationUs": 1067,
+        "audioTimelineUs": 1042,
+        "aac": null
+      },
+      "evidenceIds": [
+        "full-copy-reviewed-3f5d189-aa8872a45eec88e0:endpoints",
+        "full-copy-reviewed-3f5d189-aa8872a45eec88e0:interior"
+      ]
+    },
+    "limits": [
+      "Whole-file Full/null request only; 1080p30 to 720p; copied AAC, not PCM identity.",
+      "H265 CPU slow CRF25 only. No remux, GPU, arbitrary source geometry, precision-range substitution or production catalog activation.",
+      "062 calibration and 063 service evidence is not relocated package/native acceptance.",
+      "Existing CPU topology/thread-pool warnings and cancellation diagnostics remain recorded."
+    ]
   }
 };
 const digest = b => createHash('sha256').update(b).digest('hex');

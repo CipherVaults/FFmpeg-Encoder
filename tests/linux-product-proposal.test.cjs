@@ -4,7 +4,7 @@ const fs = require('node:fs'), path = require('node:path');
 const root = path.join(__dirname, '..');
 test('internal qualification binds exact accepted evidence while native/release acceptance stays pending', () => {
  const q=require('../linux-blue/product-linux-qualification.cjs').loadQualification();
- assert.equal(q.scope,'internal-opt-in-single-family-candidate');assert.equal(q.nativeProof,null);assert.equal(q.productIntegrationReview,null);
+ assert.equal(q.scope,'internal-opt-in-two-family-candidate');assert.equal(q.nativeProof,null);assert.equal(q.productIntegrationReview,null);
  assert.equal(q.internalCandidateDecision.distributionReady,false);assert(q.supportingEvidence.serviceRelease.bytes>0);assert.match(q.supportingEvidence.serviceRelease.sha256,/^[a-f0-9]{64}$/);
 });
 test('compact calibration record carries measured values, not runtime approval flags', () => {
@@ -73,7 +73,7 @@ test('injected shell construction failure closes runtime; fake OutputAccess refu
  const f=shellFixture({fail:true});await assert.rejects(f.shell.createLinuxProductShell({stateDir:'/inert-state',runtimeRoot:'/inert-runtime'}),/service failed/);assert.equal(f.events.at(-1),'runtime-close');
  await assert.rejects(f.shell.createLinuxProductShell({stateDir:'/inert-state',runtimeRoot:'/inert-runtime',outputAccess:{openPath(){}}}),{code:'CANDIDATE_WORKBENCH_OPTIONS'});
 });
-function serviceFixture({badHandle=false,badDependencies=false}={}){
+function serviceFixture({badHandle=false,badDependencies=false,realSelector=false}={}){
  const events=[],file=path.join(root,'linux-blue/product-linux-service.cjs'),source=fs.readFileSync(file,'utf8');
  const dependencies=JSON.parse(source.match(/const DEPENDENCIES = (\[[\s\S]*?\n\]);/)[1]);
  const candidate={runtimeIdentity:'1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9',dependencies:badDependencies?[]:dependencies,pins:{ffmpeg:{path:'/inert/ffmpeg'},ffprobe:{path:'/inert/ffprobe'}},requireCurrent:async()=>events.push('current'),createRunner:()=>()=>{throw Error('must not execute');},close:async()=>events.push('candidate-close')};
@@ -82,7 +82,7 @@ function serviceFixture({badHandle=false,badDependencies=false}={}){
   './candidate-calibration-runtime.cjs':{requireCandidateCalibrationRuntime:h=>{if(badHandle||h!==candidate)throw Error('private handle');return candidate;}},
   './product-linux-qualification.cjs':{verifyProductSources:()=>events.push('sources'),loadQualification:()=>{events.push('qualification');return require('../linux-blue/product-linux-qualification.json');}},
   './workbench-trim-candidate.cjs':{CandidateTrimService:Base},
-  './workbench-long-range-service.cjs':{clockGuardedRunner:x=>x,ClockQualifiedFamilySelector:class {constructor(o){this.options=o;}}},
+  './workbench-long-range-service.cjs':{clockGuardedRunner:x=>x,ClockQualifiedFamilySelector:realSelector ? require('../linux-blue/workbench-long-range-service.cjs').ClockQualifiedFamilySelector : class {constructor(o){this.options=o;}}},
   '../src/operation-runtime.cjs':{OperationRuntimeObserver:class {async close(){events.push('observer-close');}}}
  });return {api,candidate,events};
 }
@@ -103,4 +103,79 @@ test('Windows construction matches frozen reviewed baseline except declaration s
  const branch=current.slice(current.indexOf(begin),current.indexOf(end)).replace(/\n  }\s*$/,'').trim();
  assert.equal(require('node:crypto').createHash('sha256').update(branch).digest('hex'),'a4cd1bd2e1f0def9572400ee3ae61a3c77e0738110ca8e70337ff111d57b27b8');
  assert(current.includes('let nativeFilesFailure = null;'));
+});
+
+test('two candidate families keep separate exact qualifiers without changing the range record', async()=>{
+ const f=serviceFixture(),s=await f.api.createLinuxProductService({verifiedRuntime:f.candidate,stateDir:'/inert'});
+ const families=s.options.operationQualifications.options.families;
+ assert.equal(families.length,2);
+ assert.equal(families[0].id,'cfr-sdr-range-resize1440-flac-v1');
+ assert.equal(families[1].id,'cfr-sdr-full-resize-copy-v1');
+ assert.equal(families[1].qualification.containerDuration,'matroska-copy-end-plus-codec-delay');
+ assert.equal(families[1].qualification.tolerances.sampleCount,0);
+ assert.deepEqual(families[0].settings,families[1].settings);
+ assert.equal(s.snapshot().developerProduct.enabled,true);
+ assert.match(s.snapshot().developerProduct.notice,/not yet verified/);
+ await s.closeOperationResources();
+});
+test('compact Full-copy record rejects widened geometry, settings, clocks and false native approval',t=>{
+ const temp=fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()),'full-copy-record-'));t.after(()=>fs.rmSync(temp,{recursive:true,force:true}));
+ const dest=path.join(temp,'product-linux-qualification.json'); const q=injected(qualificationFile,{},temp);
+ const base=JSON.parse(fs.readFileSync(path.join(root,'linux-blue/product-linux-qualification.json'),'utf8'));
+ for(const change of [v=>v.fullCopy.family.geometry.sourceWidth=2560,v=>v.fullCopy.family.settings.quality=24,
+  v=>v.fullCopy.family.qualification.tolerances.sampleCount=1024,v=>v.fullCopy.nativeProof={passed:true},
+  v=>v.fullCopy.family.timingQualification.audioTimelineUs=22000,v=>v.fullCopy.family.resourcePolicy='anything']){
+  const value=structuredClone(base);change(value);fs.writeFileSync(dest,JSON.stringify(value,null,2)+'\n');
+  assert.throws(()=>q.readCompactQualification(),{code:'LINUX_PRODUCT_QUALIFICATION_CHANGED'});
+ }
+});
+test('new product metadata is presentation only and uses existing explicit per-file controls',()=>{
+ const s=fs.readFileSync(path.join(root,'ui/renderer.js'),'utf8');
+ assert(s.includes('next.developerProduct?.enabled ? next.developerProduct'));
+ const service=fs.readFileSync(path.join(root,'linux-blue/product-linux-service.cjs'),'utf8');
+ assert(service.includes("need(token !== null, 'Choose an explicitly qualified product family; compatibility fallback is unavailable.');"));
+ assert(!service.includes('createCandidateFullCopyService'));assert(!service.includes('bkus3x'));
+});
+
+function productProbe(seconds = 150, tick = 15360) {
+  return { streams: [{ index: 0, codec_type: 'video', codec_name: 'h264', profile: 'High', width: 1920, height: 1080,
+    pix_fmt: 'yuv420p', sample_aspect_ratio: '1:1', display_aspect_ratio: '16:9', field_order: 'progressive', avg_frame_rate: '30/1', r_frame_rate: '30/1',
+    color_transfer: 'bt709', color_primaries: 'bt709', color_space: 'bt709', color_range: 'tv', chroma_location: 'left', time_base: `1/${tick}`,
+    start_pts: 0, start_time: '0', duration_ts: seconds * tick, duration: String(seconds), disposition: { default: 1 }, side_data_list: [{ side_data_type: 'Display Matrix', rotation: 0, displaymatrix: '00000000: 65536 0 0\n00000001: 0 65536 0\n00000002: 0 0 1073741824' }] },
+  { index: 1, codec_type: 'audio', codec_name: 'aac', profile: 'LC', sample_fmt: 'fltp', sample_rate: '48000', channels: 2, channel_layout: 'stereo',
+    time_base: '1/48000', start_pts: 0, start_time: '0', duration_ts: seconds * 48000, duration: String(seconds), disposition: { default: 1 } }],
+  format: { format_name: 'mov,mp4,m4a,3gp,3g2,mj2', duration: String(seconds), start_time: '0', size: '100000000',
+    nb_streams: 2, nb_programs: 0, nb_stream_groups: 0, tags: { major_brand: 'qt  ' } }, programs: [], stream_groups: [], chapters: [] };
+}
+
+test('real combined selector admits only the two explicit families, with no cross-family fallback',async()=>{
+ const f=serviceFixture({realSelector:true}),s=await f.api.createLinuxProductService({verifiedRuntime:f.candidate,stateDir:'/inert'});
+ const selector=s.options.operationQualifications;
+ const {buildEncodeOperation,fingerprintEncodeSource}=require('../src/encode-operation.cjs');
+ const {resolveFileRequest}=require('../src/operation-contract.cjs');
+ const {classifyColor}=require('../src/media.cjs');
+ const settings={profileId:'h265-cpu',preset:'slow',quality:25};
+ function bindings({range=null,audioPolicy='copy',width=1920,resolution='720',quality=25}={}){
+  const source=productProbe(11); source.streams[0].width=width;source.streams[0].height=width===2560?1440:1080;
+  if(width===2560){source.streams[1].codec_name='pcm_s16le';source.streams[1].sample_fmt='s16';delete source.streams[1].profile;}
+  const identity={canonicalPath:'/synthetic-product/input.mov',dev:'1',ino:'2',size:source.format.size,mtimeNs:'1000',ctimeNs:'1001',birthtimeNs:'900',sparseDigest:`sha256-sparse-v1:${'b'.repeat(64)}`};
+  const config={...settings,quality};
+  const request=resolveFileRequest({fileId:'synthetic',identityRevision:1,draftRevision:1,operation:'encode',overrides:{range,resolution,audioPolicy}});
+  const plan=buildEncodeOperation({input:identity.canonicalPath,output:'/synthetic-product/output.mkv',settings:config,inspection:{probe:source,color:classifyColor(source),duration:11},request,runtimeIdentity:f.candidate.runtimeIdentity});
+  return {plan,settings:config,sourceIdentity:identity,sourceProbeFingerprint:fingerprintEncodeSource(source),runtimeIdentity:f.candidate.runtimeIdentity,environment:null,budget:null,executionBudgetMs:120000};
+ }
+ for(const args of [{},{width:2560,range:{startUs:413000,endUs:8621000},audioPolicy:'precision-flac'}]){
+  const b=bindings(args),token=selector.select(b);assert(token);assert(selector.requireCurrent(token,b).controlsRequired);
+ }
+ for(const args of [{width:2560},{range:{startUs:413000,endUs:8621000}},{audioPolicy:'precision-flac'},{resolution:'source'},{quality:24}])assert.throws(()=>selector.select(bindings(args)));
+ await s.closeOperationResources();
+});
+test('altered Full-copy producer fails the same bounded source-closure gate',t=>{
+ const temp=fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()),'fullcopy-source-'));t.after(()=>fs.rmSync(temp,{recursive:true,force:true}));
+ const pins=JSON.parse(fs.readFileSync(qualificationFile,'utf8').match(/const SOURCE_PINS = (\{[\s\S]*?\n\});/)[1]);
+ for(const name of Object.keys(pins)){const to=path.join(temp,name);fs.mkdirSync(path.dirname(to),{recursive:true});fs.copyFileSync(path.join(root,name),to);}
+ const q=injected(qualificationFile,{},path.join(temp,'linux-blue'));assert(q.verifyProductSources().files>100);
+ const victim=path.join(temp,'linux-blue/candidate-full-copy-calibration.cjs');
+ const bytes=fs.readFileSync(victim);bytes[0]^=1;fs.writeFileSync(victim,bytes);
+ assert.throws(()=>q.verifyProductSources(),{code:'LINUX_PRODUCT_SOURCE_CHANGED'});
 });

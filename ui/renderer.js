@@ -527,7 +527,8 @@
   // older batch after an update event already delivered a newer state.
   function applySnapshot(next) {
     if (!next || !Number.isInteger(next.revision) || next.revision < snapshot.revision) return;
-    const preview = next.developerOrdinary?.enabled ? next.developerOrdinary
+    const preview = next.developerProduct?.enabled ? next.developerProduct
+      : next.developerOrdinary?.enabled ? next.developerOrdinary
       : next.developerFullCopy?.enabled ? next.developerFullCopy
       : next.developerResize?.enabled ? next.developerResize : next.developerKeep720;
     if (preview?.enabled) {

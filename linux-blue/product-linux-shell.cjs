@@ -81,8 +81,8 @@ async function createLinuxProductShell(options) {
   try {
     runtime = await openCandidateCalibrationRuntime(manifest(runtimeRoot), { execute: (...args) => { loaderGuard(); return runTool(...args); } });
     const service = await createLinuxProductService({ verifiedRuntime: runtime, stateDir, onChild, outputAccess, workbenchMode: true });
-    service.linuxRemuxStatus = Object.freeze({ available: false, reason: 'Remux is not qualified in the developer 1440p30-to-720p resize preview.' });
-    service.linuxQualifiedEncodeStatus = Object.freeze({ available: false, familyIds: [], reason: 'Developer range proof only, not production catalog activation.' });
+    service.linuxRemuxStatus = Object.freeze({ available: false, reason: 'Remux is not qualified in this two-family developer preview.' });
+    service.linuxQualifiedEncodeStatus = Object.freeze({ available: false, familyIds: [], reason: 'Developer range and whole-file copied-audio families only, not production catalog activation.' });
     const capabilities = service.getCapabilities.bind(service);
     service.getCapabilities = async () => {
       const value = await capabilities();

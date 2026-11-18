@@ -63,10 +63,10 @@ test('physical relocated app preserves real product source and compact qualifica
   const member=row.target.slice('electron/resources/app/'.length),dest=path.join(app,member);await fs.mkdir(path.dirname(dest),{recursive:true});await fs.copyFile(path.join(source,row.source),dest);
  }
  const q=require(path.join(app,'linux-blue/product-linux-qualification.cjs'));
- assert.equal(q.verifyProductSources().files,115);assert.equal(q.loadQualification().scope,'internal-opt-in-single-family-candidate');
+ assert.equal(q.verifyProductSources().files,116);assert.equal(q.loadQualification().scope,'internal-opt-in-two-family-candidate');
  const moved=path.join(root,'moved');await fs.rename(path.join(root,'electron'),moved);
  const relocated=require(path.join(moved,'resources/app/linux-blue/product-linux-qualification.cjs'));
- assert.equal(relocated.verifyProductSources().files,115);assert.equal(relocated.loadQualification().nativeProof,null);
+ assert.equal(relocated.verifyProductSources().files,116);assert.equal(relocated.loadQualification().nativeProof,null);
  await assert.rejects(fs.lstat(path.join(moved,'resources/app.asar')),{code:'ENOENT'});
 });
 

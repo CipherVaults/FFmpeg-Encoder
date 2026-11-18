@@ -16,6 +16,702 @@
   ],
   "files": [
     {
+      "root": "electron",
+      "source": "LICENSE",
+      "target": "electron/LICENSE",
+      "group": "electron",
+      "bytes": 1096,
+      "sha256": "5154e165bd6c2cc0cfbcd8916498c7abab0497923bafcd5cb07673fe8480087d"
+    },
+    {
+      "root": "electron",
+      "source": "LICENSES.chromium.html",
+      "target": "electron/LICENSES.chromium.html",
+      "group": "electron",
+      "bytes": 20115518,
+      "sha256": "3375e2a9bd7bc631738fde10be6548a76efe8cf5e4b8826b8140ba8b0c4d6353"
+    },
+    {
+      "root": "electron",
+      "source": "chrome-sandbox",
+      "target": "electron/chrome-sandbox",
+      "group": "electron",
+      "bytes": 15232,
+      "sha256": "a4f6dfd7325ddd55f94ddc0c487d22726d40ef099ded6475d5dffe236e277896"
+    },
+    {
+      "root": "electron",
+      "source": "chrome_100_percent.pak",
+      "target": "electron/chrome_100_percent.pak",
+      "group": "electron",
+      "bytes": 719546,
+      "sha256": "891176da5eee33b54352fdb1407a8e09a2bd48c7eb2077311e75787de33a095e"
+    },
+    {
+      "root": "electron",
+      "source": "chrome_200_percent.pak",
+      "target": "electron/chrome_200_percent.pak",
+      "group": "electron",
+      "bytes": 1268994,
+      "sha256": "b3ce9953a50959e9c1a018d6512742f48cee0dbf53644ea952909418bd7c2b3e"
+    },
+    {
+      "root": "electron",
+      "source": "chrome_crashpad_handler",
+      "target": "electron/chrome_crashpad_handler",
+      "group": "electron",
+      "bytes": 1918544,
+      "sha256": "3e9742b8edaef6779c48e0966b9f433db39e59ee148854312b5a5c8612100a04"
+    },
+    {
+      "root": "electron",
+      "source": "electron",
+      "target": "electron/ffmpeg-encoder-linux-candidate",
+      "group": "electron",
+      "bytes": 228605256,
+      "sha256": "10a14d05c6ff4f94075cfb3eeb6ed6571be33ebcc08cbd675b5ce9ff84706564"
+    },
+    {
+      "root": "electron",
+      "source": "icudtl.dat",
+      "target": "electron/icudtl.dat",
+      "group": "electron",
+      "bytes": 10875024,
+      "sha256": "da53f0b69843aaa43315f0f210a67e4a874b0be338f3dae08ff57b8afe76ab0d"
+    },
+    {
+      "root": "electron",
+      "source": "libffmpeg.so",
+      "target": "electron/libffmpeg.so",
+      "group": "electron",
+      "bytes": 2801752,
+      "sha256": "c4c805e46f957356f6b80be31999459e5f07e8b0c351221544ad43a16c980638"
+    },
+    {
+      "root": "electron",
+      "source": "libvk_swiftshader.so",
+      "target": "electron/libvk_swiftshader.so",
+      "group": "electron",
+      "bytes": 4657864,
+      "sha256": "f473264f0013f07345b5bb258dd12f10b461a291c578f32b7466c9000b662707"
+    },
+    {
+      "root": "electron",
+      "source": "libvulkan.so.1",
+      "target": "electron/libvulkan.so.1",
+      "group": "electron",
+      "bytes": 2483336,
+      "sha256": "951c832a600fd72fc0eff1a42b8e251e81ea200a62499e74c86d4aeb3646aa34"
+    },
+    {
+      "root": "electron",
+      "source": "locales/af.pak",
+      "target": "electron/locales/af.pak",
+      "group": "electron",
+      "bytes": 115408,
+      "sha256": "9abd48c6c1f34e14dcad66131a9cc8624b4e850ebf692b05a66fb18d5c537588"
+    },
+    {
+      "root": "electron",
+      "source": "locales/am.pak",
+      "target": "electron/locales/am.pak",
+      "group": "electron",
+      "bytes": 186176,
+      "sha256": "28545e9a72220ddca39f7d7b36eacb3b661a3cc40d212b7e56be21d90f5ee71b"
+    },
+    {
+      "root": "electron",
+      "source": "locales/ar.pak",
+      "target": "electron/locales/ar.pak",
+      "group": "electron",
+      "bytes": 185624,
+      "sha256": "4bca90c44595767a6d03cf1ae9a3a896e19f476c435d1f9cd535ffd74e908419"
+    },
+    {
+      "root": "electron",
+      "source": "locales/bg.pak",
+      "target": "electron/locales/bg.pak",
+      "group": "electron",
+      "bytes": 211672,
+      "sha256": "96741df7a895b1d4894db0fd5e5db4f761849eb0e5ebadf6f3f27daf16723ebe"
+    },
+    {
+      "root": "electron",
+      "source": "locales/bn.pak",
+      "target": "electron/locales/bn.pak",
+      "group": "electron",
+      "bytes": 269422,
+      "sha256": "eaa31ac7166ef4c5c61bf6e4a9b0a0b4cb1825e1b57e5a45f76faa65dc0d113f"
+    },
+    {
+      "root": "electron",
+      "source": "locales/ca.pak",
+      "target": "electron/locales/ca.pak",
+      "group": "electron",
+      "bytes": 129791,
+      "sha256": "3f86be184e95323c14604836b8eaf8935fc24f9cd2308cb207be26c318d8f287"
+    },
+    {
+      "root": "electron",
+      "source": "locales/cs.pak",
+      "target": "electron/locales/cs.pak",
+      "group": "electron",
+      "bytes": 130919,
+      "sha256": "cffb35f66f25ef7dac62b05213dfa787ecddf2533518c02276d8fbe828f541e8"
+    },
+    {
+      "root": "electron",
+      "source": "locales/da.pak",
+      "target": "electron/locales/da.pak",
+      "group": "electron",
+      "bytes": 119482,
+      "sha256": "14cfcdfecb80d8575d273d8ec03317ae51c3e2c976c862ab774f9af9c7c4557b"
+    },
+    {
+      "root": "electron",
+      "source": "locales/de.pak",
+      "target": "electron/locales/de.pak",
+      "group": "electron",
+      "bytes": 127411,
+      "sha256": "7d4874ca52ac298dbc4c01d91c1c6a549008dbefc2d0c8f52154d872dce4979f"
+    },
+    {
+      "root": "electron",
+      "source": "locales/el.pak",
+      "target": "electron/locales/el.pak",
+      "group": "electron",
+      "bytes": 229543,
+      "sha256": "114158bd5f674169564173a12612922259a8acc50076c228c2214659924ee018"
+    },
+    {
+      "root": "electron",
+      "source": "locales/en-GB.pak",
+      "target": "electron/locales/en-GB.pak",
+      "group": "electron",
+      "bytes": 106865,
+      "sha256": "550775b16b4716e610232e6b06e35a95c4c6ce2dedbd2a26747f8dc8f08d8aeb"
+    },
+    {
+      "root": "electron",
+      "source": "locales/en-US.pak",
+      "target": "electron/locales/en-US.pak",
+      "group": "electron",
+      "bytes": 106969,
+      "sha256": "e37db76f0a15a4b2a3cbd365bd4f06b0d8dc91fb9a83c03b7cd38503c23c044b"
+    },
+    {
+      "root": "electron",
+      "source": "locales/es-419.pak",
+      "target": "electron/locales/es-419.pak",
+      "group": "electron",
+      "bytes": 128677,
+      "sha256": "aaacff94a6407a7d487a455889a544f6107107cccb82393a27e9bf593d1b943d"
+    },
+    {
+      "root": "electron",
+      "source": "locales/es.pak",
+      "target": "electron/locales/es.pak",
+      "group": "electron",
+      "bytes": 129380,
+      "sha256": "b3256546e28dffff82c3d00abae9ad2141cf7bb940e5e39620f6ae30b488dcea"
+    },
+    {
+      "root": "electron",
+      "source": "locales/et.pak",
+      "target": "electron/locales/et.pak",
+      "group": "electron",
+      "bytes": 116201,
+      "sha256": "41f78768a3ef702356653ab005522a20407e0dbbe7b0ea323683072520f11191"
+    },
+    {
+      "root": "electron",
+      "source": "locales/fa.pak",
+      "target": "electron/locales/fa.pak",
+      "group": "electron",
+      "bytes": 180542,
+      "sha256": "7bc6e2d1c924b5f32d69e28033b369a67c5d9ce661af81a7ad5a66006a572170"
+    },
+    {
+      "root": "electron",
+      "source": "locales/fi.pak",
+      "target": "electron/locales/fi.pak",
+      "group": "electron",
+      "bytes": 119440,
+      "sha256": "fb7379246632c90a58a8f7155e390ca583f9d73b6c6ae26baf9bf4878be184df"
+    },
+    {
+      "root": "electron",
+      "source": "locales/fil.pak",
+      "target": "electron/locales/fil.pak",
+      "group": "electron",
+      "bytes": 131706,
+      "sha256": "7c6c76af71a7d60733a01014c19d9544409d5facd6001fb9058fc8ae8062cf54"
+    },
+    {
+      "root": "electron",
+      "source": "locales/fr.pak",
+      "target": "electron/locales/fr.pak",
+      "group": "electron",
+      "bytes": 136129,
+      "sha256": "95b11fc7368d9f4367534e89456cceda009468abe2423821a11fe1dd1a7b4604"
+    },
+    {
+      "root": "electron",
+      "source": "locales/gu.pak",
+      "target": "electron/locales/gu.pak",
+      "group": "electron",
+      "bytes": 262702,
+      "sha256": "309dcf4484d9479eeb68dcc7d745f17dfa0ffc4e6b112751de704ce62e8aecbe"
+    },
+    {
+      "root": "electron",
+      "source": "locales/he.pak",
+      "target": "electron/locales/he.pak",
+      "group": "electron",
+      "bytes": 158974,
+      "sha256": "5764ba9a2261b2ded07f3c3afa8f003594b29f58c73b322f1d89479907a97ca2"
+    },
+    {
+      "root": "electron",
+      "source": "locales/hi.pak",
+      "target": "electron/locales/hi.pak",
+      "group": "electron",
+      "bytes": 278957,
+      "sha256": "b4d36beed004905461637b0c60eacc6d8eca49ba47ba262ed04d68c88b826bf4"
+    },
+    {
+      "root": "electron",
+      "source": "locales/hr.pak",
+      "target": "electron/locales/hr.pak",
+      "group": "electron",
+      "bytes": 125949,
+      "sha256": "6937159b11ac75bee2c8046a5150596acee10a7c10c75a2469a752175f9e9e99"
+    },
+    {
+      "root": "electron",
+      "source": "locales/hu.pak",
+      "target": "electron/locales/hu.pak",
+      "group": "electron",
+      "bytes": 137413,
+      "sha256": "d6add186bc8bd342ef5d35cba5261c8c847ecb529697b7c003016435997c9fdc"
+    },
+    {
+      "root": "electron",
+      "source": "locales/id.pak",
+      "target": "electron/locales/id.pak",
+      "group": "electron",
+      "bytes": 114654,
+      "sha256": "06c550187e7dd49cf0210ac9bcf4401c10e96ed777ccc8fd07e914a9337de9b7"
+    },
+    {
+      "root": "electron",
+      "source": "locales/it.pak",
+      "target": "electron/locales/it.pak",
+      "group": "electron",
+      "bytes": 127474,
+      "sha256": "b02a5de9de434266991a9e37a6bcced44b65ae3c164e4920a736eb350f745ecb"
+    },
+    {
+      "root": "electron",
+      "source": "locales/ja.pak",
+      "target": "electron/locales/ja.pak",
+      "group": "electron",
+      "bytes": 147791,
+      "sha256": "4b51a3023136f05ae2c0b8e041e262eed3f6d5fa87c782892cba36e10d904b3c"
+    },
+    {
+      "root": "electron",
+      "source": "locales/kn.pak",
+      "target": "electron/locales/kn.pak",
+      "group": "electron",
+      "bytes": 295238,
+      "sha256": "875859c2b88312ff3644c6cadd65dd8b5057e336a0a2bea512fbffa7c85695a7"
+    },
+    {
+      "root": "electron",
+      "source": "locales/ko.pak",
+      "target": "electron/locales/ko.pak",
+      "group": "electron",
+      "bytes": 126096,
+      "sha256": "8c98d075840cb4800016c6df141183b3ec69cfe20df38ea759f2274259a86666"
+    },
+    {
+      "root": "electron",
+      "source": "locales/lt.pak",
+      "target": "electron/locales/lt.pak",
+      "group": "electron",
+      "bytes": 134875,
+      "sha256": "b7e01915d9f1131743aaa7b1c262c7ef685c10d8621f2437e46ebefe980a6efc"
+    },
+    {
+      "root": "electron",
+      "source": "locales/lv.pak",
+      "target": "electron/locales/lv.pak",
+      "group": "electron",
+      "bytes": 135866,
+      "sha256": "22fc0a3e04e7772c7df2f4c74e928ceb4046edc8c1688dbc4f04676f00944952"
+    },
+    {
+      "root": "electron",
+      "source": "locales/ml.pak",
+      "target": "electron/locales/ml.pak",
+      "group": "electron",
+      "bytes": 312341,
+      "sha256": "fffb1b403dd4a62f0116fb39a961a73dd0766049bdc23118c90f4360971e225b"
+    },
+    {
+      "root": "electron",
+      "source": "locales/mr.pak",
+      "target": "electron/locales/mr.pak",
+      "group": "electron",
+      "bytes": 261151,
+      "sha256": "0f5879b812517af23c9655347b08852c8e8f5c399b288466a8ec717d397e94d6"
+    },
+    {
+      "root": "electron",
+      "source": "locales/ms.pak",
+      "target": "electron/locales/ms.pak",
+      "group": "electron",
+      "bytes": 117618,
+      "sha256": "ce1f9c8cfe5b2705b281d3480e0df992ab36f3518956100564eb9edae5d03dbb"
+    },
+    {
+      "root": "electron",
+      "source": "locales/nb.pak",
+      "target": "electron/locales/nb.pak",
+      "group": "electron",
+      "bytes": 115867,
+      "sha256": "36c2e3f5d4e920e8e0411878df2cbd4a92bd9e553e9e427b3aae355bfb9fc955"
+    },
+    {
+      "root": "electron",
+      "source": "locales/nl.pak",
+      "target": "electron/locales/nl.pak",
+      "group": "electron",
+      "bytes": 121445,
+      "sha256": "5cceeeff48b3aad830116126f8f15b3bfddf682bbdf986b3a266e0e72ff463d1"
+    },
+    {
+      "root": "electron",
+      "source": "locales/pl.pak",
+      "target": "electron/locales/pl.pak",
+      "group": "electron",
+      "bytes": 131479,
+      "sha256": "35e0d1578baa9c9441c83383aade35d69c03bc2307783c639c01b156015a11a8"
+    },
+    {
+      "root": "electron",
+      "source": "locales/pt-BR.pak",
+      "target": "electron/locales/pt-BR.pak",
+      "group": "electron",
+      "bytes": 126281,
+      "sha256": "907226d904de6a571a80289ef6a8072bad867b1f63ec37fcd735c30763af970d"
+    },
+    {
+      "root": "electron",
+      "source": "locales/pt-PT.pak",
+      "target": "electron/locales/pt-PT.pak",
+      "group": "electron",
+      "bytes": 127702,
+      "sha256": "540b4f6c0d58d8f0315a8e4fbee49e41b6fbfe2b9c2065b8f28b069619c132ba"
+    },
+    {
+      "root": "electron",
+      "source": "locales/ro.pak",
+      "target": "electron/locales/ro.pak",
+      "group": "electron",
+      "bytes": 132409,
+      "sha256": "b7c3b4af988ec26f8f3a3fa789cdbe46712a14497e47cba6266c9f0e808e57f7"
+    },
+    {
+      "root": "electron",
+      "source": "locales/ru.pak",
+      "target": "electron/locales/ru.pak",
+      "group": "electron",
+      "bytes": 207665,
+      "sha256": "b011f8c753fa33f9aa91732590ca13a791824a7fd94a8f35c41330fe346de11a"
+    },
+    {
+      "root": "electron",
+      "source": "locales/sk.pak",
+      "target": "electron/locales/sk.pak",
+      "group": "electron",
+      "bytes": 133943,
+      "sha256": "8c743c91af3dd53fd5c36e88061a62dddb2b91687ec779e7958774f436486dac"
+    },
+    {
+      "root": "electron",
+      "source": "locales/sl.pak",
+      "target": "electron/locales/sl.pak",
+      "group": "electron",
+      "bytes": 126084,
+      "sha256": "ccb3f13a24076f3a29148486b296255a65318314ad25cd276152146732cb024d"
+    },
+    {
+      "root": "electron",
+      "source": "locales/sr.pak",
+      "target": "electron/locales/sr.pak",
+      "group": "electron",
+      "bytes": 196325,
+      "sha256": "92bac4af059cea0f2f72293fde0cc665b8554c00653b26611cfcc6e98b4971e8"
+    },
+    {
+      "root": "electron",
+      "source": "locales/sv.pak",
+      "target": "electron/locales/sv.pak",
+      "group": "electron",
+      "bytes": 116299,
+      "sha256": "54cf311648f8688effc4cfd70a580b85b837e67dd9e5f194d9f761202a27ebba"
+    },
+    {
+      "root": "electron",
+      "source": "locales/sw.pak",
+      "target": "electron/locales/sw.pak",
+      "group": "electron",
+      "bytes": 124791,
+      "sha256": "3475068a7e3b8205444f914d7d29421fb45b87c008594984f3e7b04cff22b2d3"
+    },
+    {
+      "root": "electron",
+      "source": "locales/ta.pak",
+      "target": "electron/locales/ta.pak",
+      "group": "electron",
+      "bytes": 314512,
+      "sha256": "e4053fb503c08d94b7364b10a74abc04506d15f67ad74b9ea66185999ea177df"
+    },
+    {
+      "root": "electron",
+      "source": "locales/te.pak",
+      "target": "electron/locales/te.pak",
+      "group": "electron",
+      "bytes": 289043,
+      "sha256": "4955104544daf89da718e7f584ad66fe35dd4ca219c245697de2929acb317ec8"
+    },
+    {
+      "root": "electron",
+      "source": "locales/th.pak",
+      "target": "electron/locales/th.pak",
+      "group": "electron",
+      "bytes": 249576,
+      "sha256": "2272de996ac5c553cf01f406e6f708cb98ad419708355fb4969cb91ec8031e56"
+    },
+    {
+      "root": "electron",
+      "source": "locales/tr.pak",
+      "target": "electron/locales/tr.pak",
+      "group": "electron",
+      "bytes": 125317,
+      "sha256": "f690918f136d8c5bad9853c358670e60475999d0faafb36d36001c4fa7ec4f8b"
+    },
+    {
+      "root": "electron",
+      "source": "locales/uk.pak",
+      "target": "electron/locales/uk.pak",
+      "group": "electron",
+      "bytes": 209472,
+      "sha256": "26ddf342bb13d674df20162ff1a955edc56e6ffc64bc846953e7b2be8827fe80"
+    },
+    {
+      "root": "electron",
+      "source": "locales/ur.pak",
+      "target": "electron/locales/ur.pak",
+      "group": "electron",
+      "bytes": 185651,
+      "sha256": "203e225739beb9879eebb08d08d9aa17b80f02320049f03d453156ff53170da8"
+    },
+    {
+      "root": "electron",
+      "source": "locales/vi.pak",
+      "target": "electron/locales/vi.pak",
+      "group": "electron",
+      "bytes": 149276,
+      "sha256": "4dcf8fe139c4355a8999137098532662e5af79d7b464c6e2faab686605d7ad8d"
+    },
+    {
+      "root": "electron",
+      "source": "locales/zh-CN.pak",
+      "target": "electron/locales/zh-CN.pak",
+      "group": "electron",
+      "bytes": 103981,
+      "sha256": "4f2cf868b28d2ef31cc8d877bd1295bcd99997505bd96828905900250160f3c5"
+    },
+    {
+      "root": "electron",
+      "source": "locales/zh-TW.pak",
+      "target": "electron/locales/zh-TW.pak",
+      "group": "electron",
+      "bytes": 103156,
+      "sha256": "320cbc6cf7f15cc652e2e4a6c4e964d9fe5dcbf2d65ebf379beb47d738317d4d"
+    },
+    {
+      "root": "inputs",
+      "source": "codec-sysroot/usr/share/doc/libdav1d-dev/copyright",
+      "target": "electron/notices/codec-development/libdav1d-dev-copyright",
+      "group": "notice",
+      "bytes": 9722,
+      "sha256": "38aaebbbf5ab0c19a5d4029acb5ce6566f8bd95e07eff6f6472753f5bea83d97"
+    },
+    {
+      "root": "inputs",
+      "source": "codec-sysroot/usr/share/doc/libnuma-dev/copyright",
+      "target": "electron/notices/codec-development/libnuma-dev-copyright",
+      "group": "notice",
+      "bytes": 1357,
+      "sha256": "179c34f5e56cd0b6b73dd7970a97357ee784e2236e8293826656c7ebb3bface7"
+    },
+    {
+      "root": "inputs",
+      "source": "codec-sysroot/usr/share/doc/libsvtav1enc-dev/copyright",
+      "target": "electron/notices/codec-development/libsvtav1enc-dev-copyright",
+      "group": "notice",
+      "bytes": 14574,
+      "sha256": "66433ce51ad1f83c561940a0af5f78e45a1beee67e5cc5087c1f0c5d2736e1e4"
+    },
+    {
+      "root": "inputs",
+      "source": "codec-sysroot/usr/share/doc/libx264-dev/copyright",
+      "target": "electron/notices/codec-development/libx264-dev-copyright",
+      "group": "notice",
+      "bytes": 7690,
+      "sha256": "b8b4d68a602bf580d47237c3119e52ac7a70121de39fb365ca28a63b3a200655"
+    },
+    {
+      "root": "inputs",
+      "source": "codec-sysroot/usr/share/doc/libx265-dev/copyright",
+      "target": "electron/notices/codec-development/libx265-dev-copyright",
+      "group": "notice",
+      "bytes": 4551,
+      "sha256": "ac2859168010138bce5a5a16a1c2442570ed236121352c34c1a710005b727eb5"
+    },
+    {
+      "root": "inputs",
+      "source": "source/ffmpeg-9.0.2/COPYING.GPLv2",
+      "target": "electron/notices/ffmpeg/COPYING.GPLv2",
+      "group": "notice",
+      "bytes": 18092,
+      "sha256": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643"
+    },
+    {
+      "root": "inputs",
+      "source": "source/ffmpeg-9.0.2/COPYING.GPLv3",
+      "target": "electron/notices/ffmpeg/COPYING.GPLv3",
+      "group": "notice",
+      "bytes": 35147,
+      "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+    },
+    {
+      "root": "inputs",
+      "source": "source/ffmpeg-9.0.2/COPYING.LGPLv2.1",
+      "target": "electron/notices/ffmpeg/COPYING.LGPLv2.1",
+      "group": "notice",
+      "bytes": 26517,
+      "sha256": "246041b6ecf9bc32d718a62c57877c78b5eb397b6467e74ed7ae2626ab189c30"
+    },
+    {
+      "root": "inputs",
+      "source": "source/ffmpeg-9.0.2/COPYING.LGPLv3",
+      "target": "electron/notices/ffmpeg/COPYING.LGPLv3",
+      "group": "notice",
+      "bytes": 7651,
+      "sha256": "da7eabb7bafdf7d3ae5e9f223aa5bdc1eece45ac569dc21b3b037520b4464768"
+    },
+    {
+      "root": "inputs",
+      "source": "source/ffmpeg-9.0.2/LICENSE.md",
+      "target": "electron/notices/ffmpeg/LICENSE.md",
+      "group": "notice",
+      "bytes": 4346,
+      "sha256": "2e1d16c72fd74e12063776371da757322f8b77589386532f4fd8634bde7de1af"
+    },
+    {
+      "root": "hostDocs",
+      "source": "libc6/copyright",
+      "target": "electron/notices/host-dependencies/libc6-copyright",
+      "group": "notice",
+      "bytes": 51200,
+      "sha256": "f5788886720a2605a946e81d571e6c8162b09f58d2e2ceb8d36e5768fccd850d"
+    },
+    {
+      "root": "hostDocs",
+      "source": "libdav1d7/copyright",
+      "target": "electron/notices/host-dependencies/libdav1d7-copyright",
+      "group": "notice",
+      "bytes": 9722,
+      "sha256": "38aaebbbf5ab0c19a5d4029acb5ce6566f8bd95e07eff6f6472753f5bea83d97"
+    },
+    {
+      "root": "hostDocs",
+      "source": "gcc-14-base/copyright",
+      "target": "electron/notices/host-dependencies/libgcc-s1-copyright",
+      "group": "notice",
+      "bytes": 69004,
+      "sha256": "20390f8a6f3b1e4d7cb45dd8652dabb259bbef688cbad839bcdb0b9ba7252f79"
+    },
+    {
+      "root": "hostDocs",
+      "source": "gcc-14-base/copyright",
+      "target": "electron/notices/host-dependencies/libstdc++6-copyright",
+      "group": "notice",
+      "bytes": 69004,
+      "sha256": "20390f8a6f3b1e4d7cb45dd8652dabb259bbef688cbad839bcdb0b9ba7252f79"
+    },
+    {
+      "root": "hostDocs",
+      "source": "libsvtav1enc2/copyright",
+      "target": "electron/notices/host-dependencies/libsvtav1enc2-copyright",
+      "group": "notice",
+      "bytes": 14574,
+      "sha256": "66433ce51ad1f83c561940a0af5f78e45a1beee67e5cc5087c1f0c5d2736e1e4"
+    },
+    {
+      "root": "guidance",
+      "source": "electron-44.7.0-setup/verification.json",
+      "target": "electron/provenance/electron-44.7.0-setup--verification.json",
+      "group": "provenance",
+      "bytes": 13098,
+      "sha256": "56eabc423cca0cb41e89257dc275e7b6d803c7d5fc8f4260be4c729c3c28b58f"
+    },
+    {
+      "root": "guidance",
+      "source": "runtime-candidate-build-20261117/BUILD_PLAN_002.json",
+      "target": "electron/provenance/runtime-candidate-build-20261117--BUILD_PLAN_002.json",
+      "group": "provenance",
+      "bytes": 7334,
+      "sha256": "79f0e9cf81b648c32e9872e98bba7f10a5e774ce9e3e82e2c1d1aa282ce0c9ab"
+    },
+    {
+      "root": "guidance",
+      "source": "runtime-candidate-build-20261117/BUILD_RECEIPT.json",
+      "target": "electron/provenance/runtime-candidate-build-20261117--BUILD_RECEIPT.json",
+      "group": "provenance",
+      "bytes": 15228,
+      "sha256": "823f1ab2427a5b26b2ae3af1c9c78f2c7af7533ede82d866e01167fc6f805eca"
+    },
+    {
+      "root": "guidance",
+      "source": "runtime-requalification-inputs-20261117/INPUT_ACQUISITION_RECEIPT.json",
+      "target": "electron/provenance/runtime-requalification-inputs-20261117--INPUT_ACQUISITION_RECEIPT.json",
+      "group": "provenance",
+      "bytes": 9679,
+      "sha256": "cf1ac0f19337e50d240dbae220239f65a9a059a800f9bdb2be67787da8458d62"
+    },
+    {
+      "root": "guidance",
+      "source": "runtime-requalification-inputs-20261117/extraction-result.json",
+      "target": "electron/provenance/runtime-requalification-inputs-20261117--extraction-result.json",
+      "group": "provenance",
+      "bytes": 927,
+      "sha256": "b0e646464e24ecc5a12721aa8feafa55d4c33940ad9500ed4f26229eb0872a12"
+    },
+    {
+      "root": "electron",
+      "source": "resources.pak",
+      "target": "electron/resources.pak",
+      "group": "electron",
+      "bytes": 12634717,
+      "sha256": "631f8de6e1d5b46de9a5930ac3da5c1f77ebd2eef355be75c8c2095d0b29dbab"
+    },
+    {
       "root": "source",
       "source": "assets/app-icon/LICENSE.txt",
       "target": "electron/resources/app/assets/app-icon/LICENSE.txt",
@@ -65,35 +761,43 @@
     },
     {
       "root": "source",
+      "source": "linux-blue/candidate-full-copy-calibration.cjs",
+      "target": "electron/resources/app/linux-blue/candidate-full-copy-calibration.cjs",
+      "group": "application",
+      "bytes": 27666,
+      "sha256": "12aff9c8c7f2d58a0c1e2c64299c456918a965c16a41f35a28a6b3da0e1e228a"
+    },
+    {
+      "root": "source",
       "source": "linux-blue/product-linux-qualification.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-qualification.cjs",
       "group": "application",
-      "bytes": 23733,
-      "sha256": "906678a4925653edff633900037e0cc34f0c51d3c8df5fbffec9e745fdeafd68"
+      "bytes": 26468,
+      "sha256": "2357bdb207897d8bb1546fe9d49c936108078b702ae422a8abd04a8e8949eeec"
     },
     {
       "root": "source",
       "source": "linux-blue/product-linux-qualification.json",
       "target": "electron/resources/app/linux-blue/product-linux-qualification.json",
       "group": "application",
-      "bytes": 3563,
-      "sha256": "5f5be216f22f5fc83a3fbca730b152105d59ff0f9d04dc8644174e0cfbadc85b"
+      "bytes": 6137,
+      "sha256": "d90f025a58bf081d14cc736aea6f8d56a8dab95df9be631abffa81c90f1d0491"
     },
     {
       "root": "source",
       "source": "linux-blue/product-linux-service.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-service.cjs",
       "group": "application",
-      "bytes": 9157,
-      "sha256": "867f214900d1c4e2b0a9eded853b0037c95e3d93431c6489446ec0b4bad808fa"
+      "bytes": 10127,
+      "sha256": "2c6383827cf6efa85ff9d3285502802b42e306f37edd5082cc11761d5cd42068"
     },
     {
       "root": "source",
       "source": "linux-blue/product-linux-shell.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-shell.cjs",
       "group": "application",
-      "bytes": 5760,
-      "sha256": "3b0a5478061eea01927a7e63ef5da4e0d80c37b967756a80f7da870d1ef28b73"
+      "bytes": 5780,
+      "sha256": "b5b9e511e413f889b0f74b477815f7bd82bceb96ed6af27c16ee5c67714f4f22"
     },
     {
       "root": "source",
@@ -150,6 +854,14 @@
       "group": "application",
       "bytes": 11319,
       "sha256": "059cbfd0edbcc4ffdae0c0174669b28e097b4f5e748ca12dacb1302f6285c0c4"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/workbench-long-range-calibration.cjs",
+      "target": "electron/resources/app/linux-blue/workbench-long-range-calibration.cjs",
+      "group": "application",
+      "bytes": 33462,
+      "sha256": "ee8d48e294f098ed9f47e7b6e1e75edd5a4661d460ee6b00bb2a375010692afc"
     },
     {
       "root": "source",
@@ -1052,8 +1764,8 @@
       "source": "ui/renderer.js",
       "target": "electron/resources/app/ui/renderer.js",
       "group": "application",
-      "bytes": 152740,
-      "sha256": "534ea2ca19be9106fbbe8eb2b4d61d2870635072c9679f00e46fbd5a50a9ad2b"
+      "bytes": 152803,
+      "sha256": "936559b7532c3847bf1150eece4a67488c083d941d663e452b882915cc40243c"
     },
     {
       "root": "source",
@@ -1062,574 +1774,6 @@
       "group": "application",
       "bytes": 39661,
       "sha256": "6abf4c37263c2399a1443ffcf1cd0142d43cb7316188cd29955e51f0a0227243"
-    },
-    {
-      "root": "electron",
-      "source": "electron",
-      "target": "electron/ffmpeg-encoder-linux-candidate",
-      "group": "electron",
-      "bytes": 228605256,
-      "sha256": "10a14d05c6ff4f94075cfb3eeb6ed6571be33ebcc08cbd675b5ce9ff84706564"
-    },
-    {
-      "root": "electron",
-      "source": "locales/vi.pak",
-      "target": "electron/locales/vi.pak",
-      "group": "electron",
-      "bytes": 149276,
-      "sha256": "4dcf8fe139c4355a8999137098532662e5af79d7b464c6e2faab686605d7ad8d"
-    },
-    {
-      "root": "electron",
-      "source": "locales/da.pak",
-      "target": "electron/locales/da.pak",
-      "group": "electron",
-      "bytes": 119482,
-      "sha256": "14cfcdfecb80d8575d273d8ec03317ae51c3e2c976c862ab774f9af9c7c4557b"
-    },
-    {
-      "root": "electron",
-      "source": "chrome_100_percent.pak",
-      "target": "electron/chrome_100_percent.pak",
-      "group": "electron",
-      "bytes": 719546,
-      "sha256": "891176da5eee33b54352fdb1407a8e09a2bd48c7eb2077311e75787de33a095e"
-    },
-    {
-      "root": "electron",
-      "source": "locales/sk.pak",
-      "target": "electron/locales/sk.pak",
-      "group": "electron",
-      "bytes": 133943,
-      "sha256": "8c743c91af3dd53fd5c36e88061a62dddb2b91687ec779e7958774f436486dac"
-    },
-    {
-      "root": "electron",
-      "source": "locales/pl.pak",
-      "target": "electron/locales/pl.pak",
-      "group": "electron",
-      "bytes": 131479,
-      "sha256": "35e0d1578baa9c9441c83383aade35d69c03bc2307783c639c01b156015a11a8"
-    },
-    {
-      "root": "electron",
-      "source": "locales/ar.pak",
-      "target": "electron/locales/ar.pak",
-      "group": "electron",
-      "bytes": 185624,
-      "sha256": "4bca90c44595767a6d03cf1ae9a3a896e19f476c435d1f9cd535ffd74e908419"
-    },
-    {
-      "root": "electron",
-      "source": "locales/en-US.pak",
-      "target": "electron/locales/en-US.pak",
-      "group": "electron",
-      "bytes": 106969,
-      "sha256": "e37db76f0a15a4b2a3cbd365bd4f06b0d8dc91fb9a83c03b7cd38503c23c044b"
-    },
-    {
-      "root": "electron",
-      "source": "locales/nb.pak",
-      "target": "electron/locales/nb.pak",
-      "group": "electron",
-      "bytes": 115867,
-      "sha256": "36c2e3f5d4e920e8e0411878df2cbd4a92bd9e553e9e427b3aae355bfb9fc955"
-    },
-    {
-      "root": "electron",
-      "source": "locales/th.pak",
-      "target": "electron/locales/th.pak",
-      "group": "electron",
-      "bytes": 249576,
-      "sha256": "2272de996ac5c553cf01f406e6f708cb98ad419708355fb4969cb91ec8031e56"
-    },
-    {
-      "root": "electron",
-      "source": "locales/bn.pak",
-      "target": "electron/locales/bn.pak",
-      "group": "electron",
-      "bytes": 269422,
-      "sha256": "eaa31ac7166ef4c5c61bf6e4a9b0a0b4cb1825e1b57e5a45f76faa65dc0d113f"
-    },
-    {
-      "root": "electron",
-      "source": "chrome_200_percent.pak",
-      "target": "electron/chrome_200_percent.pak",
-      "group": "electron",
-      "bytes": 1268994,
-      "sha256": "b3ce9953a50959e9c1a018d6512742f48cee0dbf53644ea952909418bd7c2b3e"
-    },
-    {
-      "root": "electron",
-      "source": "locales/ko.pak",
-      "target": "electron/locales/ko.pak",
-      "group": "electron",
-      "bytes": 126096,
-      "sha256": "8c98d075840cb4800016c6df141183b3ec69cfe20df38ea759f2274259a86666"
-    },
-    {
-      "root": "electron",
-      "source": "vk_swiftshader_icd.json",
-      "target": "electron/vk_swiftshader_icd.json",
-      "group": "electron",
-      "bytes": 107,
-      "sha256": "c9eef28b6b984fec220ef0abfecc40b502d46946706e47bfe97707027cb818bd"
-    },
-    {
-      "root": "electron",
-      "source": "locales/sw.pak",
-      "target": "electron/locales/sw.pak",
-      "group": "electron",
-      "bytes": 124791,
-      "sha256": "3475068a7e3b8205444f914d7d29421fb45b87c008594984f3e7b04cff22b2d3"
-    },
-    {
-      "root": "electron",
-      "source": "locales/ml.pak",
-      "target": "electron/locales/ml.pak",
-      "group": "electron",
-      "bytes": 312341,
-      "sha256": "fffb1b403dd4a62f0116fb39a961a73dd0766049bdc23118c90f4360971e225b"
-    },
-    {
-      "root": "electron",
-      "source": "locales/ru.pak",
-      "target": "electron/locales/ru.pak",
-      "group": "electron",
-      "bytes": 207665,
-      "sha256": "b011f8c753fa33f9aa91732590ca13a791824a7fd94a8f35c41330fe346de11a"
-    },
-    {
-      "root": "electron",
-      "source": "locales/zh-TW.pak",
-      "target": "electron/locales/zh-TW.pak",
-      "group": "electron",
-      "bytes": 103156,
-      "sha256": "320cbc6cf7f15cc652e2e4a6c4e964d9fe5dcbf2d65ebf379beb47d738317d4d"
-    },
-    {
-      "root": "electron",
-      "source": "locales/en-GB.pak",
-      "target": "electron/locales/en-GB.pak",
-      "group": "electron",
-      "bytes": 106865,
-      "sha256": "550775b16b4716e610232e6b06e35a95c4c6ce2dedbd2a26747f8dc8f08d8aeb"
-    },
-    {
-      "root": "electron",
-      "source": "locales/nl.pak",
-      "target": "electron/locales/nl.pak",
-      "group": "electron",
-      "bytes": 121445,
-      "sha256": "5cceeeff48b3aad830116126f8f15b3bfddf682bbdf986b3a266e0e72ff463d1"
-    },
-    {
-      "root": "electron",
-      "source": "locales/it.pak",
-      "target": "electron/locales/it.pak",
-      "group": "electron",
-      "bytes": 127474,
-      "sha256": "b02a5de9de434266991a9e37a6bcced44b65ae3c164e4920a736eb350f745ecb"
-    },
-    {
-      "root": "electron",
-      "source": "locales/hr.pak",
-      "target": "electron/locales/hr.pak",
-      "group": "electron",
-      "bytes": 125949,
-      "sha256": "6937159b11ac75bee2c8046a5150596acee10a7c10c75a2469a752175f9e9e99"
-    },
-    {
-      "root": "electron",
-      "source": "locales/ur.pak",
-      "target": "electron/locales/ur.pak",
-      "group": "electron",
-      "bytes": 185651,
-      "sha256": "203e225739beb9879eebb08d08d9aa17b80f02320049f03d453156ff53170da8"
-    },
-    {
-      "root": "electron",
-      "source": "locales/id.pak",
-      "target": "electron/locales/id.pak",
-      "group": "electron",
-      "bytes": 114654,
-      "sha256": "06c550187e7dd49cf0210ac9bcf4401c10e96ed777ccc8fd07e914a9337de9b7"
-    },
-    {
-      "root": "electron",
-      "source": "locales/bg.pak",
-      "target": "electron/locales/bg.pak",
-      "group": "electron",
-      "bytes": 211672,
-      "sha256": "96741df7a895b1d4894db0fd5e5db4f761849eb0e5ebadf6f3f27daf16723ebe"
-    },
-    {
-      "root": "electron",
-      "source": "locales/fi.pak",
-      "target": "electron/locales/fi.pak",
-      "group": "electron",
-      "bytes": 119440,
-      "sha256": "fb7379246632c90a58a8f7155e390ca583f9d73b6c6ae26baf9bf4878be184df"
-    },
-    {
-      "root": "electron",
-      "source": "icudtl.dat",
-      "target": "electron/icudtl.dat",
-      "group": "electron",
-      "bytes": 10875024,
-      "sha256": "da53f0b69843aaa43315f0f210a67e4a874b0be338f3dae08ff57b8afe76ab0d"
-    },
-    {
-      "root": "electron",
-      "source": "snapshot_blob.bin",
-      "target": "electron/snapshot_blob.bin",
-      "group": "electron",
-      "bytes": 368768,
-      "sha256": "318358a565b6799c7cd42f4647a68d07c326aea80171d5b451af8f14d1bc345f"
-    },
-    {
-      "root": "electron",
-      "source": "locales/gu.pak",
-      "target": "electron/locales/gu.pak",
-      "group": "electron",
-      "bytes": 262702,
-      "sha256": "309dcf4484d9479eeb68dcc7d745f17dfa0ffc4e6b112751de704ce62e8aecbe"
-    },
-    {
-      "root": "electron",
-      "source": "locales/sl.pak",
-      "target": "electron/locales/sl.pak",
-      "group": "electron",
-      "bytes": 126084,
-      "sha256": "ccb3f13a24076f3a29148486b296255a65318314ad25cd276152146732cb024d"
-    },
-    {
-      "root": "electron",
-      "source": "libffmpeg.so",
-      "target": "electron/libffmpeg.so",
-      "group": "electron",
-      "bytes": 2801752,
-      "sha256": "c4c805e46f957356f6b80be31999459e5f07e8b0c351221544ad43a16c980638"
-    },
-    {
-      "root": "electron",
-      "source": "locales/fa.pak",
-      "target": "electron/locales/fa.pak",
-      "group": "electron",
-      "bytes": 180542,
-      "sha256": "7bc6e2d1c924b5f32d69e28033b369a67c5d9ce661af81a7ad5a66006a572170"
-    },
-    {
-      "root": "electron",
-      "source": "locales/ms.pak",
-      "target": "electron/locales/ms.pak",
-      "group": "electron",
-      "bytes": 117618,
-      "sha256": "ce1f9c8cfe5b2705b281d3480e0df992ab36f3518956100564eb9edae5d03dbb"
-    },
-    {
-      "root": "electron",
-      "source": "locales/lt.pak",
-      "target": "electron/locales/lt.pak",
-      "group": "electron",
-      "bytes": 134875,
-      "sha256": "b7e01915d9f1131743aaa7b1c262c7ef685c10d8621f2437e46ebefe980a6efc"
-    },
-    {
-      "root": "electron",
-      "source": "version",
-      "target": "electron/version",
-      "group": "electron",
-      "bytes": 6,
-      "sha256": "3e1e0322d949de3be7e5b9883a0c8014660aafa67e417a7d86b281e9733829a1"
-    },
-    {
-      "root": "electron",
-      "source": "locales/de.pak",
-      "target": "electron/locales/de.pak",
-      "group": "electron",
-      "bytes": 127411,
-      "sha256": "7d4874ca52ac298dbc4c01d91c1c6a549008dbefc2d0c8f52154d872dce4979f"
-    },
-    {
-      "root": "electron",
-      "source": "locales/mr.pak",
-      "target": "electron/locales/mr.pak",
-      "group": "electron",
-      "bytes": 261151,
-      "sha256": "0f5879b812517af23c9655347b08852c8e8f5c399b288466a8ec717d397e94d6"
-    },
-    {
-      "root": "electron",
-      "source": "locales/he.pak",
-      "target": "electron/locales/he.pak",
-      "group": "electron",
-      "bytes": 158974,
-      "sha256": "5764ba9a2261b2ded07f3c3afa8f003594b29f58c73b322f1d89479907a97ca2"
-    },
-    {
-      "root": "electron",
-      "source": "LICENSES.chromium.html",
-      "target": "electron/LICENSES.chromium.html",
-      "group": "electron",
-      "bytes": 20115518,
-      "sha256": "3375e2a9bd7bc631738fde10be6548a76efe8cf5e4b8826b8140ba8b0c4d6353"
-    },
-    {
-      "root": "electron",
-      "source": "resources.pak",
-      "target": "electron/resources.pak",
-      "group": "electron",
-      "bytes": 12634717,
-      "sha256": "631f8de6e1d5b46de9a5930ac3da5c1f77ebd2eef355be75c8c2095d0b29dbab"
-    },
-    {
-      "root": "electron",
-      "source": "locales/af.pak",
-      "target": "electron/locales/af.pak",
-      "group": "electron",
-      "bytes": 115408,
-      "sha256": "9abd48c6c1f34e14dcad66131a9cc8624b4e850ebf692b05a66fb18d5c537588"
-    },
-    {
-      "root": "electron",
-      "source": "locales/el.pak",
-      "target": "electron/locales/el.pak",
-      "group": "electron",
-      "bytes": 229543,
-      "sha256": "114158bd5f674169564173a12612922259a8acc50076c228c2214659924ee018"
-    },
-    {
-      "root": "electron",
-      "source": "locales/pt-BR.pak",
-      "target": "electron/locales/pt-BR.pak",
-      "group": "electron",
-      "bytes": 126281,
-      "sha256": "907226d904de6a571a80289ef6a8072bad867b1f63ec37fcd735c30763af970d"
-    },
-    {
-      "root": "electron",
-      "source": "locales/hi.pak",
-      "target": "electron/locales/hi.pak",
-      "group": "electron",
-      "bytes": 278957,
-      "sha256": "b4d36beed004905461637b0c60eacc6d8eca49ba47ba262ed04d68c88b826bf4"
-    },
-    {
-      "root": "electron",
-      "source": "locales/te.pak",
-      "target": "electron/locales/te.pak",
-      "group": "electron",
-      "bytes": 289043,
-      "sha256": "4955104544daf89da718e7f584ad66fe35dd4ca219c245697de2929acb317ec8"
-    },
-    {
-      "root": "electron",
-      "source": "locales/ta.pak",
-      "target": "electron/locales/ta.pak",
-      "group": "electron",
-      "bytes": 314512,
-      "sha256": "e4053fb503c08d94b7364b10a74abc04506d15f67ad74b9ea66185999ea177df"
-    },
-    {
-      "root": "electron",
-      "source": "locales/sr.pak",
-      "target": "electron/locales/sr.pak",
-      "group": "electron",
-      "bytes": 196325,
-      "sha256": "92bac4af059cea0f2f72293fde0cc665b8554c00653b26611cfcc6e98b4971e8"
-    },
-    {
-      "root": "electron",
-      "source": "locales/lv.pak",
-      "target": "electron/locales/lv.pak",
-      "group": "electron",
-      "bytes": 135866,
-      "sha256": "22fc0a3e04e7772c7df2f4c74e928ceb4046edc8c1688dbc4f04676f00944952"
-    },
-    {
-      "root": "electron",
-      "source": "locales/fil.pak",
-      "target": "electron/locales/fil.pak",
-      "group": "electron",
-      "bytes": 131706,
-      "sha256": "7c6c76af71a7d60733a01014c19d9544409d5facd6001fb9058fc8ae8062cf54"
-    },
-    {
-      "root": "electron",
-      "source": "locales/ja.pak",
-      "target": "electron/locales/ja.pak",
-      "group": "electron",
-      "bytes": 147791,
-      "sha256": "4b51a3023136f05ae2c0b8e041e262eed3f6d5fa87c782892cba36e10d904b3c"
-    },
-    {
-      "root": "electron",
-      "source": "locales/ro.pak",
-      "target": "electron/locales/ro.pak",
-      "group": "electron",
-      "bytes": 132409,
-      "sha256": "b7c3b4af988ec26f8f3a3fa789cdbe46712a14497e47cba6266c9f0e808e57f7"
-    },
-    {
-      "root": "electron",
-      "source": "LICENSE",
-      "target": "electron/LICENSE",
-      "group": "electron",
-      "bytes": 1096,
-      "sha256": "5154e165bd6c2cc0cfbcd8916498c7abab0497923bafcd5cb07673fe8480087d"
-    },
-    {
-      "root": "electron",
-      "source": "locales/zh-CN.pak",
-      "target": "electron/locales/zh-CN.pak",
-      "group": "electron",
-      "bytes": 103981,
-      "sha256": "4f2cf868b28d2ef31cc8d877bd1295bcd99997505bd96828905900250160f3c5"
-    },
-    {
-      "root": "electron",
-      "source": "locales/kn.pak",
-      "target": "electron/locales/kn.pak",
-      "group": "electron",
-      "bytes": 295238,
-      "sha256": "875859c2b88312ff3644c6cadd65dd8b5057e336a0a2bea512fbffa7c85695a7"
-    },
-    {
-      "root": "electron",
-      "source": "locales/cs.pak",
-      "target": "electron/locales/cs.pak",
-      "group": "electron",
-      "bytes": 130919,
-      "sha256": "cffb35f66f25ef7dac62b05213dfa787ecddf2533518c02276d8fbe828f541e8"
-    },
-    {
-      "root": "electron",
-      "source": "locales/sv.pak",
-      "target": "electron/locales/sv.pak",
-      "group": "electron",
-      "bytes": 116299,
-      "sha256": "54cf311648f8688effc4cfd70a580b85b837e67dd9e5f194d9f761202a27ebba"
-    },
-    {
-      "root": "electron",
-      "source": "locales/es.pak",
-      "target": "electron/locales/es.pak",
-      "group": "electron",
-      "bytes": 129380,
-      "sha256": "b3256546e28dffff82c3d00abae9ad2141cf7bb940e5e39620f6ae30b488dcea"
-    },
-    {
-      "root": "electron",
-      "source": "chrome-sandbox",
-      "target": "electron/chrome-sandbox",
-      "group": "electron",
-      "bytes": 15232,
-      "sha256": "a4f6dfd7325ddd55f94ddc0c487d22726d40ef099ded6475d5dffe236e277896"
-    },
-    {
-      "root": "electron",
-      "source": "locales/ca.pak",
-      "target": "electron/locales/ca.pak",
-      "group": "electron",
-      "bytes": 129791,
-      "sha256": "3f86be184e95323c14604836b8eaf8935fc24f9cd2308cb207be26c318d8f287"
-    },
-    {
-      "root": "electron",
-      "source": "libvulkan.so.1",
-      "target": "electron/libvulkan.so.1",
-      "group": "electron",
-      "bytes": 2483336,
-      "sha256": "951c832a600fd72fc0eff1a42b8e251e81ea200a62499e74c86d4aeb3646aa34"
-    },
-    {
-      "root": "electron",
-      "source": "locales/am.pak",
-      "target": "electron/locales/am.pak",
-      "group": "electron",
-      "bytes": 186176,
-      "sha256": "28545e9a72220ddca39f7d7b36eacb3b661a3cc40d212b7e56be21d90f5ee71b"
-    },
-    {
-      "root": "electron",
-      "source": "chrome_crashpad_handler",
-      "target": "electron/chrome_crashpad_handler",
-      "group": "electron",
-      "bytes": 1918544,
-      "sha256": "3e9742b8edaef6779c48e0966b9f433db39e59ee148854312b5a5c8612100a04"
-    },
-    {
-      "root": "electron",
-      "source": "locales/tr.pak",
-      "target": "electron/locales/tr.pak",
-      "group": "electron",
-      "bytes": 125317,
-      "sha256": "f690918f136d8c5bad9853c358670e60475999d0faafb36d36001c4fa7ec4f8b"
-    },
-    {
-      "root": "electron",
-      "source": "locales/hu.pak",
-      "target": "electron/locales/hu.pak",
-      "group": "electron",
-      "bytes": 137413,
-      "sha256": "d6add186bc8bd342ef5d35cba5261c8c847ecb529697b7c003016435997c9fdc"
-    },
-    {
-      "root": "electron",
-      "source": "locales/es-419.pak",
-      "target": "electron/locales/es-419.pak",
-      "group": "electron",
-      "bytes": 128677,
-      "sha256": "aaacff94a6407a7d487a455889a544f6107107cccb82393a27e9bf593d1b943d"
-    },
-    {
-      "root": "electron",
-      "source": "locales/fr.pak",
-      "target": "electron/locales/fr.pak",
-      "group": "electron",
-      "bytes": 136129,
-      "sha256": "95b11fc7368d9f4367534e89456cceda009468abe2423821a11fe1dd1a7b4604"
-    },
-    {
-      "root": "electron",
-      "source": "locales/uk.pak",
-      "target": "electron/locales/uk.pak",
-      "group": "electron",
-      "bytes": 209472,
-      "sha256": "26ddf342bb13d674df20162ff1a955edc56e6ffc64bc846953e7b2be8827fe80"
-    },
-    {
-      "root": "electron",
-      "source": "locales/et.pak",
-      "target": "electron/locales/et.pak",
-      "group": "electron",
-      "bytes": 116201,
-      "sha256": "41f78768a3ef702356653ab005522a20407e0dbbe7b0ea323683072520f11191"
-    },
-    {
-      "root": "electron",
-      "source": "v8_context_snapshot.bin",
-      "target": "electron/v8_context_snapshot.bin",
-      "group": "electron",
-      "bytes": 742200,
-      "sha256": "f7ce43b3433a5c36621b09b24fb1b49823dcad925c089ebe60f09aa780941aa1"
-    },
-    {
-      "root": "electron",
-      "source": "libvk_swiftshader.so",
-      "target": "electron/libvk_swiftshader.so",
-      "group": "electron",
-      "bytes": 4657864,
-      "sha256": "f473264f0013f07345b5bb258dd12f10b461a291c578f32b7466c9000b662707"
-    },
-    {
-      "root": "electron",
-      "source": "locales/pt-PT.pak",
-      "target": "electron/locales/pt-PT.pak",
-      "group": "electron",
-      "bytes": 127702,
-      "sha256": "540b4f6c0d58d8f0315a8e4fbee49e41b6fbfe2b9c2065b8f28b069619c132ba"
     },
     {
       "root": "guidance",
@@ -1648,172 +1792,36 @@
       "sha256": "923dab8640da8804c445418b6e2efe4b395665bdb9d4cfc84f6a244ed0fb156b"
     },
     {
-      "root": "inputs",
-      "source": "source/ffmpeg-9.0.2/COPYING.GPLv2",
-      "target": "electron/notices/ffmpeg/COPYING.GPLv2",
-      "group": "notice",
-      "bytes": 18092,
-      "sha256": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643"
+      "root": "electron",
+      "source": "snapshot_blob.bin",
+      "target": "electron/snapshot_blob.bin",
+      "group": "electron",
+      "bytes": 368768,
+      "sha256": "318358a565b6799c7cd42f4647a68d07c326aea80171d5b451af8f14d1bc345f"
     },
     {
-      "root": "inputs",
-      "source": "source/ffmpeg-9.0.2/COPYING.GPLv3",
-      "target": "electron/notices/ffmpeg/COPYING.GPLv3",
-      "group": "notice",
-      "bytes": 35147,
-      "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+      "root": "electron",
+      "source": "v8_context_snapshot.bin",
+      "target": "electron/v8_context_snapshot.bin",
+      "group": "electron",
+      "bytes": 742200,
+      "sha256": "f7ce43b3433a5c36621b09b24fb1b49823dcad925c089ebe60f09aa780941aa1"
     },
     {
-      "root": "inputs",
-      "source": "source/ffmpeg-9.0.2/COPYING.LGPLv2.1",
-      "target": "electron/notices/ffmpeg/COPYING.LGPLv2.1",
-      "group": "notice",
-      "bytes": 26517,
-      "sha256": "246041b6ecf9bc32d718a62c57877c78b5eb397b6467e74ed7ae2626ab189c30"
+      "root": "electron",
+      "source": "version",
+      "target": "electron/version",
+      "group": "electron",
+      "bytes": 6,
+      "sha256": "3e1e0322d949de3be7e5b9883a0c8014660aafa67e417a7d86b281e9733829a1"
     },
     {
-      "root": "inputs",
-      "source": "source/ffmpeg-9.0.2/COPYING.LGPLv3",
-      "target": "electron/notices/ffmpeg/COPYING.LGPLv3",
-      "group": "notice",
-      "bytes": 7651,
-      "sha256": "da7eabb7bafdf7d3ae5e9f223aa5bdc1eece45ac569dc21b3b037520b4464768"
-    },
-    {
-      "root": "inputs",
-      "source": "source/ffmpeg-9.0.2/LICENSE.md",
-      "target": "electron/notices/ffmpeg/LICENSE.md",
-      "group": "notice",
-      "bytes": 4346,
-      "sha256": "2e1d16c72fd74e12063776371da757322f8b77589386532f4fd8634bde7de1af"
-    },
-    {
-      "root": "inputs",
-      "source": "codec-sysroot/usr/share/doc/libx264-dev/copyright",
-      "target": "electron/notices/codec-development/libx264-dev-copyright",
-      "group": "notice",
-      "bytes": 7690,
-      "sha256": "b8b4d68a602bf580d47237c3119e52ac7a70121de39fb365ca28a63b3a200655"
-    },
-    {
-      "root": "inputs",
-      "source": "codec-sysroot/usr/share/doc/libx265-dev/copyright",
-      "target": "electron/notices/codec-development/libx265-dev-copyright",
-      "group": "notice",
-      "bytes": 4551,
-      "sha256": "ac2859168010138bce5a5a16a1c2442570ed236121352c34c1a710005b727eb5"
-    },
-    {
-      "root": "inputs",
-      "source": "codec-sysroot/usr/share/doc/libnuma-dev/copyright",
-      "target": "electron/notices/codec-development/libnuma-dev-copyright",
-      "group": "notice",
-      "bytes": 1357,
-      "sha256": "179c34f5e56cd0b6b73dd7970a97357ee784e2236e8293826656c7ebb3bface7"
-    },
-    {
-      "root": "inputs",
-      "source": "codec-sysroot/usr/share/doc/libdav1d-dev/copyright",
-      "target": "electron/notices/codec-development/libdav1d-dev-copyright",
-      "group": "notice",
-      "bytes": 9722,
-      "sha256": "38aaebbbf5ab0c19a5d4029acb5ce6566f8bd95e07eff6f6472753f5bea83d97"
-    },
-    {
-      "root": "inputs",
-      "source": "codec-sysroot/usr/share/doc/libsvtav1enc-dev/copyright",
-      "target": "electron/notices/codec-development/libsvtav1enc-dev-copyright",
-      "group": "notice",
-      "bytes": 14574,
-      "sha256": "66433ce51ad1f83c561940a0af5f78e45a1beee67e5cc5087c1f0c5d2736e1e4"
-    },
-    {
-      "root": "hostDocs",
-      "source": "libc6/copyright",
-      "target": "electron/notices/host-dependencies/libc6-copyright",
-      "group": "notice",
-      "bytes": 51200,
-      "sha256": "f5788886720a2605a946e81d571e6c8162b09f58d2e2ceb8d36e5768fccd850d"
-    },
-    {
-      "root": "hostDocs",
-      "source": "gcc-14-base/copyright",
-      "target": "electron/notices/host-dependencies/libgcc-s1-copyright",
-      "group": "notice",
-      "bytes": 69004,
-      "sha256": "20390f8a6f3b1e4d7cb45dd8652dabb259bbef688cbad839bcdb0b9ba7252f79"
-    },
-    {
-      "root": "hostDocs",
-      "source": "gcc-14-base/copyright",
-      "target": "electron/notices/host-dependencies/libstdc++6-copyright",
-      "group": "notice",
-      "bytes": 69004,
-      "sha256": "20390f8a6f3b1e4d7cb45dd8652dabb259bbef688cbad839bcdb0b9ba7252f79"
-    },
-    {
-      "root": "hostDocs",
-      "source": "libdav1d7/copyright",
-      "target": "electron/notices/host-dependencies/libdav1d7-copyright",
-      "group": "notice",
-      "bytes": 9722,
-      "sha256": "38aaebbbf5ab0c19a5d4029acb5ce6566f8bd95e07eff6f6472753f5bea83d97"
-    },
-    {
-      "root": "hostDocs",
-      "source": "libsvtav1enc2/copyright",
-      "target": "electron/notices/host-dependencies/libsvtav1enc2-copyright",
-      "group": "notice",
-      "bytes": 14574,
-      "sha256": "66433ce51ad1f83c561940a0af5f78e45a1beee67e5cc5087c1f0c5d2736e1e4"
-    },
-    {
-      "root": "guidance",
-      "source": "runtime-requalification-inputs-20261117/INPUT_ACQUISITION_RECEIPT.json",
-      "target": "electron/provenance/runtime-requalification-inputs-20261117--INPUT_ACQUISITION_RECEIPT.json",
-      "group": "provenance",
-      "bytes": 9679,
-      "sha256": "cf1ac0f19337e50d240dbae220239f65a9a059a800f9bdb2be67787da8458d62"
-    },
-    {
-      "root": "guidance",
-      "source": "runtime-requalification-inputs-20261117/extraction-result.json",
-      "target": "electron/provenance/runtime-requalification-inputs-20261117--extraction-result.json",
-      "group": "provenance",
-      "bytes": 927,
-      "sha256": "b0e646464e24ecc5a12721aa8feafa55d4c33940ad9500ed4f26229eb0872a12"
-    },
-    {
-      "root": "guidance",
-      "source": "runtime-candidate-build-20261117/BUILD_RECEIPT.json",
-      "target": "electron/provenance/runtime-candidate-build-20261117--BUILD_RECEIPT.json",
-      "group": "provenance",
-      "bytes": 15228,
-      "sha256": "823f1ab2427a5b26b2ae3af1c9c78f2c7af7533ede82d866e01167fc6f805eca"
-    },
-    {
-      "root": "guidance",
-      "source": "runtime-candidate-build-20261117/BUILD_PLAN_002.json",
-      "target": "electron/provenance/runtime-candidate-build-20261117--BUILD_PLAN_002.json",
-      "group": "provenance",
-      "bytes": 7334,
-      "sha256": "79f0e9cf81b648c32e9872e98bba7f10a5e774ce9e3e82e2c1d1aa282ce0c9ab"
-    },
-    {
-      "root": "guidance",
-      "source": "electron-44.7.0-setup/verification.json",
-      "target": "electron/provenance/electron-44.7.0-setup--verification.json",
-      "group": "provenance",
-      "bytes": 13098,
-      "sha256": "56eabc423cca0cb41e89257dc275e7b6d803c7d5fc8f4260be4c729c3c28b58f"
-    },
-    {
-      "root": "source",
-      "source": "linux-blue/workbench-long-range-calibration.cjs",
-      "target": "electron/resources/app/linux-blue/workbench-long-range-calibration.cjs",
-      "group": "application",
-      "bytes": 33462,
-      "sha256": "ee8d48e294f098ed9f47e7b6e1e75edd5a4661d460ee6b00bb2a375010692afc"
+      "root": "electron",
+      "source": "vk_swiftshader_icd.json",
+      "target": "electron/vk_swiftshader_icd.json",
+      "group": "electron",
+      "bytes": 107,
+      "sha256": "c9eef28b6b984fec220ef0abfecc40b502d46946706e47bfe97707027cb818bd"
     }
   ]
 }

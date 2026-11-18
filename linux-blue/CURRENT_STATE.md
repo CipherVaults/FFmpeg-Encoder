@@ -1,14 +1,10 @@
-# Current state — checkpoint 069 prepared
+# Current state — checkpoint 070 prepared
 
-Final cutoff: November 18, 2026 at 21:25:48.155624 UTC; original code/test cutoff remains 21:24:30.101467 UTC.
+Cutoff: November 18, 2026 at 21:51:35 UTC.
 
-- **Preserved base:** 068 local `d6260eeeec3265380ddbbcc237e5ce5999d1c0d8`, remote `5885305e1eab44a32323e7b52bedc7b383a90f18`, 752 files and 68 commits verified through Git → Notion → GitHub.
-- **Actual hosted 068:** both platforms passed 211 syntax and 243 shared checks; Linux additionally passed 32. Windows package stopped at event-read / ERR_ASSERTION before authority, source or capacity checks. npm, build and report upload were skipped; no artifact.
-- **Cause and accepted fix:** the caller requested a 2 MiB maximum while the shared safe reader asserts at most 1 MiB before opening. The actual-reader regression proves this contract defect, not an oversized hosted event. Three reviewed paths use a fixed supported helper and bind one ordinary successor push; the shared reader and safeguards are unchanged.
-- **Final checks:** 24 focused tests passed, zero failures/skips; both changed syntax checks passed; all 132 Linux package source rows unchanged. No fresh broad CI or native run.
-- **Release-input work:** signed Debian archive metadata authenticates the exact x264/x265/numactl source descriptors and archive references. Maintainer signatures and exact binary buildinfo linkage remain unresolved. All six inert source tarballs are now acquired and read-back verified against authenticated sizes/hashes, totaling 2,332,490 bytes. No extraction, installation, code execution, repin, key import or distribution clearance follows.
-The raw tarballs remain local only; this checkpoint records their recoverable public URL/hash/size inventory, not the archive bytes. The tarballs are not included in its Git, Notion or GitHub source/history archives.
-
-- **Next:** review/apply four records, commit the seven-path scope and verify Notion then GitHub; observe the admitted Windows successor. Native input cancellation remains unproven; no new media publication, GPU, portability, public distribution or v0.7 release acceptance.
-
-See `2026-11-18_Windows_Event_Reader_and_Release_Source_Metadata.md` and its companion receipt. Preserve complete Session history.
+- **Preserved 069:** local `92ddb521acdc81d43a16fc444e33078d5e3a80bc`, remote `d71d50cb83660246ea77ed4f1837af18f4426e58`; 754 files / 69 commits and native records verified.
+- **Actual old-artifact native success:** unchanged packaged 067 registered both folders, then a separately bounded attempt published and revealed one precision-FLAC range. Saved evidence: 246 video frames, 393,984 samples, exact selected PCM hash equality; one 1,624,941-byte output. Exit zero; 19 sampled identities, not an exhaustive census. No new 070 bytes or Full-copy native acceptance are implied.
+- **070 source accepted:** seven Full-copy composition paths, two exact package-plan/test paths and five constrained Windows archive paths. 116 product pins; package plan 226 inputs / 133 app members / 391,360,593 bytes. Original measured producers/runtime inputs and production defaults remain unchanged. No new actual package built.
+- **Checks:** 69 focused passed, zero failures/skips. Full local CI: 211 syntax, 243 shared and 37 Linux tests passed. These are distinct from hosted 069: 211 / 243 both OS plus 32 Linux.
+- **Windows actual 069:** preflight/install passed, listing failed ERR_ZIP_ATTRIBUTES; sanitized report artifact verified. Exact vendor ZIP inspection supports a context-only successor, not a generic policy relaxation or completed Windows package. Actual successor unrun.
+- **Next:** review four records, commit coherent scope and verify Notion then GitHub; observe hosted successor; separately release exact new package and Full-copy native proof. No GPU, broad portability, distribution or v0.7 release acceptance. Raw profiles/media/source tarballs remain local artifacts, not checkpoint archive payloads.

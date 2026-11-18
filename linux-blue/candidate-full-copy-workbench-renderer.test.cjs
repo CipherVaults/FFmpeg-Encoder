@@ -154,3 +154,24 @@ test('candidate cancellation stays visibly closed across newer late callbacks an
   assert.match(h.byId('activity-message').textContent, /Close and relaunch/);
   h.update({ revision: 9, phase: 'idle', items: [], counts: {} }); assert.equal(h.byId('prepare-batch').disabled, true);
 });
+
+test('two-family product metadata preserves explicit Full-copy IPC and unavailable remux', async () => {
+  const draft = new OperationDraft({ operation: 'encode', appDefaults: defaults().defaults, appDefaultsRevision: 4 });
+  draft.addSources([{ fileId: '11345678-1234-4234-8234-123456789abc', identityRevision: 0 }]); let revision = 10;
+  const snapshot = status => ({ revision: ++revision, phase: 'ready', batchId: 'batch', planId: 'plan', settings: { profileId: 'h265-cpu', preset: 'slow', quality: 25 },
+    developerProduct: info, operationDraft: draft.snapshot(), counts: {}, items: [{ id: '11345678-1234-4234-8234-123456789abc', name: 'source.mov', outputName: 'output.mkv', status, summary: { durationSeconds: 8 }, reason: status === 'unsupported' ? 'Inspection only: choose Full720Copy.' : '' }] });
+  const h = await harness({ updateFileOperations: async request => {
+    request = plain(request); assert.equal(request.planId, 'plan'); const { planId, ...change } = request; draft.patchFiles(change); return snapshot('ready');
+  } });
+  h.update(snapshot('unsupported'));
+  const row = h.byId('batch-items').children[0], control = name => row.querySelector(`[data-testid="file-operation-${name}"]`);
+  assert.equal(row.querySelector('[data-testid="encode-file"]').disabled, true); assert.equal(h.byId('start-batch').disabled, true);
+  assert.equal(control('mode').disabled, false);
+  control('mode').value = 'full'; await control('mode').emit('change');
+  control('resolution').value = '720'; await control('resolution').emit('change');
+  control('audioPolicy').value = 'copy'; await control('audioPolicy').emit('change');
+  await row.querySelector('form').emit('submit');
+  const sent = h.calls.find(c => c.name === 'updateFileOperations'); assert.ok(sent);
+  assert.equal(sent.args[0].overrides.range, null); assert.equal(sent.args[0].overrides.audioPolicy, 'copy'); assert.equal(sent.args[0].overrides.resolution, '720');
+  assert.equal(h.byId('prepare-remux').disabled, true); assert.match(h.byId('activity-message').textContent, /native threading unqualified/);
+});

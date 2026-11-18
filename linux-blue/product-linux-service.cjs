@@ -10,7 +10,7 @@ const { ClockQualifiedFamilySelector, clockGuardedRunner } = require('./workbenc
 const { OperationRuntimeObserver } = require('../src/operation-runtime.cjs');
 const { openEvidenceStorage } = require('../src/operation-storage.cjs');
 const { failedVendorCapabilities } = require('../src/vendor-capabilities.cjs');
-const { RESIZE_1440_FAMILY_ID: FAMILY_ID, RESIZE_1440_RESOURCE_POLICY: RESOURCE_POLICY, deriveCfrResize1440FlacResources } = require('../src/operation-resource-budget.cjs');
+const { RESIZE_1440_FAMILY_ID: FAMILY_ID, RESIZE_1440_RESOURCE_POLICY: RESOURCE_POLICY, FULL_COPY_FAMILY_ID, FULL_COPY_RESOURCE_POLICY } = require('../src/operation-resource-budget.cjs');
 const RUNTIME_ID = '1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9';
 const { loadQualification, verifyProductSources } = require('./product-linux-qualification.cjs');
 const SETTINGS = Object.freeze({ profileId: 'h265-cpu', preset: 'slow', quality: 25 });
@@ -65,6 +65,15 @@ function loaderGuard() {
   need(process.platform === 'linux' && process.arch === 'x64', 'Only the inspected Linux x64 candidate is admitted.');
   need(!process.env.NODE_OPTIONS && !Object.keys(process.env).some(k => k.startsWith('LD_') && process.env[k]), 'Loader overrides are not admitted.');
 }
+// The two existing families independently match the explicit request and source.
+// Do not silently fall back to the ordinary compatibility encode path.
+class ProductFamilySelector extends ClockQualifiedFamilySelector {
+  select(options) {
+    const token = super.select(options);
+    need(token !== null, 'Choose an explicitly qualified product family; compatibility fallback is unavailable.');
+    return token;
+  }
+}
 class OwnedCandidateService extends CandidateTrimService {
   #candidate;
   constructor(options, candidate, workbenchMode) { super(options); this.#candidate = candidate; this.workbenchMode = workbenchMode; }
@@ -75,14 +84,14 @@ class OwnedCandidateService extends CandidateTrimService {
         const entry = this.plan?.entries?.get(item.id);
         if (!entry?.qualificationSelection || !entry.operationRuntimeToken || !entry.operationPlan?.instrumentation || entry.operationPlan.compatibilityPath) {
           this.plan?.entries?.delete(item.id);
-          item.status = 'unsupported'; item.reasonCode = 'CANDIDATE_RANGE_REQUIRED';
-          item.reason = 'Inspection only: choose a per-file range, 720p and precision FLAC, then Apply. Full is not qualified in this developer preview.';
+          item.status = 'unsupported'; item.reasonCode = 'CANDIDATE_PRODUCT_FAMILY_REQUIRED';
+          item.reason = 'Inspection only: explicitly choose either a 1440p range with precision FLAC or a whole 1080p file with Copy audio, both at 720p, then Apply. Other combinations are not qualified.';
         }
       }
     }
     const snapshot = super.snapshot();
-    if (this.workbenchMode) snapshot.developerResize = { enabled: true, relaunchRequired: this.admissionClosed,
-      notice: 'Experimental 1440p30-to-720p range only · H265 CPU slow / CRF 25 · precision FLAC. Full, Keep source, other resize routes and Remux unavailable. CPU topology/thread-pool warnings remain; native threading/performance is not qualified.',
+    if (this.workbenchMode) snapshot.developerProduct = { enabled: true, relaunchRequired: this.admissionClosed,
+      notice: 'Experimental two-family candidate: 1440p30 range → 720p with precision FLAC; or whole 1080p30 file → 720p with copied AAC. Explicit per-file choices required. H265 CPU slow / CRF 25 only. Keep source, other combinations and Remux unavailable. Relocated Full-copy publication is not yet verified. CPU topology/thread-pool warnings remain; native threading/performance is not qualified.',
       relaunchNotice: 'This developer session is closed to new work. Close and relaunch to obtain a new verified runtime; same-session retry is unavailable.' };
     return snapshot;
   }
@@ -128,9 +137,13 @@ async function createLinuxProductService(options) {
       pins: Object.fromEntries(Object.entries(candidate.pins).map(([k, v]) => [k, { sizeBytes: v.size, sha256: v.sha256 }])), run,
     });
     const { qualification, timingQualification } = report.family;
-    const selector = new ClockQualifiedFamilySelector({ policyIdentity: 'candidate-range1440to720-normal-service-fe58dd0', families: [{
+    const selector = new ProductFamilySelector({ policyIdentity: 'product-range1440-and-full1080-copy-candidate', families: [{
       id: FAMILY_ID, resourcePolicy: RESOURCE_POLICY, runtimeIdentity: RUNTIME_ID, environment: null, settings: SETTINGS,
       qualification, timingQualification, evidenceIds: report.family.evidenceIds,
+    }, {
+      id: FULL_COPY_FAMILY_ID, resourcePolicy: FULL_COPY_RESOURCE_POLICY, runtimeIdentity: RUNTIME_ID, environment: null, settings: SETTINGS,
+      qualification: report.fullCopy.family.qualification, timingQualification: report.fullCopy.family.timingQualification,
+      evidenceIds: report.fullCopy.family.evidenceIds,
     }] });
     return new OwnedCandidateService({ ffmpeg: candidate.pins.ffmpeg.path, ffprobe: candidate.pins.ffprobe.path,
       runtimeIdentity: RUNTIME_ID, stateDir, outputAccess, run, inspectionWorkers: 1, operationRuntime: observer, operationQualifications: selector,

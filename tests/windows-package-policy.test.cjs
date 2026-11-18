@@ -28,7 +28,7 @@ test('final startup validation runs after versions and preserves final-checks fa
 
 test('bound authority admits only exact ordinary successor push',()=>{
   const env={GITHUB_ACTIONS:'true',GITHUB_REPOSITORY:'CipherVaults/FFmpeg-Encoder-Blue-Linux',GITHUB_REF:'refs/heads/blue/linux-development',GITHUB_EVENT_NAME:'push',GITHUB_SHA:'a'.repeat(40),GITHUB_RUN_ID:'123',GITHUB_RUN_ATTEMPT:'1'};
-  const event={before:'5885305e1eab44a32323e7b52bedc7b383a90f18',after:env.GITHUB_SHA,forced:false,created:false,deleted:false};
+  const event={before:'d71d50cb83660246ea77ed4f1837af18f4426e58',after:env.GITHUB_SHA,forced:false,created:false,deleted:false};
   assert.deepEqual(hosted.authority(env,event),{head:env.GITHUB_SHA,runId:'123',attempt:'1'});
   for(const change of [{GITHUB_ACTIONS:'false'},{GITHUB_REPOSITORY:'other/repo'},{GITHUB_REF:'refs/heads/main'},{GITHUB_EVENT_NAME:'workflow_dispatch'},{GITHUB_RUN_ATTEMPT:'2'},{GITHUB_SHA:'bad'},{GITHUB_RUN_ID:'private'}])assert.throws(()=>hosted.authority({...env,...change},event));
   for(const change of [{before:'b'.repeat(40)},{after:'b'.repeat(40)},{forced:true},{created:true},{deleted:true}])assert.throws(()=>hosted.authority(env,{...event,...change}));
@@ -62,7 +62,7 @@ test('capacity evidence requires bounded bigint measurement; failure preserves m
 });
 test('workflow and source bind only next ordinary push without changing job scope',async()=>{
   const workflow=await fs.readFile(path.join(__dirname,'../.github/workflows/windows-package.yml'),'utf8');
-  assert(workflow.includes("github.event.before == '5885305e1eab44a32323e7b52bedc7b383a90f18'"));
+  assert(workflow.includes("github.event.before == 'd71d50cb83660246ea77ed4f1837af18f4426e58'"));
   assert(!workflow.includes('workflow_dispatch'));assert(workflow.includes('github.run_attempt == 1'));
   const source=await fs.readFile(path.join(__dirname,'../scripts/windows-hosted-package-check.cjs'),'utf8');
   for(const phase of ['event-read','event-authority','source-head','source-clean','platform','environment','source-path','staging-path','same-volume','fixed-drive-process','fixed-drive-type','capacity-stat','capacity-floor'])assert(source.includes("step('"+phase+"'"));
@@ -73,7 +73,7 @@ test('workflow and source bind only next ordinary push without changing job scop
 test('real event reader accepts small ordinary JSON through exact main helper',async()=>{
   const dir=await fs.mkdtemp(path.join(os.tmpdir(),'hosted-event-'));
   try{
-    const file=path.join(dir,'event.json');const event={before:'5885305e1eab44a32323e7b52bedc7b383a90f18',after:'a'.repeat(40),forced:false,created:false,deleted:false};
+    const file=path.join(dir,'event.json');const event={before:'d71d50cb83660246ea77ed4f1837af18f4426e58',after:'a'.repeat(40),forced:false,created:false,deleted:false};
     await fs.writeFile(file,JSON.stringify(event),{flag:'wx'});
     const {readBoundedJson}=require('../src/candidate-runtime.cjs');
     // The former caller fails unconditionally at argument validation, even for valid small input.
@@ -97,4 +97,33 @@ test('real event reader keeps size, syntax and ordinary-file refusals',async()=>
     const hard=path.join(dir,'hard');await fs.link(file,hard);await assert.rejects(hosted.readHostedEvent(file),{code:'ERR_ASSERTION'});
     await assert.rejects(hosted.readHostedEvent(dir),{code:'ERR_ASSERTION'});
   }finally{await fs.rm(dir,{recursive:true,force:true});}
+});
+
+const {inspectPinnedElectronListing}=require('../scripts/windows-package-policy.cjs');
+const pinnedElectron={sha256:'eee30dc8fa1f5ea95490e59f44e46ea68dd24c6e93d22facf70fe5c2d4c2665c',sizeBytes:158293649};
+const actualElectronListing=()=>fs.readFile(path.join(__dirname,'fixtures/electron-44.7.0-win32-x64-listing.txt'),'utf8');
+test('actual hash-verified Electron listing uses only closed pinned context and exact implied directories',async()=>{
+ const text=await actualElectronListing();
+ assert.throws(()=>inspectElectronListing(text),{code:'ERR_ZIP_ATTRIBUTES'});
+ const result=inspectPinnedElectronListing(text,pinnedElectron);
+ assert.equal(result.expandedBytes,385514847n);
+ assert.equal(result.entries.filter(x=>!x.directory).length,73);
+ assert.deepEqual(result.entries.filter(x=>x.directory).map(x=>x.name).sort(),['locales','resources']);
+ assert.equal(result.entries.length,75);
+ for(const archive of [null,{...pinnedElectron,sha256:'0'.repeat(64)},{...pinnedElectron,sizeBytes:1}])assert.throws(()=>inspectPinnedElectronListing(text,archive),{code:'ERR_ZIP_PINNED_CONTEXT'});
+});
+test('pinned listing rejects altered types,attributes,hosts,paths,counts and encryption',async()=>{
+ const text=await actualElectronListing();
+ for(const replacement of ['A','D','L','R','XU 81A40001','XU A1FF0000','vXPUM 81A40000','lrwxrwxrwx','XU 81A40000 extra'])
+  assert.throws(()=>inspectPinnedElectronListing(text.replace('Attributes = XU 81A40000','Attributes = '+replacement),pinnedElectron));
+ for(const changed of [text.replace('Host OS = FAT','Host OS = Unix'),text.replace('Folder = -','Folder = +'),text.replace('Encrypted = -','Encrypted = +'),text.replace('Path = resources.pak','Path = ../resources.pak'),text.replace('Path = resources.pak','Path = foreign.pak'),text.replace('Size = 12436174','Size = 12436175'),text+'\n\n'+row('foreign'),text.split(/\n\n/).slice(1).join('\n\n')])
+  assert.throws(()=>inspectPinnedElectronListing(changed,pinnedElectron));
+ // Nothing unusual is admitted for generic output-package listings.
+ for(const attr of ['XU 81A40000','vXPUM 81A40000','lrwxrwxrwx','L'])assert.throws(()=>inspectElectronListing(row('output.exe',1,attr),[]));
+});
+test('only verified Electron acquisition opts into pinned parser; built ZIP stays generic',async()=>{
+ const source=await fs.readFile(path.join(__dirname,'../scripts/windows-hosted-package-check.cjs'),'utf8');
+ assert(source.includes('inspectPinnedElectronListing(listing.stdout,manifest.electron.archive)'));
+ assert(source.includes('await verifyPinnedFile(electronArchive,manifest.electron.archive);\n  const inspected=inspectPinnedElectronListing'));
+ assert(source.includes('inspectElectronListing(zipListing.stdout,[])'));
 });

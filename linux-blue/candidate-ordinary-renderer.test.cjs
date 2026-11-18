@@ -173,3 +173,15 @@ test('resize selector control appears only when main advertises the finite route
   assert.equal(h.calls.filter(c=>['prepareBatch','startBatch'].includes(c.name)).length,0);
  }
 });
+
+test('1440 precision range selector control appears only when main advertises the finite route',async()=>{
+ for(const available of [false,true]){
+  const h=await harness({getWorkbenchSession:async()=>({enabled:true,replaceClosed:true,selected:'ordinary',resizeRange1440Available:available}),selectWorkbenchSession:async()=>({})});
+  const button=h.document.body.querySelectorAll('button').find(b=>b.textContent==='Experimental precise 1440p to 720p range / FLAC');
+  assert.equal(Boolean(button),available);if(!available)continue;
+  h.update({revision:10,phase:'running',items:[],counts:{},developerOrdinary:info});assert.equal(button.disabled,true);
+  h.update({revision:11,phase:'idle',items:[],counts:{},developerOrdinary:info});assert.equal(button.disabled,false);await button.click();
+  assert.deepEqual(h.calls.filter(c=>c.name==='selectWorkbenchSession').map(c=>c.args),[['resize-range1440']]);
+  assert.equal(h.calls.filter(c=>['prepareBatch','startBatch'].includes(c.name)).length,0);
+ }
+});

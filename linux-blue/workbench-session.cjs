@@ -2,14 +2,15 @@
 const fail = (code, message) => Object.assign(new Error(message), { code });
 // Finite main-owned session types; resize is offered only by explicit candidate composition. No paths, options, fallback or persistence.
 class WorkbenchSession {
-  constructor({ ordinary, fullCopy, resizeRange, createAccess, publish, recoveryOnly = false, replaceClosed = false, verifyDrained = () => {} }) {
+  constructor({ ordinary, fullCopy, resizeRange, resizeRange1440, createAccess, publish, recoveryOnly = false, replaceClosed = false, verifyDrained = () => {} }) {
     this.recoveryOnly = recoveryOnly; this.replaceClosed = replaceClosed; this.verifyDrained = verifyDrained;
     this.factories = { ordinary, 'full-copy': fullCopy };
-    if (!recoveryOnly && replaceClosed && typeof resizeRange === 'function') this.factories['resize-range'] = resizeRange; this.createAccess = createAccess;
+    if (!recoveryOnly && replaceClosed && typeof resizeRange === 'function') this.factories['resize-range'] = resizeRange;
+    if (!recoveryOnly && replaceClosed && typeof resizeRange1440 === 'function') this.factories['resize-range1440'] = resizeRange1440; this.createAccess = createAccess;
     this.publish = publish; this.owner = null; this.transitioning = false; this.closed = false; this.poisoned = false; this.epoch = 0;
   }
   status() { return { enabled: true, selected: this.owner?.kind || null, transitioning: this.transitioning,
-    recoveryOnly: this.recoveryOnly, replaceClosed: this.replaceClosed, resizeRangeAvailable: typeof this.factories['resize-range'] === 'function',
+    recoveryOnly: this.recoveryOnly, replaceClosed: this.replaceClosed, resizeRangeAvailable: typeof this.factories['resize-range'] === 'function', resizeRange1440Available: typeof this.factories['resize-range1440'] === 'function',
     notice: 'Switching resets the workbench window and discards this batch and completed-output access. Candidate inputs must already be restored; no fallback.' }; }
   async retire(owner) {
     if (!owner) return;
@@ -25,7 +26,7 @@ class WorkbenchSession {
   }
   async select(kind) {
     const restart = this.recoveryOnly && kind === 'restart-ordinary';
-    if (!(this.recoveryOnly ? ['ordinary', 'restart-ordinary'] : ['ordinary', 'full-copy', ...(this.status().resizeRangeAvailable ? ['resize-range'] : [])]).includes(kind)) throw fail('INVALID_REQUEST', 'Choose an available explicit workbench session.');
+    if (!(this.recoveryOnly ? ['ordinary', 'restart-ordinary'] : ['ordinary', 'full-copy', ...(this.status().resizeRangeAvailable ? ['resize-range'] : []), ...(this.status().resizeRange1440Available ? ['resize-range1440'] : [])]).includes(kind)) throw fail('INVALID_REQUEST', 'Choose an available explicit workbench session.');
     if (this.poisoned) throw fail('SESSION_CLEANUP_FAILED', 'Cleanup failed; close and relaunch the workbench.');
     if (this.closed) throw fail('SHUTTING_DOWN', 'Workbench session is closed.');
     if (this.transitioning) throw fail('BUSY', 'A session transition is active.');

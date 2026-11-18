@@ -17,6 +17,7 @@ const createService = runtimeChoice === 'baseline' ? createWorkbenchService
   : runtimeChoice === '9.0.2-ordinary-candidate' ? require('./candidate-ordinary-service.cjs').createCandidateOrdinaryService
   : runtimeChoice === '9.0.2-keep720-candidate' ? require('./candidate-workbench.cjs').createCandidateWorkbench
   : runtimeChoice === '9.0.2-full-copy-candidate' ? require('./candidate-full-copy-workbench.cjs').createCandidateFullCopyWorkbench
+  : runtimeChoice === '9.0.2-resize1440-candidate' ? require('./candidate-resize1440-workbench.cjs').createCandidateResize1440Workbench
   : runtimeChoice === '9.0.2-resize-candidate' ? require('./candidate-resize-workbench.cjs').createCandidateResizeWorkbench
     : require('./workbench-av1-service.cjs').create1440QualifiedAv1WorkbenchService;
 const { AppearanceSettings } = require('../src/appearance.cjs');
@@ -31,7 +32,7 @@ protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: {
 } }]);
 const root = path.resolve(__dirname, '..');
 const stateDir = runtimeChoice === 'baseline' ? path.join(__dirname, 'artifacts', 'workbench-preview')
-  : path.join(__dirname, 'artifacts', runtimeChoice === '9.0.2-ordinary-candidate' ? 'workbench-ordinary-candidate-preview' : runtimeChoice === '9.0.2-keep720-candidate' ? 'workbench-keep720-candidate-preview' : runtimeChoice === '9.0.2-resize-candidate' ? 'workbench-resize-candidate-preview' : runtimeChoice === '9.0.2-full-copy-candidate' ? 'workbench-full-copy-candidate-preview' : 'workbench-av1-preview');
+  : path.join(__dirname, 'artifacts', runtimeChoice === '9.0.2-ordinary-candidate' ? 'workbench-ordinary-candidate-preview' : runtimeChoice === '9.0.2-keep720-candidate' ? 'workbench-keep720-candidate-preview' : runtimeChoice === '9.0.2-resize1440-candidate' ? 'workbench-resize1440-candidate-preview' : runtimeChoice === '9.0.2-resize-candidate' ? 'workbench-resize-candidate-preview' : runtimeChoice === '9.0.2-full-copy-candidate' ? 'workbench-full-copy-candidate-preview' : 'workbench-av1-preview');
 mkdirSync(stateDir, { recursive: true, mode: 0o700 });
 for (const [name, child] of [['userData', 'electron-state'], ['sessionData', 'electron-session']]) {
   const directory = path.join(stateDir, child);
@@ -42,6 +43,7 @@ let title = 'FFmpeg Encoder · Linux CPU preview · Full SDR · 30-minute encode
 if (runtimeChoice === '9.0.2-ordinary-candidate') title = 'FFmpeg Encoder · Experimental ordinary FFmpeg 9.0.2 CPU · Full / Keep source / copied audio · New session after cancellation · 30-minute encode limit';
 else if (runtimeChoice === '9.0.2-keep720-candidate') title = 'FFmpeg Encoder · Experimental Keep720 range · CPU slow25 / precision FLAC · Cancel requires relaunch · native threading unqualified';
 else if (runtimeChoice === '9.0.2-resize-candidate') title = 'FFmpeg Encoder · Experimental 1080p30 to 720p resize range · CPU slow25 / precision FLAC · Cancel requires relaunch · native threading unqualified';
+else if (runtimeChoice === '9.0.2-resize1440-candidate') title = 'FFmpeg Encoder · Experimental 1440p30 to 720p resize range · CPU slow / CRF 25 · precision FLAC · Cancel requires relaunch · native threading unqualified';
 else if (runtimeChoice === '9.0.2-full-copy-candidate') title = 'FFmpeg Encoder · Experimental whole-file 1080p30 to 720p · CPU slow25 / copied AAC · Cancel requires relaunch · native threading unqualified';
 else if (runtimeChoice !== 'baseline') title = 'FFmpeg Encoder · Linux CPU preview · FFmpeg 9.0.2 AV1 · ordinary encode limit 30 minutes';
 if (candidateOrdinary && switchingEnabled) title = 'FFmpeg Encoder · Experimental FFmpeg 9.0.2 · Ordinary / whole-file 720p copied AAC · Explicit session replacement';
@@ -133,6 +135,8 @@ async function launch() {
       verifyDrained() { if (candidateOrdinary && census.live !== 0) throw new Error('An owned media child remains live; no new session can be created.'); },
       resizeRange: candidateOrdinary && switchingEnabled
         ? access => require('./candidate-resize-workbench.cjs').createCandidateResizeWorkbench({ stateDir, outputAccess: access, onChild: trackChild }) : undefined,
+      resizeRange1440: candidateOrdinary && switchingEnabled
+        ? access => require('./candidate-resize1440-workbench.cjs').createCandidateResize1440Workbench({ stateDir, outputAccess: access, onChild: trackChild }) : undefined,
       fullCopy: access => require('./candidate-full-copy-workbench.cjs').createCandidateFullCopyWorkbench({ stateDir, outputAccess: access, onChild: trackChild }),
       createAccess: () => new OutputAccess({ openPath: file => shell.openPath(file), showItemInFolder: file => shell.showItemInFolder(file) }),
       publish: snapshot => { if (!closing && window && !window.isDestroyed()) window.webContents.send('encoder:update', snapshot); },
@@ -199,7 +203,7 @@ async function launch() {
             try { ownedWindow.destroy(); await openWindow(); }
             finally { replacingWindow = false; retiringWindow = null; }
             if (closing) return null;
-            window.setTitle(kind === 'ordinary' || kind === 'restart-ordinary' ? title : kind === 'resize-range' ? 'FFmpeg Encoder · Experimental precise 1080p30 to 720p range / FLAC' : 'FFmpeg Encoder · Experimental whole-file 720p / copied AAC');
+            window.setTitle(kind === 'ordinary' || kind === 'restart-ordinary' ? title : kind === 'resize-range1440' ? 'FFmpeg Encoder · Experimental precise 1440p30 to 720p range / FLAC' : kind === 'resize-range' ? 'FFmpeg Encoder · Experimental precise 1080p30 to 720p range / FLAC' : 'FFmpeg Encoder · Experimental whole-file 720p / copied AAC');
             return sessionOwner.status();
           } catch (error) {
             if (closing && error.code === 'SHUTTING_DOWN') return null;
@@ -238,6 +242,7 @@ async function launch() {
     runtimeChoice, runtimeIdentity: service.runtimeIdentity,
     mode: runtimeChoice === '9.0.2-ordinary-candidate' ? 'developer-ordinary-cpu-full-sdr'
       : runtimeChoice === '9.0.2-keep720-candidate' ? 'developer-keep720-range'
+      : runtimeChoice === '9.0.2-resize1440-candidate' ? 'developer-resize1440-range'
       : runtimeChoice === '9.0.2-resize-candidate' ? 'developer-resize-range'
       : runtimeChoice === '9.0.2-full-copy-candidate' ? 'developer-full-copy'
       : service.linuxQualifiedEncodeStatus?.available ? 'qualified-cpu-sdr' : 'ordinary-cpu-full-sdr',
@@ -258,6 +263,7 @@ else {
     if (runtimeChoice === '9.0.2-ordinary-candidate' && app.isReady()) dialog.showErrorBox('Experimental ordinary 9.0.2 preview unavailable', error.message);
     if (runtimeChoice === '9.0.2-keep720-candidate' && app.isReady()) dialog.showErrorBox('Experimental Keep720 preview unavailable', error.message);
     if (runtimeChoice === '9.0.2-resize-candidate' && app.isReady()) dialog.showErrorBox('Experimental resize preview unavailable', error.message);
+    if (runtimeChoice === '9.0.2-resize1440-candidate' && app.isReady()) dialog.showErrorBox('Experimental 1440 resize preview unavailable', error.message);
     if (runtimeChoice === '9.0.2-full-copy-candidate' && app.isReady()) dialog.showErrorBox('Experimental Full-copy preview unavailable', error.message);
     void close();
   });

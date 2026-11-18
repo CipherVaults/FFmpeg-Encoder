@@ -89,12 +89,12 @@ test('the exact 97 calibration producer hashes match current bytes; this is not 
   const sorted = Object.fromEntries(entries.sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0));
   assert.equal(sha(JSON.stringify(sorted)), 'afc4e814efc16f63bc2952852d1ea4bd2f9e4bef9fdb8a75a074e64c0eb78633');
 });
-test('public factory cannot accept copied handles, getters, paths, digests, arbitrary family options or UI mode', async () => {
+test('public factory cannot accept copied handles, getters, paths, digests, arbitrary family options', async () => {
   const stateDir = '/tmp/unused-fixed-1440'; let reads = 0;
   await assert.rejects(createCandidateResize1440Service({ stateDir, verifiedRuntime: {} }), /privately issued/);
   await assert.rejects(createCandidateResize1440Service(Object.defineProperty({ stateDir }, 'verifiedRuntime', { enumerable:true, get(){ reads++; } })));
   assert.equal(reads, 0);
-  for (const key of ['report', 'reportSha', 'familyId', 'resourcePolicy', 'workbenchMode', 'outputAccess'])
+  for (const key of ['report', 'reportSha', 'familyId', 'resourcePolicy'])
     await assert.rejects(createCandidateResize1440Service({ stateDir, verifiedRuntime: {}, [key]: 'override' }), /Only fixed/);
 });
 
@@ -133,7 +133,7 @@ async function harness({ bytes = Buffer.alloc(SIZE), issue = null, cleanupFails 
   if (actualFS) delete inputs['node:fs/promises'];
   vm.runInThisContext('(function(require,module,exports,__dirname){'+source+'\n})',{ filename:SOURCE })(
     name => Object.hasOwn(inputs,name) ? inputs[name] : requireHere(name), mod, mod.exports, __dirname);
-  return { counts, fake, build:() => mod.exports.createCandidateResize1440Service({verifiedRuntime:fake,stateDir:'/tmp/unused-fixed-1440'}) };
+  return { counts, fake, build:(options={}) => mod.exports.createCandidateResize1440Service({verifiedRuntime:fake,stateDir:'/tmp/unused-fixed-1440',...options}) };
 }
 test('rejects an initially nonregular, multiply-linked or wrong-sized pathname before attempting to open it', async () => {
   for (const issue of ['pre-nonregular', 'pre-hardlink', 'pre-size']) {
@@ -235,3 +235,13 @@ test('original restored at its fixed canonical path: real bounded descriptor rea
     finally { await service.closeOperationResources(); }
     assert.equal(h.counts.current, 2); assert.equal(h.counts.closed, 1); assert.equal(h.counts.calls, 0);
   });
+
+test('workbench options require boolean mode and genuine main-owned OutputAccess before report or child work',async()=>{
+ for(const options of [{workbenchMode:'yes'},{outputAccess:{}},{workbenchMode:true,outputAccess:'path'}]){const h=await harness();await assert.rejects(h.build(options),/Main-owned workbench mode/);assert.equal(h.counts.open,0);assert.equal(h.counts.calls,0);assert.equal(h.counts.closed,1);}
+});
+test('genuine OutputAccess and workbench mode compose over the unchanged 1440 selector with no media calls',{skip:noRaw},async()=>{
+ const {OutputAccess}=require('../src/output-access.cjs');const access=new OutputAccess({openPath:async()=>{throw Error('No player');},showItemInFolder:()=>{throw Error('No reveal');}});
+ const h=await harness({bytes:await fs.readFile(rawPath)}),service=await h.build({workbenchMode:true,outputAccess:access});
+ try{assert.equal(service.workbenchMode,true);assert.match(service.snapshot().developerResize.notice,/1440p30-to-720p/);assert.ok(service.operationQualifications instanceof shared.ClockQualifiedFamilySelector);assert.equal(h.counts.calls,0);}
+ finally{await service.closeOperationResources();}assert.equal(h.counts.closed,1);
+});

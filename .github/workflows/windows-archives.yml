@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   archives:
-    if: ${{ github.repository == 'CipherVaults/FFmpeg-Encoder-Blue-Linux' && github.ref == 'refs/heads/blue/linux-development' && (github.event_name == 'push' && github.event.before == '38c5042039035e429cdb48748eec18d5ea96150f' && github.event.after == github.sha && github.event.forced == false && github.event.created == false && github.event.deleted == false) && github.run_attempt == 1 }}
+    if: ${{ github.repository == 'CipherVaults/FFmpeg-Encoder-Blue-Linux' && github.ref == 'refs/heads/blue/linux-development' && (github.event_name == 'push' && github.event.before == '878808d685cd4a99ceee73f2dc8ed4b9c30b19a2' && github.event.after == github.sha && github.event.forced == false && github.event.created == false && github.event.deleted == false) && github.run_attempt == 1 }}
     runs-on: windows-2022
     timeout-minutes: 10
     steps:

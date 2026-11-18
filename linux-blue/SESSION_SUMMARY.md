@@ -1,3 +1,95 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Accepted Full Copy service, 1440 workbench route and Windows listing diagnostics
+
+## 🤖 Models, Effort, Roles and Provenance
+Blue coordinated the bounded runtime campaign, independent saved audit, source reviews, integration and final checks. Separate workers prepared and audited the service evidence and reviewed workbench/Windows changes. This writer read the saved releases, integration and test records, verified exact integrated file hashes and retained the complete predecessor. The writer ran no media, native app or remote job. The user's highest-reasoning preference is preserved without inventing a model identity or setting absent from the receipts.
+
+## 🕒 Time
+Evidence cutoff: November 18, 2026 at 19:29:53.081911 UTC. Checkpoint 063 preservation was released at 19:21:32.192331 UTC; hosted results were observed at 19:22:17.917659 UTC. The Full Copy service ran 19:22:06.002–19:23:16.549 UTC and was accepted at 19:27:22.903110 UTC. Source integration followed at 19:28:25.517102 UTC. This entry was written after cutoff and records that bounded state.
+
+## 🎯 Session Goal
+Accept the refreshed Full Copy developer service only after independent evidence review, expose the 1440 precision-range developer workbench route, and narrow the observed Windows listing failure without weakening security. Preserve the successor before further actual native or hosted execution, and keep source success distinct from app acceptance.
+
+## 🛠️ Actions Taken
+### Checkpoint 063 preservation
+Local `2a54b54bd70ebfbdff05bbdbd5a2bc1f02e303ae` maps to remote `878808d685cd4a99ceee73f2dc8ed4b9c30b19a2` on `CipherVaults/FFmpeg-Encoder-Blue-Linux`, branch `blue/linux-development`. The remote sole parent is `38c5042039035e429cdb48748eec18d5ea96150f`; remote tree is `e95f34007f8a5ccad4f34e4c2062f46000a25ae3`. Expected-parent non-force update, fresh ref and fourteen changed-file readbacks were verified. Remote tree: 1,102 files, 1,088 unchanged, eight modified, six new, zero deleted.
+
+Notion page: https://app.notion.com/p/41cbd7ade63b816495dde6f04172bacb . Its final receipt is 196,348 bytes, SHA-256 `24bfb53116dee3e05346bf5b11d0dfa8ba5b7f3e0a6a9df883c4fc7476e4aea0`. Restored source/history and native Session are verified: 720 recovery files, 63 commits, 63 ordered Session entries. Recovery archive counts differ from the remote tree scope and must not be conflated. Native Markdown presentation is normalized; the restored source is byte-exact.
+
+Exact predecessor: 2,382,027 bytes, SHA-256 `8b6930b6607ae6cf69156bacb0277b8934db61a1e6b026a3a4da6fcf54ac3819`. Preserve the whole suffix when the lead authorizes the next Session prepend.
+
+### Hosted source CI and actual Windows failure
+Shared CI run 44379433065 passed 204 syntax files and 236 shared tests per platform, plus ten additional Linux tests; zero failures or skips. Jobs: 135067315162 and 135067315278. These are actual hosted checkpoint 063 results, not a projection from local tests.
+
+Windows startup run 44379432870, job 135067314672, attempt 1 failed. Artifact 14463865911 was independently downloaded and verified by the observing reviewer. Report state is `FFMPEG_STARTUP_FAILED`, with allowlisted stage `listing`, kind `AssertionError` and code `ERR_ASSERTION`. Its 809-byte report SHA-256 is `bcbb3753ede814f61b402f0109165b1fbdea960a67f499605c55dbe787b37495`.
+
+Both pinned archives matched their expected identities. The report records extraction and installation as `failed-or-partial-unverified`; it does not establish successful extraction, provisioning or executable startup. The exact listing assertion/root cause remains unknown. Do not claim that the parser, extractor version or archive layout has been proved responsible. Do not conflate this new observed listing failure with checkpoint 061's still-unknown generic failure. A reviewed diagnostic source patch was subsequently integrated below; its next actual hosted outcome remains pending.
+
+### Current Full Copy service: original terminal result and accepted saved audit
+The original run exited 0 in 70,547 ms wall time (70,546.50595 ms monotonic). Its report at `current-full-copy-service063-preparation/owned-proof-7adCJP/report.json` is 365,641 bytes, SHA-256 `8b3a3b39e9bff2e47d39a02b98c64c4a1cafc22f2660457f06e0f142f4bc2fdd`, and reports `passed-developer-current-full-copy-reduced-service-proof`.
+
+The reported census is 106 spawned and closed, zero live, maximum concurrency one, 27 progress children and three target encodes. The cancelled stage is retained unverified with observed size zero; it is not a successful encoded output. The report explicitly limits this to finite short/cancellation/new-instance proof, not same-service recovery, native/OS reveal, PCM identity or arbitrary-length qualification. Pre-child admission is not an active-write cap, and an abort request is not a guaranteed whole-process exit bound.
+
+The independent saved audit was accepted by the lead at 19:27:22.903110 UTC after rehashing 1,028 identity rows covering 1,012 unique paths. Two publications have 240 / 330 video frames, 384,000 / 528,000 decoded audio samples, copied AAC packet counts 376 / 517 and padding 0 / 384. Original collector seals/spools support coded AAC/header/ordinal-padding and rational timeline checks, not PCM identity or pixel quality.
+
+The main audit is 287,395 bytes, SHA-256 `3a5d8c77e4befff6c0b16516ca5ee457f8db55902d5e99a2192f17c25fc2a4d0`; stat supplement is 8,682 bytes, SHA-256 `9d339597cd67e58e94df59163b43fa0436420e1fc877ac7088397bb87fa1dfdd`; independent final release is 2,513 bytes, SHA-256 `139720e49ac4ff0ef81cceaa47df649c83d6665870a7617dc82f480cf4b132f4`; lead release is 2,113 bytes, SHA-256 `fda275a7cf18385a10de429357d0acf1ecf21501bcea1d7e4a9323535ba010b6`.
+
+The audit replayed no media, probe or decoder. OutputAccess exercised an injected sink only, not native shell/open authority. Cancellation retained a zero-byte unverified partial plus 901-byte SIGKILL/demux/decode diagnostics, not declared harmless. The 27 progress-bearing invocations are not 27 user encodes. Parser target classification and staged-versus-published ctime assumptions were corrected without changing original evidence; rename ctime is recorded separately from the verified stable identity fields. No native UI, Windows, GPU, default, long-input or release acceptance follows.
+
+### Reviewed 1440 workbench and Windows diagnostic integration
+At 19:28:25.517102 UTC the lead integrated fifteen reviewed files: nine for the developer 1440 precision-range workbench/service/renderer route and six for bounded Windows listing diagnostics. Exact paths and hashes are recorded in the companion receipt. This exposes an accepted developer route in source; no actual 1440 native journey has yet run on the successor.
+
+Windows diagnostics separate the old broad listing stage into `listing-command`, `listing-parse`, `post-list-capacity` and `post-list-owner`. Parser assertions receive finite reason codes without changing acceptance predicates. Backslash member names still refuse with `PATH_SEPARATOR`; no speculative separator normalization or parser relaxation was introduced. The bounded structural summary includes only counts, digest and allowlisted structural labels, not member names, raw values, arbitrary unknown field names, exception messages, command output, environment or host paths. Only internally created frozen summaries can enter the attested report; arbitrary diagnostic objects are ignored.
+
+Archive pins, resource floors, byte caps, child-close requirements and ordinary first-attempt successor restrictions remain. No raw listing upload or manual dispatch was added. This is a diagnostic change, not an established root-cause fix or successful Windows startup.
+
+### Final source checks and preserved producer bindings
+All thirteen individually checked source files passed syntax checks. The final focused suite passed 143 tests with zero failures or skips, covering the affected 1440 service/workbench/renderer/session/access path, adjacent 1080 and Full Copy wrappers, 31 Windows controls and the actual canonical 1440 report check. No new media was executed by those tests.
+
+Local CI passed 206 syntax files, 240 shared tests and ten Linux tests, with zero failures or skips. Focused and CI counts overlap and must not be added. This is current local source evidence, separate from the earlier actual hosted checkpoint 063 totals. Producer maps remain fully matched: 97 resize pins, 97 resize-1440 pins and 26 Full Copy pins; no pinned producer paths changed. A wrapper/renderer change is not a new media qualification.
+
+### Desktop discovery versus actual native proof
+The lead confirmed the existing cloud desktop/runtime through supported discovery: an existing terminal exposes `DISPLAY=:0` and the pinned Electron runtime is present. No app or media was launched during that discovery. This makes a future authorized native proof possible; it does not prove a journey succeeded or that the experimental local runtime is a portable released Linux package. Product portability and runtime availability remain separate gates.
+
+## 🧠 Key Insights
+The current Full Copy service now has accepted bounded runtime evidence rather than only a calibration/consumer source claim. That supports continued integration, not automatic native or release qualification. Hosted source tests can pass while a real Windows tool fails at listing. The correct next step is narrowly informative diagnostics, not a guessed compatibility change. Preserved producer pins avoid needless recalibration while still requiring affected wrapper and UI tests.
+
+## 📌 Decisions Made
+Continue Git → verified Notion → GitHub, preserving complete historical evidence and exact Session suffixes. Keep the 1440 route a developer workbench path pending an actual native journey. Keep Windows path and archive acceptance strict; diagnose before normalizing any platform-specific format. Do not interpret cloud desktop availability as a portable product. No audio policy, benchmark recommendation or default changed.
+
+The roadmap remains v0.7 first. v0.8 plans retain themes, twelve languages including Arabic, illustrated guides, interactive onboarding and UX/bug polishing; HDR remains v0.9. Later calculator themes/localization can inform that work without interrupting current release development.
+
+## ⚠️ Difficulties / Friction
+Checkpoint 063's startup failed at the listing stage with `AssertionError/ERR_ASSERTION`, but that stage previously spanned four distinct boundaries. The actual cause remains unknown. Checkpoint 061's earlier generic failure also remains unresolved; neither should be retroactively diagnosed by the other. The service audit corrected target classification and staged-versus-published ctime assumptions without changing original evidence. Runtime cancellation diagnostics remain retained, not dismissed as harmless.
+
+## 🔧 Adjustments Made
+Nine reviewed workbench/service/renderer files and six Windows diagnostic files were integrated. Diagnostics now identify bounded substage and reason while excluding sensitive/raw output. The service audit separately reconciles rename-sensitive ctime and stable identity fields. Thirteen individual syntax checks, 143 focused tests, expanded local CI and all producer-map checks passed. No historical raw evidence or prior Session entry was rewritten.
+
+## ❌ Mistakes / Risks Noted
+The auditor initially used an optional target flag instead of the report's actual `owned-target` classification and expected staged ctime to equal renamed output ctime. Both schema/identity assumptions were corrected and recorded. Do not confuse 27 progress-bearing invocations with 27 user encodes. Do not call the retained zero-byte cancelled stage verified or cleaned up. Do not claim PCM identity, pixel quality, native shell authority or same-service recovery beyond the saved evidence. Do not claim the Windows diagnostic patch fixed an unobserved cause. Overlapping focused/CI counts are not additive.
+
+## 📍 Current Position
+Checkpoint 063 is fully preserved in Git, Notion and GitHub. Its hosted shared CI passed; its real Windows startup attempt failed at listing after archive verification. The current Full Copy developer reduced-service proof is independently audited and accepted within its stated limits. Fifteen reviewed source files are integrated, and final local source/control tests pass.
+
+Checkpoint 064 is not yet committed or durably preserved at this cutoff. The actual 1440 native journey and the next hosted Windows diagnostic/startup run remain pending. No native UI, Windows application, NVIDIA GPU, long-input, default, portable package or v0.7 release acceptance follows from these checks.
+
+## 🔜 Next Steps
+1. Review the nineteen-file checkpoint scope: fifteen integration files and these four documentation files. Commit without broad staging or disturbing unrelated work.
+2. Restore-check the successor's source/history and full native Session in Notion, then publish and verify the expected-parent non-force GitHub successor.
+3. Read the next actual Windows report. Use its bounded substage/reason to investigate, retaining failures without speculative policy relaxation or automated retry bypasses.
+4. Prepare the actual 1440 native journey against the preserved successor with explicit source/runtime/desktop gates and an independently auditable record.
+5. Continue v0.7 quality, security and Windows handoff work, preserving the distinction between experimental cloud runtime and portable release acceptance.
+
+## ❓ Open Questions
+Which exact listing boundary/assertion failed on hosted Windows? Will the new structural diagnostics resolve that without needing a separately reviewed broader artifact? Will the actual 1440 native journey behave as the source tests predict? What platform/package/hardware acceptance remains before release? The next evidence must answer these questions; this checkpoint does not infer results from preparation.
+
+## 🧾 Session Outcome
+Accepted current Full Copy developer service evidence, a reviewed 1440 workbench route and safer Windows diagnostics are recorded with final passing local tests and unchanged producer bindings. The actual Windows failure is preserved honestly. Checkpoint 064 commit/preservation and the next native/hosted executions remain pending.
+
+## 🔍 Confidence Level
+High confidence in the accepted bounded service evidence and verified integration/test identities. The writer checked saved local records rather than repeating runtime or remote operations. Actual native behavior, Windows compatibility, GPU functionality and release portability remain unverified where explicitly stated. Source readiness is not a substitute for those acceptance steps.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Current 1080 service, Full Copy calibration and bounded Windows startup
 
 ## 🤖 Models, Effort, Roles and Provenance

@@ -1,0 +1,3559 @@
+{
+  "schema": "ffmpeg-curated-audit-package-v1",
+  "cutoffUtc": "2026-11-18T10:20:57.934029+00:00",
+  "status": "Reviewed evidence-only checkpoint; preservation pending",
+  "selectionPolicy": "Four complete selected audit/lead/outer/inventory objects only; NOT zero-omission or full original report restoration.",
+  "originals": [
+    {
+      "key": "INDEPENDENT_NATIVE_AUDIT",
+      "path": "ordinary-recovery043-native-bound/INDEPENDENT_NATIVE_AUDIT.json",
+      "bytes": 72087,
+      "sha256": "f94655685b2fc4237be8fedf3ce3d2360a8c7301fb6a4110becd9f68e4346c5d"
+    },
+    {
+      "key": "LEAD_RECONCILIATION",
+      "path": "ordinary-recovery043-native-bound/LEAD_RECONCILIATION.json",
+      "bytes": 6885,
+      "sha256": "64454a6d4dd6a0dd775404f93442f8939f836fcafc849036904bfb93741bc086"
+    },
+    {
+      "key": "OUTER_COMPLETION",
+      "path": "ordinary-recovery043-native-bound/OUTER_COMPLETION.json",
+      "bytes": 1006,
+      "sha256": "983f72f79057bf66a0a4f342ccbd83452eb9338d054428b5156636de608f94da"
+    },
+    {
+      "key": "OUTPUT_INVENTORY",
+      "path": "ordinary-recovery043-native-bound/OUTPUT_INVENTORY.json",
+      "bytes": 513,
+      "sha256": "8b827fc75cab0c9176ede438cacdbaacebc4843eabe01c694af41e9ca831aac5"
+    }
+  ],
+  "excludedOriginalMetadata": [
+    {
+      "path": "ordinary-recovery043-native-bound/JOURNEY_OUTCOME.json",
+      "bytes": 13607,
+      "sha256": "c8efc274a0c4f2f822137fec64b3240e2a509e5031d136c8288306c7ca78b79e",
+      "reason": "Contains diagnostic process-identity token, not account credential; exact outcome retained locally unchanged, not redacted or reproduced here"
+    },
+    {
+      "path": "ordinary-recovery043-native-bound/EVENT_CAPTURE.json",
+      "bytes": 12685,
+      "sha256": "a538d0dcc114578f409e16b6446da53bfa44422b5dcf0324d3a8861acda6c2c2"
+    },
+    {
+      "path": "ordinary-recovery043-native-bound/APPROVED_ORDINARY_NATIVE.json",
+      "bytes": 78346,
+      "sha256": "22759131f891711644de3c828ae96397e187a1cd84362ebaac29fc24a0cb790c"
+    },
+    {
+      "path": "ordinary-recovery043-native-bound/app.stdout.log",
+      "bytes": 447,
+      "sha256": "70e0aeb8fd0f34dc4743b5509ba94573491c2587c282d508f5614494d6d2fa90"
+    },
+    {
+      "path": "ordinary-recovery043-native-bound/app.stderr.log",
+      "bytes": 624,
+      "sha256": "14db4eb82d85c05a4887b0e19c18d6db9eb00ab995591035f876aff9b0bab985"
+    }
+  ],
+  "omissions": [
+    "Raw event/text/profile/media/runtime payloads and executable gate objects excluded; exact named metadata retained.",
+    "Outcome token fields were not rewritten; entire outcome is excluded. Operator observations summarized with attribution in owning prose.",
+    "No inverse root mapping or raw-byte restoration; source restore does not restore media/runtime or grant execution authority."
+  ],
+  "authority": {
+    "runtime": false,
+    "production": false,
+    "qualification": false,
+    "rawRestoration": false,
+    "gate": false,
+    "policy": false
+  },
+  "transformation": {
+    "rule": "Known leading-root prefixes only within selected complete objects; all other keys/types/values unchanged. Selection omissions are separately declared.",
+    "leadingCount": 188,
+    "countsByAlias": {
+      "proof://": 101,
+      "support://": 6,
+      "project://": 81
+    },
+    "locations": [
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "receipts",
+          0,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "receipts",
+          1,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "receipts",
+          2,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "receipts",
+          3,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "receipts",
+          4,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "receipts",
+          5,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "receipts",
+          6,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "receipts",
+          7,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "receipts",
+          8,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "receipts",
+          9,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "prerequisites",
+          0,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "prerequisites",
+          1,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "prerequisites",
+          2,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "prerequisites",
+          3,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "prerequisites",
+          4,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "prerequisites",
+          5,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "prerequisites",
+          6,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "fixedInputs",
+          0,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "fixedInputs",
+          1,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "fixedInputs",
+          2,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "fixedInputs",
+          10,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "fixedInputs",
+          11,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          0,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          1,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          2,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          3,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          4,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          5,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          6,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          7,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          8,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          9,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          10,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          11,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          12,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          13,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          14,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          15,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          16,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          17,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          18,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          19,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          20,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          21,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          22,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          23,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          24,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          25,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          26,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          27,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          28,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          29,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          30,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          31,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          32,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          33,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          34,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          35,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          36,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          37,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          38,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          39,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          40,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          41,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          42,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          43,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          44,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          45,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          46,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          47,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          48,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          49,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          50,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          51,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          52,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          53,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          54,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          55,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          56,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          57,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          58,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          59,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          60,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          61,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          62,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          63,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          64,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          65,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          66,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          67,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          68,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          69,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          70,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          71,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          72,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "oldEvents",
+          73,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          0,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          0,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          1,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          1,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          2,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          2,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          3,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          3,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          4,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          4,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          5,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          5,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          6,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          6,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          7,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          7,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          8,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          8,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          9,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          9,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          10,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          10,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          11,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          11,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          12,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          12,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          13,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          13,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          14,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          14,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          15,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          15,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          16,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          16,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          17,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          17,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          18,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          18,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          19,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          19,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          20,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          20,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          21,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          21,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          22,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          22,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          23,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          23,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          24,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          24,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          25,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          25,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          26,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          26,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          27,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          27,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          28,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          28,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          29,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          29,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          30,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          30,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          31,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          31,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          32,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          32,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          33,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          33,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          34,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          34,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          35,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          35,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          36,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          36,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          37,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          37,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          38,
+          "original",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "newEvents",
+          38,
+          "retained",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "targetStderr",
+          0,
+          "identity",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "targetStderr",
+          1,
+          "identity",
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "outputs",
+          0,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "outputs",
+          1,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "storagePoints",
+          0,
+          "receipt",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "storagePoints",
+          1,
+          "receipt",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "INDEPENDENT_NATIVE_AUDIT",
+          "storagePoints",
+          2,
+          "receipt",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "LEAD_RECONCILIATION",
+          "independentAudit",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "LEAD_RECONCILIATION",
+          "outcome",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "LEAD_RECONCILIATION",
+          "outer",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "LEAD_RECONCILIATION",
+          "outputInventory",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "LEAD_RECONCILIATION",
+          "eventCapture",
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "LEAD_RECONCILIATION",
+          "outputs",
+          0,
+          "path"
+        ],
+        "alias": "proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "LEAD_RECONCILIATION",
+          "outputs",
+          1,
+          "path"
+        ],
+        "alias": "proof://"
+      }
+    ]
+  },
+  "reports": {
+    "INDEPENDENT_NATIVE_AUDIT": {
+      "writerReleased": true,
+      "reviewedAtUtc": "2026-11-18T10:18:16.364585+00:00",
+      "disposition": "Saved evidence and separately attributed operator observations support one bounded active native cancellation, explicit fresh-session recovery and one published/revealed recovery output. No further execution grant.",
+      "source": {
+        "commit": "42427a2effa99fd3453538ca20e3364bd3232409",
+        "tree": "52bb7f021323a5059b122da90ceda3037c0f110b",
+        "gitCurrentGateFilesVerified": 646
+      },
+      "receipts": [
+        {
+          "path": "proof://JOURNEY_OUTCOME.json",
+          "bytes": 13607,
+          "sha256": "c8efc274a0c4f2f822137fec64b3240e2a509e5031d136c8288306c7ca78b79e"
+        },
+        {
+          "path": "proof://OUTER_COMPLETION.json",
+          "bytes": 1006,
+          "sha256": "983f72f79057bf66a0a4f342ccbd83452eb9338d054428b5156636de608f94da"
+        },
+        {
+          "path": "proof://OUTPUT_INVENTORY.json",
+          "bytes": 513,
+          "sha256": "8b827fc75cab0c9176ede438cacdbaacebc4843eabe01c694af41e9ca831aac5"
+        },
+        {
+          "path": "proof://EVENT_CAPTURE.json",
+          "bytes": 12685,
+          "sha256": "a538d0dcc114578f409e16b6446da53bfa44422b5dcf0324d3a8861acda6c2c2"
+        },
+        {
+          "path": "proof://APPROVED_ORDINARY_NATIVE.json",
+          "bytes": 78346,
+          "sha256": "22759131f891711644de3c828ae96397e187a1cd84362ebaac29fc24a0cb790c"
+        },
+        {
+          "path": "proof://APP_PID.json",
+          "bytes": 114,
+          "sha256": "dafd0f2d26fc07fe28fbc6d0d45b41879b61b4a09204103e05699e8a65664d73"
+        },
+        {
+          "path": "proof://ATTEMPT_STARTED.json",
+          "bytes": 570,
+          "sha256": "c608af45c102cbd2f61d3b60f2ba3a8487e72934b797fb2f23eb5e75cfcb30d4"
+        },
+        {
+          "path": "proof://DESKTOP_PREFLIGHT.json",
+          "bytes": 1224,
+          "sha256": "1f0aac842b770c3475df5d7050323f7c2677a48ca86b25a20614f422399a97fe"
+        },
+        {
+          "path": "proof://app.stdout.log",
+          "bytes": 447,
+          "sha256": "70e0aeb8fd0f34dc4743b5509ba94573491c2587c282d508f5614494d6d2fa90"
+        },
+        {
+          "path": "proof://app.stderr.log",
+          "bytes": 624,
+          "sha256": "14db4eb82d85c05a4887b0e19c18d6db9eb00ab995591035f876aff9b0bab985"
+        }
+      ],
+      "prerequisites": [
+        {
+          "path": "support://notion-checkpoint-043-verification.json",
+          "bytes": 117110,
+          "sha256": "c97578bb5b12506cbb37b16c8c686ca7a189cc2f24571f2445673c066eabbeaf"
+        },
+        {
+          "path": "support://github-checkpoint043-verification.json",
+          "bytes": 4906,
+          "sha256": "f842eef6f0e8e0f538aa86cb03447fb0eb57bab79b842eac1cdc127553dd21e6"
+        },
+        {
+          "path": "proof://INDEPENDENT_PREPARATION_REVIEW.json",
+          "bytes": 4213,
+          "sha256": "1c2bcc3730546b9c61a842072c2c9b3f10e0e3e094638128924f778b1ff8c770"
+        },
+        {
+          "path": "proof://INDEPENDENT_PREPARATION_REVIEW.json",
+          "bytes": 4213,
+          "sha256": "1c2bcc3730546b9c61a842072c2c9b3f10e0e3e094638128924f778b1ff8c770"
+        },
+        {
+          "path": "support://ordinary-long041-service-preparation/INDEPENDENT_SAVED_OUTPUT_AUDIT.json",
+          "bytes": 71471,
+          "sha256": "1287aac1bb5a9259474058a57582c046fe281a2dee938ac9a0a59291bca7f922"
+        },
+        {
+          "path": "support://ordinary-long041-service-preparation/LEAD_RECONCILIATION.json",
+          "bytes": 5011,
+          "sha256": "3e7bd2165c7485497c914015a92ca1f779ae4b7162fd4b6aea818fa9302cf8eb"
+        },
+        {
+          "path": "support://checkpoint-42427a2-publication-receipt.json",
+          "bytes": 175303,
+          "sha256": "f4754fa4cc490643534ea7780e2b23bdda85302f5c0aaa1f366ceb618b76896e"
+        }
+      ],
+      "fixedInputs": [
+        {
+          "path": "support://electron-44.7.0-setup/node_modules/electron/dist/electron",
+          "bytes": 228605256,
+          "sha256": "10a14d05c6ff4f94075cfb3eeb6ed6571be33ebcc08cbd675b5ce9ff84706564"
+        },
+        {
+          "path": "project://linux-blue/artifacts/candidate-runtime-1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9/ffmpeg",
+          "bytes": 46175848,
+          "sha256": "ae5b2e8b48ad0e9b51b89ebab000ebcfc0b76a09b8cb80c88e18fddcc5d9e8ba"
+        },
+        {
+          "path": "project://linux-blue/artifacts/candidate-runtime-1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9/ffprobe",
+          "bytes": 45962728,
+          "sha256": "923dab8640da8804c445418b6e2efe4b395665bdb9d4cfc84f6a244ed0fb156b"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libm.so.6",
+          "bytes": 977112,
+          "sha256": "6d567d53e895273ca14a1f9dc164fc6c8d39aed2f60aa46a733c2784228915f3"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libdav1d.so.7.0.0",
+          "bytes": 1746880,
+          "sha256": "1d7a4182344230d5f4cf9f58bf4485da2801c411e9c9fd6d8471460c75ae8fbf"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libSvtAv1Enc.so.2.3.0",
+          "bytes": 7984736,
+          "sha256": "48713dd9caf08909462bad0274cc9d9b249ccf836a9be72fd731f8d8096c4d35"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libgcc_s.so.1",
+          "bytes": 182856,
+          "sha256": "30c61ab012a4241bed033725a09b61f5fdd3bb7df95ee852d0b096520524c7af"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.33",
+          "bytes": 2497768,
+          "sha256": "972bb2a18b71140dab0240f8a1f68ab3fb1d56bcd4c4f824a91b70888faf5a00"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "bytes": 1995216,
+          "sha256": "9792e3cbb541c8f44c7acf5f14f4022ea62998ecc787d326bed4d8b6547dfd92"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+          "bytes": 225672,
+          "sha256": "c8438e4fde1934e61c88311633f00949ff645d5c04cdb8671fa3d78164d2f307"
+        },
+        {
+          "path": "project://linux-blue/artifacts/candidate-full-copy-calibration-8wuK9M/short-mp4/source.mp4",
+          "bytes": 5578679,
+          "sha256": "bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97"
+        },
+        {
+          "path": "proof://owned-input/native-ordinary-h265.mp4",
+          "bytes": 5578679,
+          "sha256": "bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97"
+        }
+      ],
+      "dependencyLinksVerified": 7,
+      "oldEvents": [
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/093ac878-9af6-413c-9f80-890082042203.json",
+          "bytes": 776,
+          "sha256": "416ed91b14a0c8aeb8720d889ce989af61357e65192172d9962a52fd073b11c7"
+        },
+        {
+          "path": "proof://original-events/093ac878-9af6-413c-9f80-890082042203.json",
+          "bytes": 776,
+          "sha256": "416ed91b14a0c8aeb8720d889ce989af61357e65192172d9962a52fd073b11c7"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/1033c423-f981-45f0-92fa-49c1903bd089.json",
+          "bytes": 533,
+          "sha256": "a49afe15a0efaedd197da85e074cc072224051e64e9792ac63ec93c0af23d6c1"
+        },
+        {
+          "path": "proof://original-events/1033c423-f981-45f0-92fa-49c1903bd089.json",
+          "bytes": 533,
+          "sha256": "a49afe15a0efaedd197da85e074cc072224051e64e9792ac63ec93c0af23d6c1"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/1755a124-2aaa-499a-9f76-8ddaf03419ce.json",
+          "bytes": 465,
+          "sha256": "d84663a4bdd1a31a3514c5efad81ffbbf99261a874caac41eb3f86ea77874d36"
+        },
+        {
+          "path": "proof://original-events/1755a124-2aaa-499a-9f76-8ddaf03419ce.json",
+          "bytes": 465,
+          "sha256": "d84663a4bdd1a31a3514c5efad81ffbbf99261a874caac41eb3f86ea77874d36"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/17813acf-4a37-4d78-8aaa-d0039eb76107.json",
+          "bytes": 692,
+          "sha256": "41233d5a0aac6e0c1f83aef827da27a1e945586e3c929151d071b1b89b1df645"
+        },
+        {
+          "path": "proof://original-events/17813acf-4a37-4d78-8aaa-d0039eb76107.json",
+          "bytes": 692,
+          "sha256": "41233d5a0aac6e0c1f83aef827da27a1e945586e3c929151d071b1b89b1df645"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/190db467-e74f-4ff9-bde6-a00d5939efaf.json",
+          "bytes": 388,
+          "sha256": "8a1f53b4c0840070bfe7308c4ee91f70ad9ba9c01cc4724f741f6014129ded38"
+        },
+        {
+          "path": "proof://original-events/190db467-e74f-4ff9-bde6-a00d5939efaf.json",
+          "bytes": 388,
+          "sha256": "8a1f53b4c0840070bfe7308c4ee91f70ad9ba9c01cc4724f741f6014129ded38"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/1b08446f-7c41-4fb9-9364-752459e04097.json",
+          "bytes": 533,
+          "sha256": "fd0fecec5eb635ccd90cffecc7e5c75e8704fc9004dbffb11450fc0e5789e0c7"
+        },
+        {
+          "path": "proof://original-events/1b08446f-7c41-4fb9-9364-752459e04097.json",
+          "bytes": 533,
+          "sha256": "fd0fecec5eb635ccd90cffecc7e5c75e8704fc9004dbffb11450fc0e5789e0c7"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/2b225fd8-bb9a-4dfd-9599-058adbd89c46.json",
+          "bytes": 434,
+          "sha256": "b7c06e75d0c18a5c80b0881ac8d3b50d8ef4059ec4317b0f64e7ae234d96e969"
+        },
+        {
+          "path": "proof://original-events/2b225fd8-bb9a-4dfd-9599-058adbd89c46.json",
+          "bytes": 434,
+          "sha256": "b7c06e75d0c18a5c80b0881ac8d3b50d8ef4059ec4317b0f64e7ae234d96e969"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/2cf0f1ac-8b65-46c2-a7d1-0711e05afb85.json",
+          "bytes": 433,
+          "sha256": "8b1f53cfafec3d9db06cb3dcbb17841c6efbe0ba1c5069a7b9051fc9b35fed8d"
+        },
+        {
+          "path": "proof://original-events/2cf0f1ac-8b65-46c2-a7d1-0711e05afb85.json",
+          "bytes": 433,
+          "sha256": "8b1f53cfafec3d9db06cb3dcbb17841c6efbe0ba1c5069a7b9051fc9b35fed8d"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/31ea2ad1-b57c-428f-9495-526b82959889.json",
+          "bytes": 360,
+          "sha256": "5a442f81dfa4ef07ddc81daefe5fc07c7248f004eeb481b711401e7a4352bc62"
+        },
+        {
+          "path": "proof://original-events/31ea2ad1-b57c-428f-9495-526b82959889.json",
+          "bytes": 360,
+          "sha256": "5a442f81dfa4ef07ddc81daefe5fc07c7248f004eeb481b711401e7a4352bc62"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/3a0891ee-5991-4b38-be26-a828583c6e1e.json",
+          "bytes": 388,
+          "sha256": "d589d225c5e3120a45360202bfa449ed4db2339d269ee0ebdfdfbcb7b227c69f"
+        },
+        {
+          "path": "proof://original-events/3a0891ee-5991-4b38-be26-a828583c6e1e.json",
+          "bytes": 388,
+          "sha256": "d589d225c5e3120a45360202bfa449ed4db2339d269ee0ebdfdfbcb7b227c69f"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/4216e355-2622-4feb-a3ab-18a2f01af017.json",
+          "bytes": 480,
+          "sha256": "6418ffee1036fb288d9371d1e12f29f040835b09da7cd4ceaeae2969f7a802a9"
+        },
+        {
+          "path": "proof://original-events/4216e355-2622-4feb-a3ab-18a2f01af017.json",
+          "bytes": 480,
+          "sha256": "6418ffee1036fb288d9371d1e12f29f040835b09da7cd4ceaeae2969f7a802a9"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/48eb66e7-6838-4841-810f-5b5121bd870c.json",
+          "bytes": 1990,
+          "sha256": "a9e326d0f3e65bd2848e869ec67312e0df73f322f4bf27e21963da4e1b494e0a"
+        },
+        {
+          "path": "proof://original-events/48eb66e7-6838-4841-810f-5b5121bd870c.json",
+          "bytes": 1990,
+          "sha256": "a9e326d0f3e65bd2848e869ec67312e0df73f322f4bf27e21963da4e1b494e0a"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/4ad5f2ed-6472-45ed-acf4-ab5826ddd09e.json",
+          "bytes": 499,
+          "sha256": "7510ce89850be2917456a2a272f47602d4eb3184493d4a9508e8c9e4f8ff585d"
+        },
+        {
+          "path": "proof://original-events/4ad5f2ed-6472-45ed-acf4-ab5826ddd09e.json",
+          "bytes": 499,
+          "sha256": "7510ce89850be2917456a2a272f47602d4eb3184493d4a9508e8c9e4f8ff585d"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/50e3e300-2a22-4418-87b8-b2c61aac656d.json",
+          "bytes": 433,
+          "sha256": "beb27557b7d9f35b78f734142a4f0abbe68510a4ac4f8bf9061b0880bdaa50a4"
+        },
+        {
+          "path": "proof://original-events/50e3e300-2a22-4418-87b8-b2c61aac656d.json",
+          "bytes": 433,
+          "sha256": "beb27557b7d9f35b78f734142a4f0abbe68510a4ac4f8bf9061b0880bdaa50a4"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/522f980a-822a-42fe-aab8-5b1ac800909f.json",
+          "bytes": 718,
+          "sha256": "b697e28a359dbe58cf71647f78d71f034f66ebe1bd6a8fcd9d597570f9b907f5"
+        },
+        {
+          "path": "proof://original-events/522f980a-822a-42fe-aab8-5b1ac800909f.json",
+          "bytes": 718,
+          "sha256": "b697e28a359dbe58cf71647f78d71f034f66ebe1bd6a8fcd9d597570f9b907f5"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/67d009e3-919d-4a12-b98e-4815a4693cf3.json",
+          "bytes": 1523,
+          "sha256": "0808ee3846459f36418ff6ce97890bcc9b58cc4d9f705f7bc58ef19f32f95997"
+        },
+        {
+          "path": "proof://original-events/67d009e3-919d-4a12-b98e-4815a4693cf3.json",
+          "bytes": 1523,
+          "sha256": "0808ee3846459f36418ff6ce97890bcc9b58cc4d9f705f7bc58ef19f32f95997"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/726be3ca-0d80-4dd4-9220-bbe2f1c233e7.json",
+          "bytes": 802,
+          "sha256": "8f491c335408210e41358c134ee94dc830c13cc47e1285a438f967ee54b11d55"
+        },
+        {
+          "path": "proof://original-events/726be3ca-0d80-4dd4-9220-bbe2f1c233e7.json",
+          "bytes": 802,
+          "sha256": "8f491c335408210e41358c134ee94dc830c13cc47e1285a438f967ee54b11d55"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/74d69ebd-77f9-4a10-af6c-83b107e3faf0.json",
+          "bytes": 612,
+          "sha256": "b0365423a85fb2b43bd726fe8db79e6e7caea71fe3d9c592e6c6175e04ba92ba"
+        },
+        {
+          "path": "proof://original-events/74d69ebd-77f9-4a10-af6c-83b107e3faf0.json",
+          "bytes": 612,
+          "sha256": "b0365423a85fb2b43bd726fe8db79e6e7caea71fe3d9c592e6c6175e04ba92ba"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/79466f94-acad-4399-bbd3-c4c937b89a12.json",
+          "bytes": 1729,
+          "sha256": "955651b76ba77ca5674eefc3167931e16d6160e188be2da7cdd88d35895d2ca3"
+        },
+        {
+          "path": "proof://original-events/79466f94-acad-4399-bbd3-c4c937b89a12.json",
+          "bytes": 1729,
+          "sha256": "955651b76ba77ca5674eefc3167931e16d6160e188be2da7cdd88d35895d2ca3"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/9068ad69-db13-4027-a6ed-edd6af1b802b.json",
+          "bytes": 436,
+          "sha256": "a2e4cd33d03080b1f2d6fa9aa2675beb651d036c827957c9833941f2fc7da7f8"
+        },
+        {
+          "path": "proof://original-events/9068ad69-db13-4027-a6ed-edd6af1b802b.json",
+          "bytes": 436,
+          "sha256": "a2e4cd33d03080b1f2d6fa9aa2675beb651d036c827957c9833941f2fc7da7f8"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/92fd6364-28de-42fd-be43-d73575e7d3a9.json",
+          "bytes": 480,
+          "sha256": "b122ac8080f21a8fbb9b7335c89f997d1fbc3512d14407bee00d1c5519807993"
+        },
+        {
+          "path": "proof://original-events/92fd6364-28de-42fd-be43-d73575e7d3a9.json",
+          "bytes": 480,
+          "sha256": "b122ac8080f21a8fbb9b7335c89f997d1fbc3512d14407bee00d1c5519807993"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/95819d83-1f15-4022-ae93-7daff9a3bcc4.json",
+          "bytes": 12331,
+          "sha256": "22ce1ea458fb193a67b4be0454b1825915cccbfe3305ac14b7b4f6dc1ce69893"
+        },
+        {
+          "path": "proof://original-events/95819d83-1f15-4022-ae93-7daff9a3bcc4.json",
+          "bytes": 12331,
+          "sha256": "22ce1ea458fb193a67b4be0454b1825915cccbfe3305ac14b7b4f6dc1ce69893"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/9abaaa83-da8b-4289-913c-6e9a64a7db93.json",
+          "bytes": 435,
+          "sha256": "f1fda548e034435c06a5606d4d5e9f20d3eb0b836ea995f44d4898b24fc5ec03"
+        },
+        {
+          "path": "proof://original-events/9abaaa83-da8b-4289-913c-6e9a64a7db93.json",
+          "bytes": 435,
+          "sha256": "f1fda548e034435c06a5606d4d5e9f20d3eb0b836ea995f44d4898b24fc5ec03"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/a40c2e02-cfe9-43f1-aba7-04e522f5016e.json",
+          "bytes": 465,
+          "sha256": "5dcd78af3145c74738368865a87e8f3f91af1823704381ecc6b68a83bbaad917"
+        },
+        {
+          "path": "proof://original-events/a40c2e02-cfe9-43f1-aba7-04e522f5016e.json",
+          "bytes": 465,
+          "sha256": "5dcd78af3145c74738368865a87e8f3f91af1823704381ecc6b68a83bbaad917"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/a93be076-ae9e-4a7a-a6a6-e0f2c75d6936.json",
+          "bytes": 1713,
+          "sha256": "99a49604309988f0c24cfd55beb17a24aa97cbf8404fe4fbfc49212042edd502"
+        },
+        {
+          "path": "proof://original-events/a93be076-ae9e-4a7a-a6a6-e0f2c75d6936.json",
+          "bytes": 1713,
+          "sha256": "99a49604309988f0c24cfd55beb17a24aa97cbf8404fe4fbfc49212042edd502"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/aca7cfa5-c959-4c7e-9093-c0f58555795e.json",
+          "bytes": 3119,
+          "sha256": "0ac746ce1a0ca98842634f6d2547cd47b170678723fa8ce89a1de77f690a7d86"
+        },
+        {
+          "path": "proof://original-events/aca7cfa5-c959-4c7e-9093-c0f58555795e.json",
+          "bytes": 3119,
+          "sha256": "0ac746ce1a0ca98842634f6d2547cd47b170678723fa8ce89a1de77f690a7d86"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/b6caa809-f4b8-4e3c-b4f7-d53764815fa6.json",
+          "bytes": 388,
+          "sha256": "433595866651e50b3ffec25f6bbe22cdcb8394e57c3cd1eefffc29dc626e1f47"
+        },
+        {
+          "path": "proof://original-events/b6caa809-f4b8-4e3c-b4f7-d53764815fa6.json",
+          "bytes": 388,
+          "sha256": "433595866651e50b3ffec25f6bbe22cdcb8394e57c3cd1eefffc29dc626e1f47"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/bb4a1e4f-fa8e-49a6-b4d2-7096cc3dc477.json",
+          "bytes": 360,
+          "sha256": "fb8f1ca4e202f47e341d06b0673832491f5cc7c82cb3483c4aebd383b4572839"
+        },
+        {
+          "path": "proof://original-events/bb4a1e4f-fa8e-49a6-b4d2-7096cc3dc477.json",
+          "bytes": 360,
+          "sha256": "fb8f1ca4e202f47e341d06b0673832491f5cc7c82cb3483c4aebd383b4572839"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/c2ecb3c2-de15-4083-bc0d-cab57d84fd05.json",
+          "bytes": 533,
+          "sha256": "8b7dc5e07a8f91a6382c9a60dde19e826d9936a75195bdfcbdb557f1f87b0a9b"
+        },
+        {
+          "path": "proof://original-events/c2ecb3c2-de15-4083-bc0d-cab57d84fd05.json",
+          "bytes": 533,
+          "sha256": "8b7dc5e07a8f91a6382c9a60dde19e826d9936a75195bdfcbdb557f1f87b0a9b"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/c70b87bb-b823-4608-952f-0103c162d62f.json",
+          "bytes": 433,
+          "sha256": "7474db72ed174d85aeb79102ef52d6359adeb71b629958315845cfa05b1143b8"
+        },
+        {
+          "path": "proof://original-events/c70b87bb-b823-4608-952f-0103c162d62f.json",
+          "bytes": 433,
+          "sha256": "7474db72ed174d85aeb79102ef52d6359adeb71b629958315845cfa05b1143b8"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/cb9dd6b2-1e46-4d4d-8fe7-430a2f137507.json",
+          "bytes": 12331,
+          "sha256": "5eb945ce30fe5366f852ef5f13d9ef9ad4c637e61e3e6a1c3bbc709a85c74c57"
+        },
+        {
+          "path": "proof://original-events/cb9dd6b2-1e46-4d4d-8fe7-430a2f137507.json",
+          "bytes": 12331,
+          "sha256": "5eb945ce30fe5366f852ef5f13d9ef9ad4c637e61e3e6a1c3bbc709a85c74c57"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/da957676-96a6-4f3d-b18b-ffcbfde3344e.json",
+          "bytes": 480,
+          "sha256": "a77eb2df7151be276c22cdf74ccf8108f570ebb01dfa8214c8f3f6de94166f84"
+        },
+        {
+          "path": "proof://original-events/da957676-96a6-4f3d-b18b-ffcbfde3344e.json",
+          "bytes": 480,
+          "sha256": "a77eb2df7151be276c22cdf74ccf8108f570ebb01dfa8214c8f3f6de94166f84"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/df126fa2-b32c-467e-ac19-e2db0929508b.json",
+          "bytes": 433,
+          "sha256": "57e6ca78da75d05ebfdd79e01c7a870033652ae753b36d76a3707b92d9fcd41e"
+        },
+        {
+          "path": "proof://original-events/df126fa2-b32c-467e-ac19-e2db0929508b.json",
+          "bytes": 433,
+          "sha256": "57e6ca78da75d05ebfdd79e01c7a870033652ae753b36d76a3707b92d9fcd41e"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/e81c0e88-c56a-4563-9f0a-78adfa1a30f0.json",
+          "bytes": 433,
+          "sha256": "70ba6da3a7fae686e920a566ede8a4d9a9e43a72e0adc1bc8f7867deb367b27a"
+        },
+        {
+          "path": "proof://original-events/e81c0e88-c56a-4563-9f0a-78adfa1a30f0.json",
+          "bytes": 433,
+          "sha256": "70ba6da3a7fae686e920a566ede8a4d9a9e43a72e0adc1bc8f7867deb367b27a"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/eb023f99-97a4-4751-b91b-6db92d9d5a89.json",
+          "bytes": 361,
+          "sha256": "54e1d41aad10cda346dd16b611fe23b8282ad434478e4e6df62831a84f2a9299"
+        },
+        {
+          "path": "proof://original-events/eb023f99-97a4-4751-b91b-6db92d9d5a89.json",
+          "bytes": 361,
+          "sha256": "54e1d41aad10cda346dd16b611fe23b8282ad434478e4e6df62831a84f2a9299"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/ee9dd52c-941f-45ea-aadf-d5d6ffb71d0a.json",
+          "bytes": 12331,
+          "sha256": "ce1be5d5b855b4c49cf9ac09c3106273be59b3c9c8f2583c937d5f73982ee1f4"
+        },
+        {
+          "path": "proof://original-events/ee9dd52c-941f-45ea-aadf-d5d6ffb71d0a.json",
+          "bytes": 12331,
+          "sha256": "ce1be5d5b855b4c49cf9ac09c3106273be59b3c9c8f2583c937d5f73982ee1f4"
+        },
+        {
+          "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/f6e92ce4-ba75-4266-a246-b60be12ea081.json",
+          "bytes": 465,
+          "sha256": "e44407bf8e3a5c763a16312aacbbf6ba00952e3f2a4dcc4f7346cd12a909ede4"
+        },
+        {
+          "path": "proof://original-events/f6e92ce4-ba75-4266-a246-b60be12ea081.json",
+          "bytes": 465,
+          "sha256": "e44407bf8e3a5c763a16312aacbbf6ba00952e3f2a4dcc4f7346cd12a909ede4"
+        }
+      ],
+      "newEvents": [
+        {
+          "sequence": 0,
+          "sessionId": "cdaa96a0-82b2-41df-a3ed-9c51e92e93f5",
+          "reason": "SESSION_STARTED",
+          "at": 1794995972912,
+          "contextTruncated": null,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/af0e7a02-2995-4738-9575-7ca89987bd1c.json",
+            "bytes": 465,
+            "sha256": "eddac73130eb6091dc1f5c045df0203b66fa71ee02418a3d90fac82d33525b57"
+          },
+          "retained": {
+            "path": "proof://retained-events/af0e7a02-2995-4738-9575-7ca89987bd1c.json",
+            "bytes": 465,
+            "sha256": "eddac73130eb6091dc1f5c045df0203b66fa71ee02418a3d90fac82d33525b57"
+          }
+        },
+        {
+          "sequence": 1,
+          "sessionId": "cdaa96a0-82b2-41df-a3ed-9c51e92e93f5",
+          "reason": "CAPABILITY_STARTED",
+          "at": 1794995973112,
+          "contextTruncated": null,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/3d364200-2f9d-4365-8c64-fc77d4e4acea.json",
+            "bytes": 388,
+            "sha256": "462c104505d884fb40a31a6a9873b3f294072ed238d50440053496009ae2ba0c"
+          },
+          "retained": {
+            "path": "proof://retained-events/3d364200-2f9d-4365-8c64-fc77d4e4acea.json",
+            "bytes": 388,
+            "sha256": "462c104505d884fb40a31a6a9873b3f294072ed238d50440053496009ae2ba0c"
+          }
+        },
+        {
+          "sequence": 2,
+          "sessionId": "cdaa96a0-82b2-41df-a3ed-9c51e92e93f5",
+          "reason": "RUNTIME_IDENTIFIED",
+          "at": 1794995977145,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/ad914ccc-b94a-4b4f-b121-ea217eb5b63f.json",
+            "bytes": 480,
+            "sha256": "c1f7764715fb1b56f3d615175da44259bcb514524ef0e73687af156393e30f0e"
+          },
+          "retained": {
+            "path": "proof://retained-events/ad914ccc-b94a-4b4f-b121-ea217eb5b63f.json",
+            "bytes": 480,
+            "sha256": "c1f7764715fb1b56f3d615175da44259bcb514524ef0e73687af156393e30f0e"
+          }
+        },
+        {
+          "sequence": 3,
+          "sessionId": "cdaa96a0-82b2-41df-a3ed-9c51e92e93f5",
+          "reason": "CAPABILITY_FINISHED",
+          "at": 1794995977155,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/cabdce44-7774-4634-94fc-42a583a90fdb.json",
+            "bytes": 12331,
+            "sha256": "af70d12c0543b7f53c80ec0fa8abaebebaed970baaec1cb5eadd1602f118c304"
+          },
+          "retained": {
+            "path": "proof://retained-events/cabdce44-7774-4634-94fc-42a583a90fdb.json",
+            "bytes": 12331,
+            "sha256": "af70d12c0543b7f53c80ec0fa8abaebebaed970baaec1cb5eadd1602f118c304"
+          }
+        },
+        {
+          "sequence": 4,
+          "sessionId": "cdaa96a0-82b2-41df-a3ed-9c51e92e93f5",
+          "reason": "PROVENANCE_RECOVERY_FINISHED",
+          "at": 1794995977165,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/1bacd943-972c-49c0-bfed-413e069cd373.json",
+            "bytes": 533,
+            "sha256": "4d2d623bd86071c37008e53229eabca15f89bf2bf556c180f5a2fad96ecfea09"
+          },
+          "retained": {
+            "path": "proof://retained-events/1bacd943-972c-49c0-bfed-413e069cd373.json",
+            "bytes": 533,
+            "sha256": "4d2d623bd86071c37008e53229eabca15f89bf2bf556c180f5a2fad96ecfea09"
+          }
+        },
+        {
+          "sequence": 5,
+          "sessionId": "cdaa96a0-82b2-41df-a3ed-9c51e92e93f5",
+          "reason": "FOLDER_PICKER_REQUESTED",
+          "at": 1794996057037,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/0643fdea-ecef-4687-8ebe-83eeb9d7fc21.json",
+            "bytes": 433,
+            "sha256": "ad395d5aef5820912b62557d36527b150eb1b61bd03cca70525354edf1986f5c"
+          },
+          "retained": {
+            "path": "proof://retained-events/0643fdea-ecef-4687-8ebe-83eeb9d7fc21.json",
+            "bytes": 433,
+            "sha256": "ad395d5aef5820912b62557d36527b150eb1b61bd03cca70525354edf1986f5c"
+          }
+        },
+        {
+          "sequence": 6,
+          "sessionId": "cdaa96a0-82b2-41df-a3ed-9c51e92e93f5",
+          "reason": "FOLDER_PICKER_REGISTERED",
+          "at": 1794996120635,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/d0de8967-0e17-4620-835f-58c2c5069f8d.json",
+            "bytes": 435,
+            "sha256": "67b3011707ae4abf8fa8c85abe6f6dc9d408460fd5c84e1513c79586373344c8"
+          },
+          "retained": {
+            "path": "proof://retained-events/d0de8967-0e17-4620-835f-58c2c5069f8d.json",
+            "bytes": 435,
+            "sha256": "67b3011707ae4abf8fa8c85abe6f6dc9d408460fd5c84e1513c79586373344c8"
+          }
+        },
+        {
+          "sequence": 7,
+          "sessionId": "cdaa96a0-82b2-41df-a3ed-9c51e92e93f5",
+          "reason": "FOLDER_PICKER_REQUESTED",
+          "at": 1794996133775,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/094a42df-d02a-4503-a31b-f40010a1f9ef.json",
+            "bytes": 434,
+            "sha256": "da06f438c7a20b0d88547a1fc8047c47e48781ca0f1cc640385f6bb5fc1b9a2a"
+          },
+          "retained": {
+            "path": "proof://retained-events/094a42df-d02a-4503-a31b-f40010a1f9ef.json",
+            "bytes": 434,
+            "sha256": "da06f438c7a20b0d88547a1fc8047c47e48781ca0f1cc640385f6bb5fc1b9a2a"
+          }
+        },
+        {
+          "sequence": 8,
+          "sessionId": "cdaa96a0-82b2-41df-a3ed-9c51e92e93f5",
+          "reason": "FOLDER_PICKER_REGISTERED",
+          "at": 1794996225329,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/66e56e3e-244d-45f6-a4c8-ce0a593d912e.json",
+            "bytes": 436,
+            "sha256": "4792b635ec7e6fe4c8a07b01caefb11044b15edea5073f216042ac023f5e7261"
+          },
+          "retained": {
+            "path": "proof://retained-events/66e56e3e-244d-45f6-a4c8-ce0a593d912e.json",
+            "bytes": 436,
+            "sha256": "4792b635ec7e6fe4c8a07b01caefb11044b15edea5073f216042ac023f5e7261"
+          }
+        },
+        {
+          "sequence": 9,
+          "sessionId": "cdaa96a0-82b2-41df-a3ed-9c51e92e93f5",
+          "reason": "PREPARATION_STARTED",
+          "at": 1794996257303,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/2546189c-e7c8-49e4-9eca-2df9d08da0be.json",
+            "bytes": 798,
+            "sha256": "ca3c45a845d66ccb9b2285952d3a5010e4dfa24c6184fd0bb31fa8d3b4eb2a1b"
+          },
+          "retained": {
+            "path": "proof://retained-events/2546189c-e7c8-49e4-9eca-2df9d08da0be.json",
+            "bytes": 798,
+            "sha256": "ca3c45a845d66ccb9b2285952d3a5010e4dfa24c6184fd0bb31fa8d3b4eb2a1b"
+          }
+        },
+        {
+          "sequence": 10,
+          "sessionId": "cdaa96a0-82b2-41df-a3ed-9c51e92e93f5",
+          "reason": "FILE_INSPECTED",
+          "at": 1794996258349,
+          "contextTruncated": true,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/db43b82a-6c73-4d1b-8371-1d01b74d00f3.json",
+            "bytes": 1988,
+            "sha256": "d5aea9c70dd3dc8375adc3a853fc26b498bbf861b459483213e2846e07e927da"
+          },
+          "retained": {
+            "path": "proof://retained-events/db43b82a-6c73-4d1b-8371-1d01b74d00f3.json",
+            "bytes": 1988,
+            "sha256": "d5aea9c70dd3dc8375adc3a853fc26b498bbf861b459483213e2846e07e927da"
+          }
+        },
+        {
+          "sequence": 11,
+          "sessionId": "cdaa96a0-82b2-41df-a3ed-9c51e92e93f5",
+          "reason": "PREPARATION_FINISHED",
+          "at": 1794996258365,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/ef68c342-6a6b-4548-9d64-eea4c24d367f.json",
+            "bytes": 692,
+            "sha256": "48a047b2356a0dec329853c3a86d8016050faab5df6e6fae58e7aa91832cc2cf"
+          },
+          "retained": {
+            "path": "proof://retained-events/ef68c342-6a6b-4548-9d64-eea4c24d367f.json",
+            "bytes": 692,
+            "sha256": "48a047b2356a0dec329853c3a86d8016050faab5df6e6fae58e7aa91832cc2cf"
+          }
+        },
+        {
+          "sequence": 12,
+          "sessionId": "cdaa96a0-82b2-41df-a3ed-9c51e92e93f5",
+          "reason": "ENCODE_STARTED",
+          "at": 1794996322068,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/53f7af2d-3e70-475a-bf7f-fd0591bda018.json",
+            "bytes": 3115,
+            "sha256": "0bc78add90339733c3808272cd10f9c8088bf31c150b3ba7c931cf1513a072a2"
+          },
+          "retained": {
+            "path": "proof://retained-events/53f7af2d-3e70-475a-bf7f-fd0591bda018.json",
+            "bytes": 3115,
+            "sha256": "0bc78add90339733c3808272cd10f9c8088bf31c150b3ba7c931cf1513a072a2"
+          }
+        },
+        {
+          "sequence": 13,
+          "sessionId": "cdaa96a0-82b2-41df-a3ed-9c51e92e93f5",
+          "reason": "CANCELLATION_REQUESTED",
+          "at": 1794996345176,
+          "contextTruncated": null,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/7faf8c44-c965-4a14-b6bf-524d2f9df233.json",
+            "bytes": 443,
+            "sha256": "4d58db8ad1ed3ac1e45d80a245e8c83c36551bb4142884406e3972ab8fce381b"
+          },
+          "retained": {
+            "path": "proof://retained-events/7faf8c44-c965-4a14-b6bf-524d2f9df233.json",
+            "bytes": 443,
+            "sha256": "4d58db8ad1ed3ac1e45d80a245e8c83c36551bb4142884406e3972ab8fce381b"
+          }
+        },
+        {
+          "sequence": 14,
+          "sessionId": "cdaa96a0-82b2-41df-a3ed-9c51e92e93f5",
+          "reason": "JOB_CANCELLED",
+          "at": 1794996347236,
+          "contextTruncated": true,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/accfbe2b-f634-4e8d-8ca6-8deeab8da9cb.json",
+            "bytes": 898,
+            "sha256": "20fee8a3b3fbb54ea877fc0936909c60d0a6c5eb16a27b346a967f87626b659a"
+          },
+          "retained": {
+            "path": "proof://retained-events/accfbe2b-f634-4e8d-8ca6-8deeab8da9cb.json",
+            "bytes": 898,
+            "sha256": "20fee8a3b3fbb54ea877fc0936909c60d0a6c5eb16a27b346a967f87626b659a"
+          }
+        },
+        {
+          "sequence": 15,
+          "sessionId": "cdaa96a0-82b2-41df-a3ed-9c51e92e93f5",
+          "reason": "JOB_DISPOSITION",
+          "at": 1794996347248,
+          "contextTruncated": true,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/d059bf4d-0876-41b8-92a9-2c79e78f7222.json",
+            "bytes": 1960,
+            "sha256": "e2a20111ce0574a25fca1aa2c6481f291fd66034c161118d9f4f3d7e6999c956"
+          },
+          "retained": {
+            "path": "proof://retained-events/d059bf4d-0876-41b8-92a9-2c79e78f7222.json",
+            "bytes": 1960,
+            "sha256": "e2a20111ce0574a25fca1aa2c6481f291fd66034c161118d9f4f3d7e6999c956"
+          }
+        },
+        {
+          "sequence": 16,
+          "sessionId": "cdaa96a0-82b2-41df-a3ed-9c51e92e93f5",
+          "reason": "BATCH_FINISHED",
+          "at": 1794996347254,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/089900dc-f8e6-4b57-907c-c70dcdf34ab0.json",
+            "bytes": 775,
+            "sha256": "e2cb76b26100fb360914136296458bce203b39c98594ef871cb49475af3c2fdc"
+          },
+          "retained": {
+            "path": "proof://retained-events/089900dc-f8e6-4b57-907c-c70dcdf34ab0.json",
+            "bytes": 775,
+            "sha256": "e2cb76b26100fb360914136296458bce203b39c98594ef871cb49475af3c2fdc"
+          }
+        },
+        {
+          "sequence": 17,
+          "sessionId": "cdaa96a0-82b2-41df-a3ed-9c51e92e93f5",
+          "reason": "SESSION_ENDED",
+          "at": 1794996395515,
+          "contextTruncated": null,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/9a316c25-b054-4712-918e-e0984a4dde59.json",
+            "bytes": 361,
+            "sha256": "d7e8c125e81e00e4405647049987af34467a2c8eccc228c8cbe76269da11344f"
+          },
+          "retained": {
+            "path": "proof://retained-events/9a316c25-b054-4712-918e-e0984a4dde59.json",
+            "bytes": 361,
+            "sha256": "d7e8c125e81e00e4405647049987af34467a2c8eccc228c8cbe76269da11344f"
+          }
+        },
+        {
+          "sequence": 0,
+          "sessionId": "192576ad-ee15-4940-9120-aaa8b82d1656",
+          "reason": "SESSION_STARTED",
+          "at": 1794996395770,
+          "contextTruncated": null,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/c99fe6e3-9286-48ee-8aff-7bcf182de47a.json",
+            "bytes": 465,
+            "sha256": "3cf3863013a54f6f74ef1ecedb29a64686cbf133b0504f87fbeee2e3203b4550"
+          },
+          "retained": {
+            "path": "proof://retained-events/c99fe6e3-9286-48ee-8aff-7bcf182de47a.json",
+            "bytes": 465,
+            "sha256": "3cf3863013a54f6f74ef1ecedb29a64686cbf133b0504f87fbeee2e3203b4550"
+          }
+        },
+        {
+          "sequence": 1,
+          "sessionId": "192576ad-ee15-4940-9120-aaa8b82d1656",
+          "reason": "CAPABILITY_STARTED",
+          "at": 1794996395896,
+          "contextTruncated": null,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/b939e8a0-c800-4bc8-b2c2-b5bd4d8f07aa.json",
+            "bytes": 388,
+            "sha256": "1ac3ecf08de4c983b60cc6ca7fdae93372f3e7ca9e585f19d964773505231fe8"
+          },
+          "retained": {
+            "path": "proof://retained-events/b939e8a0-c800-4bc8-b2c2-b5bd4d8f07aa.json",
+            "bytes": 388,
+            "sha256": "1ac3ecf08de4c983b60cc6ca7fdae93372f3e7ca9e585f19d964773505231fe8"
+          }
+        },
+        {
+          "sequence": 2,
+          "sessionId": "192576ad-ee15-4940-9120-aaa8b82d1656",
+          "reason": "RUNTIME_IDENTIFIED",
+          "at": 1794996400418,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/56fae84e-a202-4c2a-9256-d7e77b3cc3b2.json",
+            "bytes": 480,
+            "sha256": "8f5631527eb2c368ec5ed14c2526a58f2f8efa14be99a36641d9455f9bc61c88"
+          },
+          "retained": {
+            "path": "proof://retained-events/56fae84e-a202-4c2a-9256-d7e77b3cc3b2.json",
+            "bytes": 480,
+            "sha256": "8f5631527eb2c368ec5ed14c2526a58f2f8efa14be99a36641d9455f9bc61c88"
+          }
+        },
+        {
+          "sequence": 3,
+          "sessionId": "192576ad-ee15-4940-9120-aaa8b82d1656",
+          "reason": "CAPABILITY_FINISHED",
+          "at": 1794996400430,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/62abf03e-9682-40c6-8baa-785e07439588.json",
+            "bytes": 12331,
+            "sha256": "0413fa61ec7d8fea417ac2e8a2eaa076d684b92edc1c463e39b99f2f896464fc"
+          },
+          "retained": {
+            "path": "proof://retained-events/62abf03e-9682-40c6-8baa-785e07439588.json",
+            "bytes": 12331,
+            "sha256": "0413fa61ec7d8fea417ac2e8a2eaa076d684b92edc1c463e39b99f2f896464fc"
+          }
+        },
+        {
+          "sequence": 4,
+          "sessionId": "192576ad-ee15-4940-9120-aaa8b82d1656",
+          "reason": "PROVENANCE_RECOVERY_FINISHED",
+          "at": 1794996400443,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/6773cb68-9715-4a1c-86d0-c3f8742efc3f.json",
+            "bytes": 533,
+            "sha256": "3682c6fcef1530d2c4d750b5b10b92f47fa09fca8a42bf7b9441d2d443ef63e4"
+          },
+          "retained": {
+            "path": "proof://retained-events/6773cb68-9715-4a1c-86d0-c3f8742efc3f.json",
+            "bytes": 533,
+            "sha256": "3682c6fcef1530d2c4d750b5b10b92f47fa09fca8a42bf7b9441d2d443ef63e4"
+          }
+        },
+        {
+          "sequence": 5,
+          "sessionId": "192576ad-ee15-4940-9120-aaa8b82d1656",
+          "reason": "FOLDER_PICKER_REQUESTED",
+          "at": 1794996437631,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/cea5477d-2818-4e8d-92e1-231b9db79be9.json",
+            "bytes": 433,
+            "sha256": "c0af7e38c1f8b4baf727529097f3f008ab76b53ecf3d95031e120d507023ccf9"
+          },
+          "retained": {
+            "path": "proof://retained-events/cea5477d-2818-4e8d-92e1-231b9db79be9.json",
+            "bytes": 433,
+            "sha256": "c0af7e38c1f8b4baf727529097f3f008ab76b53ecf3d95031e120d507023ccf9"
+          }
+        },
+        {
+          "sequence": 6,
+          "sessionId": "192576ad-ee15-4940-9120-aaa8b82d1656",
+          "reason": "FOLDER_PICKER_REGISTERED",
+          "at": 1794996541345,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/2f53b2c4-8c4d-4973-9c9c-21f6b0f3a3a2.json",
+            "bytes": 435,
+            "sha256": "0700783f09eae046676bff34d05ac22bb660d775a6ecc65cba930476b07561e7"
+          },
+          "retained": {
+            "path": "proof://retained-events/2f53b2c4-8c4d-4973-9c9c-21f6b0f3a3a2.json",
+            "bytes": 435,
+            "sha256": "0700783f09eae046676bff34d05ac22bb660d775a6ecc65cba930476b07561e7"
+          }
+        },
+        {
+          "sequence": 7,
+          "sessionId": "192576ad-ee15-4940-9120-aaa8b82d1656",
+          "reason": "FOLDER_PICKER_REQUESTED",
+          "at": 1794996553748,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/6b83daee-1da4-4c5d-a478-a4594703c7b5.json",
+            "bytes": 434,
+            "sha256": "d6188d6bce26bfe7a86e71b05a529b550acf568276bc3352a271b0346ca34ee6"
+          },
+          "retained": {
+            "path": "proof://retained-events/6b83daee-1da4-4c5d-a478-a4594703c7b5.json",
+            "bytes": 434,
+            "sha256": "d6188d6bce26bfe7a86e71b05a529b550acf568276bc3352a271b0346ca34ee6"
+          }
+        },
+        {
+          "sequence": 8,
+          "sessionId": "192576ad-ee15-4940-9120-aaa8b82d1656",
+          "reason": "FOLDER_PICKER_REGISTERED",
+          "at": 1794996648862,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/040594a0-8533-4bce-97c0-9838a6eff449.json",
+            "bytes": 436,
+            "sha256": "263c6e568373fbed050f67eafbb59cbd78218a94323f62b3404bf1f5cd2edb37"
+          },
+          "retained": {
+            "path": "proof://retained-events/040594a0-8533-4bce-97c0-9838a6eff449.json",
+            "bytes": 436,
+            "sha256": "263c6e568373fbed050f67eafbb59cbd78218a94323f62b3404bf1f5cd2edb37"
+          }
+        },
+        {
+          "sequence": 9,
+          "sessionId": "192576ad-ee15-4940-9120-aaa8b82d1656",
+          "reason": "PREPARATION_STARTED",
+          "at": 1794996681514,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/b7eaf79d-6661-414f-8bae-6222793fdebd.json",
+            "bytes": 798,
+            "sha256": "b1cde8ef5e2c6d68ad9efeee9e248a11de1c30297fb59184f028df0401278bda"
+          },
+          "retained": {
+            "path": "proof://retained-events/b7eaf79d-6661-414f-8bae-6222793fdebd.json",
+            "bytes": 798,
+            "sha256": "b1cde8ef5e2c6d68ad9efeee9e248a11de1c30297fb59184f028df0401278bda"
+          }
+        },
+        {
+          "sequence": 10,
+          "sessionId": "192576ad-ee15-4940-9120-aaa8b82d1656",
+          "reason": "FILE_INSPECTED",
+          "at": 1794996682548,
+          "contextTruncated": true,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/cbc09c80-ecc5-4c85-9d29-1afc99a73226.json",
+            "bytes": 1988,
+            "sha256": "9d4122ba31d7cd6f9270885cd2ae5e1b0f7bad138e5ce869375f290ddb1f312e"
+          },
+          "retained": {
+            "path": "proof://retained-events/cbc09c80-ecc5-4c85-9d29-1afc99a73226.json",
+            "bytes": 1988,
+            "sha256": "9d4122ba31d7cd6f9270885cd2ae5e1b0f7bad138e5ce869375f290ddb1f312e"
+          }
+        },
+        {
+          "sequence": 11,
+          "sessionId": "192576ad-ee15-4940-9120-aaa8b82d1656",
+          "reason": "PREPARATION_FINISHED",
+          "at": 1794996682564,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/32042fb7-4782-4870-90e3-f56cc6a0c298.json",
+            "bytes": 692,
+            "sha256": "d4c410e11269e7df9bd9bea18375c478e02c98c44091fa6ae679f738bd889070"
+          },
+          "retained": {
+            "path": "proof://retained-events/32042fb7-4782-4870-90e3-f56cc6a0c298.json",
+            "bytes": 692,
+            "sha256": "d4c410e11269e7df9bd9bea18375c478e02c98c44091fa6ae679f738bd889070"
+          }
+        },
+        {
+          "sequence": 12,
+          "sessionId": "192576ad-ee15-4940-9120-aaa8b82d1656",
+          "reason": "ENCODE_STARTED",
+          "at": 1794996825419,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/64d19b42-d593-4776-948c-505ec505c622.json",
+            "bytes": 3115,
+            "sha256": "89a21a12430b8547c099deb39e4a19fa11695ea28eda1aa4fafdd48a303e6901"
+          },
+          "retained": {
+            "path": "proof://retained-events/64d19b42-d593-4776-948c-505ec505c622.json",
+            "bytes": 3115,
+            "sha256": "89a21a12430b8547c099deb39e4a19fa11695ea28eda1aa4fafdd48a303e6901"
+          }
+        },
+        {
+          "sequence": 13,
+          "sessionId": "192576ad-ee15-4940-9120-aaa8b82d1656",
+          "reason": "ENCODE_CLOSED",
+          "at": 1794996855820,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/9a80af68-b39a-44f9-ad95-823bc7be145b.json",
+            "bytes": 718,
+            "sha256": "23469dd864377547b81f7da4e57cb188ad03ec9dc0b6e4e7baa5d99f23a00dae"
+          },
+          "retained": {
+            "path": "proof://retained-events/9a80af68-b39a-44f9-ad95-823bc7be145b.json",
+            "bytes": 718,
+            "sha256": "23469dd864377547b81f7da4e57cb188ad03ec9dc0b6e4e7baa5d99f23a00dae"
+          }
+        },
+        {
+          "sequence": 14,
+          "sessionId": "192576ad-ee15-4940-9120-aaa8b82d1656",
+          "reason": "OUTPUT_CHECKED",
+          "at": 1794996855933,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/2d451f9d-8a10-4147-9143-9655c22be8ff.json",
+            "bytes": 612,
+            "sha256": "2e4608595eac40f54f78d32dca01447c27773f3b8b10e822fa07b1cc5dd5ce66"
+          },
+          "retained": {
+            "path": "proof://retained-events/2d451f9d-8a10-4147-9143-9655c22be8ff.json",
+            "bytes": 612,
+            "sha256": "2e4608595eac40f54f78d32dca01447c27773f3b8b10e822fa07b1cc5dd5ce66"
+          }
+        },
+        {
+          "sequence": 15,
+          "sessionId": "192576ad-ee15-4940-9120-aaa8b82d1656",
+          "reason": "SOURCE_ASSESSED",
+          "at": 1794996855950,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/28f6e932-4b93-419e-921a-8c10617de736.json",
+            "bytes": 1519,
+            "sha256": "1f13e559993c0a5f845e046c58c08b56c135ff304a34afa854a5f7aafb5ef5e9"
+          },
+          "retained": {
+            "path": "proof://retained-events/28f6e932-4b93-419e-921a-8c10617de736.json",
+            "bytes": 1519,
+            "sha256": "1f13e559993c0a5f845e046c58c08b56c135ff304a34afa854a5f7aafb5ef5e9"
+          }
+        },
+        {
+          "sequence": 16,
+          "sessionId": "192576ad-ee15-4940-9120-aaa8b82d1656",
+          "reason": "OUTPUT_PUBLISHED",
+          "at": 1794996855959,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/4ab4d64a-eea7-4279-8267-7469fd6a8942.json",
+            "bytes": 1707,
+            "sha256": "e53b7cdf6dc66428ecd9d6847bdbb0835bad0bb4caa06da4f1735e63e3a44037"
+          },
+          "retained": {
+            "path": "proof://retained-events/4ab4d64a-eea7-4279-8267-7469fd6a8942.json",
+            "bytes": 1707,
+            "sha256": "e53b7cdf6dc66428ecd9d6847bdbb0835bad0bb4caa06da4f1735e63e3a44037"
+          }
+        },
+        {
+          "sequence": 17,
+          "sessionId": "192576ad-ee15-4940-9120-aaa8b82d1656",
+          "reason": "JOB_DISPOSITION",
+          "at": 1794996855992,
+          "contextTruncated": true,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/df56281a-8975-4068-82c2-f583055ec821.json",
+            "bytes": 1727,
+            "sha256": "cc1fa6089ba17f17651a58e1aac56526818c395735d24dbd8086192809521597"
+          },
+          "retained": {
+            "path": "proof://retained-events/df56281a-8975-4068-82c2-f583055ec821.json",
+            "bytes": 1727,
+            "sha256": "cc1fa6089ba17f17651a58e1aac56526818c395735d24dbd8086192809521597"
+          }
+        },
+        {
+          "sequence": 18,
+          "sessionId": "192576ad-ee15-4940-9120-aaa8b82d1656",
+          "reason": "BATCH_FINISHED",
+          "at": 1794996856002,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/0f99d8c4-88ba-4a71-993b-185db1e7a6a5.json",
+            "bytes": 776,
+            "sha256": "9f2081cc4123e0cf3e8c683829725f501753a7798edca1bae72f75c78fae86bb"
+          },
+          "retained": {
+            "path": "proof://retained-events/0f99d8c4-88ba-4a71-993b-185db1e7a6a5.json",
+            "bytes": 776,
+            "sha256": "9f2081cc4123e0cf3e8c683829725f501753a7798edca1bae72f75c78fae86bb"
+          }
+        },
+        {
+          "sequence": 19,
+          "sessionId": "192576ad-ee15-4940-9120-aaa8b82d1656",
+          "reason": "OUTPUT_ACTION_DISPATCHED",
+          "at": 1794996863247,
+          "contextTruncated": false,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/6f257e7f-5cf1-4605-acad-483d9741c783.json",
+            "bytes": 499,
+            "sha256": "38422c81063f206ced721de7f393a68cf7d433d8db4dd5b016b2ba4b709eb285"
+          },
+          "retained": {
+            "path": "proof://retained-events/6f257e7f-5cf1-4605-acad-483d9741c783.json",
+            "bytes": 499,
+            "sha256": "38422c81063f206ced721de7f393a68cf7d433d8db4dd5b016b2ba4b709eb285"
+          }
+        },
+        {
+          "sequence": 20,
+          "sessionId": "192576ad-ee15-4940-9120-aaa8b82d1656",
+          "reason": "SESSION_ENDED",
+          "at": 1794996896005,
+          "contextTruncated": null,
+          "original": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/events/10147371-b9d5-45a1-9463-3bd2082af0a6.json",
+            "bytes": 361,
+            "sha256": "9b2c482621f39e095bc15dc8c3bd7b53350cb33fc0f2e01e59d4ba881395082e"
+          },
+          "retained": {
+            "path": "proof://retained-events/10147371-b9d5-45a1-9463-3bd2082af0a6.json",
+            "bytes": 361,
+            "sha256": "9b2c482621f39e095bc15dc8c3bd7b53350cb33fc0f2e01e59d4ba881395082e"
+          }
+        }
+      ],
+      "targetStderr": [
+        {
+          "reason": "ENCODE_CLOSED",
+          "identity": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/stderr/9a80af68-b39a-44f9-ad95-823bc7be145b.txt",
+            "bytes": 335,
+            "sha256": "6df822583d54d11e20bd09410d4bbb3971465f9edd62bcc50fcd15c8731d63f3"
+          },
+          "capture": {
+            "bytes": 335,
+            "sha256": "6df822583d54d11e20bd09410d4bbb3971465f9edd62bcc50fcd15c8731d63f3",
+            "truncated": false,
+            "totalBytes": 335
+          }
+        },
+        {
+          "reason": "JOB_CANCELLED",
+          "identity": {
+            "path": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview/diagnostics-v1/stderr/accfbe2b-f634-4e8d-8ca6-8deeab8da9cb.txt",
+            "bytes": 335,
+            "sha256": "ad2ebb8312b4a370427a193e375ca98623dd1440492c37c50f32637415dfe6f7"
+          },
+          "capture": {
+            "bytes": 335,
+            "sha256": "ad2ebb8312b4a370427a193e375ca98623dd1440492c37c50f32637415dfe6f7",
+            "truncated": false,
+            "totalBytes": 335
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "path": "proof://owned-output/.ffmpeg-encoder-SR2G8d/encoded.mkv",
+          "bytes": 3932160,
+          "sha256": "71297fcbaa54321b6f9975e0eb6d8511fe42f5cee31b1437f43d4004d9e656de"
+        },
+        {
+          "path": "proof://owned-output/native-ordinary-h265_H265-CPU.mkv",
+          "bytes": 6691875,
+          "sha256": "9759fa08beae3615fb465335cc1f88ab8824bb932f021aebd17eecd751bcc612"
+        }
+      ],
+      "census": {
+        "spawned": 65,
+        "closed": 65,
+        "live": 0,
+        "maximum": 1,
+        "failures": 0
+      },
+      "truncatedContexts": [
+        {
+          "sessionId": "cdaa96a0-82b2-41df-a3ed-9c51e92e93f5",
+          "reason": "FILE_INSPECTED"
+        },
+        {
+          "sessionId": "cdaa96a0-82b2-41df-a3ed-9c51e92e93f5",
+          "reason": "JOB_CANCELLED"
+        },
+        {
+          "sessionId": "cdaa96a0-82b2-41df-a3ed-9c51e92e93f5",
+          "reason": "JOB_DISPOSITION"
+        },
+        {
+          "sessionId": "192576ad-ee15-4940-9120-aaa8b82d1656",
+          "reason": "FILE_INSPECTED"
+        },
+        {
+          "sessionId": "192576ad-ee15-4940-9120-aaa8b82d1656",
+          "reason": "JOB_DISPOSITION"
+        }
+      ],
+      "profile": {
+        "dev": 27,
+        "ino": 2361428,
+        "scope": "Directory identity plus37 old named events only, not opaque profile byte identity"
+      },
+      "sessions": {
+        "eventCounts": [
+          18,
+          21
+        ],
+        "distinctDiagnosticSessions": true,
+        "sameProcessPid": 30281,
+        "sameProcessOwnerToken": true,
+        "oldEndBeforeNewStartMs": 255,
+        "ownerTokenNotCopied": "Process token deliberately omitted from this audit; equality checked in originals."
+      },
+      "timing": {
+        "wholeJourneySeconds": 925.7421986689878,
+        "firstBatchSeconds": 25.51,
+        "recoveryBatchSeconds": 30.923,
+        "firstStartToCancellationRequestMs": 23108,
+        "requestToCancelledEventMs": 2060,
+        "recoveryEncodeStartToClosedMs": 30401,
+        "numericEventsInsideOuterUtc": true
+      },
+      "storagePoints": [
+        {
+          "receipt": {
+            "path": "proof://POINT-before-prepare.json",
+            "bytes": 532,
+            "sha256": "cfe4cf1f01cad126bbe3ee57d1d793531ae1b36385f45fe0b7cc9b32df0c5af7"
+          },
+          "atUtc": "2026-11-18T10:04:08.845936+00:00",
+          "freeBytes": 56260517888
+        },
+        {
+          "receipt": {
+            "path": "proof://POINT-after-cancellation.json",
+            "bytes": 42799,
+            "sha256": "45e7e0c2ce5654a9e9aacc78f9219e4141d89c55390047f766d59875d2406bb9"
+          },
+          "atUtc": "2026-11-18T10:06:11.385250+00:00",
+          "freeBytes": 56256536576
+        },
+        {
+          "receipt": {
+            "path": "proof://POINT-before-recovery-target.json",
+            "bytes": 1676,
+            "sha256": "35cd3f4bc03b1134d3dbac37b439f97689bb01db348a63743d37b6d3941ea1b7"
+          },
+          "atUtc": "2026-11-18T10:11:01.717666+00:00",
+          "freeBytes": 56256434176
+        }
+      ],
+      "supportedFacts": [
+        "First target has ENCODE_STARTED then CANCELLATION_REQUESTED, JOB_CANCELLED and cancelled batch with no publication. Retained JOB_CANCELLED context explicitly says signal SIGKILL/exitCode null and is marked truncated; no graceful-close claim.",
+        "Operator observed active59.7%/encoded00:04 before one Cancel, then Cancelling97.3% and settled Cancelled. These are CUA-only observations, not independently replayable images or decoded-frame counts.",
+        "Incomplete3,932,160-byte stage persists. Point-after-cancellation shows only that stage, no final name. Recovery publishes separate final6,691,875-byte file; both full hashes first established in post-close inventory and rehashed independently now.",
+        "Old diagnostic end precedes new start255ms, same PID/process token, distinct session IDs. Reviewed V3 retirement/factory path plus fresh startup/capability/reset and re-registration evidence supports fresh service lifecycle, not a new process or directly inspected native object identity.",
+        "Recovery requires fresh explicit folder registrations and preparation before its one target. No third target or automatic replay in retained events. Old grant expiry is supported by reviewed code/tests, not a native attempted stale-grant action in this journey.",
+        "Recovery exit0, valid ordinary metadata check, unchanged sparse source assessment, published output and one-success completed batch correlate; one reveal dispatch follows. Actual Thunar selection is operator observation, not proven by dispatch alone.",
+        "At audit time, both 335-byte specifically referenced existing stderr attachments were independently rehashed against event descriptors stating truncated:false; native events-only capture itself did not retain their text. Both contain duplicate codec-option, CPU-mask and thread-pool/wpp/lookahead warnings; successful exit does not erase or establish harmlessness. No complete per-child diagnostic collection."
+      ],
+      "limits": [
+        "Five truncated contexts retained. Native metadata check is not independent full video/audio decode, packet/PCM identity or cross-reader/player/audibility qualification. No extra probes/decode/playback performed.",
+        "Whole925.742-second manual journey is not encoder performance; saved25.51/30.923-second batch measurements and event intervals have different scopes.",
+        "Actual supervisor wait/exit0 and65/65 owned closed census support bounded closure. Exec /proc is a separate namespace; no independent desktop/wholeOS PID absence assertion.",
+        "Point free-space/canonical identity checks are not continuous quotas/hardcaps; supervisor unbounded termination wait and failure-only capture limitations remain.",
+        "Screenshots/action timing remain operator CUA observations; no exact click timestamp or general picker reliability/root cause claim.",
+        "One bounded043 recovery does not promote default/runtime/audio policy, establish Windows behavior or constitute formal Security Cloud scan. No authoritative source/PBS/Git/profile-secret or runtime actions by reviewer."
+      ],
+      "additionalAuditTimeAttachmentRead": {
+        "scope": "Exactly two event-ID-referenced ordinary diagnostics-v1/stderr text attachments; no directory enumeration, general profile access, secret profile reads or copies.",
+        "provenance": "Native supervisor capture remains events-only. Retained wrappers contain stderr metadata identities, not text. This audit separately read the two named existing 335-byte text attachments and rehashed them against those descriptors. The native supervisor did not retain these text bytes.",
+        "chronology": "Reads completed before the lead narrower caution arrived. Lead subsequently clarified that the two specific non-secret diagnostic attachment reads fall within the broader authorized audit. No further profile reads or copies followed.",
+        "coverage": "Two target texts only, not complete diagnostics for all 65 owned tool children. Event context truncation remains separate from stderr descriptor truncated:false."
+      }
+    },
+    "LEAD_RECONCILIATION": {
+      "reconciledAtUtc": "2026-11-18T10:20:57.932610+00:00",
+      "sourceCommit": "42427a2effa99fd3453538ca20e3364bd3232409",
+      "sourceTree": "52bb7f021323a5059b122da90ceda3037c0f110b",
+      "all646SourceBytesUnchanged": true,
+      "independentAudit": {
+        "path": "proof://INDEPENDENT_NATIVE_AUDIT.json",
+        "bytes": 72087,
+        "sha256": "f94655685b2fc4237be8fedf3ce3d2360a8c7301fb6a4110becd9f68e4346c5d"
+      },
+      "identityRowsInAudit": 188,
+      "identityRowsRehashedByLead": 186,
+      "additionalTargetTextReadsByLead": 0,
+      "targetAttachmentProvenance": "Independent auditor separately read exactly two event-ID-referenced335-byte diagnostic text attachments and matched native event descriptors; lead did not repeat those reads. Native supervisor capture remains events-only, not raw target stderr retention or complete65-child diagnostic coverage. Original audit before clarification is retained, original outcome/capture unchanged.",
+      "outcome": {
+        "path": "proof://JOURNEY_OUTCOME.json",
+        "bytes": 13607,
+        "sha256": "c8efc274a0c4f2f822137fec64b3240e2a509e5031d136c8288306c7ca78b79e"
+      },
+      "outer": {
+        "path": "proof://OUTER_COMPLETION.json",
+        "bytes": 1006,
+        "sha256": "983f72f79057bf66a0a4f342ccbd83452eb9338d054428b5156636de608f94da"
+      },
+      "outputInventory": {
+        "path": "proof://OUTPUT_INVENTORY.json",
+        "bytes": 513,
+        "sha256": "8b827fc75cab0c9176ede438cacdbaacebc4843eabe01c694af41e9ca831aac5"
+      },
+      "eventCapture": {
+        "path": "proof://EVENT_CAPTURE.json",
+        "bytes": 12685,
+        "sha256": "a538d0dcc114578f409e16b6446da53bfa44422b5dcf0324d3a8861acda6c2c2"
+      },
+      "disposition": "Supported one bounded native active cancellation, explicit fresh ordinary service/window lifecycle and one recovery H265 publication/reveal on immutable043; no runtime/default/audio-policy promotion or further execution grant.",
+      "census": {
+        "spawned": 65,
+        "closed": 65,
+        "live": 0,
+        "maximum": 1,
+        "failures": 0
+      },
+      "sessions": {
+        "eventCounts": [
+          18,
+          21
+        ],
+        "distinctDiagnosticSessions": true,
+        "sameProcessPid": 30281,
+        "sameProcessOwnerToken": true,
+        "oldEndBeforeNewStartMs": 255,
+        "ownerTokenNotCopied": "Process token deliberately omitted from this audit; equality checked in originals."
+      },
+      "outputs": [
+        {
+          "path": "proof://owned-output/.ffmpeg-encoder-SR2G8d/encoded.mkv",
+          "bytes": 3932160,
+          "sha256": "71297fcbaa54321b6f9975e0eb6d8511fe42f5cee31b1437f43d4004d9e656de"
+        },
+        {
+          "path": "proof://owned-output/native-ordinary-h265_H265-CPU.mkv",
+          "bytes": 6691875,
+          "sha256": "9759fa08beae3615fb465335cc1f88ab8824bb932f021aebd17eecd751bcc612"
+        }
+      ],
+      "timing": {
+        "wholeJourneySeconds": 925.7421986689878,
+        "firstBatchSeconds": 25.51,
+        "recoveryBatchSeconds": 30.923,
+        "firstStartToCancellationRequestMs": 23108,
+        "requestToCancelledEventMs": 2060,
+        "recoveryEncodeStartToClosedMs": 30401,
+        "numericEventsInsideOuterUtc": true
+      },
+      "originalProfileEventsPreserved": 37,
+      "newRetainedEvents": 39,
+      "truncatedContexts": [
+        {
+          "sessionId": "cdaa96a0-82b2-41df-a3ed-9c51e92e93f5",
+          "reason": "FILE_INSPECTED"
+        },
+        {
+          "sessionId": "cdaa96a0-82b2-41df-a3ed-9c51e92e93f5",
+          "reason": "JOB_CANCELLED"
+        },
+        {
+          "sessionId": "cdaa96a0-82b2-41df-a3ed-9c51e92e93f5",
+          "reason": "JOB_DISPOSITION"
+        },
+        {
+          "sessionId": "192576ad-ee15-4940-9120-aaa8b82d1656",
+          "reason": "FILE_INSPECTED"
+        },
+        {
+          "sessionId": "192576ad-ee15-4940-9120-aaa8b82d1656",
+          "reason": "JOB_DISPOSITION"
+        }
+      ],
+      "targetStderrMetadata": [
+        {
+          "reason": "ENCODE_CLOSED",
+          "capture": {
+            "bytes": 335,
+            "sha256": "6df822583d54d11e20bd09410d4bbb3971465f9edd62bcc50fcd15c8731d63f3",
+            "truncated": false,
+            "totalBytes": 335
+          }
+        },
+        {
+          "reason": "JOB_CANCELLED",
+          "capture": {
+            "bytes": 335,
+            "sha256": "ad2ebb8312b4a370427a193e375ca98623dd1440492c37c50f32637415dfe6f7",
+            "truncated": false,
+            "totalBytes": 335
+          }
+        }
+      ],
+      "limits": [
+        "Five truncated contexts retained. Native metadata check is not independent full video/audio decode, packet/PCM identity or cross-reader/player/audibility qualification. No extra probes/decode/playback performed.",
+        "Whole925.742-second manual journey is not encoder performance; saved25.51/30.923-second batch measurements and event intervals have different scopes.",
+        "Actual supervisor wait/exit0 and65/65 owned closed census support bounded closure. Exec /proc is a separate namespace; no independent desktop/wholeOS PID absence assertion.",
+        "Point free-space/canonical identity checks are not continuous quotas/hardcaps; supervisor unbounded termination wait and failure-only capture limitations remain.",
+        "Screenshots/action timing remain operator CUA observations; no exact click timestamp or general picker reliability/root cause claim.",
+        "One bounded043 recovery does not promote default/runtime/audio policy, establish Windows behavior or constitute formal Security Cloud scan. No authoritative source/PBS/Git/profile-secret or runtime actions by reviewer.",
+        "Actual SIGKILL/exitCode null is present in a truncated cancellation context. Numeric percentages/encoded times are CUA observations, not decoded frame counts.",
+        "First complete partial/final hashes are post-close inventory, independently rehashed later. No new independent output probe/decode/PCM/packet test or complete per-child invocation ledger.",
+        "Native stale-grant replay was not attempted; expiry/no-transfer protection relies on reviewed code and prior injected tests alongside actual fresh registration.",
+        "Prior191/191,229/229,335/335 source suites were not rerun for this evidence-only journey; scopes overlap, not a new aggregate test count."
+      ],
+      "resourceRelease": "Actual desktop supervisor terminal exit0 with no termination request/failure;65owned children closed/live0 and normal operator close. Authoritative source freeze may now release for evidence/PBS only. No use of exec namespace PID absence; no additional media action authorized by this receipt."
+    },
+    "OUTER_COMPLETION": {
+      "exitCode": 0,
+      "terminationRequested": false,
+      "failure": null,
+      "startedUtc": "2026-11-18T09:59:32.386665+00:00",
+      "endedUtc": "2026-11-18T10:14:58.128847+00:00",
+      "elapsedSeconds": 925.7421986689878,
+      "maximumUserTargets": 2,
+      "qualification": "Closure only. Requires visible CUA outcome and independent saved audit. No complete child stderr, native acceptance, audio identity or runtime promotion inferred. Operator-bound maximum of two semantic target invocations (one intended cancellation and one recovery); helper does not enforce UI action counts. Startup capability media from each owner is separate.",
+      "app.stdout.log": {
+        "bytes": 447,
+        "sha256": "70e0aeb8fd0f34dc4743b5509ba94573491c2587c282d508f5614494d6d2fa90"
+      },
+      "app.stderr.log": {
+        "bytes": 624,
+        "sha256": "14db4eb82d85c05a4887b0e19c18d6db9eb00ab995591035f876aff9b0bab985"
+      },
+      "ownedCensusLines": [
+        "LINUX_WORKBENCH_CLOSED {\"spawned\":65,\"closed\":65,\"live\":0,\"maximum\":1,\"failures\":0}"
+      ]
+    },
+    "OUTPUT_INVENTORY": {
+      "files": [
+        {
+          "relativePath": ".ffmpeg-encoder-SR2G8d/encoded.mkv",
+          "bytes": 3932160,
+          "sha256": "71297fcbaa54321b6f9975e0eb6d8511fe42f5cee31b1437f43d4004d9e656de"
+        },
+        {
+          "relativePath": "native-ordinary-h265_H265-CPU.mkv",
+          "bytes": 6691875,
+          "sha256": "9759fa08beae3615fb465335cc1f88ab8824bb932f021aebd17eecd751bcc612"
+        }
+      ],
+      "provenance": "First full post-close hashes unless earlier evidence independently retained; no probe/decode or success assertion."
+    }
+  }
+}

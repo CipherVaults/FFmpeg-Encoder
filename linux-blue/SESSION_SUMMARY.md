@@ -1,3 +1,226 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Observe active cancellation and explicit fresh ordinary-session recovery
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role | Attribution | Work and evidence limit |
+|---|---|---|
+| Engineering lead | GPT-6 Astra / Ultra, recorded assignment, not backend attestation | Completed prior preservation, checked the exact known-state binding and released one bounded journey. Accepted the bounded saved evidence after source/runtime/state reconciliation. |
+| Native operator / preparation reviewer | Model and effort not independently established here | Reused the existing helper and visible mouse-only folder interaction; preparation checks are separate from the actual native journey. |
+| Independent audit / records | Model and effort not independently established here | Saved-only audit reconciled events, artifacts and two specifically referenced diagnostic attachments; no new decode or general output/audio validation. |
+
+**Record basis:** One native journey on immutable 043 observed an active H.265 cancellation, settled cancellation, one explicit **New ordinary session**, fresh folder registration and one successful recovery encode/reveal in the same application process. The two diagnostic sessions are distinct; the old owner was not reused. All 65 observed owned tool children closed. A partial stage remains retained. Independent saved-only audit and lead reconciliation accept this bounded native handoff. They do not establish general output/audio fidelity or complete failed-resource recovery. No new production or test code, runtime default or audio policy was changed.
+
+## 🕒 Time
+
+**Stage / type / focus:** Evidence-only native handoff qualification on the reviewed 043 source, not another codec matrix or source implementation.
+
+**Date and clock:** November 18, 2026; Cairo UTC+02:00. Fixed cutoff **12:20:57.934029 Cairo / 10:20:57.934029 UTC**. Times below are UTC. Active effort was not measured. Electron log-prefix clocks are not silently normalized to outer/event UTC.
+
+- 043 cutoff remains **09:41:18.591336**. The later reuse-only plan review is **09:41:35.573963** and belongs here, not in that prior record.
+- Bound preparation review: **09:51:46.742641**. Prior GitHub verification: **09:56:36.569507**; final publication receipt finalized **09:57:49.050632**.
+- Fresh desktop observation: **09:58:00.512425**. Direct lead gate saved/read back: **09:58:59.931934**.
+- Attempt marker: **09:59:32.120817**. Actual app/outer start: **09:59:32.386665**; first diagnostic session start: **09:59:32.912**.
+- Saved cancellation request: **10:05:45.176**; job cancelled: **10:05:47.236**; cancelled batch finished: **10:05:47.254**.
+- Old diagnostic session ended: **10:06:35.515**; new diagnostic session started: **10:06:35.770**. These are durable event times, not inferred click times.
+- Recovery encode closed: **10:14:15.820**; completed batch finished: **10:14:16.002**; reveal dispatched: **10:14:23.247**; second session ended: **10:14:56.005**.
+- Outer ended **10:14:58.128847**, normal exit 0, **925.742199 seconds** for the whole manual journey. Outcome recorded **10:16:39.152648**. Initial independent audit reviewed **10:18:16.364585**; final clarified audit and lead reconciliation were accepted by **10:20:57.932610**. The fixed cutoff is **2026-11-18T10:20:57.934029+00:00**.
+
+**End / stopping point:** Both semantic target actions are terminal; supervisor exit and owned census are recorded. Independent saved-only audit and lead reconciliation support the finite cancellation/fresh-session/recovery/reveal result. Source freeze is released for evidence/PBS only, not further runtime.
+
+**Reason for this summary:** Preserve a practical cancelled-owner to fresh-owner handoff, its partial artifact and warning/capture limits, without describing same-process recovery as same-owner reuse or a whole-journey duration as encoder performance.
+
+## 🎯 Session Goal
+
+Exercise the narrow recovery implementation already reviewed and preserved in 043. Demonstrate that cancellation keeps the old candidate closed, that an explicit fresh-session action discards old batch/access rather than replaying work, and that the replacement document can register folders, prepare and complete a new target. Preserve existing profile/event evidence and use proven visible directory navigation rather than inventing a new interaction harness.
+
+The intended envelope is one application launch and at most two semantic target starts: one active cancellation and one recovery success. Startup capability media is separate. Existing owner permission covers the controlled test; exact source, known state, preservation and fresh execution checks remain engineering prerequisites, not a new permission request.
+
+## 🛠️ Actions Taken
+
+### 1. Preserve actual 043 before binding the native attempt
+
+043 is local `42427a2effa99fd3453538ca20e3364bd3232409`, tree `52bb7f021323a5059b122da90ceda3037c0f110b`, **646 files / 43 commits**. Its complete source, history and native Session were restored and independently mapped. The exact **1,935,749-byte** Session, SHA `225ebae224a6282c7e767a2ece1b964fa149a7691fe2dd4121499d62705c3337`, remains the full predecessor suffix.
+
+GitHub verified remote `5c95ca2df76b0ae3bc5397dd37ad6c69d6f73636`, sole parent `afed81dd5e005cb4b6e6903fde03a64c900fca9d`, tree `5eae134401e6f6d1f212f2eae15cec22e33de0c4`: ten exact file readbacks, fresh ref and expected-parent non-force update, **1,028 total / 1,018 unchanged / eight modified / two new / zero deleted**. Full Session used immutable Git blob readback. Final mirror receipt is **117,110 bytes / `c97578bb5b12506cbb37b16c8c686ca7a189cc2f24571f2445673c066eabbeaf`**; final publication receipt is **175,303 bytes / `f4754fa4cc490643534ea7780e2b23bdda85302f5c0aaa1f366ceb618b76896e`**.
+
+Inherited 043 source results remain **191/191 focused, 229/229 protection and 335/335 explicit Linux**. Those overlapping source selections were not rerun for this native evidence step and are not package-wide `npm test`. Prior red controls and the failed-late-acquisition ownership limitation remain unchanged.
+
+### 2. Reuse the helper with explicit source, state and action limits
+
+The original unbound plan still cited V2/nonintegrated source. Independent plan review required preserving that proposal while updating the bound attribution to final V3 and actual 043. The reused helper changed only the reviewed source/baseline/action preparation needed for this journey: **37 existing allowlisted events**, one launch, two explicit prepares/starts at most, one cancellation, one fresh-session action and one optional reveal. It continues to capture multiple new diagnostic sessions and recursively inventory partial artifacts. No new generator or authorizer framework was created.
+
+The bound preparation review is **4,213 bytes**, SHA `1c2bcc3730546b9c61a842072c2c9b3f10e0e3e094638128924f778b1ff8c770`. It checked exact source and fixed runtime/dependencies, plan identities, known profile/events, valid-plan behavior and four invalid action-scope refusals without calling the runtime entry point. This is preparation evidence, not native success or automatic enforcement of GUI action counts.
+
+A fresh actual desktop observation preceded the lead-written **78,346-byte** gate, SHA `22759131f891711644de3c828ae96397e187a1cd84362ebaac29fc24a0cb790c`. Semantic checks covered all 646 source files, final 043 preservation, fixed runtime/dependencies/fixture, known profile and 37 events, and point free space **56,266,280,960 bytes**. Earlier preflight was preserved. The legacy `authorizerReview` field explicitly aliases the same conditional preparation review; it is not another reviewer or executed authorizer. Legacy remaining-service fields identify earlier source 041 evidence, not new 043 qualification.
+
+The helper's maximum-two-target statement is an operator boundary, not software that counts or forces UI actions. Its unchanged supervisor has an unbounded post-SIGTERM wait/failure-only receipt limitation; a timeout is not a hard closure guarantee. No such termination was requested in this observed run.
+
+### 3. Cancel one visibly active H.265 target and retain the partial stage
+
+Read-only Thunar confirmed the exact owned fixture without opening media. Mouse-only directory rows/breadcrumbs and one visible acceptance per folder produced visible exact paths plus durable registrations. The first Prepare reached Ready for the eight-second source with **H.265 CPU slow / CRF 25, Full / Keep source / copied compatible audio**. No Apply was needed.
+
+After one Start the operator observed **Encoding 59.7%, encoded 00:04, elapsed 00:12**, then clicked Cancel once. A later observation showed **Cancelling 97.3%, encoded 00:07, elapsed 00:23**, followed by settled Cancelled and the session-closed notice. The percentages are actual CUA observations, not synthesized from a later success or `ENCODE_STARTED` alone. Exact click timestamps were not independently retained.
+
+Saved events correlate `ENCODE_STARTED`, `CANCELLATION_REQUESTED`, `JOB_CANCELLED` and `BATCH_FINISHED`. The cancelled event records **`CANCELLED`, signal `SIGKILL`, exit code null**. It is not graceful termination. Its context is truncated, although it retains **335-byte stderr count/hash/untruncated metadata**. The raw target stderr text is not present in the retained event wrapper; the independent audit separately read and rehashed exactly that referenced attachment, as described below. No positive frame count is invented from the event. Batch counts show one cancelled item, zero success/failure/skip, elapsed **25.51 seconds** for the batch.
+
+The unbound incomplete stage `.ffmpeg-encoder-SR2G8d/encoded.mkv` remains **3,932,160 bytes**, post-close SHA `71297fcbaa54321b6f9975e0eb6d8511fe42f5cee31b1437f43d4004d9e656de`. It was not deleted to make recovery pass. A retained partial file is neither a published complete output nor independently validated media.
+
+### 4. Explicitly acquire a fresh session and finish one recovery target
+
+After settled cancellation, one enabled **New ordinary session** action replaced/reset the workbench. Observed prior-output bookkeeping reported zero matching, one absent, zero unrelated and zero uncertain, without file changes. The old diagnostic session ended and a distinct new session began. **PID 30281 and the process token stayed the same**: fresh service/document lifecycle in the same application is the supported distinction, not a new process or same-owner revival. Different observed window IDs alone are not direct WebContents or runtime-object proof.
+
+The operator explicitly registered both folders again, then used the second Prepare and confirmed the same meaningful H.265 slow / CRF 25 / Full / Keep / copied-audio display. A second Start was explicit, not automatic replay. No Apply was needed. Recovery Encoding was observed at **38.9%** and later **88.5%**, then Completed/Succeeded. One Show in folder dispatched and Thunar visibly selected the exact final output and **6,691,875-byte** size. No output playback, extra probe, decode or PCM comparison occurred.
+
+The completed batch records one success and no failure/skip/cancellation, elapsed **30.923 seconds**. The final file `native-ordinary-h265_H265-CPU.mkv` has first full **post-close** SHA `9759fa08beae3615fb465335cc1f88ab8824bb932f021aebd17eecd751bcc612`. It is distinct from the retained partial stage. The successful target likewise retains **335-byte stderr count/hash/untruncated metadata**, not raw target text in the event wrapper. The original metadata is not itself a raw-stderr rehash. The audit later rehashed the specifically referenced attachment; this does not supply complete child diagnostics. Its saved ENCODE_STARTED→ENCODE_CLOSED interval is **30.401 seconds**, distinct from the 30.923-second batch interval and not a benchmark.
+
+Actual action totals are one launch, two input and two output acceptances across the owners, two Prepare, zero Apply, two Start, one Cancel, one New ordinary session and one reveal. There was no automatic retry or extra target. Final saved-only review accepts this bounded fresh-session behavior. Old grant expiry relies on reviewed code/injected tests plus actual fresh registration; the native journey did not attempt a stale-grant replay.
+
+### 5. Close normally and retain evidence limits
+
+The app and file manager closed normally. The actual supervisor waited and recorded **exit 0**, no termination request/failure, and **65 spawned / 65 closed / zero live / maximum one** owned tool child. This aggregate includes startup capability media for both owners and must not be called 65 user encodes, complete per-child stderr or all OS processes. Executor `/proc` absence is not used to establish desktop closure.
+
+There are **39 new saved events** across two diagnostic sessions. Five contexts are truncated: first-owner FILE_INSPECTED, JOB_CANCELLED and JOB_DISPOSITION; second-owner FILE_INSPECTED and JOB_DISPOSITION. Both target stderr identities remain separately retained as metadata; their raw text is not in the event wrappers. The **624-byte Electron stderr** contains D-Bus/SSL diagnostics; the previous missing workbench-session handler error is absent, not proof that unrelated warnings are harmless.
+
+Operator post-close checks retain all **646 source identities** and the exact **37 prior allowlisted events**, with profile directory dev 27 / inode 2361428. This is not a hash claim over opaque profile/cache state. The post-close point records **56,249,327,616 free bytes** and **10,624,035 output bytes** across partial plus final files. Point observations are not continuous quotas or active-write caps.
+
+`JOURNEY_OUTCOME.json` is **13,607 bytes / `c8efc274a0c4f2f822137fec64b3240e2a509e5031d136c8288306c7ca78b79e`**. `OUTER_COMPLETION.json` is **1,006 bytes / `983f72f79057bf66a0a4f342ccbd83452eb9338d054428b5156636de608f94da`**. Its **925.742-second** duration includes manual navigation and is not encoder performance. Screenshots are CUA tool observations, not independently archived images. No output/audio generalization or runtime/default promotion follows from normal closure alone. Final independent audit and lead reconciliation accept the bounded facts with the limits below.
+
+### 6. Reconcile the final audit and clarify diagnostic provenance
+
+Final `INDEPENDENT_NATIVE_AUDIT.json` is **72,087 bytes / `f94655685b2fc4237be8fedf3ce3d2360a8c7301fb6a4110becd9f68e4346c5d`**. It matches immutable/current/gate source 646, fixed runtime/Electron/fixture identities, dependency resolutions, original 37 events, new 39 events and partial/final output hashes. The first owner has 18 new events and the second 21; old end precedes new start by 255 ms. A native metadata-valid output/source assessment/publication chain and one-success batch support publication; Thunar selection remains separately attributed CUA observation, not proof from dispatch alone.
+
+The original helper capture is **events-only** for target diagnostics: wrappers retain byte-count/hash/untruncated metadata, not raw target text. During the saved audit, before the lead's narrower caution arrived, the auditor separately read exactly **two event-ID-referenced, non-secret 335-byte stderr attachments** and matched the descriptors. The broader authorized audit covered those specific files; no directory enumeration, secret-profile reads, new copies or further attachment reads followed. Final audit records this additive provenance and preserves its prior version. Original outcome and capture bytes are unchanged.
+
+Those two actual texts contain duplicate codec-option, CPU-mask and thread-pool/wpp/lookahead warnings. They are not categories inferred from an older run, and successful exit does not establish harmlessness. Cancellation attachment SHA is `ad2ebb8312b4a370427a193e375ca98623dd1440492c37c50f32637415dfe6f7`; recovery attachment SHA is `6df822583d54d11e20bd09410d4bbb3971465f9edd62bcc50fcd15c8731d63f3`. Two separately inspected attachments do not mean the supervisor retained raw text or all 65-child diagnostics are complete. Context truncation remains distinct from stderr descriptors marked untruncated.
+
+Lead reconciliation is **6,885 bytes / `64454a6d4dd6a0dd775404f93442f8939f836fcafc849036904bfb93741bc086`**. The lead rehashed **186 of 188 audit identity rows**, deliberately not repeating the two attachment reads, and checked all 646 source files plus original 37 events. The reviewed coverage is therefore stated separately rather than claiming two identical full sweeps. Both complete file hashes were first recorded post-close and only later independently rehashed. No new probe/decode/PCM was executed by audit or lead.
+
+Event-derived timing is **23,108 ms** from first ENCODE_STARTED to cancellation request, **2,060 ms** request to JOB_CANCELLED, and **30,401 ms** recovery ENCODE_STARTED to ENCODE_CLOSED. These complement the observed active percentages, but do not reconstruct exact clicks or decoded frames. The fixed cutoff releases source for evidence/PBS only; it grants no further media execution.
+
+The curated portable is a selection, not a full raw-report archive: **four complete objects** are included, the final audit, lead reconciliation, outer completion and output inventory. The original JOURNEY_OUTCOME remains local with exact exclusion metadata because it embeds process-identity token fields. Its facts are attributed here; the portable does not claim to reproduce or redact that full object. Event/text/profile/media/runtime payloads are also excluded. Only **188 leading-root substitutions** are applied to the four selected objects; other selected values remain exact. No inverse-root mapping, original-byte restoration or execution authority is supplied by that curated copy.
+
+### 7. Keep performance triage and successor preparation separate
+
+Read-only current-cost triage recommends no speculative cache, thread or encoder-setting patch. Earlier long ordinary H.264 child 80.565-second execution is distinct from its 129.692-second whole campaign and from manual native durations. Saved proof-only video-count/strict-decode and PCM/packet checks are qualification overhead, not app work to remove. Earlier x265 CPU-mask warnings cannot be transferred to libx264, whose saved target warning is the codec-option override.
+
+A fresh candidate deliberately reacquires runtime and capability authority. The service already caches capabilities within one owner; cross-owner caching needs its own invalidation and equivalence evidence. No new production performance defect or justified cache change was established by this read-only work. Minimal reused E3 calibration-helper V1 preparation is outside-only. At the fixed cutoff independent review is HOLD for a narrow final-completion-read failure-retention gap, with correction assigned. Later V2 results are excluded. It is not source integration, a gate, media qualification or an audio-policy change.
+
+## 🧠 Key Insights
+
+The intended usability gain does not require reopening a cancelled owner. The actual journey shows explicit old-session termination, a new diagnostic session and a manually prepared recovery job within one process. Registration was repeated and old work was not automatically replayed. Different lifecycle identities and source-backed retirement matter more than visual window replacement alone.
+
+Cancellation can retain a substantial incomplete stage and finish through SIGKILL while the application later recovers. Those facts must remain visible rather than being turned into “clean cancellation.” Likewise, successful native publication/reveal is not full audio/video validation, and proof-only decoding costs should not motivate removing application checks or adding speculative caches.
+
+## 📌 Decisions Made
+
+**Confirmed:** Use the narrow reused helper and known-profile mouse-only journey, not a new framework or full codec rerun. **Decider:** lead after preparation review and fresh semantic gate checks. **Basis:** actual 043 source and prior proven directory interaction, with one cancellation and one recovery target.
+
+**Confirmed:** Retain the partial stage, old diagnostic events and original outcome bytes. **Decider:** reviewed plan and operator execution. **Basis:** recovery must not manufacture a clean directory or erase failure evidence.
+
+**Preserved:** Default 7.1.5 rollback, exact candidate runtime/producer authority and held audio policy. **Decider:** continuing owner direction maintained by lead. **Basis:** one native handoff does not authorize promotion or a new audio tradeoff.
+
+**Confirmed:** Accept only the bounded native cancellation/fresh-session/recovery/reveal evidence and preserve it. **Decider:** lead after independent saved audit and reconciliation. **Basis:** exact source/state/artifacts, two-session event chain and actual supervisor closure; no new source/default/audio authority.
+
+**Deferred:** Further E3 execution and broader qualification. **Decider:** lead after separately reviewed exact preparation and preservation. **Basis:** V1 completion-read retention is on HOLD at the cutoff; correction assignment is not a completed V2 review or a run.
+
+## ⚠️ Difficulties / Friction
+
+The original plan's stale V2/nonintegrated attribution needed a truthful bound update to final V3/043, while the old plan remained intact. Legacy gate field names also needed explicit meaning: one review alias is not a second authorizer, and earlier-service evidence is not qualification of changed recovery source.
+
+The short first target could have finished before a cancellation. The plan therefore required an actual active observation and prohibited repeating targets merely to manufacture cancellation; this run retained observed Encoding before the single Cancel. Native diagnostics remain partial despite a successful handoff, so truncated contexts and CUA-only observations cannot be silently filled with assumptions.
+
+## 🔧 Adjustments Made
+
+- **Shifted from:** unbound V2-era plan wording. **To:** actual 043/V3 identities and exact preservation/state checks. **Because:** final source differs from the initial proposal. **Consequence:** the old plan stays preserved while only reviewed current bytes may run.
+- **Shifted from:** one successful native owner with a 16-event baseline. **To:** 37 protected prior events and one explicit cancelled-owner→fresh-owner journey. **Because:** the recovery implementation needs its own native evidence. **Consequence:** capture spans two new diagnostic sessions and retained partial output, not a reset profile.
+- **Shifted from:** close/relaunch after cancellation. **To:** one enabled New ordinary session action followed by explicit new preparation. **Because:** 043 introduced reviewed fresh-owner retirement/acquisition. **Consequence:** observed recovery occurs in the same process, without old observer revival or automatic replay; final saved audit supports only the bounded path.
+- **Shifted from:** combined saved campaign and manual-journey timing evidence. **To:** read-only separation of target work, proof-only traversals and manual interaction. **Because:** extra validation dominates some saved timings. **Consequence:** no unsupported cache/thread/performance patch is made.
+
+## ❌ Mistakes / Risks Noted
+
+### Fresh session confused with same-owner or new-process recovery
+
+**What happened / could happen:** A replacement window and successful second job could be described as reviving the cancelled owner or launching a new process.
+
+**Actual impact:** Two diagnostic sessions share one PID/token; saved old end/new start and visible reset support fresh lifecycle, not direct pointer/WebContents identity proof.
+
+**Potential impact:** Weakening admission or copying old access because recovery appears to be a simple UI reset.
+
+**Correction / current status:** Keep source-backed retirement, explicit new action, repeated registration and no-replay semantics. Do not infer object identity from window IDs.
+
+**Failure Intelligence:** Preserve both session event streams, first cancelled batch and second successful batch separately. Final acceptance does not extend to directly inspected native object identity or stale-grant replay.
+
+### Cancellation and output evidence overclaimed
+
+**What happened / could happen:** Normal app exit, one publication and post-close hashes could be presented as graceful cancellation, complete child diagnostics or audio fidelity.
+
+**Actual impact:** Cancelled target reports SIGKILL and retains 3,932,160 bytes; five contexts are truncated; both full file hashes are first post-close. No extra probe/decode/PCM was run.
+
+**Potential impact:** Hidden incomplete artifacts, inaccurate media guarantees or an unearned default promotion.
+
+**Correction / current status:** Retain warning/signal/artifact/hash provenance and explicit output-validation limits. Owned 65/65 closure is not all-OS or complete-stderr coverage.
+
+**Failure Intelligence:** Never erase the partial stage, turn ENCODE_STARTED into a fabricated positive frame count, or use executor PID absence as desktop closure evidence.
+
+### Proof overhead mistaken for an optimization defect
+
+**What happened / could happen:** Independent validation traversals and manual journey time could be charged to the ordinary application or used to justify cross-owner caches.
+
+**Actual impact:** Read-only triage separates saved target/process intervals from campaign-only video/PCM proof; no new performance defect is established.
+
+**Potential impact:** Removing useful safeguards, stale capability authority or unjustified thread/default changes.
+
+**Correction / current status:** Make no speculative optimization. Use representative, separately attributed timing evidence before a current-product performance change.
+
+**Failure Intelligence:** Keep x264 and x265 warnings/routes distinct and never compare unlike quality/resize/proof contracts as matched benchmarks.
+
+## 📍 Current Position
+
+**As of:** **2026-11-18T10:20:57.934029+00:00 / 12:20:57.934029 Cairo.**
+
+**Before this session:** 043 fresh-owner recovery was reviewed and source-tested but not exercised natively. Earlier successful ordinary native and long-service evidence belonged to previous immutable source.
+
+**After this session:** One active cancellation, explicit fresh-session action and one successful recovery publication/reveal are recorded on immutable 043. Supervisor exit 0 and 65/65 owned closure are terminal; independent saved audit and lead reconciliation support the bounded result.
+
+**Current standing:** No source/test/default/runtime/audio-policy change. Historical 191/229/335 source results are inherited, not rerun. Known 37 events and source 646 are preserved; published final output remains alongside the retained partial stage. The expected **five paths / 649 files / 44 commits** and 044 commit/mirror/push are still intended at the fixed cutoff, not completed claims.
+
+**Live owner continuation anchor:** Establish the narrow current working envelope from actual evidence, keep rollback and failure boundaries honest, and prioritize demonstrated defects over speculative performance work or unnecessary new infrastructure.
+
+## 🔜 Next Steps
+
+1. Preserve the audited native evidence and exact owning records at the fixed cutoff. Do not run an extra decode merely to make a broader native claim.
+2. Preserve the coherent evidence/PBS milestone with the entire prior Session unchanged through Git → Notion → GitHub verification.
+3. Continue only proportionate, separately reviewed next work. The E3 helper remains preparation, not an instruction to integrate pins, run media or change policy. Do not convert read-only cost triage into a cache patch.
+
+**Do not reopen / repeat:** Do not rewrite 043, delete the partial output, clear the known profile, replay the consumed native gate, revive the cancelled owner, repeat broad codec qualification for this handoff or claim the same process proves same-owner reuse.
+
+**Continuation boundary:** Later E3 V2 review, binding, execution or source changes belong to the next dated milestone. At this cutoff V1 is held and correction assigned; no new E3 qualification or policy change is inferred.
+
+## ❓ Open Questions
+
+- How reliably does this fresh-owner flow behave beyond the one observed cancellation/recovery? **Needed from:** selected representative or failure evidence when justified, not repetition merely for a larger count. **Blocks:** general recovery reliability and failed-resource guarantees, not acceptance of this bounded journey.
+- What broader cleanup or failed-acquisition behavior remains beyond this successful path? **Needed from:** actual focused failure evidence and reviewed ownership decisions. **Blocks:** complete-resource settlement, retry-owner and hard-timeout claims.
+- How far does native publication generalize to other media/platforms/readers? **Needed from:** selected representative evidence, not extrapolation from this fixture. **Blocks:** arbitrary-input, Windows, audio-fidelity and default-promotion claims.
+- Is any production optimization justified? **Needed from:** separated acquisition/preparation/target measurements and reproducible bottlenecks. **Blocks:** speculative cross-owner cache/thread changes; proof overhead alone is insufficient.
+
+## 🧾 Session Outcome
+
+**Delivered and audited:** One bounded native cancellation→explicit fresh ordinary session→recovery publication/reveal on 043, with retained partial output, same process/two diagnostic sessions and normal 65/65 owned closure. Prior 043 preservation is complete; all 1,935,749 previous Session bytes remain untouched.
+
+**Not established:** Complete output/audio identity, graceful cancellation, all-process/child-diagnostic coverage, arbitrary inputs, Windows, failed-resource retry ownership, runtime promotion or audio-policy change. 044 publication remains pending at the fixed cutoff; later engineering does not retroactively change this evidence.
+
+**Records:** [Execution and scope](2026-11-18_Native_Ordinary_Cancellation_Recovery.md), [receipts and limits](2026-11-18_Native_Ordinary_Cancellation_Recovery_Receipts.json) and [current continuation](CURRENT_STATE.md). The curated four-object portable remains a selected audit package, not the complete original outcome or raw native artifacts.
+
+## 🔍 Confidence Level
+
+**High for the bounded observed-and-audited native handoff; limited for general fidelity, platform coverage and failed-resource recovery.**
+
+**Why:** Explicit operator actions, saved old/new diagnostic events, actual supervisor wait/census, retained partial/final files and unchanged source/state reports provide concrete evidence beyond source-only tests. Independent audit rehashed source/state/artifacts and precisely scoped diagnostic attachments; the lead separately reconciled its stated coverage.
+
+**Not higher because:** Visuals are CUA-only, click times are not separately archived, contexts are truncated and per-child diagnostics incomplete. Post-close hashes do not prove playable media or PCM equality. No Windows/general performance/default qualification follows, and the two audited stderr attachments do not cover all 65 children.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Add fresh ordinary-session recovery without reviving a cancelled owner
 
 ## 🤖 Models, Effort, Roles and Provenance

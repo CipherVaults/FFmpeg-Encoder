@@ -1,0 +1,127 @@
+{
+  "schema": "ffmpeg-curated-checkpoint-receipts-v1",
+  "checkpoint": "044",
+  "cutoffUtc": "2026-11-18T10:20:57.934029+00:00",
+  "status": "Reviewed evidence-only checkpoint; preservation pending",
+  "expectedCheckpoint": {
+    "changedPaths": 5,
+    "files": 649,
+    "commits": 44
+  },
+  "sourceCommit": "42427a2effa99fd3453538ca20e3364bd3232409",
+  "sourceFiles": 646,
+  "sourceOrTestDelta": false,
+  "artifacts": [
+    {
+      "path": "checkpoint044-cutoff.json",
+      "bytes": 1016,
+      "sha256": "aa3c97ed4d2bae6cb28b274d8359a8d71e3e6771f2f1c50c39e40b3852de1253"
+    },
+    {
+      "path": "notion-checkpoint-043-verification.json",
+      "bytes": 117110,
+      "sha256": "c97578bb5b12506cbb37b16c8c686ca7a189cc2f24571f2445673c066eabbeaf"
+    },
+    {
+      "path": "github-checkpoint043-verification.json",
+      "bytes": 4906,
+      "sha256": "f842eef6f0e8e0f538aa86cb03447fb0eb57bab79b842eac1cdc127553dd21e6"
+    },
+    {
+      "path": "checkpoint-42427a2-publication-receipt.json",
+      "bytes": 175303,
+      "sha256": "f4754fa4cc490643534ea7780e2b23bdda85302f5c0aaa1f366ceb618b76896e"
+    },
+    {
+      "path": "ordinary-recovery043-native-bound/JOURNEY_OUTCOME.json",
+      "bytes": 13607,
+      "sha256": "c8efc274a0c4f2f822137fec64b3240e2a509e5031d136c8288306c7ca78b79e"
+    },
+    {
+      "path": "ordinary-recovery043-native-bound/OUTER_COMPLETION.json",
+      "bytes": 1006,
+      "sha256": "983f72f79057bf66a0a4f342ccbd83452eb9338d054428b5156636de608f94da"
+    },
+    {
+      "path": "ordinary-recovery043-native-bound/OUTPUT_INVENTORY.json",
+      "bytes": 513,
+      "sha256": "8b827fc75cab0c9176ede438cacdbaacebc4843eabe01c694af41e9ca831aac5"
+    },
+    {
+      "path": "ordinary-recovery043-native-bound/EVENT_CAPTURE.json",
+      "bytes": 12685,
+      "sha256": "a538d0dcc114578f409e16b6446da53bfa44422b5dcf0324d3a8861acda6c2c2"
+    },
+    {
+      "path": "ordinary-recovery043-native-bound/INDEPENDENT_NATIVE_AUDIT.json",
+      "bytes": 72087,
+      "sha256": "f94655685b2fc4237be8fedf3ce3d2360a8c7301fb6a4110becd9f68e4346c5d"
+    },
+    {
+      "path": "ordinary-recovery043-native-bound/LEAD_RECONCILIATION.json",
+      "bytes": 6885,
+      "sha256": "64454a6d4dd6a0dd775404f93442f8939f836fcafc849036904bfb93741bc086"
+    },
+    {
+      "path": "ordinary-recovery043-native-bound/APPROVED_ORDINARY_NATIVE.json",
+      "bytes": 78346,
+      "sha256": "22759131f891711644de3c828ae96397e187a1cd84362ebaac29fc24a0cb790c"
+    },
+    {
+      "path": "ordinary-recovery043-native-bound/INDEPENDENT_PREPARATION_REVIEW.json",
+      "bytes": 4213,
+      "sha256": "1c2bcc3730546b9c61a842072c2c9b3f10e0e3e094638128924f778b1ff8c770"
+    },
+    {
+      "path": "ordinary-recovery043-native-bound/PLAN.md",
+      "bytes": 6430,
+      "sha256": "9ff580a0843765f335966f108724c06e989ff8c744c69122ea9e6d10c4b884e2"
+    },
+    {
+      "path": "ordinary-recovery043-native-bound/app.stdout.log",
+      "bytes": 447,
+      "sha256": "70e0aeb8fd0f34dc4743b5509ba94573491c2587c282d508f5614494d6d2fa90"
+    },
+    {
+      "path": "ordinary-recovery043-native-bound/app.stderr.log",
+      "bytes": 624,
+      "sha256": "14db4eb82d85c05a4887b0e19c18d6db9eb00ab995591035f876aff9b0bab985"
+    }
+  ],
+  "native": {
+    "closed": 65,
+    "sessions": [
+      18,
+      21
+    ],
+    "sameProcessNotSameService": true,
+    "oldEventsPreserved": 37,
+    "truncatedContexts": 5,
+    "partialBytes": 3932160,
+    "finalBytes": 6691875,
+    "fullHashesFirstPostClose": true,
+    "wholeManualSeconds": 925.7421986689878,
+    "recoveryTargetSeconds": 30.401,
+    "recoveryBatchSeconds": 30.923,
+    "nativePcmTest": false
+  },
+  "diagnosticProvenance": {
+    "nativeCapture": "Events and descriptor metadata only",
+    "auditorExtraAttachmentReads": 2,
+    "attachmentBytesEach": 335,
+    "auditIdentityRows": 188,
+    "leadRehashedRows": 186,
+    "complete65ChildDiagnostics": false
+  },
+  "tests": {
+    "inherited": [
+      191,
+      229,
+      335
+    ],
+    "rerun": false,
+    "overlapNotSummed": true
+  },
+  "portableSelection": "Four complete selected audit/lead/outer/inventory objects only; NOT zero-omission or full original report restoration.",
+  "outcomeExcludedForProcessIdentityToken": true
+}

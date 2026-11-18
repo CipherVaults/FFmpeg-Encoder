@@ -1,9 +1,9 @@
-# Current state: fresh ordinary session recovery
+# Current reliability: native ordinary cancellation recovery
 
-Checkpoint 043 cutoff: 2026-11-18T09:41:18.591336+00:00. Reviewed V3 is integrated and source-tested; preservation is pending. Six source/test paths change, with no runtime/default/pin/audio-policy change.
+Checkpoint 044 cutoff: 2026-11-18T10:20:57.934029+00:00. Evidence-only on immutable 043 `42427a2effa99fd3453538ca20e3364bd3232409`; all 646 tracked files remained byte-identical through the native run and saved audit. Preservation is pending.
 
-The candidate-only New ordinary session action retires a cancelled owner, settles resources/diagnostics, clears grants/plans and acquires a new fixed owner/window. It does not revive observers, replay work or transfer capabilities. V1 alternate-action authority was tightened in V2; wider lead tests then exposed fixture incompatibility and a real initial-close regression, both addressed in V3.
+One bounded native H.265 slow/CRF 25 Full/Keep/copied-audio journey now supports active cancellation, explicit New ordinary session, fresh folder registration, recovery publication and reveal. The two diagnostic sessions share one application process; this is a new service/window lifecycle, not revival of the cancelled owner or a new process. All 65 owned children closed.
 
-Final integrated checks pass 191/191 focused, 229/229 protection and 335/335 explicit Linux, zero failures/skips/cancellations; all 644 tracked files remained byte-identical through tests. Scopes overlap, not summed. Original four lead failures remain recorded. Expected SHUTTING_DOWN suppression is candidate-only after successful cleanup; cleanup failures stay fatal and replacement blocked. Missing active-owner references on failed acquisition are not proof of complete resource settlement or retry ownership.
+Earlier service proofs retain same-reader audio validation, but this native output has no additional PCM/probe/decode proof. Its full hash and the retained partial-stage hash were first recorded after close. Five diagnostic contexts are truncated. The independent auditor read two named 335-byte stderr attachments separately; native capture itself remains events-only, not complete child diagnostics.
 
-Earlier bounded service/native evidence remains on earlier immutable sources. New native/Windows recovery is untested. The reuse-only native plan is unbound, unexecuted and review-pending at cutoff. Next preserve/review this checkpoint before binding a bounded recovery journey. No default promotion or audio-policy change follows.
+No Windows/GPU/default/audio-policy promotion or universal-player acceptance follows. Inherited 191/191 focused, 229/229 protection and 335/335 Linux checks were not rerun or summed. Next preserve this result. Read-only cost triage found no established production performance defect; E3 reuse-helper V1 was held for persistence correction at cutoff, with later V2 outcomes excluded.

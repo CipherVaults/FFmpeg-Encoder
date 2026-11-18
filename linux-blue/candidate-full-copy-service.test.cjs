@@ -126,3 +126,52 @@ test('actual composed prepare exposes compatibility-ready without authority; Sta
  assert.deepEqual(service.snapshot(),before);assert.equal(service.taskPromise,task);assert.equal(service.busy,false);
  assert.deepEqual(h.counts(),counts);assert.equal(h.counts().invoked,0);assert.deepEqual(await fs.readdir(output),outputBefore);
 });
+
+
+test('workbench mode is inert boolean only and synchronously exposes terminal relaunch', async () => {
+ for (const value of [1, 'true', {}, null]) { const h=await injected(); await assert.rejects(h.api.createCandidateFullCopyService({verifiedRuntime:h.fake,stateDir:'/tmp/no-full-copy-state',workbenchMode:value}),/boolean workbench/); }
+ let reads=0; const h=await injected(); const options={verifiedRuntime:h.fake,stateDir:'/tmp/no-full-copy-state'};
+ Object.defineProperty(options,'workbenchMode',{get(){reads++;return true;}});await assert.rejects(h.api.createCandidateFullCopyService(options));assert.equal(reads,0);
+ const k=await injected(),service=await k.api.createCandidateFullCopyService({verifiedRuntime:k.fake,stateDir:'/tmp/no-full-copy-state',workbenchMode:true});
+ try { const values=[];service.on('update',v=>values.push(v));const cancelled=service.cancelCurrent();assert.equal(service.snapshot().developerFullCopy.relaunchRequired,true);assert.equal(values.at(-1).developerFullCopy.relaunchRequired,true);await cancelled; } finally {await service.closeOperationResources();}
+});
+
+test('actual workbench prepare and edit receipt awaits never expose compatibility authority or admit reentrant Start',async t=>{
+ const os=require('node:os'),{PROFILES,classifyColor}=require('../src/media.cjs');
+ const {buildEncodeOperation,withEncodeOperationTelemetry,fingerprintEncodeSource}=require('../src/encode-operation.cjs');
+ const {isProportionalFamilySelection}=require('../src/operation-family.cjs');
+ const root=await fs.mkdtemp(path.join(await fs.realpath(os.tmpdir()),'full-copy-workbench-prepare-'));let service;
+ t.after(async()=>{if(service){await service.cancelCurrent();await service.taskPromise;await service.closeOperationResources();await service.closeDiagnostics('completed');}await fs.rm(root,{recursive:true});});
+ const input=path.join(root,'input'),output=path.join(root,'output'),state=path.join(root,'state');await Promise.all([input,output,state].map(p=>fs.mkdir(p)));
+ const bytes=Buffer.from('synthetic non-media preparation fixture');await fs.writeFile(path.join(input,'source.mov'),bytes);
+ const h=await injected();service=await h.api.createCandidateFullCopyService({verifiedRuntime:h.fake,stateDir:state,workbenchMode:true});
+ // Actual shared prepare/edit and selector; factory/report/runtime/inspection,
+ // storage eligibility and subsequent worker/runtime-token evidence are injected.
+ service.cacheInjected=true;service.inspectionCache=null;service.storageEligibility={check:async()=>({eligible:true,reason:'Synthetic owned local fixture.'})};
+ service.capabilities=async()=>({profiles:PROFILES.map(p=>({...p,available:true,supportedBitDepths:[8,10]})),versions:{ffmpeg:'synthetic',ffprobe:'synthetic'}});
+ const metadata=probe(bytes.length);service.inspect=async()=>({probe:structuredClone(metadata),color:classifyColor(metadata),duration:150,summary:{selectedVideoIndex:0,codec:'h264',width:1920,height:1080,bitDepth:8}});
+ const inf=await service.registerFolder(input,'input'),outf=await service.registerFolder(output,'output');
+ let release,arrived; const reached=new Promise(r=>arrived=r),pending=new Promise(r=>release=r);let hold='PREPARATION_FINISHED';
+ service.recordIncident=async event=>{if(event.reason===hold){arrived();await pending;}};
+ const updates=[];service.on('update',v=>{updates.push(v);for(const item of v.items)if(item.status==='ready')assert.equal(service.plan.entries.get(item.id)?.operationPlan?.compatibilityPath,false);});
+ const preparing=service.prepareBatch({inputFolderId:inf.id,outputFolderId:outf.id,settings});await reached;
+ assert.equal(service.busy,true);assert.throws(()=>service.startBatch({planId:service.plan.id,fileIds:[service.state.items[0].id]}));assert.equal(h.counts().invoked,0);release();
+ const plan=await preparing;assert.equal(plan.items[0].status,'unsupported');assert.equal(plan.items[0].reasonCode,'CANDIDATE_FULL_COPY_REQUIRED');assert.equal(service.plan.entries.size,0);assert.equal(plan.operationDraft.files.length,1);assert.equal(plan.items[0].summary.width,1920);
+ const fileId=plan.items[0].id;const draft=service.plan.draft;
+ let releaseEdit,arriveEdit;const editReached=new Promise(r=>arriveEdit=r),editPending=new Promise(r=>releaseEdit=r);
+ service.recordIncident=async event=>{if(event.reason==='DRAFT_REPREPARATION_FINISHED'){arriveEdit();await editPending;}};
+ service.verifyFolders=async()=>{};
+ service.prepareWithWorkers=async()=>{
+  const source=probe(bytes.length),identity={canonicalPath:path.join(input,'source.mov'),dev:'1',ino:'2',size:String(bytes.length),mtimeNs:'1',ctimeNs:'1',birthtimeNs:'1',sparseDigest:'sha256-sparse-v1:'+H};
+  const inspection={probe:source,color:classifyColor(source),duration:150},request=draft.fileRequest(fileId);
+  const orientation=service.operationQualifications.orientationQualification({inspection,request,settings,runtimeIdentity:api.RUNTIME_ID});
+  const op=withEncodeOperationTelemetry(buildEncodeOperation({...orientation,input:identity.canonicalPath,output:path.join(output,'out.mkv'),inspection,request,settings,runtimeIdentity:api.RUNTIME_ID}));
+  const bindings={plan:op,sourceIdentity:identity,sourceProbeFingerprint:fingerprintEncodeSource(source),settings,runtimeIdentity:api.RUNTIME_ID,environment:null,budget:null,executionBudgetMs:120000};const token=service.operationQualifications.select(bindings);
+  assert.equal(isProportionalFamilySelection(service.operationQualifications.requireCurrent(token,bindings)),true);
+  service.plan.entries.set(fileId,{operationPlan:op,qualificationSelection:token,qualificationBindings:bindings,operationRuntimeToken:{}});service.state.items[0].status='ready';service.state.items[0].operationRequest=request;service.emitState();
+ };
+ const edit=service.updateFileOperations({planId:plan.planId,draftId:draft.id,revision:draft.snapshot().revision,fileIds:[fileId],overrides:{range:null,resolution:'720',audioPolicy:'copy'}});await editReached;
+ assert.equal(service.busy,true);assert.throws(()=>service.startBatch({planId:service.plan.id,fileIds:[fileId]}));assert.equal(h.counts().invoked,0);releaseEdit();
+ const next=await edit;assert.equal(next.items[0].status,'ready');assert.equal(next.items[0].operationRequest.range,null);assert.equal(next.items[0].operationRequest.resolution,'720');assert.equal(next.items[0].operationRequest.audioPolicy,'copy');
+ const currentEntry=service.plan.entries.get(fileId);assert.ok(currentEntry.qualificationSelection);assert.notEqual(next.planId,plan.planId);assert.equal(service.snapshot().items[0].status,'ready');assert.equal(service.plan.entries.get(fileId),currentEntry);assert.equal(h.counts().invoked,0);
+});

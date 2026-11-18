@@ -1,0 +1,468 @@
+{
+  "schema": 1,
+  "checkpoint": "027",
+  "cutoffUtc": "2026-11-18T00:10:00Z",
+  "status": "reviewed integrated source; checkpoint preservation pending",
+  "baseCommit": "c0e47836cc46e1287eb39814550a064ac8ecf323",
+  "sourceFiles": [
+    {
+      "path": "linux-blue/candidate-full-copy-service.cjs",
+      "bytes": 25961,
+      "sha256": "0ee4d93d2dc709db1a49cbfced79e29c789be43d19d5b6e4d2748d13f7e3e462",
+      "baseSha256": "474468c9aa591db536b685dcfa4f79f0fc7893d43dd989cebba711e3b32b5acd"
+    },
+    {
+      "path": "linux-blue/candidate-full-copy-service.test.cjs",
+      "bytes": 30414,
+      "sha256": "830b40b36badfcb0a00a0e021724306d5e2654d11117929b430011447ca34a9c",
+      "baseSha256": "5342780891a8764fc3103b65206f6596d6b54178328ee9886a6594c8bdbeb148"
+    },
+    {
+      "path": "linux-blue/candidate-full-copy-workbench-renderer.test.cjs",
+      "bytes": 12380,
+      "sha256": "39c1f6bf1a72d776bdbfe166a578d023798f3292a240179639b7e35abb00de55",
+      "baseSha256": null
+    },
+    {
+      "path": "linux-blue/candidate-full-copy-workbench.cjs",
+      "bytes": 6044,
+      "sha256": "09f374170927f705d6e0e1a3419c982a167fc534536b7fee034f1be1a95ab9aa",
+      "baseSha256": null
+    },
+    {
+      "path": "linux-blue/candidate-full-copy-workbench.test.cjs",
+      "bytes": 12846,
+      "sha256": "f0ffe7a7be077da3fd5f4e2f249ddf1a5daf5d3242b6315315ed9d629d4d5e9d",
+      "baseSha256": null
+    },
+    {
+      "path": "linux-blue/runtime-av1.test.cjs",
+      "bytes": 6415,
+      "sha256": "e046bf972b0d738eafce763b9ec04320cf1ef5f18ae58f2db5f93ed511cf735e",
+      "baseSha256": "e5bc4a5d1f7644db79f58d27b036a821eb6a3d1ba8988959ceb47e01d6284b40"
+    },
+    {
+      "path": "linux-blue/workbench-main.cjs",
+      "bytes": 10349,
+      "sha256": "9e2017c6d37399319dc18271193aeeb7cc9e1e5dd8a23ead2f916d401b205a91",
+      "baseSha256": "92ecee117209485228b2c95d4767b132a671de1b1141a4e054f82a2e0551f411"
+    },
+    {
+      "path": "linux-blue/workbench-runtime-choice.cjs",
+      "bytes": 927,
+      "sha256": "18ba58d3b3a99dbcaced4ef4b00477aa9bf7fcd1905ed954b3c9e4b7e2f30014",
+      "baseSha256": "36013c00d7566fc18c9af747291bf4f8d67219e09ced10296524f738af4e5b6b"
+    },
+    {
+      "path": "ui/renderer.js",
+      "bytes": 149163,
+      "sha256": "a88dd83dcf1d3c127106f1b895770d7bad4c789fb5ee831b26f6be6b682bef68",
+      "baseSha256": "d669ed1224683d432fbbb633000b5b5cf3032028339b841091e86452b56681c8"
+    }
+  ],
+  "inventory": {
+    "baseFiles": 580,
+    "unchangedBaseFiles": 574,
+    "modified": 6,
+    "newSourceFiles": 3,
+    "currentIndexFiles": 583,
+    "expectedFinalPaths": 13,
+    "expectedFinalFiles": 585,
+    "expectedCommits": 27
+  },
+  "integrationAtUtc": "2026-11-18T00:05:53.711324+00:00",
+  "historicalProducerClosureUnchanged": 26,
+  "priorPublication": {
+    "verifiedAtUtc": "2026-11-18T00:07:38.975872+00:00",
+    "localCommit": "c0e47836cc46e1287eb39814550a064ac8ecf323",
+    "remoteCommit": "b9b3e30afb1f0b5b2fa863ac3d916a5660752267",
+    "remoteTree": "6ffc7d8d5426219ed098bd8906baf0b28cd85bb6",
+    "actualSoleParent": "79fb517eb8c63cd07597c5795cfc15385bcb0f6b",
+    "repository": "CipherVaults/FFmpeg-Encoder-Blue-Linux",
+    "branch": "blue/linux-development",
+    "nonForceExpectedShaUpdate": true,
+    "freshRefVerified": true,
+    "fullTreeCounts": {
+      "total": 962,
+      "unchanged": 957,
+      "modified": 2,
+      "new": 3,
+      "deleted": 0
+    }
+  },
+  "chronology": "026 Notion source and full-history restoration preceded source integration; 026 GitHub final readbacks completed after integration, at 00:07:38.975872 UTC.",
+  "runs": [
+    {
+      "path": "artifacts/v0.7/evidence/20261118T000632Z_checkpoint027-focused",
+      "startedAt": "2026-11-18T00:06:32.393Z",
+      "durationMs": 1351.925,
+      "node": "v24.22.1",
+      "platform": "linux",
+      "command": [
+        "node",
+        "--test",
+        "linux-blue/candidate-full-copy-service.test.cjs",
+        "linux-blue/candidate-full-copy-workbench.test.cjs",
+        "linux-blue/candidate-full-copy-workbench-renderer.test.cjs",
+        "linux-blue/candidate-resize-workbench.test.cjs",
+        "linux-blue/candidate-resize-workbench-renderer.test.cjs",
+        "linux-blue/candidate-workbench.test.cjs",
+        "linux-blue/candidate-workbench-renderer.test.cjs",
+        "linux-blue/runtime-av1.test.cjs",
+        "tests/main-lifecycle.test.cjs",
+        "tests/ui-workbench.test.cjs",
+        "tests/ui-vendor.test.cjs",
+        "tests/output-access.test.cjs",
+        "tests/ipc.test.cjs"
+      ],
+      "summary": {
+        "tests": 194,
+        "suites": 0,
+        "pass": 194,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "exitCode": 0,
+      "bytesChangedDuringRun": false,
+      "artifacts": {
+        "stderr.txt": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "receipt.json": {
+          "bytes": 5240,
+          "sha256": "3eefeea2c0c501f2217f984f5848f9c3cf74cedaeabfb2ce0c7cfb1a3871a881"
+        },
+        "stdout.txt": {
+          "bytes": 21645,
+          "sha256": "4dd6fa51440651d75c314584e0edd45260cde0c2432e606c697e978f822e7e18"
+        }
+      }
+    },
+    {
+      "path": "artifacts/v0.7/evidence/20261118T000633Z_checkpoint027-protection",
+      "startedAt": "2026-11-18T00:06:33.820Z",
+      "durationMs": 6708.467,
+      "node": "v24.22.1",
+      "platform": "linux",
+      "command": [
+        "node",
+        "--test",
+        "tests/encoder-service.test.cjs",
+        "tests/process-runner.test.cjs",
+        "tests/outputs.test.cjs",
+        "tests/completed-output-retention.test.cjs",
+        "tests/completed-source-policy.test.cjs",
+        "tests/source-identity.test.cjs",
+        "tests/source-catalog-cross-route.test.cjs",
+        "tests/source-catalog-seals.test.cjs"
+      ],
+      "summary": {
+        "tests": 229,
+        "suites": 0,
+        "pass": 229,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "exitCode": 0,
+      "bytesChangedDuringRun": false,
+      "artifacts": {
+        "stderr.txt": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "receipt.json": {
+          "bytes": 4006,
+          "sha256": "c3f7fb8be2e92e6f4edd2205f450edd777f82177efe94196a3aa0b47ae0b5f33"
+        },
+        "stdout.txt": {
+          "bytes": 24411,
+          "sha256": "8033bb17ca8544d89716984263ff39cb64346fceb4697a5c3c6faac48d9c14aa"
+        }
+      }
+    },
+    {
+      "path": "artifacts/v0.7/evidence/20261118T000640Z_checkpoint027-linux-broad",
+      "startedAt": "2026-11-18T00:06:40.603Z",
+      "durationMs": 1468.923,
+      "node": "v24.22.1",
+      "platform": "linux",
+      "command": [
+        "node",
+        "--test",
+        "linux-blue/candidate-calibration-runtime.test.cjs",
+        "linux-blue/candidate-full-copy-calibration.test.cjs",
+        "linux-blue/candidate-full-copy-service.test.cjs",
+        "linux-blue/candidate-full-copy-workbench-renderer.test.cjs",
+        "linux-blue/candidate-full-copy-workbench.test.cjs",
+        "linux-blue/candidate-keep720-service.test.cjs",
+        "linux-blue/candidate-resize-service.test.cjs",
+        "linux-blue/candidate-resize-workbench-renderer.test.cjs",
+        "linux-blue/candidate-resize-workbench.test.cjs",
+        "linux-blue/candidate-workbench-renderer.test.cjs",
+        "linux-blue/candidate-workbench.test.cjs",
+        "linux-blue/demo-boundary.test.cjs",
+        "linux-blue/output-preflight.test.cjs",
+        "linux-blue/runtime-av1-operation.test.cjs",
+        "linux-blue/runtime-av1.test.cjs",
+        "linux-blue/runtime-candidate.test.cjs",
+        "linux-blue/runtime.test.cjs",
+        "linux-blue/source-inspection-boundary.test.cjs",
+        "linux-blue/source-inspection.test.cjs",
+        "linux-blue/synthetic-service.test.cjs",
+        "linux-blue/ui-policy.test.cjs",
+        "linux-blue/workbench-av1-admission.test.cjs",
+        "linux-blue/workbench-av1-service.test.cjs",
+        "linux-blue/workbench-av1-trim.test.cjs",
+        "linux-blue/workbench-execution.test.cjs",
+        "linux-blue/workbench-full-1440-service.test.cjs",
+        "linux-blue/workbench-full-resize-service.test.cjs",
+        "linux-blue/workbench-long-range-calibration.test.cjs",
+        "linux-blue/workbench-long-range-service.test.cjs",
+        "linux-blue/workbench-long-range-smoke.test.cjs",
+        "linux-blue/workbench-qualified-app-smoke.test.cjs",
+        "linux-blue/workbench-qualified-encode-controls.test.cjs",
+        "linux-blue/workbench-remux.test.cjs",
+        "linux-blue/workbench-resize-service.test.cjs",
+        "linux-blue/workbench-service.test.cjs",
+        "linux-blue/workbench-trim-candidate.test.cjs"
+      ],
+      "summary": {
+        "tests": 268,
+        "suites": 0,
+        "pass": 223,
+        "fail": 45,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "exitCode": 1,
+      "bytesChangedDuringRun": false,
+      "artifacts": {
+        "stderr.txt": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "receipt.json": {
+          "bytes": 10870,
+          "sha256": "aa150465d3e7be3f1a112f3e526a7ec7d72c04076fdd963b6edb5aba3074f8be"
+        },
+        "stdout.txt": {
+          "bytes": 76069,
+          "sha256": "67865e6cf437181b6a509e7c779f99ef3235cdda86c3815cfaf0700b4034e88d"
+        }
+      }
+    }
+  ],
+  "failureReconciliation": {
+    "count": 45,
+    "nonemptyMultisetEqual": true,
+    "logs": {
+      "prior": {
+        "path": "artifacts/v0.7/evidence/20261117T230747Z_checkpoint024-final-linux-broad/stdout.txt",
+        "bytes": 74820,
+        "sha256": "00070d8b374e360bc00b4dae49da9d342d6d0cb914b1c202543ab5e9d78864c1"
+      },
+      "current": {
+        "path": "artifacts/v0.7/evidence/20261118T000640Z_checkpoint027-linux-broad/stdout.txt",
+        "bytes": 76069,
+        "sha256": "67865e6cf437181b6a509e7c779f99ef3235cdda86c3815cfaf0700b4034e88d"
+      }
+    },
+    "currentLabels": [
+      "\u2716 calibration producer literal closure still equals immutable tested source",
+      "\u2716 synthetic factory composition uses normal selector, observer, telemetry and storage, with owned closure",
+      "\u2716 bounded original-report read and post-await currentness fail closed with descriptor cleanup",
+      "\u2716 cancellation closes admission synchronously before pending saved writes drain",
+      "\u2716 service and candidate cleanup failures both survive without masking the primary",
+      "\u2716 workbench snapshot removes unqualified runnable entry before every update, then ordinary file-edit reprepare issues genuine range selection",
+      "\u2716 strict OutputAccess seam rejects callback-shaped impostor and accepts real main-owned authority",
+      "\u2716 inspection-only boundary refuses Start across a modeled pending-write window and does not emit ready compatibility rows",
+      "\u2716 calibration producer literal closure still equals immutable tested source",
+      "\u2716 synthetic factory composition uses normal selector, observer, telemetry and storage, with owned closure",
+      "\u2716 bounded original-report read and post-await currentness fail closed with descriptor cleanup",
+      "\u2716 cancellation closes admission synchronously before pending saved writes drain",
+      "\u2716 service and candidate cleanup failures both survive without masking the primary",
+      "\u2716 composed selector issues only genuine fixed resize range authority with its own resource policy",
+      "\u2716 report path replacement and canonical alias after bounded read reject and close the open handle",
+      "\u2716 workbench snapshot removes unqualified runnable entry before every update, then ordinary file-edit reprepare issues genuine range selection",
+      "\u2716 strict OutputAccess seam rejects callback-shaped impostor and accepts real main-owned authority",
+      "\u2716 inspection-only boundary refuses Start across a modeled pending-write window and does not emit ready compatibility rows",
+      "\u2716 synthetic staged service: codecs, exclusive publication, admission and child balance",
+      "\u2716 active cancellation drains before restart; progress-time collision never overwrites",
+      "\u2716 close drains an active child and permanently closes admission",
+      "\u2716 caller fixture swap after capture cannot redirect child reads",
+      "\u2716 ordinary three-codec paths retain baseline predicate and reach superclass admission",
+      "\u2716 genuine KeepSource, range resize and Full resize tokens coexist with ordinary H265 in one preflight",
+      "\u2716 forged/stale family and runtime tokens refuse the whole batch without state mutation",
+      "\u2716 unsupported route, omissions, settings and separate-folder rules cannot partially start",
+      "\u2716 stale plans and invalid selections retain superclass refusal before any start",
+      "\u2716 a revoked genuine observer token refuses before superclass mutation",
+      "\u2716 fourth family requires its own genuine catalog and current token, old three cannot issue it",
+      "\u2716 original factory remains ordinary-only and forwards state/output access without spawning",
+      "\u2716 1440 pure receipt schema retains full extents, independent source and exact family resources",
+      "\u2716 1440 is fixed main-only fourth variant without app activation or geometry override",
+      "\u2716 1440 composition pins the independently accepted complete calibration bytes",
+      "\u2716 Full composition pins the independently reviewed completed calibration",
+      "\u2716 Full receipt requires complete distinct source extents, family and null interval",
+      "\u2716 pending, missing or changed digests cannot authorize a receipt",
+      "\u2716 exact successful Keep Source, resize and Full service proofs match their own calibrations",
+      "\u2716 forged successful labels cannot replace lifecycle, source, accounting or geometry evidence",
+      "\u2716 accepted exact proofs construct real qualified factory without capabilities or child execution",
+      "\u2716 1440 service validator has distinct status, geometry, lifecycle and complete tail counts",
+      "\u2716 accepted exact fourth proof constructs four-family factory without children and keeps three-family app separate",
+      "\u2716 three-family controls import and real construction do not load unavailable inactive 1440 composition",
+      "\u2716 reviewed local dependency gate succeeds and absent/symlinked dependencies fail closed",
+      "\u2716 resize receipt binds independently verified bytes while explicit pending factories stay closed",
+      "\u2716 resize receipt independently binds geometry, policy, clocks, resources and all evidence"
+    ],
+    "interpretation": "Same saved failing test labels/multiplicity as024, not successful downstream branches or reason to rebaseline. Broad remains223/268,45failed."
+  },
+  "independentIntegratedReview": {
+    "atUtc": "2026-11-18T00:08:45.904902+00:00",
+    "disposition": "PASS bounded integrated source/test reconciliation; not runtime or native authorization",
+    "independentRerun": {
+      "performed": false,
+      "reason": "Exact final nine source bytes match independently tested immutable proposal (194/194), unchanged supporting tracked bytes independently compared. Verified integrated retained receipts/logs and test-file identities; avoided redundant fixture writes to read-only authoritative checkout.",
+      "priorReview": "full-copy-workbench-independent-review/INDEPENDENT_SOURCE_REVIEW.json",
+      "priorReviewSha256": "8796eb6dd077e2343a996608cb9f25ca2da74ab8f1a7aa08a7af62d761d1ddf1"
+    }
+  },
+  "workerHistory": {
+    "focused": "194/194 exact final bytes; explicit existing-path assertions and actual command/cwd/node receipts retained",
+    "broad": "223/268; same nonempty45 failure label multiset as fresh base211/256; final source comment changed only explanatory app-import sentence after broad run, final focused rerun exact bytes",
+    "initial": "15/16 then28/29 fixture reds retained: copied disclosure capitalization; injected worker omitted operationRequest. Corrected fixtures only.",
+    "scopeCorrection": "Intermediate74 command named two nonexistent tests; Node omitted them. Not evidence of those suites. Corrected actual main-lifecycle/ui-workbench/ui-vendor run194green.",
+    "inventoryCorrection": "First freeze attempted unrestricted directory comparison, found retained test-owned artifacts, stopped before patch/handoff. Final exact Git577 base plus three declared new source paths only; no deletion of retained fixtures or artifact inclusion."
+  },
+  "reviewedContracts": [
+    "Strict explicit fixed CLI route, isolated state directory/disclosure; baseline/older factories remain, no fallback or path/config IPC.",
+    "Fixed pair and seven dependencies; fs.access is only preliminary, actual runtime and bounded original report/producer gates authoritative. Loader guard before acquisition/every execute, runtime closed on factory failure.",
+    "Workbench-only synchronous snapshot reads current state/current plan, removes matching current ready entry missing selection/runtime/instrumentation or compatibility entry; keeps draft/summary. No await or callback-supplied old plan. Default service unchanged.",
+    "Presentation presence is not authority: genuine selector/resource binding, runtime currentness and publication evidence enforced in unchanged shared Start/run. No producer repin.",
+    "Actual shared prepare/edit final-receipt awaits exercise busy reentrant refusal. Edit worker/runtime token, inspection/factory report injected; family selector token genuine.",
+    "Cancellation closes admission before await and emits relaunch; renderer sticky closure persists through newer callbacks/stale snapshots. New service/new verified handle required.",
+    "Late factory and loadURL close/drain tested in VM, no READY after close; not native sandbox enforcement proof.",
+    "Shared renderer change prioritizes developerFullCopy disclosure; existing Full/null720/copy editor/IPC reused. No HTML/CSS/theme/preload/IPC/Windows-main edit. Shared renderer does affect Windows."
+  ],
+  "provisionalRiskAdvice": {
+    "artifactCreated": false,
+    "formalSkillCompleted": false,
+    "basis": "Supplementary lead-reported advisory only; storage policy and schema unavailable.",
+    "impact": "high",
+    "likelihood": "moderate",
+    "protection": "partial",
+    "recoverability": "managed",
+    "confidence": "moderate",
+    "recommendation": "bounded merge with human review; not automatic permission"
+  },
+  "nativePlan": {
+    "checkedAtUtc": "2026-11-18T00:08:38.821275+00:00",
+    "scope": "Independent read-only prospective native journey plan review; not patch-risk skill output.",
+    "plan": {
+      "path": "PLAN.md",
+      "bytes": 8574,
+      "sha256": "edd577b354d45bbf9bbdad171c3b1bba9a213efe4a5c074a8c7c08c369762c06"
+    },
+    "disposition": "Conditional GO for preparing the separately reviewed launcher/authorizer. No native execution approval or gate creation. No material choreography blocker found.",
+    "checks": [
+      "One new named developer launch, isolated absent state and exclusive owned fixture/output prevent silently reusing prior sessions or overwriting outputs. Existing state causes reconciliation, not deletion or alternative profile flags.",
+      "Explicit main-owned runtime choice has no renderer factory/path configuration. Exact tools, seven dependencies, raw report, Electron and actual integrated source must be reverified; source-only restoration is insufficient.",
+      "Initial Full/Keep source/Copy is expected inspection-only, unselectable and Start-disabled. Unexpected readiness stops without exercising Start. One explicit Full/null,720,Copy reprepare must precede the single admitted Start.",
+      "Keyboard selection is permitted only with fresh focus and visibly confirmed closed720 label and other values before one Apply. It does not resolve known popup rendering defects. Unknown delivery/focus or unverifiable values stop; no replay.",
+      "Both Notion source and complete-history restoration plus released receipt and exact actual Git tree/count are future gates. Previous service approval is not reused.",
+      "Normal closure, actual census and persisted diagnostic audit required. Startup capability/probe children are distinct from target encoding.30-minute abort and space checks are point bounds, not hard quotas or exit guarantees.",
+      "Saved audit distinguishes full collector/telemetry/provenance from truncated journal events, and does not infer child stderr completeness from census or launcher stderr. No extra probe/decode planned.",
+      "Prior failed024 and successful successor025 artifacts remain unchanged. No profile/cache/token inspection or publication."
+    ],
+    "requiredFinalPreparationClarifications": [
+      "PLAN introductory statement says proposal not yet integrated; this is historical preparation wording. Final helper/authorizer must bind the actual integrated checkpoint, not the old proposal or025 service gate. Do not rewrite this reviewed plan silently.",
+      "Final release must explicitly choose whether one Show in folder is included; optional wording is not a license for extra UI actions. If included, use only the actual enabled issued capability and record OS observation separately from service sink proof.",
+      "The final helper must substantiate fresh desktop readiness, absent named state, exclusive paths and current free space. This static plan review does not establish those facts."
+    ],
+    "limits": [
+      "No helper, gate, native UI, runtime, media, probe, decode or subject tests executed.",
+      "No Windows/native shared-renderer regression or visual acceptance proof; known popup and CPU topology warnings remain.",
+      "Native output metadata may be limited to service-retained evidence; no fresh independent full output probe is promised.",
+      "No general duration/performance, cancellation recovery, product activation or broader family qualification."
+    ],
+    "writerReleased": true
+  },
+  "artifactReferences": [
+    {
+      "path": "full-copy-workbench-sourcework-evidence/HANDOFF-v1.json",
+      "bytes": 5547,
+      "sha256": "6d3fa6ba16b432b82c64f4f8c1739d6f658a63e7d31d7865c46b29b9825af47e"
+    },
+    {
+      "path": "full-copy-workbench-sourcework-evidence/full-copy-workbench-v1.patch",
+      "bytes": 53915,
+      "sha256": "2961b8dce56f57c724ed54c3432b0de5e0b2e8fa709566ed773a01270b62b381"
+    },
+    {
+      "path": "full-copy-workbench-independent-review/INDEPENDENT_SOURCE_REVIEW.json",
+      "bytes": 15272,
+      "sha256": "8796eb6dd077e2343a996608cb9f25ca2da74ab8f1a7aa08a7af62d761d1ddf1"
+    },
+    {
+      "path": "checkpoint027-integration.json",
+      "bytes": 2537,
+      "sha256": "14515c814d1ce4c5507199b40aa9bcc1d6d009c4437f65e1ef798c480bef29d6"
+    },
+    {
+      "path": "checkpoint027-lead-test-results.json",
+      "bytes": 25429,
+      "sha256": "e2e62530ef7c9486e735c01134ebc3baeea6f21182621aa1a10c2b44409dddfc"
+    },
+    {
+      "path": "checkpoint027-failure-reconciliation.json",
+      "bytes": 5448,
+      "sha256": "b9155bddf5eb2a113edde295ab726afa076875864ff5a3358d5c936c791ef67f"
+    },
+    {
+      "path": "checkpoint027-independent/INTEGRATED_REVIEW.json",
+      "bytes": 15523,
+      "sha256": "7dfaaf50f8a50dfc0663ec7387a2b3f84ac38c1fdab86896ee2dc517bc7d8811"
+    },
+    {
+      "path": "github-checkpoint026-verification.json",
+      "bytes": 2594,
+      "sha256": "83fe20b2d2696fbc720d9fb3db649c1dfb0d68e44398191dfe511dd969233123"
+    },
+    {
+      "path": "notion-checkpoint-026-verification.json",
+      "bytes": 100987,
+      "sha256": "4d01ced03f1aa73a140e26d1156697a9824d7bedc81527c228a7af7f0e244e09"
+    },
+    {
+      "path": "native-full-copy-plan-preparation-20261117/PLAN.md",
+      "bytes": 8574,
+      "sha256": "edd577b354d45bbf9bbdad171c3b1bba9a213efe4a5c074a8c7c08c369762c06"
+    },
+    {
+      "path": "native-full-copy-plan-preparation-20261117/INDEPENDENT_PLAN_REVIEW.json",
+      "bytes": 3456,
+      "sha256": "181d0757d5e1bc0364474780141a5ef149abb221be8642eabf8e1d4907c26553"
+    }
+  ],
+  "limits": [
+    "No live FFmpeg, probe, media, native GUI or new positive factory execution in this milestone. Prior service evidence does not qualify the new workbench consumer.",
+    "Actual delayed old prepareItem callback was not executed; synchronous current-owner transform and busy receipt-await tests are narrower than arbitrary race proof.",
+    "Positive factory/report/inspection/worker/runtime-token seams are injected; genuine family selector token is tested.",
+    "Shared renderer affects Windows, but native Windows and Full-copy Linux GUI remain untested.",
+    "Broad remains 223/268 with 45 failures; equal nonempty label multiplicity does not prove downstream blocked branches.",
+    "Raw report, runtime tools and seven dependencies are not supplied by source-only restoration. No portable evidence can replace exact raw gate bytes.",
+    "Manual review and provisional patch-risk advice are not a formal Security Cloud scan or completed assess-patch-risk artifact.",
+    "Native plan review permits helper preparation only. No finished executable, authorizer, gate or runtime execution at cutoff."
+  ],
+  "authority": {
+    "nativeExecution": false,
+    "productionActivation": false,
+    "formalSecurityQualification": false,
+    "checkpointPreserved": false
+  }
+}

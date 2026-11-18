@@ -1,5 +1,5 @@
 'use strict';
-// Developer-only Full1080p30-to-720p copied-AAC normal-service composition. No application imports this module.
+// Developer-only Full1080p30-to-720p copied-AAC normal-service composition. Only the explicit developer workbench imports this module; default application routes are unchanged.
 // Raw calibration/runtime files are local restoration prerequisites, not bundled source.
 // Retained duplicate-codec and NUMA/thread-pool warnings do not qualify performance.
 // A cancelled session requires a NEW service and NEW verified candidate handle.
@@ -198,12 +198,34 @@ class FullCopySelector extends ClockQualifiedFamilySelector {
 }
 class OwnedCandidateService extends CandidateTrimService {
   #candidate;
-  constructor(options, candidate) { super(options); this.#candidate = candidate; }
+  constructor(options, candidate, workbenchMode) { super(options); this.#candidate = candidate; this.workbenchMode = workbenchMode; }
+  snapshot() {
+    // Synchronous, current-owner-only presentation. Never await or accept a
+    // callback-supplied older plan. Start still requires genuine current tokens.
+    if (this.workbenchMode) {
+      const state = this.state, plan = this.plan;
+      for (const item of state.items) {
+        if (item.status !== 'ready') continue;
+        const entry = plan?.entries?.get(item.id);
+        if (!entry?.qualificationSelection || !entry.operationRuntimeToken || !entry.operationPlan?.instrumentation || entry.operationPlan.compatibilityPath) {
+          plan?.entries?.delete(item.id);
+          item.status = 'unsupported'; item.reasonCode = 'CANDIDATE_FULL_COPY_REQUIRED';
+          item.reason = 'Inspection only: choose Full, 720p and Copy audio per file, then Apply. Keep source and ranges are not qualified in this developer preview.';
+        }
+      }
+    }
+    const snapshot = super.snapshot();
+    if (this.workbenchMode) snapshot.developerFullCopy = { enabled: true, relaunchRequired: this.admissionClosed,
+      notice: 'Experimental whole-file 1080p30-to-720p only · H265 CPU slow / CRF 25 · copied AAC. Ranges, Keep source, other resolutions and Remux unavailable. CPU topology/thread-pool warnings remain; native threading/performance is not qualified.',
+      relaunchNotice: 'This developer session is closed to new work. Close and relaunch to obtain a new verified runtime; same-session retry is unavailable.' };
+    return snapshot;
+  }
   async cancelCurrent() {
     // Preserve cancellation's invalidated operation/candidate tokens. No retry
     // route re-observes them. Main must close this service and open a new one.
     // Close synchronously: saved-write drainage and terminal callbacks may yield.
     this.closeAdmission();
+    if (this.workbenchMode) this.emitState();
     return super.cancelCurrent();
   }
   async closeOperationResources() {
@@ -218,13 +240,13 @@ async function createCandidateFullCopyService(options) {
   need(options && Object.getPrototypeOf(options) === Object.prototype, 'Inert main-owned options required.');
   const keys = Reflect.ownKeys(options);
   need(['verifiedRuntime', 'stateDir'].every(k => keys.includes(k))
-    && keys.every(k => ['verifiedRuntime', 'stateDir', 'onChild', 'outputAccess'].includes(k)
+    && keys.every(k => ['verifiedRuntime', 'stateDir', 'onChild', 'outputAccess', 'workbenchMode'].includes(k)
       && Object.hasOwn(Object.getOwnPropertyDescriptor(options, k), 'value')), 'Only fixed main-owned service options are accepted.');
-  const { verifiedRuntime, stateDir, onChild, outputAccess } = options;
+  const { verifiedRuntime, stateDir, onChild, outputAccess, workbenchMode = false } = options;
   const candidate = requireCandidateCalibrationRuntime(verifiedRuntime);
   let observer;
   try {
-    need((outputAccess === undefined || outputAccess instanceof OutputAccess), 'Genuine main-owned OutputAccess required.');
+    need(typeof workbenchMode === 'boolean' && (outputAccess === undefined || outputAccess instanceof OutputAccess), 'Main-owned boolean workbench mode and genuine OutputAccess required.');
     need(typeof stateDir === 'string' && path.isAbsolute(stateDir) && stateDir === path.resolve(stateDir)
       && !/[\x00-\x1f\x7f]/.test(stateDir) && (onChild === undefined || typeof onChild === 'function'), 'Canonical state directory and child observer required.');
     need(candidate.runtimeIdentity === RUNTIME_ID && sha(JSON.stringify(candidate.dependencies)) === dependencyIdentity && Object.entries(TOOL_PINS).every(([k,v]) => candidate.pins[k]?.size === v.size && candidate.pins[k]?.sha256 === v.sha256),
@@ -253,7 +275,7 @@ async function createCandidateFullCopyService(options) {
       vendorCapabilities: async () => ({ profiles: failedVendorCapabilities('VENDOR_DISCOVERY_INCOMPLETE'), bindings: new Map() }),
       operationEvidenceBudget: null, operationDeadlineMs: 120000, operationTelemetry: true,
       operationStorage: () => openEvidenceStorage({ root: path.join(stateDir, 'operation-evidence') }),
-    }, candidate);
+    }, candidate, workbenchMode);
   } catch (error) {
     const cleanup = await Promise.allSettled([observer?.close(), candidate.close()]);
     const failures = cleanup.filter(x => x.status === 'rejected');

@@ -1,3 +1,351 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Integrate the explicit Full-copy developer workbench while preserving native and authority limits
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model / effort attribution | Evidence and limit |
+|---|---|---|
+| Engineering lead | GPT-6 Astra / Ultra, recorded assignment, not backend attestation | Owns integration, exact source tests, failure reconciliation and preservation sequence. |
+| Isolated workbench author | Not independently established here | Authored the nine-path proposal; retained initial fixture reds, command-scope correction and final source identities. |
+| Independent source reviewer | Not independently established here | Independently ran 194 focused checks and reviewed exact patch/source boundaries; inspected rather than reran worker broad evidence. |
+| Supplementary risk review | Not independently established here | Provisional patch-risk advice only; incomplete supporting skill resources, not a formal Security Cloud scan or native qualification. |
+| Native-plan preparation | Not independently established here | Read-only prospective journey, not an executable helper, gate, profile creation or desktop run. |
+| Preservation and documentation | Not independently established here | Preserved predecessor source/history/native records; documentation owns only the explicitly released Session prepend. |
+
+**Record basis:** Checkpoint 026 preserved the separately audited successful short Full-copy ordinary-service proof on immutable 025 source, while retaining the original failed attempt. This session advances a reviewed isolated workbench proposal into the authoritative source after the predecessor's Notion restore gates. Source tests and VM/DOM checks are real, but their positive runtime/report/inspection seams remain injected. No actual Full-copy workbench launch, new runtime/media operation or native acceptance is inferred.
+
+## 🕒 Time
+
+- Date and clocks: November 18, 2026, UTC. Proposal preparation and independent review began on November 17; those earlier timestamps are retained rather than shifted across midnight. Total active-work start and duration were not measured.
+- Continuation: 026 fixed cutoff was November 17 at 23:52 UTC, when the proposal was independently reviewed but unintegrated. Its Session was later saved at 23:57:28.917287 as preservation work. This entry does not rewrite that earlier cutoff.
+- Isolated corrected focused run: November 17, 23:44:42.040503–23:44:43.453804. Exact final-byte focused run: 23:47:17.391327–23:47:18.803271. Handoff: 23:47:19.048907.
+- Independent final-byte focused execution: November 17, 23:48:56.556490–23:48:57.878774; review finalized at 23:50:17.345597.
+- Authoritative integration: November 18, **00:05:53.711324**, on local 026 `c0e47836cc46e1287eb39814550a064ac8ecf323`, after source/history restoration and full native Session completion, before predecessor GitHub readback completion. Integration was source-only, not a runtime launch.
+- Lead focused run: 00:06:32.393, duration 1,351.925 ms, 194/194. Protection run: 00:06:33.820, duration 6,708.467 ms, 229/229. Linux broad run: 00:06:40.603, duration 1,468.923 ms, 223 passed / 45 failed of 268. All wrapper before/after source bytes were stable, Node v24.22.1.
+- Lead test aggregation: 00:06:42.092737. Failure-label reconciliation: 00:07:38.978502, exact nonempty forty-five-label multiset compared with final 024 broad evidence.
+- Predecessor 026 GitHub verification: 00:07:38.975872 UTC. Independent integrated review: 00:08:45.904902. Prospective native-plan review: 00:08:38.821275. Fixed 027 record cutoff: **00:10 UTC**. Later documentation review/writing and publication are preservation work, not additional implementation or native evidence within this cutoff.
+- End / stopping point: Reviewed source integration and final source tests are complete; native helper preparation is assigned but no executable launch, gate or runtime result is claimed. The coherent 027 commit/Notion/GitHub preservation cycle is not completed in this dated entry.
+- Session stage / type / focus: Source integration and test/review milestone for an explicit developer-only Full/null/720/copied-AAC workbench, not native or production release.
+- Reason for summary: Preserve the substantive source changes, exact test provenance, fixture/tool mistakes, authority boundaries and next finite native prerequisites without waiting for unexecuted future work.
+
+## 🎯 Session Goal
+
+Reuse the existing application shell, renderer, per-file editor, private output access and ordinary service machinery to expose the already-scoped Full-copy candidate through one explicit developer CLI route. Correct the workbench presentation of ordinary Keep-source compatibility-ready rows without treating labels or token presence as execution authority. Retain editable inspection results and require explicit per-file Full/null range, 720p and Copy audio before genuine selected work can proceed.
+
+Preserve baseline and older explicit routes, the twenty-six historical calibration producer bytes and pins, exact raw-report/runtime requirements and the need for new service/runtime owners after cancellation. Add focused source tests for preparation/edit receipt awaits, reentrant Start refusal, sticky closure and late startup close. Do not convert those source tests into a native launch or repin old evidence to the new workbench. Preserve this coherent source checkpoint before any separately reviewed native journey.
+
+## 🛠️ Actions Taken
+
+### 1. Carry forward the preserved service proof and restore boundary
+
+Predecessor 026 local commit is `c0e47836cc46e1287eb39814550a064ac8ecf323`, tree `78114008837063930b773bc568817f6694075dba`, with 580 source files and twenty-six commits. [Notion source and full history](https://app.notion.com/p/41bbd7ade63b8194b85ec87ca6f8a369) independently restored source ZIP SHA-256 `6d301b1d24b3c37fb4ec82e4d1f6eaf7f1557908786cc9ebb51f87715c06ddb9`, bundle `ecd2c2a72c5f4e9b67258a20a1cdb03ff9947a476888a5af61e7ea66724001cb`, and history ZIP `7d9fd15c61576c8802a3314ffbb8fd95632aa4c11be18d27db1b6349f1d6b6f5`.
+
+[Full native Session](https://app.notion.com/p/41cbd7ade63b81919e34fa897074bce7) was delivered in five ordered unabridged requests and read back with all twenty-six headings and the historical ending, without truncation metadata. Native rendering returned 1,223,388 characters; the byte authority remains archived Markdown, **1,206,490 bytes**, SHA-256 `e6a25a307e4c1d928bd6bc591c7158696ff6baaecceda7693fa0de4a03b5bfae`. Exact prior body matches Git HEAD and is reserved as this entry's unchanged suffix.
+
+Predecessor GitHub remote commit `b9b3e30afb1f0b5b2fa863ac3d916a5660752267`, sole parent `79fb517eb8c63cd07597c5795cfc15385bcb0f6b`, tree `6ffc7d8d5426219ed098bd8906baf0b28cd85bb6`, was verified at 00:07:38.975872 UTC on `blue/linux-development`. Its 962-file tree had 957 unchanged, two modified, three new and zero deleted files; all five intended record bytes, expected-parent non-force update and fresh ref matched. The full Session used supported immutable Git blob readback. Final GitHub receipt is 2,594 bytes, SHA-256 `83fe20b2d2696fbc720d9fb3db649c1dfb0d68e44398191dfe511dd969233123`. Released final Notion receipt, after its remote mapping was completed, is 100,987 bytes, SHA-256 `4d01ced03f1aa73a140e26d1156697a9824d7bedc81527c228a7af7f0e244e09`. The distinct local/remote histories are deliberately preserved, not force-replaced. Source/history/native restoration preceded authoritative integration at 00:05:53.711324. GitHub completion was later, so it must not be described as a completed integration prerequisite at that moment. Preserve actual local-to-remote ancestry mapping and verification time when the final receipt is read.
+
+The actual short-service success remains bound to immutable 025 `fa9388a…`: 47 closed children, one semantic target, full saved output probe/hash, copied AAC timing/packet contract, observation-sink access and prepare-only existing-output refusal. The first `failed-retained` report remains separate and unchanged. Neither the successful older service proof nor the source-only 026 preservation executes this newly integrated workbench or resolves its native visual behavior.
+
+### 2. Inspect the exact isolated proposal and retain its failures
+
+The isolated V1 proposal was based on `fa9388aceb836eca2cd68672ae34441dd27b9ca7`. Handoff `full-copy-workbench-sourcework-evidence/HANDOFF-v1.json` records six modified and three new paths; the 53,915-byte patch SHA-256 is `2961b8dce56f57c724ed54c3432b0de5e0b2e8fa709566ed773a01270b62b381`. In the isolated base inventory, 571 of 577 existing files were unchanged and the proposed total was 580. That earlier proposal inventory is different from integration on the later evidence-only 580-file 026 base.
+
+Initial worker run was 15/16. Its failed expectation copied lowercase `Experimental full-copy preview unavailable` while the actual disclosure used `Experimental Full-copy preview unavailable`. This was a capitalization error in the expected test string, not evidence that the application failed to show an error dialog. The next 28/29 run failed because the injected edit worker did not update the test item's `operationRequest`, leaving `source` instead of the expected `720`. The fixture was corrected to carry the actual request; these red logs remain, rather than presented as production defects or silently discarded.
+
+An intermediate command reported 74 passing tests but named two nonexistent test files that Node omitted. That result cannot establish those missing suites. The corrected command explicitly asserted existing paths and ran the real `tests/main-lifecycle.test.cjs`, `tests/ui-workbench.test.cjs` and `tests/ui-vendor.test.cjs` along with the candidate, renderer, output-access and IPC suites. Final focused evidence is 194/194 on exact final source bytes, with command, working directory, Node version and before/after hashes retained.
+
+Worker broad evidence reported 223 passed / 45 failed of 268 versus fresh base 211 / 45 of 256. A final explanatory comment changed after that broad run, then focused tests reran on exact final bytes. Do not call that worker broad run an exact final-comment-byte execution; the later authoritative lead broad run provides that separate evidence.
+
+The first freeze inventory tried an unrestricted directory comparison, encountered retained test-owned artifacts and stopped before patch/handoff output. Final inventory deliberately enumerated the exact 577 Git base paths plus three declared new source paths. No retained test artifacts were deleted or smuggled into the source patch. This is an ownership/inventory correction, not unexplained source loss.
+
+### 3. Add a fixed developer route with genuine restoration and acquisition gates
+
+`--blue-runtime=9.0.2-full-copy-candidate` is the sole new fixed option. Runtime-choice parsing still rejects duplicate or unknown `--blue-runtime` values and leaves the default baseline unchanged. No user-supplied executable path, report path, loader path, generic configuration IPC or automatic fallback was added.
+
+The new main-owned `candidate-full-copy-workbench.cjs` derives the ignored restoration root from the existing candidate runtime identity `1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9`. It uses the exact fixed ffmpeg/ffprobe bytes and seven dependency/soname identities. Preliminary `fs.access` checks detect missing tools or original raw report before opening an observer/runtime owner, but existence alone is not authority. The existing genuine runtime and bounded raw-report/producer checks remain authoritative after access succeeds. Source-only or portable archives cannot substitute for those inputs.
+
+The loader guard requires Linux x64 without nonempty `LD_` overrides or `NODE_OPTIONS`, before acquisition and again for each execution through the existing runner. Options must be inert main-owned data: absolute, lexically normalized state directory, optional child observer and genuine `OutputAccess` instance. No getter options are accepted. Instance checking is not described as an unforgeable brand; private grant/identity methods remain the meaningful output authority. Failed construction closes acquired runtime ownership and records close failure if present, rather than falling back to an unqualified baseline.
+
+The developer route isolates state under `workbench-full-copy-candidate-preview`, including the standard Electron state/session subdirectories. Main title and readiness disclosure explicitly identify Full-copy, CPU slow/CRF 25, copied AAC, close/relaunch after cancellation and unqualified native threading. Capabilities/preferences are restricted to H265 CPU, slow, quality 25, no recipes/vendor profiles, Remux unavailable and production catalog qualification unavailable. These source changes do not themselves create a profile or open the runtime.
+
+### 4. Separate inspection presentation from actual Start authority
+
+The service factory gains a strict inert boolean `workbenchMode`, default false. Ordinary non-workbench service behavior remains: a compatibility-ready row may exist without genuine selection, and inherited Start refuses it. The previously observed ready/null behavior is not retroactively erased from the 024/025/026 evidence.
+
+With workbench mode true, `snapshot()` synchronously reads the current service state and current plan. For each currently ready row, it checks the current matching entry for selection, operation runtime token, instrumentation and absence of `compatibilityPath`. An incomplete/unqualified row is demoted to Unsupported with `CANDIDATE_FULL_COPY_REQUIRED`, its matching current plan entry is removed, and the explanation tells the person to choose Full, 720p and Copy audio per file, then Apply. The editable draft and source summary remain; the user is not trapped in an uneditable inspection result.
+
+This transform has no await and does not accept a callback-supplied old plan. It is deliberately a current-owner presentation/filtering step, not proof that a token-shaped object is genuine or current. Actual selector-family/resource binding, runtime currentness, shared Start, protected publication and output access still enforce authority. Genuine selected 720/Full/copy entries must remain ready; no general user-controlled snapshot flag creates a qualified family.
+
+Cancellation closes admission synchronously before awaiting inherited cancellation, and workbench mode emits the closed state immediately. The renderer prioritizes `developerFullCopy` disclosure over older candidate disclosures and preserves sticky close/relaunch state across later callbacks or stale snapshots. Restart requires closing the old service and acquiring a new verified runtime/service, not a same-service retry claim.
+
+The shared renderer change is real and also affects Windows-shaped rendering. No HTML, CSS, theme/Gauge assets, preload/IPC, Windows main, defaults/catalog or historical producer pins were edited. Absence of those edits is not a claim of native Windows regression qualification or unchanged shared renderer behavior.
+
+### 5. Exercise actual receipt awaits and late-close paths without overstating injected seams
+
+The new preparation test calls actual composed `prepareBatch` and holds the real `PREPARATION_FINISHED` receipt await. While held, service is busy, reentrant Start throws and the injected runtime invocation count remains zero. After release, the returned row is Unsupported, its runnable plan entry is gone, and the draft/source summary remains.
+
+The edit test invokes actual `updateFileOperations` and holds `DRAFT_REPREPARATION_FINISHED`. Its worker prepares a genuine selector-family token and operation binding for explicit Full/null, 720 and copy; while persistence is held, Start still refuses because preparation is busy. After release the genuine selected row is ready, the new plan ID differs, and a subsequent snapshot retains the current matching entry. The tests use actual shared receipt-await and selector behavior, not a manually assigned ready/busy phase alone.
+
+The positive factory/report/runtime/inspection/storage-eligibility seams remain injected, and the edit worker and operation runtime token are synthetic. The negative branded-runtime fixture is a nonexecutable owned file, not a genuine media runtime. No live positive factory, ffmpeg/probe, media or native operation is established by these tests.
+
+Crucially, there is still no test that pauses and resumes an actual delayed old `prepareItem` FILE_INSPECTED/inspection callback after cancellation or a successor fixture. Current synchronous owner logic and inherited busy/drain protections are reviewed, but that deferred race coverage must not be called completed. Ordinary API restrictions also do not imply overlapping old/new ownership is possible merely because a synthetic successor-state test could be written.
+
+Main now checks the closing flag after awaited `window.loadURL`, calls the existing close path and returns before printing READY if closing occurred during load. VM tests cover late acquisition/close drainage and loadURL-close for Full-copy, resize and baseline paths. They show the intended lifecycle control flow under those fixtures, not real Electron sandbox/renderer behavior or an actual native process closing correctly.
+
+### 6. Reconcile independent review and integrate the exact nine paths
+
+Independent source review is 15,272 bytes, SHA-256 `8796eb6dd077e2343a996608cb9f25ca2da74ab8f1a7aa08a7af62d761d1ddf1`, based on exact patch and file identities. It independently ran the thirteen-path focused command under Node v24.22.1, 194/194, and reviewed acquisition/authority, snapshot, cancellation, renderer and main-close contracts. It inspected worker broad evidence rather than executing that broad suite itself. Its initial label extraction counted both test rows and repeated failure footer, yielded ninety and stopped; the corrected first-summary-boundary comparison matched the nonempty forty-five-label multiset. No failure was waived or rebaselined.
+
+Source review found no blocker to this bounded delta but explicitly deferred actual delayed old `prepareItem` callback coverage, live/native qualification and broader platform/security guarantees. Manual changed-source review is not exhaustive ELF dependency analysis or a formal Security Cloud scan.
+
+After 026 source/history/native restore completion, lead integrated these exact source/test bytes on local 026 at 00:05:53.711324:
+
+| Path | Bytes | SHA-256 |
+|---|---:|---|
+| `linux-blue/candidate-full-copy-service.cjs` | 25,961 | `0ee4d93d2dc709db1a49cbfced79e29c789be43d19d5b6e4d2748d13f7e3e462` |
+| `linux-blue/candidate-full-copy-service.test.cjs` | 30,414 | `830b40b36badfcb0a00a0e021724306d5e2654d11117929b430011447ca34a9c` |
+| `linux-blue/candidate-full-copy-workbench-renderer.test.cjs` | 12,380 | `39c1f6bf1a72d776bdbfe166a578d023798f3292a240179639b7e35abb00de55` |
+| `linux-blue/candidate-full-copy-workbench.cjs` | 6,044 | `09f374170927f705d6e0e1a3419c982a167fc534536b7fee034f1be1a95ab9aa` |
+| `linux-blue/candidate-full-copy-workbench.test.cjs` | 12,846 | `f0ffe7a7be077da3fd5f4e2f249ddf1a5daf5d3242b6315315ed9d629d4d5e9d` |
+| `linux-blue/runtime-av1.test.cjs` | 6,415 | `e046bf972b0d738eafce763b9ec04320cf1ef5f18ae58f2db5f93ed511cf735e` |
+| `linux-blue/workbench-main.cjs` | 10,349 | `9e2017c6d37399319dc18271193aeeb7cc9e1e5dd8a23ead2f916d401b205a91` |
+| `linux-blue/workbench-runtime-choice.cjs` | 927 | `18ba58d3b3a99dbcaced4ef4b00477aa9bf7fcd1905ed954b3c9e4b7e2f30014` |
+| `ui/renderer.js` | 149,163 | `a88dd83dcf1d3c127106f1b895770d7bad4c789fb5ee831b26f6be6b682bef68` |
+
+`checkpoint027-integration.json` records six existing changes, three new source files, 574 unchanged existing files out of the 580-file base and 583 current indexed files. All twenty-six historical producer bytes/literal pins remain unchanged. It records no runtime execution. Four PBS paths are separate from that nine-path source delta; expected final coherent scope is thirteen paths, 585 files and twenty-seven commits, not nine total paths including records.
+
+### 7. Run exact authoritative focused, protection and broad checks
+
+Lead final evidence wrappers used Node v24.22.1 on Linux, base `c0e47836cc46e1287eb39814550a064ac8ecf323`, and unchanged before/after source bytes. Exact commands and covered/test-file identities are retained in `checkpoint027-lead-test-results.json`, not inferred from a convenient aggregate count.
+
+- `20261118T000632Z_checkpoint027-focused`: thirteen explicit existing test paths, 194 tests / 194 passed, exit 0. This covers Full-copy service/workbench/renderer, older candidate workbench regressions, runtime choice, main lifecycle, shared UI/vendor, OutputAccess and IPC. Receipt SHA-256 `3eefeea2c0c501f2217f984f5848f9c3cf74cedaeabfb2ce0c7cfb1a3871a881`; stdout `4dd6fa51440651d75c314584e0edd45260cde0c2432e606c697e978f822e7e18`.
+- `20261118T000633Z_checkpoint027-protection`: eight explicit tests for encoder service, runner, outputs, completed output/source policies, source identity and source-catalog contracts; 229/229, exit 0. Receipt `c3f7fb8be2e92e6f4edd2205f450edd777f82177efe94196a3aa0b47ae0b5f33`; stdout `8033bb17ca8544d89716984263ff39cb64346fceb4697a5c3c6faac48d9c14aa`.
+- `20261118T000640Z_checkpoint027-linux-broad`: 268 tests, 223 passed and 45 failed, exit 1. Receipt `aa150465d3e7be3f1a112f3e526a7ec7d72c04076fdd963b6edb5aba3074f8be`; stdout `67865e6cf437181b6a509e7c779f99ef3235cdda86c3815cfaf0700b4034e88d`.
+
+All three wrapper stderr files are empty; this is source-test stderr, not evidence that a new ffmpeg or native run was quiet. Counts overlap and must not be summed into a unique-test total. Test-wrapper dirty-path counts include the established reconstructed working-tree context; exact declared source scope and before/after hashes, not a generic clean-tree assertion, define what was tested.
+
+Lead failure reconciliation at 00:07:38.978502 compares current broad with `20261117T230747Z_checkpoint024-final-linux-broad`: base 211/256 with 45 failures, current 223/268 with the same forty-five labels and multiplicities. This is a nonempty exact saved diagnostic comparison, not proof that blocked downstream assertions work. Existing missing historical inputs, old producer refusals and prior failure causes remain, with no map update or baseline waiver. The new Full-copy path did not reactivate old failed families.
+
+Independent integrated reconciliation finalized at 00:08:45.904902: `checkpoint027-independent/INTEGRATED_REVIEW.json`, 15,523 bytes, SHA-256 `7dfaaf50f8a50dfc0663ec7387a2b3f84ac38c1fdab86896ee2dc517bc7d8811`. It matched the exact nine final source paths, 574 unchanged existing files, twenty-six unchanged historical producer bytes/pins and all retained lead receipts/logs/test-file identities. It did **not** redundantly rerun tests in the authoritative checkout: the same exact proposal had already received independent 194/194 focused execution, and the integrated reviewer verified retained authoritative 194/194, 229/229 and 223/268 evidence. Its own nonempty forty-five-label reconciliation matches the lead, with no downstream-green claim. Pre-existing untracked recovered/support files are outside the scoped delta; there is no blanket clean-tree claim.
+
+Integration receipt is 2,537 bytes, SHA-256 `14515c814d1ce4c5507199b40aa9bcc1d6d009c4437f65e1ef798c480bef29d6`; lead aggregation is 25,429 bytes, `e2e62530ef7c9486e735c01134ebc3baeea6f21182621aa1a10c2b44409dddfc`; failure reconciliation is 5,448 bytes, `b9155bddf5eb2a113edde295ab726afa076875864ff5a3358d5c936c791ef67f`. No additional implementation or runtime run was required to finish those read-only checks.
+
+### 8. Keep supplementary risk advice and prospective native planning bounded
+
+Lead and the supplementary reviewer reported patch-risk advice for the immutable proposal: high impact, moderate likelihood, partial protection, managed recovery and moderate confidence, with merge/human-review-required advisory disposition. **No patch-risk artifact was created**, because required storage-policy/schema resources were unavailable. The full skill workflow was not completed or schema-validated, and the advisory is not automatic permission to merge or launch. Treat it as provisional advisory, not a formal Security Cloud result, exhaustive security proof or replacement for the independent source review. Do not delay this source record on unavailable advisory infrastructure.
+
+The read-only `native-full-copy-plan-preparation-20261117/PLAN.md` describes a possible future journey using the original shell and exact audited eight-second MP4. Its stated planning identities predate authoritative integration and are not a future gate. At this preparation point it creates no executable helper, approval, profile, owned source copy, desktop action, probe or runtime.
+
+The prospective journey would require the actual integrated immutable source checkpoint and all tracked Git/current/restored hashes, released Notion source/full-history receipts, current final review, exact original raw calibration/report and runtime/dependencies, verified Electron, absent or explicitly reconciled owned state and a fresh supported desktop preflight. A new exact reviewed launcher/authorizer and explicit one-shot release would still be needed. The old service gate is consumed and does not authorize a GUI.
+
+Proposed UI scope is one visible input/output registration, one inspection Prepare, an Unsupported editable Keep-source row with Start disabled, explicit Full/null/720/Copy per-file Apply, one genuine Ready/Start and at most one separately included Show in folder. It retains the known Resolution-popup overpaint and allows ordinary visible keyboard selection only with verified closed labels; that is not clean visual QA or a rendering fix. No player, second target, cancellation/relaunch or hidden IPC/eval is included. Native child observation is a census, not the service helper's eighty-child admission gate. Point disk checks and a thirty-minute abort request are not hard write/exit guarantees. All are proposed controls, not observed outcomes.
+
+The plan is 8,574 bytes, SHA-256 `edd577b354d45bbf9bbdad171c3b1bba9a213efe4a5c074a8c7c08c369762c06`. Independent plan review is 3,456 bytes, SHA-256 `181d0757d5e1bc0364474780141a5ef149abb221be8642eabf8e1d4907c26553`, checked 00:08:38.821275, conditional GO for separately reviewed helper/authorizer preparation only. It requires future artifacts to bind the actual integrated checkpoint, not silently rewrite the plan's historical “not integrated” introduction. Final release must explicitly decide whether one Show in folder is included; optional plan wording alone is not authorization. Fresh desktop, absent-state ownership and capacity facts remain live prerequisites. Helper preparation was assigned at the cutoff, not completed or executed. No native result, OS reveal, decoded output or screenshot is created by this source milestone.
+
+## 🧠 Key Insights
+
+### Presentation and execution authority must stay separate
+
+The ordinary compatibility-ready label exposed a usability problem without creating an authorized encode bypass. Workbench mode now demotes the label and removes incomplete current plan entries, while genuine private selector/runtime/Start checks remain the authority. Token-shaped presence is not enough to grant execution.
+
+### A real await test still has a bounded fixture scope
+
+The new tests exercise actual shared preparation/edit receipt awaits and reentrant Start refusal. That is stronger than manufactured phase snapshots, but injected inspection/runtime/report/worker seams and the absent actual old-callback test remain material limits. Calling every lifecycle edge proved would lose that distinction.
+
+### Late closure needs a check after the last awaited startup step
+
+Even when resource acquisition is correctly drained, a close during loadURL can otherwise be followed by a misleading READY log. The added post-loadURL closing check fixes that control-flow window in the VM-tested source. It still needs native evidence before describing actual Electron behavior.
+
+### Independent and authoritative tests have different provenance
+
+The independent reviewer ran focused tests and read saved worker broad evidence. The lead separately ran final integrated broad bytes. Those are complementary checks, not one interchangeable run or a reason to conceal the forty-five inherited failures.
+
+### Source preservation enables the next native test but does not replace it
+
+A coherent backup can restore code and its decisions. It does not restore raw runtime/report/media prerequisites or prove desktop state, platform behavior, warnings or popup rendering. Native execution needs a new finite gate on the actual integrated checkpoint.
+
+## 📌 Decisions Made
+
+1. **Confirmed; lead and predecessor restoration receipts:** Integrate the exact reviewed nine-path proposal only after 026 source/history/native restoration. Preserve the fact that predecessor GitHub readback completion followed integration rather than rewriting the sequence.
+2. **Confirmed; source author and independent reviewer:** Add one explicit fixed developer route with no default change, caller-controlled executable/report path or fallback. Reuse existing shell/editor/OutputAccess/service mechanisms and preserve all twenty-six historical producer bytes and pins.
+3. **Confirmed; reviewed service design:** Make workbench presentation stricter only under inert main-owned boolean workbench mode. Retain ordinary non-workbench ready/null behavior and inherited Start refusal; do not claim the old evidence showed universal suppression.
+4. **Confirmed; source tests and review:** Preserve editable inspection rows, genuine selected Full/null/720/copy authority, synchronous current-owner snapshot behavior, sticky closed admission and new-owner relaunch requirement. No same-service recovery claim.
+5. **Confirmed; lead tests and reconciliation:** Record focused 194/194, protection 229/229 and broad 223/268 with the exact same forty-five failure-label multiset. Do not sum overlapping counts or treat inherited blocked assertions as passed.
+6. **Provisional; supplementary risk advisory:** Human review remains required within an incomplete skill-resource workflow. This is not a completed schema-validated assessment or formal Security Cloud scan.
+7. **Deferred; lead and future native reviewer/operator:** A future original-shell Full-copy journey requires preserved integrated source and separately reviewed/authorized runtime/desktop setup. Planning is not permission or proof.
+
+## ⚠️ Difficulties / Friction
+
+The initial test fixtures introduced two misleading reds: copied disclosure capitalization and a synthetic worker that omitted the updated operation request. Retaining their exact failures explains why later green is a fixture correction, not an undocumented production fix.
+
+A passing intermediate Node command named nonexistent tests, so its 74 result did not cover what the command intended. Corrected explicit path assertions and a real existing-path suite were needed. Inventory also required declared Git scope instead of a whole-directory comparison polluted by retained test artifacts. These are tooling/provenance problems that could otherwise produce false confidence or accidental artifact inclusion.
+
+Independent failure parsing initially counted a repeated footer twice. Correct nonempty multiset matching and the later lead reconciliation retain forty-five actual inherited failures without pretending the broad suite is green. Historical gate refusals still stop downstream behavior, which remains unproved.
+
+The native popup and CPU topology/thread-pool warnings remain unresolved. No source edit here targets HTML/CSS/native rendering or changes runtime threading. Missing supplementary skill resources limit the risk advisory. These limits should inform the next plan, not prompt an unreviewed workaround or block coherent source preservation indefinitely.
+
+## 🔧 Adjustments Made
+
+### 1. Turn an isolated proposal into an exact authoritative source delta
+
+- Shifted from: Reviewed workbench source in a separate checkout, not part of the service-tested authoritative tree.
+- To: Nine exact integrated paths after 026 restore gates, with new authoritative tests and a separate coherent checkpoint planned.
+- Because: Useful app-code progress requires controlled integration without attributing older runtime evidence to new source.
+- Consequence: Workbench source exists in the authoritative tree, but native execution and new source preservation remain distinct next steps.
+
+### 2. Make initial workbench inspection honestly non-runnable
+
+- Shifted from: Ordinary compatibility-ready presentation with null selection, while Start correctly refused.
+- To: Workbench-only synchronous Unsupported demotion and removal of incomplete current matching entries, retaining editable draft/source summaries.
+- Because: The developer preview should guide explicit Full/720/Copy selection rather than appear runnable before genuine qualification.
+- Consequence: Presentation improves without weakening the real selector/runtime/Start authority or changing default service mode.
+
+### 3. Strengthen receipt-await and startup-close tests with explicit scope
+
+- Shifted from: A source proposal needing clear preparation/edit persistence and late startup-close evidence.
+- To: Actual shared receipt-await/reentrant Start tests and VM post-loadURL closing checks, with injected seams and deferred old-callback coverage stated.
+- Because: Async boundaries can expose misleading state even when the final happy path works.
+- Consequence: Specific source contracts are tested; native behavior and arbitrary stale-callback races are not overclaimed.
+
+### 4. Repair fixture and command/inventory provenance
+
+- Shifted from: Capitalization and omitted-request fixture failures, a 74-pass command with nonexistent paths, and an unrestricted directory freeze comparison.
+- To: Corrected fixtures, explicit existing-path assertions, 194 final-byte focused checks and exact declared Git-plus-new-source inventory.
+- Because: Test names/counts and incidental filesystem contents do not prove intended coverage or source scope.
+- Consequence: Red logs and corrections remain preserved without deleting test artifacts or claiming missing suites passed.
+
+### 5. Keep advisory and native planning below execution authority
+
+- Shifted from: A source review plus incomplete supporting patch-risk resources and a prospective native plan.
+- To: Explicit provisional advisory limitations and a future gate tied to actual integrated/preserved source and desktop prerequisites.
+- Because: Unavailable schema/storage resources and written plans cannot produce security completion or native authorization.
+- Consequence: Source preservation can proceed honestly; further runtime/GUI actions require their own review and release.
+
+## ❌ Mistakes / Risks Noted
+
+### 1. Initial fixture errors could be misdiagnosed as product regressions
+
+- What happened or could happen: Wrong-case disclosure expectation and omitted operationRequest in the injected worker produced 15/16 and 28/29 runs.
+- Actual impact: Those tests failed for fixture reasons; corrected fixtures retained the actual red logs and final expectations.
+- Potential impact: Unnecessary production edits or a misleading claim that a product defect was fixed.
+- Correction / current status: Distinguish fixture corrections from source changes and preserve command/output provenance.
+- Failure Intelligence: Before modifying production code, compare the fixture's state updates and exact expected strings with the real contract.
+
+### 2. A green test command can omit intended files
+
+- What happened or could happen: Intermediate Node invocation named two nonexistent test paths and returned 74 passing tests from what remained.
+- Actual impact: That run did not prove those absent suites. Later corrected commands explicitly used existing main-lifecycle/UI/vendor paths and 194 tests.
+- Potential impact: False regression coverage, especially for shared Windows-shaped renderer or main lifecycle.
+- Correction / current status: Explicit path existence and retained commands/file hashes accompany final runs; the 74 count is not represented as full coverage.
+- Failure Intelligence: Verify discovered test files and actual executed names, not only process exit or total count.
+
+### 3. Unrestricted inventory or footer parsing can corrupt evidence scope
+
+- What happened or could happen: Retained test-owned artifacts entered a whole-directory comparison; repeated failure footer doubled a parser result to ninety.
+- Actual impact: Both checks stopped before their intended final evidence. Declared source inventory and corrected nonempty forty-five-label parsing were used.
+- Potential impact: Deleting useful red evidence, publishing incidental artifacts, or misreporting new/removed failures.
+- Correction / current status: Preserve artifacts separately, compare exact Git base plus declared new source paths, and match actual failure-label multiplicity.
+- Failure Intelligence: Filesystem inventory and diagnostic parsing need their own validated boundaries; a convenient aggregate is not authority.
+
+### 4. Snapshot filtering could be mistaken for token authentication
+
+- What happened or could happen: Selection/runtime/instrumentation presence checks or Unsupported/Ready labels are described as an unforgeable execution gate.
+- Actual impact: The synchronous workbench transform changes presentation/current plan membership only; existing selector/runtime/Start checks remain required.
+- Potential impact: Future code might trust a token-shaped object or UI label and bypass genuine private authority.
+- Correction / current status: Record the division of responsibility and retain genuine token/currentness tests separately from renderer assertions.
+- Failure Intelligence: User-visible readiness and actual capability authorization must be validated at their respective boundaries.
+
+### 5. Real receipt-await tests do not cover every stale callback
+
+- What happened or could happen: Actual final receipt waits and current-plan snapshots are generalized to every delayed old prepareItem callback or overlapping owner race.
+- Actual impact: Final-await/reentrant paths are tested; actual delayed old prepareItem resumption is not.
+- Potential impact: Unsupported lifecycle claims or missed misleading late state updates.
+- Correction / current status: Carry the specific deferred test forward without claiming normal APIs permit arbitrary overlapping ownership.
+- Failure Intelligence: Name the exact await/callback exercised and injected dependencies, not just “race tests passed.”
+
+### 6. Shared renderer and VM success could be called native/platform qualification
+
+- What happened or could happen: A tiny shared renderer change plus Windows-shaped DOM and VM startup tests is described as no Windows effect or a successful Electron launch.
+- Actual impact: Renderer source changed; no native Windows or new Full-copy GUI execution occurred.
+- Potential impact: Unrecognized platform regressions, false sandbox guarantees or premature product activation.
+- Correction / current status: Preserve shared-source attribution, existing platform limits, known popup/warnings and separate native gate.
+- Failure Intelligence: Source-level fixtures, actual platform execution and owner visual acceptance are distinct evidence.
+
+### 7. Provisional risk advice could be promoted into a completed security scan
+
+- What happened or could happen: Advice produced with unavailable schema/storage resources is labeled a completed skill workflow or Security Cloud result.
+- Actual impact: Supplementary advisory remains provisional and human-review-required; independent source review is separately recorded.
+- Potential impact: False compliance/security assurance or skipped required review.
+- Correction / current status: State incomplete resources and no formal scan; do not change source scope or wait indefinitely on infrastructure.
+- Failure Intelligence: Name exactly which review ran and which outputs/resources could not be validated.
+
+## 📍 Current Position
+
+**As of:** November 18, 2026, fixed 00:10 UTC cutoff. Nine-path authoritative integration, three lead test runs, exact integrated independent reconciliation and prospective native-plan review are complete. The record/preservation cycle is being prepared; no new native runtime result is included.
+
+**Before this session:** The audited short Full-copy service proof and full 026 history were preserved; the isolated workbench proposal had independent source review but was not part of the authoritative checkout. Ordinary compatibility-ready/null presentation still required Start refusal. No native Full-copy journey had run.
+
+**After this session:** Exact nine-path developer workbench source is integrated on 026 with all twenty-six calibration producer bytes/pins unchanged. Workbench-only inspection presentation, explicit route/acquisition, per-file Full/720/Copy path, sticky closure and post-loadURL close handling have focused source evidence. Lead 194/194 and 229/229 passed; broad is 223/268 with the same forty-five failure-label multiset. Final source/PBS scope is nine source/test paths plus Current, execution report, curated receipts and this full Session, thirteen paths total. Expected resulting inventory is 585 files and twenty-seven commits. New checkpoint preservation remains pending at the cutoff.
+
+**Current standing:** No new runtime, media, native GUI, OS reveal, production/default/catalog activation or Windows qualification. Positive factory/runtime/report/worker seams remain injected; actual delayed old prepareItem coverage remains absent. Historical failed and passed service campaigns retain their original source boundaries. Native popup and x265 warnings remain.
+
+**Live owner / continuation anchor:** Lead owns final source/PBS scope, tests/review, preservation and future authorization. Mirror owns exact source/history/native restoration and GitHub readback. Documentation owns only the explicitly released Session prepend. Re-enter through [Current State](CURRENT_STATE.md), [Full-copy Workbench Integration](2026-11-18_Full_Copy_Workbench_Integration.md) and [Exact Receipts](2026-11-18_Full_Copy_Workbench_Integration_Receipts.json), then the immutable proposal, integrated review and future native-plan review. Native-plan preparation is read-only and does not authorize an operator or helper to launch.
+
+## 🔜 Next Steps
+
+1. **Lead and documentation owners:** Finish the fixed-cutoff Current/execution/receipts and independently reviewed Session, preserving the exact 1,206,490-byte prior suffix and original structure-correction receipt. Stage only the nine source/test paths plus four PBS paths.
+2. **Lead and mirror:** Commit the coherent expected thirteen-path / 585-file / twenty-seven-commit milestone; immediately restore Notion source/full history and unabridged native PBS, then verify ancestry-preserving exact GitHub publication. Do not call a local commit backed up before those checks succeed.
+3. **Native-plan reviewer and lead:** Bind any future plan to the actual new immutable commit, source inventory and released preservation receipts. Revalidate exact runtime/dependencies, original raw report, owned source and Electron, absence/ownership of fixed state and fresh supported desktop readiness. No source-only or portable substitution and no consumed service gate reuse.
+4. **Future helper/operator:** Only after independent exact helper/authorizer review and explicit finite release, attempt the original-shell inspection/edit/one-target journey with visible verified controls, known popup limitation and no bypass/security flags. Keep source frozen through closure and independent audit; stop on unknown delivery or unexpected state rather than automatic replay.
+5. **Source reviewer and lead:** Retain deferred actual old prepareItem callback coverage, native Windows behavior and wider lifecycle/quality/performance qualification as separate work. Do not reopen historical producer pins or rebaseline broad failures to make the new route look green.
+
+**Do not reopen / repeat:** Do not rewrite the original failed helper, rerun either consumed service gate, attribute the old successful campaign to new workbench source, delete retained fixture artifacts, claim missing tests ran, equate label presence with genuine authority, suppress warnings, clear native state without reconciliation, or call the popup fixed because keyboard selection might work.
+
+**Continuation boundary:** This milestone ends at coherent source integration/testing/preservation. A future native journey is only a plan until a new exact reviewed gate and explicit execution release exist. Keep non-HDR order, ArchiveCQ29/defaults and benchmark pause; 1440p/4K remain in 0.7. Remux/seek, HDR, packaging and owner release acceptance remain separate. Do not wait for an unexecuted native result to document the source milestone.
+
+## ❓ Open Questions
+
+### Does the integrated developer route work through the real original UI under a supported desktop?
+
+- Known: Fixed route, acquisition and current-owner presentation are source-integrated and tested in injected/VM/DOM fixtures. Old-source short service proof is independently supported.
+- Needed from: Preserved integrated source plus separately reviewed/authorized finite native journey and saved-output audit.
+- Blocks: Claiming the Full-copy workbench is natively usable, not honest source preservation.
+
+### What does an actual delayed old prepareItem callback do after cancellation or successor-state setup?
+
+- Known: Actual final receipt awaits and reentrant Start refusal are tested; no real delayed old prepareItem callback was resumed in these tests.
+- Needed from: Narrow callback-specific test with exact owner/drain semantics and no invented normal overlapping ownership.
+- Blocks: Broad stale-callback assurance, not the independent review's bounded source disposition.
+
+### Can the native popup and CPU topology warnings be resolved without unsupported workarounds?
+
+- Known: Prior Resolution-menu overpaint and x265 CPU-mask/thread-pool diagnostics remain. This patch changes neither HTML/CSS rendering nor runtime threading setup.
+- Needed from: Scoped native/environment diagnosis and evidence under a separate approved plan.
+- Blocks: Clean visual/performance qualification, not source-level route and lifecycle checks.
+
+### What remains outside this security/platform review?
+
+- Known: Independent changed-source review and tests passed within scope; supplementary patch-risk workflow is incomplete/provisional. Native Windows, exhaustive loader closure and formal Security Cloud scanning are unverified.
+- Needed from: Appropriate later platform/security review when those assurances are required.
+- Blocks: Expanded security/platform claims, not the explicit developer-only source milestone.
+
+## 🧾 Session Outcome
+
+At the fixed November 18 00:10 UTC cutoff, the observed source outcome is exact authoritative integration of the reviewed nine-path Full-copy developer workbench, with retained fixture/tool mistakes and final lead 194/194 focused, 229/229 protection and 223/268 broad results. The forty-five existing failure-label multiset and all twenty-six historical producer bytes/pins remain unchanged. No new native/media outcome is claimed.
+
+The exact previous 1,206,490-byte Session is reserved intact. Final 027 commit, Notion restoration and GitHub publication are future preservation steps until actually verified. The prospective native plan does not authorize execution or close the remaining platform, popup, warning or callback gaps.
+
+## 🔍 Confidence Level
+
+**High for exact source scope and the exercised source contracts:** Reviewed immutable patch, integration identities, final-byte focused runs, protection tests and authoritative broad reconciliation agree.
+
+**Limited for native/platform and broader lifecycle behavior:** Injected positive runtime/report/inspection/worker seams, VM/DOM testing and an unexecuted native plan do not establish actual GUI or platform success. The specific delayed old callback remains untested.
+
+**Why:** Worker, independent and lead tests are attributed separately; initial reds, nonexistent-file coverage correction, inventory/parser mistakes, inherited failures and exact preservation sequence remain visible.
+
+**Not higher because:** Broad remains forty-five failures with blocked downstream assertions, warnings/popup are unresolved, provisional risk advice lacks required resource validation, and this source milestone has not executed a new runtime or native journey. New 027 source/history/native/remote preservation is still pending at the dated cutoff.
+
+---
+
 # 📘 Session: November 17, 2026 — FFmpeg Encoder — Complete the separately authorized short Full-copy service proof without rewriting the first failed attempt
 
 ## 🤖 Models, Effort, Roles and Provenance

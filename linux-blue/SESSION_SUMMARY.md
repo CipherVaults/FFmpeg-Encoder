@@ -1,3 +1,200 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Measure the codec cleanup and bind fresh resize evidence
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role | Attribution | Work and evidence limit |
+|---|---|---|
+| Engineering lead / executor | GPT-6 Astra / Ultra, recorded assignment rather than backend attestation | Preserved 047, issued two separate engineering gates, executed the ordinary discriminator and fresh E3 calibration, reconciled audits, then integrated the two-file consumer refresh and ran source checks. |
+| Helper and consumer authors / independent reviewers | Model and effort not independently established here | Reused existing helpers, reviewed the exact input changes and consumer binding, and tested file/injected or saved-report behavior. These checks are not live factory or native qualification. |
+| Independent auditors / records | Model and effort not independently established here | Checked saved outputs, source/runtime identities and diagnostics without new media execution. Ordinary raw PCM was byte-compared; E3 has streaming receipts, not a retained raw PCM pair. |
+
+**Record basis:** The codec change now has bounded real ordinary H.265 evidence and a fresh three-case resize calibration on immutable 047. Duplicate codec warnings are absent in those retained target diagnostics; CPU-mask/thread-pool warnings remain. A later two-file resize consumer refresh passes source checks, but its real service proof is pending. Nine Full-copy prerequisite failures remain, so the milestone is not an all-green release.
+
+## 🕒 Time
+
+**Stage / type / focus:** Current-source measurement after codec cleanup, followed by a narrowly evidence-backed consumer refresh.
+
+**Date and clock:** November 18, 2026; Cairo UTC+02:00. Fixed cutoff **14:27:58.603495 Cairo / 12:27:58.603495 UTC**. Times below are UTC; active effort was not measured.
+
+- Ordinary helper review **11:50:35.856887** followed the 047 cutoff. Its handoff had already arrived before that cutoff and was correctly recorded there as unreviewed/unbound.
+- 047 committed/frozen **11:57:09.146141**. Fresh E3 delta review **12:01:00.906506**. GitHub verified **12:04:14.419930**; final full publication receipt **12:06:08.064264**.
+- Ordinary gate **12:06:08.066958**. Outer completion **12:07:01.862**, exit 0, **43.924396953 seconds**; no unrecorded outer start timestamp is invented. Actual target **12:06:25.041–12:06:54.811**, **29.77 seconds**. Audit **12:09:21.880757**; lead acceptance **12:11:45.282042**.
+- Separate E3 gate **12:11:45.696003**. Actual outer **12:12:13.854–12:15:54.566**, exit 0, **220,712.377892 ms monotonic / 220,713 ms wall**. Saved audit **12:20:23.886041**; reconciliation/source release **12:21:40.953672**.
+- Consumer review **12:25:32.575046**; exact two-file integration **12:26:10.200522**; lead tests completed **12:26:22.819048**; integrated reconciliation **12:27:34.310682**; cutoff **12:27:58.603495**.
+
+**End / stopping point:** Both campaigns and audits are terminal. The refreshed consumer has source tests only. A reduced service helper has arrived frozen with seven author file/injected checks; independent review was not yet assigned at cutoff, and no binding, gate or service run existed.
+
+**Reason for this summary:** Replace assumptions about the codec repair with measured evidence, refresh resize from a genuinely new report rather than stale repinning, and retain the remaining qualification and test boundaries.
+
+## 🎯 Session Goal
+
+Establish whether the new builder removes overlapping codec decisions while preserving the tested ordinary output. Only after that succeeds, repeat the existing strict E3 calibration on the changed producers and refresh the existing resize consumer. Reuse architecture, exact helpers and established Git → Notion → GitHub preservation, with no new framework, runtime/default/thread policy or audio-acceptance change.
+
+The owner already authorized controlled development testing. Fresh engineering checks do not require another routine permission request. Full-copy, native UI and untested platforms must not inherit qualification from these different paths.
+
+## 🛠️ Actions Taken
+
+### 1. Preserve 047 before either real run
+
+047 is local `fd129edab6e1b653da87cf7aac6c09f14b633132`, tree `317208159aa6b860db34018ce594308d0fdc52ad`, **658 files / 47 commits**. Its full **2,050,291-byte** Session, SHA `7ba2ad966afb6e8fe3926dac9ded359b502277164b651c92fa7c43ab635a7e0c`, remains the exact predecessor suffix.
+
+Both archives and readable native records were independently restored in Notion. Final mirror receipt: **120,178 bytes / `4be13848a9d509119e7e8c6e611ea98498713d087fec775a7c33c2c9167689fe`**. GitHub verified remote `3d9b216051cf25ccde5cf333f0c57f144959938d`, sole parent `521a936f0e938adb1e965fa5ca6c0fa5a21963cf`: nine exact changed paths, **1,040 total / 1,031 unchanged / six modified / three new / zero deleted**. Final publication receipt: **179,039 bytes / `206c121d830cc47f534159721595323b98c14513e612c068ffca2a7ec16ea2a2`**. Complete preservation preceded both gates; no remote replay or publication friction was recorded.
+
+Both campaigns kept all 658 current/Git source identities frozen. The lead separately checked exact helper/review/preservation semantics, runtime pair and seven dependencies, inputs and point free-space admission. No extra generator or executed authorizer was introduced. Gate booleans alone were not treated as verification.
+
+### 2. Reuse and review the smallest ordinary discriminator
+
+The ordinary helper reduces an existing successful service harness to one owner and one H.265 CPU slow/quality-25 Full/Keep/copied-AAC target on the retained eight-second fixture. Twelve author tests were independently repeated with genuine inert OutputAccess/DiagnosticJournal contracts and pure/file checks. The scopes overlap; none is an actual factory/media test. It retains the corrected undefined-return reveal sink, valid diagnostic labels, exact serialized report readback and additive late-error receipts.
+
+The review verified that the helper checks actual target argv/stderr, not only a constructed expected vector. It also disclosed two full video traversals, source/output same-reader PCM and packet checks, a prepare-only existing-output collision and no cancellation/recovery. Initial factory acquisition precedes the runner wrapper under the reviewed non-media-acquisition assumption. Exceptions can leave partial outer evidence, and abort/late rejection do not guarantee owner settlement.
+
+The manual ordinary gate is **80,251 bytes / `0067fe754760baebac2400363912cabe56eb16d931c61369ed3e533bae4263e1`**. Bounds remained one semantic target, 48 spawned children, serial one, a 30-minute abort request, shared 60-second close observation and 27 GiB/2 GiB point checks. The 42-role forecast was not an actual count or a hard exact-census requirement. These are not guaranteed exit or live-write quotas.
+
+### 3. Observe the actual ordinary result and independently compare retained PCM
+
+The real ordinary factory/service/currentness path published one output. Exact target codec decisions were `-c:v:0 libx265` and `-c:a:0 copy`, without the old broad overlap. The target's **168-byte stderr** contains the CPU-mask/no-WPP/lookahead warnings but no duplicate-codec warning. This is an observed warning delta for the tested tuple, not clean stderr or a threading/performance repair.
+
+The report is **508,051 bytes / `1bed1596980647c1b50e8ba915d00cf5f3f4a19e18d288c33613d3a3597a0790`**. Output is **6,691,875 bytes**, SHA `846c4581957aa3987c01e3674bd5f3c2a3fd795f2f3a91d465eaef4624dd1385`. Original execution retained full output identity, a 240-frame count traversal and strict video decode. Their proof cost is not app encode time; the 29.77-second target and 43.924-second outer are not benchmarks.
+
+Source/output same-candidate-reader audio had **376 packets, 375 decoded frames and 384,000 samples each**, with matching packet payload hashes/extradata and Skip Samples 1024. The complete retained f32le stereo PCM files are **3,072,000 bytes each**, SHA `200ca1c2a6804c139d5d7637caf507b686b30f7dfdf4b5c11ca629855e82a9a4`. Auditor and lead compared those bytes, without fitted shift or prefix omission. This is stronger than digest-only reconciliation, but does not claim cross-decoder identity, universal presentation compatibility or audibility. Other retained container/timestamp fields were not all asserted identical.
+
+Actual census is **40 spawned / 40 closed / zero live / maximum one**, not 48 processes. Eight `LINUX_WORKBENCH_GPU_UNTESTED` rows refused before spawning and have no child streams. Target row 42 was the sole target and the 34th spawned child. Five nonempty stderr streams include x265 and SVT startup diagnostics; hardware refusal is not hardware qualification.
+
+Genuine OutputAccess dispatched once to an inert sink, then expired; no OS reveal/player occurred. Re-preparing the existing destination skipped it, preserved the output hash and started no new target. This was **prepare-only collision**, not a Start-time sentinel race. The sole owner finished with resources settled, diagnostics persisted, no pending operations, live children or closure errors.
+
+The saved audit is **134,082 bytes / `8622bf7d72fc536abc9ef545e871d2660e40d7c1ef42b46cfa5ea9a7f0b68365`**. The lead checked **188 identity occurrences / 180 unique rows**, all 658 source files and the raw PCM pair; the artifact inventory is 160 files / 20,539,459 bytes. Neither auditor nor lead re-decoded media. This accepted only the bounded ordinary H.265 proof and allowed consideration of a separately checked E3 run.
+
+### 4. Generate fresh E3 evidence without changing the executable harness
+
+Four reviewed V2 executable/runtime input files were copied byte-identically into a new sibling preparation directory. Consumed gates/attempt/results were not reused. A new campaign input plan changes exactly the two codec-producer digest values; all 97 paths were checked against immutable/current 047. This updates **inputs for a new measurement**, not an old report or a live consumer. Independent review repeated three syntax checks, not the inherited injected suite or media.
+
+The separate E3 gate is **78,103 bytes / `4a07a707b955f60c1ee7a1d2590cb0cd573764a1bd57aef658bd02f8bd55f75b`**. Accepted ordinary evidence, complete 047 preservation and fresh source/runtime/space checks preceded the run. The existing three-case matrix and clock/resource/geometry/telemetry criteria were unchanged:
+
+| Case | Source/request | Actual frames | Actual samples |
+|---|---|---:|---:|
+| Late forty seconds | Fresh 150-second source, 100–140 seconds | 1,200 | 1,920,000 |
+| Late open end | Same source, 130 seconds to end | 600 | 960,000 |
+| Held-out nonaligned | Fresh flipped 11-second source, 0.413–8.621 seconds | 246 | 393,984 |
+
+All three passed. Whole-source receipt counts are 4,500 frames / 7,200,000 samples and 330 / 528,000 respectively. Runtime s16le stereo PCM hashes/counts match selected outputs. The final raw report is **125,797 bytes**, SHA `226ec3b5a0f4ab58870a43a89a7579eb53a48dc6182000b45e8eaaba806901e2`, under `candidate-resize1080to720-calibration-uj6Zhk`.
+
+Actual census was **42 spawned / 42 closed / zero live / maximum one**. Every bounded stderr capture was rehashed: 39 empty and three nonempty, each target retaining **168 bytes** of CPU-mask/no-pool warnings without duplicate codec warnings. The launcher's 160-child ceiling is not an exact-42 pre-spawn assertion; the consumer's strict diagnostic expectations and actual audited census are separate facts. No bound was fitted to make this result pass.
+
+Unlike the ordinary proof, E3 raw PCM files and complete output probe/frame streams are not retained. Audit reconciles streaming PCM receipts, selected sealed spools, normalized source probes and executed validator evidence; it does not independently re-decode or byte-compare raw PCM. All three full output SHA values were first established by the **post-close audit**, not the original report or publication. Telemetry supports count/timing, not pixel identity. Individual child timestamps are absent; outer/per-case timing does not recreate them.
+
+The independent E3 audit is **205,601 bytes / `fd21230a4aeb596c186d20a0fa80e365b80a930fca6d2ec549c928e6ab17d14f`**. Lead reconciliation checked **784 identity occurrences / 772 unique rows**, all 658 current/Git files and 95 artifacts / 160,456,086 bytes. Accepted calibration released source freeze for the reviewed consumer refresh only, not normal-service/native/default activation.
+
+### 5. Refresh only the existing consumer and correct its test fixtures
+
+After both audits, independent review accepted exactly `linux-blue/candidate-resize-service.cjs` and its focused test. Integration changed those two files; all other 656 prior files remained identical. The consumer now binds the new raw report path/125,797-byte size/SHA, immutable 047 audit/provenance/policy identity and complete 97-producer map. Only the two measured producer digest values differ; no producer source file is edited in this step.
+
+The change retains genuine runtime/private selection/currentness, exact dependency bindings, no-follow report read, before/after identity checks, strict 42-child report validation, clock/resource rules and cancellation requiring new ownership. No default, main/UI, audio policy, runtime/thread setting or Full-copy capsule changes. The original Q8fIWI and older 3JE2RQ reports remain immutable and rejected by the new binding.
+
+The original consumer control was 14 passes / one current-producer failure / two raw-input skips. The first refreshed tests failed because synthetic report lengths still described the old 125,887-byte report: **64 passes / eight failures** focused, and **eight passes / eight failures / three skips** source-only. The author corrected synthetic padding, stat/read counters and the one-byte-oversized negative to the new 125,797/125,798 boundary. It was a fixture mistake, not a relaxed secure reader or evidence of a production report-read defect. Original red logs remain.
+
+Independent final runs reproduced **72/72 focused** with all three actual raw report inputs supplied, and **16 passes / three explicit raw-input skips** without those inputs. The new tests reject the prior Q8fIWI raw report and its exact two old producer digests; positive current-map admission is separately checked. The older four-producer/raw-report negatives remain. Actual saved-report parser tests are not live service factory proof: positive factory tests inject runtime/currentness and filesystem/crypto seams. Source-only restore still cannot supply missing raw runtime/report prerequisites.
+
+### 6. Reconcile integrated results and preserve the remaining red boundary
+
+Final lead results, on 658 byte-stable checked files, are:
+
+| Scope | Result |
+|---|---:|
+| Focused, actual raw inputs supplied | 72/72, no skips |
+| Protection | 229/229 |
+| Explicit Linux selection | 330/339, nine failures, no skips/cancellations |
+| Source-only consumer selection, no raw inputs | 16 pass / zero fail / three explicit skips |
+
+These scopes overlap, are not summed and are not package-wide or Windows `npm test`. Compared with 047's 327/337 and ten failures, the sole removed failure is the resize current-producer check; two new prior-Q8fIWI tests increase the total. All nine retained failures match the previous Full-copy classes: eight producer refusals and one reportClosed zero-versus-one assertion because producer refusal precedes report opening. Candidate close still runs; no opened-descriptor leak or downstream success follows. Later report mutation/cleanup/selector/composition controls remain blocked, not repaired. The separate 21-failure historical preservation selection was not rerun here.
+
+The integrated review is **21,538 bytes / `8b452730adb5b68c4f5b2470a797dc36c6662462f02fda1b76cafc1f39826628`**. It read actual failure blocks and saved identities without rerunning tests. An initial read-only log lookup used the wrong parent directory, then corrected it before reading all blocks; no mutation or test replay occurred.
+
+048 prepares one coherent **eight-path / 662-file / 48-commit** checkpoint: two consumer paths, Current, Session, execution, receipts and two portable evidence files. Both real campaigns remain attributed to immutable 047. The later consumer is source-reviewed, not yet real-service-qualified. No native journey, new media runtime, audio policy, pool change or default promotion is included.
+
+## 🧠 Key Insights
+
+- Duplicate-codec warning removal is now measured for the ordinary H.265 target and three E3 targets; the remaining topology warnings are a separate unresolved issue.
+- Raw PCM equality and streaming receipt equality are different evidence strengths. The ordinary audit has the former; E3 has the latter.
+- Fresh measurements justify a new source-bound consumer. Editing old report digests would not.
+- One removed prerequisite failure plus two new tests explains the count change. Nine remaining Full-copy failures do not become harmless or green because resize's gate now matches.
+- Same-reader agreement does not settle all historical AAC-reader or owner-acceptance questions. Existing audio policy remains unchanged.
+
+## 📌 Decisions Made
+
+1. **Confirmed:** Accept the finite ordinary codec discriminator, then separately run E3. **Decider:** Lead following saved audit. **Basis:** Actual argv/warning delta, bounded publication, same-reader raw PCM and settled ownership; no broad promotion.
+2. **Confirmed:** Reuse byte-identical calibration executables with a fresh plan/source gate. **Decider:** Lead and delta reviewer. **Basis:** Exactly two producer changes and the unchanged strict matrix, avoiding a new harness or stale consumer bypass.
+3. **Confirmed:** Integrate only the reviewed two-file resize consumer refresh. **Decider:** Lead after fresh calibration audit and source review. **Basis:** New original raw report and complete measured producer closure; historical negatives and secure reads remain.
+4. **Deferred:** Current consumer's real service proof and any Full-copy restoration. **Decider:** Lead's staged continuation. **Basis:** New consumer has source/injected tests only; Full-copy retains its nine prerequisite failures. The reduced helper is only frozen author preparation at cutoff.
+
+## ⚠️ Difficulties / Friction
+
+Ordinary's 48 operation rows include eight pre-spawn refusals, so row count is not child count. Its same-reader PCM is fully retained, whereas E3's is not; treating them uniformly would overstate the latter. Calibration elapsed time and child closure do not establish a hard timeout or performance gain.
+
+The consumer's changed report length exposed stale synthetic fixtures. Fixing their actual data kept secure admission strict. The independent final log-path lookup was corrected read-only. None of these corrections required a media retry, a runtime/policy change or altering an old report.
+
+## 🔧 Adjustments Made
+
+- **Shifted from:** A source-only claim that duplicate codec options were removed. **To:** One actual ordinary discriminator before broader E3 measurement. **Because:** Builder parity did not establish runtime behavior. **Consequence:** Bounded warning-removal and same-reader output evidence, without expanding acceptance.
+- **Shifted from:** The consumed E3 plan tied to old producer hashes. **To:** A fresh sibling plan with two updated input digests and the same executable bytes. **Because:** Current-source measurement was required. **Consequence:** New calibration evidence while all old plans/reports remained unchanged.
+- **Shifted from:** Old-size synthetic report fixtures. **To:** Exact new-size padding/stat/read counters and one-byte-overflow negative. **Because:** The actual new raw report is 90 bytes shorter. **Consequence:** Tests exercise the same secure-reader rules instead of failing on stale test data.
+- **Shifted from:** A stale resize consumer. **To:** A reviewed new raw-report/full-closure binding after audit. **Because:** Fresh evidence now covers the changed producers. **Consequence:** The producer check passes; actual normal-service qualification remains the next distinct step.
+
+## ❌ Mistakes / Risks Noted
+
+**Synthetic-size mistake.** **What happened:** Refreshed tests kept the old report's lengths. **Actual impact:** Eight failures in each affected initial selection. **Potential impact:** Mistaking fixture failure for a production defect or weakening the reader. **Correction/current status:** Exact fixture lengths and oversized negative corrected; red logs preserved; guards unchanged. **Failure Intelligence:** Keep raw-input identities and synthetic boundary fixtures synchronized without loosening acceptance.
+
+**Overclaiming qualification.** **What could happen:** Successful calibration or parser tests could be called restored service/native support. **Actual impact:** No such claim is made; the new consumer has source tests only. **Potential impact:** Use of unproved composition or bypass of Full-copy's stale closure. **Correction/current status:** Preserve 048 before a separately reviewed reduced service proof; old reports and remaining refusals stay intact. **Failure Intelligence:** Track calibration, consumer admission, actual service and native UI separately.
+
+**Evidence/count conflation.** **What could happen:** Calling 48 rows spawned children, digest receipts raw PCM comparison, audit-first hashes publication hashes, or topology warnings fixed. **Actual impact:** Counts/provenance remain explicit here. **Potential impact:** False confidence in closure, fidelity or performance. **Correction/current status:** Retain exact audit distinctions and all diagnostics. **Failure Intelligence:** Match each claim to the material actually retained and the point it was measured.
+
+## 📍 Current Position
+
+**As of:** 12:27:58.603495 UTC / 14:27:58.603495 Cairo. Later documentation save does not extend this evidence cutoff.
+
+**Before:** 047's codec cleanup was source-tested only; resize and Full-copy producer capsules were stale, and current Linux tests were 327/337.
+
+**After:** Ordinary H.265 and E3 calibration have accepted real measurements on 047. The resize consumer now points to genuinely new audited evidence and passes current producer/parser checks. Integrated Linux tests are 330/339 with nine retained Full-copy failures.
+
+**Current standing:** Ordinary is qualified only for the measured tuple. The refreshed resize consumer is ready for preservation and a reduced actual-service proof, not native/default promotion. Full-copy/older stale routes, Windows, other media and topology/performance issues remain bounded or unresolved.
+
+**Live owner / continuation anchor:** Lead owns coherent staging, commit, Notion restore and GitHub verification. Summary writer owns only this prepend until release. Continue from the frozen reduced service handoff after review and preservation, not by relabeling either completed campaign.
+
+## 🔜 Next Steps
+
+1. Complete Git → full Notion source/history/readable records → exact GitHub verification for 048, preserving all originals and this cumulative history.
+2. Independently review the reduced service helper, bind the actual preserved consumer checkpoint and run the finite publication/collision/active-cancel/new-owner proof under fresh checks. At cutoff it has seven author checks only; review, binding and execution are pending.
+3. Use that result to decide current resize service support. Reuse previous native UI evidence with its original source attribution; do not launch another GUI journey just for bookkeeping.
+4. Restore Full-copy only when needed with fresh appropriate evidence. Keep the nine failures and unrelated historical limits visible; no blanket skips or old-report repins.
+
+**Do not reopen / repeat:** Do not repeat successful ordinary/E3 targets without a new reason, introduce a replacement harness, suppress x265 warnings, fit audio offsets to acceptance, change thread/runtime/default policy or resurrect obsolete features solely for green tests.
+
+**Continuation boundary:** This summary grants no new gate or execution authority. Existing owner permission remains; exact review/source/preservation checks still apply. Later service-helper review/results belong in the next milestone.
+
+## ❓ Open Questions
+
+- **Does the refreshed consumer work through actual service lifecycle? Needed from:** The separately reviewed reduced service campaign on preserved 048. **Blocks:** Current normal-service support, not the accepted 047 calibration.
+- **When should Full-copy's producer closure be restored? Needed from:** Current-product priority and fresh required evidence if pursued. **Blocks:** Full-copy availability and its downstream test coverage; not an excuse to bypass guards.
+- **What is the cause and cost of remaining x265 topology warnings? Needed from:** Exact same-child/build/environment investigation if prioritized. **Blocks:** A causal/performance fix claim, not preservation of these finite warning-bearing successes.
+- **Do other readers, media tuples and Windows behave equivalently? Needed from:** Relevant targeted evidence. **Blocks:** Broader compatibility claims, not this same-reader bounded result or unchanged audio policy.
+
+## 🧾 Session Outcome
+
+Delivered an audited ordinary warning-removal/output discriminator, fresh strict E3 calibration and a source-reviewed consumer refresh backed by that new report. Current resize producer refusal is removed; nine Full-copy prerequisite failures remain. No actual run used the new consumer, and no native, Windows, general-media, performance or default/audio-policy promotion is claimed.
+
+Detailed records: [execution](2026-11-18_Codec_Proofs_and_Resize_Evidence_Binding.md), [receipt index](2026-11-18_Codec_Proofs_and_Resize_Evidence_Binding_Receipts.json), [ordinary proof portable](ordinary-codec-proof-portable.json) and [E3 calibration portable](codec-e3-calibration-portable.json).
+
+The ordinary portable contains five complete selected report/terminal/audit/reconciliation objects with 380 declared leading-root substitutions. The E3 portable contains the complete parsed calibration report with 141 substitutions plus audit identity/limit metadata, not the complete audit inventory. Neither includes raw media, PCM, runtime binaries or gate/state payloads. Original raw bytes remain local; aliases are not inverse restoration or execution authority. These are declared selected evidence packages, not zero-omission runtime backups.
+
+Full original 2,050,291-byte history remains byte-exact. 048 commit and external preservation are pending at this record's cutoff and must be verified separately.
+
+## 🔍 Confidence Level
+
+**High** in the finite ordinary warning delta and raw same-reader PCM agreement, the fresh E3 receipt reconciliation and the exact consumer/failure-count changes. **Limited** in new-consumer service lifecycle, other inputs/platforms/readers and topology/performance causes.
+
+**Why:** Immutable source/pins, terminal diagnostics, retained output evidence, independent audits and reviewed exact source changes agree. **Not higher because:** E3 raw PCM/full output probe streams are not retained; no auditor re-decoded media; new-consumer positives use source/injected tests; nine downstream Full-copy paths remain blocked and later service evidence does not yet exist.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Verify native resize and remove overlapping codec decisions without bypassing qualification
 
 ## 🤖 Models, Effort, Roles and Provenance

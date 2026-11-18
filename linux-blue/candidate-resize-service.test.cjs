@@ -70,7 +70,7 @@ test('new current producer capsule matches; historical capsule still refuses cur
 test('actual freshly audited raw report passes fixed pure validator when explicitly supplied', { skip: !process.env.CANDIDATE_RESIZE_REPORT_TEST_PATH }, async () => {
   // Read-only evidence test; no live factory/runtime grant or media execution.
   const bytes = await fs.readFile(process.env.CANDIDATE_RESIZE_REPORT_TEST_PATH);
-  assert.equal(bytes.length, 125887); assert.equal(sha(bytes), REPORT_SHA);
+  assert.equal(bytes.length, 125797); assert.equal(sha(bytes), REPORT_SHA);
   const parsed = assertCandidateServiceReceipt(bytes); assert.equal(parsed.status, 'passed-pre-catalog-calibration');
   assert.equal(parsed.cases.length, 3); assert.equal(parsed.census.closed, 42);
   const changed = Buffer.from(bytes); changed[0] ^= 1; assert.throws(() => assertCandidateServiceReceipt(changed));
@@ -98,14 +98,14 @@ async function injected({ changedProducer = false, changedReport = false, wrongI
   const fake = { runtimeIdentity: wrongIdentity ? 'a'.repeat(64) : RUNTIME_ID, dependencies: changedDependencies ? [] : dependencies,
     pins: Object.fromEntries(['ffmpeg', 'ffprobe'].map(k => [k, { path: '/synthetic/' + k, size: 1, sha256: 'a'.repeat(64) }])),
     async requireCurrent() { observed++; if (staleAfterChecks && observed > 1) throw new Error('Injected stale runtime after report verification'); }, async close() { closed++; }, createRunner() { return async () => { invoked++; throw new Error('No child authorized by this test'); }; } };
-  const originalRequire = createRequire(file), module = { exports: {} }, syntheticBytes = Buffer.from(JSON.stringify(report()).padEnd(125887));
+  const originalRequire = createRequire(file), module = { exports: {} }, syntheticBytes = Buffer.from(JSON.stringify(report()).padEnd(125797));
   const overrides = {
     'node:fs/promises': { ...fs,
-      lstat: async name => name === REPORT ? { dev: 1n, ino: reportIssue === 'path-replacement' && reportReadBytes === 125887 ? 3n : 2n, size: 125887n, nlink: 1n, mtimeNs: 1n, ctimeNs: 1n, birthtimeNs: 1n } : fs.lstat(name, { bigint: true }),
-      realpath: async name => name === REPORT ? (++reportRealpaths && (reportIssue === 'symlink' || (reportIssue === 'path-alias' && reportReadBytes === 125887)) ? REPORT + '.elsewhere' : REPORT) : fs.realpath(name),
+      lstat: async name => name === REPORT ? { dev: 1n, ino: reportIssue === 'path-replacement' && reportReadBytes === 125797 ? 3n : 2n, size: 125797n, nlink: 1n, mtimeNs: 1n, ctimeNs: 1n, birthtimeNs: 1n } : fs.lstat(name, { bigint: true }),
+      realpath: async name => name === REPORT ? (++reportRealpaths && (reportIssue === 'symlink' || (reportIssue === 'path-alias' && reportReadBytes === 125797)) ? REPORT + '.elsewhere' : REPORT) : fs.realpath(name),
       open: async (name, flags) => {
         assert.equal(name, REPORT); assert.ok(flags & require('node:fs').constants.O_NOFOLLOW);
-        return { stat: async () => ({ isFile: () => reportIssue !== 'nonregular', nlink: reportIssue === 'hardlink' ? 2n : 1n, size: reportIssue === 'large' ? 125888n : 125887n, dev: 1n, ino: 2n, mtimeNs: 1n, ctimeNs: reportIssue === 'mutation' ? BigInt(++reportStats) : 1n, birthtimeNs: 1n }),
+        return { stat: async () => ({ isFile: () => reportIssue !== 'nonregular', nlink: reportIssue === 'hardlink' ? 2n : 1n, size: reportIssue === 'large' ? 125798n : 125797n, dev: 1n, ino: 2n, mtimeNs: 1n, ctimeNs: reportIssue === 'mutation' ? BigInt(++reportStats) : 1n, birthtimeNs: 1n }),
           read: async (target, offset, length, position) => {
             const bytesRead = reportIssue === 'truncated' ? 0 : syntheticBytes.copy(target, offset, position, position + length);
             reportReadBytes += bytesRead; return { bytesRead };
@@ -240,7 +240,7 @@ test('report path replacement and canonical alias after bounded read reject and 
     await assert.rejects(h.api.createCandidateResizeService({ verifiedRuntime: h.fake, stateDir: '/tmp/not-created-candidate-service' }), /Report path replaced during reading/);
     // The descriptor itself remains stable: only the post-read path identity or
     // canonical target changes, exercising the distinct pathname guard.
-    assert.equal(h.counts().reportReadBytes, 125887);
+    assert.equal(h.counts().reportReadBytes, 125797);
     assert.equal(h.counts().reportRealpaths, 2);
     assert.equal(h.counts().reportClosed, 1);
     assert.equal(h.counts().closed, 1);
@@ -330,4 +330,19 @@ test('actual historical raw report is not compatible with the new fixed evidence
  const bytes = await fs.readFile(process.env.CANDIDATE_RESIZE_OLD_REPORT_TEST_PATH);
  assert.equal(sha(bytes), '3fc9a4678890da318728f2c8b44ac7c6b4fe345ccd271b7f1064928f63eb1317');
  assert.throws(() => assertCandidateServiceReceipt(bytes));
+});
+
+// Previous Q8fIWI evidence cannot authorize the changed codec producers.
+test('immediately prior Q8fIWI producer capsule rejects current codec producer bytes', async () => {
+ const file=path.join(__dirname,'candidate-resize-service.cjs');let source=await fs.readFile(file,'utf8');
+ const pairs=[["aae37c5479897a13f9ee66b1ea1a8a9a6a46d2c57f76d36bdebdedf21569a5de", "ebd24233c03a78f2c67f6ce3787694eb9d73b0b3ee8da2f6758ae42deeb20a3a"], ["79f040a7e136b2b06235090675360996e12d7ff815ea776eb800fd479ce9a7e7", "4aaf7227e43b8ba10134fa1e34d15be7362eb5195d001eb1cfc629b66c677e66"]];
+ for(const [current,prior] of pairs){assert.equal(source.split(current).length-1,1,'Exact current producer pin must occur once');source=source.replace(current,prior);}
+ const module={exports:{}};
+ vm.runInThisContext('(function(require,module,exports,__dirname){'+source+'\n})',{filename:file})(createRequire(file),module,module.exports,__dirname);
+ await assert.rejects(module.exports.verifyCandidateServiceProducers(), /Calibration producer changed: src\/(encode-operation|media)\.cjs/);
+});
+test('actual prior Q8fIWI raw report stays incompatible', {skip:!process.env.CANDIDATE_RESIZE_PRIOR_REPORT_TEST_PATH}, async()=>{
+ const bytes=await fs.readFile(process.env.CANDIDATE_RESIZE_PRIOR_REPORT_TEST_PATH);
+ assert.equal(bytes.length,125887);assert.equal(sha(bytes),'ea6a92b5d9455174c46e18aab50995712c1d1a09a49b8b49e1fc2e0870417004');
+ assert.throws(()=>assertCandidateServiceReceipt(bytes));
 });

@@ -1,0 +1,228 @@
+{
+  "checkpoint": 48,
+  "cutoffUtc": "2026-11-18T12:27:58.603495+00:00",
+  "scope": {
+    "expectedChangedPaths": 8,
+    "expectedFiles": 662,
+    "expectedCommits": 48,
+    "publicationPending": true
+  },
+  "mediaSourceCommit": "fd129edab6e1b653da87cf7aac6c09f14b633132",
+  "integratedAtUtc": "2026-11-18T12:26:10.200522+00:00",
+  "sourceFiles": [
+    {
+      "bytes": 25239,
+      "sha256": "1ff23772e5fdc6052d898bb6aa3620a9b8d093cc7e081e1cca1b7cbf9105a205",
+      "previousSha256": "9659e256acf178352731bd64f65354c26300129c1b81b64064d861b272c5fe5e",
+      "path": "linux-blue/candidate-resize-service.cjs"
+    },
+    {
+      "bytes": 33127,
+      "sha256": "7f3c1548056b69e2482fe377a88f2c01363e8e1043801b68fde11c93082e1ef0",
+      "previousSha256": "1c74de93a0dbde664000780996e0f05afb6199746d7743e6d1e22f460412b1a2",
+      "path": "linux-blue/candidate-resize-service.test.cjs"
+    }
+  ],
+  "leadTests": {
+    "completedAtUtc": "2026-11-18T12:26:22.819048+00:00",
+    "checkedSourceFiles": 658,
+    "sourceBytesUnchanged": true,
+    "overlappingScopesNotSummed": true,
+    "runs": [
+      {
+        "path": "checkpoint048-lead-tests/focused.json",
+        "bytes": 4172,
+        "sha256": "fa3725f6458bb00662ad357573f1fbe74b7b131a028c55b976e9a223a153b16c",
+        "summary": {
+          "tests": 72,
+          "suites": 0,
+          "pass": 72,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      },
+      {
+        "path": "checkpoint048-lead-tests/protection.json",
+        "bytes": 4130,
+        "sha256": "1d76d10feeadde604186672f1f9ec413c8b11658655f8d18f50d5148607e46e4",
+        "summary": {
+          "tests": 229,
+          "suites": 0,
+          "pass": 229,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      },
+      {
+        "path": "checkpoint048-lead-tests/linux-broad.json",
+        "bytes": 12649,
+        "sha256": "f8e1e23747d386ca3bf18820793c5a3ca48edf92727dfa7794daeeb52de20d5a",
+        "summary": {
+          "tests": 339,
+          "suites": 0,
+          "pass": 330,
+          "fail": 9,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 1
+      },
+      {
+        "path": "checkpoint048-lead-tests/source-only.json",
+        "bytes": 2268,
+        "sha256": "b999448eb145a61eb34feb10d4f0d5de93c5594b4f056d2f85ef678b50c499c3",
+        "summary": {
+          "tests": 19,
+          "suites": 0,
+          "pass": 16,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 3,
+          "todo": 0
+        },
+        "exitCode": 0
+      }
+    ]
+  },
+  "initialReds": {
+    "original": {
+      "pass": 14,
+      "fail": 1,
+      "skip": 2
+    },
+    "initialFocused": {
+      "pass": 64,
+      "fail": 8
+    },
+    "initialSourceOnly": {
+      "pass": 8,
+      "fail": 8,
+      "skip": 3
+    },
+    "cause": "Synthetic readers retained old byte lengths; fixture correction125797/125798, no production guard relaxation."
+  },
+  "remainingFailures": {
+    "directFullCopyProducerRefusals": 8,
+    "reportClosedExpectationBeforeOpen": 1,
+    "candidateCleanupStillRuns": true,
+    "newFailureLabels": 0,
+    "soleRemoved": "resize currentness",
+    "downstreamControlsUnreached": true
+  },
+  "evidenceDifference": {
+    "ordinary": "Retained f32le PCM pair independently byte-compared, original helper output hashes",
+    "e3": "s16le streaming hash receipts only; no raw PCM/full output probes; first full hashes post-close audit"
+  },
+  "references": [
+    {
+      "artifact": "checkpoint048-cutoff.json",
+      "bytes": 892,
+      "sha256": "1a4ef3d76fea4a0621cf7519e1a09c29fdc6ad9112cc7d2ce8fb9503bbc06b6b"
+    },
+    {
+      "artifact": "checkpoint048-integration.json",
+      "bytes": 1524,
+      "sha256": "ae5b90b0ec88dcd253b350184d17cbd7dd0b0083799cd8a0cbb41902b4e30f81"
+    },
+    {
+      "artifact": "checkpoint048-lead-test-results.json",
+      "bytes": 77291,
+      "sha256": "15c7d2a09f5e15442b0786df3a221bced5899434a3617738925732c3addcef36"
+    },
+    {
+      "artifact": "codec047-resize-capsule-evidence/HANDOFF-v1.json",
+      "bytes": 5948,
+      "sha256": "a07df353195c43b45cf8f12d37c05b5117595965fe4167d91c0d7068138ef9ab"
+    },
+    {
+      "artifact": "codec047-resize-capsule-evidence/proposal-v1.patch",
+      "bytes": 10877,
+      "sha256": "9c3c872bbf869b7afd60216208226729f8b31ca8d653c066c3e8b938a5b1ddcd"
+    },
+    {
+      "artifact": "codec047-resize-capsule-independent-review/INDEPENDENT_REVIEW-v1.json",
+      "bytes": 8630,
+      "sha256": "71ecfbf71cbbca25adec6b392e5a8936edcc57c67ccf7088930cbf3ac4e60349"
+    },
+    {
+      "artifact": "codec047-resize-capsule-independent-review/INTEGRATED_REVIEW.json",
+      "bytes": 21538,
+      "sha256": "8b452730adb5b68c4f5b2470a797dc36c6662462f02fda1b76cafc1f39826628"
+    },
+    {
+      "artifact": "ordinary-codec047-preparation/REPORT.json",
+      "bytes": 508051,
+      "sha256": "1bed1596980647c1b50e8ba915d00cf5f3f4a19e18d288c33613d3a3597a0790"
+    },
+    {
+      "artifact": "ordinary-codec047-preparation/INDEPENDENT_SAVED_OUTPUT_AUDIT.json",
+      "bytes": 134082,
+      "sha256": "8622bf7d72fc536abc9ef545e871d2660e40d7c1ef42b46cfa5ea9a7f0b68365"
+    },
+    {
+      "artifact": "ordinary-codec047-preparation/LEAD_RECONCILIATION.json",
+      "bytes": 2880,
+      "sha256": "9eaf6ad3adbb5ba7bd4c535dfefb4854b94aee5e66b343388148bacf3703eb60"
+    },
+    {
+      "artifact": "codec-options-e3-calibration047-preparation/INDEPENDENT_SAVED_OUTPUT_AUDIT.json",
+      "bytes": 205601,
+      "sha256": "fd21230a4aeb596c186d20a0fa80e365b80a930fca6d2ec549c928e6ab17d14f"
+    },
+    {
+      "artifact": "codec-options-e3-calibration047-preparation/LEAD_RECONCILIATION.json",
+      "bytes": 4983,
+      "sha256": "dd6adaa69f98cee70ca9c900b66040a1614d216b0e0f0ad189187e3aaa6529a5"
+    },
+    {
+      "artifact": "resize-service048-preparation/HANDOFF-v1.json",
+      "bytes": 3420,
+      "sha256": "78fb1c1416cc9227805e1ef23e77fe105e7e9c1af1fdcbb40b975c3501b69180"
+    },
+    {
+      "artifact": "notion-checkpoint-047-verification.json",
+      "bytes": 120178,
+      "sha256": "4be13848a9d509119e7e8c6e611ea98498713d087fec775a7c33c2c9167689fe"
+    },
+    {
+      "artifact": "checkpoint-fd129ed-publication-receipt.json",
+      "bytes": 179039,
+      "sha256": "206c121d830cc47f534159721595323b98c14513e612c068ffca2a7ec16ea2a2"
+    },
+    {
+      "artifact": "checkpoint048-lead-tests/focused.json",
+      "bytes": 4172,
+      "sha256": "fa3725f6458bb00662ad357573f1fbe74b7b131a028c55b976e9a223a153b16c"
+    },
+    {
+      "artifact": "checkpoint048-lead-tests/protection.json",
+      "bytes": 4130,
+      "sha256": "1d76d10feeadde604186672f1f9ec413c8b11658655f8d18f50d5148607e46e4"
+    },
+    {
+      "artifact": "checkpoint048-lead-tests/linux-broad.json",
+      "bytes": 12649,
+      "sha256": "f8e1e23747d386ca3bf18820793c5a3ca48edf92727dfa7794daeeb52de20d5a"
+    },
+    {
+      "artifact": "checkpoint048-lead-tests/source-only.json",
+      "bytes": 2268,
+      "sha256": "b999448eb145a61eb34feb10d4f0d5de93c5594b4f056d2f85ef678b50c499c3"
+    }
+  ],
+  "nextAtCutoff": "resize-service048-preparation/HANDOFF-v1.json arrived/frozen, seven file/injected tests author-reported, independent delta review not yet assigned; no commit binding/gate/runtime. Do not import later review or execution.",
+  "limits": [
+    "Scopes overlap; no sums or whole-package/Windows qualification.",
+    "Current refreshed consumer has parser/VM/injected source coverage, not live service qualification.",
+    "Independent integrated reviewer verified recorded source identities and present bytes; lead records provide before/after stability.",
+    "Raw media/PCM/runtime/state/gates excluded from source portable, original parsed data retained only with explicit aliases.",
+    "No default/runtime/thread/audio-policy promotion or old report repin."
+  ]
+}

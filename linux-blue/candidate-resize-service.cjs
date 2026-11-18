@@ -1,7 +1,8 @@
 'use strict';
 // Developer-only 1080p-to-720p precision-FLAC normal-service proof. Imported only by the explicit developer resize workbench; not a default route.
 // Raw calibration/runtime files are local restoration prerequisites, not bundled source.
-// Retained duplicate-codec and NUMA/thread-pool warnings do not qualify performance.
+// New calibration: duplicate-codec warnings absent in all three targets;
+// residual CPU/NUMA/thread-pool warnings remain. No performance qualification.
 // A cancelled session requires a NEW service and NEW verified candidate handle.
 const fs = require('node:fs/promises');
 const path = require('node:path');
@@ -17,16 +18,16 @@ const { openEvidenceStorage } = require('../src/operation-storage.cjs');
 const { failedVendorCapabilities } = require('../src/vendor-capabilities.cjs');
 const { RESIZE_FAMILY_ID: FAMILY_ID, RESIZE_RESOURCE_POLICY: RESOURCE_POLICY, deriveCfrResizeFlacResources } = require('../src/operation-resource-budget.cjs');
 const RUNTIME_ID = '1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9';
-const REPORT = path.join(__dirname, 'artifacts/candidate-resize1080to720-calibration-Q8fIWI/report.json');
-const REPORT_SHA = 'ea6a92b5d9455174c46e18aab50995712c1d1a09a49b8b49e1fc2e0870417004';
-const REPORT_BYTES = 125887;
+const REPORT = path.join(__dirname, 'artifacts/candidate-resize1080to720-calibration-uj6Zhk/report.json');
+const REPORT_SHA = '226ec3b5a0f4ab58870a43a89a7579eb53a48dc6182000b45e8eaaba806901e2';
+const REPORT_BYTES = 125797;
 const SETTINGS = Object.freeze({ profileId: 'h265-cpu', preset: 'slow', quality: 25 });
 const sha = b => createHash('sha256').update(b).digest('hex');
 const need = (ok, message) => { if (!ok) throw Object.assign(new Error(message), { code: 'CANDIDATE_RESIZE_SERVICE_SCOPE' }); };
 // Complete literal relative-import closure rooted at the calibration producer,
-// from immutable 4ccb56a08b8d4b130dc66c6546e33736fbbb9b33.
+// from immutable fd129edab6e1b653da87cf7aac6c09f14b633132.
 // Independent saved-output audit SHA256:
-// 0f4ff0723a17703f7602d2f3436795cb656fddb0f7e6b659f950c4df69363c75.
+// fd21230a4aeb596c186d20a0fa80e365b80a930fca6d2ec549c928e6ab17d14f.
 // This is a new capsule, not old-evidence compatibility or service activation.
 // It excludes separately reviewed composition code.
 const PRODUCERS = Object.freeze({
@@ -48,7 +49,7 @@ const PRODUCERS = Object.freeze({
   "src/capabilities.cjs": "88b697955e5f938c98455faf0f2b98e51b98295cf0237da7dab9ecd360f31aca",
   "src/container-clock.cjs": "b823f1e41c4cca19a0b06d82dadf1941f4e0a0326b6d16bd910691c702763857",
   "src/diagnostics.cjs": "fa785aaca639324959339acceefbeaf7bfa1dfce4d38d27598b20c4d82df7901",
-  "src/encode-operation.cjs": "ebd24233c03a78f2c67f6ce3787694eb9d73b0b3ee8da2f6758ae42deeb20a3a",
+  "src/encode-operation.cjs": "aae37c5479897a13f9ee66b1ea1a8a9a6a46d2c57f76d36bdebdedf21569a5de",
   "src/encode-preservation-catalog.cjs": "1bce9f0b0c9a79a18e6d1c89fb181200ee366603dfe28097f1ace3d809bbf17f",
   "src/encode-preservation-producers.cjs": "0fd773d1bb0c0fab1af9d28861d80107e5e34809d7f3057467882d83f6f0de76",
   "src/encode-preservation-workspace.cjs": "30031b818ca362ea71c79a4cab6b6038e3b29ecaa5bc8efef00ce5fa5017bda9",
@@ -68,7 +69,7 @@ const PRODUCERS = Object.freeze({
   "src/inspection-cache.cjs": "a8df2a0b65a4c4117e1efb903710ff159335424d4f3645adb53b99b278e55de1",
   "src/inspection.cjs": "948559c31919629326f02ebabe30a3a6918677c91cf9bba338bf382b3401c491",
   "src/media-evidence.cjs": "102de80ca6e3e4509448e015d2012bed7025502584e2f934ae2dbe2dfad19502",
-  "src/media.cjs": "4aaf7227e43b8ba10134fa1e34d15be7362eb5195d001eb1cfc629b66c677e66",
+  "src/media.cjs": "79f040a7e136b2b06235090675360996e12d7ff815ea776eb800fd479ce9a7e7",
   "src/mov-representation.cjs": "0155dc48d2b81e2c2b72d0e291c25dee372df2f37d7dbc592062724013b14348",
   "src/native-backend-service.cjs": "ca7a9ea38034c992eb553f9a649f9d2c17411764c16d5aa016a1ae2ce78d6019",
   "src/native-file-command.cjs": "936116ef5e251ee4afaf0db8907082806a79c06c70159688417e26ecfecb5216",
@@ -311,7 +312,7 @@ async function createCandidateResizeService(options) {
       pins: Object.fromEntries(Object.entries(candidate.pins).map(([k, v]) => [k, { sizeBytes: v.size, sha256: v.sha256 }])), run,
     });
     const { qualification, timingQualification } = report.sources[0].frozen;
-    const selector = new ClockQualifiedFamilySelector({ policyIdentity: 'candidate-resize1080to720-normal-service-4ccb56a', families: [{
+    const selector = new ClockQualifiedFamilySelector({ policyIdentity: 'candidate-resize1080to720-normal-service-fd129ed', families: [{
       id: FAMILY_ID, resourcePolicy: RESOURCE_POLICY, runtimeIdentity: RUNTIME_ID, environment: null, settings: SETTINGS,
       qualification, timingQualification, evidenceIds: report.sources.flatMap(s => [s.frozen.qualification.evidenceId, s.frozen.timingQualification.evidenceId]),
     }] });

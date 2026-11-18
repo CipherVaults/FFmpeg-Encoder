@@ -1,13 +1,11 @@
-# Current state: native resize evidence and codec-option cleanup
+# Current state: codec-option proof and fresh resize calibration
 
-Cutoff: 2026-11-18 11:49:06.537835 UTC. Checkpoint 047 is prepared, not yet committed or externally preserved in this record.
+Cutoff: 2026-11-18 12:27:58.603495 UTC. Checkpoint 048 is prepared; its commit and external preservation are not yet claimed here.
 
-## What works, and on which source
-- Immutable 046 has one audited native H.265 range/720p/Precision FLAC publication and reveal: 63 frames / 101,184 samples supported by the named receipt/spools and streaming hash receipts; 42 owned children closed. This remains evidence of 046, not the changed codec builder.
-- Four reviewed codec source/test files are now integrated. They remove overlapping global codec selection and replace each precision-audio decision exactly once. No media ran after this change, so warning removal, media equivalence or performance improvement is not yet demonstrated.
-- Ordinary candidate has no producer capsule and can technically construct, but new-source media qualification remains pending. Resize and Full-copy are genuinely unavailable because their exact producer closures became stale. Do not repin historical reports. Keep720 was already stale. Selecting the baseline runtime on changed source is not a rollback to unchanged source.
+## Current reliability
+- On immutable 047, one ordinary candidate H.265 publication now empirically has no duplicate codec-option warning. CPU-mask/WPP/lookahead warnings remain. The retained f32le source/output PCM pair was independently byte-compared: 3,072,000 bytes and 384,000 samples each. This is same-reader evidence for one reused fixture, not all-player acceptance.
+- Fresh E3 calibration on the same 047 source passed its three fixed cases with all 42 children closed. Its PCM claim is s16le streaming receipt equality, not retained raw PCM comparison. First full output hashes were established by the post-close audit.
+- The independently reviewed two-file resize consumer refresh is integrated and source-tested. It is not a real-service result. Full-copy remains unavailable against stale producer closure; no old evidence repin or automatic default promotion.
 
-## Tests and next action
-Focused 118/118 and protection 229/229 pass. Explicit Linux selection fell from baseline 337/337 to 327/337 with ten failures. Independent review confirms eight direct Full-copy producer refusals, one reportClosed expectation mismatch before report opening, and one resize producer refusal. Candidate cleanup still runs; blocked downstream tests are not green. Separate historical preservation selection remains 118/139 with the same 21 failures and is not the default Linux selection. Scopes overlap.
-
-Preserve the coherent checkpoint, then review and run the smallest fresh ordinary one-target proof. Fresh resize calibration and consumer refresh must precede resize service restoration; Full-copy restoration requires its own evidence when needed. No default, audio policy, runtime or thread-setting change. Windows and general media acceptance remain unqualified.
+## Next boundary
+Lead tests: 72/72 focused, 229/229 protection, 330/339 explicit Linux with nine retained Full-copy failures; source-only 16 passes/3 raw-input skips. Scopes overlap. The sole removed failure is resize currentness; downstream Full-copy checks remain blocked. Preserve the checkpoint before using the refreshed consumer. The reduced service helper has arrived frozen with seven author file/injected checks; independent delta review is not yet assigned, and no binding/gate/run exists. No new native, Windows, general media or performance claim. Runtime, ordinary audio policy and thread settings are unchanged.

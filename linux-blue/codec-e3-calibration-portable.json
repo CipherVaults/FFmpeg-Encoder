@@ -1,0 +1,5081 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Complete parsed fresh codec047 E3 calibration report with completed bounded saved-output audit and lead reconciliation; later reviewed consumer integration is source-only; fixed combined cutoff stated separately.",
+  "original": {
+    "artifact": "linux-blue/artifacts/candidate-resize1080to720-calibration-uj6Zhk/report.json",
+    "bytes": 125797,
+    "sha256": "226ec3b5a0f4ab58870a43a89a7579eb53a48dc6182000b45e8eaaba806901e2"
+  },
+  "transformation": {
+    "kind": "known-leading-root-prefix-only",
+    "count": 141,
+    "countsByAlias": {
+      "proof://": 99,
+      "runtime-build://": 42
+    },
+    "locations": [
+      {
+        "path": [
+          "root"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "sources",
+          0,
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "sources",
+          0,
+          "identity",
+          "canonicalPath"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "sources",
+          1,
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "sources",
+          1,
+          "identity",
+          "canonicalPath"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "cases",
+          0,
+          "output"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "cases",
+          1,
+          "output"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "cases",
+          2,
+          "output"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          0,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          0,
+          "args",
+          59
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          0,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          1,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          1,
+          "args",
+          16
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          1,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          2,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          2,
+          "args",
+          16
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          2,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          3,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          3,
+          "args",
+          16
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          3,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          4,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          4,
+          "args",
+          16
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          4,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          5,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          5,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          6,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          6,
+          "args",
+          22
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          6,
+          "args",
+          86
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          6,
+          "args",
+          90
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          6,
+          "args",
+          97
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          6,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          7,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          7,
+          "args",
+          16
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          7,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          8,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          8,
+          "args",
+          14
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          8,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          9,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          9,
+          "args",
+          14
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          9,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          10,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          10,
+          "args",
+          14
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          10,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          11,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          11,
+          "args",
+          14
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          11,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          12,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          12,
+          "args",
+          14
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          12,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          13,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          13,
+          "args",
+          10
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          13,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          14,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          14,
+          "args",
+          10
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          14,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          15,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          15,
+          "args",
+          6
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          15,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          16,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          16,
+          "args",
+          22
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          16,
+          "args",
+          86
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          16,
+          "args",
+          90
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          16,
+          "args",
+          97
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          16,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          17,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          17,
+          "args",
+          16
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          17,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          18,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          18,
+          "args",
+          14
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          18,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          19,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          19,
+          "args",
+          14
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          19,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          20,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          20,
+          "args",
+          14
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          20,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          21,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          21,
+          "args",
+          14
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          21,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          22,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          22,
+          "args",
+          14
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          22,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          23,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          23,
+          "args",
+          10
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          23,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          24,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          24,
+          "args",
+          10
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          24,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          25,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          25,
+          "args",
+          6
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          25,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          26,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          26,
+          "args",
+          59
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          26,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          27,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          27,
+          "args",
+          16
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          27,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          28,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          28,
+          "args",
+          16
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          28,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          29,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          29,
+          "args",
+          16
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          29,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          30,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          30,
+          "args",
+          16
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          30,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          31,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          31,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          32,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          32,
+          "args",
+          17
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          32,
+          "args",
+          81
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          32,
+          "args",
+          85
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          32,
+          "args",
+          92
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          32,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          33,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          33,
+          "args",
+          16
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          33,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          34,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          34,
+          "args",
+          14
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          34,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          35,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          35,
+          "args",
+          14
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          35,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          36,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          36,
+          "args",
+          14
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          36,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          37,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          37,
+          "args",
+          14
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          37,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          38,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          38,
+          "args",
+          14
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          38,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          39,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          39,
+          "args",
+          10
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          39,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          40,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          40,
+          "args",
+          10
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          40,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          41,
+          "executable"
+        ],
+        "alias": "runtime-build://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          41,
+          "args",
+          6
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      },
+      {
+        "path": [
+          "children",
+          41,
+          "stderr",
+          "path"
+        ],
+        "alias": "proof://",
+        "occurrences": 1
+      }
+    ],
+    "inverseMappingIncluded": false
+  },
+  "authority": {
+    "runtime": false,
+    "activation": false,
+    "publication": false,
+    "rawRestoration": false,
+    "defaultPromotion": false
+  },
+  "limitations": [
+    "Complete original parsed keys/types/values remain unchanged except the declared141 leading-root aliases. Original raw bytes remain local and cannot be restored or used as execution authority through this wrapper.",
+    "Independent audit and lead accept three bounded calibration cases with42 owned children closed. Full output hashes were first established by the post-close audit, not encode-time or an original persisted full-output hash.",
+    "Full raw PCM, complete raw output probes and complete source/output frame streams are not retained. Equality relies on runtime streaming collector receipts, not independent byte comparison or re-decode. Selected sealed spools and aggregate captures support the executed validator.",
+    "All three target stderr streams are168 bytes with residual CPU-mask/WPP/lookahead warnings. Duplicate codec-option warnings are absent in these texts; not clean stderr or a harmlessness/performance claim.",
+    "Frozen preregistered bounds are unchanged. Child status/capture ledger lacks individual timestamps; no invented per-child timing trace. Resource point checks and abort requests are not hard quota or guaranteed exit, and owned closure is not whole-OS proof.",
+    "Raw media, PCM, runtime, source fixtures and stderr payloads are excluded. Audit identities above are metadata, not a full duplicate of audit inventories.",
+    "No service/native/Windows/catalog/default/audio-policy promotion. Reviewed consumer integration and source tests occurred after this measured047 calibration; they are not new consumer media qualification. Ordinary proof is separately preserved. Fixed cutoff is stated in wrapper metadata."
+  ],
+  "report": {
+    "root": "proof://",
+    "status": "passed-pre-catalog-calibration",
+    "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+    "resourcePolicy": "cfr1080p30-to720p-flac-resources-v1",
+    "geometry": {
+      "sourceWidth": 1920,
+      "sourceHeight": 1080,
+      "resolution": "720",
+      "outputWidth": 1280,
+      "outputHeight": 720
+    },
+    "publicationAuthorized": false,
+    "catalogActivated": false,
+    "candidateRuntime": true,
+    "boundsClassification": "preregistered-clock-derived-acceptance-bounds; measured only by this campaign, never automatic catalog authority",
+    "settings": {
+      "profileId": "h265-cpu",
+      "preset": "slow",
+      "quality": 25
+    },
+    "sources": [
+      {
+        "id": "long-pattern",
+        "path": "proof://long-pattern.mov",
+        "sha256": "8c24561ce37320d3530a9be4dcc9d2cfbe06371b716a2875d364f520de6f0280",
+        "identity": {
+          "canonicalPath": "proof://long-pattern.mov",
+          "dev": "27",
+          "ino": "2369618",
+          "size": "130549760",
+          "mtimeNs": "1795003955204239892",
+          "ctimeNs": "1795003955204239892",
+          "birthtimeNs": "1795003936559909427",
+          "sparseDigest": "sha256-sparse-v1:ba7a117d1404e3e749fd1b3f7cae6c8226b846e945d2f7a378976cf7720d85e7"
+        },
+        "sourceExtentUs": 150000000,
+        "probe": {
+          "streams": [
+            {
+              "index": 0,
+              "id": "0x1",
+              "codec_type": "video",
+              "codec_name": "h264",
+              "profile": "High",
+              "codec_tag_string": "avc1",
+              "codec_tag": "0x31637661",
+              "level": 40,
+              "width": 1920,
+              "height": 1080,
+              "coded_width": 1920,
+              "coded_height": 1080,
+              "sample_aspect_ratio": "1:1",
+              "display_aspect_ratio": "16:9",
+              "field_order": "progressive",
+              "pix_fmt": "yuv420p",
+              "color_transfer": "bt709",
+              "color_primaries": "bt709",
+              "color_space": "bt709",
+              "color_range": "tv",
+              "chroma_location": "left",
+              "avg_frame_rate": "30/1",
+              "r_frame_rate": "30/1",
+              "time_base": "1/15360",
+              "start_pts": 0,
+              "start_time": "0.000000",
+              "duration_ts": 2304000,
+              "duration": "150.000000",
+              "nb_frames": "4500",
+              "bit_rate": "5419280",
+              "bits_per_raw_sample": "8",
+              "extradata_size": 49,
+              "extradata_hash": "SHA256:3e49356c9e262526a604b6c04f900817113db49c61d720274c4a22e4d30b4378",
+              "tags": {
+                "handler_name": "VideoHandler",
+                "vendor_id": "FFMP",
+                "encoder": "Lavc63.1.102 libx264"
+              },
+              "disposition": {
+                "default": 1,
+                "dub": 0,
+                "original": 0,
+                "comment": 0,
+                "lyrics": 0,
+                "karaoke": 0,
+                "forced": 0,
+                "hearing_impaired": 0,
+                "visual_impaired": 0,
+                "clean_effects": 0,
+                "attached_pic": 0,
+                "timed_thumbnails": 0,
+                "non_diegetic": 0,
+                "captions": 0,
+                "descriptions": 0,
+                "metadata": 0,
+                "dependent": 0,
+                "still_image": 0,
+                "multilayer": 0
+              }
+            },
+            {
+              "index": 1,
+              "id": "0x2",
+              "codec_type": "audio",
+              "codec_name": "pcm_s16le",
+              "codec_tag_string": "sowt",
+              "codec_tag": "0x74776f73",
+              "avg_frame_rate": "0/0",
+              "r_frame_rate": "0/0",
+              "time_base": "1/48000",
+              "start_pts": 0,
+              "start_time": "0.000000",
+              "duration_ts": 7200000,
+              "duration": "150.000000",
+              "nb_frames": "7200000",
+              "bit_rate": "1536000",
+              "sample_fmt": "s16",
+              "sample_rate": "48000",
+              "channels": 2,
+              "channel_layout": "stereo",
+              "bits_per_sample": 16,
+              "initial_padding": 0,
+              "tags": {
+                "handler_name": "SoundHandler",
+                "vendor_id": "[0][0][0][0]"
+              },
+              "disposition": {
+                "default": 1,
+                "dub": 0,
+                "original": 0,
+                "comment": 0,
+                "lyrics": 0,
+                "karaoke": 0,
+                "forced": 0,
+                "hearing_impaired": 0,
+                "visual_impaired": 0,
+                "clean_effects": 0,
+                "attached_pic": 0,
+                "timed_thumbnails": 0,
+                "non_diegetic": 0,
+                "captions": 0,
+                "descriptions": 0,
+                "metadata": 0,
+                "dependent": 0,
+                "still_image": 0,
+                "multilayer": 0
+              }
+            }
+          ],
+          "format": {
+            "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+            "duration": "150.000000",
+            "start_time": "0.000000",
+            "bit_rate": "6962653",
+            "size": "130549760",
+            "nb_streams": 2,
+            "nb_programs": 0,
+            "nb_stream_groups": 0,
+            "probe_score": 100,
+            "tags": {
+              "major_brand": "qt  ",
+              "minor_version": "512",
+              "compatible_brands": "qt  ",
+              "encoder": "Lavf63.1.102"
+            }
+          },
+          "chapters": [],
+          "programs": [],
+          "stream_groups": [],
+          "mediaEvidence": {
+            "version": 2,
+            "streams": [
+              {
+                "index": 0,
+                "identity": {
+                  "containerStreamId": {
+                    "state": "known",
+                    "value": "1"
+                  }
+                },
+                "codec": {
+                  "name": {
+                    "state": "known",
+                    "value": "h264"
+                  },
+                  "type": {
+                    "state": "known",
+                    "value": "video"
+                  },
+                  "profile": {
+                    "state": "known",
+                    "value": "High"
+                  },
+                  "tag": {
+                    "state": "known",
+                    "value": "avc1"
+                  },
+                  "tagValue": {
+                    "state": "known",
+                    "value": "0x31637661"
+                  },
+                  "level": {
+                    "state": "known",
+                    "value": "40"
+                  },
+                  "bitrate": {
+                    "state": "known",
+                    "value": "5419280"
+                  }
+                },
+                "geometry": {
+                  "width": {
+                    "state": "known",
+                    "value": "1920"
+                  },
+                  "height": {
+                    "state": "known",
+                    "value": "1080"
+                  },
+                  "sampleAspectRatio": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "1",
+                      "denominator": "1"
+                    }
+                  },
+                  "displayAspectRatio": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "16",
+                      "denominator": "9"
+                    }
+                  },
+                  "rotationDegrees": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "rotationSource": "not-reported",
+                  "displayMatrix": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "legacyRotationDegrees": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "fieldOrder": {
+                    "state": "known",
+                    "value": "progressive"
+                  }
+                },
+                "timeline": {
+                  "timeBase": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "1",
+                      "denominator": "15360"
+                    }
+                  },
+                  "startPts": {
+                    "state": "known",
+                    "value": "0"
+                  },
+                  "durationTicks": {
+                    "state": "known",
+                    "value": "2304000"
+                  },
+                  "startSeconds": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "0",
+                      "denominator": "1"
+                    }
+                  },
+                  "durationSeconds": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "150",
+                      "denominator": "1"
+                    }
+                  },
+                  "averageFrameRate": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "30",
+                      "denominator": "1"
+                    }
+                  },
+                  "nominalFrameRate": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "30",
+                      "denominator": "1"
+                    }
+                  },
+                  "frameCount": {
+                    "state": "known",
+                    "value": "4500"
+                  }
+                },
+                "audio": {
+                  "sampleFormat": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "sampleRate": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "channels": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "channelLayout": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "bitsPerSample": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "bitsPerRawSample": {
+                    "state": "known",
+                    "value": "8"
+                  },
+                  "initialPadding": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "trailingPadding": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  }
+                },
+                "color": {
+                  "pixelFormat": {
+                    "state": "known",
+                    "value": "yuv420p"
+                  },
+                  "transfer": {
+                    "state": "known",
+                    "value": "bt709"
+                  },
+                  "primaries": {
+                    "state": "known",
+                    "value": "bt709"
+                  },
+                  "matrix": {
+                    "state": "known",
+                    "value": "bt709"
+                  },
+                  "range": {
+                    "state": "known",
+                    "value": "tv"
+                  },
+                  "chromaLocation": {
+                    "state": "known",
+                    "value": "left"
+                  }
+                },
+                "hdr": {
+                  "coverage": "stream-metadata-only",
+                  "entries": []
+                }
+              },
+              {
+                "index": 1,
+                "identity": {
+                  "containerStreamId": {
+                    "state": "known",
+                    "value": "2"
+                  }
+                },
+                "codec": {
+                  "name": {
+                    "state": "known",
+                    "value": "pcm_s16le"
+                  },
+                  "type": {
+                    "state": "known",
+                    "value": "audio"
+                  },
+                  "profile": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "tag": {
+                    "state": "known",
+                    "value": "sowt"
+                  },
+                  "tagValue": {
+                    "state": "known",
+                    "value": "0x74776f73"
+                  },
+                  "level": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "bitrate": {
+                    "state": "known",
+                    "value": "1536000"
+                  }
+                },
+                "geometry": {
+                  "width": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "height": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "sampleAspectRatio": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "displayAspectRatio": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "rotationDegrees": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "rotationSource": "not-reported",
+                  "displayMatrix": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "legacyRotationDegrees": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "fieldOrder": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  }
+                },
+                "timeline": {
+                  "timeBase": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "1",
+                      "denominator": "48000"
+                    }
+                  },
+                  "startPts": {
+                    "state": "known",
+                    "value": "0"
+                  },
+                  "durationTicks": {
+                    "state": "known",
+                    "value": "7200000"
+                  },
+                  "startSeconds": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "0",
+                      "denominator": "1"
+                    }
+                  },
+                  "durationSeconds": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "150",
+                      "denominator": "1"
+                    }
+                  },
+                  "averageFrameRate": {
+                    "state": "unknown",
+                    "reason": "zero-over-zero"
+                  },
+                  "nominalFrameRate": {
+                    "state": "unknown",
+                    "reason": "zero-over-zero"
+                  },
+                  "frameCount": {
+                    "state": "known",
+                    "value": "7200000"
+                  }
+                },
+                "audio": {
+                  "sampleFormat": {
+                    "state": "known",
+                    "value": "s16"
+                  },
+                  "sampleRate": {
+                    "state": "known",
+                    "value": "48000"
+                  },
+                  "channels": {
+                    "state": "known",
+                    "value": "2"
+                  },
+                  "channelLayout": {
+                    "state": "known",
+                    "value": "stereo"
+                  },
+                  "bitsPerSample": {
+                    "state": "known",
+                    "value": "16"
+                  },
+                  "bitsPerRawSample": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "initialPadding": {
+                    "state": "known",
+                    "value": "0"
+                  },
+                  "trailingPadding": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  }
+                },
+                "color": {
+                  "pixelFormat": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "transfer": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "primaries": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "matrix": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "range": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "chromaLocation": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  }
+                },
+                "hdr": {
+                  "coverage": "stream-metadata-only",
+                  "entries": []
+                }
+              }
+            ],
+            "container": {
+              "name": {
+                "state": "known",
+                "value": "mov,mp4,m4a,3gp,3g2,mj2"
+              },
+              "startSeconds": {
+                "state": "known",
+                "value": {
+                  "numerator": "0",
+                  "denominator": "1"
+                }
+              },
+              "durationSeconds": {
+                "state": "known",
+                "value": {
+                  "numerator": "150",
+                  "denominator": "1"
+                }
+              },
+              "bitrate": {
+                "state": "known",
+                "value": "6962653"
+              },
+              "size": {
+                "state": "known",
+                "value": "130549760"
+              },
+              "programs": {
+                "state": "known",
+                "reportedCount": {
+                  "state": "known",
+                  "value": "0"
+                },
+                "issues": [],
+                "value": []
+              },
+              "streamGroups": {
+                "state": "known",
+                "reportedCount": {
+                  "state": "known",
+                  "value": "0"
+                },
+                "issues": [],
+                "value": []
+              },
+              "relationships": {
+                "state": "known",
+                "reportedStreamCount": {
+                  "state": "known",
+                  "value": "2"
+                },
+                "observedStreamCount": 2,
+                "issues": []
+              }
+            }
+          }
+        },
+        "frozen": {
+          "frozenBeforeEncode": true,
+          "expectedOutputTimeBase": "1/1000",
+          "derivation": {
+            "sourceVideoTimeBase": "1/15360",
+            "sourceAudioTimeBase": "1/48000",
+            "outputTimeBaseHypothesis": "1/1000",
+            "video": "source video tick + fixed output tick + one microsecond representation allowance",
+            "audioInterior": "source audio tick + one source sample + fixed output tick",
+            "audioEndpoint": "audio interior quantization only; FLAC adds no coding tail",
+            "containerDuration": "end-timestamp: max decoded video/audio output end; duration bound = video bound + ceil(one sample)",
+            "sampleCount": "zero: complete selected canonical s16le PCM byte/hash/sample identity",
+            "noObservedCandidateErrorUsed": true
+          },
+          "qualification": {
+            "evidenceId": "candidate-resize1080to720-calibration-uj6Zhk:long-pattern:endpoints",
+            "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+            "containerDuration": "end-timestamp",
+            "tolerances": {
+              "videoTimestampUs": 1067,
+              "audioTimestampUs": 1042,
+              "avSyncUs": 2109,
+              "durationUs": 1088,
+              "sampleCount": 0
+            }
+          },
+          "timingQualification": {
+            "evidenceId": "candidate-resize1080to720-calibration-uj6Zhk:long-pattern:interior",
+            "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+            "videoDurationUs": 1067,
+            "audioTimelineUs": 1042,
+            "aac": null
+          }
+        }
+      },
+      {
+        "id": "heldout-flipped",
+        "path": "proof://heldout-flipped.mov",
+        "sha256": "4279510d183955b8ba91db9266459d098bf4bcec960f53b269ede93e29f433eb",
+        "identity": {
+          "canonicalPath": "proof://heldout-flipped.mov",
+          "dev": "27",
+          "ino": "2369780",
+          "size": "9620929",
+          "mtimeNs": "1795004132828122837",
+          "ctimeNs": "1795004132828122837",
+          "birthtimeNs": "1795004131347491173",
+          "sparseDigest": "sha256-sparse-v1:f74ccf207d738e716722717aac884487c0ed5a1ebab686a880ca37bfd04acb46"
+        },
+        "sourceExtentUs": 11000000,
+        "probe": {
+          "streams": [
+            {
+              "index": 0,
+              "id": "0x1",
+              "codec_type": "video",
+              "codec_name": "h264",
+              "profile": "High",
+              "codec_tag_string": "avc1",
+              "codec_tag": "0x31637661",
+              "level": 40,
+              "width": 1920,
+              "height": 1080,
+              "coded_width": 1920,
+              "coded_height": 1080,
+              "sample_aspect_ratio": "1:1",
+              "display_aspect_ratio": "16:9",
+              "field_order": "progressive",
+              "pix_fmt": "yuv420p",
+              "color_transfer": "bt709",
+              "color_primaries": "bt709",
+              "color_space": "bt709",
+              "color_range": "tv",
+              "chroma_location": "left",
+              "avg_frame_rate": "30/1",
+              "r_frame_rate": "30/1",
+              "time_base": "1/15360",
+              "start_pts": 0,
+              "start_time": "0.000000",
+              "duration_ts": 168960,
+              "duration": "11.000000",
+              "nb_frames": "330",
+              "bit_rate": "5452789",
+              "bits_per_raw_sample": "8",
+              "extradata_size": 49,
+              "extradata_hash": "SHA256:3e49356c9e262526a604b6c04f900817113db49c61d720274c4a22e4d30b4378",
+              "tags": {
+                "handler_name": "VideoHandler",
+                "vendor_id": "FFMP",
+                "encoder": "Lavc63.1.102 libx264"
+              },
+              "disposition": {
+                "default": 1,
+                "dub": 0,
+                "original": 0,
+                "comment": 0,
+                "lyrics": 0,
+                "karaoke": 0,
+                "forced": 0,
+                "hearing_impaired": 0,
+                "visual_impaired": 0,
+                "clean_effects": 0,
+                "attached_pic": 0,
+                "timed_thumbnails": 0,
+                "non_diegetic": 0,
+                "captions": 0,
+                "descriptions": 0,
+                "metadata": 0,
+                "dependent": 0,
+                "still_image": 0,
+                "multilayer": 0
+              }
+            },
+            {
+              "index": 1,
+              "id": "0x2",
+              "codec_type": "audio",
+              "codec_name": "pcm_s16le",
+              "codec_tag_string": "sowt",
+              "codec_tag": "0x74776f73",
+              "avg_frame_rate": "0/0",
+              "r_frame_rate": "0/0",
+              "time_base": "1/48000",
+              "start_pts": 0,
+              "start_time": "0.000000",
+              "duration_ts": 528000,
+              "duration": "11.000000",
+              "nb_frames": "528000",
+              "bit_rate": "1536000",
+              "sample_fmt": "s16",
+              "sample_rate": "48000",
+              "channels": 2,
+              "channel_layout": "stereo",
+              "bits_per_sample": 16,
+              "initial_padding": 0,
+              "tags": {
+                "handler_name": "SoundHandler",
+                "vendor_id": "[0][0][0][0]"
+              },
+              "disposition": {
+                "default": 1,
+                "dub": 0,
+                "original": 0,
+                "comment": 0,
+                "lyrics": 0,
+                "karaoke": 0,
+                "forced": 0,
+                "hearing_impaired": 0,
+                "visual_impaired": 0,
+                "clean_effects": 0,
+                "attached_pic": 0,
+                "timed_thumbnails": 0,
+                "non_diegetic": 0,
+                "captions": 0,
+                "descriptions": 0,
+                "metadata": 0,
+                "dependent": 0,
+                "still_image": 0,
+                "multilayer": 0
+              }
+            }
+          ],
+          "format": {
+            "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+            "duration": "11.000000",
+            "start_time": "0.000000",
+            "bit_rate": "6997039",
+            "size": "9620929",
+            "nb_streams": 2,
+            "nb_programs": 0,
+            "nb_stream_groups": 0,
+            "probe_score": 100,
+            "tags": {
+              "major_brand": "qt  ",
+              "minor_version": "512",
+              "compatible_brands": "qt  ",
+              "encoder": "Lavf63.1.102"
+            }
+          },
+          "chapters": [],
+          "programs": [],
+          "stream_groups": [],
+          "mediaEvidence": {
+            "version": 2,
+            "streams": [
+              {
+                "index": 0,
+                "identity": {
+                  "containerStreamId": {
+                    "state": "known",
+                    "value": "1"
+                  }
+                },
+                "codec": {
+                  "name": {
+                    "state": "known",
+                    "value": "h264"
+                  },
+                  "type": {
+                    "state": "known",
+                    "value": "video"
+                  },
+                  "profile": {
+                    "state": "known",
+                    "value": "High"
+                  },
+                  "tag": {
+                    "state": "known",
+                    "value": "avc1"
+                  },
+                  "tagValue": {
+                    "state": "known",
+                    "value": "0x31637661"
+                  },
+                  "level": {
+                    "state": "known",
+                    "value": "40"
+                  },
+                  "bitrate": {
+                    "state": "known",
+                    "value": "5452789"
+                  }
+                },
+                "geometry": {
+                  "width": {
+                    "state": "known",
+                    "value": "1920"
+                  },
+                  "height": {
+                    "state": "known",
+                    "value": "1080"
+                  },
+                  "sampleAspectRatio": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "1",
+                      "denominator": "1"
+                    }
+                  },
+                  "displayAspectRatio": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "16",
+                      "denominator": "9"
+                    }
+                  },
+                  "rotationDegrees": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "rotationSource": "not-reported",
+                  "displayMatrix": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "legacyRotationDegrees": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "fieldOrder": {
+                    "state": "known",
+                    "value": "progressive"
+                  }
+                },
+                "timeline": {
+                  "timeBase": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "1",
+                      "denominator": "15360"
+                    }
+                  },
+                  "startPts": {
+                    "state": "known",
+                    "value": "0"
+                  },
+                  "durationTicks": {
+                    "state": "known",
+                    "value": "168960"
+                  },
+                  "startSeconds": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "0",
+                      "denominator": "1"
+                    }
+                  },
+                  "durationSeconds": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "11",
+                      "denominator": "1"
+                    }
+                  },
+                  "averageFrameRate": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "30",
+                      "denominator": "1"
+                    }
+                  },
+                  "nominalFrameRate": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "30",
+                      "denominator": "1"
+                    }
+                  },
+                  "frameCount": {
+                    "state": "known",
+                    "value": "330"
+                  }
+                },
+                "audio": {
+                  "sampleFormat": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "sampleRate": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "channels": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "channelLayout": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "bitsPerSample": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "bitsPerRawSample": {
+                    "state": "known",
+                    "value": "8"
+                  },
+                  "initialPadding": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "trailingPadding": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  }
+                },
+                "color": {
+                  "pixelFormat": {
+                    "state": "known",
+                    "value": "yuv420p"
+                  },
+                  "transfer": {
+                    "state": "known",
+                    "value": "bt709"
+                  },
+                  "primaries": {
+                    "state": "known",
+                    "value": "bt709"
+                  },
+                  "matrix": {
+                    "state": "known",
+                    "value": "bt709"
+                  },
+                  "range": {
+                    "state": "known",
+                    "value": "tv"
+                  },
+                  "chromaLocation": {
+                    "state": "known",
+                    "value": "left"
+                  }
+                },
+                "hdr": {
+                  "coverage": "stream-metadata-only",
+                  "entries": []
+                }
+              },
+              {
+                "index": 1,
+                "identity": {
+                  "containerStreamId": {
+                    "state": "known",
+                    "value": "2"
+                  }
+                },
+                "codec": {
+                  "name": {
+                    "state": "known",
+                    "value": "pcm_s16le"
+                  },
+                  "type": {
+                    "state": "known",
+                    "value": "audio"
+                  },
+                  "profile": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "tag": {
+                    "state": "known",
+                    "value": "sowt"
+                  },
+                  "tagValue": {
+                    "state": "known",
+                    "value": "0x74776f73"
+                  },
+                  "level": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "bitrate": {
+                    "state": "known",
+                    "value": "1536000"
+                  }
+                },
+                "geometry": {
+                  "width": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "height": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "sampleAspectRatio": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "displayAspectRatio": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "rotationDegrees": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "rotationSource": "not-reported",
+                  "displayMatrix": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "legacyRotationDegrees": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "fieldOrder": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  }
+                },
+                "timeline": {
+                  "timeBase": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "1",
+                      "denominator": "48000"
+                    }
+                  },
+                  "startPts": {
+                    "state": "known",
+                    "value": "0"
+                  },
+                  "durationTicks": {
+                    "state": "known",
+                    "value": "528000"
+                  },
+                  "startSeconds": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "0",
+                      "denominator": "1"
+                    }
+                  },
+                  "durationSeconds": {
+                    "state": "known",
+                    "value": {
+                      "numerator": "11",
+                      "denominator": "1"
+                    }
+                  },
+                  "averageFrameRate": {
+                    "state": "unknown",
+                    "reason": "zero-over-zero"
+                  },
+                  "nominalFrameRate": {
+                    "state": "unknown",
+                    "reason": "zero-over-zero"
+                  },
+                  "frameCount": {
+                    "state": "known",
+                    "value": "528000"
+                  }
+                },
+                "audio": {
+                  "sampleFormat": {
+                    "state": "known",
+                    "value": "s16"
+                  },
+                  "sampleRate": {
+                    "state": "known",
+                    "value": "48000"
+                  },
+                  "channels": {
+                    "state": "known",
+                    "value": "2"
+                  },
+                  "channelLayout": {
+                    "state": "known",
+                    "value": "stereo"
+                  },
+                  "bitsPerSample": {
+                    "state": "known",
+                    "value": "16"
+                  },
+                  "bitsPerRawSample": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "initialPadding": {
+                    "state": "known",
+                    "value": "0"
+                  },
+                  "trailingPadding": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  }
+                },
+                "color": {
+                  "pixelFormat": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "transfer": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "primaries": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "matrix": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "range": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  },
+                  "chromaLocation": {
+                    "state": "unknown",
+                    "reason": "not-reported"
+                  }
+                },
+                "hdr": {
+                  "coverage": "stream-metadata-only",
+                  "entries": []
+                }
+              }
+            ],
+            "container": {
+              "name": {
+                "state": "known",
+                "value": "mov,mp4,m4a,3gp,3g2,mj2"
+              },
+              "startSeconds": {
+                "state": "known",
+                "value": {
+                  "numerator": "0",
+                  "denominator": "1"
+                }
+              },
+              "durationSeconds": {
+                "state": "known",
+                "value": {
+                  "numerator": "11",
+                  "denominator": "1"
+                }
+              },
+              "bitrate": {
+                "state": "known",
+                "value": "6997039"
+              },
+              "size": {
+                "state": "known",
+                "value": "9620929"
+              },
+              "programs": {
+                "state": "known",
+                "reportedCount": {
+                  "state": "known",
+                  "value": "0"
+                },
+                "issues": [],
+                "value": []
+              },
+              "streamGroups": {
+                "state": "known",
+                "reportedCount": {
+                  "state": "known",
+                  "value": "0"
+                },
+                "issues": [],
+                "value": []
+              },
+              "relationships": {
+                "state": "known",
+                "reportedStreamCount": {
+                  "state": "known",
+                  "value": "2"
+                },
+                "observedStreamCount": 2,
+                "issues": []
+              }
+            }
+          }
+        },
+        "frozen": {
+          "frozenBeforeEncode": true,
+          "expectedOutputTimeBase": "1/1000",
+          "derivation": {
+            "sourceVideoTimeBase": "1/15360",
+            "sourceAudioTimeBase": "1/48000",
+            "outputTimeBaseHypothesis": "1/1000",
+            "video": "source video tick + fixed output tick + one microsecond representation allowance",
+            "audioInterior": "source audio tick + one source sample + fixed output tick",
+            "audioEndpoint": "audio interior quantization only; FLAC adds no coding tail",
+            "containerDuration": "end-timestamp: max decoded video/audio output end; duration bound = video bound + ceil(one sample)",
+            "sampleCount": "zero: complete selected canonical s16le PCM byte/hash/sample identity",
+            "noObservedCandidateErrorUsed": true
+          },
+          "qualification": {
+            "evidenceId": "candidate-resize1080to720-calibration-uj6Zhk:heldout-flipped:endpoints",
+            "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+            "containerDuration": "end-timestamp",
+            "tolerances": {
+              "videoTimestampUs": 1067,
+              "audioTimestampUs": 1042,
+              "avSyncUs": 2109,
+              "durationUs": 1088,
+              "sampleCount": 0
+            }
+          },
+          "timingQualification": {
+            "evidenceId": "candidate-resize1080to720-calibration-uj6Zhk:heldout-flipped:interior",
+            "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+            "videoDurationUs": 1067,
+            "audioTimelineUs": 1042,
+            "aac": null
+          }
+        }
+      }
+    ],
+    "cases": [
+      {
+        "id": "late-forty-seconds",
+        "sourceId": "long-pattern",
+        "range": {
+          "startUs": 100000000,
+          "endUs": 140000000
+        },
+        "resources": {
+          "budget": {
+            "sourceDecode": "complete",
+            "timeoutMs": 1275142,
+            "maxFrameBytes": 59801600,
+            "maxPcmBytes": 28992000,
+            "maxRecords": 58400,
+            "maxSpoolBytes": 18350080
+          },
+          "resources": {
+            "pipeBytes": 472252416,
+            "evidenceBytes": 455475200,
+            "maxChildren": 64,
+            "evidenceReserveBytes": 40894464,
+            "stallMs": null,
+            "telemetryBytes": 2883584,
+            "telemetryRecords": 11264
+          },
+          "executionBudgetMs": 2558068
+        },
+        "pipeBytes": 39275172,
+        "status": "passed",
+        "planFingerprint": "ce18d0442b4fafaa1bc4c163179f94eebd3e57f46db93a2866c1da8f256ee9ca",
+        "startedAt": 1795003957276,
+        "geometry": {
+          "requested": "720",
+          "mode": "downscale",
+          "filterRequired": true,
+          "source": {
+            "width": 1920,
+            "height": 1080
+          },
+          "display": {
+            "width": {
+              "numerator": "1920",
+              "denominator": "1"
+            },
+            "height": {
+              "numerator": "1080",
+              "denominator": "1"
+            },
+            "rotationDegrees": 0
+          },
+          "box": {
+            "width": 1280,
+            "height": 720
+          },
+          "scaleFactor": {
+            "numerator": "2",
+            "denominator": "3"
+          },
+          "output": {
+            "width": 1280,
+            "height": 720,
+            "sampleAspectRatio": {
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "rotationDegrees": 0
+          },
+          "aspectError": {
+            "numerator": "0",
+            "denominator": "1"
+          },
+          "aspectTolerance": {
+            "numerator": "1",
+            "denominator": "1000"
+          },
+          "alignment": 2,
+          "qualification": "scaler-backend-container-required",
+          "notices": [
+            "Normalize the qualified orientation once, preserve cadence, and qualify subtitle canvas geometry."
+          ]
+        },
+        "videoFilters": [
+          "settb=expr=1/15360",
+          "trim=start_pts=1536000:end_pts=2150400",
+          "setpts=PTS-(1536000)",
+          "scale=w=1280:h=720:flags=lanczos+accurate_rnd:in_color_matrix=bt709:out_color_matrix=bt709:in_range=tv:out_range=tv",
+          "setsar=sar=(1/1):max=2147483647",
+          "sidedata=mode=delete:type=DISPLAYMATRIX"
+        ],
+        "identityOrientationInterpretation": {
+          "evidenceId": "candidate-resize1080to720-calibration-uj6Zhk:long-pattern:endpoints",
+          "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+          "sourceEvidenceFingerprint": "c7af0227b0f7f1b62de4a73c58e5a2b7382cb651750c5849b496671a7e50446f",
+          "videoIndex": 0,
+          "basis": "Owned unrotated test-signal construction with unchanged independently hashed source; no rotation tag is fabricated."
+        },
+        "telemetry": {
+          "valid": true,
+          "scope": "encoder-input-count-and-timeline-only",
+          "streams": [
+            {
+              "outputIndex": 0,
+              "kind": "video",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            },
+            {
+              "outputIndex": 1,
+              "kind": "audio",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            }
+          ],
+          "doesNotEstablish": [
+            "video-pixel-identity",
+            "lossless-audio-identity",
+            "last-video-frame-duration",
+            "output-or-publication-validity"
+          ]
+        },
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": [],
+          "validation": "decoded-operation-contract",
+          "qualificationEvidenceId": "candidate-resize1080to720-calibration-uj6Zhk:long-pattern:endpoints",
+          "timing": {
+            "timeline": "request-relative",
+            "requested": {
+              "startUs": 100000000,
+              "endUs": 140000000
+            },
+            "resolved": {
+              "startUs": 100000000,
+              "endUs": 140000000
+            },
+            "video": {
+              "startUs": 100000000,
+              "endUs": 140000000,
+              "frames": 1200,
+              "outputStartUs": 0,
+              "outputEndUs": 40000000
+            },
+            "audio": [
+              {
+                "inputIndex": 1,
+                "mode": "precision-flac",
+                "startUs": 100000000,
+                "endUs": 140000000,
+                "outputStartUs": 0,
+                "outputEndUs": 39999667,
+                "encoderDelaySamples": 0,
+                "discardPaddingSamples": 0,
+                "sampleCountDifference": 0
+              }
+            ]
+          }
+        },
+        "frames": 1200,
+        "samples": 1920000,
+        "pcmIdentity": {
+          "algorithm": "sha256",
+          "format": "s16le-interleaved",
+          "sourceHash": "557362ddcf7724e009cd0b1df44c19e9960e08eeea2e8cfa04c9e77857770f44",
+          "outputHash": "557362ddcf7724e009cd0b1df44c19e9960e08eeea2e8cfa04c9e77857770f44",
+          "sourceBytes": 7680000,
+          "outputBytes": 7680000
+        },
+        "completeSource": {
+          "video": {
+            "frames": 4500,
+            "firstTime": {
+              "n": "0",
+              "d": "15360"
+            },
+            "endTime": {
+              "n": "35389440000",
+              "d": "235929600"
+            },
+            "maximumNominalCadenceErrorUs": 0,
+            "maximumNominalDurationErrorUs": 0,
+            "maximumNominalPhaseErrorUs": 0,
+            "properties": {
+              "policy": "cfr-sdr-range-resize-flac-v1",
+              "sampleAspectRatio": "1:1",
+              "chromaLocation": "left",
+              "sideDataPolicy": "h26x-unregistered-sei-only",
+              "framesChecked": 4500
+            }
+          },
+          "audio": [
+            {
+              "inputIndex": 1,
+              "sampleCount": "7200000",
+              "firstTime": {
+                "n": "0",
+                "d": "48000"
+              },
+              "endTime": {
+                "n": "345600000000",
+                "d": "2304000000"
+              },
+              "gaps": 0
+            }
+          ]
+        },
+        "elapsedMs": 106969,
+        "output": "proof://late-forty-seconds/.ffmpeg-encoder-KPGsfL/encoded.mkv"
+      },
+      {
+        "id": "late-open-end",
+        "sourceId": "long-pattern",
+        "range": {
+          "startUs": 130000000
+        },
+        "resources": {
+          "budget": {
+            "sourceDecode": "complete",
+            "timeoutMs": 907642,
+            "maxFrameBytes": 59801600,
+            "maxPcmBytes": 28992000,
+            "maxRecords": 58400,
+            "maxSpoolBytes": 10485760
+          },
+          "resources": {
+            "pipeBytes": 468412416,
+            "evidenceBytes": 451635200,
+            "maxChildren": 64,
+            "evidenceReserveBytes": 30408704,
+            "stallMs": null,
+            "telemetryBytes": 1572864,
+            "telemetryRecords": 6144
+          },
+          "executionBudgetMs": 1823068
+        },
+        "pipeBytes": 35299481,
+        "status": "passed",
+        "planFingerprint": "25f43d975f99d376bc8ef973ca1739607c595b73c6ede3b7368a2c6ca3e4802d",
+        "startedAt": 1795004064296,
+        "geometry": {
+          "requested": "720",
+          "mode": "downscale",
+          "filterRequired": true,
+          "source": {
+            "width": 1920,
+            "height": 1080
+          },
+          "display": {
+            "width": {
+              "numerator": "1920",
+              "denominator": "1"
+            },
+            "height": {
+              "numerator": "1080",
+              "denominator": "1"
+            },
+            "rotationDegrees": 0
+          },
+          "box": {
+            "width": 1280,
+            "height": 720
+          },
+          "scaleFactor": {
+            "numerator": "2",
+            "denominator": "3"
+          },
+          "output": {
+            "width": 1280,
+            "height": 720,
+            "sampleAspectRatio": {
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "rotationDegrees": 0
+          },
+          "aspectError": {
+            "numerator": "0",
+            "denominator": "1"
+          },
+          "aspectTolerance": {
+            "numerator": "1",
+            "denominator": "1000"
+          },
+          "alignment": 2,
+          "qualification": "scaler-backend-container-required",
+          "notices": [
+            "Normalize the qualified orientation once, preserve cadence, and qualify subtitle canvas geometry."
+          ]
+        },
+        "videoFilters": [
+          "settb=expr=1/15360",
+          "trim=start_pts=1996800:end_pts=2304000",
+          "setpts=PTS-(1996800)",
+          "scale=w=1280:h=720:flags=lanczos+accurate_rnd:in_color_matrix=bt709:out_color_matrix=bt709:in_range=tv:out_range=tv",
+          "setsar=sar=(1/1):max=2147483647",
+          "sidedata=mode=delete:type=DISPLAYMATRIX"
+        ],
+        "identityOrientationInterpretation": {
+          "evidenceId": "candidate-resize1080to720-calibration-uj6Zhk:long-pattern:endpoints",
+          "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+          "sourceEvidenceFingerprint": "c7af0227b0f7f1b62de4a73c58e5a2b7382cb651750c5849b496671a7e50446f",
+          "videoIndex": 0,
+          "basis": "Owned unrotated test-signal construction with unchanged independently hashed source; no rotation tag is fabricated."
+        },
+        "telemetry": {
+          "valid": true,
+          "scope": "encoder-input-count-and-timeline-only",
+          "streams": [
+            {
+              "outputIndex": 0,
+              "kind": "video",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            },
+            {
+              "outputIndex": 1,
+              "kind": "audio",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            }
+          ],
+          "doesNotEstablish": [
+            "video-pixel-identity",
+            "lossless-audio-identity",
+            "last-video-frame-duration",
+            "output-or-publication-validity"
+          ]
+        },
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": [],
+          "validation": "decoded-operation-contract",
+          "qualificationEvidenceId": "candidate-resize1080to720-calibration-uj6Zhk:long-pattern:endpoints",
+          "timing": {
+            "timeline": "request-relative",
+            "requested": {
+              "startUs": 130000000,
+              "endUs": null
+            },
+            "resolved": {
+              "startUs": 130000000,
+              "endUs": 150000000
+            },
+            "video": {
+              "startUs": 130000000,
+              "endUs": 150000000,
+              "frames": 600,
+              "outputStartUs": 0,
+              "outputEndUs": 20000000
+            },
+            "audio": [
+              {
+                "inputIndex": 1,
+                "mode": "precision-flac",
+                "startUs": 130000000,
+                "endUs": 150000000,
+                "outputStartUs": 0,
+                "outputEndUs": 20000333,
+                "encoderDelaySamples": 0,
+                "discardPaddingSamples": 0,
+                "sampleCountDifference": 0
+              }
+            ]
+          }
+        },
+        "frames": 600,
+        "samples": 960000,
+        "pcmIdentity": {
+          "algorithm": "sha256",
+          "format": "s16le-interleaved",
+          "sourceHash": "ae9f20e1d3b792afffa53935066412e267063ecbf70c5b2d396dbf32fda1b81b",
+          "outputHash": "ae9f20e1d3b792afffa53935066412e267063ecbf70c5b2d396dbf32fda1b81b",
+          "sourceBytes": 3840000,
+          "outputBytes": 3840000
+        },
+        "completeSource": {
+          "video": {
+            "frames": 4500,
+            "firstTime": {
+              "n": "0",
+              "d": "15360"
+            },
+            "endTime": {
+              "n": "35389440000",
+              "d": "235929600"
+            },
+            "maximumNominalCadenceErrorUs": 0,
+            "maximumNominalDurationErrorUs": 0,
+            "maximumNominalPhaseErrorUs": 0,
+            "properties": {
+              "policy": "cfr-sdr-range-resize-flac-v1",
+              "sampleAspectRatio": "1:1",
+              "chromaLocation": "left",
+              "sideDataPolicy": "h26x-unregistered-sei-only",
+              "framesChecked": 4500
+            }
+          },
+          "audio": [
+            {
+              "inputIndex": 1,
+              "sampleCount": "7200000",
+              "firstTime": {
+                "n": "0",
+                "d": "48000"
+              },
+              "endTime": {
+                "n": "345600000000",
+                "d": "2304000000"
+              },
+              "gaps": 0
+            }
+          ]
+        },
+        "elapsedMs": 66997,
+        "output": "proof://late-open-end/.ffmpeg-encoder-6gA9Qh/encoded.mkv"
+      },
+      {
+        "id": "heldout-nonaligned",
+        "sourceId": "heldout-flipped",
+        "range": {
+          "startUs": 413000,
+          "endUs": 8621000
+        },
+        "resources": {
+          "budget": {
+            "sourceDecode": "complete",
+            "timeoutMs": 232788,
+            "maxFrameBytes": 23363584,
+            "maxPcmBytes": 2304000,
+            "maxRecords": 22816,
+            "maxSpoolBytes": 6160384
+          },
+          "resources": {
+            "pipeBytes": 184394240,
+            "evidenceBytes": 167617024,
+            "maxChildren": 64,
+            "evidenceReserveBytes": 24641536,
+            "stallMs": null,
+            "telemetryBytes": 851968,
+            "telemetryRecords": 3328
+          },
+          "executionBudgetMs": 466152
+        },
+        "pipeBytes": 3978075,
+        "status": "passed",
+        "planFingerprint": "13652f56c30d05c477084e206d1e0980b1002846cda16df08bfc5d25d7884497",
+        "startedAt": 1795004134764,
+        "geometry": {
+          "requested": "720",
+          "mode": "downscale",
+          "filterRequired": true,
+          "source": {
+            "width": 1920,
+            "height": 1080
+          },
+          "display": {
+            "width": {
+              "numerator": "1920",
+              "denominator": "1"
+            },
+            "height": {
+              "numerator": "1080",
+              "denominator": "1"
+            },
+            "rotationDegrees": 0
+          },
+          "box": {
+            "width": 1280,
+            "height": 720
+          },
+          "scaleFactor": {
+            "numerator": "2",
+            "denominator": "3"
+          },
+          "output": {
+            "width": 1280,
+            "height": 720,
+            "sampleAspectRatio": {
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "rotationDegrees": 0
+          },
+          "aspectError": {
+            "numerator": "0",
+            "denominator": "1"
+          },
+          "aspectTolerance": {
+            "numerator": "1",
+            "denominator": "1000"
+          },
+          "alignment": 2,
+          "qualification": "scaler-backend-container-required",
+          "notices": [
+            "Normalize the qualified orientation once, preserve cadence, and qualify subtitle canvas geometry."
+          ]
+        },
+        "videoFilters": [
+          "settb=expr=1/15360",
+          "trim=start_pts=6344:end_pts=132419",
+          "setpts=PTS-(6344)",
+          "scale=w=1280:h=720:flags=lanczos+accurate_rnd:in_color_matrix=bt709:out_color_matrix=bt709:in_range=tv:out_range=tv",
+          "setsar=sar=(1/1):max=2147483647",
+          "sidedata=mode=delete:type=DISPLAYMATRIX"
+        ],
+        "identityOrientationInterpretation": {
+          "evidenceId": "candidate-resize1080to720-calibration-uj6Zhk:heldout-flipped:endpoints",
+          "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+          "sourceEvidenceFingerprint": "f9e739c65134d4af82f418bdaa2a2f866af14eb0c4bbc797e06bc9e6989098cf",
+          "videoIndex": 0,
+          "basis": "Owned unrotated test-signal construction with unchanged independently hashed source; no rotation tag is fabricated."
+        },
+        "telemetry": {
+          "valid": true,
+          "scope": "encoder-input-count-and-timeline-only",
+          "streams": [
+            {
+              "outputIndex": 0,
+              "kind": "video",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            },
+            {
+              "outputIndex": 1,
+              "kind": "audio",
+              "unknownInputRecords": "0",
+              "correspondence": "reported-input-and-independent-selected-source"
+            }
+          ],
+          "doesNotEstablish": [
+            "video-pixel-identity",
+            "lossless-audio-identity",
+            "last-video-frame-duration",
+            "output-or-publication-validity"
+          ]
+        },
+        "validation": {
+          "valid": true,
+          "errors": [],
+          "warnings": [],
+          "validation": "decoded-operation-contract",
+          "qualificationEvidenceId": "candidate-resize1080to720-calibration-uj6Zhk:heldout-flipped:endpoints",
+          "timing": {
+            "timeline": "request-relative",
+            "requested": {
+              "startUs": 413000,
+              "endUs": 8621000
+            },
+            "resolved": {
+              "startUs": 413000,
+              "endUs": 8621000
+            },
+            "video": {
+              "startUs": 433333,
+              "endUs": 8633333,
+              "frames": 246,
+              "outputStartUs": 20000,
+              "outputEndUs": 8220000
+            },
+            "audio": [
+              {
+                "inputIndex": 1,
+                "mode": "precision-flac",
+                "startUs": 413000,
+                "endUs": 8621000,
+                "outputStartUs": 0,
+                "outputEndUs": 8208000,
+                "encoderDelaySamples": 0,
+                "discardPaddingSamples": 0,
+                "sampleCountDifference": 0
+              }
+            ]
+          }
+        },
+        "frames": 246,
+        "samples": 393984,
+        "pcmIdentity": {
+          "algorithm": "sha256",
+          "format": "s16le-interleaved",
+          "sourceHash": "2df057e2c484e1762af4ef62eac53af4237b7b63fe83690918552b0aa3fdc8a6",
+          "outputHash": "2df057e2c484e1762af4ef62eac53af4237b7b63fe83690918552b0aa3fdc8a6",
+          "sourceBytes": 1575936,
+          "outputBytes": 1575936
+        },
+        "completeSource": {
+          "video": {
+            "frames": 330,
+            "firstTime": {
+              "n": "0",
+              "d": "15360"
+            },
+            "endTime": {
+              "n": "2595225600",
+              "d": "235929600"
+            },
+            "maximumNominalCadenceErrorUs": 0,
+            "maximumNominalDurationErrorUs": 0,
+            "maximumNominalPhaseErrorUs": 0,
+            "properties": {
+              "policy": "cfr-sdr-range-resize-flac-v1",
+              "sampleAspectRatio": "1:1",
+              "chromaLocation": "left",
+              "sideDataPolicy": "h26x-unregistered-sei-only",
+              "framesChecked": 330
+            }
+          },
+          "audio": [
+            {
+              "inputIndex": 1,
+              "sampleCount": "528000",
+              "firstTime": {
+                "n": "0",
+                "d": "48000"
+              },
+              "endTime": {
+                "n": "25344000000",
+                "d": "2304000000"
+              },
+              "gaps": 0
+            }
+          ]
+        },
+        "elapsedMs": 19412,
+        "output": "proof://heldout-nonaligned/.ffmpeg-encoder-vjzo08/encoded.mkv"
+      }
+    ],
+    "children": [
+      {
+        "sequence": 1,
+        "executable": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-nostdin",
+          "-v",
+          "error",
+          "-n",
+          "-f",
+          "lavfi",
+          "-i",
+          "testsrc2=size=1920x1080:rate=30:duration=150",
+          "-f",
+          "lavfi",
+          "-i",
+          "aevalsrc=0.18*sin(2*PI*(440*t+5.5*t*t))|0.18*sin(2*PI*(659*t+6.5*t*t)):s=48000:c=stereo:d=150",
+          "-map",
+          "0:v:0",
+          "-map",
+          "1:a:0",
+          "-map_metadata",
+          "-1",
+          "-map_chapters",
+          "-1",
+          "-vf",
+          "setsar=1,setparams=range=limited:color_primaries=bt709:color_trc=bt709:colorspace=bt709",
+          "-c:v:0",
+          "libx264",
+          "-preset:v:0",
+          "veryfast",
+          "-crf:v:0",
+          "23",
+          "-profile:v:0",
+          "high",
+          "-pix_fmt:v:0",
+          "+yuv420p",
+          "-x264-params",
+          "keyint=60:min-keyint=60:scenecut=0:bframes=3:b-adapt=0:open-gop=0",
+          "-fps_mode:v:0",
+          "passthrough",
+          "-color_primaries:v:0",
+          "bt709",
+          "-color_trc:v:0",
+          "bt709",
+          "-colorspace:v:0",
+          "bt709",
+          "-color_range:v:0",
+          "tv",
+          "-c:a:0",
+          "pcm_s16le",
+          "-sample_fmt:a:0",
+          "s16",
+          "-ar:a:0",
+          "48000",
+          "-channel_layout:a:0",
+          "stereo",
+          "-t",
+          "150",
+          "-movflags",
+          "+faststart",
+          "-f",
+          "mov",
+          "proof://long-pattern.mov"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-001.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 2,
+        "executable": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-show_streams",
+          "-show_format",
+          "-show_chapters",
+          "-show_programs",
+          "-show_stream_groups",
+          "-show_data_hash",
+          "sha256",
+          "-of",
+          "json",
+          "-i",
+          "proof://long-pattern.mov"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-002.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 3,
+        "executable": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "0",
+          "-read_intervals",
+          "0.000000%2.000000",
+          "-show_frames",
+          "-show_entries",
+          "frame=media_type,stream_index,best_effort_timestamp,best_effort_timestamp_time,pts,pts_time,duration,duration_time,width,height,pix_fmt,sample_aspect_ratio,interlaced_frame,top_field_first,repeat_pict,color_transfer,color_primaries,color_space,color_range,chroma_location:frame_side_data",
+          "-of",
+          "json",
+          "-i",
+          "proof://long-pattern.mov"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-003.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 4,
+        "executable": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "0",
+          "-read_intervals",
+          "75.000000%76.000000",
+          "-show_frames",
+          "-show_entries",
+          "frame=media_type,stream_index,best_effort_timestamp,best_effort_timestamp_time,pts,pts_time,duration,duration_time,width,height,pix_fmt,sample_aspect_ratio,interlaced_frame,top_field_first,repeat_pict,color_transfer,color_primaries,color_space,color_range,chroma_location:frame_side_data",
+          "-of",
+          "json",
+          "-i",
+          "proof://long-pattern.mov"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-004.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 5,
+        "executable": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "0",
+          "-read_intervals",
+          "148.000000%150.000000",
+          "-show_frames",
+          "-show_entries",
+          "frame=media_type,stream_index,best_effort_timestamp,best_effort_timestamp_time,pts,pts_time,duration,duration_time,width,height,pix_fmt,sample_aspect_ratio,interlaced_frame,top_field_first,repeat_pict,color_transfer,color_primaries,color_space,color_range,chroma_location:frame_side_data",
+          "-of",
+          "json",
+          "-i",
+          "proof://long-pattern.mov"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-005.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 6,
+        "executable": "runtime-build://build/ffmpeg",
+        "args": [
+          "-version"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-006.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 7,
+        "executable": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-nostdin",
+          "-loglevel",
+          "warning",
+          "-nostats",
+          "-progress",
+          "pipe:1",
+          "-n",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi",
+          "-noautorotate",
+          "-copyts",
+          "-display_rotation:0",
+          "0",
+          "-seek_timestamp",
+          "1",
+          "-ss",
+          "95.000000",
+          "-noaccurate_seek",
+          "-i",
+          "proof://long-pattern.mov",
+          "-map",
+          "0:0",
+          "-map",
+          "0:1",
+          "-map_metadata",
+          "0",
+          "-map_chapters",
+          "0",
+          "-c:v:0",
+          "libx265",
+          "-c:a:0",
+          "flac",
+          "-map_metadata:s:0",
+          "0:s:0",
+          "-disposition:0",
+          "default",
+          "-map_metadata:s:1",
+          "0:s:1",
+          "-disposition:1",
+          "default",
+          "-preset:v:0",
+          "slow",
+          "-crf:v:0",
+          "25",
+          "-x265-params",
+          "aq-mode=3:psy-rd=2",
+          "-pix_fmt:v:0",
+          "+yuv420p",
+          "-fps_mode:v:0",
+          "passthrough",
+          "-color_trc:v:0",
+          "bt709",
+          "-color_primaries:v:0",
+          "bt709",
+          "-colorspace:v:0",
+          "bt709",
+          "-color_range:v:0",
+          "tv",
+          "-metadata",
+          "FFMPEG_ENCODER_PROVENANCE=1",
+          "-metadata",
+          "FFMPEG_ENCODER_OUTPUT_ID=82609c7f-939e-41e8-b3ab-99f4c2ee682c",
+          "-metadata",
+          "FFMPEG_ENCODER_GENERATION={\"version\":1,\"profileId\":\"h265-cpu\",\"codec\":\"H265\",\"backend\":\"CPU\",\"encoder\":\"libx265\",\"preset\":\"slow\",\"qualityMode\":\"CRF\",\"quality\":25,\"bitDepth\":8,\"encoderArgs\":[\"-c:v:0\",\"libx265\",\"-preset:v:0\",\"slow\",\"-crf:v:0\",\"25\",\"-x265-params\",\"aq-mode=3:psy-rd=2\"],\"appVersion\":\"0.7.0-alpha.1\",\"runtimeVersion\":\"ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers\",\"createdAt\":\"2026-11-18T12:12:37.214Z\"}",
+          "-metadata:s:v:0",
+          "rotate=0",
+          "-filter:v:0",
+          "settb=expr=1/15360,trim=start_pts=1536000:end_pts=2150400,setpts=PTS-(1536000),scale=w=1280:h=720:flags=lanczos+accurate_rnd:in_color_matrix=bt709:out_color_matrix=bt709:in_range=tv:out_range=tv,setsar=sar=(1/1):max=2147483647,sidedata=mode=delete:type=DISPLAYMATRIX",
+          "-enc_time_base:v:0",
+          "filter",
+          "-ar:a:0",
+          "48000",
+          "-channel_layout:a:0",
+          "stereo",
+          "-enc_time_base:a:0",
+          "1/48000",
+          "-sample_fmt:a:0",
+          "s16",
+          "-filter:a:0",
+          "asettb=expr=1/48000,atrim=start_pts=4800000:end_pts=6720000,asetpts=PTS-(4800000)",
+          "-avoid_negative_ts",
+          "disabled",
+          "-stats_enc_pre:0",
+          "proof://late-forty-seconds/encoder-telemetry-FS2lgK/stream-0.tsv",
+          "-stats_enc_pre_fmt:0",
+          "ffet1\tv\t{fidx}\t{sidx}\t{n}\t{ni}\t{tb}\t{pts}\t{tbi}\t{ptsi}",
+          "-stats_enc_pre:1",
+          "proof://late-forty-seconds/encoder-telemetry-FS2lgK/stream-1.tsv",
+          "-stats_enc_pre_fmt:1",
+          "ffet1\ta\t{fidx}\t{sidx}\t{n}\t{ni}\t{tb}\t{pts}\t{tbi}\t{ptsi}\t{sn}\t{samp}",
+          "-default_mode",
+          "passthrough",
+          "-f",
+          "matroska",
+          "proof://late-forty-seconds/.ffmpeg-encoder-KPGsfL/encoded.mkv"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 168,
+          "retainedBytes": 168,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "7236aa382cebb779ed4ebe094a891fdea27d454850900e90761e2a3a4c8e28c4",
+          "path": "proof://child-007.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 8,
+        "executable": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-show_streams",
+          "-show_format",
+          "-show_chapters",
+          "-show_programs",
+          "-show_stream_groups",
+          "-show_data_hash",
+          "sha256",
+          "-of",
+          "json",
+          "-i",
+          "proof://late-forty-seconds/.ffmpeg-encoder-KPGsfL/encoded.mkv"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-008.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 9,
+        "executable": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "0",
+          "-show_frames",
+          "-show_entries",
+          "frame=media_type,stream_index,pts,duration,pkt_duration,nb_samples,sample_fmt,channels,channel_layout,width,height,pix_fmt,interlaced_frame,color_range,color_space,color_primaries,color_transfer,sample_aspect_ratio,chroma_location:frame_tags=:frame_side_data=side_data_type",
+          "-of",
+          "compact=p=1:nk=0:escape=c",
+          "-i",
+          "proof://long-pattern.mov"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-009.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 10,
+        "executable": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "0",
+          "-show_frames",
+          "-show_entries",
+          "frame=media_type,stream_index,pts,duration,pkt_duration,nb_samples,sample_fmt,channels,channel_layout,width,height,pix_fmt,interlaced_frame,color_range,color_space,color_primaries,color_transfer:frame_tags=:frame_side_data=",
+          "-of",
+          "compact=p=1:nk=0:escape=c",
+          "-i",
+          "proof://late-forty-seconds/.ffmpeg-encoder-KPGsfL/encoded.mkv"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-010.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 11,
+        "executable": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "1",
+          "-show_frames",
+          "-show_entries",
+          "frame=media_type,stream_index,pts,duration,pkt_duration,nb_samples,sample_fmt,channels,channel_layout,width,height,pix_fmt,interlaced_frame,color_range,color_space,color_primaries,color_transfer:frame_tags=:frame_side_data=",
+          "-of",
+          "compact=p=1:nk=0:escape=c",
+          "-i",
+          "proof://long-pattern.mov"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-011.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 12,
+        "executable": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "1",
+          "-show_frames",
+          "-show_entries",
+          "frame=media_type,stream_index,pts,duration,pkt_duration,nb_samples,sample_fmt,channels,channel_layout,width,height,pix_fmt,interlaced_frame,color_range,color_space,color_primaries,color_transfer:frame_tags=:frame_side_data=",
+          "-of",
+          "compact=p=1:nk=0:escape=c",
+          "-i",
+          "proof://late-forty-seconds/.ffmpeg-encoder-KPGsfL/encoded.mkv"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-012.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 13,
+        "executable": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "1",
+          "-show_packets",
+          "-show_entries",
+          "packet=stream_index:packet_tags=:packet_side_data=side_data_type,skip_samples,discard_padding",
+          "-of",
+          "compact=p=1:nk=0:escape=c",
+          "-i",
+          "proof://late-forty-seconds/.ffmpeg-encoder-KPGsfL/encoded.mkv"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-013.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 14,
+        "executable": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-v",
+          "error",
+          "-nostdin",
+          "-copyts",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-i",
+          "proof://long-pattern.mov",
+          "-map",
+          "0:1",
+          "-vn",
+          "-sn",
+          "-dn",
+          "-c:a",
+          "pcm_s16le",
+          "-f",
+          "s16le",
+          "pipe:1"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-014.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 15,
+        "executable": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-v",
+          "error",
+          "-nostdin",
+          "-copyts",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-i",
+          "proof://late-forty-seconds/.ffmpeg-encoder-KPGsfL/encoded.mkv",
+          "-map",
+          "0:1",
+          "-vn",
+          "-sn",
+          "-dn",
+          "-c:a",
+          "pcm_s16le",
+          "-f",
+          "s16le",
+          "pipe:1"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-015.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 16,
+        "executable": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-nostdin",
+          "-v",
+          "error",
+          "-xerror",
+          "-i",
+          "proof://late-forty-seconds/.ffmpeg-encoder-KPGsfL/encoded.mkv",
+          "-map",
+          "0",
+          "-f",
+          "null",
+          "-"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-016.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 17,
+        "executable": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-nostdin",
+          "-loglevel",
+          "warning",
+          "-nostats",
+          "-progress",
+          "pipe:1",
+          "-n",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi",
+          "-noautorotate",
+          "-copyts",
+          "-display_rotation:0",
+          "0",
+          "-seek_timestamp",
+          "1",
+          "-ss",
+          "125.000000",
+          "-noaccurate_seek",
+          "-i",
+          "proof://long-pattern.mov",
+          "-map",
+          "0:0",
+          "-map",
+          "0:1",
+          "-map_metadata",
+          "0",
+          "-map_chapters",
+          "0",
+          "-c:v:0",
+          "libx265",
+          "-c:a:0",
+          "flac",
+          "-map_metadata:s:0",
+          "0:s:0",
+          "-disposition:0",
+          "default",
+          "-map_metadata:s:1",
+          "0:s:1",
+          "-disposition:1",
+          "default",
+          "-preset:v:0",
+          "slow",
+          "-crf:v:0",
+          "25",
+          "-x265-params",
+          "aq-mode=3:psy-rd=2",
+          "-pix_fmt:v:0",
+          "+yuv420p",
+          "-fps_mode:v:0",
+          "passthrough",
+          "-color_trc:v:0",
+          "bt709",
+          "-color_primaries:v:0",
+          "bt709",
+          "-colorspace:v:0",
+          "bt709",
+          "-color_range:v:0",
+          "tv",
+          "-metadata",
+          "FFMPEG_ENCODER_PROVENANCE=1",
+          "-metadata",
+          "FFMPEG_ENCODER_OUTPUT_ID=6b76b8a2-efa2-4c27-b7f1-b1ecd29f49a0",
+          "-metadata",
+          "FFMPEG_ENCODER_GENERATION={\"version\":1,\"profileId\":\"h265-cpu\",\"codec\":\"H265\",\"backend\":\"CPU\",\"encoder\":\"libx265\",\"preset\":\"slow\",\"qualityMode\":\"CRF\",\"quality\":25,\"bitDepth\":8,\"encoderArgs\":[\"-c:v:0\",\"libx265\",\"-preset:v:0\",\"slow\",\"-crf:v:0\",\"25\",\"-x265-params\",\"aq-mode=3:psy-rd=2\"],\"appVersion\":\"0.7.0-alpha.1\",\"runtimeVersion\":\"ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers\",\"createdAt\":\"2026-11-18T12:14:24.246Z\"}",
+          "-metadata:s:v:0",
+          "rotate=0",
+          "-filter:v:0",
+          "settb=expr=1/15360,trim=start_pts=1996800:end_pts=2304000,setpts=PTS-(1996800),scale=w=1280:h=720:flags=lanczos+accurate_rnd:in_color_matrix=bt709:out_color_matrix=bt709:in_range=tv:out_range=tv,setsar=sar=(1/1):max=2147483647,sidedata=mode=delete:type=DISPLAYMATRIX",
+          "-enc_time_base:v:0",
+          "filter",
+          "-ar:a:0",
+          "48000",
+          "-channel_layout:a:0",
+          "stereo",
+          "-enc_time_base:a:0",
+          "1/48000",
+          "-sample_fmt:a:0",
+          "s16",
+          "-filter:a:0",
+          "asettb=expr=1/48000,atrim=start_pts=6240000:end_pts=7200000,asetpts=PTS-(6240000)",
+          "-avoid_negative_ts",
+          "disabled",
+          "-stats_enc_pre:0",
+          "proof://late-open-end/encoder-telemetry-Ujw3d9/stream-0.tsv",
+          "-stats_enc_pre_fmt:0",
+          "ffet1\tv\t{fidx}\t{sidx}\t{n}\t{ni}\t{tb}\t{pts}\t{tbi}\t{ptsi}",
+          "-stats_enc_pre:1",
+          "proof://late-open-end/encoder-telemetry-Ujw3d9/stream-1.tsv",
+          "-stats_enc_pre_fmt:1",
+          "ffet1\ta\t{fidx}\t{sidx}\t{n}\t{ni}\t{tb}\t{pts}\t{tbi}\t{ptsi}\t{sn}\t{samp}",
+          "-default_mode",
+          "passthrough",
+          "-f",
+          "matroska",
+          "proof://late-open-end/.ffmpeg-encoder-6gA9Qh/encoded.mkv"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 168,
+          "retainedBytes": 168,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "7236aa382cebb779ed4ebe094a891fdea27d454850900e90761e2a3a4c8e28c4",
+          "path": "proof://child-017.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 18,
+        "executable": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-show_streams",
+          "-show_format",
+          "-show_chapters",
+          "-show_programs",
+          "-show_stream_groups",
+          "-show_data_hash",
+          "sha256",
+          "-of",
+          "json",
+          "-i",
+          "proof://late-open-end/.ffmpeg-encoder-6gA9Qh/encoded.mkv"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-018.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 19,
+        "executable": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "0",
+          "-show_frames",
+          "-show_entries",
+          "frame=media_type,stream_index,pts,duration,pkt_duration,nb_samples,sample_fmt,channels,channel_layout,width,height,pix_fmt,interlaced_frame,color_range,color_space,color_primaries,color_transfer,sample_aspect_ratio,chroma_location:frame_tags=:frame_side_data=side_data_type",
+          "-of",
+          "compact=p=1:nk=0:escape=c",
+          "-i",
+          "proof://long-pattern.mov"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-019.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 20,
+        "executable": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "0",
+          "-show_frames",
+          "-show_entries",
+          "frame=media_type,stream_index,pts,duration,pkt_duration,nb_samples,sample_fmt,channels,channel_layout,width,height,pix_fmt,interlaced_frame,color_range,color_space,color_primaries,color_transfer:frame_tags=:frame_side_data=",
+          "-of",
+          "compact=p=1:nk=0:escape=c",
+          "-i",
+          "proof://late-open-end/.ffmpeg-encoder-6gA9Qh/encoded.mkv"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-020.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 21,
+        "executable": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "1",
+          "-show_frames",
+          "-show_entries",
+          "frame=media_type,stream_index,pts,duration,pkt_duration,nb_samples,sample_fmt,channels,channel_layout,width,height,pix_fmt,interlaced_frame,color_range,color_space,color_primaries,color_transfer:frame_tags=:frame_side_data=",
+          "-of",
+          "compact=p=1:nk=0:escape=c",
+          "-i",
+          "proof://long-pattern.mov"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-021.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 22,
+        "executable": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "1",
+          "-show_frames",
+          "-show_entries",
+          "frame=media_type,stream_index,pts,duration,pkt_duration,nb_samples,sample_fmt,channels,channel_layout,width,height,pix_fmt,interlaced_frame,color_range,color_space,color_primaries,color_transfer:frame_tags=:frame_side_data=",
+          "-of",
+          "compact=p=1:nk=0:escape=c",
+          "-i",
+          "proof://late-open-end/.ffmpeg-encoder-6gA9Qh/encoded.mkv"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-022.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 23,
+        "executable": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "1",
+          "-show_packets",
+          "-show_entries",
+          "packet=stream_index:packet_tags=:packet_side_data=side_data_type,skip_samples,discard_padding",
+          "-of",
+          "compact=p=1:nk=0:escape=c",
+          "-i",
+          "proof://late-open-end/.ffmpeg-encoder-6gA9Qh/encoded.mkv"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-023.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 24,
+        "executable": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-v",
+          "error",
+          "-nostdin",
+          "-copyts",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-i",
+          "proof://long-pattern.mov",
+          "-map",
+          "0:1",
+          "-vn",
+          "-sn",
+          "-dn",
+          "-c:a",
+          "pcm_s16le",
+          "-f",
+          "s16le",
+          "pipe:1"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-024.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 25,
+        "executable": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-v",
+          "error",
+          "-nostdin",
+          "-copyts",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-i",
+          "proof://late-open-end/.ffmpeg-encoder-6gA9Qh/encoded.mkv",
+          "-map",
+          "0:1",
+          "-vn",
+          "-sn",
+          "-dn",
+          "-c:a",
+          "pcm_s16le",
+          "-f",
+          "s16le",
+          "pipe:1"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-025.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 26,
+        "executable": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-nostdin",
+          "-v",
+          "error",
+          "-xerror",
+          "-i",
+          "proof://late-open-end/.ffmpeg-encoder-6gA9Qh/encoded.mkv",
+          "-map",
+          "0",
+          "-f",
+          "null",
+          "-"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-026.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 27,
+        "executable": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-nostdin",
+          "-v",
+          "error",
+          "-n",
+          "-f",
+          "lavfi",
+          "-i",
+          "testsrc2=size=1920x1080:rate=30:duration=11",
+          "-f",
+          "lavfi",
+          "-i",
+          "aevalsrc=0.18*sin(2*PI*(523*t+5.5*t*t))|0.18*sin(2*PI*(742*t+6.5*t*t)):s=48000:c=stereo:d=11",
+          "-map",
+          "0:v:0",
+          "-map",
+          "1:a:0",
+          "-map_metadata",
+          "-1",
+          "-map_chapters",
+          "-1",
+          "-vf",
+          "hflip,setsar=1,setparams=range=limited:color_primaries=bt709:color_trc=bt709:colorspace=bt709",
+          "-c:v:0",
+          "libx264",
+          "-preset:v:0",
+          "veryfast",
+          "-crf:v:0",
+          "23",
+          "-profile:v:0",
+          "high",
+          "-pix_fmt:v:0",
+          "+yuv420p",
+          "-x264-params",
+          "keyint=60:min-keyint=60:scenecut=0:bframes=3:b-adapt=0:open-gop=0",
+          "-fps_mode:v:0",
+          "passthrough",
+          "-color_primaries:v:0",
+          "bt709",
+          "-color_trc:v:0",
+          "bt709",
+          "-colorspace:v:0",
+          "bt709",
+          "-color_range:v:0",
+          "tv",
+          "-c:a:0",
+          "pcm_s16le",
+          "-sample_fmt:a:0",
+          "s16",
+          "-ar:a:0",
+          "48000",
+          "-channel_layout:a:0",
+          "stereo",
+          "-t",
+          "11",
+          "-movflags",
+          "+faststart",
+          "-f",
+          "mov",
+          "proof://heldout-flipped.mov"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-027.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 28,
+        "executable": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-show_streams",
+          "-show_format",
+          "-show_chapters",
+          "-show_programs",
+          "-show_stream_groups",
+          "-show_data_hash",
+          "sha256",
+          "-of",
+          "json",
+          "-i",
+          "proof://heldout-flipped.mov"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-028.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 29,
+        "executable": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "0",
+          "-read_intervals",
+          "0.000000%2.000000",
+          "-show_frames",
+          "-show_entries",
+          "frame=media_type,stream_index,best_effort_timestamp,best_effort_timestamp_time,pts,pts_time,duration,duration_time,width,height,pix_fmt,sample_aspect_ratio,interlaced_frame,top_field_first,repeat_pict,color_transfer,color_primaries,color_space,color_range,chroma_location:frame_side_data",
+          "-of",
+          "json",
+          "-i",
+          "proof://heldout-flipped.mov"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-029.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 30,
+        "executable": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "0",
+          "-read_intervals",
+          "5.500000%6.500000",
+          "-show_frames",
+          "-show_entries",
+          "frame=media_type,stream_index,best_effort_timestamp,best_effort_timestamp_time,pts,pts_time,duration,duration_time,width,height,pix_fmt,sample_aspect_ratio,interlaced_frame,top_field_first,repeat_pict,color_transfer,color_primaries,color_space,color_range,chroma_location:frame_side_data",
+          "-of",
+          "json",
+          "-i",
+          "proof://heldout-flipped.mov"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-030.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 31,
+        "executable": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "0",
+          "-read_intervals",
+          "9.000000%11.000000",
+          "-show_frames",
+          "-show_entries",
+          "frame=media_type,stream_index,best_effort_timestamp,best_effort_timestamp_time,pts,pts_time,duration,duration_time,width,height,pix_fmt,sample_aspect_ratio,interlaced_frame,top_field_first,repeat_pict,color_transfer,color_primaries,color_space,color_range,chroma_location:frame_side_data",
+          "-of",
+          "json",
+          "-i",
+          "proof://heldout-flipped.mov"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-031.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 32,
+        "executable": "runtime-build://build/ffmpeg",
+        "args": [
+          "-version"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-032.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 33,
+        "executable": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-nostdin",
+          "-loglevel",
+          "warning",
+          "-nostats",
+          "-progress",
+          "pipe:1",
+          "-n",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi",
+          "-noautorotate",
+          "-copyts",
+          "-display_rotation:0",
+          "0",
+          "-i",
+          "proof://heldout-flipped.mov",
+          "-map",
+          "0:0",
+          "-map",
+          "0:1",
+          "-map_metadata",
+          "0",
+          "-map_chapters",
+          "0",
+          "-c:v:0",
+          "libx265",
+          "-c:a:0",
+          "flac",
+          "-map_metadata:s:0",
+          "0:s:0",
+          "-disposition:0",
+          "default",
+          "-map_metadata:s:1",
+          "0:s:1",
+          "-disposition:1",
+          "default",
+          "-preset:v:0",
+          "slow",
+          "-crf:v:0",
+          "25",
+          "-x265-params",
+          "aq-mode=3:psy-rd=2",
+          "-pix_fmt:v:0",
+          "+yuv420p",
+          "-fps_mode:v:0",
+          "passthrough",
+          "-color_trc:v:0",
+          "bt709",
+          "-color_primaries:v:0",
+          "bt709",
+          "-colorspace:v:0",
+          "bt709",
+          "-color_range:v:0",
+          "tv",
+          "-metadata",
+          "FFMPEG_ENCODER_PROVENANCE=1",
+          "-metadata",
+          "FFMPEG_ENCODER_OUTPUT_ID=5c50b400-3240-42c0-99d3-1ab2636b10ce",
+          "-metadata",
+          "FFMPEG_ENCODER_GENERATION={\"version\":1,\"profileId\":\"h265-cpu\",\"codec\":\"H265\",\"backend\":\"CPU\",\"encoder\":\"libx265\",\"preset\":\"slow\",\"qualityMode\":\"CRF\",\"quality\":25,\"bitDepth\":8,\"encoderArgs\":[\"-c:v:0\",\"libx265\",\"-preset:v:0\",\"slow\",\"-crf:v:0\",\"25\",\"-x265-params\",\"aq-mode=3:psy-rd=2\"],\"appVersion\":\"0.7.0-alpha.1\",\"runtimeVersion\":\"ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers\",\"createdAt\":\"2026-11-18T12:15:34.711Z\"}",
+          "-metadata:s:v:0",
+          "rotate=0",
+          "-filter:v:0",
+          "settb=expr=1/15360,trim=start_pts=6344:end_pts=132419,setpts=PTS-(6344),scale=w=1280:h=720:flags=lanczos+accurate_rnd:in_color_matrix=bt709:out_color_matrix=bt709:in_range=tv:out_range=tv,setsar=sar=(1/1):max=2147483647,sidedata=mode=delete:type=DISPLAYMATRIX",
+          "-enc_time_base:v:0",
+          "filter",
+          "-ar:a:0",
+          "48000",
+          "-channel_layout:a:0",
+          "stereo",
+          "-enc_time_base:a:0",
+          "1/48000",
+          "-sample_fmt:a:0",
+          "s16",
+          "-filter:a:0",
+          "asettb=expr=1/48000,atrim=start_pts=19824:end_pts=413808,asetpts=PTS-(19824)",
+          "-avoid_negative_ts",
+          "disabled",
+          "-stats_enc_pre:0",
+          "proof://heldout-nonaligned/encoder-telemetry-iykP5P/stream-0.tsv",
+          "-stats_enc_pre_fmt:0",
+          "ffet1\tv\t{fidx}\t{sidx}\t{n}\t{ni}\t{tb}\t{pts}\t{tbi}\t{ptsi}",
+          "-stats_enc_pre:1",
+          "proof://heldout-nonaligned/encoder-telemetry-iykP5P/stream-1.tsv",
+          "-stats_enc_pre_fmt:1",
+          "ffet1\ta\t{fidx}\t{sidx}\t{n}\t{ni}\t{tb}\t{pts}\t{tbi}\t{ptsi}\t{sn}\t{samp}",
+          "-default_mode",
+          "passthrough",
+          "-f",
+          "matroska",
+          "proof://heldout-nonaligned/.ffmpeg-encoder-vjzo08/encoded.mkv"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 168,
+          "retainedBytes": 168,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "7236aa382cebb779ed4ebe094a891fdea27d454850900e90761e2a3a4c8e28c4",
+          "path": "proof://child-033.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 34,
+        "executable": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-show_streams",
+          "-show_format",
+          "-show_chapters",
+          "-show_programs",
+          "-show_stream_groups",
+          "-show_data_hash",
+          "sha256",
+          "-of",
+          "json",
+          "-i",
+          "proof://heldout-nonaligned/.ffmpeg-encoder-vjzo08/encoded.mkv"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-034.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 35,
+        "executable": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "0",
+          "-show_frames",
+          "-show_entries",
+          "frame=media_type,stream_index,pts,duration,pkt_duration,nb_samples,sample_fmt,channels,channel_layout,width,height,pix_fmt,interlaced_frame,color_range,color_space,color_primaries,color_transfer,sample_aspect_ratio,chroma_location:frame_tags=:frame_side_data=side_data_type",
+          "-of",
+          "compact=p=1:nk=0:escape=c",
+          "-i",
+          "proof://heldout-flipped.mov"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-035.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 36,
+        "executable": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "0",
+          "-show_frames",
+          "-show_entries",
+          "frame=media_type,stream_index,pts,duration,pkt_duration,nb_samples,sample_fmt,channels,channel_layout,width,height,pix_fmt,interlaced_frame,color_range,color_space,color_primaries,color_transfer:frame_tags=:frame_side_data=",
+          "-of",
+          "compact=p=1:nk=0:escape=c",
+          "-i",
+          "proof://heldout-nonaligned/.ffmpeg-encoder-vjzo08/encoded.mkv"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-036.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 37,
+        "executable": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "1",
+          "-show_frames",
+          "-show_entries",
+          "frame=media_type,stream_index,pts,duration,pkt_duration,nb_samples,sample_fmt,channels,channel_layout,width,height,pix_fmt,interlaced_frame,color_range,color_space,color_primaries,color_transfer:frame_tags=:frame_side_data=",
+          "-of",
+          "compact=p=1:nk=0:escape=c",
+          "-i",
+          "proof://heldout-flipped.mov"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-037.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 38,
+        "executable": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "1",
+          "-show_frames",
+          "-show_entries",
+          "frame=media_type,stream_index,pts,duration,pkt_duration,nb_samples,sample_fmt,channels,channel_layout,width,height,pix_fmt,interlaced_frame,color_range,color_space,color_primaries,color_transfer:frame_tags=:frame_side_data=",
+          "-of",
+          "compact=p=1:nk=0:escape=c",
+          "-i",
+          "proof://heldout-nonaligned/.ffmpeg-encoder-vjzo08/encoded.mkv"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-038.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 39,
+        "executable": "runtime-build://build/ffprobe",
+        "args": [
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-select_streams",
+          "1",
+          "-show_packets",
+          "-show_entries",
+          "packet=stream_index:packet_tags=:packet_side_data=side_data_type,skip_samples,discard_padding",
+          "-of",
+          "compact=p=1:nk=0:escape=c",
+          "-i",
+          "proof://heldout-nonaligned/.ffmpeg-encoder-vjzo08/encoded.mkv"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-039.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 40,
+        "executable": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-v",
+          "error",
+          "-nostdin",
+          "-copyts",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-i",
+          "proof://heldout-flipped.mov",
+          "-map",
+          "0:1",
+          "-vn",
+          "-sn",
+          "-dn",
+          "-c:a",
+          "pcm_s16le",
+          "-f",
+          "s16le",
+          "pipe:1"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-040.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 41,
+        "executable": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-v",
+          "error",
+          "-nostdin",
+          "-copyts",
+          "-protocol_whitelist",
+          "file,pipe",
+          "-format_whitelist",
+          "mov,matroska,webm,avi,mpegts",
+          "-i",
+          "proof://heldout-nonaligned/.ffmpeg-encoder-vjzo08/encoded.mkv",
+          "-map",
+          "0:1",
+          "-vn",
+          "-sn",
+          "-dn",
+          "-c:a",
+          "pcm_s16le",
+          "-f",
+          "s16le",
+          "pipe:1"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-041.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "sequence": 42,
+        "executable": "runtime-build://build/ffmpeg",
+        "args": [
+          "-hide_banner",
+          "-nostdin",
+          "-v",
+          "error",
+          "-xerror",
+          "-i",
+          "proof://heldout-nonaligned/.ffmpeg-encoder-vjzo08/encoded.mkv",
+          "-map",
+          "0",
+          "-f",
+          "null",
+          "-"
+        ],
+        "closed": true,
+        "stderr": {
+          "available": true,
+          "totalBytes": 0,
+          "retainedBytes": 0,
+          "truncated": false,
+          "completeAtSave": true,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "path": "proof://child-042.stderr"
+        },
+        "exitCode": 0,
+        "signal": null
+      }
+    ],
+    "census": {
+      "spawned": 42,
+      "closed": 42,
+      "live": 0,
+      "maximum": 1
+    },
+    "totalPipeBytes": 78860655,
+    "diagnosticsComplete": true
+  },
+  "savedAudit": {
+    "references": [
+      {
+        "artifact": "codec-options-e3-calibration047-preparation/INDEPENDENT_SAVED_OUTPUT_AUDIT.json",
+        "bytes": 205601,
+        "sha256": "fd21230a4aeb596c186d20a0fa80e365b80a930fca6d2ec549c928e6ab17d14f"
+      },
+      {
+        "artifact": "codec-options-e3-calibration047-preparation/LEAD_RECONCILIATION.json",
+        "bytes": 4983,
+        "sha256": "dd6adaa69f98cee70ca9c900b66040a1614d216b0e0f0ad189187e3aaa6529a5"
+      }
+    ],
+    "reconciledAtUtc": "2026-11-18T12:21:40.953672+00:00",
+    "sourceCommit": "fd129edab6e1b653da87cf7aac6c09f14b633132",
+    "sourceTree": "317208159aa6b860db34018ce594308d0fdc52ad",
+    "artifactCount": 95,
+    "artifactBytes": 160456086,
+    "identityOccurrencesRehashed": 784,
+    "uniqueIdentitiesRehashed": 772,
+    "all658CurrentAndGitFilesMatched": true,
+    "census": {
+      "spawned": 42,
+      "closed": 42,
+      "live": 0,
+      "maximum": 1
+    },
+    "warnings": {
+      "all42FilesRehashed": true,
+      "empty": 39,
+      "nonempty": 3,
+      "completeBoundedReportedAndVerified": true,
+      "warningDisposition": "x265 CPU-mask, disabled WPP and lookahead-slices warnings are observed in all three successful targets; duplicate codec option warnings are absent in these retained texts; neither clean nor independently proven harmless. No child exit or recorded canonical contract failure."
+    },
+    "successfulTargetStderrBytes": [
+      168,
+      168,
+      168
+    ],
+    "consumerRefresh": "Reviewed two-file consumer integrated12:26:10.200522 UTC and source-tested; real service/native proof pending.",
+    "combinedCutoffPending": false
+  },
+  "owningRecordCutoffUtc": "2026-11-18T12:27:58.603495+00:00",
+  "sourceAttribution": {
+    "mediaProofCommit": "fd129edab6e1b653da87cf7aac6c09f14b633132",
+    "laterConsumerIntegratedAtUtc": "2026-11-18T12:26:10.200522+00:00",
+    "newConsumer": "Reviewed two-file source-only binding; no live service/native qualification yet."
+  }
+}

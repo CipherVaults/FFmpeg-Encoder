@@ -1,3 +1,236 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Build the ordinary 9.0.2 foundation and test cancellation ownership
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model / effort attribution | Evidence and limit |
+|---|---|---|
+| Engineering lead | GPT-6 Astra / Ultra, recorded assignment, not backend attestation | Reconciled owner direction, integrated three reviewed new files after preservation gates and ran final combined source tests. |
+| Ordinary cancellation author / independent reviewer | Not independently established here | Existing ordinary factory/service/runner and real process-runner logic exercised over inert children, with additional inspection/capability/output-validation seams disclosed. |
+| Candidate foundation author / independent reviewer | Not independently established here | New import-inert factory and genuine candidate observer tests using VM acquisition substitution; no actual candidate media or native execution. |
+| Records / mirror / Session review | Not independently established here | Preserved 037, prepared scoped records and independently reviewed this new entry. Exact historical suffix remains unchanged. |
+
+**Record basis:** Three new files are integrated: an ordinary CPU 9.0.2 factory, its tests and baseline ordinary cancellation/recovery coverage. Final lead results are **66/66 focused, 229/229 protection and 310/310 explicit Linux**, zero failures/skips/cancellations. These overlapping suites are not added together and are not package-wide `npm test`. This is **source progress toward the common Linux foundation**, not promotion, successful real candidate capability/media qualification or a new user-facing route. Existing main/UI/defaults, 7.1.5 rollback, Full-copy producer pins and held audio policy remain unchanged.
+
+## 🕒 Time
+
+**Stage / type / focus:** Reviewed ordinary-service foundation and current lifecycle coverage, followed by coherent source preservation.
+
+**Date and clock:** November 18, 2026. Africa/Cairo is UTC+02:00. Fixed cutoff: **08:56:07.702773 Cairo / 06:56:07.702773 UTC**. Chronology below is UTC; overall active effort was not measured.
+
+- Prior 037 cutoff remains **06:38:06.365588**. Later owner direction and source work belong here, not in revised history.
+- Ordinary cancellation handoff: **06:40:31.418773**; candidate foundation handoff: **06:47:18.087995**.
+- Independent ordinary affected run: **06:48:31.233414–06:48:38.620755**; independent candidate focused run: **06:48:38.660895–06:48:39.078141**.
+- Common-foundation direction recorded **06:48:59.643714**. This is the record's creation time, **not an inferred owner-message timestamp**.
+- Independent dispositions: **06:49:41.466960** and **06:49:41.509005**.
+- Exact three-file integration: **06:51:36.675069**, after 037 source/full-history restoration, before its later complete native/GitHub mapping.
+- Lead focused: **06:52:00.935837–06:52:01.914829**; protection: **06:52:01.951986–06:52:09.680023**; explicit Linux: **06:52:09.714777–06:52:11.707716**. Aggregate receipt completed **06:52:11.745456**.
+- 037 GitHub verification: **06:55:05.607181**. Full prior preservation is complete by this checkpoint's cutoff; it did not all precede integration.
+- **Fixed cutoff: 2026-11-18T06:56:07.702773+00:00.** The prospective five-target helper is V1 prepared/under review, with no final checkpoint binding, gate or run at this cutoff. Later review/corrections/results are excluded.
+
+**End / stopping point:** Reviewed source is integrated and combined tests are green. Actual candidate media/native qualification remains future work. No runtime binaries were executed for this source milestone.
+
+**Reason for this summary:** Preserve what has actually been added, the real boundaries covered by tests, the fixture mistakes that were corrected and the qualification path needed before changing the default.
+
+## 🎯 Session Goal
+
+Ahmed asked why Linux should not build around the newer FFmpeg foundation like Windows. The agreed direction is to work toward a **common Linux 9.0.2 foundation**, qualify the exact rebuilt candidate across CPU codecs, audio, lifecycle and native behavior, and retain **7.1.5 default/rollback until evidence supports promotion**.
+
+This is not based on the false premise that 7.1.5 cannot encode AV1: it already supports AV1 in this project. A version number does not establish codec completeness, hardware availability or platform parity. The rebuilt 9.0.2 pair differs from historical AV1-proof binaries; old reports and successful Full-copy calibration cannot be silently reused as general ordinary-service qualification.
+
+The immediate milestone combines useful source architecture with a current reliability coverage gap. Reuse the existing ordinary service, runner, output safeguards and candidate observer rather than creating another parallel encoder framework. Keep quality/presets, main/UI behavior and the separate AAC policy decision unchanged.
+
+## 🛠️ Actions Taken
+
+### 1. Preserve 037 and maintain the actual integration/publication ordering
+
+037 is local `514c9d8786885c9e75fc25887ff8878e9d3ba73f`, tree `aace2379ef66e053b9d737f9c94b525aaafb637e`, **624 files / 37 commits**. [Notion source and full history](https://app.notion.com/p/41cbd7ade63b81949beed46c3782ddb4) restored the exact source and full bundle; [the readable Session](https://app.notion.com/p/41cbd7ade63b81dead0cf81bcc0ad41b) returned all 37 entries and the historical ending. Exact archive identity, not native formatting, protects the **1,757,328-byte** predecessor, SHA-256 `937eb806d6652731ed4d197c14dec32e6a73636483881faf94677c9058013bc3`, preserved unchanged below this new entry.
+
+Both source/history restoration gates had passed before integration at 06:51:36.675069. Full native documentation and GitHub mapping were still finishing then. At 06:55:05.607181 GitHub `blue/linux-development` verified remote `738138422c586e886b63ea99ffe1771ddf4e0fd0`, sole parent `7d97324302b7a29340e80a0b2dbb1c7664401ae4`, tree `0b1f8647ae4110d0e6dbd4e9c960f1ab51855eb1`. Five exact file readbacks, the complete immutable Session blob, expected-parent/non-force update and fresh ref passed: **1,006 total / 1,001 unchanged / two modified / three new / zero deleted**. Final Notion/source/history/native/remote mapping is complete by the fixed cutoff.
+
+This overlap is intentional and recorded: source integration followed verified restoration, not an unverified backup promise, but it did **not** wait for the later GitHub readback. The original integration receipt retains its then-pending qualification/publication wording; final results below are later evidence, not a rewrite of that receipt.
+
+### 2. Add real ordinary cancellation composition coverage over inert child boundaries
+
+New `linux-blue/workbench-cancellation-recovery.test.cjs` is **10,185 bytes**, SHA-256 `cdd29deb87ca3aefbb3b2b4111fc8c02a618042f234507eaff2499879a5f7244`. Its isolated patch is **10,386 bytes / `a53d26b526129d4e3ff60fbd5ff0f8ded1572cfc7908411c5b02c900350d2f4c`**. Existing source bytes and all 26 Full-copy producer identities remained unchanged.
+
+The two new tests execute the **actual ordinary factory, LinuxWorkbenchService inheritance, ordinary runner argument/bound checks, EncoderService preparation/start/cancel/queue logic and process-runner progress/close settlement**. OS execution is replaced with inert EventEmitter/PassThrough children; fixed-tool verification, capability/inspection facts and output validation are also injected. These seams are substantive limits, not merely a fake process wrapped around otherwise measured media.
+
+The active-target case observes positive frame progress, requests cancellation and deliberately keeps the child pending until explicit synthetic close. During that interval the service stays busy, refuses Start/Prepare and does not admit the next queued target. After close it retains an **unsealed, never identity-bound partial stage**, without a published filename or output grant. It then uses the **same baseline ordinary service** to prepare a fresh plan and finish two inert targets.
+
+The preparation case holds inspection, cancels and waits for settlement, revokes the old plan, then prepares and starts fresh work. Captured old callbacks cannot mutate later revision/progress. Timing is important: the old inspection callback is invoked **after fresh preparation resolves**, and old progress **after the new batch completes**. This is later-owner fencing, not actual overlap with a pending new preparation/encode, despite the broader wording of one test title.
+
+All observed inert children close, maximum one. The test asserts the ordinary target's 30-minute timeout mapping without waiting 30 minutes. It cannot guarantee termination of a genuinely nonsettling OS child. Successful genuine grant issuance or shell dispatch is not exercised; absence of a grant on cancelled items is checked.
+
+Two initial red runs were **fixture expectation mistakes**, not production defects: first assuming the output directory would be completely empty despite intentionally retained unbound stage bytes, then expecting `outputDisposition` where the cancelled-before-seal item actually has a `cleanup` record. The corrected assertions preserve retention, no final publication and no grant. Original failure logs remain; no cleanup or safety rule was weakened. Author **2/2 focused and 203/203 affected** passed, and independent affected **203/203** repeated against unchanged baseline source. No application fix is invented from a coverage addition.
+
+### 3. Add an import-inert candidate ordinary CPU factory
+
+New `linux-blue/candidate-ordinary-service.cjs` is **7,119 bytes**, SHA-256 `ac5308398bca6390ffe62423eb59fac8481f28e8cefe32431bfd7b65973ec035`; its test is **10,801 bytes**, SHA-256 `6512cad146d980c577031c069217a50e2b14d96733b2f291493c3d1b386b1461`. The two-file isolated patch is **18,647 bytes / `bae4909bc55e939318e6bb700093bb1a365f23ebe3cd158e10c9745c52804a25`**.
+
+The factory accepts only own, allowed, non-getter main-owned options: canonical absolute `stateDir`, optional `onChild` and `OutputAccess`. Arbitrary runtime/report controls are refused. `instanceof OutputAccess` is not an unforgeable brand; trusted main composition and private grants/actions remain the actual authority boundary. Direct `service.run` is main-owned, not a renderer API or protection against arbitrary code already executing in main.
+
+It uses the fixed ignored restoration location for candidate identity `1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9`, with exact ffmpeg/ffprobe identities and seven canonical dependency/soname checks. Missing restoration refuses explicitly; source-only backup does not contain the tools, and no baseline fallback is attempted. The two binary identities are unchanged: ffmpeg **46,175,848 bytes / `ae5b2e8b48ad0e9b51b89ebab000ebcfc0b76a09b8cb80c88e18fddcc5d9e8ba`**, ffprobe **45,962,728 bytes / `923dab8640da8804c445418b6e2efe4b395665bdb9d4cfc84f6a244ed0fb156b`**.
+
+Linux x64 and loader restrictions apply at acquisition, verification and actual dispatch. The existing genuine candidate observer owns child observation and checks currentness around invocation. The ordinary argument wrapper retains bounded calls and terminal-progress requirements, stripping only its private wrapper `onChild` field before candidate dispatch. Seven explicit dependency checks are not exhaustive ELF closure, an OS sandbox or immutable open-handle execution.
+
+The service inherits ordinary **supported SDR CPU, Full/null range, Keep source geometry, copied audio and distinct output-folder** behavior and publication safeguards. Existing profiles/settings and fresh canonical capability checking are retained, not replaced by cached baseline availability. Vendor discovery remains unavailable; Remux is unqualified and no changed-encode family catalog is imported. No old Full-copy calibration report is required or borrowed as ordinary qualification.
+
+Cancellation closes admission synchronously. Resource closure is single-flight, awaits inherited task/resource closure and then candidate closure, preserving aggregate failures. The candidate owner is deliberately **sticky after cancellation**: drain and close, then construct a fresh owner. Idle cancellation does not establish that every external observer token is invalidated. This differs from the baseline same-service fixture above; neither result should be generalized into the other's lifecycle contract.
+
+### 4. Preserve strict observer failures and state precisely what candidate tests prove
+
+Candidate tests substitute fixed restoration acquisition through VM seams while using **genuine candidate observer handles over inert, nonexecuted fixture files**. An initial **6/8** exploratory run failed twice because synthetic execution returned success without reporting an observed child. The real observer correctly refused. Adding the owned EventEmitter child and close in `finally` repaired the fixture, not the observer guard. A later **8/8** preceded two additional cases. The first exploratory command's cwd and Node version are retained, but no timestamp was captured; none is invented.
+
+Author final **63/63 focused** and **308/308 explicit Linux** passed. Independent focused **63/63** repeated; the author broad run was not independently rerun at proposal review. The independent dispositions accepted both isolated source slices with limits, not integration or runtime authorization.
+
+Three-encoder checks route H.264, H.265 and SVT-AV1 arguments, progress and bounds. They are **not actual successful codec/media tests**. Canonical capability initialization reaches its real failure path through the injected runner; no successful real capability campaign is established. The new factory tests do not execute complete actual preparation/publication, active candidate cancellation and fresh-owner recovery, native UI or hardware. Shared inherited regressions do not substitute for direct candidate composition qualification.
+
+Manual source/lifecycle review found no material blocker. This is not formal Security Cloud qualification. No claim that the new factory is user-facing, generally usable, faster, audio-correct or equivalent to Windows follows from these tests.
+
+### 5. Integrate only three new files and run combined lead verification
+
+At **06:51:36.675069** the lead integrated exactly those three reviewed paths on immutable 037 base `514c9d8786885c9e75fc25887ff8878e9d3ba73f`. Their isolated proposal base was 036 `10d2c65d71f35d8b0146a43280516fb2d069b70d`. All **624 predecessor tracked files** remained byte-exact. No existing source was edited. Source integration receipt: **1,189 bytes / `3b6a627c1729cae52c195fa3f00a84132266ae296b7f12b8ae73e44130bfdf36`**.
+
+Final lead Node **24.22.1** tests used the actual integrated tree with controlled PATH/HOME/TMPDIR/LANG and absolute owned scratch paths:
+
+| Run | Result | Scope / limit |
+|---|---:|---|
+| Focused | 66/66 | Both new test files, ordinary service/execution, candidate observer, OutputAccess and IPC |
+| Protection | 229/229 | Existing protection regression selection |
+| Explicit Linux broad | 310/310 | Explicit Linux command, not package-wide `npm test` or every repository test |
+
+Every run exited zero, with **zero failures, cancellations or skips**. All **627 checked source files** stayed byte-identical through testing. Results overlap and are not summed. No actual runtime binaries, media, native UI or hardware were exercised by these source/injected tests. Optional historical reference tests were not rerun. Aggregate receipt: **1,419 bytes / `5aa105d1c7af95edc834ba03759e182efebbad323d7bc0b65a34aa367191ef66`**. Individual commands, timestamps, tested paths, logs and identity checks are retained in its three referenced receipts.
+
+The source changes add a composition and tests, not a default switch. The 26-file working Full-copy producer closure remains exact. Audio-policy hold remains separate: no refusal guard, re-encoding workaround, omission, preset/quality change, audio acceptance waiver or runtime repin is integrated.
+
+### 6. Freeze a source milestone without borrowing future qualification
+
+Final source scope is three new files plus Current, Session, execution and curated receipts: **seven intended checkpoint paths / 629 files / 38 commits after assembly**. No new portable runtime artifact is needed for this source-only step. [Execution record](2026-11-18_Ordinary_Candidate_Foundation.md) and [curated receipts](2026-11-18_Ordinary_Candidate_Foundation_Receipts.json) preserve details and direct evidence references.
+
+At the fixed cutoff, a **five-target ordinary candidate service helper V1 is prepared and under independent review**. It has no final source-checkpoint binding, gate or execution. That preparation is not a capability/media result. Later review or correction must be dated in the next milestone, not imported into this record.
+
+The qualification plan is to use fresh canonical capabilities and representative H.264/H.265/SVT-AV1 CPU profiles with unchanged quality/settings, observe copied-audio presentation and publication validation, then test collision, actual cancellation/drain and **fresh candidate-owner recovery**. Only supported evidence should justify an explicit main-owned opt-in route and native lifecycle work, and later any default promotion. 7.1.5 stays default/rollback meanwhile. No NVIDIA AV1, Windows parity, broad HDR/Remux or 1440/4K support is inferred.
+
+## 🧠 Key Insights
+
+1. **Common foundation is a direction, not a completed migration.** The new composition makes disciplined qualification possible without changing the working default or borrowing old media reports.
+2. **Useful lifecycle coverage need not manufacture a bug.** Real service and process-runner control flow passed against deliberately pending inert children. Initial reds were false fixture assumptions about retained cleanup, not app failures.
+3. **Observer refusal was correct.** A test returning success without an observed child should fail. Repairing the fixture kept authority checks intact.
+4. **Recovery contracts differ.** Baseline ordinary same-service fresh-plan behavior is tested in a finite fixture; candidate cancellation closes admission and requires a fresh owner. Neither proves the other's runtime behavior.
+5. **The largest remaining gap is real candidate composition evidence.** Routed encoder names, source-green tests and unchanged inherited validation are not successful codecs, publication, copied-audio compatibility or native qualification.
+
+## 📌 Decisions Made
+
+### Confirmed
+
+- Work toward common Linux 9.0.2 while retaining 7.1.5 default/rollback until qualification supports promotion. **Decider:** Ahmed's direction, reconciled by the lead. **Basis:** Current architecture and exact rebuilt runtime, not a false version-only AV1 premise.
+- Add the reviewed import-inert factory and cancellation coverage as one coherent source milestone. **Decider:** Engineering lead. **Basis:** Independent source dispositions, exact restored predecessor and passing combined verification.
+- Reuse ordinary service/runner/publication and genuine candidate observer rather than a parallel framework. **Decider:** Lead/source author. **Basis:** Existing tested architecture, bounded main-owned options and no need for old report/catalog dependencies.
+- Keep failed fixture assumptions and callback timing limits explicit. **Decider:** Authors/reviewer/lead. **Basis:** Retained red logs, actual invocation timing and no production relaxation.
+
+### Deferred / held
+
+- Main/UI opt-in integration, default promotion and removal of rollback. **Decider:** Lead within owner direction, subject to meaningful current qualification. **Basis:** No direct real candidate media or native journey exists for this new composition.
+- Copied-AAC acceptance/refusal policy or guard integration. **Decider:** Owner for any reserved consequential tradeoff, informed by the lead. **Basis:** Prior reader/priming findings remain scoped evidence, not permission to change supported behavior silently.
+- Hardware/Windows and broader family qualification. **Decider:** Separate scoped engineering work. **Basis:** No relevant execution in this source milestone.
+
+## ⚠️ Difficulties / Friction
+
+- Correct cleanup intentionally leaves unsealed, unbound stage bytes. A simplistic “directory empty” assertion would mislabel conservative handling as a leak or encourage unsafe deletion.
+- Observer-backed execution cannot be represented by a bare successful promise. Synthetic fixtures must model child observation and settlement, not bypass them.
+- Test titles and comments were broader than the actual callback timing or injection boundary. Review retained the useful result but narrowed attribution to later-owner fencing and disclosed additional injected facts.
+- Prior source restoration completed before remote publication. The record must distinguish the sufficient integration gate from the later fully verified publication rather than claiming a false all-before sequence.
+
+## 🔧 Adjustments Made
+
+- **Shifted from:** Separate per-feature runtime work and a current cancellation coverage gap. **To:** An inert ordinary candidate foundation plus baseline lifecycle tests. **Because:** The owner wants a common Linux basis without accumulating untested behavior. **Consequence:** Source architecture advances while existing default behavior stays intact.
+- **Shifted from:** Empty-output/outputDisposition fixture assumptions. **To:** Actual retained-stage cleanup, no published filename and no grant assertions. **Because:** The service conservatively preserves never-bound partial data. **Consequence:** Tests now check the real safety contract; no production fix or deletion rule was introduced.
+- **Shifted from:** Fake successful candidate execution. **To:** A genuinely observed synthetic child with explicit close. **Because:** Strict observer ownership rejected unobserved success. **Consequence:** Tests exercise the guard rather than weakening it.
+- **Shifted from:** Broad callback-overlap wording. **To:** Explicit later-owner fencing evidence. **Because:** Old callbacks run after fresh preparation/batch settlement. **Consequence:** Actual pending-overlap coverage remains an identified limit, not a claimed completed test.
+
+## ❌ Mistakes / Risks Noted
+
+### 1. Fixture errors mistaken for application defects
+
+**What happened / could happen:** Initial cancellation assertions expected no stage bytes and the wrong result field; candidate fixtures returned success without an observed child.
+
+**Actual impact:** Retained source tests failed as designed. No production modification was needed to make those assumptions true.
+
+**Potential impact:** Unsafe cleanup, weakened observation or an invented bug-fix claim.
+
+**Correction / current status:** Corrected only the fixtures/expectations; retained initial logs; independent and lead suites passed. Candidate observation and existing ordinary cleanup remain strict.
+
+**Failure Intelligence:** Diagnose failing assertions against the actual ownership/cleanup contract before changing app code. Synthetic success must preserve the authority evidence that real execution requires.
+
+### 2. Source green mistaken for completed migration
+
+**What happened / could happen:** Encoder routing tests, genuine observer handles and inherited validation could be described as actual codec/publication qualification.
+
+**Actual impact:** None claimed. Positive fixed restoration is substituted; canonical capability testing is failure-only; no runtime or native execution occurred.
+
+**Potential impact:** Premature default promotion, stale evidence reuse or an unsupported media/hardware promise.
+
+**Correction / current status:** Keep 7.1.5 default/rollback, no main/UI wiring, and require fresh bounded current-source capability/media/lifecycle evidence before promotion.
+
+**Failure Intelligence:** Separate identity, source routing, synthetic ownership, successful capability execution, actual media validation and native behavior. Passing one layer does not prove the next.
+
+### 3. Recovery/currentness boundaries generalized too far
+
+**What happened / could happen:** Baseline same-service recovery could be attributed to a cancelled candidate owner, or idle cancellation could be called universal observer-token revocation.
+
+**Actual impact:** Candidate admission is deliberately sticky, and no actual candidate recovery run exists here.
+
+**Potential impact:** Reusing an invalid or closed owner, premature Start or false claims about hung-child settlement.
+
+**Correction / current status:** Cancel, drain, close and construct a fresh candidate owner. Preserve baseline fixture scope separately. No finite guarantee for a genuinely nonsettling child, no arbitrary-main adversary defense, and no pending callback-overlap claim.
+
+**Failure Intelligence:** State owner lifecycle and test timing explicitly; lifecycle words such as “recovery” are not interchangeable across compositions.
+
+## 📍 Current Position
+
+**As of:** 08:56:07.702773 Cairo / 06:56:07.702773 UTC on November 18, 2026.
+
+**Before this session:** 037 held audited AAC reader findings with policy unresolved. Existing ordinary 7.1.5 remained the default, and current ordinary cancellation lacked this composition-level fixture. The owner asked for a common newer Linux foundation.
+
+**After this session:** 037 is fully preserved. Three reviewed new files are integrated; all 624 predecessor files and working Full-copy producer identities remain unchanged. Final combined tests pass on 627 checked source files. The new candidate factory is import-inert and unwired, with no real candidate media/native proof or default change.
+
+**Current standing:** A source milestone is ready for coherent preservation, not a deployed migration. The prospective helper is V1 prepared/under review only at cutoff, with no binding/gate/run. Seven paths, 629 files and 38 commits are intended completed-checkpoint totals, not already published 038 facts in this entry.
+
+**Live owner continuation anchor:** Continue toward a common Linux 9.0.2 basis through current qualification, preserving useful working behavior and rollback. Fix demonstrated current defects, do not weaken tests to green old references or add unqualified features. Keep audio acceptance separate from runtime architecture.
+
+## 🔜 Next Steps
+
+1. Commit this seven-path source/PBS milestone, restore its full source/history/readable Session in Notion, then publish and verify the intended GitHub delta. The lead/mirror own those steps; future completion is not claimed here.
+2. Complete independent review of the prepared finite candidate ordinary helper, then bind the actual preserved source and exact runtime/evidence before any separately released run. Retain failures and full diagnostics; successful script exit alone is not qualification.
+3. Qualify canonical CPU capabilities, representative unchanged profiles, actual copied-audio/publication validation, collision, cancellation/drain and fresh-owner recovery. Only then consider explicit opt-in main/native integration and eventual evidence-based promotion.
+
+**Do not reopen / repeat:** Do not rewrite earlier entries or red logs, repin historical AV1/Full-copy evidence, silently fall back, import the held AAC guard, re-encode or omit audio as a workaround, change presets, confuse later-owner callback tests with pending overlap, or claim hardware/Windows parity from these source suites.
+
+**Continuation boundary:** New runtime/GUI work requires exact reviewed scope and preserved current-source binding. Internal one-use gates implement that safety boundary; they are not an unnecessary request for renewed user permission on already authorized project work. Consequential product acceptance choices still follow the owner's reserved decision boundary.
+
+## ❓ Open Questions
+
+- **Does the exact candidate ordinary composition pass fresh canonical capabilities and real representative CPU/audio/publication behavior?** **Needed from:** The prepared helper's final review and a separately bound, audited finite run. **Blocks:** Media qualification and promotion, not preservation of this source milestone.
+- **Does actual candidate cancellation settle safely and recover through a new owner, including resource failures?** **Needed from:** Real bounded lifecycle proof. **Blocks:** Native/default readiness; current synthetic closure is not a guarantee for all OS failures.
+- **What copied-AAC presentation/compatibility policy should the current product promise?** **Needed from:** Lead recommendation and owner where a consequential tradeoff is reserved. **Blocks:** Guard/acceptance changes, not the inert common-foundation architecture.
+- **What further native and platform evidence is needed before user-facing promotion?** **Needed from:** Current-source main-owned opt-in/native qualification and separately scoped platform work. **Blocks:** Default promotion, Windows/hardware claims and removing rollback.
+
+## 🧾 Session Outcome
+
+The project has a reviewed ordinary 9.0.2 CPU foundation and better current cancellation coverage, with **no existing production/default/main/UI changes**. Combined source tests passed **66/66, 229/229 and 310/310**, zero skips/cancellations, with unchanged checked bytes. Initial failures are preserved as fixture errors; no production defect was fabricated.
+
+This is not successful real candidate media, native integration, audio-policy resolution or a promoted common runtime. The next proof is prepared/under review only. Exact historical Session and correction records remain intact; 038 Git → Notion → GitHub preservation is the next lead-owned action.
+
+## 🔍 Confidence Level
+
+**High** in exact source scope, final test attribution, preserved owner direction and observed synthetic ownership behavior. **Limited** for real candidate capability/media/native readiness; no promotion conclusion.
+
+**Why:** Independent source reviews read retained reds and repeated meaningful affected/focused suites. Final lead tests ran the integrated source with before/after identity checks. Existing architecture and guards were reused, and all previous tracked files remained unchanged.
+
+**Not higher because:** Acquisition, child execution, inspection/capability/output facts are injected in the stated scopes; positive canonical media and full candidate publication/cancel/recovery have not run. Callback overlap, nonsettling OS closure, successful native grants, Windows/hardware and general audio fidelity remain unqualified. Green source suites do not decide audio policy or prove user-facing migration readiness.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Reconcile AAC policy history and distinguish writer signaling from reader behavior
 
 ## 🤖 Models, Effort, Roles and Provenance

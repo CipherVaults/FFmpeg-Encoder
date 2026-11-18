@@ -1,19 +1,17 @@
-# Current state: AAC reader compatibility
+# Current state: ordinary candidate foundation
 
-Checkpoint 037 cutoff: 2026-11-18T06:38:06.365588+00:00. Evidence-only; both diagnostic reconciliations complete, commit and preservation pending. No production/test/guard/default/runtime policy changes. Checkpoint 036 remains fully preserved at local `10d2c65`, remote `7d973243`, with 621 files.
+Checkpoint 038 cutoff: 2026-11-18T06:56:07.702773+00:00. Checkpoint 037 is fully preserved; this source checkpoint awaits commit and preservation. Three reviewed new files are integrated, with no change to existing main/UI/defaults/pins or audio policy.
 
-## What is now established
-
-| Evidence | Result | Limit |
+| Area | Current status | Still required |
 |---|---|---|
-| Ordinary H.265/copied AAC output | Original decoded content survives after an exposed 1,024-sample prefix | Whole audio is not identical; timestamp-only flags did not fix it |
-| System 7.1.5 reading saved candidate 9.0.2 output | Two closed children; initial_padding 1024 but no packet skip; 385,024 decoded samples | Rejects writer-only inference; no exact binary root-cause or player claim |
-| Candidate 9.0.2 reading ordinary output | Three closed children; padding 0/no skip; 385,024 output versus 384,000 same-decoder source samples | Complete source is an exact suffix after 1,024 samples; no whole-audio identity |
-| Cross-decoder source control | Equal counts but different float32 bytes | Do not compare hashes across decoders as though they were the same representation |
-| Historical remux/trim policy | Verified scoped decisions and surviving assertions | Does not automatically authorize ordinary encode/AAC-copy acceptance or refusal |
+| Common Linux 9.0.2 foundation | Owner-directed path; new ordinary factory composes fixed tools, seven dependency checks and genuine observer | Real canonical capability/media/audio/lifecycle proof, explicit opt-in route and native validation before promotion |
+| Ordinary 7.1.5 baseline | Default and rollback unchanged; finite prior service evidence remains | AAC presentation compatibility policy remains held; no blanket audio identity claim |
+| Baseline cancellation | Real factory/runner with inert children proves drainage, fresh-plan same-service recovery and later-owner callback fencing | Real OS-child/media cancellation; callbacks were tested after new preparation/batch completed, not during overlap |
+| Candidate cancellation | Sticky admission; drain/close then fresh owner | No current real candidate cancellation/recovery proof or same-owner promise |
+| Full-copy and other features | All 26 Full-copy producer pins unchanged | No new hardware/NVIDIA/Windows/HDR/Remux/1440/4K qualification |
 
-All five diagnostic children closed with empty stderr. No new compressed media, muxing, video decode, install or default change was performed. Prior ordinary warnings and finite proof limits remain. The initially reviewed admission guard is isolated and policy-held.
+Lead combined tests pass focused 66/66, protection 229/229 and explicit Linux 310/310, zero skips/cancellations. All 627 checked source files stayed byte-identical. Scopes overlap, are not summed, and are not npm test or media/native execution.
 
-Retained candidate source and upstream n7.1.5 demux differences are a causal candidate, not verified installed Debian source/binary proof. No subjective audibility, lip-sync defect, generic player compatibility, Windows or general fidelity qualification follows. Existing 298/298 Linux, 229/229 protection and 42/42 focused tests are inherited, not rerun or summed.
+Initial test failures were disclosed fixture assumptions: retained unsealed stages, cleanup-record shape and a strict observer rejecting synthetic success without an observed child. No production defect was invented to justify a fix.
 
-Next: preserve the evidence and investigate ordinary cancellation/recovery with isolated file-only real-factory/runner coverage over an inert child boundary; this work is assigned only, with no result at cutoff. Decide a proportionate audio product response without silently upgrading runtime, integrating refusal, re-encoding audio or treating historical remux rules as ordinary policy. Keep the working Full-copy producer identities and existing defaults unchanged.
+Next is a prepared five-target candidate ordinary helper V1 under independent review at cutoff, with no binding, gate or run. Later review/correction is not included. Keep 7.1.5 rollback until evidence supports promotion, preserve existing quality/defaults, and do not import old AV1 proofs or held AAC guard policy into the new foundation.

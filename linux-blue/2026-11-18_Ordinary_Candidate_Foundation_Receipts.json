@@ -1,0 +1,202 @@
+{
+  "schema": "ffmpeg-curated-checkpoint-receipts-v1",
+  "checkpoint": "038",
+  "status": "Prepared checkpoint; commit and preservation pending",
+  "expectedCheckpoint": {
+    "changedPaths": 7,
+    "files": 629,
+    "commits": 38
+  },
+  "artifacts": [
+    {
+      "path": "checkpoint038-source-integration.json",
+      "bytes": 1189,
+      "sha256": "3b6a627c1729cae52c195fa3f00a84132266ae296b7f12b8ae73e44130bfdf36"
+    },
+    {
+      "path": "checkpoint038-lead-test-results.json",
+      "bytes": 1419,
+      "sha256": "5aa105d1c7af95edc834ba03759e182efebbad323d7bc0b65a34aa367191ef66"
+    },
+    {
+      "path": "common-linux-902-foundation-direction.json",
+      "bytes": 1910,
+      "sha256": "ce6198d5b614aa8aae7eb46e76401bdd7a361de52a56356b14571773378fa107"
+    },
+    {
+      "path": "ordinary-cancellation-sourcework-evidence/HANDOFF-v1.json",
+      "bytes": 3813,
+      "sha256": "58afbd064d954194f63627f8040c0b935f5e29606e8f86e657840cc129b2cfa3"
+    },
+    {
+      "path": "ordinary-cancellation-sourcework-evidence/INDEPENDENT_REVIEW-v1.json",
+      "bytes": 5578,
+      "sha256": "ee33c407e271cfd29ccaa3b25c31919b2d73752c475537bc085d3dc64eae4a58"
+    },
+    {
+      "path": "ordinary-cancellation-sourcework-evidence/INDEPENDENT_TEST_RECEIPT-v1.json",
+      "bytes": 1436,
+      "sha256": "768158551743799f1d91280b20b69dc7ab68356195df00ed547a8a5c964f318e"
+    },
+    {
+      "path": "candidate-ordinary-sourcework-evidence/HANDOFF-v1.json",
+      "bytes": 2594,
+      "sha256": "3a222b847b8d43063036239395392e676438b53fb57c8b6744636e1723d1992e"
+    },
+    {
+      "path": "candidate-ordinary-sourcework-evidence/INDEPENDENT_REVIEW-v1.json",
+      "bytes": 7164,
+      "sha256": "030253a8f4e0bf9b86646639878fc6d99d0f5a9008d6dbae44d4d8c470ab11f8"
+    },
+    {
+      "path": "candidate-ordinary-sourcework-evidence/INDEPENDENT_TEST_RECEIPT-v1.json",
+      "bytes": 1626,
+      "sha256": "41a6d00874e8efa8ff2de961e856a986dea805e729d544c186f15470c6044332"
+    },
+    {
+      "path": "checkpoint038-lead-tests/focused.json",
+      "bytes": 3315,
+      "sha256": "d36c168ce0c2e443ca3d57b65dffbcf794109722ac6283e07e4de0c3015bbf3c"
+    },
+    {
+      "path": "checkpoint038-lead-tests/protection.json",
+      "bytes": 3459,
+      "sha256": "6cf9a86f17bdf2dc0ba0f3842b3e9c56772c70bd3798df33167c823acdaf494c"
+    },
+    {
+      "path": "checkpoint038-lead-tests/linux-broad.json",
+      "bytes": 11201,
+      "sha256": "1c6536b1d7603569e79f043b24333b593785653240b57db72660708595d86617"
+    },
+    {
+      "path": "checkpoint038-cutoff.json",
+      "bytes": 616,
+      "sha256": "5a9da57d8b2f6848477fa97a1044accf7ad6622a18843f3c81a8e4b7b7c77e9d"
+    },
+    {
+      "path": "checkpoint038-source.patch",
+      "bytes": 29196,
+      "sha256": "a87478b40c2a100c54192f18024d4415fb5f52adc097a85b435f0021bcb200f2"
+    },
+    {
+      "path": "checkpoint-514c9d8-publication-receipt.json",
+      "bytes": 163738,
+      "sha256": "b4fbf54d2547d2b3d00732aa16365e576f42ad7ecfda832a80a8f183fd965ac7"
+    },
+    {
+      "path": "notion-checkpoint-037-verification.json",
+      "bytes": 111269,
+      "sha256": "83edbdfbd0b781dff9f2bce0ae0c422d5cb7529d1762baf2f142c9f8ed7a8481"
+    },
+    {
+      "path": "github-checkpoint037-verification.json",
+      "bytes": 3208,
+      "sha256": "774aff4bcd45389c94f6a27b9965a941d66ff1cb782f1fe1b1267a82f9fc542a"
+    }
+  ],
+  "integration": {
+    "integratedAtUtc": "2026-11-18T06:51:36.675069+00:00",
+    "baseCheckpoint": "514c9d8786885c9e75fc25887ff8878e9d3ba73f",
+    "sourceProposalBase": "10d2c65d71f35d8b0146a43280516fb2d069b70d",
+    "priorTrackedFilesByteExact": 624,
+    "files": [
+      {
+        "path": "linux-blue/candidate-ordinary-service.cjs",
+        "bytes": 7119,
+        "sha256": "ac5308398bca6390ffe62423eb59fac8481f28e8cefe32431bfd7b65973ec035"
+      },
+      {
+        "path": "linux-blue/candidate-ordinary-service.test.cjs",
+        "bytes": 10801,
+        "sha256": "6512cad146d980c577031c069217a50e2b14d96733b2f291493c3d1b386b1461"
+      },
+      {
+        "path": "linux-blue/workbench-cancellation-recovery.test.cjs",
+        "bytes": 10185,
+        "sha256": "cdd29deb87ca3aefbb3b2b4111fc8c02a618042f234507eaff2499879a5f7244"
+      }
+    ],
+    "preservationGate": "037 source and full history independently restored; full native records and GitHub mapping still pending at integration",
+    "sourceScope": "One new inert ordinary 9.0.2 factory and two test files, no existing code/default/runtime/main/UI/pin changes.",
+    "qualification": "Source proposal reviewed; lead tests pending. No media/native qualification or audio-policy change."
+  },
+  "leadTests": {
+    "completedAtUtc": "2026-11-18T06:52:11.745456+00:00",
+    "baseLocalCommit": "514c9d8786885c9e75fc25887ff8878e9d3ba73f",
+    "testedIntegratedSource": true,
+    "runtimeOrNativeExecuted": false,
+    "runs": [
+      {
+        "path": "checkpoint038-lead-tests/focused.json",
+        "bytes": 3315,
+        "sha256": "d36c168ce0c2e443ca3d57b65dffbcf794109722ac6283e07e4de0c3015bbf3c",
+        "summary": {
+          "tests": 66,
+          "suites": 0,
+          "pass": 66,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      },
+      {
+        "path": "checkpoint038-lead-tests/protection.json",
+        "bytes": 3459,
+        "sha256": "6cf9a86f17bdf2dc0ba0f3842b3e9c56772c70bd3798df33167c823acdaf494c",
+        "summary": {
+          "tests": 229,
+          "suites": 0,
+          "pass": 229,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      },
+      {
+        "path": "checkpoint038-lead-tests/linux-broad.json",
+        "bytes": 11201,
+        "sha256": "1c6536b1d7603569e79f043b24333b593785653240b57db72660708595d86617",
+        "summary": {
+          "tests": 310,
+          "suites": 0,
+          "pass": 310,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      }
+    ],
+    "checkedSourceFiles": 627,
+    "sourceBytesUnchanged": true,
+    "overlappingScopesNotSummed": true
+  },
+  "independentTests": {
+    "ordinaryCancellationAffected": 203,
+    "candidateFocused": 63,
+    "notSummed": true
+  },
+  "limits": [
+    "No main/UI/default/runtime pin or audio policy change; Full-copy26 unchanged.",
+    "VM acquisition and genuine observer over inert files; canonical capability failure path only, no positive real runtime/media qualification.",
+    "Baseline same-service recovery differs from sticky candidate drain/close/new-owner requirement.",
+    "Old callbacks invoked after fresh preparation/new batch completes, not pending overlap.",
+    "Seven dependency identities are not exhaustive ELF closure.",
+    "Manual scoped source review not Security Cloud qualification.",
+    "Future helper preparation is not execution or a result."
+  ],
+  "cutoffUtc": "2026-11-18T06:56:07.702773+00:00",
+  "priorPublication": {
+    "localCommit": "514c9d8786885c9e75fc25887ff8878e9d3ba73f",
+    "remoteCommit": "738138422c586e886b63ea99ffe1771ddf4e0fd0",
+    "githubVerifiedAtUtc": "2026-11-18T06:55:05.607181+00:00",
+    "completeBeforeCutoff": true,
+    "integrationAfterBothRestoresBeforeCompletePublication": true
+  },
+  "nextProof": "Five-target helper V1 prepared and under independent review at cutoff; no binding/gate/run. No later review or correction included."
+}

@@ -135,3 +135,13 @@ test('fixed candidate acquisition failure produces no service or baseline fallba
   assert.equal(h.counts().acquisitions, 1); assert.equal(h.calls.length, 0);
   await assert.rejects(fs.stat(path.join(h.root, 'not-created')), { code: 'ENOENT' });
 });
+
+test('ordinary snapshot publishes sticky closed notice synchronously before cancellation drainage',async t=>{
+ const h=await fixture(t),s=await h.api.createCandidateOrdinaryService({stateDir:h.root});
+ const updates=[];s.on('update',snapshot=>updates.push(snapshot));
+ const before=s.snapshot();assert.equal(before.developerOrdinary.relaunchRequired,false);
+ const cancellation=s.cancelCurrent();assert.equal(updates[0].developerOrdinary.relaunchRequired,true);
+ assert.match(updates[0].developerOrdinary.relaunchNotice,/drain.*relaunch/);
+ await cancellation;assert.equal(s.snapshot().developerOrdinary.relaunchRequired,true);
+ await s.closeOperationResources();
+});

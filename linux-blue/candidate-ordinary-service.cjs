@@ -1,5 +1,5 @@
 'use strict';
-// Inert, main-owned ordinary CPU composition. Not wired to main/UI/defaults.
+// Explicit main-owned ordinary CPU developer composition; defaults unchanged.
 // Exact runtime bytes are prerequisites, not general media qualification.
 const fs = require('node:fs/promises');
 const path = require('node:path');
@@ -70,10 +70,18 @@ function loaderGuard() {
 class CandidateOrdinaryService extends LinuxWorkbenchService {
   #runtime; #closePromise;
   constructor(options, runtime) { super(options); this.#runtime = runtime; }
+  snapshot() {
+    const snapshot = super.snapshot();
+    snapshot.developerOrdinary = { enabled: true, relaunchRequired: this.admissionClosed,
+      notice: 'Experimental ordinary FFmpeg 9.0.2 CPU · Full / Keep source / copied audio · 30-minute encode limit. Media and native qualification remain scoped; no default runtime promotion.',
+      relaunchNotice: 'This developer session is closed to new work. Wait for cancellation to drain, then close and relaunch. Same-session retry is unavailable.' };
+    return snapshot;
+  }
   async cancelCurrent() {
     // A cancellation invalidates the candidate observer. Never silently revive
     // it for a later batch; main must construct a fresh owner after drainage.
     this.closeAdmission();
+    this.emitState();
     return super.cancelCurrent();
   }
   closeOperationResources() {

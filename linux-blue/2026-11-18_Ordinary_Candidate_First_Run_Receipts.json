@@ -1,0 +1,289 @@
+{
+  "schema": "ffmpeg-curated-checkpoint-receipts-v1",
+  "checkpoint": "039",
+  "status": "Prepared checkpoint; preservation pending",
+  "sourceCommit": "5193b820e5940713432c686ae04fa77e7099db89",
+  "sourceFiles": 629,
+  "scope": "Seven integrated opt-in route paths plus five PBS/evidence paths; original failed media remains attributed to immutable 038",
+  "artifacts": [
+    {
+      "path": "candidate-ordinary-service-qualification-preparation/REPORT.json",
+      "bytes": 110608,
+      "sha256": "3624c465aec1c880048716c09d7577537565756c5e16d3d92a2fee52ef4c3799"
+    },
+    {
+      "path": "candidate-ordinary-service-qualification-preparation/COMPLETION.json",
+      "bytes": 261,
+      "sha256": "405fe6c5f62f9e76080998429ed07e44522293f262d2015f27d0922a634b95ee"
+    },
+    {
+      "path": "candidate-ordinary-service-qualification-preparation/OUTER_COMPLETION.json",
+      "bytes": 474,
+      "sha256": "2f1d8391a8080eef4a27253c3ba480349ead2a8b8871aa3b25bf8582e2b882ac"
+    },
+    {
+      "path": "candidate-ordinary-service-qualification-preparation/INDEPENDENT_FAILURE_AUDIT.json",
+      "bytes": 72944,
+      "sha256": "a1431d9b3c3e08bee66ec62772f2eb9eb7b0a1efc13b9852c5d591fcb05163d4"
+    },
+    {
+      "path": "candidate-ordinary-service-qualification-preparation/INDEPENDENT_PREPARATION_REVIEW-v1.json",
+      "bytes": 5990,
+      "sha256": "9fe62150d9b57f572c34214e15aa20069b007e56740a47bd8ef234f95547dbad"
+    },
+    {
+      "path": "candidate-ordinary-service-qualification-preparation/INDEPENDENT_PREPARATION_REVIEW-v2.json",
+      "bytes": 6424,
+      "sha256": "7a50e61226693343f07cf05334207419ba15eec0a6c27a31da77f95d62e11bb4"
+    },
+    {
+      "path": "candidate-ordinary-service-qualification-preparation/BINDING_PROGRAM_REVIEW.json",
+      "bytes": 3014,
+      "sha256": "4fa156af6d1a17876401d534a03ce26df17a29abec215fa7349af66bf442775b"
+    },
+    {
+      "path": "candidate-ordinary-service-qualification-preparation/HANDOFF-v2.json",
+      "bytes": 8045,
+      "sha256": "4d540b1a29ecc4c641917464821f562c120c227d0172e481c571aeb3cad3c789"
+    },
+    {
+      "path": "candidate-ordinary038-terminal-observation.json",
+      "bytes": 3478,
+      "sha256": "8f0d124fbaf030f5b044c669c7c241de999463e4b4e10e2676f0fb0ae404b5cd"
+    },
+    {
+      "path": "candidate-ordinary038-binding-prewrite-correction.json",
+      "bytes": 677,
+      "sha256": "37607a1e2d38482784ce0b94356f3c800dd06027536691a5643acebd1de4d687"
+    },
+    {
+      "path": "notion-checkpoint-038-verification.json",
+      "bytes": 112674,
+      "sha256": "d0582000a72747f30eb4db97fc0cf600f8fcb51e2815482ae2743f3860e7b3ca"
+    },
+    {
+      "path": "github-checkpoint038-verification.json",
+      "bytes": 3776,
+      "sha256": "6359b1a146ab990ca6d9c84e1dd70e49e383eb9807a46fa8cf518e3d92ec3bf1"
+    },
+    {
+      "path": "ordinary-route-sourcework-evidence/HANDOFF-v1.json",
+      "bytes": 4204,
+      "sha256": "02dd5a6d8d10a20288c5ac78c71b3deb96777c9608b5af027a05e07e026e8a84"
+    },
+    {
+      "path": "ordinary-route-sourcework-evidence/INDEPENDENT_REVIEW-v1.json",
+      "bytes": 7243,
+      "sha256": "690d6c9646d67cde5d314ee16509a09ca81c4ce26c5d8d0faad3021c19625c9a"
+    },
+    {
+      "path": "ordinary-route-sourcework-evidence/ordinary-route-v1.patch",
+      "bytes": 28547,
+      "sha256": "58a21e454bd91d57255ae9dc8b706aec243389c1c0843768aeeaf0695fbf33f9"
+    },
+    {
+      "path": "candidate-ordinary-service-qualification-preparation/LEAD_RECONCILIATION.json",
+      "bytes": 4078,
+      "sha256": "0fa05928923616f63ec5fc420a459703d004213b7ef023b156ece404f603b046"
+    },
+    {
+      "path": "checkpoint039-source-integration.json",
+      "bytes": 2848,
+      "sha256": "f135d0b1417cb16280bae32fceceb4ff34e7511f4a6a3ff51924c2a806f548c8"
+    },
+    {
+      "path": "checkpoint039-lead-test-results.json",
+      "bytes": 1421,
+      "sha256": "86ca9585c47477de4946385d92249bfe86a3a32cec55f558c28daf8d868f9e39"
+    },
+    {
+      "path": "candidate-ordinary-remaining039-preparation/INDEPENDENT_PREPARATION_REVIEW-v1.json",
+      "bytes": 6940,
+      "sha256": "01079deeaadb201636bb673b1137f0da3bbf9846b03dce4ae3caf40893f66e45"
+    },
+    {
+      "path": "checkpoint039-lead-tests/focused.json",
+      "bytes": 5084,
+      "sha256": "9801d7f32debf8320e236da546cb1c9ca02fd693829309d34ca6db131ddd3308"
+    },
+    {
+      "path": "checkpoint039-lead-tests/protection.json",
+      "bytes": 4631,
+      "sha256": "ec3f69aaa762b2c28ec88d5c4a0adae9e22ff9b8a44eb23f0a19a1beb8fab4f0"
+    },
+    {
+      "path": "checkpoint039-lead-tests/linux-broad.json",
+      "bytes": 12841,
+      "sha256": "631673c363d61fe804418d7e23f3271ef71e86e7ae268106667b860ba3b9209d"
+    }
+  ],
+  "result": {
+    "campaign": "failed-retained",
+    "cases": 0,
+    "targets": 1,
+    "closedChildren": 39,
+    "unspawnedGpuRefusals": 8,
+    "sameDecoderSamples": 384000,
+    "wholeSameDecoderPcmEqual": true,
+    "successfulReveal": false,
+    "normalDiagnosticTerminalConfirmed": false,
+    "nonemptyStderr": 7,
+    "truncatedContexts": [
+      6,
+      13
+    ]
+  },
+  "limits": [
+    "Full output hash first independently persisted by audit; original case append unreached.",
+    "No H265/AV1 publication, collision/cancel/recovery, native or general audio policy qualification.",
+    "Retained owner is not live-child proof.",
+    "New route is file-tested but not natively qualified. Earlier H264 media applies to immutable 038, not the new bytes. Successor is conditionally reviewed only, without binding/gate/run."
+  ],
+  "expectedCheckpoint": {
+    "changedPaths": 12,
+    "files": 634,
+    "commits": 39
+  },
+  "route": {
+    "independentFocusedPass": 173,
+    "authorBroadPass": 317,
+    "nativeExecuted": false,
+    "sharedRendererChanged": true,
+    "defaultChanged": false
+  },
+  "cutoffUtc": "2026-11-18T07:22:29.171263+00:00",
+  "integration": {
+    "integratedAtUtc": "2026-11-18T07:21:37.878037+00:00",
+    "baseLocalCommit": "5193b820e5940713432c686ae04fa77e7099db89",
+    "release": {
+      "path": "candidate-ordinary-service-qualification-preparation/LEAD_RECONCILIATION.json",
+      "bytes": 4078,
+      "sha256": "0fa05928923616f63ec5fc420a459703d004213b7ef023b156ece404f603b046"
+    },
+    "handoff": {
+      "path": "ordinary-route-sourcework-evidence/HANDOFF-v1.json",
+      "bytes": 4204,
+      "sha256": "02dd5a6d8d10a20288c5ac78c71b3deb96777c9608b5af027a05e07e026e8a84"
+    },
+    "review": {
+      "path": "ordinary-route-sourcework-evidence/INDEPENDENT_REVIEW-v1.json",
+      "bytes": 7243,
+      "sha256": "690d6c9646d67cde5d314ee16509a09ca81c4ce26c5d8d0faad3021c19625c9a"
+    },
+    "files": [
+      {
+        "path": "linux-blue/workbench-main.cjs",
+        "beforeSha256": "3ffe743851ba972d583be2a68f76d110b9de8b5e73c19d0cca04a37f44492b7e",
+        "bytes": 15390,
+        "sha256": "db7ff86e5ead2a93083fa5fd20e6e2af9f36cd308d992d364f94ab585267519d"
+      },
+      {
+        "path": "linux-blue/workbench-runtime-choice.cjs",
+        "beforeSha256": "3cbf60583f95097f4de8dc15b8a45465c7c0f9ba49d08816e33ca65b135b5e76",
+        "bytes": 1615,
+        "sha256": "4c0248010ca4034298a825603cb29891ccc8c22b11de81250d3a21e5f787d492"
+      },
+      {
+        "path": "linux-blue/candidate-ordinary-service.cjs",
+        "beforeSha256": "ac5308398bca6390ffe62423eb59fac8481f28e8cefe32431bfd7b65973ec035",
+        "bytes": 7672,
+        "sha256": "0802b27544d17e39feb322420554837f361e5f766a582d5a4150c31c4f4e79cf"
+      },
+      {
+        "path": "linux-blue/candidate-ordinary-service.test.cjs",
+        "beforeSha256": "6512cad146d980c577031c069217a50e2b14d96733b2f291493c3d1b386b1461",
+        "bytes": 11470,
+        "sha256": "33d06df7b361927a16b0a780e88a210ed4eb95991d29959cba27002bffd3b6f4"
+      },
+      {
+        "path": "ui/renderer.js",
+        "beforeSha256": "ffaa2e56e28e7168aa8bf42cf56129d88a496cb2f544305e8e9604ac45b35f76",
+        "bytes": 150282,
+        "sha256": "51adb5045cf68d058c7e896df8771ef28bd01009f353dd9ccf0d6ae612f57a44"
+      },
+      {
+        "path": "linux-blue/candidate-ordinary-route.test.cjs",
+        "beforeSha256": null,
+        "bytes": 7896,
+        "sha256": "b6e30a8a8461dca1c82b30e22097fd8ee3c62f1be054a9b2e7aa8375830c8e66"
+      },
+      {
+        "path": "linux-blue/candidate-ordinary-renderer.test.cjs",
+        "beforeSha256": null,
+        "bytes": 10189,
+        "sha256": "ff32efba158e4a0f637a90ad4cc6065154aa4756e1b0feaf0292686d3e11b484"
+      }
+    ],
+    "baseTrackedFiles": 629,
+    "unchangedBaseFiles": 624,
+    "proposedSourceFiles": 631,
+    "limits": [
+      "Actual media remains attributed to038; new route snapshot/main/renderer source is not natively qualified.",
+      "Default7.1.5, Full-copy pins, audio policy, Windows main, preload, IPC, HTML/CSS remain unchanged; shared renderer changes.",
+      "No runtime executed during integration."
+    ]
+  },
+  "leadTests": {
+    "completedAtUtc": "2026-11-18T07:21:59.207809+00:00",
+    "baseLocalCommit": "5193b820e5940713432c686ae04fa77e7099db89",
+    "testedIntegratedSource": true,
+    "runtimeOrNativeExecuted": false,
+    "runs": [
+      {
+        "path": "checkpoint039-lead-tests/focused.json",
+        "bytes": 5084,
+        "sha256": "9801d7f32debf8320e236da546cb1c9ca02fd693829309d34ca6db131ddd3308",
+        "summary": {
+          "tests": 173,
+          "suites": 0,
+          "pass": 173,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      },
+      {
+        "path": "checkpoint039-lead-tests/protection.json",
+        "bytes": 4631,
+        "sha256": "ec3f69aaa762b2c28ec88d5c4a0adae9e22ff9b8a44eb23f0a19a1beb8fab4f0",
+        "summary": {
+          "tests": 229,
+          "suites": 0,
+          "pass": 229,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      },
+      {
+        "path": "checkpoint039-lead-tests/linux-broad.json",
+        "bytes": 12841,
+        "sha256": "631673c363d61fe804418d7e23f3271ef71e86e7ae268106667b860ba3b9209d",
+        "summary": {
+          "tests": 317,
+          "suites": 0,
+          "pass": 317,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      }
+    ],
+    "checkedSourceFiles": 631,
+    "sourceBytesUnchanged": true,
+    "overlappingScopesNotSummed": true
+  },
+  "successor": {
+    "independentFileTestsPassed": 17,
+    "oldContractExpectedFailures": 2,
+    "runtimeExecuted": false,
+    "gateCreated": false,
+    "reviewDisposition": "Conditional GO for future exact source/preservation binding and separately released campaign"
+  }
+}

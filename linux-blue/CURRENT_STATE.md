@@ -1,17 +1,15 @@
-# Current state: ordinary candidate foundation
+# Current state: first ordinary candidate run
 
-Checkpoint 038 cutoff: 2026-11-18T06:56:07.702773+00:00. Checkpoint 037 is fully preserved; this source checkpoint awaits commit and preservation. Three reviewed new files are integrated, with no change to existing main/UI/defaults/pins or audio policy.
+Checkpoint 039 owning-record cutoff: 2026-11-18T07:22:29.171263+00:00. Seven independently reviewed opt-in route source/test paths are integrated; preservation is pending. No default or audio-policy change.
 
-| Area | Current status | Still required |
-|---|---|---|
-| Common Linux 9.0.2 foundation | Owner-directed path; new ordinary factory composes fixed tools, seven dependency checks and genuine observer | Real canonical capability/media/audio/lifecycle proof, explicit opt-in route and native validation before promotion |
-| Ordinary 7.1.5 baseline | Default and rollback unchanged; finite prior service evidence remains | AAC presentation compatibility policy remains held; no blanket audio identity claim |
-| Baseline cancellation | Real factory/runner with inert children proves drainage, fresh-plan same-service recovery and later-owner callback fencing | Real OS-child/media cancellation; callbacks were tested after new preparation/batch completed, not during overlap |
-| Candidate cancellation | Sticky admission; drain/close then fresh owner | No current real candidate cancellation/recovery proof or same-owner promise |
-| Full-copy and other features | All 26 Full-copy producer pins unchanged | No new hardware/NVIDIA/Windows/HDR/Remux/1440/4K qualification |
+The first current 9.0.2 ordinary campaign failed in helper contracts after one real H.264 publication. Its cases array is empty, and H.265/AV1, collision, active cancellation and fresh-owner recovery remain unexecuted. All 39 owned children closed; retained helper owner is not evidence of a live process.
 
-Lead combined tests pass focused 66/66, protection 229/229 and explicit Linux 310/310, zero skips/cancellations. All 627 checked source files stayed byte-identical. Scopes overlap, are not summed, and are not npm test or media/native execution.
+The saved H.264 output has 240 frames at 1920×1080 and passed strict video decode. Source/output audio is exactly equal as full PCM under the same candidate decoder, 384,000 sample instants, with matching packet payload/header/skip evidence. This finite result does not override prior cross-reader limitations or settle general audio policy.
 
-Initial test failures were disclosed fixture assumptions: retained unsealed stages, cleanup-record shape and a strict observer rejecting synthetic success without an observed child. No production defect was invented to justify a fix.
+Failure: the injected reveal sink returned an array-push number, which genuine OutputAccess correctly rejected. Finally also supplied an invalid diagnostic terminal outcome. No successful reveal or normal diagnostic terminal confirmation is claimed. Seven child stderr streams remain warning-bearing; two diagnostic contexts are truncated.
 
-Next is a prepared five-target candidate ordinary helper V1 under independent review at cutoff, with no binding, gate or run. Later review/correction is not included. Keep 7.1.5 rollback until evidence supports promotion, preserve existing quality/defaults, and do not import old AV1 proofs or held AAC guard policy into the new foundation.
+Next: preserve this coherent source/evidence checkpoint, then bind and separately release the reviewed focused remaining-case helper. Its independent 17/17 file-only tests include genuine API regression controls; no binding, gate or runtime attempt exists at this cutoff. No retry, UI/default promotion or additional runtime is claimed. Existing 7.1.5 rollback and all Full-copy producer pins remain unchanged.
+
+The explicit main-owned `--blue-runtime=9.0.2-ordinary-candidate` route adds a separate developer route and sticky relaunch notice. Shared renderer changes also affect Windows source, but native Windows and this native route have not run. Independent 173/173 source tests are not media/native qualification; the earlier H.264 proof remains attributed only to immutable 038.
+
+Final lead file-only checks passed 173/173 focused, 229/229 protection and 317/317 explicit Linux tests, with zero skips/cancellations. The scopes overlap and are not summed; this was not npm test or a native run. All 631 checked source files remained byte-identical through the tests.

@@ -1,3 +1,244 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Preserve the first ordinary candidate publication, repair proof gaps, and add an opt-in route
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model / effort attribution | Evidence and limit |
+|---|---|---|
+| Engineering lead | GPT-6 Astra / Ultra, recorded assignment, not backend attestation | Bound one finite campaign to preserved 038, reconciled its failed outcome, released source ownership and integrated a separately reviewed opt-in route. |
+| Helper authors / independent reviewers | Not independently established here | Retained V1 blocker, corrected V2 abort reachability and independently reviewed later genuine-API successor tests. Review missed two successful API contracts in the original run. |
+| Media executor / saved-output auditor | Not independently established here | One real campaign on immutable 038; separate audit rehashed retained evidence without another probe/decode. |
+| Route source author / reviewer / records | Not independently established here | Seven-path source proposal, VM/DOM tests, final integrated tests and exact record preservation. No native route execution. |
+
+**Record basis:** The first five-target ordinary 9.0.2 campaign is **failed-retained**, with `cases: []`. It nevertheless produced one independently supported **H.264 publication**, with 240 frames and **exact whole same-candidate-decoder source/output audio equality at 384,000 sample instants**. A helper reveal callback returned the wrong type; cleanup then selected an invalid diagnostic outcome. Those are not demonstrated encoding defects, and successful publication does not turn the campaign green. After audit and source release, seven reviewed route files were integrated, with final **173/173 focused, 229/229 protection and 317/317 explicit Linux tests** passing. Media belongs to old **038**; changed main/snapshot/renderer bytes are source-tested, not natively qualified. Default 7.1.5, rollback and audio policy remain unchanged.
+
+## 🕒 Time
+
+**Stage / type / focus:** Bounded ordinary-candidate qualification attempt, failed-proof diagnosis, and source-only opt-in route integration.
+
+**Date and clock:** November 18, 2026. Africa/Cairo is UTC+02:00. Fixed cutoff: **09:22:29.171263 Cairo / 07:22:29.171263 UTC**. Chronology below is UTC; total active effort was not measured.
+
+- Prior 038 cutoff remains **06:56:07.702773**. Later helper findings belong here.
+- V1 helper review requiring corrections: **06:57:02.676449**; V2 handoff: **07:00:34.207607**; conditional V2 review: **07:01:59.653145**.
+- Route handoff: **07:03:27.425349**; independent route review/test completion: **07:04:47.249409**.
+- Binding-program review: **07:09:05.732544**; 038 GitHub verification: **07:09:28.220736**; fresh binding authorization: **07:11:03.447748**.
+- Actual outer attempt: **07:11:20.075–07:11:41.867**, exit 1; inner report finished **07:11:41.850**. Outer measured elapsed **21,783.642437 ms**, inner **17,910.853607 ms**. These are separate measured scopes, not an encoding benchmark.
+- Saved-output failure audit: **07:14:33.638319**.
+- Separate remaining-path helper conditional review: **07:21:18.474249**, file-only, no run.
+- Lead source release/reconciliation: **07:21:37.839902**; seven-file integration: **07:21:37.878037**; final lead test receipt: **07:21:59.207809**.
+- **Fixed cutoff: 2026-11-18T07:22:29.171263+00:00.** Later binding/native preparation or execution is excluded.
+
+**End / stopping point:** All 39 owned campaign children closed and the failed attempt was audited. Normal diagnostic terminal closure was not confirmed. Reviewed route source is integrated and source tests pass; the separate four-target successor is conditionally reviewed but has no binding, gate or run.
+
+**Reason for this summary:** Preserve a useful measured publication without hiding the failed proof or overstating cleanup, and preserve actual application progress without attributing old-source media evidence to new route bytes.
+
+## 🎯 Session Goal
+
+Continue Ahmed's common Linux 9.0.2 direction through real current-source evidence while retaining the working 7.1.5 default/rollback. Exercise fresh CPU capabilities, ordinary publication, copied-audio presentation, output access, collision and candidate cancellation/fresh-owner recovery. Keep quality defaults and the separate audio-policy decision intact.
+
+The first attempt did not reach that full finish line. The revised milestone therefore records its supported H.264 subset, repairs the genuine API preflight gaps in a separate helper, and combines independently reviewed explicit opt-in source wiring with the evidence. Do not repeat completed encoding merely to erase an earlier red report, promote the runtime, or claim Windows/hardware parity from source tests.
+
+## 🛠️ Actions Taken
+
+### 1. Complete 038 preservation before binding the real campaign
+
+038 is local `5193b820e5940713432c686ae04fa77e7099db89`, tree `e79dfc6d490ac67a9032bcce1874eefead574e5a`, **629 files / 38 commits**. [Notion source and full history](https://app.notion.com/p/41cbd7ade63b811189f3fd62630f0e22) restored exact source and full bundle. [The readable Session](https://app.notion.com/p/41cbd7ade63b81efb7b4c0ec1d6a21d9) returned all 38 entries and the historical ending. Exact archive identity protects the **1,788,104-byte** predecessor, SHA-256 `8a8a3db975d836c423cfd4203adef8fef46ae3e6e5ee6400749938a3c8e66891`, retained byte-for-byte below this entry.
+
+GitHub `blue/linux-development` verified remote `25a95d239899ab7c5f4af5869e192934d11755e1`, sole parent `738138422c586e886b63ea99ffe1771ddf4e0fd0`, tree `b96705dd3cc4116e6e1ab368d0d5f204dc58a9f2`. Seven exact file readbacks, full immutable Session blob, non-force expected-parent update and fresh ref passed: **1,011 total / 1,004 unchanged / two modified / five new / zero deleted**. Final independent Notion verification is **112,674 bytes / `d0582000a72747f30eb4db97fc0cf600f8fcb51e2815482ae2743f3860e7b3ca`**. The campaign bound actual completed preservation, not a pending receipt or an old Full-copy report.
+
+### 2. Correct the material V1 helper blocker before any media execution
+
+V1's seven pure/file tests and syntax checks did not establish active orchestration behavior. Review found that AbortController could abort while a capability, preparation, publication, audio or cancellation promise remained pending forever. That prevented reaching `finally`, bounded close observation and failure persistence. The 120-second cancellation observation had the same reachability gap.
+
+V2 observes abort at actual active await sites, including acquisition/initialization and registration. Shared abort/per-owner close deadlines are not reset into another full wait on repeated cleanup. Pending labels and retained owners remain explicit; no fresh owner is admitted while abort, unresolved work or the old service remains. A late factory result closes admission and initiates cleanup rather than reviving the campaign. This improves reachability, **not guaranteed process termination**: underlying promises can settle after a failed report, filesystem/Git/hash/persistence calls have no global hard stop, and OS children may keep Node alive.
+
+V2 also corrects numeric sorting of `[8, 10]`, which string sorting would make `[10, 8]`, and asserts cancelled final-path absence and no output grant/publication without assuming optional cleanup shape. Six actual-main VM scenarios exercise the real selected capability/prepare/publication/audio/cancel-task/cancel-promise await sites with synthetic factories/services, source/pin checks removed and unrelated successful stages substituted. The isolated V1 watchdog reds include a disclosed **in-memory numeric-sort correction** solely to reach the deeper wait defect; they are not untouched full V1 campaign runs. Factory late-return and initialization protections were statically traced, not directly exercised by those six cases.
+
+Independent **14/14 file/VM checks** and syntax passed against stable V2. Original V1 artifacts and intermediate failed controls remain preserved. This did not test successful genuine OutputAccess/diagnostics contracts, a gap exposed later. Final V2 handoff is **8,045 bytes / `4d540b1a29ecc4c641917464821f562c120c227d0172e481c571aeb3cad3c789`**, review **6,424 bytes / `7a50e61226693343f07cf05334207419ba15eec0a6c27a31da77f95d62e11bb4`**.
+
+### 3. Bind and execute one finite ordinary candidate attempt
+
+Before binding, the lead program was corrected to reject optimized Python explicitly, verify the exact seven 038 delta paths and all 629 committed/current source identities, and bind final source/history/native/remote evidence. Its reviewed `python3 -O` refusal exited before binding creation. The original program and correction receipt remain; no uncorrected success path or old gate was replayed.
+
+The fresh binding is **84,965 bytes / `b0ffd2cea9a36dc6f9b09c236b718d60728ca13c07303c9eec896d6e30b805ff`**. It allowed one campaign with five semantic targets: three short H.264/H.265/SVT-AV1 publications, one positive-progress early long-source cancellation, then a short H.265 publication on a new owner. The latter four target steps did not all occur; the actual result below governs.
+
+Instrumentation surrounded the real factory's original runner rather than replacing acquisition, inspection, capabilities or publication validation. The fixed candidate pair/dependencies and actual ordinary service remained intact. Limits were 128 admitted children, serial one, a 30-minute overall abort request and unchanged normal target ceiling, bounded non-target calls/captures, 27 GiB free and 2 GiB owned point checks. They are not quotas, exhaustive ELF closure, a full OS census or guaranteed exit. Five targets and spare child headroom are not permission for additional cases.
+
+Fresh capability work preceded the first real target. Capability microfixtures are distinct from full ordinary publications; unspawned GPU refusals are not GPU tests. Same-decoder source audio reference and intended publication checks were captured, with mismatches meant to stop experimental qualification, not silently become a new application refusal policy.
+
+### 4. Preserve what genuinely completed: one H.264 publication with exact audio equality
+
+The actual service published **H.264 CPU, slower / CRF 24, Full/null, Keep source, copied audio** for the known eight-second input. Terminal snapshot and provenance support a **4,572,907-byte** output. Independent audit first established/persisted its full SHA-256: `85e2672186127f10dd353bdf10b08b4196d7db91b59a26fafb2b0323fca9a7e0`. The helper had computed a full hash in memory but failed before appending the case; **the original report does not persist this full output hash**. Sparse publication identity is not a substitute.
+
+Retained candidate probe evidence counts **240 H.264 frames at 1920×1080**. A separate strict video-only `-xerror` decode, invocation 45, exited zero. Frame-count probing itself traverses/decodes; this is not a claim of one decoder traversal or an independent auditor re-decode.
+
+Source and output, decoded with the same candidate and options, each contain **384,000 sample instants / 375 frames**, with **exact whole PCM SHA-256 `200ca1c2a6804c139d5d7637caf507b686b30f7dfdf4b5c11ca629855e82a9a4`**. No fitted prefix removal was used. The **376 packet payload sequence**, codec extradata and skip/discard signaling match. Both first packets retain Skip Samples 1024; source PTS is −1024 at 48 kHz, output −21 on a millisecond clock, and both first decoded frame PTS are zero. Equality of decoded content does not require pretending rounded container timestamps are identical.
+
+This is useful finite **current ordinary H.264** evidence, not complete five-target success, all-player compatibility, subjective audibility, arbitrary inputs, H.265/AV1 publication or a new audio-policy decision. Prior cross-reader findings remain valid: current-reader equality does not prove every other reader applies skip metadata.
+
+### 5. Retain the exact failure chain and its cleanup limits
+
+The helper passed an expression-bodied reveal callback returning `accessCalls.push(file)`. That returns a **number**, while genuine OutputAccess requires **undefined** to confirm reveal. The real grant existed and the inert sink was entered, but `OUTPUT_REVEAL_FAILED` correctly stopped the helper. No OS reveal occurred. Successful action return, following access-call assertion, explicit per-case clear/expired-grant test and passed-case append were unreached. Finally's separate clear does not retroactively execute that per-case check. Accordingly, `cases: []` remains accurate despite the supported publication.
+
+Cleanup then called real diagnostics with `campaign-settlement`, an unsupported normal terminal outcome. Earlier sequential resource operations were awaited, but the closure-error assertion prevented clearing the helper's service reference. **`retainedOwner: true` describes that retained reference, not evidence of a live child**: all 39 owned children closed, unresolved operations are empty and the outer process exited. Normal diagnostic terminal closure remains **unconfirmed**. Neither auditor nor Session writer performed cleanup to make the record look cleaner.
+
+The whole campaign therefore remains **failed-retained**, outer exit 1. **H.265 and SVT-AV1 publications, collision, active long cancellation, second-owner capabilities and recovery were unreached**, as were successful reveal/expiry and the H.264 passed-case append. No automatic retry occurred.
+
+Review accountability is part of the result. Pure tests fabricated terminal objects; the actual-main abort tests replaced OutputAccess and diagnostics with permissive fakes. Those tests could demonstrate abort reachability without validating the two genuine successful API contracts. This was a proof/preflight gap, not grounds to weaken production APIs or claim the application encoder failed.
+
+### 6. Audit actual resources, warnings and provenance before source release
+
+Raw report: **110,608 bytes / `3624c465aec1c880048716c09d7577537565756c5e16d3d92a2fee52ef4c3799`**. Independent failure audit: **72,944 bytes / `a1431d9b3c3e08bee66ec62772f2eb9eb7b0a1efc13b9852c5d591fcb05163d4`**. The saved-only audit matched 629 source identities, runtime/evidence pins, original/owned fixtures and **154 owned artifacts / 123,217,544 bytes**. It recomputed retained PCM comparisons and inspected saved probes, not a new media run.
+
+There were **39 spawned / 39 closed / zero live**, maximum one. **47 invocation rows** include **eight unspawned GPU refusals**. Thirteen spawned progress-bearing calls include startup activity and **one semantic target**, not 13 user encodes. Target invocation 42 lasted approximately **5.546 seconds** wall time, not a comparative performance benchmark. Numeric event/invocation clocks fit the outer window and child intervals do not overlap.
+
+All retained captures were checked: **32 empty stderr streams, seven nonempty**. The target retains **167 bytes of duplicate-codec warning**. Startup streams retain H.265 CPU-mask/thread-pool warnings and SVT information. Empty outer stderr is not clean child stderr, and no warning is declared harmless or causal to the helper API failure. Contexts **6 `FILE_INSPECTED` and 13 `JOB_DISPOSITION`** are truncated. Point storage checks ran but per-point readings were not persisted; later inventory below 2 GiB is not continuous quota evidence.
+
+Lead reconciliation at **07:21:37.839902** rechecked unchanged committed source and released only reviewed route integration, file-only tests and combined records. Receipt **4,078 bytes / `0fa05928923616f63ec5fc420a459703d004213b7ef023b156ece404f603b046`** accepts the bounded publication evidence while retaining campaign failure and unconfirmed diagnostic terminal status. It authorizes no new runtime retry or default/audio-policy change.
+
+### 7. Integrate a reviewed explicit opt-in route after that release
+
+The separately frozen proposal changes seven paths: Linux workbench main/runtime choice, candidate ordinary service and its test, shared renderer, and two new route/renderer tests. Exact patch: **28,547 bytes / `58a21e454bd91d57255ae9dc8b706aec243389c1c0843768aeeaf0695fbf33f9`**. Independent review: **7,243 bytes / `690d6c9646d67cde5d314ee16509a09ca81c4ce26c5d8d0faad3021c19625c9a`**.
+
+Main alone recognizes `--blue-runtime=9.0.2-ordinary-candidate`, with fixed state/title/ready mode and explicit acquisition failure. There is no arbitrary renderer tool path or fallback. Combining it with session switching refuses before launch; no generic session enum expansion. Baseline default and existing choices remain unchanged.
+
+Candidate snapshots now expose the developer-ordinary notice and relaunch requirement. Cancellation closes admission before synchronous update emission and inherited drainage. The renderer keeps its closed state sticky even if a later modeled higher-revision snapshot appears ready/unclosed; lower revisions are ignored. These are new source behaviors, **not an actual native cancellation journey**. Snapshot cancellation is tested idle, and renderer callbacks use modeled state rather than actual asynchronous media callbacks.
+
+Main reuses existing OutputAccess construction and shutdown admission closure, startup/transition and admitted-IPC waits, cancellation/resource drainage and diagnostics. Synthetic main tests substitute OutputAccess/service classes, so genuine grant or OS action is not newly proved. Truly nonsettling owners can still delay close indefinitely; synchronous listener errors follow the existing main-owned listener model. No new profile hardening or profile/cache/token inspection occurred.
+
+**Shared `ui/renderer.js` changes and also serves Windows.** Windows main, preload, IPC capabilities, HTML/CSS, theme/Gauge, defaults and presets stay unchanged; native Windows remains untested. Working Full-copy 26-file closure stays exact. Fixed runtime/dependency acquisition and ordinary eligibility remain unchanged except the new snapshot/update emission, but those changed bytes still cannot inherit the earlier 038 media proof.
+
+New tests on the exact production baseline yielded **10 passes / seven expected failures out of 17** for absent flag/notice/rendering behavior. The proposal then passed 17/17, expanded author **173/173 focused and 317/317 explicit Linux**, and independent focused **173/173**. Independent review did not repeat author broad. VM Electron/service and DOM fixtures exercise source, not native layout, dialogs, sandbox enforcement or hardware.
+
+At **07:21:37.878037**, the lead integrated the seven exact reviewed paths: 629 predecessor tracked files, **624 unchanged base files**, and **631 source files** before new records. Integration receipt **2,848 bytes / `f135d0b1417cb16280bae32fceceb4ff34e7511f4a6a3ff51924c2a806f548c8`** follows the audited release. Final lead tests passed **173/173 focused, 229/229 protection and 317/317 explicit Linux**, zero skips/cancellations/failures, all 631 checked source files stable. Scopes overlap, are not summed and are not package-wide `npm test`, media or native qualification. Aggregate result **1,421 bytes / `86ca9585c47477de4946385d92249bfe86a3a32cec55f558c28daf8d868f9e39`** retains exact commands and log references.
+
+### 8. Prepare the remaining path without repeating H.264 or moving the cutoff
+
+A separate **four-target successor** received conditional independent review at 07:21:18.474249, **17/17 file-only tests**. It tests the exact reveal callback through real OutputAccess on an owned temporary file and supported terminal closure through real diagnostics. Original wrong-contract controls yield two expected failures; corrected undefined return and valid failed/completed outcomes pass. Abort-path scenarios remain synthetic and do not establish full successful choreography. Resource settlement and diagnostic persistence are tracked separately; diagnostics failure still stops continuation.
+
+At cutoff this is **preparation only: no successor binding, gate or run**. It targets the unreached H.265/AV1, collision, cancellation and fresh-owner recovery, not another H.264 encode solely to make the original campaign green. Native route preparation has not yet been assigned at this cutoff. Later work is excluded.
+
+Final [execution record](2026-11-18_Ordinary_Candidate_First_Run.md), [curated receipts](2026-11-18_Ordinary_Candidate_First_Run_Receipts.json) and [portable evidence](evidence-2026-11-18/ordinary-candidate-first-run-portable.json) preserve the combined milestone. Portable logical path normalization is disclosed; it is not original raw-file identity, runtime restoration, a gate or full media/PCM backup. Raw source-bound evidence remains retained. Expected coherent assembly: **12 paths / 634 files / 39 commits**, not a claimed completed 039 publication at this dated cutoff.
+
+## 🧠 Key Insights
+
+1. **A failed campaign can contain a genuine completed publication.** Keep the supported output/video/audio findings and the failed overall status together rather than deleting either.
+2. **Whole same-decoder AAC equality is now demonstrated for this ordinary H.264 tuple.** That strengthens current foundation evidence but does not erase reader compatibility limits or decide audio policy.
+3. **Successful API contracts need real tests as well as abort-path tests.** Permissive mocks concealed a wrong return type and an invalid diagnostic outcome despite good reachability coverage.
+4. **Resource and diagnostic closure are separate.** A retained helper reference is not a live-child claim; zero live children is not confirmed terminal diagnostic persistence.
+5. **Source integration is not native qualification.** Opt-in route/main/snapshot/renderer changes follow the 038 media attempt and need their own current-source proof.
+
+## 📌 Decisions Made
+
+### Confirmed
+
+- Preserve the first attempt as failed-retained, while accepting its independently supported H.264 subset. **Decider:** Lead after audit. **Basis:** Publication provenance, retained video/audio evidence and exact failure chain; no case append or full campaign success.
+- Correct helper API contracts, not production guards, and avoid redundant H.264 repetition. **Decider:** Lead/reviewers. **Basis:** Wrong injected callback return and invalid outcome are helper defects; completed encoding evidence already exists.
+- Integrate only the reviewed explicit main-owned opt-in route after source release. **Decider:** Engineering lead under common-foundation direction. **Basis:** Independent source review, unchanged frozen media source through audit and exact later integration.
+- Keep 7.1.5 default/rollback, working Full-copy identities and held AAC policy. **Decider:** Lead following owner scope. **Basis:** Incomplete candidate campaign and no new native/player/platform qualification.
+
+### Deferred / held
+
+- Remaining ordinary H.265/AV1, collision, actual cancellation and fresh-owner recovery acceptance. **Decider:** Lead after separately bound successor evidence/audit. **Basis:** All were unreached; conditional helper review is not a run.
+- Native route readiness and default promotion. **Decider:** Lead subject to meaningful qualification and owner-reserved tradeoffs. **Basis:** Current route evidence is VM/DOM/source-only.
+- General audio compatibility or a policy change. **Decider:** Owner where consequential, informed by the lead. **Basis:** One same-decoder equality result does not establish all readers, inputs or players.
+
+## ⚠️ Difficulties / Friction
+
+- A pending active await could bypass cleanup despite an abort timer. V2 fixed reachability before media, while retaining nonsettlement limits rather than pretending timeout guarantees exit.
+- The first genuine success path exposed API details absent from permissive mocks. The sink was called but its return still invalidated acceptance; resource work could settle while terminal diagnostics failed.
+- The output hash was calculated before failure but not persisted in `cases`. The audit supplied the first retained full hash, so provenance must not be backdated.
+- Shared renderer work crosses the Windows code surface even when the new branch is Linux-only. Source regression coverage cannot be called native Windows qualification.
+
+## 🔧 Adjustments Made
+
+- **Shifted from:** Abort-controller requests alone. **To:** Bounded observation at actual awaits with retained pending owners. **Because:** V1 could never reach `finally`. **Consequence:** Failure persistence becomes reachable without guaranteeing termination or admitting a replacement owner prematurely.
+- **Shifted from:** Mocked successful reveal/diagnostic APIs. **To:** Real contract regressions using the exact callback/outcome. **Because:** The first real campaign exposed invalid return and enum values. **Consequence:** The successor fixes proof plumbing without weakening app APIs.
+- **Shifted from:** The failed attempt awaiting audit/source release. **To:** Audited failed-run evidence plus separately reviewed opt-in source wiring. **Because:** Useful application progress could proceed after source release. **Consequence:** One coherent milestone, with old-source media and new-source qualification clearly separated.
+- **Shifted from:** The original five-target campaign scope. **To:** A prepared four-target remaining-path successor. **Because:** H.264 publication/video/audio evidence is already supported. **Consequence:** No redundant H.264 rerun planned, original failure stays intact, and remaining outcomes stay pending.
+
+## ❌ Mistakes / Risks Noted
+
+### 1. Genuine API preflight coverage gap
+
+**What happened / could happen:** An expression-bodied push returned a number to OutputAccess, then `campaign-settlement` was rejected by diagnostics. Prior mocks accepted both.
+
+**Actual impact:** Campaign stopped after H.264 checks, with empty cases, missed reveal/expiry assertions and unconfirmed diagnostic terminal closure. Remaining targets did not run; all 39 owned children closed.
+
+**Potential impact:** Mistaking a called sink for accepted output action, hiding closure uncertainty, or repeating expensive media without fixing the actual helper contract.
+
+**Correction / current status:** Original artifacts retained. Successor real-API red/green file tests pass conditionally; no successor run. Production contracts unchanged.
+
+**Failure Intelligence:** Abort reachability and successful API contract integration are separate coverage requirements. Review what real methods return/accept, not just whether a mock was invoked.
+
+### 2. Publication, case completion and hash provenance conflated
+
+**What happened / could happen:** Real output success could be promoted to a completed case/campaign, or an in-memory hash treated as a persisted original receipt.
+
+**Actual impact:** Audit independently supports the output and establishes its first persisted full SHA; original `cases: []` remains correct.
+
+**Potential impact:** False qualifications, obscured failures and invalid evidence chronology.
+
+**Correction / current status:** Keep exact terminal/provenance, original report, later audit hash and unreached steps separate. No retroactive case insertion or changed archive.
+
+**Failure Intelligence:** Record when evidence first exists durably. A sparse marker, computed local value, completed assertion and persisted case are different facts.
+
+### 3. Closure or source qualification overclaimed
+
+**What happened / could happen:** Retained helper reference could be called a live process, zero live children called complete diagnostic closure, or 038 media used to qualify later route bytes.
+
+**Actual impact:** All owned children closed; diagnostics closure remained unconfirmed; new route has source/injected tests only.
+
+**Potential impact:** Unsafe owner reuse, false native readiness or silent promotion.
+
+**Correction / current status:** Preserve all three boundaries, keep rollback and no new runtime authority from this record. Await exact successor/native evidence.
+
+**Failure Intelligence:** State process census, resource ownership, terminal persistence and tested source identity independently. Source-green and earlier media do not automatically compose into native proof.
+
+## 📍 Current Position
+
+**As of:** 09:22:29.171263 Cairo / 07:22:29.171263 UTC on November 18, 2026.
+
+**Before this session:** 038 had a reviewed inert ordinary 9.0.2 factory and source tests, but no real candidate ordinary campaign or main-owned route. 7.1.5 remained default and audio policy held.
+
+**After this session:** 038 is fully preserved. One actual campaign failed after a supported H.264 publication with exact same-decoder whole audio. All child execution settled; diagnostic terminal closure remains unconfirmed. Seven reviewed opt-in source paths were integrated after audit/release and pass current source tests.
+
+**Current standing:** The new route is source-only, not a native qualification or default promotion. Remaining-path helper has conditional 17/17 file-test approval, no binding/gate/run. Intended combined 039 totals are 12 paths, 634 files and 39 commits after assembly. No completed 039 commit/Notion/GitHub cycle is claimed at this cutoff.
+
+**Live owner continuation anchor:** Preserve the milestone, qualify only the still-unreached current behaviors, and continue toward common Linux 9.0.2 without accumulating unexamined bugs or discarding rollback. Do not confuse technical progress with resolved audio policy or universal compatibility.
+
+## 🔜 Next Steps
+
+1. Complete the coherent local Git checkpoint, exact Notion source/history/readable restoration, then verified GitHub publication. The lead and mirror own that sequence.
+2. Bind the actual preserved source to the reviewed four-target successor and separately release its finite run. Preserve the first failure; do not repeat H.264 solely for a green aggregate. Audit remaining publication, access/expiry, collision, cancellation/drain and new-owner recovery before accepting them.
+3. Only after adequate current evidence, prepare a bounded native opt-in route journey. Keep baseline default and rollback until promotion is justified; no native preparation/result is imported into this cutoff.
+
+**Do not reopen / repeat:** Do not overwrite original reports or cases, suppress retained warnings, backdate the output hash, call diagnostic closure confirmed, weaken genuine APIs, replay consumed bindings, borrow 038 media for changed route bytes, silently promote runtime, integrate the held guard, or claim NVIDIA/Windows/audio-policy parity.
+
+**Continuation boundary:** Conditional helper approval and source-release receipts are not runtime results or permission for arbitrary retries. Fresh exact bindings implement authorized project safety; they do not require needless renewed user approval for every already authorized ordinary step. Reserved consequential product decisions remain separate.
+
+## ❓ Open Questions
+
+- **Will the reviewed remaining-path helper complete H.265/AV1, access, collision and active cancellation/new-owner recovery with full evidence?** **Needed from:** A separately bound successor run and audit. **Blocks:** Complete ordinary candidate qualification; no result yet.
+- **Does the changed opt-in route behave correctly in actual Electron/native lifecycle?** **Needed from:** Later current-source native proof. **Blocks:** User-facing readiness and promotion; VM/DOM tests are insufficient.
+- **What copied-AAC compatibility should the product promise across relevant readers?** **Needed from:** Lead recommendation and owner where a consequential tradeoff is reserved. **Blocks:** Acceptance/refusal/default policy changes, not preservation of this finite equality result.
+- **Can resource settlement and diagnostic terminal persistence both be established under all supported failure paths?** **Needed from:** Successor genuine-API evidence and proportionate lifecycle review. **Blocks:** Blanket closure claims; this original failed record must stay unconfirmed for diagnostics.
+
+## 🧾 Session Outcome
+
+A real current ordinary H.264 publication with exact same-candidate-decoder audio equality is independently supported, **inside a failed-retained campaign**. Two helper contract defects and the review gap are preserved. All 39 owned children closed; normal diagnostic terminal closure and later cases are not claimed.
+
+A separately reviewed explicit opt-in route is integrated and source tests pass **173/173, 229/229 and 317/317**, with no default/pin/audio-policy promotion. Exact prior history remains unchanged. Remaining service/native qualification and 039 preservation are subsequent actions, not completed outcomes in this dated entry.
+
+## 🔍 Confidence Level
+
+**High** in the finite publication/audio findings, failure attribution, exact source chronology and final source-test scope. **Limited** for complete candidate readiness, diagnostic closure and native/platform compatibility.
+
+**Why:** Independent audit rehashed original/current evidence, examined full retained PCM and probes, confirmed actual child counts and identified the API failure chain. Source integration followed a separate exact release and final tests checked stable bytes. Red helper and route evidence remain preserved.
+
+**Not higher because:** The campaign stopped after one known eight-bit H.264 source; case completion, reveal/expiry, other ordinary publications, collision and actual recovery were not reached. No auditor re-decode, player study, native route, Windows/hardware campaign or broad audio-policy decision. New source tests use VM/DOM/inert boundaries, and resource bounds are observations rather than guaranteed termination or quotas.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Build the ordinary 9.0.2 foundation and test cancellation ownership
 
 ## 🤖 Models, Effort, Roles and Provenance

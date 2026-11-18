@@ -40,7 +40,11 @@ function listingStructure(text) {
 }
 function safeMember(value) {
   listingNeed(typeof value === 'string' && value.length > 0 && value.length < 512,'PATH_BOUND');
-  listingNeed(!/[\\:\x00-\x1f\x7f*?]/.test(value) && !value.startsWith('/'),'PATH_SEPARATOR');
+  // 7-Zip on Windows lists backslash separators for this pinned archive.
+  // Reject mixed/absolute/drive/ADS syntax BEFORE canonicalizing separators.
+  listingNeed(!/[:\x00-\x1f\x7f*?<>|"]/.test(value)
+    && !/^[\\/]/.test(value) && !(value.includes('/') && value.includes('\\')),'PATH_SEPARATOR');
+  value = value.replaceAll('\\', '/');
   listingNeed(value.split('/').every(x => x && x !== '.' && x !== '..' && !/[. ]$/.test(x)
     && !/^(con|prn|aux|nul|com[0-9]|lpt[0-9])(?:\.|$)/i.test(x)),'PATH_COMPONENT');
   return value;
@@ -48,7 +52,7 @@ function safeMember(value) {
 function inspectListing(text, manifest = expectedCandidateManifest()) {
   listingNeed(typeof text === 'string' && Buffer.byteLength(text) <= MAX_LIST && !text.includes('\0'),'INPUT_BOUND');
   const blocks = text.trim().split(/\r?\n\r?\n/); listingNeed(blocks.length > 0 && blocks.length <= 1024,'RECORD_COUNT');
-  const seen = new Map(); let total = 0n;
+  const seen = new Map(); let total = 0n; let separatorStyle = null;
   const fields = LISTING_FIELDS;
   for (const block of blocks) {
     const entry = {};
@@ -56,7 +60,11 @@ function inspectListing(text, manifest = expectedCandidateManifest()) {
       const m = /^([^=]+?) = (.*)$/.exec(line); listingNeed(m,'FIELD_FORMAT'); listingNeed(fields.has(m[1]),'FIELD_UNKNOWN'); listingNeed(!Object.hasOwn(entry,m[1]),'FIELD_DUPLICATE');
       entry[m[1]] = m[2];
     }
-    const name = safeMember(entry.Path); const key=name.toLowerCase(); listingNeed(!seen.has(key),'PATH_DUPLICATE');
+    const name = safeMember(entry.Path);
+    const style = entry.Path.includes('\\') ? 'backward' : entry.Path.includes('/') ? 'forward' : null;
+    listingNeed(!style || !separatorStyle || style === separatorStyle, 'PATH_SEPARATOR');
+    if (style) separatorStyle = style;
+    const key=name.toLowerCase(); listingNeed(!seen.has(key),'PATH_DUPLICATE');
     listingNeed(name === manifest.archive.rootDirectory || name.startsWith(manifest.archive.rootDirectory + '/'),'PATH_ROOT');
     listingNeed(/^[0-9]{1,12}$/.test(entry.Size) && entry.Encrypted === '-','SIZE_OR_ENCRYPTION');
     // Strict Windows attributes only. Unix/link/reparse/unknown forms refuse.
@@ -65,7 +73,7 @@ function inspectListing(text, manifest = expectedCandidateManifest()) {
     if (Object.hasOwn(entry,'Folder')) listingNeed(entry.Folder === (directory ? '+' : '-'),'FOLDER_CONFLICT');
     listingNeed(!directory || entry.Size === '0','DIRECTORY_SIZE'); total += BigInt(entry.Size);
     listingNeed(total <= 2n * 1024n ** 3n,'EXPANDED_LIMIT');
-    seen.set(key,{name,size:Number(entry.Size),directory});
+    seen.set(key,{name,listedMember:entry.Path,size:Number(entry.Size),directory});
   }
   for (const {member,pin} of selected(manifest)) {
     const found=seen.get(member.toLowerCase());
@@ -74,7 +82,9 @@ function inspectListing(text, manifest = expectedCandidateManifest()) {
       const e=seen.get(parent.toLowerCase()); listingNeed(!e || (e.directory && e.name===parent),'ANCESTOR_CONFLICT');
     }
   }
-  return selected(manifest);
+  // Preserve the exact validated listing spelling for 7-Zip's literal member
+  // selection. Disk outputs still come exclusively from fixed manifest paths.
+  return selected(manifest).map(({member,pin}) => ({member:seen.get(member.toLowerCase()).listedMember,pin}));
 }
 // One child at a time, observed close mandatory. Stream limits checked BEFORE
 // writing: stdout can never reserve beyond the selected member's exact size.

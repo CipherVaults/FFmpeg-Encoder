@@ -1,0 +1,227 @@
+{
+  "checkpoint": "065",
+  "cutoffUtc": "2026-11-18T19:57:06.446308+00:00",
+  "status": "integrated and locally tested; commit/mirror/publication pending",
+  "baseLocalCommit": "9850426fe7e5d7c697b20a231ef94f64c55168f2",
+  "baseRemoteCommit": "0f0451743f1e1ffa235599efc881d2806c71fb0d",
+  "integratedSources": [
+    {
+      "path": "src/linux-runtime-descriptor.cjs",
+      "bytes": 1544,
+      "sha256": "6d2e2f8800707faf64c1acad1be83d99e1ae0972d43f708510ff06d88721607e",
+      "source": "/workspace/scratch/b0b5fef72e20/ffmpeg-linux-runtime-staging-proposal/src/linux-runtime-descriptor.cjs"
+    },
+    {
+      "path": "src/linux-runtime-staging.cjs",
+      "bytes": 7117,
+      "sha256": "ff5abdb15e505a04883672e341fc23fc81cbd83145b032511c0347ee7e36f06a",
+      "source": "/workspace/scratch/b0b5fef72e20/ffmpeg-linux-runtime-staging-proposal/src/linux-runtime-staging.cjs"
+    },
+    {
+      "path": "tests/linux-runtime-staging.test.cjs",
+      "bytes": 7575,
+      "sha256": "828c053cb1ffbdd6ee8a3a45026bdcb41739966cc5d9d67635cfd852d46326d0",
+      "source": "/workspace/scratch/b0b5fef72e20/ffmpeg-linux-runtime-staging-proposal/tests/linux-runtime-staging.test.cjs"
+    },
+    {
+      "path": "linux-blue/LINUX_INERT_RUNTIME_STAGING.md",
+      "bytes": 9313,
+      "sha256": "fcf7f680e59df4ea21a1e7c04b7f26d57a99de7e5cb7ff8401211572abe77af0",
+      "source": "/workspace/scratch/b0b5fef72e20/ffmpeg-linux-runtime-staging-proposal/linux-blue/LINUX_INERT_RUNTIME_STAGING.md"
+    },
+    {
+      "path": "scripts/windows-ffmpeg-startup.cjs",
+      "bytes": 13077,
+      "sha256": "e45f7f40e12cc7ed52e5121604e775fdc2f05323e7f185fa9b440513dd4edd5e",
+      "source": "/workspace/scratch/b0b5fef72e20/ffmpeg-windows-separators065-proposal/scripts/windows-ffmpeg-startup.cjs"
+    },
+    {
+      "path": "scripts/windows-hosted-archive-check.cjs",
+      "bytes": 9232,
+      "sha256": "40493a05ca6b7f31fae9662141aa84f698dbf659a68977d350c1cd6db2f3ec2d",
+      "source": "/workspace/scratch/b0b5fef72e20/ffmpeg-windows-separators065-proposal/scripts/windows-hosted-archive-check.cjs"
+    },
+    {
+      "path": ".github/workflows/windows-archives.yml",
+      "bytes": 1646,
+      "sha256": "1fd0067edbd620067684f5c5efc02ed26ad7b1054acb5bc192af72a1574cbb6c",
+      "source": "/workspace/scratch/b0b5fef72e20/ffmpeg-windows-separators065-proposal/.github/workflows/windows-archives.yml"
+    },
+    {
+      "path": "tests/windows-ffmpeg-startup.test.cjs",
+      "bytes": 9737,
+      "sha256": "e2159fa460e6f959e40a2f6e505eec57d8892fb8af4f3640f6e94c2127b187ef",
+      "source": "/workspace/scratch/b0b5fef72e20/ffmpeg-windows-separators065-proposal/tests/windows-ffmpeg-startup.test.cjs"
+    },
+    {
+      "path": "tests/windows-hosted-archive-check.test.cjs",
+      "bytes": 5718,
+      "sha256": "aff688c5cd28e6aa06c795872c237e117efbab1331ee116be247653b182b088a",
+      "source": "/workspace/scratch/b0b5fef72e20/ffmpeg-windows-separators065-proposal/tests/windows-hosted-archive-check.test.cjs"
+    },
+    {
+      "path": "linux-blue/WINDOWS_LISTING_SEPARATOR_COMPATIBILITY.md",
+      "bytes": 2423,
+      "sha256": "ba87133216e67fd2fa7558a4b2aa0e8df7ab7fdd58d8c6ec1218854dabef6c99",
+      "source": "/workspace/scratch/b0b5fef72e20/ffmpeg-windows-separators065-proposal/linux-blue/WINDOWS_LISTING_SEPARATOR_COMPATIBILITY.md"
+    },
+    {
+      "path": "scripts/ci-source-contracts.cjs",
+      "bytes": 2423,
+      "sha256": "d37d5d8255c7decf10e7751a9200a6204077699ce76a0b6bbd75146b18eca1d8",
+      "source": "Lead integration: include ten inert staging tests in Linux-only CI selection; no runtime launched."
+    }
+  ],
+  "leadTests": {
+    "verifiedAtUtc": "2026-11-18T19:57:06.446308+00:00",
+    "focused": {
+      "pass": 78,
+      "fail": 0,
+      "skip": 0,
+      "receipt": "/workspace/scratch/b0b5fef72e20/ffmpeg-linux-f6bc64a-20261117/artifacts/v0.7/evidence/20261118T195608Z_recovered065-focused/receipt.json",
+      "receiptSha256": "5ae9c6ccbadeb06d24d42251c820232b38b0683c6331f22cc7e3cbba6219be8f"
+    },
+    "individualSyntaxFiles": [
+      "src/linux-runtime-descriptor.cjs",
+      "src/linux-runtime-staging.cjs",
+      "tests/linux-runtime-staging.test.cjs",
+      "scripts/windows-ffmpeg-startup.cjs",
+      "scripts/windows-hosted-archive-check.cjs",
+      "tests/windows-ffmpeg-startup.test.cjs",
+      "tests/windows-hosted-archive-check.test.cjs",
+      "scripts/ci-source-contracts.cjs"
+    ],
+    "ci": {
+      "syntaxFiles": 208,
+      "sharedTests": 243,
+      "linuxTests": 20,
+      "fail": 0,
+      "skip": 0,
+      "stdoutSha256": "19d8595509d2169d0173e648f964ee267cc18b09d4e042906cf15b26d60c09c0",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "pins": [
+      {
+        "consumer": "candidate-resize-service.cjs",
+        "count": 97,
+        "allMatched": true
+      },
+      {
+        "consumer": "candidate-resize1440-service.cjs",
+        "count": 97,
+        "allMatched": true
+      },
+      {
+        "consumer": "candidate-full-copy-service.cjs",
+        "count": 26,
+        "allMatched": true
+      }
+    ],
+    "countsOverlap": true
+  },
+  "evidence": [
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/checkpoint064-final-mirror-release.json",
+      "bytes": 644,
+      "sha256": "096bde773ec759212f7c8d62eed86cacf9db745436a33c6a514d51eee3872f13"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/notion-checkpoint-064-verification.json",
+      "bytes": 199384,
+      "sha256": "d61550ad2e9eac0a648c53a73dcdd976004bdd22bb3b1d8ceb0e851a4588985c"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/github-checkpoint064-verification.json",
+      "bytes": 7084,
+      "sha256": "a2abe7abb6a5040047e5d36002a84b003ebd5fa80ab2f9aad94813982e44c4a8"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/github-checkpoint064-observation.json",
+      "bytes": 5272,
+      "sha256": "b0035ae3281256983dbd9308cef1c54bba57ea2f7f5aa482c7cca63a84194d22"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/github-checkpoint064-windows-report.json",
+      "bytes": 1443,
+      "sha256": "bd7bc73b8e0476f27df69244f004b4c13d6bcc9383131019e3f26b0b0be84fd8"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/linux-runtime-staging-independent-review/INDEPENDENT_REVIEW.json",
+      "bytes": 4390,
+      "sha256": "027ebaf9442ef6d37df13b6f6b7e4d67663f2f108f68e535daaa1f58f9cb897e"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/checkpoint065-integration.json",
+      "bytes": 3438,
+      "sha256": "557941e3c9b53f2335edf7cf5bcbcf9e5e1134e396bf1dd287a342ad84e594d2"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/checkpoint065-lead-tests.json",
+      "bytes": 1405,
+      "sha256": "5b34b575578bbfd4cdae1690bc52544dcf2fa806d698b857f189d5ab0ffa5669"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/checkpoint065-cutoff.json",
+      "bytes": 527,
+      "sha256": "c1f4a80d451e1b33bb6745bd87fc31ae3c821ac81b5bfb8060acb633451078a5"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/native1440-range064-preparation/INDEPENDENT_SAVED_CLOSURE_AUDIT.json",
+      "bytes": 224630,
+      "sha256": "d6b84f852e738b8f57c36f70f907feb1fd6de67b1e6b473f889e50d89ece7a2c"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/native1440-range064-preparation/LEAD_CLOSURE_RELEASE.json",
+      "bytes": 778,
+      "sha256": "4627485411314b87beda23aa6139a3f6ccf276dbe6637d5ecfa1e932294efbe7"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/native1440-range064-retry1-preparation/INDEPENDENT_SAVED_CLOSURE_AUDIT.json",
+      "bytes": 228469,
+      "sha256": "67df44ea016d5754a70159290d664212aeb631ab5f72f39d558ed83ee33da632"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/native1440-range064-retry1-preparation/LEAD_CLOSURE_RELEASE.json",
+      "bytes": 780,
+      "sha256": "6d1bd68f8487891ec3d1fa384e2937943418fc782c6ecc9dada9a9cf61418c22"
+    },
+    {
+      "path": "ffmpeg-windows-separators065-proposal/INDEPENDENT_REVIEW.json",
+      "bytes": 3016,
+      "sha256": "d508708ea7029dd202db6c486938f7f659cbe6d58a2c623dbbc27c924e812e5b"
+    }
+  ],
+  "predecessor": {
+    "bytes": 2396859,
+    "sha256": "51cab0fdb4077225aa28d3f45f9d5bc51ea80ecd37f8de26841e6de3e336dd42",
+    "exactSuffixPreserved": true
+  },
+  "nativeDisposition": {
+    "attempts": 2,
+    "childrenClosedEach": 58,
+    "liveEach": 0,
+    "outputsEach": 0,
+    "profileEventTotals": [
+      126,
+      140
+    ],
+    "PrepareApplyStart": false,
+    "publicationQualified": false,
+    "thirdAttemptAuthorized": false,
+    "chooserCause": "unknown"
+  },
+  "outsideIntegratedScope": [
+    "disabled product composition proposal",
+    "offline packaging proposal"
+  ],
+  "expectedFrozenCounts": {
+    "changedPaths": 15,
+    "trackedFiles": 732,
+    "newPaths": 7,
+    "modifiedPaths": 8,
+    "remoteTotal": 1114,
+    "remoteUnchanged": 1099
+  },
+  "preservation065": "pending",
+  "writerPerformedStaging": false
+}

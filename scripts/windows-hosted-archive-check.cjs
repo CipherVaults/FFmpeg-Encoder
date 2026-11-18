@@ -11,7 +11,7 @@ const { expectedCandidateManifest, loadCandidateManifest, assertOrdinaryPath, ve
 const { startup, startupDiagnostic } = require('./windows-ffmpeg-startup.cjs');
 const REPO = 'CipherVaults/FFmpeg-Encoder-Blue-Linux';
 const REF = 'refs/heads/blue/linux-development';
-const INTRODUCTION_PARENT = '878808d685cd4a99ceee73f2dc8ed4b9c30b19a2';
+const INTRODUCTION_PARENT = '0f0451743f1e1ffa235599efc881d2806c71fb0d';
 const FLOOR = 27n * 1024n ** 3n;
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 // Bounded diagnostic labels reveal the failing boundary, never raw paths,

@@ -19,7 +19,7 @@ const shared = [
   'tests/windows-hosted-archive-check.test.cjs',
   'tests/windows-hosted-diagnostics.test.cjs',
 ];
-const linux = ['linux-blue/ui-policy.test.cjs'];
+const linux = ['linux-blue/ui-policy.test.cjs', 'tests/linux-runtime-staging.test.cjs'];
 
 function run(args) {
   const result = spawnSync(process.execPath, args, {
@@ -42,7 +42,7 @@ for (const file of files) run(['--check', file]);
 console.log('Shared unit contracts: media settings/argv, container clocks, appearance, app settings, main shutdown, process cancellation/closure, completed-output retention/access, and injected Windows archive/startup safeguards.');
 run(['--test', ...shared]);
 if (process.platform === 'linux') {
-  console.log('Additional Linux UI admission-policy unit contracts.');
+  console.log('Additional Linux UI admission-policy and inert runtime-staging unit contracts.');
   run(['--test', ...linux]);
 } else {
   console.log('Linux-only admission-policy suite not selected on this platform.');

@@ -5,7 +5,7 @@ const {selected,safeMember,inspectListing,runBounded}=require('../scripts/window
 const rows=()=>selected().map(({member,pin})=>`Path = ${member}\nSize = ${pin.sizeBytes}\nAttributes = A\nEncrypted = -`).join('\n\n');
 test('synthetic manifest layout accepts only the exact four selections',()=>assert.equal(inspectListing(rows()).length,4));
 test('selected mapping is fixed by repository manifest, not caller pins',()=>assert.throws(()=>selected({})));
-test('hostile and ambiguous paths refuse',()=>{for(const x of ['../x','/root','C:/x','a\\b','a:b','a/../b','a//b','a/NUL.txt','a/trailing.','a/*','a/space ','a\0b'])assert.throws(()=>safeMember(x),x);});
+test('hostile and ambiguous paths refuse',()=>{for(const x of ['../x','/root','C:/x','a:b','a/../b','a//b','a/NUL.txt','a/trailing.','a/*','a/space ','a\0b'])assert.throws(()=>safeMember(x),x);});
 test('duplicate and casefold aliases refuse',()=>{assert.throws(()=>inspectListing(rows()+'\n\n'+rows().split('\n\n')[0]));assert.throws(()=>inspectListing(rows()+'\n\n'+rows().split('\n\n')[0].replace('ffmpeg-','FFMPEG-')));});
 test('links, reparse/Unix attributes, duplicate fields and unknown listing formats refuse',()=>{for(const suffix of ['\nSymbolic Link = target','\nHard Link = target','\nReparse = +','\nPath = x'])assert.throws(()=>inspectListing(rows()+suffix));assert.throws(()=>inspectListing(rows().replace('Attributes = A','Attributes = lrwxrwxrwx')));assert.throws(()=>inspectListing('unsupported'));});
 test('encrypted/size mismatch/missing selected member and expanded bombs refuse',()=>{for(const txt of [rows().replace('Encrypted = -','Encrypted = +'),rows().replace('227823104','227823105'),rows().split('\n\n').slice(1).join('\n\n'),rows()+'\n\nPath = ffmpeg-9.0.2-full_build/extra\nSize = 999999999999\nAttributes = A\nEncrypted = -'])assert.throws(()=>inspectListing(txt));});
@@ -19,13 +19,12 @@ test('stderr cap and spawn error remain failures after close',async()=>{for(cons
 test('actual pinned archive listing selects exact existing manifest payload',()=>{const fs=require('node:fs'),path=require('node:path');assert.equal(inspectListing(fs.readFileSync(path.join(__dirname,'fixtures/windows-ffmpeg-9.0.2-listing.txt'),'utf8')).length,4);});
 test('all startup phase failures retain bounded stage and partial disposition',async()=>{const {applyStartup}=require('../scripts/windows-hosted-archive-check.cjs');for(const startupStage of ['preflight','tool-identification','listing','extraction','provisioning','version','final-checks']){const report={extraction:'not-run',installation:'not-run'};await applyStartup(report,async()=>{throw Object.assign(new Error('secret path and output'),{startupStage,code:'ENOSPC'});});assert.equal(report.state,'FFMPEG_STARTUP_FAILED');assert.equal(report.startup.stage,startupStage);assert.equal(report.startup.code,'ENOSPC');assert.equal(report.extraction,'failed-or-partial-unverified');assert.equal(report.installation,'failed-or-partial-unverified');assert(!JSON.stringify(report).includes('secret'));}});
 test('unknown diagnostic labels cannot leak; successful startup has explicit restricted scope',async()=>{const {applyStartup}=require('../scripts/windows-hosted-archive-check.cjs');const {startupDiagnostic}=require('../scripts/windows-ffmpeg-startup.cjs');assert.deepEqual(startupDiagnostic({startupStage:'private',name:'private',code:'private',message:'private'}),{stage:'preflight',kind:'Error',code:'UNCLASSIFIED',listingReason:null,listing:null});const r={};await applyStartup(r,async()=>({state:'FFMPEG_VERSION_VERIFIED_ONLY'}));assert.equal(r.state,'FFMPEG_VERSION_VERIFIED_ONLY');assert.equal(r.installation,'isolated-ffmpeg-only');});
-test('Windows separators remain refused and diagnosed, not silently normalized',()=>{
- const {listingStructure,startupDiagnostic}=require('../scripts/windows-ffmpeg-startup.cjs');
- const text=rows().replaceAll('/','\\');const structure=listingStructure(text);
- assert.equal(structure.separators.backward,4);assert.equal(structure.separators.forward,0);
- let e;try{inspectListing(text);}catch(error){e=error;}assert(e);e.startupStage='listing-parse';e.listingStructure=structure;
- const d=startupDiagnostic(e);assert.equal(d.listingReason,'PATH_SEPARATOR');assert.equal(d.stage,'listing-parse');assert.equal(d.listing,structure);
- assert(!JSON.stringify(d).includes('ffmpeg-9.0.2'));assert(!JSON.stringify(d).includes('\\'));
+test('canonical Windows listing separators preserve literal member selection',()=>{
+ const {listingStructure}=require('../scripts/windows-ffmpeg-startup.cjs');
+ const text=rows().replaceAll('/','\\'); const entries=inspectListing(text);
+ assert.equal(listingStructure(text).separators.backward,4);
+ assert.deepEqual(entries,selected().map(({member,pin})=>({member:member.replaceAll('/','\\'),pin})));
+ assert.equal(safeMember('root\\bin\\ffmpeg.exe'),'root/bin/ffmpeg.exe');
 });
 test('structural diagnostics expose only bounded known names, never unknown names or values',()=>{
  const {listingStructure,startupDiagnostic}=require('../scripts/windows-ffmpeg-startup.cjs');
@@ -44,4 +43,23 @@ test('four listing boundaries retain distinct safe diagnostics through wrapper f
  for(const startupStage of ['listing-command','listing-parse','post-list-capacity','post-list-owner']){
   const r={};await applyStartup(r,async()=>{throw Object.assign(new assert.AssertionError({message:'private'}),{startupStage});});assert.equal(r.startup.stage,startupStage);assert.equal(r.state,'FFMPEG_STARTUP_FAILED');assert(!JSON.stringify(r).includes('private'));
  }
+});
+test('Windows path traversal, absolute namespaces, ADS and ambiguous aliases refuse',()=>{
+ for(const value of ['\\root','\\\\server\\share','\\\\?\\C:\\root','\\??\\C:\\root','C:\\x','C:x','root\\..\\x','root\\.\\x','root\\\\x','root\\x\\','root\\x:y','root\\NUL.txt','root\\COM1','root\\x.','root\\x ','root/x\\y','root\\x/y','root\\<x>','root\\x|y','root\\"x"']) assert.throws(()=>safeMember(value),value);
+});
+test('Windows duplicate aliases, root changes and selected ancestors refuse',()=>{
+ const text=rows().replaceAll('/','\\');
+ const duplicate=text+'\n\n'+text.split('\n\n')[0];assert.throws(()=>inspectListing(duplicate));
+ assert.throws(()=>inspectListing(text+'\n\n'+text.split('\n\n')[0].replace('ffmpeg-9.0.2','FFMPEG-9.0.2')));
+ assert.throws(()=>inspectListing(text.replace('full_build\\','full_buildX\\')));
+ assert.throws(()=>inspectListing(text+'\n\nPath = ffmpeg-9.0.2-full_build\\bin\nSize = 0\nAttributes = A\nEncrypted = -'));
+ assert.throws(()=>inspectListing(text+'\n\n'+rows().split('\n\n')[0]));
+});
+test('derived Windows-style full listing fixture retains exact four pinned files',()=>{
+ // Synthetic separator transformation of actual Linux listing, not hosted raw output.
+ const fs=require('node:fs'),path=require('node:path');
+ const source=fs.readFileSync(path.join(__dirname,'fixtures/windows-ffmpeg-9.0.2-listing.txt'),'utf8');
+ const text=source.replace(/^Path = (.+)$/gm,(_,value)=>'Path = '+value.replaceAll('/','\\'));
+ const actual=inspectListing(text);
+ assert.deepEqual(actual,selected().map(({member,pin})=>({member:member.replaceAll('/','\\'),pin})));
 });

@@ -1,7 +1,7 @@
 // Each channel has one purpose. Both WebContents and its top-level frame must
 // match; a compromised subframe must not inherit the application's privileges.
-function registerIpc({ ipcMain, window, service, appearance, dialog, entryUrl }) {
-  let pickingFolder = false;
+function registerIpc({ ipcMain, window, service, appearance, dialog, entryUrl, workbenchSession }) {
+  let pickingFolder = false, inFlight = 0, registered = true;
   const choose = role => async () => {
     service.requireIdle();
     if (pickingFolder) throw Object.assign(new Error('A folder picker is already open.'), { code: 'BUSY' });
@@ -75,27 +75,42 @@ function registerIpc({ ipcMain, window, service, appearance, dialog, entryUrl })
     'encoder:diagnostic-record': [1, request => service.getDiagnosticRecord(request)],
     'encoder:diagnostic-export-preview': [1, request => service.getDiagnosticExport(request)],
   };
+  if (workbenchSession) {
+    methods['encoder:workbench-session'] = [0, () => workbenchSession.status()];
+    methods['encoder:select-workbench-session'] = [1, kind => {
+      if (inFlight > 1 || pickingFolder) throw Object.assign(new Error('Wait for active requests.'), { code: 'BUSY' });
+      return workbenchSession.select(kind);
+    }];
+  }
   for (const [channel, [argumentCount, method]] of Object.entries(methods)) {
     ipcMain.handle(channel, async (event, ...args) => {
+      let counted = false;
       try {
+        if (!registered) throw Object.assign(new Error('This session has been retired.'), { code: 'SESSION_RETIRED' });
         if (window.isDestroyed() || event.sender !== window.webContents
             || event.senderFrame !== window.webContents.mainFrame || event.senderFrame?.url !== entryUrl) {
           throw Object.assign(new Error('Request is not from the application window.'), { code: 'UNTRUSTED_SENDER' });
         }
+        // Count trusted admission, including rejection diagnostics, before any await.
+        inFlight++; counted = true;
         if (args.length !== argumentCount) throw Object.assign(new Error('Unexpected request arguments.'), { code: 'INVALID_REQUEST' });
+        if (workbenchSession?.blocked() && channel !== 'encoder:workbench-session')
+          throw Object.assign(new Error('Session ownership is changing.'), { code: 'BUSY' });
         return { ok: true, value: await method(...args) };
       } catch (error) {
         // Only trusted-window requests may produce admission diagnostics. Never
         // persist an attacker's raw IPC payload or give it filesystem authority.
-        if (error.code !== 'UNTRUSTED_SENDER' && typeof service.recordIncident === 'function') {
+        if (counted && registered && !workbenchSession?.blocked() && service.admissionClosed !== true
+            && channel !== 'encoder:select-workbench-session' && error.code !== 'UNTRUSTED_SENDER'
+            && typeof service.recordIncident === 'function') {
           await service.recordIncident({ stage: 'admission', reason: 'REQUEST_REJECTED', severity: 'warning', message: error.message,
             context: { channel, code: error.code || 'OPERATION_FAILED' } });
         }
         // Explicit envelopes retain error codes without exposing native objects.
         return { ok: false, error: { code: error.code || 'OPERATION_FAILED', message: error.message || 'Operation failed.' } };
-      }
+      } finally { if (counted) inFlight--; }
     });
   }
-  return () => { for (const channel of Object.keys(methods)) ipcMain.removeHandler(channel); };
+  return () => { registered = false; for (const channel of Object.keys(methods)) ipcMain.removeHandler(channel); };
 }
 module.exports = { registerIpc };

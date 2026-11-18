@@ -2271,4 +2271,21 @@
     await loadCapabilities();
     applyPreferences(await api.getPreferences());
   });
+  // Absent on ordinary/default and Windows main: no visible controls without opt-in.
+  if (typeof api.getWorkbenchSession === 'function') void api.getWorkbenchSession().then(state => {
+    if (!state?.enabled) return;
+    const group = document.createElement('section');
+    const notice = document.createElement('p'); notice.textContent = state.notice; group.appendChild(notice);
+    const buttons = [];
+    for (const [kind, label] of [['ordinary', 'Ordinary encoding'], ['full-copy', 'Experimental whole-file 720p / copied AAC']]) {
+      const button = document.createElement('button'); button.textContent = label; button.disabled = state.selected === kind;
+      button.addEventListener('click', async () => {
+        button.disabled = true;
+        try { await api.selectWorkbenchSession(kind); }
+        catch (error) { notice.textContent = error.message; for (const control of buttons) control.disabled = false; }
+      });
+      buttons.push(button); group.appendChild(button);
+    }
+    document.body.appendChild(group);
+  }).catch(() => {});
 })();

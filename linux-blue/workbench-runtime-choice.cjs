@@ -7,4 +7,12 @@ function selectWorkbenchRuntime(argv) {
     throw Object.assign(new Error('Use the default baseline or the exact --blue-runtime=9.0.2-av1 or --blue-runtime=9.0.2-keep720-candidate or --blue-runtime=9.0.2-resize-candidate or --blue-runtime=9.0.2-full-copy-candidate developer option.'), { code: 'LINUX_RUNTIME_CHOICE' });
   return choices.length ? choices[0].slice('--blue-runtime='.length) : 'baseline';
 }
-module.exports = { selectWorkbenchRuntime };
+function sessionSwitchingEnabled(argv) {
+  const flags = argv.filter(value => value.startsWith('--blue-workbench-session-switching'));
+  if (flags.length > 1 || flags.some(value => value !== '--blue-workbench-session-switching'))
+    throw Object.assign(new Error('Use the exact opt-in session-switching flag.'), { code: 'LINUX_RUNTIME_CHOICE' });
+  if (flags.length && selectWorkbenchRuntime(argv) !== 'baseline')
+    throw Object.assign(new Error('Session switching starts from the ordinary baseline only.'), { code: 'LINUX_RUNTIME_CHOICE' });
+  return flags.length === 1;
+}
+module.exports = { selectWorkbenchRuntime, sessionSwitchingEnabled };

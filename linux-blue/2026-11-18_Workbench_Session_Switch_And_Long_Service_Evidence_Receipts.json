@@ -1,0 +1,381 @@
+{
+  "schema": "ffmpeg-checkpoint-evidence-v1",
+  "checkpoint": "032",
+  "cutoffUtc": "2026-11-18T03:06:11.941142+00:00",
+  "publication": "pending at cutoff",
+  "expectedScope": {
+    "paths": 12,
+    "files": 602,
+    "commits": 32
+  },
+  "mediaTestedCommit": "52bf8e5e74f7e36cf6e751f45dd12250d3d373dd",
+  "integratedSource": {
+    "integratedAtUtc": "2026-11-18T03:03:35.535397+00:00",
+    "baseLocalCommit": "52bf8e5e74f7e36cf6e751f45dd12250d3d373dd",
+    "proposalBase": "89489aa03e096aa1eff5c0c72160774f235efe6e",
+    "patchSha256": "e4b9f89a3e33ab2d93029eeb837433f883c5149ef6a72cc63a1d920eabd82f01",
+    "handoffSha256": "49764a8ac0ceffc39f7ed7bd07c06441cb0a35d520b20833d793dadd1f298539",
+    "independentReviewPath": "session-switch-independent-review/INDEPENDENT_REVIEW-v2-final.json",
+    "independentReviewSha256": "1b56a0a3c9258016bd8906d8bd160cdcf0d4eae971736ed29e448b6491457137",
+    "leadSourceReleaseSha256": "ca022f2aa2eec8cc3e86c94b6231c7e15e316e4aeb73cceb4f33676a54cbda9e",
+    "files": [
+      {
+        "path": "linux-blue/workbench-main.cjs",
+        "bytes": 13547,
+        "sha256": "e4447cce7203e88290a6d03daa59d7897d954e187924ecd68d318e6491a58cea",
+        "baseSha256": "9e2017c6d37399319dc18271193aeeb7cc9e1e5dd8a23ead2f916d401b205a91"
+      },
+      {
+        "path": "linux-blue/workbench-runtime-choice.cjs",
+        "bytes": 1529,
+        "sha256": "3cbf60583f95097f4de8dc15b8a45465c7c0f9ba49d08816e33ca65b135b5e76",
+        "baseSha256": "18ba58d3b3a99dbcaced4ef4b00477aa9bf7fcd1905ed954b3c9e4b7e2f30014"
+      },
+      {
+        "path": "preload.js",
+        "bytes": 3683,
+        "sha256": "c4480a209476b994d4132e1bfb99960da16bef935b04ce1dc58288fe55450f07",
+        "baseSha256": "d34a52b84c785bacf047b7072678f8dddbc8e54513b14c65ed371a130be7281d"
+      },
+      {
+        "path": "src/ipc.cjs",
+        "bytes": 7924,
+        "sha256": "fa6b035548e9f1016565a61f02d76c326357976959d4972a9d33b27198eb268e",
+        "baseSha256": "ca1882df4ec838c1b596828be53b24ed36669313924e2e8e7caa6faba57470c7"
+      },
+      {
+        "path": "ui/renderer.js",
+        "bytes": 150217,
+        "sha256": "ffaa2e56e28e7168aa8bf42cf56129d88a496cb2f544305e8e9604ac45b35f76",
+        "baseSha256": "a88dd83dcf1d3c127106f1b895770d7bad4c789fb5ee831b26f6be6b682bef68"
+      },
+      {
+        "path": "linux-blue/workbench-session.cjs",
+        "bytes": 3348,
+        "sha256": "731deecea97e96e2b46f9fde68efff75e166c9349674e0da11a882dbeba7dd96",
+        "baseSha256": null
+      },
+      {
+        "path": "linux-blue/workbench-session.test.cjs",
+        "bytes": 25614,
+        "sha256": "547a741d983428d444372ea2d00c12ef6fda69eb834010c6004dc801c3c350a2",
+        "baseSha256": null
+      }
+    ],
+    "scope": "Seven source/test paths only; exact reviewed V2 integrated after long-service audit and source release. Long result remains attributed to tested 031. Subsequent integrated source tests are recorded below; native session switching remains untested.",
+    "producers26UnchangedAsReviewed": true,
+    "preflightStopResolution": "Lead first checked earlier INDEPENDENT_REVIEW-v2.json using final hash. No mutation occurred. Reviewer clarified distinct -v2-final.json; both prior and final identities/artifacts verified, no overwrite or source change."
+  },
+  "tests": {
+    "completedAtUtc": "2026-11-18T03:04:45.519341+00:00",
+    "baseLocalCommit": "52bf8e5e74f7e36cf6e751f45dd12250d3d373dd",
+    "testedIntegratedSource": true,
+    "runtimeOrNativeExecuted": false,
+    "runs": [
+      {
+        "path": "checkpoint032-lead-tests/focused.json",
+        "bytes": 5987,
+        "sha256": "f8421d03f5ed4f19b5df119c71dd6d34cfcf48c616fa016650515af9c0a955f8",
+        "summary": {
+          "tests": 218,
+          "suites": 0,
+          "pass": 218,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      },
+      {
+        "path": "checkpoint032-lead-tests/protection.json",
+        "bytes": 4590,
+        "sha256": "284a1172a5660c3b9c153f482e2cf5d9faa1929b43634d9ff7b77634f819d64c",
+        "summary": {
+          "tests": 229,
+          "suites": 0,
+          "pass": 229,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      },
+      {
+        "path": "checkpoint032-lead-tests/linux-broad.json",
+        "bytes": 11395,
+        "sha256": "15fcb9d097b88f8e2f1bf539cd3c9b102fa1843ce131cd4e1bdcb8ab772d25ff",
+        "summary": {
+          "tests": 284,
+          "suites": 0,
+          "pass": 239,
+          "fail": 45,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 1
+      }
+    ]
+  },
+  "failureReconciliation": {
+    "atUtc": "2026-11-18T03:05:21.685476+00:00",
+    "prior": "checkpoint027-failure-reconciliation.json",
+    "current": "checkpoint032-lead-tests/linux-broad.json",
+    "priorSummary": {
+      "tests": 268,
+      "suites": 0,
+      "pass": 223,
+      "fail": 45,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "currentSummary": {
+      "tests": 284,
+      "suites": 0,
+      "pass": 239,
+      "fail": 45,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "nonemptyFailureLabelMultisetEqual": true,
+    "count": 45,
+    "labels": [
+      "\u2716 calibration producer literal closure still equals immutable tested source",
+      "\u2716 synthetic factory composition uses normal selector, observer, telemetry and storage, with owned closure",
+      "\u2716 bounded original-report read and post-await currentness fail closed with descriptor cleanup",
+      "\u2716 cancellation closes admission synchronously before pending saved writes drain",
+      "\u2716 service and candidate cleanup failures both survive without masking the primary",
+      "\u2716 workbench snapshot removes unqualified runnable entry before every update, then ordinary file-edit reprepare issues genuine range selection",
+      "\u2716 strict OutputAccess seam rejects callback-shaped impostor and accepts real main-owned authority",
+      "\u2716 inspection-only boundary refuses Start across a modeled pending-write window and does not emit ready compatibility rows",
+      "\u2716 calibration producer literal closure still equals immutable tested source",
+      "\u2716 synthetic factory composition uses normal selector, observer, telemetry and storage, with owned closure",
+      "\u2716 bounded original-report read and post-await currentness fail closed with descriptor cleanup",
+      "\u2716 cancellation closes admission synchronously before pending saved writes drain",
+      "\u2716 service and candidate cleanup failures both survive without masking the primary",
+      "\u2716 composed selector issues only genuine fixed resize range authority with its own resource policy",
+      "\u2716 report path replacement and canonical alias after bounded read reject and close the open handle",
+      "\u2716 workbench snapshot removes unqualified runnable entry before every update, then ordinary file-edit reprepare issues genuine range selection",
+      "\u2716 strict OutputAccess seam rejects callback-shaped impostor and accepts real main-owned authority",
+      "\u2716 inspection-only boundary refuses Start across a modeled pending-write window and does not emit ready compatibility rows",
+      "\u2716 synthetic staged service: codecs, exclusive publication, admission and child balance",
+      "\u2716 active cancellation drains before restart; progress-time collision never overwrites",
+      "\u2716 close drains an active child and permanently closes admission",
+      "\u2716 caller fixture swap after capture cannot redirect child reads",
+      "\u2716 ordinary three-codec paths retain baseline predicate and reach superclass admission",
+      "\u2716 genuine KeepSource, range resize and Full resize tokens coexist with ordinary H265 in one preflight",
+      "\u2716 forged/stale family and runtime tokens refuse the whole batch without state mutation",
+      "\u2716 unsupported route, omissions, settings and separate-folder rules cannot partially start",
+      "\u2716 stale plans and invalid selections retain superclass refusal before any start",
+      "\u2716 a revoked genuine observer token refuses before superclass mutation",
+      "\u2716 fourth family requires its own genuine catalog and current token, old three cannot issue it",
+      "\u2716 original factory remains ordinary-only and forwards state/output access without spawning",
+      "\u2716 1440 pure receipt schema retains full extents, independent source and exact family resources",
+      "\u2716 1440 is fixed main-only fourth variant without app activation or geometry override",
+      "\u2716 1440 composition pins the independently accepted complete calibration bytes",
+      "\u2716 Full composition pins the independently reviewed completed calibration",
+      "\u2716 Full receipt requires complete distinct source extents, family and null interval",
+      "\u2716 pending, missing or changed digests cannot authorize a receipt",
+      "\u2716 exact successful Keep Source, resize and Full service proofs match their own calibrations",
+      "\u2716 forged successful labels cannot replace lifecycle, source, accounting or geometry evidence",
+      "\u2716 accepted exact proofs construct real qualified factory without capabilities or child execution",
+      "\u2716 1440 service validator has distinct status, geometry, lifecycle and complete tail counts",
+      "\u2716 accepted exact fourth proof constructs four-family factory without children and keeps three-family app separate",
+      "\u2716 three-family controls import and real construction do not load unavailable inactive 1440 composition",
+      "\u2716 reviewed local dependency gate succeeds and absent/symlinked dependencies fail closed",
+      "\u2716 resize receipt binds independently verified bytes while explicit pending factories stay closed",
+      "\u2716 resize receipt independently binds geometry, policy, clocks, resources and all evidence"
+    ],
+    "limits": [
+      "Exact nonempty spec-reporter failure label multiset comparison, not an inference from equal totals.",
+      "Historical 45 failures remain red: missing fixture/runtime/report and exact producer-closure refusals; downstream behavior remains unproved.",
+      "Focused and protection scopes overlap other tests and are not summed. No native switch or media rerun."
+    ]
+  },
+  "integratedReview": {
+    "disposition": "Integrated bytes support bounded source checkpoint; no new native qualification",
+    "review": "session-switch-independent-review/INDEPENDENT_REVIEW-v2-final.json",
+    "sevenExactFrozenV2": [
+      "linux-blue/workbench-main.cjs",
+      "linux-blue/workbench-runtime-choice.cjs",
+      "preload.js",
+      "src/ipc.cjs",
+      "ui/renderer.js",
+      "linux-blue/workbench-session.cjs",
+      "linux-blue/workbench-session.test.cjs"
+    ],
+    "producer26": "all26 exact current source SHA match candidate-full-copy-service PRODUCERS map, independently checked",
+    "leadReceipts": {
+      "focused": {
+        "tests": 218,
+        "suites": 0,
+        "pass": 218,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "linux-broad": {
+        "tests": 284,
+        "suites": 0,
+        "pass": 239,
+        "fail": 45,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "protection": {
+        "tests": 229,
+        "suites": 0,
+        "pass": 229,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    "leadLogHashesVerified": true,
+    "integratedCoveredHashesVerified": true,
+    "failureLabelMultisetEqual027": true,
+    "limits": [
+      "Scopes overlap; do not sum counts. No duplicate187 run.",
+      "No native switch/window replacement/layout or native Windows/hardware proof.",
+      "Normal quit remains without a general all-IPC drain guarantee; switch admission is the strengthened boundary.",
+      "Long031 evidence belongs to prior tested source and remains partial; no retroactive attribution to integrated source.",
+      "READY/security log is initial launch only; shared preload/renderer changed; originalPreload label is not unchanged-byte evidence.",
+      "Manual review, no validated formal security assessment."
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "checkpoint032-record-cutoff.json",
+      "bytes": 545,
+      "sha256": "bcbdcbbd88630977e3481ad865cd248bd65061126e99dbb5ba37227b82c4f2e2"
+    },
+    {
+      "path": "checkpoint032-integration-preflight-stop.json",
+      "bytes": 558,
+      "sha256": "f6fd61e4fe14c6e36c4761e89b92a890f462c68c9d4b9f76e81303eaba21d447"
+    },
+    {
+      "path": "checkpoint032-integration.json",
+      "bytes": 2782,
+      "sha256": "4c63730ed04024f0be251b291b328da4cab75b48464641bd639cd4c70b3d7e25"
+    },
+    {
+      "path": "checkpoint032-lead-test-results.json",
+      "bytes": 1323,
+      "sha256": "5320c0109ceb756e3c8205f230cd2ba4516c5d91f1f7c4c546287118f5b8c109"
+    },
+    {
+      "path": "checkpoint032-failure-reconciliation.json",
+      "bytes": 5598,
+      "sha256": "0e193c8db1d36adaabd91866850beed297f456afd321cf93b1648f71f344a29f"
+    },
+    {
+      "path": "session-switch-sourcework-evidence/HANDOFF-v2.json",
+      "bytes": 13191,
+      "sha256": "49764a8ac0ceffc39f7ed7bd07c06441cb0a35d520b20833d793dadd1f298539"
+    },
+    {
+      "path": "session-switch-sourcework-evidence/session-switch-v2.patch",
+      "bytes": 45737,
+      "sha256": "e4b9f89a3e33ab2d93029eeb837433f883c5149ef6a72cc63a1d920eabd82f01"
+    },
+    {
+      "path": "session-switch-independent-review/INDEPENDENT_REVIEW-v2-final.json",
+      "bytes": 4434,
+      "sha256": "1b56a0a3c9258016bd8906d8bd160cdcf0d4eae971736ed29e448b6491457137"
+    },
+    {
+      "path": "session-switch-independent-review/INTEGRATED032_REVIEW.json",
+      "bytes": 1789,
+      "sha256": "1ea9418315188f26b8070cf8d4f040a10676e97017c7bad254753caa70216afa"
+    },
+    {
+      "path": "full-copy-remaining-proof-prospective-20261118/PLAN_REVIEW.json",
+      "bytes": 7877,
+      "sha256": "1f5511321db4d97f5e01379092ad2ef2eb9513912dbe4cb55a05eee783ba6052"
+    },
+    {
+      "path": "checkpoint032-lead-tests/focused.json",
+      "bytes": 5987,
+      "sha256": "f8421d03f5ed4f19b5df119c71dd6d34cfcf48c616fa016650515af9c0a955f8"
+    },
+    {
+      "path": "checkpoint032-lead-tests/protection.json",
+      "bytes": 4590,
+      "sha256": "284a1172a5660c3b9c153f482e2cf5d9faa1929b43634d9ff7b77634f819d64c"
+    },
+    {
+      "path": "checkpoint032-lead-tests/linux-broad.json",
+      "bytes": 11395,
+      "sha256": "15fcb9d097b88f8e2f1bf539cd3c9b102fa1843ce131cd4e1bdcb8ab772d25ff"
+    },
+    {
+      "path": "full-copy-long-service-successor031-preparation-20261118/LEAD_RELEASE.json",
+      "bytes": 1697,
+      "sha256": "ca022f2aa2eec8cc3e86c94b6231c7e15e316e4aeb73cceb4f33676a54cbda9e"
+    },
+    {
+      "path": "full-copy-long-service-successor031-preparation-20261118/LEAD_IDENTITY_RECONCILIATION.json",
+      "bytes": 904,
+      "sha256": "2dd5b28c9f4c1c1a2600d9a65fb6acf1e8e1fbef575d6c76145199b235d9a883"
+    },
+    {
+      "path": "full-copy-long-service-successor031-preparation-20261118/INDEPENDENT_FAILURE_AUDIT.json",
+      "bytes": 55742,
+      "sha256": "7d8fa1348c183c58c3ef32b2630d421daafb849dec1b48654b82c063fd244927"
+    },
+    {
+      "path": "full-copy-long-service-successor031-preparation-20261118/WORKER_FINAL_HANDOFF.json",
+      "bytes": 4661,
+      "sha256": "aaf01928689ec14267196b5a484d021385f259b9fccad3523b94edf78a9fb6bf"
+    },
+    {
+      "path": "full-copy-long-service-successor031-preparation-20261118/WORKER_BOUNDARY_CLARIFICATION.json",
+      "bytes": 543,
+      "sha256": "94a70f39536a481a1f2a48ed298e48361ab0f25774891ffaabf65582d17866b7"
+    },
+    {
+      "path": "full-copy-long-service-successor031-preparation-20261118/OUTER_COMPLETION.json",
+      "bytes": 373,
+      "sha256": "c436f1a7cc5a1bc3470fe73c3ef33f9c45a61f5afa9cf4471e6c19f34f58832f"
+    },
+    {
+      "path": "full-copy-long-service-successor031-preparation-20261118/COMPLETION.json",
+      "bytes": 544,
+      "sha256": "4661ea4ae024e35dc4883e9d59a11f7822daf318d3566ffe104e264207822bbc"
+    }
+  ],
+  "portable": {
+    "path": "proof-records032-preparation/long-service-partial-publication-portable.json",
+    "bytes": 282596,
+    "sha256": "4be149470bd04228c79f09ec446febfdd1e7629019e32d6a54f4e58df03d7d66"
+  },
+  "result": {
+    "wholeCampaign": "failed-retained",
+    "supportedCase": "150-second publication",
+    "collision": "skipped, no new target, one legitimate metadata child",
+    "unreached": [
+      "post-collision helper hash assertion",
+      "protected case append",
+      "active cancellation",
+      "NEW-owner recovery"
+    ],
+    "laterAuditAndLeadHashMatchIsSeparate": true
+  },
+  "limits": [
+    "No native switch/Windows/hardware or formal Security Cloud validation.",
+    "Same45 broad failures retained; overlapping suites not summed.",
+    "Media belongs to031 before integration; old26 producer hashes do not prove new consumer execution.",
+    "Complete decoded-source collection is post-encode/pre-publication; copied coded AAC and rational timing are not PCM or pixel identity.",
+    "Normal quit lacks a general all-IPC drain guarantee; initial READY/security logs do not establish replacement-window enforcement.",
+    "Raw runtime/media/profile inputs absent source-only restore; portable cannot substitute runtime gate.",
+    "Prospective remaining-path plan has no helper implementation/run at cutoff; no repeat long success or gate replay."
+  ]
+}

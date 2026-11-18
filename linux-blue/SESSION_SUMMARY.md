@@ -1,3 +1,438 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Add explicit workbench session switching and preserve the partial longer-service proof
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model / effort attribution | Evidence and limit |
+|---|---|---|
+| Engineering lead | GPT-6 Astra / Ultra, recorded assignment, not backend attestation | Bound the corrected experiment to preserved 031, reconciled its partial outcome, then integrated seven reviewed switch paths and chose one coherent source/evidence checkpoint. |
+| Sibling helper and authorization authors/reviewers | Not independently established here | Narrow inspection-window correction, actual-builder injected tests, synthetic binding checks, exact rendered review and separate execution authorization. |
+| Long-service executor and independent auditor | Not independently established here | One actual campaign; successful 150-second publication followed by a helper assertion failure. Saved-output audit, not independent re-decode. |
+| Workbench switch source author/reviewer | Not independently established here | Seven-file V2 proposal, retained red tests and a reproduced IPC rejection-diagnostic race, corrected in V2; injected/unit/VM proof, not native Electron. |
+| Integrated-source verification | Not independently established here | Exact frozen files, focused/protection/broad source suites and independent nonempty failure-multiset reconciliation. Overlapping test scopes are not added together. |
+| Preservation / Session documentation | Not independently established here | Full 031 restoration/publication verified; 032 source/evidence preservation remains prospective at cutoff. Only this new Session prepend is owned by the summary writer. |
+
+**Record basis:** Two distinct advances belong in this coherent checkpoint. First, saved evidence supports **one 150-second Full/720/copied-AAC normal-service publication on immutable 031**. The overall experiment still failed at an overstrict collision child-count assertion, and cancellation/new-owner recovery were unreached. Second, reviewed opt-in ordinary/Full-copy session switching was integrated and source-tested afterward. The long-media result is not retroactively evidence of the new switch or its native lifecycle. No production/default activation, Windows qualification or owner acceptance is claimed.
+
+## 🕒 Time
+
+- Date / clocks: November 18, 2026, UTC. Total active-work start/duration were not measured. Runtime wall, monotonic, case and individual-child intervals are distinct.
+- Previous 031 cutoff: 02:29:21.288468. Successor correction handoff **02:31:28.373140** and independent correction review **02:32:36.696440** belong here, not in the prior failure record.
+- Final successor manifest review **02:39:44.181805**; generator handoff 02:40:21.114177; generator review **02:41:36.274909**. These were preparation, not runtime.
+- Full 031 remote verification **02:47:58.364294**; final mirror release received **02:49:30.151964**. Actual generator once **02:49:30.152884–02:49:32.665868**, exit 0; exact rendered review **02:50:36.857621**.
+- Separate lead run release **02:51:49.826374**; authorizer once **02:51:49.826734–02:51:51.529642**, exit 0. Its gate and outer launch are separate actions.
+- Outer campaign **02:52:27.619–02:58:00.516**, exit 1. Outer monotonic **332,896.996473 ms**, wall 332,897 ms; inner **329,334.410082 ms**, wall 329,334 ms, report finished 02:58:00.494.
+- Actual target child 39: **02:52:42.469–02:57:08.247**, exit 0. Successful case elapsed 317,060 ms. These intervals are not interchangeable and are not native performance benchmarks.
+- Existing-output metadata child 51: **02:57:59.490–02:57:59.515**. It closed before the `51 !== 50` helper assertion.
+- Independent saved audit **03:00:18.140685**; lead identity reconciliation **03:01:43.277238**; source freeze released **03:01:43.299555** for reviewed source integration and combined records, not another runtime attempt.
+- Switch V2 proposal handoff **02:56:33.767560**, prepared separately while old-source runtime was frozen. Exact seven-file integration **03:03:35.535397**. No source integration occurred during that campaign.
+- Final lead focused tests **03:04:33.885406–03:04:35.426394**; protection **03:04:35.509868–03:04:43.901981**; broad **03:04:43.963816–03:04:45.480669**. Failure reconciliation **03:05:21.685476**.
+- **Fixed combined record cutoff: 2026-11-18T03:06:11.941142Z.** Later helper implementation, reviews, gates, native work or publication are not imported.
+- Stage / type / focus: combined source implementation and audited partial service evidence. End / stopping point: reviewed source integrated and tests reconciled; original campaign retained failed; 032 backup and focused remaining-path work pending.
+- Reason for summary: preserve useful app progress and the supported long result without another evidence-only milestone, while keeping exact source attribution, real failures, test limits and continuation boundaries clear.
+
+## 🎯 Session Goal
+
+Correct the demonstrated long-source inspection-admission gap in a separate sibling helper, preserve the original zero-target failure, and attempt the finite normal-service sequence on fully backed-up source. Independently progress the developer workbench toward explicit ordinary versus Full-copy sessions without changing default runtime selection, creating arbitrary executable/path controls or reusing retired output authority.
+
+The combined finish line is reviewed source progress plus faithful evidence, not a manufactured campaign pass. A successful 150-second output should remain useful even if a later harness assertion fails. Conversely, that successful old-source case must not be advertised as native switch qualification. Finish with one coherent Git → independently restored Notion source/full history/readable records → verified GitHub checkpoint, then target only the remaining proof gaps rather than needlessly re-encoding the successful long case.
+
+## 🛠️ Actions Taken
+
+### 1. Preserve all of 031 before a new sibling experiment
+
+Immutable 031 is local `52bf8e5e74f7e36cf6e751f45dd12250d3d373dd`, tree `47594e917391eda1ac239436781cdc614f9f9a37`: **597 files / thirty-one commits**. It preserves the earlier failed long-helper preparation unchanged. That earlier attempt remains zero-target/zero-case failure, not amended by this later correction.
+
+[Notion source and full history](https://app.notion.com/p/41cbd7ade63b81099765e840fe9f2c97) verified full source ZIP SHA-256 `c5f7454947768791080d7e4875d9303ba7f0ae64acbba72595a0026dc777b152`, bundle `7a804d6268f90e1aa31eb2d634d5872ec06e1ce041237cfe5fdb69fa0f52b989`, and history wrapper `ae46e5df433081eda5449521f04e546e42aa82f3b011453b3d8e99228fdfd3cc`. [Complete readable native Session](https://app.notion.com/p/41cbd7ade63b816f8b16ec1b3ec30688) fetched all thirty-one headings and historical ending without truncation metadata. Exact source bytes remain in restored archives, not inferred from native formatting.
+
+The full predecessor is **1,459,932 bytes**, SHA-256 `489f9f5dc469df604bf5b9a24335e83b9ade680c0ad87b6fbf2ff15f30897eb4`. It is retained byte-for-byte as this entry's suffix, with the original structure-correction receipt untouched. A local preservation verifier initially had a mechanically mistyped expected tree string; its assertion stopped before the receipt. Correcting it against the immutable handoff and observed clone completed verification without archive/source mutation or upload retry.
+
+GitHub verification at 02:47:58.364294 established remote `e0c898c54e232d9664c7b1c72f941841e4b3ab1a`, sole parent `560fa21221c33a87d976cb038e5d765143dc2547`, tree `1eeefeb3fe515fa6928cac34f839ccf3f1e4bee5` on `blue/linux-development`. Five exact changed-file readbacks and the full Session Git blob matched. Tree counts: **979 total / 974 unchanged / two modified / three new / zero deleted**; fresh ref, non-force expected-parent update and actual ancestry verified. Local reconstruction and remote history remain intentionally distinct.
+
+Final Notion receipt is **106,155 bytes**, SHA-256 `246ce0064c522ce82dd4a2338731594d54aa3fd0a384725ed88bf18ffa50e6c9`; final released mapping is 480 bytes, `0aeb50dbd07e77a189ec1d7c63118dc044359e71c66a1943ec8de0a59e8f1c9e`, received 02:49:30.151964. All preservation gates preceded the new generation, authorization and runtime.
+
+### 2. Correct only the missing finite inspection shapes and retain the coverage mistake
+
+The new sibling helper handoff at 02:31:28.373140 is **5,315 bytes**, SHA-256 `603d2b08db978eea0528aad46ee1cf1c4b118d715bae2b1d96e4f74354cbcaf2`; patch 7,656 bytes, `9b2bae49c2168aa7925f13ef27cc2b92e07222f590402c6824989aaa80196b66`. The failed original root, all forty-nine artifact rows, gate/report/logs and raw inputs remain unchanged.
+
+The launcher now supplies `inspectionExtentUs` from the main-owned verified copied-source specification associated with the current owned source. Before normalizing the interval token, the guard requires the exact pinned ffprobe, preparation phase, final source path and a permitted extent/window pair. Only the three 150-second windows `0.000000%2.000000`, `75.000000%76.000000`, `148.000000%150.000000`, and the three 11-second windows `0.000000%2.000000`, `5.500000%6.500000`, `9.000000%11.000000` are accepted. Every other argv token must still match the immutable template. This is not generic interval permission or changed media qualification. Object-key coercion is not an unforgeable type brand; trusted main-owned numeric source specifications and the pinned launcher are the boundary.
+
+An initial regression draft only observed requested windows, without proving successful admission. Actual `finishInspection` can retain runner failures rather than throw them outward, so this was insufficient positive coverage. The coverage-gap log remains. Corrected red tests against the original guard produced **two passes / three failures** and added actual admitted-count assertions. The successor tests call the real production inspection builder with a synthetic probe and injected runner; all six intended windows must reach admission, three per source. Wrong tool/source/phase/extent/window or added-option cases still refuse.
+
+Worker and independent **23/23** checks passed, separately and overlapping, not forty-six unique tests. They cover actual-builder injected calls, temporary files, source slices, synthetic receipt inspection and pending promises. They did not run FFmpeg, ffprobe, a live service campaign or native UI. Independent correction review at 02:32:36.696440 is 4,416 bytes, `cf22ca0586a310d2f20553d72a3d5b0ee963d5a5d5d483e96bbe2fa2748f980e`.
+
+Outer launcher, execution binding, role templates, persistence helper and runtime manifest remained exact. The 112 overall-child and 35 metadata caps did not increase. The revised forecast consumed the former twelve contingency slots: 100 + 12 = 112, **zero spare**. At this stage that forecast still omitted the later-discovered collision metadata call; the prospective remaining-path analysis below records that correction rather than rewriting this earlier estimate. Unexpected work must fail closed; no test guaranteed campaign completion.
+
+### 3. Close manifest metadata, bind actual 031 and authorize exactly one run
+
+The historical V1 manifest remains frozen at 15,979 bytes, SHA-256 `5ee2954a30cdf415477bd09b6c55fbc5ab957add564613653ea5970c7d0f3c74`. Final manifest is **17,304 bytes**, `25f9ff730deb8cfec5d6a4d8b743f41912a743592e2d16ed2a72973f820feffa`; final handoff 1,140 bytes, `b76a8bf04c75f01d1bffc95f9b40874ec02b5559daf877592d0c2945cd3e99b6`. Its then-pending-review statement remains historical, not silently revised.
+
+Final metadata review at 02:39:44.181805 verified fifty-one rows plus the separate original calibration, existing file rows unchanged, V1 preserved and only declared metadata/test-attribution additions. It accepted future binding preparation only, reran no tests and granted no execution.
+
+The successor generator is 14,858 bytes, SHA-256 `698a2856865379c116111938f8e4bbf045357919c6d51b2c3e8528728f9f8a4a`. Review at 02:41:36.274909 reproduced **eight AST/extracted synthetic checks and five file-only binding checks**, overlapping worker scopes. These did not execute the full generator on actual preservation. The source only accepts selector 031, fixes real 030 ancestry, verifies actual source/current/Git/archive/mirror/remote identities and rejects stale selectors, optimization, loader changes or existing attempt artifacts. Exact review and authentic lead release remain authority, not self-consistent local hashes alone.
+
+Actual generator ran once 02:49:30.152884–02:49:32.665868, exit 0, retaining 222-byte stdout and 119-byte bundle-verification stderr. It wrote a **1,205-byte binding**, SHA-256 `98ed31819127d4b64defd50a0f09f09318d3475f784d3fb2cf02e3c63393ea64`, and inert authorizer SHA-256 `d59b09b3203fa0cbff0374817a3c79adceb5d3c39ce929b5252584b44a829cba`, not a gate or runtime process.
+
+Exact rendered review at 02:50:36.857621 is **3,615 bytes**, `3589c8edbd1d70611ccda61e70b84d3c939511e500dfc5a033978b93546fd6d1`. It checked exact rendering, seven fixed/seven frozen receipt identities, 597 Git/current/publication/Notion files, thirty-one commits, five remote delta rows, source ZIP contents, bundle/history binding, fifty-one manifest rows, nine runtime pins and two source fixtures. Remote/native restoration semantics rely on trusted released receipts, not a fresh download by this reviewer.
+
+Separate lead release at 02:51:49.826374 is 1,859 bytes, `8fbe058f7739baa3cbd3311243fba68898101c25c26b917dc0429f994c23adc0`. Authorizer executed once 02:51:49.826734–02:51:51.529642, exit 0; 109-byte stdout and 119-byte stderr retained. New gate is **68,627 bytes**, SHA-256 `92e1bdd804a5cb5ee9621349002a60020babadd568757d4f03a2468cabd1b55a`. Executor separately rechecked 597 source files, nine runtime pins and storage before one outer invocation. Existing ongoing owner authorization covers reasonable scoped retries; fresh gates protect state and do not imply an unnecessary new owner-permission request. The old consumed gate was not replayed.
+
+### 4. Complete one actual 150-second normal-service publication on immutable 031
+
+The corrected helper reached genuine service preparation and explicit Full/null/720/copied-AAC selection. A single target encoded the existing 150-second source. Successful-case output is **36,098,183 bytes**, SHA-256 `7339073cef5ae9aa98e184c18043742c46d11d1d9ca50afd48120af01d3bc616`. The helper established this whole-file hash after publication during the campaign and saved full source/output probe JSON from actual child invocations. This differs from earlier native journeys whose full output hashes were first established after close.
+
+The raw report is **176,472 bytes**, SHA-256 `6a2ec19fa429744ec04be41d5e221300b05361b9c20614c66c0f03c5034571d4`; its one case is `long-mov-publication`, status passed, while overall status remains `failed-retained`. Completion readback matched the persisted report. The independent audit later compared the saved probes and rehashed files without rerunning FFmpeg, ffprobe or decoded media.
+
+Complete-source and output collector evidence supports **4,500 frames and 7,200,000 audio samples**, 1,024 decoder-signalled delay samples and 768 discard-padding samples. All **7,033 copied AAC packets** match payload, side-data, header/extradata and seal; combined source/output seal is `78d9b4ddb48033355fe7ed55f1e6c9405aac10d2835ffdbed833d595d87ca9f1`. This is coded-packet identity plus decoded timing/count evidence, not new PCM content identity or video-pixel identity.
+
+Complete-source decode occurred **after encoding and before publication**, not as an independent preliminary whole-source pass. Source audio ends at 150,000,000 microseconds; decoded output ends at 150,000,333. Container format duration 150.021 seconds is not that decoded endpoint. Canonical video timestamp/duration and audio elapsed-clock errors were at most 334 microseconds, inside the frozen 1,067/1,042 microsecond tolerances. Audio compares sample ordinals after decoder-signalled skip with shared requested origin and no fitted shift, no unmatched tails, 7,032 intersected spans and `contentIdentity: false`. Do not call rational timestamps exactly equal, infer dropped samples from container rounding, or promote resized video to lossless identity.
+
+Telemetry contains 4,500 video input records in 236,432 bytes, SHA-256 `421863ad78022f4580a0f550eb2db158e6f13b6299e0d39cb6ae67629d587305`, with zero unknown/repeated/backward records and 1/30-second deltas. It establishes encoder-input count/timeline only, not pixel content, last output-frame duration or publication validity. Full collector receipt separately supports the decoded operation contract. Its publication/qualification authority flags remain false; actual service publication is a distinct action.
+
+Nine collector invocations completed. Service accounting is **twelve** children, covering fresh source inspection, target, output metadata and nine collectors, not twelve targets. Accounting streamed 5,366,571 bytes, stdout 5,486,001 and stderr 335. Three sealed evidence spools and full collector/storage records remain. Source before/after identity matched. Storage reported completed/retained, no violations and `hardWriteCap: false`; point observations are not continuous disk guarantees.
+
+Genuine OutputAccess checks dispatched the exact output to an **injected observation sink**, rejected a forged request and expired access after clear. This is not OS file-manager reveal or native switching proof. The worker saw stage growth and saved events, not a sampled native progress percentage; a separate lead telemetry observation does not substitute for audited GUI evidence.
+
+### 5. Stop at the collision assertion and preserve its precise partial result
+
+After publication, existing-output preparation correctly returned a skipped item with “Output already exists.” It started **no second target**. It did make one legitimate fresh source metadata ffprobe, row 51, using the same metadata argv shape as row 30, in the recorded post-target phase. It ran 02:57:59.490–02:57:59.515, exit 0, with empty complete stderr.
+
+The helper's `collisionCheck` returned. Then `launch-service.cjs` line 350 asserted unchanged **total child count** and failed `51 !== 50`. Source `prepareItem` obtains metadata/origin before checking destination and returns on an existing output before `finishInspection`. Therefore zero new target is the intended protection property; zero total processes was an unjustified helper assumption.
+
+The immediately following post-collision output-hash assertion and protected-existing-output case append were **not executed**. Independent post-failure audit and lead hashing separately matched the earlier publication hash. That later saved-file observation supports unchanged bytes at those later checks, but cannot retroactively execute the original assertion or turn the whole campaign into a pass. Keep those two evidence sources distinct.
+
+Active cancellation destination setup/progress/cancel, full closure followed by a new runtime/service, and 11-second recovery were all unreached. The successful long case remains valid within its scope; the remaining cases remain open. The failed attempt was not retried or manually cleaned up afterward; terminal resource closure did complete. No helper edit, manual extra probe/decode or original-evidence replacement was performed to change that outcome.
+
+### 6. Close all children, retain warnings and independently audit the partial outcome
+
+Final census: **51 spawned / 51 closed / zero live / maximum concurrency one**. All actual child exit codes were zero. Thirteen progress-bearing calls are twelve startup calls (six capability encodes plus six decode-to-null validations) and **one semantic target**. Other distinct roles include four startup fixture encodes, two version calls, ten startup probes, thirteen metadata calls and nine collector probes. Do not confuse total children, progress-bearing calls, fixture encodes and user targets.
+
+All 51 child stderr captures are known, complete and untruncated: **44 empty and seven nonempty**. The six startup streams retain duplicate-option/x265/SVT text; actual target 39 retains **335 bytes**, SHA-256 `e4bc8465f988c71ee13cac2eaba1b09e970a91486c10e779b9326053bb0b23e1`, including duplicate-codec, CPU-mask and thread-pool diagnostics. No warning is erased or independently declared harmless. Empty outer stderr does not mean empty child diagnostics. Canonical output validation passed with those warnings, but native threading/performance remains unqualified.
+
+Five saved event contexts are truncated: two initial/prepared `FILE_INSPECTED` contexts, `OPERATION_EVIDENCE_COLLECTED`, `JOB_DISPOSITION`, and collision `FILE_INSPECTED` (sequences 6, 9, 13, 17, 20). Full referenced collector/report evidence remains separately available; a hash does not reconstruct omitted event context. The full service result and saved probe/spool evidence, not a compact truncated event alone, support the completed case.
+
+The final report lists **109 owned artifacts totaling 150,358,890 bytes** before the separate final report. Original and owned 150-second/11-second input hashes match, and all forty-nine artifacts of the previous failed attempt remain unchanged. Closure is reason failed, settled true, live zero. This is actual closed ownership, not a stress proof of nonsettlement or a hard process-exit guarantee.
+
+Independent saved failure audit at 03:00:18.140685 is **55,742 bytes**, SHA-256 `7d8fa1348c183c58c3ef32b2630d421daafb849dec1b48654b82c063fd244927`. It checked 597 source files, nine runtime pins, fifty-one manifest/antecedent rows, 109 new artifacts, forty-nine old artifacts, both fixture pairs, output bytes/hash, full saved probes, collector/spools/telemetry, diagnostics and the exact failure boundary. No independent re-decode or new runtime was performed.
+
+Lead identity reconciliation at 03:01:43.277238 is 904 bytes, `2dd5b28c9f4c1c1a2600d9a65fb6acf1e8e1fbef575d6c76145199b235d9a883`. Release at **03:01:43.299555**, 1,697 bytes, `ca022f2aa2eec8cc3e86c94b6231c7e15e316e4aeb73cceb4f33676a54cbda9e`, accepts the supported long-publication case **inside a failed retained campaign**, releases source for reviewed switch integration/combined records and grants no further runtime. Original reports/gates/outputs/logs remain immutable.
+
+### 7. Build an explicit opt-in ordinary/Full-copy workbench session boundary
+
+Parallel source work was isolated from the frozen campaign. V2 patch is **45,737 bytes**, SHA-256 `e4b9f89a3e33ab2d93029eeb837433f883c5149ef6a72cc63a1d920eabd82f01`; handoff 13,191 bytes, `49764a8ac0ceffc39f7ed7bd07c06441cb0a35d520b20833d793dadd1f298539`. Its proposal base was 030, whose relevant source bytes were unchanged in 031. That isolated-base count is historical; actual integrated-source scope is recorded separately.
+
+Seven paths: modified Linux workbench main and runtime choice, shared `preload.js`, shared `src/ipc.cjs`, shared `ui/renderer.js`, plus new `linux-blue/workbench-session.cjs` and tests. Exact flag **`--blue-workbench-session-switching`** starts the ordinary baseline and rejects incompatible candidate-runtime startup or malformed/duplicate flags. Only `ordinary` and `full-copy` choices are exposed. There is no arbitrary executable, runtime path, argument/configuration IPC or silent fallback. Default/unopted launch remains unchanged; Windows main does not register these new channels.
+
+The main-owned session controller requires idle state, closes old service admission, clears OutputAccess before and after retirement, removes the old update listener, drains cancellation/resources/persisted diagnostics and nulls the retired plan before acquiring the replacement. Cleanup errors are aggregated and poison further switching, requiring close/relaunch. Acquisition failure leaves explicit unavailable state; choosing ordinary again is an explicit recovery action, not automatic fallback.
+
+A replacement BrowserWindow/WebContents in the **same process** is the document-identity fence. It intentionally resets the workbench and discards the old batch/completed-output access; it is not seamless reuse of old plans or grants. Old registration is retired, old callbacks/updates are fenced by owner identity/epoch and old WebContents are rejected. A public URL epoch token is not used as authority. New-document startup reads are admitted before `loadURL` settles. Old-window retirement, replacement-window close, construction failure and quit during pending acquisition have separate handling.
+
+The existing shell/theme/Gauge/HTML/CSS and security settings remain. Shared preload and renderer **do change**: named capability methods and opt-in controls are added; ordinary/default/Windows main expose no visible switching control when the channel is absent. The historical `originalPreload: true` console label is not proof of unchanged preload bytes. READY/security logging describes initial launch only, not independent validation of every replacement window. Native layout and Electron lifecycle have not been exercised.
+
+### 8. Preserve source red history and resolve the actual trusted-rejection race
+
+Source development retained multiple useful failures, not just its final green count. An initial command used the wrong working directory and stopped before tests. Worker run 1 was **177/179**: an unconditional new-module import broke the old-route VM allowlist; corrected to opt-in lazy import. Later **180/181** exposed a comma-return error that reset the transition lock instead of returning the actual transition promise. Subsequent intermediate 180/180, 181/181 and 183/183 results are dated overlapping scopes, not additional independent coverage. A preload-test object-literal typo later prevented the whole new suite loading, giving **171/172** before correction to V1 final **186/186**.
+
+Independent actual `registerIpc` review found a real V1 boundary gap: trusted arity/blocked rejection could await `recordIncident` before joining the in-flight count. A switch could overtake that pending old-owner diagnostic. The saved reproduction, not just a hypothetical concern, required V2.
+
+V2 counts trusted admission synchronously before arity/blocked checks and any await, and decrements in `finally` only after all method/error diagnostics settle. Retired, blocked or admission-closed paths do not add incidents to an old service; transition-control errors do not launch a second diagnostic. Sender/main-frame/URL validation remains synchronous before counting. No attacker payload gains logging or filesystem authority. The unchanged reproduction now yields **BUSY, selected false** while the old diagnostic is held; after drain the legitimate transition succeeds.
+
+The first V2 test append used a duplicated relative checkout path and failed before append. A subsequent name-filter invocation selected zero matching tests and is **not** a red/green test result. Those logs remain; the actual appended regression's red and green are separately identified. Worker V2 and independent affected results are **187/187 each**, overlapping, not 374 unique checks.
+
+Final independent source review also ran a separate actual-main-plus-IPC VM path: missing candidate → old service admission closed and selected null → explicit ordinary recovery → new WebContents → old captured handler `SESSION_RETIRED` → normal close 0. An initial reviewer substitution syntax error is retained; corrected test passed **1/1**. Services/factories/windows are synthetic. This is stronger than only controller mocks, but not a real Electron/runtime or combined native OutputAccess transition.
+
+Manual review recommends bounded source integration, with advisory `human_review_required`: high impact for privileged lifecycle/shared IPC, moderate likelihood, partial injected/unit/VM protection, managed recovery and moderate confidence. Mandatory skill storage/schema/validator resources were unavailable; this is **not** a completed formal schema-validated risk assessment, Security Cloud clearance or automatic execution permission. General application quit does not gain a new all-IPC-drain guarantee; the strengthened boundary is session switching.
+
+### 9. Integrate exact V2 only after source release and run proportionate final tests
+
+Lead first paired the earlier `INDEPENDENT_REVIEW-v2.json` filename with the final review hash. That identity assertion stopped **before any write**. The correct separate `INDEPENDENT_REVIEW-v2-final.json` was verified, with both original/final artifacts unchanged. This is a pre-integration file-selection correction, not an overwritten review or changed patch.
+
+Exact seven-file integration occurred at **03:03:35.535397** on actual 031 base, after long-source audit/release. Integration receipt is **2,782 bytes**, SHA-256 `4c63730ed04024f0be251b291b328da4cab75b48464641bd639cd4c70b3d7e25`; final independent V2 review SHA-256 `1b56a0a3c9258016bd8906d8bd160cdcf0d4eae971736ed29e448b6491457137`. The unchanged twenty-six Full-copy producer hashes still match the existing candidate service map. No historical AV1/raw-report substitution or producer repin occurred.
+
+Final lead checks ran on Node **v24.22.1**, with commands, working directory, logs, covered-file hashes and before/after identity in the saved receipts. All **599 indexed files** remained byte-identical through the tests. The current Git HEAD still names base 031 while the seven reviewed paths are integrated/staged; that does not falsely attribute test execution to an already-created 032 commit.
+
+| Scope | Actual result | Time / provenance | Meaning |
+|---|---|---|---|
+| Focused Linux/candidate/main/UI/vendor/output/IPC/session checks | **218/218**, exit 0 | 03:04:33.885406–35.426394; receipt `f8421d03…` | Actual integrated-source injected/unit/VM checks, not native GUI. |
+| Service/process/output/retention/source protection | **229/229**, exit 0 | 03:04:35.509868–43.901981; receipt `284a1172…` | Existing protective behavior exercised under the recorded suite. |
+| Broad Linux suite | **239 passed / 45 failed / 284**, exit 1 | 03:04:43.963816–45.480669; receipt `15fcb9d0…` | Still red; no broad-green or downstream qualification claim. |
+
+Failure reconciliation at 03:05:21.685476 is 5,598 bytes, SHA-256 `0e193c8db1d36adaabd91866850beed297f456afd321cf93b1648f71f344a29f`. It compares a **nonempty normalized forty-five-label multiset**, including multiplicity, with checkpoint 027's 223/268 baseline; exactly the same forty-five remain. Equal totals alone would not suffice. Historical missing fixtures/runtime/reports and exact producer refusals remain red; their downstream assertions are not proved. New passing coverage does not repair them.
+
+Independent integrated review is **1,789 bytes**, SHA-256 `1ea9418315188f26b8070cf8d4f040a10676e97017c7bad254753caa70216afa`. It matched the seven frozen V2 files, all twenty-six producers, lead logs/covered identities and failure multiset. It did not redundantly rerun 187 tests. Scopes overlap and are not summed. No native switch/window replacement/layout, actual runtime/media on the new switch, Windows or hardware proof occurred.
+
+### 10. Reduce the remaining proof instead of repeating the successful long encode
+
+The prospective remaining-path review at 03:01:46.536738 retains its author’s “Audit pending” wording, although the actual audit had already completed at 03:00:18.140685. That status is preserved as an author statement, not repeated as the current audit state. It is read-only planning, not implementation or runtime authority. It explains that collision preparation legitimately performs source metadata/origin inspection before destination rejection. A fresh-session seeded collision must expect target count **before = after = zero**, not reuse the old helper's hardcoded one-target baseline from preceding publication.
+
+Proposed next sequence: after completed checkpoint preservation and fresh exact review, exclusively copy the independently verified original long input and already-published output into new owned input/sentinel-output folders. Verify original/copy bytes/hash and provenance, never overwrite or add the output as input. A copied sentinel is not a new publication and brings no inherited OutputAccess grant. In a new genuine service, test skipped collision with zero target/stage/publication/grant and only zero or one exact metadata probe; capture the slice and sentinel hashes before later plan changes.
+
+Then use a fresh empty destination for one observed-active 150-second target cancellation, capture actual stage disposition and close/drain owners. Only after live zero/no pending owners, use a **new runtime and service** for one 11-second recovery publication with genuine collectors, accounting, full probe/hash and OutputAccess observation sink. No OS reveal. A target that finishes before the intended active cancellation is a failed experiment boundary, not permission for unplanned collectors or an automatic retry.
+
+The plan corrects the earlier forecast: the old proposed full sequence was **113**, not 112, absent cache reuse, because it omitted collision metadata. No cap was exceeded in the observed 51-child run. Avoiding the already-proved twenty-two-child long-success segment yields proposed **89 total / two semantic targets / nine successful collectors / metadata maximum 22**. Existing 112/35 ceilings are safety limits, not permission for wildcard spare calls; exact phase-local quotas and any tightening require independent review. Thirty-minute abort request/shared 60-second observation and point disk limits remain non-hard guarantees.
+
+At cutoff this is **plan only**. Actual caller-slice collision regression, sentinel copy/no-overwrite/hash checks, positive-progress cancellation/drain/nonsettlement tests, recovery accounting/diagnostic schemas, exact future binding and authorization are required. No corrected remaining helper, test pass, gate or further run is claimed. The successful long encode should not be repeated merely to reach the remaining cases.
+
+### 11. Assemble one combined source/evidence preservation checkpoint
+
+The coherent record is [Workbench session switch and long-service evidence](2026-11-18_Workbench_Session_Switch_And_Long_Service_Evidence.md), with [curated receipts](2026-11-18_Workbench_Session_Switch_And_Long_Service_Evidence_Receipts.json), [portable partial-publication evidence](evidence-2026-11-18/long-service-partial-publication-portable.json) and [current state](CURRENT_STATE.md). Original raw reports/logs/media, source-bound runtime inputs and failed attempts stay intact. Portable parsed evidence is archival, not executable authority or byte-exact raw-report restoration. The portable package preserves eight original parsed reports with exactly 165 leading-root substitutions: 102 proof, two project and 61 runtime-build strings. All other keys, types and values remain unchanged, with original full sizes/hashes and transformation locations recorded. Its authority flags remain false; no inverse mapping, media, runtime, profile or separate raw-log payloads are included. Diagnostic text already embedded in those reports remains preserved except for the declared prefixes.
+
+Expected 032 scope is **twelve paths**: seven source/test paths plus five PBS/evidence paths, with two new source files and three new records, giving **602 files / thirty-two commits** once verified and committed. No new runtime binaries, media, profile/cache/token files or source repin are part of that publication. Only this Session prepend is owned by its writer; the lead owns source/other records and the commit; mirror owns complete restoration and remote verification.
+
+At cutoff the source is integrated/tested and evidence audited, but 032 commit, Notion restore and GitHub publication are still pending. Prior 031 backup is complete. Do not confuse new indexed files or local staged work with a remotely restored checkpoint. Full historical Session is preserved exactly and later changes remain in later dated entries.
+
+## 🧠 Key Insights
+
+### Preserve a supported case without promoting the entire campaign
+
+The saved long publication has complete output, timing/count, packet identity and publication evidence even though a later harness assertion failed. Discarding that success would waste useful work; calling the whole experiment passed would erase unexecuted collision checks, cancellation and recovery. Both statuses must coexist.
+
+### Protect targets, not an unjustified zero-process assumption
+
+The collision service correctly did fresh metadata inspection before refusing an existing destination. No additional target started. The helper's total-child equality was stricter than the actual protective contract. A good successor test must count permitted inspection separately and preserve exact negative admission, not remove all process limits.
+
+### Switch safety is ownership retirement plus document identity
+
+New service choice alone is not enough. Pending diagnostics, old update listeners, output grants, plans and the old WebContents can otherwise cross the boundary. V2 explicitly drains trusted requests and retires the owner/document. Native ordering and real combined capabilities still require later proof.
+
+### Rejection paths are work too
+
+The independently reproduced race came from a trusted rejected request awaiting diagnostics outside the in-flight count. Counting only successful calls misses that lifecycle. V2 counts admission before rejection awaits and suppresses diagnostics once retirement/closure makes them inappropriate.
+
+### Stronger tests need accurate attribution
+
+Actual `finishInspection` with injected runners and actual main/IPC in a VM are useful production-path checks. They are not FFmpeg, Electron or native styling tests. Likewise unchanged producer hashes do not turn old-source media evidence into new-switch qualification. The source receipts and campaign commit must remain separate.
+
+### Useful progress should not wait for unnecessary repeated media
+
+Combining the reviewed app switch with the audited partial long result gives a meaningful checkpoint. The next proof can reuse an immutable published sentinel, avoid the costly successful long re-encode and focus on collision/cancellation/new-owner recovery, provided copied-file provenance and fresh authority are explicit.
+
+## 📌 Decisions Made
+
+### Confirmed
+
+- **Lead:** Accept the audited 150-second publication as a supported case while retaining the whole campaign failed. Original post-collision hash assertion/case append and cancellation/recovery remain unreached.
+- **Lead / auditor:** Attribute `51 !== 50` to an overstrict helper total-child assertion, not output overwrite or second target. Later hash agreement is separately dated evidence.
+- **Lead:** Integrate exact independently reviewed seven-file V2 only after old-source audit/release, preserving all 26 producer identities and default/runtime behavior.
+- **Lead / reviewer:** Resolve the actual V1 trusted-rejection diagnostic race before integration. Retain the red reproduction, test-construction mistakes and final scoped results.
+- **Lead:** Combine seven source/test paths and five evidence/PBS paths in one 032, rather than another evidence-only cycle. Preserve full history and verify actual Git/Notion/GitHub completion before later runtime.
+- **Lead:** Prepare a focused remaining-path plan without repeating the successful long encode or replaying either consumed gate. Existing owner-authorized development remains the intent; fresh exact authorization is an implementation-state boundary.
+
+### Provisional
+
+- The proposed seeded new-session collision plus active cancel/new-owner recovery sequence is the preferred next proof. Its 89-child estimate and phase-local quotas require implementation review; it is not runnable authority at cutoff.
+- Same-process replacement windows are the reviewed developer-only ownership design. Real Electron lifecycle/layout and combined OutputAccess transition must still confirm it, including explicit unavailable recovery and closure.
+
+### Deferred
+
+- Native switch journey, actual runtime/media through the new switch, Windows/shared-surface qualification, packaging, release readiness and owner acceptance.
+- Further source refactors, generic runtime/path configuration, silent fallback or default/production/catalog activation.
+- Remaining 45 broad failures, native topology/threading/performance, PCM/video-pixel identity, HDR/GPU/arbitrary-duration and wider geometry qualification. None is silently resolved by this combined checkpoint.
+
+## ⚠️ Difficulties / Friction
+
+1. **Prior inspection regression initially lacked admitted-count coverage.** Requested windows alone could survive swallowed runner errors. Corrected tests proved actual admission and retained the deficient draft/red evidence.
+2. **Forecast omitted collision metadata.** The earlier 112 estimate was later recognized as 113 absent cache reuse, although actual 51 never exhausted the cap. Remaining-path planning now explicitly accounts for that work.
+3. **Collision helper asserted the wrong population.** One legitimate source metadata call violated zero-total-child equality without starting another target. It stopped subsequent hash assertion/case append and all cancellation/recovery.
+4. **V1 switch had a reproduced lifecycle race.** Awaited rejection diagnostics were not counted early enough, permitting transition before old-owner work settled. V2 corrected that exact boundary rather than relying on green controller tests.
+5. **Several source-test construction errors were real but not production defects.** Wrong cwd, VM import allowlist, comma-return lock behavior, preload test syntax and duplicated append path had distinct impacts; zero-selected test output is not a pass.
+6. **Reviewer VM adaptation had a syntax error.** Its first log remains, followed by the actual corrected 1/1 recovery path. That test remains synthetic, not native acceptance.
+7. **Integration initially named the wrong review file.** Hash mismatch stopped before mutation; selecting the separate final review resolved it without editing review history.
+8. **Shared surfaces changed despite unchanged platform-specific main/defaults.** IPC, preload and renderer affect cross-platform risk. Existing HTML/theme/security settings and unregistered Windows channels do not substitute for native Windows proof.
+9. **Five event contexts are truncated.** Full referenced collector/report data supports the case, but compact events cannot be described as complete context. Child stderr completeness is a separate, positive result.
+10. **Broad suite remains red.** Exact nonempty failure multiset parity supports no newly introduced labels in that suite, not proof that unavailable downstream paths now work.
+
+## 🔧 Adjustments Made
+
+### Admit only the demonstrated finite inspection windows
+
+**Shifted from:** The original helper corpus, which rejected legitimate long-source middle/end preparation calls.
+
+**To:** Exact main-owned 150-second/11-second extent/window binding before one-token normalization, with all other argv/source/tool/phase checks unchanged.
+
+**Because:** The original retained refusal supplied concrete missing shapes, and the service correctly required those samples.
+
+**Consequence:** The new sibling reached the long target without changing app media policy or enlarging caps; actual-builder admitted-count tests now cover the exposed boundary.
+
+### Record supported publication and failed continuation separately
+
+**Shifted from:** A terminal failed campaign record containing a previously completed passed case.
+
+**To:** Independent acceptance of the 150-second publication, with failed total-child collision assertion and every unreached check explicitly retained.
+
+**Because:** Saved output/collector/probe/publication evidence supports the case, but cannot retroactively run the next assertion or cancellation.
+
+**Consequence:** Preserve useful output without a whole-campaign pass or unnecessary long re-encode; later hash agreement stays separately attributed.
+
+### Count trusted rejection diagnostics before transition admission
+
+**Shifted from:** V1 in-flight accounting that could miss an awaited trusted rejection incident.
+
+**To:** Synchronous trusted counting before validation awaits, finally-based decrement, and suppressed old-owner diagnostics during blocked/closed/retired or transition-control paths.
+
+**Because:** Independent actual IPC reproduction demonstrated transition could overtake pending old diagnostic work.
+
+**Consequence:** Reproduction now returns BUSY with no selection until drain; V2 source integrates with that regression retained. Normal quit is not thereby a general all-IPC drain guarantee.
+
+### Make app progress and media evidence one coherent checkpoint
+
+**Shifted from:** A prospective evidence-only 032 after the partial service attempt.
+
+**To:** Seven reviewed switch source/test paths plus five evidence/PBS paths, with exact old-source media attribution and new-source test receipts.
+
+**Because:** Useful isolated app implementation was independently ready and did not require repeating already-supported media.
+
+**Consequence:** One coherent preservation milestone advances developer usability while keeping native-switch and remaining service proof open.
+
+### Replace full-sequence repetition with a targeted remaining-path proposal
+
+**Shifted from:** The original planned sequence that re-encoded long publication before collision/cancel/recovery and undercounted collision metadata.
+
+**To:** Proposed exclusive copied sentinel for new-session collision, one active cancel target, then fresh-owner 11-second recovery, forecast 89 with exact local quotas.
+
+**Because:** Long publication is now independently supported and its output can be preserved as explicit sentinel evidence.
+
+**Consequence:** Avoid redundant cost, but do not claim a copy is a new publication/access grant or that the plan itself is implemented/authorized.
+
+## ❌ Mistakes / Risks Noted
+
+### Incorrect collision total-child assertion
+
+**What happened or could happen:** Helper assumed collision preparation caused no process at all, despite metadata/origin inspection preceding destination refusal.
+
+**Actual impact:** `51 !== 50` terminated after a supported long publication; post-collision hash assertion/case append and cancel/recovery did not run.
+
+**Potential impact:** False app failure diagnosis, wasted successful re-encoding, or a too-broad fix allowing unbounded work.
+
+**Correction / current status:** Audit distinguishes zero new target from one legitimate metadata child; separate remaining-path plan proposes exact zero/one metadata admission. Implementation remains pending.
+
+**Failure Intelligence:** Preserve actual row 51 argv/phase, skipped snapshot, original failing assertion and later independent hash. Test actual caller slice and fresh baseline 0 rather than assuming inherited target count 1.
+
+### Pending rejection work escaping retired-owner accounting
+
+**What happened or could happen:** V1 trusted rejected IPC awaited an incident outside early in-flight admission.
+
+**Actual impact:** Independently reproduced source race, caught before authoritative integration. No native/runtime failure from this source version is claimed.
+
+**Potential impact:** Old diagnostic persistence could outlive ownership, conflicting with clean service/window replacement.
+
+**Correction / current status:** V2 count-before-await and retirement suppression passed actual IPC reproduction and integrated suites. Native combined transition remains unproved.
+
+**Failure Intelligence:** Include rejected, blocked, foreign and retired callbacks in lifecycle tests; successful-path counts alone are insufficient. Keep ordinary quit's narrower guarantee explicit.
+
+### Green tests at the wrong boundary
+
+**What happened or could happen:** Missing admitted-count assertions, zero-selected test invocation or a suite-loading syntax error could be mistaken for full path coverage.
+
+**Actual impact:** Retained construction/coverage errors required correction; actual red/green and 1/1 VM recovery are separately identified.
+
+**Potential impact:** Undetected helper or lifecycle bugs masked by superficially successful commands.
+
+**Correction / current status:** Tests now assert reached admissions and real selected cases, with exact command/cwd/version/hash receipts. Worker/independent/focused/protection counts overlap and are not summed.
+
+**Failure Intelligence:** Verify the intended assertion is reached, count tests actually selected, preserve original red logs, and distinguish production-path injection from real runtime execution.
+
+### Transferring old-source media proof to the new switch
+
+**What happened or could happen:** Both advances are preserved in one checkpoint, inviting an assumption the native switch produced the long output.
+
+**Actual impact:** None claimed. Campaign completed on immutable 031 before source integration.
+
+**Potential impact:** Unsupported native lifecycle, output-capability, shared-platform or usability claims.
+
+**Correction / current status:** Source commit, freeze/release/integration times and test scopes are explicit. All 26 producer bytes remain unchanged but native switch is still untested.
+
+**Failure Intelligence:** Track tested source separately from archival checkpoint and later UI code. `originalPreload:true` and initial READY labels are not byte identity or replacement-window proof.
+
+### Reusing stale plans, grants or documents across a switch
+
+**What happened or could happen:** Replacing a runtime while retaining old batch/output authority could let stale callbacks act on the wrong owner.
+
+**Actual impact:** Reviewed design revokes access, nulls plans, drains owner resources and replaces WebContents; synthetic/VM cases cover failures and recovery.
+
+**Potential impact:** Incorrect output access, lingering work or misleading state if native event ordering differs.
+
+**Correction / current status:** Exact opt-in enum, owner/epoch and document fences integrated; cleanup failure poisons further transitions, missing candidate requires explicit recovery. No silent fallback.
+
+**Failure Intelligence:** Later native proof must exercise real combined output authority and replacement close/acquisition failure; controller mocks and separate OutputAccess units alone do not close that gap.
+
+### Overstating timing, identity or diagnostics
+
+**What happened or could happen:** Canonical 334-microsecond timing tolerance could become exact continuity/PCM claims, or empty outer stderr could hide target warnings and truncated events.
+
+**Actual impact:** Saved long case meets its frozen contract while seven child streams are nonempty and five event contexts truncated.
+
+**Potential impact:** False lossless/performance/reliability guarantees.
+
+**Correction / current status:** Coded packet/header/padding identity, decoded counts, container versus decoded endpoint, input-only telemetry and full collector receipt are distinguished. Warnings remain unqualified, no fresh audit decode.
+
+**Failure Intelligence:** State which identity is proved and which clock is measured; keep warning/capture/context populations separate and source before/after checks scoped.
+
+### Treating preservation or a prospective plan as execution permission
+
+**What happened or could happen:** A copied sentinel, manifest or local checkpoint might be used without exact future review and released preservation.
+
+**Actual impact:** No further runtime granted; only read-only remaining-path planning exists at cutoff.
+
+**Potential impact:** Replayed consumed gates, stale source authority, accidental overwrite or copied-output grant confusion.
+
+**Correction / current status:** New exclusive copies and fresh source/binding/authorizer/release are required after 032 preservation; original roots/output remain immutable.
+
+**Failure Intelligence:** Recheck actual released receipts and source before action. A sentinel is not a fresh publication, previous access token or proof of original same-session sequence.
+
+## 📍 Current Position
+
+**As of:** 2026-11-18T03:06:11.941142Z, the fixed combined 032 cutoff. Record assembly and later publication do not move this evidence boundary.
+
+**Before this session:** 031 preserved an earlier zero-target helper failure. Corrected inspection helper and app-session source work were isolated preparations; long publication/cancel/recovery and native switching were not established.
+
+**After this session:** 031 is fully backed up. One corrected actual service campaign on that immutable source produced an independently supported 150-second output, then failed the helper's collision total-child assertion. All 51 children closed; no cancellation or recovery ran. After audit/release, seven reviewed V2 switch paths were integrated and tested: 218/218 focused, 229/229 protection, 239/284 broad with exactly the same 45 failures. All 26 Full-copy producers remain unchanged.
+
+**Current standing:** A useful developer-only explicit session boundary now exists in source, not yet natively qualified. The overall campaign remains failed-retained; long case and later hash agreement are accepted only within their evidence scopes. Expected 032 is twelve paths/602 files/thirty-two commits; local commit/Notion/GitHub for 032 remain pending at cutoff. Prior 1,459,932-byte Session and correction receipt remain exact.
+
+**Live owner / continuation anchor:** Engineering lead owns combined source/evidence commit and exact preservation, then focused remaining service helper review and later native-switch proof. Original campaign root/report/audit remain immutable on 031. The Session writer owns only this prepend. Resume from linked current execution/receipts and the prospective remaining-path review, not an assumed full campaign pass or completed native switch.
+
+## 🔜 Next Steps
+
+1. Complete the coherent twelve-path 032 checkpoint with a descriptive multiline commit explaining the explicit switch, corrected IPC race, actual tests, partial long publication, remaining failures and native limitations.
+2. Immediately restore and independently verify complete source, full thirty-two-commit history and unabridged readable Session/PBS in Notion, then publish exact authorized GitHub delta and verify ancestry, fresh ref and full bytes. Do not call staged or local-only work backed up.
+3. Implement/review the focused remaining-path helper outside source. Use immutable published output only as an exclusively copied sentinel, with exact provenance, zero/one collision metadata quota and zero target/grant. Preserve snapshots/hash checks before cancellation changes the plan.
+4. Add actual caller and rejection coverage for collision baseline 0, positive-progress cancellation, settled versus hanging owners, exact recovery accounting/diagnostics and persisted report readback. Keep caps finite; no wildcard spare children or automatic retry.
+5. Bind the final helper to actual completed 032 preservation and reviewed source/runtime/report identities, with a fresh exact authorizer/release/gate under existing ongoing scope. No runtime follows from this Session or prospective plan alone.
+6. Execute only the remaining authorized service paths when ready; capture actual cancellation stage and exit behavior, then prove new-owner recovery after full drain. Audit saved evidence independently before extending qualification.
+7. Separately prepare a bounded native opt-in session-switch journey on the preserved new source. Verify original security/theme, real replacement document/IPC/OutputAccess retirement, unavailable/explicit ordinary recovery and closure without assuming VM lifecycle equals native behavior. Do not reclassify old native proof as this test.
+
+**Do not reopen / repeat:** Do not re-encode the successful 150-second output merely to reach remaining cases; do not mutate failed roots, reuse consumed gates, rewrite historical summaries, repin old calibration, suppress warnings or relax media policy. Do not call the original post-collision hash assertion executed, copied sentinel a new publication, twelve startup progress calls user targets, overlapping test totals independent coverage, or the 45 failures resolved.
+
+**Continuation boundary:** At cutoff the remaining-path artifact is prospective review only, with no implemented helper/gate/run. No native switching, Windows, production/default activation or broad release acceptance is authorized by archival records. Subsequent actual source and receipt identities must be independently checked before runtime, while ordinary independent source preparation can continue within the lead's scope.
+
+## ❓ Open Questions
+
+- **Will the focused new-session collision/cancel/new-owner sequence pass?** Known: long publication passed, one metadata collision call was legitimate, later original assertions/cancel/recovery did not run. Needed from: exact reviewed helper and actual bounded experiment/audit. Blocks: remaining service proof, not preserving useful long evidence.
+- **Does the native Electron replacement lifecycle match the VM model?** Known: source tests cover document retirement, pending diagnostics, window construction/close and explicit recovery with synthetic services/windows. Needed from: separately scoped native journey on preserved new source. Blocks: native switching/usability claims.
+- **Are real output grants and source plans fully isolated through an actual native switch?** Known: controller revocation is synthetic composition and real OutputAccess unit checks are separate. Needed from: combined native capability/ownership evidence. Blocks: broader authority-transition qualification.
+- **What happens to a real active cancellation stage and its owners?** Known: no cancellation occurred in either long campaign. Needed from: observed positive progress, actual stage present/absent/hash and full drain before new owner. Blocks: cancellation/recovery claims; graceful exit cannot be assumed.
+- **Do topology warnings affect broader performance or reliability?** Known: retained 335-byte target stderr and canonical output checks coexist. Needed from: separate evidence, not suppressed diagnostics or arbitrary environment changes. Blocks: performance/hardware claims, not the bounded saved long case.
+- **Are all inherited broad paths functional?** Known: same 45 failures remain and downstream assertions behind missing inputs/pins are unproved. Needed from: explicit future engineering/qualification scope, not equality of failure totals. Blocks: broad release claims.
+- **Has 032 itself been preserved remotely?** Known: source integrated/tested and records assembled, but cutoff precedes commit/restoration/publication. Needed from: subsequent lead/mirror receipts. Blocks: any successor runtime binding and a completed backup claim.
+
+## 🧾 Session Outcome
+
+**Useful source progress and an audited partial media result, not a full campaign or release pass.** The corrected sibling admitted the required long-source windows and produced one 150-second Full/720/copied-AAC publication on immutable 031, with 4,500 frames, 7,200,000 samples and 7,033 matching coded AAC packets under the frozen timing contract. The whole experiment then failed an overstrict total-child collision assertion after one legitimate metadata probe. No second target, cancellation or recovery occurred; later unchanged output hashing is separate from the unreached original assertion. All 51 children closed, warnings and both failed roots remain intact.
+
+After source freeze release, reviewed opt-in ordinary/Full-copy switching was integrated with the reproduced V1 rejection-diagnostic race corrected. Final source checks passed 218 focused and 229 protection; broad 239/284 retains exactly 45 prior failures. Native replacement/window/layout, shared-platform behavior, real combined output authority and production activation remain unqualified.
+
+One combined 032 preservation cycle is now required. The prior full Session remains exact. Next work should target remaining service and native-switch gaps, not repeat the already-supported long encode or import later unverified results into this cutoff.
+
+## 🔍 Confidence Level
+
+High for the exact integrated source identities, scoped test results, supported long-publication evidence and diagnosed helper assertion; moderate for the source-level lifecycle risk assessment; native switch behavior remains unverified, as do cancellation and new-owner recovery.
+
+**Why:** Frozen source/receipt bindings precede the actual campaign; full saved output/probe/collector/telemetry/artifact evidence and independent audit agree with the one supported case and exact failure boundary. Source integration occurred only after release, matched seven reviewed V2 files and unchanged 26 producers, and final source/log identities remained stable. Independent actual IPC/VM regressions and a nonempty 45-label multiset comparison support their stated narrow conclusions.
+
+**Not higher because:** Whole campaign failed, original post-collision hash assertion/case append were unreached, and no cancellation/recovery occurred. Audit used saved evidence rather than independent decode; coded AAC identity is not PCM/video-pixel identity; warnings/truncated contexts and point resource bounds remain. Native Electron ordering/layout and combined output-capability transition are untested, Windows/shared surfaces unqualified, broad suite still red, formal security assessment incomplete and 032 publication pending at cutoff.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Preserve the failed longer-service preparation and its exact cause
 
 ## 🤖 Models, Effort, Roles and Provenance

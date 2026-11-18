@@ -7,7 +7,8 @@ const { app, BrowserWindow, dialog, ipcMain, session, protocol, nativeTheme, she
 const { mkdirSync } = require('node:fs');
 const path = require('node:path');
 const { createWorkbenchService } = require('./workbench-service.cjs');
-const { selectWorkbenchRuntime } = require('./workbench-runtime-choice.cjs');
+const { selectWorkbenchRuntime, sessionSwitchingEnabled } = require('./workbench-runtime-choice.cjs');
+const switchingEnabled = sessionSwitchingEnabled(process.argv);
 const runtimeChoice = selectWorkbenchRuntime(process.argv);
 const createService = runtimeChoice === 'baseline' ? createWorkbenchService
   : runtimeChoice === '9.0.2-keep720-candidate' ? require('./candidate-workbench.cjs').createCandidateWorkbench
@@ -39,11 +40,12 @@ else if (runtimeChoice === '9.0.2-resize-candidate') title = 'FFmpeg Encoder · 
 else if (runtimeChoice === '9.0.2-full-copy-candidate') title = 'FFmpeg Encoder · Experimental whole-file 1080p30 to 720p · CPU slow25 / copied AAC · Cancel requires relaunch · native threading unqualified';
 else if (runtimeChoice !== 'baseline') title = 'FFmpeg Encoder · Linux CPU preview · FFmpeg 9.0.2 AV1 · ordinary encode limit 30 minutes';
 const census = { spawned: 0, closed: 0, live: 0, maximum: 0 };
-let window, service, appearance, unregister;
+let window, service, appearance, unregister, sessionOwner, transitionPromise, transitionActive = false, replacingWindow = false, retiringWindow;
 let closing = false, closed = false, closePromise, startupPromise, appearanceFailed = false, failed = false;
 
 function beginClose() {
   closing = true;
+  sessionOwner?.beginClose();
   service?.closeAdmission();
   appearance?.closeAdmission();
 }
@@ -72,27 +74,41 @@ function close() {
   if (closePromise) return closePromise;
   const cancel = service?.cancelCurrent();
   closePromise = (async () => {
-    const settled = await Promise.allSettled([startupPromise, cancel]);
+    const settled = await Promise.allSettled([startupPromise, transitionPromise, cancel]);
     if (settled.some(result => result.status === 'rejected')) failed = true;
     await drain();
   })();
   return closePromise;
 }
 
+function trackChild(child) {
+  census.spawned++; census.live++; census.maximum = Math.max(census.maximum, census.live);
+  child.once('close', () => { census.closed++; census.live--; });
+}
 async function launch() {
   await app.whenReady();
   if (closing) return;
-  service = await createService({ stateDir,
+  const acquire = factory => factory({ stateDir,
     outputAccess: new OutputAccess({ openPath: file => shell.openPath(file), showItemInFolder: file => shell.showItemInFolder(file) }),
     onChild(child) {
     census.spawned++; census.live++; census.maximum = Math.max(census.maximum, census.live);
     child.once('close', () => { census.closed++; census.live--; });
   } });
+  if (switchingEnabled) {
+    const { WorkbenchSession } = require('./workbench-session.cjs');
+    sessionOwner = new WorkbenchSession({
+      ordinary: access => createWorkbenchService({ stateDir, outputAccess: access, onChild: trackChild }),
+      fullCopy: access => require('./candidate-full-copy-workbench.cjs').createCandidateFullCopyWorkbench({ stateDir, outputAccess: access, onChild: trackChild }),
+      createAccess: () => new OutputAccess({ openPath: file => shell.openPath(file), showItemInFolder: file => shell.showItemInFolder(file) }),
+      publish: snapshot => { if (!closing && window && !window.isDestroyed()) window.webContents.send('encoder:update', snapshot); },
+    });
+    service = await sessionOwner.select('ordinary');
+  } else service = await acquire(createService);
   if (closing) { beginClose(); return; }
   title += service.linuxRemuxStatus.available ? ' · Remux ≤60s: MKV video / MP4 AAC'
     : runtimeChoice === 'baseline' ? ' · Remux unavailable (source mismatch)' : ' · Remux unavailable';
   if (service.linuxQualifiedEncodeStatus?.available) title += ' · H265 FLAC range/resize: per-file eligibility';
-  await service.initializeDiagnostics();
+  if (!switchingEnabled) await service.initializeDiagnostics();
   appearance = new AppearanceSettings({ directory: stateDir });
   const initial = await appearance.load();
   if (closing) { beginClose(); return; }
@@ -109,6 +125,7 @@ async function launch() {
   local.on('will-download', event => event.preventDefault());
   registerLocalProtocol(local.protocol, path.join(root, 'ui'));
   local.webRequest.onBeforeRequest((details, callback) => callback({ cancel: !resolveAsset(details.url, details.method) }));
+  async function openWindow() {
   window = new BrowserWindow({ width: 1100, height: 800, minWidth: 640, minHeight: 480,
     backgroundColor: background(initial.theme), title, autoHideMenuBar: true,
     icon: path.join(root, 'assets', 'logo-gauge-2026-11-14', 'gauge-win-midtone-256.png'),
@@ -120,7 +137,38 @@ async function launch() {
   for (const event of ['will-navigate', 'will-frame-navigate', 'will-attach-webview']) {
     window.webContents.on(event, e => e.preventDefault());
   }
-  unregister = registerIpc({ ipcMain, window, service, dialog, entryUrl: ENTRY_URL, appearance: {
+  const ownedWindow = window;
+  const bindIpc = () => registerIpc({ ipcMain, window, service, dialog, entryUrl: ENTRY_URL,
+    workbenchSession: switchingEnabled ? {
+      status: () => sessionOwner.status(), blocked: () => closing || sessionOwner.transitioning,
+      select(kind) {
+        if (transitionActive) throw Object.assign(new Error('A session transition is active.'), { code: 'BUSY' });
+        transitionActive = true;
+        transitionPromise = (async () => {
+          try {
+            const next = await sessionOwner.select(kind);
+            if (closing) return null;
+            service = next; unregister?.();
+            // A new WebContents is the document fence; no public epoch getter.
+            // Keep the same application/theme/security, not a generic navigation protocol.
+            replacingWindow = true; retiringWindow = ownedWindow;
+            try { ownedWindow.destroy(); await openWindow(); }
+            finally { replacingWindow = false; retiringWindow = null; }
+            if (closing) return null;
+            window.setTitle(kind === 'ordinary' ? title : 'FFmpeg Encoder · Experimental whole-file 720p / copied AAC');
+            return sessionOwner.status();
+          } catch (error) {
+            if (closing && error.code === 'SHUTTING_DOWN') return null;
+            if (!sessionOwner.owner) { service = null; dialog.showErrorBox('Workbench session unavailable', error.message); }
+            else if (ownedWindow.isDestroyed()) {
+              failed = true; dialog.showErrorBox('Workbench window replacement failed', error.message); void close();
+            }
+            throw error;
+          } finally { transitionActive = false; }
+        })();
+        return transitionPromise;
+      },
+    } : undefined, appearance: {
     load: () => appearance.load(),
     async set(request) {
       try {
@@ -130,13 +178,17 @@ async function launch() {
       } catch (error) { appearanceFailed = true; throw error; }
     },
   } });
-  service.on('update', snapshot => {
+  unregister = bindIpc();
+  if (!switchingEnabled) service.on('update', snapshot => {
     if (!closing && !window.isDestroyed() && !window.webContents.isDestroyed()) window.webContents.send('encoder:update', snapshot);
   });
-  window.on('close', event => { if (!closed) { event.preventDefault(); void close(); } });
-  window.webContents.on('render-process-gone', () => { failed = true; void close(); });
+  window.on('close', event => { if (ownedWindow !== retiringWindow && !closed) { event.preventDefault(); void close(); } });
+  window.webContents.on('render-process-gone', () => { if (window === ownedWindow && !replacingWindow) { failed = true; void close(); } });
   await window.loadURL(ENTRY_URL);
   if (closing) { beginClose(); return; }
+  }
+  await openWindow();
+  if (closing) return;
   const preferences = window.webContents.getLastWebPreferences();
   console.log('LINUX_WORKBENCH_READY', JSON.stringify({ electron: process.versions.electron,
     runtimeChoice, runtimeIdentity: service.runtimeIdentity,
@@ -150,7 +202,7 @@ async function launch() {
 }
 
 app.on('before-quit', event => { if (!closed) { event.preventDefault(); void close(); } });
-app.on('window-all-closed', () => { void close(); });
+app.on('window-all-closed', () => { if (!replacingWindow || window !== retiringWindow) void close(); });
 if (!app.requestSingleInstanceLock()) { closed = true; app.quit(); }
 else {
   app.on('second-instance', () => { if (window && !window.isDestroyed()) { window.restore(); window.focus(); } });

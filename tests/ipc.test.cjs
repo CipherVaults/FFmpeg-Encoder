@@ -191,3 +191,85 @@ test('actual appearance IPC overload and close refuse more writes while accepted
   assert.equal(starts(), 0);
   t.diagnostic('Retained bounded appearance IPC drain fixture: ' + directory);
 });
+
+function pickerHarness({ selection = { canceled: true, filePaths: [] }, open, register, diagnostic } = {}) {
+  const handlers=new Map(), incidents=[], registrations=[], dialogs=[];
+  const frame={url:'file:///app/ui/index.html'}, window={isDestroyed:()=>false,webContents:{mainFrame:frame}};
+  const event={sender:window.webContents,senderFrame:frame};let blocked=false;
+  const service={requireIdle(){if(blocked)throw Object.assign(new Error('Not idle'),{code:'SHUTTING_DOWN'});},
+    async registerFolder(folder,role){this.requireIdle();registrations.push({folder,role});return register?register(folder,role):{id:'private-token',path:folder};},
+    async recordIncident(row){incidents.push(row);return diagnostic?diagnostic(row):{persisted:true};}};
+  registerIpc({ipcMain:{handle:(n,f)=>handlers.set(n,f)},window,service,entryUrl:frame.url,dialog:{async showOpenDialog(w,opts){dialogs.push(opts);return open?open():selection;}}});
+  return {handlers,event,window,incidents,registrations,dialogs,block:()=>{blocked=true;},call:(role='input',...args)=>handlers.get('encoder:'+role+'-folder')(event,...args)};
+}
+const pickerMarkers=h=>h.incidents.filter(x=>x.reason.startsWith('FOLDER_PICKER_'));
+test('folder picker both roles retain cancelled-null and valid single registration contracts',async()=>{
+ for(const role of ['input','output']) {
+  let h=pickerHarness({selection:{canceled:true,filePaths:['/secret/stale']}});
+  assert.deepEqual(await h.call(role),{ok:true,value:null});assert.equal(h.registrations.length,0);
+  assert.deepEqual(pickerMarkers(h).map(x=>x.context.outcome),['requested','cancelled']);
+  h=pickerHarness({selection:{canceled:false,filePaths:['/secret/selected']}});
+  assert.deepEqual(await h.call(role),{ok:true,value:{id:'private-token',path:'/secret/selected'}});
+  assert.deepEqual(h.registrations,[{folder:'/secret/selected',role}]);
+  assert.deepEqual(h.dialogs[0].properties,['openDirectory']);
+  assert.deepEqual(pickerMarkers(h).map(x=>x.context.outcome),['requested','registered']);
+ }
+});
+test('noncancelled empty malformed multiple selection rejects explicitly without registering',async()=>{
+ for(const role of ['input','output'])for(const selection of [null,{}, {canceled:false}, {canceled:false,filePaths:[]},{canceled:false,filePaths:['a','b']},{canceled:false,filePaths:[null]},{canceled:false,filePaths:['  ']},{canceled:'false',filePaths:['a']}]) {
+  const h=pickerHarness({selection});assert.equal((await h.call(role)).error.code,'INVALID_FOLDER_SELECTION');assert.equal(h.registrations.length,0);
+  assert.deepEqual(pickerMarkers(h).map(x=>x.context.outcome),['requested','invalid-selection']);
+ }
+});
+test('picker guards retain sender arity idle concurrency and finally unlock',async()=>{
+ let resolve;const h=pickerHarness({open:()=>new Promise(r=>resolve=r)});
+ const fn=h.handlers.get('encoder:input-folder');
+ assert.equal((await fn({...h.event,sender:{} })).error.code,'UNTRUSTED_SENDER');
+ assert.equal((await h.call('input','path-injection')).error.code,'INVALID_REQUEST');assert.equal(h.dialogs.length,0);assert.equal(pickerMarkers(h).length,0);
+ const first=h.call();await new Promise(r=>setImmediate(r));assert.equal((await h.call('output')).error.code,'BUSY');
+ resolve({canceled:true,filePaths:[]});await first;
+ const next=h.call('output');await new Promise(r=>setImmediate(r));resolve({canceled:true,filePaths:[]});assert.equal((await next).ok,true);
+ h.block();assert.equal((await h.call()).error.code,'SHUTTING_DOWN');assert.equal(h.dialogs.length,2);
+});
+test('dialog and registration rejection preserve error envelope and unlock picker',async()=>{
+ for(const stage of ['dialog','registration']) {
+  const error=Object.assign(new Error('synthetic secret path /private/secret and token'),{code:'EACCES'});let once=true;
+  const h=pickerHarness({selection:{canceled:false,filePaths:['/private/secret']},
+    ...(stage==='dialog'?{open:()=>{if(once){once=false;throw error;}return {canceled:true,filePaths:[]};}}:{register:()=>{if(once){once=false;throw error;}return {id:'private-token',path:'/private/secret'};}})});
+  assert.deepEqual(await h.call(),{ok:false,error:{code:'EACCES',message:error.message}});
+  assert.equal((await h.call()).ok,true);
+  assert.ok(pickerMarkers(h).some(x=>x.context.outcome===stage+'-rejected'));
+  assert.doesNotMatch(JSON.stringify(pickerMarkers(h)),/private|secret|token|EACCES/);
+ }
+});
+test('close while picker pending still refuses registration at existing service idle boundary',async()=>{
+ let resolve;const h=pickerHarness({open:()=>new Promise(r=>resolve=r)});const pending=h.call();await new Promise(r=>setImmediate(r));h.block();resolve({canceled:false,filePaths:['/secret/selected']});
+ assert.equal((await pending).error.code,'SHUTTING_DOWN');assert.equal(h.registrations.length,0);
+ assert.equal(pickerMarkers(h).at(-1).context.outcome,'registration-rejected');
+});
+test('diagnostic false or throw cannot turn registration or cancellation into failure',async()=>{
+ for(const diagnostic of [()=>({persisted:false}),()=>{throw new Error('logging failed');}])for(const canceled of [true,false]) {
+  const h=pickerHarness({selection:{canceled,filePaths:['/secret/selected']},diagnostic});const result=await h.call();assert.equal(result.ok,true);assert.equal(h.registrations.length,canceled?0:1);
+ }
+});
+test('new fixed picker markers survive actual export sanitizer without secrets',async()=>{
+ const {redactEvents}=require('../src/diagnostics.cjs');
+ const h=pickerHarness({selection:{canceled:false,filePaths:['/private/synthetic-secret']}});await h.call();
+ const events=pickerMarkers(h).map((x,i)=>({...x,id:String(i),sessionId:'session',at:1,type:'event',severity:'info'}));
+ const exported=redactEvents(events);assert.equal(exported.events.length,2);
+ assert.deepEqual(exported.events.map(x=>x.context),events.map(x=>x.context));
+ assert.doesNotMatch(JSON.stringify(events)+JSON.stringify(exported),/synthetic-secret|private-token|\/private/);
+});
+
+
+test('delayed request diagnostic cannot open picker after busy or window close',async()=>{
+ for(const closed of [false,true]) {
+  let release;const h=pickerHarness({diagnostic:row=>row.reason==='FOLDER_PICKER_REQUESTED'?new Promise(r=>release=r):{persisted:true}});
+  const pending=h.call();await new Promise(r=>setImmediate(r));
+  if(closed)h.window.isDestroyed=()=>true;else h.block();
+  release({persisted:true});assert.equal((await pending).error.code,'SHUTTING_DOWN');
+  assert.equal(h.dialogs.length,0);assert.equal(h.registrations.length,0);
+  assert.deepEqual(pickerMarkers(h).map(x=>x.context.outcome),['requested','admission-rejected']);
+  assert.ok(pickerMarkers(h).every(x=>!x.reason.includes('OPENED')));
+ }
+});

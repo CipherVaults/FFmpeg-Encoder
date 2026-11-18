@@ -1,3 +1,370 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Preserve the stopped known-state retry and add bounded folder-picker diagnostics
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role / work block | Model / effort attribution | Evidence and limit |
+|---|---|---|
+| Engineering lead | GPT-6 Astra / Ultra, recorded assignment rather than backend attestation | Reconciled source/preservation and authorization, stopped retry evidence, independent review and exact two-file integration. |
+| Retry helper, generator and authorizer authors/reviewers | Not independently established here | Exact static/file-only checks, one retained generator failure, reviewed schema correction and separate rendered-authorizer approval. Preparation is not runtime success. |
+| Native operator | Not independently established here | One actual known-state launch, short observed key entry, one Return without a visible Open/Select click, stopped journey and normal closure. Screenshots are CUA-transcript observations only. |
+| Independent native auditor / source investigator | Not independently established here | Saved-file audit and read-only control-flow investigation; no fresh decode or causal GTK diagnosis. |
+| IPC source worker / reviewer | Not independently established here | Isolated two-file proposal, injected tests, privacy/authority inspection and exact integration. No native test of changed IPC. |
+| Preservation / Session documentation | Not independently established here | Verified complete 028 preservation; eventual 029 ownership is bounded to released records. Session writer prepends only this new entry and preserves the complete prior body. |
+
+**Record basis:** The owner-authorized fresh retry ran immutable 028, reached the input picker and closed it after one Return, but no folder registration was observed. This retry had no tool-abort or unknown-delivery report and is distinct from the original interrupted attempt. After audit and source reconciliation, exactly two shared IPC/test files were integrated to make future trusted picker outcomes observable and malformed selections explicit. This is not a native picker fix, successful Full-copy journey or new production activation.
+
+## 🕒 Time
+
+- Date / clocks: November 18, 2026, UTC unless the separately preserved textual stderr representation is named. Overall active-work start and total active work were not measured.
+- Prior 028 fixed cutoff: 00:39:49.065000, when fresh retry planning was assigned. Subsequent plan review 00:41:13.768863, helper handoff 00:43:24.992804 and independent helper review 00:44:39.515837 belong here, not in rewritten 028.
+- Generator handoff 00:45:18.052172; preliminary static review 00:45:58.882669. 028 Session saved 00:49:25.511039; local freeze 00:50:21.638624.
+- 028 GitHub verification 00:57:25.749406; final mirror writer release received 00:58:55.172913. Both restorations, full readable records and remote mapping preceded the actual retry authorization.
+- Original generator failure diagnostic recorded 00:59:10.924031. This is the later diagnostic-record timestamp, not a claimed original invocation start. V2 independent review 01:00:07.627393; V2 rendering 01:00:33.820677–01:00:35.281746, exit 0.
+- Initial desktop preflight 01:01:17.306928 used retained DISPLAY output; exact rendered-authorizer review 01:01:30.500776. Fresh actual printf preflight superseded v1 at 01:03:45.216849. Authorizer executed once 01:04:24.740266–01:04:27.900933, exit 0.
+- Actual native outer run **01:07:03.587654–01:12:43.676146**, monotonic **340.0886798510037 seconds**. This includes manual picker navigation and closure, not encoding time or a benchmark.
+- Outcome saved 01:13:27.926561; independent audit 01:14:44.011247; lead identity reconciliation 01:15:27.639393; read-only source investigation 01:16:21.138481; isolated source-work release 01:17:43.968277.
+- Worker frozen handoff 01:20:38.852859; independent source review 01:25:55.830027. Exact two-file authoritative integration **01:26:26.013041**; final lead syntax/tests **01:26:48.647233–01:26:55.844052**, monotonic test wrapper 7.195064191000711 seconds.
+- **Fixed cutoff: 2026-11-18T01:28:00Z.** Native attempt is stopped and audited, source change integrated/tested, coherent preservation pending. Future retry-plan/helper results are excluded.
+- Stage / type / focus: Native stopped-evidence preservation plus a narrow shared IPC observability/validation slice. No new native run on changed source, runtime repin or product release.
+- Reason for summary / stopping point: Retain both different stopped attempts, actual source/test chronology, schema/preflight corrections, remaining uncertainty and a usable continuation without asking again for already-authorized routine same-test retries.
+
+## 🎯 Session Goal
+
+Carry out one freshly checked known-state native Full-copy journey within Ahmed's existing “feel free to try again” authorization. Preserve original source/evidence, reuse the exact main-owned state without resetting or inspecting private profile data, use short visible input calls and a new consumed-once gate, then verify actual registration, inspection/reprepare, target/publication/reveal only if reached.
+
+The retry stopped before registration after the picker closed on Return. Its absence of a visible Open/Select click did not test the explicit accept-button path. The coherent next engineering goal became fixed privacy-safe picker outcome diagnostics and strict malformed-response validation, with existing authority/lifecycle boundaries retained. Preserve the stopped runtime attribution on original 028 and the two-file source change separately. A fresh checked same-test attempt can follow preservation under existing user authorization; internal one-shot gates cannot be replayed and are not a demand for new user consent.
+
+## 🛠️ Actions Taken
+
+### 1. Finish the exact 028 preservation cycle before retry execution
+
+Local 028 is `1e1493552f21425ccd4b650ab610db7e7f66842d`, tree `686336ba33d766324c05aa3705485566a80ed4cf`, parent `941801614ecb69fd3945b558db6d9000b50ca858`: 588 files and twenty-eight commits. [Notion source and full history](https://app.notion.com/p/41cbd7ade63b810c8bf3d1adc1733665) restored source ZIP SHA-256 `a23d121e130f7f76050d21a856294366077b6ca0d0cde3734cfcd9117df60aac`, Git bundle `a87c394a3d7e95d6ad7316aaffe7c34c84fb49e98a8bb2c6e0aa65f05a75c39e`, and history ZIP `b2698d42d22301e4dde1cb73656ab28be8737839f0c3589dd6f8ffa8266d25e5`.
+
+[Full readable native Session](https://app.notion.com/p/41cbd7ade63b8135b1d9e8cdd5af087c) was appended unabridged in six ordered requests and fetched with all twenty-eight headings, historical ending and no truncation metadata. Native formatting is not byte-identical Markdown transport. The exact archived/Git prior Session is **1,304,619 bytes**, SHA-256 `d06e750cc1250a5f40a4b7e72067946d6f2e8570490a614df200a7fb2ac4fa59`; this entire body remains the exact suffix of the new entry, including earlier dated corrections and directions.
+
+GitHub `blue/linux-development` remote commit `fe84fb04602d4c91b1352ca87889400ed0d10c5d`, sole parent `318331149baa1ed0d2b5b06bca2fa2f947c69181`, tree `197bc75d484bb829fac9ad6224e97b22f9b00039`, was verified 00:57:25.749406. All five intended evidence/PBS files matched. Full remote tree: 970 total / 965 unchanged / two modified / three new / zero deleted. Expected-parent non-force update, fresh ref, exact parent/tree and full Session immutable Git-blob readback were verified. Local reconstruction and original remote ancestry remain deliberately distinct.
+
+Final Notion receipt is 104,061 bytes, SHA-256 `f29dc2f2be4afb1f759d14b1ba435ecc7de2799c7439e0bc87250d166650412a`. Final mirror release SHA-256 is `6f1a5f0cdb6ee011631d1d252090c3617c1ffe12888c0c0251beb2d5ef8c6f0d`, received 00:58:55.172913. These verified 028 facts do not imply 029 has been committed or backed up at this entry's cutoff.
+
+### 2. Review known-state preparation rather than reset the previous attempt
+
+Retry plan review at 00:41:13 conditionally approved preparation only. PLAN is 9,087 bytes, SHA-256 `8fd2b1456cdd3696ca513b663e144546b35cb83bf3f3f470576998d786f0377e`; review is 4,632 bytes, `f68f6ac5b4c937db7317b69fae4e86fb52a9ddaa42dc396b3e701f204a572e41`. It preserves the original tool-abort wording and unknown cause without owner attribution, and requires new exclusive sibling artifacts rather than replaying the old attempt.
+
+The exact fixed main-owned state already existed. New helper replaces the absent-state precondition with a canonical ordinary nonsymlink directory, matching device/inode, prior normal closure, six exact allowlisted old diagnostic originals/retained copies, old fixture and empty old output. It does not remove the guard without replacement, freeze mutable directory timestamps or assert whole-profile identity. No profile/cache/token/preferences database read, recursive profile inventory, deletion, reset, rename, redirection or clone is authorized. New session evidence must exclude the six prior IDs and use explicit allowlists/session correlation.
+
+Helper handoff is 2,667 bytes, SHA-256 `5758233264bd1cbfe4d453266e732e76ed957c2a869d8d9d4dfc5551fe001a8d`; launcher 11,728 bytes, `2ae3a0f883ee1b31493a15fc2745774710a9d3f11974cff715000eead40593e0`; NATIVE_PLAN 14,050 bytes, `9b542f64be36d8b753176d2d73e4e2a5ad014bd5a97e8c1b4d3bf4a194ca0b16`. Worker five file-only tests passed, then independent review 4,420 bytes, `8b98784644af9a61cafe0c22ab49b814b6fd987f2872f0fe86ce29d1af056f66`, repeated five passes under Python 3.12.14. Syntax, exclusive receipt persistence/readback, mutation/symlink refusal and manifest scope were tested. Guarded import did not call main/runtime. Full known-state reconciliation, supervisor failure orchestration and desktop transport were inspected, not executed by these tests; no red-before-green result is invented.
+
+Exact source/preservation/known-state/runtime/Electron/raw-report/fixture checks repeat before launch and after closure. Helper hashes/flags complement separately reviewed authorizer semantics. A point 27 GiB free-space requirement and 2 GiB owned input/output allowance exclude profile/state growth, not a continuous quota. Thirty minutes requests termination then waits, not guaranteed exit. No hard native child limit or complete per-child diagnostic capture is claimed.
+
+Short global Sky input, at most twelve key presses per call, screenshots after chunks and a separate Return remain operator obligations, not automatic enforcement or proof that transport is reliable. No clipboard, type_text, hidden IPC or legacy per-window typing. Unknown delivery stops rather than replaying. One picker per role, one initial inspection Prepare, one Full/null/720/Copy Apply, one Start and at most one enabled reveal were permitted, not presumed completed.
+
+### 3. Retain and repair a real generator receipt-schema failure
+
+Original generator `prepare-authorize-native-retry028.py` was 17,431 bytes, SHA-256 `694492e4cc60cac0b886a05676d80def9a9ae969dfdce0d18cf3d238e24b3556`. Preliminary review parsed literal templates and checked twenty-six antecedent pins but did not execute the generator against the final receipt. Its first actual invocation exited 1 in COMMON `verify_preservation` line 64 before writing a rendered authorizer. The final mirror's `independentlyVerifiedReadbackFiles` was an explicit five-row list, not the earlier assumed integer 5.
+
+`GENERATOR_FIRST_FAILURE.json` is a subsequent diagnostic record dated 00:59:10.924031. Original failure output remains in the tool transcript, not separately captured original stdout/stderr; no invocation start is fabricated. No authorizer, gate, runtime or media was created by that failure. Original generator, failure record and final mirror receipt remain unchanged.
+
+V2 changed only COMMON: require a list of exactly five unique expected paths and compare every byte count, SHA-256 and Git blob to the verified remote rows. It did not accept both schemas loosely, reduce the check to a count or permit an empty comparison. V2 generator is 17,719 bytes, SHA-256 `1f9d61d0a9cb7ddae9e137def317381ba826e09aa2f677ff424d40f1b11e34d1`; independent review at 01:00:07.627393 conditionally accepted the targeted correction. AUTHORIZE, fixed pins and outer structure remained unchanged.
+
+V2 rendered once 01:00:33.820677–01:00:35.281746, exit 0. That action creates inert authorizer bytes, not a gate or native launch. Exact rendered authorizer is 18,933 bytes, SHA-256 `f65ad17abe4a3d1f153ba0ba89824702297fa0f0d40cb769b32df321a0916d23`. Independent review at 01:01:30.500776 matched template/literals, seven preservation receipt/archive bindings, twenty-six antecedents, all 588 current/Git/Notion files, twenty-eight commits, five-path delta and remote mapping. Saved receipt verification is not a new remote fetch. Fresh desktop and explicit operational release remained separate.
+
+### 4. Refresh the desktop evidence and authorize one new attempt
+
+Initial preflight at 01:01:17.306928 saw the same idle terminal and retained earlier DISPLAY output. It was saved as `DESKTOP_PREFLIGHT-v1.json`, not silently rewritten as a fresh environment measurement. Initial kernel-reset response executed no code, then required CUA setup succeeded. The lead required fresh actual read-only printf under the short-key method.
+
+At 01:03:45.216849, documented global key chunks, screenshots and separate verified Return produced the new visible `RETRY_DISPLAY=:0` result. Final preflight is 1,195 bytes, SHA-256 `a6711846c002cca7f4cf414fec33073b82527f7435460dcad26443e0767a94dc`. Prior app absent, no observed competing workbench/user activity and known-state device/inode plus old allowlisted evidence were rechecked. This is bounded observed readiness, not continuous process/human surveillance or whole-profile equality.
+
+Exact authorizer ran once 01:04:24.740266–01:04:27.900933, exit 0, without runtime execution itself. Stdout SHA-256 `27d9b137c3c1e20e3d8c8aa25341c27d8be266e2ad33a71bae532d251c5773c3`; stderr `2b49e6b2e70a9e3fb03f0e77c2343411c5244e8b16343581b015da69c7b87c97`, not described as empty. New exclusive gate is 74,432 bytes, SHA-256 `6ba35bfd5ff612eca97340cd30f3d8769b24645c55b5c1dde4b9a2257e6cad7c`. Source, restoration, nine runtime pins, original build pair, Electron/raw report/fixture, known state and current desktop were bound; no fallback or producer repin.
+
+Desktop age was 42.674850 seconds at gate and 198.370805 at launch. The fresh gate replaced no old evidence and was consumed by exactly one attempt. No DISPLAY injection, loader/security/GPU override or alternate profile was used. Scope permission did not make any intended target action an observed success.
+
+### 5. Observe a different stopped picker result without conflating it with the first interruption
+
+Actual native startup used original 028 source, Electron 44.7.0 and `--blue-runtime=9.0.2-full-copy-candidate`. The expected experimental whole-file route, H265 CPU slow/CRF25 and both unregistered folders appeared. One input picker opened; the output picker never opened.
+
+The exact owned-input path was entered through Ctrl+L and documented global Sky chunks of at most twelve keys, with screenshots after each. GTK autocomplete suffix was distinguished from the typed prefix. Because the field scrolled at the end, Home and End screenshots showed overlapping beginning/remainder through `/owned-input/`; those keys did not edit characters. No autocomplete row was selected at the one separate Return.
+
+Immediately after Return the dialog was still visible; the next screenshot showed it closed. Both main labels remained **No folder selected**. No visible Open/Select button click occurred, no visible error appeared in the captured viewport, and no actual Electron selection object was retained. Dialog closure is not proof of accepted selection or failed accept-button behavior. **No tool abort or unknown delivery was reported in this retry.** The original 027-source interrupted key call remains separately immutable with its cause unknown.
+
+The operator stopped rather than opening another picker or continuing the journey. Normal titlebar close removed the app window; CUA completion followed. Observed counts: input picker 1, path Return 1, output picker 0, registrations 0, Prepare 0, Apply 0, Start 0, reveal 0, player 0. No target/publication/collector/output evidence exists. CUA transcript screenshots were not exported as standalone visual files.
+
+`JOURNEY_OUTCOME.json` is 6,743 bytes, SHA-256 `414c0781acee686971b71448bd4d6b0348196abbbfdffe86ca8d66ce2c4853bc`, status `stopped-no-input-registration-after-picker-return`. `OUTER_COMPLETION.json` is 622 bytes, `e7ae34d242f56d078748e1563d32e3f608861f914beb2ccbc70c76a8e7d97fa5`. Exit 0 / no abort request / no failure / post-close identities true establishes normal closure, not functional acceptance. The 340.0887-second manual journey is not encoding throughput.
+
+### 6. Audit exact evidence and preserve the known capture gaps
+
+Owned aggregate census is 28 spawned / 28 closed / zero live / maximum one / zero reported failures. Startup/capability media work occurred; this is not zero media or twenty-eight user targets. No native individual argv or complete child stderr inventory exists, and prior short-service six-encode/six-decode roles cannot be copied into this census. No additional independent FFmpeg/ffprobe/decode or player ran.
+
+Old and new output directories remained empty. Original fixture and both owned copies retained SHA-256 `bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97`. Six new startup/capability/runtime/recovery/shutdown events were retained separately from the six old events; originals and retained copies matched. The audit found no truncated new contexts. Some original outcome summaries used null for an absent truncation marker; the later saved audit checked actual contexts rather than treating missing metadata as an invented event.
+
+New session numeric epochs span 01:07:04.304–01:12:41.529 UTC, within the outer interval. Top stdout is 436 bytes, SHA-256 `826cd728fdfed2a803a9f1cdd426e1050a4fbe0a250f2c63ef31932169bd600b`; top stderr is 624 bytes, `9cddda404c193dfab0153992d0bc6f6ec309e699d693c0e9031aeb98e904b4d7`. Three missing system D-Bus socket messages and one SSL handshake `net_error -202` remain; their relationship to the picker is unknown. Textual stderr 03:07 and outer UTC 01:07 are separate representations; numeric epochs align and no clock drift/change is inferred.
+
+Logged startup shows the original UI/preload, sandbox=true, contextIsolation=true, nodeIntegration=false, pair `1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9`, developer Full-copy mode, empty qualified families and Remux unavailable. Logged preferences are not independent security enforcement proof. Launch and close point storage checks passed; **no separate mid-picker storage check was captured**, despite the plan's major-action intent. No continuous cap or per-child free-space guarantee is claimed.
+
+Independent saved audit is 12,253 bytes, SHA-256 `b7e282dd4eaa2618ad5d538ddc2422339f3d24852543cfce5287da64620762bf`, at 01:14:44.011247. It matched all 588 Git/current/Notion source files, twenty-eight history commits, nine runtime pins and original build pair, Electron/raw report/fixtures, canonical known-state identity, old/new event pairs, receipts and empty outputs. It did not reopen GUI, inspect profile/cache/token/preferences, independently view standalone screenshots, execute media or diagnose GTK. It explicitly separates Return-only closure from actual accept-button behavior.
+
+Lead identity reconciliation is 1,086 bytes, SHA-256 `02550b2708c00442b38c9cd918afd26c18075caca1c861639ceb00c6e05addee`, at 01:15:27.639393: all 588 source files still matched Git with empty tracked diff, twelve old/new event pairs and six outcome receipt identities matched, outputs empty. Release at 01:17:43.968277 is 2,092 bytes, SHA-256 `1eeb1942348c8b1953b9f183d012d0fb2e3a4c7c011b9675e6103aec4ea483d5`. It permits isolated two-file IPC investigation/implementation, not an automatic native rerun or source attribution change.
+
+### 7. Investigate source control flow without pretending to know the picker result
+
+Read-only `folder-picker-source-investigation-20261118/INVESTIGATION.json` at 01:16:21.138481 followed real IPC, preload, service and renderer boundaries. Existing trusted zero-argument choose handlers checked idle and a shared picker lock, awaited native `showOpenDialog(openDirectory)`, returned null for canceled selection, otherwise passed the first selected path to main-owned registration. Cancellation had no specific success/cancel diagnostic. Noncancelled empty/malformed selection was not intentionally quiet cancellation: undefined/malformed data could reject in registration or earlier property access.
+
+Preload returned successful values unchanged and rejected failed envelopes. Renderer local folder labels changed only for truthy selected results; null normally left them unchanged. Actual service registration canonicalized/statted directories, issued main-owned role tokens, persisted preferences and invalidated plans. A persistence failure after in-memory mutation is a possible partial state, not observed here. Renderer-only errors or a later preference overwrite were not captured by saved bridge evidence. Absence of REQUEST_REJECTED does not prove that no rejection happened, because diagnostics are fallible and renderer failures need not persist there.
+
+A normal canceled=true object is compatible with quiet unchanged labels, but no actual selection object establishes it. Empty/malformed noncancelled response, registration/persistence error, bridge/renderer issue or later local overwrite remain unproved alternatives. GTK/Return/autocomplete/window manager/D-Bus/SSL causation cannot be decided from this source trace. No speculative platform fix, profile inspection or preference rollback was justified.
+
+Investigation initially listed possible renderer notices/tests as an optional wider slice. The selected implementation remained **only src/ipc.cjs and tests/ipc.test.cjs**. Existing renderer tests were rerun; no new renderer notice, diagnostic IPC, preload or service change was introduced.
+
+### 8. Implement fixed trusted-picker diagnostics and strict selection validation
+
+Frozen isolated handoff at 01:20:38.852859 is 3,908 bytes, SHA-256 `744a85f0ebfaf665d9a7c6fe43371f0c1f9c2299a6df0005e98a482ec84c535b`. Patch is 9,259 bytes, `68f03ffe45a2e1d178ed758b952314d12d1ae343f935c5bd722c7a83a7cd3101`. Final source `src/ipc.cjs` is 6,854 bytes, `ca1882df4ec838c1b596828be53b24ed36669313924e2e8e7caa6faba57470c7`; tests 20,765 bytes, `910eb0ce3a783c9548919bafbf7d5d4bbf35f1f7a63598ac2acecac722738f67`.
+
+Within the existing trusted choose path, new FOLDER_PICKER_REQUESTED / CANCELLED / INVALID_SELECTION / REGISTERED / REJECTED markers contain fixed reason/action/outcome enums only. They exclude selected paths, filePaths arrays, opaque tokens and raw error strings. Existing recordIncident/export sanitizer preserves the fixed fields. This is narrow new-marker privacy, not a claim that unchanged general REQUEST_REJECTED raw-message behavior is sanitized.
+
+Strict canceled=true still returns null even if stale paths exist, without registration. Noncancelled input must explicitly have canceled=false and exactly one nonempty string; invalid response throws fixed `INVALID_FOLDER_SELECTION` / “Choose exactly one folder.” Actual directory verification, role-token issuance and preference admission remain in main-owned registerFolder. No new filesystem or renderer authority is granted.
+
+New diagnostics are awaited, catch synchronous/asynchronous logger failure, and do not turn a successful cancellation/registration into business failure. After the requested diagnostic await, idle and live-window checks repeat before the native dialog. The shared picker lock covers those awaits/dialog and releases in finally. Existing sender/frame/entry URL/arity checks remain before choose; actual registerFolder retains its own synchronous idle/preferenceMutation admission before filesystem awaits.
+
+Semantics are deliberately exact: REQUESTED means admitted request intent, not proof the dialog opened; REGISTERED means service registration returned, not proof the renderer displayed the folder. A never-settling logger can still hold completion and the picker lock. A post-registration log delay can outlive window state; this patch does not solve all latency or shutdown interactions, change preference rollback or add a timeout that would detach work.
+
+### 9. Preserve actual test provenance, review limits and exact integration
+
+Worker retained runs passed 219/219, then 220/220 and final 220/220 under Node v24.22.1. No failing red test was reported or invented. Final worker command checked IPC syntax and ran IPC, UI-workbench, diagnostics, preferences and EncoderService tests. Existing file/service fixtures plus injected dialog/renderer APIs do not amount to a real native picker or media run.
+
+Independent source review at 01:25:55.830027, SHA-256 `51dc93ff8e8209c79a6ab01c2872ee27de36fed8589d2679c5298d1692c36e36`, accepted the narrow source checkpoint without a blocker. Its own `node --check src/ipc.cjs` and `node --test tests/ipc.test.cjs tests/diagnostics.test.cjs` passed 57/57. Reviewer read supporting registration/idle/persistence/export sanitizer code and compared exact Git objects: only two files changed; 586 others identical.
+
+New cases cover both roles' cancellation with stale paths and valid registration; empty/malformed/multiple selection; sender/arity/idle/concurrency/finally unlocking; dialog/registration rejection; pending-picker close at the injected service boundary; diagnostic false/throw; real export sanitizer privacy; and delayed requested diagnostic followed by busy/window-close refusal. They execute real registerIpc and sanitizer with injected dialog/service/diagnostic seams, not full real-service registration/persistence or native platform behavior. They do not execute renderer navigation during logging, post-registration close or never-settling logger integration. Existing outer IPC rejection logging behavior is unchanged; new local helper failure swallowing is not a guarantee for every substituted logger or path.
+
+Reviewer inspection friction is retained: an initial relative handoff lookup used the isolated checkout cwd, and a Git diff outside a repository compared the supplied paths rather than proving repository patch scope. That output was discarded. Correct absolute handoff, immutable patch and per-file Git-object comparisons established scope. This was a review-command mistake, not a source regression.
+
+Authoritative integration occurred at 01:26:26.013041 on original 028 only after saved native audit/reconciliation and independent source review. The exact same two reviewed files were copied; all 586 other existing files and all twenty-six Full-copy producer pins stayed exact. IPC is not in that producer map, and the map was not weakened or repinned. Producer identity continuity does not qualify this changed native registration flow.
+
+Lead final syntax exit 0 and **261/261 tests** ran 01:26:48.647233–01:26:55.844052, Node v24.22.1/Linux. Exact command: `node --test tests/ipc.test.cjs tests/ui-workbench.test.cjs tests/diagnostics.test.cjs tests/preferences.test.cjs tests/encoder-service.test.cjs tests/main-lifecycle.test.cjs linux-blue/candidate-full-copy-workbench.test.cjs linux-blue/candidate-full-copy-workbench-renderer.test.cjs`. No failed/skipped/cancelled/todo tests; all recorded source/test hashes stable before/after. Test stdout 29,175 bytes SHA-256 `7717acc19fe687facb9d66ec481bffeb979cede1a1ce5d92ce05535423b1e03d`; test/syntax stderr empty.
+
+Worker 220, independent 57 and lead 261 overlap and must not be summed. Historical broad **223/268 with forty-five failures** was not rerun for this narrow IPC-only change; no new broad-green or downstream qualification claim. Shared IPC affects Windows as well as Linux, but neither native platform ran these changed bytes. Renderer/preload/service/theme/defaults and Windows main remain unchanged, not newly qualified.
+
+At cutoff the assess-patch-risk skill and risk rubric were readable, but mandatory artifact-storage guidance and JSON schema references failed through supported lookups. No validator, validated formal assessment or rating was run or claimed. Independent manual code/privacy/authority review stands; formal Security Cloud remains deferred. This infrastructure limit does not prevent the bounded source checkpoint and is not an automatic merge or execution grant.
+
+### 10. Preserve coherent evidence/source records and carry forward existing owner authorization
+
+Portable stopped-retry evidence is 28,498 bytes, SHA-256 `1ac5bcf72eef1cd179c8c0dc8edf686079620867b4c67cd8be22db8598aa0597`, and contains four original report objects: outcome, outer completion, saved audit and lead identity reconciliation. Eleven root-prefix substitutions, seven support:// and four project://, remove location-specific roots while preserving other structure/types/values. All seven portable authority flags are false; no inverse-root map or raw runtime/profile payload is included. Original raw-byte identities are retained as metadata, not a restorable executable or runtime gate. Release/current direction is separate; it is not invented as a fifth report or retroactively rewritten into original outcome. The prior interrupted attempt and all its archives remain unchanged.
+
+The seven-path 029 scope is the two shared IPC/test paths, [Current State](CURRENT_STATE.md), [Picker Diagnostics and Retry](2026-11-18_Picker_Diagnostics_And_Retry.md), [Curated Receipts](2026-11-18_Picker_Diagnostics_And_Retry_Receipts.json), [Portable Stopped Retry](evidence-2026-11-18/native-full-copy-retry-stopped-portable.json), and this Session. Three new record files yield expected **591 files / twenty-nine commits**. Native proof remains attributed to original 028; no native run happened after the IPC integration.
+
+Parent clarified that Ahmed's existing retry invitation and prior authorization cover reasonable fresh attempts of this same native test. An internal one-shot gate is an execution-control boundary, not a user prohibition on future GUI work or a requirement to ask for consent again solely because it was consumed. Historical release wording remains dated; future attempts use fresh checked source/known-state/preservation/helper/desktop gates, never replay old markers.
+
+Next actual test should navigate the folder picker then use its visible Open/Select acceptance control, verify registration and use new outcome markers to localize any failure. That is prospective behavior, not proof Return was the cause or that an accept click will work. Preserve source first in Git, download/restore full Notion source/history/readable Session, then verify GitHub. At the 01:28 cutoff no 029 commit, restoration, remote publication, new gate or later retry result is claimed.
+
+Separate long-service helper V2 preparation was independently reviewed at 01:11:16.824540, with thirteen injected/file-only tests and syntax passing. Three caller awaits, metadata runner, collision preparation and cancellation task race, now enter existing abort observation. Retained V1 tests failed those three observation-bypass cases; a separate initial constructor error is not production-source evidence. Exact launcher-slice tests inject pending owners and assert NONSETTLEMENT; they are not whole orchestration, live cancellation or OS process closure. A test comment claiming late runner rejection is inaccurate because that injected runner remains pending. The eventual manifest/authorizer must bind exact role-template identity and preserved source/runtime. This helper is not integrated or runtime-ready here; no long campaign occurred.
+
+A successor native plan/helper was prepared but unreviewed at the fixed cutoff. No later review, generator result or new attempt is imported. These prospective artifacts do not delay closing the current coherent stopped-evidence/source checkpoint. Preserve existing theme/defaults/ArchiveCQ29, benchmark pause, non-HDR order and 1440p/4K scope in 0.7. Long/general-duration/cancellation, Remux/seek, HDR, packaging and owner acceptance remain separate; original missing-source reconstruction and terminal-unknown 35-file boundaries are untouched.
+
+## 🧠 Key Insights
+
+### A closed dialog is not a captured selection result
+
+The retry's Return-only sequence ended with unchanged labels. Without actual Electron selection, registration response or renderer tracing, several branches remain possible. The explicit visible accept-button path was not tested, and no GTK cause follows.
+
+### New diagnostics should localize boundaries, not announce success early
+
+Requested means admitted intent; registered means main service returned. Neither proves dialog visibility or renderer presentation. Fixed enums improve next-run evidence while retaining those distinctions and avoiding paths/tokens/raw errors.
+
+### Strict schema correction is better than loosening a failed check
+
+The generator failed on a real final receipt shape. V2 compares the exact five-row set and identities rather than treating any five-ish value as enough. The preserved failed generator and later correction show why a static preliminary review was not executed-final-data proof.
+
+### Known-state reuse is narrower than whole-profile preservation
+
+Device/inode, prior closure and exact allowlisted events can be verified without reading private profile stores or freezing ordinary session writes. That provides bounded continuity, not a total-state hash or proof of every UI preference.
+
+### Existing owner approval and internal gates serve different purposes
+
+The owner invited continued reasonable retries. Each attempt still needs current safe conditions and new consumed-once artifacts, but an internal one-shot limit does not require unnecessary renewed user permission or erase the ongoing task.
+
+## 📌 Decisions Made
+
+1. **Confirmed; owner clarification and lead scope:** Prepare a fresh known-state retry under existing authorization, preserving both earlier evidence and current state without resets/private profile reads.
+2. **Confirmed; exact receipt failure and independent review:** Preserve failed V1 generator; correct only strict final list schema in V2. No permissive dual-schema or count-only bypass.
+3. **Confirmed; lead desktop review:** Replace retained DISPLAY output with a fresh actual read-only printf before gate execution, keeping v1 as historical evidence.
+4. **Confirmed; operator and independent audit:** Stop after Return-only closure with no registration. Do not open another picker within that consumed attempt or infer GTK/app failure; normal closure is sufficient cleanup, not target acceptance.
+5. **Confirmed; source investigator/lead/reviewer:** Select only fixed trusted IPC outcome markers and strict malformed selection validation. Defer renderer notices and speculative platform/service changes.
+6. **Confirmed; independent code review and lead tests:** Integrate exact two-file proposal, preserving 586 other files and all twenty-six producer pins. Limit conclusions to tested injected/file contracts and stable scope.
+7. **Confirmed; parent clarification of existing owner intent:** No new user approval is needed solely for another reasonable same-test attempt. Fresh operational gates and no consumed-marker replay remain mandatory.
+8. **Deferred; next checked native attempt:** Visible accept-button journey, new markers in real native state, target/publication/reveal and native/platform acceptance require future actual evidence after preservation. Long-service proof remains separate.
+
+## ⚠️ Difficulties / Friction
+
+The original generator assumed a stale receipt field type and failed before rendering. Preliminary static review did not catch final-list semantics; exact V2 validation repaired the check without weakening it. Its first output was not separately captured as original logs, so the later diagnostic is identified honestly.
+
+A fresh screenshot alone did not make retained terminal DISPLAY output a fresh environment check. The corrected preflight preserved v1 and used a new read-only command. Short picker input then avoided the prior long-call abort, but produced a different stop: Return closed the dialog without observed registration. This is not proof that short keys solve all transport or picker behavior.
+
+Sparse native evidence cannot identify the missing selection/registration branch. CUA-only images, aggregate children and six startup events have different coverage from a service harness. A mid-picker storage check was not recorded; top D-Bus/SSL warnings remain noncausal observations. These gaps are preserved rather than hidden behind normal exit.
+
+New diagnostics require awaits, so lifecycle review matters. Rechecking idle/window after the request log prevents starting a dialog after closure, but a never-settling log can still hold the lock, and a returned-registration marker does not certify renderer display. Shared platform impact requires explicit limits despite green injected tests.
+
+## 🔧 Adjustments Made
+
+### 1. Replace absent-state gating with exact known-state evidence
+
+- Shifted from: A first-launch guard requiring no fixed state directory.
+- To: Canonical same-directory device/inode and exact six historical event/closure/fixture checks, with new exclusive attempt artifacts.
+- Because: The original normally closed attempt legitimately created state.
+- Consequence: No deletion/reset/private profile read or entire-profile preservation claim; normal new session writes remain possible.
+
+### 2. Repair the final receipt schema rather than relax identity checks
+
+- Shifted from: An integer-five assertion for independently verified readback files.
+- To: Exactly five unique expected list rows, each matching bytes/SHA/Git blob to remote evidence.
+- Because: Actual released mirror data contains a detailed list.
+- Consequence: V1 fails before mutation and remains preserved; independently reviewed V2 renders successfully without authorizing runtime by itself.
+
+### 3. Refresh actual environment evidence
+
+- Shifted from: A new screenshot of retained old DISPLAY output.
+- To: Fresh observed read-only printf using short keys and separate Return.
+- Because: Current environment readiness needed current evidence, not a misleading timestamp on old output.
+- Consequence: v1 retained; final preflight matches the gate/launch freshness limits without injection or application launch.
+
+### 4. Stop at Return-only nonregistration and add observability
+
+- Shifted from: Completing the entire intended native journey.
+- To: Normally close the stopped attempt, audit it and inspect source before a narrow diagnostic/test change.
+- Because: No registration was observed and actual selection/registration response was absent.
+- Consequence: No target success or platform cause is inferred; future visible acceptance and fixed markers can localize the next attempt.
+
+### 5. Keep the engineering slice at two shared files
+
+- Shifted from: A read-only investigation listing possible renderer notice and wider test options.
+- To: Only trusted IPC outcome markers/selection validation plus IPC tests.
+- Because: This improves evidence and malformed-response behavior without speculative UI/service changes or extra logging authority.
+- Consequence: Existing renderer/theme/preload/service remain exact; shared Windows impact is acknowledged but untested natively.
+
+### 6. Separate consumed operational gates from ongoing user approval
+
+- Shifted from: Historical release wording that could be misread as prohibiting all future GUI attempts.
+- To: Preserve consumed gates while applying existing owner permission to reasonable fresh same-test attempts.
+- Because: Parent clarified that the owner's retry invitation already covers this ongoing scope.
+- Consequence: No unnecessary new user approval request; every future attempt still needs fresh exact checks and its own nonreplayable artifacts.
+
+## ❌ Mistakes / Risks Noted
+
+### 1. The generator assumed an obsolete receipt type
+
+- What happened or could happen: Integer-five assertion rejected the actual five-row final mirror list.
+- Actual impact: V1 generator exited 1 before authorizer/gate/runtime; diagnostic written later, original output only in tool transcript.
+- Potential impact: Incorrect gate workaround or invented preservation success if the failure were ignored.
+- Correction / current status: V2 strictly compares all five unique rows and identities, independently reviewed and rendered; V1 remains intact.
+- Failure Intelligence: Test actual final schema and preserve error provenance; do not reduce evidence checks to permissive counts.
+
+### 2. Retained terminal output was initially presented with a fresh preflight timestamp
+
+- What happened or could happen: Old DISPLAY output is mistaken for a new environment measurement.
+- Actual impact: v1 explicitly disclosed retained-output limits; lead required a fresh command before gate.
+- Potential impact: Stale session evidence could permit an invalid launch environment.
+- Correction / current status: New observed printf and final receipt superseded v1, which remains archived.
+- Failure Intelligence: Distinguish fresh observation of an old artifact from freshly measured state.
+
+### 3. Return-only dialog closure could be misdiagnosed as a picker defect
+
+- What happened or could happen: Closed picker and unchanged labels are promoted to proof of accepted selection, GTK failure or repeated owner/tool abort.
+- Actual impact: No visible Open/Select click or actual selection object; no tool abort; no registration or target.
+- Potential impact: Speculative source/platform changes, false blame or unsupported native acceptance.
+- Correction / current status: Cause unresolved; stopped attempt preserved. Next attempt should use visible acceptance and new markers.
+- Failure Intelligence: Dialog closure, selection object, service return and renderer display are separate boundaries.
+
+### 4. Native capture and resource checks are incomplete
+
+- What happened or could happen: Balanced census/normal exit is treated as complete diagnostics, zero media, continuous storage safety or successful work.
+- Actual impact: Twenty-eight startup children closed, outputs empty, six new events retained; no per-child argv/stderr or mid-picker storage check.
+- Potential impact: Overstated process/media guarantees and hidden evidence limitations.
+- Correction / current status: Explicit aggregate/point-check/CUA-only limits retained; no target/publication/native qualification.
+- Failure Intelligence: State each measurement's actual scope rather than borrowing richer coverage from earlier service campaigns.
+
+### 5. Awaited diagnostics can affect liveness and presentation timing
+
+- What happened or could happen: A never-settling logger holds the picker lock, or registration log delay outlives renderer/window state.
+- Actual impact: Source rechecks idle/window after request logging and preserves finally unlocking for settled paths; no observed never-settling native case.
+- Potential impact: Delayed completion or misinterpretation of registered marker as visible display.
+- Correction / current status: Synchronous/asynchronous diagnostic failures are caught locally; nonsettling and post-registration UI timing remain explicit limits, not claimed fixed.
+- Failure Intelligence: Privacy-safe observation still needs lifecycle reasoning; marker naming must describe the completed boundary only.
+
+### 6. Green injected suites could overstate platform or broad regression coverage
+
+- What happened or could happen: Overlapping 220/57/261 checks are summed or reported as native/Windows/broad acceptance.
+- Actual impact: Injected dialog/service seams and real registerIpc/sanitizer were tested; no changed-source native run, broad suite not rerun.
+- Potential impact: Shared-platform regressions or downstream failures masked by narrow green results.
+- Correction / current status: Counts kept separate, historical broad 223/268/45 retained, Windows/native qualification deferred.
+- Failure Intelligence: Report executed scopes and bytes, not aggregate marketing totals or downstream implications.
+
+### 7. Review lookup and Git-command context initially misled scope inspection
+
+- What happened or could happen: Relative lookup from isolated cwd and Git outside-repository path comparison appear to prove a patch.
+- Actual impact: Reviewer discarded that output and used absolute immutable artifacts/Git objects; no source mutation.
+- Potential impact: Wrong-file review or false scope assurance.
+- Correction / current status: Exact two-file/586-unchanged scope independently established.
+- Failure Intelligence: Record cwd and verify what a command actually compared before using it as evidence.
+
+### 8. Internal one-shot language could create unnecessary approval friction
+
+- What happened or could happen: A consumed helper gate is mistaken for owner cancellation or prohibition on all future retries.
+- Actual impact: Parent clarified ongoing user authorization before final continuation direction.
+- Potential impact: Unnecessary repeated questions or stalled authorized work; opposite risk is replaying an old gate.
+- Correction / current status: Existing user approval covers reasonable same-test retries, while each future attempt still receives fresh safe checks/artifacts.
+- Failure Intelligence: Separate user intent, current environment readiness and per-attempt replay protection.
+
+## 📍 Current Position
+
+**As of:** 2026-11-18T01:28:00Z, before coherent 029 commit/preservation.
+
+**Before this session:** Original native key-entry interruption was closed/audited and stored in 028. Owner clarification invited a fresh retry; known-state helper and subsequent actual attempt had not yet occurred at the old cutoff. Full prior Session/source history required preservation.
+
+**After this session:** 028 is fully restored/readable/published. A distinct known-state retry on immutable 028 stopped after Return-only picker closure, with no registration or target, and all source/runtime/old/new evidence reconciled. Exactly two shared IPC/test files now provide fixed outcome markers and strict malformed selection refusal, independently reviewed and lead-tested 261/261 without native execution of changed bytes.
+
+**Current standing:** Functional Full-copy GUI acceptance is still unproved. No native output/publication/reveal exists from either stopped attempt. No GTK or original tool-abort cause is diagnosed. The twenty-six historical calibration producer files and literal pins remain exact; shared IPC is changed and Windows/native behavior is not requalified. Historical broad forty-five failures remain, not newly rerun or cleared. Evidence-only source restoration cannot restore raw runtime/media/native profile payloads.
+
+**Live owner / continuation anchor:** Lead owns coherent seven-path 029 stage/commit, mirror owns independent full source/history/readable Notion restoration and verified GitHub publication, Session writer owns only this prepend. Continue from actual preserved 029 and fresh known-state/helper/authorizer/desktop checks, under existing owner permission, not from a consumed old gate. Source targets are [execution](2026-11-18_Picker_Diagnostics_And_Retry.md) and [curated receipts](2026-11-18_Picker_Diagnostics_And_Retry_Receipts.json); stopped native payload is [portable evidence](evidence-2026-11-18/native-full-copy-retry-stopped-portable.json).
+
+## 🔜 Next Steps
+
+1. Preserve the coherent seven-path source/evidence milestone with exact Session suffix and correction receipt unchanged: local Git, independently restored Notion source/full history and complete readable record, then ancestry-preserving verified GitHub. Do not call unpushed local work backed up.
+2. Prepare a fresh bounded same-test native attempt using actual preserved 029, current known state and exact runtime/raw evidence. Existing owner approval suffices within this unchanged scope; retain independent helper/authorizer review and live checks without unnecessary new user confirmation.
+3. Navigate the normal folder picker with fresh visible focus/path checks, then use the **visible Open/Select control**, confirm registration, and inspect the new fixed main-owned outcome markers if needed. Do not infer future success or diagnose Return from this plan.
+4. Continue to inspection-only Unsupported, explicit Full/null/720/Copy reprepare, one genuine target and at most one enabled reveal only if actual preceding state supports them. Preserve actual progress, copied-AAC/timing/collector/publication/closure limits, not borrowed proof.
+5. If another boundary fails, retain and reconcile that attempt; use requested/cancelled/invalid/registered/rejected markers to localize without reading private stores, broadening logging authority or making speculative platform changes. No consumed-gate replay.
+6. Keep long-service/cancellation/recovery qualification separate; partial helper/file-only preparation is not runtime proof and must not delay closing this fixed-cutoff source record.
+
+**Do not reopen / repeat:** Do not rewrite old attempts or historical summaries, blame Ahmed for the original tool string, call this retry aborted, replay old markers, reset/redirect profiles, inspect profile/cache/token stores, label Return-only closure an accept-button failure, expose selected paths/tokens/raw errors in new markers, sum overlapping tests, claim broad/native/Windows green, repin old evidence or suppress warnings.
+
+**Continuation boundary:** Future native attempts are covered by existing owner intent but must use new exact operational checks and current preserved source. This entry ends at 01:28; later helper/plan/GUI outcomes belong to later dated records. No future target execution or successful native outcome is implied by a completed source checkpoint.
+
+## ❓ Open Questions
+
+1. **What actual Electron selection/registration result produced unchanged labels?** Known: Return-only closure, no visible accept click, no captured selection object or registration trace. Needed from: a future checked visible-accept journey and fixed IPC markers. Blocks: causal native picker diagnosis, not source preservation.
+2. **Will the visible Open/Select path complete registration and the bounded Full-copy UI journey?** Known: not tested here, changed IPC only injected-tested. Needed from: fresh actual 029 native attempt and independent saved audit. Blocks: Full-copy native acceptance.
+3. **Can diagnostics that never settle delay completion or leave UI presentation behind a returned registration?** Known: new waits catch failures, not infinite delay; requested-side busy/window tests pass, post-registration UI integration remains unexecuted. Needed from: proportionate later lifecycle evidence if relevant, without unnecessary detached work. Blocks: broader liveness assurance, not the current narrow source checkpoint.
+4. **What caused the original tool abort, popup overpainting or D-Bus/SSL messages?** Known: unresolved and not causally tied to this Return-only outcome; numeric epochs align. Needed from: distinct evidence, not speculation or security workarounds. Blocks: corresponding causal/performance/visual claims, not reasonable bounded retry under known limits.
+5. **Does shared IPC behave equivalently on native Windows?** Known: no changed-source native Windows run; authority/API unchanged and injected tests pass. Needed from: separately scoped supported platform testing. Blocks: Windows qualification.
+6. **What remains before 029 is backed up?** Known: coherent records/source ready at cutoff, preservation not yet complete. Needed from: actual lead commit and mirror restoration/remote receipts. Blocks: claiming this new checkpoint safely published or launching against an unverified successor.
+
+## 🧾 Session Outcome
+
+The fresh known-state retry on original 028 **stopped after one Return-only picker closure with no input registration**. It was not a tool abort, successful native journey or diagnosed application defect. Normal closure, twenty-eight balanced startup children, empty old/new outputs and exact source/runtime/allowlisted evidence were independently verified. No target, output probe/decode, publication or reveal occurred.
+
+A separate reviewed two-file IPC/test change now records fixed private-safe outcome boundaries and rejects malformed noncancelled selection explicitly while preserving cancellation, trust, main-owned registration, idle and lock semantics. Lead syntax and 261/261 targeted tests pass on stable integrated bytes; overlapping worker/reviewer checks are not summed, historical broad forty-five failures remain unrerun, and native/Windows behavior on the new bytes is unproved.
+
+The 028 predecessor is fully preserved; 029 preservation is pending at the fixed cutoff. Exact prior 1,304,619-byte Session and original structure-correction receipt remain unchanged. Next is coherent backup, then a fresh checked visible-accept attempt under existing owner authorization, not a new consent request solely because a previous internal gate was consumed.
+
+## 🔍 Confidence Level
+
+- **High:** Exact predecessor/publication identities, stopped-attempt closure/source/runtime continuity, reviewed two-file integration, tested counts/bytes and preservation of historical records.
+- **High within stated scope:** Fixed diagnostic enum/privacy behavior, strict injected selection contracts and request-side lifecycle checks, independently reviewed and lead-tested.
+- **Limited / unresolved:** Actual native selection cause, changed-source folder acceptance, renderer display after registration, never-settling diagnostic liveness, Windows native behavior, complete per-child diagnostics and later target/publication/reveal.
+
+**Why:** Actual runtime source, observed UI sequence, saved audit, source investigation hypotheses, integrated code and executed test scopes are distinguished. Owner intent, current safe readiness and consumed attempt artifacts are not conflated.
+
+**Not higher because:** No visible accept-button action or actual selection object was captured; no target output exists. Native screenshots are CUA-only, child diagnostics aggregate, mid-picker storage unmeasured, new source has no native run, and 029 preservation/future retry remain unfinished at cutoff.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Preserve the interrupted native Full-copy journey, correct startup terminology and scope the owner's fresh retry
 
 ## 🤖 Models, Effort, Roles and Provenance

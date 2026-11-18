@@ -6,9 +6,34 @@ function registerIpc({ ipcMain, window, service, appearance, dialog, entryUrl })
     service.requireIdle();
     if (pickingFolder) throw Object.assign(new Error('A folder picker is already open.'), { code: 'BUSY' });
     pickingFolder = true;
+    // Fixed enums only: never persist dialog paths, folder tokens or raw errors.
+    const record = async (reason, outcome) => {
+      try { await service.recordIncident?.({ stage: 'admission', reason,
+        context: { action: role === 'input' ? 'choose-input-folder' : 'choose-output-folder', outcome } }); }
+      catch { /* Diagnostics must not change the picker business result. */ }
+    };
+    let step = 'admission';
     try {
+      await record('FOLDER_PICKER_REQUESTED', 'requested');
+      // Logging awaits must not open a dialog after admission closes.
+      service.requireIdle();
+      if (window.isDestroyed()) throw Object.assign(new Error('The application window is closed.'), { code: 'SHUTTING_DOWN' });
+      step = 'dialog';
       const selection = await dialog.showOpenDialog(window, { title: role === 'input' ? 'Select input video folder' : 'Select output folder', properties: ['openDirectory'] });
-      return selection.canceled ? null : await service.registerFolder(selection.filePaths[0], role);
+      if (selection?.canceled === true) { await record('FOLDER_PICKER_CANCELLED', 'cancelled'); return null; }
+      if (selection?.canceled !== false || !Array.isArray(selection.filePaths)
+          || selection.filePaths.length !== 1 || typeof selection.filePaths[0] !== 'string' || !selection.filePaths[0].trim()) {
+        step = 'invalid';
+        await record('FOLDER_PICKER_INVALID_SELECTION', 'invalid-selection');
+        throw Object.assign(new Error('Choose exactly one folder.'), { code: 'INVALID_FOLDER_SELECTION' });
+      }
+      step = 'registration';
+      const registered = await service.registerFolder(selection.filePaths[0], role);
+      await record('FOLDER_PICKER_REGISTERED', 'registered');
+      return registered;
+    } catch (error) {
+      if (step !== 'invalid') await record('FOLDER_PICKER_REJECTED', step === 'admission' ? 'admission-rejected' : step === 'dialog' ? 'dialog-rejected' : 'registration-rejected');
+      throw error;
     } finally { pickingFolder = false; }
   };
   const methods = {

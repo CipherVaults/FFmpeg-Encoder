@@ -1,0 +1,506 @@
+{
+  "schema": 1,
+  "checkpoint": "029",
+  "cutoffUtc": "2026-11-18T01:28:00Z",
+  "baseCommit": "1e1493552f21425ccd4b650ab610db7e7f66842d",
+  "scope": {
+    "paths": 7,
+    "expectedFiles": 591,
+    "expectedCommits": 29,
+    "modifiedSourceFiles": 2,
+    "newSourceFiles": 0,
+    "newRecords": 3
+  },
+  "integration": {
+    "atUtc": "2026-11-18T01:26:26.013041+00:00",
+    "baseCommit": "1e1493552f21425ccd4b650ab610db7e7f66842d",
+    "files": [
+      {
+        "path": "src/ipc.cjs",
+        "bytes": 6854,
+        "sha256": "ca1882df4ec838c1b596828be53b24ed36669313924e2e8e7caa6faba57470c7",
+        "baseSha256": "33303a4bcfa4e2b13f209ea854c194416ac86df9537b70a756a8a18014bcac54"
+      },
+      {
+        "path": "tests/ipc.test.cjs",
+        "bytes": 20765,
+        "sha256": "910eb0ce3a783c9548919bafbf7d5d4bbf35f1f7a63598ac2acecac722738f67",
+        "baseSha256": "210aacdb63fdf978ab86d1881528b9f2214f232f3260c520f62af9882d1d5635"
+      }
+    ],
+    "unchangedExistingFiles": 586,
+    "baseFiles": 588,
+    "newSourceFiles": 0,
+    "independentReviewSha256": "51dc93ff8e8209c79a6ab01c2872ee27de36fed8589d2679c5298d1692c36e36",
+    "nativeEvidenceSourceUnchanged": "The stopped native attempt ran original028; no native behavior tested on new IPC bytes.",
+    "sourceRestoreAndHistoryAlreadyVerified": true
+  },
+  "leadTests": {
+    "startedAtUtc": "2026-11-18T01:26:48.647233+00:00",
+    "finishedAtUtc": "2026-11-18T01:26:55.844052+00:00",
+    "durationSeconds": 7.195064191000711,
+    "node": "v24.22.1",
+    "platform": "linux",
+    "baseCommit": "1e1493552f21425ccd4b650ab610db7e7f66842d",
+    "command": [
+      "node",
+      "--test",
+      "tests/ipc.test.cjs",
+      "tests/ui-workbench.test.cjs",
+      "tests/diagnostics.test.cjs",
+      "tests/preferences.test.cjs",
+      "tests/encoder-service.test.cjs",
+      "tests/main-lifecycle.test.cjs",
+      "linux-blue/candidate-full-copy-workbench.test.cjs",
+      "linux-blue/candidate-full-copy-workbench-renderer.test.cjs"
+    ],
+    "cwd": "project root",
+    "syntaxExitCode": 0,
+    "exitCode": 0,
+    "summary": {
+      "tests": 261,
+      "suites": 0,
+      "pass": 261,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "bytesChangedDuringRun": false,
+    "files": [
+      {
+        "path": "tests/ipc.test.cjs",
+        "bytes": 20765,
+        "sha256": "910eb0ce3a783c9548919bafbf7d5d4bbf35f1f7a63598ac2acecac722738f67"
+      },
+      {
+        "path": "tests/ui-workbench.test.cjs",
+        "bytes": 103151,
+        "sha256": "a1967dc9797cc8a431c83ab12ac650c6133f7fbc1f44b804c717f175ea4b2ad4"
+      },
+      {
+        "path": "tests/diagnostics.test.cjs",
+        "bytes": 45848,
+        "sha256": "7951586293d22b672f0af4f413919d4aa866b69686fc35cb76c0fc2adef45186"
+      },
+      {
+        "path": "tests/preferences.test.cjs",
+        "bytes": 12565,
+        "sha256": "4d8c2a2a9999a225ddf4be5d39beebfdbe43997a3f7621f2d33bae28ebbeaeb4"
+      },
+      {
+        "path": "tests/encoder-service.test.cjs",
+        "bytes": 92535,
+        "sha256": "e67d9996f57497e1198cad7f90e40811a5997942a4c1aeeea6c622d10d06c0ab"
+      },
+      {
+        "path": "tests/main-lifecycle.test.cjs",
+        "bytes": 31441,
+        "sha256": "fb9a0e69ab48fd81d2e061fff54adcf44625b9546ac2bf8d05b0117a7a1f9ccb"
+      },
+      {
+        "path": "linux-blue/candidate-full-copy-workbench.test.cjs",
+        "bytes": 12846,
+        "sha256": "f0ffe7a7be077da3fd5f4e2f249ddf1a5daf5d3242b6315315ed9d629d4d5e9d"
+      },
+      {
+        "path": "linux-blue/candidate-full-copy-workbench-renderer.test.cjs",
+        "bytes": 12380,
+        "sha256": "39c1f6bf1a72d776bdbfe166a578d023798f3292a240179639b7e35abb00de55"
+      },
+      {
+        "path": "src/ipc.cjs",
+        "bytes": 6854,
+        "sha256": "ca1882df4ec838c1b596828be53b24ed36669313924e2e8e7caa6faba57470c7"
+      },
+      {
+        "path": "src/encoder-service.cjs",
+        "bytes": 158909,
+        "sha256": "5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7"
+      },
+      {
+        "path": "src/diagnostics.cjs",
+        "bytes": 48267,
+        "sha256": "fa785aaca639324959339acceefbeaf7bfa1dfce4d38d27598b20c4d82df7901"
+      },
+      {
+        "path": "src/preferences.cjs",
+        "bytes": 10834,
+        "sha256": "ba49926594e97665064f63b5db440ef9e3144c5b4eee6e60404af5dfde2f82c9"
+      },
+      {
+        "path": "preload.js",
+        "bytes": 3533,
+        "sha256": "d34a52b84c785bacf047b7072678f8dddbc8e54513b14c65ed371a130be7281d"
+      },
+      {
+        "path": "ui/renderer.js",
+        "bytes": 149163,
+        "sha256": "a88dd83dcf1d3c127106f1b895770d7bad4c789fb5ee831b26f6be6b682bef68"
+      },
+      {
+        "path": "linux-blue/workbench-main.cjs",
+        "bytes": 10349,
+        "sha256": "9e2017c6d37399319dc18271193aeeb7cc9e1e5dd8a23ead2f916d401b205a91"
+      },
+      {
+        "path": "linux-blue/candidate-full-copy-service.cjs",
+        "bytes": 25961,
+        "sha256": "0ee4d93d2dc709db1a49cbfced79e29c789be43d19d5b6e4d2748d13f7e3e462"
+      },
+      {
+        "path": "linux-blue/candidate-full-copy-workbench.cjs",
+        "bytes": 6044,
+        "sha256": "09f374170927f705d6e0e1a3419c982a167fc534536b7fee034f1be1a95ab9aa"
+      }
+    ],
+    "logs": [
+      {
+        "path": "checkpoint029-tests/stdout.txt",
+        "bytes": 29175,
+        "sha256": "7717acc19fe687facb9d66ec481bffeb979cede1a1ce5d92ce05535423b1e03d"
+      },
+      {
+        "path": "checkpoint029-tests/stderr.txt",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "checkpoint029-tests/syntax.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "checkpoint029-tests/syntax.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "limits": [
+      "Injected picker/service and existing file/renderer tests, not native picker/media or Windows execution.",
+      "Historical broad223/268 with45 failures was not rerun for this narrow IPC-only change; no new broad-green claim."
+    ]
+  },
+  "workerTests": {
+    "node": "v24.22.1",
+    "cwd": "isolated proposal checkout",
+    "commands": [
+      "node --check src/ipc.cjs",
+      "node --test tests/ipc.test.cjs tests/ui-workbench.test.cjs tests/diagnostics.test.cjs tests/preferences.test.cjs tests/encoder-service.test.cjs"
+    ],
+    "final": {
+      "pass": 220,
+      "fail": 0,
+      "log": {
+        "bytes": 24322,
+        "sha256": "6a22d425c8a7506b800aa638d16b92ee4ef080621dd2e5211abc9fdcc570dc68"
+      }
+    },
+    "earlier": [
+      {
+        "pass": 219,
+        "fail": 0,
+        "log": {
+          "bytes": 24220,
+          "sha256": "0f86d22aa01bc297191b893be1d62762759e3ba9e5f95ad2917d4379d5fb6826"
+        }
+      },
+      {
+        "pass": 220,
+        "fail": 0,
+        "log": {
+          "bytes": 24309,
+          "sha256": "0409901307abad7105749f727edd8184ee42e151a353bb83d7cb8459247d6ed1"
+        }
+      }
+    ],
+    "redResults": "No test failures in these retained runs; no invented red-before-green claim. Tests include existing temporary-file appearance/preference/service fixtures and injected dialog/renderer APIs, not native picker/media execution."
+  },
+  "independentReview": {
+    "atUtc": "2026-11-18T01:25:55.830027+00:00",
+    "disposition": "Suitable for scoped source checkpoint; no blocking defect identified. Not native cause diagnosis or runtime authorization.",
+    "commands": [
+      "node --check src/ipc.cjs",
+      "node --test tests/ipc.test.cjs tests/diagnostics.test.cjs"
+    ],
+    "pass": 57,
+    "fail": 0,
+    "review": [
+      "Both changed files read, with supporting EncoderService.recordIncident/registerFolder/mutatePreferences/requireIdle and diagnostics export sanitizer.",
+      "New markers contain fixed reason/action/outcome strings, never selected paths, opaque folder tokens or raw errors. Actual export sanitizer test preserves the two fixed context fields. Existing general REQUEST_REJECTED raw-message behavior is unchanged, not newly claimed private.",
+      "Strict canceled=true retains null even with stale paths; noncancelled response must have canceled=false and exactly one nonempty string. Canonical directory verification and token issuance remain main-owned registerFolder operations.",
+      "IPC sender, top-level frame URL and argument-count checks remain unchanged before choosing. Shared picker lock covers diagnostic awaits and dialog, with finally release. Requested marker is intent, not a dialog-open assertion.",
+      "After requested diagnostic await, idle and live-window checks prevent starting a dialog after admission closure; actual registerFolder enters mutatePreferences which synchronously checks idle and reserves preferenceMutation before filesystem awaits.",
+      "New diagnostic calls are awaited and catch synchronous/asynchronous failures. No detached promise introduced. Persistence failure does not change successful cancellation or registration results. A nonsettling diagnostics promise can delay completion and keep picker lock: this acknowledged latency limitation is not solved by this patch.",
+      "A completed registerFolder is the meaning of registered marker. Logging delay after registration may outlive window/renderer state; it does not mean renderer displayed the folder. Returning the already-issued result is not a second registration. Existing accepted preference mutation/drain lifecycle remains unchanged."
+    ],
+    "coverageLimits": [
+      "New picker tests inject dialog, service registration and diagnostics. They execute real registerIpc and real export sanitizer, not actual native dialogs or full real-service registration/persistence.",
+      "Delayed diagnostic test exercises request-side busy/window closure. No executed renderer-navigation-during-log, post-registration close or never-settling persistence integration case. Existing admission and main-owned grant checks were traced; no new filesystem authority is introduced.",
+      "Existing outer IPC rejection diagnostic await is not caught locally if a substituted service logger throws; real EncoderService.recordIncident catches failures. Do not generalize new helper failure swallowing to every injected logger or IPC path.",
+      "At the independent isolated-source review, before lead integration: No Linux or Windows native picker qualification, no GTK Return/accept-button cause fix, no media/runtime/GUI invocation, no formal Security Cloud scan. Renderer, preload, source producer implementation and authoritative checkout remain unchanged."
+    ],
+    "inspectionFriction": [
+      "Initial relative handoff lookup failed because cwd was isolated checkout. git diff outside a Git repository compared the two supplied paths, so that output was not used as a patch or scope proof. Correct absolute handoff/immutable patch and per-file Git-object comparisons established scope."
+    ]
+  },
+  "sourceContracts": [
+    "Trusted folder picker request/result markers contain fixed action and outcome enums only, no selectedpaths/tokens/rawerrors. Existing recordIncident/export sanitizer preserves these fields.",
+    "Strict noncancelled selection accepts exactly one nonempty string. Canceledtrue returnsnull even if stale paths exist. Invalidselection explicit INVALID_FOLDER_SELECTION.",
+    "After awaited requested diagnostic, requireIdle/windowlive checked again before dialog. No opened claim before actualnativecall. Service registration retains own idle check. Shared pickerlock finallyreleased.",
+    "Diagnostic throw/persistedfalse does not change registration/cancellation result; existing outer REQUEST_REJECTED/error envelope remains unchanged. Existing outer raw-error behavior is NOT claimed sanitized by these newmarkers.",
+    "Renderer/preload/service/theme/defaults unchanged. No newloggingIPC or GTK/Return behavior diagnosis."
+  ],
+  "sourceLimitations": [
+    "Isolated source worker at its frozen handoff: No authoritative source/PBS/stage/commit changes; no runtime, media, nativeGUI, authorizer/gate or profile access.",
+    "No actual Windows/Linux native picker outcome qualification. Shared IPC changes affect both platforms; native observation remains attributed to immutable028.",
+    "Fallible diagnostics cannot prove missingevents never occurred. A nonsettling diagnostic promise is not timebounded here; existing recordIncident controls persistence.",
+    "Marker requested means admitted request intent, not guaranteed shown dialog; registered means service returned, not renderer displayed. New fixed outcomes do not repair hypothetical preference partialmutation or renderer failure.",
+    "Isolated source worker at its frozen handoff: Sourcefreeze release authorizes thisisolatedproposal only. Independent review/integration/fullpreservation/futureexplicitnative plan remain separate."
+  ],
+  "historicalProducerPins": {
+    "count": 26,
+    "allExact": true,
+    "ipcIsPinned": false
+  },
+  "nativeEvidenceAttribution": "Stopped Return-only retry executed immutable028, not new029 IPC bytes; no accept-button click or defect cause established.",
+  "nativeLeadRelease": {
+    "releasedAtUtc": "2026-11-18T01:17:43.968277+00:00",
+    "sourceCommit": "1e1493552f21425ccd4b650ab610db7e7f66842d",
+    "auditSha256": "b7e282dd4eaa2618ad5d538ddc2422339f3d24852543cfce5287da64620762bf",
+    "identityReconciliationSha256": "02550b2708c00442b38c9cd918afd26c18075caca1c861639ceb00c6e05addee",
+    "disposition": "Stopped native retry and normal closure verified; no folder registration, Prepare, target, reveal or native functional acceptance. Return-only dialog closure does not establish actual Electron selection result or cause. No tool abort occurred.",
+    "preservedLimits": [
+      "All588 source files/runtime identities and old/new diagnostics preserved; old/new outputs empty.",
+      "No visible Open/Select-button click, CUA-only visual evidence, no complete per-child diagnostic coverage.",
+      "Launch/close point storage checks passed; no separate mid-picker space check was recorded."
+    ],
+    "releasedScope": "Prepare an isolated two-file shared IPC diagnostic/test slice, src/ipc.cjs and tests/ipc.test.cjs, after reviewed bounded plan. No authoritative integration until exact source review/tests; preserve this source attribution. Prepare outside evidence/PBS draft for coherent029; Session ownership remains separate.",
+    "engineeringDirection": "Use fixed privacy-safe trusted picker outcome diagnostics and explicit malformed noncancelled selection refusal while preserving canceled-to-null API, idle/sender/frame/arity/close/picker-lock semantics. Do not record paths/tokens/raw errors or add renderer logging IPC. No speculative GTK fix, UI/theme/default/preload/service changes or producer repin.",
+    "runtimeDirection": "No new GUI or media attempt authorized by this release. The consumed retry and prior attempt remain intact. Any future attempt requires a separately reviewed changed plan and actual preserved source/receipts.",
+    "parallelPreparation": "Corrected long-helper V2 has independent13 injected/file tests and conditional preparation review; no run readiness, final role-template gate binding and whole orchestration/OS closure proof remain."
+  },
+  "priorPublication": {
+    "verifiedAtUtc": "2026-11-18T00:57:25.749406+00:00",
+    "localCommit": "1e1493552f21425ccd4b650ab610db7e7f66842d",
+    "remoteCommit": "fe84fb04602d4c91b1352ca87889400ed0d10c5d",
+    "remoteTree": "197bc75d484bb829fac9ad6224e97b22f9b00039",
+    "actualSoleParent": "318331149baa1ed0d2b5b06bca2fa2f947c69181",
+    "repository": "CipherVaults/FFmpeg-Encoder-Blue-Linux",
+    "branch": "blue/linux-development",
+    "nonForceExpectedShaUpdate": true,
+    "freshRefVerified": true,
+    "fullTreeCounts": {
+      "total": 970,
+      "unchanged": 965,
+      "modified": 2,
+      "new": 3,
+      "deleted": 0
+    },
+    "notionRestorationGatesPrecededPublication": true,
+    "sessionReadback": "Supported immutable Git blob read directly for full Session; all bytes/SHA/Git blob match.",
+    "limits": [
+      "Five reviewed evidence/PBS paths only; later retry helper and original runtime/raw logs/profiles excluded.",
+      "Local reconstruction and remote ancestry deliberately differ; exact reviewed delta preserves original remote history without force.",
+      "Stopped native attempt is not publication or UI acceptance; new owner-authorized retry still requires fresh exact gates. Prior 45 broad failures retained."
+    ]
+  },
+  "portable": {
+    "path": "linux-blue/evidence-2026-11-18/native-full-copy-retry-stopped-portable.json",
+    "bytes": 28498,
+    "sha256": "1ac5bcf72eef1cd179c8c0dc8edf686079620867b4c67cd8be22db8598aa0597",
+    "originalReportsUnchanged": true,
+    "prefixChanges": 11,
+    "supportChanges": 7,
+    "projectChanges": 4,
+    "allOtherValuesExact": true
+  },
+  "longPreparation": {
+    "status": "Narrow V2 corrections accepted for further preparation only; not execution readiness or authorization",
+    "reviewedAtUtc": "2026-11-18T01:11:16.824540+00:00",
+    "identities": [
+      {
+        "path": "CORRECTIONS_HANDOFF-v2.json",
+        "bytes": 5031,
+        "sha256": "5c17cd8d5947273813f62d1462a85180d666cc85c097060286eb47794066f802"
+      },
+      {
+        "path": "launch-service.cjs",
+        "bytes": 37224,
+        "sha256": "713be5093d3757f7f26aae5ee9311e8dab24327626698fbf4e9f70d74a2e316b"
+      },
+      {
+        "path": "terminal-contract.cjs",
+        "bytes": 9358,
+        "sha256": "b04d1cbb5c9873aa3150e63697ae37cb9b09138973b8185fa59ff9b3d6261589"
+      },
+      {
+        "path": "role-templates.json",
+        "bytes": 21390,
+        "sha256": "9dd9c4b00b232523fbf12874ce33aca40b4b8822dc372d65230088a78cf45baa"
+      },
+      {
+        "path": "callers.test.cjs",
+        "bytes": 2687,
+        "sha256": "49e1ca068a8413f0744ac26e805738e4d4da4a2553009cc4f0fda0473ffaf3a4"
+      },
+      {
+        "path": "PLAN.md",
+        "bytes": 8171,
+        "sha256": "8def78f9c7e1cf4beb7216f38e29c0fe81858fd100f86fe25b4287ebdfd49d01"
+      },
+      {
+        "path": "independent-corrections-v2.stdout",
+        "bytes": 1240,
+        "sha256": "2290e054d167c7ee3bb94dd4b5cddee777073bfa722db617ad385ae0b2835eed"
+      },
+      {
+        "path": "independent-corrections-v2.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "checks": [
+      "All handoff file and unchanged identities independently matched. Only three launcher await expressions changed from retained V1.",
+      "Metadata runner, collision preparation and cancellation task race now enter the existing shared abort observation. The local 120-second cancellation timer remains and is cleared in finally.",
+      "Caller tests construct async functions from exact current launcher slices, injecting pending runners/services/task. They abort after entering the caller and assert NONSETTLEMENT plus retained pending ownership. The cancellation-specific timer is scaled to 200 ms, observation to 10 ms, watchdog to 60 ms.",
+      "Reviewed retained V1 red caller log: three observation bypass failures; separate initial constructor error is not source evidence.",
+      "No production source, runtime, native UI, gate, authorizer or media execution."
+    ],
+    "independentValidation": {
+      "commands": [
+        "node --check launch-service.cjs",
+        "node --test guards.test.cjs callers.test.cjs persist-exact.test.cjs"
+      ],
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0
+    },
+    "limits": [
+      "Exact source slices are not whole launcher orchestration, live service cancellation, operating-system process closure or a successful long campaign.",
+      "Test comment claiming late runner rejection is inaccurate: injected runner remains pending. No post-probe filesystem operation is reached; this does not invalidate the tested abort boundary.",
+      "Shared observation retains unresolved references and stops progression; it cannot force a hung process to exit or bound arbitrary filesystem operations. Role budgets and normalized argv templates remain unchanged; real future corpus compatibility is not demonstrated.",
+      "The roleTemplatesSha256 must be bound in the eventual final manifest and authorizer, alongside exact helpers, source preservation and runtime inputs. No final manifest/gate readiness is asserted.",
+      "V1 review and original evidence are preserved unchanged."
+    ]
+  },
+  "artifactReferences": [
+    {
+      "path": "checkpoint029-integration.json",
+      "bytes": 952,
+      "sha256": "09f6c7829706759b49fcec6fa57f1e35971de6febecdd1ac4f5677bc7e86e571"
+    },
+    {
+      "path": "checkpoint029-lead-test-results.json",
+      "bytes": 4593,
+      "sha256": "49eaa08cb33951b99f3d2866feb9308f972b8c68fa721962493b5084cee8600a"
+    },
+    {
+      "path": "picker-sourcework-evidence/HANDOFF-v1.json",
+      "bytes": 3908,
+      "sha256": "744a85f0ebfaf665d9a7c6fe43371f0c1f9c2299a6df0005e98a482ec84c535b"
+    },
+    {
+      "path": "picker-sourcework-evidence/picker-diagnostics-v1.patch",
+      "bytes": 9259,
+      "sha256": "68f03ffe45a2e1d178ed758b952314d12d1ae343f935c5bd722c7a83a7cd3101"
+    },
+    {
+      "path": "picker-sourcework-independent/INDEPENDENT_REVIEW.json",
+      "bytes": 5268,
+      "sha256": "51dc93ff8e8209c79a6ab01c2872ee27de36fed8589d2679c5298d1692c36e36"
+    },
+    {
+      "path": "github-checkpoint028-verification.json",
+      "bytes": 2643,
+      "sha256": "ccf2ff20e7e9e50e29343725565a71907d864162927da2e0bb653b461fb3bc30"
+    },
+    {
+      "path": "notion-checkpoint-028-verification.json",
+      "bytes": 104061,
+      "sha256": "f29dc2f2be4afb1f759d14b1ba435ecc7de2799c7439e0bc87250d166650412a"
+    },
+    {
+      "path": "full-copy-long-service028-preparation-20261118/INDEPENDENT_CORRECTIONS_REVIEW-v2.json",
+      "bytes": 3479,
+      "sha256": "995ccb23515ec937367b60ea81b7eff837caf5a6826764f3106b088102768c1b"
+    },
+    {
+      "path": "native-full-copy-retry028-preparation-20261118/JOURNEY_OUTCOME.json",
+      "bytes": 6743,
+      "sha256": "414c0781acee686971b71448bd4d6b0348196abbbfdffe86ca8d66ce2c4853bc"
+    },
+    {
+      "path": "native-full-copy-retry028-preparation-20261118/OUTER_COMPLETION.json",
+      "bytes": 622,
+      "sha256": "e7ae34d242f56d078748e1563d32e3f608861f914beb2ccbc70c76a8e7d97fa5"
+    },
+    {
+      "path": "native-full-copy-retry028-preparation-20261118/INDEPENDENT_SAVED_EVIDENCE_AUDIT.json",
+      "bytes": 12253,
+      "sha256": "b7e282dd4eaa2618ad5d538ddc2422339f3d24852543cfce5287da64620762bf"
+    },
+    {
+      "path": "native-full-copy-retry028-preparation-20261118/LEAD_IDENTITY_RECONCILIATION.json",
+      "bytes": 1086,
+      "sha256": "02550b2708c00442b38c9cd918afd26c18075caca1c861639ceb00c6e05addee"
+    },
+    {
+      "path": "native-full-copy-retry028-preparation-20261118/LEAD_RELEASE.json",
+      "bytes": 2092,
+      "sha256": "1eeb1942348c8b1953b9f183d012d0fb2e3a4c7c011b9675e6103aec4ea483d5"
+    },
+    {
+      "path": "native-full-copy-retry028-preparation-20261118/GENERATOR_FIRST_FAILURE.json",
+      "bytes": 607,
+      "sha256": "8c84e17ceda794725d286765422d18a9935addb0164f4fe426e558587d2109f6"
+    },
+    {
+      "path": "native-full-copy-retry028-preparation-20261118/GENERATOR_V2_EXECUTION.json",
+      "bytes": 523,
+      "sha256": "75d9ac1e60043bc011993d4434d9103ae4555a663c2a504a0ffbe9f552a2bc22"
+    },
+    {
+      "path": "native-full-copy-retry028-preparation-20261118/INDEPENDENT_GENERATOR_REVIEW-v2.json",
+      "bytes": 1042,
+      "sha256": "df17fcd17a22d064ca1dea0ba30e7dd9f38e446788df27552fc5fa72163eaac8"
+    },
+    {
+      "path": "native-full-copy-retry028-preparation-20261118/AUTHORIZER_EXECUTION.json",
+      "bytes": 496,
+      "sha256": "627fb1f592130ba05fdd8a9c0fab4d4092c684215aa0ab28ed3138f541896873"
+    },
+    {
+      "path": "native-full-copy-retry028-preparation-20261118/AUTHORIZER_REVIEW.json",
+      "bytes": 2900,
+      "sha256": "c9cb919105ef8549bac9a032e3e321cee3b441f51ee63612ebfd9de41c6c4e62"
+    },
+    {
+      "path": "native-full-copy-retry028-preparation-20261118/DESKTOP_PREFLIGHT.json",
+      "bytes": 1195,
+      "sha256": "a6711846c002cca7f4cf414fec33073b82527f7435460dcad26443e0767a94dc"
+    },
+    {
+      "path": "native-full-copy-retry028-preparation-20261118/APPROVED_JOURNEY_A.json",
+      "bytes": 74432,
+      "sha256": "6ba35bfd5ff612eca97340cd30f3d8769b24645c55b5c1dde4b9a2257e6cad7c"
+    }
+  ],
+  "limits": [
+    "No native execution on029; no GTK or picker cause fix established.",
+    "Historical broad223/268 same45 failures not rerun; scopes overlap and are not summed.",
+    "Manual scoped security review, not formal Security Cloud scan.",
+    "Fresh same-test attempts fit existing owner retry approval; consumed gates cannot be reused. Actual029 preservation, fresh review/checks and visible Open path precede any new attempt.",
+    "Publication pending at dated cutoff. Successor native plan/helper prepared but unreviewed; later review, gate and runtime outcomes are not included."
+  ],
+  "securitySkillAvailability": {
+    "skillAndRubricReadable": true,
+    "mandatoryStorageAndSchemaAvailable": false,
+    "supportedLookupAttempts": "Multiple canonical skills.read locator forms failed",
+    "validatorRun": false,
+    "validatedFormalAssessment": false,
+    "ratingClaimed": false,
+    "formalSecurityCloud": "deferred",
+    "qualification": "At the final record cutoff, the assess-patch-risk skill and risk rubric were readable, but mandatory artifact-storage guidance and JSON schema references failed through supported skills.read locator forms. No validator, validated formal assessment or rating was run or claimed. Existing independent manual code/privacy/authority review stands; formal Security Cloud remains deferred. This availability gap does not block the bounded source checkpoint."
+  }
+}

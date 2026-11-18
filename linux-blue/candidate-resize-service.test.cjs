@@ -56,8 +56,24 @@ test('pure candidate receipt requires complete exact resize1080to720 evidence, n
     const value = report(); mutate(value); assert.throws(() => validate(value));
   }
 });
-test('live historical producer closure refuses current source until fresh qualification, without repinning', async () => {
-  await assert.rejects(verifyCandidateServiceProducers(), /Calibration producer changed: (?:src\/operation-family\.cjs|linux-blue\/workbench-long-range-calibration\.cjs)/);
+test('new current producer capsule matches; historical capsule still refuses current bytes', async () => {
+  await verifyCandidateServiceProducers();
+  const file = path.join(__dirname, 'candidate-resize-service.cjs');
+  let source = await fs.readFile(file, 'utf8');
+  const legacy = {"linux-blue/workbench-long-range-calibration.cjs": "1e7a3425672f3662733370de2ee8babbaecea912db899556d7ad4a0bcbc66ee9", "src/operation-family.cjs": "4453619d3f68d891bf7472a9dcfc919508b4dbb0533e0a07ee3b48461424ae3e", "src/operation-resource-budget.cjs": "b60f0fe312e79c6f1b15e717f0cb4a7925fba132ca62b8aa753aa5a3ef51accd", "src/operation-evidence.cjs": "8de2516179f3c80667004855ef720250b934fd7b816b170ac2be1b9c39179ef8"};
+  const current = {"linux-blue/workbench-long-range-calibration.cjs": "7460d5f369949a84827b6b6b96edab05656aecf2abd2b711a244942abab7b484", "src/operation-family.cjs": "c981fe49e8f67b674cd23eda6b6424ee031b022bbf1a90dfe2cb2b5d51f99f65", "src/operation-resource-budget.cjs": "1914192dc877344b94bb6786a831e07b6e8b9704ee31c0a63fd225db426e5926", "src/operation-evidence.cjs": "9b680168395be354b8261bd4aa6624c1484daeecab424fd5278db55fa3aba9b9"};
+  for (const name of Object.keys(legacy)) source = source.replace(current[name], legacy[name]);
+  const module = { exports: {} };
+  vm.runInThisContext('(function(require,module,exports,__dirname){' + source + '\n})', { filename: file })(createRequire(file), module, module.exports, __dirname);
+  await assert.rejects(module.exports.verifyCandidateServiceProducers(), /Calibration producer changed:/);
+});
+test('actual freshly audited raw report passes fixed pure validator when explicitly supplied', { skip: !process.env.CANDIDATE_RESIZE_REPORT_TEST_PATH }, async () => {
+  // Read-only evidence test; no live factory/runtime grant or media execution.
+  const bytes = await fs.readFile(process.env.CANDIDATE_RESIZE_REPORT_TEST_PATH);
+  assert.equal(bytes.length, 125887); assert.equal(sha(bytes), REPORT_SHA);
+  const parsed = assertCandidateServiceReceipt(bytes); assert.equal(parsed.status, 'passed-pre-catalog-calibration');
+  assert.equal(parsed.cases.length, 3); assert.equal(parsed.census.closed, 42);
+  const changed = Buffer.from(bytes); changed[0] ^= 1; assert.throws(() => assertCandidateServiceReceipt(changed));
 });
 test('public factory rejects copied handles and inert-option violations without runtime or receipt access', async () => {
   let reads = 0;
@@ -308,4 +324,10 @@ test('inspection-only boundary refuses Start across a modeled pending-write wind
     assert.throws(() => service.startBatch({ planId, fileIds: [fileId] }), { code: 'LINUX_TRIM_CANDIDATE_SCOPE' });
   } finally { release(); await diagnostic; await service.closeOperationResources(); }
   assert.deepEqual(seen, ['unsupported', 'unsupported']);
+});
+
+test('actual historical raw report is not compatible with the new fixed evidence binding', { skip: !process.env.CANDIDATE_RESIZE_OLD_REPORT_TEST_PATH }, async () => {
+ const bytes = await fs.readFile(process.env.CANDIDATE_RESIZE_OLD_REPORT_TEST_PATH);
+ assert.equal(sha(bytes), '3fc9a4678890da318728f2c8b44ac7c6b4fe345ccd271b7f1064928f63eb1317');
+ assert.throws(() => assertCandidateServiceReceipt(bytes));
 });

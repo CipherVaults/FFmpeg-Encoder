@@ -1,0 +1,235 @@
+{
+  "checkpoint": 45,
+  "cutoffUtc": "2026-11-18T10:49:15.341766+00:00",
+  "baseCommit": "4ccb56a08b8d4b130dc66c6546e33736fbbb9b33",
+  "expectedScope": {
+    "changedPaths": 7,
+    "files": 652,
+    "commits": 45,
+    "publicationPending": true
+  },
+  "sourceIntegratedAtUtc": "2026-11-18T10:48:33.999499+00:00",
+  "sourceFiles": [
+    {
+      "relativePath": "linux-blue/candidate-resize-service.cjs",
+      "bytes": 25171,
+      "sha256": "9659e256acf178352731bd64f65354c26300129c1b81b64064d861b272c5fe5e",
+      "baseSha256": "f0d088cd7d2ef0e3e8030dcc9afa2abbed2ca63d6331e172d1c19943392df41a"
+    },
+    {
+      "relativePath": "linux-blue/candidate-resize-service.test.cjs",
+      "bytes": 31654,
+      "sha256": "1c74de93a0dbde664000780996e0f05afb6199746d7743e6d1e22f460412b1a2",
+      "baseSha256": "7e43dd93f8f0aacee1e7708ae97ef969e7f0f3bfd6c6e36ad7bc34c9a9d6aa42"
+    }
+  ],
+  "testResults": {
+    "completedAtUtc": "2026-11-18T10:48:46.463931+00:00",
+    "baseLocalCommit": "4ccb56a08b8d4b130dc66c6546e33736fbbb9b33",
+    "testedIntegratedSource": true,
+    "nativeOrMediaQualification": false,
+    "checkedSourceFiles": 649,
+    "sourceBytesUnchanged": true,
+    "overlappingScopesNotSummed": true,
+    "runs": [
+      {
+        "path": "checkpoint045-lead-tests/focused.json",
+        "bytes": 4093,
+        "sha256": "c0ca710adff25ae545de8164447425fdb08c20ed1db116be04a75fb5f672f17f",
+        "summary": {
+          "tests": 70,
+          "suites": 0,
+          "pass": 70,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      },
+      {
+        "path": "checkpoint045-lead-tests/protection.json",
+        "bytes": 4051,
+        "sha256": "fe0a29115cfe251221b3111bb22cd4b2631fec3da9d7ac4103228a05899d2fc9",
+        "summary": {
+          "tests": 229,
+          "suites": 0,
+          "pass": 229,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      },
+      {
+        "path": "checkpoint045-lead-tests/linux-broad.json",
+        "bytes": 11717,
+        "sha256": "e824e6bf0701fb279154e345586c0078acc109368cccf8fa72c066777f97a426",
+        "summary": {
+          "tests": 337,
+          "suites": 0,
+          "pass": 337,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      }
+    ]
+  },
+  "calibration": {
+    "status": "Accepted bounded current-source calibration only",
+    "references": [
+      {
+        "artifact": "current-e3-resize-reuse-preparation/INDEPENDENT_SAVED_OUTPUT_AUDIT.json",
+        "bytes": 192427,
+        "sha256": "0f4ff0723a17703f7602d2f3436795cb656fddb0f7e6b659f950c4df69363c75"
+      },
+      {
+        "artifact": "current-e3-resize-reuse-preparation/LEAD_RECONCILIATION.json",
+        "bytes": 4615,
+        "sha256": "59209817ba55eeaf4ee4a1eb0405e013878ef654f59a23c9a9f0f479c867f9fb"
+      }
+    ],
+    "leadReconciledAtUtc": "2026-11-18T10:46:13.849888+00:00",
+    "sourceCommit": "4ccb56a08b8d4b130dc66c6546e33736fbbb9b33",
+    "artifactCount": 95,
+    "artifactBytes": 160457169,
+    "leadRehashedAuditIdentityRows": 776,
+    "uniquePathsRehashed": 764,
+    "currentAndGitSourceFilesVerified": 649,
+    "casesPassed": 3,
+    "children": {
+      "spawned": 42,
+      "closed": 42,
+      "live": 0,
+      "maximum": 1
+    },
+    "targetStderrBytes": [
+      499,
+      499,
+      499
+    ],
+    "owningRecordCutoffPending": false
+  },
+  "portable": {
+    "file": "current-e3-resize-calibration-portable.json",
+    "bytes": 145695,
+    "sha256": "f2f15c81aab705624bdbab86683c9849bbf431e2545cb11ba8fde43ccb30043c",
+    "transformations": 141,
+    "countsByAlias": {
+      "proof://": 99,
+      "runtime-build://": 42
+    },
+    "fullParsedReportRetained": true,
+    "rawRestorable": false
+  },
+  "references": [
+    {
+      "artifact": "checkpoint045-cutoff.json",
+      "bytes": 1607,
+      "sha256": "8799543e5ed8e5f798cb188c5267baf96fdbb035a392f9232ab1c065d5465690"
+    },
+    {
+      "artifact": "checkpoint045-integration.json",
+      "bytes": 2913,
+      "sha256": "514346f63f7ce21c735716382b3c710f735d4f994a50a75ea21056daed1ca5ca"
+    },
+    {
+      "artifact": "checkpoint045-lead-test-results.json",
+      "bytes": 1422,
+      "sha256": "0ea2b38daadfc8e28202b0053d7ceaceb7ab5de40064be07da383305ecb4ce4c"
+    },
+    {
+      "artifact": "current-resize-capsule-evidence/HANDOFF-v1.json",
+      "bytes": 5822,
+      "sha256": "02fc7aedd6e37bc26a7fde37f49d630f69f16b1beee708324ddb49d34d920a37"
+    },
+    {
+      "artifact": "current-resize-capsule-evidence/proposal-v1.patch",
+      "bytes": 24754,
+      "sha256": "033606965ce61216ca4161c7a1e161d6f2864cbef08999fc85d2d38bd58550a3"
+    },
+    {
+      "artifact": "current-resize-capsule-independent-review/INDEPENDENT_REVIEW-v1.json",
+      "bytes": 6830,
+      "sha256": "57bae731c1334e5d232a0d91cf38876eee516e1d4ea07b604af572af222db0b6"
+    },
+    {
+      "artifact": "current-e3-resize-reuse-preparation/HELPER_HANDOFF-v2.json",
+      "bytes": 6640,
+      "sha256": "736bb2a5f55cacb8982bbb0d8fe0615549b0e28ab0fedff46a292eeae6ce2cfd"
+    },
+    {
+      "artifact": "current-e3-reuse-independent-review/INDEPENDENT_REVIEW-v2.json",
+      "bytes": 12227,
+      "sha256": "8e66fa784525f79f4dfa5c5bc99658272c1cedd1684514f75f841563c611e8ee"
+    },
+    {
+      "artifact": "current-e3-resize-reuse-preparation/APPROVED_CHECKPOINT.json",
+      "bytes": 80947,
+      "sha256": "d7e54efcb54e665255f97ce72a9e7a50bb64583d59b93ec5b1341203a65987a2"
+    },
+    {
+      "artifact": "current-e3-resize-reuse-preparation/OUTER_COMPLETION.json",
+      "bytes": 372,
+      "sha256": "b9e8312ced0d63ca2deb3597201993db2e346cdcd77abf282ecda3941637124c"
+    },
+    {
+      "artifact": "current-e3-resize-reuse-preparation/INDEPENDENT_SAVED_OUTPUT_AUDIT.json",
+      "bytes": 192427,
+      "sha256": "0f4ff0723a17703f7602d2f3436795cb656fddb0f7e6b659f950c4df69363c75"
+    },
+    {
+      "artifact": "current-e3-resize-reuse-preparation/LEAD_RECONCILIATION.json",
+      "bytes": 4615,
+      "sha256": "59209817ba55eeaf4ee4a1eb0405e013878ef654f59a23c9a9f0f479c867f9fb"
+    },
+    {
+      "artifact": "checkpoint-4ccb56a-publication-receipt.json",
+      "bytes": 174509,
+      "sha256": "b5f407b3c6e0959ee4d1171ab9912d7256d676884f46d426949effd4f3119876"
+    },
+    {
+      "artifact": "notion-checkpoint-044-verification.json",
+      "bytes": 116388,
+      "sha256": "4bc63e2288876fc1ffde76539b8b517b81b78d429623bb824842ad35cad402fb"
+    },
+    {
+      "artifact": "checkpoint045-lead-tests/focused.json",
+      "bytes": 4093,
+      "sha256": "c0ca710adff25ae545de8164447425fdb08c20ed1db116be04a75fb5f672f17f"
+    },
+    {
+      "artifact": "checkpoint045-lead-tests/protection.json",
+      "bytes": 4051,
+      "sha256": "fe0a29115cfe251221b3111bb22cd4b2631fec3da9d7ac4103228a05899d2fc9"
+    },
+    {
+      "artifact": "checkpoint045-lead-tests/linux-broad.json",
+      "bytes": 11717,
+      "sha256": "e824e6bf0701fb279154e345586c0078acc109368cccf8fa72c066777f97a426"
+    }
+  ],
+  "limits": [
+    "All parsed report keys, types and values are preserved except the 141 declared leading-root replacements. Original raw bytes remain unchanged locally. This wrapper cannot recreate the original bytes or substitute for a raw-report gate.",
+    "The independent saved-output audit and lead reconciliation accept three finite calibration cases only. Exact external audit identities are included as metadata; their complete source/runtime/artifact ledgers are not duplicated in this portable report.",
+    "Whole output hashes were first established by the post-close audit and then matched by the lead. They are not original encode-time full hashes. Returned/persisted report equality was an executed helper gate, not a comparison of two independently retained whole report objects.",
+    "Raw PCM streams, full output probe JSON and complete source/output frame streams are not retained. PCM equality is supported by runtime collector receipts, not an independent byte recompare or fresh re-decode. Geometry acceptance relies on the executed validator and retained child receipts, not a new probe.",
+    "All three target encodes retain 499-byte stderr streams. Warning-bearing success does not establish harmlessness, performance, visual quality or general player behavior.",
+    "Runtime binaries, source fixtures, output media, raw stderr and other artifact payloads are excluded. Existing report references and recorded evidence remain intact. Neither this report nor a source-only restore recreates private runtime authority.",
+    "Actual 42 owned children closed with no live child. Resource point checks and abort requests are not a disk quota, guaranteed exit or whole-OS census.",
+    "Telemetry counts are not video pixel identity. FLAC identity is representation-specific s16le stereo. No service publication, native UI, Windows, default/catalog activation or audio-policy qualification follows. The separate consumer binding is source-reviewed and integrated at the owning cutoff; actual real-service/native proof remains pending.",
+    "70 tests overlap 17 service tests; do not sum with source-only15 pass/2 skips.",
+    "Actual raw tests parse existing saved bytes only. Positive factory tests use VM/injected runtime/report/filesystem seams, not actual acquired candidate or real service encoding.",
+    "No runtime, media, probe, decode, GUI, gate, authoritative source/PBS/Git writes by reviewer.",
+    "Audit PCM equality derives retained receipt hashes without independently byte-recomparing raw PCM; full output hashes first established post-close, no retained complete raw output probe.",
+    "Existing explicit developer route only; defaults/ordinary copied-audio policy/Full-copy/producer code unchanged. Resize cancel still requires fresh owner/relaunch; ordinary same-process recovery does not transfer.",
+    "Source restoration alone lacks raw report/runtime dependencies. Optional tests explicitly skip rather than simulate positive original evidence.",
+    "After integration and preservation, actual new consumer service publication/collision/cancel and native work remain distinct qualification steps. Windows/performance/universal input claims not supported."
+  ],
+  "nextAtCutoff": "Reuse old real-service helper with retained8-second fixture for publication/collision/activecancel/new-ownerrecovery; author preparation assigned and underway, no frozen/reviewed futurehelper, binding/gate/run outcome at cutoff.",
+  "formalSecurityCloudAssessment": false
+}

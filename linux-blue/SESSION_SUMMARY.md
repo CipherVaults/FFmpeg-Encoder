@@ -1,3 +1,198 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Recalibrate current resize producers and bind the existing developer service
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role | Attribution | Work and evidence limit |
+|---|---|---|
+| Engineering lead | GPT-6 Astra / Ultra, recorded assignment, not backend attestation | Verified preservation, issued the bounded gate, executed the calibration, reconciled saved calibration evidence, integrated the reviewed consumer and ran final source selections. |
+| Helper author / source author | Model and effort not independently established here | Corrected helper finalization and proposed a two-file consumer binding; the lead executed the reviewed three-case calibration separately. |
+| Independent reviewers / auditor / records | Model and effort not independently established here | Reviewed injected/file-only controls, saved artifacts and the exact consumer delta. No independent media re-decode or new consumer runtime was performed. |
+
+**Record basis:** Current-source 1080p→720p precision-FLAC calibration passed three finite cases on immutable 044. The saved-only audit and lead reconciliation accepted that evidence with warning, retention and hash-timing limits. Only afterward, two existing consumer/test files were changed to bind the new raw report and current 97-file producer closure. Final source checks passed. This is not a real-service or native qualification of that newly bound consumer, and it changes no default or audio policy.
+
+## 🕒 Time
+
+**Stage / type / focus:** Current producer calibration plus a narrow existing-consumer binding, not a new route or framework.
+
+**Date and clock:** November 18, 2026; Cairo UTC+02:00. Fixed evidence cutoff **12:49:15.341766 Cairo / 10:49:15.341766 UTC**. Times below are UTC. Active human/agent effort was not measured; raw case clock fields remain in their original domains.
+
+- The V2 helper handoff was frozen **10:20:38.301001**; its completed result/review belongs to this continuation. The final independent V2 review is **10:22:44.092395**, after the prior 044 cutoff. Historical 044 wording is not rewritten.
+- 044 committed/frozen **10:27:19.542685**; GitHub verified **10:36:41.743174**; the final preservation/publication receipt was finalized **10:37:43.387918**.
+- Manual gate issued **10:38:48.790078**. One outer execution ran **10:38:52.688–10:42:35.389**, exit 0. Inner helper receipt spans **10:38:52.780–10:42:35.378**.
+- Independent saved audit: **10:44:40.417920**. Lead source/evidence reconciliation and release: **10:46:13.849888**.
+- Independent consumer review: **10:47:47.214925**. Two-file integration: **10:48:33.999499**. Final lead source selections completed **10:48:46.463931**.
+- Fixed cutoff: **2026-11-18T10:49:15.341766+00:00**. Later helper outcomes are excluded.
+
+**End / stopping point:** The one calibration campaign and its audit are terminal. The reviewed new consumer binding is integrated and source-tested. The next real-service helper is assigned/in progress only, with no frozen review, fresh gate or run at the cutoff.
+
+**Reason for this summary:** Preserve the distinction between new measured calibration, a source-bound consumer and still-unperformed service/native qualification, while retaining the helper's earlier red evidence and the entire prior history.
+
+## 🎯 Session Goal
+
+Advance current Linux 9.0.2 resize support using existing architecture, not revive obsolete evidence or silently repin stale reports. Reuse the existing three-case calibration with reliable completion records, independently audit its actual output, and bind only the existing developer resize consumer to that fresh report and the exact producers which generated it. Maintain the owner's current-product reliability priority, 7.1.5 rollback, held audio policy and explicit candidate choice.
+
+## 🛠️ Actions Taken
+
+### 1. Complete 044 preservation before executing current calibration
+
+044 is local `4ccb56a08b8d4b130dc66c6546e33736fbbb9b33`, tree `8b8b0be6defe686182fe4ca04511ddf3d2ff86e9`, **649 files / 44 commits**. The full **1,967,030-byte** Session, SHA `95e60664b71f6731db649f3b0b92dcae73e77fd6f198dffef36711d02140a439`, is retained as this entry's exact predecessor suffix. The original structure-correction receipt is unchanged.
+
+Notion restored the source/history and full readable Session. The final mirror receipt is **116,388 bytes / `4bc63e2288876fc1ffde76539b8b517b81b78d429623bb824842ad35cad402fb`**. GitHub verified remote `d2a6ec98b58e6030a9f51b4ef88a24e87ea3c89c`, sole parent `5c95ca2df76b0ae3bc5397dd37ad6c69d6f73636`, tree `2a66dce16ff4c2473252f6a45ce8ee66561306b3`: five exact readbacks, fresh ref and non-force expected-parent update; **1,031 total / 1,026 unchanged / two modified / three new / zero deleted**. Full Session used immutable Git blob readback. The finalized publication receipt is **174,509 bytes / `b5f407b3c6e0959ee4d1171ab9912d7256d676884f46d426949effd4f3119876`**. This completed cycle preceded the actual calibration gate; 045 preservation is a later, still-pending step.
+
+### 2. Correct the helper's completion failure path without expanding the campaign
+
+V1 independent review was HOLD: final report/manifest reads occurred outside guarded finalization. An ENOENT report or EIO manifest after a main failure could prevent a structured completion receipt. Primary error text could remain on stderr, but that did not satisfy structured primary/secondary error retention. Three preserved frozen-V1 controls were intentionally red; they are not failed media attempts.
+
+V2 independently guards the final reads, preserves primary and earlier finalization errors plus bounded final-read errors, and attempts an exclusive failed completion even when a reread fails. Missing/changed report bytes cannot receive a success hash. Manifest-read failure may retain a valid report hash, while the overall result remains failed/nonzero. The persisted report must equal the returned report before success binding. Receipt-write failure keeps primary/secondary evidence rather than manufacturing success.
+
+Only launcher finalization and its tests changed. The reviewed outer runner, persistence helper, fixed 97-producer closure, runtime, three cases and resource/API envelope were not broadened. Author seven file/VM tests and independent rerun seven passed; six further extracted-launch injected controls also passed. These selections overlap and are not summed. They use injected execution/IO seams and same-realm normalization, not actual child/media qualification. Final independent review is **12,227 bytes / `8e66fa784525f79f4dfa5c5bc99658272c1cedd1684514f75f841563c611e8ee`**.
+
+The V2 handoff's freeze timestamp precedes 044's cutoff, while its completed review/result arrived later. Both original handoffs and V1 controls remain intact; this entry records the later completed disposition without retroactively changing 044.
+
+### 3. Bind and run one finite campaign on unchanged 044
+
+The lead-written **80,947-byte** gate, SHA `d7e54efcb54e665255f97ce72a9e7a50bb64583d59b93ec5b1341203a65987a2`, checked actual completed preservation, all 649 source files, the exact 97 producers, fixed runtime pair plus seven listed dependencies, reviewed helper/plan, point free space about 56.22 GB and no competing media in the current namespace. Actual prior native supervisor closure remained the desktop closure evidence; namespace absence alone is not whole-system proof. No generator or executed authorizer is implied by this manual gate.
+
+The limits remained serial maximum one, 160-child ceiling, 30-minute abort request, 27 GiB point floor and 2 GiB point allowance. These are not a hard disk quota or guaranteed exit bound. The exact literal relative-import closure is not complete dynamic/ELF/OS coverage. Source and runtime stayed frozen through the terminal saved audit.
+
+One outer run completed in **222,700.445690 ms monotonic / 222,701 ms wall**, exit 0. This whole-campaign time includes fixture generation and collection; it is not a target-encode benchmark. The report is `candidate-resize1080to720-calibration-Q8fIWI/report.json`, **125,887 bytes / `ea6a92b5d9455174c46e18aab50995712c1d1a09a49b8b49e1fc2e0870417004`**. Its successful helper completion has empty finalization/read-error lists and no publication/catalog activation authority.
+
+| Case | Actual source range | Frames | Audio samples | Saved output bytes |
+|---|---|---:|---:|---:|
+| Late forty seconds | 100–140 s of the 150-second source | 1,200 | 1,920,000 | 10,676,153 |
+| Late open end | 130 s to the same source's 150-second end | 600 | 960,000 | 5,574,422 |
+| Independent held-out, nonaligned | 0.413–8.621 s of a separate 11-second source | 246 | 393,984 | 2,143,761 |
+
+Executed canonical collection accepted the intended 1080p→720p precision-FLAC tuples. Complete-source receipts record 4,500 frames / 7,200,000 samples and 330 frames / 528,000 samples. Runtime collection reports equal source/output s16le-interleaved stereo PCM hashes and byte counts for each selected range: **7,680,000**, **3,840,000** and **1,575,936 bytes** respectively. The held-out video begins at the first selected frame after the nonaligned requested origin; this is not a fitted shift or a claim that its first video frame starts at audio time zero. Frozen timeline tolerances were not fitted to these results. Video timing/count agreement does not establish pixel identity or visual quality.
+
+All **42 spawned / 42 closed / zero live / maximum one** owned children are accounted for. `diagnosticsComplete` is true for these bounded captures: 39 stderr files are empty and three target streams, sequences 7/17/33, contain **499 bytes each**, untruncated. Their actual text includes duplicate video/audio codec options and x265 CPU-mask/thread-pool, wpp and lookahead warnings. Empty outer stderr does not make those children clean; successful canonical acceptance does not independently prove those warnings harmless. No second attempt was needed or run.
+
+### 4. Audit saved evidence without overstating independent media coverage
+
+The saved-only audit is **192,427 bytes / `0f4ff0723a17703f7602d2f3436795cb656fddb0f7e6b659f950c4df69363c75`**. It checks all 649 immutable/current source identities, nine pinned runtime/dependency files and soname resolutions, report/terminal bindings, sources, sealed selected spools, canonical resource/timing/count records and all 42 retained child diagnostics. There are **95 artifacts / 160,457,169 bytes**. The lead then rehashed **776 audit identity rows / 764 unique paths**, including source and the outputs, in the **4,615-byte** reconciliation, SHA `59209817ba55eeaf4ee4a1eb0405e013878ef654f59a23c9a9f0f479c867f9fb`.
+
+Crucial limits remain explicit:
+
+- Whole output SHA256 values were **first established during the post-close audit**, not in the original encode/report. The lead matches those audit-time values, not a nonexistent encode-time full hash. Output stamps agree across recorded collection.
+- Raw PCM files and complete raw output probe JSON/full source-output frame streams were not retained. Independent audit reconciles the executed collector's PCM hashes/counts and sealed spools; it does not independently re-decode or byte-recompare raw PCM.
+- Canonical geometry/decoded acceptance comes from the executed reviewed validator and child receipts, not an independent re-probe. JSON copies cannot recreate private selection/currentness authority.
+- The three full output hashes are `e76d9143a6ed080cf015b9b39017331690021c68cd459988f392e359c03b2073`, `98ae894419622e6a096b4145d5d08357168aa9c47405b848ce0a9726f38823f4` and `0604b41c64b1a034a97525c44c2d218992be3d34b0d24716278263ee775026db` in table order. They establish retained file identities, not general media quality.
+
+The lead accepted bounded current-source calibration and released the frozen source for separately reviewed consumer-only integration and evidence/PBS work. That release was not service/native/default activation. The portable preserves the complete selected raw report by **141 declared leading-root substitutions**, not original raw bytes or runtime authority; raw media, PCM and runtime prerequisites are not thereby bundled or recreated.
+
+### 5. Bind the existing consumer to the genuinely new evidence
+
+Independent review accepted exactly `linux-blue/candidate-resize-service.cjs` and its test file. The new report canonical directory/SHA, provenance, policy identity and literal producer map are updated together. The **same 97 producer paths** are retained; four digest values differ from the old capsule because they now describe the actual current producer bytes. The producer files themselves are unchanged by this integration. This distinction is essential: the map is refreshed to newly measured evidence, not made to accept an old report on changed code.
+
+The review normalized only that approved binding/provenance/header delta and found remaining production bytes equal to the old service. No tuple, validator, runtime/dependency, bounded-read, currentness, cancellation, cleanup or admission gate was weakened. The stale header claiming no application import was corrected to the existing explicit developer resize workbench, not a newly activated default route. Existing settings remain H.265 CPU slow / quality 25 and precision-FLAC resize. UI, ordinary route, Full-copy, defaults, audio policy and hardware/Windows source are unchanged.
+
+The actual new saved report passes the unchanged pure strict validator; the actual old raw report and modified bytes refuse. A historical producer-literal variant also refuses current bytes. The old **125,887-byte** report, SHA `3fc9a4678890da318728f2c8b44ac7c6b4fe345ccd271b7f1064928f63eb1317`, remains intact. The unchanged exact-42 diagnostic gate agrees with the new census; it was not relaxed. Positive factory tests use VM/injected runtime/report/filesystem seams, not real candidate acquisition or live service encoding.
+
+Independent consumer review is **6,830 bytes / `57bae731c1334e5d232a0d91cf38876eee516e1d4ea07b604af572af222db0b6`**. It passed 70 related checks using the available actual raw reports. Its separate source-only run passed 15 with two explicit raw-report prerequisite skips, not simulated media positives. The 17 service tests overlap the 70 and must not be added. Source-only restoration still lacks the raw report, binaries and dependencies needed for actual factory authority.
+
+Integration occurred only after audit release. All other **647 of 649** predecessor files were unchanged at that integration check; all 97 producer files still matched. New consumer bytes are **25,171 bytes / `9659e256acf178352731bd64f65354c26300129c1b81b64064d861b272c5fe5e`**; test bytes are **31,654 bytes / `1c74de93a0dbde664000780996e0f05afb6199746d7743e6d1e22f460412b1a2`**. The reviewed two-file patch is **24,754 bytes / `033606965ce61216ca4161c7a1e161d6f2864cbef08999fc85d2d38bd58550a3`**.
+
+### 6. Run proportionate source selections and stop at the real next boundary
+
+Final lead results on the integrated two-file source are **70/70 focused, 229/229 protection and 337/337 explicit Linux**, each exit 0 with zero failures, skips or cancellations. All **649 checked source files** were byte-identical before/after the tests. These overlapping selections are not summed and are not package-wide `npm test`. The real saved-report parser assertions are not live factory/service proof. Final results receipt SHA is `0ea2b38daadfc8e28202b0053d7ceaceb7ab5de40064be07da383305ecb4ce4c`.
+
+At cutoff, preparation is assigned/in progress to reuse the existing real-service helper and retained eight-second fixture for finite publication, collision, active cancellation and fresh-owner recovery. It is not yet a frozen/reviewed helper, fresh binding, gate or run. Resize cancellation still requires a **new verified candidate handle and new service / relaunch**; the earlier ordinary route's same-process fresh-session recovery does not transfer automatically. No additional framework or new route is needed to describe the next task.
+
+## 🧠 Key Insights
+
+A stale producer refusal is useful when it forces fresh measurement rather than changing a hash until an old report passes. This milestone produces new calibration on current code, then narrowly binds the existing consumer to it while leaving every runtime gate intact. Source tests and an actual saved-report parser close different gaps from a real normal-service run.
+
+A successful campaign also has evidence limits. Complete bounded stderr here is stronger than earlier native event-only captures, but it still contains warnings. Post-close full hashes and reconciled runtime PCM receipts are valuable without pretending to be original encode-time hashes or independently retained raw PCM comparisons.
+
+## 📌 Decisions Made
+
+**Confirmed:** Reuse the existing calibration and fix only completion error retention. **Decider:** lead after independent V1 HOLD and V2 review. **Basis:** three red controls showed a concrete helper defect; no broader harness was required.
+
+**Confirmed:** Run one current-source three-case calibration after complete 044 preservation and exact gate checks. **Decider:** lead within existing development authorization. **Basis:** unchanged producer/runtime identities, fixed bounds and no conflicting observed work.
+
+**Confirmed:** Accept bounded calibration and integrate only the fresh consumer/test binding. **Decider:** lead after independent saved audit, reconciliation and source review. **Basis:** genuinely new report plus exact current producers, old-report refusal and unchanged strict validator.
+
+**Preserved:** Explicit developer route, rollback and held audio policy. **Decider:** continuing owner direction maintained by lead. **Basis:** neither calibration nor VM-positive factory tests authorize defaults, universal inputs or audio tradeoffs.
+
+**Deferred:** Real-service publication/collision/cancellation/recovery and native qualification of the new consumer. **Decider:** lead under separate exact preparation and preservation checks. **Basis:** these steps were unperformed at the cutoff.
+
+## ⚠️ Difficulties / Friction
+
+The helper's secondary final-read failure could obscure structured primary-error evidence even though stderr still existed. Its fix needed meaningful red controls, not merely a green success-path run. The historical consumer also pinned stale producer bytes; simply retaining its path count or passing synthetic factory tests could not restore valid runtime authority.
+
+Auditing highlighted an important retention boundary: output whole hashes were not in the original report, and raw PCM/full output probes were not retained. Rather than repeat media solely to fill that gap or overstate existing evidence, the record identifies exactly what was measured during collection and what was first established by the later audit.
+
+## 🔧 Adjustments Made
+
+- **Shifted from:** final rereads outside guarded finalization. **To:** independent bounded reread/error retention and explicit failed completion handling. **Because:** preserved V1 controls exposed loss of structured primary/secondary context. **Consequence:** V2 can retain failure evidence without changing the actual campaign's cases or authority.
+- **Shifted from:** an old report and stale literal producer digests. **To:** a new audited report and complete current 97-path binding. **Because:** current source must earn its own evidence. **Consequence:** old bytes still refuse; the validator and producer code stay unchanged.
+- **Shifted from:** completed calibration before consumer integration or real-service/native qualification. **To:** separate measured calibration, source-only consumer validation and future real-service/native stages. **Because:** their execution paths and authority differ. **Consequence:** no premature route/default or recovery claim.
+
+## ❌ Mistakes / Risks Noted
+
+### Structured completion could be lost on a secondary read failure
+
+**What happened:** V1 report/manifest rereads could throw outside guarded finalization after a primary failure. **Actual impact:** three injected red controls exposed the helper gap before the authorized media campaign; they were not runtime failures. **Potential impact:** ambiguous terminal evidence or a misleadingly incomplete failure record. **Correction / current status:** V2 preserves primary/secondary errors and refuses success without valid persisted report equality; actual run had no finalization/read errors. **Failure Intelligence:** Keep V1 HOLD, three red controls and overlapping V2/independent controls with their injected/file-only scope.
+
+### Fresh calibration mistaken for a qualified live consumer
+
+**What happened / could happen:** New report acceptance and 70 passing source checks could be described as a real-service or native success. **Actual impact:** only calibration ran on immutable 044; the changed consumer has source/VM and saved-parser evidence. **Potential impact:** reusing stale evidence, bypassing fresh-owner cancellation semantics or promoting an unproved default. **Correction / current status:** Bind the genuinely new report, preserve old refusals and require separate finite service/native qualification. **Failure Intelligence:** Retain source-only 15-pass/two-prerequisite-skip behavior and distinguish it from the all-green available-report lead selection.
+
+### Hash timing, PCM scope or warnings overstated
+
+**What happened / could happen:** Post-close full hashes and collector PCM identities could be called encode-time hashes or independent raw comparisons; empty outer stderr could mask target warnings. **Actual impact:** all three target streams contain 499 bytes; raw PCM/full output probes are not retained; full output hashes originate in the audit. **Potential impact:** overstated quality, performance or restoration guarantees. **Correction / current status:** Preserve exact provenance and warning text; no harmlessness, pixel identity, platform or player claim. **Failure Intelligence:** Keep all 42 bounded diagnostic captures and original collector/audit distinctions; do not retrofit later evidence into the original report.
+
+### Budget and closure scope overgeneralized
+
+**What happened / could happen:** Point-space checks, a timeout request and zero owned children could be read as hard quotas, guaranteed termination or a whole-OS census. **Actual impact:** this run actually closed all 42 children; those general guarantees were not tested. **Potential impact:** starting competing work while a future child/finalizer remains unsettled. **Correction / current status:** Keep serial limits and require actual terminal reconciliation; source freeze lasted through audit. **Failure Intelligence:** Preserve actual bounded census separately from resource policy and namespace-limited readiness observations.
+
+## 📍 Current Position
+
+**As of:** 12:49:15.341766 Cairo / 10:49:15.341766 UTC on November 18, 2026.
+
+**Before:** 044 was fully preserved; current resize producers had no newly accepted current calibration/consumer binding, and helper final-read controls had exposed a retention gap.
+
+**After:** One current-source three-case calibration is accepted with explicit limits. Two existing consumer/test files bind that new report and exact producers; final 70/229/337 selections pass. No producer/runtime/UI/default/audio-policy change occurred.
+
+**Current standing:** Bounded calibration and reviewed source binding complete; new consumer real-service/native qualification pending. Warnings and cross-platform/performance limits remain open. This checkpoint is prepared for preservation, not already committed/mirrored/pushed by this entry.
+
+**Live owner continuation anchor:** Preserve the coherent seven-path 045 checkpoint, then reuse the existing short real-service helper with fresh exact source/report/preservation checks. At cutoff that helper is only assigned/in progress; do not substitute later results for this state.
+
+## 🔜 Next Steps
+
+1. Commit the reviewed two-file consumer change plus Current, execution, receipts, portable and this full Session. Verify the expected **seven paths / 652 files / 45 commits**, then perform the established Git→Notion restore/readback→GitHub exact-delta workflow. Until independently verified, 045 is not externally backed up.
+2. Finish/review the minimal reused short-service helper. After preservation, bind its actual immutable source, original raw report, runtime/dependencies and resource conditions. Exercise finite publication, collision, active cancellation and new-handle/new-service recovery, with saved audit before further claims.
+3. Treat a later native developer resize journey as a separate qualification step. Preserve existing UI/theme and the explicit candidate choice; ordinary fresh-session behavior does not change resize recovery requirements.
+
+**Do not reopen / repeat:** Do not rerun successful calibration merely for a larger test narrative, repin historical report bytes, weaken guards, discard V1 red controls/warnings, rewrite prior sessions or promote defaults/audio policy. Historical tests remain reference, not a mandate to resurrect obsolete features.
+
+**Continuation boundary:** No future helper review, gate, service execution or native result is included after the fixed cutoff. Routine engineering can continue under existing authorization; exact safety/preservation checks remain required.
+
+## ❓ Open Questions
+
+- Does the newly bound consumer pass the actual normal-service publication/collision/active-cancel/fresh-owner path? **Needed from:** the separately reviewed finite service campaign and saved audit. **Blocks:** live-service qualification of the new consumer, not preservation of current calibration/source work.
+- How does the current resize route behave in the later native journey? **Needed from:** bounded native observation on preserved qualified source. **Blocks:** a current native usability/recovery claim; old native results cannot qualify changed source automatically.
+- What practical impact do the retained x265 CPU-mask/thread-pool warnings have? **Needed from:** scoped causal/performance work if material, without suppressing diagnostics or conflating proof overhead with app cost. **Blocks:** clean-diagnostic/native-performance claims, not the measured finite acceptance already supported.
+- What additional platform/input coverage is justified for the current product? **Needed from:** explicit qualification evidence on those environments/tuples. **Blocks:** Windows, hardware, universal-input and quality generalization; no new owner policy decision is inferred here.
+
+## 🧾 Session Outcome
+
+Delivered one audited current-source calibration and a separately reviewed, source-tested two-file binding of the existing developer resize consumer. All earlier history and the original correction receipt remain exact. The helper failure-retention correction and its red controls are preserved; current successful evidence retains warnings and post-close/PCM retention limits.
+
+Not established: real-service/native success of the new consumer, complete raw-media restoration, general visual/audio quality, performance/platform qualification, a new default or an audio-policy decision. Actual media remains attributed to immutable 044; subsequent consumer source checks do not retroactively change that attribution.
+
+Records: [execution report](2026-11-18_Current_Resize_Calibration_and_Service_Binding.md), [evidence receipts](2026-11-18_Current_Resize_Calibration_and_Service_Binding_Receipts.json), and [root-normalized complete selected calibration report](current-e3-resize-calibration-portable.json). The portable is readable evidence, not a replacement for the original raw report/runtime gate. 045 Git/Notion/GitHub preservation is intended next, not claimed complete at this record's cutoff.
+
+## 🔍 Confidence Level
+
+**High** for the finite executed calibration, its saved-source/artifact/diagnostic reconciliation and the narrowly reviewed consumer delta. **Limited / not yet established** for the new consumer's actual service/native behavior, warning impact and broader platform/input/performance properties.
+
+**Why:** Actual source-frozen execution, terminal owned census, independent saved audit and lead rehashing agree; the consumer changes only approved binding/provenance fields and has retained negative controls plus green overlapping source selections.
+
+**Not higher because:** Independent audit did not re-decode or retain raw PCM/full output probes; output full hashes originate post-close; warnings remain; positive factory tests are injected; source-only backups omit runtime/raw prerequisites; no new service/native run or default/audio-policy promotion occurred.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Observe active cancellation and explicit fresh ordinary-session recovery
 
 ## 🤖 Models, Effort, Roles and Provenance

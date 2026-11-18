@@ -28,7 +28,7 @@ test('final startup validation runs after versions and preserves final-checks fa
 
 test('bound authority admits only exact ordinary successor push',()=>{
   const env={GITHUB_ACTIONS:'true',GITHUB_REPOSITORY:'CipherVaults/FFmpeg-Encoder-Blue-Linux',GITHUB_REF:'refs/heads/blue/linux-development',GITHUB_EVENT_NAME:'push',GITHUB_SHA:'a'.repeat(40),GITHUB_RUN_ID:'123',GITHUB_RUN_ATTEMPT:'1'};
-  const event={before:'11346c21595cf08076952abf94d69130ddf4e83b',after:env.GITHUB_SHA,forced:false,created:false,deleted:false};
+  const event={before:'9a64403265eeb78d183ec379e2a3d7b2ac8d54f5',after:env.GITHUB_SHA,forced:false,created:false,deleted:false};
   assert.deepEqual(hosted.authority(env,event),{head:env.GITHUB_SHA,runId:'123',attempt:'1'});
   for(const change of [{GITHUB_ACTIONS:'false'},{GITHUB_REPOSITORY:'other/repo'},{GITHUB_REF:'refs/heads/main'},{GITHUB_EVENT_NAME:'workflow_dispatch'},{GITHUB_RUN_ATTEMPT:'2'},{GITHUB_SHA:'bad'},{GITHUB_RUN_ID:'private'}])assert.throws(()=>hosted.authority({...env,...change},event));
   for(const change of [{before:'b'.repeat(40)},{after:'b'.repeat(40)},{forced:true},{created:true},{deleted:true}])assert.throws(()=>hosted.authority(env,{...event,...change}));
@@ -37,4 +37,35 @@ test('listing failure reason remains finite and does not disclose raw field/path
   const cases=[[good.replace('Attributes = A','Attributes = lrwx'),'ERR_ZIP_ATTRIBUTES'],[good+'\nUnknownSecretField = private','ERR_ZIP_FIELD_UNKNOWN'],[good+'\n\n'+row('../private'),'ERR_ZIP_PATH'],[good.replace('Size = 1','Size = private'),'ERR_ZIP_SIZE']];
   for(const [text,code] of cases){let failure;try{inspectElectronListing(text);}catch(e){failure=e;}assert(failure);failure.packagePhase='electron-listing';assert.deepEqual(hosted.failureDiagnostic(failure),{phase:'electron-listing',code});assert(!failure.message.includes('private'));}
   assert.deepEqual(hosted.failureDiagnostic({packagePhase:'electron-listing',code:'ERR_ZIP_PRIVATE'}),{phase:'electron-listing',code:'UNCLASSIFIED'});
+});
+
+test('preflight diagnostics identify each boundary without exception text',async()=>{
+  for(const phase of ['main-arguments','report-publication','event-read','event-authority','source-head','source-clean','platform','environment','source-path','staging-path','same-volume','fixed-drive-process','fixed-drive-type','capacity-stat','capacity-floor']){
+    const d=hosted.createPreflightDiagnostic();const error=Object.assign(new Error('private path and environment'),{code:'ERR_ASSERTION',packagePhase:'untrusted'});
+    await assert.rejects(d.boundary(phase,async()=>{throw error;}));
+    assert.deepEqual(d.failure(error),{schema:1,state:'PREFLIGHT_OR_REPORT_UNAVAILABLE',phase,code:'ERR_ASSERTION',capacity:null});
+    assert(!JSON.stringify(d.failure(error)).includes('private'));
+  }
+});
+test('unknown labels/codes never leak and success returns exact result',async()=>{
+  const d=hosted.createPreflightDiagnostic();assert.equal(await d.boundary('event-read',async()=>42),42);
+  await assert.rejects(d.boundary('private secret',()=>{throw new Error('must not run');}));
+  assert.deepEqual(d.failure({code:'private',capacity:{availableBytes:'private'}}),{schema:1,state:'PREFLIGHT_OR_REPORT_UNAVAILABLE',phase:'event-read',code:'UNCLASSIFIED',capacity:null});
+});
+test('capacity evidence requires bounded bigint measurement; failure preserves measured refusal',()=>{
+  const d=hosted.createPreflightDiagnostic();assert.equal(d.failure({}).capacity,null);
+  for(const args of [[1,2],[-1n,2n],[2n**64n,1n],[1n,-1n]])assert.throws(()=>d.capacity(...args));
+  assert.equal(d.failure({}).capacity,null);
+  assert.throws(()=>d.capacity(1n,2n));
+  assert.deepEqual(d.failure({code:'ERR_ASSERTION'}).capacity,{availableBytes:'1',requiredBytes:'2',meetsFloor:false});
+  const success=hosted.createPreflightDiagnostic();success.capacity(2n,2n);assert.deepEqual(success.failure({}).capacity,{availableBytes:'2',requiredBytes:'2',meetsFloor:true});
+});
+test('workflow and source bind only next ordinary push without changing job scope',async()=>{
+  const workflow=await fs.readFile(path.join(__dirname,'../.github/workflows/windows-package.yml'),'utf8');
+  assert(workflow.includes("github.event.before == '9a64403265eeb78d183ec379e2a3d7b2ac8d54f5'"));
+  assert(!workflow.includes('workflow_dispatch'));assert(workflow.includes('github.run_attempt == 1'));
+  const source=await fs.readFile(path.join(__dirname,'../scripts/windows-hosted-package-check.cjs'),'utf8');
+  for(const phase of ['event-read','event-authority','source-head','source-clean','platform','environment','source-path','staging-path','same-volume','fixed-drive-process','fixed-drive-type','capacity-stat','capacity-floor'])assert(source.includes("step('"+phase+"'"));
+  assert(source.includes('timeout:10000,maxBuffer:1024'));assert(source.includes('requiredFree([manifest.archive,manifest.electron.archive])'));
+  assert(source.includes("console.error('Windows package diagnostic: '+JSON.stringify(diagnostic.failure(error)))"));
 });

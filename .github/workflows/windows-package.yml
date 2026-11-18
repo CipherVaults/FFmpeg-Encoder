@@ -10,8 +10,8 @@ concurrency:
   cancel-in-progress: false
 jobs:
   package:
-    # Bound to one ordinary successor push after checkpoint 066; no dispatch or rerun.
-    if: ${{ github.repository == 'CipherVaults/FFmpeg-Encoder-Blue-Linux' && github.ref == 'refs/heads/blue/linux-development' && github.event_name == 'push' && github.event.before == '11346c21595cf08076952abf94d69130ddf4e83b' && github.event.after == github.sha && github.event.forced == false && github.event.created == false && github.event.deleted == false && github.run_attempt == 1 }}
+    # Bound to one ordinary successor push after checkpoint 067; no dispatch or rerun.
+    if: ${{ github.repository == 'CipherVaults/FFmpeg-Encoder-Blue-Linux' && github.ref == 'refs/heads/blue/linux-development' && github.event_name == 'push' && github.event.before == '9a64403265eeb78d183ec379e2a3d7b2ac8d54f5' && github.event.after == github.sha && github.event.forced == false && github.event.created == false && github.event.deleted == false && github.run_attempt == 1 }}
     runs-on: windows-2022
     timeout-minutes: 20
     env:

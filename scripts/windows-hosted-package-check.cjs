@@ -10,13 +10,28 @@ const {main:provisionElectron}=require('./provision-candidate-electron.cjs');
 const {main:buildPortable,hashFile,appSources}=require('./build-portable.cjs');
 const {expectedCandidateManifest,assertOrdinaryPath,verifyPinnedFile,readBoundedJson}=require('../src/candidate-runtime.cjs');
 const {LISTING_CODES,inspectElectronListing,requiredFree,reportSummary}=require('./windows-package-policy.cjs');
-const PARENT='11346c21595cf08076952abf94d69130ddf4e83b';
+const PARENT='9a64403265eeb78d183ec379e2a3d7b2ac8d54f5';
 const TOOL='C:\\Program Files\\7-Zip\\7z.exe';
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
 const PHASES=new Set(['preflight','source-inventory','dependency-metadata','acquisition','ffmpeg-payload','ffmpeg-provision','electron-archive','electron-listing','electron-extraction','electron-inventory','package-capacity','package-build','source-readback','zip-integrity','zip-inventory','final-readback']);
 function failureDiagnostic(error){
   const codes=new Set(['ETIMEDOUT','ENOENT','EACCES','EPERM','ENOBUFS','ERR_ASSERTION','EINVAL','ENOSPC',...LISTING_CODES]);
   return {phase:PHASES.has(error?.packagePhase)?error.packagePhase:'preflight',code:codes.has(error?.code)?error.code:'UNCLASSIFIED'};
+}
+
+// Diagnostic state is owned by this invocation, never populated from an event or error.
+const PREFLIGHT_PHASES=new Set(['main-arguments','report-publication','event-read','event-authority','source-head','source-clean','platform','environment','source-path','staging-path','same-volume','fixed-drive-process','fixed-drive-type','capacity-stat','capacity-floor']);
+function createPreflightDiagnostic(){
+  let phase='preflight',capacity=null;
+  return {
+    async boundary(name,action){assert(PREFLIGHT_PHASES.has(name));phase=name;return await action();},
+    capacity(available,required){
+      assert(typeof available==='bigint'&&typeof required==='bigint'&&available>=0n&&required>=0n&&available<=2n**64n-1n&&required<=2n**64n-1n);
+      capacity={availableBytes:String(available),requiredBytes:String(required),meetsFloor:available>=required};
+      phase='capacity-floor';assert(available>=required,'Package reservation floor not met.');
+    },
+    failure(error){return {schema:1,state:'PREFLIGHT_OR_REPORT_UNAVAILABLE',phase,code:failureDiagnostic(error).code,capacity};}
+  };
 }
 
 function authority(env,event){
@@ -26,15 +41,21 @@ function authority(env,event){
   assert(/^[a-f0-9]{40}$/.test(env.GITHUB_SHA)&&/^\d+$/.test(env.GITHUB_RUN_ID)&&env.GITHUB_RUN_ATTEMPT==='1');
   return {head:env.GITHUB_SHA,runId:env.GITHUB_RUN_ID,attempt:'1'};
 }
-async function preflight(root,parent,manifest){
-  assert(process.platform==='win32'&&process.arch==='x64');
-  assert(!process.env.NODE_OPTIONS&&!Object.entries(process.env).some(([k,v])=>k.startsWith('LD_')&&v));
-  for(const dir of [root,parent]){localDrivePath(dir);await assertOrdinaryPath(dir,'directory');}
-  assert(path.parse(root).root.toLowerCase()===path.parse(parent).root.toLowerCase(),'Source/staging must use same measured volume.');
-  const drive=path.win32.parse(parent).root.slice(0,2);
-  const shell=path.join(process.env.SystemRoot,'System32/WindowsPowerShell/v1.0/powershell.exe');
-  const type=execFileSync(shell,['-NoProfile','-NonInteractive','-Command',`$d=Get-CimInstance Win32_LogicalDisk -Filter "DeviceID='${drive}'"; if (!$d) {exit 2}; Write-Output $d.DriveType`],{encoding:'utf8',timeout:10000,maxBuffer:1024,windowsHide:true});assert(type.trim()==='3');
-  const s=await fs.statfs(parent,{bigint:true});assert(s.bavail*s.bsize>=requiredFree([manifest.archive,manifest.electron.archive]),'Package reservation floor not met.');
+async function preflight(root,parent,manifest,diagnostic=createPreflightDiagnostic()){
+  const step=(name,action)=>diagnostic.boundary(name,action);
+  await step('platform',()=>assert(process.platform==='win32'&&process.arch==='x64'));
+  await step('environment',()=>assert(!process.env.NODE_OPTIONS&&!Object.entries(process.env).some(([k,v])=>k.startsWith('LD_')&&v)));
+  await step('source-path',async()=>{localDrivePath(root);await assertOrdinaryPath(root,'directory');});
+  await step('staging-path',async()=>{localDrivePath(parent);await assertOrdinaryPath(parent,'directory');});
+  await step('same-volume',()=>assert(path.parse(root).root.toLowerCase()===path.parse(parent).root.toLowerCase(),'Source/staging must use same measured volume.'));
+  const type=await step('fixed-drive-process',()=>{
+    const drive=path.win32.parse(parent).root.slice(0,2);
+    const shell=path.join(process.env.SystemRoot,'System32/WindowsPowerShell/v1.0/powershell.exe');
+    return execFileSync(shell,['-NoProfile','-NonInteractive','-Command',`$d=Get-CimInstance Win32_LogicalDisk -Filter "DeviceID='${drive}'"; if (!$d) {exit 2}; Write-Output $d.DriveType`],{encoding:'utf8',timeout:10000,maxBuffer:1024,windowsHide:true});
+  });
+  await step('fixed-drive-type',()=>assert(type.trim()==='3'));
+  const s=await step('capacity-stat',()=>fs.statfs(parent,{bigint:true}));
+  await step('capacity-floor',()=>diagnostic.capacity(s.bavail*s.bsize,requiredFree([manifest.archive,manifest.electron.archive])));
 }
 async function treeBound(root,limit=16n*1024n**3n){
   let bytes=0n,count=0;
@@ -98,15 +119,16 @@ async function execute({root,parent,identity},{acquireImpl=acquire,prepareImpl=p
   return report;
   }catch(error){error.packagePhase=phase;throw error;}
 }
-async function main(){
+async function main(diagnostic=createPreflightDiagnostic()){
+  const step=(name,action)=>diagnostic.boundary(name,action);
   const root=path.resolve(__dirname,'..'),parent=process.env.RUNNER_TEMP;
-  const event=await readBoundedJson(process.env.GITHUB_EVENT_PATH,2*1024*1024);const identity=authority(process.env,event);
-  const head=execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',timeout:10000,maxBuffer:1024}).trim();assert(head===identity.head);
-  execFileSync('git',['diff','--exit-code','HEAD','--'],{cwd:root,timeout:10000,maxBuffer:1024});
-  if(process.argv.length===3&&process.argv[2]==='--preflight'){await preflight(root,parent,expectedCandidateManifest());return;}
-  assert(process.argv.length===2);
+  const event=await step('event-read',()=>readBoundedJson(process.env.GITHUB_EVENT_PATH,2*1024*1024));const identity=await step('event-authority',()=>authority(process.env,event));
+  await step('source-head',()=>{const head=execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',timeout:10000,maxBuffer:1024}).trim();assert(head===identity.head);});
+  await step('source-clean',()=>execFileSync('git',['diff','--exit-code','HEAD','--'],{cwd:root,timeout:10000,maxBuffer:1024}));
+  if(process.argv.length===3&&process.argv[2]==='--preflight'){await preflight(root,parent,expectedCandidateManifest(),diagnostic);return;}
+  await step('main-arguments',()=>assert(process.argv.length===2));
   let report;try{report=await execute({root,parent,identity});}catch(error){report={schema:1,...identity,failure:failureDiagnostic(error),state:'PACKAGE_FAILED_OR_INCOMPLETE',gui:'not-run',media:'not-run',gpu:'not-run',distribution:'report-only'};process.exitCode=1;}
-  console.log('Inert Windows package result: '+report.state+'; report SHA256 '+await publish(parent,report,process.env.GITHUB_OUTPUT));
+  console.log('Inert Windows package result: '+report.state+'; report SHA256 '+await step('report-publication',()=>publish(parent,report,process.env.GITHUB_OUTPUT)));
 }
-module.exports={failureDiagnostic,authority,treeBound,publish,execute};
-if(require.main===module)main().catch(()=>{console.error('Windows package preflight or report unavailable.');process.exitCode=1;});
+module.exports={createPreflightDiagnostic,failureDiagnostic,authority,treeBound,publish,execute};
+if(require.main===module){const diagnostic=createPreflightDiagnostic();main(diagnostic).catch(error=>{console.error('Windows package diagnostic: '+JSON.stringify(diagnostic.failure(error)));process.exitCode=1;});}

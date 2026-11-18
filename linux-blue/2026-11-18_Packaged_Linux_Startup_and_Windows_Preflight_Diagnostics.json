@@ -1,0 +1,149 @@
+{
+  "draftOnly": false,
+  "mainWrites": false,
+  "baseCommit": "6f5408a077b1d0a68680c23c14c87b3f9ae3c663",
+  "predecessor": {
+    "bytes": 2442170,
+    "sha256": "0b3cd779d8d196a2c07b9b811e2947237f430a28cc463d0c8e417240cfd213fc"
+  },
+  "sectionCount": 14,
+  "exactSuffix": true,
+  "pending": [
+    "record integration",
+    "commit and Git \u2192 Notion \u2192 GitHub verification",
+    "actual Windows successor",
+    "native publication"
+  ],
+  "receipts": [
+    {
+      "path": "checkpoint067-final-mirror-release.json",
+      "bytes": 644,
+      "sha256": "793de95eca2aabf6bff0b7a1e0e31d20d09ee4ba59864dc29f92651f6aa1d372"
+    },
+    {
+      "path": "notion-checkpoint-067-verification.json",
+      "bytes": 204756,
+      "sha256": "219d37a5b7b9cf0da41303ec5d85f230bf1d9676661c3b7206c839f5ee27f333"
+    },
+    {
+      "path": "github-checkpoint067-verification.json",
+      "bytes": 5716,
+      "sha256": "784f748ce445cea1e5ac57d90e23c485f0cec52b03730324ad71e6e5d016a6b7"
+    },
+    {
+      "path": "github-checkpoint067-observation.json",
+      "bytes": 5019,
+      "sha256": "98f80d1a8ca81beacae2449a33cd8e12181a05d5c357b5b7499a8ecc19a4b138"
+    },
+    {
+      "path": "inert-package067-actual/OUTER_COMPLETION.json",
+      "bytes": 1694,
+      "sha256": "5b3ea8a7e1742b545c053413c106effce3e33a3ebb417b291ffd393aad0638d5"
+    },
+    {
+      "path": "inert-package067-actual/INDEPENDENT_COMBINED_BUILD_RELOCATION_PROOF.json",
+      "bytes": 1978,
+      "sha256": "4c0edd682e29b634e35bd9d3e4b2bab3b8bce3eec280edbe1be51a71e1edcca7"
+    },
+    {
+      "path": "inert-package067-actual/NORMAL_MODE_VERIFICATION.json",
+      "bytes": 65058,
+      "sha256": "30263447e07ff3884910e8542e844cdb4faabca2b008e404efbde94e9b3b11b4"
+    },
+    {
+      "path": "native-product067/VISIBLE_OUTCOME.json",
+      "bytes": 5130,
+      "sha256": "9494e09871d2df9bb4ed01f9dd32ad2eaf31bdf0d1bc0374390bcb04d9b5bbe4"
+    },
+    {
+      "path": "native-product067/CLOSURE.json",
+      "bytes": 317,
+      "sha256": "f5299a01e880037aec4851c6d65b8e6f9e942f80ac453e71f15173da3d1775ea"
+    },
+    {
+      "path": "native-product067/OUTPUTS.json",
+      "bytes": 121,
+      "sha256": "1d716fc64f9966968d17a0eb27407f0ed3f9f9ef743650d7bb3f5f7206f9793b"
+    },
+    {
+      "path": "checkpoint068-cutoff.json",
+      "bytes": 1032,
+      "sha256": "4fd402ce6224e2aa7a88bd3397356f5d328d963674703c9dda38c18f030ad0a1"
+    },
+    {
+      "path": "checkpoint068-integration.json",
+      "bytes": 997,
+      "sha256": "75505656795a15e9af99ef2853bd2f10c596843908a5447bad6d7463ab487a28"
+    },
+    {
+      "path": "native-product067/INDEPENDENT_SAVED_NATIVE_AUDIT.json",
+      "bytes": 71760,
+      "sha256": "416b57e7a0bcf200500917a05fb4145ac78672542528d4dca277bc364206742f"
+    },
+    {
+      "path": "native-product067/LEAD_CLOSURE_RELEASE.json",
+      "bytes": 406,
+      "sha256": "4adc72f4c3b49691a6ea3a21002762b4113b4fafd1b1f4302c34b81b882e7127"
+    }
+  ],
+  "preparedOutsideMain": true,
+  "cutoff": {
+    "cutoffUtc": "2026-11-18T21:10:12.080048+00:00",
+    "scope": "Record fully preserved067 and actual packaged Linux startup/picker cancellation; expose finite Windows preflight diagnostics without relaxing safeguards, for one reviewed successor",
+    "tests": {
+      "focused": 22,
+      "pass": 22,
+      "fail": 0,
+      "skip": 0,
+      "receipt": "artifacts/v0.7/evidence/20261118T210959Z_recovered068-preflight/receipt.json",
+      "syntax": "Changed wrapper and policy test parse successfully",
+      "retainedSharedCI": "067 exactremote9a644032 passed211syntax/243sharedbothOS/+32Linux; no misleading rerun claim",
+      "linuxPlanSourceRowsVerified": 132
+    },
+    "qualificationLimits": [
+      "Native packagedstartup observed, but no prepare/apply/start or mediaoutput because pickerreturnedcancelled; causeunproven.",
+      "Only sampledprocessclosure observed, not exhaustive census.",
+      "Windows067failed firstpreflight; actual068cause/resultpending.",
+      "No newLinuxsourcepins/modes/runtime, publicbinaryclearance orv0.7release."
+    ]
+  },
+  "integration": {
+    "atUtc": "2026-11-18T21:09:59.441428+00:00",
+    "baseCommit": "6f5408a077b1d0a68680c23c14c87b3f9ae3c663",
+    "files": [
+      {
+        "path": "scripts/windows-hosted-package-check.cjs",
+        "bytes": 12112,
+        "sha256": "dd186ea176c9fd57d30fb1834b90737a41906486994c4f2e692240d6648b2f35",
+        "baseSha256": "5470c27b51acd774035708fbae14d51d4b0c1fdbf11e3ba1288b00d40d8c6898"
+      },
+      {
+        "path": "tests/windows-package-policy.test.cjs",
+        "bytes": 8514,
+        "sha256": "fbe40a95e77b1743625dc2e6a9e4bca08e5a88f6c10c4a66b4c30aa942fdadab",
+        "baseSha256": "84eb01b57da6457663e4afcd80a57f3592dc785b3c843a93e955aebcfcddc6d9"
+      },
+      {
+        "path": ".github/workflows/windows-package.yml",
+        "bytes": 2475,
+        "sha256": "05fbc877ff28fbb499b123555035a56b1606d640af98448a3fea524fee81d0cf",
+        "baseSha256": "7c6b1d22fc00c717684593f28a403f97c46a710686ed44387e6b670df69702ae"
+      }
+    ],
+    "reviewSha256": "118f307b0faa9522f598d10c949798ffaa3b763b62ac764b98b332472577e283"
+  },
+  "testReceipt": {
+    "path": "artifacts/v0.7/evidence/20261118T210959Z_recovered068-preflight/receipt.json",
+    "bytes": 1171,
+    "sha256": "2e3d9aef1c9500a3004716b9f8f638ea1cc50c8282221e7465b19e5ab3993afd"
+  },
+  "documentScope": {
+    "sourcePaths": 3,
+    "records": 4,
+    "total": 7,
+    "new": 2,
+    "modified": 5,
+    "prospectiveTracked": 752
+  },
+  "rawProfileOrLogIncluded": false
+}

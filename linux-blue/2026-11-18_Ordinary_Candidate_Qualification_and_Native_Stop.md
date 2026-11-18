@@ -1,0 +1,41 @@
+# Ordinary candidate qualification and native picker stop
+
+Fixed checkpoint 040 cutoff: 2026-11-18T08:00:56.971778+00:00. This evidence-only record combines a successful bounded service campaign and a stopped native journey on the same immutable 039 source. Neither result rewrites the failed 038 campaign. Expected assembly is six paths including Session and two portable evidence files, 638 files and 40 commits; no application/test change or regression rerun.
+
+## Prerequisites and chronology
+
+Checkpoint 039 source/history restoration, full native PBS and verified GitHub mapping were completed before the remaining service binding. The reviewed successor corrected the two original helper contracts without relaxing production APIs: a genuine OutputAccess sink returns undefined, and diagnostics receives a supported terminal outcome. Seventeen file-only tests include old-contract red controls; synthetic orchestration seams are not runtime evidence. A fresh exact source binding and one attempt followed.
+
+The service outer run was 07:38:36.118–07:40:29.611 UTC, exit zero, 113.490 seconds for the entire campaign, not an encode benchmark. Saved-output audit was released at 07:42:37.372002; lead reconciliation at 07:44:09.367531 rehashed 425 audit rows and all 634 source files. No new decode/probe was performed by that audit.
+
+The native authorizer first refused an empty inherited DISPLAY in the non-desktop executor before saving any gate. That refusal is a lead-written tool observation, not separately retained raw stderr. The identical reviewed program then ran in the actual inherited desktop terminal without injecting DISPLAY; its gate was created at 07:53:28 and launch initiated at 07:54:02. Successful authorizer console output is CUA-only. The app supervisor ran 07:54:03.184328–07:57:15.187357, exit zero, 192.003 seconds for the manual journey/closure. Final native audit and lead reconciliation are distinct from service success.
+
+## Remaining service cases and evidence
+
+Five recorded cases passed: H.265 CPU and AV1 CPU publications, existing-output collision, active long-source cancellation, and a fresh-owner H.265 recovery. There were 92 spawned/closed children, zero live, maximum one, four semantic targets and three published files. The 108 invocation rows include 16 unspawned GPU refusals. The forecast of 90–91 children was inaccurate: cancellation used four long preparation children (metadata plus start/middle/end windows), then currentness and target, six rather than four. The 128-child ceiling was respected; this was not an extra target/case.
+
+Each publication has 240 frames and retained probe/strict video-decode evidence. All three complete source/output PCM buffers match under the same candidate decoder at 384,000 sample instants, hash `200ca1c2a6804c139d5d7637caf507b686b30f7dfdf4b5c11ca629855e82a9a4`. All 376 packet payload rows, extradata and skip/discard evidence match. These exact finite checks do not establish cross-reader identity, subjective audibility, universal player timing or a policy choice. The ordinary service's validation remains metadata-based; extra count/probe and strict decode were two additional video traversals.
+
+Full output hashes were persisted by the actual helper before completion and independently reverified. Initial and recovery H.265 outputs have equal sizes but different complete hashes; no deterministic container/bitstream equality is claimed. Collision was a real skipped existing output, zero new target and an executed post-collision full hash assertion, while one metadata child was permitted. Genuine OutputAccess grant/expiry assertions ran with an inert sink, not an OS reveal.
+
+Cancellation observed a live child with media time 1.834667 seconds, frame zero and ended false. It is not positive-frame cancellation. Child closure was SIGKILL, not graceful termination; the retained stage is zero bytes, final file and grant absent. Owner A settled resources and persisted cancelled diagnostics before a new factory/capability owner B completed recovery. This does not prove recovery on the cancelled owner.
+
+Sixteen child stderr streams are nonempty and 76 empty; all 92 captured streams are untruncated. Successful H.265 retains duplicate-codec/CPU-mask/thread-pool warnings; AV1 retains SVT diagnostics. The cancellation stream is 953 bytes with partial/corrupt/invalid-NAL/immediate-exit messages. Do not dismiss them as harmless or infer input corruption; source hashes remain exact. Fifty-three diagnostic events include ten truncated contexts. Point disk checks are not continuous quotas or a hard process-exit guarantee.
+
+## Native result: stopped before registration
+
+The explicit experimental ordinary route reached READY. Operator screenshots showed H.265 CPU, slow and CRF 25 defaults; Full/Keep/copied audio was visible in the notice, but no actual file plan was prepared or verified. The input picker opened once. Sky text entry failed before text; Control+L exposed a location field, supported bound character input visibly entered the owned-input path, Return left the dialog open, and one visible Open click closed it. Repeated screenshots still showed no selected folder. The operator stopped without retry, output-folder selection, Prepare, Apply, Start or reveal, then closed the window normally.
+
+Eight exact allowlisted events show SESSION_STARTED, CAPABILITY_STARTED, RUNTIME_IDENTIFIED, CAPABILITY_FINISHED, PROVENANCE_RECOVERY_FINISHED, FOLDER_PICKER_REQUESTED, FOLDER_PICKER_CANCELLED and SESSION_ENDED. No REGISTERED, preparation or encode event exists. Current source emits CANCELLED when the selection's canceled flag is true; that establishes the application-observed result, not why it occurred or who caused it. An observed Open click does not establish an accepted Electron path. No human-abort or source-registration-defect claim is supported.
+
+All 28 owned startup capability children closed, zero live, maximum one; these are real media, not zero media. Zero semantic targets and an empty output inventory establish no native H.265 publication/audio/progress/reveal qualification. Exit zero is normal closure only. The exact state directory device/inode (27/2361428) and allowlisted evidence were preserved; uninspected profile contents are not claimed verified.
+
+The complete retained top-level stdout is 447 bytes and stderr 855 bytes. DBus/socket and SSL errors, plus missing `encoder:workbench-session` handler, are retained. Shared renderer/preload probes session status on the non-switching route where IPC has no status handler; this is a separate actionable diagnostic inconsistency, not a demonstrated picker-cancellation cause. Startup security preference declarations are not independent enforcement proof. Numeric event epochs align with outer UTC; text prefixes two hours later alone do not establish clock drift.
+
+Screenshots remain CUA tool observations, not standalone image files. Only startup and post-close storage points exist; no intermediate readings or continuous quota are invented. Aggregate closure is not per-child stderr or an entire OS census. No profile/cache/token traversal or extra probe/decode was performed for reconciliation.
+
+## Preservation and continuation
+
+Two portable packages preserve complete parsed original reports with only declared leading-root aliases; no inverse mapping, original-byte restoration or execution authority is supplied. Raw PCM/media/runtime/gates/profile and raw top-level logs are excluded from publication; identities and limited findings are retained. The service portable exceeds 1 MiB and must remain unabridged through archive/hash restoration, using immutable Git blob readback and ordered native chunks where necessary.
+
+The original 038 failure remains failed-retained, and prior 039 archives are immutable. Inherited source checks (173/173 focused, 229/229 protection, 317/317 explicit Linux) were not rerun or summed. The isolated missing-handler repair is assigned only and not integrated at cutoff. Next is independent repair review and a fresh exact-source/profile/evidence-controlled picker investigation after preservation; the longer ordinary plan is preparation only. No new runtime gate, default/pin/audio-policy promotion, Windows/hardware/general family acceptance or formal Security Cloud qualification follows.

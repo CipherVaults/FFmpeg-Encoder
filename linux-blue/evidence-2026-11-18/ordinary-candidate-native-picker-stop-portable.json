@@ -1,0 +1,1948 @@
+{
+  "schema": "ffmpeg-portable-evidence-v1",
+  "status": "Audited stopped native journey; combined checkpoint preservation pending",
+  "owningRecordCutoffUtc": "2026-11-18T08:00:56.971778+00:00",
+  "originals": [
+    {
+      "key": "01_JOURNEY_OUTCOME",
+      "path": "ordinary-native039-bound/JOURNEY_OUTCOME.json",
+      "bytes": 2972,
+      "sha256": "19611bff245d6761ea92a6262c82337a0be031a1b95b01d780b208e4cd9a237b"
+    },
+    {
+      "key": "02_OUTER_COMPLETION",
+      "path": "ordinary-native039-bound/OUTER_COMPLETION.json",
+      "bytes": 870,
+      "sha256": "2d17ab123d00adcc8c1d2f46d032c2c5cd72dd14b3bcc326120449b78d9ce954"
+    },
+    {
+      "key": "03_EVENT_CAPTURE",
+      "path": "ordinary-native039-bound/EVENT_CAPTURE.json",
+      "bytes": 2774,
+      "sha256": "f6180458bb580bb54dcc484f9d7892e5e86ffa08d9788c6eb4bb5f321003c8a7"
+    },
+    {
+      "key": "04_POINT-startup",
+      "path": "ordinary-native039-bound/POINT-startup.json",
+      "bytes": 382,
+      "sha256": "e47703d833d5e4548f6fc3a3d1b0db24c45419342a18449963ecc89940af1ef6"
+    },
+    {
+      "key": "05_POINT-post-close",
+      "path": "ordinary-native039-bound/POINT-post-close.json",
+      "bytes": 346,
+      "sha256": "089f3c49b89437d41d9f059b1fe4c8364c570291033006e9625373579abd9e14"
+    },
+    {
+      "key": "06_LEAD_AUTHORIZER_ENVIRONMENT_REFUSAL",
+      "path": "ordinary-native039-bound/LEAD_AUTHORIZER_ENVIRONMENT_REFUSAL.json",
+      "bytes": 778,
+      "sha256": "2da7759fb59f748a7561198482202b0d06aa092358935e256e4cfa097031f867"
+    },
+    {
+      "key": "07_INDEPENDENT_NATIVE_AUDIT",
+      "path": "ordinary-native039-bound/INDEPENDENT_NATIVE_AUDIT.json",
+      "bytes": 14396,
+      "sha256": "fc94efaf9e11fefacb05b5526854b7b94b683032062930992698fa59015b025e"
+    },
+    {
+      "key": "08_LEAD_RECONCILIATION",
+      "path": "ordinary-native039-bound/LEAD_RECONCILIATION.json",
+      "bytes": 4023,
+      "sha256": "0551db4c17c5730a7fc0c96b46b07aefa1c3417b6d309fcbf8e4b703cc3614b5"
+    },
+    {
+      "key": "09_OUTPUT_INVENTORY",
+      "path": "ordinary-native039-bound/OUTPUT_INVENTORY.json",
+      "bytes": 152,
+      "sha256": "fa02d643ebcf51e4f8bc7f2821ca0f52bf6fc85dcf47298a7173e0a5f860b118"
+    },
+    {
+      "key": "10_2cf0f1ac-8b65-46c2-a7d1-0711e05afb85",
+      "path": "ordinary-native039-bound/retained-events/2cf0f1ac-8b65-46c2-a7d1-0711e05afb85.json",
+      "bytes": 433,
+      "sha256": "8b1f53cfafec3d9db06cb3dcbb17841c6efbe0ba1c5069a7b9051fc9b35fed8d"
+    },
+    {
+      "key": "11_3a0891ee-5991-4b38-be26-a828583c6e1e",
+      "path": "ordinary-native039-bound/retained-events/3a0891ee-5991-4b38-be26-a828583c6e1e.json",
+      "bytes": 388,
+      "sha256": "d589d225c5e3120a45360202bfa449ed4db2339d269ee0ebdfdfbcb7b227c69f"
+    },
+    {
+      "key": "12_92fd6364-28de-42fd-be43-d73575e7d3a9",
+      "path": "ordinary-native039-bound/retained-events/92fd6364-28de-42fd-be43-d73575e7d3a9.json",
+      "bytes": 480,
+      "sha256": "b122ac8080f21a8fbb9b7335c89f997d1fbc3512d14407bee00d1c5519807993"
+    },
+    {
+      "key": "13_bb4a1e4f-fa8e-49a6-b4d2-7096cc3dc477",
+      "path": "ordinary-native039-bound/retained-events/bb4a1e4f-fa8e-49a6-b4d2-7096cc3dc477.json",
+      "bytes": 360,
+      "sha256": "fb8f1ca4e202f47e341d06b0673832491f5cc7c82cb3483c4aebd383b4572839"
+    },
+    {
+      "key": "14_c2ecb3c2-de15-4083-bc0d-cab57d84fd05",
+      "path": "ordinary-native039-bound/retained-events/c2ecb3c2-de15-4083-bc0d-cab57d84fd05.json",
+      "bytes": 533,
+      "sha256": "8b7dc5e07a8f91a6382c9a60dde19e826d9936a75195bdfcbdb557f1f87b0a9b"
+    },
+    {
+      "key": "15_cb9dd6b2-1e46-4d4d-8fe7-430a2f137507",
+      "path": "ordinary-native039-bound/retained-events/cb9dd6b2-1e46-4d4d-8fe7-430a2f137507.json",
+      "bytes": 12331,
+      "sha256": "5eb945ce30fe5366f852ef5f13d9ef9ad4c637e61e3e6a1c3bbc709a85c74c57"
+    },
+    {
+      "key": "16_df126fa2-b32c-467e-ac19-e2db0929508b",
+      "path": "ordinary-native039-bound/retained-events/df126fa2-b32c-467e-ac19-e2db0929508b.json",
+      "bytes": 433,
+      "sha256": "57e6ca78da75d05ebfdd79e01c7a870033652ae753b36d76a3707b92d9fcd41e"
+    },
+    {
+      "key": "17_f6e92ce4-ba75-4266-a246-b60be12ea081",
+      "path": "ordinary-native039-bound/retained-events/f6e92ce4-ba75-4266-a246-b60be12ea081.json",
+      "bytes": 465,
+      "sha256": "e44407bf8e3a5c763a16312aacbbf6ba00952e3f2a4dcc4f7346cd12a909ede4"
+    }
+  ],
+  "authority": {
+    "runtime": false,
+    "production": false,
+    "qualification": false,
+    "rawRestoration": false,
+    "gate": false,
+    "policy": false
+  },
+  "transformation": {
+    "rule": "Declared known leading-root prefix substitutions only; no inverse mapping. Every other parsed key/type/value unchanged.",
+    "leadingCount": 36,
+    "countsByAlias": {
+      "project://": 3,
+      "native-proof://": 26,
+      "support://": 7
+    },
+    "locations": [
+      {
+        "location": [
+          "reports",
+          "04_POINT-startup",
+          "statePath"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "receipts",
+          0,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "receipts",
+          1,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "receipts",
+          2,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "receipts",
+          3,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "receipts",
+          4,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "receipts",
+          5,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "receipts",
+          6,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "receipts",
+          7,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "receipts",
+          8,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "receipts",
+          9,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "receipts",
+          10,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "receipts",
+          11,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "receipts",
+          12,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "prerequisites",
+          0,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "prerequisites",
+          1,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "prerequisites",
+          2,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "prerequisites",
+          3,
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "prerequisites",
+          4,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "prerequisites",
+          5,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "prerequisites",
+          6,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "prerequisites",
+          7,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "fixedInputs",
+          0,
+          "path"
+        ],
+        "alias": "support://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "fixedInputs",
+          1,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "fixedInputs",
+          2,
+          "path"
+        ],
+        "alias": "project://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "events",
+          0,
+          "retained",
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "events",
+          1,
+          "retained",
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "events",
+          2,
+          "retained",
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "events",
+          3,
+          "retained",
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "events",
+          4,
+          "retained",
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "events",
+          5,
+          "retained",
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "events",
+          6,
+          "retained",
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "07_INDEPENDENT_NATIVE_AUDIT",
+          "events",
+          7,
+          "retained",
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "08_LEAD_RECONCILIATION",
+          "independentAudit",
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "08_LEAD_RECONCILIATION",
+          "outcome",
+          "path"
+        ],
+        "alias": "native-proof://"
+      },
+      {
+        "location": [
+          "reports",
+          "08_LEAD_RECONCILIATION",
+          "outer",
+          "path"
+        ],
+        "alias": "native-proof://"
+      }
+    ]
+  },
+  "limits": [
+    "REQUESTED then CANCELLED does not establish human action or root cause; no REGISTERED or Prepare/target/output.",
+    "28 startup media children closed; aggregate census is not full child stderr or entire OS proof.",
+    "CUA screenshots/actions are not standalone replayable image evidence. Only startup/post-close storage points retained.",
+    "No raw profile/cache/media/runtime/gate payload; logical aliases cannot restore original raw bytes or authorize execution.",
+    "Missing optional session handler is a separate source finding, not proven cause of picker cancellation."
+  ],
+  "reports": {
+    "01_JOURNEY_OUTCOME": {
+      "utc": "2026-11-18T07:57:53.031250+00:00",
+      "disposition": "stopped-input-picker-acceptance-unconfirmed; zero semantic targets",
+      "sourceCommit": "0303cba1981b5700158b1a0ec249b509f30f5bc2",
+      "observations": [
+        "Actual gate created by identical reviewed authorizer in inherited desktop terminal; stdout seen in terminal screenshot, not separately captured as raw file.",
+        "One helper invocation, actual PID23035/startticks8224546 and READY; window27262980 title/notice experimental ordinary9.0.2.",
+        "Visible unchanged H265 CPU / slow / CRF25 defaults. Full/Keep/copied audio appeared in title/notice but no actual file plan was prepared or verified.",
+        "Input picker opened once. Sky type_text failed before text; Control+L location field visible. Supported bound picker.typeCharacters entered exact owned-input absolute path, visible with trailing slash. Return kept picker open. Visible Open clicked once; dialog closed but repeated screenshots show No folder selected. Cause unknown.",
+        "Stopped under unknown-input rule; no retry/output selection/Prepare/Apply/Start/reveal. Clicked normal window close; window disappeared."
+      ],
+      "actions": {
+        "inputPickerOpens": 1,
+        "inputOpenClicks": 1,
+        "outputPickerOpens": 0,
+        "prepare": 0,
+        "apply": 0,
+        "start": 0,
+        "reveal": 0,
+        "automaticRetries": 0
+      },
+      "closure": {
+        "exitCode": 0,
+        "terminationRequested": false,
+        "failure": null,
+        "startedUtc": "2026-11-18T07:54:03.184328+00:00",
+        "endedUtc": "2026-11-18T07:57:15.187357+00:00",
+        "elapsedSeconds": 192.00304965399846,
+        "maximumUserTargets": 1,
+        "qualification": "Closure only. Requires visible CUA outcome and independent saved audit. No complete child stderr, native acceptance, audio identity or runtime promotion inferred. Startup capability media is distinct from one semantic target.",
+        "app.stdout.log": {
+          "bytes": 447,
+          "sha256": "d5f0fb5cde397cc5b5c57642c8c65601ce9f6ea2a4f7afc80ecb9f1a7c135f05"
+        },
+        "app.stderr.log": {
+          "bytes": 855,
+          "sha256": "601ac5404d88273a94bc3b109b0acf674dbb9c15b403c9d612236a8dc7ccab9f"
+        },
+        "ownedCensusLines": [
+          "LINUX_WORKBENCH_CLOSED {\"spawned\":28,\"closed\":28,\"live\":0,\"maximum\":1,\"failures\":0}"
+        ]
+      },
+      "outputInventory": {
+        "files": [],
+        "provenance": "First full post-close hashes unless earlier evidence independently retained; no probe/decode or success assertion."
+      },
+      "stateIdentityPreserved": true,
+      "visualRetention": "CUA tool screenshots only, not standalone image files",
+      "limits": [
+        "No native H265 publication/audio/progress/reveal qualification.",
+        "28 startup capability children are real media, not zero media. Owned census not entire OS or complete stderr proof.",
+        "Picker delivery/cause not independently established; do not label source defect.",
+        "No policy/default change; source post-check performed by helper, independent saved audit pending."
+      ]
+    },
+    "02_OUTER_COMPLETION": {
+      "exitCode": 0,
+      "terminationRequested": false,
+      "failure": null,
+      "startedUtc": "2026-11-18T07:54:03.184328+00:00",
+      "endedUtc": "2026-11-18T07:57:15.187357+00:00",
+      "elapsedSeconds": 192.00304965399846,
+      "maximumUserTargets": 1,
+      "qualification": "Closure only. Requires visible CUA outcome and independent saved audit. No complete child stderr, native acceptance, audio identity or runtime promotion inferred. Startup capability media is distinct from one semantic target.",
+      "app.stdout.log": {
+        "bytes": 447,
+        "sha256": "d5f0fb5cde397cc5b5c57642c8c65601ce9f6ea2a4f7afc80ecb9f1a7c135f05"
+      },
+      "app.stderr.log": {
+        "bytes": 855,
+        "sha256": "601ac5404d88273a94bc3b109b0acf674dbb9c15b403c9d612236a8dc7ccab9f"
+      },
+      "ownedCensusLines": [
+        "LINUX_WORKBENCH_CLOSED {\"spawned\":28,\"closed\":28,\"live\":0,\"maximum\":1,\"failures\":0}"
+      ]
+    },
+    "03_EVENT_CAPTURE": {
+      "files": [
+        {
+          "name": "2cf0f1ac-8b65-46c2-a7d1-0711e05afb85.json",
+          "bytes": 433,
+          "sha256": "8b1f53cfafec3d9db06cb3dcbb17841c6efbe0ba1c5069a7b9051fc9b35fed8d",
+          "sessionId": "b74d40cf-5916-4773-899f-7832b0a55bb8",
+          "contextTruncated": false
+        },
+        {
+          "name": "3a0891ee-5991-4b38-be26-a828583c6e1e.json",
+          "bytes": 388,
+          "sha256": "d589d225c5e3120a45360202bfa449ed4db2339d269ee0ebdfdfbcb7b227c69f",
+          "sessionId": "b74d40cf-5916-4773-899f-7832b0a55bb8",
+          "contextTruncated": null
+        },
+        {
+          "name": "92fd6364-28de-42fd-be43-d73575e7d3a9.json",
+          "bytes": 480,
+          "sha256": "b122ac8080f21a8fbb9b7335c89f997d1fbc3512d14407bee00d1c5519807993",
+          "sessionId": "b74d40cf-5916-4773-899f-7832b0a55bb8",
+          "contextTruncated": false
+        },
+        {
+          "name": "bb4a1e4f-fa8e-49a6-b4d2-7096cc3dc477.json",
+          "bytes": 360,
+          "sha256": "fb8f1ca4e202f47e341d06b0673832491f5cc7c82cb3483c4aebd383b4572839",
+          "sessionId": "b74d40cf-5916-4773-899f-7832b0a55bb8",
+          "contextTruncated": null
+        },
+        {
+          "name": "c2ecb3c2-de15-4083-bc0d-cab57d84fd05.json",
+          "bytes": 533,
+          "sha256": "8b7dc5e07a8f91a6382c9a60dde19e826d9936a75195bdfcbdb557f1f87b0a9b",
+          "sessionId": "b74d40cf-5916-4773-899f-7832b0a55bb8",
+          "contextTruncated": false
+        },
+        {
+          "name": "cb9dd6b2-1e46-4d4d-8fe7-430a2f137507.json",
+          "bytes": 12331,
+          "sha256": "5eb945ce30fe5366f852ef5f13d9ef9ad4c637e61e3e6a1c3bbc709a85c74c57",
+          "sessionId": "b74d40cf-5916-4773-899f-7832b0a55bb8",
+          "contextTruncated": false
+        },
+        {
+          "name": "df126fa2-b32c-467e-ac19-e2db0929508b.json",
+          "bytes": 433,
+          "sha256": "57e6ca78da75d05ebfdd79e01c7a870033652ae753b36d76a3707b92d9fcd41e",
+          "sessionId": "b74d40cf-5916-4773-899f-7832b0a55bb8",
+          "contextTruncated": false
+        },
+        {
+          "name": "f6e92ce4-ba75-4266-a246-b60be12ea081.json",
+          "bytes": 465,
+          "sha256": "e44407bf8e3a5c763a16312aacbbf6ba00952e3f2a4dcc4f7346cd12a909ede4",
+          "sessionId": "b74d40cf-5916-4773-899f-7832b0a55bb8",
+          "contextTruncated": null
+        }
+      ],
+      "groups": {
+        "b74d40cf-5916-4773-899f-7832b0a55bb8": [
+          "2cf0f1ac-8b65-46c2-a7d1-0711e05afb85.json",
+          "3a0891ee-5991-4b38-be26-a828583c6e1e.json",
+          "92fd6364-28de-42fd-be43-d73575e7d3a9.json",
+          "bb4a1e4f-fa8e-49a6-b4d2-7096cc3dc477.json",
+          "c2ecb3c2-de15-4083-bc0d-cab57d84fd05.json",
+          "cb9dd6b2-1e46-4d4d-8fe7-430a2f137507.json",
+          "df126fa2-b32c-467e-ac19-e2db0929508b.json",
+          "f6e92ce4-ba75-4266-a246-b60be12ea081.json"
+        ]
+      },
+      "missing": false,
+      "limits": "Raw allowlisted events retained; grouping is not proof of native WebContents identity or complete stderr."
+    },
+    "04_POINT-startup": {
+      "utc": "2026-11-18T07:54:20.937490+00:00",
+      "stateDev": 27,
+      "stateIno": 2361428,
+      "statePath": "project://linux-blue/artifacts/workbench-ordinary-candidate-preview",
+      "freeBytes": 56853286912,
+      "artifactFiles": [],
+      "note": "Profile identity and named capability directory point check only; no profile secrets read."
+    },
+    "05_POINT-post-close": {
+      "utc": "2026-11-18T07:57:53.031250+00:00",
+      "stateDev": 27,
+      "stateIno": 2361428,
+      "matchesStartup": true,
+      "freeBytes": 56853200896,
+      "capabilityDirectoryNote": "No capability-check-v1 directory present at startup; no invented artifact growth inventory. Profile contains diagnostic and Electron state/session dirs; secrets not read."
+    },
+    "06_LEAD_AUTHORIZER_ENVIRONMENT_REFUSAL": {
+      "recordedAtUtc": "2026-11-18T07:52:50.509159+00:00",
+      "command": "python3 authorize-native039.py 99447ec267d7dd6aa9b54c65337d0ea55fd88295f7e371e1bd1400be3f236ae9",
+      "context": "lead non-desktop executor",
+      "exitCode": 1,
+      "actualInheritedDisplay": "",
+      "error": "DISPLAY must match actual inherited desktop",
+      "effect": "Stopped at final desktop check before gate save; no gate exists and no launcher/native action occurred.",
+      "evidenceProvenance": "Command and traceback observed in executor tool response; this is a lead observation, not an independently captured original stderr file.",
+      "resolution": "Execute the identical reviewed authorizer from the observed desktop terminal with its own inherited DISPLAY. Do not inject DISPLAY or change source/checks."
+    },
+    "07_INDEPENDENT_NATIVE_AUDIT": {
+      "disposition": "Stopped native input-picker journey; no native encode qualification. Normal closure supported, service campaign success remains separate.",
+      "writerReleased": true,
+      "reviewedUtc": "2026-11-18T07:59:20.732787+00:00",
+      "receipts": [
+        {
+          "path": "native-proof://JOURNEY_OUTCOME.json",
+          "bytes": 2972,
+          "sha256": "19611bff245d6761ea92a6262c82337a0be031a1b95b01d780b208e4cd9a237b"
+        },
+        {
+          "path": "native-proof://OUTER_COMPLETION.json",
+          "bytes": 870,
+          "sha256": "2d17ab123d00adcc8c1d2f46d032c2c5cd72dd14b3bcc326120449b78d9ce954"
+        },
+        {
+          "path": "native-proof://APPROVED_ORDINARY_NATIVE.json",
+          "bytes": 75780,
+          "sha256": "5eccef799d63858f23ba709416acf1e24c4f5fdd7dda7a3272848ec5ca17e084"
+        },
+        {
+          "path": "native-proof://ATTEMPT_STARTED.json",
+          "bytes": 567,
+          "sha256": "7d1863714c1c982211a2340eadb6b5f1b53102b88c12f9ea166209d6dfe40dcc"
+        },
+        {
+          "path": "native-proof://APP_PID.json",
+          "bytes": 114,
+          "sha256": "4c5dc4c8c7008ec2a1df2c52567d8f133581272cc57933c565443638ce2d10ee"
+        },
+        {
+          "path": "native-proof://DESKTOP_PREFLIGHT.json",
+          "bytes": 1253,
+          "sha256": "cc164cb0375ab14c8df874f01796a015e7c2a76ce4b95d0976fd1d80ed4a764b"
+        },
+        {
+          "path": "native-proof://EVENT_CAPTURE.json",
+          "bytes": 2774,
+          "sha256": "f6180458bb580bb54dcc484f9d7892e5e86ffa08d9788c6eb4bb5f321003c8a7"
+        },
+        {
+          "path": "native-proof://OUTPUT_INVENTORY.json",
+          "bytes": 152,
+          "sha256": "fa02d643ebcf51e4f8bc7f2821ca0f52bf6fc85dcf47298a7173e0a5f860b118"
+        },
+        {
+          "path": "native-proof://POINT-startup.json",
+          "bytes": 382,
+          "sha256": "e47703d833d5e4548f6fc3a3d1b0db24c45419342a18449963ecc89940af1ef6"
+        },
+        {
+          "path": "native-proof://POINT-post-close.json",
+          "bytes": 346,
+          "sha256": "089f3c49b89437d41d9f059b1fe4c8364c570291033006e9625373579abd9e14"
+        },
+        {
+          "path": "native-proof://LEAD_AUTHORIZER_ENVIRONMENT_REFUSAL.json",
+          "bytes": 778,
+          "sha256": "2da7759fb59f748a7561198482202b0d06aa092358935e256e4cfa097031f867"
+        },
+        {
+          "path": "native-proof://app.stdout.log",
+          "bytes": 447,
+          "sha256": "d5f0fb5cde397cc5b5c57642c8c65601ce9f6ea2a4f7afc80ecb9f1a7c135f05"
+        },
+        {
+          "path": "native-proof://app.stderr.log",
+          "bytes": 855,
+          "sha256": "601ac5404d88273a94bc3b109b0acf674dbb9c15b403c9d612236a8dc7ccab9f"
+        }
+      ],
+      "source": {
+        "commit": "0303cba1981b5700158b1a0ec249b509f30f5bc2",
+        "tree": "cf34e2a902ffa8724df0855372f35086d1727d9a",
+        "gitAndCurrentFiles": 634
+      },
+      "prerequisites": [
+        {
+          "path": "support://notion-checkpoint-039-verification.json",
+          "bytes": 115403,
+          "sha256": "aaee82730fa4c6a7f19081a1c0502b356d8ea317cf3c5e83fe1472f8e9086d1d"
+        },
+        {
+          "path": "support://github-checkpoint039-verification.json",
+          "bytes": 5217,
+          "sha256": "5bf401acc5550b7b17a58cc4d60cce24a7f39ea8c28aa6f2ae2ec0dcb79f075a"
+        },
+        {
+          "path": "native-proof://INDEPENDENT_NATIVE_REVIEW.json",
+          "bytes": 7833,
+          "sha256": "99447ec267d7dd6aa9b54c65337d0ea55fd88295f7e371e1bd1400be3f236ae9"
+        },
+        {
+          "path": "native-proof://INDEPENDENT_NATIVE_REVIEW.json",
+          "bytes": 7833,
+          "sha256": "99447ec267d7dd6aa9b54c65337d0ea55fd88295f7e371e1bd1400be3f236ae9"
+        },
+        {
+          "path": "support://candidate-ordinary-remaining039-preparation/INDEPENDENT_SAVED_OUTPUT_AUDIT.json",
+          "bytes": 143566,
+          "sha256": "2627b1fa0a32652b0c5f51da073da93d745eb2ab49815bdb75e16fdb080072ed"
+        },
+        {
+          "path": "support://candidate-ordinary-remaining039-preparation/LEAD_RECONCILIATION.json",
+          "bytes": 4173,
+          "sha256": "4b50b67bfeb2019bb4f980bf1896e2086a4972b012728bd64f101e7b1e9fb210"
+        },
+        {
+          "path": "support://checkpoint-0303cba-publication-receipt.json",
+          "bytes": 166795,
+          "sha256": "8bd97c70db9ef92397f4e13f8d8f9df9e737e9f4ba26229e423bfc2dfc84ff21"
+        },
+        {
+          "path": "support://candidate-ordinary-remaining039-preparation/REPORT.json",
+          "bytes": 1443835,
+          "sha256": "f8a1463bdb6bf564e33748f8b2f8811893cd6bf9c22f9e69bc02842888a9b276"
+        }
+      ],
+      "fixedInputs": [
+        {
+          "path": "support://electron-44.7.0-setup/node_modules/electron/dist/electron",
+          "bytes": 228605256,
+          "sha256": "10a14d05c6ff4f94075cfb3eeb6ed6571be33ebcc08cbd675b5ce9ff84706564"
+        },
+        {
+          "path": "project://linux-blue/artifacts/candidate-runtime-1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9/ffmpeg",
+          "bytes": 46175848,
+          "sha256": "ae5b2e8b48ad0e9b51b89ebab000ebcfc0b76a09b8cb80c88e18fddcc5d9e8ba"
+        },
+        {
+          "path": "project://linux-blue/artifacts/candidate-runtime-1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9/ffprobe",
+          "bytes": 45962728,
+          "sha256": "923dab8640da8804c445418b6e2efe4b395665bdb9d4cfc84f6a244ed0fb156b"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libm.so.6",
+          "bytes": 977112,
+          "sha256": "6d567d53e895273ca14a1f9dc164fc6c8d39aed2f60aa46a733c2784228915f3"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libdav1d.so.7.0.0",
+          "bytes": 1746880,
+          "sha256": "1d7a4182344230d5f4cf9f58bf4485da2801c411e9c9fd6d8471460c75ae8fbf"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libSvtAv1Enc.so.2.3.0",
+          "bytes": 7984736,
+          "sha256": "48713dd9caf08909462bad0274cc9d9b249ccf836a9be72fd731f8d8096c4d35"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libgcc_s.so.1",
+          "bytes": 182856,
+          "sha256": "30c61ab012a4241bed033725a09b61f5fdd3bb7df95ee852d0b096520524c7af"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.33",
+          "bytes": 2497768,
+          "sha256": "972bb2a18b71140dab0240f8a1f68ab3fb1d56bcd4c4f824a91b70888faf5a00"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+          "bytes": 1995216,
+          "sha256": "9792e3cbb541c8f44c7acf5f14f4022ea62998ecc787d326bed4d8b6547dfd92"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+          "bytes": 225672,
+          "sha256": "c8438e4fde1934e61c88311633f00949ff645d5c04cdb8671fa3d78164d2f307"
+        }
+      ],
+      "dependencyLinksVerified": 7,
+      "fixtureOriginalAndOwnedEqual": true,
+      "census": {
+        "spawned": 28,
+        "closed": 28,
+        "live": 0,
+        "maximum": 1,
+        "failures": 0
+      },
+      "events": [
+        {
+          "reason": "SESSION_STARTED",
+          "sequence": 0,
+          "at": 1794988443688,
+          "contextTruncated": null,
+          "pickerContext": null,
+          "retained": {
+            "path": "native-proof://retained-events/f6e92ce4-ba75-4266-a246-b60be12ea081.json",
+            "bytes": 465,
+            "sha256": "e44407bf8e3a5c763a16312aacbbf6ba00952e3f2a4dcc4f7346cd12a909ede4"
+          }
+        },
+        {
+          "reason": "CAPABILITY_STARTED",
+          "sequence": 1,
+          "at": 1794988443887,
+          "contextTruncated": null,
+          "pickerContext": null,
+          "retained": {
+            "path": "native-proof://retained-events/3a0891ee-5991-4b38-be26-a828583c6e1e.json",
+            "bytes": 388,
+            "sha256": "d589d225c5e3120a45360202bfa449ed4db2339d269ee0ebdfdfbcb7b227c69f"
+          }
+        },
+        {
+          "reason": "RUNTIME_IDENTIFIED",
+          "sequence": 2,
+          "at": 1794988447725,
+          "contextTruncated": false,
+          "pickerContext": null,
+          "retained": {
+            "path": "native-proof://retained-events/92fd6364-28de-42fd-be43-d73575e7d3a9.json",
+            "bytes": 480,
+            "sha256": "b122ac8080f21a8fbb9b7335c89f997d1fbc3512d14407bee00d1c5519807993"
+          }
+        },
+        {
+          "reason": "CAPABILITY_FINISHED",
+          "sequence": 3,
+          "at": 1794988447731,
+          "contextTruncated": false,
+          "pickerContext": null,
+          "retained": {
+            "path": "native-proof://retained-events/cb9dd6b2-1e46-4d4d-8fe7-430a2f137507.json",
+            "bytes": 12331,
+            "sha256": "5eb945ce30fe5366f852ef5f13d9ef9ad4c637e61e3e6a1c3bbc709a85c74c57"
+          }
+        },
+        {
+          "reason": "PROVENANCE_RECOVERY_FINISHED",
+          "sequence": 4,
+          "at": 1794988447737,
+          "contextTruncated": false,
+          "pickerContext": null,
+          "retained": {
+            "path": "native-proof://retained-events/c2ecb3c2-de15-4083-bc0d-cab57d84fd05.json",
+            "bytes": 533,
+            "sha256": "8b7dc5e07a8f91a6382c9a60dde19e826d9936a75195bdfcbdb557f1f87b0a9b"
+          }
+        },
+        {
+          "reason": "FOLDER_PICKER_REQUESTED",
+          "sequence": 5,
+          "at": 1794988477351,
+          "contextTruncated": false,
+          "pickerContext": {
+            "action": "choose-input-folder",
+            "outcome": "requested"
+          },
+          "retained": {
+            "path": "native-proof://retained-events/2cf0f1ac-8b65-46c2-a7d1-0711e05afb85.json",
+            "bytes": 433,
+            "sha256": "8b1f53cfafec3d9db06cb3dcbb17841c6efbe0ba1c5069a7b9051fc9b35fed8d"
+          }
+        },
+        {
+          "reason": "FOLDER_PICKER_CANCELLED",
+          "sequence": 6,
+          "at": 1794988571591,
+          "contextTruncated": false,
+          "pickerContext": {
+            "action": "choose-input-folder",
+            "outcome": "cancelled"
+          },
+          "retained": {
+            "path": "native-proof://retained-events/df126fa2-b32c-467e-ac19-e2db0929508b.json",
+            "bytes": 433,
+            "sha256": "57e6ca78da75d05ebfdd79e01c7a870033652ae753b36d76a3707b92d9fcd41e"
+          }
+        },
+        {
+          "reason": "SESSION_ENDED",
+          "sequence": 7,
+          "at": 1794988633250,
+          "contextTruncated": null,
+          "pickerContext": null,
+          "retained": {
+            "path": "native-proof://retained-events/bb4a1e4f-fa8e-49a6-b4d2-7096cc3dc477.json",
+            "bytes": 360,
+            "sha256": "fb8f1ca4e202f47e341d06b0673832491f5cc7c82cb3483c4aebd383b4572839"
+          }
+        }
+      ],
+      "outputEmpty": true,
+      "stateIdentity": {
+        "dev": 27,
+        "ino": 2361428,
+        "startupAndPostcloseMatch": true
+      },
+      "causalFinding": "Main recorded requested then cancelled picker. No REGISTERED, PREPARATION, encode or output events. The observed Open click does not prove Electron returned an accepted path. Cancellation cause remains unknown; no registration implementation defect established.",
+      "additionalDiagnostic": "Retained stderr reports no handler registered for encoder:workbench-session on ordinary non-switching route. Worth source tracing as separate diagnostic inconsistency; no evidence connecting it to picker cancellation. DBus/socket and SSL errors also retained without causal attribution.",
+      "chronology": "Lead non-desktop invocation refused empty DISPLAY before gate (lead-written observation, not raw stderr). Same exact authorizer later consumed this review from inherited desktop; gate/attempt/preflight hashes and fresh timestamps match. Successful authorizer stdout is CUA-only, not a separate retained console log.",
+      "limits": [
+        "CUA screenshots/action reports are operator observations, not independently replayable image artifacts. Sky type failures/Return/Open behavior are not independently reconstructed from durable app events.",
+        "Zero semantic target does not mean zero media:28 canonical startup capability children ran. Aggregate closure does not provide per-child stderr or entire OS census.",
+        "Exit0 is normal supervisor closure, not UI or native H265 success. No output picker, Prepare, Apply, Start or reveal according to operator and no corresponding app events.",
+        "Only startup and post-close point files were retained; do not invent intermediate storage measurements. No continuous quota or hard exit guarantee.",
+        "Numeric event epochs align with outer UTC. Text stderr prefix appears two hours later; that alone is not machine clock drift. READY sandbox preferences are declarations, not independent enforcement proof.",
+        "Source/runtime/fixture hashes rechecked without runtime, probe, decode or UI actions. Read only exact allowlisted events and state stat; no profile/cache/token traversal.",
+        "No default promotion, audio-policy selection, Windows or formal Security Cloud qualification."
+      ]
+    },
+    "08_LEAD_RECONCILIATION": {
+      "reconciledAtUtc": "2026-11-18T08:00:56.971778+00:00",
+      "sourceCommit": "0303cba1981b5700158b1a0ec249b509f30f5bc2",
+      "sourceTree": "cf34e2a902ffa8724df0855372f35086d1727d9a",
+      "independentAudit": {
+        "path": "native-proof://INDEPENDENT_NATIVE_AUDIT.json",
+        "bytes": 14396,
+        "sha256": "fc94efaf9e11fefacb05b5526854b7b94b683032062930992698fa59015b025e"
+      },
+      "outcome": {
+        "path": "native-proof://JOURNEY_OUTCOME.json",
+        "bytes": 2972,
+        "sha256": "19611bff245d6761ea92a6262c82337a0be031a1b95b01d780b208e4cd9a237b"
+      },
+      "outer": {
+        "path": "native-proof://OUTER_COMPLETION.json",
+        "bytes": 870,
+        "sha256": "2d17ab123d00adcc8c1d2f46d032c2c5cd72dd14b3bcc326120449b78d9ce954"
+      },
+      "leadRehashedAuditRows": 39,
+      "allSourceBytesUnchanged": true,
+      "sourceFiles": 634,
+      "ownedElectronPidAbsentAtCheck": 23035,
+      "disposition": "Stopped native journey before registration; ordinary service campaign remains a separate success. No native H265 publication or picker-cause claim.",
+      "supported": [
+        "One native attempt on exact039; actual READY/experimental route and default observations are operator CUA reports.",
+        "Saved fixed-enum events show requested then canceled; current source emits CANCELLED only when selection.canceled === true. No accepted path/registration/Prepare/target/output established.",
+        "Normal close, 28 spawned/28 closed/live0 aggregate; real startup capability media, zero semantic target.",
+        "Exact profile dev/ino preserved; empty output inventory; eight retained events and complete raw app stdout/stderr checked."
+      ],
+      "limitations": [
+        "CUA screenshots/action reports are operator observations, not independently replayable image artifacts. Sky type failures/Return/Open behavior are not independently reconstructed from durable app events.",
+        "Zero semantic target does not mean zero media:28 canonical startup capability children ran. Aggregate closure does not provide per-child stderr or entire OS census.",
+        "Exit0 is normal supervisor closure, not UI or native H265 success. No output picker, Prepare, Apply, Start or reveal according to operator and no corresponding app events.",
+        "Only startup and post-close point files were retained; do not invent intermediate storage measurements. No continuous quota or hard exit guarantee.",
+        "Numeric event epochs align with outer UTC. Text stderr prefix appears two hours later; that alone is not machine clock drift. READY sandbox preferences are declarations, not independent enforcement proof.",
+        "Source/runtime/fixture hashes rechecked without runtime, probe, decode or UI actions. Read only exact allowlisted events and state stat; no profile/cache/token traversal.",
+        "No default promotion, audio-policy selection, Windows or formal Security Cloud qualification."
+      ],
+      "separateActionableFinding": "Shared renderer probes encoder:workbench-session through shared preload even on a non-switching route, where registerIpc registers no status handler. Retained stderr confirms missing-handler diagnostic; no evidence links it to picker cancellation. Narrow isolated status-contract repair assigned, no authoritative changes yet.",
+      "next": "Preserve evidence-only040 now. Continue isolated missing-status-handler repair/review; investigate next visible picker attempt only with fresh exact source/profile/evidence controls after preservation, without inferring human cancellation. Longer ordinary9 plan is preparation only and lower priority than picker diagnosis.",
+      "sourceRelease": "Released only for coherent evidence/PBS040 assembly; no production/default/audio-policy change authorized by this receipt. Existing owner development scope separately covers reviewed future code work.",
+      "nativeRetryGateIssued": false
+    },
+    "09_OUTPUT_INVENTORY": {
+      "files": [],
+      "provenance": "First full post-close hashes unless earlier evidence independently retained; no probe/decode or success assertion."
+    },
+    "10_2cf0f1ac-8b65-46c2-a7d1-0711e05afb85": {
+      "namespace": "diagnostics-v1",
+      "version": 1,
+      "event": {
+        "id": "2cf0f1ac-8b65-46c2-a7d1-0711e05afb85",
+        "sessionId": "b74d40cf-5916-4773-899f-7832b0a55bb8",
+        "sequence": 5,
+        "at": 1794988477351,
+        "type": "event",
+        "stage": "admission",
+        "reason": "FOLDER_PICKER_REQUESTED",
+        "severity": "info",
+        "context": {
+          "action": "choose-input-folder",
+          "outcome": "requested"
+        },
+        "contextTruncated": false
+      },
+      "digest": "40f2f5625f8dbec0918f71a676fed3d713bfb857a70cbadf68a9928b31c259cf"
+    },
+    "11_3a0891ee-5991-4b38-be26-a828583c6e1e": {
+      "namespace": "diagnostics-v1",
+      "version": 1,
+      "event": {
+        "id": "3a0891ee-5991-4b38-be26-a828583c6e1e",
+        "sessionId": "b74d40cf-5916-4773-899f-7832b0a55bb8",
+        "sequence": 1,
+        "at": 1794988443887,
+        "type": "event",
+        "stage": "capability",
+        "reason": "CAPABILITY_STARTED",
+        "severity": "info",
+        "batchId": "d6efe120-15d8-4856-b362-427b21442af5"
+      },
+      "digest": "e51efa6116d6a45f55a900b2bf80d42a0ee3bc02897a1608047757df56015e7e"
+    },
+    "12_92fd6364-28de-42fd-be43-d73575e7d3a9": {
+      "namespace": "diagnostics-v1",
+      "version": 1,
+      "event": {
+        "id": "92fd6364-28de-42fd-be43-d73575e7d3a9",
+        "sessionId": "b74d40cf-5916-4773-899f-7832b0a55bb8",
+        "sequence": 2,
+        "at": 1794988447725,
+        "type": "event",
+        "stage": "capability",
+        "reason": "RUNTIME_IDENTIFIED",
+        "severity": "info",
+        "batchId": "d6efe120-15d8-4856-b362-427b21442af5",
+        "context": {
+          "runtimeVersions": {
+            "ffmpeg": "9.0.2",
+            "ffprobe": "9.0.2"
+          }
+        },
+        "contextTruncated": false
+      },
+      "digest": "f248bb9a0d980015d850edd6b254ed27fbb6b83274ac7fd648a57b23f55bf68b"
+    },
+    "13_bb4a1e4f-fa8e-49a6-b4d2-7096cc3dc477": {
+      "namespace": "diagnostics-v1",
+      "version": 1,
+      "event": {
+        "id": "bb4a1e4f-fa8e-49a6-b4d2-7096cc3dc477",
+        "sessionId": "b74d40cf-5916-4773-899f-7832b0a55bb8",
+        "sequence": 7,
+        "at": 1794988633250,
+        "type": "session-end",
+        "stage": "shutdown",
+        "reason": "SESSION_ENDED",
+        "severity": "info",
+        "outcome": "completed"
+      },
+      "digest": "839fe0818f695bb979203f58fa92cda4a865e8810721a6f58969bec7b2fac87a"
+    },
+    "14_c2ecb3c2-de15-4083-bc0d-cab57d84fd05": {
+      "namespace": "diagnostics-v1",
+      "version": 1,
+      "event": {
+        "id": "c2ecb3c2-de15-4083-bc0d-cab57d84fd05",
+        "sessionId": "b74d40cf-5916-4773-899f-7832b0a55bb8",
+        "sequence": 4,
+        "at": 1794988447737,
+        "type": "event",
+        "stage": "recovery",
+        "reason": "PROVENANCE_RECOVERY_FINISHED",
+        "severity": "info",
+        "batchId": "d6efe120-15d8-4856-b362-427b21442af5",
+        "context": {
+          "recovery": {
+            "matching": 0,
+            "absent": 0,
+            "unrelated": 0,
+            "uncertain": 0,
+            "pendingRemaining": 0,
+            "warnings": []
+          }
+        },
+        "contextTruncated": false
+      },
+      "digest": "87adbb16bca788beed9528f7d562df47b88851423f2f061a8e305d50c0709c36"
+    },
+    "15_cb9dd6b2-1e46-4d4d-8fe7-430a2f137507": {
+      "namespace": "diagnostics-v1",
+      "version": 1,
+      "event": {
+        "id": "cb9dd6b2-1e46-4d4d-8fe7-430a2f137507",
+        "sessionId": "b74d40cf-5916-4773-899f-7832b0a55bb8",
+        "sequence": 3,
+        "at": 1794988447731,
+        "type": "event",
+        "stage": "capability",
+        "reason": "CAPABILITY_FINISHED",
+        "severity": "info",
+        "batchId": "d6efe120-15d8-4856-b362-427b21442af5",
+        "context": {
+          "profiles": [
+            {
+              "id": "h264-cpu",
+              "label": "H264 · CPU",
+              "codec": "H264",
+              "hardware": "CPU",
+              "encoder": "libx264",
+              "presets": [
+                "ultrafast",
+                "superfast",
+                "veryfast",
+                "faster",
+                "fast",
+                "medium",
+                "slow",
+                "slower",
+                "veryslow"
+              ],
+              "defaultPreset": "slower",
+              "quality": {
+                "mode": "CRF",
+                "min": 0,
+                "max": 51,
+                "default": 24
+              },
+              "suffix": "H264-CPU",
+              "pixelFormats": [
+                "yuv420p",
+                "yuvj420p",
+                "yuv422p",
+                "yuvj422p",
+                "yuv444p",
+                "yuvj444p",
+                "gray",
+                "yuv420p10le",
+                "yuv422p10le",
+                "yuv444p10le",
+                "gray10le"
+              ],
+              "bitDepths": [
+                8,
+                10
+              ],
+              "provisional": false,
+              "available": true,
+              "supportedBitDepths": [
+                8,
+                10
+              ],
+              "reason": null,
+              "checks": [
+                {
+                  "bitDepth": 8,
+                  "available": true,
+                  "reason": null,
+                  "codec": "h264",
+                  "pixelFormat": "yuv420p",
+                  "frames": 2
+                },
+                {
+                  "bitDepth": 10,
+                  "available": true,
+                  "reason": null,
+                  "codec": "h264",
+                  "pixelFormat": "yuv420p10le",
+                  "frames": 2
+                }
+              ]
+            },
+            {
+              "id": "h265-cpu",
+              "label": "H265 · CPU",
+              "codec": "H265",
+              "hardware": "CPU",
+              "encoder": "libx265",
+              "presets": [
+                "ultrafast",
+                "superfast",
+                "veryfast",
+                "faster",
+                "fast",
+                "medium",
+                "slow",
+                "slower",
+                "veryslow"
+              ],
+              "defaultPreset": "slow",
+              "quality": {
+                "mode": "CRF",
+                "min": 0,
+                "max": 51,
+                "default": 25
+              },
+              "suffix": "H265-CPU",
+              "pixelFormats": [
+                "yuv420p",
+                "yuvj420p",
+                "yuv422p",
+                "yuvj422p",
+                "yuv444p",
+                "yuvj444p",
+                "gray",
+                "yuv420p10le",
+                "yuv422p10le",
+                "yuv444p10le",
+                "gray10le"
+              ],
+              "bitDepths": [
+                8,
+                10
+              ],
+              "provisional": false,
+              "available": true,
+              "supportedBitDepths": [
+                8,
+                10
+              ],
+              "reason": null,
+              "checks": [
+                {
+                  "bitDepth": 8,
+                  "available": true,
+                  "reason": null,
+                  "codec": "hevc",
+                  "pixelFormat": "yuv420p",
+                  "frames": 2
+                },
+                {
+                  "bitDepth": 10,
+                  "available": true,
+                  "reason": null,
+                  "codec": "hevc",
+                  "pixelFormat": "yuv420p10le",
+                  "frames": 2
+                }
+              ]
+            },
+            {
+              "id": "av1-cpu",
+              "label": "AV1 · CPU",
+              "codec": "AV1",
+              "hardware": "CPU",
+              "encoder": "libsvtav1",
+              "presets": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9"
+              ],
+              "defaultPreset": "6",
+              "quality": {
+                "mode": "CRF",
+                "min": 1,
+                "max": 63,
+                "default": 32
+              },
+              "suffix": "AV1-CPU",
+              "pixelFormats": [
+                "yuv420p",
+                "yuv420p10le"
+              ],
+              "bitDepths": [
+                8,
+                10
+              ],
+              "provisional": false,
+              "available": true,
+              "supportedBitDepths": [
+                8,
+                10
+              ],
+              "reason": null,
+              "checks": [
+                {
+                  "bitDepth": 8,
+                  "available": true,
+                  "reason": null,
+                  "codec": "av1",
+                  "pixelFormat": "yuv420p",
+                  "frames": 2
+                },
+                {
+                  "bitDepth": 10,
+                  "available": true,
+                  "reason": null,
+                  "codec": "av1",
+                  "pixelFormat": "yuv420p10le",
+                  "frames": 2
+                }
+              ]
+            },
+            {
+              "id": "h264-nvidia",
+              "label": "H264 · NVIDIA",
+              "codec": "H264",
+              "hardware": "NVIDIA",
+              "encoder": "h264_nvenc",
+              "presets": [
+                "p1",
+                "p2",
+                "p3",
+                "p4",
+                "p5",
+                "p6",
+                "p7"
+              ],
+              "defaultPreset": "p5",
+              "quality": {
+                "mode": "CQ",
+                "min": 1,
+                "max": 51,
+                "default": 28
+              },
+              "suffix": "H264-Nvidia-GPU",
+              "pixelFormats": [
+                "yuv420p",
+                "nv12",
+                "yuv420p10le",
+                "p010le"
+              ],
+              "bitDepths": [
+                8,
+                10
+              ],
+              "provisional": false,
+              "available": false,
+              "supportedBitDepths": [],
+              "reason": "8-bit SDR: GPU execution is not tested or enabled in this Linux CPU preview.\n10-bit SDR: GPU execution is not tested or enabled in this Linux CPU preview.",
+              "checks": [
+                {
+                  "bitDepth": 8,
+                  "available": false,
+                  "reason": "GPU execution is not tested or enabled in this Linux CPU preview.",
+                  "code": "LINUX_WORKBENCH_GPU_UNTESTED",
+                  "stderr": "",
+                  "stderrTruncated": false
+                },
+                {
+                  "bitDepth": 10,
+                  "available": false,
+                  "reason": "GPU execution is not tested or enabled in this Linux CPU preview.",
+                  "code": "LINUX_WORKBENCH_GPU_UNTESTED",
+                  "stderr": "",
+                  "stderrTruncated": false
+                }
+              ]
+            },
+            {
+              "id": "h265-nvidia",
+              "label": "H265 · NVIDIA",
+              "codec": "H265",
+              "hardware": "NVIDIA",
+              "encoder": "hevc_nvenc",
+              "presets": [
+                "p1",
+                "p2",
+                "p3",
+                "p4",
+                "p5",
+                "p6",
+                "p7"
+              ],
+              "defaultPreset": "p5",
+              "quality": {
+                "mode": "CQ",
+                "min": 1,
+                "max": 51,
+                "default": 25
+              },
+              "suffix": "H265-Nvidia-GPU",
+              "pixelFormats": [
+                "yuv420p",
+                "nv12",
+                "yuv420p10le",
+                "p010le"
+              ],
+              "bitDepths": [
+                8,
+                10
+              ],
+              "provisional": false,
+              "available": false,
+              "supportedBitDepths": [],
+              "reason": "8-bit SDR: GPU execution is not tested or enabled in this Linux CPU preview.\n10-bit SDR: GPU execution is not tested or enabled in this Linux CPU preview.",
+              "checks": [
+                {
+                  "bitDepth": 8,
+                  "available": false,
+                  "reason": "GPU execution is not tested or enabled in this Linux CPU preview.",
+                  "code": "LINUX_WORKBENCH_GPU_UNTESTED",
+                  "stderr": "",
+                  "stderrTruncated": false
+                },
+                {
+                  "bitDepth": 10,
+                  "available": false,
+                  "reason": "GPU execution is not tested or enabled in this Linux CPU preview.",
+                  "code": "LINUX_WORKBENCH_GPU_UNTESTED",
+                  "stderr": "",
+                  "stderrTruncated": false
+                }
+              ]
+            },
+            {
+              "id": "av1-nvidia",
+              "label": "AV1 · NVIDIA",
+              "codec": "AV1",
+              "hardware": "NVIDIA",
+              "encoder": "av1_nvenc",
+              "presets": [
+                "p1",
+                "p2",
+                "p3",
+                "p4",
+                "p5",
+                "p6",
+                "p7"
+              ],
+              "defaultPreset": "p5",
+              "quality": {
+                "mode": "CQ",
+                "min": 1,
+                "max": 63,
+                "default": 30
+              },
+              "suffix": "AV1-Nvidia-GPU",
+              "pixelFormats": [
+                "yuv420p",
+                "nv12",
+                "yuv420p10le",
+                "p010le"
+              ],
+              "bitDepths": [
+                8,
+                10
+              ],
+              "provisional": false,
+              "available": false,
+              "supportedBitDepths": [],
+              "reason": "8-bit SDR: GPU execution is not tested or enabled in this Linux CPU preview.\n10-bit SDR: GPU execution is not tested or enabled in this Linux CPU preview.",
+              "checks": [
+                {
+                  "bitDepth": 8,
+                  "available": false,
+                  "reason": "GPU execution is not tested or enabled in this Linux CPU preview.",
+                  "code": "LINUX_WORKBENCH_GPU_UNTESTED",
+                  "stderr": "",
+                  "stderrTruncated": false
+                },
+                {
+                  "bitDepth": 10,
+                  "available": false,
+                  "reason": "GPU execution is not tested or enabled in this Linux CPU preview.",
+                  "code": "LINUX_WORKBENCH_GPU_UNTESTED",
+                  "stderr": "",
+                  "stderrTruncated": false
+                }
+              ]
+            }
+          ],
+          "recipes": [
+            {
+              "id": "archive-quality-hevc-v1",
+              "profileId": "h265-nvidia",
+              "label": "Archive Quality — Ada/Blackwell NVENC",
+              "preset": "p7",
+              "quality": 29,
+              "evidenceNote": "A measured starting point; quality and size vary by scene. Ada support is documented and capability-gated; local benchmark evidence applies to Blackwell only. CRF and CQ numbers are not equivalent.",
+              "available": false,
+              "supportedBitDepths": [],
+              "reason": "8-bit SDR: GPU execution is not tested or enabled in this Linux CPU preview.\n10-bit SDR: GPU execution is not tested or enabled in this Linux CPU preview.",
+              "checks": [
+                {
+                  "bitDepth": 8,
+                  "available": false,
+                  "reason": "GPU execution is not tested or enabled in this Linux CPU preview.",
+                  "code": "LINUX_WORKBENCH_GPU_UNTESTED",
+                  "stderr": "",
+                  "stderrTruncated": false
+                },
+                {
+                  "bitDepth": 10,
+                  "available": false,
+                  "reason": "GPU execution is not tested or enabled in this Linux CPU preview.",
+                  "code": "LINUX_WORKBENCH_GPU_UNTESTED",
+                  "stderr": "",
+                  "stderrTruncated": false
+                }
+              ]
+            }
+          ],
+          "versions": {
+            "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+            "ffprobe": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers"
+          },
+          "vendorProfiles": [
+            {
+              "id": "h264-amd",
+              "nativeId": "h264-amf",
+              "twin": "h264-cpu",
+              "label": "H264 · AMD",
+              "codec": "H264",
+              "encoder": "h264_amf",
+              "hardware": "AMD",
+              "tier": "untested",
+              "suffix": "H264-AMD-GPU",
+              "bitDepths": [
+                8
+              ],
+              "presets": [
+                "speed",
+                "balanced",
+                "quality",
+                "high_quality"
+              ],
+              "defaultPreset": "balanced",
+              "quality": {
+                "mode": "QP",
+                "min": 0,
+                "max": 51,
+                "default": 24
+              },
+              "pixelFormats": [
+                "yuv420p"
+              ],
+              "available": false,
+              "supportedBitDepths": [],
+              "reason": "Vendor adapter discovery could not be completed.",
+              "reasonCode": "VENDOR_DISCOVERY_INCOMPLETE",
+              "checks": [
+                {
+                  "bitDepth": 8,
+                  "available": false,
+                  "reasonCode": "VENDOR_DISCOVERY_INCOMPLETE",
+                  "code": "VENDOR_DISCOVERY_INCOMPLETE",
+                  "reason": "Vendor adapter discovery could not be completed.",
+                  "disclosures": [],
+                  "device": null
+                },
+                {
+                  "bitDepth": 10,
+                  "available": false,
+                  "reasonCode": "VENDOR_DEPTH_NOT_OFFERED",
+                  "code": "VENDOR_DEPTH_NOT_OFFERED",
+                  "reason": "This vendor profile does not offer the source bit depth. H.264 is 8-bit only.",
+                  "disclosures": [],
+                  "device": null
+                }
+              ],
+              "device": null,
+              "disclosures": []
+            },
+            {
+              "id": "h265-amd",
+              "nativeId": "h265-amf",
+              "twin": "h265-cpu",
+              "label": "H265 · AMD",
+              "codec": "H265",
+              "encoder": "hevc_amf",
+              "hardware": "AMD",
+              "tier": "untested",
+              "suffix": "H265-AMD-GPU",
+              "bitDepths": [
+                8,
+                10
+              ],
+              "presets": [
+                "speed",
+                "balanced",
+                "quality",
+                "high_quality"
+              ],
+              "defaultPreset": "balanced",
+              "quality": {
+                "mode": "QP",
+                "min": 0,
+                "max": 51,
+                "default": 24
+              },
+              "pixelFormats": [
+                "yuv420p",
+                "yuv420p10le"
+              ],
+              "available": false,
+              "supportedBitDepths": [],
+              "reason": "Vendor adapter discovery could not be completed.",
+              "reasonCode": "VENDOR_DISCOVERY_INCOMPLETE",
+              "checks": [
+                {
+                  "bitDepth": 8,
+                  "available": false,
+                  "reasonCode": "VENDOR_DISCOVERY_INCOMPLETE",
+                  "code": "VENDOR_DISCOVERY_INCOMPLETE",
+                  "reason": "Vendor adapter discovery could not be completed.",
+                  "disclosures": [],
+                  "device": null
+                },
+                {
+                  "bitDepth": 10,
+                  "available": false,
+                  "reasonCode": "VENDOR_DISCOVERY_INCOMPLETE",
+                  "code": "VENDOR_DISCOVERY_INCOMPLETE",
+                  "reason": "Vendor adapter discovery could not be completed.",
+                  "disclosures": [],
+                  "device": null
+                }
+              ],
+              "device": null,
+              "disclosures": []
+            },
+            {
+              "id": "av1-amd",
+              "nativeId": "av1-amf",
+              "twin": "av1-cpu",
+              "label": "AV1 · AMD",
+              "codec": "AV1",
+              "encoder": "av1_amf",
+              "hardware": "AMD",
+              "tier": "untested",
+              "suffix": "AV1-AMD-GPU",
+              "bitDepths": [
+                8,
+                10
+              ],
+              "presets": [
+                "speed",
+                "balanced",
+                "quality",
+                "high_quality"
+              ],
+              "defaultPreset": "balanced",
+              "quality": {
+                "mode": "QP",
+                "min": 0,
+                "max": 255,
+                "default": 128
+              },
+              "pixelFormats": [
+                "yuv420p",
+                "yuv420p10le"
+              ],
+              "available": false,
+              "supportedBitDepths": [],
+              "reason": "Vendor adapter discovery could not be completed.",
+              "reasonCode": "VENDOR_DISCOVERY_INCOMPLETE",
+              "checks": [
+                {
+                  "bitDepth": 8,
+                  "available": false,
+                  "reasonCode": "VENDOR_DISCOVERY_INCOMPLETE",
+                  "code": "VENDOR_DISCOVERY_INCOMPLETE",
+                  "reason": "Vendor adapter discovery could not be completed.",
+                  "disclosures": [],
+                  "device": null
+                },
+                {
+                  "bitDepth": 10,
+                  "available": false,
+                  "reasonCode": "VENDOR_DISCOVERY_INCOMPLETE",
+                  "code": "VENDOR_DISCOVERY_INCOMPLETE",
+                  "reason": "Vendor adapter discovery could not be completed.",
+                  "disclosures": [],
+                  "device": null
+                }
+              ],
+              "device": null,
+              "disclosures": []
+            },
+            {
+              "id": "h264-intel",
+              "nativeId": "h264-qsv",
+              "twin": "h264-cpu",
+              "label": "H264 · Intel",
+              "codec": "H264",
+              "encoder": "h264_qsv",
+              "hardware": "Intel",
+              "tier": "untested",
+              "suffix": "H264-Intel-GPU",
+              "bitDepths": [
+                8
+              ],
+              "presets": [
+                "veryfast",
+                "faster",
+                "fast",
+                "medium",
+                "slow",
+                "slower",
+                "veryslow"
+              ],
+              "defaultPreset": "medium",
+              "quality": {
+                "mode": "ICQ",
+                "min": 1,
+                "max": 51,
+                "default": 25
+              },
+              "pixelFormats": [
+                "yuv420p"
+              ],
+              "available": false,
+              "supportedBitDepths": [],
+              "reason": "Vendor adapter discovery could not be completed.",
+              "reasonCode": "VENDOR_DISCOVERY_INCOMPLETE",
+              "checks": [
+                {
+                  "bitDepth": 8,
+                  "available": false,
+                  "reasonCode": "VENDOR_DISCOVERY_INCOMPLETE",
+                  "code": "VENDOR_DISCOVERY_INCOMPLETE",
+                  "reason": "Vendor adapter discovery could not be completed.",
+                  "disclosures": [],
+                  "device": null
+                },
+                {
+                  "bitDepth": 10,
+                  "available": false,
+                  "reasonCode": "VENDOR_DEPTH_NOT_OFFERED",
+                  "code": "VENDOR_DEPTH_NOT_OFFERED",
+                  "reason": "This vendor profile does not offer the source bit depth. H.264 is 8-bit only.",
+                  "disclosures": [],
+                  "device": null
+                }
+              ],
+              "device": null,
+              "disclosures": []
+            },
+            {
+              "id": "h265-intel",
+              "nativeId": "h265-qsv",
+              "twin": "h265-cpu",
+              "label": "H265 · Intel",
+              "codec": "H265",
+              "encoder": "hevc_qsv",
+              "hardware": "Intel",
+              "tier": "untested",
+              "suffix": "H265-Intel-GPU",
+              "bitDepths": [
+                8,
+                10
+              ],
+              "presets": [
+                "veryfast",
+                "faster",
+                "fast",
+                "medium",
+                "slow",
+                "slower",
+                "veryslow"
+              ],
+              "defaultPreset": "medium",
+              "quality": {
+                "mode": "ICQ",
+                "min": 1,
+                "max": 51,
+                "default": 25
+              },
+              "pixelFormats": [
+                "yuv420p",
+                "yuv420p10le"
+              ],
+              "available": false,
+              "supportedBitDepths": [],
+              "reason": "Vendor adapter discovery could not be completed.",
+              "reasonCode": "VENDOR_DISCOVERY_INCOMPLETE",
+              "checks": [
+                {
+                  "bitDepth": 8,
+                  "available": false,
+                  "reasonCode": "VENDOR_DISCOVERY_INCOMPLETE",
+                  "code": "VENDOR_DISCOVERY_INCOMPLETE",
+                  "reason": "Vendor adapter discovery could not be completed.",
+                  "disclosures": [],
+                  "device": null
+                },
+                {
+                  "bitDepth": 10,
+                  "available": false,
+                  "reasonCode": "VENDOR_DISCOVERY_INCOMPLETE",
+                  "code": "VENDOR_DISCOVERY_INCOMPLETE",
+                  "reason": "Vendor adapter discovery could not be completed.",
+                  "disclosures": [],
+                  "device": null
+                }
+              ],
+              "device": null,
+              "disclosures": []
+            },
+            {
+              "id": "av1-intel",
+              "nativeId": "av1-qsv",
+              "twin": "av1-cpu",
+              "label": "AV1 · Intel",
+              "codec": "AV1",
+              "encoder": "av1_qsv",
+              "hardware": "Intel",
+              "tier": "untested",
+              "suffix": "AV1-Intel-GPU",
+              "bitDepths": [
+                8,
+                10
+              ],
+              "presets": [
+                "veryfast",
+                "faster",
+                "fast",
+                "medium",
+                "slow",
+                "slower",
+                "veryslow"
+              ],
+              "defaultPreset": "medium",
+              "quality": {
+                "mode": "QP",
+                "min": 0,
+                "max": 255,
+                "default": 128
+              },
+              "pixelFormats": [
+                "yuv420p",
+                "yuv420p10le"
+              ],
+              "available": false,
+              "supportedBitDepths": [],
+              "reason": "Vendor adapter discovery could not be completed.",
+              "reasonCode": "VENDOR_DISCOVERY_INCOMPLETE",
+              "checks": [
+                {
+                  "bitDepth": 8,
+                  "available": false,
+                  "reasonCode": "VENDOR_DISCOVERY_INCOMPLETE",
+                  "code": "VENDOR_DISCOVERY_INCOMPLETE",
+                  "reason": "Vendor adapter discovery could not be completed.",
+                  "disclosures": [],
+                  "device": null
+                },
+                {
+                  "bitDepth": 10,
+                  "available": false,
+                  "reasonCode": "VENDOR_DISCOVERY_INCOMPLETE",
+                  "code": "VENDOR_DISCOVERY_INCOMPLETE",
+                  "reason": "Vendor adapter discovery could not be completed.",
+                  "disclosures": [],
+                  "device": null
+                }
+              ],
+              "device": null,
+              "disclosures": []
+            }
+          ]
+        },
+        "contextTruncated": false
+      },
+      "digest": "a0dec04d52a1e6e2b8da4fb735aa6cf1ad2854a4da211540a10a95fef881b523"
+    },
+    "16_df126fa2-b32c-467e-ac19-e2db0929508b": {
+      "namespace": "diagnostics-v1",
+      "version": 1,
+      "event": {
+        "id": "df126fa2-b32c-467e-ac19-e2db0929508b",
+        "sessionId": "b74d40cf-5916-4773-899f-7832b0a55bb8",
+        "sequence": 6,
+        "at": 1794988571591,
+        "type": "event",
+        "stage": "admission",
+        "reason": "FOLDER_PICKER_CANCELLED",
+        "severity": "info",
+        "context": {
+          "action": "choose-input-folder",
+          "outcome": "cancelled"
+        },
+        "contextTruncated": false
+      },
+      "digest": "45f7546529efc9794165babd4e3a14d98d1013b9d68df4c699595f5f1493822b"
+    },
+    "17_f6e92ce4-ba75-4266-a246-b60be12ea081": {
+      "namespace": "diagnostics-v1",
+      "version": 1,
+      "event": {
+        "id": "f6e92ce4-ba75-4266-a246-b60be12ea081",
+        "sessionId": "b74d40cf-5916-4773-899f-7832b0a55bb8",
+        "sequence": 0,
+        "at": 1794988443688,
+        "type": "session-start",
+        "stage": "startup",
+        "reason": "SESSION_STARTED",
+        "severity": "info",
+        "owner": {
+          "pid": 23035,
+          "token": "015a609b-d0dd-4078-a4a6-306358814a71"
+        },
+        "versions": {
+          "app": "0.7.0-alpha.1",
+          "electron": "44.7.0"
+        }
+      },
+      "digest": "01a0203566c89bede6589c2ae66b879f32c5bdd9cb19d775e722051bce12f8bc"
+    }
+  }
+}

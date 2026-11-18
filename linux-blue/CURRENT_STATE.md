@@ -1,15 +1,12 @@
-# Current state: first ordinary candidate run
+# Current state: ordinary candidate service evidence and native picker stop
 
-Checkpoint 039 owning-record cutoff: 2026-11-18T07:22:29.171263+00:00. Seven independently reviewed opt-in route source/test paths are integrated; preservation is pending. No default or audio-policy change.
+Checkpoint 040 cutoff: 2026-11-18T08:00:56.971778+00:00. Evidence-only assembly; no source/test/default/pin or audio-policy change. Both actual journeys used immutable 039 `0303cba1981b5700158b1a0ec249b509f30f5bc2`; all 634 source files remain exact. Preservation is pending.
 
-The first current 9.0.2 ordinary campaign failed in helper contracts after one real H.264 publication. Its cases array is empty, and H.265/AV1, collision, active cancellation and fresh-owner recovery remain unexecuted. All 39 owned children closed; retained helper owner is not evidence of a live process.
+## Supported and still unproved
 
-The saved H.264 output has 240 frames at 1920×1080 and passed strict video decode. Source/output audio is exactly equal as full PCM under the same candidate decoder, 384,000 sample instants, with matching packet payload/header/skip evidence. This finite result does not override prior cross-reader limitations or settle general audio policy.
+- The remaining ordinary service campaign passed five finite cases: H.265 and AV1 publication, collision skip, active cancellation and a new-owner H.265 recovery publication. All 92 owned children closed; four targets produced three outputs. Each successful output has 240 frames and exact whole same-candidate-decoder source PCM equality at 384,000 samples. This is not general audio/player acceptance.
+- Cancellation observed positive media time but frame zero, then SIGKILL and a retained zero-byte stage. Recovery required a new owner; no same-owner recovery claim.
+- Native route opened but input acceptance failed: saved events show REQUESTED then CANCELLED, no registration or Prepare. All 28 startup children closed and output remained empty. No native encode/audio/reveal qualification, human-abort attribution or picker root cause follows.
+- Retained stderr identifies a missing optional `encoder:workbench-session` handler separately. Its narrow source repair is assigned but unintegrated at cutoff; no causal link to picker cancellation is established.
 
-Failure: the injected reveal sink returned an array-push number, which genuine OutputAccess correctly rejected. Finally also supplied an invalid diagnostic terminal outcome. No successful reveal or normal diagnostic terminal confirmation is claimed. Seven child stderr streams remain warning-bearing; two diagnostic contexts are truncated.
-
-Next: preserve this coherent source/evidence checkpoint, then bind and separately release the reviewed focused remaining-case helper. Its independent 17/17 file-only tests include genuine API regression controls; no binding, gate or runtime attempt exists at this cutoff. No retry, UI/default promotion or additional runtime is claimed. Existing 7.1.5 rollback and all Full-copy producer pins remain unchanged.
-
-The explicit main-owned `--blue-runtime=9.0.2-ordinary-candidate` route adds a separate developer route and sticky relaunch notice. Shared renderer changes also affect Windows source, but native Windows and this native route have not run. Independent 173/173 source tests are not media/native qualification; the earlier H.264 proof remains attributed only to immutable 038.
-
-Final lead file-only checks passed 173/173 focused, 229/229 protection and 317/317 explicit Linux tests, with zero skips/cancellations. The scopes overlap and are not summed; this was not npm test or a native run. All 631 checked source files remained byte-identical through the tests.
+Next: preserve these two distinct outcomes, then independently review the isolated status-contract repair and investigate a fresh controlled picker attempt. The longer ordinary plan is preparation only. Original 038 failed campaign and prior 039 archives remain unchanged. Inherited 173/173 focused, 229/229 protection and 317/317 explicit Linux checks were not rerun; overlapping scopes are not summed. Windows, hardware, packaging and general family/player behavior remain unqualified.

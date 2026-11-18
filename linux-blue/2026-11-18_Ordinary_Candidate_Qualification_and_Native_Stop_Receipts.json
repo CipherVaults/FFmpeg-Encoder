@@ -1,0 +1,265 @@
+{
+  "schema": "ffmpeg-curated-checkpoint-receipts-v1",
+  "checkpoint": "040",
+  "cutoffUtc": "2026-11-18T08:00:56.971778+00:00",
+  "status": "Prepared checkpoint; preservation pending",
+  "sourceCommit": "0303cba1981b5700158b1a0ec249b509f30f5bc2",
+  "sourceFiles": 634,
+  "sourceOrTestDelta": false,
+  "expectedCheckpoint": {
+    "changedPaths": 6,
+    "files": 638,
+    "commits": 40
+  },
+  "artifacts": [
+    {
+      "path": "candidate-ordinary-remaining039-preparation/COMPLETION.json",
+      "bytes": 297,
+      "sha256": "9844cb839f9aad76fc09d7cea36744b4efa695daf7015938cb799532eb581305"
+    },
+    {
+      "path": "candidate-ordinary-remaining039-preparation/INDEPENDENT_PREPARATION_REVIEW-v1.json",
+      "bytes": 6940,
+      "sha256": "01079deeaadb201636bb673b1137f0da3bbf9846b03dce4ae3caf40893f66e45"
+    },
+    {
+      "path": "candidate-ordinary-remaining039-preparation/INDEPENDENT_SAVED_OUTPUT_AUDIT.json",
+      "bytes": 143566,
+      "sha256": "2627b1fa0a32652b0c5f51da073da93d745eb2ab49815bdb75e16fdb080072ed"
+    },
+    {
+      "path": "candidate-ordinary-remaining039-preparation/LEAD_RECONCILIATION.json",
+      "bytes": 4173,
+      "sha256": "4b50b67bfeb2019bb4f980bf1896e2086a4972b012728bd64f101e7b1e9fb210"
+    },
+    {
+      "path": "candidate-ordinary-remaining039-preparation/OUTER_COMPLETION.json",
+      "bytes": 474,
+      "sha256": "9541c19613750fab852ca176a764e57a74f00cc2cdaacb19f6c3d14e77b619f7"
+    },
+    {
+      "path": "candidate-ordinary-remaining039-preparation/REPORT.json",
+      "bytes": 1443835,
+      "sha256": "f8a1463bdb6bf564e33748f8b2f8811893cd6bf9c22f9e69bc02842888a9b276"
+    },
+    {
+      "path": "checkpoint-0303cba-publication-receipt.json",
+      "bytes": 166795,
+      "sha256": "8bd97c70db9ef92397f4e13f8d8f9df9e737e9f4ba26229e423bfc2dfc84ff21"
+    },
+    {
+      "path": "checkpoint039-lead-test-results.json",
+      "bytes": 1421,
+      "sha256": "86ca9585c47477de4946385d92249bfe86a3a32cec55f558c28daf8d868f9e39"
+    },
+    {
+      "path": "github-checkpoint039-verification.json",
+      "bytes": 5217,
+      "sha256": "5bf401acc5550b7b17a58cc4d60cce24a7f39ea8c28aa6f2ae2ec0dcb79f075a"
+    },
+    {
+      "path": "notion-checkpoint-039-verification.json",
+      "bytes": 115403,
+      "sha256": "aaee82730fa4c6a7f19081a1c0502b356d8ea317cf3c5e83fe1472f8e9086d1d"
+    },
+    {
+      "path": "ordinary-native039-bound/EVENT_CAPTURE.json",
+      "bytes": 2774,
+      "sha256": "f6180458bb580bb54dcc484f9d7892e5e86ffa08d9788c6eb4bb5f321003c8a7"
+    },
+    {
+      "path": "ordinary-native039-bound/INDEPENDENT_NATIVE_AUDIT.json",
+      "bytes": 14396,
+      "sha256": "fc94efaf9e11fefacb05b5526854b7b94b683032062930992698fa59015b025e"
+    },
+    {
+      "path": "ordinary-native039-bound/INDEPENDENT_NATIVE_REVIEW.json",
+      "bytes": 7833,
+      "sha256": "99447ec267d7dd6aa9b54c65337d0ea55fd88295f7e371e1bd1400be3f236ae9"
+    },
+    {
+      "path": "ordinary-native039-bound/JOURNEY_OUTCOME.json",
+      "bytes": 2972,
+      "sha256": "19611bff245d6761ea92a6262c82337a0be031a1b95b01d780b208e4cd9a237b"
+    },
+    {
+      "path": "ordinary-native039-bound/LEAD_AUTHORIZER_ENVIRONMENT_REFUSAL.json",
+      "bytes": 778,
+      "sha256": "2da7759fb59f748a7561198482202b0d06aa092358935e256e4cfa097031f867"
+    },
+    {
+      "path": "ordinary-native039-bound/LEAD_RECONCILIATION.json",
+      "bytes": 4023,
+      "sha256": "0551db4c17c5730a7fc0c96b46b07aefa1c3417b6d309fcbf8e4b703cc3614b5"
+    },
+    {
+      "path": "ordinary-native039-bound/OUTER_COMPLETION.json",
+      "bytes": 870,
+      "sha256": "2d17ab123d00adcc8c1d2f46d032c2c5cd72dd14b3bcc326120449b78d9ce954"
+    },
+    {
+      "path": "ordinary-native039-bound/OUTPUT_INVENTORY.json",
+      "bytes": 152,
+      "sha256": "fa02d643ebcf51e4f8bc7f2821ca0f52bf6fc85dcf47298a7173e0a5f860b118"
+    },
+    {
+      "path": "ordinary-native039-bound/PLAN.md",
+      "bytes": 5515,
+      "sha256": "ebbf4bfbf51a006671fc7f5543232519438184b08a926a56296cd0e4d21c6a45"
+    },
+    {
+      "path": "ordinary-native039-bound/POINT-post-close.json",
+      "bytes": 346,
+      "sha256": "089f3c49b89437d41d9f059b1fe4c8364c570291033006e9625373579abd9e14"
+    },
+    {
+      "path": "ordinary-native039-bound/POINT-startup.json",
+      "bytes": 382,
+      "sha256": "e47703d833d5e4548f6fc3a3d1b0db24c45419342a18449963ecc89940af1ef6"
+    },
+    {
+      "path": "ordinary-native039-bound/app.stderr.log",
+      "bytes": 855,
+      "sha256": "601ac5404d88273a94bc3b109b0acf674dbb9c15b403c9d612236a8dc7ccab9f"
+    },
+    {
+      "path": "ordinary-native039-bound/app.stdout.log",
+      "bytes": 447,
+      "sha256": "d5f0fb5cde397cc5b5c57642c8c65601ce9f6ea2a4f7afc80ecb9f1a7c135f05"
+    },
+    {
+      "path": "ordinary-native039-bound/authorize-native039.py",
+      "bytes": 7417,
+      "sha256": "f90b9dcc8467dff74bc36a22c8e67e26b11518e27e91e19cf2f4b08a452fb324"
+    },
+    {
+      "path": "ordinary-native039-bound/launch-ordinary.py",
+      "bytes": 12484,
+      "sha256": "c252c31b416a33f036c74d59edef3e844541d098b48845b56b6727c7dffb66bf"
+    },
+    {
+      "path": "ordinary-native039-bound/retained-events/2cf0f1ac-8b65-46c2-a7d1-0711e05afb85.json",
+      "bytes": 433,
+      "sha256": "8b1f53cfafec3d9db06cb3dcbb17841c6efbe0ba1c5069a7b9051fc9b35fed8d"
+    },
+    {
+      "path": "ordinary-native039-bound/retained-events/3a0891ee-5991-4b38-be26-a828583c6e1e.json",
+      "bytes": 388,
+      "sha256": "d589d225c5e3120a45360202bfa449ed4db2339d269ee0ebdfdfbcb7b227c69f"
+    },
+    {
+      "path": "ordinary-native039-bound/retained-events/92fd6364-28de-42fd-be43-d73575e7d3a9.json",
+      "bytes": 480,
+      "sha256": "b122ac8080f21a8fbb9b7335c89f997d1fbc3512d14407bee00d1c5519807993"
+    },
+    {
+      "path": "ordinary-native039-bound/retained-events/bb4a1e4f-fa8e-49a6-b4d2-7096cc3dc477.json",
+      "bytes": 360,
+      "sha256": "fb8f1ca4e202f47e341d06b0673832491f5cc7c82cb3483c4aebd383b4572839"
+    },
+    {
+      "path": "ordinary-native039-bound/retained-events/c2ecb3c2-de15-4083-bc0d-cab57d84fd05.json",
+      "bytes": 533,
+      "sha256": "8b7dc5e07a8f91a6382c9a60dde19e826d9936a75195bdfcbdb557f1f87b0a9b"
+    },
+    {
+      "path": "ordinary-native039-bound/retained-events/cb9dd6b2-1e46-4d4d-8fe7-430a2f137507.json",
+      "bytes": 12331,
+      "sha256": "5eb945ce30fe5366f852ef5f13d9ef9ad4c637e61e3e6a1c3bbc709a85c74c57"
+    },
+    {
+      "path": "ordinary-native039-bound/retained-events/df126fa2-b32c-467e-ac19-e2db0929508b.json",
+      "bytes": 433,
+      "sha256": "57e6ca78da75d05ebfdd79e01c7a870033652ae753b36d76a3707b92d9fcd41e"
+    },
+    {
+      "path": "ordinary-native039-bound/retained-events/f6e92ce4-ba75-4266-a246-b60be12ea081.json",
+      "bytes": 465,
+      "sha256": "e44407bf8e3a5c763a16312aacbbf6ba00952e3f2a4dcc4f7346cd12a909ede4"
+    }
+  ],
+  "service": {
+    "status": "Audited finite service evidence at fixed combined cutoff",
+    "sourceCommit": "0303cba1981b5700158b1a0ec249b509f30f5bc2",
+    "sourceFiles": 634,
+    "auditReleasedUtc": "2026-11-18T07:42:37.372002+00:00",
+    "leadReleasedUtc": "2026-11-18T07:44:09.367531+00:00",
+    "leadRehashedAuditRows": 425,
+    "census": {
+      "spawned": 92,
+      "closed": 92,
+      "live": 0,
+      "maximum": 1,
+      "targets": 4
+    },
+    "cases": 5,
+    "publications": 3,
+    "cancel": {
+      "positiveMediaSeconds": 1.834667,
+      "frame": 0,
+      "signal": "SIGKILL",
+      "retainedStageBytes": 0,
+      "finalAbsent": true,
+      "grantAbsent": true
+    },
+    "counts": {
+      "nonemptyStderr": 16,
+      "emptyStderr": 76,
+      "allChildCapturesUntruncated": true,
+      "diagnosticEvents": 53,
+      "truncatedEventContexts": 10
+    },
+    "audio": {
+      "samplesPerPublication": 384000,
+      "wholeSameDecoderPcmEqual": true,
+      "universalReaderPolicyClaim": false
+    },
+    "limits": [
+      "92 actual children include six cancellation-path children, not forecast four: four long preparation windows/metadata plus currentness and target.",
+      "Three full output hashes were originally persisted by the helper and matched by saved-only audit. Initial/recovery H265 same size does not imply same full hash.",
+      "OutputAccess sinks were inert; no native reveal or native route proof. Recovery uses a new owner, not the cancelled owner.",
+      "Preserve warning-bearing success and SIGKILL953-byte partial/corrupt/NAL diagnostics; do not infer harmlessness or input corruption.",
+      "No production/default/policy/source changes or extra runtime by this evidence work."
+    ]
+  },
+  "native": {
+    "events": [
+      "SESSION_STARTED",
+      "CAPABILITY_STARTED",
+      "RUNTIME_IDENTIFIED",
+      "CAPABILITY_FINISHED",
+      "PROVENANCE_RECOVERY_FINISHED",
+      "FOLDER_PICKER_REQUESTED",
+      "FOLDER_PICKER_CANCELLED",
+      "SESSION_ENDED"
+    ],
+    "spawned": 28,
+    "closed": 28,
+    "semanticTargets": 0,
+    "outputEmpty": true,
+    "registered": false,
+    "prepare": false,
+    "nativeQualification": false,
+    "pickerCauseKnown": false,
+    "humanAbortEstablished": false,
+    "topLevelStderrBytes": 855,
+    "profileDirectoryIdentityOnly": {
+      "dev": 27,
+      "ino": 2361428
+    }
+  },
+  "tests": {
+    "inheritedOnly": true,
+    "focused": 173,
+    "protection": 229,
+    "explicitLinux": 317,
+    "rerun": false,
+    "overlapNotSummed": true
+  },
+  "limits": [
+    "Service success and native picker stop are distinct on same immutable039.",
+    "Original038 failure unchanged; future source repair and longer plan are not completed at cutoff.",
+    "Logical aliases cannot restore raw reports or authorize runtime. Large complete portable requires unabridged storage/readback.",
+    "No native Windows, general audio policy, player/hardware/default promotion or formal Security Cloud claim."
+  ]
+}

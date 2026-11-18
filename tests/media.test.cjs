@@ -221,7 +221,8 @@ test('stream mapping preserves every supported audio/subtitle/attachment and eac
   assert.deepEqual(values(args, '-map'), ['0:2', '0:0', '0:3', '0:4', '0:6', '0:7']);
   assert.deepEqual(values(args, '-map_metadata'), ['0']);
   assert.deepEqual(values(args, '-map_chapters'), ['0']);
-  assert.deepEqual(values(args, '-c'), ['copy']);
+  assert.deepEqual(values(args, '-c'), []);
+  for (const flag of ['-c:a:0', '-c:a:1', '-c:s:0', '-c:s:1', '-c:t:0']) assert.deepEqual(values(args, flag), ['copy']);
   assert.deepEqual(values(args, '-disposition:0'), ['0']);
   assert.deepEqual(values(args, '-disposition:1'), ['default+original']);
   assert.deepEqual(values(args, '-disposition:2'), ['comment']);

@@ -393,7 +393,15 @@ function buildEncodeArgs({ input, output, settings, probe, colorEvidence, output
     '-format_whitelist', 'mov,matroska,webm,avi', '-i', input,
   ];
   for (const stream of mapped) args.push('-map', `0:${stream.index}`);
-  args.push('-map_metadata', '0', '-map_chapters', '0', '-c', 'copy', ...contribution.codec);
+  args.push('-map_metadata', '0', '-map_chapters', '0', ...contribution.codec);
+  // Every mapped output has one codec decision. A global copy option would
+  // overlap the encoded video and later precision-audio decision.
+  const copyOrdinals = { audio: 0, subtitle: 0, attachment: 0 };
+  const copySpecifiers = { audio: 'a', subtitle: 's', attachment: 't' };
+  for (const stream of mapped.slice(1)) {
+    // mappedStreams already rejects unsupported types and omits alternate video.
+    args.push(`-c:${copySpecifiers[stream.codec_type]}:${copyOrdinals[stream.codec_type]++}`, 'copy');
+  }
   mapped.forEach((stream, index) => {
     args.push(`-map_metadata:s:${index}`, `0:s:${stream.index}`);
     const creationTime = streamCreationTimeAlias(stream);

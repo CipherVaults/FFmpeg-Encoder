@@ -1,0 +1,220 @@
+{
+  "checkpoint": 47,
+  "sourceIntegration": {
+    "atUtc": "2026-11-18T11:45:52.481287+00:00",
+    "baseLocalCommit": "3e35024c256afde95532153c10bac9823821dc2a",
+    "files": [
+      {
+        "path": "src/media.cjs",
+        "bytes": 24918,
+        "sha256": "79f040a7e136b2b06235090675360996e12d7ff815ea776eb800fd479ce9a7e7",
+        "priorSha256": "4aaf7227e43b8ba10134fa1e34d15be7362eb5195d001eb1cfc629b66c677e66"
+      },
+      {
+        "path": "src/encode-operation.cjs",
+        "bytes": 57371,
+        "sha256": "aae37c5479897a13f9ee66b1ea1a8a9a6a46d2c57f76d36bdebdedf21569a5de",
+        "priorSha256": "ebd24233c03a78f2c67f6ce3787694eb9d73b0b3ee8da2f6758ae42deeb20a3a"
+      },
+      {
+        "path": "tests/media.test.cjs",
+        "bytes": 18485,
+        "sha256": "d5e1344f1b55d3fd8062a18e5ccd1315ff2938f9ab96cd73d62c752943d67630",
+        "priorSha256": "0c993b07d5e03228c961de8bfdf74425db97199837a55749b9ebe7d28795896b"
+      },
+      {
+        "path": "tests/encode-operation.test.cjs",
+        "bytes": 47449,
+        "sha256": "332ef2ace6048481d4006e2f87078772ba67ffcc89fb95f1c20f4f52cc2d0ffa",
+        "priorSha256": "0fb42537759719203bab0077637975863cf890c33cf90df02f9cb63dbed2d50f"
+      }
+    ],
+    "changedPaths": [
+      "src/encode-operation.cjs",
+      "src/media.cjs",
+      "tests/encode-operation.test.cjs",
+      "tests/media.test.cjs"
+    ],
+    "checkedPriorFiles": 655,
+    "otherPriorFilesUnchanged": true,
+    "integrationFriction": "Initial post-copy assertion compared Git-format diff to reviewer plain unified diff and stopped after exact four copies. Inspected actual four-path state; only headers/order/function context differed. Rebuilt original ordered difflib patch from Git HEAD and exact final bytes and matched all 6031 bytes before completing this receipt. No source replay or extra changes."
+  },
+  "leadTests": {
+    "completedAtUtc": "2026-11-18T11:47:09.034492+00:00",
+    "checkedSourceFiles": 655,
+    "sourceBytesUnchanged": true,
+    "overlappingScopesNotSummed": true,
+    "runs": [
+      {
+        "path": "checkpoint047-lead-tests/focused.json",
+        "bytes": 4008,
+        "sha256": "d2458a4d3920dec628fdbbd3451bc7c7a9f7f1f8c0f4ba1caec5b73a46f5081b",
+        "summary": {
+          "tests": 118,
+          "suites": 0,
+          "pass": 118,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      },
+      {
+        "path": "checkpoint047-lead-tests/protection.json",
+        "bytes": 4320,
+        "sha256": "489f11d59e8778c4bc632633979614c93980d280e7e7cd9a205cfb34b9a20dab",
+        "summary": {
+          "tests": 229,
+          "suites": 0,
+          "pass": 229,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 0
+      },
+      {
+        "path": "checkpoint047-lead-tests/linux-broad.json",
+        "bytes": 12932,
+        "sha256": "6f44f23985067aa6d19937bc19b7b204a310338bb9dbe6b56bfcd90ded8c3332",
+        "summary": {
+          "tests": 337,
+          "suites": 0,
+          "pass": 327,
+          "fail": 10,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 1
+      },
+      {
+        "path": "checkpoint047-lead-tests/preservation.json",
+        "bytes": 5140,
+        "sha256": "6c3fbaff18e8c1cac001201d3b99b5163e6449fc8c02b7e0b7530a38870d953f",
+        "summary": {
+          "tests": 139,
+          "suites": 0,
+          "pass": 118,
+          "fail": 21,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "exitCode": 1
+      }
+    ]
+  },
+  "references": [
+    {
+      "artifact": "checkpoint047-integration.json",
+      "bytes": 3048,
+      "sha256": "c168ec647c9df317e2ec81afce827fcb5436145419a67630ded84637a85d61d8"
+    },
+    {
+      "artifact": "checkpoint047-lead-test-results.json",
+      "bytes": 76902,
+      "sha256": "be293f2e9fa69470060a8ccd7e08f64497bbc46eff797aa0ad2998b912a93253"
+    },
+    {
+      "artifact": "codec-options-sourcework-evidence/INDEPENDENT_REVIEW-v1.json",
+      "bytes": 9978,
+      "sha256": "2e062ed2f7f29b28054b7d0b30d1e479cc119c0396e25a409d9c56e7773b8f15"
+    },
+    {
+      "artifact": "codec-options-sourcework-evidence/proposal-v1.patch",
+      "bytes": 6031,
+      "sha256": "f2f40c09a47d2849de68a566bbd93143e1ada555634ee39c7bad84c6e5b97852"
+    },
+    {
+      "artifact": "codec-options-qualification-map/PLAN.md",
+      "bytes": 7241,
+      "sha256": "a6f0850f5cc5da53eb89c73d4e0e890e9fe11538a3dae1118f0c4fbb2fe3dd68"
+    },
+    {
+      "artifact": "current-resize-native046-preparation/INDEPENDENT_NATIVE_AUDIT.json",
+      "bytes": 137769,
+      "sha256": "bface6ef0b353440d993a8dfef66aab98c5f5b853023768db0651b49febe415c"
+    },
+    {
+      "artifact": "current-resize-native046-preparation/LEAD_RECONCILIATION.json",
+      "bytes": 4570,
+      "sha256": "e0e6514941fa1641d9d212f89f4c95446f44360f64fb0a1f7eb1e89525827804"
+    },
+    {
+      "artifact": "checkpoint047-lead-tests/focused.json",
+      "bytes": 4008,
+      "sha256": "d2458a4d3920dec628fdbbd3451bc7c7a9f7f1f8c0f4ba1caec5b73a46f5081b"
+    },
+    {
+      "artifact": "checkpoint047-lead-tests/protection.json",
+      "bytes": 4320,
+      "sha256": "489f11d59e8778c4bc632633979614c93980d280e7e7cd9a205cfb34b9a20dab"
+    },
+    {
+      "artifact": "checkpoint047-lead-tests/linux-broad.json",
+      "bytes": 12932,
+      "sha256": "6f44f23985067aa6d19937bc19b7b204a310338bb9dbe6b56bfcd90ded8c3332"
+    },
+    {
+      "artifact": "checkpoint047-lead-tests/preservation.json",
+      "bytes": 5140,
+      "sha256": "6c3fbaff18e8c1cac001201d3b99b5163e6449fc8c02b7e0b7530a38870d953f"
+    },
+    {
+      "artifact": "checkpoint047-cutoff.json",
+      "bytes": 664,
+      "sha256": "6c86a6dd045533cbf8ab1b20941f4095c64b55b12b115d807fba66e1ee1d72b1"
+    },
+    {
+      "artifact": "codec-options-sourcework-evidence/INTEGRATED_REVIEW.json",
+      "bytes": 24777,
+      "sha256": "342916b769e17e49117b6fc25ea36956dfa3dab2cf332f1d529ecca1f46b28c4"
+    },
+    {
+      "artifact": "notion-checkpoint-046-verification.json",
+      "bytes": 117543,
+      "sha256": "a4a2681cda4be9b6aac3599d3cfb54cbc48fdbc8dff6cd3d40876f0e0074969b"
+    },
+    {
+      "artifact": "checkpoint-3e35024-publication-receipt.json",
+      "bytes": 176501,
+      "sha256": "2c9b5cd8350eb19a1604c334be02d4f89e7a714f9607907adb09bd095a6b9bb0"
+    }
+  ],
+  "noChangedSourceMediaRun": true,
+  "expectedScope": {
+    "paths": 9,
+    "files": 658,
+    "commits": 47
+  },
+  "cutoffUtc": "2026-11-18T11:49:06.537835+00:00",
+  "failureClassification": {
+    "directFullCopyProducerRefusals": 8,
+    "reportClosedExpectationMismatch": 1,
+    "resizeProducerRefusal": 1,
+    "candidateCleanupStillRuns": true,
+    "reportOpeningUnreached": true,
+    "downstreamCoverageBlocked": true,
+    "preservationFailures": 21,
+    "preservationExactNameMultisetParity": true
+  },
+  "portable": {
+    "file": "native-resize-audits-portable.json",
+    "bytes": 193159,
+    "sha256": "6dd35e9b5021efa861e76a2e9533ddf28caeed20b717b6bd98ed5a264a15077b",
+    "completeSelectedObjects": 6,
+    "prefixTransforms": 122,
+    "rawRestoration": false
+  },
+  "limits": [
+    "The independent integrated source reviewer performed read-only receipt/source/hash reconciliation; it reran no tests and performed no runtime/media/native actions.",
+    "337 baseline versus337 integrated is same Linux scope, not package-wide suite; scopes overlap and are not summed.",
+    "Eight direct Full-copy producer refusals plus one reportClosed expectation mismatch induced by earlier producer refusal, and one resize producer refusal. Broader downstream composition/cleanup/currentness tests are blocked, not independently green.",
+    "Both changed producers remain stale against old exact report capsules. No repointing old evidence/pins; fresh affected qualification required.",
+    "Prior046 native proof belongs to pre-change source. Windows execution and empirical warning removal remain unverified."
+  ],
+  "nextAtCutoff": "Minimal one-target ordinary047 H265 helper handoff has arrived and is unreviewed/unbound; no gate or execution. Fresh resize/Full-copy calibration pending."
+}

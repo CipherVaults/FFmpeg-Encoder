@@ -280,7 +280,12 @@ function buildEncodeOperation(options) {
       }
       // Explicit same-rate/layout constraints cannot authorize a downmix or a
       // resample. Decoder/encoder/output evidence must establish these values.
-      const audioArgs = [`-c:a:${audioOrdinal}`, audio.codec, `-ar:a:${audioOrdinal}`, String(audio.sampleRate),
+      const codecOption = `-c:a:${audioOrdinal}`;
+      const codecIndex = args.indexOf(codecOption);
+      if (codecIndex < 0 || args[codecIndex + 1] !== 'copy' || args.lastIndexOf(codecOption) !== codecIndex)
+        fail('ENCODE_CODEC_PLAN_MISMATCH', 'Precision audio requires exactly one mapped copy decision to replace.');
+      args[codecIndex + 1] = audio.codec;
+      const audioArgs = [`-ar:a:${audioOrdinal}`, String(audio.sampleRate),
         `-channel_layout:a:${audioOrdinal}`, audio.channelLayout, `-enc_time_base:a:${audioOrdinal}`, `1/${audio.sampleRate}`];
       if (audio.mode === 'precision-aac') audioArgs.push(`-profile:a:${audioOrdinal}`, 'aac_low', `-b:a:${audioOrdinal}`, `${audio.bitrateKbps}k`);
       else audioArgs.push(`-sample_fmt:a:${audioOrdinal}`, audio.sourceSampleFormat.startsWith('s16') ? 's16' : 's32');

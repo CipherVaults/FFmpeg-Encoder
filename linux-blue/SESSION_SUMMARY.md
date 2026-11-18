@@ -1,3 +1,194 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Verify native resize and remove overlapping codec decisions without bypassing qualification
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role | Attribution | Work and evidence limit |
+|---|---|---|
+| Engineering lead / native operator | GPT-6 Astra / Ultra, recorded assignment rather than backend attestation | Completed 046 preservation, issued the bounded native gate, observed the original UI journey, reconciled saved evidence, integrated four reviewed files and ran final source tests. |
+| Source author / independent source reviewers | Model and effort not independently established here | Built and reviewed one codec decision per mapped stream. Pure comparisons and source tests are not runtime qualification. The final integrated reviewer reconciled retained runs without rerunning them. |
+| Native auditor / records | Model and effort not independently established here | Audited saved events, separately acquired named evidence attachments and checked identities. Visual observations remain attributed to CUA; no independent media re-decode or screenshot inspection. |
+
+**Record basis:** A bounded native resize publication and reveal passed on immutable 046. Only afterward, four codec source/test files were changed. Focused and protection checks pass, but the current explicit Linux selection is **327/337, ten failures**, because exact producer qualification no longer matches. The native success is not evidence that the changed builder works or that its warnings disappeared.
+
+## 🕒 Time
+
+**Stage / type / focus:** Combined native evidence and a narrow shared command-builder repair, with explicit qualification consequences.
+
+**Date and clock:** November 18, 2026; Cairo UTC+02:00. Fixed cutoff **13:49:06.537835 Cairo / 11:49:06.537835 UTC**. All following timestamps are UTC; active work time was not measured.
+
+- Native preparation review: **11:11:37.526074**; exact 046 binding review: **11:18:36.665380**. The proposal was authored at 11:09:01.744131, but its completed preparation/review belongs to this later record, not a rewrite of the 046 cutoff.
+- 046 GitHub verification: **11:25:30.522348**. Final publication receipt: **11:27:29.145006**. Manual native gate: **11:27:29.633453**.
+- One native journey: **11:27:57.502114–11:37:31.914108**, normal exit 0. Actual encode events: **11:36:46.468–11:36:51.244**, followed by validation/publication and one reveal.
+- Independent native audit: **11:40:30.622579**. Lead reconciliation/source release: **11:45:22.255288**. Exact four-file integration: **11:45:52.481287**.
+- Final integrated tests completed **11:47:09.034492**; independent reconciliation **11:48:36.418697**; fixed cutoff **2026-11-18T11:49:06.537835+00:00**.
+
+**End / stopping point:** Native work and source tests are terminal. The new source has not run media. A minimal ordinary one-target helper has arrived unreviewed and unbound; no later review, gate or execution is included.
+
+**Reason for this summary:** Preserve what actually worked in the app, the limited warning repair, and the resulting source-qualification gap together, without hiding failures or attributing old media evidence to new bytes.
+
+## 🎯 Session Goal
+
+Complete the current E3 range/720p/Precision FLAC journey through the existing UI, then address the evidenced duplicate codec-option construction using the existing builder rather than another framework. Keep runtime topology warnings, media fidelity, source tests and platform qualification distinct. Follow the owner's priority of knowing what works and repairing current reliability without resurrecting historical features merely to make old tests green.
+
+Existing development/testing authorization covers this controlled work. Fresh source, preservation, review and desktop checks are engineering prerequisites, not a new request for routine user permission.
+
+## 🛠️ Actions Taken
+
+### 1. Preserve 046 and bind the existing native helper
+
+046 is local `3e35024c256afde95532153c10bac9823821dc2a`, tree `e7f3d490299482d0879e47e1a85182f01699796d`, **655 files / 46 commits**. Its complete **2,023,180-byte** Session, SHA `03cb88e36aee64a9eb914a9347ecc6b4f1902d0f55137324e28e2337053f901f`, is retained as this entry's exact suffix.
+
+Full Notion source/history/native records were restored. The final mirror receipt is **117,543 bytes / `a4a2681cda4be9b6aac3599d3cfb54cbc48fdbc8dff6cd3d40876f0e0074969b`**. GitHub verified remote `521a936f0e938adb1e965fa5ca6c0fa5a21963cf`, sole parent `d84223d4ad20b0e088a0b58072ae6e1dd8af18da`: five exact paths, **1,037 total / 1,032 unchanged / two modified / three new / zero deleted**. The final publication receipt is **176,501 bytes / `2c9b5cd8350eb19a1604c334be02d4f89e7a714f9607907adb09bd095a6b9bb0`**. A local verifier filename correction preceded remote mutation; a rejected local action-receipt patch was corrected without replaying the successful remote action.
+
+The bound helper changes only three exact source constants and matching manifest metadata. Its review does not relabel the unbound seven-test suite as a new bound execution. The actual manual gate followed complete preservation, accepted service evidence and fresh desktop checks; it is **77,737 bytes / `3d71fcf6bfe5f139c53b44711d2777eb8e70f682497086913c21e6cb98f39b23`**. No new generator or executed authorizer is implied. Runtime pair/dependencies, original calibration, reused eight-second fixture, known profile directory and 36 allowlisted prior events remained bound.
+
+### 2. Exercise the actual native range editor, publication and reveal
+
+Using the existing profile without reset/clone/redirect, one mouse-only picker per role registered the owned input/output folders. One Prepare correctly showed unsupported **Full / Keep source / copied audio**, with Start disabled but the file editor accessible. The operator selected **0.613–2.721 seconds / 720p / Precision FLAC**, retaining **H.265 CPU slow / quality 25**. Exact values were visibly read back before one Apply made the item Ready.
+
+The resolution popup was readable on this opening and 720p was selected by mouse. This is not evidence that the earlier intermittent corruption is fixed. Terminal and time-field Sky typing failures reported no usable field/provider; supported bound text entry followed fresh focus observations, without hidden IPC or DevTools. A shifted-layout click opened selected-file details, not an encode. A fresh observed Start then ran once. Waiting/in-progress and Completed/Succeeded were seen, but no running numeric percentage was sampled. One Show in folder selected the exact output in Thunar; no playback, cancellation, recovery or additional target occurred.
+
+The output is **586,866 bytes**, SHA `b97c0175d4eae74c8983aa65a49b33633128a07ba474a83fcb6312a4a5b49fb4`. Its first full hash was established by post-close inventory and subsequently rechecked, not at publication. Actual target duration is **4.776 seconds**, batch elapsed **8.27 seconds**, and whole manual journey **574.412 seconds**. These different intervals are not benchmarks.
+
+The saved census records **42 spawned / 42 closed / zero live / maximum one owned child**, plus normal supervisor wait and exit 0. This is bounded owned-resource evidence, not whole-OS or cross-namespace PID absence. Eight storage points are not a continuous quota, guaranteed exit or mechanically enforced action ceiling. Profile verification covers directory identity and named old events, not every opaque profile byte.
+
+### 3. Audit the native result with explicit additive acquisition
+
+The original supervisor retained 25 events, including four truncated contexts: two FILE_INSPECTED events, OPERATION_EVIDENCE_COLLECTED and JOB_DISPOSITION. The saved-only auditor separately acquired exactly the event-referenced operation receipt, its three sealed spools and the target's named 499-byte stderr attachment. Those acquisitions were authorized individually and occurred at audit time, not in the original supervisor capture. They are not a general profile search or complete diagnostics for all 42 children.
+
+The full named receipt supports **63 selected/output video frames** and **101,184 selected/output audio samples**, with equal streaming s16le-interleaved PCM hashes and **404,736 bytes** on each side. Complete-source receipt counts are **240 frames / 384,000 samples**. The selected audio follows the requested common origin; video frame boundaries differ honestly from the requested decimal endpoints. Selected spools and runtime receipts were checked, but no raw PCM pair, complete output probe/frame streams, new independent decode or media-player comparison was retained/performed for this native audit. A recovered collector receipt does not reconstruct every truncated event field.
+
+The exact target stderr was read and hashed during the audit: duplicate video/audio codec-option warnings and x265 CPU-mask/thread-pool diagnostics remained despite exit 0. Electron's separate 624-byte stderr includes D-Bus/SSL diagnostics. No warning is declared harmless merely because publication succeeded.
+
+Final audit: **137,769 bytes / `bface6ef0b353440d993a8dfef66aab98c5f5b853023768db0651b49febe415c`**. Lead reconciliation: **4,570 bytes / `e0e6514941fa1641d9d212f89f4c95446f44360f64fb0a1f7eb1e89525827804`**. Before source changes the lead rehashed **101 identity occurrences / 100 unique rows** and all **655 Git/current files**. The accepted result remains one known-fixture native journey on immutable 046, not a general, Windows or new-source qualification.
+
+### 4. Separate the two warning mechanisms and make the narrow source repair
+
+Read-only triage found an actionable duplicate-option pattern: global `-c copy`, then primary video selection, then precision-audio selection. The final specific option wins, but overlapping decisions produce warnings. This is separate from x265's failed CPU-mask/no-pool diagnostics. The retained static x265/libnuma build and missing topology exposure provide a plausible mechanism, not an exact child trace or proven sole cause. One serial process does not mean one codec thread; no pool does not prove one total thread. No thread/pool flags, mounts, security settings, runtime builds or diagnostic suppression were changed.
+
+The isolated proposal, then reviewed integration, changes exactly:
+
+- `src/media.cjs`: removes the overlapping global copy option from encode construction; assigns each mapped audio/subtitle/attachment output a single explicit copy decision, using actual mapped output ordinals.
+- `src/encode-operation.cjs`: precision audio replaces its unique matching copy value instead of appending another codec option. Missing, duplicate or non-copy decisions reject with `ENCODE_CODEC_PLAN_MISMATCH`.
+- `tests/media.test.cjs` and `tests/encode-operation.test.cjs`: test explicit mappings, interleaving, multiple audio streams and copy/FLAC/AAC choices, while retaining unsupported-data/attached-picture refusals.
+
+Map order, alternate-video omission, metadata/dispositions, no-overwrite protection and precision sample/filter constraints remain. Pure remux's sole global copy option is unchanged. Default runtime, UI, audio acceptance policy, tolerances and thread settings are untouched. Shared Windows command construction is affected but not natively tested.
+
+Retained author controls include **38 passes / two failures** against original production with the new assertions; the unsupported-data control already passed. Fixture corrections removed an undefined profile field and used same-realm inert comparisons rather than treating cross-realm prototype differences as production failures. Independent source review reproduced **118/118** focused tests and eight finite builder comparisons preserving noncodec argv, effective last-match codec choices, expected output and semantic fingerprints. These are source/model comparisons, not FFmpeg execution or proof that emitted warnings are gone.
+
+After native source release, the lead copied exactly the reviewed four paths. The first post-copy comparison incorrectly compared Git-format and plain unified diffs and stopped after the copies. The actual state was inspected; rebuilding the original ordered unified patch matched all **6,031 bytes / `f2f40c09a47d2849de68a566bbd93143e1ada555634ee39c7bad84c6e5b97852`**. No second source mutation, extra change or silent review replacement occurred.
+
+### 5. Reconcile the actual red tests and qualification boundaries
+
+All **655 checked source files** remained byte-identical during the final lead tests. Scopes overlap and are not summed; this is not package-wide `npm test`.
+
+| Selection | Actual result | Meaning |
+|---|---:|---|
+| Immutable baseline explicit Linux | 337/337 | Retained same-selection comparison before the codec change. |
+| Integrated focused | 118/118 | Finite builder, operation and related checks pass. |
+| Integrated protection | 229/229 | Selected protection checks pass. |
+| Integrated explicit Linux | 327/337, ten failures | Current producer-bound tests are genuinely blocked. No skips/cancellations hide them. |
+| Separate historical preservation selection | 118/139, 21 failures | Same nonempty failure-name multiset as retained baseline/proposal; distinct from the current Linux selection. |
+
+The ten current failures are **eight direct Full-copy producer refusals**, **one reportClosed counter assertion induced by earlier producer refusal**, and **one resize producer refusal**. In the reportClosed case the factory closes its candidate, but never opens the report; zero closures of an unopened report is not a descriptor leak. The first nonregular-report control does not reach report opening. Later mutation/truncation/hardlink/replacement/alias and paired cleanup-error controls are unreached, not green. The resize test's later historical-capsule subcheck is likewise blocked by its first current-producer refusal.
+
+The separate 21 preservation failures reach an existing source/fixture refusal before requested decision/qualification assertions, sometimes as expected-code mismatches. Matching names do not establish those downstream branches. Independent final review reconciled saved receipts, exact source and both red sets; it did not rerun tests. Its identity is **24,777 bytes / `342916b769e17e49117b6fc25ea36956dfa3dab2cf332f1d529ecca1f46b28c4`**.
+
+Availability is intentionally recorded precisely:
+
+- **Ordinary candidate 9.0.2 has no producer-report capsule.** It can technically construct on the changed builder, but its previous measured media evidence does not qualify these bytes. Restrict new-source use to reviewed testing; do not invent an automatic code refusal.
+- **Resize's 97-path and Full-copy's 26-path capsules genuinely become stale.** Both changed production files are dependencies. Their old report pins remain unchanged; source equality or fresh evidence cannot be simulated by updating old digests.
+- **Keep720 was already stale.** Historical AV1 controls retain their own separate pins and limits; no automatic legacy restoration is claimed.
+- Selecting baseline 7.1.5 on the changed checkout still uses changed source. Only the complete preserved pre-change checkpoint is an unchanged source rollback.
+
+### 6. Preserve the coherent milestone without rewriting history
+
+The prepared scope is **nine paths / 658 files / 47 commits**: four existing source/test paths plus Current, Session, execution, receipts and one portable, with three new files. Commit and external preservation of 047 remain pending in this dated record.
+
+The **193,159-byte** portable, SHA `6dd35e9b5021efa861e76a2e9533ddf28caeed20b717b6bd98ed5a264a15077b`, contains six complete selected parsed native objects: outcome, outer completion, output inventory, event capture, final audit and lead reconciliation. **122 declared leading-root substitutions** are the only object transformations. Original pending-audit wording is retained beside later final evidence, not overwritten. Raw event payloads, attachment files, gates, profile/media/PCM/runtime payloads are excluded; selected audit findings and identity metadata do not constitute full raw-session reconstruction or execution authority.
+
+The earlier 2,023,180-byte Session body and original structure-correction receipt stay unchanged. No later ordinary-helper review is imported into the fixed cutoff.
+
+## 🧠 Key Insights
+
+- One visible native success can close a specific UI/service gap without qualifying future shared-source changes.
+- Duplicate codec choices are a concrete builder problem; topology/thread-pool diagnostics require separate evidence. Removing one should not hide the other.
+- A semantic fingerprint staying equal does not preserve exact producer identity. Conversely, a route without such a capsule does not automatically fail closed.
+- A reportClosed assertion can fail because the report was never opened. Diagnose the reached path rather than infer a resource leak from a test title.
+- Reusing a runtime is not reverting source. Honest availability and a complete rollback checkpoint matter more than cosmetically green tests.
+
+## 📌 Decisions Made
+
+1. **Confirmed:** Accept the finite native resize/reveal on immutable 046. **Decider:** Lead following independent audit. **Basis:** Visible journey plus publication, named collector evidence, identities and terminal owned census; no broader promotion.
+2. **Confirmed:** Integrate only the reviewed four-file codec cleanup. **Decider:** Lead following source review. **Basis:** Deterministic overlapping options and preserved finite mapping semantics; no runtime/thread/default change.
+3. **Confirmed:** Retain all ten current and 21 separate historical failures with their actual reachability. **Decider:** Lead and independent reviewer. **Basis:** Exact producer guards and saved failure blocks; no skip, tolerance change or blind report repin.
+4. **Deferred:** New-builder media acceptance and family restoration. **Decider:** Lead's qualification sequence. **Basis:** Fresh ordinary proof first, then required resize evidence/consumer refresh; Full-copy restoration only when needed. The arrived ordinary helper is unreviewed/unbound at cutoff.
+
+## ⚠️ Difficulties / Friction
+
+Typing/focus transport failed in the terminal and range field; fresh observations and supported bound text entry allowed the exact values without hidden UI calls. A layout shift caused a harmless details expansion before the sole Start. Neither establishes a root cause for earlier picker/popup issues.
+
+The native event limit required explicitly authorized additive receipt/spool/stderr acquisition, with its later provenance kept visible. Integration verification initially compared different diff formats after copying, so state reconciliation was necessary before accepting the exact patch. Finally, expected producer invalidation produces real route unavailability and blocked tests that cannot honestly be described as a green release.
+
+## 🔧 Adjustments Made
+
+- **Shifted from:** Unsupported initial Full/Keep/copied-audio preparation. **To:** An explicit per-file range/720p/Precision FLAC request through one Apply. **Because:** This is the admitted current resize family. **Consequence:** Ready and one real publication, without default mutation or compatibility fallback.
+- **Shifted from:** Truncated event context as the only retained collector view. **To:** Exact named receipt, three spools and target stderr acquired during audit. **Because:** Those files substantiate the bounded result. **Consequence:** Stronger saved-evidence support, still no independent raw PCM comparison or complete diagnostics.
+- **Shifted from:** Global copy followed by overriding codec options. **To:** One explicit decision per mapped stream, replaced once for precision audio. **Because:** The old form generated deterministic overlap warnings. **Consequence:** Source/model parity passes, but exact family qualification becomes stale and fresh media is required.
+- **Shifted from:** Incompatible diff-format comparison. **To:** Reconstructing the review's original ordered patch from actual before/after bytes. **Because:** Headers/order/context differed while the four copies matched. **Consequence:** Exact 6,031-byte review identity recovered without replaying mutation.
+
+## ❌ Mistakes / Risks Noted
+
+**Diff-verification mistake.** **What happened:** A post-copy assertion compared unlike patch representations. **Actual impact:** Integration receipt paused with four reviewed files already copied. **Potential impact:** Replaying or expanding edits could have obscured the real state. **Correction/current status:** Inspected state and exact patch reconstruction passed; no extra changes. **Failure Intelligence:** Preserve partial-state facts and compare like representations before retrying mutation.
+
+**Qualification regression risk.** **What happened:** Two shared production hashes changed; ten current tests now fail at producer boundaries. **Actual impact:** Resize/Full-copy are unavailable on current bytes; downstream controls are untested here. Ordinary remains constructible, not newly qualified. **Potential impact:** A blind repin or inherited native success could falsely authorize unmeasured behavior. **Correction/current status:** Guards and original reports remain unchanged; fresh affected qualification is next. **Failure Intelligence:** Treat failed source-bound admission as availability work, not a reason to weaken evidence.
+
+**Evidence overstatement risk.** **What could happen:** Audit-time files could be called original native capture, exit 0 could imply clean stderr, or a single readable popup could be called fixed. **Actual impact:** None is claimed in this record; warnings/truncation and timing provenance remain. **Potential impact:** False claims about fidelity, performance or UI reliability. **Correction/current status:** Attribute CUA, runtime receipts and later audit separately. **Failure Intelligence:** Preserve what was measured, when and by which path.
+
+## 📍 Current Position
+
+**As of:** 11:49:06.537835 UTC / 13:49:06.537835 Cairo, with later record save not extending the evidence cutoff.
+
+**Before:** 046 preserved the current resize-service proof; codec overlap remained, and the newly reviewed native journey was pending.
+
+**After:** Native resize/reveal on 046 is audited. Four codec files are integrated and source-tested; no media has executed on that changed builder. Current Linux tests are 327/337, not 337/337. Separate preservation tests retain their 21 failures.
+
+**Current standing:** Source repair is ready for coherent preservation, not broad runtime promotion. Ordinary requires representative new-source testing; resize/Full-copy require fresh exact-source evidence before their consumers can admit. No default/audio-policy/thread or Windows acceptance change occurred.
+
+**Live owner / continuation anchor:** Lead owns staging, coherent commit, Notion restore and GitHub verification. Summary writer owns only this prepend until release. The next technical anchor is the reviewed qualification map and the unreviewed/unbound minimal ordinary helper, not a new GUI campaign or a policy exception.
+
+## 🔜 Next Steps
+
+1. Preserve 047 through Git → full Notion source/history/readable records → verified GitHub delta before further media. Keep old checkpoints and failed evidence intact.
+2. Review/bind the smallest ordinary H.265 Full/Keep/copied-audio target on the retained fixture. Capture actual argv/full stderr, validate same-reader presentation and test specifically whether duplicate codec warnings disappeared. Do not suppress remaining x265 diagnostics.
+3. Reuse the required E3 calibration matrix, independently audit it, then refresh the existing resize consumer with the fresh full producer closure/report and retain mismatch negatives. Preserve that source checkpoint before the reduced service proof.
+4. Restore Full-copy only when required, with its genuine fresh calibration; do not automatically rebuild obsolete routes. Keep Windows and general-input limits visible.
+
+**Do not reopen / repeat:** Do not relabel native 046 as changed-source proof, repeat its GUI journey merely for bookkeeping, treat historical fixture failures as mandatory feature reconstruction, repin old reports, suppress warnings or infer a threading optimization from manual timing.
+
+**Continuation boundary:** No new gate or runtime is granted by this summary. Existing owner authorization remains; exact current engineering prerequisites still apply. Later helper review/results belong to a later session.
+
+## ❓ Open Questions
+
+- **Does the changed builder remove overlap warnings while preserving actual media? Needed from:** One reviewed, source-bound ordinary runtime proof. **Blocks:** New-source media acceptance and empirical warning-removal claim.
+- **When can resize/Full-copy be used again on these bytes? Needed from:** Fresh required calibration, independent audit and reviewed consumer refresh. **Blocks:** Those exact producer-gated routes, not ordinary's technical construction.
+- **What precisely causes x265's topology/pool diagnostics and what is its cost? Needed from:** Exact build/source and same-child environment measurements if prioritized. **Blocks:** A causal or performance repair claim; does not justify speculative flags or security changes.
+- **Are intermittent popup behavior and Windows/shared-argv behavior resolved? Needed from:** Appropriate repeat/platform evidence. **Blocks:** Broad UI/Windows qualification, not preservation of this bounded result.
+
+## 🧾 Session Outcome
+
+Delivered one audited native range/720p/FLAC publication and reveal on 046, a narrow four-file codec-option cleanup, exact red-test reconciliation and a qualification-aware next sequence. No new-builder media, clean-stderr, Windows, general fidelity, performance or default-promotion claim is made.
+
+Project records: [execution and evidence](2026-11-18_Native_Resize_and_Codec_Options.md), [curated receipts](2026-11-18_Native_Resize_and_Codec_Options_Receipts.json), and [six-object native archive](native-resize-audits-portable.json). The archive is curated, not a complete raw-session backup. Full original 046 history remains byte-exact below. 047 commit/Notion/GitHub completion is pending at this record's cutoff and must be verified separately, not inferred from preparation.
+
+## 🔍 Confidence Level
+
+**High** in the bounded native outcome on 046, exact source delta and reached-path explanation of the ten current failures. **Limited** in changed-builder runtime behavior, general input/platform support and the sole cause or performance cost of x265 diagnostics.
+
+**Why:** Original identities, named evidence, independent native/source review, stable integrated tests and explicit failure reconciliation agree. **Not higher because:** Visuals are CUA-only; full output/PCM streams and all child stderr were not retained for the native audit; no media ran after the source change; blocked downstream controls are not passes, and required fresh family evidence remains absent.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Verify the current resize service through publication, collision and fresh-owner recovery
 
 ## 🤖 Models, Effort, Roles and Provenance

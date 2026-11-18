@@ -539,3 +539,40 @@ test('copied audio cannot validate with the precision-AAC packet clock', () => {
   assert.equal(result.valid, false);
   assert.deepEqual(result.errors, ['The packet clock belongs only to precision AAC, never FLAC or copied audio.']);
 });
+
+function codecChoices(args) {
+  return args.flatMap((arg,index)=>arg === '-c' || /^-c:/.test(arg) ? [[arg,args[index+1]]] : []);
+}
+test('mapped ordinary streams receive one final codec decision without global overlap',()=>{
+  const probe=source();
+  probe.streams.push({...clone(probe.streams[1]),index:7},
+    {index:8,codec_type:'subtitle',codec_name:'subrip',tags:{language:'eng'},disposition:{}},
+    {index:9,codec_type:'attachment',codec_name:'ttf',tags:{filename:'font.ttf',mimetype:'application/x-truetype-font'},disposition:{}},
+    {...clone(probe.streams[0]),index:10});
+  // Probe order need not be stream-index order; the existing map order stays authoritative.
+  probe.streams=[probe.streams[2],probe.streams[0],...probe.streams.slice(3),probe.streams[1]];
+  for(const profileId of ['h264-cpu','h265-cpu','av1-cpu']){
+    const profile=PROFILES.find(p=>p.id===profileId);
+    const args=buildEncodeArgs({input:'/owned/source.mov',output:'/owned/result.mkv',settings:{profileId,preset:profile.defaultPreset,quality:profile.quality.default},probe});
+    assert.deepEqual(codecChoices(args),[['-c:v:0',profile.encoder],['-c:a:0','copy'],['-c:s:0','copy'],['-c:t:0','copy'],['-c:a:1','copy']]);
+    assert.deepEqual(args.flatMap((v,i)=>v==='-map'?[args[i+1]]:[]),['0:0','0:7','0:8','0:9','0:2']);
+    assert.equal(option(args,'-map_metadata'),'0');assert.equal(option(args,'-map_chapters'),'0');assert.ok(args.includes('-n'));
+  }
+});
+test('Full, trim and resize choose copy FLAC or AAC once per audio ordinal',()=>{
+  for(const mode of ['copy','precision-flac','precision-aac']){
+    const probe=source();for(const a of probe.streams.filter(s=>s.codec_type==='audio')){Object.assign(a,{codec_name:'pcm_s16le',sample_fmt:'s16'});delete a.profile;}
+    probe.streams.push({...clone(probe.streams[1]),index:7});probe.format.nb_streams=3;
+    for(const change of [{},...(mode==='copy'?[]:[{range:{startUs:1000000,endUs:2000000}}]),{resolution:'720'}]){
+      const plan=build(probe,{audioPolicy:mode,...change});
+      assert.deepEqual(codecChoices(plan.args),[['-c:v:0','libx265'],['-c:a:0',mode==='copy'?'copy':mode==='precision-flac'?'flac':'aac'],['-c:a:1',mode==='copy'?'copy':mode==='precision-flac'?'flac':'aac']]);
+      assert.equal(plan.expectedOutput.audio.streams.length,2);
+    }
+  }
+});
+test('unsupported data and attached pictures remain refused, not silently codec-selected',()=>{
+  for(const stream of [{index:9,codec_type:'data',codec_name:'bin_data'},{index:9,codec_type:'video',codec_name:'mjpeg',disposition:{attached_pic:1}}]){
+    const probe=source();probe.streams.push(stream);
+    assert.throws(()=>buildEncodeArgs({input:'/owned/input.mov',output:'/owned/output.mkv',settings,probe}),{code:'UNSUPPORTED_STREAM'});
+  }
+});

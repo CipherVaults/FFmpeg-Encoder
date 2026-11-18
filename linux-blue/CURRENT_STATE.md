@@ -1,18 +1,13 @@
-# Current state: current resize service proof
+# Current state: native resize evidence and codec-option cleanup
 
-Cutoff: 2026-11-18 11:09:40.839788 UTC. Checkpoint 046 is an evidence-only preparation, not yet a committed or externally verified checkpoint in this record.
+Cutoff: 2026-11-18 11:49:06.537835 UTC. Checkpoint 047 is prepared, not yet committed or externally preserved in this record.
 
-## Reliability map
-- Current E3 1080p-to-720p service now has one audited four-case run on immutable 045: finite publication, collision rejection at actual Start, active cancellation and publication after a new runtime/service owner. All 99 owned children closed. This advances beyond 045's calibration/parser/VM tests; it is not a native resize result.
-- Prior ordinary CPU H.264 short and 150-second, short H.265/AV1 and finite same-reader audio evidence remain supported. Native ordinary H.265 cancellation, explicit new session, recovery and reveal remain separate prior evidence, not resize lifecycle equivalence.
-- Resize recovery required old-owner drain/close and new runtime/service acquisition. Same-service restart, Windows, GPU, general player/quality/performance and default promotion remain unqualified.
+## What works, and on which source
+- Immutable 046 has one audited native H.265 range/720p/Precision FLAC publication and reveal: 63 frames / 101,184 samples supported by the named receipt/spools and streaming hash receipts; 42 owned children closed. This remains evidence of 046, not the changed codec builder.
+- Four reviewed codec source/test files are now integrated. They remove overlapping global codec selection and replace each precision-audio decision exactly once. No media ran after this change, so warning removal, media equivalence or performance improvement is not yet demonstrated.
+- Ordinary candidate has no producer capsule and can technically construct, but new-source media qualification remains pending. Resize and Full-copy are genuinely unavailable because their exact producer closures became stale. Do not repin historical reports. Keep720 was already stale. Selecting the baseline runtime on changed source is not a rollback to unchanged source.
 
-## Evidence and limits
-Two publications contain 63 frames / 101,184 samples and 15 / 24,000 respectively. Full output probes and helper-established output hashes were retained. PCM equality is streaming collector hash evidence, not retained raw PCM independently re-decoded by the auditor. Warning-bearing success and cancellation diagnostics remain visible; no harmlessness or source-corruption inference is made.
+## Tests and next action
+Focused 118/118 and protection 229/229 pass. Explicit Linux selection fell from baseline 337/337 to 327/337 with ten failures. Independent review confirms eight direct Full-copy producer refusals, one reportClosed expectation mismatch before report opening, and one resize producer refusal. Candidate cleanup still runs; blocked downstream tests are not green. Separate historical preservation selection remains 118/139 with the same 21 failures and is not the default Linux selection. Scopes overlap.
 
-No app, test, runtime, UI, default or audio-policy changes. Inherited 70/70 focused, 229/229 protection and 337/337 explicit Linux tests were not rerun; scopes overlap.
-
-## Next action
-Preserve this five-path evidence checkpoint. Native helper reuse/adaptation and read-only warning triage are assigned outside only at the cutoff; no later proposal, review, gate or runtime outcome belongs here.
-
-See [execution](2026-11-18_Current_Resize_Service_Proof.md), [receipts](2026-11-18_Current_Resize_Service_Proof_Receipts.json) and the full parsed [portable report](current-resize-service-proof-portable.json).
+Preserve the coherent checkpoint, then review and run the smallest fresh ordinary one-target proof. Fresh resize calibration and consumer refresh must precede resize service restoration; Full-copy restoration requires its own evidence when needed. No default, audio policy, runtime or thread-setting change. Windows and general media acceptance remain unqualified.

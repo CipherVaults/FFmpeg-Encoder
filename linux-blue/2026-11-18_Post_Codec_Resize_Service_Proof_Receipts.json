@@ -1,0 +1,167 @@
+{
+  "checkpoint": 49,
+  "cutoffUtc": "2026-11-18T12:52:34.850606+00:00",
+  "sourceCommit": "2a7a4b1139243d4c7b22a65bd9d528c08c2cb2c6",
+  "expectedScope": {
+    "paths": 5,
+    "files": 665,
+    "commits": 49,
+    "publicationPending": true,
+    "noncollidingDatedFilenamesPreserve046": true
+  },
+  "results": [
+    {
+      "name": "retained-short-service-publication",
+      "frames": 63,
+      "samples": 101184,
+      "output": {
+        "bytes": 586866,
+        "sha256": "708352b76956ead323f80af660ce152845bd5fb3ff600c7daec55100d1c77091",
+        "probeSha256": "7c2f27b226ebfdfb7078905703820687b00d33271dac6bebc51b04d0d9a71c03"
+      }
+    },
+    {
+      "name": "fresh-instance-recovery-publication",
+      "frames": 15,
+      "samples": 24000,
+      "output": {
+        "bytes": 135290,
+        "sha256": "bb1b6f110035e89e55b4dedd2c7f1d3ea2d16b924345123ac2c51fa966c70970",
+        "probeSha256": "3b0d94d8160d60d32327f68da7bdae362469573a18fae6c539b0ae64d05122c4"
+      }
+    }
+  ],
+  "census": {
+    "spawned": 99,
+    "closed": 99,
+    "live": 0,
+    "maximum": 1,
+    "encodes": 27
+  },
+  "targets": 3,
+  "warnings": {
+    "nonempty": 11,
+    "empty": 88,
+    "successfulTargetStderrBytes": 168,
+    "cancelTargetStderrBytes": 901,
+    "cancelSignal": "SIGKILL",
+    "noCauseOrHarmlessnessInference": true
+  },
+  "evidenceStrength": {
+    "outputs": "Original helper full hashes and complete probes retained; audit rehashed saved bytes without new probe/decode.",
+    "pcm": "Original streaming selected s16le byte-count/hash receipts; no retained raw PCM pair or independent re-decode.",
+    "cancellation": "Observed live frame3, positive seconds0.213333 and endedfalse, zero-byte unbound stage retained, no final output/grant; closed-admission retry refusal before NEW owner.",
+    "diagnostics": "99 child JSON diagnostic objects equal report rows; complete untruncated inline captures, not a separate event-journal audit."
+  },
+  "reconciliation": {
+    "identityOccurrences": 268,
+    "uniqueFiles": 258,
+    "sourceFiles": 662
+  },
+  "inheritedTests": {
+    "focused": "72/72",
+    "protection": "229/229",
+    "explicitLinux": "330/339; nine failures",
+    "sourceOnly": "16 passes / 3 skips",
+    "rerun": false,
+    "overlap": true
+  },
+  "portable": {
+    "file": "post-codec-resize-service-proof-portable.json",
+    "bytes": 266005,
+    "sha256": "6811ff70c19f8f7d8b29c3230f88fecce6b057cb4c5387f7303868e7414079f8",
+    "prefixTransformations": 237,
+    "rawRestoration": false
+  },
+  "references": [
+    {
+      "artifact": "checkpoint049-cutoff.json",
+      "bytes": 1445,
+      "sha256": "896d11af31281871d303bb28b4439f96cf7bfdd170ed0f4f8d52f7e957cdb838"
+    },
+    {
+      "artifact": "notion-checkpoint-048-verification.json",
+      "bytes": 120877,
+      "sha256": "e2565da13376b904e3535cc174d1b24642fa559fc67170a17b7c96beec1abafd"
+    },
+    {
+      "artifact": "checkpoint-2a7a4b1-publication-receipt.json",
+      "bytes": 179781,
+      "sha256": "7a21e2c84fe28ef1b3ccccc84341e50fec3f8a60984a259cdf5db20480145385"
+    },
+    {
+      "artifact": "github-checkpoint048-verification.json",
+      "bytes": 4559,
+      "sha256": "82b103d06dae6f1c6aa7429dc58a82cf3cfa8f80278d6f7240ef3407b49d4e68"
+    },
+    {
+      "artifact": "resize-service048-independent-review/INDEPENDENT_REVIEW-v1.json",
+      "bytes": 6892,
+      "sha256": "23eebed8808506356a2e93752adcda1daa3d1d9268939b3cfdc73bea6cd76558"
+    },
+    {
+      "artifact": "resize-service048-preparation/HANDOFF-v1.json",
+      "bytes": 3420,
+      "sha256": "78fb1c1416cc9227805e1ef23e77fe105e7e9c1af1fdcbb40b975c3501b69180"
+    },
+    {
+      "artifact": "resize-service048-preparation/PLAN.md",
+      "bytes": 6333,
+      "sha256": "7c11cf6d17147a51dfbde6667e2f1f40bf0171cbcf7b33ab071a81d1222cbcd4"
+    },
+    {
+      "artifact": "resize-service048-preparation/APPROVED_CHECKPOINT.json",
+      "bytes": 84293,
+      "sha256": "392d9d5a1a8541572385b77e40b0b967590455b5b8db95b85251af022a2f27f3"
+    },
+    {
+      "artifact": "resize-service048-preparation/OUTER_ATTEMPT_STARTED.json",
+      "bytes": 93,
+      "sha256": "e127c4dfce0152fa597f63ea1981049b0dc84cb58176eff231bae445e282eeec"
+    },
+    {
+      "artifact": "resize-service048-preparation/ATTEMPT_STARTED.json",
+      "bytes": 85,
+      "sha256": "d25b01180a15cd9c0544e23520b27e38192edb4229643dc93db44f6f571d103f"
+    },
+    {
+      "artifact": "resize-service048-preparation/COMPLETION.json",
+      "bytes": 516,
+      "sha256": "f90e705987813d469524dbada87ff734f1d2ce8fe64c58a670b0be0542588762"
+    },
+    {
+      "artifact": "resize-service048-preparation/OUTER_COMPLETION.json",
+      "bytes": 376,
+      "sha256": "6e07ae9785ec85ef966f96d1951e286fd0173861adcd0e068a59d23c04feebf2"
+    },
+    {
+      "artifact": "resize-service048-preparation/owned-proof-cWbfW1/report.json",
+      "bytes": 233833,
+      "sha256": "73d7d20a21ded2772269306893c1cd0e182d72d43b4f47988c21a8e80fd91fff"
+    },
+    {
+      "artifact": "resize-service048-preparation/INDEPENDENT_SAVED_OUTPUT_AUDIT.json",
+      "bytes": 207384,
+      "sha256": "3d070c184b92dc45d5a0979a604c20c840086c934306ddc846765ab671c584d0"
+    },
+    {
+      "artifact": "resize-service048-preparation/LEAD_RECONCILIATION.json",
+      "bytes": 84515,
+      "sha256": "9237c0d0efe55a8e04a97dbe8ffa12b9c1a4f8af9204fd1ff4c9043567605f6b"
+    },
+    {
+      "artifact": "checkpoint049-path-correction.json",
+      "bytes": 1097,
+      "sha256": "3925d36523ae83f74db04d7cd8fdbe9b364726e5cfabf8b279e6d3c33da4ec0c"
+    }
+  ],
+  "limits": [
+    "The independent saved auditor performed no new runtime/probe/decode/native action. Actual campaign evidence is distinct from that saved-only audit.",
+    "Reused8-second synthetic source, not a fresh holdout.",
+    "No native/UI/Windows/general-media/performance/catalog/default/audio-policy qualification.",
+    "Inherited nine Full-copy producer-prerequisite failures not rerun or resolved.",
+    "No continuous storage quota or guaranteed arbitrary owner termination.",
+    "Earlier truncated tool response left no gate/attempt/log/root when checked; no earlier media execution claimed."
+  ],
+  "nextAtCutoff": "Read-only distinct-role assessment and fresh reuse recipe complete. Narrow outside helper adaptation assigned, no completed helper/review/gate/runtime result at this fixed cutoff. Existing old26 capsule still stale, nine inherited test failures unchanged."
+}

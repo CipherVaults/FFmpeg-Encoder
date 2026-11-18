@@ -1,3 +1,162 @@
+# 📘 Session: November 18, 2026 — FFmpeg Encoder — Verify the refreshed resize service through cancellation and recovery
+
+## 🤖 Models, Effort, Roles and Provenance
+
+| Role | Attribution | Work and evidence limit |
+|---|---|---|
+| Engineering lead / executor | GPT-6 Astra / Ultra, recorded assignment rather than backend attestation | Verified full 048 preservation, reconciled uncertain tool delivery, issued the fresh gate, executed one reduced service campaign and accepted the independent saved-output audit. |
+| Helper author / independent reviewer | Model and effort not independently established here | Adapted the existing helper to the new report and repeated seven overlapping file/pure/injected checks. These are not media runs. |
+| Auditor / records | Model and effort not independently established here | Reconciled saved source, runtime, output, diagnostic and ownership evidence. No independent probe/decode, native UI or new source implementation. |
+
+**Record basis:** The refreshed resize consumer now has a bounded real-service result on immutable 048: two successful publications, an actual post-preview Start collision, active cancellation and recovery with a NEW runtime/service owner. This is evidence-only work, not a native/default promotion or resolution of Full-copy's nine inherited prerequisite failures.
+
+## 🕒 Time
+
+**Stage / type / focus:** Reduced real-service qualification after the fresh report/consumer binding; evidence preservation only.
+
+**Date and clock:** November 18, 2026; Cairo UTC+02:00. Fixed cutoff **14:52:34.850606 Cairo / 12:52:34.850606 UTC**. All chronology below is UTC; active engineering effort was not measured.
+
+- Helper handoff **12:27:24.069327** preceded the 048 cutoff. Independent conditional review **12:29:19.944468** followed that cutoff and belongs here, not retroactively in 048.
+- 048 preservation receipt created **12:36:50.185905**; GitHub verified **12:42:30.379656**; full publication receipt finalized **12:43:42.492745**.
+- Fresh engineering gate **12:49:18.955330**. Actual outer **12:49:25.600–12:49:58.628**, exit 0, **33,028.480897 ms monotonic**. The inner completion reports **29,923 ms**; these are different scopes, neither a benchmark.
+- Saved audit **12:51:11.836892**; lead reconciliation, evidence-only freeze release and fixed cutoff **12:52:34.850606**.
+
+**End / stopping point:** The single campaign and both owners are terminal; four cases passed within the reviewed scope. No app/test source change or native run followed. At cutoff a distinct Full-copy role assessment and fresh reuse recipe were complete; narrow helper adaptation was assigned but unfinished, with no review/gate/runtime result.
+
+**Reason for this summary:** Close the gap between source-reviewed resize admission and actual service lifecycle without repeating the long calibration, concealing warning-bearing cancellation or importing future Full-copy work.
+
+## 🎯 Session Goal
+
+Exercise the current source-bound resize consumer through one short publication, a real Start-time collision, cancellation while encoding and recovery only after closing the old owner. Reuse the reviewed helper and retained input, keep all original evidence intact, and preserve Git → Notion → GitHub before and after the bounded work. Existing owner permission covers controlled testing; exact engineering gates are freshness controls, not a new request for routine approval.
+
+## 🛠️ Actions Taken
+
+### 1. Complete 048 preservation and verify the reduced helper
+
+048 is local `2a7a4b1139243d4c7b22a65bd9d528c08c2cb2c6`, tree `ee1c948975280bb3589ecc6d6fca33f8dbc3f346`, **662 files / 48 commits**. The previous **2,077,784-byte** cumulative Session, SHA `d2e026960878947aa02386ab7b9f162cb6eb819db5573727ef0ab19911b9c9b2`, remains an exact suffix.
+
+Full source/history archives and readable native records were restored in Notion before publication. The final Notion receipt is **120,877 bytes / `e2565da13376b904e3535cc174d1b24642fa559fc67170a17b7c96beec1abafd`**. GitHub independently mapped all eight changed paths to remote `14934f3427fead7405d59df41f786cf85cb54bfc`, sole parent `3d9b216051cf25ccde5cf333f0c57f144959938d`. Final publication receipt is **179,781 bytes / `7a21e2c84fe28ef1b3ccccc84341e50fec3f8a60984a259cdf5db20480145385`**. The later saved-output audit checked these recorded identities/semantics, not a new remote query.
+
+Independent helper review accepted the narrow adaptation: current consumer digest, new original report path/SHA and three exact size/offset/one-extra-byte literals. Outer launcher, persistence and runtime manifest were byte-identical to the prior successful V2. No consumed gate, attempt or output was copied. Real bounded reads/pure validation of the 125,797-byte report, short/long/same-size-content negatives and existing late-rejection/pending-owner controls passed. The seven author tests were independently repeated, not fourteen distinct tests or a live factory run; four syntax checks also passed.
+
+The helper retained the four-case/three-target plan on the previously audited eight-second H264/PCM fixture. Post-preview collision still means Prepare, exclusive sentinel creation, then actual Start. Cancellation requires a live positive-frame, non-ended target and recovery requires closing the old owner. The 180-child serial ceiling, 27 GiB/2 GiB point checks, 30-minute abort request and shared 60-second cleanup observation do not guarantee exit, hard disk quota or arbitrary owner settlement. A late rejection can produce additive evidence after a frozen report; failed receipt persistence can leave narrower diagnostics.
+
+### 2. Reconcile uncertain delivery before issuing the actual gate
+
+A prior tool response was truncated/indeterminate. Bounded inspection found no gate, attempt markers, logs, completion or owned-proof root. The outer launcher requires the gate before media work. The lead retained that observation and then issued a fresh gate; no earlier media start or replay of a consumed attempt is claimed. This is not retrospective certainty about tool delivery.
+
+The actual gate is **84,293 bytes / `392d9d5a1a8541572385b77e40b0b967590455b5b8db95b85251af022a2f27f3`**. It binds immutable 048, final preservation, exact reviewed helper/plan, current raw calibration and producer closure, runtime pair/dependencies and retained fixture. The lead then executed one unchanged `run-once.cjs`; its owned command session reached terminal exit 0. No source change or second media attempt was needed.
+
+### 3. Observe publication, Start collision, cancellation and new-owner recovery
+
+The final raw report is **233,833 bytes / `73d7d20a21ded2772269306893c1cd0e182d72d43b4f47988c21a8e80fd91fff`**, with exact report/completion readback recorded. The four passed cases are distinct:
+
+| Case | Actual result |
+|---|---|
+| Short 720p / precision-FLAC publication | Range 0.613–2.721 seconds; 63 selected/output frames and 101,184 samples; output 586,866 bytes. |
+| Collision introduced after preview | An exclusive 68-byte sentinel appeared after Prepare; actual Start skipped with “Output appeared since preview.” Sentinel bytes/hash stayed intact and no new target started. |
+| Active cancellation | Target 55 was live at frame 3, 0.213333 seconds, `ended=false`. Cancellation closed it with `SIGKILL`, no final output or output grant. The unbound zero-byte incomplete stage was retained, not deleted. |
+| NEW-owner recovery | After old admission closed/drained and its owner closed, a fresh runtime/service published range 1.013–1.513 seconds: 15 frames, 24,000 samples, output 135,290 bytes. |
+
+The original owner refuses retry with `SHUTTING_DOWN`; the proof does not establish same-service restart. Old-owner closure precedes the new ready snapshot. Both closures report admission closed, zero live children and empty error arrays; final pending operations are empty and no owner is retained. This establishes the observed lifecycle, not guaranteed cleanup for every future failure.
+
+Both successful cases include whole-source 240-frame / 384,000-sample evidence. Original execution established the full output hashes after verification/probe: short `708352b76956ead323f80af660ce152845bd5fb3ff600c7daec55100d1c77091`; recovery `bb1b6f110035e89e55b4dedd2c7f1d3ea2d16b924345123ac2c51fa966c70970`. Complete raw output probes were retained and later rehashed. These are not encode-time hashes or deterministic-container claims.
+
+Selected s16le source/output streaming PCM receipts agree: **404,736 bytes** for the short case and **96,000 bytes** for recovery. The audit reconciled these receipts and selected sealed spools, not a retained raw PCM pair or an independent decode. The timing validator's bounded clock agreement is not pixel identity; telemetry alone is not audio-content or publication proof. The real reviewed factory/private selection/service execution, rather than reconstructing authority from JSON, supports the admission claim.
+
+### 4. Audit closure and warnings without broadening the result
+
+Actual census is **99 spawned / 99 closed / zero live / maximum one**. The report's 27 progress-bearing invocations include 24 startup capability children and three semantic targets, not 27 user encodes. Collector accounting has seven invocations; the broader service accounting has ten. Those scopes must not be conflated.
+
+All 99 child JSON diagnostic objects match report rows; inline captures are complete and untruncated, **88 empty / 11 nonempty**. The two successful targets retain **168-byte** CPU-mask/WPP/lookahead warnings without duplicate-codec warnings. The canceled target retains **901 bytes**, including corrupt-packet, invalid-NAL, partial-file and immediate-exit diagnostics. Cancellation context alone does not establish damaged source, harmlessness or a new root cause. `SIGKILL` is not graceful termination. These saved child/checkpoint records are not a separate event-journal audit.
+
+The independent saved audit is **207,384 bytes / `3d070c184b92dc45d5a0979a604c20c840086c934306ddc846765ab671c584d0`**. Lead reconciliation is **84,515 bytes / `9237c0d0efe55a8e04a97dbe8ffa12b9c1a4f8af9204fd1ff4c9043567605f6b`**, rechecking **268 identity occurrences / 258 unique files** and all 662 current source identities. The original declared inventory contains 234 artifacts / 8,032,859 bytes, with the final report recorded separately afterward. All observed source/runtime identities match. No auditor or documentation writer ran a new probe/decode.
+
+Acceptance is limited to these four service cases and this retained input. No fresh holdout, visual-quality/player test, native UI, Windows, whole-OS process absence, generalized performance or default/audio-policy change is established. The successful target intervals are 4.255 and 1.332 seconds inside the 33.028-second campaign, not comparative performance benchmarks.
+
+### 5. Preserve a distinct evidence checkpoint without changing source
+
+049 is intended as five evidence/PBS paths and three new records, **665 files / 49 commits**, not an app/test patch. The inherited source tests remain 72/72 focused, 229/229 protection and 330/339 explicit Linux with nine Full-copy prerequisite failures; source-only remains 16 passes/three raw-input skips. They were not rerun here, are overlapping selections and are not package-wide or Windows qualification.
+
+The current resize service now has a bounded real result beyond 048's parser/injected coverage. Full-copy's stale closure is separate. Its distinct-role assessment and reuse recipe were complete at cutoff; narrow adaptation was merely assigned, so no later helper/review/calibration result belongs here. A later naming-only correction caught proposed paths already occupied by 046. Unique Post_Codec filenames preserve those historical records and the three-new-file scope; the original cutoff record retains its initial proposal with an additive path-correction receipt. This changes no evidence or cutoff.
+
+## 🧠 Key Insights
+
+- The refreshed consumer works through this real service composition, not merely its parser. Calibration, service and native evidence still have different source attribution and scope.
+- A sentinel introduced after preview and rejected by actual Start proves a boundary that prepare-only collision does not.
+- Cancellation recovery succeeds by closing old ownership and creating new ownership. It does not rehabilitate the canceled service.
+- Complete output probes/hashes and streaming PCM receipts are different retention levels. Warnings and a retained incomplete stage remain part of a passing bounded lifecycle.
+
+## 📌 Decisions Made
+
+1. **Confirmed:** Run one reduced proof after full 048 preservation. **Decider:** Lead under existing owner authorization. **Basis:** Exact helper review and fresh identity/storage/gate checks; no need to repeat long calibration.
+2. **Confirmed:** Accept the four finite service cases and preserve evidence only. **Decider:** Lead after independent audit. **Basis:** Actual outputs, Start collision, positive-frame cancellation, fresh-owner success and settled owned children, with diagnostics retained.
+3. **Deferred:** Full-copy restoration, new native proof and general runtime/default promotion. **Decider:** Lead's staged continuation. **Basis:** Different stale evidence and unexecuted future preparation; current success cannot substitute for them.
+
+## ⚠️ Difficulties / Friction
+
+Indeterminate tool delivery required bounded state reconciliation before a fresh gate, rather than assuming failure and repeating an action. Cancellation produced warning-bearing `SIGKILL` termination and a retained zero-byte stage; reporting “clean cancellation” would misstate it. Diagnostic rows, progress invocations, targets and collector/service accounting use different units. None of these distinctions required source edits or retrying successful media.
+
+## 🔧 Adjustments Made
+
+- **Shifted from:** Source-only confidence in the newly bound consumer. **To:** One reduced actual-service proof. **Because:** Secure admission tests do not establish real composition. **Consequence:** Four measured cases, without rerunning the successful long calibration.
+- **Shifted from:** An uncertain prior tool response. **To:** Inspecting exact gate/attempt/result state before one fresh release. **Because:** Blind retry could duplicate work. **Consequence:** Prior delivery remains uncertain, while only the observed new gated run is claimed.
+- **Shifted from:** Canceled owner admission. **To:** Closed old owner and NEW runtime/service. **Because:** Cancellation intentionally prevents same-service reuse. **Consequence:** Recovery succeeds without weakening that rule.
+
+## ❌ Mistakes / Risks Noted
+
+**Delivery ambiguity. What happened:** A truncated tool response did not establish what executed. **Actual impact:** Additional bounded inspection; no earlier attempt artifacts were found. **Potential impact:** Duplicate media work if an uncertain action were replayed. **Correction/status:** Retained reconciliation and exact fresh gate; only one observed run. **Failure Intelligence:** Determine external state before retry, and do not convert missing local evidence into absolute delivery certainty.
+
+**Qualification overreach. What could happen:** Treating this result as same-service/native recovery, clean diagnostics or all-green tests. **Actual impact:** None claimed. **Potential impact:** Using unsupported composition or bypassing remaining Full-copy guards. **Correction/status:** Explicit new-owner, warning, source and inherited-test boundaries. **Failure Intelligence:** Name the actual owner, source and evidence retention behind each success.
+
+**Retention overclaim. What could happen:** Calling streaming PCM hashes an independent byte comparison or zero-byte stage a deleted artifact. **Actual impact:** Both distinctions are preserved. **Potential impact:** False fidelity/cleanup assurance. **Correction/status:** Original probes/full hashes, streaming receipts and retained stage are recorded separately. **Failure Intelligence:** Match claims to retained artifacts, not intended cleanup or a previous proof's stronger capture.
+
+## 📍 Current Position
+
+**As of:** 12:52:34.850606 UTC / 14:52:34.850606 Cairo. Later documentation save does not extend the evidence cutoff.
+
+**Before:** The fresh resize binding had source checks on preserved 048 but no actual service result.
+
+**After:** One audited four-case service campaign passed on that exact source. Two owners closed and all 99 owned children settled, with warning-bearing cancellation and stage retention disclosed.
+
+**Current standing:** Bounded resize service support is evidenced for this reused fixture. Native/current general-media qualification is not inferred. Full-copy retains nine prerequisite failures; source, defaults, runtime/thread and ordinary audio policy are unchanged.
+
+**Live owner / continuation anchor:** Lead owns the five-path evidence commit and full Git → Notion → GitHub preservation. Summary writer owns only this prepend until release. Full-copy reuse preparation is the next separate scope; do not erase or relabel prior reports.
+
+## 🔜 Next Steps
+
+1. Commit the coherent evidence-only checkpoint, independently restore full source/history/readable records in Notion, then verify exact GitHub publication.
+2. Review the narrow Full-copy helper adaptation when actually ready, and decide its new exact-source calibration gate from the distinct-role recipe. At cutoff it is assigned only, not completed or authorized to run.
+3. Use later evidence to address Full-copy's stale closure without blindly repinning it. Keep current native, platform and performance claims tied to their actual source and tests.
+
+**Do not reopen / repeat:** Do not repeat these successful short cases or long calibration merely for recordkeeping, suppress warnings, delete retained evidence, bypass canceled-owner admission or change unrelated audio/default/thread policy.
+
+**Continuation boundary:** Existing owner permission remains. Each future operation still needs its relevant fresh engineering checks; this archival entry is not a new gate. Later preparation/review/runtime facts belong to the next milestone.
+
+## ❓ Open Questions
+
+- **Can the distinct Full-copy path be restored on current producers? Needed from:** Reviewed new preparation and fresh qualifying evidence if pursued. **Blocks:** Its nine prerequisite failures and availability, not accepted resize proof.
+- **What do residual x265 and interrupted-input diagnostics mean beyond this run? Needed from:** Targeted same-build/input investigation when justified. **Blocks:** Root-cause, harmlessness and performance claims; no cause is inferred here.
+- **How broadly does current resize behavior generalize? Needed from:** Relevant fresh inputs, platforms or native testing. **Blocks:** Broader support claims, not these four service cases.
+
+## 🧾 Session Outcome
+
+Delivered bounded actual-service proof for the refreshed resize consumer: two publications, a post-preview Start collision, active cancellation and recovery through a fresh owner. No production/test source change, new native qualification or Full-copy repair is included.
+
+Detailed records: [execution](2026-11-18_Post_Codec_Resize_Service_Proof.md), [receipt index](2026-11-18_Post_Codec_Resize_Service_Proof_Receipts.json) and [portable report](post-codec-resize-service-proof-portable.json).
+
+The portable contains the complete parsed report with 237 declared leading-root substitutions plus audit/reconciliation identity and limit metadata, not their full inventories. Original raw bytes remain local. Media, raw PCM, runtime binaries, state, external diagnostic files and gates are excluded; inline report diagnostics remain part of the parsed report. No inverse path mapping, raw restoration or execution authority is supplied.
+
+The exact prior 2,077,784-byte body and original correction receipt remain unchanged. 049 commit and external preservation are pending at this cutoff and must be verified separately.
+
+## 🔍 Confidence Level
+
+**High** in the four finite cases, exact source attribution, diagnostic/closure census and saved artifact consistency. **Limited** in generalization, native/Windows behavior and warning causality.
+
+**Why:** Reviewed actual service execution, terminal receipts, independently reconciled outputs and source/runtime identities agree. **Not higher because:** PCM is streaming receipt evidence without a raw pair or fresh audit decode; one retained synthetic fixture is not a fresh holdout; owned closure is not whole-OS proof; existing Full-copy failures and unexecuted future work remain.
+
+---
+
 # 📘 Session: November 18, 2026 — FFmpeg Encoder — Measure the codec cleanup and bind fresh resize evidence
 
 ## 🤖 Models, Effort, Roles and Provenance

@@ -1,0 +1,26 @@
+name: Proposed Ubuntu toolchain inventory (not installed)
+on:
+  push:
+    branches: [blue/linux-development]
+permissions:
+  contents: read
+jobs:
+  inventory:
+    if: ${{ github.repository == 'CipherVaults/FFmpeg-Encoder-Blue-Linux' && github.ref == 'refs/heads/blue/linux-development' && github.event_name == 'push' && github.event.before == 'UNBOUND_SUCCESSOR' && github.event.after == github.sha && github.event.forced == false && github.event.created == false && github.event.deleted == false && github.run_attempt == 1 }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - name: Proposed inventory only
+        run: timeout --signal=TERM --kill-after=5s 270s python3 scripts/ubuntu-toolchain-inventory.py --inventory-reviewed-once
+      - name: Retain sanitized report only
+        if: ${{ always() && hashFiles('scripts/inventory-report.json') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ubuntu-inventory-${{ github.run_id }}-${{ github.run_attempt }}
+          path: scripts/inventory-report.json
+          if-no-files-found: error
+          retention-days: 3
+          compression-level: 0

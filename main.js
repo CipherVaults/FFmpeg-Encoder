@@ -21,6 +21,7 @@ protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { standard: t
 // Explicit opt-in only. No renderer/persisted setting can select this route.
 const linuxProductCandidate = process.platform === 'linux' && app.commandLine.hasSwitch('linux-product-candidate');
 const linuxOrdinaryCandidate = process.platform === 'linux' && app.commandLine.hasSwitch('linux-ordinary-cpu-candidate');
+const linuxRemuxCandidate = process.platform === 'linux' && app.commandLine.hasSwitch('linux-remux-candidate');
 let window;
 let service;
 let ipcRegistration;
@@ -148,10 +149,11 @@ function startupFailed(error) {
 }
 
 try {
-  if (linuxProductCandidate && linuxOrdinaryCandidate) throw new Error('Choose exactly one Linux candidate route.');
+  if ([linuxProductCandidate, linuxOrdinaryCandidate, linuxRemuxCandidate].filter(Boolean).length > 1) throw new Error('Choose exactly one Linux candidate route.');
   root = app.getAppPath();
   stateDir = app.commandLine.hasSwitch('user-data-dir')
     ? app.commandLine.getSwitchValue('user-data-dir')
+    : linuxRemuxCandidate ? path.join(app.getPath('appData'), 'FFmpegEncoder-Linux-Remux-Candidate')
     : linuxOrdinaryCandidate ? path.join(app.getPath('appData'), 'FFmpegEncoder-Linux-Ordinary-Candidate')
     : linuxProductCandidate ? path.join(app.getPath('appData'), 'FFmpegEncoder-Linux-Candidate')
     : path.join(app.isPackaged ? path.dirname(app.getPath('exe')) : root, app.isPackaged ? 'data' : 'data-next-0.7');
@@ -174,7 +176,13 @@ try {
 
 async function createWindow() {
   let nativeFilesFailure = null;
-  if (linuxOrdinaryCandidate) {
+  if (linuxRemuxCandidate) {
+    const { createLinuxRemuxShell } = require('./linux-blue/product-linux-remux-shell.cjs');
+    service = await createLinuxRemuxShell({
+      runtimeRoot: path.join(app.isPackaged ? process.resourcesPath : root, 'runtime'), stateDir,
+      outputAccess: new OutputAccess({ openPath: file => shell.openPath(file), showItemInFolder: file => shell.showItemInFolder(file) }),
+    });
+  } else if (linuxOrdinaryCandidate) {
     const { createLinuxOrdinaryShell } = require('./linux-blue/product-linux-ordinary-shell.cjs');
     service = await createLinuxOrdinaryShell({
       runtimeRoot: path.join(app.isPackaged ? process.resourcesPath : root, 'runtime'), stateDir,

@@ -1,0 +1,201 @@
+{
+  "schema": 1,
+  "status": "accepted-saved-private-remux-lifecycle-only",
+  "sourceCommit": "dd1f227b32011800da3652af0d2f517fe66ea136",
+  "sourceFilesVerified": 862,
+  "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+  "runtimeToolsVerified": 2,
+  "dependencyFilesVerified": 7,
+  "sourceFixtureAndOwnedCopyUnchanged": true,
+  "helpersNodeAndReleaseReceiptPinsVerified": true,
+  "sourceClean": true,
+  "receipts": {
+    "BINDING.json": {
+      "bytes": 144036,
+      "sha256": "9706ef2bb740714a7fbdcea0df59b74d84c2d91c8f1fb4dad7bf9e4b75cbfc6c"
+    },
+    "LEAD_RELEASE.json": {
+      "bytes": 1052,
+      "sha256": "67a87fc7be92ac9dc8129571ac72be9b1f6c861d13796a58df98d93ebbeefcf8"
+    },
+    "RESULT.json": {
+      "bytes": 29335,
+      "sha256": "efae5a535ad652a0f843d03c4912390beea1a022a47182f312c7769ad74b8d22"
+    },
+    "CLOSURE.json": {
+      "bytes": 606,
+      "sha256": "00b33f2ae282a28b0919fa457df968d5ca8b333035df4efc4ffd1c9ee20b6133"
+    },
+    "TERMINAL_RECEIPTS.json": {
+      "bytes": 883,
+      "sha256": "051b7379431d166b8fd8545033700a15b0f26c1019ad737caa2b92b2ba16f368"
+    }
+  },
+  "collectorReceipt": {
+    "bytes": 143866,
+    "sha256": "ce0e5b2b72dec469eb2483464b1c026b7860d1bbfbc181640ec250b99bca6ce5"
+  },
+  "essenceReceipt": {
+    "bytes": 7712,
+    "sha256": "478d4a730ca67bf29e76b3738894add4fcbe3cd9fdda7d59dc58f3917312322e"
+  },
+  "publication": {
+    "output": {
+      "bytes": 5579020,
+      "sha256": "d5a4725744d227366c90a8154fe46c7fd8e986d190e2c5e7b4e127f0f04a0254"
+    },
+    "sourceUnchanged": true,
+    "strictValidationValid": true,
+    "validationWarnings": [],
+    "provenanceChecksumVerified": true,
+    "provenanceOutputId": "c7795c06-6b6c-4489-8a9e-862be65eb9f5",
+    "opaqueOutputAccessId": "b793fae2-ad59-4f67-ba7a-9dc360d406f8",
+    "revealDispatchCount": 1,
+    "revealScope": "Injected shell callback, not native desktop/file manager",
+    "currentPublishedIdentity": {
+      "deviceInodeSizeMtimeMatch": true,
+      "ctimeMatchesPublication": false
+    },
+    "collision": "Existing output skipped during preparation; no second Start or overwrite",
+    "rescan": "Recognized generated output via local provenance; no override or Start"
+  },
+  "mediaEvidence": {
+    "method": "packet-identity-v1",
+    "videoPackets": 240,
+    "audioPackets": 376,
+    "sourceOutputPacketContentMetadataDecoderParametersIdentical": true,
+    "maxPtsDtsDurationError": {
+      "numerator": "0",
+      "denominator": "1"
+    },
+    "videoHeaderSyntax": {
+      "version": 1,
+      "complete": true,
+      "method": "ffmpeg-cbs-h264-v1",
+      "nalUnits": 241,
+      "sliceHeaders": 240,
+      "fillerBytes": 0,
+      "interiorDecoded": false
+    },
+    "videoBoundaryWindows": {
+      "start": {
+        "keyPacketIndex": 0,
+        "frameCount": 1,
+        "sha256": "0e4f549e524c55a5fdb8b96687a1d2a1a2b1478437110cc62a0d45149bed0ffc"
+      },
+      "end": {
+        "keyPacketIndex": 0,
+        "frameCount": 1,
+        "sha256": "0e4f549e524c55a5fdb8b96687a1d2a1a2b1478437110cc62a0d45149bed0ffc"
+      }
+    },
+    "audioPcm": {
+      "bytes": 3072000,
+      "samples": "384000",
+      "sha256": "200ca1c2a6804c139d5d7637caf507b686b30f7dfdf4b5c11ca629855e82a9a4"
+    },
+    "audioFirstPacketPts": {
+      "numerator": "-8",
+      "denominator": "375"
+    },
+    "audioEndPts": {
+      "numerator": "8",
+      "denominator": "1"
+    },
+    "sourceOutputAudioPcmIdentical": true,
+    "nativeSourcePlaybackAndOutputEditListsComplete": true,
+    "collectorArtifactHashesVerified": 19,
+    "collectorInvocations": 12,
+    "collectorSpoolBytes": 902276,
+    "collectorDerivedSpoolCap": 575905792,
+    "collectorItselfGrantsQualification": false,
+    "collectorItselfAuthorizesPublication": false
+  },
+  "cancellation": {
+    "requested": true,
+    "conclusion": "cancelled-not-race-success",
+    "published": false,
+    "outputAccessIssued": false,
+    "temporaryRetained": true,
+    "temporaryIdentity": {
+      "bytes": 5579020,
+      "sha256": "aa76d7533466a8a5baeaed12dfa2b8cde0421d51cb54086db5d4fd6db80b6475"
+    },
+    "retentionReason": "The incomplete output was never identity-bound; the temporary directory was retained.",
+    "copyChildExitCode": 0,
+    "scope": "Cancellation accepted by shared service before validation/publication; copy may already have closed exit0. Not evidence of forcible mid-write termination."
+  },
+  "closure": {
+    "exitCode": 0,
+    "elapsedSeconds": 4.015085036999153,
+    "forcedTermination": false,
+    "errors": [],
+    "closureObserved": true,
+    "children": {
+      "started": 21,
+      "closed": 21,
+      "live": 0,
+      "maxLive": 2
+    },
+    "sampledOnly": true,
+    "observedOwnedBytesAtClosure": 17819099
+  },
+  "diagnostics": {
+    "digestsVerified": 30,
+    "provenanceChecksumsVerified": 3,
+    "successReasons": [
+      "SESSION_STARTED",
+      "PREPARATION_STARTED",
+      "FILE_INSPECTED",
+      "PREPARATION_FINISHED",
+      "REMUX_STARTED",
+      "REMUX_CLOSED",
+      "OPERATION_EVIDENCE_COLLECTED",
+      "OUTPUT_CHECKED",
+      "SOURCE_ASSESSED",
+      "OUTPUT_PUBLISHED",
+      "JOB_DISPOSITION",
+      "BATCH_FINISHED",
+      "OUTPUT_ACTION_DISPATCHED",
+      "PREPARATION_STARTED",
+      "FILE_INSPECTED",
+      "PREPARATION_FINISHED",
+      "PREPARATION_STARTED",
+      "FILE_INSPECTED",
+      "PREPARATION_FINISHED",
+      "SESSION_ENDED"
+    ],
+    "cancelReasons": [
+      "SESSION_STARTED",
+      "PREPARATION_STARTED",
+      "FILE_INSPECTED",
+      "PREPARATION_FINISHED",
+      "REMUX_STARTED",
+      "CANCELLATION_REQUESTED",
+      "JOB_CANCELLED",
+      "JOB_DISPOSITION",
+      "BATCH_FINISHED",
+      "SESSION_ENDED"
+    ],
+    "truncatedContexts": [
+      "FILE_INSPECTED",
+      "OPERATION_EVIDENCE_COLLECTED",
+      "JOB_DISPOSITION",
+      "FILE_INSPECTED",
+      "FILE_INSPECTED",
+      "FILE_INSPECTED",
+      "JOB_CANCELLED",
+      "JOB_DISPOSITION"
+    ]
+  },
+  "limitations": [
+    "Private acquisition under provisional policy only; no shipped product/catalog activation.",
+    "One retained eight-second 1080p H264/AAC MP4 source, MP4 output; no MOV/general-container/arbitrary-media coverage.",
+    "Video interior not decoded; boundary start/end use same key packet0 on this short fixture, not separate end-of-file picture coverage.",
+    "No native desktop reveal or UI acceptance.",
+    "21 total child closes with peak2; collector12 and diagnostic cumulative counters are different scopes, not serial21.",
+    "Supervisor owned-tree ceiling512MiB and27GiB floor are sampled observations, not hard filesystem caps. Collector derived spool cap exceeds outer512MiB; actual spool902276 and observed finaltree17819099 remain below outer bound.",
+    "No extra media probe, decode, runtime execution or retry during saved audit.",
+    "Original080 failure retained unchanged."
+  ]
+}

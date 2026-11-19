@@ -1,0 +1,15 @@
+# Ubuntu portability re-entry records: inert, unactivated draft
+
+These are recovery references only, not an installed workflow, runnable tool deployment, runtime authority or package inputs. The two Python sources retain their exact reviewed bytes under `.py.txt`; the unbound workflow is `.yml.txt`. `INVENTORY_README.md` is the exact original reviewed README. Restore original filenames only in a separately reviewed isolated proposal, never by copying this directory into scripts or .github/workflows. No binding/gate was added here.
+
+## Established source evidence
+`av1-source-acquisition.json` preserves exact authenticated Debian source selection for dav1d1.5.1-1 and SVT-AV1 2.3.0+dfsg-1, official URLs, sizes and hashes. These are data-only acquisitions and read-only archive inspections, not builds or redistribution clearance. The retained historical signed index establishes checksum-chain correspondence, not latest-version status or separate maintainer/upstream signature validation. Initial gpgv absence/exit127 and successful installed-keyring gpg verification remain disclosed. Tarballs, binaries and raw logs are not included here.
+
+## Next bounded Ubuntu stage
+Start with one reviewed Ubuntu24.04 x86-64 runtime recipe and exact toolchain inventory, not a full distro matrix. Rebuild x264/x265/NUMA/SVT-AV1/dav1d from recorded source; preserve x265 multilib8/10-bit behavior and FFmpeg no-network/no-autodetect/no-ffplay. Source acquisition above supersedes the earlier plan's missing-AV1-source step only. Reuse already recorded FFmpeg9.0.2 source and notices; do not relabel Debian binaries as an Ubuntu build.
+
+The draft inventory has15 inert tests and refuses unbound execution. Its exact-version official signed-index correspondence is not installed-file-integrity proof. It excludes transitive dependency closure and cannot by itself make a build ready. Output bounds are post-capture, not streaming memory ceilings. All redirects are refused before second contact. Current toolchain/image identity and authenticated dependencies still require actual Ubuntu observations.
+
+Before any new runtime admission: actual ELF/interpreter/DT_NEEDED/RPATH/recursive-dependency and symbol audit, then six bounded H264/H265/AV1 eight/ten-bit cases. Existing exact Debian runtime qualification does not transfer. Only after source/runtime policy review should distinct1080/1440/Full/UHD numerical paths and one ordinary packaged CPU journey be considered. Keep source/unit proof where bytes remain unchanged. Hosted substituted dialogs are not native picker acceptance; GPU/owner Windows acceptance remains separate. Never disable sandbox to make a run succeed.
+
+Current package shells bind Debian's seven host-library identities; Ubuntu requires a later narrow reviewed baseline resolver, not arbitrary renderer manifests or relaxation. Preserve source archives/applied patches/generated config/recipes/link flags/toolchain and notices before public distribution; this note grants no legal clearance. Actual tested binary retention requires an approved durable destination, not just a successful CI report.

@@ -1,0 +1,81 @@
+{
+  "scope": "Data-only exact AV1 source acquisition and archive inspection",
+  "inReleaseSha256": "0584fba32e13e0ab8285fb16c27adea1ec03a73669c18702821094fd6ca86675",
+  "sourcesIndexSha256": "6002f81f463a2d976d84b34170367cc16da2d60bd0ba9ab9d868d6e1c1a935d9",
+  "sourcesIndexBytes": 10540436,
+  "freshArchiveSignatureVerification": "gpg with installed Debian archive keyring exit0; gpgv absent, initial attempt exit127 retained; no imported key",
+  "statusHash": "29a654e93143f2d793fb23bfad6157b61aa28a202824fe54b28392bffc286b6e",
+  "files": [
+    {
+      "source": "dav1d",
+      "version": "1.5.1-1",
+      "filename": "dav1d_1.5.1-1.dsc",
+      "url": "https://deb.debian.org/debian/pool/main/d/dav1d/dav1d_1.5.1-1.dsc",
+      "bytes": 2290,
+      "sha256": "a418ee8fdc8003feee1ba19391eac250e3ef03106c995c8e25b8a42b56de18cf"
+    },
+    {
+      "source": "dav1d",
+      "version": "1.5.1-1",
+      "filename": "dav1d_1.5.1.orig.tar.xz",
+      "url": "https://deb.debian.org/debian/pool/main/d/dav1d/dav1d_1.5.1.orig.tar.xz",
+      "bytes": 1020760,
+      "sha256": "401813f1f89fa8fd4295805aa5284d9aed9bc7fc1fdbe554af4292f64cbabe21"
+    },
+    {
+      "source": "dav1d",
+      "version": "1.5.1-1",
+      "filename": "dav1d_1.5.1.orig.tar.xz.asc",
+      "url": "https://deb.debian.org/debian/pool/main/d/dav1d/dav1d_1.5.1.orig.tar.xz.asc",
+      "bytes": 195,
+      "sha256": "4cad1d03a19a717562c2c80c1df195b629e43898cd1af19296958847f6212554"
+    },
+    {
+      "source": "dav1d",
+      "version": "1.5.1-1",
+      "filename": "dav1d_1.5.1-1.debian.tar.xz",
+      "url": "https://deb.debian.org/debian/pool/main/d/dav1d/dav1d_1.5.1-1.debian.tar.xz",
+      "bytes": 8468,
+      "sha256": "41f758fda3a2d9860691cae422365bae656060f42c9a5375f7ac4124005f4e7e"
+    },
+    {
+      "source": "svt-av1",
+      "version": "2.3.0+dfsg-1",
+      "filename": "svt-av1_2.3.0+dfsg-1.dsc",
+      "url": "https://deb.debian.org/debian/pool/main/s/svt-av1/svt-av1_2.3.0%2Bdfsg-1.dsc",
+      "bytes": 2093,
+      "sha256": "c113f4882ebc41220cd5cfe676834326e1f7ab8a6132026821c5079ffe751301"
+    },
+    {
+      "source": "svt-av1",
+      "version": "2.3.0+dfsg-1",
+      "filename": "svt-av1_2.3.0+dfsg.orig.tar.xz",
+      "url": "https://deb.debian.org/debian/pool/main/s/svt-av1/svt-av1_2.3.0%2Bdfsg.orig.tar.xz",
+      "bytes": 9017580,
+      "sha256": "815e88cc539c41b8ebd1a6f362f82ab510147635fc6c3edfa35edcfbed302cd8"
+    },
+    {
+      "source": "svt-av1",
+      "version": "2.3.0+dfsg-1",
+      "filename": "svt-av1_2.3.0+dfsg-1.debian.tar.xz",
+      "url": "https://deb.debian.org/debian/pool/main/s/svt-av1/svt-av1_2.3.0%2Bdfsg-1.debian.tar.xz",
+      "bytes": 7424,
+      "sha256": "40054958d7135b2da4de632e7c87b691b2cdf2a6b8e6d3a4e60eab345fdb448a"
+    }
+  ],
+  "totalAcquiredBytes": 10058810,
+  "descriptorReferencesMatch": true,
+  "archiveInspection": {
+    "archives": 4,
+    "links": 0,
+    "extracted": false,
+    "executed": false,
+    "debianPatchFiles": 0,
+    "licensesRetained": "Original archives plus read-only selected COPYING/LICENSE/debian copyright text"
+  },
+  "limits": [
+    "Historical signed index reused, no newest-state assertion.",
+    "No maintainer .dsc or detached dav1d upstream signature validation claimed; archive signed-index checksum chain authenticates these exact bytes.",
+    "No system installation, source execution, build, media, workflow edit or redistribution clearance."
+  ]
+}

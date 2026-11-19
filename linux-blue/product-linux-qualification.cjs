@@ -69,8 +69,8 @@ const SOURCE_PINS = {
     "sha256": "6e68df2eb93ddda8282b0a7cec8d6dbedff00871222a1f58ed7bc7e0a6d0c10f"
   },
   "main.js": {
-    "bytes": 16561,
-    "sha256": "1b3a3968e42fb21a81594771b5bfa35cac60a1af40b05cad12fd77894fd342fb"
+    "bytes": 17239,
+    "sha256": "2a0ad619f83164c11b9610862e0a14535ede238d98a0fe3da0f5c880738a821e"
   },
   "package.json": {
     "bytes": 991,
@@ -523,6 +523,26 @@ const SOURCE_PINS = {
   "linux-blue/evidence-2026-11-19/uhd-matrix-frozen-references.json": {
     "bytes": 4224,
     "sha256": "ca3f2895d10ff045c96a7575c79e1f0adec05c95f31ed33c86a57d7baf5c7c0e"
+  },
+  "linux-blue/product-linux-remux-service.cjs": {
+    "bytes": 12702,
+    "sha256": "faf91fd15fd6ce91c847577c312121cc07bb9313355088906b31aaf3791f2fd9"
+  },
+  "linux-blue/product-linux-remux-shell.cjs": {
+    "bytes": 4810,
+    "sha256": "f30066db5bb6f223797e0a6b3afcd659a0157bca3ff68f54655a73ee4bab18f3"
+  },
+  "linux-blue/product-linux-remux-qualification.cjs": {
+    "bytes": 1915,
+    "sha256": "25b7638dcad0f1d4bdf984359a809bc402da1dbc7ad4f43c4ca59281c03e3460"
+  },
+  "linux-blue/product-linux-remux-qualification.json": {
+    "bytes": 1013,
+    "sha256": "5a5080a0daf74d3c071c0739a32ada9901fb21ba94d8b9e10c1aceea4624b99c"
+  },
+  "linux-blue/evidence-2026-11-19/remux081-lifecycle-audit.json": {
+    "bytes": 6839,
+    "sha256": "ac2cc8d75a41a5fdc923f2816f92fdc8c29f11cc6aea7b6999d5d12238a2dad2"
   }
 };
 const CLOSED_RECORD = {

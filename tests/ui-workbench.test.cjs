@@ -1424,3 +1424,18 @@ test('New batch navigates without erasing completed elapsed; actual Prepare clea
  assert.equal(preparations,1);assert.equal(h.byId('results-panel').hidden,true);
  assert.equal(h.byId('result-elapsed').textContent,'—');assert.equal(h.byId('result-elapsed-note').textContent,'');
 });
+
+test('internal remux-only projection initializes real renderer without encoder availability', async () => {
+  const h = await harness({
+    getCapabilities: async () => ({ profiles: [], recipes: [], vendorProfiles: [], versions: {}, backendDiscovery: { profiles: [], notices: ['Internal MP4 stream-copy only; encoder discovery not run.'] } }),
+    getSnapshot: async () => ({ revision: 1, phase: 'idle', items: [], counts: {}, remuxSupport: { targets: ['mp4'], notice: 'Internal MP4 only.' } }),
+    getPreferences: async () => ({ settingsByProfile: {}, inputFolder: {id:'input-token',displayPath:'input'}, outputFolder:{id:'output-token',displayPath:'output'}, profileId:'',notices:[] }),
+    prepareRemuxBatch: async () => ({revision:2,phase:'ready',operation:'remux',items:[],counts:{}}),
+  });
+  await h.byId('tab-remux').click();
+  assert.equal(h.byId('prepare-batch').disabled,true);
+  h.byId('remux-target').value='mp4';await h.byId('remux-target').emit('change');
+  assert.equal(h.byId('prepare-remux').disabled,false);await h.byId('prepare-remux').click();
+  assert.deepEqual(h.calls.find(call=>call.name==='prepareRemuxBatch').args,[{inputFolderId:'input-token',outputFolderId:'output-token',target:'mp4'}]);
+  assert.equal(h.calls.some(call=>call.name==='prepareBatch'),false);
+});

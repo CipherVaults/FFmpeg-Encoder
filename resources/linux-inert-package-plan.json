@@ -772,8 +772,8 @@
       "source": "linux-blue/product-linux-qualification.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-qualification.cjs",
       "group": "application",
-      "bytes": 36212,
-      "sha256": "f08940ae7bc1f68ce96d8951dc8355614c63099b469a14106f9de4f799a46f2d"
+      "bytes": 37017,
+      "sha256": "cf64bd7e58fdf2c4b56c38d306dc09b04f4a1cd15ff0837c8fc07f5fe4dfb77b"
     },
     {
       "root": "source",
@@ -900,8 +900,8 @@
       "source": "main.js",
       "target": "electron/resources/app/main.js",
       "group": "application",
-      "bytes": 16561,
-      "sha256": "1b3a3968e42fb21a81594771b5bfa35cac60a1af40b05cad12fd77894fd342fb"
+      "bytes": 17239,
+      "sha256": "2a0ad619f83164c11b9610862e0a14535ede238d98a0fe3da0f5c880738a821e"
     },
     {
       "root": "source",
@@ -1966,6 +1966,46 @@
       "group": "application",
       "bytes": 4224,
       "sha256": "ca3f2895d10ff045c96a7575c79e1f0adec05c95f31ed33c86a57d7baf5c7c0e"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/product-linux-remux-service.cjs",
+      "target": "electron/resources/app/linux-blue/product-linux-remux-service.cjs",
+      "group": "application",
+      "bytes": 12702,
+      "sha256": "faf91fd15fd6ce91c847577c312121cc07bb9313355088906b31aaf3791f2fd9"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/product-linux-remux-shell.cjs",
+      "target": "electron/resources/app/linux-blue/product-linux-remux-shell.cjs",
+      "group": "application",
+      "bytes": 4810,
+      "sha256": "f30066db5bb6f223797e0a6b3afcd659a0157bca3ff68f54655a73ee4bab18f3"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/product-linux-remux-qualification.cjs",
+      "target": "electron/resources/app/linux-blue/product-linux-remux-qualification.cjs",
+      "group": "application",
+      "bytes": 1915,
+      "sha256": "25b7638dcad0f1d4bdf984359a809bc402da1dbc7ad4f43c4ca59281c03e3460"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/product-linux-remux-qualification.json",
+      "target": "electron/resources/app/linux-blue/product-linux-remux-qualification.json",
+      "group": "application",
+      "bytes": 1013,
+      "sha256": "5a5080a0daf74d3c071c0739a32ada9901fb21ba94d8b9e10c1aceea4624b99c"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/evidence-2026-11-19/remux081-lifecycle-audit.json",
+      "target": "electron/resources/app/linux-blue/evidence-2026-11-19/remux081-lifecycle-audit.json",
+      "group": "application",
+      "bytes": 6839,
+      "sha256": "ac2cc8d75a41a5fdc923f2816f92fdc8c29f11cc6aea7b6999d5d12238a2dad2"
     }
   ]
 }

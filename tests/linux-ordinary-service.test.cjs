@@ -12,7 +12,7 @@ async function setup(t,{expireDuringValidation=false}={}){
  const events=[];let current=true,closed=false,lastArgs=[];
  const shell=await fs.readFile(path.resolve(__dirname,'../linux-blue/product-linux-shell.cjs'),'utf8');
  const dependencies=JSON.parse(shell.split('const DEPENDENCIES = ')[1].split(';\nfunction manifest')[0]);
- const candidate={runtimeIdentity:'1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9',dependencies,pins:{ffmpeg:{path:'/injected-ffmpeg'},ffprobe:{path:'/injected-ffprobe'}},async requireCurrent(){events.push('current');assert(current,'changed runtime');},async close(){closed=true;},createRunner(){return async(exe,args)=>{
+ const candidate={runtimeIdentity:'dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13',dependencies,pins:{ffmpeg:{path:'/injected-ffmpeg'},ffprobe:{path:'/injected-ffprobe'}},async requireCurrent(){events.push('current');assert(current,'changed runtime');},async close(){closed=true;},createRunner(){return async(exe,args)=>{
    if(exe==='/injected-ffprobe'){const tags={};for(let i=0;i<lastArgs.length;i++)if(lastArgs[i]==='-metadata'){const v=lastArgs[i+1],j=v.indexOf('=');tags[v.slice(0,j)]=v.slice(j+1);}return {stdout:JSON.stringify({format:{tags}}),stderr:'',exitCode:0};}
    events.push('encode');lastArgs=args;await fs.writeFile(args.at(-1),'Owned fake encoded test output');return {stdout:'',stderr:'',exitCode:0};
  }}};

@@ -1,0 +1,96 @@
+{
+  "approved": true,
+  "status": "approved-internal-successor-activation-source-delta",
+  "handoffSha256": "d4df07b5a0e2c25a761c904cde408c9cdf10ed8eed76cecb1390da57168de621",
+  "files": [
+    {
+      "path": "linux-blue/ordinary-cpu-service.cjs",
+      "bytes": 7632,
+      "sha256": "24241ecb237bbaa34da30d50e62c371132be4ff2ec56561e8c6533a54b1ef2d4"
+    },
+    {
+      "path": "linux-blue/product-linux-ordinary-shell.cjs",
+      "bytes": 5205,
+      "sha256": "cd16084b93bbeb7d0fc8c56c95fe79c829b04fa4d55f186cf9506c28792cc638"
+    },
+    {
+      "path": "linux-blue/product-linux-shell.cjs",
+      "bytes": 5782,
+      "sha256": "6123fd28678f62a7a2f434b7d0788525464bb3e94ee4746eb83ebafe4d355a74"
+    },
+    {
+      "path": "linux-blue/product-linux-service.cjs",
+      "bytes": 11002,
+      "sha256": "318f332c7140ba7c82a4921023581b97cfd0724fa0927151034d45e6b43941a8"
+    },
+    {
+      "path": "linux-blue/product-linux-qualification.cjs",
+      "bytes": 32026,
+      "sha256": "4c057e36167ada157175070c8324d6e4d64800a3c6e3a13ac33e46a73b54e627"
+    },
+    {
+      "path": "linux-blue/product-linux-qualification.json",
+      "bytes": 9245,
+      "sha256": "6f7b0543f499e5c8dc58bbd0a0d9d77f0e8ecce4c4dd68b44127b4cec68b63d9"
+    },
+    {
+      "path": "linux-blue/product-linux-qualification074-historical.json",
+      "bytes": 8752,
+      "sha256": "faa88a7c347e1a81c65c6c45f3d79b04453349d1da18ca40c3fbbcde5178f89a"
+    },
+    {
+      "path": "resources/linux-inert-package-plan.json",
+      "bytes": 68524,
+      "sha256": "1e70f5087bced4d3ad3b374cdb47bf2bc4357551768d5ef78bee450246fdd5aa"
+    },
+    {
+      "path": "tests/linux-ordinary-service.test.cjs",
+      "bytes": 8286,
+      "sha256": "b1d134adf7ad48ccdc9156970a0ee5828ea37042ab33aed74521397b9a4446c8"
+    },
+    {
+      "path": "tests/linux-product-proposal.test.cjs",
+      "bytes": 20448,
+      "sha256": "7307eabab83f3ed5fde68c391e00d8f257f42ffa67282f9a8b5d322fc9525c53"
+    },
+    {
+      "path": "tests/linux-inert-package.test.cjs",
+      "bytes": 8449,
+      "sha256": "f265d882f298722cc164b999eab5010e8a96de2e4fb069374fb0bfeaa6ae62d9"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-19/late-range075-saved-audit.json",
+      "bytes": 19599,
+      "sha256": "f0d9178b0f4f8d5d6ccfb7b7618bf6b54833020418fedbab35172d90679415da"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-19/admission075-reasoning.json",
+      "bytes": 2203,
+      "sha256": "1732b21e588af64fef4ca85b45c5e575c56fbe16b0b907df3a7012ae3a7a349f"
+    }
+  ],
+  "checks": [
+    "Final activation true explicitly bound to accepted late audit and admission reasoning; no generic caller override",
+    "Real closed-record loader/source verification passes126pins",
+    "Late1440 record uses actual report IDs and frozen clock tolerances; short1080 and8sFullcopy evidence limits remain explicit",
+    "Historical074compact byte-exact; no old producer/evidence/runtime identity rewritten",
+    "Source-level shared-mechanism reasoning supports unchanged internal admission; no artificial measured-duration cap and no FLAC-to-AAC substitution",
+    "241packageinputs/143appmembers/391463758bytes; every source-root plan member exact; physical app layout and builder controls unchanged",
+    "Runtimepair/shell/service IDs coherent; original dependency pins preserved",
+    "False activation and old runtime refusal controls preserved; remux not enabled; defaults/Windows unchanged",
+    "Handoff stale metadata corrected only; source hashes unchanged"
+  ],
+  "independentTests": {
+    "passed": 32,
+    "failed": 0,
+    "skipped": 0,
+    "scope": "26product/ordinary +6inert package fixture",
+    "logSha256": "5bda303b157520d6192690901d263f02eab80fb689d880805010bfdff800f9d8"
+  },
+  "limits": [
+    "Review authorizes scoped source integration/preservation, not immediate runtime/native launch",
+    "Actual new package/native acceptance remains pending",
+    "Fullcopy11sAACheldout and other durations not newly measured; every output still requires existing validation/currentness/publication controls",
+    "No production release, hardware/GPU/performance/redistribution qualification"
+  ]
+}

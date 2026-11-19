@@ -1,0 +1,113 @@
+{
+  "status": "passed-inert-independent-audit",
+  "createdAt": "2026-11-19T00:38:56.575713+00:00",
+  "resultSha256": "f6e055cac7fb295dc254f715e5c857ccceed68f5e75e5690207f158ce5c55040",
+  "supervisorSha256": "22b847fbd5d2554ae997ff85245de9ed61abec2925885dc7f2ae8008b1030d29",
+  "inputFilesRehashed": 10458,
+  "archiveFilesRehashed": 28,
+  "toolchainFilesRehashed": 9,
+  "hostDependenciesRehashed": 7,
+  "elf": [
+    {
+      "name": "ffmpeg",
+      "needed": [
+        "libm.so.6",
+        "libdav1d.so.7",
+        "libSvtAv1Enc.so.2",
+        "libgcc_s.so.1",
+        "libstdc++.so.6",
+        "libc.so.6"
+      ],
+      "interpreter": [
+        "/lib64/ld-linux-x86-64.so.2"
+      ],
+      "rpathRunpath": false
+    },
+    {
+      "name": "ffprobe",
+      "needed": [
+        "libm.so.6",
+        "libdav1d.so.7",
+        "libSvtAv1Enc.so.2",
+        "libgcc_s.so.1",
+        "libstdc++.so.6",
+        "libc.so.6"
+      ],
+      "interpreter": [
+        "/lib64/ld-linux-x86-64.so.2"
+      ],
+      "rpathRunpath": false
+    },
+    {
+      "name": "libm.so.6",
+      "needed": [
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "interpreter": [],
+      "rpathRunpath": false
+    },
+    {
+      "name": "libdav1d.so.7",
+      "needed": [
+        "libc.so.6"
+      ],
+      "interpreter": [],
+      "rpathRunpath": false
+    },
+    {
+      "name": "libSvtAv1Enc.so.2",
+      "needed": [
+        "libm.so.6",
+        "libc.so.6"
+      ],
+      "interpreter": [],
+      "rpathRunpath": false
+    },
+    {
+      "name": "libgcc_s.so.1",
+      "needed": [
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "interpreter": [],
+      "rpathRunpath": false
+    },
+    {
+      "name": "libstdc++.so.6",
+      "needed": [
+        "libm.so.6",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2",
+        "libgcc_s.so.1"
+      ],
+      "interpreter": [],
+      "rpathRunpath": false
+    },
+    {
+      "name": "libc.so.6",
+      "needed": [
+        "ld-linux-x86-64.so.2"
+      ],
+      "interpreter": [
+        "/lib64/ld-linux-x86-64.so.2"
+      ],
+      "rpathRunpath": false
+    },
+    {
+      "name": "ld-linux-x86-64.so.2",
+      "needed": [],
+      "interpreter": [],
+      "rpathRunpath": false
+    }
+  ],
+  "strongUndefinedSymbolRowsResolved": 923,
+  "unresolvedStrongSymbols": [],
+  "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+  "manifestSha256": "9bdf6fa207215fad1315eec02eb8698bcba68023f0cbdd1079b7174e86726aa1",
+  "limitations": [
+    "No FFmpeg execution, ldd invocation, media check or package build.",
+    "Fresh hashes differ from historical pair despite same sizes. Historical runtime qualification not inherited.",
+    "Readelf closure and symbol matching are static evidence, not actual loader/runtime acceptance."
+  ]
+}

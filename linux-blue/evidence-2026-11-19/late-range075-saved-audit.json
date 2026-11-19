@@ -1,0 +1,607 @@
+{
+  "schema": 1,
+  "status": "accepted-saved-one-late-range-successor-evidence",
+  "auditedAtUtc": "2026-11-19T01:01:47.557821+00:00",
+  "method": "Read-only saved receipt consistency and complete file/source/runtime hash checks; no media subprocess, rerun or extra probe.",
+  "sourceCommit": "407d743f2c055acab47926d38aeac645a846100b",
+  "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+  "sourcePinsVerified": 788,
+  "runtimePairAndSevenDependenciesVerified": true,
+  "originalSummary": {
+    "bytes": 87668,
+    "sha256": "395e75c803df803df691b318ed955b7759bc62bba7df5d5da86ce952fdafa1fe"
+  },
+  "originalReport": {
+    "bytes": 78526,
+    "sha256": "d8e48f1cbb9df2b5b55595d7c7d9860ef3421147e832e02efc31d06b0e08bb16"
+  },
+  "binding": {
+    "bytes": 470,
+    "sha256": "f508e961d1bf52efbb1b40d7e755170bd83bab169809beac0d7ce4d7bbfa0692"
+  },
+  "independentPreparationReview": {
+    "bytes": 1915,
+    "sha256": "eb5e6e93176030ca31108ab6a696020f2e36c648912d9ba204014e15267651bc"
+  },
+  "fixture": {
+    "bytes": 200771849,
+    "sha256": "d1dbdd35624fdedeba0ddbbeb143876dc88f5233187cf6889e7c9dc0347a7619"
+  },
+  "output": {
+    "bytes": 8217744,
+    "sha256": "e583e750886e9c4e9ba3297754ad99224d091c2237611622a373fcd05fd897ba"
+  },
+  "geometry": {
+    "sourceWidth": 2560,
+    "sourceHeight": 1440,
+    "resolution": "720",
+    "outputWidth": 1280,
+    "outputHeight": 720
+  },
+  "settings": {
+    "profileId": "h265-cpu",
+    "preset": "slow",
+    "quality": 25
+  },
+  "range": {
+    "startUs": 100000000,
+    "endUs": 140000000
+  },
+  "completeSource": {
+    "video": {
+      "frames": 4500,
+      "firstTime": {
+        "n": "0",
+        "d": "15360"
+      },
+      "endTime": {
+        "n": "35389440000",
+        "d": "235929600"
+      },
+      "maximumNominalCadenceErrorUs": 0,
+      "maximumNominalDurationErrorUs": 0,
+      "maximumNominalPhaseErrorUs": 0,
+      "properties": {
+        "policy": "cfr-sdr-range-resize1440-flac-v1",
+        "sampleAspectRatio": "1:1",
+        "chromaLocation": "left",
+        "sideDataPolicy": "h26x-unregistered-sei-only",
+        "framesChecked": 4500
+      }
+    },
+    "audio": [
+      {
+        "inputIndex": 1,
+        "sampleCount": "7200000",
+        "firstTime": {
+          "n": "0",
+          "d": "48000"
+        },
+        "endTime": {
+          "n": "345600000000",
+          "d": "2304000000"
+        },
+        "gaps": 0
+      }
+    ]
+  },
+  "decodedEvidence": {
+    "video": {
+      "sourceFrameCount": 1200,
+      "outputFrameCount": 1200,
+      "comparedFrames": 1200,
+      "firstSourcePtsUs": 100000000,
+      "lastSourcePtsUs": 139966667,
+      "lastSourceDurationUs": 33333,
+      "firstOutputPtsUs": 0,
+      "lastOutputPtsUs": 39967000,
+      "lastOutputDurationUs": 33000,
+      "maxRebasedTimestampErrorUs": 334
+    },
+    "audio": [
+      {
+        "inputIndex": 1,
+        "sourceSampleCount": 1920000,
+        "outputSampleCount": 1920000,
+        "firstSourcePtsUs": 100000000,
+        "lastSourceEndUs": 140000000,
+        "firstOutputPtsUs": 0,
+        "lastOutputEndUs": 39999667,
+        "encoderDelaySamples": 0,
+        "discardPaddingSamples": 0,
+        "pcmIdentity": {
+          "algorithm": "sha256",
+          "format": "s16le-interleaved",
+          "sourceHash": "557362ddcf7724e009cd0b1df44c19e9960e08eeea2e8cfa04c9e77857770f44",
+          "outputHash": "557362ddcf7724e009cd0b1df44c19e9960e08eeea2e8cfa04c9e77857770f44",
+          "sourceBytes": 7680000,
+          "outputBytes": 7680000
+        }
+      }
+    ]
+  },
+  "pcmIdentity": {
+    "algorithm": "sha256",
+    "format": "s16le-interleaved",
+    "sourceHash": "557362ddcf7724e009cd0b1df44c19e9960e08eeea2e8cfa04c9e77857770f44",
+    "outputHash": "557362ddcf7724e009cd0b1df44c19e9960e08eeea2e8cfa04c9e77857770f44",
+    "sourceBytes": 7680000,
+    "outputBytes": 7680000
+  },
+  "timelineComparisons": {
+    "video": {
+      "comparedFrames": 1200,
+      "maximumDurationErrorUs": 334,
+      "toleranceUs": 1067
+    },
+    "audio": [
+      {
+        "inputIndex": 1,
+        "mode": "precision-flac",
+        "selectedSourceGaps": 0,
+        "unmatchedSourceTailSamples": 0,
+        "unmatchedOutputTailSamples": 0,
+        "comparedSamples": 1920000,
+        "intersectedSpans": 3750,
+        "maximumElapsedClockErrorUs": 334,
+        "toleranceUs": 1042,
+        "alignment": "sample ordinal after decoder-signalled skip; source minus the shared requested origin; no fitted shift",
+        "contentIdentity": false
+      }
+    ]
+  },
+  "telemetryValidation": {
+    "valid": true,
+    "scope": "encoder-input-count-and-timeline-only",
+    "streams": [
+      {
+        "outputIndex": 0,
+        "kind": "video",
+        "unknownInputRecords": "0",
+        "correspondence": "reported-input-and-independent-selected-source"
+      },
+      {
+        "outputIndex": 1,
+        "kind": "audio",
+        "unknownInputRecords": "0",
+        "correspondence": "reported-input-and-independent-selected-source"
+      }
+    ],
+    "doesNotEstablish": [
+      "video-pixel-identity",
+      "lossless-audio-identity",
+      "last-video-frame-duration",
+      "output-or-publication-validity"
+    ]
+  },
+  "telemetrySummaries": [
+    {
+      "schema": 1,
+      "scope": "encoder-input-statistics",
+      "stream": {
+        "outputIndex": 0,
+        "kind": "video"
+      },
+      "bytes": 61450,
+      "records": "1200",
+      "sampleCount": null,
+      "first": {
+        "n": "0",
+        "inputFrame": "180",
+        "timeBase": {
+          "numerator": "1",
+          "denominator": "15360"
+        },
+        "pts": "0",
+        "time": {
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "inputTimeBase": {
+          "numerator": "1",
+          "denominator": "15360"
+        },
+        "inputPts": "1536000",
+        "inputTime": {
+          "numerator": "100",
+          "denominator": "1"
+        }
+      },
+      "last": {
+        "n": "1199",
+        "inputFrame": "1379",
+        "timeBase": {
+          "numerator": "1",
+          "denominator": "15360"
+        },
+        "pts": "613888",
+        "time": {
+          "numerator": "1199",
+          "denominator": "30"
+        },
+        "inputTimeBase": {
+          "numerator": "1",
+          "denominator": "15360"
+        },
+        "inputPts": "2149888",
+        "inputTime": {
+          "numerator": "4199",
+          "denominator": "30"
+        }
+      },
+      "unknownInputRecords": "0",
+      "repeatedPts": "0",
+      "backwardsPts": "0",
+      "audioDiscontinuities": "0",
+      "minPtsDelta": {
+        "numerator": "1",
+        "denominator": "30"
+      },
+      "maxPtsDelta": {
+        "numerator": "1",
+        "denominator": "30"
+      },
+      "hashes": {
+        "algorithm": "sha256",
+        "raw": "06b7fc322f4e6b576a5849072337085810f48bddf626a5500dbe9c8001310088",
+        "canonicalRecords": "cfafbc88ab0ed6c78edc0595120667d87bc5a5b9f6526325b89cef5edbb7131b",
+        "orderedPts": "e411bcd8e6b1794d2646740e2ed9a3269b237d2c8c5ef0a2c6392794e1a04ae4",
+        "contentHash": false
+      },
+      "videoDurationAvailable": false,
+      "completeOutputValidation": false
+    },
+    {
+      "schema": 1,
+      "scope": "encoder-input-statistics",
+      "stream": {
+        "outputIndex": 1,
+        "kind": "audio",
+        "sampleRate": 48000
+      },
+      "bytes": 240611,
+      "records": "3750",
+      "sampleCount": "1920000",
+      "first": {
+        "n": "0",
+        "inputFrame": "284",
+        "timeBase": {
+          "numerator": "1",
+          "denominator": "48000"
+        },
+        "pts": "0",
+        "time": {
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "inputTimeBase": {
+          "numerator": "1",
+          "denominator": "48000"
+        },
+        "inputPts": "4799488",
+        "inputTime": {
+          "numerator": "37496",
+          "denominator": "375"
+        },
+        "sampleOffset": "0",
+        "samples": "512",
+        "endTime": {
+          "numerator": "4",
+          "denominator": "375"
+        }
+      },
+      "last": {
+        "n": "3749",
+        "inputFrame": "2159",
+        "timeBase": {
+          "numerator": "1",
+          "denominator": "48000"
+        },
+        "pts": "1919488",
+        "time": {
+          "numerator": "14996",
+          "denominator": "375"
+        },
+        "inputTimeBase": {
+          "numerator": "1",
+          "denominator": "48000"
+        },
+        "inputPts": "6719488",
+        "inputTime": {
+          "numerator": "52496",
+          "denominator": "375"
+        },
+        "sampleOffset": "1919488",
+        "samples": "512",
+        "endTime": {
+          "numerator": "40",
+          "denominator": "1"
+        }
+      },
+      "unknownInputRecords": "0",
+      "repeatedPts": "0",
+      "backwardsPts": "0",
+      "audioDiscontinuities": "0",
+      "minPtsDelta": {
+        "numerator": "4",
+        "denominator": "375"
+      },
+      "maxPtsDelta": {
+        "numerator": "4",
+        "denominator": "375"
+      },
+      "hashes": {
+        "algorithm": "sha256",
+        "raw": "351b4a1040f32afd6c629bf35957a6acb89584f96ff1ef600fbdd23bf05ecdca",
+        "canonicalRecords": "826ed93d11a39eb8dffb11571ee2dd0cddc2191e60311110bf9b36764e1f8040",
+        "orderedPts": "3a4819651147241f0e6de986c1b50075e443cda2ae1abe94439d578b8d3d7445",
+        "contentHash": false
+      },
+      "videoDurationAvailable": false,
+      "completeOutputValidation": false
+    }
+  ],
+  "validation": {
+    "valid": true,
+    "errors": [],
+    "warnings": [],
+    "validation": "decoded-operation-contract",
+    "qualificationEvidenceId": "fresh-resize1440to720-E8Fm1C:long-pattern:endpoints",
+    "timing": {
+      "timeline": "request-relative",
+      "requested": {
+        "startUs": 100000000,
+        "endUs": 140000000
+      },
+      "resolved": {
+        "startUs": 100000000,
+        "endUs": 140000000
+      },
+      "video": {
+        "startUs": 100000000,
+        "endUs": 140000000,
+        "frames": 1200,
+        "outputStartUs": 0,
+        "outputEndUs": 40000000
+      },
+      "audio": [
+        {
+          "inputIndex": 1,
+          "mode": "precision-flac",
+          "startUs": 100000000,
+          "endUs": 140000000,
+          "outputStartUs": 0,
+          "outputEndUs": 39999667,
+          "encoderDelaySamples": 0,
+          "discardPaddingSamples": 0,
+          "sampleCountDifference": 0
+        }
+      ]
+    }
+  },
+  "census": {
+    "spawned": 16,
+    "closed": 16,
+    "live": 0,
+    "maximum": 1
+  },
+  "collectorInvocations": 7,
+  "finalStrictDecode": {
+    "performed": true,
+    "exitCode": 0,
+    "includedIn16Children": true
+  },
+  "runtimeClosed": true,
+  "sourceAndOutputStableDuringCollection": true,
+  "elapsedEncodeAndEvidenceMs": 115935,
+  "ownedBytesAtClose": 209880395,
+  "totalPipeBytes": 39410107,
+  "limits": {
+    "overallMs": 600000,
+    "childMs": 300000,
+    "maxChildren": 16,
+    "maxOwnedBytes": 2147483648
+  },
+  "minimumFreeBytes": 28991029248,
+  "stderrNotices": [
+    {
+      "child": 7,
+      "text": "x265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n",
+      "exitCode": 0
+    }
+  ],
+  "filesRehashed": 36,
+  "files": [
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/child-001.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/child-002.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/child-003.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/child-004.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/child-005.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/child-006.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/child-007.stderr",
+      "bytes": 168,
+      "sha256": "7236aa382cebb779ed4ebe094a891fdea27d454850900e90761e2a3a4c8e28c4"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/child-008.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/child-009.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/child-010.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/child-011.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/child-012.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/child-013.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/child-014.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/child-015.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/child-016.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/late-forty-seconds/.ffmpeg-encoder-ebGRFY/encoded.mkv",
+      "bytes": 8217744,
+      "sha256": "e583e750886e9c4e9ba3297754ad99224d091c2237611622a373fcd05fd897ba"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/late-forty-seconds/encoder-telemetry-bEtJ8L/stream-0.tsv",
+      "bytes": 61450,
+      "sha256": "06b7fc322f4e6b576a5849072337085810f48bddf626a5500dbe9c8001310088"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/late-forty-seconds/encoder-telemetry-bEtJ8L/stream-1.tsv",
+      "bytes": 240611,
+      "sha256": "351b4a1040f32afd6c629bf35957a6acb89584f96ff1ef600fbdd23bf05ecdca"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/late-forty-seconds/operation-evidence-1b95N4/child-1.json",
+      "bytes": 1199,
+      "sha256": "d79ffd1e214961b1c2a8bb1af04867a5d9f6f21843c20dcb9884997dc659a28e"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/late-forty-seconds/operation-evidence-1b95N4/child-2.json",
+      "bytes": 1185,
+      "sha256": "d72e27fb75b5f5071fd7de4be7061a5776a8260a18a6a601086e35db7a5490a2"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/late-forty-seconds/operation-evidence-1b95N4/child-3.json",
+      "bytes": 1150,
+      "sha256": "b6d623d1c5ec51783c5740c7f5f5ae1238ee1b2186bad476a3892c17132fa268"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/late-forty-seconds/operation-evidence-1b95N4/child-4.json",
+      "bytes": 1187,
+      "sha256": "a98b76e6486d493ec3e06dfc2752c795679b678b0560c3350764679cbe06ef02"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/late-forty-seconds/operation-evidence-1b95N4/child-5.json",
+      "bytes": 1058,
+      "sha256": "4f406d8c7af29e494a2febb5d00f8ed7c833f2612efb510f369bc671e5a4c482"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/late-forty-seconds/operation-evidence-1b95N4/child-6.json",
+      "bytes": 982,
+      "sha256": "4c37a29b19e25dd15da7c3262fd09914c3d8157c2cc095c089a3970a98cc408a"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/late-forty-seconds/operation-evidence-1b95N4/child-7.json",
+      "bytes": 1018,
+      "sha256": "597e13411c32c29d1c4a534266ea22c87c1febde59d60a731b9beecd0111b76a"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/late-forty-seconds/operation-evidence-1b95N4/output-audio-1.jsonl",
+      "bytes": 255533,
+      "sha256": "55f01622aa49c90a195f8c3a5cd50f62027e2b0e5770273a13be276f0a6a127a"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/late-forty-seconds/operation-evidence-1b95N4/receipt.json",
+      "bytes": 16387,
+      "sha256": "cf688da476dcf2a21561da239b30bd06c16d78bd830b6fd7f50284bd76c162a3"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/late-forty-seconds/operation-evidence-1b95N4/selected-audio-1.jsonl",
+      "bytes": 218398,
+      "sha256": "a048867459116e98e592b028fcbc155285b497c8d24f523e70167deb33dc1ec9"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/late-forty-seconds/operation-evidence-1b95N4/selected-video.jsonl",
+      "bytes": 86400,
+      "sha256": "ad24d021da0388088855a49815e945d9bd9e120089a1c41ee0a40f5e925e3305"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/late-forty-seconds/operation-evidence-1b95N4/start.json",
+      "bytes": 2228,
+      "sha256": "cd4704a64537c434ebe75181c4ab64ca8b45a86378d8c35f5eff87b9e4df439e"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/late-forty-seconds/resources-before-encode.json",
+      "bytes": 451,
+      "sha256": "051fb900f6aafdc2f0369e44e4a48c4d328abb1dc18e78fa028044576db316bc"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/long-pattern-frozen-before-encode.json",
+      "bytes": 1397,
+      "sha256": "e40c5259fb76c2034e995cc9552599bdb726e87ac5ce9d7bd4dcfe1c3711cc18"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/long-pattern.mov",
+      "bytes": 200771849,
+      "sha256": "d1dbdd35624fdedeba0ddbbeb143876dc88f5233187cf6889e7c9dc0347a7619"
+    },
+    {
+      "relativePath": "fresh-resize1440to720-E8Fm1C/report.json",
+      "bytes": 78526,
+      "sha256": "d8e48f1cbb9df2b5b55595d7c7d9860ef3421147e832e02efc31d06b0e08bb16"
+    },
+    {
+      "relativePath": "summary.json",
+      "bytes": 87668,
+      "sha256": "395e75c803df803df691b318ed955b7759bc62bba7df5d5da86ce952fdafa1fe"
+    }
+  ],
+  "limitations": [
+    "One late 40-second selection from one 150-second 1440p fixture, not full campaign coverage.",
+    "Acceptance thresholds were frozen clock-derived bounds before encode. Actual counts, PCM identity and timing now measured only for this exact runtime/case; no automatic production qualification.",
+    "x265 CPU-mask/no-thread-pool diagnostics retained despite successful target and validation; not clean-warning or performance qualification.",
+    "Owned close-event accounting, not global process census; disk threshold periodically observed, not hard OS quota.",
+    "115935 ms is target/evidence phase, excluding fixture generation/initial inspection. No fabricated overall elapsed time.",
+    "Original historical measurements remain historical; no catalog/package/native/Windows/GPU promotion."
+  ],
+  "publicationAuthorized": false,
+  "qualificationGranted": false,
+  "canonicalEdited": false
+}

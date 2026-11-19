@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "kind": "checkpoint074-post-cutoff-durable-closure",
+  "localCommit": "407d743f2c055acab47926d38aeac645a846100b",
+  "localTree": "c072d9c0692acf5443a464902a7c7cd185b53f59",
+  "remoteCommit": "79fce443fef94f8fffd55ff91c2bd227ab08b2cd",
+  "remoteTree": "8939a829cd7a0117807d8cb1ea64067cbd046e4c",
+  "remoteParent": "8d7b8b2cb44fe507986010e2d02226b3a3c021a9",
+  "repository": "CipherVaults/FFmpeg-Encoder-Blue-Linux",
+  "branch": "blue/linux-development",
+  "notionCheckpoint": "https://www.notion.so/41cbd7ade63b81cda891c19d1cb84056",
+  "notionSession": "https://www.notion.so/41cbd7ade63b81169e45cd5b12ff2e9f",
+  "preservation": {
+    "sourceFiles": 788,
+    "historyCommits": 74,
+    "remoteFiles": 1170,
+    "remoteUnchanged": 1157,
+    "modified": 8,
+    "new": 5,
+    "deleted": 0,
+    "changedFilesReadBack": 13
+  },
+  "historicalFinalMirrorReceiptSha256": "a26ca3f9f44baaff3896e05e48a5fc7cc22bf0922da94488bb7442862bdb2e9a",
+  "historicalWriterReleaseSha256": "2c23fa2c316a2ace51c9f3476220597c5e219b0f5695c8e1fc477f213d8d27a6",
+  "evidenceProvenance": "Confirmed parent publication report plus this mirror worker final mapping/readback before cold reset; current fresh independent recovery verifies exact source/history. This record is not a reconstruction of missing raw historical verification JSON or a new connector readback.",
+  "supersedes": "Any checkpoint074 cutoff statement saying GitHub/Notion completion was pending is historical only. The committed074 source and full history were durably preserved and actually restored. This does not change historical cutoff prose or imply new075 artifacts are durable.",
+  "caveat": "Original GitHub action per-action timestamps were lost after tool contextstore reset. Successful parameters/results were recovered from transcript without repeated mutation; fresh immutable parent/tree/ref/full-file bytes were verified. No action timestamps fabricated.",
+  "coverageExclusions": [
+    "Runtime binary/package ZIPs",
+    "Ignored raw media and native evidence",
+    "Lost external guidance/runtime-preparation trees",
+    "New075 helpers/reports/runtime archive before normal preservation"
+  ]
+}

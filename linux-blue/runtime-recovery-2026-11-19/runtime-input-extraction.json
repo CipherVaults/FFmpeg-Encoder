@@ -1,0 +1,327 @@
+{
+  "schema": 1,
+  "kind": "fresh-safe-extraction",
+  "policy": "Regular files only, mode0600; safe directories; links recorded not created; no install/scripts/runtime.",
+  "archives": [
+    {
+      "label": "ffmpeg-source",
+      "regularFiles": 10399,
+      "regularBytes": 90358343,
+      "linksNotExtracted": []
+    },
+    {
+      "label": "libdav1d-dev-control",
+      "regularFiles": 2,
+      "regularBytes": 2098,
+      "linksNotExtracted": []
+    },
+    {
+      "label": "libdav1d-dev",
+      "regularFiles": 16,
+      "regularBytes": 111810,
+      "linksNotExtracted": [
+        {
+          "path": "./usr/lib/x86_64-linux-gnu/libdav1d.so",
+          "kind": "link-not-extracted",
+          "target": "libdav1d.so.7"
+        }
+      ]
+    },
+    {
+      "label": "libnuma-dev-control",
+      "regularFiles": 2,
+      "regularBytes": 1043,
+      "linksNotExtracted": []
+    },
+    {
+      "label": "libnuma-dev",
+      "regularFiles": 8,
+      "regularBytes": 113300,
+      "linksNotExtracted": [
+        {
+          "path": "./usr/lib/x86_64-linux-gnu/libnuma.so",
+          "kind": "link-not-extracted",
+          "target": "libnuma.so.1.0.0"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_all_nodes.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_alloc.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_alloc_interleaved.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_alloc_interleaved_subset.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_alloc_local.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_alloc_onnode.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_available.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_bind.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_error.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_exit_on_error.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_free.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_get_interleave_mask.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_get_interleave_node.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_get_membind.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_get_run_node_mask.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_interleave_memory.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_max_node.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_no_nodes.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_node_size.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_node_to_cpus.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_police_memory.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_preferred.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_run_on_node.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_run_on_node_mask.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_set_bind_policy.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_set_interleave_mask.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_set_localalloc.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_set_membind.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_set_preferred.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_set_strict.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_setlocal_memory.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_tonode_memory.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        },
+        {
+          "path": "./usr/share/man/man3/numa_tonodemask_memory.3.gz",
+          "kind": "link-not-extracted",
+          "target": "numa.3.gz"
+        }
+      ]
+    },
+    {
+      "label": "libsvtav1enc-dev-control",
+      "regularFiles": 2,
+      "regularBytes": 1719,
+      "linksNotExtracted": []
+    },
+    {
+      "label": "libsvtav1enc-dev",
+      "regularFiles": 11,
+      "regularBytes": 97154,
+      "linksNotExtracted": [
+        {
+          "path": "./usr/lib/x86_64-linux-gnu/libSvtAv1Enc.so",
+          "kind": "link-not-extracted",
+          "target": "libSvtAv1Enc.so.2"
+        }
+      ]
+    },
+    {
+      "label": "libx264-dev-control",
+      "regularFiles": 2,
+      "regularBytes": 1110,
+      "linksNotExtracted": []
+    },
+    {
+      "label": "libx264-dev",
+      "regularFiles": 7,
+      "regularBytes": 2865957,
+      "linksNotExtracted": [
+        {
+          "path": "./usr/lib/x86_64-linux-gnu/libx264.so",
+          "kind": "link-not-extracted",
+          "target": "libx264.so.164"
+        }
+      ]
+    },
+    {
+      "label": "libx265-dev-control",
+      "regularFiles": 2,
+      "regularBytes": 1069,
+      "linksNotExtracted": []
+    },
+    {
+      "label": "libx265-dev",
+      "regularFiles": 7,
+      "regularBytes": 23047399,
+      "linksNotExtracted": [
+        {
+          "path": "./usr/lib/x86_64-linux-gnu/libx265.so",
+          "kind": "link-not-extracted",
+          "target": "libx265.so.215"
+        }
+      ]
+    }
+  ],
+  "inventorySha256": "a1737bccea97c6bd5b3d0a97db6d0f704e4632d524e6af97e179d3af518481e3",
+  "regularFiles": 10458,
+  "noticeInputs": [
+    {
+      "inputRelativePath": "extracted-v2/libdav1d-dev/usr/share/doc/libdav1d-dev/copyright",
+      "bytes": 9722,
+      "sha256": "38aaebbbf5ab0c19a5d4029acb5ce6566f8bd95e07eff6f6472753f5bea83d97"
+    },
+    {
+      "inputRelativePath": "extracted-v2/libnuma-dev/usr/share/doc/libnuma-dev/copyright",
+      "bytes": 1357,
+      "sha256": "179c34f5e56cd0b6b73dd7970a97357ee784e2236e8293826656c7ebb3bface7"
+    },
+    {
+      "inputRelativePath": "extracted-v2/libsvtav1enc-dev/usr/share/doc/libsvtav1enc-dev/copyright",
+      "bytes": 14574,
+      "sha256": "66433ce51ad1f83c561940a0af5f78e45a1beee67e5cc5087c1f0c5d2736e1e4"
+    },
+    {
+      "inputRelativePath": "extracted-v2/libx264-dev/usr/share/doc/libx264-dev/copyright",
+      "bytes": 7690,
+      "sha256": "b8b4d68a602bf580d47237c3119e52ac7a70121de39fb365ca28a63b3a200655"
+    },
+    {
+      "inputRelativePath": "extracted-v2/libx265-dev/usr/share/doc/libx265-dev/copyright",
+      "bytes": 4551,
+      "sha256": "ac2859168010138bce5a5a16a1c2442570ed236121352c34c1a710005b727eb5"
+    }
+  ],
+  "helperModesAfterBuild": [
+    {
+      "path": "ffbuild/version.sh",
+      "sha256": "cf34357a8a7ce476e38e30664ae86153f3a4580d00079ea684046997e1f95b0b",
+      "archiveMode": "0o750",
+      "before": "0700",
+      "after": "0700"
+    },
+    {
+      "path": "ffbuild/libversion.sh",
+      "sha256": "d896707462ba7c256352fc64f011d771bf092076a0f11246aa4bb8895f62f19f",
+      "archiveMode": "0o750",
+      "before": "0700",
+      "after": "0700"
+    },
+    {
+      "path": "ffbuild/pkgconfig_generate.sh",
+      "sha256": "48d711137995d3442f68a415da239ad1e9229fb2837f6051806bf31024248637",
+      "archiveMode": "0o750",
+      "before": "0700",
+      "after": "0700"
+    }
+  ],
+  "limits": [
+    "Fresh successor provenance, not recovered original five JSON records.",
+    "No production default promotion, native/media qualification or redistribution clearance.",
+    "URLs and hashes permit reacquisition, not proof of a durable binary backup.",
+    "Raw logs, caches, GnuPG home and private root mappings are excluded.",
+    "Complete member inventory remains a local evidence artifact; exact original upstream archives can regenerate it. Control scripts retained inert, never installed."
+  ]
+}

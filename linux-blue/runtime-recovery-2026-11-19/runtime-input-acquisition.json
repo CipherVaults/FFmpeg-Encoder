@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "kind": "fresh-runtime-input-acquisition",
+  "createdAt": "2026-11-19T00:26:06.707194+00:00",
+  "source": {
+    "url": "https://ffmpeg.org/releases/ffmpeg-9.0.2.tar.xz",
+    "bytes": 12040788,
+    "sha256": "8c3850283eb25fa026482078a04051e0be17347b09ef81a0849bec15a96e002e",
+    "signatureUrl": "https://ffmpeg.org/releases/ffmpeg-9.0.2.tar.xz.asc",
+    "signatureSha256": "d617fd94ea354dadd2a8bb16243d37c44e1e9729b06b6ad58fe30bfb0fa943f2",
+    "keyUrl": "https://ffmpeg.org/ffmpeg-devel.asc",
+    "keySha256": "397b3becedcd5a98769967ff1ff8501ddc89f8368b8f766e4701377d7dbaabe5",
+    "signatureStatus": "VALIDSIG FCF986EA15E6E293A5644F10B4322F04D67658D8; local trust undefined; isolated key home only"
+  },
+  "debian": {
+    "inReleaseUrl": "https://deb.debian.org/debian/dists/trixie/InRelease",
+    "inReleaseSha256": "0584fba32e13e0ab8285fb16c27adea1ec03a73669c18702821094fd6ca86675",
+    "packagesUrl": "https://deb.debian.org/debian/dists/trixie/main/binary-amd64/Packages.xz",
+    "packagesSha256": "7778d3e3f303b7ddb8ce0fe7c8d57473a076c6bf2e8f241f75421d2396352498",
+    "signatureStatus": "InRelease valid with installed Debian archive keys; Packages.xz size/SHA verified against signed Release",
+    "packages": [
+      {
+        "package": "libdav1d-dev",
+        "version": "1.5.1-1",
+        "source": "dav1d",
+        "architecture": "amd64",
+        "url": "https://deb.debian.org/debian/pool/main/d/dav1d/libdav1d-dev_1.5.1-1_amd64.deb",
+        "bytes": 26648,
+        "sha256": "c5d3cdd44e9ad4680d24c404f7b686759d29e9030d4f5d0deabb8792ec30a8ed"
+      },
+      {
+        "package": "libnuma-dev",
+        "version": "2.0.19-1",
+        "source": "numactl",
+        "architecture": "amd64",
+        "url": "https://deb.debian.org/debian/pool/main/n/numactl/libnuma-dev_2.0.19-1_amd64.deb",
+        "bytes": 36528,
+        "sha256": "7fea9248b09311b008dc6707c201671e7b14ce5f9278dda4694e726990897436"
+      },
+      {
+        "package": "libsvtav1enc-dev",
+        "version": "2.3.0+dfsg-1",
+        "source": "svt-av1",
+        "architecture": "amd64",
+        "url": "https://deb.debian.org/debian/pool/main/s/svt-av1/libsvtav1enc-dev_2.3.0+dfsg-1_amd64.deb",
+        "bytes": 33040,
+        "sha256": "13a94fcea44146a19e7f579b72346cb01afc149cdbd94113b70318f34eb61c6f"
+      },
+      {
+        "package": "libx264-dev",
+        "version": "2:0.164.3108+git31e19f9-2+b1",
+        "source": "x264 (2:0.164.3108+git31e19f9-2)",
+        "architecture": "amd64",
+        "url": "https://deb.debian.org/debian/pool/main/x/x264/libx264-dev_0.164.3108+git31e19f9-2+b1_amd64.deb",
+        "bytes": 617664,
+        "sha256": "120094146e402348d7ee305d0977183f1514441aca128863b6ad2599d92a2f3c"
+      },
+      {
+        "package": "libx265-dev",
+        "version": "4.1-2",
+        "source": "x265",
+        "architecture": "amd64",
+        "url": "https://deb.debian.org/debian/pool/main/x/x265/libx265-dev_4.1-2_amd64.deb",
+        "bytes": 1227040,
+        "sha256": "174c683f254b7ab7ab1255aa4ee883945b6a80c04ba17ff4e9c906ad6ced5d0f"
+      }
+    ]
+  },
+  "metadataCorrections": [
+    "x264 official Version has epoch 2: omitted from historical narrative",
+    "SVT official package is libsvtav1enc-dev, not libsvtav1-dev; exact historical SHA matches"
+  ],
+  "failedAcquisitionSteps": [
+    "gpgv unavailable; used gpg --no-default-keyring with installed keyring instead",
+    "selection assertions stopped before package downloads on historical naming differences",
+    "first extraction wrote only source regular files before missing package-selection receipt; retained separately; final extracted-v2 complete"
+  ],
+  "originalReceiptSha256": "85b493f26f53ba969d876af975802d3e729c4ff282af587981d17cb18e7c33d4",
+  "limits": [
+    "Fresh successor provenance, not recovered original five JSON records.",
+    "No production default promotion, native/media qualification or redistribution clearance.",
+    "URLs and hashes permit reacquisition, not proof of a durable binary backup.",
+    "Raw logs, caches, GnuPG home and private root mappings are excluded.",
+    "Development archives are not complete corresponding-source/buildinfo evidence."
+  ]
+}

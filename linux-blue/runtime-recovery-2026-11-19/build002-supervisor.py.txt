@@ -1,0 +1,125 @@
+"""Inert on import. One explicitly released successor build; never installs or launches FFmpeg."""
+from pathlib import Path
+import os,json,hashlib,stat,time,subprocess,signal,shutil,tarfile,datetime,errno
+D=Path(__file__).resolve().parent
+ROOT=D.parent/'successor-runtime-build-002'
+HELPERS=('ffbuild/version.sh','ffbuild/libversion.sh','ffbuild/pkgconfig_generate.sh')
+def digest(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def ordinary(p,directory=False):
+ s=p.lstat();assert s.st_uid==os.getuid() and not stat.S_ISLNK(s.st_mode)
+ assert stat.S_ISDIR(s.st_mode) if directory else stat.S_ISREG(s.st_mode)
+ return s
+def proc(pid):
+ s=Path('/proc')/str(pid)/'stat'
+ try:
+  raw=s.read_text();v=raw[raw.rfind(')')+2:].split();return {'pid':pid,'state':v[0],'pgrp':int(v[2]),'session':int(v[3]),'ticks':int(v[19])}
+ except OSError as error:
+  if error.errno in (errno.ENOENT,errno.ESRCH):return None
+  raise
+def group(pid):
+ result=[]
+ for x in Path('/proc').iterdir():
+  if x.name.isdigit():
+   q=proc(int(x.name))
+   if q and q['session']==pid and q['pgrp']==pid:result.append(q)
+ return result
+def run(argv,env,cwd,deadline,log,record):
+ p=None;identity=None
+ try:
+  with open(log.with_suffix('.stdout'),'xb') as out,open(log.with_suffix('.stderr'),'xb') as err:
+   p=subprocess.Popen(argv,cwd=cwd,env=env,stdout=out,stderr=err,start_new_session=True)
+   identity=proc(p.pid);assert identity and identity['session']==p.pid and identity['pgrp']==p.pid
+   record['identity']=identity
+   while True:
+    now=proc(p.pid);assert now and now['ticks']==identity['ticks'],'OWNED_LEADER_IDENTITY_LOST'
+    observed=group(p.pid)
+    if now['state']=='Z':
+     assert all(x['pid']==p.pid or x['state']=='Z' for x in observed),'DESCENDANTS_REMAIN_AFTER_LEADER_EXIT'
+     record['exitCode']=p.wait();record['remainingNonZombieGroupMembers']=[x for x in group(p.pid) if x['state']!='Z'];assert not record['remainingNonZombieGroupMembers']
+     return record['exitCode']
+    if time.monotonic()>=deadline:raise TimeoutError('BUILD_DEADLINE')
+    time.sleep(.2)
+ except BaseException as e:
+  record['failureType']=type(e).__name__
+  if p and identity:
+   current=proc(p.pid)
+   if current and current['ticks']==identity['ticks'] and current['session']==p.pid:
+    os.killpg(p.pid,signal.SIGTERM);until=time.monotonic()+10
+    while time.monotonic()<until:
+     if not [x for x in group(p.pid) if x['state']!='Z']:break
+     time.sleep(.2)
+    if [x for x in group(p.pid) if x['state']!='Z']:os.killpg(p.pid,signal.SIGKILL)
+    record['cleanup']='owned-session-term-then-kill-if-needed';record['exitCode']=p.wait(timeout=10)
+    record['remainingNonZombieGroupMembers']=[x for x in group(p.pid) if x['state']!='Z']
+   else:record['cleanup']='identity-unconfirmed-no-signal'
+  else:record['cleanup']='not-started-or-identity-unobserved-no-signal'
+  raise
+
+def main():
+ ordinary(D,True);ordinary(D.parent,True)
+ gate=json.loads((D/'APPROVED_BUILD_002.json').read_text());assert gate['status']=='approved-one-successor-build'
+ assert gate['supervisorSha256']==digest(Path(__file__)) and gate['acquisitionReceiptSha256']==digest(D/'ACQUISITION_RECEIPT.json')
+ assert gate['buildRoot']==str(ROOT) and gate['maxSeconds']==1800 and not ROOT.exists()
+ acquisition=json.loads((D/'ACQUISITION_RECEIPT.json').read_text())
+ for r in acquisition['files']:
+  p=D/r['path'];ordinary(p);assert p.stat().st_size==r['bytes'] and digest(p)==r['sha256']
+ for r in acquisition['toolchain'].values():
+  p=Path(r['path']);assert p.stat().st_size==r['bytes'] and digest(p)==r['sha256']
+ inventory=json.loads((D/'EXTRACTION_INVENTORY.json').read_text())
+ def check_inputs():
+  for a in inventory['archives']:
+   for r in a['members']:
+    if 'size' not in r:continue
+    p=D/'extracted-v2'/a['archive']/r['path'];ordinary(p);assert p.stat().st_size==r['size'] and digest(p)==r['sha256']
+ def check_dependencies():
+  assert digest(D/'HOST_DEPENDENCIES.json')=='f2ca038ea90ab279049e5e026b971e44079e1803fc0946de13712b42ecacbae2'
+  for r in json.loads((D/'HOST_DEPENDENCIES.json').read_text()):
+   p=Path(r['path']);assert p.resolve()==Path(r['sonamePath']).resolve() and not p.is_symlink()
+   assert p.stat().st_size==r['size'] and digest(p)==r['sha256']
+ check_inputs();check_dependencies();assert shutil.disk_usage(D).free>=12*1024**3
+ os.umask(0o077);ROOT.mkdir();[ (ROOT/x).mkdir() for x in ('build','tmp','logs','install-unused') ]
+ source=D/'extracted-v2/ffmpeg-source/ffmpeg-9.0.2';modes=[]
+ with tarfile.open(D/'ffmpeg-9.0.2.tar.xz','r:xz') as t:
+  for name in HELPERS:
+   m=t.getmember('ffmpeg-9.0.2/'+name);assert m.isfile() and m.mode&0o111 and not m.mode&0o6000
+   p=source/name;s=ordinary(p);assert stat.S_IMODE(s.st_mode)==0o700, 'Prior reviewed build001 helper mode must remain0700'
+   modes.append({'path':name,'sha256':digest(p),'archiveMode':oct(m.mode),'before':'0700','after':'0700'});assert digest(p)==hashlib.sha256(t.extractfile(m).read()).hexdigest()
+ env={'PATH':'/usr/bin:/bin','HOME':str(ROOT),'LC_ALL':'C','TZ':'UTC','TMPDIR':str(ROOT/'tmp'),'PKG_CONFIG_PATH':'','PKG_CONFIG_LIBDIR':str(D/'proposed-pkgconfig')}
+ argv=['/bin/sh',str(source/'configure'),'--prefix='+str(ROOT/'install-unused'),'--cc=/usr/bin/gcc','--cxx=/usr/bin/g++','--ar=/usr/bin/ar','--nm=/usr/bin/nm','--ranlib=/usr/bin/ranlib','--pkg-config=/usr/bin/pkg-config','--disable-network','--disable-autodetect','--disable-shared','--enable-static','--disable-ffplay','--disable-doc','--disable-debug','--disable-x86asm','--enable-gpl','--enable-pthreads','--enable-libx264','--enable-libx265','--enable-libsvtav1','--enable-libdav1d']
+ receipt={'status':'started','started':datetime.datetime.now(datetime.timezone.utc).isoformat(),'sourceReceiptSha256':digest(D/'ACQUISITION_RECEIPT.json'),'supervisorSha256':digest(Path(__file__)),'helperModes':modes,'environment':env,'commands':[argv,['/usr/bin/make','-j4','ffmpeg','ffprobe']],'phases':[],'note':'Configure/compiler checks execute temporary test programs. No FFmpeg version/media or install command.'}
+ (ROOT/'START.json').write_text(json.dumps(receipt,indent=2)+'\n');deadline=time.monotonic()+1800
+ try:
+  for phase,command in zip(('configure','make'),receipt['commands']):
+   r={'phase':phase};receipt['phases'].append(r)
+   code=run(command,env,ROOT/'build',deadline,ROOT/'logs'/phase,r)
+   if code:raise RuntimeError('BUILD_PHASE_NONZERO')
+  check_inputs();check_dependencies();receipt['outputs']=[]
+  for name in ('ffmpeg','ffprobe'):
+   p=ROOT/'build'/name;s=ordinary(p);receipt['outputs'].append({'path':name,'bytes':s.st_size,'sha256':digest(p),'mode':oct(stat.S_IMODE(s.st_mode))})
+  receipt['elfInspection']=[]
+  for name in ('ffmpeg','ffprobe'):
+   assert time.monotonic()<deadline
+   result=subprocess.run(['/usr/bin/readelf','-d',str(ROOT/'build'/name)],capture_output=True,text=True,timeout=min(15,max(1,deadline-time.monotonic())))
+   (ROOT/'logs'/(name+'.readelf.txt')).write_text(result.stdout+result.stderr)
+   assert result.returncode==0
+   receipt['elfInspection'].append({'path':name,'libatomicMentioned':'libatomic' in result.stdout,'rpathOrRunpath':'(RPATH)' in result.stdout or '(RUNPATH)' in result.stdout})
+  assert not any(r['rpathOrRunpath'] for r in receipt['elfInspection'])
+  receipt['status']='compiled-not-runtime-qualified'
+ except BaseException as e:
+  receipt['status']='failed';receipt['failureType']=type(e).__name__;raise
+ finally:
+  # Independent best-effort checks preserve the original phase failure.
+  receipt['finalIntegrity']={}
+  for label,check in (('inputs',check_inputs),('dependencies',check_dependencies)):
+   try:
+    check();receipt['finalIntegrity'][label]={'passed':True}
+   except Exception as integrity_error:
+    receipt['finalIntegrity'][label]={'passed':False,'failureType':type(integrity_error).__name__ if type(integrity_error).__name__ in ('AssertionError','OSError','FileNotFoundError','PermissionError','ValueError','KeyError','JSONDecodeError') else 'OtherIntegrityError'}
+  integrity_ok=all(row['passed'] for row in receipt['finalIntegrity'].values())
+  if not integrity_ok and receipt['status']=='compiled-not-runtime-qualified':
+   receipt['status']='failed-final-integrity'
+  receipt['finished']=datetime.datetime.now(datetime.timezone.utc).isoformat()
+  (ROOT/'RESULT.json').write_text(json.dumps(receipt,indent=2)+'\n')
+  if not integrity_ok and receipt['status']=='failed-final-integrity':
+   raise RuntimeError('FINAL_INTEGRITY_FAILED')
+if __name__=='__main__':main()

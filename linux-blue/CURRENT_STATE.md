@@ -1,16 +1,20 @@
-# Current State — checkpoint 074 preparation
+# Current State — 075 approved source
 
-Evidence cutoff: November 18, 2026 at 23:51:28 UTC. Source review/integration and 102 focused tests are accepted, zero failures/skips. Aggregate passed 215 syntax / 243 shared / 39 Linux, empty stderr and exit 0. Counts overlap, not summed. 074 is not yet committed, mirrored, packaged or executed.
+Evidence cutoff 2026-11-19T01:10:11Z; source integration and independent review accepted; no 075 commit, mirror, application package or native launch claimed.
 
-## Verified outcomes on exact 073 artifact
-- Hosted Windows packaged CPU integration passed, with substituted dialogs, unchanged source/package and normal close. GPU/native Windows desktop remain unqualified; sanitized report only.
-- Actual ordinary Linux native pickers, encode, ordinary validation, publication and Thunar reveal passed independent saved audit. Output 4,805,537 bytes; 233 package files/fixture unchanged; normal close. No precision claim.
-- Actual measured 1080 precision regression passed independent saved audit: 63 frames / 101,184 samples / 404,736 matching PCM bytes, output 590,122 bytes, normal close. Observed process identities are sampled, not exhaustive.
+- Exact 074 source/history restored and independently verified: 788 files / 74 commits. Original user-supplied Git/PBS methodology recovered. Seventy-four code-only checks and six inert package checks passed; scopes are not summed as unique tests.
+- Failed build 001 retained; corrected build 002 completed with NEW binary identities, independent ELF/dependency audit and six bounded CPU H264/H265/AV1 8/10-bit outputs accepted. Warnings retained; no performance claim.
+- Two short precision numerical cases and one eight-second Full-copy case passed saved-evidence audits. These do not qualify a new packaged/native route or automatically transfer broad historical catalog scope.
+- Remux media-only saved audit accepted: 15 closures, packet/header and complete PCM identity. Start/end decoded windows use the same key packet 0, not distinct final-frame proof. executionReady=false; provenance/publication/lifecycle and metadata-mode gates remain. Existing late-range 150-second 1440 case passed saved audit: selected 100–140 seconds, 1,200 frames / 1,920,000 samples with exact PCM equality, 16 closed children. Final product enabling/evidence review is accepted.
+- Fresh runtime recovery archive is verified locally only. Private Library approval/durable destination not established; no alternate binary upload authorized. Source mirror is not binary backup.
+- Exact Windows 072/073 sanitized reports are confirmed in GitHub 074. Their historical retention index is unchanged; its not-yet-durable label is superseded here for those exact report bytes only.
 
-## Integrated successor
-Six reviewed default/reset and closure paths fix ordinary candidate recipe/reset disagreement without changing production defaults or weakening admission. Three sanitized hosted report records preserve exact previously local-only 072/073 report bytes. Product closure 120 entries; package 230 inputs / 137 app files / 391,391,731 bytes. Runtime/notice and raw historical measured maps unchanged. No actual 074 native or hosted run is claimed.
+Next: preserve the coherent checkpoint before any new package/native acceptance. Source restore, tool build, application package and native launch are distinct gates. Native 074 never launched; old 073 proofs retain their exact historical scope.
 
-## Next and limitations
-Finish independent owning-record review and Git → Notion → GitHub verification, then proportionate successor qualification. Current-runtime H264/AAC MP4-to-MP4 remux is a bounded plan, not implemented. AV1, broader media, portability/source/build provenance and deliberate release artifacts remain separate work. Sanitized skills remain uninstalled drafts; current mirror unchanged.
+Owner PC/RTX validation remains the last v0.7 gate. After useful independent work and candidate freeze, v0.8 may proceed separately without waiting for quota/final PC test; isolate v0.7 fixes. Themes, Arabic-inclusive localization, guides/onboarding and polish remain v0.8; HDR v0.9.
 
-Ahmed’s Windows PC / RTX 5060 test remains the final v0.7 gate after useful independent work. Once that work is complete and the candidate frozen, v0.8 may begin separately without waiting for owner quota/final PC testing; keep v0.7 fixes isolated. Themes, Arabic-inclusive localization, guides/onboarding and polish remain v0.8; HDR remains v0.9.
+Supervisor provenance correction: retained build002-supervisor.py.txt is byte-identical original source (22b847…0d29), using relative roots, not a byte-different redacted derivative. Original local archive remains untouched; separately named corrected metadata archive remains local-only.
+
+Pending owner follow-ons, not implemented in 075: 076 terminal batch elapsed display using the existing authoritative timer; UHD 3840×2160 → 1440p/1080p/720p actual CPU family/matrix/UI qualification using existing resolution controls. Final reviewer accepts unchanged internal precision/Full-copy admission via explicit shared-mechanism reasoning; final activation bytes, independent review and aggregate checks are accepted. Historical native/runtime/performance claims do not transfer.
+
+Final source proposal: explicit internal measured activation true; 126 source pins, 241 package inputs / 143 app files / 391,463,758 bytes; 55 focused checks passed. Aggregate passed 215 syntax / 243 shared / 40 Linux checks, zero failures/skips; final independent delta review accepted. No arbitrary fixture-length admission caps; shared-mechanism reasoning is recorded in admission075-reasoning.json. No package/native or production-default promotion.

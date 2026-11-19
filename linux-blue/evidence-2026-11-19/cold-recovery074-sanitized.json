@@ -1,0 +1,93 @@
+{
+  "status": "independent-source-history-recovery-verified",
+  "atUtc": "2026-11-19T00:16:30.965953+00:00",
+  "head": "407d743f2c055acab47926d38aeac645a846100b",
+  "tree": "c072d9c0692acf5443a464902a7c7cd185b53f59",
+  "historyCommits": 74,
+  "trackedFiles": 788,
+  "exactZipMemberSet": true,
+  "allRestoredBytesMatchSourceZip": true,
+  "gitStatus": "",
+  "archives": [
+    {
+      "path": "ffmpeg-linux-checkpoint-407d743.zip",
+      "bytes": 5991256,
+      "sha256": "458703a80fe99dfd70bb354c703eb7f0307c0022077c5bce5162f70d483f278c"
+    },
+    {
+      "path": "ffmpeg-linux-checkpoint-407d743.bundle",
+      "bytes": 7730806,
+      "sha256": "3d6f3838ed014caf1d693ba7a416ca3507ffb0727806f271000c57ddc35b3553"
+    }
+  ],
+  "gitIntegrityChecks": {
+    "bundle": {
+      "exitCode": 0,
+      "stdout": "The bundle contains this ref:\n407d743f2c055acab47926d38aeac645a846100b refs/heads/blue/reconstruction-20261117\nThe bundle records a complete history.\nThe bundle uses this hash algorithm: sha1\n",
+      "stderr": "ffmpeg-linux-checkpoint-407d743.bundle is okay\n"
+    },
+    "fsck": {
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  "restoredExactSanitizedReports": [
+    {
+      "path": "linux-blue/evidence-2026-11-18/windows072-packaged-cpu-report.json",
+      "bytes": 1544,
+      "sha256": "998150f38c642c0f7cf62e8f729aaae0843d6057c2ebcad82681e713b258bc3b"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-18/windows073-packaged-cpu-report.json",
+      "bytes": 1544,
+      "sha256": "c437c7c626de3d720e1ac62fdeb7cff06c0522676d750995556040f534d72ded"
+    }
+  ],
+  "limits": [
+    "Verifies restored local archive bytes; this reviewer did not independently retrieve Notion or GitHub during this check.",
+    "074 code and complete committed documentation/history survive; actual executable packages and post-closure ignored evidence are not implied by source restoration.",
+    "Prior guidance/runtime/native-preparation directories are absent at their original paths. Post-closure local 074 package, native preparation and failed-remux evidence were not found by this check; no claim they were preserved.",
+    "Parent reports native 074 never launched. No new runtime/media test performed.",
+    "Sanitized raw Windows reports are deliberately present; report-artifact ZIPs and hosted executable-package ZIPs are different objects, not restored executable distribution."
+  ],
+  "canonicalDocsChanged": false,
+  "recoveryScenario": {
+    "kind": "actual-unexpected-workspace-replacement-not-deliberate-drill",
+    "offDeviceSource": "Named checkpoint 074 Notion source/history archives retrieved by lead using existing account access",
+    "independentAccountDisasterRecovery": false,
+    "separateRecoveryGaps": [
+      "Installed skills",
+      "Runtime binaries and system dependencies",
+      "Fixtures and ignored native evidence",
+      "Actual runnable application continuation"
+    ],
+    "permissionContext": "Current shell read-only; narrow approved escalation saved this receipt outside checkout, no canonical edits."
+  },
+  "parentCommit": "68a1fbd6c45dc9c44fe684e89e3e688daf50204d",
+  "parentTree": "f116c782b2fd9ee5bd4639300139b3cfd57075c6",
+  "trackedModes": [
+    "100644"
+  ],
+  "firstSafeContinuation": {
+    "provenance": "lead-reported",
+    "nodeVersion": "v24.22.3",
+    "command": "node --check",
+    "paths": [
+      "linux-blue/ordinary-cpu-service.cjs",
+      "ui/renderer.js",
+      "linux-blue/product-linux-qualification.cjs"
+    ],
+    "allExitCodes": 0,
+    "output": "empty",
+    "scope": "syntax only, no application/test/media execution"
+  },
+  "skillAvailability": {
+    "requested": "project-wipeout-drill",
+    "readResult": "skill package is not available",
+    "cloudListMatchingPackages": 0,
+    "guidance": "Did not claim to have opened unavailable skill; receipt applies known recovery distinctions and latest lead instructions."
+  },
+  "originalReceiptSha256": "2dd0e183efcc47ca230b7c3e39b5507264a17a6d278c8cce9b17e574d8d02b46",
+  "sanitization": "Exact receipt fields retained except workspace-root text in Git bundle diagnostic replaced with relative artifact name."
+}

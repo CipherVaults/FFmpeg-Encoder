@@ -1,0 +1,112 @@
+{
+  "approved": true,
+  "status": "accepted-saved-two-short-precision-experiments",
+  "summary": {
+    "bytes": 168782,
+    "sha256": "4ff17cab4f58e95562b76b84e051d7d0515e7a77e8e0da694a539f1557a3d672"
+  },
+  "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+  "sourceFilesVerified": 788,
+  "savedFilesHashed": 67,
+  "inventory": {
+    "bytes": 12652,
+    "sha256": "6d21958a286a4cf8e3292b1cbdbefa3fbd38e66dbdc052cfecfc5783ee0eaa96"
+  },
+  "cases": [
+    {
+      "case": "fresh-resize1080to720-hsl22R",
+      "source": {
+        "bytes": 2615213,
+        "sha256": "48ebd66bf2597ee1e5efca0b471a480d04e8cd83639259fda3539a99201552ae"
+      },
+      "output": {
+        "bytes": 590045,
+        "sha256": "b9d8277a3937ec0aa754527baedb9bc0a91739f7df714cda9b0553ebd11c0d26"
+      },
+      "report": {
+        "bytes": 75744,
+        "sha256": "a2f7a2d143f7b7f1063550da7443a7c96177a8894f2809ad0f8787f9847320fc"
+      },
+      "children": 14,
+      "closed": 14,
+      "live": 0,
+      "maximum": 1,
+      "selectedFrames": 63,
+      "selectedSamples": 101184,
+      "completeSourceFrames": 90,
+      "completeSourceSamples": 144000,
+      "pcm": {
+        "algorithm": "sha256",
+        "format": "s16le-interleaved",
+        "sourceHash": "482e7dad5a804903aa4821cc25a4511da65cde251b9618ac11e66b843a33d917",
+        "outputHash": "482e7dad5a804903aa4821cc25a4511da65cde251b9618ac11e66b843a33d917",
+        "sourceBytes": 404736,
+        "outputBytes": 404736
+      },
+      "telemetryAndCollectionSavedHashesVerified": true,
+      "originalCollectorInvocations": 7,
+      "strictExtraDecode": true,
+      "elapsedSelectedMs": 7324,
+      "ownedBytesRecorded": 3297565,
+      "stderrNonempty": [
+        {
+          "child": 5,
+          "bytes": 168,
+          "sha256": "7236aa382cebb779ed4ebe094a891fdea27d454850900e90761e2a3a4c8e28c4"
+        }
+      ]
+    },
+    {
+      "case": "fresh-resize1440to720-DhJaK3",
+      "source": {
+        "bytes": 4032515,
+        "sha256": "1af10fdfb40fa7fd721e60a7d9314d8f8c114759497a5bbb7319398dbfa37899"
+      },
+      "output": {
+        "bytes": 440289,
+        "sha256": "dbb21cd99c7c605132be4f3e4d46974f153e4657222f821dbb96e011fc9aed75"
+      },
+      "report": {
+        "bytes": 75756,
+        "sha256": "744729b7390cd420cb1f3a3bfaa9d032a97e481f0e6b819704781dd0a0d30711"
+      },
+      "children": 14,
+      "closed": 14,
+      "live": 0,
+      "maximum": 1,
+      "selectedFrames": 63,
+      "selectedSamples": 101184,
+      "completeSourceFrames": 90,
+      "completeSourceSamples": 144000,
+      "pcm": {
+        "algorithm": "sha256",
+        "format": "s16le-interleaved",
+        "sourceHash": "482e7dad5a804903aa4821cc25a4511da65cde251b9618ac11e66b843a33d917",
+        "outputHash": "482e7dad5a804903aa4821cc25a4511da65cde251b9618ac11e66b843a33d917",
+        "sourceBytes": 404736,
+        "outputBytes": 404736
+      },
+      "telemetryAndCollectionSavedHashesVerified": true,
+      "originalCollectorInvocations": 7,
+      "strictExtraDecode": true,
+      "elapsedSelectedMs": 6856,
+      "ownedBytesRecorded": 4565118,
+      "stderrNonempty": [
+        {
+          "child": 5,
+          "bytes": 168,
+          "sha256": "7236aa382cebb779ed4ebe094a891fdea27d454850900e90761e2a3a4c8e28c4"
+        }
+      ]
+    }
+  ],
+  "warningDisposition": "Both target encodes retained x265 CPU-mask error-labelled diagnostic and no-thread-pool warnings. Children exited0 and original telemetry/collector/strict decode passed; warning is not suppressed and performance/thread-pool capability is not established.",
+  "limits": [
+    "Saved original evidence audit only; no media invocation or independent re-decode",
+    "PCM equality is original streaming collector evidence, not rederived from saved PCM bytes",
+    "Output hashes computed now and identities match original collector; not historical output-hash reconstruction",
+    "Two short synthetic cases only; no long-duration, native UI, production catalog, GPU or release qualification",
+    "Storage/free-space checks are observed application limits, not hard OS quotas"
+  ],
+  "runtimeExecutedByAuditor": false
+}

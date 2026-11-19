@@ -4,7 +4,7 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 const { createHash } = require('node:crypto');
 const { isDeepStrictEqual } = require('node:util');
-const EXPECTED_SHA = 'faa88a7c347e1a81c65c6c45f3d79b04453349d1da18ca40c3fbbcde5178f89a';
+const EXPECTED_SHA = '6f7b0543f499e5c8dc58bbd0a0d9d77f0e8ecce4c4dd68b44127b4cec68b63d9';
 // Reviewed code is the trust anchor, not a caller manifest or writable JSON flag.
 // This loader cannot hash itself recursively; package/source review binds it.
 const SOURCE_PINS = {
@@ -13,12 +13,12 @@ const SOURCE_PINS = {
     "sha256": "a62ceab690931736a7d7a81e7c6c7495987f7015f953013366ab6f5a0fd8217a"
   },
   "linux-blue/product-linux-service.cjs": {
-    "sha256": "941c29ba2ca936b9c5e404f3e592b13e6574f49abf303280471da3e00a0d9cc1",
-    "bytes": 10772
+    "bytes": 11002,
+    "sha256": "318f332c7140ba7c82a4921023581b97cfd0724fa0927151034d45e6b43941a8"
   },
   "linux-blue/product-linux-shell.cjs": {
     "bytes": 5782,
-    "sha256": "9d469d71a3e2c099e69b9f99ea4b6bc7c06a8f97372fbb4ba7303e11e9732a72"
+    "sha256": "6123fd28678f62a7a2f434b7d0788525464bb3e94ee4746eb83ebafe4d355a74"
   },
   "linux-blue/runtime-av1-operation.cjs": {
     "bytes": 5507,
@@ -474,11 +474,11 @@ const SOURCE_PINS = {
   },
   "linux-blue/product-linux-ordinary-shell.cjs": {
     "bytes": 5205,
-    "sha256": "c1b749c553b029a3b7b624a4433e3ddba01a4bb569c6ee1ecf592e69867bcfa5"
+    "sha256": "cd16084b93bbeb7d0fc8c56c95fe79c829b04fa4d55f186cf9506c28792cc638"
   },
   "linux-blue/ordinary-cpu-service.cjs": {
     "bytes": 7632,
-    "sha256": "1ccdd6b57da1c0d52091f9bacc53087c18b4e1260b8aac047f7d2f5c15c99d3d"
+    "sha256": "24241ecb237bbaa34da30d50e62c371132be4ff2ec56561e8c6533a54b1ef2d4"
   },
   "linux-blue/ordinary-cpu-policy.cjs": {
     "bytes": 4851,
@@ -487,17 +487,41 @@ const SOURCE_PINS = {
   "linux-blue/ordinary-cpu-stage-guard.cjs": {
     "bytes": 2901,
     "sha256": "ffea76d7b7e0f6ea65d1316000c2d554e0e91cba581908454e394cd8ef36a42c"
+  },
+  "linux-blue/product-linux-qualification074-historical.json": {
+    "bytes": 8752,
+    "sha256": "faa88a7c347e1a81c65c6c45f3d79b04453349d1da18ca40c3fbbcde5178f89a"
+  },
+  "linux-blue/evidence-2026-11-19/precision075-saved-audit.json": {
+    "bytes": 4145,
+    "sha256": "62ffebf1766562a869836dd8f004687bcc422e143198e5fddff948e71100c46a"
+  },
+  "linux-blue/evidence-2026-11-19/fullcopy075-saved-audit.json": {
+    "bytes": 22243,
+    "sha256": "afc414c9c349f45346b7a4fbfcf36a92737b1cbceffcd4eb9cdc140895d72445"
+  },
+  "linux-blue/evidence-2026-11-19/cpu075-saved-audit.json": {
+    "bytes": 4645,
+    "sha256": "96565b7fea8ccf103e2b3291abcf153f6b89ccd9fba9336947b1d4da8f8ea207"
+  },
+  "linux-blue/evidence-2026-11-19/late-range075-saved-audit.json": {
+    "bytes": 19599,
+    "sha256": "f0d9178b0f4f8d5d6ccfb7b7618bf6b54833020418fedbab35172d90679415da"
+  },
+  "linux-blue/evidence-2026-11-19/admission075-reasoning.json": {
+    "bytes": 2203,
+    "sha256": "1732b21e588af64fef4ca85b45c5e575c56fbe16b0b907df3a7012ae3a7a349f"
   }
 };
 const CLOSED_RECORD = {
-  "schema": "linux-product-three-family-qualification/v3",
+  "schema": "linux-product-three-family-qualification/v4-runtime-successor",
   "scope": "internal-opt-in-three-family-candidate",
-  "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+  "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
   "rawCalibration": {
-    "sha256": "c81129d8305109c0a7a9dd024e65d3f5dab5611bf70cd218a601c734ff3dcd67",
-    "sizeBytes": 125817
+    "sha256": "d8e48f1cbb9df2b5b55595d7c7d9860ef3421147e832e02efc31d06b0e08bb16",
+    "sizeBytes": 78526
   },
-  "independentCalibrationAuditSha256": "454301f509d8aaa38f9ee12d30faf62605e44425089173fc742fd4d18f6e9072",
+  "independentCalibrationAuditSha256": "f0d9178b0f4f8d5d6ccfb7b7618bf6b54833020418fedbab35172d90679415da",
   "nativeProof": null,
   "productIntegrationReview": null,
   "family": {
@@ -515,8 +539,8 @@ const CLOSED_RECORD = {
       "outputHeight": 720
     },
     "qualification": {
-      "evidenceId": "candidate-resize1440to720-calibration-B10HEW:long-pattern:endpoints",
-      "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+      "evidenceId": "fresh-resize1440to720-E8Fm1C:long-pattern:endpoints",
+      "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
       "containerDuration": "end-timestamp",
       "tolerances": {
         "videoTimestampUs": 1067,
@@ -527,83 +551,90 @@ const CLOSED_RECORD = {
       }
     },
     "timingQualification": {
-      "evidenceId": "candidate-resize1440to720-calibration-B10HEW:long-pattern:interior",
-      "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+      "evidenceId": "fresh-resize1440to720-E8Fm1C:long-pattern:interior",
+      "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
       "videoDurationUs": 1067,
       "audioTimelineUs": 1042,
       "aac": null
     },
     "evidenceIds": [
-      "candidate-resize1440to720-calibration-B10HEW:long-pattern:endpoints",
-      "candidate-resize1440to720-calibration-B10HEW:long-pattern:interior",
-      "candidate-resize1440to720-calibration-B10HEW:heldout-flipped:endpoints",
-      "candidate-resize1440to720-calibration-B10HEW:heldout-flipped:interior"
+      "fresh-resize1440to720-DhJaK3:fresh-three-second-heldout:endpoints",
+      "fresh-resize1440to720-DhJaK3:fresh-three-second-heldout:interior",
+      "fresh-resize1440to720-E8Fm1C:long-pattern:endpoints",
+      "fresh-resize1440to720-E8Fm1C:long-pattern:interior"
     ]
   },
+  "runtimeSuccessor": {
+    "historicalRecord": {
+      "path": "linux-blue/product-linux-qualification074-historical.json",
+      "bytes": 8752,
+      "sha256": "faa88a7c347e1a81c65c6c45f3d79b04453349d1da18ca40c3fbbcde5178f89a"
+    },
+    "historicalRuntimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+    "measuredActivation": true,
+    "lateRangeEvidence": {
+      "path": "linux-blue/evidence-2026-11-19/late-range075-saved-audit.json",
+      "bytes": 19599,
+      "sha256": "f0d9178b0f4f8d5d6ccfb7b7618bf6b54833020418fedbab35172d90679415da",
+      "report": {
+        "bytes": 78526,
+        "sha256": "d8e48f1cbb9df2b5b55595d7c7d9860ef3421147e832e02efc31d06b0e08bb16"
+      },
+      "selectedFrames": 1200,
+      "selectedSamples": 1920000,
+      "completeSourceFrames": 4500,
+      "completeSourceSamples": 7200000
+    },
+    "basis": "Fresh accepted short 1080/1440 precision, a 150-second 1440 source with a 100\u2013140-second selection, and eight-second Full-copy evidence bind the new exact runtime. Reviewed shared clocks, validators, resource policy and unchanged producer mechanisms support unchanged internal family admission; this is not measurement of every admitted duration or native/package acceptance. Historical runtime records retain their original identities.",
+    "retainedLimits": [
+      "27GiB free-space floor and existing family resource admission unchanged.",
+      "Two-frame CPU tests are not broad encoding or performance qualification.",
+      "x265 CPU-mask and thread-pool warnings retained; no affinity/security workaround.",
+      "Remux evidence is media-only and does not activate remux.",
+      "Actual fresh Full-copy coverage is the eight-second AAC case; the separate 11-second AAC heldout remains untested on this runtime. No 43.217-second FLAC evidence is represented as AAC-copy coverage.",
+      "Other admitted durations and native journeys are not newly measured. Each output still requires the existing independent validation, currentness and publication guards."
+    ],
+    "admissionReasoning": {
+      "path": "linux-blue/evidence-2026-11-19/admission075-reasoning.json",
+      "bytes": 2203,
+      "sha256": "1732b21e588af64fef4ca85b45c5e575c56fbe16b0b907df3a7012ae3a7a349f"
+    }
+  },
   "internalCandidateDecision": {
-    "scope": "Explicit Linux opt-in engineering candidate only; source review and preservation required before execution",
-    "basis": "Original accepted calibration and developer service; unchanged measured producer closure",
-    "nativePublication": "pending replacement-shell acceptance; workbench picker is not a prerequisite",
+    "scope": "Explicit Linux internal candidate successor; not shipping catalog",
+    "basis": "Accepted fresh bounded media audits and explicit shared-mechanism retest-scope review support internal admission, not inherited historical binary or native qualification.",
+    "nativePublication": "pending new preserved and audited package",
     "productionDefault": "unchanged",
     "distributionReady": false,
     "pending": [
-      "independent activation source review",
-      "Git then verified Notion then GitHub preservation",
-      "actual relocated internal-shell publication/output access/close",
-      "portable dependency and notices obligations"
+      "independent integration review and source preservation",
+      "new inert package audit and bounded native journeys",
+      "corresponding-source/notices and portable dependency obligations"
     ]
   },
   "supportingEvidence": {
-    "serviceAudit": {
-      "sha256": "1aaefc0d5b330e32970aefe2996d27bdb196bfbdcd97246829a59855fdd05b50",
-      "bytes": 267777
+    "precisionAudit": {
+      "bytes": 4145,
+      "sha256": "62ffebf1766562a869836dd8f004687bcc422e143198e5fddff948e71100c46a"
     },
-    "serviceSupplement": {
-      "sha256": "c4715407751e697547fae281c69a173b5edfe6bd332ad1774bce2f039fe48a04",
-      "bytes": 3492
+    "cpuAudit": {
+      "bytes": 4645,
+      "sha256": "96565b7fea8ccf103e2b3291abcf153f6b89ccd9fba9336947b1d4da8f8ea207"
     },
-    "serviceRelease": {
-      "sha256": "b1f276754b8b010967e0317ff6771ee47ad27cdc8cd16ec9882a75747eec8dee",
-      "bytes": 2330
-    },
-    "source064": {
-      "sha256": "a5fde18c8f63c0b1fd461f62f8ba624369a2cf12dda8626fb00d3f0a24d2e9a3",
-      "bytes": 4688
-    },
-    "tests064": {
-      "sha256": "96a2e574841da9acad73d509b5f25583b89b25a13db5b0dae64df0003c0bf490",
-      "bytes": 1698
-    },
-    "source065": {
-      "sha256": "557941e3c9b53f2335edf7cf5bcbcf9e5e1134e396bf1dd287a342ad84e594d2",
-      "bytes": 3438
-    },
-    "tests065": {
-      "sha256": "5b34b575578bbfd4cdae1690bc52544dcf2fa806d698b857f189d5ab0ffa5669",
-      "bytes": 1405
+    "lateRangeAudit": {
+      "bytes": 19599,
+      "sha256": "f0d9178b0f4f8d5d6ccfb7b7618bf6b54833020418fedbab35172d90679415da"
     }
   },
   "fullCopy": {
     "rawCalibration": {
-      "sha256": "aa8872a45eec88e01444cb79c57b0cceb5d03825800afacd4475a06c57ad9cf1",
-      "sizeBytes": 207500
+      "sha256": "950f7a464d77410a73ad22af5ab77487da4a023069aaff6d99ba06451d203640",
+      "sizeBytes": 69420
     },
     "supportingEvidence": {
-      "calibrationRelease": {
-        "sha256": "8423ecb5a270d131fcec1c3042c5d6eebad83b81d7684aeee1a47d23dc0cf452",
-        "bytes": 2148
-      },
       "calibrationAudit": {
-        "sha256": "57ea480bec4c0df0440719ec6b78fadc54a15506f5c6467a885a9630128819e0",
-        "bytes": 26926
-      },
-      "serviceRelease": {
-        "sha256": "fda275a7cf18385a10de429357d0acf1ecf21501bcea1d7e4a9323535ba010b6",
-        "bytes": 2113
-      },
-      "serviceAudit": {
-        "sha256": "3a5d8c77e4befff6c0b16516ca5ee457f8db55902d5e99a2192f17c25fc2a4d0",
-        "bytes": 287395
+        "bytes": 22243,
+        "sha256": "afc414c9c349f45346b7a4fbfcf36a92737b1cbceffcd4eb9cdc140895d72445"
       }
     },
     "nativeProof": null,
@@ -623,8 +654,8 @@ const CLOSED_RECORD = {
         "outputHeight": 720
       },
       "qualification": {
-        "evidenceId": "full-copy-reviewed-3f5d189-aa8872a45eec88e0:endpoints",
-        "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+        "evidenceId": "successor075-short-full-copy-950f7a464d77410a:endpoints",
+        "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
         "containerDuration": "matroska-copy-end-plus-codec-delay",
         "tolerances": {
           "videoTimestampUs": 1067,
@@ -635,41 +666,31 @@ const CLOSED_RECORD = {
         }
       },
       "timingQualification": {
-        "evidenceId": "full-copy-reviewed-3f5d189-aa8872a45eec88e0:interior",
-        "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+        "evidenceId": "successor075-short-full-copy-950f7a464d77410a:interior",
+        "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
         "videoDurationUs": 1067,
         "audioTimelineUs": 1042,
         "aac": null
       },
       "evidenceIds": [
-        "full-copy-reviewed-3f5d189-aa8872a45eec88e0:endpoints",
-        "full-copy-reviewed-3f5d189-aa8872a45eec88e0:interior"
+        "successor075-short-full-copy-950f7a464d77410a:endpoints",
+        "successor075-short-full-copy-950f7a464d77410a:interior"
       ]
     },
     "limits": [
-      "Whole-file Full/null request only; 1080p30 to 720p; copied AAC, not PCM identity.",
-      "H265 CPU slow CRF25 only. No remux, GPU, arbitrary source geometry, precision-range substitution or production catalog activation.",
-      "062 calibration and 063 service evidence is not relocated package/native acceptance.",
-      "Existing CPU topology/thread-pool warnings and cancellation diagnostics remain recorded."
+      "New eight-second1080p30 whole-file720pH265slow25 copiedAAC experiment only.",
+      "Exact packet/header identity and padding/timeline evidence retained in owning audit. No automatic long-duration, native, GPU or production qualification."
     ]
   },
   "range1080": {
     "rawCalibration": {
-      "sha256": "84bc6a774ec2fd7af8e0eff05420d9637d54232f4feb0d1d24d80b384a2c6ccd",
-      "sizeBytes": 125797
+      "sha256": "a2f7a2d143f7b7f1063550da7443a7c96177a8894f2809ad0f8787f9847320fc",
+      "sizeBytes": 75744
     },
     "supportingEvidence": {
       "calibrationAudit": {
-        "sha256": "67cff40706d899c92303107178adcf1eb7d55977f5037ae68a12546d01aceb28",
-        "bytes": 257925
-      },
-      "serviceAudit": {
-        "sha256": "2eb44fd7df5af327ce344d15f2f29e277ecead132d9b5ce877016db38e0fe14f",
-        "bytes": 270595
-      },
-      "serviceRelease": {
-        "sha256": "1074436b1c70d3f62df59721f9259b222d98928cf5bd4844eb9359122ee10c6c",
-        "bytes": 2489
+        "bytes": 4145,
+        "sha256": "62ffebf1766562a869836dd8f004687bcc422e143198e5fddff948e71100c46a"
       }
     },
     "nativeProof": null,
@@ -689,8 +710,8 @@ const CLOSED_RECORD = {
         "outputHeight": 720
       },
       "qualification": {
-        "evidenceId": "candidate-resize1080to720-calibration-miYNXT:long-pattern:endpoints",
-        "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+        "evidenceId": "fresh-resize1080to720-hsl22R:fresh-three-second-heldout:endpoints",
+        "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
         "containerDuration": "end-timestamp",
         "tolerances": {
           "videoTimestampUs": 1067,
@@ -701,23 +722,21 @@ const CLOSED_RECORD = {
         }
       },
       "timingQualification": {
-        "evidenceId": "candidate-resize1080to720-calibration-miYNXT:long-pattern:interior",
-        "runtimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+        "evidenceId": "fresh-resize1080to720-hsl22R:fresh-three-second-heldout:interior",
+        "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
         "videoDurationUs": 1067,
         "audioTimelineUs": 1042,
         "aac": null
       },
       "evidenceIds": [
-        "candidate-resize1080to720-calibration-miYNXT:long-pattern:endpoints",
-        "candidate-resize1080to720-calibration-miYNXT:long-pattern:interior",
-        "candidate-resize1080to720-calibration-miYNXT:heldout-flipped:endpoints",
-        "candidate-resize1080to720-calibration-miYNXT:heldout-flipped:interior"
+        "fresh-resize1080to720-hsl22R:fresh-three-second-heldout:endpoints",
+        "fresh-resize1080to720-hsl22R:fresh-three-second-heldout:interior"
       ]
     },
     "limits": [
-      "Explicit 1080p30 range to 720p with precision FLAC only; H264 High progressive yuv420p CFR SDR bt709/tv/left and stereo 48 kHz s16 PCM QuickTime source.",
-      "Not arbitrary AAC, VFR, HDR or GPU input. H265 CPU slow CRF25 only.",
-      "Accepted 061 calibration and 062 service evidence does not qualify this new packaged composition. Predecessor native proofs apply only to their exact artifacts."
+      "New three-second source/nonaligned0.613\u20132.721 range experiment only.",
+      "H264High30fpsSDRBT709 squarepixel stereo48kHzs16PCM source; no arbitrary AAC/VFR/HDR/GPU admission.",
+      "Historical long campaigns remain old runtime evidence, not silently reassigned to this pair."
     ]
   }
 };

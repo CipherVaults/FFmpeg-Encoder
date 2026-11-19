@@ -1,0 +1,80 @@
+{
+  "approved": true,
+  "status": "accepted-media-only-saved-evidence-not-product-enablement",
+  "report": {
+    "bytes": 241529,
+    "sha256": "05909b4ad4f6ad46a79df63472a30036cddfebf788535acce1b8512540896e9c"
+  },
+  "inventory": {
+    "bytes": 3561,
+    "sha256": "ab5c2e2777cac338667d47a8f97546b45db77a5459a8fe4eeea27360f868dfed"
+  },
+  "savedFileCount": 22,
+  "sourceFilesVerified": 788,
+  "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+  "source": {
+    "bytes": 5578679,
+    "sha256": "bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97"
+  },
+  "output": {
+    "bytes": 5579020,
+    "sha256": "e6dd16c0a361cccd00e06f8de9992450d936ede284d375294ebd2dedf20a4fbd"
+  },
+  "closedChildren": 15,
+  "liveAfterClose": 0,
+  "durationMs": 1839,
+  "collectorArtifactHashesVerified": 20,
+  "receiptReconciliation": "Returned receipt adds its own saved receipt artifact, byte count and profiling counters; all other original fields identical.",
+  "video": {
+    "packets": 240,
+    "sliceHeaders": 240,
+    "packetAndDecoderIdentityEqual": true,
+    "timestampError": "0",
+    "nativeWindows": {
+      "start": {
+        "keyPacketIndex": 0,
+        "frameCount": 1,
+        "sha256": "0e4f549e524c55a5fdb8b96687a1d2a1a2b1478437110cc62a0d45149bed0ffc"
+      },
+      "end": {
+        "keyPacketIndex": 0,
+        "frameCount": 1,
+        "sha256": "0e4f549e524c55a5fdb8b96687a1d2a1a2b1478437110cc62a0d45149bed0ffc"
+      }
+    },
+    "interiorDecoded": false
+  },
+  "audio": {
+    "packets": 376,
+    "packetAndDecoderIdentityEqual": true,
+    "pcm": {
+      "bytes": 3072000,
+      "samples": "384000",
+      "sha256": "200ca1c2a6804c139d5d7637caf507b686b30f7dfdf4b5c11ca629855e82a9a4"
+    },
+    "timestampError": "0",
+    "firstPacketPts": {
+      "numerator": "-8",
+      "denominator": "375"
+    },
+    "note": "Original AAC priming preserved, no rebase or audio encode."
+  },
+  "mediaValidationValid": true,
+  "executionReady": false,
+  "missingQualificationIds": [
+    "provenance:mp4",
+    "publication-and-lifecycle",
+    "mov-family-metadata-mode"
+  ],
+  "limitations": [
+    "No support registry is changed or inferred.",
+    "Normal provenance marker round-trip is checked; subsequent application rescan and source admission are not.",
+    "No-overwrite publication, cancellation, retained outputs, cleanup and application/package acceptance remain separate gates.",
+    "An empty chapter/subtitle/attachment set does not qualify nonempty cases.",
+    "Saved evidence audit only; no media rerun or independent PCM decode",
+    "One key packet in this fixture: start/end native windows both reference keyPacketIndex0, not distinct final-frame decoding or complete interior video decode",
+    "Original streaming PCM hash equality is saved evidence, not reconstructed from saved PCM samples",
+    "No production registry, default or package change"
+  ],
+  "runtimeExecutedByAuditor": false
+}

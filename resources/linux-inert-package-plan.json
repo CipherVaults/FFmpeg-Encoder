@@ -664,44 +664,44 @@
       "sha256": "66433ce51ad1f83c561940a0af5f78e45a1beee67e5cc5087c1f0c5d2736e1e4"
     },
     {
-      "root": "guidance",
-      "source": "electron-44.7.0-setup/verification.json",
-      "target": "electron/provenance/electron-44.7.0-setup--verification.json",
+      "root": "source",
+      "source": "linux-blue/runtime-recovery-2026-11-19/electron-acquisition.json",
+      "target": "electron/provenance/successor-2026-11-19--electron-acquisition.json",
       "group": "provenance",
-      "bytes": 13098,
-      "sha256": "56eabc423cca0cb41e89257dc275e7b6d803c7d5fc8f4260be4c729c3c28b58f"
+      "bytes": 5470,
+      "sha256": "de91056377d6e93f89429f778ed59b4b6bf018940e33c4af75a52f1d12ce8a9d"
     },
     {
-      "root": "guidance",
-      "source": "runtime-candidate-build-20261117/BUILD_PLAN_002.json",
-      "target": "electron/provenance/runtime-candidate-build-20261117--BUILD_PLAN_002.json",
+      "root": "source",
+      "source": "linux-blue/runtime-recovery-2026-11-19/runtime-build-recipe.json",
+      "target": "electron/provenance/successor-2026-11-19--runtime-build-recipe.json",
       "group": "provenance",
-      "bytes": 7334,
-      "sha256": "79f0e9cf81b648c32e9872e98bba7f10a5e774ce9e3e82e2c1d1aa282ce0c9ab"
+      "bytes": 8370,
+      "sha256": "b683f1f923922dae84c9a8862be62a9e49c055b0a5b59a864041724e23efda28"
     },
     {
-      "root": "guidance",
-      "source": "runtime-candidate-build-20261117/BUILD_RECEIPT.json",
-      "target": "electron/provenance/runtime-candidate-build-20261117--BUILD_RECEIPT.json",
+      "root": "source",
+      "source": "linux-blue/runtime-recovery-2026-11-19/runtime-build-result.json",
+      "target": "electron/provenance/successor-2026-11-19--runtime-build-result.json",
       "group": "provenance",
-      "bytes": 15228,
-      "sha256": "823f1ab2427a5b26b2ae3af1c9c78f2c7af7533ede82d866e01167fc6f805eca"
+      "bytes": 6470,
+      "sha256": "4c293feee5d806fb76760e60556dbf4f865e441fdb10781addf5fa8ed6d935a4"
     },
     {
-      "root": "guidance",
-      "source": "runtime-requalification-inputs-20261117/INPUT_ACQUISITION_RECEIPT.json",
-      "target": "electron/provenance/runtime-requalification-inputs-20261117--INPUT_ACQUISITION_RECEIPT.json",
+      "root": "source",
+      "source": "linux-blue/runtime-recovery-2026-11-19/runtime-input-acquisition.json",
+      "target": "electron/provenance/successor-2026-11-19--runtime-input-acquisition.json",
       "group": "provenance",
-      "bytes": 9679,
-      "sha256": "cf1ac0f19337e50d240dbae220239f65a9a059a800f9bdb2be67787da8458d62"
+      "bytes": 4172,
+      "sha256": "ac47e423df35573a3eddfa7ca5c4642ad29c4b231f1db0a46e8986ef88c6ce63"
     },
     {
-      "root": "guidance",
-      "source": "runtime-requalification-inputs-20261117/extraction-result.json",
-      "target": "electron/provenance/runtime-requalification-inputs-20261117--extraction-result.json",
+      "root": "source",
+      "source": "linux-blue/runtime-recovery-2026-11-19/runtime-input-extraction.json",
+      "target": "electron/provenance/successor-2026-11-19--runtime-input-extraction.json",
       "group": "provenance",
-      "bytes": 927,
-      "sha256": "b0e646464e24ecc5a12721aa8feafa55d4c33940ad9500ed4f26229eb0872a12"
+      "bytes": 10090,
+      "sha256": "51e79d83b800be7163a0a27916969e559bfcde2168c726bb1124b7cc03e1351c"
     },
     {
       "root": "electron",
@@ -772,24 +772,24 @@
       "source": "linux-blue/product-linux-qualification.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-qualification.cjs",
       "group": "application",
-      "bytes": 30504,
-      "sha256": "67b70f8b41b093aca4b6b4e38da73724f7b896236dc5ac68a3130ccd88db5b28"
+      "bytes": 32026,
+      "sha256": "4c057e36167ada157175070c8324d6e4d64800a3c6e3a13ac33e46a73b54e627"
     },
     {
       "root": "source",
       "source": "linux-blue/product-linux-qualification.json",
       "target": "electron/resources/app/linux-blue/product-linux-qualification.json",
       "group": "application",
-      "bytes": 8752,
-      "sha256": "faa88a7c347e1a81c65c6c45f3d79b04453349d1da18ca40c3fbbcde5178f89a"
+      "bytes": 9245,
+      "sha256": "6f7b0543f499e5c8dc58bbd0a0d9d77f0e8ecce4c4dd68b44127b4cec68b63d9"
     },
     {
       "root": "source",
       "source": "linux-blue/product-linux-service.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-service.cjs",
       "group": "application",
-      "bytes": 10772,
-      "sha256": "941c29ba2ca936b9c5e404f3e592b13e6574f49abf303280471da3e00a0d9cc1"
+      "bytes": 11002,
+      "sha256": "318f332c7140ba7c82a4921023581b97cfd0724fa0927151034d45e6b43941a8"
     },
     {
       "root": "source",
@@ -797,7 +797,7 @@
       "target": "electron/resources/app/linux-blue/product-linux-shell.cjs",
       "group": "application",
       "bytes": 5782,
-      "sha256": "9d469d71a3e2c099e69b9f99ea4b6bc7c06a8f97372fbb4ba7303e11e9732a72"
+      "sha256": "6123fd28678f62a7a2f434b7d0788525464bb3e94ee4746eb83ebafe4d355a74"
     },
     {
       "root": "source",
@@ -1777,19 +1777,19 @@
     },
     {
       "root": "guidance",
-      "source": "runtime-candidate-build-20261117/build/ffmpeg",
+      "source": "successor-runtime-build-002/build/ffmpeg",
       "target": "electron/resources/runtime/ffmpeg",
       "group": "ffmpeg-pair",
       "bytes": 46175848,
-      "sha256": "ae5b2e8b48ad0e9b51b89ebab000ebcfc0b76a09b8cb80c88e18fddcc5d9e8ba"
+      "sha256": "852df894561f1cabd6481c08cf59870570baace274c27c624e4b38d886ebcd9f"
     },
     {
       "root": "guidance",
-      "source": "runtime-candidate-build-20261117/build/ffprobe",
+      "source": "successor-runtime-build-002/build/ffprobe",
       "target": "electron/resources/runtime/ffprobe",
       "group": "ffmpeg-pair",
       "bytes": 45962728,
-      "sha256": "923dab8640da8804c445418b6e2efe4b395665bdb9d4cfc84f6a244ed0fb156b"
+      "sha256": "152a8243f5b41b7c02dde01a28619f47151a73e0816aa30197c5b50f4d207ebf"
     },
     {
       "root": "electron",
@@ -1829,7 +1829,7 @@
       "target": "electron/resources/app/linux-blue/product-linux-ordinary-shell.cjs",
       "group": "application",
       "bytes": 5205,
-      "sha256": "c1b749c553b029a3b7b624a4433e3ddba01a4bb569c6ee1ecf592e69867bcfa5"
+      "sha256": "cd16084b93bbeb7d0fc8c56c95fe79c829b04fa4d55f186cf9506c28792cc638"
     },
     {
       "root": "source",
@@ -1837,7 +1837,7 @@
       "target": "electron/resources/app/linux-blue/ordinary-cpu-service.cjs",
       "group": "application",
       "bytes": 7632,
-      "sha256": "1ccdd6b57da1c0d52091f9bacc53087c18b4e1260b8aac047f7d2f5c15c99d3d"
+      "sha256": "24241ecb237bbaa34da30d50e62c371132be4ff2ec56561e8c6533a54b1ef2d4"
     },
     {
       "root": "source",
@@ -1854,6 +1854,94 @@
       "group": "application",
       "bytes": 2901,
       "sha256": "ffea76d7b7e0f6ea65d1316000c2d554e0e91cba581908454e394cd8ef36a42c"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/evidence-2026-11-19/cpu075-saved-audit.json",
+      "target": "electron/resources/app/linux-blue/evidence-2026-11-19/cpu075-saved-audit.json",
+      "group": "application",
+      "bytes": 4645,
+      "sha256": "96565b7fea8ccf103e2b3291abcf153f6b89ccd9fba9336947b1d4da8f8ea207"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/evidence-2026-11-19/fullcopy075-saved-audit.json",
+      "target": "electron/resources/app/linux-blue/evidence-2026-11-19/fullcopy075-saved-audit.json",
+      "group": "application",
+      "bytes": 22243,
+      "sha256": "afc414c9c349f45346b7a4fbfcf36a92737b1cbceffcd4eb9cdc140895d72445"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/evidence-2026-11-19/precision075-saved-audit.json",
+      "target": "electron/resources/app/linux-blue/evidence-2026-11-19/precision075-saved-audit.json",
+      "group": "application",
+      "bytes": 4145,
+      "sha256": "62ffebf1766562a869836dd8f004687bcc422e143198e5fddff948e71100c46a"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/product-linux-qualification074-historical.json",
+      "target": "electron/resources/app/linux-blue/product-linux-qualification074-historical.json",
+      "group": "application",
+      "bytes": 8752,
+      "sha256": "faa88a7c347e1a81c65c6c45f3d79b04453349d1da18ca40c3fbbcde5178f89a"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/runtime-recovery-2026-11-19/asar-package-lock.json",
+      "target": "electron/provenance/successor-2026-11-19--asar-package-lock.json",
+      "group": "provenance",
+      "bytes": 3877,
+      "sha256": "fb01d9d8ecebb5f5e88a17e7aa2f58892a803e7c8652cfd0b3d78fba0b287d93"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/runtime-recovery-2026-11-19/asar-package.json",
+      "target": "electron/provenance/successor-2026-11-19--asar-package.json",
+      "group": "provenance",
+      "bytes": 108,
+      "sha256": "3104076977f73b6a14ecdb671d4b2b580513f9f4f81145e03f250052b2b8701c"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/runtime-recovery-2026-11-19/build002-independent-audit.json",
+      "target": "electron/provenance/successor-2026-11-19--build002-independent-audit.json",
+      "group": "provenance",
+      "bytes": 2806,
+      "sha256": "037c0871f454713300749d11a9cbc8036f4f605af6dc18cff05d610bf0939311"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/runtime-recovery-2026-11-19/build002-supervisor.py.txt",
+      "target": "electron/provenance/successor-2026-11-19--build002-supervisor.py.txt",
+      "group": "provenance",
+      "bytes": 8453,
+      "sha256": "22b847fbd5d2554ae997ff85245de9ed61abec2925885dc7f2ae8008b1030d29"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/runtime-recovery-2026-11-19/cpu075-sanitized-audit.json",
+      "target": "electron/provenance/successor-2026-11-19--cpu075-sanitized-audit.json",
+      "group": "provenance",
+      "bytes": 4645,
+      "sha256": "96565b7fea8ccf103e2b3291abcf153f6b89ccd9fba9336947b1d4da8f8ea207"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/evidence-2026-11-19/late-range075-saved-audit.json",
+      "target": "electron/resources/app/linux-blue/evidence-2026-11-19/late-range075-saved-audit.json",
+      "group": "application",
+      "bytes": 19599,
+      "sha256": "f0d9178b0f4f8d5d6ccfb7b7618bf6b54833020418fedbab35172d90679415da"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/evidence-2026-11-19/admission075-reasoning.json",
+      "target": "electron/resources/app/linux-blue/evidence-2026-11-19/admission075-reasoning.json",
+      "group": "application",
+      "bytes": 2203,
+      "sha256": "1732b21e588af64fef4ca85b45c5e575c56fbe16b0b907df3a7012ae3a7a349f"
     }
   ]
 }

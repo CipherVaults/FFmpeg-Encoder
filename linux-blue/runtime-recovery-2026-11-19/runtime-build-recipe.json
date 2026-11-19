@@ -1,0 +1,189 @@
+{
+  "schema": 1,
+  "kind": "actual-successor-build002-recipe",
+  "commands": [
+    [
+      "/bin/sh",
+      "<INPUT>/extracted-v2/ffmpeg-source/ffmpeg-9.0.2/configure",
+      "--prefix=<BUILD>/install-unused",
+      "--cc=/usr/bin/gcc",
+      "--cxx=/usr/bin/g++",
+      "--ar=/usr/bin/ar",
+      "--nm=/usr/bin/nm",
+      "--ranlib=/usr/bin/ranlib",
+      "--pkg-config=/usr/bin/pkg-config",
+      "--disable-network",
+      "--disable-autodetect",
+      "--disable-shared",
+      "--enable-static",
+      "--disable-ffplay",
+      "--disable-doc",
+      "--disable-debug",
+      "--disable-x86asm",
+      "--enable-gpl",
+      "--enable-pthreads",
+      "--enable-libx264",
+      "--enable-libx265",
+      "--enable-libsvtav1",
+      "--enable-libdav1d"
+    ],
+    [
+      "/usr/bin/make",
+      "-j4",
+      "ffmpeg",
+      "ffprobe"
+    ]
+  ],
+  "environment": {
+    "PATH": "/usr/bin:/bin",
+    "HOME": "<BUILD>",
+    "LC_ALL": "C",
+    "TZ": "UTC",
+    "TMPDIR": "<BUILD>/tmp",
+    "PKG_CONFIG_PATH": "",
+    "PKG_CONFIG_LIBDIR": "<INPUT>/proposed-pkgconfig"
+  },
+  "rootAliases": {
+    "<INPUT>": "Owned verified input directory with extracted-v2 and proposed-pkgconfig",
+    "<BUILD>": "Fresh exclusive owned out-of-tree build root"
+  },
+  "toolchain": {
+    "gcc": {
+      "path": "/usr/bin/x86_64-linux-gnu-gcc-14",
+      "bytes": 1162264,
+      "sha256": "a23ecab8ff08f09ad8c80602c2c5df7f49e09c25905cb8975902e101bf72635f"
+    },
+    "g++": {
+      "path": "/usr/bin/x86_64-linux-gnu-g++-14",
+      "bytes": 1166360,
+      "sha256": "6b3696e4dcb85e1c949c732a02befa50e3983ecf94ce7e8e58d9d503b954b79d"
+    },
+    "make": {
+      "path": "/usr/bin/make",
+      "bytes": 278448,
+      "sha256": "8a229baf64671988cfb5af43ba3070c6ce7214cf32bcf96155115559d1466fa7"
+    },
+    "ld": {
+      "path": "/usr/bin/x86_64-linux-gnu-ld.bfd",
+      "bytes": 1861256,
+      "sha256": "d2766988b6a1b1d1518cdc09242e726d1f24e151e16410ada3092b11ffd9081b"
+    },
+    "ar": {
+      "path": "/usr/bin/x86_64-linux-gnu-ar",
+      "bytes": 52480,
+      "sha256": "f8fe09d485b40b1d47c534c96f5cbaaa9148e247aa0494c087104421f48ac5eb"
+    },
+    "nm": {
+      "path": "/usr/bin/x86_64-linux-gnu-nm",
+      "bytes": 45160,
+      "sha256": "ddb55c0685721bf494aa2d090056b8b32a40614ad4464b305896f527d882c3c1"
+    },
+    "ranlib": {
+      "path": "/usr/bin/x86_64-linux-gnu-ranlib",
+      "bytes": 52480,
+      "sha256": "4610e832470b987c8c9d82d78c1c16e5e2bc9b8c64db455fad0cf63d420ec86e"
+    },
+    "pkg-config": {
+      "path": "/usr/bin/pkgconf",
+      "bytes": 45096,
+      "sha256": "37fdaa317c00805da16bc9c4c8de2300ad1e34511c33bf5e5170bf52c0e3a48e"
+    },
+    "sh": {
+      "path": "/usr/bin/dash",
+      "bytes": 129736,
+      "sha256": "a6f559e00b69a4aa4d8cb607be18d9386c5aee55c509e2c075549dcf00e00fc7"
+    }
+  },
+  "helperModes": [
+    {
+      "path": "ffbuild/version.sh",
+      "sha256": "cf34357a8a7ce476e38e30664ae86153f3a4580d00079ea684046997e1f95b0b",
+      "archiveMode": "0o750",
+      "before": "0700",
+      "after": "0700"
+    },
+    {
+      "path": "ffbuild/libversion.sh",
+      "sha256": "d896707462ba7c256352fc64f011d771bf092076a0f11246aa4bb8895f62f19f",
+      "archiveMode": "0o750",
+      "before": "0700",
+      "after": "0700"
+    },
+    {
+      "path": "ffbuild/pkgconfig_generate.sh",
+      "sha256": "48d711137995d3442f68a415da239ad1e9229fb2837f6051806bf31024248637",
+      "archiveMode": "0o750",
+      "before": "0700",
+      "after": "0700"
+    }
+  ],
+  "pkgConfig": {
+    "SvtAv1Enc.pc": "Name: SvtAv1Enc\nDescription: Explicit successor owned metadata, not original byte restoration\nVersion: 2.3.0\nLibs: -L/usr/lib/x86_64-linux-gnu -l:libSvtAv1Enc.so.2\nCflags: -I<INPUT>/extracted-v2/libsvtav1enc-dev/usr/include/svt-av1 -DEB_DLL\n",
+    "x264.pc": "Name: x264\nDescription: Explicit successor owned metadata, not original byte restoration\nVersion: 0.164.3108\nLibs: -L<INPUT>/extracted-v2/libx264-dev/usr/lib/x86_64-linux-gnu -l:libx264.a -lpthread -lm -ldl\nCflags: -I<INPUT>/extracted-v2/libx264-dev/usr/include -DX264_API_IMPORTS\n",
+    "x265.pc": "Name: x265\nDescription: Explicit successor owned metadata, not original byte restoration\nVersion: 4.1\nLibs: -L<INPUT>/extracted-v2/libx265-dev/usr/lib/x86_64-linux-gnu -l:libx265.a -L<INPUT>/extracted-v2/libnuma-dev/usr/lib/x86_64-linux-gnu -l:libnuma.a -lstdc++ -lm -lgcc_s -lgcc -lrt -ldl -lpthread -latomic\nCflags: -I<INPUT>/extracted-v2/libx265-dev/usr/include \n",
+    "numa.pc": "Name: numa\nDescription: Explicit successor owned metadata, not original byte restoration\nVersion: 2.0.19\nLibs: -L<INPUT>/extracted-v2/libnuma-dev/usr/lib/x86_64-linux-gnu -l:libnuma.a -latomic\nCflags: -I<INPUT>/extracted-v2/libnuma-dev/usr/include \n",
+    "dav1d.pc": "Name: dav1d\nDescription: Explicit successor owned metadata, not original byte restoration\nVersion: 1.5.1\nLibs: -L/usr/lib/x86_64-linux-gnu -l:libdav1d.so.7\nCflags: -I<INPUT>/extracted-v2/libdav1d-dev/usr/include \n"
+  },
+  "supervisorSource": "build002-supervisor.py.txt",
+  "originalBuildRecipeSha256": "fb51acd9406fb4eefc73a2d5e456ad3236b37386450296de90aa2f166fe3a212",
+  "budgetSeconds": 1800,
+  "makeJobs": 4,
+  "minimumFreeBytes": 12884901888,
+  "runtimeDependencies": [
+    {
+      "path": "/usr/lib/x86_64-linux-gnu/libm.so.6",
+      "sonamePath": "/lib/x86_64-linux-gnu/libm.so.6",
+      "size": 977112,
+      "sha256": "6d567d53e895273ca14a1f9dc164fc6c8d39aed2f60aa46a733c2784228915f3"
+    },
+    {
+      "path": "/usr/lib/x86_64-linux-gnu/libdav1d.so.7.0.0",
+      "sonamePath": "/lib/x86_64-linux-gnu/libdav1d.so.7",
+      "size": 1746880,
+      "sha256": "1d7a4182344230d5f4cf9f58bf4485da2801c411e9c9fd6d8471460c75ae8fbf"
+    },
+    {
+      "path": "/usr/lib/x86_64-linux-gnu/libSvtAv1Enc.so.2.3.0",
+      "sonamePath": "/lib/x86_64-linux-gnu/libSvtAv1Enc.so.2",
+      "size": 7984736,
+      "sha256": "48713dd9caf08909462bad0274cc9d9b249ccf836a9be72fd731f8d8096c4d35"
+    },
+    {
+      "path": "/usr/lib/x86_64-linux-gnu/libgcc_s.so.1",
+      "sonamePath": "/lib/x86_64-linux-gnu/libgcc_s.so.1",
+      "size": 182856,
+      "sha256": "30c61ab012a4241bed033725a09b61f5fdd3bb7df95ee852d0b096520524c7af"
+    },
+    {
+      "path": "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.33",
+      "sonamePath": "/lib/x86_64-linux-gnu/libstdc++.so.6",
+      "size": 2497768,
+      "sha256": "972bb2a18b71140dab0240f8a1f68ab3fb1d56bcd4c4f824a91b70888faf5a00"
+    },
+    {
+      "path": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+      "sonamePath": "/lib/x86_64-linux-gnu/libc.so.6",
+      "size": 1995216,
+      "sha256": "9792e3cbb541c8f44c7acf5f14f4022ea62998ecc787d326bed4d8b6547dfd92"
+    },
+    {
+      "path": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+      "sonamePath": "/lib64/ld-linux-x86-64.so.2",
+      "size": 225672,
+      "sha256": "c8438e4fde1934e61c88311633f00949ff645d5c04cdb8671fa3d78164d2f307"
+    }
+  ],
+  "mechanics": "Configure/compiler checks execute temporary test programs. No FFmpeg version/media or install command.",
+  "linkPolicy": "Static owned x264/x265/NUMA archives; dynamic audited SVT-AV1/dav1d and system dependencies. Explicit owned Libs dependencies instead of historical --pkg-config-flags=--static. No RPATH/installation.",
+  "limits": [
+    "Fresh successor provenance, not recovered original five JSON records.",
+    "No production default promotion, native/media qualification or redistribution clearance.",
+    "URLs and hashes permit reacquisition, not proof of a durable binary backup.",
+    "Raw logs, caches, GnuPG home and private root mappings are excluded.",
+    "Exact old BUILD_PLAN_002 was not recovered; this is a reviewed successor recipe.",
+    "The retained supervisor source is an exact historical execution record, not permission to execute. Gates/input-layout receipts must be reconstructed and reviewed separately."
+  ],
+  "supervisorRecordLimit": "Exact inert copy of actual build002 supervisor. SHA256 matches original; no private absolute roots occur. Uses __file__-relative roots and requires separately reconstructed verified inputs, layout and approval gates before any execution. Earlier root-redacted-derivative description was incorrect; replacements changed no bytes.",
+  "originalSupervisorSha256": "22b847fbd5d2554ae997ff85245de9ed61abec2925885dc7f2ae8008b1030d29",
+  "supervisorSha256": "22b847fbd5d2554ae997ff85245de9ed61abec2925885dc7f2ae8008b1030d29"
+}

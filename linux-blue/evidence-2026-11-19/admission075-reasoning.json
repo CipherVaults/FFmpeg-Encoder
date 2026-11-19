@@ -1,0 +1,35 @@
+{
+  "status": "reviewed-internal-admission-reasoning-not-production-qualification",
+  "supersedes": "Earlier proposed empirical-duration caps were overly literal and are not recommended absent a specific mechanism risk.",
+  "precision": {
+    "recommendation": "Preserve existing internal family admission/resource rules; do not cap1080source to3s.",
+    "basis": [
+      "Same source-clock/shape admission and unchanged numerical operation/collector validators",
+      "Fresh1440late100\u2013140s covers shared seek, frame/sample selection, timing and complete-source collection at larger geometry",
+      "Fresh1080nonaligned range covers distinct geometry transition",
+      "Every admitted output independently undergoes fixed count/timeline/PCM validation before publication"
+    ],
+    "limits": [
+      "Long1080 and open-ended requests on successor not separately measured",
+      "New packaged/native integration not established; old native evidence remains old"
+    ]
+  },
+  "fullCopy": {
+    "recommendation": "Preserve existing internal copied-AAC family admission with explicit new-runtime evidence limits;8s cap not justified solely by sample length.",
+    "basis": [
+      "Same packet/header/padding and complete decoded/timeline checks operate over whole stream",
+      "Accepted8s actual successor evidence exercises copiedAAC and endpoint/priming machinery",
+      "Duration alone does not switch algorithm; different terminal-padding/container shape is distinct remaining uncertainty"
+    ],
+    "optionalSmallestExistingRegression": "candidate-full-copy-calibration SPECS heldout-mp411s, rather than150sMOV/fullcampaign. No concrete new-runtime defect currently makes this a blocker.",
+    "correction": "43.1s video/43.217s audio FULL_SOURCES belongs workbench fullFLAC campaign, not existing copiedAAC SPECS; do not relabel it."
+  },
+  "requirements": [
+    "Exact current source/runtime closure and accepted audits",
+    "Honest compact evidence IDs/new measured versus historical distinction",
+    "Independent final activation delta review",
+    "Production defaults/GPU/portability/native/release remain unqualified"
+  ],
+  "canonicalEdits": false,
+  "mediaExecuted": false
+}

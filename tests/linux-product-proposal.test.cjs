@@ -5,11 +5,11 @@ const root = path.join(__dirname, '..');
 test('internal qualification binds exact accepted evidence while native/release acceptance stays pending', () => {
  const q=require('../linux-blue/product-linux-qualification.cjs').loadQualification();
  assert.equal(q.scope,'internal-opt-in-three-family-candidate');assert.equal(q.nativeProof,null);assert.equal(q.productIntegrationReview,null);
- assert.equal(q.internalCandidateDecision.distributionReady,false);assert(q.supportingEvidence.serviceRelease.bytes>0);assert.match(q.supportingEvidence.serviceRelease.sha256,/^[a-f0-9]{64}$/);
+ assert.equal(q.internalCandidateDecision.distributionReady,false);assert(q.supportingEvidence.precisionAudit.bytes>0);assert.match(q.supportingEvidence.precisionAudit.sha256,/^[a-f0-9]{64}$/);
 });
 test('compact calibration record carries measured values, not runtime approval flags', () => {
   const r = require('../linux-blue/product-linux-qualification.json');
-  assert.equal(r.rawCalibration.sizeBytes,125817);
+  assert.equal(r.rawCalibration.sizeBytes,78526);
   assert.equal(r.family.qualification.tolerances.sampleCount,0);
   assert.equal(r.nativeProof,null); assert.equal(r.productIntegrationReview,null);
   assert.equal(Object.hasOwn(r, 'approved'),false);
@@ -44,7 +44,7 @@ test('ordinary compact reader refuses oversized, modified, linked and nonregular
  const q=injected(qualificationFile,{},temp);
  fs.writeFileSync(dest,bytes);assert.equal(q.readCompactQualification().nativeProof,null);
  fs.writeFileSync(dest,Buffer.alloc(16385));assert.throws(()=>q.readCompactQualification(),{code:'LINUX_PRODUCT_QUALIFICATION_CHANGED'});
- fs.writeFileSync(dest,Buffer.from(bytes.toString().replace('125817','125818')));assert.throws(()=>q.readCompactQualification());
+ fs.writeFileSync(dest,Buffer.from(bytes.toString().replace('internal-opt-in-three-family-candidate','changed')));assert.throws(()=>q.readCompactQualification());
  fs.unlinkSync(dest);fs.symlinkSync(path.join(root,'linux-blue/product-linux-qualification.json'),dest);assert.throws(()=>q.readCompactQualification());
  fs.unlinkSync(dest);fs.mkdirSync(dest);assert.throws(()=>q.readCompactQualification());
 });
@@ -73,14 +73,14 @@ test('injected shell construction failure closes runtime; fake OutputAccess refu
  const f=shellFixture({fail:true});await assert.rejects(f.shell.createLinuxProductShell({stateDir:'/inert-state',runtimeRoot:'/inert-runtime'}),/service failed/);assert.equal(f.events.at(-1),'runtime-close');
  await assert.rejects(f.shell.createLinuxProductShell({stateDir:'/inert-state',runtimeRoot:'/inert-runtime',outputAccess:{openPath(){}}}),{code:'CANDIDATE_WORKBENCH_OPTIONS'});
 });
-function serviceFixture({badHandle=false,badDependencies=false,realSelector=false}={}){
+function serviceFixture({badHandle=false,badDependencies=false,realSelector=false,activation=true}={}){
  const events=[],file=path.join(root,'linux-blue/product-linux-service.cjs'),source=fs.readFileSync(file,'utf8');
  const dependencies=JSON.parse(source.match(/const DEPENDENCIES = (\[[\s\S]*?\n\]);/)[1]);
- const candidate={runtimeIdentity:'1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9',dependencies:badDependencies?[]:dependencies,pins:{ffmpeg:{path:'/inert/ffmpeg'},ffprobe:{path:'/inert/ffprobe'}},requireCurrent:async()=>events.push('current'),createRunner:()=>()=>{throw Error('must not execute');},close:async()=>events.push('candidate-close')};
+ const candidate={runtimeIdentity:'dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13',dependencies:badDependencies?[]:dependencies,pins:{ffmpeg:{path:'/inert/ffmpeg'},ffprobe:{path:'/inert/ffprobe'}},requireCurrent:async()=>events.push('current'),createRunner:()=>()=>{throw Error('must not execute');},close:async()=>events.push('candidate-close')};
  class Base {constructor(o){this.options=o;this.state={items:[]};this.plan={entries:new Map()};} snapshot(){return {items:this.state.items};}closeAdmission(){events.push('admission-close');this.admissionClosed=true;}emitState(){}async cancelCurrent(){events.push('cancel-drain');}async closeOperationResources(){events.push('service-close');}}
  const api=injected(file,{
   './candidate-calibration-runtime.cjs':{requireCandidateCalibrationRuntime:h=>{if(badHandle||h!==candidate)throw Error('private handle');return candidate;}},
-  './product-linux-qualification.cjs':{verifyProductSources:()=>events.push('sources'),loadQualification:()=>{events.push('qualification');return require('../linux-blue/product-linux-qualification.json');}},
+  './product-linux-qualification.cjs':{verifyProductSources:()=>events.push('sources'),loadQualification:()=>{events.push('qualification');const q=structuredClone(require('../linux-blue/product-linux-qualification.json'));q.runtimeSuccessor.measuredActivation=activation;return q;}},
   './workbench-trim-candidate.cjs':{CandidateTrimService:Base},
   './workbench-long-range-service.cjs':{clockGuardedRunner:x=>x,ClockQualifiedFamilySelector:realSelector ? require('../linux-blue/workbench-long-range-service.cjs').ClockQualifiedFamilySelector : class {constructor(o){this.options=o;}}},
   '../src/operation-runtime.cjs':{OperationRuntimeObserver:class {async close(){events.push('observer-close');}}}
@@ -188,8 +188,8 @@ test('altered Full-copy producer fails the same bounded source-closure gate',t=>
 
 test('1080 range compact record preserves original clocks and refuses mutated scope',t=>{
  const q=require('../linux-blue/product-linux-qualification.cjs').loadQualification();
- assert.equal(q.range1080.rawCalibration.sha256,'84bc6a774ec2fd7af8e0eff05420d9637d54232f4feb0d1d24d80b384a2c6ccd');
- assert.equal(q.range1080.rawCalibration.sizeBytes,125797);assert.equal(q.range1080.nativeProof,null);
+ assert.equal(q.range1080.rawCalibration.sha256,'a2f7a2d143f7b7f1063550da7443a7c96177a8894f2809ad0f8787f9847320fc');
+ assert.equal(q.range1080.rawCalibration.sizeBytes,75744);assert.equal(q.range1080.nativeProof,null);
  assert.deepEqual(q.range1080.family.qualification.tolerances,q.family.qualification.tolerances);
  const temp=fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()),'range1080-record-'));t.after(()=>fs.rmSync(temp,{recursive:true,force:true}));
  const loader=injected(qualificationFile,{},temp);
@@ -206,4 +206,12 @@ test('historical 97 pins remain intact; exactly one explicit service successor w
  assert.equal(Object.keys(original).length,97);
  const successor=require(qualificationFile).SERVICE_SUCCESSOR;assert.equal(successor.nativeProof,null);let changed=0;
  for(const [name,hash] of Object.entries(original)){const actual=crypto.createHash('sha256').update(fs.readFileSync(path.join(root,name))).digest('hex');if(name==='src/encoder-service.cjs'){assert.equal(hash,successor.historicalEncoderService.sha256);assert.equal(actual,successor.currentEncoderService.sha256);changed++;}else assert.equal(actual,hash,name);assert.equal(pins[name].sha256,actual,name);}assert.equal(changed,1);
+});
+
+test('successor activation remains gated by current evidence rather than historical runtime authority',async()=>{
+ const q=require('../linux-blue/product-linux-qualification.cjs').loadQualification();
+ assert.equal(q.runtimeSuccessor.measuredActivation,true);assert.equal(q.runtimeSuccessor.lateRangeEvidence.selectedFrames,1200);
+ const f=serviceFixture({activation:false});await assert.rejects(f.api.createLinuxProductService({verifiedRuntime:f.candidate,stateDir:'/inert'}),/requires the reviewed current evidence/);
+ assert.equal(f.events.at(-1),'candidate-close');
+ const old=JSON.parse(fs.readFileSync(path.join(root,q.runtimeSuccessor.historicalRecord.path)));assert.notEqual(old.runtimeIdentity,q.runtimeIdentity);
 });

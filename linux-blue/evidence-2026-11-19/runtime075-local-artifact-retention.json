@@ -1,0 +1,37 @@
+{
+  "status": "local-archive-and-independent-extraction-verified",
+  "archive": "fresh-runtime075-build002-recovery.tar.xz",
+  "bytes": 22109992,
+  "sha256": "41d5208e0fc0e5de57506e780f823e0edb1ba44abcce23f3220233b1e5bd282c",
+  "manifestSha256": "c208bdb19de59d62698cc30f5c4b76d426b038eb84a8243b2270ae7603304344",
+  "payloadFiles": 21,
+  "uncompressedBytes": 92243767,
+  "privacy": "No raw media/logs/cache; no workspace path strings in textual payload. Standard system dependency paths retained. Inert supervisor root-redacted derivative explicitly identified.",
+  "limits": [
+    "Local only; lead owns Library upload and fresh download verification.",
+    "Electron/runtime sources/dependency binaries omitted: acquisition metadata only.",
+    "Internal recovery, not public redistribution authorization."
+  ],
+  "publication": {
+    "libraryUploaded": false,
+    "alternateBinaryUploadPerformed": false,
+    "durableArtifactBackupVerified": false,
+    "reason": "No private Library approval established. No alternate binary-upload route authorized. Lead retains upload ownership; archive remains local-only."
+  },
+  "metadataCorrection": "Original archive/hash retained unchanged and local-only; exact-copy labels corrected in separately named metadata-v2 archive. No runtime bytes changed.",
+  "correctedMetadataArtifact": {
+    "archive": "fresh-runtime075-build002-recovery-metadata-v2.tar.xz",
+    "bytes": 22101504,
+    "sha256": "7353c95400576daf86c9fd6a12723686a0c10f80f952c093c608115bd23cbf2c",
+    "manifestSha256": "f2d96c4fbb243962b3d42c8b776551714ee1432bcf297364590efe98c577ed32",
+    "payloadFiles": 21,
+    "status": "local-only-metadata-corrected-independent-extraction-verified",
+    "predecessorArchiveUnchanged": {
+      "archive": "fresh-runtime075-build002-recovery.tar.xz",
+      "sha256": "41d5208e0fc0e5de57506e780f823e0edb1ba44abcce23f3220233b1e5bd282c",
+      "reason": "Exact-copy label correction; prior artifact retained unchanged and local-only"
+    },
+    "privacy": "No private absolute roots/raw media/raw logs/cache. Exact inert supervisor copy; standard system paths only.",
+    "uploaded": false
+  }
+}

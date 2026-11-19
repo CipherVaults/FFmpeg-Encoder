@@ -1,0 +1,159 @@
+{
+  "schema": 1,
+  "kind": "actual-build-result-not-runtime-qualification",
+  "status": "compiled-not-runtime-qualified",
+  "started": "2026-11-19T00:34:44.626876+00:00",
+  "finished": "2026-11-19T00:37:25.490247+00:00",
+  "phases": [
+    {
+      "phase": "configure",
+      "exitCode": 0,
+      "remainingNonZombieGroupMembers": []
+    },
+    {
+      "phase": "make",
+      "exitCode": 0,
+      "remainingNonZombieGroupMembers": []
+    }
+  ],
+  "outputs": [
+    {
+      "path": "ffmpeg",
+      "bytes": 46175848,
+      "sha256": "852df894561f1cabd6481c08cf59870570baace274c27c624e4b38d886ebcd9f",
+      "mode": "0o700"
+    },
+    {
+      "path": "ffprobe",
+      "bytes": 45962728,
+      "sha256": "152a8243f5b41b7c02dde01a28619f47151a73e0816aa30197c5b50f4d207ebf",
+      "mode": "0o700"
+    }
+  ],
+  "elfInspection": [
+    {
+      "path": "ffmpeg",
+      "libatomicMentioned": false,
+      "rpathOrRunpath": false
+    },
+    {
+      "path": "ffprobe",
+      "libatomicMentioned": false,
+      "rpathOrRunpath": false
+    }
+  ],
+  "finalIntegrity": {
+    "inputs": {
+      "passed": true
+    },
+    "dependencies": {
+      "passed": true
+    }
+  },
+  "historicalComparison": {
+    "ffmpegOldSha256": "ae5b2e8b48ad0e9b51b89ebab000ebcfc0b76a09b8cb80c88e18fddcc5d9e8ba",
+    "ffprobeOldSha256": "923dab8640da8804c445418b6e2efe4b395665bdb9d4cfc84f6a244ed0fb156b",
+    "sizesMatch": true,
+    "hashesMatch": false
+  },
+  "failedPredecessor": {
+    "attempt": "001",
+    "status": "failed",
+    "phases": [
+      {
+        "phase": "configure",
+        "failureType": "ProcessLookupError",
+        "cleanup": "owned-session-term-then-kill-if-needed",
+        "exitCode": -15,
+        "remainingNonZombieGroupMembers": []
+      }
+    ],
+    "finalIntegrity": {
+      "inputs": {
+        "passed": true
+      },
+      "dependencies": {
+        "passed": true
+      }
+    },
+    "cause": "Supervisor /proc enumeration treated ESRCH as fatal; configure owned group terminated, no make. Corrected002 treats only ENOENT/ESRCH as absent.",
+    "receiptSha256": "a3a1089f02944a51d46e64df96846cf91056b424fdb862a9af0c76e7572072e5"
+  },
+  "logs": [
+    {
+      "name": "configure.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "warningLines": 0
+    },
+    {
+      "name": "configure.stdout",
+      "bytes": 35242,
+      "sha256": "4ec22e76b4b37a0fffa873856e629745cdb35027f773975fbdbdd0f92ebc4d92",
+      "warningLines": 0
+    },
+    {
+      "name": "ffmpeg.readelf.txt",
+      "bytes": 1787,
+      "sha256": "44c2afa2937d3979ed162303d5cc18e07f529381459e761f4d83b827aea4ab49",
+      "warningLines": 0
+    },
+    {
+      "name": "ffprobe.readelf.txt",
+      "bytes": 1787,
+      "sha256": "d5523992bae5650d84b01c8b1e59d8a6d58a1d22b821eed537ada0d04d37a8bc",
+      "warningLines": 0
+    },
+    {
+      "name": "make.stderr",
+      "bytes": 48666,
+      "sha256": "ac563192290c1f1b1a0ed7bcf31d486cb603d0bb8ea7cee75ef16c6f45260313",
+      "warningLines": 79
+    },
+    {
+      "name": "make.stdout",
+      "bytes": 53743,
+      "sha256": "4fad26c2f46ac2b8753113f3bd63b1e8f65a21fa4f5e0c28f684b2baad80c5ae",
+      "warningLines": 0
+    }
+  ],
+  "compilerWarnings": {
+    "totalWarningLines": 79,
+    "zeroWarningsClaim": false,
+    "examples": [
+      "src/libavformat/dashenc.c:469:49: warning: '%s' directive output may be truncated writing up to 1023 bytes into a region of size between 1 and 1024 [-Wformat-truncation=]",
+      "src/libavformat/dashenc.c:1459:65: warning: '-stream' directive output may be truncated writing 7 bytes into a region of size between 1 and 1024 [-Wformat-truncation=]",
+      "src/libavformat/dashenc.c:1463:49: warning: '%s' directive output may be truncated writing up to 1023 bytes into a region of size between 1 and 1024 [-Wformat-truncation=]",
+      "src/libavformat/dashenc.c:363:49: warning: 'media_' directive output may be truncated writing 6 bytes into a region of size between 1 and 1024 [-Wformat-truncation=]",
+      "src/libavformat/dashenc.c:1842:63: warning: '%s' directive output may be truncated writing up to 1023 bytes into a region of size between 1 and 1024 [-Wformat-truncation=]",
+      "src/libavformat/dashenc.c:363:49: warning: 'media_' directive output may be truncated writing 6 bytes into a region of size between 1 and 1024 [-Wformat-truncation=]",
+      "src/libavformat/dashenc.c:2142:59: warning: '%s' directive output may be truncated writing up to 1023 bytes into a region of size between 1 and 1024 [-Wformat-truncation=]",
+      "src/libavformat/jvdec.c:177:16: warning: this statement may fall through [-Wimplicit-fallthrough=]",
+      "src/libavformat/jvdec.c:187:33: warning: this statement may fall through [-Wimplicit-fallthrough=]",
+      "src/libavformat/matroskaenc.c:3472:79: warning: '%012.9f' directive output may be truncated writing between 12 and 320 bytes into a region of size between 8 and 14 [-Wformat-truncation=]",
+      "src/libavformat/mpegts.c:2966:13: warning: stack usage is 134784 bytes [-Wstack-usage=]",
+      "src/libavformat/mpegts.c:2740:13: warning: stack usage might be 136352 bytes [-Wstack-usage=]"
+    ],
+    "rawLogsRetainedLocally": true
+  },
+  "originalResultSha256": "f6e055cac7fb295dc254f715e5c857ccceed68f5e75e5690207f158ce5c55040",
+  "independentBinaryAudit": {
+    "record": "build002-independent-audit.json",
+    "sha256": "037c0871f454713300749d11a9cbc8036f4f605af6dc18cff05d610bf0939311",
+    "scope": "Inert ELF/input/dependency verification only"
+  },
+  "limits": [
+    "Fresh successor provenance, not recovered original five JSON records.",
+    "No production default promotion, native/media qualification or redistribution clearance.",
+    "URLs and hashes permit reacquisition, not proof of a durable binary backup.",
+    "Raw logs, caches, GnuPG home and private root mappings are excluded.",
+    "No FFmpeg version/media invocation or independent runtime behavior demonstrated by compilation."
+  ],
+  "subsequentBoundedCpuEvidence": {
+    "record": "cpu075-sanitized-audit.json",
+    "sha256": "96565b7fea8ccf103e2b3291abcf153f6b89ccd9fba9336947b1d4da8f8ea207",
+    "scope": "Six two-frame 320x180 H264/HEVC/AV1 8/10-bit CPU encodes; 19 closed children; not packaged/native/release qualification",
+    "warnings": "x265 CPU-mask/thread-pool diagnostics retained, not a zero-warning/performance claim"
+  },
+  "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13"
+}

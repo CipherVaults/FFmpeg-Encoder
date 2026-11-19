@@ -4,7 +4,7 @@ const fs=require('node:fs/promises');const assert=require('node:assert/strict');
 const {EncoderService}=require('../src/encoder-service.cjs');const {OutputAccess}=require('../src/output-access.cjs');
 const {requireCandidateCalibrationRuntime}=require('./candidate-calibration-runtime.cjs');
 const {POLICY,SETTINGS,admit,createPhaseRunner}=require('./ordinary-cpu-policy.cjs');const {openOrdinaryStageGuard}=require('./ordinary-cpu-stage-guard.cjs');
-const RUNTIME_ID='1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9';
+const RUNTIME_ID='dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13';
 const DEPENDENCY_ID='c0fb3610bd2d66733c3fb0787d94877f0631d63d9fbe00ddb751eaa34741adbf';
 function guardEnvironment(){assert(process.platform==='linux'&&process.arch==='x64'&&!process.env.NODE_OPTIONS&&!Object.entries(process.env).some(([key,value])=>key.startsWith('LD_')&&value));}
 function requireOrdinaryEntry(service,item){const entry=service.plan?.entries.get(item.id);assert(entry&&entry.operationPlan?.compatibilityPath===true&&!entry.vendor&&!entry.remux&&!entry.hdr&&!entry.encodePreservation&&!entry.native&&service.plan.operation!=='native-encode');return admit({probe:entry.inspection.probe,settings:service.plan.settings,request:item.operationRequest,bytes:Number(entry.fingerprint.size)});}

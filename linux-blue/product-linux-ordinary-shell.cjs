@@ -5,7 +5,7 @@ const path = require('node:path');
 const { openCandidateCalibrationRuntime } = require('./candidate-calibration-runtime.cjs');
 const { createOrdinaryCpuService } = require('./ordinary-cpu-service.cjs');
 const { verifyProductSources } = require('./product-linux-qualification.cjs');
-const RUNTIME_ID = '1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9';
+const RUNTIME_ID = 'dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13';
 const { OutputAccess } = require('../src/output-access.cjs');
 const { runTool } = require('../src/process-runner.cjs');
 
@@ -55,8 +55,8 @@ const DEPENDENCIES = [
 ];
 function manifest(runtimeRoot) {
   return { runtimeIdentity: RUNTIME_ID, dependencies: DEPENDENCIES.map(d => ({ ...d })), pins: {
-    ffmpeg: { path: path.join(runtimeRoot, 'ffmpeg'), size: 46175848, sha256: 'ae5b2e8b48ad0e9b51b89ebab000ebcfc0b76a09b8cb80c88e18fddcc5d9e8ba' },
-    ffprobe: { path: path.join(runtimeRoot, 'ffprobe'), size: 45962728, sha256: '923dab8640da8804c445418b6e2efe4b395665bdb9d4cfc84f6a244ed0fb156b' },
+    ffmpeg: { path: path.join(runtimeRoot, 'ffmpeg'), size: 46175848, sha256: '852df894561f1cabd6481c08cf59870570baace274c27c624e4b38d886ebcd9f' },
+    ffprobe: { path: path.join(runtimeRoot, 'ffprobe'), size: 45962728, sha256: '152a8243f5b41b7c02dde01a28619f47151a73e0816aa30197c5b50f4d207ebf' },
   } };
 }
 function loaderGuard() {

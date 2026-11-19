@@ -1,0 +1,127 @@
+{
+  "schema": 1,
+  "kind": "fresh-electron-acquisition",
+  "createdAt": "2026-11-19T00:23:45.816602+00:00",
+  "version": "44.7.0",
+  "releaseBase": "https://github.com/electron/electron/releases/download/v44.7.0/",
+  "checksumVerified": true,
+  "historicalZipIdentityMatches": true,
+  "files": [
+    {
+      "path": "electron-v44.7.0-linux-x64.zip",
+      "bytes": 122998223,
+      "sha256": "3ae7d5bdad61c664486c6ab61361dd084d064c8c08af8d13a687096e18ce555a"
+    },
+    {
+      "path": "SHASUMS256.txt",
+      "bytes": 6740,
+      "sha256": "ae1159fdb6d008ca267c267edb6dd82ded692529c9a930386452511aaaddb7b1"
+    },
+    {
+      "path": "electron-44.7.0.tgz",
+      "bytes": 201042,
+      "sha256": "7e941bf48ef112663a43fd6f4f58c9727065397f7c62511fb74135ca594674e5"
+    },
+    {
+      "path": "electron-metadata.json",
+      "bytes": 1992,
+      "sha256": "93adc88948184477a81b352dfd9ab08e04cda88fb27652f83b3962b30fee4aec"
+    },
+    {
+      "path": "asar-4.3.0.tgz",
+      "bytes": 29971,
+      "sha256": "b70596d9155d11f4e2b5ec84184a813e30568fd4dbaf6ea3d0edd5530c9ac1e1"
+    },
+    {
+      "path": "asar-metadata.json",
+      "bytes": 3002,
+      "sha256": "33c24305a62f512658d8319da583b837b3d08875b1642f7f80cecdcac1227668"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 3877,
+      "sha256": "fb01d9d8ecebb5f5e88a17e7aa2f58892a803e7c8652cfd0b3d78fba0b287d93"
+    },
+    {
+      "path": "EXTRACTED_FILE_INVENTORY.json",
+      "bytes": 65745,
+      "sha256": "6b4cfbe2c32b6e03c6b6a8f455a3fa8489f01fb7ca44d81a0ddc8929ecfef054"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "node_modules/@electron/asar",
+      "version": "4.3.0",
+      "resolved": "https://registry.npmjs.org/@electron/asar/-/asar-4.3.0.tgz",
+      "integrity": "sha512-k/FFC/NQoTykGBi/Ga4L4KorsAKDdkK0LfNVG90eUG6vPVpJaL3iR9V1ZLbzBAF3QpojK5DcaGOdQOheKZv4JQ==",
+      "archiveBytes": 29971,
+      "archiveSha256": "b70596d9155d11f4e2b5ec84184a813e30568fd4dbaf6ea3d0edd5530c9ac1e1"
+    },
+    {
+      "path": "node_modules/balanced-match",
+      "version": "4.0.4",
+      "resolved": "https://registry.npmjs.org/balanced-match/-/balanced-match-4.0.4.tgz",
+      "integrity": "sha512-BLrgEcRTwX2o6gGxGOCNyMvGSp35YofuYzw9h1IMTRmKqttAZZVU67bdb9Pr2vUHA8+j3i2tJfjO6C6+4myGTA==",
+      "archiveBytes": 4199,
+      "archiveSha256": "9025508d9125eee531bbc49ce3ae560183975ad595f058c378bd56af4152fb16"
+    },
+    {
+      "path": "node_modules/brace-expansion",
+      "version": "5.0.13",
+      "resolved": "https://registry.npmjs.org/brace-expansion/-/brace-expansion-5.0.13.tgz",
+      "integrity": "sha512-Vh3dmFbc4wZeox7M9I/0L9GfFd83Su4+yCck/OF9Gi/P/dAHn0RT7X4K9R7gMNMhDck3DvhR6QXsnQdjjgwNvQ==",
+      "archiveBytes": 32333,
+      "archiveSha256": "015c8761629e59fc31f3a6e472a940f6d759fc8227e67882c399dfb9a703ae6e"
+    },
+    {
+      "path": "node_modules/glob",
+      "version": "13.0.7",
+      "resolved": "https://registry.npmjs.org/glob/-/glob-13.0.7.tgz",
+      "integrity": "sha512-wfsFgXQ8A3SEI9XGf7Nl3Y9l7ffSrGh7SUCT7vU/2CzYPep9kjxAn1S40F9OPKxAMGCVl7HtNlJhrCJUeUq83g==",
+      "archiveBytes": 364666,
+      "archiveSha256": "58342994ba61c09d9c27365d0930195c5583fe31e80c1683544805cebc065fd4"
+    },
+    {
+      "path": "node_modules/lru-cache",
+      "version": "11.5.3",
+      "resolved": "https://registry.npmjs.org/lru-cache/-/lru-cache-11.5.3.tgz",
+      "integrity": "sha512-U4N8FgzmWxc8k1VH8Kr6lQg18U7Fjvby6wXHVRX/ZZ7IwWbRMgrRbP0Wrb5q5NVinryp4SQampHKdvtecItxUg==",
+      "archiveBytes": 697866,
+      "archiveSha256": "d18739bbd7d0091d30d2cca58e120c8b70ac09a5a21aa4b2b3e9afb2dc4084d8"
+    },
+    {
+      "path": "node_modules/minimatch",
+      "version": "10.2.6",
+      "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-10.2.6.tgz",
+      "integrity": "sha512-vpLQEs+VLCr1nU0BXS07maYoFwlDAH0gngQuuttxIwutDFEMHq2blX+8vpgxDdK3J1PwjCJiep77OitTZ4Ll1A==",
+      "archiveBytes": 117068,
+      "archiveSha256": "5a3d2c8074a28229665727e47b8a1090941856a7962905efe05d20d3760355f8"
+    },
+    {
+      "path": "node_modules/minipass",
+      "version": "7.1.3",
+      "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.1.3.tgz",
+      "integrity": "sha512-tEBHqDnIoM/1rXME1zgka9g6Q2lcoCkxHLuc7ODJ5BxbP5d4c2Z5cGgtXAku59200Cx7diuHTOYfSBD8n6mm8A==",
+      "archiveBytes": 83605,
+      "archiveSha256": "52ac61be743755e3fdc98e560086d0d4a1e2c7fd3643387792db38e322d27d12"
+    },
+    {
+      "path": "node_modules/path-scurry",
+      "version": "2.0.2",
+      "resolved": "https://registry.npmjs.org/path-scurry/-/path-scurry-2.0.2.tgz",
+      "integrity": "sha512-3O/iVVsJAPsOnpwWIeD+d6z/7PmqApyQePUtCndjatj/9I5LylHvt5qluFaBT3I5h3r1ejfR056c+FCv+NnNXg==",
+      "archiveBytes": 101468,
+      "archiveSha256": "dea3e3dab1c00c28fcb5871b1133b02050c7e110dde2dbe31e14067922c23ec1"
+    }
+  ],
+  "toolingCommand": "npm install --ignore-scripts --no-audit --no-fund --save-exact --registry=https://registry.npmjs.org --cache ./npm-cache @electron/asar@4.3.0",
+  "asarLock": "asar-package-lock.json",
+  "asarPackage": "asar-package.json",
+  "originalReceiptSha256": "0208a9c5270cecccfc8b22e91e6f1fa7504cc15e166be81c8ef20b080c23c0f3",
+  "limits": [
+    "Fresh successor provenance, not recovered original five JSON records.",
+    "No production default promotion, native/media qualification or redistribution clearance.",
+    "URLs and hashes permit reacquisition, not proof of a durable binary backup.",
+    "Raw logs, caches, GnuPG home and private root mappings are excluded."
+  ]
+}

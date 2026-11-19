@@ -11,7 +11,7 @@ const { OperationRuntimeObserver } = require('../src/operation-runtime.cjs');
 const { openEvidenceStorage } = require('../src/operation-storage.cjs');
 const { failedVendorCapabilities } = require('../src/vendor-capabilities.cjs');
 const { RESIZE_1440_FAMILY_ID: FAMILY_ID, RESIZE_1440_RESOURCE_POLICY: RESOURCE_POLICY, FULL_COPY_FAMILY_ID, FULL_COPY_RESOURCE_POLICY, RESIZE_FAMILY_ID, RESIZE_RESOURCE_POLICY } = require('../src/operation-resource-budget.cjs');
-const RUNTIME_ID = '1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9';
+const RUNTIME_ID = 'dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13';
 const { loadQualification, verifyProductSources } = require('./product-linux-qualification.cjs');
 const SETTINGS = Object.freeze({ profileId: 'h265-cpu', preset: 'slow', quality: 25 });
 const sha = b => createHash('sha256').update(b).digest('hex');
@@ -91,7 +91,7 @@ class OwnedCandidateService extends CandidateTrimService {
     }
     const snapshot = super.snapshot();
     if (this.workbenchMode) snapshot.developerProduct = { enabled: true, relaunchRequired: this.admissionClosed,
-      notice: 'Experimental three-family candidate: qualified 1440p30 or 1080p30 PCM range → 720p with precision FLAC; or whole 1080p30 file → 720p with copied AAC. Explicit per-file choices required. H265 CPU slow / CRF 25 only. Keep source, other combinations and Remux unavailable. This new three-family package has not undergone native publication testing; predecessor Full-copy native proof belongs only to the exact 070 artifact. The 1080p range path requires H264 High CFR SDR bt709 and stereo 48 kHz s16 PCM QuickTime, not arbitrary AAC/VFR sources. CPU topology/thread-pool warnings remain; native threading/performance is not qualified.',
+      notice: 'Experimental three-family candidate: qualified 1440p30 or 1080p30 PCM range → 720p with precision FLAC; or whole 1080p30 file → 720p with copied AAC. Explicit per-file choices required. H265 CPU slow / CRF 25 only. Keep source, other combinations and Remux unavailable. This runtime-successor three-family package has not undergone native publication testing; historical native proofs apply only to their exact predecessor artifacts. Fresh bounded media evidence is not broad media or release qualification. The 1080p range path requires H264 High CFR SDR bt709 and stereo 48 kHz s16 PCM QuickTime, not arbitrary AAC/VFR sources. CPU topology/thread-pool warnings remain; native threading/performance is not qualified.',
       relaunchNotice: 'This developer session is closed to new work. Close and relaunch to obtain a new verified runtime; same-session retry is unavailable.' };
     return snapshot;
   }
@@ -128,6 +128,7 @@ async function createLinuxProductService(options) {
       'The exact reviewed pair and loaded dependency inventory are required.');
     loaderGuard(); verifyProductSources(); await candidate.requireCurrent();
     const report = loadQualification();
+    need(report.runtimeSuccessor.measuredActivation === true, 'Successor measured activation requires the reviewed current evidence record.');
     verifyProductSources();
     await candidate.requireCurrent(); // Product-source/qualification checks cannot preserve stale authority.
     const invoke = clockGuardedRunner(candidate.createRunner({ onChild }), candidate.pins.ffprobe.path);

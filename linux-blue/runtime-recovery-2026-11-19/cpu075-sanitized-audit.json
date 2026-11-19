@@ -1,0 +1,135 @@
+{
+  "scope": "saved-evidence-independent-audit-six-two-frame-cpu-checks",
+  "status": "passed-bounded-check-not-promotion",
+  "checkedAt": "2026-11-19T00:43:05.406755+00:00",
+  "commit": "407d743f2c055acab47926d38aeac645a846100b",
+  "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+  "reportSha256": "c06072e162b0638076d68619e249ff58dbeee61377c948a103cf5ec82c277c20",
+  "bindingSha256": "372f681163980bdb0916289202c96e8421efcaf5e0b5b8fc57892e8dba4b352f",
+  "boundHandoffSha256": "105ded722e16484d941f67d401d2b4a94e10a5fff6a1b98fdc62921789d3b56f",
+  "independentBoundReviewSha256": "08548a9eacef26a360d3a36bd176f486e6f49163945715148623bffdc474c410",
+  "leadReleaseSha256": "ab0caba69dd9888c928e1496f71c19e5a817ceb55a50ec48afc26aa3c35b989d",
+  "sourceFilesRehashed": 788,
+  "helperFilesRehashed": 4,
+  "runtimeToolsRehashed": 2,
+  "hostDependenciesRehashed": 7,
+  "fixtureFilesRehashed": 2,
+  "outputFilesRehashed": 6,
+  "closedChildren": 19,
+  "liveAfterClose": 0,
+  "maximumConcurrentChildren": 1,
+  "serialEvidence": "Reviewed exact runner enforces !busy and live.size===0 before each launch; sequential awaited campaign; all 19 close records zero exit. No independent time-series concurrency telemetry exists.",
+  "rows": [
+    {
+      "profile": "h264-cpu",
+      "bitDepth": 8,
+      "settings": {
+        "profileId": "h264-cpu",
+        "preset": "veryfast",
+        "quality": 23
+      },
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "frames": 2,
+      "width": 320,
+      "height": 180,
+      "outputBytes": 5145,
+      "outputSha256": "0f9866cd7741761ced456e643da3669a9fed065e068a841563e14dad60412b83",
+      "encodeStderrBytes": 0
+    },
+    {
+      "profile": "h265-cpu",
+      "bitDepth": 8,
+      "settings": {
+        "profileId": "h265-cpu",
+        "preset": "slow",
+        "quality": 25
+      },
+      "codec": "hevc",
+      "pixelFormat": "yuv420p",
+      "frames": 2,
+      "width": 320,
+      "height": 180,
+      "outputBytes": 7485,
+      "outputSha256": "0aa5c3e0457a7537d0a59e39a652b0ab148a6b6df7aa5350a03fddbd89ad43e8",
+      "encodeStderrBytes": 168
+    },
+    {
+      "profile": "av1-cpu",
+      "bitDepth": 8,
+      "settings": {
+        "profileId": "av1-cpu",
+        "preset": "6",
+        "quality": 32
+      },
+      "codec": "av1",
+      "pixelFormat": "yuv420p",
+      "frames": 2,
+      "width": 320,
+      "height": 180,
+      "outputBytes": 4059,
+      "outputSha256": "c6b29bdc11103bbd4c3e9d81755474c652569e81c2ee67ff1c446bfc27e2ca15",
+      "encodeStderrBytes": 1012
+    },
+    {
+      "profile": "h264-cpu",
+      "bitDepth": 10,
+      "settings": {
+        "profileId": "h264-cpu",
+        "preset": "veryfast",
+        "quality": 23
+      },
+      "codec": "h264",
+      "pixelFormat": "yuv420p10le",
+      "frames": 2,
+      "width": 320,
+      "height": 180,
+      "outputBytes": 5209,
+      "outputSha256": "38da32fbbd33f827eb552558778d0e19e41f09d9de334dd7fa0da80ef17bdc92",
+      "encodeStderrBytes": 0
+    },
+    {
+      "profile": "h265-cpu",
+      "bitDepth": 10,
+      "settings": {
+        "profileId": "h265-cpu",
+        "preset": "slow",
+        "quality": 25
+      },
+      "codec": "hevc",
+      "pixelFormat": "yuv420p10le",
+      "frames": 2,
+      "width": 320,
+      "height": 180,
+      "outputBytes": 7584,
+      "outputSha256": "ba2361d951e968592dd90a0ff59036e21553493d02c787eb693f1bfda0bcffb9",
+      "encodeStderrBytes": 168
+    },
+    {
+      "profile": "av1-cpu",
+      "bitDepth": 10,
+      "settings": {
+        "profileId": "av1-cpu",
+        "preset": "6",
+        "quality": 32
+      },
+      "codec": "av1",
+      "pixelFormat": "yuv420p10le",
+      "frames": 2,
+      "width": 320,
+      "height": 180,
+      "outputBytes": 3945,
+      "outputSha256": "b5b2ffb7ad718add8a816b0fc4e53e15d497d295104659023b54e58cc17f281b",
+      "encodeStderrBytes": 1013
+    }
+  ],
+  "warnings": [
+    "Both x265 encodes logged CPU-mask error/thread-pool warnings while exiting zero and producing the verified two-frame outputs. This is not performance qualification."
+  ],
+  "preservation": "Source074 durable recovery verified by gate receipt. New helper/runtime/report/media artifacts remain local-only until separately preserved; this sanitized audit is prepared locally for durable publication, not already uploaded.",
+  "limits": [
+    "No runtime/probe/decode rerun in audit; observations are saved report evidence tied to rehashed outputs.",
+    "No larger-media, audio, remux, HDR, GPU, native UI, packaged-route or release qualification.",
+    "No source/catalog/default/runtime promotion authorized by this receipt."
+  ]
+}

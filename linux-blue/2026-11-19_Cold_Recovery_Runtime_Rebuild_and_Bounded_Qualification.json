@@ -1,0 +1,159 @@
+{
+  "status": "approved-source-records-writer-released",
+  "cutoff": "2026-11-19T01:10:11Z",
+  "base": "407d743f2c055acab47926d38aeac645a846100b",
+  "predecessorBytes": 2526856,
+  "predecessorSha256": "f7564f8bd4148faa75df264cc323afcf27947ea1240823275683b5e119ec708f",
+  "newSections": 14,
+  "exactPredecessorSuffix": true,
+  "references": [
+    {
+      "path": "linux-blue/evidence-2026-11-19/admission075-reasoning.json",
+      "bytes": 2203,
+      "sha256": "1732b21e588af64fef4ca85b45c5e575c56fbe16b0b907df3a7012ae3a7a349f"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-19/checkpoint074-durable-closure.json",
+      "bytes": 2169,
+      "sha256": "1a85200fcc69ee1ce079bd4ffe19b5a8d91cd347a7ea915c03eda3933942a20e"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-19/cold-recovery074-continuation.md",
+      "bytes": 4755,
+      "sha256": "fe80de44788a2bff6c9f8190849e4401d9b3e41c4b771ba864b44cdabb13a31d"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-19/cold-recovery074-sanitized.json",
+      "bytes": 4156,
+      "sha256": "4ca998964ee716a6039bda4561bfc1930d1f046f138aea8deb39b9e5062c05dc"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-19/cpu075-saved-audit.json",
+      "bytes": 4645,
+      "sha256": "96565b7fea8ccf103e2b3291abcf153f6b89ccd9fba9336947b1d4da8f8ea207"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-19/fullcopy075-saved-audit.json",
+      "bytes": 22243,
+      "sha256": "afc414c9c349f45346b7a4fbfcf36a92737b1cbceffcd4eb9cdc140895d72445"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-19/late-range075-saved-audit.json",
+      "bytes": 19599,
+      "sha256": "f0d9178b0f4f8d5d6ccfb7b7618bf6b54833020418fedbab35172d90679415da"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-19/precision075-saved-audit.json",
+      "bytes": 4145,
+      "sha256": "62ffebf1766562a869836dd8f004687bcc422e143198e5fddff948e71100c46a"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-19/product075-final-source-review.json",
+      "bytes": 4139,
+      "sha256": "29391fca4ca541257c611784d0e9b68d2b1430107aa4375cb8b1445154b0c21e"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-19/remux075-saved-audit.json",
+      "bytes": 2948,
+      "sha256": "8e12582be42ae4fe610d7cc1f6823ed91e34962dae3ee53fbb6d0635d195f11b"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-19/runtime075-local-artifact-retention.json",
+      "bytes": 2141,
+      "sha256": "c41669de5017d8d5b566cd06c109561e3351f785f4b7dbaf5d82746fca7817f6"
+    },
+    {
+      "path": "linux-blue/runtime-recovery-2026-11-19/asar-package-lock.json",
+      "bytes": 3877,
+      "sha256": "fb01d9d8ecebb5f5e88a17e7aa2f58892a803e7c8652cfd0b3d78fba0b287d93"
+    },
+    {
+      "path": "linux-blue/runtime-recovery-2026-11-19/asar-package.json",
+      "bytes": 108,
+      "sha256": "3104076977f73b6a14ecdb671d4b2b580513f9f4f81145e03f250052b2b8701c"
+    },
+    {
+      "path": "linux-blue/runtime-recovery-2026-11-19/build002-independent-audit.json",
+      "bytes": 2806,
+      "sha256": "037c0871f454713300749d11a9cbc8036f4f605af6dc18cff05d610bf0939311"
+    },
+    {
+      "path": "linux-blue/runtime-recovery-2026-11-19/build002-supervisor.py.txt",
+      "bytes": 8453,
+      "sha256": "22b847fbd5d2554ae997ff85245de9ed61abec2925885dc7f2ae8008b1030d29"
+    },
+    {
+      "path": "linux-blue/runtime-recovery-2026-11-19/cpu075-sanitized-audit.json",
+      "bytes": 4645,
+      "sha256": "96565b7fea8ccf103e2b3291abcf153f6b89ccd9fba9336947b1d4da8f8ea207"
+    },
+    {
+      "path": "linux-blue/runtime-recovery-2026-11-19/electron-acquisition.json",
+      "bytes": 5470,
+      "sha256": "de91056377d6e93f89429f778ed59b4b6bf018940e33c4af75a52f1d12ce8a9d"
+    },
+    {
+      "path": "linux-blue/runtime-recovery-2026-11-19/runtime-build-recipe.json",
+      "bytes": 8370,
+      "sha256": "b683f1f923922dae84c9a8862be62a9e49c055b0a5b59a864041724e23efda28"
+    },
+    {
+      "path": "linux-blue/runtime-recovery-2026-11-19/runtime-build-result.json",
+      "bytes": 6470,
+      "sha256": "4c293feee5d806fb76760e60556dbf4f865e441fdb10781addf5fa8ed6d935a4"
+    },
+    {
+      "path": "linux-blue/runtime-recovery-2026-11-19/runtime-input-acquisition.json",
+      "bytes": 4172,
+      "sha256": "ac47e423df35573a3eddfa7ca5c4642ad29c4b231f1db0a46e8986ef88c6ce63"
+    },
+    {
+      "path": "linux-blue/runtime-recovery-2026-11-19/runtime-input-extraction.json",
+      "bytes": 10090,
+      "sha256": "51e79d83b800be7163a0a27916969e559bfcde2168c726bb1124b7cc03e1351c"
+    }
+  ],
+  "pending": [
+    "Git commit and Notion/GitHub source/history preservation",
+    "New application package and native acceptance",
+    "Authorized durable runtime artifact destination"
+  ],
+  "package075Executed": false,
+  "native075Executed": false,
+  "durableRuntimeArtifactBackup": false,
+  "remuxStatus": "accepted-media-only-executionReady-false",
+  "supervisorCorrection": "Byte-identical original 22b847fbd5d2554ae997ff85245de9ed61abec2925885dc7f2ae8008b1030d29; relative roots, no redacted derivative",
+  "lateRangeStatus": "accepted-one-case-not-automatic-product-promotion",
+  "nextOwnerRequests": [
+    "076 terminal batch elapsed display using existing authoritative timer",
+    "UHD3840x2160 to1440/1080/720 actual CPU matrix and existing UI integration"
+  ],
+  "internalAdmissionDecision": "Reviewer accepts unchanged internal precision/Full-copy admission by shared-mechanism reasoning; exact activation delta and aggregate pending",
+  "productProposal": {
+    "handoffSha256": "d4df07b5a0e2c25a761c904cde408c9cdf10ed8eed76cecb1390da57168de621",
+    "sourcePins": 126,
+    "packageInputs": 241,
+    "appFiles": 143,
+    "packageInputBytes": 391463758,
+    "focusedPassed": 55,
+    "internalMeasuredActivation": true,
+    "finalReview": {
+      "approved": true,
+      "bytes": 4139,
+      "sha256": "29391fca4ca541257c611784d0e9b68d2b1430107aa4375cb8b1445154b0c21e",
+      "independentPassed": 32,
+      "overlapsFocused": true
+    },
+    "aggregateCI": {
+      "exitCode": 0,
+      "syntaxFiles": 215,
+      "sharedTests": 243,
+      "linuxTests": 40,
+      "failed": 0,
+      "skipped": 0,
+      "stdoutSha256": "8f2977f60bbedbeb96bde06bcbdad6d4430ac23250991e331b12e1f0777a5581",
+      "stderrBytes": 0,
+      "overlapsFocused": true
+    }
+  }
+}

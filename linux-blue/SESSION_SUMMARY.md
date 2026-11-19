@@ -1,3 +1,65 @@
+# 📘 Session: Verify long MP4 native and prepare proportional MKV admission
+
+## 🤖 Models, Effort, Roles and Provenance
+Blue coordinated independent source preservation, exact fixture acquisition and saved-only audits, desktop operation of an unchanged reviewed package and the next narrow source cohort. Each claim names its distinct fixture/runtime/source, with the full 097 Session retained as an exact suffix.
+
+## 🕒 Time
+November 19, 2026 UTC. Base local 097 47da616c7e47257efc2b346a6c762df9fe73a636, tree c42d0db089000db5801e3815b02a05be77bd3a89; verified GitHub 705e67b0a09519d18b630360d30bb7c8465881cd. Evidence cutoff: 2026-11-19T13:31:09Z. The generated input's recipe was explicitly frozen source096; the actual native Remux artifact is source097. Neither is an 098 run.
+
+## 🎯 Session Goal
+Prove the scoped longer full MP4 copy on the actual app, preserve exact hosted and environment outcomes, correct legacy inert test portability without changing production safety, and prepare separately reviewable proportional MKV input admission without claiming real MKV or broad release readiness.
+
+## 🛠️ Actions Taken
+### Complete exact 097 preservation and capture hosted originals
+Verified fresh source/history restoration (1,066 tracked files, 97 commits) and separate exact normalized readable Session and owning records. Final mirror receipt SHA256 0332faf7a5657ea28abda2692b27f268a683f9062f2082ef3acd90d287e8c060, Notion checkpoint 41dbd7ad-e63b-817d-9646-f1bc87eb528b verified 13:22:40 UTC. Ordinary non-force GitHub projection verified all 1,448 local plus retained remote-only files, exact predecessor 7ddb7bfd… and new ref. Exact 21 touched paths: six new/15 modified/no deletion; source mirror is distinct from payload retention.
+Hosted shared run 44532595476 passed 227 syntax, 338 shared per OS and 115 Linux tests. Actual Windows packaged CPU check 44532595632/job 135589550536 passed one Start, two H264 outputs of 73,618 bytes and matching readbacks, two collision skips, normal close and frozen elapsed 0.735 s across 2,209 ms then reset. Picker return substituted, no native Windows desktop/GPU/owner or executable distribution. Keep actual hashed reports distinct from time-limited artifacts.
+Ubuntu 44532595655/job 135589550233 completed exact baseline equality (1,212 installed rows) and tool identities, then failed METADATA_UPDATE before release authentication, successful simulation or installed-change review. Exit 100, complete bounded stdout/stderr counts and hashes, UNCLASSIFIED marker class. Ready:false and zero signed releases. This does not supersede the historical 096 installed-change refusal, does not identify the cause or recover raw content, and grants no manufacture or installation. Further diagnosis remains study, not a change in this source tranche: bounded metadata stage only and exact original report controls. No guessed mirror/network/signature cause, raw output disclosure, quiet retry, new update authority, safety relaxation, or construction of a lock from incomplete evidence. The ordinary successor binds to exact verified 097 remote, then awaits its own observation.
+Saved log-gap review SHA256 2d9633c3dffc2ab6f5e0ca32de12aba881f01d901f9fd07b91f6430a9cbab66e identifies the relevant publication boundary: the checked workflow retains the sanitized structured report, not exact raw APT text. The proposed future limited eight-marker classifier is a study only, not 098 source or a cause attribution; UNCLASSIFIED stays an honest unknown.
+
+### Acquire one local large synthetic input under frozen 096 recipe
+Use the existing LARGE_MP4 recipe with current pinned pair and seven dependent identities under exact frozen 096 / 1,060 files. CPU-generated 180-second 1080p30 H264 High with B-frames and 30 Mb/s CBR filler, stereo48k AAC-LC 192 kb/s. Exact input 678,829,334 bytes, SHA256 0f5ff1b084052e076a0f989740cf62ff203f643423ff38ee49c09d8bf6d371ad. Saved metadata 5,400 reported video and 8,439 audio frames, no chapters. Two actual children (generation and metadata) both closed/live zero, outer exit 0, 20.588 s. Saved-only audit rehashed fixture, recipe and runtime, replayed the inert assessment on saved metadata; no new decode/probe or packet/PCM result. Fixture remains local-only.
+The reviewed acquisition keeps monotonic authority through checks and persisted result fsync, downgrades late intended success to retained failure and checks canonical/current owner directories. These are sampled identity guarantees, not arbitrary concurrent mutation protection. Reconstructible reviewed helper/plan and incomplete no-gate binding retained; twelve Node plus six supervisor inert tests passed in a disposable exact096 layout. No raw media, runtime, gate or live paths in the archive.
+
+### Verify one exact 097 packaged native MP4-to-MP4 Full journey
+Single audited exact package: 267 copied inputs/270 physical files, 166 ASAR members and 149 pins; inert audit mode 0600, no active ASAR, later mode changes only after reviewed native gate. Normal real input/output picker, one Prepare, one Start at 13:24:20 UTC with at least 900 s remaining in the saved operator record. One success, frozen 00:12 across screenshots; exactly one intentional Show in folder and actual Thunar file selected. No Open player dispatch or retry observed, normal app close, 215.850 s supervisor closure. This native acceptance is not fixture acquisition, not 098 testing or all true large-source cases; evidence and measured scope below.
+Independent saved-only audit rehashed 1,066 source and 270 package files with six allowed ordinary execute modes, 98 saved file records, contiguous 22-event journal, published provenance and 21 collector artifacts. Exact sole 678,829,675-byte output SHA256 c6c16e8762f9cb4eba87414576c0b9b8b2cc944679a294a841c1e9ba342c9f6f; collector/actual publication identity agrees on dev/inode/size/mtime/hash, ctime observations differ across rename. Exact packet/header preservation covered 5,400 H264 and 8,439 AAC packets, retained whole 8,640,000-sample PCM equality (69,120,000 bytes per side) without shifts and MP4-native edit list audio mediaTime 1,024. Bounded video key windows 0/5,340 are not a full interior decode or last frame 5,399. Twelve collector children completed exit 0/peak two, no invocation warnings; 16 outer sampled process identities are not exhaustive media child counts. Journal measured 12.72 s whole batch, not FFmpeg-only. The narrower 1,200 s observer did not expire and does not exercise the full 4,764,000 ms product ceiling. Supervisor exit 0/no force/errors. Previous reused audit assertions expected obsolete MOV 930/1,455 packets and key-window 900; stopped before output and corrected to actual target/evidence without modifying source, original evidence, fixture or media. No new media tools/probes/PCM replay or GUI cancel/collision/rescan. This one host-pinned route does not prove MKV/MOV long support, arbitrary files, release portability or owner hardware.
+
+### Freeze only the next exact source cohort
+Only the existing unified MP4-source to Matroska Full row joins the already-reviewed unified MP4-source to MP4 proportional owner. Selected target must equal the immutable prepared plan, and the same genuine owner selection and generation-local opaque token are revalidated after asynchronous runtime-currentness checks. Shared resource/metadata/source controls, runtime, planner/collector/defaults, fixed evidence authorities and ordinary standalone/MOV caps are retained; prior short MKV media/lifecycle evidence is not relabeled as long native proof. Inert tests cover real scoped Prepare/owner selection with deferred execute, stale/replaced-target/foreign controls, bounded deadlines/children, and fail-closed owner retirement. Functional independent review passed 73 selected tests, not media or native execution. 
+The targeted test-only portability correction changes two synthetic Windows-looking roots to host-native absolute model paths so the owner guard works on Linux, while retaining explicit Windows F-drive semantics and rejected relative path assertions. Both inherited failures are reproduced at exact 097 without media; the corrected complete smoke-test file passes 41 inert tests. Production fixture generator, Windows guard and fixture recipe were not changed.
+
+Final source freezes 13 paths: six functional, one test-only, four exact CI successor bindings to verified 097 remote 705e67b0…, two current derived files. All 267 inputs were rehashed, 149 pins/166 application/179 source rows, 391,693,095 B; only three current loader pins and four package rows change. Membership, non-source and historical identities unchanged. Author Linux-local 227 syntax/338 shared/118 Linux selected/132 affected overlap, 75 Ubuntu; all passed. Independent derived review verified all 13 byte identities, literal CI bindings, three current loader pins, four package rows and all 267 input identities, and reran 18 package/launcher inert tests, none failed. The author aggregate was not independently rerun. No 098 build, runtime, media, hosted result or native acceptance.
+
+## 🧠 Key Insights
+Under proportional runtime limits, a real larger source proves both finite admission and owned downstream handling for one exact route; it does not remove resource boundaries or establish another target. A saved fixture probe describes a source, not a remux preservation result. A hosted UNCLASSIFIED observation is meaningful for which stage did not run but cannot support a cause or access expansion.
+
+## 📌 Decisions Made
+Keep exact copies/metadata boundaries and single-target evidence, no 21 ms waiver, hidden fallback or payload distribution. Preserve Git → verified Notion → GitHub and keep archived helpers non-authoritative. Keep owner Windows/RTX 5060 last after independent release candidate freeze; separate v0.8 work, HDR v0.9.
+
+## ⚠️ Difficulties / Friction
+Hosted Ubuntu failed earlier again, so installed-change projection and candidate mapping remain unobserved. Real large input is costly to retain and lacks durable payload delivery. Prior inherited fixture tests assumed Windows path syntax on Linux; test portability must not weaken production root safety.
+
+## 🔧 Adjustments Made
+Use reviewed generation/identity controls and exact existing recipe rather than guessing a file from its extension or assuming prior archive availability. Keep picker/reveal and actual elapsed distinct from monitoring and FFmpeg-only speed. Correct host-native inert test paths while preserving explicit Windows/path refusal controls.
+
+## ❌ Mistakes / Risks Noted
+Do not equate local fixture existence with durable payload backup. A staged source scope or bounded model does not prove 098 MKV behavior, broad portability, hardware, playback or full interior video decode. Do not infer the new Ubuntu issue from prior different exact hosted attempts.
+
+## 📍 Current Position
+097 full preservation and its native/hosted evidence retained; Ubuntu blocked before signed metadata. 097 exact long native MP4 and relevant hosted records verified, and reviewed 098 MKV proportional source is ready for scoped preservation only. No new 098 runtime or package yet.
+
+## 🔜 Next Steps
+Verify exact 098 preservation and hosted outcome, then one correctly qualified exact 098 MKV long-file native journey in the existing real product scope. Use independent minimal Ubuntu diagnosis toward approved named portable manufacture; review source/notices and exact clean-host package retention, freeze candidate before owner test.
+
+## ❓ Open Questions
+What evidence safely narrows the reason for repeated intermittent Ubuntu metadata failure? Does the bounded MKV successor accept the exact representative 180s source under normal packaged use? Which remaining release packaging/runtime and durable retention items are needed before owner hardware?
+
+## 🧾 Session Outcome
+Retained local-fixture acquisition, exact saved native 097 scoped acceptance and hosted results. Source-only successor opens bounded Matroska scope in the unified app and corrects two platform-only inert tests without changing production guards. No 098 executable/result or release.
+
+## 🔍 Confidence Level
+High for exact source/history, recorded hosted stage/results, local fixture identity and the bounded saved native case after independent audit. Limited for cause attribution, other targets/inputs, product timeline, portability, hardware and release readiness.
+
 # 📘 Session: Verify native MOV and keep next Remux and Ubuntu scope bounded
 
 ## 🤖 Models, Effort, Roles and Provenance

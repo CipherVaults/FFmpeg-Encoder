@@ -81,7 +81,7 @@ test('fixture prospectus pins CPU argv, duration/byte shape, forecast and both v
   assert.equal(fixtures.LIMITS.totalMs, 15 * 60000); assert.equal(fixtures.LIMITS.forecastBytes, 6 * GiB);
   assert.equal(fixtures.LIMITS.maxChildren, 6); assert.equal(fixtures.FIXTURES.filter(s => s.seconds === 1200).length, 2);
   for (const spec of fixtures.FIXTURES) {
-    const args = fixtures.generationArgs(spec, path.join(fixtures.OWNED, 'fixtures', 'remux-long-' + ID, spec.name));
+    const args = fixtures.generationArgs(spec, path.resolve('inert-owned-fixtures', 'remux-long-' + ID, spec.name));
     assert.ok(args.includes('-n') && !args.includes('-y')); assert.equal(args[args.indexOf('-c:v') + 1], 'libx264');
     assert.ok(!args.some(a => /nvenc|qsv|amf/.test(a))); assert.equal(args[args.indexOf('-t') + 1], String(spec.seconds));
     const bytes = spec.minBytes || MiB; assert.equal(fixtures.assessFixture(probe(spec), spec, bytes).completeDecodeProven, false);
@@ -205,7 +205,7 @@ test('Q2d sources bind the closed pinned report and exact existing source or pub
   }
 });
 test('fixture orchestration uses injected tools only and generates exactly the three owned specimens', async () => {
-  const calls = [], session = { owned: path.join('F:\\owned', ID), runtime: { ffmpeg: 'mock-ffmpeg', ffprobe: 'mock-ffprobe' }, controller: new AbortController(), io: {},
+  const calls = [], session = { owned: path.resolve('inert-owned-fixtures', ID), runtime: { ffmpeg: 'mock-ffmpeg', ffprobe: 'mock-ffprobe' }, controller: new AbortController(), io: {},
     report: { cases: [] }, open: async () => {}, close: async () => {}, save: async () => {},
     run: async (file, args) => { calls.push({ file, args }); const spec = fixtures.FIXTURES.find(s => path.basename(args.at(-1)) === s.name); assert.ok(spec);
       return { exitCode: 0, stdout: JSON.stringify(probe(spec)), stderr: '', stderrCapture: { truncated: false, totalBytes: 0 } }; } };
@@ -755,4 +755,11 @@ test('structural, filename and exact-byte guards remain enforced during retryabl
   await assert.rejects(fixtures.ownedBytes(depth.root, depth.io), /structural ceiling/);
   const entries = scanTree(); entries.control.onRead = () => Array.from({ length: 8193 }, (_, i) => String(i));
   await assert.rejects(fixtures.ownedBytes(entries.root, entries.io), /structural ceiling/);
+});
+
+test('historical Windows ownership stays Windows-specific while neutral argv refuses relative roots',()=>{
+  assert.equal(path.win32.parse(fixtures.OWNED).root,'F:\\');assert(path.win32.isAbsolute(fixtures.OWNED));
+  const spec=fixtures.FIXTURES.find(x=>x.id==='LARGE_MP4');
+  assert.throws(()=>fixtures.generationArgs(spec,path.join('relative-owned',spec.name)),/Exact owned fixture output required/);
+  const args=fixtures.generationArgs(spec,path.resolve('inert-owned-fixtures',spec.name));assert.equal(args.at(-1),path.resolve('inert-owned-fixtures',spec.name));
 });

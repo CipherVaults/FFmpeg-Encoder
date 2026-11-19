@@ -1,0 +1,162 @@
+{
+  "checkpoint": "098",
+  "cutoffUtc": "2026-11-19T13:31:09Z",
+  "baseLocal": "47da616c7e47257efc2b346a6c762df9fe73a636",
+  "baseTree": "c42d0db089000db5801e3815b02a05be77bd3a89",
+  "baseGitHub": "705e67b0a09519d18b630360d30bb7c8465881cd",
+  "status": "isolated 098 writer ready; final reviewed source only; no 098 native/hosted/package",
+  "exactSourceManifestSha256": "dbc13833e983043679876446d6009f667ac9e56edb46e5673b785582a6eb1fb1",
+  "sourceReviewDigests": [
+    "07ea3886043c532025fdd150ff6e1a51d9d168e172a66a7a281c77ab10d9eeed",
+    "b2b8c72491a8e25271697d8dfd0a060303d1f80ad87ecbd9f45a69f91466b2a4",
+    "6ddda2ab541ea78ee38c23a6be6fa60a7f910cb5ba1cb83583e7913f1e7fb9f3"
+  ],
+  "sourcePaths": [
+    {
+      "path": ".github/workflows/ubuntu-lock.yml",
+      "bytes": 2075,
+      "sha256": "625e92639cc7fae66c15b2560195e0aa4627803809441890bce5624740f5fb08"
+    },
+    {
+      "path": ".github/workflows/windows-integration.yml",
+      "bytes": 2503,
+      "sha256": "3bb43700e94c8c304d08136a549c252846aa66aa4475a9b85d85447d885b0194"
+    },
+    {
+      "path": "linux-blue/product-linux-qualification.cjs",
+      "bytes": 40523,
+      "sha256": "550c4658c2ad6062e2c7139fd9ca94eb0217b9fc7208a4ba26b9ed15f52b46dc"
+    },
+    {
+      "path": "linux-blue/product-linux-remux-service.cjs",
+      "bytes": 15166,
+      "sha256": "55fe57bc95a39dec489ada789c7228744f6d9cce97a0f6d321b673661ab00a01"
+    },
+    {
+      "path": "linux-blue/product-linux-unified-runtime.cjs",
+      "bytes": 6669,
+      "sha256": "5359fe45a65ba23096634f48d94c8b4924a2acb679b302bb71416a496e52ba53"
+    },
+    {
+      "path": "linux-blue/product-linux-unified-service.cjs",
+      "bytes": 20753,
+      "sha256": "ecf6cf728f27832ece92e42863e7a76b0ee814ffd79feceee34eaad521f2275c"
+    },
+    {
+      "path": "resources/linux-inert-package-plan.json",
+      "bytes": 77225,
+      "sha256": "a186bfaf45bcd8c718f4ba4b15f03a22f040a79cfc1a461048335ac6d5d0d630"
+    },
+    {
+      "path": "scripts/ubuntu-lock/resolver.py",
+      "bytes": 26540,
+      "sha256": "41d3eed96c4a2a635013c612feaf1573f2ea297a9a2c59cddd6be649e1104905"
+    },
+    {
+      "path": "scripts/windows-packaged-integration.cjs",
+      "bytes": 20136,
+      "sha256": "841a5aa9438c899ed374a95102530a08591d3181e57b56768239224ba10c4ea2"
+    },
+    {
+      "path": "tests/linux-product-remux-service.test.cjs",
+      "bytes": 19168,
+      "sha256": "da480925aa0072a43400816c94d7bbb0996762903bf08adb500272c2b158c971"
+    },
+    {
+      "path": "tests/linux-unified-runtime.test.cjs",
+      "bytes": 10475,
+      "sha256": "cc016f44ffde25d246b8a42f1136398e94f1dcb794699c868e08e322007335f5"
+    },
+    {
+      "path": "tests/linux-unified-service.test.cjs",
+      "bytes": 40724,
+      "sha256": "3fb94375d89e91f6ca61fc9511406c4a545c2bd52fd23e2cd445fdb443e8afd1"
+    },
+    {
+      "path": "tests/remux-long-smoke.test.cjs",
+      "bytes": 65881,
+      "sha256": "016f98d810fe3306895adabfff781fbda11d7a6f80b6d02c872c462787adbfee"
+    }
+  ],
+  "verification": {
+    "authorSyntax": 227,
+    "authorShared": 338,
+    "authorLinuxSelected": 118,
+    "authorAffectedOverlap": 132,
+    "ubuntuInert": 75,
+    "independentFunctionalOverlap": 73,
+    "pathCorrectionFullInert": 41,
+    "actualPackageInputs": 267,
+    "appMembers": 166,
+    "sourcePackageRows": 179,
+    "packagePins": 149,
+    "packageInputBytes": 391693095,
+    "reconstructedFixtureInertNode": 12,
+    "reconstructedFixtureInertSupervisor": 6
+  },
+  "evidenceAndProtocol": {
+    "linux-blue/evidence-2026-11-19/large-mp4097-fixture-acquisition-audit.json": {
+      "bytes": 2847,
+      "sha256": "cc7ebad61f67d26a5c3ee6afe0727b1e885c1e0c9fb0d5e451fe095660de1931"
+    },
+    "linux-blue/calibration/large-mp4-fixture-097/runner.cjs": {
+      "bytes": 9680,
+      "sha256": "f977a68eff4510dcdf1c48edaac3eaad1e222ab8d3f3d06615cc41db39cded42"
+    },
+    "linux-blue/calibration/large-mp4-fixture-097/pinned-read.cjs": {
+      "bytes": 1303,
+      "sha256": "44e648da9fcfd4e1d51d91facf8e944bc7e2c5ac0ea73872facf51cb5b115f80"
+    },
+    "linux-blue/calibration/large-mp4-fixture-097/supervise.py": {
+      "bytes": 6371,
+      "sha256": "45c62f74e07d92b269eee88651be6c7e1b6a04e6aa0ef98b4bef15f706803558"
+    },
+    "linux-blue/calibration/large-mp4-fixture-097/runner.test.cjs": {
+      "bytes": 5735,
+      "sha256": "82bb7b1443ba75a3c36864ed419fc9dfe467da42145931b251cce9918383e23e"
+    },
+    "linux-blue/calibration/large-mp4-fixture-097/test-supervisor.py": {
+      "bytes": 1644,
+      "sha256": "f57f740a89a11a01b26aed2064ff4657d552ddb175fb03467737418638b76041"
+    },
+    "linux-blue/calibration/large-mp4-fixture-097/PLAN.md": {
+      "bytes": 5436,
+      "sha256": "7e9cf136a5b7ed00b88a0532226f502ed3a3acee042e448d41b7ae998ae7429e"
+    },
+    "linux-blue/calibration/large-mp4-fixture-097/IMPLEMENTATION_NOTES.md": {
+      "bytes": 1686,
+      "sha256": "05b401115313a37e5dc67f56b86a026edc3b584bd005908d9fcd2642ba12247a"
+    },
+    "linux-blue/calibration/large-mp4-fixture-097/BINDING.json": {
+      "bytes": 109,
+      "sha256": "dae5ec5131b9b79afb7cd3de48554e37d65ad232592acabcb6ca5c7bb4835381"
+    },
+    "linux-blue/calibration/large-mp4-fixture-097/README.md": {
+      "bytes": 1797,
+      "sha256": "8f853fc64e921135c844f24b2870dce7a7a9dcc65a5347ccbd13b374f3481832"
+    },
+    "linux-blue/evidence-2026-11-19/hosted097-verified-outcome.json": {
+      "bytes": 7696,
+      "sha256": "7584708410f781ba761d98d4692f472444de2ef53ddd9d94fd1581784bd791f7"
+    },
+    "linux-blue/evidence-2026-11-19/ubuntu097-original-sanitized-report.json": {
+      "bytes": 1455,
+      "sha256": "314fc54a852f6769b33b0c1e60e09501d7472d1281771f5dda34acd8662a5aa9"
+    },
+    "linux-blue/evidence-2026-11-19/windows097-original-sanitized-report.json": {
+      "bytes": 2007,
+      "sha256": "7b6ff4fa211c77f9e96d008fa04adce891ae308919c57868053d378d81cfc56b"
+    },
+    "linux-blue/evidence-2026-11-19/native097-long-mp4-audit.json": {
+      "bytes": 22220,
+      "sha256": "09d1b838929337d7c2e9ca5956d4caacbd070c66f4d70ecdfa38c9750cdb432c"
+    }
+  },
+  "limits": [
+    "Source096 fixture and exact097 packaged native proof distinct; input payload remains local-only",
+    "097 long MP4 one host/runtime only, no full-video interior decode or player/GPU/portable proof",
+    "098 long MKV remains source-only",
+    "Ubuntu 097 cause unknown, no approved install/build from report",
+    "No raw logs, media or binary, private binding or live gate archived"
+  ]
+}

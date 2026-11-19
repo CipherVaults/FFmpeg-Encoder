@@ -148,8 +148,14 @@ test('MOV policy requires fixed evidence and existing constant-cadence envelope'
  const q={...old,mov:{evidenceId:'mov',sourceEnvelope:'h264-aac-lc-48k-stereo-v1'}};assert.deepEqual(remuxSupport(q).targets,['mp4','matroska','mov']);assert.deepEqual(remuxPolicies(q).slice(0,2),remuxPolicies(old));assert.equal(remuxPolicies(q)[2].sourceEnvelope,'h264-aac-lc-48k-stereo-v1');
 });
 
-test('proportional admission is explicit MP4-only; standalone and other targets retain caps',()=>{
- for(const target of ['mp4','matroska','mov']){const a=assessment(p=>{p.format.duration='180';p.format.size=String(700*1024*1024);},target);assert.throws(()=>admit(a,'/owned/source.mp4'));if(target==='mp4')admit(a,'/owned/source.mp4',{proportionalMp4:true});else assert.throws(()=>admit(a,'/owned/source.mp4',{proportionalMp4:true}));}
- for(const value of ['Infinity','NaN','0','-1'])assert.throws(()=>admit(assessment(p=>p.format.duration=value),'/owned/source.mp4',{proportionalMp4:true}));
- for(const value of ['0','1.5','9007199254740992'])assert.throws(()=>admit(assessment(p=>p.format.size=value),'/owned/source.mp4',{proportionalMp4:true}));
+test('proportional admission is explicit MP4/MKV-only; standalone and other targets retain caps',()=>{
+ for(const target of ['mp4','matroska','mov']){const a=assessment(p=>{p.format.duration='180';p.format.size=String(700*1024*1024);},target);assert.throws(()=>admit(a,'/owned/source.mp4'));if(['mp4','matroska'].includes(target))admit(a,'/owned/source.mp4',{proportionalIsobmff:true});else assert.throws(()=>admit(a,'/owned/source.mp4',{proportionalIsobmff:true}));}
+ for(const value of ['Infinity','NaN','0','-1'])assert.throws(()=>admit(assessment(p=>p.format.duration=value),'/owned/source.mp4',{proportionalIsobmff:true}));
+ for(const value of ['0','1.5','9007199254740992'])assert.throws(()=>admit(assessment(p=>p.format.size=value),'/owned/source.mp4',{proportionalIsobmff:true}));
+});
+
+test('long MKV proportional admission preserves cadence audio and stream envelope',()=>{
+ for(const mutate of [p=>p.streams[0].avg_frame_rate='60/1',p=>p.streams[1].sample_rate='44100',p=>p.streams.push({...p.streams[1],index:2})]){
+  assert.throws(()=>admit(assessment(p=>{p.format.duration='180';p.format.size=String(700*1024*1024);mutate(p);},'matroska'),'/owned/source.mp4',{proportionalIsobmff:true}));
+ }
 });

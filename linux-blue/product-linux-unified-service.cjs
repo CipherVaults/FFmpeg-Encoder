@@ -22,7 +22,7 @@ const H265=require('./h265-ordinary-policy.cjs');
 const MEASURED=Object.freeze({profileId:'h265-cpu',preset:'slow',quality:25});
 const RUNTIME='dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13';
 function fixedSettings(value){if(value?.profileId===AV1.SETTINGS.profileId){assert.deepEqual(value,AV1.SETTINGS);return 'av1-ordinary';}if(value?.profileId===ORDINARY.profileId){assert.deepEqual(value,ORDINARY);return 'ordinary';}H265.settings(value);return 'h265';}
-class NarrowRemux extends RemuxOperations{prepare(options){admitRemux(options.assessment,options.input,{proportionalMp4:true});return super.prepare(options);}}
+class NarrowRemux extends RemuxOperations{prepare(options){admitRemux(options.assessment,options.input,{proportionalIsobmff:true});return super.prepare(options);}}
 class UnifiedService extends EncoderService{
   constructor(options,configuration){super(options);this.configuration=configuration;this.generation=null;this.route=null;this.epoch=0;this.mutationOwner=null;this.cancellation=null;this.shuttingDown=false;this.executionBinding=null;}
   resolveEncodeControls(plan,settings){
@@ -66,7 +66,7 @@ class UnifiedService extends EncoderService{
     let phaseRoute=phase==='checking'?'discovery':this.route;
     if(this.route==='h265'){if(phase==='running'){const b=this.executionBinding;assert(b&&b.planId===this.plan?.id&&b.generation===this.generation&&this.plan.entries.get(b.fileId)===b.entry,'Execution binding is stale');phaseRoute=b.kind;}else if(phase==='preparing')phaseRoute='measured';}
     let remuxControl=null;
-    if(this.route==='remux'&&phase==='running'&&this.executionBinding){const b=this.executionBinding;assert(b.kind==='remux-mp4');b.requireCurrent();remuxControl=b.control;}
+    if(this.route==='remux'&&phase==='running'&&this.executionBinding){const b=this.executionBinding;assert(b.kind==='remux-isobmff');b.requireCurrent();remuxControl=b.control;}
     this.generation.begin(phaseRoute,phase,controller,remuxControl);
     // Same shared begin state transition, with the already admitted controller.
     this.controller=controller;this.preparationFailure=null;this.startedAt=Date.now();this.finishedAt=0;
@@ -118,15 +118,15 @@ class UnifiedService extends EncoderService{
       assert.equal(this.state.phase,'ready');assert.equal(request.planId,this.plan.id);
       const fileId=request.fileIds[0],item=this.state.items.find(x=>x.id===fileId),entry=this.plan.entries.get(fileId);
       assert(item&&['ready','conflict'].includes(item.status)&&entry?.remux);
-      if(entry.operationPlan.contract.target==='mp4'){
+      if(['mp4','matroska'].includes(entry.operationPlan.contract.target)){
         const plan=this.plan,generation=this.generation;
         const bindings=()=>{
           assert(this.plan===plan&&this.generation===generation&&plan.entries.get(fileId)===entry&&!this.cancellation&&!this.shuttingDown,'Remux execution binding retired');
           return {...entry.qualificationBindings,plan:entry.operationPlan,settings:plan.settings,sourceIdentity:entry.fingerprint,sourceProbeFingerprint:remuxProbeFingerprint(entry.inspection.probe),runtimeIdentity:this.runtimeIdentity,budget:this.operationEvidenceBudget,executionBudgetMs:this.operationDeadlineMs,environment:null};
         };
         const requireCurrent=()=>RemuxOperations.prototype.requireCurrent.call(this.remuxOperations,entry.qualificationSelection,bindings());
-        const selected=requireCurrent();assert(selected.remux&&selected.qualification.inputFamily==='isobmff'&&selected.qualification.target==='mp4');
-        assert(!this.executionBinding);const control=generation.bindRemux(this.remuxOperations,entry.qualificationSelection,bindings);this.executionBinding=Object.freeze({kind:'remux-mp4',planId:plan.id,fileId,entry,generation,selected,requireCurrent,control});
+        const selected=requireCurrent();assert(selected.remux&&selected.qualification.inputFamily==='isobmff'&&selected.qualification.target===entry.operationPlan.contract.target);
+        assert(!this.executionBinding);const control=generation.bindRemux(this.remuxOperations,entry.qualificationSelection,bindings);this.executionBinding=Object.freeze({kind:'remux-isobmff',planId:plan.id,fileId,entry,generation,selected,requireCurrent,control});
       }
     }
     const previousTask=this.taskPromise;

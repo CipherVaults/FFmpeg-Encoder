@@ -2,7 +2,7 @@
 import pathlib,os,sys,re,json,hashlib,subprocess,tempfile,time,signal,stat
 from contextlib import contextmanager
 ROOT=pathlib.Path(__file__).resolve().parent
-PARENT='7ddb7bfd3b3448ec7918085eaf406ab02556f1cd'
+PARENT='705e67b0a09519d18b630360d30bb7c8465881cd'
 ROOTS=['gcc','g++','make','binutils','libc6-dev','linux-libc-dev','pkgconf','cmake','meson','ninja-build','nasm','python3','patch','tar','xz-utils','gzip','coreutils','dash','findutils','sed','grep','gawk','dpkg-dev']
 CAP=8*1024**2
 STATUS_CAP=32*1024**2

@@ -1,0 +1,75 @@
+{
+  "accepted": true,
+  "scope": "Independent saved-only generated source identity and metadata audit; not remux preservation acceptance",
+  "sourceCommit": "dcab62cce336f00124e6c188a2095ef65de6c733",
+  "sourceFilesRehashed": 1060,
+  "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+  "runtimePairAndSevenDependenciesRehashed": true,
+  "recipe": "Exact existing LARGE_MP4:180s1080p30H264High B-frames2/30M CBR filler and stereo48kAAC192k",
+  "recipeArgvExact": true,
+  "fixture": {
+    "relativePath": "owned-attempt1/large-1080p30-aac.mp4",
+    "bytes": 678829334,
+    "sha256": "0f5ff1b084052e076a0f989740cf62ff203f643423ff38ee49c09d8bf6d371ad",
+    "ordinarySingleLinkCurrentUid": true,
+    "savedDeviceInodeSizeMtimeCtimeMatch": true
+  },
+  "savedMetadata": {
+    "durationSeconds": 180,
+    "video": "H264 High1920x1080CFR30",
+    "reportedVideoFrames": 5400,
+    "audio": "AAC-LC stereo48000Hz",
+    "reportedAudioFrames": 8439,
+    "chapters": 0,
+    "exactHistoricalAssessmentReplayedOnSavedJson": true
+  },
+  "closure": {
+    "mediaChildrenStarted": 2,
+    "closed": 2,
+    "live": 0,
+    "generationAndMetadataExit": 0,
+    "outerOsExit": 0,
+    "supervisorExit": 0,
+    "terminationRequested": false,
+    "errors": [],
+    "sampledProcessIdentities": 2,
+    "sampledNotExhaustive": true,
+    "elapsedSeconds": 20.587567058995774,
+    "runnerElapsedMs": 20075.733758000002,
+    "runtimeClosed": true
+  },
+  "receipts": {
+    "RESULT.json": {
+      "bytes": 8041,
+      "sha256": "70e3a661a3ba7348728447a42e696fc350b6c8bacf47c46c20e3c7b1bf4a4348"
+    },
+    "CLOSURE.json": {
+      "bytes": 679,
+      "sha256": "87ea8121531ec70c77fdfc2db75bdc59d56023705047bd98bd399c2fc4c3cef4"
+    },
+    "ROOT_RUN.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "LEAD_RELEASE.json": {
+      "bytes": 903,
+      "sha256": "e3bd74b144934e54d5e9bb9f558e9fb575bb04e2f9d41bc260b134137916feb8"
+    },
+    "BINDING.json": {
+      "bytes": 179566,
+      "sha256": "38ca8e025b41e8a4c03c799ea5acf3bd1088223a9b1a55d933379b1c1ca53a23"
+    },
+    "owned-attempt1/metadata.json": {
+      "bytes": 4874,
+      "sha256": "f63a12313e9cb2e926cb16fb019084ae0ca0df2e2b78b9176d2b9052349e4fbd"
+    }
+  },
+  "limits": [
+    "No fresh probe/decode/generation or media execution performed by this audit.",
+    "Metadata frame/sample descriptions are saved probe facts, not full decoded or packet-identity proof.",
+    "No output remux/publication/native/UI/preservation-quality acceptance.",
+    "Fixture is local only; no archive or payload upload.",
+    "Two media children differ from sampled supervisor census; short-lived probe need not appear in sampled list.",
+    "Later exact-package journey must independently establish preservation and UI outcome."
+  ]
+}

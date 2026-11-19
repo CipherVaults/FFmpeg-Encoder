@@ -1,0 +1,40 @@
+{
+  "schema": "ubuntu-lock-candidate/v1",
+  "ready": false,
+  "head": "705e67b0a09519d18b630360d30bb7c8465881cd",
+  "scope": "metadata-and-simulation-only",
+  "unresolved": [],
+  "diagnosticStage": "METADATA_UPDATE",
+  "completedDiagnosticStages": [
+    "BASELINE_COPY",
+    "CONFIGURE_ISOLATION",
+    "BASELINE_PARSE",
+    "BASELINE_VALIDATE",
+    "BASELINE_QUERY",
+    "BASELINE_COMPARE",
+    "TOOL_IDENTITIES"
+  ],
+  "baselineStatusSha256": "90fa0b31c190aa6d31c146657b325a9c6884e1bda587d850e30857fd26b34bfc",
+  "baselineInstalledCount": 1212,
+  "toolIdentities": {
+    "/usr/bin/apt-get": "87279ca48820a0423c2ee8b25dba48af0ad7d9f46c16f1e3cfdc07934dcf5ae1",
+    "/usr/bin/apt-cache": "3ae7267f71d70bec3c263314fceb1b2c2e6845f03ade9c57cbb5a2f71f06904a",
+    "/usr/bin/gpgv": "f14d026b9eae172c432e015bce227483293b4966f2f3fdcfa582f71d3dbb2ae8",
+    "/usr/share/keyrings/ubuntu-archive-keyring.gpg": "80a36b0a6de2f69f49d2df75ef473ccde121e9e190b9ea01d20a4f63778d5c31"
+  },
+  "status": "blocked",
+  "failureType": "ChildFailure",
+  "failureReason": "CHILD_FAILED",
+  "metadataUpdateObservation": {
+    "schema": 1,
+    "exitCode": 100,
+    "stdoutBytes": 343,
+    "stderrBytes": 462,
+    "stdoutSha256": "8d1ebd5fcd91cdb2d4ea5cbb43505d53d3861a380bb7c2142dfccb75c90ee948",
+    "stderrSha256": "d6c4100a9797a091a443d029f921c382e8e5db41a983bdd6878a28e3b35ffdb3",
+    "observedMarkerClasses": [
+      "UNCLASSIFIED"
+    ],
+    "completeBoundedStreams": true
+  }
+}

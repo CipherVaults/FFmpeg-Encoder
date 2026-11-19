@@ -15,7 +15,7 @@ test('H265 ordinary running uses raw candidate runner while measured observation
 
 function remuxControl({ms=5000000000,child=1200000,count=64,target='mp4',current=null}={}){
  const selected=Object.freeze({remux:true,qualification:Object.freeze({inputFamily:'isobmff',target}),executionBudgetMs:ms,budget:Object.freeze({timeoutMs:child}),resources:Object.freeze({maxChildren:count})});
- return Object.freeze({kind:'remux-mp4',selected,requireCurrent:current||(()=>selected)});
+ return Object.freeze({kind:'remux-isobmff',selected,requireCurrent:current||(()=>selected)});
 }
 test('selected MP4 controls survive beyond old limits with overflow-safe timer and clipped children',async()=>{
  const h=harness(),g=await h.openUnifiedGeneration('/runtime','/state'),c=remuxControl();g.begin('remux','running',new AbortController(),h.bind(g,c));assert.equal(h.timers.at(-1).ms,1000);
@@ -33,3 +33,15 @@ test('selected invocation ceiling refuses before spawn and legacy remux remains1
 });
 
 test('forged frozen raw costs and foreign generation tokens cannot authorize begin',async()=>{const h=harness(),a=await h.openUnifiedGeneration('/runtime','/state'),b=await h.openUnifiedGeneration('/runtime','/state');const c=remuxControl(),token=h.bind(a,c);for(const x of [c,token])assert.throws(()=>b.begin('remux','running',new AbortController(),x),/generation issued/);assert.throws(()=>a.bindRemux({},c,()=>({})));await a.close();await b.close();});
+test('selected MKV controls survive beyond old limits with overflow-safe timer and clipped children',async()=>{
+ const h=harness(),g=await h.openUnifiedGeneration('/runtime','/state'),c=remuxControl({target:'matroska'});g.begin('remux','running',new AbortController(),h.bind(g,c));assert.equal(h.timers.at(-1).ms,1000);
+ h.advance(600001);await g.run('/runtime/ffprobe',['-version'],{timeoutMs:900000});assert.equal(h.calls.at(-1).options.timeoutMs,900000);
+ await g.run('/runtime/ffprobe',['-version'],{timeoutMs:1500000});assert.equal(h.calls.at(-1).options.timeoutMs,1200000);g.settle();await g.close();
+});test('deferred MKV currentness cancellation expiry and selection replacement spawn nothing',async()=>{
+ for(const mode of ['cancel','expire','stale']){const h=harness(),g=await h.openUnifiedGeneration('/runtime','/state');let changed=false,c=remuxControl({ms:900000,target:'matroska'});const original=c;c=Object.freeze({...c,requireCurrent:()=>{assert(!changed,'stale');return original.selected;}});let release;h.hold(new Promise(r=>release=r));const abort=new AbortController();g.begin('remux','running',abort,h.bind(g,c));const run=g.run('/runtime/ffprobe',['-version'],{timeoutMs:300000});if(mode==='cancel')abort.abort();if(mode==='expire')h.advance(900001);if(mode==='stale')changed=true;release();await assert.rejects(run);assert.equal(h.calls.length,0);g.settle();await g.close();}
+});
+test('MKV token cannot switch to a different valid target after binding',async()=>{
+ const h=harness(),g=await h.openUnifiedGeneration('/runtime','/state');const mkv=remuxControl({target:'matroska'}),mp4=remuxControl();let selected=mkv.selected;
+ const control=Object.freeze({...mkv,requireCurrent:()=>selected}),token=h.bind(g,control);selected=mp4.selected;
+ assert.throws(()=>g.begin('remux','running',new AbortController(),token));assert.equal(g.snapshot().phase,null);assert.equal(h.calls.length,0);await g.close();
+});

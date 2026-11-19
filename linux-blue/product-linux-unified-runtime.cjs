@@ -42,8 +42,8 @@ async function openUnifiedGeneration(runtimeRoot, stateDir, onChild) {
       bindRemux(operations,selection,bindings){
         assert(!closed&&!retired&&!phase&&operations instanceof RemuxOperations&&typeof bindings==='function');
         const requireCurrent=()=>RemuxOperations.prototype.requireCurrent.call(operations,selection,bindings());
-        const selected=requireCurrent();assert(selected.remux&&selected.qualification.inputFamily==='isobmff'&&selected.qualification.target==='mp4');
-        const token=Object.freeze({});remuxControls.set(token,Object.freeze({kind:'remux-mp4',selected,requireCurrent}));return token;
+        const selected=requireCurrent();assert(selected.remux&&selected.qualification.inputFamily==='isobmff'&&['mp4','matroska'].includes(selected.qualification.target));
+        const token=Object.freeze({});remuxControls.set(token,Object.freeze({kind:'remux-isobmff',selected,requireCurrent}));return token;
       },
       begin(route,kind,controller,token=null) {
         const control=token===null?null:remuxControls.get(token);assert(token===null||control,'Only this generation issued Remux control is admitted');
@@ -52,9 +52,9 @@ async function openUnifiedGeneration(runtimeRoot, stateDir, onChild) {
         let ms=kind==='checking'?POLICY.discoveryMs:kind==='preparing'&&['ordinary','av1-ordinary'].includes(route)?POLICY.preparationMs:POLICY.executionMs;
         let maxChildren=route==='remux'?32:128,childMs=route==='remux'?120000:null;
         if(control){
-          assert(route==='remux'&&kind==='running'&&Object.isFrozen(control)&&control.kind==='remux-mp4');
+          assert(route==='remux'&&kind==='running'&&Object.isFrozen(control)&&control.kind==='remux-isobmff');
           const q=control.requireCurrent();assert.strictEqual(q,control.selected);assert(Object.isFrozen(q)&&Object.isFrozen(q.budget)&&Object.isFrozen(q.resources));
-          assert(q.remux&&q.qualification.inputFamily==='isobmff'&&q.qualification.target==='mp4');
+          assert(q.remux&&q.qualification.inputFamily==='isobmff'&&['mp4','matroska'].includes(q.qualification.target));
           for(const n of [q.executionBudgetMs,q.budget.timeoutMs,q.resources.maxChildren])assert(Number.isSafeInteger(n)&&n>0);
           ms=q.executionBudgetMs;childMs=q.budget.timeoutMs;maxChildren=q.resources.maxChildren;
         }

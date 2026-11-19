@@ -1,0 +1,229 @@
+{
+  "schema": "checkpoint-hosted-outcome/v1",
+  "checkpoint": "097",
+  "head": "705e67b0a09519d18b630360d30bb7c8465881cd",
+  "attempt": 1,
+  "verifiedAtUtc": "2026-11-19T13:24:32.837717+00:00",
+  "runs": [
+    {
+      "id": 44532595695,
+      "name": "One-shot Ubuntu 24.04 toolchain inventory",
+      "conclusion": "skipped"
+    },
+    {
+      "id": 44532595476,
+      "name": "Shared core contracts (Linux and Windows)",
+      "conclusion": "success"
+    },
+    {
+      "id": 44532595655,
+      "name": "One-shot Ubuntu signed metadata lock proposal",
+      "conclusion": "failure"
+    },
+    {
+      "id": 44532595632,
+      "name": "Windows packaged CPU integration (report only)",
+      "conclusion": "success"
+    }
+  ],
+  "shared": {
+    "syntaxPerOS": 227,
+    "sharedTestsPerOS": 338,
+    "linuxAdditionalTests": 115,
+    "failures": 0,
+    "skipped": 0,
+    "jobs": [
+      135589550325,
+      135589550848
+    ]
+  },
+  "windows": {
+    "job": 135589550536,
+    "artifact": {
+      "id": 14533863164,
+      "name": "windows-integration-report-44532595632-1",
+      "size_in_bytes": 2143,
+      "url": "https://api.github.com/repos/CipherVaults/FFmpeg-Encoder-Blue-Linux/actions/artifacts/14533863164",
+      "archive_download_url": "https://api.github.com/repos/CipherVaults/FFmpeg-Encoder-Blue-Linux/actions/artifacts/14533863164/zip",
+      "expired": false,
+      "created_at": "2026-11-19T13:23:43Z",
+      "expires_at": "2026-11-22T13:23:42Z",
+      "updated_at": "2026-11-19T13:23:43Z",
+      "digest": "sha256:2bce45855ea2e1d770ad95733fe21d22e8c2b631f2dfece04f4f3a5b45bc3526",
+      "workflow_run": {
+        "id": 44532595632,
+        "repository_id": 1460111553,
+        "head_repository_id": 1460111553,
+        "head_branch": "blue/linux-development",
+        "head_sha": "705e67b0a09519d18b630360d30bb7c8465881cd"
+      }
+    },
+    "report": {
+      "schema": "windows-packaged-two-file-cpu-integration/v2",
+      "head": "705e67b0a09519d18b630360d30bb7c8465881cd",
+      "runId": "44532595632",
+      "attempt": 1,
+      "state": "INTEGRATION_PASSED",
+      "picker": "substituted-dialog-return",
+      "gpu": "not-qualified",
+      "nativeDesktop": "not-qualified",
+      "distribution": "report-only",
+      "failure": null,
+      "fixtureGenerationCalls": 1,
+      "fixtureCopyCalls": 1,
+      "startClicks": 1,
+      "requestedEncodes": 2,
+      "extraDecodeCalls": 0,
+      "probeReadbackCalls": 2,
+      "collisionSkips": 2,
+      "close": "normal",
+      "sourceUnchanged": true,
+      "packageUnchanged": true,
+      "collisionRefused": true,
+      "collisionSnapshotVerified": true,
+      "outputs": [
+        {
+          "sha256": "01ad78ec0fc1ab5ee0e5ad2f7bc94d3bd0b755bc1e8168c2742384ee7a53d262",
+          "sizeBytes": 73618
+        },
+        {
+          "sha256": "44bd21f5a683545e0750f6f1c60ef4e89b7b523a6ee8fc154fd80f6316f5cd80",
+          "sizeBytes": 73618
+        }
+      ],
+      "fixtureCopies": "two-distinct-paths-identical-bytes",
+      "terminalTimer": {
+        "frozen": true,
+        "domMatchesSnapshot": true,
+        "reset": true,
+        "observedWaitMs": 2209,
+        "elapsedSeconds": 0.735
+      },
+      "processObservation": {
+        "kind": "sampled-not-exhaustive",
+        "samples": 8,
+        "observedDescendants": 12,
+        "observedStartupMedia": 1,
+        "observedLiveAfterClose": 0
+      },
+      "startupDiscovery": "unchanged-production-including-GPU-capability-attempts",
+      "launchOwnership": "verified-shell-launcher-and-pinned-main",
+      "security": {
+        "packaged": true,
+        "sandbox": true,
+        "contextIsolation": true,
+        "nodeIntegration": false
+      },
+      "build": {
+        "asar": {
+          "sha256": "ba30626c2fae3bf6e074c323c81e2e41aadb9d346c23972fc94cd24968a2aa5d",
+          "sizeBytes": 2454599
+        },
+        "executable": {
+          "sha256": "02943102b0003681827f5060b0798cf292f4674ccc4544709b565017ed582ccf",
+          "sizeBytes": 246302208
+        },
+        "zip": {
+          "sha256": "57d93aba7d58c284bb53c2783cbcf20566c3d8f757951774fb79f886826a6bab",
+          "sizeBytes": 326104068
+        }
+      }
+    },
+    "reportIdentity": {
+      "file": "WINDOWS_REPORT.json",
+      "bytes": 2007,
+      "sha256": "7b6ff4fa211c77f9e96d008fa04adce891ae308919c57868053d378d81cfc56b"
+    },
+    "zipIdentity": {
+      "file": "WINDOWS_ARTIFACT.zip",
+      "bytes": 2143,
+      "sha256": "2bce45855ea2e1d770ad95733fe21d22e8c2b631f2dfece04f4f3a5b45bc3526"
+    },
+    "limits": "Report-only packaged CPU journey with substituted picker; sampled census, no GPU or native desktop qualification; no Linux-specific long Remux qualification."
+  },
+  "ubuntu": {
+    "job": 135589550233,
+    "artifact": {
+      "id": 14534557361,
+      "name": "ubuntu-lock-44532595655-1",
+      "size_in_bytes": 1601,
+      "url": "https://api.github.com/repos/CipherVaults/FFmpeg-Encoder-Blue-Linux/actions/artifacts/14534557361",
+      "archive_download_url": "https://api.github.com/repos/CipherVaults/FFmpeg-Encoder-Blue-Linux/actions/artifacts/14534557361/zip",
+      "expired": false,
+      "created_at": "2026-11-19T13:22:42Z",
+      "expires_at": "2026-11-22T13:22:41Z",
+      "updated_at": "2026-11-19T13:22:42Z",
+      "digest": "sha256:e7c7d44fc2731eacf47235d0ea3dbb9991f002ecad9b5481b01394ae58e227b0",
+      "workflow_run": {
+        "id": 44532595655,
+        "repository_id": 1460111553,
+        "head_repository_id": 1460111553,
+        "head_branch": "blue/linux-development",
+        "head_sha": "705e67b0a09519d18b630360d30bb7c8465881cd"
+      }
+    },
+    "reportIdentity": {
+      "file": "UBUNTU_REPORT.json",
+      "bytes": 1455,
+      "sha256": "314fc54a852f6769b33b0c1e60e09501d7472d1281771f5dda34acd8662a5aa9"
+    },
+    "zipIdentity": {
+      "file": "UBUNTU_ARTIFACT.zip",
+      "bytes": 1601,
+      "sha256": "e7c7d44fc2731eacf47235d0ea3dbb9991f002ecad9b5481b01394ae58e227b0"
+    },
+    "ready": false,
+    "stage": "METADATA_UPDATE",
+    "failureType": "ChildFailure",
+    "failureReason": "CHILD_FAILED",
+    "completedStages": [
+      "BASELINE_COPY",
+      "CONFIGURE_ISOLATION",
+      "BASELINE_PARSE",
+      "BASELINE_VALIDATE",
+      "BASELINE_QUERY",
+      "BASELINE_COMPARE",
+      "TOOL_IDENTITIES"
+    ],
+    "baselineCount": 1212,
+    "signedReleaseCount": 0,
+    "inertTests": 75,
+    "metadataUpdateObservation": {
+      "schema": 1,
+      "exitCode": 100,
+      "stdoutBytes": 343,
+      "stderrBytes": 462,
+      "stdoutSha256": "8d1ebd5fcd91cdb2d4ea5cbb43505d53d3861a380bb7c2142dfccb75c90ee948",
+      "stderrSha256": "d6c4100a9797a091a443d029f921c382e8e5db41a983bdd6878a28e3b35ffdb3",
+      "observedMarkerClasses": [
+        "UNCLASSIFIED"
+      ],
+      "completeBoundedStreams": true
+    },
+    "installationPerformed": false,
+    "limits": "Metadata update failed with exit100 and complete bounded streams, UNCLASSIFIED marker class. No release authentication, simulation, installed-change review or candidate mapping reached. No cause inference from log hashes."
+  },
+  "originals": [
+    {
+      "file": "WINDOWS_REPORT.json",
+      "bytes": 2007,
+      "sha256": "7b6ff4fa211c77f9e96d008fa04adce891ae308919c57868053d378d81cfc56b"
+    },
+    {
+      "file": "WINDOWS_ARTIFACT.zip",
+      "bytes": 2143,
+      "sha256": "2bce45855ea2e1d770ad95733fe21d22e8c2b631f2dfece04f4f3a5b45bc3526"
+    },
+    {
+      "file": "UBUNTU_REPORT.json",
+      "bytes": 1455,
+      "sha256": "314fc54a852f6769b33b0c1e60e09501d7472d1281771f5dda34acd8662a5aa9"
+    },
+    {
+      "file": "UBUNTU_ARTIFACT.zip",
+      "bytes": 1601,
+      "sha256": "e7c7d44fc2731eacf47235d0ea3dbb9991f002ecad9b5481b01394ae58e227b0"
+    }
+  ],
+  "noRerunOrDispatch": true
+}

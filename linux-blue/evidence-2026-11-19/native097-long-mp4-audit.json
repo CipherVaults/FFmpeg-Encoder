@@ -1,0 +1,749 @@
+{
+  "accepted": true,
+  "scope": "Exact097 packaged180s MP4-to-MP4 Full native journey saved-only audit",
+  "sourceCommit": "47da616c7e47257efc2b346a6c762df9fe73a636",
+  "sourceFilesVerified": 1066,
+  "packageFilesVerified": 270,
+  "postModes": "Six explicit0755,allothers0600; exact bytes/device/inode retained",
+  "packageFileAuditSha256": "17d7fe38898a19c3d607c9d44287fb968288f1a7819ebfd21fb9711330ae3dad",
+  "closureSha256": "dfb04b8fad50e62352cf837e85300cdb8bf0803116c631c5e9cb5007230a35aa",
+  "closure": {
+    "scope": "native097-long-mp4-full-copy-180s",
+    "status": "closed-awaiting-evidence-audit",
+    "sampledOnly": true,
+    "terminationRequested": false,
+    "errors": [],
+    "leaderPid": 12374,
+    "leaderIdentity": [
+      12374,
+      4740862
+    ],
+    "leaderExitObservedUnreaped": true,
+    "remainingGroupRows": [
+      {
+        "pid": 12374,
+        "startTicks": 4740862,
+        "state": "Z"
+      }
+    ],
+    "closureObserved": true,
+    "exitCode": 0,
+    "packageVerified": true,
+    "inputsVerified": true,
+    "storageVerified": 1376361883,
+    "sampledIdentities": [
+      {
+        "pid": 12374,
+        "startTicks": 4740862,
+        "state": "S"
+      },
+      {
+        "pid": 12377,
+        "startTicks": 4740867,
+        "state": "S"
+      },
+      {
+        "pid": 12378,
+        "startTicks": 4740867,
+        "state": "S"
+      },
+      {
+        "pid": 12380,
+        "startTicks": 4740874,
+        "state": "S"
+      },
+      {
+        "pid": 12404,
+        "startTicks": 4740899,
+        "state": "S"
+      },
+      {
+        "pid": 12406,
+        "startTicks": 4740899,
+        "state": "S"
+      },
+      {
+        "pid": 12452,
+        "startTicks": 4740941,
+        "state": "S"
+      },
+      {
+        "pid": 12570,
+        "startTicks": 4741110,
+        "state": "S"
+      },
+      {
+        "pid": 12828,
+        "startTicks": 4741314,
+        "state": "S"
+      },
+      {
+        "pid": 13070,
+        "startTicks": 4755767,
+        "state": "S"
+      },
+      {
+        "pid": 13074,
+        "startTicks": 4756191,
+        "state": "R"
+      },
+      {
+        "pid": 13075,
+        "startTicks": 4756202,
+        "state": "R"
+      },
+      {
+        "pid": 13077,
+        "startTicks": 4756278,
+        "state": "S"
+      },
+      {
+        "pid": 13082,
+        "startTicks": 4756280,
+        "state": "S"
+      },
+      {
+        "pid": 13112,
+        "startTicks": 4756853,
+        "state": "S"
+      },
+      {
+        "pid": 13127,
+        "startTicks": 4756861,
+        "state": "S"
+      }
+    ],
+    "elapsedSeconds": 215.85036260799825
+  },
+  "fixture": {
+    "bytes": 678829334,
+    "sha256": "0f5ff1b084052e076a0f989740cf62ff203f643423ff38ee49c09d8bf6d371ad",
+    "originalStillMatches": true,
+    "distinctCopyInode": true
+  },
+  "output": {
+    "bytes": 678829675,
+    "sha256": "c6c16e8762f9cb4eba87414576c0b9b8b2cc944679a294a841c1e9ba342c9f6f"
+  },
+  "journal": {
+    "events": 22,
+    "contiguous": true,
+    "reasons": {
+      "SESSION_STARTED": 1,
+      "CAPABILITY_STARTED": 1,
+      "RUNTIME_IDENTIFIED": 1,
+      "CAPABILITY_FINISHED": 1,
+      "PROVENANCE_RECOVERY_FINISHED": 1,
+      "FOLDER_PICKER_REQUESTED": 2,
+      "FOLDER_PICKER_REGISTERED": 2,
+      "PREPARATION_STARTED": 1,
+      "FILE_INSPECTED": 1,
+      "PREPARATION_FINISHED": 1,
+      "REMUX_STARTED": 1,
+      "REMUX_CLOSED": 1,
+      "OPERATION_EVIDENCE_COLLECTED": 1,
+      "OUTPUT_CHECKED": 1,
+      "SOURCE_ASSESSED": 1,
+      "OUTPUT_PUBLISHED": 1,
+      "JOB_DISPOSITION": 1,
+      "BATCH_FINISHED": 1,
+      "OUTPUT_ACTION_DISPATCHED": 1,
+      "SESSION_ENDED": 1
+    },
+    "batchFinished": {
+      "phase": "completed",
+      "counts": {
+        "success": 1,
+        "failed": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "unprocessed": 0
+      },
+      "settings": null,
+      "elapsedSeconds": 12.72,
+      "totalItems": 1,
+      "jobDetails": "Correlate JOB_DISPOSITION records by batchId and fileId. Retention/truncation status applies."
+    },
+    "contextTruncatedEvents": [
+      "FILE_INSPECTED",
+      "OPERATION_EVIDENCE_COLLECTED",
+      "JOB_DISPOSITION"
+    ]
+  },
+  "collector": {
+    "receiptSha256": "ef49322f3f49ed04fb29030903b54f3b4596a3511ee1178606c3f7f297e2f87e",
+    "artifactCount": 21,
+    "spoolBytes": 18392948,
+    "budget": {
+      "sourceDecode": "complete",
+      "timeoutMs": 1221000,
+      "maxFrameBytes": 8388608,
+      "maxPcmBytes": 139776000,
+      "maxRecords": 36175,
+      "maxSpoolBytes": 675286912,
+      "maxTextBytes": 74086400,
+      "maxDurationSeconds": 182,
+      "maxSourceBytes": 678829334,
+      "maxOutputBytes": 869944284
+    },
+    "streams": [
+      {
+        "inputIndex": 0,
+        "outputIndex": 0,
+        "codecType": "video",
+        "source": {
+          "complete": true,
+          "exitCode": 0,
+          "stderrComplete": true,
+          "errors": [],
+          "representation": "packet-identity-v1",
+          "contentSha256": "e9461d1fe4049f2bc9a5983fd23135338342cad513282258e11e187f38744f21",
+          "metadataSha256": "a32477c946a4068a3a921c236a04eae2600f1e2174638bb6a008a9a5f44013ad",
+          "decoderParametersSha256": "461e09711c984a0b2d8172ccb5c61a89c17eb6ad3ad66d588099c9a28546b347",
+          "unitCount": "5400",
+          "firstPts": {
+            "numerator": "0",
+            "denominator": "1"
+          },
+          "endPts": {
+            "numerator": "180",
+            "denominator": "1"
+          },
+          "cadence": {
+            "version": 1,
+            "classification": "constant",
+            "intervalCount": "5399",
+            "firstStep": {
+              "numerator": "1",
+              "denominator": "30"
+            },
+            "differingStep": null
+          },
+          "admission": {
+            "version": 1,
+            "complete": true,
+            "kind": "h264-parameter-sei-v1",
+            "configurationSha256": "1cb482ccdb9d09390a8a3d5d16407ea7d72dac1031423f911d83fffd207c4c40",
+            "parameterSets": 0,
+            "seiUnits": 5491,
+            "scannedBytes": 61423,
+            "headerSyntax": {
+              "version": 1,
+              "complete": true,
+              "method": "ffmpeg-cbs-h264-v1",
+              "nalUnits": 16285,
+              "sliceHeaders": 5400,
+              "fillerBytes": 673754122,
+              "interiorDecoded": false
+            }
+          },
+          "decodedWindows": {
+            "start": {
+              "keyPacketIndex": 0,
+              "frameCount": 1,
+              "sha256": "3aae69bfa41e5abd397dc507f4c468cc6dc5fae80bed537b6649d293eb5085af"
+            },
+            "end": {
+              "keyPacketIndex": 5340,
+              "frameCount": 1,
+              "sha256": "3aae69bfa41e5abd397dc507f4c468cc6dc5fae80bed537b6649d293eb5085af"
+            }
+          }
+        },
+        "output": {
+          "complete": true,
+          "exitCode": 0,
+          "stderrComplete": true,
+          "errors": [],
+          "representation": "packet-identity-v1",
+          "contentSha256": "e9461d1fe4049f2bc9a5983fd23135338342cad513282258e11e187f38744f21",
+          "metadataSha256": "a32477c946a4068a3a921c236a04eae2600f1e2174638bb6a008a9a5f44013ad",
+          "decoderParametersSha256": "461e09711c984a0b2d8172ccb5c61a89c17eb6ad3ad66d588099c9a28546b347",
+          "unitCount": "5400",
+          "firstPts": {
+            "numerator": "0",
+            "denominator": "1"
+          },
+          "endPts": {
+            "numerator": "180",
+            "denominator": "1"
+          },
+          "cadence": {
+            "version": 1,
+            "classification": "constant",
+            "intervalCount": "5399",
+            "firstStep": {
+              "numerator": "1",
+              "denominator": "30"
+            },
+            "differingStep": null
+          },
+          "admission": {
+            "version": 1,
+            "complete": true,
+            "kind": "h264-parameter-sei-v1",
+            "configurationSha256": "1cb482ccdb9d09390a8a3d5d16407ea7d72dac1031423f911d83fffd207c4c40",
+            "parameterSets": 0,
+            "seiUnits": 5491,
+            "scannedBytes": 61423,
+            "headerSyntax": {
+              "version": 1,
+              "complete": true,
+              "method": "ffmpeg-cbs-h264-v1",
+              "nalUnits": 16285,
+              "sliceHeaders": 5400,
+              "fillerBytes": 673754122,
+              "interiorDecoded": false
+            }
+          },
+          "decodedWindows": {
+            "start": {
+              "keyPacketIndex": 0,
+              "frameCount": 1,
+              "sha256": "3aae69bfa41e5abd397dc507f4c468cc6dc5fae80bed537b6649d293eb5085af"
+            },
+            "end": {
+              "keyPacketIndex": 5340,
+              "frameCount": 1,
+              "sha256": "3aae69bfa41e5abd397dc507f4c468cc6dc5fae80bed537b6649d293eb5085af"
+            }
+          }
+        },
+        "timestamps": {
+          "complete": true,
+          "comparedUnits": "5400",
+          "maxPtsError": {
+            "numerator": "0",
+            "denominator": "1"
+          },
+          "maxDurationError": {
+            "numerator": "0",
+            "denominator": "1"
+          }
+        }
+      },
+      {
+        "inputIndex": 1,
+        "outputIndex": 1,
+        "codecType": "audio",
+        "source": {
+          "complete": true,
+          "exitCode": 0,
+          "stderrComplete": true,
+          "errors": [],
+          "representation": "packet-identity-v1",
+          "contentSha256": "a7b3b4a47934b482fbe8cd400c5e27b3bc3af9f67154994d4c9e4d20e6b42752",
+          "metadataSha256": "f2df09bf463872c4dfa4aa5e00a42e73e2393f5376aa1d8f2b069d2f670c3c90",
+          "decoderParametersSha256": "0d48a0e05ea520d3563bace6b60c3536df0ba14ea7213284916935e437e40a93",
+          "unitCount": "8439",
+          "firstPts": {
+            "numerator": "-8",
+            "denominator": "375"
+          },
+          "endPts": {
+            "numerator": "180",
+            "denominator": "1"
+          },
+          "admission": {
+            "version": 1,
+            "complete": true,
+            "kind": "aac-lc-packet-and-frozen-pcm-v1",
+            "configurationSha256": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+            "nativeStartFrames": 46
+          },
+          "pcm": {
+            "bytes": 69120000,
+            "samples": "8640000",
+            "sha256": "00d0cad60a928c9fd7ce6622d5e9b0710e106490ab9e7e13b688d2bee5964a6d"
+          }
+        },
+        "output": {
+          "complete": true,
+          "exitCode": 0,
+          "stderrComplete": true,
+          "errors": [],
+          "representation": "packet-identity-v1",
+          "contentSha256": "a7b3b4a47934b482fbe8cd400c5e27b3bc3af9f67154994d4c9e4d20e6b42752",
+          "metadataSha256": "f2df09bf463872c4dfa4aa5e00a42e73e2393f5376aa1d8f2b069d2f670c3c90",
+          "decoderParametersSha256": "0d48a0e05ea520d3563bace6b60c3536df0ba14ea7213284916935e437e40a93",
+          "unitCount": "8439",
+          "firstPts": {
+            "numerator": "-8",
+            "denominator": "375"
+          },
+          "endPts": {
+            "numerator": "180",
+            "denominator": "1"
+          },
+          "admission": {
+            "version": 1,
+            "complete": true,
+            "kind": "aac-lc-packet-and-frozen-pcm-v1",
+            "configurationSha256": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+            "nativeStartFrames": 46
+          },
+          "pcm": {
+            "bytes": 69120000,
+            "samples": "8640000",
+            "sha256": "00d0cad60a928c9fd7ce6622d5e9b0710e106490ab9e7e13b688d2bee5964a6d"
+          }
+        },
+        "timestamps": {
+          "complete": true,
+          "comparedUnits": "8439",
+          "maxPtsError": {
+            "numerator": "0",
+            "denominator": "1"
+          },
+          "maxDurationError": {
+            "numerator": "0",
+            "denominator": "1"
+          }
+        }
+      }
+    ],
+    "comparisons": [
+      {
+        "inputIndex": 0,
+        "outputIndex": 0,
+        "sourceInferredDts": 0,
+        "outputInferredDts": 0,
+        "maxDtsError": {
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "packetPayloadBytes": "674261647",
+        "peakReorderRows": 17,
+        "sourceBFrames": 2,
+        "outputBFrames": 2
+      },
+      {
+        "inputIndex": 0,
+        "outputIndex": 0,
+        "contentIdentical": true,
+        "metadataIdentical": true,
+        "evidenceKind": "packet-identity-video"
+      },
+      {
+        "inputIndex": 1,
+        "outputIndex": 1,
+        "sourceInferredDts": 0,
+        "outputInferredDts": 0,
+        "maxDtsError": {
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "packetPayloadBytes": "4381106",
+        "peakReorderRows": 0,
+        "sourceBFrames": 0,
+        "outputBFrames": 0
+      },
+      {
+        "inputIndex": 1,
+        "outputIndex": 1,
+        "contentIdentical": true,
+        "metadataIdentical": true,
+        "evidenceKind": "packet-identity-audio",
+        "pcmWindows": {
+          "windowBytes": 1048576,
+          "comparedWindows": 66,
+          "firstMismatchByte": null
+        }
+      }
+    ],
+    "nativeEditLists": {
+      "version": 1,
+      "complete": true,
+      "outputSha256": "c6c16e8762f9cb4eba87414576c0b9b8b2cc944679a294a841c1e9ba342c9f6f",
+      "identity": {
+        "dev": "27",
+        "ino": "2369558",
+        "size": "678829675",
+        "nlink": "1",
+        "mtimeNs": "1795094671725661566",
+        "ctimeNs": "1795094671725661566",
+        "birthtimeNs": "1795094669817610129"
+      },
+      "metadataBytesRead": 30292,
+      "tracks": [
+        {
+          "outputIndex": 0,
+          "trackId": 1,
+          "controls": {
+            "flags": 3,
+            "layer": 0,
+            "alternateGroup": 0,
+            "volume": 0,
+            "matrix": [
+              65536,
+              0,
+              0,
+              0,
+              65536,
+              0,
+              0,
+              0,
+              1073741824
+            ]
+          },
+          "dimensions": {
+            "width": 125829120,
+            "height": 70778880
+          },
+          "movieScale": "240000",
+          "mediaScale": "30000",
+          "trackDuration": "43200000",
+          "mediaDuration": "5400000",
+          "entries": [
+            {
+              "duration": "43200000",
+              "mediaTime": "2000",
+              "rateInteger": 1,
+              "rateFraction": 0
+            }
+          ]
+        },
+        {
+          "outputIndex": 1,
+          "trackId": 2,
+          "controls": {
+            "flags": 3,
+            "layer": 0,
+            "alternateGroup": 1,
+            "volume": 256,
+            "matrix": [
+              65536,
+              0,
+              0,
+              0,
+              65536,
+              0,
+              0,
+              0,
+              1073741824
+            ]
+          },
+          "dimensions": {
+            "width": 0,
+            "height": 0
+          },
+          "movieScale": "240000",
+          "mediaScale": "48000",
+          "trackDuration": "43200000",
+          "mediaDuration": "8641024",
+          "entries": [
+            {
+              "duration": "43200000",
+              "mediaTime": "1024",
+              "rateInteger": 1,
+              "rateFraction": 0
+            }
+          ]
+        }
+      ]
+    },
+    "sourcePlayback": {
+      "version": 1,
+      "complete": true,
+      "identity": {
+        "dev": "27",
+        "ino": "2369392",
+        "size": "678829334",
+        "nlink": "1",
+        "mtimeNs": "1795094355705200486",
+        "ctimeNs": "1795094355705200486",
+        "birthtimeNs": "1795094355545196211"
+      },
+      "metadataBytesRead": 30292,
+      "tracks": [
+        {
+          "outputIndex": 0,
+          "trackId": 1,
+          "controls": {
+            "flags": 3,
+            "layer": 0,
+            "alternateGroup": 0,
+            "volume": 0,
+            "matrix": [
+              65536,
+              0,
+              0,
+              0,
+              65536,
+              0,
+              0,
+              0,
+              1073741824
+            ]
+          },
+          "dimensions": {
+            "width": 125829120,
+            "height": 70778880
+          },
+          "movieScale": "48000",
+          "mediaScale": "30000",
+          "trackDuration": "8640000",
+          "mediaDuration": "5400000",
+          "entries": [
+            {
+              "duration": "8640000",
+              "mediaTime": "2000",
+              "rateInteger": 1,
+              "rateFraction": 0
+            }
+          ]
+        },
+        {
+          "outputIndex": 1,
+          "trackId": 2,
+          "controls": {
+            "flags": 3,
+            "layer": 0,
+            "alternateGroup": 1,
+            "volume": 256,
+            "matrix": [
+              65536,
+              0,
+              0,
+              0,
+              65536,
+              0,
+              0,
+              0,
+              1073741824
+            ]
+          },
+          "dimensions": {
+            "width": 0,
+            "height": 0
+          },
+          "movieScale": "48000",
+          "mediaScale": "48000",
+          "trackDuration": "8640000",
+          "mediaDuration": "8641024",
+          "entries": [
+            {
+              "duration": "8640000",
+              "mediaTime": "1024",
+              "rateInteger": 1,
+              "rateFraction": 0
+            }
+          ]
+        }
+      ]
+    },
+    "readAccounting": {
+      "scope": "Logical verification operations including TS preparation; excludes copying and initial inspection. ISO preparation metadata reads are separately noted and unmeasured here. Tool-internal seeks/re-reads are unmeasured.",
+      "completeOperations": [
+        {
+          "side": "source",
+          "operation": "source-all-packets"
+        },
+        {
+          "side": "output",
+          "operation": "output-all-packets"
+        },
+        {
+          "side": "source",
+          "operation": "source-0-complete-parameters"
+        },
+        {
+          "side": "output",
+          "operation": "output-0-complete-parameters"
+        },
+        {
+          "side": "source",
+          "operation": "source-1-native-audio"
+        },
+        {
+          "side": "output",
+          "operation": "output-1-native-audio"
+        },
+        {
+          "side": "output",
+          "operation": "output-seal",
+          "bytesRead": 678829675
+        }
+      ],
+      "partialOperations": [
+        {
+          "side": "source",
+          "operation": "native-inventory-metadata",
+          "bytesRead": 268011,
+          "preparationRead": "Normal-service preparation separately inspects native source metadata; those metadata bytes are unmeasured here."
+        },
+        {
+          "side": "output",
+          "operation": "native-inventory-metadata",
+          "bytesRead": 268505
+        },
+        {
+          "side": "source",
+          "operation": "native-source-playback-metadata",
+          "bytesRead": 30292,
+          "preparationRead": "Normal-service preparation separately inspects ISO source metadata; those preparation metadata bytes are unmeasured here."
+        },
+        {
+          "side": "source",
+          "operation": "source-0-codec-extradata",
+          "toolInternalReads": "unmeasured"
+        },
+        {
+          "side": "output",
+          "operation": "output-1-codec-extradata",
+          "toolInternalReads": "unmeasured"
+        },
+        {
+          "side": "output",
+          "operation": "output-1-audio-admission",
+          "toolInternalReads": "unmeasured"
+        },
+        {
+          "side": "source",
+          "operation": "source-1-audio-admission",
+          "toolInternalReads": "unmeasured"
+        },
+        {
+          "side": "output",
+          "operation": "native-edit-list-metadata",
+          "bytesRead": 30292
+        }
+      ],
+      "capturedClipDecodeOperations": 2,
+      "physicalIOBytes": null
+    },
+    "invocationCount": 12,
+    "allCollectorInvocationsClosedExit0": true,
+    "peakCollectorChildren": 2,
+    "invocationWarnings": []
+  },
+  "provenance": {
+    "published": true,
+    "outputIdMatched": true,
+    "publishedIdentityMatches": true,
+    "renameCtimeNote": "Collector pre-publication ctime differs after rename; dev/inode/size/mtime and full SHA256 bind same bytes; published identity verified."
+  },
+  "storageLedgerJobsEmpty": true,
+  "visualObservations": {
+    "source": "Lead development_recovery actual GUI observations; auditor did not replay desktop",
+    "realPickers": true,
+    "target": "MP4 Full",
+    "onePrepareOneStart": true,
+    "startApproxUtc": "13:24:20; operator reported at least900s remaining",
+    "sourceSummary": "03:00/1920x1080/8bit/oneaudio",
+    "terminal": "1success/allothers0;00:12 fixed at separated screenshots",
+    "reveal": "Thunar exact owned output folder and fixture_Remux-MP4.mp4 selected,678829675bytes",
+    "noPlayerRetry": "No Open/player,second Start or retry",
+    "normalClose": "Thunar/app closed normally, terminal prompt returned"
+  },
+  "inventorySha256": "41b9434f2e45fb7a18a9b75e635d882de8424fe3aa92b1607fdbb1638a1d1f73",
+  "savedFiles": 98,
+  "limits": [
+    "No new media/probe/decode/rawPCM replay by auditor. Complete packet/header traversals and full streaming audio PCM equality are retained collector facts, not independent replay.",
+    "Video interior was not decoded; representative decoded key windows0/5340 do not prove finalframe5399 or arbitrary content quality.",
+    "One180s synthetic H264/AAC1080p30 MP4 at exact host/runtime/package; not arbitrary durations/codecs/metadata, MKV/MOV long targets, portability or release qualification.",
+    "12 collector invocations all completed with peak2;16 outer sampled process identities include Electron/startup and are not exhaustive media-child count. No unsupported exact total-child claim.",
+    "No cancellation/collision/rescan tested in this GUI journey; historical lifecycle remains distinct.",
+    "1200s stricter observer did not expire; success within it is not exercise of full product4764000ms ceiling."
+  ]
+}

@@ -1,0 +1,5 @@
+FFmpeg Encoder 0.7.0-alpha.1 | Windows x64 | private owner test
+
+Portable: extract the entire ZIP into a new writable folder dedicated to 0.7 Alpha. Run FFmpeg Encoder.exe. Setup: install per-user under its separate 0.7 Alpha folder. FFmpeg and ffprobe are already included in both. Never mix alpha files with a prior installation. Each installation/extraction keeps state in its own data subfolder. Back up that folder separately before replacing or removing an alpha build.
+
+Use disposable clips to begin, not the only copy of any personal recording. An unsigned build may trigger Windows warnings; verify the supplied SHA-256 before deciding whether to run. No GPU/hardware, SmartScreen, owner-machine or complete feature acceptance claim is implied. No public distribution. The native tests and limitations in the accompanying report refer only to the exact archive/install hashes. Upstream FFmpeg and Electron/Chromium notices remain in the package. A vendor source link is not evidence of complete corresponding source.

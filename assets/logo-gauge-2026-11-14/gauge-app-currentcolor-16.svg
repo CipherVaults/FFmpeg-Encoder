@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" role="img" aria-label="Gauge / app currentcolor / 16 px">
-  <title>Gauge / app currentcolor / 16 px</title>
-  <desc>Original FFmpeg Encoder Gauge artwork. Fixed amber output square ring; open source frame. November 14, 2026. Transparent background.</desc>
-  <path d="M2 6V2H14V4H4V6ZM2 9H4V12H6V14H2Z" fill="currentColor" data-part="frame"/>
-  <path d="M7 7H14V14H7ZM9 9V12H12V9Z" fill="#ffad42" fill-rule="evenodd" data-part="amber"/>
-</svg>

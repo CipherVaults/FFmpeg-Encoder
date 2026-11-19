@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-label="Gauge / Windows outlined / 128 px">
-  <title>Gauge / Windows outlined / 128 px</title>
-  <desc>Original FFmpeg Encoder Gauge artwork. Fixed amber output square ring; open source frame. November 14, 2026. Transparent background.</desc>
-  <path d="M14 54V18H110V38H34V54ZM14 74H34V90H50V110H14ZM42 50H54V62H42ZM42 70H54V82H42Z" fill="#edf0f4" data-part="edge"/>
-  <path d="M16 52V20H108V36H32V52ZM16 76H32V92H48V108H16Z" fill="#1c2925" data-part="frame"/>
-  <path d="M56 52H112V108H56ZM72 68V92H96V68Z" fill="#ffad42" fill-rule="evenodd" data-part="amber"/>
-  <path d="M44 52H52V60H44ZM44 72H52V80H44Z" fill="#1c2925" data-part="ticks"/>
-</svg>

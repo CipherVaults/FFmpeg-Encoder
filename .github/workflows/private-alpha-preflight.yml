@@ -1,0 +1,58 @@
+name: Private Windows alpha package and CPU smoke (no artifact export)
+on:
+  push:
+    branches: [blue/private-windows-alpha-preflight-20261121]
+permissions:
+  contents: read
+jobs:
+  native:
+    if: >-
+      github.repository == 'CipherVaults/FFmpeg-Encoder-Blue-Linux' &&
+      github.event.repository.private == true && github.actor == 'AE0101' &&
+      github.run_attempt == 1 && github.event.forced == false && github.event.deleted == false &&
+      github.event.created == false && github.event.before == '1b9838a0c4a9379ef36032ddea4c422e66aaea9b'
+    runs-on: windows-2022
+    timeout-minutes: 40
+    env:
+      ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+      npm_config_ignore_scripts: 'true'
+      npm_config_audit: 'false'
+      npm_config_fund: 'false'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          path: overlay
+          persist-credentials: false
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: 1b9838a0c4a9379ef36032ddea4c422e66aaea9b
+          path: candidate
+          persist-credentials: false
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: 73fe15ca600c6003538dad036a914dff1488e442
+          path: trusted-helpers
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24.22.1'
+          package-manager-cache: false
+      - shell: pwsh
+        working-directory: candidate
+        run: |
+          if ((git rev-parse HEAD) -ne '1b9838a0c4a9379ef36032ddea4c422e66aaea9b') { throw 'Original SHA mismatch' }
+          npm ci --ignore-scripts --no-audit --no-fund
+          if ($LASTEXITCODE -ne 0) { throw 'Locked npm install failed' }
+      - name: Native build and smoke; no external handoff or publication
+        shell: pwsh
+        run: |
+          $kit = Join-Path $env:GITHUB_WORKSPACE 'overlay/private-alpha-kit'
+          $src = Join-Path $env:GITHUB_WORKSPACE 'candidate'
+          $help = Join-Path $env:GITHUB_WORKSPACE 'trusted-helpers'
+          $work = Join-Path $env:RUNNER_TEMP 'alpha-private-prep-20261121'
+          node "$kit/prepare.cjs" "$src" "$help" "$work"
+          if ($LASTEXITCODE -ne 0) { throw 'Build not verified' }
+          & "$kit/finish.ps1" -Kit $kit -Source $src -Work $work
+          if (-not $?) { throw 'Verification not complete' }
+# NO `upload-artifact`, release, push, shared cache, signed upload URL or email step. Hosted files expire with VM.

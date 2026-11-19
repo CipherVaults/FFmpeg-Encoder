@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" role="img" aria-label="Gauge / app light / 20 px / OPTIONAL 0.5 px square edge">
-  <title>Gauge / app light / 20 px / OPTIONAL 0.5 px square edge</title>
-  <desc>Original FFmpeg Encoder Gauge artwork. Fixed amber output square ring; open source frame. November 14, 2026. Transparent background.</desc>
-  <path d="M3 8V3H17V5H5V8ZM3 11H5V15H7V17H3Z" fill="#1c2925" data-part="frame"/>
-  <path d="M9 9H17V17H9ZM11 11V15H15V11Z" fill="#ffad42" fill-rule="evenodd" data-part="amber" stroke="#1c2925" stroke-width="0.5" stroke-linejoin="miter"/>
-</svg>

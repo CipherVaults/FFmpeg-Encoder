@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="FFmpeg Encoder Kept Streams">
-  <title>FFmpeg Encoder — Kept Streams</title>
-  <desc>Three parallel streams, amber picture, teal sound and ivory captions, rise through one shared step with unchanged widths and spacing on an ink rounded square.</desc>
-  <rect x="8" y="8" width="240" height="240" rx="52" fill="#1D2A2E"/>
-  <path fill-rule="evenodd" d="M60 8H196A52 52 0 0 1 248 60V196A52 52 0 0 1 196 248H60A52 52 0 0 1 8 196V60A52 52 0 0 1 60 8ZM60 12H196A48 48 0 0 1 244 60V196A48 48 0 0 1 196 244H60A48 48 0 0 1 12 196V60A48 48 0 0 1 60 12Z" fill="#33464B"/>
-  <path d="M56 108H80.804A12 12 0 0 0 89.289 104.485L104.485 89.289A100 100 0 0 1 175.196 60H200A6 6 0 0 1 206 66V84A6 6 0 0 1 200 90H175.196A70 70 0 0 0 125.698 110.503L110.503 125.698A42 42 0 0 1 80.804 138H56A6 6 0 0 1 50 132V114A6 6 0 0 1 56 108Z" fill="#F4AA45"/>
-  <path d="M56 149H80.804A53 53 0 0 0 118.281 133.477L133.477 118.281A59 59 0 0 1 175.196 101H200A6 6 0 0 1 206 107V117A6 6 0 0 1 200 123H175.196A37 37 0 0 0 149.033 133.837L133.837 149.033A75 75 0 0 1 80.804 171H56A6 6 0 0 1 50 165V155A6 6 0 0 1 56 149Z" fill="#5FC5AE"/>
-  <path d="M56 182H80.804A86 86 0 0 0 141.615 156.811L156.811 141.615A26 26 0 0 1 175.196 134H200A6 6 0 0 1 206 140V142A6 6 0 0 1 200 148H175.196A12 12 0 0 0 166.711 151.515L151.515 166.711A100 100 0 0 1 80.804 196H56A6 6 0 0 1 50 190V188A6 6 0 0 1 56 182Z" fill="#FBF4E6"/>
-</svg>

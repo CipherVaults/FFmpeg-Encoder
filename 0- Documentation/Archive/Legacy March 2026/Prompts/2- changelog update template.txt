@@ -1,8 +1,0 @@
-Generate a CHANGELOG.md entry based on today’s completed features.
-
-Rules:
-- Only include meaningful, user-visible or system-level changes
-- Do NOT include learning or discussions
-- Group changes into: Added / Changed / Fixed
-- Suggest the correct version number
-- Keep it concise and professional

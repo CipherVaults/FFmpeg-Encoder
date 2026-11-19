@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="FFmpeg Encoder Precision Aperture">
-  <rect x="8" y="8" width="240" height="240" rx="52" fill="#172A33"/>
-  <path d="M60 42H88V54H60A6 6 0 0 0 54 60V88H42V60A18 18 0 0 1 60 42Z" fill="#F9F6EC"/>
-  <path d="M196 214H168V202H196A6 6 0 0 0 202 196V168H214V196A18 18 0 0 1 196 214Z" fill="#F9F6EC"/>
-  <path d="M193.727 134A66 66 0 1 1 122 62.273V80.376A48 48 0 1 0 175.624 134Z" fill="#F9F6EC"/>
-  <path d="M134 55.247A73 73 0 0 1 200.753 122H175.624A48 48 0 0 0 134 80.376Z" fill="#F4B54C"/>
-  <rect x="108" y="108" width="40" height="40" rx="4" fill="#50C7BC"/>
-</svg>

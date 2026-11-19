@@ -10,6 +10,7 @@ const { RemuxOperations } = require('../src/remux-operation.cjs');
 const { getRemuxAssessmentSource } = require('../src/remux-contract.cjs');
 const { OperationRuntimeObserver } = require('../src/operation-runtime.cjs');
 const { openEvidenceStorage } = require('../src/operation-storage.cjs');
+const { EVIDENCE_BUDGET, EXECUTION_BUDGET_MS } = require('../src/operation-controls.cjs');
 const { runTool } = require('../src/process-runner.cjs');
 const { requireCandidateCalibrationRuntime } = require('./candidate-calibration-runtime.cjs');
 const RUNTIME = 'dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13';
@@ -98,7 +99,7 @@ async function createAcquisition({verifiedRuntime,stateDir,outputAccess,onChild}
   };
   observer=new OperationRuntimeObserver({runtime:Object.fromEntries(Object.entries(candidate.pins).map(([k,p])=>[k,p.path])),pins:Object.fromEntries(Object.entries(candidate.pins).map(([k,p])=>[k,{sizeBytes:p.size,sha256:p.sha256}])),run});
   service=new AcquisitionService({ffmpeg:candidate.pins.ffmpeg.path,ffprobe:candidate.pins.ffprobe.path,stateDir,outputAccess,run,inspectionWorkers:1,runtimeIdentity:RUNTIME,operationRuntime:observer,
-    operationDeadlineMs:120000,operationStorage:()=>openEvidenceStorage({root:path.join(stateDir,'operation-evidence')}),
+    operationEvidenceBudget:EVIDENCE_BUDGET,operationDeadlineMs:EXECUTION_BUDGET_MS,operationStorage:()=>openEvidenceStorage({root:path.join(stateDir,'operation-evidence')}),
     remuxOperations:new AcquisitionOperations({runtimeIdentity:RUNTIME,policyIdentity:'unqualified-linux-remux-lifecycle-acquisition',policies:[{id:'unqualified-isobmff-mp4-acquisition',inputFamily:'isobmff',target:'mp4',runtimeIdentity:RUNTIME,evidenceIds:['ACQUISITION-NOT-ACCEPTED-QUALIFICATION'],allowAncillary:false,allowRotation90:false,verificationMethod:'packet-identity-v1'}]})});
   return Object.freeze({service,scope:'acquisition-only-not-product-authority',async close(){closed=true;const failures=[];try{await service.closeOperationResources();}catch(e){failures.push(e);}try{await candidate.close();}catch(e){failures.push(e);}try{await service.closeDiagnostics();}catch(e){failures.push(e);}if(failures.length)throw new AggregateError(failures,'Acquisition closure incomplete');},counts:()=>({started})});
   } catch(primary) {

@@ -1,0 +1,118 @@
+{
+  "schema": 1,
+  "audit": "saved-only-remux080-preparation-failure",
+  "createdAtUtc": "2026-11-19T03:03:05.651821+00:00",
+  "sourceCommit": "2f3c5fe4ef98783046c9a3219b4b475edbd7c18e",
+  "sourceFilesVerified": 855,
+  "sourceClean": true,
+  "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+  "runtimeToolsVerified": 2,
+  "runtimeDependenciesVerified": 7,
+  "fixture": {
+    "bytes": 5578679,
+    "sha256": "bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97"
+  },
+  "fixtureAndOwnedCopyUnchanged": true,
+  "helpersAndNodeVerified": true,
+  "receipts": {
+    "BINDING.json": {
+      "bytes": 142703,
+      "sha256": "85a613ffe19323656a8a388d8399be83d157d9db1f3c7b7790906a87b3ee4aa0"
+    },
+    "LEAD_RELEASE.json": {
+      "bytes": 980,
+      "sha256": "9d9f6e9ab955656d70d6960b4e6b9db27b519dd3024d808c297244f390a49a8b"
+    },
+    "RESULT.json": {
+      "bytes": 792,
+      "sha256": "4a49bc5e066ff6dd885746d767bf03be90c506721e1d0ccf1dba0f44a01e5cd5"
+    },
+    "CLOSURE.json": {
+      "bytes": 767,
+      "sha256": "2eaa43a35c5a2c259c9cb5df4bdba871db70b8282aae9bb42b89a154bfe39cca"
+    },
+    "ATTEMPT_STARTED.json": {
+      "bytes": 100,
+      "sha256": "cdb87046cecdb2e8ff5d853e34fe26142deff70e5ba947f266ad4bb2bdb4567c"
+    },
+    "OUTER_STARTED.json": {
+      "bytes": 90,
+      "sha256": "6ec02ba4937e54a2ba55c5c1f220ba84080c7afafa58b1db8e70a44bc2de945e"
+    },
+    "TERMINAL_RECEIPTS.json": {
+      "bytes": 1055,
+      "sha256": "2064c154693294894d1e335f57e1b7ae368272c804e5b1fde6334196ed30b96e"
+    },
+    "RUN.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "RUN.stderr": {
+      "bytes": 14,
+      "sha256": "add808b2acbb2de0bdd51e4a6880b4e73621f085595b11ce3ddfe02f4244c8dc"
+    }
+  },
+  "outcome": {
+    "passed": false,
+    "phase": "preparation",
+    "code": "REMUX_QUALIFICATION_REQUIRED",
+    "reason": "Remux operation record is incomplete.",
+    "preparedItem": "unsupported",
+    "driverExitCode": 1,
+    "lifecycleCasesReached": 0,
+    "startCallsReached": 0,
+    "copyReached": false,
+    "publicationReached": false,
+    "collisionCaseReached": false,
+    "generatedRescanReached": false,
+    "cancellationCaseReached": false,
+    "outputDirectoriesEmpty": true
+  },
+  "closure": {
+    "elapsedSeconds": 1.5074933800005965,
+    "closureObserved": true,
+    "forcedTermination": false,
+    "unreapedLeaderExitObserved": true,
+    "remainingSampleStates": [
+      "Z"
+    ],
+    "children": {
+      "started": 1,
+      "closed": 1,
+      "live": 0,
+      "maxLive": 1
+    },
+    "ownedTreeBytesAtClosure": 5582566,
+    "scope": "Saved supervisor process-group observations and genuine child close events only; not global process census."
+  },
+  "diagnostics": {
+    "records": 5,
+    "digestsVerified": true,
+    "reasons": [
+      "SESSION_STARTED",
+      "PREPARATION_STARTED",
+      "FILE_INSPECTED",
+      "PREPARATION_FINISHED",
+      "SESSION_ENDED"
+    ],
+    "inspectionContextTruncated": true,
+    "rawPathsAndLogsRetainedLocally": true
+  },
+  "sourceDiagnosis": {
+    "cause": "Acquisition omits operationEvidenceBudget; EncoderService defaults it to null; remux-workspace forwards that null budget to RemuxOperations.select; its required-record validation fails with the exact observed reason.",
+    "nextDeterministicMismatch": "Acquisition operationDeadlineMs is 120000, whereas RemuxOperations requires executionBudgetMs exactly 600000. Correcting only the missing budget would still fail admission.",
+    "locations": [
+      "linux-blue/remux-lifecycle-acquisition.cjs:createAcquisition",
+      "src/encoder-service.cjs:constructor",
+      "src/remux-workspace.cjs:qualificationBindings",
+      "src/remux-operation.cjs:#bindings"
+    ],
+    "limits": "No retry or live reproduction; source derivation explains the saved admission refusal. Later media feasibility remains untested."
+  },
+  "limitations": [
+    "No accepted lifecycle evidence or product activation.",
+    "No MP4 output validation, provenance publication, reveal, generated rescan, collision or cancellation acceptance.",
+    "No MOV, general-container, arbitrary-source, native desktop or release claim.",
+    "No additional probes, decodes or runtime processes during this audit."
+  ]
+}

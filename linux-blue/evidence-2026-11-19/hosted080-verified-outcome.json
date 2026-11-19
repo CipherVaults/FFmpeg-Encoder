@@ -1,0 +1,54 @@
+{
+  "head": "9c397adde3fe533528e252202fba013059d45cbb",
+  "shared": {
+    "run": 44448607203,
+    "attempt": 1,
+    "conclusion": "success",
+    "jobs": [
+      {
+        "id": 135306746590,
+        "name": "Source contracts / ubuntu-24.04",
+        "syntax": 217,
+        "shared": 316,
+        "rendererIncluded": 73,
+        "linuxAdditional": 40,
+        "logSha256": "d0c6bd82279899832b3300283ea37abb3f2cd23ca669e9ac36b1312dfa345b50"
+      },
+      {
+        "id": 135306746884,
+        "name": "Source contracts / windows-2022",
+        "syntax": 217,
+        "shared": 316,
+        "rendererIncluded": 73,
+        "linuxAdditional": 0,
+        "logSha256": "049850ca7a46ce7199b664fc1a624757ef4bda5cd43ca3fc270ba58c8517bd8c"
+      }
+    ]
+  },
+  "windows": {
+    "run": 44448607208,
+    "job": 135306746634,
+    "attempt": 1,
+    "conclusion": "success",
+    "artifact": 14495045635,
+    "artifactZipSha256": "e02b2d45c93695fd3fb18ba8b57aadba7bc1590cde41fe2eae2bf896ff12386a",
+    "reportSha256": "fc3b96eeba1904cb39d4b090557e07f53a11fbdf9b4be9a5a0d93c17eecac735",
+    "logSha256": "ec6821bb89e76504c5f1bb74281d3ff0f65fe014a342855bf7e24235065d810d",
+    "twoOutputsCompleted": true,
+    "outputBytesEach": 73562,
+    "frozenTimerVerified": true,
+    "terminalElapsedSeconds": 0.803,
+    "frozenReadbackWaitMs": 2213,
+    "newPrepareResetVerified": true,
+    "collisionSkips": 2,
+    "normalClose": true,
+    "packageUnchanged": true,
+    "sourceUnchanged": true
+  },
+  "limits": [
+    "Report-only artifact, not executable ZIP retention",
+    "Substituted picker, sampled processes, no GPU/native Windows desktop qualification",
+    "No manual rerun or dispatch",
+    "Startup capability attempts unchanged; requested encode count is not total media process count"
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "checkpoint": "081",
+  "cutoff": "2026-11-19T03:08:30.462230+00:00",
+  "status": "Integrated reviewed source and PBS, no commit or successor runtime attempt",
+  "baseCommit": "2f3c5fe4ef98783046c9a3219b4b475edbd7c18e",
+  "predecessorSession": {
+    "bytes": 2592547,
+    "sha256": "edecf55f3e6c89ef0de002ff38e29a59bd1db903c888754b6939a6cccee4e5bc"
+  },
+  "evidence": {
+    "linux-blue/evidence-2026-11-19/remux080-terminal-saved-audit.json": {
+      "bytes": 4318,
+      "sha256": "bab9757c92af6d8f11d1e2d7928d09817d081464355c76eb3254246bdd6515fc"
+    },
+    "linux-blue/evidence-2026-11-19/remux081-constructor-review.json": {
+      "bytes": 1973,
+      "sha256": "5835e0ce3259f141e139666e8c556bc577011c4eed65dc7d9652468fede58b58"
+    },
+    "linux-blue/evidence-2026-11-19/windows080-sanitized-report.json": {
+      "bytes": 2007,
+      "sha256": "fc3b96eeba1904cb39d4b090557e07f53a11fbdf9b4be9a5a0d93c17eecac735"
+    },
+    "linux-blue/evidence-2026-11-19/hosted080-verified-outcome.json": {
+      "bytes": 1777,
+      "sha256": "eed8778a1ea61bd09f57f55424b84846a71e0760ba38fe892cbd84a970c8d414"
+    },
+    "linux-blue/evidence-2026-11-19/unchanged-linux081-inputs.json": {
+      "bytes": 266,
+      "sha256": "d2bfb658363e5560f5b76f972b642b350fbe4e70c79605435e26f8b08d15f4c3"
+    }
+  },
+  "externalSavedReferences": {
+    "ffmpeg-integration081-guidance/HANDOFF.json": {
+      "bytes": 1189,
+      "sha256": "dac6041f81b817a20cec5c90109f1dd169a7529f301e6de4d348990d4f4b20ec"
+    },
+    "ffmpeg-integration081-guidance/FOCUSED.tap": {
+      "bytes": 979,
+      "sha256": "078fc89689c1a2a4bc97dce9cb3b363b99ed188fcf28fb618de02cc7563a74b9"
+    },
+    "ffmpeg-integration081-guidance/AGGREGATE.log": {
+      "bytes": 36784,
+      "sha256": "549f0d9f018e5ee7c3d892857db3e1f44d079e9bc53fede9e120903629d2d1db"
+    },
+    "ffmpeg-checkpoint080/mirror/notion-checkpoint-080-verification.json": {
+      "bytes": 3257,
+      "sha256": "dcfb22637121425978c676ea3e1f11db5817b61cfdc0dedd43b09394f10da30a"
+    }
+  },
+  "tests": {
+    "focused": 14,
+    "syntax": 217,
+    "shared": 316,
+    "linux": 40,
+    "overlappingNotSummed": true
+  },
+  "unchangedShippedLinux": {
+    "sourceRows": 156,
+    "applicationMembers": 146,
+    "productPins": 129
+  },
+  "limits": [
+    "No remux lifecycle success or product activation",
+    "Windows report-only retention, substituted picker, no GPU/owner desktop qualification",
+    "Historical080failedattempt and079collision failure remain unchanged"
+  ],
+  "windowsArtifactIdentity": {
+    "asarBytes": 2446214,
+    "asarSha256": "163f37e9047a470d53b9f90c982eee8f3a7282e2d137eb2535dd4459487923fb",
+    "executableBytes": 246302208,
+    "executableSha256": "de907f193d2bb8e123c9a05b893662ed9a703c87e8ffb0108f1788bee6a906fa",
+    "unchangedFrom079ConfirmedByLead": true,
+    "new080Scope": "Reset/newPrepare and two collision skips accepted",
+    "no081WindowsRuntimeRerunNeededForPrivateLinuxAdapter": true
+  }
+}

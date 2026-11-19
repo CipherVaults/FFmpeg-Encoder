@@ -1,0 +1,36 @@
+{
+  "status": "approved-source-only-no-runtime-retry",
+  "base": "2f3c5fe4ef98783046c9a3219b4b475edbd7c18e",
+  "files": [
+    {
+      "path": "linux-blue/remux-lifecycle-acquisition.cjs",
+      "bytes": 9813,
+      "sha256": "c47e7c3e9e69e0459c2993e5838284bb133a5b2649d25267f2957b5b005dc6a8"
+    },
+    {
+      "path": "tests/linux-remux-acquisition.test.cjs",
+      "bytes": 9910,
+      "sha256": "402d23fd02ce1e35a9736d0088b4c19991201f5fd9df83d4c818fb81ea3fe59f"
+    }
+  ],
+  "handoffSha256": "598f8c1ecc79606df8df426d847a2b1b6940e54532190ea056322cb9e22039c4",
+  "independentTests": {
+    "passed": 14,
+    "failed": 0,
+    "skipped": 0,
+    "command": "node --test tests/linux-remux-acquisition.test.cjs",
+    "logSha256": "53a330ffa2bc6246987b867470684bb64cbd104bf962ce72320f62e246761826"
+  },
+  "findings": [
+    "Production delta only imports existing operation-controls constants and passes exact EVIDENCE_BUDGET and EXECUTION_BUDGET_MS into actual EncoderService constructor.",
+    "Shared required-record, complete evidence budget and exact 600000 ms admission deadline validation unchanged.",
+    "Actual factory plus real EncoderService, RemuxOperations and workspace preparation reaches ready with synthetic native ISO/probe and module-local runtime doubles; missing-budget and wrong-deadline variants reproduce both refusal reasons. No executor calls in this regression.",
+    "Per-child 120000 ms, per-instance 32 children, 600-second adapter lifetime and existing driver 600-second outer/540-second soft-cancel remain unchanged. Admission deadline is not permission to extend outer limits.",
+    "Failed080 audit preserved byte-for-byte; canonical080 unchanged."
+  ],
+  "limits": [
+    "No successful media/lifecycle evidence supplied by inert tests.",
+    "No product/catalog/package activation; current private acquisition-only scope retained.",
+    "Frozen successor preservation and fresh reviewed binding/release required before another attempt."
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "baseline": "2f3c5fe4ef98783046c9a3219b4b475edbd7c18e",
+  "sourceRows": 156,
+  "applicationMembers": 146,
+  "sourcePins": 129,
+  "allExact": true,
+  "privateAdapterShipped": false,
+  "scope": "Unchanged Linux shipped bytes; no new artifact/runtime acceptance"
+}

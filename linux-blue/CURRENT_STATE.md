@@ -1,11 +1,11 @@
-# Current state: 080 reviewed source ready for preservation
+# Current State — 081 remux constructor correction and Windows batch proof
 
-- 079 fully preserved: local 8501b9374e4ba895e34ae19600fefb841f613df7; remote bb0a222af8dce34d64d33ef9438c775fb48e60bd. Shared hosted Windows/Ubuntu passed 216 syntax/315 shared including 72 renderer tests, plus 40 Linux tests.
-- Separate 078 720p native session: published 240 frames/384,000 samples, 22.205-second batch, normal close. Earlier 078 1440p/1080p session still records forced deadline cleanup. Three exact target journeys are evidenced, not a clean single three-target session or broad portability claim.
-- Native 079 ordinary two-file batch: two serial validated publications and individual reveals, normal close, visible 00:05 frozen. Journal 4.988 seconds precedes final bookkeeping; not exact final snapshot or encode-only timing.
-- Windows 079: two outputs and frozen timer passed, then collision-phase assertion failed. Exact sanitized report is retained. Reset/collision and later source integrity verification were not accepted; no executable package retained.
-- Correction: New batch navigates to setup, not necessarily clearing hidden completed DOM. Actual new Prepare should clear fields. 080 fixes harness expectations, not app behavior; upcoming ordinary Windows successor unrun.
-- Private remux acquisition adapter/tests and inert driver references reviewed; product remux remains disabled. Frozen binding/preservation/review required before media. No actual new lifecycle proof.
-- 080 focused 134 and aggregate 217 syntax/316 shared/40 Linux passed. Exact 156 package source rows/146 app members/129 product pins unchanged from 079, so no redundant identical Linux rebuild required.
+Evidence cutoff 2026-11-19T03:08:30.462230+00:00. Source/PBS ready for review; commit and preservation pending.
 
-Pending: 080 Git→Notion→GitHub and actual Windows successor; private remux acquisition; portability, corresponding-source delivery/notices and executable retention. Owner PC/RTX is last for v0.7. Separate v0.8 after useful independent v0.7 completion/candidate freeze; HDR v0.9.
+- 080 fully preserved: local2f3c5fe4 → remote9c397adde;855 files/80 commits and complete native records verified.
+- Windows080 packaged integration passed: two73,562-byte outputs, oneStart, frozen0.803-second timer, real newPrepare reset and two collision skips. Normal close; source/package unchanged. Substituted picker and sampled processes; no owner Windows desktop/GPU qualification or retained executable ZIP.
+- Shared080 Ubuntu/Windows passed217 syntax/316shared including73renderer; Linux additionally40.
+- Private remux080 failed at preparation with REMUX_QUALIFICATION_REQUIRED, one closed inspection child, zeroStart/copy/publication. Exact saved audit retained; product remux disabled.
+- 081 fixes only private constructor evidence/deadline wiring to existing shared constants.14 focused/217syntax/316shared/40Linux pass.156 shipped source rows/146app members/129pins unchanged; no redundant package rebuild.
+- Pending:081 review/commit/full preservation, fresh independently bound bounded remux attempt, actual lifecycle acceptance, release source/notices/portability and executable retention.
+- Owner PC/RTX remains last v0.7 gate; separatev0.8 after useful v0.7 candidate freeze; HDRv0.9.

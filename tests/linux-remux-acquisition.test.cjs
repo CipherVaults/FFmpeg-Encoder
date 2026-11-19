@@ -14,17 +14,17 @@ test('fake runtime cannot open service',async()=>await assert.rejects(createAcqu
 
 // Execute the actual factory with module-local dependency doubles. No public
 // test seam, subprocess or file-based runtime authority is introduced.
-function factoryHarness({currentFailure=false,serviceFailure=false,observerCloseFailure=false,candidateCloseFailure=false}={}){
+function factoryHarness({currentFailure=false,serviceFailure=false,observerCloseFailure=false,candidateCloseFailure=false,realService=false,stateDir='/owned/state',transform=x=>x}={}){
  const fs=require('node:fs'),path=require('node:path'),Module=require('node:module');
  const filename=require.resolve('../linux-blue/remux-lifecycle-acquisition.cjs');
- const source=fs.readFileSync(filename,'utf8');
+ const source=transform(fs.readFileSync(filename,'utf8'));
  const shell=fs.readFileSync(path.join(__dirname,'../linux-blue/product-linux-shell.cjs'),'utf8');
  const dependencies=JSON.parse(shell.match(/const DEPENDENCIES = (\[[\s\S]*?\]);/)[1]);
  const calls={execute:0,candidateClose:0,observerClose:0};let serviceOptions;
  const candidate={runtimeIdentity:'dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13',dependencies,pins:{ffmpeg:{path:'/owned/ffmpeg',size:1,sha256:'a'.repeat(64)},ffprobe:{path:'/owned/ffprobe',size:1,sha256:'b'.repeat(64)}},requireCurrent:async()=>{if(currentFailure)throw Error('primary-current');},close:async()=>{calls.candidateClose++;if(candidateCloseFailure)throw Error('candidate-close');}};
  const m=new Module(filename,module);m.filename=filename;m.paths=Module._nodeModulePaths(path.dirname(filename));const original=m.require.bind(m);
- m.require=id=>id==='./candidate-calibration-runtime.cjs'?{requireCandidateCalibrationRuntime:()=>candidate}:id==='../src/operation-runtime.cjs'?{OperationRuntimeObserver:class{async close(){calls.observerClose++;if(observerCloseFailure)throw Error('observer-close');}}}:id==='../src/process-runner.cjs'?{runTool:async()=>{calls.execute++;return {exitCode:0};}}:id==='../src/encoder-service.cjs'?{EncoderService:class{constructor(o){if(serviceFailure)throw Error('primary-service');serviceOptions=o;}async closeOperationResources(){await serviceOptions.operationRuntime.close();}async closeDiagnostics(){}}}:original(id);
- m._compile(source,filename);return {create:()=>m.exports.createAcquisition({verifiedRuntime:{},stateDir:'/owned/state'}),calls,run:(...args)=>serviceOptions.run(...args)};
+ m.require=id=>id==='./candidate-calibration-runtime.cjs'?{requireCandidateCalibrationRuntime:()=>candidate}:id==='../src/operation-runtime.cjs'?{OperationRuntimeObserver:class{async observe(){return Object.freeze({});}snapshot(){return {runtimeIdentity:candidate.runtimeIdentity,environment:null};}async close(){calls.observerClose++;if(observerCloseFailure)throw Error('observer-close');}}}:id==='../src/process-runner.cjs'?{runTool:async()=>{calls.execute++;return {exitCode:0};}}:id==='../src/encoder-service.cjs'&&!realService?{EncoderService:class{constructor(o){if(serviceFailure)throw Error('primary-service');serviceOptions=o;}async closeOperationResources(){await serviceOptions.operationRuntime.close();}async closeDiagnostics(){}}}:original(id);
+ m._compile(source,filename);return {create:()=>m.exports.createAcquisition({verifiedRuntime:{},stateDir}),calls,run:(...args)=>serviceOptions.run(...args)};
 }
 test('actual factory refuses arbitrary GPU/video arguments before executor',async()=>{
  const h=factoryHarness(),owner=await h.create();
@@ -43,3 +43,37 @@ test('actual factory admits only exact owned collector rawvideo grammar',async()
 });
 test('construction currentness failure closes candidate and preserves primary',async()=>{const h=factoryHarness({currentFailure:true});await assert.rejects(h.create(),/primary-current/);assert.equal(h.calls.candidateClose,1);assert.equal(h.calls.observerClose,0);});
 test('construction failure attempts both owned closures even if cleanup fails',async()=>{const h=factoryHarness({serviceFailure:true,observerCloseFailure:true,candidateCloseFailure:true});await assert.rejects(h.create(),e=>e instanceof AggregateError&&e.errors.map(x=>x.message).join(',')==='primary-service,observer-close,candidate-close');assert.equal(h.calls.candidateClose,1);assert.equal(h.calls.observerClose,1);});
+
+function composedProbe() {
+  return { streams: [{ index: 0, codec_type: 'video', codec_name: 'h264', profile: 'High', level: 31,
+    width: 320, height: 180, coded_width: 320, coded_height: 180, pix_fmt: 'yuv420p', field_order: 'progressive',
+    color_range: 'tv', color_space: 'bt709', color_primaries: 'bt709', color_transfer: 'bt709', chroma_location: 'left',
+    sample_aspect_ratio: '1:1', display_aspect_ratio: '16:9', avg_frame_rate: '30/1', r_frame_rate: '30/1',
+    time_base: '1/1000', start_pts: 0, start_time: '0', duration: '2', tags: { title: 'Native video' }, disposition: { default: 1 } },
+  { index: 1, codec_type: 'audio', codec_name: 'aac', profile: 'LC', sample_fmt: 'fltp', sample_rate: '48000',
+    channels: 2, channel_layout: 'stereo', time_base: '1/1000', start_pts: 0, start_time: '0', duration: '2',
+    tags: { language: 'eng', title: 'Stereo' }, disposition: { default: 1 } }],
+  format: { format_name: 'matroska,webm', duration: '2', start_time: '0', nb_streams: 2, nb_programs: 0, nb_stream_groups: 0, tags: { title: 'Synthetic preparation facts' } },
+  chapters: [], programs: [], stream_groups: [] };
+}
+
+test('actual acquisition factory and shared preparation preserve exact remux budget contract',async t=>{
+ const fs=require('node:fs/promises'),path=require('node:path'),os=require('node:os');
+ const {playbackFixture}=require('./helpers/mov-fixture.cjs');
+ for(const mode of ['correct','missing-budget','wrong-execution-budget']){
+  const root=await fs.mkdtemp(path.join(os.tmpdir(),'remux-composed-'));const input=path.join(root,'input'),output=path.join(root,'output');await fs.mkdir(input);await fs.mkdir(output);
+  const probe=composedProbe();probe.format.format_name='mov,mp4,m4a,3gp,3g2,mj2';probe.streams.forEach((s,i)=>s.id=String(i+1));
+  const file=path.join(input,'source.mp4');await fs.writeFile(file,playbackFixture(probe));probe.format.size=String((await fs.stat(file)).size);
+  const transform=source=>mode==='missing-budget'?source.replace('operationEvidenceBudget:EVIDENCE_BUDGET,',''):mode==='wrong-execution-budget'?source.replace('operationDeadlineMs:EXECUTION_BUDGET_MS','operationDeadlineMs:120000'):source;
+  const h=factoryHarness({realService:true,stateDir:path.join(root,'state'),transform});const owner=await h.create();
+  try{
+   owner.service.inspect=async()=>({probe:structuredClone(probe),duration:2,summary:{}});
+   owner.service.capabilities=async()=>{throw Error('Remux must not initialize encoders');};
+   const a=await owner.service.registerFolder(input,'input'),b=await owner.service.registerFolder(output,'output');
+   await owner.service.prepareRemuxBatch({inputFolderId:a.id,outputFolderId:b.id,target:'mp4'});
+   const item=owner.service.snapshot().items[0];assert.equal(h.calls.execute,0);
+   if(mode==='correct')assert.equal(item.status,'ready',item.reason);
+   else {assert.equal(item.status,'unsupported');assert.match(item.reason,mode==='missing-budget'?/Remux operation record is incomplete/:/exact complete Remux evidence and active execution budgets/);}
+  }finally{await owner.close();await fs.rm(root,{recursive:true,force:true});}
+ }
+});
